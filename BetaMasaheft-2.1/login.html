@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Login</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta data-template="config:app-meta"/>
+        <meta data-template="app:log"/>
+        <link rel="shortcut icon" href="$shared/resources/images/exist_icon_16x16.ico"/>
+        <link rel="stylesheet" type="text/css" href="$shared/resources/css/bootstrap-3.0.3.min.css"/>
+        <link rel="stylesheet" type="text/css" href="resources/css/style.css"/>
+        <script type="text/javascript" src="$shared/resources/scripts/jquery/jquery-1.7.1.min.js"/>
+        <script type="text/javascript" src="$shared/resources/scripts/bootstrap-3.0.3.min.js"/>
+    </head>
+    <body>
+        <div style="text-align: center" class="col-md-4 col-md-offset-4">
+            <h1 class="rounded center">Login to Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</h1>
+            <p>This project is currently under development and is only accessible to team members with valid credentials. 
+            As soon as it will be possible we will be public, please be patient! Try to come back perhaps at the end of 2016...</p>
+            <form method="POST" class="form form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-md-1" for="user">User:</label>
+                    <div class="row">
+                        <input type="text" name="user" required="required" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-1" for="password">Password:</label>
+                    <div class="row">
+                        <input type="password" name="password" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-6 col-md-offset-1">
+                        <label class="checkbox">
+                            <input type="checkbox" name="duration" value="P14D"/> Remember me for 2 weeks
+                </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-1 col-sm-12">
+                        <button class="btn btn-primary" type="submit">Login</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>

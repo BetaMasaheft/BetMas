@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div class="form-group list place mss work nar ins pers" data-toggle="tooltip" data-placement="left" title="Date Range of items to search" id="datesform">
+    <div class="col-md-6 col-xs-6">
+        <label for="dates" class="control-label col-sm-3">Date Range</label>
+        <div class="col-sm-9 col-xs-9  col-md-9">
+            <input id="dates" type="text" class="span2" name="dateRange" data-slider-min="1" data-slider-max="2000" data-slider-step="10" data-slider-value="[350,1900]"/>
+            <script type="text/javascript">
+                $('#dates').bootstrapSlider({});
+            </script>
+            <!--                conflict with UI resolved thanks to http://stackoverflow.com/questions/26691018/using-bootstrap-slider-with-jquery-ui-->
+            </div>
+    </div>
+    <div class="col-md-6 col-xs-6">Drag the upper and lower limit in the date range slider to search only entities dated to a certain period. All undated entities are automatically filtered out.</div>
+</div>

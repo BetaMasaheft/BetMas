@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title/>
+        <meta charset="UTF-8"/>
+        <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="resources/font-awesome-4.7.0/css/font-awesome.min.css"/>
+        <link rel="stylesheet" type="text/css" href="resources/css/style.css"/>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"/>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.6.0/clipboard.min.js"/>
+    </head>
+    <body>
+        <div class="col-md-12">
+            <h1>Zotero HLCES bibliography records generator</h1>
+            <div class="row" id="dataEntry"/>
+            <div class="row" id="intro">
+                <div class="col-md-12">
+                    <p class="lead">BEWARE!! The <a href="https://www.zotero.org/styles?q=HLC" target="_blank">HLCES Zotero Style</a> is the solution you are searching for! 
+                        It will deal with 98% of the cases. So, if you have not used it, do that first. 
+                        There are only <a href="https://github.com/SChAth/ScAthiop/issues/398" target="_blank">very few cases</a> in which you might need
+                        to use this instead. And even in those cases, think well if it is not better and faster to simply edit manually what the HLCES Zotero Style offers you. 
+                        </p>
+                    <p class="lead">Enter here the unique tag of a bibliographic entry in Zotero EthioStudies Group to get a formatted reference and an author year citation</p>
+                </div>
+              
+            </div>
+            <div class="row" id="text">
+                <div class="col-md-6">
+                    <form>
+                        <input class="form-control" name="enter" id="textinput" style="width: 100%" placeholder="Enter here the Unique ID"/>
+                    </form>
+                    <div class="col-md-12">
+                        <h3>Assumptions</h3>
+                        <ul>
+                            <li>You have a UNIQUE tag idenfitying the Zotero entry you want to print</li>
+                            <li>If you have an ethiopic calendar date in Zotero, you have entered it in the <code>extra</code> field as <q>EC 1999</q>
+                            </li>
+                            <li>If you have a second publication date (?) in Zotero, you have entered it in the <code>extra</code> field as <q>pub. 1981</q>
+                            </li>
+                        </ul>
+                        <a role="button" class="btn btn-warning" href="https://github.com/SChAth/ScAthiop/issues/new?labels=zotero&amp;title=zoteroGenerator&amp;assignee=PietroLiuzzo&amp;body=In%20this%20example%20I%20get%20this%20with%20the%20HLCES%20style%20but%20I%20would%20like%20this%20">ask a further feature or report a problem</a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-12" style="height: 100px">
+                        <p class="col-md-12 lead">The full reference.</p>
+                        <div class="col-md-10 ">
+                            <div class="col-md-12">
+                                <div id="result"/>
+                            </div>
+                    </div>
+                    <button class="btn btn-primary col-md-2" data-clipboard-target="#result">copy</button>
+                </div>
+                    
+                    <hr/>
+                    <div class="col-md-12" style="height: 100px">
+                        
+                        <p class="col-md-12 lead">The in-text citation.</p>
+                        
+                    <div class="col-md-10 ">
+                        <div class="col-md-12">
+                            <div id="cit"/>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary col-md-2" data-clipboard-target="#cit">copy</button>
+                    </div>
+                    
+                    <hr/>
+                    <div class="col-md-12" style="height: 100px">
+                         <p class="col-md-12 lead">This is what you get with the HLCES Zotero Style.</p>
+                        <div class="col-md-10 ">
+                           
+                            <div class="col-md-12">
+                                <div id="HLCES"/>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary col-md-2" data-clipboard-target="#HLCES">copy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        <script type="text/javascript" src="/resources/js/zoterobetter.js"/>
+    </body>
+</html>
