@@ -74,9 +74,6 @@ declare variable $config:response400XML := <rest:response>
             </http:response>
         </rest:response>;
 
-declare variable $config:ppw := 'Hdt7.10';
-
-
 declare variable $config:app-root := 
     let $rawPath := system:get-module-load-path()
     let $modulePath :=
