@@ -1,7 +1,6 @@
 xquery version "3.1" encoding "UTF-8";
 
 module namespace app="https://www.betamasaheft.uni-hamburg.de/BetMas/app";
-
 declare namespace t="http://www.tei-c.org/ns/1.0";
 declare namespace functx = "http://www.functx.com";
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
@@ -11,10 +10,12 @@ declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace sparql = "http://www.w3.org/2005/sparql-results#";
 import module namespace kwic = "http://exist-db.org/xquery/kwic"
     at "resource:org/exist/xquery/lib/kwic.xql";
-import module namespace coord="https://www.betamasaheft.uni-hamburg.de/BetMas/coord" at "coordinates.xql";
-
-import module namespace nav="https://www.betamasaheft.uni-hamburg.de/BetMas/nav" at "nav.xqm";
+    
 import module namespace templates="http://exist-db.org/xquery/templates" ;
+
+import module namespace coord="https://www.betamasaheft.uni-hamburg.de/BetMas/coord" at "coordinates.xql";
+import module namespace nav="https://www.betamasaheft.uni-hamburg.de/BetMas/nav" at "nav.xqm";
+import module namespace ann = "https://www.betamasaheft.uni-hamburg.de/BetMas/ann" at "annotations.xql";
 import module namespace all="https://www.betamasaheft.uni-hamburg.de/BetMas/all" at "all.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "titles.xqm";
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
@@ -85,99 +86,7 @@ declare variable $app:APP_ROOT :=
             request:get-context-path() || "/apps/BetMas"
             ;
 
-(:for the annotations in pelagios, decide based on id how to format the uri:)
-declare function app:getannotationbody($placeid as xs:string){
-if(starts-with($placeid, 'INS')) then $config:appUrl || '/institutions/' || $placeid
-else if(starts-with($placeid, 'LOC')) then $config:appUrl || '/places/' || $placeid
-else if(starts-with($placeid, 'pleaides:')) then 'https://pleiades.stoa.org/places/' || substring-after($placeid, 'pleiades:')
-else if(starts-with($placeid, 'Q')) then 'https://www.wikidata.org/wiki/' || $placeid
-else 'http://sws.geonames.org/' || substring-after($placeid, 'gn:')
-};
 
-declare function app:annotatedThing($node, $tit, $id) as xs:string{
-let $d := $node
-let $r := $id
-let $sr := string($r)
-let $lang := if($d/t:placeName[.= $tit[1]]/@xml:lang) then '@' || $d/t:placeName[.= $tit[1]]/@xml:lang else ()
-let $temporal := if($d//t:state[@type='existence'][@from or @to]) then for $existence in $d//t:state[@type='existence'][@from or @to] return let $from := string($existence/@from) let $to := string($existence/@to) return ('dcterms:temporal "' ||$from||'/'||$to||'";
- ') else ()
-let $PeriodO := if($d//t:state[@type='existence'][@ref]) then for $periodExistence in  $d//t:state[@type='existence'][@ref]  let $periodid := string($periodExistence/@ref) let $period := collection($config:data-root)//id($periodid)[1] return ('dcterms:temporal <' || string(($period//t:sourceDesc//t:ref/@target)[1])|| '>;
- ') else ()
-let $sameAs := if($d//@sameAs) then
-' skos:exactMatch <' || app:getannotationbody($d//@sameAs[1]) ||'> ;
-'else ()
-let $names := for $name in $d/t:placeName
-let $l := if($name/@xml:lang) then '@' || string($name/@xml:lang) else ()
-return 
-if($name/@xml:id = 'n1') 
-then '
-lawd:hasName [ lawd:primaryForm "'||normalize-space($name)||'"' ||$l|| ' ];'
-else '
-lawd:hasName [ lawd:variantForm "'||normalize-space($name)||'"' ||$l|| ' ];'
-
-let $partof := if($d/t:settlement[@ref]) then let $setts := for $s in $d/t:settlement/@ref return 'dcterms:isPartOf <' || app:getannotationbody($s) || '>; 
-'  return string-join($setts, ' 
-')
-else if ($d/t:region[@ref]) then let $regs := for $s in $d/t:region/@ref return 'dcterms:isPartOf <' || app:getannotationbody($s ) || '>;
-'  return string-join($regs, ' 
-')
-else if ($d/t:country[@ref]) then let $countries := for $s in $d/t:country/@ref return  'dcterms:isPartOf <' || app:getannotationbody($s) || '>;
-'  return string-join($countries, ' 
-')
-else ()
-let $geo := if($d//t:geo/text()) then '
-geo:location [ geo:lat '||substring-before($d//t:geo/text(), ' ')|| ' ;  geo:long '||substring-after($d//t:geo/text(), ' ')|| ' ] ;' else if($d//@sameAs[1]) then let $geoid := string($d//@sameAs[1]) let $coordinates := coord:GNorWD($geoid)  return if(starts-with($coordinates, 'no')) then () else '
-geo:location [ geo:lat '||substring-before($coordinates, ',')|| ' ;  geo:long '||substring-after($coordinates, ',')|| ' ] ;' else ()
-        
- return
- 
- <annotatedThing id="{$r}">
- 
-             {'
-             
-             &lt;'||$config:appUrl || '/places/'||
- $sr||'&gt; a lawd:Place ;
-  rdfs:label "' || 
- $tit[1] || '"' ||$lang ||';
- dcterms:source &lt;'||$config:appUrl || '/'||
- $sr||'.xml&gt; ;
- dcterms:description "A place in Ethiopia"@en ;
- '||string-join($temporal, '
-') ||string-join($PeriodO, '
-') ||$sameAs ||string-join($names, ' 
- ')||
- $geo||
- ' 
- foaf:primaryTopicOf &lt;'||$config:appUrl || '/places/' || 
-                $sr || '/main&gt; ;
-                ' ||
-                $partof
-                ||'
-                .
-                
-                '}
-   
-   
- </annotatedThing>
- 
- (: this should go into the <annotatedThing/> but I am not sure how to do it... 
-
-<annotations>
- {for $thisd at $x in collection($config:data-rootW, $config:data-rootMS)//t:placeName[@ref = $r]
- return
- <annotation>{
-' <http://betamasaheft.aai.uni-hamburg.de/att/'||$x||'> a lawd:Attestation ;
-  dcterms:publisher <http://betamasaheft.aai.uni-hamburg.de/places/list/> ;
-  cito:citesAsEvidence
-    <http://www.mygazetteer.org/documents/01234> ;
-  cnt:chars "Αθήνα" 
-  .
- '
- }
- </annotation>
- }
- </annotations>:)
-};
 
 declare function app:pelagiosDump(){
    let $pl := collection($config:data-rootPl)
@@ -194,7 +103,7 @@ declare function app:pelagiosDump(){
               let $r := root($d)//t:TEI/@xml:id
               let $i := string($r)
               let $tit := titles:printTitleID($i)
-              let $annotatedthing := if($tit) then app:annotatedThing($d, $tit[1], $r) else ()
+              let $annotatedthing := if($tit) then ann:annotatedThing($d, $tit[1], $r) else ()
                 order by $tit[1]
                  return
                $annotatedthing 
@@ -241,8 +150,6 @@ return
   </div>
 };
 
-
-     
 
 (:this function makes a call to wikidata API :)
 declare function app:wikitable($Qitem) {
@@ -405,9 +312,6 @@ if($doc//t:listBibl[@type='clavis'])
 };
 
 
-
-
-
 (:table cells:)
 declare function app:tds($item as node(), $list as xs:string) {
 
@@ -514,7 +418,7 @@ if ($list = 'works') then (
         if ($list = 'manuscripts' or starts-with($list, 'INS')  or starts-with($list, 'bm:')) then
         
 (:      images  msitemsm msparts, hands, script:)
-            (<td>{if($item//t:msIdentifier/t:idno/@facs) then 
+            (<td>{if ($item//t:facsimile/t:graphic/@url) then <a target="_blank" href="{$item//t:facsimile/t:graphic/@url}">Link to images</a> else if($item//t:msIdentifier/t:idno/@facs) then 
                  <a target="_blank" href="/manuscripts/{$itemid}/viewer">{
                 if($item//t:collection = 'Ethio-SPaRe') 
                then <img src="{string($item//t:msIdentifier/t:idno/@facs) || '_001.tif/full/80,100/0/default.jpg'}" class="thumb"/>
@@ -689,31 +593,13 @@ declare function app:newissue($node as node()*, $model as map(*)){
 <a role="button" class="btn btn-warning btn-xs" target="_blank" href="https://github.com/BetaMasaheft/Documentation/issues/new?title={$app:name}&amp;labels[]={$app:collection}&amp;labels[]=app&amp;assignee=PietroLiuzzo&amp;body=There%20is%20an%20issue%20with%20{$app:name}">new issue</a>};
 
 
-declare function app:AddFilters($node as node()*, $model as map(*), $filters as xs:string*) {
-for $f in $filters
-return
-<div>{switch($f)
-case 'language' return (
-<div class="form-group list mss" data-toggle="tooltip" data-placement="left" title="Select Manuscript language">
-                    <div class="col-md-6 col-xs-6">
-                        <label class="control-label col-sm-3" for="language">Languages</label>
-                        <div class="col-sm-9">
-                            <span class="app:languages"/>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-xs-6">Here you can filter entities which contain at least one part in a specific language.</div>
-                </div>)
-default return $f
-}</div>
-};
-
 declare function app:nextID($collection as xs:string) {
 if(contains(sm:get-user-groups(xmldb:get-current-user()), 'Cataloguers')) then (
 
 <a role="button" class="btn btn-primary" target="_blank" href="/newentry.html?collection={$collection}">create new entry</a>) else ()
 };
 
-(:determins what the selectors for various form controls will look like:)
+(:determins what the selectors for various form controls will look like, is called by app:formcontrol() :)
 declare function app:selectors($nodeName, $nodes, $type){
 <select multiple="multiple" name="{$nodeName}" id="{$nodeName}" class="form-control">
             {
@@ -802,7 +688,9 @@ declare function app:selectors($nodeName, $nodes, $type){
         </select>
 };
 
-(:builds the form control according to the data specification:)
+(:builds the form control according to the data specification and is called by all the functions building the search form. these are in turn called by a html div called by a javascript function.
+retold from user perspective the initial form in as.html uses the controller template model with the template search.html, which calls 
+a javascirpt filters.js which on click loads with AJAX the selected form*.html file. Each of these contains a call to a function app:NAMEofTHEform which will call app:formcontrol which will call app:selectors:)
 declare function app:formcontrol($nodeName as xs:string, $path, $group, $type) {
 
         
@@ -829,13 +717,6 @@ let $values := for $i in $path return  if (contains($i, ' ')) then tokenize($i, 
                 )
 };
 
-declare function app:DataListWorks($node as node()*, $model as map(*)) {
-        
-            for $hit in collection($config:data-rootW)/t:TEI
-            return
-            <option xmlns="http://www.w3.org/1999/xhtml"  value="{$hit/@xml:id}">{titles:printTitle($hit)}</option>
-           
-                    };
 
 (:the filters available in the list view of each collection:)
 declare function app:listFilter($node as node()*, $model as map(*)) {
@@ -951,7 +832,7 @@ app:formcontrol('tabot', $items-info//@tabot, 'true', 'rels'),
 </div>
 };
 
-(:the filters available in the search results view:)
+(:the filters available in the search results view used by search.html:)
 declare function app:searchFilter($node as node()*, $model as map(*)) {
 let $items-info := $model('hits')
 let $q := $model('q')
@@ -1149,279 +1030,8 @@ return
 
 };
 
-
-
-
-(:  functions called by the ITEM template to determin what css and script to import according to the type of item and view
-:  this way leaflet and mapbox are called only when there are coordinates to display in a map,
-:  dataTable and vis.js are called only on the Analytics view
-:)
-
-(:stores the selected entity in a map:)
-declare    %templates:wrap function app:entity($node as node(), $model as map(*), $id as xs:string?) {
-    let $entity := collection($config:data-root)//t:TEI/id(replace($app:name, "^(.*)\.\w+$", "$1"))
-    return
-        map { "entity" := $entity }
-};
-
-(:decides which css to call:)
-declare function app:cssSelector($node as node(), $model as map(*)) as element()* {
-        
-        if (contains(request:get-uri(), 'analytic') or contains(request:get-uri(), 'map') or contains(request:get-uri(), 'time')) then 
-        <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="resources/css/dataTables.bootstrap.css"/>
-        else (),
-        
-        if ((($app:collection = 'institutions' or $app:collection = 'places') and collection($config:data-root)//id($app:name)//t:geo) or contains(request:get-uri(), 'analytic'))
-        then
-        (
-        <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="resources/css/mapbox.css"/>,
-        <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="resources/css/leaflet.css"/>,
-        <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="resources/css/leaflet.fullscreen.css"/>,
-        <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="resources/css/leaflet-search.css"/>
-        )
-        else ()
-        ,
-        if (contains(request:get-uri(), 'analytic') or contains(request:get-uri(), 'map') or contains(request:get-uri(), 'time')) then 
-        <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.12.0/vis.min.css"/>
-        else ()
-};
-
-(:decides which js to call:)
-declare function app:jsSelector($node as node(), $model as map(*)) as element()* {
-        
-        if ((($app:collection = 'institutions' or $app:collection = 'places') and collection($config:data-root)//id($app:name)//t:geo) or contains(request:get-uri(), 'analytic'))
-        then
-        (<script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"/>,
-        <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/js/mapbox.js"/>,
-        <script  xmlns="http://www.w3.org/1999/xhtml"type="text/javascript" src="resources/js/Leaflet.fullscreen.min.js"/>,
-        <script  xmlns="http://www.w3.org/1999/xhtml"type="text/javascript" src="resources/js/leaflet-search.js"/>
-         )
-        else ()
-        ,
-        
-        <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>,
-        
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>,
-        <script type="text/javascript" src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>,        
-        <script type="text/javascript" src="http://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"></script>,
-        
-
-        <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="$shared/resources/scripts/loadsource.js"/>,
-        <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="$shared/resources/scripts/bootstrap-3.0.3.min.js"/>,
-        
-        if (contains(request:get-uri(), 'analytic') or contains(request:get-uri(), 'map') or contains(request:get-uri(), 'time')) then (
-        <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.12.0/vis.min.js"/>,
-        <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/js/jquery.dataTables.min.js"/>)
-        else ()
-      
-};
-
-declare function app:footerjsSelector($node as node(), $model as map(*)) as element()* {
-        if (contains(request:get-uri(), 'analytic')) 
-        then (<script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/js/datatable.js"/>,
-        <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/js/visgraphspec.js"/>) 
-        else ()
-        };
-
-
-(:metadata for Zotero mapping:)
-
-declare function app:title($node as node(), $model as map(*)) as element()* {  
-<title xmlns="http://www.w3.org/1999/xhtml" property="dcterms:title og:title schema:name" class="MainTitle" data-value="{$app:name}">{$app:name}</title>
-};
-
-declare function app:meta($node as node(), $model as map(*)) as element()* {
-    <meta  xmlns="http://www.w3.org/1999/xhtml" name="description" content="{$config:repo-descriptor/repo:description/text()}"/>,
-    for $genauthor in $config:repo-descriptor/repo:author
-    return
-        <meta xmlns="http://www.w3.org/1999/xhtml" name="creator" content="{$genauthor/text()}"></meta> ,
-         if (ends-with($app:name, 'html')) then ()
-         else
-         (for $author in $app:bibdata//author
-         return 
-         <meta  xmlns="http://www.w3.org/1999/xhtml" property="dcterms:creator schema:creator" content="{$author}"></meta>,
-        
-         <meta  xmlns="http://www.w3.org/1999/xhtml" property="dcterms:type schema:genre" content="{switch($app:collection)
-         case 'manuscripts' return 'Catalogue of ethiopian manuscripts'
-         case 'works' return 'Clavis of Ethiopian Literature'
-         case 'narratives' return 'Clavis of Ethiopian Literature'
-         case 'places' return 'Gazetteer of Places'
-         case 'institutions' return 'Gazetteer of Places'
-         case 'persons' return 'A prosopography of Ethiopia'
-         default return 'catalogue'}"></meta>,
-         <meta xmlns="http://www.w3.org/1999/xhtml" property="schema:isPartOf" content="{$config:appUrl}/"></meta>,
-         <meta  xmlns="http://www.w3.org/1999/xhtml" property="og:site_name" content="Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea"></meta>,
-         <meta  xmlns="http://www.w3.org/1999/xhtml" property="dcterms:language schema:inLanguage" content="en"></meta>,
-         <meta  xmlns="http://www.w3.org/1999/xhtml" property="dcterms:rights" content="Copyright &#169; Akademie der Wissenschaften in Hamburg, Hiob Ludolf Zentrum für Äthiopistik.  Sharing and remixing permitted under terms of the Creative Commons Attribution Share alike Non Commercial 4.0 License (cc-by-sa)."></meta>,
-         <meta   xmlns="http://www.w3.org/1999/xhtml" property="dcterms:publisher schema:publisher" content="Akademie der Wissenschaften in Hamburg, Hiob Ludolf Zentrum für Äthiopistik"></meta>,
-<meta  xmlns="http://www.w3.org/1999/xhtml" property="dcterms:date schema:dateModified" content="{max(collection($config:data-root)//id($app:name)//t:revisionDesc/t:change/xs:date(@when))}"></meta>,
-
-<meta  xmlns="http://www.w3.org/1999/xhtml" property="dcterms:identifier schema:url" content="{($config:appUrl ||'/' || $app:collection||'/' ||$app:name)}"></meta>)
-};
-
-
-(:searches an ID in a @corresp, @ref, <relation> and makes a list :)
-declare function app:WhatPointsHere($id as xs:string){
-for $corr in (collection($config:data-root)//t:*[ft:query(@corresp, $id)], 
-        collection($config:data-root)//t:*[ft:query(@ref, $id)], 
-        collection($config:data-root)//t:relation[ft:query(., $id)])
-        order by ft:score($corr) descending
-        return 
-            $corr
-            
-            };
-           
-           
-            declare function app:restWhatPointsHere($id as xs:string, $c){
-            let $witnesses := $c//t:witness[@corresp = $id]
-let $placeNames := $c//t:placeName[@ref = $id]
-let $persNames := $c//t:persName[@ref = $id]
-let $titles := $c//t:title[@ref = $id]
-let $active := $c//t:relation[@active = $id]
-let $passive := $c//t:relation[@passive = $id]
-let $allrefs := ($witnesses, 
-        $placeNames,  
-        $persNames, 
-        $titles, 
-        $active, 
-        $passive)
-return
-for $corr in $allrefs
-        return 
-            $corr
-            
-            };
-
-(:a list of items pointing to something:)
-declare function app:AnyReferences($id as xs:string){
-if($id = ' ' or $id = '') then ('no valid id') else
-let $ref := try{app:WhatPointsHere($id)} catch * {console:log('app:WhatPointsHere has a problem with ' || $id )}
-  return
-<ul xmlns="http://www.w3.org/1999/xhtml" class="nodot"><head xmlns="http://www.w3.org/1999/xhtml" >This record, with ID: {string($id)} is mentioned by </head>
-    {app:referencesList($ref, 'name')}
-
-      </ul>
-};
-
-
-(:returns items in a  list of results from a references lookup:)
-declare function app:referencesList($list, $mode as xs:string){
-      
-          for $hit in  $list
-          
-          let $strid := $hit/ancestor::t:TEI/@xml:id
-          group by $stringid := string($strid)
-          order by $stringid
-      return 
-         <li class="nodot" xmlns="http://www.w3.org/1999/xhtml" >
-         {if ($strid = $app:name) then ('here') else <a 
-          href="{concat('/',$stringid)}"
-   class="MainTitle" data-value="{$stringid}"
-   >{$stringid}</a>} ({$stringid})
-   <ul  class="nodot">
-   {for $h in $hit
-   let $n := $h/name()
-   group by $name := $n
-   order by $name
-   return
-   <li class="nodot">a <code xmlns="http://www.w3.org/1999/xhtml" >{$name}</code> element {count($h)} time{if(count($h) > 1) then 's' else ()}
-   {let $ids := for $each in $h return 
-                      if ($h/ancestor::t:item/@xml:id) 
-                     then data($h/ancestor::t:item/@xml:id) 
-                     else if ($h/ancestor::t:msPart/@xml:id) 
-                      then data($h/ancestor::t:msPart/@xml:id) else ()
-      return ' ' || string-join($ids, ', ')}
-   </li>
-   }
-   </ul>
-         </li>
-          
-};
-
-(: anything linking to the ID of the current entity, called by view-item.html under related entities:)
-declare function app:corresps($node as node(), $model as map(*)){
-<div xmlns="http://www.w3.org/1999/xhtml" id="whatPointsHere">
-        
-{app:AnyReferences(string($app:name))}
-                
-    </div>
-
-
-};
-
-declare function app:namedentitiescorresps($node as node(), $model as map(*)){
-let $refs := 
-
-for $r in (
-$model('entity')//t:persName[not(ancestor::t:listPerson)][@ref], 
-$model('entity')//t:title[@ref], 
-$model('entity')//t:placeName[@ref], 
-$model('entity')//t:region[@ref], 
-$model('entity')//t:country[@ref], 
-$model('entity')//t:settlement[@ref])
-
-                       return <ref ref="{if (contains($r/@ref, '#')) then substring-before($r/@ref, '#') else string($r/@ref)}"></ref>
- let $corresps := 
-
-for $r in $model('entity')//t:ref[@corresp]
-
-                       return <ref ref="{if (contains($r/@corresp, '#')) then substring-before($r/@corresp, '#') else string($r/@corresp)}"></ref>
-let $all := ($refs/@ref, $corresps/@ref)
-for $namedEntity in distinct-values($all)
-return
-<div id="{$namedEntity}relations-all" class="hidden">
-<div id="{$namedEntity}relations-content">
-{app:AnyReferences($namedEntity)}
-</div>
-</div>
-};
-
-
-declare function app:getGeoNames ($string as xs:string){
-let $gnid:= substring-after($string, 'gn:')
-let $xml-url := concat('http://api.geonames.org/get?geonameId=',$gnid,'&amp;username=betamasaheft')
-let $data := httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)
-return
-if ($data//toponymName) then
-$data//toponymName/text()
-else ('no data from geonames', console:log($data))
-};
-
-
-(:The SEE ALSO section has ready made queries providing related contents, 
-these are all dispalyed in divs with lists of which this is the template:)
-declare function app:ModalRefsList($string as xs:string, $sameKey){
-let $value := if (doc($config:data-rootA || '/taxonomy.xml')//t:catDesc[text() = $string] )
-                           then collection($config:data-root)//id($string)//t:titleStmt/t:title/text()
-                           else if (matches($string, 'gn:'))  then app:getGeoNames($string)
-                           else if (matches($string, '(LOC|INS)(\d+)(\w+)')) 
-                           then try {titles:printTitle(collection($config:data-rootPl, $config:data-rootIn)/id($string)//t:place)}
-                           catch * {'no record'}
-                           else $string
-return   
-    <div class="row-fluid">
-     <h4>The following {count($sameKey)} entities also share the <a href="{if (matches($string, 'gn:'))  then ('http://www.geonames.org/'||substring-after($string, 'gn:')) else concat($config:appUrl,'/',$string)}">{$value}</a> tag </h4>
-                                      <div id="Samekeyword{$string}">      
-                                      <ul>{if (matches($string, '(\w{3})(\d+)(\w+)')) 
-                                            then app:referencesList($sameKey, 'link')
-                                               else  app:referencesList($sameKey, 'name')
-                                             }
-                                             </ul>
-                                             </div>
-                                    
-                        </div>
-};
-
-(:makes a log of any page accessed:)
-(:declare function app:log ($node as element(), $model as map(*)){
-   
-    BetMasLog:add-log-message('Visited ' || request:get-uri() || ' ' ||  request:get-parameter(
-        switch (request:get-parameter-names()[1])
-        case "collection" return 'collection'
-        case "query" return 'query'
-            default return "uri",()))
     
-};:)
+
 
 (:on login, print the name of the logged user:)
 declare function app:greetings-rest(){
@@ -1435,27 +1045,6 @@ declare function app:greetings($node as element(), $model as map(*)) as xs:strin
  declare function app:logout(){
     session:invalidate()
     };
-
-
-
-
-(:collects all the latest changes made to the collections and prints a list of twenty items:)
-declare function app:latest($node as element(), $model as map(*)){
-
-let $twoweekago := current-date() - xs:dayTimeDuration('P15D')
-let $changes := collection($config:data-root)//t:change[@when]
-let $latests := 
-    for $alllatest in $changes[xs:date(@when) > $twoweekago]
-    order by xs:date($alllatest/@when) descending
-    return $alllatest
-
-for $latest at $count in subsequence($latests, 1, 20)
-let $id := string(root($latest)/t:TEI/@xml:id)
-return
-<li><a href="{$id}">{titles:printTitle($latest)}</a>: on {string($latest/@when)}, {app:editorKey($latest/@who)} [{$latest/text()}]</li>
-
-};
-
 
 declare function app:editorKey($key as xs:string){
 switch ($key)
@@ -1482,63 +1071,6 @@ switch ($key)
                         case "RHC" return 'Ran HaCohen'
                         case "SS" return 'Sisay Sahile'
                         default return 'Alessandro Bausi'};
-
-
-
-(:prints the revision informations:)
-declare function app:authors($node as node(), $model as map(*)) {
-
-<div class="col-md-12" id="citations">
-<div class="container-fluid col-md-4 well" id="citation">
-
-<h3>Suggested Citation of this record</h3>
-<div class="col-md-12" id="citationString">
-<p>{for $a in $app:bibdata//author/text()  return ($a|| ', ')} ʻ{$app:bibdata//title[@level='a']/text()}ʼ, in Alessandro Bausi, ed.,
-<i>{($app:bibdata//title[@level='j']/text() || ' ')}</i> {$app:bibdata//date[@type='lastModified']/text()}
-<a href="{$app:bibdata/idno/text()}">{$app:bibdata/idno/text()}</a> {$app:bibdata//date[@type='accessed']/text()}</p></div>
-
-
-
-</div>
-<div class="container-fluid col-md-4 well" id="revisions">
-<h3>Revisions of the data</h3>
-                <ul>
-                {for $change in $model('entity')//t:revisionDesc/t:change
-                let $time := $change/@when
-                let $author := app:editorKey(string($change/@who))
-                order by $time descending
-                return
-                <li>
-                {($author || ' ' || $change/text() || ' on ' ||  format-date($time, '[D].[M].[Y]'))}
-                </li>
-                }
-
-    </ul>
-    </div>
-    <div class="container-fluid col-md-4 well" id="revisions">
-<h3>Attributions of the contents</h3>
-                <div>
-                {for $respStmt in $model('entity')//t:titleStmt/t:respStmt
-                let $action := $respStmt/t:resp
-                let $authors := 
-                            for $p in $respStmt/t:persName 
-                                return 
-                                    (if($p/@ref) then app:editorKey(string($p/@ref)) else $p) || (if($p/@from or $p/@to) then (' ('||'from '||$p/@from || ' to ' ||$p/@to||')') else ())
-                                    
-                                    
-                order by $action descending
-                return
-                <p>
-                {($action || ' by ' || string-join($authors, ', '))}
-                </p>
-                }
-
-    </div>
-    </div>
-    </div>
-    
-};
-
 
 (:general count of contributions to the data:)
 declare function app:team ($node as node(), $model as map(*)) {
@@ -1590,10 +1122,8 @@ declare function functx:escape-for-regex( $arg as xs:string? )  as xs:string {
  } ;
 
 
-
-
 (:ADVANCED SEARCH FUNCTIONS:)
-
+(:the list of searchable and indexed elements :)
 declare function app:elements($node as node(), $model as map(*)) {
     let $control :=
         <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="element" name="element" class="form-control">
@@ -1625,22 +1155,7 @@ declare function app:elements($node as node(), $model as map(*)) {
         templates:form-control($control, $model)
 };
 
-declare function app:work-types($node as node(), $model as map(*)) {
-    let $control :=
-        <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" name="work-types" class="form-control" id="wt">
-            <option value="all">All Work Types (includes authority files and narrative units)</option>
-            <option value="mss">Manuscripts</option>
-            <option value="place">Places</option>
-            <option value="ins">Repositories</option>
-            <option value="nar">Narrative Units</option>
-            <option value="work">Text Units (Works)</option>
-            <option value="pers">Persons</option>
-        </select>
-    return
-        templates:form-control($control, $model)
-};
-
-
+(:called by form*.html files used by advances search form as.html and filters.js :)
 declare function app:target-mss($node as node(), $model as map(*)) {
     let $control :=
         app:formcontrol('target-ms', collection($config:data-rootMS)//t:TEI, 'false', 'name')
@@ -2257,53 +1772,6 @@ function app:paginate($node as node(), $model as map(*), $start as xs:int, $per-
 };
 
 
- 
-declare function app:minified($resource as node()){
-let $typ := $resource/@type
-return
- element item{
-                    attribute uri {base-uri($resource)},
-                    attribute name {util:unescape-uri(replace(base-uri($resource), ".+/(.+)$", "$1"), "UTF-8")},
-                    attribute id {string($resource/@xml:id)},
-                    attribute type {string($typ)},
-                    switch ($typ)
-                    case 'mss' return
-                        (
-                        attribute support {for $r in $resource//@form return string($r) || ' '},
-                        attribute institution {for $r in $resource//t:repository/@ref return string($r)|| ' '},
-                        attribute script {for $r in $resource//@script return string($r)|| ' '},
-                        attribute material {for $r in $resource//t:support/t:material/@key return string($r)|| ' '},
-                        attribute keyword {for $r in $resource//t:term/@key return string($r)|| ' '},
-                        attribute language {for $r in $resource//t:language return string($r)|| ' '},
-                        attribute content {for $r in $resource//t:msItem[not(contains(@xml:id, '.'))]/t:title/@ref return string($r)|| ' '},
-                        attribute scribe {for $r in $resource//t:persName[@role='scribe'][not(@ref= 'PRS00000')][not(@ref= 'PRS0000')] return string($r)|| ' '},
-                        attribute donor {for $r in $resource//t:persName[@role='donor'][not(@ref= 'PRS00000')][not(@ref= 'PRS0000')]  return string($r)|| ' '},
-                        attribute patron {for $r in $resource//t:persName[@role='patron'][not(@ref= 'PRS00000')][not(@ref= 'PRS0000')]  return string($r)|| ' '})
-                         case 'pers' return 
-                       (attribute occupation {for $r in  $resource//t:occupation return replace(normalize-space($r), ' ','_')|| ' '},
-                        attribute role {for $r in  $resource//t:person/t:persName/t:roleName return replace(normalize-space($r), ' ','_')|| ' '},
-                        attribute gender {$resource//t:person/@sex })
-                        case 'place' return 
-                        (attribute placeType {for $r in  $resource//t:place/@type return string($r)|| ' '},
-                        attribute geonames {substring-after($resource//t:place/@sameAs, 'gn:')},
-                        attribute tabot {for $r in $resource//t:ab[@type='tabot']/t:persName/@ref return string($r)|| ' '})
-                        case 'ins' return 
-                        (attribute placeType {for $r in  $resource//t:place/@type return string($r)|| ' '},
-                        attribute tabot {for $r in $resource//t:ab[@type='tabot']/t:persName/@ref return string($r)|| ' '})
-                         case 'work' return 
-                        (attribute keyword {for $r in  $resource//t:term/@key return string($r)|| ' '},
-                        attribute language {for $r in $resource//t:language return string($r)|| ' '},
-                        attribute author {for $r in ($resource//t:relation[@name="saws:isAttributedToAuthor"], $resource//t:relation[@name="dcterms:creator"]) return string($r/@passive)|| ' '},
-                        attribute witness {for $r in $resource//t:witness/@corresp return string($r)|| ' '})
-                         case 'narr' return 
-                        (attribute keyword {for $r in $resource//t:term/@key return string($r)|| ' '},
-                        attribute language {for $r in $resource//t:language return string($r)|| ' '},
-                        attribute author {for $r in ($resource//t:relation[@name="saws:isAttributedToAuthor"], $resource//t:relation[@name="dcterms:creator"]) return string($r/@passive)|| ' '})
-                    default return (),
-                    titles:printTitle($resource)
-                    }
-                    };
-
 (: FROM SHAKESPEAR :)
 
 declare function app:switchcol($type){
@@ -2642,3 +2110,20 @@ return
 </div>
 };
 
+
+(:collects all the latest changes made to the collections and prints a list of twenty items:)
+declare function app:latest($node as element(), $model as map(*)){
+
+let $twoweekago := current-date() - xs:dayTimeDuration('P15D')
+let $changes := collection($config:data-root)//t:change[@when]
+let $latests := 
+    for $alllatest in $changes[xs:date(@when) > $twoweekago]
+    order by xs:date($alllatest/@when) descending
+    return $alllatest
+
+for $latest at $count in subsequence($latests, 1, 20)
+let $id := string(root($latest)/t:TEI/@xml:id)
+return
+<li><a href="{$id}">{titles:printTitle($latest)}</a>: on {string($latest/@when)}, {app:editorKey($latest/@who)} [{$latest/text()}]</li>
+
+};

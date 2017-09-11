@@ -1,6 +1,8 @@
 xquery version "3.1" encoding "UTF-8";
 
+
 module namespace viewer = "https://www.betamasaheft.uni-hamburg.de/BetMas/iiif";
+import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace xdb="http://exist-db.org/xquery/xmldb";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
 import module namespace console = "http://exist-db.org/xquery/console";
@@ -11,8 +13,6 @@ import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMa
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 
 (: For REST annotations :)
-declare namespace rest = "http://exquery.org/ns/restxq";
-
 declare namespace http = "http://expath.org/ns/http-client";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
@@ -116,6 +116,17 @@ function viewer:mirador($collection as xs:string, $id as xs:string){
 
 let $c := '/db/apps/BetMas/data/' || $collection
 let $this := collection($c)//id($id)
+let $biblio :=
+<bibl>
+{let $time := max($this//t:revisionDesc/t:change/xs:date(@when))
+return
+<date type="lastModified">{format-date($time, '[D].[M].[Y]')}</date>
+}
+<idno type="url">
+{($config:appUrl ||'/'|| $collection||'/' ||$id)}
+</idno>
+<coll>{$collection}</coll>
+</bibl>
 let $manifest := 
 (:ES:)
             if($this//t:collection = 'Ethio-SPaRe') 
@@ -173,7 +184,7 @@ if(xdb:collection-available($c)) then (
     {apprest:app-title($id)}
         <link rel="shortcut icon" href="resources/images/favicon.ico"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  {apprest:app-meta()}
+  {apprest:app-meta($biblio)}
      {apprest:scriptStyle()}
     <link rel="stylesheet" type="text/css" href="resources/mirador/css/mirador-combined.css"/>
     <script src="resources/mirador/mirador.min.js"></script>

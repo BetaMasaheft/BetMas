@@ -219,6 +219,9 @@ if(not(empty($post-data))) then
     let $json-data := xqjson:parse-json($payload)
     
 let $data-collection := '/db/apps/BetMas/data/manuscripts'
+
+
+   
     return   
     try {
     

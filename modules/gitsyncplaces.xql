@@ -217,6 +217,7 @@ if(not(empty($post-data))) then
     
 let $data-collection := '/db/apps/BetMas/data/places'
 
+   
     return   
     try {
     

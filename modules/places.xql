@@ -1,8 +1,12 @@
 xquery version "3.1" encoding "UTF-8";
 
+
 module namespace places = "https://www.betamasaheft.uni-hamburg.de/BetMas/places";
+import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace api="https://www.betamasaheft.uni-hamburg.de/BetMas/api" at "rest.xql";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "titles.xqm";
+import module namespace coord = "https://www.betamasaheft.uni-hamburg.de/BetMas/coord" at "coordinates.xql";
+import module namespace ann = "https://www.betamasaheft.uni-hamburg.de/BetMas/ann" at "annotations.xql";
 import module namespace all="https://www.betamasaheft.uni-hamburg.de/BetMas/all" at "all.xqm";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
 import module namespace console = "http://exist-db.org/xquery/console";
@@ -20,9 +24,7 @@ declare namespace rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace sparql = "http://www.w3.org/2005/sparql-results#";
 (: For REST annotations :)
-declare namespace rest = "http://exquery.org/ns/restxq";
 (:http requests:)
-
 declare namespace http = "http://expath.org/ns/http-client";
 
 
@@ -55,8 +57,8 @@ declare variable $places:bmurl := $config:appUrl;
 
 
 declare function places:JSONfile($item as node(), $id as xs:string){
-let $regions := if($item//t:region[@ref])   then  for $region in $item//t:region[@ref] return api:getannotationbody($region/@ref)   else ()
-        let $settlements := if($item//t:settlement[@ref]) then for $settl in $item//t:settlement[@ref] return api:getannotationbody($settl/@ref) else ()
+let $regions := if($item//t:region[@ref])   then  for $region in $item//t:region[@ref] return ann:getannotationbody($region/@ref)   else ()
+        let $settlements := if($item//t:settlement[@ref]) then for $settl in $item//t:settlement[@ref] return ann:getannotationbody($settl/@ref) else ()
         let $connects := ($regions, $settlements, "https://pleiades.stoa.org/places/39274")
         let $creators := for $c in distinct-values($item//t:revisionDesc/t:change[contains(., 'created')]/@who) return map {"name" := api:editorKey($c)}
         let $contributors := for $c in distinct-values($item//t:revisionDesc/t:change/@who) return map {"name" := api:editorKey($c)}
@@ -111,8 +113,8 @@ return
             "title": "http://purl.org/dc/terms/title",
             "type": "@type"
             }, "bbox": [
-            normalize-space(api:getCoords($id)),            
-            normalize-space(api:getCoords($id))
+            normalize-space(coord:getCoords($id)),            
+            normalize-space(coord:getCoords($id))
             ],
             "citation": "Location based on Encyclopaedia Aethiopica, from the Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea project",
              "connectsWith": [
@@ -125,7 +127,7 @@ return
              "features": [
             map {
             "geometry": map {    
-                "coordinates": normalize-space(api:getCoords($id)),
+                "coordinates": normalize-space(coord:getCoords($id)),
                 "type": "Point"
                 },
             "id": $id,
@@ -150,7 +152,7 @@ return
              "place_types": $types,
              "provenance": "Encyclopedia Aethiopica",
              "references": $bibls,
-             "reprPoint": normalize-space(api:getCoords($id)),
+             "reprPoint": normalize-space(coord:getCoords($id)),
               "title": $title, 
               "type": "FeatureCollection",
               "uri": $uri
@@ -354,11 +356,11 @@ declare function places:SimplifiedPlaceMark($place as xs:string){
        return 
 (:       if($pRec//t:coord) then:)
        <Placemark>
-        <address>{ api:decidePlaceNameSource($pId)}</address>
+        <address>{ titles:decidePlaceNameSource($pId)}</address>
         <description>a place of origin of manuscripts</description>
-        <name>{api:getannotationbody($pId)}</name>
+        <name>{ann:getannotationbody($pId)}</name>
         <Point>
-            <coordinates>{if(starts-with($pId, 'INS') or starts-with($pId, 'LOC')) then api:getCoords($pId) else api:getCoords($pId)}</coordinates>
+            <coordinates>{if(starts-with($pId, 'INS') or starts-with($pId, 'LOC')) then coord:getCoords($pId) else coord:getCoords($pId)}</coordinates>
         </Point>
     </Placemark>      
 (:handling of when is at the moment nonsensical, as it just takes a maximum. needs to check quality and format the date correctly
@@ -373,11 +375,11 @@ declare function places:placeMark($place as node()){
        return 
 (:       if($pRec//t:coord) then:)
        <Placemark>
-        <address>{ api:decidePlaceNameSource($pId)}</address>
+        <address>{ titles:decidePlaceNameSource($pId)}</address>
         <description>A {$place/name()} in {titles:printTitleID(string($root//t:TEI/@xml:id))}</description>
-        <name>{api:getannotationbody($pId)}</name>
+        <name>{ann:getannotationbody($pId)}</name>
         <Point>
-            <coordinates>{if(starts-with($pId, 'INS') or starts-with($pId, 'LOC')) then api:getCoords($pId) else api:getCoords($pId)}</coordinates>
+            <coordinates>{coord:getCoords($pId)}</coordinates>
         </Point>
         <TimeStamp>
   
@@ -402,11 +404,11 @@ declare function places:datePlaceMark($datePlace as node()){
        return 
 (:       if($pRec//t:coord) then:)
        <Placemark>
-        <address>{api:decidePlaceNameSource($pRef)}</address>
+        <address>{titles:decidePlaceNameSource($pRef)}</address>
         <description>{$datePlace/name()} of {string($root//t:TEI/@xml:id)}{if($corresp[starts-with(.,'#t')]) then $corresp[starts-with(.,'#t')] else ()}</description>
         <name>{$pRef}</name>
         <Point>
-            <coordinates>{api:getCoords($pRef)}</coordinates>
+            <coordinates>{coord:getCoords($pRef)}</coordinates>
         </Point>
         <TimeStamp>
   
@@ -438,7 +440,7 @@ let $tit := try{titles:printTitleID(string($r))} catch *{root($d)//t:titleStmt/t
  order by $tit
  return
  
- places:annotatedThing($d, $tit, $r)
+ ann:annotatedThing($d, $tit, $r)
  
 
 return
@@ -462,7 +464,7 @@ let $tit := try{titles:printTitleID(string($r))} catch *{root($d)//t:titleStmt/t
  order by $tit
  return
  
- places:annotatedThing($d, $tit, $r)
+ ann:annotatedThing($d, $tit, $r)
  
 
 return
@@ -483,7 +485,7 @@ return
 if ($data) then
 let $tit := titles:printTitleID($id)
 let $annotations :=
-places:annotatedThing($data, $tit, $id)
+ann:annotatedThing($data, $tit, $id)
 return
 ($places:response200,
        $places:prefixes|| string-join($annotations//text(), ' ')
@@ -492,87 +494,7 @@ else ('Sorry, the item you have requested does not exist in our places and repos
 };
 
 
-declare function places:annotatedThing($node, $tit, $id){
-let $d := $node
-let $r := $id
-let $lang := if($d/t:placeName[.= $tit[1]]/@xml:lang) then '@' || $d/t:placeName[.= $tit[1]]/@xml:lang else ()
-let $temporal := if($d//t:state[@type='existence'][@from or @to]) then for $existence in $d//t:state[@type='existence'][@from or @to] return let $from := string($existence/@from) let $to := string($existence/@to) return ('dcterms:temporal "' ||$from||'/'||$to||'";
- ') else ()
-let $PeriodO := if($d//t:state[@type='existence'][@ref]) then for $periodExistence in  $d//t:state[@type='existence'][@ref]  let $periodid := string($periodExistence/@ref) let $period := collection($config:data-root)//id($periodid) return ('dcterms:temporal <' || string($period//t:sourceDesc//t:ref/@target)|| '>;
- ') else ()
-let $sameAs := if($d//@sameAs) then
-' skos:exactMatch <' || api:getannotationbody($d//@sameAs) ||'> ;
-'else ()
-let $names := for $name in $d/t:placeName
-let $l := if($name/@xml:lang) then '@' || string($name/@xml:lang) else ()
-return 
-if($name/@xml:id = 'n1') 
-then '
-lawd:hasName [ lawd:primaryForm "'||$name||'"' ||$l|| ' ];'
-else '
-lawd:hasName [ lawd:variantForm "'||$name||'"' ||$l|| ' ];'
 
-let $partof := if($d/t:settlement[@ref]) then let $setts := for $s in $d/t:settlement/@ref return 'dcterms:isPartOf <' || api:getannotationbody($s) || '>; 
-'  return string-join($setts, ' 
-')
-else if ($d/t:region[@ref]) then let $regs := for $s in $d/t:region/@ref return 'dcterms:isPartOf <' || api:getannotationbody($s ) || '>;
-'  return string-join($regs, ' 
-')
-else if ($d/t:country[@ref]) then let $countries := for $s in $d/t:country/@ref return  'dcterms:isPartOf <' || api:getannotationbody($s) || '>;
-'  return string-join($countries, ' 
-')
-else ()
-let $geo := if($d//t:geo/text()) then '
-geo:location [ geo:lat '||substring-before($d//t:geo/text(), ' ')|| ' ;  geo:long '||substring-after($d//t:geo/text(), ' ')|| ' ] ;' else if($d//@sameAs) then let $geoid := string($d//@sameAs) let $coordinates := api:GNorWD($geoid)  return '
-geo:location [ geo:lat '||substring-before($coordinates, ',')|| ' ;  geo:long '||substring-after($coordinates, ',')|| ' ] ;' else ()
-        
- return
- 
- <annotatedThing id="{$r}">
- 
-             {'
-             
-             &lt;'||$config:appUrl || '/places/'||
- string($r)||'&gt; a lawd:Place ;
-  rdfs:label "' || 
- $tit[1] || '"' ||$lang ||';
- dcterms:description "A place in Ethiopia"@en ;
- '||string-join($temporal, '
-') ||string-join($PeriodO, '
-') ||$sameAs ||string-join($names, ' 
- ')||
- $geo||
- ' 
- foaf:primaryTopicOf &lt;'||$config:appUrl || '/places/' || 
-                string($r) || '&gt; ;
-                ' ||
-                $partof
-                ||'
-                .
-                
-                '}
-   
-   
- </annotatedThing>
- 
- (: this should go into the <annotatedThing/> but I am not sure how to do it... 
-
-<annotations>
- {for $thisd at $x in collection($config:data-rootW, $config:data-rootMS)//t:placeName[@ref = $r]
- return
- <annotation>{
-' <http://betamasaheft.aai.uni-hamburg.de/att/'||$x||'> a lawd:Attestation ;
-  dcterms:publisher <http://betamasaheft.aai.uni-hamburg.de/places/list/> ;
-  cito:citesAsEvidence
-    <http://www.mygazetteer.org/documents/01234> ;
-  cnt:chars "Αθήνα" 
-  .
- '
- }
- </annotation>
- }
- </annotations>:)
-};
 
 
 
@@ -587,7 +509,7 @@ declare function places:annotation($this, $r, $x, $mode){
                 a oa:Annotation ;
                 oa:hasTarget &lt;'||$config:appUrl || '/api/placeNames/'||$mode||'/all#' ||
                 string($r)|| '&gt; ;
-                oa:hasBody &lt;' || api:getannotationbody(string($this/@ref)) || '&gt; ;
+                oa:hasBody &lt;' || ann:getannotationbody(string($this/@ref)) || '&gt; ;
                 oa:annotatedAt "' ||current-dateTime()||  '"^^xsd:date ;
                 
                 .
@@ -707,7 +629,7 @@ let $abstract := if($file//t:abstract) then $file//t:abstract else ('no descript
 let $url :=  $config:appUrl|| '/api/placeNames/works/' 
 let $baseUrl :=  $config:appUrl||'/api/placeNames/works/' || $id || '#'
  let $annotations :=
-let $tit := api:decidePlaceNameSource(string($id))
+let $tit := titles:decidePlaceNameSource(string($id))
  return
  
  <annotatedThing id="{$id}">
@@ -745,7 +667,7 @@ let $tit := api:decidePlaceNameSource(string($id))
                 a oa:Annotation ;
                 oa:hasTarget &lt;' || $url ||
                 string($id)|| '&gt; ;
-                oa:hasBody &lt;' || api:getannotationbody(string($thisd/@ref)) || '&gt; ;
+                oa:hasBody &lt;' || ann:getannotationbody(string($thisd/@ref)) || '&gt; ;
                 oa:annotatedAt "' ||current-dateTime()||  '"^^xsd:date ;
                 
                 .
@@ -778,9 +700,9 @@ let $data := $file//t:placeName[@ref]
 let $abstract := if($file//t:abstract) then $file//t:abstract else ('no description available')
 
 let $url :=  $config:appUrl||'/api/placeNames/manuscripts/' 
-let $baseUrl := $config:appUrl || 'http://betamasaheft.aai.uni-hamburg.de/api/placeNames/manuscripts/' || $id || '#'
+let $baseUrl := $config:appUrl || 'http://betamasaheft.eu/api/placeNames/manuscripts/' || $id || '#'
  let $annotations :=
-let $tit := api:decidePlaceNameSource(string($id))
+let $tit := titles:decidePlaceNameSource(string($id))
  return
  
  <annotatedThing id="{$id}">
@@ -818,7 +740,7 @@ let $tit := api:decidePlaceNameSource(string($id))
                 a oa:Annotation ;
                 oa:hasTarget &lt;' || $url ||
                 string($id)|| '&gt; ;
-                oa:hasBody &lt;' || api:getannotationbody(string($thisd/@ref)) || '&gt; ;
+                oa:hasBody &lt;' || ann:getannotationbody(string($thisd/@ref)) || '&gt; ;
                 oa:annotatedAt "' ||current-dateTime()||  '"^^xsd:date ;
                 
                 .

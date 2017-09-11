@@ -14,15 +14,15 @@ import module namespace templates="http://exist-db.org/xquery/templates" ;
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
 import module namespace console="http://exist-db.org/xquery/console";
 
-
-declare function apprest:getZoteroTextData ($string as xs:string){
+(:test function returns the formatted zotero entry given the unique tag :)
+declare function apprest:getZoteroTextData ($ZoteroUniqueBMtag as xs:string){
 let $xml-url := concat('https://api.zotero.org/groups/358366/items?tag=',$string,'&amp;format=bib&amp;style=http://www1.uni-hamburg.de/ethiostudies/hiob-ludolf-centre-for-ethiopian-studies-web.csl&amp;linkwrap=1')
 let $data := httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)
 return
 $data//text()
 };
 
-
+(:used by items.xql to print the relations as a table in the relations view:)
 declare function apprest:EntityRelsTable($this, $collection){
 
 let $entity := $this
@@ -124,7 +124,7 @@ these are all dispalyed in divs with lists of which this is the template:)
 declare function apprest:ModalRefsList($id, $string as xs:string, $sameKey){
 let $value := if (doc($config:data-rootA || '/taxonomy.xml')//t:catDesc[text() = $string] )
                            then collection($config:data-root)//id($string)//t:titleStmt/t:title/text()
-                           else if (matches($string, 'gn:'))  then app:getGeoNames($string)
+                           else if (matches($string, 'gn:'))  then titles:getGeoNames($string)
                            else if (matches($string, '(LOC|INS)(\d+)(\w+)')) 
                            then try {titles:printTitle(collection($config:data-rootPl, $config:data-rootIn)/id($string)//t:place)}
                            catch * {'no record'}
@@ -256,7 +256,7 @@ return
 (:a list of items pointing to something:)
 declare function apprest:AnyReferences($sourceid, $id as xs:string){
 let $file := collection($config:data-root)//id($id)
-let $ref := app:restWhatPointsHere($id, $file)
+let $ref := apprest:WhatPointsHere($id, $file)
   return
 <ul xmlns="http://www.w3.org/1999/xhtml" class="nodot"><head xmlns="http://www.w3.org/1999/xhtml" >This record, with ID: {string($id)} is mentioned by </head>
     {apprest:referencesList($sourceid, $ref, 'name')}
@@ -265,50 +265,40 @@ let $ref := app:restWhatPointsHere($id, $file)
 };
 
 
-(:returns items in a  list of results from a references lookup:)
-declare function apprest:referencesList($id, $list, $mode as xs:string){
-      
-          for $hit in  $list
-          
-          let $strid := $hit/ancestor::t:TEI/@xml:id
-          group by $stringid := string($strid)
-          order by $stringid
-      return 
-         <li class="nodot" xmlns="http://www.w3.org/1999/xhtml" >
-         {if ($strid = $id) then ('here') else <a 
-          href="{concat('/',$stringid)}"
-   class="MainTitle" data-value="{$stringid}"
-   >{$stringid}</a>} ({$stringid})
-   <ul  class="nodot">
-   {for $h in $hit
-   let $n := $h/name()
-   group by $name := $n
-   order by $name
-   return
-   <li class="nodot">a <code xmlns="http://www.w3.org/1999/xhtml" >{$name}</code> element {count($h)} time{if(count($h) > 1) then 's' else ()}
-   {let $ids := for $each in $h return 
-                      if ($h/ancestor::t:item/@xml:id) 
-                     then data($h/ancestor::t:item/@xml:id) 
-                     else if ($h/ancestor::t:msPart/@xml:id) 
-                      then data($h/ancestor::t:msPart/@xml:id) else ()
-      return ' ' || string-join($ids, ', ')}
-   </li>
-   }
-   </ul>
-         </li>
-          
-};
 
-(: anything linking to the ID of the current entity, called by view-item.html under related entities:)
-declare function apprest:corresps($id){
-<div xmlns="http://www.w3.org/1999/xhtml" id="whatPointsHere">
-        
-{app:AnyReferences(string($id))}
-                
-    </div>
+(:searches an ID in a @corresp, @ref, <relation> and makes a list :)
+declare function apprest:WhatPointsHereQuery($id as xs:string){
+for $corr in (collection($config:data-root)//t:*[ft:query(@corresp, $id)], 
+        collection($config:data-root)//t:*[ft:query(@ref, $id)], 
+        collection($config:data-root)//t:relation[ft:query(., $id)])
+        order by ft:score($corr) descending
+        return 
+            $corr
+            
+            };
+       
+(:           used by apprest.xqm and timeline.xqm :)
+            declare function apprest:WhatPointsHere($id as xs:string, $c){
+            let $witnesses := $c//t:witness[@corresp = $id]
+let $placeNames := $c//t:placeName[@ref = $id]
+let $persNames := $c//t:persName[@ref = $id]
+let $titles := $c//t:title[@ref = $id]
+let $active := $c//t:relation[@active = $id]
+let $passive := $c//t:relation[@passive = $id]
+let $allrefs := ($witnesses, 
+        $placeNames,  
+        $persNames, 
+        $titles, 
+        $active, 
+        $passive)
+return
+for $corr in $allrefs
+        return 
+            $corr
+            
+            };
 
 
-};
 
 (:collects bibliographical information for zotero metadata:)
 declare function apprest:bibdata ($id, $collection)  as node()*{
@@ -396,44 +386,36 @@ return
 
 
 
-declare function apprest:referencesList($id, $list, $mode as xs:string){
-      
-          for $hit in  $list
-          
-          let $strid := $hit/ancestor::t:TEI/@xml:id
-          group by $stringid := string($strid)
-          order by $stringid
-      return 
-         <li class="nodot" xmlns="http://www.w3.org/1999/xhtml" >
-         {if ($strid = $id) then ('here') else <a 
-          href="{concat('/',$stringid)}"
-   class="MainTitle" data-value="{$stringid}"
-   >{$stringid}</a>} ({$stringid})
-   <ul  class="nodot">
-   {for $h in $hit
-   let $n := $h/name()
-   group by $name := $n
-   order by $name
-   return
-   <li class="nodot">a <code xmlns="http://www.w3.org/1999/xhtml" >{$name}</code> element {count($h)} time{if(count($h) > 1) then 's' else ()}
-   {let $ids := for $each in $h return 
-                      if ($h/ancestor::t:item/@xml:id) 
-                     then data($h/ancestor::t:item/@xml:id) 
-                     else if ($h/ancestor::t:msPart/@xml:id) 
-                      then data($h/ancestor::t:msPart/@xml:id) else ()
-      return ' ' || string-join($ids, ', ')}
-   </li>
-   }
-   </ul>
-         </li>
-          
-};
+(:embedded metadata for Zotero mapping:)
 
-declare function apprest:app-meta(){
-    <meta xmlns="http://www.w3.org/1999/xhtml" name="description" content="{$config:repo-descriptor/repo:description/text()}"/>,
-    for $author in $config:repo-descriptor/repo:author
-    return
-        <meta xmlns="http://www.w3.org/1999/xhtml" name="creator" content="{$author/text()}"/>
+declare function apprest:app-meta($biblio as node()){
+
+let $col :=$biblio//coll/text()
+let $LM :=$biblio//date[@type='lastModified']/text()
+let $url := $biblio//idno[@type='url']
+return
+        (
+     <meta  xmlns="http://www.w3.org/1999/xhtml" name="description" content="{$config:repo-descriptor/repo:description/text()}"/>,
+    for $genauthor in $config:repo-descriptor/repo:author
+    return <meta xmlns="http://www.w3.org/1999/xhtml" name="creator" content="{$genauthor/text()}"></meta>,
+    for $author in $biblio//author
+         return  <meta  xmlns="http://www.w3.org/1999/xhtml" property="dcterms:creator schema:creator" content="{$author}"></meta>,
+     <meta  xmlns="http://www.w3.org/1999/xhtml" property="dcterms:type schema:genre" content="{switch($col)
+         case 'manuscripts' return 'Catalogue of ethiopian manuscripts'
+         case 'works' return 'Clavis of Ethiopian Literature'
+         case 'narratives' return 'Clavis of Ethiopian Literature'
+         case 'places' return 'Gazetteer of Places'
+         case 'institutions' return 'Gazetteer of Places'
+         case 'persons' return 'A prosopography of Ethiopia'
+         default return 'catalogue'}"></meta>,
+    <meta xmlns="http://www.w3.org/1999/xhtml" property="schema:isPartOf" content="{$config:appUrl}/{$col}"></meta>,
+    <meta  xmlns="http://www.w3.org/1999/xhtml" property="og:site_name" content="Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea"></meta>,
+    <meta  xmlns="http://www.w3.org/1999/xhtml" property="dcterms:language schema:inLanguage" content="en"></meta>,
+    <meta  xmlns="http://www.w3.org/1999/xhtml" property="dcterms:rights" content="Copyright &#169; Akademie der Wissenschaften in Hamburg, Hiob Ludolf Zentrum für Äthiopistik.  Sharing and remixing permitted under terms of the Creative Commons Attribution Share alike Non Commercial 4.0 License (cc-by-nc-sa)."></meta>,
+    <meta   xmlns="http://www.w3.org/1999/xhtml" property="dcterms:publisher schema:publisher" content="Akademie der Wissenschaften in Hamburg, Hiob Ludolf Zentrum für Äthiopistik"></meta>,
+    <meta  xmlns="http://www.w3.org/1999/xhtml" property="dcterms:date schema:dateModified" content="{$LM}"></meta>,
+    <meta  xmlns="http://www.w3.org/1999/xhtml" property="dcterms:identifier schema:url" content="{$url}"></meta>
+    )
 };
 
 declare function apprest:app-title($id) as element()* {  
@@ -544,17 +526,12 @@ let $path := switch($type)
 case 'catalogue' return "collection('"||$config:data-rootMS || "')//t:TEI[descendant::t:listBibl[@type='catalogue']//t:ptr/@target='"||$collection||"']"  || $dR || $key || $languages
 case 'repo' return "collection('"||$config:data-rootMS || "')//t:TEI[descendant::t:repository/@ref='"||$collection||"']"  || $dR || $key || $languages
 default return if ($collection = 'places') then ("(collection('/db/apps/BetMas/data/"||$collection || "')//t:TEI"  || $dR || $key || $languages || ", collection('/db/apps/BetMas/data/institutions')//t:TEI"  || $dR || $key || $languages || ')') else "collection('/db/apps/BetMas/data/"||$collection || "/')//t:TEI"  || $dR || $key || $languages
-let $test := console:log($path)
 let $hits := for $resource in util:eval($path)
 let $recordid := string($resource/@xml:id)
 let $recordtype := string($resource/@type)
- let $sorting := switch ($recordtype) 
-case 'auth' return $resource/t:titleStmt/t:title 
-case 'work' return substring($recordid, 4, 4)
-default return titles:printTitleID($recordid)
 
-            order by $sorting[1]
-
+let $sorting := if(matches($recordid, '\w{3}\d+')) then substring($recordid, 4, 4) else substring($recordid, 0, 3)
+            order by $sorting
                       return $resource
                       return 
                       map { 
@@ -806,7 +783,7 @@ then 'text-indent: 2%;' else ()}">
         </mark> 
         (:if there is no ref, take the text of the element title content:)
         else if ($msitem/t:title[not(@ref)]/text()) 
-   then (console:log($msitem/t:title), transform:transform($msitem/t:title,'xmldb:exist:///db/apps/BetMas/xslt/MixedTitles.xsl',()) )
+   then transform:transform($msitem/t:title,'xmldb:exist:///db/apps/BetMas/xslt/MixedTitles.xsl',())
     (:normally print the title of the referred item:)
 else <a class="itemtitle" data-value="{$title}" href="{$title}">{if($title = '') then <span class="label label-warning">{'no ref in title'}</span> else try{titles:printTitleID($title)} catch * {$title}}</a>}</li>}
 </ul>

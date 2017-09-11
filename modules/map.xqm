@@ -4,6 +4,7 @@ module namespace BetMasMap="https://www.betamasaheft.uni-hamburg.de/BetMas/map";
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "titles.xqm";
 import module namespace app="https://www.betamasaheft.uni-hamburg.de/BetMas/app" at "app.xqm";
+import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "apprest.xqm";
 import module namespace coord="https://www.betamasaheft.uni-hamburg.de/BetMas/coord" at "coordinates.xql";
 import module namespace console = "http://exist-db.org/xquery/console";
 declare namespace t="http://www.tei-c.org/ns/1.0";
@@ -194,7 +195,7 @@ let $data :=
     <placesWithCoord>
     {
         let $itemid := $model('entity')/@xml:id
-let $placeInstpointingHere := app:WhatPointsHere(string($itemid))
+let $placeInstpointingHere := apprest:WhatPointsHereQuery(string($itemid))
 let $refPlaceInstpointingHere := for $rip in $placeInstpointingHere return collection($config:data-rootIn, $config:data-rootPl)//id(root($rip))
 
 

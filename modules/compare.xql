@@ -1,6 +1,8 @@
 xquery version "3.1" encoding "UTF-8";
 
+
 module namespace compare = "https://www.betamasaheft.uni-hamburg.de/BetMas/compare";
+import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace app = "https://www.betamasaheft.uni-hamburg.de/BetMas/app" at "app.xqm";
 import module namespace item = "https://www.betamasaheft.uni-hamburg.de/BetMas/item" at "item.xqm";
 import module namespace nav = "https://www.betamasaheft.uni-hamburg.de/BetMas/nav" at "nav.xqm";
@@ -19,10 +21,16 @@ declare namespace saws = "http://purl.org/saws/ontology";
 declare namespace cmd = "http://www.clarin.eu/cmd/";
 
 (: For REST annotations :)
-declare namespace rest = "http://exquery.org/ns/restxq";
 declare namespace http = "http://expath.org/ns/http-client";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json = "http://www.json.org";
+
+declare variable $compare:meta := <meta  xmlns="http://www.w3.org/1999/xhtml" name="description" content="{$config:repo-descriptor/repo:description/text()}"/>,
+    for $genauthor in $config:repo-descriptor/repo:author
+    return
+        <meta xmlns="http://www.w3.org/1999/xhtml" name="creator" content="{$genauthor/text()}"></meta>
+        ;
+
 
 declare 
 %rest:GET
@@ -33,6 +41,7 @@ function compare:compare(
 $workid as xs:string*) {
 let $console := console:log('got to rest comparison')
 let $w := collection($config:data-rootW)//id($workid)
+
 
 let $Cmap := map {'type':= 'item', 'name' := $workid, 'path' := base-uri($w)}
 
@@ -51,8 +60,7 @@ if(exists($w) or $workid ='') then (
         <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
         <link rel="shortcut icon" href="resources/images/favicon.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-         <meta>
-        {apprest:app-meta()}</meta>
+         {$compare:meta}
 {apprest:scriptStyle()}
     </head>
     <body id="body">

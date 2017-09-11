@@ -6,6 +6,7 @@ import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/c
 
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "titles.xqm";
 import module namespace app="https://www.betamasaheft.uni-hamburg.de/BetMas/app" at "app.xqm";
+import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "apprest.xqm";
 
 import module namespace templates="http://exist-db.org/xquery/templates" ;
 
@@ -31,11 +32,11 @@ let $localId := $entity/@xml:id
 (:all these need to be here because they are used first to build nodes, then to build the edges:)
 let $all := 
 (:looks for corresps, refs and relations which have the id of this item in them it performs the same function on the secondary relations root element, see below:)
-let $whatpointshere := app:WhatPointsHere($localId)
+let $whatpointshere := apprest:WhatPointsHereQuery($localId)
           
 (:looks for what point to corresps, refs and relations within the current item and returns all items pointing there:)
 let $secondaryrelations := for $ref in ($entity//@ref[. != $localId][not(parent::t:repository)] , $entity//@active[. != $localId], $entity//@passive[. != $localId])
-          return app:WhatPointsHere($ref)
+          return apprest:WhatPointsHereQuery($ref)
 
 (:looks for any person with a role and a ref, excluding the ES placeholders:)
 let $persWithRole := $entity//t:persName[@role and @ref[. != 'PRS00000']]
@@ -337,7 +338,7 @@ let $nodes :=
                                             )
                                             
                                             else if (starts-with($distinctId, 'gn:'))
-                                               then (app:getGeoNames($distinctId))
+                                               then (titles:getGeoNames($distinctId))
              
                                       (:   else if (contains($distinctId, '#'))  then (
                           
@@ -645,7 +646,7 @@ return
              let $title :=  
              if (contains($distinctId, '#'))  then substring-after($distinctId, '#')
  else if ($collection = 'http://www.geonames.org/')
-             then (app:getGeoNames($distinctId))
+             then (titles:getGeoNames($distinctId))
                           else normalize-space(titles:printTitle(doc(concat($config:data-root, '/', $collection, '/', 
                                                 (if (contains($distinctId, '#')) 
                                                 then substring-before($distinctId, '#') 

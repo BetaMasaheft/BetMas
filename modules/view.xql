@@ -9,7 +9,7 @@ import module namespace new="https://www.betamasaheft.uni-hamburg.de/BetMas/new"
 import module namespace BetMasMap="https://www.betamasaheft.uni-hamburg.de/BetMas/map" at "map.xqm";
 import module namespace rels="https://www.betamasaheft.uni-hamburg.de/BetMas/rels" at "relations.xqm";
 import module namespace tl="https://www.betamasaheft.uni-hamburg.de/BetMas/timeline"at "timeline.xqm";
-import module namespace lists="https://www.betamasaheft.uni-hamburg.de/BetMas/lists"at "lists.xqm";
+import module namespace lists="https://www.betamasaheft.uni-hamburg.de/BetMas/lists"at "resources.xqm";
 
 
 declare namespace saxon="http://saxon.sf.net/"; 

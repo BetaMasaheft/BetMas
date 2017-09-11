@@ -8,8 +8,6 @@ import module namespace xqjson="http://xqilla.sourceforge.net/lib/xqjson";
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
 import module namespace console="http://exist-db.org/xquery/console";
 
-
-
  
 (:establishes the different rules and priority to print a title referring to a record:)
 declare function titles:printTitle($node as element()) {
@@ -111,105 +109,106 @@ declare function titles:printSubtitle($node as node(), $SUBid as xs:string) as x
 };
 
 (:this is now a switch function, deciding if to go ahead with simple print title or subtitles:)
-declare function titles:printTitleID($id as xs:string){
-    let $test := console:log($id) return
-(:hack to avoid the bad usage of # at the end of an id like <title type="complete" ref="LIT2317Senodo#" xml:lang="gez">:)
-if (ends-with($id,'#')) then titles:printTitleMainID(substring-before($id, '#'))
-(:another hack for things like ref="#":)
-else if ($id = '#') then <span class="label label-warning">{'no item yet with id' || $id}</span>
-else if ($id = '') then <span class="label label-warning">{'no id'}</span>
-(:   if the id has a subid, than split it:)
-else if(contains($id,'#')) then 
-let $mainID := substring-before($id, '#') 
-let $SUBid := substring-after($id, '#')
-
-let $test2 := console:log($SUBid)
-let $node := collection($config:data-root)//id($mainID) 
-let $test1 := console:log($node)
-return
-(titles:printTitleMainID($mainID), ', ', titles:printSubtitle($node, $SUBid) )
-(:if not, procede to main title printing:)
-else titles:printTitleMainID($id)
-
+declare function titles:printTitleID($id as xs:string)
+{
+    (: hack to avoid the bad usage of # at the end of an id like <title type="complete" ref="LIT2317Senodo#"
+     : xml:lang="gez"> :) if (ends-with($id, '#')) then
+        titles:printTitleMainID(substring-before($id, '#'))
+    (: another hack for things like ref="#" :) else if ($id = '#') then
+                         <span class="label label-warning">{ 'no item yet with id' || $id }</span>
+    else if ($id = '') then
+                        <span class="label label-warning">{ 'no id' }</span>
+    (: if the id has a subid, than split it :) else if (contains($id, '#')) then
+        let $mainID := substring-before($id, '#')
+        let $SUBid := substring-after($id, '#')
+        let $node := collection($config:data-root)//id($mainID)
+        return
+            (titles:printTitleMainID($mainID), ', ', titles:printSubtitle($node, $SUBid))
+    (: if not, procede to main title printing :) else
+        titles:printTitleMainID($id)
 };
 
 
-   declare function titles:printTitleMainID($id as xs:string){
 
-(:always look at the root of the given node parameter of the function and then switch :)
-   let $resource := collection($config:data-root)//id($id) 
-   return 
-   if(count($resource) = 0) 
-   then <span class="label label-warning">{'No item: ' || $id }</span>
-  
-   else if(count($resource) > 1) 
-   then <span class="label label-warning">{'More then 1 ' || $id }</span>
-   
-   else 
-   
-   switch($resource/@type)
-            case "mss" return
-                        if ($resource//objectDesc[@form = 'Inscription']) then
-                            ($resource//t:msIdentifier/t:idno/text())
-                        else
-                            (if($resource//t:repository/text() = 'Lost')
-                                then ('Lost. ' || $resource//t:msIdentifier/t:idno/text())
-                            else if ($resource//t:repository/@ref and $resource//t:msDesc/t:msIdentifier/t:idno/text())
-                            then
-                                let $repoid := $resource//t:repository/@ref
-                                let $r := collection($config:data-rootIn)//id($repoid)
-                                let $repo := if ($r) then
-                                    ($r)
-                                else
-                                    'No Institution record'
-                                
-                                let $repoPlace :=
-                                if ($repo = 'No Institution record') then
-                                    $repo
-                                else
-                                    (if ($repo//t:settlement[1]/@ref)
-                                    then
-                                         let $plaID := string($repo//t:settlement[1]/@ref)
-                                         return 
-                                             titles:decidePlName($plaID)
-                                    else
-                                        if ($repo//t:settlement[1]/text()) then
-                                            $repo//t:settlement[1]/text()
+
+
+      declare function titles:printTitleMainID($id as xs:string)
+   {
+       if (starts-with($id, 'Q') or starts-with($id, 'gn:') or starts-with($id, 'pleiades:')) then
+           (titles:decidePlaceNameSource($id))
+       else (: always look at the root of the given node parameter of the function and then switch :)
+           let $resource := collection($config:data-root)//id($id)
+           return
+               if (count($resource) = 0) then
+           <span class="label label-warning">{ 'No item: ' || $id }</span>
+               else if (count($resource) > 1) then
+           <span class="label label-warning">{ 'More then 1 ' || $id }</span>
+               else
+                   switch ($resource/@type)
+                       case "mss"
+                           return if ($resource//objectDesc[@form = 'Inscription']) then
+                               ($resource//t:msIdentifier/t:idno/text())
+                           else
+                               (if ($resource//t:repository/text() = 'Lost') then
+                                   ('Lost. ' || $resource//t:msIdentifier/t:idno/text())
+                               else if ($resource//t:repository/@ref and $resource//t:msDesc/t:msIdentifier/t:idno/text())
+                                   then
+                                   let $repoid := $resource//t:repository/@ref
+                                   let $r := collection($config:data-rootIn)//id($repoid)
+                                   let $repo :=
+                                       if ($r) then
+                                           ($r)
                                        else
-                                            if ($repo//t:country/@ref) then
+                                           'No Institution record'
+                                   let $repoPlace :=
+                                       if ($repo = 'No Institution record') then
+                                           $repo
+                                       else
+                                           (if ($repo//t:settlement[1]/@ref) then
+                                               let $plaID := string($repo//t:settlement[1]/@ref)
+                                               return
+                                                   titles:decidePlName($plaID)
+                                           else if ($repo//t:settlement[1]/text()) then
+                                               $repo//t:settlement[1]/text()
+                                           else if ($repo//t:country/@ref) then
                                                let $plaID := string($repo//t:country/@ref)
                                                return
-                                               titles:decidePlName($plaID)
-                                        else
-                                            if ($repo//t:country/text()) then
-                                                $repo//t:country/text()
-                                            else
-                                                'No location record')
-                                
-                                return
-                                    
-                            string-join($repoPlace,' ') || ', ' ||
-                                    (if ($repo = 'No Institution record') then
-                                        $repo
-                                    else
-                                        (titles:placeNameSelector($repo))) || ', ' ||
-                                    (if (contains($resource//t:msDesc/t:msIdentifier/t:idno/text(), ' ')) then
-                                        substring-after($resource//t:msDesc/t:msIdentifier/t:idno/text(), ' ')
-                                    else
-                                        $resource//t:msDesc/t:msIdentifier/t:idno/text())
-                            else
-                                'no repository data for ' || string($resource/@xml:id)
-                                
-                                )
-             case "place"  return  titles:placeNameSelector($resource)
-            case "ins" return  titles:placeNameSelector($resource)
-            case "pers"  return titles:persNameSelector($resource)
-            case "work"  return titles:worknarrTitleSelector($resource)
-            case "narr"  return titles:worknarrTitleSelector($resource)
-(:            this should do also auths:)
-            default return $resource//t:titleStmt/t:title[1]/text()
-            
+                                                   titles:decidePlName($plaID)
+                                           else if ($repo//t:country/text()) then
+                                               $repo//t:country/text()
+                                           else
+                                               'No location record'
+                                           )
+                                   return
+                                       string-join($repoPlace, ' ') || ', ' || (if ($repo = 'No Institution record') then
+                                           $repo
+                                       else
+                                           (titles:placeNameSelector($repo))
+                                       ) || ', ' || (if (contains($resource//t:msDesc/t:msIdentifier/t:idno/text(), ' '))
+                                           then
+                                           substring-after($resource//t:msDesc/t:msIdentifier/t:idno/text(), ' ')
+                                       else
+                                           $resource//t:msDesc/t:msIdentifier/t:idno/text()
+                                       )
+                               else
+                                   'no repository data for ' || string($resource/@xml:id)
+                               )
+                   case "place"
+                           return titles:placeNameSelector($resource)
+                       case "ins"
+                           return titles:placeNameSelector($resource)
+                       case "pers"
+                           return titles:persNameSelector($resource)
+                       case "work"
+                           return titles:worknarrTitleSelector($resource)
+                       case "narr"
+                           return titles:worknarrTitleSelector($resource) (: this should do also auths :)
+                       default
+                           return $resource//t:titleStmt/t:title[1]/text()
    };
+   
+   
+   
 
 
 

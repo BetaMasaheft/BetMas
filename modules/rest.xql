@@ -1,6 +1,7 @@
 xquery version "3.1" encoding "UTF-8";
 
 module namespace api = "https://www.betamasaheft.uni-hamburg.de/BetMas/api";
+import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace all="https://www.betamasaheft.uni-hamburg.de/BetMas/all" at "all.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "titles.xqm";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
@@ -24,7 +25,6 @@ declare namespace sparql = "http://www.w3.org/2005/sparql-results#";
 import module namespace http="http://expath.org/ns/http-client";
 
 (: For REST annotations :)
-declare namespace rest = "http://exquery.org/ns/restxq";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json = "http://www.json.org";
 
@@ -125,7 +125,7 @@ let $collection := api:switchcol($type)
 let $localId := $id
 let $thisMap := map {
         "id" := $id, 
-        "label" := titles:printTitleID($id), 
+        "label" := titles:printTitleMainID($id), 
         "group" := string($type)
         }
 
@@ -148,7 +148,7 @@ let $wph :=
     for $I in distinct-values($allids)
     let $thisI := $c//id($I)[name()='TEI']
     let $rootype := $thisI[1]/@type
-    let $title := try{titles:printTitleID($I)} catch * {$I}
+    let $title := try{titles:printTitleMainID($I)} catch * {$I}
     let $titleN := if(count($title) gt 1) then normalize-space(string-join($title, ' ')) else normalize-space($title)
     return 
       (:first return the root of the referring entity and the id in the corresp, active, passive, mutual, etc. there.:)
@@ -252,7 +252,7 @@ let $query :=  util:eval($buildQuery)
 let $total := count($query)
 let $hits := for $hit in $query
                 let $id := string($hit/@xml:id)
-                let $title := try{titles:printTitleID($id)} catch * {('no title for ' || $id)}
+                let $title := try{titles:printTitleMainID($id)} catch * {('no title for ' || $id)}
                
           return
             map {
@@ -268,131 +268,6 @@ map {
 })
 };
 
-declare function api:decidePlaceNameSource($pRef){
-if (contains($pRef, 'gn:')) then (api:getGeoNames($pRef)) 
-else if (starts-with($pRef, 'pleiades')) then (api:getPleiadesNames($pRef)) 
-else if (starts-with($pRef, 'Q')) then (api:getwikidataNames($pRef)) 
-else titles:printTitleID($pRef) 
-                                            };
-
-(:get inverted coordinates:)
-declare function api:invertCoord($coords) {
-    
-    let $invert := substring-after($coords, ',') || ',' || substring-before($coords, ',')
-    return
-        replace($invert, ' ', '')
-};
-
-(:gives priority to places where to look for coordinates
-first looks at what the id is, then if it is one of ours, looks for coordinates
-1. take ours if we have them, if not look for a sameAs and check there for coordinates:)
-declare function api:getCoords($placenameref as xs:string){
-if(starts-with($placenameref, 'LOC') or starts-with($placenameref, 'INS')) then 
-let $pRec := collection($config:data-rootPl, $config:data-rootIn)//id($placenameref)
-        return
-        if (starts-with($placenameref, 'INS') and $pRec//t:geo/text()) then concat(substring-after($pRec//t:geo, ' '), ',', substring-before($pRec//t:geo, ' '))
-        else if($pRec//@sameAs) then api:GNorWD($pRec//@sameAs) 
-        else if($pRec//t:geo/text()) then concat(substring-after($pRec//t:geo, ' '), ',', substring-before($pRec//t:geo, ' '))
-        else console:log("no coordinates for" || $placenameref)
-else api:GNorWD($placenameref)
-};
-
-(:if the id of a place is not one of ours, then is a Q item in wikidata or a geonames id:)
-declare function api:GNorWD($placeexternalid as xs:string){
-if(starts-with($placeexternalid, 'gn:')) then api:getGeoNamesCoord($placeexternalid)
-else if(starts-with($placeexternalid, 'pleiades:')) then api:getPleiadesCoord($placeexternalid)
-else if(starts-with($placeexternalid, 'Q')) then api:getWikiDataCoord($placeexternalid)
-else console:log("no valid external id" || $placeexternalid)
-};
-
-(:for the annotations in pelagios, decide based on id how to format the uri:)
-declare function api:getannotationbody($placeid as xs:string){
-if(starts-with($placeid, 'INS')) then 'http://betamasaheft.aai.uni-hamburg.de/institutions/' || $placeid
-else if(starts-with($placeid, 'LOC')) then 'http://betamasaheft.aai.uni-hamburg.de/places/' || $placeid
-else if(starts-with($placeid, 'pleiades:')) then 'https://pleiades.stoa.org/places/' || substring-after($placeid, 'pleiades:')
-else if(starts-with($placeid, 'Q')) then 'https://www.wikidata.org/wiki/' || $placeid
-else 'http://sws.geonames.org/' || substring-after($placeid, 'gn:')
-};
-
-
-(: used by functions in coordinates and map modules to gather place representative points and labels :)
-declare function api:getGeoNames($string as xs:string) {
-    let $gnid := substring-after($string, 'gn:')
-    let $xml-url := concat('http://api.geonames.org/get?geonameId=', $gnid, '&amp;username=betamasaheft')
-    let $data := httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)
-   
-    return
-        $data//toponymName/text()
-};
-
-declare function api:getPleiadesNames($string as xs:string) {
-   let $plid := substring-after($string, 'pleiades:')
-   let $url := concat('http://pelagios.org/peripleo/places/http:%2F%2Fpleiades.stoa.org%2Fplaces%2F', $plid)
-  let $file := httpclient:get(xs:anyURI($url), true(), <Headers/>)
-  
-let $file-info := 
-    let $payload := util:base64-decode($file) 
-    let $parse-payload := xqjson:parse-json($payload)
-    return $parse-payload 
-    return $file-info/*:pair[@name="title"]/text()
-
-};
-
-declare function api:getwikidataNames($pRef){
-let $sparql := 'SELECT * WHERE {
-  wd:' || $pRef || ' rdfs:label ?label . 
-  FILTER (langMatches( lang(?label), "EN-GB" ) )  
-}'
-
-
-let $query := 'https://query.wikidata.org/sparql?query='|| xmldb:encode-uri($sparql)
-
-let $req := httpclient:get(xs:anyURI($query), false(), <headers/>)
-return
-$req//sparql:result/sparql:binding[@name="label"]/sparql:literal[@xml:lang='en-gb']/text()
-};
-
-declare function api:getGeoNamesCoord($string as xs:string) {
-    let $gnid := substring-after($string, 'gn:')
-    let $xml-url := concat('http://api.geonames.org/get?geonameId=', $gnid, '&amp;username=betamasaheft')
-    let $data := httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)
-   let $test :=   $data
-    return
-        $data//lng/text() || ',' ||$data//lat/text()
-};
-
-declare function api:getWikiDataCoord($Qid as xs:string){
-let $sparql := 'SELECT ?coord ?coordLabel WHERE {
-   wd:' || $Qid || ' wdt:P625 ?coord .
-   SERVICE wikibase:label { 
-    bd:serviceParam wikibase:language "en" .
-   }
- }'
-
-let $query := 'https://query.wikidata.org/sparql?query='|| xmldb:encode-uri($sparql)
-let $req := httpclient:get(xs:anyURI($query), false(), <headers/>)
-let $removePoint := replace($req//sparql:result/sparql:binding[@name="coordLabel"], 'Point\(', '')
-let $removetrailing := replace($removePoint, '\)', '')
-return
-replace($removetrailing, ' ', ',')
-
-};
-
-declare function api:getPleiadesCoord($string as xs:string) {
-   let $plid := substring-after($string, 'pleiades:')
-   let $url := concat('http://pelagios.org/peripleo/places/http:%2F%2Fpleiades.stoa.org%2Fplaces%2F', $plid)
-  let $file := httpclient:get(xs:anyURI($url), true(), <Headers/>)
-  
-let $file-info := 
-    let $payload := util:base64-decode($file) 
-    let $parse-payload := xqjson:parse-json($payload)
-    return $parse-payload 
-let $coords := if ($file-info//*:pair[@name="geo_bounds"]/*:pair[1]/text() = $file-info//*:pair[@name="geo_bounds"]/*:pair[2]/text())
-then ($file-info//*:pair[@name="geo_bounds"]/*:pair[1]/text(), $file-info//*:pair[@name="geo_bounds"]/*:pair[3]/text()) else $file-info//*:pair[@name="geo_bounds"]/*:pair/text()
-    return 
-    string-join($coords, ',')
-
-};
 
 
 declare 
@@ -477,7 +352,7 @@ se interrogato da titolo da gli id, altrimenti per id da gli altri id e il titol
     
                     let $root := api:get-tei-by-ID($id)
                     let $id := string($root/@xml:id)
-                    let $title := titles:printTitleID($id)
+                    let $title := titles:printTitleMainID($id)
                     let $clavisBibl := $root//t:listBibl[@type='clavis']
                     let $CC := $clavisBibl/t:bibl[@type='CC']/t:citedRange/text()
                     let $CPG := $clavisBibl/t:bibl[@type='CPG']/t:citedRange/text()
@@ -526,7 +401,7 @@ let $hi :=   for $hit in $hits
                     let $root := root($hit)
                     let $id := string($root//t:TEI/@xml:id)
                     group by $id := $id
-                    let $title := titles:printTitleID($id)
+                    let $title := titles:printTitleMainID($id)
                     let $hitCount := count($hit)
                     let $clavisBibl := $root//t:listBibl[@type='clavis']
                     let $CC := $clavisBibl/t:bibl[@type='CC']/t:citedRange/text()
@@ -582,7 +457,7 @@ let $path :=  collection($config:data-root)//t:persName[@ref != 'PRS00000'][@ref
 let $total := count($path)
 let $hits := for $pwl in $path
                     let $id := string($pwl/@ref)
-                    let $title := titles:printTitleID($id)
+                    let $title := titles:printTitleMainID($id)
                     let $sortkey := normalize-space($title[1])
                    
                     group by $ID := $id
@@ -591,7 +466,7 @@ let $hits := for $pwl in $path
         return
             map {
                 'pwl' : $ID,
-                'title' : titles:printTitleID($ID),
+                'title' : titles:printTitleMainID($ID),
                 'sorting' : $sortkey[1],
                 'hasthisrole' : for $x in $pwl 
                                     let $root := string(root($x)/t:TEI/@xml:id)
@@ -634,6 +509,7 @@ declare
 %rest:query-param("element", "{$element}", "")
 %output:method("json")
 function api:kwicSearch($element as xs:string*, $q as xs:string*) {
+
     
  let $hits :=  
  let $elements : =
@@ -650,7 +526,7 @@ let $hi :=   for $hit in $hits
                     let $expanded := kwic:expand($hit)
                     let $id := string($hit/@xml:id)
                     let $collection := switch($hit/@type) case 'mss' return 'manuscripts'case 'place' return 'places' case 'work' return 'works' case 'narr' return 'narratives' case 'ins' return 'institutions' case 'pers' return 'persons' default return 'authority-files'
-                   let $ptest := titles:printTitleID($id)
+                   let $ptest := titles:printTitleMainID($id)
                    let $title := if ($ptest) then ($ptest) else (console:log('problem printing title of ' || $id), $id)
                     let $count := count($expanded//exist:match)
                     let $results := kwic:summarize($hit,<config width="40"/>)
@@ -710,6 +586,7 @@ $collection as xs:string*,
 $script as xs:string*,
 $material as xs:string*,
 $term as xs:string*) {
+
     let $SearchOptions :=
     <options>
         <default-operator>or</default-operator>
@@ -766,7 +643,7 @@ return util:eval($eval-string)
 let $results := 
                     for $hit in $hits
                     let $id := string($hit/ancestor::t:TEI/@xml:id)
-                     let $t := normalize-space(titles:printTitleID($id))
+                     let $t := normalize-space(titles:printTitleMainID($id))
                let $r := normalize-space(string-join($hit//text(), ' '))
                     return
                        map{
@@ -801,10 +678,10 @@ function api:dtsmain() {
 
   ( $api:response200Json,
          <json:value>
-         <collectionsAPI>http://betamasaheft.aai.uni-hamburg.de/api/dts/collections</collectionsAPI>
-         <passagesAPI>http://betamasaheft.aai.uni-hamburg.de/api/dts/text</passagesAPI>
-         <citationsAPI>http://betamasaheft.aai.uni-hamburg.de/api/dts/cit</citationsAPI>
-         <documentation>http://betamasaheft.aai.uni-hamburg.de/api/</documentation>
+         <collectionsAPI>http://betamasaheft.eu/api/dts/collections</collectionsAPI>
+         <passagesAPI>http://betamasaheft.eu/api/dts/text</passagesAPI>
+         <citationsAPI>http://betamasaheft.eu/api/dts/cit</citationsAPI>
+         <documentation>http://betamasaheft.eu/api/</documentation>
          </json:value>)
          
 };
@@ -818,7 +695,7 @@ declare
 function api:dtsTexts() {
   ( $api:response200Json,
          <json:value>
-         <documentation>http://betamasaheft.aai.uni-hamburg.de/api/</documentation>
+         <documentation>http://betamasaheft.eu/api/</documentation>
          </json:value>)
          
          
@@ -838,6 +715,7 @@ declare
 function api:collectionJSON($collection as xs:string*, $start as xs:integer*, $perpage as xs:integer*, $term as xs:string*) {
     
     (: logs into the collection :)
+
          ( $api:response200Json,
     
     let $term := if ($term != '') then
@@ -882,7 +760,7 @@ return
                 for $resource in subsequence($hits, $start, $perpage)
                 let $rid := $resource/@xml:id
                 let $rids := string($rid)
-                let $title := titles:printTitleID($rid)
+                let $title := titles:printTitleMainID($rid)
                 order by $title[1] descending
                 return
                     <json:value
@@ -1068,6 +946,7 @@ declare
 function api:collection($collection as xs:string*, $start as xs:integer*, $perpage as xs:integer*, $term as xs:string*) {
     
     (: logs into the collection :)
+    
         ( $api:response200XML,
     
     let $term := if ($term != '') then
@@ -1111,7 +990,7 @@ return
     <items>
         {
             for $resource in subsequence($hits, $start, $perpage)
-            let $title := titles:printTitleID(string($resource/@xml:id))
+            let $title := titles:printTitleMainID(string($resource/@xml:id))
             order by $title[1] descending
             return
                 
@@ -1266,6 +1145,7 @@ declare
 %rest:query-param("element", "{$element}", "")
 %output:method("xml")
 function api:get-othertext($id as xs:string, $SUBid as xs:string, $element as xs:string*) {
+    
         
          ( $api:response200XML,
         let $collection := 'manuscripts'
@@ -1278,7 +1158,7 @@ function api:get-othertext($id as xs:string, $SUBid as xs:string, $element as xs
                     <othermsselement>
                         <id>{$id}</id>
                         <element>{$match} #{$SUBid}</element>
-                        <url>http://betamasaheft.aai.uni-hamburg.de/manuscripts/{$id}#{$SUBid}</url>
+                        <url>http://betamasaheft.eu/manuscripts/{$id}#{$SUBid}</url>
                         {
                             for $q in $item//t:*[@xml:id = $SUBid]/t:q
                             return
@@ -1316,7 +1196,7 @@ function api:get-othertext($id as xs:string, $SUBid as xs:string, $element as xs
                         }
                     </othermsselement>
             else
-                let $call := 'http://betamasaheft.aai.uni-hamburg.de/api/extra/' || $id || '/' || $SUBid
+                let $call := 'http://betamasaheft.eu/api/extra/' || $id || '/' || $SUBid
                 return
                     api:noresults($call)
         )
@@ -1333,7 +1213,7 @@ declare
 %rest:path("/BetMas/api/xml/{$id}")
 %output:method("xml")
 function api:get-workXML($id as xs:string) {
-        
+   
         ($api:response200XML,
         let $collection := 'works'
         let $item := api:get-tei-rec-by-ID($id)
@@ -1349,7 +1229,7 @@ function api:get-workXML($id as xs:string) {
                             for $subtype in $item//t:div[@type = 'edition']/t:div[@subtype]
                             return
                                 
-                                element {string($subtype/@subtype)} {('http://betamasaheft.aai.uni-hamburg.de/api/xml/' || $id || '/' || $subtype/@n)}
+                                element {string($subtype/@subtype)} {('http://betamasaheft.eu/api/xml/' || $id || '/' || $subtype/@n)}
                         }
                     </contains>
                 
@@ -1357,7 +1237,7 @@ function api:get-workXML($id as xs:string) {
                 </work>
             
             else
-                let $call := 'http://betamasaheft.aai.uni-hamburg.de/api/xml/' || $id
+                let $call := 'http://betamasaheft.eu/api/xml/' || $id
                 return
                     api:noresults($call)
         )
@@ -1393,7 +1273,7 @@ function api:get-level1XML($id as xs:string, $level1 as xs:string*) {
                 {
                     if (number($level1) > 1)
                     then
-                        <previous>http://betamasaheft.aai.uni-hamburg.de/api/xml/{$id}/{number($level1) - 1}</previous>
+                        <previous>http://betamasaheft.eu/api/xml/{$id}/{number($level1) - 1}</previous>
                     else
                         ()
                 }
@@ -1405,23 +1285,23 @@ function api:get-level1XML($id as xs:string, $level1 as xs:string*) {
                     else
                         if ($item//t:div[@type = 'edition']/t:div[@n = (number($level1) + 1)])
                         then
-                            <next>http://betamasaheft.aai.uni-hamburg.de/api/xml/{$id}/{number($level1) + 1}</next>
+                            <next>http://betamasaheft.eu/api/xml/{$id}/{number($level1) + 1}</next>
                         else
                             ()
                 }
                 
-                <partofwork>http://betamasaheft.aai.uni-hamburg.de/api/xml/{$id}</partofwork>
+                <partofwork>http://betamasaheft.eu/api/xml/{$id}</partofwork>
                 <contains>
                     {
                         for $subtype in $item//t:div[@type = 'edition']/t:div[@subtype]
                         return
                             
-                            element {string($subtype/@subtype)} {('http://betamasaheft.aai.uni-hamburg.de/api/xml/' || $id || '/' || $subtype/@n)}
+                            element {string($subtype/@subtype)} {('http://betamasaheft.eu/api/xml/' || $id || '/' || $subtype/@n)}
                     }
                 </contains>
             </work>
         else
-            let $call := 'http://betamasaheft.aai.uni-hamburg.de/api/xml/' || $id || '/' || $level1
+            let $call := 'http://betamasaheft.eu/api/xml/' || $id || '/' || $level1
             return
                 api:noresults($call)
     )
@@ -1461,7 +1341,7 @@ function api:get-level1LineXML($id as xs:string, $level1 as xs:string*, $line as
                 {
                     if (number(substring-before($line, '-')) > 1)
                     then
-                        <previous>http://betamasaheft.aai.uni-hamburg.de/api/xml/{$id}/{$level1}/{number(substring-before($line, '-')) - 1}</previous>
+                        <previous>http://betamasaheft.eu/api/xml/{$id}/{$level1}/{number(substring-before($line, '-')) - 1}</previous>
                     else
                         ()
                 }
@@ -1472,13 +1352,13 @@ function api:get-level1LineXML($id as xs:string, $level1 as xs:string*, $line as
                     else
                         if ($L1//t:l[@n = (number(substring-after($line, '-')) + 1)])
                         then
-                            <next>http://betamasaheft.aai.uni-hamburg.de/api/xml/{$id}/{$level1}/{number(substring-after($line, '-')) + 1}</next>
+                            <next>http://betamasaheft.eu/api/xml/{$id}/{$level1}/{number(substring-after($line, '-')) + 1}</next>
                         else
                             ()
                 }<partOf>
-                    {element {string($L1/@subtype)} {'http://betamasaheft.aai.uni-hamburg.de/api/xml/' || $id || '/' || $level1}}
+                    {element {string($L1/@subtype)} {'http://betamasaheft.eu/api/xml/' || $id || '/' || $level1}}
                     
-                    {element {'work'} {'http://betamasaheft.aai.uni-hamburg.de/api/xml/' || $id}}
+                    {element {'work'} {'http://betamasaheft.eu/api/xml/' || $id}}
                 
                 </partOf>
                 <contains>
@@ -1486,7 +1366,7 @@ function api:get-level1LineXML($id as xs:string, $level1 as xs:string*, $line as
                         for $subtype in $L1/t:div[@subtype]
                         return
                             
-                            element {string($subtype/@subtype)} {('http://betamasaheft.aai.uni-hamburg.de/api/xml/' || $id || '/' || $subtype/@n)}
+                            element {string($subtype/@subtype)} {('http://betamasaheft.eu/api/xml/' || $id || '/' || $subtype/@n)}
                     }
                 </contains>
             </work>
@@ -1503,7 +1383,7 @@ function api:get-level1LineXML($id as xs:string, $level1 as xs:string*, $line as
                     {
                         if (number($line) > 1)
                         then
-                            <previous>http://betamasaheft.aai.uni-hamburg.de/api/xml/{$id}/{$level1}/{number($line) - 1}</previous>
+                            <previous>http://betamasaheft.eu/api/xml/{$id}/{$level1}/{number($line) - 1}</previous>
                         else
                             ()
                     }
@@ -1514,13 +1394,13 @@ function api:get-level1LineXML($id as xs:string, $level1 as xs:string*, $line as
                         else
                             if ($L1//t:l[@n = (number($line) + 1)])
                             then
-                                <next>http://betamasaheft.aai.uni-hamburg.de/api/xml/{$id}/{$level1}/{number($line) + 1}</next>
+                                <next>http://betamasaheft.eu/api/xml/{$id}/{$level1}/{number($line) + 1}</next>
                             else
                                 ()
                     }<partOf>
-                        {element {string($L1/@subtype)} {'http://betamasaheft.aai.uni-hamburg.de/api/xml/' || $id || '/' || $level1}}
+                        {element {string($L1/@subtype)} {'http://betamasaheft.eu/api/xml/' || $id || '/' || $level1}}
                         
-                        {element {'work'} {'http://betamasaheft.aai.uni-hamburg.de/api/xml/' || $id}}
+                        {element {'work'} {'http://betamasaheft.eu/api/xml/' || $id}}
                     
                     </partOf>
                     <contains>
@@ -1528,12 +1408,12 @@ function api:get-level1LineXML($id as xs:string, $level1 as xs:string*, $line as
                             for $subtype in $L1/t:div[@subtype]
                             return
                                 
-                                element {string($subtype/@subtype)} {('http://betamasaheft.aai.uni-hamburg.de/api/xml/' || $id || '/' || $subtype/@n)}
+                                element {string($subtype/@subtype)} {('http://betamasaheft.eu/api/xml/' || $id || '/' || $subtype/@n)}
                         }
                     </contains>
                 </work>
             else
-                let $call := 'http://betamasaheft.aai.uni-hamburg.de/api/xml/' || $id || '/' || $level1 || '/' || $line
+                let $call := 'http://betamasaheft.eu/api/xml/' || $id || '/' || $level1 || '/' || $line
                 return
                     api:noresults($call)
     )
@@ -1578,7 +1458,7 @@ function api:get-level2lineXML($id as xs:string, $level1 as xs:string*, $level2 
                 {
                     if (number(substring-before($line, '-')) > 1)
                     then
-                        <previous>http://betamasaheft.aai.uni-hamburg.de/api/xml/{$id}/{$level1}/{$level2}/{number(substring-before($line, '-')) - 1}</previous>
+                        <previous>http://betamasaheft.eu/api/xml/{$id}/{$level1}/{$level2}/{number(substring-before($line, '-')) - 1}</previous>
                     else
                         ()
                 }
@@ -1589,15 +1469,15 @@ function api:get-level2lineXML($id as xs:string, $level1 as xs:string*, $level2 
                     else
                         if ($L2//t:l[@n = (number(substring-after($line, '-')) + 1)])
                         then
-                            <next>http://betamasaheft.aai.uni-hamburg.de/api/xml/{$id}/{$level1}/{$level2}/{number(substring-after($line, '-')) + 1}</next>
+                            <next>http://betamasaheft.eu/api/xml/{$id}/{$level1}/{$level2}/{number(substring-after($line, '-')) + 1}</next>
                         else
                             ()
                 }<partOf>
                     
-                    {element {string($L2/@subtype)} {'http://betamasaheft.aai.uni-hamburg.de/api/xml/' || $id || '/' || $level1 || '/' || $level2}}
-                    {element {string($L1/@subtype)} {'http://betamasaheft.aai.uni-hamburg.de/api/xml/' || $id || '/' || $level1}}
+                    {element {string($L2/@subtype)} {'http://betamasaheft.eu/api/xml/' || $id || '/' || $level1 || '/' || $level2}}
+                    {element {string($L1/@subtype)} {'http://betamasaheft.eu/api/xml/' || $id || '/' || $level1}}
                     
-                    {element {'work'} {'http://betamasaheft.aai.uni-hamburg.de/api/xml/' || $id}}
+                    {element {'work'} {'http://betamasaheft.eu/api/xml/' || $id}}
                 
                 </partOf>
                 <contains>
@@ -1605,7 +1485,7 @@ function api:get-level2lineXML($id as xs:string, $level1 as xs:string*, $level2 
                         for $subtype in $L2/t:div[@subtype]
                         return
                             
-                            element {string($subtype/@subtype)} {('http://betamasaheft.aai.uni-hamburg.de/api/xml/' || $id || '/' || $subtype/@n)}
+                            element {string($subtype/@subtype)} {('http://betamasaheft.eu/api/xml/' || $id || '/' || $subtype/@n)}
                     }
                 </contains>
             
@@ -1623,7 +1503,7 @@ function api:get-level2lineXML($id as xs:string, $level1 as xs:string*, $level2 
                     {
                         if (number($line) > 1)
                         then
-                            <previous>http://betamasaheft.aai.uni-hamburg.de/api/xml/{$id}/{$level1}/{$level2}/{number($line) - 1}</previous>
+                            <previous>http://betamasaheft.eu/api/xml/{$id}/{$level1}/{$level2}/{number($line) - 1}</previous>
                         else
                             ()
                     }
@@ -1634,15 +1514,15 @@ function api:get-level2lineXML($id as xs:string, $level1 as xs:string*, $level2 
                         else
                             if ($L2//t:l[@n = (number($line) + 1)])
                             then
-                                <next>http://betamasaheft.aai.uni-hamburg.de/api/xml/{$id}/{$level1}/{$level2}/{number($line) + 1}</next>
+                                <next>http://betamasaheft.eu/api/xml/{$id}/{$level1}/{$level2}/{number($line) + 1}</next>
                             else
                                 ()
                     }<partOf>
                         
-                        {element {string($L2/@subtype)} {'http://betamasaheft.aai.uni-hamburg.de/api/xml/' || $id || '/' || $level1 || '/' || $level2}}
-                        {element {string($L1/@subtype)} {'http://betamasaheft.aai.uni-hamburg.de/api/xml/' || $id || '/' || $level1}}
+                        {element {string($L2/@subtype)} {'http://betamasaheft.eu/api/xml/' || $id || '/' || $level1 || '/' || $level2}}
+                        {element {string($L1/@subtype)} {'http://betamasaheft.eu/api/xml/' || $id || '/' || $level1}}
                         
-                        {element {'work'} {'http://betamasaheft.aai.uni-hamburg.de/api/xml/' || $id}}
+                        {element {'work'} {'http://betamasaheft.eu/api/xml/' || $id}}
                     
                     </partOf>
                     <contains>
@@ -1650,13 +1530,13 @@ function api:get-level2lineXML($id as xs:string, $level1 as xs:string*, $level2 
                             for $subtype in $L2/t:div[@subtype]
                             return
                                 
-                                element {string($subtype/@subtype)} {('http://betamasaheft.aai.uni-hamburg.de/api/xml/' || $id || '/' || $subtype/@n)}
+                                element {string($subtype/@subtype)} {('http://betamasaheft.eu/api/xml/' || $id || '/' || $subtype/@n)}
                         }
                     </contains>
                 
                 </work>
             else
-                let $call := 'http://betamasaheft.aai.uni-hamburg.de/api/xml/' || $id || '/' || $level1 || '/' || $level2 || '/' || $line
+                let $call := 'http://betamasaheft.eu/api/xml/' || $id || '/' || $level1 || '/' || $level2 || '/' || $line
                 return
                     api:noresults($call)
     )
@@ -1708,7 +1588,7 @@ function api:get-cdmi($id as xs:string*) {
         <cmd:Header>
             <cmd:MdCreator>Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</cmd:MdCreator>
             <cmd:MdCreationDate>{current-date()}</cmd:MdCreationDate>
-            <cmd:MdSelfLink>http://betamasaheft.aai.uni-hamburg.de/</cmd:MdSelfLink>
+            <cmd:MdSelfLink>http://betamasaheft.eu/</cmd:MdSelfLink>
             <cmd:MdCollectionDisplayName>ERC Advanced Grant TraCES (Grant Agreement 338756)</cmd:MdCollectionDisplayName>
         </cmd:Header>
         <cmd:Components>
@@ -1932,7 +1812,7 @@ declare
 %output:method("text")
 function api:get-FormattedTitle($id as xs:string) {
     ($api:response200,
-    titles:printTitleID($id)
+   titles:printTitleMainID($id)
     
     )
 };
@@ -1964,7 +1844,7 @@ function api:get-FormattedTitleandID($id as xs:string, $SUBid as xs:string) {
                     return $tit/text()
                     )
     else
-    let $m := titles:printTitleID($id) 
+    let $m := titles:printTitleMainID($id) 
     let $s := titles:printSubtitle($resource, $SUBid)
     return
         (:    apply general rules for titles of records:)
@@ -2015,7 +1895,7 @@ declare
 function api:voidttl() {
 $api:response200, 
         '
-@prefix : &lt;http://betamasaheft.aai.uni-hamburg.de:8080/exist/apps/BetMas&gt; .
+@prefix : &lt;http://betamasaheft.eu:8080/exist/apps/BetMas&gt; .
         @prefix void: &lt;http://rdfs.org/ns/void#&gt; .
         @prefix dcterms: &lt;http://purl.org/dc/terms/&gt; .
         @prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
@@ -2023,10 +1903,10 @@ $api:response200,
         :"Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea (Schriftkultur des christlichen Äthiopiens: eine multimediale Forschungsumgebung) " a void:Dataset;
         dcterms:title "Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea (Schriftkultur des christlichen Äthiopiens: eine multimediale Forschungsumgebung) ";
         dcterms:publisher "Academies Programme (coordinated by the Union of the German Academies of Sciences and Humanities)";
-        foaf:homepage &lt;http://betamasaheft.aai.uni-hamburg.de:8080/exist/apps/OEDUc/index.html&gt;;
+        foaf:homepage &lt;http://betamasaheft.eu:8080/exist/apps/OEDUc/index.html&gt;;
         dcterms:description "a test app bringing together resources from the workshop held on 15 May 2017 in London";
         dcterms:license &lt;http://opendatacommons.org/licenses/odbl/1.0/&gt;;
-        void:dataDump &lt;http://betamasaheft.aai.uni-hamburg.de/api/OEDUc/places/all&gt; ;
+        void:dataDump &lt;http://betamasaheft.eu/api/OEDUc/places/all&gt; ;
         .'};
 
 (:this is the feedback in case no result is found:)
@@ -2040,13 +1920,13 @@ declare function api:noresults($call) {
             <p>Trouble shooting:
                 <ul>
                     <li>The api documentation is <a
-                            href="http://betamasaheft.aai.uni-hamburg.de/apidoc.html">here.</a></li>
+                            href="http://betamasaheft.eu/apidoc.html">here.</a></li>
                     <li>Check the correct id exists <a
-                            href="http://betamasaheft.aai.uni-hamburg.de/works/">here.</a></li>
+                            href="http://betamasaheft.eu/works/">here.</a></li>
                     <li>Your requested uri should look something like this
-                        <blockquote>http://betamasaheft.aai.uni-hamburg.de/api/xml/{{id}}/{{level}}/{{level2}}/{{line}}</blockquote>
-                        <blockquote>http://betamasaheft.aai.uni-hamburg.de/api/xml/LIT1367Exodus/2/4</blockquote>
-                        <blockquote>http://betamasaheft.aai.uni-hamburg.de/api/xml/LIT1367Exodus/2/4-7</blockquote>
+                        <blockquote>http://betamasaheft.eu/api/xml/{{id}}/{{level}}/{{level2}}/{{line}}</blockquote>
+                        <blockquote>http://betamasaheft.eu/api/xml/LIT1367Exodus/2/4</blockquote>
+                        <blockquote>http://betamasaheft.eu/api/xml/LIT1367Exodus/2/4-7</blockquote>
                         if not, see above! The first example will not work, the second and third will.
                         Why: if you ask for an extra level of structure which we don't have, you will not get results.</li>
                 </ul>

@@ -4,6 +4,7 @@ module namespace tl="https://www.betamasaheft.uni-hamburg.de/BetMas/timeline";
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "titles.xqm";
 import module namespace app="https://www.betamasaheft.uni-hamburg.de/BetMas/app" at "app.xqm";
+import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "apprest.xqm";
 import module namespace templates="http://exist-db.org/xquery/templates" ;
 
 
@@ -85,7 +86,7 @@ return
 (:Item timeline extracted  from all stated dates in item and related entities. first ids are listed with data in a temporary tree and then functions are used to output the javascript as text:)
 declare function tl:EntityTimeLine($node as node(), $model as map(*)) {
 let $itemid := $model('entity')/@xml:id
-let $whatpointshere := app:WhatPointsHere(string($itemid))
+let $whatpointshere := apprest:WhatPointsHereQuery(string($itemid))
 let $data :=
 let $dateManuscripts :=
 let $dateofThisManuscript := $model('entity')//t:origDate[@when or (@notBefore or @notAfter)]
@@ -160,7 +161,7 @@ return
 declare function tl:RestEntityTimeLine($this, $collection) {
 let $c := collection($config:data-root)
 let $itemid := $this/@xml:id
-let $whatpointshere := app:restWhatPointsHere($itemid, $c)
+let $whatpointshere := apprest:WhatPointsHere($itemid, $c)
 let $data :=
 let $dateManuscripts :=
 let $dateofThisManuscript := $this//t:origDate[@when or (@notBefore or @notAfter)]

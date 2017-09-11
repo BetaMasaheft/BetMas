@@ -25,7 +25,8 @@ declare function coord:getCoords($placenameref as xs:string) {
         let $pRec := collection($config:data-rootPl, $config:data-rootIn)//id($placenameref)
         return
             if ($pRec//t:geo/text()) then
-                replace(normalize-space($pRec//t:geo), ' ', ',')
+(:                replace(normalize-space($pRec//t:geo), ' ', ','):)
+                concat(substring-after($pRec//t:geo, ' '), ',', substring-before($pRec//t:geo, ' '))
             else
                 if ($pRec//@sameAs) then
                     coord:GNorWD($pRec//@sameAs)
@@ -88,23 +89,41 @@ declare function coord:getWikiDataCoord($Qid as xs:string) {
 
 };
 
-
 declare function coord:getPleiadesCoord($string as xs:string) {
-    let $plid := substring-after($string, 'pleiades:')
-    let $url := concat('http://pleiades.stoa.org/places/', $plid, '/json')
-    let $req :=
-    <http:request
-        href="{xs:anyURI($url)}"
-        method="GET">
-    </http:request>
-    let $file := http:send-request($req)[2]
-    let $file-info :=
-    let $payload := util:base64-decode($file)
+   let $plid := substring-after($string, 'pleiades:')
+   let $url := concat('http://pelagios.org/peripleo/places/http:%2F%2Fpleiades.stoa.org%2Fplaces%2F', $plid)
+  let $file := httpclient:get(xs:anyURI($url), true(), <Headers/>)
+  
+let $file-info := 
+    let $payload := util:base64-decode($file) 
     let $parse-payload := xqjson:parse-json($payload)
-    return
-        $parse-payload
-    let $coords := $file-info//*:pair[@name = "reprPoint"]/*:item/text()
-    return
-        string-join($coords, ',')
+    return $parse-payload 
+let $coords := if ($file-info//*:pair[@name="geo_bounds"]/*:pair[1]/text() = $file-info//*:pair[@name="geo_bounds"]/*:pair[2]/text())
+then ($file-info//*:pair[@name="geo_bounds"]/*:pair[1]/text(), $file-info//*:pair[@name="geo_bounds"]/*:pair[3]/text()) else $file-info//*:pair[@name="geo_bounds"]/*:pair/text()
+    return 
+    string-join($coords, ',')
 
 };
+
+(:The function above queries pelagios rather than pleiades directly. 
+ : the function below queries pleiades but gets an handshake failure :)
+
+(:declare function coord:getPleiadesCoord($string as xs:string) {:)
+(:    let $plid := substring-after($string, 'pleiades:'):)
+(:    let $url := concat('http://pleiades.stoa.org/places/', $plid, '/json'):)
+(:    let $req :=:)
+(:    <http:request:)
+(:        href="{xs:anyURI($url)}":)
+(:        method="GET">:)
+(:    </http:request>:)
+(:    let $file := http:send-request($req)[2]:)
+(:    let $file-info :=:)
+(:    let $payload := util:base64-decode($file):)
+(:    let $parse-payload := xqjson:parse-json($payload):)
+(:    return:)
+(:        $parse-payload:)
+(:    let $coords := $file-info//*:pair[@name = "reprPoint"]/*:item/text():)
+(:    return:)
+(:        string-join($coords, ','):)
+(::)
+(:};:)

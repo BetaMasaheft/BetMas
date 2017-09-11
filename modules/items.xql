@@ -1,7 +1,7 @@
 xquery version "3.1" encoding "UTF-8";
 
-
 module namespace restItem = "https://www.betamasaheft.uni-hamburg.de/BetMas/restItem";
+import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace tl="https://www.betamasaheft.uni-hamburg.de/BetMas/timeline"at "timeline.xqm";
 import module namespace app = "https://www.betamasaheft.uni-hamburg.de/BetMas/app" at "app.xqm";
 import module namespace item = "https://www.betamasaheft.uni-hamburg.de/BetMas/item" at "item.xqm";
@@ -23,7 +23,6 @@ declare namespace saws = "http://purl.org/saws/ontology";
 declare namespace cmd = "http://www.clarin.eu/cmd/";
 
 (: For REST annotations :)
-declare namespace rest = "http://exquery.org/ns/restxq";
 declare namespace http = "http://expath.org/ns/http-client";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json = "http://www.json.org";
@@ -110,6 +109,22 @@ $hi as xs:string*){
 
 let $c := '/db/apps/BetMas/data/' || $collection
 let $this := collection($c)//id($id)
+let $biblio :=
+<bibl>
+{
+for $author in distinct-values($this//t:revisionDesc/t:change/@who)
+                return
+<author>{app:editorKey(string($author))}</author>
+}
+{let $time := max($this//t:revisionDesc/t:change/xs:date(@when))
+return
+<date type="lastModified">{format-date($time, '[D].[M].[Y]')}</date>
+}
+<idno type="url">
+{($config:appUrl ||'/'|| $collection||'/' ||$id)}
+</idno>
+<coll>{$collection}</coll>
+</bibl>
 let $Cmap := map {'type':= 'collection', 'name' := $collection, 'path' := $c}
 let $Imap := map {'type':= 'item', 'name' := $id, 'path' := $collection}
 return 
@@ -136,7 +151,7 @@ if(xdb:collection-available($c)) then (
     {apprest:app-title($id)}
         <link rel="shortcut icon" href="resources/images/favicon.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        {apprest:app-meta()}
+        {apprest:app-meta($biblio)}
         {apprest:scriptStyle()}
         {apprest:ItemScriptStyle()}
     </head>

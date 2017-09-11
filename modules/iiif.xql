@@ -1,7 +1,7 @@
 xquery version "3.1" encoding "UTF-8";
 
-
 module namespace iiif = "https://www.betamasaheft.uni-hamburg.de/BetMas/iiif";
+import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace all="https://www.betamasaheft.uni-hamburg.de/BetMas/all" at "all.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "titles.xqm";
 import module namespace api="https://www.betamasaheft.uni-hamburg.de/BetMas/api" at "rest.xql";
@@ -22,8 +22,6 @@ declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace sparql = "http://www.w3.org/2005/sparql-results#";
 
 (: For REST annotations :)
-declare namespace rest = "http://exquery.org/ns/restxq";
-(:http requests:)
 declare namespace http = "http://expath.org/ns/http-client";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json = "http://www.json.org";
@@ -212,7 +210,7 @@ declare function iiif:Structures($item, $iiifroot){
     let $ranges :=  <ranges>{for $msItem in $items return 
    <range>
     <r>{$iiifroot ||"/range/" || string($msItem/@xml:id)}</r>
-    <t>{titles:printTitleID($msItem/t:title/@ref)}</t>
+    <t>{titles:printTitleMainID($msItem/t:title/@ref)}</t>
     {$msItem}
     </range>
     }
@@ -280,7 +278,7 @@ let $manifest := iiif:manifestsource($this)
 
 
 return
-    map {'label' := titles:printTitleID($this/@xml:id) , 'manifest' := $manifest}
+    map {'label' := titles:printTitleMainID($this/@xml:id) , 'manifest' := $manifest}
  
  let $iiifroot := $config:appUrl ||"/api/iiif/"
 (:       this is where the manifest is:)
@@ -323,11 +321,11 @@ function iiif:RepoCollection($institutionid as xs:string) {
 
         let $msswithimages :=
 for $this in collection($config:data-rootMS)//t:TEI[.//t:repository[@ref = $institutionid]][.//t:msIdentifier/t:idno/@facs]
-let $repoName := titles:printTitleID($institutionid)
+let $repoName := titles:printTitleMainID($institutionid)
 let $manifest := iiif:manifestsource($this)
 
 return
-    map {'label' := titles:printTitleID($this/@xml:id) , 'manifest' := $manifest}
+    map {'label' := titles:printTitleMainID($this/@xml:id) , 'manifest' := $manifest}
  
  let $iiifroot := $config:appUrl ||"/api/iiif/"
 (:       this is where the manifest is:)
@@ -372,7 +370,7 @@ let $item := collection($config:data-rootMS || '/ES')//id($id)
        if($item//t:msIdentifier/t:idno/@facs) then
 ($iiif:response200,
        let $item := collection($config:data-rootMS || '/ES')//id($id)
-       let $institution := titles:printTitleID($item//t:repository/@ref)
+       let $institution := titles:printTitleMainID($item//t:repository/@ref)
        let $institutionID := string($item//t:repository/@ref)
        let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs)
        let $tot := $item//t:msIdentifier/t:idno/@n
@@ -396,7 +394,7 @@ return
 map {"@context":= "http://iiif.io/api/presentation/2/context.json",
   "@id": $request,
   "@type": "sc:Manifest",
-  "label": titles:printTitleID($id),
+  "label": titles:printTitleMainID($id),
   "metadata": [
     map {"label": "Repository", 
                 "value": [

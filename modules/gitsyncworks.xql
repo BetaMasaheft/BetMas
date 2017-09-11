@@ -217,9 +217,7 @@ if(not(empty($post-data))) then
     let $json-data := xqjson:parse-json($payload)
     
 let $data-collection := '/db/apps/BetMas/data/works'
-
-   
-    return   
+ return   
     try {
     
         if(matches(request:get-header('User-Agent'), '^GitHub-Hookshot/')) then

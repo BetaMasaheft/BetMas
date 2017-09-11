@@ -1,5 +1,6 @@
 xquery version "3.1" encoding "UTF-8";
 
+
 module namespace dts="https://www.betamasaheft.uni-hamburg.de/BetMas/dts";
 
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
@@ -8,9 +9,10 @@ declare namespace functx = "http://www.functx.com";
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace http = "http://expath.org/ns/http-client";
-declare namespace rest = "http://exquery.org/ns/restxq";
 declare namespace json = "http://www.json.org";
 
+import module namespace rest = "http://exquery.org/ns/restxq";
+import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "titles.xqm";
 import module namespace kwic = "http://exist-db.org/xquery/kwic"   at "resource:org/exist/xquery/lib/kwic.xql";
 import module namespace app="https://www.betamasaheft.uni-hamburg.de/BetMas/app" at "app.xqm";
 import module namespace templates="http://exist-db.org/xquery/templates" ;
@@ -100,7 +102,7 @@ function dts:Collection($start as xs:integer*) {
                                                     <lang>
                                                         {string($lang/@ident)}</lang>
                                             }
-                                        <value>{titles:printTitleID($child/t:TEI/@xml:id)}</value>
+                                        <value>{titles:printTitleMainID($child/t:TEI/@xml:id)}</value>
                                     
                                 </labels>
                             </json:value>
@@ -132,6 +134,8 @@ declare
 %rest:path("/BetMas/api/dts/collections/{$id}")
 %output:method("json")
 function dts:CollectionsID($id as xs:string*) {
+    
+  
         ($config:response200Json,
     <json:value>
         <context>
@@ -161,7 +165,7 @@ function dts:CollectionsID($id as xs:string*) {
                                      {  string($lang/@ident) }
                                  </lang>
                             }
-                        <value>{titles:printTitleID($id)}</value>
+                        <value>{titles:printTitleMainID($id)}</value>
                         <description>{$record//t:abstract//text()}</description>
                     </labels>,
                 <vocabulary>http://purl.org/dc/elements/1.1/</vocabulary>,
@@ -170,8 +174,8 @@ function dts:CollectionsID($id as xs:string*) {
                     <hasRoles>false</hasRoles>
                 </capabilities>,
                 <metadata>
-                {if ($record//t:relation[@name='dcterms:creator']) then (element dcterms:creator{titles:printTitleID($record//t:relation[@name='dcterms:creator']/string(@passive))}) 
-                else if ($record//t:relation[@name='saws:isAttributedToAuthor']) then (element saws:isAttributedToAuthor{titles:printTitleID($record//t:relation[@name='saws:isAttributedToAuthor']/string(@passive))})
+                {if ($record//t:relation[@name='dcterms:creator']) then (element dcterms:creator{titles:printTitleMainID($record//t:relation[@name='dcterms:creator']/string(@passive))}) 
+                else if ($record//t:relation[@name='saws:isAttributedToAuthor']) then (element saws:isAttributedToAuthor{titles:printTitleMainID($record//t:relation[@name='saws:isAttributedToAuthor']/string(@passive))})
                 else if ($record//t:author) then <t:author>{$record//t:author/text()}</t:author> 
                 else ()}
                 </metadata>,
@@ -228,7 +232,7 @@ function dts:CollectionsID($id as xs:string*) {
                                  <lang>     {  string($lang/@ident) }</lang>
                             }
                         
-                        <value>{titles:printTitleID($parent)}</value>
+                        <value>{titles:printTitleMainID($parent)}</value>
                     
                 </labels>
                                     )

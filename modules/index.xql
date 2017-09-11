@@ -1,7 +1,7 @@
 xquery version "3.1" encoding "UTF-8";
 
-
 module namespace homepage = "https://www.betamasaheft.uni-hamburg.de/BetMas/home";
+import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace app = "https://www.betamasaheft.uni-hamburg.de/BetMas/app" at "app.xqm";
 import module namespace item = "https://www.betamasaheft.uni-hamburg.de/BetMas/item" at "item.xqm";
 import module namespace nav = "https://www.betamasaheft.uni-hamburg.de/BetMas/nav" at "nav.xqm";
@@ -22,7 +22,6 @@ declare namespace cmd = "http://www.clarin.eu/cmd/";
 
 
 (: For REST annotations :)
-declare namespace rest = "http://exquery.org/ns/restxq";
 declare namespace http = "http://expath.org/ns/http-client";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json = "http://www.json.org";
@@ -47,7 +46,11 @@ function homepage:index() {
     <head>
         <link rel="shortcut icon" href="resources/images/favicon.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        {apprest:app-meta()}
+       <meta  xmlns="http://www.w3.org/1999/xhtml" name="description" content="{$config:repo-descriptor/repo:description/text()}"/>
+    {for $genauthor in $config:repo-descriptor/repo:author
+    return
+        <meta xmlns="http://www.w3.org/1999/xhtml" name="creator" content="{$genauthor/text()}"></meta>}
+
         {apprest:scriptStyle()}
         
         {apprest:ItemScriptStyle()}
@@ -90,7 +93,7 @@ function homepage:index() {
             </ul> 
             <div class="tab-content">
                 <div id="map" class="tab-pane fade in active"/>
-            <script type="text/javascript">
+           <script type="text/javascript">
                 {BetMasMap:RestMAP()}
             </script>
             

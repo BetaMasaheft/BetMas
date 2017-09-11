@@ -2,7 +2,6 @@ xquery version "3.1" encoding "UTF-8";
 
 module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMas/error";
 
-
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
 import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "apprest.xqm";
