@@ -1,0 +1,2694 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xmlns:rng="http://relaxng.org/ns/structure/1.0" xml:lang="en">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>Beta maṣāḥǝft schema</title>
+                <author xml:id="ES">Eugenia Sokolinski</author>
+                <author xml:id="PL">Pietro Liuzzo</author>
+                <author xml:id="DR">Dorothea Reule</author>
+                <author xml:id="MV">Massimo Villa</author>
+                <author xml:id="SG">Solomn Gebreyes Beyene</author>
+            </titleStmt>
+            <publicationStmt>
+                <authority>Hiob Ludolf Zentrum für Äthiopistik</authority>
+                <publisher>Die Schriftkultur des christlichen Äthiopiens: Eine multimediale
+                    Forschungsumgebung / beta maṣāḥǝft</publisher>
+                <pubPlace>Hamburg</pubPlace>
+                <availability>
+                    <licence target="http://creativecommons.org/licenses/by-sa/4.0/"> This file is
+                        licensed under the Creative Commons Attribution-ShareAlike 4.0. </licence>
+                </availability>
+            </publicationStmt>
+            <sourceDesc>
+                <p>created electronically</p>
+            </sourceDesc>
+        </fileDesc>
+        <revisionDesc>
+            <change who="PL" when="2016-04-08">generated first version of the ODD from
+                requirements</change>
+            <change who="DR" when="2017-04-21">Added keyword</change>
+            <change who="DR" when="2017-05-02">Added value definitions @place</change>
+        </revisionDesc>
+    </teiHeader>
+    <text>
+        <front>
+            <divGen type="toc"/>
+        </front>
+        <body>
+            <schemaSpec ident="tei-betamesaheft" docLang="en" prefix="tei_" start="TEI" xml:lang="en" source="tei:3.0.0">
+
+                <!--       MODULES USED BY THE Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea SCHEMA  
+                the @source ties our current schema to the version 3.0.0 of TEI
+                -->
+                <moduleRef key="core"/>
+                <moduleRef key="tei"/>
+                <moduleRef key="header" except="appInfo"/>
+                <moduleRef key="textstructure" except="argument byline closer div1 div2 div3 div4 div5 div6 div7 imprimatur                     opener postscript salute signed titlePage titlePart trailer"/>
+                <moduleRef key="transcr" except="damageSpan restore"/>
+                <moduleRef key="verse" except="caesura metDecl metSym rhyme"/>
+                <moduleRef key="analysis" except="cl span spanGrp"/>
+                <moduleRef key="certainty" except="respons"/>
+                <moduleRef key="gaiji" except="char charName unicodeName"/>
+                <moduleRef key="linking" except="alt altGrp joinGrp timeline when"/>
+                <moduleRef key="msdescription"/>
+                <moduleRef key="namesdates" except="climate education geoFeat langKnowledge                     langKnown nameLink population socecStatus terrain trait"/>
+                <moduleRef key="textcrit" except="lacunaEnd lacunaStart witDetail witEnd witStart"/>
+                <moduleRef key="figures" except="cell formula row table"/>
+                <moduleRef key="spoken" except="broadcast equipment incident kinesic pause recording recordingStmt                     scriptStmt shift u vocal writing"/>
+                <moduleRef key="corpus" except="activity channel constitution derivation domain factuality interaction locale                     preparedness purpose setting textDesc"/>
+                
+                <elementSpec ident="antiphon" mode="add">
+                    <classes>
+                        <memberOf key="model.pPart.transcriptional"/>
+                    </classes>
+                    <content>
+                        <rng:text/>
+                        
+                    </content>
+                </elementSpec>
+
+                <!--          LISTS OF VALUES FOR ATTRIBUTES-->
+                <!--  adds value partly to del/@rend-->
+               
+                <elementSpec ident="del" mode="change" module="core">
+                    <attList>
+                        <attDef ident="rend" mode="replace">
+                            <valList type="closed">
+                                <valItem ident="erasure">
+                                    <desc>scratched with a knife or similar</desc>
+                                </valItem>
+                                <valItem ident="strikethrough">
+                                    <desc>crossed out with red or black ink, a line or dashes</desc>
+                                </valItem>
+                                <valItem ident="exponctuated">
+                                    <desc>marked with dots above or below the line</desc>
+                                </valItem>
+                                <valItem ident="effaced">
+                                    <desc>deleted or washed out, the material is untouched</desc>
+                                </valItem>
+                            </valList>
+                        </attDef>
+                    </attList>
+                </elementSpec>
+                <elementSpec ident="binding" mode="change" module="msdescription">
+                    <attList>
+                        <attDef ident="contemporary" mode="replace">
+                            <valList type="closed">
+                                <valItem ident="partly"/>
+                                <valItem ident="true"/>
+                                <valItem ident="false"/>
+                                <valItem ident="unknown"/>
+                            </valList>
+                        </attDef>
+                    </attList>
+                </elementSpec>
+                
+                
+                <!--  adds value partly to add/@place-->
+                <elementSpec ident="add" mode="change" module="core">
+                    <attList>
+                                <attDef ident="place" mode="replace">
+                                    <valList type="closed">
+                                        <valItem ident="above">
+                                    <desc>text written above the line</desc>
+                                </valItem>
+                                        <valItem ident="below">
+                                    <desc>text written below the line</desc>
+                                </valItem>
+                                        <valItem ident="bottom">
+                                    <desc>text written at the foot of the page</desc>
+                                </valItem>
+                                        <valItem ident="inline">
+                                    <desc>text written within the body of the text</desc>
+                                </valItem>
+                                        <valItem ident="interlinear"/>
+                                        <valItem ident="left"/>
+                                        <valItem ident="margin">
+                                    <desc>text written in the margin (left, right, or both)</desc>
+                                </valItem>
+                                        <valItem ident="mixed"/>
+                                        <valItem ident="opposite">
+                                    <desc>text written on the opposite, i.e. facing, page</desc>
+                                </valItem>
+                                        <valItem ident="overleaf">
+                                    <desc>text written on the other side of the leaf</desc>
+                                </valItem>
+                                        <valItem ident="overstrike">
+                                            <desc>text written over previously deleted text</desc>
+                                        </valItem>
+                                        <valItem ident="right"/>
+                                        <valItem ident="top">
+                                    <desc>text written at the top of the page</desc>
+                                </valItem>
+                                        <valItem ident="unspecified"/>
+                                    </valList>
+                        </attDef>
+                    </attList>
+                </elementSpec>
+                
+                
+                <elementSpec ident="creation" mode="change" module="header">
+                    <content>
+                        <rng:zeroOrMore>
+                        <rng:choice>
+                            <rng:text/>
+                            <rng:ref name="model.limitedPhrase"/>
+                            <rng:ref name="listChange"/>
+                            <rng:ref name="listBibl"/>
+                            <rng:ref name="bibl"/>
+                        </rng:choice>
+                    </rng:zeroOrMore>
+                    </content>
+                </elementSpec>
+                
+                <elementSpec ident="date" mode="change" module="header">
+                    <content>
+                        <rng:zeroOrMore>
+                            <rng:choice>
+                                <rng:text/>
+                                <rng:ref name="tei_model.gLike"/>
+                                <rng:ref name="tei_model.phrase"/>
+                                <rng:ref name="tei_model.global"/>
+                                <rng:ref name="listChange"/>
+                                <rng:ref name="listBibl"/>
+                                <rng:ref name="bibl"/>
+                            </rng:choice>
+                        </rng:zeroOrMore>
+                    </content>
+                </elementSpec>
+                
+
+                <elementSpec ident="personGrp" mode="change" module="namesdates">
+                    <attList>
+                        <attDef ident="role" mode="change">
+                            <valList type="open">
+                                <valItem ident="ethnic">
+                                    <desc>records with this type represent an ethnic group as a whole and in general</desc>
+                                </valItem>
+                                <valItem ident="congregation"/> <!--monastic orders such as House of Takla Hāymānot?-->
+                            </valList>
+                        </attDef>
+                    </attList>
+                </elementSpec>
+                
+                
+
+                <!--         suggest values for @type in origDate-->
+                <elementSpec ident="origDate" mode="change" module="msdescription">
+                    <constraintSpec scheme="isoschematron" ident="origDate">
+                        <constraint>
+                            <sch:rule context="tei:origDate">
+                                <sch:report test="@notBefore = @notAfter">For an exact date, please
+                                    use @when.</sch:report>
+                            </sch:rule>
+                        </constraint>
+                    </constraintSpec>
+                    <attList>
+                        <!--    adds list of values to origDate/@type-->
+                        <attDef ident="type" mode="replace">
+                            <valList type="open">
+                                <valItem ident="editor"/>
+                                <valItem ident="mss"/>
+                                <valItem ident="literature"/>
+                                <valItem ident="foundation"/>
+                                <valItem ident="composition"/>
+                                <valItem ident="translation"/>
+                                <valItem ident="revision"/>
+                            </valList>
+                        </attDef>
+                        <attDef ident="evidence" mode="replace" usage="opt">
+                            <!--                          inherited from EpiDoc, could be useful-->
+                            <datatype maxOccurs="6">
+                                <rng:ref name="data.word"/>
+                            </datatype>
+                            <valList type="semi">
+                                <valItem ident="lettering">
+                                    <desc>Text dated palaeographically</desc>
+                                </valItem>
+                                <valItem ident="nomenclature">
+                                    <desc>Text dated by nomenclature or onomastics</desc>
+                                </valItem>
+                                <valItem ident="prosopography">
+                                    <desc>Text dated by known persons named or implied within
+                                        it</desc>
+                                </valItem>
+                                <valItem ident="reign">
+                                    <desc>Text dated by the reign of a ruler</desc>
+                                </valItem>
+                                <valItem ident="titulature">
+                                    <desc>Text dated by the use of official titles</desc>
+                                </valItem>
+                                <valItem ident="internal-date">
+                                    <desc>Text dated by explicit internal date</desc>
+                                </valItem>
+                                <valItem ident="context">
+                                    <desc>Archaeological, epigraphic, iconographic or other context
+                                        of the text support</desc>
+                                </valItem>
+                            </valList>
+                        </attDef>
+                    </attList>
+                </elementSpec>
+
+                <!--        add the value fol to citedRange/@unit-->
+                <elementSpec ident="citedRange" mode="change" module="core">
+                    <constraintSpec scheme="isoschematron" ident="citedRange">
+                        <constraint>
+                            <sch:rule context="tei:citedRange">
+                                <sch:report test="@from or @to">Please, don't use @from and @to in
+                                    citedRange, write the range into the element</sch:report>
+                            </sch:rule>
+                            <sch:rule context="tei:citedRange">
+                                <sch:report test="not(text())">An Empty citedRange is not allowed,
+                                    remove it if you don't need it or please enter the page range,
+                                    unit number according to need and use @unit to specifiy the type
+                                    of range. Multiple citedRange are allowed.</sch:report>
+                            </sch:rule>
+                        </constraint>
+                    </constraintSpec>
+                    <attList>
+                        <attDef ident="unit" mode="replace">
+                            <valList type="open">
+                                <valItem ident="page">
+                                    <desc>page</desc>
+                                </valItem>
+                                <valItem ident="chapter">
+                                    <desc>chapter</desc>
+                                </valItem>
+                                <valItem ident="column">
+                                    <desc>column</desc>
+                                </valItem>
+                                <valItem ident="issue">
+                                    <desc>issue</desc>
+                                </valItem>
+                                <valItem ident="line">
+                                    <desc>line</desc>
+                                </valItem>
+                                <valItem ident="part">
+                                    <desc>part</desc>
+                                </valItem>
+                                <valItem ident="volume">
+                                    <desc>volume</desc>
+                                </valItem>
+                                <valItem ident="item">
+                                    <desc>item number</desc>
+                                </valItem>
+                                <valItem ident="fol">
+                                    <desc>folio</desc>
+                                </valItem>
+                                <valItem ident="note">
+                                    <desc>numbered note (footnote, sidenote, endnote)</desc>
+                                </valItem>
+                            </valList>
+                        </attDef>
+                    </attList>
+                </elementSpec>
+
+                <!--          controlled values for condition-->
+                <elementSpec ident="condition" mode="change" module="msdescription">
+                    <attList>
+                        <attDef ident="key" mode="replace" usage="req">
+                            <valList type="closed">
+                                <valItem ident="deficient">
+                                    <desc>The manuscript is badly preserved and severely damaged.</desc>
+                                </valItem>
+                                <valItem ident="good">
+                                    <desc>The manuscript is preserved with minimal damages.</desc>
+                                </valItem>
+                                <valItem ident="intact">
+                                    <desc>The manuscript is preserved completely undamaged.</desc>
+                                </valItem>
+                                <valItem ident="other">
+                                    <desc>If you use this value, please provide in the description a proper motivation, otherwise avoid it.</desc>
+                                </valItem>
+                            </valList>
+                        </attDef>
+
+                    </attList>
+                </elementSpec>
+
+                <!--          controlled values for subject typology -->
+                <elementSpec ident="term" mode="change" module="msdescription">
+                    <attList>
+                        <attDef ident="key" mode="replace" usage="rec">
+                            <valList type="closed">
+                                <!--                          list coming from myCore-->
+                                <valItem ident="ApocryphaPseudoepigrapha">
+                                    <desc>works of unknown or doubtful authorship rejected from the set of the canonical scriptures, e.g., the book of Enoch, Jubilees, Herma, the Miracles of Mary, the Miracles of Jesus, Maṣḥafa ṭomār, the apocryphal Acts of the Apostles, etc.</desc>
+                                </valItem>
+                                <!--mycore-->
+                                
+                                <valItem ident="Gon">
+                                    <desc>Gondarine (1632-1769 CE)</desc>
+                                </valItem>
+                                <valItem ident="Paks1">
+                                    <desc>Postaksumite I (1200-1433 CE)</desc>
+                                </valItem>
+                                <valItem ident="Paks2">
+                                    <desc>Postaksumite II (1434-1632 CE)</desc>
+                                </valItem>
+                                <valItem ident="Aks">
+                                    <desc>Aksumite (300-700 CE )</desc>
+                                </valItem>
+                                <valItem ident="ZaMa">
+                                    <desc>Zamana Masāfǝnt (1769-1855 CE)</desc>
+                                </valItem>
+                                <valItem ident="MoPe">
+                                    <desc>Modern Period (1855-1974 CE)</desc>
+                                </valItem>
+                                <valItem ident="ArarayMode">
+                                    <desc>ʾArārāy musical mode</desc>
+                                </valItem>
+                                <valItem ident="EzelMode">
+                                    <desc>ʿƎzǝl musical mode</desc>
+                                </valItem>
+                                <valItem ident="GeezMode">
+                                    <desc>Gǝʿǝz musical mode</desc>
+                                </valItem>
+                                <valItem ident="Vocabulary">
+                                    <desc/>
+                                </valItem>
+                                <valItem ident="Apocrypha">
+                                    <desc/>
+                                </valItem>
+                                <valItem ident="Pseudoepigrapha">
+                                    <desc/>
+                                </valItem>
+                                <valItem ident="Miracle">
+                                    <desc/>
+                                </valItem>
+                                <valItem ident="NewTestament">
+                                    <desc>biblical books belonging to the New Testament.</desc>
+                                </valItem>
+                                <valItem ident="OldTestament">
+                                    <desc>biblical books belonging to the Old Testament.</desc>
+                                </valItem>
+                                <valItem ident="Bible">
+                                    <desc>works belonging to the biblical canon, subdivided into the Old and New Testament. </desc>
+                                </valItem>
+                                <valItem ident="Biography">
+                                    <desc>works containing the description of the life events of an individual.</desc>
+                                </valItem>
+                                <valItem ident="CanonLaw">
+                                    <desc>works containing regulations for the government of the Christian organizations, e.g., the Sinodos, the Fətḥa Nagaśt, the Śərʿata faws manfasāwi.</desc>
+                                </valItem>
+                                <valItem ident="TigrinyaLiterature">
+                                    <desc>works containing texts of unspecified Tigrinya subject.</desc>
+                                </valItem>
+                                <valItem ident="Fiction">
+                                    <desc>works containing fiction.</desc>
+                                </valItem>
+                                <valItem ident="Translation">
+                                    <desc>works containing a translation.</desc>
+                                </valItem>
+                                <valItem ident="AmharicLiterature">
+                                    <desc>works containing texts of unspecified Amharic subject.</desc>
+                                </valItem>
+                                <valItem ident="BetaEsraelLiterature">
+                                    <desc>works containing texts of unspecified Jewish subject.</desc>
+                                </valItem>
+                                <valItem ident="ChristianLiterature">
+                                    <desc>works containing texts of unspecified Christian subject.</desc>
+                                </valItem>
+                                <valItem ident="Hagiography">
+                                    <desc>works and collections of works containing the Vita (Life) of a saint, included the cycles of miracles performed by the saint himself, as well as Acts and Passiones of martyrs. </desc>
+                                </valItem>
+                                <valItem ident="HistoryAndHistoriography">
+                                    <desc>works containing land grants, Amharic historical works of the 19th century which cannot be labelled chronicles, the history of churches and monasteries, biographies etc.</desc>
+                                </valItem>
+                                <valItem ident="Chronicles">
+                                    <desc>works containing royal and other chronicles e.g., Tārik za-Walda ʿAmid, Zenā ʾAyhud and various treatises of Ethiopian history.</desc>
+                                </valItem>
+                                <valItem ident="Homily">
+                                    <desc>works and collections of works containing homiletic texts to be read on the occasion of specific commemorative days, e.g., the homiliaries in honour of Michael and Gabriel, Dərsāna sanbat krəstiyan, Dərsān māḥyāwi, Dərsāna madḫāne ʿalam, etc.</desc>
+                                </valItem>
+                                <valItem ident="IslamicLiterature">
+                                    <desc>works containing texts of Islamic subject.</desc>
+                                </valItem>
+                                <valItem ident="Koran">
+                                    <desc>manuscripts containing the Koran.</desc>
+                                </valItem>
+                                <valItem ident="LegalDocument">
+                                    <desc>texts that formally record grants and rights to institutions and individuals, such as land charters, donation acts, land grants. </desc>
+                                </valItem>
+                                <valItem ident="Liturgy">
+                                    <desc>works containing directives for the liturgy of the office services (except for the mass and rituals like weddings and funerals), e.g., Maṣḥafa nəfq, the Horologium, etc.</desc>
+                                </valItem>
+                                <valItem ident="Chants">
+                                    <desc>works containing chants, hymns and antiphons to be sung for liturgical purposes, e.g., Dəggʷā, Ṣoma dəggʷā, Məʿərāf, Zəmmāre, Mawāśəʾət.</desc>
+                                </valItem>
+                                <valItem ident="Lectionary">
+                                    <desc>works containing scriptural readings to be read on various religious occasions (fast, feasts, liturgical periods), e.g. Maṣḥafa gəṣṣəw, Maṣḥafa ʾaśləti, etc. </desc>
+                                </valItem>
+                                <valItem ident="RitualsAndRites">
+                                    <desc>works containing directives for the celebration of religious offices such as weddings and funerals, e.g., Maṣḥafa taklil and Maṣḥafa gənzat.</desc>
+                                </valItem>
+                                <valItem ident="Missal">
+                                    <desc>works containing liturgical instructions for the celebration of the mass, e.g. Maṣḥafa qəddāse.</desc>
+                                </valItem>
+                                <valItem ident="Magic">
+                                    <desc>works containing magic texts, prayers and formulas to be recited or carried along for healing and as a protection from demons, diseases and natural accidents, e.g. Maftəḥe śərāy, etc.</desc>
+                                </valItem>
+                                <valItem ident="Medicine">
+                                    <desc>works containing medical texts and recipes for healing.</desc>
+                                </valItem>
+                                <valItem ident="Miscellanea">
+                                    <desc>works containing texts of various unspecified nature.</desc>
+                                </valItem>
+                                <valItem ident="MonasticLiterature">
+                                    <desc>works containing texts to be read for the education and edification of the monastic community members, e.g., Mār Yəsḥāq, Filkəsyos, ʾAragāwi manfasāwi, etc.</desc>
+                                </valItem>
+                                <valItem ident="NaturalSciences">
+                                    <desc>works containing observations and investigations into a number of natural phenomena.</desc>
+                                </valItem>
+                                <valItem ident="Other">
+                                    <desc>works belonging to other literary genres.</desc>
+                                </valItem>
+                                <valItem ident="Poetry">
+                                    <desc>works containing praises, ʿarke-hymns, salām-hymns, malkəʾ, songs and canticles, texts subdivided into stanzas, rhymed texts.</desc>
+                                </valItem>
+                                <valItem ident="Prayers">
+                                    <desc>works containing prayers, supplications and invocations to God and other revered entities.</desc>
+                                </valItem>
+                                <valItem ident="Religion">
+                                    <desc/>
+                                </valItem>
+                                <valItem ident="Theology">
+                                    <desc>works containing patristic texts dealing with theological subjects, e.g. Qerəllos, Hāymānota ʾAbaw, the Five Pillars of Mystery, etc.</desc>
+                                </valItem>
+                                <valItem ident="Commentary">
+                                    <desc>exegetical works containing the interpretation of biblical texts, e.g, the Tərgʷāme and ʾAndəmtā corpus.</desc>
+                                </valItem>
+                                <valItem ident="Chronography">
+                                    <desc>works containing texts for the calculation of the moveable feasts and for other calendrical computes, e.g., ʾAbušākər, Bāḥra ḥassāb.</desc>
+                                </valItem>
+                                <valItem ident="GoldenGospel">
+                                    <desc>A particular type of a manuscript - usually a main copy of the Four Gospels of a church - where documents (land charters, foundation charters, etc) concerning the place are collected.</desc>
+                                </valItem>
+                            </valList>
+                        </attDef>
+
+                    </attList>
+                </elementSpec>
+
+
+                <!--          controlled values for language usage-->
+                <elementSpec ident="language" mode="change" module="header">
+                    <attList>
+                        <attDef ident="ident" mode="replace" usage="opt">
+                            <valList type="open">
+
+                                <!--  modified  list of languages coming from myCore-->
+                                <valItem ident="am">
+                                    <desc>Amharic</desc>
+                                </valItem>
+                                <valItem ident="om">
+                                    <desc>Afaan Oromoo</desc>
+                                </valItem>
+                                <valItem ident="ar">
+                                    <desc>Arabic</desc>
+                                </valItem>
+                                <valItem ident="hy">
+                                    <desc>Armenian</desc>
+                                </valItem>
+                                <valItem ident="cop">
+                                    <desc>Coptic</desc>
+                                </valItem>
+                                <valItem ident="geo">
+                                    <desc>Georgian</desc>
+                                </valItem>
+                                <valItem ident="la">
+                                    <desc>Latin</desc>
+                                </valItem>
+                                <valItem ident="fr">
+                                    <desc>French</desc>
+                                </valItem>
+                                <valItem ident="grc">
+                                    <desc>Greek</desc>
+                                </valItem>
+                                <valItem ident="gez">
+                                    <desc>Gǝʿǝz</desc>
+                                </valItem>
+                                <valItem ident="he">
+                                    <desc>Hebrew</desc>
+                                </valItem>
+                                <valItem ident="it">
+                                    <desc>Italian</desc>
+                                </valItem>
+                                <valItem ident="fa">
+                                    <desc>Persian</desc>
+                                </valItem>
+                                <valItem ident="syr">
+                                    <desc>Syriac</desc>
+                                </valItem>
+                                <valItem ident="tu">
+                                    <desc>Turkish</desc>
+                                </valItem>
+                                <valItem ident="ti">
+                                    <desc>Tigrinya</desc>
+                                </valItem>
+                                <valItem ident="en">
+                                    <desc>English</desc>
+                                </valItem>
+                                <valItem ident="sv">
+                                    <desc>Swedish</desc>
+                                </valItem>
+                                <valItem ident="ru">
+                                    <desc>Russian</desc>
+                                </valItem>
+                                <valItem ident="de">
+                                    <desc>German</desc>
+                                </valItem>
+                                <valItem ident="es">
+                                    <desc>Spanish</desc>
+                                </valItem>
+                                <valItem ident="pal">
+                                    <desc>Pahlavi</desc>
+                                </valItem>
+                                <valItem ident="gft">
+                                    <desc>Gāfāt</desc>
+                                </valItem>
+                                <valItem ident="awn">
+                                    <desc>Awngi</desc>
+                                </valItem>
+                            </valList>
+                        </attDef>
+
+                    </attList>
+                </elementSpec>
+
+                <!--          allow usage of a closed list of types for ref-->
+                <elementSpec ident="ref" mode="change" module="core">
+                    
+                    <attList>
+                        <attDef ident="type" mode="replace" usage="opt">
+                            <valList type="closed">
+                                <valItem ident="mspart"/>
+                                <valItem ident="author"/>
+                                <valItem ident="place"/>
+                                <valItem ident="item"/>
+                                <valItem ident="hand"/>
+                                <valItem ident="quire"/>
+                                <valItem ident="mss"/>
+                                <valItem ident="work"/>
+                                <valItem ident="ins"/>
+                                <valItem ident="pers"/>
+                                <valItem ident="title"/>
+                                <valItem ident="deco"/>
+                                <valItem ident="group"/>
+                                <valItem ident="binding"/>
+                                <valItem ident="authFile"/>
+                            </valList>
+                        </attDef>
+
+                    </attList>
+                </elementSpec>
+
+                <!--add evidence to creation-->
+                <elementSpec ident="creation" mode="change" module="core">
+                    <attList>
+                        <attDef ident="evidence" mode="add" usage="opt">
+                            <datatype maxOccurs="6">
+                                <rng:ref name="data.word"/>
+                            </datatype>
+
+                        </attDef>
+                    </attList>
+                </elementSpec>
+
+                <!--          suggest use in title of type complete, incomplete, normalized or alternative-->
+                <elementSpec ident="title" mode="change" module="core">
+                    <constraintSpec scheme="isoschematron" ident="title">
+                        <constraint>
+                            <sch:rule context="tei:title[not(@type='short')][ancestor::tei:TEI[@type='work']][ancestor::tei:titleStmt]">
+                                <sch:report test="not(@xml:id or @corresp)">title in a Work entity
+                                    must always have an @xml:id which identifies alternative titles
+                                    or a @corresp pointing to one of such xml:ids. Format of the id
+                                    should be like t1 t2, etc. and thus in @corresp #t1, #t2,
+                                    etc.</sch:report>
+                            </sch:rule>
+                           
+                        </constraint>
+                    </constraintSpec>
+                    <attList>
+                        <attDef ident="evidence" mode="add" usage="opt">
+                            <datatype maxOccurs="6">
+                                <rng:ref name="data.word"/>
+                            </datatype>
+
+                        </attDef>
+                        <attDef ident="ref" mode="change" usage="rec"/>
+                        <attDef ident="type" mode="replace" usage="opt">
+                            <valList type="closed">
+                                <valItem ident="complete">
+                                    <desc>the work is contained completely in the manuscript</desc>
+                                </valItem>
+                                <valItem ident="incomplete">
+                                    <desc>the work is contained incompetely in the manuscript, i.e. even only a small part is missing </desc>
+                                </valItem>
+                                <valItem ident="normalized">
+                                    <desc>Transliteration of the title</desc>
+                                </valItem>
+                                <valItem ident="supplied">
+                                    <desc>syriaca.org: an existing print catalogue provides a
+                                        descriptive title</desc>
+                                </valItem>
+                                <valItem ident="uniform">
+                                    <desc>syriaca.org: a title for such work established by the
+                                        editor or cataloguer</desc>
+                                </valItem>
+                                <valItem ident="main">
+                                    <desc>for titleStmt, specifies to which title to give priority in output.</desc>
+                                </valItem>
+                                <valItem ident="short">
+                                    <desc>for titleStmt, contains an abbreviated form of the title, typically citation forms like Sal. Mar. or Jn. or Gen..</desc>
+                                </valItem>
+                            </valList>
+                        </attDef>
+                    </attList>
+                </elementSpec>
+
+                <!--                constrain use of type in listBibl and suggest values-->
+                <elementSpec ident="listBibl" mode="change" module="core">
+                    <attList>
+                        <attDef ident="type" mode="replace" usage="req">
+                            <valList type="closed">
+                                <valItem ident="mss">
+                                    <desc/>
+                                </valItem>
+                                <valItem ident="catalogue">
+                                    <desc>Descriptions in manuscript catalogues of the subject of the record</desc>
+                                </valItem>
+                                <valItem ident="editions">
+                                    <desc> Editions of the work</desc>
+                                </valItem>
+                                <valItem ident="text">
+                                    <desc/>
+                                </valItem>
+                                <valItem ident="otherLanguages">
+                                    <desc/>
+                                </valItem>
+                                <valItem ident="clavis">
+                                    <desc>ID of the work in an external clavis (CC, CPG etc.)</desc>
+                                </valItem>
+                                <valItem ident="translation">
+                                    <desc>Modern translations of the work </desc>
+                                </valItem>
+                                <valItem ident="secondary">
+                                    <desc>Secondary bibliography on the subject of the record</desc>
+                                </valItem>
+                                <valItem ident="relations">
+                                    <desc>Relations between the subject of the record and other entities (persons, related works, manuscript filiation etc.)</desc>
+                                </valItem>
+                            </valList>
+                        </attDef>
+                    </attList>
+                </elementSpec>
+
+                <!--                constrain use of type in occupation and suggest values-->
+                <elementSpec ident="occupation" mode="change" module="namesdates">
+                    <attList>
+                        <attDef ident="type" mode="replace" usage="req">
+                            <valList type="closed">
+                                <valItem ident="ruler">
+                                    <desc>Ruler of a country, region or similar</desc>
+                                </valItem>
+                                <valItem ident="military">
+                                    <desc>Military occupation</desc>
+                                </valItem>
+                                <valItem ident="academic">
+                                    <desc>Occupation within an academic institution or independently pursuing academic interests</desc>
+                                </valItem>
+                                <valItem ident="political">
+                                    <desc>Political occupation (other than ruler)</desc>
+                                </valItem>
+                                <valItem ident="literary">
+                                    <desc>Literary activities (i.e. author, translator)</desc>
+                                </valItem>
+                                <valItem ident="ecclesiastic">
+                                    <desc>Occupation within a religious institution</desc>
+                                </valItem>
+                                <valItem ident="medical">
+                                    <desc>Medical occupation</desc>
+                                </valItem>
+                                <valItem ident="art">
+                                    <desc>Artistic occupation or interests</desc>
+                                </valItem>
+                                <valItem ident="other">
+                                    <desc>Other occupation</desc>
+                                </valItem>
+                            </valList>
+                        </attDef>
+                    </attList>
+                </elementSpec>
+
+                <!--          specifies values for faith element, limiting number of values to 2 for "further specification"-->
+                <elementSpec ident="faith" mode="change" module="namesdates">
+                    <attList>
+                        <attDef ident="type" mode="replace" usage="req">
+                            <datatype maxOccurs="3">
+                                <rng:ref name="data.word"/>
+                            </datatype>
+                            <valList type="closed">
+                                <valItem ident="EOTC"/>
+                                <valItem ident="Christianity"/>
+                                <valItem ident="Catholicism"/>
+                                <valItem ident="Protestantism"/>
+                                <valItem ident="Anglican"/>
+                                <valItem ident="Coptic"/>
+                                <valItem ident="Orthodox"/>
+                                <valItem ident="Syriac"/>
+                                <valItem ident="Greek"/>
+                                <valItem ident="Russian"/>
+                                <valItem ident="Armenian"/>
+                                <valItem ident="Islam"/>
+                                <valItem ident="Sunni"/>
+                                <valItem ident="Shia"/>
+                                <valItem ident="Judaism"/>
+                                <valItem ident="Ethiopian"/>
+                                <valItem ident="Traditional"/>
+                                <valItem ident="Aksumite"/>
+                                <valItem ident="Oromo"/>
+                                <valItem ident="Gurage"/>
+                                <valItem ident="notSpecified"/>
+                            </valList>
+                        </attDef>
+                    </attList>
+                </elementSpec>
+
+                <!--          specifies values for faith element, limiting number of values to 2 for "further specification"-->
+                <elementSpec ident="nationality" mode="change" module="namesdates">
+                    <attList>
+                        <attDef ident="type" mode="replace" usage="req">
+                            <datatype maxOccurs="2">
+                                <rng:ref name="data.word"/>
+                            </datatype>
+                            <valList type="closed">
+                                <valItem ident="Ethiopia"/>
+                                <valItem ident="Aksumite"/>
+                                <valItem ident="post-Aksumite"/>
+                                <valItem ident="post-1991"/>
+                                <valItem ident="Eritrea"/>
+                                <valItem ident="Harar"/>
+                                <valItem ident="Oromo"/>
+                                <valItem ident="Adal"/>
+                                <valItem ident="ByzantineEmpire"/>
+                                <valItem ident="OttomanEmpire"/>
+                                <valItem ident="Turkey"/>
+                                <valItem ident="Syria"/>
+                                <valItem ident="Somalia"/>
+                                <valItem ident="Djibouti"/>
+                                <valItem ident="Sudan"/>
+                                <valItem ident="AncientEgypt"/>
+                                <valItem ident="Egypt"/>
+                                <valItem ident="Coptic"/>
+                                <valItem ident="Armenia"/>
+                                <valItem ident="Italy"/>
+                                <valItem ident="France"/>
+                                <valItem ident="Germany"/>
+                                <valItem ident="Russia/USSR"/>
+                                <valItem ident="Babylon"/>
+                                <valItem ident="Belgium"/>
+                                <valItem ident="Netherlands"/>
+                                <valItem ident="Greece"/>
+                                <valItem ident="India"/>
+                                <valItem ident="Israel/Palestine"/>
+                                <valItem ident="Yemen"/>
+                                <valItem ident="Nubia"/>
+                                <valItem ident="Portugal"/>
+                                <valItem ident="Spain"/>
+                                <valItem ident="Sweden"/>
+                                <valItem ident="Denmark"/>
+                                <valItem ident="USA"/>
+                                <valItem ident="Vatican"/>
+                                <valItem ident="Iran/Persia"/>
+                                <valItem ident="notSpecified"/>
+                                <valItem ident="Poland"/>
+                                <valItem ident="Canada"/>
+                                <valItem ident="UnitedKingdom"/>
+                                <valItem ident="Scotland"/>
+                            </valList>
+                        </attDef>
+                    </attList>
+                </elementSpec>
+
+                <!--                constrain use of type in roleName and suggest values-->
+                <elementSpec ident="roleName" mode="change" module="namesdates">
+                    <attList>
+                        <attDef ident="type" mode="replace" usage="req">
+                            <valList type="closed">
+                                <valItem ident="function"/>
+                                <valItem ident="title"/>
+                                <valItem ident="office"/>
+                                <valItem ident="rank"/>
+                                <valItem ident="other"/>
+                            </valList>
+                        </attDef>
+                    </attList>
+                </elementSpec>
+
+              
+
+                <!--          test the content of witnesses list to be as described in guidelines and point to mss ids-->
+                <elementSpec ident="witness" mode="change" module="textcrit">
+                    <!--              this optional value points to a manuscript not in BetMes catalogue-->
+                    <attList>
+                        <attDef ident="type" mode="add" usage="opt">
+                            <valList type="closed">
+                                <valItem ident="external"/>
+                            </valList>
+                        </attDef>
+                    </attList>
+                </elementSpec>
+
+                <!--          allow use in dimension of rend pricked and ruled
+          more values can be added, and up to 6 can be entered in the attribute
+          -->
+                <elementSpec ident="dimensions" mode="change" module="msdescription">
+                    <attList>
+                        <attDef ident="rend" mode="replace" usage="opt">
+                            <datatype maxOccurs="6">
+                                <rng:ref name="data.word"/>
+                            </datatype>
+                            <valList type="semi">
+                                <valItem ident="pricked"/>
+                                <valItem ident="ruled"/>
+                            </valList>
+                        </attDef>
+                    </attList>
+                </elementSpec>
+
+                <!--          desc typologies -->
+                <elementSpec ident="desc" mode="change" module="msdescription">
+                    <attList>
+                        <attDef ident="type" mode="replace" usage="opt">
+                            <valList type="closed">
+                                <valItem ident="foundation">
+                                    <desc> to be used for places and institutions</desc>
+                                </valItem>
+                                <valItem ident="Headband">
+                                    <desc>to be used in binding description</desc>
+                                </valItem>
+                                <valItem ident="Tailband">
+                                    <desc>for use in binding description</desc>
+                                </valItem>
+                                <valItem ident="DonationNote">
+                                    <desc>note stating that the manuscript has been donated to an individual or to an institution.</desc>
+                                </valItem>
+                                <valItem ident="OwnershipNote">
+                                    <desc>note stating the book belongs to an individual or to an institution.</desc>
+                                </valItem>
+                                <valItem ident="PurchaseNote">
+                                    <desc>note stating that the book has been purchased for money by an individual or an institution.</desc>
+                                </valItem>
+                                <valItem ident="AcquisitionNote">
+                                    <desc>note stating that the manuscript has been generically acquired by an individual or an institution. Similar to “PurchaseNote”.</desc>
+                                </valItem>
+                                <valItem ident="ReceiptNote">
+                                    <desc>note written down as a receipt of a transaction of goods.</desc>
+                                </valItem>
+                                <valItem ident="Admonition">
+                                    <desc> note admonishing individuals to a righteous behavior. See also “Exhortation”.</desc>
+                                </valItem>
+                                <valItem ident="LandGrant">
+                                    <desc>note stating the concession of lands by an authority in favor of individuals or typically of institutions.</desc>
+                                </valItem>
+                                <valItem ident="FoundationCharter">
+                                    <desc>act of foundation of an institution.</desc>
+                                </valItem>
+                                <valItem ident="Genealogy">
+                                    <desc>note containing the spiritual genealogy of the leader of the community or an institution, or the family members of an individual.</desc>
+                                </valItem>
+                                <valItem ident="ScribalSignature">
+                                    <desc>scribe’s signature.</desc>
+                                </valItem>
+                                <valItem ident="Supplication">
+                                    <desc>entreat to God for help, written down in a later hand.</desc>
+                                </valItem>
+                                <valItem ident="Subscription">
+                                    <desc>note added at the end of the main text concerning its completion.</desc>
+                                </valItem>
+                                <valItem ident="Doxology">
+                                    <desc>hymn or praise to God or other entities.</desc>
+                                </valItem>
+                                <valItem ident="Exhortation">
+                                    <desc>note addressed to the brethren in order to commemorate a saint, to celebrate a given feast or for educational purposes.</desc>
+                                </valItem>
+                                <valItem ident="Invocation">
+                                    <desc>invocation against those who stole or erased the book or against other individuals. Not very different from “Condemnation”.</desc>
+                                </valItem>
+                                <valItem ident="Inventory">
+                                    <desc>list of books or items held by the individual or the institution.</desc>
+                                </valItem>
+                                <valItem ident="TransactionNote">
+                                    <desc> note stating a transaction of goods between individuals or institutions.</desc>
+                                </valItem>
+                                <valItem ident="ScribalNoteCommencing">
+                                    <desc>scribe’s note on commencing the work</desc>
+                                </valItem>
+                                <valItem ident="ScribalNoteOrdering">
+                                    <desc> scribe’s note on ordering of the copying</desc>
+                                </valItem>
+                                <valItem ident="ScribalNoteCommissioning">
+                                    <desc>scribe’s note on commissioning of the writing</desc>
+                                </valItem>
+                                <valItem ident="ScribalNoteCompleting">
+                                    <desc>scribe’s note on completing the writing</desc>
+                                </valItem>
+                                <valItem ident="ScribalNoteAssigningLand">
+                                    <desc> scribe’s note on assigning of land. </desc>
+                                </valItem>
+                                <valItem ident="ScribalNoteBequeathing">
+                                    <desc>scribe’s note on bequeathing.</desc>
+                                </valItem>
+                                <valItem ident="RecordReconciliation">
+                                    <desc>documentary record concerning a reconciliation.</desc>
+                                </valItem>
+                                <valItem ident="RecordLitigation">
+                                    <desc>documentary record concerning a litigation.</desc>
+                                </valItem>
+                                <valItem ident="RecordTransaction">
+                                    <desc>documentary record concerning a transaction of goods.</desc>
+                                </valItem>
+                                <valItem ident="RecordDistribution">
+                                    <desc>documentary record concerning the distribution of goods or lands.</desc>
+                                </valItem>
+                                <valItem ident="RecordGuarantors">
+                                    <desc>documentary record concerning the guarantors of a transaction or a loan.</desc>
+                                </valItem>
+                                <valItem ident="Record">
+                                    <desc>generic note of a documentary, official character.</desc>
+                                </valItem>
+                                <valItem ident="ScribalSupplication">
+                                    <desc>scribe’s entreat to God.</desc>
+                                </valItem>
+                                <valItem ident="Unclear">
+                                    <desc>note whose content is hardly understandable. </desc>
+                                </valItem>
+                                <valItem ident="GuarantorsList">
+                                    <desc>  list of the guarantors of transaction or a loan.</desc>
+                                </valItem>
+                                <valItem ident="CommemorativeNote">
+                                    <desc>commemorative notice on a saint. Mainly taken from the Synaxarion.</desc>
+                                </valItem>
+                                <valItem ident="Condemnation">
+                                    <desc>note condemning those who stole the book or erased it.</desc>
+                                </valItem>
+                                <valItem ident="ProtectivePrayer">
+                                    <desc>prayer to be read or carried along for protective purposes.</desc>
+                                </valItem>
+                                <valItem ident="Poem">
+                                    <desc>note containing a generic poetic text. See “PoemArke”, “PoemQene”, “PoemSalam”.</desc>
+                                </valItem>
+                                <valItem ident="PoemQene">
+                                    <desc>rhymed composition fulfilling the requirements of the Qəne-hymn.</desc>
+                                </valItem>
+                                <valItem ident="PoemSalam">
+                                    <desc>short rhymed poem beginning with the words “salām (ʾəbəl) la-”.</desc>
+                                </valItem>
+                                <valItem ident="PoemArke">
+                                    <desc>five-line rhymed poem.</desc>
+                                </valItem>
+                                <valItem ident="StampExlibris">
+                                    <desc>stamp affixed by the owning institution, e.g., a library.</desc>
+                                </valItem>
+                                <valItem ident="CalendaricNote">
+                                    <desc>note for calculating the moveable feasts and for other calendrical computes.</desc>
+                                </valItem>
+                                <valItem ident="Excerpt">
+                                    <desc>fragment of a literary work added at a later stage to a manuscript. See also “GuestText”.</desc>
+                                </valItem>
+                                <valItem ident="Letter">
+                                    <desc> communication formally addressed to an individual or an institution.</desc>
+                                </valItem>
+                                <valItem ident="MagicFormula">
+                                    <desc>set form of words to be recited or carried along for healing and protecting.</desc>
+                                </valItem>
+                                <valItem ident="MagicText">
+                                    <desc>elaborate note to be recited or carried along for healing and protecting.</desc>
+                                </valItem>
+                                <valItem ident="Comment">
+                                    <desc>note added at a later stage in order to comment word or passages of the main text. See also “Gloss”.</desc>
+                                </valItem>
+                                <valItem ident="Correction">
+                                    <desc>note added at a later stage in order to correct words or passages of the main text.</desc>
+                                </valItem>
+                                <valItem ident="Gloss">
+                                    <desc>note added at a later stage in order to interpret or explain words or passages of the main text. See also “Comment”.</desc>
+                                </valItem>
+                                <valItem ident="Excommunication">
+                                    <desc>note excommunicating an individual from a religious community, e.g., a monastery.</desc>
+                                </valItem>
+                                <valItem ident="GuestText">
+                                    <desc>a complete work, provided with its own ID, added later to a manuscript. </desc>
+                                </valItem>
+                            </valList>
+                        </attDef>
+                    </attList>
+                </elementSpec>
+
+                <!--          suggests values for dim/@unit and dim/@type-->
+                <elementSpec ident="dim" mode="change" module="msdescription">
+                    <attList>
+                        <attDef ident="unit" mode="replace" usage="opt">
+                            <valList type="closed">
+                                <valItem ident="mm"/>
+                                <valItem ident="leaf"/>
+                                <valItem ident="quire"/>
+                                <valItem ident="page"/>
+                            </valList>
+                        </attDef>
+                        <attDef ident="type" mode="replace" usage="opt">
+                            <valList type="closed">
+                                <valItem ident="intercolumn"/>
+                                <valItem ident="top"/>
+                                <valItem ident="bottom"/>
+                                <valItem ident="right"/>
+                                <valItem ident="left"/>
+                                <valItem ident="outer"/>
+                                <valItem ident="margin"/>
+                            </valList>
+                        </attDef>
+                    </attList>
+                </elementSpec>
+
+                <!--          suggests values for ab/@type and ab/@subtype-->
+                <elementSpec ident="ab" mode="change" module="linking">
+                    <constraintSpec scheme="isoschematron" ident="ab">
+                        <constraint>
+                            <sch:rule context="tei:ab[ancestor::tei:layout]">
+                                <sch:report test="not(@type or @subtype)">ab in layout should always
+                                    have a type and optionally a subtype</sch:report>
+                            </sch:rule>
+                            <sch:rule context="tei:ab[ancestor::tei:note]">
+                                <sch:report test="not(@type)">ab in note is used in listPlace for
+                                    institutions and should always have a @type equal to 'history'
+                                    or 'description'. @type equal to 'appellation' can be used to
+                                    list a series of ways in which a place is called. </sch:report>
+                            </sch:rule>
+                            <sch:rule context="tei:ab[@subtype='dividers']/@xml:id">
+                                <sch:report test="not(matches(.,'div\d+'))"> Dividers must have ids
+                                    starting with 'div' followed by a progressive number, e.g. div1,
+                                    div2, div3 </sch:report>
+                            </sch:rule>
+                            <sch:rule context="tei:ab[ancestor::tei:note][@type='appellation']">
+                                <sch:report test="not(tei:list/tei:item)">an ab[@type='appellation']
+                                    must contain a list.</sch:report>
+                            </sch:rule>
+                        </constraint>
+                    </constraintSpec>
+                    <attList>
+                        <attDef ident="type" mode="replace" usage="opt">
+                            <valList type="open">
+
+                                <!--                          list coming from myCore-->
+                                <valItem ident="history"/>
+                                <valItem ident="description"/>
+                                <valItem ident="appellation"/>
+                                <valItem ident="ruling"/>
+                                <valItem ident="pricking"/>
+                                <valItem ident="punctuation"/>
+                                <valItem ident="cruces"/>
+                                <valItem ident="CruxAnsata"/>
+                                <valItem ident="ChiRho"/>
+                                <valItem ident="coronis"/>
+                            </valList>
+                        </attDef>
+                        <attDef ident="subtype" mode="replace" usage="opt">
+                            <valList type="open">
+                                <valItem ident="pattern"/>
+                                <valItem ident="usage"/>
+                                <valItem ident="executed"/>
+                                <valItem ident="dividers"/>
+                            </valList>
+                        </attDef>
+                    </attList>
+                </elementSpec>
+
+                <!--              values for seg in handNote  -->
+                <elementSpec ident="seg" mode="change" module="linking">
+                    <constraintSpec scheme="isoschematron" ident="seg">
+                        <constraint>
+                            <sch:rule context="tei:ab[ancestor::tei:handNote]">
+                                <sch:report test="not(@type or @subtype)">seg in layout should
+                                    always have a type</sch:report>
+                            </sch:rule>
+                        </constraint>
+                    </constraintSpec>
+                    <attList>
+                        <attDef ident="type" mode="replace" usage="req">
+                            <valList type="closed">
+
+                                <valItem ident="script"/>
+                                <valItem ident="ink"/>
+                                <valItem ident="rubrication"/>
+
+                            </valList>
+                        </attDef>
+
+                    </attList>
+                </elementSpec>
+
+                <!--          suggest values for decoNote/@type-->
+                <elementSpec ident="decoNote" mode="change" module="msdescription">
+                    <constraintSpec scheme="isoschematron" ident="decoNote">
+                        <constraint>
+                            <!--<sch:rule context="tei:decoNote[not(ancestor::tei:bindingDesc)][not(@type='rubrication')]">
+                                <sch:report test="not(child::tei:locus)">decoNote must contain a
+                                    locus to indicate the position of the feature</sch:report>
+                            </sch:rule>-->
+                            <sch:rule context="tei:decoNote[not(ancestor::tei:bindingDesc)]/@xml:id">
+                                <sch:report test="not(matches(.,'d\d+'))"> DecoNotes must have ids
+                                    starting with the letter 'd' followed by a progressive number,
+                                    e.g. d1, d2, d3 </sch:report>
+                            </sch:rule>
+                            <sch:rule context="tei:decoNote[ancestor::tei:bindingDesc]/@xml:id">
+                                <sch:report test="not(matches(.,'b\d+'))"> DecoNotes in Binding
+                                    Description must have ids starting with the letter 'b' followed
+                                    by a progressive number, e.g. b1, b2, b3 </sch:report>
+                            </sch:rule>
+                        </constraint>
+                    </constraintSpec>
+                    <attList>
+                        <attDef ident="xml:id" mode="change" usage="req"/>
+                        <attDef ident="type" mode="replace" usage="opt">
+                            <valList type="open">
+                                <valItem ident="frame">
+                                    <desc>an ornament around the page</desc>
+                                </valItem>
+                                <valItem ident="miniature"/>
+                                <valItem ident="band">
+                                    <desc>ornamental band is above the page</desc>
+                                </valItem>
+                                <valItem ident="punctuation"/>
+                                <valItem ident="drawing"/>
+                                <valItem ident="border"/>
+                                <valItem ident="diagram"/>
+                                <valItem ident="frieze"/>
+                                <valItem ident="illustration"/>
+                                <valItem ident="initial"/>
+                                <valItem ident="map"/>
+                                <valItem ident="marginal"/>
+                                <valItem ident="mixed"/>
+                                <valItem ident="other"/>
+                                <valItem ident="ornamentation"/>
+                                <valItem ident="paratext"/>
+                                <valItem ident="printmark"/>
+                                <valItem ident="publishmark"/>
+                                <valItem ident="rubrication"/>
+                                <valItem ident="secondary"/>
+                                <valItem ident="tooling"/>
+                                <valItem ident="unspecified"/>
+                                <valItem ident="unwan"/>
+                                <valItem ident="vignette"/>
+                                <valItem ident="engraving"/>
+
+                            </valList>
+                        </attDef>
+                        <attDef ident="rend" mode="replace" usage="opt">
+                            <valList type="open">
+                                <valItem ident="damaged"/>
+                                <valItem ident="intact"/>
+                            </valList>
+                        </attDef>
+                    </attList>
+                </elementSpec>
+
+                <elementSpec ident="custEvent" mode="change" module="msdescription">
+                    <attList>
+                        <attDef ident="subtype" mode="replace" usage="req">
+                            <valList type="closed">
+                                <valItem ident="ancient"/>
+                                <valItem ident="modern"/>
+                                <valItem ident="none"/>
+                            </valList>
+                        </attDef>
+                    </attList>
+                </elementSpec>
+
+
+                <!--          require @xml:id-->
+                <elementSpec ident="msPart" mode="change" module="msdescription">
+                    <constraintSpec scheme="isoschematron" ident="msPart">
+                        <constraint>
+                            <sch:rule context="tei:msPart/@xml:id">
+                                <sch:report test="not(matches(.,'p\d+'))"> Manuscript parts ids must
+                                    start with the letter 'p' followed by a progressive number, e.g.
+                                    p1, p1.3, p1.1_i1.1 </sch:report>
+                                <sch:report test="matches(.,'(_.*){2}')"> The Underscore is used in
+                                    ids to mark a nesting of differnt ids, especially items in
+                                    parts. there should thus be only one of them as a maximum. If
+                                    you have parts into parts or items into items, please use a full
+                                    stop. p1.2_i3.4 is e.g. the subitem 4 of item 3 in subpart 2 of
+                                    part 1. </sch:report>
+                            </sch:rule>
+                        </constraint>
+                    </constraintSpec>
+                    <attList>
+                        <attDef ident="xml:id" mode="change" usage="req"/>
+                    </attList>
+                </elementSpec>
+
+                <elementSpec ident="msItem" mode="change" module="msdescription">
+                    <constraintSpec scheme="isoschematron" ident="msItem">
+                        <constraint>
+                            <sch:rule context="tei:msItem/@xml:id">
+                                <sch:report test="not(matches(.,'_i\d+'))"> Content Items in
+                                    Manuscript parts must have ids starting with the reference to
+                                    the part in which they are contained, then underscore and the
+                                    letter 'i' followed by a progressive number, e.g. p1.1_i1.1,
+                                    p1.1_i2. </sch:report>
+                                <sch:report test="matches(.,'(_.*){2}')"> The Underscore is used in
+                                    ids to mark a nesting of differnt ids, especially items in
+                                    parts. there should thus be only one of them as a maximum. If
+                                    you have parts into parts or items into items, please use a full
+                                    stop. p1.2_i3.4 is e.g. the subitem 4 of item 3 in subpart 2 of
+                                    part 1. </sch:report>
+                            </sch:rule>
+                        </constraint>
+                    </constraintSpec>
+                    <attList>
+                        <attDef ident="xml:id" mode="change" usage="req"/>
+                    </attList>
+                </elementSpec>
+
+                <elementSpec ident="colophon" mode="change" module="msdescription">
+                    <content>
+                        <macroRef key="macro.phraseSeq"/>
+                        <rng:zeroOrMore>
+                            <rng:choice>
+                                <rng:ref name="tei_model.biblLike"/>
+                            </rng:choice>
+                        </rng:zeroOrMore>
+                    </content>
+                    <constraintSpec scheme="isoschematron" ident="colophon">
+                        <constraint>
+                            <sch:rule context="tei:colophon/@xml:id">
+                                <sch:report test="not(matches(.,'coloph\d+'))"> Colophon in
+                                    Manuscript items must have ids starting with coloph.
+                                </sch:report>
+                            </sch:rule>
+                        </constraint>
+                    </constraintSpec>
+                    <attList>
+                        <attDef ident="xml:id" mode="change" usage="req"/>
+                        <attDef ident="type" mode="add" usage="opt"/>
+                    </attList>
+                </elementSpec>
+
+                <!--          controlled values for SCRIPT-->
+                <elementSpec ident="handNote" mode="change" module="msdescription">
+                    <constraintSpec scheme="isoschematron" ident="handNote">
+                        <constraint>
+                            <sch:rule context="tei:handNote/@xml:id">
+                                <sch:report test="not(matches(.,'h\d+'))"> HandNotes must have ids
+                                    starting with the letter 'h' followed by a progressive number,
+                                    e.g. h1, h2, h3 </sch:report>
+                            </sch:rule>
+                        </constraint>
+                    </constraintSpec>
+                    <attList>
+                        <attDef ident="xml:id" mode="change" usage="req"/>
+                        <attDef ident="script" mode="replace" usage="req">
+                            <valList type="closed">
+
+                                <!--                          list coming from myCore-->
+                                <valItem ident="Arabic"/>
+                                <valItem ident="Cyrillic"/>
+                                <valItem ident="Ethiopic"/>
+                                <valItem ident="Georgian"/>
+                                <valItem ident="Latin"/>
+                                <valItem ident="other"/>
+                                <valItem ident="Syriac"/>
+                                <valItem ident="Coptic"/>
+                            </valList>
+                        </attDef>
+                    </attList>
+                </elementSpec>
+
+                <elementSpec ident="editor" mode="change" module="core">
+                    <attList>
+                        
+                        <attDef ident="role" mode="replace" usage="opt">
+                            <valList type="open">
+                                <valItem ident="generalEditor"/>
+                            </valList>
+                        </attDef>
+                    </attList>
+                </elementSpec>
+
+                <elementSpec ident="change" mode="change" module="header">
+
+                    <attList>
+                        
+                        <attDef ident="when" mode="replace" usage="req"/>
+                    </attList>
+                </elementSpec>
+
+             
+                <elementSpec ident="height" mode="change" module="msdescription">
+                    <attList>
+                        <attDef ident="unit" mode="replace">
+                            <valList type="open">
+                                <valItem ident="m"/>
+                            </valList>
+                        </attDef>
+                    </attList>
+                </elementSpec>
+
+
+                <!--          recomend @corresp in persName and test that is always there in mss and work-->
+                <elementSpec ident="persName" mode="change" module="namesdates">
+                    <constraintSpec scheme="isoschematron" ident="persName">
+                        <constraint>
+                            <sch:rule context="tei:persName[ancestor::tei:TEI[@type='mss' or @type='place' or @type='ins' or @type='work']][not(parent::tei:respStmt)]">
+                                <sch:report test="not(@ref)">A persName in a mss, place or work
+                                    description should always contain an attribute @ref pointing to
+                                    the relevant record</sch:report>
+                            </sch:rule>
+                        </constraint>
+                    </constraintSpec>
+                    <attList>
+                        <attDef ident="ref" mode="change" usage="rec"/>
+                        <attDef ident="role" mode="replace" usage="opt">
+                            <valList type="closed">
+                                <valItem ident="illustrator">
+                                    <desc>the illustrator of the manuscript</desc>
+                                </valItem>
+                                <valItem ident="scribe">
+                                    <desc>the copyist of the manuscript</desc>
+                                </valItem>
+                                <valItem ident="donor">
+                                    <desc>the person who donated the manuscript</desc>
+                                </valItem>
+                                <valItem ident="author">
+                                    <desc>the author of a work</desc>
+                                </valItem>
+                                <valItem ident="translator">
+                                    <desc>the translator of a work</desc>
+                                </valItem>
+                                <valItem ident="binder">
+                                    <desc>manuscript binder</desc>
+                                </valItem>
+                                <valItem ident="parchmentMaker">
+                                    <desc>parchment maker</desc>
+                                </valItem>
+                                <valItem ident="owner">
+                                    <desc>the owner of a ms or an item</desc>
+                                </valItem>
+                                <valItem ident="patron">
+                                    <desc>the commissioner of a ms or an item</desc>
+                                </valItem>
+                                <valItem ident="tabot">
+                                    <desc>the saint to whom the tabot is dedicated</desc>
+                                </valItem>
+                                <valItem ident="sponsor">
+                                    <desc>the person paying for a ms (possibly not the same as donor/commissioner)</desc>
+                                </valItem>
+                                <valItem ident="other"/>
+                            </valList>
+                        </attDef>
+                        <attDef ident="type" mode="change">
+                            <valList>
+                                <valItem ident="normalized">
+                                    <desc>the normalized transcription of the name in fidal</desc>
+                                </valItem> 
+                                <valItem ident="given">
+                                    <desc>name given at birth</desc>
+                                </valItem>
+                                <valItem ident="birth">
+                                    <desc>name given at birth</desc>
+                                </valItem>
+                                <valItem ident="baptismal">
+                                    <desc>name given at baptism</desc>
+                                </valItem>
+                                <valItem ident="regnal">
+                                    <desc>name given on coronation (kings but also patriarchs)</desc>
+                                </valItem>
+                                <valItem ident="monastic">
+                                    <desc>name given on entering monastic life </desc>
+                                </valItem>
+                                <valItem ident="horse">
+                                    <desc>the name of the battle horse of kings and rulers</desc>
+                                </valItem>
+                                <valItem ident="nick">
+                                    <desc>a name given to a person associated to his occupation or other deeds</desc>
+                                </valItem>
+                                <valItem ident="war">
+                                    <desc>nom de guerre (if different from horse name, e.g. Malas)</desc>
+                                </valItem>
+                                <valItem ident="hypocoristic">
+                                    <desc>short form (diminutive or abbreviated, e.g. Taklo for Takla Maryam)</desc>
+                                </valItem>
+                                <valItem ident="patronymic">
+                                    <desc>father's name, esp. for eventual Russian names, but could be also highlighted in others</desc>
+                                </valItem>
+                                <valItem ident="alt">
+                                    <desc>alternative name</desc>
+                                </valItem>
+                            </valList>
+                        </attDef>
+                    </attList>
+                </elementSpec>
+
+
+
+                <elementSpec ident="placeName" mode="change" module="msdescription">
+                    <constraintSpec scheme="isoschematron" ident="placeName">
+                        <constraint>
+                            <sch:rule context="tei:placeName[ancestor::tei:TEI[@type='mss' or @type='pers' or @type='work']]">
+                                <sch:report test="not(@ref)">A placeName in a mss, person or work
+                                    description should always contain an attribute @ref pointing to
+                                    the relevant record</sch:report>
+                            </sch:rule>
+                        </constraint>
+                    </constraintSpec>
+                    <attList>
+                        <attDef ident="ref" mode="change" usage="rec"/>
+                        <attDef ident="type" mode="change">
+                            <valList>
+                                <valItem ident="normalized"/>
+                                <valItem ident="library"/>
+                                <valItem ident="academicInstitution"/>
+                                <valItem ident="museum"/>
+                            </valList>
+                        </attDef>
+                    </attList>
+                </elementSpec>
+
+
+
+
+
+                <!--          controlled values for place Type-->
+                <elementSpec ident="place" mode="change" module="msdescription">
+                    <attList>
+                        <attDef ident="type" mode="replace" usage="rec">
+                            <datatype maxOccurs="6">
+                                <rng:ref name="data.word"/>
+                            </datatype>
+                            <valList type="closed">
+                                <valItem ident="ṭabiya"/>
+                                <valItem ident="dabr"/>
+                                <valItem ident="gadam"/>
+                                <valItem ident="gaṭar"/>
+                                <valItem ident="waradā"/>
+                                <valItem ident="settlement"/>
+                                <valItem ident="archaeologicalSite"/>
+                                <valItem ident="shrine"/>
+                                <valItem ident="town"/>
+                                <valItem ident="region"/>
+                                <valItem ident="ethnic"/>
+                                <valItem ident="ford"/>
+                                <valItem ident="RegionalState"/>
+                                <valItem ident="province"/>
+                                <valItem ident="monastery"/>
+                                <valItem ident="church"/>
+                                <valItem ident="lake"/>
+                                <valItem ident="area"/>
+                                <valItem ident="river"/>
+                                <valItem ident="mountain"/>
+                                <valItem ident="mosque"/>
+                                <valItem ident="district"/>
+                                <valItem ident="valley"/>
+                                <valItem ident="state"/>
+                                <valItem ident="port"/>
+                                <valItem ident="religiousSite"/>
+                                <valItem ident="zone"/>
+                                <valItem ident="country"/>
+                                <valItem ident="gulf"/>
+                                <valItem ident="qušat"/>
+                                <valItem ident="pass"/>
+                                <valItem ident="island"/>
+                                <valItem ident="cataract"/>
+                                <valItem ident="kingdom"/>
+                                <valItem ident="fort"/>
+                                <valItem ident="spring"/>
+                                <valItem ident="plateau"/>
+                                <valItem ident="forest"/>
+                                <valItem ident="administrativeUnit"/>
+                                <valItem ident="gulf"/>
+                                <valItem ident="emirate"/>
+                                <valItem ident="station"/>
+                                <valItem ident="plain"/>
+                                <valItem ident="rockSite"/>
+                                <valItem ident="strait"/>
+                                <valItem ident="volcano"/>
+                                <valItem ident="city"/>
+                                <valItem ident="falls"/>
+                                <valItem ident="ambā"/>
+                                <valItem ident="sultanate"/>
+                                <valItem ident="sea"/>
+                                <valItem ident="cape"/>
+                                <valItem ident="chapel"/>
+                                <valItem ident="zoba"/>
+                                <valItem ident="wādī"/>
+                                <valItem ident="dam"/>
+                                <valItem ident="quarter"/>
+                                <valItem ident="well"/>
+                                <valItem ident="awraǧǧā"/>
+                                <valItem ident="site"/>
+                                <valItem ident="katamā"/>
+                                <valItem ident="port"/>
+                                <valItem ident="oasis"/>
+                                <valItem ident="river"/>
+                                <valItem ident="gorge"/>
+                                <valItem ident="cave"/>
+                                <valItem ident="strait"/>
+                                <valItem ident="station"/>
+                                <valItem ident="post"/>
+                                <valItem ident="market"/>
+                                <valItem ident="temple"/>
+                                <valItem ident="planet"/>
+                                <valItem ident="fort"/>
+                                <valItem ident="farm"/>
+                                <valItem ident="desert"/>
+                                <valItem ident="gulf"/>
+                                <valItem ident="qabale"/>
+                                <valItem ident="peninsula"/>
+                                <valItem ident="castle"/>
+                                <valItem ident="bay"/>
+                                <valItem ident="academicInstitution"/>
+                                <valItem ident="library"/>
+                                <valItem ident="museum"/>
+                                <valItem ident="hill"/>
+
+
+
+                            </valList>
+                        </attDef>
+
+                    </attList>
+                </elementSpec>
+
+
+                <!--          controlled values for material-->
+                <elementSpec ident="material" mode="change" module="msdescription">
+                    <attList>
+                        <attDef ident="key" mode="replace" usage="req">
+                            <valList type="closed">
+
+                                <!--                          list coming from myCore-->
+                                <valItem ident="wood"/>
+                                <valItem ident="papyrus"/>
+                                <valItem ident="cardboard"/>
+                                <valItem ident="leather"/>
+                                <valItem ident="metal"/>
+                                <valItem ident="paper"/>
+                                <valItem ident="textile"/>
+                                <valItem ident="other"/>
+                                <valItem ident="parchment"/>
+                                <valItem ident="silk"/>
+                                <valItem ident="stone"/>
+                            </valList>
+                        </attDef>
+
+                    </attList>
+                </elementSpec>
+                
+                <!--          controlled values for material-->
+                <elementSpec ident="explicit" mode="change" module="msdescription">
+                    <attList>
+                        <attDef ident="type" mode="change" usage="opt">
+                            <valList type="closed">
+                                
+                                <!--                          list coming from myCore-->
+                                <valItem ident="subscription">
+                                    <desc>note originally added at the end of the main text concerning its completion. not to be confused with later additions</desc>
+                                </valItem>
+                            </valList>
+                        </attDef>
+                        
+                    </attList>
+                </elementSpec>
+
+                <!--          controlled values for objectDesc @form -->
+                <elementSpec ident="objectDesc" mode="change" module="msdescription">
+                    <constraintSpec scheme="isoschematron" ident="objectDesc">
+                        <constraint>
+                            <sch:rule context="tei:msDesc">
+                                <sch:report test="(//tei:objectDesc)[1][not(@form)]">At least the first objectDesc of msDesc must have attribute form specified.
+                                </sch:report>
+                            </sch:rule>
+                        </constraint>
+                    </constraintSpec>
+                    <attList>
+                        <attDef ident="form" mode="replace" usage="opt">
+                            <valList type="closed">
+
+                                <!--                          list coming from myCore-->
+                                <valItem ident="Codex">
+                                    <desc>manuscript format consisting of quires bound together to the spine, in their turn made up of a variable number of leaves sewn together and protected by two hard boards.</desc>
+                                </valItem>
+                                <valItem ident="Scroll">
+                                    <desc>manuscript format consisting of one continuous flow of writing material rolled up, generally around one or two wooden cylindrical supports.</desc>
+                                </valItem>
+                                <valItem ident="Leporello">
+                                    <desc>manuscript format consisting of one leaf assembled in a multiple zig-zag folding, resembling an accordion, and generally enclosed between two hard boards.</desc>
+                                </valItem>
+                                <valItem ident="Leaf">
+                                    <desc>manuscript format consisting of one single unbound sheet.</desc>
+                                </valItem>
+                                <valItem ident="Other">
+                                    <desc>other manuscript formats.</desc>
+                                </valItem>
+                                <valItem ident="Book">
+                                    <desc>A printed book.</desc>
+                                </valItem>
+                                <valItem ident="Photograph">
+                                    <desc>A phootograph.</desc>
+                                </valItem>
+                                <valItem ident="Inscription">
+                                    <desc>An inscribed object different from a codex, scroll or leaf</desc>
+                                </valItem>
+                            </valList>
+                        </attDef>
+
+                    </attList>
+                </elementSpec>
+
+                <!--          controlled values for note type commemoration in person records of Saints-->
+                <elementSpec ident="note" mode="change" module="core">
+                    <attList>
+                        <attDef ident="type" mode="replace" usage="opt">
+                            <valList type="open">
+                                <valItem ident="commemoration"/>
+                                <valItem ident="liturgical"/>
+                            </valList>
+                        </attDef>
+
+                    </attList>
+                </elementSpec>
+
+
+                <!--controlled values for relation
+          between people, places, works-->
+                <elementSpec ident="relation" mode="change" module="namesdates">
+                    <constraintSpec scheme="isoschematron" ident="relation">
+                        <constraint>
+                            <sch:rule context="tei:relation">
+                                <sch:report test="not(parent::tei:listRelation or parent::tei:listBibl[@type='relations'])"> a relation element is only allowed within a listRelation (for
+                                    places, institution, person and groups) or in a
+                                    listBibl[@type='relations'] in manuscripts and works
+                                </sch:report>
+                            </sch:rule>
+                        </constraint>
+                    </constraintSpec>
+                    <attList>
+                        <attDef ident="name" mode="replace" usage="req">
+                            <valList type="closed">
+                                <!--<valItem ident="dcterms:hasPart"><desc>http://purl.org/dc/terms/hasPart</desc></valItem> --><!--to be removed-->
+                                <valItem ident="gn:nearBy">
+                                    <desc>http://www.geonames.org/ontology#nearby</desc>
+                                </valItem>
+                                <valItem ident="gn:locatedIn">
+                                    <desc>http://www.geonames.org/ontology#locatedIn</desc>
+                                </valItem>
+                                <valItem ident="dcterms:isPartOf">
+                                    <desc>http://purl.org/dc/terms/isPartOf</desc>
+                                </valItem>
+                                <valItem ident="lawd:hasAttestation">
+                                    <desc>http://lawd.info/ontology/hasAttestation</desc>
+                                </valItem>
+                                <valItem ident="rel:enemyOf">
+                                    <desc>http://purl.org/vocab/relationship/enemyOf</desc>
+                                </valItem>
+                                <valItem ident="agrelon:isFounderOf">
+                                    <desc>http://d-nb.info/standards/elementset/agrelon.owl#isFounderOf</desc>
+                                </valItem>
+                                <valItem ident="agrelon:hasFounder">
+                                    <desc>http://d-nb.info/standards/elementset/agrelon.owl#hasFounder</desc>
+                                </valItem>
+                                <valItem ident="bm:isAntigraphOf">
+                                    <desc>the relation between a ms and the first printed edition of a text it contains</desc>
+                                </valItem>
+                                <valItem ident="bm:wifeOf">
+                                    <desc>Is the wife of ...</desc>
+                                </valItem>
+                                <valItem ident="bm:husbandOf">
+                                    <desc>Is the husband of..</desc>
+                                </valItem>
+                                <valItem ident="bm:motherInLawOf">
+                                    <desc>is the mother of the legally conjugated partner</desc>
+                                </valItem>
+                                <valItem ident="bm:fatherInLawOf">
+                                    <desc>is the father of the legally conjugated partner</desc>
+                                </valItem>
+                                <valItem ident="bm:sonInLawOf">
+                                    <desc>is the husband of the daugther</desc>
+                                </valItem>
+                                <valItem ident="bm:brotherInLawOf">
+                                    <desc>is the brother of the legally conjugated partner</desc>
+                                </valItem>
+                                <valItem ident="bm:sisterInLawOf">
+                                    <desc>is the brother of the legally conjugated partner</desc>
+                                </valItem>
+                                <valItem ident="bm:daugtherInLawOf">
+                                    <desc>is the wife of the daugther</desc>
+                                </valItem>
+                                <valItem ident="bm:hasTabot">
+                                    <desc>This person has a Tabot at the location...</desc>
+                                </valItem>
+                                <valItem ident="bm:ordainedBy">
+                                    <desc>Ordained priest, bishop or monk. Same as
+                                        Consacrated.</desc>
+                                </valItem>
+                                <valItem ident="bm:hasOrdained">
+                                    <desc>has ordained to a religious ministery ...</desc>
+                                </valItem>
+                                <valItem ident="bm:hasBaptized">
+                                    <desc>has baptized ...</desc>
+                                </valItem>
+                                <valItem ident="bm:baptizedBy">
+                                    <desc>has been baptized by ...</desc>
+                                </valItem>
+                                <valItem ident="bm:isAuthorOfEthiopicTranslation">
+                                    <desc>The subject of the relation is author of a translation of
+                                        a work in another language and there is no digital resource
+                                        enabling us to document the authorship of this work and the
+                                        fact that the work as such is a translation of another
+                                        work.</desc>
+                                </valItem>
+
+                                <valItem ident="syriaca:different-from">
+                                    <desc>http://syriaca.org/documentation/relations.html#different-from</desc>
+                                </valItem>
+                                <valItem ident="syriaca:has-literary-connection-to-place">
+                                    <desc>http://syriaca.org/documentation/relations.html#has-literary-connection-to-place</desc>
+                                </valItem>
+                                <valItem ident="syriaca:has-relation-to-place">
+                                    <desc>http://syriaca.org/documentation/relations.html#has-relation-to-place</desc>
+                                </valItem>
+                                <valItem ident="syriaca:possibly-identical">
+                                    <desc>http://syriaca.org/documentation/relations.html#possibly-identical</desc>
+                                </valItem>
+                                <valItem ident="syriaca:share-a-name">
+                                    <desc>http://syriaca.org/documentation/relations.html#share-a-name</desc>
+                                </valItem>
+                                <valItem ident="syriaca:share-a-title">
+                                    <desc>http://syriaca.org/documentation/relations.html#share-a-title</desc>
+                                </valItem>
+                                <valItem ident="syriaca:born-at">
+                                    <desc>http://syriaca.org/documentation/relations.html#born-at</desc>
+                                </valItem>
+                                
+                                <valItem ident="saws:isCopierOf">
+                                    <desc>http://purl.org/saws/ontology#isCopierOf</desc>
+                                </valItem>
+
+                                <valItem ident="snap:DaughterOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#</desc>
+                                </valItem>
+                                <valItem ident="snap:ChildOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#ChildOf</desc>
+                                </valItem>
+                                <valItem ident="snap:BrotherOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#BrotherOf</desc>
+                                </valItem>
+                                <valItem ident="snap:SeriousIntimateRelationshipWith">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#SeriousIntimateRelationshipWith</desc>
+                                </valItem>
+                                <valItem ident="snap:SiblingOfParentOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#SiblingOfParentOf</desc>
+                                </valItem>
+                                <valItem ident="snap:SeriousIntimateRelationshipWith">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#SeriousIntimateRelationshipWith</desc>
+                                </valItem>
+                                <valItem ident="snap:AllianceWith">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#AllianceWith</desc>
+                                </valItem>
+                                <valItem ident="snap:CasualIntimateRelationshipWith">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#CasualIntimateRelationshipWith</desc>
+                                </valItem>
+                                <valItem ident="snap:ChildOfSiblingOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#ChildOfSiblingOf</desc>
+                                </valItem>
+                                <valItem ident="snap:EmnityFor">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#EmnityFor</desc>
+                                </valItem>
+                                <valItem ident="snap:FriendshipFor">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#FriendshipFor</desc>
+                                </valItem>
+                                <valItem ident="snap:Group">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#Group</desc>
+                                </valItem>
+                                <valItem ident="snap:HereditaryFamilyOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#HereditaryFamilyOf</desc>
+                                </valItem>
+                                <valItem ident="snap:IntimateRelationshipWith">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#IntimateRelationshipWith</desc>
+                                </valItem>
+                                <valItem ident="snap:KinOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#KinOf</desc>
+                                </valItem>
+                                <valItem ident="snap:AncestorOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#AncestorOf</desc>
+                                </valItem>
+                                <valItem ident="snap:AuntOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#AuntOf</desc>
+                                </valItem>
+                                <valItem ident="snap:CousinOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#CousinOf</desc>
+                                </valItem>
+                                <valItem ident="snap:ClaimedFamilyRelationship">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#ClaimedFamilyRelationship</desc>
+                                </valItem>
+                                <valItem ident="snap:ExtendedFamilyOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#ExtendedFamilyOf</desc>
+                                </valItem>
+                                <valItem ident="snap:ExtendedHouseholdOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#ExtendedHouseholdOf</desc>
+                                </valItem>
+                                <valItem ident="snap:FamilyOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#FamilyOf</desc>
+                                </valItem>
+                                <valItem ident="snap:FatherOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#FatherOf</desc>
+                                </valItem>
+                                <valItem ident="snap:FosterFamilyRelationship">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#FosterFamilyRelationship</desc>
+                                </valItem>
+                                <valItem ident="snap:FreedmanOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#FreedmanOf</desc>
+                                </valItem>
+                                <valItem ident="snap:FreedSlaveOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#FreedSlaveOf</desc>
+                                </valItem>
+                                <valItem ident="snap:FreedwomanOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#FreedwomanOf</desc>
+                                </valItem>
+                                <valItem ident="snap:FriendshipFor">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#FriendshipFor</desc>
+                                </valItem>
+                                <valItem ident="snap:GrandchildOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#GrandchildOf</desc>
+                                </valItem>
+                                <valItem ident="snap:GranddaughterOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#GranddaughterOf</desc>
+                                </valItem>
+                                <valItem ident="snap:GrandfatherOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#GrandfatherOf</desc>
+                                </valItem>
+                                <valItem ident="snap:GrandmotherOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#GrandmotherOf</desc>
+                                </valItem>
+                                <valItem ident="snap:GrandparentOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#GrandparentOf</desc>
+                                </valItem>
+                                <valItem ident="snap:GrandsonOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#GrandsonOf</desc>
+                                </valItem>
+                                <valItem ident="snap:GreatGrandfatherOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#GreatGrandfatherOf</desc>
+                                </valItem>
+                                <valItem ident="snap:GreatGrandmotherOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#GreatGrandmotherOf</desc>
+                                </valItem>
+                                <valItem ident="snap:GreatGrandparentOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#GreatGrandparentOf</desc>
+                                </valItem>
+                                <valItem ident="snap:HalfFamilyRelationship">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#HalfFamilyRelationship</desc>
+                                </valItem>
+                                <valItem ident="snap:HereditaryFamilyOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#HereditaryFamilyOf</desc>
+                                </valItem>
+                                <valItem ident="snap:HouseholdOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#HouseholdOf</desc>
+                                </valItem>
+                                <valItem ident="snap:HouseSlaveOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#HouseSlaveOf</desc>
+                                </valItem>
+                                <valItem ident="snap:InLawFamilyRelationship">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#InLawFamilyRelationship</desc>
+                                </valItem>
+                                <valItem ident="snap:IntimateRelationshipWith">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#IntimateRelationshipWith</desc>
+                                </valItem>
+                                <valItem ident="snap:KinOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#KinOf</desc>
+                                </valItem>
+                                <valItem ident="snap:LegallyRecognisedRelationshipWithExtendedFamilyOf"/>
+                                <valItem ident="snap:ExtendedHouseholdOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#ExtendedHouseholdOf</desc>
+                                </valItem>
+                                <valItem ident="snap:FamilyOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#FamilyOf</desc>
+                                </valItem>
+                                <valItem ident="snap:FatherOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#FatherOf</desc>
+                                </valItem>
+                                <valItem ident="snap:FosterFamilyRelationship">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#FosterFamilyRelationship</desc>
+                                </valItem>
+                                <valItem ident="snap:FreedmanOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#FreedmanOf</desc>
+                                </valItem>
+                                <valItem ident="snap:FreedSlaveOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#FreedSlaveOf</desc>
+                                </valItem>
+                                <valItem ident="snap:FreedwomanOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#FreedwomanOf</desc>
+                                </valItem>
+                                <valItem ident="snap:FriendshipFor">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#FriendshipFor</desc>
+                                </valItem>
+                                <valItem ident="snap:GrandchildOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#GrandchildOf</desc>
+                                </valItem>
+                                <valItem ident="snap:GranddaughterOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#GranddaughterOf</desc>
+                                </valItem>
+                                <valItem ident="snap:GrandfatherOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#GrandfatherOf</desc>
+                                </valItem>
+                                <valItem ident="snap:GrandmotherOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#GrandmotherOf</desc>
+                                </valItem>
+                                <valItem ident="snap:GrandparentOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#GrandparentOf</desc>
+                                </valItem>
+                                <valItem ident="snap:GrandsonOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#GrandsonOf</desc>
+                                </valItem>
+                                <valItem ident="snap:GreatGrandfatherOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#GreatGrandfatherOf</desc>
+                                </valItem>
+                                <valItem ident="snap:GreatGrandmotherOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#GreatGrandmotherOf</desc>
+                                </valItem>
+                                <valItem ident="snap:GreatGrandparentOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#GreatGrandparentOf</desc>
+                                </valItem>
+                                <valItem ident="snap:HalfFamilyRelationship">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#HalfFamilyRelationship</desc>
+                                </valItem>
+                                <valItem ident="snap:HereditaryFamilyOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#HereditaryFamilyOf</desc>
+                                </valItem>
+                                <valItem ident="snap:HouseholdOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#HouseholdOf</desc>
+                                </valItem>
+                                <valItem ident="snap:HouseSlaveOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#HouseSlaveOf</desc>
+                                </valItem>
+                                <valItem ident="snap:InLawFamilyRelationship">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#InLawFamilyRelationship</desc>
+                                </valItem>
+                                <valItem ident="snap:IntimateRelationshipWith">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#IntimateRelationshipWith</desc>
+                                </valItem>
+                                <valItem ident="snap:KinOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#KinOf</desc>
+                                </valItem>
+                                <valItem ident="snap:LegallyRecognisedRelationshipWith">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#LegallyRecognisedRelationshipWith</desc>
+                                </valItem>
+                                <valItem ident="snap:MaternalFamilyRelationship">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#MaternalFamilyRelationship</desc>
+                                </valItem>
+                                <valItem ident="snap:ProfessionalRelationshipMaternalFamilyRelationship"/>
+                                <valItem ident="snap:MotherOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#MotherOf</desc>
+                                </valItem>
+                                <valItem ident="snap:NephewOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#NephewOf</desc>
+                                </valItem>
+                                <valItem ident="snap:NieceOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#NieceOf</desc>
+                                </valItem>
+                                <valItem ident="snap:ParentOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#ParentOf</desc>
+                                </valItem>
+                                <valItem ident="snap:PaternalFamilyRelationship">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#PaternalFamilyRelationship</desc>
+                                </valItem>
+                                <valItem ident="snap:ProfessionalRelationship">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#ProfessionalRelationship</desc>
+                                </valItem>
+                                <valItem ident="snap:SeriousIntimateRelationshipWith">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#SeriousIntimateRelationshipWith</desc>
+                                </valItem>
+                                <valItem ident="snap:SiblingOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#SiblingOf</desc>
+                                </valItem>
+                                <valItem ident="snap:SiblingOfParentOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#SiblingOfParentOf</desc>
+                                </valItem>
+                                <valItem ident="snap:SisterOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#SisterOf</desc>
+                                </valItem>
+                                <valItem ident="snap:SlaveOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#SlaveOf</desc>
+                                </valItem>
+                                <valItem ident="snap:SonOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#SonOf</desc>
+                                </valItem>
+                                <valItem ident="snap:StepFamilyRelationship">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#StepFamilyRelationship</desc>
+                                </valItem>
+                                <valItem ident="snap:UncleOfSeriousIntimateRelationshipWith">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#UncleOfSeriousIntimateRelationshipWith</desc>
+                                </valItem>
+                                <valItem ident="snap:SiblingOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#SiblingOf</desc>
+                                </valItem>
+                                <valItem ident="snap:SiblingOfParentOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#SiblingOfParentOf</desc>
+                                </valItem>
+                                <valItem ident="snap:SlaveOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#SlaveOf</desc>
+                                </valItem>
+                                <valItem ident="snap:SonOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#SonOf</desc>
+                                </valItem>
+                                <valItem ident="snap:StepFamilyRelationship">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#StepFamilyRelationship</desc>
+                                </valItem>
+                                <valItem ident="snap:UncleOf">
+                                    <desc>http://data.snapdrgn.net/ontology/snap#UncleOf</desc>
+                                </valItem>
+
+
+                                <!--                          list INCOMPLETE! -->
+                                <valItem ident="saws:AbstractManuscriptText">
+                                    <desc>http://purl.org/saws/ontology#AbstractManuscriptText</desc>
+                                </valItem>
+                                <valItem ident="ecrm:P129i_is_subject_of">
+                                    <desc>http://erlangen-crm.org/current/P129i_is_subject_of</desc>
+                                </valItem>
+                                <valItem ident="ecrm:P129_is_about">
+                                    <desc>http://erlangen-crm.org/current/P129_is_about</desc>
+                                </valItem>
+                                <valItem ident="ecrm:F15_Complex_Work">
+                                    <desc>http://erlangen-crm.org/efrbroo/F15_Complex_Work</desc>
+                                </valItem>
+                                <valItem ident="ecrm:F16_Container_Work">
+                                    <desc>http://erlangen-crm.org/efrbroo/F16_Container_Work</desc>
+                                </valItem>
+                                <valItem ident="ecrm:F17_Aggregation_Work">
+                                    <desc>http://erlangen-crm.org/efrbroo/F17_Aggregation_Work</desc>
+                                </valItem>
+                                <valItem ident="ecrm:CLP57_should_have_number_of_parts">
+                                    <desc>http://erlangen-crm.org/efrbroo/CLP57_should_have_number_of_parts</desc>
+                                </valItem>
+                                <valItem ident="ecrm:P57_has_number_of_parts">
+                                    <desc>http://erlangen-crm.org/current/P57_has_number_of_parts</desc>
+                                </valItem>
+                                <valItem ident="ecrm:CLP45_should_consist_of">
+                                    <desc>http://erlangen-crm.org/efrbroo/CLP45_should_consist_of</desc>
+                                </valItem>
+                                <valItem ident="ecrm:CLP45i_should_be_incorporated_in">
+                                    <desc>http://erlangen-crm.org/efrbroo/CLP45i_should_be_incorporated_in</desc>
+                                </valItem>
+                                <valItem ident="ecrm:CLP46_should_be_composed_of">
+                                    <desc>http://erlangen-crm.org/efrbroo/CLP46_should_be_composed_of</desc>
+                                </valItem>
+                                <valItem ident="ecrm:CLP46i_may_form_part_of">
+                                    <desc>http://erlangen-crm.org/efrbroo/CLP46i_may_form_part_of</desc>
+                                </valItem>
+                                <valItem ident="ecrm:CLR6_should_carry">
+                                    <desc>http://erlangen-crm.org/efrbroo/CLR6_should_carry</desc>
+                                </valItem>
+                                <valItem ident="ecrm:CLR6i_should_be_carried_by">
+                                    <desc>http://erlangen-crm.org/efrbroo/CLR6i_should_be_carried_by</desc>
+                                </valItem>
+                                <valItem ident="saws:commentMadeBy">
+                                    <desc>http://purl.org/saws/ontology#commentMadeBy</desc>
+                                </valItem>
+                                <valItem ident="saws:contains">
+                                    <desc>http://purl.org/saws/ontology#contains</desc>
+                                </valItem>
+                                <valItem ident="saws:containsTextInLanguage">
+                                    <desc>http://purl.org/saws/ontology#containsTextInLanguage</desc>
+                                </valItem>
+                                <valItem ident="saws:decorationAddedBy">
+                                    <desc>http://purl.org/saws/ontology#decorationAddedBy</desc>
+                                </valItem>
+                                <valItem ident="saws:fallsWithin">
+                                    <desc>http://purl.org/saws/ontology#fallsWithin</desc>
+                                </valItem>
+                                <valItem ident="saws:follows">
+                                    <desc>http://purl.org/saws/ontology#follows</desc>
+                                </valItem>
+                                <valItem ident="saws:formsPartOf">
+                                    <desc>http://purl.org/saws/ontology#formsPartOf</desc>
+                                </valItem>
+                                <valItem ident="saws:hasAncestor">
+                                    <desc>http://purl.org/saws/ontology#hasAncestor</desc>
+                                </valItem>
+                                <valItem ident="saws:hasChild">
+                                    <desc>http://purl.org/saws/ontology#hasChild</desc>
+                                </valItem>
+                                <valItem ident="saws:hasComment">
+                                    <desc>http://purl.org/saws/ontology#hasComment</desc>
+                                </valItem>
+                                <valItem ident="saws:hasComponent">
+                                    <desc>http://purl.org/saws/ontology#hasComponent</desc>
+                                </valItem>
+                                <valItem ident="saws:hasDescendant">
+                                    <desc>http://purl.org/saws/ontology#hasDescendant</desc>
+                                </valItem>
+                                <valItem ident="saws:hasMember">
+                                    <desc>http://purl.org/saws/ontology#hasMember</desc>
+                                </valItem>
+                                <valItem ident="saws:hasOwned">
+                                    <desc>http://purl.org/saws/ontology#hasOwned</desc>
+                                </valItem>
+                                <valItem ident="saws:hasParent">
+                                    <desc>http://purl.org/saws/ontology#hasParent</desc>
+                                </valItem>
+                                <valItem ident="saws:hasPart">
+                                    <desc>http://purl.org/saws/ontology#hasPart</desc>
+                                </valItem>
+                                <valItem ident="saws:hasUsed">
+                                    <desc>http://purl.org/saws/ontology#hasUsed</desc>
+                                </valItem>
+                                <valItem ident="saws:hasWritten">
+                                    <desc>http://purl.org/saws/ontology#hasWritten</desc>
+                                </valItem>
+                                <valItem ident="saws:isAncestorOf">
+                                    <desc>http://purl.org/saws/ontology#isAncestorOf</desc>
+                                </valItem>
+                                <valItem ident="dcterms:creator">
+                                    <desc>http://purl.org/dc/terms/creator</desc>
+                                </valItem>
+                                <valItem ident="saws:isAttributedAuthorOf">
+                                    <desc>http://purl.org/saws/ontology#isAttributedAuthorOf</desc>
+                                </valItem>
+                                <valItem ident="saws:isAttributedToAuthor">
+                                    <desc>http://purl.org/saws/ontology#isAttributedToAuthor</desc>
+                                </valItem>
+                                <valItem ident="saws:isChildOf">
+                                    <desc>http://purl.org/saws/ontology#isChildOf</desc>
+                                </valItem>
+                                <valItem ident="saws:isCloseRenderingOf">
+                                    <desc>http://purl.org/saws/ontology#isCloseRenderingOf</desc>
+                                </valItem>
+                                <valItem ident="saws:isCloseTranslationOf">
+                                    <desc>http://purl.org/saws/ontology#isCloseTranslationOf</desc>
+                                </valItem>
+                                <valItem ident="saws:isCommentOn">
+                                    <desc>http://purl.org/saws/ontology#isCommentOn</desc>
+                                </valItem>
+                                <valItem ident="saws:isComponentOf">
+                                    <desc>http://purl.org/saws/ontology#isComponentOf</desc>
+                                </valItem>
+                                <valItem ident="saws:isDescendantOf">
+                                    <desc>http://purl.org/saws/ontology#isDescendantOf</desc>
+                                </valItem>
+                                <valItem ident="saws:isDifferentTo">
+                                    <desc>http://purl.org/saws/ontology#isDifferentTo</desc>
+                                </valItem>
+                                <valItem ident="saws:isDirectCopyOf">
+                                    <desc>http://purl.org/saws/ontology#isDirectCopyOf</desc>
+                                </valItem>
+                                <valItem ident="saws:isDirectTranslationOf">
+                                    <desc>http://purl.org/saws/ontology#isDirectTranslationOf</desc>
+                                </valItem>
+                                <valItem ident="saws:isInSameFamilyAs">
+                                    <desc>http://purl.org/saws/ontology#isInSameFamilyAs</desc>
+                                </valItem>
+                                <valItem ident="saws:isLongerTranslationOf">
+                                    <desc>http://purl.org/saws/ontology#isLongerTranslationOf</desc>
+                                </valItem>
+                                <valItem ident="saws:isLongerVersionOf">
+                                    <desc>http://purl.org/saws/ontology#isLongerVersionOf</desc>
+                                </valItem>
+                                <valItem ident="saws:isLooseRenderingOf">
+                                    <desc>http://purl.org/saws/ontology#isLooseRenderingOf</desc>
+                                </valItem>
+                                <valItem ident="saws:isLooseTranslationOf">
+                                    <desc>http://purl.org/saws/ontology#isLooseTranslationOf</desc>
+                                </valItem>
+                                <valItem ident="saws:isMemberOf">
+                                    <desc>http://purl.org/saws/ontology#isMemberOf</desc>
+                                </valItem>
+                                <valItem ident="saws:isNotPresentIn">
+                                    <desc>http://purl.org/saws/ontology#isNotPresentIn</desc>
+                                </valItem>
+                                <valItem ident="saws:isOlderThan">
+                                    <desc>http://purl.org/saws/ontology#isOlderThan</desc>
+                                </valItem>
+                                <valItem ident="saws:isParentOf">
+                                    <desc>http://purl.org/saws/ontology#isParentOf</desc>
+                                </valItem>
+                                <valItem ident="saws:isReferencedBy">
+                                    <desc>http://purl.org/saws/ontology#isReferencedBy</desc>
+                                </valItem>
+                                <valItem ident="saws:isRelatedTo">
+                                    <desc>http://purl.org/saws/ontology#isRelatedTo</desc>
+                                </valItem>
+                                <valItem ident="saws:isSequentiallySameAs">
+                                    <desc>http://purl.org/saws/ontology#isSequentiallySameAs</desc>
+                                </valItem>
+                                <valItem ident="saws:isSequentiallySimilarTo">
+                                    <desc>http://purl.org/saws/ontology#isSequentiallySimilarTo</desc>
+                                </valItem>
+                                <valItem ident="saws:isShorterTranslationOf">
+                                    <desc>http://purl.org/saws/ontology#isShorterTranslationOf</desc>
+                                </valItem>
+                                <valItem ident="saws:isShorterVersionOf">
+                                    <desc>http://purl.org/saws/ontology#isShorterVersionOf</desc>
+                                </valItem>
+                                <valItem ident="saws:isSiblingOf">
+                                    <desc>http://purl.org/saws/ontology#isSiblingOf</desc>
+                                </valItem>
+                                <valItem ident="saws:isSourceFor">
+                                    <desc>http://purl.org/saws/ontology#isSourceFor</desc>
+                                </valItem>
+                                <valItem ident="saws:isSubSequenceOf">
+                                    <desc>http://purl.org/saws/ontology#isSubSequenceOf</desc>
+                                </valItem>
+                                <valItem ident="saws:isTransliterationOf">
+                                    <desc>http://purl.org/saws/ontology#isTransliterationOf</desc>
+                                </valItem>
+                                <valItem ident="saws:isTwinOf">
+                                    <desc>http://purl.org/saws/ontology#isTwinOf</desc>
+                                </valItem>
+                                <valItem ident="saws:isUnrelatedTo">
+                                    <desc>http://purl.org/saws/ontology#isUnrelatedTo</desc>
+                                </valItem>
+                                <valItem ident="saws:isVariantOf">
+                                    <desc>http://purl.org/saws/ontology#isVariantOf</desc>
+                                </valItem>
+                                <valItem ident="saws:isVariantTranslationOf">
+                                    <desc>http://purl.org/saws/ontology#isVariantTranslationOf</desc>
+                                </valItem>
+                                <valItem ident="saws:isVerbatimOf">
+                                    <desc>http://purl.org/saws/ontology#isVerbatimOf</desc>
+                                </valItem>
+                                <valItem ident="saws:isVerbatimTranslationOf">
+                                    <desc>http://purl.org/saws/ontology#isVerbatimTranslationOf</desc>
+                                </valItem>
+                                <valItem ident="saws:isVersionInAnotherLanguageOf">
+                                    <desc>http://purl.org/saws/ontology#isVersionInAnotherLanguageOf</desc>
+                                </valItem>
+                                <valItem ident="saws:isVersionOf">
+                                    <desc>http://purl.org/saws/ontology#isVersionOf</desc>
+                                </valItem>
+                                <valItem ident="saws:isYoungerThan">
+                                    <desc>http://purl.org/saws/ontology#isYoungerThan</desc>
+                                </valItem>
+
+
+                            </valList>
+                        </attDef>
+
+                    </attList>
+                </elementSpec>
+
+                <!-- constraining values of div/@type  inherited from EpiDoc-->
+                <elementSpec ident="div" mode="change" module="textstructure">
+                    <constraintSpec scheme="isoschematron" ident="div">
+                        <constraint>
+                            <sch:rule context="tei:div[parent::tei:body]">
+                                <sch:report test="@type='textpart'">the outermost div must always have an attribute type edition, bibliography, commentary, translation or apparatus; type textpart is to be used inside edition.</sch:report>
+                            </sch:rule>
+                        </constraint>
+                    </constraintSpec>
+                    <attList>
+                        <attDef ident="type" mode="replace" usage="req">
+                            <valList type="closed">
+                                <valItem ident="apparatus">
+                                    <desc>to contain apparatus criticus or textual notes</desc>
+                                </valItem>
+                                <valItem ident="bibliography">
+                                    <desc>to contain bibliographical information, previous
+                                        publications, etc.</desc>
+                                </valItem>
+                                <valItem ident="commentary">
+                                    <desc>to contain all editorial commentary,
+                                        historical/prosopographical discussion, etc.</desc>
+                                </valItem>
+                                <valItem ident="edition">
+                                    <desc>to contain the text of the edition itself; may include
+                                        multiple text-parts</desc>
+                                </valItem>
+                                <valItem ident="textpart">
+                                    <desc>used to divide a div[type=edition] into multiple parts
+                                        (fragments, columns, faces, etc.)</desc>
+                                </valItem>
+                                <valItem ident="translation">
+                                    <desc>to contain a translation of the text into one or more
+                                        modern languages</desc>
+                                </valItem>
+                            </valList>
+                        </attDef>
+                        <attDef ident="subtype" mode="replace" usage="opt">
+                            <valList type="open">
+                                <valItem ident="book">
+                                    <desc>this container is for a book and may contain
+                                        chapters</desc>
+                                </valItem>
+                                <valItem ident="chapter">
+                                    <desc>this container is for a chapter and may contain
+                                        sections</desc>
+                                </valItem>
+                                <valItem ident="stanza">
+                                    <desc>this container is for a stanza and may contain
+                                        verses</desc>
+                                </valItem>
+                                
+                                <valItem ident="incipit">
+                                    <desc>incipit of the text</desc>
+                                </valItem>
+                                
+                                <valItem ident="explicit">
+                                    <desc>explicit of the text</desc>
+                                </valItem>
+                                <valItem ident="canon">
+                                    <desc>to be used for canonical texts like LIT2688CanonsNicaea2</desc>
+                                </valItem>
+                            </valList>
+                        </attDef>
+                    </attList>
+                </elementSpec>
+
+
+                <!--         TESTS ONLY -->
+
+                <elementSpec ident="TEI" module="textstructure" mode="change">
+                    <!--             testing for origDate in origin-->
+                    <constraintSpec scheme="isoschematron" ident="TEI">
+                        <constraint>
+                            <sch:rule context="tei:TEI">
+                                <sch:report test="not(@type)">Each record must have a type with one
+                                    of the values suggested.</sch:report>
+                            </sch:rule>
+                        </constraint>
+                    </constraintSpec>
+                    <attList>
+                        <attDef ident="xml:id" mode="change" usage="req">
+                            <desc>For Manuscripts e.g. EMML2312 ES15 (Ethio-SPaRe) BLadd100 (British
+                                Library, fondo, numero) BNFabb3 (Bibliotheque nationale de France,
+                                fondo, numero) Works = LIT1001Homili (LIT + incremental number +
+                                first world of title) Places = LOC2969Ensala (LOC + incremental
+                                number + first world of place name) People = PRS1001AbbaTam (PRS +
+                                incremental number + first world of name) Institutions =
+                                INS0030Addaqaharsi (INS + 4 digit number + first world of
+                                name)</desc>
+                        </attDef>
+
+                        <attDef ident="type" mode="replace" usage="req">
+                            <valList type="closed">
+                                <valItem ident="mss">
+                                    <desc>Description of a Manuscript</desc>
+                                </valItem>
+                                <valItem ident="pers">
+
+                                    <desc>Description of a Person</desc>
+                                </valItem>
+                                <valItem ident="place">
+
+                                    <desc>Description of a generic place</desc>
+                                </valItem>
+                                <valItem ident="ins">
+
+                                    <desc>Description of an institution where manuscripts are
+                                        preserved</desc>
+                                </valItem>
+                                <valItem ident="work">
+
+                                    <desc>Description of a recognizable literary or documentary work
+                                        at any given granularity</desc>
+                                </valItem>
+                                <valItem ident="nar">
+
+                                    <desc>Description of a Narrative Unit, independent of the Work
+                                        or textual unit to which it is part. This includes document
+                                        types, e.g. used to classify additiones to a
+                                        manuscript.</desc>
+                                </valItem>
+                                <valItem ident="auth">
+
+                                    <desc>Description of a concept used as authority list (faith,
+                                        art element)</desc>
+                                </valItem>
+                            </valList>
+                        </attDef>
+
+                    </attList>
+                </elementSpec>
+
+                <elementSpec ident="origin" module="msdescription" mode="change">
+                    <!--             testing for origDate in origin-->
+                    <constraintSpec scheme="isoschematron" ident="origin">
+                        <constraint>
+                            <sch:rule context="tei:origin">
+                                <sch:report test="not(child::tei:origDate)">At least one date must
+                                    be specified, preferably with a type to indicate the origin of
+                                    it and evidence</sch:report>
+                            </sch:rule>
+                        </constraint>
+                    </constraintSpec>
+                </elementSpec>
+
+                <elementSpec ident="geo" module="namesdates" mode="change">
+                    <!--             testing for origDate in origin-->
+                    <constraintSpec scheme="isoschematron" ident="geo">
+                        <constraint>
+                            <sch:rule context="tei:geo">
+                                <sch:report test="not(matches(.,'\-?\d{1,2}\.\d{3,6}\s\-?\d{1,2}\.\d{3,6}'))"> Coordinates should be written as decimal degrees separated by
+                                    a single space e.g. "14.165289 39.447665" latitude first.
+                                </sch:report>
+                            </sch:rule>
+                        </constraint>
+                    </constraintSpec>
+                </elementSpec>
+
+
+                <elementSpec ident="date" module="core" mode="change">
+                    <!--             testing for origDate in origin-->
+                    <constraintSpec scheme="isoschematron" ident="date">
+                        <constraint>
+                            <sch:rule context="tei:date[ancestor::place[@subtype='institution']]">
+                                <sch:report test="not(@type='foundation')">Attribute
+                                    @type='foundation' is require for date into a note about an
+                                    institution.</sch:report>
+                            </sch:rule>
+                        </constraint>
+                    </constraintSpec>
+
+                    <attList>
+                        <attDef ident="type" usage="opt" mode="change">
+                            <datatype maxOccurs="3">
+                                <rng:ref name="data.word"/>
+                            </datatype>
+                            <valList type="open">
+                                <valItem ident="age"/>
+                                <valItem ident="reign"/>
+                                <valItem ident="life"/>
+                                <valItem ident="marriage"/>
+                                <valItem ident="generic-duration"/>
+                                <valItem ident="foundation"/>
+                                <valItem ident="composition"/>
+                                <valItem ident="translation"/>
+                                <valItem ident="revision"/>
+                                <valItem ident="recension"/>
+                                <valItem ident="diesNatalis"/>
+                                <valItem ident="birth"/>
+                                <valItem ident="ascension"/>
+                                <valItem ident="death"/>
+                                <valItem ident="repeated">
+                                    <desc>If the commemoration is repeated, please add this value as
+                                        well in type</desc>
+                                </valItem>
+                            </valList>
+                        </attDef>
+                        <attDef ident="calendar" usage="opt" mode="replace">
+                            <valList type="open">
+                                <valItem ident="world">
+                                    <desc>ʿĀmata ʿālam/ʿĀmata ʾəm-fəṭrat (Era of the World)</desc>
+                                </valItem>
+                                <valItem ident="ethiopian">
+                                    <desc> ʿĀmata śəggāwe (Era of the Incarnation –
+                                        Ethiopian)</desc>
+                                </valItem>
+                                <valItem ident="grace">
+                                    <desc>ʿĀmata məḥrat (Era of Grace)</desc>
+                                </valItem>
+                                <valItem ident="diocletian">
+                                    <desc>ʿĀmata samāʿtāt (Era of Martyrs (Diocletian))</desc>
+                                </valItem>
+                                <valItem ident="alexander">
+                                    <desc> Era of Alexander</desc>
+                                </valItem>
+                                <valItem ident="evangelists">
+                                    <desc>Evangelists' years</desc>
+                                </valItem>
+                                <valItem ident="islamic">
+                                    <desc>Hiǧrī (Islamic)</desc>
+                                </valItem>
+                                <valItem ident="julian">
+                                    <desc> Julian</desc>
+                                </valItem>
+
+                            </valList>
+                        </attDef>
+                    </attList>
+                </elementSpec>
+
+                <elementSpec ident="locus" module="msdescription" mode="change">
+                    <content>
+                        <macroRef key="macro.xtext"/>
+                        <rng:zeroOrMore>
+                            <rng:choice>
+                                <rng:ref name="tei_model.certLike"/>
+                            </rng:choice>
+                        </rng:zeroOrMore>
+                    </content>
+                    <!--  checks that locus has @target or @from-->
+                    <constraintSpec scheme="isoschematron" ident="locus">
+                        <constraint>
+                            <sch:rule context="tei:locus">
+                                <sch:report test="not(@target or @from or @to)">locus must have
+                                    either an exact reference to a page with @target or a range
+                                    indicated with @from and @to or either of the two if the other
+                                    extreme of the range is unknown. Please do not use "unknown" as
+                                    value.</sch:report>
+                            </sch:rule>
+                        </constraint>
+                    </constraintSpec>
+                    
+                </elementSpec>
+
+                <elementSpec ident="item" module="msdescription" mode="change">
+                    <!--  checks that item in collation has @xml:id-->
+                    <constraintSpec scheme="isoschematron" ident="item">
+                        <constraint>
+                            <sch:rule context="tei:item[ancestor::tei:collation]">
+                                <sch:report test="not(@xml:id)">items in collation must have an
+                                    @xml:id</sch:report>
+                            </sch:rule>
+                            <sch:rule context="tei:item[ancestor::tei:collation]">
+                                <sch:report test="not(matches(@xml:id,'q\d+'))"> Items in Collation
+                                    must have ids starting with the letter 'q' followed by a
+                                    progressive number, e.g. q1, q2, q3 </sch:report>
+                            </sch:rule>
+                            <sch:rule context="tei:item[ancestor::tei:additions]">
+                                <sch:report test="not(@xml:id)"> items in additions must have an
+                                    @xml:id</sch:report>
+                            </sch:rule>
+                            <sch:rule context="tei:item[ancestor::tei:additions]">
+                                <sch:report test="not(matches(@xml:id,'a\d+') or matches(@xml:id,'e\d+'))">
+                                    Additions must have ids starting with the letter 'a' followed by
+                                    a progressive number, e.g. a1, a2, a3. In case of other contents
+                                    (varia) use an id starting with 'e. </sch:report>
+                            </sch:rule>
+                        </constraint>
+                    </constraintSpec>
+                    <attList>
+                        <attDef ident="rend" mode="replace" usage="opt">
+                            <valList type="open">
+                                <valItem ident="marginal"/>
+                                <valItem ident="guardLeaf"/>
+                            </valList>
+                        </attDef>
+                    </attList>
+                </elementSpec>
+                
+
+<!--from EpiDoc schema-->
+                <elementSpec ident="supplied" module="transcr" mode="change">
+                    <attList>
+                        <!-- suggested attribute list for supplied/@evidence -->
+                        <attDef ident="evidence" mode="replace" usage="opt">
+                            <datatype maxOccurs="1">
+                                <rng:ref name="data.word"/>
+                            </datatype>
+                            <valList type="semi">
+                                <valItem ident="parallel">
+                                    <desc>Characters supplied from a parallel version of this text, absent from this one</desc>
+                                </valItem>
+                                <valItem ident="previouseditor">
+                                    <desc>Characters visible to a previous editor, now lost/unclear due to damage</desc>
+                                </valItem>
+                            </valList>
+                        </attDef>
+                        <!-- constrained attribute list for supplied/@reason -->
+                        <attDef ident="reason" mode="replace" usage="req">
+                            <valList type="closed">
+                                <valItem ident="lost">
+                                    <desc>Restoration of text completely lost from the
+                                        surface</desc>
+                                </valItem>
+                                <valItem ident="omitted">
+                                    <desc>Supplement of text erroneously omitted from the surface by
+                                        the scribe/cutter</desc>
+                                </valItem>
+                                <valItem ident="subaudible">
+                                    <desc>Editorial supplement of words subaudible to the native
+                                        reader</desc>
+                                </valItem>
+                                <valItem ident="explanation">
+                                    <desc>Editorial explanation of oblique text in original</desc>
+                                </valItem>
+                                <valItem ident="undefined">
+                                    <desc>Text restored (e.g. from earlier witness or alternate
+                                        copy) without specification of current state of this
+                                        text</desc>
+                                </valItem>
+                            </valList>
+                        </attDef>
+                    </attList>
+                </elementSpec>
+                
+                <elementSpec ident="gap" module="core" mode="change">
+                    <attList>
+                        <attDef ident="reason" mode="replace" usage="req">
+                            <valList type="closed">
+                                <valItem ident="rubrication">
+                                    <desc>spaces left for rubrication, which were left unfilled</desc>
+                                </valItem>
+                                <valItem ident="lost">
+                                    <desc>No better specification available, there is simply a gap.</desc>
+                                </valItem>
+<!--                                the following definitions have been inherited from EpiDoc schema-->
+                                <valItem ident="illegible">
+                                    <desc>Traces of text remains on the surface but cannot be
+                                        interpreted</desc>
+                                </valItem>
+                                <valItem ident="omitted">
+                                    <desc>Text erroneously omitted from the surface by the
+                                        scribe/cutter</desc>
+                                </valItem>
+                                <valItem ident="ellipsis">
+                                    <desc>Text omitted from the edition by the editor, for whatever
+                                        reason (brevity, context, language, etc.)</desc>
+                                </valItem>
+                                
+                            </valList>
+                        </attDef>
+                    </attList>
+                </elementSpec>
+                
+                <classSpec type="atts" ident="att.dimensions" mode="change">
+                    <attList>
+                        <attDef ident="precision" mode="replace">
+                            <valList type="closed">
+                                <valItem ident="low"/>
+                                <valItem ident="medium"/>
+                                <valItem ident="high"/>
+                            </valList>
+                        </attDef>
+
+                    </attList>
+                </classSpec>
+
+                <classSpec type="atts" ident="att.responsibility" mode="change">
+                    <attList>
+                        <attDef ident="cert" mode="replace">
+                            <valList type="closed">
+                                <valItem ident="low"/>
+                                <valItem ident="high"/>
+                            </valList>
+                        </attDef>
+                    </attList>
+                </classSpec>
+
+            </schemaSpec>
+        </body>
+    </text>
+</TEI>
