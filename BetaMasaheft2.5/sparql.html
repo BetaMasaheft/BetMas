@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+    <p>Thanks to this package by <a href="https://github.com/ljo/exist-sparql" target="_blank">ljo</a>, you can enter here your SPARQL query to the RDF representation of the data. PLEASE use single quotes ' not double.</p>
+    <p>PREFIXes are already there, start with SELECT... A super tutorial on how to build SPARQL queries is <a href="https://jena.apache.org/tutorials/sparql_basic_patterns.html">here at Apache Jena</a>
+    </p>
+    
+    <div data-template="app:logging"/>
+    <div class="col-md-12">
+        <div class="col-md-6">
+        <form action="" class="form form-horizontal">
+            <div class="form-group">
+                    <textarea class="form-control" name="query" style="height:200px"/>
+                    
+                        <button type="submit" class="btn btn-primary">
+                            Run your query
+                        </button>
+                    
+            </div>
+        </form>
+            <p>You can also use the API to query the SPARQL endpoint, using http://betamasaheft.eu/api/SPARQL with the query in a parameter <i>q</i>. The results are SPARQL Query Results XML Format, as the one visualized below.</p>
+    </div>
+        <div class="col-md-6">
+            <div class="col-md-12">
+                <p>A visualization thanks to <a href="http://vowl.visualdataweb.org/webvowl.html" target="_blank">webVOWL</a> of the current <a href="https://raw.githubusercontent.com/BetaMasaheft/RDF/master/betamasaheft.owl" target="_blank">ontology</a> developed with Protégé.</p>
+                <p>Some examples of the data you are querying</p>
+                <ul>
+                    <li>
+                        <a href="/rdf/LIT3122Galaw.rdf" target="_blank">Literary Work Record</a>
+                    </li>
+                    <li>
+                        <a href="/rdf/BNFet32.rdf" target="_blank">Manuscript Record</a>
+                    </li>
+                    <li>
+                        <a href="/rdf/LOC1261Adulis.rdf" target="_blank">Place Record</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-12">
+                <iframe width="100%" height="300px" src="http://visualdataweb.de/webvowl/#url=https://raw.githubusercontent.com/BetaMasaheft/RDF/master/betamasaheft.json"/>
+            </div>
+        </div>
+    </div>
+    <div data-template="app:sparqlQuery">
+        <div id="sparqlresults">
+            <div data-template="app:sparqlresultstitle"/>
+            <!-- query results -->
+            <div data-template="app:sparqlRes" id="results"/>
+            </div>
+    </div>
+</div>
