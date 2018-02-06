@@ -105,24 +105,27 @@ declare function local:switchCol($type){
 
 declare function local:switchPrefix( $prefix){
 switch ($prefix)
-                                                    case 'INS'
+                                                    case 'IN'
                                                         return
                                                             'institutions'
-                                                    case 'PRS'
+                                                    case 'PR'
                                                         return
                                                             'persons'
-                                                    case 'ETH'
+                                                    case 'ET'
                                                         return
                                                             'persons'
-                                                    case 'LOC'
+                                                    case 'LO'
                                                         return
                                                             'places'
-                                                    case 'LIT'
+                                                    case 'LI'
                                                         return
                                                             'works'
-                                                    case 'NAR'
+                                                    case 'NA'
                                                         return
                                                             'narratives'
+                                                    case 'AT'
+                                                        return
+                                                            'authority-files'
                                                     default return
                                                         'manuscripts'
                                                         };
@@ -210,7 +213,8 @@ else
                 ends-with($exist:path, '/text') or
                 ends-with($exist:path, '/viewer') or
                 ends-with($exist:path, '/time') or
-                starts-with($exist:path, '/user')) then
+                starts-with($exist:path, '/user') or
+                starts-with($exist:path, '/listIds')) then
                    
                     if (ends-with($exist:path, "/")) then
                         <dispatch
@@ -301,11 +305,43 @@ else
                                             
                                             </error-handler>
                                 </dispatch>
+                                
+                                
                                 else 
                                 
 let $Imap := map {'type':= 'xmlitem', 'name' := $id, 'path' := $collection}
 return
                                  error:error($Imap)
+                                 
+                                   else
+                            if (ends-with($exist:path, ".rdf")) then
+                            let $coll := '/db/rdf/'
+                            let $id := substring-before($exist:resource, '.xml')
+                            let $item := doc($coll || $exist:resource)
+                            let $uri := base-uri($item)
+                            return
+                            if ($item) then
+                                <dispatch
+                                    xmlns="http://exist.sourceforge.net/NS/exist">
+                                    <forward
+                                        url="/rdf/{$exist:resource}"/>
+                                        <error-handler>
+                                                <forward
+                                                    url="{$exist:controller}/error/error-page.html"
+                                                    method="get"/>
+                                                <forward
+                                                    url="{$exist:controller}/modules/view.xql"/>
+                                            
+                                            </error-handler>
+                                </dispatch>
+                                
+                                
+                                else 
+                                
+let $Imap := map {'type':= 'xmlitem', 'name' := $id, 'path' := $coll}
+return
+                                 error:error($Imap)
+                                 
                                 (:                    ALSO INTERNAL CALLS of XSLT ARE THUS PROCESSED!:)
                             
                             
@@ -347,7 +383,7 @@ return
                                         
                                         else
                                             if (matches($exist:resource, "\w+\d+(\w+)?")) then
-                                                let $prefix := substring($exist:resource, 1, 3)
+                                                let $prefix := substring($exist:resource, 1, 2)
                                                 let $switchCollection := local:switchPrefix($prefix)
                                             return
                                                 if (not(contains($exist:path, $switchCollection))) then
@@ -493,6 +529,33 @@ return
                                                                                 <add-parameter
                                                                                     name="uri"
                                                                                     value="{('/db/apps/BetMas/xpath.html')}"/>
+                                                                            </forward>
+                                                                            <view>
+                                                                                <forward
+                                                                                    url="{$exist:controller}/modules/view.xql">
+                                                                                </forward>
+                                                                            
+                                                                            </view>
+                                                                            
+                                                                            <error-handler>
+                                                                                <forward
+                                                                                    url="{$exist:controller}/error/error-page.html"
+                                                                                    method="get"/>
+                                                                                <forward
+                                                                                    url="{$exist:controller}/modules/view.xql"/>
+                                                                            </error-handler>
+                                                                        </dispatch>
+                                                                        
+                                                                        else
+                                                                    if (starts-with($exist:path, "/sparql")) then
+                                                                        <dispatch
+                                                                            xmlns="http://exist.sourceforge.net/NS/exist">
+                                                                            <forward
+                                                                                url="{$exist:controller}/sparql.html"
+                                                                                method="get">
+                                                                                <add-parameter
+                                                                                    name="uri"
+                                                                                    value="{('/db/apps/BetMas/sparql.html')}"/>
                                                                             </forward>
                                                                             <view>
                                                                                 <forward

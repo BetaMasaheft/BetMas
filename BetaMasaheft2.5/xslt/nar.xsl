@@ -18,8 +18,8 @@
                 </xsl:for-each>
             </ul>
         </xsl:if>
-        <xsl:if test="//t:listBibl[not(@type='relations')]">
-            <xsl:apply-templates select="//t:listBibl[not(@type='relations')]"/>
+        <xsl:if test="//t:listBibl">
+            <xsl:apply-templates select="//t:listBibl"/>
         </xsl:if>
     </xsl:template>
     <!-- elements templates-->

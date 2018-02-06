@@ -81,7 +81,7 @@
                                             <xsl:otherwise>manuscripts</xsl:otherwise>
                                         </xsl:choose>
                                     </xsl:variable>
-                                    <a href="{.}" class="MainTitle" data-value="{.}">
+                                    <a href="/{.}" class="MainTitle" data-value="{.}">
                                         <xsl:value-of select="."/>
                                     </a>
                                     <a id="{$relsid}Ent{$filename}relations">
@@ -241,7 +241,7 @@
                                             <xsl:otherwise>manuscripts</xsl:otherwise>
                                         </xsl:choose>
                                     </xsl:variable>
-                                    <a href="{.}" class="MainTitle" data-value="{.}">
+                                    <a href="/{.}" class="MainTitle" data-value="{.}">
                                         <xsl:value-of select="$filename"/>
                                     </a>
                                     <a id="{$relsid}Ent{$filename}relations">

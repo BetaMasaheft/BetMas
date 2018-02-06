@@ -27,6 +27,18 @@
             <xsl:when test=". = 'SS'">Sisay Sahile</xsl:when>
             <xsl:when test=". = 'SJ'">Sibylla Jenner</xsl:when>
             <xsl:when test=". = 'JG'">Jacopo Gnisci</xsl:when>
+            <xsl:when test=". = 'MP'">Michele Petrone</xsl:when>
+            <xsl:when test=". = 'SF'">Sara Fani</xsl:when>
+            <xsl:when test=". = 'IP'">Irmeli Perho</xsl:when>
+            <xsl:when test=". = 'RBO'">Rasmus Bech Olsen</xsl:when>
+            <xsl:when test=". = 'AR'">Anne Regourd</xsl:when>
+            <xsl:when test=". = 'AH'">Adday Hernández</xsl:when>
+            <xsl:when test=". = 'JS'">Joshua Sabih</xsl:when>
+            <xsl:when test=". = 'AW'">Andreas Wetter</xsl:when>
+            <xsl:when test=". = 'JML'">John Møller Larsen</xsl:when>
+            <xsl:when test=". = 'AG'">Alessandro Gori</xsl:when>
+            <xsl:when test=". = 'JK'">Jonas Karlsson</xsl:when>
+            <xsl:when test=". = 'EDS'">Eliana Dal Sasso</xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="."/>
             </xsl:otherwise>

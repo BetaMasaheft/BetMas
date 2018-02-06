@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
-    <xsl:template match="t:listBibl[not(@type = 'relations')][not(ancestor::t:note)]">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
+    <xsl:template match="t:listBibl[not(ancestor::t:note)]">
         <xsl:if test="not(parent::t:item)">
             <!--this test simply excludes the title from a bibliography appearing in an item. it might be extended to cover more cases. decoNote, handNote?-->
             <h4>
@@ -95,7 +95,7 @@
             <xsl:apply-templates/>
         </ul>
     </xsl:template>
-    <xsl:template match="t:bibl[parent::t:listBibl[not(@type = 'relations')]][not(ancestor::t:note)]">
+    <xsl:template match="t:bibl[parent::t:listBibl][not(ancestor::t:note)]">
         <li>
             <xsl:if test="@xml:id">
                 <xsl:attribute name="id">
@@ -267,7 +267,7 @@
             </xsl:choose>
         </li>
     </xsl:template>
-    <xsl:template match="t:listBibl[ancestor::t:note][not(@type = 'relations')]">
+    <xsl:template match="t:listBibl[ancestor::t:note]">
         <xsl:apply-templates mode="intext"/>
     </xsl:template>
     <xsl:template match="t:bibl" mode="intext">
@@ -307,12 +307,12 @@
     <xsl:template match="t:bibl[not(parent::t:listBibl)]">
         <xsl:choose>
             <xsl:when test="not(@corresp) and not(t:ptr[@target])">
-                <b xmlns="http://www.w3.org/1999/xhtml" style="color:red;">THIS BIBLIOGRAPHIC RECORD
+                <b style="color:red;">THIS BIBLIOGRAPHIC RECORD
                     IS WRONGLY ENCODED. Please check the schema error report to fix it.</b>
                 <xsl:value-of select="."/>
             </xsl:when>
             <xsl:when test="@corresp">
-                <a xmlns="http://www.w3.org/1999/xhtml" href="{@corresp}">
+                <a href="{@corresp}">
                     <xsl:value-of select="text()"/>
                 </a>
                 <xsl:if test="t:date">

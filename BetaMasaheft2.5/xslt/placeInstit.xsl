@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="/">
-        <div id="description" class="col-md-8">
+        <div id="description" class="{if(t:TEI/@type='ins') then 'institutionView' else 'col-md-8'}">
             <h2>Names <xsl:if test="//t:place/@sameAs">
                     <xsl:variable name="sAs" select="//t:place/@sameAs"/>
                     <xsl:variable name="gnid" select="substring-after(//t:place/@sameAs, 'gn:')"/>

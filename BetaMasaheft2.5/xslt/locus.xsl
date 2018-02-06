@@ -317,25 +317,25 @@
                                         http://digi.vatlib.it/iiif/MSS_Vat.et.1/manifest.json
                                         -->
                                         <xsl:choose>
-                                            <xsl:when test="@from and @to">
+                                            <xsl:when test="(@from and @to) and (matches(@from, '\d') and matches(@to, '\d'))">
                                                 <xsl:variable name="from" select="                                             if(contains(@from, 'r'))                                              then substring-before(@from, 'r')                                                                                          else  if(contains(@from, 'v'))                                              then (substring-before(@from, 'v'))                                                                                          else @from                                                                                          "/>
                                                 <xsl:variable name="to" select="                                                 if(contains(@to, 'r'))                                                  then substring-before(@to, 'r')                                                                                                   else  if(contains(@to, 'v'))                                                  then (substring-before(@to, 'v'))                                                                                                  else @to                                                                                                  "/>
                                                 <xsl:variable name="count" select="(number($to) - number($from)) + 1"/><!--how many images to take, images are openings in this case, + 1 is to include the verso-->
                                                 <xsl:variable name="tiles">
-                                                     
-<!--                                                        the format-number function in the concat takes what is in @facs of the current locus (stored in variable $f) and adds to it progressively the number in count. 
+                                                    
+                                                    <!--                                                        the format-number function in the concat takes what is in @facs of the current locus (stored in variable $f) and adds to it progressively the number in count. 
                                                             So, starting from 6 and looping on count=3 we will have the following sequence 6, 6+1=7, 6+2=8, 6+3=9 -->
-                                                        <xsl:sequence select="for $x in 0 to (xs:integer($count)) return concat('&#34;',$iiif,                                                              format-number(                                                             (xs:integer($f) + $x)                                                             , '0000'),                                                             '.jp2/info.json','&#34;,')"/>
+                                                    <xsl:sequence select="for $x in 0 to (xs:integer($count)) return concat('&#34;',$iiif,                                                              format-number(                                                             (xs:integer($f) + $x)                                                             , '0000'),                                                             '.jp2/info.json','&#34;,')"/>
                                                 </xsl:variable>
                                                 <xsl:variable name="str" select="string-join($tiles, ' ')"/><!--makes the sequence into a string-->
                                                 <xsl:value-of select="substring($str, 1, string-length($str) - 1)"/><!--strips the last commma-->
                                             </xsl:when>
-                                            <xsl:when test="@from and not(@to)">
+                                            <xsl:when test="@from and not(@to) and matches(@from, '\d')">
                                                 <xsl:text>"</xsl:text>
                                                 <xsl:value-of select="concat($iiif, @facs,'.jp2/info.json')"/>
                                                 <xsl:text>"</xsl:text>
                                             </xsl:when>
-                                            <xsl:when test="@target">
+                                            <xsl:when test="@target and matches(@target, '\d')">
                                                 <xsl:for-each select="tokenize(@facs, ' ')">
                                                     <xsl:text>"</xsl:text>
                                                     <xsl:value-of select="concat($iiif, .,'.jp2/info.json')"/>

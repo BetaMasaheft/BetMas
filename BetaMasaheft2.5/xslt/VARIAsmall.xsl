@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.torg/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:desc[parent::t:relation]">
         <xsl:apply-templates/>
     </xsl:template>
@@ -170,7 +170,7 @@
             <xsl:when test="following-sibling::t:*[1][self::t:locus]">
                 <xsl:text>: </xsl:text>
             </xsl:when>
-        <xsl:when test="position() != last()">
+            <xsl:when test="following-sibling::t:measure[@unit='leaf'][@type='blank']">
                 <xsl:text>, </xsl:text>
             </xsl:when>
             <xsl:otherwise>
@@ -224,6 +224,9 @@
         <p>
             <b>Language of text: </b>
             <xsl:value-of select="//t:language[@ident = $curlang]"/>
+            <xsl:if test="@otherLangs">
+                <xsl:variable name="Otherlang" select="@otherLangs"/> and <xsl:value-of select="//t:language[@ident = $Otherlang]"/>
+            </xsl:if>
         </p>
     </xsl:template>
     <xsl:template match="t:signatures">
@@ -234,11 +237,32 @@
         </xsl:if>
     </xsl:template>
     <xsl:template match="t:desc[not(parent::t:relation)][not(parent::t:handNote)]">
-        <xsl:apply-templates/>
+        <p>
+            <xsl:apply-templates/>
+        </p>
     </xsl:template>
+    
+    
+    <xsl:template match="t:term[parent::t:desc]">
+        <a target="_blank">
+            <xsl:attribute name="href">
+                <xsl:value-of select="concat('/authority-files/list?keyword=', @key)"/>
+            </xsl:attribute>
+            <xsl:choose>
+                <xsl:when test="text()">
+                    <xsl:value-of select="text()"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <span class="MainTitle" data-value="{@key}"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </a>
+    </xsl:template>
+    
     <xsl:template match="t:q">
-        <xsl:if test="ancestor::t:decoNote">Legend: </xsl:if>
+        
         <p lang="{@xml:lang}">
+            <xsl:if test="ancestor::t:decoNote">Legend: </xsl:if>
             <xsl:choose>
                 <xsl:when test="text()">
                     <xsl:value-of select="concat('(', @xml:lang, ') ')"/>

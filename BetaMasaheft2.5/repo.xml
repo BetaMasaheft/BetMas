@@ -10,6 +10,8 @@
     <target>BetMas</target>
     <prepare>pre-install.xql</prepare>
     <finish/>
-    <permissions xmlns:repo="http://exist-db.org/xquery/repo" password="" user="Pietro" group="dba" mode="rw-rw-r--"/>
+    <permissions user="Pietro" group="dba" mode="rw-rw-r--"/>
 
+
+<deployed>2018-02-05T07:50:32.298+01:00</deployed>
 </meta>

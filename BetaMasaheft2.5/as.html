@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/search.html" data-template-at="content">
+    
+    <div data-template="app:logging"/>
     <div class="col-md-6 well" id="searchform">
 <!--        <script type="text/javascript" src="resources/js/formSelector.js"/>-->
     <form action="" id="gsf" class="form form-horizontal">
@@ -75,10 +77,18 @@
                     <div class="col-md-6 col-xs-6">
                         <label class="control-label col-sm-3" for="GoTo">Contains reference to...</label>
                         <div class="col-sm-9">
-                            <input placeholder="type the name of the entity" class="form-control" list="gotohits" id="GoTo" name="references" data-value="all"/>
-                            <datalist id="gotohits">
+                            <label class="form-check-label">
+                            <input type="radio" class="form-check-input" name="AttestedInType" id="AttestedInTypeID" value="1" checked="checked"/>
+                            ID
+                        </label>
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="AttestedInType" id="AttestedInTypeTITLE" value="2"/>
+                                Title
+                            </label>
+                            <input placeholder="type the name of the entity" class="form-control" id="GoTo" data-value="all"/>
+                            <select class="form-control" id="gotohits" name="references">
                                 
-                            </datalist>
+                            </select>
                         </div>
                             
                     </div>
@@ -153,12 +163,12 @@
                     <div class="col-md-6 col-xs-6">
                         <label class="control-label col-sm-3" for="mssFilters">Manuscripts Filters</label>
                         <div class="col-sm-9" id="mssFilter">
-                            <input type="checkbox" value="msstargets"/> specific manuscript<br/>
                             <input type="checkbox" value="institutions"/> repositories<br/>
                             <input type="checkbox" value="dimensions"/> dimensions<br/>
                             <input type="checkbox" value="folia"/> number of folia<br/>
                             <input type="checkbox" value="quires"/> number of quires<br/>
                             <input type="checkbox" value="writtenLines"/> number of written lines<br/>
+                            <input type="checkbox" value="CUnumber"/> minimum number of codicological units<br/>
                             <input type="checkbox" value="script"/> script<br/>
                             <input type="checkbox" value="scribe"/> scribe<br/>
                             <input type="checkbox" value="donor"/> donor<br/>

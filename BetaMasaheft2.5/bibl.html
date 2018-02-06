@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/list.html" data-template-at="content">
-    <div class="table-responsive">
-        <table class="table table-hover" id="completeList">
-            <thead>
-                <tr>
-                    <th>Publication</th>
-                    <th>Cited By</th>
-                    <th>n.</th>
-                </tr>
-            </thead>
-            <tbody>
-                <div data-template="lists:bibl"/>
-            </tbody>
-        </table>
+    <div data-template="lists:bibl">
+       
+            <span id="hit-count" data-template="app:hit-count"/>
+        <p>The content of the bibliographic entry are printed from Zotero, and are not alphabetically sorted. you can use filters to limit the list</p>
+        <div class="col-md-3">
+            <div data-template="lists:biblform"/>
+            
+        </div>
+            <div class="col-md-9">
+                <div class="hidden-xs">
+                    <ul class="pagination" data-template="app:paginate" data-template-per-page="20" data-template-max-pages="9" data-template-min-hits="21"/>
+                </div>
+                
+                <!-- query results -->
+                <div data-template="lists:biblRes" data-template-per-page="20" id="results" class="col-md-12"/>
+                
+                <!--             bottom pagination for larger device -->
+                <div class="hidden-xs">
+                    <ul class="pagination" data-template="app:paginate" data-template-per-page="20" data-template-max-pages="9" data-template-min-hits="21"/>
+                </div>
+            </div>
     </div>
+    <div data-template="app:logging"/>
+    
     <script src="/resources/js/biblio.js"/>
 </div>

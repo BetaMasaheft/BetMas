@@ -32,11 +32,23 @@
             </h5>
         </xsl:if>
 
-        <xsl:if test="t:seg[@type = 'script']">
+        <xsl:choose>
+            <xsl:when test="t:seg[@type = 'script']">
             <p>
                 <xsl:apply-templates select="t:seg[@type = 'script']"/>
-</p>
-        </xsl:if>
+            </p>
+        </xsl:when>
+            <xsl:otherwise>
+                <xsl:choose>
+                    <xsl:when test="@script">
+                        <xsl:value-of select="@script"/>
+                    </xsl:when>
+                    <xsl:otherwise/>
+                </xsl:choose>
+            </xsl:otherwise>
+        </xsl:choose>
+        
+        
         <xsl:if test="t:seg[@type = 'rubrication']">
             <p>
                 <xsl:apply-templates select="t:seg[@type = 'rubrication']"/>
@@ -46,7 +58,7 @@
             <p>Ink: <xsl:apply-templates select="t:seg[@type = 'ink']"/>
             </p>
         </xsl:if>
-        <xsl:if test="t:list[@type = 'abbreviations']">
+      <xsl:if test="t:list[@type = 'abbreviations']">
             <h4> Abbreviations </h4>
             <ul>
                 <xsl:for-each select="t:list[@type = 'abbreviations']/t:item">
@@ -59,6 +71,6 @@
         <xsl:if test="t:persName[@role = 'scribe']">
             <h4>Scribe</h4>
         </xsl:if>
-        <xsl:apply-templates select="child::node() except (t:list | t:ab[@type = 'script'] | t:seg)"/>
+          <xsl:apply-templates select="child::node() except (t:list | t:ab[@type = 'script'] | t:seg)"/>
     </xsl:template>
 </xsl:stylesheet>

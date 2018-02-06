@@ -375,7 +375,7 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
 
     <!--    populate witness with idnos-->
     
-    <xsl:template match="t:bibl[not(parent::t:listBibl[@type = 'relations'])][not(@type = 'external')]">
+    <xsl:template match="t:bibl[not(@type = 'external')]">
       <!--  
         <xsl:apply-templates select="@xml:id"/>
       -->  <xsl:if test="t:ptr">

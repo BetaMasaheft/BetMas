@@ -35,7 +35,7 @@
                             <xsl:if test="//t:titleStmt/t:title[@corresp]">
                                 <xsl:text> (</xsl:text>
                                 <xsl:for-each select="//t:titleStmt/t:title[substring-after(@corresp, '#') = $id]">
-                                    <xsl:sort/>
+                                    <xsl:sort select="if (@xml:lang) then @xml:lang else position()" order="descending"/>
                                     <xsl:value-of select="."/>
                                     <xsl:if test="@xml:lang">
                                         <sup>
@@ -176,17 +176,24 @@
             </xsl:if>
             <xsl:if test="//t:listWit">
                 <h2>Witnesses</h2>
-                <p>The following manuscripts are reported as witnesses. Please check <a href="/seealso/{//t:TEI/@xml:id}">here</a> for a live updated list of manuscript pointing to this record.</p>
+                <p>The following manuscripts are reported as witnesses. Please check <a href="/seealso/{//t:TEI/@xml:id}">here</a> for a live updated list of manuscripts pointing to this record.</p>
                 <xsl:apply-templates select="//t:listWit[not(parent::t:listWit)]"/>
             </xsl:if>
             <xsl:if test="//t:sourceDesc/t:p">
                 <xsl:apply-templates select="//t:sourceDesc/t:p"/>
             </xsl:if>
-            <xsl:if test="//t:div[@type='bibliography']/t:listBibl[not(@type='relations')]">
-                <div id="bibliography">
-                    <xsl:apply-templates select="//t:div[@type='bibliography']/t:listBibl[not(@type='relations')]"/>
+            
+            <xsl:if test="//t:listBibl[@type='clavis']">
+                <div id="clavisbibliography">
+                    <xsl:apply-templates select="//t:listBibl[@type='clavis']"/>
                 </div>
             </xsl:if>
+            <xsl:if test="//t:div[@type='bibliography']/t:listBibl">
+                <div id="bibliography">
+                    <xsl:apply-templates select="//t:div[@type='bibliography']/t:listBibl"/>
+                </div>
+            </xsl:if>
+            
             <!--<xsl:if test="//t:body[t:div[@type='edition'][t:ab or t:div[@type='textpart']]]">
                 <div class="row-fluid well" id="textpartslist">
                     <h4>Text Parts</h4>

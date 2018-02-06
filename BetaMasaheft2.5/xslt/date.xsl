@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:date">
         <xsl:choose>
             <xsl:when test="text()"/>
@@ -36,7 +36,7 @@
                 <xsl:choose>
                     <xsl:when test="contains(@resp,'PRS')">
                         <xsl:for-each select="tokenize(normalize-space(@resp), ' ')">
-                            <a xmlns="http://www.w3.org/1999/xhtml" href="{.}" class="MainTitle" data-value="{.}">
+                            <a href="{.}" class="MainTitle" data-value="{.}">
                                 <xsl:value-of select="."/>
                             </a>
                         </xsl:for-each>
@@ -185,7 +185,7 @@
                                         <xsl:choose>
                                             <xsl:when test="contains(@resp,'PRS')">
                                                 <xsl:for-each select="tokenize(normalize-space(@resp), ' ')">
-                                                    <a xmlns="http://www.w3.org/1999/xhtml" href="{.}" class="MainTitle" data-value="{.}">
+                                                    <a href="{.}" class="MainTitle" data-value="{.}">
                                                         <xsl:value-of select="."/>
                                                     </a>
                                                 </xsl:for-each>

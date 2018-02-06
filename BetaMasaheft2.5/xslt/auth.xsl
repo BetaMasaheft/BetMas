@@ -13,6 +13,16 @@
             <xsl:apply-templates select="//t:listBibl"/>
         </div>
     </xsl:template>
+    
+    <xsl:template match="t:list[ancestor::t:abstract or ancestor::t:desc]">
+        <ol>
+            <xsl:for-each select="t:item">
+                <li>
+                    <xsl:apply-templates/>
+                </li>
+            </xsl:for-each>
+        </ol>
+    </xsl:template>
     <!-- elements templates-->
     <xsl:include href="locus.xsl"/>
     <xsl:include href="bibl.xsl"/>

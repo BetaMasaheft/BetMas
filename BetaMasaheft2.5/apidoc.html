@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+
+    <div data-template="app:logging"/>
     <h1>Beta maṣāḥǝft API documentation</h1>
     <div class="col-md-12" id="apidoctoc">
-        <p>The base uri for the API is <code>http://betamasaheft.eu/api/</code> which
-        will redirect you here unless specified.</p>
+        <p>The base uri for the API is <code>http://betamasaheft.eu/api/</code> which will redirect
+            you here unless specified.</p>
         <ul>
             <li>
                 <a class="page-scroll" href="#apisearch">API search</a>
@@ -11,7 +13,7 @@
             <li>
                 <a class="page-scroll" href="#APIpatternsKWIC">API search KWIC</a>
             </li>
-            
+
             <li>
                 <a class="page-scroll" href="#getlistoffiles">GET list</a>
             </li>
@@ -40,7 +42,8 @@
                 <a class="page-scroll" href="#dillmannsearch">Search Dillmann Lexicon</a>
             </li>
             <li>
-                <a class="page-scroll" href="#dillmannlist">GET list of lemmas in Dillmann Lexicon</a>
+                <a class="page-scroll" href="#dillmannlist">GET list of lemmas in Dillmann
+                    Lexicon</a>
             </li>
             <li>
                 <a class="page-scroll" href="#dillmannlemma">GET lemma from Dillmann Lexicon</a>
@@ -52,9 +55,11 @@
     </div>
     <div class="col-md-12">
         <h2 id="apisearch">API search</h2>
-        <p> You can search the XML data with the following call. The parameter q takes the query text where white space is interpreted as OR. You can use lucene query synthax like Pie* or use "Pierre AND Bel" to find both Pierre and Bel in the selected elements.</p>
-        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to
-            table of contents</a>
+        <p> You can search the XML data with the following call. The parameter q takes the query
+            text where white space is interpreted as OR. You can use lucene query synthax like Pie*
+            or use "Pierre AND Bel" to find both Pierre and Bel in the selected elements.</p>
+        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to table of
+            contents</a>
         <div id="APIpatterns" class="APIexamplestable row">
             <div class="row lead">
                 <div class="col-md-2">Pattern</div>
@@ -195,11 +200,12 @@
             </div>
         </div>
     </div>
-        <div class="col-md-12">
-            <h2 id="APIpatternsKWIC">API KWIC search</h2>
-            <p> You can search the XML data with a call like this:</p>
-            <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to
-                table of contents</a>
+    
+    <div class="col-md-12">
+        <h2 id="APIpatternsKWIC">API KWIC search</h2>
+        <p> You can search the XML data with a call like this:</p>
+        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to table of
+            contents</a>
         <div id="APIpatternssearchKWIC" class="APIexamplestable row">
             <div class="row lead">
                 <div class="col-md-2">Pattern</div>
@@ -260,7 +266,7 @@
                     </ul>
                 </div>
                 <div class="col-md-4">
-                    <div id="APISearchParameters">
+                    <div id="APISearchParameters1">
                         <div class="row">
                             <div class="col-md-4">
                                 <b>Parameter name</b>
@@ -269,11 +275,11 @@
                                 <b>Available values</b>
                             </div>
                         </div>
-                        <form id="params">
+                        <form id="APIparams">
                             <div class="row">
                                 <label class="col-md-4">element</label>
                                 <div class="col-md-8">
-                                    <select name="element" id="element" data-value="search">
+                                    <select name="element" id="APIelement" data-value="search">
                                         <option/>
                                         <option value="title">title</option>
                                         <option value="persName">persName</option>
@@ -313,21 +319,21 @@
                             </div>
                             <div class="row">
                                 <label class="col-md-4">script</label>
-                                <div class="col-md-8">
+                               <!-- <div class="col-md-8">
                                     <span data-template="app:scripts"/>
-                                </div>
+                                </div>-->
                             </div>
                             <div class="row">
                                 <label class="col-md-4">material</label>
-                                <div class="col-md-8">
+                                <!--<div class="col-md-8">
                                     <span data-template="app:material"/>
-                                </div>
+                                </div>-->
                             </div>
                             <div class="row">
                                 <label class="col-md-4">term</label>
-                                <div class="col-md-8">
+                                <!--<div class="col-md-8">
                                     <span data-template="app:keywords"/>
-                                </div>
+                                </div>-->
                             </div>
                         </form>
                     </div>
@@ -342,13 +348,15 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
+    
     <div class="col-md-12">
         <h2 id="getlistoffiles">GET list of files in a collection</h2>
-        <p>Depending on the type of record you are asking for you will get a different set of values in each item.</p>
-        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to
-            table of contents</a>
+        <p>Depending on the type of record you are asking for you will get a different set of values
+            in each item.</p>
+        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to table of
+            contents</a>
         <div>
             <div class="col-md-12">
                 <p>For all records:</p>
@@ -425,14 +433,14 @@
                         <form id="listparams">
                             <div class="row">
                                 <label class="col-md-4">collection</label>
-                                <div class="col-md-8">manuscripts, persons, places, works, narratives, institutions
-                                </div>
+                                <div class="col-md-8">manuscripts, persons, places, works,
+                                    narratives, institutions </div>
                             </div>
                             <div class="row">
                                 <label class="col-md-4">term</label>
-                                <div class="col-md-8">
+                                <!--<div class="col-md-8">
                                     <span data-template="app:keywords"/>
-                                </div>
+                                </div>-->
                             </div>
                             <div class="row">
                                 <label class="col-md-4">start</label>
@@ -440,7 +448,8 @@
                             </div>
                             <div class="row">
                                 <label class="col-md-4">perpage</label>
-                                <div class="col-md-8">how many items per page to return. Default: 25</div>
+                                <div class="col-md-8">how many items per page to return. Default:
+                                    25</div>
                             </div>
                         </form>
                     </div>
@@ -483,9 +492,9 @@
                         </div>
                         <div class="row">
                             <label class="col-md-4">term</label>
-                            <div class="col-md-8">
+                            <!--<div class="col-md-8">
                                 <span data-template="app:keywords"/>
-                            </div>
+                            </div>-->
                         </div>
                         <div class="row">
                             <label class="col-md-4">start</label>
@@ -493,7 +502,8 @@
                         </div>
                         <div class="row">
                             <label class="col-md-4">perpage</label>
-                            <div class="col-md-8">how many items per page to return. Default: 25</div>
+                            <div class="col-md-8">how many items per page to return. Default:
+                                25</div>
                         </div>
                     </div>
                 </div>
@@ -508,12 +518,14 @@
             </div>
         </div>
     </div>
+    
     <div class="col-md-12">
         <h2 id="getrawdata">GET resource data</h2>
-        <p>beside the methods below, for places and institutions geoJSON can be obtained appending .json to the entry url.</p>
+        <p>beside the methods below, for places and institutions geoJSON can be obtained appending
+            .json to the entry url.</p>
         <a href="/institutions/INS0002AAI.json">http://betamasaheft.eu/institutions/INS0002AAI.json</a>
-        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to
-            table of contents</a>
+        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to table of
+            contents</a>
         <div id="APIpatternsRaw" class="APIexamplestable">
             <div class="row lead">
                 <div class="col-md-2">Pattern</div>
@@ -568,10 +580,11 @@
             </div>
         </div>
     </div>
+    
     <div class="col-md-12">
         <h2 id="canonicaltitle">GET canonical title of file</h2>
-        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to
-            table of contents</a>
+        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to table of
+            contents</a>
         <div id="APIpatternsTitle" class="APIexamplestable">
             <div class="row lead">
                 <div class="col-md-2">Pattern</div>
@@ -584,7 +597,7 @@
                     <pre>/api/{id}/title</pre>
                 </div>
                 <div class="col-md-4">
-                <!-- <div id="APIRawParameters">
+                    <!-- <div id="APIRawParameters">
                     <div class="row">
                         <div class="col-md-4"><b>Parameter name</b></div>
                         <div class="col-md-8"><b>Available values</b></div>
@@ -606,7 +619,7 @@
                     <pre>/api/{id}/{anchor}/title</pre>
                 </div>
                 <div class="col-md-4">
-                <!-- <div id="APIRawParameters">
+                    <!-- <div id="APIRawParameters">
                     <div class="row">
                         <div class="col-md-4"><b>Parameter name</b></div>
                         <div class="col-md-8"><b>Available values</b></div>
@@ -625,12 +638,13 @@
             </div>
         </div>
     </div>
+    
     <div class="col-md-12">
         <h2 id="getclavis">GET clavis IDs</h2>
         <p>Check the correct id exists <a href="/works/">here.</a>
         </p>
-        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to
-            table of contents</a>
+        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to table of
+            contents</a>
         <div id="APIpatternsJSONclavis" class="APIexamplestable">
             <div class="row lead">
                 <div class="col-md-2">Pattern</div>
@@ -641,16 +655,16 @@
             <div class="row">
                 <div class="col-md-2">
                     <pre>/api/clavis/{id}</pre>
-                    </div>
+                </div>
                 <div class="col-md-4">
                     <div id="APIJSONclavisParameters">
                         <div class="row">
                             <div class="col-md-4">
                                 <pre>api/clavis/LIT1367Exodus</pre>
                             </div>
-                           
+
                         </div>
-                        
+
                     </div>
                 </div>
                 <div class="col-md-2 urlexample">
@@ -673,7 +687,7 @@
                                 <pre>api/clavis?q=pilati</pre>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
                 <div class="col-md-2 urlexample">
@@ -687,13 +701,13 @@
             </div>
         </div>
     </div>
-    
+
     <div class="col-md-12">
         <h2 id="gettextcontent">GET text</h2>
         <p>Check the correct id exists <a href="/works/">here.</a>
         </p>
-        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to
-            table of contents</a>
+        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to table of
+            contents</a>
         <div id="APIpatternsJSONtext" class="APIexamplestable">
             <div class="row lead">
                 <div class="col-md-2">Pattern</div>
@@ -704,7 +718,8 @@
             <div class="row">
                 <div class="col-md-2">
                     <pre>/api/dts/text/{id}/{level1}/{level2}/{startline-endline}</pre>
-                    <p>In the response you will get navigation aids to go to the next and previous section, to the parent and the children of your current selection</p>
+                    <p>In the response you will get navigation aids to go to the next and previous
+                        section, to the parent and the children of your current selection</p>
                 </div>
                 <div class="col-md-4">
                     <div id="APIJSONtextParameters">
@@ -734,7 +749,8 @@
             <div class="row">
                 <div class="col-md-2">
                     <pre>/api/xml/{id}/{level1}/{level2}/{startline-endline}</pre>
-                    <p>In the response you will get navigation aids to go to the next and previous section, to the parent and the children of your current selection</p>
+                    <p>In the response you will get navigation aids to go to the next and previous
+                        section, to the parent and the children of your current selection</p>
                 </div>
                 <div class="col-md-4">
                     <div id="APIxmltextParameters">
@@ -766,8 +782,8 @@
     <div class="col-md-12">
         <h2 id="getadditionstext">GET XML text of additions or specific catalogue record parts</h2>
         <p>This only works for manuscript catalogue records.</p>
-        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to
-            table of contents</a>
+        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to table of
+            contents</a>
         <div id="APIpatternsXMLOthertext" class="APIexamplestable">
             <div class="row lead">
                 <div class="col-md-2">Pattern</div>
@@ -778,7 +794,8 @@
             <div class="row">
                 <div class="col-md-2">
                     <pre>/BetMas/api/otherMssText/{id}/{anchor}</pre>
-                    <p>Typically catalogue records will contain text in additions, extras, incipit, explicit and colophon or notes, but there might be more.</p>
+                    <p>Typically catalogue records will contain text in additions, extras, incipit,
+                        explicit and colophon or notes, but there might be more.</p>
                 </div>
                 <div class="col-md-4">
                     <div id="APIxmltextOtherParameters">
@@ -792,8 +809,8 @@
                         </div>
                         <div class="row">
                             <label class="col-md-4">element</label>
-                            <div class="col-md-8">you can add any tei element name to specify the element who should have that id... but id are unique!
-                        </div>
+                            <div class="col-md-8">you can add any tei element name to specify the
+                                element who should have that id... but id are unique! </div>
                         </div>
                     </div>
                 </div>
@@ -811,13 +828,13 @@
     <div class="col-md-12">
         <h2 id="getplacedata">GET place data in KML or geoJSON.</h2>
         <p>This only works for manuscript catalogue records.</p>
-        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to
-            table of contents</a>
+        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to table of
+            contents</a>
         <div class="row">
             <div class="col-md-2">
                 <pre>/api/geoJson/places</pre>
                 <pre>/api/geoJson/institutions</pre>
-               </div>
+            </div>
             <div class="col-md-4">
                 <div id="APIgeoJSONtextParameters">
                     <div class="row">
@@ -835,13 +852,12 @@
                 <pre class="APIexampleJSON" data-value="geoJsontext"/>
             </div>
         </div>
-        
+
         <div class="row">
             <div class="col-md-2">
                 <pre>/{$id}.json</pre>
-                </div>
-            <div class="col-md-4">
             </div>
+            <div class="col-md-4"> </div>
             <div class="col-md-2 urlexample">
                 <pre>
                         <a id="geoJsonOne" href="http://betamasaheft.eu/LOC3577Gondar.json">http://betamasaheft.eu/LOC3577Gondar.json</a>
@@ -857,16 +873,14 @@
                 <p>get places mentioned in one item</p>
             </div>
             <div class="col-md-4">
-                <div id="APIKML">
-                    
-                </div>
+                <div id="APIKML"> </div>
             </div>
             <div class="col-md-2 urlexample">
                 <pre>
                         <a id="KML" href="/api/KML/places/BNFet32">http://betamasaheft.eu/api/KML/places/BNFet32</a>
                     </pre>
             </div>
-            
+
             <div class="col-md-4">
                 <p>Click on link.</p>
             </div>
@@ -876,28 +890,28 @@
                 <pre>/api/KML/place/{$placeid}</pre>
                 <p>get for one place all its attestations with date if available in the element</p>
             </div>
-            <div class="col-md-4">
-            </div>
+            <div class="col-md-4"> </div>
             <div class="col-md-2 urlexample">
                 <pre>
                         <a id="KMLdates" href="/api/KML/place/LOC3577Gondar">http://betamasaheft.eu/api/KML/place/LOC3577Gondar</a>
                     </pre>
             </div>
-            
+
             <div class="col-md-4">
                 <p>Click on link.</p>
             </div>
         </div>
         <div class="row">
-            <p>There are several other place related queries possible. Please, ask if you need anything in particular.</p>
+            <p>There are several other place related queries possible. Please, ask if you need
+                anything in particular.</p>
         </div>
     </div>
     <div class="col-md-12"/>
     <div class="col-md-12">
         <h2 id="dillmannsearch">Search Dillmann lexicon</h2>
         <p>Search in the Dillmann lexicon works pretty much the same.</p>
-        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to
-            table of contents</a>
+        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to table of
+            contents</a>
         <div id="APIpatternsDillmanSearch" class="APIexamplestable">
             <div class="row lead">
                 <div class="col-md-2">Pattern</div>
@@ -951,7 +965,8 @@
                         </div>
                         <div class="row">
                             <label class="col-md-4">element</label>
-                            <div class="col-md-8">you can add any tei dictionary element name to specify the element  you want to search into.</div>
+                            <div class="col-md-8">you can add any tei dictionary element name to
+                                specify the element you want to search into.</div>
                         </div>
                     </div>
                 </div>
@@ -980,8 +995,8 @@
     </div>
     <div class="col-md-12">
         <h2 id="dillmannlist">GET list of lemmas from Dillmann lexicon</h2>
-        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to
-            table of contents</a>
+        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to table of
+            contents</a>
         <div id="APIpatternsdillmannlist" class="APIexamplestable">
             <div class="row lead">
                 <div class="col-md-2">Pattern</div>
@@ -1055,13 +1070,17 @@
     </div>
     <div class="col-md-12">
         <h2 id="dillmannlemma">GET lemma from Dillmann Lexicon</h2>
-        <p>You can see the raw data appending .xml to the lemma you land on. Alternatively a text only version is available appending .txt to your lemma url. These are not served by this API but by an XSLT transformation.</p>
+        <p>You can see the raw data appending .xml to the lemma you land on. Alternatively a text
+            only version is available appending .txt to your lemma url. These are not served by this
+            API but by an XSLT transformation.</p>
         <p>
-            <a href="/Dillmann/lemma/Lb4b820d2caa64822aaffe29dc1ce0e06">http://betamasaheft.eu/Dillmann/lemma/Lb4b820d2caa64822aaffe29dc1ce0e06</a> is the html view</p>
+            <a href="/Dillmann/lemma/Lb4b820d2caa64822aaffe29dc1ce0e06">http://betamasaheft.eu/Dillmann/lemma/Lb4b820d2caa64822aaffe29dc1ce0e06</a> is the
+            html view</p>
         <p>
-            <a href="/Dillmann/lemma/Lb4b820d2caa64822aaffe29dc1ce0e06.xml">http://betamasaheft.eu/Dillmann/lemma/Lb4b820d2caa64822aaffe29dc1ce0e06.xml</a> is the source data</p>
-        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to
-           table of contents</a>
+            <a href="/Dillmann/lemma/Lb4b820d2caa64822aaffe29dc1ce0e06.xml">http://betamasaheft.eu/Dillmann/lemma/Lb4b820d2caa64822aaffe29dc1ce0e06.xml</a> is
+            the source data</p>
+        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to table of
+            contents</a>
         <div id="APIpatternsdillmanntxt" class="APIexamplestable">
             <div class="row lead">
                 <div class="col-md-2">Pattern</div>
@@ -1072,7 +1091,8 @@
             <div class="row">
                 <div class="col-md-2">
                     <pre>/api/Dillmann/{id}/txt</pre>
-                    <p>return only the entry in txt as in original file (retransformed with xslt)</p>
+                    <p>return only the entry in txt as in original file (retransformed with
+                        xslt)</p>
                 </div>
                 <div class="col-md-4"/>
                 <div class="col-md-2 urlexample">
@@ -1084,7 +1104,7 @@
                     <p>Click on link.</p>
                 </div>
             </div>
-        
+
         </div>
         <div id="APIpatternsdillmannlemma" class="APIexamplestable">
             <div class="row lead">
@@ -1127,10 +1147,12 @@
     </div>
     <div class="col-md-12">
         <h2 id="iiif">GET IIIF API Manifest</h2>
-        <p>How to get available manifests for manuscripts or collections. Please for a description see the IIIF Prentation API. URIs of canvases and sequences are dereferncable. The collection request will also list available manifests linked to our records.</p>
-        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to
-           table of contents</a>
+        <p>How to get available manifests for manuscripts or collections. Please for a description
+            see the IIIF Prentation API. URIs of canvases and sequences are dereferncable. The
+            collection request will also list available manifests linked to our records.</p>
+        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to table of
+            contents</a>
         <div data-template="apidoc:iiif"/>
-        </div>
+    </div>
     <script type="text/javascript" src="resources/js/APIexamples.js"/>
 </div>
