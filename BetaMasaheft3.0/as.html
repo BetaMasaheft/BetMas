@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/search.html" data-template-at="content">
+    
+    <div data-template="app:logging"/>
+    <div class="col-md-6 well" id="searchform">
+<!--        <script type="text/javascript" src="resources/js/formSelector.js"/>-->
+    <form action="" id="gsf" class="form form-horizontal">
+            <div class="form-group">
+                <div class="col-md-12">
+                    <h3>General Search Options <a data-toggle="modal" data-target="#searchinfo">
+                            <i class="fa fa-info-circle" aria-hidden="true"/>
+                        </a>
+                    </h3>
+                    
+                </div>
+                <div id="searchinfo" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">close</button>
+                                <h4 class="modal-title">General Search</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>This form runs a text search in the data. Note that not all the content displayed in the views is in the data, thus for example you will need to look for an id to be sure to get all records which contain a reference to a specific item.</p>
+                                <p>All filters are multiselect. Please, hold CTRL or CMD to select more then one option.</p>
+                                <p>Leave the option unselected to select all. The only required field is the text to be searched.</p>
+                                <p>To filter a list of entities without a text search, please use the list views and filters.</p>
+                                <p>You can also <a href="/xpath.html">enter directly a xpath query</a> if you feel ok with that.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group list place mss work nar ins pers">
+                    <div class="col-md-6 col-xs-6">
+                        <label class="control-label col-sm-3" for="query">Text</label>
+                        <div class="col-sm-9">
+                            <span data-template="app:queryinput"/>
+<!--                                <input id="textarea" name="query" class="form-control diacritics" placeholder="type here the text you want to search"/>-->
+                                
+                            <span class="btn-group">
+                                <a class="kb btn btn-success">
+                                    <i class="fa fa-keyboard-o" aria-hidden="true"/>
+                                </a>
+                               <a href="/Dillmann/" title="search lexicon" class="btn btn-default">
+                                    <i class="fa fa-book" aria-hidden="true"/>
+                                </a>
+                                <a href="#" class="btn btn-default" data-toggle="modal" data-target="#searchHelp">
+                                    <i class="fa fa-info-circle" aria-hidden="true"/>
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-6">
+                        <p>Please click on the info button for more information about the text search</p>
+                        <div/>
+                    </div>
+                </div>
+                <div class="form-group list place mss work nar ins pers" data-toggle="tooltip" data-placement="left" title="Where do you want to search?">
+                    <div class="col-md-6 col-xs-6">
+                        <label class="control-label col-sm-3" for="element">Indexes</label>
+                        <div class="col-sm-9">
+                            <span data-template="app:elements"/>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-6">
+                        <p>If you don't select anything, the text search will look into 
+                            <code>ab</code>, <code>persName</code> and <code>title</code>,
+                            which are the elements in the XML source files most likely to contain searchable text
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group list place mss work nar ins pers" data-toggle="tooltip" data-placement="left" title="Should the matching entities contain references to something else?">
+                    
+                    <div class="col-md-6 col-xs-6">
+                        <label class="control-label col-sm-3" for="GoTo">Contains reference to...</label>
+                        <div class="col-sm-9">
+                            <label class="form-check-label">
+                            <input type="radio" class="form-check-input" name="AttestedInType" id="AttestedInTypeID" value="1" checked="checked"/>
+                            ID
+                        </label>
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="AttestedInType" id="AttestedInTypeTITLE" value="2"/>
+                                Title
+                            </label>
+                            <input placeholder="type the name of the entity" class="form-control" id="GoTo" data-value="all"/>
+                            <select class="form-control" id="gotohits" name="references">
+                                
+                            </select>
+                        </div>
+                            
+                    </div>
+                    
+                    <div class="col-md-6 col-xs-6">
+                        <p>Enter here a stable id which should occur in the record you are looking for. You can also start typing a title to get suggestions. If more then one, please separate with comma. Both ids will have to occur.</p>
+                    </div>
+                  
+                </div>
+                
+                <div class="form-group list place mss work nar ins pers" data-toggle="tooltip" data-placement="left" title="look up the id in the repositories">
+                    
+                <div class="col-md-6 col-xs-6">
+                    <label class="control-label col-sm-3">Look up by ID</label>
+                    <div class="col-sm-9">
+                        <input placeholder="type the id of the entity or part of it" class="form-control" name="xmlid"/>
+                        
+                    
+                        </div>
+                    
+            </div>
+        
+        <div class="col-md-6 col-xs-6">
+            <p>Type an id or part of an id which should occur or identify in the record you are looking for. </p>
+        </div>
+        
+    </div>
+                
+                
+                <div class="form-group">
+                    <div class="col-md-6 col-xs-6">
+                        <label class="control-label col-sm-3" for="worktypes">Search only a type of entity</label>
+                        <div class="col-sm-9" id="worktypes">
+                            <input type="checkbox" name="work-types" value="mss"/>Manuscripts<br/>
+                            <input type="checkbox" name="work-types" value="work"/>Works<br/>
+                            <input type="checkbox" name="work-types" value="nar"/>Narratives<br/>
+                            <input type="checkbox" name="work-types" value="pers"/>Persons<br/>
+                            <input type="checkbox" name="work-types" value="place"/>Places<br/>
+                            <input type="checkbox" name="work-types" value="ins"/>Repositories<br/>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-6">Select more general filters</div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-6 col-xs-6">
+                        <label class="control-label col-sm-3" for="generalfilter">more general filters</label>
+                        <div class="col-sm-9" id="generalfilter">
+                            <input type="checkbox" value="languages"/> language<br/>
+                            <input type="checkbox" value="keywords"/> keywords<br/>
+                            <input type="checkbox" value="relations"/> relation types<br/>
+                            <input type="checkbox" value="date"/> date range<br/>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-6">Select more general filters</div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-6 col-xs-6">
+                        <label class="control-label col-sm-3" for="collectionfilter">more specific filters</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="collectionfilter">
+                                <option>Choose a data type</option>
+                                <option value="mss">Manuscripts</option>
+                                <option value="works">Textual and Narrative units (Works)</option>
+                                <option value="pers">Persons</option>
+                                <option value="places">Places and Repositories</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-6">Select to see a list of available specific filters</div>
+                </div>
+                <div class="form-group" id="manuscriptsFilters" style="display:none;">
+                    <div class="col-md-6 col-xs-6">
+                        <label class="control-label col-sm-3" for="mssFilters">Manuscripts Filters</label>
+                        <div class="col-sm-9" id="mssFilter">
+                            <input type="checkbox" value="institutions"/> repositories<br/>
+                            <input type="checkbox" value="dimensions"/> dimensions<br/>
+                            <input type="checkbox" value="folia"/> number of folia<br/>
+                            <input type="checkbox" value="quires"/> number of quires<br/>
+                            <input type="checkbox" value="writtenLines"/> number of written lines<br/>
+                            <input type="checkbox" value="CUnumber"/> minimum number of codicological units<br/>
+                            <input type="checkbox" value="script"/> script<br/>
+                            <input type="checkbox" value="scribe"/> scribe<br/>
+                            <input type="checkbox" value="donor"/> donor<br/>
+                            <input type="checkbox" value="patron"/> patron<br/>
+                            <input type="checkbox" value="owner"/> owner<br/>
+                            <input type="checkbox" value="binder"/> binder<br/>
+                            <input type="checkbox" value="parchmentMaker"/> parchment maker<br/>
+                            <input type="checkbox" value="objectType"/> support<br/>
+                            <input type="checkbox" value="material"/> material<br/>
+                            <input type="checkbox" value="bmaterial"/> binding material<br/>
+                            <input type="checkbox" value="contents"/> contents<br/>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-6">Select more general filters</div>
+                </div>
+                <div class="form-group" id="worksFilters" style="display:none;">
+                    <div class="col-md-6 col-xs-6">
+                        <label class="control-label col-sm-3" for="wFilters">Works Filters</label>
+                        <div class="col-sm-9" id="wFilter">
+                            <input type="checkbox" value="target-works"/>specific works<br/>
+                            <input type="checkbox" value="authors"/>author<br/>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-6">Select more general filters</div>
+                </div>
+                <div class="form-group" id="persFilters" style="display:none;">
+                    <div class="col-md-6 col-xs-6">
+                        <label class="control-label col-sm-3" for="pFilters">Persons Filters</label>
+                        <div class="col-sm-9" id="pFilter">
+                            <input type="checkbox" value="gender"/> gender<br/>
+                            <input type="checkbox" value="occupation"/> occupation<br/>
+                            <input type="checkbox" value="role"/> role<br/>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-6">Select more general filters</div>
+                </div>
+                <div class="form-group" id="placesFilters" style="display:none;">
+                    <div class="col-md-6 col-xs-6">
+                        <label class="control-label col-sm-3" for="plFilters">Places Filters</label>
+                        <div class="col-sm-9" id="plFilter">
+                            <input type="checkbox" value="placeType"/> type<br/>
+                            <input type="checkbox" value="tabots"/> tabots<br/>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-6">Select more general filters</div>
+                </div>
+                <img id="loadingform" src="resources/images/giphy.gif" style="display: none; width: 20%;"/>
+                <div id="AddFilters"/>
+            </div>
+        <button type="submit" id="submit-data" class="btn btn-primary"> SEARCH
+                <span class="glyphicon glyphicon-search"/>
+            </button>
+    </form>
+    </div>
+    <div class="col-md-6">
+        <button class="btn btn-primary" id="tooglesearchfield">Hide/show search filters</button>
+        
+        <img id="loading" src="resources/Loading.gif" style="display: none;"/>   
+        <div id="persWithRoleResults"/>
+        <div data-template="app:query">
+        <div id="content">
+            <a href="." class="nav-link" data-template="app:copy-params"/>
+            <p>
+                <span id="hit-count" data-template="app:hit-count"/>
+            </p>
+            
+                <div class="hidden-xs">
+                    <ul class="pagination" data-template="app:paginate" data-template-per-page="20" data-template-max-pages="9" data-template-min-hits="21"/>
+                </div>
+                
+                <!-- query results -->
+                <div data-template="app:searchRes" data-template-per-page="20" id="results" class="container"/>
+                
+                <!--             bottom pagination for larger device -->
+                <div class="hidden-xs">
+                    <ul class="pagination" data-template="app:paginate" data-template-per-page="20" data-template-max-pages="9" data-template-min-hits="21"/>
+                </div>
+            
+        </div>
+    </div>
+    </div>
+    <div data-template="app:modals"/>
+    <div data-template="app:searchhelp"/>
+    
+    <script type="text/javascript" src="resources/js/lookup.js"/>
+<!--    <script type="application/javascript" src="resources/js/asdisable.js">-->
+
+    <!--</script>-->
+</div>
