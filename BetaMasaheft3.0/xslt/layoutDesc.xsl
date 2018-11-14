@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:layoutDesc">
-        <h3>Layout <xsl:if test="./ancestor::t:msPart">
+        <div rel="http://purl.org/dc/terms/hasPart"><h3>Layout <xsl:if test="./ancestor::t:msPart">
                 <xsl:variable name="currentMsPart">
                     <a href="{./ancestor::t:msPart/@xml:id}">
                         <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
@@ -11,6 +10,7 @@
         </h3>
         <xsl:for-each select=".//t:layout">
             <xsl:sort select="position()"/>
+        <div id="layout{position()}" resource="http://betamasaheft.eu/{$mainID}/layout/layout{position()}">    
             <h4>
                 <xsl:text>Layout note</xsl:text>
                 <xsl:text> </xsl:text>
@@ -60,46 +60,21 @@
                         </td>
                     </tr>
                     </xsl:if>
-                    <xsl:if test="t:dimensions[not(@type = 'margin')]/t:dim[@type = 'top']">
-                    <tr>
-                        <td>Margins</td>
-                        <td>Top: <span class="lead">
-                                <xsl:value-of select="t:dimensions[@type = 'margin']/t:dim[@type = 'top']"/>
-                            </span>
-                            <xsl:value-of select=".//t:dimensions[@type = 'margin'][t:dim[@type = 'top']]/@unit"/>
-                        </td>
-                    </tr>
-                    </xsl:if>
-                    <xsl:if test="t:dimensions[not(@type = 'margin')]/t:dim[@type = 'bottom']">
-                    <tr>
-                        <td/>
-                        <td>Bottom: <span class="lead">
-                                <xsl:value-of select="t:dimensions[@type = 'margin']/t:dim[@type = 'bottom']"/>
-                            </span>
-                            <xsl:value-of select="t:dimensions[@type = 'margin'][t:dim[@type = 'bottom']]/@unit"/>
-                        </td>
-                    </tr>
-                    </xsl:if>
-                    <xsl:if test="t:dimensions[not(@type = 'margin')]/t:dim[@type = 'right']">
-                    <tr>
-                        <td/>
-                        <td>Right: <span class="lead">
-                                <xsl:value-of select="t:dimensions[@type = 'margin']/t:dim[@type = 'right']"/>
-                            </span>
-                            <xsl:value-of select="t:dimensions[@type = 'margin'][t:dim[@type = 'right']]/@unit"/>
-                        </td>
-                    </tr>
-                    </xsl:if>
-                    <xsl:if test="t:dimensions[not(@type = 'margin')]/t:dim[@type = 'left']">
-                    <tr>
-                        <td/>
-                        <td>Left: <span class="lead">
-                                <xsl:value-of select="t:dimensions[@type = 'margin']/t:dim[@type = 'left']"/>
-                            </span>
-                            <xsl:value-of select="t:dimensions[@type = 'margin'][t:dim[@type = 'left']]/@unit"/>
-                        </td>
-                    </tr>
-                    </xsl:if>
+                   <xsl:if test="t:dimensions[@type = 'margin']/t:dim[@type]">
+                       
+                       <tr><td><b>Margins</b></td><td/></tr>
+                       <xsl:for-each select="t:dimensions[@type = 'margin']/t:dim[@type]">
+                           
+                           <tr>
+                               <td><xsl:value-of select="@type"/></td>
+                               <td><span class="lead">
+                                   <xsl:value-of select="."/>
+                               </span>
+                                   <xsl:value-of select="@unit"/>
+                               </td>
+                           </tr>
+                    </xsl:for-each>
+                   </xsl:if>
                 </table>
                 <xsl:if test="t:note">
                     <p>
@@ -148,6 +123,7 @@
                     </p>
                 </div>
             </xsl:if>
+        </div>
         </xsl:for-each>
         <xsl:if test=".//t:ab[@type = 'ruling']">
             <h3>Ruling <xsl:if test="./ancestor::t:msPart">
@@ -164,7 +140,17 @@
                         <xsl:if test="@subtype">(Subtype: <xsl:value-of select="@subtype"/>
                             <xsl:text>) </xsl:text>
                         </xsl:if>
-                        <xsl:value-of select="."/>
+                        <xsl:choose>
+                            <xsl:when test="@subtype='pattern'">
+                                <xsl:variable name="muzerelle">http://palaeographia.org/muzerelle/regGraph2.php?F=</xsl:variable>
+                                <xsl:analyze-string select="." regex="(([A-Z\d\-]+)/([A-Z\d\-]+)/([A-Z\d\-]+)/([A-Z\d\-]+))">
+                                    <xsl:matching-substring><a href="{concat($muzerelle, regex-group(1))}" target="_blank"><xsl:value-of select="regex-group(1)"/></a></xsl:matching-substring>
+                                    <xsl:non-matching-substring><xsl:value-of select="."/></xsl:non-matching-substring>
+                                </xsl:analyze-string>
+                            </xsl:when>
+                            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+                        </xsl:choose>
+                        
                     </li>
                 </xsl:for-each>
             </ul>
@@ -322,6 +308,6 @@
             <h4>crux</h4>
             <p>Yes <xsl:apply-templates select="//t:layout//t:ab[@type = 'ChiRho']"/>
             </p>
-        </xsl:if>
+        </xsl:if></div>
     </xsl:template>
 </xsl:stylesheet>

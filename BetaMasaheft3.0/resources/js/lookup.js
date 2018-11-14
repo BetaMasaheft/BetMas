@@ -14,10 +14,12 @@ $('#gsf').on('submit', function(){
  * from https://stackoverflow.com/questions/17785010/jquery-uncheck-other-checkbox-on-one-checked
  */
  $("[id^='AttestedInType']").on('change', function () {
-     
+     console.log('you did something')
      $("[id^='AttestedInType']").not(this).prop('checked', false);
      
  });
+ 
+ 
  
  
 $(document).on('ready', function () {

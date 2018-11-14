@@ -8,7 +8,6 @@ module namespace apisparql = "https://www.betamasaheft.uni-hamburg.de/BetMas/api
 import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "titles.xqm";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
-import module namespace console = "http://exist-db.org/xquery/console";
 import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "editors.xqm";
 import module namespace sparql="http://exist-db.org/xquery/sparql" at "java:org.exist.xquery.modules.rdf.SparqlModule";
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "tei2string.xqm";
@@ -42,6 +41,73 @@ declare variable $apisparql:response400 := $config:response400;
         
 declare variable $apisparql:response400XML := $config:response400XML;
 declare variable $apisparql:prefixes := $config:sparqlPrefixes;
+
+
+ declare
+%rest:GET
+%rest:path("/BetMas/{$id}/rdf")
+%output:method("xml")
+function apisparql:constructURIid($id as xs:string*) {
+let $uri := $config:appUrl || '/' ||$id
+let $q := ($apisparql:prefixes || 'CONSTRUCT {<'||$uri||'> ?p1 ?o1 . 
+?s2 ?p2 <'||$uri||'> .}
+WHERE {{<'||$uri||'> ?p1 ?o1 .}UNION{?s2 ?p2 <'||$uri||'> .}}')  
+let $xml := sparql:query($q)
+return
+($apisparql:response200XML,
+$xml
+)};
+
+ declare
+%rest:GET
+%rest:path("/BetMas/{$id}/{$class}/{$subid}/rdf")
+%output:method("xml")
+function apisparql:constructURIsubid($id as xs:string*,$class as xs:string*,$subid as xs:string*) {
+let $uri := $config:appUrl || '/' ||$id||'/'||$class||'/'||$subid 
+let $q := ($apisparql:prefixes || 'CONSTRUCT {<'||$uri||'> ?p1 ?o1 . 
+?s2 ?p2 <'||$uri||'> .}
+WHERE {{<'||$uri||'> ?p1 ?o1 .}UNION{?s2 ?p2 <'||$uri||'> .}}')  
+let $xml := sparql:query($q)
+return
+($apisparql:response200XML,
+$xml
+)};
+
+
+(:http://betamasaheft.eu/BNFet32/person/annotation/95
+http://betamasaheft.eu/BNFet32/place/annotation/1
+:)
+declare
+%rest:GET
+%rest:path("/BetMas/{$id}/{$class}/annotation/{$n}/rdf")
+%output:method("xml")
+function apisparql:constructURIannotation($id as xs:string*,$class as xs:string*,$n as xs:string*) {
+let $uri := $config:appUrl || '/' ||$id||'/'||$class||'/annotation/'||$n 
+let $q := ($apisparql:prefixes || 'CONSTRUCT {<'||$uri||'> ?p1 ?o1 . 
+?s2 ?p2 <'||$uri||'> .}
+WHERE {{<'||$uri||'> ?p1 ?o1 .}UNION{?s2 ?p2 <'||$uri||'> .}}')  
+let $xml := sparql:query($q)
+return
+($apisparql:response200XML,
+$xml
+)};
+
+
+(:http://betamasaheft.eu/bond/snap:GrandfatherOf-PRS1854Amdase:)
+declare
+%rest:GET
+%rest:path("/BetMas/bond/{$bond}/rdf")
+%output:method("xml")
+function apisparql:constructURIbond($bond as xs:string*) {
+let $uri := $config:appUrl || '/bond/' ||$bond 
+let $q := ($apisparql:prefixes || 'CONSTRUCT {<'||$uri||'> ?p1 ?o1 . 
+?s2 ?p2 <'||$uri||'> .}
+WHERE {{<'||$uri||'> ?p1 ?o1 .}UNION{?s2 ?p2 <'||$uri||'> .}}')  
+let $xml := sparql:query($q)
+return
+($apisparql:response200XML,
+$xml
+)};
 
  declare
 %rest:GET
@@ -194,8 +260,8 @@ declare
 %output:method("json")
 function apisparql:sparqlQueryJSON($id as xs:string*) {
 
-let $query := ((if(starts-with($query, 'PREFIX')) then () else $apisparql:prefixes) || "
-SELECT ?r ?y 
+let $query := ($apisparql:prefixes || "
+SELECT ?x ?r ?y 
 WHERE {?x ?r bm:" || $id || " . 
 ?x crm:P48_has_preferred_identifier ?y}")
 let $sparqlresults := sparql:query($query)
@@ -204,14 +270,49 @@ return
 if(count($results) >= 1) then
 ($apisparql:response200Json,
 for $result in $results
-let $r := $result//sr:binding[1]//sr:uri/text()
-let $y := $result//sr:binding[2]//sr:literal/text()
+let $id := $result//sr:binding[1]//sr:uri/text()
+let $r := $result//sr:binding[2]//sr:uri/text()
+let $y := $result//sr:binding[3]//sr:literal/text()
 let $title := titles:printTitleMainID($y)
 return
 
 map {
 'relation' := $r,
-'id' := $title
+'id' := $id,
+'title' := $title
+}
+
+)
+else 
+($apisparql:response200Json,
+map {
+'info' := 'sorry, no relations available in our RDF data'
+}
+
+)
+};
+
+declare
+%rest:GET
+%rest:path("/BetMas/api/SPARQL/SdCunits/{$type}")
+%output:method("json")
+function apisparql:SdCunits($type as xs:string*) {
+
+let $query := ( $apisparql:prefixes|| "
+SELECT *
+WHERE {?x a SdC:Uni" || $type || "}")
+let $sparqlresults := sparql:query($query)
+let $results := $sparqlresults//sr:result
+return 
+if(count($results) >= 1) then
+($apisparql:response200Json,
+let $rs := for $result in $results return $result//sr:binding//text()
+let $rsarray := if(count($rs) = 1) then [$rs] else $rs
+return
+
+map {
+'results' := $rsarray,
+'total' := count($results)
 }
 
 )
@@ -231,7 +332,7 @@ declare
 function apisparql:sparqlQuery($id as xs:string*, $chapterID as xs:string*) {
 
 
-let $query := ((if(starts-with($query, 'PREFIX')) then () else $apisparql:prefixes) || "
+let $query := ($apisparql:prefixes || "
 SELECT ?otherVersionid
 WHERE { 
    {bm:" || $id || " saws:isVersionOf ?MAIN . 

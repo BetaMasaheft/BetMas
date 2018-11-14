@@ -11,7 +11,6 @@ import module namespace titles = "https://www.betamasaheft.uni-hamburg.de/BetMas
 import module namespace app = "https://www.betamasaheft.uni-hamburg.de/BetMas/app" at "app.xqm";
 import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "editors.xqm";
 import module namespace coord = "https://www.betamasaheft.uni-hamburg.de/BetMas/coord" at "coordinates.xql";
-import module namespace console = "http://exist-db.org/xquery/console";
 import module namespace http = "http://expath.org/ns/http-client";
 
 declare namespace fo = "http://www.w3.org/1999/XSL/Format";
@@ -569,15 +568,17 @@ declare function fo:tei2fo($nodes as node()*) {
     
     case element(tei:listWit)
         return
-            <fo:block
+            <fo:block margin-top="3mm"
             >
+            <fo:block>{string($node/@rend)}</fo:block>
                 {fo:tei2fo($node/node())}
             </fo:block>
     
     case element(tei:witness)
         return
             
-            <fo:block>{if($node/@xml:id) then (string($node/@xml:id) || ': ') else ()} {titles:printTitleID(string($node/@corresp))}</fo:block>
+            <fo:block margin-bottom="2mm">{if($node/@xml:id) then <fo:inline font-weight="bold">{(string($node/@xml:id) || ': ')}</fo:inline> else ()} {if($node/@type = 'external') then <fo:basic-link
+                        external-destination="{string($node/@facs)}" font-weight="bold">{string($node/@corresp)}</fo:basic-link> else titles:printTitleID(string($node/@corresp))}</fo:block>
     
     
     case element(tei:titleStmt)
@@ -651,9 +652,51 @@ declare function fo:tei2fo($nodes as node()*) {
     
     case element(tei:listBibl)
         return
-            <fo:block>
-                <fo:block>{functx:capitalize-first(string($node/@type))} Bibliography</fo:block>
-                {fo:tei2fo($node/node())}
+            <fo:block margin-top="5mm">
+                <fo:block margin-bottom="3mm" font-size="larger" font-weight="bold">{functx:capitalize-first(string($node/@type))} Bibliography</fo:block>
+                {if($node/tei:bibl) then 
+                let $file := $node/ancestor::tei:TEI
+                for $b in $node/tei:bibl
+                let $z := fo:Zotero($b/tei:ptr/@target)
+                let $zt := substring(string-join($z),1,10)
+                order by $zt
+                return
+                  if ($b/node()) then
+                <fo:block font-family="Titus" 
+                start-indent="1cm" 
+                text-indent="-1cm"> {$z}
+                {if($b/@corresp) then
+                
+                let $corr := if (contains($b/@corresp, ' ')) 
+                         then (for $x in tokenize($b/@corresp, ' ') return $x) else string($b/@corresp)
+               let $corresps := for $cor in $corr
+                                     return if (starts-with($cor, '#')) then substring-after($cor, '#') else $cor
+                let $correspsEl :=  for $c in $corresps 
+                                let $ref :=  $file//id($c) 
+                                return 
+                                (
+                                (if($ref/text()) then $ref/text() 
+                                else if ($ref/name() = 'listWit') then 
+                                                                for $wit in $ref/tei:witness
+                                                                let $i := string($wit/@corresp)
+                                                                return 
+                                                                titles:printTitleMainID($i)
+                              else if ($ref/name() = 'witness') then 
+                                                               let $i := string($ref/@corresp)
+                                                               return
+                                                                titles:printTitleMainID($i)
+                               else concat($ref/name(), ' ', string($ref/@corresp)))
+                               ||
+                               
+                               (if($ref/@xml:lang) then concat(' [', $file//tei:language[@ident = $ref/@xml:lang], ']') else ()))
+                return (' (about: ' || 
+                string-join($correspsEl, '; ')
+                || ')'
+                ) else ()}
+                </fo:block>
+            else
+                ()
+                else fo:tei2fo($node/node())}
             </fo:block>
     
     case element(tei:bibl)
@@ -661,7 +704,37 @@ declare function fo:tei2fo($nodes as node()*) {
             if ($node/node()) then
                 <fo:block font-family="Titus" 
                 start-indent="1cm" 
-                text-indent="-1cm"> {fo:Zotero($node/tei:ptr/@target)}</fo:block>
+                text-indent="-1cm"> {fo:Zotero($node/tei:ptr/@target)}
+                {if($node/@corresp) then
+                
+                let $file := $node/ancestor::tei:TEI
+                let $corr := if (contains($node/@corresp, ' ')) 
+                         then (for $x in tokenize($node/@corresp, ' ') return $x) else string($node/@corresp)
+               let $corresps := for $cor in $corr
+                                     return if (starts-with($cor, '#')) then substring-after($cor, '#') else $cor
+                let $correspsEl :=  for $c in $corresps 
+                                let $ref :=  $file//id($c) 
+                                return 
+                                (
+                                (if($ref/text()) then $ref/text() 
+                                else if ($ref/name() = 'listWit') then 
+                                                                for $wit in $ref/tei:witness
+                                                                let $i := string($wit/@corresp)
+                                                                return 
+                                                                titles:printTitleMainID($i)
+                              else if ($ref/name() = 'witness') then 
+                                                               let $i := string($ref/@corresp)
+                                                               return
+                                                                titles:printTitleMainID($i)
+                               else concat($ref/name(), ' ', string($ref/@corresp)))
+                               ||
+                               
+                               (if($ref/@xml:lang) then concat(' [', $file//tei:language[@ident = $ref/@xml:lang], ']') else ()))
+                return ('(about: ' || 
+                string-join($correspsEl, '; ')
+                || ')'
+                ) else ()}
+                </fo:block>
             else
                 ()
     
@@ -1040,7 +1113,7 @@ declare function fo:titlepage($file, $titleStmt as element(tei:titleStmt), $pubS
                     $title)
                 }
             </fo:block>
-            {if(count($file//tei:change[contains(., 'completed')]) ge 1) then (console:log('publishable pdf')) else (
+            {if(count($file//tei:change[contains(., 'completed')]) ge 1) then () else (
             <fo:block
                 text-align="center"
                 font-size="20pt"
@@ -1092,7 +1165,7 @@ declare function fo:titlepage($file, $titleStmt as element(tei:titleStmt), $pubS
             </fo:block>
             <fo:block
                 text-align="center"
-                font-size="20pt"
+                font-size="14pt"
                 font-style="italic"
                 space-before="2em"
                 space-after="2em">
@@ -1337,13 +1410,18 @@ declare function fo:paleo($handDesc as element(tei:handDesc)) {
                         <fo:table-row
                             height="25pt">
                             <fo:table-cell><fo:block
-                                    font-weight="bold">{'Hand ' || string($handnote/@xml:id) || ' (' || string($handnote/@script) || ')'}</fo:block></fo:table-cell>
-                            <fo:table-cell><fo:block>{
+                                    font-weight="bold">
+                                    {'Hand ' || string($handnote/@xml:id) || ' (' || string($handnote/@script) || ')'}
+                                    </fo:block>
+                            </fo:table-cell>
+                            <fo:table-cell>
+                              <fo:block>{
                                         if ($handnote/node()) then
                                             fo:tei2fo($handnote/node())
                                         else
                                             ()
-                                    }</fo:block></fo:table-cell>
+                                    }</fo:block>
+                             </fo:table-cell>
                         
                         
                         </fo:table-row>
@@ -1964,16 +2042,25 @@ declare function fo:main($id as xs:string) {
                 font-family="Ludolfus"
                 text-align="justify">
                 {
-                    switch ($ty)
-                        case 'place'
+(:                main switch between types:)
+ switch ($ty)
+case 'place'
                             return
                                 (<fo:block>{fo:tei2fo($file//tei:place)}</fo:block>,
                                 <fo:block>{fo:tei2fo($file//tei:listBibl/node())}</fo:block>)
-                        case 'pers'
+
+
+
+
+case 'pers'
                             return
                                 (<fo:block>{fo:tei2fo($file//tei:person/node())}</fo:block>
                                 (:<fo:block>{fo:tei2fo($file//tei:div[@type = 'bibliography']/node())}</fo:block>:))
-                        case 'work'
+
+
+
+
+case 'work'
                             return
                                 
                                     (<fo:block>
@@ -2016,7 +2103,7 @@ declare function fo:main($id as xs:string) {
                                             space-after="3mm">Witnesses</fo:block>
                                         
                                         <fo:block>
-                                            {fo:tei2fo($file//tei:listWit/node())}</fo:block>
+                                            {fo:tei2fo($file//tei:listWit[not(parent::tei:listWit)])}</fo:block>
                                     </fo:block>
                                 else
                                     (),
@@ -2046,7 +2133,7 @@ declare function fo:main($id as xs:string) {
                                             space-after="3mm">Edition Bibliography</fo:block>
                                         
                                         <fo:block>
-                                            {fo:tei2fo($file//tei:div[@type='bibliography']/tei:listBibl/node())}</fo:block>
+                                            {fo:tei2fo($file//tei:div[@type='bibliography']/tei:listBibl)}</fo:block>
                                     </fo:block>
                                 else
                                     (),
@@ -2065,8 +2152,12 @@ declare function fo:main($id as xs:string) {
                                     </fo:block>
                                 else
                                     ())
-                                    
-                                    case 'auth'
+    
+    
+    
+    
+    
+case 'auth'
                             return
                                 
                                     (<fo:block>
@@ -2129,13 +2220,23 @@ declare function fo:main($id as xs:string) {
                                 else
                                     ())
                         
-                        case 'mss'
+
+
+
+
+
+case 'mss'
                             return
-                                
-                                if ($file//tei:msPart) then
+(:                                if there are parts :)
+                                if ($file//tei:msPart or $file//tei:msFrag) 
+                                then
+                                   let $parts := ($file//tei:msPart, $file//tei:msFrag)
+                                    return 
                                     (
+(:                                    first deal with the main data, then with the parts:)
                                     if ($file//tei:msDesc/node()) then
-                                        (<fo:block>
+                                        ( 
+                                        <fo:block>
                                             <fo:block
                                                 start-indent="1em"
                                                 end-indent="1em"
@@ -2164,7 +2265,7 @@ declare function fo:main($id as xs:string) {
                                         else
                                             ()
                                         ,
-                                        if ($file//tei:msDesc//tei:decoDesc) then(<fo:block>
+                                        if ($file//tei:msDesc/tei:physDesc/tei:decoDesc) then(<fo:block>
                                                 <fo:block
                                                 margin-top="3mm"
                                                     start-indent="1em"
@@ -2173,10 +2274,9 @@ declare function fo:main($id as xs:string) {
                                                     space-before="2mm"
                                                     space-after="3mm">Decorations</fo:block>
                                             </fo:block>,
-                                            <fo:block>{fo:deco($file//tei:msDesc//tei:decoDesc)}</fo:block>)
+                                            <fo:block>{fo:deco($file//tei:msDesc/tei:physDesc/tei:decoDesc)}</fo:block>)
                                         else
-                                            ()
-                                        ,
+                                            (),
                                         if ($file//tei:msDesc/tei:additions//tei:list) then
                                             (<fo:block>
                                                 <fo:block
@@ -2187,32 +2287,36 @@ declare function fo:main($id as xs:string) {
                                                     space-before="2mm"
                                                     space-after="3mm">Additions</fo:block>
                                             </fo:block>,
-                                            <fo:block>{fo:additions($file//tei:msDesc//tei:additions)}</fo:block>)
+                                            <fo:block>{fo:additions($file//tei:msDesc/tei:additions)}</fo:block>)
                                         else
                                             ()
                                         )
                                     else
                                         (),
-                                    for $mP at $p in $file//tei:msPart
-                                    let $uid := substring-after($mP/@xml:id, 'p')
+(:                                        now that the main part is done, do the parts:)
+
+                        for $mP at $p in $parts
+                                    let $uid := if($mP/name() = 'msFrag') then substring-after($mP/@xml:id, 'f') else  substring-after($mP/@xml:id, 'p')
+                                    let $partType :=  if($mP/name() = 'msFrag') then 'fragment' else  'part'
                                     return
-                                        (<fo:block>
+                                        (
+                                        <fo:block>
                                             <fo:block
                                                 start-indent="1em"
                                                 end-indent="1em"
                                                 font-size="1.5em"
                                                 space-before="5mm"
                                                 space-after="3mm"
-                                                id="{generate-id($mP)}">Codicological Information for Unit {$uid}</fo:block>
+                                                id="{generate-id($mP)}">Codicological Information for Unit {$uid}({$partType})</fo:block>
                                         </fo:block>
-                                        ,
+                                       ,
                                         if ($mP/tei:msIdentifier/node()) then
-                                            <fo:block>{fo:codic($mP//tei:msDesc)}</fo:block>
+                                            <fo:block>{fo:codic($mP)}</fo:block>
                                         else
                                             ()
                                         ,
                                         if ($mP/tei:physDesc/node()) then
-                                            <fo:block>{fo:physic($mP//tei:physDesc)}</fo:block>
+                                            <fo:block>{fo:physic($mP/tei:physDesc)}</fo:block>
                                         else
                                             ()
                                         ,
@@ -2221,10 +2325,10 @@ declare function fo:main($id as xs:string) {
                                         else
                                             (),
                                         if ($mP/tei:msContents/node()) then
-                                            <fo:block>{fo:tei2fo($mP//tei:msContents)}</fo:block>
+                                            <fo:block>{fo:tei2fo($mP/tei:msContents)}</fo:block>
                                         else
                                             (),
-                                        if ($file//tei:msDesc//tei:decoDesc) then
+                                        if ($mP//tei:decoDesc) then
                                          (<fo:block>
                                                 <fo:block
                                                 margin-top="3mm"
@@ -2234,7 +2338,7 @@ declare function fo:main($id as xs:string) {
                                                     space-before="2mm"
                                                     space-after="3mm">Decorations for Unit {$uid}</fo:block>
                                             </fo:block>,
-                                            <fo:block>{fo:deco($file//tei:msDesc//tei:decoDesc)}</fo:block>)
+                                            <fo:block>{fo:deco($mP//tei:decoDesc)}</fo:block>)
                                         else
                                             ()
                                         ,
@@ -2253,7 +2357,9 @@ declare function fo:main($id as xs:string) {
                                             ())
                                     )
                                 else
-                                    (<fo:block>
+                                    (
+(:                                    there are no parts and no fragments:)
+                                    <fo:block>
                                         <fo:block
                                             start-indent="1em"
                                             end-indent="1em"
@@ -2352,8 +2458,10 @@ declare function fo:main($id as xs:string) {
 
 
 (:fo:main():)
-let $id := request:get-parameter("id", ())
+let $id := request:get-parameter("id", ()) 
 let $log := log:add-log-message('/'||$id||'.pdf', xmldb:get-current-user(), 'PDF')
+(:let $test := fo:main($id):)
 let $pdf := xslfo:render(fo:main($id), "application/pdf", (), $local:fop-config)
 return
+(:$test:)
     response:stream-binary($pdf, "media-type=application/pdf", $id || ".pdf")

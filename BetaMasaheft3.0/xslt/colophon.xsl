@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:colophon">
         <hr class="colophon"/>
@@ -11,7 +10,11 @@
             </xsl:choose>
         </h3>
         <p>
-            <xsl:apply-templates select="descendant::t:locus"/>
+            <xsl:for-each select="t:locus">
+            
+            <xsl:apply-templates select="."/>
+        <xsl:text> </xsl:text>
+        </xsl:for-each>
         </p>
         <p>
             <xsl:apply-templates select="node() except (t:note | t:foreign | t:listBibl | t:locus)"/>
@@ -22,9 +25,9 @@
                 <xsl:value-of select="t:foreign"/>
             </p>
         </xsl:if>
-        <xsl:if test="descendant::t:note">
+        <xsl:if test="t:note">
             <p>
-                <xsl:apply-templates select="descendant::t:note"/>
+                <xsl:apply-templates select="t:note"/>
             </p>
         </xsl:if>
         <xsl:if test="t:listBibl">

@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:msDesc">
         <div class="col-md-8 well" id="textualcontents{@xml:id}">
@@ -7,6 +6,7 @@
             <div id="{@xml:id}history">
                 <xsl:apply-templates select="t:history"/>
             </div>
+            </xsl:if>
             <xsl:if test="t:msContents">
                 <div id="{@xml:id}content" class="col-md-12">
                     <xsl:apply-templates select="t:msContents"/>
@@ -28,7 +28,6 @@
                 </div>
             </xsl:if>
 
-        </xsl:if>
 
         </div>
         <div class="col-md-4" id="codicologicalInformation{@xml:id}">
@@ -65,9 +64,24 @@
         <xsl:if test="ancestor::t:TEI//t:persName[@role]">
           <div id="perswithrolemainview" class="alert alert-info">
             <xsl:for-each-group select="ancestor::t:TEI//t:persName[@role]" group-by="@ref">
-
-            <xsl:apply-templates select="."/>
-                        <br/>
+                <a xmlns="http://www.w3.org/1999/xhtml" href="{@ref}" class="persName">
+                    <xsl:choose>
+                        <xsl:when test="t:choice">
+                            <xsl:apply-templates select="t:choice"/>
+                        </xsl:when>
+                        <xsl:when test="t:roleName or t:hi">
+                            <xsl:apply-templates/>
+                        </xsl:when>
+                        <xsl:when test="text()">
+                            <xsl:value-of select="."/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <span class="MainTitle" data-value="{@ref}"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </a>
+                <xsl:if test="current-group()/@role"> (<xsl:value-of select="distinct-values(current-group()/@role)" separator=", "/>)</xsl:if>
+                <br/>
           </xsl:for-each-group>
           </div>
           </xsl:if>
@@ -83,6 +97,8 @@
             </div>
         </xsl:if>
     </xsl:template>
+    
+    
     <xsl:template match="t:msPart[parent::t:sourceDesc or parent::t:msDesc]">
         <div>
             <xsl:attribute name="id">
@@ -131,12 +147,27 @@
             <div id="{@xml:id}hands">
                 <xsl:apply-templates select="t:physDesc/t:handDesc"/>
             </div>
-            <xsl:if test="ancestor::t:TEI//t:persName[@role]">
+            <xsl:if test=".//t:persName[@role]">
               <div id="perswithrolemainview" class="alert alert-info">
-                <xsl:for-each-group select="ancestor::t:TEI//t:persName[@role]" group-by="@ref">
-
-                <xsl:apply-templates select="."/>
-                            <br/>
+                <xsl:for-each-group select=".//t:persName[@role]" group-by="@ref">
+                    <a xmlns="http://www.w3.org/1999/xhtml" href="{@ref}" class="persName">
+                        <xsl:choose>
+                            <xsl:when test="t:choice">
+                                <xsl:apply-templates select="t:choice"/>
+                            </xsl:when>
+                            <xsl:when test="t:roleName or t:hi">
+                                <xsl:apply-templates/>
+                            </xsl:when>
+                            <xsl:when test="text()">
+                                <xsl:value-of select="."/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <span class="MainTitle" data-value="{@ref}"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </a>
+                    <xsl:if test="current-group()/@role"> (<xsl:value-of select="distinct-values(current-group()/@role)" separator=", "/>)</xsl:if>
+                    <br/>
               </xsl:for-each-group>
               </div>
               </xsl:if>
@@ -203,12 +234,27 @@
                 <div id="{@xml:id}hands">
                     <xsl:apply-templates select="t:physDesc/t:handDesc"/>
                 </div>
-                <xsl:if test="ancestor::t:TEI//t:persName[@role]">
+                <xsl:if test=".//t:persName[@role]">
                   <div id="perswithrolemainview" class="alert alert-info">
-                    <xsl:for-each-group select="ancestor::t:TEI//t:persName[@role]" group-by="@ref">
-
-                    <xsl:apply-templates select="."/>
-                            <br/>
+                    <xsl:for-each-group select=".//t:persName[@role]" group-by="@ref">
+                        <a xmlns="http://www.w3.org/1999/xhtml" href="{@ref}" class="persName">
+                            <xsl:choose>
+                                <xsl:when test="t:choice">
+                                    <xsl:apply-templates select="t:choice"/>
+                                </xsl:when>
+                                <xsl:when test="t:roleName or t:hi">
+                                    <xsl:apply-templates/>
+                                </xsl:when>
+                                <xsl:when test="text()">
+                                    <xsl:value-of select="."/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <span class="MainTitle" data-value="{@ref}"/>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </a>
+                        <xsl:if test="current-group()/@role"> (<xsl:value-of select="distinct-values(current-group()/@role)" separator=", "/>)</xsl:if>
+                        <br/>
                   </xsl:for-each-group>
                   </div>
                   </xsl:if>
@@ -272,12 +318,27 @@
             <div id="{@xml:id}hands">
                 <xsl:apply-templates select="t:physDesc/t:handDesc"/>
             </div>
-            <xsl:if test="ancestor::t:TEI//t:persName[@role]">
+            <xsl:if test=".//t:persName[@role]">
               <div id="perswithrolemainview" class="alert alert-info">
-                <xsl:for-each-group select="ancestor::t:TEI//t:persName[@role]" group-by="@ref">
-
-                <xsl:apply-templates select="."/>
-                            <br/>
+                <xsl:for-each-group select=".//t:persName[@role]" group-by="@ref">
+                    <a xmlns="http://www.w3.org/1999/xhtml" href="{@ref}" class="persName">
+                        <xsl:choose>
+                            <xsl:when test="t:choice">
+                                <xsl:apply-templates select="t:choice"/>
+                            </xsl:when>
+                            <xsl:when test="t:roleName or t:hi">
+                                <xsl:apply-templates/>
+                            </xsl:when>
+                            <xsl:when test="text()">
+                                <xsl:value-of select="."/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <span class="MainTitle" data-value="{@ref}"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </a>
+                    <xsl:if test="current-group()/@role"> (<xsl:value-of select="distinct-values(current-group()/@role)" separator=", "/>)</xsl:if>
+                    <br/>
               </xsl:for-each-group>
               </div>
               </xsl:if>
@@ -339,11 +400,27 @@
             <div id="{@xml:id}hands">
                 <xsl:apply-templates select="t:physDesc/t:handDesc"/>
             </div>
-            <xsl:if test="ancestor::t:TEI//t:persName[@role]">
+            <xsl:if test=".//t:persName[@role]">
               <div id="perswithrolemainview" class="alert alert-info">
-                <xsl:for-each-group select="ancestor::t:TEI//t:persName[@role]" group-by="@ref">
+                <xsl:for-each-group select=".//t:persName[@role]" group-by="@ref">
 
-                <xsl:apply-templates select="."/>
+                    <a xmlns="http://www.w3.org/1999/xhtml" href="{@ref}" class="persName">
+                        <xsl:choose>
+                            <xsl:when test="t:choice">
+                                <xsl:apply-templates select="t:choice"/>
+                            </xsl:when>
+                            <xsl:when test="t:roleName or t:hi">
+                                <xsl:apply-templates/>
+                            </xsl:when>
+                            <xsl:when test="text()">
+                                <xsl:value-of select="."/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <span class="MainTitle" data-value="{@ref}"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </a>
+                    <xsl:if test="current-group()/@role"> (<xsl:value-of select="distinct-values(current-group()/@role)" separator=", "/>)</xsl:if>
                             <br/>
               </xsl:for-each-group>
               </div>

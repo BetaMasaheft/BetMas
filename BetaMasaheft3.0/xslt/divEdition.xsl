@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t" version="2.0">
     
-    <xsl:template match="t:*[@xml:lang='gez']//text()">
+    <xsl:template match="t:*[@xml:lang='gez']//text()[parent::t:*[name() != 'label'][name() != 'note']]">
         
         <xsl:if test=".!='' and .!=' '">
             <span class="word">
@@ -52,7 +51,8 @@
     </xsl:template>
     
   
-    <xsl:template match="t:div[@type = 'textpart']">
+    <xsl:template match="t:div[@type = 'textpart'] | t:div[@type='edition'][not(child::t:div)]">
+        <xsl:if test="not(descendant::t:pb) and not(parent::t:div[@type='textpart'])"><xsl:apply-templates select="preceding::t:pb[1]"/></xsl:if>
         <xsl:variable name="text">
             <xsl:value-of select="./ancestor::t:TEI/@xml:id"/>
         </xsl:variable>
@@ -100,6 +100,7 @@
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:if>
+                
                 <h2>
                     <xsl:if test="@subtype">
                         <a href="{if (@corresp) then @corresp else '#mscontent'}">
@@ -124,11 +125,12 @@
                         <xsl:text> (</xsl:text>
                         <xsl:variable name="id" select="substring-after(@corresp, '#')"/>
                         <xsl:variable name="match" select="current()//ancestor::t:TEI//t:*[@xml:id = $id]"/>
+<!--            TEST            <xsl:copy-of select="$match"/>-->
                         <xsl:choose>
                             <xsl:when test="starts-with(@corresp, '#')">
                                 <xsl:text> </xsl:text>
-                                <xsl:if test="$match//t:title">
-                                    <xsl:apply-templates select="$match//t:title"/>
+                                <xsl:if test="$match/t:title">
+                                    <xsl:apply-templates select="$match/t:title"/>
                                 </xsl:if>
                                 <a>
                                     <xsl:choose>
@@ -156,23 +158,31 @@
                         </xsl:choose>
                         <xsl:text>)</xsl:text>
                     </xsl:if>
-                    <div class="ugaritcontrols btn-group">
-                        <a class="ugarit btn btn-success btn-xs" data-textid="{$text}" data-currentid="{@n}" data-toggle="tooltip" title="Start a translation alignment with Ugarit" disabled="disabled">
-                            Ugarit Alignment
-                        </a>
-                    </div>
                     <xsl:if test="@corresp">
                         <div class="parallelversions btn-group">
                             <a class="parallelversion btn btn-success btn-xs" data-textid="{$text}" data-unit="{@corresp}" data-toggle="tooltip" title="See parallel versions if any is available">
                                 Versions
                             </a>
                         </div>
-                    </xsl:if>
+                    </xsl:if><!--
+                    <div class="ugaritcontrols btn-group">
+                        <a class="ugarit btn btn-success btn-xs" data-textid="{$text}" data-currentid="{@n}" data-toggle="tooltip" title="Start a translation alignment with Ugarit" disabled="disabled">
+                            Ugarit Alignment
+                        </a>
+                    </div>
+                        <div class="quotations btn-group">
+                            <a id="quotations{@n}" class="quotations btn btn-success btn-xs" data-textid="{$text}" data-unit="{@n}" data-toggle="tooltip" title="Check for marked up quotations of a passage in this section">
+                                Quotations
+                            </a>
+                        </div>
+                    
+                    <div id="AllQuotations{@n}"/>-->
                 </h2>
+                <xsl:apply-templates select="child::t:label"/>
                 <xsl:apply-templates select="child::t:div[@type='textpart']"/>
             </xsl:when>
             <xsl:otherwise>
-                <div class="{if(./parent::t:div[@type='textpart']) then 'subtextpart' else ()} row" id="{if(@xml:id) then (@xml:id) else if(@n) then(@n) else(('textpart', string(position())))}">
+                <div class="{if(./parent::t:div[@type='textpart']) then 'subtextpart' else ()} row" id="{if(@xml:id) then (@xml:id) else if(@n) then(@n) else(concat('textpart', string(position())))}">
                     <div class="col-md-2">
                         
                             <xsl:if test="@subtype">
@@ -194,7 +204,7 @@
                                     </xsl:choose>
                                 </a>
                             </xsl:if>
-                            <xsl:if test="@corresp">
+                          <!--  <xsl:if test="@corresp">
                                 <xsl:text> (</xsl:text>
                                 <xsl:variable name="id" select="substring-after(@corresp, '#')"/>
                                 <xsl:variable name="match" select="current()//ancestor::t:TEI//t:*[@xml:id = $id]"/>
@@ -230,7 +240,7 @@
                                 </xsl:choose>
                                 <xsl:text>)</xsl:text>
                             </xsl:if>
-                            <div class="ugaritcontrols btn-group">
+                          -->  <div class="ugaritcontrols btn-group">
                                 <a class="ugarit btn btn-success btn-xs" data-textid="{$text}" data-currentid="{@n}" data-toggle="tooltip" title="Start a translation alignment with Ugarit" disabled="disabled">
                                     Ugarit Alignment
                                 </a>
@@ -243,11 +253,46 @@
                                 </div>
                             </xsl:if>
                         
+                        <div class="quotations btn-group">
+                            <a id="quotations{@n}" class="quotations btn btn-success btn-xs" data-textid="{$text}" data-unit="{@n}" data-toggle="tooltip" title="Check for marked up quotations of a passage in this section">
+                                Quotations
+                            </a>
+                        </div>
+                        
+                        <div id="AllQuotations{@n}"/>  
+                        <a href="#" class="btn btn-default" data-toggle="modal" data-target="#textHelp"><i class="fa fa-info-circle" aria-hidden="true"/></a>
+                        <div class="modal fade" id="textHelp" tabindex="-1" role="dialog" aria-labelledby="textHelpLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Text visualization help</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">X</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Page breaks are indicated with a line and the number of the page break.
+                                        Column breaks are indicated with a pipe (|) followed by the name of the column.
+                                        <p>In the text:</p>
+                                        <ul class="nodot">
+                                            <li>Click on ↗ to see the related items in Pelagios.</li>
+                                            <li>Click on <i class="fa fa-hand-o-left"/>
+                                                to see the which entities within Beta maṣāḥǝft point to this identifier.</li>
+                                            <li><sup>[!]</sup> contains additional information related to uncertainties in the encoding.</li>
+                                            <li>Superscript digits refer to notes in the apparatus which are displayed on the right.</li>
+                                        </ul>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         
                     </div>
                     <div class="col-md-10">
-                       <div class="col-md-8 chapterText" id="{@xml:id}">
-                         <xsl:apply-templates/>
+                     <div class="col-md-8 chapterText" id="{@xml:id}">
+                         <xsl:apply-templates select="child::node()"/>
                     </div>  
                     <div class="col-md-4 row apparata ">
                         <xsl:for-each select="t:ab//t:app[not(@type)]">
@@ -257,8 +302,9 @@
                                     <xsl:value-of select="count(preceding-sibling::t:app) + 1"/>
                                 </a>
                                 <xsl:text>) </xsl:text>
-                                <xsl:apply-templates select="./t:lem"/> <xsl:text>: </xsl:text>
-                                <xsl:apply-templates select="./t:rdg"/>
+                                <xsl:if test="count(./t:lem/node()) ge 1"><xsl:apply-templates select="./t:lem"/> <xsl:text>: </xsl:text></xsl:if>
+                                <xsl:if test="count(./t:rdg/node()) ge 1"><xsl:apply-templates select="./t:rdg"/> <xsl:text>. </xsl:text></xsl:if>
+                                <xsl:apply-templates select="./t:note/node()"/>
                             </span>
                             <xsl:if test="not(position() = last())">
                                 <xsl:text> | </xsl:text>
@@ -277,8 +323,9 @@
                                         <xsl:value-of select="count(preceding-sibling::t:app) + 1"/>
                                     </a>
                                     <xsl:text>) </xsl:text>
-                                    <xsl:apply-templates select="./t:lem"/> <xsl:text>: </xsl:text>
-                                    <xsl:apply-templates select="./t:rdg"/>
+                                    <xsl:if test="count(./t:lem/node()) ge 1"><xsl:apply-templates select="./t:lem"/> <xsl:text>: </xsl:text></xsl:if>
+                                    <xsl:if test="count(./t:rdg/node()) ge 1"><xsl:apply-templates select="./t:rdg"/> <xsl:text>. </xsl:text></xsl:if>
+                                    <xsl:apply-templates select="./t:note/node()"/>
                                 </span>
                                 <xsl:if test="not(position() = last())">
                                     <xsl:text> | </xsl:text>
@@ -520,13 +567,44 @@
         <span style="padding-left: 5em;"/>
         <!--double tab would look much better but would not be recognized in browser-->
     </xsl:template>
+    
     <xsl:template match="t:pb">
-        <hr id="{@n}"/>
-        <p>
-            <xsl:value-of select="@n"/>
-        </p>
-        <xsl:apply-templates/>
+        <xsl:choose>
+            <xsl:when test="ancestor::t:div[@type='edition']">|<xsl:choose><xsl:when test="starts-with(@facs, 'http') and ancestor::t:TEI[@type='work']">
+                <xsl:variable name="corresp" select="substring-after(@corresp, '#')"/>
+                <xsl:variable name="manifest" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/t:ptr/@target"/>
+                <xsl:variable name="location" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/@facs"/>
+                <span class="imageLink" data-manifest="{$manifest}" data-location="{$location}" data-canvas="{@facs}"/>
+            </xsl:when>
+                <xsl:otherwise>
+                    <xsl:variable name="corresp" select="substring-after(@corresp, '#')"/>
+                    <xsl:variable name="manifest" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/t:ptr/@target"/>
+                    <xsl:variable name="location" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/@facs"/>
+                    <span class="imageLink" data-manifest="{$manifest}" data-location="{$location}" data-canvas="{@facs}"/>
+                </xsl:otherwise>
+            </xsl:choose></xsl:when>
+            <xsl:otherwise><hr id="part{@n}"/>
+                <p>
+                    <xsl:value-of select="@n"/>
+                    
+                    <xsl:choose><xsl:when test="starts-with(@facs, 'http') and ancestor::t:TEI[@type='work']">
+                        <xsl:variable name="corresp" select="substring-after(@corresp, '#')"/>
+                        <xsl:variable name="manifest" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/t:ptr/@target"/>
+                        <xsl:variable name="location" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/@facs"/>
+                        <span class="imageLink" data-manifest="{$manifest}" data-location="{$location}" data-canvas="{@facs}"/>
+                    </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:variable name="corresp" select="substring-after(@corresp, '#')"/>
+                            <xsl:variable name="manifest" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/t:ptr/@target"/>
+                            <xsl:variable name="location" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/@facs"/>
+                            <span class="imageLink" data-manifest="{$manifest}" data-location="{$location}" data-canvas="{@facs}"/>
+                        </xsl:otherwise>
+                    </xsl:choose></p>
+                
+                <xsl:apply-templates/></xsl:otherwise></xsl:choose>
     </xsl:template>
+    
+    
     <xsl:template match="t:cb">
         <xsl:text>|</xsl:text>
         <sup id="{preceding-sibling::t:pb[1]/@n}{@n}">
@@ -580,7 +658,8 @@
                 </a>
                 <xsl:text>/</xsl:text>
             </xsl:when>
-
+            <!--       do nothing with margin notes in text edition-->
+            <xsl:when test="@place = 'margin' and ancestor::t:TEI[@type='work']"/>
             <!-- it has only place-->
             <xsl:otherwise>
                 <a href="#{$id}" data-toggle="popover" title="Added Text Position" data-content="Note added                      at {upper-case(@place)} according to TEI definitions">

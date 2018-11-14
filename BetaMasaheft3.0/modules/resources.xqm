@@ -10,7 +10,6 @@ import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/c
 import module namespace templates="http://exist-db.org/xquery/templates" ;
 import module namespace app="https://www.betamasaheft.uni-hamburg.de/BetMas/app" at "app.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "titles.xqm";
-import module namespace console="http://exist-db.org/xquery/console";
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "tei2string.xqm";
 
 declare namespace t="http://www.tei-c.org/ns/1.0";
@@ -52,36 +51,6 @@ $bibl
      };
 
 
-declare
-%templates:wrap
-    %templates:default('start', 1)
-    %templates:default("per-page", 10)  
-    
-    function lists:biblRes($node as node(), $model as map(*), $start as xs:integer, $per-page as xs:integer){
-
-for $target at $p in subsequence($model("hits"), $start, $per-page)
-let $ptrs := collection($config:data-root)//t:ptr[@target = $target]
-let $count := count($ptrs)
-return
-<div class="col-md-12">
-    <div id="{$target}" class="biblioentry col-md-6"/>
-<div class="col-md-6">
-<div class="col-md-9">
-<ul>
-    {    
-   for $citingentity in $ptrs/@target
-   group by $root :=    root($citingentity)/t:TEI/@xml:id
-    return
-    <li><a href="{$root}">{titles:printTitle(root($root)/t:TEI)}</a></li>
-    }
-    </ul>
-    </div>
-    <div class="col-md-3">{$count}</div>
-    </div>
-    </div>
-};
-(:~ indexes and lists :)
-
 declare 
     %templates:default("scope", "narrow")
     %templates:default("type", "all")
@@ -91,10 +60,7 @@ declare
     %templates:default("target-keyword", "all")
     %templates:default("target-language", "all")
     %templates:default("interpret", "all")
-function lists:additions(
-$node as node()*, 
-$model as map(*), 
-$query as xs:string*, 
+    function lists:additions( $node as node()*, $model as map(*),  $query as xs:string*, 
     $type as xs:string+,
     $target-keyword as xs:string+,
     $target-language as xs:string+,
@@ -103,9 +69,7 @@ $query as xs:string*,
     $target-work as xs:string+,
     $termText as xs:string*,
     $otherText as xs:string*,
-    $interpret as xs:string*
-   ) {
-   let $test := console:log($interpret)
+    $interpret as xs:string*) {
    let $type := if($type = 'all') then '' else let $pars := for $ty in $type return "descendant::t:desc[@type = '" || $ty || "']" return '[' || string-join($pars, ' or ') || ']'
    let $target-work := if($target-work = 'all') then () else let $pars := for $ty in $target-work return "@ref = '" || $ty || "'" return '[descendant::t:title[' || string-join($pars, ' or ') || ']]'
    let $target-pers := if($target-pers = 'all') then () else let $pars := for $ty in $target-pers return "@ref = '" || $ty || "'" return '[descendant::t:persName[' || string-join($pars, ' or ') || ']]'
@@ -116,8 +80,7 @@ $query as xs:string*,
    let $otherText :=if($otherText) then ("[descendant::t:q[ft:query(.,'" || $otherText || "')]]") else ()
    let $interpret :=if($interpret = 'all') then () else let $pars := for $ty in $interpret return "@ana = '" || $ty || "'" return '[descendant::t:seg[' || string-join($pars, ' or ') || ']]'
    let $path := 'collection($config:data-rootMS)//t:item[starts-with(@xml:id, "a")]' || $type || $target-work || $target-pers || $target-place || $target-keyword|| $target-language || $termText ||$otherText || $interpret
- let $test := console:log($path)
- let $additions := for $add in util:eval($path) return $add
+  let $additions := for $add in util:eval($path) return $add
    return
    map {
                     "hits" := $additions
@@ -154,7 +117,7 @@ $query as xs:string*,
    let $BindingMaterial := if($BindingMaterial='all') then () else ("[descendant::t:material[@key='"||$BindingMaterial||"']]")
    let $color := if($color='all') then () else ("[@color='"||$color||"']")
    let $pastedown := if($pastedown='all') then () else ("[matches(@pastedown, '"||$pastedown||"')]")
-   let $path := 'collection($config:data-rootMS)//t:binding//t:decoNote' || $type || $target-keyword || $SewingStationsN || $BindingMaterial || $color || $pastedown || $fastening
+   let $path := 'collection($config:data-rootMS)//t:decoNote[starts-with(@xml:id, "b")]' || $type || $target-keyword || $SewingStationsN || $BindingMaterial || $color || $pastedown || $fastening
   let $decos := for $dec in util:eval($path) return $dec
    return
    map {
@@ -185,6 +148,7 @@ $query as xs:string*,
     $legendText as xs:string*,
     $otherText as xs:string*
    ) {
+   let $Alldecos := collection($config:data-rootMS)//t:decoNote[starts-with(@xml:id, 'd')]
    let $type := if($type = 'all') then '[@type]' else let $pars := for $ty in $type return "@type = '" || $ty || "'" return '[' || string-join($pars, ' or ') || ']'
    let $target-work := if($target-work = 'all') then () else let $pars := for $ty in $target-work return "@ref = '" || $ty || "'" return '[descendant::t:title[' || string-join($pars, ' or ') || ']]'
    let $target-artTheme := if($target-artTheme= 'all') then () else let $pars := for $ty in $target-artTheme return "@corresp = '" || $ty || "'" return '[descendant::t:ref[@type="authFile"][' || string-join($pars, ' or ') || ']]'
@@ -193,7 +157,7 @@ $query as xs:string*,
    let $target-keyword := if($target-keyword = 'all') then () else let $pars := for $ty in $target-keyword return "@key = '" || $ty || "'" return '[descendant::t:term[' || string-join($pars, ' or ') || ']]'
    let $legendText :=  if($legendText) then ("[descendant::t:q[@xml:lang][ft:query(.,'" || $legendText || "')]]") else ()
    let $otherText :=if($otherText) then ("[descendant::t:foreign[@xml:lang='gez'][ft:query(.,'" || $otherText || "')]]") else ()
-   let $path := 'collection($config:data-rootMS)//t:decoDesc//t:decoNote' || $type || $target-work || $target-artTheme || $target-pers || $target-place || $target-keyword || $legendText ||$otherText
+   let $path := '$Alldecos' || $type || $target-work || $target-artTheme || $target-pers || $target-place || $target-keyword || $legendText ||$otherText
   let $decos := for $dec in util:eval($path) return $dec
    return
    map {
@@ -379,6 +343,7 @@ $query as xs:string*,
                         </form>
    };
   
+  
    declare function lists:bindingsform($node as node(), $model as map(*)){
    let $auth := collection($config:data-rootA)
    return
@@ -451,49 +416,32 @@ $query as xs:string*,
                         </form>
    };
   
-declare function lists:decorations($node as node(), $model as map(*)){ 
-    let $c := collection($config:data-rootMS)
-    let $data as element()* := $c//t:decoDesc//t:decoNote[@type]
+declare
+%templates:wrap
+    %templates:default('start', 1)
+    %templates:default("per-page", 10)      
+    function lists:biblRes($node as node(), $model as map(*), $start as xs:integer, $per-page as xs:integer){
+
+for $target at $p in subsequence($model("hits"), $start, $per-page)
+let $ptrs := collection($config:data-root)//t:ptr[@target = $target]
+let $count := count($ptrs)
 return
-    <div class="list-group list-group-root col-md-12">
-        {
-for $decoration in $data
-    let $t := $decoration/@type
-   (: group by type :)
-    group by $type := $t
-    order by $type
+<div class="col-md-12">
+    <div id="{$target}" class="biblioentry col-md-6"/>
+<div class="col-md-6">
+<div class="col-md-9">
+<ul>
+    {    
+   for $citingentity in $ptrs/@target
+   group by $root :=    root($citingentity)/t:TEI/@xml:id
     return
-        <div class="list-group" id="{data($type)}list">
-        
-        <a href="#{data($type)}" class="list-group-item" data-toggle="collapse"><i class="glyphicon glyphicon-chevron-right"></i><span class="badge">{count($decoration)}</span>{string($type)} </a>
-        
-        <div  class="list-group collapse" id="{data($type)}">
-            {
-                for $d in $decoration
-                let $msid := $d/ancestor::t:TEI/@xml:id
-                (:group by containing ms:)
-                group by $ms := $msid
-                order by $ms
-                return
-                    
-             <div  class="list-group">
-             
-             <a class="list-group-item" data-toggle="collapse" href="#{$ms}"><i class="glyphicon glyphicon-chevron-right"></i>{$c//id($ms)//t:msIdentifier/t:idno}</a>
-                 <ul class="list-group collapse" id="{data($ms)}">
-                 {
-                     for $sd in $d
-                     order by $sd/@xml:id
-                     return
-            <li class="list-group-item"><a href="{data($ms)}#{data($sd/@xml:id)}">{data($sd/@xml:id)}</a>: {if($sd/t:desc/t:ref or $sd/t:desc/t:persName or $sd/t:desc/t:placeName) then transform:transform($sd/t:desc,  'xmldb:exist:///db/apps/BetMas/xslt/decodesc.xsl', ()) else $sd/t:desc/text() }</li>
-                 }
-            </ul>
-            </div>
-            }
-    
-        </div>
-        </div>
-}
-</div>
+    <li><a href="{$root}">{titles:printTitle(root($root)/t:TEI)}</a></li>
+    }
+    </ul>
+    </div>
+    <div class="col-md-3">{$count}</div>
+    </div>
+    </div>
 };
 
 
@@ -512,7 +460,7 @@ for $addition at $p in $data
         <ul class="list-group" id="{data($type)}list">
         
         <a href="#{data($type)}" class="list-group-item" data-toggle="collapse">
-        <i class="glyphicon glyphicon-chevron-right"></i><span class="badge">{if ($type = 'undefined') then count($data[not(descendant::t:desc/@type)]) else count($data[t:desc/@type = $type])}</span><span class="additionType" data-value="{$type}">{
+        <i class="glyphicon glyphicon-chevron-right"></i><span class="badge">{if ($type = 'undefined') then count($data[not(descendant::t:desc/@type)]) else count($data[t:desc[@type = $type]])}</span><span class="additionType" data-value="{$type}">{
        if ($type = 'undefined') then $type else $tit  
     }</span></a>
         <ul class="list-group collapse" id="{data($type)}">
@@ -584,7 +532,7 @@ for $binding at $p in $model("hits")
                      return
             <li class="list-group-item container">
             
-            <p class="col-md-11"><a href="{data($ms)}#{data($sb/@xml:id)}">{data($sb/@xml:id)}</a>: {try{string:tei2string($sb/node())} catch * {(console:log($err:code || ": "|| $err:description), string-join($sb//text(), ' '))}}
+            <p class="col-md-11"><a href="{data($ms)}#{data($sb/@xml:id)}">{data($sb/@xml:id)}</a>: {try{string:tei2string($sb/node())} catch * {(($err:code || ": "|| $err:description), string-join($sb//text(), ' '))}}
             </p></li>
                  }
             </ul>
@@ -652,7 +600,7 @@ for $decoration at $p in $model("hits")
  
            )           
             else ()}
-            <p class="col-md-11"><a href="{data($ms)}#{data($sd/@xml:id)}">{data($sd/@xml:id)}</a>: {try{string:tei2string($sd/node())} catch * {(console:log($err:code || ": "|| $err:description), string-join($sd//text(), ' '))}}
+            <p class="col-md-11"><a href="{data($ms)}#{data($sd/@xml:id)}">{data($sd/@xml:id)}</a>: {try{string:tei2string($sd/node())} catch * {(($err:code || ": "|| $err:description), string-join($sd//text(), ' '))}}
             </p></li>
                  }
             </ul>
@@ -666,46 +614,6 @@ for $decoration at $p in $model("hits")
 };
 
 
-(:~print out of the values and definitions in the schema:)
-declare function lists:docs($node as node(), $model as map(*)){
-<div class="container">
-
-{
-let $values := doc(($config:schema-root || '/tei-betamesaheft.xml'))//t:valItem[not(data(ancestor::t:elementSpec[1]/@ident)= 'change' or data(ancestor::t:elementSpec[1]/@ident)=  'editor')] 
-return
-<div class="container">
-  <div class="row-fluid">
-<p>In the schema there are {count($values[t:desc])} defined values and {count($values[not(t:desc)])} without a definition.</p>
-</div>
-<div class="table-responsive">
-<table class="table table-hover" id="completeList">
-<thead>
-<tr>
-<th>Value</th>
-<th>Definition</th>
-<th>Element</th>
-</tr>
-</thead>
-<tbody>
-{for $value in $values
-return
-<tr id="{
-(
-(if ($value/ancestor::t:elementSpec[1]/@ident = 'relation') 
-then () 
-else (string($value/ancestor::t:elementSpec[1]/@ident || '_'))) 
-|| string($value/@ident))}">
-<td>{string($value/@ident)}</td>
-<td>{$value/t:desc/text()}</td>
-<td><code>{(string($value/ancestor::t:elementSpec[1]/@ident) || '/@'|| string($value/ancestor::t:attDef[1]/@ident))}</code></td>
-</tr>
-}
-</tbody>
-</table>
-</div>
-</div>
-}</div>
-};
 
 declare function lists:corporaeditors ($editor as node()*){
  for $node in $editor

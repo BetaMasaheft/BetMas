@@ -8,7 +8,6 @@ declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace sparql = "http://www.w3.org/2005/sparql-results#";
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "tei2string.xqm";
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
-import module namespace console="http://exist-db.org/xquery/console";
 
 (:establishes the different rules and priority to print a title referring to a record:)
 declare function titles:printTitle($node as element()) {
@@ -89,6 +88,15 @@ else
        if ($item/name() = 'title') then
             ($item/@xml:lang || $item)
         else
+        if ($item/name() = 'persName') then
+            
+            (let $r := root($item)
+            return
+            if($r//t:persName[@type = 'normalized'][contains(@corresp,$SUBid)]) 
+            then string-join($r//t:persName[@type = 'normalized'][contains(@corresp,$SUBid)]//text(), '')
+            else normalize-space(string-join($item, ''))
+            )
+        else
             if ($item/name() = 'msItem') then
                 (if ($item/t:title/@ref)
                 then
@@ -114,11 +122,12 @@ else
 declare 
 %test:arg('id', 'BNFet32#a1') %test:assertEquals('Paris, Bibliothèque nationale de France, Éthiopien 32, Scribal Note Completing a1')
 %test:arg('id', 'LIT1367Exodus#Ex1') %test:assertEquals('Exodus, Exodus 1')
+%test:arg('id', 'PRS5684JesusCh#n2') %test:assertEquals('Jesus Christ - Krǝstos')
 function titles:printTitleID($id as xs:string)
 {  if (starts-with($id, 'SdC:')) then 'La Synthaxe du Codex ' || substring-after($id, 'SdC:' )
-               else
-    (: hack to avoid the bad usage of # at the end of an id like <title type="complete" ref="LIT2317Senodo#"
-     : xml:lang="gez"> :) if (ends-with($id, '#')) then
+     (: hack to avoid the bad usage of # at the end of an id like <title type="complete" ref="LIT2317Senodo#"
+     : xml:lang="gez"> :) 
+     else if (ends-with($id, '#')) then
         titles:printTitleMainID(substring-before($id, '#'))
     (: another hack for things like ref="#" :) else if ($id = '#') then
                          <span class="label label-warning">{ 'no item yet with id' || $id }</span>
@@ -128,14 +137,36 @@ function titles:printTitleID($id as xs:string)
         let $mainID := substring-before($id, '#')
         let $SUBid := substring-after($id, '#')
         let $node := collection($config:data-root)//id($mainID)
+        return
+        if (starts-with($SUBid, 't'))
+    then
+        (let $subtitles:=$node//t:title[contains(@corresp, $SUBid)]
+        let $subtitlemain := $subtitles[@type = 'main']/text()
+        let $subtitlenorm := $subtitles[@type = 'normalized']/text()
+        let $tit := $node//t:title[@xml:id = $SUBid]
+        return
+            if ($subtitlemain)
+            then
+                $subtitlemain
+            else
+                if ($subtitlenorm)
+                then
+                    $subtitlenorm
+                else
+                    $tit/text()
+                    )
+                    else
         let $subtitle :=   if( starts-with($SUBid, 'tr')) then 'transformation ' ||  $SUBid
 else if( starts-with($SUBid, 'Uni')) then $SUBid 
+
 else titles:printSubtitle($node, $SUBid)
         return
             (titles:printTitleMainID($mainID)|| ', '||$subtitle)
     (: if not, procede to main title printing :) else
         titles:printTitleMainID($id)
 };
+
+
 
       declare function titles:printTitleMainID($id as xs:string, $c)
    {
@@ -296,10 +327,14 @@ else titles:printSubtitle($node, $SUBid)
 declare function titles:placeNameSelector($resource as node()){
     let $pl := $resource//t:place
 let $pnorm := $pl/t:placeName[@corresp = '#n1'][@type = 'normalized']
+let $pEN := $pl/t:placeName[@corresp = '#n1'][@xml:lang='en']
 return
  if ($pnorm)
                         then
                             normalize-space(string-join($pnorm/text(), ' '))
+ else if ($pEN)
+                        then
+                            normalize-space(string-join($pEN/text(), ' '))
                         else
                             if ($pl/t:placeName[@xml:id])
                             then
@@ -317,7 +352,7 @@ return
 declare function titles:persNameSelector($resource as node()){
     let $p := $resource//t:person
     let $pg := $resource//t:personGrp
-let $Maintitle := $p/t:persName[@type = 'main'][@corresp = '#n1']
+let $Maintitle := $p/t:persName[@type = 'main']
 let $twonames:= $p/t:persName[t:forename or t:surname]
 let $namegez := $p/t:persName[@corresp = '#n1'][@xml:lang = 'gez']
 let $nameennorm := $p/t:persName[@corresp = '#n1'][@xml:lang = 'en'][@type = 'normalized']
@@ -395,36 +430,36 @@ return
                                  else
                             if ($Maintitle)
                         then
-                            $Maintitle/text()
+                            string-join($Maintitle/text())
                             else
                                 (
                                 if ($namegez)
                                 then
-                                    $namegez//text()
+                                    string-join($namegez//text())
                                 
                                 else
                                     if ($nameennorm)
                                     then
-                                        $nameennorm//text()
+                                        string-join($nameennorm//text())
                                     
                                     else
                                         if ($nameen)
                                         then
-                                            $nameen//text()
+                                            string-join($nameen//text())
                                     else
                                       if ($nameOthers)
                                         then
-                                    $nameOthers[1]/text()
+                                    string-join($nameOthers[1]/text())
                                    
                                         
                                         else
                                             if ($p/t:persName[@xml:id])
                                             then
                                                 let $name := $p/t:persName[@xml:id = 'n1']
-                                                return $name//text()
+                                                return string-join($name//text())
                                             
                                             else
-                                                $p/t:persName[position() = 1][text()]//text()
+                                                string-join($p/t:persName[position() = 1][text()]//text())
                                 )
 };
 

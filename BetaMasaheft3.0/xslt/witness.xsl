@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:witness">
         <li>
@@ -16,7 +15,7 @@
                     </xsl:variable>
                     <xsl:choose>
                         <xsl:when test="text()">
-                            <a href="{@corresp}" class="MainTitle" data-value="{@corresp}">
+                            <a href="{if(@type='external' and @facs) then @facs else @corresp}" class="MainTitle" data-value="{@corresp}" property="http://purl.org/dc/elements/1.1/source" resource="http://betamasaheft.eu/{@corresp}">
                                 <xsl:value-of select="@corresp"/>
                             </a>
                             <xsl:if test="contains(@corresp, '#')">
@@ -26,7 +25,9 @@
                             <xsl:apply-templates/>
                         </xsl:when>
                         <xsl:otherwise>
-                            <a href="{@corresp}" class="MainTitle" data-value="{if(contains(@corresp, '#')) then substring-before(@corresp, '#') else @corresp}">
+                            <a href="{if(@type='external' and @facs) then @facs else @corresp}" class="MainTitle" data-value="{if(contains(@corresp, '#')) then substring-before(@corresp, '#') else @corresp}" property="http://purl.org/dc/elements/1.1/source" resource="http://betamasaheft.eu/{@corresp}">
+                                <xsl:if test="@facs"><xsl:attribute name="data-location"><xsl:value-of select="@facs"/></xsl:attribute></xsl:if>
+                                <xsl:if test="t:ptr/@target"><xsl:attribute name="data-manifest"><xsl:value-of select="t:ptr/@target"/></xsl:attribute></xsl:if>
                                 <xsl:if test="@xml:id">
                                     <xsl:attribute name="id">
                                         <xsl:value-of select="@xml:id"/>
@@ -50,7 +51,7 @@
             <xsl:if test="@cert = 'low'">
                 <xsl:text> ? </xsl:text>
             </xsl:if>
-            <xsl:if test="@facs">
+            <xsl:if test="@facs and not(@type='external')">
                 <a href="{@facs}"> [link]</a>
             </xsl:if>
         </li>

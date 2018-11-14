@@ -3,7 +3,7 @@ $("a[id$='relations']").on('click', function () {
     var el = this;
 /*    check if there is already a popover*/
     if ($(this).next().hasClass('popover')) {
-        console.log('there is already a popover here, I load it');
+      //  console.log('there is already a popover here, I load it');
         $(el).popover()
     } else {
 /*    there is no popover, lets make one*/
@@ -38,9 +38,9 @@ var trimmedID = id.substring((id.indexOf('Ent') + 3), id.indexOf('relations'));
                 var content = $('<div id="' + trimmedID + 'relations-content"><ul xmlns="http://www.w3.org/1999/xhtml" class="nodot"><head xmlns="http://www.w3.org/1999/xhtml" >This record, with ID: ' + trimmedID + ' is linked to </head></div>');
                 var length = data.length
                 
-                for (i = 0; i < length; i++) {
-                    $(content).append('<li><a target="_blank" href="/' + data[i].id + '">' + data[i].id + '</a> by ' + data[i].relation + '</li>')
-                }
+                $(data).each(function(i){
+                    $(content).append('<li><a target="_blank" href="' + this.id + '">' + this.title + '</a> by ' + this.relation + '</li>')
+                })
                 
                 $(el).popover('destroy');
                 $(el).popover({

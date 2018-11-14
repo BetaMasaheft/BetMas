@@ -8,17 +8,17 @@ module namespace api = "https://www.betamasaheft.uni-hamburg.de/BetMas/api";
 import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace log="http://www.betamasaheft.eu/log" at "log.xqm";
 import module namespace all="https://www.betamasaheft.uni-hamburg.de/BetMas/all" at "all.xqm";
+import module namespace dts="https://www.betamasaheft.uni-hamburg.de/BetMas/dts" at "dts.xql";
 import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "editors.xqm";
 import module namespace wiki="https://www.betamasaheft.uni-hamburg.de/BetMas/wiki" at "wikitable.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "titles.xqm";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
-import module namespace console = "http://exist-db.org/xquery/console";
 import module namespace kwic = "http://exist-db.org/xquery/kwic"
     at "resource:org/exist/xquery/lib/kwic.xql"; 
 
 import module namespace sparql="http://exist-db.org/xquery/sparql" at "java:org.exist.xquery.modules.rdf.SparqlModule";
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "tei2string.xqm";
-    
+
 (: namespaces of data used :)
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
@@ -29,6 +29,7 @@ declare namespace skos = "http://www.w3.org/2004/02/skos/core#";
 declare namespace rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace sr = "http://www.w3.org/2005/sparql-results#";
+declare namespace marc = "http://www.loc.gov/MARC21/slim";
 
 import module namespace http="http://expath.org/ns/http-client";
 
@@ -48,8 +49,82 @@ declare variable $api:response400 := $config:response400;
 declare variable $api:response400XML := $config:response400XML;
 
 
+    (:~ given an institution or place id checks the marc records from Vatican Library for relevant related data :) 
+declare
+%rest:GET
+%rest:path("/BetMas/api/Chojnacki/{$id}")
+%output:method("json")
+function api:allChojnacki($id  as xs:string*){
+let $Chojnacki := collection('/db/apps/BetMas/data/Chojnacki')//marc:record[descendant::marc:subfield[@code="a"][. = $id ]]
+let $ChojnackItems := for $Choj in $Chojnacki
+                                            let $DigiVatID := $Choj//marc:datafield[@tag="095"]/marc:subfield[@code="a"]/text()
+                                            let $link := 'https://digi.vatlib.it/stp/detail/' || $DigiVatID
+                                            let $name := string-join($Choj//marc:datafield[@tag="534"]/marc:subfield/text(), ' ')
+                                       
+                                       return
+  map {'name' := $name, 'link' := $link}
+return if (count($ChojnackItems) ge 1) then map {'total' := count($ChojnackItems), 'ChojnackItems' := $ChojnackItems}
+else if (count($ChojnackItems) eq 1) then map {'total' := 1, 'ChojnackItems' := [$ChojnackItems]}
+else map {'total' := 0, 'info' := 'sorry, there are no related items in the Chojnacki Collection at the Vatic Library.'}};
 
+(:~ given a series of dts urn of witness passages, produces the json required for a request to collatex and posts it :) 
+declare
+%rest:POST
+%rest:GET
+%rest:path("/BetMas/api/collatex")
+%rest:query-param("dts", "{$dts}", "")
+%rest:query-param("format", "{$format}", "tei+xml")
+function api:collatex($dts  as xs:string*,$format  as xs:string*){
+$api:response200,
+let $urns := for $u in tokenize($dts, ',') return $u
+return
 
+if(count($urns) le 1) 
+
+then (<info>please provide at least 2 dts urns separated with comma</info>)  else(
+  
+                                         
+   let $body :=   dts:getCollatexBody($urns)
+     let $req :=
+        <http:request
+        http-version="1.1"
+            href="{xs:anyURI('http://localhost:7369/collate')}"
+            method="POST">
+            <http:header
+                name="Conten-Type"
+                value="application/json"/>
+                <http:header name="Access-Control-Allow-Origin" value="*"/>
+            <http:header name="Accept" value="application/{$format}"/>
+            
+                <http:body media-type="text" method="text" indent="yes">{$body}</http:body>
+        </http:request>
+let $post:=          hc:send-request($req)[2]
+let $decoded := if(contains($format, 'xml')) then $post else util:base64-decode($post)
+return 
+$decoded
+    
+    )
+};
+
+    (:~ given a role, search other attestations of it and print the persName around them and related infos :) 
+declare
+%rest:GET
+%rest:path("/BetMas/api/quotations/{$text}/{$passage}")
+%output:method("json")
+function api:allquotations($text  as xs:string*,$passage  as xs:string*){
+let $quotations := collection($config:data-root)//t:cit[t:ref[contains(@cRef, $text)]]
+let $thispassage := for $quote in $quotations[t:ref[contains(substring-after(@cRef, concat($text, ':')), $passage)]]
+                                            let $id := string(root($quote)/t:TEI/@xml:id) 
+                                          let $titlesource := titles:printTitleMainID($id)
+                                           let $source := map {'id' := $id, 'title' := $titlesource} 
+                                            let $t := $quote/t:quote/text()
+                                            let $r := string($quote/t:ref/@cRef)
+                                        return 
+                                        map {'text' := $t, 'source' := $source, 'ref' := $r}
+return if (count($thispassage) ge 1) then map {'total' := count($thispassage), 'quotations' := [$thispassage]} else map {'total' := 0, 'info' := 'sorry, there are no marked up quotations of this passage'}
+};
+
+    
        
        (:~ given the id of a manuscript returns the word count for eventual transcriptions of that work in the given witness :) 
 declare
@@ -74,6 +149,21 @@ else ('word count: no transcription available')
 
 };
 
+
+declare 
+%rest:GET
+%rest:path("/BetMas/api/listRepositoriesName")
+%output:method("html")
+function api:listRepositoriesName()
+{
+for $i in collection($config:data-rootIn)//t:TEI/@xml:id
+let $id := string($i)
+let $name := base-uri($i)
+let $tit := titles:printTitleMainID($id)
+order by $tit
+return
+<option value="{$id}">{$tit}</option>
+};
 
 
 declare 
@@ -102,6 +192,7 @@ let $ty := switch($type)
 case 'person' return 't:persName[@ref'
 case 'place' return 't:placeName[@ref'
 case 'work' return 't:title[@ref'
+case 'mss' return 't:ref[@type="mss"][@corresp'
 case 'term' return 't:term[@key'
 default return 't:persName'
 let $c := collection($config:data-root)
@@ -231,7 +322,6 @@ declare
 %rest:path("/BetMas/api/witnessesOfContainer/{$id}")
 %output:method("json")
 function api:witnessesOfContainerWork($id as xs:string*){
-let $id := 'LIT4275ChronAmdS'
 let $corresps := collection($config:data-rootW)//t:div[@type ='textpart'][@corresp = $id]
 for $c in $corresps 
 let $workid := string(root($c)/t:TEI/@xml:id )
@@ -376,6 +466,69 @@ function api:teipart($id as xs:string, $element as xs:string*){
     )
 };
 
+(:~retrives a single part of a tei file, e.g. a single node:)
+declare
+%rest:GET
+%rest:path("/BetMas/api/enrichMe/{$id}/{$anchor}")
+%output:method("json")
+function api:teipart($id as xs:string, $anchor as xs:string*){
+
+    ($api:response200Json,
+    let $file := api:get-tei-by-ID($id)
+    let $node := $file//id($anchor)
+    let $name :=  $node/name()
+    let $NodeMap :=  map {}
+    let $NodeMapwithxmllang := if($node/@xml:lang) then map:put($NodeMap, 'xml:lang', string($node/@xml:lang)) else $NodeMap
+    let $NodeMapwithtitle := if($node/t:title) then 
+                               let $titString := if ($node/t:title/@ref) then 
+                                                                     let $titRef := string($node/t:title/@ref)
+                                                                     return titles:printTitleMainID($titRef) 
+                                                              else $node/t:title/text() 
+                              return map:put($NodeMapwithxmllang, 'title', $titString[1]) 
+                              else $NodeMapwithxmllang
+  let $NodeMapwithdate := if($node/t:date) then 
+                               let $dateString := string-join(string:tei2string($node/t:date), ', ')
+                              return map:put($NodeMapwithtitle, 'date', $dateString) 
+                              else $NodeMapwithtitle
+  let $NodeMapwithbibl := if($node//t:bibl) then 
+                              let $bibstrings := for $b in $node//t:bibl return string:tei2string($b)
+                              let $biblString := string-join($bibstrings, '; ')
+                              return map:put($NodeMapwithdate, 'bibliography', $biblString) 
+                              else $NodeMapwithdate
+ let $NodeMapwithnote := if($node/t:note) then 
+                              let $noteString := string-join(string:tei2string($node/t:note), '; ')
+                              return map:put($NodeMapwithbibl, 'note', $noteString) 
+                              else $NodeMapwithbibl
+ let $NodeMapwithdesc := if($node/t:desc/text()) then 
+                              let $descString := string-join(string:tei2string($node/t:desc), '; ')
+                              return map:put($NodeMapwithnote, 'desc', $descString) 
+                              else $NodeMapwithnote
+ let $NodeMapwithdesctype := if($node/t:desc/@type) then 
+                              let $desctypeString := titles:printTitleMainID(string($node/t:desc/@type))
+                              return map:put($NodeMapwithdesc, 'type', $desctypeString) 
+                              else $NodeMapwithdesc
+ let $NodeMapwithdecotype := if($node/name() = 'decoNote') then 
+                              let $decotypeString := string($node/@type)
+                              return map:put($NodeMapwithdesctype, 'deco type', $decotypeString) 
+                              else $NodeMapwithdesctype
+ let $NodeMapwithlinks := if($node//t:*[@ref ] or $node//t:term or $node//t:ref) then 
+                              let $named := for $ne in $node//t:*[@ref] return titles:printTitleID($ne/@ref) || (if($ne/@role)then ' ('||string($ne/@role)||')' else ())
+                              let $terms := for $t in $node//t:term/@key return titles:printTitleMainID($t)
+                              let $refs :=for $r in $node//t:ref return string:tei2string($r)
+                              let $all := ('Named Entities: ' ||string-join($named, ', ')||' | Terms: ' || string-join($terms, ', ')||' | References: ' || string-join($refs, ', '))
+                              return map:put($NodeMapwithdecotype, 'links', $all) 
+                              else $NodeMapwithdecotype
+let $NodeMapwithscript := if($node/@script ) then 
+                              let $scriptString := string($node/@script)
+                              return map:put($NodeMapwithlinks, 'script', $scriptString) 
+                              else $NodeMapwithlinks
+                              
+    return 
+           $NodeMapwithlinks
+    
+    )
+};
+
 
 (:~retrives a single part of a tei file given a URI as formatted in the RDF, e.g. a single node:)
 declare
@@ -490,7 +643,7 @@ let $collection := api:switchcol($type)
 let $localId := $id
 let $thisMap := map {
         "id" := $id, 
-        "label" := titles:printTitleMainID($id), 
+        "label" := titles:printTitleID($id), 
         "group" := string($type)
         }
 
@@ -516,15 +669,16 @@ let $wph :=
     let $allids :=($ids, $refs)
     let $distincts :=  distinct-values($allids)
     for $I in $distincts
-    let $thisI := $c//id($I)[name()='TEI']
+    let $cleanId := if(contains($I, '#')) then substring-before($I,  '#') else $I
+    let $thisI := $c//id($cleanId)[name()='TEI']
     let $rootype := $thisI[1]/@type
-    let $title := try{titles:printTitleMainID($I)} catch * {$I}
+    let $title := if(contains($I, '#')) then titles:printTitleID($I) else titles:printTitleMainID($I)
     let $titleN := if(count($title) gt 1) then normalize-space(string-join($title, ' ')) else normalize-space($title)
     return 
       (:first return the root of the referring entity and the id in the corresp, active, passive, mutual, etc. there.:)
      map {
         "id" := $I, 
-        "label" := $titleN, 
+        "label" := $titleN,
         "group" := string($rootype)
         }
 
@@ -997,7 +1151,7 @@ let $hi :=   for $hit in $hits
                     let $id := string($hit/@xml:id)
                     let $collection := switch($hit/@type) case 'mss' return 'manuscripts'case 'place' return 'places' case 'work' return 'works' case 'narr' return 'narratives' case 'ins' return 'institutions' case 'pers' return 'persons' default return 'authority-files'
                    let $ptest := titles:printTitleMainID($id)
-                   let $title := if ($ptest) then ($ptest) else (console:log('problem printing title of ' || $id), $id)
+                   let $title := if ($ptest) then ($ptest) else (('problem printing title of ' || $id), $id)
                     let $count := count($expanded//exist:match)
                     let $results := kwic:summarize($hit,<config width="40"/>)
                    let $pname := $expanded//exist:match[ancestor::t:div[@type='edition']]
@@ -1050,6 +1204,7 @@ declare
 %rest:query-param("script", "{$script}", "")
 %rest:query-param("material", "{$material}", "")
 %rest:query-param("homophones", "{$homophones}", "true")
+%rest:query-param("descendants", "{$descendants}", "true")
 %output:method("json")
 function api:search($element as xs:string+,
 $q as xs:string*,
@@ -1057,7 +1212,8 @@ $collection as xs:string*,
 $script as xs:string*,
 $material as xs:string*,
 $term as xs:string*,
-$homophones as xs:string*) {
+$homophones as xs:string*,
+$descendants as xs:string*) {
 
 let $log := log:add-log-message('/api/search?q=' || $q, xmldb:get-current-user(), 'REST')
     let $login := xmldb:login('/db/apps/BetMas/data', $config:ADMIN, $config:ppw)
@@ -1109,8 +1265,15 @@ let $query-string := if($homophones = 'true') then all:substitutionsInQuery($q) 
          
 let $hits := 
 for $e in $element 
-let $eval-string := concat("collection('", $config:data-root, "')//t:"
+let $eval-string := if($e = 'persName' and $descendants = 'false')  then
+concat("collection('", $config:data-root, "')//t:person/t:persName"
+, "[ft:query(.,'", $query-string, "',",serialize($SearchOptions),")]", $collection, $script, $material, $term)
+else if($e = 'placeName' and  $collection = 'places' and $descendants = 'false')  then
+concat("collection('", $config:data-root, "')//t:place/t:placeName"
+, "[ft:query(.,'", $query-string, "',",serialize($SearchOptions),")]", $collection, $script, $material, $term)
+else concat("collection('", $config:data-root, "')//t:"
 , $e, "[ft:query(.,'", $query-string, "',",serialize($SearchOptions),")]", $collection, $script, $material, $term)
+
 return util:eval($eval-string)
 
 

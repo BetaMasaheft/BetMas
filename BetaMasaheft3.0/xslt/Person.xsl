@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="/">
        <div class="col-md-12">
@@ -33,7 +32,7 @@
               <button class="btn btn-primary" id="showattestations" data-value="person" data-id="{string(t:TEI/@xml:id)}">Show attestations</button>
               <div id="allattestations" class="col-md-12"/>
         </div>
-           <div class="col-md-3 alert alert-info" id="description">
+           <div class="col-md-3 alert alert-info" id="description" rel="http://xmlns.com/foaf/0.1/name">
                <h2>Names <xsl:if test="//t:person/@sex">
                    <xsl:choose>
                        <xsl:when test="//t:person/@sex = 1">
@@ -50,6 +49,8 @@
                        </a>
                    </xsl:if>
                </h2>
+               
+               <ul class="nodot">
                <xsl:choose>
                    <xsl:when test="//t:personGrp">
                        <xsl:for-each select="//t:personGrp/t:persName[@xml:id]">
@@ -202,11 +203,54 @@
                        </xsl:if>
                    </xsl:otherwise>
                </xsl:choose>
+               </ul>
+               <xsl:if test="//t:floruit/@* or //t:birth/@* or //t:death/@*">
+                   <h2>Dates </h2>
+                   <xsl:if test="//t:birth[@when or @notBefore or @notAfter ] or                             //t:death[@when or @notBefore or @notAfter  ] or                             //t:floruit[@when or @notBefore or @notAfter ]">
+                       <xsl:for-each select="//t:birth[@when or @notBefore or @notAfter ]">
+                           <p>Birth: <xsl:choose>
+                               <xsl:when test="@notBefore or @notAfter">
+                                   <xsl:value-of select="@notBefore"/>
+                                   <xsl:text>-</xsl:text>
+                                   <xsl:value-of select="@notAfter"/>
+                               </xsl:when>
+                               <xsl:otherwise><xsl:value-of select="@when"/></xsl:otherwise>
+                           </xsl:choose>
+                               <xsl:if test="@cert"><xsl:value-of select="concat(' (', @cert, ')')"/></xsl:if>
+                           </p>
+                       </xsl:for-each>
+                       <xsl:for-each select="//t:floruit[@when or @notBefore or @notAfter ]">
+                           <p>Floruit: <xsl:choose>
+                               <xsl:when test="@notBefore or @notAfter">
+                                   <xsl:value-of select="@notBefore"/>
+                                   <xsl:text>-</xsl:text>
+                                   <xsl:value-of select="@notAfter"/>
+                               </xsl:when>
+                               <xsl:otherwise><xsl:value-of select="@when"/></xsl:otherwise>
+                           </xsl:choose>
+                               <xsl:if test="@cert"><xsl:value-of select="concat(' (', @cert, ')')"/></xsl:if>
+                           </p>
+                       </xsl:for-each>
+                       <xsl:for-each select="//t:death[@when or @notBefore or @notAfter ]">
+                           <p>Death: <xsl:choose>
+                               <xsl:when test="@notBefore or @notAfter">
+                                   <xsl:value-of select="@notBefore"/>
+                                   <xsl:text>-</xsl:text>
+                                   <xsl:value-of select="@notAfter"/>
+                               </xsl:when>
+                               <xsl:otherwise><xsl:value-of select="@when"/></xsl:otherwise>
+                           </xsl:choose>
+                               <xsl:if test="@cert"><xsl:value-of select="concat(' (', @cert, ')')"/></xsl:if>
+                           </p>
+                       </xsl:for-each>
+                   </xsl:if>
+               </xsl:if>
+               
                <xsl:if test="//t:occupation">
                    <h2>Occupation</h2>
                    
                    <xsl:for-each select="//t:occupation">
-                       <p class="lead">
+                       <p class="lead" property="http://data.snapdrgn.net/ontology/snap#occupation">
                            <xsl:if test="@from or @to">
                                <xsl:value-of select="@from"/>
                                <xsl:text>-</xsl:text>

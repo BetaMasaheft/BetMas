@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.schoenberginstitute.org/schema/collation" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" xmlns:t="http://www.tei-c.org/ns/1.0" exclude-result-prefixes="#all" version="2.0">
     <xd:doc scope="stylesheet">
         <xd:desc>
@@ -38,13 +37,16 @@
                 <xsl:variable name="positions" select="@positions"/>
                 <xsl:variable name="conto" select="@contoreale"/>
                 <xsl:variable name="quireid" select="@quireid"/>
-                <br/> Quire <xsl:value-of select="$quireNo"/> (<xsl:value-of select="$conto"/>) <xsl:if test="@rend">
+                <br/>
+                <!--<b>Quire <xsl:value-of select="$quireNo"/> (<xsl:value-of select="$conto"/>) <xsl:if test="@rend">
                     <xsl:value-of select="$rendition"/>
                     <xsl:text> </xsl:text>
                     <a href="{$corresp}">
                         <xsl:value-of select="substring-after($corresp, '#')"/>
                     </a>
-                </xsl:if>
+                </xsl:if></b>
+                <br/>-->
+                <xsl:value-of select="@desc"/>
                 <br/>
                 <xsl:for-each select="t:units/t:unit[1]">
                             
@@ -252,7 +254,7 @@
                         </xsl:choose>
                     </xsl:variable>
                     <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#divset{$quireNo}{$randomnumber}">expand/collapse</button>
-                    <div class="divset collapse" property="http://purl.org/dc/terms/hasPart" typeof="{concat('/', $mainID, '/quire/', $quireid)}">
+                    <div class="divset collapse" resource="http://betamasaheft.eu/{$mainID}/quire/{$quireid}" typeof="http://betamasaheft.eu/quire ">
                         <xsl:attribute name="id">divset<xsl:value-of select="$quireNo"/>
                             <xsl:value-of select="$randomnumber"/>
                         </xsl:attribute>

@@ -12,7 +12,6 @@ import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/c
 
 declare namespace t="http://www.tei-c.org/ns/1.0";
 
-import module namespace console="http://exist-db.org/xquery/console";
 
 
 (:this is a small form that points to the xquery generating the new file and prompting the editor to save it in the correct location:)
@@ -33,7 +32,7 @@ declare function new:newentry($node as node()*, $model as map(*)) {
 <div class="form-group">
 <label for="suffix" class="col-md-2 col-form-label">ID</label>
 <div class="col-md-10"><input  class="form-control" id="suffix" name="suffix"  required="required"></input>
-<small class="form-text text-muted">type here the {$option} new id</small></div>
+<small class="form-text text-muted">type here the {$option} new id <a target="_blank" href="http://betamasaheft.eu/Guidelines/?id=entities-id-structure">(assigning IDs guidelines page)</a></small></div>
 </div>
 <div class="form-group">
 <label for="title"  class="col-md-2 col-form-label">Title</label>

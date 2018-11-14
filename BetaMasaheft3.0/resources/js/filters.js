@@ -91,6 +91,9 @@ $(document).ready(function () {
                 case "quires":
                 callformpart("formquires.html", "quiresform");
                 break;
+                case "quiresComp":
+                callformpart("formquiresComp.html", "quiresCompform");
+                break;
                 case "writtenLines":
                 callformpart("formWL.html", "WLform");
                 break;
@@ -198,6 +201,9 @@ $(document).ready(function () {
                 break;
                 case "quires":
                 $('#quiresform').hide();
+                break;
+                case "quiresComp":
+                $('#quiresCompform').hide();
                 break;
                 case "writtenLines":
                 $('#WLform').hide();

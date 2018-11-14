@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:supportDesc">
         <xsl:if test="parent::t:objectDesc/@form">
@@ -14,13 +13,13 @@
             <p>
                 <xsl:if test=".//t:material/@key">
                     <xsl:for-each select=".//t:material">
-                    <xsl:value-of select="concat(upper-case(substring(@key,1,1)),                 substring(@key, 2),        ' ' )"/>
+                        <span property="http://www.cidoc-crm.org/cidoc-crm/P46_is_composed_of" resource="http://betamasaheft.eu/material/{@key}"><xsl:value-of select="concat(upper-case(substring(@key,1,1)),                 substring(@key, 2),        ' ' )"/></span>
                 <xsl:apply-templates/>
                     </xsl:for-each>
                    
                 </xsl:if>
                 <xsl:text> </xsl:text>
-                <xsl:value-of select="parent::t:objectDesc/@form"/>
+                <span typeof="http://betamasaheft.eu/{parent::t:objectDesc/@form}"><xsl:value-of select="parent::t:objectDesc/@form"/></span>
             </p>
         </xsl:if>
         <xsl:apply-templates/>

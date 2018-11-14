@@ -18,7 +18,7 @@ $(document).on('ready', function () {
     BIND(STR(?part) AS ?p)\
     FILTER(contains(?r, ?id))\
     BIND(STR(?class) AS ?c)\
-    FILTER ( strStarts(?c, 'http://Syntaxe.du.Codex/ontology#') ||  contains(?c, 'quire') || contains(?c, 'decoration') || contains(?c, 'addition') )\
+    FILTER ( strStarts(?c, 'https://w3id.org/sdc/ontology#') ||  contains(?c, 'quire')||  contains(?c, 'hand') || contains(?c, 'decoration') || contains(?c, 'addition') )\
     BIND(IF(regex(?p, 'addition','i'), 'y', 'n') as ?addition)\
     BIND(IF(?addition = 'y', 'addition', IF(regex(?c, '#','i'), STRAFTER(?c, '#'), STRAFTER(?c, 'http://betamasaheft.eu/')))   AS ?type)\
     BIND(strafter(?p, 'http://betamasaheft.eu/') as ?uri)\
@@ -62,8 +62,8 @@ $(document).on('ready', function () {
         //console.log(reslength)
         
       $("#graphloadingstatus").text('going through the results of the SPARQL query')
-        for (var i = 0; i < reslength; i++) {
-            var unit = results[i]
+        $(results).each(function(i){
+            var unit = this
             var Lf = ''
             if ('locusFrom' in unit) {
                 Lf = unit.locusFrom.value
@@ -172,7 +172,7 @@ $(document).on('ready', function () {
                     }
                 }
             }
-        };
+        });
         
         //console.log(table.length)
         for (var i = 0; i < table.length; i++) {
@@ -323,7 +323,7 @@ $(document).on('ready', function () {
                    // console.log(finalid)
                     var name = splitxt[1] + ' ' + splitxt[2]
                     // console.log(name)
-                    var newtext = '<a target="_blank" href="/manuscripts/' + id + '/main#' + finalid + '">' + name + '<a/>'
+                    var newtext = '<a class="enrichable"  data-anchor="' + finalid + '" target="_blank" href="/manuscripts/' + id + '/main#' + finalid + '">' + name + '<a/>'
                     $(this).html(newtext)
                 }
             }
@@ -351,5 +351,30 @@ $(document).on('ready', function () {
         };
         
       $("#graphloadingstatus").remove()
+      $('#enrichTable').removeAttr('disabled');
     });
+    
+    
+});
+
+$("#enrichTable").on('click', function(){
+/*console.log('clicked enrich')*/
+ var id = $('#SdCTable').data('id')
+     $('.enrichable').each(function(){
+      var anchor = $(this).data('anchor')
+/*     console.log(anchor)*/
+     var apicallenrich = '/api/enrichMe/'+id+'/' +anchor
+/*    console.log(apicallenrich)*/
+var el = $(this)
+    $.getJSON(apicallenrich, function (data) {
+/*    console.log(data)*/
+    var enrichment = $('<table class="table enriched"><tbody></tbody></table>')
+    for(var item in data){
+            var row = "<tr><td><b>" + item + "</b></td><td>" + data[item] + "</td></tr>";
+            enrichment.append(row)
+        }
+     $(el).after(enrichment) 
+    });
+      }
+     );
 });

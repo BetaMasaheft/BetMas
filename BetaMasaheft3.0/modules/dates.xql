@@ -4,7 +4,6 @@ declare namespace t="http://www.tei-c.org/ns/1.0";
 
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
 import module namespace all = "https://www.betamasaheft.uni-hamburg.de/BetMas/all" at "all.xqm";
-import module namespace console = "http://exist-db.org/xquery/console";
 
 let $c := collection($config:data-root)
 let $dates := $c//t:date[not(parent::t:publicationStmt)]

@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="/">
         <div id="description" class="col-md-8">
@@ -8,7 +7,7 @@
                     <xsl:for-each select="//t:titleStmt/t:title[@xml:id]">
                         <xsl:sort select="if (@xml:id) then @xml:id else text()"/>
                         <xsl:variable name="id" select="@xml:id"/>
-                        <li>
+                        <li property="http://purl.org/dc/elements/1.1/title">
                             <xsl:if test="@xml:id">
                                 <xsl:attribute name="id">
                                     <xsl:value-of select="@xml:id"/>
@@ -152,19 +151,15 @@
             </xsl:if>
             <xsl:if test="//t:abstract">
                 <h2>General description</h2>
-                <xsl:if test="//t:editionStmt">
-                    <p>
-                        <xsl:apply-templates select="//t:editionStmt"/>
-                    </p>
-                </xsl:if>
-                <xsl:if test="//t:extent">
-                    <p>
-                        <b>Extent: </b>
-                        <xsl:apply-templates select="//t:extent"/>
-                    </p>
-                </xsl:if>
                 <p>
                     <xsl:apply-templates select="//t:abstract"/>
+                </p>
+            </xsl:if>
+            
+            <xsl:if test="//t:extent">
+                <p>
+                    <b>Extent: </b>
+                    <xsl:apply-templates select="//t:extent"/>
                 </p>
             </xsl:if>
             <xsl:if test="//t:creation">
@@ -194,7 +189,27 @@
                     <xsl:apply-templates select="//t:div[@type='bibliography']/t:listBibl"/>
                 </div>
             </xsl:if>
-            
+            <xsl:if test="//t:publicationStmt">
+                <div class="col-md-12" id="publicationStmt">
+                    <h2>Publication Statement</h2>
+                    <xsl:apply-templates select="//t:publicationStmt"/>
+                </div>
+            </xsl:if>
+            <xsl:if test="//t:encodingDesc">
+                <div class="col-md-12" id="encodingDesc">
+                    <h2>Encoding Description</h2>
+                    <xsl:apply-templates select="//t:encodingDesc"/>
+                </div>
+            </xsl:if>
+            <xsl:if test="//t:editionStmt">
+                <div class="col-md-12" id="editionStmt">
+                    <h2>Edition Statement</h2>
+                    <xsl:apply-templates select="//t:editionStmt"/>
+                </div>
+            </xsl:if>
+            <xsl:if test="//t:div[@type='edition']//t:ab//text()">
+                <a role="button" target="_blank" class="btn btn-primary" href="{concat('http://voyant-tools.org/?input=http://betamasaheft.eu/works/',string(t:TEI/@xml:id),'.xml')}">Voyant 2 analysis tools</a>
+            </xsl:if>
             <button class="btn btn-primary" id="showattestations" data-value="work" data-id="{string(t:TEI/@xml:id)}">Show attestations</button>
             <div id="allattestations" class="col-md-12"/>
             <!--<xsl:if test="//t:body[t:div[@type='edition'][t:ab or t:div[@type='textpart']]]">

@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:param name="startsection"/>
     <xsl:param name="perpage"/>
@@ -10,13 +9,34 @@
                     <xsl:choose>
                         <xsl:when test="$numberedDiv">
                             <xsl:apply-templates select="//t:div[@type = 'edition']/t:div[@type='textpart'][@n[number(.) &gt;= number($startsection)][number(.) &lt;= number($perpage + ($startsection -1))]]"/>
-               </xsl:when>
+                        </xsl:when>
                         <xsl:otherwise>
                             <xsl:apply-templates select="//t:div[@type = 'edition']"/>
                         </xsl:otherwise>
                     </xsl:choose> </div>
+                <script type="text/javascript" src="resources/js/pelagios.js"/>
                 
-                <div id="versions"/>
+                <img id="loadingRole" src="resources/Loading.gif" style="display: none;"/>
+                <div id="versions"/>   
+                <div id="translation" class="lead">
+                    <h4>Translation</h4>
+                    <xsl:variable name="numberedDiv" select="//t:div[@type = 'translation']/t:div[@type='textpart'][@n[number(.) &gt;= number($startsection)][number(.) &lt;= number($perpage + ($startsection -1))]]//t:ab"/>
+                    <xsl:choose>
+                        <xsl:when test="$numberedDiv">
+                            <xsl:apply-templates select="//t:div[@type = 'translation']/t:div[@type='textpart'][@n[number(.) &gt;= number($startsection)][number(.) &lt;= number($perpage + ($startsection -1))]]//t:ab"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:apply-templates select="//t:div[@type = 'translation']//t:ab"/>
+                        </xsl:otherwise>
+                    </xsl:choose> 
+                </div>
+                <xsl:if test="//t:pb[@facs]">
+                    <div id="viewer"/>
+                    <xsl:variable name="iiifMSWitColl" select="concat('/api/iiif/witnesses/', string(t:TEI/@xml:id))"/>
+                    <script type="text/javascript"><xsl:text>var data = [{collectionUri: "</xsl:text><xsl:value-of select="$iiifMSWitColl"/><xsl:text>"}]</xsl:text></script>
+                    <script type="text/javascript" src="resources/js/editionmirador.js"/>
+                </xsl:if>
+                <div id="roleAttestations"/>  
             </xsl:if>
             
         </div>
@@ -25,11 +45,6 @@
             <xsl:if test="//t:listBibl">
                 <div class="col-md-12" id="bibliographyText">
                     <xsl:apply-templates select="//t:listBibl"/>
-                </div>
-            </xsl:if>
-            <xsl:if test="//t:encodingDesc">
-                <div class="col-md-12" id="encodingDesc">
-                    <xsl:apply-templates select="//t:encodingDesc"/>
                 </div>
             </xsl:if>
             <xsl:if test="//t:editionStmt">

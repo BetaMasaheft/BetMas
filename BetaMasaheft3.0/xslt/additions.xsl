@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:additions">
-        <div id="additiones">
+        <div id="additiones" rel="http://purl.org/dc/terms/hasPart">
             <h2>Additiones <xsl:if test="./ancestor::t:msPart">
                     <xsl:variable name="currentMsPart">
                         <a href="{./ancestor::t:msPart/@xml:id}">
@@ -39,12 +38,18 @@
             </xsl:if>
             <ol>
                 <xsl:for-each select=".//t:item[contains(@xml:id, 'a')]">
-                    <li>
+                    <li resource="http://betamasaheft.eu/{$mainID}/addition/{@xml:id}">
+                        <xsl:attribute name="typeof">
+                            <xsl:if test="./t:desc/@type"><xsl:value-of select="concat('http://betamasaheft.eu/', ./t:desc/@type)"/></xsl:if>
+                    </xsl:attribute>
                         <xsl:attribute name="id">
                             <xsl:value-of select="@xml:id"/>
                         </xsl:attribute>
                         <p>
                             <xsl:apply-templates select="t:locus"/>
+                        </p>
+                        <p>
+                            <xsl:value-of select="@rend"/>
                         </p>
                         <p>
                             <xsl:apply-templates select="t:desc"/>
@@ -75,7 +80,10 @@
                 </h3>
                 <ol>
                     <xsl:for-each select=".//t:item[contains(@xml:id, 'e')]">
-                        <li>
+                        <li resource="http://betamasaheft.eu/{$mainID}/addition/{@xml:id}">
+                            <xsl:attribute name="typeof">
+                                <xsl:if test="./t:desc/@type"><xsl:value-of select="concat('http://betamasaheft.eu/', ./t:desc/@type)"/></xsl:if>
+                            </xsl:attribute>
                             <xsl:apply-templates/>
                         </li>
                     </xsl:for-each>

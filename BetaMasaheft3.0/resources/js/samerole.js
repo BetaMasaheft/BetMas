@@ -1,3 +1,28 @@
+$(document).on({
+    ajaxStart: function () {
+        $("img#loadingRole").show();
+    },
+    ajaxStop: function () {
+        $("img#loadingRole").hide();
+    }
+});
+
+$(".AttestationsWithSameRole").on('click', function () {
+    var el = this
+        var role = $(this).data('value');
+    var hasRole = "/api/RoleAttestations?role=" + role
+    
+    $.ajax(hasRole, {
+            success: function (data) {
+                $("#roleAttestations").append(data);
+               printTitle() 
+               $('.MainTitle').removeClass('MainTitle')
+            }
+        });
+        
+});
+
+
 $(".role").on('click', function () {
     var el = this
      var role = $(this).text();

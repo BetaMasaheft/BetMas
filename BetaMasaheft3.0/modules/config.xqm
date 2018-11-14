@@ -6,7 +6,6 @@ xquery version "3.0";
 module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config";
 
 import module namespace http="http://expath.org/ns/http-client";
-import module namespace console = "http://exist-db.org/xquery/console";
 
 declare namespace templates="http://exist-db.org/xquery/templates";
 
@@ -35,7 +34,9 @@ declare variable $config:sparqlPrefixes := "PREFIX rdf: <http://www.w3.org/1999/
          PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
          PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
          PREFIX t: <http://www.tei-c.org/ns/1.0>
-         PREFIX SdC: <http://Syntaxe.du.Codex/ontology#>";
+         PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+         PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+         PREFIX SdC: <https://w3id.org/sdc/ontology#>";
 
 declare variable $config:appUrl := 'http://betamasaheft.eu';
 declare variable $config:DOI := '10.25592/BetaMasaheft';
@@ -71,12 +72,64 @@ declare variable $config:response200Json := <rest:response>
             </http:response>
         </rest:response>;
         
+        declare variable $config:response200JsonLD := <rest:response>
+            <http:response
+                status="200">
+                <http:header
+                    name="Content-Type"
+                    value="application/ld+json; charset=utf-8"/>
+                <http:header
+                    name="Access-Control-Allow-Origin"
+                    value="*"
+                    />
+            </http:response>
+        </rest:response>;
+        
+           declare variable $config:response404JsonLD := <rest:response>
+            <http:response
+                status="404">
+                <http:header
+                    name="Content-Type"
+                    value="application/ld+json; charset=utf-8"/>
+                <http:header
+                    name="Access-Control-Allow-Origin"
+                    value="*"
+                    />
+            </http:response>
+        </rest:response>;
+        
+         declare variable $config:response400JsonLD := <rest:response>
+            <http:response
+                status="400">
+                <http:header
+                    name="Content-Type"
+                    value="application/ld+json; charset=utf-8"/>
+                <http:header
+                    name="Access-Control-Allow-Origin"
+                    value="*"
+                    />
+            </http:response>
+        </rest:response>;
+        
 declare variable $config:response200XML := <rest:response>
             <http:response
                 status="200">
                 <http:header
                     name="Content-Type"
                     value="application/xml; charset=utf-8"/>
+                <http:header
+                    name="Access-Control-Allow-Origin"
+                    value="*"
+                    />
+            </http:response>
+        </rest:response>;
+        
+        declare variable $config:response200TEIXML := <rest:response>
+            <http:response
+                status="200">
+                <http:header
+                    name="Content-Type"
+                    value="application/tei+xml; charset=utf-8"/>
                 <http:header
                     name="Access-Control-Allow-Origin"
                     value="*"
@@ -158,7 +211,7 @@ declare variable $config:data-rootPl := $config:data-root || "/places";
 declare variable $config:data-rootPr := $config:data-root || "/persons";
 declare variable $config:data-rootIn := $config:data-root || "/institutions";
 declare variable $config:data-rootA := $config:data-root || "/authority-files";
-declare variable $config:data-rootTraces := $config:data-root || "/traces";
+declare variable $config:data-rootTraces := $config:app-root || "/traces";
 
 declare variable $config:repo-descriptor := doc(concat($config:app-root, "/repo.xml"))/repo:meta;
 

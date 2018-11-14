@@ -6,7 +6,6 @@ xquery version "3.1" encoding "UTF-8";
  : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
  :)
 module namespace all = "https://www.betamasaheft.uni-hamburg.de/BetMas/all";
-import module namespace console = "http://exist-db.org/xquery/console";
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 (:~
  : provided a string substitutes characters matching one by one, returning all possible combinations (but multiple times).

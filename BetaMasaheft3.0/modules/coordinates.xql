@@ -18,7 +18,6 @@ declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace sparql = "http://www.w3.org/2005/sparql-results#";
 
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
-import module namespace console = "http://exist-db.org/xquery/console";
 import module namespace http = "http://expath.org/ns/http-client";
 
 (:~
@@ -62,7 +61,7 @@ declare function coord:getCoords($placenameref as xs:string) {
                 if ($pRec//@sameAs) then
                     coord:GNorWD(($pRec//@sameAs)[1])
                 else
-                    console:log("no coordinates for" || $placenameref)
+                   ( "no coordinates for" || $placenameref)
     else
         coord:GNorWD($placenameref)
 };
@@ -92,7 +91,7 @@ declare function coord:GNorWD($placeexternalid as xs:string) {
             if (starts-with($placeexternalid, 'Q')) then
                 coord:invertCoord(coord:getWikiDataCoord($placeexternalid))
             else
-                console:log("no valid external id" || $placeexternalid)
+           ("no valid external id" || $placeexternalid)
 };
 
 
@@ -129,7 +128,7 @@ declare function coord:getWikiDataCoord($Qid as xs:string) {
  : the function below queries pleiades but gets an handshake failure :)
 declare function coord:getPleiadesCoord($string as xs:string) {
    let $plid := substring-after($string, 'pleiades:')
-   let $url := concat('http://pelagios.org/peripleo/places/http:%2F%2Fpleiades.stoa.org%2Fplaces%2F', $plid)
+   let $url := concat('http://peripleo.pelagios.org/peripleo/places/http:%2F%2Fpleiades.stoa.org%2Fplaces%2F', $plid)
   let $file := httpclient:get(xs:anyURI($url), true(), <Headers/>)
   
 let $file-info := 
@@ -137,11 +136,8 @@ let $file-info :=
     let $parse-payload := parse-json($payload)
     return $parse-payload 
     
-    let $gb := $file-info?geo_bounds
-let $coords := if ($gb(1) = $gb(2))
-then ($gb(1), $gb(3)) else for $g in $gb?* return $g
-    return 
-    string-join($coords, ',')
+   return if(count($file-info?geometry?coordinates?*) gt 1) then string-join($file-info?geometry?coordinates?*, ',') else ()
+
 
 };
 

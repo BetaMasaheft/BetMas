@@ -2,7 +2,7 @@ xquery version "3.1" encoding "UTF-8";
 (:~
  : module used by the restXQ modules functions
  : used by the main views for items
- : 
+ :
  : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
  :)
 module namespace apprest="https://www.betamasaheft.uni-hamburg.de/BetMas/apprest";
@@ -19,7 +19,224 @@ import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "titles.xqm";
 import module namespace templates="http://exist-db.org/xquery/templates" ;
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
-import module namespace console="http://exist-db.org/xquery/console";
+import module namespace charts = "https://www.betamasaheft.uni-hamburg.de/BetMas/charts" at "charts.xqm";
+
+declare function functx:trim( $arg as xs:string? )  as xs:string {
+
+   replace(replace($arg,'\s+$',''),'^\s+','')
+ } ;
+
+ (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js MANUSCRIPTS FILTERS for CONTEXT:)
+ declare
+ %templates:default("context", "collection($config:data-rootMS)")
+ function apprest:origPlace($context as xs:string*) {
+     let $cont := util:eval($context)
+     let $scripts := distinct-values($cont//t:origPlace/t:placeName/@ref)
+   return
+   apprest:formcontrol('Place of origin','origPlace', $scripts, 'false', 'rels', $context)
+
+ };
+
+(:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js MANUSCRIPTS FILTERS for CONTEXT:)
+declare
+%templates:default("context", "collection($config:data-rootMS)")
+function apprest:scripts($context as xs:string*) {
+    let $cont := util:eval($context)
+    let $scripts := distinct-values($cont//@script)
+  return
+  apprest:formcontrol('Script','script', $scripts, 'false', 'values', $context)
+
+};
+
+(:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
+declare
+%templates:default("context", "collection($config:data-rootMS)")
+function apprest:support($context as xs:string*) {
+     let $cont := util:eval($context)
+     let $forms := distinct-values($cont//@form)
+    return
+    apprest:formcontrol('Object Type', 'objectType', $forms, 'false', 'values', $context)
+
+};
+
+(:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
+declare
+%templates:default("context", "collection($config:data-rootMS)")
+function apprest:material($context as xs:string*) {
+      let $cont := util:eval($context)
+      let $materials := distinct-values($cont//t:support/t:material/@key)
+    return
+    apprest:formcontrol('Material', 'material', $materials, 'false', 'values', $context)
+
+};
+
+(:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
+declare
+%templates:default("context", "collection($config:data-rootMS)")
+function apprest:bmaterial($context as xs:string*) {
+    let $cont := util:eval($context)
+      let $bmaterials := distinct-values($cont//t:decoNote[@type='bindingMaterial']/t:material/@key)
+    return
+        apprest:formcontrol('Binding Material','bmaterial', $bmaterials, 'false', 'values', $context)
+
+};
+
+
+(:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js PLACES FILTERS for CONTEXT:)
+declare
+%templates:default("context", "collection($config:data-rootPl,$config:data-rootIn)")
+function apprest:placeType($context as xs:string*) {
+      let $cont := util:eval($context)
+     let $placeTypes := distinct-values($cont//t:place/@type/tokenize(., '\s+'))
+   return
+   apprest:formcontrol('Place Type', 'placeType', $placeTypes, 'false', 'values', $context)
+
+};
+
+(:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
+declare
+%templates:default("context", "collection($config:data-rootPr)")
+function apprest:personType($context as xs:string*) {
+    let $cont := util:eval($context)
+      let $persTypes := distinct-values($cont//t:person//t:occupation/@type/tokenize(., '\s+'))
+    return
+    apprest:formcontrol('Person Type', 'persType', $persTypes, 'false', 'values', $context)
+
+};
+
+(:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
+declare
+%templates:default("context", "collection($config:data-root)")
+function apprest:relationType($node as node(), $model as map(*)) {
+    let $cont := util:eval($context)
+    let $relTypes := distinct-values($cont//t:relation/@name/tokenize(., '\s+'))
+ return
+ apprest:formcontrol('Relation Type', 'relType', $relTypes, 'false', 'values', $context)
+
+};
+
+
+(:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
+declare
+%templates:default("context", "collection($config:data-rootMS)")
+function apprest:languages($context as xs:string*) {
+     let $cont := util:eval($context)
+     let $keywords := distinct-values($cont//t:language/@ident)
+    return
+    apprest:formcontrol('Language', 'language', $keywords, 'false', 'values', $context)
+
+};
+
+(:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
+declare
+%templates:default("context", "collection($config:data-rootMS)")
+function apprest:scribes($context as xs:string*) {
+     let $cont := util:eval($context)
+      let $elements := $cont//t:persName[@role='scribe'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
+    let $keywords := distinct-values($elements/@ref)
+    return
+    apprest:formcontrol('Scribe', 'scribe', $keywords, 'false', 'rels', $context)
+
+};
+
+(:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
+declare
+%templates:default("context", "collection($config:data-rootMS)")
+function apprest:donors($context as xs:string*) {
+     let $cont := util:eval($context)
+    let $elements := $cont//t:persName[@role='donor'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
+    let $keywords := distinct-values($elements/@ref)
+  return
+  apprest:formcontrol('Donor', 'donor', $keywords, 'false', 'rels', $context)
+
+};
+
+(:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
+declare
+%templates:default("context", "collection($config:data-rootMS)")
+function apprest:patrons($context as xs:string*) {
+     let $cont := util:eval($context)
+      let $elements := $cont//t:persName[@role='patron'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
+    let $keywords := distinct-values($elements/@ref)
+ return apprest:formcontrol('Patron', 'patron', $keywords, 'false', 'rels', $context)
+
+};
+
+(:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
+declare
+%templates:default("context", "collection($config:data-rootMS)")
+function apprest:owners($context as xs:string*) {
+      let $cont := util:eval($context)
+      let $elements := $cont//t:persName[@role='owner'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
+      let $keywords := distinct-values($elements/@ref)
+     return apprest:formcontrol('Owner', 'owner', $keywords, 'false', 'rels', $context)
+
+};
+
+(:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
+declare
+%templates:default("context", "collection($config:data-rootMS)")
+function apprest:binders($context as xs:string*) {
+      let $cont := util:eval($context)
+      let $elements := $cont//t:persName[@role='binder'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
+    let $keywords := distinct-values($elements/@ref)
+ return
+ apprest:formcontrol('Binder', 'binder', $keywords, 'false', 'rels', $context)
+
+};
+
+(:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
+declare
+%templates:default("context", "collection($config:data-rootMS)")
+function apprest:parmakers($context as xs:string*) {
+    let $cont := util:eval($context)
+      let $elements := $cont//t:persName[@role='parchmentMaker'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
+    let $keywords := distinct-values($elements/@ref)
+   return
+   apprest:formcontrol('Parchment Maker', 'parchmentMaker', $keywords, 'false', 'rels', $context)
+
+};
+
+(:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
+declare
+%templates:default("context", "collection($config:data-rootMS)")
+function apprest:contents($context as xs:string*) {
+    let $cont := util:eval($context)
+    let $elements :=$cont//t:msItem
+    let $titles := $elements/t:title/@ref
+    let $keywords := distinct-values($titles)
+  return
+   apprest:formcontrol('Contents', 'contents', $keywords, 'false', 'rels', $context)
+};
+
+
+(:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
+declare
+%templates:default("context", "collection($config:data-rootW)")
+function apprest:WorkAuthors($context as xs:string*) {
+let $works := util:eval($context)
+let $attributions := for $rel in ($works//t:relation[@name="saws:isAttributedToAuthor"], $works//t:relation[@name="dcterms:creator"])
+let $r := $rel/@passive
+                return
+                if (contains($r, ' ')) then tokenize($r, ' ') else $r
+let $keywords := distinct-values($attributions)
+  return
+   apprest:formcontrol('Authors','authors', $keywords, 'false', 'rels', $context)
+};
+
+(:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
+declare
+%templates:default("context", "collection($config:data-rootW)")
+function apprest:tabots($context as xs:string*) {
+let $cont := util:eval($context)
+let $tabots:= $cont//t:ab[@type='tabot']
+    let $personTabot := distinct-values($tabots//t:persName/@ref)
+    let $thingsTabot := distinct-values($tabots//t:ref/@corresp)
+    let $alltabots := ($personTabot, $thingsTabot)
+  return
+   apprest:formcontrol('Tabot','tabot', $alltabots, 'false', 'rels', $context)
+};
+
 
 (:test function returns the formatted zotero entry given the unique tag :)
 declare function apprest:getZoteroTextData ($ZoteroUniqueBMtag as xs:string){
@@ -36,15 +253,16 @@ else concat($config:appUrl,'/',$link)
 };
 
 declare function apprest:deciderelation($list){
-let $test := console:log($list)
-                for $id in $list
-                let $tes2 := console:log($id/text())
+  <ul class="nodot">{
+    for $id in $list
                 return
+                  <li>{
                 if (starts-with($id/text(), 'SdC:')) then 'La Synthaxe du Codex ' || substring-after($id/text(), 'SdC:' )
-     
-else
-                <a target="_blank"  href="{apprest:decidelink($id)}" class="MainTitle" data-value="{$id/text()}">{$id/text()}</a>
-                
+
+     else
+                   <a target="_blank"  href="{apprest:decidelink($id)}" class="MainTitle" data-value="{$id/text()}">{$id/text()}</a>
+                   }</li>
+}</ul>
 };
 
 (:~used by items.xql to print the relations as a table in the relations view:)
@@ -53,8 +271,8 @@ declare function apprest:EntityRelsTable($this, $collection){
 let $entity := $this
 let $id := string($this/@xml:id)
 let $rels := $entity//t:relation[@name][(@active and @passive) or @mutual]
-let $otherrelsp := collection($config:data-root)//t:relation[ancestor::t:TEI[not(@xml:id = $id)]][@name][@passive = $id]
-let $otherrelsa := collection($config:data-root)//t:relation[ancestor::t:TEI[not(@xml:id = $id)]][@name][@active = $id]
+let $otherrelsp := collection($config:data-root)//t:relation[ancestor::t:TEI[not(@xml:id = $id)]][@name][contains(@passive, $id)]
+let $otherrelsa := collection($config:data-root)//t:relation[ancestor::t:TEI[not(@xml:id = $id)]][@name][contains(@active, $id)]
 (:the three variables here assume that there will be relations in the requested file, and that if a relation somewhere else has this id in active it will not have it in passive:)
 let $allrels := ($rels, $otherrelsp, $otherrelsa)
 return
@@ -74,56 +292,56 @@ return
                                     <tr>
                                         <th>
                                         {
-        for $active in data($relation/@active) 
+        for $active in data($relation/@active)
           let $list :=<list>{
-              if (contains($active, ' ')) 
+              if (contains($active, ' '))
              then
                  for $eachID in tokenize(normalize-space($active), ' ')
-                     return 
+                     return
               <id>{
-                    
+
                         $eachID
                 }</id>
                else
         (
             <id>{
-                    
+
                         $active
                 }</id>)}
-              </list>  
-                
-               return 
+              </list>
+
+               return
 apprest:deciderelation($list//id)
-                
+
     }
-                                            
+
                                         </th>
                                         <th>
                                             {data($relation/@name)}
                                         </th>
                                         <th>
-                                         { for $passive in data($relation/@passive) 
+                                         { for $passive in data($relation/@passive)
           let $list := <list>{
-              if (contains($passive, ' ')) 
+              if (contains($passive, ' '))
              then
                  for $eachID in tokenize(normalize-space($passive), ' ')
-                     return 
+                     return
               <id>{
-                    
+
                         $eachID
                 }</id>
                else
         (
             <id>{
-                   
+
                         $passive
                 }</id>)}
-              </list>  
-                return 
+              </list>
+                return
       apprest:deciderelation($list//id)
-                
+
     }
-                                           
+
                                         </th>
                                         <th>
 {                                            transform:transform($relation/t:desc, 'xmldb:exist:///db/apps/BetMas/xslt/relation.xsl',())
@@ -134,46 +352,44 @@ apprest:deciderelation($list//id)
                                     }
                             </tbody>
                         </table>
-                        
+
 
 };
-
-
 
 (:~The SEE ALSO section has ready made queries providing related contents,these are all dispalyed in divs with lists of which this is the template:)
 declare function apprest:ModalRefsList($id, $string as xs:string, $sameKey){
 let $value := if (doc($config:data-rootA || '/taxonomy.xml')//t:catDesc[text() = $string] )
                            then collection($config:data-root)//id($string)//t:titleStmt/t:title/text()
                            else if (matches($string, 'gn:'))  then titles:getGeoNames($string)
-                           else if (matches($string, '(LOC|INS)(\d+)(\w+)')) 
+                           else if (matches($string, '(LOC|INS)(\d+)(\w+)'))
                            then try {titles:printTitle(collection($config:data-rootPl, $config:data-rootIn)/id($string)//t:place)}
                            catch * {'no record'}
                            else $string
-return   
+return
     <div class="row-fluid">
      <h4>The following {count($sameKey)} entities also share the <a href="{if (matches($string, 'gn:'))  then ('http://www.geonames.org/'||substring-after($string, 'gn:')) else concat($config:appUrl,'/',$string)}">{$value}</a> tag </h4>
-                                      <div id="Samekeyword{$string}">      
-                                      <ul>{if (matches($string, '(\w{3})(\d+)(\w+)')) 
+                                      <div id="Samekeyword{$string}">
+                                      <ul>{if (matches($string, '(\w{3})(\d+)(\w+)'))
                                             then apprest:referencesList($id, $sameKey, 'link')
                                                else  apprest:referencesList($id, $sameKey, 'name')
                                              }
                                              </ul>
                                              </div>
-                                    
+
                         </div>
 };
 
 (:~returns items in a  list of results from a references lookup:)
 declare function apprest:referencesList($id, $list, $mode as xs:string){
-      
+
           for $hit in  $list
-          
+
           let $strid := $hit/ancestor::t:TEI/@xml:id
           group by $stringid := string($strid)
           order by $stringid
-      return 
+      return
          <li class="nodot" xmlns="http://www.w3.org/1999/xhtml" >
-         {if ($strid = $id) then ('here') else <a 
+         {if ($strid = $id) then ('here') else <a
           href="{concat('/',$stringid)}"
    class="MainTitle" data-value="{$stringid}"
    >{$stringid}</a>} ({$stringid})
@@ -184,45 +400,37 @@ declare function apprest:referencesList($id, $list, $mode as xs:string){
    order by $name
    return
    <li class="nodot">a <code xmlns="http://www.w3.org/1999/xhtml" >{$name}</code> element {count($h)} time{if(count($h) > 1) then 's' else ()}
-   {let $ids := for $each in $h return 
-                      if ($h/ancestor::t:item/@xml:id) 
-                     then data($h/ancestor::t:item/@xml:id) 
-                     else if ($h/ancestor::t:msPart/@xml:id) 
+   {let $ids := for $each in $h return
+                      if ($h/ancestor::t:item/@xml:id)
+                     then data($h/ancestor::t:item/@xml:id)
+                     else if ($h/ancestor::t:msPart/@xml:id)
                       then data($h/ancestor::t:msPart/@xml:id) else ()
       return ' ' || string-join($ids, ', ')}
    </li>
    }
    </ul>
          </li>
-          
+
 };
-
-
 
 declare function apprest:institutions(){
 <form action="" class="form form-horizontal">
 <div class="form-group">
-<label for="GoToRepo">filter by repository</label>
+<label for="GoToRepo">go to repository list</label>
+<a role="button"class="btn btn-secondary" id="loadrepositories">load</a>
 <div class="input-group">
-<select id="GoToRepo" class="form-control">{
-for $i in collection($config:data-rootIn)//t:TEI/@xml:id
-let $id := string($i)
-let $name := base-uri($i)
-let $tit := titles:printTitleID($id)
-order by $tit
-return
-<option value="{$id}">{$tit}</option>
-}
+<select id="GoToRepo" class="form-control">
 </select>
-<div class="input-group-btn"><button id="clickandgotoRepoID" class="btn btn-primary">Go</button></div>
-</div></div>
+<div class="input-group-btn"><button id="clickandgotoRepoID" class="btn btn-primary" disabled="disabled">Go</button></div>
+</div>
+</div>
 </form>
 };
 
 declare function apprest:catalogues(){
 <form action="" class="form form-horizontal">
 <div class="form-group">
-<label for="GoToRepo">filter by catalogue</label>
+<label for="GoToCatalogue">go to catalogue list</label>
 <a role="button"class="btn btn-secondary" id="loadcatalogues">load</a>
 <div class="input-group">
 <select id="GoToCatalogue" class="form-control">
@@ -230,7 +438,7 @@ declare function apprest:catalogues(){
 <div class="input-group-btn"><button id="clickandgotoCatalogueID" class="btn btn-primary" disabled="disabled">Go</button></div>
 </div>
 </div>
-<img id="loading" src="resources/Loading.gif" style="display: none;"></img>  
+<img id="loading" src="resources/Loading.gif" style="display: none;"></img>
 <script type="application/javascript" src="resources/js/loadcatalogues.js"></script>
 </form>
 };
@@ -240,22 +448,22 @@ let $document := $this
 let $id := string($this/@xml:id)
 return
 
-let $refs := 
+let $refs :=
 
 for $r in (
-$document//t:persName[not(ancestor::t:listPerson)][@ref], 
-$document//t:title[@ref], 
-$document//t:placeName[@ref], 
-$document//t:region[@ref], 
-$document//t:country[@ref], 
-$document//t:settlement[@ref], 
+$document//t:persName[not(ancestor::t:listPerson)][@ref],
+$document//t:title[@ref],
+$document//t:placeName[@ref],
+$document//t:region[@ref],
+$document//t:country[@ref],
+$document//t:settlement[@ref],
 $document//t:relation[@name ='saws:isAttributedToAuthor'])
-return 
+return
 if($r/@ref = ' ' or $r/@ref = '') then (<ref>no valid id</ref>)
 else if($r[name() = 'relation']) then <ref ref="{$r/@passive}"></ref>
 else
                        <ref ref="{if (contains($r/@ref, '#')) then substring-before($r/@ref, '#') else string($r/@ref)}"></ref>
- let $corresps := 
+ let $corresps :=
 
 for $r in $document//t:ref[@corresp]
 
@@ -282,19 +490,17 @@ let $ref := apprest:WhatPointsHere($id, $file)
       </ul>
 };
 
-
-
 (:~searches an ID in a @corresp, @ref, <relation> and makes a list :)
 declare function apprest:WhatPointsHereQuery($id as xs:string){
-for $corr in (collection($config:data-root)//t:*[ft:query(@corresp, $id)], 
-        collection($config:data-root)//t:*[ft:query(@ref, $id)], 
+for $corr in (collection($config:data-root)//t:*[ft:query(@corresp, $id)],
+        collection($config:data-root)//t:*[ft:query(@ref, $id)],
         collection($config:data-root)//t:relation[ft:query(., $id)])
         order by ft:score($corr) descending
-        return 
+        return
             $corr
-            
+
             };
-       
+
 (: ~          used by apprest.xqm and timeline.xqm :)
 declare function apprest:WhatPointsHere($id as xs:string, $c){
             let $witnesses := $c//t:witness[@corresp = $id]
@@ -307,21 +513,21 @@ let $region := $c//t:region[@ref = $id]
 let $country := $c//t:country[@ref = $id]
 let $active := $c//t:relation[@active = $id]
 let $passive := $c//t:relation[@passive = $id]
-let $allrefs := ($witnesses, 
-        $placeNames,  
-        $persNames, 
+let $allrefs := ($witnesses,
+        $placeNames,
+        $persNames,
         $ref,
         $titles,
         $settlement,
         $region,
         $country,
-        $active, 
+        $active,
         $passive)
 return
 for $corr in $allrefs
-        return 
+        return
             $corr
-            
+
             };
 
 
@@ -386,7 +592,8 @@ return
                 order by $time descending
                 return
                 <li>
-                {($author || ' ' || $change/text() || ' on ' ||  format-date($time, '[D].[M].[Y]'))}
+                {<span property="http://purl.org/dc/elements/1.1/contributor">{$author}</span>,
+                ( ' ' || $change/text() || ' on ' ||  format-date($time, '[D].[M].[Y]'))}
                 </li>
                 }
 
@@ -397,12 +604,12 @@ return
                 <div>
                 {for $respStmt in $document//t:titleStmt/t:respStmt
                 let $action := $respStmt/t:resp
-                let $authors := 
-                            for $p in $respStmt/t:persName 
-                                return 
+                let $authors :=
+                            for $p in $respStmt/t:persName
+                                return
                                     (if($p/@ref) then editors:editorKey(string($p/@ref)) else $p) || (if($p/@from or $p/@to) then (' ('||'from '||$p/@from || ' to ' ||$p/@to||')') else ())
-                                    
-                                    
+
+
                 order by $action descending
                 return
                 <p>
@@ -412,15 +619,15 @@ return
 
     </div>
      <div>{string:tei2string($document//t:editionStmt/node())}</div>
+     <div>{string:tei2string($document//t:availability/node())}</div>
     </div>
     </div>
-    
+
 };
 
 
 
 (:~embedded metadata for Zotero mapping:)
-
 declare function apprest:app-meta($biblio as node()){
 
 let $col :=$biblio//coll/text()
@@ -453,18 +660,16 @@ return
     )
 };
 
-
-
 (:~html page title:)
-declare function apprest:app-title($id) as element()* {  
+declare function apprest:app-title($id) as element()* {
 <title xmlns="http://www.w3.org/1999/xhtml" property="dcterms:title og:title schema:name" >{titles:printTitleID($id)}</title>
 };
 
 (:~html page js calls:)
 declare function apprest:footerjsSelector() as element()* {
-        if (contains(request:get-uri(), 'analytic')) 
+        if (contains(request:get-uri(), 'analytic'))
         then (<script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/js/datatable.js"/>,
-        <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/js/visgraphspec.js"/>) 
+        <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/js/visgraphspec.js"/>)
         else ()
         };
 
@@ -481,6 +686,8 @@ declare function apprest:scriptStyle(){
         <link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css"/>,
         <link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/jquery.slick/1.6.0/slick-theme.css"/>,
         <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" integrity="sha384-+ENW/yibaokMnme+vBLnHMphUYxHs34h9lpdbSLuAwGkOKFRl4C34WkjazBtb7eT" crossorigin="anonymous"></link>,
+        
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/introjs.css"/>,
         <link rel="stylesheet" type="text/css" href="resources/css/style.css"/>,
         <style rel="stylesheet" type="text/css" href="resources/css/d3.css"/>,
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"/>,
@@ -497,9 +704,11 @@ declare function apprest:scriptStyle(){
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.5.1/bootstrap-slider.min.js"/>,
         <script type="text/javascript" src="resources/js/diacriticskeyboard.js"/>,
         <script type="text/javascript" src="resources/openseadragon/openseadragon.min.js"/>,
-        <script type="text/javascript" src="resources/js/analytics.js"></script>
-        )};
+        <script type="text/javascript" src="resources/js/analytics.js"></script>,
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/intro.js"></script>,
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
+        )};
 
 (:~html page script and styles to be included specific for item :)
 declare function apprest:ItemScriptStyle(){
@@ -511,21 +720,19 @@ declare function apprest:ItemScriptStyle(){
        <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"/>,
         <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/js/mapbox.js"/>,
         <script  xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/js/Leaflet.fullscreen.min.js"/>,
-        <script  xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/js/leaflet-search.js"/>,
-         <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/js/leaflet-ajax-gh-pages/dist/leaflet.ajax.min.js"></script>,
-                         <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.12.0/vis.min.js"/>,
+        <script type="text/javascript" src="resources/js/leaflet-ajax-gh-pages/dist/leaflet.ajax.min.js"></script>,
+        <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.12.0/vis.min.js"/>(:,
         <script src="resources/awdl/lib/requirejs/require.min.js" type="text/javascript"/>,
          <script src="resources/awdl/awld.js" type="text/javascript"/>,
         <script type="text/javascript">
                            awld.init();
-                        </script>,
-                         <script src="http://d3js.org/d3.v3.min.js"/>,
-        <script src="resources/js/d3sparql.js"/>
+                        </script>:)
 };
 
 (:~html page script and styles to be included specific for item :)
 declare function apprest:ItemFooterScript(){
 <script type="text/javascript" src="resources/js/versions.js"/>,
+<script type="text/javascript" src="resources/js/quotations.js"/>,
 <script type="text/javascript" src="resources/js/samerole.js"/>,
 <script type="text/javascript" src="resources/js/allattestations.js"/>,
 <script type="text/javascript" src="resources/js/ugarit.js"/>,
@@ -538,7 +745,8 @@ declare function apprest:ItemFooterScript(){
         <script type="text/javascript" src="resources/js/slickoptions.js"/>,
         <script type="text/javascript" src="resources/js/relatedItems.js"/>,
         <script type="text/javascript" src="resources/js/citations.js"/>,
-        <script type="text/javascript" src="resources/js/hypothesis.js"/>
+        <script type="text/javascript" src="resources/js/hypothesis.js"/>,
+        <script type="text/javascript" src="resources/js/pelagios.js"/>
 };
 
 (:~ be kind to the logged user :)
@@ -546,101 +754,235 @@ declare function apprest:greetings-rest(){
 <a href="">Hi {xmldb:get-current-user()}!</a>
     };
 
-(:~ produces the lists and updates the filters :)
 
-declare 
-%templates:default('start', 1) 
-%templates:default("per-page", 20) 
-function apprest:listrest($type, 
+(:~ produces the lists and updates the filters :)
+declare
+%templates:default('start', 1)
+%templates:default("per-page", 20)
+function apprest:listrest($type,
 $collection, $parameters as map(*), $params) {
 let $keywords := $parameters('key')
+let $names := $parameters('mainname')
 let $languages := $parameters('lang')
 let $dateRange := $parameters('date')
 let $clavisType := $parameters('clavistype')
 let $contentProvider := $parameters('cp')
 let $clavisID := $parameters('clavisID')
 let $numberOfP := $parameters('numberOfParts')
-let $key := if($keywords = '') then () else 
-switch($collection)
-case 'narratives' return ()
-case 'institutions' return apprest:ListQueryParam-rest($keywords, 't:ab[@type="tabot"]/t:persName/@ref', 'any', 'list')
-case 'places' return apprest:ListQueryParam-rest($keywords, 't:place/@type', 'any', 'list')
-case 'persons' return apprest:ListQueryParam-rest($keywords, 't:occupation/@type', 'any', 'list')
-default return apprest:ListQueryParam-rest($keywords, 't:term/@key', 'any', 'list')
-let $ContentPr := if ($contentProvider = '') then () else switch($contentProvider) 
-case 'BM' return "[not(starts-with(@xml:id, 'EMIP'))][not(starts-with(@xml:id, 'EMML'))][not(starts-with(@xml:id, 'ES'))][not(contains(@xml:id, 'IHA'))][not(starts-with(@xml:id, 'GG'))]"
-case 'EMML' return "[starts-with(@xml:id, 'EMML')]"
-case 'EMIP' return "[starts-with(@xml:id, 'EMIP')]"
-case 'ES' return "[starts-with(@xml:id, 'ES')]"
-case 'IHA' return "[contains(@xml:id, 'IHA')]"
-case 'GG' return "[starts-with(@xml:id, 'GG')]"
-default return ''
+let $Pheight := $parameters('height')
+let $Pwidth := $parameters('width')
+let $Pdepth := $parameters('depth')
+let $PcolumnsNum := $parameters('columnsNum')
+let $Ptmargin := $parameters('tmargin')
+let $Pbmargin := $parameters('bmargin')
+let $Prmargin := $parameters('rmargin')
+let $Plmargin := $parameters('lmargin')
+let $Pintercolumn := $parameters('intercolumn')
+let $Pfolia := $parameters('folia')
+let $Pqn := $parameters('qn')
+let $Pqcn := $parameters('qcn')
+let $PwL := $parameters('wL')
+let $Pscript := $parameters('script')
+let $Pscribe := $parameters('scribe')
+let $Pdonor := $parameters('donor')
+let $Ppatron := $parameters('patron')
+let $Powner := $parameters('owner')
+let $Pbinder := $parameters('binder')
+let $PparchmentMaker := $parameters('parchmentMaker')
+let $PobjectType := $parameters('objectType')
+let $Pmaterial := $parameters('material')
+let $Pbmaterial := $parameters('bmaterial')
+let $Pcontent := $parameters('contents')
+let $PorigPlace := $parameters('origPlace')
+let $Ptabot := $parameters('tabot')
+let $Pplacetype := $parameters('placetype')
+let $Pmss := $parameters('mss')
+let $Pauthors := $parameters('authors')
+let $Poccupation := $parameters('occupation')
+let $Pfaith := $parameters('faith')
+let $Pgender := $parameters('gender')
+let $Pperiod := $parameters('period')
+let $Prestorations := $parameters('restorations')
+let $Pcountry := $parameters('country')
+let $Psettlement := $parameters('settlement')
 
-let $ClavisIDs := 
-if(($clavisID = '') and ($clavisType = '')) then () 
-else if(($clavisID = '') and (matches($clavisType, '\w+'))) then "[descendant::t:bibl[@type='"||$clavisType||"']]" 
-else  "[descendant::t:bibl[@type='"||$clavisType||"'][t:citedRange[@unit='item'] ='"||$clavisID||"']]"
+let $allnames :=  if($names = '') then () else
+            switch($collection)
+                case 'manuscripts' return apprest:ListQueryParam-rest($names, 't:msIdentifier//t:idno', 'any', 'search')
+                case 'institutions' return apprest:ListQueryParam-rest($names, 't:place/t:placeName', 'any', 'search')
+                case 'places' return apprest:ListQueryParam-rest($names, 't:place/t:placeName', 'any', 'search')
+                case 'persons' return apprest:ListQueryParam-rest($names, 't:person/t:persName', 'any', 'search')
+                case 'works' return apprest:ListQueryParam-rest($names, 't:title', 'any', 'search')
+                case 'narratives' return apprest:ListQueryParam-rest($names, 't:title', 'any', 'search')
+           default return ()
+           
+let $key := if($keywords = '') then () else
+            switch($collection)
+                case 'narratives' return ()
+                case 'institutions' return apprest:ListQueryParam-rest($keywords, 't:ab[@type="tabot"]/t:persName/@ref', 'any', 'list')
+                case 'places' return apprest:ListQueryParam-rest($keywords, 't:place/@type', 'any', 'list')
+                case 'persons' return apprest:ListQueryParam-rest($keywords, 't:occupation/@type', 'any', 'list')
+           default return apprest:ListQueryParam-rest($keywords, 't:term/@key', 'any', 'list')
+
+let $ContentPr := if ($contentProvider = '') then () else
+                    switch($contentProvider)
+                        case 'BM' return "[not(starts-with(@xml:id, 'EMIP'))][not(starts-with(@xml:id, 'EMML'))][not(starts-with(@xml:id, 'ES'))][not(contains(@xml:id, 'IHA'))][not(starts-with(@xml:id, 'GG'))]"
+                        case 'EMML' return "[starts-with(@xml:id, 'EMML')]"
+                        case 'EMIP' return "[starts-with(@xml:id, 'EMIP')]"
+                        case 'ES' return "[starts-with(@xml:id, 'ES')]"
+                        case 'IHA' return "[contains(@xml:id, 'IHA')]"
+                        case 'GG' return "[starts-with(@xml:id, 'GG')]"
+                        default return ''
+
+let $ClavisIDs :=
+                if(($clavisID = '') and ($clavisType = '')) then ()
+                      else if(($clavisID = '') and (matches($clavisType, '\w+'))) then "[descendant::t:bibl[@type='"||$clavisType||"']]"
+                      else  "[descendant::t:bibl[@type='"||$clavisType||"'][t:citedRange ='"||$clavisID||"']]"
+
 let $languages := if($languages = '') then () else  apprest:ListQueryParam-rest($languages, 't:language/@ident', 'any', 'list')
-let $dR :=  if ($dateRange) 
+
+let $dR :=  if ($dateRange)
                 then (
                 let $range := $dateRange
-                let $from := substring-before($dateRange, ',') 
-                let $to := substring-after($dateRange, ',') 
+                let $from := substring-before($dateRange, ',')
+                let $to := substring-after($dateRange, ',')
                 return
                 if ($dateRange = '0,2000')
                 then ()
                 else
                 "[descendant::t:*
-                [xs:integer((if (contains(@notBefore, '-')) then (substring-before(@notBefore, '-')) else @notBefore)[. !='']) >= " || $from || " or 
+                [xs:integer((if (contains(@notBefore, '-')) then (substring-before(@notBefore, '-')) else @notBefore)[. !='']) >= " || $from || " or
                 xs:integer((if (contains(@notAfter, '-')) then    (substring-before(@notAfter, '-')) else    @notAfter)[. != '']) >= " ||$from||"]
-                [xs:integer((if (contains(@notBefore, '-')) then (substring-before(@notBefore, '-')) else @notBefore)[. !='']) <= " || $to || " or 
+                [xs:integer((if (contains(@notBefore, '-')) then (substring-before(@notBefore, '-')) else @notBefore)[. !='']) <= " || $to || " or
                 xs:integer((if (contains(@notAfter, '-')) then (substring-before(@notAfter, '-')) else @notAfter)[. != '']) <= " ||$to ||"]]" ) else ()
+
 let $nOfP := if(empty($numberOfP) or $numberOfP = '') then () else '[count(descendant::t:msPart) ge ' || $numberOfP || ']'
+let $opl := if(empty($PorigPlace) or $PorigPlace = '') then () else apprest:ListQueryParam-rest($PorigPlace, 't:origPlace/t:placeName/@ref', 'any', 'search')
+let $height :=   if(empty($Pheight) or $Pheight = '') then () else (app:paramrange('height', 'height'))
+let $width :=  if(empty($Pwidth) or $Pwidth = '') then () else  (app:paramrange('width', 'width'))
+let $depth :=  if(empty($Pdepth) or $Pdepth = '') then () else  (app:paramrange('depth', 'depth'))
+let $marginTop :=  if(empty($Ptmargin) or $Ptmargin = '') then () else  (app:paramrange('tmargin', "dimension[@type='margin']/t:dim[@type='top']"))
+let $marginBot := if(empty($Pbmargin) or $Pbmargin = '') then () else (app:paramrange('bmargin', "dimension[@type='margin']/t:dim[@type='bottom']"))
+let $marginR :=  if(empty($Prmargin) or $Prmargin = '') then () else (app:paramrange('rmargin', "dimension[@type='margin']/t:dim[@type='right']"))
+let $marginL :=  if(empty($Plmargin) or $Plmargin = '') then () else (app:paramrange('lmargin', "dimension[@type='margin']/t:dim[@type='left']"))
+let $marginIntercolumn :=  if(empty($Pintercolumn) or $Pintercolumn = '') then () else (app:paramrange('intercolumn', "dimension[@type='margin']/t:dim[@type='intercolumn']"))
+let $support :=  if(empty($PobjectType) or $PobjectType = '') then () else apprest:ListQueryParam-rest($PobjectType, 't:objectDesc/@form', 'any', 'search')
+let $material := if(empty($Pmaterial) or $Pmaterial = '') then () else apprest:ListQueryParam-rest($Pmaterial, 't:support/t:material/@key', 'any', 'search')
+let $bmaterial := if(empty($Pbmaterial) or $Pbmaterial = '') then () else apprest:ListQueryParam-rest($Pbmaterial, "t:decoNote[@type='bindingMaterial']/t:material/@key", 'any', 'search')
+let $scripts := if(empty($Pscript) or $Pscript = '') then () else apprest:ListQueryParam-rest($Pscript, "t:handNote/@script", 'any',  'search')
+let $scribes := if(empty($Pscribe) or $Pscribe = '') then () else apprest:ListQueryParam-rest($Pscribe, "t:persName[@role='scribe']/@ref", 'any',  'search')
+let $donors := if(empty($Pdonor) or $Pdonor = '') then () else apprest:ListQueryParam-rest($Pdonor, "t:persName[@role='donor']/@ref", 'any',  'search')
+let $patrons := if(empty($Ppatron) or $Ppatron = '') then () else apprest:ListQueryParam-rest($Ppatron, "t:persName[@role='patron']/@ref", 'any', 'search')
+let $owners := if(empty($Powner) or $Powner = '') then () else apprest:ListQueryParam-rest($Powner, "t:persName[@role='owner']/@ref", 'any',  'search')
+let $parchmentMakers := if(empty($PparchmentMaker) or $PparchmentMaker = '') then () else apprest:ListQueryParam-rest($PparchmentMaker, "t:persName[@role='parchmentMaker']/@ref", 'any',  'search')
+let $binders := if(empty($Pbinder) or $Pbinder = '') then () else apprest:ListQueryParam-rest($Pbinder, "t:persName[@role='binder']/@ref", 'any',  'search')
+let $contents := if(empty($Pcontent) or $Pcontent= '') then () else apprest:ListQueryParam-rest($Pcontent, "t:title/@ref", 'any', 'search')
+let $tabots := if(empty($Ptabot) or $Ptabot= '') then () else apprest:ListQueryParam-rest($Ptabot, "t:ab[@type='tabot']//t:*/@*", 'any', 'search')
+let $placetypess := if(empty($Pplacetype) or $Pplacetype= '') then () else apprest:ListQueryParam-rest($Pplacetype, "t:place/@type", 'any', 'search')
+let $Allauthors := if(empty($Pauthors) or $Pauthors= '') then () else apprest:ListQueryParam-rest($Pauthors, "t:relation[@name='saws:isAttributedToAuthor' or @name='dcterms:creator']/@passive", 'any', 'search')
+let $placetypess := if(empty($Pplacetype) or $Pplacetype= '') then () else apprest:ListQueryParam-rest($Pplacetype, "t:place/@type", 'any', 'search')
+let $occupations := if(empty($Poccupation) or $Poccupation= '') then () else apprest:ListQueryParam-rest($Poccupation, "t:occupation/@type", 'any', 'search')
+let $faiths := if(empty($Pfaith) or $Pfaith= '') then () else apprest:ListQueryParam-rest($Pfaith, "t:faith/@type", 'any', 'search')
+let $genders := if(empty($Pgender) or $Pgender= '') then () else apprest:ListQueryParam-rest($Pgender, "t:person/@sex", 'any', 'search')
+let $periods := if(empty($Pperiod) or $Pperiod= '') then () else apprest:ListQueryParam-rest($Pperiod, "t:term/@key", 'any', 'search')
+let $restorationss := if(empty($Prestorations) or $Prestorations= '') then () else apprest:ListQueryParam-rest($Prestorations, "t:custEvent/@subtype", 'any', 'search')
+let $countries := if(empty($Pcountry) or $Pcountry = '') then () else apprest:ListQueryParam-rest($Pcountry, 't:country/@ref', 'any', 'search')
+let $settlements := if(empty($Psettlement) or $Psettlement = '') then () else apprest:ListQueryParam-rest($Psettlement, 't:settlement/@ref', 'any', 'search')
+
+let $leaves :=  if(empty($Pfolia) or $Pfolia = '') then () else
+                (let $min := substring-before($Pfolia, ',')
+                let $max := substring-after($Pfolia, ',')
+                return
+                if ($Pfolia = '1,1000')
+                then ()
+                else if (empty($Pfolia))
+                then ()
+                else
+                "[descendant::t:extent/t:measure[@unit='leaf'][not(@type)][. >="||$min|| ' ][ .  <= ' || $max ||"]]"
+               )
+let $wL := if(empty($PwL) or $PwL = '') then () else (
+                let $min := substring-before($PwL, ',')
+                let $max := substring-after($PwL, ',')
+                return
+                if ($PwL = '1,100')
+                then ()
+                else if (empty($PwL))
+                then ()
+                else
+                "[descendant::t:layout[@writtenLines >="||$min|| '][@writtenLines  <= ' || $max ||"]]"
+               )
+let $quires :=  if(empty($Pqn) or $Pqn = '' or $Pqn = '1,100')
+                then () else (
+                let $min := substring-before($Pqn, ',')
+                let $max := substring-after($Pqn, ',')
+                return
+                "[descendant::t:extent/t:measure[@unit='quire'][not(@type)][not(.='')][number(.) ge "||$min|| ' ][ number(.)  le ' || $max ||"]]")
+let $quiresComp :=  if(empty($Pqcn) or $Pqcn = '' or $Pqcn = '1,40')
+                     then () else  (
+                   let $min := substring-before($Pqcn, ',')
+                let $max := substring-after($Pqcn, ',')
+                return
+                "[descendant::t:collation//t:dim[@unit='leaf'][not(.='')][number(.) ge "||$min|| ' ][ number(.)  le ' || $max ||"]]")
+
+
+let $allMssFilters := concat($allnames, $support, $opl, $material, $bmaterial, $scripts, $scribes, $donors, $patrons, $owners, $parchmentMakers,
+             $binders, $contents, $leaves, $wL,  $quires, $quiresComp,
+            $height, $width, $depth, $marginTop, $marginBot, $marginL, $marginR, $marginIntercolumn, $restorationss)
+
 let $path := switch($type)
-case 'catalogue' return "collection('"||$config:data-rootMS || "')//t:TEI[descendant::t:listBibl[@type='catalogue']//t:ptr[@target='"||$collection||"']]"  || $key || $languages || $dR
-case 'repo' return "collection('"||$config:data-rootMS || "')//t:TEI[descendant::t:repository[@ref='"||$collection||"']]"  || $key || $languages || $dR
-default return 
-if ($collection = 'places') 
-then ("(collection('/db/apps/BetMas/data/"||$collection || "')//t:TEI"   || $key || $languages|| $dR || ", collection('/db/apps/BetMas/data/institutions')//t:TEI" || $key || $languages  || $dR || ')') 
-else "collection('/db/apps/BetMas/data/"||$collection || "/')//t:TEI" ||$ContentPr  || $key || $languages|| $dR || $ClavisIDs || $nOfP 
+                case 'catalogue' return "collection('"||$config:data-rootMS || "')//t:TEI[descendant::t:listBibl[@type='catalogue'][descendant::t:ptr[@target='bm:"||$collection||"']]]"  || $key || $languages || $dR || $allMssFilters
+                case 'repo' return "collection('"||$config:data-rootMS  || "')//t:TEI[descendant::t:repository[@ref='"||$collection||"']]"  || $key || $languages || $dR || $allMssFilters
+                default return
+                        (if ($collection = 'places')
+                                    then ("collection($config:data-rootIn, $config:data-rootPl)//t:TEI"  || $countries|| $settlements||$allnames || $key || $languages|| $dR || $tabots||$placetypess )
+                                    
+                       else if ($collection = 'works')
+                                    then ("collection('/db/apps/BetMas/data/"||$collection || "/')//t:TEI"  || $allnames ||$ContentPr   || $key || $languages|| $ClavisIDs || $dR ||$Allauthors || $periods  )
+                      
+                       else if ($collection = 'persons')
+                                    then ("collection($config:data-rootPr)//t:TEI"   || $allnames||$ContentPr   || $key || $dR ||$occupations || $faiths || $genders  )
+                                    
+                      
+                        else "collection('/db/apps/BetMas/data/"||$collection || "/')//t:TEI" || $countries|| $settlements|| $allnames ||$ContentPr  || $key || $languages|| $dR || $ClavisIDs || $nOfP  || $allMssFilters ||$Allauthors|| $tabots||$placetypess
+                       )
 let $hits := for $item in util:eval($path)
-   let $recordid := string($item/@xml:id)
-   let $recordtype := string($item/@type)
-   let $sorting := 
-   if(matches($recordid, 'IHA')) then ('9'||substring($recordid, 4, 4)) 
-   else if(matches($recordid, '\w{3}\d+')) then substring($recordid, 4, 4) 
-   else substring($recordid, 0, 3)
-     order by $sorting
-    return 
-        $item
-  
-                      return 
-                      map { 
+                             let $recordid := string($item/@xml:id)
+                            let $recordtype := string($item/@type)
+                            let $sorting :=
+                                        if(matches($recordid, 'IHA')) then ('9'||substring($recordid, 4, 4))
+                                         else if(matches($recordid, '\w{3}\d+')) then substring($recordid, 4, 4)
+                                            else substring($recordid, 0, 3)
+                              order by $sorting
+                             return
+                                       $item
+
+ return
+                      map {
                       'hits' := $hits,
-                      'collection' := $collection
+                      'collection' := $collection,
+                      'query' := $path
                       }
 };
 
 
-
 declare function apprest:ListQueryParam-rest($parameter, $context, $mode, $function){
-let $keys := 
+let $keys :=
         if ($parameter = 'keyword')
         then (
-        for $k in $parameter 
-      
-        let $ks := doc($config:data-rootA || '/taxonomy.xml')//t:catDesc[text() = $k]/following-sibling::t:*/t:catDesc/text() 
-        let $nestedCats := for $n in $ks return $n 
-            return 
+        for $k in $parameter
+
+        let $ks := doc($config:data-rootA || '/taxonomy.xml')//t:catDesc[text() = $k]/following-sibling::t:*/t:catDesc/text()
+        let $nestedCats := for $n in $ks return $n
+            return
             if ($nestedCats >= 2) then (replace($k, '#', ' ') || ' OR ' || string-join($nestedCats, ' OR ')) else (replace($k, '#', ' '))
         )
         else(
-            for $k in $parameter 
-            return 
-            replace($k, '#', ' ') 
+            for $k in $parameter
+            return
+            replace($k, '#', ' ')
             )
-            
-       return 
+
+       return
        if ($function = 'list')
        then
      let $all :=  for $k in $keys
@@ -648,89 +990,74 @@ let $keys :=
        "descendant::" || $context || "='" || $k ||"'"
        return
       "[" || string-join($all, ' or ') || "]"
-       else 
+       else
        (:search:)
-       let $limit := for $k in $parameter 
-            return 
-       "ancestor::t:TEI/" || $context || "='" || $k ||"' "
+       let $limit := for $k in $parameter
+            return
+       "ancestor-or-self::t:TEI/descendant::" || $context ||  "[ft:query(.,'" || $k ||"')] "
        return
        "[" || string-join($limit, ' or ') || "]"
-       
-       
+
+
 };
 
 
 (:~ the form in the list view which provides also the filters :)
-
 declare function apprest:searchFilter-rest($collection, $model as map(*)) {
 let $items-info := $model('hits')
-
+let $context := $model('query')
+let $evalContext := util:eval($context)
 let $onchange := 'if (this.value) window.location.href=this.value'
 return
 
-<form action="" class="form form-horizontal">
-
+<form action="" class="form form-horizontal" data-hint="Any of these search filter implies that by searching a certain feature you do not only exclude those who have another value for that, but also all those items which do not carry the information at all.">
 <div class="form-group">{app:nextID($collection)}</div>
-<div class="form-group">
-<div class="alert alert-info">Here you can go directly to an item, searching the content of its title or part of its id.</div>
-<label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="AttestedInType" id="AttestedInTypeID" value="1" checked="checked"/>
-                            ID
-                        </label>
-                            <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="AttestedInType" id="AttestedInTypeTITLE" value="2"/>
-                                Title
-                            </label>
-                            <div class="input-group">
-
-<input placeholder="Type a title or an id here..." class="form-control" id="GoTo" list="gotohits" autocomplete="on" data-value="{$collection}"/>
-<select class="form-control" xmlns="http://www.w3.org/1999/xhtml"  id="gotohits">
-        
-            </select>
-            <div class="input-group-btn">
-<button id="clickandgoto" class="btn btn-primary"> Go
-                    </button>
-                    </div>
-                    
-                    </div>
-                    <small>Selecting or typing an item id here and clicking on go will take you to that item directly.</small>
-            
-                    
-                    </div>
-<div class="alert alert-info">The following filters can be applied by clicking on the filter icon below, to return to the full list, click the list, to go to advanced search the cog</div>
-
+<div class="form-group"><label for="mainname">name</label>
+                <input id="mainname" name="mainname" class="form-control"></input></div>
 <div class="form-group">
                 <label for="dates">date range</label>
+                <div class="form-control">
                 <div class="input-group">
-                <input id="dates" type="text" class="span2" 
-                name="date-range" 
-                data-slider-min="0" 
-                data-slider-max="2000" 
-                data-slider-step="10" 
+                <input id="dates" type="text" class="span2"
+                name="date-range"
+                data-slider-min="0"
+                data-slider-max="2000"
+                data-slider-step="10"
                 data-slider-value="[0,2000]"/>
                 <script type="text/javascript">
                 {"$('#dates').bootstrapSlider({});"}
                 </script>
             </div>
             </div>
-                {app:formcontrol('language', $items-info//t:language/@ident, 'true', 'values'),
-                <div class="form-group">
+            </div>
+ {if($items-info = <start/>) then (
+(:no selection done yet, provide index value:)
+<div class="form-group" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that language">
+<label for="language">languages </label>
+<select multiple="multiple" name="language" id="language" class="form-control">
+                            {$app:range-lookup('TEIlanguageIdent', '', function($key, $count) {<option value="{$key}">{$key} </option>}, 100)}
+                            </select>
+                            </div>
+(:app:formcontrol('language',  $evalContext//t:language/@ident, 'true', 'values', $context):)
+) else
+(:form selectors relative to query:)
+app:formcontrol('language', $items-info//t:language/@ident, 'true', 'values', $context)}
+ <div class="form-group">
     <label>Data provenance</label>
                 <select name="cp" class="form-control">
-                <option value="">all</option>
-<option value="BM">Beta maṣāḥǝft</option>
-<option value="ES">Ethio-SPaRe</option>
-<option value="EMML">Ethiopian Manuscript Microfilm Library</option>
-<option value="GG">Gunda Gunde</option>
-<option value="EMIP">Ethiopic Manuscript Imaging Project</option>
-<option value="IHA">Islam in the Horn of Africa</option>
-</select>
-</div>,
- switch($collection) 
+                    <option value="">all</option>
+                     <option value="BM">Beta maṣāḥǝft</option>
+                    <option value="ES">Ethio-SPaRe</option>
+                    <option value="EMML">Ethiopian Manuscript Microfilm Library</option>
+                    <option value="GG">Gunda Gunde</option>
+                    <option value="EMIP">Ethiopic Manuscript Imaging Project</option>
+                    <option value="IHA">Islam in the Horn of Africa</option>
+                  </select>
+     </div>
+{ switch($collection)
 case 'narratives' return ()
 case 'works' return (
-
-                <div class="form-group">
+<div class="form-group">
     <div class="col">
     <label>Other Clavis ID</label>
                 <select name="clavistype" class="form-control">
@@ -746,17 +1073,320 @@ case 'works' return (
 </select>
 </div>
     <div class="col">
-<input class="form-control" type="number" name="clavisID"/></div></div>, 
-apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titles')
+<input class="form-control" type="number" name="clavisID"/>
+</div>
+</div>,
+if($items-info = <start/>) then (
+(:no selection done yet, provide index value:)
+<div class="form-group" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that keyword">
+<label for="keyword">keywords </label>
+<select multiple="multiple" name="keyword" id="keyword" class="form-control">
+{$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{$key}</option>}, 100)}
+</select>
+</div>
+                            
+) else
+(:form selectors relative to query:)
+apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titles', $context),
+<div class="form-group">
+    <div class="alert alert-warning" style="font-size: smaller;">The period filter will search items which have the appropriate keyword assigned. It is equivalent to selecting that keyword. It is not equivalent to selecting a date range, bacuse in that case we will search the dates, regardless of the attribution or not of one of the period keywords.</div>
+
+    <label>periods</label>
+                <select name="period" class="form-control">
+                <option value="">no selection</option>
+<option value="Aks">Aksumite (300-700)</option>
+<option value="Paks1">Post-aksumite I (1200-1433)</option>
+<option value="Paks2">Post-aksumite II (1434-1632)</option>
+<option value="Gon">Gondarine (1632-1769)</option>
+<option value="ZaMa">Zamana Masāfǝnt (1769-1855)</option>
+<option value="MoPe">Modern Period (1855-1974)</option>
+</select>
+
+</div>,
+<div class="form-group">
+                            <input type="checkbox" value="authors" data-context="{$context}"/> Authors<br/>
+                              </div>,
+                              <script type="text/javascript" src="resources/js/filtersRest.js"></script>,
+             <img id="loadingform" src="resources/images/giphy.gif" style="display: none; width: 20%;"/>,
+             <div id="AddFilters"/>
 )
-case 'places' return apprest:formcontrol('place type','keyword', $items-info//t:place/@type, 'true', 'values')
-case 'persons' return apprest:formcontrol('occupation','keyword', $items-info//t:occupation/@type, 'true', 'titles')
-default return apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titles')
-            }
+case 'places' return (
+if($items-info = <start/>) then (
+(:no selection done yet, provide index value:)
+<div class="form-group" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that keyword">
+<label for="keyword">keywords </label>
+<select multiple="multiple" name="keyword" id="keyword" class="form-control">
+{$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{$key} </option>}, 100)}
+</select>
+</div>,
+
+<div class="form-group" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that place type">
+<label for="placetype">place type </label>
+<select multiple="multiple" name="placetype" id="placetype" class="form-control">
+{$app:range-lookup('placetype', '', function($key, $count) {<option value="{$key}">{$key} </option>}, 100)}
+</select>
+</div>
+) else
+(:form selectors relative to query:)
+<div class="form-group">
+<label for="keyword">keywords </label>
+<select multiple="multiple" name="keyword" id="keyword" class="form-control">
+{$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{$key} </option>}, 100)}
+</select>
+</div>,
+apprest:formcontrol('place type','placetype', $items-info//t:place/@type, 'true', 'values', $context),
+apprest:formcontrol('state','country', $items-info//t:country/@ref, 'true', 'values', $context),
+apprest:formcontrol('settlement','settlement', $items-info//t:settlement/@ref, 'true', 'values', $context),
+<div class="form-group">
+                            <input type="checkbox" value="tabots" data-context="{$context}"/> tabots<br/>
+                              </div>,
+                              <script type="text/javascript" src="resources/js/filtersRest.js"></script>,
+             <img id="loadingform" src="resources/images/giphy.gif" style="display: none; width: 20%;"/>,
+             <div id="AddFilters"/>
+)
+
+case 'institutions' return (
+if($items-info = <start/>) then (
+(:no selection done yet, provide index value:)
+<div class="form-group" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that keyword">
+<label for="keyword">keywords </label>
+<select multiple="multiple" name="keyword" id="keyword" class="form-control">
+{$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{$key} </option>}, 100)}
+</select>
+</div>,
+<div class="form-group" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that place type">
+<label for="placetype">place type </label>
+<select multiple="multiple" name="placetype" id="placetype" class="form-control">
+{$app:range-lookup('placetype', '', function($key, $count) {<option value="{$key}">{$key} </option>}, 100)}
+</select>
+</div>
+) else
+(:form selectors relative to query:)
+apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titles', $context),
+apprest:formcontrol('place type','placetype', $items-info//t:place/@type, 'true', 'values', $context),
+apprest:formcontrol('state','country', $items-info//t:country/@ref, 'true', 'values', $context),
+apprest:formcontrol('settlement','settlement', $items-info//t:settlement/@ref, 'true', 'values', $context),
+<div class="form-group">
+                            <input type="checkbox" value="tabots" data-context="{$context}"/> tabots<br/>
+                              </div>,
+                              <script type="text/javascript" src="resources/js/filtersRest.js"></script>,
+             <img id="loadingform" src="resources/images/giphy.gif" style="display: none; width: 20%;"/>,
+             <div id="AddFilters"/>
+)
+case 'persons' return 
+(
+if($items-info = <start/>) then (
+(:no selection done yet, provide index value:)
+<div class="form-group">
+<label for="keyword">keywords </label>
+<select multiple="multiple" name="keyword" id="keyword" class="form-control">
+{$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{$key} </option>}, 100)}
+</select>
+</div>,
+<div class="form-group">
+<label for="occupation">occupation type </label>
+<select multiple="multiple" name="occupation" id="occupation" class="form-control">
+{$app:range-lookup('occtype', '', function($key, $count) {<option value="{$key}">{$key} </option>}, 100)}
+</select>
+</div>,
+<div class="form-group">
+<label for="faith">faith </label>
+<select multiple="multiple" name="faith" id="faith" class="form-control">
+{$app:range-lookup('faithtype', '', function($key, $count) {<option value="{$key}">{$key} </option>}, 100)}
+</select>
+</div>
+) else
+(:form selectors relative to query:)
+
+apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titles', $context),
+apprest:formcontrol('occupation type','occupation', $items-info//t:occupation/@type, 'true', 'titles', $context),
+apprest:formcontrol('faith type','faith', $items-info//t:faith/@type, 'true', 'titles', $context),
+<div class="form-group">
+            <input type="checkbox" name="gender" value="1">Male</input>
+            <input type="checkbox" name="gender" value="2">Female</input>
+    </div>
+)
+(:default is a manuscript related list view, catalogue, institutions or general view:)
+default return
+(
+if($items-info = <start/>) then (
+(:no selection done yet, provide index value:)
+<div class="form-group">
+<label for="keyword">keywords </label>
+<select multiple="multiple" name="keyword" id="keyword" class="form-control">
+{$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{$key} </option>}, 100)}
+</select>
+</div>
+) else
+(:form selectors relative to query:)
+apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titles', $context),
             <div class="form-group">
             <label for="numberOfP">Limit by minimum number of codicological units</label>
             <input id="numberOfP" class="form-control" type="number" name="numberOfParts"></input>
+            </div>,
+           <div class="form-group">
+
+        <label for="heightslider">Height (mm)</label>
+
+                <div class="form-control">
+        <div class="input-group">
+            <input id="heightslider" type="number" class="span2" name="height" data-slider-min="1" data-slider-max="1000" data-slider-step="10" data-slider-value="[1,1000]"/>
+            <script type="text/javascript">
+                {"$('#heightslider').bootstrapSlider({});"}
+            </script>
+        </div>
+        </div>
+</div>,
+           <div class="form-group">
+        <label for="widthslider">Width (mm)</label>
+
+                <div class="form-control">
+        <div class="input-group">
+            <input id="widthslider" type="number" class="span2" name="width" data-slider-min="1" data-slider-max="1000" data-slider-step="10" data-slider-value="[1,1000]"/>
+            <script type="text/javascript">
+                {"$('#widthslider').bootstrapSlider({});"}
+            </script>
+        </div></div></div>,
+           <div class="form-group">
+        <label for="lmargin">Columns per page</label>
+
+                <div class="form-control">
+            <div class="input-group">
+                <input id="NumberOfcolumns" type="number" class="span2" name="columnsNum" data-slider-min="1" data-slider-max="20" data-slider-step="1" data-slider-value="[1,20]"/>
+                <script type="text/javascript">
+                    {"$('#NumberOfcolumns').bootstrapSlider({});"}
+                </script>
+            </div></div></div>,
+           <div class="form-group">
+           <label  for="tmargin">Top Margin</label>
+                <div class="form-control">
+            <div class="input-group">
+                <input id="tMslider" type="number" class="span2" name="tmargin" data-slider-min="1" data-slider-max="100" data-slider-step="1" data-slider-value="[1,100]"/>
+                <script type="text/javascript">
+                    {"$('#tMslider').bootstrapSlider({});"}
+                </script>
             </div>
+            </div>
+        </div>,
+           <div class="form-group">
+        <label for="bmargin">Bottom Margin</label>
+                <div class="form-control">
+            <div class="input-group">
+                <input id="bMslider" type="number" class="span2" name="bmargin" data-slider-min="1" data-slider-max="100" data-slider-step="1" data-slider-value="[1,100]"/>
+                <script type="text/javascript">
+                    {"$('#bMslider').bootstrapSlider({});"}
+                </script>
+                </div>
+            </div>
+        </div>,
+           <div class="form-group">
+        <label for="rmargin">Right Margin</label>
+                <div class="form-control">
+            <div class="input-group">
+                <input id="rMslider" type="number" class="span2" name="rmargin" data-slider-min="1" data-slider-max="100" data-slider-step="1" data-slider-value="[1,100]"/>
+                <script type="text/javascript">
+                    {"$('#rMslider').bootstrapSlider({});"}
+                </script>
+            </div>
+            </div>
+        </div>,
+           <div class="form-group">
+        <label for="lmargin">Left Margin</label>
+
+                <div class="form-control">
+            <div class="input-group">
+                <input id="lMslider" type="number" class="span2" name="lmargin" data-slider-min="1" data-slider-max="100" data-slider-step="1" data-slider-value="[1,100]"/>
+                <script type="text/javascript">
+                    {"$('#lMslider').bootstrapSlider({});"}
+                </script>
+            </div>
+            </div>
+        </div>,
+           <div class="form-group">
+        <label  for="intercolumn">Intercolumn</label>
+                <div class="form-control">
+                <div class="input-group">
+                    <input id="lntercolumnslider" type="number" class="span2" name="intercolumn" data-slider-min="1" data-slider-max="100" data-slider-step="1" data-slider-value="[1,100]"/>
+                    <script type="text/javascript">
+                        {"$('#lntercolumnslider').bootstrapSlider({});"}
+                    </script>
+                </div>
+                </div>
+                </div>
+        ,
+           <div class="form-group">
+<label  for="folia">Number of Leafs</label>
+                <div class="form-control">
+        <div class="input-group">
+            <input id="folia" type="text" class="span2" name="folia" data-slider-min="1.0" data-slider-max="1000.0" data-slider-step="1.0" data-slider-value="[1.0,1000.0]"/>
+            <script type="text/javascript">
+                {"$('#folia').bootstrapSlider({});"}
+            </script>
+</div>
+</div>
+</div>,
+            <div class="form-group">
+<label for="qn">Number of quires</label>
+                <div class="form-control">
+        <div class="input-group">
+            <input id="quires" type="text" class="span2" name="qn" data-slider-min="1" data-slider-max="100" data-slider-step="1" data-slider-value="[1,100]"/>
+            <script type="text/javascript">
+                {"$('#quires').bootstrapSlider({});"}
+            </script>
+        </div>
+        </div>
+</div>,
+            <div class="form-group">
+ <label for="qcn">Quires Composition</label>
+                <div class="form-control">
+        <div class="input-group">
+            <input id="quiresComp" type="text" class="span2" name="qcn" data-slider-min="1" data-slider-max="40" data-slider-step="1" data-slider-value="[1,40]"/>
+            <script type="text/javascript">
+                {"$('#quiresComp').bootstrapSlider({});"}
+            </script>
+        </div>
+        </div>
+</div>,
+            <div class="form-group">
+<label  for="wL">Number of written lines</label>
+                <div class="form-control">
+        <div class="input-group">
+            <input id="writtenLines" type="text" class="span2" name="wL" data-slider-min="1" data-slider-max="100" data-slider-step="1" data-slider-value="[1,100]"/>
+            <script type="text/javascript">
+                {"$('#writtenLines').bootstrapSlider({});"}
+            </script>
+            </div>
+</div>
+</div>,
+
+            <div class="form-group">
+<label  for="restorations">Restorations</label>
+                     <select class="form-control" id="restorations" type="text" name="restorations" >
+            <option value="">no selection</option>
+            <option value="ancient">ancient</option>
+            <option value="modern">modern</option>
+            <option value="none">none</option>
+            </select>
+            <small>Only few manuscript carry this information, selecting this filter you are searching only in those.</small>
+</div>,
+            <div class="form-group">
+                            <input type="checkbox" value="origPlace" data-context="{$context}"/> place of origin<br/>
+                            <input type="checkbox" value="script" data-context="{$context}"/> script<br/>
+                            <input type="checkbox" value="scribe" data-context="{$context}"/> scribe<br/>
+                            <input type="checkbox" value="donor" data-context="{$context}"/> donor<br/>
+                            <input type="checkbox" value="patron" data-context="{$context}"/> patron<br/>
+                            <input type="checkbox" value="owner" data-context="{$context}"/> owner<br/>
+                            <input type="checkbox" value="binder" data-context="{$context}"/> binder<br/>
+                            <input type="checkbox" value="parchmentMaker" data-context="{$context}"/> parchment maker<br/>
+                            <input type="checkbox" value="objectType" data-context="{$context}"/> object type<br/>
+                            <input type="checkbox" value="material" data-context="{$context}"/> material<br/>
+                            <input type="checkbox" value="bmaterial" data-context="{$context}"/> binding material<br/>
+                            {if((count($items-info) lt 1050) and $items-info != <start/>) then (<input type="checkbox" value="contents" data-context="{$context}"/>, 'contents',<br/>) 
+                            else (<div class="alert alert-info">You will be able to get a filter by contents for a selection of manuscripts with less than 1000 items.</div>)}
+                            </div>,
+            <script type="text/javascript" src="resources/js/filtersRest.js"></script>,
+             <img id="loadingform" src="resources/images/giphy.gif" style="display: none; width: 20%;"/>,
+             <div id="AddFilters"/>)}
             <div class="form-group">
             <div class="btn-group">
                 <button type="submit" class="btn btn-primary"><i class="fa fa-filter" aria-hidden="true"></i>
@@ -769,14 +1399,13 @@ default return apprest:formcontrol('keyword','keyword', $items-info//t:term/@key
 };
 
 (:~ pagination element for search results :)
-
 declare function apprest:paginate-rest($model as map(*), $parameters as map(*), $start as xs:int, $per-page as xs:int, $min-hits as xs:int, $max-pages as xs:int) {
        <div class="col-md-12"><ul class="pagination">{
-     
+
     if ($min-hits < 0 or count($model("hits")) >= $min-hits) then
         let $count := xs:integer(ceiling(count($model("hits"))) div $per-page) + 1
         let $middle := ($max-pages + 1) idiv 2
-        
+
         return (
             if ($start = 1) then (
                 <li class="disabled">
@@ -836,48 +1465,35 @@ declare function apprest:paginate-rest($model as map(*), $parameters as map(*), 
             </ul></div>
 };
 
-(:~ 
- builds the form control according to the data specification:)
-declare function apprest:formcontrol($label as xs:string*, $nodeName as xs:string, $path, $group, $type) {
+(:~  builds the form control according to the data specification:)
+declare function apprest:formcontrol($label as xs:string*, $nodeName as xs:string, $path, $group, $type, $context) {
 
-        
-
-if ($group = 'true') then ( 
-
-let $values := 
-for $i in $path return  
-    if (contains($i, ' ')) then tokenize($i, ' ') 
-    else if ($i=' ' or $i='' ) then () 
+if ($group = 'true')
+then (
+  let $values :=
+  for $i in $path return
+    if (contains($i, ' ')) then tokenize($i, ' ')
+    else if ($i=' ' or $i='' ) then ()
     else functx:trim(normalize-space($i))
                     let $nodes := distinct-values($values)
-                    
+
                     return <div class="form-group">
-                    <label for="{$nodeName}">{$label}s <span class="badge">{count($nodes[. != ''][. != ' '])}</span></label>
-                    {
-                  
-   app:selectors($nodeName, $nodes, $type)     
-   
-        }
-     </div>)
+                    <label for="{$nodeName}">{$label}s
+                    <span class="badge">{count($nodes[. != ''][. != ' '])}</span>
+                    </label>
+                    {app:selectors($nodeName, $path, $nodes, $type, $context)}
+     </div>
+     )
                 else (
-                
                 let $nodes := for $node in $path return $node
             return
-       app:selectors($nodeName, $nodes, $type)   
-       
-                )
+       app:selectors($nodeName, $path, $nodes, $type, $context)
+        )
 };
 
-declare function functx:trim( $arg as xs:string? )  as xs:string {
-
-   replace(replace($arg,'\s+$',''),'^\s+','')
- } ;
- 
- 
-(:~ 
- given an id looks for all manuscripts containing it and returns a div with cards use by Slick for the Carousel view:)
+(:~  given an id looks for all manuscripts containing it and returns a div with cards use by Slick for the Carousel view:)
  declare function apprest:compareMssFromForm($target-work as xs:string?) {
-     
+
  let $MAINtit := titles:printTitleID($target-work)
      return
  if($target-work = '') then ()
@@ -887,15 +1503,17 @@ let $c := collection($config:data-rootMS)
 let $items := $c//t:msItem
 let $matchingmss := $items/t:title[@ref = $target-work]
 return
-if(count($matchingmss) = 0) then (<p class="lead">Oh no! Currently, none of the catalogued manuscripts contains a link to this work. You can still see the record in case you find there useful information.</p>,<a class="btn btn-primary" href="{$target-work}"> Go to {$MAINtit}</a>) else 
+if(count($matchingmss) = 0) then (<p class="lead">Oh no! Currently, none of the catalogued manuscripts contains a link to this work. You can still see the record in case you find there useful information.</p>,<a class="btn btn-primary" href="{$target-work}"> Go to {$MAINtit}</a>) else
 (
 <p class="lead">They are currently {count($matchingmss)}.</p>,
 <div class="msscomparison col-md-12">
 {
 for $manuscript in $matchingmss
 let $msid := string(root($manuscript)/t:TEI/@xml:id)
-let $minnotBefore := min(root($manuscript)/t:TEI//@notBefore)
-let $maxnotAfter := min(root($manuscript)/t:TEI//@notAfter)
+let $notbefores := for $nbef in root($manuscript)/t:TEI//@notBefore return number(substring($nbef, 1,4))
+let $notafters := for $naft in root($manuscript)/t:TEI//@notBefore return number(substring($naft, 1,4))
+let $minnotBefore := min($notbefores)
+let $maxnotAfter := min($notafters)
 order by $minnotBefore
 return
 <div class="card">
@@ -906,23 +1524,23 @@ return
 {for $msitem at $p in root($manuscript)/t:TEI//t:msItem
 (:  store in a variable the ref in the title or nothing:)
 let $title := if ($msitem/t:title[@ref]) then $msitem/t:title[1]/@ref else ''
-let $placement := if ($msitem/t:locus) then ( ' ('||string:tei2string($msitem/t:locus) || ')') else ''
+let $placement := if ($msitem/t:locus) then ( ' ('|| (let $locs :=for $loc in $msitem/t:locus return string:tei2string($loc) return string-join($locs, ' ')) || ')') else ''
 order by $p
 return
-<li style="{if(matches($msitem/@xml:id, '\d+\.\d+\.\d+')) 
-then 'text-indent: 4%;' 
-else if(matches($msitem/@xml:id, '\d+\.\d+')) 
+<li style="{if(matches($msitem/@xml:id, '\d+\.\d+\.\d+'))
+then 'text-indent: 4%;'
+else if(matches($msitem/@xml:id, '\d+\.\d+'))
 then 'text-indent: 2%;' else ()}">
-{string($msitem/@xml:id )} 
-{if($msitem/t:title/@type) 
-     then ( ' (' || string($msitem/t:title[1]/@type) || ')') 
-     else ()}, 
+{string($msitem/@xml:id )}
+{if($msitem/t:title/@type)
+     then ( ' (' || string($msitem/t:title[1]/@type) || ')')
+     else ()},
 {if($title = $target-work) (:highlight the position of the currently selected work:)
     then <mark>
         <a  class="itemtitle" data-value="{$title}" href="{$title}">{$MAINtit}</a> {$placement}
-        </mark> 
+        </mark>
         (:if there is no ref, take the text of the element title content:)
-        else if ($msitem/t:title[not(@ref)]/text()) 
+        else if ($msitem/t:title[not(@ref)]/text())
    then (normalize-space(string-join(string:tei2string($msitem/t:title/node()))), $placement)
     (:normally print the title of the referred item:)
 else (   <a class="itemtitle" data-value="{$title}" href="{$title}">{if($title = '') then <span class="label label-warning">{'no ref in title'}</span> else try{titles:printTitleID($title)} catch * {$title}}</a>, $placement)
@@ -934,6 +1552,79 @@ else (   <a class="itemtitle" data-value="{$title}" href="{$title}">{if($title =
 </div>
 </div>
 }
-</div>
+</div>,
+<div class="col-md-12">{
+let $hits := for $match in $matchingmss return root($match)/t:TEI
+return
+charts:chart($hits)
+}</div>
 ))
+};
+
+(:~  given an id looks for all manuscripts containing it and returns a div with cards use by Slick for the Carousel view:)
+ declare function apprest:compareMssFromlist($mss) {
+if($mss = '') then ()  else(
+    let $c := collection($config:data-rootMS)
+    let $matchingmss := for $ms in tokenize($mss, ',') return $c//id($ms)
+    return
+    (<div class="msscomparison col-md-12">
+    {
+        for $manuscript in $matchingmss
+        let $msid := string($manuscript/@xml:id)
+        let $minnotBefore := min($manuscript//@notBefore)
+        let $maxnotAfter := min($manuscript//@notAfter)
+        order by $minnotBefore
+        return
+
+                <div class="card">
+                      <div class="card-block">
+                                    <h3 class="card-title">
+                                        <a href="{('/'||$msid)}">{titles:printTitleID($msid)}</a>
+                                        ({string($minnotBefore)}-{string($maxnotAfter)})
+                                     </h3>
+                                    <p class="card-text">
+                                        <ul class="nodot">
+                                            {for $msitem at $p in $manuscript//t:msItem
+                                            (:  store in a variable the ref in the title or nothing:)
+                                            let $title := if ($msitem/t:title[@ref]) then $msitem/t:title[1]/@ref else ''
+                                            let $placement := if ($msitem/t:locus) then ( ' ('|| (let $locs :=for $loc in $msitem/t:locus return string:tei2string($loc) return string-join($locs, ' ')) || ')') else ''
+                                            order by $p
+                                            return
+                                                    <li style="{if(matches($msitem/@xml:id, '\d+\.\d+\.\d+'))
+                                                                            then 'text-indent: 4%;'
+                                                                            else if(matches($msitem/@xml:id, '\d+\.\d+'))
+                                                                            then 'text-indent: 2%;'
+                                                                            else ()}">
+                                                        {string($msitem/@xml:id )}
+                                                        {if($msitem/t:title/@type)
+                                                          then ( ' (' || string($msitem/t:title[1]/@type) || ')')
+                                                            else ()}
+                                                        {if ($msitem/t:title[not(@ref)]/text())
+                                                          then (normalize-space(string-join(string:tei2string($msitem/t:title/node()))), $placement)
+                                                          else ( <a class="itemtitle" data-value="{$title}" href="{$title}">
+                                                                        {
+                                                                                if($title = '')
+                                                                                then <span class="label label-warning">{'no ref in title'}</span>
+                                                                                 else (try{titles:printTitleID($title)} catch * {$title})
+                                                                        }
+                                                                     </a>,
+                                                                     $placement
+                                                                   )
+                                                                   }
+                                                      </li>
+                                              }
+                                         </ul>
+                                     </p>
+                     </div>
+              </div>
+              }
+
+              </div>
+,
+<div class="col-md-12">{
+charts:chart($matchingmss)
+}</div>
+
+)
+)
 };

@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:origDate | t:floruit | t:birth | t:death">
         <p class="lead">
@@ -55,6 +54,11 @@
                                     <xsl:value-of select="."/>
                                 </a>
                             </xsl:for-each>
+                        </xsl:when>
+                        <xsl:when test="starts-with(@resp,'#')">
+                            <a href="{@resp}">
+                                <xsl:value-of select="substring-after(@resp,'#')"/>
+                            </a>
                         </xsl:when>
                         <xsl:when test="t:corr/@resp = 'AB'">Prof. Alessandro Bausi</xsl:when>
                         <xsl:when test="t:corr/@resp = 'ES'">Eugenia Sokolinski</xsl:when>
@@ -143,6 +147,11 @@
                                 <xsl:value-of select="."/>
                             </a>
                         </xsl:for-each>
+                    </xsl:when>
+                    <xsl:when test="starts-with(@resp,'#')">
+                        <a href="{@resp}">
+                            <xsl:value-of select="substring-after(@resp,'#')"/>
+                        </a>
                     </xsl:when>
                     <xsl:when test="t:corr/@resp = 'AB'">Prof. Alessandro Bausi</xsl:when>
                     <xsl:when test="t:corr/@resp = 'ES'">Eugenia Sokolinski</xsl:when>

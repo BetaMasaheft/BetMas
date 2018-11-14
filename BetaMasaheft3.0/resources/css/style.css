@@ -1,5 +1,209 @@
 @charset "utf-8";
 /* Application styles could go here */
+
+.alpheios-popup{position:static;}
+  
+
+  div.content {
+    padding: 1em;
+  }
+  div.content body {
+    text-align:left;
+  }
+  .titleBox {
+      fill: white;
+  }
+
+  .title {
+      font-family: Verdana, Arial, Helvetica, sans-serif;
+      font-size: 18px;
+  }
+
+  .showlabel body {
+      background: white;
+      border: thin solid gray;
+      font-family: Verdana, Arial, Helvetica, sans-serif;
+      font-size: 11px;
+      padding: 5px;
+      margin: 0px;
+  }
+
+  .showlabel span {
+      overflow:hidden;
+      margin-right: -5px;
+  }
+
+  .showlabel a {
+     color: black;
+  }
+
+  .showlabelbg {
+      fill: white;
+      stroke: black;
+      stroke-width: 1px;
+  }
+
+  .node {
+    stroke: black;
+    stroke-width: .5px;
+  }
+
+  .link {
+    stroke: #999;
+    stroke-opacity: .6;
+  }
+
+  line.highlight {
+    stroke:dodgerblue;
+    stroke-opacity: 1;
+  }
+  circle.highlight {
+    stroke:dodgerblue;
+    stroke-width:3px;
+  }
+
+  
+.attestationresult {    margin-bottom: 30px;
+    background-color: lightseagreen;}
+    
+    .singleattestation{margin-bottom: 20px}
+
+.invocation {
+color:red;
+}
+.clauses {
+color:green;
+}
+.conclusion {
+color:purple;
+}
+.provision {
+color:lightblue;
+}
+.listOfPersons {
+color:#27c520;
+}
+.suscription {
+color:orange;
+}
+.motif {
+color:darkblue;
+}
+
+.switch {
+margin-left: 20px;
+margin-right: 20px;
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 17px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 13px;
+  width: 13px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: rgb(218, 216, 0);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(13px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 17px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+.documentcorpus{margin-bottom:50px}
+      .bundle-node {
+                  font: 300 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
+                  fill: #bbb;
+                }
+                
+                .bundle-node:hover {
+                  fill: #000;
+                }
+            
+
+               .bundle-link {
+                  stroke: steelblue;
+                  stroke-opacity: .4;
+                  fill: none;
+                  pointer-events: none;
+                }
+
+                .bundle-node:hover,
+                .bundle-node--source,
+                .bundle-node--target {
+                  font-weight: 700;
+                }
+            
+                .bundle-node--source {
+                  fill: #ff7f0e;
+                }
+            
+                .bundle-node--target {
+                  fill: #1F77B4;
+                }
+            
+                .bundle-link--source,
+                .bundle-link--target {
+                  stroke-opacity: 1;
+                  stroke-width: 2px;
+                }
+                
+                .bundle-link--source {
+                  stroke: #ff7f0e;
+                }
+                
+                .bundle-link--target {
+                  stroke: #1F77B4;
+                }
+    
+.sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+  .sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
+  .sortable li span { position: absolute; margin-left: -1.3em; }
+  
+/*.pagination{    display: flex;}*/
+.institutionView{font-size: smaller;}
+.allMainRel{
+    padding-top: 25px;
+/*    position: relative;*/
+    top: 80px;}
+    #results{width:100%}
 #insform, #msform, #target-ins, #target-ms {height:400px}
  #formKeywords {
         -webkit-column-count: 3;
@@ -32,7 +236,7 @@
        height: 500px;}
 
      
-.apparata {font-size: smaller;}
+.apparata {font-size: smaller; margin-top:10px}
 .urlexample pre {white-space: pre-line;}
 #textWitnesses{margin-top:20px;}
 .legend {
@@ -491,8 +695,6 @@ border-radius: 50%;
   }
 }
 
-a{color: #033c6d;}
-
 .queryTerm{background: rgb(218, 216, 0);}
 
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: "Noto Sans", "Noto Sans Ethiopic", "Noto Arabic", "Noto Sans Georgian", "Noto Sans Armenian", "Noto Sans Old South Arabian", "Noto Sans Coptic", sans-serif;
@@ -532,8 +734,14 @@ a{color: #033c6d;}
 	text-align: left;
 	padding: 20px;
 	margin: 70px auto 10px auto;
-	width: 250px;
-	text-align: center;}
+	text-align: center;
+	}
+
+.confirmationwarning { animation: blinker 1s linear infinite;}
+	 
+@keyframes blinker {  
+  50% { opacity: 0; }
+}
 
 .APIexampleJSON{overflow:auto; max-height: 250px;}
 
@@ -657,7 +865,7 @@ td.biblioentry {width:50%}
 footer {text-align: center;
     width: 100%;}
 footer .poweredby {margin: 33px 10px 0 0;}
-footer .poweredby img { width: 120px; }
+footer .poweredby img { width: 180px; }
 
 /*.row:nth-child(odd) 
   {
@@ -760,8 +968,8 @@ div.APIexample {max-height:300px;
 div > div[id*=ms].row {padding-left: 30px;}
 
 div > div[id*=transcription].row {padding-left: 30px;}
-
-div.subtextpart {padding-left: 30px;}
+div.chapterText {margin-bottom: 30px; font-size:larger;}
+.version{background-color: #e5e6f7;}
 .accordion-toggle {padding-bottom: 15px;}
 div.msItem {padding-left: 50px; padding-top: 15px;}
 div.msPart div.msFrag  {padding-left: 50px;}
@@ -787,7 +995,7 @@ sup{
 
 
 
-span.rubric{color:red;}
+
 span.undeciphrable{color:grey;}
 
 table{
@@ -992,8 +1200,7 @@ Geneva, sans-serif;
     #333;
     letter-spacing: 0.06em;
 }
-.mstitle a:link,
-a:visited{
+.mstitle a:link{
     text-decoration: none;
     color: 
     #333;
@@ -1013,7 +1220,7 @@ a:visited{
     32px;
 }
 #divtop .topheader a:link,
-#divtop .topheader a:visited{
+#divtop .topheader {
     font-family: Georgia, 
 "Times New Roman", Times, serif;
     font-size: 18px;
@@ -1073,7 +1280,7 @@ a:visited{
     border-color: #ffffff;
 }
 .added{
-    stroke-dasharray: 4, 1;
+    stroke-dasharray: 4, 3;
     border-style: dashed;
     border-color: #ffffff;
 }
@@ -1098,7 +1305,7 @@ a:visited{
     fill: #fff;
 }
 .bititles a:link,
-.bititles a:visited{
+.bititles {
     font-family: Verdana, Geneva, 
 sans-serif;
     font-size: 16px;
@@ -1116,7 +1323,7 @@ sans-serif;
 .btn1,
 .btn2,
 .totop a:link,
-.totop a:visited{
+.totop {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 
     14px;
@@ -1255,14 +1462,12 @@ sans-serif;
     }
 }
 
-/* visited link */
-a:visited {
-    color: #b30000;
-}
+
+
+a{color: #033c6d;}
 
 /* mouse over link */
 a:hover {
-    color: #1cdc9c;
     font-weight : bold;
 }
 
@@ -1270,3 +1475,11 @@ a:hover {
 a:active {
     color: blue;
 }
+
+span.rubric a {color:red;}
+
+span.rubric{color:red;}
+
+span.encircled a {border-style:solid;}
+
+span.encircled{border-style:solid;}

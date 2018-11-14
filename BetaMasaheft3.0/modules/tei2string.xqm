@@ -6,7 +6,7 @@ xquery version "3.1" encoding "UTF-8";
 
 module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string";
 import module namespace titles = "https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "titles.xqm";
-import module namespace console = "http://exist-db.org/xquery/console";
+import module namespace editors = "https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "editors.xqm";
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 
@@ -65,16 +65,69 @@ declare function string:tei2string($nodes as node()*) {
                         titles:printTitleID($node/@corresp)
                     else
                         if ($node/@target) then
-                            if (starts-with($node/@target, '#')) then
-                            let $anchor := substring-after($node/@target, '#')
-                            return
-                                (root($node)//t:*[@xml:id = $anchor]/name(), $anchor) 
+                            if (starts-with($node/@target, '#')) 
+                            then
+                                  let $anchor := substring-after($node/@target, '#')
+                                  let $r :=root($node)
+                                  let $item :=$r//t:*[@xml:id = $anchor]
+                                  let $nodeName := $item/name()
+                                  let $title := switch($nodeName) 
+                                                case 'persName' return
+                                                                                            if($r//t:persName[@type = 'normalized'][contains(@corresp,$anchor)]) 
+                                                                                            then string-join($r//t:persName[@type = 'normalized'][contains(@corresp,$anchor)]//text(), '')
+                                                                                            else normalize-space(string-join($item, '')) 
+                                                case 'msItem' return 
+                                                                         if ($item/t:title/@ref)
+                                                                            then
+                                                                         (titles:printTitleID(string($item/t:title/@ref)) || ' (in ' || $nodeName || $anchor || ')')
+                                                                         else
+                                              normalize-space(string-join(string:tei2string($item/t:title), ''))
+                     
+                                                case 'div' return
+                                                                if($item[@type = 'edition']) then (
+                                                                
+                     
+                                                                'edition ' || (if($item[@resp]) then (let $respsource := string($item/@resp)
+                                                                                                                                    let $resp := if(starts-with($respsource, '#')) then ( $anchor) 
+                                                                                                                                                            else 'by ' || editors:editorKey($respsource)
+                                                                                                                                    return $resp)
+                                                                                                                          else $anchor
+                                                                )
+                                                                )
+                                                                else if ($item/t:label) then
+                                                                                normalize-space(string-join(string:tei2string($item/t:label), ''))
+                                                                else if ($item/t:desc) then
+                                                                                 (titles:printTitleID(string($item/t:desc/@type)) || ' ' || $anchor)
+                                                                else if ($item/@subtype) then
+                                                                                  (titles:printTitleID(string($item/@subtype)) || ': ' || $anchor)
+                                                                 else
+                                                                     ($item/name() || ' ' || $anchor)
+                                                case 'title' return 'title' || ($item/@xml:lang || $item)
+                                                case 'handNote' return 'hand ' || $anchor
+                                                case 'decoNote' return 'decoration ' || $anchor
+                                                case 'layout' return 'layout note ' || $anchor
+                                                default return $nodeName || ' ' || $anchor
+                                  return
+                                $title 
                             else
                                 (string($node/@target))
                         else
                             string:tei2string($node/node())
                             
                              case element(t:date)
+                return
+                let $cal := if($node/@calendar) then (' (' || $node/@calendar || ')') else ()
+                   let $date :=
+                    if ($node/@when) then
+                        string:date($node/@when)
+                        else
+                        if ($node/@notBefore and $node/@notAfter) then
+                        string:date($node/@notBefore) || ' - ' ||  string:date($node/@notAfter) 
+                        else
+                            string:tei2string($node/node())
+                            return 
+                            $date || $cal
+                            case element(t:origDate)
                 return
                 let $cal := if($node/@calendar) then (' (' || $node/@calendar || ')') else ()
                    let $date :=
@@ -98,7 +151,7 @@ declare function string:tei2string($nodes as node()*) {
 declare function string:date($date){
 
                         if(matches($date, '\d{4}')) then string($date) else
-                        try {format-date(xs:date($date), '[Y0]-[M0]-[D0]')} catch * {console:log($err:description)}
+                        try {format-date(xs:date($date), '[Y0]-[M0]-[D0]')} catch * {($err:description)}
                         };
 
 declare function string:Zotero($ZoteroUniqueBMtag as xs:string) {

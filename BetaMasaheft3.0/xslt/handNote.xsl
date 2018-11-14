@@ -1,6 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t" version="2.0">
     <xsl:template match="t:handNote">
+        <div resource="http://betamasaheft.eu/{$mainID}/hand/{@xml:id}">
+            <xsl:attribute name="typeof">
+                <xsl:if test="@script"><xsl:value-of select="concat('http://betamasaheft.eu',@script)"/>
+                <xsl:text> </xsl:text></xsl:if>
+                <xsl:value-of select="'http://betamasaheft.eu/hand'"/><xsl:text> </xsl:text>
+                <xsl:value-of select="'https://w3id.org/sdc/ontology#UniMain'"/>
+            </xsl:attribute>
         <xsl:if test="count(./ancestor::t:handDesc/t:handNote) gt 1">
             <h5 id="{@xml:id}">Hand <xsl:value-of select="substring-after(@xml:id, 'h')"/>
                 <xsl:if test="./ancestor::t:msPart">
@@ -11,13 +17,23 @@
                     </xsl:variable> of codicological unit <xsl:value-of select="$currentMsPart"/>
                 </xsl:if>
                 <xsl:if test="@corresp">
+                    <xsl:variable name="type">
+                        <xsl:choose>
+                            <xsl:when test="starts-with(@corresp, 'q')">quire</xsl:when>
+                            <xsl:when test="starts-with(@corresp, 'h')">hand</xsl:when>
+                            <xsl:when test="starts-with(@corresp, 'b')">binding</xsl:when>
+                            <xsl:when test="starts-with(@corresp, 'd')">decoration</xsl:when>
+                            <xsl:when test="starts-with(@corresp, 'a')">addition</xsl:when>
+                            <xsl:when test="starts-with(@corresp, 'e')">addition</xsl:when>
+                        </xsl:choose>
+                    </xsl:variable>
                     <xsl:text> (</xsl:text>
                     <xsl:choose>
                         <xsl:when test="contains(@corresp, ' ')">
                             <xsl:for-each select="tokenize(@corresp, ' ')">
                                 <a href="{.}">
                                     <xsl:value-of select="substring-after(., '#')"/>
-                                </a>
+                                </a><span property="http://purl.org/dc/terms/relation" resource="http://betamasaheft/{$mainID}/{$type}/{substring-after(@corresp, '#')}"/>
                                 <xsl:text> </xsl:text>
                             </xsl:for-each>
                         </xsl:when>
@@ -69,8 +85,9 @@
             </ul>
         </xsl:if>
         <xsl:if test="t:persName[@role = 'scribe']">
-            <h4>Scribe</h4>
+            <h4 property="http://purl.org/dc/terms/relation"><xsl:if test="@ref"><xsl:attribute name="resource" select="concat('http://betamasaheft.eu/',@ref)"/></xsl:if>Scribe</h4>
         </xsl:if>
           <xsl:apply-templates select="child::node() except (t:list | t:ab[@type = 'script'] | t:seg)"/>
+        </div>
     </xsl:template>
 </xsl:stylesheet>

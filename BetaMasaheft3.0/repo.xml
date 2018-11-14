@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <meta xmlns="http://exist-db.org/xquery/repo">
     <description>Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</description>
     <author>Alessandro Bausi, Solomon Gebreyes, Pietro Liuzzo, Denis Nosnitsin, Dorothea Reule, Eugenia Sokolinski, Massimo Villa</author>
@@ -14,5 +13,6 @@
 
 
 
-<deployed>2018-02-06T06:33:57.386+01:00</deployed>
-</meta>
+
+
+<deployed>2018-05-02T07:56:40.305+02:00</deployed></meta>

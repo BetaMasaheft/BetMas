@@ -19,8 +19,8 @@ console.log(searchurl)
 
     console.log(res)
     var options = ""
-           for (var i = 0; i < resl; i++) {
-             var item = data.records[i]
+           $(res).each(function(i){
+             var item = this
              var cmcl = item.cmcl
              var title = item.title
              var desc = item.problems
@@ -33,7 +33,7 @@ console.log(searchurl)
                 var option = '<form action="/edit/clavisUpdate.xql"  method="post"><h4>'+ title + '</h4><div class="form-group"><div><input hidden="hidden" name="id" value="'+id+'"/><label>CMCL</label><input class="form-control" name="cmcl" value="'+ cmcl +'"/></div><div><label>CAVT</label><input class="form-control" name="cavt" value="'+ cavt +'"/></div><div><label>CANT</label><input class="form-control" name="cant" value="'+ cant +'"/></div><div><label>BHG</label><input class="form-control" name="bhg" value="'+ bhg +'"/></div><div><label>BHL</label><input class="form-control" name="bhl" value="'+ bhl +'"/></div><div><label>BHO</label><input class="form-control" name="bho" value="'+ bho +'"/></div><div><label>CPG</label><input class="form-control" name="cpg" value="'+ cpg +'"/><div><div><p>'+ desc + '</p></div><button type="submit" class="btn btn-primary">Add to '+id+'</button></form>'
                  options+= option
 
-             };
+             });
 
   $("input#"+id).next('div').html(options)
       });
@@ -52,8 +52,8 @@ console.log(searchurl)
     var resl = res.length
     console.log(res)
     var options = ""
-    for (var i = 0; i < resl; i++) {
-      var item = data.records[i]
+    $(res).each(function(i){
+      var item = this
       var cmcl = item.cmcl
       var title = item.title
       var desc = item.problems
@@ -66,7 +66,7 @@ console.log(searchurl)
          var option = '<form action="/edit/clavisUpdate.xql"  method="post"><h4>'+ title + '</h4><div class="form-group"><input hidden="hidden" name="id" value="'+ID+'"/><div><label>CMCL</label><input class="form-control" name="cmcl" value="'+ cmcl +'"/></div><div><label>CAVT</label><input class="form-control" name="cavt" value="'+ cavt +'"/></div><div><label>CANT</label><input class="form-control" name="cant" value="'+ cant +'"/></div><div><label>BHG</label><input class="form-control" name="bhg" value="'+ bhg +'"/></div><div><label>BHL</label><input class="form-control" name="bhl" value="'+ bhl +'"/></div><div><label>BHO</label><input class="form-control" name="bho" value="'+ bho +'"/></div><div><label>CPG</label><input class="form-control" name="cpg" value="'+ cpg +'"/><div><div><p>problems</p><small>'+ desc + '</small></div><button type="submit" class="btn btn-primary">Add to '+ID+'</button></form>'
           options+= option
 
-      };
+      });
 
   $("input#"+ID).next('div').html(options)
 

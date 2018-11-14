@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:ref">
         
@@ -89,6 +88,7 @@
                                         <xsl:text>  </xsl:text>
                                         <span class="glyphicon glyphicon-hand-left"/>
                                     </a>
+                                    <span property="http://purl.org/dc/elements/1.1/relation" resource="http://betamasaheft.eu/{.}"/>
                                 </xsl:for-each>
                                 <xsl:apply-templates/> <!--to any child node of this ref with multiple corresp values-->
                             </xsl:when>

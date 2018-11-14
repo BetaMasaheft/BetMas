@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.tei-c.org/ns/1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template name="DotPorterIfy">
         <xsl:param name="porterified" tunnel="yes"/>
@@ -14,6 +13,9 @@
                     <xsl:copy-of select="@*"/>
                     <xsl:attribute name="n">
                         <xsl:value-of select="position()"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="desc">
+                        <xsl:value-of select="string-join(text(), ' ')"/>
                     </xsl:attribute>
                     <xsl:variable name="singletoncount">
                         <xsl:if test="matches(.,'stub')">

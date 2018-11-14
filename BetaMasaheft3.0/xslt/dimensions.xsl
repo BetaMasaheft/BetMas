@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:dimensions[@type = 'outer']">
         <h2>Physical description<xsl:if test="./ancestor::t:msPart">
@@ -58,6 +57,26 @@
                     <xsl:value-of select="@unit"/>
                 </xsl:if>
             </p>
+        
+    </xsl:template>
+    <xsl:template match="t:dimensions[@type='binding']">
+        <h3>Binding dimensions (when different from outer dimensions)</h3>
+        <p>
+            <xsl:if test="t:height/text()">H: <span> <xsl:value-of select="t:height"/>
+            </span>
+                <xsl:value-of select="@unit"/>
+            </xsl:if>
+            <xsl:if test="t:width/text()"> x W: <span>
+                <xsl:value-of select="t:width"/>
+            </span>
+                <xsl:value-of select="@unit"/>
+            </xsl:if>
+            <xsl:if test="t:depth/text()"> x D: <span>
+                <xsl:value-of select="t:depth"/>
+            </span>
+                <xsl:value-of select="@unit"/>
+            </xsl:if>
+        </p>
         
     </xsl:template>
 </xsl:stylesheet>

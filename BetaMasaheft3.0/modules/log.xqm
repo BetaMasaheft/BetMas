@@ -19,7 +19,7 @@ sm:chmod(xs:anyURI($logfile-full), 'rwxrwxrw-'))
    return
        
        update insert
-       <logentry timestamp="current-dateTime()">{$message}</logentry>
+       <logentry timestamp="{current-dateTime()}">{$message}</logentry>
     into
     doc($logfile-full)/*
 };

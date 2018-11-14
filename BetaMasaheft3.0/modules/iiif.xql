@@ -12,7 +12,6 @@ import module namespace all="https://www.betamasaheft.uni-hamburg.de/BetMas/all"
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "titles.xqm";
 import module namespace api="https://www.betamasaheft.uni-hamburg.de/BetMas/api" at "rest.xql";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
-import module namespace console = "http://exist-db.org/xquery/console";
 import module namespace kwic = "http://exist-db.org/xquery/kwic"
     at "resource:org/exist/xquery/lib/kwic.xql";
     
@@ -61,7 +60,7 @@ declare function iiif:manifestsource($item as node()){
 
 };
 
-declare function iiif:folio($folio as xs:string){xs:integer(replace(replace($folio, '[rvab]', ''), '#', ''))};
+declare function iiif:folio($folio as xs:string){if(matches($folio, '\d')) then xs:integer(replace(replace($folio, '[rvab]', ''), '#', '')) else 0};
 
 declare function iiif:locus($l as node()){
   if($l[@from][@to]) 
@@ -220,7 +219,7 @@ declare function iiif:Structures($item, $iiifroot){
     let $ranges :=  <ranges>{for $msItem in $items return 
    <range>
     <r>{$iiifroot ||"/range/" || string($msItem/@xml:id)}</r>
-    <t>{titles:printTitleMainID($msItem/t:title/@ref)}</t>
+    <t>{titles:printTitleID($msItem/t:title/@ref)}</t>
     {$msItem}
     </range>
     }
@@ -359,6 +358,60 @@ let $idno := $images/following-sibling::t:idno[@facs]
 }
       )  };
 
+
+    declare 
+%rest:GET
+%rest:path("/BetMas/api/iiif/witnesses/{$workID}")
+%output:method("json")
+function iiif:WitnessesCollection($workID as xs:string) {
+($iiif:response200,
+
+log:add-log-message('/api/iiif/witnesses/' || $workID, xmldb:get-current-user(), 'iiif'),
+let $workName := titles:printTitleMainID($workID)
+let $work := collection($config:data-rootW)//id($workID)
+let $mswithimages := $work//t:witness[@corresp]
+let $externalmswithimages := $work//t:witness[@facs][t:ptr/@target]
+let $listmanifests :=
+(for $images in $mswithimages
+let $msid := $images/@corresp
+let $ms := collection($config:data-rootMS)//id($msid)
+return
+if($ms//t:idno[@facs]) then
+
+let $manifest := iiif:manifestsource($ms)
+         return
+             map {'label' := titles:printTitleMainID($msid)  ,
+      "@type": "sc:Manifest", 
+      '@id' := $manifest}
+   else (),
+for $images in $externalmswithimages
+let $this := concat($images/@corresp, ': ', $images/text(), ' [', $images/@facs, ']')
+let $manifest := string($images/t:ptr/@target)
+         return
+             map {'label' := $this ,
+      "@type": "sc:Manifest", 
+      '@id' := $manifest}
+      )
+let $manifests := if(count($listmanifests) eq 1) then [$listmanifests] else $listmanifests
+ let $iiifroot := $config:appUrl ||"/api/iiif/"
+(:       this is where the manifest is:)
+       let $request := $iiifroot || "/collections"
+ 
+        
+        return
+        map {
+  "@context": "http://iiif.io/api/presentation/2/context.json",
+  "@id": $request,
+  "@type": "sc:Collection",
+  "label": "Manuscript witnesses of "  || $workName,
+  "viewingHint": "top",
+  "description": "All available images of witnesses",
+  "attribution": "Provided by various institutions, see each manifest",
+  "manifests":  $manifests
+   
+  
+}
+      )  };
 
 
 (:manifest for one manuscript, including all ranges and canvases:)

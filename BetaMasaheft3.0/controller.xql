@@ -58,11 +58,9 @@ declare function local:fallback-login($domain as xs:string, $maxAge as xs:dayTim
                         session:set-attribute("BetMas.password", $password),
                         request:set-attribute($domain || ".user", $user),
                         request:set-attribute("xquery.user", $user),
-                        request:set-attribute("xquery.password", $password),
-                        console:log(if(session:exists()) then 'yes' else 'no'))
-                   
+                        request:set-attribute("xquery.password", $password)
+                   )
             else
-             let $test := console:log('isNotLogged')
                 let $user := session:get-attribute("BetMas.user")
                 let $password := session:get-attribute("BetMas.password")
                 return (
@@ -117,7 +115,7 @@ switch ($prefix)
                                                     default return
                                                         'manuscripts'
                                                         };
-
+ 
 if ($exist:path eq '') then
     <dispatch
         xmlns="http://exist.sourceforge.net/NS/exist">
@@ -146,6 +144,15 @@ else
                 <forward
                     url="{$exist:controller}/resources/{substring-after($exist:path, 'resources/')}"/>
             </dispatch>
+               (: Requests for javascript libraries are resolved to the file system :)
+    else
+        if (contains($exist:path, "vocabularies/")) then
+            <dispatch
+                xmlns="http://exist.sourceforge.net/NS/exist">
+                <forward
+                    url="{$exist:controller}/vocabularies/{substring-after($exist:path, 'vocabularies/')}"/>
+            </dispatch>
+        
             
              (: Requests for javascript libraries are resolved to the file system :)
     else
@@ -191,13 +198,29 @@ else
                         </dispatch>
                          
                 (:            redirect to api all calls starting with /api/ ending with one of the specific rest modules:)
-           
+              else
+                if (contains($exist:path, 'morpho')) then
+                let $url := concat('/restxq', util:unescape-uri($exist:path, 'UTF-8'))
+                return
+             <dispatch
+                            xmlns="http://exist.sourceforge.net/NS/exist">
+                            <forward
+                                url="{$url}"
+                                absolute="yes"> 
+                                {$login("org.exist.login", (), false())}
+                                 <set-header name="Cache-Control" value="no-cache"/>
+                                </forward>
+                        </dispatch>
             else
                 if (contains($exist:path, '/api/') or
                 ends-with($exist:path, '/list') or
+                ends-with($exist:path, '/browse') or
                 ends-with($exist:path, '/analytic') or
                 ends-with($exist:path, '/main') or
                 ends-with($exist:path, '/compare') or
+                ends-with($exist:path, '/LitFlow') or
+                ends-with($exist:path, '/collate') or
+                ends-with($exist:path, '/compareSelected') or
                 ends-with($exist:path, '/text') or
                 ends-with($exist:path, '/viewer') or
                 ends-with($exist:path, '/time') or
@@ -367,6 +390,121 @@ return
                                         </dispatch>
                              
                                         
+(:                                        redirects uris of subpart URI like
+http://betamasaheft.eu/BDLaethe8/addition/a1
+to the actual homepage with a # to their id
+http://betamasaheft.eu/manuscripts/BDLaethe8/main#a1
+if application/rdf+xml is asked then the request is forwarded to the sparqlRest.xql module where
+function apisparql:constructURIsubid() is called to construct a graph of that resource.
+:)
+                                         else
+                                            if (matches($exist:path, "\w+\d+(\w+)?") and (
+                                            contains($exist:path, '/layout/') or 
+                                            contains($exist:path, '/quire/') or 
+                                            contains($exist:path, '/addition/') or
+                                            contains($exist:path, '/decoration/') or
+                                            contains($exist:path, '/binding/') or
+                                            contains($exist:path, '/msitem/') or
+                                            contains($exist:path, '/hand/') or
+                                            contains($exist:path, '/transformation/')or
+                                            contains($exist:path, '/UniProd/') or
+                                            contains($exist:path, '/UniCirc/') or
+                                            contains($exist:path, '/UniMain/') or
+                                            contains($exist:path, '/UniMat/')or
+                                            contains($exist:path, '/UniCah/')
+                                            )) then
+                                                let $prefix := substring($exist:resource, 1, 2)
+                                                let $switchCollection := local:switchPrefix($prefix)
+                                                let $tokenizePath := tokenize($exist:path, '/')
+                                              return
+                                                if (contains(request:get-header('Accept'), 'rdf'))
+                                            then
+                                            <dispatch
+                                                        xmlns="http://exist.sourceforge.net/NS/exist">
+                                                        <forward
+                                url="{concat('/restxq/BetMas', $exist:path, '/rdf')}"
+                                absolute="yes"> 
+                                {$login("org.exist.login", (), false())}
+                                 <set-header name="Cache-Control" value="no-cache"/>
+                                </forward>
+                                        
+                                                    
+                                                    </dispatch>
+                                            else
+                                                    <dispatch
+                                                        xmlns="http://exist.sourceforge.net/NS/exist">
+                                                        
+                                                        <forward
+                                                            url="/{$switchCollection}/{$tokenizePath[2]}/main#{$tokenizePath[last()]}"/>
+                                                    
+                                                    </dispatch>
+                                                    
+(:                  annotations                                  :)
+(:http://betamasaheft.eu/BNFet32/person/annotation/95
+http://betamasaheft.eu/BNFet32/place/annotation/1
+points to main item HTML as a page
+construct the annotation graph if application/rdf+xml is specified
+:)
+                                                    else
+                                            if (matches($exist:path, "/annotation/")) then
+                                                let $prefix := substring($exist:resource, 1, 2)
+                                                let $switchCollection := local:switchPrefix($prefix)
+                                                let $tokenizePath := tokenize($exist:path, '/')
+                                            return
+                                                if (contains(request:get-header('Accept'), 'rdf'))
+                                            then
+                                            <dispatch
+                                                        xmlns="http://exist.sourceforge.net/NS/exist">
+                                                        <forward
+                                url="{concat('/restxq/BetMas', $exist:path, '/rdf')}"
+                                absolute="yes"> 
+                                {$login("org.exist.login", (), false())}
+                                 <set-header name="Cache-Control" value="no-cache"/>
+                                </forward>
+                                        
+                                                    
+                                                    </dispatch>
+                                            else
+                                                    <dispatch
+                                                        xmlns="http://exist.sourceforge.net/NS/exist">
+                                                        
+                                                        <redirect
+                                                            url="/{$tokenizePath[2]}"/>
+                                                    
+                                                    </dispatch>
+                                                    
+                                                    
+                                                    
+(:http://betamasaheft.eu/bond/snap:GrandfatherOf-PRS1854Amdase:)
+ 
+                                                    else
+                                            if (starts-with($exist:path, "/bond/")) then
+                                                let $tokenizePath := tokenize($exist:path, '/')
+                                                let $tokenizeBond := tokenize($tokenizePath[3], '-')
+                                                let $test := console:log($tokenizeBond)
+                                              return
+                                                if (contains(request:get-header('Accept'), 'rdf'))
+                                            then
+                                            <dispatch
+                                                        xmlns="http://exist.sourceforge.net/NS/exist">
+                                                        <forward
+                                url="{concat('/restxq/BetMas/bond/', encode-for-uri($tokenizePath[3]), '/rdf')}"
+                                absolute="yes"> 
+                                {$login("org.exist.login", (), false())}
+                                 <set-header name="Cache-Control" value="no-cache"/>
+                                </forward>
+                                        
+                                                    
+                                                    </dispatch>
+                                            else
+                                                    <dispatch
+                                                        xmlns="http://exist.sourceforge.net/NS/exist">
+                                                        
+                                                        <redirect
+                                                            url="/{$tokenizeBond[2]}"/>
+                                                    
+                                                    </dispatch>
+
 (:                                        if the resource does match the id, then redirect to main view of that item:)
                                         
                                         else
@@ -374,22 +512,32 @@ return
                                                 let $prefix := substring($exist:resource, 1, 2)
                                                 let $switchCollection := local:switchPrefix($prefix)
                                             return
-                                                if (not(contains($exist:path, $switchCollection))) then
+(:                                            content negotiation,
+requiring the ID
+http://betamasaheft.eu/BNFet32
+if the client explicitly requests application/xml+rdf then the RDF is returned from
+the sparqlRest.xql module where
+function apisparql:constructURIid() is called to construct a graph of that resource.
+otherwise the html page is returned
+http://betamasaheft.eu/manuscript/BNFet32/main
+:)
+                                            if (contains(request:get-header('Accept'), 'rdf'))
+                                            then
+                                            <dispatch
+                                                        xmlns="http://exist.sourceforge.net/NS/exist">
+                                                            <forward
+                                url="{concat('/restxq/BetMas/', $exist:resource, '/rdf')}"
+                                absolute="yes"> 
+                                {$login("org.exist.login", (), false())}
+                                 <set-header name="Cache-Control" value="no-cache"/>
+                                </forward>
+                                                    </dispatch>
+                                            else
                                                     <dispatch
                                                         xmlns="http://exist.sourceforge.net/NS/exist">
                                                         <redirect
                                                             url="/{$switchCollection}/{$exist:resource}/main"/>
                                                     </dispatch>
-                                                else
-                                                    
-                                                    <dispatch
-                                                        xmlns="http://exist.sourceforge.net/NS/exist">
-                                                        <redirect
-                                                            url="/{$switchCollection}/{$exist:resource}/main"/>
-                                                    
-                                                    </dispatch>
-                                        
-                                        
                                                             
                                                             else
                                                                 if (ends-with($exist:resource, ".html")) then
@@ -397,12 +545,11 @@ return
                                                                     <dispatch
                                                                         xmlns="http://exist.sourceforge.net/NS/exist">
                                                                         <forward
-                                                                            url="{$exist:controller}/{$exist:resource}"/>
+                                                                            url="{$exist:controller}/{$exist:path}"/>
                                                                         <view>
                                                                             <forward
                                                                                 url="{$exist:controller}/modules/view.xql"/>
              {$login("org.exist.login", (), false())}
-             {console:log(xmldb:get-current-user())}
             <set-header name="Cache-Control" value="no-cache"/>
                                                                         
                                                                         </view>
@@ -417,11 +564,35 @@ return
                                                                 
                                                                 
 (:                             if the url resource does not contain numbers, and thus is not the id of any resource, beside authority files:)
+(:                                            content negotiation,
+requiring the ID
+http://betamasaheft.eu/angel
+if the client explicitly requests application/xml+rdf then the RDF is returned from
+the sparqlRest.xql module where
+function apisparql:constructURIid() is called to construct a graph of that resource.
+otherwise the html page is returned
+http://betamasaheft.eu/authority-files/angel/main
+:)
                                     else
                                         if (matches($exist:resource, "^[^.\d]+$")) then
                                             
 (:                                            if it actually points to authority files, go there:)
                                             if (contains($exist:path, "/authority-files/")) then
+                                              if (contains(request:get-header('Accept'), 'rdf'))
+                                            then
+                                            <dispatch
+                                                        xmlns="http://exist.sourceforge.net/NS/exist">
+                                                        
+                                                            <forward
+                                url="{concat('/restxq/BetMas/', $exist:resource, '/rdf')}"
+                                absolute="yes"> 
+                                {$login("org.exist.login", (), false())}
+                                 <set-header name="Cache-Control" value="no-cache"/>
+                                </forward>
+                                        
+                                                    
+                                                    </dispatch>
+                                            else
                                                 <dispatch
                                                     xmlns="http://exist.sourceforge.net/NS/exist">
                                                     <redirect

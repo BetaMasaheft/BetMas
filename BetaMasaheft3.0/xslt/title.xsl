@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:title">
         <xsl:choose>
@@ -57,6 +56,7 @@
     </xsl:template>
     
     <xsl:template match="t:title" mode="nolink">
+        
         <xsl:choose>
             <xsl:when test="@ref">
                 <xsl:variable name="filename">
@@ -74,6 +74,7 @@
                         <xsl:variable name="enteredTitle">
                             <xsl:apply-templates mode="nolink"/>
                         </xsl:variable>
+                        <span property="http://purl.org/dc/terms/hasPart">
                         <xsl:choose>
                             <xsl:when test="string-length($enteredTitle) gt 50">
                                 <xsl:value-of select="concat(substring($enteredTitle, 1, 50), '...')"/>
@@ -82,10 +83,13 @@
                                 <xsl:value-of select="$enteredTitle"/>
                             </xsl:otherwise>
                         </xsl:choose>
-                        
+                        </span>
                     </xsl:when>
                     <xsl:otherwise>
                         <span xmlns="http://www.w3.org/1999/xhtml" class="MainTitle" data-value="{@ref}">
+                            <xsl:if test="parent::t:msItem">
+                                <xsl:attribute name="property"><xsl:value-of select="'http://purl.org/dc/terms/hasPart'"/></xsl:attribute>
+                                <xsl:attribute name="resource"><xsl:value-of select="concat('http://betamasaheft.eu/',$filename)"/></xsl:attribute></xsl:if>
                             <xsl:value-of select="@ref"/>
                         </span>
                     </xsl:otherwise>

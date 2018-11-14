@@ -16,7 +16,6 @@ import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/
 import module namespace ann = "https://www.betamasaheft.uni-hamburg.de/BetMas/ann" at "annotations.xql";
 import module namespace all="https://www.betamasaheft.uni-hamburg.de/BetMas/all" at "all.xqm";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
-import module namespace console = "http://exist-db.org/xquery/console";
 import module namespace kwic = "http://exist-db.org/xquery/kwic"
     at "resource:org/exist/xquery/lib/kwic.xql";
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "tei2string.xqm";
@@ -249,7 +248,7 @@ let $ps := collection( $config:data-rootPl)//t:TEI[descendant::t:place[descendan
 let $places := for $item in $ps
                          let $id := string($item/@xml:id)
                        return 
-                       try {places:JSONfile($item, $id)} catch * {console:log($id ||' !error! '||$err:code|| ': ' || $err:description)}
+                       try {places:JSONfile($item, $id)} catch * {($id ||' !error! '||$err:code|| ': ' || $err:description)}
   return
             map {"type": "FeatureCollection",
                     "features":$places}
@@ -420,7 +419,7 @@ declare function places:SimplifiedPlaceMark($place as xs:string){
         <Point>{
         let $coordinates := coord:invertCoord(coord:getCoords($place))
         return
-            <coordinates>{if(matches($coordinates, '\d+\.?[\d+]?\,\d+\.?[\d+]?')) then $coordinates else ()}</coordinates>
+            <coordinates>{if(matches($coordinates, '\d+\.?\d*,\d+\.?\d*')) then $coordinates else ()}</coordinates>
             }
         </Point>
     </Placemark>      
@@ -566,13 +565,13 @@ else ('Sorry, the item you have requested does not exist in our places and repos
 declare function places:annotation($this, $r, $x, $mode){
  <annotation>{
  '
- &lt;'||$config:appUrl || '/api/placeNames/'||$mode||'/all#'||
+ &lt;'||$config:appUrl || '/'||
   string($r) || 
-  '/annotations/'||
+  '/place/annotation/'||
   string($x)||
   '&gt;
                 a oa:Annotation ;
-                oa:hasTarget &lt;'||$config:appUrl || '/api/placeNames/'||$mode||'/all#' ||
+                oa:hasTarget &lt;'||$config:appUrl || '/' ||
                 string($r)|| '&gt; ;
                 oa:hasBody &lt;' || ann:getannotationbody(string($this/@ref)) || '&gt; ;
                 oa:annotatedAt "' ||current-dateTime()||  '"^^xsd:date ;
@@ -588,7 +587,7 @@ declare function places:ThisAnnotatedThing($r, $tit, $mode as xs:string){
  
              '
              
-             &lt;'||$config:appUrl || '/api/placeNames/'||$mode||'/all#'||
+             &lt;'||$config:appUrl||'/'||
  string($r)||'&gt;
  a pelagios:AnnotatedThing ;
  dcterms:description "' || 
@@ -601,10 +600,10 @@ declare function places:ThisAnnotatedThing($r, $tit, $mode as xs:string){
  dcterms:source &lt;'||$config:appUrl || '/tei/' || 
                 string($r) || '.xml&gt;' || ';
   dcterms:title "' || 
- $tit || '";
- foaf:homepage' ||
+ normalize-space($tit)  || '";
+ foaf:homepage ' ||
                 '&lt;'||$config:appUrl || '/'||$mode||'/' || 
-                string($r) || '&gt; ;
+                string($r) || '/main&gt; ;
                 dcterms:language "' ||
                 $r/parent::t:TEI/@xml:lang||'";
                 .
@@ -621,7 +620,10 @@ declare
 function places:placesInWorksTTL($start as xs:integer*) {
 
 let $log := log:add-log-message('/api/placeNames/works/all', xmldb:get-current-user(), 'places')
-let $data := collection($config:data-rootW)//t:placeName[starts-with(@ref, 'LOC') or starts-with(@ref, 'Q') or starts-with(@ref, 'pleiades')]
+let $loc := collection($config:data-rootW)//t:placeName[starts-with(@ref, 'LOC')]
+let $q := collection($config:data-rootW)//t:placeName[starts-with(@ref, 'Q')]
+let $pl := collection($config:data-rootW)//t:placeName[starts-with(@ref, 'pleiades')]
+let $data:= ($loc, $q, $pl)
  let $annotations :=
  for $d in $data 
  group by $r := root($d)//t:TEI/@xml:id
@@ -658,11 +660,15 @@ declare
 function places:placesInManuscriptsTTL($start as xs:integer*) {
 
 let $log := log:add-log-message('/api/placeNames/manuscripts/all', xmldb:get-current-user(), 'places')
-let $data := collection($config:data-rootMS)//t:placeName[starts-with(@ref, 'LOC') or starts-with(@ref, 'Q') or starts-with(@ref, 'pleiades')]
- let $annotations :=
- for $d in $data 
+let $loc := collection($config:data-rootMS)//t:placeName[starts-with(@ref, 'LOC')]
+let $q := collection($config:data-rootMS)//t:placeName[starts-with(@ref, 'Q')]
+let $pl := collection($config:data-rootMS)//t:placeName[starts-with(@ref, 'pleiades')]
+let $data:= ($loc, $q, $pl)
+
+let $annotations :=
+ for $d in $data
  group by $r := root($d)//t:TEI/@xml:id
-let $tit := titles:printTitleID(string($r))
+let $tit := titles:printTitleMainID(string($r))
  order by $r
  return
  
@@ -696,58 +702,25 @@ function places:placesInOneWorkTTL($id as xs:string) {
 let $log := log:add-log-message('/api/placeNames/works/' || $id, xmldb:get-current-user(), 'places')
 let $file := collection($config:data-rootW)//id($id)
 let $sid :=  string($id)
+let $r := $file/@xml:id
 return
 if($file) then
 let $data := $file//t:placeName[@ref]
 let $abstract := if($file//t:abstract) then $file//t:abstract else ('no description available')
-let $url :=  $config:appUrl|| '/api/placeNames/works/' 
-let $baseUrl :=  $config:appUrl||'/api/placeNames/works/' || $id || '#'
+let $url :=  $config:appUrl ||'/'
+let $baseUrl :=  $config:appUrl || $id
  let $annotations :=
-let $tit := titles:decidePlaceNameSource(string($id))
+let $tit := titles:printTitleMainID($sid)
  return
  
  <annotatedThing id="{$id}">
  
-             {'
-             
-             &lt;'||$url||
- string($id)||'&gt;
- a pelagios:AnnotatedThing ;
-  dcterms:title "' || 
- $tit || '";
- dcterms:description "' || 
- $abstract || '";
- dcterms:source &lt;'||$config:appUrl||'/tei/' || 
-                $sid || '.xml&gt;' || ';
- foaf:homepage' ||
-                '&lt;'||$config:appUrl||'/works/' || 
-                $sid || '/main&gt; ;
-                dcterms:language "' ||
-                string($file/@xml:lang)||'";
-                .
-                
-                '}
+             {places:ThisAnnotatedThing($r, $tit, 'works')}
    
    <annotations>
  {for $thisd at $x in $data
  return
- <annotation>{
- '
- &lt;'||$url||
-  string($id) || 
-  '/annotations/'||
-  string($x)||
-  '&gt;
-                a oa:Annotation ;
-                oa:hasTarget &lt;' || $url ||
-                string($id)|| '&gt; ;
-                oa:hasBody &lt;' || ann:getannotationbody(string($thisd/@ref)) || '&gt; ;
-                oa:annotatedAt "' ||current-dateTime()||  '"^^xsd:date ;
-                
-                .
-                '
- }
- </annotation>
+ places:annotation($thisd, $r, $x, 'works')
  }
  </annotations>
  </annotatedThing>
@@ -770,59 +743,24 @@ function places:placesInOneManuscriptTTL($id as xs:string) {
 let $log := log:add-log-message('/api/placeNames/manuscripts/' || $id, xmldb:get-current-user(), 'places')
 let $file := collection($config:data-rootMS)//id($id)
 let $sid := string($id)
+let $r := $file/@xml:id
 return
 if($file) then
 let $data := $file//t:placeName[@ref]
-let $abstract := if($file//t:abstract) then $file//t:abstract else ('no description available')
 
-let $url :=  $config:appUrl||'/api/placeNames/manuscripts/' 
-let $baseUrl := $config:appUrl || 'http://betamasaheft.eu/api/placeNames/manuscripts/' || $id || '#'
  let $annotations :=
-let $tit := titles:decidePlaceNameSource(string($id))
+
+let $tit := titles:printTitleMainID($sid)
  return
  
  <annotatedThing id="{$id}">
  
-             {'
-             
-             &lt;'||$url||
- $sid||'&gt;
- a pelagios:AnnotatedThing ;
-  dcterms:title "' || 
- $tit || '";
- dcterms:description "' || 
- $abstract || '";
- dcterms:source &lt;'||$config:appUrl||'/tei/' || 
-                $sid || '.xml&gt;' || ';
- foaf:homepage' ||
-                '&lt;'||$config:appUrl||'/manuscripts/' || 
-                string($id) || '&gt; ;
-                dcterms:language "' ||
-                string($file/@xml:lang)||'";
-                .
-                
-                '}
+            {places:ThisAnnotatedThing($r, $tit, 'manuscripts')}
    
    <annotations>
  {for $thisd at $x in $data
  return
- <annotation>{
- '
- &lt;'||$url||
-  string($id) || 
-  '/annotations/'||
-  string($x)||
-  '&gt;
-                a oa:Annotation ;
-                oa:hasTarget &lt;' || $url ||
-                string($id)|| '&gt; ;
-                oa:hasBody &lt;' || ann:getannotationbody(string($thisd/@ref)) || '&gt; ;
-                oa:annotatedAt "' ||current-dateTime()||  '"^^xsd:date ;
-                
-                .
-                '
- }
- </annotation>
+ places:annotation($thisd, $r, $x, 'manuscripts')
  }
  </annotations>
  </annotatedThing>
@@ -842,7 +780,27 @@ declare
 %rest:path("/BetMas/api/placeNames/void")
 %output:method("text")
 function places:placesInWorksTTLVoid() {
+
 $places:response200turtle, 
+let $loc := collection($config:data-rootMS)//t:placeName[starts-with(@ref, 'LOC')]
+let $q := collection($config:data-rootMS)//t:placeName[starts-with(@ref, 'Q')]
+let $pl := collection($config:data-rootMS)//t:placeName[starts-with(@ref, 'pleiades')]
+let $dataMS:= ($loc, $q, $pl)
+let $locW := collection($config:data-rootW)//t:placeName[starts-with(@ref, 'LOC')]
+let $qW := collection($config:data-rootW)//t:placeName[starts-with(@ref, 'Q')]
+let $plW := collection($config:data-rootW)//t:placeName[starts-with(@ref, 'pleiades')]
+let $dataW:= ($locW, $qW, $plW)
+let $annotationsMS :=  for $d in $dataMS
+ group by $r := root($d)//t:TEI/@xml:id
+ return 
+ ' void:dataDump <http://betamasaheft.eu/api/placeNames/manuscripts/'||string($r)||'>'
+let $annotationsW :=  for $d in $dataW
+ group by $r := root($d)//t:TEI/@xml:id
+ return 
+ ' void:dataDump <http://betamasaheft.eu/api/placeNames/works/'||string($r)||'>'
+
+return 
+
         '
 @prefix : <'||$config:appUrl||'> .
         @prefix void: <http://rdfs.org/ns/void#> .
@@ -863,8 +821,17 @@ $places:response200turtle,
         environment that shall manage complex data related to predominantly Christian manuscript 
         tradition of the Ethiopian and Eritrean Highlands.";
         dcterms:license <http://opendatacommons.org/licenses/odbl/1.0/>;
-        void:dataDump <'||$config:appUrl||'/api/placeNames/works/all> ;
-        void:dataDump <'||$config:appUrl||'/api/placeNames/manuscripts/all> ;
+        ' || string-join($annotationsMS, ';
+        ') ||';
+        '||string-join($annotationsW, ';
+        ') ||';
+        void:dataDump <https://raw.githubusercontent.com/BetaMasaheft/Documentation/master/framauro.ttl>;
+        void:dataDump <https://raw.githubusercontent.com/BetaMasaheft/Documentation/master/cosmas.ttl>;
+        void:dataDump <https://raw.githubusercontent.com/BetaMasaheft/Documentation/master/StraboXVI4.ttl>;
+        void:dataDump <https://raw.githubusercontent.com/BetaMasaheft/Documentation/master/SB24_16187.ttl>;
+        void:dataDump <https://raw.githubusercontent.com/BetaMasaheft/Documentation/master/PlinyNH6_33_34.ttl>;
+        void:dataDump <https://raw.githubusercontent.com/BetaMasaheft/Documentation/master/Pithom.ttl>;
+        void:dataDump <https://raw.githubusercontent.com/BetaMasaheft/Documentation/master/Diod3_37_41.ttl>
         .'};
 
 
@@ -884,11 +851,11 @@ declare function places:pelagiosDump(){
    let $filename := concat('allplaces', format-dateTime(current-dateTime(), "[Y,4][M,2][D,2][H01][m01][s01]"), '.ttl')
    
    let $filecontent := 
-       let $annotations := for $d in $data 
+       let $annotations := for $d in $data
               let $r := root($d)//t:TEI/@xml:id
               let $i := string($r)
               let $tit := titles:printTitleID($i)
-              let $annotatedthing := if($tit) then ann:annotatedThing($d, $tit[1], $r) else ()
+              let $annotatedthing := if($tit) then try{ann:annotatedThing($d, $tit[1], $i)} catch * {($i|| $err:description)}  else ()
                 order by $tit[1]
                  return
                $annotatedthing 

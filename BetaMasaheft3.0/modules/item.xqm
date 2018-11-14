@@ -12,7 +12,6 @@ import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/
 import module namespace wiki="https://www.betamasaheft.uni-hamburg.de/BetMas/wiki" at "wikitable.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "titles.xqm";
 import module namespace app="https://www.betamasaheft.uni-hamburg.de/BetMas/app" at "app.xqm";
-import module namespace console="http://exist-db.org/xquery/console";
 import module namespace xdb="http://exist-db.org/xquery/xmldb";
 
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
@@ -28,8 +27,16 @@ else
 <div class="col-md-2" id="textWitnesses">
 <div class="container-fluid well">
 <h5>Witnesses of the edition</h5>
-<ul class="nodot">{for $wit in $item//t:witness return
-<li class="nodot" id="{string($wit/@xml:id)}"><a href="/manuscripts/{string($wit/@corresp)}/main" target="_blank"><b class="lead">{string($wit/@xml:id)}</b>: {titles:printTitleID(string($wit/@corresp))}</a></li>}</ul>
+<ul class="nodot">{
+for $wit in $item//t:witness[not(@type)] return
+<li class="nodot" id="{string($wit/@xml:id)}">
+<a href="/manuscripts/{string($wit/@corresp)}/main" target="_blank"><b class="lead">{string($wit/@xml:id)}</b>: {titles:printTitleID(string($wit/@corresp))}</a></li>}
+{
+for $wit in $item//t:witness[@type = 'external'] return
+<li class="nodot" id="{string($wit/@xml:id)}">
+<a href="{$wit/@facs}" target="_blank"><b class="lead">{string($wit/@xml:id)}</b>: {if($wit/text()) then $wit/text() else string($wit/@corresp)}</a></li>}
+
+</ul>
        {let $versions := collection($config:data-root)//t:relation[@name='saws:isVersionOf'][contains(@passive, $id)]
        return
        if($versions) then (<h5>Other versions</h5>,
@@ -71,9 +78,9 @@ return
 <div xmlns="http://www.w3.org/1999/xhtml" class="row-fluid full-width-tabs" id="options">
 <ul  class="nav nav-tabs">
 <li  class="span_full_width">{app:pdf-link($id)}</li>
-<li class="span_full_width"><a href="/{$collection}/{$id}/main" target="_blank" >Entry</a></li>
-<li class="span_full_width"><a href="{( '/tei/' || $id ||  '.xml')}" target="_blank">TEI/XML</a></li>
-<li class="span_full_width"><a href="/{$collection}/{$id}/graph" target="_blank">Graph</a></li>
+<li class="span_full_width"><a id="mainEntryLink" href="/{$collection}/{$id}/main" target="_blank" >Entry</a></li>
+<li class="span_full_width"><a id="TEILink" href="{( '/tei/' || $id ||  '.xml')}" target="_blank">TEI/XML</a></li>
+<li class="span_full_width"><a id="GraphViewLink"  href="/{$collection}/{$id}/graph" target="_blank">{if($collection = 'manuscripts') then 'Syntaxe' else 'Graph'}</a></li>
     {if(($collection = 'institutions' or $collection = 'places') and ($document//t:geo/text() or $document//t:place[@sameAs] )) then
     <li class="span_full_width"><a href="/{( $id ||
     '.json')}" target="_blank">geoJson</a></li> else ()}
@@ -98,7 +105,7 @@ declare function item:RestItemHeader($this, $collection) {
 let $document := $this
 let $id := string($this/@xml:id)
 let $repoids := if ($document//t:repository/text() = 'Lost') then ($document//t:repository/text()) else if ($document//t:repository/@ref) then distinct-values($document//t:repository/@ref) else 'No Repository Specified'
-let $key := for $ed in $document//t:titleStmt/t:editor[not(@role = 'generalEditor')]/@key  return editors:editorKey(string($ed))
+let $key := for $ed in $document//t:titleStmt/t:editor[not(@role = 'generalEditor')]  return editors:editorKey(string($ed/@key)) || (if($ed/@role) then ' (' ||string($ed/@role)|| ')' else ())
 
 return
 
@@ -108,7 +115,7 @@ return
             <h1 id="headtitle">
                 {titles:printTitleID($id)}
             </h1>
-          <p id="mainEditor"><i>Edited by  {string-join($key, ', ')}</i></p>
+          <p id="mainEditor"><i>{string-join($key, ', ')}</i></p>
           </div>
 
 
@@ -117,7 +124,7 @@ return
 
     <div class="row-fluid" id="general">
    <div>
-   {console:log('status'), if (count($document//t:change[not(@who='PL')]) eq 1) then
+   {if (count($document//t:change[not(@who='PL')]) eq 1) then
    <span class="label label-warning" >Stub</span>
    else if ($document//t:change[contains(.,'completed')]) then
    <span class="label label-info" >Under Review</span>
@@ -135,12 +142,8 @@ case 'manuscripts' return
 
             {if($document//t:altIdentifier) then
             <p>Other identifiers: {
-            let $otheridentifiers :=
-                   let $otherids := for $altId in $document//t:msIdentifier/t:altIdentifier/t:idno/text()
-                    return ($altId || ', ')
-                   return <otherids>{$otherids}</otherids>
-            return
-                replace($otheridentifiers/text(), ', $','')
+                   for $altId at $p in $document//t:msIdentifier/t:altIdentifier/t:idno/text()
+                    return <span property="http://www.cidoc-crm.org/cidoc-crm/P1_is_identified_by" content="{$altId}">{$altId}{if($altId[$p = count($document//t:msIdentifier/t:altIdentifier/t:idno/text())]) then ' ' else ', '}</span>
             }
             </p>
             else
@@ -152,7 +155,12 @@ case 'manuscripts' return
             let $repodoc := collection($config:data-rootIn)//id($repo)
              let $repoplace := if ($repodoc//t:settlement[1]/@ref) then titles:printTitleID($repodoc//t:settlement[1]/@ref) else if ($repodoc//t:settlement[1]/text()) then $repodoc//t:settlement[1]/text() else if ($repodoc//t:country[1]/@ref) then titles:printTitleID($repodoc//t:country[1]/@ref) else ()
 return
-            <a target="_blank" href="/manuscripts/{$repo}/list" role="button" class="btn btn-success btn-sm">{if($repoplace) then ($repoplace, ', ') else ()}
+            <a target="_blank" 
+            href="/manuscripts/{$repo}/list" 
+            role="button"
+            class="btn btn-success btn-sm" 
+            property="http://www.cidoc-crm.org/cidoc-crm/P55_has_current_location" 
+            resource="http://betamasaheft.eu/{$repo}">{if($repoplace) then ($repoplace, ', ') else ()}
                    {titles:printTitleID($repo) }</a>
                   }
 
@@ -161,12 +169,8 @@ return
 
            { if($document//t:altIdentifier) then
             <p>Other identifiers: {
-            let $otheridentifiers :=
-                   let $otherids := for $altId in $document//t:msIdentifier/t:altIdentifier/t:idno/text()
-                    return ($altId || ', ')
-                   return <otherids>{$otherids}</otherids>
-            return
-                replace($otheridentifiers/text(), ', $','')
+                   for $altId at $p in $document//t:msIdentifier/t:altIdentifier/t:idno/text()
+                    return <span property="http://www.cidoc-crm.org/cidoc-crm/P1_is_identified_by" content="{$altId}">{$altId}{if($altId[$p = count($document//t:msIdentifier/t:altIdentifier/t:idno/text())]) then ' ' else ', '}</span>
             }
             </p>
             else
@@ -187,37 +191,9 @@ return
 
     let $type := data($document//t:place/@type)
     let $list := if(contains($type, ' ')) then tokenize(normalize-space($type), ' ') else string($type)
-    for $t in $list
-        let $otherSameType :=
-            for $corr in collection($config:data-rootPl, $config:data-rootIn)//t:place[ft:query(@type, $t)]
-             order by ft:score($corr) descending
-            return
-                $corr
-        return
-                <div>
-                <span class="label label-success" data-toggle="modal" data-target="#{$t}list">{$t}</span>
-                <div id="{$t}list"  class="modal fade" role="dialog">
-                        <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                            <h4 class="modal-title">There are other {count($otherSameType)}  places with type {string($t)}</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                    <ul>
-                                            {
-                                              apprest:referencesList($id, $otherSameType, 'link')
-                                             }
-                                             </ul>
-                                    </div>
-                                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                              </div>
-                        </div>
-             </div>
-             </div>
-
-            else ()}</div>
+    return
+     <div>{for $t in $list return <a class="label label-success" href="/places/list?keyword={$t}" target="_blank">{$t}</a>}</div>
+   else ()}</div>
 
  case 'places' return
 
@@ -226,37 +202,9 @@ return
 
     let $type := data($document//t:place/@type)
     let $list := if(contains($type, ' ')) then tokenize(normalize-space($type), ' ') else string($type)
-    for $t in $list
-        let $otherSameType :=
-            for $corr in collection($config:data-rootPl, $config:data-rootIn)//t:place[ft:query(@type, $t)]
-             order by ft:score($corr) descending
-            return
-                $corr
-        return
-        <div>
-                <span class="label label-success" data-toggle="modal" data-target="#{$t}list">{$t}</span>
-                    <div id="{$t}list"  class="modal fade" role="dialog">
-                        <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                            <h4 class="modal-title">There are other {count($otherSameType)}  places with type {string($t)}</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                            <ul>{
-                                                apprest:referencesList($id, $otherSameType, 'link')
-                                             }
-                                             </ul>
-                                    </div>
-                                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                              </div>
-                        </div>
-             </div>
-             </div>
-
-
-            else ()
+    return
+     <div>{for $t in $list return <a class="label label-success" href="/places/list?keyword={$t}" target="_blank">{$t}</a>}</div>
+   else ()
 
  case 'persons' return
  if($document//t:personGrp) then
@@ -284,7 +232,7 @@ declare function item:AdminLocTable($adminLoc as element()*){
                                            for $s in $adminLoc
                                            return
                                            <tr>
-                                           <td>{$s/name()}</td>
+                                           <td>{if($s/@type) then titles:printTitleMainID($s/@type/data()) else $s/name()}</td>
                                            <td>{
                                            if($s/@ref) then
                                            (<a target="_blank" href="/{$s/@ref}">{titles:printTitleMainID($s/@ref)}</a>,
@@ -309,12 +257,15 @@ declare function item:mainRels($this,$collection){
      case 'persons' return (
      let $isSubjectof :=
             for $corr in $w//t:relation[@passive = $id][@name = 'ecrm:P129_is_about']
-
             return
                 $corr
       let $isAuthorof :=
             for $corr in ($w//t:relation[@passive = $id][@name = 'saws:isAttributedToAuthor'],
             $w//t:relation[@passive = $id][@name = 'dcterms:creator'])
+           return
+                $corr
+      let $predecessorSuccessor :=
+            for $corr in ($this//t:relation[@active = $id][@name = 'bm:isSuccessorOf'], $this//t:relation[@active = $id][@name = 'bm:isPredecessorOf'])
 
             return
                 $corr
@@ -348,6 +299,20 @@ return
                         }</ul></div> else ()
 
                 }
+                  {
+
+                   if ($predecessorSuccessor) then  <div  class="relBox alert alert-info">
+                        <ul>{
+                        for $p in $predecessorSuccessor
+                        let $rel := if($p/@name = 'bm:isSuccessorOf') then 'Predecessor: ' else 'Successor: '
+                    return
+                        if (contains($p/@passive, ' ')) then for $value in tokenize ($p/@passive, ' ') return
+                        <li>{$rel}<a href="{$value}">{titles:printTitleID(string($value))}</a></li>
+                        else
+                        <li>{$rel}<a href="{$p/@passive}">{titles:printTitleID(string($p/@passive))}</a></li>
+                        }</ul></div> else ()
+
+                }
 
              </div>
       )
@@ -366,9 +331,12 @@ return
                                            <table class="table table-responsive adminpos">
                                            <tbody>
                                            {
-                                          item:AdminLocTable($this//t:settlement),
+                                          item:AdminLocTable($this//t:country), 
                                           item:AdminLocTable($this//t:region),
-                                          item:AdminLocTable($this//t:country),
+                                          item:AdminLocTable($this//t:settlement),
+                                          if($this//t:location/t:geo) then <tr><td>Coordinates</td><td>{$this//t:location/t:geo/text()}</td></tr> else (),
+                                          if($this//t:location/t:height) then <tr><td>Altitude</td><td>{concat($this//t:location/t:height/text(), $this//t:location/t:height/@unit)}</td></tr>  else (),
+                                         
                                           if($this//t:location[@typ='relative']) then
                                           <tr><td>Relative location</td><td>{$this//t:location[@typ='relative']/text()}</td></tr> else ()
 
@@ -413,9 +381,11 @@ return
 
              </div>
       )
-     case 'works' return (
+   case 'works' return (
+     let $relations := ($w//t:relation[@active = $id],
+     $w//t:relation[@passive = $id])
      let $relatedWorks :=
-            for $corr in $w//t:relation[@* = $id][@name [. != 'saws:isAttributedToAuthor'][. != 'dcterms:creator']]
+            for $corr in $relations[@name  != 'saws:isAttributedToAuthor'][@name != 'dcterms:creator']
 
             return
                 if ($corr[ancestor::t:TEI[@xml:id [. = $id]]]) then () else $corr
@@ -446,9 +416,9 @@ else
                         return
                         if (contains($normp, ' ')) then
                         for $value in tokenize ($normp, ' ') return
-                        <li><a href="{$value}" >{titles:printTitleID($value)}</a></li>
+                        <li><a href="{$value}" class="MainTitle" data-value="{$value}">{$value}</a></li>
                         else
-                        <li><a href="{$p}">{titles:printTitleID($p)}</a></li>
+                        <li><a href="{$p}"  class="MainTitle" data-value="{$p}">{$p}</a></li>
                         }</ul>)
 
                 }</div>}
@@ -466,7 +436,7 @@ else
                        default return <b>The following works have a relation {$rn} with this work</b>,
                         <ul>{for $p in $par
                         return
-                        <li><a href="{$p/@active}">{titles:printTitleID(string($p/@active))}</a></li>
+                        <li><a href="{$p/@active}" class="MainTitle" data-value="{string($p/@active)}">{string($p/@active)}</a></li>
                         }</ul>)
                 } </div>}
 
@@ -490,9 +460,11 @@ return
                                            <table class="table table-responsive adminpos">
                                            <tbody>
                                            {
-                                          item:AdminLocTable($this//t:settlement),
-                                          item:AdminLocTable($this//t:region),
                                           item:AdminLocTable($this//t:country),
+                                          item:AdminLocTable($this//t:region),
+                                          item:AdminLocTable($this//t:settlement),
+                                           if($this//t:location/t:geo) then <tr><td>Coordinates</td><td>{$this//t:location/t:geo/text()}</td></tr> else (),
+                                          if($this//t:location/t:height) then <tr><td>Altitude</td><td>{concat($this//t:location/t:height/text(), $this//t:location/t:height/@unit)}</td></tr>  else (),
                                           if($this//t:location[@typ='relative']) then
                                           <tr><td>Relative location</td><td>{$this//t:location[@typ='relative']/text()}</td></tr> else ()
 
@@ -518,6 +490,9 @@ return
 
             if($type = 'text') then  item:witnesses($id) else
             <div class="col-md-2">
+            
+                <a class="btn btn-xs btn-info" href="javascript:void(0);" onclick="startIntroItem();">Take a tour of this page</a>
+            <script type="application/javascript" src="resources/js/introText.js"/>
             <img id="loading" src="resources/Loading.gif" style="display: none; align: centre;" width="100%"></img>
             <nav class="navbar" id="ItemSideBar">
             <div class="navbar-header">
@@ -558,7 +533,9 @@ declare function item:RestPersRole($file, $collection){
     return
 if ($collection = 'persons') then(
 <div  class="well">{
-let $persrole := $c//t:persName[@ref = $id][@role]
+
+let $persrol := $c//t:persName[@ref = $id]
+let $persrole := $persrol[@role]
 return
 if($persrole) then
 for $role in $persrole
@@ -594,7 +571,8 @@ for $role in $persrole
            )
 
 else if ($collection = 'manuscripts' or $collection = 'works' or $collection = 'narratives') then(
-    let $pers := $file//t:persName[@ref != 'PRS00000'][@role]
+   let $notnull := $file//t:persName[@ref != 'PRS00000']
+    let $pers := $notnull[@role]
     return
         for $p in $pers
 
@@ -606,7 +584,9 @@ else if ($collection = 'manuscripts' or $collection = 'works' or $collection = '
     is <span class="label label-success" role="btn btn-small">{for $role in distinct-values($p/@role) return string($role) || ' '}</span>{' of this manuscript'}.
 
     {
-    for $role in $c//t:TEI[@xml:id !=$id]//t:persName[@ref = string($ID)][@role]
+   let $tei := $c//t:TEI[@xml:id !=$id]
+    let $persons := $tei//t:persName[@ref = string($ID)]
+    for $role in $persons[@role]
 
     group by $r := $role/@role
 
@@ -774,7 +754,7 @@ return
                                                          <ul>{
                                                          for $h in $hit
                                                          let $msitem := $h/parent::t:msItem
-                                                         let $placement := if ($h/preceding-sibling::t:locus) then ( ' ('|| string:tei2string($h/preceding-sibling::t:locus) || ')') else ''
+                                                         let $placement := if ($h/preceding-sibling::t:locus) then ( ' ('|| (let $locs :=for $loc in $h/preceding-sibling::t:locus return string:tei2string($loc) return string-join($locs, ' ')) || ')') else ''
                                                          let $position := ' [' || count($msitem/preceding-sibling::t:msItem) +1 || '/' || count($msitem/parent::t:*/child::t:msItem) || ']'
                                                          return
 
@@ -819,11 +799,13 @@ return
  declare function item:RestSeeAlso ($this, $collection)  {
  let $file := $this
  let $id := string($this/@xml:id)
+ let $classes := for $class in $this//t:term/@key return 'http://betamasaheft.eu/'||$class
  return
        <div class="col-md-{if($collection = 'works' or $collection = 'places' or $collection = 'narratives') then '4' else '12'}" id="seeAlsoForm" >
 
 
        <p class="lead">Select one of the keywords listed from the record to see related data</p>
+       <span typeof="{string-join($classes, ' ')}"/>
         <form action="" class="form">
             <div class="form-group">
                 <div class="input-group">
@@ -879,6 +861,14 @@ return
      <div id="hypothesisFeedResults"></div>
      <p>Use the tag <span class="label  label-info">BetMas:{$id}</span> in your public <a href="https://web.hypothes.is/">hypothes.is</a> annotations which refer to this entity.</p>
      </div>
+     {if($collection = 'places' or $collection='institutions') then <div>
+     <div id="pelagiosrelateditems" data-id="{$id}">
+     {if($file//t:place/@sameAs) then attribute data-sameAs {string($file//t:place/@sameAs)} else ()}
+     </div>
+     <div id="Chojnacki" data-id="{$id}"/>
+     <script type="text/javascript" src="resources/js/gnisci.js"/>
+     <script type="text/javascript" src="resources/js/pelagios.js"/>
+     </div> else ()}
      </div>
 
       };
@@ -918,7 +908,7 @@ let $parameters : = if ($collection = 'manuscripts') then <parameters>
 return
 (:because nav takes 2 colums:)
 
-    <div class="container-fluid col-md-10" >
+    <div class="container-fluid col-md-10" resource="http://betamasaheft.eu/{$id}" >
 {transform:transform(
         $document,
        $xslt,
@@ -980,14 +970,18 @@ return
 $xslpars)}
     </div>
     else if($document//t:div[@type='edition'][t:ab]) then
-    transform:transform(
+      <div class="col-md-10">{ transform:transform(
         $document,
        $xslt,
-$xslpars)
+$xslpars)}
+</div>
     else if($document//t:relation[@name="saws:contains"])
     then
-    let $ids := if(contains($document//t:relation[@name="saws:contains"]/@passive, ' ')) then for $x in tokenize($document//t:relation[@name="saws:contains"]/@passive, ' ') return $x else string($document//t:relation[@name="saws:contains"]/@passive)
-return
+    let $ids := for $contains in $document//t:relation[@name="saws:contains"]/@passive 
+                         return 
+                       if(contains($contains, ' ')) then for $x in tokenize($contains, ' ') return $x else string($contains)
+                       
+                       return
     <div class="col-md-10">
 
     { for $contained in $ids

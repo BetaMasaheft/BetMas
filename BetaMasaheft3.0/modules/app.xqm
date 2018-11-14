@@ -26,7 +26,6 @@ import module namespace all="https://www.betamasaheft.uni-hamburg.de/BetMas/all"
 import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "editors.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "titles.xqm";
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
-import module namespace console="http://exist-db.org/xquery/console";
 import module namespace xdb = "http://exist-db.org/xquery/xmldb";
 import module namespace validation = "http://exist-db.org/xquery/validation";
 import module namespace sparql="http://exist-db.org/xquery/sparql" at "java:org.exist.xquery.modules.rdf.SparqlModule";
@@ -179,7 +178,7 @@ function app:table($model as map(*), $start as xs:integer, $per-page as xs:integ
      let $collection := $model('collection')
 return
 <table class="table table-hover table-responsive">
-                    <thead>
+                    <thead data-hint="The color of each row tells you about the status of the entry. red is a stub, yellow is in progress, green/blue is completed.">
                         <tr>{
             if ($collection = 'works') then
                 (<th>n°</th>,
@@ -192,17 +191,18 @@ return
             else
                 if ($collection = 'places') then
                     (<th>Name</th>,
-                                <th>geonames</th>,
+                                <th>wikidata</th>,
                                 <th>geoJson</th>)
                 else
                     if ($collection = 'institutions') then
                         (<th>Name</th>,
                                     <th>Mss</th>,
-                                <th>geonames</th>,
+                                <th>wikidata</th>,
                                     <th>geoJson</th>)
                     else
                         if ($collection = 'persons') then
                             (<th>Name</th>,
+                                        <th>Wikidata</th>,
                                         <th>Gender</th>,
                                         <th>Occupation</th>)
                         else
@@ -220,6 +220,7 @@ else
                                             <th>Manuscript Parts</th>,
                                             <th>Hands</th>,
                                             <th>Script</th>,
+                                      <th data-hint="select the manuscripts you want to compare and click the button above to go to the comparison view.">Compare</th>,
                                             <th>Text</th>)
         }
                             <th>Dated</th>
@@ -239,7 +240,6 @@ else
                                     }
                                     </tbody>
                 </table>
-    
 };
 
 
@@ -314,7 +314,7 @@ if ($list = 'works') then (
             href="/{$list}/{$itemid}/main">{if(ends-with($itemid, 'IHA'))  then ('IslHornAfr ' || substring($itemid, 4, 4)) else ('CAe ' || substring($itemid, 4, 4))}</a>
             {app:clavisIds($item)}
             </td>)
-            else if ( starts-with($list, 'bm:'))then (
+            else if ( matches($list, '\w+\d+\w+'))then (
 (: link to main view from catalogues :)
 <td><a
             href="/manuscripts/{$itemid}/main">{$itemtitle}</a>
@@ -402,7 +402,7 @@ if ($list = 'works') then (
             </ul>
         </td>)
     else
-        if ($list = 'manuscripts' or starts-with($list, 'INS')  or starts-with($list, 'bm:')) then
+        if ($list = 'manuscripts' or starts-with($list, 'INS')  or matches($list, '\w+\d+\w+')) then
         
 (:      images  msitemsm msparts, hands, script:)
             (<td>{let $idnos := for $shelfmark in $item//t:msIdentifier//t:idno return $shelfmark/text() return string-join($idnos, ', ')}
@@ -433,14 +433,25 @@ if ($list = 'works') then (
                         1
                     else
                         count($item//t:msPart)
+                }{
+                    if ($item//t:collation[descendant::t:item]) then
+                        ' with collation'
+                    else
+                        ()
                 }</td>,
             <td>{count($item//t:handNote)}</td>,
-            <td>{distinct-values(data($item//@script))}</td>
+            <td>{distinct-values(data($item//@script))}</td>,
+<td><input type="checkbox" class="form-control compareSelected" data-value="{$itemid}"/></td>
             )
         else
             if ($list = 'persons') then
 (:            gender:)
                 (
+                <td>{let $wd :=string($item//t:person/@sameAs)
+                return
+                <a
+                    href="{('https://www.wikidata.org/wiki/'||$wd)}"
+                    target="_blank">{$wd}</a>}</td>,
                 <td>{
                     switch (data($item//t:person/@sex))
                             case "1"
@@ -474,12 +485,12 @@ if ($list = 'works') then (
 if ($list = 'places' or $list = 'institutions') then
 (:geojson:)
     (<td>{
-    let $geonames := substring-after($item//t:place/@sameAs, 'gn:')
+    let $wd := string($item//t:place/@sameAs)
     return
-            if ($geonames) then
+            if ($wd) then
                 <a
-                    href="{('http://www.geonames.org/'||$geonames)}"
-                    target="_blank">{$geonames}</a>
+                    href="{('https://www.wikidata.org/wiki/'||$wd)}"
+                    target="_blank">{$wd}</a>
             else
                 ()
         }</td>,
@@ -493,7 +504,7 @@ if ($list = 'places' or $list = 'institutions') then
                 ()
         }</td>)
 else
-    if ($list = 'works' or $list = 'manuscripts' or starts-with($list, 'INS') or starts-with($list, 'bm:') or $list = 'narratives') then
+    if ($list = 'works' or $list = 'manuscripts' or starts-with($list, 'INS') or matches($list, '\w+\d+\w+') or $list = 'narratives') then
   
 (:    text:)
         <td>
@@ -592,8 +603,8 @@ if(contains(sm:get-user-groups(xmldb:get-current-user()), 'Editors')) then (
 };
 
 (:~determins what the selectors for various form controls will look like, is called by app:formcontrol() :)
-declare function app:selectors($nodeName, $nodes, $type){
-<select multiple="multiple" name="{$nodeName}" id="{$nodeName}" class="form-control">
+declare function app:selectors($nodeName, $path, $nodes, $type, $context){
+             <select multiple="multiple" name="{$nodeName}" id="{$nodeName}" class="form-control">
             {
             
             if ($type = 'keywords') then (
@@ -611,7 +622,7 @@ declare function app:selectors($nodeName, $nodes, $type){
                     let $title :=titles:printTitleMainID($id)
                    
                     let $facet := try{
-                        collection('/db/apps/BetMas')/$app:range-lookup($rangeindexname, $id, function($key, $count){$count[2]}, 100)} catch*{console:log($err:code || $err:description)}
+                        $path/$app:range-lookup($rangeindexname, $id, function($key, $count){$count[2]}, 100)} catch*{($err:code || $err:description)}
                     let $fac := if($facet[1] ge 1) then $facet[1] else '0'
                     return
                        <option value="{$id}">{($title[1] ||' (' || $fac  ||')')}</option>
@@ -630,12 +641,11 @@ declare function app:selectors($nodeName, $nodes, $type){
                      then (
                     
                  for $n in $nodes[. != ''][. != ' ']
-                        let $item := if (contains($n, '#')) then (substring-before($n, '#'))  else $n
-                       let $title :=  collection($config:data-root)//id($item)//t:titleStmt/t:title[1]
-                            order by $title 
+                          let $title :=  titles:printTitleID($n)
+                            order by $title[1] 
                              return
             
-                             <option value="{$n}">{titles:printTitleID($item)}</option>
+                             <option value="{$n}">{normalize-space(string-join($title))}</option>
                         )
              else if ($type = 'hierels')
              then (
@@ -650,7 +660,7 @@ declare function app:selectors($nodeName, $nodes, $type){
                                         else $work} 
 (:                                        this has to stay because optgroup requires label and this cannot be computed from the javascript as in other places:)
                                     catch* {
-                                        console:log('while trying to create a list for the filter ' ||$nodeName || ' I got '|| $err:code ||': '||$err:description || ' about ' || $work), 
+                                        ('while trying to create a list for the filter ' ||$nodeName || ' I got '|| $err:code ||': '||$err:description || ' about ' || $work), 
                                          $work}
                                 return
                                 if (count($n) = 1)
@@ -685,23 +695,35 @@ declare function app:selectors($nodeName, $nodes, $type){
                          return
                              <option value="{string($key)}">{switch($key) case '1' return 'Male' default return 'Female'}</option>
                         )
-            else(for $n in $nodes[. != ''][. != ' ']
+            else(
+            (: type is values :)
+            for $n in $nodes[. != ''][. != ' ']
                 let $thiskey := replace(functx:trim($n), '_', ' ')
-                let $rangeindexname := switch($nodeName) 
-                case 'relType' return 'relname' 
-                case 'language' return 'TEIlanguageIdent' 
-                case 'material' return 'materialkey' 
-                case 'bmaterial' return 'materialkey'
-                case 'support' return 'form' 
-                default return 'termkey'
+                let $title := if($nodeName = 'keyword' or $nodeName = "placetype"or $nodeName = "country"or $nodeName = "settlement") then titles:printTitleID($thiskey) else $thiskey
+                let $rangeindexname := 
+                                        switch($nodeName) 
+                                        case 'relType' return 'relname' 
+                                        case 'language' return 'TEIlanguageIdent' 
+                                        case 'material' return 'materialkey' 
+                                        case 'bmaterial' return 'materialkey'
+                                         case 'placetype' return 'placetype' 
+                                         case 'country' return 'countryref' 
+                                         case 'settlement' return 'settlref' 
+                                         case 'occupation' return 'occtype' 
+                                         case 'faith' return 'faithtype' 
+                                         case 'objectType' return 'form' 
+                                         default return 'termkey'
                  let $facet := if($nodeName = 'script') then (
-$app:util-index-lookup(collection($config:data-root)//@script, $thiskey, function($key, $count) {$count[2]}, 100, 'lucene-index' )) 
-else collection('/db/apps/BetMas')/$app:range-lookup($rangeindexname, $thiskey, function($key, $count) {$count[2]}, 100)
-                           
+                                                             let $ctx := util:eval($context)
+                                                                return
+                                                                       $app:util-index-lookup($ctx//@script, lower-case($thiskey), function($key, $count) {$count[2]}, 100, 'lucene-index' )) 
+                                            else (
+                                            util:eval($context)/$app:range-lookup($rangeindexname, $thiskey, function($key, $count) {$count[2]}, 100)
+                                            )
                 order by $n
                 return
                 
-            <option value="{$thiskey}">{if($thiskey = 'Printedbook') then 'Printed Book' else $thiskey} {(' ('||$facet[1]||')')}</option>
+            <option value="{$thiskey}">{if($thiskey = 'Printedbook') then 'Printed Book' else $title} {(' ('||$facet[1]||')')}</option>
             )
             }
         </select>
@@ -712,156 +734,39 @@ else collection('/db/apps/BetMas')/$app:range-lookup($rangeindexname, $thiskey, 
  : retold from user perspective the initial form in as.html uses the controller template model with the template search.html, which calls 
  : a javascirpt filters.js which on click loads with AJAX the selected form*.html file. 
  : Each of these contains a call to a function app:NAMEofTHEform which will call app:formcontrol which will call app:selectors:)
-declare function app:formcontrol($nodeName as xs:string, $path, $group, $type) {
+declare function app:formcontrol($nodeName as xs:string, $path, $group, $type, $context) {
 
         
 
-if ($group = 'true') then ( 
-
-let $values := for $i in $path return  if (contains($i, ' ')) then tokenize($i, ' ') else if ($i=' ' or $i='' ) then () else functx:trim(normalize-space($i))
-                    let $nodes := distinct-values($values)
-                    
-                    return <div class="form-group">
+if ($group = 'true') 
+then ( 
+      let $values := for $i in $path return  if (contains($i, ' ')) then tokenize($i, ' ') else if ($i=' ' or $i='' ) then () else functx:trim(normalize-space($i))
+      let $nodes := distinct-values($values)
+      return 
+       <div class="form-group">
                     <label for="{$nodeName}">{$nodeName}s <span class="badge">{count($nodes[. != ''][. != ' '])}</span></label>
-                    {
-                  
-   app:selectors($nodeName, $nodes, $type)     
-   
-        }
-     </div>)
-                else (
-                
-                let $nodes := for $node in $path return $node
+                    {app:selectors($nodeName, $path, $nodes, $type, $context) }
+      </div>
+      )
+else (
+         let $nodes := for $node in $path return $node
             return
-       app:selectors($nodeName, $nodes, $type)   
-       
-                )
+       app:selectors($nodeName, $path, $nodes, $type, $context)   
+       )
 };
 
 
-(:~the filters available in the list view of each collection:)
-declare function app:listFilter($node as node()*, $model as map(*)) {
-let $items-info := $model('hits')
-let $onchange := 'if (this.value) window.location.href=this.value'
-return
-<div class="form-group">
-<div class="input-group">
-<input placeholder="go to..." class="form-control" id="GoTo" list="hits" onchange="{$onchange}" autocomplete="on"/>
-<datalist xmlns="http://www.w3.org/1999/xhtml"  id="hits" class="hidden">
-        
-            {for $hit in $items-info
-            return
-            <option value="{$hit/@id}">{$hit/text()}</option>
-            }
-            </datalist><div class="input-group-btn">
-<button type="submit" class="btn btn-primary"> Go
-                    </button>
-                    </div>
-                    </div>
-
-<form action="" class="form form-horizontal">
-
-{if ($app:collection = 'persons') then (
-app:formcontrol('occupation', $items-info//@occupation, 'true', 'values'),
-app:formcontrol('role', $items-info//@role, 'true', 'values'),
-app:formcontrol('gender', $items-info//@gender, 'true', 'sex')
-)
-
-else if ($app:collection = 'works' or $app:collection = 'narratives') then (
-app:formcontrol('keyword', $items-info//@keyword, 'true', 'titles'),
-                app:formcontrol('language', $items-info//@language, 'true', 'values'),
-                app:formcontrol('author', $items-info//@author, 'true', 'rels'),
-                app:formcontrol('ms', $items-info//@witness, 'true', 'hierels')
-
-)
-
-else if ($app:collection = 'places' or $app:collection = 'institutions') then (
-app:formcontrol('placeType', $items-info//@placeType, 'true', 'values'),
-app:formcontrol('tabot', $items-info//@tabot, 'true', 'rels'),
-<div class="form-group">
-<div class="input-group">
-
-<input type="checkbox" name="geonames" value="gn">with geonames id</input>
-</div>
-</div>
-                
-)
-
-(:manuscripts:)
-                else (
-                app:formcontrol('institution', $items-info//@institution, 'true', 'institutions'),
-                app:formcontrol('script', $items-info//@script, 'true', 'values'),
-                app:formcontrol('language', $items-info//@language, 'true', 'values'),
-                app:formcontrol('support', $items-info//@support, 'true', 'values'),
-                app:formcontrol('material', $items-info//@material, 'true', 'values'), 
-                app:formcontrol('keyword', $items-info//@keyword, 'true', 'titles'),   
-                app:formcontrol('scribe', $items-info//@scribe, 'true', 'rels'),
-                app:formcontrol('donor', $items-info//@donor, 'true', 'rels'),
-                app:formcontrol('patron', $items-info//@patron, 'true', 'rels'),
-                app:formcontrol('content', $items-info//@content, 'true', 'hierels'), <div class="form-group">
-            <label for="folia">Number of leaves</label>
-            <div class="input-group">
-                
-             <input id="folia"  type="text" class="span2" 
-                                name="folia" 
-                                data-slider-min="1.0" 
-                                data-slider-max="1000.0" 
-                                data-slider-step="1.0" 
-                                data-slider-value="[1,1000]"/>
-                            <script type="text/javascript">
-                                {"$('#folia').bootstrapSlider({});"}
-                            </script>
-<!--                            at 6 February the maximum number of leaves is 604-->
-                            </div>
-                    </div>,
-                    <div class="form-group">
-            <label for="wL">Number of written lines</label>
-            <div class="input-group">
-                
-                            <input id="writtenLines" type="text" class="span2" 
-                                name="wL" 
-                                data-slider-min="1" 
-                                data-slider-max="100" 
-                                data-slider-step="1" 
-                                data-slider-value="[1,100]"/>
-                            <script type="text/javascript">
-                                {"$('#writtenLines').bootstrapSlider({});"}
-                            </script>
-                            </div>
-                            </div>
-                
-              )  
-                }
-                <div class="form-group"><label for="dates">date range</label><div class="input-group">
-                
-                <input id="dates" type="text" class="span2" 
-                name="dateRange" 
-                data-slider-min="0" 
-                data-slider-max="2000" 
-                data-slider-step="10" 
-                data-slider-value="[0,2000]"/>
-                <script type="text/javascript">
-                {"$('#dates').bootstrapSlider({});"}
-                </script>
-            </div>
-            </div>
-            
-                <button type="submit" class="btn btn-primary"> Filter
-                    </button>
-                    <a href="/{$app:collection}" role="button" class="btn btn-info">Full list</a>
-</form>
-</div>
-};
 
 (:~the filters available in the search results view used by search.html:)
 declare function app:searchFilter($node as node()*, $model as map(*)) {
 let $items-info := $model('hits')
 let $q := $model('q')
+let $cont := $model('query')
 return
 
 <form action="" class="form form-horizontal">
-                {app:formcontrol('language', $items-info//@xml:lang, 'true', 'values'),
-                app:formcontrol('keyword', $items-info//t:term/@key, 'true', 'titles'),
+                {app:formcontrol('language', $items-info//@xml:lang, 'true', 'values', $cont),
+                app:formcontrol('keyword', $items-info//t:term/@key, 'true', 'titles', $cont),
                
                 <div class="form-group container">
                 <label for="dates">date range</label>
@@ -892,171 +797,47 @@ return
 declare function app:ListQueryParam($parameter, $context, $mode, $function){
 let $paralist := request:get-parameter-names()
 return
-if(exists($paralist)) then(
-let $allparamvalues := 
-if ($parameter = $paralist) 
-then (request:get-parameter($parameter, ())) else 'all'
-return
-    if ($allparamvalues = 'all') 
-    then () 
-    else (
-    if($parameter='xmlid') then (
-        if($allparamvalues = '') then () 
-    else if($allparamvalues != 'all') then
-    "[contains(@xml:id, '" ||$allparamvalues||"')]"
-    else ()
-    )
-    else
-        let $keys := 
-        if ($parameter = 'keyword')
-        then (
-        for $k in $allparamvalues 
+      if(exists($paralist)) 
+      then( 
+               let $allparamvalues := 
+                                     if ($parameter = $paralist) 
+                                     then (request:get-parameter($parameter, ())) 
+                                     else 'all'
+                return
+                       if ($allparamvalues = 'all') then () 
+                       else ( 
+                                if($parameter='xmlid') then (
+                                            if($allparamvalues = '') then () 
+                                            else if($allparamvalues != 'all') then "[contains(@xml:id, '" ||$allparamvalues||"')]" 
+                                            else ())
+                                else
+                                      let $keys :=  if ($parameter = 'keyword')  then (
+                                                                        for $k in $allparamvalues 
+                                                                        let $ks := doc($config:data-rootA || '/taxonomy.xml')//t:catDesc[text() = $k]/following-sibling::t:*/t:catDesc/text() 
+                                                                         let $nestedCats := for $n in $ks return $n 
+                                                                           return 
+                                                                            if ($nestedCats >= 2) then (replace($k, '#', ' ') || ' OR ' || string-join($nestedCats, ' OR ')) else (replace($k, '#', ' ')))
+                                                             else(
+                                                                         for $k in $allparamvalues 
+                                                                          return 
+                                                                          replace($k, '#', ' ') )
+                                        return 
+                                                if ($function = 'list')  then "[ft:query(" || $context || ", '" || string-join($keys, ' ') ||"')]"
+                                                 else  
+                                                         let $limit := for $k in $allparamvalues  
+                                                                              return 
+                                                                             if($parameter = 'author')
+                                                                             then "descendant::" || $context || "='" || $k ||"' or  descendant::t:relation[@name='dcterms:creator']/@passive ='"|| $k ||"'"
+                                                                           else if($parameter = 'tabot')
+                                                                             then 
+                                                                             "descendant::t:ab[@type='tabot'][descendant::t:persName[contains(@ref, '"||$k||"')] or descendant::t:ref[contains(@corresp, '"||$k||"')]]"
+                                                                            
+                                                                            else 
+                                                                                         let $c := if(starts-with($context, '@')) then () else "descendant::"
+                                                                                         return $c || $context || "='" || replace($k, ' ', '_') ||"' "
       
-        let $ks := doc($config:data-rootA || '/taxonomy.xml')//t:catDesc[text() = $k]/following-sibling::t:*/t:catDesc/text() 
-        let $nestedCats := for $n in $ks return $n 
-            return 
-            if ($nestedCats >= 2) then (replace($k, '#', ' ') || ' OR ' || string-join($nestedCats, ' OR ')) else (replace($k, '#', ' '))
-        )
-        else(
-            for $k in $allparamvalues 
-            return 
-            replace($k, '#', ' ') 
-            )
-            
-       return 
-       if ($function = 'list')
-       then
-       "[ft:query(" || $context || ", '" || string-join($keys, ' ') ||"')]"
-       else 
-       (:search:)
-       let $limit := for $k in $allparamvalues 
-            return 
-            if($parameter = 'author')
-            then "descendant::" || $context || "='" || $k ||"' or  descendant::t:relation[@name='dcterms:creator']/@passive ='"|| $k ||"'"
-            else
-            let $c := if(starts-with($context, '@')) then () else "descendant::"
-            return
-       $c || $context || "='" || replace($k, ' ', '_') ||"' "
-       return
-       "[" || string-join($limit, ' or ') || "]"
-       
-       )
-       )
-       
-       else ()
-};
-
-(:~calls app:listQueryParam on each parameter of the query to build a full xpath query to be evaluated:)
-declare function app:items($collection as xs:string?) {    
-let $script := app:ListQueryParam('script', './/@script', 'any', 'list')
-let $supp := app:ListQueryParam('support', './/t:objectDesc/@form', 'any', 'list')
-let $repos := app:ListQueryParam('institution', './/t:repository/@ref', 'any', 'list')
-let $mat := app:ListQueryParam('material', './/t:support/t:material/@key', 'any', 'list')
-let $occ := app:ListQueryParam('occupation', './/t:occupation', 'all', 'list')
-let $roles := app:ListQueryParam('role', './/t:roleName', 'any', 'list')
-let $placeTypes := app:ListQueryParam('placeType', './/t:place/@type', 'any', 'list')
-let $key := app:ListQueryParam('keyword', './/t:term/@key', 'any', 'list')
-let $languages := app:ListQueryParam('language', './/t:language', 'any', 'list')
-let $scribes := app:ListQueryParam('scribe', ".//t:persName[@role='scribe']/@ref", 'any', 'list')
-let $donors := app:ListQueryParam('donor', ".//t:persName[@role='donor']/@ref", 'any', 'list')
-let $patrons := app:ListQueryParam('patron', ".//t:persName[@role='patron']/@ref", 'any', 'list')
-let $contents := app:ListQueryParam('content', ".//t:title/@ref", 'any', 'list')
-let $mss := app:ListQueryParam('ms', ".//t:witness/@corresp", 'any', 'list')
-let $authors := app:ListQueryParam('author', ".//t:relation[@name='saws:isAttributedToAuthor']/@passive", 'any', 'list')
-let $authorsCertain := app:ListQueryParam('author', ".//t:relation[@name='dcterms:creator']/@passive", 'any', 'list')
-let $tabots := app:ListQueryParam('tabot', ".//t:ab[@type='tabot']/t:persName/@ref", 'any', 'list')
-let $genders := if (contains(request:get-parameter-names(), 'gender')) then '[.//t:person/@sex ='  ||request:get-parameter('gender', ()) || ' ]' else ()
-let $geoname := if (contains(request:get-parameter-names(), 'geonames')) then '[.//t:place/@sameAs]' else ()
-let $leaves :=  if (contains(request:get-parameter-names(), 'folia')) 
-                then (
-                let $range := request:get-parameter('folia', ())
-                let $min := substring-before($range, ',') 
-                let $max := substring-after($range, ',') 
-                return
-                if ($range = '1,1000')
-                then ()
-                else if (empty($range))
-                then ()
-                else
-                "[ancestor::t:TEI//t:extent/t:measure[@unit='leaf'][not(@type)][number(.) >="||$min|| ' and number(.)  <= ' || $max ||"]]"
-               ) else ()
-let $wL :=  if (contains(request:get-parameter-names(), 'wL')) 
-                then (
-                let $range := request:get-parameter('wL', ())
-                let $min := substring-before($range, ',') 
-                let $max := substring-after($range, ',') 
-                return
-                if ($range = '1,100')
-                then ()
-                else if (empty($range))
-                then ()
-                else
-                "[ancestor::t:TEI//@writtenLines[number(.) >="||$min|| ' and number(.)  <= ' || $max ||"]]"
-               ) else ()
-let $dateRange := 
-                if (contains(request:get-parameter-names(), 'dateRange')) 
-                then (
-                let $range := request:get-parameter('dateRange', ())
-                let $from := substring-before($range, ',') 
-                let $to := substring-after($range, ',') 
-                return
-                if ($range = '0,2000')
-                then ()
-                else
-                "[.//t:*[(if 
-(contains(@notBefore, '-')) 
-then (substring-before(@notBefore, '-')) 
-else @notBefore)[. !=''][. >= " || $from || ' and .  <= ' || $to || "] 
-
-or 
-(if (contains(@notAfter, '-')) 
-then (substring-before(@notAfter, '-')) 
-else @notAfter)[. !=''][. >= " || $from || ' and .  <= ' || $to || '] 
-
-]
-]' ) else ()
-            
-    let $itemType := switch ($collection)
-     case 'manuscripts' return 'mss'
-         case 'works' return 'work'
-         case 'narratives' return 'nar'
-         case 'places' return 'place'
-         case 'institutions' return 'ins'
-         case 'persons' return 'pers'
-         case 'authority-files' return 'auth'
-         default return 'all'
-   let $path := concat("collection('", 
-         (if($collection = 'works') then $config:data-rootW 
-         else if($collection = 'persons') then $config:data-rootPr
-         else if($collection = 'institutions') then $config:data-rootIn
-         else if($collection = 'manuscripts') then $config:data-rootMS
-         else if($collection = 'narratives') then $config:data-rootN 
-         else if($collection = 'authority-files') then $config:data-rootA 
-         else if($collection = 'places') then $config:data-rootPl
-         else $config:data-root)
-         , "')//t:TEI", $repos, $script, $supp, $mat, $key, $occ, $roles, $placeTypes, $languages, $scribes, $donors, $patrons, $contents, $authors, $authorsCertain, $mss, $tabots, $genders, $dateRange, $geoname, $leaves, $wL)
-         
-let $hits :=
-            for $resource in util:eval($path)
-            let $root := root($resource)
-            let $numericid := if ($root[@type = 'mss']) then $resource else if ($root[@type = 'pers']) then $resource else substring($resource/@xml:id, 4, 4)
-            order by $numericid
-            return 
-            $resource
-                    
-
-let $store := ((:
-                session:set-attribute("apps.BetMas", $hits),
-                session:set-attribute("apps.BetMas.query", $collection),:)
-                console:log('appitems results returned by query on '|| $collection || ': ' || count($hits))
-            )
-
-return
-               map {'hits' : = $hits,
-               'collection' := $collection}
-                
-                
-
+                                                          return "[" || string-join($limit, ' or ') || "]")
+       ) else ()
 };
 
     
@@ -1080,23 +861,13 @@ declare function app:greetings($node as element(), $model as map(*)) as xs:strin
 
 (:~general count of contributions to the data:)
 declare function app:team ($node as node(), $model as map(*)) {
-for $changes in distinct-values(collection($config:data-root)//t:change/@who)
-order by $changes
-
-return
 <ul>{
-    for $change in $changes
-    let $changesBy := collection($config:data-root)//t:change/@who[ft:query(., string($change))]
-    let $fileschanged := for $changedfile in $changesBy
-                                                return
-                                                root($changedfile)//t:TEI/@xml:id
-    let $singlefileschanged  := distinct-values($fileschanged)                                          
-   
-   return
-   <li class="lead">{editors:editorKey($change)}  has <code>change</code>d <span class="badge">{count($changesBy)}</span> times <span class="badge">{count($singlefileschanged)}</span> files.  </li>
-    }
-</ul>
-
+    collection($config:data-root)/$app:range-lookup('changewho', (),
+        function($key, $count) {
+             <li class="lead">{editors:editorKey($key) || ' ('||$key||')' || ' made ' || $count[1] ||' changes in ' || $count[2]||' documents. '}<a href="/xpath?xpath=collection%28%27%2Fdb%2Fapps%2FBetMas%2Fdata%27%29%2F%2Ft%3Achange%5B%40who%3D%27{$key}%27%5D">See the changes.</a></li>
+        }, 1000)
+       }
+       </ul>
 };
 
 declare function functx:value-intersect  ( $arg1 as xs:anyAtomicType* ,    $arg2 as xs:anyAtomicType* )  as xs:anyAtomicType* {
@@ -1161,27 +932,36 @@ declare function app:elements($node as node(), $model as map(*)) {
 };
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
-declare function app:target-mss($node as node(), $model as map(*)) {
-    let $control :=
-        app:formcontrol('target-ms', collection($config:data-rootMS)//t:TEI, 'false', 'name')
+declare
+%templates:default("context", "collection($config:data-rootMS)")
+function app:target-mss($node as node(), $model as map(*), $context as xs:string*) {
+  let $cont := util:eval($context)
+      let $control :=
+        app:formcontrol('target-ms', $cont//t:TEI, 'false', 'name', $context)
         
     return
         templates:form-control($control, $model)
 };
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
-declare function app:target-works($node as node(), $model as map(*)) {
-    let $control :=
-    app:formcontrol('target-work', collection($config:data-rootW, $config:data-rootN)//t:TEI, 'false', 'name')
+declare
+%templates:default("context", "collection($config:data-rootW, $config:data-rootN)")
+function app:target-works($node as node(), $model as map(*), $context as xs:string*) {
+   let $cont := util:eval($context)
+     let $control :=
+    app:formcontrol('target-work', $cont//t:TEI, 'false', 'name', $context)
         
     return
         templates:form-control($control, $model)
 };
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
-declare function app:target-ins($node as node(), $model as map(*)) {
+declare
+%templates:default("context", "collection($config:data-rootIn)")
+function app:target-ins($node as node(), $model as map(*), $context as xs:string*) {
+   let $cont := util:eval($context)
     let $control :=
-    app:formcontrol('target-ins', collection($config:data-rootIn)//t:TEI, 'false', 'name')
+    app:formcontrol('target-ins', $cont//t:TEI, 'false', 'name', $context)
         
     return
         templates:form-control($control, $model)
@@ -1189,74 +969,81 @@ declare function app:target-ins($node as node(), $model as map(*)) {
 
 
 (:~ called by form*.html files used by advances search form as.html and filters.js MANUSCRIPTS FILTERS for CONTEXT:)
-declare function app:scripts($node as node(), $model as map(*)) {
-    let $scripts := distinct-values(collection($config:data-rootMS)//@script)
-    
-   let $control :=
-   app:formcontrol('script', $scripts, 'false', 'values')
-       
+declare 
+%templates:default("context", "collection($config:data-rootMS)")
+function app:scripts($node as node(), $model as map(*), $context as xs:string*) {
+    let $cont := util:eval($context)
+    let $scripts := distinct-values($cont//@script)
+    let $control := app:formcontrol('script', $scripts, 'false', 'values', $context)
     return
         templates:form-control($control, $model)
 };
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
-declare function app:support($node as node(), $model as map(*)) {
-    let $forms := distinct-values(collection($config:data-rootMS)//@form)
-    
-   let $control :=
-        app:formcontrol('support', $forms, 'false', 'values')
-    return
+declare 
+%templates:default("context", "collection($config:data-rootMS)")
+function app:support($node as node(), $model as map(*), $context as xs:string*) {
+     let $cont := util:eval($context)
+     let $forms := distinct-values($cont//@form)
+     let $control := app:formcontrol('support', $forms, 'false', 'values', $context)
+     return
         templates:form-control($control, $model)
 };
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
-declare function app:material($node as node(), $model as map(*)) {
-    let $materials := distinct-values(collection($config:data-rootMS)//t:support/t:material/@key)
-    
-   let $control :=
-         app:formcontrol('material', $materials, 'false', 'values')
-    return
+declare
+%templates:default("context", "collection($config:data-rootMS)")
+function app:material($node as node(), $model as map(*), $context as xs:string*) {
+      let $cont := util:eval($context)
+      let $materials := distinct-values($cont//t:support/t:material/@key)
+      let $control := app:formcontrol('material', $materials, 'false', 'values', $context)
+      return
         templates:form-control($control, $model)
 };
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
-declare function app:bmaterial($node as node(), $model as map(*)) {
-    let $bmaterials := distinct-values(collection($config:data-rootMS)//t:decoNote[@type='bindingMaterial']/t:material/@key)
+declare
+%templates:default("context", "collection($config:data-rootMS)") 
+function app:bmaterial($node as node(), $model as map(*), $context as xs:string*) {
+    let $cont := util:eval($context)
+      let $bmaterials := distinct-values($cont//t:decoNote[@type='bindingMaterial']/t:material/@key)
     
    let $control :=
-        app:formcontrol('bmaterial', $bmaterials, 'false', 'values')
+        app:formcontrol('bmaterial', $bmaterials, 'false', 'values', $context)
     return
         templates:form-control($control, $model)
 };
-
 
 
 (:~ called by form*.html files used by advances search form as.html and filters.js PLACES FILTERS for CONTEXT:)
-declare function app:placeType($node as node(), $model as map(*)) {
-    let $placeTypes := distinct-values(collection($config:data-rootPl,$config:data-rootIn)//t:place/@type/tokenize(., '\s+'))
-    
-   let $control :=
-        app:formcontrol('placeType', $placeTypes, 'false', 'values')
+declare
+%templates:default("context", "collection($config:data-rootPl,$config:data-rootIn)") 
+function app:placeType($node as node(), $model as map(*), $context as xs:string*) {
+      let $cont := util:eval($context)
+     let $placeTypes := distinct-values($cont//t:place/@type/tokenize(., '\s+'))
+    let $control := app:formcontrol('placeType', $placeTypes, 'false', 'values', $context)
     return
         templates:form-control($control, $model)
 };
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
-declare function app:personType($node as node(), $model as map(*)) {
-    let $persTypes := distinct-values(collection($config:data-rootPr)//t:person//t:occupation/@type/tokenize(., '\s+'))
-    
-   let $control :=
-        app:formcontrol('persType', $persTypes, 'false', 'values')
+declare
+%templates:default("context", "collection($config:data-rootPr)") 
+function app:personType($node as node(), $model as map(*), $context as xs:string*) {
+    let $cont := util:eval($context)
+      let $persTypes := distinct-values($cont//t:person//t:occupation/@type/tokenize(., '\s+'))
+    let $control := app:formcontrol('persType', $persTypes, 'false', 'values', $context)
     return
         templates:form-control($control, $model)
 };
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
-declare function app:relationType($node as node(), $model as map(*)) {
-    let $relTypes := distinct-values(collection($config:data-root)//t:relation/@name/tokenize(., '\s+'))
-    
-   let $control :=
-        app:formcontrol('relType', $relTypes, 'false', 'values')
+declare
+%templates:default("context", "collection($config:data-root)") 
+function app:relationType($node as node(), $model as map(*)) {
+    let $cont := util:eval($context)
+    let $relTypes := distinct-values($cont//t:relation/@name/tokenize(., '\s+'))
+    let $control :=app:formcontrol('relType', $relTypes, 'false', 'values', $context)
     return
         templates:form-control($control, $model)
 };
@@ -1264,133 +1051,145 @@ declare function app:relationType($node as node(), $model as map(*)) {
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
 declare function app:keywords($node as node(), $model as map(*)) {
     let $keywords := doc($config:data-rootA || '/taxonomy.xml')//t:taxonomy
-    
-   let $control :=
-   app:formcontrol('keyword', $keywords, 'false', 'keywords')
-       
+   let $control := app:formcontrol('keyword', $keywords, 'false', 'keywords', $context)
     return
         templates:form-control($control, $model)
 };
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
-declare function app:languages($node as node(), $model as map(*)) {
-    let $keywords := distinct-values(collection($config:data-rootMS)//t:language/@ident)
-    
-   let $control :=
-   app:formcontrol('language', $keywords, 'false', 'values')
-       
+declare
+%templates:default("context", "collection($config:data-rootMS)") 
+function app:languages($node as node(), $model as map(*), $context as xs:string*) {
+     let $cont := util:eval($context)
+     let $keywords := distinct-values($cont//t:language/@ident)
+     let $control := app:formcontrol('language', $keywords, 'false', 'values', $context)
+      return
+        templates:form-control($control, $model)
+};
+
+(:~ called by form*.html files used by advances search form as.html and filters.js :)
+declare
+%templates:default("context", "collection($config:data-rootMS)")  
+function app:scribes($node as node(), $model as map(*), $context as xs:string*) {
+     let $cont := util:eval($context)
+      let $elements := $cont//t:persName[@role='scribe'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
+    let $keywords := distinct-values($elements/@ref)
+    let $control := app:formcontrol('scribe', $keywords, 'false', 'rels', $context)
     return
         templates:form-control($control, $model)
 };
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
-declare function app:scribes($node as node(), $model as map(*)) {
-      let $keywords := distinct-values(collection($config:data-rootMS)//t:persName[@role='scribe']/@ref [not(.= 'PRS00000') and not(.= 'PRS0000')])
-    
-   let $control :=
-   app:formcontrol('scribe', $keywords, 'false', 'rels')
-       
+declare
+%templates:default("context", "collection($config:data-rootMS)")   
+function app:donors($node as node(), $model as map(*), $context as xs:string*) {
+     let $cont := util:eval($context)
+    let $elements := $cont//t:persName[@role='donor'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
+    let $keywords := distinct-values($elements/@ref)
+   let $control :=app:formcontrol('donor', $keywords, 'false', 'rels', $context)
     return
         templates:form-control($control, $model)
 };
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
-declare function app:donors($node as node(), $model as map(*)) {
-       let $keywords := distinct-values(collection($config:data-rootMS)//t:persName[@role='donor']/@ref [not(.= 'PRS00000') and not(.= 'PRS0000')])
-    
-   let $control :=
-   app:formcontrol('donor', $keywords, 'false', 'rels')
-       
+declare
+%templates:default("context", "collection($config:data-rootMS)")   
+function app:patrons($node as node(), $model as map(*), $context as xs:string*) {
+     let $cont := util:eval($context)
+      let $elements := $cont//t:persName[@role='patron'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
+    let $keywords := distinct-values($elements/@ref)
+  let $control :=app:formcontrol('patron', $keywords, 'false', 'rels', $context)
     return
         templates:form-control($control, $model)
 };
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
-declare function app:patrons($node as node(), $model as map(*)) {
-       let $keywords := distinct-values(collection($config:data-rootMS)//t:persName[@role='patron']/@ref [not(.= 'PRS00000') and not(.= 'PRS0000')])
-    
-   let $control :=
-   app:formcontrol('patron', $keywords, 'false', 'rels')
-       
+declare
+%templates:default("context", "collection($config:data-rootMS)")  
+function app:owners($node as node(), $model as map(*), $context as xs:string*) {
+      let $cont := util:eval($context)
+      let $elements := $cont//t:persName[@role='owner'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
+      let $keywords := distinct-values($elements/@ref)
+      let $control := app:formcontrol('owner', $keywords, 'false', 'rels', $context)
+      return
+        templates:form-control($control, $model)
+};
+
+(:~ called by form*.html files used by advances search form as.html and filters.js :)
+declare
+%templates:default("context", "collection($config:data-rootMS)") 
+function app:binders($node as node(), $model as map(*), $context as xs:string*) {
+      let $cont := util:eval($context)
+      let $elements := $cont//t:persName[@role='binder'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
+    let $keywords := distinct-values($elements/@ref)
+   let $control := app:formcontrol('binder', $keywords, 'false', 'rels', $context)
     return
         templates:form-control($control, $model)
 };
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
-declare function app:owners($node as node(), $model as map(*)) {
-    let $keywords := distinct-values(collection($config:data-rootMS)//t:persName[@role='owner']/@ref [not(.= 'PRS00000') and not(.= 'PRS0000')])
-    
-   let $control :=
-   app:formcontrol('owner', $keywords, 'false', 'rels')
-       
-    return
+declare
+%templates:default("context", "collection($config:data-rootMS)")
+function app:parmakers($node as node(), $model as map(*), $context as xs:string*) {
+    let $cont := util:eval($context)
+      let $elements := $cont//t:persName[@role='parchmentMaker'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
+    let $keywords := distinct-values($elements/@ref)
+    let $control := app:formcontrol('parchmentMaker', $keywords, 'false', 'rels', $context)
+       return
         templates:form-control($control, $model)
 };
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
-declare function app:binders($node as node(), $model as map(*)) {
-      let $keywords := distinct-values(collection($config:data-rootMS)//t:persName[@role='binder']/@ref [not(.= 'PRS00000') and not(.= 'PRS0000')])
-    
-   let $control :=
-   app:formcontrol('binder', $keywords, 'false', 'rels')
-       
-    return
-        templates:form-control($control, $model)
-};
-
-(:~ called by form*.html files used by advances search form as.html and filters.js :)
-declare function app:parmakers($node as node(), $model as map(*)) {
-    let $keywords := distinct-values(collection($config:data-rootMS)//t:persName[@role='parchmentMaker']/@ref [not(.= 'PRS00000') and not(.= 'PRS0000')])
-    
-   let $control :=
-   app:formcontrol('parchmentMaker', $keywords, 'false', 'rels')
-       
-    return
-        templates:form-control($control, $model)
-};
-
-(:~ called by form*.html files used by advances search form as.html and filters.js :)
-declare function app:contents($node as node(), $model as map(*)) {
-    let $keywords := distinct-values(collection($config:data-rootMS)//t:msItem[not(contains(@xml:id, '.'))]/t:title/@ref)
+declare
+%templates:default("context", "collection($config:data-rootMS)")
+function app:contents($node as node(), $model as map(*), $context as xs:string*) {
+    let $cont := util:eval($context)
+    let $elements :=$cont//t:msItem[not(contains(@xml:id, '.'))]
+    let $titles := $elements/t:title/@ref
+    let $keywords := distinct-values($titles)
   return
-   app:formcontrol('content', $keywords, 'false', 'hierels')
-   
+   app:formcontrol('content', $keywords, 'false', 'hierels', $context)
 };
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
-declare function app:mss($node as node(), $model as map(*)) {
-    let $keywords := for $r in collection($config:data-rootW)//t:witness/@corresp return string($r)|| ' '
-    
+declare
+%templates:default("context", "collection($config:data-rootW)")
+function app:mss($node as node(), $model as map(*), $context as xs:string*) {
+    let $cont := util:eval($context)
+    let $keywords := for $r in $cont//t:witness/@corresp return string($r)|| ' '
    return
-   app:formcontrol('ms', $keywords, 'false', 'hierels')
-       
+   app:formcontrol('ms', $keywords, 'false', 'hierels', $context)
 };
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
-declare function app:WorkAuthors($node as node(), $model as map(*)) {
-let $works := collection($config:data-rootW)
+declare
+%templates:default("context", "collection($config:data-rootW)")
+function app:WorkAuthors($node as node(), $model as map(*), $context as xs:string*) {
+let $works := util:eval($context)
 let $attributions := for $rel in ($works//t:relation[@name="saws:isAttributedToAuthor"], $works//t:relation[@name="dcterms:creator"])
 let $r := $rel/@passive
                 return 
                 if (contains($r, ' ')) then tokenize($r, ' ') else $r  
-
 let $keywords := distinct-values($attributions)
   return
-   app:formcontrol('author', $keywords, 'false', 'rels')
-   
+   app:formcontrol('author', $keywords, 'false', 'rels', $context)
 };
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
-declare function app:tabots($node as node(), $model as map(*)) {
-    let $keywords := distinct-values(collection($config:data-rootPl, $config:data-rootIn)//t:ab[@type='tabot']/t:persName/@ref)
+declare
+%templates:default("context", "collection($config:data-rootW)") 
+function app:tabots($node as node(), $model as map(*), $context as xs:string*) {
+let $cont := util:eval($context)
+let $tabots:= $cont//t:ab[@type='tabot']
+    let $personTabot := distinct-values($tabots//t:persName/@ref) 
+    let $thingsTabot := distinct-values($tabots//t:ref/@corresp)
+    let $alltabots := ($personTabot, $thingsTabot)
   return
-   app:formcontrol('tabot', $keywords, 'false', 'rels')
-   
+   app:formcontrol('tabot', $alltabots, 'false', 'rels', $context)
 };
 
 
 (:~ called by form*.html files used by advances search form as.html and filters.js IDS, TITLES, PERSNAMES, PLACENAMES, provide lists with guessing based on typing. the list must suggest a name but search for an ID:)
-
 declare function app:BuildSearchQuery($element as xs:string, $query as xs:string){
 let $SearchOptions :=
     <options>
@@ -1452,7 +1251,7 @@ declare function app:paramrange($par, $path as xs:string){
                 else if ($rangeparam = '')
                 then ()
                 else
-    ("[descendant::t:"||$path||"[. <=" || $from ||' ][ .  <= ' || $to || "]]")
+    ("[descendant::t:"||$path||"[. >=" || $from ||' ][ .  <= ' || $to || "]]")
     
     };
 
@@ -1467,7 +1266,7 @@ declare
     %templates:default("target-ms", "all")
     %templates:default("target-work", "all")
 %templates:default("numberOfParts", "")
-    %templates:default("element",  "placeName", "title", "persName", "ab", "floruit", "p", "note", "idno")
+    %templates:default("element",  "placeName", "title", "persName", "ab", "floruit", "p", "note", "idno", "incipit", "explicit")
 function app:query(
 $node as node()*, 
 $model as map(*), 
@@ -1507,7 +1306,7 @@ let $contents := app:ListQueryParam('content', "t:title/@ref", 'any', 'search')
 let $wits := app:ListQueryParam('ms', "t:witness/@corresp", 'any', 'search')
 let $authors := app:ListQueryParam('author', "t:relation[@name='saws:isAttributedToAuthor']/@passive", 'any', 'search')
 (:let $authorsCertain := app:ListQueryParam('author', "t:relation[@name='dcterms:creator']/@passive", 'any', 'search'):)
-let $tabots := app:ListQueryParam('tabot', "t:ab[@type='tabot']/t:persName/@ref", 'any', 'search')
+let $tabots := app:ListQueryParam('tabot', "t:ab[@type='tabot']/t:*/(@ref|@corresp)", 'any', 'search')
 let $references := if (contains($parameterslist, 'references')) then let $refs := for $ref in tokenize(request:get-parameter('references', ()), ',') return "[descendant::t:*/@*[not(name()='xml:id')] ='"  ||$ref || "' ]" return string-join($refs, '') else ()
 let $genders := if (contains($parameterslist, 'gender')) then '[descendant::t:person/@sex ='  ||request:get-parameter('gender', ()) || ' ]' else ()
 let $leaves :=  if (contains($parameterslist, 'folia')) 
@@ -1529,18 +1328,33 @@ let $wL :=  if (contains($parameterslist, 'wL'))
                 let $min := substring-before($range, ',') 
                 let $max := substring-after($range, ',') 
                 return
-                if ($range = '1,100')
+                if ($range = '1,1000')
                 then ()
                 else if (empty($range))
                 then ()
                 else
                 "[descendant::t:layout[@writtenLines >="||$min|| '][@writtenLines  <= ' || $max ||"]]"
                ) else ()
-let $quires :=  if (contains(request:get-parameter-names(), 'qn')) 
-                then (app:paramrange('qn', "extent/t:measure[@unit='quire'][not(@type)]")
+let $quires :=  if (contains($parameterslist, 'qn')) 
+                then (
+                let $range := request:get-parameter('qn', ())
+                return
+                 if ($range = '1,100')
+                then ()
+                else
+                app:paramrange('qn', "extent/t:measure[@unit='quire'][not(@type)]")
+               ) else ()
+let $quiresComp :=  if (contains($parameterslist, 'qcn')) 
+                then (
+                let $range := request:get-parameter('qcn', ())
+                return
+                 if ($range = '1,40')
+                then ()
+                else
+                app:paramrange('qcn', "collation//t:dim[@unit='leaf']")
                ) else ()
 let $dateRange := 
-                if (contains(request:get-parameter-names(), 'dateRange')) 
+                if (contains($parameterslist, 'dataRange')) 
                 then (
                 let $range := request:get-parameter('dateRange', ())
                 let $from := substring-before($range, ',') 
@@ -1580,7 +1394,13 @@ let $eachworktype := for $wtype in request:get-parameter('work-types', ())
         
 let $wt := if(contains($parameterslist, 'work-types')) then "[" || string-join($eachworktype, ' or ') || "]" else ()
 let $nOfP := if(empty($numberOfParts) or $numberOfParts = '') then () else '[count(descendant::t:msPart) ge ' || $numberOfParts || ']'
-         
+
+
+let $allfilters := concat($IDpart, $wt, $repository, $mss, $texts, $script, $support, 
+             $material, $bmaterial, $placeType, $personType, $relationType, 
+             $keyword, $languages, $scribes, $donors, $patrons, $owners, $parchmentMakers, 
+             $binders, $contents, $authors, $tabots, $genders, $dateRange, $leaves, $wL,  $quires, $quiresComp,
+             $references, $height, $width, $depth, $marginTop, $marginBot, $marginL, $marginR, $marginIntercolumn)
          
 (:         the evalutaion of the entire string for the query makes it impossible to use range indexes in a proper way,
 the same for the elements evaluated with the OR operator in one argument for the path.
@@ -1594,7 +1414,9 @@ let $queryExpr := $query-string
     return
         if (empty($queryExpr) or $queryExpr = "") then
           (if(empty($parameterslist)) then () else ( let $hits := 
-             let $path := concat("collection('",$config:data-root,"')//t:TEI", $IDpart, $wt, $repository, $mss, $texts, $script, $support, $material, $bmaterial, $placeType, $personType, $relationType, $keyword, $languages, $scribes, $donors, $patrons, $owners, $parchmentMakers, $binders, $contents, $authors, $tabots, $genders, $dateRange, $leaves, $wL, $references, $height, $width, $depth, $marginTop, $marginBot, $marginL, $marginR, $marginIntercolumn, $nOfP)
+             let $path := 
+             concat("collection('",$config:data-root,"')//t:TEI", 
+             $allfilters, $nOfP)
              return
                    for $hit in util:eval($path)
                    return $hit
@@ -1616,7 +1438,7 @@ let $queryExpr := $query-string
                    app:BuildSearchQuery($e, $query-string)
                    
                    let $allels := string-join($elements, ' or ')
-                   let $path:=    concat("collection('",$config:data-root,"')//t:TEI[",$allels, "]", $IDpart, $wt, $repository, $mss, $texts, $script, $support, $material, $bmaterial, $placeType, $personType, $relationType, $keyword, $languages, $scribes, $donors, $patrons, $owners, $parchmentMakers, $binders, $contents, $authors, $tabots, $genders, $dateRange, $leaves, $wL, $references, $height, $width, $depth, $marginTop, $marginBot, $marginL, $marginR, $marginIntercolumn)
+                   let $path:=    concat("collection('",$config:data-root,"')//t:TEI[",$allels, "]", $allfilters)
                    let $logpath := log:add-log-message($path, xmldb:get-current-user(), 'XPath')  
                    for $hit in util:eval($path)
                     order by ft:score($hit) descending
@@ -1630,12 +1452,12 @@ let $queryExpr := $query-string
             )
             return
                 (: Process nested templates :)
-                (map {
+                map {
                     "hits" := $hits,
                     "q" := $query,
                     "type" := 'matches',
                     "query" := $queryExpr
-                }, console:log('Initial query: ' || $query ||'; Requested query passed to lucene: '|| $queryExpr))
+                }
 };
 
 
@@ -1834,11 +1656,12 @@ declare function app:switchcol($type as xs:string){
     
     switch($type)
         case 'work' return 'works'
-        case 'narr' return 'narratives'
+        case 'nar' return 'narratives'
         case 'pers' return 'persons'
         case 'place' return 'places'
         case 'ins' return 'institutions'
         case 'auth' return 'authority-files'
+        case 'traces' return 'traces'
         default return 'manuscripts'
     
 };

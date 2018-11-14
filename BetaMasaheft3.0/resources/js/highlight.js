@@ -60,9 +60,9 @@ $('.word').each(function () {
         }
 /*        if it is the last word in the span, then add it straight, if it is somewhere else in the span sequence, then add back a white space*/
        if (i == countwords - 1) {
-            $(word).append($("<a target='_blank' href='" + url + parm + nostops.w + "'/>").text(nostops.w + nostops.stop));
+            $(word).append($("<span class='alpheios-word'/>").text(nostops.w + nostops.stop));
         } else {
-            $(word).append($("<a target='_blank' href='" + url + parm + nostops.w + "'/>").text(nostops.w + nostops.stop + ' '));
+            $(word).append($("<span class='alpheios-word'/>").text(nostops.w + nostops.stop + ' '));
         }
     });
 });

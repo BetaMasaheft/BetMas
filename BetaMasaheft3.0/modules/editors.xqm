@@ -6,7 +6,6 @@ xquery version "3.1" encoding "UTF-8";
  : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
  :)
 module namespace editors = "https://www.betamasaheft.uni-hamburg.de/BetMas/editors";
-import module namespace console = "http://exist-db.org/xquery/console";
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 
 (:~gets the name of the editor given the initials:)
@@ -51,6 +50,14 @@ switch ($key)
                         case 'AG' return 'Alessandro Gori'
                         case 'SJ' return 'Sibylla Jenner'
                         case 'AWi' return 'Anaïs Wion'
+                        case 'ABr' return 'Antonella Brita'
+                                case 'SD' return 'Steve Delamarter'
+                                case 'RL' return 'Ralph Lee'
+                                case 'JS' return 'Jonah Sandford'
+                                case 'CH' return 'Carsten Hoffmann'
+                                case 'AE' return 'Andreas Ellwardt'
+                                case 'WD' return 'Wolfgang Dickhut'
+                                case 'HE' return 'Hiruie Ermias'
 
                         default return 'Alessandro Bausi'};
 
@@ -87,4 +94,11 @@ switch ($key)
                                 case 'John' return 'JML'
                                 case 'Jonas' return 'JK'
                                 case 'Anaïs' return 'AWi'
+                                case 'Steve' return 'SD'
+                                case 'Ralph' return 'RL'
+                                case 'Jonah' return 'JS'
+                                case 'Carsten' return 'CH'
+                                case 'Antonella' return 'ABr'
+                                
+                                
                         default return 'AB'};

@@ -1,10 +1,9 @@
 xquery version "3.1" encoding "UTF-8";
 (:~
- : module with the main nav bar and the modals it calls  
+ : module with the main nav bar and the modals it calls
  : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
  :)
 module namespace nav="https://www.betamasaheft.uni-hamburg.de/BetMas/nav";
-import module namespace console="http://exist-db.org/xquery/console";
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
 import module namespace apprest="https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "apprest.xqm";
 import module namespace locallogin="https://www.betamasaheft.eu/login" at "login.xqm";
@@ -28,7 +27,7 @@ declare function nav:modals(){
             </div>
         </div>
         };
-        
+
 declare function nav:searchhelp(){
         <div class="modal fade" id="searchHelp" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -126,8 +125,8 @@ declare function nav:searchhelp(){
 instead or use the keyboard provided to enter aleph and ayn. </li>
 <li>If you are searching for Yāʿǝqob, you will not have a lot of luck searching Yaqob, unless some kind cataloguer has actually added it into the data as simplified spelling form. Try instead entering Yaqob~0.5 which is a fuzzy search, this will return also Yāʿǝqob. Also Ya`eqob is fine for example. </li></ul>
                         <h4>Keys Combinations</h4>
-                        <p>With this method you use keys combinations to trigger specific characters. 
-                        <a target="_blank" href="/combos.html">Click here for a list of the available combos.</a> 
+                        <p>With this method you use keys combinations to trigger specific characters.
+                        <a target="_blank" href="/combos.html">Click here for a list of the available combos.</a>
                         This can be expanded<a target="_blank" href="https://github.com/BetaMasaheft/Documentation/issues/new?labels=keyboard&amp;assignee=PietroLiuzzo&amp;body=Please%20add%20a%20combo%20in%20the%20input%20keyboard">, do not hesitate to ask (click here to post a new issue).</a>
                         </p>
                          <h4>Hold and choose</h4>
@@ -141,7 +140,7 @@ instead or use the keyboard provided to enter aleph and ayn. </li>
                 </div>
             </div>
         </div>
-      
+
 };
 
 declare function nav:bar(){
@@ -162,14 +161,14 @@ return
                 {if(ends-with($url, 'BetMas/')) then locallogin:login() else ()
 (:login is possible only from homepage and user name is displayed only on templating pages, not on the rest modules:)
 }
-                
+
                 {nav:newentry()}
-                    <li class="dropdown" id="about">
+                    <li class="dropdown" id="about" >
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                       <span>   {if(string-length($url) gt 1) then ('Hi ' || xmldb:get-current-user() || '!') else ('Home')}</span>
                         </a>
                         <ul class="dropdown-menu  list-group">
-                        {if(sm:is-authenticated() and contains(sm:get-user-groups(xmldb:get-current-user()), 'Editors')) then 
+                        {if(sm:is-authenticated() and contains(sm:get-user-groups(xmldb:get-current-user()), 'Editors')) then
                         (<li class="list-group-item">
                                 <a href="/user/{xmldb:get-current-user()}">Your personal page</a>
                             </li>,
@@ -193,10 +192,13 @@ return
                                 <a href="/contacts.html">Contacts</a>
                             </li>
                             <li class="list-group-item">
-                                <a href="/docs.html">Documentation</a>
+                                <a href="/Guidelines/">Guidelines and documentation</a>
                             </li>
                             <li class="list-group-item">
                                 <a href="/apidoc.html">Data API</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="/lod.html">Linked Open Data</a>
                             </li>
                         </ul>
                     </li>
@@ -218,7 +220,16 @@ return
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Manuscripts</a>
                         <ul class="dropdown-menu  list-group">
                             <li class="list-group-item">
-                                <a href="/manuscripts/list">Manuscripts</a>
+                                <a href="/manuscripts/list">Manuscripts (search)</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="/manuscripts/browse">Shelf marks (full list)</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="/UniProd/browse">UniProd (full list)</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="/UniCirc/browse">UniCirc (full list)</a>
                             </li>
                             <li class="list-group-item">
                                 <a href="/manuscripts/viewer">Manuscripts Images</a>
@@ -242,8 +253,8 @@ return
                     <li class="dropdown" id="persons">
                         <a href="/persons/list">Persons</a>
                     </li>
-                   
-                    <li id="resources" class="dropdown">
+
+                    <li class="dropdown" id="resources">
                         <a  href="#" class="dropdown-toggle" data-toggle="dropdown">Resources</a>
                         <ul class="dropdown-menu  list-group">
                          <li id="bibl" class="list-group-item dropdown-submenu">
@@ -278,10 +289,16 @@ return
                                 <a href="/compare">Compare manuscripts of a given work</a>
                             </li>
                             <li class="list-group-item">
+                                <a href="/LitFlow">Literature Flow Sankey view</a>
+                            </li>
+                            <li class="list-group-item">
                                 <a href="/xpath">XPath search</a>
                             </li>
                             <li class="list-group-item">
                                 <a href="/sparql">SPARQL Endpoint</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="/collate">Collate passages with Collatex</a>
                             </li>
                         </ul>
                     </li>
@@ -289,11 +306,12 @@ return
                      <p class="navbar-btn">
                        <a role="button" class="btn btn-danger" data-toggle="modal" data-target="#versionInfo">ACHTUNG!</a>
                             <a role="button" class="btn btn-warning"  target="_blank" href="https://github.com/BetaMasaheft/Documentation/issues/new?labels=app&amp;assignee=PietroLiuzzo&amp;body=There%20is%20an%20issue%20with%20a%20list%20view">new issue</a>
+                            <a role="button" class="btn btn-info"  target="_blank" href="mailto:pietro.liuzzo@uni-hamburg.de">contact us</a>
                </p>
                </li>
-                      
+
                 </ul>
-                
+
                 {
                 let $url := try {request:get-url()} catch * {''}
                 return
@@ -302,7 +320,7 @@ return
                     <div class="form-group"  style="display:inline;">
                     <div class="input-group">
                         <input type="text" class="form-control diacritics" placeholder="search" name="query" id="q"/>
-                        <span class="input-group-btn">
+                        <span id="furtherSearchOptions" class="input-group-btn">
                             <a class="kb btn btn-success">
                                 <i class="fa fa-keyboard-o" aria-hidden="true"></i>
                                 </a>
@@ -321,14 +339,14 @@ return
                         </span>
                     </div>
                     </div>
-                </form> 
-                
+                </form>
+
                 }
             </div>
         </nav>};
-        
+
 declare function nav:newentry(){
-        if(contains(sm:get-user-groups(xmldb:get-current-user()), 'Editors')) then 
+        if(contains(sm:get-user-groups(xmldb:get-current-user()), 'Editors')) then
 
        <form  action="/newentry.html" class="navbar-form navbar-right" role="tag">
             <div class="form-group">
@@ -345,7 +363,7 @@ declare function nav:newentry(){
               <button type="submit" class="btn btn-success">new</button>
                 	  </form>
                         else ()};
-        
+
 declare function nav:footer (){ <footer class="row-fluid">
 <div class="col-md-3">
 <a class="poweredby" property="http://purl.org/dc/elements/1.1/publisher" href="http://www.awhamburg.de/" target="_blank">
@@ -355,21 +373,21 @@ declare function nav:footer (){ <footer class="row-fluid">
                 <img src="/resources/images/logo.png" alt="logo"/>
             </a>
 </div>
-      <div class="col-md-6"> 
-      Copyright © Akademie der Wissenschaften in Hamburg, 
-                Hiob-Ludolf-Zentrum für Äthiopistik.  Sharing and remixing permitted under terms of the <br/>
+      <div class="col-md-6">
+      Copyright © <span property="http://purl.org/dc/elements/1.1/publisher">Akademie der Wissenschaften in Hamburg,
+                Hiob-Ludolf-Zentrum für Äthiopistik</span>.  Sharing and remixing permitted under terms of the <br/>
                 <a rel="license"  property="http://creativecommons.org/ns#license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
                     <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"/>
                 </a>
                 <br/>
-                <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+                <a rel="license"  property="http://creativecommons.org/ns#license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
                 <br/>
                 DOI: {$config:DOI}
                 <hr/>
-                <p>Many thanks for their wonderful work to <a href="appInfo.html">all the developers of free software</a> for the code we use throughout the website.</p>
+                <p>Many thanks for their wonderful work to <a href="/appInfo.html">all the developers of free software</a> for the code we use throughout the website.</p>
                     </div>
-              <div class="col-md-3">      
-        
+              <div class="col-md-3">
+
             <a class="poweredby" href="http://exist-db.org">
                 <img src="$shared/resources/images/powered-by.svg" alt="Powered by eXist-db"/>
             </a>

@@ -6,7 +6,6 @@ xquery version "3.1" encoding "UTF-8";
  : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
  :)
 module namespace wiki = "https://www.betamasaheft.uni-hamburg.de/BetMas/wiki";
-import module namespace console = "http://exist-db.org/xquery/console";
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace sr = "http://www.w3.org/2005/sparql-results#";
 
@@ -25,7 +24,7 @@ let $req := try{httpclient:get(xs:anyURI($query), false(), <headers/>)} catch *{
 
 let $viafId := $req//sr:result/sr:binding[@name="viafidLabel"]
 let $WDurl := 'https://www.wikidata.org/wiki/'||$Qitem
-let $VIAFurl := 'https://viaf.org/viaf/'||$Qitem
+let $VIAFurl := 'https://viaf.org/viaf/'||$viafId
 (:returns the result in another small table with links:)
 return
 <table class="table table-responsive">

@@ -1,7 +1,6 @@
 xquery version "3.0" encoding "UTF-8";
 
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
-import module namespace console = "http://exist-db.org/xquery/console";
 import module namespace titles = "https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "titles.xqm";
 import module namespace app = "https://www.betamasaheft.uni-hamburg.de/BetMas/app" at "app.xqm";
 import module namespace coord = "https://www.betamasaheft.uni-hamburg.de/BetMas/coord" at "coordinates.xql";
@@ -1012,6 +1011,13 @@ declare function fo:tei2fo($nodes as node()*) {
 };
 
 declare function fo:citation($title, $doc, $id) {
+if(count($doc//tei:change[contains(., 'completed')]) ge 1) then ()
+        else (
+        <fo:inline
+            color="red">
+            THIS IS AN UNPUBLISHED DRAFT UNDER REVISION. PLEASE DO NOT USE THIS WORK AS REFERENCE UNTIL IT IS COMPLETED.
+            </fo:inline>
+        ),
     let $collection := app:switchcol(string($doc/@type))
     let $auths := $doc//tei:revisionDesc/tei:change/@who[. != 'PL']
     let $bibdata := <bibl>
@@ -1113,6 +1119,27 @@ declare function fo:titlepage($file, $titleStmt as element(tei:titleStmt), $pubS
                     $title)
                 }
             </fo:block>
+             {if(count($file//tei:change[contains(., 'completed')]) ge 1) then () else (
+            <fo:block
+                text-align="center"
+                font-size="20pt"
+                font-weight="700"
+                space-before="2em"
+                space-after="2em"
+                color="red"
+                >
+                UNPUBLISHED DRAFT 
+            </fo:block>,
+             <fo:block
+                text-align="center"
+                font-size="20pt"
+                font-weight="700"
+                space-before="2em"
+                space-after="2em"
+                color="red"
+                >
+            -- PLEASE DO NOT USE THIS WORK --
+            </fo:block>)}
             <fo:block
                 text-align="center"
                 font-size="14pt"

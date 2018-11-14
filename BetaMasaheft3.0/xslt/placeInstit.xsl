@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="/">
         <div id="description" class="{if(t:TEI/@type='ins') then 'institutionView' else 'col-md-8'}">
@@ -16,7 +15,7 @@
                 <xsl:for-each select="//t:place/t:placeName[@xml:id]">
                     <xsl:sort select="                             if (@xml:id) then                                 @xml:id                             else                                 text()"/>
                     <xsl:variable name="id" select="@xml:id"/>
-                    <div class="col-md-12">
+                    <div class="col-md-12" rel="http://lawd.info/ontology/hasName">
                     <p class="lead">
                         <xsl:if test="@xml:id">
                             <xsl:attribute name="id">
@@ -30,7 +29,7 @@
                         </xsl:if>
                         <xsl:choose>
                             <xsl:when test="@ref">
-                                <a href="{@ref}" target="_blank">
+                                <a href="{@ref}" target="_blank" property="http://lawd.info/ontology/primaryForm">
                                     <xsl:value-of select="text()"/>
                                 </a>
                             </xsl:when>
@@ -67,14 +66,14 @@
                 <xsl:if test="//t:place/t:placeName[not(@xml:id or @corresp)]">
                     <xsl:for-each select="//t:place/t:placeName[not(@xml:id or @corresp)]">
                         <xsl:sort/>
-                        <div class="col-md-12">
+                        <div class="col-md-12" rel="http://lawd.info/ontology/hasName">
                         <p>
                             <xsl:if test="@type">
                                 <xsl:value-of select="concat(@type, ': ')"/>
                             </xsl:if>
                             <xsl:choose>
                                 <xsl:when test="@ref">
-                                    <a href="{@ref}" target="_blank">
+                                    <a href="{@ref}" target="_blank" property="http://lawd.info/ontology/variantForm">
                                         <xsl:value-of select="."/>
                                     </a>
                                 </xsl:when>
@@ -109,27 +108,33 @@
                     </p>
                 </p>
             </xsl:if>
-            <xsl:if test="//t:*[@type = 'foundation'][child::*[. != ' '][not(matches(., '^\s+$'))]]">
+            <xsl:if test="//t:*[@type = 'foundation']">
                 <h3>Foundation</h3>
-                <xsl:if test="//t:date[@type = 'foundation'][child::*[. != ' '][not(matches(., '^\s+$'))]]">
+                <xsl:if test="//t:date[@type = 'foundation']">
                     <p>
                         <b>Date of foundation: </b>
                         <xsl:value-of select="//t:date[@type = 'foundation']"/>
                     </p>
                 </xsl:if>
-                <xsl:if test="//t:desc[@type = 'foundation'][child::*[. != ' '][not(matches(., '^\s+$'))]]">
+                <xsl:if test="//t:desc[@type = 'foundation']">
                     <p>
                         <xsl:apply-templates select="//t:desc[@type = 'foundation']"/>
                     </p>
                 </xsl:if>
             </xsl:if>
-            <xsl:if test="//t:ab[@type = 'history'][child::*[. != ' '][not(matches(., '^\s+$'))]]">
+            <xsl:if test="//t:ab[@type = 'history']">
                 <h3>History</h3>
                 <p>
                     <xsl:apply-templates select="//t:ab[@type = 'history']"/>
                 </p>
             </xsl:if>
-            <xsl:if test="//t:ab[@type = 'tabot'][child::*[. != ' '][not(matches(., '^\s+$'))]][not(child::t:measure[. = ''])]">
+            <xsl:if test="//t:ab[@type = 'description']">
+                <h3>Description</h3>
+                <p>
+                    <xsl:apply-templates select="//t:ab[@type = 'description']"/>
+                </p>
+            </xsl:if>
+            <xsl:if test="//t:ab[@type = 'tabot']">
                 <h3>Tābots</h3>
                 <p>
                     <xsl:apply-templates select="//t:ab[@type = 'tabot']"/>
@@ -147,6 +152,7 @@
             
             <button class="btn btn-primary" id="showattestations" data-value="place" data-id="{string(t:TEI/@xml:id)}">Show attestations</button>
             <div id="allattestations" class="col-md-12"/>
+            
         </div>
         <xsl:call-template name="resp">
             <xsl:with-param name="resp" select="."/>

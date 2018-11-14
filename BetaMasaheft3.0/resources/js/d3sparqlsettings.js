@@ -1,8 +1,10 @@
 
 function exec() {
-    
+    console.log('running sparql query')
     var endpoint = d3.select("#endpoint").property("value")
     var sparql = d3.select("#sparql").property("value")
+    console.log(endpoint)
+    console.log(sparql)
     if (sparql.startsWith("SELECT")) {
         
         /* Uncomment to see debug information in console */
@@ -249,7 +251,7 @@ function renderforce(json) {
     var config = {
         "charge": -500,
         "distance": 50,
-        "width": 1000,
+        "width": 1500,
         "height": 750,
         "selector": "#result"
     }

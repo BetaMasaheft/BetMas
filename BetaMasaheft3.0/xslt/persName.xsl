@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:persName">
         <xsl:choose>
@@ -47,7 +46,7 @@
                             <xsl:apply-templates select="t:choice"/>
                         </xsl:when>
                         <xsl:when test="t:roleName or t:hi">
-                            <xsl:apply-templates/>
+                            <xsl:apply-templates mode="nolink"/>
                         </xsl:when>
                         <xsl:when test="text()">
                             <xsl:value-of select="."/>
@@ -121,7 +120,7 @@
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:variable>
-                <span xmlns="http://www.w3.org/1999/xhtml" class="persName">
+                                <span xmlns="http://www.w3.org/1999/xhtml" class="persName" property="http://purl.org/dc/elements/1.1/relation" resource="http://betamasaheft.eu/{@ref}">
                     <xsl:choose>
                         <xsl:when test="t:choice">
                             <xsl:apply-templates select="t:choice"/>
@@ -157,11 +156,16 @@
         </xsl:choose>
     </xsl:template>
    
-    <xsl:template match="t:roleName" mode="nolink">
-            <xsl:value-of select="concat(., ' ')"/>
+    <xsl:template match="t:roleName[not(parent::t:persName)]">
+        <xsl:apply-templates/>
+        <a xmlns="http://www.w3.org/1999/xhtml" href="#" class="AttestationsWithSameRole" data-value="{.}"><sup>?</sup></a>
     </xsl:template>
     
-    <xsl:template match="t:roleName">
+    <xsl:template match="t:roleName[parent::t:persName]" mode="nolink">
+        <xsl:value-of select="concat(., ' ')"/>
+    </xsl:template>
+    
+    <xsl:template match="t:roleName[parent::t:persName]">
         <a xmlns="http://www.w3.org/1999/xhtml" href="#" data-toggle="tooltip" title="role: {@type}">
             <xsl:value-of select="concat(., ' ')"/>
         </a>
