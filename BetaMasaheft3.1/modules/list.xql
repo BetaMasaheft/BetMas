@@ -447,7 +447,7 @@ if(sum($parametersLenght) ge 1 ) then
    <span id="hit-count" class="lead">
    {'There are ' || count($hits("hits")) || ' records in this selection of ' || $collection }
    </span>
-   {if ($collection = 'works') 
+  {if ($collection = 'works') 
    then
    let $texts :=  $hits('hits')[descendant::t:div[@type='edition']//t:ab//text()] 
    return

@@ -124,6 +124,7 @@ let $thispassage := for $quote in $quotations[t:ref[contains(substring-after(@cR
 return if (count($thispassage) ge 1) then map {'total' := count($thispassage), 'quotations' := [$thispassage]} else map {'total' := 0, 'info' := 'sorry, there are no marked up quotations of this passage'}
 };
 
+
     
        
        (:~ given the id of a manuscript returns the word count for eventual transcriptions of that work in the given witness :) 
@@ -1151,7 +1152,7 @@ let $hi :=   for $hit in $hits
                     let $id := string($hit/@xml:id)
                     let $collection := switch($hit/@type) case 'mss' return 'manuscripts'case 'place' return 'places' case 'work' return 'works' case 'narr' return 'narratives' case 'ins' return 'institutions' case 'pers' return 'persons' default return 'authority-files'
                    let $ptest := titles:printTitleMainID($id)
-                   let $title := if ($ptest) then ($ptest) else (('problem printing title of ' || $id), $id)
+                   let $title := if ($ptest) then ($ptest) else ()
                     let $count := count($expanded//exist:match)
                     let $results := kwic:summarize($hit,<config width="40"/>)
                    let $pname := $expanded//exist:match[ancestor::t:div[@type='edition']]
@@ -1268,7 +1269,7 @@ for $e in $element
 let $eval-string := if($e = 'persName' and $descendants = 'false')  then
 concat("collection('", $config:data-root, "')//t:person/t:persName"
 , "[ft:query(.,'", $query-string, "',",serialize($SearchOptions),")]", $collection, $script, $material, $term)
-else if($e = 'placeName' and  $collection = 'places' and $descendants = 'false')  then
+else if($e = 'placeName'  and $descendants = 'false')  then
 concat("collection('", $config:data-root, "')//t:place/t:placeName"
 , "[ft:query(.,'", $query-string, "',",serialize($SearchOptions),")]", $collection, $script, $material, $term)
 else concat("collection('", $config:data-root, "')//t:"

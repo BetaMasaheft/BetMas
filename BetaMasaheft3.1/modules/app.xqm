@@ -1175,9 +1175,11 @@ let $keywords := distinct-values($attributions)
    app:formcontrol('author', $keywords, 'false', 'rels', $context)
 };
 
+
+
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-rootW)") 
+%templates:default("context", "collection($config:data-rootIn)") 
 function app:tabots($node as node(), $model as map(*), $context as xs:string*) {
 let $cont := util:eval($context)
 let $tabots:= $cont//t:ab[@type='tabot']

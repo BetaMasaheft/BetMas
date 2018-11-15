@@ -225,12 +225,12 @@ return
                             <li class="list-group-item">
                                 <a href="/manuscripts/browse">Shelf marks (full list)</a>
                             </li>
-                            <li class="list-group-item">
+                            <!--<li class="list-group-item">
                                 <a href="/UniProd/browse">UniProd (full list)</a>
                             </li>
                             <li class="list-group-item">
                                 <a href="/UniCirc/browse">UniCirc (full list)</a>
-                            </li>
+                            </li>-->
                             <li class="list-group-item">
                                 <a href="/manuscripts/viewer">Manuscripts Images</a>
                             </li>

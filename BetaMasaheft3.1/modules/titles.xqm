@@ -6,7 +6,6 @@ declare namespace t="http://www.tei-c.org/ns/1.0";
 
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace sparql = "http://www.w3.org/2005/sparql-results#";
-import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "tei2string.xqm";
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
 
 (:establishes the different rules and priority to print a title referring to a record:)
@@ -61,7 +60,7 @@ declare function titles:printTitle($node as element()) {
                                     (if ($repo = 'No Institution record') then
                                         $repo
                                     else
-                                        (titles:placeNameSelector($repo))) || ', ' ||
+                                        (titles:placeNameSelector($repo[1]))) || ', ' ||
                                     
                                         $resource//t:msDesc/t:msIdentifier/t:idno/text()
                             else
@@ -102,11 +101,11 @@ else
                 then
                     (titles:printTitleID(string($item/t:title/@ref)) || ' (in ' || $SUBid || ')')
                 else
-                    normalize-space(string-join(string:tei2string($item/t:title), ''))
+                    normalize-space(string-join(titles:tei2string($item/t:title), ''))
                     )
             else 
             if ($item/t:label) then
-                   normalize-space(string-join(string:tei2string($item/t:label), ''))
+                   normalize-space(string-join(titles:tei2string($item/t:label), ''))
       
            else
                     if ($item/t:desc) then
@@ -125,9 +124,9 @@ declare
 %test:arg('id', 'PRS5684JesusCh#n2') %test:assertEquals('Jesus Christ - Krǝstos')
 function titles:printTitleID($id as xs:string)
 {  if (starts-with($id, 'SdC:')) then 'La Synthaxe du Codex ' || substring-after($id, 'SdC:' )
-     (: hack to avoid the bad usage of # at the end of an id like <title type="complete" ref="LIT2317Senodo#"
-     : xml:lang="gez"> :) 
-     else if (ends-with($id, '#')) then
+               else
+    (: hack to avoid the bad usage of # at the end of an id like <title type="complete" ref="LIT2317Senodo#"
+     : xml:lang="gez"> :) if (ends-with($id, '#')) then
         titles:printTitleMainID(substring-before($id, '#'))
     (: another hack for things like ref="#" :) else if ($id = '#') then
                          <span class="label label-warning">{ 'no item yet with id' || $id }</span>
@@ -168,7 +167,7 @@ else titles:printSubtitle($node, $SUBid)
 
 
 
-      declare function titles:printTitleMainID($id as xs:string, $c)
+declare function titles:printTitleMainID($id as xs:string, $c)
    {
        if (matches($id, 'Q\d+') or starts-with($id, 'gn:') or starts-with($id, 'pleiades:')) then
            (titles:decidePlaceNameSource($id))
@@ -242,7 +241,7 @@ else titles:printSubtitle($node, $SUBid)
    
    
    
-      declare 
+ declare 
       %test:arg('id', 'BNFet32') %test:assertEquals('Paris, Bibliothèque nationale de France, Éthiopien 32')
       %test:arg('id', 'LIT1367Exodus') %test:assertEquals('Exodus')
       %test:arg('id', 'PRS11160HabtaS') %test:assertEquals(' Habta Śǝllāse')
@@ -319,13 +318,9 @@ else titles:printSubtitle($node, $SUBid)
                            return $resource//t:titleStmt/t:title[1]/text()
    };
    
-   
-   
-
-
 
 declare function titles:placeNameSelector($resource as node()){
-    let $pl := $resource//t:place
+      let $pl := $resource//t:place
 let $pnorm := $pl/t:placeName[@corresp = '#n1'][@type = 'normalized']
 let $pEN := $pl/t:placeName[@corresp = '#n1'][@xml:lang='en']
 return
@@ -421,7 +416,7 @@ return
                                             if ($pg/t:persName[@xml:id])
                                             then
                                                 let $gname:=$pg/t:persName[@xml:id = 'n1']
-                                                return $gname/text()
+                                                return string-join($gname/text())
                                             
                                             else
                                                 ($pg/t:persName[position() = 1]//text()))
@@ -552,14 +547,21 @@ $req//sparql:result/sparql:binding[@name="label"]/sparql:literal[@xml:lang='en-g
 };
 
 
-declare
-%test:args('<item  xmlns="http://www.tei-c.org/ns/1.0" xml:id="a1"><locus target="#205v" facs="f424"/><desc type="ScribalNoteCompleting"/><q xml:lang="gez">ለዘአጽሐፋሂ፡</q></item>','a1') %test:assertEquals('Scribal Note Completing a1')
 
-function titles:printSubtitleTest($node as element(), $SUBid as xs:string){
-    let $item := $node
-    return
+(:takes a node as argument and loops through each element it contains. if it matches one of the definitions it does that, otherways checkes inside it. This actually reproduces the logic of the apply-templates function in  xslt:)
+declare function titles:tei2string($nodes as node()*) {
     
-       titles:printTitleMainID(string($item/t:desc/@type))
+    for $node in $nodes
+    return
+        typeswitch ($node)
+        case element(t:title)
+                return
+                    titles:printTitleMainID($node/@ref)
+                             
+            case element()
+                return
+                    titles:tei2string($node/node())
+            default
+                return
+                    $node
 };
-
-

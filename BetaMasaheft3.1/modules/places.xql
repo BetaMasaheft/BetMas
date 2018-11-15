@@ -343,7 +343,7 @@ function places:kmltextALLorig($collection as xs:string) {
 $places:response200xml,
 
 let $log := log:add-log-message('/api/KML/'||$collection||'/origPlaces', xmldb:get-current-user(), 'places')
-       let $items := collection('/db/apps/BetMas/data/' || $collection ||'/')
+       let $items := collection('/db/apps/BetMas/data/' || $collection ||'/')//t:origPlace[descendant::t:placeName/@ref]
 return 
       places:kmlOrigplacesm($items)
 };
@@ -359,7 +359,7 @@ declare function places:kmlplacesm($items){
 
 declare function places:kmlOrigplacesm($items){
 <kml>
-       {for $place in distinct-values($items//t:origPlace/t:placeName/@ref)
+       {for $place in distinct-values($items//t:placeName/@ref)
        return
       places:SimplifiedPlaceMark($place)
        }

@@ -102,14 +102,15 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
                     let $stored-file := doc($collection-uri || '/' || $file-name)
                let $rdf := transform:transform($stored-file, 'xmldb:exist:///db/apps/BetMas/rdfxslt/data2rdf.xsl', ())
                let $rdffilename := replace($file-name, '.xml', '.rdf')
+               let $collectionName := substring-after($data-collection, '/db/apps/BetMas/data/')
                return
-                     xmldb:store('/db/rdf', $rdffilename, $rdf),
+                     xmldb:store(concat('/db/rdf/', $collectionName), $rdffilename, $rdf),
                      if (ends-with($file-name, '.xml')) then (
                      let $stored-fileID := doc($collection-uri || '/' || $file-name)/t:TEI/@xml:id/string()
                      let $filename := substring-before($file-name, '.xml')
                      return
                      if ($stored-fileID eq $filename) then () else (
-                     gitsync:wrongID($committerEmail, $storedFileID, $filename)
+                     gitsync:wrongID($committerEmail, $stored-fileID, $filename)
                      )
                      ) else ()
                     
@@ -119,7 +120,7 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
                     status="fail">
                     <message>Failed to update resource: {concat($err:code, ": ", $err:description)}</message>
                 </response>,
-                        gitsync:failedCommitMessage($committerEmail, $data-collection, concat('Failed to update resource: ',$err:code, ": ", $err:description))
+                        gitsync:failedCommitMessage($committerEmail, $data-collection, concat('Failed to update resource ' ,$file-name, ': ',$err:code, ": ", $err:description))
                         )
             }
 };
@@ -194,15 +195,16 @@ declare function gitsync:do-add($commits, $contents-url as xs:string?, $data-col
                     ,
                     let $rdf := transform:transform($stored-file, 'xmldb:exist:///db/apps/BetMas/rdfxslt/data2rdf.xsl', ())
                let $rdffilename := replace($file-name, '.xml', '.rdf')
+                let $collectionName := substring-after($data-collection, '/db/apps/BetMas/data/')
                return
-                     xmldb:store('/db/rdf', $rdffilename, $rdf)
+                     xmldb:store(concat('/db/rdf/', $collectionName), $rdffilename, $rdf)
                      ,
                 if (ends-with($file-name, '.xml')) then (
                      let $stored-fileID := $stored-file/t:TEI/@xml:id/string()
                      let $filename := substring-before($file-name, '.xml')
                      return
                      if ($stored-fileID eq $filename) then () else (
-                     gitsync:wrongID($committerEmail, $storedFileID, $filename)
+                     gitsync:wrongID($committerEmail, $stored-fileID, $filename)
                      )
                      ) else ()
 )
@@ -214,7 +216,7 @@ declare function gitsync:do-add($commits, $contents-url as xs:string?, $data-col
                     <message>Failed to add resource: {concat($err:code, ": ", $err:description)}
                     </message>
                 </response>,
-                        gitsync:failedCommitMessage($committerEmail, $data-collection, concat('Failed to add resource: ',$err:code, ": ", $err:description))
+                        gitsync:failedCommitMessage($committerEmail, $data-collection, concat('Failed to add resource ' ,$file-name, ': ',$err:code, ": ", $err:description))
                         )
             }
 };
@@ -235,18 +237,19 @@ return
     let $rdffilename := replace($file-name, '.xml', '.rdf')
     let $resource-path := substring-before($modified, $file-name)
     let $collection-uri := replace(concat($collection, '/', $resource-path), '/$', '')
+    let $rdfcoll := '/db/rdf/' || substring-after($data-collection, 'data/')
     return
         try {
             <response
                 status="okay">
-                <message>removed {$file-name}{xmldb:remove($collection-uri, $file-name)} and {$rdffilename}{xmldb:remove('/db/rdf', $rdffilename)}</message>
+                <message>removed {$file-name}{xmldb:remove($collection-uri, $file-name)} and {$rdffilename}{xmldb:remove($rdfcoll, $rdffilename)}</message>
             </response>
         } catch * {
 (            <response
                 status="fail">
                 <message>Failed to remove resource: {concat($err:code, ": ", $err:description)}</message>
             </response>,
-                        gitsync:failedCommitMessage($committerEmail, $data-collection, concat('Failed to remove resource: ',$err:code, ": ", $err:description))
+                        gitsync:failedCommitMessage($committerEmail, $data-collection, concat('Failed to remove resource ' ,$file-name, ': ',$err:code, ": ", $err:description))
                         )
         }
 
@@ -311,11 +314,7 @@ declare function gitsync:validateAndConfirm($item, $mail, $type) {
             </mail>
             return
                 (:send the email:)
-                if (mail:send-email($contributorMessage, 'public.uni-hamburg.de', ()))
-                then
-                    console:log('Sent Message to editor OK')
-                else
-                    console:log('message not sent to editor')
+                mail:send-email($contributorMessage, 'public.uni-hamburg.de', ())
             
             )
 };
@@ -352,11 +351,7 @@ declare function gitsync:wrongID($mail, $storedFileID, $filename) {
             </mail>
             return
                 (:send the email:)
-                if (mail:send-email($WrongIdMessage, 'public.uni-hamburg.de', ()))
-                then
-                    console:log('Sent Message to editor OK')
-                else
-                    console:log('message not sent to editor')
+                mail:send-email($WrongIdMessage, 'public.uni-hamburg.de', ())
 };
 
 (:~
@@ -389,11 +384,7 @@ declare function gitsync:failedCommitMessage($mail, $data-collection, $message) 
             </mail>
             return
                 (:send the email:)
-                if (mail:send-email( $failureMessage, 'public.uni-hamburg.de', ()))
-                then
-                    console:log('Sent Message to editor OK')
-                else
-                    console:log('message not sent to editor')
+               mail:send-email( $failureMessage, 'public.uni-hamburg.de', ())
 };
 
 (:~

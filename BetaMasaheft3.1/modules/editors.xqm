@@ -44,7 +44,7 @@ switch ($key)
                                 case 'RBO' return 'Rasmus Bech Olsen'
                                 case 'AR' return 'Anne Regourd'
                                 case 'AH' return 'Adday Hernández'
-                                case 'JS' return 'Joshua Sabih'
+                                case 'JSa' return 'Joshua Sabih'
                                 case 'AW' return 'Andreas Wetter'
                                 case 'JML' return 'John Møller Larsen'
                         case 'AG' return 'Alessandro Gori'
@@ -79,9 +79,7 @@ switch ($key)
                         case 'Sibylla'return "SJ" 
                         case 'Jacopo' return 'JG'
                         case 'Nafisa' return 'NV'
-                        
                         case 'Michele' return 'MP'
-
                         case 'Eliana' return 'EDS'
                                 case 'Sara' return 'SF'
                                 case 'Irmeli' return 'IP'

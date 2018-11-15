@@ -227,7 +227,7 @@ if(xdb:collection-available($c)) then (
         {apprest:scriptStyle()}
         {if($type='text') then () else apprest:ItemScriptStyle()}
         {if($type='graph') then (
-                         <script src="http://d3js.org/d3.v5.min.js"/>,
+                         <script src="https://d3js.org/d3.v5.min.js"/>,
                          <script src="resources/js/d3sparql.js"/>) else ()}
             {if($type='text') then ( 
          <style type="text/css">{'
@@ -317,9 +317,7 @@ transform:transform(
 
         </div>
    )
-   case 'text' return (<div class="alpheios-enabled">{item:RestText($this, $start, $per-page)}</div>,
-   
-        <div id="alpheios-main" data-trigger="dblclick,touchstart" data-selector=".alpheios-enabled"/>)
+   case 'text' return item:RestText($this, $start, $per-page)
    case 'graph' return (
    switch($collection)
 case 'manuscripts' return
@@ -417,9 +415,7 @@ if ($id = $Subjects) then  (try{LitFlow:Sankey($id, 'works')} catch * {$err:desc
    <script>{'var placeid = "'||$id||'"'}</script>,
             <script  type="text/javascript" src="resources/geo/geojsonentitymap.js"></script>) else (),
 
-   <div  class="alpheios-enabled">{item:RestItem($this, $collection)}</div>,
-   
-        <div id="alpheios-main" data-trigger="dblclick,touchstart" data-selector=".alpheios-enabled"/>,
+   item:RestItem($this, $collection),
    <div class="col-md-12 alert alert-info">This page contains RDFa. <a href="/rdf/{$collection}/{$id}.rdf">RDF+XML</a> graph of this resource. Alternate representations available via <a href="/api/void/{$id}">VoID</a>.</div>,
 (:   apprest:namedentitiescorresps($this, $collection),:)
 (:   the form with a list of potental relation keywords to find related items. value is used by Jquery to query rest again on api:SharedKeyword($keyword) :)
@@ -427,10 +423,10 @@ if ($id = $Subjects) then  (try{LitFlow:Sankey($id, 'works')} catch * {$err:desc
    case 'works' return  (
    <div class="col-md-12 alert alert-info">You can download the <a href="http://betamasaheft.eu/api/KML/places/{$id}">KML</a> file visualized below in the <a href="https://geobrowser.de.dariah.eu">Dariah-DE Geobrowser</a>.</div>,
    item:RestMiniatures($id), 
-  
+    
    <div><div class="col-md-2"></div><div class="col-md-10"><h3>Map and timeline of places attestations marked up in the text.</h3>
    <iframe style="width: 100%; height: 800px;" id="geobrowserMap" src="http://geobrowser.de.dariah.eu/embed/index.html?kml1=http://betamasaheft.eu/api/KML/places/{$id}"/></div></div>)
-  case 'persons' return (item:RestTabot($id), item:RestAdditions($id), item:RestMiniatures($id))
+   case 'persons' return (item:RestTabot($id), item:RestAdditions($id), item:RestMiniatures($id))
     case 'authority-files' return
     <div class="col-md-12"><h4>Art Objects associated with this Art Theme in miniatures and other manuscript decorations</h4>
 

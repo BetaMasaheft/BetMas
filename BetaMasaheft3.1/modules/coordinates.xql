@@ -61,7 +61,7 @@ declare function coord:getCoords($placenameref as xs:string) {
                 if ($pRec//@sameAs) then
                     coord:GNorWD(($pRec//@sameAs)[1])
                 else
-                   ( "no coordinates for" || $placenameref)
+                    ("no coordinates for" || $placenameref)
     else
         coord:GNorWD($placenameref)
 };
@@ -91,7 +91,7 @@ declare function coord:GNorWD($placeexternalid as xs:string) {
             if (starts-with($placeexternalid, 'Q')) then
                 coord:invertCoord(coord:getWikiDataCoord($placeexternalid))
             else
-           ("no valid external id" || $placeexternalid)
+                ("no valid external id" || $placeexternalid)
 };
 
 
@@ -136,8 +136,11 @@ let $file-info :=
     let $parse-payload := parse-json($payload)
     return $parse-payload 
     
-   return if(count($file-info?geometry?coordinates?*) gt 1) then string-join($file-info?geometry?coordinates?*, ',') else ()
-
+    let $gb := $file-info?geo_bounds
+let $coords := if ($gb(1) = $gb(2))
+then ($gb(1), $gb(3)) else for $g in $gb?* return $g
+    return 
+    string-join($coords, ',')
 
 };
 

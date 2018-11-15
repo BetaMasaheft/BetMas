@@ -12,7 +12,6 @@ import module namespace math="http://exist-db.org/xquery/math";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "titles.xqm";
 
-import module namespace console = "http://exist-db.org/xquery/console";
 
 declare function LitFlow:compareGroups($groups , $g1  as xs:string*, $g2  as xs:string*){
 (:select the starting group:)
@@ -117,8 +116,8 @@ let $id := string($W/@ref)
 
 let $root := 
                 if ($type= 'works') 
-                then root($W)[descendant::t:term[@key=$filter]] 
-                else collection($config:data-rootW)/id($id)[descendant::t:term[@key=$filter]]
+                then root($W)[t:teiHeader/t:profileDesc/t:textClass/t:keywords/t:term[@key=$filter]] 
+                else collection($config:data-rootW)/id($id)[t:teiHeader/t:profileDesc/t:textClass/t:keywords/t:term[@key=$filter]]
                 
 let $keywords := for $k in $root//t:term
                                     where $k/@key = $Subjects
@@ -155,7 +154,7 @@ LitFlow:compareGroups($groups, 'Paks2', 'Gon'),
 LitFlow:compareGroups($groups, 'Gon', 'ZaMa'), 
 LitFlow:compareGroups($groups, 'ZaMa', 'MoPe'))
 return 
-<div class="col-md-10">
+<div class="col-md-12">
     <script type="text/javascript">{
 " google.charts.load('current', {'packages':['sankey']});
       google.charts.setOnLoadCallback(drawChart);

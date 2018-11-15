@@ -1,10 +1,10 @@
 xquery version "3.1" encoding "UTF-8";
 (:~
- : module used to produce charts from Google charts
+ : module used by text search query functions to provide alternative
+ : strings to the search, based on known homophones.
  :
  : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
  :)
- 
 module namespace charts = "https://www.betamasaheft.uni-hamburg.de/BetMas/charts";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
 import module namespace sparql="http://exist-db.org/xquery/sparql" at "java:org.exist.xquery.modules.rdf.SparqlModule";
@@ -57,11 +57,11 @@ declare function charts:mssSankey($itemid){
                  return '["' ||  $from || '", "' || $to || '", ' ||  $w || ']'
 
   let $table := '[' ||string-join($results, ', ') || ']'
+(:  https://github.com/google/google-visualization-issues/issues/1657:)
   return
   (<script src="//cdn.rawgit.com/newrelic-forks/d3-plugins-sankey/master/sankey.js"></script>,
     <script type="text/javascript">
-  {"
-      google.charts.load('current', {'packages':['sankey']});
+  {"google.charts.load('current', {'packages':['sankey']});
       google.charts.setOnLoadCallback(drawChart);
 
       function drawChart() {

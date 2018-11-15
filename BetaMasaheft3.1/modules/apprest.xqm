@@ -226,7 +226,7 @@ let $keywords := distinct-values($attributions)
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-rootW)")
+%templates:default("context", "collection($config:data-rootIn)")
 function apprest:tabots($context as xs:string*) {
 let $cont := util:eval($context)
 let $tabots:= $cont//t:ab[@type='tabot']
@@ -593,7 +593,7 @@ return
                 return
                 <li>
                 {<span property="http://purl.org/dc/elements/1.1/contributor">{$author}</span>,
-                ( ' ' || $change/text() || ' on ' ||  format-date($time, '[D].[M].[Y]'))}
+                (' ' || $change/text() || ' on ' ||  format-date($time, '[D].[M].[Y]'))}
                 </li>
                 }
 
@@ -689,6 +689,8 @@ declare function apprest:scriptStyle(){
         
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/introjs.css"/>,
         <link rel="stylesheet" type="text/css" href="resources/css/style.css"/>,
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alpheios-embedded/dist/style/style.min.css"/>,
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alpheios-embedded/dist/style/style-embedded.min.css"/>,
         <style rel="stylesheet" type="text/css" href="resources/css/d3.css"/>,
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"/>,
         <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>,
@@ -706,8 +708,9 @@ declare function apprest:scriptStyle(){
         <script type="text/javascript" src="resources/openseadragon/openseadragon.min.js"/>,
         <script type="text/javascript" src="resources/js/analytics.js"></script>,
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/intro.js"></script>,
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>,
+        <script src="https://cdn.jsdelivr.net/npm/alpheios-embedded/dist/alpheios-embedded.min.js"></script>,
+        <script type="text/javascript" src="resources/alpheios/alpheiosStart.js"/>
         )};
 
 (:~html page script and styles to be included specific for item :)
@@ -720,8 +723,7 @@ declare function apprest:ItemScriptStyle(){
        <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"/>,
         <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/js/mapbox.js"/>,
         <script  xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/js/Leaflet.fullscreen.min.js"/>,
-        <script type="text/javascript" src="resources/js/leaflet-ajax-gh-pages/dist/leaflet.ajax.min.js"></script>,
-        <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.12.0/vis.min.js"/>(:,
+                         <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.12.0/vis.min.js"/>(:,
         <script src="resources/awdl/lib/requirejs/require.min.js" type="text/javascript"/>,
          <script src="resources/awdl/awld.js" type="text/javascript"/>,
         <script type="text/javascript">
@@ -745,8 +747,7 @@ declare function apprest:ItemFooterScript(){
         <script type="text/javascript" src="resources/js/slickoptions.js"/>,
         <script type="text/javascript" src="resources/js/relatedItems.js"/>,
         <script type="text/javascript" src="resources/js/citations.js"/>,
-        <script type="text/javascript" src="resources/js/hypothesis.js"/>,
-        <script type="text/javascript" src="resources/js/pelagios.js"/>
+        <script type="text/javascript" src="resources/js/hypothesis.js"/>
 };
 
 (:~ be kind to the logged user :)
@@ -1110,7 +1111,7 @@ apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titl
              <img id="loadingform" src="resources/images/giphy.gif" style="display: none; width: 20%;"/>,
              <div id="AddFilters"/>
 )
-case 'places' return (
+case 'places' return 
 if($items-info = <start/>) then (
 (:no selection done yet, provide index value:)
 <div class="form-group" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that keyword">
@@ -1125,27 +1126,45 @@ if($items-info = <start/>) then (
 <select multiple="multiple" name="placetype" id="placetype" class="form-control">
 {$app:range-lookup('placetype', '', function($key, $count) {<option value="{$key}">{$key} </option>}, 100)}
 </select>
-</div>
+</div>,
+<div class="form-group" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that place type">
+<label for="placetype">contry </label>
+<select multiple="multiple" name="country" id="country" class="form-control">
+{$app:range-lookup('countryref', '', function($key, $count) {<option value="{$key}">{titles:printTitleID($key)} ({$count[1]}) </option>}, 100)}
+</select>
+</div>,
+<div class="form-group" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that place type">
+<label for="placetype">settlement </label>
+<select multiple="multiple" name="settlement" id="settlement" class="form-control">
+{$app:range-lookup('settlref', '', function($key, $count) {<option value="{$key}">{titles:printTitleID($key)} ({$count[1]}) </option>}, 100)}
+</select>
+</div>,
+<div class="form-group">
+                            <input type="checkbox" value="tabots" data-context="{$context}"/> Tābots<br/>
+                              </div>,
+                              <script type="text/javascript" src="resources/js/filtersRest.js"></script>,
+             <img id="loadingform" src="resources/images/giphy.gif" style="display: none; width: 20%;"/>,
+             <div id="AddFilters"/>
 ) else
 (:form selectors relative to query:)
-<div class="form-group">
+(<div class="form-group">
 <label for="keyword">keywords </label>
 <select multiple="multiple" name="keyword" id="keyword" class="form-control">
-{$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{$key} </option>}, 100)}
+{$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{$key} ({$count})</option>}, 100)}
 </select>
 </div>,
 apprest:formcontrol('place type','placetype', $items-info//t:place/@type, 'true', 'values', $context),
 apprest:formcontrol('state','country', $items-info//t:country/@ref, 'true', 'values', $context),
 apprest:formcontrol('settlement','settlement', $items-info//t:settlement/@ref, 'true', 'values', $context),
 <div class="form-group">
-                            <input type="checkbox" value="tabots" data-context="{$context}"/> tabots<br/>
+                            <input type="checkbox" value="tabots" data-context="{$context}"/> Tābots<br/>
                               </div>,
                               <script type="text/javascript" src="resources/js/filtersRest.js"></script>,
              <img id="loadingform" src="resources/images/giphy.gif" style="display: none; width: 20%;"/>,
              <div id="AddFilters"/>
 )
 
-case 'institutions' return (
+case 'institutions' return 
 if($items-info = <start/>) then (
 (:no selection done yet, provide index value:)
 <div class="form-group" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that keyword">
@@ -1159,15 +1178,33 @@ if($items-info = <start/>) then (
 <select multiple="multiple" name="placetype" id="placetype" class="form-control">
 {$app:range-lookup('placetype', '', function($key, $count) {<option value="{$key}">{$key} </option>}, 100)}
 </select>
-</div>
-) else
+</div>,
+<div class="form-group" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that place type">
+<label for="placetype">contry </label>
+<select multiple="multiple" name="country" id="country" class="form-control">
+{$app:range-lookup('countryref', '', function($key, $count) {<option value="{$key}">{titles:printTitleID($key)} ({$count[1]}) </option>}, 100)}
+</select>
+</div>,
+<div class="form-group" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that place type">
+<label for="placetype">settlement </label>
+<select multiple="multiple" name="settlement" id="settlement" class="form-control">
+{$app:range-lookup('settlref', '', function($key, $count) {<option value="{$key}">{titles:printTitleID($key)}  ({$count[1]})</option>}, 100)}
+</select>
+</div>,
+<div class="form-group">
+                            <input type="checkbox" value="tabots" data-context="{$context}"/> Tābots<br/>
+                              </div>,
+                              <script type="text/javascript" src="resources/js/filtersRest.js"></script>,
+             <img id="loadingform" src="resources/images/giphy.gif" style="display: none; width: 20%;"/>,
+             <div id="AddFilters"/>)
+ else(
 (:form selectors relative to query:)
 apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titles', $context),
 apprest:formcontrol('place type','placetype', $items-info//t:place/@type, 'true', 'values', $context),
 apprest:formcontrol('state','country', $items-info//t:country/@ref, 'true', 'values', $context),
 apprest:formcontrol('settlement','settlement', $items-info//t:settlement/@ref, 'true', 'values', $context),
 <div class="form-group">
-                            <input type="checkbox" value="tabots" data-context="{$context}"/> tabots<br/>
+                            <input type="checkbox" value="tabots" data-context="{$context}"/> Tābots<br/>
                               </div>,
                               <script type="text/javascript" src="resources/js/filtersRest.js"></script>,
              <img id="loadingform" src="resources/images/giphy.gif" style="display: none; width: 20%;"/>,

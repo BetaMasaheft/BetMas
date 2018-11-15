@@ -104,8 +104,14 @@ return
 declare function item:RestItemHeader($this, $collection) {
 let $document := $this
 let $id := string($this/@xml:id)
-let $repoids := if ($document//t:repository/text() = 'Lost') then ($document//t:repository/text()) else if ($document//t:repository/@ref) then distinct-values($document//t:repository/@ref) else 'No Repository Specified'
-let $key := for $ed in $document//t:titleStmt/t:editor[not(@role = 'generalEditor')]  return editors:editorKey(string($ed/@key)) || (if($ed/@role) then ' (' ||string($ed/@role)|| ')' else ())
+let $repoids := if ($document//t:repository/text() = 'Lost') 
+                               then ($document//t:repository/text()) 
+                             else if ($document//t:repository/@ref) 
+                                then distinct-values($document//t:repository/@ref) 
+                             else 'No Repository Specified'
+let $key := for $ed in $document//t:titleStmt/t:editor[not(@role = 'generalEditor')]  
+                                  return 
+                                  editors:editorKey(string($ed/@key)) || (if($ed/@role) then ' (' ||string($ed/@role)|| ')' else ())
 
 return
 
@@ -115,7 +121,7 @@ return
             <h1 id="headtitle">
                 {titles:printTitleID($id)}
             </h1>
-          <p id="mainEditor"><i>{string-join($key, ', ')}</i></p>
+          <p id="mainEditor"><i> {string-join($key, ', ')}</i></p>
           </div>
 
 
@@ -142,8 +148,15 @@ case 'manuscripts' return
 
             {if($document//t:altIdentifier) then
             <p>Other identifiers: {
-                   for $altId at $p in $document//t:msIdentifier/t:altIdentifier/t:idno/text()
-                    return <span property="http://www.cidoc-crm.org/cidoc-crm/P1_is_identified_by" content="{$altId}">{$altId}{if($altId[$p = count($document//t:msIdentifier/t:altIdentifier/t:idno/text())]) then ' ' else ', '}</span>
+                   for $altId at $p in $document//t:msIdentifier/t:altIdentifier/t:idno
+                   return
+                   if ( $altId/@type='TM') 
+                   then 
+                   <a href="https://www.trismegistos.org/text/{$altId/text()}" property="http://www.cidoc-crm.org/cidoc-crm/P1_is_identified_by" 
+                    content="{$altId}">TM{$altId/text()}{if($altId[$p = count($document//t:msIdentifier/t:altIdentifier/t:idno/text())]) then ' ' else ', '}</a>
+                   else 
+                     <span property="http://www.cidoc-crm.org/cidoc-crm/P1_is_identified_by" 
+                    content="{$altId/text()}">{$altId/text()}{if($altId[$p = count($document//t:msIdentifier/t:altIdentifier/t:idno/text())]) then ' ' else ', '}</span>
             }
             </p>
             else
@@ -169,8 +182,15 @@ return
 
            { if($document//t:altIdentifier) then
             <p>Other identifiers: {
-                   for $altId at $p in $document//t:msIdentifier/t:altIdentifier/t:idno/text()
-                    return <span property="http://www.cidoc-crm.org/cidoc-crm/P1_is_identified_by" content="{$altId}">{$altId}{if($altId[$p = count($document//t:msIdentifier/t:altIdentifier/t:idno/text())]) then ' ' else ', '}</span>
+                   for $altId at $p in $document//t:msIdentifier/t:altIdentifier/t:idno
+                   return
+                   if ( $altId/@type='TM') 
+                   then 
+                   <a href="https://www.trismegistos.org/text/{$altId/text()}" property="http://www.cidoc-crm.org/cidoc-crm/P1_is_identified_by" 
+                    content="{$altId}">TM{$altId/text()}{if($altId[$p = count($document//t:msIdentifier/t:altIdentifier/t:idno/text())]) then ' ' else ', '}</a>
+                   else 
+                     <span property="http://www.cidoc-crm.org/cidoc-crm/P1_is_identified_by" 
+                    content="{$altId/text()}">{$altId/text()}{if($altId[$p = count($document//t:msIdentifier/t:altIdentifier/t:idno/text())]) then ' ' else ', '}</span>
             }
             </p>
             else
@@ -181,6 +201,7 @@ return
 
             case 'works' return
             app:clavisIds($document)
+            
  case 'institutions' return
 
                             <div>
@@ -194,6 +215,7 @@ return
     return
      <div>{for $t in $list return <a class="label label-success" href="/places/list?keyword={$t}" target="_blank">{$t}</a>}</div>
    else ()}</div>
+
 
  case 'places' return
 
@@ -226,7 +248,6 @@ return
 
 };
 
-
 (:~for place like items returns a row for a table with the values of the element :)
 declare function item:AdminLocTable($adminLoc as element()*){
                                            for $s in $adminLoc
@@ -244,7 +265,8 @@ declare function item:AdminLocTable($adminLoc as element()*){
                                            </tr>
 
                                            };
-
+                                           
+                                           
 (:~called by item:restNav, makes the boxes where the main relations are dispalied:)
 declare function item:mainRels($this,$collection){
       let $document := $this
@@ -257,14 +279,16 @@ declare function item:mainRels($this,$collection){
      case 'persons' return (
      let $isSubjectof :=
             for $corr in $w//t:relation[@passive = $id][@name = 'ecrm:P129_is_about']
+
             return
                 $corr
       let $isAuthorof :=
             for $corr in ($w//t:relation[@passive = $id][@name = 'saws:isAttributedToAuthor'],
             $w//t:relation[@passive = $id][@name = 'dcterms:creator'])
-           return
+
+            return
                 $corr
-      let $predecessorSuccessor :=
+                  let $predecessorSuccessor :=
             for $corr in ($this//t:relation[@active = $id][@name = 'bm:isSuccessorOf'], $this//t:relation[@active = $id][@name = 'bm:isPredecessorOf'])
 
             return
@@ -299,7 +323,7 @@ return
                         }</ul></div> else ()
 
                 }
-                  {
+{
 
                    if ($predecessorSuccessor) then  <div  class="relBox alert alert-info">
                         <ul>{
@@ -313,7 +337,6 @@ return
                         }</ul></div> else ()
 
                 }
-
              </div>
       )
        case 'places' return (
@@ -381,7 +404,7 @@ return
 
              </div>
       )
-   case 'works' return (
+     case 'works' return (
      let $relations := ($w//t:relation[@active = $id],
      $w//t:relation[@passive = $id])
      let $relatedWorks :=
@@ -533,7 +556,6 @@ declare function item:RestPersRole($file, $collection){
     return
 if ($collection = 'persons') then(
 <div  class="well">{
-
 let $persrol := $c//t:persName[@ref = $id]
 let $persrole := $persrol[@role]
 return
@@ -571,7 +593,7 @@ for $role in $persrole
            )
 
 else if ($collection = 'manuscripts' or $collection = 'works' or $collection = 'narratives') then(
-   let $notnull := $file//t:persName[@ref != 'PRS00000']
+    let $notnull := $file//t:persName[@ref != 'PRS00000']
     let $pers := $notnull[@role]
     return
         for $p in $pers
@@ -584,7 +606,7 @@ else if ($collection = 'manuscripts' or $collection = 'works' or $collection = '
     is <span class="label label-success" role="btn btn-small">{for $role in distinct-values($p/@role) return string($role) || ' '}</span>{' of this manuscript'}.
 
     {
-   let $tei := $c//t:TEI[@xml:id !=$id]
+    let $tei := $c//t:TEI[@xml:id !=$id]
     let $persons := $tei//t:persName[@ref = string($ID)]
     for $role in $persons[@role]
 
@@ -867,9 +889,8 @@ return
      </div>
      <div id="Chojnacki" data-id="{$id}"/>
      <script type="text/javascript" src="resources/js/gnisci.js"/>
-     <script type="text/javascript" src="resources/js/pelagios.js"/>
-     </div> else ()}
-     </div>
+     <script type="text/javascript" src="resources/js/pelagios.js"/></div> else ()}
+   </div>
 
       };
 
@@ -970,7 +991,8 @@ return
 $xslpars)}
     </div>
     else if($document//t:div[@type='edition'][t:ab]) then
-      <div class="col-md-10">{ transform:transform(
+   
+   <div class="col-md-10">{ transform:transform(
         $document,
        $xslt,
 $xslpars)}
@@ -980,8 +1002,7 @@ $xslpars)}
     let $ids := for $contains in $document//t:relation[@name="saws:contains"]/@passive 
                          return 
                        if(contains($contains, ' ')) then for $x in tokenize($contains, ' ') return $x else string($contains)
-                       
-                       return
+return
     <div class="col-md-10">
 
     { for $contained in $ids

@@ -80,7 +80,7 @@ declare
    let $otherText :=if($otherText) then ("[descendant::t:q[ft:query(.,'" || $otherText || "')]]") else ()
    let $interpret :=if($interpret = 'all') then () else let $pars := for $ty in $interpret return "@ana = '" || $ty || "'" return '[descendant::t:seg[' || string-join($pars, ' or ') || ']]'
    let $path := 'collection($config:data-rootMS)//t:item[starts-with(@xml:id, "a")]' || $type || $target-work || $target-pers || $target-place || $target-keyword|| $target-language || $termText ||$otherText || $interpret
-  let $additions := for $add in util:eval($path) return $add
+ let $additions := for $add in util:eval($path) return $add
    return
    map {
                     "hits" := $additions
