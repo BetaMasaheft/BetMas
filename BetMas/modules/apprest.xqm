@@ -20,6 +20,7 @@ import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/t
 import module namespace templates="http://exist-db.org/xquery/templates" ;
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
 import module namespace charts = "https://www.betamasaheft.uni-hamburg.de/BetMas/charts" at "charts.xqm";
+import module namespace console = "http://exist-db.org/xquery/console"; 
 
 declare function functx:trim( $arg as xs:string? )  as xs:string {
 
@@ -886,7 +887,7 @@ let $occupations := if(empty($Poccupation) or $Poccupation= '') then () else app
 let $faiths := if(empty($Pfaith) or $Pfaith= '') then () else apprest:ListQueryParam-rest($Pfaith, "t:faith/@type", 'any', 'search')
 let $genders := if(empty($Pgender) or $Pgender= '') then () else apprest:ListQueryParam-rest($Pgender, "t:person/@sex", 'any', 'search')
 let $periods := if(empty($Pperiod) or $Pperiod= '') then () else apprest:ListQueryParam-rest($Pperiod, "t:term/@key", 'any', 'search')
-let $restorationss := if(empty($Prestorations) or $Prestorations= '') then () else apprest:ListQueryParam-rest($Prestorations, "t:custEvent/@subtype", 'any', 'search')
+let $restorationss := if(empty($Prestorations) or $Prestorations= '') then () else apprest:ListQueryParam-rest($Prestorations, "t:custEvent/@subtype", 'any', 'list')
 let $countries := if(empty($Pcountry) or $Pcountry = '') then () else apprest:ListQueryParam-rest($Pcountry, 't:country/@ref', 'any', 'search')
 let $settlements := if(empty($Psettlement) or $Psettlement = '') then () else apprest:ListQueryParam-rest($Psettlement, 't:settlement/@ref', 'any', 'search')
 
@@ -929,7 +930,7 @@ let $quiresComp :=  if(empty($Pqcn) or $Pqcn = '' or $Pqcn = '1,40')
 let $allMssFilters := concat($allnames, $support, $opl, $material, $bmaterial, $scripts, $scribes, $donors, $patrons, $owners, $parchmentMakers,
              $binders, $contents, $leaves, $wL,  $quires, $quiresComp,
             $height, $width, $depth, $marginTop, $marginBot, $marginL, $marginR, $marginIntercolumn, $restorationss)
-
+let $test := console:log($allMssFilters)
 let $path := switch($type)
                 case 'catalogue' return "collection('"||$config:data-rootMS || "')//t:TEI[descendant::t:listBibl[@type='catalogue'][descendant::t:ptr[@target='bm:"||$collection||"']]]"  || $key || $languages || $dR || $allMssFilters
                 case 'repo' return "collection('"||$config:data-rootMS  || "')//t:TEI[descendant::t:repository[@ref='"||$collection||"']]"  || $key || $languages || $dR || $allMssFilters
@@ -956,9 +957,9 @@ let $hits := for $item in util:eval($path)
                               order by $sorting
                              return
                                        $item
-
+let $test2 := console:log($path) 
  return
-                      map {
+            map {
                       'hits' := $hits,
                       'collection' := $collection,
                       'query' := $path
