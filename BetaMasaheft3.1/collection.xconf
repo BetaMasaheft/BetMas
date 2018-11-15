@@ -386,6 +386,15 @@
                 <field name="placeLANG" match="@xml:lang" type="xs:string"/>
             </create>
             
+            <create qname="t:origPlace">
+                <field name="origPlacePlaceNametext" match="//t:placeName/@ref" type="xs:string"/>
+                <field name="origPlaceNametext" type="xs:string"/>
+                <field name="origPlaceref" match="@ref" type="xs:string"/>
+                <field name="origPlacetype" match="@type" type="xs:string"/>
+                <field name="origPlaceID" match="@xml:id" type="xs:string"/>
+                <field name="origPlaceLANG" match="@xml:lang" type="xs:string"/>
+            </create>
+            
             
             <create qname="t:objectDesc">
                 <field name="form" match="@form" type="xs:string"/>
