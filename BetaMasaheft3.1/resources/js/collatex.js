@@ -45,7 +45,7 @@ $(data.table).each(function(){
     $(this).each(function(){
          var tokens = this
     var string = tokens.join(' ')
-        var td = $('<td>'+string+'</td>')
+        var td = $('<td class="col-md-6">'+string+'</td>')
         tr.append(td)
         arr.push(td.text())
     });
