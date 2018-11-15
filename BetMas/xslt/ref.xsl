@@ -181,6 +181,9 @@
                                         <xsl:when test="starts-with($id, 'h')">
                                             <xsl:value-of select="concat('Hand with id ', current()//ancestor::t:TEI//t:handNote[@xml:id = $id]/@xml:id)"/>
                                         </xsl:when>
+                                                <xsl:when test="matches($id, 'ed\d')">
+                                                    <xsl:value-of select="concat('edition ', $id)"/>
+                                                </xsl:when>
                                         <xsl:when test="starts-with($id, 'e')">
                                             <xsl:value-of select="concat('Extra with id ', current()//ancestor::t:TEI//t:item[@xml:id = $id]/@xml:id)"/>
                                         </xsl:when>
