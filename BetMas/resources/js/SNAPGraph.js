@@ -210,7 +210,11 @@ bm:roleName ?role .}}ORDER BY ?person "
         }
         var NAME = ''
         if(res['name']){NAME = res.name.value} else {NAME = 'empty tag'}
-        var tr = $('<tr><td>'+NAME+'</td><td><a href="'+res.attestation.value+'">'+res.citation.value+'</a></td><td>'+RandT+ '</td></tr>')
+       var link = res.attestation.value
+        var textlink = link.replace('http://betamasaheft.eu/api/dts/document?id=urn:dts:betmas:','/works/')
+        var textlink2 = textlink.replace(':', '/text?start=')
+        //console.log(textlink2)
+        var tr = $('<tr><td>'+NAME+'</td><td><a href="'+textlink2+'">'+res.citation.value+'</a></td><td>'+RandT+ '</td></tr>')
         $(tbody).append(tr)
         });
         
