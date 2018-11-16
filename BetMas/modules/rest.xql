@@ -48,7 +48,11 @@ declare variable $api:response400 := $config:response400;
         
 declare variable $api:response400XML := $config:response400XML;
 
-
+ declare function api:stringDates($nodes){
+            let $strings := for $d in $nodes return string:tei2string($d) 
+            return string-join($strings, ', ')
+            };
+            
     (:~ given an institution or place id checks the marc records from Vatican Library for relevant related data :) 
 declare
 %rest:GET
@@ -210,17 +214,17 @@ let $atts :=
                  then $a/text() 
                  else 'pointer only'
     let $cooccurringPers := ($a/preceding-sibling::t:persName,$a/following-sibling::t:persName)
-    let $cooccurringPlace := ($a/preceding-sibling::t:placeName,$a/following-sibling::t:plaveName)
+    let $cooccurringPlace := ($a/preceding-sibling::t:placeName,$a/following-sibling::t:placeName)
     let $cooccurringworks := ($a/preceding-sibling::t:title,$a/following-sibling::t:title)
     let $cooccurringterm := ($a/preceding-sibling::t:term,$a/following-sibling::t:term)
-    let $date := if($a/ancestor::t:item//t:date) 
-                  then string:tei2string($a/ancestor::t:item//t:date) 
+    let $date := if($a/ancestor::t:item[1]//t:date) 
+                  then api:stringDates($a/ancestor::t:item[1]//t:date)
                   else if($a/ancestor::t:msItem//t:date) 
-                  then string:tei2string($a/ancestor::t:msItem//t:date) 
+                  then api:stringDates($a/ancestor::t:msItem[1]//t:date) 
                   else if($a/ancestor::t:handNote//t:date) 
-                  then string:tei2string($a/ancestor::t:handNote//t:date) 
+                  then api:stringDates($a/ancestor::t:handNote[1]//t:date) 
                   else if($a/ancestor::t:decoNote//t:date) 
-                  then string:tei2string($a/ancestor::t:decoNote//t:date) 
+                  then api:stringDates($a/ancestor::t:decoNote[1]//t:date) 
                   else 'no date'
     let $MainRole := switch($element) 
     case 'persName' return string($a/@role)

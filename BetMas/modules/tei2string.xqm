@@ -126,7 +126,7 @@ declare function string:tei2string($nodes as node()*) {
                         else
                             string:tei2string($node/node())
                             return 
-                            $date || $cal
+                            string-join($date, ' ') || $cal
                             case element(t:origDate)
                 return
                 let $cal := if($node/@calendar) then (' (' || $node/@calendar || ')') else ()
