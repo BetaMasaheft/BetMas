@@ -1,6 +1,11 @@
 @charset "utf-8";
 /* Application styles could go here */
 
+.slider.slider-horizontal {
+    width: 160px;
+    height: 20px;
+}
+
 .alpheios-popup{position:static;}
   
   .invariant{background-color : rgb(181, 224, 181)}
