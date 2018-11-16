@@ -47,11 +47,11 @@
                     <xsl:apply-templates select="//t:listBibl"/>
                 </div>
             </xsl:if>
-            <xsl:if test="//t:editionStmt">
+           <!-- <xsl:if test="//t:editionStmt">
                 <div class="col-md-12" id="editionStmt">
                     <xsl:apply-templates select="//t:editionStmt"/>
                 </div>
-            </xsl:if>
+            </xsl:if>-->
             <div/>
         </div>
         
