@@ -388,7 +388,49 @@ return
                                             
                                             </error-handler>
                                         </dispatch>
-                             
+(:  http://betamasaheft.eu/urn:dts:betmas:LIT3122Galaw
+
+if accept is set to json-ld, then redirect to api/dts,
+
+http://betamasaheft.eu/api/dts/collection?id=urn:dts:betmas:LIT3122Galaw
+
+else redirect to /text view with parameters
+
+http://betamasaheft.eu/works/LIT3122Galaw/text
+
+!!!!does not work due to colon
+:)
+                                       (:         else
+                                            if (matches($exist:path, "\w+\d+(\w+)?") and 
+                                            starts-with($exist:path, "urn")
+                                            ) then
+                                                
+                                                if (contains(request:get-header('Accept'), 'ld+json'))
+                                            then
+                                            <dispatch
+                                                        xmlns="http://exist.sourceforge.net/NS/exist">
+                                                        <forward
+                                url="{concat('/restxq/BetMas/api/dts/collection?id=', $exist:path)}"
+                                absolute="yes"> 
+                                {$login("org.exist.login", (), false())}
+                                 <set-header name="Cache-Control" value="no-cache"/>
+                                </forward>
+                                        
+                                                    
+                                                    </dispatch>
+                                            else
+                                                let $tokenizePath := tokenize($exist:path, ':')
+                                                let $mainID := $tokenizePath[4]
+                                                let $switchCollection := local:switchPrefix(substring($mainID, 1, 2))
+                                                return
+                                                    <dispatch
+                                                        xmlns="http://exist.sourceforge.net/NS/exist">
+                                                        
+                                                        <redirect
+                                                            url="/{$switchCollection}/{$mainID}/text"/>
+                                                    
+                                                    </dispatch>:)
+                                        
                                         
 (:                                        redirects uris of subpart URI like
 http://betamasaheft.eu/BDLaethe8/addition/a1
@@ -404,6 +446,7 @@ function apisparql:constructURIsubid() is called to construct a graph of that re
                                             contains($exist:path, '/addition/') or
                                             contains($exist:path, '/decoration/') or
                                             contains($exist:path, '/binding/') or
+                                            contains($exist:path, '/msItem/') or
                                             contains($exist:path, '/msitem/') or
                                             contains($exist:path, '/hand/') or
                                             contains($exist:path, '/transformation/')or
@@ -413,6 +456,7 @@ function apisparql:constructURIsubid() is called to construct a graph of that re
                                             contains($exist:path, '/UniMat/')or
                                             contains($exist:path, '/UniCah/')
                                             )) then
+                                            let $test := console:log($exist:path)
                                                 let $prefix := substring($exist:resource, 1, 2)
                                                 let $switchCollection := local:switchPrefix($prefix)
                                                 let $tokenizePath := tokenize($exist:path, '/')
@@ -434,8 +478,8 @@ function apisparql:constructURIsubid() is called to construct a graph of that re
                                                     <dispatch
                                                         xmlns="http://exist.sourceforge.net/NS/exist">
                                                         
-                                                        <forward
-                                                            url="/{$switchCollection}/{$tokenizePath[2]}/main#{$tokenizePath[last()]}"/>
+                                                        <redirect
+                                                            url="http://betamasaheft.eu/{$switchCollection}/{$tokenizePath[2]}/main#{$tokenizePath[last()]}"/>
                                                     
                                                     </dispatch>
                                                     
@@ -508,7 +552,7 @@ construct the annotation graph if application/rdf+xml is specified
 (:                                        if the resource does match the id, then redirect to main view of that item:)
                                         
                                         else
-                                            if (matches($exist:resource, "\w+\d+(\w+)?")) then
+                                            if (matches($exist:resource, "^\w+\d+(\w+)?$")) then
                                                 let $prefix := substring($exist:resource, 1, 2)
                                                 let $switchCollection := local:switchPrefix($prefix)
                                             return
@@ -531,6 +575,14 @@ http://betamasaheft.eu/manuscript/BNFet32/main
                                 {$login("org.exist.login", (), false())}
                                  <set-header name="Cache-Control" value="no-cache"/>
                                 </forward>
+                                                    </dispatch>
+                                            else
+                                               if (contains(request:get-header('Accept'), 'tei+xml'))
+                                            then
+                                            <dispatch
+                                                        xmlns="http://exist.sourceforge.net/NS/exist">
+                                                            <redirect
+                                url="{concat('/tei/', $exist:resource, '.xml')}"/>
                                                     </dispatch>
                                             else
                                                     <dispatch
