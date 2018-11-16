@@ -22,10 +22,14 @@ function onEachFeature(feature, layer) {
     var tjoined = ''
     if (feature.place_types) {
         var t = feature.place_types
-        if (t === Array) {
-            var joined = Array.prototype.join.call(t, ", ");
-            console.log(joined)
+        if (Array.isArray(t)) {
+      //  console.log(t)
+            var joined = t.join(", ");
+            tjoined += joined
+            // console.log(joined)
         } else {
+       // console.log('not array?')
+        // console.log(t)
             tjoined += t
         }
     };
