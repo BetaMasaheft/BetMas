@@ -1405,7 +1405,7 @@ apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titl
             <option value="modern">modern</option>
             <option value="none">none</option>
             </select>
-            <small>Only few manuscript carry this information, selecting this filter you are searching only in those.</small>
+            <small>Only few manuscripts carry this information, selecting this filter you are searching only in those.</small>
 </div>,
             <div class="form-group">
                             <input type="checkbox" value="origPlace" data-context="{$context}"/> place of origin<br/>
