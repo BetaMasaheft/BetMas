@@ -808,7 +808,7 @@ return
         @prefix foaf: <http://xmlns.com/foaf/0.1/> .
         
         : a void:Dataset;
-        dcterms:title "Beta Maṣāḥǝft";
+        dcterms:title "Beta maṣāḥǝft";
         dcterms:publisher "Akademie der Wissenschaften in Hamburg";
         dcterms:publisher "Hiob-Ludolf-Zentrum für Äthiopistik";
         foaf:homepage <'||$config:appUrl||'>;
