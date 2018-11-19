@@ -12,14 +12,14 @@ declare namespace functx = "http://www.functx.com";
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
 
-import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "tei2string.xqm";
+import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
 import module namespace kwic = "http://exist-db.org/xquery/kwic"   at "resource:org/exist/xquery/lib/kwic.xql";
-import module namespace app="https://www.betamasaheft.uni-hamburg.de/BetMas/app" at "app.xqm";
-import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "editors.xqm";
-import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "titles.xqm";
+import module namespace app="https://www.betamasaheft.uni-hamburg.de/BetMas/app" at "xmldb:exist:///db/apps/BetMas/modules/app.xqm";
+import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "xmldb:exist:///db/apps/BetMas/modules/editors.xqm";
+import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
 import module namespace templates="http://exist-db.org/xquery/templates" ;
-import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
-import module namespace charts = "https://www.betamasaheft.uni-hamburg.de/BetMas/charts" at "charts.xqm";
+import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
+import module namespace charts = "https://www.betamasaheft.uni-hamburg.de/BetMas/charts" at "xmldb:exist:///db/apps/BetMas/modules/charts.xqm";
 import module namespace console = "http://exist-db.org/xquery/console"; 
 
 declare function functx:trim( $arg as xs:string? )  as xs:string {

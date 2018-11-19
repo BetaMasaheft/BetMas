@@ -21,10 +21,10 @@ xquery version "3.1";
  
  : @author Pietro Liuzzo added validation and specific report, changed to use 3.1 and to use parse-json instead of xqjson in some cases
  :)
-import module namespace gitsync = "http://syriaca.org/ns/gitsync" at "gitsync.xqm";
+import module namespace gitsync = "http://syriaca.org/ns/gitsync" at "xmldb:exist:///db/apps/BetMas/modules/gitsync.xqm";
 import module namespace xdb = "http://exist-db.org/xquery/xmldb";
 import module namespace crypto = "http://expath.org/ns/crypto";
-import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
+import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 declare option exist:serialize "method=xml media-type=text/xml indent=yes";
 
 (:~

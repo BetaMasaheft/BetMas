@@ -17,7 +17,7 @@ declare namespace rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace sparql = "http://www.w3.org/2005/sparql-results#";
 
-import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
+import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace http = "http://expath.org/ns/http-client";
 
 (:~

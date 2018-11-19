@@ -4,9 +4,9 @@ xquery version "3.1" encoding "UTF-8";
  : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
  :)
 module namespace nav="https://www.betamasaheft.uni-hamburg.de/BetMas/nav";
-import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
-import module namespace apprest="https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "apprest.xqm";
-import module namespace locallogin="https://www.betamasaheft.eu/login" at "login.xqm";
+import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
+import module namespace apprest="https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "xmldb:exist:///db/apps/BetMas/modules/apprest.xqm";
+import module namespace locallogin="https://www.betamasaheft.eu/login" at "xmldb:exist:///db/apps/BetMas/modules/login.xqm";
 
 
 declare function nav:modals(){
@@ -225,12 +225,12 @@ return
                             <li class="list-group-item">
                                 <a href="/manuscripts/browse">Shelf marks (full list)</a>
                             </li>
-                            <!--<li class="list-group-item">
+                            <li class="list-group-item">
                                 <a href="/UniProd/browse">UniProd (full list)</a>
                             </li>
                             <li class="list-group-item">
                                 <a href="/UniCirc/browse">UniCirc (full list)</a>
-                            </li>-->
+                            </li>
                             <li class="list-group-item">
                                 <a href="/manuscripts/viewer">Manuscripts Images</a>
                             </li>

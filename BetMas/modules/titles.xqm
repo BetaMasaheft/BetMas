@@ -6,7 +6,7 @@ declare namespace t="http://www.tei-c.org/ns/1.0";
 
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace sparql = "http://www.w3.org/2005/sparql-results#";
-import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
+import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 
 (:establishes the different rules and priority to print a title referring to a record:)
 declare function titles:printTitle($node as element()) {
@@ -167,7 +167,7 @@ else titles:printSubtitle($node, $SUBid)
 
 
 
-declare function titles:printTitleMainID($id as xs:string, $c)
+      declare function titles:printTitleMainID($id as xs:string, $c)
    {
        if (matches($id, 'Q\d+') or starts-with($id, 'gn:') or starts-with($id, 'pleiades:')) then
            (titles:decidePlaceNameSource($id))
@@ -241,7 +241,7 @@ declare function titles:printTitleMainID($id as xs:string, $c)
    
    
    
- declare 
+      declare 
       %test:arg('id', 'BNFet32') %test:assertEquals('Paris, Bibliothèque nationale de France, Éthiopien 32')
       %test:arg('id', 'LIT1367Exodus') %test:assertEquals('Exodus')
       %test:arg('id', 'PRS11160HabtaS') %test:assertEquals(' Habta Śǝllāse')
@@ -318,6 +318,10 @@ declare function titles:printTitleMainID($id as xs:string, $c)
                            return $resource//t:titleStmt/t:title[1]/text()
    };
    
+   
+   
+
+
 
 declare function titles:placeNameSelector($resource as node()){
       let $pl := $resource//t:place
@@ -545,7 +549,6 @@ let $req := httpclient:get(xs:anyURI($query), false(), <headers/>)
 return
 $req//sparql:result/sparql:binding[@name="label"]/sparql:literal[@xml:lang='en-gb']/text()
 };
-
 
 
 (:takes a node as argument and loops through each element it contains. if it matches one of the definitions it does that, otherways checkes inside it. This actually reproduces the logic of the apply-templates function in  xslt:)

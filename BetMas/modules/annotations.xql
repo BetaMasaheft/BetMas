@@ -7,8 +7,8 @@ xquery version "3.1" encoding "UTF-8";
 module namespace ann = "https://www.betamasaheft.uni-hamburg.de/BetMas/ann";
 
 declare namespace t="http://www.tei-c.org/ns/1.0";
-import module namespace coord = "https://www.betamasaheft.uni-hamburg.de/BetMas/coord" at "coordinates.xql";
-import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
+import module namespace coord = "https://www.betamasaheft.uni-hamburg.de/BetMas/coord" at "xmldb:exist:///db/apps/BetMas/modules/coordinates.xql";
+import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 
 

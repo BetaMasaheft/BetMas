@@ -5,7 +5,7 @@ xquery version "3.1" encoding "UTF-8";
  : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
  :)
 module namespace locallogin="https://www.betamasaheft.eu/login";
-import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "../modules/config.xqm";
+import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace request = "http://exist-db.org/xquery/request";
 
 declare variable $locallogin:login :=

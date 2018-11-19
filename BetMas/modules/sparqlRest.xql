@@ -6,11 +6,11 @@ xquery version "3.1" encoding "UTF-8";
  :)
 module namespace apisparql = "https://www.betamasaheft.uni-hamburg.de/BetMas/api";
 import module namespace rest = "http://exquery.org/ns/restxq";
-import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "titles.xqm";
-import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
-import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "editors.xqm";
+import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
+import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
+import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "xmldb:exist:///db/apps/BetMas/modules/editors.xqm";
 import module namespace sparql="http://exist-db.org/xquery/sparql" at "java:org.exist.xquery.modules.rdf.SparqlModule";
-import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "tei2string.xqm";
+import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
     
 (: namespaces of data used :)
 declare namespace test="http://exist-db.org/xquery/xqsuite";

@@ -18,14 +18,14 @@ declare namespace sr = "http://www.w3.org/2005/sparql-results#";
 
 import module namespace kwic = "http://exist-db.org/xquery/kwic" at "resource:org/exist/xquery/lib/kwic.xql";
 import module namespace templates="http://exist-db.org/xquery/templates" ;
-import module namespace log="http://www.betamasaheft.eu/log" at "log.xqm";
-import module namespace coord="https://www.betamasaheft.uni-hamburg.de/BetMas/coord" at "coordinates.xql";
-import module namespace nav="https://www.betamasaheft.uni-hamburg.de/BetMas/nav" at "nav.xqm";
-import module namespace ann = "https://www.betamasaheft.uni-hamburg.de/BetMas/ann" at "annotations.xql";
-import module namespace all="https://www.betamasaheft.uni-hamburg.de/BetMas/all" at "all.xqm";
-import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "editors.xqm";
-import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "titles.xqm";
-import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
+import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
+import module namespace coord="https://www.betamasaheft.uni-hamburg.de/BetMas/coord" at "xmldb:exist:///db/apps/BetMas/modules/coordinates.xql";
+import module namespace nav="https://www.betamasaheft.uni-hamburg.de/BetMas/nav" at "xmldb:exist:///db/apps/BetMas/modules/nav.xqm";
+import module namespace ann = "https://www.betamasaheft.uni-hamburg.de/BetMas/ann" at "xmldb:exist:///db/apps/BetMas/modules/annotations.xql";
+import module namespace all="https://www.betamasaheft.uni-hamburg.de/BetMas/all" at "xmldb:exist:///db/apps/BetMas/modules/all.xqm";
+import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "xmldb:exist:///db/apps/BetMas/modules/editors.xqm";
+import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
+import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace xdb = "http://exist-db.org/xquery/xmldb";
 import module namespace validation = "http://exist-db.org/xquery/validation";
 import module namespace sparql="http://exist-db.org/xquery/sparql" at "java:org.exist.xquery.modules.rdf.SparqlModule";
@@ -1175,10 +1175,8 @@ let $keywords := distinct-values($attributions)
    app:formcontrol('author', $keywords, 'false', 'rels', $context)
 };
 
-
-
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
-declare
+declare 
 %templates:default("context", "collection($config:data-rootIn)") 
 function app:tabots($node as node(), $model as map(*), $context as xs:string*) {
 let $cont := util:eval($context)

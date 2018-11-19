@@ -7,7 +7,7 @@ xquery version "3.1" encoding "UTF-8";
  :)
 module namespace roles = "https://www.betamasaheft.uni-hamburg.de/BetMas/roles";
 import module namespace rest = "http://exquery.org/ns/restxq";
-import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
+import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 (: namespaces of data used :)
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 import module namespace http="http://expath.org/ns/http-client";

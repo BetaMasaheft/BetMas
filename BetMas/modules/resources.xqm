@@ -6,11 +6,11 @@ xquery version "3.0" encoding "UTF-8";
  :)
 
 module namespace lists="https://www.betamasaheft.uni-hamburg.de/BetMas/lists";
-import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
+import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace templates="http://exist-db.org/xquery/templates" ;
-import module namespace app="https://www.betamasaheft.uni-hamburg.de/BetMas/app" at "app.xqm";
-import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "titles.xqm";
-import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "tei2string.xqm";
+import module namespace app="https://www.betamasaheft.uni-hamburg.de/BetMas/app" at "xmldb:exist:///db/apps/BetMas/modules/app.xqm";
+import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
+import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
 
 declare namespace t="http://www.tei-c.org/ns/1.0";
 
@@ -80,7 +80,7 @@ declare
    let $otherText :=if($otherText) then ("[descendant::t:q[ft:query(.,'" || $otherText || "')]]") else ()
    let $interpret :=if($interpret = 'all') then () else let $pars := for $ty in $interpret return "@ana = '" || $ty || "'" return '[descendant::t:seg[' || string-join($pars, ' or ') || ']]'
    let $path := 'collection($config:data-rootMS)//t:item[starts-with(@xml:id, "a")]' || $type || $target-work || $target-pers || $target-place || $target-keyword|| $target-language || $termText ||$otherText || $interpret
- let $additions := for $add in util:eval($path) return $add
+  let $additions := for $add in util:eval($path) return $add
    return
    map {
                     "hits" := $additions

@@ -5,8 +5,8 @@ xquery version "3.1" encoding "UTF-8";
  :)
 
 module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string";
-import module namespace titles = "https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "titles.xqm";
-import module namespace editors = "https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "editors.xqm";
+import module namespace titles = "https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
+import module namespace editors = "https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "xmldb:exist:///db/apps/BetMas/modules/editors.xqm";
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 

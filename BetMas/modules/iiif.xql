@@ -7,11 +7,11 @@ xquery version "3.1" encoding "UTF-8";
  :)
 module namespace iiif = "https://www.betamasaheft.uni-hamburg.de/BetMas/iiif";
 import module namespace rest = "http://exquery.org/ns/restxq";
-import module namespace log="http://www.betamasaheft.eu/log" at "log.xqm";
-import module namespace all="https://www.betamasaheft.uni-hamburg.de/BetMas/all" at "all.xqm";
-import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "titles.xqm";
-import module namespace api="https://www.betamasaheft.uni-hamburg.de/BetMas/api" at "rest.xql";
-import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
+import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
+import module namespace all="https://www.betamasaheft.uni-hamburg.de/BetMas/all" at "xmldb:exist:///db/apps/BetMas/modules/all.xqm";
+import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
+import module namespace api="https://www.betamasaheft.uni-hamburg.de/BetMas/api" at "xmldb:exist:///db/apps/BetMas/modules/rest.xql";
+import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace kwic = "http://exist-db.org/xquery/kwic"
     at "resource:org/exist/xquery/lib/kwic.xql";
     

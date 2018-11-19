@@ -6,9 +6,9 @@ xquery version "3.1" encoding "UTF-8";
  : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
  :)
 module namespace charts = "https://www.betamasaheft.uni-hamburg.de/BetMas/charts";
-import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
+import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace sparql="http://exist-db.org/xquery/sparql" at "java:org.exist.xquery.modules.rdf.SparqlModule";
-import module namespace titles = "https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "titles.xqm";
+import module namespace titles = "https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
 
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace t = "http://www.tei-c.org/ns/1.0";

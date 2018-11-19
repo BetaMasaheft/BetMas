@@ -9,8 +9,8 @@ module namespace LitFlow = "https://www.betamasaheft.uni-hamburg.de/BetMas/LitFl
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace local = "http://local.local";
 import module namespace math="http://exist-db.org/xquery/math";
-import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
-import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "titles.xqm";
+import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
+import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
 
 
 declare function LitFlow:compareGroups($groups , $g1  as xs:string*, $g2  as xs:string*){
