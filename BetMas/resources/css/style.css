@@ -224,7 +224,7 @@ input:checked + .slider:before {
    
 		#map {
 			width: 100%;
-			height: 800px;
+			height: 600px;
 		}
 .contentItem{
     white-space: normal;
