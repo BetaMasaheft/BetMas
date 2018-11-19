@@ -121,7 +121,7 @@ return
             <h1 id="headtitle">
                 {titles:printTitleID($id)}
             </h1>
-          <p id="mainEditor"><i> {string-join($key, ', ')}</i></p>
+          <p id="mainEditor"><i>{string-join($key, ', ')}</i></p>
           </div>
 
 

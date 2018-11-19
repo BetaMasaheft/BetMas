@@ -833,7 +833,7 @@ function list:getcatalogues() {
     let $cats := collection($config:data-rootMS)//t:listBibl[@type='catalogue']
    for $catalogue in distinct-values($cats//t:ptr/@target)
    let $zoTag := substring-after($catalogue, 'bm:')
-   let $count := count($cats[descendant::t:ptr[@target=$catalogue]])
+   let $count := count($cats//t:ptr[@target=$catalogue])
 	let $xml-url := concat('https://api.zotero.org/groups/358366/items?&amp;tag=', $catalogue, '&amp;format=bib&amp;style=hiob-ludolf-centre-for-ethiopian-studies')
 let $data := httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)
 order by $data
