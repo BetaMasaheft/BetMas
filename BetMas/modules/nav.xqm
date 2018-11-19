@@ -300,6 +300,9 @@ return
                             <li class="list-group-item">
                                 <a href="/collate">Collate passages with Collatex</a>
                             </li>
+                            <li class="list-group-item">
+                                <a href="/academics.html">Scholars in Ethiopian Studies</a>
+                            </li>
                         </ul>
                     </li>
                     <li class="dropdown" id="warnings">
