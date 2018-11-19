@@ -11,6 +11,8 @@ import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///
 import module namespace item = "https://www.betamasaheft.uni-hamburg.de/BetMas/item" at "xmldb:exist:///db/apps/BetMas/modules/item.xqm";
 import module namespace nav = "https://www.betamasaheft.uni-hamburg.de/BetMas/nav" at "xmldb:exist:///db/apps/BetMas/modules/nav.xqm";
 import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "xmldb:exist:///db/apps/BetMas/modules/apprest.xqm";
+import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
+import module namespace dts="https://www.betamasaheft.uni-hamburg.de/BetMas/dts" at "xmldb:exist:///db/apps/BetMas/modules/dts.xql";
 import module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMas/error" at "xmldb:exist:///db/apps/BetMas/modules/error.xqm";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 
@@ -21,6 +23,45 @@ declare namespace json = "http://www.json.org";
 
 declare variable $collatex:meta := <meta  xmlns="http://www.w3.org/1999/xhtml" name="description" content="Collation Interface using Collatex https://collatex.net/"/>;
 
+
+(:~ given a series of dts urn of witness passages, produces the json required for a request to collatex and posts it :) 
+declare
+%rest:POST
+%rest:GET
+%rest:path("/BetMas/api/collatex")
+%rest:query-param("dts", "{$dts}", "")
+%rest:query-param("format", "{$format}", "tei+xml")
+function collatex:collatex($dts  as xs:string*,$format  as xs:string*){
+$config:response200,
+let $urns := for $u in tokenize($dts, ',') return $u
+return
+
+if(count($urns) le 1) 
+
+then (<info>please provide at least 2 dts urns separated with comma</info>)  else(
+  
+                                         
+   let $body :=   dts:getCollatexBody($urns)
+     let $req :=
+        <http:request
+        http-version="1.1"
+            href="{xs:anyURI('http://localhost:7369/collate')}"
+            method="POST">
+            <http:header
+                name="Conten-Type"
+                value="application/json"/>
+                <http:header name="Access-Control-Allow-Origin" value="*"/>
+            <http:header name="Accept" value="application/{$format}"/>
+            
+                <http:body media-type="text" method="text" indent="yes">{$body}</http:body>
+        </http:request>
+let $post:=          hc:send-request($req)[2]
+let $decoded := if(contains($format, 'xml')) then $post else util:base64-decode($post)
+return 
+$decoded
+    
+    )
+};
 
 declare 
 %rest:GET

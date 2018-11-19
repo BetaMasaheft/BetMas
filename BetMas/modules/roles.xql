@@ -7,10 +7,14 @@ xquery version "3.1" encoding "UTF-8";
  :)
 module namespace roles = "https://www.betamasaheft.uni-hamburg.de/BetMas/roles";
 import module namespace rest = "http://exquery.org/ns/restxq";
+import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
+import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 (: namespaces of data used :)
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 import module namespace http="http://expath.org/ns/http-client";
+
+declare namespace test="http://exist-db.org/xquery/xqsuite";
 
 (: For REST annotations :)
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
@@ -79,5 +83,76 @@ return
 <p>There are in total {count($roleAttestationsIdentified)} attestations of the role name <span class="label label-success">{$r}</span> related to {count(distinct-values($roleAttestations/parent::t:persName/@ref))} persons.</p>
 {for $result in $results return$result}
 </div>
+)
+};
+
+
+
+(:~ returns an object which includes an array of objects with data about persons to which in some resource a specific role has been assigned, for each id, canonical title and the list of resources for which he/she covers such role, are given. :)
+declare
+%rest:GET
+%rest:path("/BetMas/api/hasrole/{$role}")
+%output:method("json")
+%test:arg('role', 'donor') %test:assertExists
+%test:arg('role', 'scribe') %test:assertExists
+function roles:role($role as xs:string*) {
+
+let $log := log:add-log-message('/api/hasrole/' || $role, xmldb:get-current-user(), 'REST')
+let $cp := collection($config:data-rootPr)
+let $path :=  collection($config:data-root)//t:persName[@role = $role][@ref[not(starts-with(. ,'PRS0000'))][. != 'PRS0476IHA'][. != 'PRS0204IHA']]
+let $total := count($path)
+let $hits := for $pwl in $path
+                    let $id := string($pwl/@ref)
+                   
+                    group by $ID := $id
+            
+        return
+            map {
+                'pwl' : $ID,
+                'title' : titles:printTitleMainID($ID),
+                'hits' : count($pwl)
+                    }
+
+return 
+     ( $config:response200Json,
+map {
+'role' := $role,
+'hits' := $hits,
+'total' := count($hits),
+'referring' := $total
+})
+};
+
+
+(:~ returns an object which includes an array of objects with data about persons to which in some resource a specific role has been assigned, for each id, canonical title and the list of resources for which he/she covers such role, are given. :)
+declare
+%rest:GET
+%rest:path("/BetMas/api/hasrole/{$role}/{$ID}")
+%output:method("json")
+%test:arg('role', 'donor') %test:assertExists
+%test:arg('role', 'scribe') %test:assertExists
+function roles:roleID($role as xs:string*, $ID as xs:string*) {
+
+let $log := log:add-log-message('/api/hasrole/' || $role, xmldb:get-current-user(), 'REST')
+let $path :=  collection($config:data-root)//t:persName[@role = $role][@ref=$ID]
+let $hits := for $x in $path
+                        let $root := string(root($x)/t:TEI/@xml:id)
+                        group by $r := $root
+                    return
+                        map {
+                            'prov' : $r,
+                            'sourceTitle' : titles:printTitleID($r),
+                            'count' := count($x)
+                            }
+                    
+let $hs := if (count($hits) gt 1) then $hits else [$hits]
+ return
+             ( $config:response200Json,
+            map {
+                'pwl' : $ID,
+                'title' : titles:printTitleMainID($ID),
+                'hits' : count($path),
+                'hasthisrole' : $hs    
+                    }
 )
 };

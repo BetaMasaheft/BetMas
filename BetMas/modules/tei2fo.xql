@@ -12,6 +12,7 @@ import module namespace app = "https://www.betamasaheft.uni-hamburg.de/BetMas/ap
 import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "xmldb:exist:///db/apps/BetMas/modules/editors.xqm";
 import module namespace coord = "https://www.betamasaheft.uni-hamburg.de/BetMas/coord" at "xmldb:exist:///db/apps/BetMas/modules/coordinates.xql";
 import module namespace http = "http://expath.org/ns/http-client";
+import module namespace switch = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch"  at "xmldb:exist:///db/apps/BetMas/modules/switch.xqm";
 
 declare namespace fo = "http://www.w3.org/1999/XSL/Format";
 declare namespace xslfo = "http://exist-db.org/xquery/xslfo";
@@ -983,7 +984,7 @@ declare function fo:citation($title, $doc, $id) {
             </fo:inline>
         ),
            
-    let $collection := app:switchcol(string($doc/@type))
+    let $collection := switch:col(string($doc/@type))
     
     let $auths := $doc//tei:revisionDesc/tei:change/@who[. != 'PL']
     let $bibdata := <bibl>

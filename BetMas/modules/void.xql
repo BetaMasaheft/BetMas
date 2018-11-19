@@ -5,6 +5,7 @@ xquery version "3.1" encoding "UTF-8";
  :)
 
 module namespace void = "https://www.betamasaheft.uni-hamburg.de/BetMas/void";
+import module namespace switch = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch"  at "xmldb:exist:///db/apps/BetMas/modules/switch.xqm";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
 import module namespace api="https://www.betamasaheft.uni-hamburg.de/BetMas/api" at "xmldb:exist:///db/apps/BetMas/modules/rest.xql";
@@ -72,7 +73,7 @@ function void:entity($id as xs:string*) {
 
 ($void:response200turtle, 
 let $item := collection($config:data-root)//id($id)
-let $coll := api:switchcol($item/@type)
+let $coll := switch:col($item/@type)
 let $dctermsContributor := ''
 let $dctermsCreated := ''
 let $dctermsModified := ''

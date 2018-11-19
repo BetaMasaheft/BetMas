@@ -7,6 +7,7 @@ xquery version "3.1" encoding "UTF-8";
 module namespace restItem = "https://www.betamasaheft.uni-hamburg.de/BetMas/restItem";
 import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace log="http://www.betamasaheft.eu/log" at "log.xqm";
+import module namespace switch = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch"  at "xmldb:exist:///db/apps/BetMas/modules/switch.xqm";
 import module namespace tl="https://www.betamasaheft.uni-hamburg.de/BetMas/timeline"at "xmldb:exist:///db/apps/BetMas/modules/timeline.xqm";
 import module namespace app = "https://www.betamasaheft.uni-hamburg.de/BetMas/app" at "xmldb:exist:///db/apps/BetMas/modules/app.xqm";
 import module namespace item = "https://www.betamasaheft.uni-hamburg.de/BetMas/item" at "xmldb:exist:///db/apps/BetMas/modules/item.xqm";
@@ -48,7 +49,7 @@ $start as xs:integer*,
 $per-page as xs:integer*,
 $hi as xs:string*) {
   let $item := collection($config:data-root)//id($id)[name()='TEI']
-  let $col := app:switchcol($item/@type)
+  let $col := switch:col($item/@type)
   let $log := log:add-log-message('/'||$id||'/main', xmldb:get-current-user(), 'item')
   return
 restItem:ITEM('main', $id, $col,$start,$per-page, $hi)

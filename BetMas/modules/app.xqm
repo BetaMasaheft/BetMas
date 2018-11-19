@@ -16,6 +16,7 @@ declare namespace rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace sr = "http://www.w3.org/2005/sparql-results#";
 
+import module namespace switch = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch"  at "xmldb:exist:///db/apps/BetMas/modules/switch.xqm";
 import module namespace kwic = "http://exist-db.org/xquery/kwic" at "resource:org/exist/xquery/lib/kwic.xql";
 import module namespace templates="http://exist-db.org/xquery/templates" ;
 import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
@@ -1650,21 +1651,6 @@ function app:paginate($node as node(), $model as map(*), $start as xs:int, $per-
 };
 
 
-(: FROM SHAKESPEAR :)
-
-declare function app:switchcol($type as xs:string){
-    
-    switch($type)
-        case 'work' return 'works'
-        case 'nar' return 'narratives'
-        case 'pers' return 'persons'
-        case 'place' return 'places'
-        case 'ins' return 'institutions'
-        case 'auth' return 'authority-files'
-        case 'traces' return 'traces'
-        default return 'manuscripts'
-    
-};
 
 declare    
 %templates:wrap
@@ -1681,7 +1667,7 @@ declare
          let $count := count($expanded//exist:match)
         let $root := root($text)
         let $id := data($root/t:TEI/@xml:id)
-        let $collection := app:switchcol($root/t:TEI/@type)
+        let $collection := switch:col($root/t:TEI/@type)
         let $score as xs:float := ft:score($text)
          return
             <div class="row reference">
@@ -1708,7 +1694,7 @@ declare
          for $text at $p in subsequence($model("hits"), $start, $per-page)
         let $root := root($text)
         let $id := data($root/t:TEI/@xml:id)
-        let $collection := app:switchcol($root/t:TEI/@type)
+        let $collection := switch:col($root/t:TEI/@type)
          return
             <div class="row reference">
                 <div class="col-md-2"><span class="number">{$start + $p - 1}</span></div>
