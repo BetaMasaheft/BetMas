@@ -601,7 +601,6 @@ for $decoration at $p in $model("hits")
             else ()}
             <p class="col-md-11">
             <a href="{data($ms)}#{data($sd/@xml:id)}">{data($sd/@xml:id)}</a><br/>
-            {if(count($sd//t:term) ge 1) then 'Keywords: ' || string-join(string:tei2string($sd//t:term), ', ') else ()}<br/>
             {if(count($sd//t:ref[@type='authFile']) ge 1) then 'Art Themes: ' || string-join(string:tei2string($sd//t:ref[@type='authFile']), ', ') else ()}
             </p>
             
