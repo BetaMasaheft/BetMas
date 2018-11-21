@@ -58,13 +58,11 @@ declare
 %output:method("html")
 function api:listRepositoriesName()
 {
-for $i in collection($config:data-rootIn)//t:TEI/@xml:id
-let $id := string($i)
-let $name := base-uri($i)
-let $tit := titles:printTitleMainID($id)
-order by $tit
+for $i in doc('/db/apps/BetMas/institutions.xml')//t:item
+let $id := string($i/@xml:id)
+order by $i
 return
-<option value="{$id}">{$tit}</option>
+<option value="{$id}">{$i}</option>
 };
 
 

@@ -27,6 +27,7 @@ module namespace gitsync = "http://syriaca.org/ns/gitsync";
 import module namespace xdb = "http://exist-db.org/xquery/xmldb";
 import module namespace http = "http://expath.org/ns/http-client";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
+import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
 import module namespace validation = "http://exist-db.org/xquery/validation";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare option exist:serialize "method=xml media-type=text/xml indent=yes";
@@ -98,6 +99,14 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
                 let $stored-file := doc($collection-uri || '/' || $file-name)
                 return
                     gitsync:validateAndConfirm($stored-file, $committerEmail, 'updated')
+                    ,
+                    if(contains($data-collection, 'institutions')) then (
+                    let $institutionslist := doc('/db/apps/BetMas/institutions.xml')//t:list
+                    let $id := substring-before($file-name, '.xml')
+                    let $update :=  update value  $institutionslist/t:item[@xml:id=$id] with titles:printTitleMainID($id)
+                    return
+                    'updated institutions.xml static list'
+                    ) else ()
                     ,
                     let $stored-file := doc($collection-uri || '/' || $file-name)
                let $rdf := transform:transform($stored-file, 'xmldb:exist:///db/apps/BetMas/rdfxslt/data2rdf.xsl', ())
@@ -193,6 +202,15 @@ declare function gitsync:do-add($commits, $contents-url as xs:string?, $data-col
                    ( 
                    gitsync:validateAndConfirm($stored-file, $committerEmail, 'updated')
                     ,
+                    if(contains($data-collection, 'institutions')) then (
+                    let $institutionslist := doc('/db/apps/BetMas/institutions.xml')//t:list
+                    let $id := substring-before($file-name, '.xml')
+(:                    This will inevitably cause the order in that list to be broken :)
+                    let $update :=  update insert <item xmlns="http://www.tei-c.org/ns/1.0">{titles:printTitleMainID($id)}</item> into  $institutionslist
+                    return
+                    'added value at the end of the list in institutions.xml'
+                    ) else ()
+                    ,
                     let $rdf := transform:transform($stored-file, 'xmldb:exist:///db/apps/BetMas/rdfxslt/data2rdf.xsl', ())
                let $rdffilename := replace($file-name, '.xml', '.rdf')
                 let $collectionName := substring-after($data-collection, '/db/apps/BetMas/data/')
@@ -242,7 +260,16 @@ return
         try {
             <response
                 status="okay">
-                <message>removed {$file-name}{xmldb:remove($collection-uri, $file-name)} and {$rdffilename}{xmldb:remove($rdfcoll, $rdffilename)}</message>
+                <message>removed {$file-name}{xmldb:remove($collection-uri, $file-name)} and {$rdffilename}{xmldb:remove($rdfcoll, $rdffilename)}
+                {
+                    if(contains($data-collection, 'institutions')) then (
+                    let $institutionslist := doc('/db/apps/BetMas/institutions.xml')//t:list
+                    let $id := substring-before($file-name, '.xml')
+                    let $update :=  update delete  $institutionslist/t:item[@xml:id=$id]
+                    return
+                    'added value at the end of the list in institutions.xml'
+                    ) else ()
+                    }</message>
             </response>
         } catch * {
 (            <response

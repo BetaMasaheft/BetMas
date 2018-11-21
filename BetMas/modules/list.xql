@@ -69,14 +69,15 @@ function list:browseMS(){
 {
 let $mss := collection($config:data-rootMS)[descendant::t:repository[@ref]]
 return
-    for $repoi in collection($config:data-rootIn)//t:TEI/@xml:id
-    let $i := string($repoi)
+    for $repoi in doc('/db/apps/BetMas/institutions.xml')//t:item
+    let $i := string($repoi/@xml:id)
+    
      let $inthisrepo := $mss//t:repository[@ref = $i]
      let $count := count($inthisrepo)
-    order by $i
+    order by $repoi
     return
         <div class="row">
-        <div class="col-md-4"><h2> <span class="MainTitle" data-value="{$i}">{$i}</span></h2></div>
+        <div class="col-md-4"><h2> {$repoi}</h2></div>
         <div class="col-md-2"><span class="badge">{$count}</span></div>
           <div class="col-md-6">   <a class="btn btn-info" data-toggle="collapse" href="#list{$i}" role="button" aria-expanded="false" aria-controls="list{$i}">show list</a>
             <ul id="list{$i}" class="collapse">{
