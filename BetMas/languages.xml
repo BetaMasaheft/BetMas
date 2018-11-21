@@ -16,7 +16,6 @@
         <body>
             <list>
                 <item xml:id="am">Amharic</item>
-                <item xml:id="amh">English</item>
                 <item xml:id="ar">Arabic</item>
                 <item xml:id="awn">Awngi</item>
                 <item xml:id="cop">Coptic</item>
