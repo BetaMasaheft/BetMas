@@ -2,7 +2,7 @@
     <xsl:output encoding="UTF-8" method="xml"/>
     <xsl:output indent="yes" method="xml"/>
     <xsl:variable name="BMurl">http://betamasaheft.eu/</xsl:variable>
-    
+    <xsl:variable name="editorslist" select="doc('xmldb:exist:///db/apps/BetMas/editors.xml')//t:list"/>
     
     <xsl:template match="@* | node()">
         <xsl:copy>
@@ -61,32 +61,11 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
     </xsl:template>
     
     <xsl:template match="@resp | @who">
-        
+        <xsl:variable name="value" select="data(.)"/>
         <xsl:attribute name="{./name()}">
+            
             <xsl:choose>
-                <xsl:when test=". = 'AB'">Alessandro Bausi</xsl:when>
-                <xsl:when test=". = 'ES'">Eugenia Sokolinski</xsl:when>
-                <xsl:when test=". = 'DN'">Denis Nosnitsin</xsl:when>
-                <xsl:when test=". = 'MV'">Massimo Villa</xsl:when>
-                <xsl:when test=". = 'DR'">Dorothea Reule</xsl:when>
-                <xsl:when test=". = 'SG'">Solomon Gebreyes</xsl:when>
-                <xsl:when test=". = 'PL'">Pietro Maria Liuzzo</xsl:when>
-                <xsl:when test=". = 'SA'">Stéphane Ancel</xsl:when>
-                <xsl:when test=". = 'SD'">Sophia Dege</xsl:when>
-                <xsl:when test=". = 'VP'">Vitagrazia Pisani</xsl:when>
-                <xsl:when test=". = 'IF'">Iosif Fridman</xsl:when>
-                <xsl:when test=". = 'SH'">Susanne Hummel</xsl:when>
-                <xsl:when test=". = 'FP'">Francesca Panini</xsl:when>
-                <xsl:when test=". = 'AA'">Abreham Adugna</xsl:when>
-                <xsl:when test=". = 'EG'">Ekaterina Gusarova</xsl:when>
-                <xsl:when test=". = 'IR'">Irene Roticiani</xsl:when>
-                <xsl:when test=". = 'MB'">Maria Bulakh</xsl:when>
-                <xsl:when test=". = 'VR'">Veronika Roth</xsl:when>
-                <xsl:when test=". = 'MK'">Magdalena Krzyzanowska</xsl:when>
-                <xsl:when test=". = 'DE'">Daria Elagina</xsl:when>
-                <xsl:when test=". = 'NV'">Nafisa Valieva</xsl:when>
-                <xsl:when test=". = 'RHC'">Ran HaCohen</xsl:when>
-                <xsl:when test=". = 'SS'">Sisay Sahile</xsl:when>
+                <xsl:when test="string-length($value) le 3"><xsl:value-of select="$editorslist//t:item[@xml:id=$value]/text()"/></xsl:when>
                 <xsl:otherwise>
                     <xsl:value-of select="concat($BMurl, .)"/>
                 </xsl:otherwise>
@@ -106,6 +85,9 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
                 </xsl:when>
                 <xsl:when test="starts-with(., 'Q')">
                     <xsl:value-of select="concat('https://www.wikidata.org/wiki/', .)"/>
+                </xsl:when>
+                <xsl:when test="contains(., 'eagle')">
+                    <xsl:value-of select=" . "/>
                 </xsl:when>
             <xsl:otherwise>
                     <xsl:value-of select="concat($BMurl, .)"/>
@@ -345,31 +327,10 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
         <xsl:copy>
             
             <xsl:apply-templates select="@*"/>
-            <xsl:choose>
-            <xsl:when test="@key = 'AB'">Alessandro Bausi</xsl:when>
-            <xsl:when test="@key = 'ES'">Eugenia Sokolinski</xsl:when>
-            <xsl:when test="@key = 'DN'">Denis Nosnitsin</xsl:when>
-            <xsl:when test="@key = 'MV'">Massimo Villa</xsl:when>
-            <xsl:when test="@key = 'DR'">Dorothea Reule</xsl:when>
-            <xsl:when test="@key = 'SG'">Solomon Gebreyes</xsl:when>
-            <xsl:when test="@key = 'PL'">Pietro Maria Liuzzo</xsl:when>
-            <xsl:when test="@key = 'SA'">Stéphane Ancel</xsl:when>
-            <xsl:when test="@key = 'SD'">Sophia Dege</xsl:when>
-            <xsl:when test="@key = 'VP'">Vitagrazia Pisani</xsl:when>
-            <xsl:when test="@key = 'IF'">Iosif Fridman</xsl:when>
-            <xsl:when test="@key = 'SH'">Susanne Hummel</xsl:when>
-            <xsl:when test="@key = 'FP'">Francesca Panini</xsl:when>
-            <xsl:when test="@key = 'AA'">Abreham Adugna</xsl:when>
-            <xsl:when test="@key = 'EG'">Ekaterina Gusarova</xsl:when>
-            <xsl:when test="@key = 'IR'">Irene Roticiani</xsl:when>
-            <xsl:when test="@key = 'MB'">Maria Bulakh</xsl:when>
-            <xsl:when test="@key = 'VR'">Veronika Roth</xsl:when>
-            <xsl:when test="@key = 'MK'">Magdalena Krzyzanowska</xsl:when>
-            <xsl:when test="@key = 'DE'">Daria Elagina</xsl:when>
-            <xsl:when test="@key = 'NV'">Nafisa Valieva</xsl:when>
-            <xsl:when test="@key = 'RHC'">Ran HaCohen</xsl:when>
-            <xsl:when test="@key = 'SS'">Sisay Sahile</xsl:when>
-        </xsl:choose>
+            
+
+            <xsl:value-of select="$editorslist//t:item[@xml:id=current()/@key]/text()"/>
+            
         </xsl:copy>
     </xsl:template>
 
