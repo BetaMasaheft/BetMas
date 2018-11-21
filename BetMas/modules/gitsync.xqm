@@ -32,6 +32,7 @@ import module namespace validation = "http://exist-db.org/xquery/validation";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare option exist:serialize "method=xml media-type=text/xml indent=yes";
 
+declare variable $gitsync:taxonomy := doc('/db/apps/BetMas/data/authority-files/taxonomy.xml');
 (:~
  : Recursively creates new collections if necessary. 
  : @param $uri url to resource being added to db 
@@ -115,10 +116,17 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
                return
                      xmldb:store(concat('/db/rdf/', $collectionName), $rdffilename, $rdf),
                      if (ends-with($file-name, '.xml')) then (
-                     let $stored-fileID := doc($collection-uri || '/' || $file-name)/t:TEI/@xml:id/string()
+                     let $Stfile := doc($collection-uri || '/' || $file-name)
+                     let $stored-fileID := $Stfile/t:TEI/@xml:id/string()
                      let $filename := substring-before($file-name, '.xml')
+                     let $allids := for $xmlid in $Stfile//@xml:id return string($xmlid)
+                     let $taxonomy := for $key in $gitsync:taxonomytaxonomy//t:catDesc/text() return lower-case($key)
                      return
-                     if ($stored-fileID eq $filename) then () else (
+                     if ($stored-fileID eq $filename) then (
+                     if($allids = $taxonomy) then (let $intersect := distinct-values($allids[.=$taxonomy])
+                     return
+                     gitsync:wrongAnchor($committerEmail, $intersect, $filename)) else ()
+                     ) else (
                      gitsync:wrongID($committerEmail, $stored-fileID, $filename)
                      )
                      ) else ()
@@ -220,8 +228,15 @@ declare function gitsync:do-add($commits, $contents-url as xs:string?, $data-col
                 if (ends-with($file-name, '.xml')) then (
                      let $stored-fileID := $stored-file/t:TEI/@xml:id/string()
                      let $filename := substring-before($file-name, '.xml')
+                     let $allids := for $xmlid in $stored-file//@xml:id return string($xmlid)
+                     let $taxonomy := for $key in $gitsync:taxonomytaxonomy//t:catDesc/text() return lower-case($key)
                      return
-                     if ($stored-fileID eq $filename) then () else (
+                     if ($stored-fileID eq $filename) then (
+                     if($allids = $taxonomy) then (let $intersect := distinct-values($allids[.=$taxonomy])
+                     return
+                     gitsync:wrongAnchor($committerEmail, $intersect, $filename)) else ()
+                     )
+                     else(
                      gitsync:wrongID($committerEmail, $stored-fileID, $filename)
                      )
                      ) else ()
@@ -367,6 +382,40 @@ declare function gitsync:wrongID($mail, $storedFileID, $filename) {
                             </head>
                             <body>
                                 <p>The file {$filename}.xml has id {$storedFileID} instead of {$filename}.</p>
+                                <p>
+                                Please fix it as soon as possible.
+                                </p>
+                                <p>Thank you!</p>
+                            </body>
+                        </html>
+                    </xhtml>
+                </message>
+            </mail>
+            return
+                (:send the email:)
+                mail:send-email($WrongIdMessage, 'public.uni-hamburg.de', ())
+};
+
+(:~
+ :after storing a resource check that the file does not use taxonomy ids, if it does report email
+:)
+declare function gitsync:wrongAnchor($mail, $intersect, $filename) {
+     let $WrongIdMessage := <mail>
+                <from>pietro.liuzzo@uni-hamburg.de</from>
+                <to>{$mail[1]}</to>
+                <cc></cc>
+                <bcc></bcc>
+                <subject>It looks like there is a wrong anchor in a file you pushed to Beta maṣāḥǝft...</subject>
+                <message>
+                    <xhtml>
+                        <html>
+                            <head>
+                                <title>The file {$filename}.xml uses an invalid @xml:id.</title>
+                            </head>
+                            <body>
+                                <p>The file {$filename}.xml has @xml:id {string-join($intersect, ', ')} which are not allowed as IDs, because they are values reserved for 
+                                the taxonomy.
+                                </p>
                                 <p>
                                 Please fix it as soon as possible.
                                 </p>
