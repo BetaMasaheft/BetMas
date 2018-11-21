@@ -977,7 +977,7 @@ declare
 %templates:default("context", "collection($config:data-rootMS)")
 function app:scripts($node as node(), $model as map(*), $context as xs:string*) {
     let $cont := util:eval($context)
-    let $scripts := distinct-values($cont//@script)
+    let $scripts := $app:util-index-lookup($cont//@script, (), function($key, $count) {$key}, 100, 'lucene-index' )
     let $control := app:formcontrol('script', $scripts, 'false', 'values', $context)
     return
         templates:form-control($control, $model)

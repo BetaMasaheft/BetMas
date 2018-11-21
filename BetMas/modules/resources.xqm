@@ -459,7 +459,7 @@ for $addition at $p in $data
         <ul class="list-group" id="{data($type)}list">
         
         <a href="#{data($type)}" class="list-group-item" data-toggle="collapse">
-        <i class="glyphicon glyphicon-chevron-right"></i><span class="badge">{if ($type = 'undefined') then count($data[not(descendant::t:desc/@type)]) else count($data[t:desc[@type = $type]])}</span><span class="additionType" data-value="{$type}">{
+        <i class="glyphicon glyphicon-chevron-right"></i><span class="badge">{if ($type = 'undefined') then count($data[not(descendant::t:desc/@type)]) else count($data/t:desc[@type = $type])}</span><span class="additionType" data-value="{$type}">{
        if ($type = 'undefined') then $type else $tit  
     }</span></a>
         <ul class="list-group collapse" id="{data($type)}">
