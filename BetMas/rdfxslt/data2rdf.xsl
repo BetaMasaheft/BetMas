@@ -101,7 +101,8 @@
                                         <xsl:otherwise>WrongUnitName</xsl:otherwise>
                                     </xsl:choose>
                                 </xsl:when>
-                            </xsl:choose>
+                            <xsl:otherwise>part</xsl:otherwise>
+                                </xsl:choose>
                                 
                             </xsl:variable>
                             <xsl:value-of select="concat($mainPart, '/', $type, '/', $anchor)"/>
@@ -217,6 +218,11 @@
                         </xsl:with-param>
                     </xsl:apply-templates>
                     <xsl:apply-templates select="//t:witness"/>
+                    <xsl:apply-templates select="//t:div[@type='edition']/t:div">
+                        <xsl:with-param name="mainID">
+                            <xsl:value-of select="$mainID"/>
+                        </xsl:with-param>
+                    </xsl:apply-templates>
                 </xsl:if>
                 <xsl:if test="@type = 'place' or @type = 'ins'">
                     <xsl:if test="@type = 'place'"><rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/E53_Place"/></xsl:if>
@@ -380,7 +386,17 @@
                         <xsl:value-of select="$mainID"/>
                     </xsl:with-param>
                 </xsl:apply-templates>
-
+            </xsl:if>
+            
+            
+                <!--            entity type specific independent annotations with uris -->
+                <xsl:if test="@type = 'work'">
+                    <!--                only call templates for direct children of div[edition]-->
+                    <xsl:apply-templates select="//t:div[@type='edition']/t:div" mode="parturis">
+                        <xsl:with-param name="mainID">
+                            <xsl:value-of select="$mainID"/>
+                        </xsl:with-param>
+                    </xsl:apply-templates>
                 
 
                
@@ -452,11 +468,11 @@
     </xsl:template>
 
 
-    <xsl:template match="         t:msPart |          t:msFrag |          t:msItem |          t:colophon |         t:item[ancestor::t:additions] |          t:item[ancestor::t:collation] |          t:item[ancestor::t:foliation] |          t:handNote |          t:layout |          t:decoNote[ancestor::t:bindingDesc] |          t:decoNote[ancestor::t:decoDesc]  ">
+    <xsl:template match="         t:msPart |          t:msFrag |          t:msItem |          t:colophon |         t:item[ancestor::t:additions] |          t:item[ancestor::t:collation] |          t:item[ancestor::t:foliation] |          t:handNote |          t:layout |          t:decoNote[ancestor::t:bindingDesc] |          t:decoNote[ancestor::t:decoDesc]  | t:div[ancestor::t:div[@type='edition']]">
         <xsl:param name="mainID"/>
         <xsl:variable name="type">
                <xsl:call-template name="URItype">
-                <xsl:with-param name="name"><xsl:value-of select="if(current()/parent::t:list/parent::t:additions) then 'ADD' else if (current()/parent::t:list/parent::t:collation) then 'COL' else if (current()/parent::t:list/parent::t:foliation) then 'FOL' else if (current()//parent::t:binding) then 'BIND' else ()"/><xsl:value-of select="name()"/></xsl:with-param>
+                   <xsl:with-param name="name"><xsl:value-of select="if(current()/parent::t:list/parent::t:additions) then 'ADD' else if (current()/parent::t:list/parent::t:collation) then 'COL' else if (current()/parent::t:list/parent::t:foliation) then 'FOL' else if (current()//parent::t:binding) then 'BIND' else ()"/><xsl:value-of select="name()"/></xsl:with-param>
                   </xsl:call-template>
         </xsl:variable>
         <xsl:variable name="elemname" select="name()"/>
@@ -618,13 +634,14 @@
         </rdf:Description>
     </xsl:template>
 
-    <xsl:template match="          t:item[ancestor::t:collation] |          t:item[ancestor::t:foliation] |          t:handNote |          t:layout |          t:decoNote[ancestor::t:bindingDesc] |          t:decoNote[ancestor::t:decoDesc]" mode="parturis">
+    <xsl:template match="     t:div[ancestor::t:div[@type='edition']]  |   t:item[ancestor::t:collation] |          t:item[ancestor::t:foliation] |          t:handNote |          t:layout |          t:decoNote[ancestor::t:bindingDesc] |          t:decoNote[ancestor::t:decoDesc]" mode="parturis">
         <xsl:param name="mainID"/>
         <xsl:variable name="type">
             <xsl:call-template name="URItype">
                 <xsl:with-param name="name"><xsl:value-of select="if(current()/parent::t:list/parent::t:additions) then 'ADD' else if (current()/parent::t:list/parent::t:collation) then 'COL' else if (current()/parent::t:list/parent::t:foliation) then 'FOL' else if (current()//ancestor::t:binding) then 'BIND' else ()"/><xsl:value-of select="name()"/></xsl:with-param>
             </xsl:call-template>
         </xsl:variable>
+        
         <rdf:Description>
             <xsl:variable name="elemname" select="name()"/>
             <xsl:variable name="id" select="if(@xml:id) then @xml:id else concat(name(), (count(preceding-sibling::t:*[name() = $elemname])+1))"/>
@@ -683,7 +700,20 @@
             </xsl:apply-templates>
             <xsl:apply-templates select="t:listBibl"/>
             <xsl:apply-templates select="descendant::t:term[@key]"/>
+            <!--        in case div has got subdivs, then loop again, adding part-->
+            <xsl:apply-templates select="t:div">
+                <xsl:with-param name="mainID">
+                    <xsl:value-of select="$mainID"/>
+                </xsl:with-param>
+            </xsl:apply-templates>
         </rdf:Description>
+<!--        in case div has got subdivs, then loop again-->
+        
+        <xsl:apply-templates select="t:div" mode="parturis">
+            <xsl:with-param name="mainID">
+                <xsl:value-of select="$mainID"/>
+            </xsl:with-param>
+        </xsl:apply-templates>
     </xsl:template>
     
     <xsl:template match="@corresp">
@@ -743,6 +773,7 @@
         <xsl:param name="name"/>
         <xsl:choose>
             <xsl:when test="$name = 'msPart'">mspart</xsl:when>
+            <xsl:when test="$name = 'div'">part</xsl:when>
             <xsl:when test="$name = 'msFrag'">msfrag</xsl:when>
             <xsl:when test="$name = 'msItem'">msitem</xsl:when>
             <xsl:when test="$name = 'colophon'">colophon</xsl:when>
@@ -838,6 +869,7 @@
 <!--                                the collation lists each quire, but the UniCah is made of several, so this can only be considered as Elements-->
                                 <xsl:when test="starts-with($candidatenewsubid, 'UniCah')">ElCah</xsl:when>
                                 <xsl:when test="starts-with($candidatenewsubid, 'UniCont')">UniCont</xsl:when>
+                                <xsl:otherwise>part</xsl:otherwise>
                             </xsl:choose></xsl:variable>
                         <xsl:value-of select="concat('https://w3id.org/sdc/ontology#', $SdC)"/>
                     </xsl:attribute>
@@ -859,6 +891,7 @@
             </rdf:type>
         </xsl:if>
     </xsl:template>
+    
     <xsl:template match="t:relation[@active][@passive]">
         <xsl:variable name="a" select="@active"/>
         <xsl:variable name="about">
@@ -1134,7 +1167,7 @@
             <xsl:if test="@xml:lang">
                 <xsl:copy-of select="@xml:lang"/>
             </xsl:if>
-        </crm:P102_has_title>
+            </crm:P102_has_title>
         </xsl:if>
     </xsl:template>
 
