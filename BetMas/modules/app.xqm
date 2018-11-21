@@ -36,7 +36,7 @@ import module namespace sparql="http://exist-db.org/xquery/sparql" at "java:org.
 declare variable $app:collection as xs:string := request:get-parameter('collection',());
 declare variable $app:name as xs:string := request:get-parameter('name',());
 declare variable $app:rest  as xs:string := '/rest/';
-
+declare variable $app:languages := doc('/db/apps/BetMas/languages.xml');
 declare variable $app:range-lookup := 
     (
         function-lookup(xs:QName("range:index-keys-for-field"), 4),
@@ -700,7 +700,9 @@ declare function app:selectors($nodeName, $path, $nodes, $type, $context){
             (: type is values :)
             for $n in $nodes[. != ''][. != ' ']
                 let $thiskey := replace(functx:trim($n), '_', ' ')
-                let $title := if($nodeName = 'keyword' or $nodeName = "placetype"or $nodeName = "country"or $nodeName = "settlement") then titles:printTitleID($thiskey) else $thiskey
+                let $title := if($nodeName = 'keyword' or $nodeName = "placetype"or $nodeName = "country"or $nodeName = "settlement") then titles:printTitleID($thiskey) 
+                                        else if ($nodeName = 'language') then $app:languages//t:item[@xml:id=$thiskey]/text()
+                                        else $thiskey
                 let $rangeindexname := 
                                         switch($nodeName) 
                                         case 'relType' return 'relname' 
@@ -724,7 +726,8 @@ declare function app:selectors($nodeName, $path, $nodes, $type, $context){
                 order by $n
                 return
                 
-            <option value="{$thiskey}">{if($thiskey = 'Printedbook') then 'Printed Book' else $title} {(' ('||$facet[1]||')')}</option>
+            <option value="{$thiskey}">{if($thiskey = 'Printedbook') then 'Printed Book' 
+             else $title} {(' ('||$facet[1]||')')}</option>
             )
             }
         </select>

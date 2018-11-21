@@ -22,6 +22,8 @@ import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/c
 import module namespace charts = "https://www.betamasaheft.uni-hamburg.de/BetMas/charts" at "xmldb:exist:///db/apps/BetMas/modules/charts.xqm";
 import module namespace console = "http://exist-db.org/xquery/console"; 
 
+declare variable $apprest:languages := doc('/db/apps/BetMas/languages.xml');
+
 declare function functx:trim( $arg as xs:string? )  as xs:string {
 
    replace(replace($arg,'\s+$',''),'^\s+','')
@@ -1038,7 +1040,7 @@ return
 <div class="form-group" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that language">
 <label for="language">languages </label>
 <select multiple="multiple" name="language" id="language" class="form-control">
-                            {$app:range-lookup('TEIlanguageIdent', '', function($key, $count) {<option value="{$key}">{$key} </option>}, 100)}
+                            {$app:range-lookup('TEIlanguageIdent', '', function($key, $count) {<option value="{$key}">{$apprest:languages//t:item[@xml:id=$key]/text()} </option>}, 100)}
                             </select>
                             </div>
 (:app:formcontrol('language',  $evalContext//t:language/@ident, 'true', 'values', $context):)
