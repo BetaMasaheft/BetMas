@@ -701,7 +701,7 @@ if($file) then (
                 allowfullscreen="true"
                 width="100%" 
                 height="400" 
-                src="http://peripleo.no5.at/embed/{encode-for-uri(concat('http://betamasaheft.eu/places/',$repoID))}">
+                src="https://peripleo.pelagios.org/embed/{encode-for-uri(concat('http://betamasaheft.eu/places/',$repoID))}">
             </iframe>
        <div id="entitymap" style="width: 100%; height: 400px; margin-top:100px" />
    <script>{'var placeid = "'||$repoID||'"'}</script>
