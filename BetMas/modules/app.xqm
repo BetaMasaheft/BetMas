@@ -29,7 +29,6 @@ import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/t
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace xdb = "http://exist-db.org/xquery/xmldb";
 import module namespace validation = "http://exist-db.org/xquery/validation";
-import module namespace console = "http://exist-db.org/xquery/console";
 import module namespace sparql="http://exist-db.org/xquery/sparql" at "java:org.exist.xquery.modules.rdf.SparqlModule";
 
 
@@ -1391,8 +1390,7 @@ else @notAfter)[. !=''][. >= " || $from || '][.  <= ' || $to || ']
    let $marginR :=  if (contains($parameterslist, 'rmargin')) then (app:paramrange('tmargin', "dimension[@type='margin']/t:dim[@type='right']")) else ()
    let $marginL :=  if (contains($parameterslist, 'lmargin')) then (app:paramrange('tmargin', "dimension[@type='margin']/t:dim[@type='left']")) else ()
    let $marginIntercolumn :=  if (contains($parameterslist, 'intercolumn')) then (app:paramrange('intercolumn', "dimension[@type='margin']/t:dim[@type='intercolumn']")) else ()
-                
- let $test := console:log($homophones)               
+                            
 let $query-string := if ($query != '') 
                                         then (
                                                                        if($homophones='true') 
@@ -1408,7 +1406,7 @@ let $query-string := if ($query != '')
                                                                                 else all:substitutionsInQuery($query) 
                                                                        else $query)  
                                         else ()
-   let $test := console:log($query-string)
+
 let $eachworktype := for $wtype in request:get-parameter('work-types', ()) 
                                    return  "@type='"|| $wtype || "'"
         
