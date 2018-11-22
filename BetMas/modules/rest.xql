@@ -58,11 +58,13 @@ declare
 %output:method("html")
 function api:listRepositoriesName()
 {
-for $i in doc('/db/apps/BetMas/institutions.xml')//t:item
-let $id := string($i/@xml:id)
-order by $i
+for $i in collection($config:data-rootIn)//t:TEI/@xml:id
+let $id := string($i)
+let $name := base-uri($i)
+let $tit := titles:printTitleMainID($id)
+order by $tit
 return
-<option value="{$id}">{$i}</option>
+<option value="{$id}">{$tit}</option>
 };
 
 
@@ -510,61 +512,3 @@ declare function api:noresults($call) {
     </html>
 };
 
-(:~
-  : Atom feed (only general) adapted from syriaca.org code
-:)
-declare 
-    %rest:GET
-    %rest:path("/BetMas/api/atom")
-    %rest:query-param("start", "{$start}", 1)
-    %rest:query-param("perpage", "{$perpage}", 25)
-    %output:media-type("application/atom+xml")
-    %output:method("xml")
-function api:get-atom-feed($start as xs:integer*, $perpage as xs:integer*){
-   ($api:response200XML, 
-   
-    let $feed := collection($config:data-root)//t:TEI
-   let $changes:= $feed//t:change[@when]
-let $latests := 
-    for $alllatest in $changes
-    order by xs:date($alllatest/@when) descending
-    return $alllatest
-
-
-    let $total := count($feed)
-    return 
-     <feed  xmlns="http://www.w3.org/2005/Atom">
-<title>betmasaheft.eu: {$total} resources </title>
-<link href="{$config:appUrl}"/>
-<link rel="self" type="application/atom+xml" href="{$config:appUrl}/api/atom"/>
-<link rel="next" href="{concat($config:appUrl,'/api/atom?start=',$start + $perpage)}"/>
-<link rel="last" href="{concat($config:appUrl,'/api/atom?start=',$total + $perpage)}"/>
-<updated>{string($latests[1]/@when)}</updated>
-<author>
-<name>{$config:appUrl}</name>
-</author>
-{
-for $latest at $count in subsequence($latests, $start, $perpage)
-let $id := string(root($latest)/t:TEI/@xml:id)
-let $type := string(root($latest)/t:TEI/@type)
-let $collection:= switch:col($type)
-return
-<entry xmlns="http://www.w3.org/2005/Atom">
-<title>{titles:printTitleMainID($id)}
-</title>
-<link rel="self" type="application/atom+xml" href="/api/{$id}/atom"/>
-<link rel="alternate" type="text/xml" href="/api/{$id}/tei"/>
-<link rel="alternate" type="text/json" href="/api/{$id}/json"/>
-<link rel="alternate" type="html" href="/{$collection}/{$id}/main"/>
-<link rel="alternate" type="html" href="/{$collection}/{$id}/analytic"/>
-<link rel="alternate" type="html" href="/{$collection}/{$id}/text"/>
-<link rel="alternate" type="application/rdf+xml" href="/{$id}.rdf"/>
-<link rel="alternate" type="pdf" href="/{$id}.pdf"/>
-<id>
-{$config:appUrl}/{$id}
-</id>
-<updated>{string($latest/@when)}</updated>
-</entry>}
-</feed>
-     )
-};
