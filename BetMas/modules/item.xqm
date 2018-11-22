@@ -104,7 +104,7 @@ return
 declare function item:RestItemHeader($this, $collection) {
 let $document := $this
 let $id := string($this/@xml:id)
-let $repoids := if ($document//t:repository/text() = 'Lost') 
+let $repoids := if ($document//t:repository/text() = 'Lost' or $document//t:repository/text() = 'In situ' ) 
                                then ($document//t:repository/text()) 
                              else if ($document//t:repository/@ref) 
                                 then distinct-values($document//t:repository/@ref) 
@@ -142,8 +142,9 @@ return
     </div>
  {switch ($collection)
 case 'manuscripts' return
-    if($document//t:repository/text() = 'Lost')
-    then <div><span class="label label-danger">Lost</span>
+
+    if($document//t:repository/text() = 'Lost' or $document//t:repository/text() = 'In situ')
+    then <div><span class="label label-danger">{$document//t:repository/text()}</span>
     <p class="lead">Collection:  {$document//t:msIdentifier/t:collection}</p>
 
             {if($document//t:altIdentifier) then
