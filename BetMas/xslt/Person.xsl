@@ -9,17 +9,17 @@
                         </p>
                 </div>
             </xsl:if>
-            <xsl:if test="//t:death">
-                <div class="col-md-12" id="death"> <h4>Death</h4>
-                   <p>
-                            <xsl:apply-templates select="//t:death" mode="noP"/>
-                        </p>
-                </div>
-            </xsl:if>
             <xsl:if test="//t:floruit">
                 <div class="col-md-12" id="floruit"> <h4>Floruit</h4>
                     <p>
                             <xsl:apply-templates select="//t:floruit" mode="noP"/>
+                        </p>
+                </div>
+            </xsl:if>
+            <xsl:if test="//t:death">
+                <div class="col-md-12" id="death"> <h4>Death</h4>
+                   <p>
+                            <xsl:apply-templates select="//t:death" mode="noP"/>
                         </p>
                 </div>
             </xsl:if>
