@@ -29,6 +29,7 @@ import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/t
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace xdb = "http://exist-db.org/xquery/xmldb";
 import module namespace validation = "http://exist-db.org/xquery/validation";
+import module namespace console = "http://exist-db.org/xquery/console";
 import module namespace sparql="http://exist-db.org/xquery/sparql" at "java:org.exist.xquery.modules.rdf.SparqlModule";
 
 
@@ -1269,6 +1270,7 @@ declare
     %templates:default("work-types", "all")
     %templates:default("target-ms", "all")
     %templates:default("target-work", "all")
+    %templates:default("homophones", "true")
 %templates:default("numberOfParts", "")
     %templates:default("element",  "placeName", "title", "persName", "ab", "floruit", "p", "note", "idno", "incipit", "explicit")
 function app:query(
@@ -1279,9 +1281,9 @@ $numberOfParts as xs:string*,
     $work-types as xs:string+,
     $element as xs:string+,
     $target-ms as xs:string+,
-    $target-work as xs:string+
-   ) {
-    
+    $target-work as xs:string+,
+    $homophones as xs:string+   ) {
+    let $homophones :=request:get-parameter('homophones', ())
    let $parameterslist := request:get-parameter-names()
    let $paramstobelogged := for $p in $parameterslist for $value in request:get-parameter($p, ()) return ($p || '=' || $value)
    let $logparams := '?' || string-join($paramstobelogged, '&amp;')
@@ -1390,9 +1392,23 @@ else @notAfter)[. !=''][. >= " || $from || '][.  <= ' || $to || ']
    let $marginL :=  if (contains($parameterslist, 'lmargin')) then (app:paramrange('tmargin', "dimension[@type='margin']/t:dim[@type='left']")) else ()
    let $marginIntercolumn :=  if (contains($parameterslist, 'intercolumn')) then (app:paramrange('intercolumn', "dimension[@type='margin']/t:dim[@type='intercolumn']")) else ()
                 
-                
-let $query-string := if ($query != '') then all:substitutionsInQuery($query) else ()
-   
+ let $test := console:log($homophones)               
+let $query-string := if ($query != '') 
+                                        then (
+                                                                       if($homophones='true') 
+                                                                       then 
+                                                                                if(contains($query, 'AND')) then 
+                                                                                (let $parts:= for $qpart in tokenize($query, 'AND') 
+                                                                                return all:substitutionsInQuery($qpart) return 
+                                                                                '(' || string-join($parts, ') AND (')) || ')'
+                                                                                else if(contains($query, 'OR')) then 
+                                                                                (let $parts:= for $qpart in tokenize($query, 'OR') 
+                                                                                return all:substitutionsInQuery($qpart) return 
+                                                                                '(' || string-join($parts, ') OR (')) || ')'
+                                                                                else all:substitutionsInQuery($query) 
+                                                                       else $query)  
+                                        else ()
+   let $test := console:log($query-string)
 let $eachworktype := for $wtype in request:get-parameter('work-types', ()) 
                                    return  "@type='"|| $wtype || "'"
         

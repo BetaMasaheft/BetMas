@@ -38,7 +38,9 @@
                         <div class="col-sm-9">
                             <span data-template="app:queryinput"/>
 <!--                                <input id="textarea" name="query" class="form-control diacritics" placeholder="type here the text you want to search"/>-->
-                                
+                            <div class="col-sm-9">
+                                <input type="checkbox" name="homophones" value="true" checked="checked">ignore homophones</input>
+                            </div>
                             <span class="btn-group">
                                 <a class="kb btn btn-success">
                                     <i class="fa fa-keyboard-o" aria-hidden="true"/>
@@ -53,7 +55,7 @@
                         </div>
                     </div>
                     <div class="col-md-6 col-xs-6">
-                        <p>Please click on the info button for more information about the text search</p>
+                        <p>Please click on the info button for more information about the text search. If you deselect the 'ignore homophones' these cases will not be considered and only the exact string you searched will be passed on.</p>
                         <div/>
                     </div>
                 </div>
@@ -210,7 +212,7 @@
                         <label class="control-label col-sm-3" for="plFilters">Places Filters</label>
                         <div class="col-sm-9" id="plFilter">
                             <input type="checkbox" value="placeType"/> type<br/>
-                            <input type="checkbox" value="tabots"/> tabots<br/>
+                            <input type="checkbox" value="tabots"/> Tābots<br/>
                         </div>
                     </div>
                     <div class="col-md-6 col-xs-6">Select more general filters</div>

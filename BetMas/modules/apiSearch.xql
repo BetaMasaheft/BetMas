@@ -174,7 +174,17 @@ let $log := log:add-log-message('/api/search?q=' || $q, xmldb:get-current-user()
                 "[ancestor::t:TEI/@type = 'pers']"
         default return
             ''
-let $query-string := if($homophones = 'true') then all:substitutionsInQuery($q) else ($q)
+let $query-string := if($homophones = 'true') then   
+                                                                    if(contains($q, 'AND')) then 
+                                                                                (let $parts:= for $qpart in tokenize($q, 'AND') 
+                                                                                return all:substitutionsInQuery($qpart) return 
+                                                                                '(' || string-join($parts, ') AND (')) || ')'
+                                                                                else if(contains($q, 'OR')) then 
+                                                                                (let $parts:= for $qpart in tokenize($q, 'OR') 
+                                                                                return all:substitutionsInQuery($qpart) return 
+                                                                                '(' || string-join($parts, ') OR (')) || ')'
+                                                                                else all:substitutionsInQuery($q)  
+                                                                                else ($q)
          
 let $hits := 
 for $e in $element 
