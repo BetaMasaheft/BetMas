@@ -323,6 +323,7 @@ return
                     <div class="form-group"  style="display:inline;">
                     <div class="input-group">
                         <input type="text" class="form-control diacritics" placeholder="search" name="query" id="q"/>
+                         <script type="application/javascript" src="resources/js/preventformsubmission.js"/>
                         <span id="furtherSearchOptions" class="input-group-btn">
                             <a class="kb btn btn-success">
                                 <i class="fa fa-keyboard-o" aria-hidden="true"></i>
