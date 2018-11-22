@@ -73,6 +73,25 @@ $hi as xs:string*) {
 restItem:ITEM('main', $id, $collection,$start,$per-page, $hi)
 };
 
+
+declare
+%rest:GET
+%rest:path("/BetMas/{$collection}/{$id}/geoBrowser")
+%rest:query-param("start", "{$start}", 1)
+%rest:query-param("per-page", "{$per-page}", 1)
+%rest:query-param("hi", "{$hi}", '')
+%output:method("html5")
+function restItem:getgeoBrowser(
+$collection as xs:string*,
+$id as xs:string*,
+$start as xs:integer*,
+$per-page as xs:integer*,
+$hi as xs:string*) {
+let $log := log:add-log-message('/'||$collection||'/'||$id||'/geoBrowser', xmldb:get-current-user(), 'item')
+  return
+restItem:ITEM('geobrowser', $id, $collection,$start,$per-page, $hi)
+};
+
 declare
 %rest:GET
 %rest:path("/BetMas/{$collection}/{$id}/text")
@@ -287,6 +306,13 @@ transform:transform(
 </div>
    }</div>
    )
+   case 'geobrowser' return (
+   <div class="container col-md-10">
+   <div class="col-md-12 alert alert-info">You can download the <a href="http://betamasaheft.eu/api/KML/places/{$id}">KML</a> file visualized below in the <a href="https://geobrowser.de.dariah.eu">Dariah-DE Geobrowser</a>.</div>
+   <h3>Map and timeline of places attestations marked up in the text.</h3>
+   <iframe style="width: 100%; height: 800px;" id="geobrowserMap" src="http://geobrowser.de.dariah.eu/embed/index.html?kml1=http://betamasaheft.eu/api/KML/places/{$id}"/>
+   </div>
+   )
    case 'analytic' return (
    <div class="container col-md-10">
              <img id="loading" src="resources/Loading.gif" style="display: none;"></img>
@@ -426,11 +452,7 @@ if ($id = $Subjects) then  (try{LitFlow:Sankey($id, 'works')} catch * {$err:desc
 (:   the form with a list of potental relation keywords to find related items. value is used by Jquery to query rest again on api:SharedKeyword($keyword) :)
    switch($collection)
    case 'works' return  (
-   <div class="col-md-12 alert alert-info">You can download the <a href="http://betamasaheft.eu/api/KML/places/{$id}">KML</a> file visualized below in the <a href="https://geobrowser.de.dariah.eu">Dariah-DE Geobrowser</a>.</div>,
-   item:RestMiniatures($id), 
-  
-   <div><div class="col-md-2"></div><div class="col-md-10"><h3>Map and timeline of places attestations marked up in the text.</h3>
-   <iframe style="width: 100%; height: 800px;" id="geobrowserMap" src="http://geobrowser.de.dariah.eu/embed/index.html?kml1=http://betamasaheft.eu/api/KML/places/{$id}"/></div></div>)
+   item:RestMiniatures($id))
   case 'persons' return (item:RestTabot($id), item:RestAdditions($id), item:RestMiniatures($id))
     case 'authority-files' return
     <div class="col-md-12"><h4>Art Objects associated with this Art Theme in miniatures and other manuscript decorations</h4>

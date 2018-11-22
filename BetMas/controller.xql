@@ -222,6 +222,7 @@ else
                 ends-with($exist:path, '/collate') or
                 ends-with($exist:path, '/compareSelected') or
                 ends-with($exist:path, '/text') or
+                ends-with($exist:path, '/geoBrowser') or
                 ends-with($exist:path, '/viewer') or
                 ends-with($exist:path, '/time') or
                 ends-with($exist:path, '/graph') or

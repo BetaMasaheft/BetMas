@@ -86,7 +86,8 @@ return
     '.json')}" target="_blank">geoJson</a></li> else ()}
 <li class="span_full_width"><a href="/{$collection}/{$id}/analytic" target="_blank">Relations</a></li>
     {if ($collection = 'works' or $collection = 'narratives') then
-    <li class="span_full_width"><a href="{('/'||$collection|| '/' || $id || '/text' )}" target="_blank">Text</a></li> else ()}
+    (<li class="span_full_width"><a href="{('/'||$collection|| '/' || $id || '/text' )}" target="_blank">Text</a></li>,
+    <li class="span_full_width"><a href="{('/'||$collection|| '/' || $id || '/geoBrowser' )}" target="_blank">Geo-Browser</a></li>) else ()}
     {if ($collection = 'manuscripts') then
     <li class="span_full_width"><a href="{('/'||$collection|| '/' || $id || '/text' )}" target="_blank">Transcription</a></li> else ()}
     {if ($collection = 'manuscripts' and $this//t:msIdentifier/t:idno/@facs) then
