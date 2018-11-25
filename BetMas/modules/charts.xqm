@@ -357,7 +357,7 @@ let $taglie := for $d in $hits//t:extent[descendant::t:dimensions[@type='outer']
 
         var options = {
           title: 'Distribution of the size (height + width) as in Maniaci 2012, 486.',
-          vAxis:{title:'number of manuscripts'},
+          vAxis:{title:'percentage of manuscripts'},
          hAxis:{title:'size ranges (height + width)'},
           curveType: 'function',
           legend: { position: 'bottom' }
