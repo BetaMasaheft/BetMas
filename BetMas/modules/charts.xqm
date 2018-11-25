@@ -357,8 +357,8 @@ let $taglie := for $d in $hits//t:extent[descendant::t:dimensions[@type='outer']
 
         var options = {
           title: 'Distribution of the size (height + width) as in Maniaci 2012, 486.',
-          'vAxis':{'title':'number of manuscripts'},
-         'hAxis':{'title':'size ranges (height + width)'}
+          vAxis:{title:'number of manuscripts'},
+         hAxis:{title:'size ranges (height + width)'},
           curveType: 'function',
           legend: { position: 'bottom' }
         };
@@ -413,9 +413,9 @@ return
                       isStacked: "percent",
                       height: 300,
                       legend: {position: "top", maxLines: 3},
-                      hAxis:{"title"="Periods"},
+                      hAxis:{title:"Periods"},
                       vAxis: {
-                        "title"="percentage of total with number of sewing stations",
+                        title:"percentage of total with number of sewing stations",
                         minValue: 0,
                         ticks: [0, .25, .5, .75, 1]
                       }
@@ -467,9 +467,9 @@ return
                     isStacked: "percent",
                     height: 300,
                     legend: {position: "top", maxLines: 3},
-                    hAxis:{"title"="Periods"},
+                    hAxis:{title: "Periods"},
                       vAxis: {
-                        "title"="percentage of the total using sewing pattern",
+                        title: "percentage of the total using sewing pattern",
                       minValue: 0,
                       ticks: [0, .25, .5, .75, 1]
                     }
@@ -531,9 +531,9 @@ var options = { title: "Thread Materials used by date range for '||$countmswithT
                   isStacked: "percent",
                   height: 300,
                   legend: {position: "top", maxLines: 3},
-                  hAxis:{"title"="Periods"},
+                  hAxis:{title: "Periods"},
                       vAxis: {
-                        "title"="percentage of the total using thread material",
+                     title: "percentage of the total using thread material",
                     minValue: 0,
                     ticks: [0, .25, .5, .75, 1]
                   }
@@ -594,9 +594,9 @@ var options = { title: "Binding Materials used by date range  for '||$countmswit
                   isStacked: "percent",
                   height: 300,
                   legend: {position: "top", maxLines: 3},
-                  hAxis:{"title"="Periods"},
+                  hAxis:{title:"Periods"},
                       vAxis: {
-                        "title"="percentage of the total using binding material",
+                        title: "percentage of the total using binding material",
                    minValue: 0,
                     ticks: [0, .25, .5, .75, 1]
                   }
@@ -657,9 +657,9 @@ var options = { title: "Form of support used by date range for '||$countmsObjTyp
                   isStacked: "percent",
                   height: 300,
                   legend: {position: "top", maxLines: 3},
-                  hAxis:{"title"="Periods"},
+                  hAxis:{title: "Periods"},
                       vAxis: {
-                        "title"="percentage of the total with specific form of support",
+                        title: "percentage of the total with specific form of support",
                  
                     minValue: 0,
                     ticks: [0, .25, .5, .75, 1]
@@ -719,9 +719,9 @@ var options = { title: "Support Materials used by date range  for '||$countmswit
                   isStacked: "percent",
                   height: 300,
                   legend: {position: "top", maxLines: 3},
-                  hAxis:{"title"="Periods"},
+                  hAxis:{title: "Periods"},
                       vAxis: {
-                        "title"="percentage of the total using support material",
+                        title:"percentage of the total using support material",
                  
                     minValue: 0,
                     ticks: [0, .25, .5, .75, 1]
