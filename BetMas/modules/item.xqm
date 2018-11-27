@@ -301,7 +301,7 @@ return
 
                                             {
 
-                   if ($isSubjectof) then  <div  class="relBox alert alert-info"><b>This person is subject of the following works</b>
+                   if ($isSubjectof) then  <div  class="relBox alert alert-info"><b>This person is subject of the following textual units</b>
                         <ul>{
                         for $p in $isSubjectof
                     return
@@ -314,7 +314,7 @@ return
                 }
                 {
 
-                   if ($isAuthorof) then  <div  class="relBox alert alert-info"><b>This person is author or attributed author of the following works</b>
+                   if ($isAuthorof) then  <div  class="relBox alert alert-info"><b>This person is author or attributed author of the following textual units</b>
                         <ul>{
                         for $p in $isAuthorof
                     return
@@ -391,7 +391,7 @@ return
                                             {
 
                      if ($isSubjectof) then
-                     <div  class="relBox alert alert-info"><b>This place is subject of the following works</b>
+                     <div  class="relBox alert alert-info"><b>This place is subject of the following textual units</b>
                         <ul>{
                         for $p in $isSubjectof
                     return
@@ -429,21 +429,26 @@ else
                       <div  class="relBox alert alert-info"> {(
 
                        switch($rn)
-                        case 'saws:contains' return <b>The following parts of this work are also independent works ({$rn})</b>
-                        case 'ecrm:P129_is_about' return <b>The following subjects are treated in this work  ({$rn})</b>
+                        case 'saws:contains' return <b>The following parts of this textual unit are also independent textual units ({$rn})</b>
+                        case 'ecrm:P129_is_about' return <b>The following subjects are treated in this textual unit  ({$rn})</b>
                        case 'saws:isVersionInAnotherLanguageOf' return <b>The following Textual Units are versions in other languages of this ({$rn})</b>
-                         case 'saws:formsPartOf' return <b>This work is included in the following works ({$rn})</b>
-                        case 'saws:isDifferentTo' return <b>This work is marked as different from the current ({$rn})</b>
-                       default return <b>The following works have a relation {$rn} with this work</b>,
+                         case 'saws:formsPartOf' return <b>This textual unit is included in the following textual units ({$rn})</b>
+                        case 'saws:isDifferentTo' return <b>This textual unit is marked as different from the current ({$rn})</b>
+                       default return <b>The following textual units have a relation {$rn} with this textual unit</b>,
 
                       <ul>{for $p in $par/@passive
                         let $normp := normalize-space($p)
                         return
                         if (contains($normp, ' ')) then
                         for $value in tokenize ($normp, ' ') return
-                        <li><a href="{$value}" class="MainTitle" data-value="{$value}">{$value}</a></li>
+                        if(starts-with($value,'http')) then 
+                        <li class="nodot"><a href="{$value}">{$value}</a></li>
+                        else <li class="nodot"><a href="{$value}" class="MainTitle" data-value="{$value}">{$value}</a></li>
                         else
-                        <li><a href="{$p}"  class="MainTitle" data-value="{$p}">{$p}</a></li>
+                         if(starts-with($p,'http')) then 
+                        <li class="nodot"><a href="{$p}">{$p}</a></li>
+                        else
+                        <li class="nodot"><a href="{$p}"  class="MainTitle" data-value="{$p}">{$p}</a></li>
                         }</ul>)
 
                 }</div>}
