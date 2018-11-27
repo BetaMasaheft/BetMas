@@ -269,7 +269,13 @@ if(xdb:collection-available($c)) then (
          {item:RestViewOptions($this, $collection)}
   { item:RestItemHeader($this, $collection)}
  <div id="content" class="container-fluid col-md-12">
-
+<div class="alert alert-success" style="font-size: smaller;">
+    <p><a role="button" target="_blank" class="btn btn-default btn-xs" 
+    href="https://github.com/BetaMasaheft/{replace(replace(base-uri($this), '/db/apps/BetMas/data/', ''), $collection, concat($collection, '/blob/master'))}">Click 
+    here to edit</a> this file in GitHub and contribute to the project. Not sure how to do this? Have a look at the <a target="_blank" href="http://betamasaheft.eu/Guidelines/?id=howto">Beta maṣāḥǝft Guidelines.</a> or <a target="_blank" href="mailto:pietro.liuzzo@uni-hamburg.de?Subject=[BetMas Contributor]%20{$id}">
+   contact us.
+</a></p>
+</div>
   { item:RestNav($this, $collection, $type)}
 
    {switch($type)
