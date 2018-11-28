@@ -404,26 +404,39 @@ http://betamasaheft.eu/works/LIT3122Galaw/text
                                             if (
                                             starts-with($exist:path, "/urn") and matches($exist:path, "\w+\d+(\w+)?")
                                             ) then
-                                                (console:log($exist:path),
+                                                ( let $tokenizePath := tokenize($exist:path, '%3A')
+                                                let $mainID := $tokenizePath[4]
+                                                let $passage := $tokenizePath[5]
+                                                let $switchCollection := local:switchPrefix(substring($mainID, 1, 2))
+                                                return
                                                 if (contains(request:get-header('Accept'), 'ld+json'))
                                             then
                                             <dispatch
                                                         xmlns="http://exist.sourceforge.net/NS/exist">
-                                                        <forward
+                                                       {if($passage="")  then 
+                                                       <forward
                                 url="{concat('/restxq/BetMas/api/dts/collection?id=', $exist:path)}"
                                 absolute="yes"> 
                                 {$login("org.exist.login", (), false())}
                                  <set-header name="Cache-Control" value="no-cache"/>
                                 </forward>
-                                        
+                                else 
+                                <forward
+                                url="{concat('/restxq/BetMas/api/dts/navigation?id=', $exist:path)}"
+                                absolute="yes"> 
+                               <add-parameter
+                                                                            name="ref"
+                                                                            value="{if(contains($passage, '.')) 
+                                                                                           then substring-before($passage, '.')
+                                                                                           else $passage}"/>
+                                {$login("org.exist.login", (), false())}
+                                 <set-header name="Cache-Control" value="no-cache"/>
+                                </forward>
+                                        }
                                                     
                                                     </dispatch>
                                             else
-                                                let $tokenizePath := tokenize($exist:path, '%3A')
-                                                let $mainID := $tokenizePath[4]
-                                                let $passage := $tokenizePath[5]
-                                                let $switchCollection := local:switchPrefix(substring($mainID, 1, 2))
-                                                return
+                                               
                                                     <dispatch
                                                         xmlns="http://exist.sourceforge.net/NS/exist">
                                                         
