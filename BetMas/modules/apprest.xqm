@@ -261,7 +261,10 @@ declare function apprest:deciderelation($list){
                 return
                   <li>{
                 if (starts-with($id/text(), 'SdC:')) then 'La Synthaxe du Codex ' || substring-after($id/text(), 'SdC:' )
-
+                
+               else if (starts-with($id/text(), 'urn:')) then
+                   <a target="_blank"  href="/{encode-for-uri($id)}">{$id/text()}</a>
+                   
      else
                    <a target="_blank"  href="{apprest:decidelink($id)}" class="MainTitle" data-value="{$id/text()}">{$id/text()}</a>
                    }</li>
@@ -293,7 +296,7 @@ return
 {for $relation in $allrels
 return
                                     <tr>
-                                        <th>
+                                        <td>
                                         {
         for $active in data($relation/@active)
           let $list :=<list>{
@@ -318,11 +321,11 @@ apprest:deciderelation($list//id)
 
     }
 
-                                        </th>
-                                        <th>
+                                        </td>
+                                        <td>
                                             {data($relation/@name)}
-                                        </th>
-                                        <th>
+                                        </td>
+                                        <td>
                                          { for $passive in data($relation/@passive)
           let $list := <list>{
               if (contains($passive, ' '))
@@ -345,12 +348,12 @@ apprest:deciderelation($list//id)
 
     }
 
-                                        </th>
-                                        <th>
+                                        </td>
+                                        <td>
 {                                            transform:transform($relation/t:desc, 'xmldb:exist:///db/apps/BetMas/xslt/relation.xsl',())
 
 }
-                                        </th>
+                                        </td>
                                     </tr>
                                     }
                             </tbody>

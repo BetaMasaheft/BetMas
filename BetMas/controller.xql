@@ -394,18 +394,17 @@ return
 if accept is set to json-ld, then redirect to api/dts,
 
 http://betamasaheft.eu/api/dts/collection?id=urn:dts:betmas:LIT3122Galaw
-
+WHICH NEEDS TO BE ENCODED! so urn%3Adts%3Abetmas%3ALIT3122Galaw
 else redirect to /text view with parameters
 
 http://betamasaheft.eu/works/LIT3122Galaw/text
 
-!!!!does not work due to colon
 :)
-                                       (:         else
-                                            if (matches($exist:path, "\w+\d+(\w+)?") and 
-                                            starts-with($exist:path, "urn")
+                                                else
+                                            if (
+                                            starts-with($exist:path, "/urn") and matches($exist:path, "\w+\d+(\w+)?")
                                             ) then
-                                                
+                                                (console:log($exist:path),
                                                 if (contains(request:get-header('Accept'), 'ld+json'))
                                             then
                                             <dispatch
@@ -420,18 +419,26 @@ http://betamasaheft.eu/works/LIT3122Galaw/text
                                                     
                                                     </dispatch>
                                             else
-                                                let $tokenizePath := tokenize($exist:path, ':')
+                                                let $tokenizePath := tokenize($exist:path, '%3A')
                                                 let $mainID := $tokenizePath[4]
+                                                let $passage := $tokenizePath[5]
                                                 let $switchCollection := local:switchPrefix(substring($mainID, 1, 2))
                                                 return
                                                     <dispatch
                                                         xmlns="http://exist.sourceforge.net/NS/exist">
                                                         
                                                         <redirect
-                                                            url="/{$switchCollection}/{$mainID}/text"/>
+                                                            url="/{$switchCollection}/{$mainID}/text">
+                                                            {if ($passage = '') then () 
+                                                            else <add-parameter
+                                                                            name="start"
+                                                                            value="{if(contains($passage, '.')) 
+                                                                                           then substring-before($passage, '.')
+                                                                                           else $passage}"/>}
+                                                            </redirect>
                                                     
-                                                    </dispatch>:)
-                                        
+                                                    </dispatch>
+                                        )
                                         
 (:                                        redirects uris of subpart URI like
 http://betamasaheft.eu/BDLaethe8/addition/a1
