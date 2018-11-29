@@ -65,7 +65,20 @@ function printbibl() {
                         
                         citationrange = '';
                         if ( $(el).attr('data-range')) {
+                        if(/\s/.test($(el).attr('data-range'))){
+/*                            more then one value for citation range*/
+                             var citationRanges = []
+                        var split = unit.split(" ")
+                        var splitrange = range.split(" ")
+                        var splitsize = split.length
+                        for (i = 0; i < splitsize; i++) {
+                        citationRanges.push( split[i] + ' ' + splitrange[i])
+                        }
+                            citationrange += ', ' + citationRanges.join( ', ')
+                        } else{
+/*                       only one citation range*/
                             citationrange += ', ' + unit + ' ' + range
+                            }
                         } else {
                         };
                         // console.log('this is the citation range ' + citationrange)
