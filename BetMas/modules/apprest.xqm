@@ -1157,7 +1157,7 @@ if($items-info = <start/>) then (
 (<div class="form-group">
 <label for="keyword">keywords </label>
 <select multiple="multiple" name="keyword" id="keyword" class="form-control">
-{$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{$key} ({$count})</option>}, 100)}
+{$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{$key} ({$count[1]})</option>}, 100)}
 </select>
 </div>,
 apprest:formcontrol('place type','placetype', $items-info//t:place/@type, 'true', 'values', $context),
