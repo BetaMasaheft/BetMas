@@ -987,11 +987,12 @@ let $hits :=        map { 'hits' := $matches}
 let $count := count($matches)
 return
    <div class="col-md-10">
-   <a href="?per-page={$count}" class="btn btn-primary" id="fullText">See full text</a>
+   
 {if($per-page = $count) then () else
+(<a href="?per-page={$count}" class="btn btn-primary" id="fullText">See full text</a>,
      <ul class="pagination" >
     {apprest:paginate-rest($hits, $parameters, $start, $per-page, 1, 21)}
-    </ul>
+    </ul>)
     }
                    {
     transform:transform(
