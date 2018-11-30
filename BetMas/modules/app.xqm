@@ -333,7 +333,7 @@ if ($list = 'works') then (
     else
     (:  name ALL:)
         (<td><a
-            href="/{$list}/{$itemid}/main" >{$itemtitle}</a></td>),
+            href="/{$itemid}" >{$itemtitle}</a></td>),
             
             
     if ($list = 'works') then
