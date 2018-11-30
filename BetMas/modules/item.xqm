@@ -984,13 +984,15 @@ if($document//t:div[@type='textpart']) then
 let $matches := for $hit in $document//t:div[@type='textpart']
                             return $hit
 let $hits :=        map { 'hits' := $matches}
+let $count := count($matches)
 return
    <div class="col-md-10">
-   <a href="?per-page={count($matches)}" class="btn btn-primary">See full text</a>
-
+   <a href="?per-page={$count}" class="btn btn-primary" id="fullText">See full text</a>
+{if($per-page = $count) then () else
      <ul class="pagination" >
     {apprest:paginate-rest($hits, $parameters, $start, $per-page, 1, 21)}
     </ul>
+    }
                    {
     transform:transform(
         $document,
