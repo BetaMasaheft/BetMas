@@ -350,9 +350,7 @@ transform:transform(
 
         </div>
    )
-   case 'text' return (<div class="alpheios-enabled">{item:RestText($this, $start, $per-page)}</div>,
-   
-        <div id="alpheios-main" data-trigger="dblclick,touchstart" data-selector=".alpheios-enabled"/>)
+   case 'text' return (<div>{item:RestText($this, $start, $per-page)}</div>)
    case 'graph' return (
    switch($collection)
 case 'manuscripts' return
@@ -450,9 +448,7 @@ if ($id = $Subjects) then  (try{LitFlow:Sankey($id, 'works')} catch * {$err:desc
    <script>{'var placeid = "'||$id||'"'}</script>,
             <script  type="text/javascript" src="resources/geo/geojsonentitymap.js"></script>) else (),
 
-   <div  class="alpheios-enabled">{item:RestItem($this, $collection)}</div>,
-   
-        <div id="alpheios-main" data-trigger="dblclick,touchstart" data-selector=".alpheios-enabled"/>,
+   item:RestItem($this, $collection),
    <div class="col-md-12 alert alert-info">This page contains RDFa. <a href="/rdf/{$collection}/{$id}.rdf">RDF+XML</a> graph of this resource. Alternate representations available via <a href="/api/void/{$id}">VoID</a>.</div>,
 (:   apprest:namedentitiescorresps($this, $collection),:)
 (:   the form with a list of potental relation keywords to find related items. value is used by Jquery to query rest again on api:SharedKeyword($keyword) :)

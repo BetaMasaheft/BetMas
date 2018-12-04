@@ -695,8 +695,8 @@ declare function apprest:scriptStyle(){
         
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/introjs.css"/>,
         <link rel="stylesheet" type="text/css" href="resources/css/style.css"/>,
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alpheios-embedded/dist/style/style.min.css"/>,
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alpheios-embedded/dist/style/style-embedded.min.css"/>,
+(:        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alpheios-embedded/dist/style/style.min.css"/>,
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alpheios-embedded/dist/style/style-embedded.min.css"/>,:)
         <style rel="stylesheet" type="text/css" href="resources/css/d3.css"/>,
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"/>,
         <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>,
@@ -714,9 +714,9 @@ declare function apprest:scriptStyle(){
         <script type="text/javascript" src="resources/openseadragon/openseadragon.min.js"/>,
         <script type="text/javascript" src="resources/js/analytics.js"></script>,
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/intro.js"></script>,
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>,
-        <script src="https://cdn.jsdelivr.net/npm/alpheios-embedded/dist/alpheios-embedded.min.js"></script>,
-        <script type="text/javascript" src="resources/alpheios/alpheiosStart.js"/>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> (: ,
+      <script src="https://cdn.jsdelivr.net/npm/alpheios-embedded/dist/alpheios-embedded.min.js"></script>,
+        <script type="text/javascript" src="resources/alpheios/alpheiosStart.js"/>:)
         )};
 
 (:~html page script and styles to be included specific for item :)
