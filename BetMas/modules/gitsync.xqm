@@ -2,21 +2,21 @@ xquery version "3.1";
 
 module namespace gitsync = "http://syriaca.org/ns/gitsync";
 
-(:~
- : XQuery endpoint to respond to Github webhook requests. Query responds only to push requests.
- : The EXPath Crypto library supplies the HMAC-SHA1 algorithm for matching Github secret.
+(:~ 
+ : XQuery endpoint to respond to Github webhook requests. Query responds only to push requests. 
+ : The EXPath Crypto library supplies the HMAC-SHA1 algorithm for matching Github secret. 
 
  : Secret can be stored as environmental variable.
  : Will need to be run with administrative privileges, suggest creating a git user with privileges only to relevant app.
  :
  : @author Winona Salesky
- : @version 1.1
+ : @version 1.1 
  :
- : @see http://expath.org/spec/crypto
+ : @see http://expath.org/spec/crypto 
  : @see http://expath.org/spec/http-client
- :
-
- : @author Pietro Liuzzo
+ : 
+ 
+ : @author Pietro Liuzzo 
  : @version 1.2
  :  slightly modified to serve only PERSONS repo for BetaMasaheft
  :  added validation and specific report, changed to use 3.1 and to use parse-json instead of xqjson
@@ -34,8 +34,8 @@ declare option exist:serialize "method=xml media-type=text/xml indent=yes";
 
 declare variable $gitsync:taxonomy := doc('/db/apps/BetMas/data/authority-files/taxonomy.xml');
 (:~
- : Recursively creates new collections if necessary.
- : @param $uri url to resource being added to db
+ : Recursively creates new collections if necessary. 
+ : @param $uri url to resource being added to db 
  :)
 declare function gitsync:create-collections($uri as xs:string) {
     let $collection-uri := substring($uri, 1)
@@ -57,7 +57,7 @@ declare function gitsync:create-collections($uri as xs:string) {
 declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-collection) {
     let $committerEmail := $commits?1?committer?email
     return
-
+        
         for $modified in $commits?1?modified?*
         let $file-path := concat($contents-url, $modified)
         let $gitToken := environment-variable('GITTOKEN')
@@ -71,7 +71,7 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
                 name="Authorization"
                 value="{('token ' || $gitToken)}"/>
         </http:request>
-
+       
         let $file := http:send-request($req)[2]
         let $thispayload := util:base64-decode($file)
         let $JSON := parse-json($thispayload)
@@ -83,7 +83,7 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
         return
             try {
                 (if (xmldb:collection-available($collection-uri)) then
-
+                    
                     <response
                         status="okay">
                         <message>{xmldb:store($collection-uri, xmldb:encode-uri($file-name), xs:base64Binary($file-data))}</message>
@@ -120,17 +120,17 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
                      let $stored-fileID := $Stfile/t:TEI/@xml:id/string()
                      let $filename := substring-before($file-name, '.xml')
                      let $allids := for $xmlid in $Stfile//@xml:id return string($xmlid)
-                     let $taxonomy := for $key in $gitsync:taxonomy//t:catDesc/text() return lower-case($key)
+                     let $taxonomy := for $key in $gitsync:taxonomytaxonomy//t:catDesc/text() return lower-case($key)
                      return
                      if ($stored-fileID eq $filename) then (
-                     if($allids = $taxonomy) then (let $intersect := distinct-values($allids[.=$taxonomy])
+                     if(($allids = $taxonomy) and ($collectionName !='authority-files')) then (let $intersect := distinct-values($allids[.=$taxonomy])
                      return
                      gitsync:wrongAnchor($committerEmail, $intersect, $filename)) else ()
                      ) else (
                      gitsync:wrongID($committerEmail, $stored-fileID, $filename)
                      )
                      ) else ()
-
+                    
                 )
             } catch * {
                 (<response
@@ -143,7 +143,7 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
 };
 
 (:~
- : Adds new files to eXistdb. Changes permissions for group write.
+ : Adds new files to eXistdb. Changes permissions for group write. 
  : Pulls data from github repository, parses file information and passes data to xmldb:store
  : @param $commits serilized json data
  : @param $contents-url string pointing to resource on github
@@ -152,7 +152,7 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
 declare function gitsync:do-add($commits, $contents-url as xs:string?, $data-collection) {
     let $committerEmail := $commits?1?committer?email
     return
-
+        
         for $modified in $commits?1?added?*
         let $file-path := concat($contents-url, $modified)
         let $gitToken := environment-variable('GITTOKEN')
@@ -166,7 +166,7 @@ declare function gitsync:do-add($commits, $contents-url as xs:string?, $data-col
                 name="Authorization"
                 value="{('token ' || $gitToken)}"/>
         </http:request>
-
+       
         let $file := http:send-request($req)[2]
         let $thispayload := util:base64-decode($file)
         let $JSON := parse-json($thispayload)
@@ -207,7 +207,7 @@ declare function gitsync:do-add($commits, $contents-url as xs:string?, $data-col
                 (:        if the update goes well, validation happens after storing, because the app needs to remain in sync with the GIT repo. Yes, invalid data has to be allowed in.:)
                 let $stored-file := doc($collection-uri || '/' || $file-name)
                 return
-                   (
+                   ( 
                    gitsync:validateAndConfirm($stored-file, $committerEmail, 'updated')
                     ,
                     if(contains($data-collection, 'institutions')) then (
@@ -229,10 +229,10 @@ declare function gitsync:do-add($commits, $contents-url as xs:string?, $data-col
                      let $stored-fileID := $stored-file/t:TEI/@xml:id/string()
                      let $filename := substring-before($file-name, '.xml')
                      let $allids := for $xmlid in $stored-file//@xml:id return string($xmlid)
-                     let $taxonomy := for $key in $gitsync:taxonomy//t:catDesc/text() return lower-case($key)
+                     let $taxonomy := for $key in $gitsync:taxonomytaxonomy//t:catDesc/text() return lower-case($key)
                      return
                      if ($stored-fileID eq $filename) then (
-                     if($allids = $taxonomy) then (let $intersect := distinct-values($allids[.=$taxonomy])
+                     if(($allids = $taxonomy) and ($collectionName !='authority-files')) then (let $intersect := distinct-values($allids[.=$taxonomy])
                      return
                      gitsync:wrongAnchor($committerEmail, $intersect, $filename)) else ()
                      )
@@ -301,7 +301,7 @@ return
 
 (:~
  :after storing a resource (and thus keeping the app in sync with the git repos)
- :this function takes the file and validates it. if it is valid it does nothing else.
+ :this function takes the file and validates it. if it is valid it does nothing else. 
  : If it is not it sends an email to the committer asking for changes and giving wise advice...
  : this function is called only on add and update
 :)
@@ -357,13 +357,13 @@ declare function gitsync:validateAndConfirm($item, $mail, $type) {
             return
                 (:send the email:)
                 mail:send-email($contributorMessage, 'public.uni-hamburg.de', ())
-
+            
             )
 };
 
 (:~
  :after storing a resource (and thus keeping the app in sync with the git repos)
- :this function takes the file and validates it. if it is valid it does nothing else.
+ :this function takes the file and validates it. if it is valid it does nothing else. 
  : If it is not it sends an email to the committer asking for changes and giving wise advice...
  : this function is called only on add and update
 :)
@@ -413,7 +413,7 @@ declare function gitsync:wrongAnchor($mail, $intersect, $filename) {
                                 <title>The file {$filename}.xml uses an invalid @xml:id.</title>
                             </head>
                             <body>
-                                <p>The file {$filename}.xml has @xml:id {string-join($intersect, ', ')} which are not allowed as IDs, because they are values reserved for
+                                <p>The file {$filename}.xml has @xml:id {string-join($intersect, ', ')} which are not allowed as IDs, because they are values reserved for 
                                 the taxonomy.
                                 </p>
                                 <p>
@@ -432,7 +432,7 @@ declare function gitsync:wrongAnchor($mail, $intersect, $filename) {
 
 (:~
  :after storing a resource (and thus keeping the app in sync with the git repos)
- :this function takes the file and validates it. if it is valid it does nothing else.
+ :this function takes the file and validates it. if it is valid it does nothing else. 
  : If it is not it sends an email to the committer asking for changes and giving wise advice...
  : this function is called only on add and update
 :)
@@ -465,7 +465,7 @@ declare function gitsync:failedCommitMessage($mail, $data-collection, $message) 
 
 (:~
  : Parse request data and pass to appropriate local functions
- : @param $json-data github response serializing as xml xqjson:parse-json()
+ : @param $json-data github response serializing as xml xqjson:parse-json()  
  :)
 declare function gitsync:parse-request($json-data, $data-collection) {
 let $login := xmldb:login($data-collection, 'Pietro', 'Hdt7.10')
@@ -502,7 +502,7 @@ return
                     status="fail"><message>Not from the master branch.</message></response>,
                         gitsync:failedCommitMessage('', $data-collection, 'Not from the master branch.')
                         )
-
+                        
         } catch * {
             (<response
                 status="fail">
@@ -512,3 +512,4 @@ return
                         )
         }
 };
+
