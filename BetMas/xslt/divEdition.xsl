@@ -570,7 +570,7 @@
     
     <xsl:template match="t:pb">
         <xsl:choose>
-            <xsl:when test="ancestor::t:div[@type='edition']">|<xsl:choose><xsl:when test="starts-with(@facs, 'http') and ancestor::t:TEI[@type='work']">
+            <xsl:when test="ancestor::t:div[@type='edition']">|<sup><xsl:value-of select="@n"/></sup><xsl:choose><xsl:when test="starts-with(@facs, 'http') and ancestor::t:TEI[@type='work']">
                 <xsl:variable name="corresp" select="substring-after(@corresp, '#')"/>
                 <xsl:variable name="manifest" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/t:ptr/@target"/>
                 <xsl:variable name="location" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/@facs"/>
@@ -620,6 +620,9 @@
         </sub>
     </xsl:template>
     
+    <xsl:template match="t:surplus">
+        {<xsl:apply-templates/>}
+    </xsl:template>
     <xsl:template match="t:subst">
         <xsl:apply-templates/>
     </xsl:template>
