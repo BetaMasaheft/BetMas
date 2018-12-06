@@ -169,7 +169,7 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                     <publicationStmt>
                         <authority>Hiob-Ludolf-Zentrum für Äthiopistik</authority>
                         <publisher>Die Schriftkultur des christlichen Äthiopiens: Eine multimediale
-                            Forschungsumgebung / beta maṣāḥǝft</publisher>
+                            Forschungsumgebung / Beta maṣāḥǝft</publisher>
                         <pubPlace>Hamburg</pubPlace>
                         <availability>
                             <licence
