@@ -33,9 +33,9 @@ function printbibl() {
             var thisurl = d[ "0"].data.url; // the url in the zotero
             if (thisurl == '') {
                 // if there is a url to a resource print that, otherways link to Zotero
-                url += ' <a target="_blank" href="https://www.zotero.org/groups/ethiostudies/items/tag/' + tag + '"><span class="glyphicon glyphicon-share"/></a>'
+                url += ' <a target="_blank" href="https://www.zotero.org/groups/ethiostudies/items/tag/' + tag + '"><span class="glyphicon glyphicon-share" style="display:inline;"/></a>'
             } else {
-                url += ' <a  target="_blank" href="' + thisurl + '""><span class="glyphicon glyphicon-share"/></a>'
+                url += ' <a  target="_blank" href="' + thisurl + '""><span class="glyphicon glyphicon-share" style="display:inline;"/></a>'
             };
             //console.log(url);
             if (d.length === 0) {

@@ -1,6 +1,6 @@
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:listBibl[not(ancestor::t:note)]">
-        <xsl:if test="not(parent::t:item)">
+        <xsl:if test="not(parent::t:item) and not(ancestor::t:physDesc)">
             <!--this test simply excludes the title from a bibliography appearing in an item. it might be extended to cover more cases. decoNote, handNote?-->
             <h4>
                 <xsl:if test="@type = 'catalogue'">
@@ -90,12 +90,14 @@
                 </xsl:if>
             </h4>
         </xsl:if>
-        <ul>
+        <ul class="bibliographyList">
             <xsl:apply-templates/>
         </ul>
     </xsl:template>
+    
+    
     <xsl:template match="t:bibl[parent::t:listBibl][not(ancestor::t:note)]">
-        <li>
+        <li class="bibliographyItem">
             <xsl:if test="@xml:id">
                 <xsl:attribute name="id">
                     <xsl:value-of select="@xml:id"/>
