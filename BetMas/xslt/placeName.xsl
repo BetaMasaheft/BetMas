@@ -9,21 +9,21 @@
                 <xsl:choose> 
                     <xsl:when test="contains(@ref, 'pleiades:')">
                         <xsl:variable name="pleiadesid" select="substring-after(@ref, 'pleiades:')"/>
-                        <span class="MainTitle" data-value="{@ref}"/>
+                        <span xmlns="http://www.w3.org/1999/xhtml"  class="MainTitle" data-value="{@ref}"/>
                         <xsl:apply-templates select="child::node()[not(name()='certainty')]"/>
                         <span xmlns="http://www.w3.org/1999/xhtml" class="pelagios" data-pelagiosID="{encode-for-uri(concat('http://pleiades.stoa.org/places/',$pleiadesid))}" data-href="https://pleiades.stoa.org/places/{$pleiadesid}">
                             ↗
                         </span>
                     </xsl:when>
                     <xsl:when test="starts-with(@ref, 'Q')">
-                        <span class="MainTitle" data-value="{@ref}"/>
+                        <span xmlns="http://www.w3.org/1999/xhtml"  class="MainTitle" data-value="{@ref}"/>
                         <xsl:apply-templates select="child::node()[not(name()='certainty')]"/>
                         <span xmlns="http://www.w3.org/1999/xhtml" class="pelagios" data-pelagiosID="{encode-for-uri(concat('http://www.wikidata.org/entity/',@ref))}" data-href="https://www.wikidata.org/wiki/{@ref}">
                             ↗
                         </span>
                     </xsl:when>
                     <xsl:when test="contains(@ref, 'gn:')">
-                        <span class="MainTitle" data-value="{@ref}"/>
+                        <span xmlns="http://www.w3.org/1999/xhtml"  class="MainTitle" data-value="{@ref}"/>
                         <xsl:variable name="gnid" select="substring-after(@ref, 'gn:')"/>
                         <a xmlns="http://www.w3.org/1999/xhtml" href="http://www.geonames.org/{$gnid}">
                             <xsl:value-of select="document(concat('http://api.geonames.org/get?geonameId=',$gnid,'&amp;username=betamasaheft'))//toponymName"/> 
