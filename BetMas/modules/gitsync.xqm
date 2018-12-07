@@ -117,10 +117,11 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
                      xmldb:store(concat('/db/rdf/', $collectionName), $rdffilename, $rdf),
                      if (ends-with($file-name, '.xml')) then (
                      let $Stfile := doc($collection-uri || '/' || $file-name)
+                     let $collectionName := substring-after($data-collection, '/db/apps/BetMas/data/')
                      let $stored-fileID := $Stfile/t:TEI/@xml:id/string()
                      let $filename := substring-before($file-name, '.xml')
                      let $allids := for $xmlid in $Stfile//@xml:id return string($xmlid)
-                     let $taxonomy := for $key in $gitsync:taxonomytaxonomy//t:catDesc/text() return lower-case($key)
+                     let $taxonomy := for $key in $gitsync:taxonomy//t:catDesc/text() return lower-case($key)
                      return
                      if ($stored-fileID eq $filename) then (
                      if(($allids = $taxonomy) and ($collectionName !='authority-files')) then (let $intersect := distinct-values($allids[.=$taxonomy])
@@ -228,8 +229,9 @@ declare function gitsync:do-add($commits, $contents-url as xs:string?, $data-col
                 if (ends-with($file-name, '.xml')) then (
                      let $stored-fileID := $stored-file/t:TEI/@xml:id/string()
                      let $filename := substring-before($file-name, '.xml')
+                     let $collectionName := substring-after($data-collection, '/db/apps/BetMas/data/')
                      let $allids := for $xmlid in $stored-file//@xml:id return string($xmlid)
-                     let $taxonomy := for $key in $gitsync:taxonomytaxonomy//t:catDesc/text() return lower-case($key)
+                     let $taxonomy := for $key in $gitsync:taxonomy//t:catDesc/text() return lower-case($key)
                      return
                      if ($stored-fileID eq $filename) then (
                      if(($allids = $taxonomy) and ($collectionName !='authority-files')) then (let $intersect := distinct-values($allids[.=$taxonomy])
