@@ -1692,15 +1692,15 @@ declare
             <div class="col-md-2">
                 <span class="number">{$start + $p - 1}</span>
                 </div>
-             <div class="col-md-8"><a target="_blank" href="/{$collection}/{$id}/main">{titles:printTitleID($id)}</a> ({$id})</div>
+             <div class="col-md-8"><a target="_blank" href="/{$collection}/{$id}/main" class="MainTitle" data-value="{$id}">{$id}</a> ({$id})</div>
                        <div class="col-md-2">
                 <span class="badge">{$count}</span>
                 </div>
             </div>
             
             <div class="col-md-8">
-                 <div class="col-md-8">{kwic:summarize($text,<config width="40"
-                        />)}</div>
+            
+                 <div class="col-md-8">{for $match in subsequence($expanded//exist:match, 1, 3) return  kwic:get-summary($expanded, $match,<config width="40"/>)}</div>
                         
                         <div class="col-md-4">{data($text/ancestor::t:*[@xml:id][1]/@xml:id)}</div>
                         </div>

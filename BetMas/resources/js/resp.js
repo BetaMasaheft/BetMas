@@ -44,7 +44,7 @@ $(document).ajaxStop(function () {
             //resp.xsl called by mss.xsl searches for all @resp values and produces an hidden div containing the id with the class MainTitle, which is used by title.js to call rest.xql and get the correct title for that id.
             // once this element is populated then we take from there the name.
                 var n = $('#' + all[i] + 'Name').text()
-                console.log(n)
+                // console.log(n)
                 name.push(n)
             }
             
@@ -52,7 +52,7 @@ $(document).ajaxStop(function () {
         } else {
             var n = $('#' + resp + 'Name').text()
             name.push(n)
-            console.log(name)
+          //  console.log(name)
         }
         
         var content = type + name.join(', ')
