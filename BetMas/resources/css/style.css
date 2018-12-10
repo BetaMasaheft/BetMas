@@ -10,7 +10,7 @@ list-style-type : none;
     margin-left: 40px
 }
 
-table {
+.table-hover {
     word-break: break-all;
 }
 .slider.slider-horizontal {
