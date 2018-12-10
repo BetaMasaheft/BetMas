@@ -8,6 +8,7 @@ declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace sparql = "http://www.w3.org/2005/sparql-results#";
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 
+
 (:establishes the different rules and priority to print a title referring to a record:)
 declare function titles:printTitle($node as element()) {
 (:always look at the root of the given node parameter of the function and then switch :)
@@ -25,7 +26,7 @@ declare function titles:printTitle($node as element()) {
                             else if ($resource//t:repository/@ref and $resource//t:msDesc/t:msIdentifier/t:idno/text())
                             then
                                 let $repoid := $resource//t:repository/@ref
-                                let $r := collection($config:data-rootIn)//id($repoid)
+                                let $r := $config:collection-rootIn/id($repoid)
                                 let $repo := if ($r) then
                                     ($r)
                                 else
@@ -135,7 +136,7 @@ function titles:printTitleID($id as xs:string)
     (: if the id has a subid, than split it :) else if (contains($id, '#')) then
         let $mainID := substring-before($id, '#')
         let $SUBid := substring-after($id, '#')
-        let $node := collection($config:data-root)//id($mainID)
+        let $node := $config:collection-root/id($mainID)
         return
         if (starts-with($SUBid, 't'))
     then
@@ -189,7 +190,7 @@ else titles:printSubtitle($node, $SUBid)
                                else if ($resource//t:repository/@ref and $resource//t:msDesc/t:msIdentifier/t:idno/text())
                                    then
                                    let $repoid := $resource//t:repository/@ref
-                                   let $r := collection($config:data-rootIn)//id($repoid)
+                                   let $r := $config:collection-rootIn/id($repoid)
                                    let $repo :=
                                        if ($r) then
                                            ($r)
@@ -251,7 +252,7 @@ else titles:printSubtitle($node, $SUBid)
        if (matches($id, 'Q\d+') or starts-with($id, 'gn:') or starts-with($id, 'pleiades:')) then
            (titles:decidePlaceNameSource($id))
        else (: always look at the root of the given node parameter of the function and then switch :)
-           let $resource := collection($config:data-root)//id($id)
+           let $resource := $config:collection-root/id($id)
            return
                if (count($resource) = 0) then
            <span class="label label-warning">{ 'No item: ' || $id }</span>
@@ -268,7 +269,7 @@ else titles:printSubtitle($node, $SUBid)
                                else if ($resource//t:repository/@ref and $resource//t:msDesc/t:msIdentifier/t:idno/text())
                                    then
                                    let $repoid := $resource//t:repository/@ref
-                                   let $r := collection($config:data-rootIn)//id($repoid)
+                                   let $r := $config:collection-rootIn/id($repoid)
                                    let $repo :=
                                        if ($r) then
                                            ($r)
@@ -500,7 +501,7 @@ declare function titles:decidePlName($plaID){
     else if (starts-with($plaID, 'gn:'))
         then titles:getGeoNames($plaID)
     else
-        let $placefile := collection($config:data-rootPl)//id($plaID)
+        let $placefile := $config:collection-rootPl/id($plaID)
         return
             titles:placeNameSelector($placefile[1])
 };

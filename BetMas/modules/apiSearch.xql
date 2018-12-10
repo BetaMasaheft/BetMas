@@ -7,6 +7,7 @@ xquery version "3.1" encoding "UTF-8";
  :)
 module namespace apiS = "https://www.betamasaheft.uni-hamburg.de/BetMas/apiSearch";
 import module namespace rest = "http://exquery.org/ns/restxq";
+import module namespace kwic = "http://exist-db.org/xquery/kwic" at "resource:org/exist/xquery/lib/kwic.xql";
 import module namespace all="https://www.betamasaheft.uni-hamburg.de/BetMas/all" at "xmldb:exist:///db/apps/BetMas/modules/all.xqm";
 import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";

@@ -213,6 +213,17 @@ declare variable $config:data-rootIn := $config:data-root || "/institutions";
 declare variable $config:data-rootA := $config:data-root || "/authority-files";
 declare variable $config:data-rootTraces := $config:app-root || "/traces";
 
+declare variable $config:collection-root := collection($config:data-root );
+declare variable $config:collection-rootMS := collection($config:data-rootMS);
+declare variable $config:collection-rootN := collection($config:data-rootN);
+declare variable $config:collection-rootW := collection($config:data-rootW);
+declare variable $config:collection-rootPl := collection($config:data-rootPl);
+declare variable $config:collection-rootPr := collection($config:data-rootPr);
+declare variable $config:collection-rootIn := collection($config:data-rootIn);
+declare variable $config:collection-rootA := collection($config:data-rootA);
+declare variable $config:collection-rootTraces := collection($config:data-rootTraces);
+
+
 declare variable $config:repo-descriptor := doc(concat($config:app-root, "/repo.xml"))/repo:meta;
 
 declare variable $config:expath-descriptor := doc(concat($config:app-root, "/expath-pkg.xml"))/expath:package;

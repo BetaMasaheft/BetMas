@@ -14,8 +14,10 @@ import module namespace item = "https://www.betamasaheft.uni-hamburg.de/BetMas/i
 import module namespace nav = "https://www.betamasaheft.uni-hamburg.de/BetMas/nav" at "xmldb:exist:///db/apps/BetMas/modules/nav.xqm";
 import module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMas/error" at "xmldb:exist:///db/apps/BetMas/modules/error.xqm";
 import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "xmldb:exist:///db/apps/BetMas/modules/apprest.xqm";
-import module namespace charts = "https://www.betamasaheft.uni-hamburg.de/BetMas/charts" at "xmldb:exist:///db/apps/BetMas/modules/charts.xqm";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
+import module namespace charts = "https://www.betamasaheft.uni-hamburg.de/BetMas/charts" at "xmldb:exist:///db/apps/BetMas/modules/charts.xqm";
+import module namespace exreq = "http://exquery.org/ns/request";
+import module namespace console = "http://exist-db.org/xquery/console";
 import module namespace xdb="http://exist-db.org/xquery/xmldb";
 import module namespace kwic = "http://exist-db.org/xquery/kwic"
     at "resource:org/exist/xquery/lib/kwic.xql";
@@ -67,7 +69,7 @@ function list:browseMS(){
 <div class="container">
 <div class="alert alert-info">Here you can browse all shelfmarks available institution by institution and collection by collection.</div>
 {
-let $mss := collection($config:data-rootMS)[descendant::t:repository[@ref]]
+let $mss := $config:collection-rootMS[descendant::t:repository[@ref]]
 return
     for $repoi in doc('/db/apps/BetMas/institutions.xml')//t:item
     let $i := string($repoi/@xml:id)
@@ -77,7 +79,7 @@ return
     order by $repoi
     return
         <div class="row">
-        <div class="col-md-4"><h2><a href="/manuscripts/{$i}/list">{$repoi}</a></h2></div>
+        <div class="col-md-4"><h2> {$repoi}</h2></div>
         <div class="col-md-2"><span class="badge">{$count}</span></div>
           <div class="col-md-6">   <a class="btn btn-info" data-toggle="collapse" href="#list{$i}" role="button" aria-expanded="false" aria-controls="list{$i}">show list</a>
             <ul id="list{$i}" class="collapse">{
@@ -366,7 +368,7 @@ if(xdb:collection-available($c)) then (
  {for $c in  $subcat/t:category
  let $subsubval := $c/t:catDesc/text()
  return
- <li><a href="/{$collection}/list?keyword={$subsubval}">{collection($config:data-rootA)//id($subsubval)//t:titleStmt/t:title/text()}</a></li>
+ <li><a href="/{$collection}/list?keyword={$subsubval}">{$config:collection-rootA/id($subsubval)//t:titleStmt/t:title/text()}</a></li>
 
  }
  </ul></li>
@@ -383,14 +385,14 @@ if(xdb:collection-available($c)) then (
  for $subsubcat in $subcat/t:category
  let $subsubval := $subsubcat/t:catDesc/text()
  return
- <li><a href="/{$collection}/list?keyword={$subsubval}">{collection($config:data-rootA)//id($subsubval)//t:titleStmt/t:title/text()}</a></li>
+ <li><a href="/{$collection}/list?keyword={$subsubval}">{$config:collection-rootA/id($subsubval)//t:titleStmt/t:title/text()}</a></li>
 
  }
  </ul>
  </div>
  )
  else(
- <li><a href="/{$collection}/list?keyword={$subval}">{collection($config:data-rootA)//id($subval)//t:titleStmt/t:title/text()}</a></li>)
+ <li><a href="/{$collection}/list?keyword={$subval}">{$config:collection-rootA/id($subval)//t:titleStmt/t:title/text()}</a></li>)
  }</ul>
  </div>}
  </div>
@@ -399,7 +401,7 @@ if(xdb:collection-available($c)) then (
  then (<p class="lead">Select an entry on the left to see all records where this occurs.</p>, <span class="pull-right">{app:nextID($collection)}</span>)
  else (
  let $res :=
- let $c := collection($config:data-root)
+ let $c := $config:collection-root
  let $terms := $c/t:TEI[descendant::t:term[@key = $keyword]]
  let $title := $c/t:TEI[descendant::t:title[@type = $keyword]]
  let $person := $c/t:TEI[descendant::t:person[@type = $keyword]]
@@ -409,9 +411,7 @@ if(xdb:collection-available($c)) then (
  let $faith := $c/t:TEI[descendant::t:faith[@type = $keyword] ]
  let $occupation := $c/t:TEI[descendant::t:occupation[@type = $keyword]]
  let $ref := $c/t:TEI[descendant::t:ref[@type = 'authFile'][@corresp=$keyword]]
- let $all := ($terms,$title,$person,$desc,$place,$ab,$faith,$occupation,$ref)
- let $hits :=  for $resource in $all
-                         return $resource
+ let $hits := ($terms | $title |$person|$desc|$place|$ab|$faith|$occupation|$ref)
    return
                       map {
                       'hits' := $hits,
@@ -421,7 +421,7 @@ if(xdb:collection-available($c)) then (
    return
  <div class="col-md-12">
  <div><h1><a href="/authority-files/{$keyword}/main">{titles:printTitleMainID($keyword)}</a></h1>
- {let $file := collection($config:data-rootA)//id($keyword)
+ {let $file := $config:collection-rootA/id($keyword)
  for $element in ($file//t:abstract, $file//t:listBibl)
  return <p>{string:tei2string($element)}</p>}
  </div>
@@ -494,7 +494,10 @@ if(sum($parametersLenght) ge 1 ) then
     {apprest:paginate-rest($hits, $parameters, $start, $per-page, 9, 21)}
     </ul>
                 </div>
-                {if($collection = 'manuscripts') then ( if(count($hits("hits")) lt 1050) then charts:chart($hits("hits")) 
+                {if($collection = 'manuscripts') then ( if(count($hits("hits")) lt 1050) then 
+                (
+                <a role="button" class="btn btn-default" href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exreq:query()}">Charts</a>)
+                
                 else (<div  class="col-md-6 alert alert-danger"><p>
     We think that charts with data from {count($hits("hits"))} items would be impossible to read and not very useful. 
     Filter your search to limit the number of items, with less then 1000 items we will also dinamically produce the charts.
@@ -544,6 +547,221 @@ if(sum($parametersLenght) ge 1 ) then
 
 
 
+ 
+declare
+%rest:GET
+%rest:path("/BetMas/manuscripts/listChart")
+%rest:query-param("start", "{$start}", 1)
+%rest:query-param("keyword", "{$keyword}", "")
+%rest:query-param("mainname", "{$mainname}", "")
+%rest:query-param("language", "{$language}", "")
+%rest:query-param("prms", "{$prms}", "")
+%rest:query-param("per-page", "{$per-page}", 20)
+%rest:query-param("date-range", "{$date-range}", "")
+%rest:query-param("clavisID", "{$clavisID}", "")
+%rest:query-param("clavistype", "{$clavistype}", "")
+%rest:query-param("cp", "{$cp}", "")
+%rest:query-param("numberOfParts", "{$numberOfParts}", "")
+%rest:query-param("min-hits", "{$min-hits}", 0)
+%rest:query-param("max-pages", "{$max-pages}", 20)
+ %rest:query-param("height","{$height}", "")
+%rest:query-param("width","{$width}", "")
+%rest:query-param("depth","{$depth}", "")
+%rest:query-param("columnsNum","{$columnsNum}", "")
+%rest:query-param("tmargin","{$tmargin}", "")
+%rest:query-param("bmargin","{$bmargin}", "")
+%rest:query-param("rmargin","{$rmargin}", "")
+%rest:query-param("lmargin","{$lmargin}", "")
+%rest:query-param("intercolumn","{$intercolumn}", "")
+%rest:query-param("folia","{$folia}", "")
+%rest:query-param("qn","{$qn}", "")
+%rest:query-param("qcn","{$qcn}", "")
+%rest:query-param("wL","{$wL}", "")
+%rest:query-param("script","{$script}", "")
+%rest:query-param("scribe","{$scribe}", "")
+%rest:query-param("donor","{$donor}", "")
+%rest:query-param("patron","{$patron}", "")
+%rest:query-param("owner","{$owner}", "")
+%rest:query-param("binder","{$binder}", "")
+%rest:query-param("parchmentMaker","{$parchmentMaker}", "")
+%rest:query-param("objectType","{$objectType}", "")
+%rest:query-param("material","{$material}", "")
+%rest:query-param("bmaterial","{$bmaterial}", "")
+%rest:query-param("contents","{$contents}", "")
+%rest:query-param("origPlace","{$origPlace}", "")
+%rest:query-param("tabot","{$tabot}", "")
+%rest:query-param("placetype","{$placetype}", "")
+%rest:query-param("authors","{$authors}", "")
+%rest:query-param("occupation","{$occupation}", "")
+%rest:query-param("faith","{$faith}", "")
+%rest:query-param("gender","{$gender}", "")
+%rest:query-param("period","{$period}", "")
+%rest:query-param("restorations","{$restorations}", "")
+%rest:query-param("country","{$country}", "")
+%rest:query-param("settlement","{$settlement}", "")
+%output:method("html5")
+function list:getlistChart(
+$start as xs:integer*,
+$per-page as xs:integer*,
+$min-hits as xs:integer*,
+$max-pages as xs:integer*,
+$date-range as xs:string*,
+$keyword as xs:string*,
+$mainname as xs:string*,
+$clavisID as xs:string*,
+$clavistype as xs:string*,
+$cp as xs:string*,
+$language as xs:string*,
+$numberOfParts as xs:string*,
+ $height as xs:string* ,
+$width as xs:string* ,
+$depth as xs:string* ,
+$columnsNum as xs:string* ,
+$tmargin as xs:string* ,
+$bmargin as xs:string* ,
+$rmargin as xs:string* ,
+$lmargin as xs:string* ,
+$intercolumn as xs:string* ,
+$folia as xs:string* ,
+$qn as xs:string* ,
+$qcn as xs:string* ,
+$wL as xs:string* ,
+$script as xs:string* ,
+$scribe as xs:string* ,
+$donor as xs:string* ,
+$patron as xs:string* ,
+$owner as xs:string* ,
+$binder as xs:string* ,
+$parchmentMaker as xs:string* ,
+$objectType as xs:string* ,
+$material as xs:string* ,
+$bmaterial as xs:string* ,
+$contents as xs:string* ,
+$origPlace as xs:string* ,
+$tabot as xs:string* ,
+$placetype as xs:string* ,
+$authors as xs:string* ,
+$occupation as xs:string* ,
+$faith as xs:string* ,
+$gender as xs:string* ,
+$period as xs:string* ,
+$restorations as xs:string* ,
+$country as xs:string* ,
+$settlement as xs:string* ,
+$prms as xs:string*) {
+let $c := '/db/apps/BetMas/data/'
+let $log := log:add-log-message('/'||'manuscripts'||'/list', xmldb:get-current-user(), 'list')
+let $Cmap := map {'type':= 'collection', 'name' := 'manuscripts', 'path' := $c}
+let $parameters :=
+map{'key':=$keyword,
+'mainname':=$mainname,
+                           'lang':=$language,
+                           'date':=$date-range,
+                           'clavisID':=$clavisID,
+                           'clavistype':=$clavistype,
+                           'cp':=$cp,
+                           'numberOfParts':=$numberOfParts,
+                           'height':=$height,
+'width':=$width,
+'depth':=$depth,
+'columnsNum':=$columnsNum,
+'tmargin':=$tmargin,
+'bmargin':=$bmargin,
+'rmargin':=$rmargin,
+'lmargin':=$lmargin,
+'intercolumn':=$intercolumn,
+'folia':=$folia,
+'qn':=$qn,
+'qcn':=$qcn,
+'wL':=$wL,
+'script':=$script,
+'scribe':=$scribe,
+'donor':=$donor,
+'patron':=$patron,
+'owner':=$owner,
+'binder':=$binder,
+'parchmentMaker':=$parchmentMaker,
+'objectType':=$objectType,
+'material':=$material,
+'bmaterial':=$bmaterial,
+'contents':=$contents,
+'origPlace':=$origPlace,
+'tabot':=$tabot,
+'placetype':=$placetype,
+'authors':=$authors,
+'occupation':=$occupation,
+'faith':=$faith,
+'gender':=$gender,
+'period':=$period,
+'restorations':=$restorations,
+'country':=$country,
+'settlement':=$settlement
+}
+
+return
+(:
+needs to add all the parameters added to the mss query to the parameters variable, and thus also to the list of parameters for the function
+then in apprest:listrest() all these need to be taken into account for the query:)
+
+if(xdb:collection-available($c)) then (
+<rest:response>
+            <http:response
+                status="200">
+                <http:header
+                    name="Content-Type"
+                    value="text/html; charset=utf-8"/>
+            </http:response>
+        </rest:response>,
+       <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
+        <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        {$list:app-meta}
+{apprest:scriptStyle()}
+    </head>
+     <body id="body">
+        {nav:bar()}
+        {nav:modals()}
+        {nav:searchhelp()}
+       
+ {let $hits := apprest:listrest('collection', 'manuscripts', $parameters, $prms)
+    return
+    (
+   <div class="col-md-12">
+  <div class="col-md-12"><span id="hit-count" class="lead">
+   {'There are ' || count($hits("hits")) || ' manuscripts in this search '}
+   </span>
+   </div>
+   <div class="col-md-12">
+{list:paramsList($parameters)}
+</div>
+<div class="col-md-12 btn-group" role="group">
+<a  target="_blank"  role="button" class="btn btn-default" href="{replace(substring-after(rest:uri(), 'BetMas'), 'listChart', 'list')}?{exreq:query()}">List View</a></div>
+                {charts:chart($hits("hits"))}
+
+        </div>)
+        }
+
+        {nav:footer()}
+
+    </body>
+</html>
+
+        )
+        else
+        (
+        <rest:response>
+            <http:response
+                status="400">
+                <http:header
+                    name="Content-Type"
+                    value="text/html; charset=utf-8"/>
+            </http:response>
+        </rest:response>,
+        error:error($Cmap)
+        )
+};
 
 
 declare
@@ -655,7 +873,7 @@ let $parameters := map{'key':=$keyword,
 'bmaterial':=$bmaterial,
 'contents':=$contents,
 'origPlace':=$origPlace}
-let $file := collection($config:data-rootIn)//id($repoID)[name()='TEI']
+let $file := $config:collection-rootIn//id($repoID)[name()='TEI']
 return
 
 
@@ -718,7 +936,8 @@ if($file) then (
    {'There are ' || count($hits("hits")) || ' manuscripts at ' || titles:printTitleID($repoID) }
    </span>
 {list:paramsList($parameters)}
-{<a target="_blank" class="btn btn-warning" href="/manuscripts/{$repoID}/list/viewer">Images available for this repository</a>}
+{<div class=" col-md-12 btn-group" role="group"><a target="_blank" class="btn btn-warning" href="/manuscripts/{$repoID}/list/viewer">Images available for this repository</a>
+<a  target="_blank"  role="button" class="btn btn-default" href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exreq:query()}">Charts</a></div>}
 
                    </div>
                    ,
@@ -751,7 +970,7 @@ if($file) then (
     {apprest:paginate-rest($hits, $parameters, $start, $per-page, 9, 21)}
     </ul>
                 </div>
-                {charts:chart($hits("hits"))}
+                
 
         </div>)
         }
@@ -768,6 +987,183 @@ if($file) then (
         <script type="text/javascript" src="resources/js/lookup.js"/>
         <script type="text/javascript" src="resources/js/NewBiblio.js"/>
 <script type="text/javascript" src="resources/js/allattestations.js"/>
+    </body>
+</html>
+
+        )
+        else
+        (
+        <rest:response>
+            <http:response
+                status="400">
+                <http:header
+                    name="Content-Type"
+                    value="text/html; charset=utf-8"/>
+            </http:response>
+        </rest:response>,
+        error:error($Cmap)
+        )
+};
+
+
+declare
+%rest:GET
+%rest:path("/BetMas/manuscripts/{$repoID}/listChart")
+%rest:query-param("start", "{$start}", 1)
+%rest:query-param("keyword", "{$keyword}", "")
+%rest:query-param("mainname", "{$mainname}", "")
+%rest:query-param("language", "{$language}", "")
+%rest:query-param("prms", "{$prms}", "")
+%rest:query-param("per-page", "{$per-page}", 20)
+%rest:query-param("date-range", "{$date-range}", "")
+%rest:query-param("numberOfParts", "{$numberOfParts}", "")
+%rest:query-param("min-hits", "{$min-hits}", 0)
+%rest:query-param("max-pages", "{$max-pages}", 20)
+ %rest:query-param("height","{$height}", "")
+%rest:query-param("width","{$width}", "")
+%rest:query-param("depth","{$depth}", "")
+%rest:query-param("columnsNum","{$columnsNum}", "")
+%rest:query-param("tmargin","{$tmargin}", "")
+%rest:query-param("bmargin","{$bmargin}", "")
+%rest:query-param("rmargin","{$rmargin}", "")
+%rest:query-param("lmargin","{$lmargin}", "")
+%rest:query-param("intercolumn","{$intercolumn}", "")
+%rest:query-param("folia","{$folia}", "")
+%rest:query-param("qn","{$qn}", "")
+%rest:query-param("qcn","{$qcn}", "")
+%rest:query-param("wL","{$wL}", "")
+%rest:query-param("script","{$script}", "")
+%rest:query-param("scribe","{$scribe}", "")
+%rest:query-param("donor","{$donor}", "")
+%rest:query-param("patron","{$patron}", "")
+%rest:query-param("owner","{$owner}", "")
+%rest:query-param("binder","{$binder}", "")
+%rest:query-param("parchmentMaker","{$parchmentMaker}", "")
+%rest:query-param("objectType","{$objectType}", "")
+%rest:query-param("material","{$material}", "")
+%rest:query-param("bmaterial","{$bmaterial}", "")
+%rest:query-param("contents","{$contents}", "")
+%rest:query-param("origPlace","{$origPlace}", "")
+%output:method("html5")
+function list:getrepolistchart(
+$repoID as xs:string*,
+$start as xs:integer*,
+$per-page as xs:integer*,
+$min-hits as xs:integer*,
+$max-pages as xs:integer*,
+$date-range as xs:string*,
+$numberOfParts as xs:string*,
+$keyword as xs:string*,
+$language as xs:string*,
+ $height as xs:string* ,
+$width as xs:string* ,
+$depth as xs:string* ,
+$columnsNum as xs:string* ,
+$tmargin as xs:string* ,
+$bmargin as xs:string* ,
+$rmargin as xs:string* ,
+$lmargin as xs:string* ,
+$intercolumn as xs:string* ,
+$folia as xs:string* ,
+$qn as xs:string* ,
+$qcn as xs:string* ,
+$wL as xs:string* ,
+$script as xs:string* ,
+$scribe as xs:string* ,
+$donor as xs:string* ,
+$patron as xs:string* ,
+$owner as xs:string* ,
+$binder as xs:string* ,
+$parchmentMaker as xs:string* ,
+$objectType as xs:string* ,
+$material as xs:string* ,
+$bmaterial as xs:string* ,
+$contents as xs:string* ,
+$origPlace as xs:string* ,
+$prms as xs:string*,
+$mainname as xs:string*) {
+
+(:the file for that institution:)
+let $repos := '/db/apps/BetMas/data/institutions/'
+let $log := log:add-log-message('/manuscripts/'||$repoID||'/list', xmldb:get-current-user(), 'list')
+let $Cmap := map {'type':= 'repo', 'name' := $repoID, 'path' := $repos}
+let $parameters := map{'key':=$keyword,
+'lang':=$language,'date':=$date-range,'numberOfParts':=$numberOfParts,  'height':=$height,
+
+'mainname':=$mainname,
+'width':=$width,
+'depth':=$depth,
+'columnsNum':=$columnsNum,
+'tmargin':=$tmargin,
+'bmargin':=$bmargin,
+'rmargin':=$rmargin,
+'lmargin':=$lmargin,
+'intercolumn':=$intercolumn,
+'folia':=$folia,
+'qn':=$qn,
+'qcn':=$qcn,
+'wL':=$wL,
+'script':=$script,
+'scribe':=$scribe,
+'donor':=$donor,
+'patron':=$patron,
+'owner':=$owner,
+'binder':=$binder,
+'parchmentMaker':=$parchmentMaker,
+'objectType':=$objectType,
+'material':=$material,
+'bmaterial':=$bmaterial,
+'contents':=$contents,
+'origPlace':=$origPlace}
+let $file := $config:collection-rootIn//id($repoID)[name()='TEI']
+return
+
+
+if($file) then (
+<rest:response>
+            <http:response
+                status="200">
+                <http:header
+                    name="Content-Type"
+                    value="text/html; charset=utf-8"/>
+            </http:response>
+        </rest:response>,
+
+
+       <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
+        <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        {$list:app-meta}
+{apprest:scriptStyle()}
+
+    </head>
+    <body id="body">
+        {nav:bar()}
+        {nav:modals()}
+        {nav:searchhelp()}
+       
+ {let $hits := apprest:listrest('repo', $repoID, $parameters, $prms)
+    return
+    (
+   <div class="col-md-12">
+  <div class="col-md-12"><span id="hit-count" class="lead">
+   {'There are ' || count($hits("hits")) || ' manuscripts at ' || titles:printTitleID($repoID) }
+   </span>
+   </div>
+   <div class="col-md-12">
+{list:paramsList($parameters)}
+</div>
+<div class="col-md-12 btn-group" role="group"><a target="_blank" class="btn btn-warning" href="/manuscripts/{$repoID}/list/viewer">Images available for this repository</a>
+<a  target="_blank"  role="button" class="btn btn-default" href="{replace(substring-after(rest:uri(), 'BetMas'), 'listChart', 'list')}?{exreq:query()}">List View</a></div>
+                {charts:chart($hits("hits"))}
+
+        </div>)
+        }
+
+        {nav:footer()}
+
     </body>
 </html>
 
@@ -831,7 +1227,7 @@ function list:getcatalogues() {
     <table class="table table-striped">
     <tbody>
     {
-    let $cats := collection($config:data-rootMS)//t:listBibl[@type='catalogue']
+    let $cats := $config:collection-rootMS//t:listBibl[@type='catalogue']
    for $catalogue in distinct-values($cats//t:ptr/@target)
    let $zoTag := substring-after($catalogue, 'bm:')
    let $count := count($cats//t:ptr[@target=$catalogue])
@@ -933,7 +1329,7 @@ $prms as xs:string*) {
 (:the file for that institution:)
 
 let $log := log:add-log-message('/catalogues/'||$catalogueID||'/list', xmldb:get-current-user(), 'list')
-let $catalogues := for $catalogue in distinct-values(collection($config:data-rootMS)//t:listBibl[@type='catalogue']//t:ptr/@target)
+let $catalogues := for $catalogue in distinct-values($config:collection-rootMS//t:listBibl[@type='catalogue']//t:ptr/@target)
 	return $catalogue
 	let $prefixedcatID := 'bm:' ||$catalogueID
 let $Cmap := map {'type':= 'catalogue', 'name' := $catalogueID, 'path' := $catalogues}
@@ -1013,6 +1409,7 @@ return $data
    {'This catalogue has been quoted in ' || count($hits("hits")) || ' manuscript records.' }
    </span>
    {list:paramsList($parameters)}
+   <a role="button" class="btn btn-default" href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exreq:query()}">Charts</a>
                    </div>
                    ,
     <div class="col-md-2">
@@ -1045,7 +1442,9 @@ return $data
     </ul>
                 </div>
 
-                {charts:chart($hits('hits'))}
+               
+                
+                
         </div>)
         }
 </div>
@@ -1078,6 +1477,196 @@ return $data
         error:error($Cmap)
         )
 };
+
+
+
+declare
+%rest:GET
+%rest:path("/BetMas/catalogues/{$catalogueID}/listChart")
+%rest:query-param("start", "{$start}", 1)
+%rest:query-param("keyword", "{$keyword}", "")
+%rest:query-param("language", "{$language}", "")
+%rest:query-param("prms", "{$prms}", "")
+%rest:query-param("per-page", "{$per-page}", 20)
+%rest:query-param("date-range", "{$date-range}", "")
+%rest:query-param("numberOfParts", "{$numberOfParts}", "")
+%rest:query-param("min-hits", "{$min-hits}", 0)
+%rest:query-param("max-pages", "{$max-pages}", 20)
+ %rest:query-param("height","{$height}", "")
+%rest:query-param("width","{$width}", "")
+%rest:query-param("depth","{$depth}", "")
+%rest:query-param("columnsNum","{$columnsNum}", "")
+%rest:query-param("tmargin","{$tmargin}", "")
+%rest:query-param("bmargin","{$bmargin}", "")
+%rest:query-param("rmargin","{$rmargin}", "")
+%rest:query-param("lmargin","{$lmargin}", "")
+%rest:query-param("intercolumn","{$intercolumn}", "")
+%rest:query-param("folia","{$folia}", "")
+%rest:query-param("qn","{$qn}", "")
+%rest:query-param("qcn","{$qcn}", "")
+%rest:query-param("wL","{$wL}", "")
+%rest:query-param("script","{$script}", "")
+%rest:query-param("scribe","{$scribe}", "")
+%rest:query-param("donor","{$donor}", "")
+%rest:query-param("patron","{$patron}", "")
+%rest:query-param("owner","{$owner}", "")
+%rest:query-param("binder","{$binder}", "")
+%rest:query-param("parchmentMaker","{$parchmentMaker}", "")
+%rest:query-param("objectType","{$objectType}", "")
+%rest:query-param("material","{$material}", "")
+%rest:query-param("bmaterial","{$bmaterial}", "")
+%rest:query-param("contents","{$contents}", "")
+%rest:query-param("origPlace","{$origPlace}", "")
+%output:method("html5")
+function list:getcataloguelistChart(
+$catalogueID as xs:string*,
+$start as xs:integer*,
+$per-page as xs:integer*,
+$min-hits as xs:integer*,
+$max-pages as xs:integer*,
+$date-range as xs:string*,
+$numberOfParts as xs:string*,
+$keyword as xs:string*,
+$language as xs:string*,
+ $height as xs:string* ,
+$width as xs:string* ,
+$depth as xs:string* ,
+$columnsNum as xs:string* ,
+$tmargin as xs:string* ,
+$bmargin as xs:string* ,
+$rmargin as xs:string* ,
+$lmargin as xs:string* ,
+$intercolumn as xs:string* ,
+$folia as xs:string* ,
+$qn as xs:string* ,
+$qcn as xs:string* ,
+$wL as xs:string* ,
+$script as xs:string* ,
+$scribe as xs:string* ,
+$donor as xs:string* ,
+$patron as xs:string* ,
+$owner as xs:string* ,
+$binder as xs:string* ,
+$parchmentMaker as xs:string* ,
+$objectType as xs:string* ,
+$material as xs:string* ,
+$bmaterial as xs:string* ,
+$contents as xs:string* ,
+$origPlace as xs:string* ,
+$prms as xs:string*) {
+
+(:the file for that institution:)
+
+let $log := log:add-log-message('/catalogues/'||$catalogueID||'/list', xmldb:get-current-user(), 'list')
+let $catalogues := for $catalogue in distinct-values($config:collection-rootMS//t:listBibl[@type='catalogue']//t:ptr/@target)
+	return $catalogue
+	let $prefixedcatID := 'bm:' ||$catalogueID
+let $Cmap := map {'type':= 'catalogue', 'name' := $catalogueID, 'path' := $catalogues}
+let $parameters := map{'key':=$keyword,'lang':=$language,'date':=$date-range,'numberOfParts':=$numberOfParts,  'height':=$height,
+'width':=$width,
+'depth':=$depth,
+'columnsNum':=$columnsNum,
+'tmargin':=$tmargin,
+'bmargin':=$bmargin,
+'rmargin':=$rmargin,
+'lmargin':=$lmargin,
+'intercolumn':=$intercolumn,
+'folia':=$folia,
+'qn':=$qn,
+'qcn':=$qcn,
+'wL':=$wL,
+'script':=$script,
+'scribe':=$scribe,
+'donor':=$donor,
+'patron':=$patron,
+'owner':=$owner,
+'binder':=$binder,
+'parchmentMaker':=$parchmentMaker,
+'objectType':=$objectType,
+'material':=$material,
+'bmaterial':=$bmaterial,
+'contents':=$contents,
+'origPlace':=$origPlace}
+return
+
+
+if($prefixedcatID = $catalogues) then (
+<rest:response>
+            <http:response
+                status="200">
+                <http:header
+                    name="Content-Type"
+                    value="text/html; charset=utf-8"/>
+            </http:response>
+        </rest:response>,
+
+
+       <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
+        <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        {$list:app-meta}
+{apprest:scriptStyle()}
+<link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="resources/css/mapbox.css"/>
+        <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="resources/css/leaflet.css"/>
+        <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="resources/css/leaflet.fullscreen.css"/>
+        <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="resources/css/leaflet-search.css"/>
+       <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"/>
+        <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/js/mapbox.js"/>
+        <script  xmlns="http://www.w3.org/1999/xhtml"type="text/javascript" src="resources/js/Leaflet.fullscreen.min.js"/>
+        <script  xmlns="http://www.w3.org/1999/xhtml"type="text/javascript" src="resources/js/leaflet-search.js"/>
+
+    </head>
+    <body id="body">
+        {nav:bar()}
+        {nav:modals()}
+        {nav:searchhelp()}
+       <div class="col-md-12">
+
+      <h1>{let $xml-url := concat('https://api.zotero.org/groups/358366/items?&amp;tag=', $prefixedcatID, '&amp;format=bib&amp;style=hiob-ludolf-centre-for-ethiopian-studies')
+let $data := httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)
+return $data
+}</h1>
+<a role="button" class="btn btn-default" href="{replace(substring-after(rest:uri(), 'BetMas'), 'listChart', 'list')}?{exreq:query()}">List view</a>
+       <div id="content" class="col-md-12">
+ {let $hits := apprest:listrest('catalogue',$catalogueID, $parameters, $prms)
+    return
+    
+   <div class="col-md-12">
+   {charts:chart($hits('hits'))}
+   </div>
+}
+        </div>
+        </div>
+        {nav:footer()}
+
+       <script type="text/javascript" src="resources/js/printgroupbutton.js"/>
+       <script type="text/javascript" src="resources/js/printgroup.js"/>
+        <script type="text/javascript" src="resources/js/toogle.js"/>
+        <script type="text/javascript" src="resources/js/titles.js"/>
+        <script type="text/javascript" src="resources/js/clavisid.js"/>
+        <script type="text/javascript" src="resources/js/datatable.js"/>
+        <script type="text/javascript" src="resources/js/lookup.js"/>
+        <script type="text/javascript" src="resources/js/NewBiblio.js"/>
+    </body>
+</html>
+
+        )
+        else
+        (
+        <rest:response>
+            <http:response
+                status="400">
+                <http:header
+                    name="Content-Type"
+                    value="text/html; charset=utf-8"/>
+            </http:response>
+        </rest:response>,
+        error:error($Cmap)
+        )
+};
+
 
 declare function list:paramsList($parameters as map(*)){
    <div class="container well">

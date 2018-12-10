@@ -1038,7 +1038,7 @@ return
             </div>
             </div>
             </div>
- {if($items-info = <start/>) then (
+ {if($items-info instance of element(start)) then (
 (:no selection done yet, provide index value:)
 <div class="form-group" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that language">
 <label for="language">languages </label>
@@ -1084,7 +1084,7 @@ case 'works' return (
 <input class="form-control" type="number" name="clavisID"/>
 </div>
 </div>,
-if($items-info = <start/>) then (
+if($items-info instance of element(start)) then (
 (:no selection done yet, provide index value:)
 <div class="form-group" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that keyword">
 <label for="keyword">keywords </label>
@@ -1119,7 +1119,7 @@ apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titl
              <div id="AddFilters"/>
 )
 case 'places' return 
-if($items-info = <start/>) then (
+if($items-info instance of element(start)) then (
 (:no selection done yet, provide index value:)
 <div class="form-group" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that keyword">
 <label for="keyword">keywords </label>
@@ -1172,7 +1172,7 @@ apprest:formcontrol('settlement','settlement', $items-info//t:settlement/@ref, '
 )
 
 case 'institutions' return 
-if($items-info = <start/>) then (
+if($items-info instance of element(start)) then (
 (:no selection done yet, provide index value:)
 <div class="form-group" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that keyword">
 <label for="keyword">keywords </label>
@@ -1219,7 +1219,7 @@ apprest:formcontrol('settlement','settlement', $items-info//t:settlement/@ref, '
 )
 case 'persons' return 
 (
-if($items-info = <start/>) then (
+if($items-info instance of element(start)) then (
 (:no selection done yet, provide index value:)
 <div class="form-group">
 <label for="keyword">keywords </label>
@@ -1253,7 +1253,7 @@ apprest:formcontrol('faith type','faith', $items-info//t:faith/@type, 'true', 't
 (:default is a manuscript related list view, catalogue, institutions or general view:)
 default return
 (
-if($items-info = <start/>) then (
+if($items-info instance of element(start)) then (
 (:no selection done yet, provide index value:)
 <div class="form-group">
 <label for="keyword">keywords </label>
@@ -1425,7 +1425,7 @@ apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titl
                             <input type="checkbox" value="objectType" data-context="{$context}"/> object type<br/>
                             <input type="checkbox" value="material" data-context="{$context}"/> material<br/>
                             <input type="checkbox" value="bmaterial" data-context="{$context}"/> binding material<br/>
-                            {if((count($items-info) lt 1050) and $items-info != <start/>) then (<input type="checkbox" value="contents" data-context="{$context}"/>, 'contents',<br/>) 
+                            {if((count($items-info) lt 1050) and $items-info/node() ) then (<input type="checkbox" value="contents" data-context="{$context}"/>, 'contents',<br/>) 
                             else (<div class="alert alert-info">You will be able to get a filter by contents for a selection of manuscripts with less than 1000 items.</div>)}
                             </div>,
             <script type="text/javascript" src="resources/js/filtersRest.js"></script>,
@@ -1529,9 +1529,7 @@ then (
      </div>
      )
                 else (
-                let $nodes := for $node in $path return $node
-            return
-       app:selectors($nodeName, $path, $nodes, $type, $context)
+       app:selectors($nodeName, $path, $path, $type, $context)
         )
 };
 

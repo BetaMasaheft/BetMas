@@ -25,14 +25,14 @@ declare
 function lists:bibl ($node as node(), $model as map(*),
     $type as xs:string+, $collection as xs:string, $pointer as xs:string*) {
    let $coll := switch($collection) 
-   case'all' return 'collection($config:data-root)'  
-   case 'mss' return 'collection($config:data-rootMS)' 
-   case 'work' return 'collection($config:data-rootW)' 
-   case 'auth' return 'collection($config:data-rootA)' 
-   case 'pers' return 'collection($config:data-rootPr)'  
-   case 'place' return 'collection($config:data-rootPl)' 
-   case 'ins' return 'collection($config:data-rootIn)'   
-   default return 'collection($config:data-root)'
+   case'all' return '$config:collection-root'  
+   case 'mss' return '$config:collection-rootMS' 
+   case 'work' return '$config:collection-rootW' 
+   case 'auth' return '$config:collection-rootA' 
+   case 'pers' return '$config:collection-rootPr'  
+   case 'place' return '$config:collection-rootPl' 
+   case 'ins' return '$config:collection-rootIn'   
+   default return '$config:collection-root'
    let $Pointer := if($pointer = '') then () else "[.='"||$pointer||"']"
     let $Type := if($type = 'all') then () else let $pars := for $ty in $type return "@type = '" || $ty || "'" return '//t:listBibl[' || string-join($pars, ' or ') || ']'
    let $path := $coll||$Type||'//t:ptr/@target'||$Pointer
@@ -79,7 +79,7 @@ declare
    let $termText :=  if($termText) then ("[descendant::t:term[contains(.,'" || $termText || "')]]") else ()
    let $otherText :=if($otherText) then ("[descendant::t:q[ft:query(.,'" || $otherText || "')]]") else ()
    let $interpret :=if($interpret = 'all') then () else let $pars := for $ty in $interpret return "@ana = '" || $ty || "'" return '[descendant::t:seg[' || string-join($pars, ' or ') || ']]'
-   let $path := 'collection($config:data-rootMS)//t:item[starts-with(@xml:id, "a")]' || $type || $target-work || $target-pers || $target-place || $target-keyword|| $target-language || $termText ||$otherText || $interpret
+   let $path := '$config:collection-rootMS//t:item[starts-with(@xml:id, "a")]' || $type || $target-work || $target-pers || $target-place || $target-keyword|| $target-language || $termText ||$otherText || $interpret
  let $additions := for $add in util:eval($path) return $add
    return
    map {
@@ -117,7 +117,7 @@ $query as xs:string*,
    let $BindingMaterial := if($BindingMaterial='all') then () else ("[descendant::t:material[@key='"||$BindingMaterial||"']]")
    let $color := if($color='all') then () else ("[@color='"||$color||"']")
    let $pastedown := if($pastedown='all') then () else ("[matches(@pastedown, '"||$pastedown||"')]")
-   let $path := 'collection($config:data-rootMS)//t:decoNote[starts-with(@xml:id, "b")]' || $type || $target-keyword || $SewingStationsN || $BindingMaterial || $color || $pastedown || $fastening
+   let $path := '$config:collection-rootMS//t:decoNote[starts-with(@xml:id, "b")]' || $type || $target-keyword || $SewingStationsN || $BindingMaterial || $color || $pastedown || $fastening
   let $decos := for $dec in util:eval($path) return $dec
    return
    map {
@@ -156,7 +156,7 @@ $query as xs:string*,
    let $target-keyword := if($target-keyword = 'all') then () else let $pars := for $ty in $target-keyword return "@key = '" || $ty || "'" return '[descendant::t:term[' || string-join($pars, ' or ') || ']]'
    let $legendText :=  if($legendText) then ("[descendant::t:q[@xml:lang][ft:query(.,'" || $legendText || "')]]") else ()
    let $otherText :=if($otherText) then ("[descendant::t:foreign[@xml:lang='gez'][ft:query(.,'" || $otherText || "')]]") else ()
-   let $path := "collection($config:data-rootMS)//t:decoNote[starts-with(@xml:id, 'd')]" || $type || $target-work || $target-artTheme || $target-pers || $target-place || $target-keyword || $legendText ||$otherText
+   let $path := "$config:collection-rootMS//t:decoNote[starts-with(@xml:id, 'd')]" || $type || $target-work || $target-artTheme || $target-pers || $target-place || $target-keyword || $legendText ||$otherText
   let $decos := for $dec in util:eval($path) return $dec
    return
    map {
@@ -201,7 +201,7 @@ $query as xs:string*,
    };
    
      declare function lists:additionsform($node as node(), $model as map(*)){
-   let $auth := collection($config:data-rootA)
+   let $auth := $config:collection-rootA
    return
    <form action="" class="form form-horizontal">
                                
@@ -274,7 +274,7 @@ $query as xs:string*,
    };
    
    declare function lists:decorationsform($node as node(), $model as map(*)){
-   let $auth := collection($config:data-rootA)
+   let $auth := $config:collection-rootA
    return
    <form action="" class="form form-horizontal">
                                <div  class="control-group">
@@ -344,7 +344,7 @@ $query as xs:string*,
   
   
    declare function lists:bindingsform($node as node(), $model as map(*)){
-   let $auth := collection($config:data-rootA)
+   let $auth := $config:collection-rootA
    return
    <form action="" class="form form-horizontal">
                                <div  class="control-group">
@@ -422,7 +422,7 @@ declare
     function lists:biblRes($node as node(), $model as map(*), $start as xs:integer, $per-page as xs:integer){
 
 for $target at $p in subsequence($model("hits"), $start, $per-page)
-let $ptrs := collection($config:data-root)//t:ptr[@target = $target]
+let $ptrs := $config:collection-root//t:ptr[@target = $target]
 let $count := count($ptrs)
 return
 <div class="col-md-12">
@@ -495,7 +495,7 @@ for $addition at $p in $data
 declare 
 %templates:wrap
     function lists:bindingRes($node as node(), $model as map(*)){ 
-   let $c := collection($config:data-rootMS)
+   let $c := $config:collection-rootMS
    return
     <div class="list-group list-group-root col-md-12">
         {
@@ -549,7 +549,7 @@ for $binding at $p in $model("hits")
 declare 
 %templates:wrap
     function lists:decoRes($node as node(), $model as map(*)){ 
-   let $c := collection($config:data-rootMS)
+   let $c := $config:collection-rootMS
    return
     <div class="list-group list-group-root col-md-12">
         {
@@ -662,7 +662,7 @@ return <tr>
 <td><a href="/{$id}/corpus"><h4>{$title}</h4></a></td>
 <td>{lists:corporaeditors($corpus//t:principal)}</td>
 <td>{$corpus//t:projectDesc}</td>
-<td><ul>{for $document in collection($config:data-rootMS)//t:relation[contains(@passive, $id)] 
+<td><ul>{for $document in $config:collection-rootMS//t:relation[contains(@passive, $id)] 
 let $rootid := string($document/@active)
 let $mainid := substring-before($rootid, '#')
 group by $ID := $mainid
