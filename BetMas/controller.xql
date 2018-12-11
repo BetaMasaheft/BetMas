@@ -160,6 +160,7 @@ else
             else
                 if (contains($exist:path, '/api/') or
                 ends-with($exist:path, '/list') or
+                ends-with($exist:path, '/listChart') or
                 ends-with($exist:path, '/browse') or
                 ends-with($exist:path, '/analytic') or
                 ends-with($exist:path, '/main') or
@@ -212,9 +213,9 @@ else
                             (:                :)
                         else
                             if (starts-with($exist:path, '/tei/') and ends-with($exist:path, ".xml")) then
-                                 let $coll := collection($config:data-root)
+                               
                             let $id := substring-before($exist:resource, '.xml')
-                            let $item := $coll//id($id)[name()='TEI']
+                            let $item := $config:collection-root/id($id)[name()='TEI']
                             let $collection := local:switchCol($item/@type)
                             let $uri := base-uri($item)
                                
@@ -244,9 +245,9 @@ else
                         
                         else
                             if (ends-with($exist:path, ".xml")) then
-                            let $coll := collection($config:data-root)
+                          
                             let $id := substring-before($exist:resource, '.xml')
-                            let $item := $coll//id($id)[name()='TEI']
+                            let $item := $config:collection-root/id($id)[name()='TEI']
                             let $collection := local:switchCol($item/@type)
                             let $uri := base-uri($item)
                             return
