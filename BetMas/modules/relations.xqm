@@ -363,7 +363,7 @@ let $nodes :=
                                        else (
 (:                          use the main name of the file:)
                           
-                                    normalize-space(titles:printTitle(collection($config:data-root)//id(if (contains($distinctId, '#')) 
+                                    normalize-space(titles:printTitle($config:collection-root/id(if (contains($distinctId, '#')) 
                                                     then substring-before($distinctId, '#') 
                                                    else $distinctId ))) ||
 (                                                   if (contains($distinctId, '#')) 

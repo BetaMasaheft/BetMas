@@ -31,7 +31,7 @@ declare function functx:trim( $arg as xs:string? )  as xs:string {
 
  (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js MANUSCRIPTS FILTERS for CONTEXT:)
  declare
- %templates:default("context", "collection($config:data-rootMS)")
+ %templates:default("context", "$config:collection-rootMS")
  function apprest:origPlace($context as xs:string*) {
      let $cont := util:eval($context)
      let $scripts := distinct-values($cont//t:origPlace/t:placeName/@ref)
@@ -42,7 +42,7 @@ declare function functx:trim( $arg as xs:string? )  as xs:string {
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js MANUSCRIPTS FILTERS for CONTEXT:)
 declare
-%templates:default("context", "collection($config:data-rootMS)")
+%templates:default("context", "$config:collection-rootMS")
 function apprest:scripts($context as xs:string*) {
     let $cont := util:eval($context)
     let $scripts := distinct-values($cont//@script)
@@ -53,7 +53,7 @@ function apprest:scripts($context as xs:string*) {
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-rootMS)")
+%templates:default("context", "$config:collection-rootMS")
 function apprest:support($context as xs:string*) {
      let $cont := util:eval($context)
      let $forms := distinct-values($cont//@form)
@@ -64,7 +64,7 @@ function apprest:support($context as xs:string*) {
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-rootMS)")
+%templates:default("context", "$config:collection-rootMS")
 function apprest:material($context as xs:string*) {
       let $cont := util:eval($context)
       let $materials := distinct-values($cont//t:support/t:material/@key)
@@ -75,7 +75,7 @@ function apprest:material($context as xs:string*) {
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-rootMS)")
+%templates:default("context", "$config:collection-rootMS")
 function apprest:bmaterial($context as xs:string*) {
     let $cont := util:eval($context)
       let $bmaterials := distinct-values($cont//t:decoNote[@type='bindingMaterial']/t:material/@key)
@@ -87,7 +87,7 @@ function apprest:bmaterial($context as xs:string*) {
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js PLACES FILTERS for CONTEXT:)
 declare
-%templates:default("context", "collection($config:data-rootPl,$config:data-rootIn)")
+%templates:default("context", "$config:collection-rootPlIn")
 function apprest:placeType($context as xs:string*) {
       let $cont := util:eval($context)
      let $placeTypes := distinct-values($cont//t:place/@type/tokenize(., '\s+'))
@@ -98,7 +98,7 @@ function apprest:placeType($context as xs:string*) {
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-rootPr)")
+%templates:default("context", "$config:collection-rootPr")
 function apprest:personType($context as xs:string*) {
     let $cont := util:eval($context)
       let $persTypes := distinct-values($cont//t:person//t:occupation/@type/tokenize(., '\s+'))
@@ -109,7 +109,7 @@ function apprest:personType($context as xs:string*) {
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-root)")
+%templates:default("context", "$config:collection-root")
 function apprest:relationType($node as node(), $model as map(*)) {
     let $cont := util:eval($context)
     let $relTypes := distinct-values($cont//t:relation/@name/tokenize(., '\s+'))
@@ -121,7 +121,7 @@ function apprest:relationType($node as node(), $model as map(*)) {
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-rootMS)")
+%templates:default("context", "$config:collection-rootMS")
 function apprest:languages($context as xs:string*) {
      let $cont := util:eval($context)
      let $keywords := distinct-values($cont//t:language/@ident)
@@ -132,7 +132,7 @@ function apprest:languages($context as xs:string*) {
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-rootMS)")
+%templates:default("context", "$config:collection-rootMS")
 function apprest:scribes($context as xs:string*) {
      let $cont := util:eval($context)
       let $elements := $cont//t:persName[@role='scribe'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
@@ -144,7 +144,7 @@ function apprest:scribes($context as xs:string*) {
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-rootMS)")
+%templates:default("context", "$config:collection-rootMS")
 function apprest:donors($context as xs:string*) {
      let $cont := util:eval($context)
     let $elements := $cont//t:persName[@role='donor'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
@@ -156,7 +156,7 @@ function apprest:donors($context as xs:string*) {
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-rootMS)")
+%templates:default("context", "$config:collection-rootMS")
 function apprest:patrons($context as xs:string*) {
      let $cont := util:eval($context)
       let $elements := $cont//t:persName[@role='patron'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
@@ -167,7 +167,7 @@ function apprest:patrons($context as xs:string*) {
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-rootMS)")
+%templates:default("context", "$config:collection-rootMS")
 function apprest:owners($context as xs:string*) {
       let $cont := util:eval($context)
       let $elements := $cont//t:persName[@role='owner'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
@@ -178,7 +178,7 @@ function apprest:owners($context as xs:string*) {
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-rootMS)")
+%templates:default("context", "$config:collection-rootMS")
 function apprest:binders($context as xs:string*) {
       let $cont := util:eval($context)
       let $elements := $cont//t:persName[@role='binder'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
@@ -190,7 +190,7 @@ function apprest:binders($context as xs:string*) {
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-rootMS)")
+%templates:default("context", "$config:collection-rootMS")
 function apprest:parmakers($context as xs:string*) {
     let $cont := util:eval($context)
       let $elements := $cont//t:persName[@role='parchmentMaker'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
@@ -202,7 +202,7 @@ function apprest:parmakers($context as xs:string*) {
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-rootMS)")
+%templates:default("context", "$config:collection-rootMS")
 function apprest:contents($context as xs:string*) {
     let $cont := util:eval($context)
     let $elements :=$cont//t:msItem
@@ -215,7 +215,7 @@ function apprest:contents($context as xs:string*) {
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-rootW)")
+%templates:default("context", "$config:collection-rootW")
 function apprest:WorkAuthors($context as xs:string*) {
 let $works := util:eval($context)
 let $attributions := for $rel in ($works//t:relation[@name="saws:isAttributedToAuthor"], $works//t:relation[@name="dcterms:creator"])
@@ -229,7 +229,7 @@ let $keywords := distinct-values($attributions)
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-rootIn)")
+%templates:default("context", "$config:collection-rootIn")
 function apprest:tabots($context as xs:string*) {
 let $cont := util:eval($context)
 let $tabots:= $cont//t:ab[@type='tabot']
@@ -277,8 +277,8 @@ declare function apprest:EntityRelsTable($this, $collection){
 let $entity := $this
 let $id := string($this/@xml:id)
 let $rels := $entity//t:relation[@name][(@active and @passive) or @mutual]
-let $otherrelsp := collection($config:data-root)//t:relation[ancestor::t:TEI[not(@xml:id = $id)]][@name][contains(@passive, $id)]
-let $otherrelsa := collection($config:data-root)//t:relation[ancestor::t:TEI[not(@xml:id = $id)]][@name][contains(@active, $id)]
+let $otherrelsp := $config:collection-root//t:relation[ancestor::t:TEI[not(@xml:id = $id)]][@name][contains(@passive, $id)]
+let $otherrelsa := $config:collection-root//t:relation[ancestor::t:TEI[not(@xml:id = $id)]][@name][contains(@active, $id)]
 (:the three variables here assume that there will be relations in the requested file, and that if a relation somewhere else has this id in active it will not have it in passive:)
 let $allrels := ($rels, $otherrelsp, $otherrelsa)
 return
@@ -365,10 +365,10 @@ apprest:deciderelation($list//id)
 (:~The SEE ALSO section has ready made queries providing related contents,these are all dispalyed in divs with lists of which this is the template:)
 declare function apprest:ModalRefsList($id, $string as xs:string, $sameKey){
 let $value := if (doc($config:data-rootA || '/taxonomy.xml')//t:catDesc[text() = $string] )
-                           then collection($config:data-root)//id($string)//t:titleStmt/t:title/text()
+                           then $config:collection-root/id($string)//t:titleStmt/t:title/text()
                            else if (matches($string, 'gn:'))  then titles:getGeoNames($string)
                            else if (matches($string, '(LOC|INS)(\d+)(\w+)'))
-                           then try {titles:printTitle(collection($config:data-rootPl, $config:data-rootIn)/id($string)//t:place)}
+                           then try {titles:printTitle($config:collection-rootPlIn/id($string)//t:place)}
                            catch * {'no record'}
                            else $string
 return
@@ -487,7 +487,7 @@ return
 
 (:~a list of items pointing to something:)
 declare function apprest:AnyReferences($sourceid, $id as xs:string){
-let $file := collection($config:data-root)
+let $file := $config:collection-root
 let $ref := apprest:WhatPointsHere($id, $file)
   return
 <ul xmlns="http://www.w3.org/1999/xhtml" class="nodot"><head xmlns="http://www.w3.org/1999/xhtml" >This record, with ID: {string($id)} is mentioned by </head>
@@ -498,9 +498,9 @@ let $ref := apprest:WhatPointsHere($id, $file)
 
 (:~searches an ID in a @corresp, @ref, <relation> and makes a list :)
 declare function apprest:WhatPointsHereQuery($id as xs:string){
-for $corr in (collection($config:data-root)//t:*[ft:query(@corresp, $id)],
-        collection($config:data-root)//t:*[ft:query(@ref, $id)],
-        collection($config:data-root)//t:relation[ft:query(., $id)])
+for $corr in ($config:collection-root//t:*[ft:query(@corresp, $id)],
+        $config:collection-root//t:*[ft:query(@ref, $id)],
+        $config:collection-root//t:relation[ft:query(., $id)])
         order by ft:score($corr) descending
         return
             $corr
@@ -540,7 +540,7 @@ for $corr in $allrefs
 
 (:~collects bibliographical information for zotero metadata:)
 declare function apprest:bibdata ($id, $collection)  as node()*{
-let $file := collection($config:data-root)//t:TEI/id($id)
+let $file := $config:collection-root//t:TEI/id($id)
 return
 
 (:here I cannot use for the title the javascript titles.js because the content is not exposed:)
@@ -553,7 +553,7 @@ order by $count descending
 <author>{editors:editorKey(string($author))}</author>
 }
 <title level="a">{titles:printTitle($file)}</title>
-<title level="j">{collection($config:data-root)//t:TEI/id($id)//t:publisher/text()}</title>
+<title level="j">{$config:collection-root//t:TEI/id($id)//t:publisher/text()}</title>
 <date type="accessed"> [Accessed: {current-date()}] </date>
 {let $time := max($file//t:revisionDesc/t:change/xs:date(@when))
 return
@@ -936,19 +936,19 @@ let $quiresComp :=  if(empty($Pqcn) or $Pqcn = '' or $Pqcn = '1,40')
 let $allMssFilters := concat($allnames, $support, $opl, $material, $bmaterial, $scripts, $scribes, $donors, $patrons, $owners, $parchmentMakers,
              $binders, $contents, $leaves, $wL,  $quires, $quiresComp,
             $height, $width, $depth, $marginTop, $marginBot, $marginL, $marginR, $marginIntercolumn, $restorationss)
-let $test := console:log($allMssFilters)
+
 let $path := switch($type)
-                case 'catalogue' return "collection('"||$config:data-rootMS || "')//t:TEI[descendant::t:listBibl[@type='catalogue'][descendant::t:ptr[@target='bm:"||$collection||"']]]"  || $key || $languages || $dR || $allMssFilters
-                case 'repo' return "collection('"||$config:data-rootMS  || "')//t:TEI[descendant::t:repository[@ref='"||$collection||"']]"  || $key || $languages || $dR || $allMssFilters
+                case 'catalogue' return "$config:collection-rootMS//t:TEI[descendant::t:listBibl[@type='catalogue'][descendant::t:ptr[@target='bm:"||$collection||"']]]"  || $key || $languages || $dR || $allMssFilters
+                case 'repo' return "$config:collection-rootMS//t:TEI[descendant::t:repository[@ref='"||$collection||"']]"  || $key || $languages || $dR || $allMssFilters
                 default return
                         (if ($collection = 'places')
-                                    then ("collection($config:data-rootIn, $config:data-rootPl)//t:TEI"  || $countries|| $settlements||$allnames || $key || $languages|| $dR || $tabots||$placetypess )
+                                    then ("$config:collection-rootPlIn//t:TEI"  || $countries|| $settlements||$allnames || $key || $languages|| $dR || $tabots||$placetypess )
                                     
                        else if ($collection = 'works')
-                                    then ("collection('/db/apps/BetMas/data/"||$collection || "/')//t:TEI"  || $allnames ||$ContentPr   || $key || $languages|| $ClavisIDs || $dR ||$Allauthors || $periods  )
+                                    then ("$config:collection-rootW//t:TEI"  || $allnames ||$ContentPr   || $key || $languages|| $ClavisIDs || $dR ||$Allauthors || $periods  )
                       
                        else if ($collection = 'persons')
-                                    then ("collection($config:data-rootPr)//t:TEI"   || $allnames||$ContentPr   || $key || $dR ||$occupations || $faiths || $genders  )
+                                    then ("$config:collection-rootPr//t:TEI"   || $allnames||$ContentPr   || $key || $dR ||$occupations || $faiths || $genders  )
                                     
                       
                         else "collection('/db/apps/BetMas/data/"||$collection || "/')//t:TEI" || $countries|| $settlements|| $allnames ||$ContentPr  || $key || $languages|| $dR || $ClavisIDs || $nOfP  || $allMssFilters ||$Allauthors|| $tabots||$placetypess
@@ -1014,6 +1014,7 @@ let $keys :=
 declare function apprest:searchFilter-rest($collection, $model as map(*)) {
 let $items-info := $model('hits')
 let $context := $model('query')
+let $test := console:log($context)
 let $evalContext := util:eval($context)
 let $onchange := 'if (this.value) window.location.href=this.value'
 return
@@ -1038,11 +1039,12 @@ return
             </div>
             </div>
             </div>
- {if($items-info instance of element(start)) then (
+ {if($items-info = <start/>) then (
 (:no selection done yet, provide index value:)
 <div class="form-group" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that language">
 <label for="language">languages </label>
 <select multiple="multiple" name="language" id="language" class="form-control">
+{console:log($apprest:languages)}
                             {$app:range-lookup('TEIlanguageIdent', '', function($key, $count) {<option value="{$key}">{$apprest:languages//t:item[@xml:id=$key]/text()} </option>}, 100)}
                             </select>
                             </div>
@@ -1084,7 +1086,7 @@ case 'works' return (
 <input class="form-control" type="number" name="clavisID"/>
 </div>
 </div>,
-if($items-info instance of element(start)) then (
+if($items-info  = <start/>) then (
 (:no selection done yet, provide index value:)
 <div class="form-group" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that keyword">
 <label for="keyword">keywords </label>
@@ -1119,7 +1121,7 @@ apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titl
              <div id="AddFilters"/>
 )
 case 'places' return 
-if($items-info instance of element(start)) then (
+if($items-info  = <start/>) then (
 (:no selection done yet, provide index value:)
 <div class="form-group" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that keyword">
 <label for="keyword">keywords </label>
@@ -1172,7 +1174,7 @@ apprest:formcontrol('settlement','settlement', $items-info//t:settlement/@ref, '
 )
 
 case 'institutions' return 
-if($items-info instance of element(start)) then (
+if($items-info  = <start/>) then (
 (:no selection done yet, provide index value:)
 <div class="form-group" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that keyword">
 <label for="keyword">keywords </label>
@@ -1219,7 +1221,7 @@ apprest:formcontrol('settlement','settlement', $items-info//t:settlement/@ref, '
 )
 case 'persons' return 
 (
-if($items-info instance of element(start)) then (
+if($items-info  = <start/>) then (
 (:no selection done yet, provide index value:)
 <div class="form-group">
 <label for="keyword">keywords </label>
@@ -1253,7 +1255,7 @@ apprest:formcontrol('faith type','faith', $items-info//t:faith/@type, 'true', 't
 (:default is a manuscript related list view, catalogue, institutions or general view:)
 default return
 (
-if($items-info instance of element(start)) then (
+if($items-info  = <start/>) then (
 (:no selection done yet, provide index value:)
 <div class="form-group">
 <label for="keyword">keywords </label>
@@ -1494,7 +1496,7 @@ declare function apprest:paginate-rest($model as map(*), $parameters as map(*), 
         ) else
             ()
             }
-             <li><form action="" class="form-inline"><div class="input-group">
+             <li><form action=""><div class="input-group">
             <input type="hidden" name="start" value="{$start}"/>
             <input type="hidden" name="keyword" value="{$parameters('key')}"/>
             <input type="hidden" name="language" value="{$parameters('lang')}"/>
@@ -1541,7 +1543,7 @@ then (
  if($target-work = '') then ()
  else(
 <h2>Compare manuscripts which contain <span>{$MAINtit}</span></h2>,
-let $c := collection($config:data-rootMS)
+let $c := $config:collection-rootMS
 let $items := $c//t:msItem
 let $matchingmss := $items/t:title[@ref = $target-work]
 return
@@ -1606,7 +1608,7 @@ charts:chart($hits)
 (:~  given an id looks for all manuscripts containing it and returns a div with cards use by Slick for the Carousel view:)
  declare function apprest:compareMssFromlist($mss) {
 if($mss = '') then ()  else(
-    let $c := collection($config:data-rootMS)
+    let $c := $config:collection-rootMS
     let $matchingmss := for $ms in tokenize($mss, ',') return $c//id($ms)
     return
     (<div class="msscomparison col-md-12">

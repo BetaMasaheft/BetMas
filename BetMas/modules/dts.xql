@@ -208,7 +208,7 @@ let $frompage := $parsedURN//s:group[@nr=7] ||$parsedURN//s:group[@nr=8]
 let $fromcolumn := $parsedURN//s:group[@nr=9] 
 let $topage := $parsedURN//s:group[@nr=17] ||$parsedURN//s:group[@nr=18]
 let $tocolumn := $parsedURN//s:group[@nr=19] 
-let $text := collection($config:data-rootMS)//id($id)//t:div[@type='edition']
+let $text := $config:collection-rootMS/id($id)//t:div[@type='edition']
 let $content := 
 (:if there is - (group 15) it is an inclusive range:)
 if($parsedURN//s:group[@nr=15] = '-') then
@@ -379,7 +379,7 @@ else <http:header
 </rest:response>
  else
  let $thisid := $parsedURN//s:group[@nr=3]/text()
- let $file := collection($config:data-root)//id($thisid)
+ let $file := $config:collection-root/id($thisid)
  let $text := $file//t:div[@type='edition']
  let $doc := 
 (: in case there is passage, then look for that place:)
@@ -507,7 +507,7 @@ if($id = '') then (<rest:response>
 </rest:response>) else
 let $parsedURN := dts:parseDTS($id)
 let $BMid := $parsedURN//s:group[@nr=3]
-let $text := collection($config:data-root)//id($BMid)//t:div[@type='edition']
+let $text := $config:collection-root/id($BMid)//t:div[@type='edition']
 let $passage := if (contains($id, 'betmasMS:')) then (
                                                 (:manuscripts:)
                                 if($ref='' and $level = '' and $start ='' and $end = ''and $groupBy = '' and $max = '') 
@@ -683,7 +683,7 @@ else
 
 (:~ given the URN in the id parameter and the plain Beta Masahaeft id if any, produces the list of members of the collection filtering only the entities which do have a div[@type='edition'] :)
 declare function dts:CollMember($id, $bmID, $page, $nav){
-let $doc := collection($config:data-root)//id($bmID)
+let $doc := $config:collection-root/id($bmID)
 let $document := $doc//t:div[@type='edition']
 return
 if(count($doc) eq 1) then (
@@ -705,7 +705,7 @@ let $parent :=if(contains($id, 'betmasMS:')) then
              "title" : "Beta maṣāḥǝft Textual Units",
              "description": "Collection of literary textual units of the Ethiopic tradition",
              "@type" : "Collection",
-             "totalItems" : count(collection($config:data-rootW)//t:div[@type='edition'][descendant::t:ab[text()]])
+             "totalItems" : count($config:collection-rootW//t:div[@type='edition'][descendant::t:ab[text()]])
         }
 return
 map:put($addcontext, "member", $parent) 
@@ -730,8 +730,8 @@ map {
 : entry point or one of the two main collections, manuscripts or works in which case it will call dts:mainColl :)
 declare function dts:Coll($id, $page, $nav){
 let $availableCollectionIDs := ('urn:dts', 'urn:dts:betmas', 'urn:dts:betmasMS')
-let $ms := collection($config:data-rootMS)//t:div[@type='edition'][descendant::t:ab[text()]]
-let $w := collection($config:data-rootW)//t:div[@type='edition'][descendant::t:ab[text()]]
+let $ms := $config:collection-rootMS//t:div[@type='edition'][descendant::t:ab[text()]]
+let $w := $config:collection-rootW//t:div[@type='edition'][descendant::t:ab[text()]]
   let $countMS := count($ms)
   let $countW := count($w)
     return
@@ -851,7 +851,7 @@ let $title := titles:printTitleMainID($id)
 let $description := if(contains($collURN, 'MS')) then 'The transcription of manuscript '||$title||' in Beta maṣāḥǝft ' else 'The abstract literary work '||$title||' in Beta maṣāḥǝft. '  || string-join(string:tei2string($doc//t:abstract), '')
 let $dc := dts:dublinCore($id)
 let $computed := if(contains($collURN, 'MS')) then () else 
-(for $witness in collection($config:data-rootMS)//t:title[@ref = $id]
+(for $witness in $config:collection-rootMS//t:title[@ref = $id]
           let $root := root($witness)/t:TEI/@xml:id
           group by $groupkey := $root
           return string($groupkey))
@@ -943,7 +943,7 @@ let $contributor := dts:DCsparqls($id, 'contributor')
 let $language := dts:DCsparqls($id, 'language')
 let $title := if(starts-with($id, 'LIT')) then dts:DCsparqls($id, 'title') else map{'@value' := titles:printTitleMainID($id), '@lang' := 'en'}
 let $relation := dts:DCsparqls($id, 'relation')
-let $listChange := for $change in collection($config:data-root)//id($id)//t:change return editors:editorKey($change/@who)
+let $listChange := for $change in $config:collection-root/id($id)//t:change return editors:editorKey($change/@who)
 let $contributors := ($contributor, $listChange)
 let $all := map{
                 "dc:title": $title,
@@ -1162,7 +1162,7 @@ function dts:CollectionsID($id as xs:string*) {
     <tei>http://www.tei-c.org/ns/1.0</tei>
     </context>
     <graph>{
-            let $record := collection($config:data-root)//($id)[name()='TEI']
+            let $record := $config:collection-root/id($id)[name()='TEI']
             return
                 (
                 <id>urn:dts:betmas:{string($record/@xml:id)}</id>,
@@ -1230,7 +1230,7 @@ function dts:CollectionsID($id as xs:string*) {
                        let $parents := for $par in ($record//t:relation[@name = 'saws:formsPartOf']/@passive) 
                                                     return $par
                             for $parent in distinct-values($parents)
-                            let $papa := collection($config:data-root)//id($parent)[name()='TEI']
+                            let $papa := $config:collection-root/id($parent)[name()='TEI']
                             return
                                 
                                     (<id>urn:dts:betmas:{string($papa/@xml:id)}</id>,
@@ -1283,7 +1283,7 @@ function dts:get-workJSON($id as xs:string) {
     ($config:response200Json,
  log:add-log-message('/api/dts/text/' || $id, xmldb:get-current-user(), 'dts'),
     let $collection := 'works'
-    let $item := collection($config:data-root)//id($id)[name() ='TEI']
+    let $item := $config:collection-root/id($id)[name() ='TEI']
     let $recordid := $item/@xml:id
     return
         if ($item//t:div[@type = 'edition'])
@@ -1330,7 +1330,7 @@ function dts:get-toplevelJSON($id as xs:string, $level1 as xs:string*) {
     ($config:response200Json,
  log:add-log-message('/api/dts/text/'||$id||'/'||$level1, xmldb:get-current-user(), 'dts'),
     let $collection := 'works'
-    let $item := collection($config:data-root)//id($id)[name() ='TEI']
+    let $item := $config:collection-root/id($id)[name() ='TEI']
     let $recordid := $item/@xml:id
     let $L1 := $item//t:div[@type = 'edition']/t:div[@n = $level1]
     return
@@ -1392,7 +1392,7 @@ function dts:get-level1JSON($id as xs:string, $level1 as xs:string*, $line as xs
     
  log:add-log-message('/api/dts/text/'||$id||'/'||$level1||'/'||$line, xmldb:get-current-user(), 'dts'),
     let $collection := 'works'
-    let $item := collection($config:data-root)//id($id)[name() ='TEI']
+    let $item := $config:collection-root/id($id)[name() ='TEI']
     let $recordid := $item/@xml:id
     let $L1 := $item//t:div[@type = 'edition']/t:div[@n = $level1]
     
@@ -1514,7 +1514,7 @@ function dts:get-level2JSON($id as xs:string, $level1 as xs:string*, $level2 as 
     
  log:add-log-message('/api/dts/text/'||$id||'/'||$level1||'/'||$level2||'/'||$line, xmldb:get-current-user(), 'dts'),
     let $collection := 'works'
-    let $item := collection($config:data-root)//id($id)[name() ='TEI']
+    let $item := $config:collection-root/id($id)[name() ='TEI']
     let $recordid := $item/@xml:id
     let $L1 := $item//t:div[@type = 'edition']/t:div[@n = $level1]
     let $L2 := $L1/t:div[@n = $level2]

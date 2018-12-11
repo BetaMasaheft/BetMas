@@ -197,7 +197,7 @@ return
       }</tbody></table> 
         }</div>,
         <div class="alert alert-success col-md-12">
- Look only at identified textual units and see in which mss they have titles/incipit/explicit/colophon eventually with subtype (subscription, inscription, margin, etc.)</div>
+ Look only at identified textual units and see in which mss they have titles with subtype (subscription, inscription, margin, etc.)</div>
 ,
 <div class="whichTextualUnitsHaveTitles col-md-12">{
 
@@ -232,13 +232,60 @@ return
        let $id := string($MI/@xml:id)
        return
        ($id, <br/>,
-       for $tit at $p in $MI/t:title return 'title ' || (if($tit/@subtype) then ('/' || string($tit/@subtype)) else ()), <br/>,
-       if($MI/t:incipit) then  for $in at $p in $MI/t:incipit return 'incipit ' || (if($in/@type) then ('/' || string($in/@type)) else ()) else (), <br/>,
-       if($MI/t:explicit) then for $ex at $p in $MI/t:explicit return 'explicit '|| (if($ex/@type) then ('/' || string($ex/@type)) else ()) else (), <br/>,
-       if($MI/t:colophon) then for $col at $p in $MI/t:colophon return 'colophon ' || (if($col/@type) then ('/' || string($col/@type)) else ()) else (),<br/>
+       for $tit at $p in $MI/t:title[@subtype] return (if($tit/@subtype) then <b>{string($tit/@subtype)}</b> else ())
        )
        
-       ) else '-'}
+       ) else ' '}
+       </td>
+       }
+       </tr>
+       }
+       </tbody>
+       </table>
+      )
+        }</div>,
+        <div class="alert alert-success col-md-12">
+ Look only at identified textual units and see in which mss they have incipit/explicit/colophon with subtype (subscription, inscription, margin, etc.)</div>
+,
+<div class="whichTextualUnitsHaveSupplications col-md-12">{
+
+        let $manuscripts := for $ms in $mss return collection('/db/apps/BetMas/data/manuscripts')//id($ms)
+       let $identifiedTU := distinct-values($manuscripts//t:msItem/t:title/@ref)
+       return
+       (<div class="alert alert-info col-md-12"><p>There are {count($identifiedTU)} identified Textual Units in the manuscripts.</p></div>,
+      
+       <table class="table table-responsive">
+       <thead>
+       <tr>
+       <th>TU</th>
+       {for $ms in $mss return <th>{$ms}</th>}
+       </tr>
+       </thead>
+       <tbody>
+        {for $TU in $identifiedTU
+       return
+       <tr>
+       <td>{titles:printTitleMainID($TU)}</td>
+       {for $ms in $mss 
+       let $manuscriptFile := collection('/db/apps/BetMas/data/manuscripts')//id($ms)
+       return 
+       <td>
+       {
+       let $refs := $manuscriptFile//t:title[@ref =$TU]
+       return
+       if(count($refs) ge 1) then (
+       for $r in $refs 
+       let $msItem := $r/parent::t:msItem
+       group by $MI := $msItem
+       let $id := string($MI/@xml:id)
+       return
+       ($id, <br/>,
+       if($MI/t:incipit[@type]) then  for $in at $p in $MI/t:incipit[@type] return (if($in/@type) then <b>{string($in/@type)}</b> else ()) else (), <br/>,
+       if($MI/t:explicit[@type]) then for $ex at $p in $MI/t:explicit[@type] return  (if($ex/@type) then <b>{string($ex/@type)}</b> else ()) else (), <br/>,
+       if($MI/t:colophon[@type]) then for $col at $p in $MI/t:colophon[@type] return (if($col/@type) then <b>{string($col/@type)}</b> else ()) else (),<br/>
+       )
+       
+       ) else ' '}
        </td>
        }
        </tr>
@@ -247,6 +294,7 @@ return
        </table>
       )
         }</div>
+
 )
 }
  <script type="text/javascript">{"

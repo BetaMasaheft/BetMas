@@ -72,7 +72,7 @@ declare
 function void:entity($id as xs:string*) {
 
 ($void:response200turtle, 
-let $item := collection($config:data-root)//id($id)
+let $item := $config:collection-root/id($id)
 let $coll := switch:col($item/@type)
 let $dctermsContributor := ''
 let $dctermsCreated := ''

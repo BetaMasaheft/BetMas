@@ -7,15 +7,14 @@ xquery version "3.0" encoding "UTF-8";
 
 module namespace lists="https://www.betamasaheft.uni-hamburg.de/BetMas/lists";
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
-import module namespace templates="http://exist-db.org/xquery/templates" ;
-import module namespace app="https://www.betamasaheft.uni-hamburg.de/BetMas/app" at "app.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "titles.xqm";
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "tei2string.xqm";
 
 declare namespace t="http://www.tei-c.org/ns/1.0";
+declare namespace templates="http://exist-db.org/xquery/templates" ;
 
 
-(:~prints a responsive table with the first 100 ptr targets fount in 
+(:~prints a responsive table with the first 100 ptr targets fount in
  : all the bibliography entries in the  entities in the app taken once, requesting the data from Zotero:)
 declare
 
@@ -24,34 +23,35 @@ declare
     %templates:default("type", "all")
 function lists:bibl ($node as node(), $model as map(*),
     $type as xs:string+, $collection as xs:string, $pointer as xs:string*) {
-   let $coll := switch($collection) 
-   case'all' return '$config:collection-root'  
-   case 'mss' return '$config:collection-rootMS' 
-   case 'work' return '$config:collection-rootW' 
-   case 'auth' return '$config:collection-rootA' 
-   case 'pers' return '$config:collection-rootPr'  
-   case 'place' return '$config:collection-rootPl' 
-   case 'ins' return '$config:collection-rootIn'   
+   let $coll := switch($collection)
+   case'all' return '$config:collection-root'
+   case 'mss' return '$config:collection-rootMS'
+   case 'work' return '$config:collection-rootW'
+   case 'auth' return '$config:collection-rootA'
+   case 'pers' return '$config:collection-rootPr'
+   case 'place' return '$config:collection-rootPl'
+   case 'ins' return '$config:collection-rootIn'
    default return '$config:collection-root'
-   let $Pointer := if($pointer = '') then () else "[.='"||$pointer||"']"
+   let $Pointer := if($pointer = '') then "[starts-with(@target,'bm:')]" else "[@target='"||$pointer||"']"
     let $Type := if($type = 'all') then () else let $pars := for $ty in $type return "@type = '" || $ty || "'" return '//t:listBibl[' || string-join($pars, ' or ') || ']'
-   let $path := $coll||$Type||'//t:ptr/@target'||$Pointer
-   let $query := util:eval($path)
-let $bms := 
+   let $path := $coll||$Type||'//t:ptr'||$Pointer 
+   let $query := util:eval($path)//@target
+let $bms :=
 for $bibl in distinct-values($query)
+order by $bibl
 return
 $bibl
     return
    map {
                     "hits" := $bms,
                     "type" := 'bibliography'
-                    
+
                 }
 
      };
 
 
-declare 
+declare
     %templates:default("scope", "narrow")
     %templates:default("type", "all")
     %templates:default("target-pers", "all")
@@ -60,7 +60,7 @@ declare
     %templates:default("target-keyword", "all")
     %templates:default("target-language", "all")
     %templates:default("interpret", "all")
-    function lists:additions( $node as node()*, $model as map(*),  $query as xs:string*, 
+    function lists:additions( $node as node()*, $model as map(*),  $query as xs:string*,
     $type as xs:string+,
     $target-keyword as xs:string+,
     $target-language as xs:string+,
@@ -84,12 +84,12 @@ declare
    return
    map {
                     "hits" := $additions
-                    
+
                 }
    };
 
 
-declare 
+declare
     %templates:default("scope", "narrow")
     %templates:default("type", "all")
     %templates:default("target-keyword", "all")
@@ -99,9 +99,9 @@ declare
     %templates:default("pastedown", "all")
     %templates:default("fastening", "all")
 function lists:SearchBinding(
-$node as node()*, 
-$model as map(*), 
-$query as xs:string*, 
+$node as node()*,
+$model as map(*),
+$query as xs:string*,
     $type as xs:string+,
     $target-keyword as xs:string+,
     $SewingStationsN as xs:string+,
@@ -122,12 +122,12 @@ $query as xs:string*,
    return
    map {
                     "hits" := $decos
-                    
+
                 }
    };
 
 
-declare 
+declare
     %templates:default("scope", "narrow")
     %templates:default("type", "all")
     %templates:default("target-pers", "all")
@@ -136,9 +136,9 @@ declare
     %templates:default("target-artTheme", "all")
     %templates:default("target-keyword", "all")
 function lists:SearchDeco(
-$node as node()*, 
-$model as map(*), 
-$query as xs:string*, 
+$node as node()*,
+$model as map(*),
+$query as xs:string*,
     $type as xs:string+,
     $target-keyword as xs:string+,
     $target-pers as xs:string+,
@@ -161,14 +161,14 @@ $query as xs:string*,
    return
    map {
                     "hits" := $decos
-                    
+
                 }
    };
-   
+
    declare function lists:biblform($node as node(), $model as map(*)){
    <form xmlns="http://www.w3.org/1999/xhtml"  action="" class="form form-horizontal">
    <div class="control-group">
-   <small class="form-text text-muted">Select one 
+   <small class="form-text text-muted">Select one
    or more type of bibliography</small>
    <label class="checkbox"><input type="checkbox" value="secondary" name="type"/>secondary</label>
    <label class="checkbox"><input type="checkbox" value="editions" name="type"/>editions</label>
@@ -199,12 +199,12 @@ $query as xs:string*,
                                  <a href="/bibliography" role="button" class="btn btn-info"><i class="fa fa-th-list" aria-hidden="true"></i></a></div>
    </form>
    };
-   
+
      declare function lists:additionsform($node as node(), $model as map(*)){
    let $auth := $config:collection-rootA
    return
    <form action="" class="form form-horizontal">
-                               
+
                                 <div  class="form-group">
                                <small class="form-text text-muted">Search in the text of marked terms</small>
                                 <input class="form-control" name="termText"></input>
@@ -215,7 +215,7 @@ $query as xs:string*,
                                 </div>
                                {if($model('hits')//t:q) then  <div class="form-group">
                                  <small class="form-text text-muted">Select the language of the additions you want to see</small>
- 
+
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-language" name="target-language" class="form-control">
             {for $d in distinct-values($model('hits')//t:q/@xml:lang)
             return
@@ -224,7 +224,7 @@ $query as xs:string*,
                                  </div> else () }
                                {if($model('hits')//t:title) then  <div class="form-group">
                                  <small class="form-text text-muted">Select one or more works referred to in the document or addition</small>
- 
+
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-work" name="target-work" class="form-control">
             {for $d in distinct-values($model('hits')//t:title/@ref)
             return
@@ -233,7 +233,7 @@ $query as xs:string*,
                                  </div> else () }
                                  {if($model('hits')//t:seg) then  <div class="form-group">
                                  <small class="form-text text-muted">Select one or more interpretation segments</small>
- 
+
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-int" name="interpret" class="form-control">
             {for $d in distinct-values($model('hits')//t:seg/@ana)
             return
@@ -256,7 +256,7 @@ $query as xs:string*,
             <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
             </select>
                                  </div> else () }
-                                 {if($model('hits')//t:term) then 
+                                 {if($model('hits')//t:term) then
                                  <div class="form-group">
                                  <small class="form-text text-muted">Select one or more keywords referred to in the document or addition</small>
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-keyword" name="target-keyword" class="form-control">
@@ -272,17 +272,17 @@ $query as xs:string*,
                                  <a href="/additions" role="button" class="btn btn-info"><i class="fa fa-th-list" aria-hidden="true"></i></a></div>
                         </form>
    };
-   
+
    declare function lists:decorationsform($node as node(), $model as map(*)){
    let $auth := $config:collection-rootA
    return
    <form action="" class="form form-horizontal">
                                <div  class="control-group">
                                <small class="form-text text-muted">Select one or more type of decoration</small>
- 
+
                                {for $d in distinct-values($model('hits')/@type)
                                  return  (<label class="checkbox"><input type="checkbox" value="{$d}" name="type"/>{$d}</label>)}
-                                
+
                                 </div>
                                 <div  class="form-group">
                                <small class="form-text text-muted">Search in the text of the legends</small>
@@ -294,7 +294,7 @@ $query as xs:string*,
                                 </div>
                                {if($model('hits')//t:ref[@type='authFile']) then  <div class="form-group">
                                  <small class="form-text text-muted">Select one or more Art Themes associated with the decoration description</small>
- 
+
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-artTheme" name="target-artTheme" class="form-control">
             {for $d in distinct-values($model('hits')//t:ref[@type='authFile']/@corresp)
             return
@@ -303,7 +303,7 @@ $query as xs:string*,
                                  </div> else () }
                                {if($model('hits')//t:title) then  <div class="form-group">
                                  <small class="form-text text-muted">Select one or more works referred to in the decoration description</small>
- 
+
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-work" name="target-work" class="form-control">
             {for $d in distinct-values($model('hits')//t:title/@ref)
             return
@@ -326,7 +326,7 @@ $query as xs:string*,
             <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
             </select>
                                  </div> else () }
-                                 {if($model('hits')//t:term) then 
+                                 {if($model('hits')//t:term) then
                                  <div class="form-group">
                                  <small class="form-text text-muted">Select one or more artistic elements referred to in the decoration description</small>
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-keyword" name="target-keyword" class="form-control">
@@ -341,21 +341,21 @@ $query as xs:string*,
                                  <a href="/decorations" role="button" class="btn btn-info"><i class="fa fa-th-list" aria-hidden="true"></i></a></div>
                         </form>
    };
-  
-  
+
+
    declare function lists:bindingsform($node as node(), $model as map(*)){
    let $auth := $config:collection-rootA
    return
    <form action="" class="form form-horizontal">
                                <div  class="control-group">
                                <small class="form-text text-muted">Select one or more type of decoration</small>
- 
+
                                {for $d in distinct-values($model('hits')/@type)
                                  return  (<label class="checkbox"><input type="checkbox" value="{$d}" name="type"/>{$d}</label>)}
-                                
+
                                 </div>
-                                
-                                 {if($model('hits')//t:term) then 
+
+                                 {if($model('hits')//t:term) then
                                  <div class="form-group">
                                  <small class="form-text text-muted">Select one or more features of the binding description</small>
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-keyword" name="target-keyword" class="form-control">
@@ -364,7 +364,7 @@ $query as xs:string*,
             <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
             </select>
                                  </div> else() }
-                                 {if($model('hits')//@color) then 
+                                 {if($model('hits')//@color) then
                                  <div class="form-group">
                                  <small class="form-text text-muted">Select a color</small>
                                     <select xmlns="http://www.w3.org/1999/xhtml" id="color" name="color" class="form-control">
@@ -374,7 +374,7 @@ $query as xs:string*,
             <option value="{$d}">{$d}</option>}
             </select>
                                  </div> else() }
-                                 {if($model('hits')//@pastedown) then 
+                                 {if($model('hits')//@pastedown) then
                                  <div class="form-group">
                                  <small class="form-text text-muted">Select a pastedown type (will search only manuscripts where this is present)</small>
                                     <select xmlns="http://www.w3.org/1999/xhtml" id="pastedown" name="pastedown" class="form-control">
@@ -384,7 +384,7 @@ $query as xs:string*,
             <option value="{$d}">{$d}</option>}
             </select>
                                  </div> else() }
-                                 {if($model('hits')//t:material) then 
+                                 {if($model('hits')//t:material) then
                                  <div class="form-group">
                                  <small class="form-text text-muted">Select a binding material</small>
                                     <select xmlns="http://www.w3.org/1999/xhtml" id="BindingMaterial" name="BindingMaterial" class="form-control">
@@ -394,7 +394,7 @@ $query as xs:string*,
             <option value="{$d}">{$d}</option>}
             </select>
                                  </div> else() }
-                                 {if($model('hits')//t:decoNote[@type='Fastening']) then 
+                                 {if($model('hits')//t:decoNote[@type='Fastening']) then
                                  <div class="form-group">
                                  <small class="form-text text-muted">Select a fastening feature</small>
                                     <select xmlns="http://www.w3.org/1999/xhtml" id="Fastening" name="fastening" class="form-control">
@@ -414,11 +414,11 @@ $query as xs:string*,
                                  <a href="/bindings" role="button" class="btn btn-info"><i class="fa fa-th-list" aria-hidden="true"></i></a></div>
                         </form>
    };
-  
+
 declare
 %templates:wrap
     %templates:default('start', 1)
-    %templates:default("per-page", 10)      
+    %templates:default("per-page", 10)
     function lists:biblRes($node as node(), $model as map(*), $start as xs:integer, $per-page as xs:integer){
 
 for $target at $p in subsequence($model("hits"), $start, $per-page)
@@ -432,9 +432,11 @@ return
 <ul>
     {    
    for $citingentity in $ptrs/@target
-   group by $root :=    root($citingentity)/t:TEI/@xml:id
+   let $stringR := string(root($citingentity)/t:TEI/@xml:id)
+
+   group by $root :=    $stringR 
     return
-    <li><a href="{$root}">{titles:printTitle(root($root)/t:TEI)}</a></li>
+     <li><a href="/{$root}" class="MainTitle" data-value="{$root}">{$root}</a></li>
     }
     </ul>
     </div>
@@ -457,10 +459,10 @@ for $addition at $p in $data
     let $tit := titles:printTitleMainID($type, $config:data-rootA)
     return
         <ul class="list-group" id="{data($type)}list">
-        
+
         <a href="#{data($type)}" class="list-group-item" data-toggle="collapse">
         <i class="glyphicon glyphicon-chevron-right"></i><span class="badge">{if ($type = 'undefined') then count($data[not(descendant::t:desc/@type)]) else count($data/t:desc[@type = $type])}</span><span class="additionType" data-value="{$type}">{
-       if ($type = 'undefined') then $type else $tit  
+       if ($type = 'undefined') then $type else $tit
     }</span></a>
         <ul class="list-group collapse" id="{data($type)}">
         <h2 class="list-group-item-heading">{if ($type = 'undefined') then $type else <a href="/authority-files/list?keyword={string($type)}">{$tit}</a> }</h2>
@@ -470,31 +472,31 @@ for $addition at $p in $data
                 let $additionID := data($a/@xml:id)
                 order by $fileID
                 return
-            <li class="list-group-item"><a href="{$fileID}#{$additionID}">{$fileID},{$additionID}</a> |  
+            <li class="list-group-item"><a href="{$fileID}#{$additionID}">{$fileID},{$additionID}</a> |
             <div class="additionTextContent">
-            
+
                <div
                id="{$fileID}_{$additionID}">
                {if ($a//t:relation[@name='saws:formsPartOf'][contains(@passive, 'corpus')]) then (<p>Document in Corpus <a href="/{$a//t:relation/@passive}/corpus">{string($a//t:relation/@passive)}</a> </p>) else ()}
                {for $q in $a//t:q return <p>{if($q[@xml:lang = 'gez']) then attribute class {'gez'} else()}{$q}</p>}
                </div>
-            
-                
+
+
             </div>
-                
+
             </li>
-                
+
             }
             </ul>
-            
-            
+
+
         </ul>
 };
 
 
-declare 
+declare
 %templates:wrap
-    function lists:bindingRes($node as node(), $model as map(*)){ 
+    function lists:bindingRes($node as node(), $model as map(*)){
    let $c := $config:collection-rootMS
    return
     <div class="list-group list-group-root col-md-12">
@@ -506,21 +508,21 @@ for $binding at $p in $model("hits")
     order by $type
     return
         <div class="list-group" id="{data($type)}list">
-        
+
         <a href="#{data($type)}" class="list-group-item" data-toggle="collapse"><i class="glyphicon glyphicon-chevron-right"></i><span class="badge">{count($binding)}</span>{string($type)} </a>
-        
+
         <div  class="list-group collapse" id="{data($type)}">
             {
                 for $b in $binding
                 let $msid := $b/ancestor::t:TEI/@xml:id
-                
+
                 (:group by containing ms:)
                 group by $ms := $msid
                 order by $ms
                 return
-                    
+
              <div  class="list-group">
-             
+
              <a class="list-group-item" data-toggle="collapse" href="#{$ms}"><i class="glyphicon glyphicon-chevron-right"></i>{$c//id($ms)//t:msIdentifier/t:idno}</a>
                  <ul class="list-group collapse" id="{data($ms)}">
                  {
@@ -530,14 +532,14 @@ for $binding at $p in $model("hits")
                      order by $sb/@xml:id
                      return
             <li class="list-group-item container">
-            
+
             <p class="col-md-11"><a href="{data($ms)}#{data($sb/@xml:id)}">{data($sb/@xml:id)}</a>: {try{string:tei2string($sb/node())} catch * {(($err:code || ": "|| $err:description), string-join($sb//text(), ' '))}}
             </p></li>
                  }
             </ul>
             </div>
             }
-    
+
         </div>
         </div>
 }
@@ -546,9 +548,9 @@ for $binding at $p in $model("hits")
 
 
 
-declare 
+declare
 %templates:wrap
-    function lists:decoRes($node as node(), $model as map(*)){ 
+    function lists:decoRes($node as node(), $model as map(*)){
    let $c := $config:collection-rootMS
    return
     <div class="list-group list-group-root col-md-12">
@@ -560,21 +562,21 @@ for $decoration at $p in $model("hits")
     order by $type
     return
         <div class="list-group" id="{data($type)}list">
-        
+
         <a href="#{data($type)}" class="list-group-item" data-toggle="collapse"><i class="glyphicon glyphicon-chevron-right"></i><span class="badge">{count($decoration)}</span>{string($type)} </a>
-        
+
         <div  class="list-group collapse" id="{data($type)}">
             {
                 for $d in $decoration
                 let $msid := $d/ancestor::t:TEI/@xml:id
-                
+
                 (:group by containing ms:)
                 group by $ms := $msid
                 order by $ms
                 return
-                    
+
              <div  class="list-group">
-             
+
              <a class="list-group-item" data-toggle="collapse" href="#{$ms}"><i class="glyphicon glyphicon-chevron-right"></i>{$c//id($ms)//t:msIdentifier/t:idno}</a>
                  <ul class="list-group collapse" id="{data($ms)}">
                  {
@@ -584,32 +586,32 @@ for $decoration at $p in $model("hits")
                      order by $sd/@xml:id
                      return
             <li class="list-group-item container">
-            
+
             {if($images/@facs and $locus) then (<a target="_blank"  href="/manuscripts/{$ms}/viewer"><img class="thumb col-md-1" src="{
-           if(starts-with($ms, 'ES')) 
+           if(starts-with($ms, 'ES'))
            then $config:appUrl ||'/iiif/' || string($images/@facs) || '_'||$locus||'.tif/full/150,100/0/default.jpg'
-          else if(starts-with($ms, 'BNF')) 
+          else if(starts-with($ms, 'BNF'))
            then replace($images/@facs, 'ark:', 'iiif/ark:') || '/'||$locus||'/full/80,100/0/native.jpg'
-          else if(starts-with($ms, 'BAV')) 
+          else if(starts-with($ms, 'BAV'))
            then replace(substring-before($images/@facs, '/manifest.json'), 'iiif', 'pub/digit') || '/thumb/'
                     ||
-                    substring-before(substring-after($images/@facs, 'MSS_'), '/manifest.json') || 
+                    substring-before(substring-after($images/@facs, 'MSS_'), '/manifest.json') ||
                     '_'||$locus||'.tif.jpg'
            else ()}"/></a>
- 
-           )           
+
+           )
             else ()}
             <p class="col-md-11">
             <a href="{data($ms)}#{data($sd/@xml:id)}">{data($sd/@xml:id)}</a><br/>
             {if(count($sd//t:ref[@type='authFile']) ge 1) then 'Art Themes: ' || string-join(string:tei2string($sd//t:ref[@type='authFile']), ', ') else ()}
             </p>
-            
+
             </li>
                  }
             </ul>
             </div>
             }
-    
+
         </div>
         </div>
 }
@@ -627,8 +629,8 @@ declare function lists:corporaeditors ($editor as node()*){
                 $node/text() || ' '
         case element(t:surname)
                 return
-                $node/text() 
-                
+                $node/text()
+
         case element(t:resp)
                 return
                 <i>{$node/text()}</i>
@@ -638,7 +640,7 @@ case element()
             default
                 return
                     $node
-                    
+
 };
 
 declare function lists:corpora ($node as node(), $model as map(*)){
@@ -662,7 +664,7 @@ return <tr>
 <td><a href="/{$id}/corpus"><h4>{$title}</h4></a></td>
 <td>{lists:corporaeditors($corpus//t:principal)}</td>
 <td>{$corpus//t:projectDesc}</td>
-<td><ul>{for $document in $config:collection-rootMS//t:relation[contains(@passive, $id)] 
+<td><ul>{for $document in $config:collection-rootMS//t:relation[contains(@passive, $id)]
 let $rootid := string($document/@active)
 let $mainid := substring-before($rootid, '#')
 group by $ID := $mainid

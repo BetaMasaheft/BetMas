@@ -33,11 +33,11 @@ function lookID:IDSlookup($id as xs:string*) {
 log:add-log-message('/api/idlookup?id=' || $id, xmldb:get-current-user(), 'REST'),
 
 let $query := (
-collection($config:data-root)/t:TEI[contains(@xml:id, $id)],
-collection($config:data-root)//t:msPart[contains(@xml:id, $id)],
-collection($config:data-root)//t:msItem[contains(@xml:id, $id)],
-collection($config:data-root)//t:title[contains(@xml:id, $id)],
-collection($config:data-root)//t:div[contains(@xml:id, $id)])
+$config:collection-root/t:TEI[contains(@xml:id, $id)],
+$config:collection-root//t:msPart[contains(@xml:id, $id)],
+$config:collection-root//t:msItem[contains(@xml:id, $id)],
+$config:collection-root//t:title[contains(@xml:id, $id)],
+$config:collection-root//t:div[contains(@xml:id, $id)])
  let $results := for $hit in $query
  let $i := string($hit/@xml:id)
 (: let $rootID := string(root($hit)/t:TEI/@xml:id):)

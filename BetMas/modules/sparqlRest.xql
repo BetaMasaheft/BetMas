@@ -352,7 +352,7 @@ if(count($results) >= 1) then
 ($apisparql:response200Json,
 let $versions := 
 for $result in $sparqlresults//sr:literal/text()[. != $id]
-let $version := collection($config:data-rootW)//id($result)
+let $version := $config:collection-rootW/id($result)
 let $resTit := titles:printTitleMainID($result)
 let $texts :=
 if ($version//t:div[contains(@corresp, $chapterID)])
@@ -374,7 +374,7 @@ then
 else
     if (count($version//t:witness) eq 1) then (
         let $wit := string($version//t:witness/@corresp)
-        let $uniqueWitness := collection($config:data-rootMS)//id($wit)
+        let $uniqueWitness := $config:collection-rootMS/id($wit)
         let $titWit := titles:printTitleMainID($wit)
        let $source := map{'id' := $result, 'title' := $resTit, 'uniqueWitness' := $titWit}
        let $edition := $uniqueWitness//t:div[@corresp[contains(., $chapterID)]]

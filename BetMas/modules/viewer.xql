@@ -10,6 +10,7 @@ import module namespace nav = "https://www.betamasaheft.uni-hamburg.de/BetMas/na
 import module namespace item = "https://www.betamasaheft.uni-hamburg.de/BetMas/item" at "xmldb:exist:///db/apps/BetMas/modules/item.xqm";
 import module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMas/error" at "xmldb:exist:///db/apps/BetMas/modules/error.xqm";
 import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "xmldb:exist:///db/apps/BetMas/modules/apprest.xqm";
+import module namespace switch = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch"  at "xmldb:exist:///db/apps/BetMas/modules/switch.xqm";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 
 (: For REST annotations :)
@@ -116,8 +117,8 @@ declare
 %output:method("html5")
 function viewer:mirador($collection as xs:string, $id as xs:string){
 
-let $c := '/db/apps/BetMas/data/' || $collection
-let $this := collection($c)//id($id)
+let $c := switch:collection($collection)
+let $this := util:eval($c)/id($id)
 let $biblio :=
 <bibl>
 {let $time := max($this//t:revisionDesc/t:change/xs:date(@when))
@@ -172,7 +173,7 @@ if(xdb:collection-available($c)) then (
  )
         else
 (:        check that the item exists:)
-       if(collection($config:data-root)//id($id)[name() = 'TEI']) then (
+       if($config:collection-root/id($id)[name() = 'TEI']) then (
        log:add-log-message('/'||$collection||'/'||$id||'/viewer', xmldb:get-current-user(), 'viewer'),
 
 <rest:response>

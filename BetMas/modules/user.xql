@@ -84,7 +84,7 @@ return
                     <div
                         class="col-md-6 alert alert-info">
                         {let $userinitials := editors:editorNames($username)
-                                    let $changes := collection($config:data-root)//t:change[@who = $userinitials]
+                                    let $changes := $config:collection-root//t:change[@who = $userinitials]
                                     let $changed := for $c in $changes
                                     order by $c/@when descending
                                     return $c

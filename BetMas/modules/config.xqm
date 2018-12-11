@@ -222,7 +222,8 @@ declare variable $config:collection-rootPr := collection($config:data-rootPr);
 declare variable $config:collection-rootIn := collection($config:data-rootIn);
 declare variable $config:collection-rootA := collection($config:data-rootA);
 declare variable $config:collection-rootTraces := collection($config:data-rootTraces);
-
+declare variable $config:collection-rootWN := collection($config:data-rootW, $config:data-rootN);
+declare variable $config:collection-rootPlIn := collection($config:data-rootPl,$config:data-rootIn);
 
 declare variable $config:repo-descriptor := doc(concat($config:app-root, "/repo.xml"))/repo:meta;
 

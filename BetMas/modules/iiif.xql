@@ -281,7 +281,7 @@ function iiif:allManifests() {
 ($iiif:response200,
 log:add-log-message('/api/iiif/collections', xmldb:get-current-user(), 'iiif'),
        
-      let $allidno := collection($config:data-rootMS)//t:idno[@facs]
+      let $allidno := $config:collection-rootMS//t:idno[@facs]
 let $EMIP := $allidno[preceding-sibling::t:collection = 'EMIP'][@n]
 let $ES := $allidno[preceding-sibling::t:collection = 'Ethio-SPaRe'][@n]
 let $vat := $allidno[preceding-sibling::t:repository[@ref = 'INS0003BAV']]
@@ -326,7 +326,7 @@ function iiif:RepoCollection($institutionid as xs:string) {
 
 log:add-log-message('/api/iiif/collections/' || $institutionid, xmldb:get-current-user(), 'iiif'),
 let $repoName := titles:printTitleMainID($institutionid)
-let $repo := collection($config:data-rootMS)//t:repository[@ref = $institutionid]
+let $repo := $config:collection-rootMS//t:repository[@ref = $institutionid]
 let $mswithimages := if($institutionid='INS0447EMIP') then $repo[following-sibling::t:idno[@facs][@n]] else $repo[following-sibling::t:idno[@facs]]
 let $manifests :=
 for $images in $mswithimages
@@ -368,13 +368,13 @@ function iiif:WitnessesCollection($workID as xs:string) {
 
 log:add-log-message('/api/iiif/witnesses/' || $workID, xmldb:get-current-user(), 'iiif'),
 let $workName := titles:printTitleMainID($workID)
-let $work := collection($config:data-rootW)//id($workID)
+let $work := $config:collection-rootW/id($workID)
 let $mswithimages := $work//t:witness[@corresp]
 let $externalmswithimages := $work//t:witness[@facs][t:ptr/@target]
 let $listmanifests :=
 (for $images in $mswithimages
 let $msid := $images/@corresp
-let $ms := collection($config:data-rootMS)//id($msid)
+let $ms := $config:collection-rootMS/id($msid)
 return
 if($ms//t:idno[@facs]) then
 
@@ -421,15 +421,14 @@ declare
 %rest:path("/BetMas/api/iiif/{$id}/manifest")
 %output:method("json") 
 function iiif:manifest($id as xs:string*) {
-let $item := if (starts-with($id, 'ES')) then collection($config:data-rootMS || '/ES')//id($id) else 
-collection($config:data-rootMS || '/EMIP')//id($id)
+let $item := if (starts-with($id, 'ES')) then collection($config:data-rootMS || '/ES')/id($id) else 
+collection($config:data-rootMS || '/EMIP')/id($id)
        return
        if($item//t:msIdentifier/t:idno/@facs) then
 ($iiif:response200,
 
 log:add-log-message('/api/iiif/'||$id||'/manifest', xmldb:get-current-user(), 'iiif'),
-       (:let $item := collection($config:data-rootMS || '/ES')//id($id)
-       :)let $institution := titles:printTitleMainID($item//t:repository/@ref)
+       let $institution := titles:printTitleMainID($item//t:repository/@ref)
        let $institutionID := string($item//t:repository/@ref)
        let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs)
        let $tot := $item//t:msIdentifier/t:idno/@n
@@ -514,7 +513,7 @@ function iiif:sequence($id as xs:string*) {
 ($iiif:response200,
 
 log:add-log-message('/api/iiif/'||$id||'/sequence/normal', xmldb:get-current-user(), 'iiif'),
-        let $item := collection($config:data-rootMS || '/ES')//id($id)
+        let $item := collection($config:data-rootMS || '/ES')/id($id)
 
 let $iiifroot := $config:appUrl ||"/api/iiif/" || $id
 let $sequence := $iiifroot || "/sequence/normal"
@@ -546,7 +545,7 @@ function iiif:canvas($id as xs:string*, $n as xs:string*) {
 ($iiif:response200,
 
 log:add-log-message('/api/iiif/'||$id||'/canvas/p' || $n, xmldb:get-current-user(), 'iiif'),
-let $item := collection($config:data-rootMS || '/ES')//id($id)
+let $item := collection($config:data-rootMS || '/ES')/id($id)
 let $iiifroot := $config:appUrl ||"/api/iiif/" || $id 
 let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs)
  let $imagefile := format-number($n, '000') || '.tif'

@@ -51,7 +51,7 @@ declare variable $app:range-lookup :=
     
 (:~collects bibliographical information for zotero metadata:)
 declare variable $app:bibdata := 
-let $file := collection($config:data-root)//id($app:name)
+let $file := $config:collection-root/id($app:name)
 let $auths := $file//t:revisionDesc/t:change/@who[. != 'PL']
 return
 
@@ -65,7 +65,7 @@ order by $count descending
 <author>{editors:editorKey(string($author))}</author>
 }
 <title level="a">{titles:printTitle($file)}</title>
-<title level="j">{collection($config:data-root)//id($app:name)//t:publisher/text()}</title>
+<title level="j">{$config:collection-root/id($app:name)//t:publisher/text()}</title>
 <date type="accessed"> [Accessed: {current-date()}] </date>
 {let $time := max($file//t:revisionDesc/t:change/xs:date(@when))
 return
@@ -96,7 +96,7 @@ declare variable $app:APP_ROOT :=
 
 
 declare function app:interpretationSegments($node as node(), $model as map(*)){
- for $d in distinct-values(collection($config:data-rootMS)//t:seg/@ana)
+ for $d in distinct-values($config:collection-rootMS//t:seg/@ana)
                     return
                     <option value="{$d}">{substring-after($d, '#')}</option>
                     };
@@ -105,7 +105,7 @@ declare function app:interpretationSegments($node as node(), $model as map(*)){
 (:get parallel diplomatique forms:)
 declare function app:diplomatiqueforms($node as node(), $model as map(*),$interpret as xs:string*)
 {
-let $path := 'collection($config:data-root)//t:seg[@ana="' || $interpret ||'"]'
+let $path := '$config:collection-root//t:seg[@ana="' || $interpret ||'"]'
 let $hits := for $occurrence in util:eval($path)
                  return $occurrence
 return
@@ -378,7 +378,7 @@ if ($list = 'works') then (
             </ul>
             <ul  class="nodot">
                 {
-                    for $parallel in collection($config:data-root)//t:relation[@name='saws:isVersionOf'][contains(@passive, $itemid)]
+                    for $parallel in $config:collection-root//t:relation[@name='saws:isVersionOf'][contains(@passive, $itemid)]
                     let $p := $parallel/@active
                     return
                         <li><a
@@ -387,7 +387,7 @@ if ($list = 'works') then (
             </ul>
             <ul  class="nodot">
                 {
-                    for $parallel in collection($config:data-root)//t:relation[@name='isVersionInAnotherLanguageOf'][contains(@passive, $itemid)]
+                    for $parallel in $config:collection-root//t:relation[@name='isVersionInAnotherLanguageOf'][contains(@passive, $itemid)]
                      let $p := $parallel/@active
                     return
                         <li><a
@@ -476,7 +476,7 @@ if ($list = 'works') then (
                 (
                 <td>{
                         let $id := string($itemid)
-                        let $mss := collection($config:data-rootMS)//t:repository[@ref = $id]
+                        let $mss := $config:collection-rootMS//t:repository[@ref = $id]
                         return
                             count($mss)
                     }</td>
@@ -656,8 +656,8 @@ declare function app:selectors($nodeName, $path, $nodes, $type, $context){
                                 return 
                                 let $label :=
                                     try{
-                                        if (collection($config:data-root)//id($work)) 
-                                        then titles:printTitle(collection($config:data-root)//id($work)) 
+                                        if ($config:collection-root/id($work)) 
+                                        then titles:printTitle($config:collection-root/id($work)) 
                                         else $work} 
 (:                                        this has to stay because optgroup requires label and this cannot be computed from the javascript as in other places:)
                                     catch* {
@@ -682,7 +682,7 @@ declare function app:selectors($nodeName, $path, $nodes, $type, $context){
                                     )
             else if ($type = 'institutions')
                       then (
-                             let $institutions := collection($config:data-rootIn)//t:TEI/@xml:id
+                             let $institutions := $config:collection-rootIn//t:TEI/@xml:id
                                  for $institutionId in $nodes[.=$institutions]
                             return
             
@@ -716,13 +716,10 @@ declare function app:selectors($nodeName, $path, $nodes, $type, $context){
                                          case 'faith' return 'faithtype' 
                                          case 'objectType' return 'form' 
                                          default return 'termkey'
-                 let $facet := if($nodeName = 'script') then (
-                                                             let $ctx := util:eval($context)
-                                                                return
-                                                                       $app:util-index-lookup($ctx//@script, lower-case($thiskey), function($key, $count) {$count[2]}, 100, 'lucene-index' )) 
-                                            else (
-                                            util:eval($context)/$app:range-lookup($rangeindexname, $thiskey, function($key, $count) {$count[2]}, 100)
-                                            )
+                 let $ctx := util:eval($context)
+                 let $facet := if($nodeName = 'script') 
+                                          then ($app:util-index-lookup($ctx//@script, lower-case($thiskey), function($key, $count) {$count[2]}, 100, 'lucene-index' )) 
+                                          else ( $ctx/$app:range-lookup($rangeindexname, $thiskey, function($key, $count) {$count[2]}, 100))
                 order by $n
                 return
                 
@@ -866,7 +863,7 @@ declare function app:greetings($node as element(), $model as map(*)) as xs:strin
 (:~general count of contributions to the data:)
 declare function app:team ($node as node(), $model as map(*)) {
 <ul>{
-    collection($config:data-root)/$app:range-lookup('changewho', (),
+    $config:collection-root/$app:range-lookup('changewho', (),
         function($key, $count) {
              <li class="lead">{editors:editorKey($key) || ' ('||$key||')' || ' made ' || $count[1] ||' changes in ' || $count[2]||' documents. '}<a href="/xpath?xpath=collection%28%27%2Fdb%2Fapps%2FBetMas%2Fdata%27%29%2F%2Ft%3Achange%5B%40who%3D%27{$key}%27%5D">See the changes.</a></li>
         }, 1000)
@@ -937,7 +934,7 @@ declare function app:elements($node as node(), $model as map(*)) {
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-rootMS)")
+%templates:default("context", "$config:collection-rootMS")
 function app:target-mss($node as node(), $model as map(*), $context as xs:string*) {
   let $cont := util:eval($context)
       let $control :=
@@ -949,7 +946,7 @@ function app:target-mss($node as node(), $model as map(*), $context as xs:string
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-rootW, $config:data-rootN)")
+%templates:default("context", "$config:collection-rootWN")
 function app:target-works($node as node(), $model as map(*), $context as xs:string*) {
    let $cont := util:eval($context)
      let $control :=
@@ -961,7 +958,7 @@ function app:target-works($node as node(), $model as map(*), $context as xs:stri
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-rootIn)")
+%templates:default("context", "$config:collection-rootIn")
 function app:target-ins($node as node(), $model as map(*), $context as xs:string*) {
    let $cont := util:eval($context)
     let $control :=
@@ -974,7 +971,7 @@ function app:target-ins($node as node(), $model as map(*), $context as xs:string
 
 (:~ called by form*.html files used by advances search form as.html and filters.js MANUSCRIPTS FILTERS for CONTEXT:)
 declare 
-%templates:default("context", "collection($config:data-rootMS)")
+%templates:default("context", "$config:collection-rootMS")
 function app:scripts($node as node(), $model as map(*), $context as xs:string*) {
     let $cont := util:eval($context)
     let $scripts := $app:util-index-lookup($cont//@script, (), function($key, $count) {$key}, 100, 'lucene-index' )
@@ -985,7 +982,7 @@ function app:scripts($node as node(), $model as map(*), $context as xs:string*) 
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
 declare 
-%templates:default("context", "collection($config:data-rootMS)")
+%templates:default("context", "$config:collection-rootMS")
 function app:support($node as node(), $model as map(*), $context as xs:string*) {
      let $cont := util:eval($context)
      let $forms := distinct-values($cont//@form)
@@ -996,7 +993,7 @@ function app:support($node as node(), $model as map(*), $context as xs:string*) 
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-rootMS)")
+%templates:default("context", "$config:collection-rootMS")
 function app:material($node as node(), $model as map(*), $context as xs:string*) {
       let $cont := util:eval($context)
       let $materials := distinct-values($cont//t:support/t:material/@key)
@@ -1007,7 +1004,7 @@ function app:material($node as node(), $model as map(*), $context as xs:string*)
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-rootMS)") 
+%templates:default("context", "$config:collection-rootMS") 
 function app:bmaterial($node as node(), $model as map(*), $context as xs:string*) {
     let $cont := util:eval($context)
       let $bmaterials := distinct-values($cont//t:decoNote[@type='bindingMaterial']/t:material/@key)
@@ -1021,7 +1018,7 @@ function app:bmaterial($node as node(), $model as map(*), $context as xs:string*
 
 (:~ called by form*.html files used by advances search form as.html and filters.js PLACES FILTERS for CONTEXT:)
 declare
-%templates:default("context", "collection($config:data-rootPl,$config:data-rootIn)") 
+%templates:default("context", "$config:collection-rootPlIn") 
 function app:placeType($node as node(), $model as map(*), $context as xs:string*) {
       let $cont := util:eval($context)
      let $placeTypes := distinct-values($cont//t:place/@type/tokenize(., '\s+'))
@@ -1032,7 +1029,7 @@ function app:placeType($node as node(), $model as map(*), $context as xs:string*
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-rootPr)") 
+%templates:default("context", "$config:collection-rootPr") 
 function app:personType($node as node(), $model as map(*), $context as xs:string*) {
     let $cont := util:eval($context)
       let $persTypes := distinct-values($cont//t:person//t:occupation/@type/tokenize(., '\s+'))
@@ -1043,7 +1040,7 @@ function app:personType($node as node(), $model as map(*), $context as xs:string
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-root)") 
+%templates:default("context", "$config:collection-root") 
 function app:relationType($node as node(), $model as map(*)) {
     let $cont := util:eval($context)
     let $relTypes := distinct-values($cont//t:relation/@name/tokenize(., '\s+'))
@@ -1062,7 +1059,7 @@ declare function app:keywords($node as node(), $model as map(*)) {
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-rootMS)") 
+%templates:default("context", "$config:collection-rootMS") 
 function app:languages($node as node(), $model as map(*), $context as xs:string*) {
      let $cont := util:eval($context)
      let $keywords := distinct-values($cont//t:language/@ident)
@@ -1073,7 +1070,7 @@ function app:languages($node as node(), $model as map(*), $context as xs:string*
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-rootMS)")  
+%templates:default("context", "$config:collection-rootMS")  
 function app:scribes($node as node(), $model as map(*), $context as xs:string*) {
      let $cont := util:eval($context)
       let $elements := $cont//t:persName[@role='scribe'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
@@ -1085,7 +1082,7 @@ function app:scribes($node as node(), $model as map(*), $context as xs:string*) 
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-rootMS)")   
+%templates:default("context", "$config:collection-rootMS")   
 function app:donors($node as node(), $model as map(*), $context as xs:string*) {
      let $cont := util:eval($context)
     let $elements := $cont//t:persName[@role='donor'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
@@ -1097,7 +1094,7 @@ function app:donors($node as node(), $model as map(*), $context as xs:string*) {
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-rootMS)")   
+%templates:default("context", "$config:collection-rootMS")   
 function app:patrons($node as node(), $model as map(*), $context as xs:string*) {
      let $cont := util:eval($context)
       let $elements := $cont//t:persName[@role='patron'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
@@ -1109,7 +1106,7 @@ function app:patrons($node as node(), $model as map(*), $context as xs:string*) 
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-rootMS)")  
+%templates:default("context", "$config:collection-rootMS")  
 function app:owners($node as node(), $model as map(*), $context as xs:string*) {
       let $cont := util:eval($context)
       let $elements := $cont//t:persName[@role='owner'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
@@ -1121,7 +1118,7 @@ function app:owners($node as node(), $model as map(*), $context as xs:string*) {
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-rootMS)") 
+%templates:default("context", "$config:collection-rootMS") 
 function app:binders($node as node(), $model as map(*), $context as xs:string*) {
       let $cont := util:eval($context)
       let $elements := $cont//t:persName[@role='binder'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
@@ -1133,7 +1130,7 @@ function app:binders($node as node(), $model as map(*), $context as xs:string*) 
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-rootMS)")
+%templates:default("context", "$config:collection-rootMS")
 function app:parmakers($node as node(), $model as map(*), $context as xs:string*) {
     let $cont := util:eval($context)
       let $elements := $cont//t:persName[@role='parchmentMaker'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
@@ -1145,7 +1142,7 @@ function app:parmakers($node as node(), $model as map(*), $context as xs:string*
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-rootMS)")
+%templates:default("context", "$config:collection-rootMS")
 function app:contents($node as node(), $model as map(*), $context as xs:string*) {
     let $cont := util:eval($context)
     let $elements :=$cont//t:msItem[not(contains(@xml:id, '.'))]
@@ -1157,7 +1154,7 @@ function app:contents($node as node(), $model as map(*), $context as xs:string*)
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-rootW)")
+%templates:default("context", "$config:collection-rootMS")
 function app:mss($node as node(), $model as map(*), $context as xs:string*) {
     let $cont := util:eval($context)
     let $keywords := for $r in $cont//t:witness/@corresp return string($r)|| ' '
@@ -1167,7 +1164,7 @@ function app:mss($node as node(), $model as map(*), $context as xs:string*) {
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "collection($config:data-rootW)")
+%templates:default("context", "$config:collection-rootMS")
 function app:WorkAuthors($node as node(), $model as map(*), $context as xs:string*) {
 let $works := util:eval($context)
 let $attributions := for $rel in ($works//t:relation[@name="saws:isAttributedToAuthor"], $works//t:relation[@name="dcterms:creator"])
@@ -1181,7 +1178,7 @@ let $keywords := distinct-values($attributions)
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
 declare 
-%templates:default("context", "collection($config:data-rootIn)") 
+%templates:default("context", "$config:collection-rootIn") 
 function app:tabots($node as node(), $model as map(*), $context as xs:string*) {
 let $cont := util:eval($context)
 let $tabots:= $cont//t:ab[@type='tabot']
@@ -1433,7 +1430,7 @@ let $queryExpr := $query-string
         if (empty($queryExpr) or $queryExpr = "") then
           (if(empty($parameterslist)) then () else ( let $hits := 
              let $path := 
-             concat("collection('",$config:data-root,"')//t:TEI", 
+             concat("$config:collection-root","//t:TEI", 
              $allfilters, $nOfP)
              return
                    for $hit in util:eval($path)
@@ -1456,7 +1453,7 @@ let $queryExpr := $query-string
                    app:BuildSearchQuery($e, $query-string)
                    
                    let $allels := string-join($elements, ' or ')
-                   let $path:=    concat("collection('",$config:data-root,"')//t:TEI[",$allels, "]", $allfilters)
+                   let $path:=    concat("$config:collection-root","//t:TEI[",$allels, "]", $allfilters)
                    let $logpath := log:add-log-message($path, xmldb:get-current-user(), 'XPath')  
                    for $hit in util:eval($path)
                     order by ft:score($hit) descending
@@ -2010,7 +2007,7 @@ declare function app:get-latest-created-document($collection-uri as xs:string) a
 
 
 declare  function app:worksforclavis($node as node(), $model as map(*), $xpath as xs:string?) {
-  let $hits := for $hit in collection($config:data-rootW)//t:TEI[not(ends-with(@xml:id, 'IHA'))]
+  let $hits := for $hit in $config:collection-rootW//t:TEI[not(ends-with(@xml:id, 'IHA'))]
                     return $hit
    return
   map {"hits": $hits, "path": $xpath}

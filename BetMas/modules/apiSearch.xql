@@ -56,7 +56,7 @@ let $log := log:add-log-message('/api/kwicsearch?q=' || $q, xmldb:get-current-us
     return 
     apiS:BuildSearchQuery($e, all:substitutionsInQuery($q))
 let $allels := string-join($elements, ' or ')
-let $eval-string := concat("collection('", $config:data-root, "')//t:TEI[",$allels, "]")
+let $eval-string := concat("$config:collection-root//t:TEI[",$allels, "]")
 
 return
 util:eval($eval-string)
@@ -190,12 +190,12 @@ let $query-string := if($homophones = 'true') then
 let $hits := 
 for $e in $element 
 let $eval-string := if($e = 'persName' and $descendants = 'false')  then
-concat("collection('", $config:data-root, "')//t:person/t:persName"
+concat(" $config:collection-root//t:person/t:persName"
 , "[ft:query(.,'", $query-string, "',",serialize($SearchOptions),")]", $collection, $script, $material, $term)
 else if($e = 'placeName'  and $descendants = 'false')  then
-concat("collection('", $config:data-root, "')//t:place/t:placeName"
+concat(" $config:collection-root//t:place/t:placeName"
 , "[ft:query(.,'", $query-string, "',",serialize($SearchOptions),")]", $collection, $script, $material, $term)
-else concat("collection('", $config:data-root, "')//t:"
+else concat("$config:collection-root//t:"
 , $e, "[ft:query(.,'", $query-string, "',",serialize($SearchOptions),")]", $collection, $script, $material, $term)
 
 return util:eval($eval-string)

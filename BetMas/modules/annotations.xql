@@ -77,7 +77,7 @@ let $sr := string($r)
 let $lang := if($d/t:placeName[.= $tit[1]]/@xml:lang) then '@' || $d/t:placeName[.= $tit[1]]/@xml:lang else ()
 let $temporal := if($d//t:state[@type='existence'][@from or @to]) then for $existence in $d//t:state[@type='existence'][@from or @to] return let $from := string($existence/@from) let $to := string($existence/@to) return ('dcterms:temporal "' ||$from||'/'||$to||'";
  ') else ()
-let $PeriodO := if($d//t:state[@type='existence'][@ref]) then for $periodExistence in  $d//t:state[@type='existence'][@ref]  let $periodid := string($periodExistence/@ref) let $period := collection($config:data-root)//id($periodid)[1] return ('dcterms:temporal <' || string(($period//t:sourceDesc//t:ref/@target)[1])|| '>;
+let $PeriodO := if($d//t:state[@type='existence'][@ref]) then for $periodExistence in  $d//t:state[@type='existence'][@ref]  let $periodid := string($periodExistence/@ref) let $period :=  $config:collection-root/id($periodid)[1] return ('dcterms:temporal <' || string(($period//t:sourceDesc//t:ref/@target)[1])|| '>;
  ') else ()
 let $sameAs := if($d//@sameAs) then
 ' skos:exactMatch <' || ann:getannotationbody($d//@sameAs[1]) ||'> ;

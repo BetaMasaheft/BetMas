@@ -22,7 +22,7 @@ declare
 %rest:path("/BetMas/api/quotations/{$text}/{$passage}")
 %output:method("json")
 function quotations:allquotations($text  as xs:string*,$passage  as xs:string*){
-let $quotations := collection($config:data-root)//t:cit[t:ref[contains(@cRef, $text)]]
+let $quotations := $config:collection-root//t:cit[t:ref[contains(@cRef, $text)]]
 let $thispassage := for $quote in $quotations[t:ref[contains(substring-after(@cRef, concat($text, ':')), $passage)]]
                                             let $id := string(root($quote)/t:TEI/@xml:id) 
                                           let $titlesource := titles:printTitleMainID($id)

@@ -14,7 +14,7 @@ declare option exist:serialize "method=text mediatype=text/javascript";
 
 (:Item timeline extracted  from all stated dates in item and related entities. first ids are listed with data in a temporary tree and then functions are used to output the javascript as text:)
 declare function tl:RestEntityTimeLine($this, $collection) {
-let $c := collection($config:data-root)
+let $c := $config:collection-root
 let $itemid := $this/@xml:id
 let $whatpointshere := apprest:WhatPointsHere($itemid, $c)
 let $data :=
@@ -112,7 +112,7 @@ declare function tl:link($date as node(), $mode as xs:string, $context as xs:str
     
 (:    checks the name of resps and return a string join of them if more then one:)
     declare function tl:resp($node){
-     let $resps :=if(starts-with($node, 'bm_')) then (<span class="Zotero Zotero-citation">{$node}</span>) else if ($node) then (for $r in $node  return <r>{normalize-space(titles:printTitle(collection($config:data-rootPr)//id($r)))}</r>) else ()
+     let $resps :=if(starts-with($node, 'bm_')) then (<span class="Zotero Zotero-citation">{$node}</span>) else if ($node) then (for $r in $node  return <r>{normalize-space(titles:printTitle($config:collection-rootPr/id($r)))}</r>) else ()
      return
      <resps>{if(starts-with($node, 'bm_')) then $resps else string-join($resps, ' and ')}</resps>
     };

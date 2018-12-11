@@ -29,8 +29,7 @@ declare
 %output:method("json")
 function NE:relNodes($id as xs:string*){
 
-let $c := collection($config:data-root)
-let $entity := $c//id($id)
+let $entity := $config:collection-root/id($id)
 let $type := $entity/@type
 let $collection := switch:col($type)
 

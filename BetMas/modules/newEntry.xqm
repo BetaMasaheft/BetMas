@@ -62,7 +62,7 @@ if($app:collection = 'persons') then (
                  for $k in $categories
                 order by $k
                 return
-                <option value="{$k}">{collection($config:data-rootA)//id($k)//t:titleStmt/t:title[1]}</option>
+                <option value="{$k}">{$config:collection-rootA/id($k)//t:titleStmt/t:title[1]}</option>
                 }
 </select>
 
@@ -248,11 +248,11 @@ else if($app:collection = 'manuscripts') then (
 <label for="institution"  class="col-md-2 col-form-label">Institution</label>
 <div class="col-md-10"><select  class="form-control"  id="institution" name="institution">
                 {
-                for $i in collection($config:data-rootIn)//t:TEI/@xml:id
-                let $title := titles:printTitleID($i)
+                for $i in doc('/db/apps/BetMas/institutions.xml')//t:item
+                let $title := $i/text()
                 order by $title
                 return
-                <option value="{$i}">{$title}</option>
+                <option value="{string($i/@xml:id)}">{$title}</option>
                 }
 </select><small class="form-text text-muted">select institution where manuscript is stored. If this is a new institution, <a target="_blank" href="/newentry.html?collection=institutions">please first create the institution record</a></small></div>
 </div>,

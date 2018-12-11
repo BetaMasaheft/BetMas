@@ -48,7 +48,7 @@ $id as xs:string*,
 $start as xs:integer*,
 $per-page as xs:integer*,
 $hi as xs:string*) {
-  let $item := collection($config:data-root)//id($id)[name()='TEI']
+  let $item := $config:collection-root/id($id)[name()='TEI']
   let $col := switch:col($item/@type)
   let $log := log:add-log-message('/'||$id||'/main', xmldb:get-current-user(), 'item')
   return
@@ -190,9 +190,9 @@ declare function restItem:ITEM($type, $id, $collection,
 $start as xs:integer*,
 $per-page as xs:integer*,
 $hi as xs:string*){
-
-let $c := '/db/apps/BetMas/data/' || $collection
-let $this := collection($c)//id($id)
+let $collect := switch:collection($collection)
+let $c := util:eval($collect)
+let $this := $c/id($id)
 let $biblio :=
 <bibl>
 {
@@ -226,7 +226,7 @@ if(xdb:collection-available($c)) then (
 
         else
 (:        check that the item exists:)
-       if(collection($config:data-root)//id($id)[name() = 'TEI']) then (
+       if($config:collection-root/id($id)[name() = 'TEI']) then (
 <rest:response>
             <http:response
                 status="200">
@@ -286,7 +286,7 @@ if(xdb:collection-available($c)) then (
   <div class="slider round" data-toggle="tooltip" title="Highlight diplomatic disourse interpretation"></div>
 </label>
    {
-   for $document in collection($config:data-rootMS)//t:relation[contains(@passive, $id)]
+   for $document in $config:collection-rootMS//t:relation[contains(@passive, $id)]
 let $rootid := string($document/@active)
 let $itemid :=substring-after($rootid, '#')
 return
@@ -350,7 +350,7 @@ transform:transform(
 
         </div>
    )
-   case 'text' return (<div>{item:RestText($this, $start, $per-page)}</div>)
+   case 'text' return (item:RestText($this, $start, $per-page))
    case 'graph' return (
    switch($collection)
 case 'manuscripts' return
@@ -448,7 +448,9 @@ if ($id = $Subjects) then  (try{LitFlow:Sankey($id, 'works')} catch * {$err:desc
    <script>{'var placeid = "'||$id||'"'}</script>,
             <script  type="text/javascript" src="resources/geo/geojsonentitymap.js"></script>) else (),
 
-   item:RestItem($this, $collection),
+   <div  class="alpheios-enabled">{item:RestItem($this, $collection)}</div>,
+   
+        <div id="alpheios-main" data-trigger="dblclick,touchstart" data-selector=".alpheios-enabled"/>,
    <div class="col-md-12 alert alert-info">This page contains RDFa. <a href="/rdf/{$collection}/{$id}.rdf">RDF+XML</a> graph of this resource. Alternate representations available via <a href="/api/void/{$id}">VoID</a>.</div>,
 (:   apprest:namedentitiescorresps($this, $collection),:)
 (:   the form with a list of potental relation keywords to find related items. value is used by Jquery to query rest again on api:SharedKeyword($keyword) :)

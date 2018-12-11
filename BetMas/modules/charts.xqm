@@ -93,7 +93,7 @@ var options = {
 
 
 declare function charts:pieAttestations($itemid, $name){
-  let $path:= 'collection($config:data-root)//t:' || $name || '[@ref=$itemid][text()]'
+  let $path:= '$config:collection-root//t:' || $name || '[@ref=$itemid][text()]'
   let $attestations := util:eval($path)
   let $forms := for $att in $attestations
                  let $groupkey := normalize-space(string-join($att/text(), ' '))
@@ -213,7 +213,8 @@ declare function charts:chart($hits){
   </p></div>) else
 let $dimensionOfQuiresINS := distinct-values($hits//t:collation//t:item/t:dim[@unit='leaf'])
 let $percents := for $dim in $dimensionOfQuiresINS
-                let $numberQuiresThisDim := count($hits//t:collation//t:item/t:dim[@unit='leaf'][.=$dim])
+                let $test := $hits//t:collation//t:item
+                let $numberQuiresThisDim := count($test/t:dim[@unit='leaf'][.=$dim])
                 order by $numberQuiresThisDim descending
                   return
                                '["' ||  $dim || ' leaves ", ' ||  $numberQuiresThisDim || ']'

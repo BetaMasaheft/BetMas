@@ -19,7 +19,7 @@ declare namespace t="http://www.tei-c.org/ns/1.0";
 
 (:~ used by item:restNav:)
 declare function item:witnesses($id){
-let $item := collection($config:data-rootW, $config:data-rootMS)//t:TEI/id($id)
+let $item := ($config:collection-rootMS, $config:collection-rootW)//t:TEI/id($id)
 return
 if($item/@type='mss') then <div class="col-md-2"><div class="container-fluid well" id="textWitnesses">
 <h5>Transcription of the manuscript</h5></div></div>
@@ -37,7 +37,7 @@ for $wit in $item//t:witness[@type = 'external'] return
 <a href="{$wit/@facs}" target="_blank"><b class="lead">{string($wit/@xml:id)}</b>: {if($wit/text()) then $wit/text() else string($wit/@corresp)}</a></li>}
 
 </ul>
-       {let $versions := collection($config:data-root)//t:relation[@name='saws:isVersionOf'][contains(@passive, $id)]
+       {let $versions := $config:collection-root//t:relation[@name='saws:isVersionOf'][contains(@passive, $id)]
        return
        if($versions) then (<h5>Other versions</h5>,
          <ul  class="nodot">
@@ -50,7 +50,7 @@ for $wit in $item//t:witness[@type = 'external'] return
                 }
             </ul>)
             else()}
-            {let $versionsO := collection($config:data-root)//t:relation[@name='isVersionInAnotherLanguageOf'][contains(@passive, $id)]
+            {let $versionsO := $config:collection-root//t:relation[@name='isVersionInAnotherLanguageOf'][contains(@passive, $id)]
        return
        if($versionsO) then (
             <h5>Versions in another language</h5>,
@@ -167,7 +167,7 @@ case 'manuscripts' return
     else
 <div>
             { for $repo in $repoids
-            let $repodoc := collection($config:data-rootIn)//id($repo)
+            let $repodoc := $config:collection-rootIn/id($repo)
              let $repoplace := if ($repodoc//t:settlement[1]/@ref) then titles:printTitleID($repodoc//t:settlement[1]/@ref) else if ($repodoc//t:settlement[1]/text()) then $repodoc//t:settlement[1]/text() else if ($repodoc//t:country[1]/@ref) then titles:printTitleID($repodoc//t:country[1]/@ref) else ()
 return
             <a target="_blank" 
@@ -273,8 +273,8 @@ declare function item:AdminLocTable($adminLoc as element()*){
 declare function item:mainRels($this,$collection){
       let $document := $this
       let $id := string($this/@xml:id)
-      let $w := collection($config:data-rootW)
-      let $ms := collection($config:data-rootMS)
+      let $w := $config:collection-rootW
+      let $ms := $config:collection-rootMS
       return
           <div class="allMainRel container-fluid">{
      switch($collection)
@@ -376,7 +376,7 @@ return
                                            {
                                            <b>Place attested in the following periods</b>,
                                           <ul>{for $s in $this//t:state[@type='existence']/@ref
-                                          let $file := collection($config:data-rootA)//id($s)
+                                          let $file := $config:collection-rootA/id($s)
                                           let $name := $file//t:title[1]/text()
                                           let $link := $file//t:sourceDesc//t:ref/@target
                                           return
@@ -558,7 +558,7 @@ return
 
 (:~called by he RESTXQ module items.xql :)
 declare function item:RestPersRole($file, $collection){
-    let $c := collection($config:data-root)
+    let $c := $config:collection-root
     let $id := string($file/@xml:id)
     return
 if ($collection = 'persons') then(
@@ -659,7 +659,7 @@ else ()
 
 (:~ returns a div with a list of additions containing the given id :)
 declare function item:RestAdditions($id){
-       let $adds := collection($config:data-rootMS)//t:additions
+       let $adds := $config:collection-rootMS//t:additions
        let $sameKey :=
             for $corr in $adds//t:persName[@ref= $id]
             return $corr
@@ -680,7 +680,7 @@ if ($sameKey) then
 
       (:~ returns a div with a list of additions containing the given id :)
 declare function item:RestMiniatures($id){
-       let $adds := collection($config:data-rootMS)//t:decoNote[@type='miniature']
+       let $adds := $config:collection-root//t:decoNote[@type='miniature']
        let $sameKey :=
             for $corr in $adds//t:persName[@ref= $id]
             return $corr
@@ -701,7 +701,7 @@ if ($sameKey) then
 
       (:~ returns a div with a list of the keywords used in the description of a miniture with the given art theme :)
 declare function item:RestMiniaturesKeys($id){
-       let $adds := collection($config:data-rootMS)//t:decoNote[@type='miniature'][descendant::t:ref[@type='authFile'][@corresp=$id]]
+       let $adds := $config:collection-rootMS//t:decoNote[@type='miniature'][descendant::t:ref[@type='authFile'][@corresp=$id]]
        let $themes := $adds//t:term
      return
                                            <ul class="nodot">{
@@ -726,7 +726,7 @@ declare function item:RestMiniaturesKeys($id){
        };
       (:~ returns a div with a list of place like records containing the given id as tabot :)
 declare function item:RestTabot($id){
-       let $tabot := collection($config:data-rootPl, $config:data-rootIn)//t:place//t:ab[@type='tabot']
+       let $tabot := $config:collection-rootPlIn//t:place//t:ab[@type='tabot']
        let $sameKey :=
             for $corr in $tabot//t:persName[@ref = $id]
             return $corr
@@ -753,7 +753,7 @@ else ()
 declare function item:RestMss($id){
        let $string := $id
 let $sameKey :=
-            for $corr in collection($config:data-rootMS)//t:title[@ref = $id]
+            for $corr in $config:collection-rootMS//t:title[@ref = $id]
             return
                 $corr
 return
@@ -798,13 +798,13 @@ return
 
 
              {
-let $corresps := collection($config:data-rootW)//t:div[@type ='textpart'][@corresp = $id]
+let $corresps := $config:collection-rootW//t:div[@type ='textpart'][@corresp = $id]
 return
 if (count($corresps) ge 1) then
  (
 for $c in $corresps
 let $workid := string(root($c)/t:TEI/@xml:id )
-let $witnesses := collection($config:data-rootMS)//t:title[contains(@ref, $workid)]
+let $witnesses := $config:collection-rootMS//t:title[contains(@ref, $workid)]
 let $tit := titles:printTitleMainID($workid)
 return
 (
@@ -1017,7 +1017,7 @@ return
 
     { for $contained in $ids
 
-    let $file := collection($config:data-rootW)//id($contained)[name()='TEI']
+    let $file := $config:collection-rootW//id($contained)[name()='TEI']
      let $matches := for $hit in $file//t:div[@type='textpart'] return $hit
     let $hits :=        map { 'hits' := $matches}
 

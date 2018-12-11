@@ -1368,7 +1368,7 @@ declare function fo:table-of-contents($ids) {
                 display-align="center">Table of Contents</fo:block>
                
             { for $i at $p in tokenize($ids, ',')
-            let $r := collection($config:data-root)//id($i)
+            let $r := $config:collection-root/id($i)
             let $title := titles:printTitleMainID($i)
                     return
                         <fo:block
@@ -1394,7 +1394,7 @@ declare function fo:table-of-contents($ids) {
 declare function fo:bookmarks($ids) {
       <fo:bookmark-tree>
       { for $i at $p in tokenize($ids, ',')
-            let $r := collection($config:data-root)//id($i)
+            let $r := $config:collection-root/id($i)
             let $title := titles:printTitleMainID($i)
                     return
                      <fo:bookmark
@@ -1921,7 +1921,7 @@ declare function fo:main($ids) {
            {
                     for $id in tokenize($ids, ',')
                     
-                    let $r := collection($config:data-root)//id($id) 
+                    let $r := $config:collection-root/id($id) 
                     let $title := titles:printTitleMainID($id)
                     let $ty := string($r/@type) 
                     return

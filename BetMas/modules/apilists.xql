@@ -12,6 +12,7 @@ import module namespace all="https://www.betamasaheft.uni-hamburg.de/BetMas/all"
 import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
+import module namespace switch = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch"  at "xmldb:exist:///db/apps/BetMas/modules/switch.xqm";
 (: namespaces of data used :)
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 import module namespace http="http://expath.org/ns/http-client";
@@ -47,34 +48,9 @@ let $log := log:add-log-message('/api/'||$collection||'/list/json', xmldb:get-cu
         ("[descendant::t:repository/@ref = '" || $repo || "' ]")
     else
         ''
-    let $collecPath := switch ($collection)
-        case 'works'
-            return
-                $config:data-rootW
-        case 'persons'
-            return
-                $config:data-rootPr
-        case 'institutions'
-            return
-                $config:data-rootIn
-        case 'manuscripts'
-            return
-                $config:data-rootMS
-        case 'narratives'
-            return
-                $config:data-rootN
-        case 'authority-files'
-            return
-                $config:data-rootA
-        case 'places'
-            return
-                $config:data-rootPl
-        default return
-            $config:data-root
+    let $collecPath := switch:collection($collection)
 
-let $path := concat("collection('",
-$collecPath
-, "')//t:TEI", $repo, $term)
+let $path := concat($collecPath, "//t:TEI", $repo, $term)
 
 let $hits := util:eval($path)
 
@@ -274,7 +250,7 @@ let $log := log:add-log-message('/api/manuscripts/'||$repo||'/list/ids/json', xm
     let $login := xmldb:login('/db/apps/BetMas/data', $config:ADMIN, $config:ppw)
     return
          ( $config:response200Json,
-    let $msfromrepo := collection($config:data-rootMS)//t:TEI[descendant::t:repository[@ref = $repo]]
+    let $msfromrepo := $config:collection-rootMS//t:TEI[descendant::t:repository[@ref = $repo]]
     let $total := count($msfromrepo) 
    let $items :=  for $resource in $msfromrepo 
     let $id := string($resource/@xml:id)
@@ -308,37 +284,9 @@ let $log := log:add-log-message('/api/' || $collection || '/list', xmldb:get-cur
         ("[descendant::t:term/@key = '" || $term || "' ]")
     else
         ''
-    let $collecPath := switch ($collection)
-        case 'works'
-            return
-                $config:data-rootW
-        case 'persons'
-            return
-                $config:data-rootPr
-        case 'personsNoEthnic'
-            return
-                $config:data-rootPr
-        case 'institutions'
-            return
-                $config:data-rootIn
-        case 'manuscripts'
-            return
-                $config:data-rootMS
-        case 'narratives'
-            return
-                $config:data-rootN
-        case 'authority-files'
-            return
-                $config:data-rootA
-        case 'places'
-            return
-                $config:data-rootPl
-        default return
-            $config:data-root
+    let $collecPath := switch:collection($collection)
 
-let $path := concat("collection('",
-$collecPath
-, "')//t:TEI", if($collection='personsNoEthnic') then "[starts-with(@xml:id, 'PRS')]" else (), $term)
+let $path := concat($collecPath, "//t:TEI", if($collection='personsNoEthnic') then "[starts-with(@xml:id, 'PRS')]" else (), $term)
 
 let $hits := util:eval($path)
 

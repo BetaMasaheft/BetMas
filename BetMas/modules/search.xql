@@ -15,7 +15,7 @@ declare
 
 %rest:GET
 %rest:path("/BetMas/api/SearchFormParts/{$paraname}")
-%rest:query-param("cont", "{$cont}", "collection($config:data-rootMS)")
+%rest:query-param("cont", "{$cont}", "$config:collection-rootMS")
 %output:method("html5")
 function restSearch:FormPart($paraname  as xs:string*, $cont as xs:string*)
 {

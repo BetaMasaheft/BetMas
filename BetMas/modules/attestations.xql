@@ -42,7 +42,7 @@ case 'work' return 't:title[@ref'
 case 'mss' return 't:ref[@type="mss"][@corresp'
 case 'term' return 't:term[@key'
 default return 't:persName'
-let $c := collection($config:data-root)
+let $c := $config:collection-root
 let $attestations:= api:restWhatPointsHere($id, $c)
 let $hits :=
 for $att in $attestations

@@ -16,6 +16,7 @@ import module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMas/
 import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "xmldb:exist:///db/apps/BetMas/modules/apprest.xqm";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace charts = "https://www.betamasaheft.uni-hamburg.de/BetMas/charts" at "xmldb:exist:///db/apps/BetMas/modules/charts.xqm";
+import module namespace switch = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch"  at "xmldb:exist:///db/apps/BetMas/modules/switch.xqm";
 import module namespace exreq = "http://exquery.org/ns/request";
 import module namespace console = "http://exist-db.org/xquery/console";
 import module namespace xdb="http://exist-db.org/xquery/xmldb";
@@ -445,10 +446,21 @@ if(sum($parametersLenght) ge 1 ) then
     return
     (
    <div class="col-md-12">
-   <span id="hit-count" class="lead">
+   <div class="col-md-4"><span id="hit-count" class="lead">
    {'There are ' || count($hits("hits")) || ' records in this selection of ' || $collection }
    </span>
-   {if ($collection = 'works') 
+   </div>
+   <div class="col-md-4">
+   {
+   if($collection = 'manuscripts') then ( if(count($hits("hits")) lt 1050) then 
+                (
+                <div  class="btn btn-group"><a role="button" class="btn btn-default" href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exreq:query()}">Charts</a></div>)
+                
+                else (<div  class="col-md-6 alert alert-danger"><p>
+    We think that charts with data from {count($hits("hits"))} items would be impossible to read and not very useful. 
+    Filter your search to limit the number of items, with less then 1000 items we will also dinamically produce the charts.
+  </p></div>)) 
+  else    if ($collection = 'works') 
    then
    let $texts :=  $hits('hits')[descendant::t:div[@type='edition']//t:ab//text()] 
    return
@@ -461,7 +473,12 @@ if(sum($parametersLenght) ge 1 ) then
   (<span class="alert alert-warning">No text available for analysis with Voyant Tools for this selection.</span>)
   else (<span class="alert alert-info">With less than 100 hits, you will find here a button to analyse the available texts in your selection with Voyant Tools.</span>)
         else ()   }
+        <a class="btn btn-large btn-success" href="javascript:void(0);" onclick="javascript:introJs().addHints();">show hints</a>
+        </div>
+        <div class="col-md-4">
 {list:paramsList($parameters)}
+</div>
+
                    </div>
                    ,
     <div class="col-md-2">
@@ -472,49 +489,45 @@ if(sum($parametersLenght) ge 1 ) then
     </div>,
     <div class="col-md-10">
    <div class="hidden-md hidden-lg hidden-sm">
-     <ul class="pagination" >
+     
     {apprest:paginate-rest($hits, $parameters, $start, $per-page, 5, 21)}
-    </ul>
+ 
                    </div>
                    <div class="hidden-xs">
-                   <ul class="pagination" >
+                   
     {apprest:paginate-rest($hits, $parameters, $start, $per-page, 9, 21)}
-    </ul>
+    
                    </div>
     {app:table($hits, $start, $per-page)}
 
       <div class="hidden-xs">
-                   <ul class="pagination" >
+                   
     {apprest:paginate-rest($hits, $parameters, $start, $per-page, 9, 21)}
-    </ul>
+
                    </div>
     <div class="hidden-md hidden-lg hidden-sm">
 
-                   <ul class="pagination" >
+                   
     {apprest:paginate-rest($hits, $parameters, $start, $per-page, 9, 21)}
-    </ul>
+  
                 </div>
-                {if($collection = 'manuscripts') then ( if(count($hits("hits")) lt 1050) then 
-                (
-                <a role="button" class="btn btn-default" href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exreq:query()}">Charts</a>)
                 
-                else (<div  class="col-md-6 alert alert-danger"><p>
-    We think that charts with data from {count($hits("hits"))} items would be impossible to read and not very useful. 
-    Filter your search to limit the number of items, with less then 1000 items we will also dinamically produce the charts.
-  </p></div>)) else ()}
         <div></div>
         </div>)
         
         else  (<div class="col-md-2" data-hint="The following filters can be applied by clicking on the filter icon below, to return to the full list, click the list, to go to advanced search the cog">
     {
-    apprest:searchFilter-rest($collection, map{'hits' := <start/>, 'query' := ("collection('/db/apps/BetMas/data/"|| $collection || "')")})}
+    let $collect := switch:collection($collection)
+    let $test := console:log($collect)
+    return
+    apprest:searchFilter-rest($collection, map{'hits' := <start/>, 'query' := $collect})}
     {switch($collection)
     case 'manuscripts' return (apprest:institutions(),apprest:catalogues())
     default return ()}
     </div>,<div class="col-md-10 alert alert-info">Please, select a filter.</div>
         )
         }
-        <a class="btn btn-large btn-success" href="javascript:void(0);" onclick="javascript:introJs().addHints();">show hints</a>
+        
 </div>
 
         {nav:footer()}
@@ -947,28 +960,21 @@ if($file) then (
     </div>,
     <div class="col-md-10">
    <div class="hidden-md hidden-lg hidden-sm">
-     <ul class="pagination" >
     {apprest:paginate-rest($hits, $parameters, $start, $per-page, 5, 21)}
-    </ul>
+ 
                    </div>
                    <div class="hidden-xs">
-                   <ul class="pagination" >
     {apprest:paginate-rest($hits, $parameters, $start, $per-page, 9, 21)}
-    </ul>
                    </div>
 
     {app:table($hits, $start, $per-page)}
 
       <div class="hidden-xs">
-                   <ul class="pagination" >
     {apprest:paginate-rest($hits, $parameters, $start, $per-page, 9, 21)}
-    </ul>
                    </div>
     <div class="hidden-md hidden-lg hidden-sm">
 
-                   <ul class="pagination" >
     {apprest:paginate-rest($hits, $parameters, $start, $per-page, 9, 21)}
-    </ul>
                 </div>
                 
 
@@ -1418,28 +1424,28 @@ return $data
     </div>,
     <div class="col-md-10">
    <div class="hidden-md hidden-lg hidden-sm">
-     <ul class="pagination" >
+     
     {apprest:paginate-rest($hits, $parameters, $start, $per-page, 5, 21)}
-    </ul>
+    
                    </div>
                    <div class="hidden-xs">
-                   <ul class="pagination" >
+                   
     {apprest:paginate-rest($hits, $parameters, $start, $per-page, 9, 21)}
-    </ul>
+    
                    </div>
 
     {app:table($hits, $start, $per-page)}
 
       <div class="hidden-xs">
-                   <ul class="pagination" >
+                   
     {apprest:paginate-rest($hits, $parameters, $start, $per-page, 9, 21)}
-    </ul>
+
                    </div>
     <div class="hidden-md hidden-lg hidden-sm">
 
-                   <ul class="pagination" >
+               
     {apprest:paginate-rest($hits, $parameters, $start, $per-page, 9, 21)}
-    </ul>
+  
                 </div>
 
                
@@ -1669,7 +1675,7 @@ return $data
 
 
 declare function list:paramsList($parameters as map(*)){
-   <div class="container well">
+   <div class="col-md-12 well">
    {map:for-each($parameters,
    function($key, $value) {
    if($value = '') then ()

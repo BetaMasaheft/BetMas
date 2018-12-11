@@ -77,9 +77,9 @@ let $Subjects := doc(concat($config:data-rootA, '/taxonomy.xml'))//t:category[t:
 
 let $Periods := doc(concat($config:data-rootA, '/taxonomy.xml'))//t:category[t:desc='Periods']//t:category/t:catDesc
 
-let $DW := collection($config:data-rootW)//t:term[@key = $Periods]
+let $DW := $config:collection-rootW//t:term[@key = $Periods]
 
-let $DatedMss := collection($config:data-rootMS)//t:TEI[descendant::t:term[@key = $Periods]]
+let $DatedMss :=  $config:collection-rootMS//t:TEI[descendant::t:term[@key = $Periods]]
 
 let $works := for $dMS in $DatedMss
                             for $key in $dMS//t:term[@key = $Periods]
@@ -116,8 +116,8 @@ let $id := string($W/@ref)
 
 let $root := 
                 if ($type= 'works') 
-                then root($W)[t:teiHeader/t:profileDesc/t:textClass/t:keywords/t:term[@key=$filter]] 
-                else collection($config:data-rootW)/id($id)[t:teiHeader/t:profileDesc/t:textClass/t:keywords/t:term[@key=$filter]]
+                then root($W)[descendant::t:term[@key=$filter]] 
+                else  $config:collection-rootW/id($id)[descendant::t:term[@key=$filter]]
                 
 let $keywords := for $k in $root//t:term
                                     where $k/@key = $Subjects

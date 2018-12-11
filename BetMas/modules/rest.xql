@@ -58,13 +58,11 @@ declare
 %output:method("html")
 function api:listRepositoriesName()
 {
-for $i in collection($config:data-rootIn)//t:TEI/@xml:id
-let $id := string($i)
-let $name := base-uri($i)
-let $tit := titles:printTitleMainID($id)
-order by $tit
+for $i in doc('/db/apps/BetMas/institutions.xml')//t:item
+let $name := $i/text()
+order by $name
 return
-<option value="{$id}">{$tit}</option>
+<option value="{string($i/@xml:id)}">{$name}</option>
 };
 
 
@@ -74,7 +72,7 @@ declare
 %output:method("html")
 function api:getcataloguesZotero()
 {
-for $catalogue in distinct-values(collection($config:data-rootMS)//t:listBibl[@type='catalogue']//t:ptr/@target)
+for $catalogue in distinct-values($config:collection-rootMS//t:listBibl[@type='catalogue']//t:ptr/@target)
 let $xml-url := concat('https://api.zotero.org/groups/358366/items?&amp;tag=', $catalogue, '&amp;format=bib&amp;style=hiob-ludolf-centre-for-ethiopian-studies')
 let $data := httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)
     order by $data
@@ -90,10 +88,10 @@ declare
 %rest:path("/BetMas/api/witnessesOfContainer/{$id}")
 %output:method("json")
 function api:witnessesOfContainerWork($id as xs:string*){
-let $corresps := collection($config:data-rootW)//t:div[@type ='textpart'][@corresp = $id]
+let $corresps := $config:collection-rootW//t:div[@type ='textpart'][@corresp = $id]
 for $c in $corresps 
 let $workid := string(root($c)/t:TEI/@xml:id )
-let $witnesses := collection($config:data-rootMS)//t:title[contains(@ref, $workid)]
+let $witnesses := $config:collection-rootMS//t:title[contains(@ref, $workid)]
 let $witnessesID := for $w in $witnesses let $wid :=  string(root($w)/t:TEI/@xml:id ) return  titles:printTitleMainID($wid)
 let $tit := titles:printTitleMainID($workid)
 return 
@@ -110,11 +108,11 @@ declare
 %output:method("json")
 function api:count(){
  ($api:response200Json,
-let $total := count(collection($config:data-root))
-let $totalMS := count(collection($config:data-rootMS))
-let $totalInstitutions := count(collection($config:data-rootIn))
-let $totalWorks := (count(collection($config:data-rootW)) + count(collection($config:data-rootN)))
-let $totalPersons := count(collection($config:data-rootPr))
+let $total := count($config:collection-root)
+let $totalMS := count($config:collection-rootMS)
+let $totalInstitutions := count($config:collection-rootIn)
+let $totalWorks := (count($config:collection-rootW) + count($config:collection-rootN))
+let $totalPersons := count($config:collection-rootPr)
 return 
 
 map {
@@ -137,7 +135,7 @@ function api:latest(){
  ($api:response200Json,
 
 let $twoweekago := current-date() - xs:dayTimeDuration('P15D')
-let $changes := collection($config:data-root)//t:change[@when]
+let $changes := $config:collection-root//t:change[@when]
 let $latests := 
     for $alllatest in $changes[xs:date(@when) > $twoweekago]
     order by xs:date($alllatest/@when) descending
@@ -246,8 +244,7 @@ declare
 %test:assertXPath("//span[@class='word']")
 function api:additiontext($id as xs:string*, $addID as xs:string*){
 let $log := log:add-log-message('/api/additions/'||$id||'/addition/'||$addID, xmldb:get-current-user(), 'REST')
-let $c := collection($config:data-root)
-let $entity := $c//id($id)
+let $entity := $config:collection-root/id($id)
 let $a := $entity//t:item[@xml:id = $addID]
 return
 transform:transform($a,  'xmldb:exist:///db/apps/BetMas/xslt/q.xsl', ())
@@ -299,7 +296,7 @@ declare
 %test:arg("id","LIT1032Agains") %test:assertXPath("//@name[. = 'saws:isAttributedToAuthor']")
 %test:arg("id","BAVet1") %test:assertEquals('<rest:response xmlns:rest="http://exquery.org/ns/restxq"><http:response xmlns:http="http://expath.org/ns/http-client" status="400"><http:header name="Content-Type" value="application/xml; charset=utf-8"/></http:response></rest:response>','<sorry>no info</sorry>')
 function api:getauthorfromrelation($id as xs:string*) {
-let $item := collection('/db/apps/BetMas/data/works/')//id($id)
+let $item :=$config:collection-rootW/id($id)
 return 
 
 if($item//t:relation[@name = 'saws:isAttributedToAuthor']) then (
@@ -481,7 +478,7 @@ declare function api:get-tei-rec($collection as xs:string, $id as xs:string) as 
 };
 
 declare function api:get-tei-rec-by-ID($id as xs:string) as node()* {
-    collection($config:data-root)//id($id)
+    $config:collection-root/id($id)
 };
 
 

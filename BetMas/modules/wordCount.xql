@@ -20,7 +20,7 @@ declare
 %rest:path("/BetMas/api/WordCount/{$manuscriptID}/{$workID}")
 %output:method("text")
 function WC:WordCount($manuscriptID  as xs:string*, $workID as xs:string*) as xs:string{
-let $ms := collection($config:data-rootMS)/id($manuscriptID)
+let $ms := $config:collection-rootMS/id($manuscriptID)
 let $tit := $ms//t:title[@ref = $workID]
 
 let $msitemID := $tit/parent::t:msItem/@xml:id

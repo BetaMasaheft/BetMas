@@ -46,7 +46,7 @@ function compare:compare(
 $workid as xs:string*) {
 let $fullurl := ('?workid=' || $workid)
 let $log := log:add-log-message($fullurl, xmldb:get-current-user(), 'compare')
-let $w := collection($config:data-rootW)//id($workid)
+let $w := $config:collection-root/id($workid)
 
 let $Cmap := map {'type':= 'item', 'name' := $workid, 'path' := base-uri($w)}
 
