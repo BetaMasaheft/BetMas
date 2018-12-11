@@ -118,6 +118,7 @@ declare
 function viewer:mirador($collection as xs:string, $id as xs:string){
 
 let $c := switch:collection($collection)
+let $coll := '/db/apps/BetMas/data/' || $collection
 let $this := util:eval($c)/id($id)
 let $biblio :=
 <bibl>
@@ -166,7 +167,7 @@ let $Imap := map {'type':= 'item', 'name' := $id, 'path' := $collection}
 return 
 
 
-if(xdb:collection-available($c)) then (
+if(xdb:collection-available($coll)) then (
 (:check that it is one of our collections:)
  if ($collection='institutions') then (
  (:controller should handle this by redirecting /institutions/ID/main to /manuscripts/ID/list which is then taken care of by list.xql:)
