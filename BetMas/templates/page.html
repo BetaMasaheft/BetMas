@@ -37,9 +37,22 @@
         <!--        leaflet js-->
         <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin=""/>
         <script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js" type="text/javascript"/>
+        
         <!--js-->
         <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"/>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"/>
+    </head>
+    
+    <body id="body">
+        
+        <nav data-template="app:Nbar"/>
+        <div data-template="app:modals"/>
+        <div data-template="app:searchhelp"/>
+        
+        <div id="content" class="container-fluid col-md-12"/>
+        
+        <footer data-template="app:footer"/>
+        
         <script src="https://cdnjs.cloudflare.com/ajax/libs/virtual-keyboard/1.26.22/js/jquery.keyboard.js"/>
         
         <!-- keyboard extensions (optional) -->
@@ -60,18 +73,6 @@
         <script type="text/javascript" src="resources/js/Fuse-master/dist/fuse.js"/>
         <script type="text/javascript" src="resources/js/leaflet-fusesearch-master/src/leaflet.fusesearch.js"/>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/intro.js"/>
-        
-    </head>
-    
-    <body id="body">
-        
-        <nav data-template="app:Nbar"/>
-        <div data-template="app:modals"/>
-        <div data-template="app:searchhelp"/>
-        
-        <div id="content" class="container-fluid col-md-12"/>
-        
-        <footer data-template="app:footer"/>
         
         <script type="text/javascript" src="resources/js/index.js"/>
         <script type="text/javascript" src="resources/js/toogle.js"/>
