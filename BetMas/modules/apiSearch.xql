@@ -20,7 +20,7 @@ declare namespace test="http://exist-db.org/xquery/xqsuite";
 
 (: For REST annotations :)
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
-
+declare namespace json = "http://www.json.org";
 
 
 
