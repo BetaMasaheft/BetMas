@@ -20,7 +20,7 @@ declare namespace t="http://www.tei-c.org/ns/1.0";
 declare option exist:serialize "method=text mediatype=text/javascript";
 
 declare function rels:getZoteroTextData ($string as xs:string){
-let $xml-url := concat('https://api.zotero.org/groups/358366/items?tag=',$string,'&amp;format=bib&amp;style=hiob-ludolf-centre-for-ethiopian-studies&amp;linkwrap=1')
+let $xml-url := concat('https://api.zotero.org/groups/358366/items?tag=',$string,'&amp;format=bib&amp;locale=en-GB&amp;style=hiob-ludolf-centre-for-ethiopian-studies&amp;linkwrap=1')
 let $data := httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)
 return
 $data//text()

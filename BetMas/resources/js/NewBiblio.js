@@ -46,7 +46,7 @@ function printbibl() {
                 // check again the class, if there is Zotero-full print with the HCLES style
                 if ($(el).hasClass("Zotero-full")) {
                     
-                    var style = "&format=bib&style=hiob-ludolf-centre-for-ethiopian-studies"; // the HCLES  Zotero Style
+                    var style = "&format=bib&locale=en-GB&style=hiob-ludolf-centre-for-ethiopian-studies"; // the HCLES  Zotero Style
                     
                     var fullcitation = "";
                     

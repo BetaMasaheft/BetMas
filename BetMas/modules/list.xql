@@ -1237,7 +1237,7 @@ function list:getcatalogues() {
    for $catalogue in distinct-values($cats//t:ptr/@target)
    let $zoTag := substring-after($catalogue, 'bm:')
    let $count := count($cats//t:ptr[@target=$catalogue])
-	let $xml-url := concat('https://api.zotero.org/groups/358366/items?&amp;tag=', $catalogue, '&amp;format=bib&amp;style=hiob-ludolf-centre-for-ethiopian-studies')
+	let $xml-url := concat('https://api.zotero.org/groups/358366/items?&amp;tag=', $catalogue, '&amp;format=bib&amp;locale=en-GB&amp;style=hiob-ludolf-centre-for-ethiopian-studies')
 let $data := httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)
 order by $data
 return
@@ -1401,7 +1401,7 @@ if($prefixedcatID = $catalogues) then (
         {nav:searchhelp()}
        <div class="col-md-12">
 
-      <h1>{let $xml-url := concat('https://api.zotero.org/groups/358366/items?&amp;tag=', $prefixedcatID, '&amp;format=bib&amp;style=hiob-ludolf-centre-for-ethiopian-studies')
+      <h1>{let $xml-url := concat('https://api.zotero.org/groups/358366/items?&amp;tag=', $prefixedcatID, '&amp;format=bib&amp;locale=en-GB&amp;style=hiob-ludolf-centre-for-ethiopian-studies')
 let $data := httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)
 return $data
 }</h1>
@@ -1630,7 +1630,7 @@ if($prefixedcatID = $catalogues) then (
         {nav:searchhelp()}
        <div class="col-md-12">
 
-      <h1>{let $xml-url := concat('https://api.zotero.org/groups/358366/items?&amp;tag=', $prefixedcatID, '&amp;format=bib&amp;style=hiob-ludolf-centre-for-ethiopian-studies')
+      <h1>{let $xml-url := concat('https://api.zotero.org/groups/358366/items?&amp;tag=', $prefixedcatID, '&amp;format=bib&amp;locale=en-GB&amp;style=hiob-ludolf-centre-for-ethiopian-studies')
 let $data := httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)
 return $data
 }</h1>

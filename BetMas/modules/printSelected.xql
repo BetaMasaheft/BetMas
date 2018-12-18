@@ -355,7 +355,7 @@ declare function fo:ZoteroTit($ZoteroUniqueBMtag as xs:string) {
         };
 
 declare function fo:zoteroBib($collectionKey){
- let $xml-url := concat('https://api.zotero.org/groups/358366/collections/',$collectionKey,'/items?format=bib&amp;style=hiob-ludolf-centre-for-ethiopian-studies&amp;linkwrap=1')
+ let $xml-url := concat('https://api.zotero.org/groups/358366/collections/',$collectionKey,'/items?format=bib&amp;locale=en-GB&amp;style=hiob-ludolf-centre-for-ethiopian-studies&amp;linkwrap=1')
 let $data := httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)
     let $datawithlink := for $bib at $p in $data//div[@class = 'csl-bib-body']//div[@class = 'csl-entry']  
     return <fo:block margin-bottom="2pt" start-indent="0.5cm" text-indent="-0.5cm">{fo:tei2fo($bib)}</fo:block>
@@ -365,7 +365,7 @@ let $data := httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)
 };
 
 declare function fo:Zotero($ZoteroUniqueBMtag as xs:string) {
-    let $xml-url := concat('https://api.zotero.org/groups/358366/items?tag=', $ZoteroUniqueBMtag, '&amp;format=bib&amp;style=hiob-ludolf-centre-for-ethiopian-studies&amp;linkwrap=1')
+    let $xml-url := concat('https://api.zotero.org/groups/358366/items?tag=', $ZoteroUniqueBMtag, '&amp;format=bib&amp;locale=en-GB&amp;style=hiob-ludolf-centre-for-ethiopian-studies&amp;linkwrap=1')
     let $data := httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)
     let $datawithlink := fo:tei2fo($data//div[@class = 'csl-entry'])
     return

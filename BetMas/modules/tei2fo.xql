@@ -294,7 +294,7 @@ replace($parseedZoteroApiResponse?1?citation, '&lt;span&gt;', '') => replace('&l
 };
 
 declare function fo:Zotero($ZoteroUniqueBMtag as xs:string) {
-    let $xml-url := concat('https://api.zotero.org/groups/358366/items?tag=', $ZoteroUniqueBMtag, '&amp;format=bib&amp;style=hiob-ludolf-centre-for-ethiopian-studies&amp;linkwrap=1')
+    let $xml-url := concat('https://api.zotero.org/groups/358366/items?tag=', $ZoteroUniqueBMtag, '&amp;format=bib&amp;locale=en-GB&amp;style=hiob-ludolf-centre-for-ethiopian-studies&amp;linkwrap=1')
     let $data := httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)
     let $datawithlink := fo:tei2fo($data//div[@class = 'csl-entry'])
     return

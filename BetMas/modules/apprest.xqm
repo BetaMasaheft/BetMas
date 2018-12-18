@@ -243,7 +243,7 @@ let $tabots:= $cont//t:ab[@type='tabot']
 
 (:test function returns the formatted zotero entry given the unique tag :)
 declare function apprest:getZoteroTextData ($ZoteroUniqueBMtag as xs:string){
-let $xml-url := concat('https://api.zotero.org/groups/358366/items?tag=',$string,'&amp;format=bib&amp;style=hiob-ludolf-centre-for-ethiopian-studies&amp;linkwrap=1')
+let $xml-url := concat('https://api.zotero.org/groups/358366/items?tag=',$string,'&amp;format=bib&amp;locale=en-GB&amp;style=hiob-ludolf-centre-for-ethiopian-studies&amp;linkwrap=1')
 let $data := httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)
 return
 $data//text()
