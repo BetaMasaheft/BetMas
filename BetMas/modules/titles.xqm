@@ -178,7 +178,7 @@ else titles:printSubtitle($node, $SUBid)
                if (count($resource) = 0) then
            <span class="label label-warning">{ 'No item: ' || $id }</span>
                else if (count($resource) > 1) then
-           <span class="label label-warning">{ 'More then 1 ' || $id }</span>
+           <span class="label label-warning">{ 'More than 1 ' || $id }</span>
                else
                    switch ($resource/@type)
                        case "mss"
@@ -257,7 +257,7 @@ else titles:printSubtitle($node, $SUBid)
                if (count($resource) = 0) then
            <span class="label label-warning">{ 'No item: ' || $id }</span>
                else if (count($resource) > 1) then
-           <span class="label label-warning">{ 'More then 1 ' || $id }</span>
+           <span class="label label-warning">{ 'More than 1 ' || $id }</span>
                else
                    switch ($resource/@type)
                        case "mss"
