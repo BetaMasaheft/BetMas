@@ -30,7 +30,7 @@ import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/c
 import module namespace xdb = "http://exist-db.org/xquery/xmldb";
 import module namespace validation = "http://exist-db.org/xquery/validation";
 import module namespace sparql="http://exist-db.org/xquery/sparql" at "java:org.exist.xquery.modules.rdf.SparqlModule";
-
+import module namespace console="http://exist-db.org/xquery/console";
 
 (:~declare variable $app:item-uri as xs:string := raequest:get-parameter('uri',());:)
 declare variable $app:collection as xs:string := request:get-parameter('collection',());
@@ -1606,7 +1606,11 @@ function app:paginate($node as node(), $model as map(*), $start as xs:int, $per-
     $max-pages as xs:int) {
         
     if ($min-hits < 0 or count($model("hits")) >= $min-hits) then
-        let $count := xs:integer(ceiling(count($model("hits"))) div $per-page) + 1
+        let $types := for $x in $model("hits") 
+                                  group by $t := root($x)/t:TEI/@type 
+                                return 
+                                count($x)
+        let $count := xs:integer(ceiling(max($types)) div $per-page) + 1
         let $middle := ($max-pages + 1) idiv 2
         let $params :=
                 string-join(
@@ -1669,20 +1673,29 @@ function app:paginate($node as node(), $model as map(*), $start as xs:int, $per-
 declare    
 %templates:wrap
     %templates:default('start', 1)
-    %templates:default("per-page", 10) 
+    %templates:default("per-page", 10)
     function app:searchRes (
     $node as node()*, 
-    $model as map(*), $start as xs:integer, $per-page as xs:integer) {
-        
+    $model as map(*), $start as xs:integer,  $per-page as xs:integer) {
         switch($model("type"))
         case 'matches' return
-    for $text at $p in subsequence($model("hits"), $start, $per-page)
-        let $expanded := kwic:expand($text)
-         let $count := count($expanded//exist:match)
+    for $text at $p in $model('hits')
         let $root := root($text)
+        let $t := $root/t:TEI/@type
+        group by $type := $t
+        let $collection := switch:col($type)
+        
+        return
+        <div class="col-md-12 results{$collection}">
+        <h4>{count($text)} result{if(count($text) gt 1) then 's' else ''} in {$collection}</h4>
+        {
+        for $tex at $p in subsequence($text, $start, $per-page)
+        let $expanded := kwic:expand($tex)
+          let $root := root($tex)
+         let $count := count($expanded//exist:match)
         let $id := data($root/t:TEI/@xml:id)
-        let $collection := switch:col($root/t:TEI/@type)
-        let $score as xs:float := ft:score($text)
+        
+        let $score as xs:float := ft:score($tex)
          return
             <div class="row reference">
             <div class="col-md-4">
@@ -1702,7 +1715,7 @@ declare
                         <div class="col-md-4">{data($text/ancestor::t:*[@xml:id][1]/@xml:id)}</div>
                         </div>
                     </div>
-       
+       }</div>
                 default return 
                 
          for $text at $p in subsequence($model("hits"), $start, $per-page)

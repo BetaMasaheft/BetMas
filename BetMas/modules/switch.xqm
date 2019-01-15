@@ -19,6 +19,7 @@ declare function switch:col($type){
         case 'place' return 'places'
         case 'ins' return 'institutions'
         case 'auth' return 'authority-files'
+        case 'corpus' return 'corpora'
         default return 'manuscripts'
     
 };

@@ -1,6 +1,26 @@
 @charset "utf-8";
 /* Application styles could go here */
-
+.resultsauthority-files{background-color:#85b3fc; max-height: 400px;
+    overflow: auto;     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin: 5px;}
+.resultspersons{background-color:#bdfc83; max-height: 400px;
+    overflow: auto;     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin: 5px;}
+.resultsplaces{background-color:#f9d97f; max-height: 400px;
+    overflow: auto;     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin: 5px;}
+.resultsmanuscripts{background-color:#8c88fc; max-height: 400px;
+    overflow: auto;     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin: 5px;}
+.resultsinstitutions{background-color:#f9b8e8; max-height: 400px;
+    overflow: auto;     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin: 5px;}
+.resultsnarratives{background-color:#f76773; max-height: 400px;
+    overflow: auto;     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin: 5px;}
+.resultsworks{background-color:#c598f9; max-height: 400px;
+    overflow: auto;     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin: 5px;}
 ul.bibliographyList {
     padding-left: 0px;
 }
