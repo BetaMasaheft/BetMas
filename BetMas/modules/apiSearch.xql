@@ -190,7 +190,7 @@ let $query-string := if($homophones = 'true') then
 let $hits := 
 for $e in $element 
 let $eval-string := if($e = 'persName' and $descendants = 'false')  then
-concat(" $config:collection-root//t:person/t:persName"
+concat(" $config:collection-root//t:persName[parent::t:person or parent::t:personGrp]"
 , "[ft:query(.,'", $query-string, "',",serialize($SearchOptions),")]", $collection, $script, $material, $term)
 else if($e = 'placeName'  and $descendants = 'false')  then
 concat(" $config:collection-root//t:place/t:placeName"
