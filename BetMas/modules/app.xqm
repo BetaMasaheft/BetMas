@@ -1405,7 +1405,9 @@ let $query-string := if ($query != '')
                                         else ()
 
 let $eachworktype := for $wtype in request:get-parameter('work-types', ()) 
-                                   return  "@type='"|| $wtype || "'"
+                                   return  "@type='"|| $wtype || "'" || (
+(:                                   in case there is only one collection parameter selected and this is equal to place, search also institutions :)
+                                   if(count(request:get-parameter('work-types', ())) eq 1 and request:get-parameter('work-types', ()) = 'place' ) then ("or @type='ins'")   else '')
         
 let $wt := if(contains($parameterslist, 'work-types')) then "[" || string-join($eachworktype, ' or ') || "]" else ()
 let $nOfP := if(empty($numberOfParts) or $numberOfParts = '') then () else '[count(descendant::t:msPart) ge ' || $numberOfParts || ']'
@@ -1718,8 +1720,18 @@ declare
        }</div>
                 default return 
                 
-         for $text at $p in subsequence($model("hits"), $start, $per-page)
+                 for $text in $model('hits')
         let $root := root($text)
+        let $t := $root/t:TEI/@type
+        group by $type := $t
+        let $collection := switch:col($type)
+        
+        return
+        <div class="col-md-12 results{$collection}">
+        <h4>{count($text)} result{if(count($text) gt 1) then 's' else ''} in {$collection}</h4>
+        {
+        for $tex at $p in subsequence($text, $start, $per-page)
+        let $root := root($tex)
         let $id := data($root/t:TEI/@xml:id)
         let $collection := switch:col($root/t:TEI/@type)
          return
@@ -1729,7 +1741,7 @@ declare
                         <div class="col-md-5">{data($root/t:TEI/@type)}</div>
                        
                     </div>
-       
+       }</div>
                 
 
     };
