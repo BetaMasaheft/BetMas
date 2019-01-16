@@ -243,7 +243,7 @@ let $tabots:= $cont//t:ab[@type='tabot']
 
 (:test function returns the formatted zotero entry given the unique tag :)
 declare function apprest:getZoteroTextData ($ZoteroUniqueBMtag as xs:string){
-let $xml-url := concat('https://api.zotero.org/groups/358366/items?tag=',$string,'&amp;format=bib&amp;locale=en-GB&amp;style=hiob-ludolf-centre-for-ethiopian-studies&amp;linkwrap=1')
+let $xml-url := concat('https://api.zotero.org/groups/358366/items?tag=',$string,'&amp;format=bib&amp;style=hiob-ludolf-centre-for-ethiopian-studies&amp;linkwrap=1')
 let $data := httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)
 return
 $data//text()
@@ -1137,7 +1137,7 @@ if($items-info  = <start/>) then (
 </select>
 </div>,
 <div class="form-group" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that place type">
-<label for="placetype">contry </label>
+<label for="placetype">country </label>
 <select multiple="multiple" name="country" id="country" class="form-control">
 {$app:range-lookup('countryref', '', function($key, $count) {<option value="{$key}">{titles:printTitleID($key)} ({$count[1]}) </option>}, 100)}
 </select>
@@ -1189,7 +1189,7 @@ if($items-info  = <start/>) then (
 </select>
 </div>,
 <div class="form-group" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that place type">
-<label for="placetype">contry </label>
+<label for="placetype">country </label>
 <select multiple="multiple" name="country" id="country" class="form-control">
 {$app:range-lookup('countryref', '', function($key, $count) {<option value="{$key}">{titles:printTitleID($key)} ({$count[1]}) </option>}, 100)}
 </select>
