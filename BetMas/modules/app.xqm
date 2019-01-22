@@ -1608,7 +1608,10 @@ function app:paginate($node as node(), $model as map(*), $start as xs:int, $per-
     $max-pages as xs:int) {
         
     if ($min-hits < 0 or count($model("hits")) >= $min-hits) then
-        let $types := for $x in $model("hits") 
+        let $types := if($model("type") = 'bibliography')
+        then(count($model("hits"))) 
+        else
+        for $x in $model("hits") 
                                   group by $t := root($x)/t:TEI/@type 
                                 return 
                                 count($x)
