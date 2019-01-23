@@ -268,6 +268,17 @@ return
                             </li>
                         </ul>
                     </li>
+                    <li id="anno" class="list-group-item dropdown-submenu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Annotations</a>
+                        <ul class="dropdown-menu  list-group">
+                            <li class="list-group-item">
+                                <a href="/IndexPersons">Persons</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="/IndexPlaces">Places</a>
+                            </li>
+                        </ul>
+                    </li>
                     <li id="indexes" class="list-group-item dropdown-submenu">
                         <a  href="#" class="dropdown-toggle" data-toggle="dropdown">Indexes</a>
                         <ul class="dropdown-menu  list-group">

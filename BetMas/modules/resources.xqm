@@ -6,12 +6,13 @@ xquery version "3.0" encoding "UTF-8";
  :)
 
 module namespace lists="https://www.betamasaheft.uni-hamburg.de/BetMas/lists";
-import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "config.xqm";
-import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "titles.xqm";
-import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "tei2string.xqm";
+import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
+import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
+import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
 
 declare namespace t="http://www.tei-c.org/ns/1.0";
 declare namespace templates="http://exist-db.org/xquery/templates" ;
+
 
 
 (:~prints a responsive table with the first 100 ptr targets fount in
@@ -164,6 +165,9 @@ $query as xs:string*,
 
                 }
    };
+
+
+
 
    declare function lists:biblform($node as node(), $model as map(*)){
    <form xmlns="http://www.w3.org/1999/xhtml"  action="" class="form form-horizontal">
@@ -414,6 +418,8 @@ $query as xs:string*,
                                  <a href="/bindings" role="button" class="btn btn-info"><i class="fa fa-th-list" aria-hidden="true"></i></a></div>
                         </form>
    };
+
+
 
 declare
 %templates:wrap

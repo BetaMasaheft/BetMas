@@ -9,6 +9,7 @@ import module namespace nav = "https://www.betamasaheft.uni-hamburg.de/BetMas/na
 import module namespace new="https://www.betamasaheft.uni-hamburg.de/BetMas/new" at "xmldb:exist:///db/apps/BetMas/modules/newEntry.xqm";
 import module namespace rels="https://www.betamasaheft.uni-hamburg.de/BetMas/rels" at "xmldb:exist:///db/apps/BetMas/modules/relations.xqm";
 import module namespace lists="https://www.betamasaheft.uni-hamburg.de/BetMas/lists"at "xmldb:exist:///db/apps/BetMas/modules/resources.xqm";
+import module namespace indexesNE="https://www.betamasaheft.uni-hamburg.de/BetMas/indexesNE" at "xmldb:exist:///db/apps/BetMas/modules/indexesNE.xqm";
 import module namespace tl="https://www.betamasaheft.uni-hamburg.de/BetMas/timeline"at "xmldb:exist:///db/apps/BetMas/modules/timeline.xqm";
 
 

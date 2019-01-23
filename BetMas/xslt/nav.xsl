@@ -5,6 +5,12 @@
                 <li>
                     <h3>Navigate section</h3>
                     <ul class="nav nav-pills nav-stacked">
+                        <xsl:if test="//t:placeName"><li>
+                            <a class="page-scroll" href="/IndexPlaces?entity={string(t:TEI/@xml:id)}" >Places Index</a>
+                        </li></xsl:if>
+                        <xsl:if test="//t:persName"><li>
+                            <a class="page-scroll" href="/IndexPersons?entity={string(t:TEI/@xml:id)}">Persons Index</a>
+                        </li></xsl:if>
                         <li>
                             <a class="page-scroll" href="#general">General</a>
                         </li>
@@ -144,6 +150,12 @@
                 <li>
                     <a class="page-scroll" href="#description">Description</a>
                 </li>
+                <xsl:if test="//t:placeName"><li>
+                    <a class="page-scroll" href="/IndexPlaces?entity={string(t:TEI/@xml:id)}" >Places Index</a>
+                </li></xsl:if>
+                <xsl:if test="//t:persName"><li>
+                    <a class="page-scroll" href="/IndexPersons?entity={string(t:TEI/@xml:id)}">Persons Index</a>
+                </li></xsl:if>
                 <xsl:if test="//t:body[t:div[@type='edition'][t:ab or t:div[@type='textpart']]]">
                     <li>
                         <a class="page-scroll" href="#transcription">Transcription
