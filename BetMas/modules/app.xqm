@@ -1608,7 +1608,7 @@ function app:paginate($node as node(), $model as map(*), $start as xs:int, $per-
     $max-pages as xs:int) {
         
     if ($min-hits < 0 or count($model("hits")) >= $min-hits) then
-        let $types := if($model("type") = 'bibliography')
+        let $types := if($model("type") = 'bibliography' or $model("type") = 'indexes')
         then(count($model("hits"))) 
         else
         for $x in $model("hits") 
