@@ -6,7 +6,7 @@
                     <h3>Navigate section</h3>
                     <ul class="nav nav-pills nav-stacked">
                         <xsl:if test="//t:placeName"><li>
-                            <a class="page-scroll" href="/IndexPlaces?entity={string(t:TEI/@xml:id)}" >Places Index</a>
+                            <a class="page-scroll" href="/IndexPlaces?entity={string(t:TEI/@xml:id)}">Places Index</a>
                         </li></xsl:if>
                         <xsl:if test="//t:persName"><li>
                             <a class="page-scroll" href="/IndexPersons?entity={string(t:TEI/@xml:id)}">Persons Index</a>
@@ -151,7 +151,7 @@
                     <a class="page-scroll" href="#description">Description</a>
                 </li>
                 <xsl:if test="//t:placeName"><li>
-                    <a class="page-scroll" href="/IndexPlaces?entity={string(t:TEI/@xml:id)}" >Places Index</a>
+                    <a class="page-scroll" href="/IndexPlaces?entity={string(t:TEI/@xml:id)}">Places Index</a>
                 </li></xsl:if>
                 <xsl:if test="//t:persName"><li>
                     <a class="page-scroll" href="/IndexPersons?entity={string(t:TEI/@xml:id)}">Persons Index</a>
@@ -181,6 +181,10 @@
                 </li>
             </xsl:when>
             <xsl:when test="t:TEI/@type = 'ins' or t:TEI/@type = 'place'">
+               
+                    <li>
+                        <a href=" /IndexPlaces?pointer={string(t:TEI/@xml:id)}&amp;collection=all">Places Index</a>
+                    </li>
                 <li>
                     <a class="page-scroll" href="#general">General</a>
                 </li>
@@ -192,6 +196,9 @@
                 </li>
             </xsl:when>
             <xsl:when test="t:TEI/@type = 'pers'">
+                <li>
+                    <a href=" /IndexPersons?pointer={string(t:TEI/@xml:id)}&amp;collection=all">Persons Index</a>
+                </li>
                 <li>
                     <a class="page-scroll" href="#general">General</a>
                 </li>

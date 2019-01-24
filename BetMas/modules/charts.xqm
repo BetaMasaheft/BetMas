@@ -117,14 +117,14 @@ declare function charts:pieAttestations($itemid, $name){
             is3D: true,
           };
 
-          var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+          var chart = new google.visualization.PieChart(document.getElementById('piechart_3d"||$itemid||"'));
           chart.draw(data, options);
         }"
 
         }
 
       </script>,
-      <div id="piechart_3d" style="width: 900px; height: 500px;"/>
+      <div id="piechart_3d{$itemid}" style="width: 100%; height: 500px;"/>
       )
 };
 

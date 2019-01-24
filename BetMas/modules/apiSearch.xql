@@ -160,7 +160,7 @@ let $log := log:add-log-message('/api/search?q=' || $q, xmldb:get-current-user()
                 "[ancestor::t:TEI/@type = 'work']"
         case 'places'
             return
-                "[ancestor::t:TEI/@type = 'place']"
+                "[ancestor::t:TEI/@type = 'place' or ancestor::t:TEI/@type = 'ins']"
         case 'institutions'
             return
                 "[ancestor::t:TEI/@type = 'ins']"

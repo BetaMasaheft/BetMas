@@ -15,7 +15,12 @@
     <text>
         <body>
             <list>
-                <item xml:id="AB" n="Alessandro">Alessandro Bausi</item>
+                <item xml:id="SK" n="Sergey">Sergey Kim</item>
+                <item xml:id="MGO" n="Meseret">Meseret G. Oldjira</item>
+                <item xml:id="EF" n="Éloi">Éloi Ficquet</item>
+                <item xml:id="BC" n="Carmen">Brando Carmen</item>
+                <item xml:id="MA" n="Martina">Martina Ambu</item>
+                <item xml:id="AC" n="Amelie">Amélie Chekroun</item>
                 <item xml:id="ES" n="Eugenia">Eugenia Sokolinski</item>
                 <item xml:id="DN" n="Denis">Denis Nosnitsin</item>
                 <item xml:id="MV" n="Massimo">Massimo Villa</item>
@@ -61,6 +66,7 @@
                 <item xml:id="AE" n="Andreas">Andreas Ellwardt</item>
                 <item xml:id="WD" n="Wolfgang">Wolfgang Dickhut</item>
                 <item xml:id="HE" n="Hiruie">Hiruie Ermias</item>
+                <item xml:id="AB" n="Alessandro">Alessandro Bausi</item>
             </list>
         </body>
     </text>
