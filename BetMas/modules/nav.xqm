@@ -180,9 +180,6 @@ return
                                 <a href="/">Home</a>
                             </li>
                             <li class="list-group-item">
-                                <a href="/appInfo.html">About</a>
-                            </li>
-                            <li class="list-group-item">
                                 <a href="/team.html">Team</a>
                             </li>
                             <li class="list-group-item">
@@ -399,7 +396,7 @@ declare function nav:footer (){ <footer class="row-fluid">
                 <br/>
                 DOI: {$config:DOI}
                 <hr/>
-                <p>Many thanks for their wonderful work to <a href="/appInfo.html">all the developers of free software</a> for the code we use throughout the website.</p>
+                <p>Many thanks for their wonderful work to all the developers of free software for the code we use throughout the website.</p>
                     </div>
               <div class="col-md-3">
 
