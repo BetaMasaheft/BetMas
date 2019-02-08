@@ -68,7 +68,7 @@ let $hi :=   for $hit in $hits
                    let $ptest := titles:printTitleMainID($id)
                    let $title := if ($ptest) then ($ptest) else ()
                     let $count := count($expanded//exist:match)
-                    let $results := kwic:summarize($hit,<config width="40"/>)
+                    let $results := for $match in subsequence($expanded//exist:match, 1, 3) return  kwic:get-summary($expanded, $match,<config width="40"/>)
                    let $pname := $expanded//exist:match[ancestor::t:div[@type='edition']]
                    
                    let $text := if($pname) then 'text' else 'main'
