@@ -23,7 +23,7 @@ declare variable $config:sparqlPrefixes := "PREFIX rdf: <http://www.w3.org/1999/
          PREFIX agrelon: <http://d-nb.info/standards/elementset/agrelon.owl#>
          PREFIX rel: <http://purl.org/vocab/relationship/>
          PREFIX dcterms: <http://purl.org/dc/terms/>
-         PREFIX bm: <http://betamasaheft.eu/>
+         PREFIX bm: <https://betamasaheft.eu/>
          PREFIX pelagios: <http://pelagios.github.io/vocab/terms#>
          PREFIX syriaca: <http://syriaca.org/documentation/relations.html#>
          PREFIX saws: <http://purl.org/saws/ontology#>
@@ -38,7 +38,7 @@ declare variable $config:sparqlPrefixes := "PREFIX rdf: <http://www.w3.org/1999/
          PREFIX foaf: <http://xmlns.com/foaf/0.1/>
          PREFIX SdC: <https://w3id.org/sdc/ontology#>";
 
-declare variable $config:appUrl := 'http://betamasaheft.eu';
+declare variable $config:appUrl := 'https://betamasaheft.eu';
 declare variable $config:DOI := '10.25592/BetaMasaheft';
 
 declare variable $config:response200 := <rest:response>

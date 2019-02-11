@@ -227,7 +227,7 @@ function api:teipartbyURI($id as xs:string, $type as xs:string, $subid as xs:str
     let $file := api:get-tei-by-ID($id)
     for $e in $file//id($subid)[name() = $element]
     return
-    <fragment xmlns="http://betamasaheft.eu/" source="http://betamasaheft.eu/{$id}">{
+    <fragment xmlns="https://betamasaheft.eu/" source="https://betamasaheft.eu/{$id}">{
     $e
     }</fragment>
     )

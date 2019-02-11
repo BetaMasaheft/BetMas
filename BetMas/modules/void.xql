@@ -187,7 +187,7 @@ $void:response200turtle,
        a dcat:Catalog ;
        dct:title "Beta Maṣāḥǝft" ;
        rdfs:label "Beta Maṣāḥǝft: Manuscripts of Ethiopia and Eritrea (Schriftkultur des christlichen Äthiopiens: eine multimediale Forschungsumgebung)" ;
-       foaf:homepage <http://betamasaheft.eu> ;
+       foaf:homepage <https://betamasaheft.eu> ;
        dct:publisher "Akademie der Wissenschaften in Hamburg", "Hiob-Ludolf-Zentrum für Äthiopistik" ;
        dct:language <http://id.loc.gov/vocabulary/iso639-1/en>  ;
        dcat:dataset :RDFendpoint ; 
@@ -198,7 +198,7 @@ $void:response200turtle,
        dct:title "Beta Maṣāḥǝft" ;
        dcat:keyword "ethiopia","manuscripts" ,"literature", "clavis","Gǝʿǝz","Amharic" ;
        dct:issued "2018-08-31"^^xsd:date ;
-       dcat:contactPoint <http://betamasaheft.eu/contacts.html> ;
+       dcat:contactPoint <https://betamasaheft.eu/contacts.html> ;
        dct:temporal <http://n2t.net/ark:/99152/p03tcss4qvv>, <http://n2t.net/ark:/99152/p03tcssdh3k>,
                 <http://n2t.net/ark:/99152/p03tcssfc3r>, <http://n2t.net/ark:/99152/p03tcssrjvk>, 
                 <http://n2t.net/ark:/99152/p03tcssvm7f>, <http://n2t.net/ark:/99152/p03tcssvtwm> ;
@@ -210,7 +210,7 @@ $void:response200turtle,
        
        :endpoint
        a dcat:Distribution ;
-       dcat:accessURL <http://betamasaheft.eu/api/SPARQL?query=>;
+       dcat:accessURL <https://betamasaheft.eu/api/SPARQL?query=>;
        dct:title "Beta maṣāḥǝft endpoint returning  SPARQL Query Results XML format." ;
        dcat:mediaType "application/xml" ;
        

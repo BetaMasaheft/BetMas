@@ -792,11 +792,11 @@ let $dataW:= ($locW, $qW, $plW)
 let $annotationsMS :=  for $d in $dataMS
  group by $r := root($d)//t:TEI/@xml:id
  return 
- ' void:dataDump <http://betamasaheft.eu/api/placeNames/manuscripts/'||string($r)||'>'
+ ' void:dataDump <https://betamasaheft.eu/api/placeNames/manuscripts/'||string($r)||'>'
 let $annotationsW :=  for $d in $dataW
  group by $r := root($d)//t:TEI/@xml:id
  return 
- ' void:dataDump <http://betamasaheft.eu/api/placeNames/works/'||string($r)||'>'
+ ' void:dataDump <https://betamasaheft.eu/api/placeNames/works/'||string($r)||'>'
 
 return 
 

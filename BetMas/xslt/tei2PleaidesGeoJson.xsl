@@ -80,7 +80,7 @@
             "id": "<xsl:value-of select="t:TEI/@xml:id"/>",
             "properties": {
             "description": "Location based on Encyclopaedia Aethiopica",
-            "link": "http://betamasaheft.aai.uni-hamburg.de/<xsl:value-of select="$collection"/>/<xsl:value-of select="t:TEI/@xml:id"/>",
+            "link": "https://betamasaheft.aai.uni-hamburg.de/<xsl:value-of select="$collection"/>/<xsl:value-of select="t:TEI/@xml:id"/>",
             "location_precision": "precise",
             <xsl:if test="//t:date[@type='foundation']">"snippet": "<xsl:apply-templates select="//t:date[@type='foundation']"/>",</xsl:if>
             "title": "location of <xsl:value-of select="if ( //t:place/t:placeName[@corresp='#n1'  and @type='normalized'])                  then  normalize-space(//t:place/t:placeName[@corresp='#n1' and @type='normalized']/text())                 else if ( //t:place/t:placeName[@xml:id])                  then  normalize-space(//t:place/t:placeName[@xml:id='n1']/text())                 else if (//t:place/t:placeName[text()][position()= 1]/text() )                 then normalize-space(//t:place/t:placeName[text()][position()= 1]/text())                 else //t:titleStmt/t:title[position() = 1][text()]/text()"/>"
@@ -106,7 +106,7 @@
                 "romanized": "<xsl:value-of select="//t:placeName[substring-after(@corresp, '#') = $id]"/>",
                 "transcription_accuracy": "accurate",
                 "transcription_completeness": "complete",
-                "uri": "http://betamasaheft.aai.uni-hamburg.de/<xsl:value-of select="$collection"/>/<xsl:value-of select="ancestor::t:TEI/@xml:id"/>
+                "uri": "https://betamasaheft.aai.uni-hamburg.de/<xsl:value-of select="$collection"/>/<xsl:value-of select="ancestor::t:TEI/@xml:id"/>
                     <xsl:value-of select="concat('#',@xml:id)"/>"
                 },</xsl:for-each>
             </xsl:variable>
@@ -138,7 +138,7 @@
             ],
             "title": "<xsl:value-of select="if ( //t:place/t:placeName[@corresp='#n1'  and @type='normalized'])                      then  normalize-space(//t:place/t:placeName[@corresp='#n1' and @type='normalized']/text())                     else if ( //t:place/t:placeName[@xml:id])                      then  normalize-space(//t:place/t:placeName[@xml:id='n1']/text())                     else if (//t:place/t:placeName[text()][position()= 1]/text() )                     then normalize-space(//t:place/t:placeName[text()][position()= 1]/text())                     else //t:titleStmt/t:title[position() = 1][text()]/text()"/>",
             "type": "FeatureCollection",
-            "uri": "http://betamasaheft.aai.uni-hamburg.de/<xsl:value-of select="$collection"/>/<xsl:value-of select="//t:TEI/@xml:id"/>"
+            "uri": "https://betamasaheft.aai.uni-hamburg.de/<xsl:value-of select="$collection"/>/<xsl:value-of select="//t:TEI/@xml:id"/>"
             }
             
             </xsl:if>
@@ -173,13 +173,13 @@
                         <xsl:choose>
                             <xsl:when test="contains(@ref, 'LOC')">
                                 <xsl:choose>
-                                    <xsl:when test="doc-available(concat('http://betamasaheft.aai.uni-hamburg.de/places/', $filename, '.xml'))">
+                                    <xsl:when test="doc-available(concat('https://betamasaheft.aai.uni-hamburg.de/places/', $filename, '.xml'))">
                                         <xsl:choose>
                                             <xsl:when test="text()">
                                                 <xsl:value-of select="normalize-space(.)"/>
                                             </xsl:when>
                                             <xsl:otherwise>
-                                                <xsl:value-of select="                                                           if (doc(concat('http://betamasaheft.aai.uni-hamburg.de/places/', $filename, '.xml'))//t:TEI//t:place/t:placeName[@corresp = '#n1' and @type = 'normalized'])                                                          then                                                        normalize-space( doc(concat('http://betamasaheft.aai.uni-hamburg.de/places/', $filename, '.xml'))//t:TEI//t:place/t:placeName[@corresp = '#n1' and @type = 'normalized'] /text()     )                                                         else                                                         if (doc(concat('http://betamasaheft.aai.uni-hamburg.de/places/', $filename, '.xml'))//t:TEI//t:place/t:placeName[@xml:id = 'n1'])                                                          then                                                         normalize-space(    doc(concat('http://betamasaheft.aai.uni-hamburg.de/places/', $filename, '.xml'))//t:TEI//t:place/t:placeName[@xml:id = 'n1']/text()                   )                                                         else                                                          normalize-space(   doc(concat('http://betamasaheft.aai.uni-hamburg.de/places/', $filename, '.xml'))//t:TEI//t:place/t:placeName[1]/text())"/>
+                                                <xsl:value-of select="                                                           if (doc(concat('https://betamasaheft.aai.uni-hamburg.de/places/', $filename, '.xml'))//t:TEI//t:place/t:placeName[@corresp = '#n1' and @type = 'normalized'])                                                          then                                                        normalize-space( doc(concat('https://betamasaheft.aai.uni-hamburg.de/places/', $filename, '.xml'))//t:TEI//t:place/t:placeName[@corresp = '#n1' and @type = 'normalized'] /text()     )                                                         else                                                         if (doc(concat('https://betamasaheft.aai.uni-hamburg.de/places/', $filename, '.xml'))//t:TEI//t:place/t:placeName[@xml:id = 'n1'])                                                          then                                                         normalize-space(    doc(concat('https://betamasaheft.aai.uni-hamburg.de/places/', $filename, '.xml'))//t:TEI//t:place/t:placeName[@xml:id = 'n1']/text()                   )                                                         else                                                          normalize-space(   doc(concat('https://betamasaheft.aai.uni-hamburg.de/places/', $filename, '.xml'))//t:TEI//t:place/t:placeName[1]/text())"/>
                                                 <xsl:if test="contains(@ref, '#')">
                                                     <xsl:value-of select="concat(', ', substring-after(@ref, '#'))"/>
                                                 </xsl:if>
@@ -190,13 +190,13 @@
                             </xsl:when>
                             <xsl:otherwise>
                                 <xsl:choose>
-                                    <xsl:when test="doc-available(concat('http://betamasaheft.aai.uni-hamburg.de/institutions/', $filename, '.xml'))">
+                                    <xsl:when test="doc-available(concat('https://betamasaheft.aai.uni-hamburg.de/institutions/', $filename, '.xml'))">
                                         <xsl:choose>
                                             <xsl:when test="text()">
                                                 <xsl:value-of select="normalize-space(.)"/>
                                             </xsl:when>
                                             <xsl:otherwise>
-                                                <xsl:value-of select=" if (doc(concat('http://betamasaheft.aai.uni-hamburg.de/institutions/', $filename, '.xml'))//t:TEI//t:place/t:placeName[@corresp = '#n1' and @type = 'normalized'])                                                          then   normalize-space(doc(concat('http://betamasaheft.aai.uni-hamburg.de/institutions/', $filename, '.xml'))//t:TEI//t:place/t:placeName[@corresp = '#n1' and @type = 'normalized'])                                                                                                              else if (doc(concat('http://betamasaheft.aai.uni-hamburg.de/institutions/', $filename, '.xml'))//t:TEI//t:place/t:placeName[@xml:id = 'n1']) then                                                             normalize-space(doc(concat('http://betamasaheft.aai.uni-hamburg.de/institutions/', $filename, '.xml'))//t:TEI//t:place/t:placeName[@xml:id = 'n1'])                                                         else   normalize-space( doc(concat('http://betamasaheft.aai.uni-hamburg.de/institutions/', $filename, '.xml'))//t:TEI//t:place/t:placeName[1])"/>
+                                                <xsl:value-of select=" if (doc(concat('https://betamasaheft.aai.uni-hamburg.de/institutions/', $filename, '.xml'))//t:TEI//t:place/t:placeName[@corresp = '#n1' and @type = 'normalized'])                                                          then   normalize-space(doc(concat('https://betamasaheft.aai.uni-hamburg.de/institutions/', $filename, '.xml'))//t:TEI//t:place/t:placeName[@corresp = '#n1' and @type = 'normalized'])                                                                                                              else if (doc(concat('https://betamasaheft.aai.uni-hamburg.de/institutions/', $filename, '.xml'))//t:TEI//t:place/t:placeName[@xml:id = 'n1']) then                                                             normalize-space(doc(concat('https://betamasaheft.aai.uni-hamburg.de/institutions/', $filename, '.xml'))//t:TEI//t:place/t:placeName[@xml:id = 'n1'])                                                         else   normalize-space( doc(concat('https://betamasaheft.aai.uni-hamburg.de/institutions/', $filename, '.xml'))//t:TEI//t:place/t:placeName[1])"/>
                                                 <xsl:if test="contains(@ref, '#')">
                                                     <xsl:value-of select="concat(', ', substring-after(@ref, '#'))"/>
                                                 </xsl:if>

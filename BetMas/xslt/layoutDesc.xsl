@@ -10,7 +10,7 @@
         </h3>
         <xsl:for-each select=".//t:layout">
             <xsl:sort select="position()"/>
-        <div id="layout{position()}" resource="http://betamasaheft.eu/{$mainID}/layout/layout{position()}">    
+        <div id="layout{position()}" resource="https://betamasaheft.eu/{$mainID}/layout/layout{position()}">    
             <h4>
                 <xsl:text>Layout note</xsl:text>
                 <xsl:text> </xsl:text>

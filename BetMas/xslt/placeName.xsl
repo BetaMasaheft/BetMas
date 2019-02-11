@@ -79,7 +79,7 @@
                             <i class="fa fa-hand-o-left"/>
                             <xsl:text>  </xsl:text>
                         </a>
-                        <span xmlns="http://www.w3.org/1999/xhtml" class="pelagios" data-pelagiosID="{encode-for-uri(concat('http://betamasaheft.eu/place/',@ref))}" data-href="http://betamasaheft.eu/{@ref}">
+                        <span xmlns="http://www.w3.org/1999/xhtml" class="pelagios" data-pelagiosID="{encode-for-uri(concat('https://betamasaheft.eu/place/',@ref))}" data-href="https://betamasaheft.eu/{@ref}">
                             ↗
                         </span>
                     </xsl:otherwise>
@@ -134,7 +134,7 @@
                                     <xsl:if test="@type = 'waradā'">
                                         <xsl:text>waradā </xsl:text>
                                     </xsl:if>
-                                    <span class="MainTitle" data-value="{$filename}" property="http://purl.org/dc/elements/1.1/relation" resource="http://betamasaheft.eu/{$filename}"/>
+                                    <span class="MainTitle" data-value="{$filename}" property="http://purl.org/dc/elements/1.1/relation" resource="https://betamasaheft.eu/{$filename}"/>
                                     <xsl:if test="contains(@ref, '#')">
                                         <xsl:value-of select="concat(', ', substring-after(@ref, '#'))"/>
                                     </xsl:if>

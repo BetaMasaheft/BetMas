@@ -13,13 +13,13 @@
             <p>
                 <xsl:if test=".//t:material/@key">
                     <xsl:for-each select=".//t:material">
-                        <span property="http://www.cidoc-crm.org/cidoc-crm/P46_is_composed_of" resource="http://betamasaheft.eu/material/{@key}"><xsl:value-of select="concat(upper-case(substring(@key,1,1)),                 substring(@key, 2),        ' ' )"/></span>
+                        <span property="http://www.cidoc-crm.org/cidoc-crm/P46_is_composed_of" resource="https://betamasaheft.eu/material/{@key}"><xsl:value-of select="concat(upper-case(substring(@key,1,1)),                 substring(@key, 2),        ' ' )"/></span>
                 <xsl:apply-templates/>
                     </xsl:for-each>
                    
                 </xsl:if>
                 <xsl:text> </xsl:text>
-                <span typeof="http://betamasaheft.eu/{parent::t:objectDesc/@form}"><xsl:value-of select="parent::t:objectDesc/@form"/></span>
+                <span typeof="https://betamasaheft.eu/{parent::t:objectDesc/@form}"><xsl:value-of select="parent::t:objectDesc/@form"/></span>
             </p>
         </xsl:if>
         <xsl:apply-templates/>

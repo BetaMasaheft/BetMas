@@ -605,7 +605,7 @@ it is not possible to go back from annotation number to the canvas number, thus 
 function iiif:annotation($id as xs:string*, $n as xs:string*) {
 ($iiif:response200,
         let $item := collection($config:data-root)//id($id)
-       let $imagesbaseurl := 'http://betamasaheft.aai.uni-hamburg.de/iiif/' || string($item//t:msIdentifier/t:idno/@facs)
+       let $imagesbaseurl := 'https://betamasaheft.aai.uni-hamburg.de/iiif/' || string($item//t:msIdentifier/t:idno/@facs)
  let $imagefile := format-number($n, '000') || '.tif'
 let $resid := ($imagesbaseurl || '_' || $imagefile )
  let $image := ($imagesbaseurl || '_' || $imagefile || '/full/full/0/default.jpg' )

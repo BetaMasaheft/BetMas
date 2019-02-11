@@ -1,10 +1,10 @@
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t" version="2.0">
     <xsl:template match="t:handNote">
-        <div resource="http://betamasaheft.eu/{$mainID}/hand/{@xml:id}">
+        <div resource="https://betamasaheft.eu/{$mainID}/hand/{@xml:id}">
             <xsl:attribute name="typeof">
-                <xsl:if test="@script"><xsl:value-of select="concat('http://betamasaheft.eu',@script)"/>
+                <xsl:if test="@script"><xsl:value-of select="concat('https://betamasaheft.eu',@script)"/>
                 <xsl:text> </xsl:text></xsl:if>
-                <xsl:value-of select="'http://betamasaheft.eu/hand'"/><xsl:text> </xsl:text>
+                <xsl:value-of select="'https://betamasaheft.eu/hand'"/><xsl:text> </xsl:text>
                 <xsl:value-of select="'https://w3id.org/sdc/ontology#UniMain'"/>
             </xsl:attribute>
         <xsl:if test="count(./ancestor::t:handDesc/t:handNote) gt 1">
@@ -33,7 +33,7 @@
                             <xsl:for-each select="tokenize(@corresp, ' ')">
                                 <a href="{.}">
                                     <xsl:value-of select="substring-after(., '#')"/>
-                                </a><span property="http://purl.org/dc/terms/relation" resource="http://betamasaheft/{$mainID}/{$type}/{substring-after(@corresp, '#')}"/>
+                                </a><span property="http://purl.org/dc/terms/relation" resource="https://betamasaheft/{$mainID}/{$type}/{substring-after(@corresp, '#')}"/>
                                 <xsl:text> </xsl:text>
                             </xsl:for-each>
                         </xsl:when>
@@ -85,7 +85,7 @@
             </ul>
         </xsl:if>
         <xsl:if test="t:persName[@role = 'scribe']">
-            <h4 property="http://purl.org/dc/terms/relation"><xsl:if test="@ref"><xsl:attribute name="resource" select="concat('http://betamasaheft.eu/',@ref)"/></xsl:if>Scribe</h4>
+            <h4 property="http://purl.org/dc/terms/relation"><xsl:if test="@ref"><xsl:attribute name="resource" select="concat('https://betamasaheft.eu/',@ref)"/></xsl:if>Scribe</h4>
         </xsl:if>
           <xsl:apply-templates select="child::node() except (t:list | t:ab[@type = 'script'] | t:seg)"/>
         </div>

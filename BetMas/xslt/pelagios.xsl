@@ -5,10 +5,10 @@
         
         <xsl:choose>
             <xsl:when test="//t:objectType[@ref]">  
-                &lt;http://betamasaheft.aai.uni-hamburg.de/api/BetMas/places/all#<xsl:value-of select="//t:text/@xml:id"/>&gt;
+                &lt;https://betamasaheft.aai.uni-hamburg.de/api/BetMas/places/all#<xsl:value-of select="//t:text/@xml:id"/>&gt;
             a pelagios:AnnotatedThing' ;
             dcterms:title "<xsl:value-of select="//t:titleStmt/t:title"/>" ;
-                foaf:homepage &lt;http://betamasaheft.aai.uni-hamburg.de:8080/exist/apps/OEDUc/inscription/<xsl:value-of select="//t:text/@xml:id"/>&gt; ;
+                foaf:homepage &lt;https://betamasaheft.aai.uni-hamburg.de:8080/exist/apps/OEDUc/inscription/<xsl:value-of select="//t:text/@xml:id"/>&gt; ;
                 dcterms:language "<xsl:value-of select="//t:titleStmt/t:title/text()"/>" ;
                 dcterms:subject "<xsl:value-of select="//t:objectType/@ref"/>" ;
             .
@@ -16,9 +16,9 @@
             <xsl:for-each-group select="//t:placeName" group-by="@ref">
                 <xsl:sort select="@ref"/>
                 <xsl:variable name="rank" select="position()"/>
-                &lt;http://betamasaheft.aai.uni-hamburg.de/api/OEDUc/places/all#<xsl:value-of select="//t:text/@xml:id"/>/annotations/<xsl:value-of select="$rank"/>&gt;
+                &lt;https://betamasaheft.aai.uni-hamburg.de/api/OEDUc/places/all#<xsl:value-of select="//t:text/@xml:id"/>/annotations/<xsl:value-of select="$rank"/>&gt;
                 a oa:Annotation ;
-                oa:hasTarget &lt;http://betamasaheft.aai.uni-hamburg.de/api/OEDUc/places/all#<xsl:value-of select="//t:text/@xml:id"/>&gt; ;
+                oa:hasTarget &lt;https://betamasaheft.aai.uni-hamburg.de/api/OEDUc/places/all#<xsl:value-of select="//t:text/@xml:id"/>&gt; ;
                 oa:hasBody &lt;<xsl:value-of select="normalize-space(@ref)"/>&gt; ;
                 oa:annotatedAt "<xsl:value-of select="current-dateTime()"/>"^^xsd:date ;
                 .

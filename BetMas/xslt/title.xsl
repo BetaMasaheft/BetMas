@@ -89,7 +89,7 @@
                         <span xmlns="http://www.w3.org/1999/xhtml" class="MainTitle" data-value="{@ref}">
                             <xsl:if test="parent::t:msItem">
                                 <xsl:attribute name="property"><xsl:value-of select="'http://purl.org/dc/terms/hasPart'"/></xsl:attribute>
-                                <xsl:attribute name="resource"><xsl:value-of select="concat('http://betamasaheft.eu/',$filename)"/></xsl:attribute></xsl:if>
+                                <xsl:attribute name="resource"><xsl:value-of select="concat('https://betamasaheft.eu/',$filename)"/></xsl:attribute></xsl:if>
                             <xsl:value-of select="@ref"/>
                         </span>
                     </xsl:otherwise>

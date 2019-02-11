@@ -867,7 +867,7 @@ let $ext := dts:extension($id)
 let $resourceURN := $collURN || ':' || $id
 let $dtsPass := "/api/dts/document?id=" || $resourceURN
 let $dtsNav := "/api/dts/navigation?id=" || $resourceURN
-let $download := "http://betamasaheft.eu/tei/" || $id || '.xml'
+let $download := "https://betamasaheft.eu/tei/" || $id || '.xml'
 let $citeDepth :=  if(contains($collURN, 'MS')) then 3 else let $counts := for $div in ($document//t:div[@type='textpart'], $document//t:l) return count($div/ancestor::t:div)
 return max($counts)
 let $teirefdecl := if(contains($collURN, 'MS')) then 

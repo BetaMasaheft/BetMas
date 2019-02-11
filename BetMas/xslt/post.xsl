@@ -1,7 +1,7 @@
 <xsl:stylesheet xmlns="http://www.tei-c.org/ns/1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:output encoding="UTF-8" method="xml"/>
     <xsl:output indent="yes" method="xml"/>
-    <xsl:variable name="BMurl">http://betamasaheft.eu/</xsl:variable>
+    <xsl:variable name="BMurl">https://betamasaheft.eu/</xsl:variable>
     <xsl:variable name="editorslist" select="doc('xmldb:exist:///db/apps/BetMas/editors.xml')//t:list"/>
     
     <xsl:template match="@* | node()">
@@ -207,8 +207,8 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
                         <xsl:variable name="filename" select="                                 if (contains(@corresp, '#')) then                                     (substring-before(@corresp, '#'))                                 else                                     (@corresp)"/>
                         <xsl:variable name="id" select="                                 if (contains(@corresp, '#')) then                                     (substring-after(@corresp, '#'))                                 else                                     ('')"/>
                         <xsl:choose>
-                            <xsl:when test="doc-available(concat('http://betamasaheft.aai.uni-hamburg.de/manuscripts/', $filename, '.xml'))">
-                                <xsl:value-of select="doc(concat('http://betamasaheft.aai.uni-hamburg.de/manuscripts/', $filename, '.xml'))/t:TEI//t:titleStmt/t:title[1]"/>
+                            <xsl:when test="doc-available(concat('https://betamasaheft.aai.uni-hamburg.de/manuscripts/', $filename, '.xml'))">
+                                <xsl:value-of select="doc(concat('https://betamasaheft.aai.uni-hamburg.de/manuscripts/', $filename, '.xml'))/t:TEI//t:titleStmt/t:title[1]"/>
                                 <xsl:if test="$id != ''">
                                     <xsl:text>, </xsl:text>
                                     <xsl:value-of select="$id"/>
@@ -251,7 +251,7 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
                         <xsl:value-of select="concat('http://purl.org/dc/terms/', substring-after(@name, 'dcterms:'))"/>
                     </xsl:when>
                     <xsl:when test="contains(@name, 'bm:')">
-                        <xsl:value-of select="concat('http://betamasaheft.aai.uni-hamburg.de/docs.html#', @name)"/>
+                        <xsl:value-of select="concat('https://betamasaheft.aai.uni-hamburg.de/docs.html#', @name)"/>
                     </xsl:when>
                     <xsl:when test="contains(@name, 'lawd:')">
                         <xsl:value-of select="concat('http://lawd.info/ontology/', substring-after(@name, 'lawd:'))"/>
@@ -382,7 +382,7 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
                             </xsl:otherwise>
                         </xsl:choose>
                     </xsl:variable>
-                    <xsl:variable name="file" select="document(concat('http://betamasaheft.aai.uni-hamburg.de/manuscripts/', $filename, '.xml'))"/>
+                    <xsl:variable name="file" select="document(concat('https://betamasaheft.aai.uni-hamburg.de/manuscripts/', $filename, '.xml'))"/>
                     <idno>
                         <xsl:value-of select="$file//t:msIdentifier/t:idno"/>
                     </idno>

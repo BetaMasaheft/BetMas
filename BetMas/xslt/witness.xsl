@@ -15,7 +15,7 @@
                     </xsl:variable>
                     <xsl:choose>
                         <xsl:when test="text()">
-                            <a href="{if(@type='external' and @facs) then @facs else @corresp}" class="MainTitle" data-value="{@corresp}" property="http://purl.org/dc/elements/1.1/source" resource="http://betamasaheft.eu/{@corresp}">
+                            <a href="{if(@type='external' and @facs) then @facs else @corresp}" class="MainTitle" data-value="{@corresp}" property="http://purl.org/dc/elements/1.1/source" resource="https://betamasaheft.eu/{@corresp}">
                                 <xsl:value-of select="@corresp"/>
                             </a>
                             <xsl:if test="contains(@corresp, '#')">
@@ -25,7 +25,7 @@
                             <xsl:apply-templates/>
                         </xsl:when>
                         <xsl:otherwise>
-                            <a href="{if(@type='external' and @facs) then @facs else @corresp}" class="MainTitle" data-value="{if(contains(@corresp, '#')) then substring-before(@corresp, '#') else @corresp}" property="http://purl.org/dc/elements/1.1/source" resource="http://betamasaheft.eu/{@corresp}">
+                            <a href="{if(@type='external' and @facs) then @facs else @corresp}" class="MainTitle" data-value="{if(contains(@corresp, '#')) then substring-before(@corresp, '#') else @corresp}" property="http://purl.org/dc/elements/1.1/source" resource="https://betamasaheft.eu/{@corresp}">
                                 <xsl:if test="@facs"><xsl:attribute name="data-location"><xsl:value-of select="@facs"/></xsl:attribute></xsl:if>
                                 <xsl:if test="t:ptr/@target"><xsl:attribute name="data-manifest"><xsl:value-of select="t:ptr/@target"/></xsl:attribute></xsl:if>
                                 <xsl:if test="@xml:id">

@@ -88,7 +88,7 @@
                                         <xsl:text>  </xsl:text>
                                         <span class="glyphicon glyphicon-hand-left"/>
                                     </a>
-                                    <span property="http://purl.org/dc/elements/1.1/relation" resource="http://betamasaheft.eu/{.}"/>
+                                    <span property="http://purl.org/dc/elements/1.1/relation" resource="https://betamasaheft.eu/{.}"/>
                                 </xsl:for-each>
                                 <xsl:apply-templates/> <!--to any child node of this ref with multiple corresp values-->
                             </xsl:when>

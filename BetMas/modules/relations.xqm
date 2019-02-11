@@ -448,7 +448,7 @@ return
                 
                 for $id in $list//id
                 return
-                <a href="{concat('http://betamasaheft.eu/',$id)}" class="MainTitle" data-value="{$id}">{$id}</a>
+                <a href="{concat('https://betamasaheft.eu/',$id)}" class="MainTitle" data-value="{$id}">{$id}</a>
                 
                 
     }
@@ -477,7 +477,7 @@ return
               </list>  
                 for $id in $list/id
                 return
-                <a href="{concat('http://betamasaheft.eu/',$id)}" class="MainTitle" data-value="{$id}">{$id}</a>
+                <a href="{concat('https://betamasaheft.eu/',$id)}" class="MainTitle" data-value="{$id}">{$id}</a>
                 
                 
     }

@@ -14,7 +14,7 @@ function exec() {
     } else {
         // Alternative is to start with CONSTRUCT
         var url, query, jsonUri;
-        query = 'http://betamasaheft.eu/'
+        query = 'https://betamasaheft.eu/'
         var width = 1040,
         height = 700;
         

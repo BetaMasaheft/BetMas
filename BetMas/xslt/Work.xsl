@@ -208,7 +208,7 @@
                 </div>
             </xsl:if>
             <xsl:if test="//t:div[@type='edition']//t:ab//text()">
-                <a role="button" target="_blank" class="btn btn-primary" href="{concat('http://voyant-tools.org/?input=http://betamasaheft.eu/works/',string(t:TEI/@xml:id),'.xml')}">Voyant 2 analysis tools</a>
+                <a role="button" target="_blank" class="btn btn-primary" href="{concat('http://voyant-tools.org/?input=https://betamasaheft.eu/works/',string(t:TEI/@xml:id),'.xml')}">Voyant 2 analysis tools</a>
             </xsl:if>
             <button class="btn btn-primary" id="showattestations" data-value="work" data-id="{string(t:TEI/@xml:id)}">Show attestations</button>
             <div id="allattestations" class="col-md-12"/>

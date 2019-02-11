@@ -20,8 +20,8 @@ declare namespace test="http://exist-db.org/xquery/xqsuite";
 :)
 
 declare
- %test:arg("placeid", "INS00001BL") %test:assertEquals("http://betamasaheft.eu/institutions/INS00001BL") 
- %test:arg("placeid", "LOC1001Aallee") %test:assertEquals("http://betamasaheft.eu/places/LOC1001Aallee")
+ %test:arg("placeid", "INS00001BL") %test:assertEquals("https://betamasaheft.eu/institutions/INS00001BL") 
+ %test:arg("placeid", "LOC1001Aallee") %test:assertEquals("https://betamasaheft.eu/places/LOC1001Aallee")
  %test:arg("placeid", "pleiades:12345") %test:assertEquals("https://pleiades.stoa.org/places/12345")
  %test:arg("placeid", "Q12345") %test:assertEquals("https://www.wikidata.org/entity/Q12345")
  %test:arg("placeid", "gn:12345") %test:assertEquals("http://sws.geonames.org/12345")
@@ -58,14 +58,14 @@ declare
             </place>','Aallee','LOC1001Aallee') 
             %test:assertEquals('
              
-             <http://betamasaheft.eu/places/LOC1001Aallee> a lawd:Place ;
+             <https://betamasaheft.eu/places/LOC1001Aallee> a lawd:Place ;
   rdfs:label "Aallee";
- dcterms:source <http://betamasaheft.eu/LOC1001Aallee.xml> ;
+ dcterms:source <https://betamasaheft.eu/LOC1001Aallee.xml> ;
  
 lawd:hasName [ lawd:primaryForm "Aallee" ];
 geo:location [ geo:lat 8.431601 ;  geo:long 35.688606 ] ; 
- foaf:primaryTopicOf <http://betamasaheft.eu/places/LOC1001Aallee/main> ;
-                dcterms:isPartOf <http://betamasaheft.eu/places/LOC6530Oromiyaa>;
+ foaf:primaryTopicOf <https://betamasaheft.eu/places/LOC1001Aallee/main> ;
+                dcterms:isPartOf <https://betamasaheft.eu/places/LOC6530Oromiyaa>;
 
                 .
                 
@@ -141,8 +141,8 @@ geo:location [ geo:lat '||substring-before($coordinates, ',')|| ' ;  geo:long '|
  {for $thisd at $x in collection($config:data-rootW, $config:data-rootMS)//t:placeName[@ref = $r]
  return
  <annotation>{
-' <http://betamasaheft.aai.uni-hamburg.de/att/'||$x||'> a lawd:Attestation ;
-  dcterms:publisher <http://betamasaheft.aai.uni-hamburg.de/places/list/> ;
+' <https://betamasaheft.aai.uni-hamburg.de/att/'||$x||'> a lawd:Attestation ;
+  dcterms:publisher <https://betamasaheft.aai.uni-hamburg.de/places/list/> ;
   cito:citesAsEvidence
     <http://www.mygazetteer.org/documents/01234> ;
   cnt:chars "Αθήνα" 

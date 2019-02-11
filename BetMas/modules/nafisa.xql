@@ -11,7 +11,7 @@ WHERE {
 a bm:mss ;
 dc:contributor 'Nafisa Valieva' .
 }
-in http://betamasaheft.eu/sparql
+in https://betamasaheft.eu/sparql
 :)
 
 let $mss := (

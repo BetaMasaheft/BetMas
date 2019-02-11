@@ -25,8 +25,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.602218, 11.830618, 39.602218, 11.830618 ],
-    "uri" : "http://betamasaheft.eu/INS0897YKT",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6573NorthWallo", "http://betamasaheft.eu/places/LOC6341Yajju", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0897YKT",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6573NorthWallo", "https://betamasaheft.eu/places/LOC6341Yajju", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -68,7 +68,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Kārrāyyo Takla Hāymānot",
-      "link" : "http://betamasaheft.eu/INS0897YKT",
+      "link" : "https://betamasaheft.eu/INS0897YKT",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -112,8 +112,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.751123, 9.0896, 38.751123, 9.0896 ],
-    "uri" : "http://betamasaheft.eu/INS0599AKU",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC2977Entott", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0599AKU",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC2977Entott", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -155,7 +155,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Qǝddus Rāguʾel Church",
-      "link" : "http://betamasaheft.eu/INS0599AKU",
+      "link" : "https://betamasaheft.eu/INS0599AKU",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -199,8 +199,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.599452, 9.405517, 39.599452, 9.405517 ],
-    "uri" : "http://betamasaheft.eu/INS0590AIG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC7128Asagirt", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0590AIG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC7128Asagirt", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -242,7 +242,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾIyasus Gadam",
-      "link" : "http://betamasaheft.eu/INS0590AIG",
+      "link" : "https://betamasaheft.eu/INS0590AIG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -286,8 +286,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.674598, 9.52049, 39.674598, 9.52049 ],
-    "uri" : "http://betamasaheft.eu/INS0778MAA",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0778MAA",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -329,7 +329,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʿAskaren ʿAbbo",
-      "link" : "http://betamasaheft.eu/INS0778MAA",
+      "link" : "https://betamasaheft.eu/INS0778MAA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -373,8 +373,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0678AWV",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0678AWV",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -416,7 +416,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Wǝbala Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0678AWV",
+      "link" : "https://betamasaheft.eu/INS0678AWV",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -460,8 +460,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0644ASI",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0644ASI",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -503,7 +503,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Qǝddus Gābrǝʾel",
-      "link" : "http://betamasaheft.eu/INS0644ASI",
+      "link" : "https://betamasaheft.eu/INS0644ASI",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -547,8 +547,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.681842, 11.321779, 39.681842, 11.321779 ],
-    "uri" : "http://betamasaheft.eu/INS0851TDH",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6185Wallo", "http://betamasaheft.eu/places/LOC5867Takwel", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0851TDH",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6185Wallo", "https://betamasaheft.eu/places/LOC5867Takwel", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -590,7 +590,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ḫaylu Mǝḥratu, dabtara",
-      "link" : "http://betamasaheft.eu/INS0851TDH",
+      "link" : "https://betamasaheft.eu/INS0851TDH",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -634,8 +634,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.602218, 11.830618, 39.602218, 11.830618 ],
-    "uri" : "http://betamasaheft.eu/INS0752GMM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6573NorthWallo", "http://betamasaheft.eu/places/LOC7136Gubba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0752GMM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6573NorthWallo", "https://betamasaheft.eu/places/LOC7136Gubba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -677,7 +677,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Masč̣ā Māryām",
-      "link" : "http://betamasaheft.eu/INS0752GMM",
+      "link" : "https://betamasaheft.eu/INS0752GMM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -721,8 +721,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.532558, 9.679556, 39.532558, 9.679556 ],
-    "uri" : "http://betamasaheft.eu/INS0732DTW",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0732DTW",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -764,7 +764,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Tābot Wāšā Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0732DTW",
+      "link" : "https://betamasaheft.eu/INS0732DTW",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -808,8 +808,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0574AGT",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "http://betamasaheft.eu/places/LOC7145Ganamore", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0574AGT",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://betamasaheft.eu/places/LOC7145Ganamore", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -851,7 +851,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ganamore Takla Hāymānot",
-      "link" : "http://betamasaheft.eu/INS0574AGT",
+      "link" : "https://betamasaheft.eu/INS0574AGT",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -895,8 +895,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.674598, 9.52049, 39.674598, 9.52049 ],
-    "uri" : "http://betamasaheft.eu/INS0847TAG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC5846Tagula", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0847TAG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC5846Tagula", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -938,7 +938,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAbbǝyya Gadam Madḫāne ʿĀlam",
-      "link" : "http://betamasaheft.eu/INS0847TAG",
+      "link" : "https://betamasaheft.eu/INS0847TAG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -982,8 +982,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.674598, 9.52049, 39.674598, 9.52049 ],
-    "uri" : "http://betamasaheft.eu/INS0815MNB",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7133Moga", "http://betamasaheft.eu/places/LOC4931NaccGa", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0815MNB",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7133Moga", "https://betamasaheft.eu/places/LOC4931NaccGa", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -1025,7 +1025,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Nač̣č̣ Gadal Baʾātā",
-      "link" : "http://betamasaheft.eu/INS0815MNB",
+      "link" : "https://betamasaheft.eu/INS0815MNB",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -1069,8 +1069,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.261937, 10.000708, 39.261937, 10.000708 ],
-    "uri" : "http://betamasaheft.eu/INS0796MEP",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC4865Morat", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0796MEP",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC4865Morat", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -1112,7 +1112,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾƎndafare Māryām Church",
-      "link" : "http://betamasaheft.eu/INS0796MEP",
+      "link" : "https://betamasaheft.eu/INS0796MEP",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -1156,8 +1156,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.433387, 9.635418, 39.433387, 9.635418 ],
-    "uri" : "http://betamasaheft.eu/INS0558ADM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0558ADM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -1199,7 +1199,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dobba Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0558ADM",
+      "link" : "https://betamasaheft.eu/INS0558ADM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -1243,8 +1243,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.599452, 9.405517, 39.599452, 9.405517 ],
-    "uri" : "http://betamasaheft.eu/INS0569AGA",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC7128Asagirt", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0569AGA",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC7128Asagirt", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -1286,7 +1286,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gadam Māryām",
-      "link" : "http://betamasaheft.eu/INS0569AGA",
+      "link" : "https://betamasaheft.eu/INS0569AGA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -1330,8 +1330,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.517009, 9.651166, 39.517009, 9.651166 ],
-    "uri" : "http://betamasaheft.eu/INS0882WLG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7135Warana", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0882WLG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7135Warana", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -1373,7 +1373,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Lagā Gǝnd Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0882WLG",
+      "link" : "https://betamasaheft.eu/INS0882WLG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -1417,8 +1417,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0614AMR",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0614AMR",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -1460,7 +1460,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Māryām Church",
-      "link" : "http://betamasaheft.eu/INS0614AMR",
+      "link" : "https://betamasaheft.eu/INS0614AMR",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -1504,8 +1504,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.674598, 9.52049, 39.674598, 9.52049 ],
-    "uri" : "http://betamasaheft.eu/INS0802MGF",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0802MGF",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -1547,7 +1547,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gǝmgoy Fǝqur Walde",
-      "link" : "http://betamasaheft.eu/INS0802MGF",
+      "link" : "https://betamasaheft.eu/INS0802MGF",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -1591,8 +1591,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.767438, 8.969804, 38.767438, 8.969804 ],
-    "uri" : "http://betamasaheft.eu/INS0638AQY",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC1951Bole", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0638AQY",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC1951Bole", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -1634,7 +1634,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Qǝddus Yosef",
-      "link" : "http://betamasaheft.eu/INS0638AQY",
+      "link" : "https://betamasaheft.eu/INS0638AQY",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -1678,8 +1678,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.517009, 9.651166, 39.517009, 9.651166 ],
-    "uri" : "http://betamasaheft.eu/INS0889WTH",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7135Warana", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0889WTH",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7135Warana", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -1721,7 +1721,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Wāynǝyya Takla Hāymānot",
-      "link" : "http://betamasaheft.eu/INS0889WTH",
+      "link" : "https://betamasaheft.eu/INS0889WTH",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -1765,7 +1765,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ -118.441566, 34.074945, -118.441566, 34.074945 ],
-    "uri" : "http://betamasaheft.eu/INS0774LUC",
+    "uri" : "https://betamasaheft.eu/INS0774LUC",
     "connectsWith" : [ [ "http://sws.geonames.org/", "http://sws.geonames.org/", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -1808,7 +1808,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "University of California Los Angeles",
-      "link" : "http://betamasaheft.eu/INS0774LUC",
+      "link" : "https://betamasaheft.eu/INS0774LUC",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -1852,8 +1852,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.186012, 9.756727, 39.186012, 9.756727 ],
-    "uri" : "http://betamasaheft.eu/INS0701DDG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC2514Dannab", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0701DDG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC2514Dannab", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -1895,7 +1895,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dubrā Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0701DDG",
+      "link" : "https://betamasaheft.eu/INS0701DDG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -1939,8 +1939,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0547ACA",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0547ACA",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -1982,7 +1982,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Čaraččā ʾAbbo",
-      "link" : "http://betamasaheft.eu/INS0547ACA",
+      "link" : "https://betamasaheft.eu/INS0547ACA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -2026,8 +2026,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.674598, 9.52049, 39.674598, 9.52049 ],
-    "uri" : "http://betamasaheft.eu/INS0869TWM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC5846Tagula", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0869TWM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC5846Tagula", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -2069,7 +2069,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Walāle Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0869TWM",
+      "link" : "https://betamasaheft.eu/INS0869TWM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -2113,8 +2113,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.433387, 9.635418, 39.433387, 9.635418 ],
-    "uri" : "http://betamasaheft.eu/INS0623AQB",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0623AQB",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -2156,7 +2156,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Bātrā Fantāye, qes",
-      "link" : "http://betamasaheft.eu/INS0623AQB",
+      "link" : "https://betamasaheft.eu/INS0623AQB",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -2200,8 +2200,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.532558, 9.679556, 39.532558, 9.679556 ],
-    "uri" : "http://betamasaheft.eu/INS0727DQU",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0727DQU",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -2243,7 +2243,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Qwǝndi Giyorgis Church",
-      "link" : "http://betamasaheft.eu/INS0727DQU",
+      "link" : "https://betamasaheft.eu/INS0727DQU",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -2287,8 +2287,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.602218, 11.830618, 39.602218, 11.830618 ],
-    "uri" : "http://betamasaheft.eu/INS0742GDA",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6573NorthWallo", "http://betamasaheft.eu/places/LOC7136Gubba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0742GDA",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6573NorthWallo", "https://betamasaheft.eu/places/LOC7136Gubba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -2330,7 +2330,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dabra Gāzā Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0742GDA",
+      "link" : "https://betamasaheft.eu/INS0742GDA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -2374,8 +2374,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0634AQO",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "http://betamasaheft.eu/places/LOC5291Qwendi", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0634AQO",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://betamasaheft.eu/places/LOC5291Qwendi", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -2417,7 +2417,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Qwǝndi Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0634AQO",
+      "link" : "https://betamasaheft.eu/INS0634AQO",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -2461,8 +2461,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.119049, 8.597449, 39.119049, 8.597449 ],
-    "uri" : "http://betamasaheft.eu/INS0790MDS",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC7141Mogo", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0790MDS",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC7141Mogo", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -2504,7 +2504,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Danse Śǝllāse",
-      "link" : "http://betamasaheft.eu/INS0790MDS",
+      "link" : "https://betamasaheft.eu/INS0790MDS",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -2548,8 +2548,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0688AZN",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0688AZN",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -2591,7 +2591,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Zǝbǧān Māryām",
-      "link" : "http://betamasaheft.eu/INS0688AZN",
+      "link" : "https://betamasaheft.eu/INS0688AZN",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -2635,8 +2635,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.433387, 9.635418, 39.433387, 9.635418 ],
-    "uri" : "http://betamasaheft.eu/INS0591AKA",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1455Angola", "http://betamasaheft.eu/places/LOC5233Qol", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0591AKA",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1455Angola", "https://betamasaheft.eu/places/LOC5233Qol", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -2678,7 +2678,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Qol ʾAmbā Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0591AKA",
+      "link" : "https://betamasaheft.eu/INS0591AKA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -2722,8 +2722,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.433387, 9.635418, 39.433387, 9.635418 ],
-    "uri" : "http://betamasaheft.eu/INS0829MYM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC4524Mandid", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0829MYM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC4524Mandid", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -2765,7 +2765,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Yǝlāni Māryām",
-      "link" : "http://betamasaheft.eu/INS0829MYM",
+      "link" : "https://betamasaheft.eu/INS0829MYM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -2809,8 +2809,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0686AZK",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0686AZK",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -2852,7 +2852,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Zanbāllit Kidāna Mǝḥrat",
-      "link" : "http://betamasaheft.eu/INS0686AZK",
+      "link" : "https://betamasaheft.eu/INS0686AZK",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -2896,8 +2896,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.674598, 9.52049, 39.674598, 9.52049 ],
-    "uri" : "http://betamasaheft.eu/INS0781MAE",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0781MAE",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -2939,7 +2939,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAwāzā ʾƎgziʾābǝḥer ʾAb",
-      "link" : "http://betamasaheft.eu/INS0781MAE",
+      "link" : "https://betamasaheft.eu/INS0781MAE",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -2983,8 +2983,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.484655, 13.487304, 39.484655, 13.487304 ],
-    "uri" : "http://betamasaheft.eu/INS0792MEE",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC4545Maqala", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0792MEE",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC4545Maqala", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -3026,7 +3026,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Maqala ʾƎndāʾ Iyasus",
-      "link" : "http://betamasaheft.eu/INS0792MEE",
+      "link" : "https://betamasaheft.eu/INS0792MEE",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -3070,7 +3070,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ -71.258205, 42.367952, -71.258205, 42.367952 ],
-    "uri" : "http://betamasaheft.eu/INS0874WBU",
+    "uri" : "https://betamasaheft.eu/INS0874WBU",
     "connectsWith" : [ [ "http://sws.geonames.org/", "http://sws.geonames.org/", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -3113,7 +3113,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Brandeis University",
-      "link" : "http://betamasaheft.eu/INS0874WBU",
+      "link" : "https://betamasaheft.eu/INS0874WBU",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -3157,8 +3157,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.599452, 9.405517, 39.599452, 9.405517 ],
-    "uri" : "http://betamasaheft.eu/INS0579AGX",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC7128Asagirt", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0579AGX",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC7128Asagirt", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -3200,7 +3200,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Galila Māryām",
-      "link" : "http://betamasaheft.eu/INS0579AGX",
+      "link" : "https://betamasaheft.eu/INS0579AGX",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -3244,8 +3244,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.517009, 9.651166, 39.517009, 9.651166 ],
-    "uri" : "http://betamasaheft.eu/INS0879WGS",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7135Warana", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0879WGS",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7135Warana", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -3287,7 +3287,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gatāt Śǝllāse",
-      "link" : "http://betamasaheft.eu/INS0879WGS",
+      "link" : "https://betamasaheft.eu/INS0879WGS",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -3331,8 +3331,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.517009, 9.651166, 39.517009, 9.651166 ],
-    "uri" : "http://betamasaheft.eu/INS0881WKM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7135Warana", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0881WKM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7135Warana", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -3374,7 +3374,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Kāšāt Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0881WKM",
+      "link" : "https://betamasaheft.eu/INS0881WKM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -3418,8 +3418,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.433387, 9.635418, 39.433387, 9.635418 ],
-    "uri" : "http://betamasaheft.eu/INS0649ASR",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0649ASR",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -3461,7 +3461,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Sarte Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0649ASR",
+      "link" : "https://betamasaheft.eu/INS0649ASR",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -3505,8 +3505,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0655ATD",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0655ATD",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -3548,7 +3548,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Tāčč Daññ Kidāna Mǝḥrat",
-      "link" : "http://betamasaheft.eu/INS0655ATD",
+      "link" : "https://betamasaheft.eu/INS0655ATD",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -3592,8 +3592,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.681842, 11.321779, 39.681842, 11.321779 ],
-    "uri" : "http://betamasaheft.eu/INS0848TAY",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6185Wallo", "http://betamasaheft.eu/places/LOC5867Takwel", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0848TAY",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6185Wallo", "https://betamasaheft.eu/places/LOC5867Takwel", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -3635,7 +3635,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Yǝmar Abbāy, ato",
-      "link" : "http://betamasaheft.eu/INS0848TAY",
+      "link" : "https://betamasaheft.eu/INS0848TAY",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -3679,8 +3679,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.517009, 9.651166, 39.517009, 9.651166 ],
-    "uri" : "http://betamasaheft.eu/INS0706DGA",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0706DGA",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -3722,7 +3722,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Goššu ʾAgar Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0706DGA",
+      "link" : "https://betamasaheft.eu/INS0706DGA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -3766,8 +3766,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.433387, 9.635418, 39.433387, 9.635418 ],
-    "uri" : "http://betamasaheft.eu/INS0549ACG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0549ACG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -3809,7 +3809,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Čabel Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0549ACG",
+      "link" : "https://betamasaheft.eu/INS0549ACG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -3853,8 +3853,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.532558, 9.679556, 39.532558, 9.679556 ],
-    "uri" : "http://betamasaheft.eu/INS0711DGM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0711DGM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -3896,7 +3896,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ǧambārā Māryām",
-      "link" : "http://betamasaheft.eu/INS0711DGM",
+      "link" : "https://betamasaheft.eu/INS0711DGM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -3940,8 +3940,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0564AEK",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0564AEK",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -3983,7 +3983,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾƎrasme Kidāna Mǝḥrat",
-      "link" : "http://betamasaheft.eu/INS0564AEK",
+      "link" : "https://betamasaheft.eu/INS0564AEK",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -4027,8 +4027,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.697506, 11.338838, 39.697506, 11.338838 ],
-    "uri" : "http://betamasaheft.eu/INS0533AAG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6185Wallo", "http://betamasaheft.eu/places/LOC1413Ambass", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0533AAG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6185Wallo", "https://betamasaheft.eu/places/LOC1413Ambass", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -4070,7 +4070,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gurare Mārqorewos, ʾabbā",
-      "link" : "http://betamasaheft.eu/INS0533AAG",
+      "link" : "https://betamasaheft.eu/INS0533AAG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -4114,8 +4114,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.636888, 11.115558, 39.636888, 11.115558 ],
-    "uri" : "http://betamasaheft.eu/INS0715DMK",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6185Wallo", "http://betamasaheft.eu/places/LOC2575Dase", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0715DMK",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6185Wallo", "https://betamasaheft.eu/places/LOC2575Dase", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -4157,7 +4157,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Kidāne, mamhǝr",
-      "link" : "http://betamasaheft.eu/INS0715DMK",
+      "link" : "https://betamasaheft.eu/INS0715DMK",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -4201,8 +4201,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.790307, 9.061907, 38.790307, 9.061907 ],
-    "uri" : "http://betamasaheft.eu/INS0658ATM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC2977Entott", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0658ATM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC2977Entott", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -4244,7 +4244,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾƎnṭoṭṭo Manbara Śǝllāse",
-      "link" : "http://betamasaheft.eu/INS0658ATM",
+      "link" : "https://betamasaheft.eu/INS0658ATM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -4288,8 +4288,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.765017, 9.025262, 38.765017, 9.025262 ],
-    "uri" : "http://betamasaheft.eu/INS0613AMN",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC6347Yakka", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0613AMN",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC6347Yakka", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -4331,7 +4331,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Qalama Warq, mamhǝr",
-      "link" : "http://betamasaheft.eu/INS0613AMN",
+      "link" : "https://betamasaheft.eu/INS0613AMN",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -4375,8 +4375,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.674598, 9.52049, 39.674598, 9.52049 ],
-    "uri" : "http://betamasaheft.eu/INS0795MEO",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0795MEO",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -4418,7 +4418,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾƎnnasarbo Madḫāne ʿĀlam Church",
-      "link" : "http://betamasaheft.eu/INS0795MEO",
+      "link" : "https://betamasaheft.eu/INS0795MEO",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -4462,8 +4462,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.433387, 9.635418, 39.433387, 9.635418 ],
-    "uri" : "http://betamasaheft.eu/INS0628AQI",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC7126Abbeccuu", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0628AQI",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC7126Abbeccuu", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -4505,7 +4505,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Qirqos ʾIyasus",
-      "link" : "http://betamasaheft.eu/INS0628AQI",
+      "link" : "https://betamasaheft.eu/INS0628AQI",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -4549,8 +4549,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0545ABB",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0545ABB",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -4592,7 +4592,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Bollād Baʿāla Wald",
-      "link" : "http://betamasaheft.eu/INS0545ABB",
+      "link" : "https://betamasaheft.eu/INS0545ABB",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -4636,8 +4636,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.602218, 11.830618, 39.602218, 11.830618 ],
-    "uri" : "http://betamasaheft.eu/INS0753GMS",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6573NorthWallo", "http://betamasaheft.eu/places/LOC7136Gubba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0753GMS",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6573NorthWallo", "https://betamasaheft.eu/places/LOC7136Gubba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -4679,7 +4679,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Sattā Wadāǧ Sisāy, marigetā",
-      "link" : "http://betamasaheft.eu/INS0753GMS",
+      "link" : "https://betamasaheft.eu/INS0753GMS",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -4723,8 +4723,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0531AAF",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0531AAF",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -4766,7 +4766,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAfarbāyne Takla Hāymānot",
-      "link" : "http://betamasaheft.eu/INS0531AAF",
+      "link" : "https://betamasaheft.eu/INS0531AAF",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -4810,8 +4810,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.599452, 9.405517, 39.599452, 9.405517 ],
-    "uri" : "http://betamasaheft.eu/INS0586AHQ",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC7128Asagirt", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0586AHQ",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC7128Asagirt", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -4853,7 +4853,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Hulara Madḫāne ʿĀlam",
-      "link" : "http://betamasaheft.eu/INS0586AHQ",
+      "link" : "https://betamasaheft.eu/INS0586AHQ",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -4897,8 +4897,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.532558, 9.679556, 39.532558, 9.679556 ],
-    "uri" : "http://betamasaheft.eu/INS0722DQH",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0722DQH",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -4940,7 +4940,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ḫayle Makket, qes",
-      "link" : "http://betamasaheft.eu/INS0722DQH",
+      "link" : "https://betamasaheft.eu/INS0722DQH",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -4984,8 +4984,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.766624, 9.030818, 38.766624, 9.030818 ],
-    "uri" : "http://betamasaheft.eu/INS0588AHT",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0588AHT",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -5027,7 +5027,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Qǝddǝst Śǝllāse / Holy Trinity Cathedral",
-      "link" : "http://betamasaheft.eu/INS0588AHT",
+      "link" : "https://betamasaheft.eu/INS0588AHT",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -5071,8 +5071,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.261937, 10.000708, 39.261937, 10.000708 ],
-    "uri" : "http://betamasaheft.eu/INS0805MGI",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC4865Morat", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0805MGI",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC4865Morat", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -5114,7 +5114,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Garbā Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0805MGI",
+      "link" : "https://betamasaheft.eu/INS0805MGI",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -5158,8 +5158,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.633167, 8.915812, 38.633167, 8.915812 ],
-    "uri" : "http://betamasaheft.eu/INS0844SGM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC7125WestSawa", "http://betamasaheft.eu/places/LOC5402Sabatt", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0844SGM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC7125WestSawa", "https://betamasaheft.eu/places/LOC5402Sabatt", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -5201,7 +5201,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ǧǝggā Māryām",
-      "link" : "http://betamasaheft.eu/INS0844SGM",
+      "link" : "https://betamasaheft.eu/INS0844SGM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -5245,8 +5245,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.674598, 9.52049, 39.674598, 9.52049 ],
-    "uri" : "http://betamasaheft.eu/INS0799MGC",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0799MGC",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -5288,7 +5288,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gwāsge",
-      "link" : "http://betamasaheft.eu/INS0799MGC",
+      "link" : "https://betamasaheft.eu/INS0799MGC",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -5332,8 +5332,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.599452, 9.405517, 39.599452, 9.405517 ],
-    "uri" : "http://betamasaheft.eu/INS0741GAG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7137Gina", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0741GAG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7137Gina", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -5375,7 +5375,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gina ʾAgar ʾƎgziʾābǝḥer ʾAb",
-      "link" : "http://betamasaheft.eu/INS0741GAG",
+      "link" : "https://betamasaheft.eu/INS0741GAG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -5419,8 +5419,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.790049, 8.995859, 38.790049, 8.995859 ],
-    "uri" : "http://betamasaheft.eu/INS0606AMC",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC1951Bole", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0606AMC",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC1951Bole", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -5462,7 +5462,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Bole Madḫāne ʿĀlam",
-      "link" : "http://betamasaheft.eu/INS0606AMC",
+      "link" : "https://betamasaheft.eu/INS0606AMC",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -5506,8 +5506,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.532558, 9.679556, 39.532558, 9.679556 ],
-    "uri" : "http://betamasaheft.eu/INS0733DWS",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0733DWS",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -5549,7 +5549,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Wafit Śǝllāse",
-      "link" : "http://betamasaheft.eu/INS0733DWS",
+      "link" : "https://betamasaheft.eu/INS0733DWS",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -5593,8 +5593,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.186012, 9.756727, 39.186012, 9.756727 ],
-    "uri" : "http://betamasaheft.eu/INS0707DGB",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC2514Dannab", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0707DGB",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC2514Dannab", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -5636,7 +5636,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gudǝma Abrǝham",
-      "link" : "http://betamasaheft.eu/INS0707DGB",
+      "link" : "https://betamasaheft.eu/INS0707DGB",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -5680,8 +5680,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.674598, 9.52049, 39.674598, 9.52049 ],
-    "uri" : "http://betamasaheft.eu/INS0798MGA",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0798MGA",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -5723,7 +5723,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Hār ʾAmbā Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0798MGA",
+      "link" : "https://betamasaheft.eu/INS0798MGA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -5767,8 +5767,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.674598, 9.52049, 39.674598, 9.52049 ],
-    "uri" : "http://betamasaheft.eu/INS0855TGG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC5846Tagula", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0855TGG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC5846Tagula", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -5810,7 +5810,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gafrā Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0855TGG",
+      "link" : "https://betamasaheft.eu/INS0855TGG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -5854,8 +5854,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.517009, 9.651166, 39.517009, 9.651166 ],
-    "uri" : "http://betamasaheft.eu/INS0800MGD",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0800MGD",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -5897,7 +5897,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gašot ʾƎgziʾābǝḥer ʾAb",
-      "link" : "http://betamasaheft.eu/INS0800MGD",
+      "link" : "https://betamasaheft.eu/INS0800MGD",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -5941,7 +5941,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ -87.675505, 42.056067, -87.675505, 42.056067 ],
-    "uri" : "http://betamasaheft.eu/INS0736EGE",
+    "uri" : "https://betamasaheft.eu/INS0736EGE",
     "connectsWith" : [ [ "http://sws.geonames.org/", "http://sws.geonames.org/", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -5984,7 +5984,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Garrett-Evangelical Theological Seminary",
-      "link" : "http://betamasaheft.eu/INS0736EGE",
+      "link" : "https://betamasaheft.eu/INS0736EGE",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -6028,8 +6028,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.119049, 8.597449, 39.119049, 8.597449 ],
-    "uri" : "http://betamasaheft.eu/INS0822MTR",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC7141Mogo", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0822MTR",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC7141Mogo", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -6071,7 +6071,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Tullu Rǝ'e Madḫāne ʿĀlam",
-      "link" : "http://betamasaheft.eu/INS0822MTR",
+      "link" : "https://betamasaheft.eu/INS0822MTR",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -6115,8 +6115,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.602218, 11.830618, 39.602218, 11.830618 ],
-    "uri" : "http://betamasaheft.eu/INS0756GSD",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6573NorthWallo", "http://betamasaheft.eu/places/LOC7136Gubba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0756GSD",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6573NorthWallo", "https://betamasaheft.eu/places/LOC7136Gubba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -6158,7 +6158,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Sisāy Dāññāw",
-      "link" : "http://betamasaheft.eu/INS0756GSD",
+      "link" : "https://betamasaheft.eu/INS0756GSD",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -6202,8 +6202,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.674598, 9.52049, 39.674598, 9.52049 ],
-    "uri" : "http://betamasaheft.eu/INS0857TGU",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC5846Tagula", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0857TGU",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC5846Tagula", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -6245,7 +6245,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gugbal Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0857TGU",
+      "link" : "https://betamasaheft.eu/INS0857TGU",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -6289,8 +6289,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.674598, 9.52049, 39.674598, 9.52049 ],
-    "uri" : "http://betamasaheft.eu/INS0867TSM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC5846Tagula", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0867TSM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC5846Tagula", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -6332,7 +6332,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Sola Māryām",
-      "link" : "http://betamasaheft.eu/INS0867TSM",
+      "link" : "https://betamasaheft.eu/INS0867TSM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -6376,8 +6376,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0570AGG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0570AGG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -6419,7 +6419,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Geta Gadal ʾAbbo",
-      "link" : "http://betamasaheft.eu/INS0570AGG",
+      "link" : "https://betamasaheft.eu/INS0570AGG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -6463,8 +6463,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.532558, 9.679556, 39.532558, 9.679556 ],
-    "uri" : "http://betamasaheft.eu/INS0731DTM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0731DTM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -6506,7 +6506,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Tabase Madḫāne ʿĀlam",
-      "link" : "http://betamasaheft.eu/INS0731DTM",
+      "link" : "https://betamasaheft.eu/INS0731DTM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -6550,8 +6550,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.517009, 9.651166, 39.517009, 9.651166 ],
-    "uri" : "http://betamasaheft.eu/INS0885WMZ",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7135Warana", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0885WMZ",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7135Warana", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -6593,7 +6593,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Mus Zenā Mārqos",
-      "link" : "http://betamasaheft.eu/INS0885WMZ",
+      "link" : "https://betamasaheft.eu/INS0885WMZ",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -6637,8 +6637,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.433387, 9.635418, 39.433387, 9.635418 ],
-    "uri" : "http://betamasaheft.eu/INS0542AAU",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0542AAU",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -6680,7 +6680,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʿAtura Mikāʿel",
-      "link" : "http://betamasaheft.eu/INS0542AAU",
+      "link" : "https://betamasaheft.eu/INS0542AAU",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -6724,8 +6724,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.715141, 9.053464, 38.715141, 9.053464 ],
-    "uri" : "http://betamasaheft.eu/INS0652ATA",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC7127TaklaHaymAddis", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0652ATA",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC7127TaklaHaymAddis", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -6767,7 +6767,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Takla Hāymānot, dealer",
-      "link" : "http://betamasaheft.eu/INS0652ATA",
+      "link" : "https://betamasaheft.eu/INS0652ATA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -6811,8 +6811,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.517009, 9.651166, 39.517009, 9.651166 ],
-    "uri" : "http://betamasaheft.eu/INS0892WWM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7135Warana", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0892WWM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7135Warana", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -6854,7 +6854,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Walda Māryām",
-      "link" : "http://betamasaheft.eu/INS0892WWM",
+      "link" : "https://betamasaheft.eu/INS0892WWM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -6898,8 +6898,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.294524, 9.330322, 39.294524, 9.330322 ],
-    "uri" : "http://betamasaheft.eu/INS0839QQA",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC5207Qembeb", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0839QQA",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC5207Qembeb", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -6941,7 +6941,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAbbaba Ḫayle, qes",
-      "link" : "http://betamasaheft.eu/INS0839QQA",
+      "link" : "https://betamasaheft.eu/INS0839QQA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -6985,7 +6985,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ -123.077752, 44.043513, -123.077752, 44.043513 ],
-    "uri" : "http://betamasaheft.eu/INS0739EUO",
+    "uri" : "https://betamasaheft.eu/INS0739EUO",
     "connectsWith" : [ [ "http://sws.geonames.org/", "http://sws.geonames.org/", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -7028,7 +7028,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "University of Oregon Library",
-      "link" : "http://betamasaheft.eu/INS0739EUO",
+      "link" : "https://betamasaheft.eu/INS0739EUO",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -7072,8 +7072,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0563AED",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0563AED",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -7115,7 +7115,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾƎndādē Takla Hāymānot",
-      "link" : "http://betamasaheft.eu/INS0563AED",
+      "link" : "https://betamasaheft.eu/INS0563AED",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -7159,8 +7159,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.715141, 9.053464, 38.715141, 9.053464 ],
-    "uri" : "http://betamasaheft.eu/INS0618AMW",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC4114Kolfe", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0618AMW",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC4114Kolfe", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -7202,7 +7202,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Warqu, mamhǝr",
-      "link" : "http://betamasaheft.eu/INS0618AMW",
+      "link" : "https://betamasaheft.eu/INS0618AMW",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -7246,8 +7246,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0675AWK",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0675AWK",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -7289,7 +7289,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Wǝbit Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0675AWK",
+      "link" : "https://betamasaheft.eu/INS0675AWK",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -7333,8 +7333,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0601ALM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "http://betamasaheft.eu/places/LOC7146Loza", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0601ALM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://betamasaheft.eu/places/LOC7146Loza", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -7376,7 +7376,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Loza Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0601ALM",
+      "link" : "https://betamasaheft.eu/INS0601ALM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -7420,8 +7420,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.831594, 9.69204, 39.831594, 9.69204 ],
-    "uri" : "http://betamasaheft.eu/INS0766HMS",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC3806HarrAm", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0766HMS",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC3806HarrAm", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -7463,7 +7463,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Masaqo Śǝllāse",
-      "link" : "http://betamasaheft.eu/INS0766HMS",
+      "link" : "https://betamasaheft.eu/INS0766HMS",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -7507,8 +7507,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.674598, 9.52049, 39.674598, 9.52049 ],
-    "uri" : "http://betamasaheft.eu/INS0789MDI",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0789MDI",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -7550,7 +7550,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dima Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0789MDI",
+      "link" : "https://betamasaheft.eu/INS0789MDI",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -7594,8 +7594,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.666582, 9.066619, 38.666582, 9.066619 ],
-    "uri" : "http://betamasaheft.eu/INS0583AHI",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC3400Gefars", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0583AHI",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC3400Gefars", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -7637,7 +7637,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ḫāyla Iyasus, ʾabbā",
-      "link" : "http://betamasaheft.eu/INS0583AHI",
+      "link" : "https://betamasaheft.eu/INS0583AHI",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -7681,8 +7681,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.636888, 11.115558, 39.636888, 11.115558 ],
-    "uri" : "http://betamasaheft.eu/INS0729DSK",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6185Wallo", "http://betamasaheft.eu/places/LOC2575Dase", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0729DSK",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6185Wallo", "https://betamasaheft.eu/places/LOC2575Dase", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -7724,7 +7724,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dase Qǝddus Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0729DSK",
+      "link" : "https://betamasaheft.eu/INS0729DSK",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -7768,8 +7768,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.674598, 9.52049, 39.674598, 9.52049 ],
-    "uri" : "http://betamasaheft.eu/INS0810MKA",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0810MKA",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -7811,7 +7811,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Kase ʾAbbo",
-      "link" : "http://betamasaheft.eu/INS0810MKA",
+      "link" : "https://betamasaheft.eu/INS0810MKA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -7855,8 +7855,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.433387, 9.635418, 39.433387, 9.635418 ],
-    "uri" : "http://betamasaheft.eu/INS0540AAS",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0540AAS",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -7898,7 +7898,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʿAsā Bāḥǝr ʾƎgziʾabǝḥer ʾAb",
-      "link" : "http://betamasaheft.eu/INS0540AAS",
+      "link" : "https://betamasaheft.eu/INS0540AAS",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -7942,8 +7942,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.532558, 9.679556, 39.532558, 9.679556 ],
-    "uri" : "http://betamasaheft.eu/INS0699DBS",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0699DBS",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -7985,7 +7985,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dabra Bǝrhān Śǝllāse",
-      "link" : "http://betamasaheft.eu/INS0699DBS",
+      "link" : "https://betamasaheft.eu/INS0699DBS",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -8029,8 +8029,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.599452, 9.405517, 39.599452, 9.405517 ],
-    "uri" : "http://betamasaheft.eu/INS0653ATB",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC7128Asagirt", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0653ATB",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC7128Asagirt", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -8072,7 +8072,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Tǝmqatā Bāḥǝr Māryām",
-      "link" : "http://betamasaheft.eu/INS0653ATB",
+      "link" : "https://betamasaheft.eu/INS0653ATB",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -8116,8 +8116,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.589325, 8.98167, 38.589325, 8.98167 ],
-    "uri" : "http://betamasaheft.eu/INS0670AWF",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC6096Wacaca", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0670AWF",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC6096Wacaca", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -8159,7 +8159,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Wač̣ač̣ā Māryām",
-      "link" : "http://betamasaheft.eu/INS0670AWF",
+      "link" : "https://betamasaheft.eu/INS0670AWF",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -8203,8 +8203,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.517009, 9.651166, 39.517009, 9.651166 ],
-    "uri" : "http://betamasaheft.eu/INS0877WEY",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7135Warana", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0877WEY",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7135Warana", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -8246,7 +8246,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾƎmbilate Yoḥānnǝs Church",
-      "link" : "http://betamasaheft.eu/INS0877WEY",
+      "link" : "https://betamasaheft.eu/INS0877WEY",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -8290,8 +8290,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.433387, 9.635418, 39.433387, 9.635418 ],
-    "uri" : "http://betamasaheft.eu/INS0679AYA",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0679AYA",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -8333,7 +8333,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Yamwāy ʾAbbo",
-      "link" : "http://betamasaheft.eu/INS0679AYA",
+      "link" : "https://betamasaheft.eu/INS0679AYA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -8377,8 +8377,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.715141, 9.053464, 38.715141, 9.053464 ],
-    "uri" : "http://betamasaheft.eu/INS0660ATO",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC7127TaklaHaymAddis", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0660ATO",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC7127TaklaHaymAddis", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -8420,7 +8420,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Takla Hāymānot, private owner",
-      "link" : "http://betamasaheft.eu/INS0660ATO",
+      "link" : "https://betamasaheft.eu/INS0660ATO",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -8464,8 +8464,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.433387, 9.635418, 39.433387, 9.635418 ],
-    "uri" : "http://betamasaheft.eu/INS0536AAM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC7126Abbeccuu", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0536AAM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC7126Abbeccuu", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -8507,7 +8507,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʿAtura Mikāʿel",
-      "link" : "http://betamasaheft.eu/INS0536AAM",
+      "link" : "https://betamasaheft.eu/INS0536AAM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -8551,8 +8551,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.517009, 9.651166, 39.517009, 9.651166 ],
-    "uri" : "http://betamasaheft.eu/INS0873WAB",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7135Warana", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0873WAB",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7135Warana", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -8594,7 +8594,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Barat Giyorgis, ʾato",
-      "link" : "http://betamasaheft.eu/INS0873WAB",
+      "link" : "https://betamasaheft.eu/INS0873WAB",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -8638,8 +8638,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0577AGW",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0577AGW",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -8681,7 +8681,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ganda Wǝhā Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0577AGW",
+      "link" : "https://betamasaheft.eu/INS0577AGW",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -8725,8 +8725,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.743656, 9.046206, 38.743656, 9.046206 ],
-    "uri" : "http://betamasaheft.eu/INS0626AQG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC1479Arada", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0626AQG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC1479Arada", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -8768,7 +8768,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Qǝddus Gābrǝʾel Catholic Church / St Gabriel",
-      "link" : "http://betamasaheft.eu/INS0626AQG",
+      "link" : "https://betamasaheft.eu/INS0626AQG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -8812,8 +8812,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.697506, 11.338838, 39.697506, 11.338838 ],
-    "uri" : "http://betamasaheft.eu/INS0677AWU",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6185Wallo", "http://betamasaheft.eu/places/LOC1413Ambass", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0677AWU",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6185Wallo", "https://betamasaheft.eu/places/LOC1413Ambass", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -8855,7 +8855,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Unknown (private)",
-      "link" : "http://betamasaheft.eu/INS0677AWU",
+      "link" : "https://betamasaheft.eu/INS0677AWU",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -8899,8 +8899,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0608AMI",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0608AMI",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -8942,7 +8942,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAnkobar Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0608AMI",
+      "link" : "https://betamasaheft.eu/INS0608AMI",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -8986,8 +8986,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.599452, 9.405517, 39.599452, 9.405517 ],
-    "uri" : "http://betamasaheft.eu/INS0567AEZ",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC7128Asagirt", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0567AEZ",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC7128Asagirt", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -9029,7 +9029,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾƎbarage Takla Hāymānot",
-      "link" : "http://betamasaheft.eu/INS0567AEZ",
+      "link" : "https://betamasaheft.eu/INS0567AEZ",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -9073,8 +9073,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0607AMD",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0607AMD",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -9116,7 +9116,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAnkobar Madḫāne ʿĀlam",
-      "link" : "http://betamasaheft.eu/INS0607AMD",
+      "link" : "https://betamasaheft.eu/INS0607AMD",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -9160,8 +9160,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.261937, 10.000708, 39.261937, 10.000708 ],
-    "uri" : "http://betamasaheft.eu/INS0784MBM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC4865Morat", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0784MBM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC4865Morat", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -9203,7 +9203,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Bataso Māryām",
-      "link" : "http://betamasaheft.eu/INS0784MBM",
+      "link" : "https://betamasaheft.eu/INS0784MBM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -9247,8 +9247,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0633AQN",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0633AQN",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -9290,7 +9290,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Qolo Gadam Kidāna Mǝḥrat",
-      "link" : "http://betamasaheft.eu/INS0633AQN",
+      "link" : "https://betamasaheft.eu/INS0633AQN",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -9334,8 +9334,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.636888, 11.115558, 39.636888, 11.115558 ],
-    "uri" : "http://betamasaheft.eu/INS0697DAW",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6185Wallo", "http://betamasaheft.eu/places/LOC2575Dase", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0697DAW",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6185Wallo", "https://betamasaheft.eu/places/LOC2575Dase", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -9377,7 +9377,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Walda Giyorgis ,ʾabbā",
-      "link" : "http://betamasaheft.eu/INS0697DAW",
+      "link" : "https://betamasaheft.eu/INS0697DAW",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -9421,8 +9421,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.602218, 11.830618, 39.602218, 11.830618 ],
-    "uri" : "http://betamasaheft.eu/INS0902YWM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6573NorthWallo", "http://betamasaheft.eu/places/LOC6341Yajju", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0902YWM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6573NorthWallo", "https://betamasaheft.eu/places/LOC6341Yajju", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -9464,7 +9464,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Waybelā Māryām",
-      "link" : "http://betamasaheft.eu/INS0902YWM",
+      "link" : "https://betamasaheft.eu/INS0902YWM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -9508,8 +9508,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.602218, 11.830618, 39.602218, 11.830618 ],
-    "uri" : "http://betamasaheft.eu/INS0755GQS",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6573NorthWallo", "http://betamasaheft.eu/places/LOC7136Gubba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0755GQS",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6573NorthWallo", "https://betamasaheft.eu/places/LOC7136Gubba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -9551,7 +9551,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Qayaba Śǝllāse",
-      "link" : "http://betamasaheft.eu/INS0755GQS",
+      "link" : "https://betamasaheft.eu/INS0755GQS",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -9595,8 +9595,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.433387, 9.635418, 39.433387, 9.635418 ],
-    "uri" : "http://betamasaheft.eu/INS0645ASL",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0645ASL",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -9638,7 +9638,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Salal Kullā Qǝddus Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0645ASL",
+      "link" : "https://betamasaheft.eu/INS0645ASL",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -9682,8 +9682,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0584AHL",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "http://betamasaheft.eu/places/LOC3776HarAmb", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0584AHL",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://betamasaheft.eu/places/LOC3776HarAmb", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -9725,7 +9725,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Hārr ʾAmbā Yoḥānnǝs",
-      "link" : "http://betamasaheft.eu/INS0584AHL",
+      "link" : "https://betamasaheft.eu/INS0584AHL",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -9769,8 +9769,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.602218, 11.830618, 39.602218, 11.830618 ],
-    "uri" : "http://betamasaheft.eu/INS0745GES",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6573NorthWallo", "http://betamasaheft.eu/places/LOC7136Gubba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0745GES",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6573NorthWallo", "https://betamasaheft.eu/places/LOC7136Gubba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -9812,7 +9812,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾƎngǝdāw Setotāw",
-      "link" : "http://betamasaheft.eu/INS0745GES",
+      "link" : "https://betamasaheft.eu/INS0745GES",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -9856,8 +9856,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.638379, 9.778861, 38.638379, 9.778861 ],
-    "uri" : "http://betamasaheft.eu/INS0842SAB",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC5482Salale", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0842SAB",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC5482Salale", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -9899,7 +9899,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Barsomā, ʾabbā",
-      "link" : "http://betamasaheft.eu/INS0842SAB",
+      "link" : "https://betamasaheft.eu/INS0842SAB",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -9943,8 +9943,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.766624, 9.030818, 38.766624, 9.030818 ],
-    "uri" : "http://betamasaheft.eu/INS0530AAE",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC1479Arada", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0530AAE",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC1479Arada", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -9986,7 +9986,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Makbee Gǝrma Iyyasus",
-      "link" : "http://betamasaheft.eu/INS0530AAE",
+      "link" : "https://betamasaheft.eu/INS0530AAE",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -10030,8 +10030,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.674598, 9.52049, 39.674598, 9.52049 ],
-    "uri" : "http://betamasaheft.eu/INS0803MGG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0803MGG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -10073,7 +10073,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gosṣǝge Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0803MGG",
+      "link" : "https://betamasaheft.eu/INS0803MGG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -10117,8 +10117,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.478899, 13.372328, 39.478899, 13.372328 ],
-    "uri" : "http://betamasaheft.eu/INS0691CSC",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC2090Calaqo", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0691CSC",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC2090Calaqo", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -10160,7 +10160,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Č̣alaqot Śǝllāse",
-      "link" : "http://betamasaheft.eu/INS0691CSC",
+      "link" : "https://betamasaheft.eu/INS0691CSC",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -10204,8 +10204,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0654ATC",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0654ATC",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -10247,7 +10247,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ṭed ʾAmbā Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0654ATC",
+      "link" : "https://betamasaheft.eu/INS0654ATC",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -10291,8 +10291,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.599452, 9.405517, 39.599452, 9.405517 ],
-    "uri" : "http://betamasaheft.eu/INS0578AGZ",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC7128Asagirt", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0578AGZ",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC7128Asagirt", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -10334,7 +10334,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gadara Gābrǝʾel",
-      "link" : "http://betamasaheft.eu/INS0578AGZ",
+      "link" : "https://betamasaheft.eu/INS0578AGZ",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -10378,8 +10378,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.602218, 11.830618, 39.602218, 11.830618 ],
-    "uri" : "http://betamasaheft.eu/INS0749GGM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6573NorthWallo", "http://betamasaheft.eu/places/LOC7136Gubba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0749GGM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6573NorthWallo", "https://betamasaheft.eu/places/LOC7136Gubba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -10421,7 +10421,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gado Madḫāne ʿĀlam Church",
-      "link" : "http://betamasaheft.eu/INS0749GGM",
+      "link" : "https://betamasaheft.eu/INS0749GGM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -10465,8 +10465,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.727624, 9.057892, 38.727624, 9.057892 ],
-    "uri" : "http://betamasaheft.eu/INS0603AMA",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC3635Gullal", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0603AMA",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC3635Gullal", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -10508,7 +10508,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Madḫāne ʿĀlam",
-      "link" : "http://betamasaheft.eu/INS0603AMA",
+      "link" : "https://betamasaheft.eu/INS0603AMA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -10552,8 +10552,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.433387, 9.635418, 39.433387, 9.635418 ],
-    "uri" : "http://betamasaheft.eu/INS0537AAN",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0537AAN",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -10595,7 +10595,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAnta Gǝbaññ Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0537AAN",
+      "link" : "https://betamasaheft.eu/INS0537AAN",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -10639,7 +10639,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 10.752202, 59.913475, 10.752202, 59.913475 ],
-    "uri" : "http://betamasaheft.eu/INS0833OSC",
+    "uri" : "https://betamasaheft.eu/INS0833OSC",
     "connectsWith" : [ [ "http://sws.geonames.org/", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -10682,7 +10682,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Schøyen Collection",
-      "link" : "http://betamasaheft.eu/INS0833OSC",
+      "link" : "https://betamasaheft.eu/INS0833OSC",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -10726,8 +10726,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.433387, 9.635418, 39.433387, 9.635418 ],
-    "uri" : "http://betamasaheft.eu/INS0581AHC",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0581AHC",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -10769,7 +10769,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAngaddā Hāwāryāt",
-      "link" : "http://betamasaheft.eu/INS0581AHC",
+      "link" : "https://betamasaheft.eu/INS0581AHC",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -10813,8 +10813,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 37.735583, 10.304485, 37.735583, 10.304485 ],
-    "uri" : "http://betamasaheft.eu/INS0725DQM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC3549Gojjam", "http://betamasaheft.eu/places/LOC2310DabraM", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0725DQM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC3549Gojjam", "https://betamasaheft.eu/places/LOC2310DabraM", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -10856,7 +10856,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Qaranǝyo Madḫāne ʿĀlam",
-      "link" : "http://betamasaheft.eu/INS0725DQM",
+      "link" : "https://betamasaheft.eu/INS0725DQM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -10900,8 +10900,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.790049, 8.995859, 38.790049, 8.995859 ],
-    "uri" : "http://betamasaheft.eu/INS0592AKC",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC1951Bole", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0592AKC",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC1951Bole", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -10943,7 +10943,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Bole Qirqos",
-      "link" : "http://betamasaheft.eu/INS0592AKC",
+      "link" : "https://betamasaheft.eu/INS0592AKC",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -10987,8 +10987,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.636888, 11.115558, 39.636888, 11.115558 ],
-    "uri" : "http://betamasaheft.eu/INS0703DDH",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6185Wallo", "http://betamasaheft.eu/places/LOC2575Dase", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0703DDH",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6185Wallo", "https://betamasaheft.eu/places/LOC2575Dase", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -11030,7 +11030,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Balāy Ḫaylu, diyaqon",
-      "link" : "http://betamasaheft.eu/INS0703DDH",
+      "link" : "https://betamasaheft.eu/INS0703DDH",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -11074,8 +11074,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.119049, 8.597449, 39.119049, 8.597449 ],
-    "uri" : "http://betamasaheft.eu/INS0825MWM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0825MWM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -11117,7 +11117,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Wāšā Māryām",
-      "link" : "http://betamasaheft.eu/INS0825MWM",
+      "link" : "https://betamasaheft.eu/INS0825MWM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -11161,8 +11161,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.433387, 9.635418, 39.433387, 9.635418 ],
-    "uri" : "http://betamasaheft.eu/INS0870TWN",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC5914Tarra", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0870TWN",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC5914Tarra", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -11204,7 +11204,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Wǝte Madḫāne ʿĀlam",
-      "link" : "http://betamasaheft.eu/INS0870TWN",
+      "link" : "https://betamasaheft.eu/INS0870TWN",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -11248,8 +11248,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.517009, 9.651166, 39.517009, 9.651166 ],
-    "uri" : "http://betamasaheft.eu/INS0890WTM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7135Warana", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0890WTM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7135Warana", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -11291,7 +11291,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ṭabāse Madḫāne ʿĀlam",
-      "link" : "http://betamasaheft.eu/INS0890WTM",
+      "link" : "https://betamasaheft.eu/INS0890WTM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -11335,8 +11335,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.602218, 11.830618, 39.602218, 11.830618 ],
-    "uri" : "http://betamasaheft.eu/INS0900YQH",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6573NorthWallo", "http://betamasaheft.eu/places/LOC6341Yajju", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0900YQH",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6573NorthWallo", "https://betamasaheft.eu/places/LOC6341Yajju", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -11378,7 +11378,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ḥāddis, qes",
-      "link" : "http://betamasaheft.eu/INS0900YQH",
+      "link" : "https://betamasaheft.eu/INS0900YQH",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -11422,7 +11422,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ -2.248837, 53.480341, -2.248837, 53.480341 ],
-    "uri" : "http://betamasaheft.eu/INS0809MJR",
+    "uri" : "https://betamasaheft.eu/INS0809MJR",
     "connectsWith" : [ [ "http://sws.geonames.org/", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -11465,7 +11465,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "John Rylands Library",
-      "link" : "http://betamasaheft.eu/INS0809MJR",
+      "link" : "https://betamasaheft.eu/INS0809MJR",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -11509,8 +11509,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0662ATR",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0662ATR",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -11552,7 +11552,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Taratar Gābrǝʾel",
-      "link" : "http://betamasaheft.eu/INS0662ATR",
+      "link" : "https://betamasaheft.eu/INS0662ATR",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -11596,8 +11596,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.517009, 9.651166, 39.517009, 9.651166 ],
-    "uri" : "http://betamasaheft.eu/INS0872WAA",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7135Warana", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0872WAA",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7135Warana", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -11639,7 +11639,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAzzāž ʾAmbā Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0872WAA",
+      "link" : "https://betamasaheft.eu/INS0872WAA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -11683,8 +11683,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.433387, 9.635418, 39.433387, 9.635418 ],
-    "uri" : "http://betamasaheft.eu/INS0594AKP",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0594AKP",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -11726,7 +11726,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAngolalā Kidāna Mǝḥrat",
-      "link" : "http://betamasaheft.eu/INS0594AKP",
+      "link" : "https://betamasaheft.eu/INS0594AKP",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -11770,8 +11770,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.517009, 9.651166, 39.517009, 9.651166 ],
-    "uri" : "http://betamasaheft.eu/INS0730DSM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0730DSM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -11813,7 +11813,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Sarya Mikāʾel Māryām",
-      "link" : "http://betamasaheft.eu/INS0730DSM",
+      "link" : "https://betamasaheft.eu/INS0730DSM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -11857,8 +11857,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 36.850629, 10.006119, 36.850629, 10.006119 ],
-    "uri" : "http://betamasaheft.eu/INS0750GMC",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC3467Gidda", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0750GMC",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC3467Gidda", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -11900,7 +11900,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Galeya Māryām Church",
-      "link" : "http://betamasaheft.eu/INS0750GMC",
+      "link" : "https://betamasaheft.eu/INS0750GMC",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -11944,8 +11944,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.575521, 9.339459, 39.575521, 9.339459 ],
-    "uri" : "http://betamasaheft.eu/INS0743GDB",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7138Genner", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0743GDB",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7138Genner", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -11987,7 +11987,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dabra Baggǝʿ",
-      "link" : "http://betamasaheft.eu/INS0743GDB",
+      "link" : "https://betamasaheft.eu/INS0743GDB",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -12031,8 +12031,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0671AWG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0671AWG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -12074,7 +12074,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Wǝtti Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0671AWG",
+      "link" : "https://betamasaheft.eu/INS0671AWG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -12118,7 +12118,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ -72.927348, 41.311512, -72.927348, 41.311512 ],
-    "uri" : "http://betamasaheft.eu/INS0831NBY",
+    "uri" : "https://betamasaheft.eu/INS0831NBY",
     "connectsWith" : [ [ "http://sws.geonames.org/", "http://sws.geonames.org/", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -12161,7 +12161,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Beineke Manuscript Library of Yale University",
-      "link" : "http://betamasaheft.eu/INS0831NBY",
+      "link" : "https://betamasaheft.eu/INS0831NBY",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -12205,8 +12205,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.75131, 9.03681, 38.75131, 9.03681 ],
-    "uri" : "http://betamasaheft.eu/INS0528AAB",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC1479Arada", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0528AAB",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC1479Arada", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -12248,7 +12248,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Baqqala, ʾalaqā",
-      "link" : "http://betamasaheft.eu/INS0528AAB",
+      "link" : "https://betamasaheft.eu/INS0528AAB",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -12292,8 +12292,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0538AAP",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0538AAP",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -12335,7 +12335,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAmāya ʾAgar Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0538AAP",
+      "link" : "https://betamasaheft.eu/INS0538AAP",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -12379,8 +12379,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.599452, 9.405517, 39.599452, 9.405517 ],
-    "uri" : "http://betamasaheft.eu/INS0556ADG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC7128Asagirt", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0556ADG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC7128Asagirt", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -12422,7 +12422,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dawle Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0556ADG",
+      "link" : "https://betamasaheft.eu/INS0556ADG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -12466,8 +12466,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.636888, 11.115558, 39.636888, 11.115558 ],
-    "uri" : "http://betamasaheft.eu/INS0704DDS",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6185Wallo", "http://betamasaheft.eu/places/LOC2575Dase", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0704DDS",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6185Wallo", "https://betamasaheft.eu/places/LOC2575Dase", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -12509,7 +12509,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ṣǝge, dabtarā",
-      "link" : "http://betamasaheft.eu/INS0704DDS",
+      "link" : "https://betamasaheft.eu/INS0704DDS",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -12553,8 +12553,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0598AKT",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "http://betamasaheft.eu/places/LOC1584Astit", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0598AKT",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://betamasaheft.eu/places/LOC1584Astit", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -12596,7 +12596,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAstit Kidāna Mǝḥrat",
-      "link" : "http://betamasaheft.eu/INS0598AKT",
+      "link" : "https://betamasaheft.eu/INS0598AKT",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -12640,8 +12640,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.599452, 9.405517, 39.599452, 9.405517 ],
-    "uri" : "http://betamasaheft.eu/INS0648ASP",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC7128Asagirt", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0648ASP",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC7128Asagirt", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -12683,7 +12683,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Šeqa Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0648ASP",
+      "link" : "https://betamasaheft.eu/INS0648ASP",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -12727,8 +12727,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.602218, 11.830618, 39.602218, 11.830618 ],
-    "uri" : "http://betamasaheft.eu/INS0898YMA",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6573NorthWallo", "http://betamasaheft.eu/places/LOC6341Yajju", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0898YMA",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6573NorthWallo", "https://betamasaheft.eu/places/LOC6341Yajju", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -12770,7 +12770,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAbbaba, mammǝre",
-      "link" : "http://betamasaheft.eu/INS0898YMA",
+      "link" : "https://betamasaheft.eu/INS0898YMA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -12814,8 +12814,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.730086, 9.789785, 38.730086, 9.789785 ],
-    "uri" : "http://betamasaheft.eu/INS0740FKK",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC3068Fecce", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0740FKK",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC3068Fecce", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -12857,7 +12857,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Kidāna Mǝḥrat",
-      "link" : "http://betamasaheft.eu/INS0740FKK",
+      "link" : "https://betamasaheft.eu/INS0740FKK",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -12901,8 +12901,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.433387, 9.635418, 39.433387, 9.635418 ],
-    "uri" : "http://betamasaheft.eu/INS0554ADB",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0554ADB",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -12944,7 +12944,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dabra Baggǝʿ",
-      "link" : "http://betamasaheft.eu/INS0554ADB",
+      "link" : "https://betamasaheft.eu/INS0554ADB",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -12988,8 +12988,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0620AMY",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0620AMY",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -13031,7 +13031,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Mahal Wanz Māryām",
-      "link" : "http://betamasaheft.eu/INS0620AMY",
+      "link" : "https://betamasaheft.eu/INS0620AMY",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -13075,8 +13075,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.532558, 9.679556, 39.532558, 9.679556 ],
-    "uri" : "http://betamasaheft.eu/INS0720DQD",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0720DQD",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -13118,7 +13118,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Takla Śǝllāse, qesa gabaz",
-      "link" : "http://betamasaheft.eu/INS0720DQD",
+      "link" : "https://betamasaheft.eu/INS0720DQD",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -13162,8 +13162,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0615AMS",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0615AMS",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -13205,7 +13205,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Masaqo Śǝllāse",
-      "link" : "http://betamasaheft.eu/INS0615AMS",
+      "link" : "https://betamasaheft.eu/INS0615AMS",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -13249,8 +13249,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.532558, 9.679556, 39.532558, 9.679556 ],
-    "uri" : "http://betamasaheft.eu/INS0693DAD",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0693DAD",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -13292,7 +13292,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAdmāsu",
-      "link" : "http://betamasaheft.eu/INS0693DAD",
+      "link" : "https://betamasaheft.eu/INS0693DAD",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -13336,8 +13336,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.674598, 9.52049, 39.674598, 9.52049 ],
-    "uri" : "http://betamasaheft.eu/INS0787MDG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0787MDG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -13379,7 +13379,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Darawa Gǝb Wāšā Māryām",
-      "link" : "http://betamasaheft.eu/INS0787MDG",
+      "link" : "https://betamasaheft.eu/INS0787MDG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -13423,8 +13423,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0576AGV",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0576AGV",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -13466,7 +13466,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Galāmotočč Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0576AGV",
+      "link" : "https://betamasaheft.eu/INS0576AGV",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -13510,8 +13510,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.674598, 9.52049, 39.674598, 9.52049 ],
-    "uri" : "http://betamasaheft.eu/INS0813MMF",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0813MMF",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -13553,7 +13553,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Moğā Fǝqur Waldā",
-      "link" : "http://betamasaheft.eu/INS0813MMF",
+      "link" : "https://betamasaheft.eu/INS0813MMF",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -13597,8 +13597,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.433387, 9.635418, 39.433387, 9.635418 ],
-    "uri" : "http://betamasaheft.eu/INS0610AMM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0610AMM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -13640,7 +13640,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Maḥaggǝl Māryām",
-      "link" : "http://betamasaheft.eu/INS0610AMM",
+      "link" : "https://betamasaheft.eu/INS0610AMM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -13684,8 +13684,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.532558, 9.679556, 39.532558, 9.679556 ],
-    "uri" : "http://betamasaheft.eu/INS0717DQA",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0717DQA",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -13727,7 +13727,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Goḥ Qǝddus Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0717DQA",
+      "link" : "https://betamasaheft.eu/INS0717DQA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -13771,7 +13771,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ -122.597748, 49.14159, -122.597748, 49.14159 ],
-    "uri" : "http://betamasaheft.eu/INS0773LTW",
+    "uri" : "https://betamasaheft.eu/INS0773LTW",
     "connectsWith" : [ [ "http://sws.geonames.org/", "http://sws.geonames.org/", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -13814,7 +13814,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Trinity Western University",
-      "link" : "http://betamasaheft.eu/INS0773LTW",
+      "link" : "https://betamasaheft.eu/INS0773LTW",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -13858,8 +13858,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.433387, 9.635418, 39.433387, 9.635418 ],
-    "uri" : "http://betamasaheft.eu/INS0611AMP",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0611AMP",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -13901,7 +13901,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Mahǝl ʾAmbā Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0611AMP",
+      "link" : "https://betamasaheft.eu/INS0611AMP",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -13945,8 +13945,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.294524, 9.330322, 39.294524, 9.330322 ],
-    "uri" : "http://betamasaheft.eu/INS0838QGM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC5207Qembeb", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0838QGM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC5207Qembeb", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -13988,7 +13988,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Golbā Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0838QGM",
+      "link" : "https://betamasaheft.eu/INS0838QGM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -14032,8 +14032,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.737055, 9.010439, 38.737055, 9.010439 ],
-    "uri" : "http://betamasaheft.eu/INS0631AQL",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC7129Makakkelanna", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0631AQL",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC7129Makakkelanna", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -14075,7 +14075,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Lǝdatā Māryām",
-      "link" : "http://betamasaheft.eu/INS0631AQL",
+      "link" : "https://betamasaheft.eu/INS0631AQL",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -14119,8 +14119,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.119049, 8.597449, 39.119049, 8.597449 ],
-    "uri" : "http://betamasaheft.eu/INS0776LWW",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC7142Lume", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0776LWW",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC7142Lume", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -14162,7 +14162,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Walatta Giyorgis, wayzaro",
-      "link" : "http://betamasaheft.eu/INS0776LWW",
+      "link" : "https://betamasaheft.eu/INS0776LWW",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -14206,8 +14206,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0669AWE",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0669AWE",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -14249,7 +14249,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Waqǝra Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0669AWE",
+      "link" : "https://betamasaheft.eu/INS0669AWE",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -14293,8 +14293,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0552ACS",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0552ACS",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -14336,7 +14336,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Čǝbsi Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0552ACS",
+      "link" : "https://betamasaheft.eu/INS0552ACS",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -14380,8 +14380,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.715141, 9.053464, 38.715141, 9.053464 ],
-    "uri" : "http://betamasaheft.eu/INS0543AAW",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC7127TaklaHaymAddis", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0543AAW",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC7127TaklaHaymAddis", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -14423,7 +14423,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAlga Warq, dealer",
-      "link" : "http://betamasaheft.eu/INS0543AAW",
+      "link" : "https://betamasaheft.eu/INS0543AAW",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -14467,8 +14467,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.119049, 8.597449, 39.119049, 8.597449 ],
-    "uri" : "http://betamasaheft.eu/INS0779MAB",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC7141Mogo", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0779MAB",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC7141Mogo", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -14510,7 +14510,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʿAtle Walde, ʿato",
-      "link" : "http://betamasaheft.eu/INS0779MAB",
+      "link" : "https://betamasaheft.eu/INS0779MAB",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -14554,8 +14554,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.757772, 9.046732, 38.757772, 9.046732 ],
-    "uri" : "http://betamasaheft.eu/INS0555ADE",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC1479Arada", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0555ADE",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC1479Arada", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -14597,7 +14597,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dabbaba Ešatu",
-      "link" : "http://betamasaheft.eu/INS0555ADE",
+      "link" : "https://betamasaheft.eu/INS0555ADE",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -14641,8 +14641,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0647ASO",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0647ASO",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -14684,7 +14684,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Sina Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0647ASO",
+      "link" : "https://betamasaheft.eu/INS0647ASO",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -14728,8 +14728,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0546ABM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0546ABM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -14771,7 +14771,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʿAyne Bakāffa Māryām",
-      "link" : "http://betamasaheft.eu/INS0546ABM",
+      "link" : "https://betamasaheft.eu/INS0546ABM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -14815,8 +14815,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.119049, 8.597449, 39.119049, 8.597449 ],
-    "uri" : "http://betamasaheft.eu/INS0783MBA",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1748Balci", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0783MBA",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1748Balci", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -14858,7 +14858,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Balči ʾAmānuʾel",
-      "link" : "http://betamasaheft.eu/INS0783MBA",
+      "link" : "https://betamasaheft.eu/INS0783MBA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -14902,8 +14902,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0562ADW",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0562ADW",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -14945,7 +14945,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dway Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0562ADW",
+      "link" : "https://betamasaheft.eu/INS0562ADW",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -14989,8 +14989,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.433387, 9.635418, 39.433387, 9.635418 ],
-    "uri" : "http://betamasaheft.eu/INS0811MKB",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC4524Mandid", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0811MKB",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC4524Mandid", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -15032,7 +15032,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Kulǝyo Baʾāla Wald",
-      "link" : "http://betamasaheft.eu/INS0811MKB",
+      "link" : "https://betamasaheft.eu/INS0811MKB",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -15076,8 +15076,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0565AEM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0565AEM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -15119,7 +15119,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾƎlqo Madḫāne ʿĀlam",
-      "link" : "http://betamasaheft.eu/INS0565AEM",
+      "link" : "https://betamasaheft.eu/INS0565AEM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -15163,8 +15163,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.532558, 9.679556, 39.532558, 9.679556 ],
-    "uri" : "http://betamasaheft.eu/INS0723DQI",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0723DQI",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -15206,7 +15206,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Makwǝriya (Kǝnfa), qes",
-      "link" : "http://betamasaheft.eu/INS0723DQI",
+      "link" : "https://betamasaheft.eu/INS0723DQI",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -15250,8 +15250,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.602218, 11.830618, 39.602218, 11.830618 ],
-    "uri" : "http://betamasaheft.eu/INS0894YGG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6573NorthWallo", "http://betamasaheft.eu/places/LOC6341Yajju", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0894YGG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6573NorthWallo", "https://betamasaheft.eu/places/LOC6341Yajju", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -15293,7 +15293,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gāllā Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0894YGG",
+      "link" : "https://betamasaheft.eu/INS0894YGG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -15337,8 +15337,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0650AST",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "http://betamasaheft.eu/places/LOC5565SarAmb", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0650AST",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://betamasaheft.eu/places/LOC5565SarAmb", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -15380,7 +15380,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Śār ʾAmbā Takla Hāymānot",
-      "link" : "http://betamasaheft.eu/INS0650AST",
+      "link" : "https://betamasaheft.eu/INS0650AST",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -15424,7 +15424,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ -75.307955, 40.009231, -75.307955, 40.009231 ],
-    "uri" : "http://betamasaheft.eu/INS0761HCO",
+    "uri" : "https://betamasaheft.eu/INS0761HCO",
     "connectsWith" : [ [ "http://sws.geonames.org/", "http://sws.geonames.org/", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -15467,7 +15467,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Haverford College",
-      "link" : "http://betamasaheft.eu/INS0761HCO",
+      "link" : "https://betamasaheft.eu/INS0761HCO",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -15511,8 +15511,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.715141, 9.053464, 38.715141, 9.053464 ],
-    "uri" : "http://betamasaheft.eu/INS0684AZB",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC7127TaklaHaymAddis", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0684AZB",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC7127TaklaHaymAddis", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -15554,7 +15554,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Zarihun",
-      "link" : "http://betamasaheft.eu/INS0684AZB",
+      "link" : "https://betamasaheft.eu/INS0684AZB",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -15598,8 +15598,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.433387, 9.635418, 39.433387, 9.635418 ],
-    "uri" : "http://betamasaheft.eu/INS0687AZM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC7126Abbeccuu", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0687AZM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC7126Abbeccuu", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -15641,7 +15641,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Zǝnqi Māryām",
-      "link" : "http://betamasaheft.eu/INS0687AZM",
+      "link" : "https://betamasaheft.eu/INS0687AZM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -15685,8 +15685,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.602218, 11.830618, 39.602218, 11.830618 ],
-    "uri" : "http://betamasaheft.eu/INS0899YMM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6573NorthWallo", "http://betamasaheft.eu/places/LOC6341Yajju", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0899YMM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6573NorthWallo", "https://betamasaheft.eu/places/LOC6341Yajju", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -15728,7 +15728,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Marṭo Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0899YMM",
+      "link" : "https://betamasaheft.eu/INS0899YMM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -15772,8 +15772,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.532558, 9.679556, 39.532558, 9.679556 ],
-    "uri" : "http://betamasaheft.eu/INS0718DQB",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0718DQB",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -15815,7 +15815,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Baqqala, qes",
-      "link" : "http://betamasaheft.eu/INS0718DQB",
+      "link" : "https://betamasaheft.eu/INS0718DQB",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -15859,7 +15859,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ -3.18923, 55.942729, -3.18923, 55.942729 ],
-    "uri" : "http://betamasaheft.eu/INS0738EUL",
+    "uri" : "https://betamasaheft.eu/INS0738EUL",
     "connectsWith" : [ [ "http://sws.geonames.org/", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -15902,7 +15902,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Edinburgh University Library",
-      "link" : "http://betamasaheft.eu/INS0738EUL",
+      "link" : "https://betamasaheft.eu/INS0738EUL",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -15946,8 +15946,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0560ADS",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0560ADS",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -15989,7 +15989,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dabdabbo Masqala Krǝstos",
-      "link" : "http://betamasaheft.eu/INS0560ADS",
+      "link" : "https://betamasaheft.eu/INS0560ADS",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -16033,8 +16033,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.261937, 10.000708, 39.261937, 10.000708 ],
-    "uri" : "http://betamasaheft.eu/INS0827MWO",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC4865Morat", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0827MWO",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC4865Morat", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -16076,7 +16076,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Wayrā Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0827MWO",
+      "link" : "https://betamasaheft.eu/INS0827MWO",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -16120,8 +16120,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.715141, 9.053464, 38.715141, 9.053464 ],
-    "uri" : "http://betamasaheft.eu/INS0676AWM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC7127TaklaHaymAddis", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0676AWM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC7127TaklaHaymAddis", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -16163,7 +16163,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Wālgā Mǝḥratu, dealer",
-      "link" : "http://betamasaheft.eu/INS0676AWM",
+      "link" : "https://betamasaheft.eu/INS0676AWM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -16207,8 +16207,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.599452, 9.405517, 39.599452, 9.405517 ],
-    "uri" : "http://betamasaheft.eu/INS0667AWC",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC7128Asagirt", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0667AWC",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC7128Asagirt", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -16250,7 +16250,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Walda ʾAgar Bālawald",
-      "link" : "http://betamasaheft.eu/INS0667AWC",
+      "link" : "https://betamasaheft.eu/INS0667AWC",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -16294,8 +16294,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.309286, 14.136395, 38.309286, 14.136395 ],
-    "uri" : "http://betamasaheft.eu/INS0812MKM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC5426SaedaE", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0812MKM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC5426SaedaE", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -16337,7 +16337,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Marʿāwi Krǝstos",
-      "link" : "http://betamasaheft.eu/INS0812MKM",
+      "link" : "https://betamasaheft.eu/INS0812MKM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -16381,8 +16381,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.602218, 11.830618, 39.602218, 11.830618 ],
-    "uri" : "http://betamasaheft.eu/INS0757GSM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6573NorthWallo", "http://betamasaheft.eu/places/LOC7136Gubba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0757GSM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6573NorthWallo", "https://betamasaheft.eu/places/LOC7136Gubba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -16424,7 +16424,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Sarya Madḫāne ʿĀlam",
-      "link" : "http://betamasaheft.eu/INS0757GSM",
+      "link" : "https://betamasaheft.eu/INS0757GSM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -16468,8 +16468,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.294524, 9.330322, 39.294524, 9.330322 ],
-    "uri" : "http://betamasaheft.eu/INS0837QDM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC5207Qembeb", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0837QDM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC5207Qembeb", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -16511,7 +16511,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dāwā Madḫāne ʿĀlam",
-      "link" : "http://betamasaheft.eu/INS0837QDM",
+      "link" : "https://betamasaheft.eu/INS0837QDM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -16555,8 +16555,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.674598, 9.52049, 39.674598, 9.52049 ],
-    "uri" : "http://betamasaheft.eu/INS0824MWA",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0824MWA",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -16598,7 +16598,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Wanfas ʾAmānuʾel",
-      "link" : "http://betamasaheft.eu/INS0824MWA",
+      "link" : "https://betamasaheft.eu/INS0824MWA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -16642,8 +16642,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.599452, 9.405517, 39.599452, 9.405517 ],
-    "uri" : "http://betamasaheft.eu/INS0617AMU",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC7128Asagirt", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0617AMU",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC7128Asagirt", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -16685,7 +16685,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Mantar Kidāna Mǝḥrat",
-      "link" : "http://betamasaheft.eu/INS0617AMU",
+      "link" : "https://betamasaheft.eu/INS0617AMU",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -16729,8 +16729,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.186012, 9.756727, 39.186012, 9.756727 ],
-    "uri" : "http://betamasaheft.eu/INS0698DAY",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC2514Dannab", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0698DAY",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC2514Dannab", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -16772,7 +16772,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAygabbǝr Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0698DAY",
+      "link" : "https://betamasaheft.eu/INS0698DAY",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -16816,8 +16816,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.681842, 11.321779, 39.681842, 11.321779 ],
-    "uri" : "http://betamasaheft.eu/INS0767HMT",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6185Wallo", "http://betamasaheft.eu/places/LOC3833Hayq", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0767HMT",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6185Wallo", "https://betamasaheft.eu/places/LOC3833Hayq", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -16859,7 +16859,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Tagaññ, mamhǝre",
-      "link" : "http://betamasaheft.eu/INS0767HMT",
+      "link" : "https://betamasaheft.eu/INS0767HMT",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -16903,8 +16903,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.761364, 9.037744, 38.761364, 9.037744 ],
-    "uri" : "http://betamasaheft.eu/INS0609AMK",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0609AMK",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -16946,7 +16946,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Māḫbara Qǝddusan Youth Organization",
-      "link" : "http://betamasaheft.eu/INS0609AMK",
+      "link" : "https://betamasaheft.eu/INS0609AMK",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -16990,8 +16990,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.674598, 9.52049, 39.674598, 9.52049 ],
-    "uri" : "http://betamasaheft.eu/INS0859TLS",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC5846Tagula", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0859TLS",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC5846Tagula", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -17033,7 +17033,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Lāy Sǝččat Māryām",
-      "link" : "http://betamasaheft.eu/INS0859TLS",
+      "link" : "https://betamasaheft.eu/INS0859TLS",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -17077,8 +17077,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.674598, 9.52049, 39.674598, 9.52049 ],
-    "uri" : "http://betamasaheft.eu/INS0820MSW",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0820MSW",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -17120,7 +17120,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Solā Wāšā Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0820MSW",
+      "link" : "https://betamasaheft.eu/INS0820MSW",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -17164,8 +17164,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.186012, 9.756727, 39.186012, 9.756727 ],
-    "uri" : "http://betamasaheft.eu/INS0702DDF",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC2514Dannab", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0702DDF",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC2514Dannab", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -17207,7 +17207,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dannābā Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0702DDF",
+      "link" : "https://betamasaheft.eu/INS0702DDF",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -17251,8 +17251,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0544AAY",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0544AAY",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -17294,7 +17294,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAnkobar Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0544AAY",
+      "link" : "https://betamasaheft.eu/INS0544AAY",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -17338,8 +17338,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.636888, 11.115558, 39.636888, 11.115558 ],
-    "uri" : "http://betamasaheft.eu/INS0700DDB",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6185Wallo", "http://betamasaheft.eu/places/LOC2575Dase", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0700DDB",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6185Wallo", "https://betamasaheft.eu/places/LOC2575Dase", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -17381,7 +17381,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dabra Betel Śǝllāse",
-      "link" : "http://betamasaheft.eu/INS0700DDB",
+      "link" : "https://betamasaheft.eu/INS0700DDB",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -17425,7 +17425,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ -90.053558, 29.969151, -90.053558, 29.969151 ],
-    "uri" : "http://betamasaheft.eu/INS0830NBG",
+    "uri" : "https://betamasaheft.eu/INS0830NBG",
     "connectsWith" : [ [ "http://sws.geonames.org/", "http://sws.geonames.org/", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -17468,7 +17468,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Barrister's Gallery",
-      "link" : "http://betamasaheft.eu/INS0830NBG",
+      "link" : "https://betamasaheft.eu/INS0830NBG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -17512,8 +17512,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.234752, 8.528082, 39.234752, 8.528082 ],
-    "uri" : "http://betamasaheft.eu/INS0777LYG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC7142Lume", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0777LYG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC7142Lume", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -17555,7 +17555,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Yagare Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0777LYG",
+      "link" : "https://betamasaheft.eu/INS0777LYG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -17599,8 +17599,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.517009, 9.651166, 39.517009, 9.651166 ],
-    "uri" : "http://betamasaheft.eu/INS0705DEM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0705DEM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -17642,7 +17642,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dabra Bǝrhān Māryām / ʾƎtege Māryām",
-      "link" : "http://betamasaheft.eu/INS0705DEM",
+      "link" : "https://betamasaheft.eu/INS0705DEM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -17686,8 +17686,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.681842, 11.321779, 39.681842, 11.321779 ],
-    "uri" : "http://betamasaheft.eu/INS0864TMW",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6185Wallo", "http://betamasaheft.eu/places/LOC5867Takwel", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0864TMW",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6185Wallo", "https://betamasaheft.eu/places/LOC5867Takwel", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -17729,7 +17729,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Wase, mammǝre",
-      "link" : "http://betamasaheft.eu/INS0864TMW",
+      "link" : "https://betamasaheft.eu/INS0864TMW",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -17773,8 +17773,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.081162, 8.190525, 38.081162, 8.190525 ],
-    "uri" : "http://betamasaheft.eu/INS0794MEN",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC4131KorarM", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0794MEN",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC4131KorarM", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -17816,7 +17816,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Muhǝr ʾIyasus",
-      "link" : "http://betamasaheft.eu/INS0794MEN",
+      "link" : "https://betamasaheft.eu/INS0794MEN",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -17860,8 +17860,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.602218, 11.830618, 39.602218, 11.830618 ],
-    "uri" : "http://betamasaheft.eu/INS0746GFG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6573NorthWallo", "http://betamasaheft.eu/places/LOC7136Gubba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0746GFG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6573NorthWallo", "https://betamasaheft.eu/places/LOC7136Gubba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -17903,7 +17903,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Fanǧāl Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0746GFG",
+      "link" : "https://betamasaheft.eu/INS0746GFG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -17947,8 +17947,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.775664, 9.010562, 38.775664, 9.010562 ],
-    "uri" : "http://betamasaheft.eu/INS0637AQU",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC1951Bole", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0637AQU",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC1951Bole", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -17990,7 +17990,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Qǝddus Urāʾel",
-      "link" : "http://betamasaheft.eu/INS0637AQU",
+      "link" : "https://betamasaheft.eu/INS0637AQU",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -18034,8 +18034,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 37.873026, 11.078314, 37.873026, 11.078314 ],
-    "uri" : "http://betamasaheft.eu/INS0818MSG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC3549Gojjam", "http://betamasaheft.eu/places/LOC4874Mota", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0818MSG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC3549Gojjam", "https://betamasaheft.eu/places/LOC4874Mota", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -18077,7 +18077,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Moṭā Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0818MSG",
+      "link" : "https://betamasaheft.eu/INS0818MSG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -18121,8 +18121,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0622AQA",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0622AQA",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -18164,7 +18164,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Qulfe ʾAbbo",
-      "link" : "http://betamasaheft.eu/INS0622AQA",
+      "link" : "https://betamasaheft.eu/INS0622AQA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -18210,7 +18210,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.573408, 13.797386, 39.573408, 13.797386 ],
-    "uri" : "http://betamasaheft.eu/INS0264AADM",
+    "uri" : "https://betamasaheft.eu/INS0264AADM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -18253,7 +18253,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʿAddi ʾArbaʾa Däbrä Sǝbḥat Qǝddǝst Maryam",
-      "link" : "http://betamasaheft.eu/INS0264AADM",
+      "link" : "https://betamasaheft.eu/INS0264AADM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -18297,7 +18297,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.545778, 13.871497, 39.545778, 13.871497 ],
-    "uri" : "http://betamasaheft.eu/INS0272DAMA",
+    "uri" : "https://betamasaheft.eu/INS0272DAMA",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -18340,7 +18340,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Däräba Mädḫane ʿAläm",
-      "link" : "http://betamasaheft.eu/INS0272DAMA",
+      "link" : "https://betamasaheft.eu/INS0272DAMA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -18384,7 +18384,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.543733, 13.652017, 39.543733, 13.652017 ],
-    "uri" : "http://betamasaheft.eu/INS0270QES",
+    "uri" : "https://betamasaheft.eu/INS0270QES",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -18427,7 +18427,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Qaḥen ʾƎnda Ṣadǝqan",
-      "link" : "http://betamasaheft.eu/INS0270QES",
+      "link" : "https://betamasaheft.eu/INS0270QES",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -18478,7 +18478,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.306483, 13.563767, 39.306483, 13.563767 ],
-    "uri" : "http://betamasaheft.eu/INS0230TNY",
+    "uri" : "https://betamasaheft.eu/INS0230TNY",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -18521,7 +18521,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Tägoga Däbrä Nazret Qǝddus Yoḥannǝs",
-      "link" : "http://betamasaheft.eu/INS0230TNY",
+      "link" : "https://betamasaheft.eu/INS0230TNY",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -18565,7 +18565,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.267483, 13.72155, 39.267483, 13.72155 ],
-    "uri" : "http://betamasaheft.eu/INS0225AMS",
+    "uri" : "https://betamasaheft.eu/INS0225AMS",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -18608,7 +18608,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʿAräbay Qǝddus Mikaʾel",
-      "link" : "http://betamasaheft.eu/INS0225AMS",
+      "link" : "https://betamasaheft.eu/INS0225AMS",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -18652,7 +18652,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.465905, 14.411504, 39.465905, 14.411504 ],
-    "uri" : "http://betamasaheft.eu/INS0237MKMG",
+    "uri" : "https://betamasaheft.eu/INS0237MKMG",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -18695,7 +18695,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Mäkaʿǝlo Mäkanä Lǝʿul",
-      "link" : "http://betamasaheft.eu/INS0237MKMG",
+      "link" : "https://betamasaheft.eu/INS0237MKMG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -18739,8 +18739,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.17335, 13.663567, 39.17335, 13.663567 ],
-    "uri" : "http://betamasaheft.eu/INS0234KAE",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5932Tegray", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0234KAE",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5932Tegray", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -18782,7 +18782,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Kunāle ʾArbāʿtu ʾƎnsǝsā",
-      "link" : "http://betamasaheft.eu/INS0234KAE",
+      "link" : "https://betamasaheft.eu/INS0234KAE",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -18828,7 +18828,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.500889, 13.653472, 39.500889, 13.653472 ],
-    "uri" : "http://betamasaheft.eu/INS0281GSQ",
+    "uri" : "https://betamasaheft.eu/INS0281GSQ",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -18871,7 +18871,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gwaḥtärat Qirqos",
-      "link" : "http://betamasaheft.eu/INS0281GSQ",
+      "link" : "https://betamasaheft.eu/INS0281GSQ",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -18922,7 +18922,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.447665, 14.165289, 39.447665, 14.165289 ],
-    "uri" : "http://betamasaheft.eu/INS0268BHM",
+    "uri" : "https://betamasaheft.eu/INS0268BHM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -18965,7 +18965,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Baḥǝra Qǝddǝst Maryam",
-      "link" : "http://betamasaheft.eu/INS0268BHM",
+      "link" : "https://betamasaheft.eu/INS0268BHM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -19009,7 +19009,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 37.764639, 13.712101, 37.764639, 13.712101 ],
-    "uri" : "http://betamasaheft.eu/INS0298MHEG",
+    "uri" : "https://betamasaheft.eu/INS0298MHEG",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -19052,7 +19052,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "May Ḥargäs ʾƎnda Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0298MHEG",
+      "link" : "https://betamasaheft.eu/INS0298MHEG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -19096,7 +19096,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.187917, 13.694183, 39.187917, 13.694183 ],
-    "uri" : "http://betamasaheft.eu/INS0232TKMG",
+    "uri" : "https://betamasaheft.eu/INS0232TKMG",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -19139,7 +19139,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Tänsǝḥe Kidanä Mǝḥrät",
-      "link" : "http://betamasaheft.eu/INS0232TKMG",
+      "link" : "https://betamasaheft.eu/INS0232TKMG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -19190,7 +19190,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.123767, 13.5813, 39.123767, 13.5813 ],
-    "uri" : "http://betamasaheft.eu/INS0219EMQ",
+    "uri" : "https://betamasaheft.eu/INS0219EMQ",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -19233,7 +19233,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾƎnda Maryam Qorrar",
-      "link" : "http://betamasaheft.eu/INS0219EMQ",
+      "link" : "https://betamasaheft.eu/INS0219EMQ",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -19277,7 +19277,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 37.685894, 13.786626, 37.685894, 13.786626 ],
-    "uri" : "http://betamasaheft.eu/INS0296MMGA",
+    "uri" : "https://betamasaheft.eu/INS0296MMGA",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -19320,7 +19320,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "May Gaba Mikaʾel",
-      "link" : "http://betamasaheft.eu/INS0296MMGA",
+      "link" : "https://betamasaheft.eu/INS0296MMGA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -19364,7 +19364,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.466972, 14.192339, 39.466972, 14.192339 ],
-    "uri" : "http://betamasaheft.eu/INS0257MALM",
+    "uri" : "https://betamasaheft.eu/INS0257MALM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -19407,7 +19407,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Mäläkusäyto Qǝddǝst Maryam",
-      "link" : "http://betamasaheft.eu/INS0257MALM",
+      "link" : "https://betamasaheft.eu/INS0257MALM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -19451,7 +19451,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.875, 14.194971, 38.875, 14.194971 ],
-    "uri" : "http://betamasaheft.eu/INS0300AATH",
+    "uri" : "https://betamasaheft.eu/INS0300AATH",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -19494,7 +19494,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAddi ʾAbun Täklä Haymanot",
-      "link" : "http://betamasaheft.eu/INS0300AATH",
+      "link" : "https://betamasaheft.eu/INS0300AATH",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -19538,7 +19538,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.592547, 13.691042, 39.592547, 13.691042 ],
-    "uri" : "http://betamasaheft.eu/INS0236AGKM",
+    "uri" : "https://betamasaheft.eu/INS0236AGKM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -19581,7 +19581,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAgulaʿ Getesemani Kidanä Mǝḥrät",
-      "link" : "http://betamasaheft.eu/INS0236AGKM",
+      "link" : "https://betamasaheft.eu/INS0236AGKM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -19625,7 +19625,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.227233, 13.596, 39.227233, 13.596 ],
-    "uri" : "http://betamasaheft.eu/INS0248RQG",
+    "uri" : "https://betamasaheft.eu/INS0248RQG",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -19668,7 +19668,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Rubaḵusa Qǝddus Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0248RQG",
+      "link" : "https://betamasaheft.eu/INS0248RQG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -19719,7 +19719,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.45513, 14.18187, 39.45513, 14.18187 ],
-    "uri" : "http://betamasaheft.eu/INS0244ADMY",
+    "uri" : "https://betamasaheft.eu/INS0244ADMY",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -19762,7 +19762,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʿAddimḥara Däbrä Mädḫanit ʾAbba Yoḥanni",
-      "link" : "http://betamasaheft.eu/INS0244ADMY",
+      "link" : "https://betamasaheft.eu/INS0244ADMY",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -19806,7 +19806,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.477217, 14.177933, 39.477217, 14.177933 ],
-    "uri" : "http://betamasaheft.eu/INS0251MQMA",
+    "uri" : "https://betamasaheft.eu/INS0251MQMA",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -19849,7 +19849,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Mǝngaś Qǝddǝst Maryam",
-      "link" : "http://betamasaheft.eu/INS0251MQMA",
+      "link" : "https://betamasaheft.eu/INS0251MQMA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -19893,7 +19893,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.551583, 13.8628, 39.551583, 13.8628 ],
-    "uri" : "http://betamasaheft.eu/INS0252SDMM",
+    "uri" : "https://betamasaheft.eu/INS0252SDMM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -19936,7 +19936,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ṣaḥǝlo Däbrä Ṣäḥay Qǝddǝst Maryam",
-      "link" : "http://betamasaheft.eu/INS0252SDMM",
+      "link" : "https://betamasaheft.eu/INS0252SDMM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -19980,7 +19980,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.569, 14.054617, 39.569, 14.054617 ],
-    "uri" : "http://betamasaheft.eu/INS0210SFM",
+    "uri" : "https://betamasaheft.eu/INS0210SFM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -20023,7 +20023,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Sänqaṭa Fǝrewäyni Maryam",
-      "link" : "http://betamasaheft.eu/INS0210SFM",
+      "link" : "https://betamasaheft.eu/INS0210SFM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -20067,7 +20067,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.358, 14.338556, 39.358, 14.338556 ],
-    "uri" : "http://betamasaheft.eu/INS0294TGM",
+    "uri" : "https://betamasaheft.eu/INS0294TGM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -20110,7 +20110,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAmba Tähula Mikaʾel",
-      "link" : "http://betamasaheft.eu/INS0294TGM",
+      "link" : "https://betamasaheft.eu/INS0294TGM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -20142,7 +20142,7 @@ var institutions ={
       "attested" : "ማይ፡ በዓቲ፡ ደብረ፡ ገነት፡ ዓርባዕቱ፡ እንስሳ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0227MBAE#n1",
+      "uri" : "https://betamasaheft.eu/INS0227MBAE#n1",
       "romanized" : "Māy Baʿātti Dabra Gannat ʾArbāʿtu ʾƎnsǝsā",
       "transcription_completeness" : "complete"
     }, {
@@ -20156,7 +20156,7 @@ var institutions ={
       "attested" : "ማይ፡ በዓቲ፡ ዓርባዕቱ፡ እንስሳ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0227MBAE#n2",
+      "uri" : "https://betamasaheft.eu/INS0227MBAE#n2",
       "romanized" : "Māy Baʿātti ʾArbaʿtu ʾƎnsǝsa",
       "transcription_completeness" : "complete"
     }, {
@@ -20168,8 +20168,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.219867, 13.647583, 39.219867, 13.647583 ],
-    "uri" : "http://betamasaheft.eu/INS0227MBAE",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC6965DagaTamben", "http://betamasaheft.eu/places/LOC6966Aynaberkakan", "http://betamasaheft.eu/places/LOC6967MayBaatti", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0227MBAE",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC6965DagaTamben", "https://betamasaheft.eu/places/LOC6966Aynaberkakan", "https://betamasaheft.eu/places/LOC6967MayBaatti", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -20211,7 +20211,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Māy Baʿātti Dabra Gannat ʾArbāʿtu ʾƎnsǝsā",
-      "link" : "http://betamasaheft.eu/INS0227MBAE",
+      "link" : "https://betamasaheft.eu/INS0227MBAE",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -20257,7 +20257,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.454456, 14.144982, 39.454456, 14.144982 ],
-    "uri" : "http://betamasaheft.eu/INS0266AFMM",
+    "uri" : "https://betamasaheft.eu/INS0266AFMM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -20300,7 +20300,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAf Mǝhyaw Qǝddǝst Maryam",
-      "link" : "http://betamasaheft.eu/INS0266AFMM",
+      "link" : "https://betamasaheft.eu/INS0266AFMM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -20337,7 +20337,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 39.5961, 14.0544, 39.5961, 14.0544 ],
-    "uri" : "http://betamasaheft.eu/INS0239Add",
+    "uri" : "https://betamasaheft.eu/INS0239Add",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -20380,7 +20380,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Mikaʾel ʿAddi Ḉǝwa",
-      "link" : "http://betamasaheft.eu/INS0239Add",
+      "link" : "https://betamasaheft.eu/INS0239Add",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -20426,7 +20426,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.315267, 14.2844, 39.315267, 14.2844 ],
-    "uri" : "http://betamasaheft.eu/INS0216MGM",
+    "uri" : "https://betamasaheft.eu/INS0216MGM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -20469,7 +20469,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Mǝʾǝsar Gwǝḥila Qǝddus Mikaʾel",
-      "link" : "http://betamasaheft.eu/INS0216MGM",
+      "link" : "https://betamasaheft.eu/INS0216MGM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -20513,7 +20513,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.60775, 13.9773, 39.60775, 13.9773 ],
-    "uri" : "http://betamasaheft.eu/INS0204SDGM",
+    "uri" : "https://betamasaheft.eu/INS0204SDGM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -20556,7 +20556,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ṣäbäla Däbrä Gännät Maryam",
-      "link" : "http://betamasaheft.eu/INS0204SDGM",
+      "link" : "https://betamasaheft.eu/INS0204SDGM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -20600,7 +20600,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.336028, 14.336444, 39.336028, 14.336444 ],
-    "uri" : "http://betamasaheft.eu/INS0289LQM",
+    "uri" : "https://betamasaheft.eu/INS0289LQM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -20643,7 +20643,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Lǝḥuṣa Maryam",
-      "link" : "http://betamasaheft.eu/INS0289LQM",
+      "link" : "https://betamasaheft.eu/INS0289LQM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -20687,7 +20687,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.314722, 14.356333, 39.314722, 14.356333 ],
-    "uri" : "http://betamasaheft.eu/INS0286DGMM",
+    "uri" : "https://betamasaheft.eu/INS0286DGMM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -20730,7 +20730,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Maʿtäb Däbrä Gännät Maryam",
-      "link" : "http://betamasaheft.eu/INS0286DGMM",
+      "link" : "https://betamasaheft.eu/INS0286DGMM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -20774,7 +20774,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.501183, 14.33355, 39.501183, 14.33355 ],
-    "uri" : "http://betamasaheft.eu/INS0212EHPP",
+    "uri" : "https://betamasaheft.eu/INS0212EHPP",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -20817,7 +20817,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾƎnda Ḥawaryat Ṗeṭros wä-Ṗawlos",
-      "link" : "http://betamasaheft.eu/INS0212EHPP",
+      "link" : "https://betamasaheft.eu/INS0212EHPP",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -20861,7 +20861,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.612512, 13.967767, 39.612512, 13.967767 ],
-    "uri" : "http://betamasaheft.eu/INS0208BMQM",
+    "uri" : "https://betamasaheft.eu/INS0208BMQM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -20904,7 +20904,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Bet Muḵaʿ Mikaʾel",
-      "link" : "http://betamasaheft.eu/INS0208BMQM",
+      "link" : "https://betamasaheft.eu/INS0208BMQM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -20950,7 +20950,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.298676, 14.392222, 39.298676, 14.392222 ],
-    "uri" : "http://betamasaheft.eu/INS0292MDS",
+    "uri" : "https://betamasaheft.eu/INS0292MDS",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -20993,7 +20993,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Mäzabǝr Däbrä Śǝllase",
-      "link" : "http://betamasaheft.eu/INS0292MDS",
+      "link" : "https://betamasaheft.eu/INS0292MDS",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -21037,7 +21037,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.2751, 13.689183, 39.2751, 13.689183 ],
-    "uri" : "http://betamasaheft.eu/INS0223AMMG",
+    "uri" : "https://betamasaheft.eu/INS0223AMMG",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -21080,7 +21080,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAlʿasa Qǝddus Mikaʾel",
-      "link" : "http://betamasaheft.eu/INS0223AMMG",
+      "link" : "https://betamasaheft.eu/INS0223AMMG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -21124,7 +21124,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.0586, 13.5664, 39.0586, 13.5664 ],
-    "uri" : "http://betamasaheft.eu/INS0221QDGM",
+    "uri" : "https://betamasaheft.eu/INS0221QDGM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -21167,7 +21167,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Qäqäma Däbrä Gännät Qǝddǝst Maryam",
-      "link" : "http://betamasaheft.eu/INS0221QDGM",
+      "link" : "https://betamasaheft.eu/INS0221QDGM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -21211,7 +21211,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.512306, 14.419645, 39.512306, 14.419645 ],
-    "uri" : "http://betamasaheft.eu/INS0277EMS",
+    "uri" : "https://betamasaheft.eu/INS0277EMS",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -21254,7 +21254,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾƎndamosa Däbrä Sälam Mäzgäbä Śǝllase",
-      "link" : "http://betamasaheft.eu/INS0277EMS",
+      "link" : "https://betamasaheft.eu/INS0277EMS",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -21298,7 +21298,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.492582, 14.141549, 39.492582, 14.141549 ],
-    "uri" : "http://betamasaheft.eu/INS0262DQG",
+    "uri" : "https://betamasaheft.eu/INS0262DQG",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -21341,7 +21341,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Däbri Däbrä Zakaryas Qǝddus Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0262DQG",
+      "link" : "https://betamasaheft.eu/INS0262DQG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -21385,7 +21385,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.430583, 14.414867, 39.430583, 14.414867 ],
-    "uri" : "http://betamasaheft.eu/INS0211SQMM",
+    "uri" : "https://betamasaheft.eu/INS0211SQMM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -21428,7 +21428,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Säglat Qǝddus Mikaʾel",
-      "link" : "http://betamasaheft.eu/INS0211SQMM",
+      "link" : "https://betamasaheft.eu/INS0211SQMM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -21472,7 +21472,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.08535, 13.672133, 39.08535, 13.672133 ],
-    "uri" : "http://betamasaheft.eu/INS0242ZEA",
+    "uri" : "https://betamasaheft.eu/INS0242ZEA",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -21515,7 +21515,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Zala ʾƎnda ʾAmanuʾel",
-      "link" : "http://betamasaheft.eu/INS0242ZEA",
+      "link" : "https://betamasaheft.eu/INS0242ZEA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -21559,7 +21559,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.4693, 14.336167, 39.4693, 14.336167 ],
-    "uri" : "http://betamasaheft.eu/INS0206MSAE",
+    "uri" : "https://betamasaheft.eu/INS0206MSAE",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -21602,7 +21602,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "May Ṣäʿada Śǝllase",
-      "link" : "http://betamasaheft.eu/INS0206MSAE",
+      "link" : "https://betamasaheft.eu/INS0206MSAE",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -21646,7 +21646,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.509056, 14.424389, 39.509056, 14.424389 ],
-    "uri" : "http://betamasaheft.eu/INS0095ATH",
+    "uri" : "https://betamasaheft.eu/INS0095ATH",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -21689,7 +21689,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAraʿro Täklä Haymanot",
-      "link" : "http://betamasaheft.eu/INS0095ATH",
+      "link" : "https://betamasaheft.eu/INS0095ATH",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -21721,7 +21721,7 @@ var institutions ={
       "attested" : "ደብረ፡ ዘይት፡ ቅድስት፡ ማርያም፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0034DZ#n1",
+      "uri" : "https://betamasaheft.eu/INS0034DZ#n1",
       "romanized" : "Dabra Zayt Qǝddǝst Māryām",
       "transcription_completeness" : "complete"
     }, {
@@ -21735,7 +21735,7 @@ var institutions ={
       "attested" : "ደብረ፡ ዘይት፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0034DZ#n2",
+      "uri" : "https://betamasaheft.eu/INS0034DZ#n2",
       "romanized" : "Dabra Zayt",
       "transcription_completeness" : "complete"
     }, {
@@ -21747,8 +21747,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.40431, 14.327355, 39.40431, 14.327355 ],
-    "uri" : "http://betamasaheft.eu/INS0034DZ",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC3640GuloMa", "http://betamasaheft.eu/places/LOC6517Kesad", "http://betamasaheft.eu/places/LOC6964MedraRuba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0034DZ",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC3640GuloMa", "https://betamasaheft.eu/places/LOC6517Kesad", "https://betamasaheft.eu/places/LOC6964MedraRuba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -21790,7 +21790,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dabra Zayt Qǝddǝst Māryām",
-      "link" : "http://betamasaheft.eu/INS0034DZ",
+      "link" : "https://betamasaheft.eu/INS0034DZ",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -21824,7 +21824,7 @@ var institutions ={
       "attested" : "ቀርሰበር፡ ቅዱስ፡ ሚካኤል፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0049QSM#n1",
+      "uri" : "https://betamasaheft.eu/INS0049QSM#n1",
       "romanized" : "Qarsabar Qǝddus Mikāʾel",
       "transcription_completeness" : "complete"
     }, {
@@ -21838,7 +21838,7 @@ var institutions ={
       "attested" : "ደብረ፡ ሰላም፡ ቅዱስ፡ ሚካኤል፡ ቀርሰበር፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0049QSM#n2",
+      "uri" : "https://betamasaheft.eu/INS0049QSM#n2",
       "romanized" : "Dabra Salām Qǝddus Mikāʾel Qarsabar",
       "transcription_completeness" : "complete"
     }, {
@@ -21850,8 +21850,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.435027, 14.345286, 39.435027, 14.345286 ],
-    "uri" : "http://betamasaheft.eu/INS0049QSM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC3640GuloMa", "http://betamasaheft.eu/places/LOC7019Kokab", "http://betamasaheft.eu/places/LOC7020Qarsabar", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0049QSM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC3640GuloMa", "https://betamasaheft.eu/places/LOC7019Kokab", "https://betamasaheft.eu/places/LOC7020Qarsabar", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -21893,7 +21893,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Qarsabar Qǝddus Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0049QSM",
+      "link" : "https://betamasaheft.eu/INS0049QSM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -21927,7 +21927,7 @@ var institutions ={
       "attested" : "ዓዲግራት፡ መድኃኔ፡ ዓለም፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0064AMM#n1",
+      "uri" : "https://betamasaheft.eu/INS0064AMM#n1",
       "romanized" : "ʿĀddigrāt Madḫāne ʿĀlam",
       "transcription_completeness" : "complete"
     }, {
@@ -21941,7 +21941,7 @@ var institutions ={
       "attested" : "ደብረ፡ መድኃኒት፡ መድኃኔ፡ ዓለም፡ ዓዲግራት፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0064AMM#n2",
+      "uri" : "https://betamasaheft.eu/INS0064AMM#n2",
       "romanized" : "Dabra Madḫānit Madḫāne ʿĀlam ʿĀddigrāt",
       "transcription_completeness" : "complete"
     }, {
@@ -21953,8 +21953,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.463642, 14.272528, 39.463642, 14.272528 ],
-    "uri" : "http://betamasaheft.eu/INS0064AMM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC1212Addigr", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0064AMM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC1212Addigr", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -21996,7 +21996,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʿĀddigrāt Madḫāne ʿĀlam",
-      "link" : "http://betamasaheft.eu/INS0064AMM",
+      "link" : "https://betamasaheft.eu/INS0064AMM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -22030,7 +22030,7 @@ var institutions ={
       "attested" : "ደብረ፡ ማዕጾ፡ ቅዱስ፡ ዮሐንስ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0039MY#n1",
+      "uri" : "https://betamasaheft.eu/INS0039MY#n1",
       "romanized" : "Dabra Māʿṣo Qǝddus Yoḥannǝs",
       "transcription_completeness" : "complete"
     }, {
@@ -22044,7 +22044,7 @@ var institutions ={
       "attested" : "ደብረ፡ ማዕጾ፡ ዮሐንስ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0039MY#n2",
+      "uri" : "https://betamasaheft.eu/INS0039MY#n2",
       "romanized" : "Dabra Māʿṣo Yoḥannǝs",
       "transcription_completeness" : "complete"
     }, {
@@ -22056,8 +22056,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.450333, 14.4677, 39.450333, 14.4677 ],
-    "uri" : "http://betamasaheft.eu/INS0039MY",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC3640GuloMa", "http://betamasaheft.eu/places/LOC6969TahtayQelat", "http://betamasaheft.eu/places/LOC6968DabraMaso", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0039MY",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC3640GuloMa", "https://betamasaheft.eu/places/LOC6969TahtayQelat", "https://betamasaheft.eu/places/LOC6968DabraMaso", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -22099,7 +22099,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dabra Māʿṣo Qǝddus Yoḥannǝs",
-      "link" : "http://betamasaheft.eu/INS0039MY",
+      "link" : "https://betamasaheft.eu/INS0039MY",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -22145,7 +22145,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.457975, 14.396753, 39.457975, 14.396753 ],
-    "uri" : "http://betamasaheft.eu/INS0078ETH",
+    "uri" : "https://betamasaheft.eu/INS0078ETH",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -22188,7 +22188,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʿƎmbäyto Täklä Haymanot",
-      "link" : "http://betamasaheft.eu/INS0078ETH",
+      "link" : "https://betamasaheft.eu/INS0078ETH",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -22232,8 +22232,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.518111, 14.409667, 39.518111, 14.409667 ],
-    "uri" : "http://betamasaheft.eu/INS0093AGM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC3640GuloMa", "http://betamasaheft.eu/places/LOC6941Hayyalom", "http://betamasaheft.eu/places/LOC6942Agamyo", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0093AGM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC3640GuloMa", "https://betamasaheft.eu/places/LOC6941Hayyalom", "https://betamasaheft.eu/places/LOC6942Agamyo", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -22275,7 +22275,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAgamyo Qǝddus Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0093AGM",
+      "link" : "https://betamasaheft.eu/INS0093AGM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -22311,7 +22311,7 @@ var institutions ={
       "attested" : "ዓዲግራት፡ ደብረ፡ መንክራት፡ ቅዱስ፡ ቂርቆስ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0065AMQ#n1",
+      "uri" : "https://betamasaheft.eu/INS0065AMQ#n1",
       "romanized" : "ʿĀddigrāt Dabra Mankǝrāt Qǝddus Qirqos",
       "transcription_completeness" : "complete"
     }, {
@@ -22325,7 +22325,7 @@ var institutions ={
       "attested" : "ዓዲግራት፡ ቂርቆስ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0065AMQ#n2",
+      "uri" : "https://betamasaheft.eu/INS0065AMQ#n2",
       "romanized" : "ʿĀddigrāt Qirqos",
       "transcription_completeness" : "complete"
     }, {
@@ -22339,7 +22339,7 @@ var institutions ={
       "attested" : "ዓዲግራት፡ ቸርቆስ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0065AMQ#n3",
+      "uri" : "https://betamasaheft.eu/INS0065AMQ#n3",
       "romanized" : "ʿĀddigrāt Čarqos",
       "transcription_completeness" : "complete"
     }, {
@@ -22353,7 +22353,7 @@ var institutions ={
       "attested" : "ዓዲግራት፡ ቼርቆስ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0065AMQ#n4",
+      "uri" : "https://betamasaheft.eu/INS0065AMQ#n4",
       "romanized" : "ʿĀddigrāt Čerqos",
       "transcription_completeness" : "complete"
     }, {
@@ -22365,8 +22365,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.462697, 14.273281, 39.462697, 14.273281 ],
-    "uri" : "http://betamasaheft.eu/INS0065AMQ",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC1212Addigr", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0065AMQ",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC1212Addigr", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -22408,7 +22408,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʿĀddigrāt Dabra Mankǝrāt Qǝddus Qirqos",
-      "link" : "http://betamasaheft.eu/INS0065AMQ",
+      "link" : "https://betamasaheft.eu/INS0065AMQ",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -22448,7 +22448,7 @@ var institutions ={
       "attested" : "ዓደቃሐርሲ፡ ጰራቅሊጦስ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0030AP#n1",
+      "uri" : "https://betamasaheft.eu/INS0030AP#n1",
       "romanized" : "ʿĀddaqāḥarsi Ṗarāqliṭos",
       "transcription_completeness" : "complete"
     }, {
@@ -22462,7 +22462,7 @@ var institutions ={
       "attested" : "ዓደቃሐርሲ፡ መካነ፡ ህይወት፡ ጰራቅሊጦስ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0030AP#n2",
+      "uri" : "https://betamasaheft.eu/INS0030AP#n2",
       "romanized" : "ʿAddaqāḥarsi Makāna Hǝywat Ṗarāqliṭos",
       "transcription_completeness" : "complete"
     }, {
@@ -22474,8 +22474,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.378683, 14.308833, 39.378683, 14.308833 ],
-    "uri" : "http://betamasaheft.eu/INS0030AP",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC3640GuloMa", "http://betamasaheft.eu/places/LOC6517Kesad", "http://betamasaheft.eu/places/LOC6518BetaP", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0030AP",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC3640GuloMa", "https://betamasaheft.eu/places/LOC6517Kesad", "https://betamasaheft.eu/places/LOC6518BetaP", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -22517,7 +22517,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʿĀddaqāḥarsi Ṗarāqliṭos",
-      "link" : "http://betamasaheft.eu/INS0030AP",
+      "link" : "https://betamasaheft.eu/INS0030AP",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -22563,8 +22563,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.394333, 14.4051, 39.394333, 14.4051 ],
-    "uri" : "http://betamasaheft.eu/INS0071FBM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC3640GuloMa", "http://betamasaheft.eu/places/LOC6959Ambasata", "http://betamasaheft.eu/places/LOC7043Abiy", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0071FBM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC3640GuloMa", "https://betamasaheft.eu/places/LOC6959Ambasata", "https://betamasaheft.eu/places/LOC7043Abiy", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -22606,7 +22606,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Faqādā Māryām",
-      "link" : "http://betamasaheft.eu/INS0071FBM",
+      "link" : "https://betamasaheft.eu/INS0071FBM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -22640,7 +22640,7 @@ var institutions ={
       "attested" : "ዕች፡ማርዔ፡ ገበረ፡ መንፈስ፡ ቅዱስ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0069EM#n1",
+      "uri" : "https://betamasaheft.eu/INS0069EM#n1",
       "romanized" : "ʿƎč Māʿre Gabra Manfas Qǝddus",
       "transcription_completeness" : "complete"
     }, {
@@ -22654,7 +22654,7 @@ var institutions ={
       "attested" : "ዕች፡ማርዔ፡ ዕንዳ፡ ገበረ፡ መንፈስ፡ ቅዱስ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0069EM#n2",
+      "uri" : "https://betamasaheft.eu/INS0069EM#n2",
       "romanized" : "ʿƎč Māʿre Ǝndā Gabra Manfas Qǝddus",
       "transcription_completeness" : "complete"
     }, {
@@ -22666,8 +22666,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.377927, 14.430418, 39.377927, 14.430418 ],
-    "uri" : "http://betamasaheft.eu/INS0069EM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC3640GuloMa", "http://betamasaheft.eu/places/LOC6984SowitLamlam ", "http://betamasaheft.eu/places/LOC7042EcMare", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0069EM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC3640GuloMa", "https://betamasaheft.eu/places/LOC6984SowitLamlam ", "https://betamasaheft.eu/places/LOC7042EcMare", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -22709,7 +22709,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʿƎč Māʿre Gabra Manfas Qǝddus",
-      "link" : "http://betamasaheft.eu/INS0069EM",
+      "link" : "https://betamasaheft.eu/INS0069EM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -22746,7 +22746,7 @@ var institutions ={
       "attested" : "ዓዲ፡ ቆልቋል፡ ጊዮርጊስ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0097AQG#n1",
+      "uri" : "https://betamasaheft.eu/INS0097AQG#n1",
       "romanized" : "ʿĀddi Qolqʷāl Giyorgis",
       "transcription_completeness" : "complete"
     }, {
@@ -22760,7 +22760,7 @@ var institutions ={
       "attested" : "ቅዱስ፡ ጊዮርጊስ፡ ዓዲ፡ ቆልቋል፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0097AQG#n2",
+      "uri" : "https://betamasaheft.eu/INS0097AQG#n2",
       "romanized" : "Qǝddus Giyorgis ʿĀddi Qolqʷāl",
       "transcription_completeness" : "complete"
     }, {
@@ -22772,8 +22772,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.465111, 14.42075, 39.465111, 14.42075 ],
-    "uri" : "http://betamasaheft.eu/INS0097AQG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC3640GuloMa", "http://betamasaheft.eu/places/LOC6547Haban", "http://betamasaheft.eu/places/LOC6548AddiQ", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0097AQG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC3640GuloMa", "https://betamasaheft.eu/places/LOC6547Haban", "https://betamasaheft.eu/places/LOC6548AddiQ", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -22815,7 +22815,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʿĀddi Qolqʷāl Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0097AQG",
+      "link" : "https://betamasaheft.eu/INS0097AQG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -22862,7 +22862,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ -0.12773, 51.52997, -0.12773, 51.52997 ],
-    "uri" : "http://betamasaheft.eu/INS00001BL",
+    "uri" : "https://betamasaheft.eu/INS00001BL",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q21", "https://www.wikidata.org/entity/Q84", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -22905,7 +22905,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "British Library",
-      "link" : "http://betamasaheft.eu/INS00001BL",
+      "link" : "https://betamasaheft.eu/INS00001BL",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -22935,7 +22935,7 @@ var institutions ={
       "attested" : "ምድረ፡ ሩባ፡ ሥላሴ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0042MR#n1",
+      "uri" : "https://betamasaheft.eu/INS0042MR#n1",
       "romanized" : "Mǝdra Rubā Sǝllase",
       "transcription_completeness" : "complete"
     }, {
@@ -22949,7 +22949,7 @@ var institutions ={
       "attested" : "ደብረ፡ ገነት፡ ቅድስት፡ ሥላሴ፡ ምድረ፡ ሩባ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0042MR#n2",
+      "uri" : "https://betamasaheft.eu/INS0042MR#n2",
       "romanized" : "Dabra Gannat Qǝddǝst Sǝllase Mǝdra Rubā",
       "transcription_completeness" : "complete"
     }, {
@@ -22961,8 +22961,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.434383, 14.487367, 39.434383, 14.487367 ],
-    "uri" : "http://betamasaheft.eu/INS0042MR",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC3640GuloMa", "http://betamasaheft.eu/places/LOC6970Marta", "http://betamasaheft.eu/places/LOC6971DabraGannat", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0042MR",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC3640GuloMa", "https://betamasaheft.eu/places/LOC6970Marta", "https://betamasaheft.eu/places/LOC6971DabraGannat", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -23004,7 +23004,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Mǝdra Rubā Sǝllase",
-      "link" : "http://betamasaheft.eu/INS0042MR",
+      "link" : "https://betamasaheft.eu/INS0042MR",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -23057,7 +23057,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.60225, 13.569139, 39.60225, 13.569139 ],
-    "uri" : "http://betamasaheft.eu/INS0100DAY",
+    "uri" : "https://betamasaheft.eu/INS0100DAY",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -23100,7 +23100,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dǝrba Däbrä ʾAbunä Yasay",
-      "link" : "http://betamasaheft.eu/INS0100DAY",
+      "link" : "https://betamasaheft.eu/INS0100DAY",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -23132,7 +23132,7 @@ var institutions ={
       "attested" : "ዑራ፡ መስቀል፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0082UMQ#n1",
+      "uri" : "https://betamasaheft.eu/INS0082UMQ#n1",
       "romanized" : "ʿUrā Masqal",
       "transcription_completeness" : "complete"
     }, {
@@ -23146,7 +23146,7 @@ var institutions ={
       "attested" : "ቅድርያ፡ ዑራ፡ መስቀል፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0082UMQ#n2",
+      "uri" : "https://betamasaheft.eu/INS0082UMQ#n2",
       "romanized" : "Qǝfrǝyā ʿUrā Masqal",
       "transcription_completeness" : "complete"
     }, {
@@ -23158,8 +23158,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.334575, 14.481856, 39.334575, 14.481856 ],
-    "uri" : "http://betamasaheft.eu/INS0082UMQ",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC3640GuloMa", "http://betamasaheft.eu/places/LOC6962Sawit", "http://betamasaheft.eu/places/LOC6963Ura", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0082UMQ",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC3640GuloMa", "https://betamasaheft.eu/places/LOC6962Sawit", "https://betamasaheft.eu/places/LOC6963Ura", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -23201,7 +23201,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʿUrā Masqal",
-      "link" : "http://betamasaheft.eu/INS0082UMQ",
+      "link" : "https://betamasaheft.eu/INS0082UMQ",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -23238,7 +23238,7 @@ var institutions ={
       "attested" : "ጉንደ፡ ጉንዴ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0005Gund#n1",
+      "uri" : "https://betamasaheft.eu/INS0005Gund#n1",
       "romanized" : "Gunda Gunde",
       "transcription_completeness" : "complete"
     }, {
@@ -23252,7 +23252,7 @@ var institutions ={
       "attested" : "ደብረ፡ ካስዋ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0005Gund#n2",
+      "uri" : "https://betamasaheft.eu/INS0005Gund#n2",
       "romanized" : "Dabra Kāswā",
       "transcription_completeness" : "complete"
     }, {
@@ -23266,7 +23266,7 @@ var institutions ={
       "attested" : "ደብረ፡ ገሪዛን፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0005Gund#n3",
+      "uri" : "https://betamasaheft.eu/INS0005Gund#n3",
       "romanized" : "Dabra Garizān",
       "transcription_completeness" : "complete"
     }, {
@@ -23280,7 +23280,7 @@ var institutions ={
       "attested" : "ጉንደጉንዴ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0005Gund#n4",
+      "uri" : "https://betamasaheft.eu/INS0005Gund#n4",
       "romanized" : "Gundagunde",
       "transcription_completeness" : "complete"
     }, {
@@ -23292,8 +23292,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73528, 14.3827, 39.73528, 14.3827 ],
-    "uri" : "http://betamasaheft.eu/INS0005Gund",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC6520Irob", "http://betamasaheft.eu/places/LOC6521Ara", "http://betamasaheft.eu/places/LOC6522Gunda", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0005Gund",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC6520Irob", "https://betamasaheft.eu/places/LOC6521Ara", "https://betamasaheft.eu/places/LOC6522Gunda", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -23335,7 +23335,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gunda Gunde",
-      "link" : "http://betamasaheft.eu/INS0005Gund",
+      "link" : "https://betamasaheft.eu/INS0005Gund",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -23369,7 +23369,7 @@ var institutions ={
       "attested" : "መቲዖ ፡ ገብርኤል፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0062MG#n1",
+      "uri" : "https://betamasaheft.eu/INS0062MG#n1",
       "romanized" : "Matiʿ Gabrǝʾel",
       "transcription_completeness" : "complete"
     }, {
@@ -23383,7 +23383,7 @@ var institutions ={
       "attested" : "መቲዖ ፡ ቅዱስ፡ ገብርኤል፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0062MG#n2",
+      "uri" : "https://betamasaheft.eu/INS0062MG#n2",
       "romanized" : "Matiʿ Qǝddus Gabrǝʾel",
       "transcription_completeness" : "complete"
     }, {
@@ -23395,8 +23395,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.488072, 14.474919, 39.488072, 14.474919 ],
-    "uri" : "http://betamasaheft.eu/INS0062MG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC3640GuloMa", "http://betamasaheft.eu/places/LOC7021Sabaya ", "http://betamasaheft.eu/places/LOC7027Mati", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0062MG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC3640GuloMa", "https://betamasaheft.eu/places/LOC7021Sabaya ", "https://betamasaheft.eu/places/LOC7027Mati", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -23438,7 +23438,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Matiʿ Gabrǝʾel",
-      "link" : "http://betamasaheft.eu/INS0062MG",
+      "link" : "https://betamasaheft.eu/INS0062MG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -23484,7 +23484,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.254685, 14.329528, 39.254685, 14.329528 ],
-    "uri" : "http://betamasaheft.eu/INS0099DMA",
+    "uri" : "https://betamasaheft.eu/INS0099DMA",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -23527,7 +23527,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAḥzära Maryam",
-      "link" : "http://betamasaheft.eu/INS0099DMA",
+      "link" : "https://betamasaheft.eu/INS0099DMA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -23559,7 +23559,7 @@ var institutions ={
       "attested" : "ደብረ፡ ጽዮን፡ ቅድስት፡ ማርያም፡ መነበይቲ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0050MSM#n1",
+      "uri" : "https://betamasaheft.eu/INS0050MSM#n1",
       "romanized" : "Dabra Ṣǝyon Qǝddǝst Māryām Manabayti",
       "transcription_completeness" : "complete"
     }, {
@@ -23573,7 +23573,7 @@ var institutions ={
       "attested" : "መነበይቲ፡ ጽዮን፡ ማርያም፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0050MSM#n2",
+      "uri" : "https://betamasaheft.eu/INS0050MSM#n2",
       "romanized" : "Manabayti Ṣǝyon Māryām",
       "transcription_completeness" : "complete"
     }, {
@@ -23587,7 +23587,7 @@ var institutions ={
       "attested" : "ደብረ፡ ጽዮን፡ መነበይቲ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0050MSM#n3",
+      "uri" : "https://betamasaheft.eu/INS0050MSM#n3",
       "romanized" : "Dabra Ṣǝyon Manabayti",
       "transcription_completeness" : "complete"
     }, {
@@ -23599,8 +23599,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.379801, 14.422939, 39.379801, 14.422939 ],
-    "uri" : "http://betamasaheft.eu/INS0050MSM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC3640GuloMa", "http://betamasaheft.eu/places/LOC6984SowitLamlam ", "http://betamasaheft.eu/places/LOC6985Manabayti", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0050MSM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC3640GuloMa", "https://betamasaheft.eu/places/LOC6984SowitLamlam ", "https://betamasaheft.eu/places/LOC6985Manabayti", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -23642,7 +23642,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dabra Ṣǝyon Qǝddǝst Māryām Manabayti",
-      "link" : "http://betamasaheft.eu/INS0050MSM",
+      "link" : "https://betamasaheft.eu/INS0050MSM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -23677,7 +23677,7 @@ var institutions ={
       "attested" : "Biblioteca Apostolica Vaticana",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0003BAV#n1",
+      "uri" : "https://betamasaheft.eu/INS0003BAV#n1",
       "romanized" : null,
       "transcription_completeness" : "complete"
     }, {
@@ -23689,7 +23689,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 12.47447, 41.90076, 12.47447, 41.90076 ],
-    "uri" : "http://betamasaheft.eu/INS0003BAV",
+    "uri" : "https://betamasaheft.eu/INS0003BAV",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -23732,7 +23732,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Biblioteca Apostolica Vaticana",
-      "link" : "http://betamasaheft.eu/INS0003BAV",
+      "link" : "https://betamasaheft.eu/INS0003BAV",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -23762,7 +23762,7 @@ var institutions ={
       "attested" : "ሰማዝ፡ ማርያም፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0054SMM#n1",
+      "uri" : "https://betamasaheft.eu/INS0054SMM#n1",
       "romanized" : "Samāz Māryām",
       "transcription_completeness" : "complete"
     }, {
@@ -23776,7 +23776,7 @@ var institutions ={
       "attested" : "ሰማዝ፡ ደብረ፡ ምጥማቅ፡ ቅድስት፡ ማርያም፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0054SMM#n2",
+      "uri" : "https://betamasaheft.eu/INS0054SMM#n2",
       "romanized" : "Samāz Dabra Mǝṭmāq Qǝddǝst Māryām",
       "transcription_completeness" : "complete"
     }, {
@@ -23788,8 +23788,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.414317, 14.501467, 39.414317, 14.501467 ],
-    "uri" : "http://betamasaheft.eu/INS0054SMM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC3640GuloMa", "http://betamasaheft.eu/places/LOC6970Marta ", "http://betamasaheft.eu/places/LOC7026Samaz", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0054SMM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC3640GuloMa", "https://betamasaheft.eu/places/LOC6970Marta ", "https://betamasaheft.eu/places/LOC7026Samaz", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -23831,7 +23831,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Samāz Māryām",
-      "link" : "http://betamasaheft.eu/INS0054SMM",
+      "link" : "https://betamasaheft.eu/INS0054SMM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -23877,7 +23877,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 9.988875, 53.562402, 9.988875, 53.562402 ],
-    "uri" : "http://betamasaheft.eu/INS0002AAI",
+    "uri" : "https://betamasaheft.eu/INS0002AAI",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -23920,7 +23920,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Asien-Afrika-Institut",
-      "link" : "http://betamasaheft.eu/INS0002AAI",
+      "link" : "https://betamasaheft.eu/INS0002AAI",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -23957,7 +23957,7 @@ var institutions ={
       "attested" : "ዑራ፡ ቂርዎስ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0017UM#n1",
+      "uri" : "https://betamasaheft.eu/INS0017UM#n1",
       "romanized" : "ʿUrā Qirqos",
       "transcription_completeness" : "complete"
     }, {
@@ -23971,7 +23971,7 @@ var institutions ={
       "attested" : "ዑራ፡ መስቀል፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0017UM#n2",
+      "uri" : "https://betamasaheft.eu/INS0017UM#n2",
       "romanized" : "ʿUrā Masqal",
       "transcription_completeness" : "complete"
     }, {
@@ -23983,8 +23983,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.347056, 14.4705, 39.347056, 14.4705 ],
-    "uri" : "http://betamasaheft.eu/INS0017UM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC3640GuloMa", "http://betamasaheft.eu/places/LOC6962Sawit", "http://betamasaheft.eu/places/LOC6963Ura", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0017UM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC3640GuloMa", "https://betamasaheft.eu/places/LOC6962Sawit", "https://betamasaheft.eu/places/LOC6963Ura", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -24026,7 +24026,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʿUrā Qirqos",
-      "link" : "http://betamasaheft.eu/INS0017UM",
+      "link" : "https://betamasaheft.eu/INS0017UM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -24060,7 +24060,7 @@ var institutions ={
       "attested" : "ሰበያ፡ ማርያም፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0053SM#n1",
+      "uri" : "https://betamasaheft.eu/INS0053SM#n1",
       "romanized" : "Sabayā Māryām",
       "transcription_completeness" : "complete"
     }, {
@@ -24074,7 +24074,7 @@ var institutions ={
       "attested" : "ደብረ፡ ገነት፡ ቅድስት፡ ማርያም፡ ሰበያ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0053SM#n2",
+      "uri" : "https://betamasaheft.eu/INS0053SM#n2",
       "romanized" : "Dabra Gannat Qǝddǝst Māryām Sabayā",
       "transcription_completeness" : "complete"
     }, {
@@ -24086,8 +24086,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.4974, 14.4692, 39.4974, 14.4692 ],
-    "uri" : "http://betamasaheft.eu/INS0053SM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC3640GuloMa", "http://betamasaheft.eu/places/LOC7021Sabaya ", "http://betamasaheft.eu/places/LOC7022Sasahayto", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0053SM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC3640GuloMa", "https://betamasaheft.eu/places/LOC7021Sabaya ", "https://betamasaheft.eu/places/LOC7022Sasahayto", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -24129,7 +24129,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Sabayā Māryām",
-      "link" : "http://betamasaheft.eu/INS0053SM",
+      "link" : "https://betamasaheft.eu/INS0053SM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -24175,7 +24175,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.342167, 14.44875, 39.342167, 14.44875 ],
-    "uri" : "http://betamasaheft.eu/INS0091AQM",
+    "uri" : "https://betamasaheft.eu/INS0091AQM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -24218,7 +24218,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAgärhǝse ʾAbunä Mamas",
-      "link" : "http://betamasaheft.eu/INS0091AQM",
+      "link" : "https://betamasaheft.eu/INS0091AQM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -24264,7 +24264,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.383556, 14.178333, 39.383556, 14.178333 ],
-    "uri" : "http://betamasaheft.eu/INS0110QDS",
+    "uri" : "https://betamasaheft.eu/INS0110QDS",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -24307,7 +24307,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Qiʿat Däbrä Ṣǝyon Qǝddǝst Maryam",
-      "link" : "http://betamasaheft.eu/INS0110QDS",
+      "link" : "https://betamasaheft.eu/INS0110QDS",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -24344,7 +24344,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 39.63775, 13.4948, 39.63775, 13.4948 ],
-    "uri" : "http://betamasaheft.eu/INS0155Kwa",
+    "uri" : "https://betamasaheft.eu/INS0155Kwa",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -24387,7 +24387,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Kwäʿ",
-      "link" : "http://betamasaheft.eu/INS0155Kwa",
+      "link" : "https://betamasaheft.eu/INS0155Kwa",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -24433,7 +24433,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.494383, 14.360983, 39.494383, 14.360983 ],
-    "uri" : "http://betamasaheft.eu/INS0179TRM",
+    "uri" : "https://betamasaheft.eu/INS0179TRM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -24476,7 +24476,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Taḥtay Ruba Maryam",
-      "link" : "http://betamasaheft.eu/INS0179TRM",
+      "link" : "https://betamasaheft.eu/INS0179TRM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -24538,7 +24538,7 @@ var institutions ={
       "attested" : "ደብረ፡ ዳሞ፡ አቡነ፡ አረጋዊ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0105DD#n1",
+      "uri" : "https://betamasaheft.eu/INS0105DD#n1",
       "romanized" : "Dabra Dāmmo ʾAbuna ʾAragāwi",
       "transcription_completeness" : "complete"
     }, {
@@ -24552,7 +24552,7 @@ var institutions ={
       "attested" : "ደብረ፡ ዳሞ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0105DD#n2",
+      "uri" : "https://betamasaheft.eu/INS0105DD#n2",
       "romanized" : "Dabra Dāmmo",
       "transcription_completeness" : "complete"
     }, {
@@ -24566,7 +24566,7 @@ var institutions ={
       "attested" : "እንዳ፡ አቡነ፡ አረጋዊ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0105DD#n3",
+      "uri" : "https://betamasaheft.eu/INS0105DD#n3",
       "romanized" : "ʾƎndā ʾAbuna ʾAragāwi",
       "transcription_completeness" : "complete"
     }, {
@@ -24578,8 +24578,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.292167, 14.374333, 39.292167, 14.374333 ],
-    "uri" : "http://betamasaheft.eu/INS0105DD",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC3640GuloMa", "http://betamasaheft.eu/places/LOC4731Mazaba", "http://betamasaheft.eu/places/LOC7055DD", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0105DD",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC3640GuloMa", "https://betamasaheft.eu/places/LOC4731Mazaba", "https://betamasaheft.eu/places/LOC7055DD", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -24621,7 +24621,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dabra Dāmmo ʾAbuna ʾAragāwi",
-      "link" : "http://betamasaheft.eu/INS0105DD",
+      "link" : "https://betamasaheft.eu/INS0105DD",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -24669,7 +24669,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.716233, 14.2899, 39.716233, 14.2899 ],
-    "uri" : "http://betamasaheft.eu/INS0181SDSM",
+    "uri" : "https://betamasaheft.eu/INS0181SDSM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -24712,7 +24712,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Säwnä Maryam",
-      "link" : "http://betamasaheft.eu/INS0181SDSM",
+      "link" : "https://betamasaheft.eu/INS0181SDSM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -24756,7 +24756,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.41945, 13.575667, 39.41945, 13.575667 ],
-    "uri" : "http://betamasaheft.eu/INS0148RQM",
+    "uri" : "https://betamasaheft.eu/INS0148RQM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -24799,7 +24799,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Romanat Qǝddus Mikaʾel",
-      "link" : "http://betamasaheft.eu/INS0148RQM",
+      "link" : "https://betamasaheft.eu/INS0148RQM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -24843,7 +24843,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.551017, 14.255333, 39.551017, 14.255333 ],
-    "uri" : "http://betamasaheft.eu/INS0192QGM",
+    "uri" : "https://betamasaheft.eu/INS0192QGM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -24886,7 +24886,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Mänäwät Qǝddus Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0192QGM",
+      "link" : "https://betamasaheft.eu/INS0192QGM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -24932,7 +24932,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.385106, 13.525948, 39.385106, 13.525948 ],
-    "uri" : "http://betamasaheft.eu/INS0174MAKM",
+    "uri" : "https://betamasaheft.eu/INS0174MAKM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -24975,7 +24975,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "May ʾAnbäsa Däbrä Gännät Kidanä Mǝḥrät",
-      "link" : "http://betamasaheft.eu/INS0174MAKM",
+      "link" : "https://betamasaheft.eu/INS0174MAKM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -25012,7 +25012,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 39.443861, 14.266111, 39.443861, 14.266111 ],
-    "uri" : "http://betamasaheft.eu/INS0141MM",
+    "uri" : "https://betamasaheft.eu/INS0141MM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -25055,7 +25055,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Qǝddǝst Maryam Mäkan",
-      "link" : "http://betamasaheft.eu/INS0141MM",
+      "link" : "https://betamasaheft.eu/INS0141MM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -25099,8 +25099,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.40105, 14.218333, 39.40105, 14.218333 ],
-    "uri" : "http://betamasaheft.eu/INS0157DDM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC3293GantaA", "http://betamasaheft.eu/places/LOC3740Hagara", "http://betamasaheft.eu/places/LOC6961Dandera", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0157DDM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC3293GantaA", "https://betamasaheft.eu/places/LOC3740Hagara", "https://betamasaheft.eu/places/LOC6961Dandera", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -25142,7 +25142,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Danderā Dabra Mǝḥrat Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0157DDM",
+      "link" : "https://betamasaheft.eu/INS0157DDM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -25176,7 +25176,7 @@ var institutions ={
       "attested" : "አምበሰት፡ ኪዳነ፡ ምሕረት፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0103AKM#n1",
+      "uri" : "https://betamasaheft.eu/INS0103AKM#n1",
       "romanized" : "ʾAmbasat Kidāna Mǝḥrat",
       "transcription_completeness" : "complete"
     }, {
@@ -25190,7 +25190,7 @@ var institutions ={
       "attested" : "ኪዳነ፡ ምሕረት፡ አምበሰት፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0103AKM#n2",
+      "uri" : "https://betamasaheft.eu/INS0103AKM#n2",
       "romanized" : "Kidāna Mǝḥrat ʾAmbasat",
       "transcription_completeness" : "complete"
     }, {
@@ -25202,8 +25202,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.406528, 14.394833, 39.406528, 14.394833 ],
-    "uri" : "http://betamasaheft.eu/INS0103AKM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC3640GuloMa", "http://betamasaheft.eu/places/LOC6959Ambasata", "http://betamasaheft.eu/places/LOC6960Ambasat", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0103AKM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC3640GuloMa", "https://betamasaheft.eu/places/LOC6959Ambasata", "https://betamasaheft.eu/places/LOC6960Ambasat", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -25245,7 +25245,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAmbasat Kidāna Mǝḥrat",
-      "link" : "http://betamasaheft.eu/INS0103AKM",
+      "link" : "https://betamasaheft.eu/INS0103AKM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -25289,7 +25289,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.428084, 14.31276, 39.428084, 14.31276 ],
-    "uri" : "http://betamasaheft.eu/INS0121MAC",
+    "uri" : "https://betamasaheft.eu/INS0121MAC",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -25332,7 +25332,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ḉähat Mädḫane ʿAläm",
-      "link" : "http://betamasaheft.eu/INS0121MAC",
+      "link" : "https://betamasaheft.eu/INS0121MAC",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -25376,7 +25376,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.460617, 14.256283, 39.460617, 14.256283 ],
-    "uri" : "http://betamasaheft.eu/INS0163BQM",
+    "uri" : "https://betamasaheft.eu/INS0163BQM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -25419,7 +25419,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Maryam May ʾAbʾa",
-      "link" : "http://betamasaheft.eu/INS0163BQM",
+      "link" : "https://betamasaheft.eu/INS0163BQM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -25470,7 +25470,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.374074, 14.250969, 39.374074, 14.250969 ],
-    "uri" : "http://betamasaheft.eu/INS0167GH",
+    "uri" : "https://betamasaheft.eu/INS0167GH",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -25513,7 +25513,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ḥawaṣi Gäbrǝʾel",
-      "link" : "http://betamasaheft.eu/INS0167GH",
+      "link" : "https://betamasaheft.eu/INS0167GH",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -25559,7 +25559,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.39175, 14.186783, 39.39175, 14.186783 ],
-    "uri" : "http://betamasaheft.eu/INS0119MQM",
+    "uri" : "https://betamasaheft.eu/INS0119MQM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -25602,7 +25602,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Däbrä Mäʿar Qǝddǝst Maryam",
-      "link" : "http://betamasaheft.eu/INS0119MQM",
+      "link" : "https://betamasaheft.eu/INS0119MQM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -25646,7 +25646,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.398269, 14.262418, 39.398269, 14.262418 ],
-    "uri" : "http://betamasaheft.eu/INS0127GNA",
+    "uri" : "https://betamasaheft.eu/INS0127GNA",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -25689,7 +25689,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gäbrä Nazrawi ʾAgäzna",
-      "link" : "http://betamasaheft.eu/INS0127GNA",
+      "link" : "https://betamasaheft.eu/INS0127GNA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -25740,7 +25740,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.442217, 14.289933, 39.442217, 14.289933 ],
-    "uri" : "http://betamasaheft.eu/INS0186QDQ",
+    "uri" : "https://betamasaheft.eu/INS0186QDQ",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -25783,7 +25783,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Qändaʿro Qǝddus Qirqos",
-      "link" : "http://betamasaheft.eu/INS0186QDQ",
+      "link" : "https://betamasaheft.eu/INS0186QDQ",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -25827,7 +25827,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.602683, 13.84545, 39.602683, 13.84545 ],
-    "uri" : "http://betamasaheft.eu/INS0133QMB",
+    "uri" : "https://betamasaheft.eu/INS0133QMB",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -25870,7 +25870,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Bäläsa Qǝddus Mikaʾel",
-      "link" : "http://betamasaheft.eu/INS0133QMB",
+      "link" : "https://betamasaheft.eu/INS0133QMB",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -25921,7 +25921,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.640233, 14.234367, 39.640233, 14.234367 ],
-    "uri" : "http://betamasaheft.eu/INS0198QS",
+    "uri" : "https://betamasaheft.eu/INS0198QS",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -25964,7 +25964,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Qälaqǝl Maryam Ṣǝyon",
-      "link" : "http://betamasaheft.eu/INS0198QS",
+      "link" : "https://betamasaheft.eu/INS0198QS",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -26001,7 +26001,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 39.6109, 13.887933, 39.6109, 13.887933 ],
-    "uri" : "http://betamasaheft.eu/INS0135MMA",
+    "uri" : "https://betamasaheft.eu/INS0135MMA",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -26044,7 +26044,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Mäʿago ʾAmanuʾel, ʾAmanuʾel Mäʿago",
-      "link" : "http://betamasaheft.eu/INS0135MMA",
+      "link" : "https://betamasaheft.eu/INS0135MMA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -26088,7 +26088,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.531567, 14.2227, 39.531567, 14.2227 ],
-    "uri" : "http://betamasaheft.eu/INS0111SSB",
+    "uri" : "https://betamasaheft.eu/INS0111SSB",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -26131,7 +26131,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Bet Ḥawaryat",
-      "link" : "http://betamasaheft.eu/INS0111SSB",
+      "link" : "https://betamasaheft.eu/INS0111SSB",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -26164,7 +26164,7 @@ var institutions ={
       "attested" : "መድኃኔ፡ ዓለም፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0101MadhaneAlam#n1",
+      "uri" : "https://betamasaheft.eu/INS0101MadhaneAlam#n1",
       "romanized" : [ "Madḫāne ʿĀlam", "Medhane Alem", "Saviour of the World" ],
       "transcription_completeness" : "complete"
     }, {
@@ -26190,8 +26190,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.2833, 11.55, 39.2833, 11.55 ],
-    "uri" : "http://betamasaheft.eu/INS0101MadhaneAlam",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC4547Maqdal", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0101MadhaneAlam",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC4547Maqdal", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -26233,7 +26233,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Madḫāne ʿĀlam",
-      "link" : "http://betamasaheft.eu/INS0101MadhaneAlam",
+      "link" : "https://betamasaheft.eu/INS0101MadhaneAlam",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -26275,7 +26275,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.58285, 14.24515, 39.58285, 14.24515 ],
-    "uri" : "http://betamasaheft.eu/INS0194THMR",
+    "uri" : "https://betamasaheft.eu/INS0194THMR",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -26318,7 +26318,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "May Raza Täklä Haymanot",
-      "link" : "http://betamasaheft.eu/INS0194THMR",
+      "link" : "https://betamasaheft.eu/INS0194THMR",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -26362,7 +26362,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.445367, 14.27175, 39.445367, 14.27175 ],
-    "uri" : "http://betamasaheft.eu/INS0165DSM",
+    "uri" : "https://betamasaheft.eu/INS0165DSM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -26405,7 +26405,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Däbrä Sahǝl Qǝddus Mikaʾel Bet Mäḵaʿ",
-      "link" : "http://betamasaheft.eu/INS0165DSM",
+      "link" : "https://betamasaheft.eu/INS0165DSM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -26449,7 +26449,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.301167, 14.229817, 39.301167, 14.229817 ],
-    "uri" : "http://betamasaheft.eu/INS0183QM",
+    "uri" : "https://betamasaheft.eu/INS0183QM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -26492,7 +26492,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Qǝta Maryam",
-      "link" : "http://betamasaheft.eu/INS0183QM",
+      "link" : "https://betamasaheft.eu/INS0183QM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -26529,7 +26529,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 39.63775, 13.4948, 39.63775, 13.4948 ],
-    "uri" : "http://betamasaheft.eu/INS0152Sagw",
+    "uri" : "https://betamasaheft.eu/INS0152Sagw",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -26572,7 +26572,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Šägwala Maryam",
-      "link" : "http://betamasaheft.eu/INS0152Sagw",
+      "link" : "https://betamasaheft.eu/INS0152Sagw",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -26618,7 +26618,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.466133, 14.310133, 39.466133, 14.310133 ],
-    "uri" : "http://betamasaheft.eu/INS0131DMB",
+    "uri" : "https://betamasaheft.eu/INS0131DMB",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -26661,7 +26661,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Bäʿatti Qǝddus Mikaʾel",
-      "link" : "http://betamasaheft.eu/INS0131DMB",
+      "link" : "https://betamasaheft.eu/INS0131DMB",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -26705,7 +26705,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.487683, 14.262, 39.487683, 14.262 ],
-    "uri" : "http://betamasaheft.eu/INS0113NSM",
+    "uri" : "https://betamasaheft.eu/INS0113NSM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -26748,7 +26748,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Nǝḥbi Qǝddus Mikaʾel",
-      "link" : "http://betamasaheft.eu/INS0113NSM",
+      "link" : "https://betamasaheft.eu/INS0113NSM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -26792,7 +26792,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.60355, 13.8694, 39.60355, 13.8694 ],
-    "uri" : "http://betamasaheft.eu/INS0137KTM",
+    "uri" : "https://betamasaheft.eu/INS0137KTM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -26835,7 +26835,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Kädiḥ Däbrä Täwaḥǝdo Qǝddǝst Maryam",
-      "link" : "http://betamasaheft.eu/INS0137KTM",
+      "link" : "https://betamasaheft.eu/INS0137KTM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -26879,7 +26879,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.439817, 14.30405, 39.439817, 14.30405 ],
-    "uri" : "http://betamasaheft.eu/INS0123MKL",
+    "uri" : "https://betamasaheft.eu/INS0123MKL",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -26922,7 +26922,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Läqay Kidanä Mǝḥrät",
-      "link" : "http://betamasaheft.eu/INS0123MKL",
+      "link" : "https://betamasaheft.eu/INS0123MKL",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -26966,7 +26966,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.413967, 14.190867, 39.413967, 14.190867 ],
-    "uri" : "http://betamasaheft.eu/INS0177SDM",
+    "uri" : "https://betamasaheft.eu/INS0177SDM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -27009,7 +27009,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Soṭa Däbrä Sälam Qǝddus Mikaʾel",
-      "link" : "http://betamasaheft.eu/INS0177SDM",
+      "link" : "https://betamasaheft.eu/INS0177SDM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -27060,7 +27060,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.4831, 14.275883, 39.4831, 14.275883 ],
-    "uri" : "http://betamasaheft.eu/INS0107BMA",
+    "uri" : "https://betamasaheft.eu/INS0107BMA",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -27103,7 +27103,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʿAddigrat Bet Marya",
-      "link" : "http://betamasaheft.eu/INS0107BMA",
+      "link" : "https://betamasaheft.eu/INS0107BMA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -27154,7 +27154,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.388802, 14.277804, 39.388802, 14.277804 ],
-    "uri" : "http://betamasaheft.eu/INS0178QMM",
+    "uri" : "https://betamasaheft.eu/INS0178QMM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -27197,7 +27197,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Märgaḥǝya Qǝddus Mikaʾel",
-      "link" : "http://betamasaheft.eu/INS0178QMM",
+      "link" : "https://betamasaheft.eu/INS0178QMM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -27243,7 +27243,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.4992, 14.205083, 39.4992, 14.205083 ],
-    "uri" : "http://betamasaheft.eu/INS0125GMS",
+    "uri" : "https://betamasaheft.eu/INS0125GMS",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -27286,7 +27286,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Siʿet Qǝddǝst Maryam",
-      "link" : "http://betamasaheft.eu/INS0125GMS",
+      "link" : "https://betamasaheft.eu/INS0125GMS",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -27330,7 +27330,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.4906, 14.1728, 39.4906, 14.1728 ],
-    "uri" : "http://betamasaheft.eu/INS0117GBI",
+    "uri" : "https://betamasaheft.eu/INS0117GBI",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -27373,7 +27373,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gwaḥgot ʾIyäsus",
-      "link" : "http://betamasaheft.eu/INS0117GBI",
+      "link" : "https://betamasaheft.eu/INS0117GBI",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -27417,8 +27417,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.394864, 13.511041, 39.394864, 13.511041 ],
-    "uri" : "http://betamasaheft.eu/INS0171KY",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC2947Endart", "http://betamasaheft.eu/places/LOC4656MayAnb", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0171KY",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC2947Endart", "https://betamasaheft.eu/places/LOC4656MayAnb", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -27460,7 +27460,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Koholo Yoḥannǝs Dabra Betel",
-      "link" : "http://betamasaheft.eu/INS0171KY",
+      "link" : "https://betamasaheft.eu/INS0171KY",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -27506,7 +27506,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.4901, 14.376767, 39.4901, 14.376767 ],
-    "uri" : "http://betamasaheft.eu/INS0185SGM",
+    "uri" : "https://betamasaheft.eu/INS0185SGM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -27549,7 +27549,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Sǝddäyto Däbrä Gännät Mikaʾel",
-      "link" : "http://betamasaheft.eu/INS0185SGM",
+      "link" : "https://betamasaheft.eu/INS0185SGM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -27593,7 +27593,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.362222, 14.189278, 39.362222, 14.189278 ],
-    "uri" : "http://betamasaheft.eu/INS0108GKM",
+    "uri" : "https://betamasaheft.eu/INS0108GKM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -27636,7 +27636,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Mäḵodʿä Däbrä Gännät Kidanä Mǝḥrät",
-      "link" : "http://betamasaheft.eu/INS0108GKM",
+      "link" : "https://betamasaheft.eu/INS0108GKM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -27680,7 +27680,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.368495, 14.268189, 39.368495, 14.268189 ],
-    "uri" : "http://betamasaheft.eu/INS0175QMA",
+    "uri" : "https://betamasaheft.eu/INS0175QMA",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -27723,7 +27723,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAbrǝqo Maryam",
-      "link" : "http://betamasaheft.eu/INS0175QMA",
+      "link" : "https://betamasaheft.eu/INS0175QMA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -27760,7 +27760,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 39.4823, 14.2968, 39.4823, 14.2968 ],
-    "uri" : "http://betamasaheft.eu/INS0161BGY",
+    "uri" : "https://betamasaheft.eu/INS0161BGY",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -27803,7 +27803,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Däbrä Bǝrhan Qǝddus Yoḥannǝs Golʿa",
-      "link" : "http://betamasaheft.eu/INS0161BGY",
+      "link" : "https://betamasaheft.eu/INS0161BGY",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -27847,7 +27847,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.414028, 14.253306, 39.414028, 14.253306 ],
-    "uri" : "http://betamasaheft.eu/INS0145MA",
+    "uri" : "https://betamasaheft.eu/INS0145MA",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -27890,7 +27890,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAndel Qǝddǝst Maryam",
-      "link" : "http://betamasaheft.eu/INS0145MA",
+      "link" : "https://betamasaheft.eu/INS0145MA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -27941,7 +27941,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.521306, 14.248778, 39.521306, 14.248778 ],
-    "uri" : "http://betamasaheft.eu/INS0144MHG",
+    "uri" : "https://betamasaheft.eu/INS0144MHG",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -27984,7 +27984,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ḥarennät Gäbäzäyti Qǝddǝst Maryam",
-      "link" : "http://betamasaheft.eu/INS0144MHG",
+      "link" : "https://betamasaheft.eu/INS0144MHG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -28028,7 +28028,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.467833, 14.445483, 39.467833, 14.445483 ],
-    "uri" : "http://betamasaheft.eu/INS0147MCM",
+    "uri" : "https://betamasaheft.eu/INS0147MCM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -28071,7 +28071,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "May Ḉäw Mikaʾel",
-      "link" : "http://betamasaheft.eu/INS0147MCM",
+      "link" : "https://betamasaheft.eu/INS0147MCM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -28108,7 +28108,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 39.449436, 14.269133, 39.449436, 14.269133 ],
-    "uri" : "http://betamasaheft.eu/INS0169GMBM",
+    "uri" : "https://betamasaheft.eu/INS0169GMBM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -28151,7 +28151,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gäbrä Mänfäs Qǝddus Bet Mäḵaʿ / Gäbrä Mänfäs Qǝddus Däbrä Sahǝl",
-      "link" : "http://betamasaheft.eu/INS0169GMBM",
+      "link" : "https://betamasaheft.eu/INS0169GMBM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -28195,7 +28195,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.547767, 14.12015, 39.547767, 14.12015 ],
-    "uri" : "http://betamasaheft.eu/INS0200HMM",
+    "uri" : "https://betamasaheft.eu/INS0200HMM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -28238,7 +28238,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ḥangoda Däbrä Mǝḥrät Qǝddus Mikaʾel",
-      "link" : "http://betamasaheft.eu/INS0200HMM",
+      "link" : "https://betamasaheft.eu/INS0200HMM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -28289,7 +28289,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.451083, 14.427111, 39.451083, 14.427111 ],
-    "uri" : "http://betamasaheft.eu/INS0159QQM",
+    "uri" : "https://betamasaheft.eu/INS0159QQM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -28332,7 +28332,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʿAddi Qiyaḥto Qǝddǝst Maryam",
-      "link" : "http://betamasaheft.eu/INS0159QQM",
+      "link" : "https://betamasaheft.eu/INS0159QQM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -28376,7 +28376,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.645717, 14.237567, 39.645717, 14.237567 ],
-    "uri" : "http://betamasaheft.eu/INS0196WQ",
+    "uri" : "https://betamasaheft.eu/INS0196WQ",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -28419,7 +28419,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Wälwalo Däbrä Bǝrhan Qirqos",
-      "link" : "http://betamasaheft.eu/INS0196WQ",
+      "link" : "https://betamasaheft.eu/INS0196WQ",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -28463,7 +28463,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.47385, 14.2227, 39.47385, 14.2227 ],
-    "uri" : "http://betamasaheft.eu/INS0129DMD",
+    "uri" : "https://betamasaheft.eu/INS0129DMD",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -28506,7 +28506,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dǝbla Yoḥannǝs Mäṭmǝq",
-      "link" : "http://betamasaheft.eu/INS0129DMD",
+      "link" : "https://betamasaheft.eu/INS0129DMD",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -28550,7 +28550,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.496767, 14.297683, 39.496767, 14.297683 ],
-    "uri" : "http://betamasaheft.eu/INS0115GMG",
+    "uri" : "https://betamasaheft.eu/INS0115GMG",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -28593,7 +28593,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gänaḥti Qǝddǝst Maryam",
-      "link" : "http://betamasaheft.eu/INS0115GMG",
+      "link" : "https://betamasaheft.eu/INS0115GMG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -28628,7 +28628,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 9.98916667, 53.56833333, 9.98916667, 53.56833333 ],
-    "uri" : "http://betamasaheft.eu/INS0386Museum_of_Ethnology",
+    "uri" : "https://betamasaheft.eu/INS0386Museum_of_Ethnology",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1055", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -28671,7 +28671,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Museum of Ethnology Hamburg",
-      "link" : "http://betamasaheft.eu/INS0386Museum_of_Ethnology",
+      "link" : "https://betamasaheft.eu/INS0386Museum_of_Ethnology",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -28699,19 +28699,19 @@ var institutions ={
       "attested" : "Dayr Sayyida",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0324DS#n1",
+      "uri" : "https://betamasaheft.eu/INS0324DS#n1",
       "romanized" : null,
       "transcription_completeness" : "complete"
     }, {
       "attested" : "Monastery of the Virgin of John Colobos",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0324DS#n2",
+      "uri" : "https://betamasaheft.eu/INS0324DS#n2",
       "romanized" : null,
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 30.2377, 30.4324, 30.2377, 30.4324 ],
-    "uri" : "http://betamasaheft.eu/INS0324DS",
+    "uri" : "https://betamasaheft.eu/INS0324DS",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q30630", "https://www.wikidata.org/entity/Q1074945", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -28754,7 +28754,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dayr Sayyida",
-      "link" : "http://betamasaheft.eu/INS0324DS",
+      "link" : "https://betamasaheft.eu/INS0324DS",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -28782,7 +28782,7 @@ var institutions ={
       "attested" : "Maison Professe des Jésuites",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0326MPJ#n1",
+      "uri" : "https://betamasaheft.eu/INS0326MPJ#n1",
       "romanized" : "Jesuits Professed House",
       "transcription_completeness" : "complete"
     }, {
@@ -28794,7 +28794,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 2.361, 48.8541, 2.361, 48.8541 ],
-    "uri" : "http://betamasaheft.eu/INS0326MPJ",
+    "uri" : "https://betamasaheft.eu/INS0326MPJ",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -28837,7 +28837,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Jesuits Professed House",
-      "link" : "http://betamasaheft.eu/INS0326MPJ",
+      "link" : "https://betamasaheft.eu/INS0326MPJ",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -28884,7 +28884,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 0.105571, 52.205071, 0.105571, 52.205071 ],
-    "uri" : "http://betamasaheft.eu/INS0306BSL",
+    "uri" : "https://betamasaheft.eu/INS0306BSL",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q21", "https://www.wikidata.org/entity/Q350", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -28927,7 +28927,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Bible Society's Library",
-      "link" : "http://betamasaheft.eu/INS0306BSL",
+      "link" : "https://betamasaheft.eu/INS0306BSL",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -28960,7 +28960,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 13.291944, 52.456667, 13.291944, 52.456667 ],
-    "uri" : "http://betamasaheft.eu/INS0373Ethnologisches_Museum",
+    "uri" : "https://betamasaheft.eu/INS0373Ethnologisches_Museum",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q64", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -29003,7 +29003,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Museum für Völkerkunde Ethnologisches Museum",
-      "link" : "http://betamasaheft.eu/INS0373Ethnologisches_Museum",
+      "link" : "https://betamasaheft.eu/INS0373Ethnologisches_Museum",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -29033,7 +29033,7 @@ var institutions ={
       "attested" : "ተድባበ፡ ማርያም፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0366TM#n1",
+      "uri" : "https://betamasaheft.eu/INS0366TM#n1",
       "romanized" : "Tadbāba Māryām",
       "transcription_completeness" : "complete"
     }, {
@@ -29045,7 +29045,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.753164, 11.114579, 38.753164, 11.114579 ],
-    "uri" : "http://betamasaheft.eu/INS0366TM",
+    "uri" : "https://betamasaheft.eu/INS0366TM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -29088,7 +29088,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Tadbāba Māryām",
-      "link" : "http://betamasaheft.eu/INS0366TM",
+      "link" : "https://betamasaheft.eu/INS0366TM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -29116,7 +29116,7 @@ var institutions ={
       "attested" : "Ethiopian Manuscript Microfilm Library",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0332EMML#n1",
+      "uri" : "https://betamasaheft.eu/INS0332EMML#n1",
       "romanized" : "EMML",
       "transcription_completeness" : "complete"
     }, {
@@ -29128,7 +29128,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ -94.3939278, 45.581299, -94.3939278, 45.581299 ],
-    "uri" : "http://betamasaheft.eu/INS0332EMML",
+    "uri" : "https://betamasaheft.eu/INS0332EMML",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1527", "https://www.wikidata.org/entity/Q1898198", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -29171,7 +29171,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "EMML",
-      "link" : "http://betamasaheft.eu/INS0332EMML",
+      "link" : "https://betamasaheft.eu/INS0332EMML",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -29199,12 +29199,12 @@ var institutions ={
       "attested" : "Abbaye Sainte-Geneviève",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0340ASG#n1",
+      "uri" : "https://betamasaheft.eu/INS0340ASG#n1",
       "romanized" : null,
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 2.3481, 48.8457, 2.3481, 48.8457 ],
-    "uri" : "http://betamasaheft.eu/INS0340ASG",
+    "uri" : "https://betamasaheft.eu/INS0340ASG",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q13917", "https://www.wikidata.org/entity/Q90", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -29247,7 +29247,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Abbaye Sainte-Geneviève",
-      "link" : "http://betamasaheft.eu/INS0340ASG",
+      "link" : "https://betamasaheft.eu/INS0340ASG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -29275,7 +29275,7 @@ var institutions ={
       "attested" : "Staatsbibliothek zu Berlin Preußischer Kulturbesitz",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0333SBB#n1",
+      "uri" : "https://betamasaheft.eu/INS0333SBB#n1",
       "romanized" : "Berlin State Library",
       "transcription_completeness" : "complete"
     }, {
@@ -29287,7 +29287,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 13.3696, 52.5068, 13.3696, 52.5068 ],
-    "uri" : "http://betamasaheft.eu/INS0333SBB",
+    "uri" : "https://betamasaheft.eu/INS0333SBB",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q64", "https://www.wikidata.org/entity/Q64", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -29330,7 +29330,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Berlin State Library",
-      "link" : "http://betamasaheft.eu/INS0333SBB",
+      "link" : "https://betamasaheft.eu/INS0333SBB",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -29363,7 +29363,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 11.5857, 48.1376, 11.5857, 48.1376 ],
-    "uri" : "http://betamasaheft.eu/INS0398Museum_Fuenf_Kontinente",
+    "uri" : "https://betamasaheft.eu/INS0398Museum_Fuenf_Kontinente",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1726", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -29406,7 +29406,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Museum Fuenf Kontinente München",
-      "link" : "http://betamasaheft.eu/INS0398Museum_Fuenf_Kontinente",
+      "link" : "https://betamasaheft.eu/INS0398Museum_Fuenf_Kontinente",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -29439,7 +29439,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 7.252098, 50.402261, 7.252098, 50.402261 ],
-    "uri" : "http://betamasaheft.eu/INS0394Maria_Laach_Abbey",
+    "uri" : "https://betamasaheft.eu/INS0394Maria_Laach_Abbey",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q644241", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -29482,7 +29482,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Maria Laach Abbey",
-      "link" : "http://betamasaheft.eu/INS0394Maria_Laach_Abbey",
+      "link" : "https://betamasaheft.eu/INS0394Maria_Laach_Abbey",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -29515,7 +29515,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 12.4667, 41.8931, 12.4667, 41.8931 ],
-    "uri" : "http://betamasaheft.eu/INS0335ANL",
+    "uri" : "https://betamasaheft.eu/INS0335ANL",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1282", "https://www.wikidata.org/entity/Q220", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -29558,7 +29558,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Biblioteca dell’Accademia Nazionale dei Lincei",
-      "link" : "http://betamasaheft.eu/INS0335ANL",
+      "link" : "https://betamasaheft.eu/INS0335ANL",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -29588,12 +29588,12 @@ var institutions ={
       "attested" : "National Museum of Yemen, Ṣanʿāʾ",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0345Sana#n1",
+      "uri" : "https://betamasaheft.eu/INS0345Sana#n1",
       "romanized" : null,
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 44.42489, 15.26069, 44.42489, 15.26069 ],
-    "uri" : "http://betamasaheft.eu/INS0345Sana",
+    "uri" : "https://betamasaheft.eu/INS0345Sana",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q2471", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -29636,7 +29636,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "National Museum of Yemen, Ṣanʿāʾ",
-      "link" : "http://betamasaheft.eu/INS0345Sana",
+      "link" : "https://betamasaheft.eu/INS0345Sana",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -29669,7 +29669,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 12.377391, 51.337234, 12.377391, 51.337234 ],
-    "uri" : "http://betamasaheft.eu/INS0392Library_of_Oriental_Studies_Leipzig",
+    "uri" : "https://betamasaheft.eu/INS0392Library_of_Oriental_Studies_Leipzig",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q2079", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -29712,7 +29712,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Library of Oriental Studies Leipzig",
-      "link" : "http://betamasaheft.eu/INS0392Library_of_Oriental_Studies_Leipzig",
+      "link" : "https://betamasaheft.eu/INS0392Library_of_Oriental_Studies_Leipzig",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -29749,7 +29749,7 @@ var institutions ={
       "attested" : "ደብረ፡ ፀሐይ፡ ቍስቋም፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0330DDQ#n1",
+      "uri" : "https://betamasaheft.eu/INS0330DDQ#n1",
       "romanized" : "Dabra Ḍaḥay Qʷǝsqʷām",
       "transcription_completeness" : "complete"
     }, {
@@ -29761,8 +29761,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 37.4666, 12.6, 37.4666, 12.6 ],
-    "uri" : "http://betamasaheft.eu/INS0330DDQ",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC1426Amhara", "http://betamasaheft.eu/places/LOC1713Bagemd", "http://betamasaheft.eu/places/LOC6544NorthGondar", "http://betamasaheft.eu/places/LOC3577Gondar", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0330DDQ",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC1426Amhara", "https://betamasaheft.eu/places/LOC1713Bagemd", "https://betamasaheft.eu/places/LOC6544NorthGondar", "https://betamasaheft.eu/places/LOC3577Gondar", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -29804,7 +29804,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dabra Ḍaḥay Qʷǝsqʷām",
-      "link" : "http://betamasaheft.eu/INS0330DDQ",
+      "link" : "https://betamasaheft.eu/INS0330DDQ",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -29832,13 +29832,13 @@ var institutions ={
       "attested" : "Private Collection of Ato Hayle Bayyana",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0368atohayle#n1",
+      "uri" : "https://betamasaheft.eu/INS0368atohayle#n1",
       "romanized" : null,
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 37.468671, 12.609389, 37.468671, 12.609389 ],
-    "uri" : "http://betamasaheft.eu/INS0368atohayle",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC3577Gondar", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0368atohayle",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC3577Gondar", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -29880,7 +29880,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Private Collection of Ato Hayle Bayyana",
-      "link" : "http://betamasaheft.eu/INS0368atohayle",
+      "link" : "https://betamasaheft.eu/INS0368atohayle",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -29913,7 +29913,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 13.7377, 51.0599, 13.7377, 51.0599 ],
-    "uri" : "http://betamasaheft.eu/INS0378Voelkerkundemuseum_Dresden",
+    "uri" : "https://betamasaheft.eu/INS0378Voelkerkundemuseum_Dresden",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1731", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -29956,7 +29956,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Museum fuer Voelkerkunde Dresden",
-      "link" : "http://betamasaheft.eu/INS0378Voelkerkundemuseum_Dresden",
+      "link" : "https://betamasaheft.eu/INS0378Voelkerkundemuseum_Dresden",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -29989,7 +29989,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 11.96358, 51.493802, 11.96358, 51.493802 ],
-    "uri" : "http://betamasaheft.eu/INS0384Bibliothek_der_Deutschen_Morgenlaendischen_Gesellschaft",
+    "uri" : "https://betamasaheft.eu/INS0384Bibliothek_der_Deutschen_Morgenlaendischen_Gesellschaft",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q2814", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -30032,7 +30032,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Bibliothek der Deutschen Morgenlaendischen Gesellschaft",
-      "link" : "http://betamasaheft.eu/INS0384Bibliothek_der_Deutschen_Morgenlaendischen_Gesellschaft",
+      "link" : "https://betamasaheft.eu/INS0384Bibliothek_der_Deutschen_Morgenlaendischen_Gesellschaft",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -30065,7 +30065,7 @@ var institutions ={
       "attested" : "Uppsala University Library",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0356Upp#n1",
+      "uri" : "https://betamasaheft.eu/INS0356Upp#n1",
       "romanized" : null,
       "transcription_completeness" : "complete"
     }, {
@@ -30077,8 +30077,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 17.6323, 59.8558, 17.6323, 59.8558 ],
-    "uri" : "http://betamasaheft.eu/INS0356Upp",
-    "connectsWith" : [ [ "https://www.wikidata.org/entity/Q25286", "http://betamasaheft.eu/places/LOC6062Uppsal", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0356Upp",
+    "connectsWith" : [ [ "https://www.wikidata.org/entity/Q25286", "https://betamasaheft.eu/places/LOC6062Uppsal", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -30120,7 +30120,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Uppsala University Library",
-      "link" : "http://betamasaheft.eu/INS0356Upp",
+      "link" : "https://betamasaheft.eu/INS0356Upp",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -30156,7 +30156,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 4.48111, 52.1575, 4.48111, 52.1575 ],
-    "uri" : "http://betamasaheft.eu/INS0315LUL",
+    "uri" : "https://betamasaheft.eu/INS0315LUL",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q694", "https://www.wikidata.org/entity/Q43631", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -30199,7 +30199,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Leiden University Library",
-      "link" : "http://betamasaheft.eu/INS0315LUL",
+      "link" : "https://betamasaheft.eu/INS0315LUL",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -30227,7 +30227,7 @@ var institutions ={
       "attested" : "Couvent des Récollets",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0325CR#n1",
+      "uri" : "https://betamasaheft.eu/INS0325CR#n1",
       "romanized" : "Récollets Convent",
       "transcription_completeness" : "complete"
     }, {
@@ -30239,7 +30239,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 2.3602, 48.8754, 2.3602, 48.8754 ],
-    "uri" : "http://betamasaheft.eu/INS0325CR",
+    "uri" : "https://betamasaheft.eu/INS0325CR",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -30282,7 +30282,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Récollets Convent",
-      "link" : "http://betamasaheft.eu/INS0325CR",
+      "link" : "https://betamasaheft.eu/INS0325CR",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -30315,7 +30315,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 11.00891, 50.98967, 11.00891, 50.98967 ],
-    "uri" : "http://betamasaheft.eu/INS0383Bibliothek_Erfurt_Gotha",
+    "uri" : "https://betamasaheft.eu/INS0383Bibliothek_Erfurt_Gotha",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q6986", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -30358,7 +30358,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Universitaets und Forschungsbibliothek Erfurt/Gotha",
-      "link" : "http://betamasaheft.eu/INS0383Bibliothek_Erfurt_Gotha",
+      "link" : "https://betamasaheft.eu/INS0383Bibliothek_Erfurt_Gotha",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -30401,7 +30401,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 30.3197658, 59.944074, 30.3197658, 59.944074 ],
-    "uri" : "http://betamasaheft.eu/INS0301IV",
+    "uri" : "https://betamasaheft.eu/INS0301IV",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q656", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -30444,7 +30444,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Institut Vostočnyh Rukopisej Rossijskoj Akademii Nauk",
-      "link" : "http://betamasaheft.eu/INS0301IV",
+      "link" : "https://betamasaheft.eu/INS0301IV",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -30477,7 +30477,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 10.4935, 48.5765, 10.4935, 48.5765 ],
-    "uri" : "http://betamasaheft.eu/INS0375dillingen",
+    "uri" : "https://betamasaheft.eu/INS0375dillingen",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q10417", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -30520,7 +30520,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Stadt- & Hochstiftmuseum Dillingen",
-      "link" : "http://betamasaheft.eu/INS0375dillingen",
+      "link" : "https://betamasaheft.eu/INS0375dillingen",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -30548,7 +30548,7 @@ var institutions ={
       "attested" : "እንዳ፡ ማርያም፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0348EM#n1",
+      "uri" : "https://betamasaheft.eu/INS0348EM#n1",
       "romanized" : "ʾƎndā Māryām",
       "transcription_completeness" : "complete"
     }, {
@@ -30560,8 +30560,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.4260263, 14.700872, 39.4260263, 14.700872 ],
-    "uri" : "http://betamasaheft.eu/INS0348EM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5665Semaza", "http://betamasaheft.eu/places/LOC3756Ham", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0348EM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5665Semaza", "https://betamasaheft.eu/places/LOC3756Ham", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -30603,7 +30603,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾƎndā Māryām",
-      "link" : "http://betamasaheft.eu/INS0348EM",
+      "link" : "https://betamasaheft.eu/INS0348EM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -30633,7 +30633,7 @@ var institutions ={
       "attested" : "Ethiopian Orthodox Church Patriarchate Library",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0353EOCP#n1",
+      "uri" : "https://betamasaheft.eu/INS0353EOCP#n1",
       "romanized" : null,
       "transcription_completeness" : "complete"
     }, {
@@ -30645,8 +30645,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.74689, 9.02497, 38.74689, 9.02497 ],
-    "uri" : "http://betamasaheft.eu/INS0353EOCP",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC1216AddisA", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0353EOCP",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC1216AddisA", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -30688,7 +30688,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ethiopian Orthodox Church Patriarchate Library",
-      "link" : "http://betamasaheft.eu/INS0353EOCP",
+      "link" : "https://betamasaheft.eu/INS0353EOCP",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -30721,7 +30721,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 8.46212, 49.4889, 8.46212, 49.4889 ],
-    "uri" : "http://betamasaheft.eu/INS0393Museums_Reiss-Engelhorn",
+    "uri" : "https://betamasaheft.eu/INS0393Museums_Reiss-Engelhorn",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q2119", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -30764,7 +30764,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Museums Reiss-Engelhorn Mannheim",
-      "link" : "http://betamasaheft.eu/INS0393Museums_Reiss-Engelhorn",
+      "link" : "https://betamasaheft.eu/INS0393Museums_Reiss-Engelhorn",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -30792,12 +30792,12 @@ var institutions ={
       "attested" : "Church of St. Marc",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0311CM#n1",
+      "uri" : "https://betamasaheft.eu/INS0311CM#n1",
       "romanized" : null,
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 31.1354, 30.0023, 31.1354, 30.0023 ],
-    "uri" : "http://betamasaheft.eu/INS0311CM",
+    "uri" : "https://betamasaheft.eu/INS0311CM",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q30805", "https://www.wikidata.org/entity/Q85", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -30840,7 +30840,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Church of St. Marc",
-      "link" : "http://betamasaheft.eu/INS0311CM",
+      "link" : "https://betamasaheft.eu/INS0311CM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -30873,7 +30873,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 11.5807, 48.15, 11.5807, 48.15 ],
-    "uri" : "http://betamasaheft.eu/INS0399University_Library_LMU",
+    "uri" : "https://betamasaheft.eu/INS0399University_Library_LMU",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1726", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -30916,7 +30916,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "University Library of the LMU Munich",
-      "link" : "http://betamasaheft.eu/INS0399University_Library_LMU",
+      "link" : "https://betamasaheft.eu/INS0399University_Library_LMU",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -30949,7 +30949,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 9.5052, 51.32182, 9.5052, 51.32182 ],
-    "uri" : "http://betamasaheft.eu/INS0390Kassel_University_Library",
+    "uri" : "https://betamasaheft.eu/INS0390Kassel_University_Library",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q2865", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -30992,7 +30992,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Kassel University Library",
-      "link" : "http://betamasaheft.eu/INS0390Kassel_University_Library",
+      "link" : "https://betamasaheft.eu/INS0390Kassel_University_Library",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -31020,7 +31020,7 @@ var institutions ={
       "attested" : "Mār Ǧirǧis",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0337MG#n1",
+      "uri" : "https://betamasaheft.eu/INS0337MG#n1",
       "romanized" : "St. George",
       "transcription_completeness" : "complete"
     }, {
@@ -31032,7 +31032,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 31.1354, 30.0023, 31.1354, 30.0023 ],
-    "uri" : "http://betamasaheft.eu/INS0337MG",
+    "uri" : "https://betamasaheft.eu/INS0337MG",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q30805", "https://www.wikidata.org/entity/Q85", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -31075,7 +31075,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "St. George",
-      "link" : "http://betamasaheft.eu/INS0337MG",
+      "link" : "https://betamasaheft.eu/INS0337MG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -31106,7 +31106,7 @@ var institutions ={
       "attested" : "መንዳባ፡ መድኃኔ፡ ዓለም፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0331Mandab#n1",
+      "uri" : "https://betamasaheft.eu/INS0331Mandab#n1",
       "romanized" : "Mandābbā Madḫāne ʿĀlam",
       "transcription_completeness" : "complete"
     }, {
@@ -31120,7 +31120,7 @@ var institutions ={
       "attested" : "ማንዳባ፡ መድኃኔ፡ ዓለም፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0331Mandab#n2",
+      "uri" : "https://betamasaheft.eu/INS0331Mandab#n2",
       "romanized" : "Māndābbā Madḫāne ʿĀlam",
       "transcription_completeness" : "complete"
     }, {
@@ -31134,7 +31134,7 @@ var institutions ={
       "attested" : "መንደ፡ አምባ፡ መድኃኔ፡ ዓለም፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0331Mandab#n3",
+      "uri" : "https://betamasaheft.eu/INS0331Mandab#n3",
       "romanized" : "Manda ʾAmbā Madḫāne ʿĀlam",
       "transcription_completeness" : "complete"
     }, {
@@ -31148,7 +31148,7 @@ var institutions ={
       "attested" : "ማንደምባ፡ መድኃኔ፡ ዓለም፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0331Mandab#n4",
+      "uri" : "https://betamasaheft.eu/INS0331Mandab#n4",
       "romanized" : "Māndambā Madḫāne ʿĀlam",
       "transcription_completeness" : "complete"
     }, {
@@ -31162,7 +31162,7 @@ var institutions ={
       "attested" : "ማንድባን፡ መድኃኔ፡ ዓለም፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0331Mandab#n5",
+      "uri" : "https://betamasaheft.eu/INS0331Mandab#n5",
       "romanized" : "Māndǝbān Madḫāne ʿĀlam",
       "transcription_completeness" : "complete"
     }, {
@@ -31174,8 +31174,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 37.2357, 12.2179, 37.2357, 12.2179 ],
-    "uri" : "http://betamasaheft.eu/INS0331Mandab",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC1426Amhara", "http://betamasaheft.eu/places/LOC1713Bagemd", "http://betamasaheft.eu/places/LOC6544NorthGondar", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0331Mandab",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC1426Amhara", "https://betamasaheft.eu/places/LOC1713Bagemd", "https://betamasaheft.eu/places/LOC6544NorthGondar", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -31217,7 +31217,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Mandābbā Madḫāne ʿĀlam",
-      "link" : "http://betamasaheft.eu/INS0331Mandab",
+      "link" : "https://betamasaheft.eu/INS0331Mandab",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -31252,7 +31252,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 8.65104, 53.18099, 8.65104, 53.18099 ],
-    "uri" : "http://betamasaheft.eu/INS0376Schoenebeck",
+    "uri" : "https://betamasaheft.eu/INS0376Schoenebeck",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q24879", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -31295,7 +31295,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Heimatmuseum Schloss Schönebeck",
-      "link" : "http://betamasaheft.eu/INS0376Schoenebeck",
+      "link" : "https://betamasaheft.eu/INS0376Schoenebeck",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -31328,7 +31328,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 11.00666667, 49.59666667, 11.00666667, 49.59666667 ],
-    "uri" : "http://betamasaheft.eu/INS0380Erlangen",
+    "uri" : "https://betamasaheft.eu/INS0380Erlangen",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q3126", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -31371,7 +31371,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Koenigliche Universitaetsbibliothek zu Erlangen-Nuernberg",
-      "link" : "http://betamasaheft.eu/INS0380Erlangen",
+      "link" : "https://betamasaheft.eu/INS0380Erlangen",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -31399,7 +31399,7 @@ var institutions ={
       "attested" : "እንዳ፡ አባ፡ ገሪማ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0336EAG#n1",
+      "uri" : "https://betamasaheft.eu/INS0336EAG#n1",
       "romanized" : "ʾƎndā ʾAbbā Garimā",
       "transcription_completeness" : "complete"
     }, {
@@ -31413,7 +31413,7 @@ var institutions ={
       "attested" : "ደብረ፡ መደራ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0336EAG#n2",
+      "uri" : "https://betamasaheft.eu/INS0336EAG#n2",
       "romanized" : "Dabra Madarā",
       "transcription_completeness" : "complete"
     }, {
@@ -31427,7 +31427,7 @@ var institutions ={
       "attested" : "ቤተ፡ አባ፡ ገሪማ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0336EAG#n3",
+      "uri" : "https://betamasaheft.eu/INS0336EAG#n3",
       "romanized" : "Beta ʾAbbā Garimā",
       "transcription_completeness" : "complete"
     }, {
@@ -31439,8 +31439,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.95195, 14.16436, 38.95195, 14.16436 ],
-    "uri" : "http://betamasaheft.eu/INS0336EAG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC1264Adwa", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0336EAG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC1264Adwa", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -31482,7 +31482,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾƎndā ʾAbbā Garimā",
-      "link" : "http://betamasaheft.eu/INS0336EAG",
+      "link" : "https://betamasaheft.eu/INS0336EAG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -31524,7 +31524,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 2.332161, 48.853963, 2.332161, 48.853963 ],
-    "uri" : "http://betamasaheft.eu/INS0305SGP",
+    "uri" : "https://betamasaheft.eu/INS0305SGP",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q13917", "https://www.wikidata.org/entity/Q90", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -31567,7 +31567,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Abbaye de Saint-Germain-des-Prés",
-      "link" : "http://betamasaheft.eu/INS0305SGP",
+      "link" : "https://betamasaheft.eu/INS0305SGP",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -31600,7 +31600,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 7.62361111, 51.96116667, 7.62361111, 51.96116667 ],
-    "uri" : "http://betamasaheft.eu/INS0400Institute_for_Testament_Textual_Research_",
+    "uri" : "https://betamasaheft.eu/INS0400Institute_for_Testament_Textual_Research_",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q2742", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -31643,7 +31643,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Institute for New Testament Textual Research Münster",
-      "link" : "http://betamasaheft.eu/INS0400Institute_for_Testament_Textual_Research_",
+      "link" : "https://betamasaheft.eu/INS0400Institute_for_Testament_Textual_Research_",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -31671,7 +31671,7 @@ var institutions ={
       "attested" : "Bibliotheca Harleiana",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0322BH#n1",
+      "uri" : "https://betamasaheft.eu/INS0322BH#n1",
       "romanized" : "Harleian Library",
       "transcription_completeness" : "complete"
     }, {
@@ -31685,19 +31685,19 @@ var institutions ={
       "attested" : "Harley Collection",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0322BH#n2",
+      "uri" : "https://betamasaheft.eu/INS0322BH#n2",
       "romanized" : null,
       "transcription_completeness" : "complete"
     }, {
       "attested" : "Harleian Collection",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0322BH#n3",
+      "uri" : "https://betamasaheft.eu/INS0322BH#n3",
       "romanized" : null,
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ -0.1267, 51.5288, -0.1267, 51.5288 ],
-    "uri" : "http://betamasaheft.eu/INS0322BH",
+    "uri" : "https://betamasaheft.eu/INS0322BH",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q21", "https://www.wikidata.org/entity/Q84", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -31740,7 +31740,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Harleian Library",
-      "link" : "http://betamasaheft.eu/INS0322BH",
+      "link" : "https://betamasaheft.eu/INS0322BH",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -31768,12 +31768,12 @@ var institutions ={
       "attested" : "al-ʾAzhar",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0317AZ#n1",
+      "uri" : "https://betamasaheft.eu/INS0317AZ#n1",
       "romanized" : null,
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 31.2627, 30.0459, 31.2627, 30.0459 ],
-    "uri" : "http://betamasaheft.eu/INS0317AZ",
+    "uri" : "https://betamasaheft.eu/INS0317AZ",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q30805", "https://www.wikidata.org/entity/Q85", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -31816,7 +31816,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "al-ʾAzhar",
-      "link" : "http://betamasaheft.eu/INS0317AZ",
+      "link" : "https://betamasaheft.eu/INS0317AZ",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -31855,7 +31855,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -1.25406, 51.75411, -1.25406, 51.75411 ],
-    "uri" : "http://betamasaheft.eu/INS0312BDL",
+    "uri" : "https://betamasaheft.eu/INS0312BDL",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q21", "https://www.wikidata.org/entity/Q34217", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -31898,7 +31898,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Bodleian Library",
-      "link" : "http://betamasaheft.eu/INS0312BDL",
+      "link" : "https://betamasaheft.eu/INS0312BDL",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -31926,13 +31926,13 @@ var institutions ={
       "attested" : "National Archives and Library of Ethiopia",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0328NALE#n1",
+      "uri" : "https://betamasaheft.eu/INS0328NALE#n1",
       "romanized" : null,
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 38.7497, 9.018, 38.7497, 9.018 ],
-    "uri" : "http://betamasaheft.eu/INS0328NALE",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC1216AddisA", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0328NALE",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC1216AddisA", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -31974,7 +31974,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "National Archives and Library of Ethiopia",
-      "link" : "http://betamasaheft.eu/INS0328NALE",
+      "link" : "https://betamasaheft.eu/INS0328NALE",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -32002,7 +32002,7 @@ var institutions ={
       "attested" : "Dayr ʾAnbā ʾAnṭūniyūs",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0320DAA#n1",
+      "uri" : "https://betamasaheft.eu/INS0320DAA#n1",
       "romanized" : "Saint Anthony",
       "transcription_completeness" : "complete"
     }, {
@@ -32014,7 +32014,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 32.4734, 28.8996, 32.4734, 28.8996 ],
-    "uri" : "http://betamasaheft.eu/INS0320DAA",
+    "uri" : "https://betamasaheft.eu/INS0320DAA",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q134514", "https://www.wikidata.org/entity/Q23938880", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -32057,7 +32057,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Saint Anthony",
-      "link" : "http://betamasaheft.eu/INS0320DAA",
+      "link" : "https://betamasaheft.eu/INS0320DAA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -32085,7 +32085,7 @@ var institutions ={
       "attested" : "Dayr ʾIlyās",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0321DI#n1",
+      "uri" : "https://betamasaheft.eu/INS0321DI#n1",
       "romanized" : "Saint Elija",
       "transcription_completeness" : "complete"
     }, {
@@ -32099,12 +32099,12 @@ var institutions ={
       "attested" : "Dabra ʾElyās (Bahāt)",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0321DI#n2",
+      "uri" : "https://betamasaheft.eu/INS0321DI#n2",
       "romanized" : null,
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 30.2377, 30.4324, 30.2377, 30.4324 ],
-    "uri" : "http://betamasaheft.eu/INS0321DI",
+    "uri" : "https://betamasaheft.eu/INS0321DI",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q30630", "https://www.wikidata.org/entity/Q1074945", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -32147,7 +32147,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Saint Elija",
-      "link" : "http://betamasaheft.eu/INS0321DI",
+      "link" : "https://betamasaheft.eu/INS0321DI",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -32180,7 +32180,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 7.20503, 53.36957, 7.20503, 53.36957 ],
-    "uri" : "http://betamasaheft.eu/INS0379Emden",
+    "uri" : "https://betamasaheft.eu/INS0379Emden",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q4174", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -32223,7 +32223,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Johannes a Lasco Bibliothek Emden",
-      "link" : "http://betamasaheft.eu/INS0379Emden",
+      "link" : "https://betamasaheft.eu/INS0379Emden",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -32251,7 +32251,7 @@ var institutions ={
       "attested" : "Biblioteca Medicea Laurenziana",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0339BML#n1",
+      "uri" : "https://betamasaheft.eu/INS0339BML#n1",
       "romanized" : "Laurentian Medici Library",
       "transcription_completeness" : "complete"
     }, {
@@ -32263,7 +32263,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 11.254, 43.7743, 11.254, 43.7743 ],
-    "uri" : "http://betamasaheft.eu/INS0339BML",
+    "uri" : "https://betamasaheft.eu/INS0339BML",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1273", "https://www.wikidata.org/entity/Q2044", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -32306,7 +32306,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Laurentian Medici Library",
-      "link" : "http://betamasaheft.eu/INS0339BML",
+      "link" : "https://betamasaheft.eu/INS0339BML",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -32339,7 +32339,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 11.183333333, 47.983333333, 11.183333333, 47.983333333 ],
-    "uri" : "http://betamasaheft.eu/INS0371Andechs",
+    "uri" : "https://betamasaheft.eu/INS0371Andechs",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q165958", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -32382,7 +32382,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Kloster Andechs",
-      "link" : "http://betamasaheft.eu/INS0371Andechs",
+      "link" : "https://betamasaheft.eu/INS0371Andechs",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -32413,7 +32413,7 @@ var institutions ={
       "attested" : "ዳጋ፡ እስጢፋኖስ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0329DE#n1",
+      "uri" : "https://betamasaheft.eu/INS0329DE#n1",
       "romanized" : "Dāgā ʾƎsṭifānos",
       "transcription_completeness" : "complete"
     }, {
@@ -32427,7 +32427,7 @@ var institutions ={
       "attested" : "ደብረ፡ ዳጋ፡ እስጢፋኖስ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0329DE#n2",
+      "uri" : "https://betamasaheft.eu/INS0329DE#n2",
       "romanized" : "Dabra Dāgā ʾƎsṭifānos",
       "transcription_completeness" : "complete"
     }, {
@@ -32439,8 +32439,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 37.3098, 11.8961, 37.3098, 11.8961 ],
-    "uri" : "http://betamasaheft.eu/INS0329DE",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC1426Amhara", "http://betamasaheft.eu/places/LOC1713Bagemd", "http://betamasaheft.eu/places/LOC6544NorthGondar", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0329DE",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC1426Amhara", "https://betamasaheft.eu/places/LOC1713Bagemd", "https://betamasaheft.eu/places/LOC6544NorthGondar", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -32482,7 +32482,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dāgā ʾƎsṭifānos",
-      "link" : "http://betamasaheft.eu/INS0329DE",
+      "link" : "https://betamasaheft.eu/INS0329DE",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -32529,7 +32529,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 2.376, 48.83335, 2.376, 48.83335 ],
-    "uri" : "http://betamasaheft.eu/INS0303BNF",
+    "uri" : "https://betamasaheft.eu/INS0303BNF",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q13917", "https://www.wikidata.org/entity/Q90", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -32572,7 +32572,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Bibliothèque nationale de France",
-      "link" : "http://betamasaheft.eu/INS0303BNF",
+      "link" : "https://betamasaheft.eu/INS0303BNF",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -32607,7 +32607,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 8.70583, 49.4097, 8.70583, 49.4097 ],
-    "uri" : "http://betamasaheft.eu/INS0388University_Library_of_Heidelberg",
+    "uri" : "https://betamasaheft.eu/INS0388University_Library_of_Heidelberg",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q2966", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -32650,7 +32650,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "University Library of Heidelberg",
-      "link" : "http://betamasaheft.eu/INS0388University_Library_of_Heidelberg",
+      "link" : "https://betamasaheft.eu/INS0388University_Library_of_Heidelberg",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -32683,7 +32683,7 @@ var institutions ={
       "attested" : "አክሱም፡ ጽዮን፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0344AksumS#n1",
+      "uri" : "https://betamasaheft.eu/INS0344AksumS#n1",
       "romanized" : "ʾAksum Ṣǝyon",
       "transcription_completeness" : "complete"
     }, {
@@ -32697,7 +32697,7 @@ var institutions ={
       "attested" : "ማርያም፡ ጽዮን፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0344AksumS#n2",
+      "uri" : "https://betamasaheft.eu/INS0344AksumS#n2",
       "romanized" : [ "Māryām Ṣǝyon", "Mary of Zion" ],
       "transcription_completeness" : "complete"
     }, {
@@ -32718,7 +32718,7 @@ var institutions ={
       "attested" : "ገበዘ፡ ጽዮን፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0344AksumS#n3",
+      "uri" : "https://betamasaheft.eu/INS0344AksumS#n3",
       "romanized" : "Gabaza Ṣǝyon",
       "transcription_completeness" : "complete"
     }, {
@@ -32730,8 +32730,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.7195, 14.1305, 38.7195, 14.1305 ],
-    "uri" : "http://betamasaheft.eu/INS0344AksumS",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5932Tegray", "http://betamasaheft.eu/places/LOC6556Tegre", "http://betamasaheft.eu/places/LOC6555CentralTegray", "http://betamasaheft.eu/places/LOC1310Aksum", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0344AksumS",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5932Tegray", "https://betamasaheft.eu/places/LOC6556Tegre", "https://betamasaheft.eu/places/LOC6555CentralTegray", "https://betamasaheft.eu/places/LOC1310Aksum", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -32773,7 +32773,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAksum Ṣǝyon",
-      "link" : "http://betamasaheft.eu/INS0344AksumS",
+      "link" : "https://betamasaheft.eu/INS0344AksumS",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -32803,7 +32803,7 @@ var institutions ={
       "attested" : "Lund Universitetsbiblioteket",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0334LUL#n1",
+      "uri" : "https://betamasaheft.eu/INS0334LUL#n1",
       "romanized" : "Lund University Library",
       "transcription_completeness" : "complete"
     }, {
@@ -32815,7 +32815,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 13.1972, 55.7089, 13.1972, 55.7089 ],
-    "uri" : "http://betamasaheft.eu/INS0334LUL",
+    "uri" : "https://betamasaheft.eu/INS0334LUL",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q180756", "https://www.wikidata.org/entity/Q2167", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -32858,7 +32858,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Lund Universitetsbiblioteket",
-      "link" : "http://betamasaheft.eu/INS0334LUL",
+      "link" : "https://betamasaheft.eu/INS0334LUL",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -32886,12 +32886,12 @@ var institutions ={
       "attested" : "Dayr ʾAbū Mīnā",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0323DAM#n1",
+      "uri" : "https://betamasaheft.eu/INS0323DAM#n1",
       "romanized" : null,
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 31.1354, 30.0023, 31.1354, 30.0023 ],
-    "uri" : "http://betamasaheft.eu/INS0323DAM",
+    "uri" : "https://betamasaheft.eu/INS0323DAM",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q30805", "https://www.wikidata.org/entity/Q85", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -32934,7 +32934,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dayr ʾAbū Mīnā",
-      "link" : "http://betamasaheft.eu/INS0323DAM",
+      "link" : "https://betamasaheft.eu/INS0323DAM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -32965,26 +32965,26 @@ var institutions ={
       "attested" : "Universitätsbibliothek Johann Christian Senckenberg",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0317Frank#n1",
+      "uri" : "https://betamasaheft.eu/INS0317Frank#n1",
       "romanized" : null,
       "transcription_completeness" : "complete"
     }, {
       "attested" : "Stadt- und Universitätsbibliothek Frankfurt am Main",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0317Frank#n2",
+      "uri" : "https://betamasaheft.eu/INS0317Frank#n2",
       "romanized" : null,
       "transcription_completeness" : "complete"
     }, {
       "attested" : "Senckenbergische Bibliothek",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0317Frank#n3",
+      "uri" : "https://betamasaheft.eu/INS0317Frank#n3",
       "romanized" : null,
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 8.653069, 50.120294, 8.653069, 50.120294 ],
-    "uri" : "http://betamasaheft.eu/INS0317Frank",
+    "uri" : "https://betamasaheft.eu/INS0317Frank",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1794", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -33027,7 +33027,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Universitätsbibliothek Johann Christian Senckenberg",
-      "link" : "http://betamasaheft.eu/INS0317Frank",
+      "link" : "https://betamasaheft.eu/INS0317Frank",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -33062,7 +33062,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 11.5878, 50.9305, 11.5878, 50.9305 ],
-    "uri" : "http://betamasaheft.eu/INS0389University_Library_Jena",
+    "uri" : "https://betamasaheft.eu/INS0389University_Library_Jena",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q3150", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -33105,7 +33105,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Thuringian State and University Library",
-      "link" : "http://betamasaheft.eu/INS0389University_Library_Jena",
+      "link" : "https://betamasaheft.eu/INS0389University_Library_Jena",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -33141,7 +33141,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 16.36626667, 48.20614167, 16.36626667, 48.20614167 ],
-    "uri" : "http://betamasaheft.eu/INS0314ONB",
+    "uri" : "https://betamasaheft.eu/INS0314ONB",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1741", "https://www.wikidata.org/entity/Q1741", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -33184,7 +33184,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Österreichische Nationalbibliothek",
-      "link" : "http://betamasaheft.eu/INS0314ONB",
+      "link" : "https://betamasaheft.eu/INS0314ONB",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -33214,7 +33214,7 @@ var institutions ={
       "attested" : "The Royal Library",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0363CPH#n1",
+      "uri" : "https://betamasaheft.eu/INS0363CPH#n1",
       "romanized" : "Det Kongelige Bibliotek",
       "transcription_completeness" : "complete"
     }, {
@@ -33228,7 +33228,7 @@ var institutions ={
       "attested" : "The Royal Library, the National Library of Denmark and the Copenhagen University Library",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0363CPH#n2",
+      "uri" : "https://betamasaheft.eu/INS0363CPH#n2",
       "romanized" : "Det Kongelige Bibliotek, Nationalbibliotek og Københavns Universitetsbibliotek",
       "transcription_completeness" : "complete"
     }, {
@@ -33240,7 +33240,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 12.582208, 55.673825, 12.582208, 55.673825 ],
-    "uri" : "http://betamasaheft.eu/INS0363CPH",
+    "uri" : "https://betamasaheft.eu/INS0363CPH",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1748", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -33283,7 +33283,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "The Royal Library",
-      "link" : "http://betamasaheft.eu/INS0363CPH",
+      "link" : "https://betamasaheft.eu/INS0363CPH",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -33316,7 +33316,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 13.7368, 51.0282, 13.7368, 51.0282 ],
-    "uri" : "http://betamasaheft.eu/INS0377Saechsische_Landesbibliothek",
+    "uri" : "https://betamasaheft.eu/INS0377Saechsische_Landesbibliothek",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1731", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -33359,7 +33359,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Saechsische Landesbibliothek Staats- und Universitätsbibliothek Dresden",
-      "link" : "http://betamasaheft.eu/INS0377Saechsische_Landesbibliothek",
+      "link" : "https://betamasaheft.eu/INS0377Saechsische_Landesbibliothek",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -33387,7 +33387,7 @@ var institutions ={
       "attested" : "Biblioteca Nazionale Centrale di Firenze",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0338BNCF#n1",
+      "uri" : "https://betamasaheft.eu/INS0338BNCF#n1",
       "romanized" : "Florence National Central Library",
       "transcription_completeness" : "complete"
     }, {
@@ -33399,7 +33399,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 11.2623, 43.767, 11.2623, 43.767 ],
-    "uri" : "http://betamasaheft.eu/INS0338BNCF",
+    "uri" : "https://betamasaheft.eu/INS0338BNCF",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1273", "https://www.wikidata.org/entity/Q2044", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -33442,7 +33442,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Florence National Central Library",
-      "link" : "http://betamasaheft.eu/INS0338BNCF",
+      "link" : "https://betamasaheft.eu/INS0338BNCF",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -33473,7 +33473,7 @@ var institutions ={
       "attested" : "ደብረ፡ ሐይቅ፡ እስጢፋኖስ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0327DHE#n1",
+      "uri" : "https://betamasaheft.eu/INS0327DHE#n1",
       "romanized" : "Dabra Ḥayq ʾƎsṭifānos",
       "transcription_completeness" : "complete"
     }, {
@@ -33487,7 +33487,7 @@ var institutions ={
       "attested" : "ደብረ፡ ሐይቅ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0327DHE#n2",
+      "uri" : "https://betamasaheft.eu/INS0327DHE#n2",
       "romanized" : "Dabra Ḥayq",
       "transcription_completeness" : "complete"
     }, {
@@ -33501,7 +33501,7 @@ var institutions ={
       "attested" : "ደብረ፡ እግዚአብኄር፡ አብ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0327DHE#n3",
+      "uri" : "https://betamasaheft.eu/INS0327DHE#n3",
       "romanized" : "Dabra ʾƎgziʾabǝḥer ʾAb",
       "transcription_completeness" : "complete"
     }, {
@@ -33515,7 +33515,7 @@ var institutions ={
       "attested" : "ደብረ፡ ነጐድጓድ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0327DHE#n4",
+      "uri" : "https://betamasaheft.eu/INS0327DHE#n4",
       "romanized" : "Dabra Nagʷadgʷād",
       "transcription_completeness" : "complete"
     }, {
@@ -33527,8 +33527,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.6976, 11.3388, 39.6976, 11.3388 ],
-    "uri" : "http://betamasaheft.eu/INS0327DHE",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC1426Amhara", "http://betamasaheft.eu/places/LOC6185Wallo", "http://betamasaheft.eu/places/LOC6572SouthWallo", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0327DHE",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC1426Amhara", "https://betamasaheft.eu/places/LOC6185Wallo", "https://betamasaheft.eu/places/LOC6572SouthWallo", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -33570,7 +33570,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dabra Ḥayq ʾƎsṭifānos",
-      "link" : "http://betamasaheft.eu/INS0327DHE",
+      "link" : "https://betamasaheft.eu/INS0327DHE",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -33603,7 +33603,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 11.591, 48.1432, 11.591, 48.1432 ],
-    "uri" : "http://betamasaheft.eu/INS0396Bavarian_National_Museum",
+    "uri" : "https://betamasaheft.eu/INS0396Bavarian_National_Museum",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1726", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -33646,7 +33646,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Bavarian National Museum München",
-      "link" : "http://betamasaheft.eu/INS0396Bavarian_National_Museum",
+      "link" : "https://betamasaheft.eu/INS0396Bavarian_National_Museum",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -33679,7 +33679,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 10.1111, 54.3467, 10.1111, 54.3467 ],
-    "uri" : "http://betamasaheft.eu/INS0391_Kiel_University_Library",
+    "uri" : "https://betamasaheft.eu/INS0391_Kiel_University_Library",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1707", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -33722,7 +33722,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Kiel University Library",
-      "link" : "http://betamasaheft.eu/INS0391_Kiel_University_Library",
+      "link" : "https://betamasaheft.eu/INS0391_Kiel_University_Library",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -33750,7 +33750,7 @@ var institutions ={
       "attested" : "دير المحرق",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0308DQ#n1",
+      "uri" : "https://betamasaheft.eu/INS0308DQ#n1",
       "romanized" : "Dayr al-Muḥarraq",
       "transcription_completeness" : "complete"
     }, {
@@ -33764,7 +33764,7 @@ var institutions ={
       "attested" : "ደብረ፡ ቍስቋም፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0308DQ#n2",
+      "uri" : "https://betamasaheft.eu/INS0308DQ#n2",
       "romanized" : "Dabra Qʷǝsqʷām",
       "transcription_completeness" : "complete"
     }, {
@@ -33778,7 +33778,7 @@ var institutions ={
       "attested" : "دير قسقام",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0308DQ#n3",
+      "uri" : "https://betamasaheft.eu/INS0308DQ#n3",
       "romanized" : "Dayr Qusqām",
       "transcription_completeness" : "complete"
     }, {
@@ -33792,12 +33792,12 @@ var institutions ={
       "attested" : "Convent of the Apostles",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0308DQ#n4",
+      "uri" : "https://betamasaheft.eu/INS0308DQ#n4",
       "romanized" : null,
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 30.816667, 27.444444, 30.816667, 27.444444 ],
-    "uri" : "http://betamasaheft.eu/INS0308DQ",
+    "uri" : "https://betamasaheft.eu/INS0308DQ",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q29965", "https://www.wikidata.org/entity/Q310844", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -33840,7 +33840,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dayr al-Muḥarraq",
-      "link" : "http://betamasaheft.eu/INS0308DQ",
+      "link" : "https://betamasaheft.eu/INS0308DQ",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -33868,12 +33868,12 @@ var institutions ={
       "attested" : "Ḥārat Zuwayla",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0319HZ#n1",
+      "uri" : "https://betamasaheft.eu/INS0319HZ#n1",
       "romanized" : null,
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 31.2496, 30.0626, 31.2496, 30.0626 ],
-    "uri" : "http://betamasaheft.eu/INS0319HZ",
+    "uri" : "https://betamasaheft.eu/INS0319HZ",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q30805", "https://www.wikidata.org/entity/Q85", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -33916,7 +33916,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ḥārat Zuwayla",
-      "link" : "http://betamasaheft.eu/INS0319HZ",
+      "link" : "https://betamasaheft.eu/INS0319HZ",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -33944,7 +33944,7 @@ var institutions ={
       "attested" : "Dayr al-ʾAnbā Būlā",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0310DAP#n1",
+      "uri" : "https://betamasaheft.eu/INS0310DAP#n1",
       "romanized" : "St. Paul's Monastery",
       "transcription_completeness" : "complete"
     }, {
@@ -33956,7 +33956,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 32.551578, 28.846469, 32.551578, 28.846469 ],
-    "uri" : "http://betamasaheft.eu/INS0310DAP",
+    "uri" : "https://betamasaheft.eu/INS0310DAP",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q30831", "https://www.wikidata.org/entity/Q208299", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -33999,7 +33999,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "St. Paul's Monastery",
-      "link" : "http://betamasaheft.eu/INS0310DAP",
+      "link" : "https://betamasaheft.eu/INS0310DAP",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -34032,7 +34032,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 8.67889, 50.1056, 8.67889, 50.1056 ],
-    "uri" : "http://betamasaheft.eu/INS0381Museum_der_Weltkulturen",
+    "uri" : "https://betamasaheft.eu/INS0381Museum_der_Weltkulturen",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1794", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -34075,7 +34075,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Museum der Weltkulturen Frankfurt am Main",
-      "link" : "http://betamasaheft.eu/INS0381Museum_der_Weltkulturen",
+      "link" : "https://betamasaheft.eu/INS0381Museum_der_Weltkulturen",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -34105,7 +34105,7 @@ var institutions ={
       "attested" : "ደብረ፡ ቢዘን፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0354DB#n1",
+      "uri" : "https://betamasaheft.eu/INS0354DB#n1",
       "romanized" : "Dabra Bizan",
       "transcription_completeness" : "complete"
     }, {
@@ -34117,8 +34117,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.083, 15.333, 39.083, 15.333 ],
-    "uri" : "http://betamasaheft.eu/INS0354DB",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC2252DabraB", "http://betamasaheft.eu/places/LOC3764Hamase", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0354DB",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC2252DabraB", "https://betamasaheft.eu/places/LOC3764Hamase", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -34160,7 +34160,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dabra Bizan",
-      "link" : "http://betamasaheft.eu/INS0354DB",
+      "link" : "https://betamasaheft.eu/INS0354DB",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -34193,7 +34193,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 11.9706, 51.49, 11.9706, 51.49 ],
-    "uri" : "http://betamasaheft.eu/INS0385University_and_State_Library_of_Saxony-Anhalt",
+    "uri" : "https://betamasaheft.eu/INS0385University_and_State_Library_of_Saxony-Anhalt",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q2814", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -34236,7 +34236,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "University and State Library of Saxony-Anhalt",
-      "link" : "http://betamasaheft.eu/INS0385University_and_State_Library_of_Saxony-Anhalt",
+      "link" : "https://betamasaheft.eu/INS0385University_and_State_Library_of_Saxony-Anhalt",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -34269,7 +34269,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 9.98519, 53.56486, 9.98519, 53.56486 ],
-    "uri" : "http://betamasaheft.eu/INS0387State_and_University_Library_Hamburg_",
+    "uri" : "https://betamasaheft.eu/INS0387State_and_University_Library_Hamburg_",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1055", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -34312,7 +34312,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "State and University Library Hamburg Carl von Ossietzky",
-      "link" : "http://betamasaheft.eu/INS0387State_and_University_Library_Hamburg_",
+      "link" : "https://betamasaheft.eu/INS0387State_and_University_Library_Hamburg_",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -34361,7 +34361,7 @@ var institutions ={
       "attested" : "ደብረ፡ ሊባኖስ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0341DL#n1",
+      "uri" : "https://betamasaheft.eu/INS0341DL#n1",
       "romanized" : "Dabra Libānos",
       "transcription_completeness" : "complete"
     }, {
@@ -34375,7 +34375,7 @@ var institutions ={
       "attested" : "ዓስቦ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0341DL#n2",
+      "uri" : "https://betamasaheft.eu/INS0341DL#n2",
       "romanized" : "ʿAsbo",
       "transcription_completeness" : "complete"
     }, {
@@ -34387,7 +34387,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.8667, 9.71667, 38.8667, 9.71667 ],
-    "uri" : "http://betamasaheft.eu/INS0341DL",
+    "uri" : "https://betamasaheft.eu/INS0341DL",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -34430,7 +34430,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dabra Libānos",
-      "link" : "http://betamasaheft.eu/INS0341DL",
+      "link" : "https://betamasaheft.eu/INS0341DL",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -34467,7 +34467,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 13.397741666, 52.520238888, 13.397741666, 52.520238888 ],
-    "uri" : "http://betamasaheft.eu/INS0372Berlin",
+    "uri" : "https://betamasaheft.eu/INS0372Berlin",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q64", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -34510,7 +34510,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ägyptisches Museum",
-      "link" : "http://betamasaheft.eu/INS0372Berlin",
+      "link" : "https://betamasaheft.eu/INS0372Berlin",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -34543,7 +34543,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 11.583333333, 48.13, 11.583333333, 48.13 ],
-    "uri" : "http://betamasaheft.eu/INS0397Deutsches_Museum_",
+    "uri" : "https://betamasaheft.eu/INS0397Deutsches_Museum_",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1726", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -34586,7 +34586,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Deutsches Museum München",
-      "link" : "http://betamasaheft.eu/INS0397Deutsches_Museum_",
+      "link" : "https://betamasaheft.eu/INS0397Deutsches_Museum_",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -34617,19 +34617,19 @@ var institutions ={
       "attested" : "Bayerische Staatsbibliothek",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0318BSB#n1",
+      "uri" : "https://betamasaheft.eu/INS0318BSB#n1",
       "romanized" : null,
       "transcription_completeness" : "complete"
     }, {
       "attested" : "Königliche Hof- und Staatsbibliothek",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0318BSB#n2",
+      "uri" : "https://betamasaheft.eu/INS0318BSB#n2",
       "romanized" : null,
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 11.58015, 48.14751, 11.58015, 48.14751 ],
-    "uri" : "http://betamasaheft.eu/INS0318BSB",
+    "uri" : "https://betamasaheft.eu/INS0318BSB",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q980", "https://www.wikidata.org/entity/Q1726", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -34672,7 +34672,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Bayerische Staatsbibliothek",
-      "link" : "http://betamasaheft.eu/INS0318BSB",
+      "link" : "https://betamasaheft.eu/INS0318BSB",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -34705,7 +34705,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 7.1087, 50.7314, 7.1087, 50.7314 ],
-    "uri" : "http://betamasaheft.eu/INS0374Bibliothek_Bonn",
+    "uri" : "https://betamasaheft.eu/INS0374Bibliothek_Bonn",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q586", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -34748,7 +34748,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Universitäts- und Landesbibliothek Bonn",
-      "link" : "http://betamasaheft.eu/INS0374Bibliothek_Bonn",
+      "link" : "https://betamasaheft.eu/INS0374Bibliothek_Bonn",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -34776,7 +34776,7 @@ var institutions ={
       "attested" : "Institute of Ethiopian Studies",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0501IES#n1",
+      "uri" : "https://betamasaheft.eu/INS0501IES#n1",
       "romanized" : [ "የኢትዮጵያ፡ ጤናትና፡ ምርምር፡ ተቋም፡", "Ya-ʾItyoṗṗǝyā ṭenātǝnnā mǝrǝmmǝr taqʷām" ],
       "transcription_completeness" : "complete"
     }, {
@@ -34795,7 +34795,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.757761, 8.980603, 38.757761, 8.980603 ],
-    "uri" : "http://betamasaheft.eu/INS0501IES",
+    "uri" : "https://betamasaheft.eu/INS0501IES",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q3624", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -34838,7 +34838,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ya-ʾItyoṗṗǝyā ṭenātǝnnā mǝrǝmmǝr taqʷām",
-      "link" : "http://betamasaheft.eu/INS0501IES",
+      "link" : "https://betamasaheft.eu/INS0501IES",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -34873,7 +34873,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 38.750316, 9.018857, 38.750316, 9.018857 ],
-    "uri" : "http://betamasaheft.eu/INS0503ARCCH",
+    "uri" : "https://betamasaheft.eu/INS0503ARCCH",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q3624", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -34916,7 +34916,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Authority for Research and Conservation of Cultural Heritage",
-      "link" : "http://betamasaheft.eu/INS0503ARCCH",
+      "link" : "https://betamasaheft.eu/INS0503ARCCH",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -34946,12 +34946,12 @@ var institutions ={
       "attested" : "National Museum of Ethiopia",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0505MuseumAddis#n1",
+      "uri" : "https://betamasaheft.eu/INS0505MuseumAddis#n1",
       "romanized" : null,
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 38.7619, 9.03833, 38.7619, 9.03833 ],
-    "uri" : "http://betamasaheft.eu/INS0505MuseumAddis",
+    "uri" : "https://betamasaheft.eu/INS0505MuseumAddis",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q3624", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -34994,7 +34994,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "National Museum of Ethiopia",
-      "link" : "http://betamasaheft.eu/INS0505MuseumAddis",
+      "link" : "https://betamasaheft.eu/INS0505MuseumAddis",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -35027,7 +35027,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 35.22975, 31.778444, 35.22975, 31.778444 ],
-    "uri" : "http://betamasaheft.eu/INS0426Monastery_Deir_es-Sultan",
+    "uri" : "https://betamasaheft.eu/INS0426Monastery_Deir_es-Sultan",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1218", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -35070,7 +35070,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Monastery Deir es-Sultan",
-      "link" : "http://betamasaheft.eu/INS0426Monastery_Deir_es-Sultan",
+      "link" : "https://betamasaheft.eu/INS0426Monastery_Deir_es-Sultan",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -35103,7 +35103,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -76.483494, 42.449099, -76.483494, 42.449099 ],
-    "uri" : "http://betamasaheft.eu/INS0469Kroch_Library",
+    "uri" : "https://betamasaheft.eu/INS0469Kroch_Library",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q217346", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -35146,7 +35146,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Carl A. Kroch Library New York",
-      "link" : "http://betamasaheft.eu/INS0469Kroch_Library",
+      "link" : "https://betamasaheft.eu/INS0469Kroch_Library",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -35179,7 +35179,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -83.7381, 42.2762, -83.7381, 42.2762 ],
-    "uri" : "http://betamasaheft.eu/INS0457University_of_Michigan_Library",
+    "uri" : "https://betamasaheft.eu/INS0457University_of_Michigan_Library",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q485172", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -35222,7 +35222,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "University of Michigan Library",
-      "link" : "http://betamasaheft.eu/INS0457University_of_Michigan_Library",
+      "link" : "https://betamasaheft.eu/INS0457University_of_Michigan_Library",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -35255,7 +35255,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -73.981556, 40.748803, -73.981556, 40.748803 ],
-    "uri" : "http://betamasaheft.eu/INS0482Pierpont_Morgan_Library",
+    "uri" : "https://betamasaheft.eu/INS0482Pierpont_Morgan_Library",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q60", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -35298,7 +35298,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Pierpont Morgan Library",
-      "link" : "http://betamasaheft.eu/INS0482Pierpont_Morgan_Library",
+      "link" : "https://betamasaheft.eu/INS0482Pierpont_Morgan_Library",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -35331,7 +35331,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 9.541388888, 54.511666666, 9.541388888, 54.511666666 ],
-    "uri" : "http://betamasaheft.eu/INS0405Gottorf_Castle_",
+    "uri" : "https://betamasaheft.eu/INS0405Gottorf_Castle_",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q501661", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -35374,7 +35374,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Museum Gottorf Castle",
-      "link" : "http://betamasaheft.eu/INS0405Gottorf_Castle_",
+      "link" : "https://betamasaheft.eu/INS0405Gottorf_Castle_",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -35407,7 +35407,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 38.75, 9.01806, 38.75, 9.01806 ],
-    "uri" : "http://betamasaheft.eu/INS0500NALA",
+    "uri" : "https://betamasaheft.eu/INS0500NALA",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q3624", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -35450,7 +35450,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ethiopian National Archives and Library Agency",
-      "link" : "http://betamasaheft.eu/INS0500NALA",
+      "link" : "https://betamasaheft.eu/INS0500NALA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -35483,7 +35483,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 9.673755, 45.70079, 9.673755, 45.70079 ],
-    "uri" : "http://betamasaheft.eu/INS0427Bergamo_Museum",
+    "uri" : "https://betamasaheft.eu/INS0427Bergamo_Museum",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q628", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -35526,7 +35526,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Bergamo Museum",
-      "link" : "http://betamasaheft.eu/INS0427Bergamo_Museum",
+      "link" : "https://betamasaheft.eu/INS0427Bergamo_Museum",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -35559,7 +35559,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -6.25680556, 53.34388889, -6.25680556, 53.34388889 ],
-    "uri" : "http://betamasaheft.eu/INS0423Trinity_College_Library",
+    "uri" : "https://betamasaheft.eu/INS0423Trinity_College_Library",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1761", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -35602,7 +35602,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Trinity College Library",
-      "link" : "http://betamasaheft.eu/INS0423Trinity_College_Library",
+      "link" : "https://betamasaheft.eu/INS0423Trinity_College_Library",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -35635,7 +35635,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 8.672441, 49.546879, 8.672441, 49.546879 ],
-    "uri" : "http://betamasaheft.eu/INS0406Weinheim_Museum",
+    "uri" : "https://betamasaheft.eu/INS0406Weinheim_Museum",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q7050", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -35678,7 +35678,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Museum der Stadt Weinheim",
-      "link" : "http://betamasaheft.eu/INS0406Weinheim_Museum",
+      "link" : "https://betamasaheft.eu/INS0406Weinheim_Museum",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -35711,7 +35711,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -90.23509, 38.636567, -90.23509, 38.636567 ],
-    "uri" : "http://betamasaheft.eu/INS0489Saint_Louis_University_Library",
+    "uri" : "https://betamasaheft.eu/INS0489Saint_Louis_University_Library",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q38022", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -35754,7 +35754,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Saint Louis University Pius XII Memorial Library",
-      "link" : "http://betamasaheft.eu/INS0489Saint_Louis_University_Library",
+      "link" : "https://betamasaheft.eu/INS0489Saint_Louis_University_Library",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -35787,7 +35787,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -79.39468333, 43.66757222, -79.39468333, 43.66757222 ],
-    "uri" : "http://betamasaheft.eu/INS0418Royal_Ontario_Museum",
+    "uri" : "https://betamasaheft.eu/INS0418Royal_Ontario_Museum",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q172", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -35830,7 +35830,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Royal Ontario Museum",
-      "link" : "http://betamasaheft.eu/INS0418Royal_Ontario_Museum",
+      "link" : "https://betamasaheft.eu/INS0418Royal_Ontario_Museum",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -35858,12 +35858,12 @@ var institutions ={
       "attested" : "Biblioteca Giovardiana di Veroli",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0453Bibl_Giov_Veroli#n1",
+      "uri" : "https://betamasaheft.eu/INS0453Bibl_Giov_Veroli#n1",
       "romanized" : null,
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 13.416431, 41.6913973, 13.416431, 41.6913973 ],
-    "uri" : "http://betamasaheft.eu/INS0453Bibl_Giov_Veroli",
+    "uri" : "https://betamasaheft.eu/INS0453Bibl_Giov_Veroli",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q42466", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -35906,7 +35906,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Biblioteca Giovardiana di Veroli",
-      "link" : "http://betamasaheft.eu/INS0453Bibl_Giov_Veroli",
+      "link" : "https://betamasaheft.eu/INS0453Bibl_Giov_Veroli",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -35939,7 +35939,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 11.258367, 43.771694, 11.258367, 43.771694 ],
-    "uri" : "http://betamasaheft.eu/INS0429Archaeological_museum_in_Florence",
+    "uri" : "https://betamasaheft.eu/INS0429Archaeological_museum_in_Florence",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q2044", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -35982,7 +35982,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Archaeological museum in Florence",
-      "link" : "http://betamasaheft.eu/INS0429Archaeological_museum_in_Florence",
+      "link" : "https://betamasaheft.eu/INS0429Archaeological_museum_in_Florence",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -36015,7 +36015,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -75.148409, 39.947267, -75.148409, 39.947267 ],
-    "uri" : "http://betamasaheft.eu/INS0484Pennsylvania_University_Center",
+    "uri" : "https://betamasaheft.eu/INS0484Pennsylvania_University_Center",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1345", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -36058,7 +36058,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Pennsylvania University Center for Advanced Judaic Studies Library",
-      "link" : "http://betamasaheft.eu/INS0484Pennsylvania_University_Center",
+      "link" : "https://betamasaheft.eu/INS0484Pennsylvania_University_Center",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -36091,7 +36091,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -71.193954, 42.34174, -71.193954, 42.34174 ],
-    "uri" : "http://betamasaheft.eu/INS0483Boston_College_Law_Library",
+    "uri" : "https://betamasaheft.eu/INS0483Boston_College_Law_Library",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q100", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -36134,7 +36134,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Boston College Law Library Daniel R. Coquillette Rare Book Room",
-      "link" : "http://betamasaheft.eu/INS0483Boston_College_Law_Library",
+      "link" : "https://betamasaheft.eu/INS0483Boston_College_Law_Library",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -36167,7 +36167,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 15.4503, 47.0781, 15.4503, 47.0781 ],
-    "uri" : "http://betamasaheft.eu/INS0409Graz_Library",
+    "uri" : "https://betamasaheft.eu/INS0409Graz_Library",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q13298", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -36210,7 +36210,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "University of Graz Library",
-      "link" : "http://betamasaheft.eu/INS0409Graz_Library",
+      "link" : "https://betamasaheft.eu/INS0409Graz_Library",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -36243,7 +36243,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -73.9622, 40.8127, -73.9622, 40.8127 ],
-    "uri" : "http://betamasaheft.eu/INS0474Columbia_University_Department_of_Middle_Eastern_Studies",
+    "uri" : "https://betamasaheft.eu/INS0474Columbia_University_Department_of_Middle_Eastern_Studies",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q60", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -36286,7 +36286,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Columbia University Department of Middle Eastern, South Asian, and African Studies",
-      "link" : "http://betamasaheft.eu/INS0474Columbia_University_Department_of_Middle_Eastern_Studies",
+      "link" : "https://betamasaheft.eu/INS0474Columbia_University_Department_of_Middle_Eastern_Studies",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -36319,7 +36319,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 4.356389, 50.843333, 4.356389, 50.843333 ],
-    "uri" : "http://betamasaheft.eu/INS0413Royal_Library",
+    "uri" : "https://betamasaheft.eu/INS0413Royal_Library",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q239", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -36362,7 +36362,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Royal Library of Belgium",
-      "link" : "http://betamasaheft.eu/INS0413Royal_Library",
+      "link" : "https://betamasaheft.eu/INS0413Royal_Library",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -36395,7 +36395,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 33.975561111, 28.555830555, 33.975561111, 28.555830555 ],
-    "uri" : "http://betamasaheft.eu/INS0437Saint_Catherine_Monastery",
+    "uri" : "https://betamasaheft.eu/INS0437Saint_Catherine_Monastery",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q36755", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -36438,7 +36438,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Saint Catherines Monastery Sinai",
-      "link" : "http://betamasaheft.eu/INS0437Saint_Catherine_Monastery",
+      "link" : "https://betamasaheft.eu/INS0437Saint_Catherine_Monastery",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -36471,7 +36471,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -87.59746, 41.7893, -87.59746, 41.7893 ],
-    "uri" : "http://betamasaheft.eu/INS0463University_of_Chicago_Oriental_Institute",
+    "uri" : "https://betamasaheft.eu/INS0463University_of_Chicago_Oriental_Institute",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1297", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -36514,7 +36514,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "University of Chicago Oriental Institute",
-      "link" : "http://betamasaheft.eu/INS0463University_of_Chicago_Oriental_Institute",
+      "link" : "https://betamasaheft.eu/INS0463University_of_Chicago_Oriental_Institute",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -36547,7 +36547,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 18.077777777, 59.328611111, 18.077777777, 59.328611111 ],
-    "uri" : "http://betamasaheft.eu/INS0455Nationalmuseum_Stockholm",
+    "uri" : "https://betamasaheft.eu/INS0455Nationalmuseum_Stockholm",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1754", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -36590,7 +36590,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Nationalmuseum Stockholm",
-      "link" : "http://betamasaheft.eu/INS0455Nationalmuseum_Stockholm",
+      "link" : "https://betamasaheft.eu/INS0455Nationalmuseum_Stockholm",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -36623,7 +36623,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 31.231, 30.006, 31.231, 30.006 ],
-    "uri" : "http://betamasaheft.eu/INS0416Coptic_Museum",
+    "uri" : "https://betamasaheft.eu/INS0416Coptic_Museum",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q85", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -36666,7 +36666,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Coptic Museum Cairo",
-      "link" : "http://betamasaheft.eu/INS0416Coptic_Museum",
+      "link" : "https://betamasaheft.eu/INS0416Coptic_Museum",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -36699,7 +36699,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -87.599722222, 41.789722222, -87.599722222, 41.789722222 ],
-    "uri" : "http://betamasaheft.eu/INS0462University_of_Chicago_",
+    "uri" : "https://betamasaheft.eu/INS0462University_of_Chicago_",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1297", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -36742,7 +36742,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "University of Chicago",
-      "link" : "http://betamasaheft.eu/INS0462University_of_Chicago_",
+      "link" : "https://betamasaheft.eu/INS0462University_of_Chicago_",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -36775,7 +36775,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -80.162133, 39.48249, -80.162133, 39.48249 ],
-    "uri" : "http://betamasaheft.eu/INS0497Fairmount_University_Library",
+    "uri" : "https://betamasaheft.eu/INS0497Fairmount_University_Library",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1022764", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -36818,7 +36818,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ruth Ann Musick Library",
-      "link" : "http://betamasaheft.eu/INS0497Fairmount_University_Library",
+      "link" : "https://betamasaheft.eu/INS0497Fairmount_University_Library",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -36851,7 +36851,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 10.533, 52.167, 10.533, 52.167 ],
-    "uri" : "http://betamasaheft.eu/INS0408Herzog_August_Library",
+    "uri" : "https://betamasaheft.eu/INS0408Herzog_August_Library",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q4122", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -36894,7 +36894,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Herzog August Library Wolfenbüttel",
-      "link" : "http://betamasaheft.eu/INS0408Herzog_August_Library",
+      "link" : "https://betamasaheft.eu/INS0408Herzog_August_Library",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -36927,7 +36927,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 12.683874, 41.804533, 12.683874, 41.804533 ],
-    "uri" : "http://betamasaheft.eu/INS0430Museo_Etiope_Guglielmo_Massaia",
+    "uri" : "https://betamasaheft.eu/INS0430Museo_Etiope_Guglielmo_Massaia",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q220", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -36970,7 +36970,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Museo Etiope Guglielmo Massaia",
-      "link" : "http://betamasaheft.eu/INS0430Museo_Etiope_Guglielmo_Massaia",
+      "link" : "https://betamasaheft.eu/INS0430Museo_Etiope_Guglielmo_Massaia",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -37003,7 +37003,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 9.85912, 51.34391, 9.85912, 51.34391 ],
-    "uri" : "http://betamasaheft.eu/INS0407Witzenhausen",
+    "uri" : "https://betamasaheft.eu/INS0407Witzenhausen",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q564827", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -37046,7 +37046,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Museum of Ethnology Witzenhausen",
-      "link" : "http://betamasaheft.eu/INS0407Witzenhausen",
+      "link" : "https://betamasaheft.eu/INS0407Witzenhausen",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -37079,7 +37079,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 8.545021, 47.374128, 8.545021, 47.374128 ],
-    "uri" : "http://betamasaheft.eu/INS0454Zuerich_Central_Library",
+    "uri" : "https://betamasaheft.eu/INS0454Zuerich_Central_Library",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q72", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -37122,7 +37122,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Kantons-, Stadt- und Universitätsbibliothek Zuerich",
-      "link" : "http://betamasaheft.eu/INS0454Zuerich_Central_Library",
+      "link" : "https://betamasaheft.eu/INS0454Zuerich_Central_Library",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -37155,7 +37155,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 5.43933, 43.5247, 5.43933, 43.5247 ],
-    "uri" : "http://betamasaheft.eu/INS0419Bibliotheque_Mejanes",
+    "uri" : "https://betamasaheft.eu/INS0419Bibliotheque_Mejanes",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q47465", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -37198,7 +37198,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Bibliotheque Mejanes Aix en Provence",
-      "link" : "http://betamasaheft.eu/INS0419Bibliotheque_Mejanes",
+      "link" : "https://betamasaheft.eu/INS0419Bibliotheque_Mejanes",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -37231,7 +37231,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 7.179114, 50.775258, 7.179114, 50.775258 ],
-    "uri" : "http://betamasaheft.eu/INS0404Sankt_Augustin",
+    "uri" : "https://betamasaheft.eu/INS0404Sankt_Augustin",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q4090", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -37274,7 +37274,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Museum Haus Voelker und Kulturen in Sankt Augustin",
-      "link" : "http://betamasaheft.eu/INS0404Sankt_Augustin",
+      "link" : "https://betamasaheft.eu/INS0404Sankt_Augustin",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -37307,7 +37307,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -88.22901, 40.104704, -88.22901, 40.104704 ],
-    "uri" : "http://betamasaheft.eu/INS0492University_of_Illinois_at_Urbana-Champaign_University_Library",
+    "uri" : "https://betamasaheft.eu/INS0492University_of_Illinois_at_Urbana-Champaign_University_Library",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q577964", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -37350,7 +37350,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "University of Illinois at Urbana-Champaign University Library",
-      "link" : "http://betamasaheft.eu/INS0492University_of_Illinois_at_Urbana-Champaign_University_Library",
+      "link" : "https://betamasaheft.eu/INS0492University_of_Illinois_at_Urbana-Champaign_University_Library",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -37383,7 +37383,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -77.474722, 37.556389, -77.474722, 37.556389 ],
-    "uri" : "http://betamasaheft.eu/INS0487Virginia_Museum_of_fine_arts",
+    "uri" : "https://betamasaheft.eu/INS0487Virginia_Museum_of_fine_arts",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q43421", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -37426,7 +37426,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Virginia Museum of fine arts",
-      "link" : "http://betamasaheft.eu/INS0487Virginia_Museum_of_fine_arts",
+      "link" : "https://betamasaheft.eu/INS0487Virginia_Museum_of_fine_arts",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -37459,7 +37459,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 14.025492, 48.155959, 14.025492, 48.155959 ],
-    "uri" : "http://betamasaheft.eu/INS0410Stadtmuseum_Wels",
+    "uri" : "https://betamasaheft.eu/INS0410Stadtmuseum_Wels",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q178582", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -37502,7 +37502,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Museum der Stadt Wels",
-      "link" : "http://betamasaheft.eu/INS0410Stadtmuseum_Wels",
+      "link" : "https://betamasaheft.eu/INS0410Stadtmuseum_Wels",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -37535,7 +37535,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -79.187036, 43.783153, -79.187036, 43.783153 ],
-    "uri" : "http://betamasaheft.eu/INS0433Scarborough_Library",
+    "uri" : "https://betamasaheft.eu/INS0433Scarborough_Library",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q172", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -37578,7 +37578,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "University of Toronto Scarborough Library",
-      "link" : "http://betamasaheft.eu/INS0433Scarborough_Library",
+      "link" : "https://betamasaheft.eu/INS0433Scarborough_Library",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -37611,7 +37611,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 24.95026686, 60.17036801, 24.95026686, 60.17036801 ],
-    "uri" : "http://betamasaheft.eu/INS0438National_Library_of_Finlande",
+    "uri" : "https://betamasaheft.eu/INS0438National_Library_of_Finlande",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1757", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -37654,7 +37654,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "National Library of Finlande",
-      "link" : "http://betamasaheft.eu/INS0438National_Library_of_Finlande",
+      "link" : "https://betamasaheft.eu/INS0438National_Library_of_Finlande",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -37687,7 +37687,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -72.92722, 41.31161, -72.92722, 41.31161 ],
-    "uri" : "http://betamasaheft.eu/INS0472Beinecke_Library",
+    "uri" : "https://betamasaheft.eu/INS0472Beinecke_Library",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q49145", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -37730,7 +37730,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "The Beinecke Rare Book and Manuscript  Library",
-      "link" : "http://betamasaheft.eu/INS0472Beinecke_Library",
+      "link" : "https://betamasaheft.eu/INS0472Beinecke_Library",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -37763,7 +37763,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -74.656944444, 40.352222222, -74.656944444, 40.352222222 ],
-    "uri" : "http://betamasaheft.eu/INS0485Princeton_Theological_Seminary_Library",
+    "uri" : "https://betamasaheft.eu/INS0485Princeton_Theological_Seminary_Library",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1345", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -37806,7 +37806,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Princeton Theological Seminary Library",
-      "link" : "http://betamasaheft.eu/INS0485Princeton_Theological_Seminary_Library",
+      "link" : "https://betamasaheft.eu/INS0485Princeton_Theological_Seminary_Library",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -37839,7 +37839,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -87.6306, 41.9, -87.6306, 41.9 ],
-    "uri" : "http://betamasaheft.eu/INS0460Newberry_Library",
+    "uri" : "https://betamasaheft.eu/INS0460Newberry_Library",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1297", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -37882,7 +37882,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Newberry Library Chicago",
-      "link" : "http://betamasaheft.eu/INS0460Newberry_Library",
+      "link" : "https://betamasaheft.eu/INS0460Newberry_Library",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -37915,7 +37915,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -77.026065, 38.891266, -77.026065, 38.891266 ],
-    "uri" : "http://betamasaheft.eu/INS0496Smithsonian_Institution_Libraries",
+    "uri" : "https://betamasaheft.eu/INS0496Smithsonian_Institution_Libraries",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q61", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -37958,7 +37958,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Smithsonian Institution Libraries",
-      "link" : "http://betamasaheft.eu/INS0496Smithsonian_Institution_Libraries",
+      "link" : "https://betamasaheft.eu/INS0496Smithsonian_Institution_Libraries",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -37991,7 +37991,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -76.999373, 38.934724, -76.999373, 38.934724 ],
-    "uri" : "http://betamasaheft.eu/INS0493Catholic_University_of_America_Library",
+    "uri" : "https://betamasaheft.eu/INS0493Catholic_University_of_America_Library",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q61", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -38034,7 +38034,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Catholic University of America Mullen Library",
-      "link" : "http://betamasaheft.eu/INS0493Catholic_University_of_America_Library",
+      "link" : "https://betamasaheft.eu/INS0493Catholic_University_of_America_Library",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -38067,7 +38067,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 30.352777777, 30.318888888, 30.352777777, 30.318888888 ],
-    "uri" : "http://betamasaheft.eu/INS0478DS",
+    "uri" : "https://betamasaheft.eu/INS0478DS",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1074945", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -38110,7 +38110,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dayr as-Suryān",
-      "link" : "http://betamasaheft.eu/INS0478DS",
+      "link" : "https://betamasaheft.eu/INS0478DS",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -38143,7 +38143,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -118.475, 34.0775, -118.475, 34.0775 ],
-    "uri" : "http://betamasaheft.eu/INS0471Getty_Museum",
+    "uri" : "https://betamasaheft.eu/INS0471Getty_Museum",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q65", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -38186,7 +38186,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "J. Paul Getty Museum",
-      "link" : "http://betamasaheft.eu/INS0471Getty_Museum",
+      "link" : "https://betamasaheft.eu/INS0471Getty_Museum",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -38219,7 +38219,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 35.2, 31.775833, 35.2, 31.775833 ],
-    "uri" : "http://betamasaheft.eu/INS0425National_Library_of_Israel",
+    "uri" : "https://betamasaheft.eu/INS0425National_Library_of_Israel",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1218", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -38262,7 +38262,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Jewish National and University Library",
-      "link" : "http://betamasaheft.eu/INS0425National_Library_of_Israel",
+      "link" : "https://betamasaheft.eu/INS0425National_Library_of_Israel",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -38295,7 +38295,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 12.5729, 55.6804, 12.5729, 55.6804 ],
-    "uri" : "http://betamasaheft.eu/INS0415Copenhagen_Library",
+    "uri" : "https://betamasaheft.eu/INS0415Copenhagen_Library",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1748", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -38338,7 +38338,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Copenhagen University Library",
-      "link" : "http://betamasaheft.eu/INS0415Copenhagen_Library",
+      "link" : "https://betamasaheft.eu/INS0415Copenhagen_Library",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -38366,12 +38366,12 @@ var institutions ={
       "attested" : "Monumento Nazionale Abbazia di Casamari",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0452Mon_Naz_Casamari#n1",
+      "uri" : "https://betamasaheft.eu/INS0452Mon_Naz_Casamari#n1",
       "romanized" : null,
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 13.487203, 41.671028 , 13.487203, 41.671028  ],
-    "uri" : "http://betamasaheft.eu/INS0452Mon_Naz_Casamari",
+    "uri" : "https://betamasaheft.eu/INS0452Mon_Naz_Casamari",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q42466", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -38414,7 +38414,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Monumento Nazionale Abbazia di Casamari",
-      "link" : "http://betamasaheft.eu/INS0452Mon_Naz_Casamari",
+      "link" : "https://betamasaheft.eu/INS0452Mon_Naz_Casamari",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -38447,7 +38447,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 12.1036, 54.0756, 12.1036, 54.0756 ],
-    "uri" : "http://betamasaheft.eu/INS0403Library_Rostock",
+    "uri" : "https://betamasaheft.eu/INS0403Library_Rostock",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q2861", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -38490,7 +38490,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "University Library Rostock",
-      "link" : "http://betamasaheft.eu/INS0403Library_Rostock",
+      "link" : "https://betamasaheft.eu/INS0403Library_Rostock",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -38523,7 +38523,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -77.879444, 34.226199, -77.879444, 34.226199 ],
-    "uri" : "http://betamasaheft.eu/INS0498Randall_Library",
+    "uri" : "https://betamasaheft.eu/INS0498Randall_Library",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q659400", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -38566,7 +38566,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "University of North Carolina Wilmington Randall Library",
-      "link" : "http://betamasaheft.eu/INS0498Randall_Library",
+      "link" : "https://betamasaheft.eu/INS0498Randall_Library",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -38599,7 +38599,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -123.068, 44.043, -123.068, 44.043 ],
-    "uri" : "http://betamasaheft.eu/INS0467_Oregon_Museum_of_Natural_and_Cultural_History",
+    "uri" : "https://betamasaheft.eu/INS0467_Oregon_Museum_of_Natural_and_Cultural_History",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q171224", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -38642,7 +38642,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Museum of Natural and Cultural History of the University of Oregon",
-      "link" : "http://betamasaheft.eu/INS0467_Oregon_Museum_of_Natural_and_Cultural_History",
+      "link" : "https://betamasaheft.eu/INS0467_Oregon_Museum_of_Natural_and_Cultural_History",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -38675,7 +38675,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 35.220793, 31.784921, 35.220793, 31.784921 ],
-    "uri" : "http://betamasaheft.eu/INS0424Monastery_of_Dabra_Gannat_Kidana_Mehrat",
+    "uri" : "https://betamasaheft.eu/INS0424Monastery_of_Dabra_Gannat_Kidana_Mehrat",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1218", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -38718,7 +38718,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Monastery of Dabra Gannat Kidana Mehrat",
-      "link" : "http://betamasaheft.eu/INS0424Monastery_of_Dabra_Gannat_Kidana_Mehrat",
+      "link" : "https://betamasaheft.eu/INS0424Monastery_of_Dabra_Gannat_Kidana_Mehrat",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -38751,7 +38751,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -111.84629, 40.762551, -111.84629, 40.762551 ],
-    "uri" : "http://betamasaheft.eu/INS0490Aziz_S._Atiya_Middle_East_Library",
+    "uri" : "https://betamasaheft.eu/INS0490Aziz_S._Atiya_Middle_East_Library",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q23337", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -38794,7 +38794,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Aziz S. Atiya Middle East Library",
-      "link" : "http://betamasaheft.eu/INS0490Aziz_S._Atiya_Middle_East_Library",
+      "link" : "https://betamasaheft.eu/INS0490Aziz_S._Atiya_Middle_East_Library",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -38827,7 +38827,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -79.398972222, 43.664027777, -79.398972222, 43.664027777 ],
-    "uri" : "http://betamasaheft.eu/INS0432Thomas_Fisher_Library_",
+    "uri" : "https://betamasaheft.eu/INS0432Thomas_Fisher_Library_",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q172", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -38870,7 +38870,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Thomas Fisher Rare Book Library",
-      "link" : "http://betamasaheft.eu/INS0432Thomas_Fisher_Library_",
+      "link" : "https://betamasaheft.eu/INS0432Thomas_Fisher_Library_",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -38903,7 +38903,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -73.576, 45.5033, -73.576, 45.5033 ],
-    "uri" : "http://betamasaheft.eu/INS0417McLennan_Library",
+    "uri" : "https://betamasaheft.eu/INS0417McLennan_Library",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q340", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -38946,7 +38946,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "McLennan Library Building Montreal",
-      "link" : "http://betamasaheft.eu/INS0417McLennan_Library",
+      "link" : "https://betamasaheft.eu/INS0417McLennan_Library",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -38979,7 +38979,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 4.407125, 50.835455, 4.407125, 50.835455 ],
-    "uri" : "http://betamasaheft.eu/INS0434Societe_des_Bollandistes",
+    "uri" : "https://betamasaheft.eu/INS0434Societe_des_Bollandistes",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q239", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -39022,7 +39022,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Société des Bollandistes",
-      "link" : "http://betamasaheft.eu/INS0434Societe_des_Bollandistes",
+      "link" : "https://betamasaheft.eu/INS0434Societe_des_Bollandistes",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -39055,7 +39055,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -76.616111111, 39.296666666, -76.616111111, 39.296666666 ],
-    "uri" : "http://betamasaheft.eu/INS0459Walters_Art_Museum",
+    "uri" : "https://betamasaheft.eu/INS0459Walters_Art_Museum",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q5092", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -39098,7 +39098,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Walters Art Museum Baltimore",
-      "link" : "http://betamasaheft.eu/INS0459Walters_Art_Museum",
+      "link" : "https://betamasaheft.eu/INS0459Walters_Art_Museum",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -39131,7 +39131,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 12.66673, 41.786274, 12.66673, 41.786274 ],
-    "uri" : "http://betamasaheft.eu/INS0414Abbey_of_St_Mary_of_Grottaferrata",
+    "uri" : "https://betamasaheft.eu/INS0414Abbey_of_St_Mary_of_Grottaferrata",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q242703", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -39174,7 +39174,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Exarchic Greek Abbey of St. Mary of Grottaferrata",
-      "link" : "http://betamasaheft.eu/INS0414Abbey_of_St_Mary_of_Grottaferrata",
+      "link" : "https://betamasaheft.eu/INS0414Abbey_of_St_Mary_of_Grottaferrata",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -39207,7 +39207,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 37.466666666, 12.6, 37.466666666, 12.6 ],
-    "uri" : "http://betamasaheft.eu/INS0451QeddusYohannes",
+    "uri" : "https://betamasaheft.eu/INS0451QeddusYohannes",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q54585998", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -39250,7 +39250,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Qǝddus Yoḥannǝs",
-      "link" : "http://betamasaheft.eu/INS0451QeddusYohannes",
+      "link" : "https://betamasaheft.eu/INS0451QeddusYohannes",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -39283,7 +39283,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -87.623889, 41.879444, -87.623889, 41.879444 ],
-    "uri" : "http://betamasaheft.eu/INS0461Art_Institute_of_Chicago",
+    "uri" : "https://betamasaheft.eu/INS0461Art_Institute_of_Chicago",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1297", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -39326,7 +39326,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Art Institute of Chicago",
-      "link" : "http://betamasaheft.eu/INS0461Art_Institute_of_Chicago",
+      "link" : "https://betamasaheft.eu/INS0461Art_Institute_of_Chicago",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -39359,7 +39359,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -74.657367, 40.349496, -74.657367, 40.349496 ],
-    "uri" : "http://betamasaheft.eu/INS0486Princeton_University_Library",
+    "uri" : "https://betamasaheft.eu/INS0486Princeton_University_Library",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1345", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -39402,7 +39402,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Princeton University Library",
-      "link" : "http://betamasaheft.eu/INS0486Princeton_University_Library",
+      "link" : "https://betamasaheft.eu/INS0486Princeton_University_Library",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -39435,7 +39435,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -77.003889, 38.887778, -77.003889, 38.887778 ],
-    "uri" : "http://betamasaheft.eu/INS0495Library_of_Congress",
+    "uri" : "https://betamasaheft.eu/INS0495Library_of_Congress",
     "connectsWith" : [ [ "http://sws.geonames.org/", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -39478,7 +39478,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Library of Congress",
-      "link" : "http://betamasaheft.eu/INS0495Library_of_Congress",
+      "link" : "https://betamasaheft.eu/INS0495Library_of_Congress",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -39511,7 +39511,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -117.069387, 32.774731, -117.069387, 32.774731 ],
-    "uri" : "http://betamasaheft.eu/INS0491San_Diego_University_Library",
+    "uri" : "https://betamasaheft.eu/INS0491San_Diego_University_Library",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q23337", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -39554,7 +39554,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "San Diego  State University Library",
-      "link" : "http://betamasaheft.eu/INS0491San_Diego_University_Library",
+      "link" : "https://betamasaheft.eu/INS0491San_Diego_University_Library",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -39587,7 +39587,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 10.2317, 49.8053, 10.2317, 49.8053 ],
-    "uri" : "http://betamasaheft.eu/INS0401Muensterschwarzach_Abbey",
+    "uri" : "https://betamasaheft.eu/INS0401Muensterschwarzach_Abbey",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q2742", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -39630,7 +39630,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Muensterschwarzach Abbey",
-      "link" : "http://betamasaheft.eu/INS0401Muensterschwarzach_Abbey",
+      "link" : "https://betamasaheft.eu/INS0401Muensterschwarzach_Abbey",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -39663,7 +39663,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 2.2975, 48.860833333, 2.2975, 48.860833333 ],
-    "uri" : "http://betamasaheft.eu/INS0421Musee_du_Quai_Branly",
+    "uri" : "https://betamasaheft.eu/INS0421Musee_du_Quai_Branly",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q90", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -39706,7 +39706,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Musee du Quai Branly",
-      "link" : "http://betamasaheft.eu/INS0421Musee_du_Quai_Branly",
+      "link" : "https://betamasaheft.eu/INS0421Musee_du_Quai_Branly",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -39739,7 +39739,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 3.158795, 51.159639, 3.158795, 51.159639 ],
-    "uri" : "http://betamasaheft.eu/INS0431St._Andrew_Abbey",
+    "uri" : "https://betamasaheft.eu/INS0431St._Andrew_Abbey",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q12994", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -39782,7 +39782,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Sint-Andriesabdij St. Andrew Abbey",
-      "link" : "http://betamasaheft.eu/INS0431St._Andrew_Abbey",
+      "link" : "https://betamasaheft.eu/INS0431St._Andrew_Abbey",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -39815,7 +39815,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -84.4836, 42.731, -84.4836, 42.731 ],
-    "uri" : "http://betamasaheft.eu/INS0466Michigan_State_University_Libraries",
+    "uri" : "https://betamasaheft.eu/INS0466Michigan_State_University_Libraries",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1166", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -39858,7 +39858,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Michigan State University Libraries",
-      "link" : "http://betamasaheft.eu/INS0466Michigan_State_University_Libraries",
+      "link" : "https://betamasaheft.eu/INS0466Michigan_State_University_Libraries",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -39891,7 +39891,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -6.267, 53.342, -6.267, 53.342 ],
-    "uri" : "http://betamasaheft.eu/INS0422Chester_Beatty_Library",
+    "uri" : "https://betamasaheft.eu/INS0422Chester_Beatty_Library",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1761", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -39934,7 +39934,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Chester Beatty Library Dublin",
-      "link" : "http://betamasaheft.eu/INS0422Chester_Beatty_Library",
+      "link" : "https://betamasaheft.eu/INS0422Chester_Beatty_Library",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -39962,7 +39962,7 @@ var institutions ={
       "attested" : "دير البرموس",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0480DB#n1",
+      "uri" : "https://betamasaheft.eu/INS0480DB#n1",
       "romanized" : "Dayr al-Baramūs",
       "transcription_completeness" : "complete"
     }, {
@@ -39974,7 +39974,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 30.276388888, 30.356944444, 30.276388888, 30.356944444 ],
-    "uri" : "http://betamasaheft.eu/INS0480DB",
+    "uri" : "https://betamasaheft.eu/INS0480DB",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -40017,7 +40017,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dayr al-Baramūs",
-      "link" : "http://betamasaheft.eu/INS0480DB",
+      "link" : "https://betamasaheft.eu/INS0480DB",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -40045,7 +40045,7 @@ var institutions ={
       "attested" : "አቦራ፡ ቅዱስ፡ ጊዮርጊስ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0449AboraGiyorgis#n1",
+      "uri" : "https://betamasaheft.eu/INS0449AboraGiyorgis#n1",
       "romanized" : "ʾAborā Qǝddus Giyorgis",
       "transcription_completeness" : "complete"
     }, {
@@ -40057,7 +40057,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.043330555, 12.0325, 39.043330555, 12.0325 ],
-    "uri" : "http://betamasaheft.eu/INS0449AboraGiyorgis",
+    "uri" : "https://betamasaheft.eu/INS0449AboraGiyorgis",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q207590", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -40100,7 +40100,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAborā Qǝddus Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0449AboraGiyorgis",
+      "link" : "https://betamasaheft.eu/INS0449AboraGiyorgis",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -40133,7 +40133,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -75.310007, 40.016866, -75.310007, 40.016866 ],
-    "uri" : "http://betamasaheft.eu/INS0468Haverford_College_Libraries",
+    "uri" : "https://betamasaheft.eu/INS0468Haverford_College_Libraries",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q5683748", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -40176,7 +40176,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Haverford College Libraries",
-      "link" : "http://betamasaheft.eu/INS0468Haverford_College_Libraries",
+      "link" : "https://betamasaheft.eu/INS0468Haverford_College_Libraries",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -40209,7 +40209,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -71.1159, 42.3732, -71.1159, 42.3732 ],
-    "uri" : "http://betamasaheft.eu/INS0460_Houghton_Library",
+    "uri" : "https://betamasaheft.eu/INS0460_Houghton_Library",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q49111", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -40252,7 +40252,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Houghton Library Harvard University",
-      "link" : "http://betamasaheft.eu/INS0460_Houghton_Library",
+      "link" : "https://betamasaheft.eu/INS0460_Houghton_Library",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -40285,7 +40285,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -85.820905, 41.22519, -85.820905, 41.22519 ],
-    "uri" : "http://betamasaheft.eu/INS0499Remnant_Trust",
+    "uri" : "https://betamasaheft.eu/INS0499Remnant_Trust",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q2590154", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -40328,7 +40328,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Remnant Trust",
-      "link" : "http://betamasaheft.eu/INS0499Remnant_Trust",
+      "link" : "https://betamasaheft.eu/INS0499Remnant_Trust",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -40361,7 +40361,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 9.1854, 45.4631, 9.1854, 45.4631 ],
-    "uri" : "http://betamasaheft.eu/INS0415Biblioteca_Ambrosiana",
+    "uri" : "https://betamasaheft.eu/INS0415Biblioteca_Ambrosiana",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q1885419", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -40404,7 +40404,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Biblioteca Ambrosiana",
-      "link" : "http://betamasaheft.eu/INS0415Biblioteca_Ambrosiana",
+      "link" : "https://betamasaheft.eu/INS0415Biblioteca_Ambrosiana",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -40437,7 +40437,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 6.137313888, 46.197797222, 6.137313888, 46.197797222 ],
-    "uri" : "http://betamasaheft.eu/INS0439Geneva_Ethnography_Museum",
+    "uri" : "https://betamasaheft.eu/INS0439Geneva_Ethnography_Museum",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q71", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -40480,7 +40480,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Geneva Ethnography Museum",
-      "link" : "http://betamasaheft.eu/INS0439Geneva_Ethnography_Museum",
+      "link" : "https://betamasaheft.eu/INS0439Geneva_Ethnography_Museum",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -40513,7 +40513,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 6.1806, 46.2153, 6.1806, 46.2153 ],
-    "uri" : "http://betamasaheft.eu/INS0440Bodmer_Library",
+    "uri" : "https://betamasaheft.eu/INS0440Bodmer_Library",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q71", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -40556,7 +40556,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Bodmer Library",
-      "link" : "http://betamasaheft.eu/INS0440Bodmer_Library",
+      "link" : "https://betamasaheft.eu/INS0440Bodmer_Library",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -40589,7 +40589,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -84.327556, 33.791727, -84.327556, 33.791727 ],
-    "uri" : "http://betamasaheft.eu/INS0458Pitts_Theology_Library",
+    "uri" : "https://betamasaheft.eu/INS0458Pitts_Theology_Library",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q23556", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -40632,7 +40632,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Pitts Theology Library Emory University",
-      "link" : "http://betamasaheft.eu/INS0458Pitts_Theology_Library",
+      "link" : "https://betamasaheft.eu/INS0458Pitts_Theology_Library",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -40665,7 +40665,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 4.7075, 50.87806, 4.7075, 50.87806 ],
-    "uri" : "http://betamasaheft.eu/INS0435University_Library_Leuven",
+    "uri" : "https://betamasaheft.eu/INS0435University_Library_Leuven",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q118958", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -40708,7 +40708,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "KU Leuven Library",
-      "link" : "http://betamasaheft.eu/INS0435University_Library_Leuven",
+      "link" : "https://betamasaheft.eu/INS0435University_Library_Leuven",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -40742,7 +40742,7 @@ var institutions ={
       "attested" : "ሐመረ፡ ኖኅ፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0448HamaraN#n1",
+      "uri" : "https://betamasaheft.eu/INS0448HamaraN#n1",
       "romanized" : "Ḥamara Noḫ",
       "transcription_completeness" : "complete"
     }, {
@@ -40756,7 +40756,7 @@ var institutions ={
       "attested" : "ሠለስቱ፡ ምእት፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0448HamaraN#n2",
+      "uri" : "https://betamasaheft.eu/INS0448HamaraN#n2",
       "romanized" : [ "Śalastu mǝʾt", "Selestù Mit" ],
       "transcription_completeness" : "complete"
     }, {
@@ -40775,8 +40775,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 37.466666666, 12.6, 37.466666666, 12.6 ],
-    "uri" : "http://betamasaheft.eu/INS0448HamaraN",
-    "connectsWith" : [ [ "https://www.wikidata.org/entity/Q54585998", "http://betamasaheft.eu/places/LOC3577Gondar", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0448HamaraN",
+    "connectsWith" : [ [ "https://www.wikidata.org/entity/Q54585998", "https://betamasaheft.eu/places/LOC3577Gondar", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -40818,7 +40818,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ḥamara Noḫ",
-      "link" : "http://betamasaheft.eu/INS0448HamaraN",
+      "link" : "https://betamasaheft.eu/INS0448HamaraN",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -40851,7 +40851,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -94.142893, 36.328077, -94.142893, 36.328077 ],
-    "uri" : "http://betamasaheft.eu/INS0488Rogers_Public_Library",
+    "uri" : "https://betamasaheft.eu/INS0488Rogers_Public_Library",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q79497", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -40894,7 +40894,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Rogers Public Library",
-      "link" : "http://betamasaheft.eu/INS0488Rogers_Public_Library",
+      "link" : "https://betamasaheft.eu/INS0488Rogers_Public_Library",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -40927,7 +40927,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 4.615591, 50.669687, 4.615591, 50.669687 ],
-    "uri" : "http://betamasaheft.eu/INS0436Institut_Orientaliste_de_Louvain",
+    "uri" : "https://betamasaheft.eu/INS0436Institut_Orientaliste_de_Louvain",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q118958", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -40970,7 +40970,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Institut Orientaliste de Louvain",
-      "link" : "http://betamasaheft.eu/INS0436Institut_Orientaliste_de_Louvain",
+      "link" : "https://betamasaheft.eu/INS0436Institut_Orientaliste_de_Louvain",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -41003,7 +41003,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 10.253888888, 53.507305555, 10.253888888, 53.507305555 ],
-    "uri" : "http://betamasaheft.eu/INS0402Museum_Rade_am_Schloss_Reinbek",
+    "uri" : "https://betamasaheft.eu/INS0402Museum_Rade_am_Schloss_Reinbek",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q516405", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -41046,7 +41046,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Museum Rade am Schloss Reinbek",
-      "link" : "http://betamasaheft.eu/INS0402Museum_Rade_am_Schloss_Reinbek",
+      "link" : "https://betamasaheft.eu/INS0402Museum_Rade_am_Schloss_Reinbek",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -41079,7 +41079,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -77.05847, 38.943708, -77.05847, 38.943708 ],
-    "uri" : "http://betamasaheft.eu/INS0494Howard_Divinity_Library",
+    "uri" : "https://betamasaheft.eu/INS0494Howard_Divinity_Library",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q61", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -41122,7 +41122,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Howard Divinity Library",
-      "link" : "http://betamasaheft.eu/INS0494Howard_Divinity_Library",
+      "link" : "https://betamasaheft.eu/INS0494Howard_Divinity_Library",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -41155,7 +41155,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -81.6916, 41.5011, -81.6916, 41.5011 ],
-    "uri" : "http://betamasaheft.eu/INS0464Cleveland_Public_Library",
+    "uri" : "https://betamasaheft.eu/INS0464Cleveland_Public_Library",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q37320", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -41198,7 +41198,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Cleveland Public Library",
-      "link" : "http://betamasaheft.eu/INS0464Cleveland_Public_Library",
+      "link" : "https://betamasaheft.eu/INS0464Cleveland_Public_Library",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -41231,7 +41231,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ -73.96367, 40.77891, -73.96367, 40.77891 ],
-    "uri" : "http://betamasaheft.eu/INS0476Metropolitan_Museum_of_Art",
+    "uri" : "https://betamasaheft.eu/INS0476Metropolitan_Museum_of_Art",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q60", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -41274,7 +41274,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Metropolitan Museum of Art",
-      "link" : "http://betamasaheft.eu/INS0476Metropolitan_Museum_of_Art",
+      "link" : "https://betamasaheft.eu/INS0476Metropolitan_Museum_of_Art",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -41302,7 +41302,7 @@ var institutions ={
       "attested" : "ቤተ፡ መድኃኔ፡ ዓለም፡",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0521BetaMadhaneAlem#n1",
+      "uri" : "https://betamasaheft.eu/INS0521BetaMadhaneAlem#n1",
       "romanized" : [ "Beta Madḫāne ʿĀlam", "Medhane Alem", "Saviour of the World" ],
       "transcription_completeness" : "complete"
     }, {
@@ -41328,8 +41328,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.043765, 12.033725, 39.043765, 12.033725 ],
-    "uri" : "http://betamasaheft.eu/INS0521BetaMadhaneAlem",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6573NorthWallo", "http://betamasaheft.eu/places/LOC4243Laliba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0521BetaMadhaneAlem",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6573NorthWallo", "https://betamasaheft.eu/places/LOC4243Laliba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -41371,7 +41371,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Beta Madḫāne ʿĀlam",
-      "link" : "http://betamasaheft.eu/INS0521BetaMadhaneAlem",
+      "link" : "https://betamasaheft.eu/INS0521BetaMadhaneAlem",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -41408,8 +41408,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 39.045206, 12.031398, 39.045206, 12.031398 ],
-    "uri" : "http://betamasaheft.eu/INS0519Beta_Libanos",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6573NorthWallo", "http://betamasaheft.eu/places/LOC4243Laliba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0519Beta_Libanos",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6573NorthWallo", "https://betamasaheft.eu/places/LOC4243Laliba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -41451,7 +41451,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Beta ʾAbbā Libānos",
-      "link" : "http://betamasaheft.eu/INS0519Beta_Libanos",
+      "link" : "https://betamasaheft.eu/INS0519Beta_Libanos",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -41486,8 +41486,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 39.045223, 12.031865, 39.045223, 12.031865 ],
-    "uri" : "http://betamasaheft.eu/INS0523BetaMarqoreos",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6573NorthWallo", "http://betamasaheft.eu/places/LOC4243Laliba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0523BetaMarqoreos",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6573NorthWallo", "https://betamasaheft.eu/places/LOC4243Laliba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -41529,7 +41529,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Beta Marqorewos",
-      "link" : "http://betamasaheft.eu/INS0523BetaMarqoreos",
+      "link" : "https://betamasaheft.eu/INS0523BetaMarqoreos",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -41561,27 +41561,27 @@ var institutions ={
       "attested" : "Etnografičeskij Muzej Akademii Nauk",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0524InEtn#n1",
+      "uri" : "https://betamasaheft.eu/INS0524InEtn#n1",
       "romanized" : null,
       "transcription_completeness" : "complete"
     }, {
       "attested" : "Institut Antropologii i Etnografii imeni Petra Velikogo Rossijskoj Akademii Nauk",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0524InEtn#n2",
+      "uri" : "https://betamasaheft.eu/INS0524InEtn#n2",
       "romanized" : null,
       "transcription_completeness" : "complete"
     }, {
       "attested" : "Kunstkamera",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0524InEtn#n3",
+      "uri" : "https://betamasaheft.eu/INS0524InEtn#n3",
       "romanized" : null,
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.7619, 9.03833, 38.7619, 9.03833 ],
-    "uri" : "http://betamasaheft.eu/INS0524InEtn",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6516SPB", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0524InEtn",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6516SPB", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -41623,7 +41623,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Etnografičeskij Muzej Akademii Nauk",
-      "link" : "http://betamasaheft.eu/INS0524InEtn",
+      "link" : "https://betamasaheft.eu/INS0524InEtn",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -41656,7 +41656,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 10.3257, 44.8047, 10.3257, 44.8047 ],
-    "uri" : "http://betamasaheft.eu/INS0514PalatinaParma",
+    "uri" : "https://betamasaheft.eu/INS0514PalatinaParma",
     "connectsWith" : [ [ "https://www.wikidata.org/entity/Q2683", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -41699,7 +41699,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Biblioteca Palatina",
-      "link" : "http://betamasaheft.eu/INS0514PalatinaParma",
+      "link" : "https://betamasaheft.eu/INS0514PalatinaParma",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -41732,7 +41732,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 16.3618, 48.2037, 16.3618, 48.2037 ],
-    "uri" : "http://betamasaheft.eu/INS0510KHM",
+    "uri" : "https://betamasaheft.eu/INS0510KHM",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -41775,7 +41775,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Kunsthistorisches Museum Wien",
-      "link" : "http://betamasaheft.eu/INS0510KHM",
+      "link" : "https://betamasaheft.eu/INS0510KHM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -41808,7 +41808,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 32.508, 15.606, 32.508, 15.606 ],
-    "uri" : "http://betamasaheft.eu/INS0512NatMusSudan",
+    "uri" : "https://betamasaheft.eu/INS0512NatMusSudan",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -41851,7 +41851,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Sudan National Museum",
-      "link" : "http://betamasaheft.eu/INS0512NatMusSudan",
+      "link" : "https://betamasaheft.eu/INS0512NatMusSudan",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -41884,8 +41884,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 39.045646, 12.031789, 39.045646, 12.031789 ],
-    "uri" : "http://betamasaheft.eu/INS0520BetaEmmanuel",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6573NorthWallo", "http://betamasaheft.eu/places/LOC4243Laliba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0520BetaEmmanuel",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6573NorthWallo", "https://betamasaheft.eu/places/LOC4243Laliba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -41927,7 +41927,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Beta ʾAmānuʾel",
-      "link" : "http://betamasaheft.eu/INS0520BetaEmmanuel",
+      "link" : "https://betamasaheft.eu/INS0520BetaEmmanuel",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -41962,8 +41962,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 38.927221, 15.333401, 38.927221, 15.333401 ],
-    "uri" : "http://betamasaheft.eu/INS0513MuseumAsmara",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC1579Asmara", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0513MuseumAsmara",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC1579Asmara", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -42005,7 +42005,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "National Museum of Eritrea",
-      "link" : "http://betamasaheft.eu/INS0513MuseumAsmara",
+      "link" : "https://betamasaheft.eu/INS0513MuseumAsmara",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -42038,7 +42038,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     },
     "bbox" : [ 45.042905, 12.779012, 45.042905, 12.779012 ],
-    "uri" : "http://betamasaheft.eu/INS0511NatMusAden",
+    "uri" : "https://betamasaheft.eu/INS0511NatMusAden",
     "connectsWith" : [ "https://pleiades.stoa.org/places/39274" ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -42081,7 +42081,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "National Museum of Aden",
-      "link" : "http://betamasaheft.eu/INS0511NatMusAden",
+      "link" : "https://betamasaheft.eu/INS0511NatMusAden",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -42109,27 +42109,27 @@ var institutions ={
       "attested" : "Gosudarstvennyj Ermitaž",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0526Hermitage#n1",
+      "uri" : "https://betamasaheft.eu/INS0526Hermitage#n1",
       "romanized" : null,
       "transcription_completeness" : "complete"
     }, {
       "attested" : "Ermitaž",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0526Hermitage#n2",
+      "uri" : "https://betamasaheft.eu/INS0526Hermitage#n2",
       "romanized" : null,
       "transcription_completeness" : "complete"
     }, {
       "attested" : "The State Hermitage Museum",
       "transcription_accuracy" : "accurate",
       "association_certainty" : "certain",
-      "uri" : "http://betamasaheft.eu/INS0526Hermitage#n3",
+      "uri" : "https://betamasaheft.eu/INS0526Hermitage#n3",
       "romanized" : null,
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 30.313611, 59.940556, 30.313611, 59.940556 ],
-    "uri" : "http://betamasaheft.eu/INS0526Hermitage",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6516SPB", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0526Hermitage",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6516SPB", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -42171,7 +42171,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gosudarstvennyj Ermitaž",
-      "link" : "http://betamasaheft.eu/INS0526Hermitage",
+      "link" : "https://betamasaheft.eu/INS0526Hermitage",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -42211,8 +42211,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.599452, 9.405517, 39.599452, 9.405517 ],
-    "uri" : "http://betamasaheft.eu/INS0582AHG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC7128Asagirt", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0582AHG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC7128Asagirt", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -42254,7 +42254,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ḫāyla Gwarfnah",
-      "link" : "http://betamasaheft.eu/INS0582AHG",
+      "link" : "https://betamasaheft.eu/INS0582AHG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -42298,8 +42298,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.681842, 11.321779, 39.681842, 11.321779 ],
-    "uri" : "http://betamasaheft.eu/INS0589AHY",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6185Wallo", "http://betamasaheft.eu/places/LOC1413Ambass", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0589AHY",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6185Wallo", "https://betamasaheft.eu/places/LOC1413Ambass", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -42341,7 +42341,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ḥāyq Takla Hāymānot",
-      "link" : "http://betamasaheft.eu/INS0589AHY",
+      "link" : "https://betamasaheft.eu/INS0589AHY",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -42385,8 +42385,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0712DGW",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0712DGW",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -42428,7 +42428,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gwǝguf Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0712DGW",
+      "link" : "https://betamasaheft.eu/INS0712DGW",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -42472,8 +42472,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.532558, 9.679556, 39.532558, 9.679556 ],
-    "uri" : "http://betamasaheft.eu/INS0694DAG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0694DAG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -42515,7 +42515,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAgǝgu Māryām",
-      "link" : "http://betamasaheft.eu/INS0694DAG",
+      "link" : "https://betamasaheft.eu/INS0694DAG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -42559,8 +42559,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0568AFG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "http://betamasaheft.eu/places/LOC3074FeqreG", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0568AFG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://betamasaheft.eu/places/LOC3074FeqreG", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -42602,7 +42602,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Fǝqre Gǝmb Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0568AFG",
+      "link" : "https://betamasaheft.eu/INS0568AFG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -42646,8 +42646,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.399649, 9.041563, 38.399649, 9.041563 ],
-    "uri" : "http://betamasaheft.eu/INS0529AAC",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1218AddisA", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0529AAC",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1218AddisA", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -42689,7 +42689,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAddis ʿĀlam Māryām",
-      "link" : "http://betamasaheft.eu/INS0529AAC",
+      "link" : "https://betamasaheft.eu/INS0529AAC",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -42733,8 +42733,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0561ADT",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0561ADT",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -42776,7 +42776,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dogage Takla Hāymānot",
-      "link" : "http://betamasaheft.eu/INS0561ADT",
+      "link" : "https://betamasaheft.eu/INS0561ADT",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -42820,8 +42820,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.22758, 11.130985, 39.22758, 11.130985 ],
-    "uri" : "http://betamasaheft.eu/INS0878WGM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6185Wallo", "http://betamasaheft.eu/places/LOC6238WarraB", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0878WGM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6185Wallo", "https://betamasaheft.eu/places/LOC6238WarraB", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -42863,7 +42863,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gubbisa Qǝddus Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0878WGM",
+      "link" : "https://betamasaheft.eu/INS0878WGM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -42907,7 +42907,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ -99.708474, 32.469057, -99.708474, 32.469057 ],
-    "uri" : "http://betamasaheft.eu/INS0553ACU",
+    "uri" : "https://betamasaheft.eu/INS0553ACU",
     "connectsWith" : [ [ "http://sws.geonames.org/", "http://sws.geonames.org/", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -42950,7 +42950,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Abilene Christian University",
-      "link" : "http://betamasaheft.eu/INS0553ACU",
+      "link" : "https://betamasaheft.eu/INS0553ACU",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -42994,8 +42994,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0612AMQ",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0612AMQ",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -43037,7 +43037,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Mutar ʾAmānuʾel",
-      "link" : "http://betamasaheft.eu/INS0612AMQ",
+      "link" : "https://betamasaheft.eu/INS0612AMQ",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -43081,8 +43081,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.831594, 9.69204, 39.831594, 9.69204 ],
-    "uri" : "http://betamasaheft.eu/INS0770HZY",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC3806HarrAm", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0770HZY",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC3806HarrAm", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -43124,7 +43124,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Zǝqwala Yoḥānnǝs",
-      "link" : "http://betamasaheft.eu/INS0770HZY",
+      "link" : "https://betamasaheft.eu/INS0770HZY",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -43168,8 +43168,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0600ALB",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0600ALB",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -43211,7 +43211,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Latāno Baʾāla Wald",
-      "link" : "http://betamasaheft.eu/INS0600ALB",
+      "link" : "https://betamasaheft.eu/INS0600ALB",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -43255,7 +43255,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 10.916372, 43.934746, 10.916372, 43.934746 ],
-    "uri" : "http://betamasaheft.eu/INS0834PBF",
+    "uri" : "https://betamasaheft.eu/INS0834PBF",
     "connectsWith" : [ [ "http://sws.geonames.org/", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -43298,7 +43298,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Biblioteca Forteguerriana di Pistoia",
-      "link" : "http://betamasaheft.eu/INS0834PBF",
+      "link" : "https://betamasaheft.eu/INS0834PBF",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -43342,8 +43342,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.759847, 9.044756, 38.759847, 9.044756 ],
-    "uri" : "http://betamasaheft.eu/INS0632AQM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC1479Arada", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0632AQM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC1479Arada", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -43385,7 +43385,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Qǝddus Mārqos",
-      "link" : "http://betamasaheft.eu/INS0632AQM",
+      "link" : "https://betamasaheft.eu/INS0632AQM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -43429,8 +43429,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.599452, 9.405517, 39.599452, 9.405517 ],
-    "uri" : "http://betamasaheft.eu/INS0595AKQ",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC7128Asagirt", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0595AKQ",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC7128Asagirt", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -43472,7 +43472,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Koso Qirqos",
-      "link" : "http://betamasaheft.eu/INS0595AKQ",
+      "link" : "https://betamasaheft.eu/INS0595AKQ",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -43516,8 +43516,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.674598, 9.52049, 39.674598, 9.52049 ],
-    "uri" : "http://betamasaheft.eu/INS0865TSG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC5846Tagula", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0865TSG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC5846Tagula", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -43559,7 +43559,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Sǝččat Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0865TSG",
+      "link" : "https://betamasaheft.eu/INS0865TSG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -43603,8 +43603,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.636888, 11.115558, 39.636888, 11.115558 ],
-    "uri" : "http://betamasaheft.eu/INS0714DMC",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6185Wallo", "http://betamasaheft.eu/places/LOC2575Dase", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0714DMC",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6185Wallo", "https://betamasaheft.eu/places/LOC2575Dase", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -43646,7 +43646,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dase Madḫāne ʿAlam",
-      "link" : "http://betamasaheft.eu/INS0714DMC",
+      "link" : "https://betamasaheft.eu/INS0714DMC",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -43690,8 +43690,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0619AMX",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0619AMX",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -43733,7 +43733,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Masč̣ā Māryām",
-      "link" : "http://betamasaheft.eu/INS0619AMX",
+      "link" : "https://betamasaheft.eu/INS0619AMX",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -43777,8 +43777,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.119049, 8.597449, 39.119049, 8.597449 ],
-    "uri" : "http://betamasaheft.eu/INS0782MAK",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC7141Mogo", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0782MAK",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC7141Mogo", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -43820,7 +43820,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Kǝflu Takkāllǝññ",
-      "link" : "http://betamasaheft.eu/INS0782MAK",
+      "link" : "https://betamasaheft.eu/INS0782MAK",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -43864,7 +43864,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ -73.575954, 45.503146, -73.575954, 45.503146 ],
-    "uri" : "http://betamasaheft.eu/INS0823MUL",
+    "uri" : "https://betamasaheft.eu/INS0823MUL",
     "connectsWith" : [ [ "http://sws.geonames.org/", "http://sws.geonames.org/", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -43907,7 +43907,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "McGill University Library",
-      "link" : "http://betamasaheft.eu/INS0823MUL",
+      "link" : "https://betamasaheft.eu/INS0823MUL",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -43951,8 +43951,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0641ASB",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "http://betamasaheft.eu/places/LOC7147Sotal", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0641ASB",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://betamasaheft.eu/places/LOC7147Sotal", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -43994,7 +43994,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Sotal ʾAmbā Kidāna Mǝḥrat",
-      "link" : "http://betamasaheft.eu/INS0641ASB",
+      "link" : "https://betamasaheft.eu/INS0641ASB",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -44038,8 +44038,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.261937, 10.000708, 39.261937, 10.000708 ],
-    "uri" : "http://betamasaheft.eu/INS0791MDZ",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC4865Morat", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0791MDZ",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC4865Morat", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -44081,7 +44081,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Zenā Mārqos / Dabra Zenā Mārqos",
-      "link" : "http://betamasaheft.eu/INS0791MDZ",
+      "link" : "https://betamasaheft.eu/INS0791MDZ",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -44125,7 +44125,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ -0.134067, 51.525984, -0.134067, 51.525984 ],
-    "uri" : "http://betamasaheft.eu/INS0775LWC",
+    "uri" : "https://betamasaheft.eu/INS0775LWC",
     "connectsWith" : [ [ "http://sws.geonames.org/", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -44168,7 +44168,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Wellcome Collection",
-      "link" : "http://betamasaheft.eu/INS0775LWC",
+      "link" : "https://betamasaheft.eu/INS0775LWC",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -44212,8 +44212,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.790049, 8.995859, 38.790049, 8.995859 ],
-    "uri" : "http://betamasaheft.eu/INS0585AHM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC1951Bole", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0585AHM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC1951Bole", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -44255,7 +44255,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ḥānnā Māryām",
-      "link" : "http://betamasaheft.eu/INS0585AHM",
+      "link" : "https://betamasaheft.eu/INS0585AHM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -44299,8 +44299,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.517009, 9.651166, 39.517009, 9.651166 ],
-    "uri" : "http://betamasaheft.eu/INS0887WQA",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7135Warana", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0887WQA",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7135Warana", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -44342,7 +44342,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAššannāfi Bayyana, qes",
-      "link" : "http://betamasaheft.eu/INS0887WQA",
+      "link" : "https://betamasaheft.eu/INS0887WQA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -44386,8 +44386,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0559ADR",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0559ADR",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -44429,7 +44429,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Darafo Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0559ADR",
+      "link" : "https://betamasaheft.eu/INS0559ADR",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -44473,7 +44473,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ -77.016813, 38.884716, -77.016813, 38.884716 ],
-    "uri" : "http://betamasaheft.eu/INS0884WMB",
+    "uri" : "https://betamasaheft.eu/INS0884WMB",
     "connectsWith" : [ [ "http://sws.geonames.org/", "http://sws.geonames.org/", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -44516,7 +44516,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Museum of the Bible",
-      "link" : "http://betamasaheft.eu/INS0884WMB",
+      "link" : "https://betamasaheft.eu/INS0884WMB",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -44560,8 +44560,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.599596, 9.406387, 39.599596, 9.406387 ],
-    "uri" : "http://betamasaheft.eu/INS0643ASG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC7128Asagirt", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0643ASG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC7128Asagirt", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -44603,7 +44603,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Salāyǝš Gābrǝʾel",
-      "link" : "http://betamasaheft.eu/INS0643ASG",
+      "link" : "https://betamasaheft.eu/INS0643ASG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -44647,8 +44647,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.674598, 9.52049, 39.674598, 9.52049 ],
-    "uri" : "http://betamasaheft.eu/INS0856TGM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC5846Tagula", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0856TGM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC5846Tagula", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -44690,7 +44690,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gobal Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0856TGM",
+      "link" : "https://betamasaheft.eu/INS0856TGM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -44734,8 +44734,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.751123, 9.0896, 38.751123, 9.0896 ],
-    "uri" : "http://betamasaheft.eu/INS0630AQK",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC2977Entott", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0630AQK",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC2977Entott", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -44777,7 +44777,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Kidāna Mǝḥrat",
-      "link" : "http://betamasaheft.eu/INS0630AQK",
+      "link" : "https://betamasaheft.eu/INS0630AQK",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -44821,8 +44821,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.433387, 9.635418, 39.433387, 9.635418 ],
-    "uri" : "http://betamasaheft.eu/INS0539AAR",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0539AAR",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -44864,7 +44864,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAmbārge Takla Hāymānot",
-      "link" : "http://betamasaheft.eu/INS0539AAR",
+      "link" : "https://betamasaheft.eu/INS0539AAR",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -44908,8 +44908,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.602218, 11.830618, 39.602218, 11.830618 ],
-    "uri" : "http://betamasaheft.eu/INS0748GGL",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6573NorthWallo", "http://betamasaheft.eu/places/LOC7136Gubba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0748GGL",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6573NorthWallo", "https://betamasaheft.eu/places/LOC7136Gubba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -44951,7 +44951,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Guba Lafto Church",
-      "link" : "http://betamasaheft.eu/INS0748GGL",
+      "link" : "https://betamasaheft.eu/INS0748GGL",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -44995,8 +44995,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.602218, 11.830618, 39.602218, 11.830618 ],
-    "uri" : "http://betamasaheft.eu/INS0765HMM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6185Wallo", "http://betamasaheft.eu/places/LOC3737Hagara", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0765HMM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6185Wallo", "https://betamasaheft.eu/places/LOC3737Hagara", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -45038,7 +45038,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Masno Māryām",
-      "link" : "http://betamasaheft.eu/INS0765HMM",
+      "link" : "https://betamasaheft.eu/INS0765HMM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -45082,8 +45082,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.685709, 9.574719, 39.685709, 9.574719 ],
-    "uri" : "http://betamasaheft.eu/INS0868TTH",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC5846Tagula", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0868TTH",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC5846Tagula", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -45125,7 +45125,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Tagulat Takla Hāymānot",
-      "link" : "http://betamasaheft.eu/INS0868TTH",
+      "link" : "https://betamasaheft.eu/INS0868TTH",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -45169,8 +45169,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.636888, 11.115558, 39.636888, 11.115558 ],
-    "uri" : "http://betamasaheft.eu/INS0710DGG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6185Wallo", "http://betamasaheft.eu/places/LOC2575Dase", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0710DGG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6185Wallo", "https://betamasaheft.eu/places/LOC2575Dase", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -45212,7 +45212,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gannata Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0710DGG",
+      "link" : "https://betamasaheft.eu/INS0710DGG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -45256,8 +45256,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.715141, 9.053464, 38.715141, 9.053464 ],
-    "uri" : "http://betamasaheft.eu/INS0635AQP",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC4114Kolfe", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0635AQP",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC4114Kolfe", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -45299,7 +45299,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ṗeṭros wa-Ṗāwlos",
-      "link" : "http://betamasaheft.eu/INS0635AQP",
+      "link" : "https://betamasaheft.eu/INS0635AQP",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -45343,8 +45343,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.636888, 11.115558, 39.636888, 11.115558 ],
-    "uri" : "http://betamasaheft.eu/INS0713DLM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6185Wallo", "http://betamasaheft.eu/places/LOC2575Dase", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0713DLM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6185Wallo", "https://betamasaheft.eu/places/LOC2575Dase", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -45386,7 +45386,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Laʾǝka Māryām Gabayyaw, liqa mazammǝrān",
-      "link" : "http://betamasaheft.eu/INS0713DLM",
+      "link" : "https://betamasaheft.eu/INS0713DLM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -45430,8 +45430,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.22758, 11.130985, 39.22758, 11.130985 ],
-    "uri" : "http://betamasaheft.eu/INS0888WTA",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6185Wallo", "http://betamasaheft.eu/places/LOC6238WarraB", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0888WTA",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6185Wallo", "https://betamasaheft.eu/places/LOC6238WarraB", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -45473,7 +45473,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Fit ʾAbbo Gabra Manfas Qǝddus",
-      "link" : "http://betamasaheft.eu/INS0888WTA",
+      "link" : "https://betamasaheft.eu/INS0888WTA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -45517,8 +45517,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.294524, 9.330322, 39.294524, 9.330322 ],
-    "uri" : "http://betamasaheft.eu/INS0840QSM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC5207Qembeb", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0840QSM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC5207Qembeb", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -45560,7 +45560,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Sano Māryām",
-      "link" : "http://betamasaheft.eu/INS0840QSM",
+      "link" : "https://betamasaheft.eu/INS0840QSM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -45604,8 +45604,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.261937, 10.000708, 39.261937, 10.000708 ],
-    "uri" : "http://betamasaheft.eu/INS0808MHM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC4865Morat", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0808MHM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC4865Morat", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -45647,7 +45647,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Hayadur Madḫāne ʿĀlam",
-      "link" : "http://betamasaheft.eu/INS0808MHM",
+      "link" : "https://betamasaheft.eu/INS0808MHM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -45691,8 +45691,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.119049, 8.597449, 39.119049, 8.597449 ],
-    "uri" : "http://betamasaheft.eu/INS0786MDD",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC7141Mogo", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0786MDD",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC7141Mogo", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -45734,7 +45734,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dǝkkub Gābrǝʾel",
-      "link" : "http://betamasaheft.eu/INS0786MDD",
+      "link" : "https://betamasaheft.eu/INS0786MDD",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -45778,7 +45778,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ -73.982276, 40.75312, -73.982276, 40.75312 ],
-    "uri" : "http://betamasaheft.eu/INS0832NYP",
+    "uri" : "https://betamasaheft.eu/INS0832NYP",
     "connectsWith" : [ [ "http://sws.geonames.org/", "http://sws.geonames.org/", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -45821,7 +45821,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "New York Public Library",
-      "link" : "http://betamasaheft.eu/INS0832NYP",
+      "link" : "https://betamasaheft.eu/INS0832NYP",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -45865,8 +45865,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.715141, 9.053464, 38.715141, 9.053464 ],
-    "uri" : "http://betamasaheft.eu/INS0664AUN",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC7127TaklaHaymAddis", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0664AUN",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC7127TaklaHaymAddis", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -45908,7 +45908,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Unknown dealer",
-      "link" : "http://betamasaheft.eu/INS0664AUN",
+      "link" : "https://betamasaheft.eu/INS0664AUN",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -45952,8 +45952,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0625AQF",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0625AQF",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -45995,7 +45995,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gazmu, qes",
-      "link" : "http://betamasaheft.eu/INS0625AQF",
+      "link" : "https://betamasaheft.eu/INS0625AQF",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -46039,8 +46039,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.373966, 8.939177, 39.373966, 8.939177 ],
-    "uri" : "http://betamasaheft.eu/INS0843SAG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC5549Sankur", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0843SAG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC5549Sankur", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -46082,7 +46082,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAgara Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0843SAG",
+      "link" : "https://betamasaheft.eu/INS0843SAG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -46126,8 +46126,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.757772, 9.046732, 38.757772, 9.046732 ],
-    "uri" : "http://betamasaheft.eu/INS0571AGM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC1479Arada", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0571AGM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC1479Arada", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -46169,7 +46169,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gabra Māryām",
-      "link" : "http://betamasaheft.eu/INS0571AGM",
+      "link" : "https://betamasaheft.eu/INS0571AGM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -46213,8 +46213,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.532558, 9.679556, 39.532558, 9.679556 ],
-    "uri" : "http://betamasaheft.eu/INS0724DQJ",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0724DQJ",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -46256,7 +46256,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Qobbo Māryām",
-      "link" : "http://betamasaheft.eu/INS0724DQJ",
+      "link" : "https://betamasaheft.eu/INS0724DQJ",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -46300,8 +46300,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0527AAA",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0527AAA",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -46343,7 +46343,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAgambarat ʾAbbo",
-      "link" : "http://betamasaheft.eu/INS0527AAA",
+      "link" : "https://betamasaheft.eu/INS0527AAA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -46387,8 +46387,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0680AYB",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0680AYB",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -46430,7 +46430,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Yǝgam ʾAbbo",
-      "link" : "http://betamasaheft.eu/INS0680AYB",
+      "link" : "https://betamasaheft.eu/INS0680AYB",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -46474,8 +46474,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0597AKS",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0597AKS",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -46517,7 +46517,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Kārrā Magan Śǝllāse",
-      "link" : "http://betamasaheft.eu/INS0597AKS",
+      "link" : "https://betamasaheft.eu/INS0597AKS",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -46561,8 +46561,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0689AZT",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0689AZT",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -46604,7 +46604,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Zanbo Takla Hāymānot",
-      "link" : "http://betamasaheft.eu/INS0689AZT",
+      "link" : "https://betamasaheft.eu/INS0689AZT",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -46648,8 +46648,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.602218, 11.830618, 39.602218, 11.830618 ],
-    "uri" : "http://betamasaheft.eu/INS0893YAQ",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6573NorthWallo", "http://betamasaheft.eu/places/LOC6341Yajju", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0893YAQ",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6573NorthWallo", "https://betamasaheft.eu/places/LOC6341Yajju", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -46691,7 +46691,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Qalama Warq Mangašā, ʾalaqā",
-      "link" : "http://betamasaheft.eu/INS0893YAQ",
+      "link" : "https://betamasaheft.eu/INS0893YAQ",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -46735,8 +46735,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.674598, 9.52049, 39.674598, 9.52049 ],
-    "uri" : "http://betamasaheft.eu/INS0826MWN",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0826MWN",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -46778,7 +46778,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Wǝgr Māryām Church",
-      "link" : "http://betamasaheft.eu/INS0826MWN",
+      "link" : "https://betamasaheft.eu/INS0826MWN",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -46822,8 +46822,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.294524, 9.330322, 39.294524, 9.330322 ],
-    "uri" : "http://betamasaheft.eu/INS0835QAM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC5207Qembeb", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0835QAM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC5207Qembeb", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -46865,7 +46865,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Adadi Māryām",
-      "link" : "http://betamasaheft.eu/INS0835QAM",
+      "link" : "https://betamasaheft.eu/INS0835QAM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -46909,8 +46909,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.294524, 9.330322, 39.294524, 9.330322 ],
-    "uri" : "http://betamasaheft.eu/INS0841QZK",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC5207Qembeb", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0841QZK",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC5207Qembeb", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -46952,7 +46952,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Zanǧo Kidāna Mǝḥrat",
-      "link" : "http://betamasaheft.eu/INS0841QZK",
+      "link" : "https://betamasaheft.eu/INS0841QZK",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -46996,8 +46996,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0666AWB",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0666AWB",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -47039,7 +47039,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Wǝnan ʾAmbā ʾAbbo",
-      "link" : "http://betamasaheft.eu/INS0666AWB",
+      "link" : "https://betamasaheft.eu/INS0666AWB",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -47083,8 +47083,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0661ATP",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0661ATP",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -47126,7 +47126,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ṭǝra Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0661ATP",
+      "link" : "https://betamasaheft.eu/INS0661ATP",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -47170,7 +47170,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 35.228505, 31.774288, 35.228505, 31.774288 ],
-    "uri" : "http://betamasaheft.eu/INS0771JPA",
+    "uri" : "https://betamasaheft.eu/INS0771JPA",
     "connectsWith" : [ [ "http://sws.geonames.org/", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -47213,7 +47213,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Jerusalem Patriarchate of the Armenian Orthodox Church",
-      "link" : "http://betamasaheft.eu/INS0771JPA",
+      "link" : "https://betamasaheft.eu/INS0771JPA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -47257,8 +47257,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.681842, 11.321779, 39.681842, 11.321779 ],
-    "uri" : "http://betamasaheft.eu/INS0850TBS",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6185Wallo", "http://betamasaheft.eu/places/LOC5867Takwel", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0850TBS",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6185Wallo", "https://betamasaheft.eu/places/LOC5867Takwel", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -47300,7 +47300,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Bora Śǝllāse",
-      "link" : "http://betamasaheft.eu/INS0850TBS",
+      "link" : "https://betamasaheft.eu/INS0850TBS",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -47344,8 +47344,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.532558, 9.679556, 39.532558, 9.679556 ],
-    "uri" : "http://betamasaheft.eu/INS0735DYM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0735DYM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -47387,7 +47387,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Yamāna",
-      "link" : "http://betamasaheft.eu/INS0735DYM",
+      "link" : "https://betamasaheft.eu/INS0735DYM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -47431,8 +47431,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.602218, 11.830618, 39.602218, 11.830618 ],
-    "uri" : "http://betamasaheft.eu/INS0903YZM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6573NorthWallo", "http://betamasaheft.eu/places/LOC6341Yajju", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0903YZM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6573NorthWallo", "https://betamasaheft.eu/places/LOC6341Yajju", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -47474,7 +47474,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Zamāryām",
-      "link" : "http://betamasaheft.eu/INS0903YZM",
+      "link" : "https://betamasaheft.eu/INS0903YZM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -47518,8 +47518,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.759812, 9.044776, 38.759812, 9.044776 ],
-    "uri" : "http://betamasaheft.eu/INS0646ASM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC2977Entott", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0646ASM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC2977Entott", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -47561,7 +47561,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾƎnṭoṭṭo Mārqos",
-      "link" : "http://betamasaheft.eu/INS0646ASM",
+      "link" : "https://betamasaheft.eu/INS0646ASM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -47605,8 +47605,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.831594, 9.69204, 39.831594, 9.69204 ],
-    "uri" : "http://betamasaheft.eu/INS0769HZT",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC3806HarrAm", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0769HZT",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC3806HarrAm", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -47648,7 +47648,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Zoma Takla Hāymānot",
-      "link" : "http://betamasaheft.eu/INS0769HZT",
+      "link" : "https://betamasaheft.eu/INS0769HZT",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -47692,8 +47692,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0673AWI",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0673AWI",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -47735,7 +47735,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Waramo Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0673AWI",
+      "link" : "https://betamasaheft.eu/INS0673AWI",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -47779,8 +47779,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.517009, 9.651166, 39.517009, 9.651166 ],
-    "uri" : "http://betamasaheft.eu/INS0886WNM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7135Warana", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0886WNM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7135Warana", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -47822,7 +47822,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Nas Māryām",
-      "link" : "http://betamasaheft.eu/INS0886WNM",
+      "link" : "https://betamasaheft.eu/INS0886WNM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -47866,8 +47866,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.496002, 9.047346, 38.496002, 9.047346 ],
-    "uri" : "http://betamasaheft.eu/INS0891WWC",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC7125WestSawa", "http://betamasaheft.eu/places/LOC6184Walmar", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0891WWC",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC7125WestSawa", "https://betamasaheft.eu/places/LOC6184Walmar", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -47909,7 +47909,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Walmarā Wač̣ač̣ā Māryām",
-      "link" : "http://betamasaheft.eu/INS0891WWC",
+      "link" : "https://betamasaheft.eu/INS0891WWC",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -47953,8 +47953,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.715141, 9.053464, 38.715141, 9.053464 ],
-    "uri" : "http://betamasaheft.eu/INS0663AUD",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0663AUD",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -47996,7 +47996,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Unknown dealer",
-      "link" : "http://betamasaheft.eu/INS0663AUD",
+      "link" : "https://betamasaheft.eu/INS0663AUD",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -48040,8 +48040,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.713766, 8.941199, 38.713766, 8.941199 ],
-    "uri" : "http://betamasaheft.eu/INS0602ALT",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC7127TaklaHaymAddis", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0602ALT",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC7127TaklaHaymAddis", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -48083,7 +48083,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Tǝʾuma Lǝssān Kāsā, liqe",
-      "link" : "http://betamasaheft.eu/INS0602ALT",
+      "link" : "https://betamasaheft.eu/INS0602ALT",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -48127,8 +48127,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0668AWD",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0668AWD",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -48170,7 +48170,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Wadarra Māryām",
-      "link" : "http://betamasaheft.eu/INS0668AWD",
+      "link" : "https://betamasaheft.eu/INS0668AWD",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -48214,8 +48214,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.383591, 8.117632, 38.383591, 8.117632 ],
-    "uri" : "http://betamasaheft.eu/INS0772LKM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC7143Gur", "http://betamasaheft.eu/places/LOC7139Lemman", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0772LKM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC7143Gur", "https://betamasaheft.eu/places/LOC7139Lemman", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -48257,7 +48257,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Kešo Māryām",
-      "link" : "http://betamasaheft.eu/INS0772LKM",
+      "link" : "https://betamasaheft.eu/INS0772LKM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -48301,8 +48301,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.602218, 11.830618, 39.602218, 11.830618 ],
-    "uri" : "http://betamasaheft.eu/INS0896YGN",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6573NorthWallo", "http://betamasaheft.eu/places/LOC6341Yajju", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0896YGN",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6573NorthWallo", "https://betamasaheft.eu/places/LOC6341Yajju", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -48344,7 +48344,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gabābā Qǝddus Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0896YGN",
+      "link" : "https://betamasaheft.eu/INS0896YGN",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -48388,8 +48388,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.433387, 9.635418, 39.433387, 9.635418 ],
-    "uri" : "http://betamasaheft.eu/INS0566AET",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0566AET",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -48431,7 +48431,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾƎbarage Takla Hāymānot",
-      "link" : "http://betamasaheft.eu/INS0566AET",
+      "link" : "https://betamasaheft.eu/INS0566AET",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -48475,8 +48475,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.790307, 9.061907, 38.790307, 9.061907 ],
-    "uri" : "http://betamasaheft.eu/INS0596AKR",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC2977Entott", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0596AKR",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC2977Entott", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -48518,7 +48518,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Kǝnafa Rǝgb, Dr",
-      "link" : "http://betamasaheft.eu/INS0596AKR",
+      "link" : "https://betamasaheft.eu/INS0596AKR",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -48562,8 +48562,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.831594, 9.69204, 39.831594, 9.69204 ],
-    "uri" : "http://betamasaheft.eu/INS0760HAM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC3806HarrAm", "http://betamasaheft.eu/places/LOC1543Armany", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0760HAM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC3806HarrAm", "https://betamasaheft.eu/places/LOC1543Armany", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -48605,7 +48605,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Armanya Māryām Church",
-      "link" : "http://betamasaheft.eu/INS0760HAM",
+      "link" : "https://betamasaheft.eu/INS0760HAM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -48649,8 +48649,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0572AGQ",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "http://betamasaheft.eu/places/LOC7144Dabbo", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0572AGQ",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://betamasaheft.eu/places/LOC7144Dabbo", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -48692,7 +48692,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dābbo Gadam Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0572AGQ",
+      "link" : "https://betamasaheft.eu/INS0572AGQ",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -48736,8 +48736,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.517009, 9.651166, 39.517009, 9.651166 ],
-    "uri" : "http://betamasaheft.eu/INS0883WMA",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7135Warana", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0883WMA",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7135Warana", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -48779,7 +48779,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Motatit ʾAragāwi",
-      "link" : "http://betamasaheft.eu/INS0883WMA",
+      "link" : "https://betamasaheft.eu/INS0883WMA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -48823,8 +48823,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.602218, 11.830618, 39.602218, 11.830618 ],
-    "uri" : "http://betamasaheft.eu/INS0759GUN",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6573NorthWallo", "http://betamasaheft.eu/places/LOC7136Gubba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0759GUN",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6573NorthWallo", "https://betamasaheft.eu/places/LOC7136Gubba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -48866,7 +48866,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "unknown",
-      "link" : "http://betamasaheft.eu/INS0759GUN",
+      "link" : "https://betamasaheft.eu/INS0759GUN",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -48910,8 +48910,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.433387, 9.635418, 39.433387, 9.635418 ],
-    "uri" : "http://betamasaheft.eu/INS0580AHA",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1455Angola", "http://betamasaheft.eu/places/LOC3776HarAmb", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0580AHA",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1455Angola", "https://betamasaheft.eu/places/LOC3776HarAmb", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -48953,7 +48953,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Hārr ʾAmbā Māryām",
-      "link" : "http://betamasaheft.eu/INS0580AHA",
+      "link" : "https://betamasaheft.eu/INS0580AHA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -48997,8 +48997,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.681842, 11.321779, 39.681842, 11.321779 ],
-    "uri" : "http://betamasaheft.eu/INS0858THY",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6185Wallo", "http://betamasaheft.eu/places/LOC5867Takwel", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0858THY",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6185Wallo", "https://betamasaheft.eu/places/LOC5867Takwel", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -49040,7 +49040,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ḥāyq Yoḥānnǝs",
-      "link" : "http://betamasaheft.eu/INS0858THY",
+      "link" : "https://betamasaheft.eu/INS0858THY",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -49084,8 +49084,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0535AAL",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0535AAL",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -49127,7 +49127,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Madḫāne ʿĀlam",
-      "link" : "http://betamasaheft.eu/INS0535AAL",
+      "link" : "https://betamasaheft.eu/INS0535AAL",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -49171,8 +49171,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0534AAK",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0534AAK",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -49214,7 +49214,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAngolalā Kidāna Mǝḥrat",
-      "link" : "http://betamasaheft.eu/INS0534AAK",
+      "link" : "https://betamasaheft.eu/INS0534AAK",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -49258,8 +49258,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.614321, 11.552854, 39.614321, 11.552854 ],
-    "uri" : "http://betamasaheft.eu/INS0683AZA",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC7130EastSawa", "http://betamasaheft.eu/places/LOC1087Ada", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0683AZA",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC7130EastSawa", "https://betamasaheft.eu/places/LOC1087Ada", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -49301,7 +49301,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Zǝqwālā ʾAbbo",
-      "link" : "http://betamasaheft.eu/INS0683AZA",
+      "link" : "https://betamasaheft.eu/INS0683AZA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -49345,8 +49345,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.433387, 9.635418, 39.433387, 9.635418 ],
-    "uri" : "http://betamasaheft.eu/INS0793MEM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC4524Mandid", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0793MEM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC4524Mandid", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -49388,7 +49388,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾƎllagand Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0793MEM",
+      "link" : "https://betamasaheft.eu/INS0793MEM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -49432,8 +49432,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.674598, 9.52049, 39.674598, 9.52049 ],
-    "uri" : "http://betamasaheft.eu/INS0862TMM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC5846Tagula", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0862TMM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC5846Tagula", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -49475,7 +49475,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Masno Māryām",
-      "link" : "http://betamasaheft.eu/INS0862TMM",
+      "link" : "https://betamasaheft.eu/INS0862TMM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -49519,8 +49519,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.575521, 9.339459, 39.575521, 9.339459 ],
-    "uri" : "http://betamasaheft.eu/INS0747GGG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7137Gina", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0747GGG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7137Gina", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -49562,7 +49562,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Garrem Gābrǝʾel Church",
-      "link" : "http://betamasaheft.eu/INS0747GGG",
+      "link" : "https://betamasaheft.eu/INS0747GGG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -49606,8 +49606,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.674598, 9.52049, 39.674598, 9.52049 ],
-    "uri" : "http://betamasaheft.eu/INS0821MTB",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0821MTB",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -49649,7 +49649,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ṭārmā Barr Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0821MTB",
+      "link" : "https://betamasaheft.eu/INS0821MTB",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -49693,8 +49693,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.599596, 9.406387, 39.599596, 9.406387 ],
-    "uri" : "http://betamasaheft.eu/INS0604AME",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC7128Asagirt", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0604AME",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC7128Asagirt", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -49736,7 +49736,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Māḫbara Bākwǝr Māryām",
-      "link" : "http://betamasaheft.eu/INS0604AME",
+      "link" : "https://betamasaheft.eu/INS0604AME",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -49780,8 +49780,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0550ACH",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0550ACH",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -49823,7 +49823,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAnkobar Māryām",
-      "link" : "http://betamasaheft.eu/INS0550ACH",
+      "link" : "https://betamasaheft.eu/INS0550ACH",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -49867,8 +49867,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.532558, 9.679556, 39.532558, 9.679556 ],
-    "uri" : "http://betamasaheft.eu/INS0728DQW",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0728DQW",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -49910,7 +49910,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Walda Ṣadeq, qes",
-      "link" : "http://betamasaheft.eu/INS0728DQW",
+      "link" : "https://betamasaheft.eu/INS0728DQW",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -49954,8 +49954,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.261937, 10.000708, 39.261937, 10.000708 ],
-    "uri" : "http://betamasaheft.eu/INS0816MQA",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC4865Morat", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0816MQA",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC4865Morat", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -49997,7 +49997,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Qafad ʾAbbo / Qafad Gabra Manfas Qǝddus",
-      "link" : "http://betamasaheft.eu/INS0816MQA",
+      "link" : "https://betamasaheft.eu/INS0816MQA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -50041,8 +50041,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.532558, 9.679556, 39.532558, 9.679556 ],
-    "uri" : "http://betamasaheft.eu/INS0708DGC",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0708DGC",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -50084,7 +50084,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gadam Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0708DGC",
+      "link" : "https://betamasaheft.eu/INS0708DGC",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -50128,7 +50128,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 34.804463, 32.114314, 34.804463, 32.114314 ],
-    "uri" : "http://betamasaheft.eu/INS0866TSL",
+    "uri" : "https://betamasaheft.eu/INS0866TSL",
     "connectsWith" : [ [ "http://sws.geonames.org/", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -50171,7 +50171,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Tel Aviv University Sourasky Central Library",
-      "link" : "http://betamasaheft.eu/INS0866TSL",
+      "link" : "https://betamasaheft.eu/INS0866TSL",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -50215,8 +50215,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.636888, 11.115558, 39.636888, 11.115558 ],
-    "uri" : "http://betamasaheft.eu/INS0695DAH",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6185Wallo", "http://betamasaheft.eu/places/LOC2575Dase", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0695DAH",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6185Wallo", "https://betamasaheft.eu/places/LOC2575Dase", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -50258,7 +50258,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ḥǝzān Mǝḥratu, ʾabbā",
-      "link" : "http://betamasaheft.eu/INS0695DAH",
+      "link" : "https://betamasaheft.eu/INS0695DAH",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -50302,8 +50302,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.681842, 11.321779, 39.681842, 11.321779 ],
-    "uri" : "http://betamasaheft.eu/INS0593AKM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6185Wallo", "http://betamasaheft.eu/places/LOC1413Ambass", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0593AKM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6185Wallo", "https://betamasaheft.eu/places/LOC1413Ambass", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -50345,7 +50345,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Kidāna Māryām, ʾabbā",
-      "link" : "http://betamasaheft.eu/INS0593AKM",
+      "link" : "https://betamasaheft.eu/INS0593AKM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -50389,8 +50389,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.433387, 9.635418, 39.433387, 9.635418 ],
-    "uri" : "http://betamasaheft.eu/INS0860TME",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC5846Tagula", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0860TME",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC5846Tagula", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -50432,7 +50432,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Mitāq ʾAmānuʾel",
-      "link" : "http://betamasaheft.eu/INS0860TME",
+      "link" : "https://betamasaheft.eu/INS0860TME",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -50476,8 +50476,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.681842, 11.321779, 39.681842, 11.321779 ],
-    "uri" : "http://betamasaheft.eu/INS0852TDM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6185Wallo", "http://betamasaheft.eu/places/LOC5867Takwel", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0852TDM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6185Wallo", "https://betamasaheft.eu/places/LOC5867Takwel", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -50519,7 +50519,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Sǝlaši 'Abbaba, mammǝre",
-      "link" : "http://betamasaheft.eu/INS0852TDM",
+      "link" : "https://betamasaheft.eu/INS0852TDM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -50563,8 +50563,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.614321, 11.552854, 39.614321, 11.552854 ],
-    "uri" : "http://betamasaheft.eu/INS0764HHC",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6185Wallo", "http://betamasaheft.eu/places/LOC3724Habru", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0764HHC",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6185Wallo", "https://betamasaheft.eu/places/LOC3724Habru", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -50606,7 +50606,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ḥabru",
-      "link" : "http://betamasaheft.eu/INS0764HHC",
+      "link" : "https://betamasaheft.eu/INS0764HHC",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -50650,8 +50650,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.602218, 11.830618, 39.602218, 11.830618 ],
-    "uri" : "http://betamasaheft.eu/INS0758GTS",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6573NorthWallo", "http://betamasaheft.eu/places/LOC7136Gubba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0758GTS",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6573NorthWallo", "https://betamasaheft.eu/places/LOC7136Gubba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -50693,7 +50693,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Tasfā Sisāy",
-      "link" : "http://betamasaheft.eu/INS0758GTS",
+      "link" : "https://betamasaheft.eu/INS0758GTS",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -50737,8 +50737,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.186012, 9.756727, 39.186012, 9.756727 ],
-    "uri" : "http://betamasaheft.eu/INS0734DWW",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC2514Dannab", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0734DWW",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC2514Dannab", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -50780,7 +50780,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Warq Wāšā Māryām",
-      "link" : "http://betamasaheft.eu/INS0734DWW",
+      "link" : "https://betamasaheft.eu/INS0734DWW",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -50824,8 +50824,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.428053, 8.929794, 39.428053, 8.929794 ],
-    "uri" : "http://betamasaheft.eu/INS0819MSS",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC4769Menjar", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0819MSS",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC4769Menjar", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -50867,7 +50867,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Sāmā Sanbat",
-      "link" : "http://betamasaheft.eu/INS0819MSS",
+      "link" : "https://betamasaheft.eu/INS0819MSS",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -50911,8 +50911,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0532AAD",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0532AAD",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -50954,7 +50954,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAfaf Wayrā Māryām",
-      "link" : "http://betamasaheft.eu/INS0532AAD",
+      "link" : "https://betamasaheft.eu/INS0532AAD",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -50998,7 +50998,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ -95.514886, 29.693049, -95.514886, 29.693049 ],
-    "uri" : "http://betamasaheft.eu/INS0762HDB",
+    "uri" : "https://betamasaheft.eu/INS0762HDB",
     "connectsWith" : [ [ "http://sws.geonames.org/", "http://sws.geonames.org/", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -51041,7 +51041,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dunham Bible Museum",
-      "link" : "http://betamasaheft.eu/INS0762HDB",
+      "link" : "https://betamasaheft.eu/INS0762HDB",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -51085,8 +51085,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.666582, 9.066619, 38.666582, 9.066619 ],
-    "uri" : "http://betamasaheft.eu/INS0605AMB",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC3400Gefars", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0605AMB",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC3400Gefars", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -51128,7 +51128,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Baqala, mamre",
-      "link" : "http://betamasaheft.eu/INS0605AMB",
+      "link" : "https://betamasaheft.eu/INS0605AMB",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -51172,8 +51172,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0642ASG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0642ASG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -51215,7 +51215,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Sallā Abbǝyya Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0642ASG",
+      "link" : "https://betamasaheft.eu/INS0642ASG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -51259,8 +51259,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.261937, 10.000708, 39.261937, 10.000708 ],
-    "uri" : "http://betamasaheft.eu/INS0788MDH",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC4865Morat", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0788MDH",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC4865Morat", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -51302,7 +51302,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dur Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0788MDH",
+      "link" : "https://betamasaheft.eu/INS0788MDH",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -51346,8 +51346,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.433387, 9.635418, 39.433387, 9.635418 ],
-    "uri" : "http://betamasaheft.eu/INS0785MCG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC4524Mandid", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0785MCG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC4524Mandid", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -51389,7 +51389,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Čangi Gabra Manfas Qǝddus Church",
-      "link" : "http://betamasaheft.eu/INS0785MCG",
+      "link" : "https://betamasaheft.eu/INS0785MCG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -51433,8 +51433,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0665AWA",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0665AWA",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -51476,7 +51476,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Walda ʾAzzarrafaññ",
-      "link" : "http://betamasaheft.eu/INS0665AWA",
+      "link" : "https://betamasaheft.eu/INS0665AWA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -51520,8 +51520,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.599452, 9.405517, 39.599452, 9.405517 ],
-    "uri" : "http://betamasaheft.eu/INS0640ASA",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC7128Asagirt", "http://betamasaheft.eu/places/LOC5565SarAmb", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0640ASA",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC7128Asagirt", "https://betamasaheft.eu/places/LOC5565SarAmb", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -51563,7 +51563,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Śār ʾAmbā ʾAbbo",
-      "link" : "http://betamasaheft.eu/INS0640ASA",
+      "link" : "https://betamasaheft.eu/INS0640ASA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -51607,8 +51607,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.294524, 9.330322, 39.294524, 9.330322 ],
-    "uri" : "http://betamasaheft.eu/INS0836QBT",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC5207Qembeb", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0836QBT",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC5207Qembeb", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -51650,7 +51650,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Baruga Takla Hāymānot",
-      "link" : "http://betamasaheft.eu/INS0836QBT",
+      "link" : "https://betamasaheft.eu/INS0836QBT",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -51694,8 +51694,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.602218, 11.830618, 39.602218, 11.830618 ],
-    "uri" : "http://betamasaheft.eu/INS0768HTM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6185Wallo", "http://betamasaheft.eu/places/LOC3737Hagara", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0768HTM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6185Wallo", "https://betamasaheft.eu/places/LOC3737Hagara", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -51737,7 +51737,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Tegor Māryām",
-      "link" : "http://betamasaheft.eu/INS0768HTM",
+      "link" : "https://betamasaheft.eu/INS0768HTM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -51781,8 +51781,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.831594, 9.69204, 39.831594, 9.69204 ],
-    "uri" : "http://betamasaheft.eu/INS0587AHR",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "http://betamasaheft.eu/places/LOC3776HarAmb", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0587AHR",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://betamasaheft.eu/places/LOC3776HarAmb", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -51824,7 +51824,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Hārr ʾAmbā Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0587AHR",
+      "link" : "https://betamasaheft.eu/INS0587AHR",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -51868,7 +51868,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ -76.998756, 38.936983, -76.998756, 38.936983 ],
-    "uri" : "http://betamasaheft.eu/INS0875WCU",
+    "uri" : "https://betamasaheft.eu/INS0875WCU",
     "connectsWith" : [ [ "http://sws.geonames.org/", "http://sws.geonames.org/", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -51911,7 +51911,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Catholic University of America",
-      "link" : "http://betamasaheft.eu/INS0875WCU",
+      "link" : "https://betamasaheft.eu/INS0875WCU",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -51955,8 +51955,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0557ADK",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0557ADK",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -51998,7 +51998,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dans Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0557ADK",
+      "link" : "https://betamasaheft.eu/INS0557ADK",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -52042,8 +52042,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0573AGQ",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "http://betamasaheft.eu/places/LOC7134Gur", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0573AGQ",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://betamasaheft.eu/places/LOC7134Gur", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -52085,7 +52085,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gur Qwǝsqwām",
-      "link" : "http://betamasaheft.eu/INS0573AGQ",
+      "link" : "https://betamasaheft.eu/INS0573AGQ",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -52129,8 +52129,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.674598, 9.52049, 39.674598, 9.52049 ],
-    "uri" : "http://betamasaheft.eu/INS0849TBM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC5846Tagula", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0849TBM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC5846Tagula", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -52172,7 +52172,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Bari Māryām",
-      "link" : "http://betamasaheft.eu/INS0849TBM",
+      "link" : "https://betamasaheft.eu/INS0849TBM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -52216,8 +52216,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.119049, 8.597449, 39.119049, 8.597449 ],
-    "uri" : "http://betamasaheft.eu/INS0817MQM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC7141Mogo", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0817MQM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC7141Mogo", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -52259,7 +52259,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Qwǝnče Madḫāne ʿĀlam",
-      "link" : "http://betamasaheft.eu/INS0817MQM",
+      "link" : "https://betamasaheft.eu/INS0817MQM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -52303,8 +52303,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.806884, 9.042728, 38.806884, 9.042728 ],
-    "uri" : "http://betamasaheft.eu/INS0672AWH",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC6347Yakka", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0672AWH",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC6347Yakka", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -52346,7 +52346,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Wāšā Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0672AWH",
+      "link" : "https://betamasaheft.eu/INS0672AWH",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -52390,8 +52390,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.602218, 11.830618, 39.602218, 11.830618 ],
-    "uri" : "http://betamasaheft.eu/INS0751GMH",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6573NorthWallo", "http://betamasaheft.eu/places/LOC7136Gubba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0751GMH",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6573NorthWallo", "https://betamasaheft.eu/places/LOC7136Gubba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -52433,7 +52433,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Hāddis, marigetā",
-      "link" : "http://betamasaheft.eu/INS0751GMH",
+      "link" : "https://betamasaheft.eu/INS0751GMH",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -52477,8 +52477,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.765017, 9.025262, 38.765017, 9.025262 ],
-    "uri" : "http://betamasaheft.eu/INS0639ARD",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC6347Yakka", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0639ARD",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC6347Yakka", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -52520,7 +52520,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ḫayle, rǝʾǝsa dabr",
-      "link" : "http://betamasaheft.eu/INS0639ARD",
+      "link" : "https://betamasaheft.eu/INS0639ARD",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -52564,8 +52564,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.602218, 11.830618, 39.602218, 11.830618 ],
-    "uri" : "http://betamasaheft.eu/INS0901YWG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6573NorthWallo", "http://betamasaheft.eu/places/LOC6341Yajju", "http://betamasaheft.eu/places/LOC6172Waldey", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0901YWG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6573NorthWallo", "https://betamasaheft.eu/places/LOC6341Yajju", "https://betamasaheft.eu/places/LOC6172Waldey", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -52607,7 +52607,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Waldǝya Gābrǝʾel",
-      "link" : "http://betamasaheft.eu/INS0901YWG",
+      "link" : "https://betamasaheft.eu/INS0901YWG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -52651,8 +52651,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.599452, 9.405517, 39.599452, 9.405517 ],
-    "uri" : "http://betamasaheft.eu/INS0575AGU",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC7128Asagirt", "http://betamasaheft.eu/places/LOC7134Gur", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0575AGU",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC7128Asagirt", "https://betamasaheft.eu/places/LOC7134Gur", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -52694,7 +52694,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gur Māryām",
-      "link" : "http://betamasaheft.eu/INS0575AGU",
+      "link" : "https://betamasaheft.eu/INS0575AGU",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -52738,8 +52738,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.763577, 9.012205, 38.763577, 9.012205 ],
-    "uri" : "http://betamasaheft.eu/INS0624AQE",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC1951Bole", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0624AQE",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC1951Bole", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -52781,7 +52781,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Bole Qǝddus ʾƎsṭifānos",
-      "link" : "http://betamasaheft.eu/INS0624AQE",
+      "link" : "https://betamasaheft.eu/INS0624AQE",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -52825,8 +52825,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.674598, 9.52049, 39.674598, 9.52049 ],
-    "uri" : "http://betamasaheft.eu/INS0846TAF",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC5846Tagula", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0846TAF",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC5846Tagula", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -52868,7 +52868,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾAbdallā Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0846TAF",
+      "link" : "https://betamasaheft.eu/INS0846TAF",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -52912,8 +52912,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.532558, 9.679556, 39.532558, 9.679556 ],
-    "uri" : "http://betamasaheft.eu/INS0719DQC",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0719DQC",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -52955,7 +52955,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gabra Mikāʾel, qes",
-      "link" : "http://betamasaheft.eu/INS0719DQC",
+      "link" : "https://betamasaheft.eu/INS0719DQC",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -52999,8 +52999,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.674598, 9.52049, 39.674598, 9.52049 ],
-    "uri" : "http://betamasaheft.eu/INS0807MGS",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0807MGS",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -53042,7 +53042,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gur Śǝllāse",
-      "link" : "http://betamasaheft.eu/INS0807MGS",
+      "link" : "https://betamasaheft.eu/INS0807MGS",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -53086,8 +53086,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.261937, 10.000708, 39.261937, 10.000708 ],
-    "uri" : "http://betamasaheft.eu/INS0797MEQ",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC4865Morat", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0797MEQ",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC4865Morat", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -53129,7 +53129,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "ʾƎnǧarā Masqal",
-      "link" : "http://betamasaheft.eu/INS0797MEQ",
+      "link" : "https://betamasaheft.eu/INS0797MEQ",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -53173,8 +53173,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.727624, 9.057892, 38.727624, 9.057892 ],
-    "uri" : "http://betamasaheft.eu/INS0636AQR",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC3635Gullal", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0636AQR",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC3635Gullal", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -53216,7 +53216,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Qǝddus Rufāʾel",
-      "link" : "http://betamasaheft.eu/INS0636AQR",
+      "link" : "https://betamasaheft.eu/INS0636AQR",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -53260,8 +53260,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.373966, 8.939177, 39.373966, 8.939177 ],
-    "uri" : "http://betamasaheft.eu/INS0845SGN",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC5549Sankur", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0845SGN",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC5549Sankur", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -53303,7 +53303,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Garāmbā Māryām",
-      "link" : "http://betamasaheft.eu/INS0845SGN",
+      "link" : "https://betamasaheft.eu/INS0845SGN",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -53347,8 +53347,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.433387, 9.635418, 39.433387, 9.635418 ],
-    "uri" : "http://betamasaheft.eu/INS0861TMG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC5846Tagula", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0861TMG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC5846Tagula", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -53390,7 +53390,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Mitāq Gābrǝʾel",
-      "link" : "http://betamasaheft.eu/INS0861TMG",
+      "link" : "https://betamasaheft.eu/INS0861TMG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -53434,8 +53434,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.790307, 9.061907, 38.790307, 9.061907 ],
-    "uri" : "http://betamasaheft.eu/INS0621AOL",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC2977Entott", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0621AOL",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC2977Entott", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -53477,7 +53477,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Our Lady of Mount Qwǝsqwām",
-      "link" : "http://betamasaheft.eu/INS0621AOL",
+      "link" : "https://betamasaheft.eu/INS0621AOL",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -53521,8 +53521,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.599452, 9.405517, 39.599452, 9.405517 ],
-    "uri" : "http://betamasaheft.eu/INS0681AYC",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC7128Asagirt", "http://betamasaheft.eu/places/LOC6371Yatnor", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0681AYC",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC7128Asagirt", "https://betamasaheft.eu/places/LOC6371Yatnor", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -53564,7 +53564,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Yatnorā Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0681AYC",
+      "link" : "https://betamasaheft.eu/INS0681AYC",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -53608,8 +53608,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0685AZH",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0685AZH",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -53651,7 +53651,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Zago Ḥānnā",
-      "link" : "http://betamasaheft.eu/INS0685AZH",
+      "link" : "https://betamasaheft.eu/INS0685AZH",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -53695,8 +53695,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.433387, 9.635418, 39.433387, 9.635418 ],
-    "uri" : "http://betamasaheft.eu/INS0682AYM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0682AYM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -53738,7 +53738,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Yamāna Walda Māryām",
-      "link" : "http://betamasaheft.eu/INS0682AYM",
+      "link" : "https://betamasaheft.eu/INS0682AYM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -53782,8 +53782,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.698454, 9.062898, 38.698454, 9.062898 ],
-    "uri" : "http://betamasaheft.eu/INS0548ACC",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0548ACC",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -53825,7 +53825,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Capuchin Center for Research and Retreat",
-      "link" : "http://betamasaheft.eu/INS0548ACC",
+      "link" : "https://betamasaheft.eu/INS0548ACC",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -53869,8 +53869,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.276108, 10.863053, 38.276108, 10.863053 ],
-    "uri" : "http://betamasaheft.eu/INS0814MMM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC3549Gojjam", "http://betamasaheft.eu/places/LOC7140Martula", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0814MMM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC3549Gojjam", "https://betamasaheft.eu/places/LOC7140Martula", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -53912,7 +53912,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Marṭula Māryām",
-      "link" : "http://betamasaheft.eu/INS0814MMM",
+      "link" : "https://betamasaheft.eu/INS0814MMM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -53956,8 +53956,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.261937, 10.000708, 39.261937, 10.000708 ],
-    "uri" : "http://betamasaheft.eu/INS0804MGH",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC4865Morat", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0804MGH",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC4865Morat", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -53999,7 +53999,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gǝhur Madḫāne ʿĀlam",
-      "link" : "http://betamasaheft.eu/INS0804MGH",
+      "link" : "https://betamasaheft.eu/INS0804MGH",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -54043,8 +54043,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.674598, 9.52049, 39.674598, 9.52049 ],
-    "uri" : "http://betamasaheft.eu/INS0828MWW",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0828MWW",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -54086,7 +54086,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Warqā Wāšā Māryām",
-      "link" : "http://betamasaheft.eu/INS0828MWW",
+      "link" : "https://betamasaheft.eu/INS0828MWW",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -54130,8 +54130,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.599452, 9.405517, 39.599452, 9.405517 ],
-    "uri" : "http://betamasaheft.eu/INS0616AMT",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC7128Asagirt", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0616AMT",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC7128Asagirt", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -54173,7 +54173,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Atkwar Mikāʾel",
-      "link" : "http://betamasaheft.eu/INS0616AMT",
+      "link" : "https://betamasaheft.eu/INS0616AMT",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -54217,8 +54217,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.681842, 11.321779, 39.681842, 11.321779 ],
-    "uri" : "http://betamasaheft.eu/INS0627AQH",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6185Wallo", "http://betamasaheft.eu/places/LOC1413Ambass", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0627AQH",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6185Wallo", "https://betamasaheft.eu/places/LOC1413Ambass", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -54260,7 +54260,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Walda Giyorgis, qesa gabaz",
-      "link" : "http://betamasaheft.eu/INS0627AQH",
+      "link" : "https://betamasaheft.eu/INS0627AQH",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -54304,8 +54304,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.532558, 9.679556, 39.532558, 9.679556 ],
-    "uri" : "http://betamasaheft.eu/INS0726DQS",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0726DQS",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -54347,7 +54347,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Sena Dāma Iyasus, qes - Kabbada, qes",
-      "link" : "http://betamasaheft.eu/INS0726DQS",
+      "link" : "https://betamasaheft.eu/INS0726DQS",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -54391,8 +54391,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0656ATG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0656ATG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -54434,7 +54434,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Talasa Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0656ATG",
+      "link" : "https://betamasaheft.eu/INS0656ATG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -54478,8 +54478,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.602218, 11.830618, 39.602218, 11.830618 ],
-    "uri" : "http://betamasaheft.eu/INS0895YGM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6573NorthWallo", "http://betamasaheft.eu/places/LOC6341Yajju", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0895YGM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6573NorthWallo", "https://betamasaheft.eu/places/LOC6341Yajju", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -54521,7 +54521,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gurāre Mārqorewos, ʾabbā",
-      "link" : "http://betamasaheft.eu/INS0895YGM",
+      "link" : "https://betamasaheft.eu/INS0895YGM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -54565,7 +54565,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 0.107705, 52.204991, 0.107705, 52.204991 ],
-    "uri" : "http://betamasaheft.eu/INS0692CUL",
+    "uri" : "https://betamasaheft.eu/INS0692CUL",
     "connectsWith" : [ [ "http://sws.geonames.org/", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -54608,7 +54608,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Cambridge University Library Collections",
-      "link" : "http://betamasaheft.eu/INS0692CUL",
+      "link" : "https://betamasaheft.eu/INS0692CUL",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -54652,8 +54652,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.674598, 9.52049, 39.674598, 9.52049 ],
-    "uri" : "http://betamasaheft.eu/INS0801MGE",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0801MGE",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -54695,7 +54695,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Sallā Dǝngāy Mārqos",
-      "link" : "http://betamasaheft.eu/INS0801MGE",
+      "link" : "https://betamasaheft.eu/INS0801MGE",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -54739,7 +54739,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 30.476446, 30.291296, 30.476446, 30.291296 ],
-    "uri" : "http://betamasaheft.eu/INS0737EQM",
+    "uri" : "https://betamasaheft.eu/INS0737EQM",
     "connectsWith" : [ [ "http://sws.geonames.org/", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -54782,7 +54782,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dayr ʿAnbā Maqār",
-      "link" : "http://betamasaheft.eu/INS0737EQM",
+      "link" : "https://betamasaheft.eu/INS0737EQM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -54826,7 +54826,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.48443, 13.489487, 39.48443, 13.489487 ],
-    "uri" : "http://betamasaheft.eu/INS0853TEM",
+    "uri" : "https://betamasaheft.eu/INS0853TEM",
     "connectsWith" : [ [ "http://sws.geonames.org/", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -54869,7 +54869,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ethiopian Manuscript Digital Library",
-      "link" : "http://betamasaheft.eu/INS0853TEM",
+      "link" : "https://betamasaheft.eu/INS0853TEM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -54913,8 +54913,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.715141, 9.053464, 38.715141, 9.053464 ],
-    "uri" : "http://betamasaheft.eu/INS0657ATH",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC7127TaklaHaymAddis", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0657ATH",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC7127TaklaHaymAddis", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -54956,7 +54956,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Takla Hāymānot",
-      "link" : "http://betamasaheft.eu/INS0657ATH",
+      "link" : "https://betamasaheft.eu/INS0657ATH",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -55000,8 +55000,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.674598, 9.52049, 39.674598, 9.52049 ],
-    "uri" : "http://betamasaheft.eu/INS0806MGM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0806MGM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -55043,7 +55043,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gǝmǧa Masč̣ā Kidāna Mǝḥrat",
-      "link" : "http://betamasaheft.eu/INS0806MGM",
+      "link" : "https://betamasaheft.eu/INS0806MGM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -55087,8 +55087,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.602218, 11.830618, 39.602218, 11.830618 ],
-    "uri" : "http://betamasaheft.eu/INS0744GDG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6573NorthWallo", "http://betamasaheft.eu/places/LOC7136Gubba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0744GDG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6573NorthWallo", "https://betamasaheft.eu/places/LOC7136Gubba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -55130,7 +55130,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dāmtā Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0744GDG",
+      "link" : "https://betamasaheft.eu/INS0744GDG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -55174,8 +55174,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 37.725861, 10.330109, 37.725861, 10.330109 ],
-    "uri" : "http://betamasaheft.eu/INS0721DQG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC3549Gojjam", "http://betamasaheft.eu/places/LOC2310DabraM", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0721DQG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC3549Gojjam", "https://betamasaheft.eu/places/LOC2310DabraM", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -55217,7 +55217,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Qǝddus Gābrǝʾel / Dabra Ḍaḥāy",
-      "link" : "http://betamasaheft.eu/INS0721DQG",
+      "link" : "https://betamasaheft.eu/INS0721DQG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -55261,8 +55261,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.757772, 9.046732, 38.757772, 9.046732 ],
-    "uri" : "http://betamasaheft.eu/INS0541AAT",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC1479Arada", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0541AAT",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC1479Arada", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -55304,7 +55304,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Tewoflos, ʾabuna",
-      "link" : "http://betamasaheft.eu/INS0541AAT",
+      "link" : "https://betamasaheft.eu/INS0541AAT",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -55348,8 +55348,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.186012, 9.756727, 39.186012, 9.756727 ],
-    "uri" : "http://betamasaheft.eu/INS0709DGD",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC2514Dannab", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0709DGD",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC2514Dannab", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -55391,7 +55391,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Gib Dur Iyasus",
-      "link" : "http://betamasaheft.eu/INS0709DGD",
+      "link" : "https://betamasaheft.eu/INS0709DGD",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -55435,8 +55435,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.674598, 9.52049, 39.674598, 9.52049 ],
-    "uri" : "http://betamasaheft.eu/INS0854TGA",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC5846Tagula", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0854TGA",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC5846Tagula", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -55478,7 +55478,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ganu Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0854TGA",
+      "link" : "https://betamasaheft.eu/INS0854TGA",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -55522,8 +55522,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.433387, 9.635418, 39.433387, 9.635418 ],
-    "uri" : "http://betamasaheft.eu/INS0651ASY",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0651ASY",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -55565,7 +55565,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Safg Yoḥānnǝs",
-      "link" : "http://betamasaheft.eu/INS0651ASY",
+      "link" : "https://betamasaheft.eu/INS0651ASY",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -55609,8 +55609,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.73582, 9.60072, 39.73582, 9.60072 ],
-    "uri" : "http://betamasaheft.eu/INS0629AQJ",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0629AQJ",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -55652,7 +55652,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Ǧamānah Warqe, qes",
-      "link" : "http://betamasaheft.eu/INS0629AQJ",
+      "link" : "https://betamasaheft.eu/INS0629AQJ",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -55696,8 +55696,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.433387, 9.635418, 39.433387, 9.635418 ],
-    "uri" : "http://betamasaheft.eu/INS0863TMT",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC5846Tagula", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0863TMT",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC5846Tagula", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -55739,7 +55739,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Mitāq Takla Hāymānot",
-      "link" : "http://betamasaheft.eu/INS0863TMT",
+      "link" : "https://betamasaheft.eu/INS0863TMT",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -55783,8 +55783,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.765017, 9.025262, 38.765017, 9.025262 ],
-    "uri" : "http://betamasaheft.eu/INS0659ATN",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1216AddisA", "http://betamasaheft.eu/places/LOC1479Arada", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0659ATN",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1216AddisA", "https://betamasaheft.eu/places/LOC1479Arada", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -55826,7 +55826,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Tāʿǝkā Nagaśt Baʾātā Lamāryām / Baʾātā Lamāryām",
-      "link" : "http://betamasaheft.eu/INS0659ATN",
+      "link" : "https://betamasaheft.eu/INS0659ATN",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -55870,8 +55870,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.636888, 11.115558, 39.636888, 11.115558 ],
-    "uri" : "http://betamasaheft.eu/INS0716DMM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6185Wallo", "http://betamasaheft.eu/places/LOC2575Dase", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0716DMM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6185Wallo", "https://betamasaheft.eu/places/LOC2575Dase", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -55913,7 +55913,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Mazgaba Mǝḥrat Māryām",
-      "link" : "http://betamasaheft.eu/INS0716DMM",
+      "link" : "https://betamasaheft.eu/INS0716DMM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -55957,8 +55957,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.517009, 9.651166, 39.517009, 9.651166 ],
-    "uri" : "http://betamasaheft.eu/INS0876WDG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7135Warana", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0876WDG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7135Warana", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -56000,7 +56000,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Dǝnzud Giyorgis, ʾato",
-      "link" : "http://betamasaheft.eu/INS0876WDG",
+      "link" : "https://betamasaheft.eu/INS0876WDG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -56044,8 +56044,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.674598, 9.52049, 39.674598, 9.52049 ],
-    "uri" : "http://betamasaheft.eu/INS0780MAD",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0780MAD",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC7133Moga", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -56087,7 +56087,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Daññ Kidāna Mǝḥrat",
-      "link" : "http://betamasaheft.eu/INS0780MAD",
+      "link" : "https://betamasaheft.eu/INS0780MAD",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -56131,7 +56131,7 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ -77.058512, 38.9437, -77.058512, 38.9437 ],
-    "uri" : "http://betamasaheft.eu/INS0880WHU",
+    "uri" : "https://betamasaheft.eu/INS0880WHU",
     "connectsWith" : [ [ "http://sws.geonames.org/", "http://sws.geonames.org/", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
@@ -56174,7 +56174,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Howard University School of Divinity",
-      "link" : "http://betamasaheft.eu/INS0880WHU",
+      "link" : "https://betamasaheft.eu/INS0880WHU",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -56218,8 +56218,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.251546, 9.995425, 38.251546, 9.995425 ],
-    "uri" : "http://betamasaheft.eu/INS0754GQM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC6574NorthSawa", "http://betamasaheft.eu/places/LOC3552GohaSe", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0754GQM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC6574NorthSawa", "https://betamasaheft.eu/places/LOC3552GohaSe", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -56261,7 +56261,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Qǝddǝst Māryām",
-      "link" : "http://betamasaheft.eu/INS0754GQM",
+      "link" : "https://betamasaheft.eu/INS0754GQM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -56305,8 +56305,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.433387, 9.635418, 39.433387, 9.635418 ],
-    "uri" : "http://betamasaheft.eu/INS0551ACM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0551ACM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1455Angola", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -56348,7 +56348,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Čafan Māryām",
-      "link" : "http://betamasaheft.eu/INS0551ACM",
+      "link" : "https://betamasaheft.eu/INS0551ACM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -56392,8 +56392,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 38.220155, 10.548216, 38.220155, 10.548216 ],
-    "uri" : "http://betamasaheft.eu/INS0690BQG",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC3549Gojjam", "http://betamasaheft.eu/places/LOC1826Becana", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0690BQG",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC3549Gojjam", "https://betamasaheft.eu/places/LOC1826Becana", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -56435,7 +56435,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Qǝddus Giyorgis",
-      "link" : "http://betamasaheft.eu/INS0690BQG",
+      "link" : "https://betamasaheft.eu/INS0690BQG",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -56479,8 +56479,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.433387, 9.635418, 39.433387, 9.635418 ],
-    "uri" : "http://betamasaheft.eu/INS0674AWJ",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0674AWJ",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC1464Ankoba", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -56522,7 +56522,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Waqǝra Māryām",
-      "link" : "http://betamasaheft.eu/INS0674AWJ",
+      "link" : "https://betamasaheft.eu/INS0674AWJ",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },
@@ -56566,8 +56566,8 @@ var institutions ={
       "transcription_completeness" : "complete"
     } ],
     "bbox" : [ 39.532558, 9.679556, 39.532558, 9.679556 ],
-    "uri" : "http://betamasaheft.eu/INS0696DAM",
-    "connectsWith" : [ [ "http://betamasaheft.eu/places/LOC5597Sawa", "http://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
+    "uri" : "https://betamasaheft.eu/INS0696DAM",
+    "connectsWith" : [ [ "https://betamasaheft.eu/places/LOC5597Sawa", "https://betamasaheft.eu/places/LOC2246DabraB", "https://pleiades.stoa.org/places/39274" ] ],
     "@context" : {
       "MultiPolygon" : "geojson:MultiPolygon",
       "LineString" : "geojson:LineString",
@@ -56609,7 +56609,7 @@ var institutions ={
     "properties" : {
       "location_precision" : "precise",
       "title" : "Mināse Zallaqa, ʾalaqā",
-      "link" : "http://betamasaheft.eu/INS0696DAM",
+      "link" : "https://betamasaheft.eu/INS0696DAM",
       "description" : "Location based on Encyclopaedia Aethiopica",
       "snippet" : null
     },

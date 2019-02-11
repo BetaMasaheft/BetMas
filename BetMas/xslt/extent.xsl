@@ -10,7 +10,7 @@
             </xsl:if>
         </h4>
         <div>
-            <span property="http://betamasaheft.eu/hasTotalLeaves" content="{t:measure[1][@unit='leaf'][not(@type)]}"/>
+            <span property="https://betamasaheft.eu/hasTotalLeaves" content="{t:measure[1][@unit='leaf'][not(@type)]}"/>
             <xsl:apply-templates/>
         </div>
     </xsl:template>

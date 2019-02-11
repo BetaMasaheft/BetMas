@@ -465,7 +465,7 @@ if(sum($parametersLenght) ge 1 ) then
    let $texts :=  $hits('hits')[descendant::t:div[@type='edition']//t:ab//text()] 
    return
    if(count($texts) lt 100) then 
-  let $ids := for $hit in $texts return 'input=http://betamasaheft.eu/works/'||string($hit/@xml:id)||'.xml'
+  let $ids := for $hit in $texts return 'input=https://betamasaheft.eu/works/'||string($hit/@xml:id)||'.xml'
   let $urls := string-join($ids,'&amp;')
    return
    <a style="margin-left:30px;" role="button" target="_blank" class="btn btn-primary" href="{concat('http://voyant-tools.org/?', $urls)}">Voyant (v.2) Analysis Tools</a>
@@ -932,7 +932,7 @@ if($file) then (
                 allowfullscreen="true"
                 width="100%" 
                 height="400" 
-                src="https://peripleo.pelagios.org/embed/{encode-for-uri(concat('http://betamasaheft.eu/places/',$repoID))}">
+                src="https://peripleo.pelagios.org/embed/{encode-for-uri(concat('https://betamasaheft.eu/places/',$repoID))}">
             </iframe>
        <div id="entitymap" style="width: 100%; height: 400px; margin-top:100px" />
    <script>{'var placeid = "'||$repoID||'"'}</script>

@@ -10,7 +10,7 @@
             </xsl:choose>
         </xsl:variable>
            <xsl:for-each select="$passive">
-        <span property="http://purl.org/dc/elements/1.1/relation" resource="http://betamasaheft.eu/{current()}"/>
+        <span property="http://purl.org/dc/elements/1.1/relation" resource="https://betamasaheft.eu/{current()}"/>
         </xsl:for-each>
        </xsl:if>-->
         <xsl:apply-templates/>

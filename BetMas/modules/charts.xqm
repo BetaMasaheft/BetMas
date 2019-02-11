@@ -51,8 +51,8 @@ declare function charts:mssSankey($itemid){
 
   let $sparqlresults := sparql:query($query)
   let $results := for $result in $sparqlresults//sr:result
-                 let $from := substring-after($result//sr:binding[1]/sr:uri, 'http://betamasaheft.eu/')
-                 let $to := substring-after($result//sr:binding[2]/sr:uri, 'http://betamasaheft.eu/')
+                 let $from := substring-after($result//sr:binding[1]/sr:uri, 'https://betamasaheft.eu/')
+                 let $to := substring-after($result//sr:binding[2]/sr:uri, 'https://betamasaheft.eu/')
                  let $w := $result//sr:binding[3]/sr:literal
                  return '["' ||  $from || '", "' || $to || '", ' ||  $w || ']'
 

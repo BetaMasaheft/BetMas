@@ -120,7 +120,7 @@
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:variable>
-                                <span xmlns="http://www.w3.org/1999/xhtml" class="persName" property="http://purl.org/dc/elements/1.1/relation" resource="http://betamasaheft.eu/{@ref}">
+                                <span xmlns="http://www.w3.org/1999/xhtml" class="persName" property="http://purl.org/dc/elements/1.1/relation" resource="https://betamasaheft.eu/{@ref}">
                     <xsl:choose>
                         <xsl:when test="t:choice">
                             <xsl:apply-templates select="t:choice"/>

@@ -254,7 +254,7 @@
                         </xsl:choose>
                     </xsl:variable>
                     <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#divset{$quireNo}{$randomnumber}">expand/collapse</button>
-                    <div class="divset collapse" resource="http://betamasaheft.eu/{$mainID}/quire/{$quireid}" typeof="http://betamasaheft.eu/quire ">
+                    <div class="divset collapse" resource="https://betamasaheft.eu/{$mainID}/quire/{$quireid}" typeof="https://betamasaheft.eu/quire ">
                         <xsl:attribute name="id">divset<xsl:value-of select="$quireNo"/>
                             <xsl:value-of select="$randomnumber"/>
                         </xsl:attribute>

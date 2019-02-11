@@ -74,8 +74,8 @@ $xml
 )};
 
 
-(:http://betamasaheft.eu/BNFet32/person/annotation/95
-http://betamasaheft.eu/BNFet32/place/annotation/1
+(:https://betamasaheft.eu/BNFet32/person/annotation/95
+https://betamasaheft.eu/BNFet32/place/annotation/1
 :)
 declare
 %rest:GET
@@ -93,7 +93,7 @@ $xml
 )};
 
 
-(:http://betamasaheft.eu/bond/snap:GrandfatherOf-PRS1854Amdase:)
+(:https://betamasaheft.eu/bond/snap:GrandfatherOf-PRS1854Amdase:)
 declare
 %rest:GET
 %rest:path("/BetMas/bond/{$bond}/rdf")

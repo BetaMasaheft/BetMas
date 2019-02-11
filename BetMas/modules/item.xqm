@@ -175,7 +175,7 @@ return
             role="button"
             class="btn btn-success btn-sm" 
             property="http://www.cidoc-crm.org/cidoc-crm/P55_has_current_location" 
-            resource="http://betamasaheft.eu/{$repo}">{if($repoplace) then ($repoplace, ', ') else ()}
+            resource="https://betamasaheft.eu/{$repo}">{if($repoplace) then ($repoplace, ', ') else ()}
                    {titles:printTitleID($repo) }</a>
                   }
 
@@ -828,7 +828,7 @@ return
  declare function item:RestSeeAlso ($this, $collection)  {
  let $file := $this
  let $id := string($this/@xml:id)
- let $classes := for $class in $this//t:term/@key return 'http://betamasaheft.eu/'||$class
+ let $classes := for $class in $this//t:term/@key return 'https://betamasaheft.eu/'||$class
  return
        <div class="col-md-{if($collection = 'works' or $collection = 'places' or $collection = 'narratives') then '4' else '12'}" id="seeAlsoForm" >
 
@@ -936,7 +936,7 @@ let $parameters : = if ($collection = 'manuscripts') then <parameters>
 return
 (:because nav takes 2 colums:)
 
-    <div class="container-fluid col-md-10" resource="http://betamasaheft.eu/{$id}" >
+    <div class="container-fluid col-md-10" resource="https://betamasaheft.eu/{$id}" >
 {transform:transform(
         $document,
        $xslt,

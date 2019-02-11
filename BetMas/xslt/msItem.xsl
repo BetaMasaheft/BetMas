@@ -2,15 +2,15 @@
     <xsl:template match="t:msItem[parent::t:msContents]">
         <xsl:variable name="id" select="@xml:id"/>
         <xsl:variable name="trimid" select="concat(replace($id, '\.', '-'), 'N', position())"/>
-        <div class="accordion-group" resource="http://betamasaheft.eu/{$mainID}/msitem/{$id}" typeof="http://betamasaheft.eu/msitem https://w3id.org/sdc/ontology#UniCont">
+        <div class="accordion-group" resource="https://betamasaheft.eu/{$mainID}/msitem/{$id}" typeof="https://betamasaheft.eu/msitem https://w3id.org/sdc/ontology#UniCont">
             <div class="accordion-heading">
                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#contents" href="#item{$trimid}">
-                    <button type="button" class="btn btn-secondary contentItem" id="{$id}" resource="http://betamasaheft.eu/{$mainID}/msitem/{$id}"> 
+                    <button type="button" class="btn btn-secondary contentItem" id="{$id}" resource="https://betamasaheft.eu/{$mainID}/msitem/{$id}"> 
                         <xsl:apply-templates select="./t:title" mode="nolink"/> Item <xsl:value-of select="$id"/>
                         
                         
                         <xsl:if test="child::t:msItem">
-                            <span class="badge" property="http://www.cidoc-crm.org/cidoc-crm/P57_has_number_of_parts" about="http://betamasaheft.eu/{$mainID}/msitem/{$id}">
+                            <span class="badge" property="http://www.cidoc-crm.org/cidoc-crm/P57_has_number_of_parts" about="https://betamasaheft.eu/{$mainID}/msitem/{$id}">
                                 <xsl:value-of select="count(child::t:msItem)"/>
                             </span>
                         </xsl:if>
@@ -49,15 +49,15 @@
     <xsl:template match="t:msItem">
         <xsl:variable name="id" select="@xml:id"/>
         <xsl:variable name="trimid" select="replace($id, '\.', '-')"/>
-        <div class="accordion-group msItem" resource="http://betamasaheft.eu/{$mainID}/msitem/{$id}" typeof="http://betamasaheft.eu/msitem">
+        <div class="accordion-group msItem" resource="https://betamasaheft.eu/{$mainID}/msitem/{$id}" typeof="https://betamasaheft.eu/msitem">
             <div class="accordion-heading">
                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion{replace(./parent::t:msItem[1]/@xml:id, '.','')}" href="#item{$trimid}">
-                    <button type="button" class="btn btn-secondary contentItem" id="{@xml:id}" resource="http://betamasaheft.eu/{$mainID}/msitem/{$id}"> 
+                    <button type="button" class="btn btn-secondary contentItem" id="{@xml:id}" resource="https://betamasaheft.eu/{$mainID}/msitem/{$id}"> 
                         <xsl:apply-templates select="./t:title" mode="nolink"/> Item 
                         <xsl:value-of select="$id"/>
                        
                         <xsl:if test="child::t:msItem">
-                            <span class="badge" property="http://www.cidoc-crm.org/cidoc-crm/P57_has_number_of_parts" about="http://betamasaheft.eu/{$mainID}/msitem/{$id}">
+                            <span class="badge" property="http://www.cidoc-crm.org/cidoc-crm/P57_has_number_of_parts" about="https://betamasaheft.eu/{$mainID}/msitem/{$id}">
                                 <xsl:value-of select="count(child::t:msItem)"/>
                             </span>
                         </xsl:if>

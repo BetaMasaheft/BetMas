@@ -5,7 +5,7 @@
     <xsl:variable name="mainID" select="t:TEI/@xml:id"/>
     <xsl:template match="/">
         <span property="http://www.cidoc-crm.org/cidoc-crm/P48_has_preferred_identifier" content="{$mainID}"/>
-        <div class="col-md-12" id="description" typeof="http://lawd.info/ontology/AssembledWork http://betamasaheft.eu/mss">
+        <div class="col-md-12" id="description" typeof="http://lawd.info/ontology/AssembledWork https://betamasaheft.eu/mss">
             <xsl:if test="//t:date[@evidence = 'internal-date'] or //t:origDate[@evidence = 'internal-date']">
                 <h1>
                     <span class="label label-primary">Dated</span>

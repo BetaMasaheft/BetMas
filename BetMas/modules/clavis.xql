@@ -113,7 +113,7 @@ se interrogato da titolo da gli id, altrimenti per id da gli altri id e il titol
                         map {
                             "CAe" := $id,
                             "CAeN" := substring($id, 4,4),
-                            "CAeURL" := 'http://betamasaheft.eu/works/' || $id || '/main',
+                            "CAeURL" := 'https://betamasaheft.eu/works/' || $id || '/main',
                             "title" := $title,
                             "clavis" := $clavisIDS                
                         }

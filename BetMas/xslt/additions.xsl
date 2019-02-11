@@ -38,9 +38,9 @@
             </xsl:if>
             <ol>
                 <xsl:for-each select=".//t:item[contains(@xml:id, 'a')]">
-                    <li resource="http://betamasaheft.eu/{$mainID}/addition/{@xml:id}">
+                    <li resource="https://betamasaheft.eu/{$mainID}/addition/{@xml:id}">
                         <xsl:attribute name="typeof">
-                            <xsl:if test="./t:desc/@type"><xsl:value-of select="concat('http://betamasaheft.eu/', ./t:desc/@type)"/></xsl:if>
+                            <xsl:if test="./t:desc/@type"><xsl:value-of select="concat('https://betamasaheft.eu/', ./t:desc/@type)"/></xsl:if>
                     </xsl:attribute>
                         <xsl:attribute name="id">
                             <xsl:value-of select="@xml:id"/>
@@ -80,9 +80,9 @@
                 </h3>
                 <ol>
                     <xsl:for-each select=".//t:item[contains(@xml:id, 'e')]">
-                        <li resource="http://betamasaheft.eu/{$mainID}/addition/{@xml:id}">
+                        <li resource="https://betamasaheft.eu/{$mainID}/addition/{@xml:id}">
                             <xsl:attribute name="typeof">
-                                <xsl:if test="./t:desc/@type"><xsl:value-of select="concat('http://betamasaheft.eu/', ./t:desc/@type)"/></xsl:if>
+                                <xsl:if test="./t:desc/@type"><xsl:value-of select="concat('https://betamasaheft.eu/', ./t:desc/@type)"/></xsl:if>
                             </xsl:attribute>
                             <xsl:apply-templates/>
                         </li>

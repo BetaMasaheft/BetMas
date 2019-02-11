@@ -37,12 +37,12 @@
                 <h3>Rubrication</h3>
                 <ol>
                     <xsl:for-each select="t:decoNote[not(ancestor::t:binding)][@type = 'rubrication']">
-                        <li resource="http://betamasaheft.eu/{$mainID}/decoration/{@xml:id}">
+                        <li resource="https://betamasaheft.eu/{$mainID}/decoration/{@xml:id}">
                             <xsl:attribute name="typeof">
-                                <xsl:for-each select="current()//t:term/@key"><xsl:value-of select="concat('http://betamasaheft.eu/',.)"/><xsl:text> </xsl:text>
+                                <xsl:for-each select="current()//t:term/@key"><xsl:value-of select="concat('https://betamasaheft.eu/',.)"/><xsl:text> </xsl:text>
                                 </xsl:for-each>
                                 <xsl:text> </xsl:text>
-                                <xsl:if test="@type"><xsl:value-of select="concat('http://betamasaheft.eu/',@type)"/></xsl:if>
+                                <xsl:if test="@type"><xsl:value-of select="concat('https://betamasaheft.eu/',@type)"/></xsl:if>
                             </xsl:attribute>
                             <xsl:attribute name="id">
                                 <xsl:value-of select="@xml:id"/>
@@ -57,9 +57,9 @@
                 <h3>Frame notes</h3>
                 <ol>
                     <xsl:for-each select="t:decoNote[not(ancestor::t:binding)][@type = 'frame']">
-                        <li resource="http://betamasaheft.eu/{$mainID}/decoration/{@xml:id}">
+                        <li resource="https://betamasaheft.eu/{$mainID}/decoration/{@xml:id}">
                             <xsl:attribute name="typeof">
-                                <xsl:for-each select="current()//t:term/@key"><xsl:value-of select="concat('http://betamasaheft.eu/',.)"/><xsl:text> </xsl:text>
+                                <xsl:for-each select="current()//t:term/@key"><xsl:value-of select="concat('https://betamasaheft.eu/',.)"/><xsl:text> </xsl:text>
                                 </xsl:for-each>
                             </xsl:attribute>
                             <xsl:attribute name="id">
@@ -75,9 +75,9 @@
                 <h3>Miniature notes</h3>
                 <ol>
                     <xsl:for-each select="t:decoNote[not(ancestor::t:binding)][@type = 'miniature']">
-                        <li resource="http://betamasaheft.eu/{$mainID}/decoration/{@xml:id}">
+                        <li resource="https://betamasaheft.eu/{$mainID}/decoration/{@xml:id}">
                             <xsl:attribute name="typeof">
-                                <xsl:for-each select="current()//t:term/@key"><xsl:value-of select="concat('http://betamasaheft.eu/',.)"/><xsl:text> </xsl:text>
+                                <xsl:for-each select="current()//t:term/@key"><xsl:value-of select="concat('https://betamasaheft.eu/',.)"/><xsl:text> </xsl:text>
                             </xsl:for-each>
                         </xsl:attribute>
                             <xsl:attribute name="id">
@@ -93,9 +93,9 @@
                 <h3>Other decorations</h3>
                 <ol>
                     <xsl:for-each select="t:decoNote[not(ancestor::t:binding)][@type != 'rubrication'][@type != 'miniature'][@type != 'frame']">
-                        <li resource="http://betamasaheft.eu/{$mainID}/decoration/{@xml:id}">
+                        <li resource="https://betamasaheft.eu/{$mainID}/decoration/{@xml:id}">
                             <xsl:attribute name="typeof">
-                                <xsl:for-each select="current()//t:term/@key"><xsl:value-of select="concat('http://betamasaheft.eu/',.)"/><xsl:text> </xsl:text>
+                                <xsl:for-each select="current()//t:term/@key"><xsl:value-of select="concat('https://betamasaheft.eu/',.)"/><xsl:text> </xsl:text>
                                 </xsl:for-each>
                             </xsl:attribute>
                             <xsl:attribute name="id">
