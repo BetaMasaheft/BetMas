@@ -32,6 +32,7 @@ $("#tooglecodicologicalInformation").click(function () {
 
 $("#toggleHands").click(function () {
     $('.fa-hand-o-left').toggle("slow");
+    $('.glyphicon-hand-left').toggle("slow");
     $('span.pelagios').toggle("slow");
 });
 
