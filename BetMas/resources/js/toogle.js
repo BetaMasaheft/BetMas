@@ -30,6 +30,11 @@ $("#tooglecodicologicalInformation").click(function () {
     $('[id^="codicologicalInformation"]').toggle("slow");
 });
 
+$("#toggleHands").click(function () {
+    $('.fa-hand-o-left').toggle("slow");
+    $('span.pelagios').toggle("slow");
+});
+
 $("#toogletextualcontents").click(function () {
     $('[id^="textualcontents"]').toggle("slow");
 });
