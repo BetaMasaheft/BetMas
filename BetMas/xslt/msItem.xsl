@@ -10,7 +10,7 @@
                         
                         
                         <xsl:if test="child::t:msItem">
-                            <span class="badge" property="http://www.cidoc-crm.org/cidoc-crm/P57_has_number_of_parts" about="https://betamasaheft.eu/{$mainID}/msitem/{$id}">
+                            <span class="badge collapsed" property="http://www.cidoc-crm.org/cidoc-crm/P57_has_number_of_parts" about="https://betamasaheft.eu/{$mainID}/msitem/{$id}">
                                 <xsl:value-of select="count(child::t:msItem)"/>
                             </span>
                         </xsl:if>
@@ -27,9 +27,8 @@
                         </xsl:if>
                     <xsl:choose>
                         <xsl:when test="child::t:msItem">
-                            <xsl:apply-templates select="node() except t:msItem"/>
                             <div class="accordion" id="accordion{$trimid}" rel="http://purl.org/dc/terms/hasPart">
-                                <xsl:apply-templates select="t:msItem"/>
+                                <xsl:apply-templates/>
                             </div>
                         </xsl:when>
                         <xsl:otherwise>
@@ -74,9 +73,8 @@
                         </xsl:if>
                     <xsl:choose>
                         <xsl:when test="child::t:msItem">
-                            <xsl:apply-templates select="node() except t:msItem"/>
                             <div class="accordion" id="accordion{$trimid}" rel="http://purl.org/dc/terms/hasPart">
-                                <xsl:apply-templates select="t:msItem"/>
+                                <xsl:apply-templates/>
                             </div>
                         </xsl:when>
                         <xsl:otherwise>

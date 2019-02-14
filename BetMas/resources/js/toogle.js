@@ -24,7 +24,7 @@ $('#NavByIds').on('hidden.bs.collapse', function () {
    $(".allMainRel").show()
 });
 
-$('.accordion-group .collapse').collapse('show');
+/*$('.accordion-group .collapse').collapse('show');*/
 
 $("#tooglecodicologicalInformation").click(function () {
     $('[id^="codicologicalInformation"]').toggle("slow");

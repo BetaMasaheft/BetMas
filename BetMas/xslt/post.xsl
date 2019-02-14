@@ -2,7 +2,7 @@
     <xsl:output encoding="UTF-8" method="xml"/>
     <xsl:output indent="yes" method="xml"/>
     <xsl:variable name="BMurl">https://betamasaheft.eu/</xsl:variable>
-    <xsl:variable name="editorslist" select="doc('xmldb:exist:///db/apps/BetMas/editors.xml')//t:list"/>
+    <xsl:variable name="editorslist" select="doc('../editors.xml')//t:list"/>
     
     <xsl:template match="@* | node()">
         <xsl:copy>
@@ -345,7 +345,7 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
             <!--                      take all from the zotero record, but not the xml id, 
                             as a record can be cited more than once and would invalidate the file-->
             <xsl:variable name="zotero" select="document(concat('https://api.zotero.org/groups/358366/items?tag=',t:ptr/@target, '&amp;format=tei'))//t:biblStruct"/>
-            <bibl corresp="{$zotero/@corresp}" type="{$zotero/@type}">
+            <bibl xmlns="http://www.tei-c.org/ns/1.0" corresp="{$zotero/@corresp}" type="{$zotero/@type}">
                 <xsl:apply-templates select="@xml:id"/>
                 <xsl:copy-of select="$zotero//t:title"/>
                 <xsl:copy-of select="$zotero//t:author"/>
@@ -382,7 +382,7 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
                             </xsl:otherwise>
                         </xsl:choose>
                     </xsl:variable>
-                    <xsl:variable name="file" select="document(concat('https://betamasaheft.aai.uni-hamburg.de/manuscripts/', $filename, '.xml'))"/>
+                    <xsl:variable name="file" select="document(concat('https://betamasaheft.eu/', $filename, '.xml'))"/>
                     <idno>
                         <xsl:value-of select="$file//t:msIdentifier/t:idno"/>
                     </idno>
@@ -398,7 +398,7 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
                     <!--                      take all from the zotero record, but not the xml id, 
                             as a record can be cited more than once and would invalidate the file-->
                     <xsl:variable name="zotero" select="document(concat('https://api.zotero.org/groups/358366/items?tag=',t:ptr/@target, '&amp;format=tei'))//t:biblStruct"/>
-                    <bibl corresp="{$zotero/@corresp}" type="{$zotero/@type}">
+                    <bibl xmlns="http://www.tei-c.org/ns/1.0" corresp="{$zotero/@corresp}" type="{$zotero/@type}">
                         <xsl:apply-templates select="@xml:id"/>
                         <xsl:copy-of select="$zotero//t:title"/>
                         <xsl:copy-of select="$zotero//t:author"/>
