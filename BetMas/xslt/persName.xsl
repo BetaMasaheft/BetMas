@@ -40,7 +40,7 @@
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:variable>
-                <a xmlns="http://www.w3.org/1999/xhtml" href="{@ref}" class="persName">
+                <a xmlns="http://www.w3.org/1999/xhtml" href="/{@ref}" class="persName">
                     <xsl:choose>
                         <xsl:when test="t:choice">
                             <xsl:apply-templates select="t:choice"/>

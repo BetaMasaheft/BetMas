@@ -242,7 +242,7 @@ if(xdb:collection-available($coll)) then (
         <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
         <link rel="alternate" type="application/rdf+xml"
           title="RDF Representation"
-          href="https://betamasaheft.eu/rdf/{$collection}/{$id}.rdf" />
+          href="http://betamasaheft.eu/rdf/{$collection}/{$id}.rdf" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         {apprest:app-meta($biblio)}
         {apprest:scriptStyle()}
@@ -273,9 +273,11 @@ if(xdb:collection-available($coll)) then (
 <div class="alert alert-success" style="font-size: smaller;">
     <p><a role="button" target="_blank" class="btn btn-default btn-xs" 
     href="https://github.com/BetaMasaheft/{replace(replace(base-uri($this), '/db/apps/BetMas/data/', ''), $collection, concat($collection, '/blob/master'))}">Click 
-    here to edit</a> this file in GitHub and contribute to the project. Not sure how to do this? Have a look at the <a target="_blank" href="https://betamasaheft.eu/Guidelines/?id=howto">Beta maṣāḥǝft Guidelines.</a> or <a target="_blank" href="mailto:pietro.liuzzo@uni-hamburg.de?Subject=[BetMas Contributor]%20{$id}">
+    here to edit</a> this file in GitHub and contribute to the project. Not sure how to do this? Have a look at the <a target="_blank" href="http://betamasaheft.eu/Guidelines/?id=howto">Beta maṣāḥǝft Guidelines.</a> or <a target="_blank" href="mailto:pietro.liuzzo@uni-hamburg.de?Subject=[BetMas Contributor]%20{$id}">
    contact us.
 </a></p>
+<a class="btn btn-xs btn-warning" id="toggleHands">Hide/show ↗ and pointers</a>
+            
 </div>
   { item:RestNav($this, $collection, $type)}
 
@@ -315,9 +317,9 @@ transform:transform(
    )
    case 'geobrowser' return (
    <div class="container col-md-10">
-   <div class="col-md-12 alert alert-info">You can download the <a href="https://betamasaheft.eu/api/KML/places/{$id}">KML</a> file visualized below in the <a href="https://geobrowser.de.dariah.eu">Dariah-DE Geobrowser</a>.</div>
+   <div class="col-md-12 alert alert-info">You can download the <a href="http://betamasaheft.eu/api/KML/places/{$id}">KML</a> file visualized below in the <a href="https://geobrowser.de.dariah.eu">Dariah-DE Geobrowser</a>.</div>
    <h3>Map and timeline of places attestations marked up in the text.</h3>
-   <iframe style="width: 100%; height: 800px;" id="geobrowserMap" src="http://geobrowser.de.dariah.eu/embed/index.html?kml1=https://betamasaheft.eu/api/KML/places/{$id}"/>
+   <iframe style="width: 100%; height: 800px;" id="geobrowserMap" src="http://geobrowser.de.dariah.eu/embed/index.html?kml1=http://betamasaheft.eu/api/KML/places/{$id}"/>
    </div>
    )
    case 'analytic' return (
@@ -442,7 +444,7 @@ if ($id = $Subjects) then  (try{LitFlow:Sankey($id, 'works')} catch * {$err:desc
                 allowfullscreen="true"
                 width="100%" 
                 height="400" 
-                src="https://peripleo.pelagios.org/embed/{encode-for-uri(concat('https://betamasaheft.eu/places/',$id))}">
+                src="https://peripleo.pelagios.org/embed/{encode-for-uri(concat('http://betamasaheft.eu/places/',$id))}">
             </iframe>
             </div>
    </div>,
@@ -475,7 +477,7 @@ if ($id = $Subjects) then  (try{LitFlow:Sankey($id, 'works')} catch * {$err:desc
                 allowfullscreen="true"
                 width="100%" 
                 height="400" 
-                src="https://peripleo.pelagios.org/embed/{encode-for-uri(concat('https://betamasaheft.eu/places/',$id))}">
+                src="https://peripleo.pelagios.org/embed/{encode-for-uri(concat('http://betamasaheft.eu/places/',$id))}">
             </iframe>
             </div>,<div id="entitymap" style="width: 100%; height: 400px"/>,
    <script>{'var placeid = "'||$id||'"'}</script>,

@@ -522,8 +522,7 @@ return
             <div class="col-md-2">
             
                 <a class="btn btn-xs btn-info" href="javascript:void(0);" onclick="startIntroItem();">Take a tour of this page</a>
-                <a class="btn btn-xs btn-warning" id="toggleHands">Hide/show ↗ and pointers</a>
-            <script type="application/javascript" src="resources/js/introText.js"/>
+                <script type="application/javascript" src="resources/js/introText.js"/>
             <img id="loading" src="resources/Loading.gif" style="display: none; align: centre;" width="100%"></img>
             <nav class="navbar" id="ItemSideBar">
             <div class="navbar-header">

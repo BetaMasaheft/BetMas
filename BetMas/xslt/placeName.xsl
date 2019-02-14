@@ -54,7 +54,7 @@
                                 <xsl:when test="contains(@ref, 'INS')">institutions</xsl:when>
                             </xsl:choose>
                         </xsl:variable>
-                        <a xmlns="http://www.w3.org/1999/xhtml" href="{@ref}">
+                        <a xmlns="http://www.w3.org/1999/xhtml" href="/{@ref}">
                             <xsl:choose>
                                 <xsl:when test="text()">
                                     <xsl:apply-templates select="child::node()[not(name()='certainty')]"/>

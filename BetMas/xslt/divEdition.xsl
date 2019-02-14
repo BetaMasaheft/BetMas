@@ -1,6 +1,6 @@
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.choiceorg/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t" version="2.0">
     
-    <xsl:template match="t:*[@xml:lang='gez']//text()[parent::t:*[name() != 'label'][name() != 'note']]">
+    <xsl:template match="t:*[@xml:lang='gez']//text()[parent::t:*[name() != 'label'][name() != 'note'][name() != 'persName'] [name() != 'placeName']]">
         
         <xsl:if test=".!='' and .!=' '">
             <span class="word">
@@ -157,8 +157,7 @@
                             </xsl:otherwise>
                         </xsl:choose>
                         <xsl:text>)</xsl:text>
-                    </xsl:if>
-                    <xsl:if test="@corresp">
+                    </xsl:if><xsl:if test="@corresp">
                         <div class="parallelversions btn-group">
                             <a class="parallelversion btn btn-success btn-xs" data-textid="{$text}" data-unit="{@corresp}" data-toggle="tooltip" title="See parallel versions if any is available">
                                 Versions
@@ -170,6 +169,7 @@
                             Ugarit Alignment
                         </a>
                     </div>
+                    
                         <div class="quotations btn-group">
                             <a id="quotations{@n}" class="quotations btn btn-success btn-xs" data-textid="{$text}" data-unit="{@n}" data-toggle="tooltip" title="Check for marked up quotations of a passage in this section">
                                 Quotations
@@ -584,26 +584,25 @@
                 </xsl:otherwise>
             </xsl:choose></xsl:when>
             <xsl:otherwise><hr id="part{@n}"/>
-                <p>
-                    <xsl:value-of select="@n"/>
-                    
-                    <xsl:choose><xsl:when test="starts-with(@facs, 'http') and ancestor::t:TEI[@type='work']">
-                        <xsl:variable name="corresp" select="substring-after(@corresp, '#')"/>
-                        <xsl:variable name="manifest" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/t:ptr/@target"/>
-                        <xsl:variable name="location" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/@facs"/>
-                        <span class="imageLink" data-manifest="{$manifest}" data-location="{$location}" data-canvas="{@facs}"/>
-                    </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:variable name="corresp" select="substring-after(@corresp, '#')"/>
-                            <xsl:variable name="manifest" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/t:ptr/@target"/>
-                            <xsl:variable name="location" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/@facs"/>
-                            <span class="imageLink" data-manifest="{$manifest}" data-location="{$location}" data-canvas="{@facs}"/>
-                        </xsl:otherwise>
-                    </xsl:choose></p>
-                
-                <xsl:apply-templates/></xsl:otherwise></xsl:choose>
+        <p>
+            <xsl:value-of select="@n"/>
+        
+        <xsl:choose><xsl:when test="starts-with(@facs, 'http') and ancestor::t:TEI[@type='work']">
+            <xsl:variable name="corresp" select="substring-after(@corresp, '#')"/>
+            <xsl:variable name="manifest" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/t:ptr/@target"/>
+            <xsl:variable name="location" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/@facs"/>
+            <span class="imageLink" data-manifest="{$manifest}" data-location="{$location}" data-canvas="{@facs}"/>
+        </xsl:when>
+            <xsl:otherwise>
+                <xsl:variable name="corresp" select="substring-after(@corresp, '#')"/>
+                <xsl:variable name="manifest" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/t:ptr/@target"/>
+                <xsl:variable name="location" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/@facs"/>
+                <span class="imageLink" data-manifest="{$manifest}" data-location="{$location}" data-canvas="{@facs}"/>
+            </xsl:otherwise>
+        </xsl:choose></p>
+        
+        <xsl:apply-templates/></xsl:otherwise></xsl:choose>
     </xsl:template>
-    
     
     <xsl:template match="t:cb">
         <xsl:text>|</xsl:text>
@@ -710,13 +709,8 @@
     
     <xsl:template match="t:choice[t:sic and t:corr]">
         <xsl:variable name="id" select="generate-id()"/>
-        <b>
-            <a data-toggle="tooltip" data-value="{t:corr/@resp}" class="ChoiceResp" id="{$id}">
-            <xsl:value-of select="t:corr"/>
-        </a>
-        </b>
-            
-<!--        the following script makes it possible to click on the text to see the alternative the sic has a (!) appended-->
+        <b><a data-toggle="tooltip" data-value="{t:corr/@resp}" class="ChoiceResp" id="{$id}"><xsl:value-of select="t:corr"/></a></b><!--        
+            the following script makes it possible to click on the text to see the alternative the sic has a (!) appended-->
         <script type="text/javascript">
             <xsl:text>$('#</xsl:text>
             <xsl:value-of select="$id"/>
