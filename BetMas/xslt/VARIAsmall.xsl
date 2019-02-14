@@ -1,6 +1,21 @@
 <xsl:stylesheet xmlns="http://www.w3.torg/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     
-    
+   <!-- <xsl:template match="t:relation">
+        <xsl:if test="@active = $mainID">
+            <xsl:variable name="passive">
+                <xsl:choose>
+                    <xsl:when test="contains(@passive, ' ')">
+                        <xsl:value-of select="tokenize(normalize-space(@passive), ' ')"/>
+                    </xsl:when>
+                    <xsl:otherwise><xsl:value-of select="@passive"/></xsl:otherwise>
+                </xsl:choose>
+            </xsl:variable>
+            <xsl:for-each select="$passive">
+                <span property="http://purl.org/dc/elements/1.1/relation" resource="http://betamasaheft.eu/{current()}"/>
+            </xsl:for-each>
+        </xsl:if>
+        <xsl:apply-templates/>
+    </xsl:template>-->
     <xsl:template match="t:metamark"/>
     <xsl:template match="t:desc[parent::t:relation]">
         <xsl:apply-templates/>
@@ -187,6 +202,7 @@
         </xsl:choose>
     </xsl:template>
     
+    
     <xsl:template match="t:expan">
         <xsl:apply-templates/>
     </xsl:template>
@@ -199,13 +215,13 @@
     </xsl:template>
     
     <xsl:template match="t:ex">
-           <xsl:text>(</xsl:text>
+        <xsl:text>(</xsl:text>
         <xsl:apply-templates/>
-              <xsl:text>)</xsl:text>
+        <xsl:text>)</xsl:text>
     </xsl:template>
     
     <xsl:template match="t:am">
-            <xsl:apply-templates/>
+        <xsl:apply-templates/>
     </xsl:template>
     
     <xsl:template match="t:hi">
@@ -298,7 +314,25 @@
         </a>
     </xsl:template>
     
-    <xsl:template match="t:q">
+    <xsl:template match="t:q[parent::t:desc]">
+        
+        <span lang="{@xml:lang}">
+            <xsl:if test="ancestor::t:decoNote">Legend: </xsl:if>
+            <xsl:choose>
+                <xsl:when test="text()">
+                    <xsl:value-of select="concat('(', @xml:lang, ') ')"/>
+                    <xsl:apply-templates/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:variable name="lang" select="@xml:lang"/>
+                    <xsl:text>Text in </xsl:text>
+                    <xsl:value-of select="                             if (ancestor::t:TEI/t:teiHeader/t:profileDesc/t:langUsage/t:language[@ident = $lang]) then                                 ancestor::t:TEI/t:teiHeader/t:profileDesc/t:langUsage/t:language[@ident = $lang]/text()                             else                                 $lang"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </span>
+    </xsl:template>
+    
+    <xsl:template match="t:q[not(parent::t:desc)]">
         
         <p lang="{@xml:lang}">
             <xsl:if test="ancestor::t:decoNote">Legend: </xsl:if>
@@ -315,4 +349,5 @@
             </xsl:choose>
         </p>
     </xsl:template>
+    
 </xsl:stylesheet>

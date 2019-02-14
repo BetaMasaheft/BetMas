@@ -336,15 +336,15 @@ return
                                             
                                             </error-handler>
                                         </dispatch>
-(:  http://betamasaheft.eu/urn:dts:betmas:LIT3122Galaw
+(:  https://betamasaheft.eu/urn:dts:betmas:LIT3122Galaw
 
 if accept is set to json-ld, then redirect to api/dts,
 
-http://betamasaheft.eu/api/dts/collection?id=urn:dts:betmas:LIT3122Galaw
+https://betamasaheft.eu/api/dts/collection?id=urn:dts:betmas:LIT3122Galaw
 WHICH NEEDS TO BE ENCODED! so urn%3Adts%3Abetmas%3ALIT3122Galaw
 else redirect to /text view with parameters
 
-http://betamasaheft.eu/works/LIT3122Galaw/text
+https://betamasaheft.eu/works/LIT3122Galaw/text
 
 :)
                                                 else
@@ -401,9 +401,9 @@ http://betamasaheft.eu/works/LIT3122Galaw/text
                                         )
                                         
 (:                                        redirects uris of subpart URI like
-http://betamasaheft.eu/BDLaethe8/addition/a1
+https://betamasaheft.eu/BDLaethe8/addition/a1
 to the actual homepage with a # to their id
-http://betamasaheft.eu/manuscripts/BDLaethe8/main#a1
+https://betamasaheft.eu/manuscripts/BDLaethe8/main#a1
 if application/rdf+xml is asked then the request is forwarded to the sparqlRest.xql module where
 function apisparql:constructURIsubid() is called to construct a graph of that resource.
 :)
@@ -447,13 +447,13 @@ function apisparql:constructURIsubid() is called to construct a graph of that re
                                                         xmlns="http://exist.sourceforge.net/NS/exist">
                                                         
                                                         <redirect
-                                                            url="http://betamasaheft.eu/{$switchCollection}/{$tokenizePath[2]}/main#{$tokenizePath[last()]}"/>
+                                                            url="https://betamasaheft.eu/{$switchCollection}/{$tokenizePath[2]}/main#{$tokenizePath[last()]}"/>
                                                     
                                                     </dispatch>
                                                     
 (:                  annotations                                  :)
-(:http://betamasaheft.eu/BNFet32/person/annotation/95
-http://betamasaheft.eu/BNFet32/place/annotation/1
+(:https://betamasaheft.eu/BNFet32/person/annotation/95
+https://betamasaheft.eu/BNFet32/place/annotation/1
 points to main item HTML as a page
 construct the annotation graph if application/rdf+xml is specified
 :)
@@ -487,7 +487,7 @@ construct the annotation graph if application/rdf+xml is specified
                                                     
                                                     
                                                     
-(:http://betamasaheft.eu/bond/snap:GrandfatherOf-PRS1854Amdase:)
+(:https://betamasaheft.eu/bond/snap:GrandfatherOf-PRS1854Amdase:)
  
                                                     else
                                             if (starts-with($exist:path, "/bond/")) then
@@ -526,12 +526,12 @@ construct the annotation graph if application/rdf+xml is specified
                                             return
 (:                                            content negotiation,
 requiring the ID
-http://betamasaheft.eu/BNFet32
+https://betamasaheft.eu/BNFet32
 if the client explicitly requests application/xml+rdf then the RDF is returned from
 the sparqlRest.xql module where
 function apisparql:constructURIid() is called to construct a graph of that resource.
 otherwise the html page is returned
-http://betamasaheft.eu/manuscript/BNFet32/main
+https://betamasaheft.eu/manuscript/BNFet32/main
 :)
                                             if (contains(request:get-header('Accept'), 'rdf'))
                                             then
@@ -586,12 +586,12 @@ http://betamasaheft.eu/manuscript/BNFet32/main
 (:                             if the url resource does not contain numbers, and thus is not the id of any resource, beside authority files:)
 (:                                            content negotiation,
 requiring the ID
-http://betamasaheft.eu/angel
+https://betamasaheft.eu/angel
 if the client explicitly requests application/xml+rdf then the RDF is returned from
 the sparqlRest.xql module where
 function apisparql:constructURIid() is called to construct a graph of that resource.
 otherwise the html page is returned
-http://betamasaheft.eu/authority-files/angel/main
+https://betamasaheft.eu/authority-files/angel/main
 :)
                                     else
                                         if (matches($exist:resource, "^[^.\d]+$")) then
