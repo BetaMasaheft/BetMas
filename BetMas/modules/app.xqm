@@ -1041,7 +1041,7 @@ function app:personType($node as node(), $model as map(*), $context as xs:string
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
 declare
 %templates:default("context", "$config:collection-root") 
-function app:relationType($node as node(), $model as map(*)) {
+function app:relationType($node as node(), $model as map(*), $context as xs:string*) {
     let $cont := util:eval($context)
     let $relTypes := distinct-values($cont//t:relation/@name/tokenize(., '\s+'))
     let $control :=app:formcontrol('relType', $relTypes, 'false', 'values', $context)
@@ -1050,7 +1050,7 @@ function app:relationType($node as node(), $model as map(*)) {
 };
 
 (:~ called by form*.html files used by advances search form as.html and filters.js :)
-declare function app:keywords($node as node(), $model as map(*)) {
+declare function app:keywords($node as node(), $model as map(*), $context as xs:string*) {
     let $keywords := doc($config:data-rootA || '/taxonomy.xml')//t:taxonomy
    let $control := app:formcontrol('keyword', $keywords, 'false', 'keywords', $context)
     return
