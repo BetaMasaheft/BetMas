@@ -1,12 +1,13 @@
 
-$('#hypothesisFeed').on('ready', function () {
- var input = $(this).data('value')
+$(document).on('ready', function () {
+
+ var input = $("#hypothesisFeedResults").data('value')
 var url = "https://hypothes.is/api/search?tag=BetMas:" + input + "&limit=200"
 console.log(url)
 
 $.ajaxSetup({ cache: true });
 $.getJSON( url, function( data ) {
-console.log(data)
+//console.log(data)
   var items = [];
        for (var i = 0; i < data.total; i++) {
        var ann = data.rows[i]
@@ -16,13 +17,14 @@ console.log(data)
        var url = "";
        var urldata = ann.uri
        if(urldata.startsWith("http")){url += "<a href='"+urldata +"'>link</a>"} else {url += urldata};
+       var user = ann.user
+       var userLink = "<a href='"+ user+"'>"+user.substring(0, user.indexOf('@')).replace('acct:', '')+"</a>" 
        
-       
-      items.push( "<div class='col-md-12'><div id='" + ann.id + "'><div class='col-md-6'><a target='_blank' href='"+ ann.links.html +"'>"  + ann.document.title +"</a></div><div class='col-md-6'><p>"  + content +"</p></div></div></div>" );
+      items.push( "<tr id='" + ann.id + "' ><td ><a target='_blank' href='"+ ann.links.html +"'>"  + ann.document.title +"</a> ["+url+"]</td><td><p>"  + content +" (annotation by "+userLink+")</p></td></tr>" );
 };
     $( "#hypothesisFeedResults" ).empty();
-  $( "<div/>", {
-    "class": "row",
+  $( "<table/>", {
+    "class": "table table-responsive",
     html: items.join( "" )
   }).appendTo( "#hypothesisFeedResults" );
   
