@@ -886,7 +886,7 @@ return
      <img id="loading" src="resources/Loading.gif" style="display: none;"></img>
      <div id="SeeAlsoResults" class="well">No keyword selected.</div>
      {if($collection='works') then item:RestMss($id) else ()}
-     <div><button class="btn btn-primary" id="hypothesisFeed" data-value="{$id}">Load hypothes.is public annotations pointing here</button>
+     <div><b>Hypothes.is public annotations pointing here</b>
      <div id="hypothesisFeedResults"></div>
      <p>Use the tag <span class="label  label-info">BetMas:{$id}</span> in your public <a href="https://web.hypothes.is/">hypothes.is</a> annotations which refer to this entity.</p>
      </div>

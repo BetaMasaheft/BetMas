@@ -1,12 +1,20 @@
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
-    <p>Enter here your XPath 3.0 query to the data. Please, use t: namespace for TEI elements. The starting point of any Xpath should be 'collection('/db/apps/BetMas/data')' if you are searching the entire dataset.</p>
+    <p>Enter here your XPath 3.0 query to the data. 
+        Please, use t: namespace for TEI elements. The starting point of any Xpath should 
+        be <code>$config:collection-root</code> if you are searching the entire dataset.</p>
+    <p>You can also use, as a cached and short form to point to collections the following variables:
+        <code>$config:collection-rootMS</code> for manuscripts; <code>$config:collection-rootW</code> for Textual Units
+        <code>$config:collection-rootPl</code> for places; <code>$config:collection-rootPr</code> for persons;
+        <code>$config:collection-rootIn</code> for repositories; <code>$config:collection-rootA</code> for authority files.
+        If you want to search for Places and Repositories, you can use <code>$config:collection-rootPlIn</code>
+    </p>
     
     <div data-template="app:logging"/>
     <div class="col-md-12">
         <form action="" class="form form-horizontal">
             <div class="form-group">
                 <div class="input-group">
-                    <input placeholder="path here" class="form-control" name="xpath"/>
+                    <input placeholder="e.g. start with $config:collection-root//t:" class="form-control" name="xpath"/>
                     <div class="input-group-btn">
                         <button type="submit" class="btn btn-primary"> Run
                     </button>
