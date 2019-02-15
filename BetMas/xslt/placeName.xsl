@@ -79,7 +79,7 @@
                             <i class="fa fa-hand-o-left"/>
                             <xsl:text>  </xsl:text>
                         </a>
-                        <span xmlns="http://www.w3.org/1999/xhtml" class="pelagios" data-pelagiosID="{encode-for-uri(concat('https://betamasaheft.eu/place/',@ref))}" data-href="https://betamasaheft.eu/{@ref}">
+                        <span xmlns="http://www.w3.org/1999/xhtml" class="pelagios" data-pelagiosID="{encode-for-uri(concat('http://betamasaheft.eu/places/',@ref))}" data-href="https://betamasaheft.eu/{@ref}">
                             ↗
                         </span>
                     </xsl:otherwise>

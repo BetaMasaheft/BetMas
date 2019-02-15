@@ -21,11 +21,14 @@ $(document).on('ready', function () {
     
     $('.pelagios').on('click', function(){
 var element = $(this)
-//console.log(element)
+console.log(element)
     var id = $(this).data("pelagiosid") 
+    
+console.log(id)
     var href= $(this).data("href") 
   var pelagioscall = 'https://peripleo.pelagios.org/peripleo/search?places=' + id
   
+console.log(pelagioscall)
    var content = $('<ul/>')
    
    $.getJSON(pelagioscall,function(data) { 
@@ -33,9 +36,9 @@ var element = $(this)
    //console.log(data)
    if(data.total >= 1) {
    $(data.items).each(function(linkshere){
-   var relatedItem = '<li><a href="'+this.homepage+'">' + this.title + '</a> in '+this.dataset_path["0"].title+'</li>'
+   var relatedItem = '<li class="nodot"><a href="'+this.homepage+'">' + this.title + '</a> in '+this.dataset_path["0"].title+'</li>'
        $(content).append(relatedItem)
-   });
+       });
    
    $(element).popover({
             html: true,
