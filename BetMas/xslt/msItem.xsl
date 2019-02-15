@@ -5,12 +5,12 @@
         <div class="accordion-group" resource="https://betamasaheft.eu/{$mainID}/msitem/{$id}" typeof="https://betamasaheft.eu/msitem https://w3id.org/sdc/ontology#UniCont">
             <div class="accordion-heading">
                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#contents" href="#item{$trimid}">
-                    <button type="button" class="btn btn-secondary contentItem" id="{$id}" resource="https://betamasaheft.eu/{$mainID}/msitem/{$id}"> 
-                        <xsl:apply-templates select="./t:title" mode="nolink"/> Item <xsl:value-of select="$id"/>
+                    <button type="button" class="btn btn-secondary contentItem collapsed" id="{$id}" resource="https://betamasaheft.eu/{$mainID}/msitem/{$id}"> 
+                        <xsl:apply-templates select="./t:title[1]" mode="nolink"/> Item <xsl:value-of select="$id"/>
                         
                         
                         <xsl:if test="child::t:msItem">
-                            <span class="badge collapsed" property="http://www.cidoc-crm.org/cidoc-crm/P57_has_number_of_parts" about="https://betamasaheft.eu/{$mainID}/msitem/{$id}">
+                            <span class="badge" property="http://www.cidoc-crm.org/cidoc-crm/P57_has_number_of_parts" about="https://betamasaheft.eu/{$mainID}/msitem/{$id}">
                                 <xsl:value-of select="count(child::t:msItem)"/>
                             </span>
                         </xsl:if>
@@ -51,8 +51,8 @@
         <div class="accordion-group msItem" resource="https://betamasaheft.eu/{$mainID}/msitem/{$id}" typeof="https://betamasaheft.eu/msitem">
             <div class="accordion-heading">
                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion{replace(./parent::t:msItem[1]/@xml:id, '.','')}" href="#item{$trimid}">
-                    <button type="button" class="btn btn-secondary contentItem" id="{@xml:id}" resource="https://betamasaheft.eu/{$mainID}/msitem/{$id}"> 
-                        <xsl:apply-templates select="./t:title" mode="nolink"/> Item 
+                    <button type="button" class="btn btn-secondary contentItem collapsed" id="{@xml:id}" resource="https://betamasaheft.eu/{$mainID}/msitem/{$id}"> 
+                        <xsl:apply-templates select="./t:title[1]" mode="nolink"/> Item 
                         <xsl:value-of select="$id"/>
                        
                         <xsl:if test="child::t:msItem">
