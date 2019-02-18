@@ -1563,7 +1563,11 @@ declare function app:create-query($query-string as xs:string?, $mode as xs:strin
     Create a span with the number of items in the current search result.
 :)
 declare function app:hit-count($node as node()*, $model as map(*)) {
-    if ($model('type') = 'bibliography') then <h3>There are <span xmlns="http://www.w3.org/1999/xhtml" id="hit-count">{ count($model("hits")) }</span> distinct bibliographical references</h3> else if ($model('type') = 'matches') then <h3>You found "{$app:searchphrase}" in <span xmlns="http://www.w3.org/1999/xhtml" id="hit-count">{ count($model("hits")) }</span> results</h3> else (<h3> There are <span xmlns="http://www.w3.org/1999/xhtml" id="hit-count">{ count($model("hits")) }</span> entities matching your query. </h3>),
+    if ($model('type') = 'bibliography') then <h3>There are <span xmlns="http://www.w3.org/1999/xhtml" id="hit-count">{ count($model("hits")) }</span> distinct bibliographical references</h3> else if ($model('type') = 'matches') then <h3>You found "{$app:searchphrase}" in <span xmlns="http://www.w3.org/1999/xhtml" id="hit-count">{ count($model("hits")) }</span> results</h3> else (<h3> There are <span xmlns="http://www.w3.org/1999/xhtml" id="hit-count">{ count($model("hits")) }</span> entities matching your query. </h3>)
+    
+};
+
+declare function app:hit-params($node as node()*, $model as map(*)) {
     <div>{
                     for $param in request:get-parameter-names()
                     for $value in request:get-parameter($param, ())
@@ -1577,7 +1581,11 @@ declare function app:hit-count($node as node()*, $model as map(*)) {
                 }</div>
 };
 
-
+declare function app:gotoadvanced($node as node()*, $model as map(*)){
+let $query := request:get-parameter('query', ())
+return 
+<a href="/as.html?query={$query}" class="btn btn-primary">Repeat search in the Advanced Search.</a>
+};
 
 declare function app:list-count($node as node()*, $model as map(*)) {
     <h3>{$app:collection || ' '}{string-join(
