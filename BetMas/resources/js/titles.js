@@ -2,6 +2,7 @@
 $(document).on('ready', function () {
     checkfortitles();
     checkforWordCounts();
+    //console.log('howdy!')
 });
 
 
@@ -47,7 +48,7 @@ var ids = []
 
     });
     
-    //console.log(ids)
+   // console.log(ids)
     
     $(ids).each(function (index, id) {
        var escapedid = id.replace("#", "/")
