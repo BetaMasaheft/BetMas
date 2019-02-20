@@ -37,6 +37,18 @@ let $SearchOptions :=
 concat("descendant::t:", $element, "[ft:query(., '" , $query, "', ", serialize($SearchOptions) ,")]")
 };
 
+(:~ builds XPath as string to be added to string which will be evaluated by API search. :)
+declare function apiS:BuildSearchQuery2($element as xs:string, $query as xs:string){
+let $SearchOptions :=
+    <options>
+        <default-operator>or</default-operator>
+        <phrase-slop>0</phrase-slop>
+        <leading-wildcard>yes</leading-wildcard>
+        <filter-rewrite>yes</filter-rewrite>
+    </options>
+    return
+concat("t:", $element, "[ft:query(., '" , $query, "', ", serialize($SearchOptions) ,")]")
+};
 
 (:~ returns a map containing the KWIC hits from the evaluation of an xpath containing lucene full text index queries for the API search. :)
 declare
@@ -46,29 +58,38 @@ declare
 %rest:query-param("element", "{$element}", "")
 %output:method("json")
 function apiS:kwicSearch($element as xs:string*, $q as xs:string*) {
-
+if ($q = '' or $q = ' ' or $element = '') then (<json:value>
+            <json:value
+                json:array="true">
+                <info>you have to specify a query string and a list or elements, sorry</info>
+            </json:value>
+        </json:value>) else
 let $log := log:add-log-message('/api/kwicsearch?q=' || $q, xmldb:get-current-user(), 'REST')
     let $login := xmldb:login('/db/apps/BetMas/data', $config:ADMIN, $config:ppw)
     
- let $hits :=  
- let $elements : =
+  let $elements : =
      for $e in $element
-    return 
-    apiS:BuildSearchQuery($e, all:substitutionsInQuery($q))
-let $allels := string-join($elements, ' or ')
-let $eval-string := concat("$config:collection-root//t:TEI[",$allels, "]")
+     let $elQ :=    apiS:BuildSearchQuery2($e, all:substitutionsInQuery($q))
+    let $string := concat("$config:collection-root//",$elQ)
+    return
+    util:eval($string)
 
-return
-util:eval($eval-string)
+let $hits := ($elements)
 
 let $hi :=   for $hit in $hits
                     let $expanded := kwic:expand($hit)
-                    let $id := string($hit/@xml:id)
-                    let $collection := switch($hit/@type) case 'mss' return 'manuscripts'case 'place' return 'places' case 'work' return 'works' case 'narr' return 'narratives' case 'ins' return 'institutions' case 'pers' return 'persons' default return 'authority-files'
+                   let $root := root($hit)/t:TEI
+                 group by $R := $root
+  
+                 let $id := string($R/@xml:id)
+                    let $collection := switch($R/@type) case 'mss' return 'manuscripts'case 'place' return 'places' case 'work' return 'works' case 'narr' return 'narratives' case 'ins' return 'institutions' case 'pers' return 'persons' default return 'authority-files'
                    let $ptest := titles:printTitleMainID($id)
                    let $title := if ($ptest) then ($ptest) else ()
                     let $count := count($expanded//exist:match)
-                    let $results := for $match in subsequence($expanded//exist:match, 1, 3) return  kwic:get-summary($expanded, $match,<config width="40"/>)
+                   let $results :=  for $ex in $expanded
+                                                 for $match in subsequence($ex//exist:match, 1, 3) 
+                                               
+                                                return  kwic:get-summary($ex, $match,<config width="40"/>)
                    let $pname := $expanded//exist:match[ancestor::t:div[@type='edition']]
                    
                    let $text := if($pname) then 'text' else 'main'
@@ -128,7 +149,12 @@ $material as xs:string*,
 $term as xs:string*,
 $homophones as xs:string*,
 $descendants as xs:string*) {
-
+if ($q = '' or $q = ' ' or $element = '') then (<json:value>
+            <json:value
+                json:array="true">
+                <info>you have to specify a query string and a list or elements, sorry</info>
+            </json:value>
+        </json:value>) else
 let $log := log:add-log-message('/api/search?q=' || $q, xmldb:get-current-user(), 'REST')
     let $login := xmldb:login('/db/apps/BetMas/data', $config:ADMIN, $config:ppw)
     let $SearchOptions :=
