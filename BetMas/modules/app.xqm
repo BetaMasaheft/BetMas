@@ -157,7 +157,7 @@ declare function app:queryinput ($node as node(), $model as map(*), $query as xs
  : the PDF link html snippet, called by other function based on if statements :)
 declare function app:pdf-link($id) {
     
-        <a  xmlns="http://www.w3.org/1999/xhtml" id="mainPDF" href="/{$id}.pdf"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+        <a  xmlns="http://www.w3.org/1999/xhtml" id="mainPDF" href="/{$id}.pdf" class="btn btn-info"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
 };
 
 

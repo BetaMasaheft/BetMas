@@ -34,7 +34,7 @@ list-style-type : none;
     word-break: break-all;
 }
 .slider.slider-horizontal {
-    width: 160px;
+    width: 120px;
     height: 20px;
 }
 
@@ -927,12 +927,13 @@ td ul.nodot {
     list-style-type: none;
     padding: 0;
     margin: 0}
-
+.navbar {    margin-bottom: 0px;}
 .navbar-input-group {
     font-size: 0px; /*removes whitespace between button and input*/
 }
-
-
+.input-group .form-control {
+    margin: 0px !important;
+}
 .navbar-input-group input {
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;

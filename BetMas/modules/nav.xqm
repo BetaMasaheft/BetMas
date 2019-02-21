@@ -148,13 +148,12 @@ let $url := try{request:get-url()} catch*{''}
 return
 <nav class="navbar navbar-default" role="navigation">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"/>
                     <span class="icon-bar"/>
                     <span class="icon-bar"/>
                 </button>
-                <a class="navbar-brand" href="/">Beta maṣāḥǝft</a>
             </div>
             <div class="navbar-collapse collapse" id="navbar-collapse-1">
                 <ul class="nav navbar-nav">
@@ -250,11 +249,10 @@ return
                     <li class="dropdown" id="persons">
                         <a href="/persons/list">Persons</a>
                     </li>
-
-                    <li class="dropdown" id="resources">
-                        <a  href="#" class="dropdown-toggle" data-toggle="dropdown">Resources</a>
+<li id="indexes" class="dropdown">
+                        <a  href="#" class="dropdown-toggle" data-toggle="dropdown">Indexes</a>
                         <ul class="dropdown-menu  list-group">
-                         <li id="bibl" class="list-group-item dropdown-submenu">
+                        <li id="bibl" class="list-group-item dropdown-submenu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bibliography</a>
                         <ul class="dropdown-menu  list-group">
                             <li class="list-group-item">
@@ -265,20 +263,12 @@ return
                             </li>
                         </ul>
                     </li>
-                    <li id="anno" class="list-group-item dropdown-submenu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Annotations</a>
-                        <ul class="dropdown-menu  list-group">
                             <li class="list-group-item">
                                 <a href="/IndexPersons">Persons</a>
                             </li>
                             <li class="list-group-item">
                                 <a href="/IndexPlaces">Places</a>
                             </li>
-                        </ul>
-                    </li>
-                    <li id="indexes" class="list-group-item dropdown-submenu">
-                        <a  href="#" class="dropdown-toggle" data-toggle="dropdown">Indexes</a>
-                        <ul class="dropdown-menu  list-group">
                             <li class="list-group-item">
                                 <a href="/decorations">Decorations</a>
                             </li>
@@ -293,7 +283,11 @@ return
                             </li>
                         </ul>
                     </li>
-                            <li class="list-group-item">
+                    <li class="dropdown" id="resources">
+                        <a  href="#" class="dropdown-toggle" data-toggle="dropdown">Resources</a>
+                        <ul class="dropdown-menu  list-group">
+                         
+                    <li class="list-group-item">
                                 <a href="/compare">Compare manuscripts of a given work</a>
                             </li>
                             <li class="list-group-item">
@@ -313,13 +307,6 @@ return
                             </li>
                         </ul>
                     </li>
-                    <li class="dropdown" id="warnings">
-                     <p class="navbar-btn">
-                       <a role="button" class="btn btn-danger" data-toggle="modal" data-target="#versionInfo">ACHTUNG!</a>
-                            <a role="button" class="btn btn-warning"  target="_blank" href="https://github.com/BetaMasaheft/Documentation/issues/new?labels=app&amp;assignee=PietroLiuzzo&amp;body=There%20is%20an%20issue%20with%20a%20list%20view">new issue</a>
-                            <a role="button" class="btn btn-info"  target="_blank" href="mailto:pietro.liuzzo@uni-hamburg.de">contact us</a>
-               </p>
-               </li>
 
                 </ul>
 
@@ -327,35 +314,43 @@ return
                 let $url := try {request:get-url()} catch * {''}
                 return
                 if(contains($url, 'as.html') ) then () else
-                <form action="/search.html" class="navbar-form" role="search">
-                    <div class="form-group"  style="display:inline;">
-                    <div class="input-group">
-                        <input type="text" class="form-control diacritics" placeholder="search" name="query" id="q"/>
-                         <script type="application/javascript" src="resources/js/preventformsubmission.js"/>
-                        <span id="furtherSearchOptions" class="input-group-btn">
+                <form action="/search.html" class="navbar-form navbar-left" role="search">
+                    <div class="form-group">
+                    <div class="input-group input-group-sm mb-3">
+                        <input type="text" class="form-control diacritics" 
+                        placeholder="search" name="query" id="q"></input>
+                         <script type="application/javascript" src="resources/js/preventformsubmission.js"></script>
+                        <div id="furtherSearchOptions" class="input-group-btn">
                             <a class="kb btn btn-success">
                                 <i class="fa fa-keyboard-o" aria-hidden="true"></i>
                                 </a>
                             <button id="f-btn-search" type="submit" class="btn btn-info">
-                                <i class="fa fa-search" aria-hidden="true"/>
+                                <i class="fa fa-search" aria-hidden="true"></i>
                             </button>
                             <a href="/as.html" title="advanced search" class="btn btn-info">
-                                <i class="fa fa-cog" aria-hidden="true"></i> Search <i class="fa fa-plus" aria-hidden="true"></i>
+                                <i class="fa fa-plus" aria-hidden="true"></i>
                             </a>
                             <a href="/Dillmann/" title="search lexicon" class="btn btn-default">
                                 <i class="fa fa-book" aria-hidden="true"/>
                             </a>
                             <a href="#" class="btn btn-default" data-toggle="modal" data-target="#searchHelp">
-                                <i class="fa fa-info-circle" aria-hidden="true"/>
+                                <i class="fa fa-info-circle" aria-hidden="true"></i>
                             </a>
-                        </span>
+                            <a class="btn btn-warning"  target="_blank" href="https://github.com/BetaMasaheft/Documentation/issues/new?labels=app&amp;assignee=PietroLiuzzo&amp;body=There%20is%20an%20issue%20with%20a%20list%20view">
+                            <i class="fa fa-exclamation-circle"></i>
+                            </a>
+                            <a  class="btn btn-info"  target="_blank" href="mailto:pietro.liuzzo@uni-hamburg.de">
+                            <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                            </a>
+               
+                        </div>
                     </div>
                     </div>
                 </form>
 
                 }
             </div>
-        </nav>};
+      </nav>};
 
 declare function nav:newentry(){
         if(contains(sm:get-user-groups(xmldb:get-current-user()), 'Editors')) then

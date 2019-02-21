@@ -1,5 +1,5 @@
 // $j optional alias to jQuery noConflict()
-var $j = jQuery.noConflict();
+/*var $j = jQuery.noConflict();*/
 
 $(document).on('ready', function () {
     var id = $("#pelagiosrelateditems").data("id") 

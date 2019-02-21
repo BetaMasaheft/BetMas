@@ -180,15 +180,13 @@ return
             "snippet": if ($item//t:ab[@type='foundation']) then normalize-space(string-join(string:tei2string($item//t:ab[@type='foundation']), '')) else (),
             "title": $title},
             "type": "Feature",
-           
-            "history": [
+           "history": [
             map {
             "comment": "Mapped to Json from TEI xml",
             "modified": current-dateTime(),
             "principal": "pliuzzo"
             }
             ],
-            "id" : $id,
             "names": $names,
              "place_types": ($types, $periods),
              "provenance": "Encyclopedia Aethiopica",
