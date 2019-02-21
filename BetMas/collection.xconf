@@ -96,11 +96,32 @@
             <create qname="t:TEI">
                 <field name="TEItype" match="@type" type="xs:string"/>
                 <field name="TEIid" match="@xml:id" type="xs:string"/>
-                <field name="TEIlanguageIdent" match="t:teiHeader/t:profileDesc/t:langUsage/t:language/@ident" type="xs:string"/>
-                <field name="TEItermKey" match="t:teiHeader/t:profileDesc/t:textClass/t:keywords/t:term/@key" type="xs:string"/>
-                <field name="TEIrepo" match="t:teiHeader/t:fileDesc/t:sourceDesc/t:msDesc/t:msIdentifier/t:repository/@ref" type="xs:string"/>
-                <field name="TEIclavistype" match="t:text/t:body/t:div/t:div/t:listBibl/t:bibl/@type" type="xs:string"/>
-                <field name="TEIclavisID" match="t:text/t:body/t:div/t:div/t:listBibl/t:bibl/t:citedRange" type="xs:string"/>
+                <field name="TEIlanguageIdent" match="//t:language/@ident" type="xs:string"/>
+                <field name="TEItermKey" match="//t:term/@key" type="xs:string"/>
+                <field name="TEIrepo" match="//t:repository/@ref" type="xs:string"/>
+                <field name="TEIclavistype" match="//t:bibl/@type" type="xs:string"/>
+                <field name="TEIclavisID" match="//t:citedRange" type="xs:string"/>
+                <field name="TEIorigDateW" match="//t:origDate/@when" type="xs:string"/>
+                <field name="TEIorigDateNB" match="//t:origDate/@notBefore" type="xs:string"/>
+                <field name="TEIorigDateNA" match="//t:origDate/@notAfter" type="xs:string"/>
+                <field name="TEIDateW" match="//t:date/@when" type="xs:string"/>
+                <field name="TEIDateNB" match="//t:date/@notBefore" type="xs:string"/>
+                <field name="TEIDateNA" match="//t:date/@notAfter" type="xs:string"/>
+                <field name="TEIplNametx" match="//t:placeName/@ref" type="xs:string"/>
+                <field name="TEIprNametx" match="//t:persName/@ref" type="xs:string"/>
+                <field name="TEIscript" match="//t:handNote/@script" type="xs:string"/>
+                <field name="TEIsupport" match="//t:objectDesc/@form" type="xs:string"/>
+                <field name="TEIdecoMat" match="//t:decoNote[@type='bindingMaterial']/t:material/@key" type="xs:string"/>
+                <field name="TEIpersOcc" match="//t:occupation/@type" type="xs:string"/>
+                <field name="TEIreltx" match="//t:relation/@name" type="xs:string"/>
+                <field name="TEIreltxP" match="//t:relation/@passive" type="xs:string"/>
+                <field name="TEItitle" match="//t:title/@ref" type="xs:string"/>
+                <field name="TEIwitt" match="//t:witness/@corresp" type="xs:string"/>
+                <field name="TEIsex" match="//t:person/@sex" type="xs:string"/>
+                <field name="TEImeasure" match="//t:extent/t:measure" type="xs:string"/>
+                <field name="TEIwrittenLines" match="//t:layout/@writtenLines" type="xs:string"/>
+                <field name="TEIquireDim" match="//t:dim" type="xs:string"/>
+                
             </create>
            
             <create qname="t:l">

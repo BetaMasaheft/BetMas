@@ -8,6 +8,7 @@ declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace sparql = "http://www.w3.org/2005/sparql-results#";
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 
+declare variable $titles:placeNamesList := doc(concat($config:app-root, '/placeNamesLabels.xml'));
 
 (:establishes the different rules and priority to print a title referring to a record:)
 declare function titles:printTitle($node as element()) {
@@ -508,16 +509,27 @@ declare function titles:decidePlName($plaID){
 
 (:Given an id, decides if it is one of BM or from another source and gets the name accordingly:)
 declare function titles:decidePlaceNameSource($pRef as xs:string){
-if (starts-with($pRef, 'gn:')) then (titles:getGeoNames($pRef)) 
-else if (starts-with($pRef, 'pleiades:')) then (titles:getPleiadesNames($pRef)) 
-else if (matches($pRef, 'Q\d+')) then (titles:getwikidataNames($pRef)) 
+if ($titles:placeNamesList//t:item[@corresp = $pRef]) 
+then $titles:placeNamesList//t:item[@corresp = $pRef]/text()
+else if (starts-with($pRef, 'gn:')) then (let $name := titles:getGeoNames($pRef) return titles:updatePlaceList($name, $pRef)) 
+else if (starts-with($pRef, 'pleiades:')) then (let $name := titles:getPleiadesNames($pRef) return titles:updatePlaceList($name, $pRef)) 
+else if (matches($pRef, 'Q\d+')) then (let $name := titles:getwikidataNames($pRef) let $addit := titles:updatePlaceList($name, $pRef) return
+titles:decidePlaceNameSource($pRef)) 
 else titles:printTitleID($pRef) 
 };
+
+
+declare function titles:updatePlaceList($name, $pRef){
+let $placeslist := $titles:placeNamesList//t:list
+return 
+update insert <item xmlns="http://www.tei-c.org/ns/1.0" corresp="{$pRef}">{$name}</item> into  $placeslist
+};
+
 
 declare function titles:getGeoNames ($string as xs:string){
 let $gnid:= substring-after($string, 'gn:')
 let $xml-url := concat('http://api.geonames.org/get?geonameId=',$gnid,'&amp;username=betamasaheft')
-let $data := httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)
+let $data := try{httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)} catch *{$err:description}
 return
 if ($data//toponymName) then
 $data//toponymName/text()
@@ -525,9 +537,10 @@ else 'no data from geonames'
 };
 
 declare function titles:getPleiadesNames($string as xs:string) {
+
    let $plid := substring-after($string, 'pleiades:')
    let $url := concat('http://pelagios.org/peripleo/places/http:%2F%2Fpleiades.stoa.org%2Fplaces%2F', $plid)
-  let $file := httpclient:get(xs:anyURI($url), true(), <Headers/>)
+  let $file := try{httpclient:get(xs:anyURI($url), true(), <Headers/>)} catch *{$err:description}
   
 let $file-info := 
     let $payload := util:base64-decode($file) 
@@ -546,7 +559,7 @@ let $sparql := 'SELECT * WHERE {
 
 let $query := 'https://query.wikidata.org/sparql?query='|| xmldb:encode-uri($sparql)
 
-let $req := httpclient:get(xs:anyURI($query), false(), <headers/>)
+let $req := try{httpclient:get(xs:anyURI($query), false(), <headers/>)} catch * {$err:description}
 return
 $req//sparql:result/sparql:binding[@name="label"]/sparql:literal[@xml:lang='en-gb']/text()
 };
