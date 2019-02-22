@@ -511,9 +511,20 @@ declare function titles:decidePlName($plaID){
 declare function titles:decidePlaceNameSource($pRef as xs:string){
 if ($titles:placeNamesList//t:item[@corresp = $pRef]) 
 then $titles:placeNamesList//t:item[@corresp = $pRef]/text()
-else if (starts-with($pRef, 'gn:')) then (let $name := titles:getGeoNames($pRef) return titles:updatePlaceList($name, $pRef)) 
-else if (starts-with($pRef, 'pleiades:')) then (let $name := titles:getPleiadesNames($pRef) return titles:updatePlaceList($name, $pRef)) 
-else if (matches($pRef, 'Q\d+')) then (let $name := titles:getwikidataNames($pRef) let $addit := titles:updatePlaceList($name, $pRef) return
+else if (starts-with($pRef, 'gn:')) then (
+let $name := titles:getGeoNames($pRef) 
+let $addit := titles:updatePlaceList($name, $pRef) 
+return
+titles:decidePlaceNameSource($pRef)) 
+else if (starts-with($pRef, 'pleiades:')) then (
+let $name := titles:getPleiadesNames($pRef) 
+let $addit := titles:updatePlaceList($name, $pRef) 
+return
+titles:decidePlaceNameSource($pRef)) 
+else if (matches($pRef, 'Q\d+')) then (
+let $name := titles:getwikidataNames($pRef) 
+let $addit := titles:updatePlaceList($name, $pRef) 
+return
 titles:decidePlaceNameSource($pRef)) 
 else titles:printTitleID($pRef) 
 };
