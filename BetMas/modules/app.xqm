@@ -412,7 +412,12 @@ if ($list = 'works') then (
                  <a target="_blank" href="/manuscripts/{$itemid}/viewer">{
                 if($item//t:collection = 'Ethio-SPaRe') 
                then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '_001.tif/full/80,100/0/default.jpg'}" class="thumb"/>
-(:              EMIP:)
+(:laurenziana:)
+else  if($item//t:repository/@ref[.='INS0339BML']) 
+               then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '005.tif/full/80,100/0/default.jpg'}" class="thumb"/>
+          
+(:          
+EMIP:)
               else if($item//t:collection = 'EMIP' and $item//t:msIdentifier/t:idno/@n) 
                then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '001.tif/full/80,100/0/default.jpg'}" class="thumb"/>
               

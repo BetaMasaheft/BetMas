@@ -45,7 +45,7 @@ declare variable $iiif:response400 := $config:response400;
 
 declare function iiif:manifestsource($item as node()){
 (:ES:)
-            if($item//t:collection = 'Ethio-SPaRe' or $this//t:repository/@ref = 'INS0339BML') 
+            if($item//t:collection = 'Ethio-SPaRe' or $item//t:repository/@ref = 'INS0339BML') 
             then $config:appUrl ||'/api/iiif/' || string($item/@xml:id) || '/manifest' 
             else if($item//t:collection = 'EMIP') 
             then $config:appUrl ||'/api/iiif/' || string($item/@xml:id) || '/manifest' 
@@ -185,8 +185,8 @@ let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($item//t:msIdentifier/
  for $graphic at $p in 1 to $tot 
             let $n := $p
              let $imagefile := format-number($graphic, '000') || '.tif'
-             let $resid := ($imagesbaseurl || (if($item//t:collection='EMIP') then () else if($this//t:repository/@ref = 'INS0339BML') then () else '_') || $imagefile )
-             let $image := ($imagesbaseurl || (if($item//t:collection='EMIP') then () else if($this//t:repository/@ref = 'INS0339BML') then () else '_') || $imagefile || '/full/full/0/default.jpg' )
+             let $resid := ($imagesbaseurl || (if($item//t:collection='EMIP') then () else if($item//t:repository/@ref = 'INS0339BML') then () else '_') || $imagefile )
+             let $image := ($imagesbaseurl || (if($item//t:collection='EMIP') then () else if($item//t:repository/@ref = 'INS0339BML') then () else '_') || $imagefile || '/full/full/0/default.jpg' )
             let $name := string($n)
             let $id := $iiifroot || '/canvas/p'  || $n
               order by $p 
@@ -446,7 +446,7 @@ log:add-log-message('/api/iiif/'||$id||'/manifest', xmldb:get-current-user(), 'i
        let $request := $iiifroot || "/manifest"
        (:       this is where the sequence is:)
        let $attribution := "Provided by "||$item//t:collection/text()||" project."
-       let $logo := "/rest/BetMas/resources/images/logo"||$item//t:collection/text()||".png"
+       let $logo := if($item//t:repository/@ref[.='INS0339BML']) then ('/rest/BetMas/resources/images/logoEthio-SPaRe.png') else "/rest/BetMas/resources/images/logo"||$item//t:collection/text()||".png"
        let $sequence := $iiifroot || "/sequence/normal"
      
      
