@@ -45,7 +45,7 @@ declare variable $iiif:response400 := $config:response400;
 
 declare function iiif:manifestsource($item as node()){
 (:ES:)
-            if($item//t:collection = 'Ethio-SPaRe') 
+            if($item//t:collection = 'Ethio-SPaRe' or $this//t:repository/@ref = 'INS0339BML') 
             then $config:appUrl ||'/api/iiif/' || string($item/@xml:id) || '/manifest' 
             else if($item//t:collection = 'EMIP') 
             then $config:appUrl ||'/api/iiif/' || string($item/@xml:id) || '/manifest' 
@@ -185,8 +185,8 @@ let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($item//t:msIdentifier/
  for $graphic at $p in 1 to $tot 
             let $n := $p
              let $imagefile := format-number($graphic, '000') || '.tif'
-             let $resid := ($imagesbaseurl || (if($item//t:collection='EMIP') then () else '_') || $imagefile )
-             let $image := ($imagesbaseurl || (if($item//t:collection='EMIP') then () else '_') || $imagefile || '/full/full/0/default.jpg' )
+             let $resid := ($imagesbaseurl || (if($item//t:collection='EMIP') then () else if($this//t:repository/@ref = 'INS0339BML') then () else '_') || $imagefile )
+             let $image := ($imagesbaseurl || (if($item//t:collection='EMIP') then () else if($this//t:repository/@ref = 'INS0339BML') then () else '_') || $imagefile || '/full/full/0/default.jpg' )
             let $name := string($n)
             let $id := $iiifroot || '/canvas/p'  || $n
               order by $p 
@@ -286,7 +286,8 @@ let $EMIP := $allidno[preceding-sibling::t:collection = 'EMIP'][@n]
 let $ES := $allidno[preceding-sibling::t:collection = 'Ethio-SPaRe'][@n]
 let $vat := $allidno[preceding-sibling::t:repository[@ref = 'INS0003BAV']]
 let $bnf := $allidno[preceding-sibling::t:repository[@ref = 'INS0303BNF']]
-let $filtered := ($ES, $EMIP, $vat, $bnf)
+let $bml := $allidno[preceding-sibling::t:repository[@ref = 'INS0339BML']]
+let $filtered := ($ES, $EMIP, $vat, $bnf, $bml)
 let $manifests := 
      for $images in $filtered
      let $this := $images/ancestor::t:TEI
@@ -307,7 +308,7 @@ let $manifests :=
   "label": "Top Level Collection for " || $config:app-title,
   "viewingHint": "top",
   "description": "All images of Ethiopian Manuscripts available",
-  "attribution": "Provided by BnF, Vatican Library, EthioSPaRe, EMIP and other IIIF providers",
+  "attribution": "Provided by Bibliothèque nationale de France, The Vatican Library, EthioSPaRe, EMIP, Biblioteca Medicea Laurenziana and other IIIF providers",
   "manifests":  $manifests
    
   
@@ -421,8 +422,9 @@ declare
 %rest:path("/BetMas/api/iiif/{$id}/manifest")
 %output:method("json") 
 function iiif:manifest($id as xs:string*) {
-let $item := if (starts-with($id, 'ES')) then collection($config:data-rootMS || '/ES')/id($id) else 
-collection($config:data-rootMS || '/EMIP')/id($id)
+let $item := if (starts-with($id, 'ES')) then collection($config:data-rootMS || '/ES')/id($id) 
+else if (starts-with($id, 'BML')) then collection($config:data-rootMS || '/FlorenceBML')/id($id) 
+else collection($config:data-rootMS || '/EMIP')/id($id)
        return
        if($item//t:msIdentifier/t:idno/@facs) then
 ($iiif:response200,
@@ -434,7 +436,7 @@ log:add-log-message('/api/iiif/'||$id||'/manifest', xmldb:get-current-user(), 'i
        let $tot := $item//t:msIdentifier/t:idno/@n
        let $url :=  $config:appUrl ||"/manuscripts/" || $id
       (:       this is where the images actually are, in the images server:)
-       let $thumbid := $imagesbaseurl ||(if($item//t:collection='EMIP') then () else '_') || '001.tif/full/80,100/0/default.jpg'
+       let $thumbid := $imagesbaseurl ||(if($item//t:collection='EMIP') then () else if($item//t:repository/@ref[.='INS0339BML']) then () else '_') || '001.tif/full/80,100/0/default.jpg'
        let $objectType := string($item//@form[1])
        let $iiifroot := $config:appUrl ||"/api/iiif/" || $id
        let $image := $config:appUrl ||'/iiif/'||$id||'/'
@@ -549,8 +551,8 @@ let $item := collection($config:data-rootMS || '/ES')/id($id)
 let $iiifroot := $config:appUrl ||"/api/iiif/" || $id 
 let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs)
  let $imagefile := format-number($n, '000') || '.tif'
-let $resid := ($imagesbaseurl || (if($item//t:collection='EMIP') then () else '_') || $imagefile )
- let $image := ($imagesbaseurl || (if($item//t:collection='EMIP') then () else '_') || $imagefile || '/full/full/0/default.jpg' )
+let $resid := ($imagesbaseurl || (if($item//t:collection='EMIP') then () else if($item//t:repository/@ref[.='INS0339BML']) then () else '_') || $imagefile )
+ let $image := ($imagesbaseurl || (if($item//t:collection='EMIP') then () else if($item//t:repository/@ref[.='INS0339BML']) then () else '_') || $imagefile || '/full/full/0/default.jpg' )
 let $name := string($n)
 let $id := $iiifroot || '/canvas/p'  || $n
        return
@@ -605,7 +607,7 @@ it is not possible to go back from annotation number to the canvas number, thus 
 function iiif:annotation($id as xs:string*, $n as xs:string*) {
 ($iiif:response200,
         let $item := collection($config:data-root)//id($id)
-       let $imagesbaseurl := 'https://betamasaheft.aai.uni-hamburg.de/iiif/' || string($item//t:msIdentifier/t:idno/@facs)
+       let $imagesbaseurl := 'http://betamasaheft.aai.uni-hamburg.de/iiif/' || string($item//t:msIdentifier/t:idno/@facs)
  let $imagefile := format-number($n, '000') || '.tif'
 let $resid := ($imagesbaseurl || '_' || $imagefile )
  let $image := ($imagesbaseurl || '_' || $imagefile || '/full/full/0/default.jpg' )

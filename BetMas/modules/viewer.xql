@@ -133,7 +133,7 @@ return
 </bibl>
 let $manifest := 
 (:ES:)
-            if($this//t:collection = 'Ethio-SPaRe' or $this//t:collection = 'EMIP') 
+            if($this//t:collection = 'Ethio-SPaRe' or $this//t:collection = 'EMIP' or $this//t:repository/@ref = 'INS0339BML') 
             then $config:appUrl|| '/api/iiif/' || $id || '/manifest' 
             (:BNF:)
             else if ($this//t:repository/@ref = 'INS0303BNF') 
@@ -148,12 +148,14 @@ let $location :=
             (:BNF:)
             else if ($this//t:repository/@ref = 'INS0303BNF') 
             then 'BnF'
+            else if ($this//t:repository/@ref = 'INS0339BML')
+            then 'Biblioteca Medicea Laurenziana'
 (:           vatican :)
             else  'Biblioteca Apostolica Vaticana'
 
 let $firstcanvas := 
 (:es:)
-                if($this//t:collection = 'Ethio-SPaRe' or $this//t:collection = 'EMIP') 
+                if($this//t:collection = 'Ethio-SPaRe' or $this//t:collection = 'EMIP' or $this//t:repository/@ref = 'INS0339BML') 
                then $config:appUrl|| '/api/iiif/' || $id || '/canvas/p1' 
                (:BNF:)
             else if ($this//t:repository/@ref = 'INS0303BNF') 
