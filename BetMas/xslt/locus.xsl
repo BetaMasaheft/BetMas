@@ -269,7 +269,7 @@
                                     <xsl:variable name="fullIIIF" select="concat('/iiif/',$idnoFacs)"/>
                                     <!--                                    expected format: of //t:TEI//t:msIdentifier/t:idno/@facs is : BMQ/003/BMQM-003 where the 
                                     first folder is the institution folder, then there is the number of the manuscript and the prefix of the photos which must have been converted to .tif 
-                                    using the script in the /media/add/image/ directory.-->
+                                    -->
                                     <xsl:choose>
                                         <xsl:when test="@from and @to">
                                             <xsl:variable name="from" select="                                             if(contains(@from, 'r'))                                              then substring-before(@from, 'r')                                                                                          else  if(contains(@from, 'v'))                                              then (substring-before(@from, 'v'))                                                                                          else @from                                                                                          "/>
@@ -301,6 +301,44 @@
                                     </xsl:choose>
                                     
                                 </xsl:when>
+                                    
+<!--                                    laurenziana-->
+                                    <xsl:when test="matches($idnoFacs, 'Laurenziana')">
+                                        <xsl:variable name="iiif" select="$idnoFacs"/>
+                                        <xsl:variable name="fullIIIF" select="concat('/iiif/',$idnoFacs)"/>
+                                        <!--                                    expected format: of //t:TEI//t:msIdentifier/t:idno/@facs is : Laurenziana/BML_001/BML_001-
+                                           -->
+                                        <xsl:choose>
+                                            <xsl:when test="@from and @to">
+                                                <xsl:variable name="from" select="                                             if(contains(@from, 'r'))                                              then substring-before(@from, 'r')                                                                                          else  if(contains(@from, 'v'))                                              then (substring-before(@from, 'v'))                                                                                          else @from                                                                                          "/>
+                                                <xsl:variable name="to" select="                                                 if(contains(@to, 'r'))                                                  then substring-before(@to, 'r')                                                                                                   else  if(contains(@to, 'v'))                                                  then (substring-before(@to, 'v'))                                                                                                  else @to                                                                                                  "/>
+                                                <xsl:variable name="count" select="(number($to) - number($from)) * 2"/>
+                                                <xsl:variable name="tiles">
+                                                    <xsl:for-each select="0 to (xs:integer($count) +1 )">
+                                                        <xsl:text>"</xsl:text>
+                                                        <xsl:value-of select="concat($fullIIIF, format-number((xs:integer($f) + current()), '000'),'.tif/info.json')"/>
+                                                        <xsl:text>"</xsl:text>
+                                                        <xsl:if test="not(current()=(xs:integer($count) +1 ))">,</xsl:if>
+                                                    </xsl:for-each>
+                                                </xsl:variable>
+                                                <xsl:value-of select="$tiles"/>
+                                            </xsl:when>
+                                            <xsl:when test="@from and not(@to)">
+                                                <xsl:text>"</xsl:text>
+                                                <xsl:value-of select="concat($fullIIIF, @facs,'.tif/info.json')"/>
+                                                <xsl:text>"</xsl:text>
+                                            </xsl:when>
+                                            <xsl:when test="@target">
+                                                <xsl:for-each select="tokenize(@facs, ' ')">
+                                                    <xsl:text>"</xsl:text>
+                                                    <xsl:value-of select="concat($fullIIIF, .,'.tif/info.json')"/>
+                                                    <xsl:text>"</xsl:text>
+                                                    <xsl:if test="not(position()=last())">,</xsl:if>
+                                                </xsl:for-each>
+                                            </xsl:when>
+                                        </xsl:choose>
+                                        
+                                    </xsl:when>
                                     <xsl:when test="contains($idnoFacs, 'vatlib')">
                                         <!--                                  
                                             images infos are at 
