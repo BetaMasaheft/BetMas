@@ -411,19 +411,19 @@ if ($list = 'works') then (
             <td>{if ($item//t:facsimile/t:graphic/@url) then <a target="_blank" href="{$item//t:facsimile/t:graphic/@url}">Link to images</a> else if($item//t:msIdentifier/t:idno/@facs) then 
                  <a target="_blank" href="/manuscripts/{$itemid}/viewer">{
                 if($item//t:collection = 'Ethio-SPaRe') 
-               then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '_001.tif/full/80,100/0/default.jpg'}" class="thumb"/>
+               then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}" class="thumb"/>
 (:laurenziana:)
 else  if($item//t:repository/@ref[.='INS0339BML']) 
-               then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '005.tif/full/80,100/0/default.jpg'}" class="thumb"/>
+               then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '005.tif/full/140,/0/default.jpg'}" class="thumb"/>
           
 (:          
 EMIP:)
               else if($item//t:collection = 'EMIP' and $item//t:msIdentifier/t:idno/@n) 
-               then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '001.tif/full/80,100/0/default.jpg'}" class="thumb"/>
+               then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '001.tif/full/140,/0/default.jpg'}" class="thumb"/>
               
              (:BNF:)
             else if ($item//t:repository/@ref = 'INS0303BNF') 
-            then <img src="{replace($item//t:msIdentifier/t:idno/@facs, 'ark:', 'iiif/ark:') || '/f1/full/80,100/0/native.jpg'}" class="thumb"/>
+            then <img src="{replace($item//t:msIdentifier/t:idno/@facs, 'ark:', 'iiif/ark:') || '/f1/full/140,/0/native.jpg'}" class="thumb"/>
 (:           vatican :)
                 else <img src="{replace(substring-before($item//t:msIdentifier/t:idno/@facs, '/manifest.json'), 'iiif', 'pub/digit') || '/thumb/'
                     ||

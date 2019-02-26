@@ -14,7 +14,8 @@ import module namespace api="https://www.betamasaheft.uni-hamburg.de/BetMas/api"
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace kwic = "http://exist-db.org/xquery/kwic"
     at "resource:org/exist/xquery/lib/kwic.xql";
-    
+import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
+import module namespace console = "http://exist-db.org/xquery/console";
 (: namespaces of data used :)
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace dcterms = "http://purl.org/dc/terms";
@@ -66,15 +67,29 @@ declare function iiif:locus($l as node()){
   if($l[@from][@to]) 
                             then (let $f := iiif:folio($l/@from)
                                      let $t := iiif:folio($l/@to)
-                                     for $x in $f to $t return $x) 
-                     else if($l[@target]) 
+                                     return
+                                    if($l/@facs and not($l/ancestor::t:TEI//t:repository/@ref = 'INS0303BNF')) 
+                                    then 
+                                            let $facsF := xs:integer(format-number(number($l/@facs), '###'))
+                                            let $facsT := ($facsF + (xs:integer($t) - xs:integer($f)))
+                                            for $x in $facsF to $facsT return $x
+                                    else 
+                                            for $x in $f to $t return $x
+                                    ) 
+   else if($l[@target]) 
                              then (if(contains($l/@target, ' '))
-                                                                  then (for $t in tokenize($l/@target, ' ') return iiif:folio($t))
-                                                                  else iiif:folio($l/@target)
+                                                                  then (   
+                                                                                if($l/@facs and not($l/ancestor::t:TEI//t:repository/@ref = 'INS0303BNF')) 
+                                                                                then
+                                                                                for $t in tokenize($l/@facs, ' ') return format-number(number($t), '###')
+                                                                                else
+                                                                                for $t in tokenize($l/@target, ' ') return iiif:folio($t)
+                                                                            )
+                                                                  else (if($l/@facs) then format-number(number($l/@facs), '###') else  iiif:folio($l/@target))
                                        )
-                    else if($l[@from][not(@to)]) 
-                            then ( iiif:folio($l/@from)) 
-                    else ()};
+   else if($l[@from][not(@to)]) 
+                            then ( if($l/@facs and not($l/ancestor::t:TEI//t:repository/@ref = 'INS0303BNF')) then format-number(number($l/@facs), '###') else iiif:folio($l/@from)) 
+   else ()};
 
 declare function iiif:range($iiifroot as xs:string, $structure as xs:string, $title as xs:string, $locusrange){
       let $canvases := for $folio in $locusrange return $iiifroot || '/canvas/p'  || $folio
@@ -102,13 +117,18 @@ map {
 
 declare function iiif:ranges($iiifroot as xs:string, $ranges as node()){
 for $r in $ranges/range
-       let $locusrange :=  for $l in $r/t:*/t:locus return iiif:locus($l)
-      return iiif:range($iiifroot, $r/r, $r/t, $locusrange)
+ let $desc := if($r/t:decoNote) then string-join(string:tei2string($r/t:decoNote/t:desc), ' ') || (if($r/t/text()) then (' (' || $r/t || ')') else ())
+                        else if($r/t:item[starts-with(@xml:id, 'a') or starts-with(@xml:id, 'e')]) then string-join(string:tei2string($r/t:item/t:desc), ' ')  ||(if($r/t/text()) then (' (' || $r/t || ')') else ())
+                        else if($r/t:item[starts-with(@xml:id, 'q')]) then string-join($r/t:item/text(), ' ')  ||(if($r/t/text()) then (' (' || $r/t || ')') else ())
+                        else $r/t
+       let $locusrange :=  for $l in $r/t:*/t:locus 
+       return iiif:locus($l)
+       
+      return iiif:range($iiifroot, $r/r, $desc, $locusrange)
 };
 
 
 declare function iiif:rangeAndsubrange($iiifroot as xs:string, $ranges as node(), $name as xs:string, $title as xs:string){
-
 let $seqran :=  for $r in $ranges/range return $r/r
        return
   (iiif:rangetype($iiifroot, $name, $title, $seqran),

@@ -214,8 +214,11 @@ var canvasid = "' || $firstcanvas || '"
    <script type="text/javascript" src="resources/js/mirador.js"></script>
    
  </div>
-        
-    
+ <div class="col-md-12">
+ <p class="alert alert-info"><a href="{$manifest}" target="_blank"><img src="/resources/images/iiif.png" width="20px"/> {$manifest}</a></p>
+ </div>
+        { apprest:authors($this, $collection)}
+     {nav:footer()}
     </body>
 </html>
         )

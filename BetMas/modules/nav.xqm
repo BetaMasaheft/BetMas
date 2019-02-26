@@ -372,15 +372,8 @@ declare function nav:newentry(){
                         else ()};
 
 declare function nav:footer (){ <footer class="row-fluid">
-<div class="col-md-3">
-<a class="poweredby" property="http://purl.org/dc/elements/1.1/publisher" href="http://www.awhamburg.de/" target="_blank">
-                <img src="/BetMas/resources/images/logo-adw.png" alt="logoAWD"/>
-            </a>
-            <a class="poweredby" property="http://purl.org/dc/elements/1.1/publisher" href="https://www.betamasaheft.uni-hamburg.de/" target="_blank">
-                <img src="/resources/images/logo.png" alt="logo"/>
-            </a>
-</div>
-      <div class="col-md-6">
+
+      <div class="col-md-12">
       Copyright © <span property="http://purl.org/dc/elements/1.1/publisher">Akademie der Wissenschaften in Hamburg,
                 Hiob-Ludolf-Zentrum für Äthiopistik</span>.  Sharing and remixing permitted under terms of the <br/>
                 <a rel="license"  property="http://creativecommons.org/ns#license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
@@ -393,8 +386,13 @@ declare function nav:footer (){ <footer class="row-fluid">
                 <hr/>
                 <p>Many thanks for their wonderful work to all the developers of free software for the code we use throughout the website.</p>
                     </div>
-              <div class="col-md-3">
-
+              <div class="col-md-12">
+<a class="poweredby" property="http://purl.org/dc/elements/1.1/publisher" href="http://www.awhamburg.de/" target="_blank">
+                <img src="/BetMas/resources/images/logo-adw.png" alt="Akademie der Wissenschaften in Hamburg logo"/>
+            </a>
+            <a class="poweredby" property="http://purl.org/dc/elements/1.1/publisher" href="https://www.betamasaheft.uni-hamburg.de/" target="_blank">
+                <img src="/resources/images/logo.png" alt="Beta maṣāḥǝft Project logo"/>
+            </a>
             <a class="poweredby" href="http://exist-db.org">
                 <img src="$shared/resources/images/powered-by.svg" alt="Powered by eXist-db"/>
             </a>
@@ -404,4 +402,11 @@ declare function nav:footer (){ <footer class="row-fluid">
             <a class="poweredby" href="http://commons.pelagios.org/">
                 <img src="/resources/images/Pelagios-logo.png" alt="Proud members of the Linked Pasts Network"/>
             </a>
+            <a  href="https://iipimage.sourceforge.io/" >
+                <img src="/resources/images/iip_logo.png" width="90px" alt="We use the IIP Image Server"/>
+            </a>
+            <a  href="https://iiif.io/" >
+                <img src="/resources/images/iiif.png" width="90px" alt="Providing and resuing images with IIIF presentation API 2.0"/>
+            </a>
+            
           </div></footer>};

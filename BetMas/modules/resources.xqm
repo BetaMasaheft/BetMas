@@ -594,10 +594,12 @@ for $decoration at $p in $model("hits")
             <li class="list-group-item container">
 
             {if($images/@facs and $locus) then (<a target="_blank"  href="/manuscripts/{$ms}/viewer"><img class="thumb col-md-1" src="{
-           if(starts-with($ms, 'ES'))
-           then $config:appUrl ||'/iiif/' || string($images/@facs) || '_'||$locus||'.tif/full/150,100/0/default.jpg'
+           if(starts-with($ms, 'BML'))
+           then $config:appUrl ||'/iiif/' || string($images/@facs)||$locus||'.tif/full/150,/0/default.jpg'
+          else if(starts-with($ms, 'ES'))
+           then $config:appUrl ||'/iiif/' || string($images/@facs) || '_'||$locus||'.tif/full/150,/0/default.jpg'
           else if(starts-with($ms, 'BNF'))
-           then replace($images/@facs, 'ark:', 'iiif/ark:') || '/'||$locus||'/full/80,100/0/native.jpg'
+           then replace($images/@facs, 'ark:', 'iiif/ark:') || '/'||$locus||'/full/150,/0/native.jpg'
           else if(starts-with($ms, 'BAV'))
            then replace(substring-before($images/@facs, '/manifest.json'), 'iiif', 'pub/digit') || '/thumb/'
                     ||
