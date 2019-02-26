@@ -80,27 +80,27 @@ return
 <li  class="span_full_width" data-toggle="tooltip" data-placement="bottom" title="Not sure how to do this? Have a look at the Beta maṣāḥǝft Guidelines from the home menu!"><a target="_blank" class="btn btn-info" 
     href="https://github.com/BetaMasaheft/{replace(replace(base-uri($this), '/db/apps/BetMas/data/', ''), $collection, concat($collection, '/blob/master'))}">Edit</a>
     </li>
-<li  class="span_full_width"><a class="btn btn-warning" id="toggleHands">Hide/show pointers</a></li>
+<li  class="span_full_width" data-toggle="tooltip" data-placement="bottom" title="Click here to hide or show again the little arrows and small left pointing hands in this page."><a class="btn btn-warning" id="toggleHands">Hide/show pointers</a></li>
             
-<li  class="span_full_width">{app:pdf-link($id)}</li>
-<li class="span_full_width"><a class="btn btn-success"  id="mainEntryLink" href="/{$collection}/{$id}/main" target="_blank" >Entry</a></li>
-<li class="span_full_width"><a class="btn btn-info"  id="TEILink" href="{( '/tei/' || $id ||  '.xml')}" target="_blank">TEI/XML</a></li>
-<li class="span_full_width"><a class="btn btn-warning"  id="GraphViewLink"  href="/{$collection}/{$id}/graph" target="_blank">{if($collection = 'manuscripts') then 'Syntaxe' else 'Graph'}</a></li>
+<li  class="span_full_width" data-toggle="tooltip" data-placement="bottom" title="Produces a PDF on the fly from the source TEI-XML using XSL-FO and Apache FOP">{app:pdf-link($id)}</li>
+<li class="span_full_width" data-toggle="tooltip" data-placement="bottom" title="Main entry"><a class="btn btn-success"  id="mainEntryLink" href="/{$collection}/{$id}/main" target="_blank" >Entry</a></li>
+<li class="span_full_width" data-toggle="tooltip" data-placement="bottom" title="Download a TEI file with explicit URIs and the bibliographic information as downloaded from Zotero API. If you just want the source, either click on EDIT to go to the actual source file or append .xml to the url after the ID."><a class="btn btn-info"  id="TEILink" href="{( '/tei/' || $id ||  '.xml')}" target="_blank">TEI/XML</a></li>
+<li class="span_full_width" data-toggle="tooltip" data-placement="bottom" title="See graphs of the information available. If the manuscript contains relevant information, then you will see visualizations based on La Syntaxe du Codex, by Andrist, Canart and Maniaci."><a class="btn btn-warning"  id="GraphViewLink"  href="/{$collection}/{$id}/graph" target="_blank">{if($collection = 'manuscripts') then <i>Syntaxe</i> else 'Graph'}</a></li>
     {if(($collection = 'institutions' or $collection = 'places') and ($document//t:geo/text() or $document//t:place[@sameAs] )) then
-    <li class="span_full_width"><a href="/{( $id ||
+    <li class="span_full_width" data-toggle="tooltip" data-placement="bottom" title="geoJson data"><a href="/{( $id ||
     '.json')}" target="_blank">geoJson</a></li> else ()}
-<li class="span_full_width"><a class="btn btn-success"  href="/{$collection}/{$id}/analytic" target="_blank">Relations</a></li>
+<li class="span_full_width"  data-toggle="tooltip" data-placement="bottom" title="Further visualization of relational information"><a class="btn btn-success"  href="/{$collection}/{$id}/analytic" target="_blank">Relations</a></li>
     {if ($collection = 'works' or $collection = 'narratives') then
-    (<li class="span_full_width"><a class="btn btn-info"  href="{('/'||$collection|| '/' || $id || '/text' )}" target="_blank">Text</a></li>,
-    <li class="span_full_width"><a class="btn btn-warning"  href="{('/'||$collection|| '/' || $id || '/geoBrowser' )}" target="_blank">Geo-Browser</a></li>) else ()}
+    (<li class="span_full_width"  data-toggle="tooltip" data-placement="bottom" title="Full Text (as available). Do you have a text you want to contribute? Contact us or click on EDIT and submit your contribution."><a class="btn btn-info"  href="{('/'||$collection|| '/' || $id || '/text' )}" target="_blank">Text</a></li>,
+    <li class="span_full_width"  data-toggle="tooltip" data-placement="bottom" title="See places marked up in the text using the Dariah-DE Geo-Browser"><a class="btn btn-warning"  href="{('/'||$collection|| '/' || $id || '/geoBrowser' )}" target="_blank">Geo-Browser</a></li>) else ()}
     {if ($collection = 'manuscripts') then
-    <li class="span_full_width"><a class="btn btn-info"  href="{('/'||$collection|| '/' || $id || '/text' )}" target="_blank">Transcription</a></li> else ()}
+    <li class="span_full_width"  data-toggle="tooltip" data-placement="bottom" title="Transcription (as available). Do you have a transcription you want to contribute? Contact us or click on EDIT and submit your contribution."><a class="btn btn-info"  href="{('/'||$collection|| '/' || $id || '/text' )}" target="_blank">Transcription</a></li> else ()}
     {if ($collection = 'manuscripts' and $this//t:msIdentifier/t:idno/@facs) then
-    <li class="span_full_width"><a class="btn btn-info"  href="{('/manuscripts/' || $id || '/viewer' )}" target="_blank">Images</a></li> else ()}
+    <li class="span_full_width" data-toggle="tooltip" data-placement="bottom" title="Manuscript images in the Mirador viewer via IIIF"><a class="btn btn-info"  href="{('/manuscripts/' || $id || '/viewer' )}" target="_blank">Images</a></li> else ()}
     {if ($collection = 'manuscripts' and $this//t:facsimile/t:graphic) then
-    <li class="span_full_width"><a class="btn btn-info"  href="{$this//t:facsimile/t:graphic/@url}" target="_blank">Link to images</a></li> else ()}
+    <li class="span_full_width"  data-toggle="tooltip" data-placement="bottom" title="Link to images available elsewhere"><a class="btn btn-info"  href="{$this//t:facsimile/t:graphic/@url}" target="_blank">Link to images</a></li> else ()}
     {if ($collection = 'works' or $collection = 'narratives') then
-    <li class="span_full_width"><a class="btn btn-warning"  href="{('/compare?workid=' || $id  )}" target="_blank">Compare</a></li> else ()}
+    <li class="span_full_width"  data-toggle="tooltip" data-placement="bottom" title="Compare manuscripts with this content"><a class="btn btn-warning"  href="{('/compare?workid=' || $id  )}" target="_blank">Compare</a></li> else ()}
     </ul>
     </div>
 };
