@@ -311,41 +311,42 @@ return
 
                                             {
 
-                   if ($isSubjectof) then  <div  class="relBox alert alert-info"><b>This person is subject of the following textual units</b>
-                        <ul>{
+                   if ($isSubjectof) then  <div  class="relBox alert alert-info"><b class="openInDialog">This person is subject of the following textual units</b>
+                        <ul  class="nodot">{
                         for $p in $isSubjectof
                     return
                         if (contains($p/@active, ' ')) then for $value in tokenize ($p/@active, ' ') return
-                        <li><a href="{$value}">{titles:printTitleID(string($value))}</a></li>
+                        <li class="nodot"><a href="{$value}">{titles:printTitleID(string($value))}</a></li>
                         else
-                        <li><a href="{$p/@active}">{titles:printTitleID(string($p/@active))}</a></li>
+                        <li  class="nodot"><a href="{$p/@active}">{titles:printTitleID(string($p/@active))}</a></li>
                         }</ul></div> else ()
 
                 }
                 {
 
-                   if ($isAuthorof) then  <div  class="relBox alert alert-info"><b>This person is author or attributed author of the following textual units</b>
-                        <ul>{
+                   if ($isAuthorof) then  <div  class="relBox alert alert-info"><b  class="openInDialog">This person is author or attributed author of the following textual units</b>
+                        <ul  class="nodot">{
                         for $p in $isAuthorof
                     return
                         if (contains($p/@active, ' ')) then for $value in tokenize ($p/@active, ' ') return
-                        <li><a href="{$value}">{titles:printTitleID(string($value))}</a></li>
+                        <li  class="nodot"><a href="{$value}">{titles:printTitleID(string($value))}</a></li>
                         else
-                        <li><a href="{$p/@active}">{titles:printTitleID(string($p/@active))}</a></li>
+                        <li  class="nodot"><a href="{$p/@active}">{titles:printTitleID(string($p/@active))}</a></li>
                         }</ul></div> else ()
 
                 }
 {
 
                    if ($predecessorSuccessor) then  <div  class="relBox alert alert-info">
-                        <ul>{
+                   <b class="openInDialog">Successors and predecessors</b>
+                        <ul  class="nodot">{
                         for $p in $predecessorSuccessor
                         let $rel := if($p/@name = 'bm:isSuccessorOf') then 'Predecessor: ' else 'Successor: '
                     return
                         if (contains($p/@passive, ' ')) then for $value in tokenize ($p/@passive, ' ') return
-                        <li>{$rel}<a href="{$value}">{titles:printTitleID(string($value))}</a></li>
+                        <li  class="nodot">{$rel}<a href="{$value}">{titles:printTitleID(string($value))}</a></li>
                         else
-                        <li>{$rel}<a href="{$p/@passive}">{titles:printTitleID(string($p/@passive))}</a></li>
+                        <li  class="nodot">{$rel}<a href="{$p/@passive}">{titles:printTitleID(string($p/@passive))}</a></li>
                         }</ul></div> else ()
 
                 }
@@ -362,7 +363,7 @@ return
 
                                           { if ($this//t:settlement or $this//t:region or $this//t:country) then  <div  class="relBox alert alert-info">
                                            {
-                                           <b>Administrative position</b>,
+                                           <b  class="openInDialog">Administrative position</b>,
                                            <table class="table table-responsive adminpos">
                                            <tbody>
                                            {
@@ -384,13 +385,13 @@ return
                                             }
                                             { if ($this//t:state) then  <div  class="relBox alert alert-info">
                                            {
-                                           <b>Place attested in the following periods</b>,
-                                          <ul>{for $s in $this//t:state[@type='existence']/@ref
+                                           <b  class="openInDialog">Place attested in the following periods</b>,
+                                          <ul  class="nodot">{for $s in $this//t:state[@type='existence']/@ref
                                           let $file := $config:collection-rootA/id($s)
                                           let $name := $file//t:title[1]/text()
                                           let $link := $file//t:sourceDesc//t:ref/@target
                                           return
-                                          <li><a href="{$link}">
+                                          <li  class="nodot"><a href="{$link}">
                                           {$name}
                                           </a> (<a href='/authority-files/list?keyword={$s}'>See all items for this period</a>)</li>
                                           }</ul>
@@ -401,14 +402,14 @@ return
                                             {
 
                      if ($isSubjectof) then
-                     <div  class="relBox alert alert-info"><b>This place is subject of the following textual units</b>
-                        <ul>{
+                     <div  class="relBox alert alert-info"><b  class="openInDialog">This place is subject of the following textual units</b>
+                        <ul  class="nodot">{
                         for $p in $isSubjectof
                     return
                         if (contains($p/@active, ' ')) then for $value in tokenize ($p/@active, ' ') return
-                        <li><a href="{$value}" >{titles:printTitleID(string($value))}</a></li>
+                        <li  class="nodot"><a href="{$value}" >{titles:printTitleID(string($value))}</a></li>
                         else
-                        <li><a href="{$p/@active}">{titles:printTitleID(string($p/@active))}</a></li>
+                        <li  class="nodot"><a href="{$p/@active}">{titles:printTitleID(string($p/@active))}</a></li>
                         }</ul></div> else ()
 
                 }
@@ -439,14 +440,14 @@ else
                       <div  class="relBox alert alert-info"> {(
 
                        switch($rn)
-                        case 'saws:contains' return <b>The following parts of this textual unit are also independent textual units ({$rn})</b>
-                        case 'ecrm:P129_is_about' return <b>The following subjects are treated in this textual unit  ({$rn})</b>
-                       case 'saws:isVersionInAnotherLanguageOf' return <b>The following Textual Units are versions in other languages of this ({$rn})</b>
-                         case 'saws:formsPartOf' return <b>This textual unit is included in the following textual units ({$rn})</b>
-                        case 'saws:isDifferentTo' return <b>This textual unit is marked as different from the current ({$rn})</b>
-                       default return <b>The following textual units have a relation {$rn} with this textual unit</b>,
+                        case 'saws:contains' return <b  class="openInDialog">The following parts of this textual unit are also independent textual units ({$rn})</b>
+                        case 'ecrm:P129_is_about' return <b  class="openInDialog">The following subjects are treated in this textual unit  ({$rn})</b>
+                       case 'saws:isVersionInAnotherLanguageOf' return <b  class="openInDialog">The following Textual Units are versions in other languages of this ({$rn})</b>
+                         case 'saws:formsPartOf' return <b  class="openInDialog">This textual unit is included in the following textual units ({$rn})</b>
+                        case 'saws:isDifferentTo' return <b  class="openInDialog">This textual unit is marked as different from the current ({$rn})</b>
+                       default return <b  class="openInDialog">The following textual units have a relation {$rn} with this textual unit</b>,
 
-                      <ul>{for $p in $par/@passive
+                      <ul  class="nodot">{for $p in $par/@passive
                         let $normp := normalize-space($p)
                         return
                         if (contains($normp, ' ')) then
@@ -470,13 +471,13 @@ else
                     return
                      <div  class="relBox alert alert-info">
                      {( switch($rn)
-                        case 'saws:isVersionOf' return <b>The following Textual Units are versions of this ({$rn})</b>
-                        case 'saws:isVersionInAnotherLanguageOf' return <b>The following Textual Units are versions in other languages of this ({$rn})</b>
-                        case 'saws:isDifferentTo' return <b>This work is marked as different from the current ({$rn})</b>
-                       default return <b>The following works have a relation {$rn} with this work</b>,
-                        <ul>{for $p in $par
+                        case 'saws:isVersionOf' return <b  class="openInDialog">The following Textual Units are versions of this ({$rn})</b>
+                        case 'saws:isVersionInAnotherLanguageOf' return <b  class="openInDialog">The following Textual Units are versions in other languages of this ({$rn})</b>
+                        case 'saws:isDifferentTo' return <b  class="openInDialog">This work is marked as different from the current ({$rn})</b>
+                       default return <b  class="openInDialog">The following works have a relation {$rn} with this work</b>,
+                        <ul  class="nodot">{for $p in $par
                         return
-                        <li><a href="{$p/@active}" class="MainTitle" data-value="{string($p/@active)}">{string($p/@active)}</a></li>
+                        <li  class="nodot"><a href="{$p/@active}" class="MainTitle" data-value="{string($p/@active)}">{string($p/@active)}</a></li>
                         }</ul>)
                 } </div>}
 
