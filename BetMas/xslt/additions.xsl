@@ -45,6 +45,9 @@
                         <xsl:attribute name="id">
                             <xsl:value-of select="@xml:id"/>
                         </xsl:attribute>
+                        <xsl:if test="@corresp">
+                            <a href="/{@corresp}" class="MainTitle" data-value="{@corresp}"><xsl:value-of select="@corresp"/></a>
+                        </xsl:if>
                         <p>
                             <xsl:apply-templates select="t:locus"/>
                         </p>
