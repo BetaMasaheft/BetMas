@@ -80,7 +80,7 @@
     <xsl:include href="extent.xsl"/>
     <xsl:include href="foliation.xsl"/>
     <xsl:include href="material.xsl"/>
-<!--    <xsl:include href="handNote.xsl"/>-->
+    <xsl:include href="handNote.xsl"/>
     <xsl:include href="bindingDesc.xsl"/>
     <xsl:include href="summary.xsl"/>
     <xsl:include href="msItem.xsl"/>

@@ -33,7 +33,8 @@
                             <xsl:for-each select="tokenize(@corresp, ' ')">
                                 <a href="{.}">
                                     <xsl:value-of select="substring-after(., '#')"/>
-                                </a><span property="http://purl.org/dc/terms/relation" resource="https://betamasaheft/{$mainID}/{$type}/{substring-after(@corresp, '#')}"/>
+                                </a>
+                                <span property="http://purl.org/dc/terms/relation" resource="https://betamasaheft/{$mainID}/{$type}/{substring-after(., '#')}"></span>
                                 <xsl:text> </xsl:text>
                             </xsl:for-each>
                         </xsl:when>

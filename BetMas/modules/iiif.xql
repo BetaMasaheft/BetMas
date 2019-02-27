@@ -214,7 +214,7 @@ let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($item//t:msIdentifier/
 };
 
 declare function iiif:Structures($item, $iiifroot){
- let $items := $item//t:msItem[.//t:locus][.//t:title[@ref]]
+ let $items := $item//t:msItem[t:locus][t:title[@ref]]
        let $collation := $item//t:collation/t:list/t:item[.//t:locus]
        let $additions := $item//t:additions/t:list/t:item[.//t:locus]
        let $decorations := $item//t:decoNote[.//t:locus]
@@ -239,7 +239,7 @@ declare function iiif:Structures($item, $iiifroot){
     let $ranges :=  <ranges>{for $msItem in $items return 
    <range>
     <r>{$iiifroot ||"/range/" || string($msItem/@xml:id)}</r>
-    <t>{titles:printTitleID($msItem/t:title/@ref)}</t>
+    <t>{if ($msItem/t:title/@ref) then titles:printTitleID($msItem/t:title/@ref) else 'item ' || string($msItem/@xml:id)}</t>
     {$msItem}
     </range>
     }
