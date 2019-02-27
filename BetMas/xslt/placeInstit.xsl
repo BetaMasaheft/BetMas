@@ -1,4 +1,5 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
+    <xsl:variable name="mainID" select="t:TEI/@xml:id"/>
     <xsl:template match="/">
         <div id="description" class="{if(t:TEI/@type='ins') then 'institutionView' else 'col-md-8'}">
             <h2>Names <xsl:if test="//t:place/@sameAs">
