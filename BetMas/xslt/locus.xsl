@@ -199,18 +199,24 @@
                         </div>
                         <div class="modal-body">
                             <xsl:variable select="ancestor::t:TEI//t:msIdentifier/t:idno/@facs" name="MainFacs"/>
+                            <xsl:variable name="mid">
+                                <xsl:choose>
+                                    <xsl:when test="parent::t:witness"><xsl:value-of select="parent::t:witness/@corresp"/></xsl:when>
+                                    <xsl:otherwise><xsl:value-of select="$mainID"/></xsl:otherwise>
+                                </xsl:choose>
+                            </xsl:variable>
                             <xsl:variable name="manifest">
                                 <xsl:choose>
                                     <xsl:when test="starts-with($MainFacs, 'http')"><xsl:value-of select="$MainFacs"/></xsl:when>
-                                    <xsl:otherwise><xsl:value-of select="concat('https://betamasaheft.eu/api/iiif/',$mainID, '/manifest')"/></xsl:otherwise>
+                                    <xsl:otherwise><xsl:value-of select="concat('https://betamasaheft.eu/api/iiif/',$mid, '/manifest')"/></xsl:otherwise>
                                 </xsl:choose>
                             </xsl:variable>
                             <xsl:variable name="firstCanv">
                                 <xsl:if test="not(starts-with($MainFacs, 'http'))">
-                                    <xsl:value-of select="concat('?FirstCanv=', 'https://betamasaheft.eu/api/iiif/',$mainID, '/canvas/p', format-number(@facs, '###'))"/>
+                                    <xsl:value-of select="concat('?FirstCanv=', 'https://betamasaheft.eu/api/iiif/',$mid, '/canvas/p', format-number(@facs, '###'))"/>
                                 </xsl:if>
                             </xsl:variable>
-                            <xsl:variable name="mirador" select="concat('https://betamasaheft.eu/manuscripts/',$mainID, '/viewer', $firstCanv)"/>
+                            <xsl:variable name="mirador" select="concat('https://betamasaheft.eu/manuscripts/',$mid, '/viewer', $firstCanv)"/>
                             <p class="alert alert-info"><a href="{$manifest}" target="_blank"><img src="/resources/images/iiif.png" width="20px"/></a>
                                 <a href="{$mirador}" target="_blank">Open with Mirador Viewer</a></p>
                             

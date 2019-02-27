@@ -1,4 +1,5 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
+    <xsl:variable name="mainID" select="t:TEI/@xml:id"/>
     <xsl:template match="/">
         <div id="description" class="col-md-8">
             <xsl:if test="count(//t:titleStmt/t:title) gt 1">
