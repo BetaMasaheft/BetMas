@@ -949,7 +949,7 @@ if($file) then (
    {'There are ' || count($hits("hits")) || ' manuscripts at ' || titles:printTitleID($repoID) }
    </span>
 {list:paramsList($parameters)}
-{<div class="btn-group" role="group"><a target="_blank" class="btn btn-warning" href="/manuscripts/{$repoID}/list/viewer">Images available for this repository</a>
+{<div class="btn-group" role="group" id="optionsList"><a target="_blank" class="btn btn-warning" href="/manuscripts/{$repoID}/list/viewer">Images available for this repository</a>
 <a  target="_blank"  role="button" class="btn btn-default" href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exreq:query()}">Charts</a></div>}
 
                    </div>
@@ -1161,7 +1161,7 @@ if($file) then (
    <div class="col-md-12">
 {list:paramsList($parameters)}
 </div>
-<div class="col-md-12 btn-group" role="group"><a target="_blank" class="btn btn-warning" href="/manuscripts/{$repoID}/list/viewer">Images available for this repository</a>
+<div class="col-md-12 btn-group" role="group" id="optionsList"><a target="_blank" class="btn btn-warning" href="/manuscripts/{$repoID}/list/viewer">Images available for this repository</a>
 <a  target="_blank"  role="button" class="btn btn-default" href="{replace(substring-after(rest:uri(), 'BetMas'), 'listChart', 'list')}?{exreq:query()}">List View</a></div>
                 {charts:chart($hits("hits"))}
 

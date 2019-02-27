@@ -1,12 +1,20 @@
 $(document).on('ready', function(){
     
-    $('.col-md-12 > .pagination').append('<li><button class="btn btn-default printgroup">Print PDF with all selected items</button></li>')
+    $('#optionsList').append('<button class="btn btn-success printgroup">Print PDF with all selected items</button>')
     var checkBoxes = $('input.pdf');
 checkBoxes.change();
 
-$('.col-md-12 > .pagination').append('<li><button class="btn btn-default comparegroup">Compare selected items</button></li>')
+$('#optionsList').append('<button class="btn btn-primary comparegroup">Compare selected items</button>')
     var checkBoxes = $('input.compareSelected');
 checkBoxes.change();
 
+});
+
+$("#select_all_print").change(function (){
+    $('input.pdf').prop('checked', $(this).is(':checked'))
+});
+
+$("#select_all_compare").change(function (){
+    $('input.compareSelected').prop('checked', $(this).is(':checked'))
 });
 

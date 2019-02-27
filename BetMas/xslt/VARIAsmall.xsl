@@ -116,9 +116,8 @@
                 <xsl:text> </xsl:text>
             </xsl:when>
             <xsl:otherwise>
-                <p>
                     <xsl:apply-templates/>
-                </p>
+                
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>

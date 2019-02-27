@@ -21,9 +21,9 @@
             </p>
         </xsl:if>
         <xsl:if test=".//t:note[parent::t:collation]">
-            <p>
+            <div>
                 <xsl:apply-templates select=".//t:note"/>
-            </p>
+            </div>
         </xsl:if>
 
         <xsl:if test="t:list">

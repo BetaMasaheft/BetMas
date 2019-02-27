@@ -221,13 +221,13 @@ else
                                             <th>Manuscript Parts</th>,
                                             <th>Hands</th>,
                                             <th>Script</th>,
-                                      <th data-hint="select the manuscripts you want to compare and click the button above to go to the comparison view.">Compare</th>,
+                                      <th data-hint="select the manuscripts you want to compare and click the button above to go to the comparison view.">Compare <input type="checkbox" id="select_all_compare"/></th>,
                                             <th>Text</th>)
         }
                             <th>Dated</th>
                             <th>TEI-XML</th>
                             <th>Analytics</th>
-                            <th>Print</th>
+                            <th>Print <input type="checkbox" id="select_all_print"/></th>
     </tr>
                     </thead>
                    <tbody  class="ListItems">
