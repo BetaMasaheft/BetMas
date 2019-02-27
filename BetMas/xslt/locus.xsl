@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:locus">
         <xsl:param name="text" tunnel="yes"/>
         <xsl:if test="parent::t:ab">
@@ -42,8 +42,7 @@
                                                 </xsl:attribute>
                                             </xsl:otherwise>
                                         </xsl:choose>
-                                        <xsl:value-of select="concat(substring-after(.,'#'), ' ')"/>
-                                    </a>
+                                        <xsl:value-of select="concat(substring-after(.,'#'), ' ')"/></a>
                                 </xsl:for-each>
                             </xsl:when>
                             <xsl:otherwise>
@@ -75,8 +74,7 @@
                                             <xsl:text>f. </xsl:text>
                                         </xsl:otherwise>
                                     </xsl:choose>
-                                    <xsl:value-of select="substring-after(@target,'#')"/>
-                                </a>
+                                    <xsl:value-of select="substring-after(@target,'#')"/></a>
                             </xsl:otherwise>
                         </xsl:choose>
                     </xsl:when>
@@ -196,10 +194,26 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">Close</button>
-                            <h4 class="modal-title">Images from <xsl:value-of select="ancestor::t:TEI//t:msIdentifier/t:idno/@facs"/>
+                            <h4 class="modal-title">Images for <xsl:value-of select="ancestor::t:*[@xml:id][1]/@xml:id"/> 
                             </h4>
                         </div>
                         <div class="modal-body">
+                            <xsl:variable select="ancestor::t:TEI//t:msIdentifier/t:idno/@facs" name="MainFacs"/>
+                            <xsl:variable name="manifest">
+                                <xsl:choose>
+                                    <xsl:when test="starts-with($MainFacs, 'http')"><xsl:value-of select="$MainFacs"/></xsl:when>
+                                    <xsl:otherwise><xsl:value-of select="concat('https://betamasaheft.eu/api/iiif/',$mainID, '/manifest')"/></xsl:otherwise>
+                                </xsl:choose>
+                            </xsl:variable>
+                            <xsl:variable name="firstCanv">
+                                <xsl:if test="not(starts-with($MainFacs, 'http'))">
+                                    <xsl:value-of select="concat('?FirstCanv=', 'https://betamasaheft.eu/api/iiif/',$mainID, '/canvas/p', format-number(@facs, '###'))"/>
+                                </xsl:if>
+                            </xsl:variable>
+                            <xsl:variable name="mirador" select="concat('https://betamasaheft.eu/manuscripts/',$mainID, '/viewer', $firstCanv)"/>
+                            <p class="alert alert-info"><a href="{$manifest}" target="_blank"><img src="/resources/images/iiif.png" width="20px"/></a>
+                                <a href="{$mirador}" target="_blank">Open with Mirador Viewer</a></p>
+                            
                             <div id="openseadragon{replace(@facs, ' ', '_')}{ancestor::t:*[@xml:id][1]/@xml:id}"/>
                             <script type="text/javascript">
                                 <xsl:text>
@@ -388,6 +402,7 @@
                            });
                         </xsl:text>
                             </script>
+                            <p class="alert alert-info"><a href="https://openseadragon.github.io/">OpenSeadragon Viewer</a></p>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

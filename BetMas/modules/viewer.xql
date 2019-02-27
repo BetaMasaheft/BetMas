@@ -114,8 +114,9 @@ log:add-log-message('/manuscripts/'||$repoid||'/viewer', xmldb:get-current-user(
 declare 
 %rest:GET
 %rest:path("/BetMas/{$collection}/{$id}/viewer")
+%rest:query-param("FirstCanv", "{$FirstCanv}", '')
 %output:method("html5")
-function viewer:mirador($collection as xs:string, $id as xs:string){
+function viewer:mirador($collection as xs:string, $id as xs:string, $FirstCanv as xs:string*){
 
 let $c := switch:collection($collection)
 let $coll := '/db/apps/BetMas/data/' || $collection
@@ -209,7 +210,7 @@ if(xdb:collection-available($coll)) then (
     
 <script type="text/javascript" >{'var data = [{manifestUri: "' || $manifest || '", location: "' || $location || '"}]
 var loadedM =  "' || $manifest || '"
-var canvasid = "' || $firstcanvas || '"
+var canvasid = "' || (if($FirstCanv = '') then $firstcanvas else $FirstCanv) || '"
 '}</script>
    <script type="text/javascript" src="resources/js/mirador.js"></script>
    

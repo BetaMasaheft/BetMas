@@ -408,5 +408,8 @@ declare function nav:footer (){ <footer class="row-fluid">
             <a  href="https://iiif.io/" >
                 <img src="/resources/images/iiif.png" width="90px" alt="Providing and resuing images with IIIF presentation API 2.0"/>
             </a>
+            <a  href="https://www.zotero.org/groups/358366/ethiostudies/items" >
+                <img src="/resources/images/zotero_logo.png" width="90px" alt="All bibliography is managed with Zotero."/>
+            </a>
             
           </div></footer>};
