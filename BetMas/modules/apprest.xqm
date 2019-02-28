@@ -1545,7 +1545,10 @@ then (
 <h2>Compare manuscripts which contain <span>{$MAINtit}</span></h2>,
 let $c := $config:collection-rootMS
 let $items := $c//t:msItem
-let $matchingmss := $items/t:title[@ref = $target-work]
+let $Additems := $c//t:additions//t:item[descendant::t:title[@ref]]
+let $matchingAddmss := $Additems//t:title[@ref = $target-work]
+let $matchingConmss := $items/t:title[@ref = $target-work]
+let $matchingmss := ($matchingConmss, $matchingAddmss)
 return
 if(count($matchingmss) = 0) then (<p class="lead">Oh no! Currently, none of the catalogued manuscripts contains a link to this work. You can still see the record in case you find there useful information.</p>,<a class="btn btn-primary" href="{$target-work}"> Go to {$MAINtit}</a>) else
 (
@@ -1588,6 +1591,32 @@ then 'text-indent: 2%;' else ()}">
    then (normalize-space(string-join(string:tei2string($msitem/t:title/node()))), $placement)
     (:normally print the title of the referred item:)
 else (   <a class="itemtitle" data-value="{$title}" href="{$title}">{if($title = '') then <span class="label label-warning">{'no ref in title'}</span> else try{titles:printTitleID($title)} catch * {$title}}</a>, $placement)
+ }
+ </li>
+ }
+</ul>
+<ul class="nodot">
+{for $additem at $p in root($manuscript)/t:TEI//t:additions//t:item
+(:  store in a variable the ref in the title or nothing:)
+let $title := if ($additem//t:title[@ref]) then for $t in $additem//t:title/@ref return $t else ''
+let $placement := if ($additem/t:locus) then ( ' ('|| (let $locs :=for $loc in $additem/t:locus return string:tei2string($loc) return string-join($locs, ' ')) || ')') else ''
+order by $p
+return
+<li>
+{string($additem/@xml:id )}
+{if($additem/t:desc/@type)
+     then ( ' (' || string($additem/t:desc/@type) || ')')
+     else ()},
+{for $t in $title 
+return if($t = $target-work) (:highlight the position of the currently selected work:)
+    then <mark>
+        <a  class="itemtitle" data-value="{$t}" href="{$t}">{$MAINtit}</a> {$placement}
+        </mark>
+        (:if there is no ref, take the text of the element title content:)
+        else if ($additem/t:title[not(@ref)]/text())
+   then (normalize-space(string-join(string:tei2string($additem/t:title/node()))), $placement)
+    (:normally print the title of the referred item:)
+else (   <a class="itemtitle" data-value="{$t}" href="{$t}">{if($t = '') then <span class="label label-warning">{'no ref in title'}</span> else try{titles:printTitleID($t)} catch * {$t}}</a>, $placement)
  }
  </li>
  }
@@ -1658,6 +1687,28 @@ if($mss = '') then ()  else(
                                                       </li>
                                               }
                                          </ul>
+                                         <ul class="nodot">
+{for $additem at $p in root($manuscript)/t:TEI//t:additions//t:item
+(:  store in a variable the ref in the title or nothing:)
+let $title := if ($additem//t:title[@ref]) then for $t in $additem//t:title/@ref return $t else ''
+let $placement := if ($additem/t:locus) then ( ' ('|| (let $locs :=for $loc in $additem/t:locus return string:tei2string($loc) return string-join($locs, ' ')) || ')') else ''
+order by $p
+return
+<li>
+{string($additem/@xml:id )}
+{if($additem/t:desc/@type)
+     then ( ' (' || string($additem/t:desc/@type) || ')')
+     else ()},
+{for $t in $title 
+return 
+if ($additem/t:title[not(@ref)]/text())
+   then (normalize-space(string-join(string:tei2string($additem/t:title/node()))), $placement)
+    (:normally print the title of the referred item:)
+else (   <a class="itemtitle" data-value="{$t}" href="{$t}">{if($t = '') then <span class="label label-warning">{'no ref in title'}</span> else try{titles:printTitleID($t)} catch * {$t}}</a>, $placement)
+ }
+ </li>
+ }
+</ul>
                                      </p>
                      </div>
               </div>
