@@ -527,6 +527,47 @@ else
 
              </div>
       )
+      
+       case 'authority-files' return (
+   let $pass := concat('bm:', $id)
+let $relations := $config:collection-rootN//t:relation[@name = 'skos:broadMatch'][@passive=$pass]
+return
+if(count($relations) eq 0) then ()
+else
+<div  class="mainrelations">
+
+
+                                            {
+                    for $par in $relations
+                    let $relname := string(($par/@name)[1])
+                    group by $rn := $relname
+                    return
+                      <div  class="relBox alert alert-info"> {(
+
+                       switch($rn)
+                        case 'skos:broadMatch' return <b  class="openInDialog">Broadly matching entities</b>
+                       default return <b  class="openInDialog">The following textual units have a relation {$rn} with this textual unit</b>,
+
+                      <ul  class="nodot">{for $p in $par/@active
+                        let $normp := normalize-space($p)
+                        return
+                        if (contains($normp, ' ')) then
+                        for $value in tokenize ($normp, ' ') return
+                        if(starts-with($value,'http')) then 
+                        <li class="nodot"><a href="{$value}">{$value}</a></li>
+                        else <li class="nodot"><a href="{$value}" class="MainTitle" data-value="{$value}">{$value}</a></li>
+                        else
+                         if(starts-with($p,'http')) then 
+                        <li class="nodot"><a href="{$p}">{$p}</a></li>
+                        else
+                        <li class="nodot"><a href="/{$p}"  class="MainTitle" data-value="{$p}">{$p}</a></li>
+                        }</ul>)
+
+                }</div>}
+
+
+             </div>
+      )
 
  case 'institutions' return (
  let $mssSameRepo :=
