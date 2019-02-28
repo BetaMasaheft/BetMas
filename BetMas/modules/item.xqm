@@ -284,6 +284,7 @@ declare function item:mainRels($this,$collection){
       let $document := $this
       let $id := string($this/@xml:id)
       let $w := $config:collection-rootW
+      let $n := $config:collection-rootN
       let $ms := $config:collection-rootMS
       return
           <div class="allMainRel container-fluid">{
@@ -481,6 +482,47 @@ else
                         }</ul>)
                 } </div>}
 
+
+
+             </div>
+      )
+      
+      case 'narratives' return (
+   
+let $relations := $document//t:relation[@name = 'skos:broadMatch']
+return
+if(not($document//t:relation)) then ()
+else
+<div  class="mainrelations">
+
+
+                                            {
+                    for $par in $relations
+                    let $relname := string(($par/@name)[1])
+                    group by $rn := $relname
+                    return
+                      <div  class="relBox alert alert-info"> {(
+
+                       switch($rn)
+                        case 'skos:broadMatch' return <b  class="openInDialog">Broadly matching entities</b>
+                       default return <b  class="openInDialog">The following textual units have a relation {$rn} with this textual unit</b>,
+
+                      <ul  class="nodot">{for $p in $par/@passive
+                        let $normp := normalize-space($p)
+                        return
+                        if (contains($normp, ' ')) then
+                        for $value in tokenize ($normp, ' ') return
+                        if(starts-with($value,'http')) then 
+                        <li class="nodot"><a href="{$value}">{$value}</a></li>
+                        else <li class="nodot"><a href="{$value}" class="MainTitle" data-value="{$value}">{$value}</a></li>
+                        else
+                         if(starts-with($p,'http')) then 
+                        <li class="nodot"><a href="{$p}">{$p}</a></li>
+                        else
+                        <li class="nodot"><a href="/{substring-after($p, 'bm:')}"  class="MainTitle" data-value="{substring-after($p, 'bm:')}">{substring-after($p, 'bm:')}</a></li>
+                        }</ul>)
+
+                }</div>}
 
 
              </div>
@@ -764,16 +806,22 @@ else ()
 declare function item:RestMss($id){
        let $string := $id
 let $sameKey :=
-            for $corr in $config:collection-rootMS//t:title[@ref = $id]
+            for $corr in $config:collection-rootMS//t:title[@ref = $id][parent::t:msItem]
             return
                 $corr
+  let $sameKeyAdd :=
+            for $corr in               $config:collection-rootMS//t:additions//t:item//t:title[@ref = $id]
+            return
+                $corr
+   let $count := count($sameKey) + count($sameKeyAdd)             
 return
 
    <div class="alert alert-success" id="computedWitnesses">
-   <h4 >This Work is contained in Manuscript records {count($sameKey)} time{if(count($sameKey) gt 1) then 's' else ()}</h4>
+   <h4  class="openInDialog">This unit is contained in manuscript records {$count} time{if($count gt 1) then 's' else ()}</h4>
 
     <div id="Samekeyword{$string}"  >
-
+    {if(count($sameKey) gt 0) then
+(<p>As main content</p>,
 
                                             <ul class="nodot">{
                                                 for $hit in  $sameKey
@@ -804,7 +852,84 @@ return
 
                                                             </li>
                                              }
+                                             </ul>) else ()}
+                                             {if(count($sameKeyAdd) gt 0) then
+(<p>As additional content</p>,
+
+                                            <ul class="nodot">{
+                                                for $hit in  $sameKeyAdd
+                                              let $root := root($hit)/t:TEI/@xml:id
+                                                group by $groupkey := $root
+                                                 let $tit := titles:printTitleID($groupkey)
+                                                 order by $tit[1]
+
+                                               (: inside the list then :)
+(:                                                         order by root($hit)/t:TEI/@xml:id:)
+                                                    return
+
+                                                          <li class="list-group">
+                                                          <a
+                                               href="/manuscripts/{$groupkey}/main">{$tit} ({string($groupkey)}) </a> <br/>
+                                                         <span class="WordCount" data-msID="{$groupkey}" data-wID="{$string}"/>
+                                                         <br/>
+                                                         <ul>{
+                                                         for $h in $hit
+                                                         let $item := $h/ancestor::t:item[1]
+                                                         let $placement := if ($item/t:locus) then ( ' ('|| (let $locs :=for $loc in $item/t:locus return string:tei2string($loc) return string-join($locs, ' ')) || ')') else ''
+                                                         let $position := ' [' || count($item/preceding-sibling::t:item) +1 || '/' || count($item/parent::t:*/child::t:item) || ']'
+                                                         return
+
+<li>addition with id <b>{string($item/@xml:id)}</b> {if($h/text()) then (', ', <i>{$h/text()}</i> ) else () } {$placement} {$position}</li>
+                                                         }
+                                                         </ul>
+
+                                                            </li>
+                                             }
                                              </ul>
+                                           
+                                             
+                                             ) else ()}
+                                             {  if(starts-with($id, 'NAR')) then (
+                                             let $file := $config:collection-rootN//id($id)
+                                             let $broadMatch := $file//t:relation[@name="skos:broadMatch"]/@passive
+                                             for $b in $broadMatch
+                                             let $broad := substring-after($b, 'bm:')
+                                             let $usedasType :=  $config:collection-rootMS//t:additions//t:item/t:desc[@type = $broad]
+                                             return
+  (<p>As additional content associated with the keyword <b><a href="/authority-files/list?keyword={string($broad)}">{titles:printTitleMainID($broad)}</a></b> this unit 
+  is present an additional {count($usedasType)} time{if(count($usedasType) gt 1) then 's' else ()}</p>,       
+                                             <ul class="nodot">{
+                                                for $hit in  $usedasType
+                                              let $root := root($hit)/t:TEI/@xml:id
+                                                group by $groupkey := $root
+                                                 let $tit := titles:printTitleID($groupkey)
+                                                 order by $tit[1]
+
+                                               (: inside the list then :)
+(:                                                         order by root($hit)/t:TEI/@xml:id:)
+                                                    return
+
+                                                          <li class="list-group">
+                                                          <a
+                                               href="/manuscripts/{$groupkey}/main">{$tit} ({string($groupkey)}) </a> <br/>
+                                                         <span class="WordCount" data-msID="{$groupkey}" data-wID="{$string}"/>
+                                                         <br/>
+                                                         <ul>{
+                                                         for $h in $hit
+                                                         let $item := $h/ancestor::t:item[1]
+                                                         let $placement := if ($item/t:locus) then ( ' ('|| (let $locs :=for $loc in $item/t:locus return string:tei2string($loc) return string-join($locs, ' ')) || ')') else ''
+                                                         let $position := ' [' || count($item/preceding-sibling::t:item) +1 || '/' || count($item/parent::t:*/child::t:item) || ']'
+                                                         return
+
+<li>addition with id <b>{string($item/@xml:id)}</b> {if($h/text()) then (', ', <i>{$h/text()}</i> ) else () } {$placement} {$position}</li>
+                                                         }
+                                                         </ul>
+
+                                                            </li>
+                                             }
+                                             </ul>)
+                                             )
+                                             else ()}
                                     </div>
 
 
@@ -896,7 +1021,7 @@ return
         </form>
      <img id="loading" src="resources/Loading.gif" style="display: none;"></img>
      <div id="SeeAlsoResults" class="well">No keyword selected.</div>
-     {if($collection='works') then item:RestMss($id) else ()}
+     {if($collection='works' or $collection='narratives') then item:RestMss($id) else ()}
      <div><b>Hypothes.is public annotations pointing here</b>
      <div id="hypothesisFeedResults" data-value="{$id}"></div>
      <p>Use the tag <span class="label  label-info">BetMas:{$id}</span> in your public <a href="https://web.hypothes.is/">hypothes.is</a> annotations which refer to this entity.</p>
