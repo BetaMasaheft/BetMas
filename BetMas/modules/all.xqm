@@ -86,6 +86,10 @@ declare
 
 function all:substitutionsInQuery($query as xs:string*) {
     let $query-string := normalize-space($query)
+    let $stringlength := string-length($query-string)
+    return
+(:    this statements limits the input string on which to do the substitutions to 15 characters:)
+(:    if($stringlength gt 15) then ($query-string) else:)
     let $emphaticS := ('s','s', 'ḍ')
     let $query-string := all:subs($query-string, $emphaticS, 'normal')
     
