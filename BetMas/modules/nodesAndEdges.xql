@@ -28,8 +28,8 @@ declare
 %rest:path("/BetMas/api/relations/{$id}")
 %output:method("json")
 function NE:relNodes($id as xs:string*){
-
-let $entity := $config:collection-root/id($id)
+let $c :=  $config:collection-root
+let $entity := $c/id($id)
 let $type := $entity/@type
 let $collection := switch:col($type)
 

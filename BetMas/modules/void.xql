@@ -110,7 +110,7 @@ return
         foaf:page <'||$thisUrl||'/graph>;
         dcterms:license <http://opendatacommons.org/licenses/odbl/1.0/>;
         void:feature <http://www.w3.org/ns/formats/RDFa>;
-        void:dataDump <'||$config:appUrl||'/rdf/'||$coll||'/'||$id||'/main> ;
+        void:dataDump <'||$config:appUrl||'/'||$coll||'/'||$id||'/main> ;
         .
         
         '

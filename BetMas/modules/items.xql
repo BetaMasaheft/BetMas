@@ -242,7 +242,7 @@ if(xdb:collection-available($coll)) then (
         <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
         <link rel="alternate" type="application/rdf+xml"
           title="RDF Representation"
-          href="http://betamasaheft.eu/rdf/{$collection}/{$id}.rdf" />
+          href="https://betamasaheft.eu/rdf/{$collection}/{$id}.rdf" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         {apprest:app-meta($biblio)}
         {apprest:scriptStyle()}
@@ -309,7 +309,7 @@ transform:transform(
    )
    case 'geobrowser' return (
    <div class="container col-md-10">
-   <div class="col-md-12 alert alert-info">You can download the <a href="http://betamasaheft.eu/api/KML/places/{$id}">KML</a> file visualized below in the <a href="https://geobrowser.de.dariah.eu">Dariah-DE Geobrowser</a>.</div>
+   <div class="col-md-12 alert alert-info">You can download the <a href="https://betamasaheft.eu/api/KML/places/{$id}">KML</a> file visualized below in the <a href="https://geobrowser.de.dariah.eu">Dariah-DE Geobrowser</a>.</div>
    <h3>Map and timeline of places attestations marked up in the text.</h3>
    <iframe style="width: 100%; height: 800px;" id="geobrowserMap" src="https://geobrowser.de.dariah.eu/embed/index.html?kml1=https://betamasaheft.eu/api/KML/places/{$id}"/>
    </div>
