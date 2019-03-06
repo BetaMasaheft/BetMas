@@ -465,8 +465,8 @@ log:add-log-message('/api/iiif/'||$id||'/manifest', xmldb:get-current-user(), 'i
 (:       this is where the manifest is:)
        let $request := $iiifroot || "/manifest"
        (:       this is where the sequence is:)
-       let $attribution := "Provided by "||$item//t:collection/text()||" project."
-       let $logo := if($item//t:repository/@ref[.='INS0339BML']) then ('/rest/BetMas/resources/images/logoEthio-SPaRe.png') else "/rest/BetMas/resources/images/logo"||$item//t:collection/text()||".png"
+       let $attribution := if($item//t:repository/@ref[.='INS0339BML']) then ('The images of the manuscript taken by Antonella Brita, Karsten Helmholz and Susanne Hummel during a mission funded by the Sonderforschungsbereich 950 Manuskriptkulturen in Asien, Afrika und Europa, the ERC Advanced Grant TraCES, From Translation to Creation: Changes in Ethiopic Style and Lexicon from Late Antiquity to the Middle Ages (Grant Agreement no. 338756) and Beta maṣāḥǝft. The images are published in conjunction with this descriptive data about the manuscript with the permission of the https://www.bmlonline.it/la-biblioteca/cataloghi/, prot. 190/28.13.10.01/2.23 of the 24 January 2019 and are available for research purposes.') else "Provided by "||$item//t:collection/text()||" project."
+       let $logo := if($item//t:repository/@ref[.='INS0339BML']) then ('/rest/BetMas/resources/images/logobml.png') else "/rest/BetMas/resources/images/logo"||$item//t:collection/text()||".png"
        let $sequence := $iiifroot || "/sequence/normal"
      
      

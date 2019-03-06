@@ -307,7 +307,7 @@ return
                             </li>
                         </ul>
                     </li>
-
+<li><a href="/morpho" data-toggle="tooltip" data-placement="top" title="Gǝʿǝz Morphological Parser (TraCES project)">Parser</a></li>
                 </ul>
 
                 {
