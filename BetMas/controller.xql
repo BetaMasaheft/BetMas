@@ -1,8 +1,7 @@
-xquery version "3.0" encoding "UTF-8";
+xquery version "3.1" encoding "UTF-8";
 
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "modules/config.xqm";
 import module namespace request = "http://exist-db.org/xquery/request";
-import module namespace console = "http://exist-db.org/xquery/console";
 import module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMas/error" at "modules/error.xqm";
 import module namespace login = "http://exist-db.org/xquery/login" at "resource:org/exist/xquery/modules/persistentlogin/login.xql";
 
@@ -61,7 +60,8 @@ switch ($prefix)
                                                     default return
                                                         'manuscripts'
                                                         };
- 
+
+(:let $test := console:log($exist:path) return:)
 if ($exist:path eq '') then
     <dispatch
         xmlns="http://exist.sourceforge.net/NS/exist">
@@ -69,56 +69,57 @@ if ($exist:path eq '') then
             url="{local:get-uri()}/"/>
     </dispatch>
     
-    
-    (:ALL REQUESTS CHECK THAT USER IS IN ADMIN GROUP:)
-    
-    
-    (: Resource paths starting with $shared are loaded from the shared-resources app :)
-else
-    if (contains($exist:path, "/$shared/")) then
+  (:ALL REQUESTS CHECK THAT USER IS IN ADMIN GROUP:)
+        
+(: Resource paths starting with $shared are loaded from the shared-resources app :)
+else if (contains($exist:path, "/$shared/")) then
         <dispatch
             xmlns="http://exist.sourceforge.net/NS/exist">
             <forward
                 url="/shared-resources/{substring-after($exist:path, '/$shared/')}"/>
         </dispatch>
         
-        (: Requests for javascript libraries are resolved to the file system :)
-    else
-        if (contains($exist:path, "resources/")) then
+ else if (starts-with($exist:path, "/openapi/")) then
+  <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+    <forward
+      url="/openapi/{ $exist:path => substring-after("/openapi/") => replace("json", "xq") }"
+      method="get">
+      <add-parameter name="target" value="{ substring-after($exist:root, "://") || $exist:controller }"/>
+      <add-parameter name="register" value="false"/>
+    </forward>
+  </dispatch> 
+  
+(: Requests for javascript libraries are resolved to the file system :)
+else if (contains($exist:path, "resources/")) then
             <dispatch
                 xmlns="http://exist.sourceforge.net/NS/exist">
                 <forward
                     url="{$exist:controller}/resources/{substring-after($exist:path, 'resources/')}"/>
             </dispatch>
-               (: Requests for javascript libraries are resolved to the file system :)
-    else
-        if (contains($exist:path, "vocabularies/")) then
+(: Requests for javascript libraries are resolved to the file system :)
+else if (contains($exist:path, "vocabularies/")) then
             <dispatch
                 xmlns="http://exist.sourceforge.net/NS/exist">
                 <forward
                     url="{$exist:controller}/vocabularies/{substring-after($exist:path, 'vocabularies/')}"/>
             </dispatch>
         
-            
-             (: Requests for javascript libraries are resolved to the file system :)
-    else
-        if (contains($exist:path, "build/mirador")) then
+(: Requests for javascript libraries are resolved to the file system :)
+else if (contains($exist:path, "build/mirador")) then
             <dispatch
                 xmlns="http://exist.sourceforge.net/NS/exist">
                 <forward
                     url="{$exist:controller}/resources/mirador/{substring-after($exist:path, 'mirador/')}"/>
             </dispatch>
-            (:         the xql files                                                                           :)
-        else
-            if (ends-with($exist:resource, ".xql")) then
+(:         the xql files                                                                           :)
+else if (ends-with($exist:resource, ".xql")) then
                 <dispatch
                     xmlns="http://exist.sourceforge.net/NS/exist">
                 
                 </dispatch>
            
-                    (:              special redirect for institutions to redirect to list and bypass standard main view:)
-           
-             else if (ends-with($exist:resource, ".pdf")) then
+(:              special redirect for institutions to redirect to list and bypass standard main view:)
+else if (ends-with($exist:resource, ".pdf")) then
     let $id := substring-before($exist:resource, '.pdf')
     return
             <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
@@ -132,8 +133,7 @@ else
                 </error-handler>
             </dispatch>
             
-           else
-                    if (contains($exist:path, 'institutions') and ends-with($exist:path, '/main')) then
+else if (contains($exist:path, 'institutions') and ends-with($exist:path, '/main')) then
                         let $url := replace(replace($exist:path, 'institutions', 'manuscripts'), 'main', 'list')
                         return
                         <dispatch
@@ -143,9 +143,8 @@ else
                                 absolute="yes"/>
                         </dispatch>
                          
-                (:            redirect to api all calls starting with /api/ ending with one of the specific rest modules:)
-              else
-                if (contains($exist:path, 'morpho')) then
+(:            redirect to api all calls starting with /api/ ending with one of the specific rest modules:)
+else if (contains($exist:path, 'morpho')) then
                 let $url := concat('/restxq', util:unescape-uri($exist:path, 'UTF-8'))
                 return
              <dispatch
@@ -157,8 +156,7 @@ else
                                  <set-header name="Cache-Control" value="no-cache"/>
                                 </forward>
                         </dispatch>
-            else
-                if (contains($exist:path, '/api/') or
+else if (contains($exist:path, '/api/') or
                 ends-with($exist:path, '/list') or
                 ends-with($exist:path, '/listChart') or
                 ends-with($exist:path, '/browse') or
@@ -195,10 +193,8 @@ else
                         </dispatch>
                         
                
-                                
-                                (:    redirects to api for geoJson:)
-                    else
-                        if (ends-with($exist:path, ".json")) then
+(:    redirects to api for geoJson:)
+else if (ends-with($exist:path, ".json")) then
                             <dispatch
                                 xmlns="http://exist.sourceforge.net/NS/exist">
                                 <forward
@@ -210,9 +206,8 @@ else
                             
                             </dispatch>
                             
-                            (:                :)
-                        else
-                            if (starts-with($exist:path, '/tei/') and ends-with($exist:path, ".xml")) then
+(:        tei tranformed        :)
+else if (starts-with($exist:path, '/tei/') and ends-with($exist:path, ".xml")) then
                                
                             let $id := substring-before($exist:resource, '.xml')
                             let $item := $config:collection-root/id($id)[name()='TEI']
@@ -242,9 +237,8 @@ else
                                  return
                                  error:error($Imap)
                         
-                        
-                        else
-                            if (ends-with($exist:path, ".xml")) then
+(:  the xml stored in the db   :)
+else if (ends-with($exist:path, ".xml")) then
                           
                             let $id := substring-before($exist:resource, '.xml')
                             let $item := $config:collection-root/id($id)[name()='TEI']
@@ -272,9 +266,9 @@ else
 let $Imap := map {'type':= 'xmlitem', 'name' := $id, 'path' := $collection}
 return
                                  error:error($Imap)
-                                 
-                                   else
-                            if (ends-with($exist:path, ".rdf")) then
+             
+(:RDF data as transformed on upload:)
+else if (ends-with($exist:path, ".rdf")) then
                             let $coll := '/db/rdf/'
                             let $id := substring-before($exist:resource, '.xml')
                             let $item := doc($coll || $exist:resource)
@@ -298,44 +292,10 @@ return
                                 
                                 else 
                                 
-let $Imap := map {'type':= 'xmlitem', 'name' := $id, 'path' := $coll}
-return
+                let $Imap := map {'type':= 'xmlitem', 'name' := $id, 'path' := $coll}
+                return
                                  error:error($Imap)
-                                 
-                                (:                    ALSO INTERNAL CALLS of XSLT ARE THUS PROCESSED!:)
-                            
-                            
-                            
-                            else
-                                if (starts-with($exist:path, "/")) then
-                                    
-                                    
-                                    
-                                    if ($exist:path eq "/") then
-                                        <dispatch
-                                            xmlns="http://exist.sourceforge.net/NS/exist">
-                                            <forward
-                                                url="{$exist:controller}/index.html">
-                                                     {$login("org.exist.login", (), false())}
-                                                     <set-header name="Cache-Control" value="no-cache"/>
-                                            </forward>
-                                            <view>
-                                                <forward
-                                                    url="{$exist:controller}/modules/view.xql">
-                                                    <add-parameter
-                                                        name="uri"
-                                                        value="{('/db/apps/BetMas/index.html')}"/>
-                                                </forward>
-                                            </view>
-                                            <error-handler>
-                                                <forward
-                                                    url="{$exist:controller}/error/error-page.html"
-                                                    method="get"/>
-                                                <forward
-                                                    url="{$exist:controller}/modules/view.xql"/>
-                                            
-                                            </error-handler>
-                                        </dispatch>
+
 (:  https://betamasaheft.eu/urn:dts:betmas:LIT3122Galaw
 
 if accept is set to json-ld, then redirect to api/dts,
@@ -347,11 +307,9 @@ else redirect to /text view with parameters
 https://betamasaheft.eu/works/LIT3122Galaw/text
 
 :)
-                                                else
-                                            if (
-                                            starts-with($exist:path, "/urn") and matches($exist:path, "\w+\d+(\w+)?")
-                                            ) then
-                                                ( let $tokenizePath := tokenize($exist:path, '%3A')
+else if (starts-with($exist:path, "/urn") and matches($exist:path, "\w+\d+(\w+)?")) then
+                                                ( 
+                                                let $tokenizePath := tokenize($exist:path, '%3A')
                                                 let $mainID := $tokenizePath[4]
                                                 let $passage := $tokenizePath[5]
                                                 let $switchCollection := local:switchPrefix(substring($mainID, 1, 2))
@@ -399,6 +357,37 @@ https://betamasaheft.eu/works/LIT3122Galaw/text
                                                     
                                                     </dispatch>
                                         )
+
+
+                                (:                    ALSO INTERNAL CALLS of XSLT ARE THUS PROCESSED!:)
+else if (starts-with($exist:path, "/")) then
+                                    
+                                    if ($exist:path eq "/") then
+                                        <dispatch
+                                            xmlns="http://exist.sourceforge.net/NS/exist">
+                                            <forward
+                                                url="{$exist:controller}/index.html">
+                                                     {$login("org.exist.login", (), false())}
+                                                     <set-header name="Cache-Control" value="no-cache"/>
+                                            </forward>
+                                            <view>
+                                                <forward
+                                                    url="{$exist:controller}/modules/view.xql">
+                                                    <add-parameter
+                                                        name="uri"
+                                                        value="{('/db/apps/BetMas/index.html')}"/>
+                                                </forward>
+                                            </view>
+                                            <error-handler>
+                                                <forward
+                                                    url="{$exist:controller}/error/error-page.html"
+                                                    method="get"/>
+                                                <forward
+                                                    url="{$exist:controller}/modules/view.xql"/>
+                                            
+                                            </error-handler>
+                                        </dispatch>
+
                                         
 (:                                        redirects uris of subpart URI like
 https://betamasaheft.eu/BDLaethe8/addition/a1
@@ -424,7 +413,7 @@ function apisparql:constructURIsubid() is called to construct a graph of that re
                                             contains($exist:path, '/UniMat/')or
                                             contains($exist:path, '/UniCah/')
                                             )) then
-                                            let $test := console:log($exist:path)
+(:                                            let $test := console:log($exist:path):)
                                                 let $prefix := substring($exist:resource, 1, 2)
                                                 let $switchCollection := local:switchPrefix($prefix)
                                                 let $tokenizePath := tokenize($exist:path, '/')
@@ -493,7 +482,7 @@ construct the annotation graph if application/rdf+xml is specified
                                             if (starts-with($exist:path, "/bond/")) then
                                                 let $tokenizePath := tokenize($exist:path, '/')
                                                 let $tokenizeBond := tokenize($tokenizePath[3], '-')
-                                                let $test := console:log($tokenizeBond)
+(:                                                let $test := console:log($tokenizeBond):)
                                               return
                                                 if (contains(request:get-header('Accept'), 'rdf'))
                                             then
@@ -899,7 +888,7 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                         </error-handler>
                                                                     </dispatch>
                                                                     
-                                                                  
+                                
                             
                             
                             

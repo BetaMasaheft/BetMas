@@ -56,7 +56,8 @@ declare function all:subs($query, $homophones, $mode) {
                     for $s in $homophones[. != $b]
                             return
                                 (
-                                distinct-values(all:repl($q, $b, $s)),
+                                let $values := all:repl($q, $b, $s) return 
+                                distinct-values($values),
                                 if ($mode = 'ws') then
                                     (replace($q, $b, ''))
                                      else()

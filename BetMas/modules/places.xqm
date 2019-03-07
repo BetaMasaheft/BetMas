@@ -10,9 +10,9 @@ module namespace places = "https://www.betamasaheft.uni-hamburg.de/BetMas/places
 import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
-import module namespace coord = "https://www.betamasaheft.uni-hamburg.de/BetMas/coord" at "xmldb:exist:///db/apps/BetMas/modules/coordinates.xql";
+import module namespace coord = "https://www.betamasaheft.uni-hamburg.de/BetMas/coord" at "xmldb:exist:///db/apps/BetMas/modules/coordinates.xqm";
 import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "xmldb:exist:///db/apps/BetMas/modules/editors.xqm";
-import module namespace ann = "https://www.betamasaheft.uni-hamburg.de/BetMas/ann" at "xmldb:exist:///db/apps/BetMas/modules/annotations.xql";
+import module namespace ann = "https://www.betamasaheft.uni-hamburg.de/BetMas/ann" at "xmldb:exist:///db/apps/BetMas/modules/annotations.xqm";
 import module namespace all="https://www.betamasaheft.uni-hamburg.de/BetMas/all" at "xmldb:exist:///db/apps/BetMas/modules/all.xqm";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace kwic = "http://exist-db.org/xquery/kwic"
@@ -202,12 +202,15 @@ declare
 %rest:path("/BetMas/api/geoJson/places/{$id}")
 %output:method("json")
 function places:json($id as xs:string*) {
+if(starts-with($id, 'LOC') or starts-with($id, 'INS') or starts-with($id, 'ETH')) 
+then(
 $places:response200json,
 
 let $log := log:add-log-message('/api/geoJson/places/'||$id, xmldb:get-current-user(), 'places')
        let $item := $config:collection-rootPlIn/id($id)[name() = 'TEI']
        return
-      places:JSONfile($item, $id)
+      places:JSONfile($item, $id))
+       else ()
 };
 
 
