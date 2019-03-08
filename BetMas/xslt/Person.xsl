@@ -11,7 +11,7 @@
                 </div>
             </xsl:if>
             <xsl:if test="//t:floruit">
-                <div class="col-md-12" id="floruit"> <h4>Floruit</h4>
+                <div class="col-md-12" id="floruit"> <h4>Period of Activity</h4>
                     <p>
                             <xsl:apply-templates select="//t:floruit" mode="noP"/>
                         </p>
@@ -221,7 +221,7 @@
                            </p>
                        </xsl:for-each>
                        <xsl:for-each select="//t:floruit[@when or @notBefore or @notAfter ]">
-                           <p>Floruit: <xsl:choose>
+                           <p>Period of activity: <xsl:choose>
                                <xsl:when test="@notBefore or @notAfter">
                                    <xsl:value-of select="@notBefore"/>
                                    <xsl:text>-</xsl:text>

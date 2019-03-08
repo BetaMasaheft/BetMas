@@ -203,7 +203,7 @@ syriaca:has-relation-to-place
   </div>
 </div>,
 <div class="form-group">
-  <label for="death" class="col-md-2 col-form-label">Floruit</label>
+  <label for="death" class="col-md-2 col-form-label">Period of activity</label>
   <div class="col-md-10">
     <input class="form-control" type="text" id="floruit"  name="floruit"/>
 <small class="form-text text-muted">Please, enter a well formatted date or a range and remember to update attributes </small>
