@@ -143,6 +143,108 @@ instead or use the keyboard provided to enter aleph and ayn. </li>
 
 };
 
+declare function nav:barNew(){
+let $url := try{request:get-url()} catch*{''}
+return
+(<div class="w3-top">
+  <div class="w3-bar w3-black w3-card">
+    <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    {if(ends-with($url, 'BetMas/')) then locallogin:login() else ()
+(:login is possible only from homepage and user name is displayed only on templating pages, not on the rest modules:)
+}
+<div class="w3-dropdown-hover w3-hide-small" id="about">
+      <button class="w3-padding-large w3-button" title="about">
+      {if(string-length($url) gt 1) then ('Hi ' || xmldb:get-current-user() || '!') else ('Home')}
+      <i class="fa fa-caret-down"></i></button>     
+      <div class="w3-dropdown-content w3-bar-block w3-card-4">
+      {if(sm:is-authenticated() and contains(sm:get-user-groups(xmldb:get-current-user()), 'Editors')) then
+                        (
+                                <a class="w3-bar-item w3-button" href="/user/{xmldb:get-current-user()}">Your personal page</a>
+                            ,
+                                <a class="w3-bar-item w3-button" href="/clavismatching.html">Clavis Matching</a>
+                            )
+                        else ()}
+                                <a class="w3-bar-item w3-button" href="/">Home</a>
+                                <a class="w3-bar-item w3-button" href="/team.html">Team</a>
+                                <a class="w3-bar-item w3-button" href="/partners.html">Partners</a>
+                                <a class="w3-bar-item w3-button" href="/contacts.html">Contacts</a>
+                                <a class="w3-bar-item w3-button" href="/Guidelines/">Guidelines and documentation</a>
+                                <a class="w3-bar-item w3-button" href="/apidoc.html">Data API</a>
+                                <a class="w3-bar-item w3-button" href="/lod.html">Linked Open Data</a>
+        
+      </div>
+    </div>
+ <div class="w3-dropdown-hover w3-hide-small" id="works">
+      <button class="w3-padding-large w3-button" title="Works">Clavis <i class="fa fa-caret-down"></i></button>     
+      <div class="w3-dropdown-content w3-bar-block w3-card-4">
+                                <a class="w3-bar-item w3-button" href="/works/list">Textual Units</a>
+                              <a class="w3-bar-item w3-button" href="/narratives/list">Narrative Units</a>
+                                <a class="w3-bar-item w3-button" href="/documentcorpora.html">Documents corpora</a>
+                      </div>
+    </div>  
+    
+    <div class="w3-dropdown-hover w3-hide-small" id="mss">
+      <button class="w3-padding-large w3-button" title="manuscripts">Manuscripts <i class="fa fa-caret-down"></i></button>     
+      <div class="w3-dropdown-content w3-bar-block w3-card-4">
+                                <a class="w3-bar-item w3-button"  href="/manuscripts/list">Manuscripts (search)</a>
+                                <a class="w3-bar-item w3-button"  href="/manuscripts/browse">Shelf marks (full list)</a>
+                                <a class="w3-bar-item w3-button"  href="/UniProd/browse">UniProd (full list)</a>
+                                <a class="w3-bar-item w3-button"  href="/UniCirc/browse">UniCirc (full list)</a>
+                                <a class="w3-bar-item w3-button"  href="/manuscripts/viewer">Manuscripts Images</a>
+                                <a class="w3-bar-item w3-button"  href="/catalogues/list">Catalogues</a>
+                      </div>
+    </div>
+    <div class="w3-dropdown-hover w3-hide-small" id="places">
+      <button class="w3-padding-large w3-button" title="Places">Places <i class="fa fa-caret-down"></i></button>     
+      <div class="w3-dropdown-content w3-bar-block w3-card-4">
+                                <a class="w3-bar-item w3-button"   href="/places/list">Places</a>
+                                <a class="w3-bar-item w3-button"   href="/institutions/list">Repositories</a>
+                                </div>
+    </div>
+   
+    <a href="/persons/list" class="w3-bar-item w3-button w3-padding-large w3-hide-small"  id="persons">Persons</a>
+    <div class="w3-dropdown-hover w3-hide-small" id="indexes">
+      <button class="w3-padding-large w3-button" title="indexes">Indexes <i class="fa fa-caret-down"></i></button>     
+      <div class="w3-dropdown-content w3-bar-block w3-card-4">
+                                <a class="w3-bar-item w3-button"  href="https://www.zotero.org/groups/ethiostudies/items">Zotero Library</a>
+                                <a class="w3-bar-item w3-button"  href="/bibliography">List of cited publications</a>
+                                <a class="w3-bar-item w3-button"  href="/IndexPersons">Persons</a>
+                                <a class="w3-bar-item w3-button"  href="/IndexPlaces">Places</a>
+                                <a class="w3-bar-item w3-button"  href="/decorations">Decorations</a>
+                                <a class="w3-bar-item w3-button"  href="/bindings">Bindings</a>
+                                <a class="w3-bar-item w3-button"  href="/additions">Additions</a>
+                                <a class="w3-bar-item w3-button"  href="/authority-files/list">Keywords</a>
+                          </div>
+    </div>
+    <div class="w3-dropdown-hover w3-hide-small" id="resources">
+      <button class="w3-padding-large w3-button" title="resources">Resources <i class="fa fa-caret-down"></i></button>     
+      <div class="w3-dropdown-content w3-bar-block w3-card-4">
+                                <a class="w3-bar-item w3-button"   href="/compare">Compare manuscripts of a given work</a>
+                                <a class="w3-bar-item w3-button"   href="/LitFlow">Literature Flow Sankey view</a>
+                                <a class="w3-bar-item w3-button"   href="/xpath">XPath search</a>
+                                <a class="w3-bar-item w3-button"   href="/sparql">SPARQL Endpoint</a>
+                                <a class="w3-bar-item w3-button"   href="/collate">Collate passages with Collatex</a>
+                                <a class="w3-bar-item w3-button"   href="/academics.html">Scholars in Ethiopian Studies</a>
+                     </div>
+    </div>
+    <a href="/morpho" class="w3-bar-item w3-button w3-padding-large w3-hide-small" 
+     data-toggle="tooltip" data-placement="bottom" title="Gǝʿǝz Morphological Parser (TraCES project)">Parser</a>
+    <a href="/Dillmann" class="w3-bar-item w3-button w3-padding-large w3-hide-small" 
+     data-toggle="tooltip" data-placement="bottom" title="Online Lexicon Linguae Aethiopicae (TraCES project)">Online Lexicon</a>
+   
+    <a href="/as.html" class="w3-padding-large w3-hover-red w3-hide-small w3-right"><i class="fa fa-search"></i></a>
+  </div>
+</div>,
+<div id="navDemo" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
+            <a href="/" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Home</a>
+            <a href="/works/list" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Clavis</a>
+            <a href="/manuscripts/list" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Manuscripts</a>
+            <a href="/as.html" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Search</a>
+        </div>
+)
+};
+
+
 declare function nav:bar(){
 let $url := try{request:get-url()} catch*{''}
 return
@@ -410,6 +512,9 @@ declare function nav:footer (){ <footer class="row-fluid">
             </a>
             <a  href="https://www.zotero.org/groups/358366/ethiostudies/items" >
                 <img src="/resources/images/zotero_logo.png" width="90px" alt="All bibliography is managed with Zotero."/>
+            </a>
+            <a  href="https://github.com/BetaMasaheft" >
+                <img src="/resources/images/GitHub-Mark-120px-plus.png" width="90px" alt="Our data is all in GitHub!"/>
             </a>
             
           </div></footer>};

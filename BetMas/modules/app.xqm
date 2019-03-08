@@ -163,6 +163,7 @@ declare function app:pdf-link($id) {
 
 (: ~ calls the templates for static parts of the page so that different templates can use them. To make those usable also from restxq, they have to be called by templates like this, so nav.xql needs not the template module :)
 declare function app:Nbar($node as node()*, $model as map(*)){nav:bar()};
+declare function app:NbarNew($node as node()*, $model as map(*)){nav:barNew()};
  declare function app:searchhelp($node as node()*, $model as map(*)){nav:searchhelp()};
 declare function app:modals($node as node()*, $model as map(*)){nav:modals()};
 declare function app:footer($node as node()*, $model as map(*)){nav:footer()};
