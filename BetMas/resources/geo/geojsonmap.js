@@ -143,10 +143,10 @@ legend.addTo(map);
             container.appendChild(document.createTextNode(info));
         }
     };
-var searchCtrl = L.control.fuseSearch(options);
+/*var searchCtrl = L.control.fuseSearch(options);*/
 var tobeindexed = ['title']
-searchCtrl.addTo(map);
-searchCtrl.indexFeatures(institutions, tobeindexed);	
+/*searchCtrl.addTo(map);
+searchCtrl.indexFeatures(institutions, tobeindexed);*/	
 L.control.layers(baseLayers, overlays).addTo(map);
 
 

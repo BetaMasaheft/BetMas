@@ -25,8 +25,10 @@ $('#gsf').on('submit', function(){
 $(document).on('ready', function () {
 
  
-   $("#GoTo").on('change paste keyup', function () {
-   
+   $("#GoTo").on('change paste', function () {
+   /*$( document ).ajaxStop(function() {
+  $( "#loading" ).hide();
+});*/
    var empty = false;
     $('#GoTo').each(function () {
         if ($(this).val() == '') {
