@@ -609,6 +609,68 @@ declare function nav:newentry(){
               <button type="submit" class="btn btn-success">new</button>
                 	  </form>
                         else ()};
+                        
+declare function nav:footerNew(){ 
+
+<footer class="w3-container w3-padding-64 w3-center">
+<div class="w3-container">
+      <p class="w3-center">Copyright © <span property="http://purl.org/dc/elements/1.1/publisher">Akademie der Wissenschaften in Hamburg,
+                Hiob-Ludolf-Zentrum für Äthiopistik</span>.  Sharing and remixing permitted under terms of the <br/>
+                <a rel="license"  property="http://creativecommons.org/ns#license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+                    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"/>
+                </a></p>
+                <br/>
+ <p  class="w3-center"><a rel="license"  property="http://creativecommons.org/ns#license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+                </p ><br/>
+<p  class="w3-center">DOI: {$config:DOI}</p>
+                <hr/>
+                <p  class="w3-center">Many thanks for their wonderful work to all the developers of free software for the code we use throughout the website.</p>
+                    </div>
+                    <div class="w3-row w3-center">
+             <a class="poweredby" 
+             property="http://purl.org/dc/elements/1.1/publisher" 
+             href="http://www.awhamburg.de/" target="_blank">
+                <img src="/BetMas/resources/images/logo-adw.png" 
+                alt="Akademie der Wissenschaften in Hamburg logo"/>
+            </a>
+            <a class="poweredby" 
+            property="http://purl.org/dc/elements/1.1/publisher" 
+            href="https://www.betamasaheft.uni-hamburg.de/" 
+            target="_blank">
+                <img src="/resources/images/logo.png" 
+                alt="Beta maṣāḥǝft Project logo"/>
+            </a>
+            <a class="poweredby" 
+            href="http://exist-db.org">
+                <img 
+                src="$shared/resources/images/powered-by.svg" 
+                alt="Powered by eXist-db"/>
+            </a>
+            <a class="poweredby" href="http://www.tei-c.org/">
+                <img src="/resources/images/We-use-TEI.png" alt="We use TEI"/>
+            </a>
+            <a class="poweredby" href="http://commons.pelagios.org/">
+                <img src="/resources/images/Pelagios-logo.png" alt="Proud members of the Linked Pasts Network"/>
+            </a>
+            <a  href="https://iipimage.sourceforge.io/" >
+                <img src="/resources/images/iip_logo.png" width="90px" alt="We use the IIP Image Server"/>
+            </a>
+            <a  href="https://iiif.io/" >
+                <img src="/resources/images/iiif.png" width="90px" alt="Providing and resuing images with IIIF presentation API 2.0"/>
+            </a>
+            <a  href="https://www.zotero.org/groups/358366/ethiostudies/items" >
+                <img src="/resources/images/zotero_logo.png" width="90px" alt="All bibliography is managed with Zotero."/>
+            </a>
+            <a  href="https://github.com/BetaMasaheft" >
+                <img src="/resources/images/GitHub-Mark-120px-plus.png" width="90px" alt="Our data is all in GitHub!"/>
+            </a>
+            
+          </div>
+  <p class="w3-medium">Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+</footer>
+
+};
+
 
 declare function nav:footer (){ <footer class="row-fluid">
 

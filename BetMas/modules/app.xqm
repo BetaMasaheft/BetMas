@@ -165,6 +165,7 @@ declare function app:pdf-link($id) {
 declare function app:NbarNew($node as node()*, $model as map(*)){nav:barNew()};
 declare function app:searchhelpNew($node as node()*, $model as map(*)){nav:searchhelpNew()};
 declare function app:modalsNew($node as node()*, $model as map(*)){nav:modalsNew()};
+declare function app:footerNew($node as node()*, $model as map(*)){nav:footerNew()};
 
 declare function app:Nbar($node as node()*, $model as map(*)){nav:bar()};
 declare function app:searchhelp($node as node()*, $model as map(*)){nav:searchhelp()};
