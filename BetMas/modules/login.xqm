@@ -126,3 +126,33 @@ declare function locallogin:login(){
               </form>
               </li>
 }; 
+
+declare function locallogin:loginNew(){  
+ if(xmldb:get-current-user() = 'guest') then
+ 
+ <div class="w3-dropdown-hover w3-hide-small" id="logging">
+      <button class="w3-button" title="resources">Login <i class="fa fa-caret-down"></i></button>     
+      <div class="w3-dropdown-content w3-bar-block w3-card-4">
+      
+	<form method="post" class="w3-container" role="form" 
+	accept-charset="UTF-8" id="login-nav">
+                    <label for="user">User:</label>
+                            <input type="text" name="user" required="required" class="w3-input"/>
+                        
+                        <label for="password">Password:</label>
+                            <input type="password" name="password" class="w3-input"/>
+                        
+                            <button class="w3-button w3-small w3-red" type="submit">Login</button>
+                          		
+                </form>
+                </div>
+                </div>
+                else
+              <form method="post" action="" class="w3-bar-item  w3-hide-small" style="margin:0;padding:0" role="form" accept-charset="UTF-8" id="logout-nav">
+                
+              <button  class="w3-button w3-red" type="submit">Logout</button>
+              
+              <input value="true" name="logout" class="form-control" type="hidden"/>
+                        
+              </form>
+}; 

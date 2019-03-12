@@ -1,15 +1,28 @@
-<div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/newindex.html" data-template-at="content" class="w3-content" style="max-width:2000px;margin-top:46px">
-    
-    <div data-template="app:logging"/>
-<!--    intro-->
-    <div class="w3-container w3-center  w3-padding-64">
+<div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/newindex2.html" data-template-at="content" class="w3-content" style="max-width:2000px;margin-top:46px">
+   <div data-template="app:logging"/>
+<!--  cover  -->
+    <div class="w3-display-container w3-center" id="cover">
+        <img src="/iiif/Laurenziana/BML_009/BML_009-045.tif/pct:15,20,70,70/1000,/0/default.jpg" style="width:100%;opacity:0.8"/>
+        <div class="w3-display-middle w3-container"><!--
+            <p class="w3-wide w3-jumbo w3-margin-bottom" data-template="config:app-title"/> 
+            <br/>-->
+            <img src="resources/images/logo-color.png" alt="Beta maṣāḥǝft Project logo" id="logo" style="width:100%"/>
+        </div>
         
-        <img src="/resources/images/logo.png" alt="Beta maṣāḥǝft Project logo" id="logo"/> 
-        <h1 class="w3-wide w3-margin-bottom" data-template="config:app-title" id="head"/>
-        <br/>
+        <div class="w3-display-bottommiddle w3-container w3-center">
+            <a class="w3-button w3-dark-grey" href="#cover" onclick="w3_open()"><i class="fa fa-bars"/></a>
+            <a class="w3-button w3-dark-grey" href="#intro"><i class="fa fa-arrow-down"/></a>
+        </div>
+    </div>
+    
+        
+<!--    intro-->
+    <div class="w3-display-container w3-center  w3-padding-64 w3-white" id="intro" style="height:600px">
+        
        <div class="w3-container">
-           <div class="w3-half w3-margin-bottom " id="info">
+           <div class="w3-display-left w3-half w3-container w3-margin-bottom " id="info">
                <div class="w3-container">
+                   
                    <p class="w3-justify">The project 
                        <a target="_blank" href="https://www.betamasaheft.uni-hamburg.de/">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea (Schriftkultur des
             christlichen Äthiopiens und Eritreas: eine multimediale Forschungsumgebung)</a> is a long-term
@@ -24,24 +37,32 @@
         </p>
                    <p class="w3-justify">You are very welcome to join us and contribute to the digitization and digital description of the manuscript tradition of the Ethiopian and Eritrean Highlands. <a href="#contribute">See the section on contributing and reusing data below.</a></p>
                    
-                   <a class="w3-button w3-black w3-margin-bottom" href="javascript:void(0);" onclick="startIntroHome();">Take a tour of the website</a>
-                   <a class="w3-button w3-black w3-margin-bottom" href="https://www.betamasaheft.uni-hamburg.de/">Project website</a>
+                   <!--<a class="w3-button w3-black w3-margin-bottom" 
+                       href="javascript:void(0);" onclick="startIntroHome();">Take a tour of this page</a>-->
+                   <a class="w3-button w3-black w3-margin-bottom" 
+                       href="https://www.betamasaheft.uni-hamburg.de/">Institutional homepage</a>
                    <div class="w3-container">
                    
                    </div>
                </div>
         </div>
-           <div class="w3-half w3-margin-bottom" id="video">
-               <div class="w3-display-container w3-center">
-                   <iframe width="520" height="315" src="https://www.youtube.com/embed/bI950izCu2E" allowfullscreen="allowfullscreen"/>
-               </div>
+           <div class="w3-display-right w3-half w3-container w3-margin-bottom" id="video">
+              
+               <iframe style="width:80%;height:80%" src="https://www.youtube.com/embed/bI950izCu2E"/>
+               
         </div>
        </div>
+        
+        <div class="w3-display-bottommiddle w3-container w3-center">
+            <a class="w3-button w3-dark-grey" href="#cover" onclick="w3_open()"><i class="fa fa-bars"/></a>
+            <a class="w3-button w3-dark-grey" href="#cover"><i class="fa fa-arrow-up"/></a>
+            <a class="w3-button w3-dark-grey" href="#cover"><i class="fa fa-home"/></a>
+            <a class="w3-button w3-dark-grey" href="#manuscripts"><i class="fa fa-arrow-down"/></a>
+        </div>
     </div>
 
-<!--    manuscripts-->
-    
-    <div class="w3-display-container w3-center">
+<!--    manuscripts-->    
+    <div class="w3-display-container" id="manuscripts" >
         <img src="/iiif/Laurenziana/BML_009/BML_009-008.tif/pct:15,20,70,70/1000,/0/default.jpg" style="width:100%;opacity:0.8"/>
         <div class="w3-display-left w3-padding w3-col l6 m8 w3-red">
             <p>You might search for manuscripts in several ways.</p>
@@ -81,18 +102,18 @@
                     <a class="w3-button w3-black w3-margin-bottom" href="/manuscripts/viewer"><b>Images</b></a>
                 </div>
             </div>
-                
+            <p><a target="_blank" href="/availableImages.html">List of available images of manuscripts from Eritrea and Ethiopia</a></p>
             </div>
-        
+        <div class="w3-display-bottommiddle w3-container w3-center">
+            <a class="w3-button w3-dark-grey" href="#cover" onclick="w3_open()"><i class="fa fa-bars"/></a>
+                <a class="w3-button w3-dark-grey" href="#intro"><i class="fa fa-arrow-up"/></a>
+                <a class="w3-button w3-dark-grey" href="#cover"><i class="fa fa-home"/></a>
+                <a class="w3-button w3-dark-grey" href="#entities"><i class="fa fa-arrow-down"/></a>
+            </div>
     </div>
-<!--  list of available manuscripts online  -->
-    <div class="w3-container w3-center w3-padding-64 w3-red" style="width:100%" id="listMssImages">
-        <h2 class="w3-wide"><a target="_blank" href="/availableImages.html">List of available images of manuscripts from Eritrea and Ethiopia</a></h2>
-      
-    </div> 
    
-<!--    other entities-->
-    <div class="w3-container w3-padding-64 w3-center" id="entities">
+<!--    other entities--> 
+    <div class="w3-display-container w3-center  w3-padding-64 w3-white" id="entities" >
        
         <div class="w3-row">
             
@@ -122,19 +143,23 @@
             </div>            
             
         </div>
-    </div>
-    
-<!--    advanced search-->
-    
-    <div class="w3-container w3-center w3-padding-64 w3-black" style="width:100%" id="advanced">
-    <h2 class="w3-wide"><a class="w3-button w3-margin-bottom" href="/as.html">Click to go to the advanced search</a></h2>
+        <div class="w3-display-bottommiddle w3-container w3-center">
+            <a class="w3-button w3-dark-grey" href="#cover" onclick="w3_open()"><i class="fa fa-bars"/></a>
+            <a class="w3-button w3-dark-grey" href="#manuscripts"><i class="fa fa-arrow-up"/></a>
+            <a class="w3-button w3-dark-grey" href="#cover"><i class="fa fa-home"/></a>
+            <a class="w3-button w3-dark-grey" href="#furtherSearchOptions"><i class="fa fa-arrow-down"/></a>
+        </div>
     </div>
     
 <!--    Search options-->
-    <div class="w3-display-container w3-center" id="furtherSearchOptions">
+    <div class="w3-display-container w3-center" id="furtherSearchOptions" >
         <img src="/iiif/Laurenziana/BML_009/BML_009-016.tif/pct:5,20,90,70/1000,/0/default.jpg" style="width:100%;opacity:0.8"/>
           
         <div class="w3-display-left w3-padding w3-col l6 m8 w3-red">
+            <div class="w3-container ">
+                <h2 class="w3-wide">
+                    <a class="w3-button w3-margin-bottom w3-black" href="/as.html">Advanced search</a></h2>
+            </div>
             <p>We also offer a number of alternative ways to search.</p>
             <div class="w3-half w3-margin-bottom">
                 <div class="w3-container w3-white" style="height:300px">
@@ -146,7 +171,7 @@
                                 
                                 
                                 <a class="kb w3-button w3-dark-grey">
-                                        <i class="fa fa-keyboard-o" aria-hidden="true"/>
+                                        <i class="fa fa-keyboard" aria-hidden="true"/>
                                     </a>
                                 
                                 <a href="/as.html" title="advanced search" class="w3-button w3-dark-grey">
@@ -178,7 +203,8 @@
                                <label> Title</label>
                             
                                 
-                        <input placeholder="Start typing content of a title or part of an id here..." class="w3-input w3-border w3-margin-bottom" id="GoTo" list="gotohits" autocomplete="on"/>
+                        <input placeholder="Start typing content of a title or part of an id here..." 
+                            class="w3-input w3-border w3-margin-bottom" id="GoTo" autocomplete="on"/>
                         <select class="w3-select w3-margin-bottom" id="gotohits">
                                     
                                 </select>
@@ -196,68 +222,56 @@
                     </div>
                 </div>
             </div>
-            <div class="w3-quarter w3-margin-bottom">
-                 <div class="w3-container">
-                    <a class="w3-button w3-black w3-margin-bottom" href="/decorations">Decorations</a>
+                    <div class="w3-bar">
+                        <a class="w3-bar-item w3-button w3-black" href="/decorations">Decorations</a>
+                        <a class="w3-bar-item w3-button w3-black" href="/bindings">Bindings</a>
+                        <a class="w3-bar-item w3-button w3-black " href="/additions">Additions</a>
+                        <a class="w3-bar-item w3-button w3-black" href="/bibliography">Bibliography</a>
+                        <a class="w3-bar-item w3-button w3-black " href="/IndexPlaces">Index Places</a>
+                        <a class="w3-bar-item w3-button w3-black " href="/IndexPersons">Index Persons</a>
                 </div>
-            </div>
-            <div class="w3-quarter w3-margin-bottom">
-                <div class="w3-container">
-                    <a class="w3-button w3-black w3-margin-bottom" href="/bindings">Bindings</a>
-                </div>
-            </div>
-            <div class="w3-quarter w3-margin-bottom">
-                <div class="w3-container ">
-                    <a class="w3-button w3-black w3-margin-bottom" href="/additions">Additions</a>
-                </div>
-            </div>
-            <div class="w3-quarter w3-margin-bottom">
-                <div class="w3-container ">
-                    <a class="w3-button w3-black w3-margin-bottom" href="/bibliography">Bibliography</a>
-                </div>
-            </div>
-            <div class="w3-half w3-margin-bottom">
-                <div class="w3-container  ">
-                    <a class="w3-button w3-black w3-margin-bottom" href="/IndexPlaces">Index Places</a>
-                </div>
-            </div>
-            <div class="w3-half w3-margin-bottom">
-                <div class="w3-container ">
-                    <a class="w3-button w3-black w3-margin-bottom" href="/IndexPersons">Index Persons</a>
-                </div>
-            </div>
             
         </div>
-        
+        <div class="w3-display-bottommiddle w3-container w3-center">
+            <a class="w3-button w3-dark-grey" href="#cover" onclick="w3_open()"><i class="fa fa-bars"/></a>
+            <a class="w3-button w3-dark-grey" href="#entities"><i class="fa fa-arrow-up"/></a>
+            <a class="w3-button w3-dark-grey" href="#cover"><i class="fa fa-home"/></a>
+            <a class="w3-button w3-dark-grey" href="#DillParser"><i class="fa fa-arrow-down"/></a>
+        </div>
     </div>
     
     <!--    Dillmann and Parser-->
-    <div class="w3-container w3-padding-64 w3-center" id="DillParser">
+    <div class="w3-display-container w3-padding-64 w3-center" id="DillParser">
         
         <div class="w3-row">
             
             <div class="w3-half">
-                <img src="https://iiif.archivelab.org/iiif/lexiconlinguaeae00dilluoft$7/pct:5,15,100,40/400,/0/gray.jpg" alt="Works" style="width:45%" class="w3-circle w3-hover-opacity"/>
+                <a href="/Dillmann"><img src="https://iiif.archivelab.org/iiif/lexiconlinguaeae00dilluoft$7/pct:5,15,80,40/400,/0/gray.jpg" alt="Works" style="width:45%" class="w3-circle w3-hover-opacity w3-button"/>
+                </a>
                 <h3>Online Lexicon Linguae Aethiopicae</h3>
-                <a class="w3-button w3-black w3-margin-bottom" href="/Dillmann">Search Lexicon</a>
+                <a href="https://www.traces.uni-hamburg.de/"><img src="resources/images/traceslogo.png" width="120"/></a>
             </div>
             
             <div class="w3-half">
-                <img src="https://iiif.archivelab.org/iiif/EthiopicethiopianLanguageGrammarByAugustDillmann$3/pct:0,0,100,40/400,/0/gray.jpg" alt="Persons" style="width:45%" class="w3-circle w3-hover-opacity"/>
-                <h3>Gǝʿǝz Morphological Parser</h3>
-                <a class="w3-button w3-black w3-margin-bottom" href="/morpho">Go to Parser</a>
+                <a href="/morpho"><img src="https://iiif.archivelab.org/iiif/EthiopicethiopianLanguageGrammarByAugustDillmann$3/pct:0,0,100,50/400,/0/gray.jpg" alt="Persons" style="width:45%" class="w3-circle w3-hover-opacity w3-button"/>
+                </a><h3>Gǝʿǝz Morphological Parser</h3>
+                <a href="https://www.traces.uni-hamburg.de/"><img src="resources/images/traceslogo.png" width="120"/></a>
             </div>
                       
             
         </div>
+    
+        <div class="w3-display-bottommiddle w3-container w3-center">
+            <a class="w3-button w3-dark-grey" href="#cover" onclick="w3_open()"><i class="fa fa-bars"/></a>
+            <a class="w3-button w3-dark-grey" href="#furtherSearchOptions"><i class="fa fa-arrow-up"/></a>
+            <a class="w3-button w3-dark-grey" href="#cover"><i class="fa fa-home"/></a>
+            <a class="w3-button w3-dark-grey" href="#maps"><i class="fa fa-arrow-down"/></a>
+        </div>
     </div>
 
-    <!--    maps -->
-    <div class="w3-display-container w3-center w3-padding-64" style="width: 100%;         height: 600px;" id="map"/>
-   
     <!--    contribute-->
-    <div class="w3-container w3-center  w3-padding-64 w3-red" style="width:100%" id="contribute">
-        <div class="w3-half w3-margin-bottom">
+    <div class="w3-display-container w3-center  w3-padding-64 w3-red"   id="contribute" style="height:600px">
+            <div class="w3-half w3-display-left w3-margin-bottom">
             <h2>Join us and contribute</h2>
         
             <div class="w3-container"><p class="w3-justify">
@@ -273,57 +287,71 @@
                 <a class="w3-button w3-dark-grey" target="_blank" href="mailto:pietro.liuzzo@uni-hamburg.de">
                     <i class="fa fa-envelope"/>
                 </a>
+                
             </div>
-        </div>
-        <div class="w3-half w3-margin-bottom">
+                <div class="w3-container w3-margin-bottom w3-padding-64">
+                    <a class="w3-button w3-black" href="/Guidelines">Beta maṣāḥǝft Guidelines.</a>
+                </div>
+                
+                
+            </div>
+        
+        <div class="w3-half w3-display-right w3-margin-bottom">
             <h2>Reuse the data</h2>
             <div class="w3-container">
         <p class="w3-justify">
             The data is available to you for reuse via this website, in the formats you can download from the website and also
             in several other formats.
-        </p>
-        <div class="w3-quarter w3-margin-bottom">
-            <div class="w3-container">
-                <a class="w3-button w3-black w3-margin-bottom" href="/apidoc.html">Data API</a>
-            </div>
-        </div>
-        <div class="w3-quarter w3-margin-bottom">
-            <div class="w3-container">
-                <a class="w3-button w3-black w3-margin-bottom" href="/sparql">SPARQL Endpoint</a>
-            </div>
-        </div>
-        <div class="w3-quarter w3-margin-bottom">
-            <div class="w3-container ">
-                <a class="w3-button w3-black w3-margin-bottom" href="/xpath">XPath search</a>
-            </div>
-        </div>
-        <div class="w3-quarter w3-margin-bottom">
-            <div class="w3-container ">
-                <a class="w3-button w3-black w3-margin-bottom" href="/lod.html">LOD documentation</a>
-            </div>
-        </div>
-        </div>
-        </div>
-        <a class="w3-button w3-dark-grey" href="#logo">Back to top
-        </a>
-    </div>
-     <!--    count-->
-    <div class="w3-container w3-center w3-padding-64 w3-black" style="width:100%" id="countmodalall">
-        <h2 class="w3-wide"><a class="w3-button w3-margin-bottom" onclick="document.getElementById('countModal').style.display='block'">Beta maṣāḥǝft in Numbers</a></h2>
         
-        <div id="countModal" class="w3-modal">
-            <div class="w3-modal-content">
-                <header class="w3-container w3-teal w3-red"> 
-                    <span onclick="document.getElementById('countModal').style.display='none'" class="w3-button w3-display-topright"><i class="fa fa-times"/></span>
-                    <h2>Beta maṣāḥǝft in Numbers</h2>
-                </header>
+                </p>   
                 
-                <div class="w3-container w3-white" id="count"/>
+        <div class="w3-bar">
+                <a class="w3-bar-item w3-button w3-black w3-margin-bottom" href="/apidoc.html">Data API</a>
+            <a class="w3-bar-item w3-button w3-black w3-margin-bottom" href="/sparql">SPARQL Endpoint</a>
+            <a class="w3-bar-item w3-button w3-black w3-margin-bottom" href="/xpath">XPath search</a>
+            <a class="w3-bar-item w3-button w3-black w3-margin-bottom" href="/lod.html">LOD documentation</a>
+            
         </div>
+        </div>
+            
+            <div class="w3-container w3-margin-bottom w3-padding-64">
+                <a onclick="document.getElementById('countModal').style.display='block'" class="w3-button w3-black">Beta maṣāḥǝft in Numbers</a>
+                <div id="countModal" class="w3-modal">
+                    <div class="w3-modal-content">
+                        <header class="w3-container w3-red"> 
+                            <span onclick="document.getElementById('countModal').style.display='none'" class="w3-button w3-display-topright"><i class="fa fa-times"/></span>
+                            <h2>Beta maṣāḥǝft in Numbers</h2>
+                        </header>
+                        
+                        <div class="w3-container w3-white" id="count"/>
+                    </div>
+                </div>
+            </div>
         </div>
         
+        
+            <div class="w3-display-bottommiddle w3-container w3-center">
+                
+            <a class="w3-button w3-dark-grey" href="#cover" onclick="w3_open()"><i class="fa fa-bars"/></a>
+            <a class="w3-button w3-dark-grey" href="#DillParser"><i class="fa fa-arrow-up"/></a>
+            <a class="w3-button w3-dark-grey" href="#cover"><i class="fa fa-home"/></a>
+            <a class="w3-button w3-dark-grey" href="#maps"><i class="fa fa-arrow-down"/></a>
+        </div>
+      
     </div>
+    
+    <!--    maps -->
+    <div class="w3-display-container w3-center w3-padding-64" id="maps" style="height:700px">
+        <div id="map" class="w3-container w3-display-middle" style="width: 80%;  height:600px;"/>
+        <div class="w3-display-bottommiddle w3-container w3-center">
+            <a class="w3-button w3-dark-grey" onclick="w3_open()"><i class="fa fa-bars"/></a>
+            <a class="w3-button w3-dark-grey" href="#contribute"><i class="fa fa-arrow-up"/></a>
+            <a class="w3-button w3-dark-grey" href="#cover"><i class="fa fa-home"/></a>
+        </div>
+    </div>
+    
+    
     <!-- End Page Content -->
-
+    
     
 </div>

@@ -1693,6 +1693,83 @@ function app:paginate($node as node(), $model as map(*), $start as xs:int, $per-
 
 
 
+declare
+    %templates:wrap
+    %templates:default('start', 1)
+    %templates:default("per-page", 20)
+    %templates:default("min-hits", 0)
+    %templates:default("max-pages", 20)
+function app:paginateNew($node as node(), $model as map(*), $start as xs:int, $per-page as xs:int, $min-hits as xs:int,
+    $max-pages as xs:int) {
+        
+    if ($min-hits < 0 or count($model("hits")) >= $min-hits) then
+        let $types := if($model("type") = 'bibliography' or $model("type") = 'indexes')
+        then(count($model("hits"))) 
+        else
+        for $x in $model("hits") 
+                                  group by $t := root($x)/t:TEI/@type 
+                                return 
+                                count($x)
+        let $count := xs:integer(ceiling(max($types)) div $per-page) + 1
+        let $middle := ($max-pages + 1) idiv 2
+        let $params :=
+                string-join(
+                    for $param in request:get-parameter-names()
+                    for $value in request:get-parameter($param, ())
+                    return
+                    if ($param = 'start') then ()
+                    else if ($param = 'collection') then ()
+                    else
+                        $param || "=" || $value,
+                    "&amp;"
+                )
+        return (
+        
+        (:           backwarding arrows, disabled if not available:)
+            if ($start = 1) then (
+                    <a class="w3-button w3-disabled"><i class="fa fa-fast-backward"></i></a>,
+               
+                    <a class="w3-button w3-disabled"><i class="fa fa-backward"></i></a>
+                
+            ) else (
+                    <a href="?{$params}&amp;start=1" class="w3-button "><i class="fa fa-fast-backward"></i></a>
+                ,
+                    <a href="?{$params}&amp;start={max( ($start - $per-page, 1 ) ) }" class="w3-button "><i class="fa fa-backward"></i></a>
+                
+            ),
+            
+(:            numbers:)
+            let $startPage := xs:integer(ceiling($start div $per-page))
+            let $lowerBound := max(($startPage - ($max-pages idiv 2), 1))
+            let $upperBound := min(($lowerBound + $max-pages - 1, $count))
+            let $lowerBound := max(($upperBound - $max-pages + 1, 1))
+            for $i in $lowerBound to $upperBound
+            return
+                if ($i = ceiling($start div $per-page)) then
+                    <a class="w3-button" href="?{$params}&amp;start={max( (($i - 1) * $per-page + 1, 1) )}">{$i}</a>
+                else
+                    <a class="w3-button" href="?{$params}&amp;start={max( (($i - 1) * $per-page + 1, 1)) }">{$i}</a>,
+           
+           
+           
+(:           forwarding arrows, disabled if not available:)
+           if ($start + $per-page < count($model("hits"))) then (
+                
+                    <a  class="w3-button" href="?{$params}&amp;start={$start + $per-page}"><i class="fa fa-forward"></i></a>
+                ,
+                    <a  class="w3-button" href="?{$params}&amp;start={max( (($count - 1) * $per-page + 1, 1))}"><i class="fa fa-fast-forward"></i></a>
+                
+            ) else (
+                <a class="w3-button w3-disabled"><i class="fa fa-forward"></i></a>,
+                <a class="w3-button w3-disabled"><i class="fa fa-fast-forward"></i></a>
+            )
+        ) else
+            ()
+};
+
+
+
+
 declare    
 %templates:wrap
     %templates:default('start', 1)
@@ -1792,14 +1869,12 @@ declare
         let $root := root($text)
         let $id := data($root/t:TEI/@xml:id)
          return
-            <div class="row reference">
-                <div class="col-md-1"><span class="number">{$start + $p - 1}</span></div>
-                        <div class="col-md-3"><a href="/{$id}">{titles:printTitleID($id)}</a> ({$id})</div>
-                        <div class="col-md-5"></div>
-                        
-                        <div class="col-md-1">{data($text/ancestor::t:*[@xml:id][1]/@xml:id)}</div>
-                        <div class="col-md-2"> <code>{$text/name()}</code></div>
-                    </div>
+            <div class="w3-row  w3-margin-bottom">
+                <div class="w3-col w3-container" style="width:10%"><span class="number">{$start + $p - 1}</span></div>
+                <div  class="w3-col w3-container" style="width:50%"><a href="/{$id}">{titles:printTitleID($id)}</a> ({$id})</div>
+                <div  class="w3-col w3-container " style="width:20%">{data($text/ancestor::t:*[@xml:id][1]/@xml:id)}</div>
+                <div  class="w3-col w3-container" style="width:20%"> <code>{$text/name()}</code></div>
+           </div>
        
                 
         

@@ -283,9 +283,8 @@ return
 (<div class="w3-top">
   <div class="w3-bar w3-black w3-card">
     <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-    {if(ends-with($url, 'BetMas/')) then locallogin:login() else ()
-(:login is possible only from homepage and user name is displayed only on templating pages, not on the rest modules:)
-}
+  {   locallogin:loginNew() }
+                
 <div class="w3-dropdown-hover w3-hide-small" id="about">
       <button class="w3-padding-large w3-button" title="about">
       {if(string-length($url) gt 1) then ('Hi ' || xmldb:get-current-user() || '!') else ('Home')}
@@ -365,6 +364,8 @@ return
      data-toggle="tooltip" data-placement="bottom" title="Gǝʿǝz Morphological Parser (TraCES project)">Parser</a>
     <a href="/Dillmann" class="w3-bar-item w3-button w3-padding-large w3-hide-small" 
      data-toggle="tooltip" data-placement="bottom" title="Online Lexicon Linguae Aethiopicae (TraCES project)">Online Lexicon</a>
+    
+               {nav:newentryNew()}
    <a href="#" class="w3-padding-large w3-hover-red w3-hide-small w3-right"
                                     onclick="document.getElementById('versionInfo').style.display='block'">
                                         <i class="fa fa-info-circle"/>
@@ -591,6 +592,24 @@ return
             </div>
       </nav>};
 
+declare function nav:newentryNew(){
+        if(contains(sm:get-user-groups(xmldb:get-current-user()), 'Editors')) then
+
+         <form  action="/newentry.html" class="w3-bar-item w3-container" style="margin:0;padding:0" role="tag">
+           <select  name="collection" required="required" class="w3-select w3-twothird">
+                 <option value="manuscripts">manuscript</option>
+                 <option value="persons">person</option>
+                 <option value="works">work</option>
+                 <option value="narratives">narrative</option>
+                 <option value="places">place</option>
+                 <option value="authority-files">authority file</option>
+                 <option value="institutions">institution</option>
+                 </select>
+              <button type="submit" class="w3-button w3-red  w3-third">new</button>
+              </form>
+                        else ()
+                        };
+                        
 declare function nav:newentry(){
         if(contains(sm:get-user-groups(xmldb:get-current-user()), 'Editors')) then
 
@@ -630,14 +649,14 @@ declare function nav:footerNew(){
              <a class="poweredby" 
              property="http://purl.org/dc/elements/1.1/publisher" 
              href="http://www.awhamburg.de/" target="_blank">
-                <img src="/BetMas/resources/images/logo-adw.png" 
+                <img src="resources/images/logo-adw.png" 
                 alt="Akademie der Wissenschaften in Hamburg logo"/>
             </a>
             <a class="poweredby" 
             property="http://purl.org/dc/elements/1.1/publisher" 
             href="https://www.betamasaheft.uni-hamburg.de/" 
             target="_blank">
-                <img src="/resources/images/logo.png" 
+                <img src="resources/images/logo.png" 
                 alt="Beta maṣāḥǝft Project logo"/>
             </a>
             <a class="poweredby" 
@@ -647,22 +666,22 @@ declare function nav:footerNew(){
                 alt="Powered by eXist-db"/>
             </a>
             <a class="poweredby" href="http://www.tei-c.org/">
-                <img src="/resources/images/We-use-TEI.png" alt="We use TEI"/>
+                <img src="resources/images/We-use-TEI.png" alt="We use TEI"/>
             </a>
             <a class="poweredby" href="http://commons.pelagios.org/">
-                <img src="/resources/images/Pelagios-logo.png" alt="Proud members of the Linked Pasts Network"/>
+                <img src="resources/images/Pelagios-logo.png" alt="Proud members of the Linked Pasts Network"/>
             </a>
             <a  href="https://iipimage.sourceforge.io/" >
-                <img src="/resources/images/iip_logo.png" width="90px" alt="We use the IIP Image Server"/>
+                <img src="resources/images/iip_logo.png" width="90px" alt="We use the IIP Image Server"/>
             </a>
             <a  href="https://iiif.io/" >
-                <img src="/resources/images/iiif.png" width="90px" alt="Providing and resuing images with IIIF presentation API 2.0"/>
+                <img src="resources/images/iiif.png" width="90px" alt="Providing and resuing images with IIIF presentation API 2.0"/>
             </a>
             <a  href="https://www.zotero.org/groups/358366/ethiostudies/items" >
-                <img src="/resources/images/zotero_logo.png" width="90px" alt="All bibliography is managed with Zotero."/>
+                <img src="resources/images/zotero_logo.png" width="90px" alt="All bibliography is managed with Zotero."/>
             </a>
             <a  href="https://github.com/BetaMasaheft" >
-                <img src="/resources/images/GitHub-Mark-120px-plus.png" width="90px" alt="Our data is all in GitHub!"/>
+                <img src="resources/images/GitHub-Mark-120px-plus.png" width="90px" alt="Our data is all in GitHub!"/>
             </a>
             
           </div>

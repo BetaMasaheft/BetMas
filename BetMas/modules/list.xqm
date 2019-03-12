@@ -35,6 +35,7 @@ declare namespace http = "http://expath.org/ns/http-client";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json = "http://www.json.org";
 
+declare variable $list:catalogues := doc(concat($config:app-root, '/catalogues.xml'))//t:list;
 declare variable $list:app-meta := <meta  xmlns="http://www.w3.org/1999/xhtml" name="description" content="{$config:repo-descriptor/repo:description/text()}"/>,
     for $genauthor in $config:repo-descriptor/repo:author
     return
@@ -1213,14 +1214,6 @@ function list:getcatalogues() {
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         {$list:app-meta}
 {apprest:scriptStyle()}
-<link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="resources/css/mapbox.css"/>
-        <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="resources/css/leaflet.css"/>
-        <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="resources/css/leaflet.fullscreen.css"/>
-        <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="resources/css/leaflet-search.css"/>
-       <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"/>
-        <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/js/mapbox.js"/>
-        <script  xmlns="http://www.w3.org/1999/xhtml"type="text/javascript" src="resources/js/Leaflet.fullscreen.min.js"/>
-        <script  xmlns="http://www.w3.org/1999/xhtml"type="text/javascript" src="resources/js/leaflet-search.js"/>
 
     </head>
     <body id="body">
@@ -1235,11 +1228,15 @@ function list:getcatalogues() {
     {
     let $cats := $config:collection-rootMS//t:listBibl[@type='catalogue']
    for $catalogue in distinct-values($cats//t:ptr/@target)
+   let $itemID := replace($catalogue, ':','_')
    let $zoTag := substring-after($catalogue, 'bm:')
    let $count := count($cats//t:ptr[@target=$catalogue])
 	let $xml-url := concat('https://api.zotero.org/groups/358366/items?&amp;tag=', $catalogue, '&amp;format=bib&amp;locale=en-GB&amp;style=hiob-ludolf-centre-for-ethiopian-studies')
-let $data := httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)
-order by $data
+let $data := 
+ if($list:catalogues//t:item[@xml:id = $itemID]) 
+ then <span n="{count($list:catalogues//t:item[@xml:id = $itemID]/preceding-sibling::t:item) +1}">{$list:catalogues//t:item[@xml:id = $itemID]/node() }</span>
+ else  <span n="new">{httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)}</span>
+order by $data/@n
 return
     <tr>
     <td><a href="/catalogues/{$zoTag}/list" class="lead">{$data}</a></td>
@@ -1401,8 +1398,12 @@ if($prefixedcatID = $catalogues) then (
         {nav:searchhelp()}
        <div class="col-md-12">
 
-      <h1>{let $xml-url := concat('https://api.zotero.org/groups/358366/items?&amp;tag=', $prefixedcatID, '&amp;format=bib&amp;locale=en-GB&amp;style=hiob-ludolf-centre-for-ethiopian-studies')
-let $data := httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)
+      <h1>{
+      let $itemID := replace($prefixedcatID, ':','_')
+      let $xml-url := concat('https://api.zotero.org/groups/358366/items?&amp;tag=', $prefixedcatID, '&amp;format=bib&amp;locale=en-GB&amp;style=hiob-ludolf-centre-for-ethiopian-studies')
+let $data :=  if($list:catalogues//t:item[@xml:id = $itemID]) 
+ then <span n="{count($list:catalogues//t:item[@xml:id = $itemID]/preceding-sibling::t:item) +1}">{$list:catalogues//t:item[@xml:id = $itemID]/node() }</span>
+ else  <span n="new">{httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)}</span>
 return $data
 }</h1>
 
