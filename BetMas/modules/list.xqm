@@ -275,7 +275,7 @@ $restorations as xs:string* ,
 $country as xs:string* ,
 $settlement as xs:string* ,
 $prms as xs:string*) {
-let $c := '/db/apps/BetMas/data/' || $collection
+let $c := $config:data-root||'/' || $collection
 let $log := log:add-log-message('/'||$collection||'/list', xmldb:get-current-user(), 'list')
 let $Cmap := map {'type':= 'collection', 'name' := $collection, 'path' := $c}
 let $parameters :=
@@ -663,7 +663,7 @@ $restorations as xs:string* ,
 $country as xs:string* ,
 $settlement as xs:string* ,
 $prms as xs:string*) {
-let $c := '/db/apps/BetMas/data/'
+let $c := $config:data-root || '/'
 let $log := log:add-log-message('/'||'manuscripts'||'/list', xmldb:get-current-user(), 'list')
 let $Cmap := map {'type':= 'collection', 'name' := 'manuscripts', 'path' := $c}
 let $parameters :=
@@ -856,7 +856,7 @@ $prms as xs:string*,
 $mainname as xs:string*) {
 
 (:the file for that institution:)
-let $repos := '/db/apps/BetMas/data/institutions/'
+let $repos := $config:data-rootIn||'/'
 let $log := log:add-log-message('/manuscripts/'||$repoID||'/list', xmldb:get-current-user(), 'list')
 let $Cmap := map {'type':= 'repo', 'name' := $repoID, 'path' := $repos}
 let $parameters := map{'key':=$keyword,
@@ -1091,7 +1091,7 @@ $prms as xs:string*,
 $mainname as xs:string*) {
 
 (:the file for that institution:)
-let $repos := '/db/apps/BetMas/data/institutions/'
+let $repos := $config:data-rootIn||'/'
 let $log := log:add-log-message('/manuscripts/'||$repoID||'/list', xmldb:get-current-user(), 'list')
 let $Cmap := map {'type':= 'repo', 'name' := $repoID, 'path' := $repos}
 let $parameters := map{'key':=$keyword,

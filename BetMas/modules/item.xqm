@@ -78,7 +78,7 @@ return
 <div xmlns="http://www.w3.org/1999/xhtml" class="row-fluid full-width-tabs" id="options">
 <ul  class="nav nav-tabs">
 <li  class="span_full_width" data-toggle="tooltip" data-placement="bottom" title="Not sure how to do this? Have a look at the Beta maṣāḥǝft Guidelines from the home menu!"><a target="_blank" class="btn btn-info" 
-    href="https://github.com/BetaMasaheft/{replace(replace(base-uri($this), '/db/apps/BetMas/data/', ''), $collection, concat($collection, '/blob/master'))}">Edit</a>
+    href="https://github.com/BetaMasaheft/{replace(replace(base-uri($this), '/db/apps/BetMasData/', ''), $collection, concat($collection, '/blob/master'))}">Edit</a>
     </li>
 <li  class="span_full_width" data-toggle="tooltip" data-placement="bottom" title="Click here to hide or show again the little arrows and small left pointing hands in this page."><a class="btn btn-warning" id="toggleHands">Hide/show pointers</a></li>
             

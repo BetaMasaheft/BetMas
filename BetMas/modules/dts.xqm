@@ -1143,7 +1143,7 @@ declare
 %rest:path("/BetMas/api/dts/collections/{$id}")
 %output:method("json")
 function dts:CollectionsID($id as xs:string*) {
-    let $login := xmldb:login('/db/apps/BetMas/data', $config:ADMIN, $config:ppw)
+    let $login := xmldb:login($config:data-root, $config:ADMIN, $config:ppw)
     return
   
         ($config:response200Json,

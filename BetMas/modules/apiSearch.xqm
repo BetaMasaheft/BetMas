@@ -65,7 +65,7 @@ if ($q = '' or $q = ' ' or $element = '') then (<json:value>
             </json:value>
         </json:value>) else
 let $log := log:add-log-message('/api/kwicsearch?q=' || $q, xmldb:get-current-user(), 'REST')
-    let $login := xmldb:login('/db/apps/BetMas/data', $config:ADMIN, $config:ppw)
+    let $login := xmldb:login($config:data-root, $config:ADMIN, $config:ppw)
     
   let $elements : =
      for $e in $element
@@ -156,7 +156,7 @@ if ($q = '' or $q = ' ' or $element = '') then (<json:value>
             </json:value>
         </json:value>) else
 let $log := log:add-log-message('/api/search?q=' || $q, xmldb:get-current-user(), 'REST')
-    let $login := xmldb:login('/db/apps/BetMas/data', $config:ADMIN, $config:ppw)
+    let $login := xmldb:login($config:data-root, $config:ADMIN, $config:ppw)
     let $SearchOptions :=
     <options>
         <default-operator>or</default-operator>

@@ -32,7 +32,7 @@ import module namespace validation = "http://exist-db.org/xquery/validation";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare option exist:serialize "method=xml media-type=text/xml indent=yes";
 
-declare variable $gitsync:taxonomy := doc('/db/apps/BetMas/data/authority-files/taxonomy.xml');
+declare variable $gitsync:taxonomy := doc(concat($config:data-rootA,'/taxonomy.xml'));
 (:~
  : Recursively creates new collections if necessary. 
  : @param $uri url to resource being added to db 
@@ -112,12 +112,12 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
                     let $stored-file := doc($collection-uri || '/' || $file-name)
                let $rdf := transform:transform($stored-file, 'xmldb:exist:///db/apps/BetMas/rdfxslt/data2rdf.xsl', ())
                let $rdffilename := replace($file-name, '.xml', '.rdf')
-               let $collectionName := substring-after($data-collection, '/db/apps/BetMas/data/')
+               let $collectionName := substring-after($data-collection, '/db/apps/BetMasData/')
                return
                      xmldb:store(concat('/db/rdf/', $collectionName), $rdffilename, $rdf),
                      if (ends-with($file-name, '.xml')) then (
                      let $Stfile := doc($collection-uri || '/' || $file-name)
-                     let $collectionName := substring-after($data-collection, '/db/apps/BetMas/data/')
+                     let $collectionName := substring-after($data-collection, '/db/apps/BetMasData/')
                      let $stored-fileID := $Stfile/t:TEI/@xml:id/string()
                      let $filename := substring-before($file-name, '.xml')
                      let $allids := for $xmlid in $Stfile//@xml:id return string($xmlid)
@@ -222,14 +222,14 @@ declare function gitsync:do-add($commits, $contents-url as xs:string?, $data-col
                     ,
                     let $rdf := transform:transform($stored-file, 'xmldb:exist:///db/apps/BetMas/rdfxslt/data2rdf.xsl', ())
                let $rdffilename := replace($file-name, '.xml', '.rdf')
-                let $collectionName := substring-after($data-collection, '/db/apps/BetMas/data/')
+                let $collectionName := substring-after($data-collection, '/db/apps/BetMasData/')
                return
                      xmldb:store(concat('/db/rdf/', $collectionName), $rdffilename, $rdf)
                      ,
                 if (ends-with($file-name, '.xml')) then (
                      let $stored-fileID := $stored-file/t:TEI/@xml:id/string()
                      let $filename := substring-before($file-name, '.xml')
-                     let $collectionName := substring-after($data-collection, '/db/apps/BetMas/data/')
+                     let $collectionName := substring-after($data-collection, '/db/apps/BetMasData/')
                      let $allids := for $xmlid in $stored-file//@xml:id return string($xmlid)
                      let $taxonomy := for $key in $gitsync:taxonomy//t:catDesc/text() return lower-case($key)
                      return

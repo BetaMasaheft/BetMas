@@ -326,7 +326,7 @@ declare
 function api:get-othertext($id as xs:string, $SUBid as xs:string, $element as xs:string*) {
 
 let $log := log:add-log-message('/api/otherMssText/' || $id || '/' || $SUBid, xmldb:get-current-user(), 'REST')  
-  let $login := xmldb:login('/db/apps/BetMas/data', $config:ADMIN, $config:ppw)
+  let $login := xmldb:login($config:data-root, $config:ADMIN, $config:ppw)
     return
         
          ( $api:response200XML,
@@ -397,7 +397,7 @@ declare
 function api:get-workXML($id as xs:string) {
 
     let $log := log:add-log-message('/api/xml/' || $id, xmldb:get-current-user(), 'REST')
-    let $login := xmldb:login('/db/apps/BetMas/data', $config:ADMIN, $config:ppw)
+    let $login := xmldb:login($config:data-root, $config:ADMIN, $config:ppw)
     return
         
         ($api:response200XML,
@@ -443,7 +443,7 @@ declare
 %test:arg('id','LIT1367Exodus') %test:assertXPath("//t:text")
 function api:get-tei-by-ID($id as xs:string) {
     let $log := log:add-log-message('/api/' || $id || '/tei', xmldb:get-current-user(), 'REST')
-    let $login := xmldb:login('/db/apps/BetMas/data', 'Pietro', 'Hdt7.10')
+    let $login := xmldb:login($config:data-root, $config:ADMIN, $config:ppw)
     return
         ($api:response200XML,
         api:get-tei-rec-by-ID($id)
@@ -458,7 +458,7 @@ declare
 function api:get-tei2json-by-ID($id as xs:string) {
     
     let $log := log:add-log-message('/api/' || $id || '/json', xmldb:get-current-user(), 'REST')
-    let $login := xmldb:login('/db/apps/BetMas/data', 'Pietro', 'Hdt7.10')
+    let $login := xmldb:login($config:data-root, $config:ADMIN, $config:ppw)
     return
         ($api:response200Json,
         <json:value>{api:get-tei-rec-by-ID($id)}</json:value>

@@ -202,7 +202,7 @@ declare variable $config:app-root :=
 
 declare variable $config:app-title := "Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea" ;
 declare variable $config:xslt-root := $config:app-root || "/xslt";
-declare variable $config:data-root := $config:app-root || "/data";
+declare variable $config:data-root := "/db/apps/BetMasData";
 declare variable $config:schema-root := $config:app-root || "/schema";
 declare variable $config:data-rootMS := $config:data-root || "/manuscripts";
 declare variable $config:data-rootN := $config:data-root || "/narratives";
@@ -211,6 +211,7 @@ declare variable $config:data-rootPl := $config:data-root || "/places";
 declare variable $config:data-rootPr := $config:data-root || "/persons";
 declare variable $config:data-rootIn := $config:data-root || "/institutions";
 declare variable $config:data-rootA := $config:data-root || "/authority-files";
+declare variable $config:data-rootCh := $config:data-root || "/Chojnacki";
 declare variable $config:data-rootTraces := $config:app-root || "/traces";
 
 declare variable $config:collection-root := collection($config:data-root );
@@ -221,6 +222,7 @@ declare variable $config:collection-rootPl := collection($config:data-rootPl);
 declare variable $config:collection-rootPr := collection($config:data-rootPr);
 declare variable $config:collection-rootIn := collection($config:data-rootIn);
 declare variable $config:collection-rootA := collection($config:data-rootA);
+declare variable $config:collection-rootCh := collection($config:data-rootCh);
 declare variable $config:collection-rootTraces := collection($config:data-rootTraces);
 declare variable $config:collection-rootWN := collection($config:data-rootW, $config:data-rootN);
 declare variable $config:collection-rootPlIn := collection($config:data-rootPl,$config:data-rootIn);

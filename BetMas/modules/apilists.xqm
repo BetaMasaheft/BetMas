@@ -36,7 +36,7 @@ function apiL:collectionJSON($collection as xs:string*, $start as xs:integer*, $
     
 let $log := log:add-log-message('/api/'||$collection||'/list/json', xmldb:get-current-user(), 'REST')
     (: logs into the collection :)
-    let $login := xmldb:login('/db/apps/BetMas/data', $config:ADMIN, $config:ppw)
+    let $login := xmldb:login($config:data-root, $config:ADMIN, $config:ppw)
     return
          ( $config:response200Json,
     
@@ -247,7 +247,7 @@ function apiL:listRepoJSON($repo as xs:string*) {
     
 let $log := log:add-log-message('/api/manuscripts/'||$repo||'/list/ids/json', xmldb:get-current-user(), 'REST')
     (: logs into the collection :)
-    let $login := xmldb:login('/db/apps/BetMas/data', $config:ADMIN, $config:ppw)
+    let $login := xmldb:login($config:data-root, $config:ADMIN, $config:ppw)
     return
          ( $config:response200Json,
     let $msfromrepo := $config:collection-rootMS//t:TEI[descendant::t:repository[@ref = $repo]]
@@ -276,7 +276,7 @@ function apiL:collection($collection as xs:string*, $start as xs:integer*, $perp
     if ($perpage gt 100) then ($config:response200XML, <info>Try a lower value for the parameter perpage. Maximum is 100.</info>) else
 let $log := log:add-log-message('/api/' || $collection || '/list', xmldb:get-current-user(), 'REST')
     (: logs into the collection :)
-    let $login := xmldb:login('/db/apps/BetMas/data', $config:ADMIN, $config:ppw)
+    let $login := xmldb:login($config:data-root, $config:ADMIN, $config:ppw)
     return
         ( $config:response200XML,
     

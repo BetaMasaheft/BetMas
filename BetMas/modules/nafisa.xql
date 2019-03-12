@@ -102,7 +102,7 @@ return
 {
         for $ms in $mss
         return
-    try {    let $manuscript := collection('/db/apps/BetMas/data/manuscripts')//id($ms)
+    try {    let $manuscript := $config:collection-rootMS//id($ms)
         let $msid := string($manuscript/@xml:id)
         let $minnotBefore := min($manuscript//@notBefore)
         let $maxnotAfter := min($manuscript//@notAfter)
@@ -162,7 +162,7 @@ list distinct counted kinds of title for each manuscript</div>
         </tr>
         </thead>
         <tbody>{
-        let $mssfiles := for $ms in $mss return collection('/db/apps/BetMas/data/manuscripts')//id($ms)
+        let $mssfiles := for $ms in $mss return $config:collection-rootMS//id($ms)
         let $titledstuff := ($mssfiles//t:msItem/t:*[@subtype]/@subtype, $mssfiles//t:msItem/t:*[@type]/@type)
         let $KindsOfTitle := distinct-values($titledstuff)
         for $titleKind in $KindsOfTitle[. != 'complete'][. != 'incomplete'][. != '']
@@ -171,7 +171,7 @@ list distinct counted kinds of title for each manuscript</div>
         <td>{$titleKind}</td>
         <td>{count($mssfiles//t:*[@subtype = $titleKind or @type = $titleKind])}</td>
         {for $ms in $mss 
-        let $manuscript := collection('/db/apps/BetMas/data/manuscripts')//id($ms)
+        let $manuscript := $config:collection-rootMS//id($ms)
         let $msCount := count($manuscript//t:*[@subtype = $titleKind or @type = $titleKind])
         return 
         <td>
@@ -201,7 +201,7 @@ return
 ,
 <div class="whichTextualUnitsHaveTitles col-md-12">{
 
-        let $manuscripts := for $ms in $mss return collection('/db/apps/BetMas/data/manuscripts')//id($ms)
+        let $manuscripts := for $ms in $mss return $config:collection-rootMS//id($ms)
        let $identifiedTU := distinct-values($manuscripts//t:msItem/t:title/@ref)
        return
        (<div class="alert alert-info col-md-12"><p>There are {count($identifiedTU)} identified Textual Units in the manuscripts.</p></div>,
@@ -219,7 +219,7 @@ return
        <tr>
        <td>{titles:printTitleMainID($TU)}</td>
        {for $ms in $mss 
-       let $manuscriptFile := collection('/db/apps/BetMas/data/manuscripts')//id($ms)
+       let $manuscriptFile := $config:collection-rootMS//id($ms)
        return 
        <td>
        {
@@ -249,7 +249,7 @@ return
 ,
 <div class="whichTextualUnitsHaveSupplications col-md-12">{
 
-        let $manuscripts := for $ms in $mss return collection('/db/apps/BetMas/data/manuscripts')//id($ms)
+        let $manuscripts := for $ms in $mss return $config:collection-rootMS//id($ms)
        let $identifiedTU := distinct-values($manuscripts//t:msItem/t:title/@ref)
        return
        (<div class="alert alert-info col-md-12"><p>There are {count($identifiedTU)} identified Textual Units in the manuscripts.</p></div>,
@@ -267,7 +267,7 @@ return
        <tr>
        <td>{titles:printTitleMainID($TU)}</td>
        {for $ms in $mss 
-       let $manuscriptFile := collection('/db/apps/BetMas/data/manuscripts')//id($ms)
+       let $manuscriptFile := $config:collection-rootMS//id($ms)
        return 
        <td>
        {

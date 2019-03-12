@@ -118,9 +118,9 @@ declare
 %output:method("html5")
 function viewer:mirador($collection as xs:string, $id as xs:string, $FirstCanv as xs:string*){
 
-let $c := switch:collection($collection)
-let $coll := '/db/apps/BetMas/data/' || $collection
-let $this := util:eval($c)/id($id)
+let $c := switch:collectionVar($collection)
+let $coll := $config:data-root || '/' || $collection
+let $this := $c/id($id)
 let $biblio :=
 <bibl>
 {let $time := max($this//t:revisionDesc/t:change/xs:date(@when))

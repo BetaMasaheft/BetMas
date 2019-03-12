@@ -951,7 +951,7 @@ let $path := switch($type)
                                     then ("$config:collection-rootPr//t:TEI"   || $allnames||$ContentPr   || $key || $dR ||$occupations || $faiths || $genders  )
                                     
                       
-                        else "collection('/db/apps/BetMas/data/"||$collection || "/')//t:TEI" || $countries|| $settlements|| $allnames ||$ContentPr  || $key || $languages|| $dR || $ClavisIDs || $nOfP  || $allMssFilters ||$Allauthors|| $tabots||$placetypess
+                        else "collection('"||$config:data-root||'/'||$collection || "/')//t:TEI" || $countries|| $settlements|| $allnames ||$ContentPr  || $key || $languages|| $dR || $ClavisIDs || $nOfP  || $allMssFilters ||$Allauthors|| $tabots||$placetypess
                        )
 let $hits := for $item in util:eval($path)
                              let $recordid := string($item/@xml:id)

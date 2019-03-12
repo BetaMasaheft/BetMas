@@ -5,6 +5,7 @@ xquery version "3.1" encoding "UTF-8";
  : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
  :)
 module namespace chojnacki = "https://www.betamasaheft.uni-hamburg.de/BetMas/chojnacki";
+import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "../modules/config.xqm";
 import module namespace rest = "http://exquery.org/ns/restxq";
 declare namespace marc = "http://www.loc.gov/MARC21/slim";
 
@@ -18,7 +19,7 @@ declare
 %rest:path("/BetMas/api/Chojnacki/{$id}")
 %output:method("json")
 function chojnacki:allChojnacki($id  as xs:string*){
-let $Chojnacki := collection('/db/apps/BetMas/data/Chojnacki')//marc:record[descendant::marc:subfield[@code="a"][. = $id ]]
+let $Chojnacki := $config:collection-rootCh//marc:record[descendant::marc:subfield[@code="a"][. = $id ]]
 let $ChojnackItems := for $Choj in $Chojnacki
                                             let $DigiVatID := $Choj//marc:datafield[@tag="095"]/marc:subfield[@code="a"]/text()
                                             let $link := 'https://digi.vatlib.it/stp/detail/' || $DigiVatID

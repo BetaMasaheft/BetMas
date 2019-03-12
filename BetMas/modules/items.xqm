@@ -191,7 +191,7 @@ $start as xs:integer*,
 $per-page as xs:integer*,
 $hi as xs:string*){
 let $collect := switch:collection($collection)
-let $coll := '/db/apps/BetMas/data/' || $collection
+let $coll := $config:data-root || '/' || $collection
 let $c := util:eval($collect)
 let $this := $c/id($id)
 let $biblio :=

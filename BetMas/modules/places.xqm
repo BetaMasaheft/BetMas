@@ -18,7 +18,7 @@ import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas
 import module namespace kwic = "http://exist-db.org/xquery/kwic"
     at "resource:org/exist/xquery/lib/kwic.xql";
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
-  
+import module namespace switch = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch" at "xmldb:exist:///db/apps/BetMas/modules/switch.xqm";   
 import module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMas/error" at "xmldb:exist:///db/apps/BetMas/modules/error.xqm";  
 (: namespaces of data used :)
 declare namespace t = "http://www.tei-c.org/ns/1.0";
@@ -328,7 +328,7 @@ function places:kmltextALL($collection as xs:string) {
 $places:response200xml,
 
 let $log := log:add-log-message('/api/KML/'||$collection||'/places', xmldb:get-current-user(), 'places')
-       let $items := collection('/db/apps/BetMas/data/' || $collection ||'/')
+       let $items := switch:collectionVar($collection)
 return 
       places:kmlplacesm($items)
 };
@@ -343,7 +343,8 @@ function places:kmltextALLorig($collection as xs:string) {
 $places:response200xml,
 
 let $log := log:add-log-message('/api/KML/'||$collection||'/origPlaces', xmldb:get-current-user(), 'places')
-       let $items := collection('/db/apps/BetMas/data/' || $collection ||'/')//t:origPlace[descendant::t:placeName/@ref]
+let $col := switch:collectionVar($collection)
+       let $items := $col//t:origPlace[descendant::t:placeName/@ref]
 return 
       places:kmlOrigplacesm($items)
 };
@@ -393,7 +394,8 @@ function places:kmlmetadataALL($collection as xs:string) {
 $places:response200xml,
 
 let $log := log:add-log-message('/api/KML/'||$collection||'/datePlace', xmldb:get-current-user(), 'places')
-       let $items := collection('/db/apps/BetMas/data/' || $collection ||'/')
+    let $items :=   switch:collectionVar($collection)
+
 return 
        places:kmldataplaces($items)
 };
