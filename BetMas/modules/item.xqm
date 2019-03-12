@@ -78,7 +78,7 @@ return
 <div xmlns="http://www.w3.org/1999/xhtml" class="row-fluid full-width-tabs" id="options">
 <ul  class="nav nav-tabs">
 <li  class="span_full_width" data-toggle="tooltip" data-placement="bottom" title="Not sure how to do this? Have a look at the Beta maṣāḥǝft Guidelines from the home menu!"><a target="_blank" class="btn btn-info" 
-    href="https://github.com/BetaMasaheft/{replace(replace(base-uri($this), '/db/apps/BetMasData/', ''), $collection, concat($collection, '/blob/master'))}">Edit</a>
+    href="https://github.com/BetaMasaheft/{replace(replace(base-uri($this), '/db/apps/BetMas/data/', ''), $collection, concat($collection, '/blob/master'))}">Edit</a>
     </li>
 <li  class="span_full_width" data-toggle="tooltip" data-placement="bottom" title="Click here to hide or show again the little arrows and small left pointing hands in this page."><a class="btn btn-warning" id="toggleHands">Hide/show pointers</a></li>
             
@@ -847,11 +847,11 @@ else ()
 declare function item:RestMss($id){
        let $string := $id
 let $sameKey :=
-            for $corr in $config:collection-rootMS//t:title[@ref = $id][parent::t:msItem]
+            for $corr in $config:collection-rootMS//t:title[starts-with(@ref , $id)][parent::t:msItem]
             return
                 $corr
   let $sameKeyAdd :=
-            for $corr in               $config:collection-rootMS//t:additions//t:item//t:title[@ref = $id]
+            for $corr in               $config:collection-rootMS//t:additions//t:item//t:title[starts-with(@ref , $id)]
             return
                 $corr
    let $count := count($sameKey) + count($sameKeyAdd)             
@@ -859,7 +859,7 @@ return
 
    <div class="alert alert-success" id="computedWitnesses">
    <h4  class="openInDialog">This unit is contained in manuscript records {$count} time{if($count gt 1) then 's' else ()}</h4>
-
+<p><a target="_blank" href="/manuscripts/list?contents={$id}">See these manuscripts in the list view.</a></p>
     <div id="Samekeyword{$string}"  >
     {if(count($sameKey) gt 0) then
 (<p>As main content</p>,
