@@ -1,0 +1,13 @@
+
+html, body, h1, h2, h3, h4, h5, h6 {
+  font-family: "Noto Sans", "Noto Sans Ethiopic", "Noto Arabic", "Noto Sans Georgian", "Noto Sans Armenian", "Noto Sans Old South Arabian", "Noto Sans Coptic", sans-serif;
+}
+footer .poweredby {
+    margin: 33px 10px 0 0;
+}
+footer .poweredby img {
+    width: 180px;
+}
+.w3-red {background-color:#d54b0a!important}
+.w3-black {background-color:#2d2118!important}
+.w3-gray {background-color:#aca9a6!important}

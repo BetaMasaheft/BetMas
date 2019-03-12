@@ -18,19 +18,8 @@
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/virtual-keyboard/1.26.22/css/keyboard-basic.min.css"/>
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
+        <link rel="stylesheet" href="resources/css/w3local.css"></link>
         <style>
-html, body, h1, h2, h3, h4, h5, h6 {
-  font-family: "Noto Sans", "Noto Sans Ethiopic", "Noto Arabic", "Noto Sans Georgian", "Noto Sans Armenian", "Noto Sans Old South Arabian", "Noto Sans Coptic", sans-serif;
-}
-footer .poweredby {
-    margin: 33px 10px 0 0;
-}
-footer .poweredby img {
-    width: 180px;
-}
-.w3-red {background-color:#d54b0a!important}
-.w3-black {background-color:#2d2118!important}
-.w3-gray {background-color:#aca9a6!important}
 </style>
         
 <!--        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/introjs.css"/>-->
@@ -42,7 +31,7 @@ footer .poweredby img {
     
     <body id="body">
         
-        <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="sidebar">
+        <div class="w3-sidebar w3-bar-block w3-card w3-animate-left w3-gray" style="display:none" id="sidebar">
             <button class="w3-bar-item w3-button w3-large" onclick="w3_close()">Close</button>
             <a class="w3-bar-item w3-button" href="#intro">Introduction</a>
             <a class="w3-bar-item w3-button" href="#manuscripts">Manuscripts</a>
@@ -69,29 +58,7 @@ footer .poweredby img {
         
         
         <script type="application/javascript" src="resources/js/introText.js"/>
-        <script type="text/javascript">
-           function w3_open() {
-  document.getElementById("main").style.marginLeft = "25%";
-  document.getElementById("sidebar").style.width = "25%";
-  document.getElementById("sidebar").style.display = "block";
-}
-
-function w3_close() {
-  document.getElementById("main").style.marginLeft = "0%";
-  document.getElementById("sidebar").style.display = "none";
-}
-
-// Used to toggle the menu on small screens when clicking on the menu button
-function myFunction() {
-  var x = document.getElementById("navDemo");
-  if (x.className.indexOf("w3-show") == -1) {
-    x.className += " w3-show";
-  } else { 
-    x.className = x.className.replace(" w3-show", "");
-  }
-}
-
-       </script>
+        <script type="application/javascript" src="resources/js/w3.js"/>
         <!--js-->
         <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"/>
         
