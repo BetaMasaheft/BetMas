@@ -2,7 +2,7 @@ xquery version "3.1" encoding "UTF-8";
 (:~
  : module used by the app for login and logout
  : 
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
 module namespace locallogin="https://www.betamasaheft.eu/login";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
@@ -77,61 +77,12 @@ $locallogin:login("org.exist.login", (), false())
 :)
 
 (:~ login function to be called from navigation template. if the user is guest, then show login, if not it is a logged user, then show logout:)
-declare function locallogin:login(){  
- if(xmldb:get-current-user() = 'guest') then
- <li class="dropdown">
-          <a href="#" 
-          class="dropdown-toggle" 
-          data-toggle="dropdown"><b>Login</b> 
-          <span class="caret"></span></a>
-			<ul id="login-dp" class="dropdown-menu">
-				<li>
-		 <div class="row">
-			<div class="col-md-12">
-			<form method="post" class="form" role="form" accept-charset="UTF-8" id="login-nav">
-                    <div class="form-group">
-                        <label class="control-label col-md-1" for="user">User:</label>
-                            <input type="text" name="user" required="required" class="form-control"/>
-                        
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-1" for="password">Password:</label>
-                            <input type="password" name="password" class="form-control"/>
-                        
-                    </div>
-                    
-                    <div class="form-group">
-                        <div class="col-md-offset-1 col-sm-12">
-                            <button class="btn btn-primary" type="submit">Login</button>
-                          			
-                        </div>  
-                    </div>
-                </form>
-							</div>
-							 </div>
-				</li>
-				
-			</ul>
-        </li>
-                else
-              <li  class="dropdown"> 
-              <form method="post" action="" class="form" role="form" accept-charset="UTF-8" id="logout-nav">
-                <div class="form-group">
-                        <div class="col-md-offset-1 col-sm-12">
-              <button  class="btn btn-primary" type="submit">Logout</button>
-              </div>
-              </div>
-              <input value="true" name="logout" class="form-control" type="hidden"/>
-                        
-              </form>
-              </li>
-}; 
 
 declare function locallogin:loginNew(){  
  if(xmldb:get-current-user() = 'guest') then
  
  <div class="w3-dropdown-hover w3-hide-small" id="logging">
-      <button class="w3-button" title="resources">Login <i class="fa fa-caret-down"></i></button>     
+      <button class="w3-button " title="resources">Login <i class="fa fa-caret-down"></i></button>     
       <div class="w3-dropdown-content w3-bar-block w3-card-4">
       
 	<form method="post" class="w3-container" role="form" 
@@ -148,11 +99,11 @@ declare function locallogin:loginNew(){
                 </div>
                 </div>
                 else
-              <form method="post" action="" class="w3-bar-item  w3-hide-small" style="margin:0;padding:0" role="form" accept-charset="UTF-8" id="logout-nav">
+              <form method="post" action="" class="w3-bar-item w3-hide-smal" style="margin:0;padding:0" role="form" accept-charset="UTF-8" id="logout-nav">
                 
-              <button  class="w3-button w3-red" type="submit">Logout</button>
+              <button  class=" w3-button w3-red" type="submit">Logout</button>
               
-              <input value="true" name="logout" class="form-control" type="hidden"/>
+              <input value="true" name="logout"  type="hidden"/>
                         
               </form>
 }; 

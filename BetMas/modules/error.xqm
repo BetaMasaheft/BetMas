@@ -2,7 +2,7 @@ xquery version "3.1" encoding "UTF-8";
 (:~
  :error page returned as rest xq fallback before returning status code
  : 
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
 module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMas/error";
 
@@ -41,10 +41,10 @@ default return
         {apprest:scriptStyle()}
    </head>
    <body>
-    {nav:bar()}
-        {nav:modals()}
-        {nav:searchhelp()}
-<div xmlns="http://www.w3.org/1999/xhtml" class="container alert alert-warning">
+    {nav:barNew()}
+        {nav:modalsNew()}
+        {nav:searchhelpNew()}
+<div xmlns="http://www.w3.org/1999/xhtml" class="w3-container w3-card-4 w3-red w3-margin w3-padding-64">
     {switch($name('type')) case 'collection' return (<h1>{$name('name')} is not a collection name.</h1>,
     <p class="lead">Available collections are:</p>,
     <ul>{
@@ -55,9 +55,9 @@ default return
     <p>You can also see the same items listed by catalogue <a href="/catalogues/list">here</a></p>)
     
     case 'repo' return (
-<h1>{$name('name')} is not the id af any available repository.</h1>,<p class="lead">Available repositories are listed <a href="/institutions/list">here</a>.</p>
+<h1>{$name('name')} is not the id af any available repository.</h1>,<p class="w3-large">Available repositories are listed <a href="/institutions/list">here</a>.</p>
     )
-    case 'catalogue' return (<h1>{$name('name')} is not the id af any available catalogue.</h1>,<p class="lead">Available catalogues are the following:</p>,
+    case 'catalogue' return (<h1>{$name('name')} is not the id af any available catalogue.</h1>,<p class="w3-large">Available catalogues are the following:</p>,
     <ul>
     {
    for $catalogue in distinct-values($config:collection-rootMS//t:listBibl[@type='catalogue']//t:ptr/@target)
@@ -65,7 +65,7 @@ default return
 let $data := httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)
 order by $data
 return
-    <li class="lead">
+    <li class="w3-large">
     <a href="/catalogues/{$catalogue}/list">{$data}</a>
     </li>
     }
@@ -75,7 +75,7 @@ return
     default return 'There was an error, try again.'}
 </div>
 
-        {nav:footer()}
+        {nav:footerNew()}
 </body>
 </html>
 };

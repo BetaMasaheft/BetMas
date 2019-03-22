@@ -2,7 +2,7 @@ xquery version "3.1" encoding "UTF-8";
 (:~
  : module for the different item views, decides what kind of item it is, in which way to display it
  : 
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
 module namespace listIds = "https://www.betamasaheft.uni-hamburg.de/BetMas/listIds";
 import module namespace rest = "http://exquery.org/ns/restxq";
@@ -42,10 +42,10 @@ function listIds:getlist(){
         {apprest:scriptStyle()}
     </head>
     <body id="body">
-        {nav:bar()}
-        {nav:modals()}
-          {nav:searchhelp()}
-          <p class="lead">Please note that this list excludes the IslHornAfr manuscripts and EMML manuscripts. The ids of the first group are all made of the IHA sigla followed by a progressive number. The ids of the EMML manuscripts are made of the sigla EMML follwed by a progressive number.</p>
+        {nav:barNew()}
+        {nav:modalsNew()}
+          {nav:searchhelpNew()}
+          <p class="w3-large">Please note that this list excludes the IslHornAfr manuscripts and EMML manuscripts. The ids of the first group are all made of the IHA sigla followed by a progressive number. The ids of the EMML manuscripts are made of the sigla EMML follwed by a progressive number.</p>
           {
 let $allrepos := $config:collection-rootMS//t:repository[matches(@ref, 'INS')]
 let $repos := $allrepos[not(ends-with(@ref, 'IHA'))][not(@ref = 'INS0004HMML')]
@@ -56,14 +56,14 @@ let $rID := string($ref)
 let $tit := try{titles:printTitleMainID($rID)} catch * {'no title'}
 order by $tit
 return
-    <div class="col-md-12"><h1>{$tit} ({$rID})</h1>
+    <div class="w3-container"><h1>{$tit} ({$rID})</h1>
     {for $rep in $repo
     let $collection := if($rep/following-sibling::t:collection) then $rep/following-sibling::t:collection[1]/text() else 'no specific collection'
     group by $collection
     order by $collection
     return 
-        <div class="col-md-12 row"><h2>{$collection}</h2>
-        <div class="col-md-12">{
+        <div class="w3-row"><h2>{$collection}</h2>
+        <div class="w3-container">{
           let $ids := for $reC in $rep
             
 let $root := root($reC)
@@ -72,7 +72,7 @@ let $id := string($root/t:TEI/@xml:id)
          for $i in $ids 
          order by $i
          return
-         <div class="row"><b>{$i}</b></div>
+         <div class="w3-row"><b>{$i}</b></div>
             
         }
         </div>

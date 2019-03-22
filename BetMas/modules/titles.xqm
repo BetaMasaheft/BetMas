@@ -7,8 +7,8 @@ declare namespace t="http://www.tei-c.org/ns/1.0";
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace sparql = "http://www.w3.org/2005/sparql-results#";
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
-
-declare variable $titles:placeNamesList := doc(concat($config:app-root, '/placeNamesLabels.xml'));
+import module namespace console="http://exist-db.org/xquery/console";
+declare variable $titles:placeNamesList := doc(concat($config:app-root, '/lists/placeNamesLabels.xml'));
 
 (:establishes the different rules and priority to print a title referring to a record:)
 declare function titles:printTitle($node as element()) {
@@ -121,49 +121,125 @@ else
 
 (:this is now a switch function, deciding if to go ahead with simple print title or subtitles:)
 declare 
-%test:arg('id', 'BNFet32#a1') %test:assertEquals('Paris, Bibliothèque nationale de France, Éthiopien 32, Scribal Note Completing a1')
+%test:arg('id', 'SdC:UniCont1') %test:assertEquals('La Synthaxe du Codex UniCont1')
+%test:arg('id', 'LIT2317Senodo#') %test:assertEquals('Senodos')
+%test:arg('id', '#') %test:assertEquals('&lt;span class="w3-tag w3-red"&gt;no item yet with id #&lt;/span&gt;')
+%test:arg('id', '') %test:assertEquals('&lt;span class="w3-tag w3-red"&gt;no id&lt;/span&gt;')
+%test:arg('id', 'BNFet32') %test:assertEquals('Paris, Bibliothèque nationale de France, BnF Éthiopien 32')
+%test:arg('id', 'LIT1367Exodus') %test:assertEquals('Exodus')
+%test:arg('id', 'PRS11160HabtaS') %test:assertEquals(' Habta Śǝllāse')
+%test:arg('id', 'LOC1001Aallee') %test:assertEquals('Aallee')
+%test:arg('id', 'BNFet32#a2') %test:assertEquals('Paris, Bibliothèque nationale de France, BnF Éthiopien 32, Donation Note a2')
+%test:arg('id', 'BNFet32#e1') %test:assertEquals('Paris, Bibliothèque nationale de France, BnF Éthiopien 32, no id e1')
 %test:arg('id', 'LIT1367Exodus#Ex1') %test:assertEquals('Exodus, Exodus 1')
-%test:arg('id', 'PRS5684JesusCh#n2') %test:assertEquals('Jesus Christ - Krǝstos')
+%test:arg('id', 'PRS5684JesusCh#n2') %test:assertEquals('Jesus Christ, Krǝstos')
 function titles:printTitleID($id as xs:string)
 {  if (starts-with($id, 'SdC:')) then 'La Synthaxe du Codex ' || substring-after($id, 'SdC:' )
                else
-    (: hack to avoid the bad usage of # at the end of an id like <title type="complete" ref="LIT2317Senodo#"
-     : xml:lang="gez"> :) if (ends-with($id, '#')) then
-        titles:printTitleMainID(substring-before($id, '#'))
-    (: another hack for things like ref="#" :) else if ($id = '#') then
-                         <span class="label label-warning">{ 'no item yet with id' || $id }</span>
-    else if ($id = '') then
-                        <span class="label label-warning">{ 'no id' }</span>
-    (: if the id has a subid, than split it :) else if (contains($id, '#')) then
+    (: another hack for things like ref="#" :) 
+    if ($id = '#') then <span class="w3-tag w3-red">{ 'no item yet with id ' || $id }</span>
+    (: hack to avoid the bad usage of # at the end of an id like <title type="complete" ref="LIT2317Senodo#" xml:lang="gez"> :) 
+     else if (ends-with($id, '#')) then (
+                                let $id := replace($id, '#', '') 
+                                let $tit := if (matches($id, 'Q\d+') or starts-with($id, 'gn:') or starts-with($id, 'pleiades:')) then
+           (titles:decidePlaceNameSource($id))
+       else (: always look at the root of the given node parameter of the function and then switch :)
+           let $resource := $config:collection-root/id($id)
+           return
+               if (count($resource) = 0) then
+           <span class="w3-tag w3-red">{ 'No item: ' || $id }</span>
+               else if (count($resource) > 1) then
+           <span class="w3-tag w3-red">{ 'More than 1 ' || $id }</span>
+               else
+                   switch ($resource/@type)
+                       case "mss"
+                           return if ($resource//objectDesc[@form = 'Inscription']) then
+                               ($resource//t:msIdentifier/t:idno/text())
+                           else
+                               (if ($resource//t:repository/text() = 'Lost') then
+                                   ('Lost. ' || $resource//t:msIdentifier/t:idno/text())
+                               else if ($resource//t:repository/@ref and $resource//t:msDesc/t:msIdentifier/t:idno/text())
+                                   then
+                                   let $repoid := $resource//t:repository/@ref
+                                   let $r := $config:collection-rootIn/id($repoid)
+                                   let $repo :=
+                                       if ($r) then
+                                           ($r)
+                                       else
+                                           'No Institution record'
+                                   let $repoPlace :=
+                                       if ($repo = 'No Institution record') then
+                                           $repo
+                                       else
+                                           (if ($repo//t:settlement[1]/@ref) then
+                                               let $plaID := string($repo//t:settlement[1]/@ref)
+                                               return
+                                                   titles:decidePlName($plaID)
+                                           else if ($repo//t:settlement[1]/text()) then
+                                               $repo//t:settlement[1]/text()
+                                           else if ($repo//t:country/@ref) then
+                                               let $plaID := string($repo//t:country/@ref)
+                                               return
+                                                   titles:decidePlName($plaID)
+                                           else if ($repo//t:country/text()) then
+                                               $repo//t:country/text()
+                                           else
+                                               'No location record'
+                                           )
+                               
+                                       let $candidate := string-join($repoPlace, ' ') || ', ' || (if ($repo = 'No Institution record') then
+                                           $repo
+                                       else
+                                           (titles:placeNameSelector($repo))
+                                       ) || ', ' || 
+                                           $resource//t:msDesc/t:msIdentifier/t:idno/text()
+                                           return
+                                           normalize-space($candidate)
+                               else
+                                   'no repository data for ' || string($resource/@xml:id)
+                               )
+                   case "place"
+                           return titles:placeNameSelector($resource)
+                       case "ins"
+                           return titles:placeNameSelector($resource)
+                       case "pers"
+                           return titles:persNameSelector($resource)
+                       case "work"
+                           return titles:worknarrTitleSelector($resource)
+                       case "narr"
+                           return titles:worknarrTitleSelector($resource) (: this should do also auths :)
+                       default
+                           return $resource//t:titleStmt/t:title[1]/text()
+                                return $tit
+                                )
+    else if ($id = '') then <span class="w3-tag w3-red">{ 'no id' }</span>
+    (: if the id has a subid, than split it :) 
+    else if (contains($id, '#')) then
+    (
         let $mainID := substring-before($id, '#')
         let $SUBid := substring-after($id, '#')
         let $node := $config:collection-root/id($mainID)
         return
-        if (starts-with($SUBid, 't'))
-    then
+        if (starts-with($SUBid, 't')) then
         (let $subtitles:=$node//t:title[contains(@corresp, $SUBid)]
         let $subtitlemain := $subtitles[@type = 'main']/text()
         let $subtitlenorm := $subtitles[@type = 'normalized']/text()
         let $tit := $node//t:title[@xml:id = $SUBid]
         return
-            if ($subtitlemain)
-            then
-                $subtitlemain
-            else
-                if ($subtitlenorm)
-                then
-                    $subtitlenorm
-                else
-                    $tit/text()
-                    )
-                    else
+            if ($subtitlemain) then $subtitlemain
+            else if ($subtitlenorm) then $subtitlenorm
+           else $tit/text()
+        ) else
         let $subtitle :=   if( starts-with($SUBid, 'tr')) then 'transformation ' ||  $SUBid
-else if( starts-with($SUBid, 'Uni')) then $SUBid 
-
-else titles:printSubtitle($node, $SUBid)
+                                        else if( starts-with($SUBid, 'Uni')) then $SUBid 
+                                        else titles:printSubtitle($node, $SUBid)
         return
             (titles:printTitleMainID($mainID)|| ', '||$subtitle)
-    (: if not, procede to main title printing :) else
+    )
+    
+    (: if not, procede to main title printing :)
+    
+    else
         titles:printTitleMainID($id)
 };
 
@@ -177,9 +253,9 @@ else titles:printSubtitle($node, $SUBid)
            let $resource := collection($c)//id($id)
            return
                if (count($resource) = 0) then
-           <span class="label label-warning">{ 'No item: ' || $id }</span>
+           <span class="w3-tag w3-red">{ 'No item: ' || $id }</span>
                else if (count($resource) > 1) then
-           <span class="label label-warning">{ 'More than 1 ' || $id }</span>
+           <span class="w3-tag w3-red">{ 'More than 1 ' || $id }</span>
                else
                    switch ($resource/@type)
                        case "mss"
@@ -244,7 +320,8 @@ else titles:printSubtitle($node, $SUBid)
    
    
       declare 
-      %test:arg('id', 'BNFet32') %test:assertEquals('Paris, Bibliothèque nationale de France, Éthiopien 32')
+      %test:arg('id', 'BNFet32') %test:assertEquals('Paris, Bibliothèque nationale de France, BnF Éthiopien 32')
+      %test:arg('id', 'LIT2317Senodo') %test:assertEquals('Senodos')
       %test:arg('id', 'LIT1367Exodus') %test:assertEquals('Exodus')
       %test:arg('id', 'PRS11160HabtaS') %test:assertEquals(' Habta Śǝllāse')
       %test:arg('id', 'LOC1001Aallee') %test:assertEquals('Aallee')
@@ -256,9 +333,9 @@ else titles:printSubtitle($node, $SUBid)
            let $resource := $config:collection-root/id($id)
            return
                if (count($resource) = 0) then
-           <span class="label label-warning">{ 'No item: ' || $id }</span>
+           <span class="w3-tag w3-red">{ 'No item: ' || $id }</span>
                else if (count($resource) > 1) then
-           <span class="label label-warning">{ 'More than 1 ' || $id }</span>
+           <span class="w3-tag w3-red">{ 'More than 1 ' || $id }</span>
                else
                    switch ($resource/@type)
                        case "mss"
@@ -295,14 +372,15 @@ else titles:printSubtitle($node, $SUBid)
                                            else
                                                'No location record'
                                            )
-                                   return
-                                       string-join($repoPlace, ' ') || ', ' || (if ($repo = 'No Institution record') then
+                               
+                                       let $candidate := string-join($repoPlace, ' ') || ', ' || (if ($repo = 'No Institution record') then
                                            $repo
                                        else
                                            (titles:placeNameSelector($repo))
                                        ) || ', ' || 
                                            $resource//t:msDesc/t:msIdentifier/t:idno/text()
-                                       
+                                           return
+                                           normalize-space($candidate)
                                else
                                    'no repository data for ' || string($resource/@xml:id)
                                )

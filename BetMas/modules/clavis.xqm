@@ -2,21 +2,22 @@ xquery version "3.1" encoding "UTF-8";
 (:~
  : clavis matching related funtions.
  : 
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
 module namespace clavis = "https://www.betamasaheft.uni-hamburg.de/BetMas/clavis";
 import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace api = "https://www.betamasaheft.uni-hamburg.de/BetMas/api"  at "xmldb:exist:///db/apps/BetMas/modules/rest.xqm";
-import module namespace switch = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch"  at "xmldb:exist:///db/apps/BetMas/modules/switch.xqm";
+import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2"  at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
 import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
+import module namespace http="http://expath.org/ns/http-client";
 
 (: namespaces of data used :)
 
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 
-import module namespace http="http://expath.org/ns/http-client";
+declare namespace test="http://exist-db.org/xquery/xqsuite";
 
 (: For REST annotations :)
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";

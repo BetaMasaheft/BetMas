@@ -3,7 +3,7 @@
 <Placemark>
 <address>Dabra Māryām</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0479DabraM</name>
+<name>http://betamasaheft.eu/institutions/INS0479DabraM</name>
 <Point>
 <coordinates/>
 </Point>
@@ -11,7 +11,7 @@
 <Placemark>
 <address>ʾAksum</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/places/LOC1310Aksum</name>
+<name>http://betamasaheft.eu/places/LOC1310Aksum</name>
 <Point>
 <coordinates>38.7195,14.1305</coordinates>
 </Point>
@@ -19,7 +19,7 @@
 <Placemark>
 <address>ʾAksum Ṣǝyon</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0344AksumS</name>
+<name>http://betamasaheft.eu/institutions/INS0344AksumS</name>
 <Point>
 <coordinates>38.7195,14.1305</coordinates>
 </Point>
@@ -27,7 +27,7 @@
 <Placemark>
 <address>Ham</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/places/LOC3756Ham</name>
+<name>http://betamasaheft.eu/places/LOC3756Ham</name>
 <Point>
 <coordinates/>
 </Point>
@@ -35,7 +35,7 @@
 <Placemark>
 <address>Dabra Libānos</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0346DL</name>
+<name>http://betamasaheft.eu/institutions/INS0346DL</name>
 <Point>
 <coordinates/>
 </Point>
@@ -51,7 +51,7 @@
 <Placemark>
 <address>Gondar</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/places/LOC3577Gondar</name>
+<name>http://betamasaheft.eu/places/LOC3577Gondar</name>
 <Point>
 <coordinates>37.4666,12.6000</coordinates>
 </Point>
@@ -59,7 +59,7 @@
 <Placemark>
 <address>Ḥārat Zuwayla</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0319HZ</name>
+<name>http://betamasaheft.eu/institutions/INS0319HZ</name>
 <Point>
 <coordinates>31.2496,30.0626</coordinates>
 </Point>
@@ -67,7 +67,7 @@
 <Placemark>
 <address>Dabra Ḥayq ʾƎsṭifānos</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0327DHE</name>
+<name>http://betamasaheft.eu/institutions/INS0327DHE</name>
 <Point>
 <coordinates>39.6976,11.3388</coordinates>
 </Point>
@@ -107,7 +107,7 @@
 <Placemark>
 <address>Ethiopia</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/places/LOC3010Ethiop</name>
+<name>http://betamasaheft.eu/places/LOC3010Ethiop</name>
 <Point>
 <coordinates/>
 </Point>
@@ -116,7 +116,7 @@
 <address>Madḫāne ʿĀlam</address>
 <description>a place of origin of manuscripts</description>
 <name>
-https://betamasaheft.eu/institutions/INS0101MadhaneAlam
+http://betamasaheft.eu/institutions/INS0101MadhaneAlam
 </name>
 <Point>
 <coordinates>39.2833,11.5500</coordinates>
@@ -125,7 +125,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Library of Etchmiadzin Cathedral</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0365LEC</name>
+<name>http://betamasaheft.eu/institutions/INS0365LEC</name>
 <Point>
 <coordinates/>
 </Point>
@@ -133,7 +133,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Dabra Bizan</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0354DB</name>
+<name>http://betamasaheft.eu/institutions/INS0354DB</name>
 <Point>
 <coordinates>39.083,15.333</coordinates>
 </Point>
@@ -141,7 +141,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Dabra Ṣǝyon Qǝddǝst Māryām Manabayti</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0050MSM</name>
+<name>http://betamasaheft.eu/institutions/INS0050MSM</name>
 <Point>
 <coordinates>39.379801,14.422939</coordinates>
 </Point>
@@ -149,7 +149,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>ʾAraʿro Täklä Haymanot</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0095ATH</name>
+<name>http://betamasaheft.eu/institutions/INS0095ATH</name>
 <Point>
 <coordinates>39.509056,14.424389</coordinates>
 </Point>
@@ -157,7 +157,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Qälaqǝl Maryam Ṣǝyon</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0198QS</name>
+<name>http://betamasaheft.eu/institutions/INS0198QS</name>
 <Point>
 <coordinates>39.640233,14.234367</coordinates>
 </Point>
@@ -165,7 +165,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>ʾAgärhǝse ʾAbunä Mamas</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0091AQM</name>
+<name>http://betamasaheft.eu/institutions/INS0091AQM</name>
 <Point>
 <coordinates>39.342167,14.44875</coordinates>
 </Point>
@@ -173,7 +173,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Kädiḥ Däbrä Täwaḥǝdo Qǝddǝst Maryam</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0137KTM</name>
+<name>http://betamasaheft.eu/institutions/INS0137KTM</name>
 <Point>
 <coordinates>39.60355,13.8694</coordinates>
 </Point>
@@ -181,7 +181,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>ʿĀddigrāt Madḫāne ʿĀlam</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0064AMM</name>
+<name>http://betamasaheft.eu/institutions/INS0064AMM</name>
 <Point>
 <coordinates>39.463642,14.272528</coordinates>
 </Point>
@@ -189,7 +189,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Gänaḥti Qǝddǝst Maryam</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0115GMG</name>
+<name>http://betamasaheft.eu/institutions/INS0115GMG</name>
 <Point>
 <coordinates>39.496767,14.297683</coordinates>
 </Point>
@@ -197,7 +197,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Sǝddäyto Däbrä Gännät Mikaʾel</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0185SGM</name>
+<name>http://betamasaheft.eu/institutions/INS0185SGM</name>
 <Point>
 <coordinates>39.4901,14.376767</coordinates>
 </Point>
@@ -205,7 +205,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Bet Muḵaʿ Mikaʾel</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0208BMQM</name>
+<name>http://betamasaheft.eu/institutions/INS0208BMQM</name>
 <Point>
 <coordinates>39.612512,13.967767</coordinates>
 </Point>
@@ -213,7 +213,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Mäḵodʿä Däbrä Gännät Kidanä Mǝḥrät</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0108GKM</name>
+<name>http://betamasaheft.eu/institutions/INS0108GKM</name>
 <Point>
 <coordinates>39.362222,14.189278</coordinates>
 </Point>
@@ -221,7 +221,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>ʿUrā Qirqos</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0017UM</name>
+<name>http://betamasaheft.eu/institutions/INS0017UM</name>
 <Point>
 <coordinates>39.347056,14.4705</coordinates>
 </Point>
@@ -229,7 +229,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Dǝbla Yoḥannǝs Mäṭmǝq</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0129DMD</name>
+<name>http://betamasaheft.eu/institutions/INS0129DMD</name>
 <Point>
 <coordinates>39.47385,14.2227</coordinates>
 </Point>
@@ -237,7 +237,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Sabayā Māryām</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0053SM</name>
+<name>http://betamasaheft.eu/institutions/INS0053SM</name>
 <Point>
 <coordinates>39.4974,14.4692</coordinates>
 </Point>
@@ -245,7 +245,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Bet Ḥawaryat</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0111SSB</name>
+<name>http://betamasaheft.eu/institutions/INS0111SSB</name>
 <Point>
 <coordinates>39.531567,14.2227</coordinates>
 </Point>
@@ -253,7 +253,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Dabra Dāmmo ʾAbuna ʾAragāwi</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0105DD</name>
+<name>http://betamasaheft.eu/institutions/INS0105DD</name>
 <Point>
 <coordinates>39.292167,14.374333</coordinates>
 </Point>
@@ -261,7 +261,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Märgaḥǝya Qǝddus Mikaʾel</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0178QMM</name>
+<name>http://betamasaheft.eu/institutions/INS0178QMM</name>
 <Point>
 <coordinates>39.388802,14.277804</coordinates>
 </Point>
@@ -269,7 +269,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Dǝrba Däbrä ʾAbunä Yasay</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0100DAY</name>
+<name>http://betamasaheft.eu/institutions/INS0100DAY</name>
 <Point>
 <coordinates>39.60225,13.569139</coordinates>
 </Point>
@@ -277,7 +277,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Dabra Zayt Qǝddǝst Māryām</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0034DZ</name>
+<name>http://betamasaheft.eu/institutions/INS0034DZ</name>
 <Point>
 <coordinates>39.40431,14.327355</coordinates>
 </Point>
@@ -285,7 +285,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Siʿet Qǝddǝst Maryam</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0125GMS</name>
+<name>http://betamasaheft.eu/institutions/INS0125GMS</name>
 <Point>
 <coordinates>39.4992,14.205083</coordinates>
 </Point>
@@ -293,7 +293,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Danderā Dabra Mǝḥrat Mikāʾel</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0157DDM</name>
+<name>http://betamasaheft.eu/institutions/INS0157DDM</name>
 <Point>
 <coordinates>39.40105,14.218333</coordinates>
 </Point>
@@ -301,7 +301,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Mǝʾǝsar Gwǝḥila Qǝddus Mikaʾel</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0216MGM</name>
+<name>http://betamasaheft.eu/institutions/INS0216MGM</name>
 <Point>
 <coordinates>39.315267,14.2844</coordinates>
 </Point>
@@ -309,7 +309,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Däbrä Bǝrhan Qǝddus Yoḥannǝs Golʿa</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0161BGY</name>
+<name>http://betamasaheft.eu/institutions/INS0161BGY</name>
 <Point>
 <coordinates>39.4823,14.2968</coordinates>
 </Point>
@@ -317,7 +317,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>May Ṣäʿada Śǝllase</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0206MSAE</name>
+<name>http://betamasaheft.eu/institutions/INS0206MSAE</name>
 <Point>
 <coordinates>39.4693,14.336167</coordinates>
 </Point>
@@ -325,7 +325,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>ʿĀddaqāḥarsi Ṗarāqliṭos</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0030AP</name>
+<name>http://betamasaheft.eu/institutions/INS0030AP</name>
 <Point>
 <coordinates>39.378683,14.308833</coordinates>
 </Point>
@@ -333,7 +333,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Koholo Yoḥannǝs Dabra Betel</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0171KY</name>
+<name>http://betamasaheft.eu/institutions/INS0171KY</name>
 <Point>
 <coordinates>39.394864,13.511041</coordinates>
 </Point>
@@ -341,7 +341,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>ʿƎmbäyto Täklä Haymanot</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0078ETH</name>
+<name>http://betamasaheft.eu/institutions/INS0078ETH</name>
 <Point>
 <coordinates>39.457975,14.396753</coordinates>
 </Point>
@@ -349,7 +349,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Faqādā Māryām</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0071FBM</name>
+<name>http://betamasaheft.eu/institutions/INS0071FBM</name>
 <Point>
 <coordinates>39.394333,14.4051</coordinates>
 </Point>
@@ -357,7 +357,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Ḥarennät Gäbäzäyti Qǝddǝst Maryam</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0144MHG</name>
+<name>http://betamasaheft.eu/institutions/INS0144MHG</name>
 <Point>
 <coordinates>39.521306,14.248778</coordinates>
 </Point>
@@ -365,7 +365,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>ʿAddi Qiyaḥto Qǝddǝst Maryam</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0159QQM</name>
+<name>http://betamasaheft.eu/institutions/INS0159QQM</name>
 <Point>
 <coordinates>39.451083,14.427111</coordinates>
 </Point>
@@ -373,7 +373,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>May Ḉäw Mikaʾel</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0147MCM</name>
+<name>http://betamasaheft.eu/institutions/INS0147MCM</name>
 <Point>
 <coordinates>39.467833,14.445483</coordinates>
 </Point>
@@ -381,7 +381,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>May ʾAnbäsa Däbrä Gännät Kidanä Mǝḥrät</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0174MAKM</name>
+<name>http://betamasaheft.eu/institutions/INS0174MAKM</name>
 <Point>
 <coordinates>39.385106,13.525948</coordinates>
 </Point>
@@ -389,7 +389,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>ʾAḥzära Maryam</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0099DMA</name>
+<name>http://betamasaheft.eu/institutions/INS0099DMA</name>
 <Point>
 <coordinates>39.254685,14.329528</coordinates>
 </Point>
@@ -397,7 +397,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>ʾAbrǝqo Maryam</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0175QMA</name>
+<name>http://betamasaheft.eu/institutions/INS0175QMA</name>
 <Point>
 <coordinates>39.368495,14.268189</coordinates>
 </Point>
@@ -405,7 +405,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>May Raza Täklä Haymanot</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0194THMR</name>
+<name>http://betamasaheft.eu/institutions/INS0194THMR</name>
 <Point>
 <coordinates>39.58285,14.24515</coordinates>
 </Point>
@@ -413,7 +413,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Qäqäma Däbrä Gännät Qǝddǝst Maryam</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0221QDGM</name>
+<name>http://betamasaheft.eu/institutions/INS0221QDGM</name>
 <Point>
 <coordinates>39.0586,13.5664</coordinates>
 </Point>
@@ -421,7 +421,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Säglat Qǝddus Mikaʾel</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0211SQMM</name>
+<name>http://betamasaheft.eu/institutions/INS0211SQMM</name>
 <Point>
 <coordinates>39.430583,14.414867</coordinates>
 </Point>
@@ -431,7 +431,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <span class="label label-warning">No item: INSNaN</span>
 </address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INSNaN</name>
+<name>http://betamasaheft.eu/institutions/INSNaN</name>
 <Point>
 <coordinates/>
 </Point>
@@ -441,7 +441,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <span class="label label-warning">No item: INS0194THRM</span>
 </address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0194THRM</name>
+<name>http://betamasaheft.eu/institutions/INS0194THRM</name>
 <Point>
 <coordinates/>
 </Point>
@@ -449,7 +449,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Tänsǝḥe Kidanä Mǝḥrät</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0232TKMG</name>
+<name>http://betamasaheft.eu/institutions/INS0232TKMG</name>
 <Point>
 <coordinates>39.187917,13.694183</coordinates>
 </Point>
@@ -457,7 +457,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Māy Baʿātti Dabra Gannat ʾArbāʿtu ʾƎnsǝsā</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0227MBAE</name>
+<name>http://betamasaheft.eu/institutions/INS0227MBAE</name>
 <Point>
 <coordinates>39.219867,13.647583</coordinates>
 </Point>
@@ -465,7 +465,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>ʾAmbasat Kidāna Mǝḥrat</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0103AKM</name>
+<name>http://betamasaheft.eu/institutions/INS0103AKM</name>
 <Point>
 <coordinates>39.406528,14.394833</coordinates>
 </Point>
@@ -473,7 +473,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Mänäwät Qǝddus Giyorgis</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0192QGM</name>
+<name>http://betamasaheft.eu/institutions/INS0192QGM</name>
 <Point>
 <coordinates>39.551017,14.255333</coordinates>
 </Point>
@@ -481,7 +481,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Nǝḥbi Qǝddus Mikaʾel</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0113NSM</name>
+<name>http://betamasaheft.eu/institutions/INS0113NSM</name>
 <Point>
 <coordinates>39.487683,14.262</coordinates>
 </Point>
@@ -489,7 +489,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Läqay Kidanä Mǝḥrät</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0123MKL</name>
+<name>http://betamasaheft.eu/institutions/INS0123MKL</name>
 <Point>
 <coordinates>39.439817,14.30405</coordinates>
 </Point>
@@ -497,7 +497,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Maryam May ʾAbʾa</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0163BQM</name>
+<name>http://betamasaheft.eu/institutions/INS0163BQM</name>
 <Point>
 <coordinates>39.460617,14.256283</coordinates>
 </Point>
@@ -505,7 +505,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Qiʿat Däbrä Ṣǝyon Qǝddǝst Maryam</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0110QDS</name>
+<name>http://betamasaheft.eu/institutions/INS0110QDS</name>
 <Point>
 <coordinates>39.383556,14.178333</coordinates>
 </Point>
@@ -513,7 +513,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Däbrä Sahǝl Qǝddus Mikaʾel Bet Mäḵaʿ</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0165DSM</name>
+<name>http://betamasaheft.eu/institutions/INS0165DSM</name>
 <Point>
 <coordinates>39.445367,14.27175</coordinates>
 </Point>
@@ -521,7 +521,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>ʿĀddi Qolqʷāl Giyorgis</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0097AQG</name>
+<name>http://betamasaheft.eu/institutions/INS0097AQG</name>
 <Point>
 <coordinates>39.465111,14.42075</coordinates>
 </Point>
@@ -529,7 +529,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>ʾAgamyo Qǝddus Mikāʾel</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0093AGM</name>
+<name>http://betamasaheft.eu/institutions/INS0093AGM</name>
 <Point>
 <coordinates>39.518111,14.409667</coordinates>
 </Point>
@@ -537,7 +537,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Dabra Māʿṣo Qǝddus Yoḥannǝs</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0039MY</name>
+<name>http://betamasaheft.eu/institutions/INS0039MY</name>
 <Point>
 <coordinates>39.450333,14.4677</coordinates>
 </Point>
@@ -545,7 +545,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Gwaḥgot ʾIyäsus</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0117GBI</name>
+<name>http://betamasaheft.eu/institutions/INS0117GBI</name>
 <Point>
 <coordinates>39.4906,14.1728</coordinates>
 </Point>
@@ -553,7 +553,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Mǝdra Rubā Sǝllase</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0042MR</name>
+<name>http://betamasaheft.eu/institutions/INS0042MR</name>
 <Point>
 <coordinates>39.434383,14.487367</coordinates>
 </Point>
@@ -561,7 +561,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>ʾAsir Matirā</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0007AM</name>
+<name>http://betamasaheft.eu/institutions/INS0007AM</name>
 <Point>
 <coordinates/>
 </Point>
@@ -569,7 +569,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>ʿAddigrat Bet Marya</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0107BMA</name>
+<name>http://betamasaheft.eu/institutions/INS0107BMA</name>
 <Point>
 <coordinates>39.4831,14.275883</coordinates>
 </Point>
@@ -577,7 +577,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Ḉähat Mädḫane ʿAläm</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0121MAC</name>
+<name>http://betamasaheft.eu/institutions/INS0121MAC</name>
 <Point>
 <coordinates>39.428084,14.31276</coordinates>
 </Point>
@@ -585,7 +585,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Qarsabar Qǝddus Mikāʾel</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0049QSM</name>
+<name>http://betamasaheft.eu/institutions/INS0049QSM</name>
 <Point>
 <coordinates>39.435027,14.345286</coordinates>
 </Point>
@@ -593,7 +593,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Qändaʿro Qǝddus Qirqos</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0186QDQ</name>
+<name>http://betamasaheft.eu/institutions/INS0186QDQ</name>
 <Point>
 <coordinates>39.442217,14.289933</coordinates>
 </Point>
@@ -601,7 +601,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Wälwalo Däbrä Bǝrhan Qirqos</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0196WQ</name>
+<name>http://betamasaheft.eu/institutions/INS0196WQ</name>
 <Point>
 <coordinates>39.645717,14.237567</coordinates>
 </Point>
@@ -609,7 +609,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Soṭa Däbrä Sälam Qǝddus Mikaʾel</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0177SDM</name>
+<name>http://betamasaheft.eu/institutions/INS0177SDM</name>
 <Point>
 <coordinates>39.413967,14.190867</coordinates>
 </Point>
@@ -617,7 +617,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>ʾƎndamosa Däbrä Sälam Mäzgäbä Śǝllase</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0277EMS</name>
+<name>http://betamasaheft.eu/institutions/INS0277EMS</name>
 <Point>
 <coordinates>39.512306,14.419645</coordinates>
 </Point>
@@ -625,7 +625,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Kunāle ʾArbāʿtu ʾƎnsǝsā</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0234KAE</name>
+<name>http://betamasaheft.eu/institutions/INS0234KAE</name>
 <Point>
 <coordinates>39.17335,13.663567</coordinates>
 </Point>
@@ -633,7 +633,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>ʿĀddigrāt Dabra Mankǝrāt Qǝddus Qirqos</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0065AMQ</name>
+<name>http://betamasaheft.eu/institutions/INS0065AMQ</name>
 <Point>
 <coordinates>39.462697,14.273281</coordinates>
 </Point>
@@ -641,7 +641,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Däbrä Mäʿar Qǝddǝst Maryam</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0119MQM</name>
+<name>http://betamasaheft.eu/institutions/INS0119MQM</name>
 <Point>
 <coordinates>39.39175,14.186783</coordinates>
 </Point>
@@ -649,7 +649,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>ʾƎnda Ḥawaryat Ṗeṭros wä-Ṗawlos</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0212EHPP</name>
+<name>http://betamasaheft.eu/institutions/INS0212EHPP</name>
 <Point>
 <coordinates>39.501183,14.33355</coordinates>
 </Point>
@@ -657,7 +657,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Ḥangoda Däbrä Mǝḥrät Qǝddus Mikaʾel</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0200HMM</name>
+<name>http://betamasaheft.eu/institutions/INS0200HMM</name>
 <Point>
 <coordinates>39.547767,14.12015</coordinates>
 </Point>
@@ -667,7 +667,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <span class="label label-warning">No item: INS0065</span>
 </address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0065</name>
+<name>http://betamasaheft.eu/institutions/INS0065</name>
 <Point>
 <coordinates/>
 </Point>
@@ -675,7 +675,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Tägoga Däbrä Nazret Qǝddus Yoḥannǝs</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0230TNY</name>
+<name>http://betamasaheft.eu/institutions/INS0230TNY</name>
 <Point>
 <coordinates>39.306483,13.563767</coordinates>
 </Point>
@@ -685,7 +685,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <span class="label label-warning">No item: INS0017ʿUra</span>
 </address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0017ʿUra</name>
+<name>http://betamasaheft.eu/institutions/INS0017ʿUra</name>
 <Point>
 <coordinates/>
 </Point>
@@ -693,7 +693,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>ʾAndel Qǝddǝst Maryam</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0145MA</name>
+<name>http://betamasaheft.eu/institutions/INS0145MA</name>
 <Point>
 <coordinates>39.414028,14.253306</coordinates>
 </Point>
@@ -701,7 +701,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Mäʿago ʾAmanuʾel, ʾAmanuʾel Mäʿago</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0135MMA</name>
+<name>http://betamasaheft.eu/institutions/INS0135MMA</name>
 <Point>
 <coordinates>39.6109,13.887933</coordinates>
 </Point>
@@ -709,7 +709,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Bäʿatti Qǝddus Mikaʾel</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0131DMB</name>
+<name>http://betamasaheft.eu/institutions/INS0131DMB</name>
 <Point>
 <coordinates>39.466133,14.310133</coordinates>
 </Point>
@@ -717,7 +717,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Mäkaʿǝlo Mäkanä Lǝʿul</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0237MKMG</name>
+<name>http://betamasaheft.eu/institutions/INS0237MKMG</name>
 <Point>
 <coordinates>39.465905,14.411504</coordinates>
 </Point>
@@ -725,7 +725,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Qǝddǝst Maryam Mäkan</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0141MM</name>
+<name>http://betamasaheft.eu/institutions/INS0141MM</name>
 <Point>
 <coordinates>39.443861,14.266111</coordinates>
 </Point>
@@ -733,7 +733,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Taḥtay Ruba Maryam</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0179TRM</name>
+<name>http://betamasaheft.eu/institutions/INS0179TRM</name>
 <Point>
 <coordinates>39.494383,14.360983</coordinates>
 </Point>
@@ -741,7 +741,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Ṣäbäla Däbrä Gännät Maryam</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0204SDGM</name>
+<name>http://betamasaheft.eu/institutions/INS0204SDGM</name>
 <Point>
 <coordinates>39.60775,13.9773</coordinates>
 </Point>
@@ -749,7 +749,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Säwnä Maryam</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0181SDSM</name>
+<name>http://betamasaheft.eu/institutions/INS0181SDSM</name>
 <Point>
 <coordinates>39.716233,14.2899</coordinates>
 </Point>
@@ -757,7 +757,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Bäläsa Qǝddus Mikaʾel</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0133QMB</name>
+<name>http://betamasaheft.eu/institutions/INS0133QMB</name>
 <Point>
 <coordinates>39.602683,13.84545</coordinates>
 </Point>
@@ -765,7 +765,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Samāz Māryām</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0054SMM</name>
+<name>http://betamasaheft.eu/institutions/INS0054SMM</name>
 <Point>
 <coordinates>39.414317,14.501467</coordinates>
 </Point>
@@ -773,7 +773,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>ʿAddimḥara Däbrä Mädḫanit ʾAbba Yoḥanni</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0244ADMY</name>
+<name>http://betamasaheft.eu/institutions/INS0244ADMY</name>
 <Point>
 <coordinates>39.45513,14.18187</coordinates>
 </Point>
@@ -783,7 +783,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <span class="label label-warning">No item: INS0214ËAd</span>
 </address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0214ËAd</name>
+<name>http://betamasaheft.eu/institutions/INS0214ËAd</name>
 <Point>
 <coordinates/>
 </Point>
@@ -791,7 +791,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Gwaḥtärat Qirqos</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0281GSQ</name>
+<name>http://betamasaheft.eu/institutions/INS0281GSQ</name>
 <Point>
 <coordinates>39.500889,13.653472</coordinates>
 </Point>
@@ -799,7 +799,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Baḥǝra Qǝddǝst Maryam</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0268BHM</name>
+<name>http://betamasaheft.eu/institutions/INS0268BHM</name>
 <Point>
 <coordinates>39.447665,14.165289</coordinates>
 </Point>
@@ -807,7 +807,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>ʿAräbay Qǝddus Mikaʾel</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0225AMS</name>
+<name>http://betamasaheft.eu/institutions/INS0225AMS</name>
 <Point>
 <coordinates>39.267483,13.72155</coordinates>
 </Point>
@@ -815,7 +815,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>ʾAmba Tähula Mikaʾel</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0294TGM</name>
+<name>http://betamasaheft.eu/institutions/INS0294TGM</name>
 <Point>
 <coordinates>39.358,14.338556</coordinates>
 </Point>
@@ -823,7 +823,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Lǝḥuṣa Maryam</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0289LQM</name>
+<name>http://betamasaheft.eu/institutions/INS0289LQM</name>
 <Point>
 <coordinates>39.336028,14.336444</coordinates>
 </Point>
@@ -833,7 +833,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <span class="label label-warning">No item: INS0179TR</span>
 </address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0179TR</name>
+<name>http://betamasaheft.eu/institutions/INS0179TR</name>
 <Point>
 <coordinates/>
 </Point>
@@ -841,7 +841,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Ṣaḥǝlo Däbrä Ṣäḥay Qǝddǝst Maryam</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0252SDMM</name>
+<name>http://betamasaheft.eu/institutions/INS0252SDMM</name>
 <Point>
 <coordinates>39.551583,13.8628</coordinates>
 </Point>
@@ -851,7 +851,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <span class="label label-warning">No item: INS0125GSM</span>
 </address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0125GSM</name>
+<name>http://betamasaheft.eu/institutions/INS0125GSM</name>
 <Point>
 <coordinates/>
 </Point>
@@ -859,7 +859,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Mikaʾel ʿAdḥǝyaw</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0214Ad</name>
+<name>http://betamasaheft.eu/institutions/INS0214Ad</name>
 <Point>
 <coordinates/>
 </Point>
@@ -867,7 +867,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Matiʿ Gabrǝʾel</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0062MG</name>
+<name>http://betamasaheft.eu/institutions/INS0062MG</name>
 <Point>
 <coordinates>39.488072,14.474919</coordinates>
 </Point>
@@ -875,7 +875,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Sänqaṭa Fǝrewäyni Maryam</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0210SFM</name>
+<name>http://betamasaheft.eu/institutions/INS0210SFM</name>
 <Point>
 <coordinates>39.569,14.054617</coordinates>
 </Point>
@@ -883,7 +883,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Dabra Warq</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0477DabraW</name>
+<name>http://betamasaheft.eu/institutions/INS0477DabraW</name>
 <Point>
 <coordinates/>
 </Point>
@@ -891,7 +891,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Cairo</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/places/LOC2085Cairo</name>
+<name>http://betamasaheft.eu/places/LOC2085Cairo</name>
 <Point>
 <coordinates>31.239444444,30.056111111</coordinates>
 </Point>
@@ -909,7 +909,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>ʿAddi Gälämo</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/places/LOC1142AddiGa</name>
+<name>http://betamasaheft.eu/places/LOC1142AddiGa</name>
 <Point>
 <coordinates/>
 </Point>
@@ -917,7 +917,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Čankār Takla Hāymānot</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/institutions/INS0507CTH</name>
+<name>http://betamasaheft.eu/institutions/INS0507CTH</name>
 <Point>
 <coordinates/>
 </Point>
@@ -925,7 +925,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Sanʿāfe</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/places/LOC5534Sanafe</name>
+<name>http://betamasaheft.eu/places/LOC5534Sanafe</name>
 <Point>
 <coordinates>39.416666666,14.7</coordinates>
 </Point>
@@ -933,7 +933,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Maṭarā</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/places/LOC4639Matara</name>
+<name>http://betamasaheft.eu/places/LOC4639Matara</name>
 <Point>
 <coordinates>39.437946,14.697611</coordinates>
 </Point>
@@ -941,7 +941,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Safra</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/places/LOC5442Safra</name>
+<name>http://betamasaheft.eu/places/LOC5442Safra</name>
 <Point>
 <coordinates/>
 </Point>
@@ -949,7 +949,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Zǝban Kutur</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/places/LOC6459ZebanK</name>
+<name>http://betamasaheft.eu/places/LOC6459ZebanK</name>
 <Point>
 <coordinates/>
 </Point>
@@ -957,7 +957,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Mārib</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/places/LOC4581Marib</name>
+<name>http://betamasaheft.eu/places/LOC4581Marib</name>
 <Point>
 <coordinates/>
 </Point>
@@ -965,7 +965,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Abba Liqanos</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/places/LOC1014AbbaLi</name>
+<name>http://betamasaheft.eu/places/LOC1014AbbaLi</name>
 <Point>
 <coordinates/>
 </Point>
@@ -973,7 +973,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Abba Mäṭaʿ</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/places/LOC1015AbbaMa</name>
+<name>http://betamasaheft.eu/places/LOC1015AbbaMa</name>
 <Point>
 <coordinates/>
 </Point>
@@ -981,7 +981,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <Placemark>
 <address>Yǝḥa</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/places/LOC6384Yeha</name>
+<name>http://betamasaheft.eu/places/LOC6384Yeha</name>
 <Point>
 <coordinates>39.0167,14.2833</coordinates>
 </Point>
@@ -990,7 +990,7 @@ https://betamasaheft.eu/institutions/INS0101MadhaneAlam
 <address>ʾAmbā ʾAddi Māqdās</address>
 <description>a place of origin of manuscripts</description>
 <name>
-https://betamasaheft.eu/places/LOC7077AmbaAddiMaqdas
+http://betamasaheft.eu/places/LOC7077AmbaAddiMaqdas
 </name>
 <Point>
 <coordinates>39.0037463,14.360878</coordinates>
@@ -999,7 +999,7 @@ https://betamasaheft.eu/places/LOC7077AmbaAddiMaqdas
 <Placemark>
 <address>ʿAnza</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/places/LOC1482Anza</name>
+<name>http://betamasaheft.eu/places/LOC1482Anza</name>
 <Point>
 <coordinates>39.409170,14.012097</coordinates>
 </Point>
@@ -1007,7 +1007,7 @@ https://betamasaheft.eu/places/LOC7077AmbaAddiMaqdas
 <Placemark>
 <address>Nazret</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/places/LOC4980Nazret</name>
+<name>http://betamasaheft.eu/places/LOC4980Nazret</name>
 <Point>
 <coordinates/>
 </Point>
@@ -1015,7 +1015,7 @@ https://betamasaheft.eu/places/LOC7077AmbaAddiMaqdas
 <Placemark>
 <address>Gundǝfru Śǝllase</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/places/LOC3657Gundef</name>
+<name>http://betamasaheft.eu/places/LOC3657Gundef</name>
 <Point>
 <coordinates>39.742853,13.826884</coordinates>
 </Point>
@@ -1023,7 +1023,7 @@ https://betamasaheft.eu/places/LOC7077AmbaAddiMaqdas
 <Placemark>
 <address>May Mbio</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/places/LOC7079MayMbio</name>
+<name>http://betamasaheft.eu/places/LOC7079MayMbio</name>
 <Point>
 <coordinates>39.646884,13.998760</coordinates>
 </Point>
@@ -1031,7 +1031,7 @@ https://betamasaheft.eu/places/LOC7077AmbaAddiMaqdas
 <Placemark>
 <address>Dǝḵana</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/places/LOC2639Dekana</name>
+<name>http://betamasaheft.eu/places/LOC2639Dekana</name>
 <Point>
 <coordinates>39.387194,14.416459</coordinates>
 </Point>
@@ -1039,7 +1039,7 @@ https://betamasaheft.eu/places/LOC7077AmbaAddiMaqdas
 <Placemark>
 <address>Edit</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/places/LOC7080Edit</name>
+<name>http://betamasaheft.eu/places/LOC7080Edit</name>
 <Point>
 <coordinates>39.380306,14.629908</coordinates>
 </Point>
@@ -1047,7 +1047,7 @@ https://betamasaheft.eu/places/LOC7077AmbaAddiMaqdas
 <Placemark>
 <address>Dabra Dāmmo</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/places/LOC2255DabraD</name>
+<name>http://betamasaheft.eu/places/LOC2255DabraD</name>
 <Point>
 <coordinates>39.292167,14.374333</coordinates>
 </Point>
@@ -1055,7 +1055,7 @@ https://betamasaheft.eu/places/LOC7077AmbaAddiMaqdas
 <Placemark>
 <address>Dǝrʿā Qoḥayto</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/places/LOC2655DeraQo</name>
+<name>http://betamasaheft.eu/places/LOC2655DeraQo</name>
 <Point>
 <coordinates/>
 </Point>
@@ -1063,7 +1063,7 @@ https://betamasaheft.eu/places/LOC7077AmbaAddiMaqdas
 <Placemark>
 <address>Laʿlay ʿAddi</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/places/LOC4238LalayA</name>
+<name>http://betamasaheft.eu/places/LOC4238LalayA</name>
 <Point>
 <coordinates>39.405590,14.818659</coordinates>
 </Point>
@@ -1071,7 +1071,7 @@ https://betamasaheft.eu/places/LOC7077AmbaAddiMaqdas
 <Placemark>
 <address>Daqanāmo</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/places/LOC2523Daqana</name>
+<name>http://betamasaheft.eu/places/LOC2523Daqana</name>
 <Point>
 <coordinates/>
 </Point>
@@ -1079,7 +1079,7 @@ https://betamasaheft.eu/places/LOC7077AmbaAddiMaqdas
 <Placemark>
 <address>Saro</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/places/LOC5584Saro</name>
+<name>http://betamasaheft.eu/places/LOC5584Saro</name>
 <Point>
 <coordinates/>
 </Point>
@@ -1087,7 +1087,7 @@ https://betamasaheft.eu/places/LOC7077AmbaAddiMaqdas
 <Placemark>
 <address>Daʿru</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/places/LOC2573Daru</name>
+<name>http://betamasaheft.eu/places/LOC2573Daru</name>
 <Point>
 <coordinates/>
 </Point>
@@ -1095,7 +1095,7 @@ https://betamasaheft.eu/places/LOC7077AmbaAddiMaqdas
 <Placemark>
 <address>ʿAddi Alawti</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/places/LOC1118AddiAl</name>
+<name>http://betamasaheft.eu/places/LOC1118AddiAl</name>
 <Point>
 <coordinates/>
 </Point>
@@ -1103,7 +1103,7 @@ https://betamasaheft.eu/places/LOC7077AmbaAddiMaqdas
 <Placemark>
 <address>Ǝnzǝlal</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/places/LOC2984Enzela</name>
+<name>http://betamasaheft.eu/places/LOC2984Enzela</name>
 <Point>
 <coordinates/>
 </Point>
@@ -1111,7 +1111,7 @@ https://betamasaheft.eu/places/LOC7077AmbaAddiMaqdas
 <Placemark>
 <address>Cullite</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/places/LOC7081Cullite</name>
+<name>http://betamasaheft.eu/places/LOC7081Cullite</name>
 <Point>
 <coordinates>37.419134,17.019712</coordinates>
 </Point>
@@ -1119,7 +1119,7 @@ https://betamasaheft.eu/places/LOC7077AmbaAddiMaqdas
 <Placemark>
 <address>Ẓafār</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/places/LOC6409Zafar</name>
+<name>http://betamasaheft.eu/places/LOC6409Zafar</name>
 <Point>
 <coordinates/>
 </Point>
@@ -1127,7 +1127,7 @@ https://betamasaheft.eu/places/LOC7077AmbaAddiMaqdas
 <Placemark>
 <address>Meroë</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/places/LOC4783Meroe</name>
+<name>http://betamasaheft.eu/places/LOC4783Meroe</name>
 <Point>
 <coordinates>33.75075,16.935138888</coordinates>
 </Point>
@@ -1135,7 +1135,7 @@ https://betamasaheft.eu/places/LOC7077AmbaAddiMaqdas
 <Placemark>
 <address>ʾAdulis</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/places/LOC1261Adulis</name>
+<name>http://betamasaheft.eu/places/LOC1261Adulis</name>
 <Point>
 <coordinates>39.6304009,15.2700956</coordinates>
 </Point>
@@ -1143,7 +1143,7 @@ https://betamasaheft.eu/places/LOC7077AmbaAddiMaqdas
 <Placemark>
 <address>Ṣǝḥuf ʾƎmni</address>
 <description>a place of origin of manuscripts</description>
-<name>https://betamasaheft.eu/places/LOC6608Sehuf</name>
+<name>http://betamasaheft.eu/places/LOC6608Sehuf</name>
 <Point>
 <coordinates/>
 </Point>

@@ -1,7 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:variable name="mainID" select="t:TEI/@xml:id"/>
     <xsl:template match="/">
-        <div id="description" class="col-md-8">
+        <div id="MainData" class="w3-twothird">
+        <div id="description">
             <xsl:if test="count(//t:titleStmt/t:title) gt 1">
                 <h2>Titles</h2>
                 <ul>
@@ -209,9 +211,9 @@
                 </div>
             </xsl:if>
             <xsl:if test="//t:div[@type='edition']//t:ab//text()">
-                <a role="button" target="_blank" class="btn btn-primary" href="{concat('http://voyant-tools.org/?input=https://betamasaheft.eu/works/',string(t:TEI/@xml:id),'.xml')}">Voyant 2 analysis tools</a>
+                <a class="w3-button w3-gray w3-large" target="_blank" href="{concat('http://voyant-tools.org/?input=http://betamasaheft.eu/works/',string(t:TEI/@xml:id),'.xml')}">Voyant</a>
             </xsl:if>
-            <button class="btn btn-primary" id="showattestations" data-value="work" data-id="{string(t:TEI/@xml:id)}">Show attestations</button>
+            <button class="w3-button w3-red w3-large" id="showattestations" data-value="work" data-id="{string(t:TEI/@xml:id)}">Show attestations</button>
             <div id="allattestations" class="col-md-12"/>
             <!--<xsl:if test="//t:body[t:div[@type='edition'][t:ab or t:div[@type='textpart']]]">
                 <div class="row-fluid well" id="textpartslist">
@@ -220,7 +222,8 @@
                 </div>
             </xsl:if>-->
         </div>
-        <xsl:call-template name="resp">
+        </div>
+            <xsl:call-template name="resp">
             <xsl:with-param name="resp" select="."/>
         </xsl:call-template>
         <xsl:call-template name="calendar">

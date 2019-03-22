@@ -1,7 +1,8 @@
-<div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
-    <div class="col-md-12">
+<?xml version="1.0" encoding="UTF-8"?>
+<div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/newpage.html" data-template-at="content">
+    <div class="w3-container w3-padding-64 w3-margin">
         <div data-template="app:logging"/>
-        <div class="col-md-12" id="apidoctoc">
+        <div class="w3-container" id="apidoctoc">
             <p>The base URI for the Linked Open Data is <code>https://betamasaheft.eu/</code> and
                 this is prefixed <code>bm</code> unless where the empty namespace is assumed to be
                 the base url of the current call. Most of the Linked Open Data formats served by
@@ -36,7 +37,7 @@
                 </li>
             </ul>
         </div>
-        <div id="void" class="col-md-12">
+        <div id="void" class="w3-container">
             <h2>VoID</h2>
             <p>We have several kinds of Linked Open Data produced for different purposes, always
                 form the TEI data. The sets of triples available as response to the following calls,
@@ -44,12 +45,16 @@
             <p>Not for all resources the same Linked Open Data is available, and the VoID nodes will
                 tell you what is available and in which format.</p>
 
-            <table class="table table-responsive">
-                <thead><tr>
+            <div class="w3-responsive">
+                <table class="w3-table">
+                <thead>
+                        <tr>
                     <th>Pattern</th>
                     <th>Example</th>
-                    <th>Explanation</th></tr>
-                </thead><tbody>
+                    <th>Explanation</th>
+                        </tr>
+                </thead>
+                    <tbody>
                 <tr>
                     <td>
                         <a id="mainVoID" href="/api/void">https://betamasaheft.eu/api/void</a>
@@ -72,9 +77,15 @@
                     </td>
                     <td>
                         <ul class="nodot">
-                            <li><a href="/api/void/ESkae011">https://betamasaheft.eu/api/void/ESkae011</a></li>
-                            <li><a href="/api/void/LIT3122Galaw">https://betamasaheft.eu/api/void/LIT3122Galaw</a></li>
-                            <li><a href="/api/void/LOC1261Adulis">https://betamasaheft.eu/api/void/LOC1261Adulis</a></li>
+                            <li>
+                                        <a href="/api/void/ESkae011">https://betamasaheft.eu/api/void/ESkae011</a>
+                                    </li>
+                            <li>
+                                        <a href="/api/void/LIT3122Galaw">https://betamasaheft.eu/api/void/LIT3122Galaw</a>
+                                    </li>
+                            <li>
+                                        <a href="/api/void/LOC1261Adulis">https://betamasaheft.eu/api/void/LOC1261Adulis</a>
+                                    </li>
                         </ul>
 
                     </td>
@@ -114,58 +125,81 @@
                             names present in Beta maṣāḥǝft and made available to Pelagios.</p>
                         <p>This includes some datasets of resources annotated elsewhere, with <a href="https://hypothes.is">Hypothes.is</a> and <a href="https://recogito.pelagios.org/">Recogito</a>.</p>
                         <p>The Gazetteer is available as a static datadump, made at each release of
-                            the Beta maṣāḥǝft application and is available <a href="https://raw.githubusercontent.com/BetaMasaheft/Documentation/master/allplaces.ttl">in one of the github repositories of the project</a></p>
+                            the Beta maṣāḥǝft application and is available <a href="https://raw.githubusercontent.com/BetaMasaheft/Documentation/master/allplaces.ttl">in one of the github repositories of the project</a>
+                                </p>
                     </td>
-                </tr></tbody>
+                </tr>
+                    </tbody>
             </table>
-
+</div>
 
         </div>
 
-        <div id="RDF" class="col-md-12">
+        <div id="RDF" class="w3-container">
             <h2>RDF</h2>
             <p>The RDF about Beta maṣāḥǝft resources contains a selection of statements using
                 several common and special vocabularies. it is produced and updated exclusively from
-                the source TEI, with a <a href="https://github.com/BetaMasaheft/RDF/blob/master/transformations/data2rdf.xsl">XSLT transformation</a></p>
+                the source TEI, with a <a href="https://github.com/BetaMasaheft/RDF/blob/master/transformations/data2rdf.xsl">XSLT transformation</a>
+            </p>
             <p>The ontology used for the description of the resources has been compound from
                 existing ontologies and is a work in progress available <a href="https://github.com/BetaMasaheft/RDF/blob/master/betamasaheft.owl">here</a>. It imports the <a href="http://lawd.info/">LAWD ontology</a> and <a href="http://www.ancientwisdoms.ac.uk/method/ontology/">SAWS</a> ontology as
                 well as the <i>ad hoc</i> created <a href="https://w3id.org/sdc/ontology">Syntaxe du
                     Codex ontology</a>, and it uses properties and classes in addition to those in
                 these ontologies from the <a href="http://snapdrgn.net/ontology">SNAP-DRGN
                     ontology</a>, the <a href="https://github.com/pelagios/pelagios-cookbook/wiki">Pelagios cookbook</a>, <a href="http://syriaca.org/documentation/relations.html">Syriaca.org</a> and <a href="https://pleiades.stoa.org/vocabularies">Pleiades Vocabularies</a>.</p>
-            <p>Documentation produced from the same file with Protégé export OWLdoc function is published here <a href="https://betamasaheft.github.io/RDF/">https://betamasaheft.github.io/RDF/</a></p>
+            <p>Documentation produced from the same file with Protégé export OWLdoc function is published here <a href="https://betamasaheft.github.io/RDF/">https://betamasaheft.github.io/RDF/</a>
+            </p>
             <p>A graph visualization is available via <a href="https://betamasaheft.eu/Guidelines/?id=ontologyView">WebVOWL</a>.</p>
-            <p>The sparql endpoint has a user interface at <a id="mainRDF" href="/sparql">https://betamasaheft.eu/sparql</a></p>
+            <p>The sparql endpoint has a user interface at <a id="mainRDF" href="/sparql">https://betamasaheft.eu/sparql</a>
+            </p>
             <p>The following table should give you a shorter summary of what to expect in the data which does not replace the details 
                 given in the ontology but allows to use the data as the ontology is not complete.</p>
             <p>All <a href="http://www.openannotation.org/spec/core/">open annotation</a> statements follow the OA style although superseded.</p>
-            <table class="table table-responsive">
-                <tbody><tr>
+            <div class="w3-responsive">
+                <table class="w3-table">
+                <tbody>
+                        <tr>
                     <th>Class</th>
                     <th>Example</th>
                     <th>Description</th>
-                </tr></tbody><tbody>
+                </tr>
+                    </tbody>
+                    <tbody>
                     <tr>
                         <td>
                             <p>all top classes</p>
                         </td>
                     <td>
-                        <p>BAVet1 <a href="https://betamasaheft.eu/rdf/manuscripts/BAVet1.rdf">[RDF]</a> <a href="https://betamasaheft.eu/manuscripts/BAVet1/main">[HTML]</a></p>
+                        <p>BAVet1 <a href="https://betamasaheft.eu/rdf/manuscripts/BAVet1.rdf">[RDF]</a> <a href="https://betamasaheft.eu/manuscripts/BAVet1/main">[HTML]</a>
+                                </p>
                     </td>
                     <td>
                         <p>The following properties are always present for main entities.</p>
                         <ul>
-                            <li><code>dc:licence</code></li>
-                            <li><code>dcterms:source</code></li>
-                            <li><code>foaf:homepage</code></li>
-                            <li><code>crm:P48_has_preferred_identifier</code></li>
-                            <li><code>dc:publisher</code></li>
-                            <li><code>dcterms:isPartOf</code></li>
+                            <li>
+                                        <code>dc:licence</code>
+                                    </li>
+                            <li>
+                                        <code>dcterms:source</code>
+                                    </li>
+                            <li>
+                                        <code>foaf:homepage</code>
+                                    </li>
+                            <li>
+                                        <code>crm:P48_has_preferred_identifier</code>
+                                    </li>
+                            <li>
+                                        <code>dc:publisher</code>
+                                    </li>
+                            <li>
+                                        <code>dcterms:isPartOf</code>
+                                    </li>
                             <li>one <code>dc:language</code> statament for each language used in the document</li>
                             <li>one <code>dc:contributor</code> statament for each contributor to the document (names as string, not URI at the moment)</li>
                             <li>one <code>dcterms:bibliographicCitation</code> for each bibliography entry, containing a string with the Zotero bm: prefixed tag for the entry in the EthioStudies library.</li>
                             <li>assignment to as many classes as dictated by each resource.</li>
-                            <li>There might be a <code>dc:temporal</code></li>
+                            <li>There might be a <code>dc:temporal</code>
+                                    </li>
                             <li>At any level there might be generic <code>dc:relation</code> stataments</li>
                             <li>Any number of direct relations using the <a href="https://betamasaheft.eu/Guidelines/?id=relations">properties listed in the guidelines</a>, expect for the SNAP-DRGN properties for which SNAP bonds are created.</li>
                         </ul>
@@ -176,25 +210,40 @@
                         <p>Manuscript</p>
                     </td>
                     <td>
-                        <p>BNFet32 <a href="https://betamasaheft.eu/rdf/manuscripts/BNFet32.rdf">[RDF]</a> <a href="https://betamasaheft.eu/manuscripts/BNFet32/main">[HTML]</a></p>
+                        <p>BNFet32 <a href="https://betamasaheft.eu/rdf/manuscripts/BNFet32.rdf">[RDF]</a> <a href="https://betamasaheft.eu/manuscripts/BNFet32/main">[HTML]</a>
+                                </p>
                     </td>
                     <td>
                         <p>A Manuscript will have additionally</p>
                         <ul>
                             <li>one <code>crm:P1_is_identified_by</code> for each main identifier of the resource (e.g. shelfmarks)</li>
-                            <li><code>SdC:hasCertainty</code></li>
-                            <li><code>bm:hasTotalLeaves</code></li>
+                            <li>
+                                        <code>SdC:hasCertainty</code>
+                                    </li>
+                            <li>
+                                        <code>bm:hasTotalLeaves</code>
+                                    </li>
                             <li>a <code>crm:P43_has_dimension</code>for each <code>E54_Dimension</code> with 
                             <ul>
-                                <li><code>crm:P2_has_type</code></li>
-                                    <li><code>crm:P90_has_value</code></li>
-                                    <li><code>crm:P91_has_unit</code></li>
+                                <li>
+                                                <code>crm:P2_has_type</code>
+                                            </li>
+                                    <li>
+                                                <code>crm:P90_has_value</code>
+                                            </li>
+                                    <li>
+                                                <code>crm:P91_has_unit</code>
+                                            </li>
                             </ul>
                             </li>
-                            <li><code>crm:P46_is_composed_of</code> with a pointer to a URI for one of the materials in the <a href="/vocabulary/material.html">Beta maṣāḥǝft vocabulary</a> or in the <a href="https://www.eagle-network.eu/resources/vocabularies/">EAGLE
-                            vocabularies</a></li>
-                            <li><code>crm:P57_has_number_of_parts</code> with the integer indicating the total main content items (things in the msitem class).</li>
-                            <li><code>dcterms:hasPart</code> for each constituent part of the manuscript description (hands, additions, quires, contents, decorations, layout features, etc.</li>
+                            <li>
+                                        <code>crm:P46_is_composed_of</code> with a pointer to a URI for one of the materials in the <a href="/vocabulary/material.html">Beta maṣāḥǝft vocabulary</a> or in the <a href="https://www.eagle-network.eu/resources/vocabularies/">EAGLE
+                            vocabularies</a>
+                                    </li>
+                            <li>
+                                        <code>crm:P57_has_number_of_parts</code> with the integer indicating the total main content items (things in the msitem class).</li>
+                            <li>
+                                        <code>dcterms:hasPart</code> for each constituent part of the manuscript description (hands, additions, quires, contents, decorations, layout features, etc.</li>
                         </ul>
                     </td>
                 </tr>
@@ -205,24 +254,38 @@
                         <td>
                             <p>BNFet32 msItem 1 
 <!--                                THIS RDF LINK IS TO THE MAIN FILE, BUT THE URI SHOULD RESOLVE TO ITS OWN THING-->
-                                <a href="https://betamasaheft.eu/rdf/manuscripts/BNFet32.rdf">[RDF]</a> <a href="https://betamasaheft.eu/manuscripts/BNFet32/main#ms_i1">[HTML]</a></p>
+                                <a href="https://betamasaheft.eu/rdf/manuscripts/BNFet32.rdf">[RDF]</a> <a href="https://betamasaheft.eu/manuscripts/BNFet32/main#ms_i1">[HTML]</a>
+                                </p>
                             </td>
                         <td>
                             <p>Each of the manuscript content items is in the <code>msitem</code> class and contains the following statments</p>
                             <ul>
-                                <li><code>dcterms:hasPart</code> pointing to the URI of the abstract work entity it contains</li>
-                                <li><code>crm:P57_has_number_of_parts</code> with the integer indicating the total main content items (things in the msitem class). This will be 0 if no subcontent item is present</li>
-                                <li><code>dcterms:hasPart</code> for each constituent part of the manuscript description (hands, additions, quires, contents, decorations, layout features, etc.</li>
+                                <li>
+                                        <code>dcterms:hasPart</code> pointing to the URI of the abstract work entity it contains</li>
+                                <li>
+                                        <code>crm:P57_has_number_of_parts</code> with the integer indicating the total main content items (things in the msitem class). This will be 0 if no subcontent item is present</li>
+                                <li>
+                                        <code>dcterms:hasPart</code> for each constituent part of the manuscript description (hands, additions, quires, contents, decorations, layout features, etc.</li>
                                 <li>the placement of the content, with a <code>bm:hasLocus</code> property linking to a <code>Locus</code>
                                     node which might have one or more of the following properties:
                                 <ul>
-                                    <li><code>bm:locusFrom</code></li>
-                                    <li><code>bm:locusTo</code></li>
-                                    <li><code>bm:locusTarget</code></li>
-                                    <li><code>bm:locusLine</code></li>
+                                    <li>
+                                                <code>bm:locusFrom</code>
+                                            </li>
+                                    <li>
+                                                <code>bm:locusTo</code>
+                                            </li>
+                                    <li>
+                                                <code>bm:locusTarget</code>
+                                            </li>
+                                    <li>
+                                                <code>bm:locusLine</code>
+                                            </li>
                                 </ul>
                                 </li>
-                                <li><code>dc:language</code></li>
+                                <li>
+                                        <code>dc:language</code>
+                                    </li>
                             </ul>
                             <p>Similarly structured are also the additions to the manuscripts.</p>
                         </td>
@@ -234,24 +297,40 @@
                         <td>
                             <p>BAVet1 quire 1 
                                 <!--                                THIS RDF LINK IS TO THE MAIN FILE, BUT THE URI SHOULD RESOLVE TO ITS OWN THING-->
-                                <a href="https://betamasaheft.eu/rdf/manuscripts/BAVet1.rdf">[RDF]</a> <a href="https://betamasaheft.eu/manuscripts/BAVet1/main#q1">[HTML]</a></p>
+                                <a href="https://betamasaheft.eu/rdf/manuscripts/BAVet1.rdf">[RDF]</a> <a href="https://betamasaheft.eu/manuscripts/BAVet1/main#q1">[HTML]</a>
+                                </p>
                         </td>
-                        <td><p>Each of the manuscript content items is in the <code>msitem</code> class and contains the following statments</p>
+                        <td>
+                                <p>Each of the manuscript content items is in the <code>msitem</code> class and contains the following statments</p>
                             <ul>
                                 <li>the placement of the content, with a <code>bm:hasLocus</code> property linking to a <code>Locus</code>
                                     node which might have one or more of the following properties:
                                     <ul>
-                                        <li><code>bm:locusFrom</code></li>
-                                        <li><code>bm:locusTo</code></li>
-                                        <li><code>bm:locusTarget</code></li>
-                                        <li><code>bm:locusLine</code></li>
+                                        <li>
+                                                <code>bm:locusFrom</code>
+                                            </li>
+                                        <li>
+                                                <code>bm:locusTo</code>
+                                            </li>
+                                        <li>
+                                                <code>bm:locusTarget</code>
+                                            </li>
+                                        <li>
+                                                <code>bm:locusLine</code>
+                                            </li>
                                     </ul>
                                 </li>
                                 <li>a <code>crm:P43_has_dimension</code>for each <code>E54_Dimension</code> with 
                                     <ul>
-                                        <li><code>crm:P2_has_type</code></li>
-                                        <li><code>crm:P90_has_value</code></li>
-                                        <li><code>crm:P91_has_unit</code></li>
+                                        <li>
+                                                <code>crm:P2_has_type</code>
+                                            </li>
+                                        <li>
+                                                <code>crm:P90_has_value</code>
+                                            </li>
+                                        <li>
+                                                <code>crm:P91_has_unit</code>
+                                            </li>
                                     </ul>
                                 </li>
                             </ul>
@@ -262,7 +341,8 @@
                         <p>Text/Narrative Unit</p>
                     </td>
                     <td>
-                        <p>LIT4252Prayer <a href="/rdf/works/LIT4252Prayer.rdf">[RDF]</a> <a href="/works/LIT4252Prayer/main">[HTML]</a></p>
+                        <p>LIT4252Prayer <a href="/rdf/works/LIT4252Prayer.rdf">[RDF]</a> <a href="/works/LIT4252Prayer/main">[HTML]</a>
+                                </p>
                     </td>
                     <td>
                         <p>A literary work will additionally have</p>
@@ -277,13 +357,16 @@
                         <p>Place/Institution</p>
                     </td>
                     <td>
-                        <p>LOC3577Gondar <a href="/rdf/places/LOC3577Gondar.rdf">[RDF]</a> <a href="/LOC3577Gondar">[HTML]</a></p>
+                        <p>LOC3577Gondar <a href="/rdf/places/LOC3577Gondar.rdf">[RDF]</a> <a href="/LOC3577Gondar">[HTML]</a>
+                                </p>
                     </td>
                     <td>
                         <p>A place record will additionally contain when available</p>
                         <ul>
-                            <li>coordinates within <code>geo:location/geo:lat</code> and <code>geo:location/geo:long</code></li>
-                            <li><code>lawd:hasName</code> with <code>lawd:variantForm</code> or <code>lawd:primaryForm</code> </li>
+                            <li>coordinates within <code>geo:location/geo:lat</code> and <code>geo:location/geo:long</code>
+                                    </li>
+                            <li>
+                                        <code>lawd:hasName</code> with <code>lawd:variantForm</code> or <code>lawd:primaryForm</code> </li>
                         </ul>
                     </td>
                 </tr>
@@ -292,24 +375,29 @@
                         <p>Person</p>
                     </td>
                     <td>
-                        <p>PRS10303Yekunno <a href="/rdf/persons/PRS10303Yekunno.rdf">[RDF]</a> <a href="/PRS10303Yekunno">[HTML]</a></p>
+                        <p>PRS10303Yekunno <a href="/rdf/persons/PRS10303Yekunno.rdf">[RDF]</a> <a href="/PRS10303Yekunno">[HTML]</a>
+                                </p>
                     </td>
                     <td>
                         <p>a person RDF representation will additionally contain</p>
                         <ul>
-                            <li><code>foaf:name</code> with language code for each recorded name and title
+                            <li>
+                                        <code>foaf:name</code> with language code for each recorded name and title
                             </li>
                             <li>If available up to three<code>crm:P4_has_time_span</code> within the classes for Birth, Death and Floruit.</li>
-                            <li><code>snap:occupation</code></li>
+                            <li>
+                                        <code>snap:occupation</code>
+                                    </li>
                         </ul>
                     </td>
                 </tr>
                 
                 </tbody>
             </table>
+            </div>
         </div>
 
-        <div id="BMuri" class="col-md-12">
+        <div id="BMuri" class="w3-container">
             <h2>Beta maṣāḥǝft URIs policies</h2>
             <p>For an ID <code>https://betamasaheft.eu/BNFet32</code> the HTML 
                 representation and human readable resource is <code>https://betamasaheft.eu/manuscript/BNFet32/main</code> and this is where 
@@ -323,11 +411,15 @@
                 not contain the triples specific to parts and instead contains statements made in other source XML files.</p>
             <p>Because in Beta maṣāḥǝft the HTML views are comprehensive, the URIs of parts of a manuscript for example or annotation will point to the main page where they are presented.</p>
             
-            <table class="table table-striped">
-                <thead><tr>
+            <div class="w3-responsive">
+                <table class="w3-table w3-striped">
+                <thead>
+                        <tr>
                     <th>Entity</th>
-                    <th>URI</th></tr>
-                </thead><tbody>
+                    <th>URI</th>
+                        </tr>
+                </thead>
+                    <tbody>
                 <tr>
                     <td>
                         <p>Manuscript</p>
@@ -411,13 +503,21 @@
                     </td>
                 </tr>
                     <tr>
-                        <td><p>manuscript additions</p></td>
-                        <td><p>https://betamasaheft.eu/BNFet32/addition/a9</p></td>
+                        <td>
+                                <p>manuscript additions</p>
+                            </td>
+                        <td>
+                                <p>https://betamasaheft.eu/BNFet32/addition/a9</p>
+                            </td>
                     </tr>
                     
                     <tr>
-                        <td><p>manuscript decorations</p></td>
-                        <td><p>https://betamasaheft.eu/BNFet32/decoration/d3</p></td>
+                        <td>
+                                <p>manuscript decorations</p>
+                            </td>
+                        <td>
+                                <p>https://betamasaheft.eu/BNFet32/decoration/d3</p>
+                            </td>
                     </tr>
                 <tr>
                     <td>
@@ -436,8 +536,12 @@
                     </td>
                 </tr>
                     <tr>
-                        <td><p>manuscript layout specification</p></td>
-                        <td><p>https://betamasaheft.eu/BNFet32/layout/layout1</p></td>
+                        <td>
+                                <p>manuscript layout specification</p>
+                            </td>
+                        <td>
+                                <p>https://betamasaheft.eu/BNFet32/layout/layout1</p>
+                            </td>
                     </tr>
                 
                 <tr>
@@ -465,17 +569,20 @@
                         <p>https://betamasaheft.eu/BAVcerulli37/UniProd/UniProd1</p>
                         <p>https://betamasaheft.eu/BAVcerulli37/transformation/tr1</p>
                     </td>
-                </tr></tbody>
+                </tr>
+                    </tbody>
             </table>
         </div>
+        </div>
 
-        <div id="BMproperties" class="col-md-12">
+        <div id="BMproperties" class="w3-container">
             <h2>Beta maṣāḥǝft properties</h2>
             <p>The list of properties actually used in the value of the attribute name for the
                 element relation can be found <a href="https://betamasaheft.eu/Guidelines/?id=relation">here, in the guidelines
                     page where the schema values are imported</a>.</p>
             <p>Some, like bm:hasRole, or bm:locusLine or bm:hasTotalLeaves are directly exported from the TEI and are thus not in the list of values for relations.</p>
-            <table class="table table-responsive">
+            <div class="w3-responsive">
+                <table class="w3-table">
                 <thead>
                     <tr>
                         <th>name</th>
@@ -824,29 +931,43 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
+            </div>
+            </div>
 
-        <div id="BMclasses" class="col-md-12">
+        <div id="BMclasses" class="w3-container">
             <h2>Beta maṣāḥǝft classes</h2>
             <p/>
-            <table class="table table-responsive">
+            <div class="w3-responsive">
+                <table class="w3-table">
                 <thead>
-                    <tr><th>name</th>
-                    <th>definition</th></tr>
+                    <tr>
+                            <th>name</th>
+                    <th>definition</th>
+                        </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td><p>bm:Locus</p></td>
-                    <td><p>The placement of a unit, feature, part, component of a manuscript with reference to the foliation</p></td>
+                    <td>
+                                <p>bm:Locus</p>
+                            </td>
+                    <td>
+                                <p>The placement of a unit, feature, part, component of a manuscript with reference to the foliation</p>
+                            </td>
                 </tr>
                 <tr>
-                    <td><p>bm:Role</p></td>
-                    <td><p>The role attested with a personal name.</p></td>
-                </tr></tbody>
+                    <td>
+                                <p>bm:Role</p>
+                            </td>
+                    <td>
+                                <p>The role attested with a personal name.</p>
+                            </td>
+                </tr>
+                    </tbody>
             </table>
-        </div>
+            </div>
+            </div>
 
-        <div id="SdC" class="col-md-12">
+        <div id="SdC" class="w3-container">
             <h2>Syntaxe du Codex</h2>
             <p>This ontology is based on the book "La Syntaxe du Codex. Essai de codicologie structurale" 
                 by Patrick Andrist, Paul Canart and Marilena Maniaci, Turnhout: Brepols 2013. 
@@ -854,9 +975,11 @@
                 P. G. Borbone, F. Briquel Chatonnet, P. Buzi, J. Gippert, C. Macé, M. Maniaci, 
                 Z. Melissakis, L. Parodi, W. Witakowski, and E. Sokolinski, eds, Comparative 
                 Oriental Manuscript Studies: An Introduction (Hamburg: Tredition, 2015), 511–520.</p>
-            <p>The registered domain is <a href="https://w3id.org/sdc/ontology">https://w3id.org/sdc/ontology</a></p>
+            <p>The registered domain is <a href="https://w3id.org/sdc/ontology">https://w3id.org/sdc/ontology</a>
+            </p>
             <p>The <a href="https://raw.githubusercontent.com/BetaMasaheft/SyntaxeDuCodex/master/SyntaxeDuCodex.owl">OWL file</a> is stored in a GitHub repository of th Beta maṣāḥǝft organization.</p>
-            <p>Documentation produced from the same file with Protégé export OWLdoc function is published here <a href="https://betamasaheft.github.io/SyntaxeDuCodex/">https://betamasaheft.github.io/SyntaxeDuCodex/</a></p>
+            <p>Documentation produced from the same file with Protégé export OWLdoc function is published here <a href="https://betamasaheft.github.io/SyntaxeDuCodex/">https://betamasaheft.github.io/SyntaxeDuCodex/</a>
+            </p>
             <p>A graph visualization is available via <a href="https://betamasaheft.eu/Guidelines/?id=ontologyView">WebVOWL</a>.</p>
         </div>
 

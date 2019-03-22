@@ -1,10 +1,10 @@
 $(document).on('ready', function(){
     
-    $('#optionsList').append('<button class="btn btn-success printgroup">Print PDF with all selected items</button>')
+    $('#optionsList').append('<button class="w3-button w3-gray printgroup">PDF</button>')
     var checkBoxes = $('input.pdf');
 checkBoxes.change();
 
-$('#optionsList').append('<button class="btn btn-primary comparegroup">Compare selected items</button>')
+$('#optionsList').append('<button class="w3-button w3-gray  comparegroup">Compare</button>')
     var checkBoxes = $('input.compareSelected');
 checkBoxes.change();
 

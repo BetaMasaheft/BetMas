@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <collection xmlns="http://exist-db.org/collection-config/1.0">
     <index xmlns:t="http://www.tei-c.org/ns/1.0">
         <fulltext default="none" attributes="false"/>
@@ -43,14 +44,12 @@
             <text qname="t:birth"/>
             <text qname="t:death"/>
             <text qname="t:floruit"/>
-            <text qname="t:custEvent"/>
             <text qname="@active"/>
             <text qname="@passive"/>
             <text qname="@mutual"/>
             <text qname="@key"/>
             <text qname="@who"/>
             <text qname="@type"/>
-            <text qname="@subtype"/>
             <text qname="@ref"/>
             <text qname="@corresp"/>
             <text qname="@role"/>
@@ -138,12 +137,6 @@
             
             <create qname="t:seg">
                 <field name="segana" match="@ana" type="xs:string"/>
-            </create>
-            
-            <create qname="t:custEvent">
-                <field name="custeventtext" type="xs:string"/>
-                <field name="custEventtype" match="@type" type="xs:string"/>
-                <field name="custEventsubtype" match="@subtype" type="xs:string"/>
             </create>
             
             <create qname="t:lem">
@@ -414,6 +407,7 @@
                 <field name="placeID" match="@xml:id" type="xs:string"/>
                 <field name="placeLANG" match="@xml:lang" type="xs:string"/>
             </create>
+            
             
             <create qname="t:origPlace">
                 <field name="origPlacePlaceNametext" match="//t:placeName/@ref" type="xs:string"/>

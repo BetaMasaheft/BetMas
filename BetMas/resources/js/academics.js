@@ -13,7 +13,7 @@ var bio = data[i].bio
 var zot = data[i].zoturl
 var wd = data[i].wd
 
-    $(acs).append('<div class="card"><div class="card-block"><h4 class="card-title"><a href="/'+id+'" target="_blank">'+tit+'</a></h4><p class="card-text">'+txt+'</p><p class="card-text"><small class="text-muted">'+dd+'</small></p><p class="card-text academicBio">'+bio+'</p><p class="card-text"><a  href="'+zot+'" target="_blank">Items in Zotero EthioStudies</a></p><p class="card-text">'+wd+'</p></div></div>')
+    $(acs).append('<div class="w3-card-4 w3-padding w3-margin"><div class="w3-container"><header class="w3-container"><a href="/'+id+'" target="_blank">'+tit+'</a></header><p>'+txt+'</p><p><small class="text-muted">'+dd+'</small></p><p class="academicBio">'+bio+'</p><p><a  href="'+zot+'" target="_blank">Items in Zotero EthioStudies</a></p><p>'+wd+'</p></div></div>')
     }
     });
     

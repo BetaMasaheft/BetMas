@@ -95,7 +95,7 @@ allNodes = nodesDataset.get({returnType:"Object"});
 
     network.on("click",neighbourhoodHighlight);
 /*network.on( 'click', function(properties) {
-    window.open('https://betamasaheft.aai.uni-hamburg.de/' + properties.nodes, '_blank');
+    window.open('http://betamasaheft.aai.uni-hamburg.de/' + properties.nodes, '_blank');
 });
 */
   }

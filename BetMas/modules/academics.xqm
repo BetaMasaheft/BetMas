@@ -3,7 +3,7 @@ xquery version "3.1" encoding "UTF-8";
  : module with all the main functions which can be called by the API.
  : called by academics.js
  : 
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
 module namespace aka = "https://www.betamasaheft.uni-hamburg.de/BetMas/aka";
 import module namespace rest = "http://exquery.org/ns/restxq";
@@ -18,7 +18,6 @@ declare namespace t = "http://www.tei-c.org/ns/1.0";
 (: For REST annotations :)
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json = "http://www.json.org";
-
 
 
 declare

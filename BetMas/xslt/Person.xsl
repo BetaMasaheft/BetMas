@@ -1,40 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:variable name="mainID" select="t:TEI/@xml:id"/>
     <xsl:template match="/">
-       <div class="col-md-12">
-          <div class="col-md-9" id="history">
+       <div class="w3-twothird" id="MainData">
+           <div class="w3-container">
+          <div class="w3-threequarter w3-padding" id="history">
             <xsl:if test="//t:birth">
-                <div class="col-md-12" id="birth"> <h4>Birth</h4>
+                <div class="w3-container" id="birth"> <h4>Birth</h4>
                 <p>
                             <xsl:apply-templates select="//t:birth" mode="noP"/>
                         </p>
                 </div>
             </xsl:if>
             <xsl:if test="//t:floruit">
-                <div class="col-md-12" id="floruit"> <h4>Period of Activity</h4>
+                <div class="w3-container" id="floruit"> <h4>Floruit</h4>
                     <p>
                             <xsl:apply-templates select="//t:floruit" mode="noP"/>
                         </p>
                 </div>
             </xsl:if>
             <xsl:if test="//t:death">
-                <div class="col-md-12" id="death"> <h4>Death</h4>
+                <div class="w3-container" id="death"> <h4>Death</h4>
                    <p>
                             <xsl:apply-templates select="//t:death" mode="noP"/>
                         </p>
                 </div>
             </xsl:if>
               <xsl:if test="//t:person/t:note">
-                  <div class="col-md-12"> <h4>Notes</h4>
+                  <div class="w3-container"> <h4>Notes</h4>
                       <xsl:apply-templates select="//t:person/t:note"/>
                   </div>
               </xsl:if>
               
-              <button class="btn btn-primary" id="showattestations" data-value="person" data-id="{string(t:TEI/@xml:id)}">Show attestations</button>
+              <button class="w3-button w3-red w3-large" id="showattestations" data-value="person" data-id="{string(t:TEI/@xml:id)}">Show attestations</button>
               <div id="allattestations" class="col-md-12"/>
         </div>
-           <div class="col-md-3 alert alert-info" id="description" rel="http://xmlns.com/foaf/0.1/name">
-               <h2>Names <xsl:if test="//t:person/@sex">
+           <div class="w3-quarter w3-panel w3-red w3-card-4 w3-padding " id="description" rel="http://xmlns.com/foaf/0.1/name">
+               <h3>Names <xsl:if test="//t:person/@sex">
                    <xsl:choose>
                        <xsl:when test="//t:person/@sex = 1">
                            <i class="icon-large icon-male"/>
@@ -49,7 +51,7 @@
                            <span class="icon-large icon-vcard"/>
                        </a>
                    </xsl:if>
-               </h2>
+               </h3>
                
                <ul class="nodot">
                <xsl:choose>
@@ -206,7 +208,7 @@
                </xsl:choose>
                </ul>
                <xsl:if test="//t:floruit/@* or //t:birth/@* or //t:death/@*">
-                   <h2>Dates </h2>
+                   <h3>Dates </h3>
                    <xsl:if test="//t:birth[@when or @notBefore or @notAfter ] or                             //t:death[@when or @notBefore or @notAfter  ] or                             //t:floruit[@when or @notBefore or @notAfter ]">
                        <xsl:for-each select="//t:birth[@when or @notBefore or @notAfter ]">
                            <p>Birth: <xsl:choose>
@@ -215,21 +217,29 @@
                                    <xsl:text>-</xsl:text>
                                    <xsl:value-of select="@notAfter"/>
                                </xsl:when>
-                               <xsl:otherwise><xsl:value-of select="@when"/></xsl:otherwise>
+                               <xsl:otherwise>
+                                            <xsl:value-of select="@when"/>
+                                        </xsl:otherwise>
                            </xsl:choose>
-                               <xsl:if test="@cert"><xsl:value-of select="concat(' (', @cert, ')')"/></xsl:if>
+                               <xsl:if test="@cert">
+                                        <xsl:value-of select="concat(' (', @cert, ')')"/>
+                                    </xsl:if>
                            </p>
                        </xsl:for-each>
                        <xsl:for-each select="//t:floruit[@when or @notBefore or @notAfter ]">
-                           <p>Period of activity: <xsl:choose>
+                           <p>Floruit: <xsl:choose>
                                <xsl:when test="@notBefore or @notAfter">
                                    <xsl:value-of select="@notBefore"/>
                                    <xsl:text>-</xsl:text>
                                    <xsl:value-of select="@notAfter"/>
                                </xsl:when>
-                               <xsl:otherwise><xsl:value-of select="@when"/></xsl:otherwise>
+                               <xsl:otherwise>
+                                            <xsl:value-of select="@when"/>
+                                        </xsl:otherwise>
                            </xsl:choose>
-                               <xsl:if test="@cert"><xsl:value-of select="concat(' (', @cert, ')')"/></xsl:if>
+                               <xsl:if test="@cert">
+                                        <xsl:value-of select="concat(' (', @cert, ')')"/>
+                                    </xsl:if>
                            </p>
                        </xsl:for-each>
                        <xsl:for-each select="//t:death[@when or @notBefore or @notAfter ]">
@@ -239,16 +249,20 @@
                                    <xsl:text>-</xsl:text>
                                    <xsl:value-of select="@notAfter"/>
                                </xsl:when>
-                               <xsl:otherwise><xsl:value-of select="@when"/></xsl:otherwise>
+                               <xsl:otherwise>
+                                            <xsl:value-of select="@when"/>
+                                        </xsl:otherwise>
                            </xsl:choose>
-                               <xsl:if test="@cert"><xsl:value-of select="concat(' (', @cert, ')')"/></xsl:if>
+                               <xsl:if test="@cert">
+                                        <xsl:value-of select="concat(' (', @cert, ')')"/>
+                                    </xsl:if>
                            </p>
                        </xsl:for-each>
                    </xsl:if>
                </xsl:if>
                
                <xsl:if test="//t:occupation">
-                   <h2>Occupation</h2>
+                   <h3>Occupation</h3>
                    
                    <xsl:for-each select="//t:occupation">
                        <p class="lead" property="http://data.snapdrgn.net/ontology/snap#occupation">
@@ -266,19 +280,19 @@
                    </xsl:for-each>
                </xsl:if>
                <xsl:if test="//t:residence/text()">
-                   <h2>Residence</h2>
+                   <h3>Residence</h3>
                    <p class="lead">
                        <xsl:apply-templates select="//t:residence"/>
                    </p>
                </xsl:if>
                <xsl:if test="//t:faith">
-                   <h2>Faith</h2>
+                   <h3>Faith</h3>
                    <p class="lead">
                        <xsl:apply-templates select="//t:faith"/>
                    </p>
                </xsl:if>
                <xsl:if test="//t:nationality">
-                   <h2>Nationality</h2>
+                   <h3>Nationality</h3>
                    <p class="lead">
                        <xsl:apply-templates select="//t:nationality"/>
                    </p>
@@ -289,6 +303,7 @@
         <div id="bibliography">
             <xsl:apply-templates select="//t:listBibl"/>
         </div>
+       </div> 
         <xsl:call-template name="resp">
             <xsl:with-param name="resp" select="."/>
         </xsl:call-template>

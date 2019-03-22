@@ -8,7 +8,7 @@ declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare function log:add-log-message($message as xs:string)
 as empty-sequence()
 {
-   let $logfile-collection := '/db/apps/BetMas/log'
+   let $logfile-collection := '/db/apps/log'
    let $logfile-name := 'bm-log'||format-date(current-date(), '[Y0][M0][D0]')||'.xml'
    let $logfile-full := concat($logfile-collection, '/', $logfile-name)
    let $logfile-created := if(doc-available($logfile-full)) then $logfile-full else 
@@ -30,7 +30,7 @@ as empty-sequence()
 {
 if($user = 'guest') then ()
 else
-   let $logfile-collection := '/db/apps/BetMas/log'
+   let $logfile-collection := '/db/apps/log'
    let $logfile-name := 'bm-log'||format-date(current-date(), '[Y0][M0][D0]')||'.xml'
    let $logfile-full := concat($logfile-collection, '/', $logfile-name)
    let $logfile-created := if(doc-available($logfile-full)) then $logfile-full else 

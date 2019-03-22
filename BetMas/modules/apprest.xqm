@@ -3,7 +3,7 @@ xquery version "3.1" encoding "UTF-8";
  : module used by the restXQ modules functions
  : used by the main views for items
  :
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
 module namespace apprest="https://www.betamasaheft.uni-hamburg.de/BetMas/apprest";
 
@@ -21,8 +21,9 @@ import module namespace templates="http://exist-db.org/xquery/templates" ;
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace charts = "https://www.betamasaheft.uni-hamburg.de/BetMas/charts" at "xmldb:exist:///db/apps/BetMas/modules/charts.xqm";
 import module namespace console = "http://exist-db.org/xquery/console"; 
+import module namespace exreq = "http://exquery.org/ns/request";
 
-declare variable $apprest:languages := doc('/db/apps/BetMas/languages.xml');
+declare variable $apprest:languages := doc('/db/apps/BetMas/lists/languages.xml');
 
 declare function functx:trim( $arg as xs:string? )  as xs:string {
 
@@ -282,7 +283,7 @@ let $otherrelsa := $config:collection-root//t:relation[ancestor::t:TEI[not(@xml:
 (:the three variables here assume that there will be relations in the requested file, and that if a relation somewhere else has this id in active it will not have it in passive:)
 let $allrels := ($rels, $otherrelsp, $otherrelsa)
 return
-                        <table class="table table-hover" width="100%"  xmlns="http://www.w3.org/1999/xhtml">
+                        <div class="responsive"><table class="w3-table w3-hoverable w3-small"  xmlns="http://www.w3.org/1999/xhtml">
                             <thead>
                                 <tr>
                                     <th>Subject</th>
@@ -358,7 +359,7 @@ apprest:deciderelation($list//id)
                                     }
                             </tbody>
                         </table>
-
+</div>
 
 };
 
@@ -421,13 +422,13 @@ declare function apprest:referencesList($id, $list, $mode as xs:string){
 
 declare function apprest:institutions(){
 <form action="" class="form form-horizontal">
-<div class="form-group">
+<div class="w3-container">
 <label for="GoToRepo">go to repository list</label>
-<a role="button"class="btn btn-secondary" id="loadrepositories">load</a>
+<a role="button"class="w3-button w3-button-secondary" id="loadrepositories">load</a>
 <div class="input-group">
-<select id="GoToRepo" class="form-control">
+<select id="GoToRepo" class="w3-select w3-border">
 </select>
-<div class="input-group-btn"><button id="clickandgotoRepoID" class="btn btn-primary" disabled="disabled">Go</button></div>
+<div class="input-group-w3-button"><button id="clickandgotoRepoID" class="w3-button w3-red" disabled="disabled">Go</button></div>
 </div>
 </div>
 </form>
@@ -435,13 +436,13 @@ declare function apprest:institutions(){
 
 declare function apprest:catalogues(){
 <form action="" class="form form-horizontal">
-<div class="form-group">
+<div class="w3-container">
 <label for="GoToCatalogue">go to catalogue list</label>
-<a role="button"class="btn btn-secondary" id="loadcatalogues">load</a>
+<a role="button"class="w3-button w3-button-secondary" id="loadcatalogues">load</a>
 <div class="input-group">
-<select id="GoToCatalogue" class="form-control">
+<select id="GoToCatalogue" class="w3-select w3-border">
 </select>
-<div class="input-group-btn"><button id="clickandgotoCatalogueID" class="btn btn-primary" disabled="disabled">Go</button></div>
+<div class="input-group-w3-button"><button id="clickandgotoCatalogueID" class="w3-button w3-red" disabled="disabled">Go</button></div>
 </div>
 </div>
 <img id="loading" src="resources/Loading.gif" style="display: none;"></img>
@@ -577,19 +578,21 @@ let $id := string($this/@xml:id)
 let $app:bibdata := apprest:bibdata($id, $collection)
 return
 
-<div class="col-md-12" id="citations">
-<div class="container-fluid col-md-4 well" id="citation">
+<div class="w3-container " id="citations">
+<div class="w3-third" id="citation">
+<div class="w3-panel w3-card-4 w3-padding w3-margin  w3-gray " >
 
 <h3>Suggested Citation of this record</h3>
-<div class="col-md-12" id="citationString">
+<div class="w3-container" id="citationString">
 <p>{for $a in $app:bibdata//author/text()  return ($a|| ', ')} ʻ{$app:bibdata//title[@level='a']/text()}ʼ, in Alessandro Bausi, ed.,
 <i>{($app:bibdata//title[@level='j']/text() || ' ')}</i> {$app:bibdata//date[@type='lastModified']/text()}
 <a href="{$app:bibdata/idno/text()}">{$app:bibdata/idno[@type='url']/text()}</a> {(' DOI:' || $app:bibdata/idno[@type='DOI']/text() || ' ')} {$app:bibdata//date[@type='accessed']/text()}</p></div>
-
+</div>
 
 
 </div>
-<div class="container-fluid col-md-4 well" id="revisions">
+<div class="w3-third" id="revisions">
+<div class="w3-panel w3-card-4 w3-padding w3-margin  w3-gray " >
 <h3>Revisions of the data</h3>
                 <ul>
                 {for $change in $document//t:revisionDesc/t:change
@@ -605,7 +608,9 @@ return
 
     </ul>
     </div>
-    <div class="container-fluid col-md-4 well" id="revisions">
+    </div>
+    <div class=" w3-third" id="attributions">
+<div class="w3-panel w3-card-4 w3-padding w3-margin w3-gray " >
 <h3>Attributions of the contents</h3>
                 <div>
                 {for $respStmt in $document//t:titleStmt/t:respStmt
@@ -622,10 +627,10 @@ return
                 {($action || ' by ' || string-join($authors, ', '))}
                 </p>
                 }
-
+                </div>
     </div>
-     <div>{string:tei2string($document//t:editionStmt/node())}</div>
-     <div>{string:tei2string($document//t:availability/node())}</div>
+     {if($document//t:editionStmt/node()) then <div class="w3-panel w3-card-4 w3-padding w3-margin w3-red " >{string:tei2string($document//t:editionStmt/node())}</div> else ()}
+     {if($document//t:availability/node()) then <div class="w3-panel w3-card-4 w3-padding w3-margin w3-white " >{string:tei2string($document//t:availability/node())}</div> else ()}
     </div>
     </div>
 
@@ -683,41 +688,44 @@ declare function apprest:footerjsSelector() as element()* {
 declare function apprest:scriptStyle(){
 (
         <link rel="shortcut icon" href="resources/images/minilogo.ico"/>,
-        <link rel="stylesheet" type="text/css" href="$shared/resources/css/bootstrap-3.0.3.min.css"  />,
-        <link rel="stylesheet" type="text/css" href="resources/css/bootstrap.icon-large.min.css"  />,
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.5.1/css/bootstrap-slider.min.css"  />,
         <link rel="stylesheet" type="text/css" href="resources/font-awesome-4.7.0/css/font-awesome.min.css"  />   ,
-        <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"  />,
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/virtual-keyboard/1.26.22/css/keyboard-basic.min.css"  />,
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css"  />,
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick-theme.css"  />,
-        <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" integrity="sha384-+ENW/yibaokMnme+vBLnHMphUYxHs34h9lpdbSLuAwGkOKFRl4C34WkjazBtb7eT" crossorigin="anonymous"  ></link>,
-        
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/virtual-keyboard/1.26.22/css/keyboard-basic.min.css"  />,
+
+(:        introjs:)
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/introjs.css"  />,
         <link rel="stylesheet" type="text/css" href="resources/css/style.css"  />,
+(:        Alpheios :)
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alpheios-embedded/dist/style/style.min.css"  />,
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alpheios-embedded/dist/style/style-embedded.min.css"  />,
-        <style rel="stylesheet" type="text/css" href="resources/css/d3.css"  />,
+      
+(:      d3 :)
+      <link rel="stylesheet" type="text/css" href="resources/css/d3.css"  />,
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>,
+(:      w3 :)
+        <link rel="stylesheet" href="resources/css/w3local.css"/>,
+        <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"/>
+        )};
+        
+        declare function apprest:listScriptStyle(){
+        (
+        <link rel="stylesheet" type="text/css" href="resources/font-awesome-4.7.0/css/font-awesome.min.css"  /> ,  
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/virtual-keyboard/1.26.22/css/keyboard-basic.min.css"  />,
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/introjs.css"  />,
+          <link rel="stylesheet" type="text/css" href="$shared/resources/css/bootstrap-3.0.3.min.css"  />,
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>,
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.5.1/css/bootstrap-slider.min.css"  />,
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alpheios-embedded/dist/style/style.min.css"  />,
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alpheios-embedded/dist/style/style-embedded.min.css"  />,
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>,
+        <link rel="stylesheet" href="resources/css/w3local.css"/>,
         <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"/>,
         <script type="text/javascript" src="$shared/resources/scripts/bootstrap-3.0.3.min.js"  />,
-        <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" ></script>,
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/virtual-keyboard/1.26.22/js/jquery.keyboard.js"  />,
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/virtual-keyboard/1.26.22/js/jquery.mousewheel.min.js"  />,
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/virtual-keyboard/1.26.22/js/jquery.keyboard.extension-typing.min.js"  />,
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/virtual-keyboard/1.26.22/js/jquery.keyboard.extension-altkeyspopup.min.js"  ></script>,
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"  />,
-        <script type="text/javascript" src="$shared/resources/scripts/loadsource.js"  />,
-        <script  type="text/javascript" src="resources/js/jquery.dataTables.min.js"  />,
-        <script type="text/javascript" src="resources/js/dataTables.bootstrap.min.js"  />,
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.5.1/bootstrap-slider.min.js"  />,
-        <script type="text/javascript" src="resources/js/diacriticskeyboard.js"  />,
-        <script type="text/javascript" src="resources/openseadragon/openseadragon.min.js"  />,
-        <script type="text/javascript" src="resources/js/analytics.js"  ></script>,
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/intro.js"  ></script>,
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"  ></script>,
-        <script src="https://cdn.jsdelivr.net/npm/alpheios-embedded/dist/alpheios-embedded.min.js"  ></script>,
-        <script type="text/javascript" src="resources/alpheios/alpheiosStart.js" />
-        )};
+        <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"/>,
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.5.1/bootstrap-slider.min.js"/>
+        
+        
+       )
+        };
 
 (:~html page script and styles to be included specific for item :)
 declare function apprest:ItemScriptStyle(){
@@ -730,28 +738,38 @@ declare function apprest:ItemScriptStyle(){
         <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/js/mapbox.js"  />,
         <script  xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/js/Leaflet.fullscreen.min.js"  />,
        <script type="text/javascript" src="resources/js/leaflet-ajax-gh-pages/dist/leaflet.ajax.min.js"  ></script>,
-                         <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.12.0/vis.min.js"  />(:,
-        <script src="resources/awdl/lib/requirejs/require.min.js" type="text/javascript"/>,
-         <script src="resources/awdl/awld.js" type="text/javascript"/>,
-        <script type="text/javascript">
-                           awld.init();
-                        </script>:)
+                         <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.12.0/vis.min.js"  />
 };
 
 (:~html page script and styles to be included specific for item :)
 declare function apprest:ItemFooterScript(){
+
+        <script type="application/javascript" src="resources/js/w3.js"/>,
+        <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" ></script>,
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/virtual-keyboard/1.26.22/js/jquery.keyboard.js"  />,
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/virtual-keyboard/1.26.22/js/jquery.mousewheel.min.js"  />,
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/virtual-keyboard/1.26.22/js/jquery.keyboard.extension-typing.min.js"  />,
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/virtual-keyboard/1.26.22/js/jquery.keyboard.extension-altkeyspopup.min.js"  ></script>,
+        <script type="text/javascript" src="$shared/resources/scripts/loadsource.js"  />,
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.5.1/bootstrap-slider.min.js"  />,
+        <script type="text/javascript" src="resources/js/diacriticskeyboard.js"  />,
+        <script type="text/javascript" src="resources/openseadragon/openseadragon.min.js"  />,
+        <script type="text/javascript" src="resources/js/analytics.js"  ></script>,
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/intro.js"  ></script>,
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"  ></script>,
+        <script src="https://cdn.jsdelivr.net/npm/alpheios-embedded/dist/alpheios-embedded.min.js"  ></script>,
+        <script type="text/javascript" src="resources/alpheios/alpheiosStart.js" />,
+        <script type="application/javascript" src="resources/js/introText.js"/>,
 <script type="text/javascript" src="resources/js/versions.js"/>,
 <script type="text/javascript" src="resources/js/quotations.js"/>,
 <script type="text/javascript" src="resources/js/samerole.js"/>,
 <script type="text/javascript" src="resources/js/allattestations.js"/>,
 <script type="text/javascript" src="resources/js/ugarit.js"/>,
 <script type="text/javascript" src="resources/js/highlight.js"/>,
-<script type="text/javascript" src="resources/js/toogle.js"/>,
         <script type="text/javascript" src="resources/js/titles.js"/>,
         <script type="text/javascript" src="resources/js/NewBiblio.js"/>,
         <script type="text/javascript" src="resources/js/PointsHere.js"/>,
         <script type="text/javascript" src="resources/js/resp.js"/>,
-        <script type="text/javascript" src="resources/js/slickoptions.js"/>,
         <script type="text/javascript" src="resources/js/relatedItems.js"/>,
         <script type="text/javascript" src="resources/js/citations.js"/>,
         <script type="text/javascript" src="resources/js/hypothesis.js"/>
@@ -1019,14 +1037,11 @@ let $evalContext := util:eval($context)
 let $onchange := 'if (this.value) window.location.href=this.value'
 return
 
-<form action="" class="form form-horizontal" data-hint="Any of these search filter implies that by searching a certain feature you do not only exclude those who have another value for that, but also all those items which do not carry the information at all.">
-<div class="form-group">{app:nextID($collection)}</div>
-<div class="form-group"><label for="mainname">name</label>
-                <input id="mainname" name="mainname" class="form-control"></input></div>
-<div class="form-group">
-                <label for="dates">date range</label>
-                <div class="form-control">
-                <div class="input-group">
+<form action="" class="w3-container" data-hint="Any of these search filter implies that by searching a certain feature you do not only exclude those who have another value for that, but also all those items which do not carry the information at all.">
+<div class="w3-container"><label for="mainname">name</label>
+                <input id="mainname" name="mainname" class="w3-input w3-border"></input></div>
+<div class="w3-container w3-padding w3-margin-left">
+                <label for="dates">Dates range</label><br/>
                 <input id="dates" type="text" class="span2"
                 name="date-range"
                 data-slider-min="0"
@@ -1037,13 +1052,11 @@ return
                 {"$('#dates').bootstrapSlider({});"}
                 </script>
             </div>
-            </div>
-            </div>
  {if($items-info = <start/>) then (
 (:no selection done yet, provide index value:)
-<div class="form-group" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that language">
+<div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that language">
 <label for="language">languages </label>
-<select multiple="multiple" name="language" id="language" class="form-control">
+<select multiple="multiple" name="language" id="language" class="w3-select w3-border">
 {console:log($apprest:languages)}
                             {$app:range-lookup('TEIlanguageIdent', '', function($key, $count) {<option value="{$key}">{$apprest:languages//t:item[@xml:id=$key]/text()} </option>}, 100)}
                             </select>
@@ -1052,9 +1065,9 @@ return
 ) else
 (:form selectors relative to query:)
 app:formcontrol('language', $items-info//t:language/@ident, 'true', 'values', $context)}
- <div class="form-group">
+ <div class="w3-container">
     <label>Data provenance</label>
-                <select name="cp" class="form-control">
+                <select name="cp" class="w3-select w3-border">
                     <option value="">all</option>
                      <option value="BM">Beta maṣāḥǝft</option>
                     <option value="ES">Ethio-SPaRe</option>
@@ -1067,10 +1080,9 @@ app:formcontrol('language', $items-info//t:language/@ident, 'true', 'values', $c
 { switch($collection)
 case 'narratives' return ()
 case 'works' return (
-<div class="form-group">
-    <div class="col">
+<div class="w3-container">
     <label>Other Clavis ID</label>
-                <select name="clavistype" class="form-control">
+                <select name="clavistype" class="w3-select w3-border">
                 <option value="">no selection</option>
 <option value="BHG">BHG</option>
 <option value="BHO">BHO</option>
@@ -1081,16 +1093,13 @@ case 'works' return (
 <option value="KRZ">KRZ</option>
 <option value="H">H</option>
 </select>
-</div>
-    <div class="col">
-<input class="form-control" type="number" name="clavisID"/>
-</div>
+<input class="w3-input w3-border" type="number" name="clavisID"/>
 </div>,
 if($items-info  = <start/>) then (
 (:no selection done yet, provide index value:)
-<div class="form-group" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that keyword">
+<div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that keyword">
 <label for="keyword">keywords </label>
-<select multiple="multiple" name="keyword" id="keyword" class="form-control">
+<select multiple="multiple" name="keyword" id="keyword" class="w3-select w3-border">
 {$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{$key}</option>}, 100)}
 </select>
 </div>
@@ -1098,11 +1107,11 @@ if($items-info  = <start/>) then (
 ) else
 (:form selectors relative to query:)
 apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titles', $context),
-<div class="form-group">
-    <div class="alert alert-warning" style="font-size: smaller;">The period filter will search items which have the appropriate keyword assigned. It is equivalent to selecting that keyword. It is not equivalent to selecting a date range, bacuse in that case we will search the dates, regardless of the attribution or not of one of the period keywords.</div>
+<div class="w3-container">
+    <div class="w3-panel w3-red w3-leftbar" style="font-size: smaller;">The period filter will search items which have the appropriate keyword assigned. It is equivalent to selecting that keyword. It is not equivalent to selecting a date range, bacuse in that case we will search the dates, regardless of the attribution or not of one of the period keywords.</div>
 
     <label>periods</label>
-                <select name="period" class="form-control">
+                <select name="period" class="w3-select w3-border">
                 <option value="">no selection</option>
 <option value="Aks">Aksumite (300-700)</option>
 <option value="Paks1">Post-aksumite I (1200-1433)</option>
@@ -1113,8 +1122,8 @@ apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titl
 </select>
 
 </div>,
-<div class="form-group">
-                            <input type="checkbox" value="authors" data-context="{$context}"/> Authors<br/>
+<div class="w3-container">
+                            <input class="w3-check" type="checkbox" value="authors" data-context="{$context}"/> Authors<br/>
                               </div>,
                               <script type="text/javascript" src="resources/js/filtersRest.js"></script>,
              <img id="loadingform" src="resources/images/giphy.gif" style="display: none; width: 20%;"/>,
@@ -1123,40 +1132,40 @@ apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titl
 case 'places' return 
 if($items-info  = <start/>) then (
 (:no selection done yet, provide index value:)
-<div class="form-group" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that keyword">
+<div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that keyword">
 <label for="keyword">keywords </label>
-<select multiple="multiple" name="keyword" id="keyword" class="form-control">
+<select multiple="multiple" name="keyword" id="keyword" class="w3-select w3-border">
 {$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{$key} </option>}, 100)}
 </select>
 </div>,
 
-<div class="form-group" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that place type">
+<div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that place type">
 <label for="placetype">place type </label>
-<select multiple="multiple" name="placetype" id="placetype" class="form-control">
+<select multiple="multiple" name="placetype" id="placetype" class="w3-select w3-border">
 {$app:range-lookup('placetype', '', function($key, $count) {<option value="{$key}">{$key} </option>}, 100)}
 </select>
 </div>,
-<div class="form-group" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that place type">
+<div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that place type">
 <label for="placetype">country </label>
-<select multiple="multiple" name="country" id="country" class="form-control">
+<select multiple="multiple" name="country" id="country" class="w3-select w3-border">
 {$app:range-lookup('countryref', '', function($key, $count) {<option value="{$key}">{titles:printTitleID($key)} ({$count[1]}) </option>}, 100)}
 </select>
 </div>,
-<div class="form-group" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that place type">
+<div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that place type">
 <label for="placetype">settlement </label>
-<select multiple="multiple" name="settlement" id="settlement" class="form-control">
+<select multiple="multiple" name="settlement" id="settlement" class="w3-select w3-border">
 {$app:range-lookup('settlref', '', function($key, $count) {<option value="{$key}">{titles:printTitleID($key)} ({$count[1]}) </option>}, 100)}
 </select>
 </div>,
-<div class="form-group">
-                            <input type="checkbox" value="tabots" data-context="{$context}"/> Tābots<br/>
+<div class="w3-container">
+                            <input  class="w3-check" type="checkbox" value="tabots" data-context="{$context}"/> Tābots<br/>
                               </div>,
                               <script type="text/javascript" src="resources/js/filtersRest.js"></script>,
              <img id="loadingform" src="resources/images/giphy.gif" style="display: none; width: 20%;"/>,
              <div id="AddFilters"/>
 ) else
 (:form selectors relative to query:)
-(<div class="form-group">
+(<div class="w3-container">
 <label for="keyword">keywords </label>
 <select multiple="multiple" name="keyword" id="keyword" class="form-control">
 {$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{$key} ({$count[1]})</option>}, 100)}
@@ -1165,8 +1174,8 @@ if($items-info  = <start/>) then (
 apprest:formcontrol('place type','placetype', $items-info//t:place/@type, 'true', 'values', $context),
 apprest:formcontrol('state','country', $items-info//t:country/@ref, 'true', 'values', $context),
 apprest:formcontrol('settlement','settlement', $items-info//t:settlement/@ref, 'true', 'values', $context),
-<div class="form-group">
-                            <input type="checkbox" value="tabots" data-context="{$context}"/> Tābots<br/>
+<div class="w3-container">
+                            <input  class="w3-check" type="checkbox" value="tabots" data-context="{$context}"/> Tābots<br/>
                               </div>,
                               <script type="text/javascript" src="resources/js/filtersRest.js"></script>,
              <img id="loadingform" src="resources/images/giphy.gif" style="display: none; width: 20%;"/>,
@@ -1176,32 +1185,32 @@ apprest:formcontrol('settlement','settlement', $items-info//t:settlement/@ref, '
 case 'institutions' return 
 if($items-info  = <start/>) then (
 (:no selection done yet, provide index value:)
-<div class="form-group" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that keyword">
+<div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that keyword">
 <label for="keyword">keywords </label>
-<select multiple="multiple" name="keyword" id="keyword" class="form-control">
+<select multiple="multiple" name="keyword" id="keyword" class="w3-select w3-border">
 {$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{$key} </option>}, 100)}
 </select>
 </div>,
-<div class="form-group" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that place type">
+<div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that place type">
 <label for="placetype">place type </label>
-<select multiple="multiple" name="placetype" id="placetype" class="form-control">
+<select multiple="multiple" name="placetype" id="placetype" class="w3-select w3-border">
 {$app:range-lookup('placetype', '', function($key, $count) {<option value="{$key}">{$key} </option>}, 100)}
 </select>
 </div>,
-<div class="form-group" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that place type">
+<div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that place type">
 <label for="placetype">country </label>
-<select multiple="multiple" name="country" id="country" class="form-control">
+<select multiple="multiple" name="country" id="country" class="w3-select w3-border">
 {$app:range-lookup('countryref', '', function($key, $count) {<option value="{$key}">{titles:printTitleID($key)} ({$count[1]}) </option>}, 100)}
 </select>
 </div>,
-<div class="form-group" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that place type">
+<div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that place type">
 <label for="placetype">settlement </label>
-<select multiple="multiple" name="settlement" id="settlement" class="form-control">
+<select multiple="multiple" name="settlement" id="settlement" class="w3-select w3-border">
 {$app:range-lookup('settlref', '', function($key, $count) {<option value="{$key}">{titles:printTitleID($key)}  ({$count[1]})</option>}, 100)}
 </select>
 </div>,
-<div class="form-group">
-                            <input type="checkbox" value="tabots" data-context="{$context}"/> Tābots<br/>
+<div class="w3-container">
+                            <input  class="w3-check" type="checkbox" value="tabots" data-context="{$context}"/> Tābots<br/>
                               </div>,
                               <script type="text/javascript" src="resources/js/filtersRest.js"></script>,
              <img id="loadingform" src="resources/images/giphy.gif" style="display: none; width: 20%;"/>,
@@ -1212,8 +1221,8 @@ apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titl
 apprest:formcontrol('place type','placetype', $items-info//t:place/@type, 'true', 'values', $context),
 apprest:formcontrol('state','country', $items-info//t:country/@ref, 'true', 'values', $context),
 apprest:formcontrol('settlement','settlement', $items-info//t:settlement/@ref, 'true', 'values', $context),
-<div class="form-group">
-                            <input type="checkbox" value="tabots" data-context="{$context}"/> Tābots<br/>
+<div class="w3-container">
+                            <input  class="w3-check" type="checkbox" value="tabots" data-context="{$context}"/> Tābots<br/>
                               </div>,
                               <script type="text/javascript" src="resources/js/filtersRest.js"></script>,
              <img id="loadingform" src="resources/images/giphy.gif" style="display: none; width: 20%;"/>,
@@ -1223,21 +1232,21 @@ case 'persons' return
 (
 if($items-info  = <start/>) then (
 (:no selection done yet, provide index value:)
-<div class="form-group">
+<div class="w3-container">
 <label for="keyword">keywords </label>
-<select multiple="multiple" name="keyword" id="keyword" class="form-control">
+<select multiple="multiple" name="keyword" id="keyword" class="w3-select w3-border">
 {$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{$key} </option>}, 100)}
 </select>
 </div>,
-<div class="form-group">
+<div class="w3-container">
 <label for="occupation">occupation type </label>
-<select multiple="multiple" name="occupation" id="occupation" class="form-control">
+<select multiple="multiple" name="occupation" id="occupation" class="w3-select w3-border">
 {$app:range-lookup('occtype', '', function($key, $count) {<option value="{$key}">{$key} </option>}, 100)}
 </select>
 </div>,
-<div class="form-group">
+<div class="w3-container">
 <label for="faith">faith </label>
-<select multiple="multiple" name="faith" id="faith" class="form-control">
+<select multiple="multiple" name="faith" id="faith" class="w3-select w3-border">
 {$app:range-lookup('faithtype', '', function($key, $count) {<option value="{$key}">{$key} </option>}, 100)}
 </select>
 </div>
@@ -1247,9 +1256,9 @@ if($items-info  = <start/>) then (
 apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titles', $context),
 apprest:formcontrol('occupation type','occupation', $items-info//t:occupation/@type, 'true', 'titles', $context),
 apprest:formcontrol('faith type','faith', $items-info//t:faith/@type, 'true', 'titles', $context),
-<div class="form-group">
-            <input type="checkbox" name="gender" value="1">Male</input>
-            <input type="checkbox" name="gender" value="2">Female</input>
+<div class="w3-container">
+            <input  class="w3-check" type="checkbox" name="gender" value="1">Male</input>
+            <input   class="w3-check" type="checkbox" name="gender" value="2">Female</input>
     </div>
 )
 (:default is a manuscript related list view, catalogue, institutions or general view:)
@@ -1257,157 +1266,107 @@ default return
 (
 if($items-info  = <start/>) then (
 (:no selection done yet, provide index value:)
-<div class="form-group">
+<div class="w3-container">
 <label for="keyword">keywords </label>
-<select multiple="multiple" name="keyword" id="keyword" class="form-control">
+<select multiple="multiple" name="keyword" id="keyword" class="w3-select w3-border">
 {$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{$key} </option>}, 100)}
 </select>
 </div>
 ) else
 (:form selectors relative to query:)
 apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titles', $context),
-            <div class="form-group">
+            <div class="w3-container">
             <label for="numberOfP">Limit by minimum number of codicological units</label>
-            <input id="numberOfP" class="form-control" type="number" name="numberOfParts"></input>
+            <input id="numberOfP" class="w3-input w3-border" type="number" name="numberOfParts"></input>
             </div>,
-           <div class="form-group">
-
-        <label for="heightslider">Height (mm)</label>
-
-                <div class="form-control">
-        <div class="input-group">
+           <div class="w3-container w3-margin-left">
+        <label for="heightslider">Height (mm)</label><br/>
             <input id="heightslider" type="number" class="span2" name="height" data-slider-min="1" data-slider-max="1000" data-slider-step="10" data-slider-value="[1,1000]"/>
             <script type="text/javascript">
                 {"$('#heightslider').bootstrapSlider({});"}
             </script>
-        </div>
-        </div>
 </div>,
-           <div class="form-group">
-        <label for="widthslider">Width (mm)</label>
-
-                <div class="form-control">
-        <div class="input-group">
+           <div class="w3-container w3-margin-left">
+        <label for="widthslider">Width (mm)</label><br/>
             <input id="widthslider" type="number" class="span2" name="width" data-slider-min="1" data-slider-max="1000" data-slider-step="10" data-slider-value="[1,1000]"/>
             <script type="text/javascript">
                 {"$('#widthslider').bootstrapSlider({});"}
-            </script>
-        </div></div></div>,
-           <div class="form-group">
-        <label for="lmargin">Columns per page</label>
-
-                <div class="form-control">
-            <div class="input-group">
+            </script></div>,
+           <div class="w3-container w3-margin-left">
+        <label for="lmargin">Columns per page</label><br/>
                 <input id="NumberOfcolumns" type="number" class="span2" name="columnsNum" data-slider-min="1" data-slider-max="20" data-slider-step="1" data-slider-value="[1,20]"/>
                 <script type="text/javascript">
                     {"$('#NumberOfcolumns').bootstrapSlider({});"}
-                </script>
-            </div></div></div>,
-           <div class="form-group">
-           <label  for="tmargin">Top Margin</label>
-                <div class="form-control">
-            <div class="input-group">
+                </script></div>,
+           <div class="w3-container w3-margin-left">
+           <label  for="tmargin">Top Margin</label><br/>
                 <input id="tMslider" type="number" class="span2" name="tmargin" data-slider-min="1" data-slider-max="100" data-slider-step="1" data-slider-value="[1,100]"/>
                 <script type="text/javascript">
                     {"$('#tMslider').bootstrapSlider({});"}
                 </script>
-            </div>
-            </div>
         </div>,
-           <div class="form-group">
-        <label for="bmargin">Bottom Margin</label>
-                <div class="form-control">
-            <div class="input-group">
+           <div class="w3-container w3-margin-left">
+        <label for="bmargin">Bottom Margin</label><br/>
                 <input id="bMslider" type="number" class="span2" name="bmargin" data-slider-min="1" data-slider-max="100" data-slider-step="1" data-slider-value="[1,100]"/>
                 <script type="text/javascript">
                     {"$('#bMslider').bootstrapSlider({});"}
                 </script>
-                </div>
-            </div>
         </div>,
-           <div class="form-group">
-        <label for="rmargin">Right Margin</label>
-                <div class="form-control">
-            <div class="input-group">
+           <div class="w3-container w3-margin-left">
+        <label for="rmargin">Right Margin</label><br/>
                 <input id="rMslider" type="number" class="span2" name="rmargin" data-slider-min="1" data-slider-max="100" data-slider-step="1" data-slider-value="[1,100]"/>
                 <script type="text/javascript">
                     {"$('#rMslider').bootstrapSlider({});"}
                 </script>
-            </div>
-            </div>
         </div>,
-           <div class="form-group">
-        <label for="lmargin">Left Margin</label>
-
-                <div class="form-control">
-            <div class="input-group">
+           <div class="w3-container w3-margin-left">
+        <label for="lmargin">Left Margin</label><br/>
                 <input id="lMslider" type="number" class="span2" name="lmargin" data-slider-min="1" data-slider-max="100" data-slider-step="1" data-slider-value="[1,100]"/>
                 <script type="text/javascript">
                     {"$('#lMslider').bootstrapSlider({});"}
                 </script>
-            </div>
-            </div>
         </div>,
-           <div class="form-group">
-        <label  for="intercolumn">Intercolumn</label>
-                <div class="form-control">
-                <div class="input-group">
+           <div class="w3-container w3-margin-left">
+        <label  for="intercolumn">Intercolumn</label><br/>
                     <input id="lntercolumnslider" type="number" class="span2" name="intercolumn" data-slider-min="1" data-slider-max="100" data-slider-step="1" data-slider-value="[1,100]"/>
                     <script type="text/javascript">
                         {"$('#lntercolumnslider').bootstrapSlider({});"}
                     </script>
                 </div>
-                </div>
-                </div>
         ,
-           <div class="form-group">
-<label  for="folia">Number of Leafs</label>
-                <div class="form-control">
-        <div class="input-group">
+           <div class="w3-container w3-margin-left">
+<label  for="folia">Number of Leafs</label><br/>
             <input id="folia" type="text" class="span2" name="folia" data-slider-min="1.0" data-slider-max="1000.0" data-slider-step="1.0" data-slider-value="[1.0,1000.0]"/>
             <script type="text/javascript">
                 {"$('#folia').bootstrapSlider({});"}
             </script>
-</div>
-</div>
-</div>,
-            <div class="form-group">
-<label for="qn">Number of quires</label>
-                <div class="form-control">
-        <div class="input-group">
-            <input id="quires" type="text" class="span2" name="qn" data-slider-min="1" data-slider-max="100" data-slider-step="1" data-slider-value="[1,100]"/>
+</div>, 
+            <div class="w3-container w3-margin-left">
+<label for="qn">Number of quires</label><br/>
+                <input id="quires" type="text" class="span2" name="qn" data-slider-min="1" data-slider-max="100" data-slider-step="1" data-slider-value="[1,100]"/>
             <script type="text/javascript">
                 {"$('#quires').bootstrapSlider({});"}
             </script>
-        </div>
-        </div>
+        
 </div>,
-            <div class="form-group">
- <label for="qcn">Quires Composition</label>
-                <div class="form-control">
-        <div class="input-group">
-            <input id="quiresComp" type="text" class="span2" name="qcn" data-slider-min="1" data-slider-max="40" data-slider-step="1" data-slider-value="[1,40]"/>
+            <div class="w3-container w3-margin-left">
+ <label for="qcn">Quires Composition</label><br/>
+                <input id="quiresComp" type="text" class="span2" name="qcn" data-slider-min="1" data-slider-max="40" data-slider-step="1" data-slider-value="[1,40]"/>
             <script type="text/javascript">
                 {"$('#quiresComp').bootstrapSlider({});"}
             </script>
-        </div>
-        </div>
 </div>,
-            <div class="form-group">
-<label  for="wL">Number of written lines</label>
-                <div class="form-control">
-        <div class="input-group">
+            <div class="w3-container w3-margin-left">
+<label  for="wL">Number of written lines</label><br/>
             <input id="writtenLines" type="text" class="span2" name="wL" data-slider-min="1" data-slider-max="100" data-slider-step="1" data-slider-value="[1,100]"/>
             <script type="text/javascript">
                 {"$('#writtenLines').bootstrapSlider({});"}
             </script>
-            </div>
-</div>
 </div>,
 
-            <div class="form-group">
-<label  for="restorations">Restorations</label>
-                     <select class="form-control" id="restorations" type="text" name="restorations" >
+            <div class="w3-container w3-margin-left">
+<label  for="restorations">Restorations</label><br/>
+                     <select class="w3-select w3-border" id="restorations" type="text" name="restorations" >
             <option value="">no selection</option>
             <option value="ancient">ancient</option>
             <option value="modern">modern</option>
@@ -1415,30 +1374,30 @@ apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titl
             </select>
             <small>Only few manuscripts carry this information, selecting this filter you are searching only in those.</small>
 </div>,
-            <div class="form-group">
-                            <input type="checkbox" value="origPlace" data-context="{$context}"/> place of origin<br/>
-                            <input type="checkbox" value="script" data-context="{$context}"/> script<br/>
-                            <input type="checkbox" value="scribe" data-context="{$context}"/> scribe<br/>
-                            <input type="checkbox" value="donor" data-context="{$context}"/> donor<br/>
-                            <input type="checkbox" value="patron" data-context="{$context}"/> patron<br/>
-                            <input type="checkbox" value="owner" data-context="{$context}"/> owner<br/>
-                            <input type="checkbox" value="binder" data-context="{$context}"/> binder<br/>
-                            <input type="checkbox" value="parchmentMaker" data-context="{$context}"/> parchment maker<br/>
-                            <input type="checkbox" value="objectType" data-context="{$context}"/> object type<br/>
-                            <input type="checkbox" value="material" data-context="{$context}"/> material<br/>
-                            <input type="checkbox" value="bmaterial" data-context="{$context}"/> binding material<br/>
-                            {if((count($items-info) lt 1050) and $items-info/node() ) then (<input type="checkbox" value="contents" data-context="{$context}"/>, 'contents',<br/>) 
-                            else (<div class="alert alert-info">You will be able to get a filter by contents for a selection of manuscripts with less than 1000 items.</div>)}
+            <div class="w3-container">
+                            <input  class="w3-check" type="checkbox" value="origPlace" data-context="{$context}"/> place of origin<br/>
+                            <input  class="w3-check" type="checkbox" value="script" data-context="{$context}"/> script<br/>
+                            <input  class="w3-check" type="checkbox" value="scribe" data-context="{$context}"/> scribe<br/>
+                            <input  class="w3-check" type="checkbox" value="donor" data-context="{$context}"/> donor<br/>
+                            <input  class="w3-check" type="checkbox" value="patron" data-context="{$context}"/> patron<br/>
+                            <input  class="w3-check" type="checkbox" value="owner" data-context="{$context}"/> owner<br/>
+                            <input  class="w3-check" type="checkbox" value="binder" data-context="{$context}"/> binder<br/>
+                            <input  class="w3-check" type="checkbox" value="parchmentMaker" data-context="{$context}"/> parchment maker<br/>
+                            <input  class="w3-check" type="checkbox" value="objectType" data-context="{$context}"/> object type<br/>
+                            <input  class="w3-check" type="checkbox" value="material" data-context="{$context}"/> material<br/>
+                            <input  class="w3-check" type="checkbox" value="bmaterial" data-context="{$context}"/> binding material<br/>
+                            {if((count($items-info) lt 1050) and $items-info/node() ) then (<input type="checkbox"  class="w3-check" value="contents" data-context="{$context}"/>, 'contents',<br/>) 
+                            else (<div class="w3-panel w3-red w3-leftbar">You will be able to get a filter by contents for a selection of manuscripts with less than 1000 items.</div>)}
                             </div>,
             <script type="text/javascript" src="resources/js/filtersRest.js"></script>,
              <img id="loadingform" src="resources/images/giphy.gif" style="display: none; width: 20%;"/>,
              <div id="AddFilters"/>)}
-            <div class="form-group">
-            <div class="btn-group">
-                <button type="submit" class="btn btn-primary"><i class="fa fa-filter" aria-hidden="true"></i>
+            <div class="w3-container w3-margin-bottom w3-margin-top">
+            <div class="w3-bar ">
+                <button type="submit" class="w3-bar-item w3-button w3-red"><i class="fa fa-filter" aria-hidden="true"></i>
 </button>
-                    <a href="/{$collection}/list" role="button" class="btn btn-info"><i class="fa fa-th-list" aria-hidden="true"></i></a>
-                <a href="/as.html" role="button" class="btn btn-primary"><i class="fa fa-cog" aria-hidden="true"/></a>
+                    <a href="/{$collection}/list" class="w3-bar-item w3-button w3-gray"><i class="fa fa-th-list" aria-hidden="true"></i></a>
+                <a href="/as.html" role="button" class="w3-bar-item w3-button w3-red"><i class="fa fa-cog" aria-hidden="true"/></a>
                 </div>
                 </div>
 </form>
@@ -1446,7 +1405,7 @@ apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titl
 
 (:~ pagination element for search results :)
 declare function apprest:paginate-rest($model as map(*), $parameters as map(*), $start as xs:int, $per-page as xs:int, $min-hits as xs:int, $max-pages as xs:int) {
-       <div class="col-md-12"><ul class="pagination">{
+       <div class="w3-bar w3-border w3-round">{
 
     if ($min-hits < 0 or count($model("hits")) >= $min-hits) then
         let $count := xs:integer(ceiling(count($model("hits"))) div $per-page) + 1
@@ -1454,19 +1413,13 @@ declare function apprest:paginate-rest($model as map(*), $parameters as map(*), 
 
         return (
             if ($start = 1) then (
-                <li class="disabled">
-                    <a><i class="fa fa-fast-backward" aria-hidden="true"></i></a>
-                </li>,
-                <li class="disabled">
-                    <a><i class="fa fa-backward" aria-hidden="true"></i></a>
-                </li>
+                <a class="w3-button w3-disabled"><i class="fa fa-fast-backward"></i></a>,
+                <a class="w3-button w3-disabled"><i class="fa fa-backward"></i></a>
             ) else (
-                <li>
-                    <a href="?per-page={$per-page}&amp;start=1&amp;keyword={$parameters('key')}&amp;date-range={$parameters('date')}&amp;language={$parameters('lang')}"><i class="glyphicon glyphicon-fast-backward"/></a>
-                </li>,
-                <li>
-                    <a href="?per-page={$per-page}&amp;start={max( ($start - $per-page, 1 ) ) }&amp;keyword={$parameters('key')}&amp;date-range={$parameters('date')}&amp;language={$parameters('lang')}"><i class="glyphicon glyphicon-backward"/></a>
-                </li>
+                    <a class="w3-button" href="?per-page={$per-page}&amp;start=1&amp;keyword={$parameters('key')}&amp;date-range={$parameters('date')}&amp;language={$parameters('lang')}"><i class="fa fa-fast-backward"></i></a>
+                ,
+                    <a class="w3-button"  href="?per-page={$per-page}&amp;start={max( ($start - $per-page, 1 ) ) }&amp;keyword={$parameters('key')}&amp;date-range={$parameters('date')}&amp;language={$parameters('lang')}"><i class="fa fa-backward"></i></a>
+               
             ),
             let $startPage := xs:integer(ceiling($start div $per-page))
             let $lowerBound := max(($startPage - ($max-pages idiv 2), 1))
@@ -1475,40 +1428,26 @@ declare function apprest:paginate-rest($model as map(*), $parameters as map(*), 
             for $i in $lowerBound to $upperBound
             return
                 if ($i = ceiling($start div $per-page)) then
-                    <li class="active"><a href="?per-page={$per-page}&amp;start={max( (($i - 1) * $per-page + 1, 1) )}&amp;keyword={$parameters('key')}&amp;date-range={$parameters('date')}&amp;language={$parameters('lang')}">{$i}</a></li>
+                    <a  class="w3-button" href="?per-page={$per-page}&amp;start={max( (($i - 1) * $per-page + 1, 1) )}&amp;keyword={$parameters('key')}&amp;date-range={$parameters('date')}&amp;language={$parameters('lang')}">{$i}</a>
                 else
-                    <li><a href="?per-page={$per-page}&amp;start={max( (($i - 1) * $per-page + 1, 1)) }&amp;keyword={$parameters('key')}&amp;date-range={$parameters('date')}&amp;language={$parameters('lang')}">{$i}</a></li>,
+                    <a class="w3-button"  href="?per-page={$per-page}&amp;start={max( (($i - 1) * $per-page + 1, 1)) }&amp;keyword={$parameters('key')}&amp;date-range={$parameters('date')}&amp;language={$parameters('lang')}">{$i}</a>,
             if ($start + $per-page < count($model("hits"))) then (
-                <li>
-                    <a href="?per-page={$per-page}&amp;start={$start + $per-page}&amp;keyword={$parameters('key')}&amp;date-range={$parameters('date')}&amp;language={$parameters('lang')}"><i class="glyphicon glyphicon-forward"/></a>
-                </li>,
-                <li>
-                    <a href="?per-page={$per-page}&amp;start={max( (($count - 1) * $per-page + 1, 1))}&amp;keyword={$parameters('key')}&amp;date-range={$parameters('date')}&amp;language={$parameters('lang')}"><i class="glyphicon glyphicon-fast-forward"/></a>
-                </li>
+                
+                    <a class="w3-button"  href="?per-page={$per-page}&amp;start={$start + $per-page}&amp;keyword={$parameters('key')}&amp;date-range={$parameters('date')}&amp;language={$parameters('lang')}"><i class="fa fa-forward"></i></a>
+                , 
+                <a class="w3-button"  href="?per-page={$per-page}&amp;start={max( (($count - 1) * $per-page + 1, 1))}&amp;keyword={$parameters('key')}&amp;date-range={$parameters('date')}&amp;language={$parameters('lang')}"><i class="fa fa-fast-forward"></i></a>
+              
             ) else (
-                <li class="disabled">
-                    <a><i class="fa fa-step-forward" aria-hidden="true"></i></a>
-                </li>,
-                <li>
-                    <a><i class="fa fa-fast-forward" aria-hidden="true"></i></a>
-                </li>
+                <a class="w3-button w3-disabled"><i class="fa fa-forward"></i></a>,
+                <a class="w3-button w3-disabled"><i class="fa fa-fast-forward"></i></a>
             )
         ) else
             ()
             }
-             <li><form action=""><div class="input-group">
-            <input type="hidden" name="start" value="{$start}"/>
-            <input type="hidden" name="keyword" value="{$parameters('key')}"/>
-            <input type="hidden" name="language" value="{$parameters('lang')}"/>
-            <input type="hidden" name="date-range" value="{$parameters('date')}"/>
-   <input type="number" class="form-control" name="per-page" placeholder="how many per page?"></input>
-   <span class="input-group-btn">
-   <button type="submit" class="btn btn-primary">
-   <i class="fa fa-check" aria-hidden="true"></i>
-   </button>
-   </span>
-   </div></form></li>
-            </ul></div>
+   <input id="perpagechange" type="number" class="w3-input w3-bar-item" name="per-page" placeholder="how many per page?"></input>
+  { if($model("type") = 'text') then<a href="?per-page={count($model("hits"))}" class="w3-button w3-red w3-bar-item" id="fullText">See full text</a> else ()}
+   
+            </div>
 };
 
 (:~  builds the form control according to the data specification:)
@@ -1523,7 +1462,7 @@ then (
     else functx:trim(normalize-space($i))
                     let $nodes := distinct-values($values)
 
-                    return <div class="form-group">
+                    return <div class="w3-container">
                     <label for="{$nodeName}">{$label}s
                     <span class="badge">{count($nodes[. != ''][. != ' '])}</span>
                     </label>
@@ -1550,10 +1489,10 @@ let $matchingAddmss := $Additems//t:title[@ref = $target-work]
 let $matchingConmss := $items/t:title[@ref = $target-work]
 let $matchingmss := ($matchingConmss, $matchingAddmss)
 return
-if(count($matchingmss) = 0) then (<p class="lead">Oh no! Currently, none of the catalogued manuscripts contains a link to this work. You can still see the record in case you find there useful information.</p>,<a class="btn btn-primary" href="{$target-work}"> Go to {$MAINtit}</a>) else
+if(count($matchingmss) = 0) then (<p class="lead">Oh no! Currently, none of the catalogued manuscripts contains a link to this work. You can still see the record in case you find there useful information.</p>,<a class="w3-button w3-red" href="{$target-work}"> Go to {$MAINtit}</a>) else
 (
-<p class="lead">They are currently {count($matchingmss)}.</p>,
-<div class="msscomparison col-md-12">
+<p class="w3-panel w3-card-2">They are currently <span class="w3-tag w3-gray">{count($matchingmss)}</span>.</p>,
+<div class="msscomparison w3-container">
 {
 for $manuscript in $matchingmss
 let $msid := string(root($manuscript)/t:TEI/@xml:id)
@@ -1563,10 +1502,12 @@ let $minnotBefore := min($notbefores)
 let $maxnotAfter := min($notafters)
 order by $minnotBefore
 return
-<div class="card">
-<div class="card-block">
-<h3 class="card-title"><a href="{('/'||$msid)}">{titles:printTitleID($msid)}</a> ({string($minnotBefore)}-{string($maxnotAfter)})</h3>
-<p class="card-text">
+<div class="w3-card-2 w3-margin " >
+
+<header class="w3-red w3-padding">
+<a href="{('/'||$msid)}">{titles:printTitleID($msid)}</a> 
+({string($minnotBefore)}-{string($maxnotAfter)})</header>
+<div class="w3-container" style="max-height:60vh; overflow-y:auto">
 <ul class="nodot">
 {for $msitem at $p in root($manuscript)/t:TEI//t:msItem
 (:  store in a variable the ref in the title or nothing:)
@@ -1590,7 +1531,13 @@ then 'text-indent: 2%;' else ()}">
         else if ($msitem/t:title[not(@ref)]/text())
    then (normalize-space(string-join(string:tei2string($msitem/t:title/node()))), $placement)
     (:normally print the title of the referred item:)
-else (   <a class="itemtitle" data-value="{$title}" href="{$title}">{if($title = '') then <span class="label label-warning">{'no ref in title'}</span> else try{titles:printTitleID($title)} catch * {$title}}</a>, $placement)
+else (   
+<span>
+<a class="itemtitle" data-value="{$title}" href="{$title}">{
+if($title = '') then <span class="w3-tag w3-red">{'no ref in title'}</span> 
+else try{titles:printTitleID($title)} catch * {$title}}</a>
+{$placement}</span>
+)
  }
  </li>
  }
@@ -1616,17 +1563,17 @@ return if($t = $target-work) (:highlight the position of the currently selected 
         else if ($additem/t:title[not(@ref)]/text())
    then (normalize-space(string-join(string:tei2string($additem/t:title/node()))), $placement)
     (:normally print the title of the referred item:)
-else (   <a class="itemtitle" data-value="{$t}" href="{$t}">{if($t = '') then <span class="label label-warning">{'no ref in title'}</span> else try{titles:printTitleID($t)} catch * {$t}}</a>, $placement)
+else (   <span><a class="itemtitle" data-value="{$t}" href="{$t}">{if($t = '') then <span class="w3-tag w3-red">{'no ref in title'}</span> else try{titles:printTitleID($t)} catch * {$t}}</a> {$placement}</span>)
  }
  </li>
  }
 </ul>
-</p>
 </div>
+
 </div>
 }
 </div>,
-<div class="col-md-12">{
+<div class="w3-container">{
 let $hits := for $match in $matchingmss return root($match)/t:TEI
 return
 charts:chart($hits)
@@ -1640,7 +1587,7 @@ if($mss = '') then ()  else(
     let $c := $config:collection-rootMS
     let $matchingmss := for $ms in tokenize($mss, ',') return $c//id($ms)
     return
-    (<div class="msscomparison col-md-12">
+    (<div class="msscomparison w3-container">
     {
         for $manuscript in $matchingmss
         let $msid := string($manuscript/@xml:id)
@@ -1649,13 +1596,12 @@ if($mss = '') then ()  else(
         order by $minnotBefore
         return
 
-                <div class="card">
-                      <div class="card-block">
-                                    <h3 class="card-title">
+                <div  class="w3-card-2 w3-margin">
+                                    <header class="w3-red w3-padding">
                                         <a href="{('/'||$msid)}">{titles:printTitleID($msid)}</a>
                                         ({string($minnotBefore)}-{string($maxnotAfter)})
-                                     </h3>
-                                    <p class="card-text">
+                                     </header>
+                                    <div class="w3-container" style="max-height:60vh; overflow-y:auto">
                                         <ul class="nodot">
                                             {for $msitem at $p in $manuscript//t:msItem
                                             (:  store in a variable the ref in the title or nothing:)
@@ -1677,7 +1623,7 @@ if($mss = '') then ()  else(
                                                           else ( <a class="itemtitle" data-value="{$title}" href="{$title}">
                                                                         {
                                                                                 if($title = '')
-                                                                                then <span class="label label-warning">{'no ref in title'}</span>
+                                                                                then <span class="w3-tag w3-red">{'no ref in title'}</span>
                                                                                  else (try{titles:printTitleID($title)} catch * {$title})
                                                                         }
                                                                      </a>,
@@ -1704,19 +1650,19 @@ return
 if ($additem/t:title[not(@ref)]/text())
    then (normalize-space(string-join(string:tei2string($additem/t:title/node()))), $placement)
     (:normally print the title of the referred item:)
-else (   <a class="itemtitle" data-value="{$t}" href="{$t}">{if($t = '') then <span class="label label-warning">{'no ref in title'}</span> else try{titles:printTitleID($t)} catch * {$t}}</a>, $placement)
+else (   <a class="itemtitle" data-value="{$t}" href="{$t}">{if($t = '') then <span class="w3-tag w3-red">{'no ref in title'}</span> else try{titles:printTitleID($t)} catch * {$t}}</a>, $placement)
  }
  </li>
  }
 </ul>
-                                     </p>
-                     </div>
+                                     </div>
+                     
               </div>
               }
 
               </div>
 ,
-<div class="col-md-12">{
+<div class="w3-container">{
 charts:chart($matchingmss)
 }</div>
 

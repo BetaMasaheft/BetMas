@@ -3,7 +3,8 @@ xquery version "3.1" encoding "UTF-8";
  : module used by text search query functions to provide alternative 
  : strings to the search, based on known homophones.
  : 
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
+ :
  :)
 module namespace all = "https://www.betamasaheft.uni-hamburg.de/BetMas/all";
 declare namespace test="http://exist-db.org/xquery/xqsuite";

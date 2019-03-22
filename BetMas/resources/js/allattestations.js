@@ -7,10 +7,10 @@ $('#showattestations').on('click', function () {
     $.getJSON(apicall, function (data) {
     if(data.results == null) { $('#allattestations').append('No attestations of this entity could be found.')}
     else {
-     var resheading = '<div class="row"><div class="col-md-3">Attestation source</div><div class="col-md-9">attestations</div></div>'
+     var resheading = '<div class="w3-row"><div class="w3-quarter">Attestation source</div><div class="w3-threequarter">attestations</div></div>'
      var totatt = ''
      if (data.results.length > 1) {totatt = data.results.length} else {totatt = 1}
-   var report = 'There are <span class="badge badge-primary">' + totatt + '</span> entities with attestations of this record.'
+   var report = 'There are <span class="w3-label w3-red">' + totatt + '</span> entities with attestations of this record.'
    $('#allattestations').append(report)
          $('#allattestations').append(resheading)
 
@@ -46,7 +46,7 @@ function results(res) {
         allresults += thisentry
     }
 
-    var resultdiv = '<div class="row attestationresult"><div class="col-md-3"><a href="/' + resid + '">' + restitle + '</a></div><div class="col-md-9">' + allresults + '</div></div>'
+    var resultdiv = '<div class="w3-panel w3-card-4 attestationresult "><div class="w3-quarter"><a href="/' + resid + '">' + restitle + '</a></div><div class="w3-threequarter">' + allresults + '</div></div>'
     $('#allattestations').append(resultdiv)
 };
 
@@ -76,7 +76,7 @@ function entry(entry) {
     }
 
 
-    var thisentry = '<div class="row singleattestation"><div class="col-md-3">'+entry.position+ ') '+ entrytitles + '<b>'+ entrytitle + '</b>' + ' (' + entrydate + '), ' + entryrole + '['+entryelem+']</div><div class="col-md-9">' + alloccurrences + '</div></div><hr/>'
+    var thisentry = '<div class="w3-row singleattestation"><div class="w3-quarter">'+entry.position+ ') '+ entrytitles + '<b>'+ entrytitle + '</b>' + ' (' + entrydate + '), ' + entryrole + '['+entryelem+']</div><div class="w3-threequarter">' + alloccurrences + '</div></div><hr/>'
     return thisentry
 };
 
@@ -96,7 +96,7 @@ function occurrences(occ) {
         var line = lines(name)
         allnames += line
     }
-    var alloccs = '<div class="row cooccurences">In the same context of this attestation also the following ' + type + ' occur <table class="table table-responsive"><thead><tr><th>name</th><th>type</th></tr></thead><tbody>' + allnames + '</tbody></table></div>'
+    var alloccs = '<div class="w3-row w3-margin  w3-card-4"><p class="w3-padding">In the same context of this attestation also the following ' + type + ' occur</p><div class="w3-responsive"><table class="w3-table w3-hoverable"><thead><tr><th>name</th><th>type</th></tr></thead><tbody>' + allnames + '</tbody></table></div></div>'
     return alloccs
 };
 

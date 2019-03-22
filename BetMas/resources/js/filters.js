@@ -65,102 +65,102 @@ $(document).ready(function () {
             switch (value) {
                 //   for each value call the appropriate html with function to generate the form selector
                 case "languages":
-                callformpart("formlanguages.html", "languages");
+                callformpart("forms/formlanguages.html", "languages");
                 break;
                 case "keywords":
-                callformpart("formkeywords.html", "keywords");
+                callformpart("forms/formkeywords.html", "keywords");
                 break;
                 case "relations":
-                callformpart("formrelations.html", "relations");
+                callformpart("forms/formrelations.html", "relations");
                 break;
                 case "references":
-                callformpart("formref.html", "containsRef");
+                callformpart("forms/formref.html", "containsRef");
                 break;
                 case "xpath":
-                callformpart("formxpath.html", "xpathform");
+                callformpart("forms/formxpath.html", "xpathform");
                 break;
                 case "date":
-                callformpart("formdates.html", "datesform");
+                callformpart("forms/formdates.html", "datesform");
                 break;
                 case "msstargets":
-                callformpart("formtargetmss.html", "mssform");
+                callformpart("forms/formtargetmss.html", "mssform");
                 break;
                 case "folia":
-                callformpart("formfolia.html", "leavesform");
+                callformpart("forms/formfolia.html", "leavesform");
                 break;
                 case "quires":
-                callformpart("formquires.html", "quiresform");
+                callformpart("forms/formquires.html", "quiresform");
                 break;
                 case "quiresComp":
-                callformpart("formquiresComp.html", "quiresCompform");
+                callformpart("forms/formquiresComp.html", "quiresCompform");
                 break;
                 case "writtenLines":
-                callformpart("formWL.html", "WLform");
+                callformpart("forms/formWL.html", "WLform");
                 break;
                  case "CUnumber":
-                callformpart("formCUnumber.html", "CUform");
+                callformpart("forms/formCUnumber.html", "CUform");
                 break;
                 
                 case "script":
-                callformpart("formscripts.html", "scriptform");
+                callformpart("forms/formscripts.html", "scriptform");
                 break;
                 case "institutions":
-                callformpart("forminstitutions.html", "insform");
+                callformpart("forms/forminstitutions.html", "insform");
                 break;
                 case "scribe":
-                callformpart("formscribes.html", "scribeform");
+                callformpart("forms/formscribes.html", "scribeform");
                 break;
                 case "donor":
-                callformpart("formdonor.html", "donorform");
+                callformpart("forms/formdonor.html", "donorform");
                 break;
                 case "patron":
-                callformpart("formpatron.html", "patronform");
+                callformpart("forms/formpatron.html", "patronform");
                 break;
                 case "parchmentMaker":
-                callformpart("formParMaker.html", "parmakerform");
+                callformpart("forms/formParMaker.html", "parmakerform");
                 break;
                 
                 case "role":
-                callformpart("formrole.html", "roleform");
+                callformpart("forms/formrole.html", "roleform");
                 break;
                 case "binder":
-                callformpart("formbinder.html", "binderform");
+                callformpart("forms/formbinder.html", "binderform");
                 break;
                 case "dimensions":
-                callformpart("formdimensions.html", "dimensionsform");
+                callformpart("forms/formdimensions.html", "dimensionsform");
                 break;
                 case "owner":
-                callformpart("formowner.html", "ownerform");
+                callformpart("forms/formowner.html", "ownerform");
                 break;
                 case "contents":
-                callformpart("formcontents.html", "contentform");
+                callformpart("forms/formcontents.html", "contentform");
                 break;
                 case "objectType":
-                callformpart("formobjecttype.html", "otform");
+                callformpart("forms/formobjecttype.html", "otform");
                 break;
                 case "material":
-                callformpart("formmaterial.html", "materialform");
+                callformpart("forms/formmaterial.html", "materialform");
                 break;
                 case "bmaterial":
-                callformpart("formbmaterial.html", "bmaterialform");
+                callformpart("forms/formbmaterial.html", "bmaterialform");
                 break;
                 case "target-works":
-                callformpart("formworks.html", "targetworksform");
+                callformpart("forms/formworks.html", "targetworksform");
                 break;
                 case "authors":
-                callformpart("formauthors.html", "authorsform");
+                callformpart("forms/formauthors.html", "authorsform");
                 break;
                 case "occupation":
-                callformpart("formoccupation.html", "occupationform");
+                callformpart("forms/formoccupation.html", "occupationform");
                 break;
                 case "gender":
-                callformpart("formgender.html", "genderform");
+                callformpart("forms/formgender.html", "genderform");
                 break;
                 case "placeType":
-                callformpart("formplacetype.html", "placetypeform");
+                callformpart("forms/formplacetype.html", "placetypeform");
                 break;
                 case "tabots":
-                callformpart("formtabots.html", "tabotsform");
+                callformpart("forms/formtabots.html", "tabotsform");
                 break;
             }
         } else {
@@ -285,8 +285,8 @@ $(document).on('change', '#target-ins', function() {
    console.log(ms)
     options += '<option value="'+ms.id+'" >'+ms.title+'</option>'
     }
-        var targetmss = '<div class="form-group list mss" data-toggle="tooltip" data-placement="left" title="Select Manuscripts individually" id="mssform"><div class="col-md-9 col-xs-9"><label class="control-label col-sm-3" for="target-ms">Manuscripts</label><div class="col-sm-9"><select multiple="multiple" name="target-ms" id="target-ms" class="form-control">'+ 
-        options + '</select></div></div><div class="col-md-3 col-xs-3">Here you can specify exactly in which Manuscripts records you want tosearch.</div></div>'
+        var targetmss = '<div class="w3-container list mss" data-toggle="tooltip" data-placement="left" title="Select Manuscripts individually" id="mssform"><label>Manuscripts</label><br/><select multiple="multiple" name="target-ms" id="target-ms" class="w3-select w3-border">'+ 
+        options + '</select>Here you can specify exactly in which Manuscripts records you want tosearch.</div>'
         $(targetmss).insertAfter($('#insform'))
         
     });

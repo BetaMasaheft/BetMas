@@ -1,8 +1,11 @@
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:sr="http://www.w3.org/2005/sparql-results#" xmlns:xxx="http://www.w3.org/2005/sparql-results#" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xxx="http://www.w3.org/2005/sparql-results#" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:sr="http://www.w3.org/2005/sparql-results#" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="sr:sparql">
-        <table class="table table-responsive">
+        <div class="w3-responsive">
+            <table class="w3-table">
             <xsl:apply-templates/>
         </table>
+        </div>
     </xsl:template>
     <xsl:template match="sr:head">
         <thead>

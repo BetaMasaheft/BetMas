@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:placeName | t:region | t:country | t:settlement">
         <xsl:if test="@type and not(ancestor::t:div[@type='edition'])">
@@ -9,21 +10,27 @@
                 <xsl:choose> 
                     <xsl:when test="contains(@ref, 'pleiades:')">
                     <xsl:variable name="pleiadesid" select="substring-after(@ref, 'pleiades:')"/>
-                        <xsl:if test="not(ancestor::t:div[@type='edition'])"><span xmlns="http://www.w3.org/1999/xhtml" class="MainTitle" data-value="{@ref}"/></xsl:if>
+                        <xsl:if test="not(ancestor::t:div[@type='edition'])">
+                            <span xmlns="http://www.w3.org/1999/xhtml" class="MainTitle" data-value="{@ref}"/>
+                        </xsl:if>
                     <xsl:apply-templates select="child::node()[not(name()='certainty')]"/>
-                        <span xmlns="http://www.w3.org/1999/xhtml" class="pelagios" data-pelagiosID="{encode-for-uri(concat('http://pleiades.stoa.org/places/',$pleiadesid))}" data-href="https://pleiades.stoa.org/places/{$pleiadesid}">
+                        <span xmlns="http://www.w3.org/1999/xhtml" class="pelagios popup" data-pelagiosID="{encode-for-uri(concat('http://pleiades.stoa.org/places/',$pleiadesid))}" data-href="https://pleiades.stoa.org/places/{$pleiadesid}" data-value="{$pleiadesid}">
                             ↗
                     </span>
                 </xsl:when>
                     <xsl:when test="starts-with(@ref, 'Q')">
-                        <xsl:if test="not(ancestor::t:div[@type='edition'])"><span xmlns="http://www.w3.org/1999/xhtml" class="MainTitle" data-value="{@ref}"/></xsl:if>
+                        <xsl:if test="not(ancestor::t:div[@type='edition'])">
+                            <span xmlns="http://www.w3.org/1999/xhtml" class="MainTitle" data-value="{@ref}"/>
+                        </xsl:if>
                         <xsl:apply-templates select="child::node()[not(name()='certainty')]"/>
-                        <span xmlns="http://www.w3.org/1999/xhtml" class="pelagios" data-pelagiosID="{encode-for-uri(concat('http://www.wikidata.org/entity/',@ref))}" data-href="https://www.wikidata.org/wiki/{@ref}">
+                        <span xmlns="http://www.w3.org/1999/xhtml" class="pelagios popup" data-pelagiosID="{encode-for-uri(concat('http://www.wikidata.org/entity/',@ref))}" data-href="https://www.wikidata.org/wiki/{@ref}" data-value="{@ref}">
                             ↗
                         </span>
                     </xsl:when>
                     <xsl:when test="contains(@ref, 'gn:')">
-                        <xsl:if test="not(ancestor::t:div[@type='edition'])"><span xmlns="http://www.w3.org/1999/xhtml" class="MainTitle" data-value="{@ref}"/></xsl:if>
+                        <xsl:if test="not(ancestor::t:div[@type='edition'])">
+                            <span xmlns="http://www.w3.org/1999/xhtml" class="MainTitle" data-value="{@ref}"/>
+                        </xsl:if>
                         <xsl:variable name="gnid" select="substring-after(@ref, 'gn:')"/>
                         <a xmlns="http://www.w3.org/1999/xhtml" href="http://www.geonames.org/{$gnid}">
                             <xsl:value-of select="document(concat('http://api.geonames.org/get?geonameId=',$gnid,'&amp;username=betamasaheft'))//toponymName"/> 
@@ -32,10 +39,10 @@
                            -->
                         </a>
                         <xsl:variable name="id" select="generate-id()"/>
-                        <a xmlns="http://www.w3.org/1999/xhtml" id="{$id}Ent{@ref}relations">
+                        <span xmlns="http://www.w3.org/1999/xhtml" class="popup" id="{$id}Ent{@ref}relations">
                             <xsl:text>  </xsl:text>
                             <i class="fa fa-hand-o-left"/>
-                        </a>
+                        </span>
                     </xsl:when>
                     <xsl:otherwise>
                         <xsl:variable name="filename">
@@ -74,17 +81,19 @@
                             </xsl:choose>
                         </a>
                         <xsl:variable name="id" select="generate-id()"/>
-                        <a xmlns="http://www.w3.org/1999/xhtml" id="{$id}Ent{$filename}relations">
+                        <span xmlns="http://www.w3.org/1999/xhtml" class="popup" id="{$id}Ent{$filename}relations">
                             <xsl:text>  </xsl:text>
                             <i class="fa fa-hand-o-left"/>
                             <xsl:text>  </xsl:text>
-                        </a>
-                        <span xmlns="http://www.w3.org/1999/xhtml" class="pelagios" data-pelagiosID="{encode-for-uri(concat('http://betamasaheft.eu/places/',@ref))}" data-href="https://betamasaheft.eu/{@ref}">
+                        </span>
+                        <span xmlns="http://www.w3.org/1999/xhtml" class="pelagios popup" data-pelagiosID="{encode-for-uri(concat('http://betamasaheft.eu/places/',@ref))}" data-href="https://betamasaheft.eu/{@ref}" data-value="{@ref}">
                             ↗
                         </span>
                     </xsl:otherwise>
                 </xsl:choose>
-            <xsl:if test="t:certainty"><xsl:apply-templates select="t:certainty"/></xsl:if>
+            <xsl:if test="t:certainty">
+                    <xsl:apply-templates select="t:certainty"/>
+                </xsl:if>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:apply-templates/>

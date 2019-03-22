@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:variable name="mainID" select="t:TEI/@xml:id"/>
     <xsl:template match="t:relation">
@@ -11,7 +12,7 @@
             </xsl:choose>
         </xsl:variable>
            <xsl:for-each select="$passive">
-        <span property="http://purl.org/dc/elements/1.1/relation" resource="https://betamasaheft.eu/{current()}"/>
+        <span property="http://purl.org/dc/elements/1.1/relation" resource="http://betamasaheft.eu/{current()}"/>
         </xsl:for-each>
        </xsl:if>-->
         <xsl:apply-templates/>

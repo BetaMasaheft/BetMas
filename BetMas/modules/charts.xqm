@@ -3,7 +3,7 @@ xquery version "3.1" encoding "UTF-8";
  : module used by text search query functions to provide alternative
  : strings to the search, based on known homophones.
  :
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
 module namespace charts = "https://www.betamasaheft.uni-hamburg.de/BetMas/charts";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
@@ -208,7 +208,7 @@ declare function charts:chart($hits){
  (
 
    if($numberQuiresIns ge 1) then (
- if($numberQuiresIns ge 1050 ) then (<div  class="col-md-6 alert alert-danger"><p>
+ if($numberQuiresIns ge 1050 ) then (<div  class="w3-half w3-panel w3-red w3-padding w3-padding"><p>
     We think that a chart with data from {$numberQuiresIns} items would be impossible to read and not useful. Filter your search to limit the number of items, with less then 1000 we will print also the charts.
   </p></div>) else
 let $dimensionOfQuiresINS := distinct-values($hits//t:collation//t:item/t:dim[@unit='leaf'])
@@ -241,19 +241,19 @@ let $collations := '[["Composition","Quantity"],' ||string-join($percents, ', ')
       }
 
     </script>,
-    <div id="piechart_3d" class="col-md-6"
+    <div id="piechart_3d" class="w3-half"
      style="height: 500px;"/>
     )
     )
-    else (<div  class="col-md-6 alert alert-warning" ><p>There are no collations for this selection of manuscripts.</p></div>),
+    else (<div  class="w3-half w3-panel w3-red w3-padding" ><p>There are no collations for this selection of manuscripts.</p></div>),
 
 
 
 if($countDim ge 1) then (
-if($countDim ge 1050 ) then (<div  class="col-md-6 alert alert-danger"><p>
+if($countDim ge 1050 ) then (<div  class="w3-half w3-panel w3-red w3-padding"><p>
   We think that a chart with data from {$countDim} items would be impossible to read and not useful. Filter your search to limit the number of items, with less then 1000 we will print also the graphs.
 </p></div>) else
-if (count($unit) gt 1) then (<div  class="col-md-6 alert alert-warning"><p>Unfortunately we cannot put on a chart this data, because it is provided using different units of measure ({string-join($unit,', ')})</p></div>) else
+if (count($unit) gt 1) then (<div  class="w3-half w3-panel w3-red w3-padding"><p>Unfortunately we cannot put on a chart this data, because it is provided using different units of measure ({string-join($unit,', ')})</p></div>) else
     let $dims := for $d in $dimensions
     let $all := $d/t:dimensions[@type='outer']
                         let $SM := $d//ancestor::t:TEI//t:msIdentifier/t:idno/text()
@@ -346,7 +346,7 @@ let $taglie := for $d in $hits//t:extent[descendant::t:dimensions[@type='outer']
     }
     '}
     </script>,
-    <div id="series_chart_div"  class="col-md-6"
+    <div id="series_chart_div"  class="w3-half"
      style="height: 500px;"></div>,
     <script type="text/javascript">
     {
@@ -372,11 +372,11 @@ let $taglie := for $d in $hits//t:extent[descendant::t:dimensions[@type='outer']
 
     }
     </script>,
-        <div id="maniaci_chart"  class="col-md-6"
+        <div id="maniaci_chart"  class="w3-half"
          style="height: 500px;"></div>
     )
     )
-    else (<div class="col-md-6 alert alert-warning"><p>There are no outer dimensions for this selection of manuscripts.</p></div>),
+    else (<div class="w3-half w3-panel w3-red w3-padding"><p>There are no outer dimensions for this selection of manuscripts.</p></div>),
 
     if($countmswithSSta ge 1) then (
     let $spAks:= charts:spsupport($mssAks,'Aksumite',$spvalues)
@@ -426,9 +426,9 @@ return
     }'
     }
     </script>,
-    <div id="columnchart_values"  class="col-md-6"
+    <div id="columnchart_values"  class="w3-half"
      style="height: 500px;"></div>)
-  ) else (<div class="col-md-6 alert alert-warning"><p>There are no sewing stations values for this selection of manuscripts.</p></div>)
+  ) else (<div class="w3-half w3-panel w3-red w3-padding"><p>There are no sewing stations values for this selection of manuscripts.</p></div>)
   ,
 
   if($countmswithSPat ge 1) then (
@@ -480,9 +480,9 @@ return
   }'
   }
   </script>,
-  <div id="columnchart_SPvalues"  class="col-md-6"
+  <div id="columnchart_SPvalues"  class="w3-half"
    style="height: 500px;"></div>)
-) else (<div class="col-md-6 alert alert-warning"><p>There are no sewing pattern values for this selection of manuscripts.</p></div>)
+) else (<div class="w3-half w3-panel w3-red w3-padding"><p>There are no sewing pattern values for this selection of manuscripts.</p></div>)
 ,
 
 if($countmswithThreadMat ge 1) then (
@@ -544,9 +544,9 @@ chart.draw(view, options);
 }'
 }
 </script>,
-<div id="columnchart_Threadvalues"  class="col-md-6"
+<div id="columnchart_Threadvalues"  class="w3-half"
  style="height: 500px;"></div>)
-) else (<div class="col-md-6 alert alert-warning"><p>There are no thread material values for this selection of manuscripts.</p></div>)
+) else (<div class="w3-half w3-panel w3-red w3-padding"><p>There are no thread material values for this selection of manuscripts.</p></div>)
 ,
 
 
@@ -607,9 +607,9 @@ chart.draw(view, options);
 }'
 }
 </script>,
-<div id="columnchart_BMvalues"  class="col-md-6"
+<div id="columnchart_BMvalues"  class="w3-half"
  style="height: 500px;"></div>)
-) else (<div class="col-md-6 alert alert-warning"><p>There are no binding material values for this selection of manuscripts.</p></div>)
+) else (<div class="w3-half w3-panel w3-red w3-padding"><p>There are no binding material values for this selection of manuscripts.</p></div>)
 ,
 
 if($countmsObjTyp ge 1) then (
@@ -671,9 +671,9 @@ chart.draw(view, options);
 }'
 }
 </script>,
-<div id="columnchart_OTvalues"  class="col-md-6"
+<div id="columnchart_OTvalues"  class="w3-half"
  style="height: 500px;"></div>)
-) else (<div class="col-md-6 alert alert-warning"><p>There are no object form values for this selection of manuscripts.</p></div>)
+) else (<div class="w3-half w3-panel w3-red w3-padding"><p>There are no object form values for this selection of manuscripts.</p></div>)
 ,
 if($countmswithMainMat ge 1) then (
 
@@ -733,9 +733,9 @@ chart.draw(view, options);
 }'
 }
 </script>,
-<div id="columnchart_MMvalues"  class="col-md-6"
+<div id="columnchart_MMvalues"  class="w3-half"
  style="height: 500px;"></div>)
-) else (<div class="col-md-6 alert alert-warning"><p>There are no support material values for this selection of manuscripts.</p></div>)
+) else (<div class="w3-half w3-panel w3-red w3-padding"><p>There are no support material values for this selection of manuscripts.</p></div>)
 ,
 
 if($countRulPat ge 1) then (
@@ -776,7 +776,7 @@ let $patts := '[["Ruling Pattern","Quantity"],' ||string-join($data, ', ') || ']
       }
 
     </script>,
-    <div id="piechart_ruling" class="col-md-6"
+    <div id="piechart_ruling" class="w3-half"
      style="height: 500px;"/>
     )
     ,
@@ -846,12 +846,12 @@ chart.draw(data, google.charts.Bar.convertOptions(options));
 }'
 }
 </script>,
-<div id="columnchart_ruling{$formulaZone}"  class="col-md-6"
+<div id="columnchart_ruling{$formulaZone}"  class="w3-half"
  style="height: 500px;"></div>)
         
 )
    
-) else (<div class="col-md-6 alert alert-warning"><p>There are no Ruling Patterns for this selection of manuscripts.</p></div>)
+) else (<div class="w3-half w3-panel w3-red w3-padding"><p>There are no Ruling Patterns for this selection of manuscripts.</p></div>)
 ,
 if($countLayout ge 1) then (
 
@@ -893,12 +893,12 @@ if($countLayout ge 1) then (
     }
     '}
     </script>,
-    <div id="series_chart_div_layout"  class="col-md-6"
+    <div id="series_chart_div_layout"  class="w3-half"
      style="height: 500px;"></div>
 
     )
     )
-    else (<div  class="col-md-6 alert alert-warning"><p>There are no manuscript with layout dimensions for this selection of manuscripts.</p></div>)
+    else (<div  class="w3-half w3-panel w3-red w3-padding"><p>There are no manuscript with layout dimensions for this selection of manuscripts.</p></div>)
   )
  };
 

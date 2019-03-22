@@ -3,7 +3,7 @@ xquery version "3.1" encoding "UTF-8";
 (:~
  : kwic and simple search from API
  : 
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
 module namespace apiS = "https://www.betamasaheft.uni-hamburg.de/BetMas/apiSearch";
 import module namespace rest = "http://exquery.org/ns/restxq";

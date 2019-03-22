@@ -1,11 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:key name="decotype" match="//t:decoNote" use="@type"/>
     <xsl:key name="additiontype" match="//t:item[contains(@xml:id, 'a')]/t:desc" use="@type"/>
     <xsl:variable name="mainidno" select="//t:msIdentifier/t:idno"/>
     <xsl:variable name="mainID" select="t:TEI/@xml:id"/>
     <xsl:template match="/">
+        <div class="w3-twothird" id="MainData">
         <span property="http://www.cidoc-crm.org/cidoc-crm/P48_has_preferred_identifier" content="{$mainID}"/>
-        <div class="col-md-12" id="description" typeof="http://lawd.info/ontology/AssembledWork https://betamasaheft.eu/mss">
+        <div class="w3-container" id="description" typeof="http://lawd.info/ontology/AssembledWork https://betamasaheft.eu/mss">
             <xsl:if test="//t:date[@evidence = 'internal-date'] or //t:origDate[@evidence = 'internal-date']">
                 <h1>
                     <span class="label label-primary">Dated</span>
@@ -14,17 +16,20 @@
             </xsl:if>
             
                 <div id="maintoogles" class="btn-group">
-                <button class="btn btn-info" id="tooglecodicologicalInformation">Hide/show codicological information</button>
-                <button class="btn btn-info" id="toogletextualcontents">Hide/show contents</button>
+                
+                    <div class="w3-bar">
+                        <a class="w3-bar-item  w3-hide-medium w3-hide-small w3-button w3-gray" id="tooglecodicologicalInformation">Hide/show codicological information</a>
+                        <a class="w3-bar-item w3-hide-medium w3-hide-small w3-button w3-gray" id="toogletextualcontents">Hide/show contents</a>
+                    </div>
             </div>
             
             <h2>General description</h2>
-            <div class="col-md-4">
+            <div class="w3-third">
                 <h4 property="http://purl.org/dc/elements/1.1/title">
                 <xsl:apply-templates select="//t:titleStmt/t:title"/>
             </h4>
                 
-                <button class="btn btn-primary" id="showattestations" data-value="mss" data-id="{string(t:TEI/@xml:id)}">Show attestations</button>
+                <button class="w3-button w3-red w3-large" id="showattestations" data-value="mss" data-id="{string(t:TEI/@xml:id)}">Show attestations</button>
                 <div id="allattestations" class="col-md-12"/>
             <xsl:if test="//t:listPerson/t:person[@ref]">
                 <h3>People</h3>
@@ -35,14 +40,14 @@
                 </xsl:for-each>
             </xsl:if>
             </div>
-            <div class="col-md-4">
+            <div class="w3-third">
                 <h4>Number of Text units: <span class="label label-default">
                         <xsl:value-of select="count(//t:msItem[contains(@xml:id, 'i')])"/>
                     </span>
             </h4>
             </div>
             <span property="http://www.cidoc-crm.org/cidoc-crm/P57_has_number_of_parts" content="{count(//t:msContents/t:msItem)}"/>
-            <div class="col-md-4">
+            <div class="w3-third">
                 <h4>Number of Codicological units: <span class="label label-default">
                         <xsl:choose>
                     <xsl:when test="//t:msPart">
@@ -54,11 +59,12 @@
             </h4>
             </div>
         </div>
-        <div class="col-md-12" id="generalphysical">
+        <div class="w3-container" id="generalphysical">
             <xsl:apply-templates select="//t:msDesc"/>
         </div>
         <img id="loadingRole" src="resources/Loading.gif" style="display: none;"/>  
-        <div id="roleAttestations"/> 
+        <div id="roleAttestations"/>
+        </div>
         <xsl:call-template name="resp">
             <xsl:with-param name="resp" select="."/>
         </xsl:call-template>

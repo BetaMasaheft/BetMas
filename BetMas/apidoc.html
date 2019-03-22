@@ -1,9 +1,11 @@
-<div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+<?xml version="1.0" encoding="UTF-8"?>
+<div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/newpage.html" data-template-at="content">
 
     <div data-template="app:logging"/>
+    <div class="w3-container w3-margin w3-padding-64">
     <h1>Beta maṣāḥǝft API documentation</h1>
-    <div class="col-md-12" id="apidoctoc">
-        <p>The base uri for the API is <code>https://betamasaheft.eu/api/</code> which will redirect
+    <div class="w3-container" id="apidoctoc">
+        <p>The base uri for the API is <code class="w3-codespan">https://betamasaheft.eu/api/</code> which will redirect
             you here unless specified.</p>
         <ul>
             <li>
@@ -55,73 +57,73 @@
             </li>
         </ul>
     </div>
-    <div class="col-md-12">
+    <div class="w3-container">
         <h2 id="apisearch">API search</h2>
         <p> You can search the XML data with the following call. The parameter q takes the query
             text where white space is interpreted as OR. You can use lucene query synthax like Pie*
             or use "Pierre AND Bel" to find both Pierre and Bel in the selected elements.</p>
-        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to table of
+        <a class="w3-button w3-red page-scroll" role="button" href="#apidoctoc">Return to table of
             contents</a>
         <div id="APIpatterns" class="APIexamplestable row">
-            <div class="row lead">
-                <div class="col-md-2">Pattern</div>
-                <div class="col-md-4">Parameters</div>
-                <div class="col-md-2">Example</div>
-                <div class="col-md-4">Result:</div>
+            <div class="w3-row lead">
+                <div class="w3-quarter">Pattern</div>
+                <div class="w3-quarter">Parameters</div>
+                <div class="w3-quarter">Example</div>
+                <div class="w3-quarter">Result:</div>
             </div>
-            <div class="row">
-                <div class="col-md-2">
+            <div class="w3-row">
+                <div class="w3-quarter">
                     <pre>/api/search?element={elementName}&amp;q={searchString}</pre>
                     <p>Searchable elements</p>
                     <ul>
                         <li>
-                            <code>title</code>
+                            <code class="w3-codespan">title</code>
                         </li>
                         <li>
-                            <code>persName</code>
+                            <code class="w3-codespan">persName</code>
                         </li>
                         <li>
-                            <code>placeName</code>
+                            <code class="w3-codespan">placeName</code>
                         </li>
                         <li>
-                            <code>ref</code>
+                            <code class="w3-codespan">ref</code>
                         </li>
                         <li>
-                            <code>ab</code>
+                            <code class="w3-codespan">ab</code>
                         </li>
                         <li>
-                            <code>l</code>
+                            <code class="w3-codespan">l</code>
                         </li>
                         <li>
-                            <code>p</code>
+                            <code class="w3-codespan">p</code>
                         </li>
                         <li>
-                            <code>q</code>
+                            <code class="w3-codespan">q</code>
                         </li>
                         <li>
-                            <code>colophon</code>
+                            <code class="w3-codespan">colophon</code>
                         </li>
                         <li>
-                            <code>incipit</code>
+                            <code class="w3-codespan">incipit</code>
                         </li>
                         <li>
-                            <code>explicit</code>
+                            <code class="w3-codespan">explicit</code>
                         </li>
                         <li>
-                            <code>note</code>
+                            <code class="w3-codespan">note</code>
                         </li>
                         <li>
-                            <code>summary</code>
+                            <code class="w3-codespan">summary</code>
                         </li>
                         <li>
-                            <code>abstract</code>
+                            <code class="w3-codespan">abstract</code>
                         </li>
                     </ul>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <div id="APISearchParameters">
-                        <div class="row">
-                            <div class="col-md-4">
+                        <div class="w3-row">
+                            <div class="w3-quarter">
                                 <b>Parameter name</b>
                             </div>
                             <div class="col-md-8">
@@ -129,10 +131,10 @@
                             </div>
                         </div>
                         <form id="params">
-                            <div class="row">
-                                <label class="col-md-4">element</label>
+                            <div class="w3-row">
+                                <label class="w3-quarter">element</label>
                                 <div class="col-md-8">
-                                    <select name="element" id="element" data-value="search">
+                                    <select class="w3-select" name="element" id="element" data-value="search">
                                         <option/>
                                         <option value="title">title</option>
                                         <option value="persName">persName</option>
@@ -150,28 +152,28 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="row">
-                                <label class="col-md-4">homophones</label>
+                            <div class="w3-row">
+                                <label class="w3-quarter">homophones</label>
                                 <div class="col-md-8">
                                     You can add this parameter with value false (default is true) if you wish NOT to use the homophones substitutions. (see issue <a href="https://github.com/BetaMasaheft/Documentation/issues/744" target="_blank">#744</a>)
                                 </div>
                             </div>
-                            <div class="row">
-                                <label class="col-md-4">descendants</label>
+                            <div class="w3-row">
+                                <label class="w3-quarter">descendants</label>
                                 <div class="col-md-8">
                                     You can add this parameter with value false (default is true) if you wish for persons and places NOT to search in other elements than the direct children of place and person. See issue <a href="https://github.com/BetaMasaheft/Documentation/issues/926" target="_blank">#926</a>.
                                 </div>
                             </div>
-                            <div class="row">
-                                <label class="col-md-4">q</label>
+                            <div class="w3-row">
+                                <label class="w3-quarter">q</label>
                                 <div class="col-md-8">
-                                    <input name="q" id="query" data-value="search"/>
+                                    <input class="w3-input" name="q" id="query" data-value="search"/>
                                 </div>
                             </div>
-                            <div class="row">
-                                <label class="col-md-4">collection</label>
+                            <div class="w3-row">
+                                <label class="w3-quarter">collection</label>
                                 <div class="col-md-8">
-                                    <select name="collection" id="collection" data-value="search">
+                                    <select class="w3-select" name="collection" id="collection" data-value="search">
                                         <option/>
                                         <option value="manuscripts">manuscripts</option>
                                         <option value="persons">persons</option>
@@ -182,20 +184,20 @@
                                     </select>
                                 </div>
                             </div>
-                            <!--<div class="row">
-                                <label class="col-md-4">script</label>
+                            <!--<div class="w3-row">
+                                <label class="w3-quarter">script</label>
                                 <div class="col-md-8">
                                     <span data-template="app:scripts"/>
                                 </div>
                             </div>
-                            <div class="row">
-                                <label class="col-md-4">material</label>
+                            <div class="w3-row">
+                                <label class="w3-quarter">material</label>
                                 <div class="col-md-8">
                                     <span data-template="app:material"/>
                                 </div>
                             </div>
-                            <div class="row">
-                                <label class="col-md-4">term</label>
+                            <div class="w3-row">
+                                <label class="w3-quarter">term</label>
                                 <div class="col-md-8">
                                     <span data-template="app:keywords"/>
                                 </div>
@@ -203,86 +205,87 @@
                         </form>
                     </div>
                 </div>
-                <div class="col-md-2 urlexample">
+                <div class="w3-quarter urlexample">
                     <pre>
                         <a id="search" href="/api/search?element=persName&amp;q=Pierre">https://betamasaheft.eu/api/search?element=persName&amp;q=Pierre</a>
                     </pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <pre class="APIexampleJSON" data-value="search"/>
                 </div>
             </div>
         </div>
     </div>
     
-    <div class="col-md-12">
+    <div class="w3-container">
         <h2 id="APIpatternsKWIC">API KWIC search</h2>
         <p> You can search the XML data with a call like this:</p>
-        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to table of
+        <a class="w3-button w3-red page-scroll" role="button" href="#apidoctoc">Return to table of
             contents</a>
         <div id="APIpatternssearchKWIC" class="APIexamplestable row">
-            <div class="row lead">
-                <div class="col-md-2">Pattern</div>
-                <div class="col-md-4">Parameters</div>
-                <div class="col-md-2">Example</div>
-                <div class="col-md-4">Result:</div>
+            <div class="w3-row lead">
+                <div class="w3-quarter">Pattern</div>
+                <div class="w3-quarter">Parameters</div>
+                <div class="w3-quarter">Example</div>
+                <div class="w3-quarter">Result:</div>
             </div>
-            <div class="row">
-                <div class="col-md-2">
-                    <pre>/api/kwicsearch?element={elementName}&amp;q={searchString}</pre>
+            <div class="w3-row">
+                <div class="w3-quarter">
+                    <pre>/api/kwicsearch?element={elementName}
+                        &amp;q={searchString}</pre>
                     <p>Searchable elements</p>
                     <ul>
                         <li>
-                            <code>title</code>
+                            <code class="w3-codespan">title</code>
                         </li>
                         <li>
-                            <code>persName</code>
+                            <code class="w3-codespan">persName</code>
                         </li>
                         <li>
-                            <code>placeName</code>
+                            <code class="w3-codespan">placeName</code>
                         </li>
                         <li>
-                            <code>ref</code>
+                            <code class="w3-codespan">ref</code>
                         </li>
                         <li>
-                            <code>ab</code>
+                            <code class="w3-codespan">ab</code>
                         </li>
                         <li>
-                            <code>l</code>
+                            <code class="w3-codespan">l</code>
                         </li>
                         <li>
-                            <code>p</code>
+                            <code class="w3-codespan">p</code>
                         </li>
                         <li>
-                            <code>q</code>
+                            <code class="w3-codespan">q</code>
                         </li>
                         <li>
-                            <code>colophon</code>
+                            <code class="w3-codespan">colophon</code>
                         </li>
                         <li>
-                            <code>incipit</code>
+                            <code class="w3-codespan">incipit</code>
                         </li>
                         <li>
-                            <code>explicit</code>
+                            <code class="w3-codespan">explicit</code>
                         </li>
                         <li>
-                            <code>note</code>
+                            <code class="w3-codespan">note</code>
                         </li>
                         <li>
-                            <code>summary</code>
+                            <code class="w3-codespan">summary</code>
                         </li>
                         <li>
-                            <code>abstract</code>
+                            <code class="w3-codespan">abstract</code>
                         </li>
                         <li>
-                            <code>many other TEI elements</code>
+                            <code class="w3-codespan">many other TEI elements</code>
                         </li>
                     </ul>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <div id="APISearchParameters1">
-                        <div class="row">
-                            <div class="col-md-4">
+                        <div class="w3-row">
+                            <div class="w3-quarter">
                                 <b>Parameter name</b>
                             </div>
                             <div class="col-md-8">
@@ -290,10 +293,10 @@
                             </div>
                         </div>
                         <form id="APIparams">
-                            <div class="row">
-                                <label class="col-md-4">element</label>
+                            <div class="w3-row">
+                                <label class="w3-quarter">element</label>
                                 <div class="col-md-8">
-                                    <select name="element" id="APIelement" data-value="search">
+                                    <select class="w3-select" name="element" id="APIelement" data-value="search">
                                         <option/>
                                         <option value="title">title</option>
                                         <option value="persName">persName</option>
@@ -311,16 +314,16 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="row">
-                                <label class="col-md-4">q</label>
+                            <div class="w3-row">
+                                <label class="w3-quarter">q</label>
                                 <div class="col-md-8">
-                                    <input name="q" id="querykwic" data-value="search"/>
+                                    <input class="w3-input" name="q" id="querykwic" data-value="search"/>
                                 </div>
                             </div>
-                            <div class="row">
-                                <label class="col-md-4">collection</label>
+                            <div class="w3-row">
+                                <label class="w3-quarter">collection</label>
                                 <div class="col-md-8">
-                                    <select name="collection" id="collectionkwic" data-value="search">
+                                    <select class="w3-select" name="collection" id="collectionkwic" data-value="search">
                                         <option/>
                                         <option value="manuscripts">manuscripts</option>
                                         <option value="persons">persons</option>
@@ -331,20 +334,20 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="row">
-                                <label class="col-md-4">script</label>
+                            <div class="w3-row">
+                                <label class="w3-quarter">script</label>
                                <!-- <div class="col-md-8">
                                     <span data-template="app:scripts"/>
                                 </div>-->
                             </div>
-                            <div class="row">
-                                <label class="col-md-4">material</label>
+                            <div class="w3-row">
+                                <label class="w3-quarter">material</label>
                                 <!--<div class="col-md-8">
                                     <span data-template="app:material"/>
                                 </div>-->
                             </div>
-                            <div class="row">
-                                <label class="col-md-4">term</label>
+                            <div class="w3-row">
+                                <label class="w3-quarter">term</label>
                                 <!--<div class="col-md-8">
                                     <span data-template="app:keywords"/>
                                 </div>-->
@@ -352,19 +355,19 @@
                         </form>
                     </div>
                 </div>
-                <div class="col-md-2 urlexample">
+                <div class="w3-quarter urlexample">
                     <pre>
                         <a id="searchkwic" href="/api/kwicsearch?element=persName&amp;q=ሃሌሉያ">https://betamasaheft.eu/api/kwicsearch?element=ab&amp;q=ሃሌሉያ</a>
                     </pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <pre class="APIexampleJSON" data-value="searchkwic"/>
                 </div>
             </div>
         </div>
 
     </div>
-    <div class="col-md-12">
+    <div class="w3-container">
         <h2 id="SPARQL">Query the RDF triplestore</h2>
         <p>RDF triples are exported from the TEI data as they are committed to the app. NOT everything is there yet.</p>
         <p>Thanks to this package by <a href="https://github.com/ljo/exist-sparql" target="_blank">ljo</a>, you can enter a SPARQL query to the RDF representation of the data as a parameter to this api request. PLEASE use single quotes ' not double.</p>
@@ -383,32 +386,32 @@
                         <a href="/rdf/LOC1261Adulis.rdf" target="_blank">Place Record</a>
                     </li>
                 </ul>
-                <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to table of
+                <a class="w3-button w3-red page-scroll" role="button" href="#apidoctoc">Return to table of
             contents</a>
                 <div>
                     <div id="APIpatternslistSPARQL" class="APIexamplestable">
-            <div class="row lead">
-                <div class="col-md-2">Pattern</div>
-                <div class="col-md-4">Parameters</div>
-                <div class="col-md-2">Example</div>
-                <div class="col-md-4">Result:</div>
+            <div class="w3-row lead">
+                <div class="w3-quarter">Pattern</div>
+                <div class="w3-quarter">Parameters</div>
+                <div class="w3-quarter">Example</div>
+                <div class="w3-quarter">Result:</div>
             </div>
-            <div class="row">
-                <div class="col-md-2">
+            <div class="w3-row">
+                <div class="w3-quarter">
                     <pre>/api/SPARQL</pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <div id="APIlistParametersSPARQL">
-                        <div class="row">
-                            <div class="col-md-4">
+                        <div class="w3-row">
+                            <div class="w3-quarter">
                                 <b>Parameter name</b>
                             </div>
                             <div class="col-md-8">
                                 <b>Available values</b>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-4">
+                        <div class="w3-row">
+                            <div class="w3-quarter">
                                query
                             </div>
                             <div class="col-md-8">
@@ -418,31 +421,31 @@
                         
            </div>
            </div>
-                    <div class="col-md-2 urlexample">
+                    <div class="w3-quarter urlexample">
                     <pre>
                         <a id="listSPARQL" target="_blank" href="/api/SPARQL?query=SELECT * WHERE {?x a bm:nar}">https://betamasaheft.eu/api/SPARQL?query=SELECT * WHERE {?x a bm:nar}</a>
                     </pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <p>Click on link</p>
                 </div>
            </div>
-                        <div class="row">
-                            <div class="col-md-2">
+                        <div class="w3-row">
+                            <div class="w3-quarter">
                                 <pre>/api/SPARQL/json</pre>
                             </div>
-                            <div class="col-md-4">
+                            <div class="w3-quarter">
                                 <div id="APIlistParametersSPARQLJ">
-                                    <div class="row">
-                                        <div class="col-md-4">
+                                    <div class="w3-row">
+                                        <div class="w3-quarter">
                                             <b>Parameter name</b>
                                         </div>
                                         <div class="col-md-8">
                                             <b>Available values</b>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
+                                    <div class="w3-row">
+                                        <div class="w3-quarter">
                                             query
                                         </div>
                                         <div class="col-md-8">
@@ -452,31 +455,31 @@
                                     
                                 </div>
                             </div>
-                            <div class="col-md-2 urlexample">
+                            <div class="w3-quarter urlexample">
                                 <pre>
                         <a id="SPARQLJlist" target="_blank" href="/api/SPARQL/json?query=SELECT * WHERE {?x a bm:nar}">https://betamasaheft.eu/api/SPARQL/json?query=SELECT * WHERE {?x a bm:nar}</a>
                     </pre>
                             </div>
-                            <div class="col-md-4">
+                            <div class="w3-quarter">
                                 <pre class="APIexampleJSON" data-value="SPARQLJlist"/>
                             </div>
                         </div>
-            <div class="row">
-                <div class="col-md-2">
+            <div class="w3-row">
+                <div class="w3-quarter">
                     <pre>/api/SPARQL/relations/{$id}</pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <div id="APIlistParametersSPARQLRel">
-                        <div class="row">
-                            <div class="col-md-4">
+                        <div class="w3-row">
+                            <div class="w3-quarter">
                                 <b>Parameter name</b>
                             </div>
                             <div class="col-md-8">
                                 <b>Available values</b>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-4">
+                        <div class="w3-row">
+                            <div class="w3-quarter">
                                id
                             </div>
                             <div class="col-md-8">
@@ -486,12 +489,12 @@
                         
            </div>
            </div>
-                    <div class="col-md-2 urlexample">
+                    <div class="w3-quarter urlexample">
                     <pre>
                         <a id="SPARQLjsonlist" target="_blank" href="/api/SPARQL/relations/BDLbruce88">https://betamasaheft.eu/api/SPARQL/relations/BDLbruce88</a>
                     </pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <pre class="APIexampleJSON" data-value="SPARQLjsonlist"/>
                 </div>
            </div>
@@ -499,14 +502,14 @@
                 </div>
                 </div>
     </div>
-    <div class="col-md-12">
+    <div class="w3-container">
         <h2 id="getlistoffiles">GET list of files in a collection</h2>
         <p>Depending on the type of record you are asking for you will get a different set of values
             in each item.</p>
-        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to table of
+        <a class="w3-button w3-red page-scroll" role="button" href="#apidoctoc">Return to table of
             contents</a>
         <div>
-            <div class="col-md-12">
+            <div class="w3-container">
                 <p>For all records:</p>
                 <ul>
                     <li>uri</li>
@@ -515,7 +518,7 @@
                     <li>title</li>
                 </ul>
             </div>
-            <div class="row">
+            <div class="w3-row">
                 <div class="col-md-3">
                     <p>For manuscripts</p>
                     <ul>
@@ -558,20 +561,20 @@
             </div>
         </div>
         <div id="APIpatternslist" class="APIexamplestable">
-            <div class="row lead">
-                <div class="col-md-2">Pattern</div>
-                <div class="col-md-4">Parameters</div>
-                <div class="col-md-2">Example</div>
-                <div class="col-md-4">Result:</div>
+            <div class="w3-row lead">
+                <div class="w3-quarter">Pattern</div>
+                <div class="w3-quarter">Parameters</div>
+                <div class="w3-quarter">Example</div>
+                <div class="w3-quarter">Result:</div>
             </div>
-            <div class="row">
-                <div class="col-md-2">
+            <div class="w3-row">
+                <div class="w3-quarter">
                     <pre>/api/{collection}/list</pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <div id="APIlistParameters">
-                        <div class="row">
-                            <div class="col-md-4">
+                        <div class="w3-row">
+                            <div class="w3-quarter">
                                 <b>Parameter name</b>
                             </div>
                             <div class="col-md-8">
@@ -579,56 +582,56 @@
                             </div>
                         </div>
                         <form id="listparams">
-                            <div class="row">
-                                <label class="col-md-4">collection</label>
+                            <div class="w3-row">
+                                <label class="w3-quarter">collection</label>
                                 <div class="col-md-8">manuscripts, persons, places, works,
                                     narratives, institutions </div>
                             </div>
-                            <div class="row">
-                                <label class="col-md-4">term</label>
+                            <div class="w3-row">
+                                <label class="w3-quarter">term</label>
                                 <!--<div class="col-md-8">
                                     <span data-template="app:keywords"/>
                                 </div>-->
                             </div>
-                            <div class="row">
-                                <label class="col-md-4">start</label>
+                            <div class="w3-row">
+                                <label class="w3-quarter">start</label>
                                 <div class="col-md-8">from which item to start. Default: 1.</div>
                             </div>
-                            <div class="row">
-                                <label class="col-md-4">perpage</label>
+                            <div class="w3-row">
+                                <label class="w3-quarter">perpage</label>
                                 <div class="col-md-8">how many items per page to return. Default:
                                     25</div>
                             </div>
                         </form>
                     </div>
                 </div>
-                <div class="col-md-2 urlexample">
+                <div class="w3-quarter urlexample">
                     <pre>
                         <a id="list" target="_blank" href="/api/works/list">https://betamasaheft.eu/api/works/list</a>
                     </pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <p>Click on link</p>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-2">
+            <div class="w3-row">
+                <div class="w3-quarter">
                     <pre>/api/{collection}/list/json</pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <div id="APIlistJsonParameters">
-                        <div class="row">
-                            <div class="col-md-4">
+                        <div class="w3-row">
+                            <div class="w3-quarter">
                                 <b>Parameter name</b>
                             </div>
                             <div class="col-md-8">
                                 <b>Available values</b>
                             </div>
                         </div>
-                        <div class="row">
-                            <label class="col-md-4">collection</label>
+                        <div class="w3-row">
+                            <label class="w3-quarter">collection</label>
                             <div class="col-md-8">
-                                <select name="collection" id="collectionjson" data-value="jsonlist">
+                                <select class="w3-select" name="collection" id="collectionjson" data-value="jsonlist">
                                     <option value="works">works</option>
                                     <option value="manuscripts">manuscripts</option>
                                     <option value="persons">persons</option>
@@ -638,176 +641,176 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="row">
-                            <label class="col-md-4">term</label>
+                        <div class="w3-row">
+                            <label class="w3-quarter">term</label>
                             <!--<div class="col-md-8">
                                 <span data-template="app:keywords"/>
                             </div>-->
                         </div>
-                        <div class="row">
-                            <label class="col-md-4">start</label>
+                        <div class="w3-row">
+                            <label class="w3-quarter">start</label>
                             <div class="col-md-8">from which item to start. Default: 1.</div>
                         </div>
-                        <div class="row">
-                            <label class="col-md-4">perpage</label>
+                        <div class="w3-row">
+                            <label class="w3-quarter">perpage</label>
                             <div class="col-md-8">how many items per page to return. Default:
                                 25</div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2 urlexample">
+                <div class="w3-quarter urlexample">
                     <pre>
                         <a id="jsonlist" target="_blank" href="/api/works/list/json">https://betamasaheft.eu/api/works/list/json</a>
                     </pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <pre class="APIexampleJSON" data-value="jsonlist"/>
                 </div>
             </div>
         </div>
     </div>
     
-    <div class="col-md-12">
+    <div class="w3-container">
         <h2 id="getrawdata">GET resource data</h2>
         <p>beside the methods below, for places and institutions geoJSON can be obtained appending
             .json to the entry url.</p>
         <a href="/institutions/INS0002AAI.json">https://betamasaheft.eu/institutions/INS0002AAI.json</a>
-        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to table of
+        <a class="w3-button w3-red page-scroll" role="button" href="#apidoctoc">Return to table of
             contents</a>
         <div id="APIpatternsRaw" class="APIexamplestable">
-            <div class="row lead">
-                <div class="col-md-2">Pattern</div>
-                <div class="col-md-4">Parameters</div>
-                <div class="col-md-2">Example</div>
-                <div class="col-md-4">Result:</div>
+            <div class="w3-row lead">
+                <div class="w3-quarter">Pattern</div>
+                <div class="w3-quarter">Parameters</div>
+                <div class="w3-quarter">Example</div>
+                <div class="w3-quarter">Result:</div>
             </div>
-            <div class="row">
-                <div class="col-md-2">
+            <div class="w3-row">
+                <div class="w3-quarter">
                     <pre>/api/{id}/tei</pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <!-- <div id="APIRawParameters">
-                    <div class="row">
-                        <div class="col-md-4"><b>Parameter name</b></div>
+                    <div class="w3-row">
+                        <div class="w3-quarter"><b>Parameter name</b></div>
                         <div class="col-md-8"><b>Available values</b></div>
                     </div>
                    
                 </div>-->
                 </div>
-                <div class="col-md-2 urlexample">
+                <div class="w3-quarter urlexample">
                     <pre>
                         <a id="raw" target="_blank" href="/api/BNFet32/tei">https://betamasaheft.eu/api/BNFet32/tei</a>
                     </pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <p>Click on link.</p>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-2">
+            <div class="w3-row">
+                <div class="w3-quarter">
                     <pre>/api/{id}/json</pre>
                     <p>This is an automatic serialization in json by rest XQ in exist</p>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <!-- <div id="APIRawParameters">
-                    <div class="row">
-                        <div class="col-md-4"><b>Parameter name</b></div>
+                    <div class="w3-row">
+                        <div class="w3-quarter"><b>Parameter name</b></div>
                         <div class="col-md-8"><b>Available values</b></div>
                     </div>
                    
                 </div>-->
                 </div>
-                <div class="col-md-2 urlexample">
+                <div class="w3-quarter urlexample">
                     <pre>
                         <a id="rawjson" target="_blank" href="/api/BNFet32/json">https://betamasaheft.eu/api/BNFet32/json</a>
                     </pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <pre class="APIexampleJSON" data-value="rawjson"/>
                 </div>
             </div>
         </div>
     </div>
     
-    <div class="col-md-12">
+    <div class="w3-container">
         <h2 id="canonicaltitle">GET canonical title of file</h2>
-        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to table of
+        <a class="w3-button w3-red page-scroll" role="button" href="#apidoctoc">Return to table of
             contents</a>
         <div id="APIpatternsTitle" class="APIexamplestable">
-            <div class="row lead">
-                <div class="col-md-2">Pattern</div>
-                <div class="col-md-4">Parameters</div>
-                <div class="col-md-2">Example</div>
-                <div class="col-md-4">Result:</div>
+            <div class="w3-row lead">
+                <div class="w3-quarter">Pattern</div>
+                <div class="w3-quarter">Parameters</div>
+                <div class="w3-quarter">Example</div>
+                <div class="w3-quarter">Result:</div>
             </div>
-            <div class="row">
-                <div class="col-md-2">
+            <div class="w3-row">
+                <div class="w3-quarter">
                     <pre>/api/{id}/title</pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <!-- <div id="APIRawParameters">
-                    <div class="row">
-                        <div class="col-md-4"><b>Parameter name</b></div>
+                    <div class="w3-row">
+                        <div class="w3-quarter"><b>Parameter name</b></div>
                         <div class="col-md-8"><b>Available values</b></div>
                     </div>
                    
                 </div>-->
                 </div>
-                <div class="col-md-2 urlexample">
+                <div class="w3-quarter urlexample">
                     <pre>
                         <a id="title" href="/api/BNFet32/title">https://betamasaheft.eu/api/BNFet32/title</a>
                     </pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <pre class="APIexample" data-value="title"/>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-2">
+            <div class="w3-row">
+                <div class="w3-quarter">
                     <pre>/api/{id}/{anchor}/title</pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <!-- <div id="APIRawParameters">
-                    <div class="row">
-                        <div class="col-md-4"><b>Parameter name</b></div>
+                    <div class="w3-row">
+                        <div class="w3-quarter"><b>Parameter name</b></div>
                         <div class="col-md-8"><b>Available values</b></div>
                     </div>
                    
                 </div>-->
                 </div>
-                <div class="col-md-2 urlexample">
+                <div class="w3-quarter urlexample">
                     <pre>
                         <a id="titleanchor" href="/api/BNFet32/a1/title">https://betamasaheft.eu/api/BNFet32/a1/title</a>
                     </pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <pre class="APIexample" data-value="titleanchor"/>
                 </div>
             </div>
         </div>
     </div>
     
-    <div class="col-md-12">
+    <div class="w3-container">
         <h2 id="getclavis">GET clavis IDs</h2>
         <p>Check the correct id exists <a href="/works/">here.</a>
         </p>
-        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to table of
+        <a class="w3-button w3-red page-scroll" role="button" href="#apidoctoc">Return to table of
             contents</a>
         <div id="APIpatternsJSONclavis" class="APIexamplestable">
-            <div class="row lead">
-                <div class="col-md-2">Pattern</div>
-                <div class="col-md-4">parameters</div>
-                <div class="col-md-2">Example</div>
-                <div class="col-md-4">Result:</div>
+            <div class="w3-row lead">
+                <div class="w3-quarter">Pattern</div>
+                <div class="w3-quarter">parameters</div>
+                <div class="w3-quarter">Example</div>
+                <div class="w3-quarter">Result:</div>
             </div>
-            <div class="row">
-                <div class="col-md-2">
+            <div class="w3-row">
+                <div class="w3-quarter">
                     <pre>/api/clavis/{id}</pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <div id="APIJSONclavisParameters">
-                        <div class="row">
-                            <div class="col-md-4">
+                        <div class="w3-row">
+                            <div class="w3-quarter">
                                 <pre>api/clavis/LIT1367Exodus</pre>
                             </div>
 
@@ -815,75 +818,75 @@
 
                     </div>
                 </div>
-                <div class="col-md-2 urlexample">
+                <div class="w3-quarter urlexample">
                     <pre>
                         <a id="jsonclavis" href="/api/clavis/LIT1914Mashaf">https://betamasaheft.eu/api/clavis/LIT1914Mashaf</a>
                     </pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <pre class="APIexampleJSON" data-value="jsonclavis"/>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-2">
+            <div class="w3-row">
+                <div class="w3-quarter">
                     <pre>/api/clavis?q=pilati</pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <div id="APIxmlclavisParameters">
-                        <div class="row">
-                            <div class="col-md-4">
+                        <div class="w3-row">
+                            <div class="w3-quarter">
                                 <pre>api/clavis?q=pilati</pre>
                             </div>
                         </div>
 
                     </div>
                 </div>
-                <div class="col-md-2 urlexample">
+                <div class="w3-quarter urlexample">
                     <pre>
                         <a id="jsonQclavis" href="/api/clavis?q=pilati">https://betamasaheft.eu/api/clavis?q=pilati</a>
                     </pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <pre class="APIexampleJSON" data-value="jsonQclavis"/>
                 </div>
             </div>
         </div>
    <div id="APIpatternsJSONclavisLookup" class="APIexamplestable">
-            <div class="row lead">
-                <div class="col-md-2">Pattern</div>
-                <div class="col-md-4">parameters</div>
-                <div class="col-md-2">Example</div>
-                <div class="col-md-4">Result:</div>
+            <div class="w3-row lead">
+                <div class="w3-quarter">Pattern</div>
+                <div class="w3-quarter">parameters</div>
+                <div class="w3-quarter">Example</div>
+                <div class="w3-quarter">Result:</div>
             </div>
-            <div class="row">
-                <div class="col-md-2">
+            <div class="w3-row">
+                <div class="w3-quarter">
                     <pre>/api/clavis/all</pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <div id="APIJSONclavisParametersAll">
                            
-                            <div class="row">
-                        <div class="col-md-4">
+                            <div class="w3-row">
+                        <div class="w3-quarter">
                                 <b>Parameter name</b>
                             </div>
                         <div class="col-md-8">
                                 <b>Available values</b>
                             </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-4">type</div>
+                    <div class="w3-row">
+                        <div class="w3-quarter">type</div>
                         <div class="col-md-8">BHG, BHL, BHO, H, KRZ, CAVT, CANT, CC</div>
                     </div>
 
 
                     </div>
                 </div>
-                <div class="col-md-2 urlexample">
+                <div class="w3-quarter urlexample">
                     <pre>
                         <a id="jsonclavisall" href="/api/clavis/LIT1914Mashaf">https://betamasaheft.eu/api/clavis/all?type=CPG</a>
                     </pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <pre class="APIexampleJSON" data-value="jsonclavisall"/>
                 </div>
             </div>
@@ -891,316 +894,316 @@
    
     </div>
 
-    <div class="col-md-12">
+    <div class="w3-container">
         <h2 id="gettextcontent">GET text</h2>
         <p>Check the correct id exists <a href="/works/">here.</a>
         </p>
-        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to table of
+        <a class="w3-button w3-red page-scroll" role="button" href="#apidoctoc">Return to table of
             contents</a>
         <div id="APIpatternsJSONtext" class="APIexamplestable">
-            <div class="row lead">
-                <div class="col-md-2">Pattern</div>
-                <div class="col-md-4">Drill down</div>
-                <div class="col-md-2">Example</div>
-                <div class="col-md-4">Result:</div>
+            <div class="w3-row lead">
+                <div class="w3-quarter">Pattern</div>
+                <div class="w3-quarter">Drill down</div>
+                <div class="w3-quarter">Example</div>
+                <div class="w3-quarter">Result:</div>
             </div>
-            <div class="row">
-                <div class="col-md-2">
+            <div class="w3-row">
+                <div class="w3-quarter">
                     <pre>/api/dts/text/{id}/{level1}/{level2}/{startline-endline}</pre>
                     <p>In the response you will get navigation aids to go to the next and previous
                         section, to the parent and the children of your current selection</p>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <div id="APIJSONtextParameters">
-                        <div class="row">
-                            <div class="col-md-4">
+                        <div class="w3-row">
+                            <div class="w3-quarter">
                                 <pre>api/dts/text/LIT1367Exodus/2/4</pre>
                             </div>
                             <div class="col-md-8">will return line 4 of chapter 2</div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-4">
+                        <div class="w3-row">
+                            <div class="w3-quarter">
                                 <pre>api/dts/text/LIT1367Exodus/2/4-7</pre>
                             </div>
                             <div class="col-md-8">will return lines 4 to 7 of chapter 2</div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2 urlexample">
+                <div class="w3-quarter urlexample">
                     <pre>
                         <a id="jsontext" href="/api/dts/text/LIT1367Exodus">https://betamasaheft.eu/api/dts/text/LIT1367Exodus</a>
                     </pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <pre class="APIexampleJSON" data-value="jsontext"/>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-2">
+            <div class="w3-row">
+                <div class="w3-quarter">
                     <pre>/api/xml/{id}/{level1}/{level2}/{startline-endline}</pre>
                     <p>In the response you will get navigation aids to go to the next and previous
                         section, to the parent and the children of your current selection</p>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <div id="APIxmltextParameters">
-                        <div class="row">
-                            <div class="col-md-4">
+                        <div class="w3-row">
+                            <div class="w3-quarter">
                                 <pre>api/xml/LIT1367Exodus/2/4</pre>
                             </div>
                             <div class="col-md-8">will return line 4 of chapter 2</div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-4">
+                        <div class="w3-row">
+                            <div class="w3-quarter">
                                 <pre>api/xml/LIT1367Exodus/2/4-7</pre>
                             </div>
                             <div class="col-md-8">will return lines 4 to 7 of chapter 2</div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2 urlexample">
+                <div class="w3-quarter urlexample">
                     <pre>
                         <a id="xmltext" href="/api/xml/LIT1367Exodus">https://betamasaheft.eu/api/xml/LIT1367Exodus</a>
                     </pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <p>Click on link.</p>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-12">
+    <div class="w3-container">
         <h2 id="getadditionstext">GET XML text of additions or specific catalogue record parts</h2>
         <p>This only works for manuscript catalogue records.</p>
-        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to table of
+        <a class="w3-button w3-red page-scroll" role="button" href="#apidoctoc">Return to table of
             contents</a>
         <div id="APIpatternsXMLOthertext" class="APIexamplestable">
-            <div class="row lead">
-                <div class="col-md-2">Pattern</div>
-                <div class="col-md-4">Parameters</div>
-                <div class="col-md-2">Example</div>
-                <div class="col-md-4">Result:</div>
+            <div class="w3-row lead">
+                <div class="w3-quarter">Pattern</div>
+                <div class="w3-quarter">Parameters</div>
+                <div class="w3-quarter">Example</div>
+                <div class="w3-quarter">Result:</div>
             </div>
-            <div class="row">
-                <div class="col-md-2">
+            <div class="w3-row">
+                <div class="w3-quarter">
                     <pre>/BetMas/api/otherMssText/{id}/{anchor}</pre>
                     <p>Typically catalogue records will contain text in additions, extras, incipit,
                         explicit and colophon or notes, but there might be more.</p>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <div id="APIxmltextOtherParameters">
-                        <div class="row">
-                            <div class="col-md-4">
+                        <div class="w3-row">
+                            <div class="w3-quarter">
                                 <b>Parameter name</b>
                             </div>
                             <div class="col-md-8">
                                 <b>Available values</b>
                             </div>
                         </div>
-                        <div class="row">
-                            <label class="col-md-4">element</label>
+                        <div class="w3-row">
+                            <label class="w3-quarter">element</label>
                             <div class="col-md-8">you can add any tei element name to specify the
                                 element who should have that id... but id are unique! </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2 urlexample">
+                <div class="w3-quarter urlexample">
                     <pre>
                         <a id="xmlothertext" href="/api/otherMssText/BNFet32/a1">https://betamasaheft.eu/api/otherMssText/BNFet32/a1</a>
                     </pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <p>Click on link.</p>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-12">
+    <div class="w3-container">
         <h2 id="getplacedata">GET place data in KML or geoJSON.</h2>
         <p>This only works for manuscript catalogue records.</p>
-        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to table of
+        <a class="w3-button w3-red page-scroll" role="button" href="#apidoctoc">Return to table of
             contents</a>
-        <div class="row">
-            <div class="col-md-2">
+        <div class="w3-row">
+            <div class="w3-quarter">
                 <pre>/api/geoJson/places</pre>
                 <pre>/api/geoJson/institutions</pre>
             </div>
-            <div class="col-md-4">
+            <div class="w3-quarter">
                 <div id="APIgeoJSONtextParameters">
-                    <div class="row">
-                        <label class="col-md-4">start</label>
+                    <div class="w3-row">
+                        <label class="w3-quarter">start</label>
                         <div class="col-md-8">from which item to start. Default: 1.</div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-2 urlexample">
+            <div class="w3-quarter urlexample">
                 <pre>
                         <a id="geoJsontext" href="/api/geoJson/institutions">https://betamasaheft.eu/api/geoJson/institutions</a>
                     </pre>
             </div>
-            <div class="col-md-4">
+            <div class="w3-quarter">
                 <pre class="APIexampleJSON" data-value="geoJsontext"/>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-2">
+        <div class="w3-row">
+            <div class="w3-quarter">
                 <pre>/{$id}.json</pre>
             </div>
-            <div class="col-md-4"> </div>
-            <div class="col-md-2 urlexample">
+            <div class="w3-quarter"> </div>
+            <div class="w3-quarter urlexample">
                 <pre>
                         <a id="geoJsonOne" href="https://betamasaheft.eu/LOC3577Gondar.json">https://betamasaheft.eu/LOC3577Gondar.json</a>
                     </pre>
             </div>
-            <div class="col-md-4">
+            <div class="w3-quarter">
                 <pre class="APIexampleJSON" data-value="geoJsonOne"/>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-2">
+        <div class="w3-row">
+            <div class="w3-quarter">
                 <pre>/api/KML/places/{$id}</pre>
                 <p>get places mentioned in one item</p>
             </div>
-            <div class="col-md-4">
+            <div class="w3-quarter">
                 <div id="APIKML"> </div>
             </div>
-            <div class="col-md-2 urlexample">
+            <div class="w3-quarter urlexample">
                 <pre>
                         <a id="KML" href="/api/KML/places/BNFet32">https://betamasaheft.eu/api/KML/places/BNFet32</a>
                     </pre>
             </div>
 
-            <div class="col-md-4">
+            <div class="w3-quarter">
                 <p>Click on link.</p>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-2">
+        <div class="w3-row">
+            <div class="w3-quarter">
                 <pre>/api/KML/place/{$placeid}</pre>
                 <p>get for one place all its attestations with date if available in the element</p>
             </div>
-            <div class="col-md-4"> </div>
-            <div class="col-md-2 urlexample">
+            <div class="w3-quarter"> </div>
+            <div class="w3-quarter urlexample">
                 <pre>
                         <a id="KMLdates" href="/api/KML/place/LOC3577Gondar">https://betamasaheft.eu/api/KML/place/LOC3577Gondar</a>
                     </pre>
             </div>
 
-            <div class="col-md-4">
+            <div class="w3-quarter">
                 <p>Click on link.</p>
             </div>
         </div>
-        <div class="row">
+        <div class="w3-row">
             <p>There are several other place related queries possible. Please, ask if you need
                 anything in particular.</p>
         </div>
     </div>
-    <div class="col-md-12"/>
-    <div class="col-md-12">
+    <div class="w3-container"/>
+    <div class="w3-container">
         <h2 id="dillmannsearch">Search Dillmann lexicon</h2>
         <p>Search in the Dillmann lexicon works pretty much the same.</p>
-        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to table of
+        <a class="w3-button w3-red page-scroll" role="button" href="#apidoctoc">Return to table of
             contents</a>
         <div id="APIpatternsDillmanSearch" class="APIexamplestable">
-            <div class="row lead">
-                <div class="col-md-2">Pattern</div>
-                <div class="col-md-4">Parameters</div>
-                <div class="col-md-2">Example</div>
-                <div class="col-md-4">Result:</div>
+            <div class="w3-row lead">
+                <div class="w3-quarter">Pattern</div>
+                <div class="w3-quarter">Parameters</div>
+                <div class="w3-quarter">Example</div>
+                <div class="w3-quarter">Result:</div>
             </div>
-            <div class="row">
-                <div class="col-md-2">
+            <div class="w3-row">
+                <div class="w3-quarter">
                     <pre>/api/Dillmann/search/{element}?q={searchstring}</pre>
                     <p>Searching in element form a lemma will return the id of that lemma.</p>
                     <ul>
                         <li>
-                            <code>form</code>
+                            <code class="w3-codespan">form</code>
                         </li>
                         <li>
-                            <code>sense</code>
+                            <code class="w3-codespan">sense</code>
                         </li>
                         <li>
-                            <code>ref</code>
+                            <code class="w3-codespan">ref</code>
                         </li>
                         <li>
-                            <code>gramGrp</code>
+                            <code class="w3-codespan">gramGrp</code>
                         </li>
                         <li>
-                            <code>lbl</code>
+                            <code class="w3-codespan">lbl</code>
                         </li>
                         <li>
-                            <code>pos</code>
+                            <code class="w3-codespan">pos</code>
                         </li>
                         <li>
-                            <code>case</code>
+                            <code class="w3-codespan">case</code>
                         </li>
                         <li>
-                            <code>cit</code>
+                            <code class="w3-codespan">cit</code>
                         </li>
                         <li>
-                            <code>foreign</code>
+                            <code class="w3-codespan">foreign</code>
                         </li>
                     </ul>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <div id="APIdillmanParameters">
-                        <div class="row">
-                            <div class="col-md-4">
+                        <div class="w3-row">
+                            <div class="w3-quarter">
                                 <b>Parameter name</b>
                             </div>
                             <div class="col-md-8">
                                 <b>Available values</b>
                             </div>
                         </div>
-                        <div class="row">
-                            <label class="col-md-4">element</label>
+                        <div class="w3-row">
+                            <label class="w3-quarter">element</label>
                             <div class="col-md-8">you can add any tei dictionary element name to
                                 specify the element you want to search into.</div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2 urlexample">
+                <div class="w3-quarter urlexample">
                     <pre>
                         <a id="dillmannid" href="/api/Dillmann/search/form?q=ቄጵርስስ">https://betamasaheft.eu/api/Dillmann/search/form?q=ቄጵርስስ</a>
                     </pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <pre class="APIexampleJSON" data-value="dillmannid"/>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-2"/>
-                <div class="col-md-4"/>
-                <div class="col-md-2 urlexample">
+            <div class="w3-row">
+                <div class="w3-quarter"/>
+                <div class="w3-quarter"/>
+                <div class="w3-quarter urlexample">
                     <pre>
                         <a id="dillmanntext" href="/api/Dillmann/search/sense?q=cupres*">https://betamasaheft.eu/api/Dillmann/search/sense?q=cupres*</a>
                     </pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <pre class="APIexampleJSON" data-value="dillmanntext"/>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-12">
+    <div class="w3-container">
         <h2 id="dillmannlist">GET list of lemmas from Dillmann lexicon</h2>
-        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to table of
+        <a class="w3-button w3-red page-scroll" role="button" href="#apidoctoc">Return to table of
             contents</a>
         <div id="APIpatternsdillmannlist" class="APIexamplestable">
-            <div class="row lead">
-                <div class="col-md-2">Pattern</div>
-                <div class="col-md-4">Parameters</div>
-                <div class="col-md-2">Example</div>
-                <div class="col-md-4">Result:</div>
+            <div class="w3-row lead">
+                <div class="w3-quarter">Pattern</div>
+                <div class="w3-quarter">Parameters</div>
+                <div class="w3-quarter">Example</div>
+                <div class="w3-quarter">Result:</div>
             </div>
-            <div class="row">
-                <div class="col-md-2">
+            <div class="w3-row">
+                <div class="w3-quarter">
                     <pre>/api/Dillmann/list/xml</pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <div id="APIlistDillmannParameters">
-                        <div class="row">
-                            <div class="col-md-4">
+                        <div class="w3-row">
+                            <div class="w3-quarter">
                                 <b>Parameter name</b>
                             </div>
                             <div class="col-md-8">
@@ -1208,30 +1211,30 @@
                             </div>
                         </div>
                         <form id="listdillmannparams">
-                            <div class="row">
-                                <label class="col-md-4">start</label>
+                            <div class="w3-row">
+                                <label class="w3-quarter">start</label>
                                 <div class="col-md-8">from which item to start. Default: 1.</div>
                             </div>
                         </form>
                     </div>
                 </div>
-                <div class="col-md-2 urlexample">
+                <div class="w3-quarter urlexample">
                     <pre>
                         <a id="Dillmannlist" target="_blank" href="/api/Dillmann/list/xml">https://betamasaheft.eu/api/Dillmann/list/xml</a>
                     </pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <p>Click on link.</p>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-2">
+            <div class="w3-row">
+                <div class="w3-quarter">
                     <pre>/api/Dillmann/list/json</pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <div id="APIlistDillmannParametersJ">
-                        <div class="row">
-                            <div class="col-md-4">
+                        <div class="w3-row">
+                            <div class="w3-quarter">
                                 <b>Parameter name</b>
                             </div>
                             <div class="col-md-8">
@@ -1239,25 +1242,25 @@
                             </div>
                         </div>
                         <form id="listdillmannparamsJ">
-                            <div class="row">
-                                <label class="col-md-4">start</label>
+                            <div class="w3-row">
+                                <label class="w3-quarter">start</label>
                                 <div class="col-md-8">from which item to start. Default: 1.</div>
                             </div>
                         </form>
                     </div>
                 </div>
-                <div class="col-md-2 urlexample">
+                <div class="w3-quarter urlexample">
                     <pre>
                         <a id="DillmannlistJ" target="_blank" href="/api/Dillmann/list/json">https://betamasaheft.eu/api/Dillmann/list/json</a>
                     </pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <pre class="APIexampleJSON" data-value="DillmannlistJ"/>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-12">
+    <div class="w3-container">
         <h2 id="dillmannlemma">GET lemma from Dillmann Lexicon</h2>
         <p>You can see the raw data appending .xml to the lemma you land on. Alternatively a text
             only version is available appending .txt to your lemma url. These are not served by this
@@ -1268,80 +1271,81 @@
         <p>
             <a href="/Dillmann/lemma/Lb4b820d2caa64822aaffe29dc1ce0e06.xml">https://betamasaheft.eu/Dillmann/lemma/Lb4b820d2caa64822aaffe29dc1ce0e06.xml</a> is
             the source data</p>
-        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to table of
+        <a class="w3-button w3-red page-scroll" role="button" href="#apidoctoc">Return to table of
             contents</a>
         <div id="APIpatternsdillmanntxt" class="APIexamplestable">
-            <div class="row lead">
-                <div class="col-md-2">Pattern</div>
-                <div class="col-md-4">Parameters</div>
-                <div class="col-md-2">Example</div>
-                <div class="col-md-4">Result:</div>
+            <div class="w3-row lead">
+                <div class="w3-quarter">Pattern</div>
+                <div class="w3-quarter">Parameters</div>
+                <div class="w3-quarter">Example</div>
+                <div class="w3-quarter">Result:</div>
             </div>
-            <div class="row">
-                <div class="col-md-2">
+            <div class="w3-row">
+                <div class="w3-quarter">
                     <pre>/api/Dillmann/{id}/txt</pre>
                     <p>return only the entry in txt as in original file (retransformed with
                         xslt)</p>
                 </div>
-                <div class="col-md-4"/>
-                <div class="col-md-2 urlexample">
+                <div class="w3-quarter"/>
+                <div class="w3-quarter urlexample">
                     <pre>
                         <a id="dillmannentrytxt" href="/api/Dillmann/La320bde8c90b4a769a9826eafc8004e2/txt">https://betamasaheft.eu/api/Dillmann/La320bde8c90b4a769a9826eafc8004e2/txt</a>
                     </pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <p>Click on link.</p>
                 </div>
             </div>
 
         </div>
         <div id="APIpatternsdillmannlemma" class="APIexamplestable">
-            <div class="row lead">
-                <div class="col-md-2">Pattern</div>
-                <div class="col-md-4">Parameters</div>
-                <div class="col-md-2">Example</div>
-                <div class="col-md-4">Result:</div>
+            <div class="w3-row lead">
+                <div class="w3-quarter">Pattern</div>
+                <div class="w3-quarter">Parameters</div>
+                <div class="w3-quarter">Example</div>
+                <div class="w3-quarter">Result:</div>
             </div>
-            <div class="row">
-                <div class="col-md-2">
+            <div class="w3-row">
+                <div class="w3-quarter">
                     <pre>/api/Dillmann/{id}/teientry</pre>
                     <p>return only the entry in xml</p>
                 </div>
-                <div class="col-md-4"/>
-                <div class="col-md-2 urlexample">
+                <div class="w3-quarter"/>
+                <div class="w3-quarter urlexample">
                     <pre>
                         <a id="dillmannentry" href="/api/Dillmann/La320bde8c90b4a769a9826eafc8004e2/teientry">https://betamasaheft.eu/api/Dillmann/La320bde8c90b4a769a9826eafc8004e2/teientry</a>
                     </pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <p>Click on link.</p>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-2">
+            <div class="w3-row">
+                <div class="w3-quarter">
                     <pre>/api/Dillmann/{id}/json</pre>
                     <p>return only the entry in json by restxq</p>
                 </div>
-                <div class="col-md-4"/>
-                <div class="col-md-2 urlexample">
+                <div class="w3-quarter"/>
+                <div class="w3-quarter urlexample">
                     <pre>
                         <a id="dillmannentryjson" href="/api/Dillmann/La320bde8c90b4a769a9826eafc8004e2/json">https://betamasaheft.eu/api/Dillmann/La320bde8c90b4a769a9826eafc8004e2/json</a>
                     </pre>
                 </div>
-                <div class="col-md-4">
+                <div class="w3-quarter">
                     <pre class="APIexampleJSON" data-value="dillmannentryjson"/>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-12">
+    <div class="w3-container">
         <h2 id="iiif">GET IIIF API Manifest</h2>
         <p>How to get available manifests for manuscripts or collections. Please for a description
             see the IIIF Prentation API. URIs of canvases and sequences are dereferncable. The
             collection request will also list available manifests linked to our records.</p>
-        <a class="btn btn-success page-scroll" role="button" href="#apidoctoc">Return to table of
+        <a class="w3-button w3-red page-scroll" role="button" href="#apidoctoc">Return to table of
             contents</a>
         <div data-template="apidoc:iiif"/>
     </div>
     <script type="text/javascript" src="resources/js/APIexamples.js"/>
+</div>
 </div>

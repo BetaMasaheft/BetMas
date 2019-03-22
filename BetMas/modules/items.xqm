@@ -2,15 +2,14 @@ xquery version "3.1" encoding "UTF-8";
 (:~
  : module for the different item views, decides what kind of item it is, in which way to display it
  :
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
 module namespace restItem = "https://www.betamasaheft.uni-hamburg.de/BetMas/restItem";
 import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace log="http://www.betamasaheft.eu/log" at "log.xqm";
-import module namespace switch = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch"  at "xmldb:exist:///db/apps/BetMas/modules/switch.xqm";
+import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2"  at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
 import module namespace tl="https://www.betamasaheft.uni-hamburg.de/BetMas/timeline"at "xmldb:exist:///db/apps/BetMas/modules/timeline.xqm";
-import module namespace app = "https://www.betamasaheft.uni-hamburg.de/BetMas/app" at "xmldb:exist:///db/apps/BetMas/modules/app.xqm";
-import module namespace item = "https://www.betamasaheft.uni-hamburg.de/BetMas/item" at "xmldb:exist:///db/apps/BetMas/modules/item.xqm";
+import module namespace item2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/item2" at "xmldb:exist:///db/apps/BetMas/modules/item.xqm";
 import module namespace nav = "https://www.betamasaheft.uni-hamburg.de/BetMas/nav" at "xmldb:exist:///db/apps/BetMas/modules/nav.xqm";
 import module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMas/error" at "xmldb:exist:///db/apps/BetMas/modules/error.xqm";
 import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "xmldb:exist:///db/apps/BetMas/modules/editors.xqm";
@@ -33,6 +32,7 @@ declare namespace http = "http://expath.org/ns/http-client";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json = "http://www.json.org";
 
+declare variable $restItem:deleted := doc('/db/apps/BetMas/lists/deleted.xml');
 
 (:parameter hi is used to highlight searched word when coming query from Dillmann
 parameters start and perpage are for the text visualization with pagination as per standard usage:)
@@ -49,7 +49,7 @@ $start as xs:integer*,
 $per-page as xs:integer*,
 $hi as xs:string*) {
   let $item := $config:collection-root/id($id)[name()='TEI']
-  let $col := switch:col($item/@type)
+  let $col := switch2:col($item/@type)
   let $log := log:add-log-message('/'||$id||'/main', xmldb:get-current-user(), 'item')
   return
 restItem:ITEM('main', $id, $col,$start,$per-page, $hi)
@@ -190,7 +190,7 @@ declare function restItem:ITEM($type, $id, $collection,
 $start as xs:integer*,
 $per-page as xs:integer*,
 $hi as xs:string*){
-let $collect := switch:collection($collection)
+let $collect := switch2:collection($collection)
 let $coll := $config:data-root || '/' || $collection
 let $c := util:eval($collect)
 let $this := $c/id($id)
@@ -226,8 +226,44 @@ if(xdb:collection-available($coll)) then (
  )
 
         else
-(:        check that the item exists:)
-       if($config:collection-root/id($id)[name() = 'TEI']) then (
+(:check if the item has been deleted:)
+if( $restItem:deleted//t:item[. =$id]) then
+(<rest:response>
+            <http:response
+                status="410">
+                <http:header
+                    name="Content-Type"
+                    value="text/html; charset=utf-8"/>
+            </http:response>
+        </rest:response>,
+        <html xmlns="http://www.w3.org/1999/xhtml">
+        <head><title>Not here any more...</title></head>
+        <body><p>Sorry! {$id} has been marked as deleted.</p></body>
+        </html>
+        )
+(:        check if there is more then one:)
+         else   if(count($config:collection-root/id($id)[name() = 'TEI']) gt 1) then 
+         (
+<rest:response>
+            <http:response
+                status="409">
+                <http:header
+                    name="Content-Type"
+                    value="text/html; charset=utf-8"/>
+            </http:response>
+        </rest:response>,
+        <html xmlns="http://www.w3.org/1999/xhtml">
+        <head><title>Not here any more...</title></head>
+        <body><p>Something has gone wrong and there are more than one item with id {$id}.</p>
+        <ul>
+        {for $i in $config:collection-root/id($id)[name() = 'TEI']
+        return <li>{base-uri($i)}</li>}
+        </ul>
+        </body>
+        </html>
+        )
+        (:        check that the item exists:)
+    else   if(count($config:collection-root/id($id)[name() = 'TEI']) = 1) then (
 <rest:response>
             <http:response
                 status="200">
@@ -239,7 +275,6 @@ if(xdb:collection-available($coll)) then (
        <html xmlns="http://www.w3.org/1999/xhtml" version="XHTML+RDFa 1.1">
     <head>
     {apprest:app-title($id)}
-        <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
         <link rel="alternate" type="application/rdf+xml"
           title="RDF Representation"
           href="https://betamasaheft.eu/rdf/{$collection}/{$id}.rdf" />
@@ -251,6 +286,7 @@ if(xdb:collection-available($coll)) then (
                          <script src="http://d3js.org/d3.v5.min.js"/>,
                          <script src="resources/js/d3sparql.js"/>) else ()}
             {if($type='text') then ( 
+(:           mirador  manuscripts viewer under the text view for editions:)
          <style type="text/css">{'
                 #viewer {{
                 display: block;
@@ -264,37 +300,43 @@ if(xdb:collection-available($coll)) then (
             <script src="resources/mirador/mirador.min.js"></script>) else ()}
     </head>
     <body id="body">
-        {nav:bar()}
-        {nav:modals()}
-          {nav:searchhelp()}
-         {item:RestViewOptions($this, $collection)}
-  { item:RestItemHeader($this, $collection)}
- <div id="content" class="container-fluid col-md-12">
+        {nav:barNew()}
+        {nav:modalsNew()}
+          {nav:searchhelpNew()}
+         <div id="content" class="w3-container w3-padding-48">
+         {item2:RestViewOptions($this, $collection)}
+  { item2:RestItemHeader($this, $collection)}
+ 
 
-  { item:RestNav($this, $collection, $type)}
-
+  {if ($type='corpus') then () else item2:RestNav($this, $collection, $type)}
+  
+<div id="main" class="w3-main alpheios-enabled">
+{if ($type='corpus') then () else attribute style {'margin-left:10%'}}
    {switch($type)
    case 'corpus' return (
-   <div class="col-md-12">
+   <div class="w3-container">
    <label class="switch diplomaticHighlight">
-  <input type="checkbox"/>
+  <input type="checkbox" class="w3-check"/>
   <div class="slider round" data-toggle="tooltip" title="Highlight diplomatic disourse interpretation"></div>
 </label>
    {
    for $document in $config:collection-rootMS//t:relation[contains(@passive, $id)]
 let $rootid := string($document/@active)
 let $itemid :=substring-after($rootid, '#')
+let $msid :=substring-before($rootid, '#')
 return
-<div class="row documentcorpus">
+<div class="w3-row documentcorpus w3-panel w3-leftbar">
 {
 let $doc := doc(base-uri($document))//id($itemid)
 return
 (
-<div class="col-md-3">
+<div class="w3-col" style="width:15%">
+<a href="/{$msid}" class="MainTitle" data-value="{$msid}">{$msid}</a><br/>
      <a href="/{$rootid}">{if($doc/t:title) then restItem:additionstitles($doc/t:title/node()) else if($doc/t:desc/@type) then string($doc/t:desc/@type) else $itemid}</a>
     ({restItem:additionstitles($doc/t:locus)})
+     
      </div>,
-<div class="col-md-9">{
+<div class="w3-rest">{
 transform:transform(
         $doc,
 
@@ -308,54 +350,55 @@ transform:transform(
    }</div>
    )
    case 'geobrowser' return (
-   <div class="container col-md-10">
-   <div class="col-md-12 alert alert-info">You can download the <a href="https://betamasaheft.eu/api/KML/places/{$id}">KML</a> file visualized below in the <a href="https://geobrowser.de.dariah.eu">Dariah-DE Geobrowser</a>.</div>
+   <div class="w3-container">
+   <div class="w3-container alert alert-info">You can download the <a href="https://betamasaheft.eu/api/KML/places/{$id}">KML</a> file visualized below in the <a href="https://geobrowser.de.dariah.eu">Dariah-DE Geobrowser</a>.</div>
    <h3>Map and timeline of places attestations marked up in the text.</h3>
    <iframe style="width: 100%; height: 800px;" id="geobrowserMap" src="https://geobrowser.de.dariah.eu/embed/index.html?kml1=https://betamasaheft.eu/api/KML/places/{$id}"/>
    </div>
    )
    case 'analytic' return (
-   <div class="container col-md-10">
+   <div class="w3-container" >
              <img id="loading" src="resources/Loading.gif" style="display: none;"></img>
-            <div class="col-md-12"><div id="BetMasRel" class="container-fluid col-md-6"  style="display: none;">
+            <div class="w3-container"><div id="BetMasRel" class="w3-half w3-padding"  style="display: none;">
 
 
                 <div class="input-group container">
-                    <button id="clusterOutliers" class="btn btn-secondary">Cluster outliers</button>
-                    <button id="clusterByHubsize" class="btn btn-secondary">Cluster by hubsize</button>
+                    <button id="clusterOutliers" class="w3-button w3-gray">Cluster outliers</button>
+                    <button id="clusterByHubsize" class="w3-button w3-gray">Cluster by hubsize</button>
                 </div>
-                <div id="BetMasRelView" class="col-md-12" data-value="{$id}"/>
+                <div id="BetMasRelView" class="w3-container" data-value="{$id}"/>
                 <script type="text/javascript"src="resources/js/visgraphspec.js"/>
             </div>
-            <div class="container col-md-6">
+            <div class="container w3-half w3-padding">
                   {apprest:EntityRelsTable($this, $collection)}
             </div>
             </div>
-            <div class="col-md-12">
-            <div class="col-md-6">
-            <div id="timeLine" class="col-md-12"/>
+            <div class="w3-container">
+            <div class="w3-half w3-padding">
+            <div id="timeLine" class="w3-container"/>
                 <script type="text/javascript">
             {tl:RestEntityTimeLine($this, $collection)}
             </script>
             </div>
-            <div class="col-md-6">
-            {item:RestPersRole($this, $collection)}
+            <div class="w3-half w3-padding">
+            {item2:RestPersRole($this, $collection)}
             </div>
             </div>
 
         </div>
    )
-   case 'text' return (item:RestText($this, $start, $per-page))
+   case 'text' return (item2:RestText($this, $start, $per-page))
    case 'graph' return (
    switch($collection)
 case 'manuscripts' return
 let $ex :=  $this//t:msDesc/t:physDesc//t:extent/t:measure[@unit='leaf'][not(@type='blank')]/text()
 return
-<div class="container col-md-10">
-<button id="enrichTable" class="btn btn-primary" disabled="disabled">Enrich Table</button>
+<div class="w3-container" >
+<button id="enrichTable" class="w3-button w3-red" disabled="disabled">Enrich Table</button>
 <div class="alert alert-info" id="graphloadingstatus">Loading graph and synoptique table...</div>
-   <div class="col-md-12"><div class="table-responsive">
-   <table class="table table-bordered table-hover table-condensed" id="SdCTable" data-id="{$id}" data-extent="{$ex}">
+   <div class="w3-container">
+   <div class="w3-responsive">
+   <table class="w3-table w3-bordered w3-hoverable w3-condensed" id="SdCTable" data-id="{$id}" data-extent="{$ex}">
    {if($this//t:msDesc/t:msIdentifier/t:idno[@facs]) then (attribute data-images{string($this//t:msDesc/t:msIdentifier/t:idno/@facs)}, attribute data-imagesSource{$this//t:msDesc/t:msIdentifier/t:collection/text()} )else ()}
             <thead>
                 <tr>
@@ -379,38 +422,41 @@ return
         <script type="text/javascript" src="resources/js/SdCtable.js"></script></div>
         </div>
   <div id="graph" data-id="{$id}"/>
-  <div class="col-md-12">
-    <div class="col-md-12">
-    <p class="alert alert-info">
+  <div class="w3-container">
+    <div class="w3-container">
+    <div class="w3-panel w3-red">
+    <p class="w3-panel w3-red">
       Sankey diagram of the manuscript. Showing UniProd
       and UniCirc explicitly related. Transformations are given weight 1.
       UniProd and UniCirc declarations are given weight 2. Exact matches are given weight 3.
     There is no chronological implication.</p>
+    </div>
       {charts:mssSankey($id)}
   </div>
-    <div class="col-md-12">
-      <p class="alert alert-info">
-      Graph of the manuscript transformations using the Syntaxe du Codex ontology.</p>
-        <div class="col-md-12" id="SdCGraph"/>
+    <div class="w3-container">
+    <div class="w3-panel w3-red">
+      <p>
+      Graph of the manuscript transformations using the Syntaxe du Codex ontology.</p></div>
+        <div class="w3-container" id="SdCGraph"/>
     </div>
   </div>
-<!--  <div class="col-md-12">
+<!--  <div class="w3-container">
      <div id="GraphResult"/>
  </div> -->
    <script type="text/javascript"  src="resources/js/d3sparqlsettingsManuscripts.js"></script>
   </div>
-   case 'places' return <div class="col-md-12">{charts:pieAttestations($id, 'placeName')}</div>
+   case 'places' return <div class="w3-container">{charts:pieAttestations($id, 'placeName')}</div>
   case 'persons' return
-  <div class="container col-md-10">
+  <div class="w3-container" >
   <div id="graph" data-id="{$id}"/>
-  <div class="col-md-12" id="SNAPGraph"/>
+  <div class="w3-container" id="SNAPGraph"/>
   <p>Graph view of the SNAP relations between persons.</p>
 
-  <div class="col-md-12" id="AttestationsInWorks"/>
+  <div class="w3-container" id="AttestationsInWorks"/>
   <p>Annotated attestations in texts (works and manuscripts).</p>
 
    <script type="text/javascript"  src="resources/js/SNAPGraph.js"></script>
-  <div class="col-md-12">{charts:pieAttestations($id, 'persName')}</div>
+  <div class="w3-container">{charts:pieAttestations($id, 'persName')}</div>
    </div>
    case 'authority-files' return
 let $Subjects := doc(concat($config:data-rootA, '/taxonomy.xml'))//t:category[t:desc='Subjects']//t:category/t:catDesc/text()
@@ -419,19 +465,22 @@ if ($id = $Subjects) then  (try{LitFlow:Sankey($id, 'works')} catch * {$err:desc
        try{LitFlow:Sankey($id, 'mss')} catch * {$err:description}) 
        else ()
    default return
-   <div class="col-md-10">
+   <div class="w3-container" >
    <div id="graph" data-id="{$id}" data-rdf="/api/RDFJSON/{$collection}/{$id}"/>
-   <div id="mouseovervalue"><p class="lead MainTitle"></p></div>
-  <div class="col-md-12" id="GraphResultNotMS"/>
+   <div id="mouseovervalue"><p class="w3-large MainTitle"></p></div>
+  <div class="w3-container" id="GraphResultNotMS"/>
   <script src="resources/js/colorbrewer.js"></script>
   <script type="text/javascript"  src="resources/js/d3sparqlsettingsITEM.js"></script>
   </div>
    )
    default return
 (:   THE MAIN VIEW :)
-  (if($collection='places') then (<div class="col-md-10" ><div id="entitymap" class="col-md-6" style="height: 400px"/>
+  (if($collection='places') then (
+  <div class="w3-container" >
+  <div 
+    class="w3-half w3-padding" ><div id="entitymap" style="height: 400px"/></div>
 <div 
-    class="col-md-6" >   <iframe
+    class="w3-half w3-padding" >   <iframe
    style="border:none;"
                 allowfullscreen="true"
                 width="100%" 
@@ -443,28 +492,27 @@ if ($id = $Subjects) then  (try{LitFlow:Sankey($id, 'works')} catch * {$err:desc
    <script>{'var placeid = "'||$id||'"'}</script>,
             <script  type="text/javascript" src="resources/geo/geojsonentitymap.js"></script>) else (),
 
-   <div  class="alpheios-enabled">{item:RestItem($this, $collection)}</div>,
+   <div  class="alpheios-enabled">{item2:RestItem($this, $collection)}</div>,
    
-        <div id="alpheios-main" data-trigger="dblclick,touchstart" data-selector=".alpheios-enabled"/>,
-   <div class="col-md-12 alert alert-info">This page contains RDFa. <a href="/rdf/{$collection}/{$id}.rdf">RDF+XML</a> graph of this resource. Alternate representations available via <a href="/api/void/{$id}">VoID</a>.</div>,
+        
 (:   apprest:namedentitiescorresps($this, $collection),:)
 (:   the form with a list of potental relation keywords to find related items. value is used by Jquery to query rest again on api:SharedKeyword($keyword) :)
    switch($collection)
    case 'works' return  (
-   item:RestMiniatures($id))
-  case 'persons' return (item:RestTabot($id), item:RestAdditions($id), item:RestMiniatures($id))
+   item2:RestMiniatures($id))
+  case 'persons' return (item2:RestTabot($id), item2:RestAdditions($id), item2:RestMiniatures($id))
     case 'authority-files' return
-    <div class="col-md-12"><h4>Art Objects associated with this Art Theme in miniatures and other manuscript decorations</h4>
+    <div class="w3-container"><h4>Art Objects associated with this Art Theme in miniatures and other manuscript decorations</h4>
 
-<div  class="alert alert-info">
-{item:RestMiniaturesKeys($id)}
+<div  class="w3-panel w3-red">
+{item2:RestMiniaturesKeys($id)}
 </div>
 
-<div  class="well">
-{item:RestMiniatures($id)}</div>
+<div  class="w3-panel w3-red">
+{item2:RestMiniatures($id)}</div>
 </div>
    case  'institutions' return (<div 
-    class="col-md-12" >   <iframe
+    class="w3-container" >   <iframe
    style="border:none;"
                 allowfullscreen="true"
                 width="100%" 
@@ -478,18 +526,24 @@ if ($id = $Subjects) then  (try{LitFlow:Sankey($id, 'works')} catch * {$err:desc
    default return ()
    )
    }
-   { apprest:authors($this, $collection)}
+   <div class="w3-container w3-margin-bottom">
+   <div class="w3-container w3-padding w3-black w3-card-4 ">This page contains RDFa. 
+   <a href="/rdf/{$collection}/{$id}.rdf">RDF+XML</a> graph of this resource. Alternate representations available via <a href="/api/void/{$id}">VoID</a>.</div>
+   </div>
+  { apprest:authors($this, $collection)}
+   </div>
 
 
 </div>
 
-        {nav:footer()}
+        {nav:footerNew()}
 
        {apprest:ItemFooterScript()}
 
     </body>
 </html>
         )
+         
         else
        (<rest:response>
             <http:response

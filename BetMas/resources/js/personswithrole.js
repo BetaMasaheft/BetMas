@@ -5,20 +5,27 @@ $('#persRole').change(function (showthefilters) {
         var items =[];
         var heading = '';
         if (data.total == 0) {
-           heading = "<h4>There are no persons with role <span class='label label-warning'>" + data.role + "</span></h4>";
+           heading = "<h4>There are no persons with role <span class='w3-tag w3-gray w3-round'>" + data.role + "</span></h4>";
            $("#persWithRoleResults").empty();
            $(heading).appendTo("#persWithRoleResults");
             
         } 
         
         else if (data.total > 0) { 
-        heading =  "<h4>There are <span class='label label-success'>" + data.total + "</span> persons with a role <span class='label label-info'>" + data.role + "</span></h4>"
+        heading =  "<h4>There are <span class='w3-tag w3-red w3-round'>" + data.total + "</span> persons with a role <span class='w3-tag w3-gray w3-round'>" + data.role + "</span></h4>"
         for (var i = 0; i < data.hits.length; i++) {
                 var match = data.hits[i]
                 var id = match.pwl;
                 var title = match.title;
                
-                items.push("<div class='card'><div id='" + id + "' class='card-block'><h4 class='card-title'><a href='/" + id + "'>" + title + "</a></h4><p class='card-text'> is mentioned as " + role + " "+match.hits+" times:</p><button class='btn btn-primary btn-xs roleid' data-personid='" + id + "' data-role='" + role + "'>Click to see in which records.</button><div class='card-text' id='"+ id + "itemlist'></div></div></div>");
+                items.push("<div class='w3-card-4 w3-padding w3-margin w3-third'><div id='" + 
+                id + "' class='w3-display-container'><header class='w3-container'><a href='/" + 
+                id + "'>" + title + "</a></header><div class='w3-container'> is mentioned as " + 
+                role + " "+match.hits
+                +" times:</div><button class='w3-button w3-gray w3-small roleid' data-personid='" + 
+                id + "' data-role='" + role +
+                "'>Click to see in which records.</button><div class='w3-container' id='"+ 
+                id + "itemlist'></div></div></div>");
             }
             $("#persWithRoleResults").empty();
             $(heading).appendTo("#persWithRoleResults");

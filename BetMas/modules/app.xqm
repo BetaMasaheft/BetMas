@@ -3,7 +3,7 @@ xquery version "3.1" encoding "UTF-8";
  : module used by the app for string query, templating pages and general behaviours
  : mostly inherited from exist-db examples app but all largely modified
  : 
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
 module namespace app="https://www.betamasaheft.uni-hamburg.de/BetMas/app";
 
@@ -16,7 +16,7 @@ declare namespace rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace sr = "http://www.w3.org/2005/sparql-results#";
 
-import module namespace switch = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch"  at "xmldb:exist:///db/apps/BetMas/modules/switch.xqm";
+import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2"  at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
 import module namespace kwic = "http://exist-db.org/xquery/kwic" at "resource:org/exist/xquery/lib/kwic.xql";
 import module namespace templates="http://exist-db.org/xquery/templates" ;
 import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
@@ -36,7 +36,7 @@ import module namespace console="http://exist-db.org/xquery/console";
 declare variable $app:collection as xs:string := request:get-parameter('collection',());
 declare variable $app:name as xs:string := request:get-parameter('name',());
 declare variable $app:rest  as xs:string := '/rest/';
-declare variable $app:languages := doc('/db/apps/BetMas/languages.xml');
+declare variable $app:languages := doc('/db/apps/BetMas/lists/languages.xml');
 declare variable $app:range-lookup := 
     (
         function-lookup(xs:QName("range:index-keys-for-field"), 4),
@@ -126,10 +126,10 @@ let $itemid := string($occurrence/ancestor::t:item/@xml:id)
 let $source := ($rootID || '#' || $itemid)
 let $stitle := $source
 return 
-<div class="row reference">
-                <div class="col-md-1"><span class="number">{$start + $p - 1}</span></div>
-                        <div class="col-md-3"><a href="/{$rootID}">{titles:printTitleID($rootID)}</a> ({$rootID}#{$itemid})</div>
-                        <div class="col-md-8">{$text}</div>
+<div class="w3-row reference">
+                <div class="w3-col"><span class="number">{$start + $p - 1}</span></div>
+                        <div class="w3-quarter"><a href="/{$rootID}">{titles:printTitleID($rootID)}</a> ({$rootID}#{$itemid})</div>
+                        <div class="w3-rest">{$text}</div>
                         
                     </div>
 
@@ -151,13 +151,13 @@ let $url := request:get-uri()
 (:~storing separately this input in this 
  : function makes sure that when the page is 
  : reloaded with the results the value entered remains in the input element:)
-declare function app:queryinput ($node as node(), $model as map(*), $query as xs:string*){<input name="query" type="search" class="form-control diacritics" placeholder="type here the text you want to search" value="{$query}"/>};
+declare function app:queryinput ($node as node(), $model as map(*), $query as xs:string*){<input name="query" type="search" class="w3-input  w3-border diacritics" placeholder="type here the text you want to search" value="{$query}"/>};
 
 (: ~
  : the PDF link html snippet, called by other function based on if statements :)
 declare function app:pdf-link($id) {
     
-        <a  xmlns="http://www.w3.org/1999/xhtml" id="mainPDF" href="/{$id}.pdf" class="btn btn-info"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+        <a  xmlns="http://www.w3.org/1999/xhtml" id="mainPDF" href="/{$id}.pdf" class="w3-button w3-padding-small w3-gray"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
 };
 
 
@@ -166,11 +166,6 @@ declare function app:NbarNew($node as node()*, $model as map(*)){nav:barNew()};
 declare function app:searchhelpNew($node as node()*, $model as map(*)){nav:searchhelpNew()};
 declare function app:modalsNew($node as node()*, $model as map(*)){nav:modalsNew()};
 declare function app:footerNew($node as node()*, $model as map(*)){nav:footerNew()};
-
-declare function app:Nbar($node as node()*, $model as map(*)){nav:bar()};
-declare function app:searchhelp($node as node()*, $model as map(*)){nav:searchhelp()};
-declare function app:modals($node as node()*, $model as map(*)){nav:modals()};
-declare function app:footer($node as node()*, $model as map(*)){nav:footer()};
 
 
 
@@ -183,9 +178,10 @@ function app:table($model as map(*), $start as xs:integer, $per-page as xs:integ
      let $items-info := $model('hits')
      let $collection := $model('collection')
 return
-<table class="table table-hover table-responsive">
+
+<table class="w3-table w3-hoverable">
                     <thead data-hint="The color of each row tells you about the status of the entry. red is a stub, yellow is in progress, green/blue is completed.">
-                        <tr>{
+                        <tr class="w3-small">{
             if ($collection = 'works') then
                 (<th>n°</th>,
                             <th>Titles</th>,
@@ -226,13 +222,13 @@ else
                                             <th>Manuscript Parts</th>,
                                             <th>Hands</th>,
                                             <th>Script</th>,
-                                      <th data-hint="select the manuscripts you want to compare and click the button above to go to the comparison view.">Compare <input type="checkbox" id="select_all_compare"/></th>,
+                                      <th data-hint="select the manuscripts you want to compare and click the button above to go to the comparison view.">Compare<input type="checkbox" class="w3-check" id="select_all_compare"/></th>,
                                             <th>Text</th>)
         }
                             <th>Dated</th>
                             <th>TEI-XML</th>
                             <th>Analytics</th>
-                            <th>Print <input type="checkbox" id="select_all_print"/></th>
+                            <th>Print <input type="checkbox" class="w3-check" id="select_all_print"/></th>
     </tr>
                     </thead>
                    <tbody  class="ListItems">
@@ -246,6 +242,7 @@ else
                                     }
                                     </tbody>
                 </table>
+
 };
 
 
@@ -255,15 +252,15 @@ declare function app:tr($doc as node(), $list as xs:string) {
     <tr class="ListItems"
         style="{
                 if (count($doc//t:change[@who != 'PL']) eq 1) then
-                    'background-color:#ffefcc;'
+                    'background-color:rgb(213, 75, 10, 0.4)'
                 else
                     if ($doc//t:change[contains(., 'completed')]) then
-                        'background-color:#e6ffff;'
+                        'background-color:rgb(172, 169, 166, 0.4)'
                     else
                         if ($doc//t:change[contains(., 'reviewed')]) then
-                            'background-color:#e6ffe6;'
+                            'background-color:white'
                         else
-                            'background-color:#ffe6e6;'
+                            'background-color:rgb(213, 75, 10, 0.4)'
             }">
             
             {
@@ -279,10 +276,10 @@ declare function app:tr($doc as node(), $list as xs:string) {
 
 (:~function to print the values of parallel clavis ids:)
 declare function app:clavisIds($doc as node()){
-    <p class="lead"><span class="badge badge-dark">CAe {substring(string($doc/@xml:id), 4, 4)}</span></p>,
+    <span class="w3-tag">CAe {substring(string($doc/t:TEI/@xml:id), 4, 4)}</span>,
 if($doc//t:listBibl[@type='clavis']) 
             then (
-            <table class="table table-hover table-responsive">
+            <div class="w3-responsive"><table class="w3-table w3-hoverable">
             <thead>
             <tr>
             <th>clavis</th><th>id</th></tr>
@@ -300,7 +297,7 @@ if($doc//t:listBibl[@type='clavis'])
             </tr>
             }
             </tbody>
-            </table>
+            </table></div>
             ) else ()
 };
 
@@ -399,7 +396,7 @@ if ($list = 'works') then (
                                 href="{$p}" class="MainTitle"  data-value="{$p}" >{$p}</a></li>
                 }
             </ul>
-            <a role="button" class="btn btn-primary btn-xs" href="/compare?workid={$itemid}">compare</a>
+            <a role="button" class="w3-button w3-small w3-gray" href="/compare?workid={$itemid}">compare</a>
         </td>,
 (:        work parts:)
         <td class="textparts">
@@ -416,25 +413,25 @@ if ($list = 'works') then (
             <td>{if ($item//t:facsimile/t:graphic/@url) then <a target="_blank" href="{$item//t:facsimile/t:graphic/@url}">Link to images</a> else if($item//t:msIdentifier/t:idno/@facs) then 
                  <a target="_blank" href="/manuscripts/{$itemid}/viewer">{
                 if($item//t:collection = 'Ethio-SPaRe') 
-               then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}" class="thumb"/>
+               then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
 (:laurenziana:)
 else  if($item//t:repository/@ref[.='INS0339BML']) 
-               then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '005.tif/full/140,/0/default.jpg'}" class="thumb"/>
+               then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '005.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
           
 (:          
 EMIP:)
               else if($item//t:collection = 'EMIP' and $item//t:msIdentifier/t:idno/@n) 
-               then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '001.tif/full/140,/0/default.jpg'}" class="thumb"/>
+               then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
               
              (:BNF:)
             else if ($item//t:repository/@ref = 'INS0303BNF') 
-            then <img src="{replace($item//t:msIdentifier/t:idno/@facs, 'ark:', 'iiif/ark:') || '/f1/full/140,/0/native.jpg'}" class="thumb"/>
+            then <img src="{replace($item//t:msIdentifier/t:idno/@facs, 'ark:', 'iiif/ark:') || '/f1/full/140,/0/native.jpg'}" class="thumb w3-image"/>
 (:           vatican :)
                 else <img src="{replace(substring-before($item//t:msIdentifier/t:idno/@facs, '/manifest.json'), 'iiif', 'pub/digit') || '/thumb/'
                     ||
                     substring-before(substring-after($item//t:msIdentifier/t:idno/@facs, 'MSS_'), '/manifest.json') || 
                     '_0001.tif.jpg'
-                }" class="thumb"/>
+                }" class="thumb w3-image"/>
                  }</a>
                 
                 else ()}</td>,
@@ -452,7 +449,7 @@ EMIP:)
                 }</td>,
             <td>{count($item//t:handNote)}</td>,
             <td>{distinct-values(data($item//@script))}</td>,
-<td><input type="checkbox" class="form-control compareSelected" data-value="{$itemid}"/></td>
+<td><input type="checkbox" class="w3-check compareSelected" data-value="{$itemid}"/></td>
             )
         else
             if ($list = 'persons') then
@@ -605,17 +602,17 @@ else
 
 (:~ the new issue button with a link to the github repo issues list :)
 declare function app:newissue($node as node()*, $model as map(*)){
-<a role="button" class="btn btn-warning btn-xs" target="_blank" href="https://github.com/BetaMasaheft/Documentation/issues/new?title={$app:name}&amp;labels[]={$app:collection}&amp;labels[]=app&amp;assignee=PietroLiuzzo&amp;body=There%20is%20an%20issue%20with%20{$app:name}">new issue</a>};
+<a role="button" class="w3-button w3-small w3-gray" target="_blank" href="https://github.com/BetaMasaheft/Documentation/issues/new?title={$app:name}&amp;labels[]={$app:collection}&amp;labels[]=app&amp;assignee=PietroLiuzzo&amp;body=There%20is%20an%20issue%20with%20{$app:name}">new issue</a>};
 
 (:~ button only visible to editors for creating a new entry  :)
 declare function app:nextID($collection as xs:string) {
 if(contains(sm:get-user-groups(xmldb:get-current-user()), 'Editors')) then (
-<a role="button" class="btn btn-primary" target="_blank" href="/newentry.html?collection={$collection}">create new entry</a>) else ()
+<a role="button" class="w3-button w3-red w3-bar-item" target="_blank" href="/newentry.html?collection={$collection}">create new entry</a>) else ()
 };
 
 (:~determins what the selectors for various form controls will look like, is called by app:formcontrol() :)
 declare function app:selectors($nodeName, $path, $nodes, $type, $context){
-             <select multiple="multiple" name="{$nodeName}" id="{$nodeName}" class="form-control">
+             <select multiple="multiple" name="{$nodeName}" id="{$nodeName}" class="w3-select w3-border">
             {
             
             if ($type = 'keywords') then (
@@ -754,8 +751,8 @@ then (
       let $values := for $i in $path return  if (contains($i, ' ')) then tokenize($i, ' ') else if ($i=' ' or $i='' ) then () else functx:trim(normalize-space($i))
       let $nodes := distinct-values($values)
       return 
-       <div class="form-group">
-                    <label for="{$nodeName}">{$nodeName}s <span class="badge">{count($nodes[. != ''][. != ' '])}</span></label>
+       <div class="w3-container">
+                    <label for="{$nodeName}">{$nodeName}s <span class="w3-badge">{count($nodes[. != ''][. != ' '])}</span></label>
                     {app:selectors($nodeName, $path, $nodes, $type, $context) }
       </div>
       )
@@ -775,31 +772,27 @@ let $q := $model('q')
 let $cont := $model('query')
 return
 
-<form action="" class="form form-horizontal">
+<form action="" class="w3-container">
                 {app:formcontrol('language', $items-info//@xml:lang, 'true', 'values', $cont),
                 app:formcontrol('keyword', $items-info//t:term/@key, 'true', 'titles', $cont),
                
-                <div class="form-group container">
-                <label for="dates">date range</label>
-                <div class="input-group">
+                <label for="dates">date range</label>,
                 <input id="dates" type="text" class="span2" 
                 name="dateRange" 
                 data-slider-min="0" 
                 data-slider-max="2000" 
                 data-slider-step="10" 
-                data-slider-value="[0,2000]"/>
+                data-slider-value="[0,2000]"/>,
                 <script type="text/javascript">
                 {"$('#dates').bootstrapSlider({});"}
-                </script>
-            </div>
-            </div>,
-            <div>
-  <input type="hidden" name="query" value="{$q}"/></div>
+                </script>,
+  <input type="hidden" name="query" value="{$q}"/>
             }
-                <button type="submit" class="btn btn-primary"> Filter
+                <div class="w3-bar">
+                <button type="submit" class="w3-button w3-red w3-bar-item"> Filter
                     </button>
-                <a href="/as.html" role="button" class="btn btn-primary">Advanced Search Form</a>
-</form>
+                <a href="/as.html" role="button" class="w3-button w3-gray w3-bar-item">Advanced Search Form</a>
+</div></form>
 };
 
 
@@ -872,10 +865,10 @@ declare function app:greetings($node as element(), $model as map(*)) as xs:strin
 
 (:~general count of contributions to the data:)
 declare function app:team ($node as node(), $model as map(*)) {
-<ul>{
+<ul class="w3-ul w3-hoverable w3-padding">{
     $config:collection-root/$app:range-lookup('changewho', (),
         function($key, $count) {
-             <li class="lead">{editors:editorKey($key) || ' ('||$key||')' || ' made ' || $count[1] ||' changes in ' || $count[2]||' documents. '}<a href="/xpath?xpath=collection%28%27%2Fdb%2Fapps%2FBetMas%2Fdata%27%29%2F%2Ft%3Achange%5B%40who%3D%27{$key}%27%5D">See the changes.</a></li>
+             <li>{editors:editorKey($key) || ' ('||$key||')' || ' made ' || $count[1] ||' changes in ' || $count[2]||' documents. '}<a href="/xpath?xpath=collection%28%27%2Fdb%2Fapps%2FBetMas%2Fdata%27%29%2F%2Ft%3Achange%5B%40who%3D%27{$key}%27%5D">See the changes.</a></li>
         }, 1000)
        }
        </ul>
@@ -913,7 +906,7 @@ declare function functx:escape-for-regex( $arg as xs:string? )  as xs:string {
 (:~ADVANCED SEARCH FUNCTIONS the list of searchable and indexed elements :)
 declare function app:elements($node as node(), $model as map(*)) {
     let $control :=
-        <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="element" name="element" class="form-control">
+        <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="element" name="element" class="w3-select w3-border">
             
             <option value="title">Titles</option>
             <option value="persName">Person names</option>
@@ -1216,12 +1209,12 @@ concat("descendant::t:", $element, "[ft:query(., '" , $query, "', ", serialize($
 
 (:~ a function simply evaluating an xpath entered as string:)
 declare  function app:xpathQuery($node as node(), $model as map(*), $xpath as xs:string?) {
-if(empty($xpath)) then 'Please enter a well formed Xpath expression' else 
+if(empty($xpath)) then () else 
 let $logpath := log:add-log-message($xpath, xmldb:get-current-user(), 'XPath query')  
 let $hits := for $hit in util:eval($xpath)
 return $hit
  return            
-map {"hits": $hits, "path": $xpath}
+map {"hits": $hits, "path": $xpath, "total": count($hits)}
          
     };
     
@@ -1573,28 +1566,29 @@ declare function app:create-query($query-string as xs:string?, $mode as xs:strin
     Create a span with the number of items in the current search result.
 :)
 declare function app:hit-count($node as node()*, $model as map(*)) {
-    if ($model('type') = 'bibliography') then <h3>There are <span xmlns="http://www.w3.org/1999/xhtml" id="hit-count">{ count($model("hits")) }</span> distinct bibliographical references</h3> else if ($model('type') = 'matches') then <h3>You found "{$app:searchphrase}" in <span xmlns="http://www.w3.org/1999/xhtml" id="hit-count">{ count($model("hits")) }</span> results</h3> else (<h3> There are <span xmlns="http://www.w3.org/1999/xhtml" id="hit-count">{ count($model("hits")) }</span> entities matching your query. </h3>)
-    
+<div class="w3-panel w3-card-4">{
+    if ($model('type') = 'bibliography') then <h3>There are <span xmlns="http://www.w3.org/1999/xhtml"  class="w3-tag w3-gray" id="hit-count">{ count($model("hits")) }</span> distinct bibliographical references</h3> else if ($model('type') = 'matches') then <h3>You found <span class="w3-tag w3-gray">{$app:searchphrase}</span> in <span xmlns="http://www.w3.org/1999/xhtml" id="hit-count" class="w3-tag w3-gray">{ count($model("hits")) }</span> results</h3> else (<h3> There are <span xmlns="http://www.w3.org/1999/xhtml" id="hit-count"  class="w3-tag w3-gray">{ count($model("hits")) }</span> entities matching your query. </h3>)
+    }</div>
 };
 
 declare function app:hit-params($node as node()*, $model as map(*)) {
-    <div>{
+    <div class="w3-container w3-margin">{
                     for $param in request:get-parameter-names()
                     for $value in request:get-parameter($param, ())
                     return
                     if ($param = 'start') then ()
                     else if ($param = 'query') then ()
                     else if ($param = 'dateRange') 
-                     then (<button type="button" class="btn btn-sm btn-info">{'between ' || substring-before(request:get-parameter('dateRange', ()), ',') || ' and ' || substring-after(request:get-parameter('dateRange', ()), ',')}</button>)
+                     then (<span class="w3-tag w3-gray w3-round w3-margin">{'between ' || substring-before(request:get-parameter('dateRange', ()), ',') || ' and ' || substring-after(request:get-parameter('dateRange', ()), ',')}</span>)
                     else
-                        <button type="button" class="btn btn-sm btn-info">{($param || ": ", <span class="badge">{$value}</span>)}</button>
+                        <span  class="w3-tag w3-gray w3-round w3-margin">{($param || ": ", <span class="w3-badge">{$value}</span>)}</span>
                 }</div>
 };
 
 declare function app:gotoadvanced($node as node()*, $model as map(*)){
 let $query := request:get-parameter('query', ())
 return 
-<a href="/as.html?query={$query}" class="btn btn-primary">Repeat search in the Advanced Search.</a>
+<a href="/as.html?query={$query}" class="w3-button w3-red w3-margin">Repeat search in the Advanced Search.</a>
 };
 
 declare function app:list-count($node as node()*, $model as map(*)) {
@@ -1783,10 +1777,11 @@ declare
         let $root := root($text)
         let $t := $root/t:TEI/@type
         group by $type := $t
-        let $collection := switch:col($type)
+        let $collection := switch2:col($type)
         
         return
-        <div class="col-md-12 results{$collection}">
+        <div class="w3-container w3-panel w3-card-2 w3-padding results{$collection}">
+        <div class="w3-margin w3-padding">
         <h4>{count($text)} result{if(count($text) gt 1) then 's' else ''} in {$collection}</h4>
         {
         for $tex at $p in subsequence($text, $start, $per-page)
@@ -1797,49 +1792,52 @@ declare
         
         let $score as xs:float := ft:score($tex)
          return
-            <div class="row reference">
-            <div class="col-md-4">
-            <div class="col-md-2">
+            <div class="w3-row reference">
+            <div class="w3-third">
+            <div class="w3-col" style="width:15%">
                 <span class="number">{$start + $p - 1}</span>
                 </div>
-             <div class="col-md-8"><a target="_blank" href="/{$collection}/{$id}/main" class="MainTitle" data-value="{$id}">{$id}</a> ({$id})</div>
-                       <div class="col-md-2">
-                <span class="badge">{$count}</span>
+             <div class="w3-col"  style="width:70%">
+             <a target="_blank" href="/{$collection}/{$id}/main" class="MainTitle" data-value="{$id}">{$id}</a> ({$id})
+             </div>
+             <div class="w3-col"  style="width:15%">
+                <span class="w3-badge">{$count}</span>
                 </div>
             </div>
             
-            <div class="col-md-8">
+            <div class="w3-twothird">
             
-                 <div class="col-md-8">{for $match in subsequence($expanded//exist:match, 1, 3) return  kwic:get-summary($expanded, $match,<config width="40"/>)}</div>
+                 <div class="w3-twothird">{for $match in subsequence($expanded//exist:match, 1, 3) return  kwic:get-summary($expanded, $match,<config width="40"/>)}</div>
                         
-                        <div class="col-md-4">{data($text/ancestor::t:*[@xml:id][1]/@xml:id)}</div>
+                        <div class="w3-third">{data($text/ancestor::t:*[@xml:id][1]/@xml:id)}</div>
                         </div>
                     </div>
-       }</div>
+       }</div></div>
                 default return 
                 
                  for $text in $model('hits')
         let $root := root($text)
         let $t := $root/t:TEI/@type
         group by $type := $t
-        let $collection := switch:col($type)
+        let $collection := switch2:col($type)
         
         return
-        <div class="col-md-12 results{$collection}">
+        <div class="w3-container w3-panel w3-card-2 w3-padding results{$collection}">
+        <div class="w3-margin w3-padding">
         <h4>{count($text)} result{if(count($text) gt 1) then 's' else ''} in {$collection}</h4>
         {
         for $tex at $p in subsequence($text, $start, $per-page)
         let $root := root($tex)
         let $id := data($root/t:TEI/@xml:id)
-        let $collection := switch:col($root/t:TEI/@type)
+        let $collection := switch2:col($root/t:TEI/@type)
          return
-            <div class="row reference">
-                <div class="col-md-2"><span class="number">{$start + $p - 1}</span></div>
-                        <div class="col-md-5"><a target="_blank" href="/{$collection}/{$id}/main">{titles:printTitleID($id)}</a> ({$id})</div>
-                        <div class="col-md-5">{data($root/t:TEI/@type)}</div>
+            <div class="w3-row reference">
+                <div class="w3-col" style="width:15%"><span class="number">{$start + $p - 1}</span></div>
+                        <div class="w3-half"><a target="_blank" href="/{$collection}/{$id}/main">{titles:printTitleID($id)}</a> ({$id})</div>
+                        <div class="w3-rest">{data($root/t:TEI/@type)}</div>
                        
                     </div>
-       }</div>
+       }</div></div>
                 
 
     };
@@ -1847,14 +1845,14 @@ declare
     
     declare %templates:wrap function app:xpathresultstitle($node as node(), 
     $model as map(*)){
-    <h2>{count($model("hits"))} results for { $model("path")} </h2>
+    <h2>{$model("total")} results for { $model("path")} </h2>
     };
     
   
     
     declare %templates:wrap function app:sparqlresultstitle($node as node(), 
     $model as map(*)){
-    <p>Your query: <span style="color:grey;font-style:italic">{$model("q")}</span> returned <span class="label label-info">{count($model("sparqlResult")//sr:result)}</span> results</p>
+    <div class="w3-panel w3-card-2 w3-white">Your query: <span class="w3-tag w3-gray">{$model("q")}</span> returned <span class="w3-tag w3-gray">{count($model("sparqlResult")//sr:result)}</span> results</div>
     };
     
     declare    
@@ -1865,6 +1863,7 @@ declare
     $node as node(), 
     $model as map(*), $start as xs:integer, $per-page as xs:integer) {
         
+       
     for $text at $p in subsequence($model("hits"), $start, $per-page)
         let $root := root($text)
         let $id := data($root/t:TEI/@xml:id)
@@ -2129,6 +2128,7 @@ declare function app:get-latest-created-document($collection-uri as xs:string) a
 
 declare  function app:worksforclavis($node as node(), $model as map(*), $xpath as xs:string?) {
   let $hits := for $hit in $config:collection-rootW//t:TEI[not(ends-with(@xml:id, 'IHA'))]
+  order by $hit/@xml:id
                     return $hit
    return
   map {"hits": $hits, "path": $xpath}
@@ -2150,26 +2150,26 @@ declare  function app:worksforclavis($node as node(), $model as map(*), $xpath a
           let $root := root($text)
           let $id := data($root/t:TEI/@xml:id)
           let $maintitle := titles:printTitleMainID($id)
-          let $clavis := app:clavisIds($root)
+          let $clavis := app:clavisIds($root/t:TEI)
            return
-              <div class="row reference" style="margin-bottom:20px;border-bottom: double;">
-                  <div class="col-md-6">
-                  <div class="col-md-6">
-                  <span class="label label-info work">{$id}</span><h3>{$maintitle}</h3>{$clavis}
+              <div class="w3-row reference" style="margin-bottom:20px;border-bottom: double;">
+                  <div class="w3-half w3-padding">
+                  <div class="w3-half w3-padding">
+                  <span class="w3-tag w3-gray work">{$id}</span><h3>{$maintitle}</h3>{$clavis}
                       
                   </div>
-                  <div class="col-md-6">{
+                  <div class="w3-half w3-padding">{
                   for $title at $t in $text//t:titleStmt/t:title
                   let $dv := $id||'TITLE'||$t
                   return
                   <div class="row">
-                  <div class="col-md-9"><p data-value="{$dv}">{$title/text()}</p></div>
-                  <div class="col-md-3"><button data-value="{$dv}"
-                  class="btn btn-default searchthis">search this</button></div>
+                  <div class="w3-threequarter w3-padding"><p data-value="{$dv}">{$title/text()}</p></div>
+                  <div class="w3-quarter w3-padding"><button data-value="{$dv}"
+                  class="w3-button w3-red searchthis">search this</button></div>
                   </div>
                   }</div>
                   </div>
-                  <div class="col-md-6"><label>Search PATHs/CMCL project data for matching clavis ids for {$id}</label><input id="{$id}" class="form-control querystring" type="text"/><div class="pathsResults"/></div>
+                  <div class="w3-half w3-padding"><label>Search PATHs/CMCL project data for matching clavis ids for {$id}</label><input id="{$id}" class="form-control querystring" type="text"/><div class="pathsResults"/></div>
 
 
               </div>

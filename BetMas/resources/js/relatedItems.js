@@ -1,8 +1,6 @@
-$(document).ready(function () {
-
 $('#seealsoSelector').change(function (showthefilters) {
     var keyword = $('#seealsoSelector').val()
-    //console.log(keyword)
+//    console.log(keyword)
     var element = $("#seealsoSelector option:selected").parent().attr('label')
     var apiurl = '/api/sharedKeyword/'
     var param = '?element=' + encodeURIComponent(element)
@@ -15,12 +13,12 @@ $('#seealsoSelector').change(function (showthefilters) {
                 var id = match.id; 
                //  console.log(id)
                 var title = match.title;
-               var card = "<div class='card'><div id='"  + id + "' class='card-block'><div class='card-title'><a href='/"   + id + "'>" + title + "</a></div></div></div>"
+               var card = "<div class='w3-card-4'><div id='"  + id + "' class='w3-container'><div class='w3-large'><a href='/"   + id + "'>" + title + "</a></div></div></div>"
                 items.push(card);
             
         }
         else if (data.total == 0){
-          var card = "<div class='card'><div class='card-block'><div class='card-title'>no results</div><div class='card-text'>Sorry, this query returned no result</div></div></div>"
+          var card = "<div class='w3-card-4'><div class='w3-container'><div class='w3-large'>no results</div><div class='w3-content'>Sorry, this query returned no result</div></div></div>"
                 items.push(card);
             
         }
@@ -31,7 +29,7 @@ $('#seealsoSelector').change(function (showthefilters) {
                 var id = match.id; 
                // console.log(id)
                 var title = match.title;
-               var card = "<div class='card'><div id='"  + id + "' class='card-block'><div class='card-title'><a href='/"   + id + "'>" + title + "</a></div></div></div>"
+               var card = "<div class='w3-card-4'><div id='"  + id + "' class='w3-container'><div class='w3-large'><a href='/"   + id + "'>" + title + "</a></div></div></div>"
                 items.push(card);
     
             };}
@@ -45,7 +43,6 @@ $('#seealsoSelector').change(function (showthefilters) {
 });
 
 
-});
 
 
 $(document).on({

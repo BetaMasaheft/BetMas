@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:additions">
         <div id="additiones" rel="http://purl.org/dc/terms/hasPart">
@@ -40,7 +41,9 @@
                 <xsl:for-each select=".//t:item[contains(@xml:id, 'a')]">
                     <li resource="https://betamasaheft.eu/{$mainID}/addition/{@xml:id}">
                         <xsl:attribute name="typeof">
-                            <xsl:if test="./t:desc/@type"><xsl:value-of select="concat('https://betamasaheft.eu/', ./t:desc/@type)"/></xsl:if>
+                            <xsl:if test="./t:desc/@type">
+                                <xsl:value-of select="concat('https://betamasaheft.eu/', ./t:desc/@type)"/>
+                            </xsl:if>
                     </xsl:attribute>
                         <xsl:attribute name="id">
                             <xsl:value-of select="@xml:id"/>
@@ -82,7 +85,9 @@
                     <xsl:for-each select=".//t:item[contains(@xml:id, 'e')]">
                         <li resource="https://betamasaheft.eu/{$mainID}/addition/{@xml:id}">
                             <xsl:attribute name="typeof">
-                                <xsl:if test="./t:desc/@type"><xsl:value-of select="concat('https://betamasaheft.eu/', ./t:desc/@type)"/></xsl:if>
+                                <xsl:if test="./t:desc/@type">
+                                    <xsl:value-of select="concat('https://betamasaheft.eu/', ./t:desc/@type)"/>
+                                </xsl:if>
                             </xsl:attribute>
                             <xsl:apply-templates/>
                         </li>

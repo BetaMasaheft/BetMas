@@ -9,9 +9,9 @@ import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas
 <list>{
     for $repoi in collection($config:data-rootIn)//t:TEI/@xml:id
     let $i := string($repoi)
-    let $tit := titles:printTitleMainID($i)
-    let $title := if (starts-with($tit, 'ʾ') or starts-with($tit, 'ʿ')) then substring($tit, 2) else $tit
-   order by $title
+    let $tit := normalize-space(titles:printTitleMainID($i))
+    let $normTit := lower-case(replace(normalize-unicode(replace($tit, 'Ǝ', 'E'), 'NFKD'), '\P{IsBasicLatin}', '' ))
+   order by $normTit
     return
     <item>
     {$repoi}
@@ -19,3 +19,5 @@ import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas
     </item>
     }
 </list>
+
+(:replace(normalize-unicode(replace('Ǝndā Māryām', 'Ǝ', 'e'), 'NFKD'), '\P{IsBasicLatin}', '' ):)

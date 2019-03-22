@@ -30,7 +30,7 @@ $(document).ready(function () {
     /*}*/
 });
 
-$('.word').each(function () {
+$('.word').each(function (wn) {
     
     var word = $(this)
     /*make all spaces a single space*/
@@ -58,16 +58,31 @@ $('.word').each(function () {
         } else {
             nostops.w = v; nostops.stop = ''
         }
-/*        if it is the last word in the span, then add it straight, if it is somewhere else in the span sequence, then add back a white space
- * for the alpheios integration should be <span class='alpheios-word'/> instead of <a href='"+url+parm+nostops.w+"'/>
- * */
+/*        if it is the last word in the span, then add it straight, if it is somewhere else in the span sequence, then add back a white space*/
        if (i == countwords - 1) {
-            $(word).append($("<a href='"+url+parm+nostops.w+"'/>").text(nostops.w + nostops.stop));
+            $(word).append($("<span class='alpheios-word popup' onmouseover='popup("+'"p'+wn+i+'"'+")' onmouseout='popup("+'"p'+wn+i+'"'+")'>"+nostops.w + nostops.stop+"\
+            <span class='popuptext w3-hide w3-tiny w3-padding' id='p"+wn+i+"'>\
+            Search "+nostops.w+" :<br/>\
+            <a href='/as.html"+parm+nostops.w+"' target='_blank'>in Beta maṣāḥǝft</a><br/>\
+            <a href='/morpho?query="+nostops.w+"' target='_blank'>in the Gǝʿǝz Morphological Parser</a><br/>\
+            <a href='/morpho/corpus?query="+nostops.w+"&type=string' target='_blank'>in the TraCES annotations</a><br/>\
+            <a href='"+url+parm+nostops.w+"' target='_blank'>in the Online Lexicon</a><br/>\
+            </span> </span>"));
         } else {
-            $(word).append($("<a href='"+url+parm+nostops.w+"'/>").text(nostops.w + nostops.stop + ' '));
+            $(word).append($("<span class='alpheios-word popup' onmouseover='popup("+'"p'+wn+i+'"'+")' onmouseout='popup("+'"p'+wn+i+'"'+")'>"+nostops.w + nostops.stop + '&nbsp;'+"\
+            <span class='popuptext w3-hide w3-tiny w3-padding' id='p"+wn+i+"'>\
+            Search "+nostops.w+" :<br/>\
+            <a href='/as.html"+parm+nostops.w+"' target='_blank'>in Beta maṣāḥǝft</a><br/>\
+            <a href='/morpho?query="+nostops.w+"' target='_blank'>in the Gǝʿǝz Morphological Parser</a><br/>\
+            <a href='/morpho/corpus?query="+nostops.w+"&type=string' target='_blank'>in the TraCES annotations</a><br/>\
+            <a href='"+url+parm+nostops.w+"' target='_blank'>in the Online Lexicon</a><br/>\
+            </span> </span>"));
         }
     });
 });
+
+
+
 
 $('.diplomaticHighlight').on('change', function () {
     $('span.invocation span.word a').toggleClass('invocation');
@@ -78,18 +93,18 @@ $('.diplomaticHighlight').on('change', function () {
     $('span.provision span.word a').toggleClass('provision');
     $('span.suscription span.word a').toggleClass('suscription');
     if($(this).next().is('br')){} else {$(this).after('\
-    <br/><span class="invocation label label-secondary">invocation</span>\
-    <a role="button" class="btn btn-secondary" target="_blank" href="/diplomatique.html?interpret=%23invocation">compare</a>\
-    <br/><span class="clauses  label label-secondary">clauses</span>\
-    <a role="button" class="btn btn-secondary" target="_blank" href="/diplomatique.html?interpret=%23clauses">compare</a>\
-    <br/><span class="conclusion label label-secondary">conclusion</span>\
-    <a role="button" class="btn btn-secondary" target="_blank" href="/diplomatique.html?interpret=%23conclusion">compare</a>\
-    <br/><span class="listOfPersons  label label-secondary">listOfPersons</span>\
-    <a role="button" class="btn btn-secondary" target="_blank" href="/diplomatique.html?interpret=%23listOfPersons">compare</a>\
-    <br/><span class="motif label label-secondary">motif</span>\
-    <a role="button" class="btn btn-secondary"  target="_blank" href="/diplomatique.html?interpret=%23motif">compare</a>\
-    <br/><span class="provision label label-secondary">provision</span>\
-    <a role="button" class="btn btn-secondary" target="_blank" href="/diplomatique.html?interpret=%23provision">compare</a>\
-    <br/><span class="suscription label label-secondary">suscription</span>\
-    <a role="button" class="btn btn-secondary" target="_blank" href="/diplomatique.html?interpret=%23suscription">compare</a><br/>')}
+    <br/><span class="invocation w3-tag w3-red">invocation</span>\
+    <a role="button" class="w3-button w3-gray" target="_blank" href="/diplomatique.html?interpret=%23invocation">compare</a>\
+    <br/><span class="clauses  w3-tag w3-red">clauses</span>\
+    <a role="button" class="w3-button w3-gray" target="_blank" href="/diplomatique.html?interpret=%23clauses">compare</a>\
+    <br/><span class="conclusion w3-tag w3-red">conclusion</span>\
+    <a role="button" class="w3-button w3-gray" target="_blank" href="/diplomatique.html?interpret=%23conclusion">compare</a>\
+    <br/><span class="listOfPersons  w3-tag w3-red">listOfPersons</span>\
+    <a role="button" class="w3-button w3-gray" target="_blank" href="/diplomatique.html?interpret=%23listOfPersons">compare</a>\
+    <br/><span class="motif w3-tag w3-red">motif</span>\
+    <a role="button" class="w3-button w3-gray"  target="_blank" href="/diplomatique.html?interpret=%23motif">compare</a>\
+    <br/><span class="provision w3-tag w3-red">provision</span>\
+    <a role="button" class="w3-button w3-gray" target="_blank" href="/diplomatique.html?interpret=%23provision">compare</a>\
+    <br/><span class="suscription w3-tag w3-red">suscription</span>\
+    <a role="button" class="w3-button w3-gray" target="_blank" href="/diplomatique.html?interpret=%23suscription">compare</a><br/>')}
 });

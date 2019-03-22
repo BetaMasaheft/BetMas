@@ -2,12 +2,12 @@ xquery version "3.1" encoding "UTF-8";
 (:~
  : module used by functions producing oa annoations for pelagios
  : 
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
 module namespace ann = "https://www.betamasaheft.uni-hamburg.de/BetMas/ann";
 
 declare namespace t="http://www.tei-c.org/ns/1.0";
-import module namespace coord = "https://www.betamasaheft.uni-hamburg.de/BetMas/coord" at "xmldb:exist:///db/apps/BetMas/modules/coordinates.xql";
+import module namespace coord = "https://www.betamasaheft.uni-hamburg.de/BetMas/coord" at "xmldb:exist:///db/apps/BetMas/modules/coordinates.xqm";
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 
@@ -34,43 +34,7 @@ else 'http://sws.geonames.org/' || substring-after($placeid, 'gn:')
 };
 
 
-declare 
-%test:args('<place xmlns="http://www.tei-c.org/ns/1.0" type="waradā">
-               <placeName xml:id="n1">Aallee</placeName>
-               <country ref="LOC3010Ethiop"/>
-               <region notBefore="1991" type="RegionalState" ref="LOC6530Oromiyaa"/>
-               <region notAfter="1974" type="Province"/>
-               <settlement type="zone"/>
-               <location>
-                  <geo cert="low">8.431601 35.688606</geo>
-               </location>
-               <listBibl type="secondary">
-                  <bibl>
-                     <ptr target="bm:Zitelmann2007EnAeIllubabor"/>
-                  </bibl>
-               </listBibl>
-               <note>
-                  <date type="foundation" atLeast="1991">After 1991</date>
-                  <ab type="description">Aallee is one of 12 <placeName>waradā</placeName> created in the highland
-                        <placeName ref="LOC3924Illuba">Illubabor </placeName> after <date>1991</date> and the
-                     introduction of "ethnic federalism". </ab>
-               </note>
-            </place>','Aallee','LOC1001Aallee') 
-            %test:assertEquals('
-             
-             <https://betamasaheft.eu/places/LOC1001Aallee> a lawd:Place ;
-  rdfs:label "Aallee";
- dcterms:source <https://betamasaheft.eu/LOC1001Aallee.xml> ;
- 
-lawd:hasName [ lawd:primaryForm "Aallee" ];
-geo:location [ geo:lat 8.431601 ;  geo:long 35.688606 ] ; 
- foaf:primaryTopicOf <https://betamasaheft.eu/places/LOC1001Aallee/main> ;
-                dcterms:isPartOf <https://betamasaheft.eu/places/LOC6530Oromiyaa>;
-
-                .
-                
-                ') 
-function ann:annotatedThing($node as element(), $tit, $id){
+declare function ann:annotatedThing($node as element(), $tit, $id){
 let $d := $node
 let $r := $id
 let $sr := string($r)

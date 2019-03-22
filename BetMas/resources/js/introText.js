@@ -162,19 +162,6 @@
                 position: 'bottom '
               },
               {
-                element: '#q',
-                intro: 'This is an easy text search form. it will search some common indexed elements in our data like titles and shelfmarks. \
-                Do not expect it to return you all occurrences of a given name, or all attestations of a person, use for that the appropriate tools.',
-                position: 'bottom '
-              },
-              {
-                  element : '#furtherSearchOptions',
-                  intro: 'The first of these buttons is a keyword you can use in alternative to your local entry methods. The second button is the one to run the search. \
-                  The third button redirects you to the advanced search, where you can use any of the filters in the specific views and add to them a simple string search in selected elements. \
-                  To jump to the Dillmann Lexion, click the book. For more information on how the saerch works, click the last info button.',
-                  position:'left'
-              },
-              {
                   element : '#codicologicalInformationms',
                   intro: 'If there is a collation and we have enough information, you will see also diagrams for each quire. The SVG graphics are produces with visColl. Each diagram has a title which gives the absolute position in the description of the quire (counting also the protection sheets) and the actual number of leaves in the quire. So  "Quire 1 (2)" means that is the very first quire in the collation element in the source XML file, and it has two leaves.',
                   position:'left'

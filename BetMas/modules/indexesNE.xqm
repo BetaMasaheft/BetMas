@@ -2,7 +2,7 @@ xquery version "3.0" encoding "UTF-8";
 
 (:~
  : This module contains functions printing indexes and lists extracted from the data which are not list of resources
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
 
 module namespace indexesNE="https://www.betamasaheft.uni-hamburg.de/BetMas/indexesNE";
@@ -73,14 +73,15 @@ let $persIDS := distinct-values($persons/@ref)
      };
      
      declare function indexesNE:placeNameForm($node as node(), $model as map(*)){
-   <form xmlns="http://www.w3.org/1999/xhtml"  action="" class="form form-horizontal">
+   <form xmlns="http://www.w3.org/1999/xhtml"  action="" class="w3-container">
    
-      <div  class="form-group">
-                               <small class="form-text text-muted">enter a Beta maṣāḥǝft, Pleiades or Wikidata identifier</small>
-                                <input class="form-control" name="pointer" placeholder="LOC / INS / pleiades: / Q"></input>
-                                </div><div class="form-group">
-                                 <small class="form-text text-muted">Select one collections</small>
-                                    <select name="collection" class="form-control">
+      <div  class="w3-container w3-margin-bottom">
+                               <small class="form-text text-muted">enter a Beta maṣāḥǝft, Pleiades or Wikidata identifier</small><br/>
+                                <input class="w3-input w3-border" name="pointer" placeholder="LOC / INS / pleiades: / Q"></input>
+                                </div>
+                                <div  class="w3-container w3-margin-bottom">
+                                 <small class="form-text text-muted">Select one collections</small><br/>
+                                    <select name="collection" class="w3-select w3-border">
             <option value="all">all</option>
             <option value="mss">Manuscripts</option>
             <option value="work">Works</option>
@@ -90,23 +91,26 @@ let $persIDS := distinct-values($persons/@ref)
             <option value="auth">Authority Files</option>
             </select>
                                  </div>
-                                <div class="btn-group">
-                                 <button type="submit" class="btn btn-primary">
+                                 <div class="w3-container w3-margin-bottom">
+                                <div class="w3-bar">
+                                 <button type="submit" class="w3-bar-item w3-button w3-red">
                                  <i class="fa fa-filter" aria-hidden="true"></i></button>
-                                 <a href="/bibliography" role="button" class="btn btn-info"><i class="fa fa-th-list" aria-hidden="true"></i></a></div>
+    
+    <a href="/IndexPlaces" role="button" class="w3-bar-item w3-button w3-gray"><i class="fa fa-th-list" aria-hidden="true"></i></a></div>
+   </div>
    </form>
    };
    
    
      declare function indexesNE:persNameForm($node as node(), $model as map(*)){
-   <form xmlns="http://www.w3.org/1999/xhtml"  action="" class="form form-horizontal">
+   <form xmlns="http://www.w3.org/1999/xhtml"  action="" class="w3-container">
    
-      <div  class="form-group">
-                               <small class="form-text text-muted">enter a Beta maṣāḥǝft or Wikidata identifier</small>
-                                <input class="form-control" name="pointer" placeholder="PRS / Q"></input>
-                                </div><div class="form-group">
-                                 <small class="form-text text-muted">Select one collections</small>
-                                    <select name="collection" class="form-control">
+      <div  class="w3-container  w3-margin-bottom">
+                               <small >enter a Beta maṣāḥǝft or Wikidata identifier</small><br/>
+                                <input class="w3-input w3-border" name="pointer" placeholder="PRS / Q"></input>
+                                </div><div class="w3-container w3-margin-bottom">
+                                 <small>Select one collections</small><br/>
+                                    <select name="collection" class="w3-select w3-border" >
             <option value="all">all</option>
             <option value="mss">Manuscripts</option>
             <option value="work">Works</option>
@@ -116,11 +120,13 @@ let $persIDS := distinct-values($persons/@ref)
             <option value="auth">Authority Files</option>
             </select>
                                  </div>
-                                <div class="btn-group">
-                                 <button type="submit" class="btn btn-primary">
+                                <div class="w3-container w3-margin-bottom">
+                                <div class="w3-bar">
+                                 <button type="submit" class="w3-bar-item w3-button w3-red">
                                  <i class="fa fa-filter" aria-hidden="true"></i></button>
-                                 <a href="/bibliography" role="button" class="btn btn-info"><i class="fa fa-th-list" aria-hidden="true"></i></a></div>
-   </form>
+    
+    <a href="/IndexPersons" role="button" class="w3-bar-item w3-button w3-gray"><i class="fa fa-th-list" aria-hidden="true"></i></a></div>
+   </div></form>
    };
      
 declare
@@ -133,15 +139,14 @@ for $target at $p in subsequence($model("hits"), $start, $per-page)
 let $ptrs := $config:collection-root//t:placeName[@ref = $target]
 let $count := count($ptrs)
 return
-<div class="col-md-12">
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"  ></script>
-    <div id="{$target}" class="col-md-2">
+<div class="w3-container w3-margin">
+<div id="{$target}" class="w3-col" style="width:15%">
     <a href="/{$target}" class="MainTitle" data-value="{$target}">{$target}</a> 
     has been marked up <span class="badge">{$count}</span> times in the selected collections.
     </div>
-<div class="col-md-10">
-<div class="col-md-12">
-<div class="col-md-6">
+<div class="w3-rest">
+<div class="w3-container">
+<div class="w3-half w3-padding">
 <ul class="nodot">
     {    
    for $citingentity in $ptrs
@@ -159,7 +164,7 @@ return
     }
     </ul>
     </div>
-    <div class="col-md-6">
+    <div class="w3-half w3-padding">
     {charts:pieAttestations($target, 'placeName')}
     </div>
     </div>
@@ -177,15 +182,14 @@ for $target at $p in subsequence($model("hits"), $start, $per-page)
 let $ptrs := $config:collection-root//t:persName[@ref = $target]
 let $count := count($ptrs)
 return
-<div class="col-md-12">
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"  ></script>
-    <div id="{$target}" class="col-md-2">
+<div class="w3-margin">
+    <div id="{$target}" class="w3-col" style="width:15%">
     <a href="/{$target}" class="MainTitle" data-value="{$target}">{$target}</a> 
     has been marked up <span class="badge">{$count}</span> times in the selected collections.
     </div>
-<div class="col-md-10">
-<div class="col-md-12">
-<div class="col-md-6">
+<div class="w3-rest">
+<div class="w3-container">
+<div class="w3-half w3-padding">
 <ul class="nodot">
     {    
    for $citingentity in $ptrs
@@ -203,7 +207,7 @@ return
     }
     </ul>
     </div>
-    <div class="col-md-6">
+    <div class="w3-half w3-padding">
     {charts:pieAttestations($target, 'persName')}
     </div>
     </div>

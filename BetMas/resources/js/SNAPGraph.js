@@ -8,14 +8,7 @@ crm:P48_has_preferred_identifier '" + id + "' . \
 snap:bond-with ?person2 \
 BIND(?person1 as ?resourceName) \
 BIND(?person2 as ?partName) \
-} UNION \
-{?person1 snap:hasBond ?bondName . \
-?bondName rdf:type ?relName; \
-snap:bond-with ?person2 . \
-?person2 crm:P48_has_preferred_identifier '" + id + "' . \
-BIND(?person1 as ?resourceName) \
-BIND(?person2 as ?partName) \
-} UNION { \
+} UNION {  \
 ?person1 snap:hasBond ?bondwithSubject . \
 ?bondwithSubject rdf:type ?relwithSubject; \
                        snap:bond-with ?person2 . \
@@ -35,7 +28,17 @@ BIND(?person3 as ?partName) \
 snap:bond-with ?person3 . \
 BIND(?person2 as ?resourceName) \
 BIND(?person3 as ?partName) \
-} UNION { \
+} UNION {\
+?person1 snap:hasBond ?bondName ; \
+crm:P48_has_preferred_identifier '" + id + "' . \
+?bondName rdf:type ?relName; \
+snap:bond-with ?person2 . \
+?person2 snap:hasBond ?bondName . \
+?bondName rdf:type ?relName; \
+snap:bond-with ?person3 . \
+BIND(?person2 as ?resourceName) \
+BIND(?person3 as ?partName) \
+}UNION { \
 ?partName bm:wifeOf ?resourceName ; \
 crm:P48_has_preferred_identifier '" + id + "' . \
 BIND(bm:wifeOf as ?relName) \
@@ -91,7 +94,7 @@ BIND(bm:husbandOf as ?relName) \
         });
         
         function makenode(unit) {
-            this.label = unit
+            this.label = unit 
             this.id = unit.replace(' ', '_')
         }
         
@@ -155,13 +158,13 @@ BIND(bm:husbandOf as ?relName) \
                 hideEdgesOnDrag: edgedrag,
                 tooltipDelay: 200
             }
+            
         };
         
         
          if(ids.length >= 1){container.style.height = '600px'} // only give an height to the box if there is a graph, i.e. if there are ids to make nodes
   
         var network = new vis.Network(container, data, options);
-        
         network.on( 'click', function(properties) {
     window.open(properties.nodes, '_blank');
     });
@@ -201,9 +204,8 @@ bm:roleName ?role .}}ORDER BY ?person "
         if(res['role']){
         RandT += res.role.value
         if(res['roleType']){
-        
         typ = res.roleType.value
-        var type = typ.replace('https://betamasaheft.eu/role/','')
+        var type = typ.replace('http://betamasaheft.eu/role/','')
         
         RandT+=' (' + type+')'
         }
@@ -211,7 +213,7 @@ bm:roleName ?role .}}ORDER BY ?person "
         var NAME = ''
         if(res['name']){NAME = res.name.value} else {NAME = 'empty tag'}
        var link = res.attestation.value
-        var textlink = link.replace('https://betamasaheft.eu/api/dts/document?id=urn:dts:betmas:','/works/')
+        var textlink = link.replace('http://betamasaheft.eu/api/dts/document?id=urn:dts:betmas:','/works/')
         var textlink2 = textlink.replace(':', '/text?start=')
         //console.log(textlink2)
         var tr = $('<tr><td>'+NAME+'</td><td><a href="'+textlink2+'">'+res.citation.value+'</a></td><td>'+RandT+ '</td></tr>')

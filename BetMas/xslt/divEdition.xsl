@@ -1,4 +1,5 @@
-<xsl:stylesheet xmlns="http://www.w3.choiceorg/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t" version="2.0">
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t" version="2.0">
     
     <xsl:template match="t:*[@xml:lang='gez']//text()[parent::t:*[name() != 'label'][name() != 'note'][name() != 'persName'] [name() != 'placeName']]">
         
@@ -28,7 +29,7 @@
     </xsl:template>
     
     <xsl:template match="t:div[parent::t:body][not(@type = 'apparatus')]">
-        <div class="row-fluid" id="{@type}">
+        <div class="w3-row" id="{@type}">
             <head>
                 <xsl:if test="@corresp">
                     <a href="{@corresp}">
@@ -52,7 +53,9 @@
     
   
     <xsl:template match="t:div[@type = 'textpart'] | t:div[@type='edition'][not(child::t:div)]">
-        <xsl:if test="not(descendant::t:pb) and not(parent::t:div[@type='textpart'])"><xsl:apply-templates select="preceding::t:pb[1]"/></xsl:if>
+        <xsl:if test="not(descendant::t:pb) and not(parent::t:div[@type='textpart'])">
+            <xsl:apply-templates select="preceding::t:pb[1]"/>
+        </xsl:if>
         <xsl:variable name="text">
             <xsl:value-of select="./ancestor::t:TEI/@xml:id"/>
         </xsl:variable>
@@ -157,11 +160,13 @@
                             </xsl:otherwise>
                         </xsl:choose>
                         <xsl:text>)</xsl:text>
-                    </xsl:if><xsl:if test="@corresp">
-                        <div class="parallelversions btn-group">
-                            <a class="parallelversion btn btn-success btn-xs" data-textid="{$text}" data-unit="{@corresp}" data-toggle="tooltip" title="See parallel versions if any is available">
+                    </xsl:if>
+                    <xsl:if test="@corresp">
+                        <div class="parallelversions w3-bar w3-tooltip">
+                            <a class="parallelversion w3-small w3-button w3-red" data-textid="{$text}" data-unit="{@corresp}">
                                 Versions
                             </a>
+                            <span class="w3-tag w3-text">See parallel versions if any is available</span>
                         </div>
                     </xsl:if><!--
                     <div class="ugaritcontrols btn-group">
@@ -169,7 +174,6 @@
                             Ugarit Alignment
                         </a>
                     </div>
-                    
                         <div class="quotations btn-group">
                             <a id="quotations{@n}" class="quotations btn btn-success btn-xs" data-textid="{$text}" data-unit="{@n}" data-toggle="tooltip" title="Check for marked up quotations of a passage in this section">
                                 Quotations
@@ -182,8 +186,8 @@
                 <xsl:apply-templates select="child::t:div[@type='textpart']"/>
             </xsl:when>
             <xsl:otherwise>
-                <div class="{if(./parent::t:div[@type='textpart']) then 'subtextpart' else ()} row" id="{if(@xml:id) then (@xml:id) else if(@n) then(@n) else(concat('textpart', string(position())))}">
-                    <div class="col-md-2">
+                <div class="{if(./parent::t:div[@type='textpart']) then 'subtextpart' else ()} w3-row" id="{if(@xml:id) then (@xml:id) else if(@n) then(@n) else(concat('textpart', string(position())))}" lang="{ancestor::t:div[@xml:lang][1]/@xml:lang}">
+                    <div class="w3-col" style="width:15%">
                         
                             <xsl:if test="@subtype">
                                 <a href="{if (@corresp) then @corresp else '#mscontent'}">
@@ -240,37 +244,46 @@
                                 </xsl:choose>
                                 <xsl:text>)</xsl:text>
                             </xsl:if>
-                          -->  <div class="ugaritcontrols btn-group">
-                                <a class="ugarit btn btn-success btn-xs" data-textid="{$text}" data-currentid="{@n}" data-toggle="tooltip" title="Start a translation alignment with Ugarit" disabled="disabled">
-                                    Ugarit Alignment
+                          -->  
+                        <div class="w3-bar-block">
+                            <div class="ugaritcontrols w3-tooltip w3-bar-item w3-button w3-padding-small w3-gray">
+                            <a class="ugarit  w3-small" data-textid="{$text}" data-currentid="{@n}" disabled="disabled">
+                                    Alignment
                                 </a>
+                            <span class="w3-text w3-tag">Start a translation alignment with Ugarit</span>
                             </div>
                             <xsl:if test="@corresp">
-                                <div class="parallelversions btn-group">
-                                    <a class="parallelversion btn btn-success btn-xs" data-textid="{$text}" data-unit="{@corresp}" data-toggle="tooltip" title="See parallel versions if any is available">
+                                <div class="parallelversions w3-tooltip w3-bar-item w3-button w3-padding-small w3-gray">
+                                    <a class="parallelversion  w3-small" data-textid="{$text}" data-unit="{@corresp}">
                                         Versions
                                     </a>
+                                    <span class="w3-text w3-tag">See parallel versions if any is available</span>
                                 </div>
                             </xsl:if>
                         
-                        <div class="quotations btn-group">
-                            <a id="quotations{@n}" class="quotations btn btn-success btn-xs" data-textid="{$text}" data-unit="{@n}" data-toggle="tooltip" title="Check for marked up quotations of a passage in this section">
+                            <div class="quotations w3-tooltip w3-bar-item w3-button w3-padding-small w3-gray">
+                            <a id="quotations{@n}" class="quotations  w3-small" data-textid="{$text}" data-unit="{@n}">
                                 Quotations
                             </a>
+                            <span class="w3-text w3-tag">Check for marked up quotations of a passage in this section</span>
                         </div>
                         
-                        <div id="AllQuotations{@n}"/>  
-                        <a href="#" class="btn btn-default" data-toggle="modal" data-target="#textHelp"><i class="fa fa-info-circle" aria-hidden="true"/></a>
-                        <div class="modal fade" id="textHelp" tabindex="-1" role="dialog" aria-labelledby="textHelpLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Text visualization help</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">X</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
+                         
+                            <a href="#" class="w3-button w3-padding-small w3-white w3-bar-item" onclick="document.getElementById('textHelp').style.display='block'">
+                            <i class="fa fa-info-circle" aria-hidden="true"/>
+                        </a>
+                        </div>
+                        
+                        <div id="AllQuotations{@n}"/> 
+                        <div class="w3-modal" id="textHelp">
+                            <div class="w3-modal-content">
+                              <header class="w3-container w3-red">
+                                  <h2>Text visualization help</h2>
+                                  <span class="w3-button w3-display-topright" onclick="document.getElementById('textHelp').style.display='none'">
+                                      <i class="fa fa-times"/>
+                                        </span>
+                              </header>
+                                    <div class="w3-container w3-margin">
                                         Page breaks are indicated with a line and the number of the page break.
                                         Column breaks are indicated with a pipe (|) followed by the name of the column.
                                         <p>In the text:</p>
@@ -278,23 +291,20 @@
                                             <li>Click on ↗ to see the related items in Pelagios.</li>
                                             <li>Click on <i class="fa fa-hand-o-left"/>
                                                 to see the which entities within Beta maṣāḥǝft point to this identifier.</li>
-                                            <li><sup>[!]</sup> contains additional information related to uncertainties in the encoding.</li>
+                                            <li>
+                                            <sup>[!]</sup> contains additional information related to uncertainties in the encoding.</li>
                                             <li>Superscript digits refer to notes in the apparatus which are displayed on the right.</li>
                                         </ul>
                                     </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         
                     </div>
-                    <div class="col-md-10">
-                     <div class="col-md-8 chapterText" id="{@xml:id}">
+                    <div class="w3-col" style="width:85%">
+                     <div class="w3-twothird w3-container chapterText" id="{@xml:id}">
                          <xsl:apply-templates select="child::node()"/>
                     </div>  
-                    <div class="col-md-4 row apparata ">
+                    <div class="w3-third row apparata ">
                         <xsl:for-each select="t:ab//t:app[not(@type)]">
                             <xsl:sort select="position()"/>
                             <span id="{ancestor::t:div[@type='textpart'][1]/@n}appPointer{position()}"> 
@@ -302,8 +312,12 @@
                                     <xsl:value-of select="count(preceding-sibling::t:app) + 1"/>
                                 </a>
                                 <xsl:text>) </xsl:text>
-                                <xsl:if test="count(./t:lem/node()) ge 1"><xsl:apply-templates select="./t:lem"/> <xsl:text>: </xsl:text></xsl:if>
-                                <xsl:if test="count(./t:rdg/node()) ge 1"><xsl:apply-templates select="./t:rdg"/> <xsl:text>. </xsl:text></xsl:if>
+                                <xsl:if test="count(./t:lem/node()) ge 1">
+                                        <xsl:apply-templates select="./t:lem"/> <xsl:text>: </xsl:text>
+                                    </xsl:if>
+                                <xsl:if test="count(./t:rdg/node()) ge 1">
+                                        <xsl:apply-templates select="./t:rdg"/> <xsl:text>. </xsl:text>
+                                    </xsl:if>
                                 <xsl:apply-templates select="./t:note/node()"/>
                             </span>
                             <xsl:if test="not(position() = last())">
@@ -323,8 +337,12 @@
                                         <xsl:value-of select="count(preceding-sibling::t:app) + 1"/>
                                     </a>
                                     <xsl:text>) </xsl:text>
-                                    <xsl:if test="count(./t:lem/node()) ge 1"><xsl:apply-templates select="./t:lem"/> <xsl:text>: </xsl:text></xsl:if>
-                                    <xsl:if test="count(./t:rdg/node()) ge 1"><xsl:apply-templates select="./t:rdg"/> <xsl:text>. </xsl:text></xsl:if>
+                                    <xsl:if test="count(./t:lem/node()) ge 1">
+                                            <xsl:apply-templates select="./t:lem"/> <xsl:text>: </xsl:text>
+                                        </xsl:if>
+                                    <xsl:if test="count(./t:rdg/node()) ge 1">
+                                            <xsl:apply-templates select="./t:rdg"/> <xsl:text>. </xsl:text>
+                                        </xsl:if>
                                     <xsl:apply-templates select="./t:note/node()"/>
                                 </span>
                                 <xsl:if test="not(position() = last())">
@@ -475,13 +493,13 @@
         
     </xsl:template>
     <xsl:template match="t:ab">
-        <div class="container-fluid">
+        <div class="w3-container">
             <xsl:apply-templates/>
         </div>
     </xsl:template>
     
     <xsl:template match="t:ab[ancestor::t:div[@subtype='Psalmus']]">
-        <div class="container-fluid">
+        <div class="w3-container">
             <h3>
                 <a>
                     <xsl:attribute name="href">
@@ -516,7 +534,7 @@
     </xsl:template>
     
     <xsl:template match="t:l[ancestor::t:div[@subtype='Psalmus']]">
-        <div class="col-md-12">
+        <div class="w3-container">
             
         <p>
                 <sup>
@@ -570,7 +588,11 @@
     
     <xsl:template match="t:pb">
         <xsl:choose>
-            <xsl:when test="ancestor::t:div[@type='edition']">|<sup><xsl:value-of select="@n"/></sup><xsl:choose><xsl:when test="starts-with(@facs, 'http') and ancestor::t:TEI[@type='work']">
+            <xsl:when test="ancestor::t:div[@type='edition']">|<sup>
+                    <xsl:value-of select="@n"/>
+                </sup>
+                <xsl:choose>
+                    <xsl:when test="starts-with(@facs, 'http') and ancestor::t:TEI[@type='work']">
                 <xsl:variable name="corresp" select="substring-after(@corresp, '#')"/>
                 <xsl:variable name="manifest" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/t:ptr/@target"/>
                 <xsl:variable name="location" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/@facs"/>
@@ -582,27 +604,34 @@
                     <xsl:variable name="location" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/@facs"/>
                     <span class="imageLink" data-manifest="{$manifest}" data-location="{$location}" data-canvas="{@facs}"/>
                 </xsl:otherwise>
-            </xsl:choose></xsl:when>
-            <xsl:otherwise><hr id="part{@n}"/>
-        <p>
-            <xsl:value-of select="@n"/>
-        
-        <xsl:choose><xsl:when test="starts-with(@facs, 'http') and ancestor::t:TEI[@type='work']">
-            <xsl:variable name="corresp" select="substring-after(@corresp, '#')"/>
-            <xsl:variable name="manifest" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/t:ptr/@target"/>
-            <xsl:variable name="location" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/@facs"/>
-            <span class="imageLink" data-manifest="{$manifest}" data-location="{$location}" data-canvas="{@facs}"/>
-        </xsl:when>
+            </xsl:choose>
+            </xsl:when>
             <xsl:otherwise>
-                <xsl:variable name="corresp" select="substring-after(@corresp, '#')"/>
-                <xsl:variable name="manifest" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/t:ptr/@target"/>
-                <xsl:variable name="location" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/@facs"/>
-                <span class="imageLink" data-manifest="{$manifest}" data-location="{$location}" data-canvas="{@facs}"/>
+                <hr id="part{@n}"/>
+                <p>
+                    <xsl:value-of select="@n"/>
+                    
+                    <xsl:choose>
+                        <xsl:when test="starts-with(@facs, 'http') and ancestor::t:TEI[@type='work']">
+                        <xsl:variable name="corresp" select="substring-after(@corresp, '#')"/>
+                        <xsl:variable name="manifest" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/t:ptr/@target"/>
+                        <xsl:variable name="location" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/@facs"/>
+                        <span class="imageLink" data-manifest="{$manifest}" data-location="{$location}" data-canvas="{@facs}"/>
+                    </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:variable name="corresp" select="substring-after(@corresp, '#')"/>
+                            <xsl:variable name="manifest" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/t:ptr/@target"/>
+                            <xsl:variable name="location" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/@facs"/>
+                            <span class="imageLink" data-manifest="{$manifest}" data-location="{$location}" data-canvas="{@facs}"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </p>
+                
+                <xsl:apply-templates/>
             </xsl:otherwise>
-        </xsl:choose></p>
-        
-        <xsl:apply-templates/></xsl:otherwise></xsl:choose>
+        </xsl:choose>
     </xsl:template>
+    
     
     <xsl:template match="t:cb">
         <xsl:text>|</xsl:text>
@@ -677,7 +706,7 @@
                 <xsl:attribute name="data-value">
                     <xsl:value-of select="@resp"/>
                 </xsl:attribute>
-                <xsl:attribute name="class">OmissionResp</xsl:attribute>
+                <xsl:attribute name="class">w3-tooltip OmissionResp</xsl:attribute>
             </xsl:if>
         <xsl:choose>
                 <xsl:when test="@reason = 'illegible'">
@@ -699,7 +728,7 @@
                 <xsl:attribute name="data-value">
                     <xsl:value-of select="@resp"/>
                 </xsl:attribute>
-                <xsl:attribute name="class">OmissionResp</xsl:attribute>
+                <xsl:attribute name="class">w3-tooltip OmissionResp</xsl:attribute>
             </xsl:if>
             <xsl:choose>
                 <xsl:when test="@reason = 'rubrication'">(<xsl:value-of select="@quantity"/> <xsl:value-of select="@unit"/> left for rubrication and never filled)</xsl:when>
@@ -709,8 +738,13 @@
     
     <xsl:template match="t:choice[t:sic and t:corr]">
         <xsl:variable name="id" select="generate-id()"/>
-        <b><a data-toggle="tooltip" data-value="{t:corr/@resp}" class="ChoiceResp" id="{$id}"><xsl:value-of select="t:corr"/></a></b><!--        
-            the following script makes it possible to click on the text to see the alternative the sic has a (!) appended-->
+        <b>
+            <a data-value="{t:corr/@resp}" class="w3-tooltip ChoiceResp" id="{$id}">
+            <xsl:value-of select="t:corr"/>
+        </a>
+        </b>
+            
+<!--        the following script makes it possible to click on the text to see the alternative the sic has a (!) appended-->
         <script type="text/javascript">
             <xsl:text>$('#</xsl:text>
             <xsl:value-of select="$id"/>
@@ -727,16 +761,21 @@
     </xsl:template>
     
     <xsl:template match="t:sic">
-        <a data-toggle="tooltip" class="CorrResp" data-value="{@resp}">
+        <span class="w3-tooltip">
+        <a class="CorrResp" data-value="{@resp}">
             <xsl:value-of select="."/>
             <xsl:text> (!)</xsl:text>
         </a>
+            <span class="w3-text w3-tag">
+                <xsl:value-of select="@resp"/>
+            </span>
+        </span>
     </xsl:template>
     
     <xsl:template match="t:del">
         <xsl:choose>
             <xsl:when test="@resp">
-                <a data-toggle="tooltip" class="CorrResp" data-value="{@resp}">
+                <a class="w3-tooltip CorrResp" data-value="{@resp}">
             <xsl:choose>
                 <xsl:when test="@rend = 'erasure'">
                     <xsl:text>〚</xsl:text>
@@ -854,7 +893,7 @@
         </xsl:for-each>
             </xsl:when>
             <xsl:otherwise>
-                <a data-toggle="tooltip" data-resp="{$resp}" data-wit="@wit" class="RdgRespMs">
+                <a data-resp="{$resp}" data-wit="@wit" class="w3-tooltip RdgRespMs">
                     <xsl:value-of select="substring-after(@wit,'#')"/>
                 </a>
             </xsl:otherwise>
@@ -869,17 +908,17 @@
     <xsl:template match="t:rdg">
         <xsl:variable name="resp" select="@resp"/>
         
-        <b>
+        <b lang="{@xml:lang}">
             <xsl:choose>
                 <xsl:when test="contains(@wit, ' ')">
                 <xsl:for-each select="tokenize(@wit, ' ')">
-                    <a data-toggle="tooltip" data-resp="{$resp}" data-wit="{.}" class="RdgResp">
+                    <a data-resp="{$resp}" data-wit="{.}" class="w3-tooltip RdgResp">
                         <xsl:value-of select="substring-after(.,'#')"/>
                     </a>
                 </xsl:for-each>
                 </xsl:when>
                 <xsl:otherwise>
-                    <a data-toggle="tooltip" data-resp="{$resp}" data-wit="@wit" class="RdgResp">
+                    <a data-resp="{$resp}" data-wit="@wit" class="w3-tooltip RdgResp">
                         <xsl:value-of select="substring-after(@wit,'#')"/>
                     </a>
                 </xsl:otherwise>

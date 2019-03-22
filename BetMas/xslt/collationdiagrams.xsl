@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.schoenberginstitute.org/schema/collation" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" xmlns:t="http://www.tei-c.org/ns/1.0" exclude-result-prefixes="#all" version="2.0">
     <xd:doc scope="stylesheet">
         <xd:desc>
@@ -27,8 +28,8 @@
         </xsl:variable>
         <xsl:variable name="filename-diagrams" select="concat($idno,'-diagrams.html')"/>
         <xsl:variable name="randomnumber" select="generate-id()"/>
-        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#quirediagrams{$randomnumber}">Diagrams</button>
-        <div class="container quires collapse" id="quirediagrams{$randomnumber}">
+        <button type="button" class="w3-button w3-red" onclick="openAccordion('quirediagrams{$randomnumber}')">Diagrams</button>
+        <div class="container quires w3-container w3-hide" id="quirediagrams{$randomnumber}">
             <h3>Collation diagrams</h3>
             <xsl:for-each select="t:quire">
                 <xsl:variable name="rendition" select="@rend"/>
@@ -253,8 +254,8 @@
                             </xsl:otherwise>
                         </xsl:choose>
                     </xsl:variable>
-                    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#divset{$quireNo}{$randomnumber}">expand/collapse</button>
-                    <div class="divset collapse" resource="https://betamasaheft.eu/{$mainID}/quire/{$quireid}" typeof="https://betamasaheft.eu/quire ">
+                    <button type="button" class="w3-button w3-gray w3-small" onclick="openAccordion('divset{$quireNo}{$randomnumber}')">expand/collapse</button>
+                    <div class="divset w3-container w3-hide" resource="http://betamasaheft.eu/{$mainID}/quire/{$quireid}" typeof="http://betamasaheft.eu/quire ">
                         <xsl:attribute name="id">divset<xsl:value-of select="$quireNo"/>
                             <xsl:value-of select="$randomnumber"/>
                         </xsl:attribute>

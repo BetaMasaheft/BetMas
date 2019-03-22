@@ -107,7 +107,6 @@ circle.highlight {
 
 .attestationresult {
     margin-bottom: 30px;
-    background-color: lightseagreen;
 }
 
 .singleattestation {
@@ -1196,11 +1195,7 @@ div#academics {
     max-height: 700px;
     overflow: auto;
 }
-div#SeeAlsoResults {
-    width: 100%;
-    max-height: 600px;
-    overflow: auto;
-}
+
 hr {
     width: 60%;
     margin-top: 0;

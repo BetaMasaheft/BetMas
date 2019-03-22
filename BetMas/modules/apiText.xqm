@@ -1,10 +1,8 @@
-
-
 xquery version "3.1" encoding "UTF-8";
 (:~
  : texts from API
  : 
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
 module namespace apiT = "https://www.betamasaheft.uni-hamburg.de/BetMas/apiTexts";
 import module namespace rest = "http://exquery.org/ns/restxq";
@@ -224,7 +222,6 @@ declare
 %rest:GET
 %rest:path("/BetMas/api/xml/{$id}/{$level1}/{$level2}/{$line}")
 %output:method("xml")
-%test:args('LIT1367Exodus', '1','1','1-2') %test:assertXPath('//partOf')
 function apiT:get-level2lineXML($id as xs:string, $level1 as xs:string*, $level2 as xs:string*, $line as xs:string*) {
     ($api:response200XML,
       let $log := log:add-log-message('/api/xml/' || $id || '/' || $level1|| '/' || $level2 || '/' || $line, xmldb:get-current-user(), 'REST')

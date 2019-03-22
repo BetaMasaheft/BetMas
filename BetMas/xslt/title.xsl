@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:title">
         <xsl:choose>
@@ -25,7 +26,7 @@
                                 <xsl:value-of select="substring-after(@ref, '#')"/>
                             </a>
                             <xsl:text>) </xsl:text>
-                            <span class="glyphicon glyphicon-share"/>
+                            <span class="fa fa-share"/>
                         </a>
                     </xsl:when>
                     <xsl:otherwise>
@@ -40,10 +41,10 @@
                 
                 
                 <xsl:variable name="id" select="generate-id()"/>
-                <a xmlns="http://www.w3.org/1999/xhtml" id="{$id}Ent{$filename}relations">
+                <span xmlns="http://www.w3.org/1999/xhtml" id="{$id}Ent{$filename}relations" class="popup">
                     <xsl:text>  </xsl:text>
-                    <span class="glyphicon glyphicon-hand-left"/>
-                </a>
+                    <span class="fa fa-hand-o-left"/>
+                </span>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:apply-templates/>
@@ -76,8 +77,8 @@
                         </xsl:variable>
                         <span property="http://purl.org/dc/terms/hasPart">
                         <xsl:choose>
-                            <xsl:when test="string-length($enteredTitle) gt 50">
-                                <xsl:value-of select="concat(substring($enteredTitle, 1, 50), '...')"/>
+                            <xsl:when test="string-length($enteredTitle) gt 30">
+                                <xsl:value-of select="concat(substring($enteredTitle, 1, 30), '...')"/>
                             </xsl:when>
                             <xsl:otherwise>
                                 <xsl:value-of select="$enteredTitle"/>
@@ -88,8 +89,13 @@
                     <xsl:otherwise>
                         <span xmlns="http://www.w3.org/1999/xhtml" class="MainTitle" data-value="{@ref}">
                             <xsl:if test="parent::t:msItem">
-                                <xsl:attribute name="property"><xsl:value-of select="'http://purl.org/dc/terms/hasPart'"/></xsl:attribute>
-                                <xsl:attribute name="resource"><xsl:value-of select="concat('https://betamasaheft.eu/',$filename)"/></xsl:attribute></xsl:if>
+                                <xsl:attribute name="property">
+                                    <xsl:value-of select="'http://purl.org/dc/terms/hasPart'"/>
+                                </xsl:attribute>
+                                <xsl:attribute name="resource">
+                                    <xsl:value-of select="concat('http://betamasaheft.eu/',$filename)"/>
+                                </xsl:attribute>
+                            </xsl:if>
                             <xsl:value-of select="@ref"/>
                         </span>
                     </xsl:otherwise>
@@ -102,8 +108,8 @@
                     <xsl:apply-templates mode="nolink"/>
                 </xsl:variable>
                 <xsl:choose>
-                    <xsl:when test="string-length($enteredTitle) gt 50">
-                        <xsl:value-of select="concat(substring($enteredTitle, 1, 50), '...')"/>
+                    <xsl:when test="string-length($enteredTitle) gt 30">
+                        <xsl:value-of select="concat(substring($enteredTitle, 1, 30), '...')"/>
                     </xsl:when>
                     <xsl:otherwise>
                         <xsl:value-of select="$enteredTitle"/>

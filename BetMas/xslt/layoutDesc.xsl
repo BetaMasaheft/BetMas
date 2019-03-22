@@ -1,6 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:layoutDesc">
-        <div rel="http://purl.org/dc/terms/hasPart"><h3>Layout <xsl:if test="./ancestor::t:msPart">
+        <div rel="http://purl.org/dc/terms/hasPart">
+            <h3>Layout <xsl:if test="./ancestor::t:msPart">
                 <xsl:variable name="currentMsPart">
                     <a href="{./ancestor::t:msPart/@xml:id}">
                         <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
@@ -10,7 +12,7 @@
         </h3>
         <xsl:for-each select=".//t:layout">
             <xsl:sort select="position()"/>
-        <div id="layout{position()}" resource="https://betamasaheft.eu/{$mainID}/layout/layout{position()}">    
+        <div id="layout{position()}" resource="http://betamasaheft.eu/{$mainID}/layout/layout{position()}">    
             <h4>
                 <xsl:text>Layout note</xsl:text>
                 <xsl:text> </xsl:text>
@@ -30,7 +32,8 @@
             </p>
             </xsl:if>
             <xsl:if test=".//t:dimensions">
-                <table>
+                <div class="w3-responsive">
+                            <table class="w3-table w3-hoverable">
                     <tr>
                         <td>H</td>
                         <td>
@@ -62,12 +65,20 @@
                     </xsl:if>
                    <xsl:if test="t:dimensions[@type = 'margin']/t:dim[@type]">
                        
-                       <tr><td><b>Margins</b></td><td/></tr>
+                       <tr>
+                                        <td>
+                                            <b>Margins</b>
+                                        </td>
+                                        <td/>
+                                    </tr>
                        <xsl:for-each select="t:dimensions[@type = 'margin']/t:dim[@type]">
                            
                            <tr>
-                               <td><xsl:value-of select="@type"/></td>
-                               <td><span class="lead">
+                               <td>
+                                                <xsl:value-of select="@type"/>
+                                            </td>
+                               <td>
+                                                <span class="lead">
                                    <xsl:value-of select="."/>
                                </span>
                                    <xsl:value-of select="@unit"/>
@@ -76,7 +87,8 @@
                     </xsl:for-each>
                    </xsl:if>
                 </table>
-                <xsl:if test="t:note">
+                </div>
+                        <xsl:if test="t:note">
                     <p>
                         <xsl:apply-templates select="t:note"/>
                     </p>
@@ -96,8 +108,8 @@
                         <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
                     </xsl:if>
                 </xsl:variable>
-                <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#layoutreport{$currentMsPart}">Layout report</button>
-                <div class="report collapse" id="layoutreport{$currentMsPart}">
+                <button type="button" class="w3-button w3-gray" onclick="openaccordion('layoutreport{$currentMsPart}')">Layout report</button>
+                <div class="report w3-container w3-hide" id="layoutreport{$currentMsPart}">
                     <p>- Ms <xsl:value-of select="concat(t:TEI/@xml:id, $currentMsPart)"/>
                         <xsl:if test=".//t:titleStmt/t:title">, <xsl:value-of select=".//t:titleStmt/t:title"/>
                         </xsl:if>
@@ -144,11 +156,19 @@
                             <xsl:when test="@subtype='pattern'">
                                 <xsl:variable name="muzerelle">http://palaeographia.org/muzerelle/regGraph2.php?F=</xsl:variable>
                                 <xsl:analyze-string select="." regex="(([A-Z\d\-]+)/([A-Z\d\-]+)/([A-Z\d\-]+)/([A-Z\d\-]+))">
-                                    <xsl:matching-substring><a href="{concat($muzerelle, regex-group(1))}" target="_blank"><xsl:value-of select="regex-group(1)"/></a></xsl:matching-substring>
-                                    <xsl:non-matching-substring><xsl:value-of select="."/></xsl:non-matching-substring>
+                                    <xsl:matching-substring>
+                                            <a href="{concat($muzerelle, regex-group(1))}" target="_blank">
+                                                <xsl:value-of select="regex-group(1)"/>
+                                            </a>
+                                        </xsl:matching-substring>
+                                    <xsl:non-matching-substring>
+                                            <xsl:value-of select="."/>
+                                        </xsl:non-matching-substring>
                                 </xsl:analyze-string>
                             </xsl:when>
-                            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+                            <xsl:otherwise>
+                                    <xsl:value-of select="."/>
+                                </xsl:otherwise>
                         </xsl:choose>
                         
                     </li>
@@ -308,6 +328,7 @@
             <h4>crux</h4>
             <p>Yes <xsl:apply-templates select="//t:layout//t:ab[@type = 'ChiRho']"/>
             </p>
-        </xsl:if></div>
+        </xsl:if>
+        </div>
     </xsl:template>
 </xsl:stylesheet>

@@ -2,9 +2,9 @@ xquery version "3.0" encoding "UTF-8";
 (:~
  : module used by items.xql for several parts of the view produced
  :
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo
  :)
-module namespace item="https://www.betamasaheft.uni-hamburg.de/BetMas/item";
+module namespace item2="https://www.betamasaheft.uni-hamburg.de/BetMas/item2";
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
 import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "xmldb:exist:///db/apps/BetMas/modules/apprest.xqm";
@@ -13,21 +13,24 @@ import module namespace wiki="https://www.betamasaheft.uni-hamburg.de/BetMas/wik
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
 import module namespace app="https://www.betamasaheft.uni-hamburg.de/BetMas/app" at "xmldb:exist:///db/apps/BetMas/modules/app.xqm";
 import module namespace xdb="http://exist-db.org/xquery/xmldb";
-
+declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace t="http://www.tei-c.org/ns/1.0";
 
-(:~ used by item:restNav:)
-declare function item:witnesses($id){
+(:~ used by item2:restNav:)
+declare function item2:witnesses($id){
 let $item := ($config:collection-rootMS, $config:collection-rootW)//t:TEI/id($id)
 return
-if($item/@type='mss') then <div class="col-md-2"><div class="container-fluid well" id="textWitnesses">
-<h5>Transcription of the manuscript</h5></div></div>
+if($item/@type='mss') then 
+<div class="w3-bar-item" id="textWitnesses">
+<h5>Transcription of the manuscript</h5>
+</div>
 else
-<div class="col-md-2" id="textWitnesses">
-<div class="container-fluid well">
+(<div class="w3-bar-item" id="textWitnesses">
 <h5>Witnesses of the edition</h5>
-<ul class="nodot">{
+</div>,
+<ul class=" w3-bar-item nodot">
+{
 for $wit in $item//t:witness[not(@type)] return
 <li class="nodot" id="{string($wit/@xml:id)}">
 <a href="/manuscripts/{string($wit/@corresp)}/main" target="_blank"><b class="lead">{string($wit/@xml:id)}</b>: {titles:printTitleID(string($wit/@corresp))}</a></li>}
@@ -37,10 +40,11 @@ for $wit in $item//t:witness[@type = 'external'] return
 <a href="{$wit/@facs}" target="_blank"><b class="lead">{string($wit/@xml:id)}</b>: {if($wit/text()) then $wit/text() else string($wit/@corresp)}</a></li>}
 
 </ul>
-       {let $versions := $config:collection-root//t:relation[@name='saws:isVersionOf'][contains(@passive, $id)]
+       ,
+       let $versions := $config:collection-root//t:relation[@name='saws:isVersionOf'][contains(@passive, $id)]
        return
-       if($versions) then (<h5>Other versions</h5>,
-         <ul  class="nodot">
+       if($versions) then (<h5 class="w3-bar-item">Other versions</h5>,
+         <ul  class="w3-bar-item nodot">
                 {
                     for $parallel in $versions
                     let $p := $parallel/@active
@@ -49,12 +53,14 @@ for $wit in $item//t:witness[@type = 'external'] return
                                 href="{$p}" class="MainTitle"  data-value="{$p}" >{$p}</a></li>
                 }
             </ul>)
-            else()}
-            {let $versionsO := $config:collection-root//t:relation[@name='isVersionInAnotherLanguageOf'][contains(@passive, $id)]
+            else()
+            ,
+            
+            let $versionsO := $config:collection-root//t:relation[@name='isVersionInAnotherLanguageOf'][contains(@passive, $id)]
        return
        if($versionsO) then (
-            <h5>Versions in another language</h5>,
-            <ul  class="nodot">
+            <h5 class="w3-bar-item">Versions in another language</h5>,
+            <ul  class=" w3-bar-item nodot">
                 {
                     for $parallel in $versionsO
                      let $p := $parallel/@active
@@ -63,51 +69,113 @@ for $wit in $item//t:witness[@type = 'external'] return
                                 href="{$p}" class="MainTitle"  data-value="{$p}" >{$p}</a></li>
                 }
             </ul>)
-            else()}
+            else(),
 
-            <a role="button" class="btn btn-primary" href="/compare?workid={$id}" target="_blank">Compare</a>
-</div>
-</div>
+            <a class="w3-bar-item w3-button w3-red" href="/compare?workid={$id}" target="_blank">Compare</a>
+)
 };
 
 (:~ under the main navigation bar there are the view options, this function returns the available values deciding on the type of input:)
-declare function item:RestViewOptions($this, $collection) {
+declare function item2:RestViewOptions($this, $collection) {
 let $document := $this
 let $id := string($this/@xml:id)
 return
-<div xmlns="http://www.w3.org/1999/xhtml" class="row-fluid full-width-tabs" id="options">
-<ul  class="nav nav-tabs">
-<li  class="span_full_width" data-toggle="tooltip" data-placement="bottom" title="Not sure how to do this? Have a look at the Beta maṣāḥǝft Guidelines from the home menu!"><a target="_blank" class="btn btn-info" 
-    href="https://github.com/BetaMasaheft/{replace(replace(base-uri($this), '/db/apps/BetMas/data/', ''), $collection, concat($collection, '/blob/master'))}">Edit</a>
-    </li>
-<li  class="span_full_width" data-toggle="tooltip" data-placement="bottom" title="Click here to hide or show again the little arrows and small left pointing hands in this page."><a class="btn btn-warning" id="toggleHands">Hide/show pointers</a></li>
+<div xmlns="http://www.w3.org/1999/xhtml" class="w3-bar w3-small" id="options">
+
+ <div class="w3-bar-item" >
+ <a class="w3-button w3-padding-small w3-gray" href="javascript:void(0);" onclick="startIntroItem();">Explore this page</a>
+ </div>
             
-<li  class="span_full_width" data-toggle="tooltip" data-placement="bottom" title="Produces a PDF on the fly from the source TEI-XML using XSL-FO and Apache FOP">{app:pdf-link($id)}</li>
-<li class="span_full_width" data-toggle="tooltip" data-placement="bottom" title="Main entry"><a class="btn btn-success"  id="mainEntryLink" href="/{$collection}/{$id}/main" target="_blank" >Entry</a></li>
-<li class="span_full_width" data-toggle="tooltip" data-placement="bottom" title="Download a TEI file with explicit URIs and the bibliographic information as downloaded from Zotero API. If you just want the source, either click on EDIT to go to the actual source file or append .xml to the url after the ID."><a class="btn btn-info"  id="TEILink" href="{( '/tei/' || $id ||  '.xml')}" target="_blank">TEI/XML</a></li>
-<li class="span_full_width" data-toggle="tooltip" data-placement="bottom" title="See graphs of the information available. If the manuscript contains relevant information, then you will see visualizations based on La Syntaxe du Codex, by Andrist, Canart and Maniaci."><a class="btn btn-warning"  id="GraphViewLink"  href="/{$collection}/{$id}/graph" target="_blank">{if($collection = 'manuscripts') then <i>Syntaxe</i> else 'Graph'}</a></li>
+ <div class="w3-bar-item  w3-hide-large w3-tooltip" ><span style="position:absolute;left:0;top:30px" class="w3-text w3-tag">On small screens, will show a navigation bar on the left</span><a class="w3-bar-item w3-button w3-gray" onclick="w3_openItemSB()">Open 
+ Item Navigation</a>
+ </div>
+<div class="w3-bar-item  w3-tooltip">
+
+<a target="_blank" class="w3-button w3-padding-small w3-gray" 
+    href="https://github.com/BetaMasaheft/{replace(replace(base-uri($this), '/db/apps/BetMasData/', ''), 
+    $collection, concat($collection, '/blob/master'))}">Edit</a>
+    <span class="w3-text w3-tag itemoptiontooltip">
+Not sure how to do this? Have a look at the <a href="/Guidelines">Beta maṣāḥǝft Guidelines</a>!
+</span>
+    </div>
+<div class="w3-bar-item w3-tooltip" >
+<a class="w3-button w3-padding-small w3-gray" id="toggleHands">Hide/show pointers</a>
+<span class="w3-text w3-tag itemoptiontooltip">Click here to hide or show again the little arrows and small left pointing hands in this page.</span>
+</div>
+<div class="w3-bar-item w3-tooltip" >
+<a class="w3-button w3-padding-small w3-gray" id="toogleSeeAlso">Hide/show related</a>
+<span class="w3-text w3-tag itemoptiontooltip">Click here to hide or show again the right side of the content area, where related items and keywords are shown.</span>
+</div>
+            
+<div class="w3-bar-item w3-tooltip">
+{app:pdf-link($id)}
+<span class="w3-text w3-tag itemoptiontooltip">Produces a PDF on the fly from the source TEI-XML using XSL-FO and Apache FOP</span>
+</div>
+
+<div class="w3-bar-item w3-tooltip" >
+           <a class="w3-button w3-padding-small w3-gray"  id="mainEntryLink" href="/{$collection}/{$id}/main" 
+           target="_blank" >Entry</a>
+<span class="w3-text w3-tag itemoptiontooltip">Main Entry</span>
+ </div>
+<div class="w3-bar-item w3-tooltip">
+<a class="w3-button w3-padding-small w3-gray"  id="TEILink" href="{( '/tei/' || $id ||  '.xml')}" target="_blank">TEI/XML</a>
+<span class="w3-text w3-tag itemoptiontooltip">Download an enriched TEI file with explicit URIs bibliography from Zotero API. </span>
+</div>
+<div class="w3-bar-item w3-tooltip">
+<a class="w3-button w3-padding-small w3-gray"  id="GraphViewLink"  href="/{$collection}/{$id}/graph" target="_blank">{if($collection = 'manuscripts') then <i>Syntaxe</i> else 'Graph'}</a>
+<span class="w3-text w3-tag itemoptiontooltip">See graphs of the information available. If the manuscript contains relevant information, 
+then you will see visualizations based on La Syntaxe du Codex, by Andrist, Canart and Maniaci.</span>
+</div>
     {if(($collection = 'institutions' or $collection = 'places') and ($document//t:geo/text() or $document//t:place[@sameAs] )) then
-    <li class="span_full_width" data-toggle="tooltip" data-placement="bottom" title="geoJson data"><a href="/{( $id ||
-    '.json')}" target="_blank">geoJson</a></li> else ()}
-<li class="span_full_width"  data-toggle="tooltip" data-placement="bottom" title="Further visualization of relational information"><a class="btn btn-success"  href="/{$collection}/{$id}/analytic" target="_blank">Relations</a></li>
+    <div class="w3-bar-item"><a class="w3-button w3-gray"  href="/{( $id ||
+    '.json')}" target="_blank">geoJson</a></div> else ()}
+<div class="w3-bar-item w3-tooltip"  
+><a class="w3-button w3-padding-small w3-gray"  href="/{$collection}/{$id}/analytic" target="_blank">Relations</a>
+<span class="w3-text w3-tag itemoptiontooltip">Further visualization of relational information</span></div>
     {if ($collection = 'works' or $collection = 'narratives') then
-    (<li class="span_full_width"  data-toggle="tooltip" data-placement="bottom" title="Full Text (as available). Do you have a text you want to contribute? Contact us or click on EDIT and submit your contribution."><a class="btn btn-info"  href="{('/'||$collection|| '/' || $id || '/text' )}" target="_blank">Text</a></li>,
-    <li class="span_full_width"  data-toggle="tooltip" data-placement="bottom" title="See places marked up in the text using the Dariah-DE Geo-Browser"><a class="btn btn-warning"  href="{('/'||$collection|| '/' || $id || '/geoBrowser' )}" target="_blank">Geo-Browser</a></li>) else ()}
+    (<div class="w3-bar-item w3-tooltip" 
+  >
+    <a class="w3-button w3-padding-small w3-gray"  href="{('/'||$collection|| '/' || $id || '/text' )}" 
+    target="_blank">Text</a>
+    <span class="w3-text w3-tag itemoptiontooltip">Full Text (as available). Do you have a text you want to contribute? 
+    Contact us or click on EDIT and submit your contribution.</span>
+    </div>,
+    <div class="w3-bar-item w3-tooltip" >
+    <a class="w3-button w3-padding-small w3-gray"  href="{('/'||$collection|| '/' || $id || '/geoBrowser' )}" 
+    target="_blank">Geo-Browser</a>
+    <span class="w3-text w3-tag itemoptiontooltip">See places marked up in the text using the Dariah-DE Geo-Browser</span>
+    </div>) else ()}
     {if ($collection = 'manuscripts') then
-    <li class="span_full_width"  data-toggle="tooltip" data-placement="bottom" title="Transcription (as available). Do you have a transcription you want to contribute? Contact us or click on EDIT and submit your contribution."><a class="btn btn-info"  href="{('/'||$collection|| '/' || $id || '/text' )}" target="_blank">Transcription</a></li> else ()}
+    <div class="w3-bar-item w3-tooltip"  >
+    <a class="w3-button w3-padding-small w3-gray"  href="{('/'||$collection|| '/' || $id || '/text' )}" 
+    target="_blank">Transcription</a>
+    <span class="w3-text w3-tag itemoptiontooltip">Transcription (as available). Do you have a transcription you want to contribute? 
+    Contact us or click on EDIT and submit your contribution.</span>
+    </div> else ()}
     {if ($collection = 'manuscripts' and $this//t:msIdentifier/t:idno/@facs) then
-    <li class="span_full_width" data-toggle="tooltip" data-placement="bottom" title="Manuscript images in the Mirador viewer via IIIF"><a class="btn btn-info"  href="{('/manuscripts/' || $id || '/viewer' )}" target="_blank">Images</a></li> else ()}
+    <div class="w3-bar-item w3-tooltip" >
+    <a class="w3-button w3-padding-small w3-gray"  href="{('/manuscripts/' || $id || '/viewer' )}" 
+    target="_blank">Images</a>
+    <span class="w3-text w3-tag itemoptiontooltip">Manuscript images in the Mirador viewer via IIIF</span>
+    </div> else ()}
     {if ($collection = 'manuscripts' and $this//t:facsimile/t:graphic) then
-    <li class="span_full_width"  data-toggle="tooltip" data-placement="bottom" title="Link to images available elsewhere"><a class="btn btn-info"  href="{$this//t:facsimile/t:graphic/@url}" target="_blank">Link to images</a></li> else ()}
+    <div class="w3-bar-item w3-tooltip" >
+    <a class="w3-button w3-padding-small w3-gray"  href="{$this//t:facsimile/t:graphic/@url}" 
+    target="_blank">Link to images</a>
+    <span class="w3-text w3-tag itemoptiontooltip">Link to images available elsewhere</span>
+    </div> else ()}
     {if ($collection = 'works' or $collection = 'narratives') then
-    <li class="span_full_width"  data-toggle="tooltip" data-placement="bottom" title="Compare manuscripts with this content"><a class="btn btn-warning"  href="{('/compare?workid=' || $id  )}" target="_blank">Compare</a></li> else ()}
-    </ul>
+    <div class="w3-bar-item w3-tooltip" >
+    <a class="w3-button w3-padding-small w3-gray"  href="{('/compare?workid=' || $id  )}" target="_blank">Compare</a>
+    <span class="w3-text w3-tag itemoptiontooltip">Compare manuscripts with this content</span>
+    </div> else ()}
+    
     </div>
 };
 
 (:~ produces each item header with contents:)
 
-declare function item:RestItemHeader($this, $collection) {
+declare function item2:RestItemHeader($this, $collection) {
 let $document := $this
 let $id := string($this/@xml:id)
 let $repoids := if ($document//t:repository/text() = 'Lost' or $document//t:repository/text() = 'In situ' ) 
@@ -121,9 +189,9 @@ let $key := for $ed in $document//t:titleStmt/t:editor[not(@role = 'generalEdito
 
 return
 
-    <div xmlns="http://www.w3.org/1999/xhtml" class="ItemHeader col-md-12">
+    <div xmlns="http://www.w3.org/1999/xhtml" class="ItemHeader w3-container">
 
-    <div xmlns="http://www.w3.org/1999/xhtml" class="col-md-8">
+    <div xmlns="http://www.w3.org/1999/xhtml" class="w3-twothird">
             <h1 id="headtitle">
                 {titles:printTitleID($id)}
             </h1>
@@ -136,27 +204,29 @@ return
           </div>
 
 
-    <div xmlns="http://www.w3.org/1999/xhtml" class="col-md-4">
+    <div xmlns="http://www.w3.org/1999/xhtml" class="w3-third">
 
 
-    <div class="row-fluid" id="general">
-   <div>
+    <div  id="general" class="w3-container">
+    <div class="w3-row">
+   
    {if (count($document//t:change[not(@who='PL')]) eq 1) then
-   <span class="label label-warning" >Stub</span>
+   <span class="w3-tag w3-red">Stub</span>
    else if ($document//t:change[contains(.,'completed')]) then
-   <span class="label label-info" >Under Review</span>
+   <span class="w3-tag w3-gray" >Under Review</span>
      else if ($document//t:change[contains(.,'reviewed')]) then
-   <span class="label label-success" >Version of {max($document//t:change/xs:date(@when))}</span>
+   <span class="w3-tag w3-white" >Version of {max($document//t:change/xs:date(@when))}</span>
    else
-<span class="label label-danger" >{"Work in progress, please don't use as reference"}</span>
+<span class="w3-tag w3-red" >{"Work in progress, please don't use as reference"}</span>
     }
     </div>
+    <div class="w3-row"><span class="w3-tag w3-gray" >{$config:appUrl || '/' || $id}</span></div>
  {switch ($collection)
 case 'manuscripts' return
 
     if($document//t:repository/text() = 'Lost' or $document//t:repository/text() = 'In situ')
-    then <div><span class="label label-danger">{$document//t:repository/text()}</span>
-    <p class="lead">Collection:  {$document//t:msIdentifier/t:collection}</p>
+    then <div class="w3-row"><span class="w3-tag w3-gray w3-large w3-margin-top">{$document//t:repository/text()}</span>
+    <p class="w3-large">Collection:  {$document//t:msIdentifier/t:collection}</p>
 
             {if($document//t:altIdentifier) then
             <p>Other identifiers: {
@@ -183,14 +253,14 @@ return
             <a target="_blank" 
             href="/manuscripts/{$repo}/list" 
             role="button"
-            class="btn btn-success btn-sm" 
+            class="w3-tag w3-gray w3-large w3-margin-top" 
             property="http://www.cidoc-crm.org/cidoc-crm/P55_has_current_location" 
             resource="http://betamasaheft.eu/{$repo}">{if($repoplace) then ($repoplace, ', ') else ()}
                    {titles:printTitleID($repo) }</a>
                   }
 
 
- <p class="lead">Collection:  {distinct-values($document//t:msIdentifier/t:collection)}</p>
+ <p class="w3-large">Collection:  {distinct-values($document//t:msIdentifier/t:collection)}</p>
 
            { if($document//t:altIdentifier) then
             <p>Other identifiers: {
@@ -212,12 +282,12 @@ return
             case 'persons' return if(starts-with($document//t:person/@sameAs, 'Q')) then wiki:wikitable(string($document//t:person/@sameAs)) else (string($document//t:person/@sameAs))
 
             case 'works' return
-            app:clavisIds($document)
+            app:clavisIds(root($document))
             
  case 'institutions' return
 
-                            <div>
-                            <a href="/institutions/" role="label" class="label label-success">Institution</a>
+                            <div class="w3-row">
+                            <a href="/institutions/" role="label" class="w3-tag w3-red">Institution</a>
 
 {                            if($document//t:place/@type)
    then
@@ -225,7 +295,7 @@ return
     let $type := data($document//t:place/@type)
     let $list := if(contains($type, ' ')) then tokenize(normalize-space($type), ' ') else string($type)
     return
-     <div>{for $t in $list return <a class="label label-success" href="/places/list?keyword={$t}" target="_blank">{$t}</a>}</div>
+     <div>{for $t in $list return <a class="w3-tag w3-red" href="/places/list?keyword={$t}" target="_blank">{$t}</a>}</div>
    else ()}</div>
 
 
@@ -237,21 +307,21 @@ return
     let $type := data($document//t:place/@type)
     let $list := if(contains($type, ' ')) then tokenize(normalize-space($type), ' ') else string($type)
     return
-     <div>{for $t in $list return <a class="label label-success" href="/places/list?keyword={$t}" target="_blank">{$t}</a>}</div>
+     <div  class="w3-row">{for $t in $list return <a class="w3-tag w3-red" href="/places/list?keyword={$t}" target="_blank">{$t}</a>}</div>
    else ()
 
  case 'persons' return
  if($document//t:personGrp) then
-                            <span class="label label-success">
+                         <div  class="w3-row">   <span class="w3-tag w3-red">
                             {if ($document//t:personGrp[@role = 'ethnic']) then 'Ethnic/Linguistic' else ()}
-                            Group</span> else ()
+                            Group</span></div> else ()
  case 'work' return
-  if ($document//t:titleStmt/t:author) then <p class="lead"><a href="{$document//t:titleStmt/t:author[1]/@ref}">{$document//t:titleStmt/t:author[1]}</a></p> else ()
+  if ($document//t:titleStmt/t:author) then <div  class="w3-row"><p class="w3-large"><a href="{$document//t:titleStmt/t:author[1]/@ref}">{$document//t:titleStmt/t:author[1]}</a></p></div> else ()
    default return ()
    }
 
 
-</div>
+    </div>
 
 </div>
 
@@ -261,7 +331,7 @@ return
 };
 
 (:~for place like items returns a row for a table with the values of the element :)
-declare function item:AdminLocTable($adminLoc as element()*){
+declare function item2:AdminLocTable($adminLoc as element()*){
                                            for $s in $adminLoc
                                            return
                                            <tr>
@@ -279,15 +349,16 @@ declare function item:AdminLocTable($adminLoc as element()*){
                                            };
                                            
                                            
-(:~called by item:restNav, makes the boxes where the main relations are dispalied:)
-declare function item:mainRels($this,$collection){
+(:~called by item2:restNav, makes the boxes where the main relations are dispalied:)
+declare function item2:mainRels($this,$collection){
       let $document := $this
       let $id := string($this/@xml:id)
       let $w := $config:collection-rootW
       let $n := $config:collection-rootN
       let $ms := $config:collection-rootMS
+      let $plin := $config:collection-rootPlIn
       return
-          <div class="allMainRel container-fluid">{
+          <div class="allMainRel">{
      switch($collection)
      case 'persons' return (
      let $isSubjectof :=
@@ -307,13 +378,13 @@ declare function item:mainRels($this,$collection){
             return
                 $corr
 return
-<div class="mainrelations">
+<div class="mainrelations w3-container">
 
 
                                             {
 
-                   if ($isSubjectof) then  <div  class="relBox alert alert-info"><b class="openInDialog">This person is subject of the following textual units</b>
-                        <ul  class="nodot">{
+                   if ($isSubjectof) then  <div  class="relBox  w3-panel w3-card-4 w3-gray"><b class="openInDialog">This person is subject of the following <span class="w3-tag">{count($isSubjectof)}</span> textual units</b>
+                        <ul  class="w3-ul w3-hoverable">{
                         for $p in $isSubjectof
                     return
                         if (contains($p/@active, ' ')) then for $value in tokenize ($p/@active, ' ') return
@@ -325,8 +396,8 @@ return
                 }
                 {
 
-                   if ($isAuthorof) then  <div  class="relBox alert alert-info"><b  class="openInDialog">This person is author or attributed author of the following textual units</b>
-                        <ul  class="nodot">{
+                   if ($isAuthorof) then  <div  class="relBox  w3-panel w3-card-4 w3-gray"><b  class="openInDialog">This person is author or attributed author of the following <span class="w3-tag">{count($isAuthorof)}</span> textual units</b>
+                        <ul  class="w3-ul w3-hoverable">{
                         for $p in $isAuthorof
                     return
                         if (contains($p/@active, ' ')) then for $value in tokenize ($p/@active, ' ') return
@@ -338,9 +409,9 @@ return
                 }
 {
 
-                   if ($predecessorSuccessor) then  <div  class="relBox alert alert-info">
+                   if ($predecessorSuccessor) then  <div  class="relBox  w3-panel w3-card-4 w3-gray">
                    <b class="openInDialog">Successors and predecessors</b>
-                        <ul  class="nodot">{
+                        <ul  class="w3-ul w3-hoverable">{
                         for $p in $predecessorSuccessor
                         let $rel := if($p/@name = 'bm:isSuccessorOf') then 'Predecessor: ' else 'Successor: '
                     return
@@ -354,23 +425,21 @@ return
              </div>
       )
        case 'places' return (
-     let $isSubjectof :=
-            for $corr in $w//t:relation[@passive = $id][@name = 'ecrm:P129_is_about']
-
-            return
-                $corr
+     let $isSubjectof :=  for $corr in $w//t:relation[@passive = $id][@name = 'ecrm:P129_is_about'] return $corr
+     let $churchesAndMonasteries :=  for $corr in $plin//t:place[contains(@type, 'church') or contains(@type, 'monastery')][t:*[@ref = $id]] return $corr
 return
-<div  class="mainrelations">
+<div  class="mainrelations w3-container">
 
-                                          { if ($this//t:settlement or $this//t:region or $this//t:country) then  <div  class="relBox alert alert-info">
+                                          { if ($this//t:settlement or $this//t:region or $this//t:country) then  
+                                          <div  class="relBox  w3-panel w3-card-4 w3-gray">
                                            {
                                            <b  class="openInDialog">Administrative position</b>,
-                                           <table class="table table-responsive adminpos">
+                                           <table class="w3-table w3-hoverable adminpos">
                                            <tbody>
                                            {
-                                          item:AdminLocTable($this//t:country), 
-                                          item:AdminLocTable($this//t:region),
-                                          item:AdminLocTable($this//t:settlement),
+                                          item2:AdminLocTable($this//t:country), 
+                                          item2:AdminLocTable($this//t:region),
+                                          item2:AdminLocTable($this//t:settlement),
                                           if($this//t:location/t:geo) then <tr><td>Coordinates</td><td>{$this//t:location/t:geo/text()}</td></tr> else (),
                                           if($this//t:location/t:height) then <tr><td>Altitude</td><td>{concat($this//t:location/t:height/text(), $this//t:location/t:height/@unit)}</td></tr>  else (),
                                          
@@ -384,10 +453,10 @@ return
                                            </div>
                                            else()
                                             }
-                                            { if ($this//t:state) then  <div  class="relBox alert alert-info">
+                                            { if ($this//t:state) then  <div  class="relBox  w3-panel w3-card-4 w3-gray">
                                            {
                                            <b  class="openInDialog">Place attested in the following periods</b>,
-                                          <ul  class="nodot">{for $s in $this//t:state[@type='existence']/@ref
+                                          <ul  class="w3-ul w3-hoverable">{for $s in $this//t:state[@type='existence']/@ref
                                           let $file := $config:collection-rootA/id($s)
                                           let $name := $file//t:title[1]/text()
                                           let $link := $file//t:sourceDesc//t:ref/@target
@@ -401,10 +470,9 @@ return
                                            else()
                                             }
                                             {
-
                      if ($isSubjectof) then
-                     <div  class="relBox alert alert-info"><b  class="openInDialog">This place is subject of the following textual units</b>
-                        <ul  class="nodot">{
+                     <div  class="relBox  w3-panel w3-card-4 w3-gray"><b  class="openInDialog">This place is subject of the following <span class="w3-tag">{count($isSubjectof)}</span> textual units</b>
+                        <ul  class="w3-ul w3-hoverable">{
                         for $p in $isSubjectof
                     return
                         if (contains($p/@active, ' ')) then for $value in tokenize ($p/@active, ' ') return
@@ -413,6 +481,16 @@ return
                         <li  class="nodot"><a href="{$p/@active}">{titles:printTitleID(string($p/@active))}</a></li>
                         }</ul></div> else ()
 
+                }
+                {if($churchesAndMonasteries) then (
+                <div  class="relBox  w3-panel w3-card-4 w3-gray"><b  class="openInDialog">{count($churchesAndMonasteries)} churches and monasteries can be found in this place</b>
+                        <ul  class="w3-ul w3-hoverable">{
+                        for $p in $churchesAndMonasteries
+                        let $root := string(root($p)/t:TEI/@xml:id)
+                    return
+                        <li  class="nodot"><a href="{$root}">{titles:printTitleID($root)}</a></li>
+                        }</ul></div>
+                ) else ()
                 }
 
 
@@ -430,7 +508,7 @@ let $relations := $document//t:relation[@name [. != 'saws:isAttributedToAuthor']
 return
 if(empty($relatedWorks) and not($document//t:relation)) then ()
 else
-<div  class="mainrelations">
+<div  class="mainrelations w3-container">
 
 
                                             {
@@ -438,17 +516,17 @@ else
                     let $relname := string(($par/@name)[1])
                     group by $rn := $relname
                     return
-                      <div  class="relBox alert alert-info"> {(
+                      <div  class="relBox  w3-panel w3-card-4 w3-gray"> {(
 
                        switch($rn)
-                        case 'saws:contains' return <b  class="openInDialog">The following parts of this textual unit are also independent textual units ({$rn})</b>
-                        case 'ecrm:P129_is_about' return <b  class="openInDialog">The following subjects are treated in this textual unit  ({$rn})</b>
-                       case 'saws:isVersionInAnotherLanguageOf' return <b  class="openInDialog">The following Textual Units are versions in other languages of this ({$rn})</b>
-                         case 'saws:formsPartOf' return <b  class="openInDialog">This textual unit is included in the following textual units ({$rn})</b>
-                        case 'saws:isDifferentTo' return <b  class="openInDialog">This textual unit is marked as different from the current ({$rn})</b>
-                       default return <b  class="openInDialog">The following textual units have a relation {$rn} with this textual unit</b>,
+                        case 'saws:contains' return <b  class="openInDialog">The following <span class="w3-tag">{count($par)}</span> parts of this textual unit are also independent textual units ({$rn})</b>
+                        case 'ecrm:P129_is_about' return <b  class="openInDialog">The following <span class="w3-tag">{count($par)}</span> subjects are treated in this textual unit  ({$rn})</b>
+                       case 'saws:isVersionInAnotherLanguageOf' return <b  class="openInDialog">The following <span class="w3-tag">{count($par)}</span> textual units are versions in other languages of this ({$rn})</b>
+                         case 'saws:formsPartOf' return <b  class="openInDialog">This textual unit is included in the following <span class="w3-tag">{count($par)}</span> textual units ({$rn})</b>
+                        case 'saws:isDifferentTo' return <b  class="openInDialog">This textual unit is marked as different from the following <span class="w3-tag">{count($par)}</span> ({$rn})</b>
+                       default return <b  class="openInDialog">The following <span class="w3-tag">{count($par)}</span> textual units have a relation {$rn} with this textual unit</b>,
 
-                      <ul  class="nodot">{for $p in $par/@passive
+                      <ul  class="w3-ul w3-hoverable">{for $p in $par/@passive
                         let $normp := normalize-space($p)
                         return
                         if (contains($normp, ' ')) then
@@ -470,13 +548,13 @@ else
                     let $relname := string(($par/@name)[1])
                     group by $rn := $relname
                     return
-                     <div  class="relBox alert alert-info">
+                     <div  class="relBox  w3-panel w3-card-4 w3-gray">
                      {( switch($rn)
-                        case 'saws:isVersionOf' return <b  class="openInDialog">The following Textual Units are versions of this ({$rn})</b>
-                        case 'saws:isVersionInAnotherLanguageOf' return <b  class="openInDialog">The following Textual Units are versions in other languages of this ({$rn})</b>
-                        case 'saws:isDifferentTo' return <b  class="openInDialog">This work is marked as different from the current ({$rn})</b>
-                       default return <b  class="openInDialog">The following works have a relation {$rn} with this work</b>,
-                        <ul  class="nodot">{for $p in $par
+                        case 'saws:isVersionOf' return <b  class="openInDialog">The following <span class="w3-tag">{count($par)}</span> textual units are versions of this ({$rn})</b>
+                        case 'saws:isVersionInAnotherLanguageOf' return <b  class="openInDialog">The following <span class="w3-tag">{count($par)}</span> textual units are versions in other languages of this ({$rn})</b>
+                        case 'saws:isDifferentTo' return <b  class="openInDialog">This textual unit is marked as different from the following <span class="w3-tag">{count($par)}</span> ({$rn})</b>
+                       default return <b  class="openInDialog">The following <span class="w3-tag">{count($par)}</span> textual units have a relation {$rn} with this work</b>,
+                        <ul  class="w3-ul w3-hoverable">{for $p in $par
                         return
                         <li  class="nodot"><a href="{$p/@active}" class="MainTitle" data-value="{string($p/@active)}">{string($p/@active)}</a></li>
                         }</ul>)
@@ -493,7 +571,7 @@ let $relations := $document//t:relation[@name = 'skos:broadMatch']
 return
 if(not($document//t:relation)) then ()
 else
-<div  class="mainrelations">
+<div  class="mainrelations w3-container">
 
 
                                             {
@@ -501,13 +579,13 @@ else
                     let $relname := string(($par/@name)[1])
                     group by $rn := $relname
                     return
-                      <div  class="relBox alert alert-info"> {(
+                      <div  class="relBox  w3-panel w3-card-4 w3-gray"> {(
 
                        switch($rn)
                         case 'skos:broadMatch' return <b  class="openInDialog">Broadly matching entities</b>
-                       default return <b  class="openInDialog">The following textual units have a relation {$rn} with this textual unit</b>,
+                       default return <b  class="openInDialog">The following <span class="w3-tag">{count($par)}</span> textual units have a relation {$rn} with this textual unit</b>,
 
-                      <ul  class="nodot">{for $p in $par/@passive
+                      <ul  class="w3-ul w3-hoverable">{for $p in $par/@passive
                         let $normp := normalize-space($p)
                         return
                         if (contains($normp, ' ')) then
@@ -534,7 +612,7 @@ let $relations := $config:collection-rootN//t:relation[@name = 'skos:broadMatch'
 return
 if(count($relations) eq 0) then ()
 else
-<div  class="mainrelations">
+<div  class="mainrelations w3-container">
 
 
                                             {
@@ -542,13 +620,13 @@ else
                     let $relname := string(($par/@name)[1])
                     group by $rn := $relname
                     return
-                      <div  class="relBox alert alert-info"> {(
+                      <div  class="relBox  w3-panel w3-card-4 w3-gray"> {(
 
                        switch($rn)
                         case 'skos:broadMatch' return <b  class="openInDialog">Broadly matching entities</b>
-                       default return <b  class="openInDialog">The following textual units have a relation {$rn} with this textual unit</b>,
+                       default return <b  class="openInDialog">The following <span class="w3-tag">{count($par)}</span> textual units have a relation {$rn} with this textual unit</b>,
 
-                      <ul  class="nodot">{for $p in $par/@active
+                      <ul  class="w3-ul w3-hoverable">{for $p in $par/@active
                         let $normp := normalize-space($p)
                         return
                         if (contains($normp, ' ')) then
@@ -577,16 +655,16 @@ else
                $corr
 return
 
-<div class="mainrelations col-md-12">
-<div  class="relBox alert alert-info">
+<div class="mainrelations w3-container">
+<div  class="relBox  w3-panel w3-card-4 w3-gray">
                                            {
                                            <b>Administrative position</b>,
-                                           <table class="table table-responsive adminpos">
+                                           <table class="w3-table w3-hoverable adminpos">
                                            <tbody>
                                            {
-                                          item:AdminLocTable($this//t:country),
-                                          item:AdminLocTable($this//t:region),
-                                          item:AdminLocTable($this//t:settlement),
+                                          item2:AdminLocTable($this//t:country),
+                                          item2:AdminLocTable($this//t:region),
+                                          item2:AdminLocTable($this//t:settlement),
                                            if($this//t:location/t:geo) then <tr><td>Coordinates</td><td>{$this//t:location/t:geo/text()}</td></tr> else (),
                                           if($this//t:location/t:height) then <tr><td>Altitude</td><td>{concat($this//t:location/t:height/text(), $this//t:location/t:height/@unit)}</td></tr>  else (),
                                           if($this//t:location[@typ='relative']) then
@@ -606,57 +684,31 @@ return
 
 
 (:~returns the navigation bar with links to items and is called by the RESTXQ module items.xql :)
-declare function item:RestNav ($this, $collection, $type) {
+declare function item2:RestNav ($this, $collection, $type) {
 let $document := $this
 let $id := string($this/@xml:id)
 return
-
-
-            if($type = 'text') then  item:witnesses($id) else
-            <div class="col-md-2">
-            
-                <a class="btn btn-xs btn-info" href="javascript:void(0);" onclick="startIntroItem();">Take a tour of this page</a>
-                <script type="application/javascript" src="resources/js/introText.js"/>
-            <img id="loading" src="resources/Loading.gif" style="display: none; align: centre;" width="100%"></img>
-            <nav class="navbar" id="ItemSideBar">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-2">
-                    <span class="sr-only">Toggle Item Navigation</span>
-                    <span class="icon-large icon-plus-sign"/>
+<div class="w3-sidebar w3-bar-block w3-card w3-animate-left " id="sidebar" style="max-height:50vh;width:10%">
+       <button type="button" class="w3-bar-item w3-button w3-hide-large" onclick="w3_closeItemSB()">
+                    Close Item Navigation
                 </button>
-                <a class="navbar-brand" href="/">Item Navigation</a><span/>
+                {
+            if($type = 'text') then  item2:witnesses($id) 
+            else <div class="w3-container w3-col">
+            <img id="loading" src="resources/Loading.gif" style="display: none; align: centre;" width="100%"></img>
+            {transform:transform($document, 'xmldb:exist:///db/apps/BetMas/xslt/nav.xsl', ())}</div>
+           }
 </div>
-    <div class="navbar-collapse collapse" id="navbar-collapse-2">
-
-
-    <ul class="nav nav-pills nav-stacked">
-{
-    transform:transform(
-        $document,
-
-        'xmldb:exist:///db/apps/BetMas/xslt/nav.xsl'
-        ,
-        ()
-    )}
-    </ul>
-
-
-    </div>
-    </nav>
-
-   {item:mainRels($this, $collection)}
-</div>
-
-      };
+};
 
 
 (:~called by he RESTXQ module items.xql :)
-declare function item:RestPersRole($file, $collection){
+declare function item2:RestPersRole($file, $collection){
     let $c := $config:collection-root
     let $id := string($file/@xml:id)
     return
 if ($collection = 'persons') then(
-<div  class="well">{
+<div  class="w3-panel w3-margin  w3-gray w3-card-4">{
 let $persrol := $c//t:persName[@ref = $id]
 let $persrole := $persrol[@role]
 return
@@ -664,24 +716,22 @@ if($persrole) then
 for $role in $persrole
              group by $r := $role/@role
             return
-             <div>{<span class="MainTitle" data-value="{$id}"></span>} is <span class="label label-info role" role="btn btn-small" data-toggle="modal" data-target="#{$r}list">{string($r)}</span><div>
-                    <div id="{$r}list"  class="modal fade" role="dialog">
-                        <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                            <h4 class="modal-title" id="{$r}listcount">There are other</h4>
+             <div>{<span class="MainTitle" data-value="{$id}"></span>} is <span class="w3-button w3-gray role" 
+             onclick="document.getElementById('{$r}list').style.display='block'">{string($r)}</span><div>
+                    <div id="{$r}list"  class="w3-modal fade">
+                    
+  <div class="w3-modal-content">
+                        <button type="button" class="w3-button w3-red" onclick="document.getElementById('{$r}list').style.display='none'">Close</button>
+                                    <header class="w3-container">
+                                            <h4 class="w3-margin" id="{$r}listcount">There are other</h4>
+                                    </header>
+                                    <div class="w3-container">
+                                            <ul id="{$r}listitems" class="w3-ul w3-hoverable"></ul>
                                     </div>
-                                    <div class="modal-body">
-                                            <ul id="{$r}listitems"></ul>
                                     </div>
-                                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                              </div>
-                        </div>
              </div>
              </div>  of
-             <ul class="lead">
+             <ul class="w3-ul w3-hoverable">
             {for $root in $role/ancestor::t:TEI[@xml:id !=$id]
             let $thisid := string($root/@xml:id)
                    return
@@ -702,9 +752,9 @@ else if ($collection = 'manuscripts' or $collection = 'works' or $collection = '
         group by $ID := $p/@ref
 
  return
-<div  class="well">
+<div  class="w3-panel w3-margin w3-gray w3-card-4">
     <a href="{$ID}">{titles:printTitleID($ID)}</a>
-    is <span class="label label-success" role="btn btn-small">{for $role in distinct-values($p/@role) return string($role) || ' '}</span>{' of this manuscript'}.
+    is <span class="w3-tag w3-red">{for $role in distinct-values($p/@role) return string($role) || ' '}</span>{' of this manuscript'}.
 
     {
     let $tei := $c//t:TEI[@xml:id !=$id]
@@ -715,28 +765,27 @@ else if ($collection = 'manuscripts' or $collection = 'works' or $collection = '
 
             return
 
-        <ul>and is also <span class="label label-info role" role="btn btn-small" data-toggle="modal" data-target="#{$r}list">{string($r)}</span><div>
-                    <div id="{$r}list"  class="modal fade" role="dialog">
-                        <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                            <h4 class="modal-title" id="{$r}listcount">There are other</h4>
+        <ul>and is also <span class="w3-red w3-tag role" onclick="document.getElementById('{$r}list').style.display='block'">{string($r)}</span><div>
+                    <div id="{$r}list"  class="w3-modal " >
+                    
+  <div class="w3-modal-content">
+                        <button type="button" class="w3-button w3-red" onclick="document.getElementById('{$r}list').style.display='none'">Close</button>
+                     
+                        <header>
+                                            <h4 class="w3-margin" id="{$r}listcount">There are other</h4>
+                                            </header>
+                                            
+                                    <div class="w3-container">
+                                            <ul id="{$r}listitems" class="w3-ul w3-hoverable"></ul>
                                     </div>
-                                    <div class="modal-body">
-                                            <ul id="{$r}listitems"></ul>
                                     </div>
-                                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                              </div>
-                        </div>
              </div>
              </div> of :
 
                 {
                 for $root in $role/ancestor::t:TEI[@xml:id !=$id]
                    return
-                   <li class="lead"><a href="{string($root/@xml:id)}">{titles:printTitleID(string($root/@xml:id))}</a></li>
+                   <li><a href="{string($root/@xml:id)}">{titles:printTitleID(string($root/@xml:id))}</a></li>
 
                 }
 
@@ -752,14 +801,14 @@ else ()
 
 
 (:~ returns a div with a list of additions containing the given id :)
-declare function item:RestAdditions($id){
+declare function item2:RestAdditions($id){
        let $adds := $config:collection-rootMS//t:additions
        let $sameKey :=
             for $corr in $adds//t:persName[@ref= $id]
             return $corr
 return
 if ($sameKey) then
-<div class="container-fluid col-md-6" id="InAdditions">
+<div class="w3-panel w3-card-4 w3-margin w3-gray" id="InAdditions">
    <h4 class="modal-title">{count($sameKey)} Addition{if(count($sameKey) gt 1) then 's' else ()} name{if(count($sameKey) gt 1) then () else 's'} person <span class="MainTitle" data-value="{$id}">{$id}</span> </h4>
                        <div id="InAdditions{$id}">
                                            <ul>{
@@ -773,17 +822,17 @@ if ($sameKey) then
        };
 
       (:~ returns a div with a list of additions containing the given id :)
-declare function item:RestMiniatures($id){
+declare function item2:RestMiniatures($id){
        let $adds := $config:collection-root//t:decoNote[@type='miniature']
        let $sameKey :=
             for $corr in $adds//t:persName[@ref= $id]
             return $corr
 return
 if ($sameKey) then
-<div class="container-fluid col-md-6" id="InMiniatures">
+<div class="w3-panel w3-card-4 w3-margin w3-gray" id="InMiniatures">
    <h4 class="modal-title">{count($sameKey)} Miniature{if(count($sameKey) gt 1) then 's' else ()} name{if(count($sameKey) gt 1) then () else 's'} person <span class="MainTitle" data-value="{$id}">{$id}</span> </h4>
                        <div id="InMiniatures{$id}">
-                                           <ul>{
+                                           <ul class="w3-ul w3-hoverable">{
                                                 apprest:referencesList($id, $sameKey, 'name')
                                              }
                                              </ul>
@@ -794,11 +843,11 @@ if ($sameKey) then
        };
 
       (:~ returns a div with a list of the keywords used in the description of a miniture with the given art theme :)
-declare function item:RestMiniaturesKeys($id){
+declare function item2:RestMiniaturesKeys($id){
        let $adds := $config:collection-rootMS//t:decoNote[@type='miniature'][descendant::t:ref[@type='authFile'][@corresp=$id]]
        let $themes := $adds//t:term
      return
-                                           <ul class="nodot">{
+                                           <ul  class="w3-ul w3-hoverable">{
                                            for $t in $themes
                                            let $key := string($t/@key)
                                            group by $K := $key
@@ -819,7 +868,7 @@ declare function item:RestMiniaturesKeys($id){
                                              </ul>
        };
       (:~ returns a div with a list of place like records containing the given id as tabot :)
-declare function item:RestTabot($id){
+declare function item2:RestTabot($id){
        let $tabot := $config:collection-rootPlIn//t:place//t:ab[@type='tabot']
        let $sameKey :=
             for $corr in $tabot//t:persName[@ref = $id]
@@ -827,11 +876,11 @@ declare function item:RestTabot($id){
 
 return
 if ($sameKey) then
-<div class="container-fluid col-md-6" id="tabots">
+<div class="w3-panel w3-card-4 w3-margin w3-gray" id="tabots">
    <h4 class="modal-title">{count($sameKey)} place record{if(count($sameKey) gt 1) then 's' else ()} name{if(count($sameKey) gt 1) then () else 's'} person <span class="MainTitle" data-value="{$id}">{$id}</span> as a tabot</h4>
 
                        <div id="Tabot{$id}">
-                                           <ul>{
+                                           <ul  class="w3-ul w3-hoverable">{
                                                 apprest:referencesList($id, $sameKey, 'name')
                                              }
                                              </ul>
@@ -844,7 +893,7 @@ else ()
 
 
        (:~ returns a div with a list of manuscripts containing the work with the given id :)
-declare function item:RestMss($id){
+declare function item2:RestMss($id){
        let $string := $id
 let $sameKey :=
             for $corr in $config:collection-rootMS//t:title[starts-with(@ref , $id)][parent::t:msItem]
@@ -857,14 +906,14 @@ let $sameKey :=
    let $count := count($sameKey) + count($sameKeyAdd)             
 return
 
-   <div class="alert alert-success" id="computedWitnesses">
-   <h4  class="openInDialog">This unit is contained in manuscript records {$count} time{if($count gt 1) then 's' else ()}</h4>
+   <div class="w3-panel w3-margin w3-red w3-card-4" id="computedWitnesses">
+   <h4  class="openInDialog">This unit, or parts of it, is contained in manuscript records {$count} time{if($count gt 1) then 's' else ()}</h4>
 <p><a target="_blank" href="/manuscripts/list?contents={$id}">See these manuscripts in the list view.</a></p>
     <div id="Samekeyword{$string}"  >
     {if(count($sameKey) gt 0) then
 (<p>As main content</p>,
 
-                                            <ul class="nodot">{
+                                            <ul class="nodot w3-padding">{
                                                 for $hit in  $sameKey
                                               let $root := root($hit)/t:TEI/@xml:id
                                                 group by $groupkey := $root
@@ -880,7 +929,7 @@ return
                                                href="/manuscripts/{$groupkey}/main">{$tit} ({string($groupkey)}) </a> <br/>
                                                          <span class="WordCount" data-msID="{$groupkey}" data-wID="{$string}"/>
                                                          <br/>
-                                                         <ul>{
+                                                         <ul class="w3-padding">{
                                                          for $h in $hit
                                                          let $msitem := $h/parent::t:msItem
                                                          let $placement := if ($h/preceding-sibling::t:locus) then ( ' ('|| (let $locs :=for $loc in $h/preceding-sibling::t:locus return string:tei2string($loc) return string-join($locs, ' ')) || ')') else ''
@@ -897,7 +946,7 @@ return
                                              {if(count($sameKeyAdd) gt 0) then
 (<p>As additional content</p>,
 
-                                            <ul class="nodot">{
+                                            <ul class="nodot  w3-padding ">{
                                                 for $hit in  $sameKeyAdd
                                               let $root := root($hit)/t:TEI/@xml:id
                                                 group by $groupkey := $root
@@ -913,7 +962,7 @@ return
                                                href="/manuscripts/{$groupkey}/main">{$tit} ({string($groupkey)}) </a> <br/>
                                                          <span class="WordCount" data-msID="{$groupkey}" data-wID="{$string}"/>
                                                          <br/>
-                                                         <ul>{
+                                                         <ul class="w3-padding">{
                                                          for $h in $hit
                                                          let $item := $h/ancestor::t:item[1]
                                                          let $placement := if ($item/t:locus) then ( ' ('|| (let $locs :=for $loc in $item/t:locus return string:tei2string($loc) return string-join($locs, ' ')) || ')') else ''
@@ -939,7 +988,7 @@ return
                                              return
   (<p>As additional content associated with the keyword <b><a href="/authority-files/list?keyword={string($broad)}">{titles:printTitleMainID($broad)}</a></b> this unit 
   is present an additional {count($usedasType)} time{if(count($usedasType) gt 1) then 's' else ()}</p>,       
-                                             <ul class="nodot">{
+                                             <ul class="nodot w3-padding ">{
                                                 for $hit in  $usedasType
                                               let $root := root($hit)/t:TEI/@xml:id
                                                 group by $groupkey := $root
@@ -955,7 +1004,7 @@ return
                                                href="/manuscripts/{$groupkey}/main">{$tit} ({string($groupkey)}) </a> <br/>
                                                          <span class="WordCount" data-msID="{$groupkey}" data-wID="{$string}"/>
                                                          <br/>
-                                                         <ul>{
+                                                         <ul class="w3-padding ">{
                                                          for $h in $hit
                                                          let $item := $h/ancestor::t:item[1]
                                                          let $placement := if ($item/t:locus) then ( ' ('|| (let $locs :=for $loc in $item/t:locus return string:tei2string($loc) return string-join($locs, ' ')) || ')') else ''
@@ -986,7 +1035,7 @@ let $tit := titles:printTitleMainID($workid)
 return
 (
 <p>This work is also part of <a target="_blank" href="/{$workid}">{$tit}</a>, which is contained in the following manuscripts:</p>,
-<div><ul>{
+<div><ul class=" w3-padding">{
 for $wit in $witnesses
  let $wid :=  string(root($wit)/t:TEI/@xml:id )
  group by $id := $wid
@@ -1002,20 +1051,19 @@ return
 
 
 (:~ returns a selector with values which can be searched. a javascript will pick the selected one and send it to the restxq to get related items :)
- declare function item:RestSeeAlso ($this, $collection)  {
+ declare function item2:RestSeeAlso ($this, $collection)  {
  let $file := $this
  let $id := string($this/@xml:id)
  let $classes := for $class in $this//t:term/@key return 'http://betamasaheft.eu/'||$class
  return
-       <div class="col-md-{if($collection = 'works' or $collection = 'places' or $collection = 'narratives') then '4' else '12'}" id="seeAlsoForm" >
+       <div class="{if(starts-with($id, 'INS')) then 'w3-container w3-padding' else 'w3-third w3-padding'}" id="seeAlsoForm" >
 
 
-       <p class="lead">Select one of the keywords listed from the record to see related data</p>
+       <p class="w3-large">Select one of the keywords listed from the record to see related data</p>
        <span typeof="{string-join($classes, ' ')}"/>
-        <form action="" class="form">
-            <div class="form-group">
-                <div class="input-group">
-                    <select class="form-control" name="seealso" id="seealsoSelector">
+        <form action="" class="w3-container">
+                <div class="w3-container w3-margin-bottom">
+                    <select class="w3-select w3-border" name="seealso" id="seealsoSelector">
                     <option>select...</option>
                    {switch($collection)
 (:                   decides on the basis of the collection what is relevant to match related records :)
@@ -1058,20 +1106,21 @@ return
                    )}
                    </select>
                     </div>
-            </div>
+            
         </form>
      <img id="loading" src="resources/Loading.gif" style="display: none;"></img>
-     <div id="SeeAlsoResults" class="well">No keyword selected.</div>
-     {if($collection='works' or $collection='narratives') then item:RestMss($id) else ()}
-     <div><b>Hypothes.is public annotations pointing here</b>
+     <div id="SeeAlsoResults" class="w3-panel w3-margin w3-card-4 w3-gray">No keyword selected.</div>
+     {if($collection='works' or $collection='narratives') then item2:RestMss($id) else ()}
+     {item2:mainRels($this, $collection)}
+     <div class="w3-panel w3-margin w3-gray w3-card-4"><b>Hypothes.is public annotations pointing here</b>
      <div id="hypothesisFeedResults" data-value="{$id}"></div>
-     <p>Use the tag <span class="label  label-info">BetMas:{$id}</span> in your public <a href="https://web.hypothes.is/">hypothes.is</a> annotations which refer to this entity.</p>
+     <p>Use the tag <span class="w3-tag w3-red">BetMas:{$id}</span> in your public <a href="https://web.hypothes.is/">hypothes.is</a> annotations which refer to this entity.</p>
      </div>
      {if($collection = 'places' or $collection='institutions') then <div>
-     <div id="pelagiosrelateditems" data-id="{$id}">
+     <div class="w3-panel w3-margin w3-gray w3-card-4" id="pelagiosrelateditems" data-id="{$id}">
      {if($file//t:place/@sameAs) then attribute data-sameAs {string($file//t:place/@sameAs)} else ()}
      </div>
-     <div id="Chojnacki" data-id="{$id}"/>
+     <div class="w3-panel w3-margin w3-gray w3-card-4" id="Chojnacki" data-id="{$id}"/>
      <script type="text/javascript" src="resources/js/gnisci.js"/>
      <script type="text/javascript" src="resources/js/pelagios.js"/></div> else ()}
    </div>
@@ -1079,7 +1128,7 @@ return
       };
 
 (:~ depending on the type of item sends to the correct XSLT producing the main content of the page :)
-declare function item:RestItem($this, $collection) {
+declare function item2:RestItem($this, $collection) {
 let $document := $this
 let $id := string($document/t:TEI/@xml:id)
 return
@@ -1113,14 +1162,9 @@ let $parameters : = if ($collection = 'manuscripts') then <parameters>
 return
 (:because nav takes 2 colums:)
 
-    <div class="container-fluid col-md-10" resource="http://betamasaheft.eu/{$id}" >
-{transform:transform(
-        $document,
-       $xslt,
-$parameters
-
-    )}
-    {item:RestSeeAlso($this, $collection)}
+    <div class="w3-container " resource="http://betamasaheft.eu/{$id}" >
+{transform:transform($document,$xslt,$parameters)}
+    {item2:RestSeeAlso($this, $collection)}
     </div>
 
 
@@ -1129,7 +1173,7 @@ $parameters
 
 
 (:~ sends to the correct XSLT producing the main content of the page for text view:)
-declare  function item:RestText($this,
+declare  function item2:RestText($this,
 $start as xs:integer*,
 $per-page as xs:integer*) {
 let $document := $this
@@ -1144,12 +1188,12 @@ return
 if(count($document//t:div[@type='edition']) gt 1) then
 let $matches := for $hit in $document//t:div[@type='edition'][1]/t:div[@type='textpart']
                             return $hit
-let $hits :=        map { 'hits' := $matches}
+let $hits :=        map { 'hits' := $matches, 'type' := 'text'}
 return
-   <div class="col-md-10">
-     <ul class="pagination" >
+   <div class="w3-container">
+     <div class="w3-left" >
     {apprest:paginate-rest($hits, $parameters, $start, $per-page, 1, 21)}
-    </ul>
+    </div>
                    {
     transform:transform(
         $document,
@@ -1160,16 +1204,17 @@ $xslpars)}
 if($document//t:div[@type='textpart']) then
 let $matches := for $hit in $document//t:div[@type='textpart']
                             return $hit
-let $hits :=        map { 'hits' := $matches}
+let $hits :=        map { 'hits' := $matches, 'type' := 'text'}
 let $count := count($matches)
 return
-   <div class="col-md-10">
+   <div class="w3-container">
    
 {if($per-page = $count) then () else
-(<a href="?per-page={$count}" class="btn btn-primary" id="fullText">See full text</a>,
-     <ul class="pagination" >
-    {apprest:paginate-rest($hits, $parameters, $start, $per-page, 1, 21)}
-    </ul>)
+<div class="w3-container w3-twothird">
+   <div class="w3-left">
+    {apprest:paginate-rest($hits, $parameters, $start, $per-page, 1, 10)}
+    </div>
+    </div>
     }
                    {
     transform:transform(
@@ -1179,7 +1224,7 @@ $xslpars)}
     </div>
     else if($document//t:div[@type='edition'][t:ab]) then
    
-   <div class="col-md-10">{ transform:transform(
+   <div class="w3-container">{ transform:transform(
         $document,
        $xslt,
 $xslpars)}
@@ -1190,24 +1235,24 @@ $xslpars)}
                          return 
                        if(contains($contains, ' ')) then for $x in tokenize($contains, ' ') return $x else string($contains)
 return
-    <div class="col-md-10">
+    <div class="w3-container">
 
     { for $contained in $ids
 
     let $file := $config:collection-rootW//id($contained)[name()='TEI']
      let $matches := for $hit in $file//t:div[@type='textpart'] return $hit
-    let $hits :=        map { 'hits' := $matches}
+    let $hits :=        map { 'hits' := $matches, 'type' := 'text'}
 
 let $xsltlocalparameters  :=  <parameters>
     <param name="startsection" value="{$start}"/>
     <param name="perpage" value="{$per-page}"/>
 </parameters>
     return
-     <div class="col-md-12">
+     <div class="w3-container">
      <h1><a target="_blank" href="/works/{$contained}/text">{titles:printTitleID($contained)}</a></h1>
-     <ul class="pagination" >
+     <div class="w3-left">
     {apprest:paginate-rest($hits, $parameters, $start, $per-page, 1, 21)}
-    </ul>
+    </div>
     {transform:transform(
         $file,
        $xslt,

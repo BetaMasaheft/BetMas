@@ -2,9 +2,9 @@ xquery version "3.1" encoding "UTF-8";
 (:~
  : module with all the main functions which can be called by the API.
  : 
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
-module namespace apisparql = "https://www.betamasaheft.uni-hamburg.de/BetMas/api";
+module namespace apisparql = "https://www.betamasaheft.uni-hamburg.de/BetMas/apisparql";
 import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";

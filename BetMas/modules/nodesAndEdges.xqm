@@ -2,11 +2,11 @@ xquery version "3.1" encoding "UTF-8";
 (:~
  : returns maps of nodes and edges for a given entity
  : 
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
 module namespace NE = "https://www.betamasaheft.uni-hamburg.de/BetMas/NE";
 import module namespace rest = "http://exquery.org/ns/restxq";
-import module namespace switch = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch"  at "xmldb:exist:///db/apps/BetMas/modules/switch.xqm";
+import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2"  at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
 import module namespace api = "https://www.betamasaheft.uni-hamburg.de/BetMas/api"  at "xmldb:exist:///db/apps/BetMas/modules/rest.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
@@ -31,7 +31,7 @@ function NE:relNodes($id as xs:string*){
 let $c :=  $config:collection-root
 let $entity := $c/id($id)
 let $type := $entity/@type
-let $collection := switch:col($type)
+let $collection := switch2:col($type)
 
 let $localId := $id
 let $thisMap := map {

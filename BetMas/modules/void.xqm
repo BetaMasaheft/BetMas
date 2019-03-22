@@ -1,11 +1,11 @@
 xquery version "3.1" encoding "UTF-8";
 (:~
  : rest XQ module producing general VoID 
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
 
 module namespace void = "https://www.betamasaheft.uni-hamburg.de/BetMas/void";
-import module namespace switch = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch"  at "xmldb:exist:///db/apps/BetMas/modules/switch.xqm";
+import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2"  at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
 import module namespace api="https://www.betamasaheft.uni-hamburg.de/BetMas/api" at "xmldb:exist:///db/apps/BetMas/modules/rest.xqm";
@@ -14,6 +14,7 @@ declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace http = "http://expath.org/ns/http-client";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json = "http://www.json.org";
+declare namespace test="http://exist-db.org/xquery/xqsuite";
 
 
 declare variable $void:response200turtle := <rest:response>
@@ -62,6 +63,7 @@ $void:response200turtle,
         void:exampleResource <'||$config:appUrl||'/rdf/manuscripts/BAVcerulli37.rdf> ;
         void:exampleResource <'||$config:appUrl||'/rdf/works/LIT4275ChronAmdS.rdf> ;
         void:exampleResource <'||$config:appUrl||'/rdf/places/LOC1261Adulis.rdf> ;
+        
         .'};
 
 
@@ -69,11 +71,12 @@ declare
 %rest:GET
 %rest:path("/BetMas/api/void/{$id}")
 %output:method("text")
+%test:arg("id", "LIT1719Bookso") %test:assertExists
 function void:entity($id as xs:string*) {
 
 ($void:response200turtle, 
 let $item := $config:collection-root/id($id)
-let $coll := switch:col($item/@type)
+let $coll := switch2:col($item/@type)
 let $dctermsContributor := ''
 let $dctermsCreated := ''
 let $dctermsModified := ''

@@ -3,7 +3,7 @@ xquery version "3.1" encoding "UTF-8";
 (:~
  : module to retrive quotations of  a given specific passage
  : 
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
 module namespace quotations = "https://www.betamasaheft.uni-hamburg.de/BetMas/quotatoins";
 import module namespace rest = "http://exquery.org/ns/restxq";

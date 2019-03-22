@@ -3,7 +3,7 @@ xquery version "3.1" encoding "UTF-8";
  : implementation of the http://iiif.io/api/presentation/2.1/ 
  : for images of manuscripts stored in betamasaheft server. extracts manifest, sequence, canvas from the tei data
  : 
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
 module namespace iiif = "https://www.betamasaheft.uni-hamburg.de/BetMas/iiif";
 import module namespace rest = "http://exquery.org/ns/restxq";

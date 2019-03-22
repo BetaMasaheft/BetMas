@@ -1,4 +1,5 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:locus">
         <xsl:param name="text" tunnel="yes"/>
         <xsl:if test="parent::t:ab">
@@ -28,21 +29,21 @@
                                         <xsl:choose>
 <!--                                            if there is an external reference, then add attributes to call the modal containing the images-->
                                             <xsl:when test="$f  and not($text = 'only')">
-                                                <xsl:attribute name="data-toggle">modal</xsl:attribute>
-                                                <xsl:attribute name="data-target">
-                                                    <xsl:value-of select="concat('#images',concat(replace($f, ' ', '_'), replace($f//ancestor::t:*[@xml:id][1]/@xml:id, '.', '_')))"/>
+                                                <xsl:attribute name="onclick">
+                                                    <xsl:value-of select="concat('document.getElementById(&#34;images',concat(replace($f, ' ', '_'), replace($f//ancestor::t:*[@xml:id][1]/@xml:id, '.', '_')), '&#34;).style.display=&#34;block&#34;')"/>
                                                 </xsl:attribute>
-                                            </xsl:when>
+                                                </xsl:when>
 <!--                                            MISSING THE OPTION FOR INTERNAL IMAGE SERVER-->
                                             <xsl:otherwise>
 <!--                                            if there is no image or external reference then add a simple popover-->
-                                                <xsl:attribute name="data-toggle">popover</xsl:attribute>
-                                                <xsl:attribute name="title">No image available</xsl:attribute>
-                                                <xsl:attribute name="data-content">There is no image available at the moment for <xsl:value-of select="concat(substring-after(.,'#'), ' ')"/>
-                                                </xsl:attribute>
+                                                <xsl:attribute name="class">w3-tooltip</xsl:attribute>
+                                                <span class="w3-text w3-tag">There is no image available at the moment for <xsl:value-of select="concat(substring-after(.,'#'), ' ')"/>
+                                                </span>
+                                                
                                             </xsl:otherwise>
                                         </xsl:choose>
-                                        <xsl:value-of select="concat(substring-after(.,'#'), ' ')"/></a>
+                                        <xsl:value-of select="concat(substring-after(.,'#'), ' ')"/>
+                                    </a>
                                 </xsl:for-each>
                             </xsl:when>
                             <xsl:otherwise>
@@ -52,9 +53,8 @@
                                        
                                        <!--                                            if there is an external reference, then add attributes to call the modal containing the images-->
                                         <xsl:when test="@facs  and not($text = 'only')">
-                                            <xsl:attribute name="data-toggle">modal</xsl:attribute>
-                                            <xsl:attribute name="data-target">
-                                                <xsl:value-of select="concat('#images',concat(replace(@facs, ' ', '_'), replace(ancestor::t:*[@xml:id][1]/@xml:id, '.', '_')))"/>
+                                            <xsl:attribute name="onclick">
+                                                <xsl:value-of select="concat('document.getElementById(&#34;images',concat(replace(@facs, ' ', '_'), replace(ancestor::t:*[@xml:id][1]/@xml:id, '.', '_')), '&#34;).style.display=&#34;block&#34;')"/>
                                             </xsl:attribute>
                                         </xsl:when>
                                        
@@ -62,10 +62,10 @@
                                         <xsl:otherwise>
                                            
                                            <!--                                            if there is no image or external reference then add a simple popover-->
-                                            <xsl:attribute name="data-toggle">popover</xsl:attribute>
-                                            <xsl:attribute name="title">No image available</xsl:attribute>
-                                            <xsl:attribute name="data-content">There is no image available at the moment for <xsl:value-of select="concat(substring-after(@target,'#'), ' ')"/>
-                                            </xsl:attribute>
+                                            <xsl:attribute name="class">w3-tooltip</xsl:attribute>
+                                            <span class="w3-text w3-tag">There is no image available at the moment for <xsl:value-of select="concat(substring-after(@target,'#'), ' ')"/>
+                                            </span>
+                                            
                                         </xsl:otherwise>
                                     </xsl:choose>
                                     <xsl:choose>
@@ -74,7 +74,8 @@
                                             <xsl:text>f. </xsl:text>
                                         </xsl:otherwise>
                                     </xsl:choose>
-                                    <xsl:value-of select="substring-after(@target,'#')"/></a>
+                                    <xsl:value-of select="substring-after(@target,'#')"/>
+                                </a>
                             </xsl:otherwise>
                         </xsl:choose>
                     </xsl:when>
@@ -89,19 +90,20 @@
                         <a href="#{@from}">
                             <xsl:choose>
                                 <xsl:when test="@facs  and not($text = 'only')">
-                                    <xsl:attribute name="data-toggle">modal</xsl:attribute>
-                                    <xsl:attribute name="data-target">
-                                        <xsl:value-of select="concat('#images',concat(replace(@facs, ' ', '_'), replace(ancestor::t:*[@xml:id][1]/@xml:id, '.', '_')))"/>
+                                    <xsl:attribute name="onclick">
+                                        <xsl:value-of select="concat('document.getElementById(&#34;images',concat(replace(@facs, ' ', '_'), replace(ancestor::t:*[@xml:id][1]/@xml:id, '.', '_')), '&#34;).style.display=&#34;block&#34;')"/>
                                     </xsl:attribute>
+                                    
+                                    
                                 </xsl:when>
                                 
                                 <!--                                            MISSING THE OPTION FOR INTERNAL IMAGE SERVER-->
                                 <xsl:otherwise>
                                 <!--                                            if there is no image or external reference then add a simple popover-->
-                                    <xsl:attribute name="data-toggle">popover</xsl:attribute>
-                                    <xsl:attribute name="title">No image available</xsl:attribute>
-                                    <xsl:attribute name="data-content">There is no image available at the moment for <xsl:value-of select="@from"/>
-                                    </xsl:attribute>
+                                    <xsl:attribute name="class">w3-tooltip</xsl:attribute>
+                                    <span class="w3-text w3-tag">There is no image available at the moment for <xsl:value-of select="@from"/>
+                                    </span>
+                                    
                                 </xsl:otherwise>
                             </xsl:choose>
                             <xsl:value-of select="@from"/>
@@ -110,18 +112,18 @@
                         <a href="#{@to}">
                             <xsl:choose>
                                 <xsl:when test="@facs  and not($text = 'only')">
-                                    <xsl:attribute name="data-toggle">modal</xsl:attribute>
-                                    <xsl:attribute name="data-target">
-                                        <xsl:value-of select="concat('#images',concat(replace(@facs, ' ', '_'), replace(ancestor::t:*[@xml:id][1]/@xml:id, '.', '_')))"/>
+                                    <xsl:attribute name="onclick">
+                                        <xsl:value-of select="concat('document.getElementById(&#34;images',concat(replace(@facs, ' ', '_'), replace(ancestor::t:*[@xml:id][1]/@xml:id, '.', '_')), '&#34;).style.display=&#34;block&#34;')"/>
                                     </xsl:attribute>
+                                    
+                                   
                                 </xsl:when>
                                 <xsl:otherwise>
                 <!--                                            if there is no image or external reference then add a simple popover-->
-                                    <xsl:attribute name="data-toggle">popover</xsl:attribute>
-                                    <xsl:attribute name="title">No image available</xsl:attribute>
-                                    <xsl:attribute name="data-content">There is no image available at the moment for <xsl:value-of select="@to"/>
-                                    </xsl:attribute>
-                                </xsl:otherwise>
+                                    <xsl:attribute name="class">w3-tooltip</xsl:attribute>
+                                    <span class="w3-text w3-tag">There is no image available at the moment for <xsl:value-of select="@to"/>
+                                    </span>
+                                    </xsl:otherwise>
                             </xsl:choose>
                             <xsl:value-of select="@to"/>
                         </a>
@@ -139,19 +141,17 @@
                         <a href="{@target}">
                             <xsl:choose>
                                 <xsl:when test="@facs  and not($text = 'only')">
-                                    <xsl:attribute name="data-toggle">modal</xsl:attribute>
-                                    <xsl:attribute name="data-target">
-                                        <xsl:value-of select="concat('#images',concat(replace(@facs, ' ', '_'), replace(ancestor::t:*[@xml:id][1]/@xml:id, '.', '_')))"/>
+                                    <xsl:attribute name="onclick">
+                                        <xsl:value-of select="concat('document.getElementById(&#34;images',concat(replace(@facs, ' ', '_'), replace(ancestor::t:*[@xml:id][1]/@xml:id, '.', '_'), '&#34;).style.display=&#34;block&#34;'))"/>
                                     </xsl:attribute>
                                 </xsl:when>
                                
                                <!--                                            MISSING THE OPTION FOR INTERNAL IMAGE SERVER-->
                                 <xsl:otherwise>
                                 <!--                                            if there is no image or external reference then add a simple popover-->
-                                    <xsl:attribute name="data-toggle">popover</xsl:attribute>
-                                    <xsl:attribute name="title">No image available</xsl:attribute>
-                                    <xsl:attribute name="data-content">There is no image available at the moment for <xsl:value-of select="concat(substring-after(@target,'#'), ' ')"/>
-                                    </xsl:attribute>
+                                    <xsl:attribute name="class">w3-tooltip</xsl:attribute>
+                                    <span class="w3-text w3-tag">There is no image available at the moment for <xsl:value-of select="concat(substring-after(@target,'#'), ' ')"/>
+                                    </span>
                                 </xsl:otherwise>
                             </xsl:choose>
                             <xsl:value-of select="."/>
@@ -161,19 +161,17 @@
                         <a href="#{@from}">
                             <xsl:choose>
                                 <xsl:when test="@facs  and not($text = 'only')">
-                                    <xsl:attribute name="data-toggle">modal</xsl:attribute>
-                                    <xsl:attribute name="data-target">
-                                        <xsl:value-of select="concat('#images',concat(replace(@facs, ' ', '_'), replace(ancestor::t:*[@xml:id][1]/@xml:id, '.', '_')))"/>
+                                    <xsl:attribute name="onclick">
+                                        <xsl:value-of select="concat('document.getElementById(&#34;images',                                             concat(replace(@facs, ' ', '_'),                                              replace(ancestor::t:*[@xml:id][1]/@xml:id, '.', '_'), '&#34;).style.display=&#34;block&#34;'))"/>
                                     </xsl:attribute>
                                 </xsl:when>
                                 
                                 <!--                                            MISSING THE OPTION FOR INTERNAL IMAGE SERVER-->
                                 <xsl:otherwise>
                                 <!--                                            if there is no image or external reference then add a simple popover-->
-                                    <xsl:attribute name="data-toggle">popover</xsl:attribute>
-                                    <xsl:attribute name="title">No image available</xsl:attribute>
-                                    <xsl:attribute name="data-content">There is no image available at the moment for <xsl:value-of select="@from"/>
-                                    </xsl:attribute>
+                                    <xsl:attribute name="class">w3-tooltip</xsl:attribute>
+                                    <span class="w3-text w3-tag">There is no image available at the moment for <xsl:value-of select="@from"/>
+                                    </span>
                                 </xsl:otherwise>
                             </xsl:choose>
                             <xsl:value-of select="."/>
@@ -187,28 +185,38 @@
         </xsl:if>
 <!--        if there is a refernce to an external resource build the modal conatining the openseadragon javascript-->
         <xsl:if test="@facs and not($text = 'only')">
-            <div class="modal fade" id="images{concat(replace(@facs, ' ', '_'), replace(ancestor::t:*[@xml:id][1]/@xml:id, '.', '_'))}" role="dialog">
-                <div class="modal-dialog">
+            <xsl:variable name="modalid" select="concat('images',replace(@facs, ' ', '_'), replace(ancestor::t:*[@xml:id][1]/@xml:id, '.', '_'))"/>
+            <div class="w3-modal" id="{$modalid}">
+                
                     
                     <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">Close</button>
-                            <h4 class="modal-title">Images for <xsl:value-of select="ancestor::t:*[@xml:id][1]/@xml:id"/> 
-                            </h4>
-                        </div>
-                        <div class="modal-body">
+                    <div class="w3-modal-content">
+                            <header class="w3-container">
+                                <h4>Images from <xsl:value-of select="ancestor::t:TEI//t:msIdentifier/t:idno/@facs"/>
+                        </h4>
+                                <button class="w3-button w3-gray w3-display-topright" onclick="document.getElementById('{$modalid}').style.display='none'">Close</button>
+                            </header>
+                        
+                        <div class="w3-container">
                             <xsl:variable select="ancestor::t:TEI//t:msIdentifier/t:idno/@facs" name="MainFacs"/>
                             <xsl:variable name="mid">
                                 <xsl:choose>
-                                    <xsl:when test="parent::t:witness"><xsl:value-of select="parent::t:witness/@corresp"/></xsl:when>
-                                    <xsl:otherwise><xsl:value-of select="$mainID"/></xsl:otherwise>
+                                    <xsl:when test="parent::t:witness">
+                                    <xsl:value-of select="parent::t:witness/@corresp"/>
+                                </xsl:when>
+                                    <xsl:otherwise>
+                                    <xsl:value-of select="$mainID"/>
+                                </xsl:otherwise>
                                 </xsl:choose>
                             </xsl:variable>
                             <xsl:variable name="manifest">
                                 <xsl:choose>
-                                    <xsl:when test="starts-with($MainFacs, 'http')"><xsl:value-of select="$MainFacs"/></xsl:when>
-                                    <xsl:otherwise><xsl:value-of select="concat('https://betamasaheft.eu/api/iiif/',$mid, '/manifest')"/></xsl:otherwise>
+                                    <xsl:when test="starts-with($MainFacs, 'http')">
+                                    <xsl:value-of select="$MainFacs"/>
+                                </xsl:when>
+                                    <xsl:otherwise>
+                                    <xsl:value-of select="concat('https://betamasaheft.eu/api/iiif/',$mid, '/manifest')"/>
+                                </xsl:otherwise>
                                 </xsl:choose>
                             </xsl:variable>
                             <xsl:variable name="firstCanv">
@@ -217,9 +225,13 @@
                                 </xsl:if>
                             </xsl:variable>
                             <xsl:variable name="mirador" select="concat('https://betamasaheft.eu/manuscripts/',$mid, '/viewer', $firstCanv)"/>
-                            <p class="alert alert-info"><a href="{$manifest}" target="_blank"><img src="/resources/images/iiif.png" width="20px"/></a>
-                                <a href="{$mirador}" target="_blank">Open with Mirador Viewer</a></p>
-                            
+                            <p class="w3-panel w3-red">
+                            <a href="{$manifest}" target="_blank">
+                                <img src="/resources/images/iiif.png" width="20px"/>
+                            </a>
+                                <a href="{$mirador}" target="_blank">Open with Mirador Viewer</a>
+                        </p>
+                           
                             <div id="openseadragon{replace(@facs, ' ', '_')}{ancestor::t:*[@xml:id][1]/@xml:id}"/>
                             <script type="text/javascript">
                                 <xsl:text>
@@ -408,13 +420,13 @@
                            });
                         </xsl:text>
                             </script>
-                            <p class="alert alert-info"><a href="https://openseadragon.github.io/">OpenSeadragon Viewer</a></p>
+                            <p class="w3-panel w3-red">
+                            <a href="https://openseadragon.github.io/">OpenSeadragon Viewer</a>
+                        </p>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
-                    </div>
-                </div>
+                        
+                
             </div>
         </xsl:if>
         <xsl:if test="parent::t:ab">

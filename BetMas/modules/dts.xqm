@@ -2,7 +2,7 @@ xquery version "3.1" encoding "UTF-8";
 (:~
  : test implementation of the https://github.com/distributed-text-services
  : 
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  : to do 
  : if I want to retrive 1ra@ወወልድ[1]-3vb, should the  @ወወልድ[1] piece also be in the passage/start/end parameter 
 : 
@@ -34,6 +34,7 @@ declare namespace http = "http://expath.org/ns/http-client";
 declare namespace json = "http://www.json.org";
 declare namespace cx ="http://interedition.eu/collatex/ns/1.0";
 declare namespace sr="http://www.w3.org/2005/sparql-results#";
+declare namespace test="http://exist-db.org/xquery/xqsuite";
 
 import module namespace functx="http://www.functx.com";
 import module namespace rest = "http://exquery.org/ns/restxq";
@@ -46,6 +47,7 @@ import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/c
 import module namespace sparql="http://exist-db.org/xquery/sparql" at "java:org.exist.xquery.modules.rdf.SparqlModule";
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
 import module namespace editors = "https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "xmldb:exist:///db/apps/BetMas/modules/editors.xqm";
+
 
 declare option output:method "json";
 declare option output:indent "yes";

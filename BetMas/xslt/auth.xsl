@@ -1,7 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
-    <xsl:variable name="mainID" select="t:TEI/@xml:id"/>
     <xsl:template match="/">
-        <div id="description">
+        <div id="MainData" class="w3-twothird">      <div id="description">
             <h2>General description</h2>
             <p>
                 <xsl:apply-templates select="//t:sourceDesc"/>
@@ -13,6 +13,7 @@
             <xsl:apply-templates select="//t:listBibl"/>
             <button class="btn btn-primary" id="showattestations" data-value="term" data-id="{string(t:TEI/@xml:id)}">Show attestations</button>
             <div id="allattestations" class="col-md-12"/>
+        </div>
         </div>
     </xsl:template>
     

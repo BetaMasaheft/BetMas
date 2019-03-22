@@ -1,10 +1,8 @@
-
-
 xquery version "3.1" encoding "UTF-8";
 (:~
  : lists from API
  : 
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
 module namespace apiL = "https://www.betamasaheft.uni-hamburg.de/BetMas/apiLists";
 import module namespace rest = "http://exquery.org/ns/restxq";
@@ -12,7 +10,7 @@ import module namespace all="https://www.betamasaheft.uni-hamburg.de/BetMas/all"
 import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
-import module namespace switch = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch"  at "xmldb:exist:///db/apps/BetMas/modules/switch.xqm";
+import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2"  at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
 (: namespaces of data used :)
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 import module namespace http="http://expath.org/ns/http-client";
@@ -48,7 +46,7 @@ let $log := log:add-log-message('/api/'||$collection||'/list/json', xmldb:get-cu
         ("[descendant::t:repository/@ref = '" || $repo || "' ]")
     else
         ''
-    let $collecPath := switch:collection($collection)
+    let $collecPath := switch2:collection($collection)
 
 let $path := concat($collecPath, "//t:TEI", $repo, $term)
 
@@ -271,7 +269,6 @@ declare
 %rest:query-param("perpage", "{$perpage}", 25)
 %rest:query-param("term", "{$term}", "")
 %output:method("xml")
-%test:args('manuscripts', '1', '20', 'GoldenGospel') %test:assertXPath('/','item')
 function apiL:collection($collection as xs:string*, $start as xs:integer*, $perpage as xs:integer*, $term as xs:string*) {
     if ($perpage gt 100) then ($config:response200XML, <info>Try a lower value for the parameter perpage. Maximum is 100.</info>) else
 let $log := log:add-log-message('/api/' || $collection || '/list', xmldb:get-current-user(), 'REST')
@@ -284,7 +281,7 @@ let $log := log:add-log-message('/api/' || $collection || '/list', xmldb:get-cur
         ("[descendant::t:term/@key = '" || $term || "' ]")
     else
         ''
-    let $collecPath := switch:collection($collection)
+    let $collecPath := switch2:collection($collection)
 
 let $path := concat($collecPath, "//t:TEI", if($collection='personsNoEthnic') then "[starts-with(@xml:id, 'PRS')]" else (), $term)
 

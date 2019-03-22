@@ -32,6 +32,8 @@ import module namespace validation = "http://exist-db.org/xquery/validation";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare option exist:serialize "method=xml media-type=text/xml indent=yes";
 
+declare variable $gitsync:institutions := doc('/db/apps/BetMas/lists/institutions.xml');
+declare variable $gitsync:deleted := doc('/db/apps/BetMas/lists/deleted.xml');
 declare variable $gitsync:taxonomy := doc(concat($config:data-rootA,'/taxonomy.xml'));
 (:~
  : Recursively creates new collections if necessary. 
@@ -102,7 +104,7 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
                     gitsync:validateAndConfirm($stored-file, $committerEmail, 'updated')
                     ,
                     if(contains($data-collection, 'institutions')) then (
-                    let $institutionslist := doc('/db/apps/BetMas/institutions.xml')//t:list
+                    let $institutionslist := $gitsync:institutions//t:list
                     let $id := substring-before($file-name, '.xml')
                     let $update :=  update value  $institutionslist/t:item[@xml:id=$id] with titles:printTitleMainID($id)
                     return
@@ -212,7 +214,7 @@ declare function gitsync:do-add($commits, $contents-url as xs:string?, $data-col
                    gitsync:validateAndConfirm($stored-file, $committerEmail, 'updated')
                     ,
                     if(contains($data-collection, 'institutions')) then (
-                    let $institutionslist := doc('/db/apps/BetMas/institutions.xml')//t:list
+                    let $institutionslist := $gitsync:institutions//t:list
                     let $id := substring-before($file-name, '.xml')
 (:                    This will inevitably cause the order in that list to be broken :)
                     let $update :=  update insert <item xmlns="http://www.tei-c.org/ns/1.0">{titles:printTitleMainID($id)}</item> into  $institutionslist
@@ -278,14 +280,21 @@ return
             <response
                 status="okay">
                 <message>removed {$file-name}{xmldb:remove($collection-uri, $file-name)} and {$rdffilename}{xmldb:remove($rdfcoll, $rdffilename)}
-                {
+                {(
                     if(contains($data-collection, 'institutions')) then (
-                    let $institutionslist := doc('/db/apps/BetMas/institutions.xml')//t:list
+                    let $institutionslist := $gitsync:institutions//t:list
                     let $id := substring-before($file-name, '.xml')
                     let $update :=  update delete  $institutionslist/t:item[@xml:id=$id]
                     return
                     'added value at the end of the list in institutions.xml'
-                    ) else ()
+                    ) else (),
+                    let $deltedlist := $gitsync:deleted//t:list
+                    let $id := substring-before($file-name, '.xml')
+(:                    This will inevitably cause the order in that list to be broken :)
+                    let $update :=  update insert <item xmlns="http://www.tei-c.org/ns/1.0">{$id}</item> into  $deletedlist
+                    return
+                    'added value at the end of the list in deleted.xml'
+                    )
                     }</message>
             </response>
         } catch * {

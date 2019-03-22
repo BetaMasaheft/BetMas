@@ -48,21 +48,5 @@ $("#toogleimages").click(function () {
 $("#NavByIds").is(':visible') 
 
 
-$(document).ready(function () {
-    $('.openInDialog').click(function () {
-    var dial = $('<div/>')
-    var head = $(this).clone().appendTo(dial)
-    var list = $(this).next()
-    list.clone().appendTo(dial);
-    $('#ItemSideBar').append(dial)
-        dial.dialog({
-        text : 'ok',
-            width: 600,
-            modal: true,
-            click: function() {
-        $( this ).dialog( "close" );
-      }
-        });
-    });
-});
+
 

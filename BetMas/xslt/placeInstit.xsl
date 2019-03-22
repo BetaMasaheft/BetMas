@@ -1,7 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:variable name="mainID" select="t:TEI/@xml:id"/>
     <xsl:template match="/">
-        <div id="description" class="{if(t:TEI/@type='ins') then 'institutionView' else 'col-md-8'}">
+        <div id="MainData" class="{if(t:TEI/@type='ins') then 'institutionView' else 'w3-twothird'}">
+            <div id="description">
             <h2>Names <xsl:if test="//t:place/@sameAs">
                     <xsl:variable name="sAs" select="//t:place/@sameAs"/>
                     <xsl:variable name="gnid" select="substring-after(//t:place/@sameAs, 'gn:')"/>
@@ -12,11 +14,11 @@
                     </a>
                 </xsl:if>
             </h2>
-            <div class="placeNames col-md-12">
+            <div class="placeNames w3-container">
                 <xsl:for-each select="//t:place/t:placeName[@xml:id]">
                     <xsl:sort select="                             if (@xml:id) then                                 @xml:id                             else                                 text()"/>
                     <xsl:variable name="id" select="@xml:id"/>
-                    <div class="col-md-12" rel="http://lawd.info/ontology/hasName">
+                    <div class="w3-container" rel="http://lawd.info/ontology/hasName">
                     <p class="lead">
                         <xsl:if test="@xml:id">
                             <xsl:attribute name="id">
@@ -67,7 +69,7 @@
                 <xsl:if test="//t:place/t:placeName[not(@xml:id or @corresp)]">
                     <xsl:for-each select="//t:place/t:placeName[not(@xml:id or @corresp)]">
                         <xsl:sort/>
-                        <div class="col-md-12" rel="http://lawd.info/ontology/hasName">
+                        <div class="w3-container" rel="http://lawd.info/ontology/hasName">
                         <p>
                             <xsl:if test="@type">
                                 <xsl:value-of select="concat(@type, ': ')"/>
@@ -151,11 +153,12 @@
             </p>
             </xsl:if>
             
-            <button class="btn btn-primary" id="showattestations" data-value="place" data-id="{string(t:TEI/@xml:id)}">Show attestations</button>
-            <div id="allattestations" class="col-md-12"/>
+            <button class="w3-button w3-red w3-large" id="showattestations" data-value="place" data-id="{string(t:TEI/@xml:id)}">Show attestations</button>
+            <div id="allattestations" class="w3-container"/>
             
         </div>
-        <xsl:call-template name="resp">
+        </div>
+            <xsl:call-template name="resp">
             <xsl:with-param name="resp" select="."/>
         </xsl:call-template>
     </xsl:template>

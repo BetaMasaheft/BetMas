@@ -2,7 +2,7 @@ xquery version "3.0" encoding "UTF-8";
 
 (:~
  : This module contains functions printing indexes and lists extracted from the data which are not list of resources
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
 
 module namespace lists="https://www.betamasaheft.uni-hamburg.de/BetMas/lists";
@@ -170,24 +170,26 @@ $query as xs:string*,
 
 
    declare function lists:biblform($node as node(), $model as map(*)){
-   <form xmlns="http://www.w3.org/1999/xhtml"  action="" class="form form-horizontal">
-   <div class="control-group">
+   <form xmlns="http://www.w3.org/1999/xhtml"  action="" class="w3-container">
+   <div class="w3-container w3-margin-bottom">
    <small class="form-text text-muted">Select one
-   or more type of bibliography</small>
-   <label class="checkbox"><input type="checkbox" value="secondary" name="type"/>secondary</label>
-   <label class="checkbox"><input type="checkbox" value="editions" name="type"/>editions</label>
-   <label class="checkbox"><input type="checkbox" value="translation" name="type"/>translation</label>
-   <label class="checkbox"><input type="checkbox" value="text" name="type"/>text</label>
-   <label class="checkbox"><input type="checkbox" value="clavis" name="type"/>clavis</label>
-   <label class="checkbox"><input type="checkbox" value="catalogue" name="type"/>catalogue</label>
-   <label class="checkbox"><input type="checkbox" value="otherLanguages" name="type"/>otherLanguages</label>
+   or more type of bibliography</small><br/>
+   <label class="checkbox">
+   <input type="checkbox" class="w3-check" value="secondary" name="type"/>secondary</label><br/>
+   <label class="checkbox"><input type="checkbox" class="w3-check" value="editions" name="type"/>editions</label><br/>
+   <label class="checkbox"><input type="checkbox" class="w3-check" value="translation" name="type"/>translation</label><br/>
+   <label class="checkbox"><input type="checkbox" class="w3-check" value="text" name="type"/>text</label><br/>
+   <label class="checkbox"><input type="checkbox" class="w3-check" value="clavis" name="type"/>clavis</label><br/>
+   <label class="checkbox"><input type="checkbox" class="w3-check" value="catalogue" name="type"/>catalogue</label><br/>
+   <label class="checkbox"><input type="checkbox" class="w3-check" value="otherLanguages" name="type"/>otherLanguages</label><br/>
    </div>
-      <div  class="form-group">
+      <div  class="w3-container w3-margin-bottom">
                                <small class="form-text text-muted">enter a Zotero bm:id</small>
-                                <input class="form-control" name="pointer" placeholder="bm:"></input>
-                                </div><div class="form-group">
-                                 <small class="form-text text-muted">Select one collections</small>
-                                    <select name="collection" class="form-control">
+                                <input class="w3-input w3-border" name="pointer" placeholder="bm:"></input>
+                                </div>
+                                <div class="w3-container w3-margin-bottom">
+                                 <small class="form-text text-muted">Select a collection</small>
+                                    <select name="collection" class="w3-select w3-border">
             <option value="all">all</option>
             <option value="mss">Manuscripts</option>
             <option value="work">Works</option>
@@ -197,181 +199,187 @@ $query as xs:string*,
             <option value="auth">Authority Files</option>
             </select>
                                  </div>
-                                <div class="btn-group">
-                                 <button type="submit" class="btn btn-primary">
+                                 <div class="w3-container w3-margin-top">
+                                <div class="w3-bar">
+                                 <button type="submit" class="w3-bar-item w3-button w3-red">
                                  <i class="fa fa-filter" aria-hidden="true"></i></button>
-                                 <a href="/bibliography" role="button" class="btn btn-info"><i class="fa fa-th-list" aria-hidden="true"></i></a></div>
+                                 <a href="/bibliography" role="button" class="w3-bar-item w3-button w3-gray"><i class="fa fa-th-list" aria-hidden="true"></i></a></div>
+                                 </div>
    </form>
    };
 
      declare function lists:additionsform($node as node(), $model as map(*)){
    let $auth := $config:collection-rootA
    return
-   <form action="" class="form form-horizontal">
+   <form action="" class="w3-container">
 
-                                <div  class="form-group">
-                               <small class="form-text text-muted">Search in the text of marked terms</small>
-                                <input class="form-control" name="termText"></input>
+                                <div  class="w3-container w3-margin">
+                               <small class="form-text text-muted">Search in the text of marked terms</small><br/>
+                                <input class="w3-input w3-border" name="termText"></input>
                                 </div>
-                                <div  class="form-group">
-                               <small class="form-text text-muted">Search in the text of the documents or additions</small>
-                                <input class="form-control" name="otherText"></input>
+                                <div  class="w3-container w3-margin">
+                               <small class="form-text text-muted">Search in the text of the documents or additions</small><br/>
+                                <input class="w3-input w3-border" name="otherText"></input>
                                 </div>
-                               {if($model('hits')//t:q) then  <div class="form-group">
-                                 <small class="form-text text-muted">Select the language of the additions you want to see</small>
+                               {if($model('hits')//t:q) then  <div class="w3-container w3-margin">
+                                 <small class="form-text text-muted">Select the language of the additions you want to see</small><br/>
 
-                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-language" name="target-language" class="form-control">
+                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-language" name="target-language" class="w3-select w3-border">
             {for $d in distinct-values($model('hits')//t:q/@xml:lang)
             return
             <option value="{$d}">{$d}</option>}
             </select>
                                  </div> else () }
-                               {if($model('hits')//t:title) then  <div class="form-group">
-                                 <small class="form-text text-muted">Select one or more works referred to in the document or addition</small>
+                               {if($model('hits')//t:title) then  <div class="w3-container w3-margin">
+                                 <small class="form-text text-muted">Select one or more works referred to in the document or addition</small><br/>
 
-                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-work" name="target-work" class="form-control">
+                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-work" name="target-work" class="w3-select w3-border">
             {for $d in distinct-values($model('hits')//t:title/@ref)
             return
             <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
             </select>
                                  </div> else () }
-                                 {if($model('hits')//t:seg) then  <div class="form-group">
-                                 <small class="form-text text-muted">Select one or more interpretation segments</small>
+                                 {if($model('hits')//t:seg) then  <div class="w3-container w3-margin">
+                                 <small class="form-text text-muted">Select one or more interpretation segments</small><br/>
 
-                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-int" name="interpret" class="form-control">
+                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-int" name="interpret" class="w3-select w3-border">
             {for $d in distinct-values($model('hits')//t:seg/@ana)
             return
             <option value="{$d}">{substring-after($d, '#')}</option>}
             </select>
                                  </div> else () }
-                                 {if($model('hits')//t:persName) then <div class="form-group">
-                                 <small class="form-text text-muted">Select one or more persons referred to in the document or addition</small>
-                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-pers" name="target-pers" class="form-control">
+                                 {if($model('hits')//t:persName) then <div class="w3-container w3-margin">
+                                 <small class="form-text text-muted">Select one or more persons referred to in the document or addition</small><br/>
+                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-pers" name="target-pers" class="w3-select w3-border">
             {for $d in distinct-values($model('hits')//t:persName/@ref[not(contains(., '.xml'))])
             return
             <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
             </select>
                                  </div> else ()}
-                                 {if($model('hits')//t:placeName) then <div class="form-group">
-                                 <small class="form-text text-muted">Select one or more places referred to in the document or addition</small>
-                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-place" name="target-place" class="form-control">
+                                 {if($model('hits')//t:placeName) then <div class="w3-container w3-margin">
+                                 <small class="form-text text-muted">Select one or more places referred to in the document or addition</small><br/>
+                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-place" name="target-place" class="w3-select w3-border">
             {for $d in distinct-values($model('hits')//t:placeName/@ref[not(contains(., '.xml'))])
             return
             <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
             </select>
                                  </div> else () }
                                  {if($model('hits')//t:term) then
-                                 <div class="form-group">
-                                 <small class="form-text text-muted">Select one or more keywords referred to in the document or addition</small>
-                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-keyword" name="target-keyword" class="form-control">
+                                 <div class="w3-container w3-margin">
+                                 <small class="form-text text-muted">Select one or more keywords referred to in the document or addition</small><br/>
+                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-keyword" name="target-keyword" class="w3-select w3-border">
             {for $d in distinct-values($model('hits')//t:term/@key)
             return
             <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
             </select>
                                  </div> else() }
                                  <div id="additiontypes"></div>
-                                 <div class="btn-group">
-                                 <button type="submit" class="btn btn-primary">
+                                 <div class="w3-container w3-margin-top">
+                                 <div class="w3-bar">
+                                 <button type="submit" class="w3-bar-item w3-button w3-red">
                                  <i class="fa fa-filter" aria-hidden="true"></i></button>
-                                 <a href="/additions" role="button" class="btn btn-info"><i class="fa fa-th-list" aria-hidden="true"></i></a></div>
+                                 <a href="/additions" role="button" class="w3-bar-item w3-button w3-gray"><i class="fa fa-th-list" aria-hidden="true"></i></a></div>
+                                 </div>
                         </form>
    };
 
    declare function lists:decorationsform($node as node(), $model as map(*)){
    let $auth := $config:collection-rootA
    return
-   <form action="" class="form form-horizontal">
-                               <div  class="control-group">
-                               <small class="form-text text-muted">Select one or more type of decoration</small>
+   <form action="" class="w3-container">
+                               <div  class="w3-container  w3-margin">
+                               <small class="form-text text-muted">Select one or more type of decoration</small><br/>
 
                                {for $d in distinct-values($model('hits')/@type)
-                                 return  (<label class="checkbox"><input type="checkbox" value="{$d}" name="type"/>{$d}</label>)}
+                                 return  (<label class="checkbox"><input type="checkbox" class="w3-check" value="{$d}" name="type"/>{$d}</label>,<br/>)}
 
                                 </div>
-                                <div  class="form-group">
-                               <small class="form-text text-muted">Search in the text of the legends</small>
-                                <input class="form-control" name="legendText"></input>
+                                <div  class="w3-container  w3-margin">
+                               <small class="form-text text-muted">Search in the text of the legends</small><br/>
+                                <input class="w3-input w3-border" name="legendText"></input>
                                 </div>
-                                <div  class="form-group">
-                               <small class="form-text text-muted">Select in text on the decorations which is not the legend</small>
-                                <input class="form-control" name="otherText"></input>
+                                <div  class="w3-container  w3-margin">
+                               <small class="form-text text-muted">Select in text on the decorations which is not the legend</small><br/>
+                                <input  class="w3-input w3-border" name="otherText"></input>
                                 </div>
-                               {if($model('hits')//t:ref[@type='authFile']) then  <div class="form-group">
-                                 <small class="form-text text-muted">Select one or more Art Themes associated with the decoration description</small>
+                               {if($model('hits')//t:ref[@type='authFile']) then  
+                               <div class="w3-container w3-margin">
+                                 <small class="form-text text-muted">Select one or more Art Themes associated with the decoration description</small><br/>
 
-                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-artTheme" name="target-artTheme" class="form-control">
+                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-artTheme" name="target-artTheme" class="w3-select w3-border">
             {for $d in distinct-values($model('hits')//t:ref[@type='authFile']/@corresp)
             return
             <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
             </select>
                                  </div> else () }
-                               {if($model('hits')//t:title) then  <div class="form-group">
-                                 <small class="form-text text-muted">Select one or more works referred to in the decoration description</small>
+                               {if($model('hits')//t:title) then  <div class="w3-container w3-margin">
+                                 <small class="form-text text-muted">Select one or more works referred to in the decoration description</small><br/>
 
-                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-work" name="target-work" class="form-control">
+                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-work" name="target-work"  class="w3-select w3-border">
             {for $d in distinct-values($model('hits')//t:title/@ref)
             return
             <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
             </select>
                                  </div> else () }
-                                 {if($model('hits')//t:persName) then <div class="form-group">
-                                 <small class="form-text text-muted">Select one or more persons referred to in the decoration description</small>
-                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-pers" name="target-pers" class="form-control">
+                                 {if($model('hits')//t:persName) then <div class="w3-container w3-margin">
+                                 <small class="form-text text-muted">Select one or more persons referred to in the decoration description</small><br/>
+                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-pers" name="target-pers"  class="w3-select w3-border">
             {for $d in distinct-values($model('hits')//t:persName/@ref)
             return
             <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
             </select>
                                  </div> else ()}
-                                 {if($model('hits')//t:placeName) then <div class="form-group">
-                                 <small class="form-text text-muted">Select one or more places referred to in the decoration description</small>
-                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-place" name="target-place" class="form-control">
+                                 {if($model('hits')//t:placeName) then <div class="w3-container w3-margin">
+                                 <small class="form-text text-muted">Select one or more places referred to in the decoration description</small><br/>
+                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-place" name="target-place"  class="w3-select w3-border">
             {for $d in distinct-values($model('hits')//t:placeName/@ref)
             return
             <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
             </select>
                                  </div> else () }
                                  {if($model('hits')//t:term) then
-                                 <div class="form-group">
-                                 <small class="form-text text-muted">Select one or more artistic elements referred to in the decoration description</small>
-                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-keyword" name="target-keyword" class="form-control">
+                                 <div class="w3-container w3-margin">
+                                 <small class="form-text text-muted">Select one or more artistic elements referred to in the decoration description</small><br/>
+                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-keyword" name="target-keyword"  class="w3-select w3-border">
             {for $d in distinct-values($model('hits')//t:term/@key)
             return
             <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
             </select>
                                  </div> else() }
-                                 <div class="btn-group">
-                                 <button type="submit" class="btn btn-primary">
+                                 <div class="w3-container w3-margin">
+                                 <div class="w3-bar">
+                                 <button type="submit" class="w3-bar-item w3-button w3-red">
                                  <i class="fa fa-filter" aria-hidden="true"></i></button>
-                                 <a href="/decorations" role="button" class="btn btn-info"><i class="fa fa-th-list" aria-hidden="true"></i></a></div>
-                        </form>
+                                 <a href="/decorations" role="button" class="w3-bar-item w3-button w3-gray"><i class="fa fa-th-list" aria-hidden="true"></i></a></div>
+                        </div></form>
    };
 
 
    declare function lists:bindingsform($node as node(), $model as map(*)){
    let $auth := $config:collection-rootA
    return
-   <form action="" class="form form-horizontal">
-                               <div  class="control-group">
-                               <small class="form-text text-muted">Select one or more type of decoration</small>
+   <form action="" class="w3-container">
+                               <div  class="w3-container w3-margin">
+                               <small class="form-text text-muted">Select one or more type of decoration</small><br/>
 
                                {for $d in distinct-values($model('hits')/@type)
-                                 return  (<label class="checkbox"><input type="checkbox" value="{$d}" name="type"/>{$d}</label>)}
+                                 return  (<label class="checkbox"><input type="checkbox" class="w3-check" value="{$d}" name="type"/>{$d}</label>,<br/>)}
 
                                 </div>
 
                                  {if($model('hits')//t:term) then
-                                 <div class="form-group">
-                                 <small class="form-text text-muted">Select one or more features of the binding description</small>
-                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-keyword" name="target-keyword" class="form-control">
+                                 <div class="w3-container w3-margin">
+                                 <small class="form-text text-muted">Select one or more features of the binding description</small><br/>
+                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-keyword" name="target-keyword" class="w3-select w3-border">
             {for $d in distinct-values($model('hits')//t:term/@key)
             return
             <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
             </select>
                                  </div> else() }
                                  {if($model('hits')//@color) then
-                                 <div class="form-group">
-                                 <small class="form-text text-muted">Select a color</small>
-                                    <select xmlns="http://www.w3.org/1999/xhtml" id="color" name="color" class="form-control">
+                                 <div class="w3-container w3-margin">
+                                 <small class="form-text text-muted">Select a color</small><br/>
+                                    <select xmlns="http://www.w3.org/1999/xhtml" id="color" name="color" class="w3-select w3-border">
             <option value="all">all</option>
             {for $d in distinct-values($model('hits')//@color)
             return
@@ -379,9 +387,9 @@ $query as xs:string*,
             </select>
                                  </div> else() }
                                  {if($model('hits')//@pastedown) then
-                                 <div class="form-group">
-                                 <small class="form-text text-muted">Select a pastedown type (will search only manuscripts where this is present)</small>
-                                    <select xmlns="http://www.w3.org/1999/xhtml" id="pastedown" name="pastedown" class="form-control">
+                                 <div class="w3-container w3-margin">
+                                 <small class="form-text text-muted">Select a pastedown type (will search only manuscripts where this is present)</small><br/>
+                                    <select xmlns="http://www.w3.org/1999/xhtml" id="pastedown" name="pastedown" class="w3-select w3-border">
             <option value="all">all</option>
             {for $d in distinct-values($model('hits')//@pastedown)
             return
@@ -389,9 +397,9 @@ $query as xs:string*,
             </select>
                                  </div> else() }
                                  {if($model('hits')//t:material) then
-                                 <div class="form-group">
-                                 <small class="form-text text-muted">Select a binding material</small>
-                                    <select xmlns="http://www.w3.org/1999/xhtml" id="BindingMaterial" name="BindingMaterial" class="form-control">
+                                 <div class="w3-container w3-margin">
+                                 <small class="form-text text-muted">Select a binding material</small><br/>
+                                    <select xmlns="http://www.w3.org/1999/xhtml" id="BindingMaterial" name="BindingMaterial" class="w3-select w3-border">
             <option value="all">all</option>
             {for $d in distinct-values($model('hits')//t:material/@key)
             return
@@ -399,24 +407,25 @@ $query as xs:string*,
             </select>
                                  </div> else() }
                                  {if($model('hits')//t:decoNote[@type='Fastening']) then
-                                 <div class="form-group">
-                                 <small class="form-text text-muted">Select a fastening feature</small>
-                                    <select xmlns="http://www.w3.org/1999/xhtml" id="Fastening" name="fastening" class="form-control">
+                                 <div class="w3-container w3-margin">
+                                 <small class="form-text text-muted">Select a fastening feature</small><br/>
+                                    <select xmlns="http://www.w3.org/1999/xhtml" id="Fastening" name="fastening" class="w3-select w3-border">
             <option value="all">all</option>
             {for $d in $model('hits')//t:decoNote[@type='Fastening']
             return
             <option value="{$d/text()}">{$d/text()}</option>}
             </select>
                                  </div> else() }
-                                 <div  class="form-group">
-                                 <small  class="form-text text-muted">number of Sewing stations</small>
-                                 <input type="number" class="form-control" id="SewingStationsN" name="SewingStationsN"></input>
+                                 <div  class="w3-container w3-margin">
+                                 <small  class="form-text text-muted">number of Sewing stations</small><br/>
+                                 <input type="number" class="w3-input w3-border" id="SewingStationsN" name="SewingStationsN"></input>
                                  </div>
-                                 <div class="btn-group">
-                                 <button type="submit" class="btn btn-primary">
+                                 <div class="w3-container w3-margin">
+                                 <div class="w3-bar">
+                                 <button type="submit" class="w3-bar-item w3-button w3-red">
                                  <i class="fa fa-filter" aria-hidden="true"></i></button>
-                                 <a href="/bindings" role="button" class="btn btn-info"><i class="fa fa-th-list" aria-hidden="true"></i></a></div>
-                        </form>
+                                 <a href="/bindings" role="button" class="w3-bar-item w3-button w3-gray"><i class="fa fa-th-list" aria-hidden="true"></i></a></div>
+                        </div></form>
    };
 
 
@@ -431,22 +440,22 @@ for $target at $p in subsequence($model("hits"), $start, $per-page)
 let $ptrs := $config:collection-root//t:ptr[@target = $target]
 let $count := count($ptrs)
 return
-<div class="col-md-12">
-    <div id="{$target}" class="biblioentry col-md-6"/>
-<div class="col-md-6">
-<div class="col-md-9">
-<ul>
+<div class="w3-container w3-margin-w3-padding">
+    <div id="{$target}" class="biblioentry w3-half w3-margin"/>
+<div class="w3-half w3-margin">
+<div class="w3-threequarter">
+<ul class="w3-ul w3-hoverable">
     {    
    for $citingentity in $ptrs/@target
    let $stringR := string(root($citingentity)/t:TEI/@xml:id)
 
    group by $root :=    $stringR 
     return
-     <li><a href="/{$root}" class="MainTitle" data-value="{$root}">{$root}</a></li>
+     <li class="w3-padding"><a href="/{$root}" class="MainTitle" data-value="{$root}">{$root}</a></li>
     }
     </ul>
     </div>
-    <div class="col-md-3">{$count}</div>
+    <div class="w3-quarter"><span class="w3-tag w3-gray">{$count}</span></div>
     </div>
     </div>
 };
@@ -464,22 +473,25 @@ for $addition at $p in $data
     order by $type
     let $tit := titles:printTitleMainID($type, $config:data-rootA)
     return
-        <ul class="list-group" id="{data($type)}list">
-
-        <a href="#{data($type)}" class="list-group-item" data-toggle="collapse">
-        <i class="glyphicon glyphicon-chevron-right"></i><span class="badge">{if ($type = 'undefined') then count($data[not(descendant::t:desc/@type)]) else count($data/t:desc[@type = $type])}</span><span class="additionType" data-value="{$type}">{
+        
+        (<button onclick="openAccordion('{data($type)}')" class="w3-button w3-block w3-gray w3-margin-bottom">
+<span class="w3-badge w3-right">{if ($type = 'undefined') then count($data[not(descendant::t:desc/@type)]) else count($data/t:desc[@type = $type])}</span>
+<span class="w3-left additionType" data-value="{$type}">{
        if ($type = 'undefined') then $type else $tit
-    }</span></a>
-        <ul class="list-group collapse" id="{data($type)}">
-        <h2 class="list-group-item-heading">{if ($type = 'undefined') then $type else <a href="/authority-files/list?keyword={string($type)}">{$tit}</a> }</h2>
-            {
+    }</span></button>,
+    
+    <div class="w3-container w3-hide" id="{data($type)}">
+    <h2>{if ($type = 'undefined') then $type else <a href="/authority-files/list?keyword={string($type)}">{$tit}</a> }</h2>
+        
+    <ul class="w3-ul w3-padding w3-hoverable">
+    {
                 for $a in $addition
                 let $fileID := data($a/ancestor::t:TEI/@xml:id)
                 let $additionID := data($a/@xml:id)
                 order by $fileID
                 return
-            <li class="list-group-item"><a href="{$fileID}#{$additionID}">{$fileID},{$additionID}</a> |
-            <div class="additionTextContent">
+            <li><a href="{$fileID}#{$additionID}">{$fileID},{$additionID}</a> |
+            <div class="additionTextContent w3-container">
 
                <div
                id="{$fileID}_{$additionID}">
@@ -493,10 +505,10 @@ for $addition at $p in $data
             </li>
 
             }
-            </ul>
+    </ul>
+    </div>
+    )
 
-
-        </ul>
 };
 
 
@@ -505,19 +517,20 @@ declare
     function lists:bindingRes($node as node(), $model as map(*)){
    let $c := $config:collection-rootMS
    return
-    <div class="list-group list-group-root col-md-12">
-        {
+
 for $binding at $p in $model("hits")
     let $t := $binding/@type
    (: group by type :)
     group by $type := $t
     order by $type
     return
-        <div class="list-group" id="{data($type)}list">
+        (<button onclick="openAccordion('{data($type)}')" 
+        class="w3-button w3-block w3-gray w3-padding w3-margin-bottom">
+<span class="w3-badge w3-right">{count($binding)}</span>
+<span class="w3-left " data-value="{$type}">{string($type)}</span>
+</button>,
 
-        <a href="#{data($type)}" class="list-group-item" data-toggle="collapse"><i class="glyphicon glyphicon-chevron-right"></i><span class="badge">{count($binding)}</span>{string($type)} </a>
-
-        <div  class="list-group collapse" id="{data($type)}">
+        <div  class="w3-container w3-hide" id="{data($type)}">
             {
                 for $b in $binding
                 let $msid := $b/ancestor::t:TEI/@xml:id
@@ -527,29 +540,29 @@ for $binding at $p in $model("hits")
                 order by $ms
                 return
 
-             <div  class="list-group">
-
-             <a class="list-group-item" data-toggle="collapse" href="#{$ms}"><i class="glyphicon glyphicon-chevron-right"></i>{$c//id($ms)//t:msIdentifier/t:idno}</a>
-                 <ul class="list-group collapse" id="{data($ms)}">
+(<button onclick="openAccordion('{data($ms)}')" 
+        class="w3-button w3-block w3-red w3-padding w3-margin-bottom">
+<span class="w3-badge w3-right">{count($b)}</span>
+<span class="w3-left " data-value="{$type}">{$c//id($ms)//t:msIdentifier/t:idno}</span>
+</button>,
+<div class="w3-container w3-hide" id="{data($ms)}">
+<ul class="w3-ul w3-hoverable" >
                  {
                      for $sb in $b
                      let $images := root($sb)//t:msIdentifier/t:idno
                      let $locus := string($sb/t:locus/@facs)
                      order by $sb/@xml:id
                      return
-            <li class="list-group-item container">
+            <li>
 
-            <p class="col-md-11"><a href="{data($ms)}#{data($sb/@xml:id)}">{data($sb/@xml:id)}</a>: {try{string:tei2string($sb/node())} catch * {(($err:code || ": "|| $err:description), string-join($sb//text(), ' '))}}
-            </p></li>
+            <a href="{data($ms)}#{data($sb/@xml:id)}">{data($sb/@xml:id)}</a>: {try{string:tei2string($sb/node())} catch * {(($err:code || ": "|| $err:description), string-join($sb//text(), ' '))}}
+            </li>
                  }
             </ul>
-            </div>
+            </div>)
             }
 
-        </div>
-        </div>
-}
-</div>
+        </div>)
 };
 
 
@@ -559,19 +572,21 @@ declare
     function lists:decoRes($node as node(), $model as map(*)){
    let $c := $config:collection-rootMS
    return
-    <div class="list-group list-group-root col-md-12">
-        {
 for $decoration at $p in $model("hits")
     let $t := $decoration/@type
    (: group by type :)
     group by $type := $t
     order by $type
     return
-        <div class="list-group" id="{data($type)}list">
-
-        <a href="#{data($type)}" class="list-group-item" data-toggle="collapse"><i class="glyphicon glyphicon-chevron-right"></i><span class="badge">{count($decoration)}</span>{string($type)} </a>
-
-        <div  class="list-group collapse" id="{data($type)}">
+    
+    (<button onclick="openAccordion('{data($type)}')" class="w3-button w3-block w3-gray w3-padding w3-margin-bottom">
+<span class="w3-badge w3-right">{count($decoration)}</span>
+<span class="w3-left additionType" data-value="{$type}">{string($type)}</span>
+</button>,
+    
+    <div class="w3-container w3-hide" id="{data($type)}">
+    
+<div  class="w3-container" id="{data($type)}">
             {
                 for $d in $decoration
                 let $msid := $d/ancestor::t:TEI/@xml:id
@@ -581,19 +596,22 @@ for $decoration at $p in $model("hits")
                 order by $ms
                 return
 
-             <div  class="list-group">
+(<button onclick="openAccordion('{data($ms)}')" class="w3-button w3-block w3-red  w3-margin-bottom">
+<span class="w3-left">{$c//id($ms)//t:msIdentifier/t:idno}</span>
+<span class="w3-badge w3-right">{count($d)}</span>
+</button>,
+             <div  class="w3-container w3-hide" id="{data($ms)}">
 
-             <a class="list-group-item" data-toggle="collapse" href="#{$ms}"><i class="glyphicon glyphicon-chevron-right"></i>{$c//id($ms)//t:msIdentifier/t:idno}</a>
-                 <ul class="list-group collapse" id="{data($ms)}">
+                 <ul class="w3-ul w3-hoverable" >
                  {
                      for $sd in $d
                      let $images := root($sd)//t:msIdentifier/t:idno
                      let $locus := string($sd/t:locus/@facs)
                      order by $sd/@xml:id
                      return
-            <li class="list-group-item container">
+            <li class="w3-container">
 
-            {if($images/@facs and $locus) then (<a target="_blank"  href="/manuscripts/{$ms}/viewer"><img class="thumb col-md-1" src="{
+            {if($images/@facs and $locus) then (<a target="_blank"  href="/manuscripts/{$ms}/viewer"><img class="thumb" src="{
            if(starts-with($ms, 'BML'))
            then $config:appUrl ||'/iiif/' || string($images/@facs)||$locus||'.tif/full/150,/0/default.jpg'
           else if(starts-with($ms, 'ES'))
@@ -605,11 +623,11 @@ for $decoration at $p in $model("hits")
                     ||
                     substring-before(substring-after($images/@facs, 'MSS_'), '/manifest.json') ||
                     '_'||$locus||'.tif.jpg'
-           else ()}"/></a>
+           else ()}" style="width:10%"/></a>
 
            )
             else ()}
-            <p class="col-md-11">
+            <p class="w3-rest">
             <a href="{data($ms)}#{data($sd/@xml:id)}">{data($sd/@xml:id)}</a><br/>
             {if(count($sd//t:ref[@type='authFile']) ge 1) then 'Art Themes: ' || string-join(string:tei2string($sd//t:ref[@type='authFile']), ', ') else ()}
             </p>
@@ -618,12 +636,14 @@ for $decoration at $p in $model("hits")
                  }
             </ul>
             </div>
-            }
+            
+            )}
 
         </div>
-        </div>
-}
-</div>
+        
+    </div>
+    )
+    
 };
 
 
@@ -652,8 +672,8 @@ case element()
 };
 
 declare function lists:corpora ($node as node(), $model as map(*)){
-
-<table class="table table-responsive">
+<div class="w3-responsive">
+<table class="w3-table w3-hoverable">
 <thead>
 <tr>
 <th>Title</th>
@@ -672,13 +692,13 @@ return <tr>
 <td><a href="/{$id}/corpus"><h4>{$title}</h4></a></td>
 <td>{lists:corporaeditors($corpus//t:principal)}</td>
 <td>{$corpus//t:projectDesc}</td>
-<td><ul>{for $document in $config:collection-rootMS//t:relation[contains(@passive, $id)]
+<td><ul class="nodot">{for $document in $config:collection-rootMS//t:relation[contains(@passive, $id)]
 let $rootid := string($document/@active)
 let $mainid := substring-before($rootid, '#')
 group by $ID := $mainid
-return <li><a href="/{$ID}">{titles:printTitleID($ID)}</a></li>}</ul></td>
-<td><ul>{for $r in $corpus//t:respStmt return <li>{lists:corporaeditors($r/node())}</li>}</ul></td>
+return <li class="nodot"><a href="/{$ID}">{titles:printTitleID($ID)}</a></li>}</ul></td>
+<td><ul class="nodot">{for $r in $corpus//t:respStmt return <li class="nodot">{lists:corporaeditors($r/node())}</li>}</ul></td>
 </tr>
 
-}</tbody></table>
+}</tbody></table></div>
 };

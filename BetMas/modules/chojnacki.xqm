@@ -2,7 +2,7 @@ xquery version "3.1" encoding "UTF-8";
 (:~
  : module with function called to show content of the archival work of Gnisci at the Vatican Library in BM
  : called by gnisci.js
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
 module namespace chojnacki = "https://www.betamasaheft.uni-hamburg.de/BetMas/chojnacki";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "../modules/config.xqm";
@@ -12,6 +12,8 @@ declare namespace marc = "http://www.loc.gov/MARC21/slim";
 (: For REST annotations :)
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json = "http://www.json.org";
+
+declare namespace test="http://exist-db.org/xquery/xqsuite";
 
     (:~ given an institution or place id checks the marc records from Vatican Library for relevant related data :) 
 declare

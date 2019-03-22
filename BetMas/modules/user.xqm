@@ -2,7 +2,7 @@ xquery version "3.1" encoding "UTF-8";
 (:~
  : module for the user personal page view
  : 
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
 module namespace user = "https://www.betamasaheft.uni-hamburg.de/BetMas/user";
 import module namespace rest = "http://exquery.org/ns/restxq";
@@ -65,24 +65,27 @@ return
         </head>
         <body
             id="body">
-            {nav:bar()}
-            {nav:modals()}
-            {nav:searchhelp()}
+            {nav:barNew()}
+            {nav:modalsNew()}
+            {nav:searchhelpNew()}
             
             <div
                 id="content"
-                class="container-fluid col-md-12">
-                <h2>Dear {$username}, thank you very much for all your nice work for the project!</h2>
-                <div
-                    class="col-md-12">
-                    <div class="col-md-12 alert alert-success">
+                class="w3-container w3-margin w3-padding-64">
+                <div class="w3-red w3-panel w3-card-4"><h2 >Dear {$username}, thank you very much for all 
+                your nice work for the project! It could have not become this good without you!</h2>
+                </div><div
+                    class="w3-container">
+                    <div class="w3-panel w3-card-2 w3-gray">
                     <h2>All about you... </h2>
                     <p><b>User name: </b> {$username}</p>
                     <p><b>Member of: </b>{let $groups := for $g in sm:get-user-groups($username) return $g return string-join($groups, ', ')}</p>
                     {for $x in sm:get-account-metadata-keys($username) return <p><b>{switch($x) case 'http://exist-db.org/security/description' return 'Role: ' case 'http://axschema.org/namePerson' return 'Full name: ' case 'http://axschema.org/contact/email' return 'E-mail: ' default return ()}</b>  {sm:get-account-metadata($username,$x)}</p>}
                     </div>
                     <div
-                        class="col-md-6 alert alert-info">
+                        class="w3-half w3-padding">
+                        <div
+                        class="w3-margin w3-panel w3-card-4 ">
                         {let $userinitials := editors:editorNames($username)
                                     let $changes := $config:collection-root//t:change[@who = $userinitials]
                                     let $changed := for $c in $changes
@@ -91,8 +94,8 @@ return
                                         return
                                         (
                                         <h3>Your latest 50 changes in files out of {count($changes)} you recorded in a change element</h3>,
-                        <div  class=" col-md-12 userpanel"><table
-                                class="table table-responsive"><thead><tr><th>date and time</th><th>item</th></tr></thead><tbody>{
+                        <div  class="userpanel w3-responsive" ><table
+                                class="w3-table w3-hoverable"><thead><tr><th>date and time</th><th>item</th></tr></thead><tbody>{
                                     
                                     for $itemchanged in subsequence($changed, 1, 50)
                                     let $root := root($itemchanged)
@@ -115,10 +118,14 @@ return
                                 )
                                 }
                     </div>
+                    </div>
                     <div
-                        class="col-md-6"><h3>The last 50 pages you visited</h3>
-                        <div  class=" col-md-12 userpanel"><table
-                                class="table table-responsive"><thead><tr><th>type</th><th>date and time</th><th>info</th></tr></thead><tbody>{
+                        class="w3-half w3-padding">
+                        <div
+                        class="w3-margin w3-panel w3-card-4 ">
+                        <h3>The last 50 pages you visited</h3>
+                        <div  class=" w3-container userpanel w3-responsive" ><table
+                                class="w3-table w3-hoverable"><thead><tr><th>type</th><th>date and time</th><th>info</th></tr></thead><tbody>{
                                        let $selection :=  for $c in collection('/db/apps/BetMas/log/')//l:logentry[l:user[. = $username]][not(l:type[.='query'])][not(contains(l:type, 'XPath'))]
                                                                   order by $c/@timestamp descending
                                                                   return $c
@@ -134,12 +141,16 @@ return
                                     }</tbody></table>
                         </div>
                     </div></div>
+                    </div>
                 <div
-                    class="col-md-12">
+                    class="w3-container">
                     <div
-                        class="col-md-6"><h3>Your queries</h3>
-                        <div  class="col-md-12 userpanel"><table
-                                class="table table-responsive"><thead><tr><th>date</th><th>info</th></tr></thead><tbody>{
+                        class="w3-half w3-padding">
+                        <div
+                        class="w3-margin w3-panel w3-card-4 ">
+                        <h3>Your queries</h3>
+                        <div  class="w3-container userpanel w3-responsive" ><table
+                                class="w3-table w3-hoverable"><thead><tr><th>date</th><th>info</th></tr></thead><tbody>{
                                        let $selection := for $c in doc('/db/apps/BetMas/log/bm-log.xml')//l:logentry[l:user[. = $username]][l:type[.='query']]
                                                                  order by $c/@timestamp descending
                                                                   return $c
@@ -151,10 +162,14 @@ return
                                     }</tbody></table>
                         </div>
                         </div>
+                        </div>
                         <div
-                        class="col-md-6 alert alert-info"><h3>Your XPATHs</h3>
-                        <div class="userpanel"><table
-                                class="table table-responsive"><thead><tr><th>date</th><th>info</th></tr></thead><tbody>{
+                        class="w3-half w3-padding">
+                        <div
+                        class="w3-margin w3-panel w3-card-4 ">
+                        <h3>Your XPATHs</h3>
+                        <div class="userpanel w3-responsive" ><table
+                                class="w3-table w3-hoverable"><thead><tr><th>date</th><th>info</th></tr></thead><tbody>{
                                        let $selection := for $c in doc('/db/apps/BetMas/log/bm-log.xml')//l:logentry[l:user[. = $username]][contains(l:type, 'XPath')]
                                                                  order by $c/@timestamp descending
                                                                   return $c
@@ -167,126 +182,110 @@ return
                         </div>
                         </div>
                     </div>
+                    </div>
                     <div
-                        class="col-md-12 alert alert-warning"><h3>Manage your account</h3>
+                        class="w3-panel w3-card-4 w3-padding"><h3>Manage your account</h3>
                         <div
-                        class="col-md-12 ">
+                        class="w3-container">
                         <h4>change email</h4>
                         <form
                             action="/user/changemail.xql" method="POST">
-                            <div class="form-group">
+                            
     <label for="exampleInputEmail1">Email address</label>
-    <input type="email" class="form-control" id="email"name="email" aria-describedby="emailHelp" placeholder="Enter email"></input>
-    <small id="emailHelp" class="form-text text-muted">This is needed for the website notifications.</small>
-  </div>
+    <input type="email" class="w3-input w3-border" id="email"name="email" aria-describedby="emailHelp" placeholder="Enter email"></input>
+    <small id="emailHelp">This is needed for the website notifications.</small><br/>
+
   
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" class="w3-button w3-red">Submit</button>
                             </form>
                             </div>
                             <div
-                        class="col-md-12 ">
+                        class="w3-container ">
                             <h4>Change password</h4>
                             <form
                             action="/user/changepw.xql" method="POST">
-                            <div class="form-group">
+                            
     <label for="exampleInputEmail1">Email address</label>
-    <input type="email" class="form-control" id="email"name="email" aria-describedby="emailHelp" placeholder="Enter email"></input>
+    <input type="email" class="w3-input w3-border" id="email"name="email" aria-describedby="emailHelp" placeholder="Enter email"></input>
     <small id="emailHelp" class="form-text text-muted">This is needed for the website notifications.</small>
-  </div>
-  <div class="form-group">
+  
     <label for="exampleInputPassword1">Old Password</label>
-    <input type="password" class="form-control" id="oldpassword" name="oldpassword"  placeholder="Old Password"></input>
-  </div>
-  <div class="form-group">
-    <label for="exampleInputPassword1">New Password</label>
-    <input type="password" class="form-control" id="newpassword" name="newpassword"  placeholder="New Password"></input>
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+    <input type="password" class="w3-input w3-border" id="oldpassword" name="oldpassword"  placeholder="Old Password"></input>
+   
+   <label for="exampleInputPassword1">New Password</label>
+    <input type="password" class="w3-input w3-border" id="newpassword" name="newpassword"  placeholder="New Password"></input>
+ 
+  <button type="submit" class="w3-button w3-red">Submit</button>
                             </form>
                             </div>
                             </div>
                             {if(sm:is-dba(xmldb:get-current-user())) then 
                              (<div
-                        class="col-md-12 alert alert-success">
+                        class="w3-panel w3-card-4 w3-padding">
                         <h3>Create new account</h3>
                         <form
                             action="/user/createaccount.xql" method="POST">
-                           <div class="form-group">
+                           
     <label for="fn">Full name</label>
     <input class="form-control" id="fn" name="fullName" aria-describedby="emailHelp" placeholder="Enter your full name" required="required"></input>
-    </div>
-  <div class="form-group">
+    
     <label for="un">user name</label>
-    <input  class="form-control" id="un" name="userName" aria-describedby="emailHelp" placeholder="select a user name" required="required"></input>
+    <input  class="w3-input w3-border" id="un" name="userName" aria-describedby="emailHelp" placeholder="select a user name" required="required"></input>
     <small id="emailHelp" class="form-text text-muted">Check that this is not already used!</small>
-  </div>
-                           <div class="form-group">
-    <label for="mail">Email address</label>
-    <input type="email" class="form-control" id="mail" name="email" aria-describedby="emailHelp" placeholder="Enter email" required="required"></input>
+   <label for="mail">Email address</label>
+    <input type="email" class="w3-input w3-border" id="mail" name="email" aria-describedby="emailHelp" placeholder="Enter email" required="required"></input>
     <small id="emailHelp" class="form-text text-muted">This is needed for the website notifications.</small>
-  </div>
-  <div class="form-group">
-    <label for="pw">Password</label>
-    <input type="password" class="form-control" id="pw" name="password"  placeholder="Password" required="required"></input>
-  </div>
-  
-  <div class="form-group">
-    <label for="role">Role</label>
-    <input type="text" class="form-control" id="role" name="role"  placeholder="role description" required="required"></input>
-  </div>
-  
-  <div class="form-group">
+   <label for="pw">Password</label>
+    <input type="password" class="w3-input w3-border" id="pw" name="password"  placeholder="Password" required="required"></input>
+   <label for="role">Role</label>
+    <input type="text" class="w3-input w3-border" id="role" name="role"  placeholder="role description" required="required"></input>
     <label for="primarygroup">Select group</label>
-    <select class="form-control" id="primarygroup" name="group" required="required">
+    <select class="w3-select w3-border" id="primarygroup" name="group" required="required">
     <option selected="selected">Please chose</option>
       {for $g in  sm:get-groups()
       order by count(sm:get-group-members($g)) descending
       return <option value="{$g}">{$g}</option>}
     </select>
-  </div>
-  <div class="form-group">
-    <label for="group2">Secondary Group</label>
-    <select class="form-control" id="group2" name="group2">
+   <label for="group2">Secondary Group</label>
+    <select class="w3-select w3-border" id="group2" name="group2">
     <option selected="selected" disabled="disabled">none</option>
       {for $g in sm:get-groups()
       return if($g = 'dba') then () else <option value="{$g}">{$g}</option>}
     </select>
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" class="w3-button w3-red">Submit</button>
                             </form>
                             </div>,
                             
-                            <div class="col-md-12  alert alert-warning">
+                            <div class="w3-panel w3-card-4 w3-padding">
                             <h3>Add user to group</h3>
                             <form action="/user/addUsertoGroup.xql" method="POST">
-                             <div class="form-group">
+                             
     <label for="group2">user</label>
-    <select class="form-control" id="user" name="user">
+    <select  class="w3-select w3-border" id="user" name="user">
     <option selected="selected" disabled="disabled">none</option>
       {for $g in sm:list-users() return <option value="{$g}">{$g}</option>}
     </select>
-  </div>
-                            <div class="form-group">
+  
     <label for="group2">Secondary Group</label>
-    <select class="form-control" id="group3" name="group3">
+    <select class="w3-select w3-border" id="group3" name="group3">
     <option selected="selected" disabled="disabled">none</option>
       {for $g in sm:get-groups() return
      <option value="{$g}">{$g}</option>}
     </select>
     
-  </div>
     
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" class="w3-button w3-red">Submit</button>
     </form>
                             </div>,
-                            <div class="col-md-12">
-                            <div  class="col-md-6">There are currently the following users in this eXist-db instance
+                            <div class="w3-container">
+                            <div  class="w3-half w3-responsive" >There are currently the following users in this eXist-db instance
                 
-                <table  class="table table-responsive"><thead><tr><th>user</th><th>metadata</th></tr></thead><tbody>{
+                <table  class="w3-table w3-hoverable">
+                <thead><tr><th>user</th><th>metadata</th></tr></thead><tbody>{
                         for $u in sm:list-users()
                         return
                             (<tr>
-                            <td>{$u}</td>
+                            <td><span class="w3-large w3-tag w3-red">{$u}</span></td>
                             <td>{if(sm:is-dba($u)) then 'dba' else 'user'}</td>
                             </tr>, 
                             <tr>
@@ -295,13 +294,13 @@ return
                             </tr>)
                     }</tbody></table>
             </div>
-            <div  class="col-md-6">There are currently the following groups in this eXist-db instance
+            <div  class="w3-half w3-responsive">There are currently the following groups in this eXist-db instance
                 
-                <table class="table table-responsive"><thead><tr><th>group</th><th>members</th></tr></thead><tbody>{
+                <table class="w3-table w3-hoverable"><thead><tr><th>group</th><th>members</th></tr></thead><tbody>{
                         for $u in sm:get-groups()
                         order by count(sm:get-group-members($u)) descending
                         return
-                            <tr><td>{$u}</td><td>{
+                            <tr><td><span class="w3-large w3-tag w3-gray">{$u}</span></td><td>{
                                     <ul>
                                         {
                                             for $m in sm:get-group-members($u)
@@ -314,36 +313,34 @@ return
             </div>
                             </div>,
 <div
-                        class="col-md-12 alert alert-danger">
+                        class="w3-container w3-card-4 w3-padding w3-red w3-margin">
                         <h3>Delete account</h3>
                         <form
                             action="/user/deleteaccount.xql" method="POST">
                            
-  <div class="form-group">
     <label for="un">user name</label>
-    <input class="form-control" id="un" name="olduser" aria-describedby="emailHelp" placeholder="select a user name"></input>
-    <small id="Help" class="form-text text-muted">Be very sure!</small>
-  </div>
+    <input class="w3-input w3-border" id="un" name="olduser" aria-describedby="emailHelp" placeholder="select a user name"></input>
+    <small id="Help" class="form-text text-muted">Be very sure!</small><br/>
+  
                         
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" class="w3-button w3-gray">Submit</button>
                             </form>
                             </div>,
 <div
-                        class="col-md-12 alert alert-danger">
+                        class="w3-container w3-card-4 w3-padding w3-red w3-margin">
                         <h3>Delete group</h3>
                         <form
                             action="/user/deletegroup.xql" method="POST">
                            
-  <div class="form-group">
 <label for="grouptobedeleted">Select group to be deleted</label>
-    <select class="form-control" id="grouptobedeleted" name="oldgroup">
+    <select class="w3-select w3-border" id="grouptobedeleted" name="oldgroup">
       {for $g in  sm:get-groups()
       return <option value="{$g}">{$g}</option>}
     </select>
-    <small id="delgroupHelp" class="form-text text-muted">Be very sure!</small>
-  </div>
+    <small id="delgroupHelp" class="form-text text-muted">Be very sure!</small><br/>
+  
                         
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" class="w3-button w3-gray">Submit</button>
                             </form>
                             </div>
                             )

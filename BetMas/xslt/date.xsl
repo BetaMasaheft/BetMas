@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:date">
         <xsl:choose>
@@ -67,16 +68,18 @@
     <xsl:template match="t:date[@calendar]">
         <xsl:variable name="id" select="generate-id(.)"/>
         <xsl:apply-templates/>
-        <a id="date{$id}calendar">
+        <a id="date{$id}calendar" class="popup" onclick="popup('dateInfo{$id}')">
             <i class="fa fa-calendar-plus-o" aria-hidden="true"/>
         </a>
     </xsl:template>
+    
     <xsl:template name="calendar">
         <xsl:param name="dates"/>
         <xsl:for-each select="//t:date[@calendar]">
-            <div class="hidden">
-            <div id="dateInfo{generate-id(.)}">
-                <table class="table table-hover table-responsive">
+            <div class="w3-hide">
+                <div class="w3-responsive w3-hide popuptext" id="dateInfo{generate-id(.)}">
+                
+                <table class="w3-table w3-hoverable">
                     <thead>
                         <tr>
                             <th>info</th>

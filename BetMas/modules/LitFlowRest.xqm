@@ -2,7 +2,7 @@ xquery version "3.1" encoding "UTF-8";
 (:~
  : template like RESTXQ module to generate the comparison page
  : 
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
 
 module namespace LitFlowRest = "https://www.betamasaheft.uni-hamburg.de/BetMas/LitFlowRest";
@@ -56,37 +56,37 @@ return
     <meta  xmlns="http://www.w3.org/1999/xhtml" property="dcterms:rights" content="Copyright &#169; Akademie der Wissenschaften in Hamburg, Hiob-Ludolf-Zentrum für Äthiopistik.  Sharing and remixing permitted under terms of the Creative Commons Attribution Share alike Non Commercial 4.0 License (cc-by-nc-sa)."></meta>
     <meta   xmlns="http://www.w3.org/1999/xhtml" property="dcterms:publisher schema:publisher" content="Akademie der Wissenschaften in Hamburg, Hiob-Ludolf-Zentrum für Äthiopistik"></meta>
 
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css"  />
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick-theme.css"  />
 {apprest:scriptStyle()}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"/>
     </head>
     <body id="body">
-       {nav:bar()}
-        {nav:modals()}
-        <div id="content">
-        <div class="col-md-12">
-        <div class="col-md-2">
-            <form action="" class="form form-horizontal" 
+       {nav:barNew()}
+        {nav:modalsNew()}
+        <div id="content" class="w3-container w3-padding-64 w3-margin">
+        <div class="w3-container">
+        <div class="w3-col" style="width:15%">
+            <form action="" class="w3-container" 
             data-hint="Select the subject keywords to see the Flow Chart break down by period.">
-        <div class="form-group">
-            <div class="input-group">
-  <div class="input-group-prepend">
-    <label class="input-group-text" for="inputGroupSelect01">Subject Keywords</label>
-  </div>
-  <select class="form-control" id="inputGroupSelect01" multiple="multiple" name="subj">
+        
+    <label>Subject Keywords</label>
+  
+  <select class="w3-select w3-border" id="inputGroupSelect01" multiple="multiple" name="subj">
     <option selected='Selected'>Choose...</option>
     {for $subject in doc(concat($config:data-rootA, '/taxonomy.xml'))//t:category[t:desc='Subjects']//t:category/t:catDesc
     return 
     <option value="{$subject/text()}" class="MainTitle" data-value="{$subject/text()}">{$subject/text()}</option>}
   </select>
-</div>
-                <div class="input-group-btn">
-                    <button type="submit" class="btn btn-primary">
+                    <div class="w3-bar">
+                    <button type="submit" class="w3-bar-item w3-button w3-red">
                     Load literature flow
                 </button>
-                </div>
-            </div>
+                <a class="w3-button w3-bar-item w3-gray" href="javascript:void(0);" onclick="javascript:introJs().addHints();">hints</a>
+    </div>
     </form>
         </div>
-        <div class="col-md-10">
+        <div class="w3-rest">
        {if($subj='') then <p class="lead">Please select values from the list.</p> 
        else (try{LitFlow:Sankey($list, 'works')} catch * {$err:description}, 
        try{LitFlow:Sankey($list, 'mss')} catch * {$err:description})
@@ -94,8 +94,10 @@ return
         </div>
         </div>
         </div>
-         {nav:footer()}
+         {nav:footerNew()}
 
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"  />
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/intro.js"  ></script>
         <script type="text/javascript" src="resources/js/titles.js"/>
         <script type="text/javascript" src="resources/js/slickoptions.js"/>
     <script type="application/javascript" src="resources/js/coloronhover.js"/>

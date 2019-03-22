@@ -2,9 +2,9 @@ xquery version "3.1" encoding "UTF-8";
 (:~
  : module retrieving a list of attestation of an entity in others.
  : 
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
-module namespace ATT = "https://www.betamasaheft.uni-hamburg.de/BetMas/ATT";
+module namespace att = "https://www.betamasaheft.uni-hamburg.de/BetMas/att";
 import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace api = "https://www.betamasaheft.uni-hamburg.de/BetMas/api" at "xmldb:exist:///db/apps/BetMas/modules/rest.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
@@ -17,9 +17,10 @@ declare namespace t = "http://www.tei-c.org/ns/1.0";
 (: For REST annotations :)
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json = "http://www.json.org";
+declare namespace test="http://exist-db.org/xquery/xqsuite";
 
 
- declare function ATT:stringDates($nodes){
+ declare function att:stringDates($nodes){
             let $strings := for $d in $nodes return string:tei2string($d) 
             return string-join($strings, ', ')
             };
@@ -33,7 +34,8 @@ declare
 %rest:GET
 %rest:path("/BetMas/api/attestations/{$type}/{$id}")
 %output:method("json")
-function ATT:attestations($id as xs:string*, $type as xs:string*)
+%test:args("PRS8249Ruppell","person") %test:assertExists
+function att:attestations($id as xs:string*, $type as xs:string*)
 {
 let $ty := switch($type)
 case 'person' return 't:persName[@ref'
@@ -48,6 +50,8 @@ let $hits :=
 for $att in $attestations
 let $rootID := string(root($att)/t:TEI/@xml:id) 
 group by $MAINID := $rootID
+return
+if($MAINID = $id) then () else 
 let $titleRoot := titles:printTitleMainID($MAINID)
 let $atts := 
    for $a at $p in $att 
@@ -60,13 +64,13 @@ let $atts :=
     let $cooccurringworks := ($a/preceding-sibling::t:title,$a/following-sibling::t:title)
     let $cooccurringterm := ($a/preceding-sibling::t:term,$a/following-sibling::t:term)
     let $date := if($a/ancestor::t:item[1]//t:date) 
-                  then ATT:stringDates($a/ancestor::t:item[1]//t:date)
+                  then att:stringDates($a/ancestor::t:item[1]//t:date)
                   else if($a/ancestor::t:msItem//t:date) 
-                  then ATT:stringDates($a/ancestor::t:msItem[1]//t:date) 
+                  then att:stringDates($a/ancestor::t:msItem[1]//t:date) 
                   else if($a/ancestor::t:handNote//t:date) 
-                  then ATT:stringDates($a/ancestor::t:handNote[1]//t:date) 
+                  then att:stringDates($a/ancestor::t:handNote[1]//t:date) 
                   else if($a/ancestor::t:decoNote//t:date) 
-                  then ATT:stringDates($a/ancestor::t:decoNote[1]//t:date) 
+                  then att:stringDates($a/ancestor::t:decoNote[1]//t:date) 
                   else 'no date'
     let $MainRole := switch($element) 
     case 'persName' return string($a/@role)

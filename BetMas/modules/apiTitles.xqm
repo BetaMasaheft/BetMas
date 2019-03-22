@@ -2,7 +2,7 @@ xquery version "3.1" encoding "UTF-8";
 (:~
  : titles from API
  : 
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
 module namespace apiTit = "https://www.betamasaheft.uni-hamburg.de/BetMas/apiTitles";
 import module namespace rest = "http://exquery.org/ns/restxq";
@@ -27,9 +27,8 @@ declare
 %rest:GET
 %rest:path("/BetMas/api/{$id}/title")
 %output:method("text")
-%test:arg('id','LIT1367Exodus') %test:assertEquals('<rest:response><http:response status="200"><http:header name="Access-Control-Allow-Origin" value="*" /></http:response></rest:response>',"Exodus")
 function apiTit:get-FormattedTitle($id as xs:string) {
-    ($api:response200,
+    ($config:response200,
    normalize-space(titles:printTitleMainID($id))
     
     )
@@ -41,9 +40,8 @@ declare
 %rest:GET
 %rest:path("/BetMas/api/{$id}/{$SUBid}/title")
 %output:method("text")
-%test:args('BNFet32','a1') %test:assertEquals('<rest:response><http:response status="200"><http:header name="Access-Control-Allow-Origin" value="*" /></http:response></rest:response>',"Paris, Bibliothèque nationale de France, Éthiopien 32, Scribal Note Completing a1")
 function apiTit:get-FormattedTitleandID($id as xs:string, $SUBid as xs:string) {
-    ($api:response200, 
+    ($config:response200, 
     let $resource := api:get-tei-rec-by-ID($id)
     let $m := titles:printTitleMainID($id) 
     return

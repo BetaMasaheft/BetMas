@@ -7,7 +7,7 @@ console.log(url)
 
 $.ajaxSetup({ cache: true });
 $.getJSON( url, function( data ) {
-//console.log(data)
+console.log(data)
   var items = [];
        for (var i = 0; i < data.total; i++) {
        var ann = data.rows[i]
@@ -24,7 +24,7 @@ $.getJSON( url, function( data ) {
 };
     $( "#hypothesisFeedResults" ).empty();
   $( "<table/>", {
-    "class": "table table-responsive",
+    "class": "w3-table w3-hoverable",
     html: items.join( "" )
   }).appendTo( "#hypothesisFeedResults" );
   

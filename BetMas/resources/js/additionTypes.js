@@ -1,11 +1,11 @@
 $(document).on('ready', function(){
 
-var formblock = $('<div  class="control-group"></div>')
-$(formblock).append('<small class="form-text text-muted">Select one or more type of document or addition</small>')
+var formblock = $('<div  class="w3-container w3-margin"></div>')
+$(formblock).append('<small class="form-text text-muted">Select one or more type of document or addition</small><br/>')
     $('.additionType').each(function(){
        var id = $(this).data('value')
        var name = $(this).text()
-        var checkbox = '<label class="checkbox"><input type="checkbox" value="'+id+'" name="type"/>'+name+'</label>'
+        var checkbox = '<label class="checkbox"><input type="checkbox" class="w3-check" value="'+id+'" name="type"/>'+name+'</label><br/>'
         $(formblock).append($(checkbox))
     });
      $('#additiontypes').html(formblock)
@@ -21,6 +21,7 @@ $(formblock).append('<small class="form-text text-muted">Select one or more type
    
 });
 
+/*for the additions view */
 function addDillmannlinks(textinput) {
    var allword = $('<div/>')
     /*make all spaces a single space*/

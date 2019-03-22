@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:collation">
         <xsl:variable name="mspartID">
@@ -27,11 +28,11 @@
         </xsl:if>
 
         <xsl:if test="t:list">
-        <div class="col-md-12 allCollation">
+        <div class="w3-container allCollation">
             
-            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#collation{$mspartID}">Quires Table</button>
-            <div class="collation collapse QuiresTable" id="collation{$mspartID}">
-                <div class="col-md-1">
+            <button type="button" class="w3-button w3-red" onclick=" openAccordion('collation{$mspartID}')">Quires Table</button>
+            <div class="collation w3-hide QuiresTable" id="collation{$mspartID}">
+                <div class="w3-col" style="width:200px">
                     <ul class="quireTableHeaders">
                         <li>Position</li>
                         <li>Number</li>
@@ -40,7 +41,7 @@
                         <li>Description</li>
                     </ul>
                 </div>
-                <div class="col-md-11 QuiresTableHoriz">
+                <div class="w3-rest QuiresTableHoriz">
                     <ul class="list-inline">
                         <xsl:for-each select=".//t:item">
                             <xsl:sort select="position()"/>
@@ -97,7 +98,7 @@
             <xsl:choose>
                 
                 <xsl:when test="$dimensionandstubs//item[child::dimensions[. mod 2 = 0]][child::stubs[. mod 2 != 0]]">
-                    <div class="col-md-12 alert alert-warning">
+                    <div class="w3-panel w3-black">
                         <p>
                             <b>It is unfortunately not possible with the information provided to print the collation diagrams and formula.
                             </b>
@@ -155,8 +156,8 @@
                         </xsl:if>
 
             <!--        formula-->
-            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#collationFormula{$mspartID}">Collation Formula </button>
-            <div id="collationFormula{$mspartID}" class="collapse">
+                <button type="button" class="w3-button w3-red" onclick=" openAccordion('collationFormula{$mspartID}')">Collation Formula </button>
+            <div id="collationFormula{$mspartID}" class="w3-container w3-hide">
                 <p>Formula: <xsl:for-each select=".//t:item">
                         <xsl:sort select="position()"/>
                         <xsl:apply-templates select="t:locus"/>
@@ -212,7 +213,7 @@
             </div>
             </xsl:when>
                 <xsl:otherwise>
-                    <div class="col-md-12 alert alert-warning">
+                    <div class="w3-panel w3-black">
                     <p>
                                 <b>It is unfortunately not possible with the information provided to print the collation diagrams and formula.
                     </b>

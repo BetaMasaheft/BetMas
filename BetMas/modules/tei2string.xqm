@@ -1,7 +1,7 @@
 xquery version "3.1" encoding "UTF-8";
 (:~
  : module producing string from nodes with mixed content
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
 
 module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string";

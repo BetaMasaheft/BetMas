@@ -4,7 +4,7 @@ xquery version "3.1" encoding "UTF-8";
  : decides names on the bases of ids,
  : decides where and how to get coordinates for an entry based on the id
  : 
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
 module namespace coord = "https://www.betamasaheft.uni-hamburg.de/BetMas/coord";
 
@@ -19,6 +19,8 @@ declare namespace sparql = "http://www.w3.org/2005/sparql-results#";
 
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace http = "http://expath.org/ns/http-client";
+
+declare namespace test="http://exist-db.org/xquery/xqsuite";
 
 (:~
  : tries to decide type of coordinate from content:)

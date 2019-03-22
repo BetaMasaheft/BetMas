@@ -10,11 +10,11 @@ $(document).on('ready', function () {
     FILTER(contains(?r, ?id)) \
     FILTER( ?rel = skos:exactMatch || contains(?strel, 'https://w3id.org/sdc/ontology#')) \
     FILTER( !regex(?strel, 'certain', 'i')) \
-    BIND(IF(contains(?p, 'betamasaheft'), strafter(?p, 'https://betamasaheft.eu/'), strafter(?p, '#')) as ?uri) \
+    BIND(IF(contains(?p, 'betamasaheft'), strafter(?p, 'http://betamasaheft.eu/'), strafter(?p, '#')) as ?uri) \
     BIND(replace(?uri , '/', ' ') AS ?partName) \
-    BIND(IF(contains(?r, 'betamasaheft'), strafter(?r, 'https://betamasaheft.eu/'), strafter(?r, '#')) as ?ruri) \
+    BIND(IF(contains(?r, 'betamasaheft'), strafter(?r, 'http://betamasaheft.eu/'), strafter(?r, '#')) as ?ruri) \
     BIND(replace(?ruri , '/', ' ') AS ?resourceName) \
-    BIND(IF(contains(?strel, 'betamasaheft'), strafter(?strel, 'https://betamasaheft.eu/'), strafter(?strel, '#')) as ?reluri) \
+    BIND(IF(contains(?strel, 'betamasaheft'), strafter(?strel, 'http://betamasaheft.eu/'), strafter(?strel, '#')) as ?reluri) \
     BIND(replace(?reluri , '/', ' ') AS ?relName)}"
     $("#graphloadingstatus").text('building the structural graph')
     apicall = "/api/SPARQL/json?query=" + encodeURIComponent(SdCquery)
@@ -139,9 +139,9 @@ $(document).on('ready', function () {
     FILTER(!contains(?p, 'msitem')) \
     FILTER(contains(?r, ?id)) \
     FILTER(?rel = dcterms:hasPart ||?rel = skos:exactMatch || contains(?strel, 'https://w3id.org/sdc/ontology#') || ?rel = rdf:type) \
-    BIND(IF(contains(?p, 'betamasaheft'), strafter(?p, 'https://betamasaheft.eu/'), strafter(?p, 'https://w3id.org/sdc/ontology#')) as ?uri) \
+    BIND(IF(contains(?p, 'betamasaheft'), strafter(?p, 'http://betamasaheft.eu/'), strafter(?p, 'https://w3id.org/sdc/ontology#')) as ?uri) \
     BIND(replace(?uri , '/', ' ') AS ?partName) \
-    BIND(IF(contains(?r, 'betamasaheft'), strafter(?r, 'https://betamasaheft.eu/'), strafter(?r, 'https://w3id.org/sdc/ontology#')) as ?ruri) \
+    BIND(IF(contains(?r, 'betamasaheft'), strafter(?r, 'http://betamasaheft.eu/'), strafter(?r, 'https://w3id.org/sdc/ontology#')) as ?ruri) \
     BIND(replace(?ruri , '/', ' ') AS ?resourceName)} LIMIT 250"
     var endpoint = '/api/SPARQL/json'
     d3sparql.query(endpoint, rdf, renderforce)

@@ -9,7 +9,7 @@ $(document).on({
 
 $('#addDTS').click(function(){
     
-    var input = '<input type="text" class="dts form-control col-md-6" placeholder="urn:dts:betmasMS:{manuscriptid}:{passage}-{passage}"></input>'
+    var input = '<input type="text" class="dts w3-input w3-half w3-border" placeholder="urn:dts:betmasMS:{manuscriptid}:{passage}-{passage}"></input>'
     $('#dtsURNs').append(input)
 });
 
@@ -29,7 +29,7 @@ var apicall = '/api/collatex?format=json&dts=' + dts.join(',')
 var container = $('#collationResult')
 $.getJSON(apicall, function( data ) {
 //console.log(data)
-var table = $('<table class="table table-responsive"/>')
+var table = $('<div class="w3-responsive"><table class="w3-table w3-hoverable"/></div>')
 var head = $('<thead><tr></tr></thead>')
 var body = $('<thead/>')
 
@@ -45,7 +45,7 @@ $(data.table).each(function(){
     $(this).each(function(){
          var tokens = this
     var string = tokens.join(' ')
-        var td = $('<td class="col-md-6">'+string+'</td>')
+        var td = $('<td class="w3-half w3-padding">'+string+'</td>')
         tr.append(td)
         arr.push(td.text())
     });

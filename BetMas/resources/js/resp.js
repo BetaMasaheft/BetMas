@@ -16,19 +16,19 @@ $(document).ajaxStop(function () {
         // on the basis of the actual class name, decide what kind of intervention is to choose an appropriate text to prepose to the names of the authors listed in resp.
         var type = ''
         switch (c) {
-            case 'RdgResp':
+            case 'w3-tooltip RdgResp':
             type = "Reading by ";
             break;
             
-            case 'OmissionResp':
+            case 'w3-tooltip OmissionResp':
             type = "Omitted by ";
             break;
             
-            case 'CorrResp':
+            case 'w3-tooltip CorrResp':
             type = "Marked as incorrect by ";
             break;
             
-            case 'choiceResp':
+            case 'w3-tooltip choiceResp':
             type = "Corrected by ";
             break;
         }
@@ -55,10 +55,8 @@ $(document).ajaxStop(function () {
           //  console.log(name)
         }
         
-        var content = type + name.join(', ')
-        $(el).tooltip({
-            html: true, title: content
-        })
+        var content = '<span class="w3-text respoptiontooltip">'+ type + name.join(', ') +'</span>'
+        $(el).append(content)
     });
     
     $(".RdgRespMs").each(function () {

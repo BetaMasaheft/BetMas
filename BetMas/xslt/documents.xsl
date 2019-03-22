@@ -1,15 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t" version="2.0">
+    <xsl:variable name="mainID" select="t:TEI/@xml:id"/>
     <xsl:template match="/">
-        <div class="col-md-12">
+        <div class="w3-container">
            
-            <div class="col-md-6" style="max-height:250px; overflow:auto; ">
-                <xsl:apply-templates select="//t:q"/>
-                <div class="footnotes">
+            <div class="w3-twothird w3-padding w3-card-4">
+                
+                <div class="w3-row w3-padding w3-margin-bottom w3-red">
+                    <xsl:apply-templates select="//t:note[@type = 'résumé']"/>
+                    <span class="w3-tag w3-gray">
+                        <xsl:apply-templates select="//t:date"/>
+                    </span>
+                </div>
+                
+                <div class="w3-row w3-margin-bottom">
+                    <div class="w3-half w3-padding" lang="gez">
+                        <xsl:apply-templates select="//t:q[@xml:lang='gez']"/>
+                    </div>
+                
+                <div class="w3-half w3-padding">
+                        <xsl:apply-templates select="//t:q[not(@xml:lang='gez')]"/>
+                    </div>
+                
+                    <div class="footnotes">
                     <xsl:apply-templates select="//t:note[@n][@xml:id]"/>
                 </div>
+                </div>
             </div>
-            <div class="col-md-6" style="max-height:250px; overflow:auto; ">
-            <xsl:apply-templates select="//t:note[not(@n)][not(@xml:id)]"/>
+            <div class="w3-third w3-padding w3-card-4 w3-gray">
+                <xsl:apply-templates select="//t:note[not(@n)][not(@xml:id)][not(@type = 'résumé')]"/>
                 <xsl:if test="//t:listBibl">
             <xsl:apply-templates select="//t:listBibl"/>
         </xsl:if>

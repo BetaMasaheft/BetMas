@@ -1,54 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
+    
+    
+<!--    in the w3-bar all links directly in the bar, 
+        as w3-bar-item not sure about the nested ones-->
+    
     <xsl:template match="/">
         <xsl:choose>
             <xsl:when test="t:TEI/@type = 'mss'">
-                <li>
-                    <h3>Navigate section</h3>
-                    <ul class="nav nav-pills nav-stacked">
-                        <xsl:if test="//t:placeName"><li>
-                            <a class="page-scroll" href="/IndexPlaces?entity={string(t:TEI/@xml:id)}">Places Index</a>
-                        </li></xsl:if>
-                        <xsl:if test="//t:persName"><li>
-                            <a class="page-scroll" href="/IndexPersons?entity={string(t:TEI/@xml:id)}">Persons Index</a>
-                        </li></xsl:if>
-                        <li>
-                            <a class="page-scroll" href="#general">General</a>
-                        </li>
-                        <li>
-                            <a class="page-scroll" href="#description">Description</a>
-                        </li>
-                        <li>
-                            <a class="page-scroll" href="#generalphysical">Physical desc of ms</a>
-                        </li>
+                <xsl:if test="//t:placeName">
+                            <a class="w3-bar-item page-scroll" href="/IndexPlaces?entity={string(t:TEI/@xml:id)}">Places Index</a>
+                 </xsl:if>
+                        <xsl:if test="//t:persName">
+                            <a class="w3-bar-item page-scroll" href="/IndexPersons?entity={string(t:TEI/@xml:id)}">Persons Index</a>
+                        </xsl:if>
+                            <a class="w3-bar-item page-scroll" href="#general">General</a>
+                            <a class="w3-bar-item page-scroll" href="#description">Description</a>
+                            <a class="w3-bar-item page-scroll" href="#generalphysical">Physical description</a>
                         <xsl:if test="//t:msPart">
-                            <ul>
+                            <div class="w3-bar-item">
+                                Main parts
+                                <ul>
                                 <xsl:for-each select="//t:msPart">
                                     <li>
                                         <a class="page-scroll" href="#{@xml:id}">Codicological unit <xsl:value-of select="substring-after(@xml:id, 'p')"/>
                                         </a>
                                     </li>
                                 </xsl:for-each>
-                            </ul>
+                                </ul>
+                            </div>
                         </xsl:if>
                         <xsl:if test="//t:additional//t:listBibl">
-                            <li>
-                                <a class="page-scroll" href="#catalogue">Catalogue</a>
-                            </li>
+                            
+                            <a class="w3-bar-item page-scroll" href="#catalogue">Catalogue</a>
+                            
                         </xsl:if>
                         <xsl:if test="//t:body[t:div]">
-                            <li>
-                                <a class="page-scroll" href="#transcription">Transcription </a>
-                            </li>
+                            
+                                <a class=" w3-bar-item page-scroll" href="#transcription">Transcription </a>
+                            
                         </xsl:if>
-                        <li>
-                            <a class="page-scroll" href="#footer">Authors</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <button type="button" class="toggle btn btn-info" data-toggle="collapse" data-target="#NavByIds">Show more links</button>
-                    <div class="collapse" id="NavByIds">
-                        <ul class="nav nav-pills nav-stacked">
+                        
+                            <a class="w3-bar-item page-scroll" href="#footer">Authors</a>
+                        
+                
+                <button class="w3-button w3-red w3-bar-item" onclick="openAccordion('NavByIds')">Show more links</button>
+                <ul class="w3-bar-item w3-hide" id="NavByIds">
                             <xsl:for-each select="//*[not(self::t:TEI)][@xml:id]">
                                 <xsl:sort select="position()"/>
                                 <li>
@@ -143,91 +140,82 @@
                                 </li>
                             </xsl:for-each>
                         </ul>
-                    </div>
-                </li>
+                    
+                
             </xsl:when>
             <xsl:when test="t:TEI/@type = 'work'">
-                <li>
-                    <a class="page-scroll" href="#description">Description</a>
-                </li>
-                <xsl:if test="//t:placeName"><li>
-                    <a class="page-scroll" href="/IndexPlaces?entity={string(t:TEI/@xml:id)}">Places Index</a>
-                </li></xsl:if>
-                <xsl:if test="//t:persName"><li>
-                    <a class="page-scroll" href="/IndexPersons?entity={string(t:TEI/@xml:id)}">Persons Index</a>
-                </li></xsl:if>
-                <xsl:if test="//t:body[t:div[@type='edition'][t:ab or t:div[@type='textpart']]]">
-                    <li>
-                        <a class="page-scroll" href="#transcription">Transcription
-                            </a>
-                    </li>
+                
+                    <a class="w3-bar-item page-scroll" href="#description">Description</a>
+                
+                <xsl:if test="//t:placeName">
+                    <a class="w3-bar-item page-scroll" href="/IndexPlaces?entity={string(t:TEI/@xml:id)}">Places Index</a>
                 </xsl:if>
-                <li>
-                    <a class="page-scroll" href="#bibliography">Bibliography</a>
-                </li>
+                <xsl:if test="//t:persName">
+                    <a class="w3-bar-item page-scroll" href="/IndexPersons?entity={string(t:TEI/@xml:id)}">Persons Index</a>
+                </xsl:if>
+                <xsl:if test="//t:body[t:div[@type='edition'][t:ab or t:div[@type='textpart']]]">
+                    
+                    <a class="w3-bar-item page-scroll" href="#transcription">Transcription
+                            </a>
+                    
+                </xsl:if>
+                
+                <a class="w3-bar-item page-scroll" href="#bibliography">Bibliography</a>
+                
             </xsl:when>
             <xsl:when test="t:TEI/@type = 'nar'">
-                <li>
-                    <a class="page-scroll" href="#general">General</a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="#description">Description</a>
-                </li>
-                <li>
-                    <a data-toggle="modal" data-target="#BetMasRel">Relations</a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="#authors">Authors</a>
-                </li>
+                
+                <a class="w3-bar-item page-scroll" href="#general">General</a>
+                
+                
+                <a class="w3-bar-item page-scroll" href="#description">Description</a>
+                
+                
+                <a class="w3-bar-item page-scroll" href="#authors">Authors</a>
+                
             </xsl:when>
             <xsl:when test="t:TEI/@type = 'ins' or t:TEI/@type = 'place'">
-               
-                    <li>
-                        <a href=" /IndexPlaces?pointer={string(t:TEI/@xml:id)}&amp;collection=all">Places Index</a>
-                    </li>
-                <li>
-                    <a class="page-scroll" href="#general">General</a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="#description">Description</a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="#map">Map</a>
-                </li>
+                <a class="w3-bar-item page-scroll" href="/IndexPlaces?pointer={string(t:TEI/@xml:id)}">Places Index</a>
+                
+                <a class="w3-bar-item page-scroll" href="#general">General</a>
+                
+                
+                <a class="w3-bar-item page-scroll" href="#description">Description</a>
+                
+                
+                <a class="w3-bar-item page-scroll" href="#map">Map</a>
+                
             </xsl:when>
             <xsl:when test="t:TEI/@type = 'pers'">
-                <li>
-                    <a href=" /IndexPersons?pointer={string(t:TEI/@xml:id)}&amp;collection=all">Persons Index</a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="#general">General</a>
-                </li>
+                <a class="w3-bar-item page-scroll" href="/IndexPersons?pointer={string(t:TEI/@xml:id)}">Persons Index</a>
+                <a class="w3-bar-item page-scroll" href="#general">General</a>
+                
                 <xsl:if test="//t:birth">
-                    <li>
-                    <a class="page-scroll" href="#birth">Birth</a>
-                </li>
+                    
+                        <a class="w3-bar-item page-scroll" href="#birth">Birth</a>
+                
                 </xsl:if>
                 <xsl:if test="//t:death">
-                    <li>
-                    <a class="page-scroll" href="#death">Death</a>
-                </li>
+                    
+                        <a class="w3-bar-item page-scroll" href="#death">Death</a>
+                
                 </xsl:if>
                 <xsl:if test="//t:floruit">
-                <li>
-                    <a class="page-scroll" href="#floruit">Floruit</a>
-                </li>
+                
+                    <a class="w3-bar-item page-scroll" href="#floruit">Floruit</a>
+                
                 </xsl:if>
             </xsl:when>
             <xsl:when test="t:TEI/@type = 'auth'">
-                <li>
-                    <a class="page-scroll" href="#general">General</a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="#description">Description</a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="#authors">Authors</a>
-                </li>
+                
+                    <a class="w3-bar-item page-scroll" href="#general">General</a>
+                
+                
+                    <a class="w3-bar-item page-scroll" href="#description">Description</a>
+                
+                
+                <a class="w3-bar-item page-scroll" href="#authors">Authors</a>
+                
             </xsl:when>
         </xsl:choose>
     </xsl:template>

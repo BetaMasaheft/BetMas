@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:persName">
         <xsl:choose>
@@ -40,7 +41,7 @@
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:variable>
-                <a xmlns="http://www.w3.org/1999/xhtml" href="/{@ref}" class="persName">
+                <a xmlns="http://www.w3.org/1999/xhtml" href="{@ref}" class="persName">
                     <xsl:choose>
                         <xsl:when test="t:choice">
                             <xsl:apply-templates select="t:choice"/>
@@ -72,10 +73,10 @@
                     <xsl:apply-templates select="t:roleName"/>
                 </xsl:if>-->
                 <xsl:variable name="id" select="generate-id()"/>
-                <a xmlns="http://www.w3.org/1999/xhtml" id="{$id}Ent{$filename}relations">
+                <span xmlns="http://www.w3.org/1999/xhtml" id="{$id}Ent{$filename}relations" class="popup">
                     <xsl:text>  </xsl:text>
                     <i class="fa fa-hand-o-left"/>
-                </a>
+                </span>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
@@ -120,7 +121,7 @@
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:variable>
-                                <span xmlns="http://www.w3.org/1999/xhtml" class="persName" property="http://purl.org/dc/elements/1.1/relation" resource="https://betamasaheft.eu/{@ref}">
+                                <span xmlns="http://www.w3.org/1999/xhtml" class="persName" property="http://purl.org/dc/elements/1.1/relation" resource="http://betamasaheft.eu/{@ref}">
                     <xsl:choose>
                         <xsl:when test="t:choice">
                             <xsl:apply-templates select="t:choice"/>
@@ -158,7 +159,9 @@
    
     <xsl:template match="t:roleName[not(parent::t:persName)]">
         <xsl:apply-templates/>
-        <a xmlns="http://www.w3.org/1999/xhtml" href="#" class="AttestationsWithSameRole" data-value="{.}"><sup>?</sup></a>
+        <a xmlns="http://www.w3.org/1999/xhtml" href="#" class="AttestationsWithSameRole" data-value="{.}">
+            <sup>?</sup>
+        </a>
     </xsl:template>
     
     <xsl:template match="t:roleName[parent::t:persName]" mode="nolink">

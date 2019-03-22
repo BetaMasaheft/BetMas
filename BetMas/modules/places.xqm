@@ -3,7 +3,7 @@ xquery version "3.1" encoding "UTF-8";
  : rest XQ module producing geoJSON and KML versions of the placelike items
  : the controller will redirect to the correct path for this module all requests ending in .json
  : the KML is used by the dariah de Geo Browser
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
 
 module namespace places = "https://www.betamasaheft.uni-hamburg.de/BetMas/places";
@@ -18,7 +18,7 @@ import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas
 import module namespace kwic = "http://exist-db.org/xquery/kwic"
     at "resource:org/exist/xquery/lib/kwic.xql";
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
-import module namespace switch = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch" at "xmldb:exist:///db/apps/BetMas/modules/switch.xqm";   
+import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2" at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";   
 import module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMas/error" at "xmldb:exist:///db/apps/BetMas/modules/error.xqm";  
 (: namespaces of data used :)
 declare namespace t = "http://www.tei-c.org/ns/1.0";
@@ -328,7 +328,7 @@ function places:kmltextALL($collection as xs:string) {
 $places:response200xml,
 
 let $log := log:add-log-message('/api/KML/'||$collection||'/places', xmldb:get-current-user(), 'places')
-       let $items := switch:collectionVar($collection)
+       let $items := switch2:collectionVar($collection)
 return 
       places:kmlplacesm($items)
 };
@@ -343,7 +343,7 @@ function places:kmltextALLorig($collection as xs:string) {
 $places:response200xml,
 
 let $log := log:add-log-message('/api/KML/'||$collection||'/origPlaces', xmldb:get-current-user(), 'places')
-let $col := switch:collectionVar($collection)
+let $col := switch2:collectionVar($collection)
        let $items := $col//t:origPlace[descendant::t:placeName/@ref]
 return 
       places:kmlOrigplacesm($items)
@@ -394,7 +394,7 @@ function places:kmlmetadataALL($collection as xs:string) {
 $places:response200xml,
 
 let $log := log:add-log-message('/api/KML/'||$collection||'/datePlace', xmldb:get-current-user(), 'places')
-    let $items :=   switch:collectionVar($collection)
+    let $items :=   switch2:collectionVar($collection)
 
 return 
        places:kmldataplaces($items)

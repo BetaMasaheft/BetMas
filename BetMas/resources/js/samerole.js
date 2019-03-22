@@ -35,7 +35,7 @@ $(".role").on('click', function () {
             $('#'+role+'listcount').text('There are other ' +  data.total + ' ' + role + 's');
             var list = $('#'+role+'listitems')
             for (i = 0; i < length; i++) {
-                    $(list).append('<li><a target="_blank" href="/' + results[i].pwl + '">' + results[i].title + '</a><button class="btn btn-primary btn-xs roleid" data-personid="' + results[i].pwl + '" data-role="' + role + '"> is mentioned as '+role+' '+ results[i].hits+' times. Click to see which.</button><ul id="' + results[i].pwl + 'itemlist"></ul></li>')
+                    $(list).append('<li><a target="_blank" href="/' + results[i].pwl + '">' + results[i].title + '</a> is mentioned as '+role+' '+ results[i].hits+' times. <button class="w3-button w3-red roleid" data-personid="' + results[i].pwl + '" data-role="' + role + '">Click to see which.</button><ul id="' + results[i].pwl + 'itemlist"></ul></li>')
                 }
 
         });

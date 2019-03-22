@@ -4,7 +4,7 @@ xquery version "3.1" encoding "UTF-8";
  : TEI file to enrich the table in the SdC views, called
  : by SdCtable.js 
  : 
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
 module namespace enrich = "https://www.betamasaheft.uni-hamburg.de/BetMas/enrich";
 import module namespace rest = "http://exquery.org/ns/restxq";

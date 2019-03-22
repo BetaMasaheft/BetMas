@@ -1,7 +1,7 @@
 xquery version "3.0" encoding "UTF-8";
 (:~
  : given a selection of resources these are transformed to XSLFO and  passed on to FOP to produce a PDF
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
  
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
@@ -10,7 +10,7 @@ import module namespace app = "https://www.betamasaheft.uni-hamburg.de/BetMas/ap
 import module namespace coord = "https://www.betamasaheft.uni-hamburg.de/BetMas/coord" at "xmldb:exist:///db/apps/BetMas/modules/coordinates.xqm";
 import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
 import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "xmldb:exist:///db/apps/BetMas/modules/editors.xqm";
-import module namespace switch = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch"  at "xmldb:exist:///db/apps/BetMas/modules/switch.xqm";
+import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2"  at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
 
 import module namespace http = "http://expath.org/ns/http-client";
 declare namespace fo = "http://www.w3.org/1999/XSL/Format";
@@ -1023,7 +1023,7 @@ if(count($doc//tei:change[contains(., 'completed')]) ge 1) then ()
             THIS IS AN UNPUBLISHED DRAFT UNDER REVISION. PLEASE DO NOT USE THIS WORK AS REFERENCE UNTIL IT IS COMPLETED.
             </fo:inline>
         ),
-    let $collection := switch:col(string($doc/@type))
+    let $collection := switch2:col(string($doc/@type))
     let $auths := $doc//tei:revisionDesc/tei:change/@who[. != 'PL']
     let $bibdata := <bibl>
         {

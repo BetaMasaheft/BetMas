@@ -2,11 +2,11 @@ xquery version "3.1" encoding "UTF-8";
 (:~
  : module with all the main functions which can be called by the API.
  : 
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
 module namespace api = "https://www.betamasaheft.uni-hamburg.de/BetMas/api";
 import module namespace rest = "http://exquery.org/ns/restxq";
-import module namespace switch = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch"  at "xmldb:exist:///db/apps/BetMas/modules/switch.xqm";
+import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2"  at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
 import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
 import module namespace all="https://www.betamasaheft.uni-hamburg.de/BetMas/all" at "xmldb:exist:///db/apps/BetMas/modules/all.xqm";
 import module namespace dts="https://www.betamasaheft.uni-hamburg.de/BetMas/dts" at "xmldb:exist:///db/apps/BetMas/modules/dts.xqm";
@@ -58,7 +58,7 @@ declare
 %output:method("html")
 function api:listRepositoriesName()
 {
-for $i in doc('/db/apps/BetMas/institutions.xml')//t:item
+for $i in doc('/db/apps/BetMas/lists/institutions.xml')//t:item
 let $name := $i/text()
 order by $name
 return
@@ -205,7 +205,7 @@ declare
 %rest:GET
 %rest:path("/BetMas/api/{$id}/{$type}/{$subid}")
 %output:method("xml")
-%test:args("BNFet102", "addition", "a1") 
+%test:args("BNFet102", "addition", "e1") 
 %test:assertXPath('//*:item')
 function api:teipartbyURI($id as xs:string, $type as xs:string, $subid as xs:string){
  let $element := switch($type)
@@ -240,15 +240,15 @@ declare
 %rest:GET
 %rest:path("/BetMas/api/additions/{$id}/addition/{$addID}")
 %output:method("xml")
-%test:args("BAVet1", "a4")
-%test:assertXPath("//span[@class='word']")
+%test:args("BAVet1", "a4") %test:assertExists
 function api:additiontext($id as xs:string*, $addID as xs:string*){
 let $log := log:add-log-message('/api/additions/'||$id||'/addition/'||$addID, xmldb:get-current-user(), 'REST')
 let $entity := $config:collection-root/id($id)
 let $a := $entity//t:item[@xml:id = $addID]
 return
+<div xmlns="https://www.w3.org/1999/xhtml" >{
 transform:transform($a,  'xmldb:exist:///db/apps/BetMas/xslt/q.xsl', ())
-
+}</div>
     
 };
  
@@ -440,7 +440,7 @@ declare
 %rest:path("/BetMas/api/{$id}/tei")
 %output:media-type("text/xml")
 %output:method("xml")
-%test:arg('id','LIT1367Exodus') %test:assertXPath("//t:text")
+%test:arg('id','LIT1367Exodus') %test:assertXPath("//*:text")
 function api:get-tei-by-ID($id as xs:string) {
     let $log := log:add-log-message('/api/' || $id || '/tei', xmldb:get-current-user(), 'REST')
     let $login := xmldb:login($config:data-root, $config:ADMIN, $config:ppw)

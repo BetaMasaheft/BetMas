@@ -829,21 +829,14 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                             xmlns="http://exist.sourceforge.net/NS/exist">
                                                                             <redirect
                                                                                 url="{$exist:path}list"/>
-                                                                           
                                                                         </dispatch>
-                                                                         
                                                         else if (
                                                         $exist:path eq '/manuscripts' or
-                                                       
                                                         $exist:path eq '/works' or
-                                                     
                                                         $exist:path eq '/narratives' or
-                                                     
                                                         $exist:path eq '/places' or
-                                               
                                                         $exist:path eq '/persons' or
                                                         $exist:path eq '/institutions'
-                                                      
                                                         ) then
                                                         
                                                         <dispatch
@@ -871,10 +864,6 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                     url="{$exist:controller}/modules/view.xql"/>
                                                                             </view>
                                                                         </dispatch>
-                                                                        
-                                                                        
-                                                    
-                                                                
                                                                 else
                                                                     
                                                                     <dispatch
@@ -887,12 +876,6 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                 url="{$exist:controller}/modules/view.xql"/>
                                                                         </error-handler>
                                                                     </dispatch>
-                                                                    
-                                
-                            
-                            
-                            
-                            
                             
                             else
                                 (: everything else is passed through :)

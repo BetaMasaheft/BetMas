@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.torg/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     
    <!-- <xsl:template match="t:relation">
@@ -87,7 +88,7 @@
     <xsl:template match="t:note">
         <xsl:choose>
         <xsl:when test="parent::t:placeName">
-        <div class="alert alert-info">
+        <div class="w3-panel w3-gray">
            <xsl:choose>
             <xsl:when test="t:p">
                 <xsl:apply-templates/>
@@ -129,7 +130,7 @@
     </xsl:template>
     <xsl:template match="t:incipit">
         <xsl:variable name="lang" select="@xml:lang"/>
-        <p>
+        <p lang="{$lang}">
             <b>
                 <xsl:choose>
                 <xsl:when test="@type = 'supplication'">Supplication</xsl:when>
@@ -143,7 +144,7 @@
     </xsl:template>
     <xsl:template match="t:explicit">
         <xsl:variable name="lang" select="@xml:lang"/>
-        <p>
+        <p lang="{$lang}">
             <b>
                 <xsl:choose>
                     <xsl:when test="@type = 'supplication'">Supplication</xsl:when>
@@ -158,7 +159,7 @@
         </p>
     </xsl:template>
     <xsl:template match="t:rubric">
-        <p>
+        <p lang="{@xml:lang}">
             <b>Rubric <xsl:value-of select="@xml:lang"/>: </b>
             <xsl:apply-templates/>
         </p>
@@ -174,7 +175,7 @@
     </xsl:template>
     
     <xsl:template match="t:custEvent[@type='restorations']">
-        <p class="lead">
+        <p class="w3-large">
           This manuscript has <xsl:value-of select="@subtype"/>  restorations
         </p>
     </xsl:template>
@@ -277,7 +278,9 @@
         <xsl:variable name="curlang" select="@mainLang"/>
         <p>
             <b>Language of text: </b>
-            <span property="http://purl.org/dc/elements/1.1/language"><xsl:value-of select="//t:language[@ident = $curlang]"/></span>
+            <span property="http://purl.org/dc/elements/1.1/language">
+                <xsl:value-of select="//t:language[@ident = $curlang]"/>
+            </span>
             <xsl:if test="@otherLangs">
                 <xsl:variable name="Otherlang" select="@otherLangs"/> and <xsl:value-of select="//t:language[@ident = $Otherlang]"/>
             </xsl:if>
@@ -348,5 +351,7 @@
             </xsl:choose>
         </p>
     </xsl:template>
+    
+    
     
 </xsl:stylesheet>

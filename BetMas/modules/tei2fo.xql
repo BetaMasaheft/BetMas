@@ -2,7 +2,7 @@ xquery version "3.1";
 (:~
  : This module based on the one provided in the shakespare example app
  : produces a xslfo temporary object and passes it to FOP to produce a PDF
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
  
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
@@ -12,7 +12,7 @@ import module namespace app = "https://www.betamasaheft.uni-hamburg.de/BetMas/ap
 import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "xmldb:exist:///db/apps/BetMas/modules/editors.xqm";
 import module namespace coord = "https://www.betamasaheft.uni-hamburg.de/BetMas/coord" at "xmldb:exist:///db/apps/BetMas/modules/coordinates.xqm";
 import module namespace http = "http://expath.org/ns/http-client";
-import module namespace switch = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch"  at "xmldb:exist:///db/apps/BetMas/modules/switch.xqm";
+import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2"  at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
 
 declare namespace fo = "http://www.w3.org/1999/XSL/Format";
 declare namespace xslfo = "http://exist-db.org/xquery/xslfo";
@@ -984,7 +984,7 @@ declare function fo:citation($title, $doc, $id) {
             </fo:inline>
         ),
            
-    let $collection := switch:col(string($doc/@type))
+    let $collection := switch2:col(string($doc/@type))
     
     let $auths := $doc//tei:revisionDesc/tei:change/@who[. != 'PL']
     let $bibdata := <bibl>

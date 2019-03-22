@@ -1,16 +1,16 @@
 xquery version "3.1" encoding "UTF-8";
 
 
-module namespace viewer = "https://www.betamasaheft.uni-hamburg.de/BetMas/iiif";
+module namespace viewer = "https://www.betamasaheft.uni-hamburg.de/BetMas/iiifviewer";
 import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
 import module namespace xdb="http://exist-db.org/xquery/xmldb";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace nav = "https://www.betamasaheft.uni-hamburg.de/BetMas/nav" at "xmldb:exist:///db/apps/BetMas/modules/nav.xqm";
-import module namespace item = "https://www.betamasaheft.uni-hamburg.de/BetMas/item" at "xmldb:exist:///db/apps/BetMas/modules/item.xqm";
+import module namespace item2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/item2" at "xmldb:exist:///db/apps/BetMas/modules/item.xqm";
 import module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMas/error" at "xmldb:exist:///db/apps/BetMas/modules/error.xqm";
 import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "xmldb:exist:///db/apps/BetMas/modules/apprest.xqm";
-import module namespace switch = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch"  at "xmldb:exist:///db/apps/BetMas/modules/switch.xqm";
+import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2"  at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 
 (: For REST annotations :)
@@ -47,7 +47,7 @@ log:add-log-message('/manuscripts/viewer', xmldb:get-current-user(), 'viewer'),
      
     </head>
     <body id="body">
-       <div id="content" class="container-fluid col-md-12">
+       <div id="content" class="w3-container w3-padding-64 w3-margin">
  
     <div id="viewer"></div>
     
@@ -92,7 +92,7 @@ log:add-log-message('/manuscripts/'||$repoid||'/viewer', xmldb:get-current-user(
      
     </head>
     <body id="body">
-       <div id="content" class="container-fluid col-md-12">
+       <div id="content" class="w3-margin w3-container w3-padding-64">
  
     <div id="viewer"></div>
     
@@ -118,7 +118,7 @@ declare
 %output:method("html5")
 function viewer:mirador($collection as xs:string, $id as xs:string, $FirstCanv as xs:string*){
 
-let $c := switch:collectionVar($collection)
+let $c := switch2:collectionVar($collection)
 let $coll := $config:data-root || '/' || $collection
 let $this := $c/id($id)
 let $biblio :=
@@ -199,14 +199,15 @@ if(xdb:collection-available($coll)) then (
     <script src="resources/mirador/mirador.min.js"></script>
     </head>
     <body id="body">
-      {nav:bar()}
-        {nav:modals()}
-        {nav:searchhelp()}
-       {item:RestViewOptions($this, $collection)}
-  { item:RestItemHeader($this, $collection)}
-       <div class="col-md-12">
+      {nav:barNew()}
+        {nav:modalsNew()}
+        {nav:searchhelpNew()}
+        <div id="content" class="w3-container w3-padding-48">
+       {item2:RestViewOptions($this, $collection)}
+  { item2:RestItemHeader($this, $collection)}
+       <div class="w3-container">
  
-    <div id="viewer"  allowfullscreen="allowfullscreen"></div>
+    <div id="viewer" class="w3-margin-top" allowfullscreen="allowfullscreen"></div>
     
 <script type="text/javascript" >{'var data = [{manifestUri: "' || $manifest || '", location: "' || $location || '"}]
 var loadedM =  "' || $manifest || '"
@@ -215,11 +216,12 @@ var canvasid = "' || (if($FirstCanv = '') then $firstcanvas else $FirstCanv) || 
    <script type="text/javascript" src="resources/js/mirador.js"></script>
    
  </div>
- <div class="col-md-12">
- <p class="alert alert-info"><a href="{$manifest}" target="_blank"><img src="/resources/images/iiif.png" width="20px"/> {$manifest}</a></p>
+ <div class="w3-panel w3-gray w3-card-2">
+ <p><a href="{$manifest}" target="_blank"><img src="/resources/images/iiif.png" width="20px"/> {$manifest}</a></p>
  </div>
         { apprest:authors($this, $collection)}
-     {nav:footer()}
+        </div>
+     {nav:footerNew()}
     </body>
 </html>
         )

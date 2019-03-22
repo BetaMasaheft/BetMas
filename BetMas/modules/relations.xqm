@@ -2,7 +2,7 @@ xquery version "3.0" encoding "UTF-8";
 
 (:~
  : used to produce nodes and edges for vis.js graph visualizations
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
  
 module namespace rels="https://www.betamasaheft.uni-hamburg.de/BetMas/rels";

@@ -2,14 +2,13 @@ xquery version "3.1" encoding "UTF-8";
 (:~
  : template like RESTXQ module to generate the comparison page
  : 
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
 
 module namespace compare = "https://www.betamasaheft.uni-hamburg.de/BetMas/compare";
 import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
 import module namespace app = "https://www.betamasaheft.uni-hamburg.de/BetMas/app" at "xmldb:exist:///db/apps/BetMas/modules/app.xqm";
-import module namespace item = "https://www.betamasaheft.uni-hamburg.de/BetMas/item" at "xmldb:exist:///db/apps/BetMas/modules/item.xqm";
 import module namespace nav = "https://www.betamasaheft.uni-hamburg.de/BetMas/nav" at "xmldb:exist:///db/apps/BetMas/modules/nav.xqm";
 import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "xmldb:exist:///db/apps/BetMas/modules/apprest.xqm";
 import module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMas/error" at "xmldb:exist:///db/apps/BetMas/modules/error.xqm";
@@ -22,6 +21,7 @@ declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace dcterms = "http://purl.org/dc/terms";
 declare namespace saws = "http://purl.org/saws/ontology";
 declare namespace cmd = "http://www.clarin.eu/cmd/";
+declare namespace test="http://exist-db.org/xquery/xqsuite";
 
 (: For REST annotations :)
 declare namespace http = "http://expath.org/ns/http-client";
@@ -72,37 +72,40 @@ if(exists($w) or $workid ='') then (
     <meta  xmlns="http://www.w3.org/1999/xhtml" property="dcterms:language schema:inLanguage" content="en"></meta>
     <meta  xmlns="http://www.w3.org/1999/xhtml" property="dcterms:rights" content="Copyright &#169; Akademie der Wissenschaften in Hamburg, Hiob-Ludolf-Zentrum für Äthiopistik.  Sharing and remixing permitted under terms of the Creative Commons Attribution Share alike Non Commercial 4.0 License (cc-by-nc-sa)."></meta>
     <meta   xmlns="http://www.w3.org/1999/xhtml" property="dcterms:publisher schema:publisher" content="Akademie der Wissenschaften in Hamburg, Hiob-Ludolf-Zentrum für Äthiopistik"></meta>
-
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/introjs.css"  />
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css"  />
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick-theme.css"  />
+        
 {apprest:scriptStyle()}
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"/>
     </head>
     <body id="body">
-       {nav:bar()}
-        {nav:modals()}
-        <div id="content">
-        <div class="col-md-12">
-        <form action="" class="form form-horizontal" data-hint="enter here the id of the work you would like to compare. Alternatively, if you go to the clavis list view you can select explicitly which mss you want to compare fromt the results of your search. From a literary work view you can click the compare tab to feed this view with the list of manuscripts containing that work.">
-        <div class="form-group">
-            <div class="input-group">
-                <input placeholder="choose work to compare manuscripts" class="form-control" list="gotohits" id="GoTo" name="workid" data-value="works"/>
+       {nav:barNew()}
+        {nav:modalsNew()}
+        <div id="content" class="w3-container w3-padding-64 w3-margin">
+        <div class="w3-container">
+        <form action="" class="w3-container" data-hint="enter here the id of the work you would like to compare. Alternatively, if you go to the clavis list view you can select explicitly which mss you want to compare fromt the results of your search. From a literary work view you can click the compare tab to feed this view with the list of manuscripts containing that work.">
+        <input placeholder="choose work to compare manuscripts" class="w3-input w3-border" list="gotohits" id="GoTo" name="workid" data-value="works"/>
                 <datalist id="gotohits">
                     
                 </datalist>
-                <div class="input-group-btn">
-                    <button type="submit" class="btn btn-primary"> Compare
-                </button>
-                </div>
-            </div>
-        </div>
+          <div class="w3-bar"><button type="submit" class="w3-bar-item w3-button w3-red"> Compare
+                </button><a class="w3-bar-item w3-button w3-gray" href="javascript:void(0);" 
+        onclick="javascript:introJs().addHints();">show hints</a></div>
     </form>
     
-        <a class="btn btn-large btn-success" href="javascript:void(0);" onclick="javascript:introJs().addHints();">show hints</a>
-        <div class="msscomp col-md-12">
+        
+        <div class="msscomp w3-container">
             {apprest:compareMssFromForm($workid)}
         </div>
         </div>
         </div>
-         {nav:footer()}
+         {nav:footerNew()}
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"  />
 
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/intro.js"  ></script>
+        <script type="application/javascript" src="resources/js/introText.js"/>
         <script type="text/javascript" src="resources/js/titles.js"/>
         <script type="text/javascript" src="resources/js/slickoptions.js"/>
     <script type="application/javascript" src="resources/js/coloronhover.js"/>
@@ -161,19 +164,29 @@ return
     <meta  xmlns="http://www.w3.org/1999/xhtml" property="dcterms:rights" content="Copyright &#169; Akademie der Wissenschaften in Hamburg, Hiob-Ludolf-Zentrum für Äthiopistik.  Sharing and remixing permitted under terms of the Creative Commons Attribution Share alike Non Commercial 4.0 License (cc-by-nc-sa)."></meta>
     <meta   xmlns="http://www.w3.org/1999/xhtml" property="dcterms:publisher schema:publisher" content="Akademie der Wissenschaften in Hamburg, Hiob-Ludolf-Zentrum für Äthiopistik"></meta>
 
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/introjs.css"  />
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css"  />
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick-theme.css"  />
+        
 {apprest:scriptStyle()}
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"/>
     </head>
     <body id="body">
-       {nav:bar()}
-        {nav:modals()}
-        <div id="content">
-        <div class="col-md-12">
-        <div class="msscomp col-md-12">
+       {nav:barNew()}
+        {nav:modalsNew()}
+        <div id="content" class="w3-container w3-margin w3-padding-64">
+        
+        <div class="msscomp w3-container">
             {apprest:compareMssFromlist($list)}
         </div>
         </div>
-        </div>
-         {nav:footer()}
+        
+         {nav:footerNew()}
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"  />
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/intro.js"  ></script>
+        <script type="application/javascript" src="resources/js/introText.js"/>
 
         <script type="text/javascript" src="resources/js/titles.js"/>
         <script type="text/javascript" src="resources/js/slickoptions.js"/>

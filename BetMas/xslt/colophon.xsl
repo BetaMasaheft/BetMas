@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:colophon">
         <hr class="colophon"/>
@@ -20,7 +21,7 @@
             <xsl:apply-templates select="node() except (t:note | t:foreign | t:listBibl | t:locus)"/>
         </p>
         <xsl:if test="t:foreign">
-            <p>
+            <p lang="{t:foreign/@xml:lang}">
                 <b>Translation <xsl:value-of select="t:foreign/@xml:lang"/>: </b>
                 <xsl:value-of select="t:foreign"/>
             </p>

@@ -2,13 +2,12 @@ xquery version "3.1" encoding "UTF-8";
 (:~
  : template like RESTXQ module to generate the comparison page
  : 
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
 
 module namespace collatex = "https://www.betamasaheft.uni-hamburg.de/BetMas/collatex";
 import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
-import module namespace item = "https://www.betamasaheft.uni-hamburg.de/BetMas/item" at "xmldb:exist:///db/apps/BetMas/modules/item.xqm";
 import module namespace nav = "https://www.betamasaheft.uni-hamburg.de/BetMas/nav" at "xmldb:exist:///db/apps/BetMas/modules/nav.xqm";
 import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "xmldb:exist:///db/apps/BetMas/modules/apprest.xqm";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
@@ -20,6 +19,7 @@ declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace http = "http://expath.org/ns/http-client";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json = "http://www.json.org";
+declare namespace test="http://exist-db.org/xquery/xqsuite";
 
 declare variable $collatex:meta := <meta  xmlns="http://www.w3.org/1999/xhtml" name="description" content="Collation Interface using Collatex https://collatex.net/"/>;
 
@@ -101,11 +101,11 @@ return
 {apprest:scriptStyle()}
     </head>
     <body id="body">
-       {nav:bar()}
-        {nav:modals()}
-        <div id="content">
-        <div class="col-md-12">
-        <div class="col-md-3">
+       {nav:barNew()}
+        {nav:modalsNew()}
+        <div id="content" class="w3-container w3-margin w3-padding-64">
+        <div class="w3-container">
+        <div class="w3-quarter">
         <p>Here you can collate transcriptions of manuscripts using Collatex <a href="https://collatex.net/">https://collatex.net/</a>) from our server installation.</p>
         <p>You cannot enter your own text, but you can collate any text which is in the database. To add your transcription, see the guidelines <a href="/Guidelines/?id=howto">here</a>.</p>
             <p>In the form below you have to provide the two DTS URNs of the passages you want to compare, then hit the collate button and you will get a visualization of the TEI apparatus output from Collatex.</p>
@@ -123,23 +123,28 @@ return
             <p>The level of precision possible, depends from the encoding. If you have encoded page and column breaks you can use them, otherways hopefully there are at least folia divisions.</p>
             <p>The collated text is cleaned from all markup and all punctuation and uses the default collation algorithm of Collatex.</p>
         </div>
-        <div class="col-md-9">
+        <div class="w3-threequarter">
         <div id="dtsURNs">
-        <input type="text" class="dts form-control col-md-6" placeholder="urn:dts:betmasMS:{{manuscriptid}}:{{passage}}-{{passage}}"></input>
-        <input type="text" class="dts form-control col-md-6" placeholder="urn:dts:betmasMS:{{manuscriptid}}:{{passage}}-{{passage}}"></input>
+        <input type="text" class="dts w3-input w3-margin w3-border" placeholder="urn:dts:betmasMS:{{manuscriptid}}:{{passage}}-{{passage}}"></input>
+        <input type="text" class="dts w3-input w3-margin w3-border" placeholder="urn:dts:betmasMS:{{manuscriptid}}:{{passage}}-{{passage}}"></input>
         
         </div>
         
-        <button  class="btn btn-info" id="addDTS">Add another witness</button><button  class="btn btn-info" id="collate">Collate</button>
+        <div class="w3-bar w3-margin">
+        <button  class="w3-bar-item w3-button w3-red" id="collate">Collate</button>
+        <button  class="w3-bar-item w3-button w3-gray" id="addDTS">Add another witness</button>
+        <a class="w3-button w3-bar-item w3-gray" href="javascript:void(0);" onclick="javascript:introJs().addHints();">hints</a>
+        </div>
         <img id="loading" src="resources/Loading.gif" style="display: none;"></img>
-        <div id="collationResult" class="col-md-12"/>
+        <div id="collationResult" class="w3-container"/>
         <script type="application/javascript" src="resources/js/collatex.js"></script>
         </div>
         </div>
         <div>
         </div>
         </div>
-         {nav:footer()}
+         {nav:footerNew()}
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/intro.js"  ></script>
        </body>
 </html>
         )

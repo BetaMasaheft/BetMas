@@ -2,7 +2,7 @@ xquery version "3.1";
 (:~
  : module used to produce Sankey Literatyre Flow Charts
  :
- : @author Pietro Liuzzo <pietro.liuzzo@uni-hamburg.de'>
+ : @author Pietro Liuzzo 
  :)
  
 module namespace LitFlow = "https://www.betamasaheft.uni-hamburg.de/BetMas/LitFlow";
@@ -154,7 +154,7 @@ LitFlow:compareGroups($groups, 'Paks2', 'Gon'),
 LitFlow:compareGroups($groups, 'Gon', 'ZaMa'), 
 LitFlow:compareGroups($groups, 'ZaMa', 'MoPe'))
 return 
-<div class="col-md-12">
+<div class="w3-container">
     <script type="text/javascript">{
 " google.charts.load('current', {'packages':['sankey']});
       google.charts.setOnLoadCallback(drawChart);
@@ -193,18 +193,18 @@ var colors = ['#a6cee3', '#b2df8a', '#fb9a99', '#fdbf6f','#cab2d6', '#ffff99', '
       }
 "}</script>
 
-<div class="col-md-12 alert alert-info">
+<div class="w3-panel  w3-red w3-card-2 w3-margin">
       {if($type='works')
-      then <p class="lead">Work records grouped by period and set of keywords.</p> 
-      else <p class="lead">Selection of works linked from first level msItems in manuscripts records.
+      then <p class="w3-large">Work records grouped by period and set of keywords.</p> 
+      else <p class="w3-large">Selection of works linked from first level msItems in manuscripts records.
       Periodization from manuscript, keywords from works.
       Including Guest Texts.</p>
       }
-      <p class="lead">Limited to works with the keywords {string-join($filter, ', ')}.</p>
+      <p class="w3-large">Limited to works with the keywords {string-join($filter, ', ')}.</p>
     </div>
-<div class="col-md-12" id="ethioLitFlow{(if($type='works')
+<div class="w3-container" id="ethioLitFlow{(if($type='works')
       then "W" else '')}"/>
-<div class="col-md-12">
+<div class="w3-container">
 
 {for $group in $groups/local:group 
 let $per := string($group/@key)
@@ -220,7 +220,7 @@ let $order := switch ($per)
                             default return 0
 order by $order
 return 
-<div class="col-md-2" style="max-height:600pt; overflow:auto">
+<div class="w3-col" style="width:10%;max-height:600pt; overflow:auto">
 <h2>{$per}</h2>
 {for $g in $group/local:keysGroup
 let $groupName := string($g/parent::local:group/@key) ||'/' || $g/text()
