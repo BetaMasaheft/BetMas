@@ -392,8 +392,12 @@ declare function fo:tei2fo($nodes as node()*) {
             case element(i)
                 return
                     <fo:inline
-                        font-style="italic">{$node/text()}</fo:inline>
+                        font-style="italic">{fo:tei2fo($node/node())}</fo:inline>
+            case element(span)
+                return
+                    <fo:inline>{if($node/@style[.="font-style:normal;"]) then attribute font-style {'normal'} else ()}{$node/text()}</fo:inline>
             
+              
             case element(tei:gap)
                 
                 return

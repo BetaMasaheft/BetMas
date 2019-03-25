@@ -50,7 +50,6 @@ declare function coord:getCoords($placenameref as xs:string) {
         let $pRec := $config:collection-rootPlIn/id($placenameref)
          return
          if ($pRec//t:geo[@rend='polygon']/text()) then
-         
                 for $point in tokenize($pRec//t:geo[@rend='polygon'], '\n')
                 let $p := normalize-space($point)
                 return
@@ -62,6 +61,12 @@ declare function coord:getCoords($placenameref as xs:string) {
             else
                 if ($pRec//@sameAs) then
                     coord:GNorWD(($pRec//@sameAs)[1])
+            else
+            if ($pRec//t:relation[@name='skos:exactMatch']) then
+            let $passive := string($pRec//t:relation[@name='skos:exactMatch']/@passive)
+            return
+                coord:getCoords($passive)
+           
                 else
                     ("no coordinates for" || $placenameref)
     else

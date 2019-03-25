@@ -9,6 +9,7 @@ module namespace lists="https://www.betamasaheft.uni-hamburg.de/BetMas/lists";
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
+import module namespace console="http://exist-db.org/xquery/console";
 
 declare namespace t="http://www.tei-c.org/ns/1.0";
 declare namespace templates="http://exist-db.org/xquery/templates" ;
@@ -45,7 +46,8 @@ $bibl
     return
    map {
                     "hits" := $bms,
-                    "type" := 'bibliography'
+                    "type" := 'bibliography',
+                    "coll" := $coll
 
                 }
 
@@ -437,12 +439,12 @@ declare
     function lists:biblRes($node as node(), $model as map(*), $start as xs:integer, $per-page as xs:integer){
 
 for $target at $p in subsequence($model("hits"), $start, $per-page)
-let $ptrs := $config:collection-root//t:ptr[@target = $target]
+let $ptrs := util:eval($model("coll"))//t:ptr[@target = $target]
 let $count := count($ptrs)
 return
 <div class="w3-container w3-margin-w3-padding">
-    <div id="{$target}" class="biblioentry w3-half w3-margin"/>
-<div class="w3-half w3-margin">
+    <div id="{$target}" class="biblioentry w3-half w3-padding"/>
+<div class="w3-half w3-padding">
 <div class="w3-threequarter">
 <ul class="w3-ul w3-hoverable">
     {    
@@ -465,7 +467,6 @@ declare
 %templates:wrap
 function lists:addRes($node as node(), $model as map(*)){
    let $data := $model("hits")
-   let $test := count($data)
    return
 for $addition at $p in $data
     let $t := if($addition//t:desc/@type) then string($addition//t:desc/@type) else 'undefined'

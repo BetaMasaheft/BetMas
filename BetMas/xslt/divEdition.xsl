@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t" version="2.0">
     
     <xsl:template match="t:*[@xml:lang='gez']//text()[parent::t:*[name() != 'label'][name() != 'note'][name() != 'persName'] [name() != 'placeName']]">
@@ -53,9 +52,7 @@
     
   
     <xsl:template match="t:div[@type = 'textpart'] | t:div[@type='edition'][not(child::t:div)]">
-        <xsl:if test="not(descendant::t:pb) and not(parent::t:div[@type='textpart'])">
-            <xsl:apply-templates select="preceding::t:pb[1]"/>
-        </xsl:if>
+        <xsl:if test="not(descendant::t:pb) and not(parent::t:div[@type='textpart'])"><xsl:apply-templates select="preceding::t:pb[1]"/></xsl:if>
         <xsl:variable name="text">
             <xsl:value-of select="./ancestor::t:TEI/@xml:id"/>
         </xsl:variable>
@@ -271,8 +268,7 @@
                          
                             <a href="#" class="w3-button w3-padding-small w3-white w3-bar-item" onclick="document.getElementById('textHelp').style.display='block'">
                             <i class="fa fa-info-circle" aria-hidden="true"/>
-                        </a>
-                        </div>
+                        </a></div>
                         
                         <div id="AllQuotations{@n}"/> 
                         <div class="w3-modal" id="textHelp">
@@ -291,8 +287,7 @@
                                             <li>Click on ↗ to see the related items in Pelagios.</li>
                                             <li>Click on <i class="fa fa-hand-o-left"/>
                                                 to see the which entities within Beta maṣāḥǝft point to this identifier.</li>
-                                            <li>
-                                            <sup>[!]</sup> contains additional information related to uncertainties in the encoding.</li>
+                                            <li><sup>[!]</sup> contains additional information related to uncertainties in the encoding.</li>
                                             <li>Superscript digits refer to notes in the apparatus which are displayed on the right.</li>
                                         </ul>
                                     </div>
@@ -312,12 +307,8 @@
                                     <xsl:value-of select="count(preceding-sibling::t:app) + 1"/>
                                 </a>
                                 <xsl:text>) </xsl:text>
-                                <xsl:if test="count(./t:lem/node()) ge 1">
-                                        <xsl:apply-templates select="./t:lem"/> <xsl:text>: </xsl:text>
-                                    </xsl:if>
-                                <xsl:if test="count(./t:rdg/node()) ge 1">
-                                        <xsl:apply-templates select="./t:rdg"/> <xsl:text>. </xsl:text>
-                                    </xsl:if>
+                                <xsl:if test="count(./t:lem/node()) ge 1"><xsl:apply-templates select="./t:lem"/> <xsl:text>: </xsl:text></xsl:if>
+                                <xsl:if test="count(./t:rdg/node()) ge 1"><xsl:apply-templates select="./t:rdg"/> <xsl:text>. </xsl:text></xsl:if>
                                 <xsl:apply-templates select="./t:note/node()"/>
                             </span>
                             <xsl:if test="not(position() = last())">
@@ -337,12 +328,8 @@
                                         <xsl:value-of select="count(preceding-sibling::t:app) + 1"/>
                                     </a>
                                     <xsl:text>) </xsl:text>
-                                    <xsl:if test="count(./t:lem/node()) ge 1">
-                                            <xsl:apply-templates select="./t:lem"/> <xsl:text>: </xsl:text>
-                                        </xsl:if>
-                                    <xsl:if test="count(./t:rdg/node()) ge 1">
-                                            <xsl:apply-templates select="./t:rdg"/> <xsl:text>. </xsl:text>
-                                        </xsl:if>
+                                    <xsl:if test="count(./t:lem/node()) ge 1"><xsl:apply-templates select="./t:lem"/> <xsl:text>: </xsl:text></xsl:if>
+                                    <xsl:if test="count(./t:rdg/node()) ge 1"><xsl:apply-templates select="./t:rdg"/> <xsl:text>. </xsl:text></xsl:if>
                                     <xsl:apply-templates select="./t:note/node()"/>
                                 </span>
                                 <xsl:if test="not(position() = last())">
@@ -548,15 +535,23 @@
 
     <!--lb-->
     <xsl:template match="t:lb[parent::t:ab]">
-        <xsl:text> | </xsl:text>
+       <xsl:choose>
+           <xsl:when test="@break"> <xsl:text>|</xsl:text></xsl:when>
+           <xsl:otherwise> <xsl:text> |</xsl:text><sup><xsl:value-of select="@n"/></sup><xsl:text> </xsl:text></xsl:otherwise></xsl:choose>
        
     </xsl:template>
+    <xsl:template match="t:lb[ancestor::t:ab][parent::t:placeName or parent::t:persName or parent::t:w]">
+        <xsl:choose>
+            <xsl:when test="@break"> <xsl:text>|</xsl:text></xsl:when>
+            <xsl:otherwise> <xsl:text> |</xsl:text><sup><xsl:value-of select="@n"/></sup><xsl:text> </xsl:text></xsl:otherwise></xsl:choose>
+        </xsl:template>
+    
     <xsl:template match="t:lb[parent::t:l][not(parent::t:ab)]">
         <xsl:if test="preceding-sibling::text()">
             <br/>
         </xsl:if>
     </xsl:template>
-    <xsl:template match="t:lb[not(parent::t:ab)][not(parent::t:l)]">
+    <xsl:template match="t:lb[not(parent::t:ab)][not(parent::t:l)][not(parent::t:w)][not(parent::t:persName)][not(parent::t:placeName)]">
         <xsl:variable name="line">
             <xsl:if test="@n">
                 <xsl:value-of select="@n"/>
@@ -588,11 +583,7 @@
     
     <xsl:template match="t:pb">
         <xsl:choose>
-            <xsl:when test="ancestor::t:div[@type='edition']">|<sup>
-                    <xsl:value-of select="@n"/>
-                </sup>
-                <xsl:choose>
-                    <xsl:when test="starts-with(@facs, 'http') and ancestor::t:TEI[@type='work']">
+            <xsl:when test="ancestor::t:div[@type='edition']">|<sup><xsl:value-of select="@n"/></sup><xsl:choose><xsl:when test="starts-with(@facs, 'http') and ancestor::t:TEI[@type='work']">
                 <xsl:variable name="corresp" select="substring-after(@corresp, '#')"/>
                 <xsl:variable name="manifest" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/t:ptr/@target"/>
                 <xsl:variable name="location" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/@facs"/>
@@ -604,15 +595,12 @@
                     <xsl:variable name="location" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/@facs"/>
                     <span class="imageLink" data-manifest="{$manifest}" data-location="{$location}" data-canvas="{@facs}"/>
                 </xsl:otherwise>
-            </xsl:choose>
-            </xsl:when>
-            <xsl:otherwise>
-                <hr id="part{@n}"/>
+            </xsl:choose></xsl:when>
+            <xsl:otherwise><hr id="part{@n}"/>
                 <p>
                     <xsl:value-of select="@n"/>
                     
-                    <xsl:choose>
-                        <xsl:when test="starts-with(@facs, 'http') and ancestor::t:TEI[@type='work']">
+                    <xsl:choose><xsl:when test="starts-with(@facs, 'http') and ancestor::t:TEI[@type='work']">
                         <xsl:variable name="corresp" select="substring-after(@corresp, '#')"/>
                         <xsl:variable name="manifest" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/t:ptr/@target"/>
                         <xsl:variable name="location" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/@facs"/>
@@ -624,12 +612,9 @@
                             <xsl:variable name="location" select="ancestor::t:TEI//t:witness[@xml:id = $corresp]/@facs"/>
                             <span class="imageLink" data-manifest="{$manifest}" data-location="{$location}" data-canvas="{@facs}"/>
                         </xsl:otherwise>
-                    </xsl:choose>
-                </p>
+                    </xsl:choose></p>
                 
-                <xsl:apply-templates/>
-            </xsl:otherwise>
-        </xsl:choose>
+                <xsl:apply-templates/></xsl:otherwise></xsl:choose>
     </xsl:template>
     
     
@@ -766,9 +751,7 @@
             <xsl:value-of select="."/>
             <xsl:text> (!)</xsl:text>
         </a>
-            <span class="w3-text w3-tag">
-                <xsl:value-of select="@resp"/>
-            </span>
+            <span class="w3-text w3-tag"><xsl:value-of select="@resp"/></span>
         </span>
     </xsl:template>
     
