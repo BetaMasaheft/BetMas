@@ -13,12 +13,12 @@ $('#seealsoSelector').change(function (showthefilters) {
                 var id = match.id; 
                //  console.log(id)
                 var title = match.title;
-               var card = "<div class='w3-card-4'><div id='"  + id + "' class='w3-container'><div class='w3-large'><a href='/"   + id + "'>" + title + "</a></div></div></div>"
+               var card = "<div class='w3-card-4  w3-margin-bottom w3-gray'><div id='"  + id + "' class='w3-container'><div><a href='/"   + id + "'>" + title + "</a></div></div></div>"
                 items.push(card);
             
         }
         else if (data.total == 0){
-          var card = "<div class='w3-card-4'><div class='w3-container'><div class='w3-large'>no results</div><div class='w3-content'>Sorry, this query returned no result</div></div></div>"
+          var card = "<div class='w3-card-4  w3-margin-bottom w3-gray'><div class='w3-container'><div>no results</div><div class='w3-content'>Sorry, this query returned no result</div></div></div>"
                 items.push(card);
             
         }
@@ -29,7 +29,7 @@ $('#seealsoSelector').change(function (showthefilters) {
                 var id = match.id; 
                // console.log(id)
                 var title = match.title;
-               var card = "<div class='w3-card-4'><div id='"  + id + "' class='w3-container'><div class='w3-large'><a href='/"   + id + "'>" + title + "</a></div></div></div>"
+               var card = "<div class='w3-card-4  w3-margin-bottom w3-gray'><div id='"  + id + "' class='w3-container'><div><a href='/"   + id + "'>" + title + "</a></div></div></div>"
                 items.push(card);
     
             };}

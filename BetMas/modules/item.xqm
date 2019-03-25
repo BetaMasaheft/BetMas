@@ -85,6 +85,13 @@ return
  <div class="w3-bar-item" >
  <a class="w3-button w3-padding-small w3-gray" href="javascript:void(0);" onclick="startIntroItem();">Explore this page</a>
  </div>
+ <div class="w3-bar-item w3-tooltip" >
+ <a class="w3-button w3-padding-small w3-gray" target="_blank" href="https://github.com/BetaMasaheft/Documentation/issues/new?title=something%20is%20wrong%20in%20{$id}&amp;assignee=PietroLiuzzo">
+                                <i class="fa fa-envelope"/>
+                            </a>
+                            <span class="w3-text w3-tag itemoptiontooltip">Do you want to notify us of an error, please do so by writing an issue in our GitHub repository (click the envelope for a precomiled one).</span>
+
+     </div>                       
             
  <div class="w3-bar-item  w3-hide-large w3-tooltip" ><span style="position:absolute;left:0;top:30px" class="w3-text w3-tag">On small screens, will show a navigation bar on the left</span><a class="w3-bar-item w3-button w3-gray" onclick="w3_openItemSB()">Open 
  Item Navigation</a>
@@ -1055,17 +1062,7 @@ return
  let $file := $this
  let $id := string($this/@xml:id)
  let $classes := for $class in $this//t:term/@key return 'http://betamasaheft.eu/'||$class
- return
-       <div class="{if(starts-with($id, 'INS')) then 'w3-container w3-padding' else 'w3-third w3-padding'}" id="seeAlsoForm" >
-
-
-       <p class="w3-large">Select one of the keywords listed from the record to see related data</p>
-       <span typeof="{string-join($classes, ' ')}"/>
-        <form action="" class="w3-container">
-                <div class="w3-container w3-margin-bottom">
-                    <select class="w3-select w3-border" name="seealso" id="seealsoSelector">
-                    <option>select...</option>
-                   {switch($collection)
+ let $options := switch($collection)
 (:                   decides on the basis of the collection what is relevant to match related records :)
                    case 'manuscripts' return
                    (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in ($file//t:term/@key) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
@@ -1103,13 +1100,25 @@ return
                    if ($file//t:occupation) then <optgroup label="occupation">{for $x in ($file//t:occupation/@type) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else ()
                    )
                   default return (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in ($file//t:term/@key) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else ()
-                   )}
+                   )
+ return
+       <div class="{if(starts-with($id, 'INS')) then 'w3-container w3-padding' else 'w3-third w3-padding'}" id="seeAlsoForm" >
+
+{if(count($options) ge 1) then(
+       <p class="w3-large">Select one of the keywords listed from the record to see related data</p>,
+       <span typeof="{string-join($classes, ' ')}"/>,
+        <form action="" class="w3-container">
+                <div class="w3-container w3-margin-bottom">
+                    <select class="w3-select w3-border" name="seealso" id="seealsoSelector">
+                    <option>select...</option>
+                   {$options}
                    </select>
                     </div>
             
-        </form>
-     <img id="loading" src="resources/Loading.gif" style="display: none;"></img>
-     <div id="SeeAlsoResults" class="w3-panel w3-margin w3-card-4 w3-gray">No keyword selected.</div>
+        </form>,
+     <img id="loading" src="resources/Loading.gif" style="display: none;"></img>,
+     <div id="SeeAlsoResults" class="w3-container">No keyword selected.</div>) else
+     <div class="w3-panel w3-margin w3-card-4 w3-gray">No keywords associated with this item yet.</div>}
      {if($collection='works' or $collection='narratives') then item2:RestMss($id) else ()}
      {item2:mainRels($this, $collection)}
      <div class="w3-panel w3-margin w3-gray w3-card-4"><b>Hypothes.is public annotations pointing here</b>
@@ -1191,14 +1200,16 @@ let $matches := for $hit in $document//t:div[@type='edition'][1]/t:div[@type='te
 let $hits :=        map { 'hits' := $matches, 'type' := 'text'}
 return
    <div class="w3-container">
-     <div class="w3-left" >
+     {if(count($hits) gt 1) then <div class="w3-left w3-row" >
     {apprest:paginate-rest($hits, $parameters, $start, $per-page, 1, 21)}
-    </div>
+    </div> else ()}
+    <div class="w3-row w3-margin-top" >
                    {
     transform:transform(
         $document,
        $xslt,
 $xslpars)}
+</div>
     </div>
     else
 if($document//t:div[@type='textpart']) then
