@@ -493,7 +493,7 @@ EMIP:)
 if ($list = 'places' or $list = 'institutions') then
 (:geojson:)
     (<td>{
-    let $wd := string($item//t:place/@sameAs)
+    let $wd := substring-after($item//t:place/@sameAs, 'wd:')
     return
             if ($wd) then
                 <a

@@ -1040,7 +1040,7 @@ return
 <form action="" class="w3-container" data-hint="Any of these search filter implies that by searching a certain feature you do not only exclude those who have another value for that, but also all those items which do not carry the information at all.">
 <div class="w3-container"><label for="mainname">name</label>
                 <input id="mainname" name="mainname" class="w3-input w3-border"></input></div>
-<div class="w3-container w3-padding w3-margin-left">
+<div class="w3-container w3-padding w3-margin-left w3-margin-right">
                 <label for="dates">Dates range</label><br/>
                 <input id="dates" type="text" class="span2"
                 name="date-range"
@@ -1279,54 +1279,54 @@ apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titl
             <label for="numberOfP">Limit by minimum number of codicological units</label>
             <input id="numberOfP" class="w3-input w3-border" type="number" name="numberOfParts"></input>
             </div>,
-           <div class="w3-container w3-margin-left">
+           <div class="w3-container w3-margin-left w3-margin-right">
         <label for="heightslider">Height (mm)</label><br/>
             <input id="heightslider" type="number" class="span2" name="height" data-slider-min="1" data-slider-max="1000" data-slider-step="10" data-slider-value="[1,1000]"/>
             <script type="text/javascript">
                 {"$('#heightslider').bootstrapSlider({});"}
             </script>
 </div>,
-           <div class="w3-container w3-margin-left">
+           <div class="w3-container w3-margin-left w3-margin-right">
         <label for="widthslider">Width (mm)</label><br/>
             <input id="widthslider" type="number" class="span2" name="width" data-slider-min="1" data-slider-max="1000" data-slider-step="10" data-slider-value="[1,1000]"/>
             <script type="text/javascript">
                 {"$('#widthslider').bootstrapSlider({});"}
             </script></div>,
-           <div class="w3-container w3-margin-left">
+           <div class="w3-container w3-margin-left w3-margin-right">
         <label for="lmargin">Columns per page</label><br/>
                 <input id="NumberOfcolumns" type="number" class="span2" name="columnsNum" data-slider-min="1" data-slider-max="20" data-slider-step="1" data-slider-value="[1,20]"/>
                 <script type="text/javascript">
                     {"$('#NumberOfcolumns').bootstrapSlider({});"}
                 </script></div>,
-           <div class="w3-container w3-margin-left">
+           <div class="w3-container w3-margin-left w3-margin-right">
            <label  for="tmargin">Top Margin</label><br/>
                 <input id="tMslider" type="number" class="span2" name="tmargin" data-slider-min="1" data-slider-max="100" data-slider-step="1" data-slider-value="[1,100]"/>
                 <script type="text/javascript">
                     {"$('#tMslider').bootstrapSlider({});"}
                 </script>
         </div>,
-           <div class="w3-container w3-margin-left">
+           <div class="w3-container w3-margin-left w3-margin-right">
         <label for="bmargin">Bottom Margin</label><br/>
                 <input id="bMslider" type="number" class="span2" name="bmargin" data-slider-min="1" data-slider-max="100" data-slider-step="1" data-slider-value="[1,100]"/>
                 <script type="text/javascript">
                     {"$('#bMslider').bootstrapSlider({});"}
                 </script>
         </div>,
-           <div class="w3-container w3-margin-left">
+           <div class="w3-container w3-margin-left w3-margin-right">
         <label for="rmargin">Right Margin</label><br/>
                 <input id="rMslider" type="number" class="span2" name="rmargin" data-slider-min="1" data-slider-max="100" data-slider-step="1" data-slider-value="[1,100]"/>
                 <script type="text/javascript">
                     {"$('#rMslider').bootstrapSlider({});"}
                 </script>
         </div>,
-           <div class="w3-container w3-margin-left">
+           <div class="w3-container w3-margin-left w3-margin-right">
         <label for="lmargin">Left Margin</label><br/>
                 <input id="lMslider" type="number" class="span2" name="lmargin" data-slider-min="1" data-slider-max="100" data-slider-step="1" data-slider-value="[1,100]"/>
                 <script type="text/javascript">
                     {"$('#lMslider').bootstrapSlider({});"}
                 </script>
         </div>,
-           <div class="w3-container w3-margin-left">
+           <div class="w3-container w3-margin-left w3-margin-right">
         <label  for="intercolumn">Intercolumn</label><br/>
                     <input id="lntercolumnslider" type="number" class="span2" name="intercolumn" data-slider-min="1" data-slider-max="100" data-slider-step="1" data-slider-value="[1,100]"/>
                     <script type="text/javascript">
@@ -1334,14 +1334,14 @@ apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titl
                     </script>
                 </div>
         ,
-           <div class="w3-container w3-margin-left">
+           <div class="w3-container w3-margin-left w3-margin-right">
 <label  for="folia">Number of Leafs</label><br/>
             <input id="folia" type="text" class="span2" name="folia" data-slider-min="1.0" data-slider-max="1000.0" data-slider-step="1.0" data-slider-value="[1.0,1000.0]"/>
             <script type="text/javascript">
                 {"$('#folia').bootstrapSlider({});"}
             </script>
 </div>, 
-            <div class="w3-container w3-margin-left">
+            <div class="w3-container w3-margin-left w3-margin-right">
 <label for="qn">Number of quires</label><br/>
                 <input id="quires" type="text" class="span2" name="qn" data-slider-min="1" data-slider-max="100" data-slider-step="1" data-slider-value="[1,100]"/>
             <script type="text/javascript">
@@ -1356,7 +1356,7 @@ apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titl
                 {"$('#quiresComp').bootstrapSlider({});"}
             </script>
 </div>,
-            <div class="w3-container w3-margin-left">
+            <div class="w3-container w3-margin-left w3-margin-right">
 <label  for="wL">Number of written lines</label><br/>
             <input id="writtenLines" type="text" class="span2" name="wL" data-slider-min="1" data-slider-max="100" data-slider-step="1" data-slider-value="[1,100]"/>
             <script type="text/javascript">
@@ -1364,7 +1364,7 @@ apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titl
             </script>
 </div>,
 
-            <div class="w3-container w3-margin-left">
+            <div class="w3-container w3-margin-left w3-margin-right">
 <label  for="restorations">Restorations</label><br/>
                      <select class="w3-select w3-border" id="restorations" type="text" name="restorations" >
             <option value="">no selection</option>
