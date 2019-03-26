@@ -76,7 +76,7 @@ for $catalogue in doc('/db/apps/BetMas/lists/catalogues.xml')//t:item
 let $sorting := $catalogue//text()[1]
 order by $sorting
 return
-<option value="{string($catalogue/@xml:id)}">{$catalogue//text()}</option>
+<option value="{replace(string($catalogue/@xml:id), 'bm_', '')}">{$catalogue//text()}</option>
 };
 
 
