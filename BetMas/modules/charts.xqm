@@ -21,25 +21,25 @@ declare function charts:mssSankey($itemid){
   WHERE {
           BIND('"|| $itemid || "' as ?id)
           {
-              ?from SdC:constituteUnit ?to .
+              ?from sdc:constituteUnit ?to .
               BIND(1 as ?weight)
             }
         UNION
         {
-              ?from SdC:undergoesTransformation ?tr .
-              ?tr SdC:resultsIn ?to .
+              ?from sdc:undergoesTransformation ?tr .
+              ?tr sdc:resultsIn ?to .
               BIND(2 as ?weight)
             }
         UNION
         {
-              ?from SdC:undergoesTransformation ?tr .
-              ?tr SdC:produces ?to .
+              ?from sdc:undergoesTransformation ?tr .
+              ?tr sdc:produces ?to .
               BIND(2 as ?weight)
             }
         UNION
         {
               ?from skos:exactMatch ?to .
-              ?to a SdC:UniCirc .
+              ?to a sdc:UniCirc .
               BIND(4 as ?weight)
             }
   BIND(STR(?from) as ?strform)

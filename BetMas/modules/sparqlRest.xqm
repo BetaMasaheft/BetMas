@@ -300,7 +300,7 @@ function apisparql:SdCunits($type as xs:string*) {
 
 let $query := ( $apisparql:prefixes|| "
 SELECT *
-WHERE {?x a SdC:Uni" || $type || "}")
+WHERE {?x a sdc:Uni" || $type || "}")
 let $sparqlresults := sparql:query($query)
 let $results := $sparqlresults//sr:result
 return 

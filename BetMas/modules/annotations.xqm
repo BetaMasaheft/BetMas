@@ -23,13 +23,13 @@ declare
  %test:arg("placeid", "INS00001BL") %test:assertEquals("https://betamasaheft.eu/institutions/INS00001BL") 
  %test:arg("placeid", "LOC1001Aallee") %test:assertEquals("https://betamasaheft.eu/places/LOC1001Aallee")
  %test:arg("placeid", "pleiades:12345") %test:assertEquals("https://pleiades.stoa.org/places/12345")
- %test:arg("placeid", "Q12345") %test:assertEquals("https://www.wikidata.org/entity/Q12345")
+ %test:arg("placeid", "wd:Q12345") %test:assertEquals("https://www.wikidata.org/entity/Q12345")
  %test:arg("placeid", "gn:12345") %test:assertEquals("http://sws.geonames.org/12345")
 function ann:getannotationbody($placeid as xs:string){
 if(starts-with($placeid, 'INS')) then $config:appUrl || '/institutions/' || $placeid
 else if(starts-with($placeid, 'LOC')) then $config:appUrl || '/places/' || $placeid
 else if(starts-with($placeid, 'pleiades:')) then 'https://pleiades.stoa.org/places/' || substring-after($placeid, 'pleiades:')
-else if(starts-with($placeid, 'Q')) then 'https://www.wikidata.org/entity/' || $placeid
+else if(starts-with($placeid, 'wd:')) then 'https://www.wikidata.org/entity/' ||  substring-after($placeid, 'wd:')
 else 'http://sws.geonames.org/' || substring-after($placeid, 'gn:')
 };
 

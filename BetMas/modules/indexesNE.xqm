@@ -77,7 +77,7 @@ let $persIDS := distinct-values($persons/@ref)
    
       <div  class="w3-container w3-margin-bottom">
                                <small class="form-text text-muted">enter a Beta maṣāḥǝft, Pleiades or Wikidata identifier</small><br/>
-                                <input class="w3-input w3-border" name="pointer" placeholder="LOC / INS / pleiades: / Q"></input>
+                                <input class="w3-input w3-border" name="pointer" placeholder="LOC / INS / pleiades: / wd:"></input>
                                 </div>
                                 <div  class="w3-container w3-margin-bottom">
                                  <small class="form-text text-muted">Select one collections</small><br/>
@@ -107,7 +107,7 @@ let $persIDS := distinct-values($persons/@ref)
    
       <div  class="w3-container  w3-margin-bottom">
                                <small >enter a Beta maṣāḥǝft or Wikidata identifier</small><br/>
-                                <input class="w3-input w3-border" name="pointer" placeholder="PRS / Q"></input>
+                                <input class="w3-input w3-border" name="pointer" placeholder="PRS / wd:"></input>
                                 </div><div class="w3-container w3-margin-bottom">
                                  <small>Select one collections</small><br/>
                                     <select name="collection" class="w3-select w3-border" >

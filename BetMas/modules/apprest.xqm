@@ -261,7 +261,7 @@ declare function apprest:deciderelation($list){
     for $id in $list
                 return
                   <li>{
-                if (starts-with($id/text(), 'SdC:')) then 'La Synthaxe du Codex ' || substring-after($id/text(), 'SdC:' )
+                if (starts-with($id/text(), 'sdc:')) then 'La Synthaxe du Codex ' || substring-after($id/text(), 'sdc:' )
                 
                else if (starts-with($id/text(), 'urn:')) then
                    <a target="_blank"  href="/{encode-for-uri($id)}">{$id/text()}</a>

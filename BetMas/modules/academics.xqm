@@ -38,7 +38,7 @@ let $mindate := min($years)
 let $d-d := ($mindate || ' - '||max($years))
 let $bio := normalize-space(string-join(string:tei2string($p//t:floruit), ' '))
 let $academictext := normalize-space(string-join(string:tei2string($academic)))
-let $wikidata := if(starts-with($p/@sameAs, 'Q')) then wiki:wikitable(string($p/@sameAs)) else ('No Wikidata ID')
+let $wikidata := if(starts-with($p/@sameAs, 'wd:')) then wiki:wikitable(substring-after($p/@sameAs, 'wd:')) else ('No Wikidata ID')
 order by $mindate
 return
 map {

@@ -36,7 +36,7 @@ declare variable $config:sparqlPrefixes := "PREFIX rdf: <http://www.w3.org/1999/
          PREFIX t: <http://www.tei-c.org/ns/1.0>
          PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
          PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-         PREFIX SdC: <https://w3id.org/sdc/ontology#>";
+         PREFIX sdc: <https://w3id.org/sdc/ontology#>";
 
 declare variable $config:appUrl := 'https://betamasaheft.eu';
 declare variable $config:DOI := '10.25592/BetaMasaheft';

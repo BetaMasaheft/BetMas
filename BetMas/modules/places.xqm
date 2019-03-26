@@ -301,7 +301,7 @@ declare
 %rest:path("/BetMas/api/KML/place/{$placeid}")
 %output:method("xml")
 function places:kmlPlaceAttestation($placeid as xs:string*) {
-if(starts-with($placeid, 'LOC') or starts-with($placeid, 'INS') or starts-with($placeid, 'Q') or starts-with($placeid, 'gn:'))
+if(starts-with($placeid, 'LOC') or starts-with($placeid, 'INS') or starts-with($placeid, 'wd:') or starts-with($placeid, 'gn:'))
 then(
 $places:response200xml,
 
@@ -623,7 +623,7 @@ function places:placesInWorksTTL($start as xs:integer*) {
 
 let $log := log:add-log-message('/api/placeNames/works/all', xmldb:get-current-user(), 'places')
 let $loc := $config:collection-rootW//t:placeName[starts-with(@ref, 'LOC')]
-let $q := $config:collection-rootW//t:placeName[starts-with(@ref, 'Q')]
+let $q := $config:collection-rootW//t:placeName[starts-with(@ref, 'wd')]
 let $pl := $config:collection-rootW//t:placeName[starts-with(@ref, 'pleiades')]
 let $data:= ($loc, $q, $pl)
  let $annotations :=
@@ -663,7 +663,7 @@ function places:placesInManuscriptsTTL($start as xs:integer*) {
 
 let $log := log:add-log-message('/api/placeNames/manuscripts/all', xmldb:get-current-user(), 'places')
 let $loc := $config:collection-rootMS//t:placeName[starts-with(@ref, 'LOC')]
-let $q := $config:collection-rootMS//t:placeName[starts-with(@ref, 'Q')]
+let $q := $config:collection-rootMS//t:placeName[starts-with(@ref, 'wd')]
 let $pl := $config:collection-rootMS//t:placeName[starts-with(@ref, 'pleiades')]
 let $data:= ($loc, $q, $pl)
 
@@ -785,11 +785,11 @@ function places:placesInWorksTTLVoid() {
 
 $places:response200turtle, 
 let $loc := $config:collection-rootMS//t:placeName[starts-with(@ref, 'LOC')]
-let $q := $config:collection-rootMS//t:placeName[starts-with(@ref, 'Q')]
+let $q := $config:collection-rootMS//t:placeName[starts-with(@ref, 'wd')]
 let $pl := $config:collection-rootMS//t:placeName[starts-with(@ref, 'pleiades')]
 let $dataMS:= ($loc, $q, $pl)
 let $locW := $config:collection-rootW//t:placeName[starts-with(@ref, 'LOC')]
-let $qW := $config:collection-rootW//t:placeName[starts-with(@ref, 'Q')]
+let $qW := $config:collection-rootW//t:placeName[starts-with(@ref, 'wd')]
 let $plW := $config:collection-rootW//t:placeName[starts-with(@ref, 'pleiades')]
 let $dataW:= ($locW, $qW, $plW)
 let $annotationsMS :=  for $d in $dataMS

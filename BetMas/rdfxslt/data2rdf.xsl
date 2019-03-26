@@ -1,5 +1,31 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:pleiades="https://pleiades.stoa.org/" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:bm="https://betamasaheft.eu/" xmlns:wd="https://www.wikidata.org/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:oa="http://www.w3.org/ns/oa#" xmlns:rel="http://purl.org/vocab/relationship/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:pelagios="http://pelagios.github.io/vocab/terms#" xmlns:syriaca="http://syriaca.org/documentation/relations.html#" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:crm="http://www.cidoc-crm.org/cidoc-crm/" xmlns:saws="http://purl.org/saws/ontology#" xmlns:iha="http://islhornafr.tors.sc.ku.dk/" xmlns:funct="http://myfunction" xmlns:gn="http://www.geonames.org/ontology#" xmlns:agrelon="http://d-nb.info/standards/elementset/agrelon.owl#" xmlns:lawd="http://lawd.info/ontology/" xmlns:SdC="https://w3id.org/sdc/ontology#" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:ecrm="http://erlangen-crm.org/current/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:snap="http://data.snapdrgn.net/ontology/snap#" xmlns:dc="http://purl.org/dc/elements/1.1/" exclude-result-prefixes="funct" version="2.0">
+<xsl:stylesheet 
+    xmlns:pleiades="https://pleiades.stoa.org/" 
+    xmlns:skos="http://www.w3.org/2004/02/skos/core#" 
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
+    xmlns:bm="https://betamasaheft.eu/" 
+    xmlns:wd="https://www.wikidata.org/" 
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+    xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" 
+    xmlns:oa="http://www.w3.org/ns/oa#" 
+    xmlns:rel="http://purl.org/vocab/relationship/" 
+    xmlns:dcterms="http://purl.org/dc/terms/" 
+    xmlns:pelagios="http://pelagios.github.io/vocab/terms#" 
+    xmlns:syriaca="http://syriaca.org/documentation/relations.html#" 
+    xmlns:foaf="http://xmlns.com/foaf/0.1/" 
+    xmlns:crm="http://www.cidoc-crm.org/cidoc-crm/" 
+    xmlns:saws="http://purl.org/saws/ontology#" 
+    xmlns:iha="http://islhornafr.tors.sc.ku.dk/" 
+    xmlns:funct="http://myfunction" 
+    xmlns:gn="http://www.geonames.org/ontology#" 
+    xmlns:agrelon="http://d-nb.info/standards/elementset/agrelon.owl#" 
+    xmlns:lawd="http://lawd.info/ontology/" 
+    xmlns:sdc="https://w3id.org/sdc/ontology#" 
+    xmlns:t="http://www.tei-c.org/ns/1.0" 
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+    xmlns:ecrm="http://erlangen-crm.org/current/" 
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    xmlns:snap="http://data.snapdrgn.net/ontology/snap#" 
+    xmlns:dc="http://purl.org/dc/elements/1.1/" exclude-result-prefixes="funct" version="2.0">
     <xsl:output method="xml" indent="yes" encoding="UTF-8"/>
     <xsl:function name="funct:date">
         <xsl:param name="date"/>
@@ -21,8 +47,11 @@
             <xsl:when test="starts-with($id, 'http')">
                 <xsl:value-of select="$id"/>
             </xsl:when>
-            <xsl:when test="contains($id, 'SdC:')">
-                <xsl:value-of select="concat('https://w3id.org/sdc/ontology#', substring-after($id, 'SdC:'))"/>
+            <xsl:when test="contains($id, 'sdc:')">
+                <xsl:value-of select="concat('https://w3id.org/sdc/ontology#', substring-after($id, 'sdc:'))"/>
+            </xsl:when>
+            <xsl:when test="contains($id, 'wd:')">
+                <xsl:value-of select="concat('https://www.wikidata.org/entity/', substring-after($id, 'wd:'))"/>
             </xsl:when>
             <xsl:when test="contains($id, 'skos:')">
                 <xsl:value-of select="concat('http://www.w3.org/2004/02/skos/core#', substring-after($id, 'skos:'))"/>
@@ -108,9 +137,7 @@
                             </xsl:variable>
                             <xsl:value-of select="concat($mainPart, '/', $type, '/', $anchor)"/>
                         </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:value-of select="$id"/>
-                        </xsl:otherwise>
+                        <xsl:otherwise><xsl:value-of select="$id"/></xsl:otherwise>
                     </xsl:choose>
                 </xsl:variable>
                 <xsl:value-of select="concat('https://betamasaheft.eu/', $subid)"/>
@@ -155,14 +182,10 @@
                     <xsl:value-of select="@xml:id"/>
                 </crm:P48_has_preferred_identifier>
                 <dc:publisher>
-                    <xsl:value-of select="//t:publisher"/>
-                    <xsl:text>,  </xsl:text>
-                    <xsl:value-of select="//t:funder"/>
+                    <xsl:value-of select="//t:publisher"/><xsl:text>,  </xsl:text><xsl:value-of select="//t:funder"/>
                 </dc:publisher>
                 <dcterms:isPartOf rdf:resource="https://betamasaheft.eu"/>
-                <dcterms:bibliographicCitation>
-                    <xsl:value-of select="@xml:id"/>
-                </dcterms:bibliographicCitation>
+                <dcterms:bibliographicCitation><xsl:value-of select="@xml:id"/></dcterms:bibliographicCitation>
                 <dc:format>xml</dc:format>
                 <xsl:apply-templates select="//t:language"/>
                 <xsl:apply-templates select="//t:editor"/>
@@ -177,7 +200,7 @@
 <!--                    the present state of a mss is always a UniProd and a UniCirc-->
                     <rdf:type rdf:resource="https://w3id.org/sdc/ontology#UniProd"/>
                     <rdf:type rdf:resource="https://w3id.org/sdc/ontology#UniCirc"/>
-                    <SdC:hasCertainty rdf:resource="https://w3id.org/sdc/ontology#certain"/>
+                    <sdc:hasCertainty rdf:resource="https://w3id.org/sdc/ontology#certain"/>
                     <!--                    the physDesc can be BOTH at top level and in each msPart, it needs to be called here anyway, then also in each msPart if there is any-->
                     <xsl:apply-templates select="//t:msDesc/t:msIdentifier"/>
                     <xsl:apply-templates select="//t:msDesc/t:physDesc">
@@ -232,12 +255,8 @@
                     </xsl:apply-templates>
                 </xsl:if>
                 <xsl:if test="@type = 'place' or @type = 'ins'">
-                    <xsl:if test="@type = 'place'">
-                        <rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/E53_Place"/>
-                    </xsl:if>
-                    <xsl:if test="@type = 'ins'">
-                        <rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/E29_Actor"/>
-                    </xsl:if>
+                    <xsl:if test="@type = 'place'"><rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/E53_Place"/></xsl:if>
+                    <xsl:if test="@type = 'ins'"><rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/E29_Actor"/></xsl:if>
                     <rdf:type rdf:resource="http://lawd.info/ontology/Place"/>
                     <xsl:if test="//t:location/t:geo">
                         <geo:location>
@@ -256,15 +275,12 @@
                         <skos:exactMatch rdf:resource="https://www.wikidata.org/entity/{//t:place/@sameAs}"/>
                     </xsl:if>
                     <xsl:if test="//t:place/@type">
-                        <xsl:choose> <xsl:when test="matches(//t:place/@type, '\s')">
-                                <xsl:for-each select="tokenize(normalize-space(//t:place/@type), ' ')">
+                        <xsl:choose> <xsl:when test="matches(//t:place/@type, '\s')"><xsl:for-each select="tokenize(normalize-space(//t:place/@type), ' ')">
                             <pleiades:hasFeatureType rdf:resource="https://betamasaheft.eu/authority-files/{current()}"/>
-                        </xsl:for-each>
-                            </xsl:when>
+                        </xsl:for-each></xsl:when>
                         <xsl:otherwise>
                             <pleiades:hasFeatureType rdf:resource="https://betamasaheft.eu/authority-files/{//t:place/@type}"/>
-                        </xsl:otherwise>
-                        </xsl:choose>
+                        </xsl:otherwise></xsl:choose>
                     </xsl:if>
                     <xsl:apply-templates select="//t:state"/>
                     <xsl:apply-templates select="@type | @subtype"/>
@@ -289,9 +305,7 @@
                     </xsl:if>
                     <xsl:if test="//t:occupation">
                         <xsl:for-each select="//t:occupation">
-                            <snap:occupation>
-                                <xsl:value-of select="."/>
-                            </snap:occupation>
+                            <snap:occupation><xsl:value-of select="."/></snap:occupation>
                         </xsl:for-each>
                     </xsl:if>
 
@@ -488,10 +502,7 @@
         <xsl:param name="mainID"/>
         <xsl:variable name="type">
                <xsl:call-template name="URItype">
-                   <xsl:with-param name="name">
-                    <xsl:value-of select="if(current()/parent::t:list/parent::t:additions) then 'ADD' else if (current()/parent::t:list/parent::t:collation) then 'COL' else if (current()/parent::t:list/parent::t:foliation) then 'FOL' else if (current()//parent::t:binding) then 'BIND' else ()"/>
-                    <xsl:value-of select="name()"/>
-                </xsl:with-param>
+                   <xsl:with-param name="name"><xsl:value-of select="if(current()/parent::t:list/parent::t:additions) then 'ADD' else if (current()/parent::t:list/parent::t:collation) then 'COL' else if (current()/parent::t:list/parent::t:foliation) then 'FOL' else if (current()//parent::t:binding) then 'BIND' else ()"/><xsl:value-of select="name()"/></xsl:with-param>
                   </xsl:call-template>
         </xsl:variable>
         <xsl:variable name="elemname" select="name()"/>
@@ -508,9 +519,7 @@
         <xsl:param name="mainID"/>
         <xsl:variable name="type">
             <xsl:call-template name="URItype">
-                <xsl:with-param name="name">
-                    <xsl:value-of select="name()"/>
-                </xsl:with-param>
+                <xsl:with-param name="name"><xsl:value-of select="name()"/></xsl:with-param>
             </xsl:call-template>
         </xsl:variable>
         <rdf:Description>
@@ -520,7 +529,7 @@
             <rdf:type rdf:resource="https://betamasaheft.eu/{$type}"/>
             <!--            a msPart or  msFrag is so encoded because recognized as UniProd. Units it contains might decide wheather it is a UniProd-MC, UniProd-C, UniProd-C-MC, UniProd-M -->
             <rdf:type rdf:resource="https://w3id.org/sdc/ontology#UniProd"/>
-            <SdC:hasCertainty rdf:resource="https://w3id.org/sdc/ontology#certain"/>
+            <sdc:hasCertainty rdf:resource="https://w3id.org/sdc/ontology#certain"/>
             <rdf:type rdf:resource="http://purl.org/saws/ontology#ManuscriptPart"/>
             <xsl:apply-templates select="t:physDesc">
                 <xsl:with-param name="mainID">
@@ -659,10 +668,7 @@
         <xsl:param name="mainID"/>
         <xsl:variable name="type">
             <xsl:call-template name="URItype">
-                <xsl:with-param name="name">
-                    <xsl:value-of select="if(current()/parent::t:list/parent::t:additions) then 'ADD' else if (current()/parent::t:list/parent::t:collation) then 'COL' else if (current()/parent::t:list/parent::t:foliation) then 'FOL' else if (current()//ancestor::t:binding) then 'BIND' else ()"/>
-                    <xsl:value-of select="name()"/>
-                </xsl:with-param>
+                <xsl:with-param name="name"><xsl:value-of select="if(current()/parent::t:list/parent::t:additions) then 'ADD' else if (current()/parent::t:list/parent::t:collation) then 'COL' else if (current()/parent::t:list/parent::t:foliation) then 'FOL' else if (current()//ancestor::t:binding) then 'BIND' else ()"/><xsl:value-of select="name()"/></xsl:with-param>
             </xsl:call-template>
         </xsl:variable>
         
@@ -755,26 +761,15 @@
 <!--                           <xsl:message><xsl:copy-of select="$matchingElement"/></xsl:message>-->
                            <xsl:variable name="type">
                                <xsl:call-template name="URItype">
-                                   <xsl:with-param name="name">
-                                        <xsl:value-of select="if($matchingElement/parent::t:list/parent::t:additions) then 'ADD' else if ($matchingElement/parent::t:list/parent::t:collation) then 'COL' else if ($matchingElement/parent::t:list/parent::t:foliation) then 'FOL' else if ($matchingElement//ancestor::t:binding) then 'BIND' else ()"/>
-                                        <xsl:value-of select="$matchingElement/name()"/>
-                                    </xsl:with-param>
+                                   <xsl:with-param name="name"><xsl:value-of select="if($matchingElement/parent::t:list/parent::t:additions) then 'ADD' else if ($matchingElement/parent::t:list/parent::t:collation) then 'COL' else if ($matchingElement/parent::t:list/parent::t:foliation) then 'FOL' else if ($matchingElement//ancestor::t:binding) then 'BIND' else ()"/><xsl:value-of select="$matchingElement/name()"/></xsl:with-param>
                                </xsl:call-template>
                            </xsl:variable>
 <!--                           <xsl:message><xsl:value-of select="$type"/></xsl:message>-->
-                           <dc:relation>
-                                <xsl:attribute name="rdf:resource">
-                                    <xsl:value-of select="concat('https://betamasaheft.eu/', $mainID, '/', $type, '/', $corr)"/>
-                                </xsl:attribute>
-                            </dc:relation>
+                           <dc:relation><xsl:attribute name="rdf:resource"><xsl:value-of select="concat('https://betamasaheft.eu/', $mainID, '/', $type, '/', $corr)"/></xsl:attribute></dc:relation>
                        </xsl:when>
                        <xsl:otherwise>
                            <!--                it should point to another entity-->
-                           <dc:relation>
-                                <xsl:attribute name="rdf:resource">
-                                    <xsl:value-of select="concat('https://betamasaheft.eu/', .)"/>
-                                </xsl:attribute>
-                            </dc:relation>
+                           <dc:relation><xsl:attribute name="rdf:resource"><xsl:value-of select="concat('https://betamasaheft.eu/', .)"/></xsl:attribute></dc:relation>
                        </xsl:otherwise>
                    </xsl:choose>
                </xsl:for-each>
@@ -789,26 +784,15 @@
 <!--                <xsl:message><xsl:copy-of select="$matchingElement"/></xsl:message>-->
         <xsl:variable name="type">
             <xsl:call-template name="URItype">
-                <xsl:with-param name="name">
-                                    <xsl:value-of select="if($matchingElement//ancestor::t:additions) then 'ADD' else if ($matchingElement//ancestor::t:collation) then 'COL' else if ($matchingElement//ancestor::t:foliation) then 'FOL' else if ($matchingElement//ancestor::t:binding) then 'BIND' else ()"/>
-                                    <xsl:value-of select="$matchingElement/name()"/>
-                                </xsl:with-param>
+                <xsl:with-param name="name"><xsl:value-of select="if($matchingElement//ancestor::t:additions) then 'ADD' else if ($matchingElement//ancestor::t:collation) then 'COL' else if ($matchingElement//ancestor::t:foliation) then 'FOL' else if ($matchingElement//ancestor::t:binding) then 'BIND' else ()"/><xsl:value-of select="$matchingElement/name()"/></xsl:with-param>
             </xsl:call-template>
         </xsl:variable>
 <!--                <xsl:message><xsl:value-of select="$type"/></xsl:message>-->
-                <dc:relation>
-                            <xsl:attribute name="rdf:resource">
-                                <xsl:value-of select="concat('https://betamasaheft.eu/', $mainID, '/', $type, '/', $corr)"/>
-                            </xsl:attribute>
-                        </dc:relation>
+                <dc:relation><xsl:attribute name="rdf:resource"><xsl:value-of select="concat('https://betamasaheft.eu/', $mainID, '/', $type, '/', $corr)"/></xsl:attribute></dc:relation>
             </xsl:when>
             <xsl:otherwise>
 <!--                it should point to another entity-->
-                <dc:relation>
-                            <xsl:attribute name="rdf:resource">
-                                <xsl:value-of select="concat('https://betamasaheft.eu/', .)"/>
-                            </xsl:attribute>
-                        </dc:relation>
+                <dc:relation><xsl:attribute name="rdf:resource"><xsl:value-of select="concat('https://betamasaheft.eu/', .)"/></xsl:attribute></dc:relation>
             </xsl:otherwise>
         </xsl:choose>
            </xsl:otherwise>
@@ -877,9 +861,7 @@
     </xsl:template>
 
 <xsl:template match="t:extent">
-    <bm:hasTotalLeaves>
-            <xsl:value-of select="t:measure[@unit='leaf']"/>
-        </bm:hasTotalLeaves>
+    <bm:hasTotalLeaves><xsl:value-of select="t:measure[@unit='leaf']"/></bm:hasTotalLeaves>
     <xsl:apply-templates select="t:dimensions"/>
     <xsl:apply-templates select="t:locus"/>
 </xsl:template>
@@ -889,15 +871,9 @@
         <xsl:for-each select="child::t:*">
         <crm:P43_has_dimension>
         <crm:E54_Dimension>
-            <crm:P2_has_type>
-                        <xsl:value-of select="name()"/>
-                    </crm:P2_has_type>
-            <crm:P90_has_value>
-                        <xsl:value-of select="."/>
-                    </crm:P90_has_value>
-            <crm:P91_has_unit>
-                        <xsl:value-of select="if(@unit) then @unit else $unit"/>
-                    </crm:P91_has_unit>
+            <crm:P2_has_type><xsl:value-of select="name()"/></crm:P2_has_type>
+            <crm:P90_has_value><xsl:value-of select="."/></crm:P90_has_value>
+            <crm:P91_has_unit><xsl:value-of select="if(@unit) then @unit else $unit"/></crm:P91_has_unit>
         </crm:E54_Dimension>
     </crm:P43_has_dimension>
         </xsl:for-each>
@@ -924,17 +900,14 @@
                                 <xsl:when test="starts-with($candidatenewsubid, 'UniCah')">ElCah</xsl:when>
                                 <xsl:when test="starts-with($candidatenewsubid, 'UniCont')">UniCont</xsl:when>
                                 <xsl:otherwise>part</xsl:otherwise>
-                            </xsl:choose>
-                    </xsl:variable>
+                            </xsl:choose></xsl:variable>
                         <xsl:value-of select="concat('https://w3id.org/sdc/ontology#', $SdC)"/>
                     </xsl:attribute>
                 </rdf:type>
         </xsl:if>
         <xsl:if test="starts-with($candidatenewsubid, 'http')">
             <rdf:type>
-                <xsl:attribute name="rdf:resource">
-                    <xsl:value-of select="$candidatenewsubid"/>
-                </xsl:attribute>
+                <xsl:attribute name="rdf:resource"><xsl:value-of select="$candidatenewsubid"/></xsl:attribute>
             </rdf:type>
         </xsl:if>
         <xsl:if test="starts-with($candidatenewsubid, 'tr')">
@@ -960,9 +933,7 @@
                 <rdf:Description rdf:about="{$about}"> 
                     <xsl:if test="contains($a, '#')">
                     <xsl:call-template name="newResource">
-                        <xsl:with-param name="thisid">
-                                <xsl:value-of select="$a"/>
-                            </xsl:with-param>
+                        <xsl:with-param name="thisid"><xsl:value-of select="$a"/></xsl:with-param>
                     </xsl:call-template>    
                     </xsl:if>
                     <xsl:for-each select="tokenize(normalize-space(@passive), ' ')">
@@ -997,9 +968,7 @@
                 <rdf:Description rdf:about="{$about}">
                     <xsl:if test="contains($a, '#')">
                     <xsl:call-template name="newResource">
-                        <xsl:with-param name="thisid">
-                                <xsl:value-of select="$a"/>
-                            </xsl:with-param>
+                        <xsl:with-param name="thisid"><xsl:value-of select="$a"/></xsl:with-param>
                     </xsl:call-template>    
                 </xsl:if>
                     <xsl:choose>
@@ -1169,12 +1138,8 @@
                 <xsl:when test="@when">
                     <crm:E52_Time-span>
                         <xsl:choose>
-                            <xsl:when test="name() = 'birth'">
-                                <rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/E67_Birth"/>
-                            </xsl:when>
-                            <xsl:when test="name() = 'death'">
-                                <rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/E69_Death"/>
-                            </xsl:when>
+                            <xsl:when test="name() = 'birth'"><rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/E67_Birth"/></xsl:when>
+                            <xsl:when test="name() = 'death'"><rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/E69_Death"/></xsl:when>
                         </xsl:choose>
                         <crm:P79_beginning_is_qualified_by rdf:datatype="http://www.w3.org/2001/XMLSchema#date">
                             <xsl:value-of select="funct:date(@when)"/>
@@ -1187,12 +1152,8 @@
                 <xsl:when test="@notBefore or @notAfter">
                     <crm:E52_Time-span>
                         <xsl:choose>
-                        <xsl:when test="name() = 'birth'">
-                                <rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/E67_Birth"/>
-                            </xsl:when>
-                        <xsl:when test="name() = 'death'">
-                                <rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/E69_Death"/>
-                            </xsl:when>
+                        <xsl:when test="name() = 'birth'"><rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/E67_Birth"/></xsl:when>
+                        <xsl:when test="name() = 'death'"><rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/E69_Death"/></xsl:when>
                     </xsl:choose>
                         <xsl:if test="@notBefore">
                             <crm:P79_beginning_is_qualified_by rdf:datatype="http://www.w3.org/2001/XMLSchema#date">
@@ -1209,12 +1170,8 @@
                 <xsl:otherwise>
                     <crm:E52_Time-span>
                         <xsl:choose>
-                        <xsl:when test="name() = 'birth'">
-                                <rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/E67_Birth"/>
-                            </xsl:when>
-                        <xsl:when test="name() = 'death'">
-                                <rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/E69_Death"/>
-                            </xsl:when>
+                        <xsl:when test="name() = 'birth'"><rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/E67_Birth"/></xsl:when>
+                        <xsl:when test="name() = 'death'"><rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/E69_Death"/></xsl:when>
                     </xsl:choose>
                         <crm:P78_is_identified_by>
                             <xsl:value-of select="."/>
@@ -1298,22 +1255,10 @@
                 <xsl:value-of select="current-date()"/>
             </oa:annotatedAt>
             <xsl:if test="$passage != ' ' and $citation != ''">
-                <lawd:hasAttestation>
-                    <xsl:attribute name="rdf:resource">
-                        <xsl:value-of select="concat('https://betamasaheft.eu/api/dts/document?id=urn:dts:betmas:',$mainID,':',$passage)"/>
-                    </xsl:attribute>
-                </lawd:hasAttestation>
-            <lawd:hasCitation>
-                    <xsl:value-of select="$citation"/>
-                    <xsl:text> </xsl:text>
-                    <xsl:value-of select="$passage"/>
-                </lawd:hasCitation>
+                <lawd:hasAttestation><xsl:attribute name="rdf:resource"><xsl:value-of select="concat('https://betamasaheft.eu/api/dts/document?id=urn:dts:betmas:',$mainID,':',$passage)"/></xsl:attribute></lawd:hasAttestation>
+            <lawd:hasCitation><xsl:value-of select="$citation"/><xsl:text> </xsl:text><xsl:value-of select="$passage"/></lawd:hasCitation>
             </xsl:if>
-            <xsl:if test="normalize-space(string-join(text(), '')) != ''">
-                <lawd:hasName>
-                    <xsl:value-of select="normalize-space(string-join(text(), ' '))"/>
-                </lawd:hasName>
-            </xsl:if>
+            <xsl:if test="normalize-space(string-join(text(), '')) != ''"><lawd:hasName><xsl:value-of select="normalize-space(string-join(text(), ' '))"/></lawd:hasName></xsl:if>
             
         </oa:Annotation>
     </xsl:template>
@@ -1324,46 +1269,26 @@
         <xsl:param name="passage"/>
         <xsl:param name="citation"/>
         <oa:Annotation rdf:about="https://betamasaheft.eu/{$mainID}/person/annotation/{$n}">
-            <xsl:if test="@type">
-                <rdf:type rdf:resource="https://betamasaheft.eu/{@type}"/>
-            </xsl:if>
-            <xsl:if test="@role">
-                <rdf:type rdf:resource="https://betamasaheft.eu/{@role}"/>
-            </xsl:if>
+            <xsl:if test="@type"><rdf:type rdf:resource="https://betamasaheft.eu/{@type}"/></xsl:if>
+            <xsl:if test="@role"><rdf:type rdf:resource="https://betamasaheft.eu/{@role}"/></xsl:if>
             <oa:hasTarget rdf:resource="https://betamasaheft.eu/{$mainID}"/>
             <oa:hasBody rdf:resource="{if(starts-with(@ref, 'pleiades:')) then concat('https://pleiades.stoa.org/places/', substring-after(@ref, 'pleiades:')) else if (starts-with(@ref, 'Q')) then concat('https://www.wikidata.org/entity/', @ref) else concat('https://betamasaheft.eu/',@ref)}"/>
             <oa:annotatedAt rdf:datatype="http://www.w3.org/2001/XMLSchema#date">
                 <xsl:value-of select="current-date()"/>
             </oa:annotatedAt>
-            <xsl:if test="$passage != ' ' and $citation != ''">
-                <lawd:hasAttestation>
-                    <xsl:attribute name="rdf:resource">
-                        <xsl:value-of select="concat('https://betamasaheft.eu/api/dts/document?id=urn:dts:betmas:',$mainID,':',$passage)"/>
-                    </xsl:attribute>
-                </lawd:hasAttestation>
-            <lawd:hasCitation>
-                    <xsl:value-of select="$citation"/>
-                    <xsl:text> </xsl:text>
-                    <xsl:value-of select="$passage"/>
-                </lawd:hasCitation>
-            </xsl:if>
-            <xsl:if test="t:roleName">
+            <xsl:if test="$passage != ' ' and $citation != ''"><lawd:hasAttestation><xsl:attribute name="rdf:resource"><xsl:value-of select="concat('https://betamasaheft.eu/api/dts/document?id=urn:dts:betmas:',$mainID,':',$passage)"/></xsl:attribute></lawd:hasAttestation>
+            <lawd:hasCitation><xsl:value-of select="$citation"/><xsl:text> </xsl:text><xsl:value-of select="$passage"/></lawd:hasCitation>
+            </xsl:if><xsl:if test="t:roleName">
                 <xsl:for-each select="t:roleName">
                     <bm:hasRole>
                         <bm:Role>
                             <bm:roleType rdf:resource="https://betamasaheft.eu/role/{@type}"/>
-                            <bm:roleName>
-                                <xsl:value-of select="."/>
-                            </bm:roleName>
+                            <bm:roleName><xsl:value-of select="."/></bm:roleName>
                         </bm:Role>
                     </bm:hasRole>
                 </xsl:for-each>
             </xsl:if>
-            <xsl:if test="normalize-space(string-join(text(), '')) != ''">
-                <lawd:hasName>
-                    <xsl:value-of select="normalize-space(string-join(text(), ' '))"/>
-                </lawd:hasName>
-            </xsl:if>
+            <xsl:if test="normalize-space(string-join(text(), '')) != ''"><lawd:hasName><xsl:value-of select="normalize-space(string-join(text(), ' '))"/></lawd:hasName></xsl:if>
         </oa:Annotation>
     </xsl:template>
 

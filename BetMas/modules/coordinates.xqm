@@ -95,7 +95,7 @@ declare function coord:GNorWD($placeexternalid as xs:string) {
             coord:getPleiadesCoord($placeexternalid)
         
         else
-            if (starts-with($placeexternalid, 'Q')) then
+            if (starts-with($placeexternalid, 'wd:')) then
                 coord:invertCoord(coord:getWikiDataCoord($placeexternalid))
             else
                 ("no valid external id" || $placeexternalid)
@@ -116,6 +116,7 @@ declare function coord:getGeoNamesCoord($string as xs:string) {
 
 (:~retrives coordinates from wikidata:)
 declare function coord:getWikiDataCoord($Qid as xs:string) {
+ let $Qid := substring-after($Qid, 'wd:')
     let $sparql := 'SELECT ?coord ?coordLabel WHERE {
    wd:' || $Qid || ' wdt:P625 ?coord .
    SERVICE wikibase:label { 

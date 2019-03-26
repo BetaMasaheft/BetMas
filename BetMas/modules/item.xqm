@@ -134,7 +134,7 @@ Not sure how to do this? Have a look at the <a href="/Guidelines">Beta maṣā�
 then you will see visualizations based on La Syntaxe du Codex, by Andrist, Canart and Maniaci.</span>
 </div>
     {if(($collection = 'institutions' or $collection = 'places') and ($document//t:geo/text() or $document//t:place[@sameAs] )) then
-    <div class="w3-bar-item"><a class="w3-button w3-gray"  href="/{( $id ||
+    <div class="w3-bar-item"><a class="w3-button w3-padding-small w3-gray"  href="/{( $id ||
     '.json')}" target="_blank">geoJson</a></div> else ()}
 <div class="w3-bar-item w3-tooltip"  
 ><a class="w3-button w3-padding-small w3-gray"  href="/{$collection}/{$id}/analytic" target="_blank">Relations</a>
@@ -286,7 +286,7 @@ return
             ()
             }
             </div>
-            case 'persons' return if(starts-with($document//t:person/@sameAs, 'Q')) then wiki:wikitable(string($document//t:person/@sameAs)) else (string($document//t:person/@sameAs))
+            case 'persons' return if(starts-with($document//t:person/@sameAs, 'wd:')) then wiki:wikitable(substring-after($document//t:person/@sameAs, 'wd:')) else (string($document//t:person/@sameAs))
 
             case 'works' return
             app:clavisIds(root($document))
@@ -1117,7 +1117,7 @@ return
             
         </form>,
      <img id="loading" src="resources/Loading.gif" style="display: none;"></img>,
-     <div id="SeeAlsoResults" class="w3-container">No keyword selected.</div>) else
+     <div id="SeeAlsoResults" class="w3-panel w3-margin w3-card-4 w3-gray">No keyword selected.</div>) else
      <div class="w3-panel w3-margin w3-card-4 w3-gray">No keywords associated with this item yet.</div>}
      {if($collection='works' or $collection='narratives') then item2:RestMss($id) else ()}
      {item2:mainRels($this, $collection)}

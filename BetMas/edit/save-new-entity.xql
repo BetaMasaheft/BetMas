@@ -3,7 +3,7 @@ xquery version "3.0" encoding "UTF-8";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace console = "http://exist-db.org/xquery/console";
 import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "xmldb:exist:///db/apps/BetMas/modules/editors.xqm";
-import module namespace switch = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch" at "xmldb:exist:///db/apps/BetMas/modules/switch.xqm";   
+import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2" at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";   
 
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
@@ -60,7 +60,7 @@ let $Newid :=
 if ($collection = 'manuscripts' or $collection = 'authority-files') then
     $suffix
 else
-    let $ids := for $x in switch:collectionVar($collection)//t:TEI/@xml:id
+    let $ids := for $x in switch2:collectionVar($collection)//t:TEI/@xml:id
     return
         analyze-string($x, '([A-Z]+)(\d+)(\w+)')
     let $numericvalue := for $id in $ids//s:group[@nr = '2']
@@ -418,7 +418,7 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                         then
                             <listPlace>{
                                     element place {
-                                            if($wikidata = '') then () else attribute sameAs {$wikidata},
+                                            if($wikidata = '') then () else attribute sameAs {'wd:'||$wikidata},
                                        if(exists($keyword)) then attribute type {
                                             for $k in $keyword
                                             return

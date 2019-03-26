@@ -121,7 +121,7 @@ else
 
 (:this is now a switch function, deciding if to go ahead with simple print title or subtitles:)
 declare 
-%test:arg('id', 'SdC:UniCont1') %test:assertEquals('La Synthaxe du Codex UniCont1')
+%test:arg('id', 'sdc:UniCont1') %test:assertEquals('La Synthaxe du Codex UniCont1')
 %test:arg('id', 'LIT2317Senodo#') %test:assertEquals('Senodos')
 %test:arg('id', '#') %test:assertEquals('&lt;span class="w3-tag w3-red"&gt;no item yet with id #&lt;/span&gt;')
 %test:arg('id', '') %test:assertEquals('&lt;span class="w3-tag w3-red"&gt;no id&lt;/span&gt;')
@@ -134,14 +134,14 @@ declare
 %test:arg('id', 'LIT1367Exodus#Ex1') %test:assertEquals('Exodus, Exodus 1')
 %test:arg('id', 'PRS5684JesusCh#n2') %test:assertEquals('Jesus Christ, Krǝstos')
 function titles:printTitleID($id as xs:string)
-{  if (starts-with($id, 'SdC:')) then 'La Synthaxe du Codex ' || substring-after($id, 'SdC:' )
+{  if (starts-with($id, 'sdc:')) then 'La Synthaxe du Codex ' || substring-after($id, 'sdc:' )
                else
     (: another hack for things like ref="#" :) 
     if ($id = '#') then <span class="w3-tag w3-red">{ 'no item yet with id ' || $id }</span>
     (: hack to avoid the bad usage of # at the end of an id like <title type="complete" ref="LIT2317Senodo#" xml:lang="gez"> :) 
      else if (ends-with($id, '#')) then (
                                 let $id := replace($id, '#', '') 
-                                let $tit := if (matches($id, 'Q\d+') or starts-with($id, 'gn:') or starts-with($id, 'pleiades:')) then
+                                let $tit := if (matches($id, 'wd:Q\d+') or starts-with($id, 'gn:') or starts-with($id, 'pleiades:')) then
            (titles:decidePlaceNameSource($id))
        else (: always look at the root of the given node parameter of the function and then switch :)
            let $resource := $config:collection-root/id($id)
@@ -247,7 +247,7 @@ function titles:printTitleID($id as xs:string)
 
       declare function titles:printTitleMainID($id as xs:string, $c)
    {
-       if (matches($id, 'Q\d+') or starts-with($id, 'gn:') or starts-with($id, 'pleiades:')) then
+       if (matches($id, 'wd:Q\d+') or starts-with($id, 'gn:') or starts-with($id, 'pleiades:')) then
            (titles:decidePlaceNameSource($id))
        else (: always look at the root of the given node parameter of the function and then switch :)
            let $resource := collection($c)//id($id)
@@ -327,7 +327,7 @@ function titles:printTitleID($id as xs:string)
       %test:arg('id', 'LOC1001Aallee') %test:assertEquals('Aallee')
       function titles:printTitleMainID($id as xs:string)
    {
-       if (matches($id, 'Q\d+') or starts-with($id, 'gn:') or starts-with($id, 'pleiades:')) then
+       if (matches($id, 'wd:Q\d+') or starts-with($id, 'gn:') or starts-with($id, 'pleiades:')) then
            (titles:decidePlaceNameSource($id))
        else (: always look at the root of the given node parameter of the function and then switch :)
            let $resource := $config:collection-root/id($id)
@@ -575,7 +575,7 @@ let $Maintitle := $W/t:title[@type = 'main'][@corresp = '#t1']
 
 
 declare function titles:decidePlName($plaID){
-    if (starts-with($plaID, 'Q'))
+    if (starts-with($plaID, 'wd:'))
         then titles:getwikidataNames($plaID) 
     else if (starts-with($plaID, 'gn:'))
         then titles:getGeoNames($plaID)
@@ -599,7 +599,7 @@ let $name := titles:getPleiadesNames($pRef)
 let $addit := titles:updatePlaceList($name, $pRef) 
 return
 titles:decidePlaceNameSource($pRef)) 
-else if (matches($pRef, 'Q\d+')) then (
+else if (matches($pRef, 'wd:Q\d+')) then (
 let $name := titles:getwikidataNames($pRef) 
 let $addit := titles:updatePlaceList($name, $pRef) 
 return
@@ -640,6 +640,7 @@ let $file-info :=
 };
 
 declare function titles:getwikidataNames($pRef as xs:string){
+let $pRef := substring-after($pRef, 'wd:')
 let $sparql := 'SELECT * WHERE {
   wd:' || $pRef || ' rdfs:label ?label . 
   FILTER (langMatches( lang(?label), "EN-GB" ) )  
