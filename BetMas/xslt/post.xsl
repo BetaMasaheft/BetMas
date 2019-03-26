@@ -1,8 +1,8 @@
 <xsl:stylesheet xmlns="http://www.tei-c.org/ns/1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:output encoding="UTF-8" method="xml"/>
     <xsl:output indent="yes" method="xml"/>
-    <xsl:variable name="BMurl">http://betamasaheft.eu/</xsl:variable>
-    <xsl:variable name="editorslist" select="doc('xmldb:exist:///db/apps/BetMas/editors.xml')//t:list"/>
+    <xsl:variable name="BMurl">https://betamasaheft.eu/</xsl:variable>
+    <xsl:variable name="editorslist" select="doc('xmldb:exist:///db/apps/BetMas/lists/editors.xml')//t:list"/>
     
     <xsl:template match="@* | node()">
         <xsl:copy>
@@ -65,7 +65,9 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
         <xsl:attribute name="{./name()}">
             
             <xsl:choose>
-                <xsl:when test="string-length($value) le 3"><xsl:value-of select="$editorslist//t:item[@xml:id=$value]/text()"/></xsl:when>
+                <xsl:when test="string-length($value) le 3">
+                    <xsl:value-of select="$editorslist//t:item[@xml:id=$value]/text()"/>
+                </xsl:when>
                 <xsl:otherwise>
                     <xsl:value-of select="concat($BMurl, .)"/>
                 </xsl:otherwise>
