@@ -17,6 +17,8 @@ import module namespace kwic = "http://exist-db.org/xquery/kwic"   at "resource:
 import module namespace app="https://www.betamasaheft.uni-hamburg.de/BetMas/app" at "xmldb:exist:///db/apps/BetMas/modules/app.xqm";
 import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "xmldb:exist:///db/apps/BetMas/modules/editors.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
+import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2" at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
+
 import module namespace templates="http://exist-db.org/xquery/templates" ;
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace charts = "https://www.betamasaheft.uni-hamburg.de/BetMas/charts" at "xmldb:exist:///db/apps/BetMas/modules/charts.xqm";
@@ -912,8 +914,8 @@ let $faiths := if(empty($Pfaith) or $Pfaith= '') then () else apprest:ListQueryP
 let $genders := if(empty($Pgender) or $Pgender= '') then () else apprest:ListQueryParam-rest($Pgender, "t:person/@sex", 'any', 'list')
 let $periods := if(empty($Pperiod) or $Pperiod= '') then () else apprest:ListQueryParam-rest($Pperiod, "t:term/@key", 'any', 'search')
 let $restorationss := if(empty($Prestorations) or $Prestorations= '') then () else apprest:ListQueryParam-rest($Prestorations, "t:custEvent/@subtype", 'any', 'list')
-let $countries := if(empty($Pcountry) or $Pcountry = '') then () else apprest:ListQueryParam-rest($Pcountry, 't:country/@ref', 'any', 'search')
-let $settlements := if(empty($Psettlement) or $Psettlement = '') then () else apprest:ListQueryParam-rest($Psettlement, 't:settlement/@ref', 'any', 'search')
+let $countries := if(empty($Pcountry) or $Pcountry = '') then () else apprest:ListQueryParam-rest($Pcountry, 't:country/@ref', 'any', 'range')
+let $settlements := if(empty($Psettlement) or $Psettlement = '') then () else apprest:ListQueryParam-rest($Psettlement, 't:settlement/@ref', 'any', 'range')
 
 let $leaves :=  if(empty($Pfolia) or $Pfolia = '') then () else
                 (let $min := substring-before($Pfolia, ',')
@@ -969,7 +971,8 @@ let $path := switch($type)
                                     then ("$config:collection-rootPr//t:TEI"   || $allnames||$ContentPr   || $key || $dR ||$occupations || $faiths || $genders  )
                                     
                       
-                        else "collection('"||$config:data-root||'/'||$collection || "/')//t:TEI" || $countries|| $settlements|| $allnames ||$ContentPr  || $key || $languages|| $dR || $ClavisIDs || $nOfP  || $allMssFilters ||$Allauthors|| $tabots||$placetypess
+                        else let $col := switch2:collection($collection)
+                        return $col||"//t:TEI" || $countries|| $settlements|| $allnames ||$ContentPr  || $key || $languages|| $dR || $ClavisIDs || $nOfP  || $allMssFilters ||$Allauthors|| $tabots||$placetypess
                        )
 let $hits := for $item in util:eval($path)
                              let $recordid := string($item/@xml:id)
@@ -1016,6 +1019,13 @@ let $keys :=
        "descendant::" || $context || "='" || $k ||"'"
        return
       "[" || string-join($all, ' or ') || "]"
+       else if ($function = 'range')
+       then
+     let $all :=  for $k in $keys
+       return
+       "ancestor-or-self::t:TEI/descendant::" || $context || "[.='" || $k ||"']"
+       return
+      "[" || string-join($all, ' or ') || "]"
        else
        (:search:)
        let $limit := for $k in $parameter
@@ -1057,7 +1067,6 @@ return
 <div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that language">
 <label for="language">languages </label>
 <select multiple="multiple" name="language" id="language" class="w3-select w3-border">
-{console:log($apprest:languages)}
                             {$app:range-lookup('TEIlanguageIdent', '', function($key, $count) {<option value="{$key}">{$apprest:languages//t:item[@xml:id=$key]/text()} </option>}, 100)}
                             </select>
                             </div>

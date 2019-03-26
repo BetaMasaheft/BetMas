@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/newindex2.html" data-template-at="content" class="w3-content" style="margin-top:46px">
 
     <div data-template="app:logging"/>
@@ -190,7 +189,11 @@
 
             <div class="w3-half w3-padding w3-container w3-margin-bottom w3-hide-small" id="video" dir="ltr">
 
-                <iframe style="width:80%;height:80%" src="https://www.youtube.com/embed/bI950izCu2E"/>
+                <div class="w3-container w3-display-middle" style="position: relative; width:80%;height:80%">
+                    <img id="vidimg" src="resources/images/videocover.png" style="width:100%;min-height:70%; position: absolute; top: 0; left: 0; cursor: pointer; pointer-events: none; z-index: 2;"/>
+                    <iframe id="unlocked-video" style="width:100%;min-height:70%; position: absolute; top: 0; left: 0; z-index: 1;" src="https://www.youtube.com/embed/bI950izCu2E"/>
+                </div>
+                <script type="application/javascript" src="resources/js/videohomepage.js"/>
 
             </div>
         </div>

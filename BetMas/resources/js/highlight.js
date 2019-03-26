@@ -63,7 +63,7 @@ $('.word').each(function (wn) {
             $(word).append($("<span class='alpheios-word popup' onmouseover='popup("+'"p'+wn+i+'"'+")' onmouseout='popup("+'"p'+wn+i+'"'+")'>"+nostops.w + nostops.stop+"\
             <span class='popuptext w3-hide w3-tiny w3-padding' id='p"+wn+i+"'>\
             Search "+nostops.w+" :<br/>\
-            <a href='/as.html"+parm+nostops.w+"' target='_blank'>in Beta maṣāḥǝft</a><br/>\
+            <a href='/as.html?q="+nostops.w+"' target='_blank'>in Beta maṣāḥǝft</a><br/>\
             <a href='/morpho?query="+nostops.w+"' target='_blank'>in the Gǝʿǝz Morphological Parser</a><br/>\
             <a href='/morpho/corpus?query="+nostops.w+"&type=string' target='_blank'>in the TraCES annotations</a><br/>\
             <a href='"+url+parm+nostops.w+"' target='_blank'>in the Online Lexicon</a><br/>\
@@ -72,7 +72,7 @@ $('.word').each(function (wn) {
             $(word).append($("<span class='alpheios-word popup' onmouseover='popup("+'"p'+wn+i+'"'+")' onmouseout='popup("+'"p'+wn+i+'"'+")'>"+nostops.w + nostops.stop + '&nbsp;'+"\
             <span class='popuptext w3-hide w3-tiny w3-padding' id='p"+wn+i+"'>\
             Search "+nostops.w+" :<br/>\
-            <a href='/as.html"+parm+nostops.w+"' target='_blank'>in Beta maṣāḥǝft</a><br/>\
+            <a href='/as.html?q="+nostops.w+"' target='_blank'>in Beta maṣāḥǝft</a><br/>\
             <a href='/morpho?query="+nostops.w+"' target='_blank'>in the Gǝʿǝz Morphological Parser</a><br/>\
             <a href='/morpho/corpus?query="+nostops.w+"&type=string' target='_blank'>in the TraCES annotations</a><br/>\
             <a href='"+url+parm+nostops.w+"' target='_blank'>in the Online Lexicon</a><br/>\

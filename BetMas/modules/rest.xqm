@@ -72,12 +72,11 @@ declare
 %output:method("html")
 function api:getcataloguesZotero()
 {
-for $catalogue in distinct-values($config:collection-rootMS//t:listBibl[@type='catalogue']//t:ptr/@target)
-let $xml-url := concat('https://api.zotero.org/groups/358366/items?&amp;tag=', $catalogue, '&amp;format=bib&amp;locale=en-GB&amp;style=hiob-ludolf-centre-for-ethiopian-studies')
-let $data := httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)
-    order by $data
+for $catalogue in doc('/db/apps/BetMas/lists/catalogues.xml')//t:item
+let $sorting := $catalogue//text()[1]
+order by $sorting
 return
-<option value="{$catalogue}">{$data//httpclient:body}</option>
+<option value="{string($catalogue/@xml:id)}">{$catalogue//text()}</option>
 };
 
 
