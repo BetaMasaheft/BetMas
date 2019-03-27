@@ -283,7 +283,7 @@ if( $restItem:deleted//t:item[. =$id]) then
         {apprest:scriptStyle()}
         {if($type='text') then () else apprest:ItemScriptStyle()}
         {if($type='graph') then (
-                         <script src="http://d3js.org/d3.v5.min.js"/>,
+                         <script src="https://d3js.org/d3.v5.min.js"/>,
                          <script src="resources/js/d3sparql.js"/>) else ()}
             {if($type='text') then ( 
 (:           mirador  manuscripts viewer under the text view for editions:)

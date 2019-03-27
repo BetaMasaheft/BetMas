@@ -225,9 +225,9 @@ else if (starts-with($exist:path, '/tei/') and ends-with($exist:path, ".xml")) t
                                             servlet="XSLTServlet">
                                             <set-attribute
                                                 name="xslt.stylesheet"
-                                                value="{concat($exist:root, $exist:controller, "/xslt/post.xsl")}"/>
-                                                
-            <set-header name="Cache-Control" value="no-cache"/>
+                                                value="xmldb:exist:///db/apps/BetMas/xslt/post.xsl"/>
+                                                                            
+                                        <set-header name="Cache-Control" value="no-cache"/>
                                         </forward>
                                     </view>
                                 </dispatch>

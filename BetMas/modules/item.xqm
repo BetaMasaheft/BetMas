@@ -93,7 +93,10 @@ return
 
      </div>                       
             
- <div class="w3-bar-item  w3-hide-large w3-tooltip" ><span style="position:absolute;left:0;top:30px" class="w3-text w3-tag">On small screens, will show a navigation bar on the left</span><a class="w3-bar-item w3-button w3-gray" onclick="w3_openItemSB()">Open 
+ <div class="w3-bar-item  
+ w3-hide-large w3-tooltip" >
+ <span class="w3-text w3-tag itemoptiontooltip">On small screens, will show a navigation bar on the left</span>
+ <a class="w3-button w3-padding-small w3-gray" onclick="w3_openItemSB()">Open 
  Item Navigation</a>
  </div>
 <div class="w3-bar-item  w3-tooltip">
@@ -302,7 +305,7 @@ return
     let $type := data($document//t:place/@type)
     let $list := if(contains($type, ' ')) then tokenize(normalize-space($type), ' ') else string($type)
     return
-     <div>{for $t in $list return <a class="w3-tag w3-red" href="/places/list?keyword={$t}" target="_blank">{$t}</a>}</div>
+     <div>{for $t in $list return <a class="w3-tag w3-red" href="/places/list?placetype={$t}" target="_blank">{$t}</a>}</div>
    else ()}</div>
 
 
@@ -314,7 +317,7 @@ return
     let $type := data($document//t:place/@type)
     let $list := if(contains($type, ' ')) then tokenize(normalize-space($type), ' ') else string($type)
     return
-     <div  class="w3-row">{for $t in $list return <a class="w3-tag w3-red" href="/places/list?keyword={$t}" target="_blank">{$t}</a>}</div>
+     <div  class="w3-row">{for $t in $list return <a class="w3-tag w3-red" href="/places/list?placetype={$t}" target="_blank">{$t}</a>}</div>
    else ()
 
  case 'persons' return

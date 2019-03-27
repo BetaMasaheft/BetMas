@@ -740,6 +740,8 @@ declare function apprest:ItemScriptStyle(){
         <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/js/mapbox.js"  />,
         <script  xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/js/Leaflet.fullscreen.min.js"  />,
        <script type="text/javascript" src="resources/js/leaflet-ajax-gh-pages/dist/leaflet.ajax.min.js"  ></script>,
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"  ></script>,
+        <script type="text/javascript" src="resources/openseadragon/openseadragon.min.js"  />,
                          <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.12.0/vis.min.js"  />
 };
 
@@ -755,10 +757,8 @@ declare function apprest:ItemFooterScript(){
         <script type="text/javascript" src="$shared/resources/scripts/loadsource.js"  />,
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.5.1/bootstrap-slider.min.js"  />,
         <script type="text/javascript" src="resources/js/diacriticskeyboard.js"  />,
-        <script type="text/javascript" src="resources/openseadragon/openseadragon.min.js"  />,
         <script type="text/javascript" src="resources/js/analytics.js"  ></script>,
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/intro.js"  ></script>,
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"  ></script>,
         <script src="https://cdn.jsdelivr.net/npm/alpheios-embedded/dist/alpheios-embedded.min.js"  ></script>,
         <script type="text/javascript" src="resources/alpheios/alpheiosStart.js" />,
         <script type="application/javascript" src="resources/js/introText.js"/>,

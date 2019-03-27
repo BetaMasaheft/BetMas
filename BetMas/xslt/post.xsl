@@ -10,18 +10,18 @@
         </xsl:copy>
     </xsl:template>
     
-    <xsl:template match="comment()"/>
+<!--    <xsl:template match="comment()"/>-->
     
  <xsl:template match="processing-instruction('xml-model')">
      <xsl:if test="contains(.,'http://relaxng.org/ns/structure/1.0')">
             <xsl:processing-instruction name="xml-model">
-    <xsl:text>href="https://raw.githubusercontent.com/SChAth/schema/master/tei-betamesaheft-expanded.rng" 
+    <xsl:text>href="https://raw.githubusercontent.com/BetaMasaheft/schema/master/tei-betamesaheft-expanded.rng" 
 schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
   </xsl:processing-instruction>
         </xsl:if>
      <xsl:if test="contains(.,'http://purl.oclc.org/dsdl/schematron')">
             <xsl:processing-instruction name="xml-model">
-    <xsl:text>href="https://raw.githubusercontent.com/SChAth/schema/master/tei-betamesaheft-expanded.rng" 
+    <xsl:text>href="https://raw.githubusercontent.com/BetaMasaheft/schema/master/tei-betamesaheft-expanded.rng" 
         type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"</xsl:text>
   </xsl:processing-instruction>
         </xsl:if>
@@ -39,7 +39,7 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
             DATA STORED IN OTHER COLLECTIONS WITH
             THE RESOURCE YOU ARE REQUESTING.
             THE ACTUAL SOURCE FILE FOR THIS ENTRY CAN BE 
-            SEEN ADDING .XML AT THE END OF THE ENTRY URL.
+            OBTAINED ADDING .XML AT THE END OF THE ENTRY URL.
             <xsl:value-of select="concat($BMurl, ./ancestor::t:TEI/@xml:id, '.xml')"/>
                 </xsl:comment>
         <xsl:copy>
@@ -187,14 +187,6 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
         </xsl:copy>
     </xsl:template>
     
-    
-    <xsl:template match="t:profileDesc">
-        <xsl:copy>
-            <xsl:copy-of select="doc('../../BetMasData/authority-files/taxonomy.xml')"/>
-            <xsl:apply-templates/>
-      </xsl:copy>
-    </xsl:template>
-    
     <xsl:template match="t:ref">
         <xsl:copy>
             <xsl:apply-templates select="(@corresp | @type | @cRef | @target)"/>
@@ -217,8 +209,8 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
                         <xsl:variable name="filename" select="                                 if (contains(@corresp, '#')) then                                     (substring-before(@corresp, '#'))                                 else                                     (@corresp)"/>
                         <xsl:variable name="id" select="                                 if (contains(@corresp, '#')) then                                     (substring-after(@corresp, '#'))                                 else                                     ('')"/>
                         <xsl:choose>
-                            <xsl:when test="doc-available(concat('http://betamasaheft.aai.uni-hamburg.de/manuscripts/', $filename, '.xml'))">
-                                <xsl:value-of select="doc(concat('http://betamasaheft.aai.uni-hamburg.de/manuscripts/', $filename, '.xml'))/t:TEI//t:titleStmt/t:title[1]"/>
+                            <xsl:when test="doc-available(concat('https://betamasaheft.eu/manuscripts/', $filename, '.xml'))">
+                                <xsl:value-of select="doc(concat('https://betamasaheft.eu/manuscripts/', $filename, '.xml'))/t:TEI//t:titleStmt/t:title[1]"/>
                                 <xsl:if test="$id != ''">
                                     <xsl:text>, </xsl:text>
                                     <xsl:value-of select="$id"/>
@@ -261,7 +253,7 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
                         <xsl:value-of select="concat('http://purl.org/dc/terms/', substring-after(@name, 'dcterms:'))"/>
                     </xsl:when>
                     <xsl:when test="contains(@name, 'bm:')">
-                        <xsl:value-of select="concat('http://betamasaheft.aai.uni-hamburg.de/docs.html#', @name)"/>
+                        <xsl:value-of select="concat('https://betamasaheft.eu/docs.html#', @name)"/>
                     </xsl:when>
                     <xsl:when test="contains(@name, 'lawd:')">
                         <xsl:value-of select="concat('http://lawd.info/ontology/', substring-after(@name, 'lawd:'))"/>
@@ -392,7 +384,7 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
                             </xsl:otherwise>
                         </xsl:choose>
                     </xsl:variable>
-                    <xsl:variable name="file" select="document(concat('http://betamasaheft.aai.uni-hamburg.de/manuscripts/', $filename, '.xml'))"/>
+                    <xsl:variable name="file" select="document(concat('https://betamasaheft.eu/manuscripts/', $filename, '.xml'))"/>
                     <idno>
                         <xsl:value-of select="$file//t:msIdentifier/t:idno"/>
                     </idno>
