@@ -312,8 +312,9 @@ let $manifests :=
      for $images in $filtered
      let $this := $images/ancestor::t:TEI
      let $manifest := iiif:manifestsource($this)
+     let $tit := try {titles:printTitleMainID($this/@xml:id)} catch * {$err:description}
          return
-             map {'label' := titles:printTitleMainID($this/@xml:id) ,
+             map {'label' := $tit ,
       "@type": "sc:Manifest", 
       '@id' := $manifest}
  
