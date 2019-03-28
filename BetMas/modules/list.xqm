@@ -375,7 +375,7 @@ if(xdb:collection-available($c)) then (
  {for $c in  $subcat/t:category
  let $subsubval := $c/t:catDesc/text()
  return
- <li><a href="/{$collection}/list?keyword={$subsubval}">{$config:collection-rootA/id($subsubval)//t:titleStmt/t:title/text()}</a></li>
+ <li><a href="/{$collection}/list?keyword={$subsubval}">{$config:collection-rootA/id($subsubval)//t:titleStmt/t:title[1]/text()}</a></li>
 }</ul>
  </div>
   ) 
@@ -392,13 +392,13 @@ if(xdb:collection-available($c)) then (
  for $subsubcat in $subcat/t:category
  let $subsubval := $subsubcat/t:catDesc/text()
  return
- <li><a href="/{$collection}/list?keyword={$subsubval}">{$config:collection-rootA/id($subsubval)//t:titleStmt/t:title/text()}</a></li>
+ <li><a href="/{$collection}/list?keyword={$subsubval}">{$config:collection-rootA/id($subsubval)//t:titleStmt/t:title[1]/text()}</a></li>
 
  }</ul>
  </div>
  </div>)
  else(
- <li><a href="/{$collection}/list?keyword={$subval}">{$config:collection-rootA/id($subval)//t:titleStmt/t:title/text()}</a></li>)
+ <li><a href="/{$collection}/list?keyword={$subval}">{$config:collection-rootA/id($subval)//t:titleStmt/t:title[1]/text()}</a></li>)
  }
  </ul>
  </div>
@@ -411,16 +411,15 @@ if(xdb:collection-available($c)) then (
  then (<div class="w3-panel w3-gray w3-card-4">Select an entry on the left to see all records where this occurs.</div>)
  else (
  let $res :=
- let $c := $config:collection-root
- let $terms := $c/t:TEI[descendant::t:term[@key = $keyword]]
- let $title := $c/t:TEI[descendant::t:title[@type = $keyword]]
- let $person := $c/t:TEI[descendant::t:person[@type = $keyword]]
- let $desc := $c/t:TEI[descendant::t:desc[@type = $keyword] ]
- let $place := $c/t:TEI[descendant::t:place[@type = $keyword] ]
- let $ab := $c/t:TEI[descendant::t:ab[@type = $keyword] ]
- let $faith := $c/t:TEI[descendant::t:faith[@type = $keyword] ]
- let $occupation := $c/t:TEI[descendant::t:occupation[@type = $keyword]]
- let $ref := $c/t:TEI[descendant::t:ref[@type = 'authFile'][@corresp=$keyword]]
+ let $terms := $config:collection-root/t:TEI[descendant::t:term[@key = $keyword]]
+ let $title := $config:collection-root/t:TEI[descendant::t:title[@type = $keyword]]
+ let $person := $config:collection-root/t:TEI[descendant::t:person[@type = $keyword]]
+ let $desc := $config:collection-root/t:TEI[descendant::t:desc[@type = $keyword] ]
+ let $place := $config:collection-root/t:TEI[descendant::t:place[@type = $keyword] ]
+ let $ab := $config:collection-root/t:TEI[descendant::t:ab[@type = $keyword] ]
+ let $faith := $config:collection-root/t:TEI[descendant::t:faith[@type = $keyword] ]
+ let $occupation := $config:collection-root/t:TEI[descendant::t:occupation[@type = $keyword]]
+ let $ref := $config:collection-root/t:TEI[descendant::t:ref[@type = 'authFile'][@corresp=$keyword]]
  let $hits := ($terms | $title |$person|$desc|$place|$ab|$faith|$occupation|$ref)
    return
                       map {

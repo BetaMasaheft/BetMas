@@ -190,10 +190,9 @@ declare function restItem:ITEM($type, $id, $collection,
 $start as xs:integer*,
 $per-page as xs:integer*,
 $hi as xs:string*){
-let $collect := switch2:collection($collection)
+let $collect := switch2:collectionVar($collection)
 let $coll := $config:data-root || '/' || $collection
-let $c := util:eval($collect)
-let $this := $c/id($id)
+let $this := $collect/id($id)
 let $biblio :=
 <bibl>
 {
@@ -214,7 +213,7 @@ return
 </idno>
 <coll>{$collection}</coll>
 </bibl>
-let $Cmap := map {'type':= 'collection', 'name' := $collection, 'path' := $c}
+let $Cmap := map {'type':= 'collection', 'name' := $collection, 'path' := $coll}
 let $Imap := map {'type':= 'item', 'name' := $id, 'path' := $collection}
 return
 

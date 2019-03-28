@@ -1495,8 +1495,8 @@ then (
  if($target-work = '') then ()
  else(
 <h2>Compare manuscripts which contain <span>{$MAINtit}</span></h2>,
-let $c := $config:collection-rootMS
-let $items := $c//t:msItem
+
+let $items := $config:collection-rootMS//t:msItem
 let $Additems := $c//t:additions//t:item[descendant::t:title[@ref]]
 let $matchingAddmss := $Additems//t:title[@ref = $target-work]
 let $matchingConmss := $items/t:title[@ref = $target-work]
@@ -1597,8 +1597,8 @@ charts:chart($hits)
 (:~  given an id looks for all manuscripts containing it and returns a div with cards use by Slick for the Carousel view:)
  declare function apprest:compareMssFromlist($mss) {
 if($mss = '') then ()  else(
-    let $c := $config:collection-rootMS
-    let $matchingmss := for $ms in tokenize($mss, ',') return $c//id($ms)
+   
+    let $matchingmss := for $ms in tokenize($mss, ',') return $config:collection-rootMS//id($ms)
     return
     (<div class="msscomparison w3-container">
     {

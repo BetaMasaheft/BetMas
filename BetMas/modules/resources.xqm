@@ -516,8 +516,6 @@ for $addition at $p in $data
 declare
 %templates:wrap
     function lists:bindingRes($node as node(), $model as map(*)){
-   let $c := $config:collection-rootMS
-   return
 
 for $binding at $p in $model("hits")
     let $t := $binding/@type
@@ -544,7 +542,7 @@ for $binding at $p in $model("hits")
 (<button onclick="openAccordion('{data($ms)}')" 
         class="w3-button w3-block w3-red w3-padding w3-margin-bottom">
 <span class="w3-badge w3-right">{count($b)}</span>
-<span class="w3-left " data-value="{$type}">{$c//id($ms)//t:msIdentifier/t:idno}</span>
+<span class="w3-left " data-value="{$type}">{$config:collection-rootMS//id($ms)//t:msIdentifier/t:idno}</span>
 </button>,
 <div class="w3-container w3-hide" id="{data($ms)}">
 <ul class="w3-ul w3-hoverable" >
@@ -571,8 +569,7 @@ for $binding at $p in $model("hits")
 declare
 %templates:wrap
     function lists:decoRes($node as node(), $model as map(*)){
-   let $c := $config:collection-rootMS
-   return
+   
 for $decoration at $p in $model("hits")
     let $t := $decoration/@type
    (: group by type :)
@@ -598,7 +595,7 @@ for $decoration at $p in $model("hits")
                 return
 
 (<button onclick="openAccordion('{data($ms)}')" class="w3-button w3-block w3-red  w3-margin-bottom">
-<span class="w3-left">{$c//id($ms)//t:msIdentifier/t:idno}</span>
+<span class="w3-left">{$config:collection-rootMS//id($ms)//t:msIdentifier/t:idno}</span>
 <span class="w3-badge w3-right">{count($d)}</span>
 </button>,
              <div  class="w3-container w3-hide" id="{data($ms)}">

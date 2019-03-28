@@ -14,13 +14,13 @@ declare option exist:serialize "method=text mediatype=text/javascript";
 
 (:Item timeline extracted  from all stated dates in item and related entities. first ids are listed with data in a temporary tree and then functions are used to output the javascript as text:)
 declare function tl:RestEntityTimeLine($this, $collection) {
-let $c := $config:collection-root
+
 let $itemid := $this/@xml:id
-let $whatpointshere := apprest:WhatPointsHere($itemid, $c)
+let $whatpointshere := apprest:WhatPointsHere($itemid, $config:collection-root)
 let $data :=
 let $dateManuscripts :=
 let $dateofThisManuscript := $this//t:origDate[@when or (@notBefore or @notAfter)]
-let $datesofRelatedManuscripts := for $ref in distinct-values($this//@ref[not(matches(., '\w{3}\d+\w+'))])
+let $datesofRelatedManuscripts := for $ref in distinct-values($this//@ref[not(matches(., '\w{3}\d+\w+'))][not(starts-with(., 'wd:'))][not(starts-with(., 'pleiades:'))])
 return doc(($config:data-rootMS || '/' ||string($ref)|| '.xml'))//t:origDate[@when or (@notBefore or @notAfter)]
 let $datesofcitingMss := for $citingms in distinct-values($whatpointshere[ancestor::t:TEI[@type='mss']]/ancestor::t:TEI/@xml:id) return doc(($config:data-rootMS || '/' ||string($citingms)|| '.xml'))//t:origDate[@when or (@notBefore or @notAfter)]
 for $date in ($dateofThisManuscript, $datesofRelatedManuscripts, $datesofcitingMss)
@@ -29,7 +29,7 @@ tl:date($date, 'obj')
 
 let $dateInManuscripts :=
 let $dateinthisms := $this//t:date[@when or @notBefore or @notAfter]
-let $datesinRelatedManuscripts := for $ref in distinct-values($this//@ref[not(matches(., '\w{3}\d+\w+'))])
+let $datesinRelatedManuscripts := for $ref in distinct-values($this//@ref[not(matches(., '\w{3}\d+\w+'))][not(starts-with(., 'wd:'))][not(starts-with(., 'pleiades:'))])
 return doc(($config:data-rootMS || '/' ||string($ref)|| '.xml'))//t:date[@when or @notBefore or @notAfter]
 let $datesIncitingMss := for $Incitingms in distinct-values($whatpointshere[ancestor::t:TEI[@type='mss']]/ancestor::t:TEI/@xml:id) return doc(($config:data-rootMS || '/' ||string($Incitingms)|| '.xml'))//t:date[@when or @notBefore or @notAfter]
 

@@ -714,12 +714,12 @@ return
 
 (:~called by he RESTXQ module items.xql :)
 declare function item2:RestPersRole($file, $collection){
-    let $c := $config:collection-root
+   
     let $id := string($file/@xml:id)
     return
 if ($collection = 'persons') then(
 <div  class="w3-panel w3-margin  w3-gray w3-card-4">{
-let $persrol := $c//t:persName[@ref = $id]
+let $persrol := $config:collection-root//t:persName[@ref = $id]
 let $persrole := $persrol[@role]
 return
 if($persrole) then
@@ -767,7 +767,7 @@ else if ($collection = 'manuscripts' or $collection = 'works' or $collection = '
     is <span class="w3-tag w3-red">{for $role in distinct-values($p/@role) return string($role) || ' '}</span>{' of this manuscript'}.
 
     {
-    let $tei := $c//t:TEI[@xml:id !=$id]
+    let $tei := $config:collection-root//t:TEI[@xml:id !=$id]
     let $persons := $tei//t:persName[@ref = string($ID)]
     for $role in $persons[@role]
 
@@ -1068,41 +1068,41 @@ return
  let $options := switch($collection)
 (:                   decides on the basis of the collection what is relevant to match related records :)
                    case 'manuscripts' return
-                   (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in ($file//t:term/@key) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
+                   (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in distinct-values($file//t:term/@key) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
                    if ($file//t:supportDesc/t:material/@key) then <optgroup label="material">{for $x in ($file//t:supportDesc/t:material/@key) return <option value="{$x}">{$x}</option>}</optgroup> else (),
                    if ($file//t:handNote[@script]/@script) then <optgroup label="script">{for $x in distinct-values($file//t:handNote[@script]/@script) return <option value="{$x}">{string($x)}</option>}</optgroup> else (),
                    if ($file//t:objectDesc/@form) then <optgroup label="form">{for $x in distinct-values($file//t:objectDesc/@form) return <option value="{$x}">{string($x)}</option>}</optgroup> else ())
                    case 'works' return
-                   (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in ($file//t:term/@key) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
+                   (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in distinct-values($file//t:term/@key) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
                    if ($file//t:relation[@name='dcterms:creator']) then <optgroup label="author">{for $x in ($file//t:relation[@name='dcterms:creator']) let $auth := string($x/@passive) return <option value="{$auth}">{titles:printTitleID($auth)}</option>}</optgroup> else (),
                    if ($file//t:relation[@name='saws:isAttributedToAuthor']) then <optgroup label="relation">{for $x in ($file//t:relation[@name='saws:isAttributedToAuthor']) let $auth := string($x/@passive) return <option value="{$auth}">{titles:printTitleID($auth)}</option>}</optgroup> else ()
                    )
                     case 'narratives' return
-                   (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in ($file//t:term/@key) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
+                   (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in distinct-values($file//t:term/@key) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
                    if ($file//t:relation[@name='dcterms:creator']) then <optgroup label="author">{for $x in ($file//t:relation[@name='dcterms:creator']) let $auth := string($x/@passive) return <option value="{$auth}">{titles:printTitleID($auth)}</option>}</optgroup> else (),
                    if ($file//t:relation[@name='saws:isAttributedToAuthor']) then <optgroup label="attributed author">{for $x in ($file//t:relation[@name='saws:isAttributedToAuthor']) let $auth := string($x/@active) return <option value="{$auth}">{titles:printTitleID($auth)}</option>}</optgroup> else ()
                    )
                    case 'places' return
-                   (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in ($file//t:term/@key) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
+                   (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in distinct-values($file//t:term/@key) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
                     if ($file//t:settlement) then <optgroup label="settlement">{for $x in $file//t:settlement/@ref return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
                    if ($file//t:region) then <optgroup label="region">{for $x in $file//t:region/@ref return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
                    if ($file//t:country) then <optgroup label="country">{for $x in $file//t:country/@ref return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
                    if ($file//t:place[@type]) then <optgroup label="type">{if(contains($file//t:place/@type, ' ')) then for $x in tokenize($file//t:place/@type, ' ')  return <option value="{$x}">{titles:printTitleID($x)}</option> else let $type := $file//t:place/@type return <option value="{$type}">{titles:printTitleID($type)}</option>}</optgroup> else ()
                    )
                    case 'institutions' return
-                   (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in ($file//t:term/@key) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
+                   (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in distinct-values($file//t:term/@key) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
                     if ($file//t:settlement) then <optgroup label="settlement">{for $x in $file//t:settlement/@ref return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
                    if ($file//t:region) then <optgroup label="region">{for $x in $file//t:region/@ref return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
                    if ($file//t:country) then <optgroup label="country">{for $x in $file//t:country/@ref return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
                    if ($file//t:place[@type]) then <optgroup label="type">{if(contains($file//t:place/@type, ' ')) then for $x in ($file//t:place/@type)  return <option value="{$x}">{titles:printTitleID($x)}</option> else let $type := $file//t:place/@type return <option value="{$type}">{titles:printTitleID($type)}</option>}</optgroup> else ()
                    )
                    case 'persons' return
-                   (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in ($file//t:term/@key) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
+                   (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in distinct-values($file//t:term/@key) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
                   if ($file//t:roleName) then <optgroup label="role">{for $x in ($file//t:roleName/@type) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
                    if ($file//t:faith) then <optgroup label="faith">{for $x in ($file//t:faith/@type) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
                    if ($file//t:occupation) then <optgroup label="occupation">{for $x in ($file//t:occupation/@type) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else ()
                    )
-                  default return (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in ($file//t:term/@key) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else ()
+                  default return (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in distinct-values($file//t:term/@key) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else ()
                    )
  return
        <div class="{if(starts-with($id, 'INS')) then 'w3-container w3-padding' else 'w3-third w3-padding'}" id="seeAlsoForm" >
