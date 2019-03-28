@@ -1046,7 +1046,6 @@ let $keys :=
 declare function apprest:searchFilter-rest($collection, $model as map(*)) {
 let $items-info := $model('hits')
 let $context := $model('query')
-let $test := console:log($context)
 let $evalContext := util:eval($context)
 let $onchange := 'if (this.value) window.location.href=this.value'
 return
@@ -1071,7 +1070,7 @@ return
 <div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that language">
 <label for="language">languages </label>
 <select multiple="multiple" name="language" id="language" class="w3-select w3-border">
-                            {$app:range-lookup('TEIlanguageIdent', '', function($key, $count) {<option value="{$key}">{$apprest:languages//t:item[@xml:id=$key]/text()} ({$count[1]})</option>}, 1000)}
+                            {$evalContext/$app:range-lookup('TEIlanguageIdent', '', function($key, $count) {<option value="{$key}">{$apprest:languages//t:item[@xml:id=$key]/text()} ({$count[1]})</option>}, 1000)}
                             </select>
                             </div>
 (:app:formcontrol('language',  $evalContext//t:language/@ident, 'true', 'values', $context):)
@@ -1113,7 +1112,7 @@ if($items-info  = <start/>) then (
 <div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that keyword">
 <label for="keyword">keywords </label>
 <select multiple="multiple" name="keyword" id="keyword" class="w3-select w3-border">
-{$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{titles:printTitleMainID($key)} ({$count[1]})</option>},1000)}
+{$evalContext/$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{titles:printTitleMainID($key)} ({$count[1]})</option>},1000)}
 </select>
 </div>
                             
@@ -1121,7 +1120,7 @@ if($items-info  = <start/>) then (
 (:form selectors relative to query:)
 apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titles', $context),
 <div class="w3-container">
-    <div class="w3-panel w3-red w3-leftbar" style="font-size: smaller;">The period filter will search items which have the appropriate keyword assigned. It is equivalent to selecting that keyword. It is not equivalent to selecting a date range, bacuse in that case we will search the dates, regardless of the attribution or not of one of the period keywords.</div>
+    <div class="w3-panel w3-red w3-leftbar" style="font-size: smaller;">The period filter will search items which have the appropriate keyword assigned. It is equivalent to selecting that keyword. It is not equivalent to selecting a date range, because in that case we will search the dates, regardless of the attribution or not of one of the period keywords.</div>
 
     <label>periods</label>
                 <select name="period" class="w3-select w3-border">
@@ -1148,26 +1147,26 @@ if($items-info  = <start/>) then (
 <div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that keyword">
 <label for="keyword">keywords </label>
 <select multiple="multiple" name="keyword" id="keyword" class="w3-select w3-border">
-{$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{titles:printTitleMainID($key)} ({$count[1]})</option>},1000)}
+{$evalContext/$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{titles:printTitleMainID($key)} ({$count[1]})</option>},1000)}
 </select>
 </div>,
 
 <div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that place type">
 <label for="placetype">place type </label>
 <select multiple="multiple" name="placetype" id="placetype" class="w3-select w3-border">
-{$app:range-lookup('placetype', '', function($key, $count) {<option value="{$key}">{titles:printTitleMainID($key)} ({$count[1]}) </option>},1000)}
+{$evalContext/$app:range-lookup('placetype', '', function($key, $count) {<option value="{$key}">{if(matches($key, '\s' )) then (let $titles:= for $k in tokenize($key, '\s') return titles:printTitleMainID($k) return string-join($titles, ', ')) else titles:printTitleMainID($key)} ({$count[1]}) </option>},1000)}
 </select>
 </div>,
 <div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that place type">
 <label for="placetype">country </label>
 <select multiple="multiple" name="country" id="country" class="w3-select w3-border">
-{$app:range-lookup('countryref', '', function($key, $count) {<option value="{$key}">{titles:printTitleID($key)} ({$count[1]}) </option>},1000)}
+{$evalContext/$app:range-lookup('countryref', '', function($key, $count) {<option value="{$key}">{titles:printTitleID($key)} ({$count[1]}) </option>},1000)}
 </select>
 </div>,
 <div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that place type">
 <label for="placetype">settlement </label>
 <select multiple="multiple" name="settlement" id="settlement" class="w3-select w3-border">
-{$app:range-lookup('settlref', '', function($key, $count) {<option value="{$key}">{titles:printTitleID($key)} ({$count[1]}) </option>},1000)}
+{$evalContext/$app:range-lookup('settlref', '', function($key, $count) {<option value="{$key}">{titles:printTitleID($key)} ({$count[1]}) </option>},1000)}
 </select>
 </div>,
 <div class="w3-container">
@@ -1181,7 +1180,7 @@ if($items-info  = <start/>) then (
 (<div class="w3-container">
 <label for="keyword">keywords </label>
 <select multiple="multiple" name="keyword" id="keyword" class="w3-select w3-border">
-{$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{titles:printTitleID($key)} ({$count[1]})</option>}, 1000)}
+{$evalContext/$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{titles:printTitleID($key)} ({$count[1]})</option>}, 1000)}
 </select>
 </div>,
 apprest:formcontrol('place type','placetype', $items-info//t:place/@type, 'true', 'values', $context),
@@ -1201,25 +1200,25 @@ if($items-info  = <start/>) then (
 <div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that keyword">
 <label for="keyword">keywords </label>
 <select multiple="multiple" name="keyword" id="keyword" class="w3-select w3-border">
-{$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{titles:printTitleMainID($key)} ({$count[1]})</option>},1000)}
+{$evalContext/$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{titles:printTitleMainID($key)} ({$count[1]})</option>},1000)}
 </select>
 </div>,
 <div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that place type">
 <label for="placetype">place type </label>
 <select multiple="multiple" name="placetype" id="placetype" class="w3-select w3-border">
-{$app:range-lookup('placetype', '', function($key, $count) {<option value="{$key}">{titles:printTitleMainID($key)} ({$count[1]})</option>},1000)}
+{$evalContext/$app:range-lookup('placetype', '', function($key, $count) {<option value="{$key}">{titles:printTitleMainID($key)} ({$count[1]})</option>},1000)}
 </select>
 </div>,
 <div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that place type">
 <label for="placetype">country </label>
 <select multiple="multiple" name="country" id="country" class="w3-select w3-border">
-{$app:range-lookup('countryref', '', function($key, $count) {<option value="{$key}">{titles:printTitleID($key)} ({$count[1]}) </option>},1000)}
+{$evalContext/$app:range-lookup('countryref', '', function($key, $count) {<option value="{$key}">{titles:printTitleID($key)} ({$count[1]}) </option>},1000)}
 </select>
 </div>,
 <div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that place type">
 <label for="placetype">settlement </label>
 <select multiple="multiple" name="settlement" id="settlement" class="w3-select w3-border">
-{$app:range-lookup('settlref', '', function($key, $count) {<option value="{$key}">{titles:printTitleID($key)}  ({$count[1]})</option>},1000)}
+{$evalContext/$app:range-lookup('settlref', '', function($key, $count) {<option value="{$key}">{titles:printTitleID($key)}  ({$count[1]})</option>},1000)}
 </select>
 </div>,
 <div class="w3-container">
@@ -1248,19 +1247,19 @@ if($items-info  = <start/>) then (
 <div class="w3-container">
 <label for="keyword">keywords </label>
 <select multiple="multiple" name="keyword" id="keyword" class="w3-select w3-border">
-{$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{titles:printTitleMainID($key)} ({$count[1]})</option>},1000)}
+{$evalContext/$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{titles:printTitleMainID($key)} ({$count[1]})</option>},1000)}
 </select>
 </div>,
 <div class="w3-container">
 <label for="occupation">occupation type </label>
 <select multiple="multiple" name="occupation" id="occupation" class="w3-select w3-border">
-{$app:range-lookup('occtype', '', function($key, $count) {<option value="{$key}">{$key} </option>},1000)}
+{$evalContext/$app:range-lookup('occtype', '', function($key, $count) {<option value="{$key}">{$key} </option>},1000)}
 </select>
 </div>,
 <div class="w3-container">
 <label for="faith">faith </label>
 <select multiple="multiple" name="faith" id="faith" class="w3-select w3-border">
-{$app:range-lookup('faithtype', '', function($key, $count) {<option value="{$key}">{$key} </option>},1000)}
+{$evalContext/$app:range-lookup('faithtype', '', function($key, $count) {<option value="{$key}">{$key} </option>},1000)}
 </select>
 </div>
 ) else
@@ -1282,7 +1281,7 @@ if($items-info  = <start/>) then (
 <div class="w3-container">
 <label for="keyword">keywords </label>
 <select multiple="multiple" name="keyword" id="keyword" class="w3-select w3-border">
-{$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{titles:printTitleMainID($key)} ({$count[1]})</option>},1000)}
+{$evalContext/$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{titles:printTitleMainID($key)} ({$count[1]})</option>},1000)}
 </select>
 </div>
 ) else
