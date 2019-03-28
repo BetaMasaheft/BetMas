@@ -280,11 +280,14 @@ declare function apprest:EntityRelsTable($this, $collection){
 let $entity := $this
 let $id := string($this/@xml:id)
 let $rels := $entity//t:relation[@name][(@active and @passive) or @mutual]
-let $otherrelsp := $config:collection-root//t:relation[ancestor::t:TEI[not(@xml:id = $id)]][@name][contains(@passive, $id)]
-let $otherrelsa := $config:collection-root//t:relation[ancestor::t:TEI[not(@xml:id = $id)]][@name][contains(@active, $id)]
+let $otherrelsp := $config:collection-root//t:relation[contains(@passive, $id)]
+let $otherrelsa := $config:collection-root//t:relation[contains(@active, $id)]
+let $otherrels := ($otherrelsp, $otherrelsa)
+let $oth := $otherrels[ancestor::t:TEI[not(@xml:id = $id)]][@name]
 (:the three variables here assume that there will be relations in the requested file, and that if a relation somewhere else has this id in active it will not have it in passive:)
-let $allrels := ($rels, $otherrelsp, $otherrelsa)
+let $allrels := ($rels, $oth)
 return
+(<div class="w3-panel w3-small w3-red"><span class="w3-tag w3-gray">{count($allrels)}</span> relations found</div>,
                         <div class="responsive"><table class="w3-table w3-hoverable w3-small"  xmlns="http://www.w3.org/1999/xhtml">
                             <thead>
                                 <tr>
@@ -353,15 +356,16 @@ apprest:deciderelation($list//id)
 
                                         </td>
                                         <td>
-{                                            transform:transform($relation/t:desc, 'xmldb:exist:///db/apps/BetMas/xslt/relation.xsl',())
-
+{     if($relation/t:desc)   then                                    
+transform:transform($relation/t:desc, 'xmldb:exist:///db/apps/BetMas/xslt/relation.xsl',())
+else ()
 }
                                         </td>
                                     </tr>
                                     }
                             </tbody>
                         </table>
-</div>
+</div>)
 
 };
 

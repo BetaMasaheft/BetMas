@@ -28,8 +28,8 @@ declare
 %rest:path("/BetMas/api/relations/{$id}")
 %output:method("json")
 function NE:relNodes($id as xs:string*){
-let $c :=  $config:collection-root
-let $entity := $c/id($id)
+
+let $entity := $config:collection-root/id($id)
 let $type := $entity/@type
 let $collection := switch2:col($type)
 
@@ -40,7 +40,7 @@ let $thisMap := map {
         "group" := string($type)
         }
 
-let $whatpointshere := api:restWhatPointsHere($localId, $c)
+let $whatpointshere := api:restWhatPointsHere($localId, $config:collection-root)
 
 let $refs := ($entity//@ref[not(./ancestor::t:respStmt)], $entity//@active, $entity//@passive)
 let $secondaryrelations := 
@@ -50,7 +50,7 @@ if($id ='') then ()
 else if(starts-with($id,'INS')) then () 
 else if(contains($id,' ')) then () 
 else 
-    let $whatppointstothat := api:restWhatPointsHere($id, $c) 
+    let $whatppointstothat := api:restWhatPointsHere($id, $config:collection-root) 
     return
         (:if more than 10 items are related then it is unlikely to be relevant:)
     if(count($whatppointstothat) gt 10) then () else $whatppointstothat
@@ -63,8 +63,8 @@ let $wph :=
     let $distincts :=  distinct-values($allids)
     for $I in $distincts
     let $cleanId := if(contains($I, '#')) then substring-before($I,  '#') else $I
-    let $thisI := $c//id($cleanId)[name()='TEI']
-    let $rootype := $thisI[1]/@type
+(:    let $thisI := $c//id($cleanId)[name()='TEI']:)
+    let $rootype := switch2:switchPrefix($cleanId)
     let $title := if(contains($I, '#')) then titles:printTitleID($I) else titles:printTitleMainID($I)
     let $titleN := if(count($title) gt 1) then normalize-space(string-join($title, ' ')) else normalize-space($title)
     return 
@@ -72,7 +72,7 @@ let $wph :=
      map {
         "id" := $I, 
         "label" := $titleN,
-        "group" := string($rootype)
+        "group" := $rootype
         }
 
 let $here := 

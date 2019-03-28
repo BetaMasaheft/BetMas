@@ -58,3 +58,35 @@ declare function switch2:collectionVar($type){
         case 'manuscripts' return $config:collection-rootMS
         default return $config:collection-root
 };
+
+(:~Given an id tries to decide which type it is:)
+declare function switch2:switchPrefix( $id){
+if(matches($id, '\d')) then
+
+let $prefix := substring($id, 1,2)
+return switch ($prefix)
+                                                    case 'IN'
+                                                        return
+                                                            'ins'
+                                                    case 'PR'
+                                                        return
+                                                            'pers'
+                                                    case 'ET'
+                                                        return
+                                                            'pers'
+                                                    case 'LO'
+                                                        return
+                                                            'place'
+                                                    case 'LI'
+                                                        return
+                                                            'work'
+                                                    case 'NA'
+                                                        return
+                                                            'narr'
+                                                    case 'AT'
+                                                        return
+                                                            'auth'
+                                                    default return
+                                                        'mss'
+else ()
+                                                        };
