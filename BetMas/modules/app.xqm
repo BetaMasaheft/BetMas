@@ -868,7 +868,7 @@ declare function app:team ($node as node(), $model as map(*)) {
 <ul class="w3-ul w3-hoverable w3-padding">{
     $config:collection-root/$app:range-lookup('changewho', (),
         function($key, $count) {
-             <li>{editors:editorKey($key) || ' ('||$key||')' || ' made ' || $count[1] ||' changes in ' || $count[2]||' documents. '}<a href="/xpath?xpath=collection%28%27%2Fdb%2Fapps%2FBetMas%2Fdata%27%29%2F%2Ft%3Achange%5B%40who%3D%27{$key}%27%5D">See the changes.</a></li>
+             <li>{editors:editorKey($key) || ' ('||$key||')' || ' made ' || $count[1] ||' changes in ' || $count[2]||' documents. '}<a href="/xpath?xpath=%24config%3Acollection-root%2F%2Ft%3Achange%5B%40who%3D%27{$key}%27%5D">See the changes.</a></li>
         }, 1000)
        }
        </ul>
