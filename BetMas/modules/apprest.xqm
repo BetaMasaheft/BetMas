@@ -1067,7 +1067,7 @@ return
 <div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that language">
 <label for="language">languages </label>
 <select multiple="multiple" name="language" id="language" class="w3-select w3-border">
-                            {$app:range-lookup('TEIlanguageIdent', '', function($key, $count) {<option value="{$key}">{$apprest:languages//t:item[@xml:id=$key]/text()} </option>}, 100)}
+                            {$app:range-lookup('TEIlanguageIdent', '', function($key, $count) {<option value="{$key}">{$apprest:languages//t:item[@xml:id=$key]/text()} ({$count[1]})</option>}, 1000)}
                             </select>
                             </div>
 (:app:formcontrol('language',  $evalContext//t:language/@ident, 'true', 'values', $context):)
@@ -1109,7 +1109,7 @@ if($items-info  = <start/>) then (
 <div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that keyword">
 <label for="keyword">keywords </label>
 <select multiple="multiple" name="keyword" id="keyword" class="w3-select w3-border">
-{$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{$key}</option>}, 100)}
+{$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{titles:printTitleMainID($key)} ({$count[1]})</option>},1000)}
 </select>
 </div>
                             
@@ -1144,26 +1144,26 @@ if($items-info  = <start/>) then (
 <div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that keyword">
 <label for="keyword">keywords </label>
 <select multiple="multiple" name="keyword" id="keyword" class="w3-select w3-border">
-{$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{$key} </option>}, 100)}
+{$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{titles:printTitleMainID($key)} ({$count[1]})</option>},1000)}
 </select>
 </div>,
 
 <div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that place type">
 <label for="placetype">place type </label>
 <select multiple="multiple" name="placetype" id="placetype" class="w3-select w3-border">
-{$app:range-lookup('placetype', '', function($key, $count) {<option value="{$key}">{$key} </option>}, 100)}
+{$app:range-lookup('placetype', '', function($key, $count) {<option value="{$key}">{titles:printTitleMainID($key)} ({$count[1]}) </option>},1000)}
 </select>
 </div>,
 <div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that place type">
 <label for="placetype">country </label>
 <select multiple="multiple" name="country" id="country" class="w3-select w3-border">
-{$app:range-lookup('countryref', '', function($key, $count) {<option value="{$key}">{titles:printTitleID($key)} ({$count[1]}) </option>}, 100)}
+{$app:range-lookup('countryref', '', function($key, $count) {<option value="{$key}">{titles:printTitleID($key)} ({$count[1]}) </option>},1000)}
 </select>
 </div>,
 <div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that place type">
 <label for="placetype">settlement </label>
 <select multiple="multiple" name="settlement" id="settlement" class="w3-select w3-border">
-{$app:range-lookup('settlref', '', function($key, $count) {<option value="{$key}">{titles:printTitleID($key)} ({$count[1]}) </option>}, 100)}
+{$app:range-lookup('settlref', '', function($key, $count) {<option value="{$key}">{titles:printTitleID($key)} ({$count[1]}) </option>},1000)}
 </select>
 </div>,
 <div class="w3-container">
@@ -1176,8 +1176,8 @@ if($items-info  = <start/>) then (
 (:form selectors relative to query:)
 (<div class="w3-container">
 <label for="keyword">keywords </label>
-<select multiple="multiple" name="keyword" id="keyword" class="form-control">
-{$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{$key} ({$count[1]})</option>}, 100)}
+<select multiple="multiple" name="keyword" id="keyword" class="w3-select w3-border">
+{$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{titles:printTitleID($key)} ({$count[1]})</option>}, 1000)}
 </select>
 </div>,
 apprest:formcontrol('place type','placetype', $items-info//t:place/@type, 'true', 'values', $context),
@@ -1197,25 +1197,25 @@ if($items-info  = <start/>) then (
 <div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that keyword">
 <label for="keyword">keywords </label>
 <select multiple="multiple" name="keyword" id="keyword" class="w3-select w3-border">
-{$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{$key} </option>}, 100)}
+{$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{titles:printTitleMainID($key)} ({$count[1]})</option>},1000)}
 </select>
 </div>,
 <div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that place type">
 <label for="placetype">place type </label>
 <select multiple="multiple" name="placetype" id="placetype" class="w3-select w3-border">
-{$app:range-lookup('placetype', '', function($key, $count) {<option value="{$key}">{$key} </option>}, 100)}
+{$app:range-lookup('placetype', '', function($key, $count) {<option value="{$key}">{titles:printTitleMainID($key)} ({$count[1]})</option>},1000)}
 </select>
 </div>,
 <div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that place type">
 <label for="placetype">country </label>
 <select multiple="multiple" name="country" id="country" class="w3-select w3-border">
-{$app:range-lookup('countryref', '', function($key, $count) {<option value="{$key}">{titles:printTitleID($key)} ({$count[1]}) </option>}, 100)}
+{$app:range-lookup('countryref', '', function($key, $count) {<option value="{$key}">{titles:printTitleID($key)} ({$count[1]}) </option>},1000)}
 </select>
 </div>,
 <div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that place type">
 <label for="placetype">settlement </label>
 <select multiple="multiple" name="settlement" id="settlement" class="w3-select w3-border">
-{$app:range-lookup('settlref', '', function($key, $count) {<option value="{$key}">{titles:printTitleID($key)}  ({$count[1]})</option>}, 100)}
+{$app:range-lookup('settlref', '', function($key, $count) {<option value="{$key}">{titles:printTitleID($key)}  ({$count[1]})</option>},1000)}
 </select>
 </div>,
 <div class="w3-container">
@@ -1244,19 +1244,19 @@ if($items-info  = <start/>) then (
 <div class="w3-container">
 <label for="keyword">keywords </label>
 <select multiple="multiple" name="keyword" id="keyword" class="w3-select w3-border">
-{$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{$key} </option>}, 100)}
+{$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{titles:printTitleMainID($key)} ({$count[1]})</option>},1000)}
 </select>
 </div>,
 <div class="w3-container">
 <label for="occupation">occupation type </label>
 <select multiple="multiple" name="occupation" id="occupation" class="w3-select w3-border">
-{$app:range-lookup('occtype', '', function($key, $count) {<option value="{$key}">{$key} </option>}, 100)}
+{$app:range-lookup('occtype', '', function($key, $count) {<option value="{$key}">{$key} </option>},1000)}
 </select>
 </div>,
 <div class="w3-container">
 <label for="faith">faith </label>
 <select multiple="multiple" name="faith" id="faith" class="w3-select w3-border">
-{$app:range-lookup('faithtype', '', function($key, $count) {<option value="{$key}">{$key} </option>}, 100)}
+{$app:range-lookup('faithtype', '', function($key, $count) {<option value="{$key}">{$key} </option>},1000)}
 </select>
 </div>
 ) else
@@ -1278,7 +1278,7 @@ if($items-info  = <start/>) then (
 <div class="w3-container">
 <label for="keyword">keywords </label>
 <select multiple="multiple" name="keyword" id="keyword" class="w3-select w3-border">
-{$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{$key} </option>}, 100)}
+{$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{titles:printTitleMainID($key)} ({$count[1]})</option>},1000)}
 </select>
 </div>
 ) else
@@ -1358,7 +1358,7 @@ apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titl
             </script>
         
 </div>,
-            <div class="w3-container w3-margin-left">
+            <div class="w3-container w3-margin-left w3-margin-right">
  <label for="qcn">Quires Composition</label><br/>
                 <input id="quiresComp" type="text" class="span2" name="qcn" data-slider-min="1" data-slider-max="40" data-slider-step="1" data-slider-value="[1,40]"/>
             <script type="text/javascript">

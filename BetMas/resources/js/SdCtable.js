@@ -20,8 +20,8 @@ $(document).on('ready', function () {
     BIND(STR(?class) AS ?c)\
     FILTER ( strStarts(?c, 'https://w3id.org/sdc/ontology#') ||  contains(?c, 'quire')||  contains(?c, 'hand') || contains(?c, 'decoration') || contains(?c, 'addition') )\
     BIND(IF(regex(?p, 'addition','i'), 'y', 'n') as ?addition)\
-    BIND(IF(?addition = 'y', 'addition', IF(regex(?c, '#','i'), STRAFTER(?c, '#'), STRAFTER(?c, 'http://betamasaheft.eu/')))   AS ?type)\
-    BIND(strafter(?p, 'http://betamasaheft.eu/') as ?uri)\
+    BIND(IF(?addition = 'y', 'addition', IF(regex(?c, '#','i'), STRAFTER(?c, '#'), STRAFTER(?c, 'https://betamasaheft.eu/')))   AS ?type)\
+    BIND(strafter(?p, 'https://betamasaheft.eu/') as ?uri)\
     BIND(replace(?uri , '/', ' ') AS ?name)}"
     
     var apicall = '/api/SPARQL/json?query=' + encodeURIComponent(query)

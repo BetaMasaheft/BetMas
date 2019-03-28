@@ -9,7 +9,7 @@ WHERE { {bm:"+id+" ?p ?o .  \
      FILTER ( !contains(?strel, 'http://purl.org/dc/elements/1.1/') || !contains(?strel, 'http://xmlns.com/foaf/0.1/homepage') || !contains(?strel, 'http://purl.org/dc/terms/source') || !contains(?strel, 'http://purl.org/dc/elements/1.1/language')) \
     } UNION {?s2 ?p2 bm:"+id+"} } LIMIT 250"
 jsonUri = '/api/SPARQL/json?query=' + encodeURIComponent(sparqlquery)
-      query = 'http://betamasaheft.eu/' + id
+      query = 'https://betamasaheft.eu/' + id
       url = query
       
 
@@ -173,7 +173,7 @@ jsonUri = '/api/SPARQL/json?query=' + encodeURIComponent(sparqlquery)
               var c;
               if (nodeTypes[d.group] == "uri") {
                 c =  g.append("a")
-                .attr("xlink:href","/" + d.name.replace('http://betamasaheft.eu/', ''))
+                .attr("xlink:href","/" + d.name.replace('https://betamasaheft.eu/', ''))
                       .append("circle");
               } else {
                 c = g.append("circle");
