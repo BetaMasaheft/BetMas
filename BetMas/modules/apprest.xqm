@@ -1496,7 +1496,7 @@ then (
 <h2>Compare manuscripts which contain <span>{$MAINtit}</span></h2>,
 
 let $items := $config:collection-rootMS//t:msItem
-let $Additems := $c//t:additions//t:item[descendant::t:title[@ref]]
+let $Additems := $config:collection-rootMS//t:additions//t:item[descendant::t:title[@ref]]
 let $matchingAddmss := $Additems//t:title[@ref = $target-work]
 let $matchingConmss := $items/t:title[@ref = $target-work]
 let $matchingmss := ($matchingConmss, $matchingAddmss)

@@ -51,7 +51,6 @@ let $prefix := switch ($collection)
     default return
         <ref><pre></pre><type>mss</type></ref>
 
-let $app-collection := '/db/apps/BetMas'
 let $data-collection := $config:data-root || '/' || $collection || '/new'
 
 let $type := $prefix//type/text()
@@ -141,11 +140,11 @@ return
     let $item :=
     document {
         processing-instruction xml-model {
-            'href="https://raw.githubusercontent.com/SChAth/schema/master/tei-betamesaheft.rng" 
+            'href="https://raw.githubusercontent.com/BetaMasaheft/schema/master/tei-betamesaheft.rng" 
 schematypens="http://relaxng.org/ns/structure/1.0"'
         },
         processing-instruction xml-model {
-            'href="https://raw.githubusercontent.com/SChAth/schema/master/tei-betamesaheft.rng" 
+            'href="https://raw.githubusercontent.com/BetaMasaheft/schema/master/tei-betamesaheft.rng" 
 type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
         },
         <TEI

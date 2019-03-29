@@ -79,7 +79,7 @@ $locallogin:login("org.exist.login", (), false())
 (:~ login function to be called from navigation template. if the user is guest, then show login, if not it is a logged user, then show logout:)
 
 declare function locallogin:loginNew(){  
- if(xmldb:get-current-user() = 'guest') then
+ if(sm:id()//sm:username/text() = 'guest') then
  
  <div class="w3-dropdown-hover w3-hide-small" id="logging">
       <button class="w3-button " title="resources">Login <i class="fa fa-caret-down"></i></button>     

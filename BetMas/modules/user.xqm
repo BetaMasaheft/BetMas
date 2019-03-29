@@ -33,15 +33,16 @@ declare
 %rest:path("/BetMas/user/{$username}")
 %output:method("html5")
 function user:personalPage($username as xs:string) {
-let $Imap := map {'type':= 'user', 'name' := $username}
+let $un := sm:id()//sm:username/text()
+
+let $Imap := map {'type':= 'user', 'name' := $un}
+
 return 
 
-    if (sm:is-dba(xmldb:get-current-user()) or (($username = xmldb:get-current-user()) 
-    and sm:is-account-enabled(xmldb:get-current-user()) 
-    and sm:is-authenticated()))
+    if (sm:is-dba($un) or (($username = $un) and sm:is-account-enabled($un)  and sm:is-authenticated()))
     then
     (
-    log:add-log-message('/user/' || $username, xmldb:get-current-user(), 'user'),
+    log:add-log-message('/user/' || $username, $un, 'user'),
     <rest:response>
         <http:response
             status="200">

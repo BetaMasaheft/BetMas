@@ -7,7 +7,7 @@ module namespace nav="https://www.betamasaheft.uni-hamburg.de/BetMas/nav";
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace apprest="https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "xmldb:exist:///db/apps/BetMas/modules/apprest.xqm";
 import module namespace locallogin="https://www.betamasaheft.eu/login" at "xmldb:exist:///db/apps/BetMas/modules/login.xqm";
-
+import module namespace console="http://exist-db.org/xquery/console";
 declare function nav:modalsNew(){
 <div id="versionInfo" class="w3-modal">
   <div class="w3-modal-content">
@@ -155,14 +155,14 @@ return
   <div class="w3-bar w3-black w3-card">
     <a class="w3-bar-item w3-button  w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" 
     onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-  {if(ends-with($url, '.html') or ($url =  $config:appUrl)) then locallogin:loginNew() else  ()}
+  {if(ends-with($url, '.html') or ($url =  $config:appUrl) or ends-with($url ,  'BetMas/')) then locallogin:loginNew() else  ()}
                 
 <div class="w3-dropdown-hover w3-hide-small" id="about">
       <button class=" w3-button" title="about">
-      {if(string-length($url) gt 1) then ('Hi ' || xmldb:get-current-user() || '!') else ('Home')}
+      {if(string-length($url) gt 1) then ('Hi ' || sm:id()//sm:username/text() || '!') else ('Home')}
       <i class="fa fa-caret-down"></i></button>     
       <div class="w3-dropdown-content w3-bar-block w3-card-4">
-      {if(sm:is-authenticated() and contains(sm:get-user-groups(xmldb:get-current-user()), 'Editors')) then
+      {if(sm:is-authenticated() and contains(sm:get-user-groups(sm:id()//sm:username/text()), 'Editors')) then
                         (
                                 <a class="w3-bar-item w3-button" href="/user/{xmldb:get-current-user()}">Your personal page</a>
                             ,
