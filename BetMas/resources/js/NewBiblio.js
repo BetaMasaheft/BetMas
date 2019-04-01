@@ -23,7 +23,7 @@ function printbibl() {
         // the bm:tag identifying the citation
         
         
-        
+        var linkBack = '<a href="/bibliography?pointer=' + tag +'"> <span class="fa fa-hand-o-left"  style="display:inline;"/></a>'
         var apiurl = "https://api.zotero.org/groups/358366/items?&tag="; // this is the base for all calls here.
         $.getJSON(apiurl + tag, function (d) {
             // this call is for the generic JSON standard output from Zotero.
@@ -33,9 +33,9 @@ function printbibl() {
             var thisurl = d[ "0"].data.url; // the url in the zotero
             if (thisurl == '') {
                 // if there is a url to a resource print that, otherways link to Zotero
-                url += ' <a target="_blank" href="https://www.zotero.org/groups/ethiostudies/items/tag/' + tag + '"><span class="glyphicon glyphicon-share" style="display:inline;"/></a>'
+                url += ' <a target="_blank" href="https://www.zotero.org/groups/ethiostudies/items/tag/' + tag + '"><span class="fa fa-share" style="display:inline;"/></a>'
             } else {
-                url += ' <a  target="_blank" href="' + thisurl + '""><span class="glyphicon glyphicon-share" style="display:inline;"/></a>'
+                url += ' <a  target="_blank" href="' + thisurl + '""><span class="fa fa-share" style="display:inline;"/></a>'
             };
             //console.log(url);
             if (d.length === 0) {
@@ -82,7 +82,7 @@ function printbibl() {
                         } else {
                         };
                         // console.log('this is the citation range ' + citationrange)
-                        var fullcitation = text.slice(0, -1) + url + citationrange + '.' // the content of the Zotero formatted response has a full stop, which needs to be removed to allow for the citedRange to be added
+                        var fullcitation = text.slice(0, -1) + url + citationrange  + linkBack+ '. '// the content of the Zotero formatted response has a full stop, which needs to be removed to allow for the citedRange to be added
                         $(el).html(fullcitation) // add the html formatted full bibliography where needed
                     });
                 } else {
@@ -114,7 +114,7 @@ function printbibl() {
                     
                         //console.log(d["0"].citation)
                       
-                    $(el).html(d["0"].citation + citationrange);
+                    $(el).html(d["0"].citation + citationrange + linkBack);
                     //console.log(data[ "0"].data);
                    
                    });
