@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:variable name="mainID" select="t:TEI/@xml:id"/>
     <xsl:template match="/">
+        <xsl:if test="//t:figure"><script type="text/javascript" src="resources/openseadragon/openseadragon.min.js"></script></xsl:if>
         <div id="MainData" class="{if(t:TEI/@type='ins') then 'institutionView' else 'w3-twothird'}">
             <div id="description">
             <h2>Names <xsl:if test="//t:place/@sameAs">
@@ -185,5 +185,5 @@
     <!-- includes also region, country and settlement-->
     <xsl:include href="title.xsl"/>
     <xsl:include href="repo.xsl"/>
-    <!--produces also the javascript for graph-->
+    <xsl:include href="figure.xsl"/>
 </xsl:stylesheet>

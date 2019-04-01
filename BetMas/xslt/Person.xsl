@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:variable name="mainID" select="t:TEI/@xml:id"/>
     <xsl:template match="/">
@@ -13,7 +12,7 @@
                 </div>
             </xsl:if>
             <xsl:if test="//t:floruit">
-                <div class="w3-container" id="floruit"> <h4>Floruit</h4>
+                <div class="w3-container" id="floruit"> <h4>Period of Activity</h4>
                     <p>
                             <xsl:apply-templates select="//t:floruit" mode="noP"/>
                         </p>
@@ -227,7 +226,7 @@
                            </p>
                        </xsl:for-each>
                        <xsl:for-each select="//t:floruit[@when or @notBefore or @notAfter ]">
-                           <p>Floruit: <xsl:choose>
+                           <p>Period of activity: <xsl:choose>
                                <xsl:when test="@notBefore or @notAfter">
                                    <xsl:value-of select="@notBefore"/>
                                    <xsl:text>-</xsl:text>

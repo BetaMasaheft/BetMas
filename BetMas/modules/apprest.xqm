@@ -526,6 +526,7 @@ let $region := $c//t:region[@ref = $id]
 let $country := $c//t:country[@ref = $id]
 let $active := $c//t:relation[@active = $id]
 let $passive := $c//t:relation[@passive = $id]
+let $locus := $c//t:locus[@corresp = $id]
 let $allrefs := ($witnesses,
         $placeNames,
         $persNames,
@@ -535,7 +536,8 @@ let $allrefs := ($witnesses,
         $region,
         $country,
         $active,
-        $passive)
+        $passive, 
+        $locus)
 return
 for $corr in $allrefs
         return

@@ -1,4 +1,4 @@
-xquery version "3.0" encoding "UTF-8";
+xquery version "3.1" encoding "UTF-8";
 
 (:~
  : This module contains functions printing indexes and lists extracted from the data which are not list of resources
@@ -450,10 +450,19 @@ return
     {    
    for $citingentity in $ptrs/@target
    let $stringR := string(root($citingentity)/t:TEI/@xml:id)
-
-   group by $root :=    $stringR 
-    return
-     <li class="w3-padding"><a href="/{$root}" class="MainTitle" data-value="{$root}">{$root}</a></li>
+  let $cr := $citingentity/parent::t:ptr/following-sibling::t:citedRange/text()
+   let $n := number($cr[1] => replace('-', '') => replace('[a-zA-Z]', ''))group by $root :=    $stringR 
+    order by $n[1] ascending
+   return
+     <li class="w3-padding"><a href="/{$root}" class="MainTitle" data-value="{$root}">{$root}</a>
+     ({let $ranges := for $c in $citingentity
+     let $cr := $c/parent::t:ptr/following-sibling::t:citedRange
+     order by $cr
+     return 
+     (string($cr/@unit) || ', ' || $cr/text())
+     return string-join($ranges, '; ')
+     })
+     </li>
     }
     </ul>
     </div>
