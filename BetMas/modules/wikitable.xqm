@@ -23,14 +23,13 @@ let $sparql := 'SELECT ?viafid ?viafidLabel WHERE {
 let $query := 'https://query.wikidata.org/sparql?query='|| xmldb:encode-uri($sparql)
 
 let $req := try{httpclient:get(xs:anyURI($query), false(), <headers/>)} catch *{$err:description}
-
+let $WDurl := 'https://www.wikidata.org/wiki/'||$Qitem
 let $viafId := $req//sr:result/sr:binding[@name="viafidLabel"]
 return 
 if (count($viafId) ge 1) then 
-let $WDurl := 'https://www.wikidata.org/wiki/'||$Qitem
+
 
 (:returns the result in another small table with links:)
-return
 <div class="w3-responsive">
 <table class="w3-table w3-hoverable">
 <tbody>
@@ -44,5 +43,15 @@ return
 </tr>
 </tbody>
 </table></div>
-else ()
+else (
+<div class="w3-responsive">
+<table class="w3-table w3-hoverable">
+<tbody>
+<tr>
+<td>WikiData Item</td>
+<td><a target="_blank" href="{$WDurl}">{$Qitem}</a></td>
+</tr>
+</tbody>
+</table></div>
+)
 };
