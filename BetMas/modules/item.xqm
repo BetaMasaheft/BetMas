@@ -172,7 +172,7 @@ then you will see visualizations based on La Syntaxe du Codex, by Andrist, Canar
     <div class="w3-bar-item w3-tooltip" >
     <a class="w3-button w3-padding-small w3-gray"  href="{$this//t:facsimile/t:graphic/@url}" 
     target="_blank">Link to images</a>
-    <span class="w3-text w3-tag itemoptiontooltip">Link to images available elsewhere</span>
+    <span class="w3-text w3-tag itemoptiontooltip">Link to images available not on this site</span>
     </div> else ()}
     {if ($collection = 'works' or $collection = 'narratives') then
     <div class="w3-bar-item w3-tooltip" >
@@ -230,7 +230,7 @@ return
 <span class="w3-tag w3-red" >{"Work in progress, please don't use as reference"}</span>
     }
     </div>
-    <div class="w3-row"><span class="w3-tag w3-gray" >{$config:appUrl || '/' || $id}</span></div>
+    <div class="w3-row w3-hide-small"><span class="w3-tag w3-gray w3-small" style="word-break:break-all;">{$config:appUrl || '/' || $id}</span></div>
  {switch ($collection)
 case 'manuscripts' return
 

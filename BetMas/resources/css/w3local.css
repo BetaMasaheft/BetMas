@@ -167,3 +167,14 @@ div#SeeAlsoResults {
     overflow-y:auto;
 }
 
+.contentItem {
+    white-space: normal;
+    text-align: left;
+    overflow: scroll
+}
+
+div.msItem {
+    padding-left: 15px;
+    padding-top: 10px;
+}
+

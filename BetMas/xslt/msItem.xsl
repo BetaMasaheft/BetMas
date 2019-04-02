@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:msItem[parent::t:msContents]">
         <xsl:variable name="id" select="@xml:id"/>
@@ -13,7 +12,7 @@
                 </xsl:if>
             </button>
             
-            <div id="item{$trimid}" class="w3-container w3-hide">
+            <div id="item{$trimid}" class="w3-hide">
                 <div class="w3-container">
                     <hr class="msItems" align="left"/>
                     <xsl:variable name="anchor" select="concat('#', $id)"/>
@@ -57,7 +56,7 @@
                 </xsl:if>
             </button>
             
-            <div id="item{$trimid}" class="w3-container w3-hide">
+            <div id="item{$trimid}" class="w3-hide">
                 <div class="w3-container">
                     <hr class="msItems" align="left"/>
                     <xsl:variable name="anchor" select="concat('#', $id)"/>
