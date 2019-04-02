@@ -1,4 +1,4 @@
-xquery version "3.1" encoding "UTF-8";
+xquery version "3.0" encoding "UTF-8";
 
 (:~
  : This module contains functions printing indexes and lists extracted from the data which are not list of resources
@@ -432,6 +432,7 @@ $query as xs:string*,
 
 
 
+
 declare
 %templates:wrap
     %templates:default('start', 1)
@@ -442,8 +443,15 @@ for $target at $p in subsequence($model("hits"), $start, $per-page)
 let $ptrs := util:eval($model("coll"))//t:ptr[@target = $target]
 let $count := count($ptrs)
 return
-<div class="w3-container w3-margin-w3-padding">
-    <div id="{$target}" class="biblioentry w3-half w3-padding"/>
+<div class="w3-container w3-padding w3-border-bottom">
+<div class="w3-half w3-padding">
+    <div id="{$target}" class="biblioentry w3-col" style="width:90%"/>
+    <div class="w3-col w3-center" style="width:10%">
+    <a href="https://www.zotero.org/groups/358366/ethiostudies/items/tag/{$target}" target="_blank"><img src="/resources/images/zotero_16x16x32.png" style="display:inline;"/></a>
+    <br/>
+    <span class="w3-small w3-tag w3-gray w3-margin-top w3-hide-small" style="word-break: break-all;">{$target}</span>
+    </div>
+</div>
 <div class="w3-half w3-padding">
 <div class="w3-threequarter">
 <ul class="w3-ul w3-hoverable">
@@ -455,18 +463,18 @@ return
     order by $n[1] ascending
    return
      <li class="w3-padding"><a href="/{$root}" class="MainTitle" data-value="{$root}">{$root}</a>
-     ({let $ranges := for $c in $citingentity
+     {let $ranges := for $c in $citingentity
      let $cr := $c/parent::t:ptr/following-sibling::t:citedRange
-     order by $cr
+     order by $cr[1]
      return 
-     (string($cr/@unit) || ', ' || $cr/text())
-     return string-join($ranges, '; ')
-     })
+     if($cr) then (string($cr[1]/@unit) || ', ' || $cr[1]/text()) else ()
+     return if(count($ranges) ge 1) then (' ('||string-join($ranges, '; ')||')') else ()
+     }
      </li>
     }
     </ul>
     </div>
-    <div class="w3-quarter"><span class="w3-tag w3-gray">{$count}</span></div>
+    <div class="w3-quarter w3-center w3-hide-small"><span class="w3-tag w3-gray">{$count}</span></div>
     </div>
     </div>
 };
