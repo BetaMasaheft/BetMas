@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:additions">
         <div id="additiones" rel="http://purl.org/dc/terms/hasPart">
-            <h2>Additiones <xsl:if test="./ancestor::t:msPart">
+            <h2>Additions <xsl:if test="./ancestor::t:msPart">
                     <xsl:variable name="currentMsPart">
                         <a href="{./ancestor::t:msPart/@xml:id}">
                             <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
@@ -49,14 +48,15 @@
                             <xsl:value-of select="@xml:id"/>
                         </xsl:attribute>
                         <p>
-                            <xsl:apply-templates select="t:locus"/>
+                            <xsl:apply-templates select="t:locus"/> <xsl:if test="t:desc/@type"> (Type: <a href="/additions?type={t:desc/@type}" 
+                                data-value="{t:desc/@type}" class="MainTitle"><xsl:value-of select="t:desc/@type"/></a>)</xsl:if>
                         </p>
                         <p>
                             <xsl:value-of select="@rend"/>
                         </p>
                         <p>
                             <xsl:apply-templates select="t:desc"/>
-                            <xsl:if test="t:desc/@type"> (Type: <xsl:value-of select="t:desc/@type"/>)</xsl:if>
+                            
                         </p>
                         <xsl:apply-templates select="t:q"/>
                         <p>
@@ -89,7 +89,11 @@
                                     <xsl:value-of select="concat('https://betamasaheft.eu/', ./t:desc/@type)"/>
                                 </xsl:if>
                             </xsl:attribute>
-                            <xsl:apply-templates/>
+                            <p>
+                                <xsl:apply-templates select="t:locus"/> <xsl:if test="t:desc/@type"> (Type: <span
+                                    data-value="{t:desc/@type}" class="MainTitle"><xsl:value-of select="t:desc/@type"/></span>)</xsl:if>
+                            </p>
+                            <xsl:apply-templates select="child::node() except t:locus"/>
                         </li>
                     </xsl:for-each>
                 </ol>
