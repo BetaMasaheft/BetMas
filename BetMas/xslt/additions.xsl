@@ -48,8 +48,7 @@
                             <xsl:value-of select="@xml:id"/>
                         </xsl:attribute>
                         <p>
-                            <xsl:apply-templates select="t:locus"/> <xsl:if test="t:desc/@type"> (Type: <a href="/additions?type={t:desc/@type}" 
-                                data-value="{t:desc/@type}" class="MainTitle"><xsl:value-of select="t:desc/@type"/></a>)</xsl:if>
+                            <xsl:apply-templates select="t:locus"/> <xsl:if test="t:desc/@type"> (Type: <a href="/authority-files/list?keyword={t:desc/@type}" data-value="{t:desc/@type}" class="MainTitle"><xsl:value-of select="t:desc/@type"/></a><a href="/additions?type={t:desc/@type}"><i class="fa fa-hand-o-left"/></a>)</xsl:if>
                         </p>
                         <p>
                             <xsl:value-of select="@rend"/>
@@ -90,8 +89,7 @@
                                 </xsl:if>
                             </xsl:attribute>
                             <p>
-                                <xsl:apply-templates select="t:locus"/> <xsl:if test="t:desc/@type"> (Type: <span
-                                    data-value="{t:desc/@type}" class="MainTitle"><xsl:value-of select="t:desc/@type"/></span>)</xsl:if>
+                                <xsl:apply-templates select="t:locus"/> <xsl:if test="t:desc/@type"> (Type: <a href="/authority-files/list?keyword={t:desc/@type}" data-value="{t:desc/@type}" class="MainTitle"><xsl:value-of select="t:desc/@type"/></a>)</xsl:if>
                             </p>
                             <xsl:apply-templates select="child::node() except t:locus"/>
                         </li>
