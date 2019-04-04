@@ -105,6 +105,10 @@ else
                 else
                     normalize-space(string-join(titles:tei2string($item/t:title), ''))
                     )
+                    else 
+            if ($item/@corresp) then
+                   normalize-space(string-join(titles:printTitleID($item/@corresp), ''))
+      
             else 
             if ($item/t:label) then
                    normalize-space(string-join(titles:tei2string($item/t:label), ''))
@@ -664,7 +668,12 @@ declare function titles:tei2string($nodes as node()*) {
         case element(t:title)
                 return
                     titles:printTitleMainID($node/@ref)
-                             
+        case element(t:persName)
+                return
+                    titles:printTitleMainID($node/@ref)
+         case element(t:placeName)
+                return
+                    titles:printTitleMainID($node/@ref)                     
             case element()
                 return
                     titles:tei2string($node/node())
