@@ -364,9 +364,11 @@ if(xdb:collection-available($c)) then (
  <div id="list{$val}" class="w3-hide">
  <ul class="w3-ul w3-hoverable">
  {for $subcat in $cat/t:category
+ order by $subcat
  return
  if($subcat/t:desc) then (
  let $subval := $subcat/t:desc
+  
  return
  (
  <button class="w3-button  w3-gray w3-margin-top" onclick="openAccordion('list{$subval}')">{$subval} <span class="w3-badge  w3-margin-left">{count($subcat/t:category)}</span></button>,<br/>,
@@ -374,6 +376,7 @@ if(xdb:collection-available($c)) then (
  <ul class="w3-ul w3-hoverable">
  {for $c in  $subcat/t:category
  let $subsubval := $c/t:catDesc/text()
+ order by $subsubval
  return
  <li><a href="/{$collection}/list?keyword={$subsubval}">{$config:collection-rootA/id($subsubval)//t:titleStmt/t:title[1]/text()}</a></li>
 }</ul>
@@ -391,6 +394,7 @@ if(xdb:collection-available($c)) then (
  <ul class="w3-ul w3-hoverable">{
  for $subsubcat in $subcat/t:category
  let $subsubval := $subsubcat/t:catDesc/text()
+  order by $subsubval
  return
  <li><a href="/{$collection}/list?keyword={$subsubval}">{$config:collection-rootA/id($subsubval)//t:titleStmt/t:title[1]/text()}</a></li>
 
