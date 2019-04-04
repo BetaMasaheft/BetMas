@@ -357,6 +357,7 @@ if(xdb:collection-available($c)) then (
  <div class="w3-container w3-quarter w3-animate-left w3-padding "  data-hint="The values listed here all come from the taxonomy. Click on one of them to see which entities point to it.">
  {for $cat in doc($c||'/taxonomy.xml')//t:category[not(parent::t:category)]
  let $val := $cat/t:desc/text()
+ order by $val
  return
  <div class="w3-panel w3-padding">
  
@@ -364,7 +365,7 @@ if(xdb:collection-available($c)) then (
  <div id="list{$val}" class="w3-hide">
  <ul class="w3-ul w3-hoverable">
  {for $subcat in $cat/t:category
- order by $subcat
+ order by lower-case($subcat/t:*[1]/text())
  return
  if($subcat/t:desc) then (
  let $subval := $subcat/t:desc
@@ -376,7 +377,7 @@ if(xdb:collection-available($c)) then (
  <ul class="w3-ul w3-hoverable">
  {for $c in  $subcat/t:category
  let $subsubval := $c/t:catDesc/text()
- order by $subsubval
+ order by lower-case($subsubval)
  return
  <li><a href="/{$collection}/list?keyword={$subsubval}">{$config:collection-rootA/id($subsubval)//t:titleStmt/t:title[1]/text()}</a></li>
 }</ul>
@@ -394,7 +395,7 @@ if(xdb:collection-available($c)) then (
  <ul class="w3-ul w3-hoverable">{
  for $subsubcat in $subcat/t:category
  let $subsubval := $subsubcat/t:catDesc/text()
-  order by $subsubval
+  order by lower-case($subsubval)
  return
  <li><a href="/{$collection}/list?keyword={$subsubval}">{$config:collection-rootA/id($subsubval)//t:titleStmt/t:title[1]/text()}</a></li>
 
