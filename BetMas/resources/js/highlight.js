@@ -67,6 +67,7 @@ $('.word').each(function (wn) {
             <a href='/morpho?query="+nostops.w+"' target='_blank'>in the Gǝʿǝz Morphological Parser</a><br/>\
             <a href='/morpho/corpus?query="+nostops.w+"&type=string' target='_blank'>in the TraCES annotations</a><br/>\
             <a href='"+url+parm+nostops.w+"' target='_blank'>in the Online Lexicon</a><br/>\
+            Double click on the word to load the results of the morphological parsing with Alpheios.\
             </span> </span>"));
         } else {
             $(word).append($("<span class='alpheios-word popup' onmouseover='popup("+'"p'+wn+i+'"'+")' onmouseout='popup("+'"p'+wn+i+'"'+")'>"+nostops.w + nostops.stop + '&nbsp;'+"\
@@ -76,6 +77,7 @@ $('.word').each(function (wn) {
             <a href='/morpho?query="+nostops.w+"' target='_blank'>in the Gǝʿǝz Morphological Parser</a><br/>\
             <a href='/morpho/corpus?query="+nostops.w+"&type=string' target='_blank'>in the TraCES annotations</a><br/>\
             <a href='"+url+parm+nostops.w+"' target='_blank'>in the Online Lexicon</a><br/>\
+            Double click on the word to load the results of the morphological parsing with Alpheios.\
             </span> </span>"));
         }
     });
