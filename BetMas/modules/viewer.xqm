@@ -12,7 +12,7 @@ import module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMas/
 import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "xmldb:exist:///db/apps/BetMas/modules/apprest.xqm";
 import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2"  at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
-
+declare namespace marc = "http://www.loc.gov/MARC21/slim";
 (: For REST annotations :)
 declare namespace http = "http://expath.org/ns/http-client";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
@@ -250,3 +250,55 @@ var canvasid = "' || (if($FirstCanv = '') then $firstcanvas else $FirstCanv) || 
         error:error($Cmap)
         )
 };
+
+
+declare 
+%rest:GET
+%rest:path("/BetMas/chojnacki/viewer")
+%output:method("html5")
+function viewer:allchojnacki(){
+ (
+log:add-log-message('/chojnacki/viewer', xmldb:get-current-user(), 'viewer'),
+<rest:response>
+            <http:response
+                status="200">
+                <http:header
+                    name="Content-Type"
+                    value="text/html; charset=utf-8"/>
+            </http:response>
+        </rest:response>,
+        
+        
+       <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
+<title xmlns="http://www.w3.org/1999/xhtml" property="dcterms:title og:title schema:name" >Mirador Chojnacki images viewer</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="resources/mirador/css/mirador-combined.css"/>
+    <script src="resources/mirador/mirador.min.js"></script>
+    
+     
+    </head>
+    <body id="body">
+       <div id="content" class="w3-container w3-padding-64 w3-margin">
+ 
+    <div id="viewer"></div>
+    
+<script type="text/javascript" >{
+let $manifs := for $ch in $config:collection-rootCh//marc:record
+let $segnatura := $ch//marc:datafield[@tag="852"]/marc:subfield[@code="h"]/text()
+return
+'{"manifestUri": "https://digi.vatlib.it/iiif/STP_'||string-join($segnatura)||'/manifest.json", "location" : "DigiVatLib"}'
+
+let $chmanif:= string-join($manifs, ',')
+return 'var data = [' ||$chmanif||']'}</script>
+   <script type="text/javascript" src="resources/js/miradorcoll.js"></script>
+ </div>
+        
+    
+    </body>
+</html>
+        )
+        
+};
+
