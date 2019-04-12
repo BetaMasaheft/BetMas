@@ -18,7 +18,7 @@ $(".parallelversion").on('click', function () {
                     if (vers.source.uniqueWitness) {
                     //console.log(vers.source.id + 'has a unique witness')
                         source = vers.source.uniqueWitness
-                        $("#versions").append('<div id="version' + vers.source.id + '" class="row alert version"><h3>Version ' +  ' ' + vers.source.title + ' (' + vers.source.id + ')' + '</h3><p class="lead">Edition: ' + source + '</p>' + textwithlinks + '</div>');
+                        $("#versions").append('<div id="version' + vers.source.id + '" class="w3-panel w3-gray version"><h3>Version ' +  ' ' + vers.source.title + ' (' + vers.source.id + ')' + '</h3><p class="w3-large">Edition: ' + source + '</p>' + textwithlinks + '</div>');
                             
                     } else {
                         var editor = vers.source.ed
@@ -29,11 +29,11 @@ $(".parallelversion").on('click', function () {
                                var bibl; 
                                if($('span[data-value="'+editor+'"]').length > 1){bibl = $('span[data-value="'+editor+'"]').html()} else {bibl='<span class="Zotero Zotero-full" data-value="'+editor+'"/>'}
                               // console.log(bibl)
-                                $("#versions").after('<div id="version' + vers.source.id + '" class="row alert version"><h3>Version ' + ' ' + vers.source.title + ' (' + vers.source.id + ')' + '</h3><p class="lead">Edition: '+bibl+'</p>' + textwithlinks + '</div>');
+                                $("#versions").append('<div id="version' + vers.source.id + '" class="w3-panel w3-gray version"><h3>Version ' + ' ' + vers.source.title + ' (' + vers.source.id + ')' + '</h3><p class="w3-large">Edition: '+bibl+'</p>' + textwithlinks + '</div>');
                                checkforbiblio();
                         } else {
                         
-                            $("#versions").after('<div id="version' + vers.source.id + '" class="row alert version"><h3>Version ' + ' ' + vers.source.title + ' (' + vers.source.id + ')' + '</h3><p class="lead">Edition: ' + editor + '</p>' + textwithlinks + '</div>');
+                            $("#versions").append('<div id="version' + vers.source.id + '" class="w3-panel w3-gray version"><h3>Version ' + ' ' + vers.source.title + ' (' + vers.source.id + ')' + '</h3><p class="w3-large">Edition: ' + editor + '</p>' + textwithlinks + '</div>');
                         }
                     }
                 }
