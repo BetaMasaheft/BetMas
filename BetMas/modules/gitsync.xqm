@@ -122,7 +122,7 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
                      let $collectionName := substring-after($data-collection, '/db/apps/BetMasData/')
                      let $stored-fileID := $Stfile/t:TEI/@xml:id/string()
                      let $filename := substring-before($file-name, '.xml')
-                     let $allids := for $xmlid in $Stfile//@xml:id return string($xmlid)
+                     let $allids := for $xmlid in $Stfile//@xml:id return lower-case(string($xmlid))
                      let $taxonomy := for $key in $gitsync:taxonomy//t:catDesc/text() return lower-case($key)
                      return
                      if ($stored-fileID eq $filename) then (
@@ -274,7 +274,7 @@ return
     let $rdffilename := replace($file-name, '.xml', '.rdf')
     let $resource-path := substring-before($modified, $file-name)
     let $collection-uri := replace(concat($collection, '/', $resource-path), '/$', '')
-    let $rdfcoll := '/db/rdf/' || substring-after($data-collection, 'data/')
+    let $rdfcoll := '/db/rdf/' || substring-after($data-collection, 'Data/')
     return
         try {
             <response

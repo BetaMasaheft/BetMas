@@ -1135,6 +1135,13 @@ div [id ^= openseadragon] {
     width: 100%;
     height: 600px;
 }
+/*prevents that a double openseadragon container is shown*/
+.openseadragon-container ~ .openseadragon-container {display: none}
+
+div [id ^= choj] {
+    width: 100%;
+    height: 200px;
+}
 
 div#revisions,
 div#citation {
