@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:layoutDesc">
         <div rel="http://purl.org/dc/terms/hasPart">
@@ -233,7 +232,7 @@
                             <xsl:text>) </xsl:text>
                         </xsl:if>
                         <xsl:text>: </xsl:text>
-                        <xsl:value-of select="."/>
+                        <xsl:apply-templates select="child::node()"/>
                     </li>
                 </xsl:for-each>
             </ul>
@@ -325,7 +324,7 @@
             </p>
         </xsl:if>
         <xsl:if test=".//t:layout//t:ab[@type = 'ChiRho']">
-            <h4>crux</h4>
+            <h4>Chi Rho</h4>
             <p>Yes <xsl:apply-templates select="//t:layout//t:ab[@type = 'ChiRho']"/>
             </p>
         </xsl:if>
