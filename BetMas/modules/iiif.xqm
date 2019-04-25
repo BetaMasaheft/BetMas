@@ -119,7 +119,7 @@ declare function iiif:ranges($iiifroot as xs:string, $ranges as node()){
 for $r in $ranges/range
  let $desc := if($r/t:decoNote) then string-join(string:tei2string($r/t:decoNote/t:desc), ' ') || (if($r/t/text()) then (' (' || $r/t || ')') else ())
                         else if($r/t:item[starts-with(@xml:id, 'a') or starts-with(@xml:id, 'e')]) then string-join(string:tei2string($r/t:item/t:desc), ' ')  ||(if($r/t/text()) then (' (' || $r/t || ')') else ())
-                        else if($r/t:item[starts-with(@xml:id, 'q')]) then string-join($r/t:item/text(), ' ')  ||(if($r/t/text()) then (' (' || $r/t || ')') else ())
+                        else if($r/t:item[starts-with(@xml:id, 'q')]) then (if($r/t/text()) then $r/t else ())
                         else $r/t
        let $locusrange :=  for $l in $r/t:*/t:locus 
        return iiif:locus($l)
