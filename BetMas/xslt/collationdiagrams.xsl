@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns="http://www.schoenberginstitute.org/schema/collation" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" xmlns:t="http://www.tei-c.org/ns/1.0" exclude-result-prefixes="#all" version="2.0">
+<xsl:stylesheet xmlns="http://www.schoenberginstitute.org/schema/collation" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" exclude-result-prefixes="#all" version="2.0">
     <xd:doc scope="stylesheet">
         <xd:desc>
             <xd:p>
@@ -263,7 +262,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0" y="0" width="100mm" height="100mm" preserveAspectRatio="xMidYMid meet" viewBox="0 0 100 100">
                             <xsl:attribute name="style">background: #415a6c;</xsl:attribute>
                             <defs>
-                                <filter id="f1" filterUnits="userSpaceOnUse">
+                                <filter id="colf1" filterUnits="userSpaceOnUse">
                                     <feGaussianBlur in="SourceGraphic" stdDeviation="1"/>
                                 </filter>
                             </defs>
