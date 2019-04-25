@@ -57,7 +57,7 @@
                                     <a class="page-scroll" href="#{@xml:id}">
                                         <xsl:choose>
                                             <xsl:when test="@xml:id = 'ms'">General manuscript description</xsl:when>
-                                            <xsl:when test="contains(@xml:id, 'p') and matches(@xml:id, '\w\d+')">Codicological Unit <xsl:value-of select="substring-after(@xml:id, 'p')"/>
+                                            <xsl:when test="starts-with(@xml:id, 'p') and matches(@xml:id, '^\w\d+$')">Codicological Unit <xsl:value-of select="substring-after(@xml:id, 'p')"/>
                                                 <xsl:if test="./ancestor::t:msPart">
                                                     <xsl:variable name="currentMsPart">
                                                         <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
@@ -65,7 +65,7 @@
                                                     <xsl:value-of select="$currentMsPart"/>
                                                 </xsl:if>
                                             </xsl:when>
-                                            <xsl:when test="contains(@xml:id, 'f') and matches(@xml:id, '\w\d+')">Fragment <xsl:value-of select="substring-after(@xml:id, 'f')"/>
+                                            <xsl:when test="starts-with(@xml:id, 'f') and matches(@xml:id, '^\w\d+$')">Fragment <xsl:value-of select="substring-after(@xml:id, 'f')"/>
                                                 <xsl:if test="./ancestor::t:msPart">
                                                     <xsl:variable name="currentMsPart">
                                                         <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
