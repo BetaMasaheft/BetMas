@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     
     
@@ -17,7 +16,7 @@
                             <a class="w3-bar-item page-scroll" href="#general">General</a>
                             <a class="w3-bar-item page-scroll" href="#description">Description</a>
                             <a class="w3-bar-item page-scroll" href="#generalphysical">Physical description</a>
-                        <xsl:if test="//t:msPart">
+                        <xsl:if test="//t:msPart or //t:msFrag">
                             <div class="w3-bar-item">
                                 Main parts
                                 <ul>
@@ -27,6 +26,12 @@
                                         </a>
                                     </li>
                                 </xsl:for-each>
+                                    <xsl:for-each select="//t:msFrag">
+                                        <li>
+                                            <a class="page-scroll" href="#{@xml:id}">Fragment <xsl:value-of select="substring-after(@xml:id, 'f')"/>
+                                            </a>
+                                        </li>
+                                    </xsl:for-each>
                                 </ul>
                             </div>
                         </xsl:if>
@@ -51,6 +56,23 @@
                                 <li>
                                     <a class="page-scroll" href="#{@xml:id}">
                                         <xsl:choose>
+                                            <xsl:when test="@xml:id = 'ms'">General manuscript description</xsl:when>
+                                            <xsl:when test="starts-with(@xml:id, 'p') and matches(@xml:id, '^\w\d+$')">Codicological Unit <xsl:value-of select="substring-after(@xml:id, 'p')"/>
+                                                <xsl:if test="./ancestor::t:msPart">
+                                                    <xsl:variable name="currentMsPart">
+                                                        <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
+                                                    </xsl:variable> of codicological unit
+                                                    <xsl:value-of select="$currentMsPart"/>
+                                                </xsl:if>
+                                            </xsl:when>
+                                            <xsl:when test="starts-with(@xml:id, 'f') and matches(@xml:id, '^\w\d+$')">Fragment <xsl:value-of select="substring-after(@xml:id, 'f')"/>
+                                                <xsl:if test="./ancestor::t:msPart">
+                                                    <xsl:variable name="currentMsPart">
+                                                        <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
+                                                    </xsl:variable> of codicological unit
+                                                    <xsl:value-of select="$currentMsPart"/>
+                                                </xsl:if>
+                                            </xsl:when>
                                             <xsl:when test="contains(@xml:id, 't') and matches(@xml:id, '\w\d+')">Title <xsl:value-of select="substring-after(@xml:id, 't')"/>
                                                 <xsl:if test="./ancestor::t:msPart">
                                                     <xsl:variable name="currentMsPart">

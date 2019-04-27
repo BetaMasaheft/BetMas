@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:msDesc">
         <div class="w3-twothird well" id="textualcontents{@xml:id}">
@@ -99,6 +98,22 @@
         </xsl:if>
     </xsl:template>
     
+    <xsl:template mode="unit" match="t:repository">
+        <a target="_blank" 
+            href="/manuscripts/{@ref}/list" role="button" class="w3-tag w3-gray w3-margin-top" 
+            property="http://www.cidoc-crm.org/cidoc-crm/P55_has_current_location" resource="http://betamasaheft.eu/{@ref}"><span class="MainTitle" data-value="{@ref}" ><xsl:value-of select="@ref"/></span></a>
+    </xsl:template>
+    <xsl:template mode="unit" match="t:collection">
+        <p>Collection:  <xsl:value-of select="."/></p>
+    </xsl:template>
+    <xsl:template mode="unit" match="t:idno">
+        <p><xsl:value-of select="."/></p>
+    </xsl:template>
+    
+    <xsl:template mode="unit" match="t:altIdentifier">
+        <p>Also identified as</p>
+        <xsl:apply-templates mode="unit"/>
+    </xsl:template>
     
     <xsl:template match="t:msPart[parent::t:sourceDesc or parent::t:msDesc]">
         <div class="w3-container w3-margin-bottom">
@@ -106,11 +121,14 @@
                 <xsl:value-of select="@xml:id"/>
             </xsl:attribute>
 
-            <div class="col-md-12">
-                <h2>Codicological Unit <xsl:value-of select="substring-after(@xml:id, 'p')"/>
-                </h2>
+            <div class="w3-container w3-margin-bottom">
+                <h2>Codicological Unit <xsl:value-of select="substring-after(@xml:id, 'p')"/></h2>
+                
             </div>
-            <div class="w3-twothird well" id="textualcontents{@xml:id}">
+            <div class="w3-twothird" id="textualcontents{@xml:id}">
+                <div class="w3-panel w3-card-2 w3-margin-right">
+                    <xsl:apply-templates select="t:msIdentifier" mode="unit"/>
+                </div>
                 <div id="{@xml:id}history" class="w3-container w3-margin-bottom">
                 <xsl:apply-templates select="t:history"/>
             </div>
@@ -197,7 +215,11 @@
                 <h2>Fragment <xsl:value-of select="substring-after(@xml:id, 'f')"/>
                 </h2>
             </div>
-            <div class="w3-twothird well" id="textualcontents{@xml:id}">
+            <div class="w3-twothird" id="textualcontents{@xml:id}">
+                
+                <div class="w3-panel w3-card-2 w3-margin-right">
+                    <xsl:apply-templates select="t:msIdentifier" mode="unit"/>
+                </div>
                 <div id="{@xml:id}history" class="w3-container w3-margin-bottom">
                 <xsl:apply-templates select="t:history"/>
             </div>
