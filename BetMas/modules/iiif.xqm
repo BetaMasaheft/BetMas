@@ -451,9 +451,11 @@ else collection($config:data-rootMS || '/EMIP')/id($id)
 ($iiif:response200,
 
 log:add-log-message('/api/iiif/'||$id||'/manifest', xmldb:get-current-user(), 'iiif'),
-       let $institution := titles:printTitleMainID($item//t:repository/@ref)
+
        let $institutionID := string($item//t:repository/@ref)
-       let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs)
+
+       let $institution := titles:printTitleMainID($institutionID)
+let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs)
        let $tot := $item//t:msIdentifier/t:idno/@n
        let $url :=  $config:appUrl ||"/manuscripts/" || $id
       (:       this is where the images actually are, in the images server:)
@@ -480,7 +482,7 @@ map {"@context":= "http://iiif.io/api/presentation/2/context.json",
   "metadata": [
     map {"label": "Repository", 
                 "value": [
-                  map   {"@value": $institution, "@language": "en"}
+                  map   {"@value": '<a href="'||$config:appUrl||'/manuscripts/'||$institutionID||'/list">'||$institution ||'</a>' , "@language": "en"}
                             ]
       }, 
       map {"label": "object type", 
@@ -489,7 +491,7 @@ map {"@context":= "http://iiif.io/api/presentation/2/context.json",
                             ]
       }, 
       map {"label": "main view", 
-                "value": "https://betamasaheft.eu/" || $id
+                "value": $config:appUrl || $id
       }
       ],
       "description" : "An Ethiopian Manuscript.",
