@@ -311,15 +311,21 @@ return
 
  case 'places' return
 
-   if($document//t:place/@type)
+   (if($document//t:place/@type)
    then
 
     let $type := data($document//t:place/@type)
     let $list := if(contains($type, ' ')) then tokenize(normalize-space($type), ' ') else string($type)
     return
      <div  class="w3-row">{for $t in $list return <a class="w3-tag w3-red" href="/places/list?placetype={$t}" target="_blank">{$t}</a>}</div>
-   else ()
-
+   else (),
+    <a target="_blank" 
+            href="/manuscripts/place/list?place={$id}" 
+            role="button"
+            class="w3-tag w3-gray w3-large 
+            w3-margin-top">
+                  Manuscripts in {titles:printTitleID($id) }</a>
+)
  case 'persons' return
  if($document//t:personGrp) then
                          <div  class="w3-row">   <span class="w3-tag w3-red">

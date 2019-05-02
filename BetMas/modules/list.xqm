@@ -1221,6 +1221,365 @@ if($file) then (
 };
 
 
+declare
+%rest:GET
+%rest:path("/BetMas/manuscripts/place/list")
+%rest:query-param("start", "{$start}", 1)
+%rest:query-param("place", "{$place}", "")
+%rest:query-param("per-page", "{$per-page}", 20)
+%rest:query-param("keyword", "{$keyword}", "")
+%rest:query-param("mainname", "{$mainname}", "")
+%rest:query-param("language", "{$language}", "")
+%rest:query-param("prms", "{$prms}", "")
+%rest:query-param("date-range", "{$date-range}", "")
+%rest:query-param("numberOfParts", "{$numberOfParts}", "")
+%rest:query-param("min-hits", "{$min-hits}", 0)
+%rest:query-param("max-pages", "{$max-pages}", 20)
+ %rest:query-param("height","{$height}", "")
+%rest:query-param("width","{$width}", "")
+%rest:query-param("depth","{$depth}", "")
+%rest:query-param("columnsNum","{$columnsNum}", "")
+%rest:query-param("tmargin","{$tmargin}", "")
+%rest:query-param("bmargin","{$bmargin}", "")
+%rest:query-param("rmargin","{$rmargin}", "")
+%rest:query-param("lmargin","{$lmargin}", "")
+%rest:query-param("intercolumn","{$intercolumn}", "")
+%rest:query-param("folia","{$folia}", "")
+%rest:query-param("qn","{$qn}", "")
+%rest:query-param("qcn","{$qcn}", "")
+%rest:query-param("wL","{$wL}", "")
+%rest:query-param("script","{$script}", "")
+%rest:query-param("scribe","{$scribe}", "")
+%rest:query-param("donor","{$donor}", "")
+%rest:query-param("patron","{$patron}", "")
+%rest:query-param("owner","{$owner}", "")
+%rest:query-param("binder","{$binder}", "")
+%rest:query-param("parchmentMaker","{$parchmentMaker}", "")
+%rest:query-param("objectType","{$objectType}", "")
+%rest:query-param("material","{$material}", "")
+%rest:query-param("bmaterial","{$bmaterial}", "")
+%rest:query-param("contents","{$contents}", "")
+%rest:query-param("origPlace","{$origPlace}", "")
+%output:method("html5")
+function list:getplacelist(
+$place as xs:string*,
+$start as xs:integer*,
+$per-page as xs:integer*,
+$min-hits as xs:integer*,
+$max-pages as xs:integer*,
+$date-range as xs:string*,
+$numberOfParts as xs:string*,
+$keyword as xs:string*,
+$language as xs:string*,
+ $height as xs:string* ,
+$width as xs:string* ,
+$depth as xs:string* ,
+$columnsNum as xs:string* ,
+$tmargin as xs:string* ,
+$bmargin as xs:string* ,
+$rmargin as xs:string* ,
+$lmargin as xs:string* ,
+$intercolumn as xs:string* ,
+$folia as xs:string* ,
+$qn as xs:string* ,
+$qcn as xs:string* ,
+$wL as xs:string* ,
+$script as xs:string* ,
+$scribe as xs:string* ,
+$donor as xs:string* ,
+$patron as xs:string* ,
+$owner as xs:string* ,
+$binder as xs:string* ,
+$parchmentMaker as xs:string* ,
+$objectType as xs:string* ,
+$material as xs:string* ,
+$bmaterial as xs:string* ,
+$contents as xs:string* ,
+$origPlace as xs:string* ,
+$prms as xs:string*,
+$mainname as xs:string*) {
+
+(:the file for that institution:)
+let $repos := $config:data-rootIn||'/'
+let $log := log:add-log-message('/manuscripts/place/list', xmldb:get-current-user(), 'list')
+let $Cmap := map {'type':= 'place', 'name' := $place, 'path' := $repos}
+let $parameters := map{'key':=$keyword,
+'lang':=$language,'date':=$date-range,'numberOfParts':=$numberOfParts,  'height':=$height,
+
+'mainname':=$mainname,
+'width':=$width,
+'depth':=$depth,
+'columnsNum':=$columnsNum,
+'tmargin':=$tmargin,
+'bmargin':=$bmargin,
+'rmargin':=$rmargin,
+'lmargin':=$lmargin,
+'intercolumn':=$intercolumn,
+'folia':=$folia,
+'qn':=$qn,
+'qcn':=$qcn,
+'wL':=$wL,
+'script':=$script,
+'scribe':=$scribe,
+'donor':=$donor,
+'patron':=$patron,
+'owner':=$owner,
+'binder':=$binder,
+'parchmentMaker':=$parchmentMaker,
+'objectType':=$objectType,
+'material':=$material,
+'bmaterial':=$bmaterial,
+'contents':=$contents,
+'origPlace':=$origPlace}
+let $file := $config:collection-rootPl//id($place)[name()='TEI']
+return
+
+
+if($file or starts-with($place, 'wd:')) then (
+<rest:response>
+            <http:response
+                status="200">
+                <http:header
+                    name="Content-Type"
+                    value="text/html; charset=utf-8"/>
+            </http:response>
+        </rest:response>,
+
+
+       <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
+        <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        {$list:app-meta}
+
+        <link rel="stylesheet" type="text/css" href="resources/css/mapbox.css"/>
+        <link rel="stylesheet" type="text/css" href="resources/css/leaflet.css"/>
+        <link  rel="stylesheet" type="text/css" href="resources/css/leaflet.fullscreen.css"/>
+        <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="resources/css/leaflet-search.css"/>
+        {apprest:listScriptStyle()} 
+       <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"/>
+        <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/js/mapbox.js"/>
+        <script  xmlns="http://www.w3.org/1999/xhtml"type="text/javascript" src="resources/js/Leaflet.fullscreen.min.js"/>
+        <script  xmlns="http://www.w3.org/1999/xhtml"type="text/javascript" src="resources/js/leaflet-search.js"/>
+         <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/js/leaflet-ajax-gh-pages/dist/leaflet.ajax.min.js"></script>
+       
+    </head>
+    <body id="body">
+        {nav:barNew()}
+        {nav:modalsNew()}
+        {nav:searchhelpNew()}
+<div class="w3-main w3-container w3-margin w3-padding-64">
+       
+<div class="w3-quarter w3-hide-small">
+       <h1>Manuscripts in {titles:printTitleMainID($place)}</h1>
+       <span class="w3-tag w3-gray">{$config:appUrl||'/'||$place}</span>
+       <div class="w3-container w3-padding">
+       <iframe
+   style="border:none;"
+                allowfullscreen="true"
+                width="100%" 
+                height="400" 
+                src="https://peripleo.pelagios.org/embed/{encode-for-uri(concat('http://betamasaheft.eu/places/',$place))}">
+            </iframe>
+       <div id="entitymap" style="width: 100%; height: 400px; margin-top:100px" />
+   <script>{'var placeid = "'||$place||'"'}</script>
+   <script  type="text/javascript" src="resources/geo/geojsonentitymap.js"></script></div>
+
+        {apprest:EntityRelsTable($file, 'places')}
+        
+       </div>
+
+
+ {let $allrepositories := for $repo in ($config:collection-rootIn//t:settlement[@ref=$place],
+ $config:collection-rootIn//t:region[@ref=$place],
+ $config:collection-rootIn//t:country[@ref=$place]) 
+ return $repo/ancestor::t:TEI/@xml:id
+ let $repositoriesIDS := distinct-values($allrepositories)
+ let $allmssinregion := $config:collection-rootMS//t:repository[@ref = $repositoriesIDS]/ancestor::t:TEI
+ let $stringquery := '$config:collection-rootMS//t:repository[@ref =("' || string-join($repositoriesIDS, '","') || '")]/ancestor::t:TEI'
+let $hits :=  
+            map {
+                      'hits' := $allmssinregion, 
+                      'collection' := 'manuscripts',
+                      'query':=$stringquery
+                      }
+    return
+    <div id="content" class="w3-threequarter">
+   <div class="w3-panel w3-margin-bottom w3-card-4" id="listTopInfo">
+   <div class="w3-bar">
+   <div id="hit-count" class="w3-bar-item">
+   {'There are '} 
+   <span class="w3-tag w3-gray">{count($hits("hits")) }</span>
+   { ' manuscripts in ' || titles:printTitleID($place) }
+   </div>
+   <div   id="optionsList">
+<a  target="_blank"  role="button" class="w3-button w3-bar-item w3-red"  
+href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exreq:query()}">Charts</a>
+<a class="w3-button w3-bar-item w3-gray" href="javascript:void(0);" onclick="javascript:introJs().addHints();">hints</a>
+{app:nextID('manuscripts')}
+</div>
+
+   {if(count($parameters) gt 1) then list:paramsList($parameters) else ()}
+</div>
+</div>
+    <div class="w3-threequarter">
+   
+   <div class="w3-row w3-left">
+    {apprest:paginate-rest($hits, $parameters, $start, $per-page, 9, 21)}
+     </div>
+<div class="w3-row">
+    {app:table($hits, $start, $per-page)}
+    </div>
+      <div class="w3-row w3-left">
+    {apprest:paginate-rest($hits, $parameters, $start, $per-page, 9, 21)}
+                   </div>
+ 
+                
+
+        </div>
+                
+    <div class="w3-quarter w3-white w3-hide-small w3-hide-medium" id="search filters">
+    {apprest:searchFilter-rest($place, $hits)}
+    <div class="w3-container"><a class="w3-button w3-large w3-red w3-margin-left" href="/manuscripts/list">Back to full list</a></div>
+    </div>
+    
+ </div>      
+  }
+
+
+<div class="w3-container w3-margin">
+<div class="w3-panel w3-card-4 w3-margin-top w3-padding">The information below is about the place record, for the manuscript catalogue records, please see the specific information provided with each record.</div>
+{ apprest:authors($file, 'places')}
+
+</div>
+
+</div>
+        {nav:footerNew()}
+
+        <script type="text/javascript" src="resources/js/w3.js"/>
+        <script type="application/javascript" src="resources/js/introText.js"/>
+       <script type="text/javascript" src="resources/js/printgroupbutton.js"/>
+       <script type="text/javascript" src="resources/js/printgroup.js"/>
+        <script type="text/javascript" src="resources/js/toogle.js"/>
+        <script type="text/javascript" src="resources/js/titles.js"/>
+        <script type="text/javascript" src="resources/js/clavisid.js"/>
+        <script type="text/javascript" src="resources/js/lookup.js"/>
+        <script type="text/javascript" src="resources/js/NewBiblio.js"/>
+<script type="text/javascript" src="resources/js/allattestations.js"/>
+    </body>
+</html>
+
+        )
+        else
+        (
+        <rest:response>
+            <http:response
+                status="400">
+                <http:header
+                    name="Content-Type"
+                    value="text/html; charset=utf-8"/>
+            </http:response>
+        </rest:response>,
+        error:error($Cmap)
+        )
+};
+
+
+
+declare
+%rest:GET
+%rest:path("/BetMas/manuscripts/place/listChart")
+%rest:query-param("place", "{$place}", "")
+%output:method("html5")
+function list:getregionchart(
+$place as xs:string*) {
+
+(:the file for that institution:)
+let $repos := $config:data-rootIn||'/'
+let $log := log:add-log-message('/manuscripts/region/listChart', xmldb:get-current-user(), 'list')
+let $Cmap := map {'type':= 'reporegion', 'name' := $place, 'path' := $repos}
+
+let $file := $config:collection-rootPl//id($place)[name()='TEI']
+return
+
+
+if($file or starts-with($place, 'wd:')) then (
+<rest:response>
+            <http:response
+                status="200">
+                <http:header
+                    name="Content-Type"
+                    value="text/html; charset=utf-8"/>
+            </http:response>
+        </rest:response>,
+
+
+       <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
+        <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        {$list:app-meta}
+{apprest:scriptStyle()}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"/>
+    </head>
+    <body id="body">
+        {nav:barNew()}
+        {nav:modalsNew()}
+        {nav:searchhelpNew()}
+       
+ {
+ let $allrepositories := for $repo in ($config:collection-rootIn//t:settlement[@ref=$place],
+ $config:collection-rootIn//t:region[@ref=$place],
+ $config:collection-rootIn//t:country[@ref=$place]) 
+ return $repo/ancestor::t:TEI/@xml:id
+ let $repositoriesIDS := distinct-values($allrepositories)
+ let $allmssinregion := $config:collection-rootMS//t:repository[@ref = $repositoriesIDS]/ancestor::t:TEI
+ let $hits :=  
+            map {
+                      'hits' := $allmssinregion
+                      }
+    return
+    
+   <div class="w3-container w3-margin w3-padding-64">
+   <div class="w3-panel w3-margin-bottom w3-card-4" id="listTopInfo">
+   <div class="w3-bar">
+   <div id="hit-count" class="w3-bar-item">
+   {'There are '} 
+   <span class="w3-tag w3-gray">{count($hits("hits")) }</span>
+   { ' manuscripts in ' || titles:printTitleID($place) }
+   </div>
+   <div   id="optionsList">
+   <a  target="_blank"  class="w3-bar-item w3-button w3-red" href="{replace(substring-after(rest:uri(), 'BetMas'), 'listChart', 'list')}?{exreq:query()}">List</a></div>
+   {if($file) then <a target="_blank" class="w3-bar-item w3-button w3-red" href="/places/{$place}/main">Place record</a> else ()}
+   </div>
+   </div>
+   
+   <div class="w3-container w3-margin w3-padding">
+   {charts:chart($hits("hits"))}
+   </div>
+</div>
+        }
+        {nav:footerNew()}
+    </body>
+</html>
+
+        )
+        else
+        (
+        <rest:response>
+            <http:response
+                status="400">
+                <http:header
+                    name="Content-Type"
+                    value="text/html; charset=utf-8"/>
+            </http:response>
+        </rest:response>,
+        error:error($Cmap)
+        )
+};
+
 
 declare
 %rest:GET

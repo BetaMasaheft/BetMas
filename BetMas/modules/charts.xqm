@@ -857,7 +857,7 @@ if($countLayout ge 1) then (
 
   let $dims := for $d in $layoutdimensions
                let $all := $d/t:dimensions
-               let $SM := $d/ancestor::t:TEI//t:msIdentifier/t:idno/text()
+               let $SM := string-join($d/ancestor::t:TEI//t:msIdentifier/t:idno/text(), ' / ')
                let $title := titles:printTitle($d)
                let $h := if($all/t:height/text()) then string-join($all/t:height/text(), ' ') else '0'
                let $w := if($all/t:width/text()) then string-join($all/t:width/text(), ' ') else '0'
