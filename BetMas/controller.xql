@@ -227,7 +227,8 @@ else if (contains($exist:path, '/api/') or
                 ends-with($exist:path, '/graph') or
                 starts-with($exist:path, '/user') or
                 starts-with($exist:path, '/corpus') or
-                starts-with($exist:path, '/listIds')) then
+                starts-with($exist:path, '/listIds') or
+                starts-with($exist:path, '/workmap')) then
                    
                     if (ends-with($exist:path, "/")) then
                         <dispatch
