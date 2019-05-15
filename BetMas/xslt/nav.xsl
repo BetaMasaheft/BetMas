@@ -177,8 +177,12 @@
                 </xsl:if>
                 <xsl:if test="//t:body[t:div[@type='edition'][t:ab or t:div[@type='textpart']]]">
                     
-                    <a class="w3-bar-item page-scroll" href="#transcription">Transcription
-                            </a>
+                    <a class="w3-bar-item page-scroll w3-red" href="/works/{t:TEI/@xml:id}/text">Text</a>
+                    
+                </xsl:if>
+                <xsl:if test="//t:body[t:div[@type='translation'][t:ab or t:div[@type='textpart']]]">
+                    
+                    <a class="w3-bar-item page-scroll w3-red" href="/works/{t:TEI/@xml:id}/text">Translation</a>
                     
                 </xsl:if>
                 

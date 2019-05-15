@@ -145,7 +145,7 @@ then you will see visualizations based on La Syntaxe du Codex, by Andrist, Canar
     {if ($collection = 'works' or $collection = 'narratives') then
     (<div class="w3-bar-item w3-tooltip" 
   >
-    <a class="w3-button w3-padding-small w3-gray"  href="{('/'||$collection|| '/' || $id || '/text' )}" 
+    <a class="w3-button w3-padding-small w3-red"  href="{('/'||$collection|| '/' || $id || '/text' )}" 
     target="_blank">Text</a>
     <span class="w3-text w3-tag itemoptiontooltip">Full Text (as available). Do you have a text you want to contribute? 
     Contact us or click on EDIT and submit your contribution.</span>
@@ -157,7 +157,7 @@ then you will see visualizations based on La Syntaxe du Codex, by Andrist, Canar
     </div>) else ()}
     {if ($collection = 'manuscripts') then
     <div class="w3-bar-item w3-tooltip"  >
-    <a class="w3-button w3-padding-small w3-gray"  href="{('/'||$collection|| '/' || $id || '/text' )}" 
+    <a class="w3-button w3-padding-small w3-red"  href="{('/'||$collection|| '/' || $id || '/text' )}" 
     target="_blank">Transcription</a>
     <span class="w3-text w3-tag itemoptiontooltip">Transcription (as available). Do you have a transcription you want to contribute? 
     Contact us or click on EDIT and submit your contribution.</span>
