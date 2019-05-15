@@ -91,12 +91,14 @@ if(exists($w) or $worksid ='') then (
     
         <form action="" class="w3-container" 
         data-hint="enter here the id of the work you would like to show on the map.">
-        <select class="w3-select w3=border" name="type">
+        <select class="w3-select w3-border" name="type">
         <option value="repo">Repository</option>
         <option value="orig">Place of origin</option>
         </select>
-        <input placeholder="choose work to prode map of manuscripts" class="w3-input w3-border" list="gotohits" id="GoTo" name="worksid" data-value="works"/>
-                <datalist id="gotohits">
+        <input 
+        class="w3-input w3-border" list="gotohits" id="GoTo" 
+        name="worksid" data-value="works">{if(count($worksid) gt 0) then attribute value {$worksid} else attribute placeholder {"choose work to produce map of manuscripts"} }</input>
+               <datalist id="gotohits">
                     
                 </datalist>
           <div class="w3-bar"><button type="submit" class="w3-bar-item w3-button w3-red"> Show on map
@@ -105,16 +107,19 @@ if(exists($w) or $worksid ='') then (
     </form>
             <div class="w3-container">
    <div class="w3-container alert alert-info">You can download the KML file visualized below in the <a href="https://geobrowser.de.dariah.eu">Dariah-DE Geobrowser</a>.</div>
-   <h3>Map of the manuscripts {if($type= 'repo') then ' at their current location' else ' at their place or origin'}</h3>
-   <p>Map of the manuscripts of {string-join($worktitles, '; ')} {if($type= 'repo') then ' at their current location' else ' at their place or origin'}.</p>
+   <h3>Map of the manuscripts {if($type= 'repo') then ' at their current location' else ' at their place of origin'}</h3>
+   <p>Map of the manuscripts of {string-join($worktitles, '; ')} {if($type= 'repo') then ' at their current location' else ' at their place of origin'}.</p>
    <p>For each textual unit a different color of dots is given (i.e. a different KML file is loaded). 
-   For each manuscript containing the selected Textual units the point is placed at the current repository or at the place of origin according
-   to the selection. The Default is the current repository. 
+   For each manuscript containing the selected textual units the point is placed at the current repository or at the place of origin according
+   to the selection. The default is the current repository. 
    If place of origin is selected and for the manuscript this information is not available (e.g. in cases where 
-   this corresponds in fact to the current repository), the point will be made on the repository which is instead always available.
+   this corresponds in fact to the current repository), the point will be made on the repository which is always available.
    The dates given for each manuscript correspond to the most inclusive range possible from the origin dates given in the manuscript.
-   If a manuscript has a part from exactely 1550 and one dated 1789 to 1848, then the time span will be 1550 - 1848.</p>
+   If a manuscript has a part from exactly 1550 and one dated 1789 to 1848, then the time span will be 1550 - 1848.</p>
    <iframe style="width: 100%; height: 1200px;" id="geobrowserMap" src="https://geobrowser.de.dariah.eu/embed/index.html?{string-join($kmlparam, '&amp;')}"/>
+    <div class="w3-panel w3-card-2 w3-red">You do not find all the information you would like to 
+    have? Help up improve the data and contribute to the project editing the files!</div>
+  
    </div>
             
         </div>
