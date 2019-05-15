@@ -118,7 +118,7 @@ if(exists($w) or $worksid ='') then (
    If a manuscript has a part from exactly 1550 and one dated 1789 to 1848, then the time span will be 1550 - 1848.</p>
    <iframe style="width: 100%; height: 1200px;" id="geobrowserMap" src="https://geobrowser.de.dariah.eu/embed/index.html?{string-join($kmlparam, '&amp;')}"/>
     <div class="w3-panel w3-card-2 w3-red">You do not find all the information you would like to 
-    have? Help up improve the data and contribute to the project editing the files!</div>
+    have?  <a href="https://betamasaheft.eu/Guidelines/?id=howto">Help improve the data and contribute to the project editing the files!</a></div>
   
    </div>
             
