@@ -147,7 +147,7 @@ then you will see visualizations based on La Syntaxe du Codex, by Andrist, Canar
   >
     <a class="w3-button w3-padding-small w3-red"  href="{('/'||$collection|| '/' || $id || '/text' )}" 
     target="_blank">Text</a>
-    <span class="w3-text w3-tag itemoptiontooltip">Full Text (as available). Do you have a text you want to contribute? 
+    <span class="w3-text w3-tag itemoptiontooltip">Text (as available). Do you have a text you want to contribute? 
     Contact us or click on EDIT and submit your contribution.</span>
     </div>,
     <div class="w3-bar-item w3-tooltip" >
