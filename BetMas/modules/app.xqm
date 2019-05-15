@@ -187,19 +187,19 @@ return
                             <th>Titles</th>,
                             <th>Authors</th>,
                             <th>Witnesses</th>,
-                            <th>Main parts</th>,
+                            <th data-hint="select the works whose manuscripts you want to map and click the button above to go to the map view.">Map<input type="checkbox" class="w3-check" id="select_all_map"/></th>,
                             <th>Text</th>
                             )
             else
                 if ($collection = 'places') then
                     (<th>Name</th>,
-                                <th>wikidata</th>,
+                                <th>Wikidata</th>,
                                 <th>geoJson</th>)
                 else
                     if ($collection = 'institutions') then
                         (<th>Name</th>,
                                     <th>Mss</th>,
-                                <th>wikidata</th>,
+                                <th>Wikidata</th>,
                                     <th>geoJson</th>)
                     else
                         if ($collection = 'persons') then
@@ -218,16 +218,15 @@ else
                                 (<th>Name</th>,
                                             <th>Shelfmarks</th>,
                                             <th>Images</th>,
-                                            <th>Textual Units</th>,
-                                            <th>Manuscript Parts</th>,
+                                            <th>Units</th>,
+                                            <th>Parts</th>,
                                             <th>Hands</th>,
                                             <th>Script</th>,
                                       <th data-hint="select the manuscripts you want to compare and click the button above to go to the comparison view.">Compare<input type="checkbox" class="w3-check" id="select_all_compare"/></th>,
                                             <th>Text</th>)
         }
                             <th>Dated</th>
-                            <th>TEI-XML</th>
-                            <th>Analytics</th>
+                            <th>TEI</th>
                             <th>Print <input type="checkbox" class="w3-check" id="select_all_print"/></th>
     </tr>
                     </thead>
@@ -397,13 +396,12 @@ if ($list = 'works') then (
                 }
             </ul>
             <a role="button" class="w3-button w3-small w3-gray" href="/compare?workid={$itemid}">compare</a>
+            <a role="button" class="w3-button w3-small w3-gray" href="/workmap?worksid={$itemid}">map of mss</a>
         </td>,
 (:        work parts:)
-        <td class="textparts">
-            <ul  class="nodot">
-              
-            </ul>
-        </td>)
+        
+<td><input type="checkbox" class="w3-check mapSelected" data-value="{$itemid}"/></td>
+)
     else
         if ($list = 'manuscripts' or starts-with($list, 'INS')  or matches($list, '\w+\d+\w+')) then
         
@@ -591,10 +589,6 @@ else
 <td><a
         href="{('/tei/' || $itemid || '.xml')}"
         target="_blank">XML</a></td>,
-<td><a
-        href="{( '/' || $itemid || '/analytic')}"
-        target="_blank"><span
-            class="glyphicon glyphicon-list-alt"></span></a></td>,
 <td><input type="checkbox" class="form-control pdf" data-value="{$itemid}"/></td>
 )
 };
@@ -849,11 +843,11 @@ return
 
 (:~on login, print the name of the logged user:)
 declare function app:greetings-rest(){
-<a href="">Hi {xmldb:get-current-user()}!</a>
+<a href="">Hi {sm:id()//sm:username/text()}!</a>
     };
 (:on login, print the name of the logged user:)
 declare function app:greetings($node as element(), $model as map(*)) as xs:string{
-<a href="">Hi {xmldb:get-current-user()}!</a>
+<a href="">Hi {sm:id()//sm:username/text()}!</a>
     };
     
  declare function app:logout(){

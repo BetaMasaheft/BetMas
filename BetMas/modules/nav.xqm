@@ -225,11 +225,13 @@ return
       <button class=" w3-button " title="resources">Resources <i class="fa fa-caret-down"></i></button>     
       <div class="w3-dropdown-content w3-bar-block w3-card-4">
                                 <a class="w3-bar-item w3-button"   href="/compare">Compare manuscripts of a given work</a>
+                                <a class="w3-bar-item w3-button"   href="/workflow">Map of manuscripts with a given content</a>
                                 <a class="w3-bar-item w3-button"   href="/LitFlow">Literature Flow Sankey view</a>
                                 <a class="w3-bar-item w3-button"   href="/xpath">XPath search</a>
                                 <a class="w3-bar-item w3-button"   href="/sparql">SPARQL Endpoint</a>
                                 <a class="w3-bar-item w3-button"   href="/collate">Collate passages with Collatex</a>
                                 <a class="w3-bar-item w3-button"   href="/academics.html">Scholars in Ethiopian Studies</a>
+                                <a class="w3-bar-item w3-button"   href="/chojnacki/viewer">Chojnacki Collection</a>
                      </div>
     </div>
     <a href="/morpho" class="w3-bar-item w3-button  w3-hide-medium w3-hide-small" 

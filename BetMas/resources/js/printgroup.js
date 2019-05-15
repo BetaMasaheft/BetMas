@@ -35,9 +35,31 @@ console.log(ids)
 window.location="/compareSelected?mss=" +ids
 });
 
+
+
 /*https://stackoverflow.com/questions/20687884/disable-button-if-all-checkboxes-are-unchecked-and-enable-it-if-at-least-one-is*/
 var checkBoxesComp = $('input.compareSelected');
 checkBoxesComp.change(function () {
     $('.comparegroup').prop('disabled', checkBoxesComp.filter(':checked').length < 1);
 });
 checkBoxesComp.change();
+
+
+
+/* works map */
+
+$(document).on('click', '.mapgroup', function(){
+    var ids = []
+    
+    $('input.mapSelected').each(function() {
+    if($(this).is(':checked')){ids.push($(this).data('value'))} 
+    });
+console.log(ids)
+window.location="/workmap?worksid=" +ids
+});
+
+var checkBoxesMap = $('input.mapSelected');
+checkBoxesMap.change(function () {
+    $('.mapgroup').prop('disabled', checkBoxesMap.filter(':checked').length < 1);
+});
+checkBoxesMap.change();

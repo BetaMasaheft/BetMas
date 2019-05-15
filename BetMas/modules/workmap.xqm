@@ -41,15 +41,17 @@ declare
 %rest:POST
 %rest:path("/BetMas/workmap")
 %rest:query-param("worksid", "{$worksid}", "")
+%rest:query-param("type", "{$type}", "repo")
 %output:method("html5")
 function workmap:workmap(
-$worksid as xs:string*) {
+$worksid as xs:string*, $type as xs:string*) {
 let $fullurl := ('?worksid=' || $worksid)
 let $log := log:add-log-message($fullurl, xmldb:get-current-user(), 'worksmap')
 let $w :=  if(contains($worksid, ',')) then for $work in tokenize($worksid, ',') return $config:collection-rootW/id($work) else $config:collection-rootW/id($worksid)  
 let $baseuris := for $bu in $w return base-uri($bu)
 let $Cmap := map {'type':= 'item', 'name' := $worksid, 'path' := string-join($baseuris)}
-let $kmlparam := for $work at $p in $w/@xml:id return  'kml'||$p||'=https://betamasaheft.eu/workmap/KML/'||string($work)
+let $kmlparam := for $work at $p in $w/@xml:id return  'kml'||$p||'=https://betamasaheft.eu/workmap/KML/'||string($work)||'?type='||$type
+let $worktitles := for $work in $w/@xml:id return titles:printTitleID($work)
 return
 if(exists($w) or $worksid ='') then (
 <rest:response>
@@ -87,10 +89,31 @@ if(exists($w) or $worksid ='') then (
         <div class="w3-container">
         
     
-        
+        <form action="" class="w3-container" 
+        data-hint="enter here the id of the work you would like to show on the map.">
+        <select class="w3-select w3=border" name="type">
+        <option value="repo">Repository</option>
+        <option value="orig">Place of origin</option>
+        </select>
+        <input placeholder="choose work to prode map of manuscripts" class="w3-input w3-border" list="gotohits" id="GoTo" name="worksid" data-value="works"/>
+                <datalist id="gotohits">
+                    
+                </datalist>
+          <div class="w3-bar"><button type="submit" class="w3-bar-item w3-button w3-red"> Show on map
+                </button><a class="w3-bar-item w3-button w3-gray" href="javascript:void(0);" 
+        onclick="javascript:introJs().addHints();">show hints</a></div>
+    </form>
             <div class="w3-container">
    <div class="w3-container alert alert-info">You can download the KML file visualized below in the <a href="https://geobrowser.de.dariah.eu">Dariah-DE Geobrowser</a>.</div>
-   <h3>Map and timeline of places attestations marked up in the text.</h3>
+   <h3>Map of the manuscripts {if($type= 'repo') then ' at their current location' else ' at their place or origin'}</h3>
+   <p>Map of the manuscripts of {string-join($worktitles, '; ')} {if($type= 'repo') then ' at their current location' else ' at their place or origin'}.</p>
+   <p>For each textual unit a different color of dots is given (i.e. a different KML file is loaded). 
+   For each manuscript containing the selected Textual units the point is placed at the current repository or at the place of origin according
+   to the selection. The Default is the current repository. 
+   If place of origin is selected and for the manuscript this information is not available (e.g. in cases where 
+   this corresponds in fact to the current repository), the point will be made on the repository which is instead always available.
+   The dates given for each manuscript correspond to the most inclusive range possible from the origin dates given in the manuscript.
+   If a manuscript has a part from exactely 1550 and one dated 1789 to 1848, then the time span will be 1550 - 1848.</p>
    <iframe style="width: 100%; height: 1200px;" id="geobrowserMap" src="https://geobrowser.de.dariah.eu/embed/index.html?{string-join($kmlparam, '&amp;')}"/>
    </div>
             
@@ -129,38 +152,39 @@ if(exists($w) or $worksid ='') then (
 declare 
 %rest:GET
 %rest:path("/BetMas/workmap/KML/{$work}")
+%rest:query-param("type", "{$type}", "repo")
 %output:method("xml")
-function workmap:kml($work as xs:string) {
+function workmap:kml($work as xs:string, $type as xs:string*) {
 $config:response200,
 let $log := log:add-log-message('/workmap/'||$work||'/KML/', xmldb:get-current-user(), 'workmap')
-let $thisworkmss := $config:collection-rootMS//t:title[contains(@ref , $work)]
+let $thisworkmss := $config:collection-rootMS//t:title[@ref = $work]
 let $part := $config:collection-rootW//t:div[@type ='textpart'][@corresp = $work]
 let $containedin := for $container in $part
                                        let $anchor := string($container/@xml:id)
                                         let $root := string(root($container)/t:TEI/@xml:id)
                                         let $IdPlusAnchor := $root || '#' ||$anchor
-                                       return  $config:collection-rootMS//t:title[contains(@ref , $IdPlusAnchor)]
+                                       return  $config:collection-rootMS//t:title[@ref = $IdPlusAnchor]
  let $mss := ($thisworkmss, $containedin)
 let $worktitle := titles:printTitleID($work)
 return
-             workmap:kmlfile($mss, $worktitle)
+             workmap:kmlfile($mss, $worktitle, $type)
              
 };
 
-declare function workmap:kmlfile($mss, $worktitle as xs:string){
+declare function workmap:kmlfile($mss, $worktitle as xs:string, $type as xs:string*){
 <kml>
        {for $ms in $mss 
        let $msID := string(root($ms)/t:TEI/@xml:id)
        let $msName := titles:printTitleMainID($msID)
-let $repo := root($ms)//t:repository
+let $place := if($type='repo') then root($ms)//t:repository else ( if(root($ms)//t:origPlace[t:placeName]) then root($ms)//t:origPlace/t:placeName else  root($ms)//t:repository)
 let $id := string(root($ms)/t:TEI/@xml:id)
 let $date := root($ms)//t:origDate
-let $getcoor := coord:getCoords($repo/@ref)
-let $reponame := titles:printTitleMainID($repo/@ref)
+let $getcoor := coord:getCoords($place/@ref)
+let $reponame := titles:printTitleMainID($place/@ref)
        return 
 (:       if($pRec//t:coord) then:)
        <Placemark>
-        <address>{$reponame}</address>
+        <address>{$reponame} ({if(not($type='repo') and root($ms)//t:origPlace[t:placeName]) then 'place of origin' else 'repository'})</address>
         <description>{$msName}, which contains {$worktitle}.</description>
         <name>{$config:appUrl || '/' || $msID}</name>
         <Point>

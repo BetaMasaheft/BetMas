@@ -152,7 +152,7 @@ then you will see visualizations based on La Syntaxe du Codex, by Andrist, Canar
     </div>,
     <div class="w3-bar-item w3-tooltip" >
     <a class="w3-button w3-padding-small w3-gray"  href="{('/'||$collection|| '/' || $id || '/geoBrowser' )}" 
-    target="_blank">Geo-Browser</a>
+    target="_blank">Places</a>
     <span class="w3-text w3-tag itemoptiontooltip">See places marked up in the text using the Dariah-DE Geo-Browser</span>
     </div>) else ()}
     {if ($collection = 'manuscripts') then
@@ -175,10 +175,15 @@ then you will see visualizations based on La Syntaxe du Codex, by Andrist, Canar
     <span class="w3-text w3-tag itemoptiontooltip">Link to images available not on this site</span>
     </div> else ()}
     {if ($collection = 'works' or $collection = 'narratives') then
-    <div class="w3-bar-item w3-tooltip" >
+    (<div class="w3-bar-item w3-tooltip" >
     <a class="w3-button w3-padding-small w3-gray"  href="{('/compare?workid=' || $id  )}" target="_blank">Compare</a>
     <span class="w3-text w3-tag itemoptiontooltip">Compare manuscripts with this content</span>
-    </div> else ()}
+    </div>,
+    <div class="w3-bar-item w3-tooltip" >
+    <a class="w3-button w3-padding-small w3-gray"  href="{('/workmap?worksid=' || $id  )}" target="_blank">Manuscripts Map</a>
+    <span class="w3-text w3-tag itemoptiontooltip">Map of manuscripts with this content</span>
+    </div>)
+    else ()}
     
     </div>
 };
