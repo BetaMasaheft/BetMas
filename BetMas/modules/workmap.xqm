@@ -181,11 +181,11 @@ declare function workmap:kmlfile($mss, $worktitle as xs:string, $type as xs:stri
        {for $ms in $mss 
        let $msID := string(root($ms)/t:TEI/@xml:id)
        let $msName := titles:printTitleMainID($msID)
-let $place := if($type='repo') then root($ms)//t:repository else ( if(root($ms)//t:origPlace[t:placeName]) then root($ms)//t:origPlace/t:placeName else  root($ms)//t:repository)
+let $place := if($type='repo') then root($ms)//t:repository[1] else ( if(root($ms)//t:origPlace[t:placeName]) then root($ms)//t:origPlace[1]/t:placeName[1] else  root($ms)//t:repository[1])
 let $id := string(root($ms)/t:TEI/@xml:id)
 let $date := root($ms)//t:origDate
-let $getcoor := coord:getCoords($place/@ref)
-let $reponame := titles:printTitleMainID($place/@ref)
+let $getcoor := coord:getCoords($place[1]/@ref)
+let $reponame := titles:printTitleMainID($place[1]/@ref)
        return 
 (:       if($pRec//t:coord) then:)
        <Placemark>

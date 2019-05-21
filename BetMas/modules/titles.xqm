@@ -42,15 +42,14 @@ declare function titles:printTitle($node as element()) {
                                     then
                                          let $plaID := string($repo//t:settlement[1]/@ref)
                                          return 
-                                              titles:decidePlName($plaID)
-                                    else
-                                        if ($repo//t:settlement[1]/text()) then
+                                              titles:decidePlaceNameSource($plaID)
+                                    else if ($repo//t:settlement[1]/text()) then
                                             $repo//t:settlement[1]/text()
                                         else
                                             if ($repo//t:country/@ref) then
                                                 let $plaID := string($repo//t:country[1]/@ref) 
                                                 return 
-                                              titles:decidePlName($plaID)
+                                              titles:decidePlaceNameSource($plaID)
                                         else if ($repo//t:country/text()) then
                                                 $repo//t:country/text()
                                             else
@@ -178,13 +177,13 @@ function titles:printTitleID($id as xs:string)
                                            (if ($repo//t:settlement[1]/@ref) then
                                                let $plaID := string($repo//t:settlement[1]/@ref)
                                                return
-                                                   titles:decidePlName($plaID)
+                                                   titles:decidePlaceNameSource($plaID)
                                            else if ($repo//t:settlement[1]/text()) then
                                                $repo//t:settlement[1]/text()
                                            else if ($repo//t:country/@ref) then
                                                let $plaID := string($repo//t:country/@ref)
                                                return
-                                                   titles:decidePlName($plaID)
+                                                   titles:decidePlaceNameSource($plaID)
                                            else if ($repo//t:country/text()) then
                                                $repo//t:country/text()
                                            else
@@ -284,13 +283,13 @@ function titles:printTitleID($id as xs:string)
                                            (if ($repo//t:settlement[1]/@ref) then
                                                let $plaID := string($repo//t:settlement[1]/@ref)
                                                return
-                                                   titles:decidePlName($plaID)
+                                                   titles:decidePlaceNameSource($plaID)
                                            else if ($repo//t:settlement[1]/text()) then
                                                $repo//t:settlement[1]/text()
                                            else if ($repo//t:country/@ref) then
                                                let $plaID := string($repo//t:country/@ref)
                                                return
-                                                   titles:decidePlName($plaID)
+                                                   titles:decidePlaceNameSource($plaID)
                                            else if ($repo//t:country/text()) then
                                                $repo//t:country/text()
                                            else
@@ -364,13 +363,13 @@ function titles:printTitleID($id as xs:string)
                                            (if ($repo//t:settlement[1]/@ref) then
                                                let $plaID := string($repo//t:settlement[1]/@ref)
                                                return
-                                                   titles:decidePlName($plaID)
+                                                   titles:decidePlaceNameSource($plaID)
                                            else if ($repo//t:settlement[1]/text()) then
                                                $repo//t:settlement[1]/text()
                                            else if ($repo//t:country/@ref) then
                                                let $plaID := string($repo//t:country/@ref)
                                                return
-                                                   titles:decidePlName($plaID)
+                                                   titles:decidePlaceNameSource($plaID)
                                            else if ($repo//t:country/text()) then
                                                $repo//t:country/text()
                                            else
