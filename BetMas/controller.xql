@@ -460,6 +460,8 @@ function apisparql:constructURIsubid() is called to construct a graph of that re
                                             contains($exist:path, '/binding/') or
                                             contains($exist:path, '/msItem/') or
                                             contains($exist:path, '/msitem/') or
+                                            contains($exist:path, '/mspart/') or
+                                            contains($exist:path, '/msPart/') or
                                             contains($exist:path, '/hand/') or
                                             contains($exist:path, '/transformation/')or
                                             contains($exist:path, '/UniProd/') or
