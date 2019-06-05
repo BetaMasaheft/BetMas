@@ -1,15 +1,16 @@
 
 function exec() {
-    console.log('running sparql query')
+/*    console.log('running sparql query')*/
     var endpoint = d3.select("#endpoint").property("value")
     var sparql = d3.select("#sparql").property("value")
-    console.log(endpoint)
-    console.log(sparql)
+/*    console.log(endpoint)*/
+/*    console.log(sparql)*/
+var sparql = sparql.replace(/^\s+/g, '')
     if (sparql.startsWith("SELECT")) {
         
         /* Uncomment to see debug information in console */
         d3sparql.debug = true
-        d3sparql.query(endpoint, sparql, renderforce)
+/*        d3sparql.query(endpoint, sparql, renderforce)*/
         d3sparql.query(endpoint, sparql, rendertable)
     } else {
         // Alternative is to start with CONSTRUCT
@@ -257,8 +258,9 @@ function renderforce(json) {
     }
     d3sparql.forcegraph(json, config)
 }
+
 function rendertable(json) {
-    var config = {
+var config = {
         "selector": "#resulttable"
     }
     d3sparql.htmltable(json, config)
