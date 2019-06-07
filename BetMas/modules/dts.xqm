@@ -48,7 +48,6 @@ import module namespace sparql="http://exist-db.org/xquery/sparql" at "java:org.
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
 import module namespace editors = "https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "xmldb:exist:///db/apps/BetMas/modules/editors.xqm";
 
-
 declare option output:method "json";
 declare option output:indent "yes";
 declare variable $dts:context := map{
@@ -135,20 +134,17 @@ normalize-space($cleantext)
 
 (:~ Xpath to select the text nodes requested from a manuscript given the transcription nodes in div[@type='edition'] starting page break and column break :)
 declare function dts:passageSelector($text, $pb, $cb){
-if($cb='') then 
-$text//t:ab//text()[(preceding-sibling::t:pb[position()=1][@n = $pb]) or ancestor::*[(preceding-sibling::t:pb[position()=1][@n = $pb])]]
-
-else
-$text//t:ab//text()[(preceding-sibling::t:pb[position()=1][@n = $pb] and preceding-sibling::t:cb[@n = $cb][preceding-sibling::t:pb[position()=1][@n = $pb]]) or ancestor::*[(preceding-sibling::t:pb[position()=1][@n = $pb] and preceding-sibling::t:cb[@n = $cb][preceding-sibling::t:pb[position()=1][@n = $pb]])]]
+if($cb='') then  $text//t:ab//text()[preceding::t:pb[position()=1][@n = $pb]]
+else $text//t:ab//text()[preceding::t:pb[position()=1][@n = $pb] and preceding::t:cb[position()=1][@n = $cb]]
 };
 
 (:~ Xpath to select the nodes requested  from a manuscript given the transcription nodes in div[@type='edition'] :)
 declare function dts:TranscriptionPassageNodes($text, $pb, $cb){
 if($cb='') then 
-$text//t:ab//node()[(preceding-sibling::t:pb[position()=1][@n = string($pb)]) or ancestor::*[(preceding-sibling::t:pb[position()=1][@n = string($pb)])]]
+$text//t:ab//node()[preceding::t:pb[position()=1][@n = string($pb)]]
 
 else
-$text//t:ab//node()[(preceding-sibling::t:pb[position()=1][@n = string($pb)] and preceding-sibling::t:cb[@n = string($cb)][preceding-sibling::t:pb[position()=1][@n = string($pb)]]) or ancestor::*[(preceding-sibling::t:pb[position()=1][@n = string($pb)] and preceding-sibling::t:cb[@n = string($cb)][preceding-sibling::t:pb[position()=1][@n = string($pb)]])]]
+$text//t:ab//node()[preceding::t:pb[position()=1][@n = $pb] and preceding::t:cb[position()=1][@n = $cb]]
 };
 
 (:~ Xpath to select the nodes requested from a work given passage with two levels :)
@@ -510,6 +506,7 @@ if($id = '') then (<rest:response>
 let $parsedURN := dts:parseDTS($id)
 let $BMid := $parsedURN//s:group[@nr=3]
 let $text := $config:collection-root/id($BMid)//t:div[@type='edition']
+let $textType := $config:collection-root/id($BMid)//t:objectDesc/@form
 let $passage := if (contains($id, 'betmasMS:')) then (
                                                 (:manuscripts:)
                                 if($ref='' and $level = '' and $start ='' and $end = ''and $groupBy = '' and $max = '') 
@@ -686,7 +683,8 @@ else
 (:~ given the URN in the id parameter and the plain Beta Masahaeft id if any, produces the list of members of the collection filtering only the entities which do have a div[@type='edition'] :)
 declare function dts:CollMember($id, $bmID, $page, $nav){
 let $doc := $config:collection-root/id($bmID)
-let $document := $doc//t:div[@type='edition']
+let $eds := $doc//t:div[@type='edition']
+let $document := if(count($eds) gt 1) then (if($eds[@xml:id = 'traces']) then $eds[@xml:id = 'traces'] else $eds[1]) else $doc//t:div[@type='edition']
 return
 if(count($doc) eq 1) then (
 $config:response200JsonLD,
