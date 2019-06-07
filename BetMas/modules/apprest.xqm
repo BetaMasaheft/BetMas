@@ -1424,15 +1424,16 @@ declare function apprest:paginate-rest($model as map(*), $parameters as map(*), 
     if ($min-hits < 0 or count($model("hits")) >= $min-hits) then
         let $count := xs:integer(ceiling(count($model("hits"))) div $per-page) + 1
         let $middle := ($max-pages + 1) idiv 2
-
+        let $paramssingle := for $p in map:keys($parameters) let $key := switch($p) case 'key' return 'keyword' default return $p let $value := $parameters($p) return if($value='') then () else (string($key) || '=' ||$parameters($p) )
+        let $params :=string-join($paramssingle, '&amp;')
         return (
             if ($start = 1) then (
                 <a class="w3-button w3-disabled"><i class="fa fa-fast-backward"></i></a>,
                 <a class="w3-button w3-disabled"><i class="fa fa-backward"></i></a>
             ) else (
-                    <a class="w3-button" href="?per-page={$per-page}&amp;start=1&amp;keyword={$parameters('key')}&amp;date-range={$parameters('date')}&amp;language={$parameters('lang')}"><i class="fa fa-fast-backward"></i></a>
+                    <a class="w3-button" href="?per-page={$per-page}&amp;start=1&amp;{$params}"><i class="fa fa-fast-backward"></i></a>
                 ,
-                    <a class="w3-button"  href="?per-page={$per-page}&amp;start={max( ($start - $per-page, 1 ) ) }&amp;keyword={$parameters('key')}&amp;date-range={$parameters('date')}&amp;language={$parameters('lang')}"><i class="fa fa-backward"></i></a>
+                    <a class="w3-button"  href="?per-page={$per-page}&amp;start={max( ($start - $per-page, 1 ) ) }&amp;{$params}"><i class="fa fa-backward"></i></a>
                
             ),
             let $startPage := xs:integer(ceiling($start div $per-page))
@@ -1442,14 +1443,14 @@ declare function apprest:paginate-rest($model as map(*), $parameters as map(*), 
             for $i in $lowerBound to $upperBound
             return
                 if ($i = ceiling($start div $per-page)) then
-                    <a  class="w3-button" href="?per-page={$per-page}&amp;start={max( (($i - 1) * $per-page + 1, 1) )}&amp;keyword={$parameters('key')}&amp;date-range={$parameters('date')}&amp;language={$parameters('lang')}">{$i}</a>
+                    <a  class="w3-button" href="?per-page={$per-page}&amp;start={max( (($i - 1) * $per-page + 1, 1) )}&amp;{$params}">{$i}</a>
                 else
-                    <a class="w3-button"  href="?per-page={$per-page}&amp;start={max( (($i - 1) * $per-page + 1, 1)) }&amp;keyword={$parameters('key')}&amp;date-range={$parameters('date')}&amp;language={$parameters('lang')}">{$i}</a>,
+                    <a class="w3-button"  href="?per-page={$per-page}&amp;start={max( (($i - 1) * $per-page + 1, 1)) }&amp;{$params}">{$i}</a>,
             if ($start + $per-page < count($model("hits"))) then (
                 
-                    <a class="w3-button"  href="?per-page={$per-page}&amp;start={$start + $per-page}&amp;keyword={$parameters('key')}&amp;date-range={$parameters('date')}&amp;language={$parameters('lang')}"><i class="fa fa-forward"></i></a>
+                    <a class="w3-button"  href="?per-page={$per-page}&amp;start={$start + $per-page}&amp;{$params}"><i class="fa fa-forward"></i></a>
                 , 
-                <a class="w3-button"  href="?per-page={$per-page}&amp;start={max( (($count - 1) * $per-page + 1, 1))}&amp;keyword={$parameters('key')}&amp;date-range={$parameters('date')}&amp;language={$parameters('lang')}"><i class="fa fa-fast-forward"></i></a>
+                <a class="w3-button"  href="?per-page={$per-page}&amp;start={max( (($count - 1) * $per-page + 1, 1))}&amp;{$params}"><i class="fa fa-fast-forward"></i></a>
               
             ) else (
                 <a class="w3-button w3-disabled"><i class="fa fa-forward"></i></a>,
