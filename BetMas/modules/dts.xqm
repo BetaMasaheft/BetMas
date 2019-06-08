@@ -57,7 +57,8 @@ declare variable $dts:context := map{
         "tei": "http://www.tei-c.org/ns/1.0",
         "saws": "http://purl.org/saws/ontology#",
         "crm": "http://www.cidoc-crm.org/cidoc-crm/",
-        "ecrm": "http://erlangen-crm.org/current/"
+        "ecrm": "http://erlangen-crm.org/current/",
+        "fabio": "http://purl.org/spar/fabio"
   };
   
   (:~ Takes a  node cx:apparatus which have TEI apparatus criticus tags (app, rdg) typically the result of a collatex request for tei. It returns a string with the minimal contents and formatting :)
@@ -682,7 +683,7 @@ else
 
 (:~ given the URN in the id parameter and the plain Beta Masahaeft id if any, produces the list of members of the collection filtering only the entities which do have a div[@type='edition'] :)
 declare function dts:CollMember($id, $bmID, $page, $nav){
-let $doc := $config:collection-root/id($bmID)
+let $doc := $config:collection-root//id($bmID)
 let $eds := $doc//t:div[@type='edition']
 let $document := if(count($eds) gt 1) then (if($eds[@xml:id = 'traces']) then $eds[@xml:id = 'traces'] else $eds[1]) else $doc//t:div[@type='edition']
 return
@@ -845,10 +846,22 @@ else $citType
 };
 (:~ produces the information needed for each member of a collection :)
 declare function dts:member($collURN,$document){
+if(not($document))
+then <rest:response>
+        <http:response
+            status="204">
+                
+            <http:header
+                    name="Access-Control-Allow-Origin"
+                    value="*"
+                    />
+        </http:response>
+    </rest:response>
+else 
 let $doc := root($document)
-let $id := $doc/t:TEI/@xml:id
+let $id := string($doc//t:TEI/@xml:id)
 let $title := titles:printTitleMainID($id)
-let $description := if(contains($collURN, 'MS')) then 'The transcription of manuscript '||$title||' in Beta maṣāḥǝft ' else 'The abstract literary work '||$title||' in Beta maṣāḥǝft. '  || string-join(string:tei2string($doc//t:abstract), '')
+let $description := if(contains($collURN, 'MS')) then 'The transcription of manuscript '||$title||' in Beta maṣāḥǝft ' else 'The abstract textual unit '||$title||' in Beta maṣāḥǝft. '  || normalize-space(string-join(string:tei2string($doc//t:abstract), ''))
 let $dc := dts:dublinCore($id)
 let $computed := if(contains($collURN, 'MS')) then () else 
 (for $witness in $config:collection-rootMS//t:title[@ref = $id]
@@ -858,8 +871,12 @@ let $computed := if(contains($collURN, 'MS')) then () else
 let $declared := if(contains($collURN, 'MS')) then () else 
 for $witness in $doc//t:witness/@corresp return string($witness)
 let $witnesses := ($computed, $declared)
-let $distinctW := distinct-values($witnesses)
-let $dcAndWitnesses := map:put($dc, 'dc:source', $distinctW)
+let $distinctW := for $w in distinct-values($witnesses) return 
+                            map { "fabio:isManifestationOf" := "https://betamasaheft.eu/" || $w,
+                            "@id" := "urn:dts:betmasMS:" || $w,
+                                      "@type" := "lawd:AssembledWork"}
+                                      
+let $dcAndWitnesses := if(count($distinctW) gt 0) then map:put($dc, 'dc:source', $distinctW) else $dc
 let $DcSelector := 
 if(contains($collURN, 'MS')) then $dc else $dcAndWitnesses
 (:$dc:)
@@ -893,6 +910,10 @@ dts:nestedDivs($document//t:div[@type='edition'])
 let $c := count($document//t:div[@type='edition']//t:ab//text())
 let $all := map{
              "@id" : $resourceURN,
+              "ecrm:P1_is_identified_by": map {
+        "rdfs:label": $resourceURN,
+        "ecrm:P2_has_type": 'DTS URN'
+   },
              "title" : $title,
              "description": $description,
              "@type" : "Resource",
@@ -986,6 +1007,7 @@ declare function dts:extension($id){
 let $map := map:new()
 let $list := (
                         'crm:P1_is_identified_by',
+                        'crm:P102_has_title',
                         'saws:isAttributedToAuthor', 
                         'saws:contains', 
                         'saws:formsPartOf', 
@@ -998,7 +1020,8 @@ let $list := (
                         'saws:isVersionOf', 
                         'crm:P129_is_about',
                         'saws:isDirectCopyOf',
-                        'saws:isAncestorOf'
+                        'saws:isAncestorOf',
+                        'saws:isCommentOn'
                         )
 let $START := $list[1]
 let $etcmap := dts:mapconstructor($id, $map, $START, 2, $list)
