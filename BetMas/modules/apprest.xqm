@@ -555,7 +555,7 @@ return
 (:here I cannot use for the title the javascript titles.js because the content is not exposed:)
 <bibl>
 {
-for $author in distinct-values($file//t:revisionDesc/t:change/@who)
+for $author in distinct-values(($file//t:revisionDesc/t:change/@who| $file//t:editor/@key))
 let $count := count($file//t:revisionDesc/t:change[@who = $author])
 order by $count descending
                 return
@@ -581,7 +581,7 @@ return
 (:here I cannot use for the title the javascript titles.js because the content is not exposed:)
 <bibl>
 {
-for $author in distinct-values($file//t:revisionDesc/t:change/@who)
+for $author in distinct-values(($file//t:revisionDesc/t:change/@who| $file//t:editor/@key))
 let $count := count($file//t:revisionDesc/t:change[@who = $author])
 order by $count descending
                 return

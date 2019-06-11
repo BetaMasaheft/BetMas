@@ -222,7 +222,7 @@ let $this := http:send-request($req)[2]:)
 let $biblio :=
 <bibl>
 {
-for $author in distinct-values($this//t:revisionDesc/t:change/@who)
+for $author in distinct-values(($this//t:revisionDesc/t:change/@who| $this//t:editor/@key))
                 return
 <author>{editors:editorKey(string($author))}</author>
 }
