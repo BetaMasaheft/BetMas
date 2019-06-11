@@ -4,7 +4,7 @@ xquery version "3.1" encoding "UTF-8";
  :
  : @author Pietro Liuzzo 
  :)
-module namespace restItem = "https://www.betamasaheft.uni-hamburg.de/BetMas/restItem";
+module namespace PermRestItem = "https://www.betamasaheft.uni-hamburg.de/BetMas/PermRestItem";
 import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace log="http://www.betamasaheft.eu/log" at "log.xqm";
 import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2"  at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
@@ -32,18 +32,27 @@ declare namespace http = "http://expath.org/ns/http-client";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json = "http://www.json.org";
 
-declare variable $restItem:deleted := doc('/db/apps/BetMas/lists/deleted.xml');
+declare variable $PermRestItem:deleted := doc('/db/apps/BetMas/lists/deleted.xml');
 
+
+declare function PermRestItem:capitalize-first
+  ( $arg as xs:string? )  as xs:string? {
+
+   concat(upper-case(substring($arg,1,1)),
+             substring($arg,2))
+ } ;
+ 
 (:parameter hi is used to highlight searched word when coming query from Dillmann
 parameters start and perpage are for the text visualization with pagination as per standard usage:)
 declare
 %rest:GET
-%rest:path("/BetMas/{$id}/main")
+%rest:path("/BetMas/permanent/{$sha}/{$id}/main")
 %rest:query-param("start", "{$start}", 1)
 %rest:query-param("per-page", "{$per-page}", 1)
 %rest:query-param("hi", "{$hi}", '')
 %output:method("html5")
-function restItem:getItem(
+function PermRestItem:getItem(
+$sha as xs:string*,
 $id as xs:string*,
 $start as xs:integer*,
 $per-page as xs:integer*,
@@ -52,17 +61,18 @@ $hi as xs:string*) {
   let $col := switch2:col($item/@type)
   let $log := log:add-log-message('/'||$id||'/main', xmldb:get-current-user(), 'item')
   return
-restItem:ITEM('main', $id, $col,$start,$per-page, $hi)
+PermRestItem:ITEM('main', $id, $col,$start,$per-page, $hi, $sha)
 };
 
 declare
 %rest:GET
-%rest:path("/BetMas/{$collection}/{$id}/main")
+%rest:path("/BetMas/permanent/{$sha}/{$collection}/{$id}/main")
 %rest:query-param("start", "{$start}", 1)
 %rest:query-param("per-page", "{$per-page}", 1)
 %rest:query-param("hi", "{$hi}", '')
 %output:method("html5")
-function restItem:getItemC(
+function PermRestItem:getItemC(
+$sha as xs:string*,
 $collection as xs:string*,
 $id as xs:string*,
 $start as xs:integer*,
@@ -70,18 +80,19 @@ $per-page as xs:integer*,
 $hi as xs:string*) {
   let $log := log:add-log-message('/'||$collection||'/'||$id||'/main', xmldb:get-current-user(), 'item')
   return
-restItem:ITEM('main', $id, $collection,$start,$per-page, $hi)
+PermRestItem:ITEM('main', $id, $collection,$start,$per-page, $hi, $sha)
 };
 
 
 declare
 %rest:GET
-%rest:path("/BetMas/{$collection}/{$id}/geoBrowser")
+%rest:path("/BetMas/permanent/{$sha}/{$collection}/{$id}/geoBrowser")
 %rest:query-param("start", "{$start}", 1)
 %rest:query-param("per-page", "{$per-page}", 1)
 %rest:query-param("hi", "{$hi}", '')
 %output:method("html5")
-function restItem:getgeoBrowser(
+function PermRestItem:getgeoBrowser(
+$sha as xs:string*,
 $collection as xs:string*,
 $id as xs:string*,
 $start as xs:integer*,
@@ -89,17 +100,18 @@ $per-page as xs:integer*,
 $hi as xs:string*) {
 let $log := log:add-log-message('/'||$collection||'/'||$id||'/geoBrowser', xmldb:get-current-user(), 'item')
   return
-restItem:ITEM('geobrowser', $id, $collection,$start,$per-page, $hi)
+PermRestItem:ITEM('geobrowser', $id, $collection,$start,$per-page, $hi, $sha)
 };
 
 declare
 %rest:GET
-%rest:path("/BetMas/{$collection}/{$id}/text")
+%rest:path("/BetMas/permanent/{$sha}/{$collection}/{$id}/text")
 %rest:query-param("start", "{$start}", 1)
 %rest:query-param("per-page", "{$per-page}", 1)
 %rest:query-param("hi", "{$hi}", '')
 %output:method("html5")
-function restItem:gettext(
+function PermRestItem:gettext(
+$sha as xs:string*,
 $collection as xs:string*,
 $id as xs:string*,
 $start as xs:integer*,
@@ -107,18 +119,19 @@ $per-page as xs:integer*,
 $hi as xs:string*) {
 let $log := log:add-log-message('/'||$collection||'/'||$id||'/text', xmldb:get-current-user(), 'item')
   return
-restItem:ITEM('text', $id, $collection,$start,$per-page, $hi)
+PermRestItem:ITEM('text', $id, $collection,$start,$per-page, $hi, $sha)
 };
 
 
 declare
 %rest:GET
-%rest:path("/BetMas/{$collection}/{$id}/analytic")
+%rest:path("/BetMas/permanent/{$sha}/{$collection}/{$id}/analytic")
 %rest:query-param("start", "{$start}", 1)
 %rest:query-param("per-page", "{$per-page}", 1)
 %rest:query-param("hi", "{$hi}", '')
 %output:method("html5")
-function restItem:getanalytic(
+function PermRestItem:getanalytic(
+$sha as xs:string*,
 $collection as xs:string*,
 $id as xs:string*,
 $start as xs:integer*,
@@ -126,47 +139,49 @@ $per-page as xs:integer*,
 $hi as xs:string*) {
 let $log := log:add-log-message('/'||$collection||'/'||$id||'/analytic', xmldb:get-current-user(), 'item')
   return
-restItem:ITEM('analytic', $id, $collection,$start,$per-page, $hi)
+PermRestItem:ITEM('analytic', $id, $collection,$start,$per-page, $hi, $sha)
 };
 
 
 declare
 %rest:GET
-%rest:path("/BetMas/{$collection}/{$id}/graph")
+%rest:path("/BetMas/permanent/{$sha}/{$collection}/{$id}/graph")
 %rest:query-param("start", "{$start}", 1)
 %rest:query-param("per-page", "{$per-page}", 1)
 %rest:query-param("hi", "{$hi}", '')
 %output:method("html5")
-function restItem:getgraph(
+function PermRestItem:getgraph(
+$sha as xs:string*,
 $collection as xs:string*,
 $id as xs:string*,
 $start as xs:integer*,
 $per-page as xs:integer*,
 $hi as xs:string*) {
-restItem:ITEM('graph', $id, $collection,$start,$per-page, $hi)
+PermRestItem:ITEM('graph', $id, $collection,$start,$per-page, $hi, $sha)
 };
 
 
 
 declare
 %rest:GET
-%rest:path("/BetMas/{$id}/corpus")
+%rest:path("/BetMas/permanent/{$sha}/{$id}/corpus")
 %rest:query-param("start", "{$start}", 1)
 %rest:query-param("per-page", "{$per-page}", 1)
 %rest:query-param("hi", "{$hi}", '')
 %output:method("html5")
-function restItem:getcorpus(
+function PermRestItem:getcorpus(
+$sha as xs:string*,
 $id as xs:string*,
 $start as xs:integer*,
 $per-page as xs:integer*,
 $hi as xs:string*) {
 let $log := log:add-log-message('/corpus/'||$id, xmldb:get-current-user(), 'item')
   return
-restItem:ITEM('corpus', $id, 'corpora', $start,$per-page, $hi)
+PermRestItem:ITEM('corpus', $id, 'corpora', $start,$per-page, $hi, $sha)
 };
 
 
-declare function restItem:additionstitles($nodes as node()*){
+declare function PermRestItem:additionstitles($nodes as node()*){
 for $node in $nodes
     return
         typeswitch ($node)
@@ -186,13 +201,24 @@ for $node in $nodes
                     $node
 };
 
-declare function restItem:ITEM($type, $id, $collection,
+declare function PermRestItem:ITEM($type, $id, $collection,
 $start as xs:integer*,
 $per-page as xs:integer*,
-$hi as xs:string*){
+$hi as xs:string*,
+$sha as xs:string*){
 let $collect := switch2:collectionVar($collection)
 let $coll := $config:data-root || '/' || $collection
-let $this := $collect/id($id)
+let $capCol := PermRestItem:capitalize-first($collection)
+let $permapath := replace(PermRestItem:capitalize-first(substring-after(base-uri($config:collection-root/id($id)[name()='TEI']), '/db/apps/BetMasData/')), $capCol, '')
+let $this:= doc('https://raw.githubusercontent.com/BetaMasaheft/' || $capCol || '/'||$sha||'/'|| $permapath)//t:TEI
+(:let $req :=
+        <http:request
+        http-version="1.1"
+            href="{xs:anyURI($thisurl)}"
+            method="GET">
+        </http:request>
+        
+let $this := http:send-request($req)[2]:)
 let $biblio :=
 <bibl>
 {
@@ -205,12 +231,9 @@ return
 <date type="lastModified">{format-date($time, '[D].[M].[Y]')}</date>
 }
 <idno type="url">
-{($config:appUrl ||'/'|| $collection||'/' ||$id)}
+{($config:appUrl ||'/permanent/'|| $sha||'/' ||$id)}
 </idno>
 
-<idno type="DOI">
-{('DOI:'||$config:DOI || '.' ||$id)}
-</idno>
 <coll>{$collection}</coll>
 </bibl>
 let $Cmap := map {'type':= 'collection', 'name' := $collection, 'path' := $coll}
@@ -226,7 +249,7 @@ if(xdb:collection-available($coll)) then (
 
         else
 (:check if the item has been deleted:)
-if( $restItem:deleted//t:item[. =$id]) then
+if( $PermRestItem:deleted//t:item[. =$id]) then
 (<rest:response>
             <http:response
                 status="410">
@@ -331,8 +354,8 @@ return
 (
 <div class="w3-col" style="width:15%">
 <a href="/{$msid}" class="MainTitle" data-value="{$msid}">{$msid}</a><br/>
-     <a href="/{$rootid}">{if($doc/t:title) then restItem:additionstitles($doc/t:title/node()) else if($doc/t:desc/@type) then string($doc/t:desc/@type) else $itemid}</a>
-    ({restItem:additionstitles($doc/t:locus)})
+     <a href="/{$rootid}">{if($doc/t:title) then PermRestItem:additionstitles($doc/t:title/node()) else if($doc/t:desc/@type) then string($doc/t:desc/@type) else $itemid}</a>
+    ({PermRestItem:additionstitles($doc/t:locus)})
      
      </div>,
 <div class="w3-rest">{
@@ -529,12 +552,13 @@ if ($id = $Subjects) then  (try{LitFlow:Sankey($id, 'works')} catch * {$err:desc
    <div class="w3-container w3-padding w3-black w3-card-4 ">This page contains RDFa. 
    <a href="/rdf/{$collection}/{$id}.rdf">RDF+XML</a> graph of this resource. Alternate representations available via <a href="/api/void/{$id}">VoID</a>.</div>
    <div class="w3-container w3-padding w3-card-4 " id="permanentIDs" style="max-heigh:400px;overflow:auto"
-   data-path="{restItem:capitalize-first(substring-after(base-uri($this), '/db/apps/BetMasData/'))}" 
-   data-id="{$id}" data-type="{restItem:capitalize-first($collection)}"><a class="w3-btn w3-gray" id="LoadPermanentIDs">Permalinks</a></div>
+   data-path="{$permapath}" 
+   data-id="{$id}" data-type="{PermRestItem:capitalize-first($collection)}">YOU ARE LOOKING AT VERSION
+   {$sha}. <a class="w3-btn w3-gray" id="LoadPermanentIDs">See all permalinks.</a></div>
    <script  type="text/javascript" src="resources/js/permanentID.js"></script>
    
    </div>
-  { apprest:authors($this, $collection)}
+  { apprest:authorsSHA($this, $collection, $sha)}
    </div>
 
 
@@ -574,9 +598,3 @@ if ($id = $Subjects) then  (try{LitFlow:Sankey($id, 'works')} catch * {$err:desc
         )
 };
 
-declare function restItem:capitalize-first
-  ( $arg as xs:string? )  as xs:string? {
-
-   concat(upper-case(substring($arg,1,1)),
-             substring($arg,2))
- } ;

@@ -562,7 +562,7 @@ order by $count descending
 <author>{editors:editorKey(string($author))}</author>
 }
 <title level="a">{titles:printTitle($file)}</title>
-<title level="j">{$config:collection-root//t:TEI/id($id)//t:publisher/text()}</title>
+<title level="j">{$file//t:publisher/text()}</title>
 <date type="accessed"> [Accessed: {current-date()}] </date>
 {let $time := max($file//t:revisionDesc/t:change/xs:date(@when))
 return
@@ -572,9 +572,32 @@ return
 {($config:appUrl||'/' || $collection||'/' ||$id)}
 </idno>
 
-<idno type="DOI">
-{($config:DOI || '.' ||$id)}
+</bibl>
+};
+declare function apprest:bibdata ($id, $this, $collection, $sha)  as node()*{
+let $file := $this
+return
+
+(:here I cannot use for the title the javascript titles.js because the content is not exposed:)
+<bibl>
+{
+for $author in distinct-values($file//t:revisionDesc/t:change/@who)
+let $count := count($file//t:revisionDesc/t:change[@who = $author])
+order by $count descending
+                return
+<author>{editors:editorKey(string($author))}</author>
+}
+<title level="a">{titles:printTitle($file)}</title>
+<title level="j">{$this//t:publisher/text()}</title>
+<date type="accessed"> [Accessed: {current-date()}] </date>
+{let $time := max($file//t:revisionDesc/t:change/xs:date(@when))
+return
+<date type="lastModified">(Last Modified: {format-date($time, '[D].[M].[Y]')}) </date>
+}
+<idno type="url">
+{($config:appUrl||'/permanent/' ||$sha || '/' || $collection||'/' ||$id || '/main')}
 </idno>
+
 </bibl>
 };
 
@@ -591,10 +614,77 @@ return
 <div class="w3-panel w3-card-4 w3-padding w3-margin  w3-gray " >
 
 <h3>Suggested Citation of this record</h3>
+<p>To cite a precise version, please, click on load permalinks and to the desired version, then import the metadata or copy the below, with the correct link.</p>
 <div class="w3-container" id="citationString">
 <p>{for $a in $app:bibdata//author/text()  return ($a|| ', ')} ʻ{$app:bibdata//title[@level='a']/text()}ʼ, in Alessandro Bausi, ed.,
 <i>{($app:bibdata//title[@level='j']/text() || ' ')}</i> {$app:bibdata//date[@type='lastModified']/text()}
-<a href="{$app:bibdata/idno/text()}">{$app:bibdata/idno[@type='url']/text()}</a> {(' DOI:' || $app:bibdata/idno[@type='DOI']/text() || ' ')} {$app:bibdata//date[@type='accessed']/text()}</p></div>
+<a href="{$app:bibdata/idno/text()}">{$app:bibdata/idno[@type='url']/text()}</a> {$app:bibdata//date[@type='accessed']/text()}</p></div>
+</div>
+
+
+</div>
+<div class="w3-third" id="revisions">
+<div class="w3-panel w3-card-4 w3-padding w3-margin  w3-gray " >
+<h3>Revisions of the data</h3>
+                <ul>
+                {for $change in $document//t:revisionDesc/t:change
+                let $time := $change/@when
+                let $author := editors:editorKey(string($change/@who))
+                order by $time descending
+                return
+                <li>
+                {<span property="http://purl.org/dc/elements/1.1/contributor">{$author}</span>,
+                (' ' || $change/text() || ' on ' ||  format-date($time, '[D].[M].[Y]'))}
+                </li>
+                }
+
+    </ul>
+    </div>
+    </div>
+    <div class=" w3-third" id="attributions">
+<div class="w3-panel w3-card-4 w3-padding w3-margin w3-gray " >
+<h3>Attributions of the contents</h3>
+                <div>
+                {for $respStmt in $document//t:titleStmt/t:respStmt
+                let $action := $respStmt/t:resp
+                let $authors :=
+                            for $p in $respStmt/t:persName
+                                return
+                                    (if($p/@ref) then editors:editorKey(string($p/@ref)) else $p) || (if($p/@from or $p/@to) then (' ('||'from '||$p/@from || ' to ' ||$p/@to||')') else ())
+
+
+                order by $action descending
+                return
+                <p>
+                {($action || ' by ' || string-join($authors, ', '))}
+                </p>
+                }
+                </div>
+    </div>
+     {if($document//t:editionStmt/node()) then <div class="w3-panel w3-card-4 w3-padding w3-margin w3-red " >{string:tei2string($document//t:editionStmt/node())}</div> else ()}
+     {if($document//t:availability/node()) then <div class="w3-panel w3-card-4 w3-padding w3-margin w3-white " >{string:tei2string($document//t:availability/node())}</div> else ()}
+    </div>
+    </div>
+
+};
+
+
+(:~prints the revision informations:)
+declare function apprest:authorsSHA($this, $collection, $sha) {
+let $document := $this
+let $id := string($this//t:TEI/@xml:id)
+let $app:bibdata := apprest:bibdata($id, $this, $collection, $sha)
+return
+
+<div class="w3-container " id="citations">
+<div class="w3-third" id="citation">
+<div class="w3-panel w3-card-4 w3-padding w3-margin  w3-gray " >
+
+<h3>Suggested Citation of this record</h3>
+<div class="w3-container" id="citationString">
+<p>{for $a in $app:bibdata//author/text()  return ($a|| ', ')} ʻ{$app:bibdata//title[@level='a']/text()}ʼ, in Alessandro Bausi, ed.,
+<i>{($app:bibdata//title[@level='j']/text() || ' ')}</i> {$app:bibdata//date[@type='lastModified']/text()}
+<a href="{$app:bibdata/idno/text()}">{$app:bibdata/idno[@type='url']/text()}</a> {$app:bibdata//date[@type='accessed']/text()}</p></div>
 </div>
 
 
@@ -1424,15 +1514,16 @@ declare function apprest:paginate-rest($model as map(*), $parameters as map(*), 
     if ($min-hits < 0 or count($model("hits")) >= $min-hits) then
         let $count := xs:integer(ceiling(count($model("hits"))) div $per-page) + 1
         let $middle := ($max-pages + 1) idiv 2
-
+        let $paramssingle := for $p in map:keys($parameters) let $key := switch($p) case 'key' return 'keyword' default return $p let $value := $parameters($p) return if($value='') then () else (string($key) || '=' ||$parameters($p) )
+        let $params :=string-join($paramssingle, '&amp;')
         return (
             if ($start = 1) then (
                 <a class="w3-button w3-disabled"><i class="fa fa-fast-backward"></i></a>,
                 <a class="w3-button w3-disabled"><i class="fa fa-backward"></i></a>
             ) else (
-                    <a class="w3-button" href="?per-page={$per-page}&amp;start=1&amp;keyword={$parameters('key')}&amp;date-range={$parameters('date')}&amp;language={$parameters('lang')}"><i class="fa fa-fast-backward"></i></a>
+                    <a class="w3-button" href="?per-page={$per-page}&amp;start=1&amp;{$params}"><i class="fa fa-fast-backward"></i></a>
                 ,
-                    <a class="w3-button"  href="?per-page={$per-page}&amp;start={max( ($start - $per-page, 1 ) ) }&amp;keyword={$parameters('key')}&amp;date-range={$parameters('date')}&amp;language={$parameters('lang')}"><i class="fa fa-backward"></i></a>
+                    <a class="w3-button"  href="?per-page={$per-page}&amp;start={max( ($start - $per-page, 1 ) ) }&amp;{$params}"><i class="fa fa-backward"></i></a>
                
             ),
             let $startPage := xs:integer(ceiling($start div $per-page))
@@ -1442,14 +1533,14 @@ declare function apprest:paginate-rest($model as map(*), $parameters as map(*), 
             for $i in $lowerBound to $upperBound
             return
                 if ($i = ceiling($start div $per-page)) then
-                    <a  class="w3-button" href="?per-page={$per-page}&amp;start={max( (($i - 1) * $per-page + 1, 1) )}&amp;keyword={$parameters('key')}&amp;date-range={$parameters('date')}&amp;language={$parameters('lang')}">{$i}</a>
+                    <a  class="w3-button" href="?per-page={$per-page}&amp;start={max( (($i - 1) * $per-page + 1, 1) )}&amp;{$params}">{$i}</a>
                 else
-                    <a class="w3-button"  href="?per-page={$per-page}&amp;start={max( (($i - 1) * $per-page + 1, 1)) }&amp;keyword={$parameters('key')}&amp;date-range={$parameters('date')}&amp;language={$parameters('lang')}">{$i}</a>,
+                    <a class="w3-button"  href="?per-page={$per-page}&amp;start={max( (($i - 1) * $per-page + 1, 1)) }&amp;{$params}">{$i}</a>,
             if ($start + $per-page < count($model("hits"))) then (
                 
-                    <a class="w3-button"  href="?per-page={$per-page}&amp;start={$start + $per-page}&amp;keyword={$parameters('key')}&amp;date-range={$parameters('date')}&amp;language={$parameters('lang')}"><i class="fa fa-forward"></i></a>
+                    <a class="w3-button"  href="?per-page={$per-page}&amp;start={$start + $per-page}&amp;{$params}"><i class="fa fa-forward"></i></a>
                 , 
-                <a class="w3-button"  href="?per-page={$per-page}&amp;start={max( (($count - 1) * $per-page + 1, 1))}&amp;keyword={$parameters('key')}&amp;date-range={$parameters('date')}&amp;language={$parameters('lang')}"><i class="fa fa-fast-forward"></i></a>
+                <a class="w3-button"  href="?per-page={$per-page}&amp;start={max( (($count - 1) * $per-page + 1, 1))}&amp;{$params}"><i class="fa fa-fast-forward"></i></a>
               
             ) else (
                 <a class="w3-button w3-disabled"><i class="fa fa-forward"></i></a>,

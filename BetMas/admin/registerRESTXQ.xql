@@ -1,7 +1,6 @@
 xquery version "3.1";
-(:
-exrest:register-module(xs:anyURI("/db/apps/gez-en/modules/lists.xqm")),
-exrest:register-module(xs:anyURI("/db/apps/BetMas/modules/compare.xqm")),
+
+(:exrest:register-module(xs:anyURI("/db/apps/BetMas/modules/compare.xqm")),
 exrest:register-module(xs:anyURI("/db/apps/BetMas/modules/dts.xqm")),
 exrest:register-module(xs:anyURI("/db/apps/BetMas/modules/iiif.xqm")),
 exrest:register-module(xs:anyURI("/db/apps/BetMas/modules/items.xqm")),
@@ -30,7 +29,11 @@ exrest:register-module(xs:anyURI("/db/apps/BetMas/modules/sharedKeywords.xqm")),
 exrest:register-module(xs:anyURI("/db/apps/BetMas/modules/void.xqm")),
 exrest:register-module(xs:anyURI("/db/apps/BetMas/modules/wikitable.xqm")),
 exrest:register-module(xs:anyURI("/db/apps/BetMas/modules/wordCount.xqm")),
+exrest:register-module(xs:anyURI("/db/apps/BetMas/modules/rest.xqm")),
+exrest:register-module(xs:anyURI("/db/apps/BetMas/modules/attestations.xqm")),
+exrest:register-module(xs:anyURI("/db/apps/BetMas/modules/workmap.xqm")),
+exrest:register-module(xs:anyURI("/db/apps/BetMas/modules/list.xqm")),
 exrest:register-module(xs:anyURI("/db/apps/gez-en/modules/rest.xqm")),
-exrest:register-module(xs:anyURI("/db/apps/gez-en/modules/rest.xqm")),
-exrest:register-module(xs:anyURI("/db/apps/BetMas/modules/attestations.xqm")),:)
-exrest:register-module(xs:anyURI("/db/apps/BetMas/modules/workmap.xqm"))
+exrest:register-module(xs:anyURI("/db/apps/parser/modules/morphoparser.xqm")),
+exrest:register-module(xs:anyURI("/db/apps/parser/modules/litcompare.xqm")):)
+exrest:register-module(xs:anyURI("/db/apps/parser/modules/permanentItems.xqm"))

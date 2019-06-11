@@ -210,6 +210,24 @@ else if (contains($exist:path, 'morpho')) then
                                  <set-header name="Cache-Control" value="no-cache"/>
                                 </forward>
                         </dispatch>
+ else if (contains($exist:path, '/permanent/')) then
+                   
+                    if (ends-with($exist:path, "/")) then
+                        <dispatch
+                            xmlns="http://exist.sourceforge.net/NS/exist">
+                            <redirect
+                                url="/apidoc.html"/>
+                        </dispatch>
+                    else
+                        <dispatch
+                            xmlns="http://exist.sourceforge.net/NS/exist">
+                            <forward
+                                url="{concat('/restxq/BetMas/', $exist:path)}"
+                                absolute="yes"> 
+                                {$login("org.exist.login", (), false())}
+                                 <set-header name="Cache-Control" value="no-cache"/>
+                                </forward>
+                        </dispatch>
 else if (contains($exist:path, '/api/') or
                 ends-with($exist:path, '/list') or
                 ends-with($exist:path, '/listChart') or
@@ -228,7 +246,8 @@ else if (contains($exist:path, '/api/') or
                 starts-with($exist:path, '/user') or
                 starts-with($exist:path, '/corpus') or
                 starts-with($exist:path, '/listIds') or
-                starts-with($exist:path, '/workmap')) then
+                starts-with($exist:path, '/workmap') or
+                starts-with($exist:path, '/litcomp')) then
                    
                     if (ends-with($exist:path, "/")) then
                         <dispatch
@@ -460,6 +479,8 @@ function apisparql:constructURIsubid() is called to construct a graph of that re
                                             contains($exist:path, '/binding/') or
                                             contains($exist:path, '/msItem/') or
                                             contains($exist:path, '/msitem/') or
+                                            contains($exist:path, '/mspart/') or
+                                            contains($exist:path, '/msPart/') or
                                             contains($exist:path, '/hand/') or
                                             contains($exist:path, '/transformation/')or
                                             contains($exist:path, '/UniProd/') or
