@@ -53,8 +53,41 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
         </xsl:copy>
     </xsl:template>
 
+<xsl:template match="t:profileDesc">
+    <xsl:apply-templates/>
+    <calendarDesc xmlns="http://www.tei-c.org/ns/1.0">
+        <calendar xml:id="world">
+            <p>ʿĀmata ʿālam/ʿĀmata ʾəm-fəṭrat (Era of the World)</p>
+        </calendar>
+        <calendar xml:id="ethiopian">
+            <p> ʿĀmata śəggāwe (Era of the Incarnation –
+                Ethiopian)</p>
+        </calendar>
+        <calendar xml:id="grace">
+            <p>ʿĀmata məḥrat (Era of Grace)</p>
+        </calendar>
+        <calendar xml:id="diocletian">
+            <p>ʿĀmata samāʿtāt (Era of Martyrs (Diocletian))</p>
+        </calendar>
+        <calendar xml:id="alexander">
+            <p> Era of Alexander</p>
+        </calendar>
+        <calendar xml:id="evangelists">
+            <p>Evangelists' years</p>
+        </calendar>
+        <calendar xml:id="islamic">
+            <p>Hiǧrī (Islamic)</p>
+        </calendar>
+        <calendar xml:id="hijri">
+            <p>Hiǧrī (Islamic) in IslHornAfr</p>
+        </calendar>
+        <calendar xml:id="julian">
+            <p>Julian</p>
+        </calendar>
+    </calendarDesc>
+</xsl:template>
     
-    <xsl:template match="@corresp[(parent::t:ref | parent::t:witness[not(@type = 'external')])]">
+    <xsl:template match="@corresp[(parent::t:origDate |parent::t:div |parent::t:ref | parent::t:witness[not(@type = 'external')])]">
         <xsl:attribute name="corresp">
             <xsl:value-of select="concat($BMurl, .)"/>
         </xsl:attribute>
@@ -77,6 +110,9 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
     </xsl:template>
     
     <xsl:template match="@ref | @sameAs">
+        <xsl:choose>
+            <xsl:when test=".='PRS00000' or .='PRS0000'"/>
+            <xsl:otherwise>
         <xsl:attribute name="{name()}">
             <xsl:choose>
                 <xsl:when test="starts-with(., 'pleiades:')">
@@ -96,10 +132,16 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:attribute>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
     
     
-    
+    <xsl:template match="@calendar">
+        <xsl:attribute name="{name()}">
+            <xsl:value-of select="concat('#', .)"/>
+        </xsl:attribute>
+    </xsl:template>
     <xsl:template match="@type[parent::t:witness]"/>
 
     <xsl:template match="t:term">

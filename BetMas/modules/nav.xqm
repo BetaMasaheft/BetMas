@@ -225,7 +225,8 @@ return
       <button class=" w3-button " title="resources">Resources <i class="fa fa-caret-down"></i></button>     
       <div class="w3-dropdown-content w3-bar-block w3-card-4">
                                 <a class="w3-bar-item w3-button"   href="/compare">Compare manuscripts of a given work</a>
-                                <a class="w3-bar-item w3-button"   href="/workflow">Map of manuscripts with a given content</a>
+                                <a class="w3-bar-item w3-button"   href="/workmap">Map of manuscripts with a given content</a>
+                                <a class="w3-bar-item w3-button"   href="/litcomp">Related Textual Units</a>
                                 <a class="w3-bar-item w3-button"   href="/LitFlow">Literature Flow Sankey view</a>
                                 <a class="w3-bar-item w3-button"   href="/xpath">XPath search</a>
                                 <a class="w3-bar-item w3-button"   href="/sparql">SPARQL Endpoint</a>
