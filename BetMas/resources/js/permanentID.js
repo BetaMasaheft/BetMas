@@ -17,7 +17,7 @@ $('#LoadPermanentIDs').on('click', function () {
             console.log(commit)
             console.log(sha)
             var version = $('<table></table>')
-            var versionname = '<tr><th>Version of '+commit.committer.date+'</th><th>SHA: '+sha+'</th></tr>'
+            var versionname = '<tr><th>Version of '+commit.committer.date+'</th><th>SHA: '+sha+'</br>committed to github by '+commit.author.name+' with the following message:  '+commit.message+'</th></tr>'
             var bmVersionLin = 'https://betamasaheft.eu/permanent/'+sha+'/'+type.toLowerCase()+'/'+id +'/main'
             var githubversionlink = 'https://github.com/BetaMasaheft/'+type+'/blob/'+sha+'/'+pathnorepo
             var githubRawversionlink = 'https://raw.githubusercontent.com/BetaMasaheft/'+type+'/blob/'+sha+pathnorepo
