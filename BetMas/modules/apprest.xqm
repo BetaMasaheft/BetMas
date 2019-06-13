@@ -613,8 +613,8 @@ return
 <div class="w3-third" id="citation">
 <div class="w3-panel w3-card-4 w3-padding w3-margin  w3-gray " >
 
-<h3>Suggested Citation of this record</h3>
-<p>To cite a precise version, please, click on load permalinks and to the desired version, then import the metadata or copy the below, with the correct link.</p>
+<h3>Suggested Citation of this record</h3>"
+<p>To cite a precise version, please, click on load permalinks and to the desired version (<a href="/pid.html">see documentation on permalinks</a>), then import the metadata or copy the below, with the correct link.</p>
 <div class="w3-container" id="citationString">
 <p>{for $a in $app:bibdata//author/text()  return ($a|| ', ')} ʻ{$app:bibdata//title[@level='a']/text()}ʼ, in Alessandro Bausi, ed.,
 <i>{($app:bibdata//title[@level='j']/text() || ' ')}</i> {$app:bibdata//date[@type='lastModified']/text()}
@@ -681,6 +681,7 @@ return
 <div class="w3-panel w3-card-4 w3-padding w3-margin  w3-gray " >
 
 <h3>Suggested Citation of this record</h3>
+<p>To cite a precise version, please, click on load permalinks and to the desired version (<a href="/pid.html">see documentation on permalinks</a>), then import the metadata or copy the below, with the correct link.</p>
 <div class="w3-container" id="citationString">
 <p>{for $a in $app:bibdata//author/text()  return ($a|| ', ')} ʻ{$app:bibdata//title[@level='a']/text()}ʼ, in Alessandro Bausi, ed.,
 <i>{($app:bibdata//title[@level='j']/text() || ' ')}</i> {$app:bibdata//date[@type='lastModified']/text()}

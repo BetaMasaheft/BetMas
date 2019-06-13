@@ -176,6 +176,7 @@ return
                                 <a class="w3-bar-item w3-button" href="/Guidelines/">Guidelines and documentation</a>
                                 <a class="w3-bar-item w3-button" href="/apidoc.html">Data API</a>
                                 <a class="w3-bar-item w3-button" href="/lod.html">Linked Open Data</a>
+                                <a class="w3-bar-item w3-button" href="/pid.html">Permalinks</a>
         
       </div>
     </div>
