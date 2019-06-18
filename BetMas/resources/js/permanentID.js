@@ -22,8 +22,8 @@ $('#LoadPermanentIDs').on('click', function () {
             var githubversionlink = 'https://github.com/BetaMasaheft/'+type+'/blob/'+sha+'/'+pathnorepo
             var githubRawversionlink = 'https://raw.githubusercontent.com/BetaMasaheft/'+type+'/'+sha+pathnorepo
             var betmasversion = '<tr><td>permalink to this version</td><td><a href="'+bmVersionLin+'">'+bmVersionLin+'</a></td></tr>'
-            var github = '<tr><td>permalink to source file at this version</td><td><a href="'+githubRawversionlink+'">'+githubRawversionlink+'</a></td></tr>'
-            var githubversion = '<tr><td>permalink to source file in github at this version</td><td><a href="'+githubversionlink+'">'+githubversionlink+'</a></td></tr>'
+            var github = '<tr><td>source file at this version</td><td><a href="'+githubRawversionlink+'">'+githubRawversionlink+'</a></td></tr>'
+            var githubversion = '<tr><td>source file in github at this version</td><td><a href="'+githubversionlink+'">'+githubversionlink+'</a></td></tr>'
             version.append(versionname)
             version.append(betmasversion)
             version.append(github)

@@ -54,8 +54,9 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
     </xsl:template>
 
 <xsl:template match="t:profileDesc">
+    <xsl:copy>
     <xsl:apply-templates/>
-    <calendarDesc xmlns="http://www.tei-c.org/ns/1.0">
+    <calendarDesc>
         <calendar xml:id="world">
             <p>ʿĀmata ʿālam/ʿĀmata ʾəm-fəṭrat (Era of the World)</p>
         </calendar>
@@ -85,6 +86,7 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
             <p>Julian</p>
         </calendar>
     </calendarDesc>
+    </xsl:copy>
 </xsl:template>
     
     <xsl:template match="@corresp[(parent::t:origDate |parent::t:div |parent::t:ref | parent::t:witness[not(@type = 'external')])]">
