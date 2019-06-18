@@ -61,6 +61,30 @@ declare variable $dts:context := map{
         "fabio": "http://purl.org/spar/fabio"
   };
   
+    declare function dts:capitalize-first
+  ( $arg as xs:string? )  as xs:string? {
+
+   concat(upper-case(substring($arg,1,1)),
+             substring($arg,2))
+ } ;
+ 
+  declare function dts:fileingitCommits($id, $bmID, $apitype){
+let $collection := if(contains($id, 'betmasMS')) then 'Manuscripts' else 'Works'
+let $permapath := replace(dts:capitalize-first(substring-after(base-uri($config:collection-root/id($bmID)[name()='TEI']), '/db/apps/BetMasData/')), $collection, '')
+let $url := 'https://api.github.com/repos/BetaMasaheft/' || $collection || '/commits?path=' || $permapath
+ let $file := httpclient:get(xs:anyURI($url), true(), <Headers/>)
+  
+let $file-info := 
+    let $payload := util:base64-decode($file) 
+    let $parse-payload := parse-json($payload)
+    return $parse-payload 
+    
+for $sha in $file-info?*
+return 
+ '/permanent/'||$sha?sha||'/api/dts/'||$apitype||'?id='||$id
+  
+};
+  
   (:~ Takes a  node cx:apparatus which have TEI apparatus criticus tags (app, rdg) typically the result of a collatex request for tei. It returns a string with the minimal contents and formatting :)
 declare function dts:apparatus2string($apparatus as node()*){
  for $node in $apparatus
@@ -675,6 +699,7 @@ else
     "dts:citeDepth" : $cdepth,
     "dts:level" : $l,
     "dts:citeType": $ctype,
+    "dc:hasVersion" : dts:fileingitCommits($id, $BMid, 'navigation'),
     "dts:passage" : ('dts/api/document?id=' || $id||'{&amp;ref}{&amp;start}{&amp;end}'),
     "member": $maximized
 })
@@ -880,8 +905,10 @@ let $dcAndWitnesses := if(count($distinctW) gt 0) then map:put($dc, 'dc:source',
 let $DcSelector := 
 if(contains($collURN, 'MS')) then $dc else $dcAndWitnesses
 (:$dc:)
-let $ext := dts:extension($id)
 let $resourceURN := $collURN || ':' || $id
+let $versions := dts:fileingitCommits($resourceURN, $id, 'collections')
+let $DcWithVersions :=  map:put($DcSelector, "dc:hasVersion", $versions) 
+let $ext := dts:extension($id)
 let $dtsPass := "/api/dts/document?id=" || $resourceURN
 let $dtsNav := "/api/dts/navigation?id=" || $resourceURN
 let $download := "https://betamasaheft.eu/tei/" || $id || '.xml'
@@ -918,7 +945,7 @@ let $all := map{
              "description": $description,
              "@type" : "Resource",
              "totalItems": 0,
-             "dts:dublincore": $DcSelector ,
+             "dts:dublincore": $DcWithVersions ,
             "dts:download": $download,
             "dts:citeDepth": $citeDepth,
             "dts:citeStructure": $teirefdecl
