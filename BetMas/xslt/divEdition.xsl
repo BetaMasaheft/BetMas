@@ -207,7 +207,7 @@
                                     </xsl:choose>
                                 </a>
                             </xsl:if>
-                          <!--  <xsl:if test="@corresp">
+                            <xsl:if test="@corresp">
                                 <xsl:text> (</xsl:text>
                                 <xsl:variable name="id" select="substring-after(@corresp, '#')"/>
                                 <xsl:variable name="match" select="current()//ancestor::t:TEI//t:*[@xml:id = $id]"/>
@@ -237,13 +237,13 @@
                                         <span class="MainTitle" data-value="{@corresp}"/>
                                         <a href="{@corresp}">
                                             <xsl:text>  </xsl:text>
-                                            <span class="glyphicon glyphicon-share"/>
+                                            <span class="fa fa-share"/>
                                         </a>
                                     </xsl:otherwise>
                                 </xsl:choose>
                                 <xsl:text>)</xsl:text>
                             </xsl:if>
-                          -->  
+                            
                         <div class="w3-bar-block">
                             <div class="ugaritcontrols w3-tooltip w3-bar-item w3-button w3-padding-small w3-gray">
                             <a class="ugarit  w3-small" data-textid="{$text}" data-currentid="{@n}" disabled="disabled">

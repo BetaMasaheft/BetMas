@@ -58,7 +58,8 @@ declare variable $dts:context := map{
         "saws": "http://purl.org/saws/ontology#",
         "crm": "http://www.cidoc-crm.org/cidoc-crm/",
         "ecrm": "http://erlangen-crm.org/current/",
-        "fabio": "http://purl.org/spar/fabio"
+        "fabio": "http://purl.org/spar/fabio",
+        "lawd": "http://lawd.info/ontology/"
   };
   
     declare function dts:capitalize-first
@@ -909,6 +910,8 @@ let $resourceURN := $collURN || ':' || $id
 let $versions := dts:fileingitCommits($resourceURN, $id, 'collections')
 let $DcWithVersions :=  map:put($DcSelector, "dc:hasVersion", $versions) 
 let $ext := dts:extension($id)
+let $haspart := dts:haspart($id)
+let $parts := map:put($ext, 'dcterms:hasPart', $haspart)
 let $dtsPass := "/api/dts/document?id=" || $resourceURN
 let $dtsNav := "/api/dts/navigation?id=" || $resourceURN
 let $download := "https://betamasaheft.eu/tei/" || $id || '.xml'
@@ -950,12 +953,26 @@ let $all := map{
             "dts:citeDepth": $citeDepth,
             "dts:citeStructure": $teirefdecl
         }
-let $ext :=         if(count($ext) ge 1) then  map:put($all,"dts:extensions",$ext) else $all
+let $ext :=         if(count($parts) ge 1) then  map:put($all,"dts:extensions",$parts) else $all
 let $pass :=  if($c le 1) then $ext else map:put($ext, "dts:passage", $dtsPass) 
 let $nav := if($c le 1) then $pass else map:put($pass, "dts:references", $dtsNav)
         return
         $nav
          
+};
+
+
+declare function dts:haspart($id){
+let $querytext := $config:sparqlPrefixes ||  "
+ SELECT ?part
+ WHERE {?partID dcterms:isPartOf bm:" || $id || " ;
+                              dc:relation ?part . 
+                              ?part a bm:work}"
+let $query := sparql:query($querytext)
+for $result in $query//sr:binding
+return
+replace($result/sr:uri/text(), 'https://betamasaheft.eu/' , '/api/dts/collections?id=urn:dts:betmas:')
+
 };
 
 (:~ called by dts:dublinCore it expects a dc property name without prefix, and the id of the instance about which the property is stated. sends a sparql query to the triple store and returns the value requested :)

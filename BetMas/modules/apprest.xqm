@@ -613,7 +613,7 @@ return
 <div class="w3-third" id="citation">
 <div class="w3-panel w3-card-4 w3-padding w3-margin  w3-gray " >
 
-<h3>Suggested Citation of this record</h3>"
+<h3>Suggested Citation of this record</h3>
 <p>To cite a precise version, please, click on load permalinks and to the desired version (<a href="/pid.html">see documentation on permalinks</a>), then import the metadata or copy the below, with the correct link.</p>
 <div class="w3-container" id="citationString">
 <p>{for $a in $app:bibdata//author/text()  return ($a|| ', ')} ʻ{$app:bibdata//title[@level='a']/text()}ʼ, in Alessandro Bausi, ed.,
@@ -1499,7 +1499,7 @@ apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titl
              <div id="AddFilters"/>)}
             <div class="w3-container w3-margin-bottom w3-margin-top">
             <div class="w3-bar ">
-                <button type="submit" class="w3-bar-item w3-button w3-red"><i class="fa fa-filter" aria-hidden="true"></i>
+                <button type="submit" class="w3-bar-item w3-button w3-red"><i class="fa fa-search" aria-hidden="true"></i>
 </button>
                     <a href="/{$collection}/list" class="w3-bar-item w3-button w3-gray"><i class="fa fa-th-list" aria-hidden="true"></i></a>
                 <a href="/as.html" role="button" class="w3-bar-item w3-button w3-red"><i class="fa fa-cog" aria-hidden="true"/></a>

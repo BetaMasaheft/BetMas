@@ -58,6 +58,8 @@ let $atts :=
    let $element := $a/name()
    let $text := if($a/text()) 
                  then $a/text() 
+                 else if ($a/t:label)
+                 then string:tei2string($a/t:label)
                  else 'pointer only'
     let $cooccurringPers := ($a/preceding-sibling::t:persName,$a/following-sibling::t:persName)
     let $cooccurringPlace := ($a/preceding-sibling::t:placeName,$a/following-sibling::t:placeName)
@@ -74,6 +76,7 @@ let $atts :=
                   else 'no date'
     let $MainRole := switch($element) 
     case 'persName' return string($a/@role)
+    case 'div' return string($a/@type) || ' - ' || string($a/@subtype)
     case 'relation' return string($a/@name)
     case 'ref' return string($a/@type)
     default return ()

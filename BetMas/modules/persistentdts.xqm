@@ -670,6 +670,8 @@ let $resourceURN := $collURN || ':' || $id
 let $versions := dts:fileingitCommits($resourceURN, $id, 'collections')
 let $DcWithVersions :=  map:put($DcSelector, "dc:hasVersion", $versions) 
 let $ext := dts:extension($id)
+let $haspart := dts:haspart($id)
+let $parts := map:put($ext, 'dcterms:hasPart', $haspart)
 let $dtsPass := "/permanent/"||$sha||"/api/dts/document?id=" || $resourceURN
 let $dtsNav := "/permanent/"||$sha||"/api/dts/navigation?id=" || $resourceURN
 let $download := "https://betamasaheft.eu/tei/" || $id || '.xml'
@@ -711,7 +713,7 @@ let $all := map{
             "dts:citeDepth": $citeDepth,
             "dts:citeStructure": $teirefdecl
         }
-let $ext :=         if(count($ext) ge 1) then  map:put($all,"dts:extensions",$ext) else $all
+let $ext :=         if(count($parts) ge 1) then  map:put($all,"dts:extensions",$parts) else $all
 let $pass :=  map:put($ext, "dts:passage", $dtsPass) 
 let $nav := map:put($pass, "dts:references", $dtsNav)
         return

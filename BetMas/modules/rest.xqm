@@ -256,6 +256,7 @@ transform:transform($a,  'xmldb:exist:///db/apps/BetMas/xslt/q.xsl', ())
 (:~gets the a list elements with a reference to the given id in the specified collection (c) :)
 declare function api:restWhatPointsHere($id as xs:string, $c){
            let $witnesses := $c//t:witness[@corresp = $id]
+            let $div := $c//t:div[@corresp = $id]
 let $placeNames := $c//t:placeName[@ref = $id]
 let $persNames := $c//t:persName[@ref = $id]
 let $ref := $c//t:ref[@corresp = $id]
@@ -266,6 +267,7 @@ let $country := $c//t:country[@ref = $id]
 let $active := $c//t:relation[@active = $id]
 let $passive := $c//t:relation[@passive = $id]
 let $allrefs := ($witnesses, 
+$div,
         $placeNames,  
         $persNames, 
         $ref,

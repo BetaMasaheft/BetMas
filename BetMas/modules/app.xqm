@@ -281,7 +281,7 @@ if($doc//t:listBibl[@type='clavis'])
             <div class="w3-responsive"><table class="w3-table w3-hoverable">
             <thead>
             <tr>
-            <th>clavis</th><th>id</th></tr>
+            <th>clavis</th><th>ID</th></tr>
             </thead>
             <tbody>
             {for $bibl in $doc//t:listBibl[@type='clavis']/t:bibl 

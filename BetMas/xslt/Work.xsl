@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:variable name="mainID" select="t:TEI/@xml:id"/>
     <xsl:template match="/">
@@ -211,7 +210,7 @@
                 </div>
             </xsl:if>
             <xsl:if test="//t:div[@type='edition']//t:ab//text()">
-                <a class="w3-button w3-gray w3-large" target="_blank" href="{concat('http://voyant-tools.org/?input=http://betamasaheft.eu/works/',string(t:TEI/@xml:id),'.xml')}">Voyant</a>
+                <a class="w3-button w3-gray w3-large" target="_blank" href="{concat('http://voyant-tools.org/?input=https://betamasaheft.eu/works/',string(t:TEI/@xml:id),'.xml')}">Voyant</a>
             </xsl:if>
             <button class="w3-button w3-red w3-large" id="showattestations" data-value="work" data-id="{string(t:TEI/@xml:id)}">Show attestations</button>
             <div id="allattestations" class="col-md-12"/>

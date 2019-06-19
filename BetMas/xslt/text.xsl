@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:param name="startsection"/>
     <xsl:param name="perpage"/>
@@ -44,7 +43,7 @@
                 </xsl:if>
                 <div id="roleAttestations" class="w3-container"/>  
             </xsl:if>
-            
+            <a class="w3-button w3-gray w3-large" target="_blank" href="{concat('http://voyant-tools.org/?input=https://betamasaheft.eu/works/',string(t:TEI/@xml:id),'.xml')}">Voyant</a>
         </div>
         <div class="w3-third w3-gray w3-padding">
             
