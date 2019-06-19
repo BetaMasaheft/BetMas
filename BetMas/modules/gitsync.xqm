@@ -220,7 +220,18 @@ declare function gitsync:do-add($commits, $contents-url as xs:string?, $data-col
                     let $update :=  update insert <item xmlns="http://www.tei-c.org/ns/1.0">{titles:printTitleMainID($id)}</item> into  $institutionslist
                     return
                     'added value at the end of the list in institutions.xml'
-                    ) else ()
+                    ) else (),
+                      let $deletedlist := $gitsync:deleted//t:list
+                      let $alldeleted := $gitsync:deleted//t:list/t:item/text()
+                    let $id := substring-before($file-name, '.xml')
+                    let $remove :=
+                    if ($id = $alldeleted) then
+                    let $item := $deletedlist/t:item[.=$id]
+                    return
+                    update delete $item
+                    else ()
+                    return
+                    'removed value from the list in deleted.xml'
                     ,
                     let $rdf := transform:transform($stored-file, 'xmldb:exist:///db/apps/BetMas/rdfxslt/data2rdf.xsl', ())
                let $rdffilename := replace($file-name, '.xml', '.rdf')
@@ -279,7 +290,7 @@ return
         try {
             <response
                 status="okay">
-                <message>removed {$file-name}{xmldb:remove($collection-uri, $file-name)} and {$rdffilename}{xmldb:remove($rdfcoll, $rdffilename)}
+                <message>removed {$collection-uri}/{$file-name}{xmldb:remove($collection-uri, $file-name)} and {$rdfcoll}/{$rdffilename}{xmldb:remove($rdfcoll, $rdffilename)}
                 {(
                     if(contains($data-collection, 'institutions')) then (
                     let $institutionslist := $gitsync:institutions//t:list
@@ -494,12 +505,12 @@ return
                                gitsync:do-update($commits, $contents-url, $data-collection)
                         else
                             (),
-                        if (array:size($commits?1?added) ge 1) then
-                            gitsync:do-add($commits, $contents-url, $data-collection)
-                        else
-                            (),
                         if (array:size($commits?1?removed) ge 1) then
                             gitsync:do-delete($commits, $contents-url, $data-collection)
+                        else
+                            (),
+                        if (array:size($commits?1?added) ge 1) then
+                            gitsync:do-add($commits, $contents-url, $data-collection)
                         else
                             ())
                 else
