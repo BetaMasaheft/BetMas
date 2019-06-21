@@ -29,6 +29,7 @@ declare
 %output:method("text")
 function apiTit:get-FormattedTitle($id as xs:string) {
     ($config:response200,
+    let $id := replace($id, '_', ':') return
    normalize-space(titles:printTitleMainID($id))
     
     )
@@ -42,6 +43,7 @@ declare
 %output:method("text")
 function apiTit:get-FormattedTitleandID($id as xs:string, $SUBid as xs:string) {
     ($config:response200, 
+    let $id := replace($id, '_', ':')
     let $resource := api:get-tei-rec-by-ID($id)
     let $m := titles:printTitleMainID($id) 
     return

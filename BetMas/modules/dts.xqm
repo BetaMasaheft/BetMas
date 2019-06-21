@@ -963,11 +963,13 @@ let $nav := if($c le 1) then $pass else map:put($pass, "dts:references", $dtsNav
 
 
 declare function dts:haspart($id){
+(:the query starts from the part statements, that is it flattens the nesting of parts which is actually available in the XML:)
 let $querytext := $config:sparqlPrefixes ||  "
  SELECT ?part
- WHERE {?partID dcterms:isPartOf bm:" || $id || " ;
-                              dc:relation ?part . 
-                              ?part a bm:work}"
+ WHERE {?partID dcterms:hasPart ?subpart ; 
+                   dcterms:isPartOf bm:" || $id || " .
+                             ?subpart dc:relation ?part . 
+                              ?part a lawd:ConceptualWork}"
 let $query := sparql:query($querytext)
 for $result in $query//sr:binding
 return

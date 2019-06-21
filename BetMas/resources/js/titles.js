@@ -51,6 +51,7 @@ var ids = []
     
     $(ids).each(function (index, id) {
        var escapedid = id.replace("#", "/")
+       var escapedid = escapedid.replace(":", "_")
        var mainid = ''
         if(id.match('#')){mainid = id.substring(0, id.indexOf('#'))} else {mainid = id}
        

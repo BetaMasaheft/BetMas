@@ -9,21 +9,27 @@
                 <xsl:choose> 
                     <xsl:when test="contains(@ref, 'pleiades:')">
                     <xsl:variable name="pleiadesid" select="substring-after(@ref, 'pleiades:')"/>
-                        <xsl:if test="not(ancestor::t:div[@type='edition'])"><span xmlns="http://www.w3.org/1999/xhtml" class="MainTitle" data-value="{@ref}"/></xsl:if>
+                        <xsl:if test="not(ancestor::t:div[@type='edition'])">
+                            <span xmlns="http://www.w3.org/1999/xhtml" class="MainTitle" data-value="{@ref}"/>
+                        </xsl:if>
                     <xsl:apply-templates select="child::node()[not(name()='certainty')]"/>
                         <span xmlns="http://www.w3.org/1999/xhtml" class="pelagios popup" data-pelagiosID="{encode-for-uri(concat('http://pleiades.stoa.org/places/',$pleiadesid))}" data-href="https://pleiades.stoa.org/places/{$pleiadesid}" data-value="{$pleiadesid}">
                             ↗
                     </span>
                 </xsl:when>
                     <xsl:when test="starts-with(@ref, 'wd:')">
-                        <xsl:if test="not(ancestor::t:div[@type='edition'])"><span xmlns="http://www.w3.org/1999/xhtml" class="MainTitle" data-value="{@ref}"/></xsl:if>
+                        <xsl:if test="not(ancestor::t:div[@type='edition'])">
+                            <span xmlns="http://www.w3.org/1999/xhtml" class="MainTitle" data-value="{@ref}"/>
+                        </xsl:if>
                         <xsl:apply-templates select="child::node()[not(name()='certainty')]"/>
-                        <span xmlns="http://www.w3.org/1999/xhtml" class="pelagios popup" data-pelagiosID="{encode-for-uri(replace(@ref, 'wd:', 'http://www.wikidata.org/entity/'))}" data-href="https://www.wikidata.org/wiki/{@ref}" data-value="{@ref}">
+                        <span xmlns="http://www.w3.org/1999/xhtml" class="pelagios popup" data-pelagiosID="{encode-for-uri(replace(@ref, 'wd:', 'http://www.wikidata.org/entity/'))}" data-href="https://www.wikidata.org/wiki/{replace(@ref, 'wd:', '')}" data-value="{@ref}">
                             ↗
                         </span>
                     </xsl:when>
                     <xsl:when test="contains(@ref, 'gn:')">
-                        <xsl:if test="not(ancestor::t:div[@type='edition'])"><span xmlns="http://www.w3.org/1999/xhtml" class="MainTitle" data-value="{@ref}"/></xsl:if>
+                        <xsl:if test="not(ancestor::t:div[@type='edition'])">
+                            <span xmlns="http://www.w3.org/1999/xhtml" class="MainTitle" data-value="{@ref}"/>
+                        </xsl:if>
                         <xsl:variable name="gnid" select="substring-after(@ref, 'gn:')"/>
                         <a xmlns="http://www.w3.org/1999/xhtml" href="http://www.geonames.org/{$gnid}">
                             <xsl:value-of select="document(concat('http://api.geonames.org/get?geonameId=',$gnid,'&amp;username=betamasaheft'))//toponymName"/> 
@@ -84,7 +90,9 @@
                         </span>
                     </xsl:otherwise>
                 </xsl:choose>
-            <xsl:if test="t:certainty"><xsl:apply-templates select="t:certainty"/></xsl:if>
+            <xsl:if test="t:certainty">
+                    <xsl:apply-templates select="t:certainty"/>
+                </xsl:if>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:apply-templates/>
