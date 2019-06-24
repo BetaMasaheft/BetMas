@@ -946,7 +946,7 @@ let $key := if($keywords = '') then () else
                 case 'narratives' return ()
                 case 'institutions' return apprest:ListQueryParam-rest($keywords, 't:ab[@type="tabot"]/t:persName/@ref', 'any', 'list')
                 case 'places' return apprest:ListQueryParam-rest($keywords, 't:place/@type', 'any', 'list')
-                case 'persons' return apprest:ListQueryParam-rest($keywords, 't:occupation/@type', 'any', 'list')
+(:                case 'persons' return apprest:ListQueryParam-rest($keywords, 't:occupation/@type', 'any', 'list'):)
            default return apprest:ListQueryParam-rest($keywords, 't:term/@key', 'any', 'list')
 
 let $ContentPr := if ($contentProvider = '') then () else

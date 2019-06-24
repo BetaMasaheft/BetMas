@@ -256,7 +256,7 @@
                     </xsl:if>
                     <foaf:primaryTopicOf rdf:resource="{$mainurl}"/>
                     <xsl:if test="//t:place/@sameAs">
-                        <skos:exactMatch rdf:resource="https://www.wikidata.org/entity/{//t:place/@sameAs}"/>
+                        <skos:exactMatch rdf:resource="https://www.wikidata.org/entity/{replace(//t:person/@sameAs, 'wd:', '')}"/>
                     </xsl:if>
                     <xsl:if test="//t:place/@type">
                         <xsl:choose> <xsl:when test="matches(//t:place/@type, '\s')">
@@ -277,7 +277,7 @@
                     <rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/E29_Actor"/>
                     <rdf:type rdf:resource="http://lawd.info/ontology/Person"/>
                     <xsl:if test="//t:person/@sameAs">
-                        <skos:exactMatch rdf:resource="https://www.wikidata.org/entity/{//t:person/@sameAs}"/>
+                        <skos:exactMatch rdf:resource="https://www.wikidata.org/entity/{replace(//t:person/@sameAs, 'wd:', '')}"/>
                     </xsl:if>
                     <xsl:apply-templates select="@type | @subtype"/>
                     <xsl:apply-templates select="//t:person/t:persName" mode="pn"/>
@@ -1296,7 +1296,7 @@
         <xsl:param name="citation"/>
         <oa:Annotation rdf:about="https://betamasaheft.eu/{$mainID}/place/annotation/{$n}">
             <oa:hasTarget rdf:resource="https://betamasaheft.eu/{$mainID}"/>
-            <oa:hasBody rdf:resource="{if(starts-with(@ref, 'pleiades:')) then concat('https://pleiades.stoa.org/places/', substring-after(@ref, 'pleiades:')) else if (starts-with(@ref, 'Q')) then concat('https://www.wikidata.org/entity/', @ref) else concat('https://betamasaheft.eu/',@ref)}"/>
+            <oa:hasBody rdf:resource="{if(starts-with(@ref, 'pleiades:')) then concat('https://pleiades.stoa.org/places/', substring-after(@ref, 'pleiades:')) else if (starts-with(@ref, 'wd:Q')) then concat('https://www.wikidata.org/entity/', replace(@ref, 'wd:', '')) else concat('https://betamasaheft.eu/',@ref)}"/>
             <oa:annotatedAt rdf:datatype="http://www.w3.org/2001/XMLSchema#date">
                 <xsl:value-of select="current-date()"/>
             </oa:annotatedAt>
@@ -1334,7 +1334,7 @@
                 <rdf:type rdf:resource="https://betamasaheft.eu/{@role}"/>
             </xsl:if>
             <oa:hasTarget rdf:resource="https://betamasaheft.eu/{$mainID}"/>
-            <oa:hasBody rdf:resource="{if(starts-with(@ref, 'pleiades:')) then concat('https://pleiades.stoa.org/places/', substring-after(@ref, 'pleiades:')) else if (starts-with(@ref, 'Q')) then concat('https://www.wikidata.org/entity/', @ref) else concat('https://betamasaheft.eu/',@ref)}"/>
+            <oa:hasBody rdf:resource="{if(starts-with(@ref, 'pleiades:')) then concat('https://pleiades.stoa.org/places/', substring-after(@ref, 'pleiades:')) else if (starts-with(@ref, 'wd:Q')) then concat('https://www.wikidata.org/entity/', replace(@ref, 'wd:', '')) else concat('https://betamasaheft.eu/',@ref)}"/>
             <oa:annotatedAt rdf:datatype="http://www.w3.org/2001/XMLSchema#date">
                 <xsl:value-of select="current-date()"/>
             </oa:annotatedAt>
