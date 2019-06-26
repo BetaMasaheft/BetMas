@@ -533,7 +533,7 @@ let $parsedURN := dts:parseDTS($id)
 let $BMid := $parsedURN//s:group[@nr=3]
 let $text := $config:collection-root/id($BMid)//t:div[@type='edition']
 let $textType := $config:collection-root/id($BMid)//t:objectDesc/@form
-let $passage := if (contains($id, 'betmasMS:')) then (
+let $passage := if (contains($id, 'betmasMS:') and not($textType='Inscription')) then (
                                                 (:manuscripts:)
                                 if($ref='' and $level = '' and $start ='' and $end = ''and $groupBy = '' and $max = '') 
                                 then for $n in $text/t:div/@n return <p>{string($n)}<type>folio</type></p>
@@ -553,9 +553,16 @@ let $passage := if (contains($id, 'betmasMS:')) then (
                                        
                                else ()
 ) else 
-(:works. some are encoded with a basic nested divs structure, some instaed, especially bible texts use l :)
+(:works and inscriptions. some are encoded with a basic nested divs structure, some instaed, especially bible texts use l, inscriptions have lb :)
                                 if($ref='' and $level = '' and $start ='' and $end = ''and $groupBy = '' and $max = '') 
                                 then  for $n in $text/t:* return 
+                                if($n//t:lb) then 
+                               for $n in $text//t:lb return 
+                               <p>
+                                         {string($n/@n)}
+                                        <type>line</type>
+                                          </p>
+                               else 
                                 <p>
                                          {string($n/@n )}
                                          {if($n/@subtype) then <type>{string($n/@subtype)}</type> else ()}
@@ -576,18 +583,18 @@ let $passage := if (contains($id, 'betmasMS:')) then (
                              else if($level = '2' and $start = '') 
                                 then 
                                 if($ref != '') then 
-                                                        for $n in ($text/t:div[@n=$ref]/t:div[@n], $text/t:div[@n=$ref]/t:ab/t:l[@n]) 
+                                                        for $n in ($text/t:div[@n=$ref]/t:div[@n], $text/t:div[@n=$ref]/t:ab/t:l[@n], $text/t:div[@n=$ref]/t:ab/t:lb[@n]) 
                                                         return 
                                          <p>
                                          {(string($n/ancestor::t:*[@n][1]/@n) ||'.' || string($n/@n))}
-                                         <type>verse</type>
+                                         <type>{if($n/name() = 'l') then 'verse' else if($n/name() = 'lb') then 'line' else string($n/@subtype)}</type>
                                           </p>
                                                 else
                                                 
-                                                      for $n in ($text/t:div[@n]/t:div[@n], $text/t:div[@n]/t:ab/t:l[@n]) return 
+                                                      for $n in ($text/t:div[@n]/t:div[@n], $text/t:div[@n]/t:ab/t:l[@n], $text/t:div[@n]/t:ab/t:lb[@n]) return 
                                           <p>
                                          {(string($n/ancestor::t:*[@n][1]/@n) ||'.' || string($n/@n))}
-                                         <type>verse</type>
+                                         <type>{if($n/name() = 'l') then 'verse' else if($n/name() = 'lb') then 'line' else string($n/@subtype)}</type>
                                           </p>
                              
                             else if($start != '' and $end != '') 
@@ -595,39 +602,49 @@ let $passage := if (contains($id, 'betmasMS:')) then (
                                   if ($level = '2') then 
                                   let $range := $text/t:div[number(@n) ge number($start)][number(@n) le number($end)] 
                                   return 
-                                  for $n in ($range/t:div[@n], $range/t:ab/t:l[@n]) 
+                                  for $n in ($range/t:div[@n], $range/t:ab/t:l[@n], $range/t:ab/t:lb[@n]) 
                                   return 
                                    <p>
                                          {(string($n/ancestor::t:*[@n][1]/@n) ||'.' || string($n/@n))}
-                                         <type>verse</type>
+                                         <type>{if($n/name() = 'l') then 'verse' else if($n/name() = 'lb') then 'line' else string($n/@subtype)}</type>
                                           </p>
                                    else ()
                                )
                                
-                               else for $n in $text/t:div[number(@n) ge number($start)][number(@n) le number($end)] return 
+                               else 
+                               
+                              ( if($text//t:lb) then 
+                               for $n in $text//t:lb[number(@n) ge number($start)][number(@n) le number($end)] return 
+                               <p>
+                                         {string($n/@n)}
+                                        <type>line</type>
+                                          </p>
+                               else 
+                               for $n in $text/t:div[number(@n) ge number($start)][number(@n) le number($end)] return 
                                <p>
                                          {string($n/@n)}
                                          {if($n/@subtype) then <type>{string($n/@subtype)}</type> else ()}
                                          {if($n/@corresp) then <title>{titles:printTitleMainID($n/@corresp)}</title> 
                                             else if($n/t:label) then <title>{$n/t:label/string()}</title> else ()}
                                           </p>
-                             
+                             )
                              else ()
 (:                             the following step should take the list of results and format it using the chunksize and max parameters:)
 let $CS := number($groupBy)
 let $M := number($max)
 
-let $ctype := if(contains($id, 'betmasMS:')) then 
- (if($level = '') then 'folio' else if($level='2') then 'page' else 'column')
+let $ctype := if(contains($id, 'betmasMS:') and not($text/ancestor::t:TEI//t:objectDesc/@form ='Inscription')) 
+then  (if($level = '') then 'folio' else if($level='2') then 'page' else 'column')
                                 else 
-                                (if($level = '') then (let $types := for $t in $text/t:div
-                                            let $typ := if($t/@subtype) then string($t/@subtype) else 'textpart'
+                                (if($level = '') then (let $types := for $t in ($text/t:div, $text//t:lb)
+                                            let $typ := if($t/name() = 'lb') then 'line' else if($t/@subtype) then string($t/@subtype) else 'textpart'
                                                                     group by $T := $typ 
                                                                     let $count := count($T)
                                                                     return <t tot="{$count}">{$T}</t>
                                                                     return $types[max(@tot)]/text())
                                  else  if($level = '2') then (
                                  if($text/t:div/t:ab/t:l) then 'verse'
+                                 else if($text/t:div/t:ab/t:lb) then 'line'
                                  else
                                  let $types :=  for $t in $text/t:div/t:div
                                             let $typ := if($t/@subtype) then string($t/@subtype) else 'textpart'
@@ -667,9 +684,9 @@ let $chunkedpassage := if(string($groupBy) !='')
 
 (: regardless of passages sequence type (ranges as maps or items as strings) the following steps limits the number of results                                                :)
 let $maximized :=if(string($max) !='') then for $p in subsequence($chunkedpassage, 1, $M) return $p else $chunkedpassage
-let $cdepth := if(contains($id, 'betmasMS:')) then 3 
+let $cdepth := if(contains($id, 'betmasMS:') and not($text/ancestor::t:TEI//t:objectDesc/@form ='Inscription')) then 3 
                                 else 
-                                       ( let $counts := for $div in ($text//t:div[@type='textpart'], $text//t:l) 
+                                       ( let $counts := for $div in ($text//t:div[@type='textpart'], $text//t:l, $text//t:lb) 
                                         return count($div/ancestor::t:div)
                                         return
                                         max($counts)
@@ -857,14 +874,15 @@ let $members :=  for $document in subsequence($items , $start, $end)
     };
 
 declare function dts:nestedDivs($edition as node()*){
-for $node in ($edition/t:div[@type='textpart'], $edition/t:ab/t:l)
- let $typ := if($node/@subtype) then string($node/@subtype) else if ($node/name() = 'l') then 'verse' else 'textpart'
+for $node in ($edition/t:div[@type='textpart'], $edition/t:ab/t:l, $edition/t:ab/t:lb)
+ let $typ := if($node/@subtype) then string($node/@subtype) else if ($node/name() = 'l') then 'verse 'else if ($node/name() = 'lb') then 'line' else 'textpart'
  group by $T := $typ
 let $citType :=  map {
                  "dts:citeType": $T
                  }
 let $citStr : =if($node/child::t:div) then let $subType := dts:nestedDivs($node/child::t:div) return map:put($citType, 'dts:citeStructure', $subType)
 else if($node/t:ab/t:l) then let $subType := dts:nestedDivs($node) return map:put($citType, 'dts:citeStructure', $subType)
+else if($node/t:ab/t:lb) then let $subType := dts:nestedDivs($node) return map:put($citType, 'dts:citeStructure', $subType)
 else $citType
     return
     $citStr
@@ -885,6 +903,7 @@ then <rest:response>
     </rest:response>
 else 
 let $doc := root($document)
+
 let $id := string($doc//t:TEI/@xml:id)
 let $title := titles:printTitleMainID($id)
 let $description := if(contains($collURN, 'MS')) then 'The transcription of manuscript '||$title||' in Beta maṣāḥǝft ' else 'The abstract textual unit '||$title||' in Beta maṣāḥǝft. '  || normalize-space(string-join(string:tei2string($doc//t:abstract), ''))
@@ -915,9 +934,10 @@ let $parts := map:put($ext, 'dcterms:hasPart', $haspart)
 let $dtsPass := "/api/dts/document?id=" || $resourceURN
 let $dtsNav := "/api/dts/navigation?id=" || $resourceURN
 let $download := "https://betamasaheft.eu/tei/" || $id || '.xml'
-let $citeDepth :=  if(contains($collURN, 'MS')) then 3 else let $counts := for $div in ($document//t:div[@type='textpart'], $document//t:l) return count($div/ancestor::t:div)
+let $citeDepth :=  if(contains($collURN, 'MS') and not($doc//t:objectDesc/@form ='Inscription')) then 3 
+else let $counts := for $div in ($document//t:div[@type='textpart'], $document//t:l, $document//t:lb) return count($div/ancestor::t:div)
 return max($counts)
-let $teirefdecl := if(contains($collURN, 'MS')) then 
+let $teirefdecl := if(contains($collURN, 'MS') and not($doc//t:objectDesc/@form ='Inscription')) then 
 [ map{
                  "dts:citeType": "folio",
                     "dts:citeStructure": [
