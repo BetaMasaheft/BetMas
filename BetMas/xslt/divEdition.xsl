@@ -529,7 +529,7 @@
             </xsl:choose>
             
         </sup>
-        <xsl:apply-templates/>
+        <xsl:apply-templates select="node() except t:ref"/>
     </xsl:template>
     
     <xsl:template match="t:l[ancestor::t:div[@subtype='Psalmus']]">
