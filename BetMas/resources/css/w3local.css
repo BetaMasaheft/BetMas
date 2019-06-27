@@ -173,7 +173,7 @@ div#SeeAlsoResults {
     overflow: scroll
 }
 
-div.msItem {
+div.msItem, div.subtextpart {
     padding-left: 15px;
     padding-top: 10px;
 }

@@ -103,24 +103,15 @@
                     </xsl:choose>
                 </xsl:if>
                 
-                <h2>
+                
                     <xsl:if test="@subtype">
-                        <a href="{if (@corresp) then @corresp else '#mscontent'}">
+                        <a href="/{if (@corresp) then @corresp else concat($mainID, '#mscontent')}">
                             <xsl:value-of select="@subtype"/>
-                            <xsl:choose>
-                                <xsl:when test="@n">
+                            <xsl:if test="@n">
                                     <xsl:text>: </xsl:text>
                                     <xsl:value-of select="@n"/>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <xsl:text>: </xsl:text>
-                                    <xsl:if test="parent::t:div[@type='textpart']">
-                                        <xsl:value-of select="count(parent::t:div[@type='textpart']/preceding-sibling::t:div[@type='textpart']) + 1"/>
-                                        <xsl:text>.</xsl:text>
-                                    </xsl:if>
-                                    <xsl:value-of select="count(preceding-sibling::t:div[@type='textpart']) + 1"/>
-                                </xsl:otherwise>
-                            </xsl:choose>
+                                </xsl:if>
+                                
                         </a>
                     </xsl:if>
                     <xsl:if test="@corresp">
@@ -180,7 +171,7 @@
                         </div>
                     
                     <div id="AllQuotations{@n}"/>-->
-                </h2>
+               
                 <xsl:apply-templates select="child::t:label"/>
                 <xsl:apply-templates select="child::t:div[@type='textpart']"/>
             </xsl:when>
@@ -189,22 +180,13 @@
                     <div class="w3-col" style="width:15%">
                         
                             <xsl:if test="@subtype">
-                                <a href="{if (@corresp) then @corresp else '#mscontent'}">
+                                <a href="/{if (@corresp) then @corresp else concat($mainID, '#mscontent')}">
                                     <xsl:value-of select="@subtype"/>
-                                    <xsl:choose>
-                                        <xsl:when test="@n">
+                                    <xsl:if test="@n">
                                             <xsl:text>: </xsl:text>
                                             <xsl:value-of select="@n"/>
-                                        </xsl:when>
-                                        <xsl:otherwise>
-                                            <xsl:text>: </xsl:text>
-                                            <xsl:if test="parent::t:div[@type='textpart']">
-                                                <xsl:value-of select="count(parent::t:div[@type='textpart']/preceding-sibling::t:div[@type='textpart']) + 1"/>
-                                                <xsl:text>.</xsl:text>
-                                            </xsl:if>
-                                            <xsl:value-of select="count(preceding-sibling::t:div[@type='textpart']) + 1"/>
-                                        </xsl:otherwise>
-                                    </xsl:choose>
+                                        </xsl:if>
+                                        
                                 </a>
                             </xsl:if>
                             <xsl:if test="@corresp">
@@ -362,7 +344,7 @@
        <!-- <div class="{if(./parent::t:div[@type='textpart']) then 'subtextpart' else ()}" id="{if(@xml:id) then (@xml:id) else if(@n) then(@n) else(('textpart', string(position())))}">
            <h2>
                 <xsl:if test="@subtype">
-                <a href="{if (@corresp) then @corresp else '#mscontent'}">
+                <a href="/{if (@corresp) then @corresp else concat($mainID, '#mscontent')}">
                     <xsl:value-of select="@subtype"/>
                     <xsl:choose>
                         <xsl:when test="@n">
