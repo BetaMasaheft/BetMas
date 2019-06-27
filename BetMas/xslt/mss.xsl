@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:key name="decotype" match="//t:decoNote" use="@type"/>
     <xsl:key name="additiontype" match="//t:item[contains(@xml:id, 'a')]/t:desc" use="@type"/>
@@ -24,7 +23,7 @@
             </div>
             
             <h2>General description</h2>
-            <div class="w3-third">
+            <div class="w3-third  w3-padding">
                 <h4 property="http://purl.org/dc/elements/1.1/title">
                 <xsl:apply-templates select="//t:titleStmt/t:title"/>
             </h4>
@@ -40,14 +39,14 @@
                 </xsl:for-each>
             </xsl:if>
             </div>
-            <div class="w3-third">
+            <div class="w3-third  w3-padding">
                 <h4>Number of Text units: <span class="label label-default">
                         <xsl:value-of select="count(//t:msItem[contains(@xml:id, 'i')])"/>
                     </span>
             </h4>
             </div>
             <span property="http://www.cidoc-crm.org/cidoc-crm/P57_has_number_of_parts" content="{count(//t:msContents/t:msItem)}"/>
-            <div class="w3-third">
+            <div class="w3-third  w3-padding">
                 <h4>Number of Codicological units: <span class="label label-default">
                         <xsl:choose>
                     <xsl:when test="//t:msPart">
