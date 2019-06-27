@@ -148,7 +148,7 @@ div#SeeAlsoResults {
     position: relative;
     display: inline-block;
     cursor: pointer;
-    user-select: none;
+    
 }
 
 /* The actual popup */

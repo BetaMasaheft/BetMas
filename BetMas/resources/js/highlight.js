@@ -58,30 +58,40 @@ $('.word').each(function (wn) {
         } else {
             nostops.w = v; nostops.stop = ''
         }
-/*        if it is the last word in the span, then add it straight, if it is somewhere else in the span sequence, then add back a white space*/
-       if (i == countwords - 1) {
-            $(word).append($("<span class='alpheios-word popup' onmouseover='popup("+'"p'+wn+i+'"'+")' onmouseout='popup("+'"p'+wn+i+'"'+")'>"+nostops.w + nostops.stop+"\
-            <span class='popuptext w3-hide w3-tiny w3-padding' id='p"+wn+i+"'>\
-            Search "+nostops.w+" :<br/>\
-            <a href='/as.html?query="+nostops.w+"' target='_blank'>in Beta maṣāḥǝft</a><br/>\
-            <a href='/morpho?query="+nostops.w+"' target='_blank'>in the Gǝʿǝz Morphological Parser</a><br/>\
-            <a href='/morpho/corpus?query="+nostops.w+"&type=string' target='_blank'>in the TraCES annotations</a><br/>\
-            <a href='"+url+parm+nostops.w+"' target='_blank'>in the Online Lexicon</a><br/>\
+        /*        if it is the last word in the span, then add it straight, if it is somewhere else in the span sequence, then add back a white space
+         * onmouseover='popup("+'"p'+wn+i+'"'+")' onmouseout='popup("+'"p'+wn+i+'"'+")'
+         * */
+        if (i == countwords - 1) {
+            $(word).append($("<span class='alpheios-word popup' data-value='p" + wn + i + "'>" + nostops.w + nostops.stop + "\
+            <span class='popuptext w3-hide w3-tiny w3-padding' id='p" + wn + i + "'>\
+            Search " + nostops.w + " :<br/>\
+            <a href='/as.html?query=" + nostops.w + "' target='_blank'>in Beta maṣāḥǝft</a><br/>\
+            <a href='/morpho?query=" + nostops.w + "' target='_blank'>in the Gǝʿǝz Morphological Parser</a><br/>\
+            <a href='/morpho/corpus?query=" + nostops.w + "&type=string' target='_blank'>in the TraCES annotations</a><br/>\
+            <a href='" + url + parm + nostops.w + "' target='_blank'>in the Online Lexicon</a><br/>\
             Double click on the word to load the results of the morphological parsing with Alpheios.\
             </span> </span>"));
         } else {
-            $(word).append($("<span class='alpheios-word popup' onmouseover='popup("+'"p'+wn+i+'"'+")' onmouseout='popup("+'"p'+wn+i+'"'+")'>"+nostops.w + nostops.stop + '&nbsp;'+"\
-            <span class='popuptext w3-hide w3-tiny w3-padding' id='p"+wn+i+"'>\
-            Search "+nostops.w+" :<br/>\
-            <a href='/as.html?query="+nostops.w+"' target='_blank'>in Beta maṣāḥǝft</a><br/>\
-            <a href='/morpho?query="+nostops.w+"' target='_blank'>in the Gǝʿǝz Morphological Parser</a><br/>\
-            <a href='/morpho/corpus?query="+nostops.w+"&type=string' target='_blank'>in the TraCES annotations</a><br/>\
-            <a href='"+url+parm+nostops.w+"' target='_blank'>in the Online Lexicon</a><br/>\
+            /*onmouseover='popup("+'"p'+wn+i+'"'+")' onmouseout='popup("+'"p'+wn+i+'"'+")'*/
+            $(word).append($("<span class='alpheios-word popup' data-value='p" + wn + i + "'>" + nostops.w + nostops.stop + '&nbsp;' + "\
+            <span class='popuptext w3-hide w3-tiny w3-padding' id='p" + wn + i + "'>\
+            Search " + nostops.w + " :<br/>\
+            <a href='/as.html?query=" + nostops.w + "' target='_blank'>in Beta maṣāḥǝft</a><br/>\
+            <a href='/morpho?query=" + nostops.w + "' target='_blank'>in the Gǝʿǝz Morphological Parser</a><br/>\
+            <a href='/morpho/corpus?query=" + nostops.w + "&type=string' target='_blank'>in the TraCES annotations</a><br/>\
+            <a href='" + url + parm + nostops.w + "' target='_blank'>in the Online Lexicon</a><br/>\
             Double click on the word to load the results of the morphological parsing with Alpheios.\
             </span> </span>"));
         }
     });
 });
+
+
+$('.popup').on('mouseover mouseout',function () {
+    var id = $(this).data('value') 
+    console.log(id)
+    popup(id)
+})
 
 
 
@@ -94,19 +104,22 @@ $('.diplomaticHighlight').on('change', function () {
     $('span.motif span.word a').toggleClass('motif');
     $('span.provision span.word a').toggleClass('provision');
     $('span.suscription span.word a').toggleClass('suscription');
-    if($(this).next().is('br')){} else {$(this).after('\
-    <br/><span class="invocation w3-tag w3-red">invocation</span>\
-    <a role="button" class="w3-button w3-gray" target="_blank" href="/diplomatique.html?interpret=%23invocation">compare</a>\
-    <br/><span class="clauses  w3-tag w3-red">clauses</span>\
-    <a role="button" class="w3-button w3-gray" target="_blank" href="/diplomatique.html?interpret=%23clauses">compare</a>\
-    <br/><span class="conclusion w3-tag w3-red">conclusion</span>\
-    <a role="button" class="w3-button w3-gray" target="_blank" href="/diplomatique.html?interpret=%23conclusion">compare</a>\
-    <br/><span class="listOfPersons  w3-tag w3-red">listOfPersons</span>\
-    <a role="button" class="w3-button w3-gray" target="_blank" href="/diplomatique.html?interpret=%23listOfPersons">compare</a>\
-    <br/><span class="motif w3-tag w3-red">motif</span>\
-    <a role="button" class="w3-button w3-gray"  target="_blank" href="/diplomatique.html?interpret=%23motif">compare</a>\
-    <br/><span class="provision w3-tag w3-red">provision</span>\
-    <a role="button" class="w3-button w3-gray" target="_blank" href="/diplomatique.html?interpret=%23provision">compare</a>\
-    <br/><span class="suscription w3-tag w3-red">suscription</span>\
-    <a role="button" class="w3-button w3-gray" target="_blank" href="/diplomatique.html?interpret=%23suscription">compare</a><br/>')}
+    if ($(this).next().is('br')) {
+    } else {
+        $(this).after('\
+        <br/><span class="invocation w3-tag w3-red">invocation</span>\
+        <a role="button" class="w3-button w3-gray" target="_blank" href="/diplomatique.html?interpret=%23invocation">compare</a>\
+        <br/><span class="clauses  w3-tag w3-red">clauses</span>\
+        <a role="button" class="w3-button w3-gray" target="_blank" href="/diplomatique.html?interpret=%23clauses">compare</a>\
+        <br/><span class="conclusion w3-tag w3-red">conclusion</span>\
+        <a role="button" class="w3-button w3-gray" target="_blank" href="/diplomatique.html?interpret=%23conclusion">compare</a>\
+        <br/><span class="listOfPersons  w3-tag w3-red">listOfPersons</span>\
+        <a role="button" class="w3-button w3-gray" target="_blank" href="/diplomatique.html?interpret=%23listOfPersons">compare</a>\
+        <br/><span class="motif w3-tag w3-red">motif</span>\
+        <a role="button" class="w3-button w3-gray"  target="_blank" href="/diplomatique.html?interpret=%23motif">compare</a>\
+        <br/><span class="provision w3-tag w3-red">provision</span>\
+        <a role="button" class="w3-button w3-gray" target="_blank" href="/diplomatique.html?interpret=%23provision">compare</a>\
+        <br/><span class="suscription w3-tag w3-red">suscription</span>\
+        <a role="button" class="w3-button w3-gray" target="_blank" href="/diplomatique.html?interpret=%23suscription">compare</a><br/>')
+    }
 });
