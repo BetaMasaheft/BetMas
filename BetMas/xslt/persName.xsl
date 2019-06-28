@@ -1,8 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:persName">
         <xsl:choose>
-           
+            
+            <xsl:when test="starts-with(@ref, 'wd:')">
+                <a target="_blank" href="https://www.wikidata.org/entity/{substring-after(@ref, 'wd:')}">
+                    <xsl:choose>
+                        <xsl:when test="text()">
+                            <xsl:value-of select="."/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <span class="MainTitle" data-value="{@ref}"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </a>
+            </xsl:when>
             <xsl:when test="not(starts-with(@ref, 'PRS')) and not(starts-with(@ref, 'ETH'))">
                 <xsl:choose>
                     <xsl:when test="@ref = 'AB'">Alessandro Bausi</xsl:when>
@@ -41,7 +52,7 @@
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:variable>
-                <a xmlns="http://www.w3.org/1999/xhtml" href="{@ref}" class="persName">
+                <a xmlns="http://www.w3.org/1999/xhtml" href="/{@ref}" class="persName">
                     <xsl:choose>
                         <xsl:when test="t:choice">
                             <xsl:apply-templates select="t:choice"/>
