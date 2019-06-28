@@ -17,7 +17,7 @@ function switch2:col($type){
     
     switch($type)
         case 'work' return 'works'
-        case 'narr' return 'narratives'
+        case 'nar' return 'narratives'
         case 'pers' return 'persons'
         case 'place' return 'places'
         case 'ins' return 'institutions'
@@ -82,7 +82,7 @@ return switch ($prefix)
                                                             'work'
                                                     case 'NA'
                                                         return
-                                                            'narr'
+                                                            'nar'
                                                     case 'AT'
                                                         return
                                                             'auth'
