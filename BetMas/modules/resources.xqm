@@ -1,4 +1,4 @@
-xquery version "3.0" encoding "UTF-8";
+xquery version "3.1" encoding "UTF-8";
 
 (:~
  : This module contains functions printing indexes and lists extracted from the data which are not list of resources
@@ -167,6 +167,101 @@ $query as xs:string*,
 
                 }
    };
+   
+   declare
+    %templates:default("scope", "narrow")
+    %templates:default("typeval", "marked")
+    %templates:default("target-pers", "all")
+    %templates:default("target-place", "all")
+    %templates:default("target-work", "all")
+    %templates:default("target-mss", "all")
+    %templates:default("limit-mss", "")
+    %templates:default("limit-work", "")
+    %templates:default("target-artTheme", "all")
+    %templates:default("target-keyword", "all")
+    %templates:default("elements", "all")
+function lists:SearchTitles(
+$node as node()*,
+$model as map(*),
+$query as xs:string*,
+    $typeval as xs:string+,
+    $target-keyword as xs:string+,
+    $target-pers as xs:string+,
+    $target-place as xs:string+,
+    $target-work as xs:string+,
+    $limit-mss as xs:string+,
+    $limit-work as xs:string+,
+    $target-artTheme as xs:string+,
+    $elements as xs:string+
+   ) {
+   let $values := ('subscription', 'supplication', 'embedded', 'inscription', 'translation', 'expanded', 'title', 'desinit')
+   let $type := if($typeval = 'all') then '' 
+                        else if($typeval = 'marked') then '[contains(@type, $values)]'  else let $pars := for $ty in $typeval return "contains(@type, '" || $ty || "')" return '[' || string-join($pars, ' or ') || ']'
+   let $subtype := if($typeval = 'all') then ''  else if($typeval = 'marked') then '[contains(@subtype, $values)]' else let $pars := for $ty in $typeval return "contains(@subtype, '" || $ty || "')" return '[' || string-join($pars, ' or ') || ']'
+   
+   let $textquery:=if($query) then ("[ft:query(.,'" || $query || "')]") else ()
+   let $works := if($limit-work = '') then () else $config:collection-rootW//id($limit-work)
+   let $mss :=  if($limit-mss = '') then () else $config:collection-rootMS//id($limit-mss)
+   let $mssWork := $config:collection-rootMS//t:msItem[t:title[@ref=$limit-work]]
+   let $msitems := $mss//t:msItem[t:title[@ref=$limit-work]]
+   let $msitemsIDS :=  $msitems/@xml:id
+   let $msSitemsIDS :=  $mssWork/@xml:id
+   let $divs := $mss//t:div[@corresp =$msitemsIDS]
+   let $mssdivs := $mssWork/following::t:div[@corresp =$msSitemsIDS]
+   let $additions := $mss//t:item[@corresp =$msitemsIDS]
+   let $mssadditions := $mssWork/following::t:item[@corresp =$msSitemsIDS]
+   let $workdivs := $works//t:div[@type='edition']
+
+   let $context := 
+(:   if the search is limited to a set of manuscripts or a set of works, the context changes.
+first if the no limit is set, we will search all the collection :)
+                                 if($limit-work = '' and $limit-mss = '') then '$config:collection-root' 
+(:                                 if the search is limited by work, then we want to search
+                                    - the file of that work, 
+                                    - the relevant parts of manuscripts which contain that work 
+                                    this assumes that if also parts or related works are wanted, the parameter should list those already:)
+                                 else if($limit-work !='' and $limit-mss = '') then
+                                         '('||'$workdivs' ||','||'$mssWork' || ','||'$mssadditions' ||','||'$mssdivs'||")"
+(:                                 if the search is limited by manuscript, then we want to search
+                                    - the files of those manuscripts :)
+                                else if($limit-work = '' and $limit-mss !='') then
+                                          '$mss'
+(:                                 if the search is limited by manuscript and work
+                                    - the relevant parts of those manuscripts which contain that work 
+                                    this assumes that if also parts or related works are wanted, the parameter should list those already:)
+                                 else 
+                                           '('||'$msitems' ||','||'$additions' ||','||'$divs'||")"
+                                           
+  let $target-work := if($target-work = 'all') then () else let $pars := for $ty in $target-work return "@ref = '" || $ty || "'" return '[descendant::t:title[' || string-join($pars, ' or ') || ']]'
+    let $target-artTheme := if($target-artTheme= 'all') then () else let $pars := for $ty in $target-artTheme return "@corresp = '" || $ty || "'" return '[descendant::t:ref[@type="authFile"][' || string-join($pars, ' or ') || ']]'
+   let $target-pers := if($target-pers = 'all') then () else let $pars := for $ty in $target-pers return "@ref = '" || $ty || "'" return '[descendant::t:persName[' || string-join($pars, ' or ') || ']]'
+   let $target-place := if($target-place = 'all') then () else let $pars := for $ty in $target-place return "@ref = '" || $ty || "'" return '[descendant::t:placeName[' || string-join($pars, ' or ') || ']]'
+   let $target-keyword := if($target-keyword = 'all') then () else let $pars := for $ty in $target-keyword return "@key = '" || $ty || "'" return '[descendant::t:term[' || string-join($pars, ' or ') || ']]'
+  let $filters := $target-work|| $target-artTheme || $target-pers || $target-place || $target-keyword || $textquery
+  let $titles :=
+   if($elements = 'all' or $elements = 'title') then
+let $query := $context || '//t:title'||'[not(parent::t:titleStmt)]' || $subtype ||  $filters
+return util:eval($query) else ()
+  let $divs := 
+  if($elements = 'all' or $elements = 'div') then 
+let $query := $context || "//t:div"|| $subtype ||  $filters
+return util:eval($query) else ()
+  let $segs := 
+   if($elements = 'all' or $elements = 'seg') then
+let $query := $context || "//t:seg"|| '[not(ancestor::t:handDesc)]'|| $type ||  $filters
+return util:eval($query) else ()
+  let $colincex := for $cie in ('colophon', 'incipit', 'explicit') return 
+  if($elements = 'all' or $elements = $cie) then 
+let $query := $context || "//t:"||$cie|| $type ||  $filters
+return util:eval($query) else ()
+  let $allTitles := ($titles | $divs | $segs | $colincex)
+   return
+   map {
+                    "hits" := $allTitles
+
+                }
+   };
+
 
 
 
@@ -204,7 +299,7 @@ $query as xs:string*,
                                  <div class="w3-container w3-margin-top">
                                 <div class="w3-bar">
                                  <button type="submit" class="w3-bar-item w3-button w3-red">
-                                 <i class="fa fa-filter" aria-hidden="true"></i></button>
+                                 <i class="fa fa-search" aria-hidden="true"></i></button>
                                  <a href="/bibliography" role="button" class="w3-bar-item w3-button w3-gray"><i class="fa fa-th-list" aria-hidden="true"></i></a></div>
                                  </div>
    </form>
@@ -279,12 +374,103 @@ $query as xs:string*,
                                  <div class="w3-container w3-margin-top">
                                  <div class="w3-bar">
                                  <button type="submit" class="w3-bar-item w3-button w3-red">
-                                 <i class="fa fa-filter" aria-hidden="true"></i></button>
+                                 <i class="fa fa-search" aria-hidden="true"></i></button>
                                  <a href="/additions" role="button" class="w3-bar-item w3-button w3-gray"><i class="fa fa-th-list" aria-hidden="true"></i></a></div>
                                  </div>
                         </form>
    };
 
+   declare function lists:titlesform($node as node(), $model as map(*)){
+   let $auth := $config:collection-rootA
+   return
+   <form action="" class="w3-container">
+                               <div  class="w3-container  w3-margin">
+                               <small class="form-text text-muted">Search Text</small><br/>
+                               <input  class="w3-input w3-border" name="query"></input>
+                                </div>
+                                <div  class="w3-container  w3-margin">
+                               <small class="form-text text-muted">Limit to Textual Units, adding a list of space separated identifiers</small><br/>
+                               <input  class="w3-input w3-border" name="limit-work"></input>
+                                </div>
+                                <div  class="w3-container  w3-margin">
+                               <small class="form-text text-muted">Limit to Manuscripts, adding a list of space separated identifiers</small><br/>
+                               <input  class="w3-input w3-border" name="limit-mss"></input>
+                               
+                                </div>
+                                <div  class="w3-container  w3-margin">
+                               <small class="form-text text-muted">Limit by type</small><br/>
+                                <select class="w3-select w3-border" name="typeval" multiple="multiple">
+                                <option selected="selected" val="marked">marked</option>
+                                {let $types := ($model('hits')[name() = 'title' or name()='div']//@subtype, 
+                                                   $model('hits')[name() = 'incipit' or name()='explicit'or name()='colophon' or name()='seg']//@type)
+                                         for $d in distinct-values($types)
+            return
+            <option value="{$d}">{$d} ({count($model('hits')[@* = $d])})</option>}
+            <option value="all">all</option>
+                                </select>
+                                </div>
+                                
+                                
+                                <div  class="w3-container  w3-margin">
+                               <small class="form-text text-muted">Limit to a specific context element</small><br/>
+                                <select class="w3-select w3-border" name="elements" multiple="multiple">
+                               { for $d in distinct-values($model('hits')/name())
+            return
+            <option value="{$d}">{$d} ({count($model('hits')[name() = $d])})</option>}
+                                </select>
+                                </div>
+                               {if($model('hits')//t:ref[@type='authFile']) then  
+                               <div class="w3-container w3-margin">
+                                 <small class="form-text text-muted">Select one or more Art Themes associated with the title/colophon/supplication</small><br/>
+
+                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-artTheme" name="target-artTheme" class="w3-select w3-border">
+            {for $d in distinct-values($model('hits')//t:ref[@type='authFile']/@corresp)
+            return
+            <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
+            </select>
+                                 </div> else () }
+                               {if($model('hits')//t:title) then  <div class="w3-container w3-margin">
+                                 <small class="form-text text-muted">Select one or more works referred to in the title/colophon/supplication</small><br/>
+
+                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-work" name="target-work"  class="w3-select w3-border">
+            {for $d in distinct-values($model('hits')//t:title/@ref)
+            return
+            <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
+            </select>
+                                 </div> else () }
+                                 {if($model('hits')//t:persName) then <div class="w3-container w3-margin">
+                                 <small class="form-text text-muted">Select one or more persons referred to in the title/colophon/supplication</small><br/>
+                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-pers" name="target-pers"  class="w3-select w3-border">
+            {for $d in distinct-values($model('hits')//t:persName/@ref)
+            return
+            <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
+            </select>
+                                 </div> else ()}
+                                 {if($model('hits')//t:placeName) then <div class="w3-container w3-margin">
+                                 <small class="form-text text-muted">Select one or more places referred to in the title/colophon/supplication</small><br/>
+                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-place" name="target-place"  class="w3-select w3-border">
+            {for $d in distinct-values($model('hits')//t:placeName/@ref)
+            return
+            <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
+            </select>
+                                 </div> else () }
+                                 {if($model('hits')//t:term) then
+                                 <div class="w3-container w3-margin">
+                                 <small class="form-text text-muted">Select one or more keywords referred to in the title/colophon/supplication</small><br/>
+                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-keyword" name="target-keyword"  class="w3-select w3-border">
+            {for $d in distinct-values($model('hits')//t:term/@key)
+            return
+            <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
+            </select>
+                                 </div> else() }
+                                 <div class="w3-container w3-margin">
+                                 <div class="w3-bar">
+                                 <button type="submit" class="w3-bar-item w3-button w3-red">
+                                 <i class="fa fa-search" aria-hidden="true"></i></button>
+                                 <a href="/titles" role="button" class="w3-bar-item w3-button w3-gray"><i class="fa fa-th-list" aria-hidden="true"></i></a></div>
+                        </div></form>
+   };
+   
    declare function lists:decorationsform($node as node(), $model as map(*)){
    let $auth := $config:collection-rootA
    return
@@ -351,7 +537,7 @@ $query as xs:string*,
                                  <div class="w3-container w3-margin">
                                  <div class="w3-bar">
                                  <button type="submit" class="w3-bar-item w3-button w3-red">
-                                 <i class="fa fa-filter" aria-hidden="true"></i></button>
+                                 <i class="fa fa-search" aria-hidden="true"></i></button>
                                  <a href="/decorations" role="button" class="w3-bar-item w3-button w3-gray"><i class="fa fa-th-list" aria-hidden="true"></i></a></div>
                         </div></form>
    };
@@ -425,11 +611,10 @@ $query as xs:string*,
                                  <div class="w3-container w3-margin">
                                  <div class="w3-bar">
                                  <button type="submit" class="w3-bar-item w3-button w3-red">
-                                 <i class="fa fa-filter" aria-hidden="true"></i></button>
+                                 <i class="fa fa-search" aria-hidden="true"></i></button>
                                  <a href="/bindings" role="button" class="w3-bar-item w3-button w3-gray"><i class="fa fa-th-list" aria-hidden="true"></i></a></div>
                         </div></form>
    };
-
 
 
 
@@ -478,6 +663,7 @@ return
     </div>
     </div>
 };
+
 
 
 declare
@@ -646,6 +832,139 @@ for $decoration at $p in $model("hits")
             <a href="{data($ms)}#{data($sd/@xml:id)}">{data($sd/@xml:id)}</a><br/>
             {if(count($sd//t:ref[@type='authFile']) ge 1) then 'Art Themes: ' || string-join(string:tei2string($sd//t:ref[@type='authFile']), ', ') else ()}
             </p>
+
+            </li>
+                 }
+            </ul>
+            </div>
+            
+            )}
+
+        </div>
+        
+    </div>
+    )
+    
+};
+
+
+declare
+%templates:wrap
+    function lists:titlesRes($node as node(), $model as map(*)){
+   
+for $title at $p in $model("hits")
+    let $t := if($title/@subtype) then $title/@subtype else $title/@type
+   (: group by type :)
+    group by $type := $t
+    order by $type
+    return
+    
+    (<button onclick="openAccordion('{data($type)}')" class="w3-button w3-block w3-gray w3-padding w3-margin-bottom">
+<span class="w3-badge w3-right">{count($title)}</span>
+<span class="w3-left additionType" data-value="{$type}">{string($type)}</span>
+</button>,
+    
+    <div class="w3-container w3-hide" id="{data($type)}">
+    
+<div  class="w3-container" id="{data($type)}">
+            {
+                for $d in $title
+                let $tei := $d/ancestor::t:TEI
+                let $msid := $tei/@xml:id
+
+                (:group by containing ms:)
+                group by $ms := $msid
+                order by $ms
+                return
+
+(<button onclick="openAccordion('{data($ms)}')" class="w3-button w3-block w3-red  w3-margin-bottom">
+<span class="w3-left">{if($type/@type= 'mss') then $config:collection-rootMS//id($ms)//t:msIdentifier/t:idno else titles:printTitleMainID($ms)}</span>
+<span class="w3-badge w3-right">{count($d)}</span>
+</button>,
+             <div  class="w3-container w3-hide" id="{data($ms)}">
+
+                 <ul class="w3-ul w3-hoverable" >
+                 {if($type/@type= 'mss') then 
+                     for $sd in $d
+                     let $images := root($sd)//t:msIdentifier/t:idno
+                     let $locus := string($sd/t:locus/@facs)
+                     return
+            <li class="w3-container">
+
+            {if($images/@facs and $locus) then (<a target="_blank"  href="/manuscripts/{$ms}/viewer"><img class="thumb" src="{
+           if(starts-with($ms, 'BML'))
+           then $config:appUrl ||'/iiif/' || string($images/@facs)||$locus||'.tif/full/150,/0/default.jpg'
+          else if(starts-with($ms, 'ES'))
+           then $config:appUrl ||'/iiif/' || string($images/@facs) || '_'||$locus||'.tif/full/150,/0/default.jpg'
+          else if(starts-with($ms, 'BNF'))
+           then replace($images/@facs, 'ark:', 'iiif/ark:') || '/'||$locus||'/full/150,/0/native.jpg'
+          else if(starts-with($ms, 'BAV'))
+           then replace(substring-before($images/@facs, '/manifest.json'), 'iiif', 'pub/digit') || '/thumb/'
+                    ||
+                    substring-before(substring-after($images/@facs, 'MSS_'), '/manifest.json') ||
+                    '_'||$locus||'.tif.jpg'
+           else ()}" style="width:10%"/></a>
+
+           )
+            else<div class="w3-third">No image found</div>}
+            <div class="w3-third" >{string:tei2string($sd/node())}</div>
+                 <div class="w3-third">
+                 <div class="w3-third"><a href="/{$ms}"><b>{$sd/name()}</b>{" | "}{if($sd/@subtype) then string($sd/@subtype) else string($sd/@type)}</a></div>
+                 <div class="w3-third">Refers to {if($sd/name() = 'div' and $type/@type= 'work') 
+                                                   then <span class="MainTitle" data-value="{$ms}">{$ms}</span> 
+                                                 else if($sd/name() = 'div' and $type/@type= 'mss') then 
+                                                                    (let $corr := $sd/@corresp 
+                                                                    let $msitem := $sd/ancestor::t:TEI//t:msItem[@xml:id=$corr]
+                                                                    let $work := $msitem/t:title/@ref
+                                                                    return <span class="MainTitle" data-value="{string($work[1])}">{string($work[1])}</span> )
+                                                  else if($sd/name() = 'colophon' or $sd/name() = 'incipit' or $d/name() = 'explicit' or $sd/name() = 'title') 
+                                                                   then (  let $msitem := $sd/ancestor::t:msItem 
+                                                                   let $work := $msitem/t:title/@ref
+                                                                   return <span class="MainTitle" data-value="{string($work[1])}">{string($work[1])}</span> )
+                                                  else 'unable to retrive reference'}</div>
+                 <div class="w3-third">
+            <a href="{data($ms)}#{data($sd/@xml:id)}">{data($sd/@xml:id)}</a><br/>
+            {if(count($sd//t:ref[@type='authFile']) ge 1) then 'Art Themes: ' || string-join(string:tei2string($sd//t:ref[@type='authFile']), ', ') else ()}
+            </div>
+            </div>
+
+            </li>
+                 else 
+                  for $sd in $d
+                  return
+                 <li class="w3-container">
+                 <div class="w3-half" >{string:tei2string($sd/node())}</div>
+                 <div class="w3-half">
+                 <div class="w3-third"><a href="/{$ms}"><b>{$sd/name()}</b>{" | "}{if($sd/@subtype) then string($sd/@subtype) else string($sd/@type)}</a></div>
+                 <div class="w3-third">Refers to {if($sd/name() = 'div' and $type/@type= 'work') 
+                                                   then (<a href="/{$ms}"><span class="MainTitle" data-value="{$ms}">{$ms}</span></a>, <br/>,
+                                                                    <div class="w3-bar w3-gray w3-small"><a class="w3-bar-item w3-button" href="/titles?limit-work={$ms}">limit results to this work</a>
+                                                                    <a  class="w3-bar-item w3-button" href="/compare?workid={$ms}">compare mss</a>
+                                                                    <a  class="w3-bar-item w3-button" href="/workmap?worksid={$ms}">map mss</a>
+                                                                    <a  class="w3-bar-item w3-button" href="/litcomp?worksid={$ms}">literature view</a></div>) 
+                                                 else if($sd/name() = 'div' and $type/@type= 'mss') then 
+                                                                    (let $corr := $sd/@corresp 
+                                                                    let $msitem := $sd/ancestor::t:TEI//t:msItem[@xml:id=$corr]
+                                                                    let $work := $msitem/t:title/@ref
+                                                                    return (<a href="/{string($work[1])}"><span class="MainTitle" data-value="{string($work[1])}">{string($work[1])}</span></a>, <br/>,
+                                                                    <div class="w3-bar w3-gray w3-small"><a class="w3-bar-item w3-button" href="/titles?limit-work={string($work[1])}">limit results to this work</a>
+                                                                    <a  class="w3-bar-item w3-button" href="/compare?workid={string($work[1])}">compare mss</a>
+                                                                    <a  class="w3-bar-item w3-button" href="/workmap?worksid={string($work[1])}">map mss</a>
+                                                                    <a  class="w3-bar-item w3-button" href="/litcomp?worksid={string($work[1])}">literature view</a></div>) )
+                                                  else if($sd/name() = 'colophon' or $sd/name() = 'incipit' or $d/name() = 'explicit' or $sd/name() = 'title') 
+                                                                   then (  let $msitem := $sd/ancestor::t:msItem 
+                                                                   let $work := $msitem/t:title/@ref
+                                                                   return (<a href="/{string($work[1])}"><span class="MainTitle" data-value="{string($work[1])}">{string($work[1])}</span></a>, <br/>,
+                                                                    <div class="w3-bar w3-gray w3-small"><a class="w3-bar-item w3-button" href="/titles?limit-work={string($work[1])}">limit results to this work</a>
+                                                                    <a  class="w3-bar-item w3-button" href="/compare?workid={string($work[1])}">compare mss</a>
+                                                                    <a  class="w3-bar-item w3-button" href="/workmap?worksid={string($work[1])}">map mss</a>
+                                                                    <a  class="w3-bar-item w3-button" href="/litcomp?worksid={string($work[1])}">literature view</a></div>) )
+                                                  else 'unable to retrive reference'}</div>
+                 <div class="w3-third">
+            <a href="{data($ms)}#{data($sd/@xml:id)}">{data($sd/@xml:id)}</a><br/>
+            {if(count($sd//t:ref[@type='authFile']) ge 1) then 'Art Themes: ' || string-join(string:tei2string($sd//t:ref[@type='authFile']), ', ') else ()}
+            </div>
+            </div>
 
             </li>
                  }

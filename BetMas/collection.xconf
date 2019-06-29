@@ -137,7 +137,9 @@
             </create>
             
             <create qname="t:seg">
+                <field name="segtext" type="xs:string"/>
                 <field name="segana" match="@ana" type="xs:string"/>
+                <field name="segtype" match="@type" type="xs:string"/>
             </create>
             
             <create qname="t:custEvent">
@@ -182,6 +184,25 @@
                 <field name="title-lang" match="@xml:lang" type="xs:string"/>
                 <field name="title-corresp" match="@corresp" type="xs:string"/>
                 <field name="title-type" match="@type" type="xs:string"/>
+                <field name="title-subtype" match="@subtype" type="xs:string"/>
+            </create>
+            <create qname="t:colophon">
+                <field name="colophon-text" type="xs:string"/>
+                <field name="colophon-id" match="@xml:id" type="xs:string"/>
+                <field name="colophon-lang" match="@xml:lang" type="xs:string"/>
+                <field name="colophon-type" match="@type" type="xs:string"/>
+            </create>
+            <create qname="t:incipit">
+                <field name="incipit-text" type="xs:string"/>
+                <field name="incipit-id" match="@xml:id" type="xs:string"/>
+                <field name="incipit-lang" match="@xml:lang" type="xs:string"/>
+                <field name="incipit-type" match="@type" type="xs:string"/>
+            </create>
+            <create qname="t:explicit">
+                <field name="explicit-text" type="xs:string"/>
+                <field name="explicit-id" match="@xml:id" type="xs:string"/>
+                <field name="explicit-lang" match="@xml:lang" type="xs:string"/>
+                <field name="explicit-type" match="@type" type="xs:string"/>
             </create>
             
             <create qname="t:msPart">

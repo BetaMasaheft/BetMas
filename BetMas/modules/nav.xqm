@@ -216,6 +216,7 @@ return
                                 <a class="w3-bar-item w3-button"  href="/bibliography">List of cited publications</a>
                                 <a class="w3-bar-item w3-button"  href="/IndexPersons">Persons</a>
                                 <a class="w3-bar-item w3-button"  href="/IndexPlaces">Places</a>
+                                <a class="w3-bar-item w3-button"  href="/titles">Titles/Colophon/Supplications</a>
                                 <a class="w3-bar-item w3-button"  href="/decorations">Decorations</a>
                                 <a class="w3-bar-item w3-button"  href="/bindings">Bindings</a>
                                 <a class="w3-bar-item w3-button"  href="/additions">Additions</a>
