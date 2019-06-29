@@ -31,8 +31,26 @@ $(document).on('click', '.comparegroup', function(){
     $('input.compareSelected').each(function() {
     if($(this).is(':checked')){ids.push($(this).data('value'))} 
     });
-console.log(ids)
+//console.log(ids)
 window.location="/compareSelected?mss=" +ids
+});
+
+//titles
+
+$(document).on('click', '.titlesgroup', function(){
+    var ids = []
+    
+    $('input.compareSelected').each(function() {
+    if($(this).is(':checked')){ids.push($(this).data('value'))} 
+    });
+     $('input.mapSelected').each(function() {
+    if($(this).is(':checked')){ids.push($(this).data('value'))} 
+    });
+console.log(ids)
+var url = window.location.pathname
+if(url.includes('works/list')){window.location="/titles?limit-work=" +ids}
+else {window.location="/titles?limit-mss=" +ids}
+
 });
 
 
@@ -41,6 +59,7 @@ window.location="/compareSelected?mss=" +ids
 var checkBoxesComp = $('input.compareSelected');
 checkBoxesComp.change(function () {
     $('.comparegroup').prop('disabled', checkBoxesComp.filter(':checked').length < 1);
+    $('.titlesgroup').prop('disabled', checkBoxesComp.filter(':checked').length < 1);
 });
 checkBoxesComp.change();
 
