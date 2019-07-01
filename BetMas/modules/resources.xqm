@@ -194,7 +194,7 @@ $query as xs:string*,
     $target-artTheme as xs:string+,
     $elements as xs:string+
    ) {
-   let $values := ('subscription', 'supplication', 'embedded', 'inscription', 'translation', 'expanded', 'title', 'desinit')
+   let $values := ('subscriptio', 'supplication', 'embedded', 'inscriptio', 'translation', 'expanded', 'title', 'desinit')
    let $type := if($typeval = 'all') then '' 
                         else if($typeval = 'marked') then '[contains(@type, $values)]'  else let $pars := for $ty in $typeval return "contains(@type, '" || $ty || "')" return '[' || string-join($pars, ' or ') || ']'
    let $subtype := if($typeval = 'all') then ''  else if($typeval = 'marked') then '[contains(@subtype, $values)]' else let $pars := for $ty in $typeval return "contains(@subtype, '" || $ty || "')" return '[' || string-join($pars, ' or ') || ']'
@@ -888,6 +888,7 @@ for $title at $p in $model("hits")
                      for $sd in $d
                      let $images := root($sd)//t:msIdentifier/t:idno
                      let $locus := string($sd/t:locus/@facs)
+                     order by $sd/@xml:id
                      return
             <li class="w3-container">
 
