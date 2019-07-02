@@ -191,7 +191,7 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
         </xsl:attribute>
     </xsl:template>
     
-<!--    <xsl:template match="t:listprefixDef"/>-->
+    <xsl:template match="t:listprefixDef"/>
     
     <xsl:template match="@ref | @sameAs">
         <xsl:choose>

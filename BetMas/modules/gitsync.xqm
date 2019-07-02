@@ -35,6 +35,7 @@ declare option exist:serialize "method=xml media-type=text/xml indent=yes";
 declare variable $gitsync:institutions := doc('/db/apps/BetMas/lists/institutions.xml');
 declare variable $gitsync:deleted := doc('/db/apps/BetMas/lists/deleted.xml');
 declare variable $gitsync:taxonomy := doc(concat($config:data-rootA,'/taxonomy.xml'));
+declare variable $gitsync:canotax := doc('db/apps/BetMas/lists/canonicaltaxonomy.xml');
 (:~
  : Recursively creates new collections if necessary. 
  : @param $uri url to resource being added to db 
@@ -101,7 +102,10 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
                 (:        if the update goes well, validation happens after storing, because the app needs to remain in sync with the GIT repo. Yes, invalid data has to be allowed in.:)
                 let $stored-file := doc($collection-uri || '/' || $file-name)
                 return
-                    gitsync:validateAndConfirm($stored-file, $committerEmail, 'updated')
+                    if($file-name='taxonomy.xml') then (
+                    gitsync:TaxonomyMessage()
+                    ) 
+                    else gitsync:validateAndConfirm($stored-file, $committerEmail, 'updated')
                     ,
                     if(contains($data-collection, 'institutions')) then (
                     let $institutionslist := $gitsync:institutions//t:list
@@ -474,6 +478,35 @@ declare function gitsync:failedCommitMessage($mail, $data-collection, $message) 
                             <body>
                                 <p>Sorry, your latest push failed. It is not your fault and Pietro already knows about it and will try to fix it as soon as possible. Don't worry. Keep Calm and Carry On.</p>
                                 <p>{$message}</p>
+                                <p>Thank you!</p>
+                            </body>
+                        </html>
+                    </xhtml>
+                </message>
+            </mail>
+            return
+                (:send the email:)
+               mail:send-email( $failureMessage, 'public.uni-hamburg.de', ())
+};
+
+(:~
+ : taxonomy and canonicaltaxonomy cannot be updated on the fly not to break the continuity of the
+ one-way flow from github to the app. Pietro gets an email to update the canonical taxonomy in the rare 
+ occasions in which the taxonomy has been updated.
+:)
+declare function gitsync:TaxonomyMessage() {
+     let $failureMessage := <mail>
+                <from>pietro.liuzzo@uni-hamburg.de</from>
+                <to>pietro.liuzzo@uni-hamburg.de</to>
+                <subject>taxonomy.xml has been updated. the canonicaltaxonomy.xml is thus outdated.</subject>
+                <message>
+                    <xhtml>
+                        <html>
+                            <head>
+                                <title>taxonomy.xml has been updated. the canonicaltaxonomy.xml is thus outdated.</title>
+                            </head>
+                            <body>
+                                <p>taxonomy.xml has been updated. the canonicaltaxonomy.xml is thus outdated.</p>
                                 <p>Thank you!</p>
                             </body>
                         </html>
