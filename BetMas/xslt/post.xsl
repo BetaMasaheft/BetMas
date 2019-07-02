@@ -1,8 +1,51 @@
-<xsl:stylesheet xmlns="http://www.tei-c.org/ns/1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
+<xsl:stylesheet xmlns="http://www.tei-c.org/ns/1.0" 
+    xmlns:post="http://myfunction"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:output encoding="UTF-8" method="xml"/>
     <xsl:output indent="yes" method="xml"/>
     <xsl:variable name="BMurl">https://betamasaheft.eu/</xsl:variable>
     <xsl:variable name="editorslist" select="doc('xmldb:exist:///db/apps/BetMas/lists/editors.xml')//t:list"/>
+    <xsl:variable name="canontax" select="doc('xmldb:exist:///db/apps/BetMas/lists/canonicaltaxonomy.xml')"/>
+    <xsl:variable name="listPrefixDef" select="//t:listPrefixDef"/>
+ 
+    <xsl:function name="post:id">
+        <xsl:param name="id"/>
+        <xsl:choose>
+            <xsl:when test="starts-with($id, 'http')">
+                <xsl:value-of select="$id"/>
+            </xsl:when>
+            <xsl:when test="contains($id, ':')">
+                <xsl:variable name="prefix" select="substring-before($id,':')"/>
+                <xsl:variable name="pdef" select="$listPrefixDef//t:prefixDef[@ident=$prefix]"/>
+                <xsl:choose>
+                    <xsl:when test="$pdef"><xsl:value-of select="replace(substring-after($id, ':'), $pdef/@matchPattern, $pdef/@replacementPattern)"/></xsl:when>
+                    <xsl:otherwise><xsl:value-of select="concat('no matching prefix ',$prefix, ' found for ', $id)"/></xsl:otherwise>
+                </xsl:choose>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="concat($BMurl, $id)"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:function>
+    
+    <xsl:function name="post:token">
+        
+        <xsl:param name="val"/>
+        <xsl:choose>
+            <xsl:when test="contains($val, ' ')">
+                <xsl:variable name="link">
+                    <xsl:for-each select="tokenize($val, ' ')">
+                        <xsl:value-of select="concat(post:id(.), ' ')"/>
+                    </xsl:for-each>
+                </xsl:variable>
+                <xsl:value-of select="string-join($link, ' ')"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="post:id($val)"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:function>
+    
     
     <xsl:template match="@* | node()">
         <xsl:copy>
@@ -52,11 +95,48 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
             </date>
         </xsl:copy>
     </xsl:template>
+    <xsl:template match="t:teiHeader">
+        <xsl:copy>
+            <xsl:apply-templates select="t:fileDesc"/>
+            <xsl:choose><xsl:when test="not(t:encodingDesc)">
+                <encodingDesc>
+                        <xsl:copy-of select="$canontax"></xsl:copy-of>
+                </encodingDesc>
+            </xsl:when>
+            <xsl:otherwise><xsl:apply-templates select="t:encodingDesc"/></xsl:otherwise></xsl:choose>
+            <xsl:apply-templates select="t:profileDesc"/>
+            <xsl:apply-templates select="t:revisionDesc"/>
+        </xsl:copy>
+    </xsl:template>
+    
+    <xsl:template match="t:encodingDesc">
+        <xsl:copy>
+           <xsl:apply-templates/>
+                    <xsl:apply-templates select="$canontax"/>
+        </xsl:copy>
+    </xsl:template>
+    
+    <xsl:template match="t:titleStmt">
+        <xsl:copy>
+            <xsl:apply-templates/>
+            <xsl:variable name="ekeys" select="//t:editor/@key"></xsl:variable>
+            <xsl:variable name="cwhos" select="//t:change/@who"/>
+            <xsl:for-each select="$cwhos[not(.=$ekeys)]">
+                <respStmt xml:id="{.}" corresp="https://betamasaheft.eu/team.html#{.}">
+                    <name><xsl:value-of select="$editorslist//t:item[@xml:id=current()]"/></name>
+                </respStmt>
+            </xsl:for-each>
+        </xsl:copy>
+    </xsl:template>
+    
+    <xsl:template
+        match="category"></xsl:template>
 
 <xsl:template match="t:profileDesc">
     <xsl:copy>
     <xsl:apply-templates/>
-    <calendarDesc>
+   <xsl:if test="//@calendar">
+       <calendarDesc>
         <calendar xml:id="world">
             <p>ʿĀmata ʿālam/ʿĀmata ʾəm-fəṭrat (Era of the World)</p>
         </calendar>
@@ -85,7 +165,7 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
         <calendar xml:id="julian">
             <p>Julian</p>
         </calendar>
-    </calendarDesc>
+    </calendarDesc></xsl:if>
     </xsl:copy>
 </xsl:template>
     
@@ -101,44 +181,30 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
             
             <xsl:choose>
                 <xsl:when test="string-length($value) le 3">
-                    <xsl:value-of select="$editorslist//t:item[@xml:id=$value]/text()"/>
+                    <xsl:value-of select="concat('#', $value)"/>
                 </xsl:when>
                 <xsl:otherwise>
-                    <xsl:value-of select="concat($BMurl, .)"/>
+                    <xsl:value-of select="post:id($value)"/>
                 </xsl:otherwise>
             </xsl:choose>
             
         </xsl:attribute>
     </xsl:template>
     
+<!--    <xsl:template match="t:listprefixDef"/>-->
+    
     <xsl:template match="@ref | @sameAs">
         <xsl:choose>
             <xsl:when test=".='PRS00000' or .='PRS0000'"/>
             <xsl:otherwise>
         <xsl:attribute name="{name()}">
-            <xsl:choose>
-                <xsl:when test="starts-with(., 'pleiades:')">
-                    <xsl:value-of select="concat('https://pleiades.stoa.org/places/', substring-after(., 'pleiades:'))"/>
-                </xsl:when>
-                <xsl:when test="starts-with(., 'gn:')">
-                    <xsl:value-of select="concat('http://sws.geonames.org/', substring-after(., 'gn:'))"/>
-                </xsl:when>
-                <xsl:when test="starts-with(., 'wd:')">
-                    <xsl:value-of select="concat('https://www.wikidata.org/wiki/', substring-after(., 'wd:'))"/>
-                </xsl:when>
-                <xsl:when test="contains(., 'eagle')">
-                    <xsl:value-of select=" . "/>
-                </xsl:when>
-            <xsl:otherwise>
-                    <xsl:value-of select="concat($BMurl, .)"/>
-                </xsl:otherwise>
-            </xsl:choose>
+            <xsl:value-of select="post:id(.)"/>
         </xsl:attribute>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
     
-    
+
     <xsl:template match="@calendar">
         <xsl:attribute name="{name()}">
             <xsl:value-of select="concat('#', .)"/>
@@ -148,11 +214,12 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
 
     <xsl:template match="t:term">
         <xsl:copy>
-            <xsl:apply-templates select="@*"/>
-            <xsl:value-of select="doc(concat($BMurl, @key, '.xml'))/t:TEI//t:titleStmt/t:title[1]"/>
-
-        </xsl:copy>
+            <xsl:attribute name="ana"><xsl:value-of select="concat('#',@key)"/></xsl:attribute>
+            <xsl:choose><xsl:when test="not(text())"><xsl:value-of select="doc(concat($BMurl, @key, '.xml'))/t:TEI//t:titleStmt/t:title[1]"/></xsl:when>
+        <xsl:otherwise><xsl:value-of select="text()"/></xsl:otherwise></xsl:choose></xsl:copy>
     </xsl:template>
+    
+    
     
     <xsl:template match="t:idno">
         <xsl:copy>
@@ -280,101 +347,28 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
                 <xsl:value-of select="@name"/>
             </xsl:attribute>
             <xsl:attribute name="ref">
-                <xsl:choose>
-                    <xsl:when test="contains(@name, 'skos:')">
-                        <xsl:value-of select="concat('http://www.w3.org/2004/02/skos/core#', substring-after(@name, 'saws:'))"/>
-                    </xsl:when>
-                    <xsl:when test="contains(@name, 'saws:')">
-                        <xsl:value-of select="concat('http://purl.org/saws/ontology#', substring-after(@name, 'saws:'))"/>
-                    </xsl:when>
-                    <xsl:when test="contains(@name, 'snap:')">
-                        <xsl:value-of select="concat('http://data.snapdrgn.net/ontology/snap#', substring-after(@name, 'snap:'))"/>
-                    </xsl:when>
-                    <xsl:when test="contains(@name, 'gn:')">
-                        <xsl:value-of select="concat('http://www.geonames.org/ontology#', substring-after(@name, 'gn:'))"/>
-                    </xsl:when>
-                    <xsl:when test="contains(@name, 'dcterms:')">
-                        <xsl:value-of select="concat('http://purl.org/dc/terms/', substring-after(@name, 'dcterms:'))"/>
-                    </xsl:when>
-                    <xsl:when test="contains(@name, 'bm:')">
-                        <xsl:value-of select="concat('https://betamasaheft.eu/docs.html#', @name)"/>
-                    </xsl:when>
-                    <xsl:when test="contains(@name, 'lawd:')">
-                        <xsl:value-of select="concat('http://lawd.info/ontology/', substring-after(@name, 'lawd:'))"/>
-                    </xsl:when>
-                    <xsl:when test="contains(@name, 'syriaca:')">
-                        <xsl:text>http://syriaca.org/documentation/relations.html#</xsl:text>
-                        <xsl:value-of select="@name"/>
-                    </xsl:when>
-                    <xsl:when test="contains(@name, 'agrelon:')">
-                        <xsl:value-of select="concat('http://d-nb.info/standards/elementset/agrelon.owl#', substring-after(@name, 'agrelon:'))"/>
-                    </xsl:when>
-                    <xsl:when test="contains(@name, 'rel:')">
-                        <xsl:value-of select="concat('http://purl.org/vocab/relationship/', substring-after(@name, 'rel:'))"/>
-                    </xsl:when>
-                </xsl:choose>
+               <xsl:value-of select="post:id(@name)"/>
             </xsl:attribute>
-            <xsl:apply-templates select="(@active|@mutual|@passive)"/>
+            <xsl:apply-templates select="@active | @mutual | @passive"/>
             <xsl:apply-templates/>
             <!--            need to be transformed into uris of the project-->
         </xsl:copy>
     </xsl:template>
-    <xsl:template match="@active[parent::t:relation]">
-        <xsl:variable name="norm" select="normalize-space(.)"/>
-        <xsl:attribute name="active">
-            <xsl:choose>
-                <xsl:when test="contains($norm, ' ')">
-                    <xsl:variable name="link">
-                        <xsl:for-each select="tokenize($norm, ' ')">
-                    <xsl:value-of select="concat($BMurl, ., ' ')"/>
-                </xsl:for-each>
-                    </xsl:variable>
-                    <xsl:value-of select="string-join($link, ' ')"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:value-of select="concat($BMurl, .)"/>
-                </xsl:otherwise>
-            </xsl:choose>
-        </xsl:attribute>
-    </xsl:template>
-    <xsl:template match="@passive[parent::t:relation]">
-        <xsl:attribute name="passive">
-            <xsl:variable name="norm" select="normalize-space(.)"/>
-            <xsl:choose>
-                <xsl:when test="contains($norm, ' ')">
-                    <xsl:variable name="link">
-                        <xsl:for-each select="tokenize($norm, ' ')">
-                        <xsl:value-of select="concat($BMurl, ., ' ')"/>
-                    </xsl:for-each>
-                    </xsl:variable>
-                    <xsl:value-of select="string-join($link, ' ')"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:value-of select="concat($BMurl, .)"/>
-                </xsl:otherwise>
-            </xsl:choose>
-        </xsl:attribute>
-    </xsl:template>    
-    <xsl:template match="@mutual[parent::t:relation]">
-        
-        <xsl:variable name="norm" select="normalize-space(.)"/>
-        <xsl:attribute name="mutual">
-            <xsl:variable name="link">
-                <xsl:for-each select="tokenize($norm, ' ')">
-                <xsl:value-of select="concat($BMurl, ., ' ')"/>
-            </xsl:for-each>
-            </xsl:variable>
-            <xsl:value-of select="string-join($link, ' ')"/>
-        </xsl:attribute>
-    </xsl:template>
     
+    <xsl:template match="@active | @passive |@mutual">
+        <xsl:variable name="norm" select="normalize-space(.)"/>
+        <xsl:attribute name="{./name()}">
+           <xsl:value-of select="post:token($norm)"/>
+        </xsl:attribute>
+    </xsl:template>
+  
     
     <xsl:template match="t:editor">
         <xsl:copy>
             
             <xsl:apply-templates select="@*"/>
-            
-
+            <xsl:attribute name="corresp"><xsl:value-of select="concat('https://betamasaheft.eu/team.html#', @key)"/></xsl:attribute>
+<xsl:attribute name="xml:id"><xsl:value-of select="@key"/></xsl:attribute>
             <xsl:value-of select="$editorslist//t:item[@xml:id=current()/@key]/text()"/>
             
         </xsl:copy>
