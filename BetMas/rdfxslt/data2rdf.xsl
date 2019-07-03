@@ -20,6 +20,9 @@
             <xsl:when test="starts-with($id, 'http')">
                 <xsl:value-of select="$id"/>
             </xsl:when>
+            <xsl:when test="contains($id, 'pleaides:')">
+                <xsl:value-of select="concat('https://pleiades.stoa.org/places/', substring-after($id, 'pleiades:'))"/>
+            </xsl:when>
             <xsl:when test="contains($id, 'sdc:')">
                 <xsl:value-of select="concat('https://w3id.org/sdc/ontology#', substring-after($id, 'sdc:'))"/>
             </xsl:when>
@@ -41,7 +44,7 @@
             <xsl:when test="contains($id, 'dcterms:')">
                 <xsl:value-of select="concat('http://purl.org/dc/terms/', substring-after($id, 'dcterms:'))"/>
             </xsl:when>
-            <xsl:when test="contains($id, 'bm:')">
+            <xsl:when test="contains($id, 'betmas:')">
                 <xsl:value-of select="concat('https://betamasaheft.eu/docs.html#', $id)"/>
             </xsl:when>
             <xsl:when test="contains($id, 'lawd:')">
