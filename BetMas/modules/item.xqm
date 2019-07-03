@@ -394,7 +394,7 @@ declare function item2:mainRels($this,$collection){
             return
                 $corr
                   let $predecessorSuccessor :=
-            for $corr in ($this//t:relation[@active = $id][@name = 'bm:isSuccessorOf'], $this//t:relation[@active = $id][@name = 'bm:isPredecessorOf'])
+            for $corr in ($this//t:relation[@active = $id][@name = 'betmas:isSuccessorOf'], $this//t:relation[@active = $id][@name = 'betmas:isPredecessorOf'])
 
             return
                 $corr
@@ -618,7 +618,7 @@ else
                          if(starts-with($p,'http')) then 
                         <li class="nodot"><a href="{$p}">{$p}</a></li>
                         else
-                        <li class="nodot"><a href="/{substring-after($p, 'bm:')}"  class="MainTitle" data-value="{substring-after($p, 'bm:')}">{substring-after($p, 'bm:')}</a></li>
+                        <li class="nodot"><a href="/{substring-after($p, 'betmas:')}"  class="MainTitle" data-value="{substring-after($p, 'betmas:')}">{substring-after($p, 'betmas:')}</a></li>
                         }</ul>)
 
                 }</div>}
@@ -628,7 +628,7 @@ else
       )
       
        case 'authority-files' return (
-   let $pass := concat('bm:', $id)
+   let $pass := concat('betmas:', $id)
 let $relations := $config:collection-rootN//t:relation[@name = 'skos:broadMatch'][@passive=$pass]
 return
 if(count($relations) eq 0) then ()
@@ -1004,7 +1004,7 @@ return
                                              let $file := $config:collection-rootN//id($id)
                                              let $broadMatch := $file//t:relation[@name="skos:broadMatch"]/@passive
                                              for $b in $broadMatch
-                                             let $broad := substring-after($b, 'bm:')
+                                             let $broad := substring-after($b, 'betmas:')
                                              let $usedasType :=  $config:collection-rootMS//t:additions//t:item/t:desc[@type = $broad]
                                              return
   (<p>As additional content associated with the keyword <b><a href="/authority-files/list?keyword={string($broad)}">{titles:printTitleMainID($broad)}</a></b> this unit 

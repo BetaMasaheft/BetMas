@@ -23,7 +23,7 @@ declare function new:newentry($node as node()*, $model as map(*)) {
          
     
 <form id="createnew" action="edit/save-new-entity.xql">
-<p>Great! So you are creating a new record in <span class="w3-tag w3-red w3-large">{$app:collection}</span>!</p>
+<p>Great {sm:id()//sm:username/text()}! So you are creating a new record in <span class="w3-tag w3-red w3-large">{$app:collection}</span>, that is great news!</p>
 <fieldset class="w3-container">
 <legend>General data</legend>
 <div class="w3-container w3-margin-bottom">
@@ -137,12 +137,12 @@ if($app:collection = 'persons') then (
 <select  class="w3-select"  id="relations" name="relations" multiple="multiple" style="height:400px">
 <option value="saws:isCopierOf">saws:isCopierOf</option>
 <option value="saws:hasOwned">saws:hasOwned</option>
-<option value="bm:wifeOf">bm:wifeOf</option>
-<option value="bm:husbandOf">bm:husbandOf</option>
+<option value="betmas:wifeOf">betmas:wifeOf</option>
+<option value="betmas:husbandOf">betmas:husbandOf</option>
 <option value="lawd:hasAttestation">lawd:hasAttestation</option>
 syriaca:has-relation-to-place
 <option value="snap:AllianceWith">snap:AllianceWith</option>
-<option value="bm:ordainedBy">bm:ordainedBy</option>
+<option value="betmas:ordainedBy">betmas:ordainedBy</option>
 <option value="ecrm:P129i_is_subject_of">ecrm:P129i_is_subject_of</option>
 <option value="rel:enemyOf">rel:enemyOf</option>
 <option value="snap:SonOf">snap:SonOf</option>

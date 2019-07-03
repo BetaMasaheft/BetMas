@@ -162,7 +162,7 @@ return
 <id type="person">{$persID}</id>
 <relations>
 <edge>{
-                        ('{from:"' || $persID || '", to:"' || (if($singlePersWithRole/@corresp) then(string($singlePersWithRole/@corresp)) else $localId)|| '", label:"' || ('bm:'||string($singlePersWithRole/@role)) ||
+                        ('{from:"' || $persID || '", to:"' || (if($singlePersWithRole/@corresp) then(string($singlePersWithRole/@corresp)) else $localId)|| '", label:"' || ('betmas:'||string($singlePersWithRole/@role)) ||
                         '", font: {align: ''top''}},')
                     }</edge>
 </relations>
