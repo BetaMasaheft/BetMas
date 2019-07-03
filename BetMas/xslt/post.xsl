@@ -1,6 +1,4 @@
-<xsl:stylesheet xmlns="http://www.tei-c.org/ns/1.0" 
-    xmlns:post="http://myfunction"
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
+<xsl:stylesheet xmlns="http://www.tei-c.org/ns/1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:post="http://myfunction" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:output encoding="UTF-8" method="xml"/>
     <xsl:output indent="yes" method="xml"/>
     <xsl:variable name="BMurl">https://betamasaheft.eu/</xsl:variable>
@@ -95,12 +93,17 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
             </date>
         </xsl:copy>
     </xsl:template>
+    <xsl:template match="t:text">
+        <xsl:copy>
+            <xsl:apply-templates/>
+        </xsl:copy>
+    </xsl:template>
     <xsl:template match="t:teiHeader">
         <xsl:copy>
             <xsl:apply-templates select="t:fileDesc"/>
             <xsl:choose><xsl:when test="not(t:encodingDesc)">
                 <encodingDesc>
-                        <xsl:copy-of select="$canontax"></xsl:copy-of>
+                        <xsl:copy-of select="$canontax"/>
                 </encodingDesc>
             </xsl:when>
             <xsl:otherwise><xsl:apply-templates select="t:encodingDesc"/></xsl:otherwise></xsl:choose>
@@ -119,9 +122,9 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
     <xsl:template match="t:titleStmt">
         <xsl:copy>
             <xsl:apply-templates/>
-            <xsl:variable name="ekeys" select="//t:editor/@key"></xsl:variable>
+            <xsl:variable name="ekeys" select="//t:editor/@key"/>
             <xsl:variable name="cwhos" select="//t:change/@who"/>
-            <xsl:for-each select="$cwhos[not(.=$ekeys)]">
+            <xsl:for-each select="distinct-values($cwhos[not(.=$ekeys)])">
                 <respStmt xml:id="{.}" corresp="https://betamasaheft.eu/team.html#{.}">
                     <name><xsl:value-of select="$editorslist//t:item[@xml:id=current()]"/></name>
                 </respStmt>
@@ -129,8 +132,7 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
         </xsl:copy>
     </xsl:template>
     
-    <xsl:template
-        match="category"></xsl:template>
+    <xsl:template match="category"/>
 
 <xsl:template match="t:profileDesc">
     <xsl:copy>
