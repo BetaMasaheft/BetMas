@@ -168,6 +168,42 @@ $query as xs:string*,
                 }
    };
    
+   
+declare
+    %templates:default("scope", "narrow")
+    %templates:default("target-pers", "all")
+    %templates:default("day", "all")
+    %templates:default("month", "all")
+    %templates:default("target-place", "all")
+    %templates:default("target-work", "all")
+    %templates:default("target-artTheme", "all")
+    %templates:default("target-keyword", "all")
+function lists:SearchCalendar(
+$node as node()*,
+$model as map(*),
+    $target-keyword as xs:string+,
+    $day as xs:string+,
+    $month as xs:string+,
+    $target-pers as xs:string+,
+    $target-place as xs:string+,
+    $target-work as xs:string+,
+    $target-artTheme as xs:string+
+   ) {
+   let $day := if($day='all') then "[starts-with(@ref, 'ethioCal:')]" else if($day='all' and $month !='all') then "[starts-with(@ref, 'ethioCal:"||$month||"')]" else "[@ref = "||$day||"]"
+   let $target-work := if($target-work = 'all') then () else let $pars := for $ty in $target-work return "@ref = '" || $ty || "'" return '[descendant::t:title[' || string-join($pars, ' or ') || ']]'
+   let $target-artTheme := if($target-artTheme= 'all') then () else let $pars := for $ty in $target-artTheme return "@corresp = '" || $ty || "'" return '[descendant::t:ref[@type="authFile"][' || string-join($pars, ' or ') || ']]'
+   let $target-pers := if($target-pers = 'all') then () else let $pars := for $ty in $target-pers return "@ref = '" || $ty || "'" return '[descendant::t:persName[' || string-join($pars, ' or ') || ']]'
+   let $target-place := if($target-place = 'all') then () else let $pars := for $ty in $target-place return "@ref = '" || $ty || "'" return '[descendant::t:placeName[' || string-join($pars, ' or ') || ']]'
+   let $target-keyword := if($target-keyword = 'all') then () else let $pars := for $ty in $target-keyword return "@key = '" || $ty || "'" return '[descendant::t:term[' || string-join($pars, ' or ') || ']]'
+    let $path := "$config:collection-root//t:date"||$day||"[parent::t:*[@xml:id][1]" || $target-work || $target-artTheme || $target-pers || $target-place || $target-keyword || ']'
+  let $dates := for $dec in util:eval($path) return $dec
+   return
+   map {
+                    "hits" := $dates
+
+                }
+   };
+   
    declare
     %templates:default("scope", "narrow")
     %templates:default("typeval", "marked")
@@ -543,6 +579,86 @@ return util:eval($query) else ()
    };
 
 
+declare function lists:calendarform($node as node(), $model as map(*)){
+   let $auth := $config:collection-rootA
+   return
+   <form action="" class="w3-container">
+                               
+                               <div class="w3-container w3-margin">
+                                 <small class="form-text text-muted">Select a month</small><br/>
+
+                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="month" name="month" class="w3-select w3-border">
+            {for $d  at $p in doc('/db/apps/BetMas/calendars/ethiopian.xml')//t:body/t:list/t:item/@xml:id
+            order by $p
+            return
+            <option value="{string($d)}" >{string($d)}</option>}
+            </select>
+                                 </div>
+                                 
+                                   <div class="w3-container w3-margin">
+                                 <small class="form-text text-muted">Select a day</small><br/>
+
+                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="day" name="day" class="w3-select w3-border">
+            {for $d  at $p in doc('/db/apps/BetMas/calendars/ethiopian.xml')//t:body/t:list/t:item/t:list/t:item
+            order by $p
+            return
+            <option value="{string($d/@xml:id)}">{$d/text()}</option>}
+            </select>
+                                 </div>
+                                 
+                               {if($model('hits')//t:ref[@type='authFile']) then  
+                               <div class="w3-container w3-margin">
+                                 <small class="form-text text-muted">Select one or more Art Themes associated with the date</small><br/>
+
+                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-artTheme" name="target-artTheme" class="w3-select w3-border">
+            {for $d in distinct-values($model('hits')//t:ref[@type='authFile']/@corresp)
+            return
+            <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
+            </select>
+                                 </div> else () }
+                               {if($model('hits')/parent::t:*[@xml:id][1]//t:title) then  <div class="w3-container w3-margin">
+                                 <small class="form-text text-muted">Select one or more works referred to in the decoration description</small><br/>
+
+                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-work" name="target-work"  class="w3-select w3-border">
+            {for $d in distinct-values($model('hits')/parent::t:*[@xml:id][1]//t:title/@ref)
+            return
+            <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
+            </select>
+                                 </div> else () }
+                                 {if($model('hits')/parent::t:*[@xml:id][1]//t:persName) then <div class="w3-container w3-margin">
+                                 <small class="form-text text-muted">Select one or more persons referred to in the decoration description</small><br/>
+                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-pers" name="target-pers"  class="w3-select w3-border">
+            {for $d in distinct-values($model('hits')/parent::t:*[@xml:id][1]//t:persName/@ref)
+            return
+            <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
+            </select>
+                                 </div> else ()}
+                                 {if($model('hits')/parent::t:*[@xml:id][1]//t:placeName) then <div class="w3-container w3-margin">
+                                 <small class="form-text text-muted">Select one or more places referred to in the decoration description</small><br/>
+                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-place" name="target-place"  class="w3-select w3-border">
+            {for $d in distinct-values($model('hits')/parent::t:*[@xml:id][1]//t:placeName/@ref)
+            return
+            <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
+            </select>
+                                 </div> else () }
+                                 {if($model('hits')/parent::t:*[@xml:id][1]//t:term) then
+                                 <div class="w3-container w3-margin">
+                                 <small class="form-text text-muted">Select one or more artistic elements referred to in the decoration description</small><br/>
+                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-keyword" name="target-keyword"  class="w3-select w3-border">
+            {for $d in distinct-values($model('hits')/parent::t:*[@xml:id][1]//t:term/@key)
+            return
+            <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
+            </select>
+                                 </div> else() }
+                                 <div class="w3-container w3-margin">
+                                 <div class="w3-bar">
+                                 <button type="submit" class="w3-bar-item w3-button w3-red">
+                                 <i class="fa fa-search" aria-hidden="true"></i></button>
+                                 <a href="/decorations" role="button" class="w3-bar-item w3-button w3-gray"><i class="fa fa-th-list" aria-hidden="true"></i></a></div>
+                        </div></form>
+   };
+
+
    declare function lists:bindingsform($node as node(), $model as map(*)){
    let $auth := $config:collection-rootA
    return
@@ -758,6 +874,59 @@ for $binding at $p in $model("hits")
             <li>
 
             <a href="{data($ms)}#{data($sb/@xml:id)}">{data($sb/@xml:id)}</a>: {try{string:tei2string($sb/node())} catch * {(($err:code || ": "|| $err:description), string-join($sb//text(), ' '))}}
+            </li>
+                 }
+            </ul>
+            </div>)
+            }
+
+        </div>)
+};
+
+
+declare
+%templates:wrap
+    function lists:calendarRes($node as node(), $model as map(*)){
+
+for $date at $p in $model("hits")
+    let $t := substring-after($date/@ref, 'ethioCal:')
+   (: group by type :)
+    group by $type := $t
+    order by $type
+    return
+        (<button onclick="openAccordion('{data($type)}')" 
+        class="w3-button w3-block w3-gray w3-padding w3-margin-bottom">
+<span class="w3-badge w3-right">{count($date)}</span>
+<span class="w3-left " data-value="{$type}">{string($type)}</span>
+</button>,
+
+        <div  class="w3-container w3-hide" id="{data($type)}">
+            {
+                for $d in $date
+                let $msid := $d/ancestor::t:TEI/@xml:id
+
+                (:group by containing ms:)
+                group by $ms := $msid
+                order by $ms
+                return
+
+(<button onclick="openAccordion('{data($ms)}')" 
+        class="w3-button w3-block w3-red w3-padding w3-margin-bottom">
+<span class="w3-badge w3-right">{count($d)}</span>
+<span class="w3-left " data-value="{$type}">{titles:printTitleMainID($ms)}</span>
+</button>,
+<div class="w3-container w3-hide" id="{data($ms)}">
+<ul class="w3-ul w3-hoverable" >
+                 {
+                     for $sd in $d
+                     let $parentID := $sd/ancestor::t:*[@xml:id][1]/@xml:id
+                     let $parentName := $sd/ancestor::t:*[@xml:id][1]/name()
+                     order by $parentID
+                     return
+            <li>
+
+            <a href="{data($ms)}#{data($parentID)}">{data($parentID)}</a>: {try{string:tei2string($sd/node())} catch * {(($err:code || ": "|| $err:description), string-join($sd//text(), ' '))}}
+            <b>{$parentName}</b>
             </li>
                  }
             </ul>

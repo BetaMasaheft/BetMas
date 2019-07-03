@@ -739,6 +739,33 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                             url="{$exist:controller}/modules/view.xql"/>
                                                                     </error-handler>
                                                                 </dispatch>
+                                                                
+                                                                  else
+                                                            if (starts-with($exist:path, "/calendar")) then
+                                                                <dispatch
+                                                                    xmlns="http://exist.sourceforge.net/NS/exist">
+                                                                    <forward
+                                                                        url="{$exist:controller}/calendar.html"
+                                                                        method="get">
+                                                                        <add-parameter
+                                                                            name="uri"
+                                                                            value="{('/db/apps/BetMas/calendar.html')}"/>
+                                                                    </forward>
+                                                                    <view>
+                                                                        <forward
+                                                                            url="{$exist:controller}/modules/view.xql">
+                                                                        </forward>
+                                                                    
+                                                                    </view>
+                                                                    
+                                                                    <error-handler>
+                                                                        <forward
+                                                                            url="{$exist:controller}/error/error-page.html"
+                                                                            method="get"/>
+                                                                        <forward
+                                                                            url="{$exist:controller}/modules/view.xql"/>
+                                                                    </error-handler>
+                                                                </dispatch>
                                                             
                                                         
                                                         else
