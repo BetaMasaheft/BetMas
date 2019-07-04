@@ -189,7 +189,7 @@ $model as map(*),
     $target-work as xs:string+,
     $target-artTheme as xs:string+
    ) {
-   let $day := if($day='all') then "[starts-with(@ref, 'ethioCal:')]" else if($day='all' and $month !='all') then "[starts-with(@ref, 'ethioCal:"||$month||"')]" else "[@ref = "||$day||"]"
+   let $day := if($day='all') then "[starts-with(@ref, 'ethiocal:')]" else if($day='all' and $month !='all') then "[starts-with(@ref, 'ethiocal:"||$month||"')]" else "[@ref = "||$day||"]"
    let $target-work := if($target-work = 'all') then () else let $pars := for $ty in $target-work return "@ref = '" || $ty || "'" return '[descendant::t:title[' || string-join($pars, ' or ') || ']]'
    let $target-artTheme := if($target-artTheme= 'all') then () else let $pars := for $ty in $target-artTheme return "@corresp = '" || $ty || "'" return '[descendant::t:ref[@type="authFile"][' || string-join($pars, ' or ') || ']]'
    let $target-pers := if($target-pers = 'all') then () else let $pars := for $ty in $target-pers return "@ref = '" || $ty || "'" return '[descendant::t:persName[' || string-join($pars, ' or ') || ']]'
