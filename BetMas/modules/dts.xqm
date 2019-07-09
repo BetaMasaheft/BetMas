@@ -59,7 +59,10 @@ declare variable $dts:context := map{
         "crm": "http://www.cidoc-crm.org/cidoc-crm/",
         "ecrm": "http://erlangen-crm.org/current/",
         "fabio": "http://purl.org/spar/fabio",
-        "lawd": "http://lawd.info/ontology/"
+        "lawd": "http://lawd.info/ontology/",
+        "edm": "http://www.europeana.eu/schemas/edm/",
+        "svcs": "http://rdfs.org/sioc/services#",
+        "doap": "http://usefulinc.com/ns/doap#"
   };
   
     declare function dts:capitalize-first
@@ -909,19 +912,19 @@ let $title := titles:printTitleMainID($id)
 let $description := if(contains($collURN, 'MS')) then 'The transcription of manuscript '||$title||' in Beta maṣāḥǝft ' else 'The abstract textual unit '||$title||' in Beta maṣāḥǝft. '  || normalize-space(string-join(string:tei2string($doc//t:abstract), ''))
 let $dc := dts:dublinCore($id)
 let $computed := if(contains($collURN, 'MS')) then () else 
-(for $witness in $config:collection-rootMS//t:title[@ref = $id]
-          let $root := root($witness)/t:TEI/@xml:id
-          group by $groupkey := $root
-          return string($groupkey))
+                            (for $witness in $config:collection-rootMS//t:title[@ref = $id]
+                            let $root := root($witness)/t:TEI/@xml:id
+                                group by $groupkey := $root
+                            return string($groupkey))
 let $declared := if(contains($collURN, 'MS')) then () else 
-for $witness in $doc//t:witness/@corresp return string($witness)
-let $witnesses := ($computed, $declared)
-let $distinctW := for $w in distinct-values($witnesses) return 
-                            map { "fabio:isManifestationOf" := "https://betamasaheft.eu/" || $w,
+                            for $witness in $doc//t:witness/@corresp return string($witness)
+                            let $witnesses := ($computed, $declared)
+                            let $distinctW := for $w in distinct-values($witnesses) return 
+                            map { "fabio:isManifestationOf" := $config:appUrl || "/" || $w,
                             "@id" := "urn:dts:betmasMS:" || $w,
                                       "@type" := "lawd:AssembledWork"}
                                       
-let $dcAndWitnesses := if(count($distinctW) gt 0) then map:put($dc, 'dc:source', $distinctW) else $dc
+                        let $dcAndWitnesses := if(count($distinctW) gt 0) then map:put($dc, 'dc:source', $distinctW) else $dc
 let $DcSelector := 
 if(contains($collURN, 'MS')) then $dc else $dcAndWitnesses
 (:$dc:)
@@ -930,7 +933,20 @@ let $versions := dts:fileingitCommits($resourceURN, $id, 'collections')
 let $DcWithVersions :=  map:put($DcSelector, "dc:hasVersion", $versions) 
 let $ext := dts:extension($id)
 let $haspart := dts:haspart($id)
-let $parts := map:put($ext, 'dcterms:hasPart', $haspart)
+let $manifest := if($doc//t:idno[@facs[not(starts-with(.,'http'))]]) 
+then 
+(:from europeana data model specification, taken from nomisma, not sure if this is correct in json LD:)
+( map {'@value' := ($config:appUrl ||"/manuscript/"|| $id || '/viewer'),
+'@type' := 'edm:WebResource',
+                 "svcs:has_service" := map{'@value' := "https://betamasaheft.eu/api/iiif/"||$id||"/manifest",
+                 '@type' := 'svcs:Service',
+"dcterms:conformsTo":= "http://iiif.io/api/image",
+"doap:implements":= "http://iiif.io/api/image/2/level1.json"
+ }
+        }
+) else ()
+let $addmanifest := if (count($manifest) ge 1) then map:put($ext, "foaf:depiction", $manifest) else $ext
+let $parts := if(count($haspart) ge 1) then map:put($addmanifest, 'dcterms:hasPart', $haspart) else $addmanifest
 let $dtsPass := "/api/dts/document?id=" || $resourceURN
 let $dtsNav := "/api/dts/navigation?id=" || $resourceURN
 let $download := "https://betamasaheft.eu/tei/" || $id || '.xml'

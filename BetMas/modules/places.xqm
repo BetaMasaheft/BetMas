@@ -592,6 +592,7 @@ declare function places:ThisAnnotatedThing($r, $tit, $mode as xs:string){
              &lt;'||$config:appUrl||'/'||
  string($r)||'&gt;
  a pelagios:AnnotatedThing ;
+ void:inDataset <https://betamasaheft.eu/api/placeNames/void> ;
  dcterms:description "' || 
  (
  if($mode = 'works') then ('A literary work in the Ethiopian tradition (CAe ' || substring($r, 4, 4) || ').') 

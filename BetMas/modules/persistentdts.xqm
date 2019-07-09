@@ -631,7 +631,7 @@ map {
 };
 
 (:~ produces the information needed for each member of a collection :)
-declare function persdts:member($collURN,$document, $sha){
+declare function persdts:member($collURN,$document, $sha) as map(*){
 if(not($document))
 then <rest:response>
         <http:response
@@ -671,7 +671,21 @@ let $versions := dts:fileingitCommits($resourceURN, $id, 'collections')
 let $DcWithVersions :=  map:put($DcSelector, "dc:hasVersion", $versions) 
 let $ext := dts:extension($id)
 let $haspart := dts:haspart($id)
-let $parts := map:put($ext, 'dcterms:hasPart', $haspart)
+let $manifest := if($doc//t:idno[@facs[not(starts-with(.,'http'))]]) 
+then 
+(:from europeana data model specification, taken from nomisma, not sure if this is correct in json LD:)
+( map {'@value' := ($config:appUrl ||"/manuscript/"|| $id || '/viewer'),
+'@type' := 'edm:WebResource',
+                 "svcs:has_service" := map{'@value' := "https://betamasaheft.eu/api/iiif/"||$id||"/manifest",
+                 '@type' := 'svcs:Service',
+"dcterms:conformsTo":= "http://iiif.io/api/image",
+"doap:implements":= "http://iiif.io/api/image/2/level1.json"
+ }
+        }
+) else ()
+let $addmanifest := if (count($manifest) ge 1) then map:put($ext, "foaf:depiction", $manifest) else $ext
+let $parts := if(count($haspart) ge 1) then map:put($addmanifest, 'dcterms:hasPart', $haspart) else $addmanifest
+
 let $dtsPass := "/permanent/"||$sha||"/api/dts/document?id=" || $resourceURN
 let $dtsNav := "/permanent/"||$sha||"/api/dts/navigation?id=" || $resourceURN
 let $download := "https://betamasaheft.eu/tei/" || $id || '.xml'

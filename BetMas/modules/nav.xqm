@@ -335,6 +335,11 @@ declare function nav:footerNew(){
             </a>
             
           </div>
+            <div class="w3-row w3-center">
+            <p>The domain betamasaheft.eu is hosted by Universität Hamburg.</p>
+            <p>This website is maintained by the project team.</p>
+            <p><a href="/impressum.html">Impressum.</a></p>
+            </div>
   <p class="w3-medium">Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
 </footer>
 
