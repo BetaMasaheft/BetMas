@@ -189,13 +189,14 @@ $model as map(*),
     $target-work as xs:string+,
     $target-artTheme as xs:string+
    ) {
-   let $day := if($day='all') then "[starts-with(@ref, 'ethiocal:')]" else if($day='all' and $month !='all') then "[starts-with(@ref, 'ethiocal:"||$month||"')]" else "[@ref = "||$day||"]"
+   let $day := if($day='all') then "[starts-with(@ref, 'ethiocal:')]" else if($day='all' and $month !='all') then "[starts-with(@ref, 'ethiocal:"||$month||"')]" else "[@ref = 'ethiocal:"||$day||"']"
    let $target-work := if($target-work = 'all') then () else let $pars := for $ty in $target-work return "@ref = '" || $ty || "'" return '[descendant::t:title[' || string-join($pars, ' or ') || ']]'
    let $target-artTheme := if($target-artTheme= 'all') then () else let $pars := for $ty in $target-artTheme return "@corresp = '" || $ty || "'" return '[descendant::t:ref[@type="authFile"][' || string-join($pars, ' or ') || ']]'
    let $target-pers := if($target-pers = 'all') then () else let $pars := for $ty in $target-pers return "@ref = '" || $ty || "'" return '[descendant::t:persName[' || string-join($pars, ' or ') || ']]'
    let $target-place := if($target-place = 'all') then () else let $pars := for $ty in $target-place return "@ref = '" || $ty || "'" return '[descendant::t:placeName[' || string-join($pars, ' or ') || ']]'
    let $target-keyword := if($target-keyword = 'all') then () else let $pars := for $ty in $target-keyword return "@key = '" || $ty || "'" return '[descendant::t:term[' || string-join($pars, ' or ') || ']]'
-    let $path := "$config:collection-root//t:date"||$day||"[parent::t:*[@xml:id][1]" || $target-work || $target-artTheme || $target-pers || $target-place || $target-keyword || ']'
+    let $path := "$config:collection-root//t:date"||$day||(if($target-work!='all' or $target-artTheme !='all' or $target-pers !='all' or $target-place !='all' or $target-keyword !='all') then
+    "[ancestor::t:*[@xml:id][1]" || $target-work || $target-artTheme || $target-pers || $target-place || $target-keyword || ']' else ())
   let $dates := for $dec in util:eval($path) return $dec
    return
    map {
@@ -889,7 +890,7 @@ declare
     function lists:calendarRes($node as node(), $model as map(*)){
 
 for $date at $p in $model("hits")
-    let $t := substring-after($date/@ref, 'ethioCal:')
+    let $t := substring-after($date/@ref, 'ethiocal:')
    (: group by type :)
     group by $type := $t
     order by $type
@@ -925,8 +926,11 @@ for $date at $p in $model("hits")
                      return
             <li>
 
-            <a href="{data($ms)}#{data($parentID)}">{data($parentID)}</a>: {try{string:tei2string($sd/node())} catch * {(($err:code || ": "|| $err:description), string-join($sd//text(), ' '))}}
-            <b>{$parentName}</b>
+            <a href="{data($ms)}{if($parentID != $ms) then '#'|| data($parentID) else ()}">
+            {if($parentID != $ms) then 'In a ' ||$parentName || ' element with xml:id ' ||data($parentID) else ( 'within the file: ')}
+            </a>: 
+            {try{string:tei2string($sd/node())} catch * {(($err:code || ": "|| $err:description), string-join($sd//text(), ' '))}}
+            
             </li>
                  }
             </ul>
