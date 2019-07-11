@@ -148,6 +148,7 @@ function titles:printTitleID($id as xs:string)
            (titles:decidePlaceNameSource($id))
        else (: always look at the root of the given node parameter of the function and then switch :)
            let $resource := $config:collection-root/id($id)
+           let $resource := $resource[name() = 'TEI']
            return
                if (count($resource) = 0) then
            <span class="w3-tag w3-red">{ 'No item: ' || $id }</span>
@@ -254,6 +255,7 @@ function titles:printTitleID($id as xs:string)
            (titles:decidePlaceNameSource($id))
        else (: always look at the root of the given node parameter of the function and then switch :)
            let $resource := collection($c)//id($id)
+           let $resource := $resource[name() = 'TEI']
            return
                if (count($resource) = 0) then
            <span class="w3-tag w3-red">{ 'No item: ' || $id }</span>
@@ -334,6 +336,7 @@ function titles:printTitleID($id as xs:string)
            (titles:decidePlaceNameSource($id))
        else (: always look at the root of the given node parameter of the function and then switch :)
            let $resource := $config:collection-root/id($id)
+           let $resource := $resource[name() = 'TEI']
            return
                if (count($resource) = 0) then
            <span class="w3-tag w3-red">{ 'No item: ' || $id }</span>
