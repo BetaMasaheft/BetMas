@@ -501,15 +501,13 @@ if ($id = $Subjects) then  (try{LitFlow:Sankey($id, 'works')} catch * {$err:desc
    item2:RestMiniatures($id))
   case 'persons' return (item2:RestTabot($id), item2:RestAdditions($id), item2:RestMiniatures($id))
     case 'authority-files' return
-    <div class="w3-container"><h4>Art Objects associated with this Art Theme in miniatures and other manuscript decorations</h4>
-
-<div  class="w3-panel w3-red">
-{item2:RestMiniaturesKeys($id)}
+    if (starts-with($id, 'AT')) then 
+  <div class="w3-container">
+    <h4>Art Objects associated with this Art Theme in miniatures and other manuscript decorations</h4>
+    <div  class="w3-panel w3-red">{item2:RestMiniaturesKeys($id)}</div>
+   <div  class="w3-panel w3-red">{item2:RestMiniatures($id)}</div>
 </div>
-
-<div  class="w3-panel w3-red">
-{item2:RestMiniatures($id)}</div>
-</div>
+else ()
    case  'institutions' return (<div 
     class="w3-container" >   <iframe
    style="border:none;"
