@@ -62,7 +62,8 @@ declare variable $dts:context := map{
         "lawd": "http://lawd.info/ontology/",
         "edm": "http://www.europeana.eu/schemas/edm/",
         "svcs": "http://rdfs.org/sioc/services#",
-        "doap": "http://usefulinc.com/ns/doap#"
+        "doap": "http://usefulinc.com/ns/doap#",
+        "foaf": "http://xmlns.com/foaf/0.1/"
   };
   
     declare function dts:capitalize-first
@@ -918,13 +919,14 @@ let $computed := if(contains($collURN, 'MS')) then () else
                             return string($groupkey))
 let $declared := if(contains($collURN, 'MS')) then () else 
                             for $witness in $doc//t:witness/@corresp return string($witness)
-                            let $witnesses := ($computed, $declared)
-                            let $distinctW := for $w in distinct-values($witnesses) return 
-                            map { "fabio:isManifestationOf" := $config:appUrl || "/" || $w,
-                            "@id" := "urn:dts:betmasMS:" || $w,
+(: flattens the distinction between computed and declared witnesses, as well as the eventual nesting of witnesses for each edition:)
+let $witnesses := ($computed, $declared)
+let $distinctW := for $w in distinct-values($witnesses) return 
+                            map { "fabio:isManifestationOf" := if(starts-with($w, 'http')) then $w else ($config:appUrl || "/" || $w),
+                            "@id" := if(starts-with($w, 'http')) then $w else ("urn:dts:betmasMS:" || $w),
                                       "@type" := "lawd:AssembledWork"}
                                       
-                        let $dcAndWitnesses := if(count($distinctW) gt 0) then map:put($dc, 'dc:source', $distinctW) else $dc
+let $dcAndWitnesses := if(count($distinctW) gt 0) then map:put($dc, 'dc:source', $distinctW) else $dc
 let $DcSelector := 
 if(contains($collURN, 'MS')) then $dc else $dcAndWitnesses
 (:$dc:)
@@ -934,17 +936,30 @@ let $DcWithVersions :=  map:put($DcSelector, "dc:hasVersion", $versions)
 let $ext := dts:extension($id)
 let $haspart := dts:haspart($id)
 let $manifest := if($doc//t:idno[@facs[not(starts-with(.,'http'))]]) 
-then 
-(:from europeana data model specification, taken from nomisma, not sure if this is correct in json LD:)
-( map {'@value' := ($config:appUrl ||"/manuscript/"|| $id || '/viewer'),
-'@type' := 'edm:WebResource',
-                 "svcs:has_service" := map{'@value' := "https://betamasaheft.eu/api/iiif/"||$id||"/manifest",
-                 '@type' := 'svcs:Service',
-"dcterms:conformsTo":= "http://iiif.io/api/image",
-"doap:implements":= "http://iiif.io/api/image/2/level1.json"
- }
-        }
-) else ()
+                    then 
+                        (:from europeana data model specification, taken from nomisma, not sure if this is correct in json LD:)
+                        ( map {'@id' := ($config:appUrl ||"/manuscript/"|| $id || '/viewer'),
+                                        '@type' := 'edm:WebResource',
+                                        "svcs:has_service" := map{'@id' := "https://betamasaheft.eu/api/iiif/"||$id||"/manifest",
+                                                                                            '@type' := 'svcs:Service',
+                                                                                            "dcterms:conformsTo":= "http://iiif.io/api/image",
+                                                                                            "doap:implements":= "http://iiif.io/api/image/2/level1.json"
+                                                                                             }
+                                      }
+                        )
+                       else if($doc//t:idno[@facs[starts-with(.,'http')]]) 
+                    then 
+                        (:from europeana data model specification, taken from nomisma, not sure if this is correct in json LD:)
+                        ( map {'@id' := string($doc//t:idno/@facs),
+                                        '@type' := 'edm:WebResource',
+                                        "svcs:has_service" := map{'@id' := string($doc//t:idno/@facs),
+                                                                                            '@type' := 'svcs:Service',
+                                                                                            "dcterms:conformsTo":= "http://iiif.io/api/image",
+                                                                                            "doap:implements":= "http://iiif.io/api/image/2/level1.json"
+                                                                                             }
+                                      }
+                        )
+                        else ()
 let $addmanifest := if (count($manifest) ge 1) then map:put($ext, "foaf:depiction", $manifest) else $ext
 let $parts := if(count($haspart) ge 1) then map:put($addmanifest, 'dcterms:hasPart', $haspart) else $addmanifest
 let $dtsPass := "/api/dts/document?id=" || $resourceURN
@@ -1000,12 +1015,25 @@ let $nav := if($c le 1) then $pass else map:put($pass, "dts:references", $dtsNav
 
 declare function dts:haspart($id){
 (:the query starts from the part statements, that is it flattens the nesting of parts which is actually available in the XML:)
-let $querytext := $config:sparqlPrefixes ||  "
+let $querytext := 
+if(starts-with($id, 'LIT')) then (
+$config:sparqlPrefixes ||  "
  SELECT ?part
  WHERE {?partID dcterms:hasPart ?subpart ; 
                    dcterms:isPartOf bm:" || $id || " .
                              ?subpart dc:relation ?part . 
                               ?part a lawd:ConceptualWork}"
+) 
+else (
+(:this lists the contents of a manuscript, where the connection to a msitem is also flattened in one dcterms:hasPart step :)
+$config:sparqlPrefixes || 
+"SELECT ?part
+ WHERE {bm:" || $id || "  dcterms:hasPart ?item . 
+                              ?item a sdc:UniCont .
+                ?item dcterms:hasPart ?part . 
+                              ?part a lawd:ConceptualWork . }"
+
+                              )
 let $query := sparql:query($querytext)
 for $result in $query//sr:binding
 return

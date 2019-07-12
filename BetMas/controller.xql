@@ -4,7 +4,6 @@ import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas
 import module namespace request = "http://exist-db.org/xquery/request";
 import module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMas/error" at "modules/error.xqm";
 
-
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 
 declare variable $exist:path external;
@@ -229,6 +228,7 @@ else if (contains($exist:path, 'morpho')) then
                                 </forward>
                         </dispatch>
 else if (contains($exist:path, '/api/') or
+                ends-with($exist:path, '/rdf') or
                 ends-with($exist:path, '/list') or
                 ends-with($exist:path, '/listChart') or
                 ends-with($exist:path, '/browse') or
@@ -481,6 +481,7 @@ function apisparql:constructURIsubid() is called to construct a graph of that re
                                             contains($exist:path, '/msitem/') or
                                             contains($exist:path, '/mspart/') or
                                             contains($exist:path, '/msPart/') or
+                                            contains($exist:path, '/title/') or
                                             contains($exist:path, '/hand/') or
                                             contains($exist:path, '/transformation/')or
                                             contains($exist:path, '/UniProd/') or
@@ -489,10 +490,10 @@ function apisparql:constructURIsubid() is called to construct a graph of that re
                                             contains($exist:path, '/UniMat/')or
                                             contains($exist:path, '/UniCah/')
                                             )) then
-(:                                            let $test := console:log($exist:path):)
-                                                let $prefix := substring($exist:resource, 1, 2)
+                                                let $prefix := substring($exist:path, 2, 2)
                                                 let $switchCollection := local:switchPrefix($prefix)
                                                 let $tokenizePath := tokenize($exist:path, '/')
+                                                let $test := request:get-header('Accept')
                                               return
                                                 if (contains(request:get-header('Accept'), 'rdf'))
                                             then

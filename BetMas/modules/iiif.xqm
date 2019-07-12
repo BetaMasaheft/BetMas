@@ -407,7 +407,7 @@ let $manifest := iiif:manifestsource($ms)
       '@id' := $manifest}
    else (),
 for $images in $externalmswithimages
-let $this := concat($images/@corresp, ': ', $images/text(), ' [', $images/@facs, ']')
+let $this := concat($images/t:idno/text(), ': ', string-join($images/text(), ' '), ' [', $images/@facs, ']')
 let $manifest := string($images/t:ptr/@target)
          return
              map {'label' := $this ,
@@ -491,7 +491,7 @@ map {"@context":= "http://iiif.io/api/presentation/2/context.json",
                             ]
       }, 
       map {"label": "main view", 
-                "value": $config:appUrl || $id
+                "value": $config:appUrl ||'/'|| $id
       }
       ],
       "description" : "An Ethiopian Manuscript.",
@@ -587,113 +587,4 @@ let $id := $iiifroot || '/canvas/p'  || $n
       ) };
        
        
-       
-
-        
-(:    IIIF Documentation:   
-It may be important to describe additional structure within an object, 
-such as newspaper articles that span pages, the range of 
-non-content-bearing pages at the beginning of a work, 
-or chapters within a book. These are described using ranges in a similar manner to sequences.:)
-        (: There is no need to dereference this at the moment.
-        each msItem, quire, addition and decoration have an id which is used as name for the range and in the function is called n:)
-
-   (:     declare 
-%rest:GET
-%rest:path("/BetMas/api/iiif/{$id}/range/{$name}/{$id}")
-%output:method("json")
-function iiif:range($id as xs:string*, $name as xs:string*, $id as xs:string?) {
-<rest:response>
-            <http:response
-                status="200">
-                <http:header
-                    name="Content-Type"
-                    value="application/json; charset=utf-8"/>
-            </http:response>
-        </rest:response>,
-        let $item := collection($config:data-root)//id($id)(\:       image Resource:\)
-        return
-        $id
-        };:)
-        
-        
-        
-(:        layer  IIIF: Layers represent groupings of 
-annotation lists that should be collected together, regardless of which canvas they target, such as all of the annotations that make up a particular translation of the text of a book. Without the layer construction, it would be impossible to determine which annotations belonged together across canvases. A client might then present a user interface that allows all of the annotations in a layer to be displayed or hidden according to the user’s preference.
-
-:)
-
-  
-(:       image Resource
-it is not possible to go back from annotation number to the canvas number, thus dereferincing this annotation is not possible
-:)
-(:        declare 
-%rest:GET
-%rest:path("/BetMas/api/iiif/{$id}/annotation/p{$n}-image")
-%output:method("json")
-function iiif:annotation($id as xs:string*, $n as xs:string*) {
-($iiif:response200,
-        let $item := collection($config:data-root)//id($id)
-       let $imagesbaseurl := 'http://betamasaheft.aai.uni-hamburg.de/iiif/' || string($item//t:msIdentifier/t:idno/@facs)
- let $imagefile := format-number($n, '000') || '.tif'
-let $resid := ($imagesbaseurl || '_' || $imagefile )
- let $image := ($imagesbaseurl || '_' || $imagefile || '/full/full/0/default.jpg' )
-let $id := $iiifroot || '/canvas/p'  || $n
-       return
-     iiif:annotation($id, $image, $resid)
-    )   };
-       :)
-       
-       
-(:      annotations list IIIF documentation: 
-For some objects, there may be more than just images available to represent the page. 
-Other resources could include the full text of the object, musical notations, musical performances, 
-diagram transcriptions, commentary annotations, tags, video, data and more. 
-These additional resources are included in annotation lists, referenced from the canvas they are associated with.:)
-
-
-(:there is no need at the moment for lists of annotations
-:)
-  (:declare 
-%rest:GET
-%rest:path("/BetMas/api/iiif/{$id}/list/p{$n}")
-%output:method("json")
-function iiif:list($id as xs:string*, $n as xs:string*) {
-<rest:response>
-            <http:response
-                status="200">
-                <http:header
-                    name="Content-Type"
-                    value="application/json; charset=utf-8"/>
-            </http:response>
-        </rest:response>,
-        let $item := collection($config:data-root)//id($id)
-        
-        return
-        $id
-        };
-        :)
-        
-        (:
-        
-        declare 
-%rest:GET
-%rest:path("/BetMas/api/iiif/{$id}/layer/{$n}")
-%output:method("json")
-function iiif:layer($id as xs:string*, $n as xs:string*) {
-<rest:response>
-            <http:response
-                status="200">
-                <http:header
-                    name="Content-Type"
-                    value="application/json; charset=utf-8"/>
-            </http:response>
-        </rest:response>,
-        let $item := collection($config:data-root)//id($id)
-        
-        return
-        $id
-        };
-:)
-   
-
+      
