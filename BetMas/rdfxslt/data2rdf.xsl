@@ -1,4 +1,18 @@
-<xsl:stylesheet xmlns:pleiades="https://pleiades.stoa.org/" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:bm="https://betamasaheft.eu/" xmlns:wd="https://www.wikidata.org/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:oa="http://www.w3.org/ns/oa#" xmlns:rel="http://purl.org/vocab/relationship/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:pelagios="http://pelagios.github.io/vocab/terms#" xmlns:syriaca="http://syriaca.org/documentation/relations.html#" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:crm="http://www.cidoc-crm.org/cidoc-crm/" xmlns:saws="http://purl.org/saws/ontology#" xmlns:iha="http://islhornafr.tors.sc.ku.dk/" xmlns:funct="http://myfunction" xmlns:gn="http://www.geonames.org/ontology#" xmlns:agrelon="http://d-nb.info/standards/elementset/agrelon.owl#" xmlns:lawd="http://lawd.info/ontology/" xmlns:sdc="https://w3id.org/sdc/ontology#" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:ecrm="http://erlangen-crm.org/current/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:snap="http://data.snapdrgn.net/ontology/snap#" xmlns:dc="http://purl.org/dc/elements/1.1/" exclude-result-prefixes="funct" version="2.0">
+<xsl:stylesheet xmlns:svcs="http://rdfs.org/sioc/services#" xmlns:doap="http://usefulinc.com/ns/doap#"
+    xmlns:pleiades="https://pleiades.stoa.org/" xmlns:skos="http://www.w3.org/2004/02/skos/core#" 
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:bm="https://betamasaheft.eu/" 
+    xmlns:wd="https://www.wikidata.org/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+    xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:oa="http://www.w3.org/ns/oa#" 
+    xmlns:rel="http://purl.org/vocab/relationship/" xmlns:dcterms="http://purl.org/dc/terms/" 
+    xmlns:pelagios="http://pelagios.github.io/vocab/terms#" xmlns:syriaca="http://syriaca.org/documentation/relations.html#" 
+    xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:crm="http://www.cidoc-crm.org/cidoc-crm/" 
+    xmlns:saws="http://purl.org/saws/ontology#" xmlns:iha="http://islhornafr.tors.sc.ku.dk/" 
+    xmlns:funct="http://myfunction" xmlns:gn="http://www.geonames.org/ontology#" 
+    xmlns:agrelon="http://d-nb.info/standards/elementset/agrelon.owl#" xmlns:lawd="http://lawd.info/ontology/" 
+    xmlns:sdc="https://w3id.org/sdc/ontology#" xmlns:t="http://www.tei-c.org/ns/1.0" 
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:ecrm="http://erlangen-crm.org/current/" 
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:snap="http://data.snapdrgn.net/ontology/snap#" 
+    xmlns:dc="http://purl.org/dc/elements/1.1/" exclude-result-prefixes="funct" version="2.0">
     <xsl:output method="xml" indent="yes" encoding="UTF-8"/>
     <xsl:function name="funct:date">
         <xsl:param name="date"/>
@@ -185,7 +199,11 @@
                     <rdf:type rdf:resource="https://w3id.org/sdc/ontology#UniCirc"/>
                     <sdc:hasCertainty rdf:resource="https://w3id.org/sdc/ontology#certain"/>
                     <!--                    the physDesc can be BOTH at top level and in each msPart, it needs to be called here anyway, then also in each msPart if there is any-->
-                    <xsl:apply-templates select="//t:msDesc/t:msIdentifier"/>
+                    <xsl:apply-templates select="//t:msDesc/t:msIdentifier">
+                        <xsl:with-param name="mainID">
+                            <xsl:value-of select="$mainID"/>
+                        </xsl:with-param>
+                    </xsl:apply-templates>
                     <xsl:apply-templates select="//t:msDesc/t:physDesc">
                         <xsl:with-param name="mainID">
                             <xsl:value-of select="$mainID"/>
@@ -1062,9 +1080,26 @@
     </xsl:template>
 
     <xsl:template match="t:msIdentifier">
+        <xsl:param name="mainID"></xsl:param>
         <crm:P1_is_identified_by>
             <xsl:value-of select="t:idno"/>
         </crm:P1_is_identified_by>
+        <xsl:if test="t:idno[@facs]">
+            <xsl:variable name="viewer" select="if(starts-with(@facs, 'http')) then @facs else ('https://betamasaheft.eu/manuscript/'||$mainID || '/viewer')"/>
+            <xsl:variable name="manifest" select="if(starts-with(@facs, 'http')) then @facs else ('https://betamasaheft.eu/api/iiif/'||$mainID || '/manifest')"/>
+            <foaf:depiction>
+                <rdf:Description rdf:about="{$viewer}">
+                    <rdf:type rdf:resource="http://www.europeana.eu/schemas/edm/WebResource"/>
+                    <svcs:has_service>
+                        <rdf:Description rdf:about="{$manifest}">
+                            <rdf:type rdf:resource="http://rdfs.org/sioc/services#Service"/>
+                            <doap:implements rdf:resource="http://iiif.io/api/image/2/level1.json"/>
+                            <dcterms:conformsTo rdf:resource="http://iiif.io/api/image"/>
+                        </rdf:Description>
+                    </svcs:has_service>
+                </rdf:Description>
+            </foaf:depiction>
+        </xsl:if>
         <xsl:for-each select="t:altIdentifier">
             <crm:P1_is_identified_by>
                 <xsl:value-of select="./t:idno"/>
