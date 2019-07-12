@@ -21,8 +21,8 @@
                 <item xml:id="ar">Arabic</item>
                 <item xml:id="awn">Awngi</item>
                 <item xml:id="cop">Coptic</item>
-                <item xml:id="de">German / Deutsche</item>
-                <item xml:id="en">English / Inglese</item>
+                <item xml:id="de">German</item>
+                <item xml:id="en">English</item>
                 <item xml:id="es">Spanish</item>
                 <item xml:id="fa">Persian</item>
                 <item xml:id="fr">French</item>
@@ -33,7 +33,7 @@
                 <item xml:id="grc">Greek / Ancient Greek</item>
                 <item xml:id="he">Hebrew</item>
                 <item xml:id="hy">Armenian</item>
-                <item xml:id="it">Italiano / Italian</item>
+                <item xml:id="it">Italian</item>
                 <item xml:id="la">Latin</item>
                 <item xml:id="lat">Latin</item>
                 <item xml:id="no">Norwegian</item>
@@ -44,10 +44,10 @@
                 <item xml:id="rm">Romansh</item>
                 <item xml:id="ru">Russian</item>
                 <item xml:id="so">Somali</item>
-                <item xml:id="sv">Swedish / swedish</item>
+                <item xml:id="sv">Swedish</item>
                 <item xml:id="sw">Kiswahili</item>
                 <item xml:id="syr">Syriac</item>
-                <item xml:id="ti">Tigrinya / Tǝgrǝññā</item>
+                <item xml:id="ti">Tigrinya</item>
                 <item xml:id="tu">Turkish</item>
                 <item xml:id="x-oh">Old harari</item>
                 <item xml:id="x-un">Unidentified</item>
