@@ -672,17 +672,30 @@ let $DcWithVersions :=  map:put($DcSelector, "dc:hasVersion", $versions)
 let $ext := dts:extension($id)
 let $haspart := dts:haspart($id)
 let $manifest := if($doc//t:idno[@facs[not(starts-with(.,'http'))]]) 
-then 
-(:from europeana data model specification, taken from nomisma, not sure if this is correct in json LD:)
-( map {'@value' := ($config:appUrl ||"/manuscript/"|| $id || '/viewer'),
-'@type' := 'edm:WebResource',
-                 "svcs:has_service" := map{'@value' := "https://betamasaheft.eu/api/iiif/"||$id||"/manifest",
-                 '@type' := 'svcs:Service',
-"dcterms:conformsTo":= "http://iiif.io/api/image",
-"doap:implements":= "http://iiif.io/api/image/2/level1.json"
- }
-        }
-) else ()
+                    then 
+                        (:from europeana data model specification, taken from nomisma, not sure if this is correct in json LD:)
+                        ( map {'@id' := ($config:appUrl ||"/manuscript/"|| $id || '/viewer'),
+                                        '@type' := 'edm:WebResource',
+                                        "svcs:has_service" := map{'@id' := "https://betamasaheft.eu/api/iiif/"||$id||"/manifest",
+                                                                                            '@type' := 'svcs:Service',
+                                                                                            "dcterms:conformsTo":= "http://iiif.io/api/image",
+                                                                                            "doap:implements":= "http://iiif.io/api/image/2/level1.json"
+                                                                                             }
+                                      }
+                        )
+                       else if($doc//t:idno[@facs[starts-with(.,'http')]]) 
+                    then 
+                        (:from europeana data model specification, taken from nomisma, not sure if this is correct in json LD:)
+                        ( map {'@id' := string($doc//t:idno/@facs),
+                                        '@type' := 'edm:WebResource',
+                                        "svcs:has_service" := map{'@id' := string($doc//t:idno/@facs),
+                                                                                            '@type' := 'svcs:Service',
+                                                                                            "dcterms:conformsTo":= "http://iiif.io/api/image",
+                                                                                            "doap:implements":= "http://iiif.io/api/image/2/level1.json"
+                                                                                             }
+                                      }
+                        )
+                        else ()
 let $addmanifest := if (count($manifest) ge 1) then map:put($ext, "foaf:depiction", $manifest) else $ext
 let $parts := if(count($haspart) ge 1) then map:put($addmanifest, 'dcterms:hasPart', $haspart) else $addmanifest
 
