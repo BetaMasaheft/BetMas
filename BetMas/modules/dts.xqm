@@ -961,7 +961,7 @@ let $manifest := if($doc//t:idno[@facs[not(starts-with(.,'http'))]])
                         )
                         else ()
 let $addmanifest := if (count($manifest) ge 1) then map:put($ext, "foaf:depiction", $manifest) else $ext
-let $parts := if(count($haspart) ge 1) then map:put($addmanifest, 'dcterms:hasPart', $haspart) else $addmanifest
+let $parts := if(count($haspart) ge 1) then map:put($addmanifest, 'dc:hasPart', $haspart) else $addmanifest
 let $dtsPass := "/api/dts/document?id=" || $resourceURN
 let $dtsNav := "/api/dts/navigation?id=" || $resourceURN
 let $download := "https://betamasaheft.eu/tei/" || $id || '.xml'
@@ -1037,7 +1037,7 @@ $config:sparqlPrefixes ||
 let $query := sparql:query($querytext)
 for $result in $query//sr:binding
 return
-replace($result/sr:uri/text(), 'https://betamasaheft.eu/' , '/api/dts/collections?id=urn:dts:betmas:')
+$result/sr:uri/text()
 
 };
 
@@ -1098,6 +1098,14 @@ return
 $query//sr:binding[@*:name='x']/sr:*/text()
 };
 
+declare function dts:sparqlsInverse($id, $property){
+let $query := $config:sparqlPrefixes ||  "SELECT ?x 
+WHERE {?x "|| $property||" bm:"|| $id || " }"
+let $query := sparql:query($query)
+return 
+$query//sr:binding[@*:name='x']/sr:*/text()
+};
+
 (:~ utility function which takes a map and a list of properties together with a series of indexes to produce a map by recursively 
 : being called on successive entries of the list which is carried on until its end. the value in the list is sent to the dts:sparql function which runs a sparql querz using the current value
 : in the list as property :)
@@ -1105,11 +1113,25 @@ declare function dts:mapconstructor($id, $currentmap as map()?, $candidateproper
  if($index = count($listofcandidateproperties)) then $currentmap else
 let $next := $listofcandidateproperties[$index]
 let $candidatevalue := dts:sparqls($id, $candidateproperty)
+let $inversestatement := dts:sparqlsInverse($id, $candidateproperty)
+let $inverseOFcandidateproperty := switch ($candidateproperty)
+                                                                            case 'saws:isVersionOf' return 'saws:hasVersion'
+                                                                            case 'saws:contains' return 'saws:formsPartOf'
+                                                                            case 'saws:formsPartOf' return 'saws:contains'
+                                                                            case 'ecrm:CLP46i_may_form_part_of' return 'ecrm:CLP46_should_be_composed_of'
+                                                                            case 'saws:isVersionInAnotherLanguageOf' return 'saws:hasVersionInAnotherLanguage'
+                                                                            case 'saws:isShorterVersionOf' return 'saws:hasShorterVersion'
+                                                                            case 'crm:P129_is_about' return 'P129i_is_subject_of'
+                                                                            case 'saws:isDirectCopyOf' return 'saws:hasDirectCopy'
+                                                                            case 'saws:isAncestorOf' return 'saws:hasAncestor'
+                                                                            case 'saws:isCommentOn' return 'saws:hasComment'
+                                                                            default return $candidateproperty
 return
-if(count($candidatevalue) = 0) 
+if(count($candidatevalue) = 0 and count($inversestatement) = 0) 
 then dts:mapconstructor($id, $currentmap, $next, $index+1, $listofcandidateproperties) 
-else let $updatedmap := map:put($currentmap, $candidateproperty, $candidatevalue) 
-return dts:mapconstructor($id, $updatedmap, $next, $index+1, $listofcandidateproperties)
+else let $updatedmap := if(count($candidatevalue) = 0) then $currentmap else map:put($currentmap, $candidateproperty, $candidatevalue) 
+let $updatedmapINV := if(count($inversestatement) = 0) then $updatedmap else map:put($updatedmap, $inverseOFcandidateproperty, $inversestatement) 
+return dts:mapconstructor($id, $updatedmapINV, $next, $index+1, $listofcandidateproperties)
 };
 
 (:~  passes to dts:mapconstructor function a list of property names to build a map which only has relevant key-value pair and returns this map. :)
