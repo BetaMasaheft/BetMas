@@ -970,11 +970,11 @@ for $decoration at $p in $model("hits")
                 order by $ms
                 return
 
-(<button onclick="openAccordion('{data($ms)}')" class="w3-button w3-block w3-red  w3-margin-bottom">
+(<button onclick="openAccordion('{data($ms)}{data($type)}')" class="w3-button w3-block w3-red  w3-margin-bottom">
 <span class="w3-left">{$config:collection-rootMS//id($ms)//t:msIdentifier/t:idno}</span>
 <span class="w3-badge w3-right">{count($d)}</span>
 </button>,
-             <div  class="w3-container w3-hide" id="{data($ms)}">
+             <div  class="w3-container w3-hide" id="{data($ms)}{data($type)}">
 
                  <ul class="w3-ul w3-hoverable" >
                  {
