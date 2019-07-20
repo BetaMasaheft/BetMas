@@ -46,6 +46,7 @@ import module namespace templates="http://exist-db.org/xquery/templates" ;
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace sparql="http://exist-db.org/xquery/sparql" at "java:org.exist.xquery.modules.rdf.SparqlModule";
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
+import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2" at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
 import module namespace editors = "https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "xmldb:exist:///db/apps/BetMas/modules/editors.xqm";
 
 declare option output:method "json";
@@ -304,7 +305,7 @@ function dts:dtsmain() {
   ( $config:response200JsonLD,
   map {
   "@context":= "/dts/api/contexts/EntryPoint.jsonld",
-  "@id":= "/api/dts/",
+  "@id":= "/api/dts",
   "@type":= "EntryPoint",
   "collections":= "/api/dts/collections",
   "documents":= "/api/dts/document",
@@ -326,6 +327,9 @@ if($id = '') then (
  <rest:response>
   <http:response status="302">
     <http:header name="location" value="/api/dts/collections?id=urn:dts"/>
+    <http:header
+                    name="Access-Control-Allow-Origin"
+                    value="*"/>
   </http:response>
 </rest:response>
 ) else
@@ -353,6 +357,52 @@ map {
 };
 
 
+declare function dts:redirectToCollections (){
+
+<rest:response>
+  <http:response status="302">
+    <http:header name="location" value="/api/dts/collections?id=urn:dts"/>
+    <http:header
+                    name="Access-Control-Allow-Origin"
+                    value="*"/>
+  </http:response>
+</rest:response>};
+
+declare function dts:redirectToRDF($id){
+
+<rest:response>
+  <http:response status="302">
+    <http:header name="location" value="/{$id}"/>
+    <http:header
+                    name="Access-Control-Allow-Origin"
+                    value="*"/>
+  </http:response>
+</rest:response>};
+
+
+declare function dts:redirectToPDF($id){
+
+<rest:response>
+  <http:response status="302">
+    <http:header name="location" value="/{$id}.pdf"/>
+    <http:header
+                    name="Access-Control-Allow-Origin"
+                    value="*"/>
+  </http:response>
+</rest:response>};
+
+
+declare function dts:redirectToHTML($id, $ref, $start){
+
+<rest:response>
+  <http:response status="302">
+    <http:header name="location" value="/{switch2:col(switch2:switchPrefix($id))}/{$id}/text?start={if($ref != '') then $ref else if($start  != '') then $start else '1'}"/>
+    <http:header
+                    name="Access-Control-Allow-Origin"
+                    value="*"/>
+  </http:response>
+</rest:response>};
+
 (:~ dts/document https://github.com/distributed-text-services/specifications/blob/master/Document-Endpoint.md:)
 declare
 %rest:GET
@@ -361,19 +411,104 @@ declare
 %rest:query-param("ref", "{$ref}", "")
 %rest:query-param("start", "{$start}", "")
 %rest:query-param("end", "{$end}", "")
+%rest:produces("application/xml", "application/tei+xml","text/xml")
 %output:method('xml')
 %output:omit-xml-declaration("no")
-function dts:anyDocument($id as xs:string*, $ref as xs:string*, $start , $end) {
-if ($id = '') then (
- <rest:response>
-  <http:response status="302">
-    <http:header name="location" value="/api/dts/collections?id=urn:dts"/>
+function dts:anyDocumentXML($id as xs:string*, $ref as xs:string*, $start , $end) {
+dts:docs($id, $ref, $start, $end, 'application/tei+xml')
+};
+
+
+declare
+%rest:GET
+%rest:path("/BetMas/api/dts/document")
+%rest:query-param("id", "{$id}",  "")
+%rest:query-param("ref", "{$ref}", "")
+%rest:query-param("start", "{$start}", "")
+%rest:query-param("end", "{$end}", "")
+%rest:produces("application/rdf+xml")
+%output:method('xml')
+%output:omit-xml-declaration("no")
+function dts:anyDocumentRDF($id as xs:string*, $ref as xs:string*, $start , $end) {
+dts:docs($id, $ref, $start, $end, 'application/rdf+xml')
+};
+
+declare
+%rest:GET
+%rest:path("/BetMas/api/dts/document")
+%rest:query-param("id", "{$id}",  "")
+%rest:query-param("ref", "{$ref}", "")
+%rest:query-param("start", "{$start}", "")
+%rest:query-param("end", "{$end}", "")
+%rest:produces("application/pdf")
+%output:method('xml')
+%output:omit-xml-declaration("no")
+function dts:anyDocumentPDF($id as xs:string*, $ref as xs:string*, $start , $end) {
+dts:docs($id, $ref, $start, $end, 'application/pdf')
+};
+
+
+declare
+%rest:GET
+%rest:path("/BetMas/api/dts/document")
+%rest:query-param("id", "{$id}",  "")
+%rest:query-param("ref", "{$ref}", "")
+%rest:query-param("start", "{$start}", "")
+%rest:query-param("end", "{$end}", "")
+%rest:produces("text/plain")
+function dts:anyDocumentTEXT($id as xs:string*, $ref as xs:string*, $start , $end) {
+dts:docs($id, $ref, $start, $end, 'text/plain')
+};
+
+
+declare
+%rest:GET
+%rest:path("/BetMas/api/dts/document")
+%rest:query-param("id", "{$id}",  "")
+%rest:query-param("ref", "{$ref}", "")
+%rest:query-param("start", "{$start}", "")
+%rest:query-param("end", "{$end}", "")
+%rest:produces("text/html")
+function dts:anyDocumentHTML($id as xs:string*, $ref as xs:string*, $start , $end) {
+dts:docs($id, $ref, $start, $end, 'text/html')
+};
+
+(:declare
+%rest:GET
+%rest:path("/BetMas/api/dts/document")
+%rest:query-param("id", "{$id}",  "")
+%rest:query-param("ref", "{$ref}", "")
+%rest:query-param("start", "{$start}", "")
+%rest:query-param("end", "{$end}", "")
+function dts:anyDocumentDEFAULT($id as xs:string*, $ref as xs:string*, $start , $end) {
+dts:docs($id, $ref, $start, $end, 'application/tei+xml')
+};:)
+
+declare
+%rest:GET
+%rest:path("/BetMas/api/dts/document")
+%rest:query-param("id", "{$id}",  "")
+%rest:query-param("ref", "{$ref}", "")
+%rest:query-param("start", "{$start}", "")
+%rest:query-param("end", "{$end}", "")
+%rest:produces("application/json", "application/ecmascript", "application/javascript" )
+function dts:anyDocumentNotAccepted($id as xs:string*, $ref as xs:string*, $start , $end) {
+<rest:response>
+  <http:response status="406">
+    <http:header
+                    name="Content-Type"
+                    value="application/tei+xml ; application/xml ; application/rdf+xml ; application/pdf ; text/plain ; text/html ; text/xml "/>
   </http:response>
 </rest:response>
-) else
+};
+
+
+declare function dts:docs($id as xs:string*, $ref as xs:string*, $start, $end, $Content-Type){
+if ($id = '') then dts:redirectToCollections() else
  let $parsedURN := dts:parseDTS($id)
  return
-if($ref != '' and (($start != '') or ($end != ''))) then ($config:response400XML, <error statusCode="400" xmlns="https://w3id.org/dts/api#">
+if($ref != '' and (($start != '') or ($end != ''))) then ($config:response400XML, 
+<error statusCode="400" xmlns="https://w3id.org/dts/api#">
   <title>Bad Request</title>
   <description>You should use start and end, or passage only</description>
 </error>) 
@@ -403,6 +538,9 @@ else <http:header
  <rest:response>
   <http:response status="302">
     <http:header name="location" value="{ $location }"/>
+    <http:header
+                    name="Access-Control-Allow-Origin"
+                    value="*"/>
   </http:response>
 </rest:response>
  else
@@ -498,20 +636,40 @@ else $file
 
                        
  return
-  ( <rest:response>
+ 
+  switch($Content-Type) 
+  
+  case 'application/rdf+xml' return dts:redirectToRDF($thisid)
+  case 'application/pdf' return dts:redirectToPDF($thisid)
+  case 'text/html' return  dts:redirectToHTML($thisid, $ref, $start)
+  case 'text/plain' return  ( <rest:response>
   <http:response
                 status="200">
                 <http:header
                     name="Content-Type"
-                    value="application/tei+xml; charset=utf-8"/>
+                    value="{$Content-Type}; charset=utf-8"/>
                 <http:header
                     name="Access-Control-Allow-Origin"
                     value="*"/>
                    {$links}
             </http:response>
         </rest:response>,
-  $doc
-  )     
+string:tei2string($doc/node()[not(name()='teiHeader')]))
+(:  default is on xml TEI :)
+  default return  ( <rest:response>
+  <http:response
+                status="200">
+                <http:header
+                    name="Content-Type"
+                    value="{$Content-Type}; charset=utf-8"/>
+                <http:header
+                    name="Access-Control-Allow-Origin"
+                    value="*"/>
+                   {$links}
+            </http:response>
+        </rest:response>,$doc)
+  
+
 };
 
 (:~ dts/navigation https://github.com/distributed-text-services/specifications/blob/master/Navigation-Endpoint.md:)
@@ -1028,9 +1186,13 @@ else (
 (:this lists the contents of a manuscript, where the connection to a msitem is also flattened in one dcterms:hasPart step :)
 $config:sparqlPrefixes || 
 "SELECT ?part
- WHERE {bm:" || $id || "  dcterms:hasPart ?item . 
+ WHERE {{bm:" || $id || "  dcterms:hasPart ?item . 
                               ?item a sdc:UniCont .
-                ?item dcterms:hasPart ?part . 
+                ?item dcterms:hasPart ?part . }
+                UNION
+                {?partID dcterms:hasPart ?subpart ; 
+                   dcterms:isPartOf bm:" || $id || " .
+                             ?subpart dc:relation ?part . }
                               ?part a lawd:ConceptualWork . }"
 
                               )

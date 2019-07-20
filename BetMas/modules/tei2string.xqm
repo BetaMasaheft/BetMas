@@ -58,7 +58,7 @@ declare function string:tei2string($nodes as node()*) {
                     titles:printTitleMainID($node/@ref)
             case element(t:title)
                 return
-                    titles:printTitleMainID($node/@ref)
+                   if($node/@ref) then titles:printTitleMainID($node/@ref) else string:tei2string($node/node())
                     case element(t:term)
                 return
                    if($node/@key) then titles:printTitleMainID($node/@key) else $node/text()
