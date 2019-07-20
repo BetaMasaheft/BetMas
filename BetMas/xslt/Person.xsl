@@ -38,10 +38,10 @@
                <h3>Names <xsl:if test="//t:person/@sex">
                    <xsl:choose>
                        <xsl:when test="//t:person/@sex = 1">
-                           <i class="icon-large icon-male"/>
+                           <i class="fa fa-mars"></i>
                        </xsl:when>
                        <xsl:when test="//t:person/@sex = 2">
-                           <i class="icon-large icon-female"/>
+                           <i class="fa fa-venus"></i>
                        </xsl:when>
                    </xsl:choose>
                </xsl:if>
