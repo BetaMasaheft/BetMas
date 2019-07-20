@@ -1,4 +1,6 @@
-<xsl:stylesheet xmlns:pleiades="https://pleiades.stoa.org/" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:bm="https://betamasaheft.eu/" xmlns:wd="https://www.wikidata.org/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:oa="http://www.w3.org/ns/oa#" xmlns:doap="http://usefulinc.com/ns/doap#" xmlns:rel="http://purl.org/vocab/relationship/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:pelagios="http://pelagios.github.io/vocab/terms#" xmlns:syriaca="http://syriaca.org/documentation/relations.html#" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:crm="http://www.cidoc-crm.org/cidoc-crm/" xmlns:saws="http://purl.org/saws/ontology#" xmlns:iha="http://islhornafr.tors.sc.ku.dk/" xmlns:funct="http://myfunction" xmlns:svcs="http://rdfs.org/sioc/services#" xmlns:gn="http://www.geonames.org/ontology#" xmlns:agrelon="http://d-nb.info/standards/elementset/agrelon.owl#" xmlns:lawd="http://lawd.info/ontology/" xmlns:sdc="https://w3id.org/sdc/ontology#" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:ecrm="http://erlangen-crm.org/current/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:snap="http://data.snapdrgn.net/ontology/snap#" xmlns:dc="http://purl.org/dc/elements/1.1/" exclude-result-prefixes="funct" version="2.0">
+<xsl:stylesheet xmlns:pleiades="https://pleiades.stoa.org/" 
+    xmlns:skos="http://www.w3.org/2004/02/skos/core#" 
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:bm="https://betamasaheft.eu/" xmlns:wd="https://www.wikidata.org/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:oa="http://www.w3.org/ns/oa#" xmlns:doap="http://usefulinc.com/ns/doap#" xmlns:rel="http://purl.org/vocab/relationship/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:pelagios="http://pelagios.github.io/vocab/terms#" xmlns:syriaca="http://syriaca.org/documentation/relations.html#" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:crm="http://www.cidoc-crm.org/cidoc-crm/" xmlns:saws="http://purl.org/saws/ontology#" xmlns:iha="http://islhornafr.tors.sc.ku.dk/" xmlns:funct="http://myfunction" xmlns:svcs="http://rdfs.org/sioc/services#" xmlns:gn="http://www.geonames.org/ontology#" xmlns:agrelon="http://d-nb.info/standards/elementset/agrelon.owl#" xmlns:lawd="http://lawd.info/ontology/" xmlns:sdc="https://w3id.org/sdc/ontology#" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:ecrm="http://erlangen-crm.org/current/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:snap="http://data.snapdrgn.net/ontology/snap#" xmlns:dc="http://purl.org/dc/elements/1.1/" exclude-result-prefixes="funct" version="2.0">
     <xsl:output method="xml" indent="yes" encoding="UTF-8"/>
     <xsl:function name="funct:date">
         <xsl:param name="date"/>
@@ -127,7 +129,7 @@
     <xsl:template match="t:TEI">
         <rdf:RDF>
             <xsl:variable name="mainID" select="@xml:id"/>
-            <!--<xsl:variable name="ids">
+           <!-- <xsl:variable name="ids">
                 <xsl:for-each select="current()/ancestor::t:TEI//@xml:id">
                     <xsl:value-of select="."/>
                 </xsl:for-each>
@@ -412,11 +414,12 @@
             <xsl:if test="@type = 'mss'">
                 <!--                only call templates for direct children of msDesc, for the children of msParts the template will create those uris-->
                 <!--                additions all have a unique id, the uris can be thus created all here-->
-                <xsl:apply-templates select="         //t:div[@type='edition']/t:div |            //t:msDesc/t:msPart |                      //t:msDesc/t:msFrag |                      //t:msDesc/t:msContents/t:msItem |                      //t:item[ancestor::t:additions] |                     //t:item[ancestor::t:collation] |                      //t:item[ancestor::t:foliation] |                      //t:handNote |                      //t:layout |                      //t:decoNote[ancestor::t:bindingDesc] |                      //t:decoNote[ancestor::t:decoDesc]" mode="parturis">
+                <xsl:apply-templates select="  //t:div[@type='edition']/t:div |                   //t:msDesc/t:msPart |                      //t:msDesc/t:msFrag |                      //t:msDesc/t:msContents/t:msItem |                      //t:item[ancestor::t:additions] |                     //t:item[ancestor::t:collation] |                      //t:item[ancestor::t:foliation] |                      //t:handNote |                      //t:layout |                      //t:decoNote[ancestor::t:bindingDesc] |                      //t:decoNote[ancestor::t:decoDesc]" mode="parturis">
                     <xsl:with-param name="mainID">
                         <xsl:value-of select="$mainID"/>
                     </xsl:with-param>
                 </xsl:apply-templates>
+              
             </xsl:if>
             
             
@@ -1070,14 +1073,26 @@
         </xsl:for-each>
     </xsl:template>
 
+    
+    
     <xsl:template match="t:msIdentifier">
         <xsl:param name="mainID"/>
         <crm:P1_is_identified_by>
             <xsl:value-of select="t:idno"/>
         </crm:P1_is_identified_by>
         <xsl:if test="t:idno[@facs]">
-            <xsl:variable name="viewer" select="if(starts-with(@facs, 'http')) then @facs else ('https://betamasaheft.eu/manuscript/'||$mainID || '/viewer')"/>
-            <xsl:variable name="manifest" select="if(starts-with(@facs, 'http')) then @facs else ('https://betamasaheft.eu/api/iiif/'||$mainID || '/manifest')"/>
+            <xsl:variable name="viewer">
+                <xsl:choose>
+                    <xsl:when test="starts-with(@facs, 'http')"><xsl:value-of select="@facs"/></xsl:when>
+                    <xsl:otherwise><xsl:value-of select="concat('https://betamasaheft.eu/manuscript/',$mainID , '/viewer')"/></xsl:otherwise>
+                </xsl:choose>
+            </xsl:variable>
+            <xsl:variable name="manifest">
+                <xsl:choose>
+                    <xsl:when test="starts-with(@facs, 'http')"><xsl:value-of select="@facs"/></xsl:when>
+                    <xsl:otherwise><xsl:value-of select="concat('https://betamasaheft.eu/api/iiif/',$mainID , '/manifest')"/></xsl:otherwise>
+                </xsl:choose>
+            </xsl:variable>
             <foaf:depiction>
                 <rdf:Description rdf:about="{$viewer}">
                     <rdf:type rdf:resource="http://www.europeana.eu/schemas/edm/WebResource"/>
