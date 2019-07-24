@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0">
     <teiHeader>
         <fileDesc>
@@ -62,6 +61,13 @@
                 <item xml:id="AE" n="Andreas">Andreas Ellwardt</item>
                 <item xml:id="WD" n="Wolfgang">Wolfgang Dickhut</item>
                 <item xml:id="HE" n="Hiruie">Hiruie Ermias</item>
+                <item xml:id="AM" n="Angela">Angela Müller</item>
+                <item xml:id="MA" n="Mersha">Mersha Alehegne</item>
+                <item xml:id="LB" n="Leonard">Leonard Bahr</item>
+                <item xml:id="LM" n="Leah">Leah Mascia</item>
+                <item xml:id="ED" n="Eyob">Eyob Derillo</item>
+                <item xml:id="SSe" n="Simone">Simone Seyboldt</item>
+                <item xml:id="CD" n="Coleman">Coleman Donaldson</item>
             </list>
         </body>
     </text>

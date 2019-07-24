@@ -51,10 +51,10 @@ declare function string:tei2string($nodes as node()*) {
                     else ()
             case element(t:persName)
                 return
-                    titles:printTitleMainID($node/@ref)
+                    if($node/text()) then $node/text() else titles:printTitleMainID($node/@ref)
             case element(t:placeName)
                 return
-                    
+                    if($node/text()) then $node/text() else 
                     titles:printTitleMainID($node/@ref)
             case element(t:title)
                 return

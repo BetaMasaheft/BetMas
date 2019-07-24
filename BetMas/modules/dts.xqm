@@ -40,9 +40,6 @@ import module namespace functx="http://www.functx.com";
 import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
-import module namespace kwic = "http://exist-db.org/xquery/kwic"   at "resource:org/exist/xquery/lib/kwic.xql";
-import module namespace app="https://www.betamasaheft.uni-hamburg.de/BetMas/app" at "xmldb:exist:///db/apps/BetMas/modules/app.xqm";
-import module namespace templates="http://exist-db.org/xquery/templates" ;
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace sparql="http://exist-db.org/xquery/sparql" at "java:org.exist.xquery.modules.rdf.SparqlModule";
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
@@ -77,7 +74,7 @@ declare variable $dts:context := map{
   declare function dts:fileingitCommits($id, $bmID, $apitype){
 let $collection := if(contains($id, 'betmasMS')) then 'Manuscripts' else 'Works'
 let $permapath := replace(dts:capitalize-first(substring-after(base-uri($config:collection-root/id($bmID)[name()='TEI']), '/db/apps/BetMasData/')), $collection, '')
-let $url := 'https://api.github.com/repos/BetaMasaheft/' || $collection || '/commits?path=' || $permapath
+let $url := 'https://api.github.com/repos/BetaMasaheft/' || $collection || '/commits?client_id=PietroLiuzzo&amp;client_secret=70136bf9b50967b43587fc2a2ddd52e785e08b93?path=' || $permapath
  let $file := httpclient:get(xs:anyURI($url), true(), <Headers/>)
   
 let $file-info := 
@@ -895,7 +892,7 @@ return
 if(count($doc) eq 1) then (
 $config:response200JsonLD,
 let $shortid:=substring-before($id, concat(':',$bmID))
-let $memberInfo := dts:member($shortid,$document)
+let $memberInfo := dts:member($shortid,$document, 'yes')
 let $addcontext := map:put($memberInfo, "@context", $dts:context)
 let $addnav := if($nav = 'parent') then 
 let $parent :=if(contains($id, 'betmasMS:')) then 
@@ -1012,7 +1009,7 @@ let $end := $page * $perpage
 let $start := ($end - $perpage) +1
 let $members :=  for $document in subsequence($items , $start, $end) 
                                         return
-                                      dts:member($collURN, $document)
+                                      dts:member($collURN, $document, 'no')
     return
     map {
     "@context": $dts:context,
@@ -1051,7 +1048,7 @@ else $citType
     
 };
 (:~ produces the information needed for each member of a collection :)
-declare function dts:member($collURN,$document){
+declare function dts:member($collURN,$document, $vers){
 if(not($document))
 then <rest:response>
         <http:response
@@ -1089,8 +1086,8 @@ let $DcSelector :=
 if(contains($collURN, 'MS')) then $dc else $dcAndWitnesses
 (:$dc:)
 let $resourceURN := $collURN || ':' || $id
-let $versions := dts:fileingitCommits($resourceURN, $id, 'collections')
-let $DcWithVersions :=  map:put($DcSelector, "dc:hasVersion", $versions) 
+let $versions := if($vers = 'yes') then dts:fileingitCommits($resourceURN, $id, 'collections') else ()
+let $DcWithVersions :=  if($vers = 'yes') then map:put($DcSelector, "dc:hasVersion", $versions) else $DcSelector
 let $ext := dts:extension($id)
 let $haspart := dts:haspart($id)
 let $manifest := if($doc//t:idno[@facs[not(starts-with(.,'http'))]]) 

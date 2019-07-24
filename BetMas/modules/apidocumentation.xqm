@@ -22,3 +22,18 @@ return
     </div>
     
 };
+
+declare function apidoc:shine($node as node()*, $model as map(*)){
+    let $restxq := rest:resource-functions()
+let $shine :=  $restxq//rest:resource-function[rest:identity[ends-with(@namespace, 'shine')]]
+for $request in $shine
+return 
+    
+    <div id="{$request/rest:identity/@local-name}" class="APIexamplestable">
+    <div class="w3-row lead"><div class="w3-container">Pattern</div></div>
+            <div class="w3-row">
+            <div class="w3-container"><pre>{'/'||string-join($request/rest:annotations//rest:segment[position() gt 1]/text(), '/')}</pre></div>
+            </div>
+    </div>
+    
+};

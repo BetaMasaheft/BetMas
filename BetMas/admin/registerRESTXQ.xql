@@ -35,5 +35,7 @@ exrest:register-module(xs:anyURI("/db/apps/BetMas/modules/workmap.xqm")),
 exrest:register-module(xs:anyURI("/db/apps/BetMas/modules/list.xqm")),
 exrest:register-module(xs:anyURI("/db/apps/gez-en/modules/rest.xqm")),
 exrest:register-module(xs:anyURI("/db/apps/parser/modules/morphoparser.xqm")),
-exrest:register-module(xs:anyURI("/db/apps/parser/modules/litcompare.xqm")):)
-exrest:register-module(xs:anyURI("/db/apps/parser/modules/permanentItems.xqm"))
+exrest:register-module(xs:anyURI("/db/apps/parser/modules/litcompare.xqm")),
+exrest:register-module(xs:anyURI("/db/apps/parser/modules/permanentItems.xqm")),
+exrest:register-module(xs:anyURI("/db/apps/parser/modules/persistentdts.xqm")),:)
+exrest:register-module(xs:anyURI("/db/apps/BetMas/apis/shine.xqm"))
