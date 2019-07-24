@@ -74,7 +74,7 @@ declare variable $dts:context := map{
   declare function dts:fileingitCommits($id, $bmID, $apitype){
 let $collection := if(contains($id, 'betmasMS')) then 'Manuscripts' else 'Works'
 let $permapath := replace(dts:capitalize-first(substring-after(base-uri($config:collection-root/id($bmID)[name()='TEI']), '/db/apps/BetMasData/')), $collection, '')
-let $url := 'https://api.github.com/repos/BetaMasaheft/' || $collection || '/commits?client_id=PietroLiuzzo&amp;client_secret=70136bf9b50967b43587fc2a2ddd52e785e08b93?path=' || $permapath
+let $url := 'https://api.github.com/repos/BetaMasaheft/' || $collection || '/commits?path=' || $permapath
  let $file := httpclient:get(xs:anyURI($url), true(), <Headers/>)
   
 let $file-info := 

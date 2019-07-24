@@ -5,7 +5,7 @@ $('#LoadPermanentIDs').on('click', function () {
     var id = $("#permanentIDs").data("id")
     /*    builds a request to the github api which returns all commits relevant for a given file*/
     var pathnorepo = path.replace(type, '')
-    var restcall = 'https://api.github.com/repos/BetaMasaheft/' + type + '/commits?client_id=PietroLiuzzo&client_secret=70136bf9b50967b43587fc2a2ddd52e785e08b93&path=' + pathnorepo
+    var restcall = 'https://api.github.com/repos/BetaMasaheft/' + type + '/commits?path=' + pathnorepo
     console.log(restcall)
     $.getJSON(restcall, function (data) {
         console.log(data)
