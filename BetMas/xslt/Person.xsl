@@ -11,6 +11,13 @@
                         </p>
                 </div>
             </xsl:if>
+              <xsl:if test="//t:education">
+                  <div class="w3-container" id="education"> <h4>Education</h4>
+                      <p>
+                          <xsl:apply-templates select="//t:education" mode="noP"/>
+                      </p>
+                  </div>
+              </xsl:if>
             <xsl:if test="//t:floruit">
                 <div class="w3-container" id="floruit"> <h4>Period of Activity</h4>
                     <p>
@@ -38,10 +45,10 @@
                <h3>Names <xsl:if test="//t:person/@sex">
                    <xsl:choose>
                        <xsl:when test="//t:person/@sex = 1">
-                           <i class="fa fa-mars"></i>
+                           <i class="fa fa-mars"/>
                        </xsl:when>
                        <xsl:when test="//t:person/@sex = 2">
-                           <i class="fa fa-venus"></i>
+                           <i class="fa fa-venus"/>
                        </xsl:when>
                    </xsl:choose>
                </xsl:if>
