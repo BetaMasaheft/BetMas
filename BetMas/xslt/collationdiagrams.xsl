@@ -27,7 +27,7 @@
         </xsl:variable>
         <xsl:variable name="filename-diagrams" select="concat($idno,'-diagrams.html')"/>
         <xsl:variable name="randomnumber" select="generate-id()"/>
-        <button type="button" class="w3-button w3-red" onclick="openAccordion('quirediagrams{$randomnumber}')">Diagrams</button>
+        <button type="button" class="w3-button w3-red" onclick="openAccordion('quirediagrams{$randomnumber}')">Quire Diagrams</button>
         <div class="container quires w3-container w3-hide" id="quirediagrams{$randomnumber}">
             <h3>Collation diagrams</h3>
             <xsl:for-each select="t:quire">

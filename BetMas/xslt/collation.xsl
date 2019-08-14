@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:collation">
         <xsl:variable name="mspartID">
@@ -30,7 +29,7 @@
         <xsl:if test="t:list">
         <div class="w3-container allCollation">
             
-            <button type="button" class="w3-button w3-red" onclick=" openAccordion('collation{$mspartID}')">Quires Table</button>
+            <button type="button" class="w3-button w3-red" onclick=" openAccordion('collation{$mspartID}')">Quire Table</button>
             <div class="collation w3-hide QuiresTable" id="collation{$mspartID}">
                 <div class="w3-col" style="width:200px">
                     <ul class="quireTableHeaders">
