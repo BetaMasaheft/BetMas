@@ -1344,28 +1344,28 @@ if($items-info  = <start/>) then (
 </select>
 </div>,
 <div class="w3-container">
-<label for="occupation">occupation type </label>
+<label for="occupation">occupation types </label>
 <select multiple="multiple" name="occupation" id="occupation" class="w3-select w3-border">
 {$evalContext/$app:range-lookup('occtype', '', function($key, $count) {<option value="{$key}">{$key} </option>},1000)}
 </select>
 </div>,
 <div class="w3-container">
-<label for="faith">faith </label>
+<label for="faith">faiths </label>
 <select multiple="multiple" name="faith" id="faith" class="w3-select w3-border">
 {$evalContext/$app:range-lookup('faithtype', '', function($key, $count) {<option value="{$key}">{$key} </option>},1000)}
 </select>
 </div>
 ) else
 (:form selectors relative to query:)
-
+(
 apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titles', $context),
 apprest:formcontrol('occupation type','occupation', $items-info//t:occupation/@type, 'true', 'titles', $context),
-apprest:formcontrol('faith type','faith', $items-info//t:faith/@type, 'true', 'titles', $context),
+apprest:formcontrol('faith','faith', $items-info//t:faith/@type, 'true', 'titles', $context),
 <div class="w3-container">
             <input  class="w3-check" type="checkbox" name="gender" value="1">Male</input>
             <input   class="w3-check" type="checkbox" name="gender" value="2">Female</input>
     </div>
-)
+))
 (:default is a manuscript related list view, catalogue, institutions or general view:)
 default return
 (
