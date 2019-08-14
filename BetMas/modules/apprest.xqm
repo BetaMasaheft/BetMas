@@ -556,8 +556,8 @@ return
 <bibl>
 {
 for $author in distinct-values(($file//t:revisionDesc/t:change/@who| $file//t:editor/@key))
-let $count := count($file//t:revisionDesc/t:change[@who = $author])
-order by $count descending
+let $score := count($file//t:revisionDesc/t:change[@who = $author]) + count($file//t:editor[@key = $author]) + (if($file//t:editor[@key = $author][@role='cataloguer' or @role='editor']) then 100 else 0)
+order by $score descending
                 return
 <author>{editors:editorKey(string($author))}</author>
 }
@@ -630,11 +630,12 @@ return
                 {for $change in $document//t:revisionDesc/t:change
                 let $time := $change/@when
                 let $author := editors:editorKey(string($change/@who))
+                let $ES := if(contains($change/text(), 'Ethio-SPaRe team photographed the manuscript')) then () else if (xs:date($time) ge xs:date('2016-05-10')) then () else ' in Ethio-SPaRe '
                 order by $time descending
                 return
                 <li>
-                {<span property="http://purl.org/dc/elements/1.1/contributor">{$author}</span>,
-                (' ' || $change/text() || ' on ' ||  format-date($time, '[D].[M].[Y]'))}
+                {(if (contains($change/text(), 'Ethio-SPaRe team photographed the manuscript')) then () else <span property="http://purl.org/dc/elements/1.1/contributor">{$author}</span>),
+                (' ' || $change/text() || $ES || ' on ' ||  format-date($time, '[D].[M].[Y]'))}
                 </li>
                 }
 
