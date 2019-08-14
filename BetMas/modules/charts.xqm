@@ -253,7 +253,7 @@ if($countDim ge 1) then (
 if($countDim ge 1050 ) then (<div  class="w3-half w3-panel w3-red w3-padding"><p>
   We think that a chart with data from {$countDim} items would be impossible to read and not useful. Filter your search to limit the number of items, with less then 1000 we will print also the graphs.
 </p></div>) else
-if (count($unit) gt 1) then (<div  class="w3-half w3-panel w3-red w3-padding"><p>Unfortunately we cannot put on a chart this data, because it is provided using different units of measure ({string-join($unit,', ')})</p></div>) else
+if (count($unit) gt 1) then (<div  class="w3-half w3-panel w3-red w3-padding"><p>Unfortunately we cannot put on a chart the dimensions of the manuscripts, because they are provided using different units of measure ({string-join($unit,', ')})</p></div>) else
     let $dims := for $d in $dimensions
     let $all := $d/t:dimensions[@type='outer']
                         let $SM := $d//ancestor::t:TEI//t:msIdentifier/t:idno/text()
