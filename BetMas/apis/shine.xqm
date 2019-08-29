@@ -92,7 +92,7 @@ let $TEI := $shine:all[ancestor::t:TEI[@xml:id=$uuid]]
 return
 if((count($TEI) = 1) and $TEI/t:div) then 
   ( $config:response200Json,
- shine:sections($TEI, $uuid)
+ [shine:sections($TEI, $uuid)]
   )
          else $config:response404
 };
@@ -143,16 +143,19 @@ declare function shine:sections($div, $uuid){
 for $d at $p in $div/t:div 
 let $nid := generate-id($d)
 let $parentnode := $d/parent::t:div
-let $parentUuid := if($d/parent::t:div[@type = 'edition']) then $uuid else ($uuid||'_' || generate-id($parentnode))
 let $name := shine:sectionName($d, $p, $uuid)
-return (map {
+let $all := (map {
     "uuid": encode-for-uri($uuid||'_'||$nid),
     "name":= $name,
-    "parentUuid":= $parentUuid,
      "uri":= $config:appUrl || '/' || $uuid,
     "contentUnitCount":= count($d/t:div[t:ab])},
   shine:sections($d, $uuid)
   )
+  
+let $parentUuid := if($d/parent::t:div[@type = 'edition']) then $all else map:put($all, "parentUuid", ($uuid||'_' || generate-id($parentnode)))
+
+return 
+$parentUuid
 };
 
 
