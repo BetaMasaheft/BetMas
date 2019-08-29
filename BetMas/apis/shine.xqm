@@ -114,11 +114,14 @@ let $node := for $candidate in $TEI/descendant-or-self::t:div
 return
 if(count($node) = 1)
 then ( $config:response200Json,
-            for $t at $p in $text 
+           let $seq :=  for $t at $p in $text 
             return map {
                         "uuid":= ($uuid || '_string'||$p),
                         "content":= normalize-space($t)
-                        })
+                        }
+                        return 
+                        if (count($seq) = 1) then [$seq] else $seq
+                        )
 else $config:response404
 };
 
