@@ -29,9 +29,15 @@ declare
 %output:method("text")
 function apiTit:get-FormattedTitle($id as xs:string) {
     ($config:response200,
-    let $id := replace($id, '_', ':') return
-   normalize-space(titles:printTitleMainID($id))
+    let $id := replace($id, '_', ':') 
     
+    return
+    if (not(contains($id, ':'))) then
+   normalize-space(titles:printTitleMainID($id))
+   else if (starts-with($id, 'wd:') or starts-with($id, 'pleaides:') or starts-with($id, 'sdc:') or starts-with($id, 'gn:')   )
+   then
+   normalize-space(titles:printTitleMainID($id))
+    else $id
     )
 };
 

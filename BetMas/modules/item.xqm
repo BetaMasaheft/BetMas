@@ -1146,6 +1146,18 @@ return
      <div class="w3-panel w3-margin w3-gray w3-card-4" id="Chojnacki" data-id="{$id}"/>
      <script type="text/javascript" src="resources/js/gnisci.js"/>
      <script type="text/javascript" src="resources/js/pelagios.js"/></div> else ()}
+     {if($collection='authority-files' and $file//t:relation[starts-with(@passive,'ic')]) 
+     then <div class="w3-panel w3-margin w3-gray w3-card-4" id="EuropeanaMatches">
+     {for $iconclass in $file//t:relation[starts-with(@passive,'ic')] 
+     let $icID := substring-after($iconclass/@passive, 'ic:')
+     let $europeanalink := ('http://sparql.europeana.eu/?default-graph-uri=http%3A%2F%2Fdata.europeana.eu%2F&amp;query=SELECT+%3FProvidedCHO%0D%0AWHERE+%7B%0D%0A++%3FProxy+%3Fproperty+%3Chttp%3A%2F%2Ficonclass.org%2F'|| 
+                                           $icID   ||'%3E+%3B%0D%0A+++++++++ore%3AproxyIn+%3FAggregation+.+%0D%0A++%3FAggregation+edm%3AaggregatedCHO+%3FProvidedCHO%0D%0A%7D&amp;format=text%2Fhtml&amp;timeout=0&amp;debug=on')
+     return
+     <div data-value="{string($iconclass/@passive)}">
+     <a href="{$europeanalink}"> click to see items in Europeana</a> linked to <a href="http://iconclass.org/{$icID}">Iconclass concept {$icID}</a></div>
+     }
+     
+     </div> else ()}
    </div>
 
       };

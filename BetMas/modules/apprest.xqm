@@ -26,6 +26,7 @@ import module namespace console = "http://exist-db.org/xquery/console";
 import module namespace exreq = "http://exquery.org/ns/request";
 
 declare variable $apprest:languages := doc('/db/apps/BetMas/lists/languages.xml');
+declare variable $apprest:prefixes := doc('https://raw.githubusercontent.com/BetaMasaheft/Documentation/master/prefixDef.xml');
 
 declare function functx:trim( $arg as xs:string? )  as xs:string {
 
@@ -254,7 +255,11 @@ $data//text()
 
 declare function apprest:decidelink($link){
 if(contains($link, 'http')) then $link
-
+else if (contains($link, ':')) then (
+        let $ns := substring-before($link, ':')
+        let $prefixDef := $apprest:prefixes//t:prefixDef[@ident=$ns]
+        return replace(substring-after($link, ':'), $prefixDef/@matchPattern, $prefixDef/@replacementPattern)
+        )
 else concat($config:appUrl,'/',$link)
 };
 
@@ -329,7 +334,7 @@ apprest:deciderelation($list//id)
 
                                         </td>
                                         <td>
-                                            {data($relation/@name)}
+                                            <a href="{apprest:decidelink(data($relation/@name))}">{data($relation/@name)}</a>
                                         </td>
                                         <td>
                                          { for $passive in data($relation/@passive)
