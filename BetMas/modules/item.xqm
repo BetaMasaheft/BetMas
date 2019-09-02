@@ -1154,7 +1154,12 @@ return
                                            $icID   ||'%3E+%3B%0D%0A+++++++++ore%3AproxyIn+%3FAggregation+.+%0D%0A++%3FAggregation+edm%3AaggregatedCHO+%3FProvidedCHO%0D%0A%7D&amp;format=text%2Fhtml&amp;timeout=0&amp;debug=on')
      return
      <div data-value="{string($iconclass/@passive)}">
-     <a href="{$europeanalink}"> click to see items in Europeana</a> linked to <a href="http://iconclass.org/{$icID}">Iconclass concept {$icID}</a></div>
+   Items  linked to <a href="http://iconclass.org/{$icID}">Iconclass concept {$icID}</a>:
+   <ul><li><a href="{$europeanalink}">Click to see items in Europeana</a></li>
+   <li><a href="https://corpusvitrearum.de/id/{$icID}/about.html">Click to see items in Corpus Vitrearum Medii Aevi </a></li>
+   </ul>
+     
+     </div>
      }
      
      </div> else ()}
