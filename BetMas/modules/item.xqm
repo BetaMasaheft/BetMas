@@ -1158,7 +1158,7 @@ return
    <ul><li><a href="{$europeanalink}">Click to see items in Europeana</a></li>
    <li><a href="https://corpusvitrearum.de/id/{$icID}/about.html">Click to see items in Corpus Vitrearum Medii Aevi </a></li>
    </ul>
-     
+     <script type="application/javascript" src="resources/js/europeanaSparql.js"/>
      </div>
      }
      
