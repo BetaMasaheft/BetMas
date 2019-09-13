@@ -489,6 +489,37 @@ declare function gitsync:failedCommitMessage($mail, $data-collection, $message) 
                mail:send-email( $failureMessage, 'public.uni-hamburg.de', ())
 };
 
+
+(:~
+ :after storing a resource (and thus keeping the app in sync with the git repos)
+ :this function takes the file and validates it. if it is valid it does nothing else. 
+ : If it is not it sends an email to the committer asking for changes and giving wise advice...
+ : this function is called only on add and update
+:)
+declare function gitsync:mergeCommitMessage($mail, $data-collection, $message, $branch) {
+     let $failureMessage := <mail>
+                <from>pietro.liuzzo@uni-hamburg.de</from>
+                <to>pietro.liuzzo@uni-hamburg.de</to>
+                <bcc></bcc>
+                <subject>Commit to {$branch}, not synced</subject>
+                <message>
+                    <xhtml>
+                        <html>
+                            <head>
+                                <title>The app did not sync the update to branch {$branch} of {$data-collection} with the App.</title>
+                            </head>
+                            <body>
+                                <p>The app did not sync the update to branch {$branch} of {$data-collection} with the App.</p>
+                                <p>{$message}</p>
+                            </body>
+                        </html>
+                    </xhtml>
+                </message>
+            </mail>
+            return
+                (:send the email:)
+               mail:send-email( $failureMessage, 'public.uni-hamburg.de', ())
+};
 (:~
  : taxonomy and canonicaltaxonomy cannot be updated on the fly not to break the continuity of the
  one-way flow from github to the app. Pietro gets an email to update the canonical taxonomy in the rare 
@@ -555,7 +586,7 @@ return
             else
                 (<response
                     status="fail"><message>Not from the master branch.</message></response>,
-                        gitsync:failedCommitMessage('', $data-collection, 'Not from the master branch.')
+                        gitsync:mergeCommitMessage('', $data-collection, 'Not from the master branch.', $json-data?ref)
                         )
                         
         } catch * {

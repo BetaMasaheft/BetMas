@@ -800,8 +800,8 @@ declare function apprest:scriptStyle(){
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/introjs.css"  />,
         <link rel="stylesheet" type="text/css" href="resources/css/style.css"  />,
 (:        Alpheios :)
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alpheios-embedded/dist/style/style.min.css"  />,
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alpheios-embedded/dist/style/style-embedded.min.css"  />,
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alpheios-embedded@0.6.1/dist/style/style.min.css"  />,
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alpheios-embedded@0.6.1/dist/style/style-embedded.min.css"  />,
       
 (:      d3 :)
       <link rel="stylesheet" type="text/css" href="resources/css/d3.css"  />,
@@ -819,8 +819,8 @@ declare function apprest:scriptStyle(){
           <link rel="stylesheet" type="text/css" href="$shared/resources/css/bootstrap-3.0.3.min.css"  />,
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>,
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.5.1/css/bootstrap-slider.min.css"  />,
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alpheios-embedded/dist/style/style.min.css"  />,
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alpheios-embedded/dist/style/style-embedded.min.css"  />,
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alpheios-embedded@0.6.1/dist/style/style.min.css"  />,
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alpheios-embedded@0.6.1/dist/style/style-embedded.min.css"  />,
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>,
         <link rel="stylesheet" href="resources/css/w3local.css"/>,
         <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"/>,
@@ -862,7 +862,7 @@ declare function apprest:ItemFooterScript(){
         <script type="text/javascript" src="resources/js/diacriticskeyboard.js"  />,
         <script type="text/javascript" src="resources/js/analytics.js"  ></script>,
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/intro.js"  ></script>,
-        <script src="https://cdn.jsdelivr.net/npm/alpheios-embedded/dist/alpheios-embedded.min.js"  ></script>,
+        <script src="https://cdn.jsdelivr.net/npm/alpheios-embedded@0.6.1/dist/alpheios-embedded.min.js"  ></script>,
         <script type="text/javascript" src="resources/alpheios/alpheiosStart.js" />,
         <script type="application/javascript" src="resources/js/introText.js"/>,
 <script type="text/javascript" src="resources/js/versions.js"/>,
