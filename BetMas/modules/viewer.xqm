@@ -38,6 +38,8 @@ log:add-log-message('/manuscripts/viewer', xmldb:get-current-user(), 'viewer'),
         
        <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
+        <script type="text/javascript" src="resources/js/analytics.js"></script>
         <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
 <title xmlns="http://www.w3.org/1999/xhtml" property="dcterms:title og:title schema:name" >Mirador Manuscript viewer</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -83,6 +85,8 @@ log:add-log-message('/manuscripts/'||$repoid||'/viewer', xmldb:get-current-user(
         
        <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
+        <script type="text/javascript" src="resources/js/analytics.js"></script>
         <link rel="shortcut icon" href="resources/images/favicon.ico"/>
 <title xmlns="http://www.w3.org/1999/xhtml" property="dcterms:title og:title schema:name" >Mirador Manuscript viewer</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -190,6 +194,8 @@ if(xdb:collection-available($coll)) then (
         </rest:response>,
        <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
+        <script type="text/javascript" src="resources/js/analytics.js"></script>
     {apprest:app-title($id)}
         <link rel="shortcut icon" href="resources/images/favicon.ico"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -271,6 +277,8 @@ log:add-log-message('/chojnacki/viewer', xmldb:get-current-user(), 'viewer'),
         
        <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
+        <script type="text/javascript" src="resources/js/analytics.js"></script>
         <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
 <title xmlns="http://www.w3.org/1999/xhtml" property="dcterms:title og:title schema:name" >Mirador Chojnacki images viewer</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>

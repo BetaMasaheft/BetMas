@@ -259,7 +259,9 @@ if( $PermRestItem:deleted//t:item[. =$id]) then
             </http:response>
         </rest:response>,
         <html xmlns="http://www.w3.org/1999/xhtml">
-        <head><title>Not here any more...</title></head>
+        <head><script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
+        <script type="text/javascript" src="resources/js/analytics.js"></script>
+        <title>Not here any more...</title></head>
         <body><p>Sorry! {$id} has been marked as deleted.</p></body>
         </html>
         )
@@ -275,7 +277,9 @@ if( $PermRestItem:deleted//t:item[. =$id]) then
             </http:response>
         </rest:response>,
         <html xmlns="http://www.w3.org/1999/xhtml">
-        <head><title>Not here any more...</title></head>
+        <head><script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
+        <script type="text/javascript" src="resources/js/analytics.js"></script>
+        <title>Not here any more...</title></head>
         <body><p>Something has gone wrong and there are more than one item with id {$id}.</p>
         <ul>
         {for $i in $config:collection-root/id($id)[name() = 'TEI']

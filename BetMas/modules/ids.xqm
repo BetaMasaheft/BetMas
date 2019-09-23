@@ -36,6 +36,8 @@ function listIds:getlist(){
         </rest:response>,
        <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
+        <script type="text/javascript" src="resources/js/analytics.js"></script>
         <link rel="shortcut icon" href="resources/images/favicon.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <title>list of ids</title>

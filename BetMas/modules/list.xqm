@@ -58,6 +58,9 @@ function list:browseMS(){
         </rest:response>,
  <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
+    
+        <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
+        <script type="text/javascript" src="resources/js/analytics.js"></script>
         <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
         <link rel="shortcut icon" href="resources/images/minilogo.ico"></link>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
@@ -144,7 +147,8 @@ function list:browseUnits($unitType){
         </rest:response>,
  <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-
+<script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
+        <script type="text/javascript" src="resources/js/analytics.js"></script>
         <meta property="og:site_name" content="Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea"/>
         <meta property="dcterms:language schema:inLanguage" content="en"/>
         <meta property="dcterms:rights" content="Copyright © Akademie der Wissenschaften in Hamburg, Hiob-Ludolf-Zentrum für Äthiopistik.  Sharing and remixing permitted under terms of the Creative Commons Attribution Share alike Non Commercial 4.0 License (cc-by-nc-sa)."/>
@@ -339,6 +343,8 @@ if(xdb:collection-available($c)) then (
         </rest:response>,
        <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
+        <script type="text/javascript" src="resources/js/analytics.js"></script>
         <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
         <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -729,6 +735,8 @@ if(xdb:collection-available($c)) then (
         </rest:response>,
        <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
+        <script type="text/javascript" src="resources/js/analytics.js"></script>
         <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
         <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -911,6 +919,8 @@ if($file) then (
 
        <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
+        <script type="text/javascript" src="resources/js/analytics.js"></script>
         <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
         <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -1164,6 +1174,8 @@ if($file) then (
 
        <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
+        <script type="text/javascript" src="resources/js/analytics.js"></script>
         <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
         <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -1348,6 +1360,8 @@ if($file or starts-with($place, 'wd:')) then (
 
        <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
+        <script type="text/javascript" src="resources/js/analytics.js"></script>
         <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
         <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -1517,6 +1531,8 @@ if($file or starts-with($place, 'wd:')) then (
 
        <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
+        <script type="text/javascript" src="resources/js/analytics.js"></script>
         <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
         <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -1599,6 +1615,8 @@ function list:getcatalogues() {
 
        <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
+        <script type="text/javascript" src="resources/js/analytics.js"></script>
         <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
         <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -1776,6 +1794,8 @@ if($prefixedcatID = $catalogues) then (
 
        <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
+        <script type="text/javascript" src="resources/js/analytics.js"></script>
         <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
         <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -1988,6 +2008,8 @@ if($prefixedcatID = $catalogues) then (
 
        <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
+        <script type="text/javascript" src="resources/js/analytics.js"></script>
         <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
         <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>

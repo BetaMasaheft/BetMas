@@ -29,20 +29,19 @@ declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
 declare
 %rest:GET
-%rest:POST
 %rest:path("/BetMas/user/{$username}")
 %output:method("html5")
 function user:personalPage($username as xs:string) {
 let $un := sm:id()//sm:username/text()
 
-let $Imap := map {'type':= 'user', 'name' := $un}
+let $Imap := map {'type':= 'user', 'name' := ($un||'/'||$username)}
 
 return 
 
     if (sm:is-dba($un) or (($username = $un) and sm:is-account-enabled($un)  and sm:is-authenticated()))
     then
     (
-    log:add-log-message('/user/' || $username, $un, 'user'),
+    log:add-log-message('/user/' || $username, ($un||'/'||$username), 'user'),
     <rest:response>
         <http:response
             status="200">
@@ -54,6 +53,8 @@ return
     <html
         xmlns="http://www.w3.org/1999/xhtml">
         <head>
+        <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
+        <script type="text/javascript" src="resources/js/analytics.js"></script>
             <title
                 property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
             <link
