@@ -749,7 +749,7 @@ if(xdb:collection-available($c)) then (
         {nav:modalsNew()}
         {nav:searchhelpNew()}
        
-       {let $hits := apprest:listrest('repo', $repoID, $parameters, $prms)
+       {let $hits := apprest:listrest('collection', 'manuscripts', $parameters, $prms)
     return
     
    <div class="w3-container w3-margin w3-padding-64">
