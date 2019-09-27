@@ -819,7 +819,7 @@ declare function apprest:scriptStyle(){
           <link rel="stylesheet" type="text/css" href="$shared/resources/css/bootstrap-3.0.3.min.css"  />,
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>,
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.5.1/css/bootstrap-slider.min.css"  />,
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alpheios-embedded@0.6.1/dist/style/style.min.css"  />,
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alpheios-embedded/dist/style/style.min.css"  />,
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alpheios-embedded@0.6.1/dist/style/style-embedded.min.css"  />,
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>,
         <link rel="stylesheet" href="resources/css/w3local.css"/>,
@@ -1053,7 +1053,7 @@ let $quiresComp :=  if(empty($Pqcn) or $Pqcn = '' or $Pqcn = '1,40')
                    let $min := substring-before($Pqcn, ',')
                 let $max := substring-after($Pqcn, ',')
                 return
-                "[descendant::t:collation//t:dim[@unit='leaf'][not(.='')][number(.) ge "||$min|| ' ][ number(.)  le ' || $max ||"]]")
+                "[descendant::t:dim[ancestor::t:collation][@unit='leaf'][not(.='')][number(.) ge "||$min|| ' ][ number(.)  le ' || $max ||"]]")
 
 
 let $allMssFilters := concat($allnames, $support, $opl, $material, $bmaterial, $scripts, $scribes, $donors, $patrons, $owners, $parchmentMakers,
