@@ -721,6 +721,12 @@ let $passage := if (contains($id, 'betmasMS:') and not($textType='Inscription'))
                                          {string($n/@n)}
                                         <type>line</type>
                                           </p>
+                               else if($n/t:ab/t:l) then 
+                               for $n in $text//t:l return 
+                               <p>
+                                         {string($n/@n)}
+                                        <type>verse</type>
+                                          </p>
                                else 
                                 <p>
                                          {string($n/@n )}
@@ -777,6 +783,13 @@ let $passage := if (contains($id, 'betmasMS:') and not($textType='Inscription'))
                                <p>
                                          {string($n/@n)}
                                         <type>line</type>
+                                          </p>
+                               else 
+                               if($text//t:l) then 
+                               for $n in $text//t:l[number(@n) ge number($start)][number(@n) le number($end)] return 
+                               <p>
+                                         {string($n/@n)}
+                                        <type>verse</type>
                                           </p>
                                else 
                                for $n in $text/t:div[number(@n) ge number($start)][number(@n) le number($end)] return 
