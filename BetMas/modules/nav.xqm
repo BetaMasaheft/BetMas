@@ -235,6 +235,7 @@ return
                                 <a class="w3-bar-item w3-button"   href="/collate">Collate passages with Collatex</a>
                                 <a class="w3-bar-item w3-button"   href="/academics.html">Scholars in Ethiopian Studies</a>
                                 <a class="w3-bar-item w3-button"   href="/chojnacki/viewer">Chojnacki Collection</a>
+                                <a class="w3-bar-item w3-button"   href="/tweed.html">Tweed Collection</a>
                      </div>
     </div>
     <a href="/morpho" class="w3-bar-item w3-button  w3-hide-medium w3-hide-small" 
