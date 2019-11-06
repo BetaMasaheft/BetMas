@@ -212,7 +212,7 @@ return
             </h1>
           <p id="mainEditor"><i>{string-join($key, ', ')}</i></p>
           {if($collection = 'manuscripts') then <p>{if($this//t:additional//t:source/t:listBibl[@type='catalogue']) then ('This manuscript description is based on ' , <a href="#catalogue">the catalogues listed in the catalogue bibliography</a> )
-          else if($this//t:collection = 'EMIP') then $this//t:collection//text()
+          else if($this//t:collection = 'EMIP') then string-join($this//t:collection//text(), ', ')
           else if(contains($this//t:funder, 'IslHornAfr')) then ('Newly catalogued in IslHornAfr, see also ', <a href="http://islhornafr.tors.sc.ku.dk/backend/manuscripts/{format-number(number(replace($id, 'IHA', '')), '####')}">IslHornAfr manuscript {format-number(number(replace($id, 'IHA', '')), '####')}</a>)
           else if(contains($this//t:idno, 'EMML')) then string:tei2string($this//t:editionStmt)
           else 'Newly catalogued in Beta maṣāḥǝft'}</p> else ()}
