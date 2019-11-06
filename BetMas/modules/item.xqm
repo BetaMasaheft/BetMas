@@ -241,7 +241,7 @@ case 'manuscripts' return
 
     if($document//t:repository/text() = 'Lost' or $document//t:repository/text() = 'In situ')
     then <div class="w3-row"><span class="w3-tag w3-gray w3-large w3-margin-top">{$document//t:repository/text()}</span>
-    <p class="w3-large">Collection:  {$document//t:msIdentifier/t:collection}</p>
+    <p class="w3-large">Collection:  {string-join($document//t:msIdentifier/t:collection, ', ')}</p>
 
             {if($document//t:altIdentifier) then
             <p>Other identifiers: {
@@ -275,7 +275,7 @@ return
                   }
 
 
- <p class="w3-large">Collection:  {distinct-values($document//t:msIdentifier/t:collection)}</p>
+ <p class="w3-large">Collection:  {string-join($document//t:msIdentifier/t:collection, ', ')}</p>
 
            { if($document//t:altIdentifier) then
             <p>Other identifiers: {
@@ -1158,6 +1158,7 @@ return
    <ul><li><a href="{$europeanalink}">Click to see items in Europeana</a></li>
    <li><a href="https://corpusvitrearum.de/id/{$icID}/about.html">Click to see items in Corpus Vitrearum Medii Aevi </a></li>
    </ul>
+     
      <script type="application/javascript" src="resources/js/europeanaSparql.js"/>
      </div>
      }
