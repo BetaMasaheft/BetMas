@@ -81,9 +81,9 @@ declare function iiif:locus($l as node()){
                                                                   then (   
                                                                                 if($l/@facs and not($l/ancestor::t:TEI//t:repository/@ref = 'INS0303BNF')) 
                                                                                 then
-                                                                                for $t in tokenize($l/@facs, ' ') return format-number(number($t), '###')
+                                                                                for $t in tokenize(normalize-space($l/@facs), ' ') return format-number(number($t), '###')
                                                                                 else
-                                                                                for $t in tokenize($l/@target, ' ') return iiif:folio($t)
+                                                                                for $t in tokenize(normalize-space($l/@target), ' ') return iiif:folio($t)
                                                                             )
                                                                   else (if($l/@facs) then format-number(number($l/@facs), '###') else  iiif:folio($l/@target))
                                        )
