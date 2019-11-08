@@ -936,7 +936,9 @@ return
 
                                             <ul class="nodot w3-padding">{
                                                 for $hit in  $sameKey
-                                              let $root := root($hit)/t:TEI/@xml:id
+                                                let $item := root($hit)
+                                              let $root := $item/t:TEI/@xml:id
+                                              let $itemid := string($root)
                                                 group by $groupkey := $root
                                                  let $tit := titles:printTitleID($groupkey)
                                                  order by $tit[1]
@@ -945,11 +947,39 @@ return
 (:                                                         order by root($hit)/t:TEI/@xml:id:)
                                                     return
 
-                                                          <li class="list-group">
-                                                          <a
-                                               href="/manuscripts/{$groupkey}/main">{$tit} ({string($groupkey)}) </a> <br/>
-                                                         <span class="WordCount" data-msID="{$groupkey}" data-wID="{$string}"/>
-                                                         <br/>
+                                                          <li class="w3-bar w3-card-2 list-group">
+                                                        {  if ($item//t:facsimile/t:graphic/@url) then 
+                                                        <a class="w3-bar-item" target="_blank" href="{$item//t:facsimile/t:graphic/@url}">Link to images</a> 
+                                                        else if($item//t:msIdentifier/t:idno/@facs) then 
+                 <a class="w3-bar-item w3-circle" target="_blank" href="/manuscripts/{$itemid}/viewer">{
+                if($item//t:collection = 'Ethio-SPaRe') 
+               then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
+(:laurenziana:)
+else  if($item//t:repository/@ref[.='INS0339BML']) 
+               then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '005.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
+          
+(:          
+EMIP:)
+              else if($item//t:collection = 'EMIP' and $item//t:msIdentifier/t:idno/@n) 
+               then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
+              
+             (:BNF:)
+            else if ($item//t:repository/@ref = 'INS0303BNF') 
+            then <img src="{replace($item//t:msIdentifier/t:idno/@facs, 'ark:', 'iiif/ark:') || '/f1/full/140,/0/native.jpg'}" class="thumb w3-image"/>
+(:           vatican :)
+                else <img src="{replace(substring-before($item//t:msIdentifier/t:idno/@facs, '/manifest.json'), 'iiif', 'pub/digit') || '/thumb/'
+                    ||
+                    substring-before(substring-after($item//t:msIdentifier/t:idno/@facs, 'MSS_'), '/manifest.json') || 
+                    '_0001.tif.jpg'
+                }" class="thumb w3-image"/>
+                 }</a>
+                
+                else ()}
+                                                          <a class="w3-bar-item"
+                                               href="/manuscripts/{$groupkey}/main">{$tit} ({string($groupkey)}) </a>
+                                               
+                                                      <div class="w3-bar-item">  <span class="WordCount w3-tag" data-msID="{$groupkey}" data-wID="{$string}"/>
+                                                         
                                                          <ul class="w3-padding">{
                                                          for $h in $hit
                                                          let $msitem := $h/parent::t:msItem
@@ -960,7 +990,7 @@ return
 <li>content item with id <b>{string($msitem/@xml:id)}</b> {if($h/text()) then (', ', <i>{$h/text()}</i> ) else () } {$placement} {$position}</li>
                                                          }
                                                          </ul>
-
+</div> 
                                                             </li>
                                              }
                                              </ul>) else ()}
