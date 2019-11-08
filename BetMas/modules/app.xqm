@@ -275,20 +275,34 @@ declare function app:tr($doc as node(), $list as xs:string) {
 
 (:~function to print the values of parallel clavis ids:)
 declare function app:clavisIds($doc as node()){
-    <span class="w3-tag">CAe {substring(string($doc/t:TEI/@xml:id), 4, 4)}</span>,
+    <span class="w3-tooltip"><span class="w3-tag">CAe {substring(string($doc/t:TEI/@xml:id), 4, 4)}</span>
+    <span class="w3-text"><a href="https://www.traces.uni-hamburg.de/en/texts/clavis.html"><em>Clavis Aethiopica</em></a>, an ongoing repertory of all known Ethiopic <a href="https://betamasaheft.eu/Guidelines/?id=definitionWorks">Textual Units</a>. Use this to refer univocally to a specific text in your publications. Please note that this shares only the 
+    numeric part with the <a href="https://betamasaheft.eu/Guidelines/?id=entities-id-structure">Textual Unit Record Identifier</a>.</span>
+    </span> ,
 if($doc//t:listBibl[@type='clavis']) 
             then (
             <div class="w3-responsive"><table class="w3-table w3-hoverable">
             <thead>
             <tr>
-            <th>clavis</th><th>ID</th></tr>
+            <th><span class="w3-tooltip">Clavis
+<span class="w3-text">(list of identifiable texts)</span></span></th><th>ID</th></tr>
             </thead>
             <tbody>
             {for $bibl in $doc//t:listBibl[@type='clavis']/t:bibl 
             return 
             <tr>
             <td>
-            {string($bibl/@type) }
+            <span class="w3-tooltip">{string($bibl/@type) }<span class="w3-text">{switch($bibl/@type) 
+            case 'cc' return (<a href="http://www.cmcl.it/">Clavis Coptica</a>, <a href="http://paths.uniroma1.it/">PAThs</a>)
+              case 'bho' return <a href="https://en.wikipedia.org/wiki/Bibliotheca_Hagiographica_Orientalis">Bibliotheca Hagiographica Orientalis</a> 
+              case 'bhg' return <a href="https://en.wikipedia.org/wiki/Bibliotheca_Hagiographica_Graeca">Bibliotheca Hagiographica Graeca</a>
+                case 'cant' return <a href="http://www.brepols.net/pages/ShowProduct.aspx?prod_id=IS-9782503502519-1">Clavis Apocryphorum Novi Testamenti</a>
+                  case 'cavt' return <a href="http://www.brepols.net/pages/ShowProduct.aspx?prod_id=IS-9782503507033-1">Clavis Apocryphorum Veteris Testamenti</a>
+                    case 'BHL' return <a href="https://it.wikipedia.org/wiki/Bibliotheca_hagiographica_latina">Bibliotheca Hagiographica Latina</a>
+                    case 'syriaca' return <a href="http://syriaca.org">Syriaca.org</a>
+                      case 'KRZ' return 'Kinefe-Rigb Zelleke 1975. ‘Bibliography of the Ethiopic Hagiographical Traditions’, Journal of Ethiopian Studies, 13/2 (1975), 57–102.' 
+                      case 'H' return 'Hammerschmidt, E. 1987. Studies in the Ethiopic Anaphoras, Äthiopistische Forschungen, 25 (Stuttgart: Franz Steiner Verlag Wiesbaden GmbH,1987)'
+            default return <a href="https://en.wikipedia.org/wiki/Clavis_Patrum_Graecorum">Clavis Patrum Graecorum</a>}</span></span>
             </td>
             <td>
             <a href='{$bibl/@corresp}'>{$bibl/t:citedRange/text()}{if($bibl/ancestor::t:div[@type='textpart' or @type='edition']) then (' (' || string($bibl/ancestor::t:div[@type][1]/@xml:id) || ')') else ()}</a>
@@ -312,9 +326,8 @@ return
 (
 if ($list = 'works') then (
 (: id only works :)
-<td><a
-            href="/{$list}/{$itemid}/main">{if(ends-with($itemid, 'IHA'))  then ('IslHornAfr ' || substring($itemid, 4, 4)) else ('CAe ' || substring($itemid, 4, 4))}</a>
-            {app:clavisIds($item)}
+<td><a href="/{$list}/{$itemid}/main"><i class="fa fa-arrow-circle-right"></i></a>
+{if(ends-with($itemid, 'IHA'))  then ('IslHornAfr ' || substring($itemid, 4, 4)) else app:clavisIds($item)}
             </td>)
             else if ( matches($list, '\w+\d+\w+'))then (
 (: link to main view from catalogues :)
@@ -344,7 +357,7 @@ if ($list = 'works') then (
                 {
                     for $title in $item//t:titleStmt/t:title
                     return
-                        <li>{$title/text()} {if ($title/@xml:lang) then (' (' || string($title/@xml:lang) || ')') else ()}</li>
+                        <li><a href="/{$list}/{$itemid}/main">{$title/text()} {if ($title/@xml:lang) then (' (' || string($title/@xml:lang) || ')') else ()}</a></li>
                 }
             </ul>
         </td>,
@@ -862,7 +875,7 @@ declare function app:team ($node as node(), $model as map(*)) {
 <ul class="w3-ul w3-hoverable w3-padding">{
     $config:collection-root/$app:range-lookup('changewho', (),
         function($key, $count) {
-             <li>{editors:editorKey($key) || ' ('||$key||')' || ' made ' || $count[1] ||' changes in ' || $count[2]||' documents. '}<a href="/xpath?xpath=%24config%3Acollection-root%2F%2Ft%3Achange%5B%40who%3D%27{$key}%27%5D">See the changes.</a></li>
+             <li id="{$key}">{editors:editorKey($key) || ' ('||$key||')' || ' made ' || $count[1] ||' changes in ' || $count[2]||' documents. '}<a href="/xpath?xpath=%24config%3Acollection-root%2F%2Ft%3Achange%5B%40who%3D%27{$key}%27%5D">See the changes.</a></li>
         }, 1000)
        }
        </ul>
