@@ -289,21 +289,23 @@ if($doc//t:listBibl[@type='clavis'])
             </thead>
             <tbody>
             {for $bibl in $doc//t:listBibl[@type='clavis']/t:bibl 
+             let $st := string($bibl/@type)
             return 
             <tr>
             <td>
-            <span class="w3-tooltip">{string($bibl/@type) }<span class="w3-text">{switch($bibl/@type) 
-            case 'cc' return (<a href="http://www.cmcl.it/">Clavis Coptica</a>, <a href="http://paths.uniroma1.it/">PAThs</a>)
-              case 'bho' return <a href="https://en.wikipedia.org/wiki/Bibliotheca_Hagiographica_Orientalis">Bibliotheca Hagiographica Orientalis</a> 
-              case 'bhg' return <a href="https://en.wikipedia.org/wiki/Bibliotheca_Hagiographica_Graeca">Bibliotheca Hagiographica Graeca</a>
-                case 'cant' return <a href="http://www.brepols.net/pages/ShowProduct.aspx?prod_id=IS-9782503502519-1">Clavis Apocryphorum Novi Testamenti</a>
-                  case 'cavt' return <a href="http://www.brepols.net/pages/ShowProduct.aspx?prod_id=IS-9782503507033-1">Clavis Apocryphorum Veteris Testamenti</a>
-                    case 'BHL' return <a href="https://it.wikipedia.org/wiki/Bibliotheca_hagiographica_latina">Bibliotheca Hagiographica Latina</a>
-                    case 'syriaca' return <a href="http://syriaca.org">Syriaca.org</a>
-                      case 'KRZ' return 'Kinefe-Rigb Zelleke 1975. ‘Bibliography of the Ethiopic Hagiographical Traditions’, Journal of Ethiopian Studies, 13/2 (1975), 57–102.' 
-                      case 'H' return 'Hammerschmidt, E. 1987. Studies in the Ethiopic Anaphoras, Äthiopistische Forschungen, 25 (Stuttgart: Franz Steiner Verlag Wiesbaden GmbH,1987)'
+            <span class="w3-tooltip">{$st}<span class="w3-text">{
+            switch($st) 
+            case "CC" return (<a href="http://www.cmcl.it/">Clavis Coptica</a>, <a href="http://paths.uniroma1.it/">PAThs</a>)
+              case "BHO" return <a href="https://en.wikipedia.org/wiki/Bibliotheca_Hagiographica_Orientalis">Bibliotheca Hagiographica Orientalis</a> 
+              case "BHG" return <a href="https://en.wikipedia.org/wiki/Bibliotheca_Hagiographica_Graeca">Bibliotheca Hagiographica Graeca</a>
+                case "CANT" return <a href="http://www.brepols.net/pages/ShowProduct.aspx?prod_id=IS-9782503502519-1">Clavis Apocryphorum Novi Testamenti</a>
+                  case "CAVT" return <a href="http://www.brepols.net/pages/ShowProduct.aspx?prod_id=IS-9782503507033-1">Clavis Apocryphorum Veteris Testamenti</a>
+                    case "BHL" return <a href="https://it.wikipedia.org/wiki/Bibliotheca_hagiographica_latina">Bibliotheca Hagiographica Latina</a>
+                    case "syriaca" return <a href="http://syriaca.org">Syriaca.org</a>
+                      case "KRZ" return 'Kinefe-Rigb Zelleke 1975. ‘Bibliography of the Ethiopic Hagiographical Traditions’, Journal of Ethiopian Studies, 13/2 (1975), 57–102.' 
+                      case "H" return 'Hammerschmidt, E. 1987. Studies in the Ethiopic Anaphoras, Äthiopistische Forschungen, 25 (Stuttgart: Franz Steiner Verlag Wiesbaden GmbH,1987)'
             default return <a href="https://en.wikipedia.org/wiki/Clavis_Patrum_Graecorum">Clavis Patrum Graecorum</a>}</span></span>
-            </td>
+          </td>
             <td>
             <a href='{$bibl/@corresp}'>{$bibl/t:citedRange/text()}{if($bibl/ancestor::t:div[@type='textpart' or @type='edition']) then (' (' || string($bibl/ancestor::t:div[@type][1]/@xml:id) || ')') else ()}</a>
             </td>
