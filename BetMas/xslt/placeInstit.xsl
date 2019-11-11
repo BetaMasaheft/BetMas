@@ -1,7 +1,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:variable name="mainID" select="t:TEI/@xml:id"/>
     <xsl:template match="/">
-        <xsl:if test="//t:figure"><script type="text/javascript" src="resources/openseadragon/openseadragon.min.js"></script></xsl:if>
+        <xsl:if test="//t:figure"><script type="text/javascript" src="resources/openseadragon/openseadragon.min.js"/></xsl:if>
         <div id="MainData" class="{if(t:TEI/@type='ins') then 'institutionView' else 'w3-twothird'}">
             <div id="description">
             <h2>Names <xsl:if test="//t:place/@sameAs">
@@ -95,6 +95,24 @@
                     </xsl:for-each>
                 </xsl:if>
             </div>
+                <xsl:if test="//t:relation">
+                    <div class="w3-container">
+                        <p>
+                            <xsl:if test="//t:relation">
+                                <xsl:text>See </xsl:text>
+                            </xsl:if>
+                            <xsl:for-each select="//t:relation">
+                                <xsl:sort order="ascending" select="count(preceding-sibling::t:relation)+1"/>
+                                <xsl:variable name="p" select="count(preceding-sibling::t:relation)+1"/>
+                                <xsl:variable name="tot" select="count(//t:relation)"/>
+                                <xsl:apply-templates select="." mode="gendesc"/><xsl:choose>
+                                    <xsl:when test="$p!=$tot"><xsl:text>, </xsl:text></xsl:when>
+                                    <xsl:otherwise>.</xsl:otherwise></xsl:choose>
+                            </xsl:for-each>
+                            For a table of all relations from and to this record, please go to the <a class="w3-tag w3-gray" href="/places/{$mainID}/analytic">Relations</a> view. In the Relations boxes on the right of this page, you can also find all available relations grouped by name.
+                        </p>
+                    </div>
+                </xsl:if>
             <xsl:if test="//t:location[@type='relative']">
             <h2>Location</h2>
             <xsl:for-each select="//t:location[@type='relative']">

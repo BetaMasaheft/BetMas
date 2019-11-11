@@ -151,10 +151,22 @@
                     </xsl:for-each>
                 </ul>
             </xsl:if>
-            <xsl:if test="//t:abstract">
+            <xsl:if test="//t:abstract or //t:relation">
                 <h2>General description</h2>
+               <xsl:apply-templates select="//t:abstract"/>
                 <p>
-                    <xsl:apply-templates select="//t:abstract"/>
+                    <xsl:if test="//t:relation">
+                        <xsl:text>See </xsl:text>
+                    </xsl:if>
+                    <xsl:for-each select="//t:relation">
+                        <xsl:sort order="ascending" select="count(preceding-sibling::t:relation)+1"/>
+                        <xsl:variable name="p" select="count(preceding-sibling::t:relation)+1"/>
+                        <xsl:variable name="tot" select="count(//t:relation)"/>
+                        <xsl:apply-templates select="." mode="gendesc"/><xsl:choose>
+                        <xsl:when test="$p!=$tot"><xsl:text>, </xsl:text></xsl:when>
+                        <xsl:otherwise>.</xsl:otherwise></xsl:choose>
+                    </xsl:for-each>
+                     For a table of all relations from and to this record, please go to the <a class="w3-tag w3-gray" href="/works/{$mainID}/analytic">Relations</a> view. In the Relations boxes on the right of this page, you can also find all available relations grouped by name.
                 </p>
             </xsl:if>
             

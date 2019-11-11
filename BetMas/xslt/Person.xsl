@@ -37,7 +37,24 @@
                       <xsl:apply-templates select="//t:person/t:note"/>
                   </div>
               </xsl:if>
-              
+              <xsl:if test="//t:relation">
+                  <div class="w3-container">
+                  <p>
+                      <xsl:if test="//t:relation">
+                          <xsl:text>See </xsl:text>
+                      </xsl:if>
+                      <xsl:for-each select="//t:relation">
+                          <xsl:sort order="ascending" select="count(preceding-sibling::t:relation)+1"/>
+                          <xsl:variable name="p" select="count(preceding-sibling::t:relation)+1"/>
+                          <xsl:variable name="tot" select="count(//t:relation)"/>
+                          <xsl:apply-templates select="." mode="gendesc"/><xsl:choose>
+                              <xsl:when test="$p!=$tot"><xsl:text>, </xsl:text></xsl:when>
+                              <xsl:otherwise>.</xsl:otherwise></xsl:choose>
+                      </xsl:for-each>
+                      For a table of all relations from and to this record, please go to the <a class="w3-tag w3-gray" href="/persons/{$mainID}/analytic">Relations</a> view. In the Relations boxes on the right of this page, you can also find all available relations grouped by name.
+                  </p>
+                  </div>
+              </xsl:if>
               <button class="w3-button w3-red w3-large" id="showattestations" data-value="person" data-id="{string(t:TEI/@xml:id)}">Show attestations</button>
               <div id="allattestations" class="col-md-12"/>
         </div>
