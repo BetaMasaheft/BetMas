@@ -61,10 +61,10 @@
             <xsl:if test="//t:relation">
                 <div class="w3-container">
                     <p>
-                        <xsl:if test="//t:relation">
+                        <xsl:if test="//t:relation[not(starts-with(@name, 'sdc:'))][not(contains(@passive, $mainID))]">
                             <xsl:text>See </xsl:text>
                         </xsl:if>
-                        <xsl:for-each select="//t:relation">
+                        <xsl:for-each select="//t:relation[not(starts-with(@name, 'sdc:'))][not(contains(@passive, $mainID))]">
                             <xsl:sort order="ascending" select="count(preceding-sibling::t:relation)+1"/>
                             <xsl:variable name="p" select="count(preceding-sibling::t:relation)+1"/>
                             <xsl:variable name="tot" select="count(//t:relation)"/>

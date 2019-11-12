@@ -194,9 +194,9 @@ return
       <div class="w3-dropdown-content w3-bar-block w3-card-4">
                                 <a class="w3-bar-item w3-button"  href="/manuscripts/list">Manuscripts (search)</a>
                                 <a class="w3-bar-item w3-button"  href="/manuscripts/browse">Shelf marks (full list)</a>
-                                <a class="w3-bar-item w3-button"  href="/UniProd/browse">UniProd (full list)</a>
+                               <!--<a class="w3-bar-item w3-button"  href="/UniProd/browse">UniProd (full list)</a>
                                 <a class="w3-bar-item w3-button"  href="/UniCirc/browse">UniCirc (full list)</a>
-                                <a class="w3-bar-item w3-button"  href="/manuscripts/viewer">Manuscripts Images</a>
+                                --><a class="w3-bar-item w3-button"  href="/manuscripts/viewer">Manuscripts Images</a>
                                 <a class="w3-bar-item w3-button"  href="/catalogues/list">Catalogues</a>
                       </div>
     </div>
@@ -242,6 +242,8 @@ return
      data-toggle="tooltip" data-placement="bottom" title="Gǝʿǝz Morphological Parser (TraCES project)">Parser</a>
     <a href="/Dillmann" class="w3-bar-item w3-button  w3-hide-medium w3-hide-small" 
      data-toggle="tooltip" data-placement="bottom" title="Online Lexicon Linguae Aethiopicae (TraCES project)">Lexicon</a>
+     <a href="/help.html" class="w3-bar-item w3-button  w3-hide-medium w3-hide-small" 
+     data-toggle="tooltip" data-placement="bottom" title="How to navigate this website">Help</a>
     
                {nav:newentryNew()}
    <a href="#" class=" w3-hover-red w3-padding w3-hide-small w3-hide-medium w3-right"

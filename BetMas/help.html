@@ -1,0 +1,591 @@
+<div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround"
+    data-template-with="templates/newpage.html" data-template-at="content">
+    <div class="w3-container w3-justify  w3-padding-64">
+        <div class="w3-sidebar w3-bar-block w3-card w3-animate-left " id="sidebar"
+            style="max-height:50vh;width:10%">
+            <button type="button" class="w3-bar-item w3-button w3-hide-large"
+                onclick="w3_closeItemSB()"> Close Item Navigation </button>
+
+            <a class="w3-bar-item page-scroll" href="#introduction">Introduction</a>
+            <a class="w3-bar-item page-scroll" href="#navigationbar">Navigation Bar</a>
+            <a class="w3-bar-item page-scroll" href="#listsintro">Lists</a>
+            <a class="w3-bar-item page-scroll" href="#itemsintro">Items</a>
+            <a class="w3-bar-item page-scroll" href="#resourcesintro">Resources</a>
+            <a class="w3-bar-item page-scroll" href="#indexesintro">Indexes</a>
+            <a class="w3-bar-item page-scroll" href="#searchesintro">Searches</a>
+            <a class="w3-bar-item page-scroll" href="#datareuse">Data</a>
+            <a class="w3-bar-item page-scroll" href="#links">Links</a>
+            <a class="w3-bar-item page-scroll" href="#faq">Frenquently asked questions</a>
+            <a class="w3-bar-item page-scroll" href="#presentations">Presentations</a>
+            <a class="w3-bar-item page-scroll" href="#Bibliography">Bibliography</a>
+
+        </div>
+        <div id="main" class="w3-main" style="margin-left:10%">
+            <div class="w3-container">
+                <h1>Some hints on how you can navigate this website</h1>
+
+                <div id="introduction">
+                    <h2>Introduction</h2>
+                    <p>This help page will walk you through what the website has to offer,
+                        additional explanations can be found on individual pages and clicking info
+                        buttons.</p>
+                    <p>We will start from the navigation bar at the top of each view, then look at
+                        contents of each of the menus there in more details, discussing each list,
+                        item, resource and index view.</p>
+                    <p>All this changes often, because we try to keep this Research Environment as
+                        flexible as it needs to be. For a discussion of how this website works,
+                        please see the links, presentations and bibliography below. </p>
+                    <p>If you are looking for information about the project, please see our <a
+                            href="https://www.betamasaheft.uni-hamburg.de/">institutional project
+                            website</a>.</p>
+                    <p>This help page is all in one page, so you can search through it using your
+                        browser search function. The main parts are always accessible form the side
+                        bar.</p>
+                    <p>Note that the data as well as the website are in continuous development. You
+                        are likely to encounter errors. If you care enough, please, do let us know
+                        and we will try to sort them as soon as possible or inform you on why this
+                        happens at least.</p>
+                </div>
+                <div id="navigationbar">
+                    <h2>Navigation Bar</h2>
+                    <div>
+                        <h3>Login</h3>
+                        <p>You do not need to login. Only if you are an editor which uses the web
+                            based editor, then you might want to login. All content is served to you
+                            in its latest version, without any need to login.</p>
+                    </div>
+                    <div>
+                        <h3>Hi guest!</h3>
+                        <p>In this menu you find links to some documentation and general project
+                            information, especially the <a href="/team.html">team</a>, where you can
+                            see each contributor to the resources you are looking at and also
+                            navigate directly to a list of their contributions. Want to be among
+                            them? You can! The Guidelines have a page to get you started and also
+                            some training materials. There you will also get to know when there will
+                            be a next workshop.</p>
+                    </div>
+                    <div>
+                        <h3>Clavis</h3>
+                        <p>Under this menu you find links to three list views which relate to the <a
+                                href="https://www.traces.uni-hamburg.de/en/texts/clavis.html"
+                                    ><em>Clavis Aethiopica</em></a>, an ongoing repertory of all
+                            known Ethiopic <a
+                                href="https://betamasaheft.eu/Guidelines/?id=definitionWorks"
+                                >Textual Units</a>. You can use the pprovided <i>CAe</i> numbers to
+                            refer univocally to a specific text in your publications. Please note
+                            that this CAe reference number shares only the numeric part with the <a
+                                href="https://betamasaheft.eu/Guidelines/?id=entities-id-structure"
+                                >Textual Unit Record Identifier</a>.</p>
+                        <p>You can find more details on each of these lists and their visualization
+                            below. The three lists are:</p>
+                        <ul class="w3-ul">
+                            <li><b>Textual Units</b> will return a list of what is most commonly
+                                thought of as a literary Work.</li>
+                            <li><b>Narrative Units</b> will return all identified Narrative Units.
+                                This are still very few.</li>
+                            <li><b>Documents Corpora</b> is a reproduction of a list view from the
+                                EMA project led by Anais Wion which lists encoded <a
+                                    href="https://betamasaheft.eu/Guidelines/?q=documents&amp;id=corpora"
+                                    >documents under archives</a>.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Manuscripts</h3>
+                        <p>Under the manuscript menu you will find several ways to access lists of
+                            the available manuscripts.</p>
+                        <ul class="w3-ul">
+                            <li><b>Manuscripts (search)</b> will lead you to a search form which
+                                will then list the manuscripts from the database with some
+                                information (more below)</li>
+                            <li><b>Shelf marks (full list)</b> will return a list of all
+                                repositories we know of and for each of them a list of shelfmarks
+                                grouped by collection. If you know your shelfmark and you like
+                                scrolling, this is where to look. If you use the search without
+                                setting any filter, this will also look in shelf marks and get you
+                                to possible options.</li>
+                            <li><b>Manuscript Images</b> will load a Mirador viewer open on the list
+                                view, with all images of manuscripts we are currently serving or we
+                                have a usable link to a manifest for. You can either directly view
+                                the images in this mirador instance or click on the info box and go
+                                to the record for that manuscript.</li>
+                            <li><b>Catalogues</b> will provide you with a list of all publications
+                                which are listed in the Catalogue Bibliographies, and clicking on
+                                one of them will open a list view with all the manuscripts in that
+                                catalogue for which we have a record.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Places</h3>
+                        <p>Under the Places menu you can get to two different list views.</p>
+                        <ul class="w3-ul">
+                            <li><b>Places</b> will lead you to a list view of all place-like records
+                                (including repositories).</li>
+                            <li><b>Repositories</b> will lead you to a list view of the repositories
+                                only and tell you how many manuscripts are kept there.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Persons</h3>
+                        <p>This is a direct link to the person list with search options (see
+                            below).</p>
+                    </div>
+                    <div>
+                        <h3>Indexes</h3>
+                        <p>The links listed under this menu will lead to additional views of the
+                            data according to specific needs. Each of these is explained in more
+                            detailes below in a specific section.</p>
+                        <ul class="w3-ul">
+                            <li><b>Zotero Library</b> is simply a link to the EthioStudies openly
+                                shared library in Zotero, which supports our bibliography.</li>
+                            <li><b>List of cited publications</b> is a searchable reverse index of
+                                the publications which have been cited somewhere in the dataset with
+                                a reference back to them.</li>
+                            <li><b>Persons</b> will show a list of marked-up persons in the data
+                                with a pie chart of the different attestations and links back to
+                                each occurrence.</li>
+                            <li><b>Places</b> will show a list of marked-up places in the data with
+                                a pie chart of the different attestations and links back to each
+                                occurrence.</li>
+                            <li><b>Titles/Colophons/Supplications</b> is a filtered search which
+                                will only look at <a
+                                    href="https://betamasaheft.eu/Guidelines/?id=ColophSupplTit"
+                                    >this specific features</a> in the manuscript descriptions.</li>
+                            <li><b>Decorations</b> is a filtered search which only looks at <a
+                                    href="https://betamasaheft.eu/Guidelines/?id=decorationDescription"
+                                    >decorations</a> in the manuscripts. Not all manuscripts have
+                                been marked-up with this information, you will only see what is
+                                available.</li>
+                            <li><b>Bindings</b> is a filtered search which only looks at <a
+                                    href="https://betamasaheft.eu/Guidelines/?id=bindingDescription"
+                                    >bindings</a> in the manuscripts. Not all manuscripts have been
+                                marked-up with this information, you will only see what is
+                                available.</li>
+                            <li><b>Additions</b> is a filtered search which only looks at <a
+                                    href="https://betamasaheft.eu/Guidelines/?id=additionsVaria"
+                                    >additions</a> in the manuscripts. Not all manuscripts have been
+                                marked-up with this information, you will only see what is
+                                available.</li>
+                            <li><b>Keywords</b> provides you access from the taxonomy in use by the
+                                project for the categorization of records.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Resources</h3>
+                        <p>Under this menu you can find direct links to additional visualizations
+                            which are also accessible from item pages. If you want to start from
+                            blank and use them, here is where to start from. We have also listed
+                            here some additional search options and specific projects part of the
+                            research environment. </p>
+                        <ul class="w3-ul">
+                            <li><b>Compare Manuscripts of a given work</b> will bring you to a page
+                                where you can enter the identifier or the title of a Textual Unit
+                                and see all the manuscripts which contain it orderd
+                                chronologically.</li>
+                            <li><b>Map of Manuscripts with a given content</b> will offer you the
+                                possibility to look for a given Textual Unit and see charted in the
+                                DARIA-DE GeoBrowser the manuscripts which we know to contain this
+                                work.</li>
+                            <li><b>Related Textual Units</b> is a view requested by Prof. Wendy
+                                Belcher which will produce a huge table with information about the
+                                textual units related to one main one you may be intereste in. This
+                                relies on the fact that this information is available.</li>
+                            <li><b>Literature Flow Sankey view</b> is a view based on the presence
+                                of keywords which will group works or manuscripts containing these
+                                works and chart them to a sankey chart with intervals at each period
+                                of those defined within the project.</li>
+                            <li><b>XPath search</b> allows you to run any XPath search on the XML
+                                data and returns the items where the hit is matched.</li>
+                            <li><b>SPARQL Endpoint</b> allows you to run a SPARQL query to our RDF
+                                data and returns the results in several tabular formats (for the raw
+                                SPARQL requests, see the <a href="/apidoc.html">API
+                                    Documentation</a>).</li>
+                            <li><b>Collate passages with Collatex</b> ATTENTION! this should allow
+                                to run collatex on our server by pointing at data present in BM to
+                                compare. It works only if you notify us so we can check collatex is
+                                running.</li>
+                            <li><b>Scholars in Ethiopian Studies</b> will return with a bit of
+                                patience a summary of all scholars which are recorded in the
+                                database, with some additional informaiton and links for each.</li>
+                            <li><b>Chonjacki Collection</b> will link to a Mirador viewer instance
+                                gathering the images digitized during a collaboration project with
+                                the Vatican Library about this collection.</li>
+                            <li><b>Tweed Collection</b> will link to the splash page for this
+                                collection, curated by the team of the EMIP project.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Parser</h3>
+                        <p>This is a link to the Gǝʿǝz Morphological Parser application. You can get
+                            results from it inside the app, through Alpheios, by simply double
+                            clicking on any word. Alternatively, hovering on a word you will be able
+                            to click on a precompiled search in the parser.</p>
+                    </div>
+                    <div>
+                        <h3>Lexicon</h3>
+                        <p>This is a link to the Online <i>Lexicon Linguae Aethiopicae</i>. You can
+                            access this content, through Alpheios, double clicking on any word, but
+                            also on hovring, you will get a precompiled link to a search in this
+                            lexicon.</p>
+                    </div>
+                    <div>
+                        <h3>Help</h3>
+                        <p>Here you are!</p>
+                    </div>
+                    <div>
+                        <h3>Search icon and info icon</h3>
+                        <p>Clicking on the saerch icon will lead you to the General Search.</p>
+                    </div>
+                </div>
+                <div id="listsintro">
+                    <h2>Lists</h2>
+                    <p>Each of the lists accessed from the menu above is slightly different from the
+                        other, here we will give you some of the features of each of these. The main
+                        difference between these lists and the general search, is that these lists
+                        allow you to filter according to some features, and search based on those
+                        filters, while the General search will mainly look for text strings in
+                        specific places. A second difference between the lists and the search is
+                        that the results are presented differently. While some lists will give
+                        specific basic informations (those explained in this section), some others
+                        will contain all the content already and allow browsing and filtering (those
+                        under indexes, below). The General Search (see the searches section) will
+                        only offer a pointer to the resource matching the search parameters.</p>
+                    <p>The lists views which are presented in this section share some features. On
+                        the left side you get filteres based on the indexes for that type of
+                        resources in the database, on the right side you will see, after searching,
+                        your results as in a table, paginated by 20 as per defaults. You can change
+                        the pagination option once you have done your search by entering a value in
+                        the "how many per page?" field of the pagination bar.</p>
+                    <p>In the filter section on the left, some filters are not loaded, because they
+                        take too long to do so and are not always used. Each view will list them
+                        just before the buttons to run the search. Check one and the additional
+                        filter will load. </p>
+                    <p>There are three buttons in the filter section: the search button, the one to
+                        return to the list view unfiltered, and one linking to the General
+                        search.</p>
+                    <p>To get all records, run a saerch without setting any parameter.</p>
+                    <p>Some parts of the inforamtion are loaded after the page is returned, they may
+                        take a bit.</p>
+                    <p>The color of the lines in the results is meaningful, it tells you immediately
+                        if an entry is complete or not.</p>
+                    <p>Once you have ruun your search, a bar with a summary of the results will
+                        appear at the top, with links to additional list views for the selected
+                        results and other actions for the entire list or for parts of it as
+                        selected. Clicking on the hints button, will produce some additional
+                        blinking buttons which will provide additional guidance on the content.</p>
+                    <p>Both the available filters and the results depend on the list, and are
+                        expelained in the below sections.</p>
+                    <div>
+                        <h3>Manuscripts</h3>
+                        <p>On a selection of manuscripts you will be able to get a direct link to
+                            the Charts view (see below), by selecting the specific manuscripts in
+                            the list returned, you will also be able to get directly from this view
+                            the PDFs, or to link to the Compare or Titles view for a selection of
+                            manuscripts in your result. Checking the box at the top of the relevant
+                            column will select all visible results.</p>
+                        <p>Each result line will summarieze the formal name of the manuscript, the shelfmarks we know, 
+                        the number of units, parts and hands, and the script. Some direct links to the source and some of the available views are also provided.</p>
+                        <p>The values in the filters are also updated, so that the keywords available, for example are only those relevant for that selection, thus providing some summary information about the selection.</p>
+                    </div>
+                    <div>
+                        <h3>Textual Units (Clavis)</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>Places</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>Persons</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>Repositories</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>Authority files</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>Charts</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>Voyant</h3>
+                        <p/>
+                    </div>
+                </div>
+                <div id="itemsintro">
+                    <h2>Items</h2>
+                    <div>
+                        <h3>Manuscripts main view</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>Textual Units main view</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>Places main view</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>Persons main view</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>Authority files main view</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>Text/Transcription view</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>Compare</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>Graph</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>Syntaxe</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>PDF</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>TEI/XML</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>Relations</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>Imges Viewer</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>geoJson</h3>
+                        <p/>
+                    </div>
+                </div>
+                <div id="indexesintro">
+                    <h2>Indexes</h2>
+                    <div>
+                        <h3>List of cited publications</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>List of places/persons annotations</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>Titles Supplications Colphons</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>Decorations</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>Bindings</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>Additions</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>Keywords</h3>
+                        <p/>
+                    </div>
+                </div>
+                <div id="resourcesintro">
+                    <h2>Resources</h2>
+
+                    <div>
+                        <h3>Compare</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>Map of Manuscripts</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>Related Textual Units</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>Literature Flow Sankey Chart</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>Collate passages with Collatex</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>Scholars in Ethiopian Studies</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>Chojnacki collection</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>Tweed collection</h3>
+                        <p/>
+                    </div>
+                </div>
+                <div id="searchesintro">
+                    <h2>Searches</h2>
+
+                    <div>
+                        <h3>Basic search (home page)</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>General search</h3>
+                        <p/>
+                    </div>
+
+                    <div>
+                        <h3>XPath search</h3>
+                        <p/>
+                    </div>
+                    <div>
+                        <h3>SPARQL Endpoint</h3>
+                        <p/>
+                    </div>
+                </div>
+                <div id="datareuse">
+                    <h2>Data</h2>
+                    <p>There are many ways to access the data which are not the website. You can
+                        check the <a href="/apidoc.html">API Documentation</a> and our page about <a
+                            href="/lod.html">Linked Open Data</a>. You can also clone the
+                        repositories from GitHub or get stable citable dumps from the repository of
+                        the ZFDM (see below).</p>
+                </div>
+                <div id="links">
+                    <h2>Links</h2>
+                    <ul>
+                        <li><a href="https://betamasaheft.eu/Guidelines/">The Beta maṣāḥǝft
+                                Guidelines</a>: here you find all you need to know on how we work on
+                            the source data how we encode, how to contribute and set up your work
+                            place.</li>
+                        <li><a href="https://github.com/BetaMasaheft">GitHub Organization</a>: here
+                            you find the raw data as it goes into the web application,
+                            versioned.</li>
+                        <li><a
+                                href="https://www.fdr.uni-hamburg.de/search?page=1&amp;size=20&amp;q=Beta%20Masaheft"
+                                >Datasets available as dumps</a>: if you need a stable copy of the
+                            data to refer to or to use.</li>
+                    </ul>
+                </div>
+                <div id="faq">
+                    <h2>Frequently asked questions</h2>
+                    <p>You can always ask questions or make suggestions in our <a
+                            href="https://github.com/BetaMasaheft/Documentation/issues">GitHub
+                            Issues</a> where all the project discussions are publicly available. We
+                        you only the issues for that one repository, just to keep them all in one
+                        place. You can also see the <a href="/contacts.html">contacts</a> page.</p>
+                    <table class="w3-table-all">
+                        <tr>
+                            <th>Question</th>
+                            <th>Answer</th>
+                        </tr>
+                        <tr>
+                            <td>Why is the text of this work not there?</td>
+                            <td>In the current phase of the project we focus on manuscripts from
+                                historical catalogues. We only enter information about literary
+                                works when this either part of collaborations or necessary for the
+                                catalogue entry. This means most of the time that Textual Units will
+                                only be identified with minimal information.</td>
+                        </tr>
+                        <tr>
+                            <td>What transcriptions method do you use?</td>
+                            <td><a
+                                    href="https://betamasaheft.eu/Guidelines/?id=transliteration-principles"
+                                    >This one</a>. However, still plenty of text is transliterated
+                                according to the principles of the EAE. We change it as we go, so,
+                                there will be several system for quite a while. A reliable automatic
+                                conversion is not possible.</td>
+                        </tr>
+                        <tr>
+                            <td>What is the difference between the witnessess and the manuscripts
+                                which contain a given Textual unit?</td>
+                            <td>The <a href="https://betamasaheft.eu/Guidelines/?id=work-teiHeader"
+                                    >list of witnesses</a> ideally contains only those manuscripts
+                                which have been used for one or the other edition. The list of
+                                manuscripts which we know contain this work may be different from
+                                these in several ways. <ul>
+                                    <li>we may have a record, but this may still be not encoded with
+                                        the reference to this textual unit,</li>
+                                    <li>we may not have a record for a manuscript which has been
+                                        used as a witness for an edition,</li>
+                                    <li>we may have encoded a record of a manuscript which contains
+                                        this work which has not been used for any edition yet.</li>
+                                </ul></td>
+                        </tr>
+                        <tr>
+                            <td>Can I reuse this data?</td>
+                            <td>Yes, sure. You can download source, TEI, PDF, etc. and use them.
+                                Each file carries its attribution and licence, which you are kindly
+                                requested to pay attention to. Our data is versioned and furnished
+                                with permanent identifiers. If you want to cite a record, please use
+                                the <a href="/pid.html">permanent identifier</a> of the version you
+                                are referring to.</td>
+                        </tr>
+
+                    </table>
+                </div>
+                <div id="presentations">
+                    <h2>Presentations</h2>
+                    <p>Beside the training materials, you might be interested in looking at some
+                        presentations of the project we have done in the past. Here are some, as
+                        they have been done.</p>
+                    <table class="w3-table-all">
+                        <tr>
+                            <th>presentation</th>
+                            <th>place and date</th>
+                            <th>occasion</th>
+                        </tr>
+                        <tr>
+                            <td><a
+                                    href="https://docs.google.com/presentation/d/1fUgpqz22ltXl2KNmQvdm5Lb3TBHfjX7SadqM0c1bGC8/edit?usp=sharing"
+                                    >DTS for Beta maṣāḥǝft</a></td>
+                            <td>Hamburg, 15-16 July 2019</td>
+                            <td><a
+                                    href="https://distributed-text-services.github.io/workshops/events/2019-hamburg/"
+                                    >Texts and APIs</a></td>
+                        </tr>
+                        <tr>
+                            <td><a
+                                    href="https://drive.google.com/open?id=12BJRdYu2fTJ_x-PGWsHB3BHfAEfEZpIZ"
+                                    >Beta maṣāḥǝft and Digital Humanities</a></td>
+                            <td>Hamburg, 23 June 2018</td>
+                            <td>project evaluation</td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="bibliography">
+                    <h2>Bibliography</h2>
+                    <p>Bibliography <i>about</i> the project is also available, here are some
+                        examples.</p>
+                    <ul>
+                        <li><span class="Zotero Zotero-full" data-value="bm:Reule2018BM"/></li>
+                        <li><span class="Zotero Zotero-full" data-value="bm:Solomon2015Geography"/>
+                        </li>
+                        <li><span class="Zotero Zotero-full" data-value="bm:Liuzzo2019Digital"/>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="application/javascript" src="resources/js/NewBiblio.js"/>
+</div>
