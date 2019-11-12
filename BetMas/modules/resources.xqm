@@ -980,7 +980,9 @@ for $decoration at $p in $model("hits")
                  {
                      for $sd in $d
                      let $images := root($sd)//t:msIdentifier/t:idno
-                     let $locus := string($sd/t:locus/@facs)
+                     let $locusfacs := string($sd/t:locus[1]/@facs)
+                     let $locusfirst := if(contains($locusfacs, ' ')) then substring-before($locusfacs, ' ') else $locusfacs
+                     let $locus := replace($locusfirst, '[a-z\s]', '')
                      order by $sd/@xml:id
                      return
             <li class="w3-container">
@@ -990,6 +992,8 @@ for $decoration at $p in $model("hits")
            then $config:appUrl ||'/iiif/' || string($images/@facs)||$locus||'.tif/full/150,/0/default.jpg'
           else if(starts-with($ms, 'ES'))
            then $config:appUrl ||'/iiif/' || string($images/@facs) || '_'||$locus||'.tif/full/150,/0/default.jpg'
+           else if(starts-with($ms, 'EMIP'))
+           then $config:appUrl ||'/iiif/' || string($images/@facs)||$locus||'.tif/full/150,/0/default.jpg'
           else if(starts-with($ms, 'BNF'))
            then replace($images/@facs, 'ark:', 'iiif/ark:') || '/'||$locus||'/full/150,/0/native.jpg'
           else if(starts-with($ms, 'BAV'))
