@@ -29,7 +29,7 @@
 <!--                                            if there is an external reference, then add attributes to call the modal containing the images-->
                                             <xsl:when test="$f  and not($text = 'only')">
                                                 <xsl:attribute name="onclick">
-                                                    <xsl:value-of select="concat('document.getElementById(&#34;images',concat(replace($f, ' ', '_'), replace($f//ancestor::t:*[@xml:id][1]/@xml:id, '.', '_')), '&#34;).style.display=&#34;block&#34;')"/>
+                                                    <xsl:value-of select="concat('document.getElementById(&#34;images',concat(replace(normalize-space($f), ' ', '_'), replace($f//ancestor::t:*[@xml:id][1]/@xml:id, '.', '_')), '&#34;).style.display=&#34;block&#34;')"/>
                                                 </xsl:attribute>
                                                 </xsl:when>
 <!--                                            MISSING THE OPTION FOR INTERNAL IMAGE SERVER-->
@@ -53,7 +53,7 @@
                                        <!--                                            if there is an external reference, then add attributes to call the modal containing the images-->
                                         <xsl:when test="@facs  and not($text = 'only')">
                                             <xsl:attribute name="onclick">
-                                                <xsl:value-of select="concat('document.getElementById(&#34;images',concat(replace(@facs, ' ', '_'), replace(ancestor::t:*[@xml:id][1]/@xml:id, '.', '_')), '&#34;).style.display=&#34;block&#34;')"/>
+                                                <xsl:value-of select="concat('document.getElementById(&#34;images',concat(replace(normalize-space(@facs), ' ', '_'), replace(ancestor::t:*[@xml:id][1]/@xml:id, '.', '_')), '&#34;).style.display=&#34;block&#34;')"/>
                                             </xsl:attribute>
                                         </xsl:when>
                                        
@@ -90,7 +90,7 @@
                             <xsl:choose>
                                 <xsl:when test="@facs  and not($text = 'only')">
                                     <xsl:attribute name="onclick">
-                                        <xsl:value-of select="concat('document.getElementById(&#34;images',concat(replace(@facs, ' ', '_'), replace(ancestor::t:*[@xml:id][1]/@xml:id, '.', '_')), '&#34;).style.display=&#34;block&#34;')"/>
+                                        <xsl:value-of select="concat('document.getElementById(&#34;images',concat(replace(normalize-space(@facs), ' ', '_'), replace(ancestor::t:*[@xml:id][1]/@xml:id, '.', '_')), '&#34;).style.display=&#34;block&#34;')"/>
                                     </xsl:attribute>
                                     
                                     
@@ -112,7 +112,7 @@
                             <xsl:choose>
                                 <xsl:when test="@facs  and not($text = 'only')">
                                     <xsl:attribute name="onclick">
-                                        <xsl:value-of select="concat('document.getElementById(&#34;images',concat(replace(@facs, ' ', '_'), replace(ancestor::t:*[@xml:id][1]/@xml:id, '.', '_')), '&#34;).style.display=&#34;block&#34;')"/>
+                                        <xsl:value-of select="concat('document.getElementById(&#34;images',concat(replace(normalize-space(@facs), ' ', '_'), replace(ancestor::t:*[@xml:id][1]/@xml:id, '.', '_')), '&#34;).style.display=&#34;block&#34;')"/>
                                     </xsl:attribute>
                                     
                                    
@@ -141,7 +141,7 @@
                             <xsl:choose>
                                 <xsl:when test="@facs  and not($text = 'only')">
                                     <xsl:attribute name="onclick">
-                                        <xsl:value-of select="concat('document.getElementById(&#34;images',concat(replace(@facs, ' ', '_'), replace(ancestor::t:*[@xml:id][1]/@xml:id, '.', '_'), '&#34;).style.display=&#34;block&#34;'))"/>
+                                        <xsl:value-of select="concat('document.getElementById(&#34;images',concat(replace(normalize-space(@facs), ' ', '_'), replace(ancestor::t:*[@xml:id][1]/@xml:id, '.', '_'), '&#34;).style.display=&#34;block&#34;'))"/>
                                     </xsl:attribute>
                                 </xsl:when>
                                
@@ -161,7 +161,7 @@
                             <xsl:choose>
                                 <xsl:when test="@facs  and not($text = 'only')">
                                     <xsl:attribute name="onclick">
-                                        <xsl:value-of select="concat('document.getElementById(&#34;images',                                             concat(replace(@facs, ' ', '_'),                                              replace(ancestor::t:*[@xml:id][1]/@xml:id, '.', '_'), '&#34;).style.display=&#34;block&#34;'))"/>
+                                        <xsl:value-of select="concat('document.getElementById(&#34;images',                                             concat(replace(normalize-space(@facs), ' ', '_'),                                              replace(ancestor::t:*[@xml:id][1]/@xml:id, '.', '_'), '&#34;).style.display=&#34;block&#34;'))"/>
                                     </xsl:attribute>
                                 </xsl:when>
                                 
@@ -184,7 +184,7 @@
         </xsl:if>
 <!--        if there is a refernce to an external resource build the modal conatining the openseadragon javascript-->
         <xsl:if test="@facs and not($text = 'only')">
-            <xsl:variable name="modalid" select="concat('images',replace(@facs, ' ', '_'), replace(ancestor::t:*[@xml:id][1]/@xml:id, '.', '_'))"/>
+            <xsl:variable name="modalid" select="concat('images',replace(normalize-space(@facs), ' ', '_'), replace(ancestor::t:*[@xml:id][1]/@xml:id, '.', '_'))"/>
             <div class="w3-modal" id="{$modalid}">
                 
                     
@@ -219,8 +219,18 @@
                                 </xsl:choose>
                             </xsl:variable>
                             <xsl:variable name="firstCanv">
+                                <xsl:variable name="fc">
+                                    <xsl:choose>
+                                        <xsl:when test="contains(@facs, ' ')">
+                                            <xsl:value-of select="substring-before(@facs, ' ')"/>
+                                        </xsl:when>
+                                        <xsl:otherwise> <xsl:value-of select="@facs"/></xsl:otherwise>
+                                    </xsl:choose>
+                                </xsl:variable>
+                                <xsl:variable name="fcc" select="replace($fc, '[a-z\s]', '')"/>
+                                
                                 <xsl:if test="not(starts-with($MainFacs, 'http'))">
-                                    <xsl:value-of select="concat('?FirstCanv=', 'https://betamasaheft.eu/api/iiif/',$mid, '/canvas/p', format-number(@facs, '###'))"/>
+                                    <xsl:value-of select="concat('?FirstCanv=', 'https://betamasaheft.eu/api/iiif/',$mid, '/canvas/p', format-number(xs:integer($fcc), '###'))"/>
                                 </xsl:if>
                             </xsl:variable>
                             <xsl:variable name="mirador" select="concat('https://betamasaheft.eu/manuscripts/',$mid, '/viewer', $firstCanv)"/>
@@ -295,7 +305,7 @@
                                     </xsl:when>
                                     
 <!--                                    images from our server -->
-                                <xsl:when test="matches($idnoFacs, '\w{3}/\d{3}/\w{3,4}-\d{3}')">
+                                    <xsl:when test="matches($idnoFacs, '\w{3}/\d{3}/\w{3,4}-\d{3}')">
                                     <xsl:variable name="iiif" select="$idnoFacs"/>
                                     <xsl:variable name="fullIIIF" select="concat('/iiif/',$idnoFacs)"/>
                                     <!--                                    expected format: of //t:TEI//t:msIdentifier/t:idno/@facs is : BMQ/003/BMQM-003 where the 
@@ -332,6 +342,45 @@
                                     </xsl:choose>
                                     
                                 </xsl:when>
+<!--                                    EMIP .  -->
+                                    <xsl:when test="matches($idnoFacs, 'EMIP/Codices/\d+/')">
+                                        
+                                        <xsl:variable name="iiif" select="$idnoFacs"/>
+                                        <xsl:variable name="fullIIIF" select="concat('/iiif/',$idnoFacs)"/>
+                                        <!--                                    expected format: of //t:TEI//t:msIdentifier/t:idno/@facs is : EMIP/Codices/8/ where the 
+                                    first folder is the institution folder, then there Codices, for the process of transformation and the number of the manuscript. Photos converted to .tif have names which are not prefixed. 
+                                    -->
+                                        <xsl:choose>
+                                            <xsl:when test="@from and @to">
+                                                <xsl:variable name="from" select="                                             if(contains(@from, 'r'))                                              then substring-before(@from, 'r')                                                                                          else  if(contains(@from, 'v'))                                              then (substring-before(@from, 'v'))                                                                                          else @from                                                                                          "/>
+                                                <xsl:variable name="to" select="                                                 if(contains(@to, 'r'))                                                  then substring-before(@to, 'r')                                                                                                   else  if(contains(@to, 'v'))                                                  then (substring-before(@to, 'v'))                                                                                                  else @to                                                                                                  "/>
+                                                <xsl:variable name="count" select="(number($to) - number($from)) * 2"/>
+                                                <xsl:variable name="tiles">
+                                                    <xsl:for-each select="0 to (xs:integer($count) +1 )">
+                                                        <xsl:text>"</xsl:text>
+<!--                                                        <xsl:value-of select="concat($fullIIIF, format-number((xs:integer($f) + current()), '000'),'.tif/info.json')"/>-->
+                                                        <xsl:text>"</xsl:text>
+                                                        <xsl:if test="not(current()=(xs:integer($count) +1 ))">,</xsl:if>
+                                                    </xsl:for-each>
+                                                </xsl:variable>
+                                                <xsl:value-of select="$tiles"/>
+                                            </xsl:when>
+                                            <xsl:when test="@from and not(@to)">
+                                                <xsl:text>"</xsl:text>
+                                                <xsl:value-of select="concat($fullIIIF, string(@facs),'.tif/info.json')"/>
+                                                <xsl:text>"</xsl:text>
+                                            </xsl:when>
+                                            <xsl:when test="@target">
+                                                <xsl:for-each select="tokenize(string(@facs), ' ')">
+                                                    <xsl:text>"</xsl:text>
+                                                    <xsl:value-of select="concat($fullIIIF, .,'.tif/info.json')"/>
+                                                    <xsl:text>"</xsl:text>
+                                                    <xsl:if test="not(position()=last())">,</xsl:if>
+                                                </xsl:for-each>
+                                            </xsl:when>
+                                        </xsl:choose>
+                                        
+                                    </xsl:when>
                                     
 <!--                                    laurenziana-->
                                     <xsl:when test="matches($idnoFacs, 'Laurenziana')">
