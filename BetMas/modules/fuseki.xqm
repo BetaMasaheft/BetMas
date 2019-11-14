@@ -8,8 +8,8 @@ xquery version "3.1" encoding "UTF-8";
 module namespace fusekisparql = 'https://www.betamasaheft.uni-hamburg.de/BetMas/sparqlfuseki';
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 
-declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace http = "http://expath.org/ns/http-client";
+declare namespace sr = "http://www.w3.org/2005/sparql-results#";
 
 (:Assumes that Fuseki is running in Tomcat, and that Tomcat server.xml has been edited to run on port 8081, instead of 8080. :)
 declare variable $fusekisparql:port := 'http://localhost:8081/fuseki/';
@@ -22,7 +22,7 @@ declare function fusekisparql:query($dataset, $query) {
     let $headers := <Headers/>
     let $file := httpclient:get(xs:anyURI($url), true(), $headers)
     return
-        $file
+        $file//sr:sparql
 };
 
 (:~ given a SPARQL Update input for the type of operation (INSERT or DELETE),  the triples to be added in the SPARQL Update and the destination
