@@ -1,12 +1,5 @@
 xquery version "3.1" encoding "UTF-8";
-(:~
- : The module is aimed at interactions between the application and a Fuseki SPARQL API. https://jena.apache.org/documentation/fuseki2/index.html
- : 
- : @author Pietro Liuzzo 
- : with load of help from Ethan Gruber
- :)
 module namespace fusekisparql = 'https://www.betamasaheft.uni-hamburg.de/BetMas/sparqlfuseki';
-(:prefixes used to build queries are kept one level up in config once for all:)
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 
 declare namespace t = "http://www.tei-c.org/ns/1.0";
