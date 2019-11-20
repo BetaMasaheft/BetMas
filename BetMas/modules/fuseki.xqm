@@ -25,8 +25,9 @@ declare function fusekisparql:query($dataset, $query) {
         $file//sr:sparql
 };
 
-(:~ given a SPARQL Update input for the type of operation (INSERT or DELETE),  the triples to be added in the SPARQL Update and the destination
-dataset, this function will send a POST request to the location of a running Fuseki instance and perform the operation:)
+(:~ given a SPARQL Update input for the type of operation (INSERT or DELETE),  
+: the triples to be added in the SPARQL Update https://www.w3.org/TR/sparql11-update/ and the destination
+: dataset, this function will send a POST request to the location of a running Fuseki instance and perform the operation:)
 declare function fusekisparql:update($dataset, $InsertOrDelete, $triples) {
     let $url := $fusekisparql:port||$dataset||'/update'
     let $sparqlupdate := $config:sparqlPrefixes || $InsertOrDelete || ' DATA
