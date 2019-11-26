@@ -1,4 +1,14 @@
-<xsl:stylesheet xmlns:pleiades="https://pleiades.stoa.org/" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:bm="https://betamasaheft.eu/" xmlns:wd="https://www.wikidata.org/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:oa="http://www.w3.org/ns/oa#" xmlns:doap="http://usefulinc.com/ns/doap#" xmlns:rel="http://purl.org/vocab/relationship/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:pelagios="http://pelagios.github.io/vocab/terms#" xmlns:syriaca="http://syriaca.org/documentation/relations.html#" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:crm="http://www.cidoc-crm.org/cidoc-crm/" xmlns:saws="http://purl.org/saws/ontology#" xmlns:iha="http://islhornafr.tors.sc.ku.dk/" xmlns:funct="http://myfunction" xmlns:svcs="http://rdfs.org/sioc/services#" xmlns:gn="http://www.geonames.org/ontology#" xmlns:agrelon="http://d-nb.info/standards/elementset/agrelon.owl#" xmlns:lawd="http://lawd.info/ontology/" xmlns:sdc="https://w3id.org/sdc/ontology#" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:ecrm="http://erlangen-crm.org/current/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:snap="http://data.snapdrgn.net/ontology/snap#" xmlns:dc="http://purl.org/dc/elements/1.1/" exclude-result-prefixes="funct" version="2.0">
+<xsl:stylesheet 
+    xmlns:pleiades="https://pleiades.stoa.org/" 
+    xmlns:skos="http://www.w3.org/2004/02/skos/core#" 
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
+    xmlns:betmas="https://betamasaheft.eu/" 
+    xmlns:wd="https://www.wikidata.org/" 
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+    xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" 
+    xmlns:oa="http://www.w3.org/ns/oa#" 
+    xmlns:doap="http://usefulinc.com/ns/doap#" 
+    xmlns:rel="http://purl.org/vocab/relationship/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:pelagios="http://pelagios.github.io/vocab/terms#" xmlns:syriaca="http://syriaca.org/documentation/relations.html#" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:crm="http://www.cidoc-crm.org/cidoc-crm/" xmlns:saws="http://purl.org/saws/ontology#" xmlns:iha="http://islhornafr.tors.sc.ku.dk/" xmlns:funct="http://myfunction" xmlns:svcs="http://rdfs.org/sioc/services#" xmlns:gn="http://www.geonames.org/ontology#" xmlns:agrelon="http://d-nb.info/standards/elementset/agrelon.owl#" xmlns:lawd="http://lawd.info/ontology/" xmlns:sdc="https://w3id.org/sdc/ontology#" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:ecrm="http://erlangen-crm.org/current/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:snap="http://data.snapdrgn.net/ontology/snap#" xmlns:dc="http://purl.org/dc/elements/1.1/" exclude-result-prefixes="funct" version="2.0">
     <xsl:output method="xml" indent="yes" encoding="UTF-8"/>
     <xsl:function name="funct:date">
         <xsl:param name="date"/>
@@ -860,48 +870,48 @@
     <xsl:template match="t:locus">
 <!--        to preserve EACH distinct locus, because there might be texts where an encoding is made as 
         from <locus> to <locus> is given, to provide also lines, for example-->
-        <bm:hasLocus>
-            <bm:Locus>
+        <betmas:hasLocus>
+            <betmas:Locus>
         <xsl:if test="@from">
-            <bm:locusFrom>
+            <betmas:locusFrom>
                 <xsl:value-of select="@from"/>
-            </bm:locusFrom>
+            </betmas:locusFrom>
         </xsl:if>
         <xsl:if test="@to">
-            <bm:locusTo>
+            <betmas:locusTo>
                 <xsl:value-of select="@to"/>
-            </bm:locusTo>
+            </betmas:locusTo>
         </xsl:if>
         <xsl:if test="@target">
             <xsl:choose>
                 <xsl:when test="contains(@target, ' ')">
                     <xsl:for-each select="tokenize(@target, ' ')">
-                        <bm:locusTarget>
+                        <betmas:locusTarget>
                             <xsl:value-of select="substring-after(., '#')"/>
-                        </bm:locusTarget>
+                        </betmas:locusTarget>
                     </xsl:for-each>
                 </xsl:when>
                 <xsl:otherwise>
-                    <bm:locusTarget>
+                    <betmas:locusTarget>
                         <xsl:value-of select="substring-after(@target, '#')"/>
-                    </bm:locusTarget>
+                    </betmas:locusTarget>
                 </xsl:otherwise>
             </xsl:choose>
 
         </xsl:if>
         <xsl:if test="@n">
-            <bm:locusLine>
+            <betmas:locusLine>
                 <xsl:value-of select="@n"/>
-            </bm:locusLine>
+            </betmas:locusLine>
         </xsl:if>
-        </bm:Locus>
-        </bm:hasLocus>
+        </betmas:Locus>
+        </betmas:hasLocus>
     </xsl:template>
 
 <xsl:template match="t:extent">
-    <bm:hasTotalLeaves>
+    <betmas:hasTotalLeaves>
             <xsl:value-of select="t:measure[@unit='leaf']"/>
-        </bm:hasTotalLeaves>
+        </betmas:hasTotalLeaves>
     <xsl:apply-templates select="t:dimensions"/>
     <xsl:apply-templates select="t:locus"/>
 </xsl:template>
@@ -1400,14 +1410,14 @@
             </xsl:if>
             <xsl:if test="t:roleName">
                 <xsl:for-each select="t:roleName">
-                    <bm:hasRole>
-                        <bm:Role>
-                            <bm:roleType rdf:resource="https://betamasaheft.eu/role/{@type}"/>
-                            <bm:roleName>
+                    <betmas:hasRole>
+                        <betmas:Role>
+                            <betmas:roleType rdf:resource="https://betamasaheft.eu/role/{@type}"/>
+                            <betmas:roleName>
                                 <xsl:value-of select="."/>
-                            </bm:roleName>
-                        </bm:Role>
-                    </bm:hasRole>
+                            </betmas:roleName>
+                        </betmas:Role>
+                    </betmas:hasRole>
                 </xsl:for-each>
             </xsl:if>
             <xsl:if test="normalize-space(string-join(text(), '')) != ''">
