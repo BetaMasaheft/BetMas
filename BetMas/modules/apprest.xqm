@@ -676,9 +676,8 @@ return
 
 
 (:~prints the revision informations:)
-declare function apprest:authorsSHA($this, $collection, $sha) {
+declare function apprest:authorsSHA($id, $this, $collection, $sha) {
 let $document := $this
-let $id := string($this//t:TEI/@xml:id)
 let $app:bibdata := apprest:bibdata($id, $this, $collection, $sha)
 return
 

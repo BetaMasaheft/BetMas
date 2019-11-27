@@ -562,7 +562,7 @@ if ($id = $Subjects) then  (try{LitFlow:Sankey($id, 'works')} catch * {$err:desc
    <script  type="text/javascript" src="resources/js/permanentID.js"></script>
    
    </div>
-  { apprest:authorsSHA($this, $collection, $sha)}
+  { apprest:authorsSHA($id, $this, $collection, $sha)}
    </div>
 
 
