@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs" version="2.0">
     <xsl:template match="t:faith">
         <xsl:choose>
@@ -7,7 +6,7 @@
             </xsl:when>
             <xsl:otherwise>
                 <xsl:choose>
-                    <xsl:when test="@type='EOTC'">Ethiopian Orthodox Tewahedo Church</xsl:when>
+                    <xsl:when test="@type='EOTC'">Ethiopian Orthodox (Tewahedo) Church</xsl:when>
                     <xsl:when test="@type='Christianity'">Christian</xsl:when>
                     <xsl:when test="@type='Catholicism'">Christian Catholic</xsl:when>
                     <xsl:when test="@type='Protestantism'">Christian Protestant</xsl:when>
