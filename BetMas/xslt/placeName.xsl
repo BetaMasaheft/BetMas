@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
+<xsl:stylesheet xmlns:funct="my.funct" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:placeName | t:region | t:country | t:settlement">
         <xsl:if test="@type and not(ancestor::t:div[@type='edition'])">
             <xsl:value-of select="concat(@type, ': ')"/>
@@ -99,14 +99,14 @@
             </xsl:otherwise>
         </xsl:choose>
         <xsl:if test="not(ancestor::t:div[@type='edition'])">
-            <xsl:if test="@when"> (information recorded on: <xsl:value-of select="@when"/>) </xsl:if>
+            <xsl:if test="@when"> (information recorded on: <xsl:value-of select="funct:date(@when)"/>) </xsl:if>
         <xsl:if test="@notBefore">
             <xsl:text> After: </xsl:text>
-            <xsl:value-of select="@notBefore"/>
+            <xsl:value-of select="funct:date(@notBefore)"/>
         </xsl:if>
         <xsl:if test="@notAfter">
             <xsl:text> Before: </xsl:text>
-            <xsl:value-of select="@notAfter"/>
+            <xsl:value-of select="funct:date(@notAfter)"/>
         </xsl:if>
         </xsl:if>
     </xsl:template>
@@ -150,14 +150,14 @@
                             </xsl:choose>
         
         <xsl:if test="not(ancestor::t:div[@type='edition'])">
-        <xsl:if test="@when"> (information recorded on: <xsl:value-of select="@when"/>) </xsl:if>
+            <xsl:if test="@when"> (information recorded on: <xsl:value-of select="funct:date(@when)"/>) </xsl:if>
         <xsl:if test="@notBefore">
             <xsl:text> After: </xsl:text>
-            <xsl:value-of select="@notBefore"/>
+            <xsl:value-of select="funct:date(@notBefore)"/>
         </xsl:if>
         <xsl:if test="@notAfter">
             <xsl:text> Before: </xsl:text>
-            <xsl:value-of select="@notAfter"/>
+            <xsl:value-of select="funct:date(@notAfter)"/>
         </xsl:if>
         </xsl:if>
     </xsl:template>

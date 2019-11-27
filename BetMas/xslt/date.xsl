@@ -1,27 +1,26 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
+<xsl:stylesheet xmlns:funct="my.funct" xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:date">
         <xsl:choose>
             <xsl:when test="text()"/>
             <xsl:otherwise>
                 <xsl:choose>
                 <xsl:when test="@when">
-                <xsl:value-of select="@when"/>
+                    <xsl:value-of select="funct:date(@when)"/>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:choose>
                     <xsl:when test="@notBefore and @notAfter">
-                        <xsl:value-of select="@notBefore"/>
+                        <xsl:value-of select="funct:date(@notBefore)"/>
                         <xsl:text>-</xsl:text>
-                        <xsl:value-of select="@notAfter"/>
+                        <xsl:value-of select="funct:date(@notAfter)"/>
                     </xsl:when>
                     <xsl:when test="@notAfter and not(@notBefore)">
                         <xsl:text>Before </xsl:text>
-                        <xsl:value-of select="@notAfter"/>
+                        <xsl:value-of select="funct:date(@notAfter)"/>
                     </xsl:when>
                     <xsl:when test="@notBefore and not(@notAfter)">
                         <xsl:text>After </xsl:text>
-                        <xsl:value-of select="@notBefore"/>
+                        <xsl:value-of select="funct:date(@notBefore)"/>
                     </xsl:when>
                 </xsl:choose>
             </xsl:otherwise>
@@ -92,22 +91,22 @@
                             <td>
                                 <xsl:choose>
                                     <xsl:when test="@when">
-                                        <xsl:value-of select="@when"/>
+                                        <xsl:value-of select="funct:date(@when)"/>
                                     </xsl:when>
                                     <xsl:otherwise>
                                         <xsl:choose>
                                             <xsl:when test="@notBefore and @notAfter">
-                                                <xsl:value-of select="@notBefore"/>
+                                                <xsl:value-of select="funct:date(@notBefore)"/>
                                                 <xsl:text>-</xsl:text>
-                                                <xsl:value-of select="@notAfter"/>
+                                                <xsl:value-of select="funct:date(@notAfter)"/>
                                             </xsl:when>
                                             <xsl:when test="@notAfter and not(@notBefore)">
                                                 <xsl:text>Before </xsl:text>
-                                                <xsl:value-of select="@notAfter"/>
+                                                <xsl:value-of select="funct:date(@notAfter)"/>
                                             </xsl:when>
                                             <xsl:when test="@notBefore and not(@notAfter)">
                                                 <xsl:text>After </xsl:text>
-                                                <xsl:value-of select="@notBefore"/>
+                                                <xsl:value-of select="funct:date(@notBefore)"/>
                                             </xsl:when>
                                         </xsl:choose>
                                     </xsl:otherwise>
