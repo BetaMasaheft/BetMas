@@ -1,5 +1,32 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
+<xsl:stylesheet xmlns:funct="my.funct" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:variable name="mainID" select="t:TEI/@xml:id"/>
+    <xsl:function name="funct:date">
+        <xsl:param name="date"/>
+        <xsl:choose>
+            <xsl:when test="matches($date, '\d{4}-\d{2}-\d{2}')">
+                <xsl:value-of select="format-date(xs:date($date), '[D]-[M]-[Y0001]', 'en', 'AD', ())"/>
+            </xsl:when>
+            <xsl:otherwise><xsl:value-of select="format-number($date, '####')"/></xsl:otherwise>
+        </xsl:choose>
+    </xsl:function>
+    <xsl:function name="funct:datepicker">
+        <xsl:param name="element"/>
+        <xsl:choose>
+            <xsl:when test="$element/@notBefore or $element/@notAfter">
+                <xsl:if test="not($element/@notBefore)">Before </xsl:if>
+                <xsl:if test="not($element/@notAfter)">After </xsl:if>
+                <xsl:if test="$element/@notBefore"><xsl:value-of select="funct:date($element/@notBefore)"/></xsl:if>
+                <xsl:if test="$element/@notBefore and $element/@notAfter"><xsl:text>-</xsl:text></xsl:if>
+                <xsl:if test="$element/@notAfter"><xsl:value-of select="funct:date($element/@notAfter)"/></xsl:if>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="funct:date($element/@when)"/>
+            </xsl:otherwise>
+        </xsl:choose>
+        <xsl:if test="$element/@cert">
+            <xsl:value-of select="concat(' (certainty: ', $element/@cert, ')')"/>
+        </xsl:if>
+    </xsl:function>
     <xsl:template match="/">
        <div class="w3-twothird" id="MainData">
            <div class="w3-container">
@@ -184,7 +211,7 @@
                                        <xsl:value-of select="@xml:lang"/>
                                    </sup>
                                </xsl:if>
-                               <xsl:if test="//t:person/t:persName[@corresp]">
+                               <xsl:if test="//t:person/t:persName[contains(@corresp, $id)]">
                                    <xsl:text> (</xsl:text>
                                    <xsl:for-each select="//t:person/t:persName[substring-after(@corresp, '#') = $id]">
                                        <xsl:sort/>
@@ -234,52 +261,13 @@
                    <h3>Dates </h3>
                    <xsl:if test="//t:birth[@when or @notBefore or @notAfter ] or                             //t:death[@when or @notBefore or @notAfter  ] or                             //t:floruit[@when or @notBefore or @notAfter ]">
                        <xsl:for-each select="//t:birth[@when or @notBefore or @notAfter ]">
-                           <p>Birth: <xsl:choose>
-                               <xsl:when test="@notBefore or @notAfter">
-                                   <xsl:value-of select="@notBefore"/>
-                                   <xsl:text>-</xsl:text>
-                                   <xsl:value-of select="@notAfter"/>
-                               </xsl:when>
-                               <xsl:otherwise>
-                                            <xsl:value-of select="@when"/>
-                                        </xsl:otherwise>
-                           </xsl:choose>
-                               <xsl:if test="@cert">
-                                        <xsl:value-of select="concat(' (', @cert, ')')"/>
-                                    </xsl:if>
-                           </p>
+                           <p>Birth: <xsl:value-of select="funct:datepicker(.)"/></p>
                        </xsl:for-each>
                        <xsl:for-each select="//t:floruit[@when or @notBefore or @notAfter ]">
-                           <p>Period of activity: <xsl:choose>
-                               <xsl:when test="@notBefore or @notAfter">
-                                   <xsl:value-of select="@notBefore"/>
-                                   <xsl:text>-</xsl:text>
-                                   <xsl:value-of select="@notAfter"/>
-                               </xsl:when>
-                               <xsl:otherwise>
-                                            <xsl:value-of select="@when"/>
-                                        </xsl:otherwise>
-                           </xsl:choose>
-                               <xsl:if test="@cert">
-                                        <xsl:value-of select="concat(' (', @cert, ')')"/>
-                                    </xsl:if>
-                           </p>
+                           <p>Period of activity: <xsl:value-of select="funct:datepicker(.)"/></p>
                        </xsl:for-each>
                        <xsl:for-each select="//t:death[@when or @notBefore or @notAfter ]">
-                           <p>Death: <xsl:choose>
-                               <xsl:when test="@notBefore or @notAfter">
-                                   <xsl:value-of select="@notBefore"/>
-                                   <xsl:text>-</xsl:text>
-                                   <xsl:value-of select="@notAfter"/>
-                               </xsl:when>
-                               <xsl:otherwise>
-                                            <xsl:value-of select="@when"/>
-                                        </xsl:otherwise>
-                           </xsl:choose>
-                               <xsl:if test="@cert">
-                                        <xsl:value-of select="concat(' (', @cert, ')')"/>
-                                    </xsl:if>
-                           </p>
+                           <p>Death: <xsl:value-of select="funct:datepicker(.)"/></p>
                        </xsl:for-each>
                    </xsl:if>
                </xsl:if>
@@ -290,9 +278,9 @@
                    <xsl:for-each select="//t:occupation">
                        <p class="lead" property="http://data.snapdrgn.net/ontology/snap#occupation">
                            <xsl:if test="@from or @to">
-                               <xsl:value-of select="@from"/>
+                               <xsl:value-of select="funct:date(@from)"/>
                                <xsl:text>-</xsl:text>
-                               <xsl:value-of select="@to"/>
+                               <xsl:value-of select="funct:date(@to)"/>
                            </xsl:if>
                            <xsl:apply-templates select="."/>
                            <xsl:text> (</xsl:text>
