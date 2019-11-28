@@ -86,7 +86,7 @@ return
  <a class="w3-button w3-padding-small w3-gray" href="javascript:void(0);" onclick="startIntroItem();">Explore this page</a>
  </div>
  <div class="w3-bar-item w3-tooltip" >
- <a class="w3-button w3-padding-small w3-gray" target="_blank" href="https://github.com/BetaMasaheft/Documentation/issues/new?title=something%20is%20wrong%20in%20{$id}&amp;assignee=PietroLiuzzo">
+ <a class="w3-button w3-padding-small w3-gray" target="_blank" href="https://github.com/BetaMasaheft/Documentation/issues/new/choose">
                                 <i class="fa fa-envelope"/>
                             </a>
                             <span class="w3-text w3-tag itemoptiontooltip">Do you want to notify us of an error, please do so by writing an issue in our GitHub repository (click the envelope for a precomiled one).</span>
@@ -162,7 +162,7 @@ then you will see visualizations based on La Syntaxe du Codex, by Andrist, Canar
     <span class="w3-text w3-tag itemoptiontooltip">Transcription (as available). Do you have a transcription you want to contribute? 
     Contact us or click on EDIT and submit your contribution.</span>
     </div> else ()}
-    {if ($collection = 'manuscripts' and $this//t:msIdentifier/t:idno/@facs) then
+    {if ($collection = 'manuscripts' and $this//t:msIdentifier/t:idno[@facs][@n]) then
     <div class="w3-bar-item w3-tooltip" >
     <a class="w3-button w3-padding-small w3-gray"  href="{('/manuscripts/' || $id || '/viewer' )}" 
     target="_blank">Images</a>
