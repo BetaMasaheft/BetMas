@@ -12,11 +12,13 @@ import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/c
 
 declare namespace t="http://www.tei-c.org/ns/1.0";
 
-declare variable $new:taxonomy := doc($config:data-rootA || '/taxonomy.xml') ;
-declare variable $new:schema := doc($config:app-root || '/schema/tei-betamesaheft.xml') ;
+
 
 (:this is a small form that points to the xquery generating the new file and prompting the editor to save it in the correct location:)
 declare function new:newentry($node as node()*, $model as map(*)) {
+
+let $taxonomy := doc($config:data-rootA || '/taxonomy.xml')//t:taxonomy 
+let $schema := doc($config:app-root || '/schema/tei-betamesaheft.xml') 
      let $option := switch($app:collection) 
      case 'manuscripts' return ''
      default return 'last part of the'
@@ -57,7 +59,7 @@ if($app:collection = 'persons') then (
 <select  class="w3-select"  id="keywords" name="keywords" multiple="multiple">
                 {
                 
-                let $categories :=  $new:taxonomy/t:category[t:desc='Confessions']//t:catDesc/text()
+                let $categories :=  $taxonomy/t:category[t:desc='Confessions']//t:catDesc/text()
                  for $k in $categories
                 order by $k
                 return
@@ -73,7 +75,7 @@ if($app:collection = 'persons') then (
 <option value="" selected="selected">choose</option>
                 {
                 
-                let $categories :=  $new:schema//t:elementSpec[@ident='occupation']//t:attDef[@ident='type']//t:valItem
+                let $categories :=  $schema//t:elementSpec[@ident='occupation']//t:attDef[@ident='type']//t:valItem
                  for $k in $categories
                 order by $k/@ident
                 return
@@ -89,7 +91,7 @@ if($app:collection = 'persons') then (
 <option value="" selected="selected">choose</option>
                 {
                 
-                let $categories :=  $new:schema//t:elementSpec[@ident='nationality']//t:attDef[@ident='type']//t:valItem
+                let $categories :=  $schema//t:elementSpec[@ident='nationality']//t:attDef[@ident='type']//t:valItem
                  for $k in $categories
                  let $i := $k/@ident
                 order by $i
@@ -109,12 +111,12 @@ if($app:collection = 'persons') then (
                 
                 let $categories := 
                 switch($app:collection)
-                case 'narratives' return  $new:taxonomy/t:category[t:desc='Subjects']//t:catDesc/text()
-                case 'works' return  $new:taxonomy/t:category[t:desc='Subjects']//t:catDesc/text()
-                case 'manuscripts' return  $new:taxonomy/t:category[t:desc='Subjects']//t:catDesc/text()
-                case 'places' return  $new:taxonomy/t:category[t:desc='Place types']//t:catDesc/text()
-                case 'institutions' return  $new:taxonomy/t:category[t:desc='Place types']//t:catDesc/text()
-               default return $new:taxonomy//t:catDesc/text()
+                case 'narratives' return  $taxonomy/t:category[t:desc='Subjects']//t:catDesc/text()
+                case 'works' return  $taxonomy/t:category[t:desc='Subjects']//t:catDesc/text()
+                case 'manuscripts' return  $taxonomy/t:category[t:desc='Subjects']//t:catDesc/text()
+                case 'places' return  $taxonomy/t:category[t:desc='Place types']//t:catDesc/text()
+                case 'institutions' return  $taxonomy/t:category[t:desc='Place types']//t:catDesc/text()
+               default return $taxonomy//t:catDesc/text()
                 for $k in $categories
                 order by $k
                 return
