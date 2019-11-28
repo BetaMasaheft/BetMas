@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:funct="my.funct"  xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:funct="my.funct" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     
     <xsl:variable name="mainID" select="t:TEI/@xml:id"/>
     <xsl:function name="funct:date">
@@ -31,7 +31,20 @@
     <xsl:template match="t:relation" mode="gendesc">
         <xsl:choose>
             <xsl:when test="not(@passive) and t:desc"><xsl:value-of select="t:desc"/></xsl:when>
-            <xsl:otherwise><a target="_blank" href="/{@passive}"><span class="MainTitle" data-value="{@passive}"><xsl:value-of select="@passive"/></span></a></xsl:otherwise>
+            <xsl:otherwise><a target="_blank" ><xsl:choose>
+                <xsl:when test="starts-with(@passive, 'http')">
+                    <xsl:attribute name="href">
+                        <xsl:value-of select="@passive"/>
+                    </xsl:attribute>
+                    <xsl:value-of select="@passive"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:attribute name="href">
+                        <xsl:value-of select="concat('/', @passive)"/>
+                    </xsl:attribute>
+                    <span class="MainTitle" data-value="{@passive}"><xsl:value-of select="@passive"/></span>
+                </xsl:otherwise>
+            </xsl:choose></a></xsl:otherwise>
         </xsl:choose>
     </xsl:template>
     <xsl:template match="/">
