@@ -344,7 +344,6 @@
                                 </xsl:when>
 <!--                                    EMIP .  -->
                                     <xsl:when test="matches($idnoFacs, 'EMIP/Codices/\d+/')">
-                                        
                                         <xsl:variable name="iiif" select="$idnoFacs"/>
                                         <xsl:variable name="fullIIIF" select="concat('/iiif/',$idnoFacs)"/>
                                         <!--                                    expected format: of //t:TEI//t:msIdentifier/t:idno/@facs is : EMIP/Codices/8/ where the 
@@ -358,7 +357,7 @@
                                                 <xsl:variable name="tiles">
                                                     <xsl:for-each select="0 to (xs:integer($count) +1 )">
                                                         <xsl:text>"</xsl:text>
-<!--                                                        <xsl:value-of select="concat($fullIIIF, format-number((xs:integer($f) + current()), '000'),'.tif/info.json')"/>-->
+                                                        <xsl:value-of select="concat($fullIIIF, format-number((xs:integer($f) + current()), '000'),'.tif/info.json')"/>
                                                         <xsl:text>"</xsl:text>
                                                         <xsl:if test="not(current()=(xs:integer($count) +1 ))">,</xsl:if>
                                                     </xsl:for-each>
