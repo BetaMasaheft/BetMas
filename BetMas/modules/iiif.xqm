@@ -61,7 +61,7 @@ declare function iiif:manifestsource($item as node()){
 
 };
 
-declare function iiif:folio($folio as xs:string){if(matches($folio, '\d')) then xs:integer(replace(replace($folio, '[rvab]', ''), '#', '')) else 0};
+declare function iiif:folio($folio as xs:string){if(matches($folio, '\d')) then xs:integer(replace(replace($folio, '[rvabcd]', ''), '#', '')) else 0};
 
 declare function iiif:locus($l as node()){
   if($l[@from][@to]) 
@@ -205,8 +205,8 @@ let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($facsid/@facs)
  for $graphic at $p in 1 to $tot 
             let $n := $p
              let $imagefile := format-number($graphic, '000') || '.tif'
-             let $resid := ($imagesbaseurl || (if($item//t:collection='EMIP') then () else if($item//t:repository/@ref = 'INS0339BML') then () else '_') || $imagefile )
-             let $image := ($imagesbaseurl || (if($item//t:collection='EMIP') then () else if($item//t:repository/@ref = 'INS0339BML') then () else '_') || $imagefile || '/full/full/0/default.jpg' )
+             let $resid := ($imagesbaseurl || (if($item//t:collection='Ethio-SPaRe') then '_' else ()) || $imagefile )
+             let $image := ($imagesbaseurl || (if($item//t:collection='Ethio-SPaRe') then '_'  else ()) || $imagefile || '/full/full/0/default.jpg' )
             let $name := string($n)
             let $id := $iiifroot || '/canvas/p'  || $n
               order by $p 
@@ -465,7 +465,7 @@ let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($facsid/@facs)
        let $tot := $facsid/@n
        let $url :=  $config:appUrl ||"/manuscripts/" || $id
       (:       this is where the images actually are, in the images server:)
-       let $thumbid := $imagesbaseurl ||(if($item//t:collection='EMIP') then () else if($item//t:repository/@ref[.='INS0339BML']) then () else '_') || '001.tif/full/80,100/0/default.jpg'
+       let $thumbid := $imagesbaseurl ||(if($item//t:collection='Ethio-SPaRe') then '_'  else ()) || '001.tif/full/80,100/0/default.jpg'
        let $objectType := string($item//@form[1])
        let $iiifroot := $config:appUrl ||"/api/iiif/" || $id
        let $image := $config:appUrl ||'/iiif/'||$id||'/'
@@ -539,6 +539,7 @@ map {"@context":= "http://iiif.io/api/presentation/2/context.json",
 
 
 
+
 (:dereferencable sequence The sequence conveys the ordering of the views of the object.:)
 declare 
 %rest:GET
@@ -587,8 +588,8 @@ let $facsid := if($alt = '') then $item//t:msIdentifier/t:idno else $item//t:alt
 let $iiifroot := $config:appUrl ||"/api/iiif/" || $id 
 let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($facsid/@facs)
  let $imagefile := format-number($n, '000') || '.tif'
-let $resid := ($imagesbaseurl || (if($item//t:collection='EMIP') then () else if($item//t:repository/@ref[.='INS0339BML']) then () else '_') || $imagefile )
- let $image := ($imagesbaseurl || (if($item//t:collection='EMIP') then () else if($item//t:repository/@ref[.='INS0339BML']) then () else '_') || $imagefile || '/full/full/0/default.jpg' )
+let $resid := ($imagesbaseurl || (if($item//t:collection='Ethio-SPaRe') then '_'  else ()) || $imagefile )
+ let $image := ($imagesbaseurl || (if($item//t:collection='Ethio-SPaRe') then '_'  else ()) || $imagefile || '/full/full/0/default.jpg' )
 let $name := string($n)
 let $id := $iiifroot || '/canvas/p'  || $n
        return
