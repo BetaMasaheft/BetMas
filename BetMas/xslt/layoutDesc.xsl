@@ -98,28 +98,29 @@
                 <xsl:variable name="leftmargin" select="                         if (t:dimensions[@type = 'margin'][1]/t:dim[@type = 'left'][1]/text()) then                             (t:dimensions[@type = 'margin'][1]/t:dim[@type = 'left'][1])                         else                             ('0')"/>
                 <xsl:variable name="textwidth" select="t:dimensions[not(@type)][1]/t:width[1]"/>
                 <xsl:variable name="heighText" select="t:dimensions[not(@type)][1]/t:height[1]"/>
-                <xsl:variable name="totalHeight" select="                         if (ancestor::t:TEI//t:objectDesc/t:supportDesc/t:extent/t:dimensions[@type = 'outer' and @unit = 'mm']/t:height/text()) then                             (ancestor::t:TEI//t:objectDesc/t:supportDesc/t:extent/t:dimensions[@type = 'outer' and @unit = 'mm']/t:height)                         else                             ('0')"/>
-                <xsl:variable name="totalwidth" select="                         if (ancestor::t:TEI//t:objectDesc/t:supportDesc/t:extent/t:dimensions[@type = 'outer' and @unit = 'mm']/t:width/text()) then                             (ancestor::t:TEI//t:objectDesc/t:supportDesc/t:extent/t:dimensions[@type = 'outer' and @unit = 'mm']/t:width)                         else                             ('0')"/>
+                <xsl:variable name="totalHeight" select="                         if (ancestor::t:TEI//t:dimensions[@type = 'outer' and @unit = 'mm']/t:height/text() or ancestor::t:TEI//t:dimensions[@type = 'outer']/t:height[@unit='mm']/text()) then                             (ancestor::t:TEI//t:dimensions[@type = 'outer']/t:height)                         else                             0"/>
+                <xsl:variable name="totalwidth" select="                         if (ancestor::t:TEI//t:dimensions[@type = 'outer' and @unit = 'mm']/t:width/text() or ancestor::t:TEI//t:dimensions[@type = 'outer']/t:width[@unit='mm']/text()) then                             (ancestor::t:TEI//t:dimensions[@type = 'outer']/t:width)                         else                             0"/>
                 <xsl:variable name="computedheight" select="number($heighText) + number($bottomargin) + number($topmargin)"/>
                 <xsl:variable name="computedwidth" select="number($textwidth) + number($rightmargin) + number($leftmargin)"/>
                 <xsl:variable name="currentMsPart">
-                    <xsl:if test="./ancestor::t:msPart">
+                    <xsl:choose><xsl:when test="./ancestor::t:msPart">
                         <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
-                    </xsl:if>
+                    </xsl:when>
+                    <xsl:otherwise> main part</xsl:otherwise>
+                    </xsl:choose>
                 </xsl:variable>
-                <button type="button" class="w3-button w3-gray" onclick="openaccordion('layoutreport{$currentMsPart}')">Layout report</button>
+                <button type="button" class="w3-button w3-gray" onclick="openAccordion('layoutreport{$currentMsPart}')">Layout report</button>
                 <div class="report w3-container w3-hide" id="layoutreport{$currentMsPart}">
-                    <p>- Ms <xsl:value-of select="concat(t:TEI/@xml:id, $currentMsPart)"/>
+                    <p>Ms <xsl:value-of select="concat($mainID, $currentMsPart)"/>
                         <xsl:if test=".//t:titleStmt/t:title">, <xsl:value-of select=".//t:titleStmt/t:title"/>
                         </xsl:if>
                         <xsl:text>
             </xsl:text>
                         <xsl:choose>
-                            <xsl:when test="number($computedheight) &gt; number($totalHeight)"> *
+                            <xsl:when test="number($computedheight) &gt; number($totalHeight)"> 
                                 has a sum of layout height of <xsl:value-of select="$computedheight"/>mm which is greater than the object height of <xsl:value-of select="$totalHeight"/>mm </xsl:when>
-                            <xsl:when test="number($computedwidth) &gt; number($totalwidth)"> * has
-                                a sum of layout width of <xsl:value-of select="$computedwidth"/>mm
-                                which is greater than the object width of <xsl:value-of select="$totalwidth"/>mm </xsl:when>
+                            <xsl:when test="number($computedwidth) &gt; number($totalwidth)">
+                                has a sum of layout width of <xsl:value-of select="$computedwidth"/>mm which is greater than the object width of <xsl:value-of select="$totalwidth"/>mm </xsl:when>
                             <xsl:otherwise> looks ok for measures computed width is: <xsl:value-of select="$computedwidth"/>mm, object width is: <xsl:value-of select="$totalwidth"/>mm, computed height is: <xsl:value-of select="$computedheight"/>mm and object height is: <xsl:value-of select="$totalHeight"/>mm. <xsl:if test="number($topmargin) = 0 or number($bottomargin) = 0 or number($rightmargin) = 0 or number($leftmargin) = 0 or number($totalHeight) = 0 or number($totalwidth) = 0">but the following values are
                                 recognized as empty: <xsl:if test="number($topmargin) = 0">top
                                     margin </xsl:if>
@@ -135,16 +136,15 @@
                 </div>
             </xsl:if>
         </div>
-        </xsl:for-each>
         <xsl:if test=".//t:ab[@type = 'ruling']">
-            <h3>Ruling <xsl:if test="./ancestor::t:msPart">
+            <h5>Ruling <xsl:if test="./ancestor::t:msPart">
                     <xsl:variable name="currentMsPart">
                         <a href="{./ancestor::t:msPart/@xml:id}">
                             <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
                         </a>
                     </xsl:variable> of codicological unit <xsl:value-of select="$currentMsPart"/>
                 </xsl:if>
-            </h3>
+            </h5>
             <ul>
                 <xsl:for-each select=".//t:ab[@type = 'ruling']">
                     <li>
@@ -175,14 +175,14 @@
             </ul>
         </xsl:if>
         <xsl:if test=".//t:ab[@type = 'pricking']">
-            <h3>Pricking <xsl:if test="./ancestor::t:msPart">
+            <h5>Pricking <xsl:if test="./ancestor::t:msPart">
                     <xsl:variable name="currentMsPart">
                         <a href="{./ancestor::t:msPart/@xml:id}">
                             <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
                         </a>
                     </xsl:variable> of codicological unit <xsl:value-of select="$currentMsPart"/>
                 </xsl:if>
-            </h3>
+            </h5>
             <ul>
                 <xsl:for-each select=".//t:ab[@type = 'pricking']">
                     <li>
@@ -195,14 +195,14 @@
             </ul>
         </xsl:if>
         <xsl:if test=".//t:ab[@type = 'punctuation']">
-            <h3>Punctuation <xsl:if test="./ancestor::t:msPart">
+            <h5>Punctuation <xsl:if test="./ancestor::t:msPart">
                     <xsl:variable name="currentMsPart">
                         <a href="{./ancestor::t:msPart/@xml:id}">
                             <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
                         </a>
                     </xsl:variable> of codicological unit <xsl:value-of select="$currentMsPart"/>
                 </xsl:if>
-            </h3>
+            </h5>
             <ul>
                 <xsl:for-each select=".//t:ab[@type = 'punctuation']">
                     <li>
@@ -255,7 +255,9 @@
                 </xsl:for-each>
             </ul>
         </xsl:if>
-       <xsl:if test="//t:handNote"> <h3>Palaeography <xsl:if test="./ancestor::t:msPart">
+        </xsl:for-each>
+            <xsl:if test="//t:handNote"> <h3>Palaeography 
+                <xsl:if test="./ancestor::t:msPart">
                 <xsl:variable name="currentMsPart">
                     <a href="{./ancestor::t:msPart/@xml:id}">
                         <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
@@ -292,7 +294,8 @@
             </xsl:if>
             <xsl:apply-templates select="child::node() except (t:list | t:ab[@type = 'script'] | t:seg)"/>
         </xsl:for-each>
-      </xsl:if>  <xsl:if test="//t:ab[@subtype = 'Executed'] or //t:ab[@subtype = 'Usage']">
+      </xsl:if>  
+            <xsl:if test="//t:ab[@subtype = 'Executed'] or //t:ab[@subtype = 'Usage']">
             <h4>Punctuation</h4>
             <xsl:if test="//t:ab[@subtype = 'Executed']">
                 <p>Executed: <xsl:value-of select="//t:ab[@subtype = 'Executed']"/>
@@ -328,6 +331,8 @@
             <p>Yes <xsl:apply-templates select="//t:layout//t:ab[@type = 'ChiRho']"/>
             </p>
         </xsl:if>
+            
+       
         </div>
     </xsl:template>
 </xsl:stylesheet>

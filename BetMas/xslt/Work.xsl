@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:funct="my.funct"  xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:funct="my.funct" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:variable name="mainID" select="t:TEI/@xml:id"/>
     <xsl:function name="funct:date">
         <xsl:param name="date"/>
@@ -176,6 +176,70 @@
                             <xsl:apply-templates/>
                         </li>
                     </xsl:for-each>
+                </ul>
+            </xsl:if>
+            <xsl:if test="//t:relation[@name='betmas:isAuthorOfEthiopicTranslation']">
+                <h2>Translator</h2>
+                <ul>
+                    <xsl:for-each select="//t:relation[@name='betmas:isAuthorOfEthiopicTranslation']">
+                        <xsl:variable name="parentname">
+                            <xsl:if test="ancestor::t:div[@xml:id]">
+                                <a class="page-scroll MainTitle" target="_blank" href="/text/{ancestor::t:TEI/@xml:id}#{ancestor::t:div[@xml:id][1]/@xml:id}" data-value="{ancestor::t:TEI/@xml:id}#{ancestor::t:div[@xml:id][1]/@xml:id}">
+                                    <xsl:value-of select="ancestor::t:div[@xml:id][1]/@xml:id"/>
+                                </a>: </xsl:if>
+                        </xsl:variable>
+                        <xsl:choose>
+                            <xsl:when test="contains(@passive,' ')">
+                                <xsl:for-each select="tokenize(normalize-space(@passive),' ')">
+                                    <li>
+                                        <xsl:copy-of select="$parentname"/>
+                                        <xsl:variable name="filename">
+                                            <xsl:choose>
+                                                <xsl:when test="contains(., '#')">
+                                                    <xsl:value-of select="substring-before(., '#')"/>
+                                                </xsl:when>
+                                                <xsl:otherwise>
+                                                    <xsl:value-of select="."/>
+                                                </xsl:otherwise>
+                                            </xsl:choose>
+                                        </xsl:variable>
+                                        <a href="{.}" class="persName">
+                                            <span class="MainTitle" data-value="{.}"/>
+                                        </a>
+                                    </li>
+                                </xsl:for-each>
+                               
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <li>
+                                    <xsl:copy-of select="$parentname"/>
+                                    <xsl:variable name="filename">
+                                        <xsl:choose>
+                                            <xsl:when test="contains(@passive, '#')">
+                                                <xsl:value-of select="substring-before(@passive, '#')"/>
+                                            </xsl:when>
+                                            <xsl:otherwise>
+                                                <xsl:value-of select="@passive"/>
+                                            </xsl:otherwise>
+                                        </xsl:choose>
+                                    </xsl:variable>
+                                    <a href="{@passive}" data-value="{@passive}" class="MainTitle"/>
+                                    <xsl:variable name="id" select="generate-id()"/>
+                                    <a id="{$id}Ent{$filename}relations">
+                                        <xsl:text>  </xsl:text>
+                                        <span class="glyphicon glyphicon-hand-left"/>
+                                    </a>
+                                    <xsl:text>. </xsl:text>
+                                    <xsl:if test="t:desc">
+                                        <xsl:apply-templates select="t:desc"/>
+                                    </xsl:if>
+                                    
+                                    
+                                </li>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:for-each>
+                   
                 </ul>
             </xsl:if>
             <xsl:if test="//t:abstract or //t:relation">
