@@ -136,7 +136,7 @@ return
 </idno>
 <coll>{$collection}</coll>
 </bibl>
-let $countsets:= count($this//t:idno[@facs][@n])
+let $countsets:= count($this//t:idno[@facs])
 return
 if($countsets=1) then (
 let $manifest := viewer:manifest($this, $id, $this//t:msIdentifier/t:idno)
@@ -144,8 +144,11 @@ let $manifest := viewer:manifest($this, $id, $this//t:msIdentifier/t:idno)
 let $location := viewer:location($this)
 
 let $firstcanvas := 
-            (:vatican:)
-                if(contains($this//t:msIdentifier/t:idno/@facs, 'digi.vat')) 
+            (:bodleian:)
+                if(contains($this//t:msIdentifier/t:idno/@facs, 'bodleian')) 
+               then   '' 
+           (:vatican:)
+               else if(contains($this//t:msIdentifier/t:idno/@facs, 'digi.vat')) 
                then replace(substring-before($this//t:msIdentifier/t:idno/@facs, '/manifest.json') || '/canvas/p0001', 'http:', 'https:')
                (:BNF:)
             else if ($this//t:repository/@ref = 'INS0303BNF') 
@@ -254,9 +257,12 @@ let $locations := for $m in $this//t:idno[@facs][@n]
                              '{manifestUri: "' || $manifest || '", location: "' || $location[1] || '"}'
 let $manifests := for $m in $this//t:idno[@facs][@n]
                                let $manifest := viewer:manifest($this, $id, $m)
-                               let $firstcanvas := 
-                                            (:vatican:)
-                                               if(contains($m/@facs, 'digi.vat')) 
+                               let $firstcanvas :=   
+                               (:bodleian:)
+                                      if(contains($this//t:msIdentifier/t:idno/@facs, 'bodleian')) 
+                                         then   '' 
+                                    (:vatican:)
+                                  else  if(contains($m/@facs, 'digi.vat')) 
                                                 then replace(substring-before($m/@facs, '/manifest.json') || '/canvas/p0001', 'http:', 'https:')
                                           (:BNF:)
                                              else if ($this//t:repository/@ref = 'INS0303BNF') 
@@ -370,6 +376,8 @@ return
        (:vatican:)
                                                  if(contains($m/@facs, 'http')) 
                                                   then  replace($m/@facs, 'http:', 'https:')
+                                                 else  if(contains($m/@facs, 'https')) 
+                                                  then  $m/@facs
                                                 (:BNF:)
                                                      else if ($this//t:repository/@ref = 'INS0303BNF') 
                                                   then replace($m/@facs, 'ark:', 'iiif/ark:') || '/manifest.json'

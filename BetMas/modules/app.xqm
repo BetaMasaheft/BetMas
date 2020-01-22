@@ -440,11 +440,14 @@ EMIP:)
             else if ($item//t:repository/@ref = 'INS0303BNF') 
             then <img src="{replace($item//t:msIdentifier/t:idno/@facs, 'ark:', 'iiif/ark:') || '/f1/full/140,/0/native.jpg'}" class="thumb w3-image"/>
 (:           vatican :)
-                else <img src="{replace(substring-before($item//t:msIdentifier/t:idno/@facs, '/manifest.json'), 'iiif', 'pub/digit') || '/thumb/'
+                else if (contains($item//t:msIdentifier/t:idno/@facs, 'digi.vat')) then <img src="{replace(substring-before($item//t:msIdentifier/t:idno/@facs, '/manifest.json'), 'iiif', 'pub/digit') || '/thumb/'
                     ||
                     substring-before(substring-after($item//t:msIdentifier/t:idno/@facs, 'MSS_'), '/manifest.json') || 
                     '_0001.tif.jpg'
                 }" class="thumb w3-image"/>
+(:                bodleian:)
+else if (contains($item//t:msIdentifier/t:idno/@facs, 'bodleian')) then ('images')
+                else (<img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>)
                  }</a>
                 
                 else ()}</td>,
@@ -611,7 +614,7 @@ else
 
 (:~ the new issue button with a link to the github repo issues list :)
 declare function app:newissue($node as node()*, $model as map(*)){
-<a role="button" class="w3-button w3-small w3-gray" target="_blank" href="https://github.com/BetaMasaheft/Documentation/issues/new?title={$app:name}&amp;labels[]={$app:collection}&amp;labels[]=app&amp;assignee=PietroLiuzzo&amp;body=There%20is%20an%20issue%20with%20{$app:name}">new issue</a>};
+<a role="button" class="w3-button w3-small w3-gray" target="_blank" href="https://github.com/BetaMasaheft/Documentation/issues/new/choose">new issue</a>};
 
 (:~ button only visible to editors for creating a new entry  :)
 declare function app:nextID($collection as xs:string) {

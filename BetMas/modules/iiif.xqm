@@ -45,7 +45,7 @@ declare variable $iiif:response400 := $config:response400;
 (:functions doing microtasks for the structures :)
 
 declare function iiif:manifestsource($item as node()){
-(:ES:)
+            (:ES:)
             if($item//t:collection = 'Ethio-SPaRe' or $item//t:repository/@ref = 'INS0339BML') 
             then $config:appUrl ||'/api/iiif/' || string($item/@xml:id) || '/manifest' 
             else if($item//t:collection = 'EMIP') 
@@ -54,10 +54,9 @@ declare function iiif:manifestsource($item as node()){
             else if ($item//t:repository[@ref = 'INS0303BNF']) 
             then replace($item//t:msIdentifier/t:idno/@facs, 'ark:', 'iiif/ark:') || '/manifest.json'
 (:           vatican :)
-            else 
-                if(starts-with($item//t:msIdentifier/t:idno/@facs, 'http://digi.vatlib')) 
+            else if(starts-with($item//t:msIdentifier/t:idno/@facs, 'http://digi.vatlib')) 
             then replace($item//t:msIdentifier/t:idno/@facs, 'http://', 'https://') 
-            else $item//t:msIdentifier/t:idno/@facs
+            else string($item//t:msIdentifier/t:idno/@facs)
 
 };
 
@@ -350,24 +349,23 @@ log:add-log-message('/api/iiif/collections/' || $institutionid, xmldb:get-curren
 let $repoName := titles:printTitleMainID($institutionid)
 let $repo := $config:collection-rootMS//t:repository[@ref = $institutionid]
 let $mswithimages := 
-if($institutionid='INS0447EMIP') then $repo[following-sibling::t:idno[@facs][@n]] 
-else $repo[following-sibling::t:idno[@facs]]
+        if($institutionid='INS0447EMIP') 
+        then $repo[following-sibling::t:idno[@facs][@n]] 
+        else $repo[following-sibling::t:idno[@facs]]
 let $manifests :=
-for $images in $mswithimages
-let $this := $images/ancestor::t:TEI
-let $idno := $images/following-sibling::t:idno[@facs]
-     let $manifest := iiif:manifestsource($this)
-         return
-             map {'label' := titles:printTitleMainID($this/@xml:id) ,
-      "@type": "sc:Manifest", 
-      '@id' := $manifest}
+                for $images in $mswithimages
+                let $this := $images/ancestor::t:TEI
+                let $idno := $images/following-sibling::t:idno[@facs]
+                let $manifest := iiif:manifestsource($this)
+                    return
+                            map {'label' := titles:printTitleMainID($this/@xml:id) ,
+                                        '@type': "sc:Manifest", 
+                                        '@id' := $manifest}
 
  let $iiifroot := $config:appUrl ||"/api/iiif/"
 (:       this is where the manifest is:)
-       let $request := $iiifroot || "/collections"
- 
-        
-        return
+let $request := $iiifroot || "/collections"
+ return
         map {
   "@context": "http://iiif.io/api/presentation/2/context.json",
   "@id": $request,

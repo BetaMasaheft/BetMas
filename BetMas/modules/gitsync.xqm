@@ -58,7 +58,7 @@ declare function gitsync:create-collections($uri as xs:string) {
  : @param $contents-url string pointing to resource on github
 :)
 declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-collection) {
-    let $committerEmail := $commits?1?committer?email
+    let $committerEmail := $commits?1?pusher?email
     return
         
         for $modified in $commits?1?modified?*
@@ -157,7 +157,7 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
  : NOTE permission changes could happen in a db trigger after files are created
 :)
 declare function gitsync:do-add($commits, $contents-url as xs:string?, $data-collection) {
-    let $committerEmail := $commits?1?committer?email
+    let $committerEmail := $commits?1?pusher?email
     return
         
         for $modified in $commits?1?added?*
@@ -280,7 +280,7 @@ declare function gitsync:do-add($commits, $contents-url as xs:string?, $data-col
  : @param $contents-url string pointing to resource on github
 :)
 declare function gitsync:do-delete($commits, $contents-url as xs:string?, $data-collection) {
-let $committerEmail := $commits?1?committer?email
+let $committerEmail := $commits?1?pusher?email
 return
     for $modified in $commits?1?removed?*
     let $file-path := concat($contents-url, $modified)
@@ -394,9 +394,10 @@ declare function gitsync:validateAndConfirm($item, $mail, $type) {
  : this function is called only on add and update
 :)
 declare function gitsync:wrongID($mail, $storedFileID, $filename) {
+let $address := if ($mail[1] = 'noreply@github.com') then 'pietro.liuzzo@uni-hamburg.de' else $mail[1]
      let $WrongIdMessage := <mail>
                 <from>pietro.liuzzo@uni-hamburg.de</from>
-                <to>{$mail[1]}</to>
+                <to>{$address}</to>
                 <cc></cc>
                 <bcc></bcc>
                 <subject>It looks like there is a mismatching id for a file you pushed to Beta maṣāḥǝft...</subject>
@@ -476,7 +477,10 @@ declare function gitsync:failedCommitMessage($mail, $data-collection, $message) 
                                 <title>Failed Syncing {$data-collection} with the App.</title>
                             </head>
                             <body>
-                                <p>Sorry, your latest push failed. It is not your fault and Pietro already knows about it and will try to fix it as soon as possible. Don't worry. Keep Calm and Carry On.</p>
+                                <p>Alas, your latest push to the application failed. Do not expect to find your latest changes in the application.</p>
+                                <p>Your friendly tech lead already knows about it, as he is receiving this very same message, and will look at it as soon as possible. Below is the error message. You can read it,
+                                some times it will tell you that you have forgotten to take care of your validation errors, in which case, 
+                                please fix them as soon as possible. If you are not sure what to do, try not to worry too much, keep calm and carry on.</p>
                                 <p>{$message}</p>
                                 <p>Thank you!</p>
                             </body>
