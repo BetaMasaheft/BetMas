@@ -1,6 +1,10 @@
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:locus">
         <xsl:param name="text" tunnel="yes"/>
+        <xsl:variable name="parent" select="parent::node()"/>
+        
+        <xsl:variable name="anc" select="ancestor::t:*[@xml:id][1]"/>
+        <xsl:variable name="ancID" select="replace($anc/@xml:id, '\.', '_')"/>
         <xsl:if test="parent::t:ab[not(@type = 'CruxAnsata' or @type = 'ChiRho' or @type = 'coronis')]">
             <xsl:text>(Excerpt from </xsl:text>
         </xsl:if>
@@ -29,7 +33,7 @@
 <!--                                            if there is an external reference, then add attributes to call the modal containing the images-->
                                             <xsl:when test="$f  and not($text = 'only')">
                                                 <xsl:attribute name="onclick">
-                                                    <xsl:value-of select="concat('document.getElementById(&#34;images',concat(replace(normalize-space($f), ' ', '_'), replace($f//ancestor::t:*[@xml:id][1]/@xml:id, '.', '_')), '&#34;).style.display=&#34;block&#34;')"/>
+                                                    <xsl:value-of select="concat('document.getElementById(&#34;images',concat(replace(normalize-space($f), ' ', '_'), $ancID), '&#34;).style.display=&#34;block&#34;')"/>
                                                 </xsl:attribute>
                                                 </xsl:when>
 <!--                                            MISSING THE OPTION FOR INTERNAL IMAGE SERVER-->
@@ -53,7 +57,7 @@
                                        <!--                                            if there is an external reference, then add attributes to call the modal containing the images-->
                                         <xsl:when test="@facs  and not($text = 'only')">
                                             <xsl:attribute name="onclick">
-                                                <xsl:value-of select="concat('document.getElementById(&#34;images',concat(replace(normalize-space(@facs), ' ', '_'), replace(ancestor::t:*[@xml:id][1]/@xml:id, '.', '_')), '&#34;).style.display=&#34;block&#34;')"/>
+                                                <xsl:value-of select="concat('document.getElementById(&#34;images',concat(replace(normalize-space(@facs), ' ', '_'), $ancID), '&#34;).style.display=&#34;block&#34;')"/>
                                             </xsl:attribute>
                                         </xsl:when>
                                        
@@ -90,7 +94,7 @@
                             <xsl:choose>
                                 <xsl:when test="@facs  and not($text = 'only')">
                                     <xsl:attribute name="onclick">
-                                        <xsl:value-of select="concat('document.getElementById(&#34;images',concat(replace(normalize-space(@facs), ' ', '_'), replace(ancestor::t:*[@xml:id][1]/@xml:id, '.', '_')), '&#34;).style.display=&#34;block&#34;')"/>
+                                        <xsl:value-of select="concat('document.getElementById(&#34;images',concat(replace(normalize-space(@facs), ' ', '_'), $ancID), '&#34;).style.display=&#34;block&#34;')"/>
                                     </xsl:attribute>
                                     
                                     
@@ -112,7 +116,7 @@
                             <xsl:choose>
                                 <xsl:when test="@facs  and not($text = 'only')">
                                     <xsl:attribute name="onclick">
-                                        <xsl:value-of select="concat('document.getElementById(&#34;images',concat(replace(normalize-space(@facs), ' ', '_'), replace(ancestor::t:*[@xml:id][1]/@xml:id, '.', '_')), '&#34;).style.display=&#34;block&#34;')"/>
+                                        <xsl:value-of select="concat('document.getElementById(&#34;images',concat(replace(normalize-space(@facs), ' ', '_'), $ancID), '&#34;).style.display=&#34;block&#34;')"/>
                                     </xsl:attribute>
                                     
                                    
@@ -141,7 +145,7 @@
                             <xsl:choose>
                                 <xsl:when test="@facs  and not($text = 'only')">
                                     <xsl:attribute name="onclick">
-                                        <xsl:value-of select="concat('document.getElementById(&#34;images',concat(replace(normalize-space(@facs), ' ', '_'), replace(ancestor::t:*[@xml:id][1]/@xml:id, '.', '_'), '&#34;).style.display=&#34;block&#34;'))"/>
+                                        <xsl:value-of select="concat('document.getElementById(&#34;images',concat(replace(normalize-space(@facs), ' ', '_'), $ancID, '&#34;).style.display=&#34;block&#34;'))"/>
                                     </xsl:attribute>
                                 </xsl:when>
                                
@@ -161,7 +165,7 @@
                             <xsl:choose>
                                 <xsl:when test="@facs  and not($text = 'only')">
                                     <xsl:attribute name="onclick">
-                                        <xsl:value-of select="concat('document.getElementById(&#34;images',                                             concat(replace(normalize-space(@facs), ' ', '_'),                                              replace(ancestor::t:*[@xml:id][1]/@xml:id, '.', '_'), '&#34;).style.display=&#34;block&#34;'))"/>
+                                        <xsl:value-of select="concat('document.getElementById(&#34;images',                                             concat(replace(normalize-space(@facs), ' ', '_'),                                              $ancID, '&#34;).style.display=&#34;block&#34;'))"/>
                                     </xsl:attribute>
                                 </xsl:when>
                                 
@@ -184,15 +188,22 @@
         </xsl:if>
 <!--        if there is a refernce to an external resource build the modal conatining the openseadragon javascript-->
         <xsl:if test="@facs and not($text = 'only')">
-            <xsl:variable name="modalid" select="concat('images',replace(normalize-space(@facs), ' ', '_'), replace(ancestor::t:*[@xml:id][1]/@xml:id, '.', '_'))"/>
+            <xsl:variable name="anc" select="ancestor::t:*[@xml:id][1]"/>
+            <xsl:variable name="ancID" select="replace($anc/@xml:id, '\.', '_')"/>
+            <xsl:variable name="modalid" select="concat('images',replace(normalize-space(@facs), ' ', '_'), $ancID)"/>
             <div class="w3-modal" id="{$modalid}">
                 
                     
                     <!-- Modal content-->
                     <div class="w3-modal-content">
                             <header class="w3-container">
-                                <h4>Images from <xsl:value-of select="ancestor::t:TEI//t:msIdentifier/t:idno/@facs"/>
-                        </h4>
+                                <h4>Images relevant for <span class="MainTitle" data-value="{$mainID}#{$ancID}"></span>, from <xsl:value-of select="ancestor::t:TEI//t:msIdentifier/t:idno/@facs"/></h4>
+                                <div>
+                                    <xsl:choose>
+                                        <xsl:when test="@target">You are viewing a sequence of images including ff. <xsl:value-of select="replace(string-join(tokenize(normalize-space(@target), ' #'), ', '), '#', '')"/></xsl:when>
+                                        <xsl:otherwise>You are viewing a sequence of images from f. <xsl:value-of select="@from"/> <xsl:if test="@to">to f. <xsl:value-of select="@to"/></xsl:if></xsl:otherwise>
+                                   </xsl:choose>
+                                </div>
                                 <button class="w3-button w3-gray w3-display-topright" onclick="document.getElementById('{$modalid}').style.display='none'">Close</button>
                             </header>
                         
@@ -344,6 +355,7 @@
                                 </xsl:when>
 <!--                                    EMIP .  -->
                                     <xsl:when test="matches($idnoFacs, 'EMIP/Codices/\d+/')">
+                                        
                                         <xsl:variable name="iiif" select="$idnoFacs"/>
                                         <xsl:variable name="fullIIIF" select="concat('/iiif/',$idnoFacs)"/>
                                         <!--                                    expected format: of //t:TEI//t:msIdentifier/t:idno/@facs is : EMIP/Codices/8/ where the 
@@ -351,11 +363,14 @@
                                     -->
                                         <xsl:choose>
                                             <xsl:when test="@from and @to">
+                                                <xsl:choose>
+                                                    <xsl:when test="matches(@from, 'i') or matches(@to, 'i')"/>
+                                                    <xsl:otherwise>
                                                 <xsl:variable name="from" select="                                             if(contains(@from, 'r'))                                              then substring-before(@from, 'r')                                                                                          else  if(contains(@from, 'v'))                                              then (substring-before(@from, 'v'))                                                                                          else @from                                                                                          "/>
                                                 <xsl:variable name="to" select="                                                 if(contains(@to, 'r'))                                                  then substring-before(@to, 'r')                                                                                                   else  if(contains(@to, 'v'))                                                  then (substring-before(@to, 'v'))                                                                                                  else @to                                                                                                  "/>
                                                 <xsl:variable name="count" select="(number($to) - number($from)) * 2"/>
                                                 <xsl:variable name="tiles">
-                                                    <xsl:for-each select="0 to (xs:integer($count) +1 )">
+                                                    <xsl:for-each select="0 to (xs:integer($count) +1)">
                                                         <xsl:text>"</xsl:text>
                                                         <xsl:value-of select="concat($fullIIIF, format-number((xs:integer($f) + current()), '000'),'.tif/info.json')"/>
                                                         <xsl:text>"</xsl:text>
@@ -363,6 +378,8 @@
                                                     </xsl:for-each>
                                                 </xsl:variable>
                                                 <xsl:value-of select="$tiles"/>
+                                                    </xsl:otherwise>
+                                                </xsl:choose>
                                             </xsl:when>
                                             <xsl:when test="@from and not(@to)">
                                                 <xsl:text>"</xsl:text>
