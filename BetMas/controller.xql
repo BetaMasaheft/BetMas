@@ -521,7 +521,27 @@ construct the annotation graph if application/rdf+xml is specified
                                                     
                                                     </dispatch>
 
-(:                                        if the resource does match the id, then redirect to main view of that item:)
+(: if the resource match an id of a work or a manuscript followed by a passage reference, then go to the text view of that
+ : http://betamasaheft.eu/LIT1340EnochE:1.3
+ : should redirect to
+ : http://betamasaheft.eu/works/LIT1340EnochE/text?start=1
+ : :)
+                                        
+                                        else
+                                            if (matches($exist:resource, "^\w+\d+(\w+)?\:(a-zA-Z0-9\.)+$")) then
+                                                let $prefix := substring($exist:resource, 1, 2)
+                                                let $switchCollection := local:switchPrefix($prefix)
+                                                let $passage := substring-after($exist:resource, ':')
+                                            return
+                                               <dispatch
+                                                        xmlns="http://exist.sourceforge.net/NS/exist">
+                                                        <redirect
+                                                            url="/{$switchCollection}/{$exist:resource}/text?start="/>
+                                                    </dispatch>
+                                                            
+
+
+(: if the resource does match the id, then redirect to main view of that item:)
                                         
                                         else
                                             if (matches($exist:resource, "^\w+\d+(\w+)?$")) then
