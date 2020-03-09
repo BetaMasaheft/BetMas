@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0">
     <teiHeader>
         <fileDesc>
@@ -23,7 +24,7 @@
                 <item xml:id="SG" n="Solomon">Solomon Gebreyes</item>
                 <item xml:id="PL" n="Pietro">Pietro Maria Liuzzo</item>
                 <item xml:id="SA" n="Stéphane">Stéphane Ancel</item>
-                <item xml:id="SD" n="Sophia">Sophia Dege</item>
+                <item xml:id="SD" n="Sophia">Sophia Dege-Müller</item>
                 <item xml:id="VP" n="Vitagrazia">Vitagrazia Pisani</item>
                 <item xml:id="IF" n="Iosif">Iosif Fridman</item>
                 <item xml:id="SH" n="Susanne">Susanne Hummel</item>
@@ -71,6 +72,7 @@
                 <item xml:id="HS" n="Hewan">Hewan Semon</item>
                 <item xml:id="ABe" n="Ashley">Ashley Benson</item>
                 <item xml:id="SK" n="Sergey">Sergey Kim</item>
+                <item xml:id="HA" n="Hagos">Hagos Abrha</item>
             </list>
         </body>
     </text>

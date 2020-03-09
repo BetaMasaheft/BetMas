@@ -16,7 +16,6 @@ declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json = "http://www.json.org";
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 
-
 declare variable $void:response200turtle := <rest:response>
             <http:response
                 status="200">

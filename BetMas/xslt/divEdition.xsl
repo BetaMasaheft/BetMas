@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t" version="2.0">
     
     <xsl:template match="t:*[@xml:lang='gez']//text()[parent::t:*[name() != 'label'][name() != 'note'][name() != 'persName'] [name() != 'placeName']]">
@@ -151,7 +152,7 @@
                         </xsl:choose>
                         <xsl:text>)</xsl:text>
                     </xsl:if>
-                    <xsl:if test="@corresp">
+                    <xsl:if test="@corresp and ancestor::t:TEI/@type='work'">
                         <div class="parallelversions w3-bar w3-tooltip">
                             <a class="parallelversion w3-small w3-button w3-red" data-textid="{$text}" data-unit="{@corresp}">
                                 Versions

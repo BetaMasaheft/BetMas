@@ -38,7 +38,7 @@ se interrogato da titolo da gli id, altrimenti per id da gli altri id e il titol
 
 :)
 
-    let $log := log:add-log-message('/api/clavis/' || $id , xmldb:get-current-user(), 'REST')
+    let $log := log:add-log-message('/api/clavis/' || $id , sm:id()//sm:real/sm:username/string() , 'REST')
                     let $root := api:get-tei-by-ID($id)
                     let $id := string($root/@xml:id)
                     let $title := titles:printTitleMainID($id)
@@ -51,21 +51,21 @@ se interrogato da titolo da gli id, altrimenti per id da gli altri id e il titol
                     let $BHL := $clavisBibl/t:bibl[@type='BHL']/t:citedRange/text()
                     let $syriaca := $clavisBibl/t:bibl[@type='syriaca']/t:citedRange/text()
                     let $clavisIDS := map {
-                    "CC":=  $CC,
-                    "CPG":=  $CPG,
-                    "CANT":=  $CANT,
-                    "CAVT":=  $CAVT,
-                    "BHO":=  $BHO,
-                    "BHL":=  $BHL,
-                    "syriaca":=  $syriaca
+                    "CC":  $CC,
+                    "CPG":  $CPG,
+                    "CANT":  $CANT,
+                    "CAVT":  $CAVT,
+                    "BHO":  $BHO,
+                    "BHL":  $BHL,
+                    "syriaca":  $syriaca
                     }
                     
                     return
                         ( $api:response200Json,
                         map {
-                            "CAe" := $id,
-                            "title" := $title,
-                            "clavis" := $clavisIDS                
+                            "CAe" : $id,
+                            "title" : $title,
+                            "clavis" : $clavisIDS                
                         })
                         
 };
@@ -85,7 +85,7 @@ se interrogato da titolo da gli id, altrimenti per id da gli altri id e il titol
 
 :)
 (:
-    let $log := log:add-log-message('/api/clavis/' || $id , xmldb:get-current-user(), 'REST')
+    let $log := log:add-log-message('/api/clavis/' || $id , sm:id()//sm:real/sm:username/string() , 'REST')
                :)  
                let $bibl := if ($type != '') then "[t:bibl[@type = '" ||$type||"']]" else ()
                let $path := util:eval("$config:collection-rootW//t:listBibl[@type='clavis']" || $bibl)
@@ -101,27 +101,27 @@ se interrogato da titolo da gli id, altrimenti per id da gli altri id e il titol
                     let $BHL := $work/t:bibl[@type='BHL']/t:citedRange/text()
                     let $syriaca := $work/t:bibl[@type='syriaca']/t:citedRange/text()
                     let $clavisIDS := map {
-                    "CC":=  $CC,
-                    "CPG":=  $CPG,
-                    "CANT":=  $CANT,
-                    "CAVT":=  $CAVT,
-                    "BHO":=  $BHO,
-                    "BHL":=  $BHL,
-                    "syriaca":=  $syriaca
+                    "CC":  $CC,
+                    "CPG":  $CPG,
+                    "CANT":  $CANT,
+                    "CAVT":  $CAVT,
+                    "BHO":  $BHO,
+                    "BHL":  $BHL,
+                    "syriaca":  $syriaca
                     }
                     
                     return
                         map {
-                            "CAe" := $id,
-                            "CAeN" := substring($id, 4,4),
-                            "CAeURL" := 'https://betamasaheft.eu/works/' || $id || '/main',
-                            "title" := $title,
-                            "clavis" := $clavisIDS                
+                            "CAe" : $id,
+                            "CAeN" : substring($id, 4,4),
+                            "CAeURL" : 'https://betamasaheft.eu/works/' || $id || '/main',
+                            "title" : $title,
+                            "clavis" : $clavisIDS                
                         }
                         
                         return
                          ( $api:response200Json,
-                          map {'results' := $results, 'total' := count($results)}
+                          map {'results' : $results, 'total' : count($results)}
                          )
                        
 };
@@ -142,7 +142,7 @@ function clavis:Clavis($q as xs:string*) {
 let $eval-string := concat("$config:collection-rootW//t:title",
 "[ft:query(.,'", $q, "')]")
 
-let $log := log:add-log-message('/api/clavis?q=' || $q, xmldb:get-current-user(), 'REST')
+let $log := log:add-log-message('/api/clavis?q=' || $q, sm:id()//sm:real/sm:username/string() , 'REST')
 let $hits := util:eval($eval-string)
 let $hi :=   for $hit in $hits
                     let $root := root($hit)
@@ -159,29 +159,29 @@ let $hi :=   for $hit in $hits
                     let $BHL := $clavisBibl/t:bibl[@type='BHL']/t:citedRange/text()
                     let $syriaca := $clavisBibl/t:bibl[@type='syriaca']/t:citedRange/text()
                     let $clavisIDS := map {
-                    "CC":=  $CC,
-                    "CPG":=  $CPG,
-                    "CANT":=  $CANT,
-                    "CAVT":=  $CAVT,
-                    "BHO":=  $BHO,
-                    "BHL":=  $BHL,
-                    "syriaca":=  $syriaca
+                    "CC":  $CC,
+                    "CPG":  $CPG,
+                    "CANT":  $CANT,
+                    "CAVT":  $CAVT,
+                    "BHO":  $BHO,
+                    "BHL":  $BHL,
+                    "syriaca":  $syriaca
                     }
                     
                     return
                         map {
-                            "CAe" := $id,
-                            "title" := $title,
-                            "clavis" := $clavisIDS,
-                            "hits" := $hitCount                    
+                            "CAe" : $id,
+                            "title" : $title,
+                            "clavis" : $clavisIDS,
+                            "hits" : $hitCount                    
                         }
 let $c := count($hits)
 return
     if (count($hits) gt 0) then
          ( $api:response200Json,
        map {
-            "items" := $hi,
-            "totalhits":= $c
+            "items" : $hi,
+            "totalhits": $c
         
         })
     else

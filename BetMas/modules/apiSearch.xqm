@@ -64,7 +64,7 @@ if ($q = '' or $q = ' ' or $element = '') then (<json:value>
                 <info>you have to specify a query string and a list or elements, sorry</info>
             </json:value>
         </json:value>) else
-let $log := log:add-log-message('/api/kwicsearch?q=' || $q, xmldb:get-current-user(), 'REST')
+let $log := log:add-log-message('/api/kwicsearch?q=' || $q, sm:id()//sm:real/sm:username/string() , 'REST')
     let $login := xmldb:login($config:data-root, $config:ADMIN, $config:ppw)
     
   let $elements : =
@@ -102,21 +102,21 @@ let $hi :=   for $hit in $hits
                           
                    return
                         map {
-                            "id" := $id,
-                            "text" := $text,
-                            "textpart" := $textpart,
-                            "collection" := $collection,
-                            "title" := $title,
-                            "hitsCount" := $count,
-                            "results" := $results                        
+                            "id" : $id,
+                            "text" : $text,
+                            "textpart" : $textpart,
+                            "collection" : $collection,
+                            "title" : $title,
+                            "hitsCount" : $count,
+                            "results" : $results                        
                         }
 let $c := count($hits)
 return
     if (count($hits) gt 0) then
         ($config:response200Json,
        map {
-            "items" := $hi,
-            "total":= $c
+            "items" : $hi,
+            "total": $c
         
         })
     else
@@ -155,7 +155,7 @@ if ($q = '' or $q = ' ' or $element = '') then (<json:value>
                 <info>you have to specify a query string and a list or elements, sorry</info>
             </json:value>
         </json:value>) else
-let $log := log:add-log-message('/api/search?q=' || $q, xmldb:get-current-user(), 'REST')
+let $log := log:add-log-message('/api/search?q=' || $q, sm:id()//sm:real/sm:username/string() , 'REST')
     let $login := xmldb:login($config:data-root, $config:ADMIN, $config:ppw)
     let $SearchOptions :=
     <options>

@@ -10,8 +10,8 @@ import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas
 import module namespace all = "https://www.betamasaheft.uni-hamburg.de/BetMas/all" at "xmldb:exist:///db/apps/BetMas/modules/all.xqm";
 
 let $c := collection($config:data-root)
-let $dates := $c//t:date[not(parent::t:publicationStmt)]
-let $origDate := $c//t:origDate
+let $dates := $c//t:date[not(parent::t:publicationStmt)][@when or @notBefore or @notAfter]
+let $origDate := $c//t:origDate[@when or @notBefore or @notAfter]
 let $alldates := ($dates, $origDate)
 
 let $rows :=    

@@ -45,10 +45,10 @@ declare
 function compare:compare(
 $workid as xs:string*) {
 let $fullurl := ('?workid=' || $workid)
-let $log := log:add-log-message($fullurl, xmldb:get-current-user(), 'compare')
+let $log := log:add-log-message($fullurl, sm:id()//sm:real/sm:username/string() , 'compare')
 let $w := $config:collection-root/id($workid)
 
-let $Cmap := map {'type':= 'item', 'name' := $workid, 'path' := base-uri($w)}
+let $Cmap := map {'type': 'item', 'name' : $workid, 'path' : base-uri($w)}
 
 return
 if(exists($w) or $workid ='') then (
@@ -141,7 +141,7 @@ function compare:compareSelected(
 $mss as xs:string*) {
 let $list := $mss
 let $fullurl := ('?mss=' || $mss)
-let $Cmap := map {'type':= 'item', 'name' := $list, 'path' := $fullurl}
+let $Cmap := map {'type': 'item', 'name' : $list, 'path' : $fullurl}
 
 return
 (

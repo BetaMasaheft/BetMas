@@ -15,18 +15,39 @@ $('#addDTS').click(function(){
 
 
 $('#collate').click(function(){
-    
+    var nU =[]
     var dts =[]
 $('input.dts').each(function(){
     var value = $( this ).val()
-    dts.push(value)
+    var dtsuri = 'https://betamasaheft.eu/'+value
+    dts.push(dtsuri)
 });
+$('input.narrUnit').each(function(){
+    var value = $( this ).val()
+    nU.push(value)
+});
+console.log(dts)
  
 
 /*should also call dts directly to display passage which is being collated and created divs with that content beside the collation*/
 
-var apicall = '/api/collatex?format=json&dts=' + dts.join(',')
+var apicall = '/api/collatex?format=json&dts=' + dts.join(',') + '&nU=' + nU.join(',')
+/*console.log('collating@!')*/
 var container = $('#collationResult')
+
+/*YUI().use("node", "collatex", function(Y) {
+    new Y.CollateX({ serviceUrl: "https://collatex.net/demo/collate" }).toTable([{
+        id: "A",
+        content: "Hello World"
+    }, {
+        id: "B",
+        tokens: [
+            { "t": "Hallo", "n": "hello" },
+            { "t": "Welt", "n": "world" }
+        ]
+    }], Y.one("#collationResult"));
+});
+*/
 $.getJSON(apicall, function( data ) {
 console.log(data)
 var tablecontainer =  $('<div class="w3-responsive">')
@@ -39,7 +60,7 @@ var style = 'style="width:' + styleperc + '%;"'
 
 $(data.witnesses).each(function(witnesindex){
 
-var th = $('<th class=" w3-padding" '+style+ '>'+this+'</th>')
+var th = $('<th class=" w3-padding" '+style+ '>'+this+' [ <a href="/manuscripts/'+this+'/text">text</a>][<a href="/manuscripts/'+this+'/viewer">viewer</a>]</th>')
 tr.append(th)
 head.append(tr)
 });

@@ -120,7 +120,7 @@ return
             <body>
                 <div
                     id="confirmation">
-                    <p>Dear {xmldb:get-current-user()}, unfortunately <span
+                    <p>Dear {sm:id()//sm:real/sm:username/string()}, unfortunately <span
                             class="lead">{$Newid}</span> already exists!
                         Please, hit the button below and try a different id.</p>
                    <div class="btn-group"> 
@@ -134,7 +134,7 @@ return
         </html>
         )
     else
-        let $editor := editors:editorNames(xmldb:get-current-user())
+        let $editor := editors:editorNames(sm:id()//sm:real/sm:username/string())
             
                 (: get the form data that has been "POSTed" to this XQuery :)
     let $item :=
@@ -635,7 +635,7 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                 <div id="confirmation" class="container">
                     <div class="jumbotron">
                     <p
-                        class="lead">Thank you very much {xmldb:get-current-user()}!</p>
+                        class="lead">Thank you very much {sm:id()//sm:real/sm:username/string()}!</p>
                     <p>
                         <span
                             class="lead">{$Newid}</span> has been saved!</p>

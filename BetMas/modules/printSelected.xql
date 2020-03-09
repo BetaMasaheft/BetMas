@@ -12,7 +12,8 @@ import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///
 import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "xmldb:exist:///db/apps/BetMas/modules/editors.xqm";
 import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2"  at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
 
-import module namespace http = "http://expath.org/ns/http-client";
+
+declare namespace http = "http://expath.org/ns/http-client";
 declare namespace fo = "http://www.w3.org/1999/XSL/Format";
 declare namespace xslfo = "http://exist-db.org/xquery/xslfo";
 declare namespace tei = "http://www.tei-c.org/ns/1.0";
@@ -356,7 +357,8 @@ declare function fo:ZoteroTit($ZoteroUniqueBMtag as xs:string) {
 
 declare function fo:zoteroBib($collectionKey){
  let $xml-url := concat('https://api.zotero.org/groups/358366/collections/',$collectionKey,'/items?format=bib&amp;style=hiob-ludolf-centre-for-ethiopian-studies&amp;linkwrap=1')
-let $data := httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)
+let $request := <http:request href="{xs:anyURI($xml-url)}" method="GET"/>
+    let $data := http:send-request($request)[2]
     let $datawithlink := for $bib at $p in $data//div[@class = 'csl-bib-body']//div[@class = 'csl-entry']  
     return <fo:block margin-bottom="2pt" start-indent="0.5cm" text-indent="-0.5cm">{fo:tei2fo($bib)}</fo:block>
     return
@@ -366,7 +368,8 @@ let $data := httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)
 
 declare function fo:Zotero($ZoteroUniqueBMtag as xs:string) {
     let $xml-url := concat('https://api.zotero.org/groups/358366/items?tag=', $ZoteroUniqueBMtag, '&amp;format=bib&amp;style=hiob-ludolf-centre-for-ethiopian-studies&amp;linkwrap=1')
-    let $data := httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)
+    let $request := <http:request href="{xs:anyURI($xml-url)}" method="GET"/>
+    let $data := http:send-request($request)[2]
     let $datawithlink := fo:tei2fo($data//div[@class = 'csl-entry'])
     return
         $datawithlink
@@ -2456,7 +2459,7 @@ declare function fo:main($ids) {
 
 
 let $ids := request:get-parameter("ids", ())
-let $log := log:add-log-message(string-join($ids, ','), xmldb:get-current-user(), 'PDF')
+let $log := log:add-log-message(string-join($ids, ','), sm:id()//sm:real/sm:username/string() , 'PDF')
 let $pdf := xslfo:render(fo:main($ids), "application/pdf", (), $local:fop-config)
 return
     response:stream-binary($pdf, "media-type=application/pdf", "printselection.pdf")

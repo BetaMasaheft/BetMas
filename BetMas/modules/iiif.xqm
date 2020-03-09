@@ -98,7 +98,7 @@ declare function iiif:range($iiifroot as xs:string, $structure as xs:string, $ti
                                return replace($canvases, '/p\d+$', ('/p' || xs:string($newnum)))
       return ($canvases, $lastDigit) else $canvases
        return
-       map {"@context":= "http://iiif.io/api/presentation/2/context.json",
+       map {"@context": "http://iiif.io/api/presentation/2/context.json",
       "@id": $structure,
       "@type": "sc:Range",
       "label": $title,
@@ -163,7 +163,7 @@ map {"@context":"http://iiif.io/api/presentation/2/context.json",
 
 declare function iiif:oneCanvas($id, $name, $image, $resid){
 
-map {"@context":= "http://iiif.io/api/presentation/2/context.json",
+map {"@context": "http://iiif.io/api/presentation/2/context.json",
                    "@id": $id,
                    "@type": "sc:Canvas",
                    "label": $name,
@@ -212,6 +212,49 @@ let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($facsid/@facs)
               return iiif:oneCanvas($id, $name, $image, $resid)
 };
 
+declare function iiif:msItemRange($msItem, $iiifroot){
+   <range>
+    <r>{$iiifroot ||"/range/" || string($msItem/@xml:id)}</r>
+    <t>{if ($msItem/t:title/@ref) then titles:printTitleID($msItem/t:title/@ref) else 'item ' || string($msItem/@xml:id)}</t>
+    {$msItem}
+    </range>};
+
+declare function iiif:collationRange($q, $iiifroot){
+    <range>
+    <r>{$iiifroot ||"/range/" || string($q/@xml:id)}</r>
+    <t>{normalize-space(string-join($q/text(), ' ')|| ' (' ||$q/t:dim/text()||')')}</t>
+    {$q}
+    </range>};
+
+declare function iiif:additionsRange($a, $iiifroot){
+    <range>
+    <r>{$iiifroot ||"/range/" || string($a/@xml:id)}</r>
+    <t>{string($a/t:desc/@type)}</t>
+    {$a}
+    </range>};
+    
+  declare function iiif:decorationsRange($d, $iiifroot){
+ <range>
+    <r>{$iiifroot ||"/range/" || string($d/@xml:id)}</r>
+    <t>{string($d/@type)}</t>
+    {$d}
+    </range>}; 
+   
+declare function iiif:makeRanges($nodes, $iiifroot, $elements, $rangetype){
+ let $ranges :=  <ranges>{
+ for $n in $nodes return 
+ switch($elements) 
+ case 'quires' return iiif:collationRange($n, $iiifroot) 
+ case 'decorations' return iiif:decorationsRange($n, $iiifroot) 
+ case 'additions' return iiif:additionsRange($n, $iiifroot) 
+(: msitems:)
+default return iiif:msItemRange($n, $iiifroot)
+}
+</ranges>
+ return
+   iiif:rangeAndsubrange($iiifroot, $ranges, $elements, $rangetype)
+   };
+
 declare function iiif:Structures($item, $iiifroot, $facsid){
  let $items := $item//t:msItem[t:locus][t:title[@ref]]
        let $collation := $item//t:collation/t:list/t:item[.//t:locus]
@@ -226,7 +269,7 @@ declare function iiif:Structures($item, $iiifroot, $facsid){
       let $decs := if ($decorations) then  $iiifroot ||"/range/"|| "decorations" else ()
       return ($its, $colls, $adds, $decs)
       return
-      map {"@context":= "http://iiif.io/api/presentation/2/context.json",
+      map {"@context": "http://iiif.io/api/presentation/2/context.json",
       "@id":$iiifroot ||"/range/"|| "main",
       "@type":"sc:Range",
       "label":"Table of Contents",
@@ -234,56 +277,10 @@ declare function iiif:Structures($item, $iiifroot, $facsid){
       "ranges" : $superRanges
     }) else ()
     
-   let $msItemStructures :=  if($items) then
-    let $ranges :=  <ranges>{for $msItem in $items return 
-   <range>
-    <r>{$iiifroot ||"/range/" || string($msItem/@xml:id)}</r>
-    <t>{if ($msItem/t:title/@ref) then titles:printTitleID($msItem/t:title/@ref) else 'item ' || string($msItem/@xml:id)}</t>
-    {$msItem}
-    </range>
-    }
-    </ranges>
-    return
-   iiif:rangeAndsubrange($iiifroot, $ranges, 'msItems', 'Contents') else ()
-
-    
-  let  $quiresStructures := 
-   if($collation) then
-    let $ranges :=  <ranges>{for $q in $collation return 
-    <range>
-    <r>{$iiifroot ||"/range/" || string($q/@xml:id)}</r>
-    <t>{normalize-space(string-join($q/text(), ' ')|| ' (' ||$q/t:dim/text()||')')}</t>
-    {$q}
-    </range>}
-    </ranges>
-    return 
-     iiif:rangeAndsubrange($iiifroot, $ranges, 'quires', 'Collation') else ()
- 
-   let  $additionsStructures := if($additions) then
-    let $ranges :=  
-    <ranges>{for $a  in $additions return 
-    <range>
-    <r>{$iiifroot ||"/range/" || string($a/@xml:id)}</r>
-    <t>{string($a/t:desc/@type)}</t>
-    {$a}
-    </range>}
-    </ranges>
-   
-    return
-    iiif:rangeAndsubrange($iiifroot, $ranges, 'additions', 'Additions and Extras') else ()
-    
-     let  $decorationStructures := if($decorations) then
-    let $ranges :=  
-    <ranges>{  for $d in $decorations return
-    <range>
-    <r>{$iiifroot ||"/range/" || string($d/@xml:id)}</r>
-    <t>{string($d/@type)}</t>
-    {$d}
-    </range>}
-    </ranges>
-    return
-    
-    iiif:rangeAndsubrange($iiifroot, $ranges, 'decorations', 'Decorations') else ()
+   let $msItemStructures :=  iiif:rangeexistence($items,$iiifroot, 'msItems', 'Contents') 
+   let  $quiresStructures :=   iiif:rangeexistence($collation,$iiifroot, 'quires', 'Collation')
+   let  $additionsStructures :=  iiif:rangeexistence($additions, $iiifroot, 'additions', 'Additions and Extras') 
+   let  $decorationStructures := iiif:rangeexistence($decorations, $iiifroot, 'decorations', 'Decorations') 
   
   return
   ($mainstructure, $msItemStructures, $quiresStructures, $decorationStructures, $additionsStructures)
@@ -298,7 +295,7 @@ declare function iiif:Structures($item, $iiifroot, $facsid){
 %output:method("json")
 function iiif:allManifests() {
 ($iiif:response200,
-log:add-log-message('/api/iiif/collections', xmldb:get-current-user(), 'iiif'),
+log:add-log-message('/api/iiif/collections', sm:id()//sm:real/sm:username/string() , 'iiif'),
        
       let $allidno := $config:collection-rootMS//t:idno[@facs]
 let $EMIP := $allidno[preceding-sibling::t:collection = 'EMIP'][@n]
@@ -313,9 +310,9 @@ let $manifests :=
      let $manifest := iiif:manifestsource($this)
      let $tit := try {titles:printTitleMainID($this/@xml:id)} catch * {$err:description}
          return
-             map {'label' := $tit ,
+             map {'label' : $tit ,
       "@type": "sc:Manifest", 
-      '@id' := $manifest}
+      '@id' : $manifest}
  
  let $iiifroot := $config:appUrl ||"/api/iiif/"
 (:       this is where the manifest is:)
@@ -345,7 +342,7 @@ let $manifests :=
 function iiif:RepoCollection($institutionid as xs:string) {
 ($iiif:response200,
 
-log:add-log-message('/api/iiif/collections/' || $institutionid, xmldb:get-current-user(), 'iiif'),
+log:add-log-message('/api/iiif/collections/' || $institutionid, sm:id()//sm:real/sm:username/string() , 'iiif'),
 let $repoName := titles:printTitleMainID($institutionid)
 let $repo := $config:collection-rootMS//t:repository[@ref = $institutionid]
 let $mswithimages := 
@@ -358,9 +355,9 @@ let $manifests :=
                 let $idno := $images/following-sibling::t:idno[@facs]
                 let $manifest := iiif:manifestsource($this)
                     return
-                            map {'label' := titles:printTitleMainID($this/@xml:id) ,
+                            map {'label' : titles:printTitleMainID($this/@xml:id) ,
                                         '@type': "sc:Manifest", 
-                                        '@id' := $manifest}
+                                        '@id' : $manifest}
 
  let $iiifroot := $config:appUrl ||"/api/iiif/"
 (:       this is where the manifest is:)
@@ -388,7 +385,7 @@ let $request := $iiifroot || "/collections"
 function iiif:WitnessesCollection($workID as xs:string) {
 ($iiif:response200,
 
-log:add-log-message('/api/iiif/witnesses/' || $workID, xmldb:get-current-user(), 'iiif'),
+log:add-log-message('/api/iiif/witnesses/' || $workID, sm:id()//sm:real/sm:username/string() , 'iiif'),
 let $workName := titles:printTitleMainID($workID)
 let $work := $config:collection-rootW/id($workID)
 let $mswithimages := $work//t:witness[@corresp]
@@ -402,17 +399,17 @@ if($ms//t:idno[@facs]) then
 
 let $manifest := iiif:manifestsource($ms)
          return
-             map {'label' := titles:printTitleMainID($msid)  ,
+             map {'label' : titles:printTitleMainID($msid)  ,
       "@type": "sc:Manifest", 
-      '@id' := $manifest}
+      '@id' : $manifest}
    else (),
 for $images in $externalmswithimages
 let $this := concat($images/t:idno/text(), ': ', string-join($images/text(), ' '), ' [', $images/@facs, ']')
 let $manifest := string($images/t:ptr/@target)
          return
-             map {'label' := $this ,
+             map {'label' : $this ,
       "@type": "sc:Manifest", 
-      '@id' := $manifest}
+      '@id' : $manifest}
       )
 let $manifests := if(count($listmanifests) eq 1) then [$listmanifests] else $listmanifests
  let $iiifroot := $config:appUrl ||"/api/iiif/"
@@ -454,7 +451,7 @@ return
        if($facsid/@facs) then
 ($iiif:response200,
 
-log:add-log-message('/api/iiif/'||$id||'/manifest', xmldb:get-current-user(), 'iiif'),
+log:add-log-message('/api/iiif/'||$id||'/manifest', sm:id()//sm:real/sm:username/string() , 'iiif'),
 
        let $institutionID := string($item//t:repository/@ref)
 
@@ -479,7 +476,7 @@ let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($facsid/@facs)
      
 (:    $mainstructure:)
 return 
-map {"@context":= "http://iiif.io/api/presentation/2/context.json",
+map {"@context": "http://iiif.io/api/presentation/2/context.json",
   "@id": $request,
   "@type": "sc:Manifest",
   "label": titles:printTitleMainID($id),
@@ -531,7 +528,84 @@ map {"@context":= "http://iiif.io/api/presentation/2/context.json",
     else 
       ($iiif:response400,
        
-       map{'info':= ('no manifest available for ' || $id )}
+       map{'info': ('no manifest available for ' || $id )}
+   )
+};
+
+declare function iiif:rangeexistence($nodes, $iiifroot, $element, $name){
+if($nodes) then iiif:makeRanges($nodes,$iiifroot, $element, $name) else ()
+};
+
+declare 
+%rest:GET
+%rest:path("/BetMas/api/iiif/{$id}/range/{$rangeId}")
+%rest:query-param("alt", "{$alt}", "")
+%output:method("json") 
+function iiif:singerange($id as xs:string*, $rangeId as xs:string*, $alt as xs:string*) {
+let $item := if (starts-with($id, 'ES')) then collection($config:data-rootMS || '/ES')/id($id) 
+                    else if (starts-with($id, 'BML')) then collection($config:data-rootMS || '/FlorenceBML')/id($id) 
+                    else if (starts-with($id, 'EMIP')) then  collection($config:data-rootMS || '/EMIP')/id($id)
+                    else $config:collection-root//id($id)
+let $facsid := if($alt = '') then $item//t:msIdentifier/t:idno else $item//t:altIdentifier[@xml:id=$alt]/t:idno 
+
+return
+       if($facsid/@facs) then
+($iiif:response200,
+
+log:add-log-message('/api/iiif/'||$id||'/range/'||$rangeId, sm:id()//sm:real/sm:username/string() , 'iiif'),
+
+       let $institutionID := string($item//t:repository/@ref)
+
+       let $institution := titles:printTitleMainID($institutionID)
+let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($facsid/@facs)
+       let $tot := $facsid/@n
+       let $url :=  $config:appUrl ||"/manuscripts/" || $id
+      (:       this is where the images actually are, in the images server:)
+       let $thumbid := $imagesbaseurl ||(if($item//t:collection='Ethio-SPaRe') then '_'  else ()) || '001.tif/full/80,100/0/default.jpg'
+       let $objectType := string($item//@form[1])
+       let $iiifroot := $config:appUrl ||"/api/iiif/" || $id
+       let $mainranges := ('msItems', 'decorations', 'additions', 'quires')
+return
+if ($rangeId = $mainranges) then (
+
+(:a superrange:)
+        switch ($rangeId)
+            case 'decorations' return iiif:rangeexistence($item//t:decoNote[.//t:locus], $iiifroot, 'decorations', 'Decorations')
+            case 'additions' return iiif:rangeexistence($item//t:additions/t:list/t:item[.//t:locus], $iiifroot, 'additions', 'Additions and Extras')
+            case 'quires' return iiif:rangeexistence($item//t:collation/t:list/t:item[.//t:locus], $iiifroot,  'quires', 'Collation')
+            (:default on msItems:)
+            default return iiif:rangeexistence($item//t:msItem[t:locus][t:title[@ref]], $iiifroot, 'msItems', 'Contents')
+            
+)
+else if (count($item/id($rangeId)) = 1)
+then (
+let $singleRange :=  $item/id($rangeId)
+let $elements := switch($rangeId)
+case starts-with($rangeId, 'a') return 'additions'
+case starts-with($rangeId, 'e') return 'additions'
+case starts-with($rangeId, 'd') return 'decorations'
+case starts-with($rangeId, 'q') return 'quires'
+default return 'msItems'
+
+let $rangeType := switch($rangeId)
+case starts-with($rangeId, 'a') return 'Additions and Extras'
+case starts-with($rangeId, 'e') return 'Additions and Extras'
+case starts-with($rangeId, 'd') return 'Decorations'
+case starts-with($rangeId, 'q') return 'Collation'
+default return 'Contents'
+return 
+iiif:makeRanges($singleRange, $iiifroot, $elements, $rangeType)
+)
+else  
+($iiif:response400,
+       
+       map{'info': ('no rage available for ' || $rangeId || ' in '|| $id)}
+   )
+)
+    else 
+      ($iiif:response400,
+       
+       map{'info': ('no manifest available for ' || $id )}
    )
 };
 
@@ -547,7 +621,7 @@ declare
 function iiif:sequence($id as xs:string*, $alt as xs:string*) {
 ($iiif:response200,
 
-log:add-log-message('/api/iiif/'||$id||'/sequence/normal', xmldb:get-current-user(), 'iiif'),
+log:add-log-message('/api/iiif/'||$id||'/sequence/normal', sm:id()//sm:real/sm:username/string() , 'iiif'),
         let $item := collection($config:data-rootMS || '/ES')/id($id)
 let $facsid := if($alt = '') then $item//t:msIdentifier/t:idno else $item//t:altIdentifier[@xml:id=$alt]/t:idno 
 let $iiifroot := $config:appUrl ||"/api/iiif/" || $id
@@ -580,9 +654,9 @@ let $canvas := iiif:Canvases($item, $id, $iiifroot, $facsid)
 function iiif:canvas($id as xs:string*, $n as xs:string*, $alt as xs:string*) {
 ($iiif:response200,
 
-log:add-log-message('/api/iiif/'||$id||'/canvas/p' || $n, xmldb:get-current-user(), 'iiif'),
-let $item := collection($config:data-rootMS || '/ES')/id($id)
-let $facsid := if($alt = '') then $item//t:msIdentifier/t:idno else $item//t:altIdentifier[@xml:id=$alt]/t:idno 
+log:add-log-message('/api/iiif/'||$id||'/canvas/p' || $n, sm:id()//sm:real/sm:username/string() , 'iiif'),
+let $item := collection($config:data-rootMS)/id($id)
+let $facsid := if(string-length($alt) = 0) then $item//t:msIdentifier/t:idno else $item//t:altIdentifier[@xml:id=$alt]/t:idno 
 let $iiifroot := $config:appUrl ||"/api/iiif/" || $id 
 let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($facsid/@facs)
  let $imagefile := format-number($n, '000') || '.tif'

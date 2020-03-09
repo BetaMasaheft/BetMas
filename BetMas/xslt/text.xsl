@@ -1,4 +1,5 @@
-<xsl:stylesheet xmlns:funct="my.funct"  xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:funct="my.funct" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:param name="startsection"/>
     <xsl:param name="perpage"/>
     <xsl:variable name="mainID" select="t:TEI/@xml:id"/>
@@ -8,7 +9,9 @@
             <xsl:when test="matches($date, '\d{4}-\d{2}-\d{2}')">
                 <xsl:value-of select="format-date(xs:date($date), '[D]-[M]-[Y0001]', 'en', 'AD', ())"/>
             </xsl:when>
-            <xsl:otherwise><xsl:value-of select="format-number($date, '####')"/></xsl:otherwise>
+            <xsl:otherwise>
+                <xsl:value-of select="format-number($date, '####')"/>
+            </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
     <xsl:function name="funct:datepicker">
@@ -17,9 +20,15 @@
             <xsl:when test="$element/@notBefore or $element/@notAfter">
                 <xsl:if test="not($element/@notBefore)">Before </xsl:if>
                 <xsl:if test="not($element/@notAfter)">After </xsl:if>
-                <xsl:if test="$element/@notBefore"><xsl:value-of select="funct:date($element/@notBefore)"/></xsl:if>
-                <xsl:if test="$element/@notBefore and $element/@notAfter"><xsl:text>-</xsl:text></xsl:if>
-                <xsl:if test="$element/@notAfter"><xsl:value-of select="funct:date($element/@notAfter)"/></xsl:if>
+                <xsl:if test="$element/@notBefore">
+                    <xsl:value-of select="funct:date($element/@notBefore)"/>
+                </xsl:if>
+                <xsl:if test="$element/@notBefore and $element/@notAfter">
+                    <xsl:text>-</xsl:text>
+                </xsl:if>
+                <xsl:if test="$element/@notAfter">
+                    <xsl:value-of select="funct:date($element/@notAfter)"/>
+                </xsl:if>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="funct:date($element/@when)"/>
@@ -33,30 +42,42 @@
         <div class="w3-container w3-twothird">
             <xsl:if test="//t:body[t:div]">
                 <div id="transcription" class="w3-container">
-                    <xsl:variable name="numberedDiv" select="//t:div[@type = 'edition']/t:div[@type='textpart'][@n[number(.) &gt;= number($startsection)][number(.) &lt;= number($perpage + ($startsection -1))]]"/>
+                    <xsl:variable name="editions" select="count(//t:div[@type='edition'][t:div[@type='textpart']])"/>
+                    <xsl:variable name="columnwidth" select="if ($editions &gt; 1) then (100 div $editions) else 100"/>
+                    <xsl:for-each select="//t:div[@type = 'edition']">
+                        <div class="w3-col" style="width:{$columnwidth}%">
+                            <xsl:variable name="numberedDiv" select="./t:div[@type='textpart'][@n[number(.) &gt;= number($startsection)][number(.) &lt;= number($perpage + ($startsection -1))]]"/>
                     <xsl:choose>
                         <xsl:when test="$numberedDiv">
-                            <xsl:apply-templates select="//t:div[@type = 'edition']/t:div[@type='textpart'][@n[number(.) &gt;= number($startsection)][number(.) &lt;= number($perpage + ($startsection -1))]]"/>
+                            <xsl:apply-templates select="./t:div[@type='textpart'][@n[number(.) &gt;= number($startsection)][number(.) &lt;= number($perpage + ($startsection -1))]]"/>
                         </xsl:when>
                         <xsl:otherwise>
-                            <xsl:apply-templates select="//t:div[@type = 'edition']"/>
+                            <xsl:apply-templates select="."/>
                         </xsl:otherwise>
-                    </xsl:choose> </div>
+                    </xsl:choose>
+                        </div>
+                    </xsl:for-each> </div>
                 <script type="text/javascript" src="resources/js/pelagios.js"/>
                 
                 <img id="loadingRole" src="resources/Loading.gif" style="display: none;"/>
                 <div id="versions" class="w3-container"/>   
                 <div id="translation" class="w3-container w3-large">
                     <h4>Translation</h4>
-                    <xsl:variable name="numberedDiv" select="//t:div[@type = 'translation']/t:div[@type='textpart'][@n[number(.) &gt;= number($startsection)][number(.) &lt;= number($perpage + ($startsection -1))]]//t:ab"/>
+                    <xsl:variable name="translations" select="count(//t:div[@type='translation'][t:div[@type='textpart']])"/>
+                    <xsl:variable name="columnwidthtr" select="if ($translations &gt; 1) then (100 div $translations) else 100"/>
+                    <xsl:for-each select="//t:div[@type = 'translation']">
+                        <div class="w3-col" style="width:{$columnwidthtr}%">
+                    <xsl:variable name="numberedDiv" select="./t:div[@type='textpart'][@n[number(.) &gt;= number($startsection)][number(.) &lt;= number($perpage + ($startsection -1))]]//t:ab"/>
                     <xsl:choose>
                         <xsl:when test="$numberedDiv">
-                            <xsl:apply-templates select="//t:div[@type = 'translation']/t:div[@type='textpart'][@n[number(.) &gt;= number($startsection)][number(.) &lt;= number($perpage + ($startsection -1))]]//t:ab"/>
+                            <xsl:apply-templates select="./t:div[@type='textpart'][@n[number(.) &gt;= number($startsection)][number(.) &lt;= number($perpage + ($startsection -1))]]//t:ab"/>
                         </xsl:when>
                         <xsl:otherwise>
-                            <xsl:apply-templates select="//t:div[@type = 'translation']//t:ab"/>
+                            <xsl:apply-templates select=".//t:ab"/>
                         </xsl:otherwise>
                     </xsl:choose> 
+                        </div>
+                    </xsl:for-each>
                 </div>
                 <xsl:if test="//t:pb[@facs]">
                     <div id="viewer" class="w3-container"/>

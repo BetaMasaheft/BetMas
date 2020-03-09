@@ -32,7 +32,7 @@ function LitFlowRest:compareSelected(
 $subj as xs:string*) {
 let $list := for $s in $subj return $s
 let $fullurl := '?' || (let $ss := for $s in $subj return ('subj=' || $s) return string-join($ss, '&amp;'))
-let $Cmap := map {'type':= 'item', 'name' := $list, 'path' := $fullurl}
+let $Cmap := map {'type': 'item', 'name' : $list, 'path' : $fullurl}
 
 return
 (

@@ -16,9 +16,9 @@ declare namespace skos = "http://www.w3.org/2004/02/skos/core#";
 declare namespace rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace sparql = "http://www.w3.org/2005/sparql-results#";
+declare namespace http = "http://expath.org/ns/http-client";
 
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
-import module namespace http = "http://expath.org/ns/http-client";
 
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 
@@ -106,7 +106,8 @@ declare function coord:GNorWD($placeexternalid as xs:string) {
 declare function coord:getGeoNamesCoord($string as xs:string) {
     let $gnid := substring-after($string, 'gn:')
     let $xml-url := concat('http://api.geonames.org/get?geonameId=', $gnid, '&amp;username=betamasaheft')
-    let $data := httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)
+    let $request := <http:request href="{xs:anyURI($xml-url)}" method="GET"/>
+    let $data := http:send-request($request)[2]
     let $string := $data//lng/text() || ',' || $data//lat/text()
     return
     normalize-space($string)
@@ -124,7 +125,8 @@ declare function coord:getWikiDataCoord($Qid as xs:string) {
    }
  }'
     let $query := 'https://query.wikidata.org/sparql?query=' || xmldb:encode-uri($sparql)
-    let $req := httpclient:get(xs:anyURI($query), false(), <headers/>)
+     let $request := <http:request href="{xs:anyURI($query)}" method="GET"/>
+    let $req := http:send-request($request)[2]
     let $removePoint := replace(($req//sparql:result/sparql:binding[@name = "coordLabel"])[1], 'Point\(', '')
     let $removetrailing := replace($removePoint, '\)', '')
     return
@@ -137,7 +139,8 @@ declare function coord:getWikiDataCoord($Qid as xs:string) {
 declare function coord:getPleiadesCoord($string as xs:string) {
    let $plid := substring-after($string, 'pleiades:')
    let $url := concat('http://peripleo.pelagios.org/peripleo/places/http:%2F%2Fpleiades.stoa.org%2Fplaces%2F', $plid)
-  let $file := httpclient:get(xs:anyURI($url), true(), <Headers/>)
+ let $request := <http:request href="{xs:anyURI($url)}" method="GET"/>
+    let $file := http:send-request($request)[2]
   
 let $file-info := 
     let $payload := util:base64-decode($file) 

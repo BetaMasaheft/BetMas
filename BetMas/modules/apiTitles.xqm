@@ -4,6 +4,7 @@ xquery version "3.1" encoding "UTF-8";
  : 
  : @author Pietro Liuzzo 
  :)
+ 
 module namespace apiTit = "https://www.betamasaheft.uni-hamburg.de/BetMas/apiTitles";
 import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace api = "https://www.betamasaheft.uni-hamburg.de/BetMas/api"  at "xmldb:exist:///db/apps/BetMas/modules/rest.xqm";
@@ -20,7 +21,7 @@ declare namespace test="http://exist-db.org/xquery/xqsuite";
 (: For REST annotations :)
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
-
+declare variable $apiTit:TUList := doc(concat($config:app-root, '/lists/textpartstitles.xml'));
 
 (:~ given the file id, returns the main title:)
 declare
@@ -33,7 +34,7 @@ function apiTit:get-FormattedTitle($id as xs:string) {
     
     return
     if (not(contains($id, ':'))) then
-   normalize-space(titles:printTitleMainID($id))
+   normalize-space(string-join(titles:printTitleMainID($id)))
    else if (starts-with($id, 'wd:') or starts-with($id, 'pleaides:') or starts-with($id, 'sdc:') or starts-with($id, 'gn:')   )
    then
    normalize-space(titles:printTitleMainID($id))
@@ -49,35 +50,10 @@ declare
 %output:method("text")
 function apiTit:get-FormattedTitleandID($id as xs:string, $SUBid as xs:string) {
     ($config:response200, 
-    let $id := replace($id, '_', ':')
-    let $resource := api:get-tei-rec-by-ID($id)
-    let $m := titles:printTitleMainID($id) 
+    let $fullid := ($id||'#'||$SUBid)
     return
-    if( starts-with($SUBid, 'tr')) then $m || ', transformation ' ||  $SUBid
-else if( starts-with($SUBid, 'Uni')) then $m ||', '||$SUBid 
-else
-    (:    if pointing to a specific label, print that:)
-    if (starts-with($SUBid, 't'))
-    then
-        (
-        let $subtitlemain := $resource//t:title[contains(@corresp, $SUBid)][@type = 'main']
-        let $subtitlenorm := $resource//t:title[contains(@corresp, $SUBid)][@type = 'normalized']
-        return
-            if ($subtitlemain)
-            then
-                $subtitlemain
-            else
-                if ($subtitlenorm)
-                then
-                    $subtitlenorm
-                else
-                    let $tit := $resource//t:title[@xml:id = $SUBid]
-                    return $tit/text()
-                    )
-    else
-    let $s := titles:printSubtitle($resource, $SUBid)
-    return
-        (:    apply general rules for titles of records:)
-        ($m, ', ', $s)
+    if ($apiTit:TUList//t:item[@corresp = $fullid]) then ($apiTit:TUList//t:item[@corresp = $fullid]/node()) else (
+    titles:printTitleID($fullid)    
+    )
     )
 };

@@ -28,6 +28,7 @@ import module namespace xdb = "http://exist-db.org/xquery/xmldb";
 import module namespace http = "http://expath.org/ns/http-client";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
+import module namespace updatefuseki = 'https://www.betamasaheft.uni-hamburg.de/BetMas/updatefuseki' at "xmldb:exist:///db/apps/BetMas/fuseki/updateFuseki.xqm";
 import module namespace validation = "http://exist-db.org/xquery/validation";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare option exist:serialize "method=xml media-type=text/xml indent=yes";
@@ -36,6 +37,7 @@ declare variable $gitsync:institutions := doc('/db/apps/BetMas/lists/institution
 declare variable $gitsync:deleted := doc('/db/apps/BetMas/lists/deleted.xml');
 declare variable $gitsync:taxonomy := doc(concat($config:data-rootA,'/taxonomy.xml'));
 declare variable $gitsync:canotax := doc('db/apps/BetMas/lists/canonicaltaxonomy.xml');
+declare variable $gitsync:data2rdf := 'xmldb:exist:///db/apps/BetMas/rdfxslt/data2rdf.xsl';
 (:~
  : Recursively creates new collections if necessary. 
  : @param $uri url to resource being added to db 
@@ -52,6 +54,45 @@ declare function gitsync:create-collections($uri as xs:string) {
             xmldb:create-collection($parent-collection, $collections)
 };
 
+declare function gitsync:rdf($collection-uri, $file-name){
+    let $stored-file := doc($collection-uri || '/' || $file-name)
+(:transforms and stores the RDF as XML:)
+    let $rdf := transform:transform($stored-file, $gitsync:data2rdf, ())
+    let $rdffilename := replace($file-name, '.xml', '.rdf')
+    let $collectionName := substring-after($data-collection, '/db/apps/BetMasData/')
+    let $storecoll := concat('/db/rdf/', $collectionName)
+    let $storeRDFXML := xmldb:store($storecoll, $rdffilename, $rdf)
+(:retrieve the RDF/XML as stored, and send it to update Apache Jena Fuseki and the triplestore:)
+    let $rdfxml := doc($storecoll || '/'||$rdffilename)
+    let $updateFuseki := updatefuseki:update($rdfxml, 'INSERT')
+    return
+        'stored RDF/XML and updated fuseki'
+};
+
+declare function gitsync:updateinstitutionsMOD($file-name){
+    let $institutionslist := $gitsync:institutions//t:list
+    let $id := substring-before($file-name, '.xml')
+    let $update :=  update value  $institutionslist/t:item[@xml:id=$id] with titles:printTitleMainID($id)
+    return
+        'updated institutions.xml static list'
+};
+
+declare function gitsync:updateinstitutionsDEL($file-name){
+    let $institutionslist := $gitsync:institutions//t:list
+    let $id := substring-before($file-name, '.xml')
+    let $update :=  update delete  $institutionslist/t:item[@xml:id=$id]
+    return
+        'removed value from list in institutions.xml'
+};
+
+declare function gitsync:updateinstitutionsADD($file-name){
+    let $institutionslist := $gitsync:institutions//t:list
+    let $id := substring-before($file-name, '.xml')
+(:  This will inevitably cause the order in that list to be broken :)
+    let $update :=  update insert <item xmlns="http://www.tei-c.org/ns/1.0">{titles:printTitleMainID($id)}</item> into  $institutionslist
+    return
+        'added value at the end of the list in institutions.xml'
+};
 (:~
  : Updates files in eXistdb with github data
  : @param $commits serilized json data
@@ -108,19 +149,9 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
                     else gitsync:validateAndConfirm($stored-file, $committerEmail, 'updated')
                     ,
                     if(contains($data-collection, 'institutions')) then (
-                    let $institutionslist := $gitsync:institutions//t:list
-                    let $id := substring-before($file-name, '.xml')
-                    let $update :=  update value  $institutionslist/t:item[@xml:id=$id] with titles:printTitleMainID($id)
-                    return
-                    'updated institutions.xml static list'
-                    ) else ()
+                    gitsync:updateinstitutionsMOD($file-name) ) else ()
                     ,
-                    let $stored-file := doc($collection-uri || '/' || $file-name)
-               let $rdf := transform:transform($stored-file, 'xmldb:exist:///db/apps/BetMas/rdfxslt/data2rdf.xsl', ())
-               let $rdffilename := replace($file-name, '.xml', '.rdf')
-               let $collectionName := substring-after($data-collection, '/db/apps/BetMasData/')
-               return
-                     xmldb:store(concat('/db/rdf/', $collectionName), $rdffilename, $rdf),
+                   gitsync:rdf($collection-uri, $file-name),
                      if (ends-with($file-name, '.xml')) then (
                      let $Stfile := doc($collection-uri || '/' || $file-name)
                      let $collectionName := substring-after($data-collection, '/db/apps/BetMasData/')
@@ -218,12 +249,7 @@ declare function gitsync:do-add($commits, $contents-url as xs:string?, $data-col
                    gitsync:validateAndConfirm($stored-file, $committerEmail, 'updated')
                     ,
                     if(contains($data-collection, 'institutions')) then (
-                    let $institutionslist := $gitsync:institutions//t:list
-                    let $id := substring-before($file-name, '.xml')
-(:                    This will inevitably cause the order in that list to be broken :)
-                    let $update :=  update insert <item xmlns="http://www.tei-c.org/ns/1.0">{titles:printTitleMainID($id)}</item> into  $institutionslist
-                    return
-                    'added value at the end of the list in institutions.xml'
+                        gitsync:updateinstitutionsADD($file-name)
                     ) else (),
                       let $deletedlist := $gitsync:deleted//t:list
                       let $alldeleted := $gitsync:deleted//t:list/t:item/text()
@@ -237,11 +263,7 @@ declare function gitsync:do-add($commits, $contents-url as xs:string?, $data-col
                     return
                     'removed value from the list in deleted.xml'
                     ,
-                    let $rdf := transform:transform($stored-file, 'xmldb:exist:///db/apps/BetMas/rdfxslt/data2rdf.xsl', ())
-               let $rdffilename := replace($file-name, '.xml', '.rdf')
-                let $collectionName := substring-after($data-collection, '/db/apps/BetMasData/')
-               return
-                     xmldb:store(concat('/db/rdf/', $collectionName), $rdffilename, $rdf)
+                    gitsync:rdf($collection-uri, $file-name)
                      ,
                 if (ends-with($file-name, '.xml')) then (
                      let $stored-fileID := $stored-file/t:TEI/@xml:id/string()
@@ -290,19 +312,17 @@ return
     let $resource-path := substring-before($modified, $file-name)
     let $collection-uri := replace(concat($collection, '/', $resource-path), '/$', '')
     let $rdfcoll := '/db/rdf/' || substring-after($data-collection, 'Data/')
+    let $rdfxml:= doc($rfcoll||$rdffilename)
+    let $updateFuseki := updatefuseki:update($rdfxml, 'DELETE')
     return
         try {
             <response
                 status="okay">
-                <message>removed {$collection-uri}/{$file-name}{xmldb:remove($collection-uri, $file-name)} and {$rdfcoll}/{$rdffilename}{xmldb:remove($rdfcoll, $rdffilename)}
+                <message>removed {$collection-uri}/{$file-name}{xmldb:remove($collection-uri, $file-name)} 
+                and {$rdfcoll}/{$rdffilename}{xmldb:remove($rdfcoll, $rdffilename)} also from fuseki
                 {(
                     if(contains($data-collection, 'institutions')) then (
-                    let $institutionslist := $gitsync:institutions//t:list
-                    let $id := substring-before($file-name, '.xml')
-                    let $update :=  update delete  $institutionslist/t:item[@xml:id=$id]
-                    return
-                    'added value at the end of the list in institutions.xml'
-                    ) else (),
+                    gitsync:updateinstitutionsDEL($file-name)) else (),
                     let $deletedlist := $gitsync:deleted//t:list
                     let $id := substring-before($file-name, '.xml')
 (:                    This will inevitably cause the order in that list to be broken :)

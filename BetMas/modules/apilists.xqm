@@ -32,7 +32,7 @@ declare
 %output:method("json")
 function apiL:collectionJSON($collection as xs:string*, $start as xs:integer*, $perpage as xs:integer*, $term as xs:string*, $repo as xs:string*) {
     
-let $log := log:add-log-message('/api/'||$collection||'/list/json', xmldb:get-current-user(), 'REST')
+let $log := log:add-log-message('/api/'||$collection||'/list/json', sm:id()//sm:real/sm:username/string() , 'REST')
     (: logs into the collection :)
     let $login := xmldb:login($config:data-root, $config:ADMIN, $config:ppw)
     return
@@ -243,7 +243,7 @@ declare
 %output:method("json")
 function apiL:listRepoJSON($repo as xs:string*) {
     
-let $log := log:add-log-message('/api/manuscripts/'||$repo||'/list/ids/json', xmldb:get-current-user(), 'REST')
+let $log := log:add-log-message('/api/manuscripts/'||$repo||'/list/ids/json', sm:id()//sm:real/sm:username/string() , 'REST')
     (: logs into the collection :)
     let $login := xmldb:login($config:data-root, $config:ADMIN, $config:ppw)
     return
@@ -253,10 +253,10 @@ let $log := log:add-log-message('/api/manuscripts/'||$repo||'/list/ids/json', xm
    let $items :=  for $resource in $msfromrepo 
     let $id := string($resource/@xml:id)
     let $title :=  titles:printTitleMainID($id)
-    return map {'id' := $id, 'title' := $title}
+    return map {'id' : $id, 'title' : $title}
     return 
-    map {'items' := $items,
-    'total' := $total}
+    map {'items' : $items,
+    'total' : $total}
     )
 };
 
@@ -271,7 +271,7 @@ declare
 %output:method("xml")
 function apiL:collection($collection as xs:string*, $start as xs:integer*, $perpage as xs:integer*, $term as xs:string*) {
     if ($perpage gt 100) then ($config:response200XML, <info>Try a lower value for the parameter perpage. Maximum is 100.</info>) else
-let $log := log:add-log-message('/api/' || $collection || '/list', xmldb:get-current-user(), 'REST')
+let $log := log:add-log-message('/api/' || $collection || '/list', sm:id()//sm:real/sm:username/string() , 'REST')
     (: logs into the collection :)
     let $login := xmldb:login($config:data-root, $config:ADMIN, $config:ppw)
     return

@@ -15,13 +15,15 @@ import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMa
 import module namespace templates="http://exist-db.org/xquery/templates" ;
 
 
+declare namespace http = "http://expath.org/ns/http-client";
 declare namespace t="http://www.tei-c.org/ns/1.0";
 
 declare option exist:serialize "method=text mediatype=text/javascript";
 
 declare function rels:getZoteroTextData ($string as xs:string){
 let $xml-url := concat('https://api.zotero.org/groups/358366/items?tag=',$string,'&amp;format=bib&amp;locale=en-GB&amp;style=hiob-ludolf-centre-for-ethiopian-studies&amp;linkwrap=1')
-let $data := httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)
+let $request := <http:request href="{xs:anyURI($xml-url)}" method="GET"/>
+    let $data := http:send-request($request)[2]
 return
 $data//text()
 };

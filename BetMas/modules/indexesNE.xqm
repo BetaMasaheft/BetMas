@@ -36,8 +36,8 @@ function indexesNE:placeNames ($node as node(), $model as map(*),  $collection a
 let $placeIDS := distinct-values($places/@ref)
     return
    map {
-                    "hits" := $placeIDS,
-                    "type" := 'indexes'
+                    "hits" : $placeIDS,
+                    "type" : 'indexes'
 
                 }
 
@@ -65,8 +65,8 @@ function indexesNE:persNames ($node as node(), $model as map(*),  $collection as
 let $persIDS := distinct-values($persons/@ref)
     return
    map {
-                    "hits" := $persIDS[.!='PRS00000'][.!='PRS0000'],
-                    "type" := 'indexes'
+                    "hits" : $persIDS[.!='PRS00000'][.!='PRS0000'],
+                    "type" : 'indexes'
 
                 }
 

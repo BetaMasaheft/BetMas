@@ -44,7 +44,7 @@ import module namespace kwic = "http://exist-db.org/xquery/kwic"   at "resource:
 import module namespace app="https://www.betamasaheft.uni-hamburg.de/BetMas/app" at "xmldb:exist:///db/apps/BetMas/modules/app.xqm";
 import module namespace templates="http://exist-db.org/xquery/templates" ;
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
-import module namespace sparql="http://exist-db.org/xquery/sparql" at "java:org.exist.xquery.modules.rdf.SparqlModule";
+import module namespace fusekisparql = 'https://www.betamasaheft.uni-hamburg.de/BetMas/sparqlfuseki' at "xmldb:exist:///db/apps/BetMas/fuseki/fuseki.xqm";
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
 import module namespace editors = "https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "xmldb:exist:///db/apps/BetMas/modules/editors.xqm";
 import module namespace dts="https://www.betamasaheft.uni-hamburg.de/BetMas/dts" at "xmldb:exist:///db/apps/BetMas/modules/dts.xqm";
@@ -72,11 +72,11 @@ let $nav :=$perma || 'navigation'
 return
   ( $config:response200JsonLD,
   map {
-  "@context":= "/dts/api/contexts/EntryPoint.jsonld",
-  "@id":= "/api/dts/",
-  "@type":= "EntryPoint",
-  "documents":= $doc,
-  "navigation" := $nav
+  "@context": "/dts/api/contexts/EntryPoint.jsonld",
+  "@id": "/api/dts/",
+  "@type": "EntryPoint",
+  "documents": $doc,
+  "navigation" : $nav
 })
          
 };
@@ -93,11 +93,11 @@ function persdts:Collection($id as xs:string*,$page as xs:integer*,$nav as xs:st
 if($id = '') then (
  <rest:response>
   <http:response status="302">
-    <http:header name="location" value="/api/dts/collections?id=urn:dts"/>
+    <http:header name="location" value="/permanent/{$sha}/api/dts/collections?id=https://betamasaheft.eu"/>
   </http:response>
 </rest:response>
 ) else
-if(matches($id, '(urn:dts:?)(betmasMS:|betmas:)?([a-zA-Z\d]+)?(:)?(((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?(\-)?((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?)')) 
+if(matches($id, '(https://betamasaheft.eu/)?(textualunits/|narrativeunits/|transcriptions/)?([a-zA-Z\d]+)?(:)?(((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?(\-)?((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?)')) 
 then (
 let $parsedURN := dts:parseDTS($id)
 return
@@ -137,7 +137,7 @@ function persdts:anyDocument($id as xs:string*, $ref as xs:string*, $sha as xs:s
 if ($id = '') then (
  <rest:response>
   <http:response status="302">
-    <http:header name="location" value="/api/dts/collections?id=urn:dts"/>
+    <http:header name="location" value="/permanent/{$sha}/api/dts/collections?id=https://betamasaheft.eu"/>
   </http:response>
 </rest:response>
 ) else
@@ -177,8 +177,9 @@ else <http:header
 </rest:response>
  else
  let $thisid := $parsedURN//s:group[@nr=3]/text()
- let $collection := if(contains($id, 'betmasMS')) then 'Manuscripts' else 'Works'
-let $permapath := replace(persdts:capitalize-first(substring-after(base-uri($config:collection-root/id($id)[name()='TEI']), '/db/apps/BetMasData/')), $collection, '')
+ let $currentfile := $config:collection-root/id($id)[name()='TEI']
+ let $collection := if($currentfile/@type='mss') then 'Manuscripts'  else  if($currentfile/@type='narr') then 'Narrative' else 'Works'
+let $permapath := replace(persdts:capitalize-first(substring-after(base-uri($cfile), '/db/apps/BetMasData/')), $collection, '')
 let $file:= doc('https://raw.githubusercontent.com/BetaMasaheft/' || $collection || '/'||$sha||'/'|| $permapath)//t:TEI
  let $text := $file//t:div[@type='edition']
  let $doc := 
@@ -302,7 +303,7 @@ declare
 function persdts:Cit($sha as xs:string*, $id as xs:string*, $ref as xs:string*, $level as xs:string*, $start as xs:string*, $end as xs:string*, $groupBy as xs:string*, $page as xs:string*, $max as xs:string*) {
 if($id = '') then (<rest:response>
   <http:response status="302">
-    <http:header name="location" value="/api/dts/collections?id=urn:dts"/>
+    <http:header name="location" value="/permanent/{$sha}/api/dts/collections?id=https://betamasaheft.eu"/>
   </http:response>
 </rest:response>) else
 let $parsedURN := dts:parseDTS($id)
@@ -429,14 +430,14 @@ let $chunkedpassage := if(string($groupBy) !='')
                                                         let $sequenceN := for $p in $passage return  number(substring-after($p, '.'))
                                                         let $end := max($sequenceN)
                                                         let $rangeEnd := if($ceiling gt $end) then $end else $ceiling
-                                                        let $chunck  := map {'start' :=  $passage[$rangeStart], 'end' := $passage[$rangeEnd]}
+                                                        let $chunck  := map {'start' :  $passage[$rangeStart], 'end' : $passage[$rangeEnd]}
                                                        return 
                                                                     $chunck)
                                                 else for $p in $passage 
-                                                            let $refonly := map {"ref" := $p/text()}
+                                                            let $refonly := map {"ref" : $p/text()}
                                                          let $refandtype := if((count($p/type) eq 1) and ($p/type/text() !=$ctype)) then map:put($refonly, 'dts:citeType', $p/type/text()) else $refonly
                                                          let $refTypeTitle :=
-                                                         if(count($p/title) eq 1) then let $parttitle := map {"dc:title" := $p/title/text()} return map:put($refandtype, 'dts:dublincore', $parttitle) 
+                                                         if(count($p/title) eq 1) then let $parttitle := map {"dc:title" : $p/title/text()} return map:put($refandtype, 'dts:dublincore', $parttitle) 
                                                          else              $refandtype
                                                          return 
                                                          $refTypeTitle
@@ -465,7 +466,7 @@ map {
 }) 
 else
  ($config:response200JsonLD,
- log:add-log-message('/api/dts/cit/' || $id, xmldb:get-current-user(), 'dts'),
+ log:add-log-message('/api/dts/cit/' || $id, sm:id()//sm:real/sm:username/string() , 'dts'),
         map {
     "@context": map {
         "@vocab": "https://www.w3.org/ns/hydra/core#",
@@ -492,9 +493,11 @@ declare function persdts:Coll($id, $page, $nav, $sha){
  if($id = $availableCollectionIDs) then (
  $config:response200JsonLD,
  switch($id) 
- case 'urn:dts:betmas' return
+case 'https://betamasaheft.eu/textualunits' return
 dts:mainColl($id, $countW, $w, $page, $nav)
-case 'urn:dts:betmasMS' return
+ case 'https://betamasaheft.eu/narrativeunits' return
+dts:mainColl($id, $countN, $n, $page, $nav)
+case 'https://betamasaheft.eu/transcriptions' return
 dts:mainColl($id, $countMS, $ms, $page, $nav)
 default return
 map {
@@ -515,13 +518,19 @@ map {
     },
     "member": [
         map {
-             "@id" : "urn:dts:betmas",
+             "@id" : "https://betamasaheft.eu/textualunits",
              "title" : "Beta maṣāḥǝft Textual Units",
              "description": "Collection of textual units of the Ethiopic tradition",
              "@type" : "Collection"
         },
+         map {
+             "@id" : "https://betamasaheft.eu/narrativeunits",
+             "title" : "Beta maṣāḥǝft Textual Units",
+             "description": "Collection of narrative units of the Ethiopic tradition",
+             "@type" : "Collection"
+        },
         map{
-             "@id" : "urn:dts:betmasMS",
+             "@id" : "https://betamasaheft.eu/transcriptions",
              "title" : "Beta maṣāḥǝft Manuscripts",
              "description": "Collection of Ethiopic Manuscript trasncriptions",
              "@type" : "Collection"
@@ -546,15 +555,15 @@ declare
 %rest:query-param("page", "{$page}", 1)
 %rest:query-param("nav", "{$nav}", "children")
 %output:method("json")
-function dts:Collection($id as xs:string*,$page as xs:integer*,$nav as xs:string*,$sha as xs:string*) {
+function persdts:Collection($id as xs:string*,$page as xs:integer*,$nav as xs:string*,$sha as xs:string*) {
 if($id = '') then (
  <rest:response>
   <http:response status="302">
-    <http:header name="location" value="/permanent/{$sha}/api/dts/collections?id=urn:dts"/>
+    <http:header name="location" value="/permanent/{$sha}/api/dts/collections?id=https://betamasaheft.eu"/>
   </http:response>
 </rest:response>
 ) else
-if(matches($id, '(urn:dts:?)(betmasMS:|betmas:)?([a-zA-Z\d]+)?(:)?(((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?(\-)?((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?)')) then
+if(matches($id, '(https://betamasaheft.eu/)?(textualunits/|narrativeunits/|transcriptions/)?([a-zA-Z\d]+)?(:)?(((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?(\-)?((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?)')) then
 let $parsedURN := dts:parseDTS($id)
 return
 if (matches($parsedURN//s:group[@nr=3], '[a-zA-Z\d]+'))
@@ -598,15 +607,22 @@ let $shortid:=substring-before($id, concat(':',$bmID))
 let $memberInfo := persdts:member($shortid,$document, $sha)
 let $addcontext := map:put($memberInfo, "@context", $dts:context)
 let $addnav := if($nav = 'parent') then 
-let $parent :=if(contains($id, 'betmasMS:')) then 
+let $parent :=if($doc/@type='mss') then 
         map{
-             "@id" : "urn:dts:betmasMS",
+             "@id" : "https://betamasaheft.eu/transcriptions",
              "title" : "Beta maṣāḥǝft Manuscripts",
              "description": "Collection of Ethiopic Manuscript trasncriptions",
              "@type" : "Collection"
         }
+        else if($doc/@type='narr') then 
+        map{
+             "@id" : "https://betamasaheft.eu/narrativeunits",
+             "title" : "Beta maṣāḥǝft Narrative Units",
+             "description": "Collection of narrative units of the Ethiopic tradition",
+             "@type" : "Collection"
+        }
         else map {
-             "@id" : "urn:dts:betmas",
+             "@id" : "https://betamasaheft.eu/textualunits",
              "title" : "Beta maṣāḥǝft Textual Units",
              "description": "Collection of literary textual units of the Ethiopic tradition",
              "@type" : "Collection"
@@ -658,9 +674,9 @@ let $declared := if(contains($collURN, 'MS')) then () else
 for $witness in $doc//t:witness/@corresp return string($witness)
 let $witnesses := ($computed, $declared)
 let $distinctW := for $w in distinct-values($witnesses) return 
-                            map { "fabio:isManifestationOf" := "https://betamasaheft.eu/" || $w,
-                            "@id" := "urn:dts:betmasMS:" || $w,
-                                      "@type" := "lawd:AssembledWork"}
+                            map { "fabio:isManifestationOf" : "https://betamasaheft.eu/" || $w,
+                            "@id" : if(starts-with($w, 'http')) then $w else ("https://betamasaheft.eu/" || $w),
+                                      "@type" : "lawd:AssembledWork"}
                                       
 let $dcAndWitnesses := if(count($distinctW) gt 0) then map:put($dc, 'dc:source', $distinctW) else $dc
 let $DcSelector := 
@@ -674,24 +690,24 @@ let $haspart := dts:haspart($id)
 let $manifest := if($doc//t:idno[@facs[not(starts-with(.,'http'))]]) 
                     then 
                         (:from europeana data model specification, taken from nomisma, not sure if this is correct in json LD:)
-                        ( map {'@id' := ($config:appUrl ||"/manuscript/"|| $id || '/viewer'),
-                                        '@type' := 'edm:WebResource',
-                                        "svcs:has_service" := map{'@id' := "https://betamasaheft.eu/api/iiif/"||$id||"/manifest",
-                                                                                            '@type' := 'svcs:Service',
-                                                                                            "dcterms:conformsTo":= "http://iiif.io/api/image",
-                                                                                            "doap:implements":= "http://iiif.io/api/image/2/level1.json"
+                        ( map {'@id' : ($config:appUrl ||"/manuscript/"|| $id || '/viewer'),
+                                        '@type' : 'edm:WebResource',
+                                        "svcs:has_service" : map{'@id' : "https://betamasaheft.eu/api/iiif/"||$id||"/manifest",
+                                                                                            '@type' : 'svcs:Service',
+                                                                                            "dcterms:conformsTo": "http://iiif.io/api/image",
+                                                                                            "doap:implements": "http://iiif.io/api/image/2/level1.json"
                                                                                              }
                                       }
                         )
                        else if($doc//t:idno[@facs[starts-with(.,'http')]]) 
                     then 
                         (:from europeana data model specification, taken from nomisma, not sure if this is correct in json LD:)
-                        ( map {'@id' := string($doc//t:idno/@facs),
-                                        '@type' := 'edm:WebResource',
-                                        "svcs:has_service" := map{'@id' := string($doc//t:idno/@facs),
-                                                                                            '@type' := 'svcs:Service',
-                                                                                            "dcterms:conformsTo":= "http://iiif.io/api/image",
-                                                                                            "doap:implements":= "http://iiif.io/api/image/2/level1.json"
+                        ( map {'@id' : string($doc//t:idno/@facs),
+                                        '@type' : 'edm:WebResource',
+                                        "svcs:has_service" : map{'@id' : string($doc//t:idno/@facs),
+                                                                                            '@type' : 'svcs:Service',
+                                                                                            "dcterms:conformsTo": "http://iiif.io/api/image",
+                                                                                            "doap:implements": "http://iiif.io/api/image/2/level1.json"
                                                                                              }
                                       }
                         )

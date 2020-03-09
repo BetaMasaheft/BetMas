@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <classDecl xmlns="http://www.tei-c.org/ns/1.0">
     <taxonomy xml:id="ethioauthlist">
         <category>
@@ -1447,7 +1448,7 @@
             <category xml:id="NaturalSciences" corresp="https://betamasaheft.eu/authority-files/NaturalSciences/main">
                 <catDesc>Natural Sciences</catDesc>
             </category>
-            <category  corresp="https://betamasaheft.eu/authority-files/Other/main">
+            <category corresp="https://betamasaheft.eu/authority-files/Other/main">
                 <catDesc>Other</catDesc>
             </category>
             <category xml:id="Philosophy" corresp="https://betamasaheft.eu/authority-files/Philosophy/main">
@@ -1468,7 +1469,7 @@
             <category xml:id="ChristianContent" corresp="https://betamasaheft.eu/authority-files/ChristianContent/main">
                 <catDesc>Christian Content</catDesc>
             </category>
-            <category  corresp="https://betamasaheft.eu/authority-files/Letter/main">
+            <category corresp="https://betamasaheft.eu/authority-files/Letter/main">
                 <catDesc>Letter</catDesc>
             </category>
         </category>

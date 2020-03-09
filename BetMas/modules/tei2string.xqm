@@ -9,7 +9,7 @@ import module namespace titles = "https://www.betamasaheft.uni-hamburg.de/BetMas
 import module namespace editors = "https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "editors.xqm";
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
-
+declare namespace http = "http://expath.org/ns/http-client";
 
 (:takes a node as argument and loops through each element it contains. if it matches one of the definitions it does that, otherways checkes inside it. This actually reproduces the logic of the apply-templates function in  xslt:)
 declare function string:tei2string($nodes as node()*) {
@@ -159,7 +159,8 @@ declare function string:date($date){
 
 declare function string:Zotero($ZoteroUniqueBMtag as xs:string) {
     let $xml-url := concat('https://api.zotero.org/groups/358366/items?tag=', $ZoteroUniqueBMtag, '&amp;format=bib&amp;style=hiob-ludolf-centre-for-ethiopian-studies&amp;linkwrap=1')
-    let $data := httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)
+   let $request := <http:request href="{xs:anyURI($xml-url)}" method="GET"/>
+    let $data := http:send-request($request)[2]
     let $datawithlink := string:tei2string($data//div[@class = 'csl-entry'])
     return
         $datawithlink

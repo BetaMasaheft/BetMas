@@ -7,7 +7,7 @@ xquery version "3.1" encoding "UTF-8";
  :)
 module namespace charts = "https://www.betamasaheft.uni-hamburg.de/BetMas/charts";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
-import module namespace sparql="http://exist-db.org/xquery/sparql" at "java:org.exist.xquery.modules.rdf.SparqlModule";
+import module namespace fusekisparql = 'https://www.betamasaheft.uni-hamburg.de/BetMas/sparqlfuseki' at "xmldb:exist:///db/apps/BetMas/fuseki/fuseki.xqm";
 import module namespace titles = "https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
 
 declare namespace test="http://exist-db.org/xquery/xqsuite";
@@ -49,7 +49,7 @@ declare function charts:mssSankey($itemid){
    }"
   )
 
-  let $sparqlresults := sparql:query($query)
+  let $sparqlresults := fusekisparql:query('betamasaheft',$query)
   let $results := for $result in $sparqlresults//sr:result
                  let $from := substring-after($result//sr:binding[1]/sr:uri, 'https://betamasaheft.eu/')
                  let $to := substring-after($result//sr:binding[2]/sr:uri, 'https://betamasaheft.eu/')
@@ -264,7 +264,7 @@ if (count($unit) gt 1) then (<div  class="w3-half w3-panel w3-red w3-padding"><p
                                     return
                                     '["'||$SM||'",'||$w||','||$h||',"'||$title||'",'||$dep||']'
 
-let $dimensionsTable := '[["shelf mark","widht","height","title","depth"],' ||string-join($dims, ', ') || ']'
+let $dimensionsTable := '[["shelf mark","width","height","title","depth"],' ||string-join($dims, ', ') || ']'
 
 let $taglie := for $d in $hits//t:extent[descendant::t:dimensions[@type='outer'][t:height][t:width][t:depth]]
                let $all := $d/t:dimensions[@type='outer']
@@ -865,7 +865,7 @@ if($countLayout ge 1) then (
                return
                  '["'||$SM||'",'||$w||','||$h||',"'||$title||'", '||$writtenlines||']'
 
-    let $dimensionsTable := '[["shelf mark","widht","height","title","written lines"],
+    let $dimensionsTable := '[["shelf mark","width","height","title","written lines"],
     ' ||string-join($dims, ',
     ') || ']'
 
@@ -912,7 +912,7 @@ declare function  charts:tagliasupport($mssDate, $totcount, $from, $to){
                                                                    return if((number($realtaglia) ge $from) and (number($realtaglia) le $to)) then 1 else 0
                                              let $mssDateThisTaglia := sum($mssDateTaglias)
                                               let $div := ($mssDateThisTaglia div $totcount)
-                                             return format-number($div, "#.#%")
+                                             return format-number($div, "#.#")
                                               };
 
 declare function charts:spsupport($mss, $rangeName, $values){
@@ -923,7 +923,7 @@ declare function charts:spsupport($mss, $rangeName, $values){
   let $columns := for $value in $values
                   let $countms := count($mssthisperiod[. = $value])
                   let $div := ($countms div $total)
-                  let $perc := format-number($div, "#.#%")
+                  let $perc := format-number($div, "#.#")
                   return ',' ||$perc
   return
     '["'||$rangeName||'"'||string-join($columns)||']'
@@ -938,7 +938,7 @@ declare function charts:spatsupport($mss, $rangeName, $values){
   let $columns := for $value in $values
                   let $countms := count($mssthisperiod/t:term[@key = $value])
                   let $div := ($countms div $total)
-                  let $perc := format-number($div, "#.#%")
+                  let $perc := format-number($div, "#.#")
                   return ',' ||$perc
   return
     '["'||$rangeName||'"'||string-join($columns)||']'
@@ -953,7 +953,7 @@ declare function charts:TMsupport($mss, $rangeName, $values){
   let $columns := for $value in $values
                   let $countms := count($mssthisperiod/t:term[@key = $value])
                   let $div := ($countms div $total)
-                  let $perc := format-number($div, "#.#%")
+                  let $perc := format-number($div, "#.#")
                   return ',' ||$perc
   return
     '["'||$rangeName||'"'||string-join($columns)||']'
@@ -968,7 +968,7 @@ declare function charts:BMsupport($mss, $rangeName, $values){
   let $columns := for $value in $values
                   let $countms := count($mssthisperiod/t:material[@key = $value])
                   let $div := ($countms div $total)
-                  let $perc := format-number($div, "#.#%")
+                  let $perc := format-number($div, "#.#")
                   return ',' ||$perc
   return
     '["'||$rangeName||'"'||string-join($columns)||']'
@@ -983,7 +983,7 @@ declare function charts:MMsupport($mss, $rangeName, $values){
   let $columns := for $value in $values
                   let $countms := count($mssthisperiod/t:material[@key = $value])
                   let $div := ($countms div $total)
-                  let $perc := format-number($div, "#.#%")
+                  let $perc := format-number($div, "#.#")
                   return ',' ||$perc
   return
     '["'||$rangeName||'"'||string-join($columns)||']'
@@ -999,7 +999,7 @@ declare function charts:OTsupport($mss, $rangeName, $values){
   let $columns := for $value in $values
                   let $countms := count($mssthisperiod[@form = $value])
                   let $div := ($countms div $total)
-                  let $perc := format-number($div, "#.#%")
+                  let $perc := format-number($div, "#.#")
                   return ',' ||$perc
   return
     '["'||$rangeName||'"'||string-join($columns)||']'

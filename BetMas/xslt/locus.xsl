@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:locus">
         <xsl:param name="text" tunnel="yes"/>
@@ -197,11 +198,15 @@
                     <!-- Modal content-->
                     <div class="w3-modal-content">
                             <header class="w3-container">
-                                <h4>Images relevant for <span class="MainTitle" data-value="{$mainID}#{$ancID}"></span>, from <xsl:value-of select="ancestor::t:TEI//t:msIdentifier/t:idno/@facs"/></h4>
+                                <h4>Images relevant for <span class="MainTitle" data-value="{$mainID}#{$ancID}"/>, from <xsl:value-of select="ancestor::t:TEI//t:msIdentifier/t:idno/@facs"/>
+                        </h4>
                                 <div>
                                     <xsl:choose>
-                                        <xsl:when test="@target">You are viewing a sequence of images including ff. <xsl:value-of select="replace(string-join(tokenize(normalize-space(@target), ' #'), ', '), '#', '')"/></xsl:when>
-                                        <xsl:otherwise>You are viewing a sequence of images from f. <xsl:value-of select="@from"/> <xsl:if test="@to">to f. <xsl:value-of select="@to"/></xsl:if></xsl:otherwise>
+                                        <xsl:when test="@target">You are viewing a sequence of images including ff. <xsl:value-of select="replace(string-join(tokenize(normalize-space(@target), ' #'), ', '), '#', '')"/>
+                                </xsl:when>
+                                        <xsl:otherwise>You are viewing a sequence of images from f. <xsl:value-of select="@from"/> <xsl:if test="@to">to f. <xsl:value-of select="@to"/>
+                                    </xsl:if>
+                                </xsl:otherwise>
                                    </xsl:choose>
                                 </div>
                                 <button class="w3-button w3-gray w3-display-topright" onclick="document.getElementById('{$modalid}').style.display='none'">Close</button>
@@ -235,7 +240,8 @@
                                         <xsl:when test="contains(@facs, ' ')">
                                             <xsl:value-of select="substring-before(@facs, ' ')"/>
                                         </xsl:when>
-                                        <xsl:otherwise> <xsl:value-of select="@facs"/></xsl:otherwise>
+                                        <xsl:otherwise> <xsl:value-of select="@facs"/>
+                                    </xsl:otherwise>
                                     </xsl:choose>
                                 </xsl:variable>
                                 <xsl:variable name="fcc" select="replace($fc, '[a-z\s]', '')"/>

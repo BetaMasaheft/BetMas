@@ -11,9 +11,10 @@ import module namespace titles = "https://www.betamasaheft.uni-hamburg.de/BetMas
 import module namespace app = "https://www.betamasaheft.uni-hamburg.de/BetMas/app" at "xmldb:exist:///db/apps/BetMas/modules/app.xqm";
 import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "xmldb:exist:///db/apps/BetMas/modules/editors.xqm";
 import module namespace coord = "https://www.betamasaheft.uni-hamburg.de/BetMas/coord" at "xmldb:exist:///db/apps/BetMas/modules/coordinates.xqm";
-import module namespace http = "http://expath.org/ns/http-client";
 import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2"  at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
 
+
+declare namespace http = "http://expath.org/ns/http-client";
 declare namespace fo = "http://www.w3.org/1999/XSL/Format";
 declare namespace xslfo = "http://exist-db.org/xquery/xslfo";
 declare namespace tei = "http://www.tei-c.org/ns/1.0";
@@ -295,7 +296,8 @@ replace($parseedZoteroApiResponse?1?citation, '&lt;span&gt;', '') => replace('&l
 
 declare function fo:Zotero($ZoteroUniqueBMtag as xs:string) {
     let $xml-url := concat('https://api.zotero.org/groups/358366/items?tag=', $ZoteroUniqueBMtag, '&amp;format=bib&amp;locale=en-GB&amp;style=hiob-ludolf-centre-for-ethiopian-studies&amp;linkwrap=1')
-    let $data := httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)
+   let $request := <http:request href="{xs:anyURI($xml-url)}" method="GET"/>
+    let $data := http:send-request($request)[2]
     let $datawithlink := fo:tei2fo($data//div[@class = 'csl-entry'])
     return
         $datawithlink
@@ -2464,7 +2466,7 @@ case 'mss'
 
 (:fo:main():)
 let $id := request:get-parameter("id", ()) 
-let $log := log:add-log-message('/'||$id||'.pdf', xmldb:get-current-user(), 'PDF')
+let $log := log:add-log-message('/'||$id||'.pdf', sm:id()//sm:real/sm:username/string() , 'PDF')
 (:let $test := fo:main($id):)
 let $pdf := xslfo:render(fo:main($id), "application/pdf", (), $local:fop-config)
 return

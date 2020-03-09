@@ -35,9 +35,9 @@ let $collection := switch2:col($type)
 
 let $localId := $id
 let $thisMap := map {
-        "id" := $id, 
-        "label" := titles:printTitleID($id), 
-        "group" := string($type)
+        "id" :  $id, 
+        "label" : titles:printTitleID($id), 
+        "group" : string($type)
         }
 
 let $whatpointshere := api:restWhatPointsHere($localId, $config:collection-root)
@@ -70,9 +70,9 @@ let $wph :=
     return 
       (:first return the root of the referring entity and the id in the corresp, active, passive, mutual, etc. there.:)
      map {
-        "id" := $I, 
-        "label" := $titleN,
-        "group" := $rootype
+        "id" : $I, 
+        "label" :  $titleN,
+        "group" : $rootype
         }
 
 let $here := 
@@ -82,11 +82,11 @@ let $here :=
     let $pN := name($elem)
         let $name := if($pN = 'relation') then string($elem/@name) else $pN
         return
-    map {'from':=$localId, 
-      'to':=$id/string(), 
-      'label':=$name, 
-      'value':=1, 
-      'font':= map {'align':= 'top'}}
+    map {'from': $localId, 
+      'to': $id/string(), 
+      'label': $name, 
+      'value': 1, 
+      'font':  map {'align':  'top'}}
       let $there :=
  (:from what points here to the current item:)
       for $id in $secondaryrelations 
@@ -95,11 +95,11 @@ let $here :=
       let $name := if($refname = 'relation') then string($id/@name) else $refname
       let $R := if($refname = 'witness') then string($id/@corresp) else if($refname = 'relation') then if($refs = $id/@active) then  string($id/@active) else string($id/@passive) else string($id/@ref)
         return
-    map {'from':= string($r), 
-      'to':=$R, 
-      'label' := $name,
-      'value':= 1, 
-      'font':= map {'align':= 'top'}}
+    map {'from': string($r), 
+      'to': $R, 
+      'label' :  $name,
+      'value':  1, 
+      'font':  map {'align':  'top'}}
   let $tohere :=
  (:from what points here to the current item:)
       for $id in $whatpointshere 
@@ -108,11 +108,11 @@ let $here :=
       let $name := if($refname = 'relation') then string($id/@name) else $refname
      
         return
-    map {'from':= string($r), 
-      'to':=$localId, 
-      'label' := $name,
-      'value':= 1, 
-      'font':= map {'align':= 'top'}}
+    map {'from':  string($r), 
+      'to': $localId, 
+      'label' :  $name,
+      'value':  1, 
+      'font':  map {'align':  'top'}}
       
       let $edges := ($here, $there, $tohere)
       let $idswph :=  for $x in $wph return $x('id')
@@ -120,9 +120,9 @@ let $here :=
 return
 (:returns the title and id of the entities referring to this entity or entity referring to those pointing to the entity:)
   ($api:response200Json,
- map {'nodes' :=  $nodes,
- 'edges' :=  $edges,
-     'cN' := count($nodes),
-     'cE' := count($edges)
+ map {'nodes' :   $nodes,
+ 'edges' :   $edges,
+     'cN' :  count($nodes),
+     'cE' :  count($edges)
  })
 };

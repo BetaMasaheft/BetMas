@@ -1,9 +1,5 @@
-<xsl:stylesheet xmlns="http://www.tei-c.org/ns/1.0" 
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-    xmlns:t="http://www.tei-c.org/ns/1.0" 
-    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-    exclude-result-prefixes="#all" 
-    version="2.0">
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns="http://www.tei-c.org/ns/1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     
     <xsl:output encoding="UTF-8" method="xml"/>
     
@@ -23,8 +19,16 @@
 
 <xsl:template match="t:category">
     <xsl:copy>
-        <xsl:if test="t:catDesc"><xsl:attribute name="xml:id"><xsl:value-of select="t:catDesc/text()"/></xsl:attribute></xsl:if>
-        <xsl:if test="t:catDesc"><xsl:attribute name="corresp"><xsl:value-of select="concat('https://betamasaheft.eu/authority-files/', t:catDesc/text(), '/main')"/></xsl:attribute></xsl:if>
+        <xsl:if test="t:catDesc">
+                <xsl:attribute name="xml:id">
+                    <xsl:value-of select="t:catDesc/text()"/>
+                </xsl:attribute>
+            </xsl:if>
+        <xsl:if test="t:catDesc">
+                <xsl:attribute name="corresp">
+                    <xsl:value-of select="concat('https://betamasaheft.eu/authority-files/', t:catDesc/text(), '/main')"/>
+                </xsl:attribute>
+            </xsl:if>
         <xsl:apply-templates/>
     </xsl:copy>
 </xsl:template>

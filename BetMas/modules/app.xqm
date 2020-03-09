@@ -29,7 +29,7 @@ import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/t
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace xdb = "http://exist-db.org/xquery/xmldb";
 import module namespace validation = "http://exist-db.org/xquery/validation";
-import module namespace sparql="http://exist-db.org/xquery/sparql" at "java:org.exist.xquery.modules.rdf.SparqlModule";
+import module namespace fusekisparql = 'https://www.betamasaheft.uni-hamburg.de/BetMas/sparqlfuseki' at "xmldb:exist:///db/apps/BetMas/fuseki/fuseki.xqm";
 import module namespace console="http://exist-db.org/xquery/console";
 
 (:~declare variable $app:item-uri as xs:string := raequest:get-parameter('uri',());:)
@@ -109,7 +109,7 @@ let $path := '$config:collection-root//t:seg[@ana="' || $interpret ||'"]'
 let $hits := for $occurrence in util:eval($path)
                  return $occurrence
 return
-map {'hits':=$hits}
+map {'hits' : $hits}
 };
 
 declare 
@@ -143,7 +143,7 @@ let $url := request:get-uri()
    let $logparams := if(count($paramstobelogged) >= 1) then '?' || string-join($paramstobelogged, '&amp;') else ()
    let $url := $url || $logparams
    return 
-   log:add-log-message($url, xmldb:get-current-user(), 'page')
+   log:add-log-message($url, sm:id()//sm:real/sm:username/string() , 'page')
   
 };
 
@@ -618,7 +618,7 @@ declare function app:newissue($node as node()*, $model as map(*)){
 
 (:~ button only visible to editors for creating a new entry  :)
 declare function app:nextID($collection as xs:string) {
-if(contains(sm:get-user-groups(xmldb:get-current-user()), 'Editors')) then (
+if(contains(sm:get-user-groups(sm:id()//sm:real/sm:username/string() ), 'Editors')) then (
 <a role="button" class="w3-button w3-red w3-bar-item" target="_blank" href="/newentry.html?collection={$collection}">create new entry</a>) else ()
 };
 
@@ -1222,7 +1222,7 @@ concat("descendant::t:", $element, "[ft:query(., '" , $query, "', ", serialize($
 (:~ a function simply evaluating an xpath entered as string:)
 declare  function app:xpathQuery($node as node(), $model as map(*), $xpath as xs:string?) {
 if(empty($xpath)) then () else 
-let $logpath := log:add-log-message($xpath, xmldb:get-current-user(), 'XPath query')  
+let $logpath := log:add-log-message($xpath, sm:id()//sm:real/sm:username/string() , 'XPath query')  
 let $hits := for $hit in util:eval($xpath)
 return $hit
  return            
@@ -1235,12 +1235,9 @@ declare  function app:sparqlQuery($node as node(), $model as map(*), $query as x
 
 if(empty($query)) then 'Please enter a valid SPARQL query.' else 
 let $prefixes := $config:sparqlPrefixes
-      
-         
 let $allquery := ($prefixes || normalize-space($query))
-let $logpath := log:add-log-message($query, xmldb:get-current-user(), 'SPARQL query')  
-
-let $results := sparql:query($allquery)
+let $logpath := log:add-log-message($query, sm:id()//sm:real/sm:username/string() , 'SPARQL query')  
+let $results := fusekisparql:query('betamasaheft', $allquery)
  return            
 map {"sparqlResult": $results, "q": $query}
          
@@ -1251,7 +1248,7 @@ map {"sparqlResult": $results, "q": $query}
     function app:sparqlRes (
     $node as node(), 
     $model as map(*)) {
-    transform:transform($model("sparqlResult")/sr:sparql, 'xmldb:exist:///db/apps/BetMas/rdfxslt/sparqltable.xsl', ())
+    transform:transform($model("sparqlResult"), 'xmldb:exist:///db/apps/BetMas/rdfxslt/sparqltable.xsl', ())
 
     };
     
@@ -1298,7 +1295,7 @@ $numberOfParts as xs:string*,
    let $parameterslist := request:get-parameter-names()
    let $paramstobelogged := for $p in $parameterslist for $value in request:get-parameter($p, ()) return ($p || '=' || $value)
    let $logparams := '?' || string-join($paramstobelogged, '&amp;')
-   let $log := log:add-log-message($logparams, xmldb:get-current-user(), 'query')
+   let $log := log:add-log-message($logparams, sm:id()//sm:real/sm:username/string() , 'query')
     let $IDpart := app:ListQueryParam('xmlid', '@xml:id', 'any', 'search')
     let $collection := app:ListQueryParam('work-types', '@type', 'any', 'search')
     let $script := app:ListQueryParam('script', 't:handNote/@script', 'any', 'search')
@@ -1456,8 +1453,8 @@ let $queryExpr := $query-string
             
             return
                 map {
-                    "hits" := $hits,
-                    "type" := 'records'
+                    "hits" : $hits,
+                    "type" : 'records'
                     
                 } ))
         else
@@ -1471,7 +1468,7 @@ let $queryExpr := $query-string
                    
                    let $allels := string-join($elements, ' or ')
                    let $path:=    concat("$config:collection-root","//t:TEI[",$allels, "]", $allfilters)
-                   let $logpath := log:add-log-message($path, xmldb:get-current-user(), 'XPath')  
+                   let $logpath := log:add-log-message($path, sm:id()//sm:real/sm:username/string() , 'XPath')  
                    for $hit in util:eval($path)
                     order by ft:score($hit) descending
                     return $hit
@@ -1485,10 +1482,10 @@ let $queryExpr := $query-string
             return
                 (: Process nested templates :)
                 map {
-                    "hits" := $hits,
-                    "q" := $query,
-                    "type" := 'matches',
-                    "query" := $queryExpr
+                    "hits" : $hits,
+                    "q" : $query,
+                    "type" : 'matches',
+                    "query" : $queryExpr
                 }
 };
 
@@ -1515,7 +1512,7 @@ declare function app:create-query($query-string as xs:string?, $mode as xs:strin
         if (functx:contains-any-of($query-string, ('AND', 'OR', 'NOT', '+', '-', '!', '~', '^', '.', '?', '*', '|', '{','[', '(', '<', '@', '#', '&amp;')) and $mode eq 'any')
         then 
             let $luceneParse := app:parse-lucene($query-string)
-            let $luceneXML := util:parse($query-string)
+            let $luceneXML := parse-xml($query-string)
             let $lucene2xml := app:lucene2xml($luceneXML/node(), $mode)
             return $lucene2xml
         (:otherwise the query is performed by selecting one of the special options (any, all, phrase, near, fuzzy, wildcard or regex):)
@@ -1949,7 +1946,7 @@ declare %private function app:sanitize-lucene-query($query-string as xs:string) 
 };
 
 (: Function to translate a Lucene search string to an intermediate string mimicking the XML syntax, 
-with some additions for later parsing of boolean operators. The resulting intermediary XML search string will be parsed as XML with util:parse(). 
+with some additions for later parsing of boolean operators. The resulting intermediary XML search string will be parsed as XML with parse-xml(). 
 Based on Ron Van den Branden, https://rvdb.wordpress.com/2010/08/04/exist-lucene-to-xml-syntax/:)
 (:TODO:
 The following cases are not covered:
@@ -2022,7 +2019,7 @@ declare %private function app:parse-lucene($string as xs:string) {
                                 concat('<query>', replace(normalize-space($string), '_', '"'), '</query>')
 };
 
-(: Function to transform the intermediary structures in the search query generated through app:parse-lucene() and util:parse() 
+(: Function to transform the intermediary structures in the search query generated through app:parse-lucene() and parse-xml() 
 to full-fledged boolean expressions employing XML query syntax. 
 Based on Ron Van den Branden, https://rvdb.wordpress.com/2010/08/04/exist-lucene-to-xml-syntax/:)
 declare %private function app:lucene2xml($node as item(), $mode as xs:string) {

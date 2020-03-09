@@ -1,7 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/newindex2.html" data-template-at="content" class="w3-content" style="margin-top:46px">
 
     <div data-template="app:logging"/>
-
+    
     <!--  cover  -->
     <div class="w3-display-container w3-center" id="cover">
         <img class="w3-image" src="resources/images/homepage/1.JPG" style="width:100%;opacity:0.6"/>
@@ -19,7 +20,8 @@
                 <i class="fa fa-arrow-down"/>
             </a>
         </div>
-        <div class="w3-display-bottomright w3-small w3-hide-small w3-margin"><a href="https://betamasaheft.eu/manuscripts/ESdd038/viewer?FirstCanv=https://betamasaheft.eu/api/iiif/ESdd038/canvas/p147">DD-038</a> by Ethio-SPaRe</div>
+        <div class="w3-display-bottomright w3-small w3-hide-small w3-margin">
+            <a href="https://betamasaheft.eu/manuscripts/ESdd038/viewer?FirstCanv=https://betamasaheft.eu/api/iiif/ESdd038/canvas/p147">DD-038</a> by Ethio-SPaRe</div>
         <div class="w3-display-bottommiddle w3-center w3-bar w3-hide-small">
             <a class="w3-bar-item w3-button w3-dark-grey" href="#cover" onclick="w3_open()">
                 <i class="fa fa-bars"/>
@@ -139,7 +141,7 @@
                             contributing and reusing data below.</a>
                     </p>
 
-                    <!--<a class="w3-button w3-black w3-margin-bottom"
+                    <!--<a class="w3-button w3-black w3-margin-bottom" 
                        href="javascript:void(0);" onclick="startIntroHome();">Take a tour of this page</a>-->
                     <a class="w3-button w3-black w3-margin-bottom" href="https://www.betamasaheft.uni-hamburg.de/">Institutional homepage</a>
                     <div class="w3-container"> </div>
@@ -218,7 +220,8 @@
     <!--    manuscripts-->
     <div class="w3-display-container w3-center " id="manuscripts" style="min-height:80vh">
         <img class="w3-image " src="resources/images/homepage/2.JPG" style="width:100%;opacity:0.6"/>
-        <div class="w3-display-bottomright w3-small w3-hide-small w3-margin"><a href="https://betamasaheft.eu/manuscripts/EStgm003/viewer?FirstCanv=https://betamasaheft.eu/api/iiif/EStgm003/canvas/p4">TGM-003</a> by Ethio-SPaRe</div>
+        <div class="w3-display-bottomright w3-small w3-hide-small w3-margin">
+            <a href="https://betamasaheft.eu/manuscripts/EStgm003/viewer?FirstCanv=https://betamasaheft.eu/api/iiif/EStgm003/canvas/p4">TGM-003</a> by Ethio-SPaRe</div>
         <div class="w3-display-left w3-padding w3-col l6 m8 s12 w3-red" style="max-height:100%;overflow-y:auto">
             <h2 class="w3-wide">Manuscripts</h2>
             <p class="w3-hide-small">You can access the manuscripts in several ways.</p>
@@ -226,8 +229,11 @@
             <div class="w3-row-padding">
                 <div class="w3-third w3-margin-bottom">
                     <div class="w3-display-container">
-                    <img src="resources/images/homepage/8.JPG" alt="Shelf-Marks" class="w3-hover-opacity  w3-hide-small" style="filter:grayscale(100%);height:20%;width:100%"/>
-                        <div class="w3-display-bottomright w3-tiny w3-hide-small"><a href="https://betamasaheft.eu/manuscripts/INS0017UM/list">ʿUrā Qirqos</a> by Ethio-SPaRe</div>
+                        <a href="/manuscripts/browse">
+                            <img src="resources/images/homepage/8.JPG" alt="Shelf-Marks" class="w3-hover-opacity  w3-hide-small" style="filter:grayscale(100%);width:100%"/>
+                        </a>
+                        <div class="w3-display-bottomright w3-tiny w3-hide-small">
+                            <a href="https://betamasaheft.eu/manuscripts/INS0017UM/list">ʿUrā Qirqos</a> by Ethio-SPaRe</div>
                    </div>
                     <div class="w3-center">
                         <a class="w3-button w3-black  w3-wide" href="/manuscripts/browse">
@@ -238,8 +244,11 @@
                 </div>
                 <div class="w3-third w3-margin-bottom">
                     <div class="w3-display-container">
-                        <img src="resources/images/homepage/9.JPG" alt="Catalogues" class=" w3-hover-opacity  w3-hide-small" style="filter:grayscale(100%);height:20%;width:100%"/>
-                        <div class="w3-display-bottomright w3-tiny w3-hide-small w3-black">Zotenberg Catalogue from the <a href="https://archive.org/details/manuscritsorient00bibl/page/n4">Internet Archive</a></div>
+                        <a href="/catalogues/list">
+                            <img src="resources/images/homepage/9.JPG" alt="Catalogues" class=" w3-hover-opacity  w3-hide-small" style="filter:grayscale(100%);width:100%"/>
+                        </a>
+                        <div class="w3-display-bottomright w3-tiny w3-hide-small w3-black">Zotenberg Catalogue from the <a href="https://archive.org/details/manuscritsorient00bibl/page/n4">Internet Archive</a>
+                        </div>
                     </div>
                     <div class="w3-center">
                         <a class="w3-button w3-black  w3-wide" href="/catalogues/list">
@@ -250,8 +259,11 @@
                 </div>
                 <div class="w3-third w3-margin-bottom">
                     <div class="w3-display-container">
-                        <img src="resources/images/homepage/10.JPG" alt="Map" class="w3-hover-opacity  w3-hide-small" style="filter:grayscale(100%);height:20%;width:100%"/>
-                        <div class="w3-display-bottomright w3-tiny w3-hide-small"><a href="https://betamasaheft.eu/manuscripts/INS0034DZ/list">Dabra Zayt</a> by Ethio-SPaRe</div>
+                        <a href="/institutions/list">
+                            <img src="resources/images/homepage/10.JPG" alt="Map" class="w3-hover-opacity  w3-hide-small" style="filter:grayscale(100%);width:100%"/>
+                        </a>
+                        <div class="w3-display-bottomright w3-tiny w3-hide-small">
+                            <a href="https://betamasaheft.eu/manuscripts/INS0034DZ/list">Dabra Zayt</a> by Ethio-SPaRe</div>
                     </div>
                     <div class="w3-center">
                         <a class="w3-button w3-black w3-wide" href="/institutions/list">
@@ -265,8 +277,11 @@
             <div class="w3-row-padding">
                 <div class="w3-third w3-margin-bottom">
                     <div class="w3-display-container">
-                        <img src="resources/images/homepage/11.JPG" alt="List" class="w3-hover-opacity  w3-hide-small" style="filter:grayscale(100%);height:20%;width:100%"/>
-                        <div class="w3-display-bottomright w3-tiny w3-hide-small"><a href="https://betamasaheft.eu/manuscripts/ESum027/viewer?FirstCanv=https://betamasaheft.eu/api/iiif/ESum027/canvas/p66">UM-027</a> by Ethio-SPaRe</div>
+                        <a href="/manuscripts/list">
+                            <img src="resources/images/homepage/11.JPG" alt="List" class="w3-hover-opacity  w3-hide-small" style="filter:grayscale(100%);width:100%"/>
+                        </a>
+                        <div class="w3-display-bottomright w3-tiny w3-hide-small">
+                            <a href="https://betamasaheft.eu/manuscripts/ESum027/viewer?FirstCanv=https://betamasaheft.eu/api/iiif/ESum027/canvas/p66">UM-027</a> by Ethio-SPaRe</div>
                     </div>
                     <div class="w3-center">
                         <a class="w3-button w3-black w3-wide" href="/manuscripts/list">
@@ -277,7 +292,9 @@
                 </div>
                 <div class="w3-third w3-margin-bottom">
                     <div class="w3-display-container">
-                        <img src="resources/images/homepage/12.png" alt="Map" class="w3-hover-opacity  w3-hide-small" style="filter:grayscale(100%);height:20%;width:100%"/>
+                        <a href="/placeoforigin.html">
+                            <img src="resources/images/homepage/12.png" alt="Map" class="w3-hover-opacity  w3-hide-small" style="filter:grayscale(100%);width:100%"/>
+                        </a>
                         <div class="w3-display-bottomright w3-tiny w3-hide-small"/>
                     </div>
                     <div class="w3-center" id="origPlaces">
@@ -289,9 +306,13 @@
                 </div>
                 <div class="w3-third w3-margin-bottom">
                     <div class="w3-display-container">
-                        <img src="resources/images/homepage/13.JPG" alt="All images" class="w3-hover-opacity  w3-hide-small" style="filter:grayscale(100%);height:20%;width:100%"/>
-                        <div class="w3-display-bottomright w3-tiny w3-hide-small"><a href="https://betamasaheft.eu/manuscripts/ESdz005/viewer?FirstCanv=https://betamasaheft.eu/api/iiif/ESdz005/canvas/p12">DZ-005</a> by Ethio-SPaRe</div>
-                    </div><div class="w3-center">
+                        <a href="/manuscripts/viewer">
+                            <img src="resources/images/homepage/13.JPG" alt="All images" class="w3-hover-opacity  w3-hide-small" style="filter:grayscale(100%);width:100%"/>
+                        </a>
+                        <div class="w3-display-bottomright w3-tiny w3-hide-small">
+                            <a href="https://betamasaheft.eu/manuscripts/ESdz005/viewer?FirstCanv=https://betamasaheft.eu/api/iiif/ESdz005/canvas/p12">DZ-005</a> by Ethio-SPaRe</div>
+                    </div>
+                    <div class="w3-center">
                         <a class="w3-button w3-black w3-wide" href="/manuscripts/viewer">
                             <b>Images</b>
                         </a>
@@ -342,9 +363,13 @@
         <div class="w3-row">
 
             <div class="w3-quarter">
-                <img src="resources/images/homepage/3.JPG" alt="Works" class="w3-image w3-circle w3-hover-opacity" style="filter:grayscale(100%);height:30%"/>
-                <div class="w3-tiny w3-hide-small"><a href="https://betamasaheft.eu/manuscripts/ESqs005/viewer?FirstCanv=https://betamasaheft.eu/api/iiif/ESqs005/canvas/p214">QS-005</a> by Ethio-SPaRe</div>
-                <p class="w3-small  w3-hide-small">We consider a work any text with an independent circulation... <a href="https://betamasaheft.eu/Guidelines/?id=definitionWorks">read more in the guidelines.</a></p>
+                <a href="/works/list">
+                    <img src="resources/images/homepage/3.JPG" alt="Works" class="w3-image w3-circle w3-hover-opacity" style="filter:grayscale(100%);height:30%"/>
+                </a>
+                <div class="w3-tiny w3-hide-small">
+                    <a href="https://betamasaheft.eu/manuscripts/ESqs005/viewer?FirstCanv=https://betamasaheft.eu/api/iiif/ESqs005/canvas/p214">QS-005</a> by Ethio-SPaRe</div>
+                <p class="w3-small  w3-hide-small">We consider a work any text with an independent circulation... <a href="https://betamasaheft.eu/Guidelines/?id=definitionWorks">read more in the guidelines.</a>
+                </p>
                 <a class="w3-button w3-black w3-margin-bottom" href="/works/list">
                     <b>Textual Units
                         (Clavis)</b>
@@ -356,9 +381,13 @@
             </div>
 
             <div class="w3-quarter">
-                <img src="resources/images/homepage/4.JPG" alt="Persons" class="w3-image w3-circle w3-hover-opacity" style="filter:grayscale(100%);height:30%"/>
-                <div class="w3-tiny w3-hide-small"><a href="https://betamasaheft.eu/manuscripts/ESnsm004/viewer?FirstCanv=https://betamasaheft.eu/api/iiif/ESnsm004/canvas/p3">NSM-004</a> by Ethio-SPaRe</div>
-                <p class="w3-small  w3-hide-small">Each person and group related to the manuscripts has a record... <a href="https://betamasaheft.eu/Guidelines/?id=persons">read more in the guidelines.</a></p>
+                <a href="/persons/list">
+                    <img src="resources/images/homepage/4.JPG" alt="Persons" class="w3-image w3-circle w3-hover-opacity" style="filter:grayscale(100%);height:30%"/>
+                </a>
+                <div class="w3-tiny w3-hide-small">
+                    <a href="https://betamasaheft.eu/manuscripts/ESnsm004/viewer?FirstCanv=https://betamasaheft.eu/api/iiif/ESnsm004/canvas/p3">NSM-004</a> by Ethio-SPaRe</div>
+                <p class="w3-small  w3-hide-small">Each person and group related to the manuscripts has a record... <a href="https://betamasaheft.eu/Guidelines/?id=persons">read more in the guidelines.</a>
+                </p>
                 <a class="w3-button w3-black w3-margin-bottom" href="/persons/list">
                     <b>Persons and
                         Groups</b>
@@ -366,10 +395,14 @@
             </div>
 
             <div class="w3-quarter">
-                <img src="resources/images/homepage/5.JPG" alt="Boss" class="w3-image w3-circle w3-hover-opacity" style="filter:grayscale(100%);height:30%"/>
-                <div class="w3-tiny w3-hide-small"><a href="https://betamasaheft.eu/manuscripts/INS0147MCM/list">Māy Č̣aw Mikāʾel</a> by Ethio-SPaRe</div>
-                <p class="w3-small  w3-hide-small">Each place and repository related to the manuscripts has a record... <a href="https://betamasaheft.eu/Guidelines/?id=places">read more in the guidelines.</a></p>
-
+                <a href="/places/list">
+                    <img src="resources/images/homepage/5.JPG" alt="Boss" class="w3-image w3-circle w3-hover-opacity" style="filter:grayscale(100%);height:30%"/>
+                </a>
+                <div class="w3-tiny w3-hide-small">
+                    <a href="https://betamasaheft.eu/manuscripts/INS0147MCM/list">Māy Č̣aw Mikāʾel</a> by Ethio-SPaRe</div>
+                <p class="w3-small  w3-hide-small">Each place and repository related to the manuscripts has a record... <a href="https://betamasaheft.eu/Guidelines/?id=places">read more in the guidelines.</a>
+                </p>
+                
                 <a class="w3-button w3-black w3-margin-bottom" href="/places/list">
                     <b>Places and
                         Repositories</b>
@@ -377,7 +410,9 @@
             </div>
 
             <div class="w3-quarter">
-                <img src="resources/images/homepage/14.JPG" alt="Persons" class="w3-image w3-circle w3-hover-opacity" style="height:30%"/>
+                <a href="/authority-files/list">
+                    <img src="resources/images/homepage/14.JPG" alt="Persons" class="w3-image w3-circle w3-hover-opacity" style="height:30%"/>
+                </a>
                 <div class="w3-tiny w3-hide-small">Drawing of <a href="/bibliography?pointer=bm:RIE1">RIÉ</a> <a href="/RIE185and270">270</a> in Salt's <i>A voyage to Abyssinia</i>, <a href="https://archive.org/details/voyageAbyssinia00Salt/page/n495">from the Internet Archive</a>.</div>
                 <p class="w3-small  w3-hide-small">Concepts in our taxonomy help classify and easily group records. <a href="https://betamasaheft.eu/Guidelines/?id=authority-files">read more in the guidelines.</a> </p>
                 <a class="w3-button w3-black w3-margin-bottom" href="/authority-files/list">
@@ -405,8 +440,10 @@
     <!--    Search options-->
     <div class="w3-display-container w3-center " id="furtherSearchOptions" style="min-height:80vh">
         <img class="w3-image" src="resources/images/homepage/7.JPG" style="width:100%;opacity:0.8"/>
-        <div class="w3-display-bottomright w3-small w3-hide-small w3-margin"><a href="https://betamasaheft.eu/manuscripts/ESbhm002/viewer?FirstCanv=https://betamasaheft.eu/api/iiif/ESbhm002/canvas/p7">BHM-002 by Ethio-SPaRe</a></div>
-
+        <div class="w3-display-bottomright w3-small w3-hide-small w3-margin">
+            <a href="https://betamasaheft.eu/manuscripts/ESbhm002/viewer?FirstCanv=https://betamasaheft.eu/api/iiif/ESbhm002/canvas/p7">BHM-002 by Ethio-SPaRe</a>
+        </div>
+        
         <div class="w3-display-right w3-padding w3-col l6 m8 s12 w3-red" style="max-height:100%;overflow-y:auto">
             <h2 class="w3-wide w3-left-align">Search</h2>
             <p class="w3-left-align w3-hide-small">We also offer a number of alternative ways to
@@ -484,6 +521,8 @@
                 <a class="w3-bar-item w3-button w3-black" href="/bibliography">Bibliography</a>
                 <a class="w3-bar-item w3-button w3-black " href="/IndexPlaces">Index Places</a>
                 <a class="w3-bar-item w3-button w3-black " href="/IndexPersons">Index Persons</a>
+                <a class="w3-bar-item w3-button w3-black " href="/titles">Titles, Colophons, Supplications</a>
+                <a class="w3-bar-item w3-button w3-black " href="/calendar">Calendar</a>
             </div>
 
         </div>
@@ -661,9 +700,11 @@
         </div>
     </div>
 
-
+    <!--<script>
+        alert("Starting 19.11.2019 at 12 CEST the beta masaheft servers will undergo maintenance and the applications will not be usable until further notice. Thank you for your collaboration. ");
+     </script>-->
     <!-- End Page Content -->
-
+    
     <script type="application/javascript" src="resources/js/preventformsubmission.js"/>
 
 </div>

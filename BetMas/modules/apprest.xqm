@@ -11,6 +11,7 @@ declare namespace t="http://www.tei-c.org/ns/1.0";
 declare namespace functx = "http://www.functx.com";
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
+declare namespace http = "http://expath.org/ns/http-client";
 
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
 import module namespace kwic = "http://exist-db.org/xquery/kwic"   at "resource:org/exist/xquery/lib/kwic.xql";
@@ -18,7 +19,6 @@ import module namespace app="https://www.betamasaheft.uni-hamburg.de/BetMas/app"
 import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "xmldb:exist:///db/apps/BetMas/modules/editors.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
 import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2" at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
-
 import module namespace templates="http://exist-db.org/xquery/templates" ;
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace charts = "https://www.betamasaheft.uni-hamburg.de/BetMas/charts" at "xmldb:exist:///db/apps/BetMas/modules/charts.xqm";
@@ -248,7 +248,8 @@ let $tabots:= $cont//t:ab[@type='tabot']
 (:test function returns the formatted zotero entry given the unique tag :)
 declare function apprest:getZoteroTextData ($ZoteroUniqueBMtag as xs:string){
 let $xml-url := concat('https://api.zotero.org/groups/358366/items?tag=',$string,'&amp;format=bib&amp;style=hiob-ludolf-centre-for-ethiopian-studies&amp;linkwrap=1')
-let $data := httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)
+let $request := <http:request href="{xs:anyURI($xml-url)}" method="GET"/>
+let $data := http:send-request($request)[2]
 return
 $data//text()
 };
@@ -566,7 +567,7 @@ order by $score descending
                 return
 <author>{editors:editorKey(string($author))}</author>
 }
-<title level="a">{titles:printTitle($file)}</title>
+<title level="a">{titles:printTitleID($id)}</title>
 <title level="j">{$file//t:publisher/text()}</title>
 <date type="accessed"> [Accessed: {current-date()}] </date>
 {let $time := max($file//t:revisionDesc/t:change/xs:date(@when))
@@ -592,7 +593,7 @@ order by $count descending
                 return
 <author>{editors:editorKey(string($author))}</author>
 }
-<title level="a">{titles:printTitle($file)}</title>
+<title level="a">{titles:printTitleID($id)}</title>
 <title level="j">{$this//t:publisher/text()}</title>
 <date type="accessed"> [Accessed: {current-date()}] </date>
 {let $time := max($file//t:revisionDesc/t:change/xs:date(@when))
@@ -881,7 +882,7 @@ declare function apprest:ItemFooterScript(){
 
 (:~ be kind to the logged user :)
 declare function apprest:greetings-rest(){
-<a href="">Hi {xmldb:get-current-user()}!</a>
+<a href="">Hi {sm:id()//sm:real/sm:username/string() }!</a>
     };
 
 
@@ -1089,9 +1090,9 @@ let $hits := for $item in util:eval($path)
 let $test2 := console:log($path) 
  return
             map {
-                      'hits' := $hits,
-                      'collection' := $collection,
-                      'query' := $path
+                      'hits' : $hits,
+                      'collection' : $collection,
+                      'query' : $path
                       }
 };
 

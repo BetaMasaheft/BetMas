@@ -97,7 +97,7 @@ declare
 %test:arg('role', 'scribe') %test:assertExists
 function roles:role($role as xs:string*) {
 
-let $log := log:add-log-message('/api/hasrole/' || $role, xmldb:get-current-user(), 'REST')
+let $log := log:add-log-message('/api/hasrole/' || $role, sm:id()//sm:real/sm:username/string() , 'REST')
 let $cp := $config:collection-rootPr
 let $path :=  $config:collection-root//t:persName[@role = $role][@ref[not(starts-with(. ,'PRS0000'))][. != 'PRS0476IHA'][. != 'PRS0204IHA']]
 let $total := count($path)
@@ -116,10 +116,10 @@ let $hits := for $pwl in $path
 return 
      ( $config:response200Json,
 map {
-'role' := $role,
-'hits' := $hits,
-'total' := count($hits),
-'referring' := $total
+'role' : $role,
+'hits' : $hits,
+'total' : count($hits),
+'referring' : $total
 })
 };
 
@@ -133,7 +133,7 @@ declare
 %test:args('owner', 'PRS2916Bruce') %test:assertExists
 function roles:roleID($role as xs:string*, $ID as xs:string*) {
 
-let $log := log:add-log-message('/api/hasrole/' || $role, xmldb:get-current-user(), 'REST')
+let $log := log:add-log-message('/api/hasrole/' || $role, sm:id()//sm:real/sm:username/string() , 'REST')
 let $path :=  $config:collection-root//t:persName[@role = $role][@ref=$ID]
 let $hits := for $x in $path
                         let $root := string(root($x)/t:TEI/@xml:id)
@@ -142,7 +142,7 @@ let $hits := for $x in $path
                         map {
                             'prov' : $r,
                             'sourceTitle' : titles:printTitleID($r),
-                            'count' := count($x)
+                            'count' : count($x)
                             }
                     
 let $hs := if (count($hits) gt 1) then $hits else [$hits]

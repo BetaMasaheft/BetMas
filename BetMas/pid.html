@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/newpage.html" data-template-at="content">
     <div class="w3-container w3-padding-64 w3-margin">
         <div data-template="app:logging"/>
@@ -11,7 +12,7 @@
                 Referenzierbarkeit in Hamburg 11-12 June 2019, organized by Timm Lehmberg for the
                 Union der Deutschen Akademien der Wissenschaften and the Akademie der Wissenschaften
                 in Hamburg.</p>
-
+            
             <p>The Beta maṣāḥǝft project guarantees the persistency of the urls starting with
                 https://betamasaheft.eu for as long as possible while the persistent URLs in GitHub
                 domains are guaranteed by GitHub.</p>
@@ -20,16 +21,35 @@
                 The <a href="https://help.github.com/en/articles/github-glossary#commit">SHA</a> is
                 the same as in the commits in the GitHub repositories of the project organization,
                 so that it should be possible to navigate between different permanent URLs of a same
-                resource. However, the path to the file is not evident in the application,
-                although it is the very same as in the GitHub repository, so each link is reproduced in full,
+                resource. However, the path to the file is not evident in the application, 
+                although it is the very same as in the GitHub repository, so each link is reproduced in full, 
                 for example
                 <table>
                     <tbody>
                         <tr>
-                            <th>Version of 2018-10-22T09:54:12Z</th><th>SHA: 0f2ae90766f072a3e37c2da90ca9a9476314e096<br/>committed to github by sologebre with the following message:  additions</th></tr>
-                        <tr><td>permalink to this version</td><td><a href="https://betamasaheft.eu/permanent/0f2ae90766f072a3e37c2da90ca9a9476314e096/places/LOC1008Abarga/main">https://betamasaheft.eu/permanent/0f2ae90766f072a3e37c2da90ca9a9476314e096/places/LOC1008Abarga/main</a></td></tr>
-                        <tr><td>source file at this version</td><td><a href="https://raw.githubusercontent.com/BetaMasaheft/Places/0f2ae90766f072a3e37c2da90ca9a9476314e096/1001-2000/LOC1008Abarga.xml">https://raw.githubusercontent.com/BetaMasaheft/Places/0f2ae90766f072a3e37c2da90ca9a9476314e096/1001-2000/LOC1008Abarga.xml</a></td></tr>
-                        <tr><td>source file in github at this version</td><td><a href="https://github.com/BetaMasaheft/Places/blob/0f2ae90766f072a3e37c2da90ca9a9476314e096//1001-2000/LOC1008Abarga.xml">https://github.com/BetaMasaheft/Places/blob/0f2ae90766f072a3e37c2da90ca9a9476314e096//1001-2000/LOC1008Abarga.xml</a></td></tr></tbody></table>
+                            <th>Version of 2018-10-22T09:54:12Z</th>
+                            <th>SHA: 0f2ae90766f072a3e37c2da90ca9a9476314e096<br/>committed to github by sologebre with the following message:  additions</th>
+                        </tr>
+                        <tr>
+                            <td>permalink to this version</td>
+                            <td>
+                                <a href="https://betamasaheft.eu/permanent/0f2ae90766f072a3e37c2da90ca9a9476314e096/places/LOC1008Abarga/main">https://betamasaheft.eu/permanent/0f2ae90766f072a3e37c2da90ca9a9476314e096/places/LOC1008Abarga/main</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>source file at this version</td>
+                            <td>
+                                <a href="https://raw.githubusercontent.com/BetaMasaheft/Places/0f2ae90766f072a3e37c2da90ca9a9476314e096/1001-2000/LOC1008Abarga.xml">https://raw.githubusercontent.com/BetaMasaheft/Places/0f2ae90766f072a3e37c2da90ca9a9476314e096/1001-2000/LOC1008Abarga.xml</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>source file in github at this version</td>
+                            <td>
+                                <a href="https://github.com/BetaMasaheft/Places/blob/0f2ae90766f072a3e37c2da90ca9a9476314e096//1001-2000/LOC1008Abarga.xml">https://github.com/BetaMasaheft/Places/blob/0f2ae90766f072a3e37c2da90ca9a9476314e096//1001-2000/LOC1008Abarga.xml</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </p>
             <p>The persistence guarantee is limited to the underlying data as offered by the
                 versioning in GitHub, that is to say that pointing at a given permanent URL the user
@@ -37,7 +57,7 @@
                 the current software visualization. All parts of the page loaded via external APIs or our current API will be at the latest state possible based on the selected version of the file in question.</p>
             <p>Not all URLs of the website can be cited persistently with a permanent URL, only item
                 views, selected parts of the DTS API, and selected parts of the IIIF API. A search
-                or a listing is not referenceable in a persistent way. It is possible however to use anchors in a specific view of the html, to point to a specific part of that version. For parametrized URLs which are
+                or a listing is not referenceable in a persistent way. It is possible however to use anchors in a specific view of the html, to point to a specific part of that version. For parametrized URLs which are 
                 versioned in this way, also the parameters can be used as far as they are relevant to the latest specification for the given API (IIIF, DTS).</p>
             <p>The fact that the permanent URL will point to that item but in the current context
                 (not the context at that point) will determine changes in the content viewed in all
@@ -87,7 +107,7 @@
                 has now a citation structure, which it did not have at the given revision, at
                 https://betamasaheft.eu/permanent/1c598017ca8ef92f62adaa659c129c6ee3e9a137/api/dts/collections?id=urn:dts:betmas:LIT1349EpistlEusebius
                 Also the DTS API carries always evidence of all revisions of a file, to allow
-                navigation between them inside <code>dc:hasVersion</code>. A user of the DTS API might thus lock the request of a passage to the exact version of the edition he is citing or transcluding, so that it is sure it will not change even when the data there actually changes.</p>
+                navigation between them inside <code>dc:hasVersion</code>.</p>
             <p>This allows to use a citation structure which has been replaced by a newer one
                 consistently (although it does not allow to find out correspondences between the
                 older and the newer).</p>

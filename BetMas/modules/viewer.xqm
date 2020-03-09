@@ -25,7 +25,7 @@ declare
 %output:method("html5")
 function viewer:allmirador(){
  (
-log:add-log-message('/manuscripts/viewer', xmldb:get-current-user(), 'viewer'),
+log:add-log-message('/manuscripts/viewer', sm:id()//sm:real/sm:username/string() , 'viewer'),
 <rest:response>
             <http:response
                 status="200">
@@ -72,7 +72,7 @@ declare
 %output:method("html5")
 function viewer:allinRepo($repoid as xs:string){
  (
-log:add-log-message('/manuscripts/'||$repoid||'/viewer', xmldb:get-current-user(), 'viewer'),
+log:add-log-message('/manuscripts/'||$repoid||'/viewer', sm:id()//sm:real/sm:username/string() , 'viewer'),
 <rest:response>
             <http:response
                 status="200">
@@ -157,8 +157,8 @@ let $firstcanvas :=
                 else 
                 $config:appUrl|| '/api/iiif/' || $id || '/canvas/p1' 
                 
-let $Cmap := map {'type':= 'collection', 'name' := $collection, 'path' := $c}
-let $Imap := map {'type':= 'item', 'name' := $id, 'path' := $collection}
+let $Cmap := map {'type': 'collection', 'name' : $collection, 'path' : $c}
+let $Imap := map {'type': 'item', 'name' : $id, 'path' : $collection}
 return 
 
 
@@ -170,7 +170,7 @@ if(xdb:collection-available($coll)) then (
         else
 (:        check that the item exists:)
        if($config:collection-root/id($id)[name() = 'TEI']) then (
-       log:add-log-message('/'||$collection||'/'||$id||'/viewer', xmldb:get-current-user(), 'viewer'),
+       log:add-log-message('/'||$collection||'/'||$id||'/viewer', sm:id()//sm:real/sm:username/string() , 'viewer'),
 
 <rest:response>
             <http:response
@@ -277,8 +277,8 @@ let $manifests := for $m in $this//t:idno[@facs][@n]
                                     viewType: "ImageView" }'
             
             
-let $Cmap := map {'type':= 'collection', 'name' := $collection, 'path' := $c}
-let $Imap := map {'type':= 'item', 'name' := $id, 'path' := $collection}
+let $Cmap := map {'type': 'collection', 'name' : $collection, 'path' : $c}
+let $Imap := map {'type': 'item', 'name' : $id, 'path' : $collection}
 return 
 
 
@@ -290,7 +290,7 @@ if(xdb:collection-available($coll)) then (
         else
 (:        check that the item exists:)
        if($config:collection-root/id($id)[name() = 'TEI']) then (
-       log:add-log-message('/'||$collection||'/'||$id||'/viewer', xmldb:get-current-user(), 'viewer'),
+       log:add-log-message('/'||$collection||'/'||$id||'/viewer', sm:id()//sm:real/sm:username/string() , 'viewer'),
 
 <rest:response>
             <http:response
@@ -408,7 +408,7 @@ declare
 %output:method("html5")
 function viewer:allchojnacki(){
  (
-log:add-log-message('/chojnacki/viewer', xmldb:get-current-user(), 'viewer'),
+log:add-log-message('/chojnacki/viewer', sm:id()//sm:real/sm:username/string() , 'viewer'),
 <rest:response>
             <http:response
                 status="200">

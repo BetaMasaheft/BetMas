@@ -30,7 +30,7 @@ declare
 %output:method("json")
 %test:arg('id', 'dsapdsjapo') %test:assertEquals('<rest:response xmlns:rest="http://exquery.org/ns/restxq"><http:response xmlns:http="http://expath.org/ns/http-client" status="200"><http:header name="Content-Type" value="application/json; charset=utf-8"/><http:header name="Access-Control-Allow-Origin" value="*"/></http:response></rest:response>','<json:value xmlns:json="http://www.json.org"><json:value json:array="true"><info>No results, sorry</info></json:value></json:value>')
 function lookID:IDSlookup($id as xs:string*) {
-log:add-log-message('/api/idlookup?id=' || $id, xmldb:get-current-user(), 'REST'),
+log:add-log-message('/api/idlookup?id=' || $id, sm:id()//sm:real/sm:username/string() , 'REST'),
 
 let $query := (
 $config:collection-root/t:TEI[contains(@xml:id, $id)],
@@ -43,7 +43,7 @@ $config:collection-root//t:div[contains(@xml:id, $id)])
 (: let $rootID := string(root($hit)/t:TEI/@xml:id):)
 (: let $title := if ($i = $rootID) then titles:printTitleID($i) else api:printSubtitle(root($hit),$i):)
         return
-        map {'id' := $i}
+        map {'id' : $i}
      
 let $c := count($query)
 return

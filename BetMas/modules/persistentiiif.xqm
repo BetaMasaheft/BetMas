@@ -53,7 +53,7 @@ let $item := persiiif:fileingit($id, $sha)
        if($item//t:msIdentifier/t:idno/@facs) then
 ($iiif:response200,
 
-log:add-log-message('/api/iiif/'||$id||'/manifest', xmldb:get-current-user(), 'iiif'),
+log:add-log-message('/api/iiif/'||$id||'/manifest', sm:id()//sm:real/sm:username/string() , 'iiif'),
 
        let $institutionID := string($item//t:repository/@ref)
 
@@ -78,7 +78,7 @@ let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($item//t:msIdentifier/
      
 (:    $mainstructure:)
 return 
-map {"@context":= "http://iiif.io/api/presentation/2/context.json",
+map {"@context": "http://iiif.io/api/presentation/2/context.json",
   "@id": $request,
   "@type": "sc:Manifest",
   "label": titles:printTitleMainID($id),
@@ -130,7 +130,7 @@ map {"@context":= "http://iiif.io/api/presentation/2/context.json",
     else 
       ($iiif:response400,
        
-       map{'info':= ('no manifest available for ' || $id )}
+       map{'info': ('no manifest available for ' || $id )}
    )
 };
 
@@ -144,7 +144,7 @@ declare
 function persiiif:sequence($id as xs:string*,$sha as xs:string*) {
 ($iiif:response200,
 
-log:add-log-message('/api/iiif/'||$id||'/sequence/normal', xmldb:get-current-user(), 'iiif'),
+log:add-log-message('/api/iiif/'||$id||'/sequence/normal', sm:id()//sm:real/sm:username/string() , 'iiif'),
         let $item := persiiif:fileingit($id, $sha)
 
 let $iiifroot := $config:appUrl ||"/api/iiif/" || $id
@@ -176,7 +176,7 @@ let $canvas := iiif:Canvases($item, $id, $iiifroot)
 function persiiif:canvas($id as xs:string*, $n as xs:string*,$sha as xs:string*) {
 ($iiif:response200,
 
-log:add-log-message('/api/iiif/'||$id||'/canvas/p' || $n, xmldb:get-current-user(), 'iiif'),
+log:add-log-message('/api/iiif/'||$id||'/canvas/p' || $n, sm:id()//sm:real/sm:username/string() , 'iiif'),
 let $item := persiiif:fileingit($id, $sha)
 let $iiifroot := $config:appUrl ||"/api/iiif/" || $id 
 let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs)

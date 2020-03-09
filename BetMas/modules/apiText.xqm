@@ -33,7 +33,7 @@ declare
 function apiT:get-level1XML($id as xs:string, $level1 as xs:string*) {
     ($api:response200XML,
     
-    let $log := log:add-log-message('/api/xml/' || $id || '/' || $level1, xmldb:get-current-user(), 'REST')
+    let $log := log:add-log-message('/api/xml/' || $id || '/' || $level1, sm:id()//sm:real/sm:username/string() , 'REST')
     let $collection := 'works'
     let $item := api:get-tei-rec-by-ID($id)
     let $recordid := $item/@xml:id
@@ -101,7 +101,7 @@ declare
 function apiT:get-level1LineXML($id as xs:string, $level1 as xs:string*, $line as xs:string*) {
     ($api:response200XML,
     
-    let $log := log:add-log-message('/api/xml/' || $id || '/' || $level1 || '/' || $line, xmldb:get-current-user(), 'REST')
+    let $log := log:add-log-message('/api/xml/' || $id || '/' || $level1 || '/' || $line, sm:id()//sm:real/sm:username/string() , 'REST')
     let $collection := 'works'
     let $item := api:get-tei-rec-by-ID($id)
     
@@ -224,7 +224,7 @@ declare
 %output:method("xml")
 function apiT:get-level2lineXML($id as xs:string, $level1 as xs:string*, $level2 as xs:string*, $line as xs:string*) {
     ($api:response200XML,
-      let $log := log:add-log-message('/api/xml/' || $id || '/' || $level1|| '/' || $level2 || '/' || $line, xmldb:get-current-user(), 'REST')
+      let $log := log:add-log-message('/api/xml/' || $id || '/' || $level1|| '/' || $level2 || '/' || $line, sm:id()//sm:real/sm:username/string() , 'REST')
   
     let $collection := 'works'
     let $item := api:get-tei-rec-by-ID($id)

@@ -128,7 +128,7 @@ instead or use the keyboard provided to enter aleph and ayn. </li>
                         <h4>Keys Combinations</h4>
                         <p>With this method you use keys combinations to trigger specific characters.
                         <a target="_blank" href="/combos.html">Click here for a list of the available combos.</a>
-                        This can be expanded<a target="_blank" href="https://github.com/BetaMasaheft/Documentation/issues/new?labels=keyboard&amp;assignee=PietroLiuzzo&amp;body=Please%20add%20a%20combo%20in%20the%20input%20keyboard">, do not hesitate to ask (click here to post a new issue).</a>
+                        This can be expanded<a target="_blank" href="https://github.com/BetaMasaheft/Documentation/issues/new/choose">, do not hesitate to ask (click here to post a new issue).</a>
                         </p>
                          <h4>Hold and choose</h4>
                          <p>If you hold a key optional values will appear in a list. You can click on the desiderd value or use arrows and enter to select it. The options are the same as those activated by combinations.</p>
@@ -164,7 +164,7 @@ return
       <div class="w3-dropdown-content w3-bar-block w3-card-4">
       {if(sm:is-authenticated() and contains(sm:get-user-groups(sm:id()//sm:username/text()), 'Editors')) then
                         (
-                                <a class="w3-bar-item w3-button" href="/user/{xmldb:get-current-user()}">Your personal page</a>
+                                <a class="w3-bar-item w3-button" href="/user/{sm:id()//sm:real/sm:username/string() }">Your personal page</a>
                             ,
                                 <a class="w3-bar-item w3-button" href="/clavismatching.html">Clavis Matching</a>
                             )
@@ -217,6 +217,7 @@ return
                                 <a class="w3-bar-item w3-button"  href="/IndexPersons">Persons</a>
                                 <a class="w3-bar-item w3-button"  href="/IndexPlaces">Places</a>
                                 <a class="w3-bar-item w3-button"  href="/titles">Titles/Colophon/Supplications</a>
+                                <a class="w3-bar-item w3-button"  href="/calendar.html">Calendar</a>
                                 <a class="w3-bar-item w3-button"  href="/decorations">Decorations</a>
                                 <a class="w3-bar-item w3-button"  href="/bindings">Bindings</a>
                                 <a class="w3-bar-item w3-button"  href="/additions">Additions</a>
@@ -236,6 +237,8 @@ return
                                 <a class="w3-bar-item w3-button"   href="/academics.html">Scholars in Ethiopian Studies</a>
                                 <a class="w3-bar-item w3-button"   href="/chojnacki/viewer">Chojnacki Collection</a>
                                 <a class="w3-bar-item w3-button"   href="/tweed.html">Tweed Collection</a>
+                                <a class="w3-bar-item w3-button"   href="/DSintro.html">Dayr al-Suryān Collection</a>
+                                <a class="w3-bar-item w3-button"   href="/Fricke.html">The Fricke Collection</a>
                      </div>
     </div>
     <a href="/morpho" class="w3-bar-item w3-button  w3-hide-medium w3-hide-small" 
@@ -264,7 +267,7 @@ return
 
 
 declare function nav:newentryNew(){
-        if(contains(sm:get-user-groups(xmldb:get-current-user()), 'Editors')) then
+        if(contains(sm:get-user-groups(sm:id()//sm:real/sm:username/string() ), 'Editors')) then
 
          <form  action="/newentry.html" class="w3-bar-item w3-hide-medium w3-hide-small" style="margin:0;padding:0" role="tag">
            <select  name="collection" required="required" class="w3-bar-item w3-select  w3-twothird">

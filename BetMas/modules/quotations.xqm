@@ -26,10 +26,10 @@ let $quotations := $config:collection-root//t:cit[t:ref[contains(@cRef, $text)]]
 let $thispassage := for $quote in $quotations[t:ref[contains(substring-after(@cRef, concat($text, ':')), $passage)]]
                                             let $id := string(root($quote)/t:TEI/@xml:id) 
                                           let $titlesource := titles:printTitleMainID($id)
-                                           let $source := map {'id' := $id, 'title' := $titlesource} 
+                                           let $source := map {'id' : $id, 'title' : $titlesource} 
                                             let $t := $quote/t:quote/text()
                                             let $r := string($quote/t:ref/@cRef)
                                         return 
-                                        map {'text' := $t, 'source' := $source, 'ref' := $r}
-return if (count($thispassage) ge 1) then map {'total' := count($thispassage), 'quotations' := [$thispassage]} else map {'total' := 0, 'info' := 'sorry, there are no marked up quotations of this passage'}
+                                        map {'text' : $t, 'source' : $source, 'ref' : $r}
+return if (count($thispassage) ge 1) then map {'total' : count($thispassage), 'quotations' : [$thispassage]} else map {'total' : 0, 'info' : 'sorry, there are no marked up quotations of this passage'}
 };

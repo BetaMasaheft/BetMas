@@ -1231,17 +1231,18 @@ let $parameters : = if ($collection = 'manuscripts') then <parameters>
     <param name="step3ed" value="."/>
     <param name="Finalvisualization" value="."/>
 </parameters> else ()
-
-return
+let $transformation := try{transform:transform($document,$xslt,$parameters)} catch * {<error>{$err:description}</error>}
+ 
 (:because nav takes 2 colums:)
-
-    <div class="w3-container " resource="http://betamasaheft.eu/{$id}" >
-{transform:transform($document,$xslt,$parameters)}
+  return
+   
+       <div class="w3-container " resource="http://betamasaheft.eu/{$id}" >
+{if($transformation/error) then 
+    <p>Sorry, an error happened and we could not transform the file you want to look at at the moment.</p>
+    else $transformation 
+}
     {item2:RestSeeAlso($this, $collection)}
     </div>
-
-
-
 };
 
 
@@ -1258,16 +1259,17 @@ let $xslt :=   'xmldb:exist:///db/apps/BetMas/xslt/text.xsl'
 </parameters>
 
 return
-if(count($document//t:div[@type='edition']) gt 1) then
-let $matches := for $hit in $document//t:div[@type='edition'][1]/t:div[@type='textpart']
-                            return $hit
-let $hits :=        map { 'hits' := $matches, 'type' := 'text'}
-return
-   <div class="w3-container">
-     {if(count($hits) gt 1) then <div class="w3-left w3-row" >
-    {apprest:paginate-rest($hits, $parameters, $start, $per-page, 1, 21)}
-    </div> else ()}
-    <div class="w3-row w3-margin-top" >
+    if(count($document//t:div[@type='edition']) gt 1) then
+        let $matches := $document//t:div[@type='edition'][max(count(t:div[@type='textpart']))]/t:div[@type='textpart']
+        let $hits :=        map { 'hits' : $matches, 'type' : 'text'}
+        return
+        <div class="w3-container">
+            {if(count($hits('hits')) gt 1) 
+                then <div class="w3-left w3-row" >
+            {apprest:paginate-rest($hits, $parameters, $start, $per-page, 1, 21)}
+                    </div> 
+                else ()}
+        <div class="w3-row w3-margin-top" >
                    {
     transform:transform(
         $document,
@@ -1279,7 +1281,7 @@ $xslpars)}
 if($document//t:div[@type='textpart']) then
 let $matches := for $hit in $document//t:div[@type='textpart']
                             return $hit
-let $hits :=        map { 'hits' := $matches, 'type' := 'text'}
+let $hits :=        map { 'hits' : $matches, 'type' : 'text'}
 let $count := count($matches)
 return
    <div class="w3-container">
@@ -1316,7 +1318,7 @@ return
 
     let $file := $config:collection-rootW//id($contained)[name()='TEI']
      let $matches := for $hit in $file//t:div[@type='textpart'] return $hit
-    let $hits :=        map { 'hits' := $matches, 'type' := 'text'}
+    let $hits :=        map { 'hits' : $matches, 'type' : 'text'}
 
 let $xsltlocalparameters  :=  <parameters>
     <param name="startsection" value="{$start}"/>

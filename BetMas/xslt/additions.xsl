@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:additions">
         <div id="additiones" rel="http://purl.org/dc/terms/hasPart">
@@ -48,7 +49,12 @@
                             <xsl:value-of select="@xml:id"/>
                         </xsl:attribute>
                         <p>
-                            <xsl:apply-templates select="t:locus"/> <xsl:if test="t:desc/@type"> (Type: <a href="/authority-files/list?keyword={t:desc/@type}" data-value="{t:desc/@type}" class="MainTitle"><xsl:value-of select="t:desc/@type"/></a><a href="/additions?type={t:desc/@type}"><i class="fa fa-hand-o-left"/></a>)</xsl:if>
+                            <xsl:apply-templates select="t:locus"/> <xsl:if test="t:desc/@type"> (Type: <a href="/authority-files/list?keyword={t:desc/@type}" data-value="{t:desc/@type}" class="MainTitle">
+                                    <xsl:value-of select="t:desc/@type"/>
+                                </a>
+                                <a href="/additions?type={t:desc/@type}">
+                                    <i class="fa fa-hand-o-left"/>
+                                </a>)</xsl:if>
                         </p>
                         <p>
                             <xsl:value-of select="@rend"/>
@@ -89,7 +95,9 @@
                                 </xsl:if>
                             </xsl:attribute>
                             <p>
-                                <xsl:apply-templates select="t:locus"/> <xsl:if test="t:desc/@type"> (Type: <a href="/authority-files/list?keyword={t:desc/@type}" data-value="{t:desc/@type}" class="MainTitle"><xsl:value-of select="t:desc/@type"/></a>)</xsl:if>
+                                <xsl:apply-templates select="t:locus"/> <xsl:if test="t:desc/@type"> (Type: <a href="/authority-files/list?keyword={t:desc/@type}" data-value="{t:desc/@type}" class="MainTitle">
+                                        <xsl:value-of select="t:desc/@type"/>
+                                    </a>)</xsl:if>
                             </p>
                             <xsl:apply-templates select="child::node() except t:locus"/>
                         </li>

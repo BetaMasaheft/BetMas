@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.tei-c.org/ns/1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:post="http://myfunction" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:output encoding="UTF-8" method="xml"/>
     <xsl:output indent="yes" method="xml"/>
@@ -16,8 +17,12 @@
                 <xsl:variable name="prefix" select="substring-before($id,':')"/>
                 <xsl:variable name="pdef" select="$listPrefixDef//t:prefixDef[@ident=$prefix]"/>
                 <xsl:choose>
-                    <xsl:when test="$pdef"><xsl:value-of select="replace(substring-after($id, ':'), $pdef/@matchPattern, $pdef/@replacementPattern)"/></xsl:when>
-                    <xsl:otherwise><xsl:value-of select="concat('no matching prefix ',$prefix, ' found for ', $id)"/></xsl:otherwise>
+                    <xsl:when test="$pdef">
+                        <xsl:value-of select="replace(substring-after($id, ':'), $pdef/@matchPattern, $pdef/@replacementPattern)"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="concat('no matching prefix ',$prefix, ' found for ', $id)"/>
+                    </xsl:otherwise>
                 </xsl:choose>
             </xsl:when>
             <xsl:otherwise>
@@ -101,12 +106,16 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
     <xsl:template match="t:teiHeader">
         <xsl:copy>
             <xsl:apply-templates select="t:fileDesc"/>
-            <xsl:choose><xsl:when test="not(t:encodingDesc)">
+            <xsl:choose>
+                <xsl:when test="not(t:encodingDesc)">
                 <encodingDesc>
                         <xsl:copy-of select="$canontax"/>
                 </encodingDesc>
             </xsl:when>
-            <xsl:otherwise><xsl:apply-templates select="t:encodingDesc"/></xsl:otherwise></xsl:choose>
+            <xsl:otherwise>
+                    <xsl:apply-templates select="t:encodingDesc"/>
+                </xsl:otherwise>
+            </xsl:choose>
             <xsl:apply-templates select="t:profileDesc"/>
             <xsl:apply-templates select="t:revisionDesc"/>
         </xsl:copy>
@@ -126,7 +135,9 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
             <xsl:variable name="cwhos" select="//t:change/@who"/>
             <xsl:for-each select="distinct-values($cwhos[not(.=$ekeys)])">
                 <respStmt xml:id="{.}" corresp="https://betamasaheft.eu/team.html#{.}">
-                    <name><xsl:value-of select="$editorslist//t:item[@xml:id=current()]"/></name>
+                    <name>
+                        <xsl:value-of select="$editorslist//t:item[@xml:id=current()]"/>
+                    </name>
                 </respStmt>
             </xsl:for-each>
         </xsl:copy>
@@ -167,7 +178,8 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
         <calendar xml:id="julian">
             <p>Julian</p>
         </calendar>
-    </calendarDesc></xsl:if>
+    </calendarDesc>
+            </xsl:if>
     </xsl:copy>
 </xsl:template>
     
@@ -216,9 +228,18 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
 
     <xsl:template match="t:term">
         <xsl:copy>
-            <xsl:attribute name="ana"><xsl:value-of select="concat('#',@key)"/></xsl:attribute>
-            <xsl:choose><xsl:when test="not(text())"><xsl:value-of select="doc(concat($BMurl, @key, '.xml'))/t:TEI//t:titleStmt/t:title[1]"/></xsl:when>
-        <xsl:otherwise><xsl:value-of select="text()"/></xsl:otherwise></xsl:choose></xsl:copy>
+            <xsl:attribute name="ana">
+                <xsl:value-of select="concat('#',@key)"/>
+            </xsl:attribute>
+            <xsl:choose>
+                <xsl:when test="not(text())">
+                    <xsl:value-of select="doc(concat($BMurl, @key, '.xml'))/t:TEI//t:titleStmt/t:title[1]"/>
+                </xsl:when>
+        <xsl:otherwise>
+                    <xsl:value-of select="text()"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:copy>
     </xsl:template>
     
     
@@ -369,8 +390,12 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
         <xsl:copy>
             
             <xsl:apply-templates select="@*"/>
-            <xsl:attribute name="corresp"><xsl:value-of select="concat('https://betamasaheft.eu/team.html#', @key)"/></xsl:attribute>
-<xsl:attribute name="xml:id"><xsl:value-of select="@key"/></xsl:attribute>
+            <xsl:attribute name="corresp">
+                <xsl:value-of select="concat('https://betamasaheft.eu/team.html#', @key)"/>
+            </xsl:attribute>
+<xsl:attribute name="xml:id">
+                <xsl:value-of select="@key"/>
+            </xsl:attribute>
             <xsl:value-of select="$editorslist//t:item[@xml:id=current()/@key]/text()"/>
             
         </xsl:copy>

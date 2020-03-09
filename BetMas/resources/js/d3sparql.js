@@ -119,7 +119,7 @@ d3sparql.graph = function(json, config) {
     "label1": config.label1 || head[2] || false,
     "label2": config.label2 || head[3] || false,
     "value1": config.value1 || head[4] || false,
-    "value2": config.value2 || head[5] || false,
+    "value2": config.value2 || head[5] || false
   }
   var graph = {
     "nodes": [],
@@ -190,7 +190,7 @@ d3sparql.tree = function(json, config) {
     "root":   config.root   || head[0],
     "parent": config.parent || head[1],
     "child":  config.child  || head[2],
-    "value":  config.value  || head[3] || "value",
+    "value":  config.value  || head[3] || "value"
   }
 
   var pair = d3.map()
@@ -300,7 +300,7 @@ d3sparql.htmltable = function(json, config) {
   })
   table.selectAll("th").style({
     "background": "#eeeeee",
-    "text-transform": "capitalize",
+    "text-transform": "capitalize"
   })
 }
 
@@ -364,7 +364,7 @@ d3sparql.htmlhash = function(json, config) {
   })
   table.selectAll("th").style({
     "background": "#eeeeee",
-    "text-transform": "capitalize",
+    "text-transform": "capitalize"
   })
 }
 
@@ -493,18 +493,18 @@ d3sparql.barchart = function(json, config) {
 
   // default CSS/SVG
   bar.attr({
-    "fill": "steelblue",
+    "fill": "steelblue"
   })
   svg.selectAll(".axis").attr({
     "stroke": "black",
     "fill": "none",
-    "shape-rendering": "crispEdges",
+    "shape-rendering": "crispEdges"
   })
   svg.selectAll("text").attr({
     "stroke": "none",
     "fill": "black",
     "font-size": "8pt",
-    "font-family": "sans-serif",
+    "font-family": "sans-serif"
   })
 }
 
@@ -595,14 +595,14 @@ d3sparql.piechart = function(json, config) {
 
   // default CSS/SVG
   slice.attr({
-    "stroke": "#ffffff",
+    "stroke": "#ffffff"
   })
   // TODO: not working?
   svg.selectAll("text").attr({
     "stroke": "none",
     "fill": "black",
     "font-size": "20px",
-    "font-family": "sans-serif",
+    "font-family": "sans-serif"
   })
 }
 
@@ -714,24 +714,24 @@ d3sparql.scatterplot = function(json, config) {
   // default CSS/SVG
   ax.attr({
     "stroke": "black",
-    "fill": "none",
+    "fill": "none"
   })
   ay.attr({
     "stroke": "black",
-    "fill": "none",
+    "fill": "none"
   })
   circle.attr({
     "stroke": "gray",
     "stroke-width": "1px",
     "fill": "lightblue",
-    "opacity": 0.5,
+    "opacity": 0.5
   })
   //svg.selectAll(".label")
   svg.selectAll("text").attr({
     "stroke": "none",
     "fill": "black",
     "font-size": "8pt",
-    "font-family": "sans-serif",
+    "font-family": "sans-serif"
   })
 }
 
@@ -841,17 +841,17 @@ d3sparql.forcegraph = function(json, config) {
 
   // default CSS/SVG
   link.attr({
-    "stroke": "#999999",
+    "stroke": "#999999"
   })
   circle.attr({
     "stroke": "black",
     "stroke-width": "1px",
     "fill": "lightblue",
-    "opacity": 1,
+    "opacity": 1
   })
   text.attr({
     "font-size": "8px",
-    "font-family": "sans-serif",
+    "font-family": "sans-serif"
   })
 }
 
@@ -975,7 +975,7 @@ d3sparql.sankey = function(json, config) {
   link.attr({
     "fill": "none",
     "stroke": "grey",
-    "opacity": 0.5,
+    "opacity": 0.5
   })
 
   function dragmove(d) {
@@ -1078,17 +1078,17 @@ d3sparql.roundtree = function(json, config) {
   link.attr({
     "fill": "none",
     "stroke": "#cccccc",
-    "stroke-width": "1.5px",
+    "stroke-width": "1.5px"
   })
   circle.attr({
     "fill": "#ffffff",
     "stroke": "steelblue",
     "stroke-width": "1.5px",
-    "opacity": 1,
+    "opacity": 1
   })
   text.attr({
     "font-size": "10px",
-    "font-family": "sans-serif",
+    "font-family": "sans-serif"
   })
 }
 
@@ -1181,17 +1181,17 @@ d3sparql.dendrogram = function(json, config) {
   link.attr({
     "fill": "none",
     "stroke": "#cccccc",
-    "stroke-width": "1.5px",
+    "stroke-width": "1.5px"
   })
   circle.attr({
     "fill": "#ffffff",
     "stroke": "steelblue",
     "stroke-width": "1.5px",
-    "opacity": 1,
+    "opacity": 1
   })
   text.attr({
     "font-size": "10px",
-    "font-family": "sans-serif",
+    "font-family": "sans-serif"
   })
 }
 
@@ -1284,11 +1284,11 @@ d3sparql.sunburst = function(json, config) {
   // default CSS/SVG
   path.attr({
     "stroke": "#ffffff",
-    "fill-rule": "evenodd",
+    "fill-rule": "evenodd"
   })
   text.attr({
     "font-size": "10px",
-    "font-family": "sans-serif",
+    "font-family": "sans-serif"
   })
 
   function click(d) {
@@ -1566,7 +1566,7 @@ d3sparql.treemap = function(json, config) {
     "line-height": "12px",
     "overflow": "hidden",
     "position": "absolute",
-    "text-indent": "2px",
+    "text-indent": "2px"
   })
 
   function position() {
@@ -1787,7 +1787,7 @@ d3sparql.treemapzoom = function(json, config) {
     rect.attr({
       "stroke": "#ffffff",
       "stroke-width": "1px",
-      "opacity": 0.8,
+      "opacity": 0.8
     })
   }
 

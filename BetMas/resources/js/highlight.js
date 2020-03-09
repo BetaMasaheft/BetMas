@@ -30,6 +30,15 @@ $(document).ready(function () {
     /*}*/
 });
 
+function popup(id) {
+  var x = document.getElementById(id);
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else { 
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+
 $('.word').each(function (wn) {
     
     var word = $(this)

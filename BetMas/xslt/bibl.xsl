@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:listBibl[not(ancestor::t:note)]">
         <xsl:if test="not(parent::t:item) and not(ancestor::t:physDesc)">
@@ -135,14 +136,18 @@
                     </xsl:if>
                 </xsl:when>
                 <xsl:when test="t:ptr/@target='bm:EthioSpare' and parent::t:listBibl[@type='catalogue']">
-                    <xsl:variable select="ancestor::t:TEI//t:idno" name="BMsignature"/>
+                    <xsl:variable select="ancestor::t:TEI//t:idno[preceding-sibling::t:collection[.='Ethio-SPaRe']]" name="BMsignature"/>
                     <xsl:variable name="domliblist" select="document('../lists/domlib.xml')//*:item[*:signature = $BMsignature]/*:domlib"/>
                     <xsl:variable name="cataloguer" select="ancestor::t:TEI//t:editor[@role='cataloguer']/@key"/>
                     <xsl:variable name="edlist" select="document('../lists/editors.xml')"/>
                     <xsl:variable name="date">
                         <xsl:choose>
-                            <xsl:when test="ancestor::t:TEI//t:origDate/@when"><xsl:value-of select="ancestor::t:TEI//t:origDate/@when"/></xsl:when>
-                            <xsl:otherwise><xsl:value-of select="ancestor::t:TEI//t:origDate/@notBefore"/>-<xsl:value-of select="ancestor::t:TEI//t:origDate/@notAfter"/></xsl:otherwise>
+                            <xsl:when test="ancestor::t:TEI//t:origDate/@when">
+                                <xsl:value-of select="ancestor::t:TEI//t:origDate/@when"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="ancestor::t:TEI//t:origDate/@notBefore"/>-<xsl:value-of select="ancestor::t:TEI//t:origDate/@notAfter"/>
+                            </xsl:otherwise>
                         </xsl:choose>
                     </xsl:variable>
                     <!--             
@@ -150,20 +155,28 @@
                         
                         MS 'Addigrat Qirqos, AMQ-007 (digitized by the Ethio-SPaRe project), Gädlä Qirqos, 18th century, Catalogued by Vitagrazia Pisani, description accessed on 15 June 2015.-->
                     <a href="https://mycms-vs03.rrz.uni-hamburg.de/domlib/receive/{$domliblist}">MS <span class="MainTitle" data-value="{ancestor::t:TEI//t:repository/@ref}"/>, 
-                        <xsl:value-of select="$BMsignature"/> (digitized by the Ethio-SPaRe project), <xsl:value-of select="ancestor::t:TEI//t:titleStmt/t:title[1]/text()"/><xsl:text>, </xsl:text> 
+                        <xsl:value-of select="$BMsignature"/> (digitized by the Ethio-SPaRe project), <xsl:value-of select="ancestor::t:TEI//t:titleStmt/t:title[1]/text()"/>
+                        <xsl:text>, </xsl:text> 
                         <xsl:value-of select="$date"/>, Catalogued by 
                         <xsl:choose>
-                            <xsl:when test="$cataloguer"><xsl:value-of select="$edlist//t:item[@xml:id=$cataloguer]/text()"/></xsl:when>
-                            <xsl:otherwise><xsl:variable name="creator">
+                            <xsl:when test="$cataloguer">
+                                <xsl:value-of select="$edlist//t:item[@xml:id=$cataloguer]/text()"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:variable name="creator">
                                 <xsl:choose>
                                     <xsl:when test="ancestor::t:TEI//t:editor[not(@role='generalEditor')]">
                                         <xsl:value-of select="ancestor::t:TEI//t:editor[not(@role='generalEditor')]/@key"/>
                                     </xsl:when>
-                                    <xsl:otherwise><xsl:value-of select="ancestor::t:TEI//t:change[contains(., 'created')]/@who"/></xsl:otherwise>
+                                    <xsl:otherwise>
+                                            <xsl:value-of select="ancestor::t:TEI//t:change[contains(., 'created')]/@who"/>
+                                        </xsl:otherwise>
                                 </xsl:choose>
                             </xsl:variable>
-                                <xsl:value-of select="$edlist//t:item[@xml:id=$creator]/text()"/></xsl:otherwise>
-                        </xsl:choose></a>
+                                <xsl:value-of select="$edlist//t:item[@xml:id=$creator]/text()"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </a>
                     In
                         <span class="Zotero Zotero-full" data-value="{t:ptr/@target}">
                         <xsl:if test="t:citedRange">

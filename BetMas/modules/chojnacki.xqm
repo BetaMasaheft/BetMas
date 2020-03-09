@@ -29,7 +29,7 @@ let $ChojnackItems := for $Choj in $Chojnacki
                                             let $name := string-join($Choj//marc:datafield[@tag="534"]/marc:subfield/text(), ' ')
                                        
                                        return
-  map {'name' := $name, 'link' := $link, 'digvatID' := $DigiVatID, 'segnatura' := $DigiVatSegnatura}
-return if (count($ChojnackItems) ge 1) then map {'total' := count($ChojnackItems), 'ChojnackItems' := $ChojnackItems}
-else if (count($ChojnackItems) eq 1) then map {'total' := 1, 'ChojnackItems' := [$ChojnackItems]}
-else map {'total' := 0, 'info' := 'sorry, there are no related items in the Chojnacki Collection at the Vatic Library.'}};
+  map {'name' : $name, 'link' : $link, 'digvatID' : $DigiVatID, 'segnatura' : $DigiVatSegnatura}
+return if (count($ChojnackItems) ge 1) then map {'total' : count($ChojnackItems), 'ChojnackItems' : $ChojnackItems}
+else if (count($ChojnackItems) eq 1) then map {'total' : 1, 'ChojnackItems' : [$ChojnackItems]}
+else map {'total' : 0, 'info' : 'sorry, there are no related items in the Chojnacki Collection at the Vatic Library.'}};

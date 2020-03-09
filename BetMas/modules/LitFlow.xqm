@@ -8,7 +8,7 @@ xquery version "3.1";
 module namespace LitFlow = "https://www.betamasaheft.uni-hamburg.de/BetMas/LitFlow";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace local = "http://local.local";
-import module namespace math="http://exist-db.org/xquery/math";
+import module namespace math="http://www.w3.org/2005/xpath-functions/math";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
 
@@ -63,7 +63,7 @@ let $D := 1 + $vectorX + $pair/local:D
 let $K := 1 + $vectorY + $pair/local:K
 
 (:Gets the hypothenusa with the distance from 0 of the point determined by the translated coordinates :)
-let $pitagora := math:sqrt(math:power($D, 2) + math:power($K, 2))
+let $pitagora := math:sqrt(math:pow($D, 2) + math:pow($K, 2))
 
 return 
 ('["'||$kG1Name ||' ('||  $t1||')", "'  || $pair//local:name/text() ||' (' || $pair//local:tot/text()|| ')", ' || $pitagora || ']')

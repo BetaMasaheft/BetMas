@@ -8,6 +8,7 @@ xquery version "3.1" encoding "UTF-8";
 module namespace wiki = "https://www.betamasaheft.uni-hamburg.de/BetMas/wiki";
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace sr = "http://www.w3.org/2005/sparql-results#";
+declare namespace http = "http://expath.org/ns/http-client";
 
 (:~this function makes a call to wikidata API :)
 declare 
@@ -22,7 +23,8 @@ let $sparql := 'SELECT ?viafid ?viafidLabel WHERE {
 
 let $query := 'https://query.wikidata.org/sparql?query='|| xmldb:encode-uri($sparql)
 
-let $req := try{httpclient:get(xs:anyURI($query), false(), <headers/>)} catch *{$err:description}
+let $req := try{let $request := <http:request href="{xs:anyURI($query)}" method="GET"/>
+    return http:send-request($request)[2]} catch *{$err:description}
 let $WDurl := 'https://www.wikidata.org/wiki/'||$Qitem
 let $viafId := $req//sr:result/sr:binding[@name="viafidLabel"]
 return 

@@ -44,10 +44,10 @@ declare
 function litcomp:litcomp(
 $worksid as xs:string*, $type as xs:string*) {
 let $fullurl := ('?worksid=' || $worksid)
-let $log := log:add-log-message($fullurl, xmldb:get-current-user(), 'litcomp')
+let $log := log:add-log-message($fullurl, sm:id()//sm:real/sm:username/string() , 'litcomp')
 let $w :=  if(contains($worksid, ',')) then for $work in tokenize($worksid, ',') return $config:collection-rootW/id($work) else $config:collection-rootW/id($worksid)  
 let $baseuris := for $bu in $w return base-uri($bu)
-let $Cmap := map {'type':= 'item', 'name' := $worksid, 'path' := string-join($baseuris)}
+let $Cmap := map {'type': 'item', 'name' : $worksid, 'path' : string-join($baseuris)}
 let $worktitles := for $work in $w/@xml:id return titles:printTitleID($work)
 let $query := switch($type) 
 case 'mightFormPart' return $config:collection-rootW//t:relation[@name='ecrm:CLP46i_may_form_part_of'][@passive=$worksid]

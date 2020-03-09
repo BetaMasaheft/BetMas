@@ -13,7 +13,6 @@ import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas
 
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 
-
 (: For REST annotations :)
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json = "http://www.json.org";
@@ -94,9 +93,9 @@ let $id := if($pers/@ref) then string($pers/@ref) else 'no-id'
               if($pers/@role) 
               then string($pers/@role) 
               else () 
-       return map {'id' := $id ,'name' := $name, 'type' := $thisrole}
+       return map {'id' : $id ,'name' : $name, 'type' : $thisrole}
 return 
-map {'type' := 'persons', 'persons' := $persons}
+map {'type' : 'persons', 'persons' : $persons}
 )
 else ()
 let $occplace := if(count($cooccurringPlace) gt 0) then 
@@ -110,9 +109,9 @@ let $id := if($place/@ref) then string($place/@ref) else 'no-id'
               if($place/@type) 
               then string($place/@type)
               else () 
-       return map {'id' := $id ,'name' := $name, 'type' := $thistype}
+       return map {'id' : $id ,'name' : $name, 'type' : $thistype}
 return 
-map {'type' := 'places', 'places' := $places}
+map {'type' : 'places', 'places' : $places}
 )
 else ()
 let $occwork := if(count($cooccurringworks) gt 0) then 
@@ -123,9 +122,9 @@ let $id := if($work/@ref) then string($work/@ref) else 'no-id'
               then $work/text() 
               else titles:printTitleMainID($work/@ref)
         
-       return map {'id' := $id , 'name' := $name}
+       return map {'id' : $id , 'name' : $name}
 return 
-map {'type' := 'works', 'works' := $works}
+map {'type' : 'works', 'works' : $works}
 )
 else ()
 let $occterm := if(count($cooccurringterm) gt 0) then 
@@ -137,9 +136,9 @@ let $id := if($term/@key) then string($term/@key) else 'no-id'
               else if (not($term/@key)) then $term/text()
               else titles:printTitleMainID($term/@key)
        
-       return map {'id' := $id ,'name' := $name}
+       return map {'id' : $id ,'name' : $name}
 return 
-map {'type' := 'terms', 'terms' := $terms}
+map {'type' : 'terms', 'terms' : $terms}
 )
 else ()
 let $occurrences := ($occpers, $occplace, $occwork, $occterm)
@@ -147,24 +146,24 @@ let $occurrences := ($occpers, $occplace, $occwork, $occterm)
 
 
 return 
-map {'position' := $p, 
-'role' := $MainRole,
-'text' := $text,
-'element' := $element,
-'date' := $date,
-'jointitles' := $jointitles,
-'occurrences' := $occurrences
+map {'position' : $p, 
+'role' : $MainRole,
+'text' : $text,
+'element' : $element,
+'date' : $date,
+'jointitles' : $jointitles,
+'occurrences' : $occurrences
 }
 
 
 return 
-map {'result' := $atts, 'title' := $titleRoot, 'id' := $MAINID }
+map {'result' : $atts, 'title' : $titleRoot, 'id' : $MAINID }
 
 return
 
 
 ($api:response200Json,
-map {'query' := $id, 'results' := $hits }
+map {'query' : $id, 'results' : $hits }
 
 )
 };

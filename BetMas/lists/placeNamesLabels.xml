@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0">
     <teiHeader>
         <fileDesc>
@@ -392,6 +393,50 @@
                 <item corresp="wd:Q50628">Sør-Trøndelag</item>
                 <item corresp="wd:Q858352">Kirishima</item>
                 <item corresp="wd:Q17">Japan</item>
+            <item corresp="wd:Q668">India</item>
+                <item corresp="wd:Q218861">Gondar</item>
+                <item corresp="wd:Q24031717"/>
+                <item corresp="wd:Q203751">Upper Egypt</item>
+                <item corresp="wd:Q243699">Rosetta</item>
+                <item corresp="wd:Q9439">Queen Victoria</item>
+                <item corresp="wd:Q6264652"/>
+                <item corresp="wd:Q1672441">Ireland</item>
+                <item corresp="wd:Q23940904"/>
+                <item corresp="wd:Q35310689"/>
+                <item corresp="wd:Q2359535"/>
+                <item corresp="wd:Q1163682"/>
+                <item corresp="wd:Q1163682"/>
+                <item corresp="wd:Q824">Oregon</item>
+                <item corresp="wd:Q5776">Bethlehem</item>
+                <item corresp="wd:Q7341">Auschwitz concentration camp</item>
+                <item corresp="wd:Q46">Europe</item>
+                <item corresp="wd:Q30029056">Ponza</item>
+                <item corresp="wd:Q730500"/>
+                <item corresp="wd:Q319156">Rodolfo Graziani</item>
+                <item corresp="wd:Q977">Djibouti</item>
+                <item corresp="wd:Q22889">Bath</item>
+                <item corresp="wd:Q644636">Cyprus</item>
+                <item corresp="wd:Q4948">Republic of Venice</item>
+                <item corresp="wd:Q22937900">Mount of Olives</item>
+                <item corresp="wd:Q8818">Valencia</item>
+                <item corresp="wd:Q649">Moscow</item>
+                <item corresp="wd:Q1243">Veneto</item>
+                <item corresp="wd:Q1280">Umbria</item>
+                <item corresp="wd:Q1216">Piedmont</item>
+                <item corresp="wd:Q131438"/>
+                <item corresp="wd:Q1210">Lombardy</item>
+                <item corresp="wd:Q216">Vilnius</item>
+                <item corresp="wd:Q99">California</item>
+                <item corresp="wd:Q1974"/>
+                <item corresp="wd:Q134514"/>
+                <item corresp="wd:Q6761">Livorno</item>
+                <item corresp="wd:Q694">South Holland</item>
+                <item corresp="wd:Q180756"/>
+                <item corresp="wd:Q1384">New York</item>
+                <item corresp="wd:Q30831"/>
+                <item corresp="wd:Q703497">Hude</item>
+                <item corresp="wd:Q324932"/>
+                <item corresp="wd:Q3023075"/>
             </list>
         </body>
     </text>

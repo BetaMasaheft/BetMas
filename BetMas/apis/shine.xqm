@@ -61,8 +61,8 @@ if(contains($uuid, 'betmas')) then
   let $title := normalize-space(string-join($r//t:titleStmt/t:title/text(), ' / '))
   return
   map {
-    "uuid":=  $id,
-    "name":= $title
+    "uuid":  $id,
+    "name": $title
   }
   )
          else $config:response404
@@ -92,7 +92,9 @@ let $TEI := $shine:all[ancestor::t:TEI[@xml:id=$uuid]]
 return
 if((count($TEI) = 1) and $TEI/t:div) then 
   ( $config:response200Json,
- [shine:sections($TEI, $uuid)]
+     if(count($TEI/t:div) = 1) 
+     then [shine:sections($TEI, $uuid)] 
+     else shine:sections($TEI, $uuid) 
   )
          else $config:response404
 };
@@ -116,8 +118,8 @@ if(count($node) = 1)
 then ( $config:response200Json,
            let $seq :=  for $t at $p in $text 
             return map {
-                        "uuid":= ($uuid || '_string'||$p),
-                        "content":= normalize-space($t)
+                        "uuid": ($uuid || '_string'||$p),
+                        "content": normalize-space($t)
                         }
                         return 
                         if (count($seq) = 1) then [$seq] else $seq
@@ -149,9 +151,9 @@ let $parentnode := $d/parent::t:div
 let $name := shine:sectionName($d, $p, $uuid)
 let $all := (map {
     "uuid": encode-for-uri($uuid||'_'||$nid),
-    "name":= $name,
-     "uri":= $config:appUrl || '/' || $uuid,
-    "contentUnitCount":= count($d/t:div[t:ab])},
+    "name": $name,
+     "uri": $config:appUrl || '/' || $uuid,
+    "contentUnitCount": count($d/t:div[t:ab])},
   shine:sections($d, $uuid)
   )
   

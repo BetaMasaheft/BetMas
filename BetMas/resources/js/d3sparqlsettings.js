@@ -3,8 +3,8 @@ function exec() {
 /*    console.log('running sparql query')*/
     var endpoint = d3.select("#endpoint").property("value")
     var sparql = d3.select("#sparql").property("value")
-/*    console.log(endpoint)*/
-/*    console.log(sparql)*/
+    console.log(endpoint)
+    console.log(sparql)
 var sparql = sparql.replace(/^\s+/g, '')
     if (sparql.startsWith("SELECT")) {
         

@@ -17,7 +17,8 @@ import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas
 import module namespace kwic = "http://exist-db.org/xquery/kwic"
     at "resource:org/exist/xquery/lib/kwic.xql"; 
 
-import module namespace sparql="http://exist-db.org/xquery/sparql" at "java:org.exist.xquery.modules.rdf.SparqlModule";
+
+import module namespace fusekisparql = 'https://www.betamasaheft.uni-hamburg.de/BetMas/sparqlfuseki' at "xmldb:exist:///db/apps/BetMas/fuseki/fuseki.xqm";
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
 
 (: namespaces of data used :)
@@ -94,8 +95,8 @@ let $witnesses := $config:collection-rootMS//t:title[contains(@ref, $workid)]
 let $witnessesID := for $w in $witnesses let $wid :=  string(root($w)/t:TEI/@xml:id ) return  titles:printTitleMainID($wid)
 let $tit := titles:printTitleMainID($workid)
 return 
-map {'containerWork' := $tit,
-'witnesses' := distinct-values($witnessesID)
+map {'containerWork' : $tit,
+'witnesses' : distinct-values($witnessesID)
 }
 };
 
@@ -115,11 +116,11 @@ let $totalPersons := count($config:collection-rootPr)
 return 
 
 map {
-'total' := $total, 
-'totalMS' := $totalMS,
-'totalInstitutions' := $totalInstitutions,  
-'totalWorks' := $totalWorks, 
-'totalPersons' := $totalPersons
+'total' :$total, 
+'totalMS' : $totalMS,
+'totalInstitutions' : $totalInstitutions,  
+'totalWorks' : $totalWorks, 
+'totalPersons' : $totalPersons
  }
  )
 };
@@ -147,11 +148,11 @@ let $when := string($latest/@when)
 let $who := editors:editorKey($latest/@who)
 let $what := $latest/text()
 return
-map { 'id' := $id,
-'title' := $title,
-'when' := $when,
-'who' := $who,
-'what' := $what
+map { 'id' : $id,
+'title' : $title,
+'when' : $when,
+'who' : $who,
+'what' : $what
 }
  )
 };
@@ -241,7 +242,7 @@ declare
 %output:method("xml")
 %test:args("BAVet1", "a4") %test:assertExists
 function api:additiontext($id as xs:string*, $addID as xs:string*){
-let $log := log:add-log-message('/api/additions/'||$id||'/addition/'||$addID, xmldb:get-current-user(), 'REST')
+let $log := log:add-log-message('/api/additions/'||$id||'/addition/'||$addID, sm:id()//sm:real/sm:username/string() , 'REST')
 let $entity := $config:collection-root/id($id)
 let $a := $entity//t:item[@xml:id = $addID]
 return
@@ -255,17 +256,17 @@ transform:transform($a,  'xmldb:exist:///db/apps/BetMas/xslt/q.xsl', ())
 
 (:~gets the a list elements with a reference to the given id in the specified collection (c) :)
 declare function api:restWhatPointsHere($id as xs:string, $c){
-           let $witnesses := $c//t:witness[@corresp = $id]
-            let $div := $c//t:div[@corresp = $id]
-let $placeNames := $c//t:placeName[@ref = $id]
-let $persNames := $c//t:persName[@ref = $id]
-let $ref := $c//t:ref[@corresp = $id]
-let $titles := $c//t:title[@ref = $id]
-let $settlement := $c//t:settlement[@ref = $id]
-let $region := $c//t:region[@ref = $id]
-let $country := $c//t:country[@ref = $id]
-let $active := $c//t:relation[@active = $id]
-let $passive := $c//t:relation[@passive = $id]
+           let $witnesses := $c//t:witness[starts-with(@corresp, $id)]
+            let $div := $c//t:div[starts-with(@corresp, $id)]
+let $placeNames := $c//t:placeName[starts-with(@ref, $id)]
+let $persNames := $c//t:persName[starts-with(@ref, $id)]
+let $ref := $c//t:ref[starts-with(@corresp, $id)]
+let $titles := $c//t:title[starts-with(@ref, $id)]
+let $settlement := $c//t:settlement[starts-with(@ref, $id)]
+let $region := $c//t:region[starts-with(@ref, $id)]
+let $country := $c//t:country[starts-with(@ref, $id)]
+let $active := $c//t:relation[starts-with(@active, $id)]
+let $passive := $c//t:relation[starts-with(@passive, $id)]
 let $allrefs := ($witnesses, 
 $div,
         $placeNames,  
@@ -302,7 +303,7 @@ return
 
 if($item//t:relation[@name = 'saws:isAttributedToAuthor']) then (
 
-log:add-log-message('/api/' || $id || '/author', xmldb:get-current-user(), 'REST'),
+log:add-log-message('/api/' || $id || '/author', sm:id()//sm:real/sm:username/string() , 'REST'),
 $api:response200XML,
         $item//t:relation[@name = 'saws:isAttributedToAuthor']
         )
@@ -326,7 +327,7 @@ declare
 %test:args('IVefiopsk1', 'a1', 'item') %test:assertXPath('//element')
 function api:get-othertext($id as xs:string, $SUBid as xs:string, $element as xs:string*) {
 
-let $log := log:add-log-message('/api/otherMssText/' || $id || '/' || $SUBid, xmldb:get-current-user(), 'REST')  
+let $log := log:add-log-message('/api/otherMssText/' || $id || '/' || $SUBid, sm:id()//sm:real/sm:username/string() , 'REST')  
   let $login := xmldb:login($config:data-root, $config:ADMIN, $config:ppw)
     return
         
@@ -397,7 +398,7 @@ declare
 %test:arg('id', 'LIT1367Exodus') %test:assertXPath('//contains')
 function api:get-workXML($id as xs:string) {
 
-    let $log := log:add-log-message('/api/xml/' || $id, xmldb:get-current-user(), 'REST')
+    let $log := log:add-log-message('/api/xml/' || $id, sm:id()//sm:real/sm:username/string() , 'REST')
     let $login := xmldb:login($config:data-root, $config:ADMIN, $config:ppw)
     return
         
@@ -443,7 +444,7 @@ declare
 %output:method("xml")
 %test:arg('id','LIT1367Exodus') %test:assertXPath("//*:text")
 function api:get-tei-by-ID($id as xs:string) {
-    let $log := log:add-log-message('/api/' || $id || '/tei', xmldb:get-current-user(), 'REST')
+    let $log := log:add-log-message('/api/' || $id || '/tei', sm:id()//sm:real/sm:username/string() , 'REST')
     let $login := xmldb:login($config:data-root, $config:ADMIN, $config:ppw)
     return
         ($api:response200XML,
@@ -458,7 +459,7 @@ declare
 %output:method("json")
 function api:get-tei2json-by-ID($id as xs:string) {
     
-    let $log := log:add-log-message('/api/' || $id || '/json', xmldb:get-current-user(), 'REST')
+    let $log := log:add-log-message('/api/' || $id || '/json', sm:id()//sm:real/sm:username/string() , 'REST')
     let $login := xmldb:login($config:data-root, $config:ADMIN, $config:ppw)
     return
         ($api:response200Json,

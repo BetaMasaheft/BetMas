@@ -30,7 +30,7 @@ declare
 %output:method("json")
 function SK:SharedKeyword(
 $keyword as xs:string*, $element as xs:string*) {
-let $log := log:add-log-message('/api/sharedKeyword/'||$keyword, xmldb:get-current-user(), 'REST')
+let $log := log:add-log-message('/api/sharedKeyword/'||$keyword, sm:id()//sm:real/sm:username/string() , 'REST')
 
 let $attr := switch($element) 
                             case 'persName' return 'ref' 
@@ -80,7 +80,7 @@ let $hits := for $hit in $query
 return 
 ($config:response200Json,
 map {
-'hits' := $hits,
-'total' := $total
+'hits' : $hits,
+'total' : $total
 })
 };

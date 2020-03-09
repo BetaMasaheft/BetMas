@@ -24,6 +24,8 @@ import module namespace kwic = "http://exist-db.org/xquery/kwic"
     at "resource:org/exist/xquery/lib/kwic.xql";
 
 (: For interacting with the TEI document :)
+
+declare namespace http = "http://expath.org/ns/http-client";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace dcterms = "http://purl.org/dc/terms";
 declare namespace saws = "http://purl.org/saws/ontology";
@@ -31,7 +33,6 @@ declare namespace cmd = "http://www.clarin.eu/cmd/";
 
 
 (:~ For REST annotations :)
-declare namespace http = "http://expath.org/ns/http-client";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json = "http://www.json.org";
 
@@ -279,52 +280,52 @@ $country as xs:string* ,
 $settlement as xs:string* ,
 $prms as xs:string*) {
 let $c := $config:data-root||'/' || $collection
-let $log := log:add-log-message('/'||$collection||'/list', xmldb:get-current-user(), 'list')
-let $Cmap := map {'type':= 'collection', 'name' := $collection, 'path' := $c}
+let $log := log:add-log-message('/'||$collection||'/list', sm:id()//sm:real/sm:username/string() , 'list')
+let $Cmap := map {'type': 'collection', 'name' : $collection, 'path' : $c}
 let $parameters :=
-map{'key':=$keyword,
-'mainname':=$mainname,
-                           'lang':=$language,
-                           'date':=$date-range,
-                           'clavisID':=$clavisID,
-                           'clavistype':=$clavistype,
-                           'cp':=$cp,
-                           'numberOfParts':=$numberOfParts,
-                           'height':=$height,
-'width':=$width,
-'depth':=$depth,
-'columnsNum':=$columnsNum,
-'tmargin':=$tmargin,
-'bmargin':=$bmargin,
-'rmargin':=$rmargin,
-'lmargin':=$lmargin,
-'intercolumn':=$intercolumn,
-'folia':=$folia,
-'qn':=$qn,
-'qcn':=$qcn,
-'wL':=$wL,
-'script':=$script,
-'scribe':=$scribe,
-'donor':=$donor,
-'patron':=$patron,
-'owner':=$owner,
-'binder':=$binder,
-'parchmentMaker':=$parchmentMaker,
-'objectType':=$objectType,
-'material':=$material,
-'bmaterial':=$bmaterial,
-'contents':=$contents,
-'origPlace':=$origPlace,
-'tabot':=$tabot,
-'placetype':=$placetype,
-'authors':=$authors,
-'occupation':=$occupation,
-'faith':=$faith,
-'gender':=$gender,
-'period':=$period,
-'restorations':=$restorations,
-'country':=$country,
-'settlement':=$settlement
+map{'key': $keyword,
+'mainname': $mainname,
+                           'lang': $language,
+                           'date': $date-range,
+                           'clavisID': $clavisID,
+                           'clavistype': $clavistype,
+                           'cp': $cp,
+                           'numberOfParts': $numberOfParts,
+                           'height': $height,
+'width': $width,
+'depth': $depth,
+'columnsNum': $columnsNum,
+'tmargin': $tmargin,
+'bmargin': $bmargin,
+'rmargin': $rmargin,
+'lmargin': $lmargin,
+'intercolumn': $intercolumn,
+'folia': $folia,
+'qn': $qn,
+'qcn': $qcn,
+'wL': $wL,
+'script': $script,
+'scribe': $scribe,
+'donor': $donor,
+'patron': $patron,
+'owner': $owner,
+'binder': $binder,
+'parchmentMaker': $parchmentMaker,
+'objectType': $objectType,
+'material': $material,
+'bmaterial': $bmaterial,
+'contents': $contents,
+'origPlace': $origPlace,
+'tabot':$tabot,
+'placetype': $placetype,
+'authors': $authors,
+'occupation': $occupation,
+'faith': $faith,
+'gender': $gender,
+'period': $period,
+'restorations': $restorations,
+'country': $country,
+'settlement': $settlement
 }
 
 return
@@ -434,8 +435,8 @@ if(xdb:collection-available($c)) then (
  let $hits := ($terms | $title |$person|$desc|$place|$ab|$faith|$occupation|$ref)
    return
                       map {
-                      'hits' := $hits,
-                      'collection' := $collection
+                      'hits' : $hits,
+                      'collection' : $collection
                       }
 
    return
@@ -526,7 +527,7 @@ href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exr
     let $collect := switch2:collection($collection)
     let $test := console:log($collect)
     return
-    apprest:searchFilter-rest($collection, map{'hits' := <start/>, 'query' := $collect})}
+    apprest:searchFilter-rest($collection, map{'hits' : <start/>, 'query' : $collect})}
     {switch($collection)
     case 'manuscripts' return (apprest:institutions(),apprest:catalogues())
     default return ()}
@@ -671,52 +672,52 @@ $country as xs:string* ,
 $settlement as xs:string* ,
 $prms as xs:string*) {
 let $c := $config:data-root || '/'
-let $log := log:add-log-message('/'||'manuscripts'||'/list', xmldb:get-current-user(), 'list')
-let $Cmap := map {'type':= 'collection', 'name' := 'manuscripts', 'path' := $c}
+let $log := log:add-log-message('/'||'manuscripts'||'/list', sm:id()//sm:real/sm:username/string() , 'list')
+let $Cmap := map {'type': 'collection', 'name' : 'manuscripts', 'path' : $c}
 let $parameters :=
-map{'key':=$keyword,
-'mainname':=$mainname,
-                           'lang':=$language,
-                           'date':=$date-range,
-                           'clavisID':=$clavisID,
-                           'clavistype':=$clavistype,
-                           'cp':=$cp,
-                           'numberOfParts':=$numberOfParts,
-                           'height':=$height,
-'width':=$width,
-'depth':=$depth,
-'columnsNum':=$columnsNum,
-'tmargin':=$tmargin,
-'bmargin':=$bmargin,
-'rmargin':=$rmargin,
-'lmargin':=$lmargin,
-'intercolumn':=$intercolumn,
-'folia':=$folia,
-'qn':=$qn,
-'qcn':=$qcn,
-'wL':=$wL,
-'script':=$script,
-'scribe':=$scribe,
-'donor':=$donor,
-'patron':=$patron,
-'owner':=$owner,
-'binder':=$binder,
-'parchmentMaker':=$parchmentMaker,
-'objectType':=$objectType,
-'material':=$material,
-'bmaterial':=$bmaterial,
-'contents':=$contents,
-'origPlace':=$origPlace,
-'tabot':=$tabot,
-'placetype':=$placetype,
-'authors':=$authors,
-'occupation':=$occupation,
-'faith':=$faith,
-'gender':=$gender,
-'period':=$period,
-'restorations':=$restorations,
-'country':=$country,
-'settlement':=$settlement
+map{'key': $keyword,
+'mainname': $mainname,
+                           'lang': $language,
+                           'date': $date-range,
+                           'clavisID': $clavisID,
+                           'clavistype': $clavistype,
+                           'cp': $cp,
+                           'numberOfParts': $numberOfParts,
+                           'height': $height,
+'width': $width,
+'depth': $depth,
+'columnsNum': $columnsNum,
+'tmargin': $tmargin,
+'bmargin': $bmargin,
+'rmargin': $rmargin,
+'lmargin': $lmargin,
+'intercolumn': $intercolumn,
+'folia': $folia,
+'qn': $qn,
+'qcn': $qcn,
+'wL': $wL,
+'script': $script,
+'scribe': $scribe,
+'donor': $donor,
+'patron': $patron,
+'owner': $owner,
+'binder': $binder,
+'parchmentMaker': $parchmentMaker,
+'objectType': $objectType,
+'material': $material,
+'bmaterial': $bmaterial,
+'contents': $contents,
+'origPlace': $origPlace,
+'tabot': $tabot,
+'placetype': $placetype,
+'authors': $authors,
+'occupation': $occupation,
+'faith': $faith,
+'gender': $gender,
+'period': $period,
+'restorations': $restorations,
+'country': $country,
+'settlement': $settlement
 }
 
 return
@@ -872,36 +873,36 @@ $mainname as xs:string*) {
 
 (:the file for that institution:)
 let $repos := $config:data-rootIn||'/'
-let $log := log:add-log-message('/manuscripts/'||$repoID||'/list', xmldb:get-current-user(), 'list')
-let $Cmap := map {'type':= 'repo', 'name' := $repoID, 'path' := $repos}
-let $parameters := map{'key':=$keyword,
-'lang':=$language,'date':=$date-range,'numberOfParts':=$numberOfParts,  'height':=$height,
+let $log := log:add-log-message('/manuscripts/'||$repoID||'/list', sm:id()//sm:real/sm:username/string() , 'list')
+let $Cmap := map {'type': 'repo', 'name' : $repoID, 'path' : $repos}
+let $parameters := map{'key': $keyword,
+'lang': $language,'date': $date-range,'numberOfParts': $numberOfParts,  'height': $height,
 
-'mainname':=$mainname,
-'width':=$width,
-'depth':=$depth,
-'columnsNum':=$columnsNum,
-'tmargin':=$tmargin,
-'bmargin':=$bmargin,
-'rmargin':=$rmargin,
-'lmargin':=$lmargin,
-'intercolumn':=$intercolumn,
-'folia':=$folia,
-'qn':=$qn,
-'qcn':=$qcn,
-'wL':=$wL,
-'script':=$script,
-'scribe':=$scribe,
-'donor':=$donor,
-'patron':=$patron,
-'owner':=$owner,
-'binder':=$binder,
-'parchmentMaker':=$parchmentMaker,
-'objectType':=$objectType,
-'material':=$material,
-'bmaterial':=$bmaterial,
-'contents':=$contents,
-'origPlace':=$origPlace}
+'mainname': $mainname,
+'width': $width,
+'depth': $depth,
+'columnsNum': $columnsNum,
+'tmargin': $tmargin,
+'bmargin': $bmargin,
+'rmargin': $rmargin,
+'lmargin': $lmargin,
+'intercolumn': $intercolumn,
+'folia': $folia,
+'qn': $qn,
+'qcn': $qcn,
+'wL': $wL,
+'script': $script,
+'scribe': $scribe,
+'donor': $donor,
+'patron': $patron,
+'owner': $owner,
+'binder': $binder,
+'parchmentMaker': $parchmentMaker,
+'objectType': $objectType,
+'material': $material,
+'bmaterial': $bmaterial,
+'contents': $contents,
+'origPlace': $origPlace}
 let $file := $config:collection-rootIn//id($repoID)[name()='TEI']
 return
 
@@ -1127,36 +1128,36 @@ $mainname as xs:string*) {
 
 (:the file for that institution:)
 let $repos := $config:data-rootIn||'/'
-let $log := log:add-log-message('/manuscripts/'||$repoID||'/list', xmldb:get-current-user(), 'list')
-let $Cmap := map {'type':= 'repo', 'name' := $repoID, 'path' := $repos}
-let $parameters := map{'key':=$keyword,
-'lang':=$language,'date':=$date-range,'numberOfParts':=$numberOfParts,  'height':=$height,
+let $log := log:add-log-message('/manuscripts/'||$repoID||'/list', sm:id()//sm:real/sm:username/string() , 'list')
+let $Cmap := map {'type':  'repo', 'name' : $repoID, 'path' :  $repos}
+let $parameters := map{'key': $keyword,
+'lang': $language,'date': $date-range,'numberOfParts': $numberOfParts,  'height': $height,
 
-'mainname':=$mainname,
-'width':=$width,
-'depth':=$depth,
-'columnsNum':=$columnsNum,
-'tmargin':=$tmargin,
-'bmargin':=$bmargin,
-'rmargin':=$rmargin,
-'lmargin':=$lmargin,
-'intercolumn':=$intercolumn,
-'folia':=$folia,
-'qn':=$qn,
-'qcn':=$qcn,
-'wL':=$wL,
-'script':=$script,
-'scribe':=$scribe,
-'donor':=$donor,
-'patron':=$patron,
-'owner':=$owner,
-'binder':=$binder,
-'parchmentMaker':=$parchmentMaker,
-'objectType':=$objectType,
-'material':=$material,
-'bmaterial':=$bmaterial,
-'contents':=$contents,
-'origPlace':=$origPlace}
+'mainname': $mainname,
+'width': $width,
+'depth': $depth,
+'columnsNum': $columnsNum,
+'tmargin': $tmargin,
+'bmargin': $bmargin,
+'rmargin': $rmargin,
+'lmargin': $lmargin,
+'intercolumn': $intercolumn,
+'folia': $folia,
+'qn': $qn,
+'qcn': $qcn,
+'wL': $wL,
+'script': $script,
+'scribe': $scribe,
+'donor': $donor,
+'patron': $patron,
+'owner': $owner,
+'binder': $binder,
+'parchmentMaker': $parchmentMaker,
+'objectType': $objectType,
+'material': $material,
+'bmaterial': $bmaterial,
+'contents': $contents,
+'origPlace': $origPlace}
 let $file := $config:collection-rootIn//id($repoID)[name()='TEI']
 return
 
@@ -1313,37 +1314,38 @@ $mainname as xs:string*) {
 
 (:the file for that institution:)
 let $repos := $config:data-rootIn||'/'
-let $log := log:add-log-message('/manuscripts/place/list', xmldb:get-current-user(), 'list')
-let $Cmap := map {'type':= 'place', 'name' := $place, 'path' := $repos}
-let $parameters := map{'key':=$keyword,
-'lang':=$language,'date':=$date-range,'numberOfParts':=$numberOfParts,  'height':=$height,
+let $log := log:add-log-message('/manuscripts/place/list', sm:id()//sm:real/sm:username/string() , 'list')
+let $Cmap := map {'type': 'place', 'name' : $place, 'path' :  $repos}
+let $parameters := map{'key': $keyword,
+'lang': $language,'date': $date-range,'numberOfParts': $numberOfParts,  'height': $height,
 
-'mainname':=$mainname,
-'width':=$width,
-'depth':=$depth,
-'columnsNum':=$columnsNum,
-'tmargin':=$tmargin,
-'bmargin':=$bmargin,
-'rmargin':=$rmargin,
-'lmargin':=$lmargin,
-'intercolumn':=$intercolumn,
-'folia':=$folia,
-'qn':=$qn,
-'qcn':=$qcn,
-'wL':=$wL,
-'script':=$script,
-'scribe':=$scribe,
-'donor':=$donor,
-'patron':=$patron,
-'owner':=$owner,
-'binder':=$binder,
-'parchmentMaker':=$parchmentMaker,
-'objectType':=$objectType,
-'material':=$material,
-'bmaterial':=$bmaterial,
-'contents':=$contents,
-'origPlace':=$origPlace}
+'mainname': $mainname,
+'width': $width,
+'depth': $depth,
+'columnsNum': $columnsNum,
+'tmargin': $tmargin,
+'bmargin': $bmargin,
+'rmargin': $rmargin,
+'lmargin': $lmargin,
+'intercolumn': $intercolumn,
+'folia': $folia,
+'qn': $qn,
+'qcn': $qcn,
+'wL': $wL,
+'script': $script,
+'scribe': $scribe,
+'donor': $donor,
+'patron': $patron,
+'owner': $owner,
+'binder': $binder,
+'parchmentMaker': $parchmentMaker,
+'objectType': $objectType,
+'material': $material,
+'bmaterial': $bmaterial,
+'contents': $contents,
+'origPlace': $origPlace}
 let $file := $config:collection-rootPl//id($place)[name()='TEI']
+let $sameAs := string($file//t:place/@sameAs)
 return
 
 
@@ -1406,17 +1408,20 @@ if($file or starts-with($place, 'wd:')) then (
 
 
  {let $allrepositories := for $repo in ($config:collection-rootIn//t:settlement[@ref=$place],
- $config:collection-rootIn//t:region[@ref=$place],
- $config:collection-rootIn//t:country[@ref=$place]) 
- return $repo/ancestor::t:TEI/@xml:id
+                                        $config:collection-rootIn//t:region[@ref=$place],
+                                        $config:collection-rootIn//t:country[@ref=$place],
+                                        $config:collection-rootIn//t:settlement[@ref=$sameAs],
+                                        $config:collection-rootIn//t:region[@ref=$sameAs],
+                                        $config:collection-rootIn//t:country[@ref=$sameAs]) 
+                          return $repo/ancestor::t:TEI/@xml:id
  let $repositoriesIDS := distinct-values($allrepositories)
  let $allmssinregion := $config:collection-rootMS//t:repository[@ref = $repositoriesIDS]/ancestor::t:TEI
  let $stringquery := '$config:collection-rootMS//t:repository[@ref =("' || string-join($repositoriesIDS, '","') || '")]/ancestor::t:TEI'
 let $hits :=  
             map {
-                      'hits' := $allmssinregion, 
-                      'collection' := 'manuscripts',
-                      'query':=$stringquery
+                      'hits' : $allmssinregion, 
+                      'collection' : 'manuscripts',
+                      'query': $stringquery
                       }
     return
     <div id="content" class="w3-threequarter">
@@ -1511,8 +1516,8 @@ $place as xs:string*) {
 
 (:the file for that institution:)
 let $repos := $config:data-rootIn||'/'
-let $log := log:add-log-message('/manuscripts/region/listChart', xmldb:get-current-user(), 'list')
-let $Cmap := map {'type':= 'reporegion', 'name' := $place, 'path' := $repos}
+let $log := log:add-log-message('/manuscripts/region/listChart', sm:id()//sm:real/sm:username/string() , 'list')
+let $Cmap := map {'type':  'reporegion', 'name' : $place, 'path' : $repos}
 
 let $file := $config:collection-rootPl//id($place)[name()='TEI']
 return
@@ -1554,7 +1559,7 @@ if($file or starts-with($place, 'wd:')) then (
  let $allmssinregion := $config:collection-rootMS//t:repository[@ref = $repositoriesIDS]/ancestor::t:TEI
  let $hits :=  
             map {
-                      'hits' := $allmssinregion
+                      'hits' : $allmssinregion
                       }
     return
     
@@ -1602,7 +1607,7 @@ declare
 %rest:path("/BetMas/catalogues/list")
 %output:method("html5")
 function list:getcatalogues() {
-(log:add-log-message('/catalogues/list', xmldb:get-current-user(), 'list'),
+(log:add-log-message('/catalogues/list', sm:id()//sm:real/sm:username/string() , 'list'),
 <rest:response>
             <http:response
                 status="200">
@@ -1649,7 +1654,8 @@ function list:getcatalogues() {
 let $data := 
  if($list:catalogues//t:item[@xml:id = $itemID]) 
  then <span n="{count($list:catalogues//t:item[@xml:id = $itemID]/preceding-sibling::t:item) +1}">{$list:catalogues//t:item[@xml:id = $itemID]/node() }</span>
- else  <span n="new">{let $response := httpclient:get(xs:anyURI($xml-url), true(), <Headers/>) return $response//div[@class="csl-bib-body"]/div/node()}</span>
+ else  <span n="new">{let $request := <http:request href="{xs:anyURI($xml-url)}" method="GET"/>
+    let $response := http:send-request($request)[2] return $response//div[@class="csl-bib-body"]/div/node()}</span>
  let $sorting := $data//text()[1]
 order by $sorting
 return
@@ -1660,7 +1666,7 @@ return
     }
     </tbody></table>
     </div>
-    <div class="w3-panel w3-red w3-card-4">More catalogues will be processed. A list of the catalogues to be processed and of the work in progress can be seen <a href="https://github.com/BetaMasaheft/Manuscripts/wiki/List-of-manuscripts">here</a></div>
+    <div class="w3-panel w3-red w3-card-4">More catalogues will be processed. A list of the catalogues to be processed and of the work in progress can be seen <a href="/availableImages.html">here</a></div>
 
 
         </div>}
@@ -1748,36 +1754,36 @@ $prms as xs:string*) {
 
 (:the file for that institution:)
 
-let $log := log:add-log-message('/catalogues/'||$catalogueID||'/list', xmldb:get-current-user(), 'list')
+let $log := log:add-log-message('/catalogues/'||$catalogueID||'/list', sm:id()//sm:real/sm:username/string() , 'list')
 let $catalogues := for $catalogue in distinct-values($config:collection-rootMS//t:listBibl[@type='catalogue']//t:ptr/@target)
 	return $catalogue
 	let $prefixedcatID := 'bm:' ||$catalogueID
-let $Cmap := map {'type':= 'catalogue', 'name' := $catalogueID, 'path' := $catalogues}
-let $parameters := map{'key':=$keyword,'lang':=$language,'date':=$date-range,'numberOfParts':=$numberOfParts,  'height':=$height,
-'width':=$width,
-'depth':=$depth,
-'columnsNum':=$columnsNum,
-'tmargin':=$tmargin,
-'bmargin':=$bmargin,
-'rmargin':=$rmargin,
-'lmargin':=$lmargin,
-'intercolumn':=$intercolumn,
-'folia':=$folia,
-'qn':=$qn,
-'qcn':=$qcn,
-'wL':=$wL,
-'script':=$script,
-'scribe':=$scribe,
-'donor':=$donor,
-'patron':=$patron,
-'owner':=$owner,
-'binder':=$binder,
-'parchmentMaker':=$parchmentMaker,
-'objectType':=$objectType,
-'material':=$material,
-'bmaterial':=$bmaterial,
-'contents':=$contents,
-'origPlace':=$origPlace}
+let $Cmap := map {'type': 'catalogue', 'name' :  $catalogueID, 'path' :  $catalogues}
+let $parameters := map{'key': $keyword,'lang': $language,'date': $date-range,'numberOfParts': $numberOfParts,  'height': $height,
+'width': $width,
+'depth': $depth,
+'columnsNum': $columnsNum,
+'tmargin': $tmargin,
+'bmargin': $bmargin,
+'rmargin': $rmargin,
+'lmargin': $lmargin,
+'intercolumn': $intercolumn,
+'folia': $folia,
+'qn': $qn,
+'qcn': $qcn,
+'wL': $wL,
+'script': $script,
+'scribe': $scribe,
+'donor': $donor,
+'patron': $patron,
+'owner': $owner,
+'binder': $binder,
+'parchmentMaker': $parchmentMaker,
+'objectType': $objectType,
+'material': $material,
+'bmaterial': $bmaterial,
+'contents': $contents,
+'origPlace': $origPlace}
 return
 
 
@@ -1814,7 +1820,8 @@ if($prefixedcatID = $catalogues) then (
       let $xml-url := concat('https://api.zotero.org/groups/358366/items?&amp;tag=', $prefixedcatID, '&amp;format=bib&amp;locale=en-GB&amp;style=hiob-ludolf-centre-for-ethiopian-studies')
 let $data :=  if($list:catalogues//t:item[@xml:id = $itemID]) 
  then <span n="{count($list:catalogues//t:item[@xml:id = $itemID]/preceding-sibling::t:item) +1}">{$list:catalogues//t:item[@xml:id = $itemID]/node() }</span>
- else  <span n="new">{httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)}</span>
+ else  <span n="new">{let $request := <http:request href="{xs:anyURI($xml-url)}" method="GET"/>
+   return http:send-request($request)[2]}</span>
 return $data
 }</h1>
 
@@ -1962,36 +1969,36 @@ $prms as xs:string*) {
 
 (:the file for that institution:)
 
-let $log := log:add-log-message('/catalogues/'||$catalogueID||'/list', xmldb:get-current-user(), 'list')
+let $log := log:add-log-message('/catalogues/'||$catalogueID||'/list', sm:id()//sm:real/sm:username/string() , 'list')
 let $catalogues := for $catalogue in distinct-values($config:collection-rootMS//t:listBibl[@type='catalogue']//t:ptr/@target)
 	return $catalogue
 	let $prefixedcatID := 'bm:' ||$catalogueID
-let $Cmap := map {'type':= 'catalogue', 'name' := $catalogueID, 'path' := $catalogues}
-let $parameters := map{'key':=$keyword,'lang':=$language,'date':=$date-range,'numberOfParts':=$numberOfParts,  'height':=$height,
-'width':=$width,
-'depth':=$depth,
-'columnsNum':=$columnsNum,
-'tmargin':=$tmargin,
-'bmargin':=$bmargin,
-'rmargin':=$rmargin,
-'lmargin':=$lmargin,
-'intercolumn':=$intercolumn,
-'folia':=$folia,
-'qn':=$qn,
-'qcn':=$qcn,
-'wL':=$wL,
-'script':=$script,
-'scribe':=$scribe,
-'donor':=$donor,
-'patron':=$patron,
-'owner':=$owner,
-'binder':=$binder,
-'parchmentMaker':=$parchmentMaker,
-'objectType':=$objectType,
-'material':=$material,
-'bmaterial':=$bmaterial,
-'contents':=$contents,
-'origPlace':=$origPlace}
+let $Cmap := map {'type': 'catalogue', 'name' :  $catalogueID, 'path' : $catalogues}
+let $parameters := map{'key': $keyword,'lang':$language,'date': $date-range,'numberOfParts':$numberOfParts,  'height':$height,
+'width': $width,
+'depth': $depth,
+'columnsNum': $columnsNum,
+'tmargin': $tmargin,
+'bmargin': $bmargin,
+'rmargin': $rmargin,
+'lmargin': $lmargin,
+'intercolumn': $intercolumn,
+'folia': $folia,
+'qn': $qn,
+'qcn': $qcn,
+'wL': $wL,
+'script': $script,
+'scribe': $scribe,
+'donor': $donor,
+'patron': $patron,
+'owner': $owner,
+'binder': $binder,
+'parchmentMaker': $parchmentMaker,
+'objectType': $objectType,
+'material': $material,
+'bmaterial': $bmaterial,
+'contents': $contents,
+'origPlace': $origPlace}
 return
 
 
@@ -2030,7 +2037,8 @@ if($prefixedcatID = $catalogues) then (
       let $xml-url := concat('https://api.zotero.org/groups/358366/items?&amp;tag=', $prefixedcatID, '&amp;format=bib&amp;locale=en-GB&amp;style=hiob-ludolf-centre-for-ethiopian-studies')
 let $data := if($list:catalogues//t:item[@xml:id = $itemID]) 
  then <span n="{count($list:catalogues//t:item[@xml:id = $itemID]/preceding-sibling::t:item) +1}">{$list:catalogues//t:item[@xml:id = $itemID]/node() }</span>
- else  <span n="new">{httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)}</span>
+ else  <span n="new">{let $request := <http:request href="{xs:anyURI($xml-url)}" method="GET"/>
+    return http:send-request($request)[2]}</span>
 return $data
 }</h1>
 

@@ -143,7 +143,7 @@ else if (contains($exist:path, "/$shared/")) then
   </dispatch> 
   
 (: Requests for javascript libraries are resolved to the file system :)
-else if (contains($exist:path, "resources/")) then
+else if (contains($exist:path, "resources/") and not(contains($exist:path, "api/"))) then
             <dispatch
                 xmlns="http://exist.sourceforge.net/NS/exist">
                 <forward
@@ -307,7 +307,7 @@ else if (starts-with($exist:path, '/tei/') and ends-with($exist:path, ".xml")) t
                                 </dispatch>
                                  else 
                                 
-                              let $Imap := map {'type':= 'xmlitem', 'name' := $id, 'path' := $collection}
+                              let $Imap := map {'type': 'xmlitem', 'name' : $id, 'path' : $collection}
                                  return
                                  error:error($Imap)
                         
@@ -337,7 +337,7 @@ else if (ends-with($exist:path, ".xml")) then
                                 
                                 else 
                                 
-let $Imap := map {'type':= 'xmlitem', 'name' := $id, 'path' := $collection}
+let $Imap := map {'type': 'xmlitem', 'name' : $id, 'path' : $collection}
 return
                                  error:error($Imap)
              
@@ -366,71 +366,9 @@ else if (ends-with($exist:path, ".rdf")) then
                                 
                                 else 
                                 
-                let $Imap := map {'type':= 'xmlitem', 'name' := $id, 'path' := $coll}
+                let $Imap := map {'type': 'xmlitem', 'name' : $id, 'path' : $coll}
                 return
                                  error:error($Imap)
-
-(:  https://betamasaheft.eu/urn:dts:betmas:LIT3122Galaw
-
-if accept is set to json-ld, then redirect to api/dts,
-
-https://betamasaheft.eu/api/dts/collection?id=urn:dts:betmas:LIT3122Galaw
-WHICH NEEDS TO BE ENCODED! so urn%3Adts%3Abetmas%3ALIT3122Galaw
-else redirect to /text view with parameters
-
-https://betamasaheft.eu/works/LIT3122Galaw/text
-
-:)
-else if (starts-with($exist:path, "/urn") and matches($exist:path, "\w+\d+(\w+)?")) then
-                                                ( 
-                                                let $tokenizePath := tokenize($exist:path, '%3A')
-                                                let $mainID := $tokenizePath[4]
-                                                let $passage := $tokenizePath[5]
-                                                let $switchCollection := local:switchPrefix(substring($mainID, 1, 2))
-                                                return
-                                                if (contains(request:get-header('Accept'), 'ld+json'))
-                                            then
-                                            <dispatch
-                                                        xmlns="http://exist.sourceforge.net/NS/exist">
-                                                       {if($passage="")  then 
-                                                       <forward
-                                url="{concat('/restxq/BetMas/api/dts/collection?id=', $exist:path)}"
-                                absolute="yes"> 
-                                {$login("org.exist.login", (), false())}
-                                 <set-header name="Cache-Control" value="no-cache"/>
-                                </forward>
-                                else 
-                                <forward
-                                url="{concat('/restxq/BetMas/api/dts/navigation?id=', $exist:path)}"
-                                absolute="yes"> 
-                               <add-parameter
-                                                                            name="ref"
-                                                                            value="{if(contains($passage, '.')) 
-                                                                                           then substring-before($passage, '.')
-                                                                                           else $passage}"/>
-                                {$login("org.exist.login", (), false())}
-                                 <set-header name="Cache-Control" value="no-cache"/>
-                                </forward>
-                                        }
-                                                    
-                                                    </dispatch>
-                                            else
-                                               
-                                                    <dispatch
-                                                        xmlns="http://exist.sourceforge.net/NS/exist">
-                                                        
-                                                        <redirect
-                                                            url="/{$switchCollection}/{$mainID}/text">
-                                                            {if ($passage = '') then () 
-                                                            else <add-parameter
-                                                                            name="start"
-                                                                            value="{if(contains($passage, '.')) 
-                                                                                           then substring-before($passage, '.')
-                                                                                           else $passage}"/>}
-                                                            </redirect>
-                                                    
-                                                    </dispatch>
-                                        )
 
 
                                 (:                    ALSO INTERNAL CALLS of XSLT ARE THUS PROCESSED!:)

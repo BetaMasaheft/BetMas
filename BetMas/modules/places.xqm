@@ -96,8 +96,8 @@ declare function places:JSONfile($item as node(), $id as xs:string){
 let $regions := if($item//t:region[@ref])   then  for $region in $item//t:region[@ref] return ann:getannotationbody($region/@ref)   else ()
         let $settlements := if($item//t:settlement[@ref]) then for $settl in $item//t:settlement[@ref] return ann:getannotationbody($settl/@ref) else ()
         let $connects := ($regions, $settlements, "https://pleiades.stoa.org/places/39274")
-        let $creators := for $c in distinct-values($item//t:revisionDesc/t:change[contains(., 'created')]/@who) return map {"name" := editors:editorKey($c)}
-        let $contributors := for $c in distinct-values($item//t:revisionDesc/t:change/@who) return map {"name" := editors:editorKey($c)}
+        let $creators := for $c in distinct-values($item//t:revisionDesc/t:change[contains(., 'created')]/@who) return map {"name" : editors:editorKey($c)}
+        let $contributors := for $c in distinct-values($item//t:revisionDesc/t:change/@who) return map {"name" : editors:editorKey($c)}
         let $periods := if($item//t:state) then for $c in $item//t:state[@type='existence']/@ref return titles:printTitleMainID($c) else ()
         let $names := for $name in $item//t:place/t:placeName 
         let $nID := $name/@xml:id
@@ -206,7 +206,7 @@ if(starts-with($id, 'LOC') or starts-with($id, 'INS') or starts-with($id, 'ETH')
 then(
 $places:response200json,
 
-let $log := log:add-log-message('/api/geoJson/places/'||$id, xmldb:get-current-user(), 'places')
+let $log := log:add-log-message('/api/geoJson/places/'||$id, sm:id()//sm:real/sm:username/string() , 'places')
        let $item := $config:collection-rootPlIn/id($id)[name() = 'TEI']
        return
       places:JSONfile($item, $id))
@@ -222,7 +222,7 @@ declare
 function places:alljsonIns($start as xs:integer*) {
 $places:response200json,
 
-let $log := log:add-log-message('/api/geoJson/institutions/', xmldb:get-current-user(), 'places')
+let $log := log:add-log-message('/api/geoJson/institutions/', sm:id()//sm:real/sm:username/string() , 'places')
 let $ps := $config:collection-rootIn//t:TEI[descendant::t:place[descendant::t:geo/text() or @sameAs]]
 
 let $places := 
@@ -243,7 +243,7 @@ declare
 function places:alljsonPl($start as xs:integer*) {
 $places:response200json,
 
-let $log := log:add-log-message('/api/geoJson/places/', xmldb:get-current-user(), 'places')
+let $log := log:add-log-message('/api/geoJson/places/', sm:id()//sm:real/sm:username/string() , 'places')
 let $ps := $config:collection-rootPl//t:TEI[descendant::t:place[descendant::t:geo/text() or @sameAs]]
 let $places := for $item in $ps
                          let $id := string($item/@xml:id)
@@ -263,7 +263,7 @@ declare
 function places:kmlattestation($id as xs:string*) {
 $places:response200xml,
 
-let $log := log:add-log-message('/api/KML/places/' || $id, xmldb:get-current-user(), 'places')
+let $log := log:add-log-message('/api/KML/places/' || $id, sm:id()//sm:real/sm:username/string() , 'places')
        let $items := $config:collection-root/id($id)
 return 
        places:kmlplacesm($items)
@@ -278,7 +278,7 @@ declare
 %output:method("xml")
 function places:kmlDateswithPlacesatts($d as xs:date) {
 
-let $log := log:add-log-message('/api/KML/date/' || $id, xmldb:get-current-user(), 'places')
+let $log := log:add-log-message('/api/KML/date/' || $id, sm:id()//sm:real/sm:username/string() , 'places')
   let $items := ($config:collection-root//t:date[(@when | @notBefore | @notAfter)[contains(., $d)]][@corresp[contains(., '#P')]], $config:collection-root//t:creation[(@when | @notBefore | @notAfter)[contains(., $d)]][@corresp[contains(., '#P')]])
 return 
      
@@ -305,7 +305,7 @@ if(starts-with($placeid, 'LOC') or starts-with($placeid, 'INS') or starts-with($
 then(
 $places:response200xml,
 
-let $log := log:add-log-message('/api/KML/places/' || $placeid, xmldb:get-current-user(), 'places')
+let $log := log:add-log-message('/api/KML/places/' || $placeid, sm:id()//sm:real/sm:username/string() , 'places')
        let $items := $config:collection-root//t:placeName[@ref = $placeid]
 return 
        <kml>
@@ -327,7 +327,7 @@ function places:kmltextALL($collection as xs:string) {
 
 $places:response200xml,
 
-let $log := log:add-log-message('/api/KML/'||$collection||'/places', xmldb:get-current-user(), 'places')
+let $log := log:add-log-message('/api/KML/'||$collection||'/places', sm:id()//sm:real/sm:username/string() , 'places')
        let $items := switch2:collectionVar($collection)
 return 
       places:kmlplacesm($items)
@@ -342,7 +342,7 @@ function places:kmltextALLorig($collection as xs:string) {
 
 $places:response200xml,
 
-let $log := log:add-log-message('/api/KML/'||$collection||'/origPlaces', xmldb:get-current-user(), 'places')
+let $log := log:add-log-message('/api/KML/'||$collection||'/origPlaces', sm:id()//sm:real/sm:username/string() , 'places')
 let $col := switch2:collectionVar($collection)
        let $items := $col//t:origPlace[descendant::t:placeName/@ref]
 return 
@@ -376,7 +376,7 @@ function places:kmlmetadata($id as xs:string*) {
 
 $places:response200xml,
 
-let $log := log:add-log-message('/api/KML/datePlace/'||$id, xmldb:get-current-user(), 'places')
+let $log := log:add-log-message('/api/KML/datePlace/'||$id, sm:id()//sm:real/sm:username/string() , 'places')
        let $items := $config:collection-root/id($id)
 return 
        places:kmldataplaces($items)
@@ -393,7 +393,7 @@ function places:kmlmetadataALL($collection as xs:string) {
 
 $places:response200xml,
 
-let $log := log:add-log-message('/api/KML/'||$collection||'/datePlace', xmldb:get-current-user(), 'places')
+let $log := log:add-log-message('/api/KML/'||$collection||'/datePlace', sm:id()//sm:real/sm:username/string() , 'places')
     let $items :=   switch2:collectionVar($collection)
 
 return 
@@ -491,9 +491,10 @@ declare
 %rest:GET
 %rest:path("/BetMas/api/gazetteer")
 %rest:query-param("start", "{$start}", 1)
+%output:method("text")
 function places:placesGazetteer($start as xs:integer*) {
 
-let $log := log:add-log-message('/api/gazetteer', xmldb:get-current-user(), 'places')
+let $log := log:add-log-message('/api/gazetteer', sm:id()//sm:real/sm:username/string() , 'places')
 let $data := subsequence($config:collection-rootPlIn//t:place, $start,100)
  let $annotations :=
  for $d in $data 
@@ -519,7 +520,7 @@ declare
 %output:method("text")
 function places:placesGazetteer() {
 
-let $log := log:add-log-message('/api/gazetteer/all', xmldb:get-current-user(), 'places')
+let $log := log:add-log-message('/api/gazetteer/all', sm:id()//sm:real/sm:username/string() , 'places')
 let $data := $config:collection-rootPlIn//t:place
  let $annotations :=
  for $d in $data 
@@ -545,7 +546,7 @@ declare
 %output:method("text")
 function places:placesGazetteerOneplace($id as xs:string*) {
 
-let $log := log:add-log-message('/api/gazetteer/place/'||$id, xmldb:get-current-user(), 'places')
+let $log := log:add-log-message('/api/gazetteer/place/'||$id, sm:id()//sm:real/sm:username/string() , 'places')
 let $data := $config:collection-rootPlIn//t:TEI/id($id)//t:place
 return
 if ($data) then
@@ -622,7 +623,7 @@ declare
 %output:method("text")
 function places:placesInWorksTTL($start as xs:integer*) {
 
-let $log := log:add-log-message('/api/placeNames/works/all', xmldb:get-current-user(), 'places')
+let $log := log:add-log-message('/api/placeNames/works/all', sm:id()//sm:real/sm:username/string() , 'places')
 let $loc := $config:collection-rootW//t:placeName[starts-with(@ref, 'LOC')]
 let $q := $config:collection-rootW//t:placeName[starts-with(@ref, 'wd')]
 let $pl := $config:collection-rootW//t:placeName[starts-with(@ref, 'pleiades')]
@@ -662,7 +663,7 @@ declare
 %output:method("text")
 function places:placesInManuscriptsTTL($start as xs:integer*) {
 
-let $log := log:add-log-message('/api/placeNames/manuscripts/all', xmldb:get-current-user(), 'places')
+let $log := log:add-log-message('/api/placeNames/manuscripts/all', sm:id()//sm:real/sm:username/string() , 'places')
 let $loc := $config:collection-rootMS//t:placeName[starts-with(@ref, 'LOC')]
 let $q := $config:collection-rootMS//t:placeName[starts-with(@ref, 'wd')]
 let $pl := $config:collection-rootMS//t:placeName[starts-with(@ref, 'pleiades')]
@@ -702,7 +703,7 @@ declare
 %rest:path("/BetMas/api/placeNames/works/{$id}")
 %output:method("text")
 function places:placesInOneWorkTTL($id as xs:string) {
-let $log := log:add-log-message('/api/placeNames/works/' || $id, xmldb:get-current-user(), 'places')
+let $log := log:add-log-message('/api/placeNames/works/' || $id, sm:id()//sm:real/sm:username/string() , 'places')
 let $file := $config:collection-rootW/id($id)
 let $sid :=  string($id)
 let $r := $file/@xml:id
@@ -743,7 +744,7 @@ declare
 %output:method("text")
 function places:placesInOneManuscriptTTL($id as xs:string) {
 
-let $log := log:add-log-message('/api/placeNames/manuscripts/' || $id, xmldb:get-current-user(), 'places')
+let $log := log:add-log-message('/api/placeNames/manuscripts/' || $id, sm:id()//sm:real/sm:username/string() , 'places')
 let $file := $config:collection-rootMS/id($id)
 let $sid := string($id)
 let $r := $file/@xml:id

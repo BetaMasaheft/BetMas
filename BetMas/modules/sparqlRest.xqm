@@ -9,7 +9,7 @@ import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "xmldb:exist:///db/apps/BetMas/modules/editors.xqm";
-import module namespace sparql="http://exist-db.org/xquery/sparql" at "java:org.exist.xquery.modules.rdf.SparqlModule";
+import module namespace fusekisparql = 'https://www.betamasaheft.uni-hamburg.de/BetMas/sparqlfuseki' at "xmldb:exist:///db/apps/BetMas/fuseki/fuseki.xqm";
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
     
 (: namespaces of data used :)
@@ -52,7 +52,7 @@ let $uri := $config:appUrl || '/' ||$id
 let $q := ($apisparql:prefixes || 'CONSTRUCT {<'||$uri||'> ?p1 ?o1 . 
 ?s2 ?p2 <'||$uri||'> .}
 WHERE {{<'||$uri||'> ?p1 ?o1 .}UNION{?s2 ?p2 <'||$uri||'> .}}')  
-let $xml := sparql:query($q)
+let $xml := fusekisparql:query('betamasaheft', $q)
 return
 ($apisparql:response200XML,
 $xml
@@ -67,7 +67,7 @@ let $uri := $config:appUrl || '/' ||$id||'/'||$class||'/'||$subid
 let $q := ($apisparql:prefixes || 'CONSTRUCT {<'||$uri||'> ?p1 ?o1 . 
 ?s2 ?p2 <'||$uri||'> .}
 WHERE {{<'||$uri||'> ?p1 ?o1 .}UNION{?s2 ?p2 <'||$uri||'> .}}')  
-let $xml := sparql:query($q)
+let $xml := fusekisparql:query('betamasaheft', $q)
 return
 ($apisparql:response200XML,
 $xml
@@ -86,7 +86,7 @@ let $uri := $config:appUrl || '/' ||$id||'/'||$class||'/annotation/'||$n
 let $q := ($apisparql:prefixes || 'CONSTRUCT {<'||$uri||'> ?p1 ?o1 . 
 ?s2 ?p2 <'||$uri||'> .}
 WHERE {{<'||$uri||'> ?p1 ?o1 .}UNION{?s2 ?p2 <'||$uri||'> .}}')  
-let $xml := sparql:query($q)
+let $xml := fusekisparql:query('betamasaheft', $q)
 return
 ($apisparql:response200XML,
 $xml
@@ -103,7 +103,7 @@ let $uri := $config:appUrl || '/bond/' ||$bond
 let $q := ($apisparql:prefixes || 'CONSTRUCT {<'||$uri||'> ?p1 ?o1 . 
 ?s2 ?p2 <'||$uri||'> .}
 WHERE {{<'||$uri||'> ?p1 ?o1 .}UNION{?s2 ?p2 <'||$uri||'> .}}')  
-let $xml := sparql:query($q)
+let $xml := fusekisparql:query('betamasaheft', $q)
 return
 ($apisparql:response200XML,
 $xml
@@ -117,7 +117,7 @@ $xml
 function apisparql:sparqlQuery($query as xs:string*) {
 
 let $q := ((if(starts-with($query, 'PREFIX')) then () else $apisparql:prefixes) || normalize-space($query))  
-let $xml := sparql:query($q)
+let $xml := fusekisparql:query('betamasaheft', $q)
 return
 ($apisparql:response200XML,
 $xml
@@ -156,12 +156,12 @@ $json
 function apisparql:sparqljsonQuery($query as xs:string*) {
 
 let $q := ((if(starts-with($query, 'PREFIX')) then () else $apisparql:prefixes) || normalize-space($query))  
-let $xml := sparql:query($q)
+let $xml := fusekisparql:query('betamasaheft', $q)
 return
 
 ($apisparql:response200Json,
 
-let $json := apisparql:xml2json($xml/node())
+let $json := apisparql:xml2json($xml)
 return $json
 )};
 
@@ -197,7 +197,7 @@ declare function apisparql:xml2json($nodes as node()*){
                                                          let $thepairs := for $pair in $property 
                                                                               let $type := if($pair/@rdf:resource) then 'uri'  else if($pair/element()) then 'bnode' else 'literal'
                                                                               let $value := if($pair/@rdf:resource) then string($pair/@rdf:resource) else if ($pair/element()) then ('another node') else normalize-space($pair/text())
-                                                                              let $pairmap :=  map {'type' := $type, 'value' := $value}
+                                                                              let $pairmap :=  map {'type' : $type, 'value' : $value}
                                                                               let $withxmllang := if($pair/@xml:lang) then map:put($pairmap, 'xml:lang', string($pair/@xml:lang)) else $pairmap
                                                                               let $withtype := if($pair/@*:datatype) then map:put($withxmllang, 'datatype', string($pair/@*:datatype)) else $withxmllang
                                                                                  return 
@@ -216,32 +216,32 @@ declare function apisparql:xml2json($nodes as node()*){
         return
         let $vars := for $var in $node/sr:head/sr:variable return $var/@*:name
         return
-        map {"head":= map { "vars":= if(count($vars) = 1) then [$vars] else $vars},
-                "results":= apisparql:xml2json($node/sr:results)
+        map {"head": map { "vars": if(count($vars) = 1) then [$vars] else $vars},
+                "results": apisparql:xml2json($node/sr:results)
         }
         case element(sr:results)
         return 
-        map {"bindings":= apisparql:xml2json($node/node())}       
+        map {"bindings": apisparql:xml2json($node/node())}       
        case element(sr:result)
         return 
       map:merge( for $x in $node/sr:binding 
        let $binding := apisparql:xml2json($x/node()) 
-       return map{$x!@*:name := $binding}
+       return map{$x!@*:name : $binding}
        )
        case element(sr:bnode)
        return
-       map {'type' := 'bnode', 'value' := $node/text()}
+       map {'type' : 'bnode', 'value' : $node/text()}
        case element(sr:uri)
       return
        
-       let $uri := map {'type' := 'uri', 'value' := $node/text()}
+       let $uri := map {'type' : 'uri', 'value' : $node/text()}
         let $withxmllang := if($node/@xml:lang) then map:put($uri, 'xml:lang', $node/@xml:lang) else $uri
        let $withtype := if($node/@*:datatype) then map:put($withxmllang, 'datatype', $node/@*:datatype) else $withxmllang
        return 
        $withtype
        case element(sr:literal)
        return
-       let $literal :=  map {'type' := 'literal', 'value' := $node/text()}
+       let $literal :=  map {'type' : 'literal', 'value' : $node/text()}
         let $withxmllang := if($node/@xml:lang) then map:put($literal, 'xml:lang', $node/@xml:lang) else $literal
        let $withtype := if($node/@*:datatype) then map:put($withxmllang, 'datatype', $node/@*:datatype) else $withxmllang
        return 
@@ -264,7 +264,7 @@ let $query := ($apisparql:prefixes || "
 SELECT ?x ?r ?y 
 WHERE {?x ?r bm:" || $id || " . 
 ?x crm:P48_has_preferred_identifier ?y}")
-let $sparqlresults := sparql:query($query)
+let $sparqlresults := fusekisparql:query('betamasaheft', $query)
 let $results := $sparqlresults//sr:result
 return 
 if(count($results) >= 1) then
@@ -277,16 +277,16 @@ let $title := titles:printTitleMainID($y)
 return
 
 map {
-'relation' := $r,
-'id' := $id,
-'title' := $title
+'relation' : $r,
+'id' : $id,
+'title' : $title
 }
 
 )
 else 
 ($apisparql:response200Json,
 map {
-'info' := 'sorry, no relations available in our RDF data'
+'info' : 'sorry, no relations available in our RDF data'
 }
 
 )
@@ -301,7 +301,7 @@ function apisparql:SdCunits($type as xs:string*) {
 let $query := ( $apisparql:prefixes|| "
 SELECT *
 WHERE {?x a sdc:Uni" || $type || "}")
-let $sparqlresults := sparql:query($query)
+let $sparqlresults := fusekisparql:query('betamasaheft', $query)
 let $results := $sparqlresults//sr:result
 return 
 if(count($results) >= 1) then
@@ -311,15 +311,15 @@ let $rsarray := if(count($rs) = 1) then [$rs] else $rs
 return
 
 map {
-'results' := $rsarray,
-'total' := count($results)
+'results' : $rsarray,
+'total' : count($results)
 }
 
 )
 else 
 ($apisparql:response200Json,
 map {
-'info' := 'sorry, no relations available in our RDF data'
+'info' : 'sorry, no relations available in our RDF data'
 }
 
 )
@@ -345,7 +345,7 @@ WHERE {
    }"
 )
 
-let $sparqlresults := sparql:query($query)
+let $sparqlresults := fusekisparql:query('betamasaheft', $query)
 let $results := $sparqlresults//sr:result
 return 
 if(count($results) >= 1) then
@@ -364,11 +364,11 @@ then
     let $bibl := $version//id($biblID)
     return
     string($bibl/t:ptr/@target)) else editors:editorKey($respsource)
-    let $source := map{'id' := $result, 'title' := $resTit, 'ed' := $resp}
+    let $source := map{'id' : $result, 'title' : $resTit, 'ed' : $resp}
     let $text := normalize-space(string-join($edition//t:ab/text(), ' '))
-    let $version := map{'source' := $source, 'text' := $text}
+    let $version := map{'source' : $source, 'text' : $text}
     return
-    map {'version' := $version}
+    map {'version' : $version}
     )
         
 else
@@ -376,44 +376,44 @@ else
         let $wit := string($version//t:witness/@corresp)
         let $uniqueWitness := $config:collection-rootMS/id($wit)
         let $titWit := titles:printTitleMainID($wit)
-       let $source := map{'id' := $result, 'title' := $resTit, 'uniqueWitness' := $titWit}
+       let $source := map{'id' : $result, 'title' : $resTit, 'uniqueWitness' : $titWit}
        let $edition := $uniqueWitness//t:div[@corresp[contains(., $chapterID)]]
         return
             if ($edition) 
             then(
                 
     let $text := normalize-space(string-join($edition//t:ab/text(), ' '))
-    let $version := map{'source' := $source, 'text' := $text}
+    let $version := map{'source' : $source, 'text' : $text}
     return
-    map {'version' := $version}
+    map {'version' : $version}
       )
       else(
                  let $text := 'no text available for ' || $resTit || ' (' || $result || ')'  || ' unique witness ' ||$titWit || ' (' || $wit || ')'
-                 let $version := map{'source' := $source, 'text' := $text}
+                 let $version := map{'source' : $source, 'text' : $text}
     return
-    map {'version' := $version}
+    map {'version' : $version}
     )
     )
    else
         (
-    let $source := map{'id' := $result, 'title' := $resTit}
+    let $source := map{'id' : $result, 'title' : $resTit}
     let $text := 'no text available for ' || $resTit || ' (' || $result || ')'
-    let $version := map{'source' := $source, 'text' := $text}
+    let $version := map{'source' : $source, 'text' : $text}
     return
-    map {'version' := $version}
+    map {'version' : $version}
     )
 return
     $texts
 return
-map { 'versions' := $versions,
-'total' := count($versions)
+map { 'versions' : $versions,
+'total' : count($versions)
 
     }
 )
 else (
 $apisparql:response200Json,
 map {
-'info' := 'sorry, no relations available in our RDF data'
+'info' : 'sorry, no relations available in our RDF data'
 }
 
 )

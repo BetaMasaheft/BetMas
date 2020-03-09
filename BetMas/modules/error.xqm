@@ -6,6 +6,7 @@ xquery version "3.1" encoding "UTF-8";
  :)
 module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMas/error";
 
+declare namespace http = "http://expath.org/ns/http-client";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
@@ -62,7 +63,8 @@ default return
     {
    for $catalogue in distinct-values($config:collection-rootMS//t:listBibl[@type='catalogue']//t:ptr/@target)
 	let $xml-url := concat('https://api.zotero.org/groups/358366/items?&amp;tag=', $catalogue, '&amp;format=bib&amp;style=hiob-ludolf-centre-for-ethiopian-studies')
-let $data := httpclient:get(xs:anyURI($xml-url), true(), <Headers/>)
+ let $request := <http:request href="{xs:anyURI($xml-url)}" method="GET"/>
+    let $data := http:send-request($request)[2]
 order by $data
 return
     <li class="w3-large">

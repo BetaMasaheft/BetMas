@@ -42,13 +42,13 @@ let $wikidata := if(starts-with($p/@sameAs, 'wd:')) then wiki:wikitable(substrin
 order by $mindate
 return
 map {
-'id' := string($id),
-'title' := $title,
-'text' := $academictext,
-'dates' := $d-d,
-'bio' := $bio,
-'zoturl' := $zoterurl,
-'wd' := $wikidata
+'id' : string($id),
+'title' : $title,
+'text' : $academictext,
+'dates' : $d-d,
+'bio' : $bio,
+'zoturl' : $zoterurl,
+'wd' : $wikidata
 }
 
 };

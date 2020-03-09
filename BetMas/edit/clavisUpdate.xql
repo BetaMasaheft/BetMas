@@ -18,8 +18,8 @@ declare variable $cavt := request:get-parameter('cavt', ());
 declare variable $cant := request:get-parameter('cant', ());
 declare variable $cpg := request:get-parameter('cpg', ());
 
-if(contains(sm:get-user-groups(xmldb:get-current-user()), 'Editors')) then
-let $editor := editors:editorNames(xmldb:get-current-user())
+if(contains(sm:get-user-groups(sm:id()//sm:real/sm:username/string()), 'Editors')) then
+let $editor := editors:editorNames(sm:id()//sm:real/sm:username/string())
     
     let $getItem :=collection($config:data-rootW)//id($WorkID)
     let $uri := base-uri($getItem)
@@ -95,7 +95,7 @@ update insert $allbibl into $clavis
                 <div id="confirmation" class="container">
                     <div class="jumbotron">
                     <p
-                        class="lead">Thank you very much {xmldb:get-current-user()}!</p>
+                        class="lead">Thank you very much {sm:id()//sm:real/sm:username/string()}!</p>
                     <p>
                         <span
                             class="lead">{$WorkID}</span> has been updated!</p>
@@ -179,7 +179,7 @@ update insert $allbibl into $clavis
                 <div id="confirmation" class="container">
                     <div class="jumbotron">
                     <p
-                        class="lead">Sorry {xmldb:get-current-user()}! You have no sufficient rights to use this module.</p>
+                        class="lead">Sorry {sm:id()//sm:real/sm:username/string()}! You have no sufficient rights to use this module.</p>
                     
                         </div>
                     <a

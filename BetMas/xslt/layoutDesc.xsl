@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:layoutDesc">
         <div rel="http://purl.org/dc/terms/hasPart">
@@ -103,7 +104,8 @@
                 <xsl:variable name="computedheight" select="number($heighText) + number($bottomargin) + number($topmargin)"/>
                 <xsl:variable name="computedwidth" select="number($textwidth) + number($rightmargin) + number($leftmargin)"/>
                 <xsl:variable name="currentMsPart">
-                    <xsl:choose><xsl:when test="./ancestor::t:msPart">
+                    <xsl:choose>
+                                <xsl:when test="./ancestor::t:msPart">
                         <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
                     </xsl:when>
                     <xsl:otherwise> main part</xsl:otherwise>
@@ -117,10 +119,11 @@
                         <xsl:text>
             </xsl:text>
                         <xsl:choose>
-                            <xsl:when test="number($computedheight) &gt; number($totalHeight)"> 
+                            <xsl:when test="number($computedheight) &gt; number($totalHeight)"> *
                                 has a sum of layout height of <xsl:value-of select="$computedheight"/>mm which is greater than the object height of <xsl:value-of select="$totalHeight"/>mm </xsl:when>
-                            <xsl:when test="number($computedwidth) &gt; number($totalwidth)">
-                                has a sum of layout width of <xsl:value-of select="$computedwidth"/>mm which is greater than the object width of <xsl:value-of select="$totalwidth"/>mm </xsl:when>
+                            <xsl:when test="number($computedwidth) &gt; number($totalwidth)"> * has
+                                a sum of layout width of <xsl:value-of select="$computedwidth"/>mm
+                                which is greater than the object width of <xsl:value-of select="$totalwidth"/>mm </xsl:when>
                             <xsl:otherwise> looks ok for measures computed width is: <xsl:value-of select="$computedwidth"/>mm, object width is: <xsl:value-of select="$totalwidth"/>mm, computed height is: <xsl:value-of select="$computedheight"/>mm and object height is: <xsl:value-of select="$totalHeight"/>mm. <xsl:if test="number($topmargin) = 0 or number($bottomargin) = 0 or number($rightmargin) = 0 or number($leftmargin) = 0 or number($totalHeight) = 0 or number($totalwidth) = 0">but the following values are
                                 recognized as empty: <xsl:if test="number($topmargin) = 0">top
                                     margin </xsl:if>

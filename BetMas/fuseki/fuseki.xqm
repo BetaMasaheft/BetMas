@@ -19,15 +19,14 @@ declare variable $fusekisparql:port := 'http://localhost:8081/fuseki/';
 declare function fusekisparql:query($dataset, $query) {
     let $url := concat($fusekisparql:port||$dataset||'/query?query=', encode-for-uri($query))
     (:   here the format of the response could be set:)
-    let $headers := <Headers/>
-    let $file := httpclient:get(xs:anyURI($url), true(), $headers)
+    let $request := <http:request href="{xs:anyURI($url)}" method="GET"/>
+    let $file := http:send-request($request)
     return
         $file//sr:sparql
 };
 
-(:~ given a SPARQL Update input for the type of operation (INSERT or DELETE),  
-: the triples to be added in the SPARQL Update https://www.w3.org/TR/sparql11-update/ and the destination
-: dataset, this function will send a POST request to the location of a running Fuseki instance and perform the operation:)
+(:~ given a SPARQL Update input for the type of operation (INSERT or DELETE),  the triples to be added in the SPARQL Update and the destination
+dataset, this function will send a POST request to the location of a running Fuseki instance and perform the operation:)
 declare function fusekisparql:update($dataset, $InsertOrDelete, $triples) {
     let $url := $fusekisparql:port||$dataset||'/update'
     let $sparqlupdate := $config:sparqlPrefixes || $InsertOrDelete || ' DATA
@@ -45,7 +44,7 @@ declare function fusekisparql:update($dataset, $InsertOrDelete, $triples) {
         <http:body
             media-type="text/plain">{$sparqlupdate}</http:body>
     </http:request>
-    let $post := hc:send-request($req)[2]
+    let $post := http:send-request($req)[2]
     return
         $post
 };

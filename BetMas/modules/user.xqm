@@ -26,7 +26,7 @@ declare namespace l = "http://log.log";
 (: For REST annotations :)
 declare namespace http = "http://expath.org/ns/http-client";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
-
+declare variable $user:logs := collection('/db/apps/log') ;
 declare
 %rest:GET
 %rest:path("/BetMas/user/{$username}")
@@ -34,14 +34,13 @@ declare
 function user:personalPage($username as xs:string) {
 let $un := sm:id()//sm:username/text()
 
-let $Imap := map {'type':= 'user', 'name' := ($un||'/'||$username)}
+let $Imap := map {'type': 'user', 'name' : ($un||'/'||$username)}
 
 return 
 
-    if (sm:is-dba($un) or (($username = $un) and sm:is-account-enabled($un)  and sm:is-authenticated()))
+    if (sm:is-dba($un) or (($username = $un) and sm:is-account-enabled($un)  and sm:is-authenticated()) or doc('/db/apps/BetMas/lists/editors.xml')//t:item[@n=$username])
     then
     (
-    log:add-log-message('/user/' || $username, ($un||'/'||$username), 'user'),
     <rest:response>
         <http:response
             status="200">
@@ -81,9 +80,7 @@ return
                     <div class="w3-panel w3-card-2 w3-gray">
                     <h2>All about you... </h2>
                     <p><b>User name: </b> {$username}</p>
-                    <p><b>Member of: </b>{let $groups := for $g in sm:get-user-groups($username) return $g return string-join($groups, ', ')}</p>
-                    {for $x in sm:get-account-metadata-keys($username) return <p><b>{switch($x) case 'http://exist-db.org/security/description' return 'Role: ' case 'http://axschema.org/namePerson' return 'Full name: ' case 'http://axschema.org/contact/email' return 'E-mail: ' default return ()}</b>  {sm:get-account-metadata($username,$x)}</p>}
-                    </div>
+                   </div>
                     <div
                         class="w3-half w3-padding">
                         <div
@@ -128,7 +125,7 @@ return
                         <h3>The last 50 pages you visited</h3>
                         <div  class=" w3-container userpanel w3-responsive" ><table
                                 class="w3-table w3-hoverable"><thead><tr><th>type</th><th>date and time</th><th>info</th></tr></thead><tbody>{
-                                       let $selection :=  for $c in collection('/db/apps/BetMas/log/')//l:logentry[l:user[. = $username]][not(l:type[.='query'])][not(contains(l:type, 'XPath'))]
+                                       let $selection :=  for $c in $user:logs//l:logentry[l:user[. = $username]][not(l:type[.='query'])][not(contains(l:type, 'XPath'))]
                                                                   order by $c/@timestamp descending
                                                                   return $c
                                        for $loggedentity in subsequence($selection, 1, 50)
@@ -153,7 +150,7 @@ return
                         <h3>Your queries</h3>
                         <div  class="w3-container userpanel w3-responsive" ><table
                                 class="w3-table w3-hoverable"><thead><tr><th>date</th><th>info</th></tr></thead><tbody>{
-                                       let $selection := for $c in doc('/db/apps/BetMas/log/bm-log.xml')//l:logentry[l:user[. = $username]][l:type[.='query']]
+                                       let $selection := for $c in $user:logs//l:logentry[l:user[. = $username]][l:type[.='query']]
                                                                  order by $c/@timestamp descending
                                                                   return $c
                                        for $loggedentity in subsequence($selection, 1, 50) 
@@ -172,7 +169,7 @@ return
                         <h3>Your XPATHs</h3>
                         <div class="userpanel w3-responsive" ><table
                                 class="w3-table w3-hoverable"><thead><tr><th>date</th><th>info</th></tr></thead><tbody>{
-                                       let $selection := for $c in doc('/db/apps/BetMas/log/bm-log.xml')//l:logentry[l:user[. = $username]][contains(l:type, 'XPath')]
+                                       let $selection := for $c in $user:logs//l:logentry[l:user[. = $username]][contains(l:type, 'XPath')]
                                                                  order by $c/@timestamp descending
                                                                   return $c
                                        for $loggedentity in subsequence($selection, 1, 50) 
@@ -185,7 +182,8 @@ return
                         </div>
                     </div>
                     </div>
-                    <div
+                   {if(sm:is-authenticated()) then
+                   <div
                         class="w3-panel w3-card-4 w3-padding"><h3>Manage your account</h3>
                         <div
                         class="w3-container">
@@ -221,7 +219,9 @@ return
                             </form>
                             </div>
                             </div>
-                            {if(sm:is-dba(xmldb:get-current-user())) then 
+                  else ()
+                  }
+                  {if(sm:is-dba(sm:id()//sm:real/sm:username/string() )) then 
                              (<div
                         class="w3-panel w3-card-4 w3-padding">
                         <h3>Create new account</h3>
@@ -244,14 +244,14 @@ return
     <label for="primarygroup">Select group</label>
     <select class="w3-select w3-border" id="primarygroup" name="group" required="required">
     <option selected="selected">Please chose</option>
-      {for $g in  sm:get-groups()
+      {for $g in  sm:list-groups()
       order by count(sm:get-group-members($g)) descending
       return <option value="{$g}">{$g}</option>}
     </select>
    <label for="group2">Secondary Group</label>
     <select class="w3-select w3-border" id="group2" name="group2">
     <option selected="selected" disabled="disabled">none</option>
-      {for $g in sm:get-groups()
+      {for $g in sm:list-groups()
       return if($g = 'dba') then () else <option value="{$g}">{$g}</option>}
     </select>
   <button type="submit" class="w3-button w3-red">Submit</button>
@@ -271,7 +271,7 @@ return
     <label for="group2">Secondary Group</label>
     <select class="w3-select w3-border" id="group3" name="group3">
     <option selected="selected" disabled="disabled">none</option>
-      {for $g in sm:get-groups() return
+      {for $g in sm:list-groups() return
      <option value="{$g}">{$g}</option>}
     </select>
     
@@ -299,7 +299,7 @@ return
             <div  class="w3-half w3-responsive">There are currently the following groups in this eXist-db instance
                 
                 <table class="w3-table w3-hoverable"><thead><tr><th>group</th><th>members</th></tr></thead><tbody>{
-                        for $u in sm:get-groups()
+                        for $u in sm:list-groups()
                         order by count(sm:get-group-members($u)) descending
                         return
                             <tr><td><span class="w3-large w3-tag w3-gray">{$u}</span></td><td>{
@@ -336,7 +336,7 @@ return
                            
 <label for="grouptobedeleted">Select group to be deleted</label>
     <select class="w3-select w3-border" id="grouptobedeleted" name="oldgroup">
-      {for $g in  sm:get-groups()
+      {for $g in  sm:list-groups()
       return <option value="{$g}">{$g}</option>}
     </select>
     <small id="delgroupHelp" class="form-text text-muted">Be very sure!</small><br/>

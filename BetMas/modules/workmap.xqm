@@ -46,10 +46,10 @@ declare
 function workmap:workmap(
 $worksid as xs:string*, $type as xs:string*) {
 let $fullurl := ('?worksid=' || $worksid)
-let $log := log:add-log-message($fullurl, xmldb:get-current-user(), 'worksmap')
+let $log := log:add-log-message($fullurl, sm:id()//sm:real/sm:username/string() , 'worksmap')
 let $w :=  if(contains($worksid, ',')) then for $work in tokenize($worksid, ',') return $config:collection-rootW/id($work) else $config:collection-rootW/id($worksid)  
 let $baseuris := for $bu in $w return base-uri($bu)
-let $Cmap := map {'type':= 'item', 'name' := $worksid, 'path' := string-join($baseuris)}
+let $Cmap := map {'type': 'item', 'name' : $worksid, 'path' : string-join($baseuris)}
 let $kmlparam := for $work at $p in $w/@xml:id return  'kml'||$p||'=https://betamasaheft.eu/workmap/KML/'||string($work)||'?type='||$type
 let $worktitles := for $work in $w/@xml:id return titles:printTitleID($work)
 return
@@ -119,7 +119,7 @@ if(exists($w) or $worksid ='') then (
    The dates given for each manuscript correspond to the most inclusive range possible from the origin dates given in the manuscript.
    If a manuscript has a part from exactly 1550 and one dated 1789 to 1848, then the time span will be 1550 - 1848.</p>
    <iframe style="width: 100%; height: 1200px;" id="geobrowserMap" src="https://geobrowser.de.dariah.eu/embed/index.html?{string-join($kmlparam, '&amp;')}"/>
-    <div class="w3-panel w3-card-2 w3-red">You do not find all the information you would like to 
+<div class="w3-panel w3-card-2 w3-red">You do not find all the information you would like to 
     have?  <a href="https://betamasaheft.eu/Guidelines/?id=howto">Help improve the data and contribute to the project editing the files!</a></div>
   
    </div>
@@ -163,7 +163,7 @@ declare
 %output:method("xml")
 function workmap:kml($work as xs:string, $type as xs:string*) {
 $config:response200,
-let $log := log:add-log-message('/workmap/'||$work||'/KML/', xmldb:get-current-user(), 'workmap')
+let $log := log:add-log-message('/workmap/'||$work||'/KML/', sm:id()//sm:real/sm:username/string(), 'workmap')
 let $thisworkmss := $config:collection-rootMS//t:title[@ref = $work]
 let $part := $config:collection-rootW//t:div[@type ='textpart'][@corresp = $work]
 let $containedin := for $container in $part

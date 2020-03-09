@@ -59,7 +59,7 @@ $per-page as xs:integer*,
 $hi as xs:string*) {
   let $item := $config:collection-root/id($id)[name()='TEI']
   let $col := switch2:col($item/@type)
-  let $log := log:add-log-message('/'||$id||'/main', xmldb:get-current-user(), 'item')
+  let $log := log:add-log-message('/'||$id||'/main', sm:id()//sm:real/sm:username/string() , 'item')
   return
 PermRestItem:ITEM('main', $id, $col,$start,$per-page, $hi, $sha)
 };
@@ -78,7 +78,7 @@ $id as xs:string*,
 $start as xs:integer*,
 $per-page as xs:integer*,
 $hi as xs:string*) {
-  let $log := log:add-log-message('/'||$collection||'/'||$id||'/main', xmldb:get-current-user(), 'item')
+  let $log := log:add-log-message('/'||$collection||'/'||$id||'/main', sm:id()//sm:real/sm:username/string() , 'item')
   return
 PermRestItem:ITEM('main', $id, $collection,$start,$per-page, $hi, $sha)
 };
@@ -98,7 +98,7 @@ $id as xs:string*,
 $start as xs:integer*,
 $per-page as xs:integer*,
 $hi as xs:string*) {
-let $log := log:add-log-message('/'||$collection||'/'||$id||'/geoBrowser', xmldb:get-current-user(), 'item')
+let $log := log:add-log-message('/'||$collection||'/'||$id||'/geoBrowser', sm:id()//sm:real/sm:username/string() , 'item')
   return
 PermRestItem:ITEM('geobrowser', $id, $collection,$start,$per-page, $hi, $sha)
 };
@@ -117,7 +117,7 @@ $id as xs:string*,
 $start as xs:integer*,
 $per-page as xs:integer*,
 $hi as xs:string*) {
-let $log := log:add-log-message('/'||$collection||'/'||$id||'/text', xmldb:get-current-user(), 'item')
+let $log := log:add-log-message('/'||$collection||'/'||$id||'/text', sm:id()//sm:real/sm:username/string() , 'item')
   return
 PermRestItem:ITEM('text', $id, $collection,$start,$per-page, $hi, $sha)
 };
@@ -137,7 +137,7 @@ $id as xs:string*,
 $start as xs:integer*,
 $per-page as xs:integer*,
 $hi as xs:string*) {
-let $log := log:add-log-message('/'||$collection||'/'||$id||'/analytic', xmldb:get-current-user(), 'item')
+let $log := log:add-log-message('/'||$collection||'/'||$id||'/analytic', sm:id()//sm:real/sm:username/string() , 'item')
   return
 PermRestItem:ITEM('analytic', $id, $collection,$start,$per-page, $hi, $sha)
 };
@@ -175,7 +175,7 @@ $id as xs:string*,
 $start as xs:integer*,
 $per-page as xs:integer*,
 $hi as xs:string*) {
-let $log := log:add-log-message('/corpus/'||$id, xmldb:get-current-user(), 'item')
+let $log := log:add-log-message('/corpus/'||$id, sm:id()//sm:real/sm:username/string() , 'item')
   return
 PermRestItem:ITEM('corpus', $id, 'corpora', $start,$per-page, $hi, $sha)
 };
@@ -236,8 +236,8 @@ return
 
 <coll>{$collection}</coll>
 </bibl>
-let $Cmap := map {'type':= 'collection', 'name' := $collection, 'path' := $coll}
-let $Imap := map {'type':= 'item', 'name' := $id, 'path' := $collection}
+let $Cmap := map {'type': 'collection', 'name' : $collection, 'path' : $coll}
+let $Imap := map {'type':  'item', 'name' :  $id, 'path' :  $collection}
 return
 
 

@@ -13,6 +13,8 @@ import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMa
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace dts="https://www.betamasaheft.uni-hamburg.de/BetMas/dts" at "xmldb:exist:///db/apps/BetMas/modules/dts.xqm";
 import module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMas/error" at "xmldb:exist:///db/apps/BetMas/modules/error.xqm";
+import module namespace console="http://exist-db.org/xquery/console";
+
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 
 (: For REST annotations :)
@@ -30,8 +32,9 @@ declare
 %rest:GET
 %rest:path("/BetMas/api/collatex")
 %rest:query-param("dts", "{$dts}", "")
+%rest:query-param("nU", "{$nU}", "")
 %rest:query-param("format", "{$format}", "tei+xml")
-function collatex:collatex($dts  as xs:string*,$format  as xs:string*){
+function collatex:collatex($nU  as xs:string*,$dts  as xs:string*,$format  as xs:string*){
 $config:response200,
 let $urns := for $u in tokenize($dts, ',') return $u
 return
@@ -41,14 +44,15 @@ if(count($urns) le 1)
 then (<info>please provide at least 2 dts urns separated with comma</info>)  else(
   
                                          
-   let $body :=   dts:getCollatexBody($urns)
+   let $body :=   if ($nU !='') then dts:getnarrUnitWittnesses($nU) else dts:getCollatexBody($urns)
+   let $test0 := console:log($body)
      let $req :=
         <http:request
         http-version="1.1"
-            href="{xs:anyURI('http://localhost:7369/collate')}"
+            href="{xs:anyURI('http://localhost:8081/collatex-servlet-1.7.1/collate')}"
             method="POST">
             <http:header
-                name="Conten-Type"
+                name="Content-Type"
                 value="application/json"/>
                 <http:header name="Access-Control-Allow-Origin" value="*"/>
             <http:header name="Accept" value="application/{$format}"/>
@@ -56,12 +60,14 @@ then (<info>please provide at least 2 dts urns separated with comma</info>)  els
                 <http:body media-type="text" method="text" indent="yes">{$body}</http:body>
         </http:request>
 let $post:=          hc:send-request($req)[2]
-let $decoded := if(contains($format, 'xml')) then $post else util:base64-decode($post)
+let $test :=console:log($post)
+let $decoded := if(contains($format, 'xml')) then $post else try{util:base64-decode($post)} catch * {console:log($err:description), $post}
 return 
 $decoded
     
     )
 };
+
 
 declare 
 %rest:GET
@@ -73,7 +79,7 @@ function collatex:collateSelected(
 $dtsURNs as xs:string*) {
 let $list := $dtsURNs
 let $fullurl := ('?dtsURNs=' || $dtsURNs)
-let $Cmap := map {'type':= 'item', 'name' := $list, 'path' := $fullurl}
+let $Cmap := map {'type': 'item', 'name' : $list, 'path' : $fullurl}
 
 return
 (
@@ -113,13 +119,15 @@ return
             <p>In the form below you have to provide the two DTS URNs of the passages you want to compare, then hit the collate button and you will get a visualization of the TEI apparatus output from Collatex.</p>
             <p>The format of your URNs has to be the following</p>
             <ul>
-            <li><pre>urn:dts:betmasMS:BLorient718:1</pre> will point to all the folio 1 of BL Orient 718 (recto and verso) and take all what is in there</li>
-            <li><pre>urn:dts:betmasMS:BLorient718:1r</pre> will point to all the folio 1 recto of BL Orient 718 and take all what is on that page</li>
-            <li><pre>urn:dts:betmasMS:BLorient718:1ra</pre> will point to  the folio 1 recto, column a  of BL Orient 718 and take all what is in that column</li>
-            <li><pre>urn:dts:betmasMS:BLorient718:1ra@ወወልድ</pre>  will point to  the folio 1 recto, column a  of BL Orient 718 and take all what is in that column starting from the first occurrence of the word ወወልድ</li>
-            <li><pre>urn:dts:betmasMS:BLorient718:1ra@ወወልድ[1]</pre> will point to  the folio 1 recto, column a  of BL Orient 718 and take all what is in that column starting from the first occurrence of the word ወወልድ, but note the specification of the occurrence, it could also be [2]</li>
-            <li><pre>urn:dts:betmasMS:BLorient718:1ra@ወወልድ[1]-1ra@ቅዱስ[1]</pre> will point to the folio 1 recto, column a  of BL Orient 718 and take all what is in that column starting from the first occurrence of the word ወወልድ, and ending at the first occurrence of the word ቅዱስ</li>
-            <li><pre>urn:dts:betmasMS:BLorient718:1ra@ወወልድ[1]-3va</pre> will point to the folio 1 recto, column a  of BL Orient 718 and take all what is in that column starting from the first occurrence of the word ወወልድ, and everything including in the transcription up to the end of folio 3va</li>
+            <li><pre>BLorient718:1</pre> will point to all the folio 1 of BL Orient 718 (recto and verso) and take all what is in there</li>
+            <li><pre>BLorient718:1r</pre> will point to all the folio 1 recto of BL Orient 718 and take all what is on that page</li>
+            <li><pre>BLorient718:1ra</pre> will point to  the folio 1 recto, column a  of BL Orient 718 and take all what is in that column</li>
+            <li><pre>BLorient718:1ra@ወወልድ</pre>  will point to  the folio 1 recto, column a  of BL Orient 718 and take all what is in that column starting from the first occurrence of the word ወወልድ</li>
+            <li><pre>BLorient718:1ra@ወወልድ[1]</pre> will point to  the folio 1 recto, column a  of BL Orient 718 and take all what is in that column starting from the first occurrence of the word ወወልድ, but note the specification of the occurrence, it could also be [2]</li>
+            <li><pre>BLorient718:1ra@ወወልድ[1]-1ra@ቅዱስ[1]</pre> will point to the folio 1 recto, column a  of BL Orient 718 and take all what is in that column starting from the first occurrence of the word ወወልድ, and ending at the first occurrence of the word ቅዱስ</li>
+            <li><pre>BLorient718:1ra@ወወልድ[1]-3va</pre> will point to the folio 1 recto, column a  of BL Orient 718 and take all what is in that column starting from the first occurrence of the word ወወልድ, and everything including in the transcription up to the end of folio 3va</li>
+            <li><pre>EMIP01859:NAR0019SBarkisos</pre> is also a valid reference and will fetch the element in the manuscript transcription associated with the specified narrative unit. If you want to fetch passages connected to a narrative unit without specifiying the manuscript, add the narrative unit id instead</li>
+           
             </ul>
             <p>Of course, if there is no transcription, there will be no text to collate and the quality of the transcription depends on external factors.</p>
             <p>The level of precision possible, depends from the encoding. If you have encoded page and column breaks you can use them, otherways hopefully there are at least folia divisions.</p>
@@ -127,8 +135,13 @@ return
         </div>
         <div class="w3-threequarter">
         <div id="dtsURNs">
-        <input type="text" class="dts w3-input w3-margin w3-border" placeholder="urn:dts:betmasMS:{{manuscriptid}}:{{passage}}-{{passage}}"></input>
-        <input type="text" class="dts w3-input w3-margin w3-border" placeholder="urn:dts:betmasMS:{{manuscriptid}}:{{passage}}-{{passage}}"></input>
+        <input type="text" class="dts w3-input w3-margin w3-border" placeholder="{{manuscriptid}}:{{passage}}-{{passage}}"></input>
+        <input type="text" class="dts w3-input w3-margin w3-border" placeholder="{{manuscriptid}}:{{passage}}-{{passage}}"></input>
+        
+        </div>
+        <p>Alternatively, you can specify a narrative unit and we will pick any manuscript transcription which contains a reference to that and collate it.</p>
+        <div id="narrativeUnit">
+        <input type="text" class="narrUnit w3-input w3-margin w3-border" placeholder="{{narrativeunitid}}"></input>
         
         </div>
         

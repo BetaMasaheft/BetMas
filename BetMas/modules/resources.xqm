@@ -45,9 +45,9 @@ return
 $bibl
     return
    map {
-                    "hits" := $bms,
-                    "type" := 'bibliography',
-                    "coll" := $coll
+                    "hits" : $bms,
+                    "type" : 'bibliography',
+                    "coll" : $coll
 
                 }
 
@@ -86,7 +86,7 @@ declare
  let $additions := for $add in util:eval($path) return $add
    return
    map {
-                    "hits" := $additions
+                    "hits" : $additions
 
                 }
    };
@@ -124,7 +124,7 @@ $query as xs:string*,
   let $decos := for $dec in util:eval($path) return $dec
    return
    map {
-                    "hits" := $decos
+                    "hits" : $decos
 
                 }
    };
@@ -163,7 +163,7 @@ $query as xs:string*,
   let $decos := for $dec in util:eval($path) return $dec
    return
    map {
-                    "hits" := $decos
+                    "hits" : $decos
 
                 }
    };
@@ -200,7 +200,7 @@ $model as map(*),
   let $dates := for $dec in util:eval($path) return $dec
    return
    map {
-                    "hits" := $dates
+                    "hits" : $dates
 
                 }
    };
@@ -294,7 +294,7 @@ return util:eval($query) else ()
   let $allTitles := ($titles | $divs | $segs | $colincex)
    return
    map {
-                    "hits" := $allTitles
+                    "hits" : $allTitles
 
                 }
    };

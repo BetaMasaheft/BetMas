@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:msDesc">
         <div class="w3-twothird well" id="textualcontents{@xml:id}">
@@ -99,15 +100,20 @@
     </xsl:template>
     
     <xsl:template mode="unit" match="t:repository">
-        <a target="_blank" 
-            href="/manuscripts/{@ref}/list" role="button" class="w3-tag w3-gray w3-margin-top" 
-            property="http://www.cidoc-crm.org/cidoc-crm/P55_has_current_location" resource="http://betamasaheft.eu/{@ref}"><span class="MainTitle" data-value="{@ref}" ><xsl:value-of select="@ref"/></span></a>
+        <a target="_blank" href="/manuscripts/{@ref}/list" role="button" class="w3-tag w3-gray w3-margin-top" property="http://www.cidoc-crm.org/cidoc-crm/P55_has_current_location" resource="http://betamasaheft.eu/{@ref}">
+            <span class="MainTitle" data-value="{@ref}">
+                <xsl:value-of select="@ref"/>
+            </span>
+        </a>
     </xsl:template>
     <xsl:template mode="unit" match="t:collection">
-        <p>Collection:  <xsl:value-of select="."/></p>
+        <p>Collection:  <xsl:value-of select="."/>
+        </p>
     </xsl:template>
     <xsl:template mode="unit" match="t:idno">
-        <p><xsl:value-of select="."/></p>
+        <p>
+            <xsl:value-of select="."/>
+        </p>
     </xsl:template>
     
     <xsl:template mode="unit" match="t:altIdentifier">
@@ -122,7 +128,8 @@
             </xsl:attribute>
 
             <div class="w3-container w3-margin-bottom">
-                <h2>Codicological Unit <xsl:value-of select="substring-after(@xml:id, 'p')"/></h2>
+                <h2>Codicological Unit <xsl:value-of select="substring-after(@xml:id, 'p')"/>
+                </h2>
                 
             </div>
             <div class="w3-twothird" id="textualcontents{@xml:id}">
