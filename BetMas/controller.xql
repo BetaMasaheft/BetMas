@@ -528,7 +528,7 @@ construct the annotation graph if application/rdf+xml is specified
  : :)
                                         
                                         else
-                                            if (matches($exist:resource, "^\w+\d+(\w+)?\:(a-zA-Z0-9\.)+$")) then
+                                            if (matches($exist:resource, "^\w+\d+(\w+)?:(a-zA-Z0-9\.)+$")) then
                                                 let $prefix := substring($exist:resource, 1, 2)
                                                 let $switchCollection := local:switchPrefix($prefix)
                                                 let $passage := substring-after($exist:resource, ':')
@@ -536,7 +536,7 @@ construct the annotation graph if application/rdf+xml is specified
                                                <dispatch
                                                         xmlns="http://exist.sourceforge.net/NS/exist">
                                                         <redirect
-                                                            url="/{$switchCollection}/{$exist:resource}/text?start="/>
+                                                            url="/{$switchCollection}/{$exist:resource}/text?start={encode-for-uri($passage)}"/>
                                                     </dispatch>
                                                             
 

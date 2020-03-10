@@ -965,16 +965,17 @@ EMIP:)
               else if($item//t:collection = 'EMIP' and $item//t:msIdentifier/t:idno/@n) 
                then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
               
-             (:BNF:)
+              (:BNF:)
             else if ($item//t:repository/@ref = 'INS0303BNF') 
             then <img src="{replace($item//t:msIdentifier/t:idno/@facs, 'ark:', 'iiif/ark:') || '/f1/full/140,/0/native.jpg'}" class="thumb w3-image"/>
 (:           vatican :)
-                else <img src="{replace(substring-before($item//t:msIdentifier/t:idno/@facs, '/manifest.json'), 'iiif', 'pub/digit') || '/thumb/'
+                else  if ($item//t:repository/@ref = 'INS0003BAV')
+                then <img src="{replace(substring-before($item//t:msIdentifier/t:idno/@facs, '/manifest.json'), 'iiif', 'pub/digit') || '/thumb/'
                     ||
                     substring-before(substring-after($item//t:msIdentifier/t:idno/@facs, 'MSS_'), '/manifest.json') || 
                     '_0001.tif.jpg'
                 }" class="thumb w3-image"/>
-                 }</a>
+                else 'no images' }</a>
                 
                 else ()}
                                                           <a class="w3-bar-item"
