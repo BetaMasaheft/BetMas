@@ -1795,7 +1795,7 @@ declare
         {
         for $tex at $p in subsequence($text, $start, $per-page)
         let $expanded := kwic:expand($tex)
-          let $root := root($tex)
+        let $root := root($tex)
          let $count := count($expanded//exist:match)
         let $id := data($root/t:TEI/@xml:id)
         
@@ -1816,7 +1816,10 @@ declare
             
             <div class="w3-twothird">
             
-                 <div class="w3-twothird">{for $match in subsequence($expanded//exist:match, 1, 3) return  kwic:get-summary($expanded, $match,<config width="40"/>)}</div>
+                 <div class="w3-twothird">{for $match in subsequence($expanded//exist:match, 1, 3) 
+                 
+                 return  
+                     kwic:get-summary($match/parent::node(), $match,<config width="40"/>)}</div>
                         
                         <div class="w3-third">{data($text/ancestor::t:*[@xml:id][1]/@xml:id)}</div>
                         </div>

@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <classDecl xmlns="http://www.tei-c.org/ns/1.0">
     <taxonomy xml:id="ethioauthlist">
         <category>
@@ -994,19 +993,19 @@
                 <catDesc>Miracle of Mary: Kaṭir, the old priest at ʾƎlkǝsus</catDesc>
             </category>
             <category xml:id="AT1128MMDyers" corresp="https://betamasaheft.eu/authority-files/AT1128MMDyers/main">
-                <catDesc>AT1128MMDyers</catDesc>
+                <catDesc>Miracle of Mary: The two brothers Tāg and Nazib from Dalgā who were dyers</catDesc>
             </category>
             <category xml:id="AT1129MMFrank" corresp="https://betamasaheft.eu/authority-files/AT1129MMFrank/main">
-                <catDesc>AT1129MMFrank</catDesc>
+                <catDesc>Miracle of Mary: The stone-footed man from France</catDesc>
             </category>
             <category xml:id="AT1130MMMarqorewos" corresp="https://betamasaheft.eu/authority-files/AT1130MMMarqorewos/main">
-                <catDesc>AT1130MMMarqorewos</catDesc>
+                <catDesc>Miracle of Mary: Bishop Mercurius, whom the patriarch wanted to remove because of leprosy</catDesc>
             </category>
             <category xml:id="AT1131MMWoman" corresp="https://betamasaheft.eu/authority-files/AT1131MMWoman/main">
-                <catDesc>AT1131MMWoman</catDesc>
+                <catDesc>Miracle of Mary: The woman with a broken foot from Hartarom</catDesc>
             </category>
             <category xml:id="AT1132MMSophia" corresp="https://betamasaheft.eu/authority-files/AT1132MMSophia/main">
-                <catDesc>AT1132MMSophia</catDesc>
+                <catDesc>Miracle of Mary: Sophia, abbess of Mount Carmel, who became pregnant</catDesc>
             </category>
             <category xml:id="AT1133MMBarok" corresp="https://betamasaheft.eu/authority-files/AT1133MMBarok/main">
                 <catDesc>Miracle of Mary: Bārok of Finǝqi whom his enemies could not kill until he had confessed himself to a priest</catDesc>

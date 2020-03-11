@@ -18,11 +18,10 @@ import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas
 import module namespace charts = "https://www.betamasaheft.uni-hamburg.de/BetMas/charts" at "xmldb:exist:///db/apps/BetMas/modules/charts.xqm";
 import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2"  at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
 import module namespace exreq = "http://exquery.org/ns/request";
-import module namespace console = "http://exist-db.org/xquery/console";
 import module namespace xdb="http://exist-db.org/xquery/xmldb";
 import module namespace kwic = "http://exist-db.org/xquery/kwic"
     at "resource:org/exist/xquery/lib/kwic.xql";
-
+import module namespace console="http://exist-db.org/xquery/console";
 (: For interacting with the TEI document :)
 
 declare namespace http = "http://expath.org/ns/http-client";
@@ -327,7 +326,6 @@ map{'key': $keyword,
 'country': $country,
 'settlement': $settlement
 }
-
 return
 (:
 needs to add all the parameters added to the mss query to the parameters variable, and thus also to the list of parameters for the function
@@ -362,59 +360,66 @@ if(xdb:collection-available($c)) then (
  then 
  <div class="w3-container">
  <div class="w3-container w3-quarter w3-animate-left w3-padding "  data-hint="The values listed here all come from the taxonomy. Click on one of them to see which entities point to it.">
- {for $cat in doc($c||'/taxonomy.xml')//t:category[not(parent::t:category)]
- let $val := $cat/t:desc/text()
- order by $val
+{for $MainCat in doc('/db/apps/BetMas/lists/canonicaltaxonomy.xml')//t:category[not(parent::t:category)]
+ let $collection := 'authority-files'
+ let $MainCatval := $MainCat/t:desc/text()
+ order by replace(lower-case($MainCatval), '\s', '')
  return
- <div class="w3-panel w3-padding">
- 
- <button class="w3-bar-item w3-button w3-red" onclick="openAccordion('list{$val}')">{$val} <span class="w3-badge w3-margin-left">{count($cat/t:category)}</span></button>
- <div id="list{$val}" class="w3-hide">
- <ul class="w3-ul w3-hoverable">
- {for $subcat in $cat/t:category
- order by lower-case($subcat/t:*[1]/text())
- return
- if($subcat/t:desc) then (
- let $subval := $subcat/t:desc
-  
- return
- (
- <button class="w3-button  w3-gray w3-margin-top" onclick="openAccordion('list{$subval}')">{$subval} <span class="w3-badge  w3-margin-left">{count($subcat/t:category)}</span></button>,<br/>,
- <div id="list{$subval}" class="w3-hide">
- <ul class="w3-ul w3-hoverable">
- {for $c in  $subcat/t:category
- let $subsubval := $c/t:catDesc/text()
- order by lower-case($subsubval)
- return
- <li><a href="/{$collection}/list?keyword={$subsubval}">{$config:collection-rootA/id($subsubval)//t:titleStmt/t:title[1]/text()}</a></li>
-}</ul>
- </div>
-  ) 
- ) else
- let $subval := $subcat/t:catDesc/text()
- return
- if ($subval/t:category)
-
- then (
-<div class="w3-container w3-margin-top">
-<button class="w3-button w3-gray" onclick="openAccordion('list{$subval}')">{$subval} <span class="w3-badge  w3-margin-left">{count($subcat/t:category)}</span></button><br/>
- <div id="list{$subval}" class="w3-hide">
- <ul class="w3-ul w3-hoverable">{
- for $subsubcat in $subcat/t:category
- let $subsubval := $subsubcat/t:catDesc/text()
-  order by lower-case($subsubval)
- return
- <li><a href="/{$collection}/list?keyword={$subsubval}">{$config:collection-rootA/id($subsubval)//t:titleStmt/t:title[1]/text()}</a></li>
-
- }</ul>
- </div>
- </div>)
- else(
- <li><a href="/{$collection}/list?keyword={$subval}">{$config:collection-rootA/id($subval)//t:titleStmt/t:title[1]/text()}</a></li>)
+ <div class="w3-panel w3-padding">  
+     <button class="w3-bar-item w3-button w3-red" 
+        onclick="openAccordion('list{replace($MainCatval, '\s', '')}')">{$MainCatval} 
+        <span class="w3-badge w3-margin-left">{count($MainCat/t:category)}</span>
+    </button>
+   <div id="list{replace($MainCatval, '\s', '')}" class="w3-hide">
+      <ul class="w3-ul w3-hoverable">{
+        for $subcat in $MainCat/t:category
+        let $subcatid := string($subcat/@xml:id)
+        order by replace(lower-case($subcat/t:*[1]/text()), '\s', '')
+        return
+           if($subcat/t:desc) 
+             then (let $subval := $subcat/t:desc
+                  return (
+                          <button class="w3-button  w3-gray w3-margin-top" 
+                          onclick="openAccordion('list{$subval}')">{$subval} 
+                          <span class="w3-badge  w3-margin-left">{count($subcat/t:category)}</span></button>,
+                          <br/>,
+                          <div id="list{$subval}" class="w3-hide">
+                         <ul class="w3-ul w3-hoverable">
+                         {for $c in  $subcat/t:category
+                         let $subcatid := string($c/@xml:id)
+                         let $text := $c/t:catDesc/text()
+                         order by $text
+                         return <li><a href="/{$collection}/list?keyword={$subcatid}">{$text}</a></li>
+                        }</ul> 
+                        </div> ) ) 
+             else 
+                 let $sstext := $subcat/t:catDesc/text()
+                 order by $sstext
+                 return 
+                     if ($subcat/t:category) 
+                      then (
+                            <div class="w3-container w3-margin-top">
+                             <button class="w3-button w3-gray" 
+                             onclick="openAccordion('list{$sstext}')">{$sstext} 
+                             <span class="w3-badge  w3-margin-left">{count($subcat/t:category)}</span></button>
+                             <br/>
+                             <div id="list{$sstext}" class="w3-hide">
+                             <ul class="w3-ul w3-hoverable">{
+                                 for $subsubcat in $subcat/t:category
+                                 let $ssid := string($subsubcat/@xml:id)
+                                 let $stext := $subsubcat/t:catDesc/text()
+                                 order by $stext
+                                 return
+                                     <li><a href="/{$collection}/list?keyword={$ssid}">{$stext}</a></li>
+                             }</ul> 
+                             </div>
+                             </div>)
+                    else(<li><a href="/{$collection}/list?keyword={$subcatid}">{$sstext}</a></li>)
  }
  </ul>
  </div>
  </div>}
+ 
  
    {app:nextID($collection)}
  </div>
@@ -525,7 +530,6 @@ href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exr
         <div class="w3-quarter" data-hint="The following filters can be applied by clicking on the filter icon below, to return to the full list, click the list, to go to advanced search the cog">
     {
     let $collect := switch2:collection($collection)
-    let $test := console:log($collect)
     return
     apprest:searchFilter-rest($collection, map{'hits' : <start/>, 'query' : $collect})}
     {switch($collection)
@@ -1415,7 +1419,8 @@ if($file or starts-with($place, 'wd:')) then (
                                         $config:collection-rootIn//t:country[@ref=$sameAs]) 
                           return $repo/ancestor::t:TEI/@xml:id
  let $repositoriesIDS := distinct-values($allrepositories)
- let $allmssinregion := $config:collection-rootMS//t:repository[@ref = $repositoriesIDS]/ancestor::t:TEI
+ let $selected := if(count($repositoriesIDS) ge 1) then $config:collection-rootMS//t:repository[@ref = $repositoriesIDS] else ()
+ let $allmssinregion := if(count($selected) ge 1 ) then (for $s in $selected return $s/ancestor::t:TEI) else 0
  let $stringquery := '$config:collection-rootMS//t:repository[@ref =("' || string-join($repositoriesIDS, '","') || '")]/ancestor::t:TEI'
 let $hits :=  
             map {
@@ -1424,6 +1429,18 @@ let $hits :=
                       'query': $stringquery
                       }
     return
+        if($hits("hits") = 0 ) then (
+            <div id="content" class="w3-threequarter">
+   <div class="w3-panel w3-margin-bottom w3-card-4" id="listTopInfo">
+   <div class="w3-bar">
+   <div id="hit-count" class="w3-bar-item">
+   {'There are no manuscripts in ' || titles:printTitleID($place) || ' or we simply do not have enough information to tell you, try another search please.'}
+   </div>
+   </div>
+   </div>
+   </div>
+            ) 
+        else 
     <div id="content" class="w3-threequarter">
    <div class="w3-panel w3-margin-bottom w3-card-4" id="listTopInfo">
    <div class="w3-bar">
@@ -1432,6 +1449,7 @@ let $hits :=
    <span class="w3-tag w3-gray">{count($hits("hits")) }</span>
    { ' manuscripts in ' || titles:printTitleID($place) }
    </div>
+  
    <div   id="optionsList">
 <a  target="_blank"  role="button" class="w3-button w3-bar-item w3-red"  
 href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exreq:query()}">Charts</a>
