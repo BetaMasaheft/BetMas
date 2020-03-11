@@ -8,9 +8,12 @@ declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace sparql = "http://www.w3.org/2005/sparql-results#";
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace console="http://exist-db.org/xquery/console";
-declare variable $titles:placeNamesList := doc(concat($config:app-root, '/lists/placeNamesLabels.xml'));
-declare variable $titles:persNamesList := doc(concat($config:app-root, '/lists/persNamesLabels.xml'));
-declare variable $titles:TUList := doc(concat($config:app-root, '/lists/textpartstitles.xml'));
+
+(: these lists are separately indexed here in the app with the collection.xconf for BetMas :)
+declare variable $titles:placeNamesList := doc('/db/apps/BetMas/lists/placeNamesLabels.xml');
+declare variable $titles:institutionsList := doc('/db/apps/BetMas/lists/institutions.xml');
+declare variable $titles:persNamesList := doc('/db/apps/BetMas/lists/persNamesLabels.xml');
+declare variable $titles:TUList := doc('/db/apps/BetMas/lists/textpartstitles.xml');
 
 
 (:establishes the different rules and priority to print a title referring to a record:)
@@ -75,31 +78,22 @@ declare
 %test:arg('id', 'LIT1367Exodus#Ex1') %test:assertEquals('Exodus, Exodus 1')
 %test:arg('id', 'PRS5684JesusCh#n2') %test:assertEquals('Jesus Christ, Krǝstos')
 function titles:printTitleID($id as xs:string)
-{  if (starts-with($id, 'sdc:')) then 'La Synthaxe du Codex ' || substring-after($id, 'sdc:' )
+{ 
+    if (starts-with($id, 'sdc:')) then 'La Synthaxe du Codex ' || substring-after($id, 'sdc:' )
     (: another hack for things like ref="#" :) 
     else if ($id = '#') then <span class="w3-tag w3-red">{ 'no item yet with id ' || $id }</span>
     (: hack to avoid the bad usage of # at the end of an id like <title type="complete" ref="LIT2317Senodo#" xml:lang="gez"> :) 
     else if ($titles:TUList//t:item[@corresp = $id]) then ($titles:TUList//t:item[@corresp = $id]/node())
     else if ($titles:persNamesList//t:item[@corresp = $id]) then ($titles:persNamesList//t:item[@corresp = $id]/node())
     else if (ends-with($id, '#')) then (
-                                let $id := replace($id, '#', '') 
-                                let $tit := if (matches($id, 'wd:Q\d+') or starts-with($id, 'gn:') or starts-with($id, 'pleiades:')) then
-                                                        (titles:decidePlaceNameSource($id))
-                                                else 
-                                                  (: always look at the root of the given node parameter of the function and then switch :)
-                                                    let $resource := $config:collection-root/id($id)
-                                                    let $resource := $resource[name() = 'TEI']
-                                                    return
-                                                             if (count($resource) = 0) then <span class="w3-tag w3-red">{ 'No item: ' || $id }</span>
-                                                             else if (count($resource) > 1) then <span class="w3-tag w3-red">{ 'More than 1 ' || $id }</span>
-                                                             else titles:switcher($resource/@type, $resource)
-                               return $tit
-                                )
+                                let $newid := replace($id, '#', '') 
+                                return titles:printTitleID($newid) )
+    else if (matches($id, 'wd:Q\d+') or starts-with($id, 'gn:') or starts-with($id, 'pleiades:')) 
+            then titles:decidePlaceNameSource($id)
     else if ($id = '') then <span class="w3-tag w3-red">{ 'no id' }</span>
     (: if the id has a subid, than split it :) 
     else if (contains($id, '#')) then
-    (
-        let $mainID := substring-before($id, '#')
+    (   let $mainID := substring-before($id, '#')
         let $SUBid := substring-after($id, '#')
         let $node := $config:collection-root//id($mainID)
         return
@@ -133,13 +127,10 @@ function titles:printTitleID($id as xs:string)
        (: if not, procede to main title printing :)
     else
         titles:printTitleMainID($id)
-  
-   
 };
 
 
-
-      declare function titles:printTitleMainID($id as xs:string, $c)
+declare function titles:printTitleMainID($id as xs:string, $c)
    {
        if (matches($id, 'wd:Q\d+') or starts-with($id, 'gn:') or starts-with($id, 'pleiades:')) then
            (titles:decidePlaceNameSource($id))
@@ -157,33 +148,36 @@ function titles:printTitleID($id as xs:string)
    
    
    
-      declare 
-      %test:arg('id', 'BNFet32') %test:assertEquals('Paris, Bibliothèque nationale de France, BnF Éthiopien 32')
-      %test:arg('id', 'LIT2317Senodo') %test:assertEquals('Senodos')
-      %test:arg('id', 'LIT1367Exodus') %test:assertEquals('Exodus')
-      %test:arg('id', 'PRS11160HabtaS') %test:assertEquals(' Habta Śǝllāse')
-      %test:arg('id', 'LOC1001Aallee') %test:assertEquals('Aallee')
-      function titles:printTitleMainID($id as xs:string)
-   {
-       if (matches($id, 'wd:Q\d+') or starts-with($id, 'gn:') or starts-with($id, 'pleiades:')) then
+declare 
+%test:arg('id', 'BNFet32') %test:assertEquals('Paris, Bibliothèque nationale de France, BnF Éthiopien 32')
+%test:arg('id', 'LIT2317Senodo') %test:assertEquals('Senodos')
+%test:arg('id', 'LIT1367Exodus') %test:assertEquals('Exodus')
+%test:arg('id', 'PRS11160HabtaS') %test:assertEquals(' Habta Śǝllāse')
+%test:arg('id', 'LOC1001Aallee') %test:assertEquals('Aallee')
+function titles:printTitleMainID($id as xs:string)
+   {   let $test := console:log($id) return
+       if (matches($id, 'wd:Q\d+') or starts-with($id, 'gn:') or starts-with($id, 'pleiades:')) 
+    then
            (titles:decidePlaceNameSource($id))
-       else (: always look at the root of the given node parameter of the function and then switch :)
-           let $resource := $config:collection-root/id($id)
-           let $resource := $resource[name() = 'TEI']
+    else (: always look at the root of the given node parameter of the function and then switch :)
+           let $catchID := $config:collection-root/id($id)
+           let $resource := $catchID[name() = 'TEI']
+            let $type := string($resource/@type)
+            let $test1 := console:log($type)
            return
                if (count($resource) = 0) then
            <span class="w3-tag w3-red">{ 'No item: ' || $id }</span>
                else if (count($resource) > 1) then
            <span class="w3-tag w3-red">{ 'More than 1 ' || $id }</span>
                else
-                     titles:switcher($resource/@type, $resource)
+                titles:switcher($type, $resource)
    };
    
    declare function titles:switcher($type, $resource){
 switch($type)
             case "mss"
                     return
-                      titles:manuscriptLabelFormatter($resource)
+                     titles:manuscriptLabelFormatter($resource)
              case "place"  return  titles:placeNameSelector($resource)
              case "ins" return  titles:placeNameSelector($resource)
             case "pers"  return titles:decidepersNameSource($resource, $resource/ancestor-or-self::t:TEI/@xml:id)
@@ -191,56 +185,44 @@ switch($type)
             case "narr"  return titles:decideTUSource($resource, $resource/ancestor-or-self::t:TEI/@xml:id)
 (:            this should do also auths:)
             default return $resource//t:titleStmt/t:title[1]/text()
-            };
+};
 
    
-declare function titles:manuscriptLabelFormatter($resource){
-if ($resource//objectDesc[@form = 'Inscription']) then
-                               ($resource//t:msIdentifier/t:idno/text())
-                           else
-                               (if ($resource//t:repository/text() = 'Lost') then
-                                   ('Lost. ' || $resource//t:msIdentifier/t:idno/text())
-                               else if ($resource//t:repository/@ref and $resource//t:msDesc/t:msIdentifier/t:idno/text())
-                                   then
-                                   let $repoid := $resource//t:repository/@ref
-                                   let $r := $config:collection-rootIn/id($repoid)
-                                   let $repo :=
-                                       if ($r) then
-                                           ($r)
-                                       else
-                                           'No Institution record'
-                                   let $repoPlace :=
-                                       if ($repo = 'No Institution record') then
-                                           $repo
-                                       else
-                                           (if ($repo[not(.//t:settlement)][not(.//t:country)]) then ()
+declare function titles:manuscriptLabelFormatter($resource) as xs:string {
+   if ($resource//objectDesc[@form = 'Inscription']) 
+       then ($resource//t:msIdentifier/t:idno/text())
+    else (if ($resource//t:repository/text() = 'Lost') 
+          then ('Lost. ' || $resource//t:msIdentifier/t:idno/text())
+          else if ($resource//t:repository/@ref and $resource//t:msDesc/t:msIdentifier/t:idno/text())
+                then
+                    let $repoid := string($resource//t:repository/@ref)
+                    let $reponame := $titles:institutionsList/id($repoid)/text()
+                    let $r := $config:collection-rootIn/id($repoid)
+                    let $repo := if ($r) then ($r) else 'No Institution record'
+                    let $repoPlace := if ($repo = 'No Institution record') then $repo else
+                                        (if ($repo[not(descendant::t:settlement)][not(descendant::t:country)]) then ('No location record')
                                     else if ($repo//t:settlement[1]/@ref) then
                                                let $plaID := string($repo//t:settlement[1]/@ref)
-                                               return
-                                                   titles:decidePlaceNameSource($plaID)
-                                           else if ($repo//t:settlement[1]/text()) then
-                                               $repo//t:settlement[1]/text()
-                                           else if ($repo//t:country/@ref) then
+                                               let $placeName := titles:decidePlaceNameSource($plaID)
+                                               let $test5 := console:log($placeName)
+                                               return $placeName
+                                    else if ($repo//t:settlement[1]/text()) then $repo//t:settlement[1]/text()
+                                    else if ($repo//t:country/@ref) then
                                                let $plaID := string($repo//t:country/@ref)
                                                return
                                                    titles:decidePlaceNameSource($plaID)
-                                           else if ($repo//t:country/text()) then
+                                    else if ($repo//t:country/text()) then
                                                $repo//t:country/text()
-                                           else
-                                               'No location record'
+                                    else 'No location record'
                                            )
-                               
-                                       let $candidate := string-join($repoPlace, ' ') || ', ' || (if ($repo = 'No Institution record') then
-                                           $repo
-                                       else
-                                           (titles:placeNameSelector($repo))
-                                       ) || ', ' || 
+                    let $test4 := console:log(string-length($repoPlace))
+                    let $candidate := string-join($repoPlace, ' ') || ', ' || (
+                                     if ($repo = 'No Institution record') then $repo else ($reponame)
+                                     ) || ', ' || 
                                            $resource//t:msDesc/t:msIdentifier/t:idno/text()
-                                           return
-                                           normalize-space($candidate)
-                               else
-                                   'no repository data for ' || string($resource/@xml:id)
-                               )
+                    return normalize-space($candidate)
+        else 'no repository data for ' || string($resource/@xml:id)
+        )
 };
 
 
@@ -434,24 +416,28 @@ declare function titles:decidePlName($plaID){
 
 (:Given an id, decides if it is one of BM or from another source and gets the name accordingly:)
 declare function titles:decidePlaceNameSource($pRef as xs:string){
+    let $test := console:log($pRef) return
 if ($titles:placeNamesList//t:item[@corresp = $pRef]) 
-then $titles:placeNamesList//t:item[@corresp = $pRef]/text()
+    then $titles:placeNamesList//t:item[@corresp = $pRef]/text()
 else if (starts-with($pRef, 'gn:')) then (
-let $name := titles:getGeoNames($pRef) 
-let $addit := titles:updatePlaceList($name, $pRef) 
-return
-titles:decidePlaceNameSource($pRef)) 
+        let $name := titles:getGeoNames($pRef) 
+        let $addit := titles:updatePlaceList($name, $pRef) 
+        return
+        titles:decidePlaceNameSource($pRef)) 
 else if (starts-with($pRef, 'pleiades:')) then (
-let $name := titles:getPleiadesNames($pRef) 
-let $addit := titles:updatePlaceList($name, $pRef) 
-return
-titles:decidePlaceNameSource($pRef)) 
+        let $name := titles:getPleiadesNames($pRef) 
+        let $addit := titles:updatePlaceList($name, $pRef) 
+        return
+            titles:decidePlaceNameSource($pRef)) 
 else if (matches($pRef, 'wd:Q\d+')) then (
-let $name := titles:getwikidataNames($pRef) 
-let $addit := titles:updatePlaceList($name, $pRef) 
-return
-titles:decidePlaceNameSource($pRef)) 
-else titles:printTitleID($pRef) 
+        let $name := titles:getwikidataNames($pRef) 
+        let $addit := titles:updatePlaceList($name, $pRef) 
+        return
+            titles:decidePlaceNameSource($pRef)) 
+else (
+    let $resource := $config:collection-rootPl/id($pRef)
+    return titles:placeNameSelector($resource)
+    )
 };
 
 (:Given an id, decides if it is one of BM or from another source and gets the name accordingly:)

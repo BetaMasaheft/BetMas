@@ -1047,13 +1047,13 @@ let $quires :=  if(empty($Pqn) or $Pqn = '' or $Pqn = '1,100')
                 let $min := substring-before($Pqn, ',')
                 let $max := substring-after($Pqn, ',')
                 return
-                "[descendant::t:extent/t:measure[@unit='quire'][not(@type)][not(.='')][number(.) ge "||$min|| ' ][ number(.)  le ' || $max ||"]]")
+                "[descendant::t:extent/t:measure[@unit='quire'][not(@type)][not(.='')][. ge "||$min|| ' ][.  le ' || $max ||"]]")
 let $quiresComp :=  if(empty($Pqcn) or $Pqcn = '' or $Pqcn = '1,40')
                      then () else  (
                    let $min := substring-before($Pqcn, ',')
                 let $max := substring-after($Pqcn, ',')
                 return
-                "[descendant::t:dim[ancestor::t:collation][@unit='leaf'][not(.='')][number(.) ge "||$min|| ' ][ number(.)  le ' || $max ||"]]")
+                "[descendant::t:dim[ancestor::t:collation][@unit='leaf'][not(.='')][. ge "||$min|| ' ][.  le ' || $max ||"]]")
 
 
 let $allMssFilters := concat($allnames, $support, $opl, $material, $bmaterial, $scripts, $scribes, $donors, $patrons, $owners, $parchmentMakers,

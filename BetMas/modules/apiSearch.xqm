@@ -6,18 +6,18 @@ xquery version "3.1" encoding "UTF-8";
  : @author Pietro Liuzzo 
  :)
 module namespace apiS = "https://www.betamasaheft.uni-hamburg.de/BetMas/apiSearch";
+import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace kwic = "http://exist-db.org/xquery/kwic" at "resource:org/exist/xquery/lib/kwic.xql";
 import module namespace all="https://www.betamasaheft.uni-hamburg.de/BetMas/all" at "xmldb:exist:///db/apps/BetMas/modules/all.xqm";
 import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
-import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 (: namespaces of data used :)
-declare namespace t = "http://www.tei-c.org/ns/1.0";
 import module namespace http="http://expath.org/ns/http-client";
+import module namespace console="http://exist-db.org/xquery/console";
 
 declare namespace test="http://exist-db.org/xquery/xqsuite";
-
+declare namespace t = "http://www.tei-c.org/ns/1.0";
 (: For REST annotations :)
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json = "http://www.json.org";
@@ -50,6 +50,15 @@ let $SearchOptions :=
 concat("t:", $element, "[ft:query(., '" , $query, "', ", serialize($SearchOptions) ,")]")
 };
 
+declare
+%rest:GET
+%rest:path("/BetMas/api/titleTest")
+%rest:query-param("id", "{$id}", "")
+%output:method("json")
+function apiS:titleTest($id) {
+   map{ 'title' : titles:printTitleMainID($id) }
+};
+
 (:~ returns a map containing the KWIC hits from the evaluation of an xpath containing lucene full text index queries for the API search. :)
 declare
 %rest:GET
@@ -71,44 +80,46 @@ let $log := log:add-log-message('/api/kwicsearch?q=' || $q, sm:id()//sm:real/sm:
      for $e in $element
      let $elQ :=    apiS:BuildSearchQuery2($e, all:substitutionsInQuery($q))
     let $string := concat("$config:collection-root//",$elQ)
-    return
+   return
     util:eval($string)
 
 let $hits := ($elements)
-
-let $hi :=   for $hit in $hits
-                    let $expanded := kwic:expand($hit)
-                   let $root := root($hit)/t:TEI
-                 group by $R := $root
-  
-                 let $id := string($R/@xml:id)
-                    let $collection := switch($R/@type) case 'mss' return 'manuscripts'case 'place' return 'places' case 'work' return 'works' case 'narr' return 'narratives' case 'ins' return 'institutions' case 'pers' return 'persons' default return 'authority-files'
-                   let $ptest := titles:printTitleMainID($id)
-                   let $title := if ($ptest) then ($ptest) else ()
-                    let $count := count($expanded//exist:match)
-                   let $results :=  for $ex in $expanded
-                                                 for $match in subsequence($ex//exist:match, 1, 3) 
-                                               
-                                                return  kwic:get-summary($ex, $match,<config width="40"/>)
-                   let $pname := $expanded//exist:match[ancestor::t:div[@type='edition']]
-                   
-                   let $text := if($pname) then 'text' else 'main'
-                   
-                   let $textpart := if($text = 'text') then 
-                          let $tpart := $expanded//exist:match[ancestor::t:div[@type='edition']][1]/ancestor::t:div[@type='textpart'][1]/@n
-                         
-                          return if($tpart[1]) then  string($tpart[1]) else if ($tpart ='') then '1' else '1'
-                          else ('1')
+let $hi :=  for $hit in $hits
+            let $expanded := kwic:expand($hit)
+            let $root := root($hit)/t:TEI
+            group by $R := $root
+            let $id := string($R/@xml:id)
+            let $title := titles:printTitleMainID($id)
+            let $collection := switch($R/@type) 
+                                case 'mss' return 'manuscripts'
+                                case 'place' return 'places' 
+                                case 'work' return 'works' 
+                                case 'narr' return 'narratives' 
+                                case 'ins' return 'institutions' 
+                                case 'pers' return 'persons' 
+                                default return 'authority-files'
+            let $count := count($expanded//exist:match)
+            let $results := for $ex in $expanded
+                            for $match in subsequence($ex//exist:match, 1, 3) 
+                            return  kwic:get-summary($ex, $match,<config width="40"/>)
+            let $test := console:log($results)
+            let $pname := $expanded//exist:match[ancestor::t:div[@type='edition']]
+            let $text := if($pname) then 'text' else 'main'
+            let $textpart := if($text = 'text') then 
+            let $tpart := $expanded//exist:match[ancestor::t:div[@type='edition']][1]/ancestor::t:div[@type='textpart'][1]/@n
+            return
+                if($tpart[1]) then  string($tpart[1]) 
+                else if ($tpart ='') then '1' else '1'
+                else ('1')
                           
-                   return
-                        map {
-                            "id" : $id,
-                            "text" : $text,
-                            "textpart" : $textpart,
-                            "collection" : $collection,
-                            "title" : $title,
-                            "hitsCount" : $count,
-                            "results" : $results                        
+        return map {
+                    "id" : $id,
+                    "text" : $text,
+                    "textpart" : $textpart,
+                    "collection" : $collection,
+                    "title" : $title,
+                    "hitsCount" : $count,
+                    "results" : $results                        
                         }
 let $c := count($hits)
 return
@@ -117,7 +128,6 @@ return
        map {
             "items" : $hi,
             "total": $c
-        
         })
     else
         <json:value>
