@@ -168,7 +168,7 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                     </titleStmt>
                     <publicationStmt>
                         <authority>Hiob-Ludolf-Zentrum für Äthiopistik</authority>
-                        <publisher>Die Schriftkultur des christlichen Äthiopiens: Eine multimediale
+                        <publisher>Die Schriftkultur des christlichen Äthiopiens und Eritreas: Eine multimediale
                             Forschungsumgebung / Beta maṣāḥǝft</publisher>
                         <pubPlace>Hamburg</pubPlace>
                         <availability>
@@ -394,12 +394,6 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                     <langUsage>
                         <language
                             ident="en">English</language>
-                        <language
-                            ident="ar">Arabic</language>
-                        <language
-                            ident="it">Italian</language>
-                        <language
-                            ident="am">Amharic</language>
                         <language
                             ident="gez">Gǝʿǝz</language>
                     </langUsage>
