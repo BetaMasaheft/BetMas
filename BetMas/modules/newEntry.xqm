@@ -59,11 +59,11 @@ if($app:collection = 'persons') then (
 <select  class="w3-select"  id="keywords" name="keywords" multiple="multiple">
                 {
                 
-                let $categories :=  $taxonomy/t:category[t:desc='Confessions']//t:catDesc/text()
+                let $categories :=  $taxonomy//t:category[t:desc='Confessions']//t:catDesc/text()
                  for $k in $categories
                 order by $k
                 return
-                <option value="{$k}">{$config:collection-rootA/id($k)//t:titleStmt/t:title[1]}</option>
+                <option value="{$k}">{$k}</option>
                 }
 </select><br/>
 
