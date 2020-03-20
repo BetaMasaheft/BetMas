@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.tei-c.org/ns/1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template name="DotPorterIfy">
         <xsl:param name="porterified" tunnel="yes"/>
@@ -57,7 +56,14 @@
                             <xsl:value-of select="string-length($singletoncount)"/>
                         </xsl:with-param>
                     </xsl:call-template>
-                </quire>
+                <number>
+                        <xsl:if test="t:num"><br/>Quire Numeration: <xsl:apply-templates select="t:num"/></xsl:if>
+                    </number>
+                <text><xsl:if test="t:note"><br/>Notes: <xsl:for-each select="t:note"><xsl:sort/>
+                    <xsl:value-of select="position()"/><xsl:text>) </xsl:text>
+                <xsl:apply-templates select="."/>
+                </xsl:for-each></xsl:if></text>
+                    </quire>
             </xsl:for-each>
         </collation>
     </xsl:template>

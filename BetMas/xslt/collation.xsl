@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:collation">
         <xsl:variable name="mspartID">
@@ -31,45 +30,38 @@
         <div class="w3-container allCollation">
             
             <button type="button" class="w3-button w3-red" onclick=" openAccordion('collation{$mspartID}')">Quire Table</button>
-            <div class="collation w3-hide QuiresTable" id="collation{$mspartID}">
-                <div class="w3-col" style="width:200px">
-                    <ul class="quireTableHeaders">
-                        <li>Position</li>
-                        <li>Number</li>
-                        <li>Leaves</li>
-                        <li>Quires</li>
-                        <li>Description</li>
-                    </ul>
-                </div>
-                <div class="w3-rest QuiresTableHoriz">
-                    <ul class="list-inline">
+            <div class="collation w3-hide" id="collation{$mspartID}">
+                <table class="w3-table">
+                    <tr>  <th>Position</th>
+                        <th>Number</th>
+                        <th>Leaves</th>
+                        <th>Quires</th>
+                        <th>Description</th>
+                        </tr>
                         <xsl:for-each select=".//t:item">
                             <xsl:sort select="position()"/>
-                            <li class="quire">
-                                <ul class="quireTableQuire">
-                                    <li>
+                            <tr>
+                                   <td>
                                         <xsl:attribute name="id">
                                             <xsl:value-of select="@xml:id"/>
                                         </xsl:attribute>
                                         <xsl:value-of select="position()"/>
-                                    </li>
-                                    <li>
+                                    </td>
+                                    <td>
                                         <xsl:value-of select="@n"/>
-                                    </li>
-                                    <li>
+                                    </td>
+                                    <td>
                                         <xsl:apply-templates select="t:dim[@unit = 'leaf']/text()"/>
-                                    </li>
-                                    <li>
+                                    </td>
+                                    <td>
                                         <xsl:apply-templates select="t:locus[parent::t:item]"/>
-                                    </li>
-                                    <li>
+                                    </td>
+                                    <td>
                                         <xsl:apply-templates select="child::node() except (t:locus|t:dim)"/>
-                                    </li>
-                                </ul>
-                            </li>
+                                    </td>
+                            </tr>
                         </xsl:for-each>
-                    </ul>
-                </div>
+</table>
             </div>
             <xsl:variable name="dimensionandstubs">
                     <xsl:for-each select=".//t:list/t:item">

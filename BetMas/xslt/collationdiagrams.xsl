@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.schoenberginstitute.org/schema/collation" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" xmlns:t="http://www.tei-c.org/ns/1.0" exclude-result-prefixes="#all" version="2.0">
     <xd:doc scope="stylesheet">
         <xd:desc>
@@ -48,6 +47,8 @@
                 </xsl:if></b>
                 <br/>-->
                 <xsl:value-of select="@desc"/>
+                <xsl:copy-of select="t:text/node()"/>
+                <xsl:copy-of select="t:number/node()"/>
                 <br/>
                 <xsl:for-each select="t:units/t:unit[1]">
                             
