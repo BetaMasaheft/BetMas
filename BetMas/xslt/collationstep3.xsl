@@ -37,7 +37,7 @@
                 <units>
                     <xsl:apply-templates select="t:units" mode="step1"/>
                 </units>
-                <xsl:copy-of select="t:number | t:text"/>
+                <xsl:copy-of select="t:text"/>
             </quire>
         </xsl:for-each>
     </xsl:template>

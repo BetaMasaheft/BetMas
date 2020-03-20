@@ -130,7 +130,7 @@
                         </unit>
                     </xsl:for-each>
                 </units>
-                <xsl:copy-of select="t:number | t:text"/>
+                <xsl:copy-of select="t:text"/>
             </quire>
         </xsl:for-each>
     </xsl:template>

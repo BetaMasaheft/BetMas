@@ -56,10 +56,9 @@
                             <xsl:value-of select="string-length($singletoncount)"/>
                         </xsl:with-param>
                     </xsl:call-template>
-                <number>
-                        <xsl:if test="t:num"><br/>Quire Numeration: <xsl:apply-templates select="t:num"/></xsl:if>
-                    </number>
-                <text><xsl:if test="t:note"><br/>Notes: <xsl:for-each select="t:note"><xsl:sort/>
+                <text>
+                    <br/>Quire ID:<xsl:value-of select="@xml:id"/><xsl:if test="@n">, number:<xsl:value-of select="@n"/></xsl:if><xsl:if test="t:num">, Ethiopic quire number: <xsl:apply-templates select="t:num"/></xsl:if>
+                    <xsl:if test="t:note"><br/>Notes: <xsl:for-each select="t:note"><xsl:sort/>
                     <xsl:value-of select="position()"/><xsl:text>) </xsl:text>
                 <xsl:apply-templates select="."/>
                 </xsl:for-each></xsl:if></text>

@@ -47,8 +47,8 @@
                 </xsl:if></b>
                 <br/>-->
                 <xsl:value-of select="@desc"/>
+                
                 <xsl:copy-of select="t:text/node()"/>
-                <xsl:copy-of select="t:number/node()"/>
                 <br/>
                 <xsl:for-each select="t:units/t:unit[1]">
                             
