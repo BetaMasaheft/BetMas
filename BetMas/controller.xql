@@ -3,6 +3,7 @@ xquery version "3.1" encoding "UTF-8";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "modules/config.xqm";
 import module namespace request = "http://exist-db.org/xquery/request";
 import module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMas/error" at "modules/error.xqm";
+import module namespace console="http://exist-db.org/xquery/console";
 
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 
@@ -284,15 +285,14 @@ else if (ends-with($exist:path, ".json")) then
 else if (starts-with($exist:path, '/tei/') and ends-with($exist:path, ".xml")) then
                                
                             let $id := substring-before($exist:resource, '.xml')
-                            let $item := $config:collection-root/id($id)[name()='TEI']
+                           let $item := $config:collection-root/id($id)[name()='TEI']
                             let $collection := local:switchCol($item/@type)
-                            let $uri := base-uri($item)
-                               
                             return
                             if ($item) then
                                 <dispatch
                                     xmlns="http://exist.sourceforge.net/NS/exist">
-                                    <forward
+                                    <forward url="/restxq/BetMas/api/post/{$id}/tei" absolute="yes"/>
+                                   <!-- <forward
                                         url="/{substring-after($uri, 'db/apps/')}"/>
                                     <view>
                                         <forward
@@ -303,7 +303,7 @@ else if (starts-with($exist:path, '/tei/') and ends-with($exist:path, ".xml")) t
                                                                             
                                         <set-header name="Cache-Control" value="no-cache"/>
                                         </forward>
-                                    </view>
+                                    </view>-->
                                 </dispatch>
                                  else 
                                 
@@ -431,7 +431,7 @@ function apisparql:constructURIsubid() is called to construct a graph of that re
                                                 let $prefix := substring($exist:path, 2, 2)
                                                 let $switchCollection := local:switchPrefix($prefix)
                                                 let $tokenizePath := tokenize($exist:path, '/')
-                                                let $test := request:get-header('Accept')
+                                                (:let $test := console:log(request:get-header('Accept')):)
                                               return
                                                 if (contains(request:get-header('Accept'), 'rdf'))
                                             then
@@ -451,7 +451,7 @@ function apisparql:constructURIsubid() is called to construct a graph of that re
                                                         xmlns="http://exist.sourceforge.net/NS/exist">
                                                         
                                                         <redirect
-                                                            url="https://betamasaheft.eu/{$switchCollection}/{$tokenizePath[2]}/main#{$tokenizePath[last()]}"/>
+                                                            url="/{$switchCollection}/{$tokenizePath[2]}/main#{$tokenizePath[last()]}"/>
                                                     
                                                     </dispatch>
                                                     
@@ -497,7 +497,6 @@ construct the annotation graph if application/rdf+xml is specified
                                             if (starts-with($exist:path, "/bond/")) then
                                                 let $tokenizePath := tokenize($exist:path, '/')
                                                 let $tokenizeBond := tokenize($tokenizePath[3], '-')
-(:                                                let $test := console:log($tokenizeBond):)
                                               return
                                                 if (contains(request:get-header('Accept'), 'rdf'))
                                             then
@@ -525,9 +524,8 @@ construct the annotation graph if application/rdf+xml is specified
  : http://betamasaheft.eu/LIT1340EnochE:1.3
  : should redirect to
  : http://betamasaheft.eu/works/LIT1340EnochE/text?start=1
- : :)
-                                        
-                                        else
+  :)
+                                      (:  else
                                             if (matches($exist:resource, "^\w+\d+(\w+)?:(a-zA-Z0-9\.)+$")) then
                                                 let $prefix := substring($exist:resource, 1, 2)
                                                 let $switchCollection := local:switchPrefix($prefix)
@@ -538,8 +536,7 @@ construct the annotation graph if application/rdf+xml is specified
                                                         <redirect
                                                             url="/{$switchCollection}/{$exist:resource}/text?start={encode-for-uri($passage)}"/>
                                                     </dispatch>
-                                                            
-
+:)
 
 (: if the resource does match the id, then redirect to main view of that item:)
                                         

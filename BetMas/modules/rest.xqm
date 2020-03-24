@@ -452,6 +452,24 @@ function api:get-tei-by-ID($id as xs:string) {
         )
 };
 
+(:~ given the file id, returns the source TEI xml:)
+declare
+%rest:GET
+%rest:path("/BetMas/api/post/{$id}/tei")
+%output:media-type("text/xml")
+%output:method("xml")
+%test:arg('id','LIT1367Exodus') %test:assertXPath("//*:text")
+function api:get-POSTPROCESSED-tei-by-ID($id as xs:string) {
+    let $log := log:add-log-message('/api/post/' || $id || '/tei', sm:id()//sm:real/sm:username/string() , 'REST')
+    let $login := xmldb:login($config:data-root, $config:ADMIN, $config:ppw)
+    let $doc :=api:get-tei-rec-by-ID($id)
+    let $xslt := 'xmldb:exist:///db/apps/BetMas/xslt/post.xsl'
+    return
+        ($api:response200XML,
+        transform:transform($doc,$xslt,())
+        )
+};
+
 (:~ given the file id, returns the source TEI in a json serialization:)
 declare
 %rest:GET
