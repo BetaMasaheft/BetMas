@@ -986,11 +986,13 @@ EMIP:)
                                                          <ul class="w3-padding">{
                                                          for $h in $hit
                                                          let $msitem := $h/parent::t:msItem
-                                                         let $placement := if ($h/preceding-sibling::t:locus) then ( ' ('|| (let $locs :=for $loc in $h/preceding-sibling::t:locus return string:tei2string($loc) return string-join($locs, ' ')) || ')') else ''
+                                                      (:   let $placement := if ($h/preceding-sibling::t:locus) then ( ' ('|| (let $locs :=for $loc in $h/preceding-sibling::t:locus return string:tei2string($loc) return string-join($locs, ' ')) || ')') else ''
                                                          let $position := ' [' || count($msitem/preceding-sibling::t:msItem) +1 || '/' || count($msitem/parent::t:*/child::t:msItem) || ']'
+                                                         :)
                                                          return
 
-<li>content item with id <b>{string($msitem/@xml:id)}</b> {if($h/text()) then (', ', <i>{$h/text()}</i> ) else () } {$placement} {$position}</li>
+<li>content item with id <b>{string($msitem/@xml:id)}</b> {if($h/text()) then (', ', <i>{$h/text()}</i> ) else () } 
+</li>
                                                          }
                                                          </ul>
 </div> 
