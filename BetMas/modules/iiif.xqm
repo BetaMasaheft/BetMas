@@ -655,7 +655,7 @@ function iiif:canvas($id as xs:string*, $n as xs:string*, $alt as xs:string*) {
 ($iiif:response200,
 
 log:add-log-message('/api/iiif/'||$id||'/canvas/p' || $n, sm:id()//sm:real/sm:username/string() , 'iiif'),
-let $item := collection($config:data-rootMS)/id($id)
+let $item := $config:collection-rootMS/id($id)
 let $facsid := if(string-length($alt) = 0) then $item//t:msIdentifier/t:idno else $item//t:altIdentifier[@xml:id=$alt]/t:idno 
 let $iiifroot := $config:appUrl ||"/api/iiif/" || $id 
 let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($facsid/@facs)
