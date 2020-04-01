@@ -150,6 +150,52 @@
             <!--        formula-->
                 <button type="button" class="w3-button w3-red" onclick=" openAccordion('collationFormula{$mspartID}')">Collation Formula </button>
             <div id="collationFormula{$mspartID}" class="w3-container w3-hide">
+                <p>Ethio-SPaRe formula :
+                    <xsl:for-each select=".//t:item">
+                        <xsl:sort select="if(@n) then number(@n) else number(replace(@xml:id, 'q', ''))" order="ascending"/>
+                        <xsl:value-of select="t:num"/>
+                        <xsl:choose>
+                            <xsl:when test="@n='A' or @n='B'">
+                                <xsl:value-of select="@n"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:variable name="val" select="if(@n) then string(@n) else replace(@xml:id, 'q', '')"/>
+                                <xsl:number value="$val" format="I"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                        <xsl:text>(</xsl:text>
+                        <xsl:variable name="dim" select="t:dim"/>
+                        <xsl:choose>
+                            <xsl:when test="contains(string-join(text()), 'stub')">
+                                <xsl:variable name="text" select="string-join(text(), ' ')"/>
+                                <xsl:variable name="stubs">
+                                    <xsl:analyze-string select="$text" regex="stub">
+                                        <xsl:matching-substring>1</xsl:matching-substring>
+                                    </xsl:analyze-string>
+                                </xsl:variable>
+                                <xsl:variable name="countstubs" select="string-length($stubs)"/>
+                                <xsl:value-of select="number(t:dim)-number($countstubs)"/>+<xsl:value-of select="$countstubs"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="$dim"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                        <xsl:text>/</xsl:text>
+                        <xsl:if test="contains(string-join(text()), 'stub')">
+                            <xsl:variable name="text" select="string-join(text(), ' ')"/>
+                            <xsl:variable name="stubs">
+                                <xsl:analyze-string select="$text" regex="((\d+)(,?)(\s?)(no\s)?((stub|added|replaced|missing)(\s+)?)(after|before)?(\s?)(\d+)?)">
+                                    <xsl:matching-substring><single>s.l. <xsl:value-of select="regex-group(1)"/></single></xsl:matching-substring>
+                                </xsl:analyze-string>
+                            </xsl:variable>
+                            <xsl:value-of select="string-join($stubs//text(), '; ')"/>
+                            <xsl:text>/</xsl:text>
+                        </xsl:if>
+                        <xsl:apply-templates select="t:locus"/>
+                        <xsl:text>)</xsl:text>
+                        <xsl:text> – </xsl:text>
+                    </xsl:for-each>
+                </p>
                 <p>Formula: <xsl:for-each select=".//t:item">
                         <xsl:sort select="position()"/>
                         <xsl:apply-templates select="t:locus"/>
