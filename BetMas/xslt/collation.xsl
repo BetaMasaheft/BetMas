@@ -155,7 +155,7 @@
                         <xsl:sort select="if(@n) then number(@n) else number(replace(@xml:id, 'q', ''))" order="ascending"/>
                         <xsl:value-of select="t:num"/>
                         <xsl:choose>
-                            <xsl:when test="@n='A' or @n='B'">
+                            <xsl:when test="matches(@n, '[A-Za-z]')">
                                 <xsl:value-of select="@n"/>
                             </xsl:when>
                             <xsl:otherwise>
