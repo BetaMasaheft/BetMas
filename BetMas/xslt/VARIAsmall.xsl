@@ -1,14 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.torg/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     
     <xsl:template match="t:relation" mode="gendesc">
         <xsl:choose>
-            <xsl:when test="not(@passive) and t:desc">
-                <xsl:value-of select="t:desc"/>
-            </xsl:when>
+            <xsl:when test="not(@passive) and t:desc"><xsl:value-of select="t:desc"/></xsl:when>
             <xsl:otherwise>
-                <a target="_blank">
-                    <xsl:choose>
+                <a target="_blank"><xsl:choose>
                 <xsl:when test="starts-with(@passive, 'http')">
                     <xsl:attribute name="href">
                    <xsl:value-of select="@passive"/>
@@ -19,12 +15,9 @@
                     <xsl:attribute name="href">
                     <xsl:value-of select="concat('/', @passive)"/>
                 </xsl:attribute>
-                    <span class="MainTitle" data-value="{@passive}">
-                                <xsl:value-of select="@passive"/>
-                            </span>
+                    <span class="MainTitle" data-value="{@passive}"><xsl:value-of select="@passive"/></span>
                 </xsl:otherwise>
-            </xsl:choose>
-                </a>
+            </xsl:choose></a>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
@@ -268,6 +261,14 @@
                 <xsl:apply-templates/>
             </xsl:otherwise>
         </xsl:choose>
+    </xsl:template>
+    <xsl:template match="t:seg[@part]">
+        <xsl:choose>
+            <xsl:when test="@part = 'I'">Incipit: </xsl:when>
+            <xsl:when test="@part = 'F'">Explicit: </xsl:when>
+            <xsl:when test="@part = 'M'">Excerpt: </xsl:when>
+        </xsl:choose>
+        <xsl:apply-templates/>
     </xsl:template>
     <xsl:template match="t:ab[not(ancestor::t:body)] | t:seg[@type = 'script'] | t:desc[parent::t:handNote] | t:seg[@type = 'rubrication']">
         <p>
