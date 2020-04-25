@@ -911,12 +911,12 @@ for $date at $p in $model("hits")
                 order by $ms
                 return
 
-(<button onclick="openAccordion('{data($ms)}')" 
+(<button onclick="openAccordion('{data($ms)}{data($type)}')" 
         class="w3-button w3-block w3-red w3-padding w3-margin-bottom">
 <span class="w3-badge w3-right">{count($d)}</span>
 <span class="w3-left " data-value="{$type}">{titles:printTitleMainID($ms)}</span>
 </button>,
-<div class="w3-container w3-hide" id="{data($ms)}">
+<div class="w3-container w3-hide" id="{data($ms)}{data($type)}">
 <ul class="w3-ul w3-hoverable" >
                  {
                      for $sd in $d
