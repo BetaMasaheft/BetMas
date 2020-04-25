@@ -289,9 +289,9 @@
                     <xsl:apply-templates select="//t:listBibl[@type='clavis']"/>
                 </div>
             </xsl:if>
-            <xsl:if test="//t:listBibl">
+            <xsl:if test="//t:listBibl[not(@type='clavis')]">
                 <div id="bibliography">
-                    <xsl:apply-templates select="//t:listBibl"/>
+                    <xsl:apply-templates select="//t:listBibl[not(@type='clavis')]"/>
                 </div>
             </xsl:if>
             <xsl:if test="//t:publicationStmt">
