@@ -170,7 +170,7 @@
             <xsl:apply-templates/>
         </p>
     </xsl:template>
-    <xsl:template match="t:watermark">
+    <xsl:template match="t:watermark[not(parent::t:support[t:material[@key='parchment']])]">
         <h3>watermark</h3>
         <p>
             <xsl:choose>
