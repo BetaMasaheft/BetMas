@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:layoutDesc">
         <div rel="http://purl.org/dc/terms/hasPart">
@@ -10,6 +9,7 @@
                 </xsl:variable> of codicological unit <xsl:value-of select="$currentMsPart"/>
             </xsl:if>
         </h3>
+            <xsl:apply-templates select="t:summary"/>
         <xsl:for-each select=".//t:layout">
             <xsl:sort select="position()"/>
         <div id="layout{position()}" resource="http://betamasaheft.eu/{$mainID}/layout/layout{position()}">    
@@ -104,8 +104,7 @@
                 <xsl:variable name="computedheight" select="number($heighText) + number($bottomargin) + number($topmargin)"/>
                 <xsl:variable name="computedwidth" select="number($textwidth) + number($rightmargin) + number($leftmargin)"/>
                 <xsl:variable name="currentMsPart">
-                    <xsl:choose>
-                                <xsl:when test="./ancestor::t:msPart">
+                    <xsl:choose><xsl:when test="./ancestor::t:msPart">
                         <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
                     </xsl:when>
                     <xsl:otherwise> main part</xsl:otherwise>
