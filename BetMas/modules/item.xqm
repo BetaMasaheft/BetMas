@@ -11,7 +11,7 @@ import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMa
 import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "xmldb:exist:///db/apps/BetMas/modules/editors.xqm";
 import module namespace wiki="https://www.betamasaheft.uni-hamburg.de/BetMas/wiki" at "xmldb:exist:///db/apps/BetMas/modules/wikitable.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
-import module namespace app="https://www.betamasaheft.uni-hamburg.de/BetMas/app" at "xmldb:exist:///db/apps/BetMas/modules/app.xqm";
+import module namespace apptable="https://www.betamasaheft.uni-hamburg.de/BetMas/apptable" at "xmldb:exist:///db/apps/BetMas/modules/apptable.xqm";
 import module namespace xdb="http://exist-db.org/xquery/xmldb";
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
@@ -118,7 +118,7 @@ Not sure how to do this? Have a look at the <a href="/Guidelines">Beta maṣā�
 </div>
             
 <div class="w3-bar-item w3-tooltip">
-{app:pdf-link($id)}
+{apptable:pdf-link($id)}
 <span class="w3-text w3-tag itemoptiontooltip">Produces a PDF on the fly from the source TEI-XML using XSL-FO and Apache FOP</span>
 </div>
 
@@ -297,7 +297,7 @@ return
             case 'persons' return if(starts-with($document//t:person/@sameAs, 'wd:')) then wiki:wikitable(substring-after($document//t:person/@sameAs, 'wd:')) else (string($document//t:person/@sameAs))
 
             case 'works' return
-            app:clavisIds(root($document))
+            apptable:clavisIds(root($document))
             
  case 'institutions' return
 

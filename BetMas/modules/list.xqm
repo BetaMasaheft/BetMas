@@ -7,7 +7,7 @@ xquery version "3.1" encoding "UTF-8";
 module namespace list = "https://www.betamasaheft.uni-hamburg.de/BetMas/list";
 import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
-import module namespace app = "https://www.betamasaheft.uni-hamburg.de/BetMas/app" at "xmldb:exist:///db/apps/BetMas/modules/app.xqm";
+import module namespace apptable = "https://www.betamasaheft.uni-hamburg.de/BetMas/apptable" at "xmldb:exist:///db/apps/BetMas/modules/apptable.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
 import module namespace item2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/item2" at "xmldb:exist:///db/apps/BetMas/modules/item.xqm";
@@ -421,7 +421,7 @@ if(xdb:collection-available($c)) then (
  </div>}
  
  
-   {app:nextID($collection)}
+   {apptable:nextID($collection)}
  </div>
  <div class="w3-threequarter w3-container w3-padding" id="main" >
  {if($keyword = '')
@@ -501,7 +501,7 @@ href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exr
  
  <a class="w3-button w3-bar-item w3-gray" href="javascript:void(0);" onclick="javascript:introJs().addHints();">hints</a>
         
-{app:nextID($collection)}
+{apptable:nextID($collection)}
 </div>
 </div>
 
@@ -518,7 +518,7 @@ href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exr
     {apprest:paginate-rest($hits, $parameters, $start, $per-page, 5, 21)}
  </div>
     <div class="row">
-    {app:table($hits, $start, $per-page)}
+    {apptable:table($hits, $start, $per-page)}
     </div>
 <div class="w3-row w3-left">
     {apprest:paginate-rest($hits, $parameters, $start, $per-page, 9, 21)}
@@ -984,7 +984,7 @@ href="/manuscripts/{$repoID}/list/viewer">Images</a>
 <a  target="_blank"  role="button" class="w3-button w3-bar-item w3-red"  
 href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exreq:query()}">Charts</a>
 <a class="w3-button w3-bar-item w3-gray" href="javascript:void(0);" onclick="javascript:introJs().addHints();">hints</a>
-{app:nextID('manuscripts')}
+{apptable:nextID('manuscripts')}
 </div>
 </div>
 
@@ -996,7 +996,7 @@ href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exr
     {apprest:paginate-rest($hits, $parameters, $start, $per-page, 9, 21)}
      </div>
 <div class="w3-row">
-    {app:table($hits, $start, $per-page)}
+    {apptable:table($hits, $start, $per-page)}
     </div>
       <div class="w3-row w3-left">
     {apprest:paginate-rest($hits, $parameters, $start, $per-page, 9, 21)}
@@ -1454,7 +1454,7 @@ let $hits :=
 <a  target="_blank"  role="button" class="w3-button w3-bar-item w3-red"  
 href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exreq:query()}">Charts</a>
 <a class="w3-button w3-bar-item w3-gray" href="javascript:void(0);" onclick="javascript:introJs().addHints();">hints</a>
-{app:nextID('manuscripts')}
+{apptable:nextID('manuscripts')}
 </div>
 
    {if(count($parameters) gt 1) then list:paramsList($parameters) else ()}
@@ -1466,7 +1466,7 @@ href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exr
     {apprest:paginate-rest($hits, $parameters, $start, $per-page, 9, 21)}
      </div>
 <div class="w3-row">
-    {app:table($hits, $start, $per-page)}
+    {apptable:table($hits, $start, $per-page)}
     </div>
       <div class="w3-row w3-left">
     {apprest:paginate-rest($hits, $parameters, $start, $per-page, 9, 21)}
@@ -1858,7 +1858,7 @@ return $data
    <div   id="optionsList">
 <a  target="_blank"  role="button" class="w3-button w3-bar-item w3-red"  
 href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exreq:query()}">Charts</a>
-{app:nextID('manuscripts')}
+{apptable:nextID('manuscripts')}
 </div>
 </div>
 
@@ -1878,7 +1878,7 @@ href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exr
    <div class="w3-row w3-left">
     {apprest:paginate-rest($hits, $parameters, $start, $per-page, 5, 21)}
     </div>
-    <div class="w3-row">{app:table($hits, $start, $per-page)}</div>
+    <div class="w3-row">{apptable:table($hits, $start, $per-page)}</div>
     <div class="w3-row w3-left">
     {apprest:paginate-rest($hits, $parameters, $start, $per-page, 5, 21)}
     </div>

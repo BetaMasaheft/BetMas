@@ -5,7 +5,6 @@ xquery version "3.1" encoding "UTF-8";
  :)
 module namespace nav="https://www.betamasaheft.uni-hamburg.de/BetMas/nav";
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
-import module namespace apprest="https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "xmldb:exist:///db/apps/BetMas/modules/apprest.xqm";
 import module namespace locallogin="https://www.betamasaheft.eu/login" at "xmldb:exist:///db/apps/BetMas/modules/login.xqm";
 import module namespace console="http://exist-db.org/xquery/console";
 declare function nav:modalsNew(){
@@ -234,7 +233,6 @@ return
                                 <a class="w3-bar-item w3-button"   href="/xpath">XPath search</a>
                                 <a class="w3-bar-item w3-button"   href="/sparql">SPARQL Endpoint</a>
                                 <a class="w3-bar-item w3-button"   href="/collate">Collate passages with Collatex</a>
-                                <a class="w3-bar-item w3-button"   href="/academics.html">Scholars in Ethiopian Studies</a>
                                 <a class="w3-bar-item w3-button"   href="/chojnacki/viewer">Chojnacki Collection</a>
                                 <a class="w3-bar-item w3-button"   href="/tweed.html">Tweed Collection</a>
                                 <a class="w3-bar-item w3-button"   href="/DSintro.html">Dayr al-Suryān Collection</a>

@@ -805,7 +805,7 @@ declare function apprest:scriptStyle(){
       
 (:      d3 :)
       <link rel="stylesheet" type="text/css" href="resources/css/d3.css"  />,
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>,
+        <link rel="stylesheet" href="$shared/resources/css/w3.css"/>,
 (:      w3 :)
         <link rel="stylesheet" href="resources/css/w3local.css"/>,
         <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"/>
@@ -821,7 +821,7 @@ declare function apprest:scriptStyle(){
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.5.1/css/bootstrap-slider.min.css"  />,
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alpheios-embedded/dist/style/style.min.css"  />,
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alpheios-embedded@0.6.1/dist/style/style-embedded.min.css"  />,
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>,
+        <link rel="stylesheet" href="$shared/resources/css/w3.css"/>,
         <link rel="stylesheet" href="resources/css/w3local.css"/>,
         <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"/>,
         <script type="text/javascript" src="$shared/resources/scripts/bootstrap-3.0.3.min.js"  />,
@@ -981,7 +981,7 @@ let $dR :=  if ($dateRange)
                 if ($dateRange = '0,2000')
                 then ()
                 else
-                "[descendant::t:*
+                "[descendant::t:origDate
                 [xs:integer((if (contains(@notBefore, '-')) then (substring-before(@notBefore, '-')) else @notBefore)[. !='']) >= " || $from || " or
                 xs:integer((if (contains(@notAfter, '-')) then    (substring-before(@notAfter, '-')) else    @notAfter)[. != '']) >= " ||$from||"]
                 [xs:integer((if (contains(@notBefore, '-')) then (substring-before(@notBefore, '-')) else @notBefore)[. !='']) <= " || $to || " or
@@ -1061,10 +1061,19 @@ let $allMssFilters := concat($allnames, $support, $opl, $material, $bmaterial, $
             $height, $width, $depth, $marginTop, $marginBot, $marginL, $marginR, $marginIntercolumn, $restorationss)
 
 let $path := switch($type)
-                case 'catalogue' return "$config:collection-rootMS//t:TEI[descendant::t:listBibl[@type='catalogue'][descendant::t:ptr[@target='bm:"||$collection||"']]]"  || $key || $languages || $dR || $allMssFilters
-                case 'repo' return "$config:collection-rootMS//t:TEI[descendant::t:repository[@ref='"||$collection||"']]"  || $key || $languages || $dR || $allMssFilters
+                case 'catalogue' return 
+                      let $catal := "bm:"||$collection
+                      let $all := $config:collection-rootMS//t:listBibl[@type='catalogue'][descendant::t:ptr[@target=$catal]]/ancestor::t:TEI
+                      let $string := ('$all'|| $key || $languages || $dR || $allMssFilters)
+                      return
+                util:eval($string)
+                case 'repo' return 
+                    let $all := $config:collection-rootMS//t:repository[@ref= $collection ]/ancestor::t:TEI
+                    let $string := ('$all'|| $key || $languages || $dR || $allMssFilters)
+                    return   util:eval($string)
                 default return
-                        (if ($collection = 'places')
+                        (
+                        if ($collection = 'places')
                                     then ("$config:collection-rootPlIn//t:TEI"  || $countries|| $settlements||$allnames || $key || $languages|| $dR || $tabots||$placetypess )
                                     
                        else if ($collection = 'works')
@@ -1077,7 +1086,18 @@ let $path := switch($type)
                         else let $col := switch2:collection($collection)
                         return $col||"//t:TEI" || $countries|| $settlements|| $allnames ||$ContentPr  || $key || $languages|| $dR || $ClavisIDs || $nOfP  || $allMssFilters ||$Allauthors|| $tabots||$placetypess
                        )
-let $hits := for $item in util:eval($path)
+
+let $context := switch($type)
+                case 'catalogue' return ('$config:collection-rootMS//t:listBibl[@type="catalogue"][descendant::t:ptr[@target=bm:"'||$collection||'"]]/ancestor::t:TEI' || $key || $languages || $dR || $allMssFilters)
+                case 'repo' return  ('$config:collection-rootMS//t:repository[@ref="'|| $collection||'" ]/ancestor::t:TEI' || $key || $languages || $dR || $allMssFilters)
+                default return $path 
+                       
+let $results := switch($type)
+                case 'catalogue' return $path
+                case 'repo' return $path
+                default return util:eval($path)                       
+                       
+let $hits := for $item in $results
                              let $recordid := string($item/@xml:id)
                             let $recordtype := string($item/@type)
                             let $sorting :=
@@ -1087,12 +1107,12 @@ let $hits := for $item in util:eval($path)
                               order by $sorting
                              return
                                        $item
-let $test2 := console:log($path) 
+let $test2 := console:log($context) 
  return
             map {
                       'hits' : $hits,
                       'collection' : $collection,
-                      'query' : $path
+                      'query' : $context
                       }
 };
 
@@ -1145,7 +1165,8 @@ let $keys :=
 declare function apprest:searchFilter-rest($collection, $model as map(*)) {
 let $items-info := $model('hits')
 let $context := $model('query')
-let $evalContext := util:eval($context)
+let $test := console:log($context)
+let $evalContext := $items-info
 let $onchange := 'if (this.value) window.location.href=this.value'
 return
 
