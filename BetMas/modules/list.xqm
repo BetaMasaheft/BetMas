@@ -187,6 +187,7 @@ declare
 %rest:query-param("per-page", "{$per-page}", 20)
 %rest:query-param("date-range", "{$date-range}", "")
 %rest:query-param("clavisID", "{$clavisID}", "")
+%rest:query-param("CAeID", "{$CAeID}", "")
 %rest:query-param("clavistype", "{$clavistype}", "")
 %rest:query-param("cp", "{$cp}", "")
 %rest:query-param("numberOfParts", "{$numberOfParts}", "")
@@ -238,6 +239,7 @@ $date-range as xs:string*,
 $keyword as xs:string*,
 $mainname as xs:string*,
 $clavisID as xs:string*,
+$CAeID as xs:string*,
 $clavistype as xs:string*,
 $cp as xs:string*,
 $language as xs:string*,
@@ -287,6 +289,7 @@ map{'key': $keyword,
                            'lang': $language,
                            'date': $date-range,
                            'clavisID': $clavisID,
+                           'CAeID': $CAeID,
                            'clavistype': $clavistype,
                            'cp': $cp,
                            'numberOfParts': $numberOfParts,

@@ -108,7 +108,8 @@ declare function gitsync:updateinstitutionsADD($file-name){
 declare function gitsync:updatepersonsMOD($file-name){
     let $perslist := $gitsync:persons//t:list
     let $id := substring-before($file-name, '.xml')
-    let $t := titles:printTitleMainID($id)
+    let $file := $config:collection-rootPr//id($id)
+    let $t := titles:persNameSelector($file)
     let $update :=  update value  $perslist/t:item[@corresp=$id] with $t
     return
         'updated persNamesLabels.xml static list with ' || $t || ' for item with id = ' || $id || '. '

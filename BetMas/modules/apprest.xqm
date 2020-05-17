@@ -899,6 +899,7 @@ let $dateRange := $parameters('date')
 let $clavisType := $parameters('clavistype')
 let $contentProvider := $parameters('cp')
 let $clavisID := $parameters('clavisID')
+let $CAeID := $parameters('CAeID')
 let $numberOfP := $parameters('numberOfParts')
 let $Pheight := $parameters('height')
 let $Pwidth := $parameters('width')
@@ -965,6 +966,7 @@ let $ContentPr := if ($contentProvider = '') then () else
                         case 'GG' return "[starts-with(@xml:id, 'GG')]"
                         default return ''
 
+let $CaeIDs := if($CAeID = '') then () else "[contains(@xml:id, '"||$CAeID ||"') and not(ends-with(@xml:id, 'IHA'))]"
 let $ClavisIDs :=
                 if(($clavisID = '') and ($clavisType = '')) then ()
                       else if(($clavisID = '') and (matches($clavisType, '\w+'))) then "[descendant::t:bibl[@type='"||$clavisType||"']]"
@@ -1077,7 +1079,7 @@ let $path := switch($type)
                                     then ("$config:collection-rootPlIn//t:TEI"  || $countries|| $settlements||$allnames || $key || $languages|| $dR || $tabots||$placetypess )
                                     
                        else if ($collection = 'works')
-                                    then ("$config:collection-rootW//t:TEI"  || $allnames ||$ContentPr   || $key || $languages|| $ClavisIDs || $dR ||$Allauthors || $periods  )
+                                    then ("$config:collection-rootW//t:TEI"  ||$CaeIDs|| $allnames ||$ContentPr   || $key || $languages|| $ClavisIDs || $dR ||$Allauthors || $periods  )
                       
                        else if ($collection = 'persons')
                                     then ("$config:collection-rootPr//t:TEI"   || $allnames||$ContentPr   || $key || $dR ||$occupations || $faiths || $genders  )
@@ -1212,6 +1214,11 @@ app:formcontrol('language', $items-info//t:language/@ident, 'true', 'values', $c
 { switch($collection)
 case 'narratives' return ()
 case 'works' return (
+<div class="w3-container" data-hint="Enter here the numeric identifier in Clavis Aethiopica">
+    <label>Clavis Aethiopica ID</label>
+    <input class="w3-input w3-border" type="number" name="CAeID"/>
+</div>
+,
 <div class="w3-container">
     <label>Other Clavis ID</label>
                 <select name="clavistype" class="w3-select w3-border">
