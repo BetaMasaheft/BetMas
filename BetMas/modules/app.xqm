@@ -15,6 +15,7 @@ declare namespace skos = "http://www.w3.org/2004/02/skos/core#";
 declare namespace rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace sr = "http://www.w3.org/2005/sparql-results#";
+declare namespace xconf="http://exist-db.org/collection-config/1.0";
 
 import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2"  at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
 import module namespace kwic = "http://exist-db.org/xquery/kwic" at "resource:org/exist/xquery/lib/kwic.xql";
@@ -36,6 +37,8 @@ import module namespace apptable="https://www.betamasaheft.uni-hamburg.de/BetMas
 (:~declare variable $app:item-uri as xs:string := raequest:get-parameter('uri',());:)
 declare variable $app:collection as xs:string := request:get-parameter('collection',());
 declare variable $app:name as xs:string := request:get-parameter('name',());
+declare variable $app:params := request:get-parameter-names() ;
+declare variable $app:facets := doc("/db/system/config/db/apps/BetMasData/collection.xconf")//xconf:facet/@dimension ;
 declare variable $app:rest  as xs:string := '/rest/';
 declare variable $app:languages := doc('/db/apps/BetMas/lists/languages.xml');
 declare variable $app:range-lookup := 
@@ -139,8 +142,8 @@ return
 (:~ logging function to be called from templating pages:)
 declare function app:logging ($node as node(), $model as map(*)){
 let $url := request:get-uri()
- let $parameterslist := request:get-parameter-names()
-   let $paramstobelogged := for $p in $parameterslist for $value in request:get-parameter($p, ()) return ($p || '=' || $value)
+
+   let $paramstobelogged := for $p in $app:params for $value in request:get-parameter($p, ()) return ($p || '=' || $value)
    let $logparams := if(count($paramstobelogged) >= 1) then '?' || string-join($paramstobelogged, '&amp;') else ()
    let $url := $url || $logparams
    return 
@@ -359,9 +362,7 @@ return
 (:~query parameters and corresponding filtering of the xpath context for ft:query
  : returns xpath as string to be later evaluated:)
 declare function app:ListQueryParam($parameter, $context, $mode, $function){
-let $paralist := request:get-parameter-names()
-return
-      if(exists($paralist)) 
+      if(exists($app:params)) 
       then( 
                let $allparamvalues := 
                                      if ($parameter = $paralist) 
@@ -755,15 +756,14 @@ let $tabots:= $cont//t:ab[@type='tabot']
 
 (:~ called by form*.html files used by advances search form as.html and filters.js IDS, TITLES, PERSNAMES, PLACENAMES, provide lists with guessing based on typing. the list must suggest a name but search for an ID:)
 declare function app:BuildSearchQuery($element as xs:string, $query as xs:string){
-let $SearchOptions :=
-    <options>
-        <default-operator>or</default-operator>
-        <phrase-slop>0</phrase-slop>
-        <leading-wildcard>yes</leading-wildcard>
-        <filter-rewrite>yes</filter-rewrite>
-    </options>
+let $SearchOptions := "map {
+  'default-operator': 'or',
+  'phrase-slop' : '0',
+  'leading-wildcard' :'yes',
+  'filter-rewrite': 'yes'
+}"
     return
-concat("descendant::t:", $element, "[ft:query(., '" , $query, "', ", serialize($SearchOptions) ,")]")
+concat("descendant::t:", $element, "[ft:query(., '" , $query, "', ", $SearchOptions ,")]")
 };
 
 
@@ -818,6 +818,176 @@ declare function app:paramrange($par, $path as xs:string){
 
 
 (:~
+    Execute the query on TEI, so that facet indexes will be reacheable
+:)
+declare function app:facetquery($node as node()*, $model as map(*), $query as xs:string*){
+ if(string-length($query) lt 1) then () else
+  let $homophones:='true'
+  let $query-string := 
+     if ($query != '') 
+        then (if($homophones='true') 
+              then 
+                if(contains($query, 'AND')) then 
+                        (let $parts:= for $qpart in tokenize($query, 'AND') 
+                         return all:substitutionsInQuery($qpart) return '(' || string-join($parts, ') AND (')) || ')'
+                else if(contains($query, 'OR')) then 
+                        (let $parts:= for $qpart in tokenize($query, 'OR') return all:substitutionsInQuery($qpart) 
+                        return '(' || string-join($parts, ') OR (')) || ')'
+                else all:substitutionsInQuery($query) 
+        else $query)  
+     else ()
+  
+  let $populatefacets := for $parm in $app:params[ends-with(.,'-facet')] 
+                        let $key := substring-before($parm, '-facet')
+                        let $values := request:get-parameter($parm, ())
+                        return map {$key : ($values)}
+  let $options := map:merge($populatefacets)
+  let $allopts := map {
+        'default-operator': 'or',
+        'phrase-slop' : '0',
+        'leading-wildcard' :'yes',
+        'filter-rewrite': 'yes',
+        'facets': $options}
+  let $queryExpr := '//t:TEI[descendant::t:change[contains(., "complete")]][ft:query(., (), $allopts)]'
+  let $hits := $config:collection-root//t:TEI[ft:query(., $query-string, $allopts)]
+  return
+      map {
+          "hits" : $hits,
+          "q" : $query,
+          "type" : 'matches',
+          "query" : $queryExpr}  
+};
+
+declare function app:showFacets($node as node()*, $model as map(*)){
+    
+let $subsequence := $model('hits')
+let $general:=$app:facets[parent::xconf:facet[not(@if)]]
+let $mss:=$app:facets[parent::xconf:facet[contains(@if, 'mss')]]
+let $works:=$app:facets[parent::xconf:facet[contains(@if, 'work')]]
+let $places:=$app:facets[parent::xconf:facet[contains(@if, 'place')]]
+let $persons:=$app:facets[parent::xconf:facet[contains(@if, 'pers')]]
+return
+    <form id="facetsSearch" action="" class="w3-container w3-center">
+    <div class="w3-row w3-left-align">
+    <button type="submit" class="w3-button w3-block w3-left-align w3-red">refine search results <i class="fa fa-search"></i></button>
+    <input name="query" value="{request:get-parameter('query', ())}" hidden="hidden"/>
+    </div>
+    {app:facetGroup($general, 'General', $subsequence)}
+    {app:facetGroup($mss, 'Manuscripts', $subsequence)}
+    {app:facetGroup($works, 'Textual and Narrative Units', $subsequence)}
+    {app:facetGroup($places, 'Places and Repositories', $subsequence)}
+    {app:facetGroup($persons, 'Persons and Groups', $subsequence)}
+    <div class="w3-row w3-left-align">
+    <button type="submit" class="w3-button w3-block w3-left-align w3-red">refine search results <i class="fa fa-search"></i></button>
+    </div>
+    </form>
+};
+
+declare function app:facetGroup($group, $groupname, $subsequence){
+    <div>
+    <div class="w3-row w3-left-align w3-margin-top"><b>{$groupname}</b></div>
+        {
+for $f in $group
+let $facetTitle := app:facetName($f)
+let $facets := ft:facets($subsequence, string($f), ())
+order by $facetTitle
+return
+    app:facetDiv ($f, $facets, $facetTitle)
+    }</div>
+};
+
+declare function app:facetDiv ($f, $facets, $facetTitle){
+    <div class="w3-row w3-left-align">
+    <button type="button" 
+            onclick="openAccordion('{string($f)}-facet-list')" 
+            class="w3-button w3-block w3-left-align w3-gray">{
+                $facetTitle
+            }</button>
+    <div
+        class="w3-padding w3-hide" 
+        id="{string($f)}-facet-list">
+        {map:for-each($facets, function($label, $count) {
+            (<input 
+            class="w3-check w3-margin-right" 
+            type="checkbox" 
+            name="{string($f)}-facet" 
+            value="{$label}"/>,
+            if ($f = 'keywords'  
+                or $f = 'decoType' 
+                or $f = 'artThemes' 
+                or $f = 'AdditionsType' ) 
+                then titles:printTitleID($label)
+            else if($f='personSameAs'
+                or $f = 'authors'
+                or $f = 'sawsVersionOf'
+                or $f = 'country'
+                or $f = 'settlement'
+                or $f = 'region'
+                or $f = 'scribe'
+                or $f = 'donor') 
+                then <span class="MainTitle" data-value="{$label}">{$label}</span>
+            else if($f= 'changeWho') then editors:editorKey($label)
+            else if($f = 'languages') then $app:languages//t:item[@xml:id=$label]/text()
+            else if($f= 'biblio') then <span class="Zotero Zotero-full" data-value="{$label}"/>
+            else $label,
+            <span class="w3-badge w3-margin-left">{$count}</span>,<br/>)
+        })}
+    </div>
+    </div>
+};
+
+declare function app:facetName($f){
+    switch($f)
+                case 'keywords' return 'Keywords'
+                case 'languages' return 'Languages'
+                case 'changeWho' return 'Author of changes'
+                case 'changeWhen' return 'Date of changes'
+                case 'biblio' return 'Bibliography'
+                case 'script' return 'Script'
+                case 'condition' return 'Condition'
+                case 'form' return 'Form'
+                case 'material' return 'Material'
+                case 'height' return 'Height'
+                case 'width' return 'Width'
+                case 'depth' return 'Depth'
+                case 'scribe' return 'Scribe'
+                case 'donor' return 'Donor'
+                case 'msItemsCount' return 'N. of content units'
+                case 'msPartsCount' return 'N. of Codicological Units'
+                case 'handsCount' return 'N. of Hands'
+                case 'sealCount' return 'N. of Seals'
+                case 'QuireCount' return 'N. of Quires'
+                case 'AdditionsCount' return 'N. of Additions'
+                case 'AdditionsType' return 'Type of Additions'
+                case 'titleRef' return 'Contents'
+                case 'titleType' return 'Complete/Incomplete contents'
+                case 'ExtraCount' return 'N. of Extras'
+                case 'leafs' return 'N. of leaves'
+                case 'origDateNotBefore' return 'Date of production (not before)'
+                case 'origDateNotAfter' return 'Date of production (not after)'
+                case 'repository' return 'Repository'
+                case 'rulingpattern' return 'Ruling Pattern'
+                case 'artThemes' return 'Art Themes'
+                case 'decoType' return 'Type of Decoration'
+                case 'images' return 'Images Availability'
+                case 'writtenLines' return 'Written Lines'
+                case 'columns' return 'Columns'
+                case 'authors' return 'Authors'
+                case 'textDivs' return 'Text parts'
+                case 'divsubtipes' return 'Type of text parts'
+                case 'sawsVersionOf' return 'Versions'
+                case 'sex' return 'Gender'
+                case 'name' return 'Personal Name in language'
+                case 'group' return 'Group'
+                case 'faith' return 'Faith'
+                case 'sameAs' return 'Alignment'
+                case 'placetype' return 'Type of place'
+                case 'settlement' return 'Settlement'
+                case 'region' return 'Region'
+                case 'country' return 'Country'
+                default return 'Item type'
+};
+(:~
     Execute the query. The search results are not output immediately. Instead they
     are passed to nested templates through the $model parameter.
 :)
@@ -840,8 +1010,8 @@ $numberOfParts as xs:string*,
     $target-work as xs:string+,
     $homophones as xs:string+   ) {
     let $homophones :=request:get-parameter('homophones', ())
-   let $parameterslist := request:get-parameter-names()
-   let $paramstobelogged := for $p in $parameterslist for $value in request:get-parameter($p, ()) return ($p || '=' || $value)
+  
+   let $paramstobelogged := for $p in $app:params for $value in request:get-parameter($p, ()) return ($p || '=' || $value)
    let $logparams := '?' || string-join($paramstobelogged, '&amp;')
    let $log := log:add-log-message($logparams, sm:id()//sm:real/sm:username/string() , 'query')
     let $IDpart := app:ListQueryParam('xmlid', '@xml:id', 'any', 'search')
@@ -985,8 +1155,7 @@ this should update the query results for each parameter, updating the variable s
 for the elements to be searched it should search one by one AFTER applying the filters, so only in the items filter out and then 
 union the sequences of results and remove the doubles from the union
 :)
-         
-         
+    
 let $queryExpr := $query-string
     return
         if (empty($queryExpr) or $queryExpr = "") then
@@ -1016,17 +1185,20 @@ let $queryExpr := $query-string
                    
                    let $allels := string-join($elements, ' or ')
                    let $path:=    concat("$config:collection-root","//t:TEI[",$allels, "]", $allfilters)
+                   let $test := console:log($path)
                    let $logpath := log:add-log-message($path, sm:id()//sm:real/sm:username/string() , 'XPath')  
-                   for $hit in util:eval($path)
+                   let $hits := util:eval($path)
+                   for $hit in $hits
                     order by ft:score($hit) descending
                     return $hit
                     
               
             
-            let $store := (
+        let $store := (
                 session:set-attribute("apps.BetMas", $hits),
                 session:set-attribute("apps.BetMas.query", $queryExpr)
             )
+       
             return
                 (: Process nested templates :)
                 map {
@@ -1130,7 +1302,7 @@ declare function app:hit-count($node as node()*, $model as map(*)) {
 
 declare function app:hit-params($node as node()*, $model as map(*)) {
     <div class="w3-container w3-margin">{
-                    for $param in request:get-parameter-names()
+                    for $param in $app:params
                     for $value in request:get-parameter($param, ())
                     return
                     if ($param = 'start') then ()
@@ -1150,7 +1322,7 @@ return
 
 declare function app:list-count($node as node()*, $model as map(*)) {
     <h3>{$app:collection || ' '}{string-join(
-                    for $param in request:get-parameter-names()
+                    for $param in $app:params
                     for $value in request:get-parameter($param, ())
                     return
                     if ($param = 'start') then ()
@@ -1188,7 +1360,7 @@ function app:paginate($node as node(), $model as map(*), $start as xs:int, $per-
         let $middle := ($max-pages + 1) idiv 2
         let $params :=
                 string-join(
-                    for $param in request:get-parameter-names()
+                    for $param in $app:params
                     for $value in request:get-parameter($param, ())
                     return
                     if ($param = 'start') then ()
@@ -1265,7 +1437,7 @@ function app:paginateNew($node as node(), $model as map(*), $start as xs:int, $p
         let $middle := ($max-pages + 1) idiv 2
         let $params :=
                 string-join(
-                    for $param in request:get-parameter-names()
+                    for $param in $app:params
                     for $value in request:get-parameter($param, ())
                     return
                     if ($param = 'start') then ()
@@ -1450,7 +1622,7 @@ declare function app:copy-params($node as node(), $model as map(*)) {
             let $link := $node/@href
             let $params :=
                 string-join(
-                    for $param in request:get-parameter-names()
+                    for $param in $app:params
                     for $value in request:get-parameter($param, ())
                     return
                         $param || "=" || $value,
