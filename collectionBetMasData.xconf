@@ -51,7 +51,7 @@
                 <facet dimension="sex" if="@type='pers'" expression="switch(t:text//t:person/@sex) case '1' return 'male' default return 'female'"/>
                 <facet dimension="personSameAs" if="@type='pers'" expression="t:text//t:person/@sameAs"/>
                 <facet dimension="name" if="@type='pers'" expression="t:text//t:person/t:persName/@xml:lang"/>
-                <facet dimension="group" if="@type='pers'" expression="t:text//t:personGrp"/>
+                <facet dimension="group" if="@type='pers'" expression="if(t:text//t:personGrp) then 'group' else 'individual'"/>
                 <facet dimension="faith" if="@type='pers'" expression="t:text//t:faith"/>
                 <!--places-->
                 <facet dimension="sameAs" if="@type='place'" expression="t:text//t:place/@sameAs"/>
