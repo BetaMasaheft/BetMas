@@ -251,14 +251,16 @@ return
                                     onclick="document.getElementById('versionInfo').style.display='block'">
                                         <i class="fa fa-info-circle"/>
                                     </a>
-    {if(contains($url, 'as.html') ) then () else<a href="/as.html" class="w3-padding w3-hover-red w3-hide-small w3-right"><i class="fa fa-search"></i></a>}
+    {if(contains($url, 'as.html') ) then 
+    <a href="/facet.html" class="w3-padding w3-hover-red w3-hide-small w3-right"><i class="fab fa-searchengin"></i></a>
+    else(<a href="/as.html" class="w3-padding w3-hover-red w3-hide-small w3-right"><i class="fa fa-search"></i></a>, <a href="/facet.html" class="w3-padding w3-hover-red w3-hide-small w3-right"><i class="fab fa-searchengin"></i></a>)}
   </div>
 </div>,
 <div id="navDemo" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
             <a href="/" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Home</a>
             <a href="/works/list" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Clavis</a>
             <a href="/manuscripts/list" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Manuscripts</a>
-            <a href="/as.html" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Search</a>
+            <a href="/facet.html" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">Search</a>
         </div>
 )
 };

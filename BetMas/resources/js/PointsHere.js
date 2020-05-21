@@ -33,7 +33,7 @@ var trimmedID = id.substring((id.indexOf('Ent') + 3), id.indexOf('relations'));
                 var content = $('<div id="' + trimmedID + 'relations-content" class="popuptext w3-hide w3-tiny w3-padding" style="width: 260px;background-color: black;\
                 color: white;text-align: center;border-radius: 6px;padding: 8px 0;position: absolute;left: 100%;top: 100%;margin-left: -130px;z-index: 999;overflow-y:auto">\
                 Search '+popText+' :<br/>\
-            <a href="/as.html?q='+popText+'" target="_blank">in Beta maṣāḥǝft</a><br/>\
+            <a href="/facet.html?q='+popText+'" target="_blank">in Beta maṣāḥǝft</a><br/>\
             <a href="/morpho?query='+popText+'" target="_blank">in the Gǝʿǝz Morphological Parser</a><br/>\
             <a href="/morpho/corpus?query='+popText+'&type=string" target="_blank">in the TraCES annotations</a><br/>\
             <a href="/Dillmann?mode=fuzzy&q='+popText+'" target="_blank">in the Online Lexicon</a><br/>\
