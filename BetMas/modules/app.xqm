@@ -1569,6 +1569,7 @@ else if (contains($item//t:msIdentifier/t:idno/@facs, 'bodleian')) then ('images
                  }</a>
                 
                 else ()}
+                {if($collection = 'works') then apptable:clavisIds($root) else ()}
               </div>
               <div class="w3-col"  style="width:15%">
                 <span class="w3-badge">{$count}</span>
