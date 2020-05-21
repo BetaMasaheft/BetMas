@@ -897,6 +897,7 @@ return
 };
 
 declare function app:facetDiv ($f, $facets, $facetTitle){
+    if(map:size($facets) = 0) then () else 
     <div class="w3-row w3-left-align">
     <button type="button" 
             onclick="openAccordion('{string($f)}-facet-list')" 
@@ -924,7 +925,8 @@ declare function app:facetDiv ($f, $facets, $facetTitle){
                 or $f = 'settlement'
                 or $f = 'region'
                 or $f = 'scribe'
-                or $f = 'donor') 
+                or $f = 'donor'
+                or $f = 'titleRef') 
                 then <span class="MainTitle" data-value="{$label}">{$label}</span>
             else if($f= 'changeWho') then editors:editorKey($label)
             else if($f = 'languages') then $app:languages//t:item[@xml:id=$label]/text()
@@ -981,10 +983,12 @@ declare function app:facetName($f){
                 case 'group' return 'Group'
                 case 'faith' return 'Faith'
                 case 'sameAs' return 'Alignment'
+                case 'personSameAs' return 'Alignment'
                 case 'placetype' return 'Type of place'
                 case 'settlement' return 'Settlement'
                 case 'region' return 'Region'
                 case 'country' return 'Country'
+                case 'witness' return 'Witnesses'
                 default return 'Item type'
 };
 (:~
@@ -1491,6 +1495,114 @@ function app:paginateNew($node as node(), $model as map(*), $start as xs:int, $p
 };
 
 
+declare    
+%templates:wrap
+    %templates:default('start', 1)
+    %templates:default("per-page", 40)
+    function app:facetSearchRes (
+    $node as node()*, 
+    $model as map(*), $start as xs:integer,  $per-page as xs:integer) {
+        <div class="w3-row w3-border-bottom w3-margin-bottom w3-gray">
+              <div class="w3-third">
+              <div class="w3-col" style="width:15%">
+                <span class="number">score</span>
+              </div>
+              <div class="w3-col"  style="width:70%">
+               title
+              </div>
+              <div class="w3-col"  style="width:15%">
+                hits count
+              </div>
+            </div>
+            <div class="w3-twothird">
+                 <div class="w3-third">first three keywords in context</div>
+                 <div class="w3-third">item-type specific options</div>
+                  <div class="w3-third">context element of matches</div>
+            </div>
+            </div>,
+        for $text at $p in subsequence($model('hits'), $start, $per-page)
+            let $expanded := kwic:expand($text)
+            let $count := count($expanded//exist:match)
+            let $root := root($text)
+            let $item := $root/t:TEI
+            let $t := $root/t:TEI/@type
+            let $id := data($root/t:TEI/@xml:id)
+            let $collection := switch2:col($t)
+        let $score as xs:float := ft:score($text)
+        order by $score descending
+             return
+            <div class="w3-row w3-border-bottom w3-margin-bottom">
+              <div class="w3-third">
+              <div class="w3-col" style="width:15%">
+                <span class="w3-tag w3-red">{format-number($score, '0,00')}</span>
+              </div>
+              <div class="w3-col"  style="width:70%">
+              <span class="w3-tag w3-gray">{$collection}:{$id}</span>
+              <span class="w3-tag w3-red"><a href="{('/tei/' || $id || '.xml')}" target="_blank">TEI</a></span>
+              <span class="w3-tag w3-red"><a href="/{$id}.pdf" target="_blank" >PDF</a></span><br/>
+               <a target="_blank" href="/{$id}"><b>{titles:printTitleID($id)}</b></a><br/>
+               {if ($item//t:facsimile/t:graphic/@url) then <a target="_blank" href="{$item//t:facsimile/t:graphic/@url}">Link to images</a> else if($item//t:msIdentifier/t:idno/@facs) then 
+                 <a target="_blank" href="/manuscripts/{$id}/viewer">{
+                if($item//t:collection = 'Ethio-SPaRe') 
+               then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
+(:laurenziana:)
+else  if($item//t:repository/@ref[.='INS0339BML']) 
+               then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '005.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
+          
+(:          
+EMIP:)
+              else if($item//t:collection = 'EMIP' and $item//t:msIdentifier/t:idno/@n) 
+               then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
+              
+             (:BNF:)
+            else if ($item//t:repository/@ref = 'INS0303BNF') 
+            then <img src="{replace($item//t:msIdentifier/t:idno/@facs, 'ark:', 'iiif/ark:') || '/f1/full/140,/0/native.jpg'}" class="thumb w3-image"/>
+(:           vatican :)
+                else if (contains($item//t:msIdentifier/t:idno/@facs, 'digi.vat')) then <img src="{replace(substring-before($item//t:msIdentifier/t:idno/@facs, '/manifest.json'), 'iiif', 'pub/digit') || '/thumb/'
+                    ||
+                    substring-before(substring-after($item//t:msIdentifier/t:idno/@facs, 'MSS_'), '/manifest.json') || 
+                    '_0001.tif.jpg'
+                }" class="thumb w3-image"/>
+(:                bodleian:)
+else if (contains($item//t:msIdentifier/t:idno/@facs, 'bodleian')) then ('images')
+                else (<img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>)
+                 }</a>
+                
+                else ()}
+              </div>
+              <div class="w3-col"  style="width:15%">
+                <span class="w3-badge">{$count}</span>
+                in {for $match in distinct-values($expanded//exist:match/parent::t:*/name()) return (<code>{string($match)}</code>,<br/>) }
+              </div>
+            </div>
+            <div class="w3-twothird">
+                 <div class="w3-twothird">{
+                     for $match in subsequence($expanded//exist:match, 1, 3) return  
+                     <div class="w3-row w3-padding">{kwic:get-summary($match/parent::node(), $match,<config width="40"/>)}</div>
+                 }</div>
+                 <div class="w3-third">
+                     {switch($t)
+                        case 'mss' return (
+                             <a role="button" class="w3-button w3-small w3-gray" href="/IndexPlaces?entity={$id}">places</a>,
+                             <a role="button" class="w3-button w3-small w3-gray" href="/IndexPersons?entity={$id}">persons</a>)
+                        case 'pers' return ()
+                        case 'ins' return (<a role="button" class="w3-button w3-small w3-gray" href="/manuscripts/{$id}/list">manuscripts</a>)
+                        case 'place' return (<a role="button" class="w3-button w3-small w3-gray" href="/manuscripts/place/list?place={$id}">manuscripts</a>)
+                        case 'narr' return (<a role="button" class="w3-button w3-small w3-gray" href="/collate">collate</a>)
+                        case 'work' return 
+                            (<a role="button" class="w3-button w3-small w3-gray" href="/compare?workid={$id}">compare</a>,
+                             <a role="button" class="w3-button w3-small w3-gray" href="/workmap?worksid={$id}">map of mss</a>,
+                             <a role="button" class="w3-button w3-small w3-gray" href="/collate">collate</a>,
+                             <a role="button" class="w3-button w3-small w3-gray" href="/IndexPlaces?entity={$id}">places</a>,
+                             <a role="button" class="w3-button w3-small w3-gray" href="/IndexPersons?entity={$id}">persons</a>)
+                        default return
+                            <a role="button" class="w3-button w3-small w3-gray" href="/authority-files/list?keyword={$id}">with this keyword</a>
+                     }
+                     <a role="button" class="w3-button w3-small w3-gray" href="/{$collection}/{$id}/analytic">relations</a>
+                 </div>
+            </div>
+            </div>
+    };
 
 
 declare    

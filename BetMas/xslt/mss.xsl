@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:funct="my.funct" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:key name="decotype" match="//t:decoNote" use="@type"/>
     <xsl:key name="additiontype" match="//t:item[contains(@xml:id, 'a')]/t:desc" use="@type"/>
@@ -10,9 +9,7 @@
             <xsl:when test="matches($date, '\d{4}-\d{2}-\d{2}')">
                 <xsl:value-of select="format-date(xs:date($date), '[D]-[M]-[Y0001]', 'en', 'AD', ())"/>
             </xsl:when>
-            <xsl:otherwise>
-                <xsl:value-of select="format-number($date, '####')"/>
-            </xsl:otherwise>
+            <xsl:otherwise><xsl:value-of select="format-number($date, '####')"/></xsl:otherwise>
         </xsl:choose>
     </xsl:function>
     <xsl:function name="funct:datepicker">
@@ -21,15 +18,9 @@
             <xsl:when test="$element/@notBefore or $element/@notAfter">
                 <xsl:if test="not($element/@notBefore)">Before </xsl:if>
                 <xsl:if test="not($element/@notAfter)">After </xsl:if>
-                <xsl:if test="$element/@notBefore">
-                    <xsl:value-of select="funct:date($element/@notBefore)"/>
-                </xsl:if>
-                <xsl:if test="$element/@notBefore and $element/@notAfter">
-                    <xsl:text>-</xsl:text>
-                </xsl:if>
-                <xsl:if test="$element/@notAfter">
-                    <xsl:value-of select="funct:date($element/@notAfter)"/>
-                </xsl:if>
+                <xsl:if test="$element/@notBefore"><xsl:value-of select="funct:date($element/@notBefore)"/></xsl:if>
+                <xsl:if test="$element/@notBefore and $element/@notAfter"><xsl:text>-</xsl:text></xsl:if>
+                <xsl:if test="$element/@notAfter"><xsl:value-of select="funct:date($element/@notAfter)"/></xsl:if>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="funct:date($element/@when)"/>
@@ -58,7 +49,7 @@
                     </div>
             </div>
             
-            <h2>General description</h2>
+            <h2>General description <xsl:if test="//t:repository[@ref='INS0880WHU']"><a href="https://betamasaheft.eu/tweed.html"><span class="w3-tag w3-red">Tweed Collection</span></a></xsl:if></h2> 
             <div class="w3-third  w3-padding">
                 <h4 property="http://purl.org/dc/elements/1.1/title">
                 <xsl:apply-templates select="//t:titleStmt/t:title"/>
@@ -104,13 +95,9 @@
                             <xsl:sort order="ascending" select="count(preceding-sibling::t:relation)+1"/>
                             <xsl:variable name="p" select="count(preceding-sibling::t:relation)+1"/>
                             <xsl:variable name="tot" select="count(//t:relation)"/>
-                            <xsl:apply-templates select="." mode="gendesc"/>
-                            <xsl:choose>
-                                <xsl:when test="$p!=$tot">
-                                    <xsl:text>, </xsl:text>
-                                </xsl:when>
-                                <xsl:otherwise>.</xsl:otherwise>
-                            </xsl:choose>
+                            <xsl:apply-templates select="." mode="gendesc"/><xsl:choose>
+                                <xsl:when test="$p!=$tot"><xsl:text>, </xsl:text></xsl:when>
+                                <xsl:otherwise>.</xsl:otherwise></xsl:choose>
                         </xsl:for-each>
                         For a table of all relations from and to this record, please go to the <a class="w3-tag w3-gray" href="/manuscripts/{$mainID}/analytic">Relations</a> view. In the Relations boxes on the right of this page, you can also find all available relations grouped by name.
                     </p>

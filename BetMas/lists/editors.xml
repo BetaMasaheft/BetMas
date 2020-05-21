@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0">
     <teiHeader>
         <fileDesc>
@@ -70,9 +69,10 @@
                 <item xml:id="SSe" n="Simone">Simone Seyboldt</item>
                 <item xml:id="CD" n="Coleman">Coleman Donaldson</item>
                 <item xml:id="HS" n="Hewan">Hewan Semon</item>
-                <item xml:id="ABe" n="Ashley">Ashley Benson</item>
+                <item xml:id="ABe" n="Ashley">Ashlee Benson</item>
                 <item xml:id="SK" n="Sergey">Sergey Kim</item>
                 <item xml:id="HA" n="Hagos">Hagos Abrha</item>
+                <item xml:id="MKr" n="Hagos">Marcin Krawczuk</item>
             </list>
         </body>
     </text>
