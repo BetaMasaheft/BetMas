@@ -460,7 +460,7 @@ if(xdb:collection-available($c)) then (
    </div>
    </div>
    <div class="w3-responsive">
-    <table class="w3-table w3--hoverable"><thead><tr class="w3-tiny"><th>id</th><th>title</th><th>type</th></tr></thead><tbody>{for $h in $res("hits") return <tr><td>{string($h/@xml:id)}</td><td><a href="{string($h/@xml:id)}">{titles:printTitle($h)}</a></td><td>{string($h/@type)}</td></tr>}</tbody></table>
+    <table class="w3-table w3--hoverable"><thead><tr class="w3-tiny"><th>id</th><th>title</th><th>type</th></tr></thead><tbody>{for $h in $res("hits") return <tr><td>{string($h/@xml:id)}</td><td><a href="{string($h/@xml:id)}">{try{titles:printTitleID($h/@xml:id)} catch * {console:log(string($h/@xml:id))}}</a></td><td>{string($h/@type)}</td></tr>}</tbody></table>
    </div>
                    </div>                 ) }
  </div>
