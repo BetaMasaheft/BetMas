@@ -25,8 +25,10 @@ $(document).ready(function () {
     } else {
         var q = fullq
     }
+    if(q.length > 1) {$('.msItemContent').toggleClass('w3-show')}
     //console.log(q)
     $('span:contains("' + q + '")').toggleClass('queryTerm')
+    $('p:contains("' + q + '")').toggleClass('queryTerm')
     /*}*/
 });
 

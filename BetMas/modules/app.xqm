@@ -926,11 +926,11 @@ declare function app:facetDiv ($f, $facets, $facetTitle){
                 or $f = 'region'
                 or $f = 'scribe'
                 or $f = 'donor'
-                or $f = 'titleRef') 
+                or $f = 'titleRef'
+                or $f = 'tabot') 
                 then <span class="MainTitle" data-value="{$label}">{$label}</span>
             else if($f= 'changeWho') then editors:editorKey($label)
             else if($f = 'languages') then $app:languages//t:item[@xml:id=$label]/text()
-            else if($f= 'biblio') then <span class="Zotero Zotero-full" data-value="{$label}"/>
             else $label,
             <span class="w3-badge w3-margin-left">{$count}</span>,<br/>)
         })}
@@ -944,7 +944,6 @@ declare function app:facetName($f){
                 case 'languages' return 'Languages'
                 case 'changeWho' return 'Author of changes'
                 case 'changeWhen' return 'Date of changes'
-                case 'biblio' return 'Bibliography'
                 case 'script' return 'Script'
                 case 'condition' return 'Condition'
                 case 'form' return 'Form'
@@ -989,6 +988,10 @@ declare function app:facetName($f){
                 case 'region' return 'Region'
                 case 'country' return 'Country'
                 case 'witness' return 'Witnesses'
+                case 'reltype' return 'Relation Names'
+                case 'bindingMaterial' return 'Binding Material'
+                case 'tabot' return 'Tābots'
+                case 'occupation' return 'Occupation Type'
                 default return 'Item type'
 };
 (:~
@@ -1540,7 +1543,7 @@ declare
               <span class="w3-tag w3-gray">{$collection}:{$id}</span>
               <span class="w3-tag w3-red"><a href="{('/tei/' || $id || '.xml')}" target="_blank">TEI</a></span>
               <span class="w3-tag w3-red"><a href="/{$id}.pdf" target="_blank" >PDF</a></span><br/>
-               <a target="_blank" href="/{$id}"><b>{titles:printTitleID($id)}</b></a><br/>
+               <a target="_blank" href="/{$collection}/{$id}/main?hi={request:get-parameter('query',())}"><b>{titles:printTitleID($id)}</b></a><br/>
                {if ($item//t:facsimile/t:graphic/@url) then <a target="_blank" href="{$item//t:facsimile/t:graphic/@url}">Link to images</a> else if($item//t:msIdentifier/t:idno/@facs) then 
                  <a target="_blank" href="/manuscripts/{$id}/viewer">{
                 if($item//t:collection = 'Ethio-SPaRe') 
