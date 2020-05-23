@@ -7,13 +7,13 @@ declare namespace http = "http://expath.org/ns/http-client";
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace sparql = "http://www.w3.org/2005/sparql-results#";
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
-import module namespace console="http://exist-db.org/xquery/console";
 
 (: these lists are separately indexed here in the app with the collection.xconf for BetMas :)
 declare variable $titles:placeNamesList := doc('/db/apps/BetMas/lists/placeNamesLabels.xml');
 declare variable $titles:institutionsList := doc('/db/apps/BetMas/lists/institutions.xml');
 declare variable $titles:persNamesList := doc('/db/apps/BetMas/lists/persNamesLabels.xml');
 declare variable $titles:TUList := doc('/db/apps/BetMas/lists/textpartstitles.xml');
+declare variable $titles:deleted := doc('/db/apps/BetMas/lists/deleted.xml');
 
 
 (:establishes the different rules and priority to print a title referring to a record:)
@@ -58,6 +58,8 @@ else
                    normalize-space(string-join(titles:printTitleID($item/@corresp), ''))
             else if ($item/t:desc) then
                     (titles:printTitleID(string($item/t:desc/@type)) || ' ' || $SUBid)
+            else if (($item/@subtype = 'Monday' or $item/@subtype = 'Tuesday' or $item/@subtype = 'Wednesday' or $item/@subtype = 'Thursday' or $item/@subtype = 'Friday' or $item/@subtype = 'Saturday' or $item/@subtype = 'Sunday'    )and not($item/node())) then
+                    (' for '|| $SUBid)
             else if ($item/@subtype) then
                     (titles:printTitleID(string($item/@subtype)) || ': ' || $SUBid)
             else ($item/name() || ' ' || $SUBid)
@@ -78,8 +80,14 @@ declare
 %test:arg('id', 'LIT1367Exodus#Ex1') %test:assertEquals('Exodus, Exodus 1')
 %test:arg('id', 'PRS5684JesusCh#n2') %test:assertEquals('Jesus Christ, Krǝstos')
 function titles:printTitleID($id as xs:string)
-{ 
-    if (starts-with($id, 'sdc:')) then 'La Synthaxe du Codex ' || substring-after($id, 'sdc:' )
+{ if ($titles:deleted//t:item[.=$id]) then
+      let $del := $titles:deleted//t:item[.=$id]
+      let $formerly := $config:collection-root//t:relation[@name='betmas:formerlyAlsoListedAs'][@passive=$id]
+              return
+              if($formerly) then
+                titles:printTitleID($formerly/@active) || ' [now '||string($formerly/@active)||', formerly also listed as '||$id||', which was requested here but has been deleted on '||string($del/@change)||']'
+                else $id || ' was permanently deleted' 
+   else if (starts-with($id, 'sdc:')) then 'La Synthaxe du Codex ' || substring-after($id, 'sdc:' )
     (: another hack for things like ref="#" :) 
     else if ($id = '#') then <span class="w3-tag w3-red">{ 'no item yet with id ' || $id }</span>
     (: hack to avoid the bad usage of # at the end of an id like <title type="complete" ref="LIT2317Senodo#" xml:lang="gez"> :) 
@@ -155,21 +163,21 @@ declare
 %test:arg('id', 'PRS11160HabtaS') %test:assertEquals(' Habta Śǝllāse')
 %test:arg('id', 'LOC1001Aallee') %test:assertEquals('Aallee')
 function titles:printTitleMainID($id as xs:string)
-   {   let $test := console:log($id) return
+   {   
        if (matches($id, 'wd:Q\d+') or starts-with($id, 'gn:') or starts-with($id, 'pleiades:')) 
     then
            (titles:decidePlaceNameSource($id))
     else (: always look at the root of the given node parameter of the function and then switch :)
            let $catchID := $config:collection-root/id($id)
            let $resource := $catchID[name() = 'TEI']
-            let $type := string($resource/@type)
-            let $test1 := console:log($type)
            return
                if (count($resource) = 0) then
            <span class="w3-tag w3-red">{ 'No item: ' || $id }</span>
                else if (count($resource) > 1) then
            <span class="w3-tag w3-red">{ 'More than 1 ' || $id }</span>
                else
+                   let $type := string($resource/@type)
+                   return
                 titles:switcher($type, $resource)
    };
    
@@ -195,7 +203,7 @@ declare function titles:manuscriptLabelFormatter($resource) as xs:string {
           then ('Lost. ' || $resource//t:msIdentifier/t:idno/text())
           else if ($resource//t:repository/@ref and $resource//t:msDesc/t:msIdentifier/t:idno/text())
                 then
-                    let $repoid := string($resource//t:repository/@ref)
+                    let $repoid := string(($resource//t:repository/@ref)[1])
                     let $reponame := $titles:institutionsList/id($repoid)/text()
                     let $r := $config:collection-rootIn/id($repoid)
                     let $repo := if ($r) then ($r) else 'No Institution record'
@@ -204,7 +212,6 @@ declare function titles:manuscriptLabelFormatter($resource) as xs:string {
                                     else if ($repo//t:settlement[1]/@ref) then
                                                let $plaID := string($repo//t:settlement[1]/@ref)
                                                let $placeName := titles:decidePlaceNameSource($plaID)
-                                               let $test5 := console:log($placeName)
                                                return $placeName
                                     else if ($repo//t:settlement[1]/text()) then $repo//t:settlement[1]/text()
                                     else if ($repo//t:country/@ref) then
@@ -215,7 +222,6 @@ declare function titles:manuscriptLabelFormatter($resource) as xs:string {
                                                $repo//t:country/text()
                                     else 'No location record'
                                            )
-                    let $test4 := console:log(string-length($repoPlace))
                     let $candidate := string-join($repoPlace, ' ') || ', ' || (
                                      if ($repo = 'No Institution record') then $repo else ($reponame)
                                      ) || ', ' || 
@@ -398,7 +404,6 @@ let $Maintitle := $W/t:title[@type = 'main'][@corresp = '#t1'][text()]
 
 declare function titles:normalize($nodes){
 let $tostring := $nodes/string()
-(:try{titles:tei2string($nodes/node())} catch * {console:log($err:description)}:)
 return
 normalize-space(string-join($tostring))
 };
@@ -416,7 +421,7 @@ declare function titles:decidePlName($plaID){
 
 (:Given an id, decides if it is one of BM or from another source and gets the name accordingly:)
 declare function titles:decidePlaceNameSource($pRef as xs:string){
-    let $test := console:log($pRef) return
+   
 if ($titles:placeNamesList//t:item[@corresp = $pRef]) 
     then $titles:placeNamesList//t:item[@corresp = $pRef]/text()
 else if (starts-with($pRef, 'gn:')) then (
