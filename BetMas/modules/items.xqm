@@ -222,12 +222,26 @@ if(xdb:collection-available($coll)) then (
 (:check that it is one of our collections:)
  if ($collection='institutions') then (
  (:controller should handle this by redirecting /institutions/ID/main to /manuscripts/ID/list which is then taken care of by list.xql:)
- )
-
-        else
+ ) else
 (:check if the item has been deleted:)
 if( $restItem:deleted//t:item[. =$id]) then
-(<rest:response>
+(let $formerlyListed := $config:collection-root//t:relation[@name='betmas:formerlyAlsoListedAs'][@passive=$id]
+return
+if(count($formerlyListed) = 1) then 
+(:redirect to record containing formerly listed as:)
+<rest:response>
+ <http:response
+                status="301">
+                 <http:header
+                    name="Location"
+                    value="/{string($formerlyListed/@active)}"/>
+                 <http:header
+                    name="Connection"
+                    value="close"/>
+  </http:response>
+</rest:response>
+else 
+<rest:response>
             <http:response
                 status="410">
                 <http:header
@@ -237,10 +251,10 @@ if( $restItem:deleted//t:item[. =$id]) then
         </rest:response>,
         <html xmlns="http://www.w3.org/1999/xhtml">
         <head>
-        <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
-        <script type="text/javascript" src="resources/js/analytics.js"></script>
-        <title>Not here any more...</title></head>
-        <body><p>Sorry! {$id} has been marked as deleted.</p></body>
+        <title>Not here any more... 410 - Gone</title></head>
+        <body>
+        <p>Sorry! {$id} has been marked as deleted.</p>
+        <p>You can check the list of <a href="/deleted.html">all deleted records here </a></p></body>
         </html>
         )
 (:        check if there is more then one:)
@@ -256,8 +270,6 @@ if( $restItem:deleted//t:item[. =$id]) then
         </rest:response>,
         <html xmlns="http://www.w3.org/1999/xhtml">
         <head>
-        <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
-        <script type="text/javascript" src="resources/js/analytics.js"></script>
         <title>Not here any more...</title></head>
         <body><p>Something has gone wrong and there are more than one item with id {$id}.</p>
         <ul>
@@ -535,9 +547,9 @@ else ()
    <div class="w3-container w3-margin-bottom">
    <div class="w3-container w3-padding w3-black w3-card-4 ">This page contains RDFa. 
    <a href="/rdf/{$collection}/{$id}.rdf">RDF+XML</a> graph of this resource. Alternate representations available via <a href="/api/void/{$id}">VoID</a>.</div>
-   <div class="w3-container w3-padding w3-card-4 " id="permanentIDs" style="max-heigh:400px;overflow:auto"
+   <div class="w3-container w3-padding w3-card-4 " id="permanentIDs{$id}" style="max-heigh:400px;overflow:auto"
    data-path="{restItem:capitalize-first(substring-after(base-uri($this), '/db/apps/BetMasData/'))}" 
-   data-id="{$id}" data-type="{restItem:capitalize-first($collection)}"><a class="w3-btn w3-gray" id="LoadPermanentIDs">Permalinks</a></div>
+   data-id="{$id}" data-type="{restItem:capitalize-first($collection)}"><a class="w3-btn w3-gray" id="LoadPermanentIDs{$id}">Permalinks</a></div>
    <script  type="text/javascript" src="resources/js/permanentID.js"></script>
    
    </div>

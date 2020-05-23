@@ -210,6 +210,14 @@ return
             <h1 id="headtitle">
                 {titles:printTitleID($id)}
             </h1>
+            {let $formerly := $document//t:relation[@name='betmas:formerlyAlsoListedAs'][@active=$id]
+             let $same := $document//t:relation[@name='skos:exactMatch'][@active=$id]
+            return
+            (if($formerly) then <p>This record was formerly also listed as {string($formerly/@passive)}.</p> 
+            else(),
+            if($same) then 
+                    for $s in $same return <p>This record is the same as <a href="{string($s/@passive)}" target="_blank">{titles:printTitleID($s/@passive)}</a>.</p> 
+            else ())}
           <p id="mainEditor"><i>{string-join($key, ', ')}</i></p>
           {if($collection = 'manuscripts') then <p>{if($this//t:additional//t:source/t:listBibl[@type='catalogue']) then ('This manuscript description is based on ' , <a href="#catalogue">the catalogues listed in the catalogue bibliography</a> )
           else if($this//t:collection = 'EMIP') then string-join($this//t:collection//text(), ', ')
