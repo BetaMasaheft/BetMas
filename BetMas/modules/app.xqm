@@ -450,7 +450,15 @@ declare function app:deleted ($node as node(), $model as map(*)) {
     return <li  class="w3-display-container" id="permanentIDs{$deleted}" 
     data-id="{$deleted}" 
     data-path="{functx:capitalize-first(string($deleted/@source))}/{$deleted}.xml"
-    data-type="{functx:capitalize-first($coll)}" >{$deleted/text()}, deleted from {string($deleted/@source)} on {string($deleted/@change)}
+    data-type="{functx:capitalize-first($coll)}" >{$deleted/text()}, deleted from {string($deleted/@source)} on {string($deleted/@change)}.
+    {let $formerly := $document//t:relation[@name='betmas:formerlyAlsoListedAs'][@passive=$deleted]
+             let $same := $document//t:relation[@name='skos:exactMatch'][@passive=$deleted]
+            return
+            (if($formerly) then <p>This record is now listed as {string($formerly/@active)}.</p> 
+            else(),
+            if($same) then 
+                    for $s in $same return <p>This record is the same as <a href="{string($s/@active)}" target="_blank">{titles:printTitleID($s/@active)}</a>.</p> 
+            else ())}
     <a class="w3-btn w3-gray w3-display-right" id="LoadPermanentIDs{$deleted}">Permalinks</a>
     </li>}
        </ul>,
