@@ -451,8 +451,8 @@ declare function app:deleted ($node as node(), $model as map(*)) {
     data-id="{$deleted}" 
     data-path="{functx:capitalize-first(string($deleted/@source))}/{$deleted}.xml"
     data-type="{functx:capitalize-first($coll)}" >{$deleted/text()}, deleted from {string($deleted/@source)} on {string($deleted/@change)}.
-    {let $formerly := $document//t:relation[@name='betmas:formerlyAlsoListedAs'][@passive=$deleted]
-             let $same := $document//t:relation[@name='skos:exactMatch'][@passive=$deleted]
+    {let $formerly := $config:collection-root//t:relation[@name='betmas:formerlyAlsoListedAs'][@passive=$deleted]
+             let $same := $config:collection-root//t:relation[@name='skos:exactMatch'][@passive=$deleted]
             return
             (if($formerly) then <p>This record is now listed as {string($formerly/@active)}.</p> 
             else(),
