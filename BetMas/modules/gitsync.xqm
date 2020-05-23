@@ -409,7 +409,9 @@ return
                     let $deletedlist := $gitsync:deleted//t:list
                     let $id := substring-before($file-name, '.xml')
 (:                    This will inevitably cause the order in that list to be broken :)
-                    let $update :=  update insert <item xmlns="http://www.tei-c.org/ns/1.0">{$id}</item> into  $deletedlist
+                    let $update :=  update insert <item xmlns="http://www.tei-c.org/ns/1.0" 
+                    source="{concat($collection, '/', $resource-path)}"
+                    change="{current-dateTime()}">{$id}</item> into  $deletedlist
                     return
                     'added value at the end of the list in deleted.xml'
                     )

@@ -4,6 +4,7 @@ xquery version "3.1" encoding "UTF-8";
  :
  : @author Pietro Liuzzo 
  :)
+ 
 module namespace PermRestItem = "https://www.betamasaheft.uni-hamburg.de/BetMas/PermRestItem";
 import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace log="http://www.betamasaheft.eu/log" at "log.xqm";
@@ -20,6 +21,7 @@ import module namespace LitFlow = "https://www.betamasaheft.uni-hamburg.de/BetMa
 import module namespace xdb="http://exist-db.org/xquery/xmldb";
 import module namespace kwic = "http://exist-db.org/xquery/kwic"
     at "resource:org/exist/xquery/lib/kwic.xql";
+import module namespace console="http://exist-db.org/xquery/console";
 
 (: For interacting with the TEI document :)
 declare namespace t = "http://www.tei-c.org/ns/1.0";
@@ -209,16 +211,9 @@ $sha as xs:string*){
 let $collect := switch2:collectionVar($collection)
 let $coll := $config:data-root || '/' || $collection
 let $capCol := PermRestItem:capitalize-first($collection)
-let $permapath := replace(PermRestItem:capitalize-first(substring-after(base-uri($config:collection-root/id($id)[name()='TEI']), '/db/apps/BetMasData/')), $capCol, '')
-let $this:= doc('https://raw.githubusercontent.com/BetaMasaheft/' || $capCol || '/'||$sha||'/'|| $permapath)//t:TEI
-(:let $req :=
-        <http:request
-        http-version="1.1"
-            href="{xs:anyURI($thisurl)}"
-            method="GET">
-        </http:request>
-        
-let $this := http:send-request($req)[2]:)
+let $permapath := if( $PermRestItem:deleted//t:item[. =$id]) then (replace(string($PermRestItem:deleted//t:item[. =$id]/@source), $collection, '') =>replace('^/', '') || '/' || $PermRestItem:deleted//t:item[. =$id]/text() || '.xml' ) else replace(PermRestItem:capitalize-first(substring-after(base-uri($config:collection-root/id($id)[name()='TEI']), '/db/apps/BetMasData/')), $capCol, '')
+let $docpath:= 'https://raw.githubusercontent.com/BetaMasaheft/' || $capCol || '/'||$sha||'/'|| $permapath
+let $this:= doc($docpath)//t:TEI
 let $biblio :=
 <bibl>
 {
@@ -239,57 +234,7 @@ return
 let $Cmap := map {'type': 'collection', 'name' : $collection, 'path' : $coll}
 let $Imap := map {'type':  'item', 'name' :  $id, 'path' :  $collection}
 return
-
-
-if(xdb:collection-available($coll)) then (
-(:check that it is one of our collections:)
- if ($collection='institutions') then (
- (:controller should handle this by redirecting /institutions/ID/main to /manuscripts/ID/list which is then taken care of by list.xql:)
- )
-
-        else
-(:check if the item has been deleted:)
-if( $PermRestItem:deleted//t:item[. =$id]) then
-(<rest:response>
-            <http:response
-                status="410">
-                <http:header
-                    name="Content-Type"
-                    value="text/html; charset=utf-8"/>
-            </http:response>
-        </rest:response>,
-        <html xmlns="http://www.w3.org/1999/xhtml">
-        <head><script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
-        <script type="text/javascript" src="resources/js/analytics.js"></script>
-        <title>Not here any more...</title></head>
-        <body><p>Sorry! {$id} has been marked as deleted.</p></body>
-        </html>
-        )
-(:        check if there is more then one:)
-         else   if(count($config:collection-root/id($id)[name() = 'TEI']) gt 1) then 
-         (
-<rest:response>
-            <http:response
-                status="409">
-                <http:header
-                    name="Content-Type"
-                    value="text/html; charset=utf-8"/>
-            </http:response>
-        </rest:response>,
-        <html xmlns="http://www.w3.org/1999/xhtml">
-        <head><script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
-        <script type="text/javascript" src="resources/js/analytics.js"></script>
-        <title>Not here any more...</title></head>
-        <body><p>Something has gone wrong and there are more than one item with id {$id}.</p>
-        <ul>
-        {for $i in $config:collection-root/id($id)[name() = 'TEI']
-        return <li>{base-uri($i)}</li>}
-        </ul>
-        </body>
-        </html>
-        )
-        (:        check that the item exists:)
-    else   if(count($config:collection-root/id($id)[name() = 'TEI']) = 1) then (
+(
 <rest:response>
             <http:response
                 status="200">
@@ -331,6 +276,9 @@ if( $PermRestItem:deleted//t:item[. =$id]) then
           {nav:searchhelpNew()}
          <div id="content" class="w3-container w3-padding-48">
          {item2:RestViewOptions($this, $collection)}
+         {if( $PermRestItem:deleted//t:item[. =$id]) then
+<div class='w3-red w3-container'>{$PermRestItem:deleted//t:item[. =$id]/text()} was deleted permanently on {string($PermRestItem:deleted//t:item[. =$id]/@change)}</div>
+else ()}
   { item2:RestItemHeader($this, $collection)}
  
 
@@ -574,31 +522,6 @@ if ($id = $Subjects) then  (try{LitFlow:Sankey($id, 'works')} catch * {$err:desc
 
     </body>
 </html>
-        )
-         
-        else
-       (<rest:response>
-            <http:response
-                status="400">
-                <http:header
-                    name="Content-Type"
-                    value="text/html; charset=utf-8"/>
-            </http:response>
-        </rest:response>,
-        error:error($Imap))
-
-        )
-        else
-        (
-        <rest:response>
-            <http:response
-                status="400">
-                <http:header
-                    name="Content-Type"
-                    value="text/html; charset=utf-8"/>
-            </http:response>
-        </rest:response>,
-        error:error($Cmap)
         )
 };
 

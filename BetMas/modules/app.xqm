@@ -35,6 +35,7 @@ import module namespace console="http://exist-db.org/xquery/console";
 import module namespace apptable="https://www.betamasaheft.uni-hamburg.de/BetMas/apptable" at "xmldb:exist:///db/apps/BetMas/modules/apptable.xqm";
 
 (:~declare variable $app:item-uri as xs:string := raequest:get-parameter('uri',());:)
+declare variable $app:deleted := doc('/db/apps/BetMas/lists/deleted.xml');
 declare variable $app:collection as xs:string := request:get-parameter('collection',());
 declare variable $app:name as xs:string := request:get-parameter('name',());
 declare variable $app:params := request:get-parameter-names() ;
@@ -98,7 +99,11 @@ declare variable $app:APP_ROOT :=
             request:get-context-path() || "/apps/BetMas"
             ;
 
-
+declare function functx:capitalize-first( $arg as xs:string? )  as xs:string? {
+   concat(upper-case(substring($arg,1,1)),
+             substring($arg,2))
+ } ;
+ 
 declare function app:interpretationSegments($node as node(), $model as map(*)){
  for $d in distinct-values($config:collection-rootMS//t:seg/@ana)
                     return
@@ -433,6 +438,23 @@ declare function app:team ($node as node(), $model as map(*)) {
         }, 1000)
        }
        </ul>
+};
+
+
+(:~general count of contributions to the data:)
+declare function app:deleted ($node as node(), $model as map(*)) {
+<ul class="w3-ul w3-hoverable w3-padding">{
+    for $deleted in $app:deleted//t:item
+    order by $deleted/@change descending
+    let $coll := switch2:col(switch2:switchPrefix( $deleted))
+    return <li  class="w3-display-container" id="permanentIDs{$deleted}" 
+    data-id="{$deleted}" 
+    data-path="{functx:capitalize-first(string($deleted/@source))}/{$deleted}.xml"
+    data-type="{functx:capitalize-first($coll)}" >{$deleted/text()}, deleted from {string($deleted/@source)} on {string($deleted/@change)}
+    <a class="w3-btn w3-gray w3-display-right" id="LoadPermanentIDs{$deleted}">Permalinks</a>
+    </li>}
+       </ul>,
+       <script type="text/javascript" src="resources/js/permanentID.js"></script>
 };
 
 declare function functx:value-intersect  ( $arg1 as xs:anyAtomicType* ,    $arg2 as xs:anyAtomicType* )  as xs:anyAtomicType* {
