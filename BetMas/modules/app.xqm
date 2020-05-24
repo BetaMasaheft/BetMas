@@ -997,6 +997,7 @@ declare function app:facetName($f){
                 case 'origDateNotBefore' return 'Date of production (not before)'
                 case 'origDateNotAfter' return 'Date of production (not after)'
                 case 'repository' return 'Repository'
+                case 'collection' return 'Collection'
                 case 'rulingpattern' return 'Ruling Pattern'
                 case 'artThemes' return 'Art Themes'
                 case 'decoType' return 'Type of Decoration'
