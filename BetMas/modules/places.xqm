@@ -272,7 +272,7 @@ return
 
 (:get for one date all places attestated with a link to it:)
 (:does not work TODO need to implement error code for problem with parameter conversion!: exerr:ERROR :)
-declare 
+(:declare 
 %rest:GET
 %rest:path("/BetMas/api/KML/date/{$d}")
 %output:method("xml")
@@ -293,7 +293,7 @@ $places:response200xml,
        </kml>
        )
        else <info>Sorry! no date element with date "{$d}" has been found! </info>
-};
+};:)
 
 (:get for one place all its attestations with date:)
 declare 
@@ -334,7 +334,7 @@ return
 };
 
 (:get all places mentioned in a collection:)
-declare 
+(:declare 
 %rest:GET
 %rest:path("/BetMas/api/KML/{$collection}/origPlaces")
 %output:method("xml")
@@ -348,7 +348,7 @@ let $col := switch2:collectionVar($collection)
 return 
       places:kmlOrigplacesm($items)
 };
-
+:)
 declare function places:kmlplacesm($items){
 <kml>
        {for $place in ($items//t:placeName[@ref])
@@ -358,7 +358,7 @@ declare function places:kmlplacesm($items){
        </kml>
 };
 
-declare function places:kmlOrigplacesm($items){
+(:declare function places:kmlOrigplacesm($items){
 <kml>
        {for $place in distinct-values($items//t:placeName/@ref)
        return
@@ -366,9 +366,9 @@ declare function places:kmlOrigplacesm($items){
        }
        </kml>
 };
-
+:)
 (:get dates related to places about one item (metadata):)
-declare 
+(:declare 
 %rest:GET
 %rest:path("/BetMas/api/KML/datePlace/{$id}")
 %output:method("xml")
@@ -381,11 +381,11 @@ let $log := log:add-log-message('/api/KML/datePlace/'||$id, sm:id()//sm:real/sm:
 return 
        places:kmldataplaces($items)
 };
-
+:)
 
 
 (:get all dates related to places mentioned in a collection:)
-declare 
+(:declare 
 %rest:GET
 %rest:path("/BetMas/api/KML/{$collection}/datePlace")
 %output:method("xml")
@@ -399,8 +399,8 @@ let $log := log:add-log-message('/api/KML/'||$collection||'/datePlace', sm:id()/
 return 
        places:kmldataplaces($items)
 };
-
-
+:)
+(:
 declare function places:kmldataplaces($items){
 <kml>
        {for $place in ($items//t:date[@when | @notBefore | @notAfter][@corresp[contains(., '#P')]], $items//t:creation[@when | @notBefore | @notAfter][@corresp[contains(., '#P')]])
@@ -409,13 +409,13 @@ declare function places:kmldataplaces($items){
        }
        </kml>
 };
-
+:)
 
 (:handling of when is at the moment nonsensical, as it just takes a maximum. needs to check quality and format the date correctly
 see geobrowser data specification:)
 declare function places:SimplifiedPlaceMark($place as xs:string){
        <Placemark>
-        <address>{ titles:decidePlaceNameSource($place)}</address>
+        <address>{try{titles:decidePlaceNameSource($place)} catch * {$err:description}}</address>
         <description>a place of origin of manuscripts</description>
         <name>{ann:getannotationbody($place)}</name>
         <Point>{
