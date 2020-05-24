@@ -1148,14 +1148,14 @@ let $keys :=
        then
      let $all :=  for $k in $keys
        return
-       "ancestor-or-self::t:TEI/descendant::" || $context || "[.='" || $k ||"']"
+       "descendant::" || $context || "[.='" || $k ||"']"
        return
       "[" || string-join($all, ' or ') || "]"
        else
        (:search:)
        let $limit := for $k in $parameter
             return
-       "ancestor-or-self::t:TEI/descendant::" || $context ||  "[ft:query(.,'" || $k ||"')] "
+       "descendant::" || $context ||  "[ft:query(.,'" || $k ||"')] "
        return
        "[" || string-join($limit, ' or ') || "]"
 
@@ -1234,7 +1234,7 @@ case 'works' return (
 </select>
 <input class="w3-input w3-border" type="number" name="clavisID"/>
 </div>,
-if($items-info  = <start/>) then (
+if(<start/> = $items-info) then (
 (:no selection done yet, provide index value:)
 <div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that keyword">
 <label for="keyword">keywords </label>
@@ -1269,7 +1269,7 @@ apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titl
              <div id="AddFilters"/>
 )
 case 'places' return 
-if($items-info  = <start/>) then (
+if(<start/> = $items-info) then (
 (:no selection done yet, provide index value:)
 <div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that keyword">
 <label for="keyword">keywords </label>
@@ -1322,7 +1322,7 @@ apprest:formcontrol('settlement','settlement', $items-info//t:settlement/@ref, '
 )
 
 case 'institutions' return 
-if($items-info  = <start/>) then (
+if(<start/> = $items-info) then (
 (:no selection done yet, provide index value:)
 <div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that keyword">
 <label for="keyword">keywords </label>
@@ -1369,7 +1369,7 @@ apprest:formcontrol('settlement','settlement', $items-info//t:settlement/@ref, '
 )
 case 'persons' return 
 (
-if($items-info  = <start/>) then (
+if(<start/> = $items-info) then (
 (:no selection done yet, provide index value:)
 <div class="w3-container">
 <label for="keyword">keywords </label>
@@ -1403,7 +1403,7 @@ apprest:formcontrol('faith','faith', $items-info//t:faith/@type, 'true', 'titles
 (:default is a manuscript related list view, catalogue, institutions or general view:)
 default return
 (
-if($items-info  = <start/>) then (
+if(<start/> = $items-info) then (
 (:no selection done yet, provide index value:)
 <div class="w3-container">
 <label for="keyword">keywords </label>

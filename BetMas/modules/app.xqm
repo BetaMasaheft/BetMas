@@ -1019,6 +1019,8 @@ declare function app:facetName($f){
                 case 'region' return 'Region'
                 case 'country' return 'Country'
                 case 'witness' return 'Witnesses'
+                case 'thereistext' return 'Text'
+                case 'thereistranscription' return 'Transcription'
                 case 'reltype' return 'Relation Names'
                 case 'bindingMaterial' return 'Binding Material'
                 case 'tabot' return 'Tābots'
@@ -1549,9 +1551,8 @@ declare
               </div>
             </div>
             <div class="w3-twothird">
-                 <div class="w3-third">first three keywords in context</div>
+                 <div class="w3-twothird">first three keywords in context</div>
                  <div class="w3-third">item-type specific options</div>
-                  <div class="w3-third">context element of matches</div>
             </div>
             </div>,
         for $text at $p in subsequence($model('hits'), $start, $per-page)

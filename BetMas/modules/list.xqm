@@ -90,9 +90,15 @@ return
           <div class="w3-rest">   
           <a class="w3-button w3-red"  onclick="openAccordion('list{$i}')">show list</a>
           <div class="w3-hide" id="list{$i}">
-            {
-                    for $m in $inthisrepo
+            {if($count gt 500) then (
+            <div class="w3-card-4 w3-panel w3-gray w3-margin w3-padding">
+                            <p class="w3-large">
+                            There are too many manuscripts here. Please click on the repository link for the full list.
+                                </p>
+                                </div>
+            ) else
                     
+                    for $m in $inthisrepo
                     let $collection := root($m)//t:collection
                         group by $C := $collection[1]
                         order by $C
