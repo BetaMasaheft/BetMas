@@ -937,13 +937,13 @@ declare function app:facetDiv ($f, $facets, $facetTitle){
     <div
         class="w3-padding w3-hide" 
         id="{string($f)}-facet-list">
-        {map:for-each($facets, function($label, $count) {
-            (<input 
+        {let $inputs :=map:for-each($facets, function($label, $count) {
+            <span><input 
             class="w3-check w3-margin-right" 
             type="checkbox" 
             name="{string($f)}-facet" 
-            value="{$label}"/>,
-            if ($f = 'keywords'  
+            value="{$label}"/>
+         {   if ($f = 'keywords'  
                 or $f = 'decoType' 
                 or $f = 'artThemes' 
                 or $f = 'AdditionsType' ) 
@@ -961,9 +961,14 @@ declare function app:facetDiv ($f, $facets, $facetTitle){
                 then <span class="MainTitle" data-value="{$label}">{$label}</span>
             else if($f= 'changeWho') then editors:editorKey($label)
             else if($f = 'languages') then $app:languages//t:item[@xml:id=$label]/text()
-            else $label,
-            <span class="w3-badge w3-margin-left">{$count}</span>,<br/>)
-        })}
+            else $label}
+            <span class="w3-badge w3-margin-left">{$count}</span><br/></span>
+        })
+        for $input in $inputs
+        order by $input/text()[1]
+        return
+        $input/node()
+        }
     </div>
     </div>
 };
