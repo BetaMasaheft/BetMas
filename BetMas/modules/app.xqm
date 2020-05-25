@@ -370,7 +370,7 @@ declare function app:ListQueryParam($parameter, $context, $mode, $function){
       if(exists($app:params)) 
       then( 
                let $allparamvalues := 
-                                     if ($parameter = $paralist) 
+                                     if ($parameter = $app:params) 
                                      then (request:get-parameter($parameter, ())) 
                                      else 'all'
                 return
@@ -962,7 +962,14 @@ to store in the index the titles, then this will be much better solution
             <span class="w3-badge w3-margin-left">{$count}</span><br/></span>
         })
         for $input in $inputs
-        order by $input/text()[1]
+        let $sortkey := 
+             string-join($input//text())
+             => replace('ʾ', '')
+             =>replace('ʿ','')
+             =>replace('\s','')
+             =>translate('ṢṣḫḥǝʷāṖ','SshhewaP') 
+             => lower-case()
+        order by $sortkey
         return
         $input/node()
         }
@@ -1083,9 +1090,9 @@ let $wits := app:ListQueryParam('ms', "t:witness/@corresp", 'any', 'search')
 let $authors := app:ListQueryParam('author', "t:relation[@name='saws:isAttributedToAuthor']/@passive", 'any', 'search')
 (:let $authorsCertain := app:ListQueryParam('author', "t:relation[@name='dcterms:creator']/@passive", 'any', 'search'):)
 let $tabots := app:ListQueryParam('tabot', "t:ab[@type='tabot']/t:*/(@ref|@corresp)", 'any', 'search')
-let $references := if (contains($parameterslist, 'references')) then let $refs := for $ref in tokenize(request:get-parameter('references', ()), ',') return "[descendant::t:*/@*[not(name()='xml:id')] ='"  ||$ref || "' ]" return string-join($refs, '') else ()
-let $genders := if (contains($parameterslist, 'gender')) then '[descendant::t:person/@sex ='  ||request:get-parameter('gender', ()) || ' ]' else ()
-let $leaves :=  if (contains($parameterslist, 'folia')) 
+let $references := if (contains($app:params, 'references')) then let $refs := for $ref in tokenize(request:get-parameter('references', ()), ',') return "[descendant::t:*/@*[not(name()='xml:id')] ='"  ||$ref || "' ]" return string-join($refs, '') else ()
+let $genders := if (contains($app:params, 'gender')) then '[descendant::t:person/@sex ='  ||request:get-parameter('gender', ()) || ' ]' else ()
+let $leaves :=  if (contains($app:params, 'folia')) 
                 then (
                 let $range := request:get-parameter('folia', ())
                 let $min := substring-before($range, ',') 
@@ -1098,7 +1105,7 @@ let $leaves :=  if (contains($parameterslist, 'folia'))
                 else
                 "[descendant::t:extent/t:measure[@unit='leaf'][not(@type)][. >="||$min|| ' ][ .  <= ' || $max ||"]]"
                ) else ()
-let $wL :=  if (contains($parameterslist, 'wL')) 
+let $wL :=  if (contains($app:params, 'wL')) 
                 then (
                 let $range := request:get-parameter('wL', ())
                 let $min := substring-before($range, ',') 
@@ -1111,7 +1118,7 @@ let $wL :=  if (contains($parameterslist, 'wL'))
                 else
                 "[descendant::t:layout[@writtenLines >="||$min|| '][@writtenLines  <= ' || $max ||"]]"
                ) else ()
-let $quires :=  if (contains($parameterslist, 'qn')) 
+let $quires :=  if (contains($app:params, 'qn')) 
                 then (
                 let $range := request:get-parameter('qn', ())
                 return
@@ -1120,7 +1127,7 @@ let $quires :=  if (contains($parameterslist, 'qn'))
                 else
                 app:paramrange('qn', "extent/t:measure[@unit='quire'][not(@type)]")
                ) else ()
-let $quiresComp :=  if (contains($parameterslist, 'qcn')) 
+let $quiresComp :=  if (contains($app:params, 'qcn')) 
                 then (
                 let $range := request:get-parameter('qcn', ())
                 return
@@ -1130,7 +1137,7 @@ let $quiresComp :=  if (contains($parameterslist, 'qcn'))
                 app:paramrange('qcn', "collation//t:dim[@unit='leaf']")
                ) else ()
 let $dateRange := 
-                if (contains($parameterslist, 'dataRange')) 
+                if (contains($app:params, 'dataRange')) 
                 then (
                 let $range := request:get-parameter('dateRange', ())
                 let $from := substring-before($range, ',') 
@@ -1153,14 +1160,14 @@ else @notAfter)[. !=''][. >= " || $from || '][.  <= ' || $to || ']
 
 ]
 ]' ) else ()
-   let $height :=   if (contains($parameterslist, 'height')) then (app:paramrange('height', 'height')) else ()
-   let $width :=  if (contains($parameterslist, 'width')) then (app:paramrange('width', 'width')) else ()
-   let $depth :=  if (contains($parameterslist, 'depth')) then (app:paramrange('depth', 'depth')) else ()
-   let $marginTop :=  if (contains($parameterslist, 'tmargin')) then (app:paramrange('tmargin', "dimension[@type='margin']/t:dim[@type='top']")) else ()
-   let $marginBot :=  if (contains($parameterslist, 'bmargin')) then (app:paramrange('tmargin', "dimension[@type='margin']/t:dim[@type='bottom']")) else ()
-   let $marginR :=  if (contains($parameterslist, 'rmargin')) then (app:paramrange('tmargin', "dimension[@type='margin']/t:dim[@type='right']")) else ()
-   let $marginL :=  if (contains($parameterslist, 'lmargin')) then (app:paramrange('tmargin', "dimension[@type='margin']/t:dim[@type='left']")) else ()
-   let $marginIntercolumn :=  if (contains($parameterslist, 'intercolumn')) then (app:paramrange('intercolumn', "dimension[@type='margin']/t:dim[@type='intercolumn']")) else ()
+   let $height :=   if (contains($app:params, 'height')) then (app:paramrange('height', 'height')) else ()
+   let $width :=  if (contains($app:params, 'width')) then (app:paramrange('width', 'width')) else ()
+   let $depth :=  if (contains($app:params, 'depth')) then (app:paramrange('depth', 'depth')) else ()
+   let $marginTop :=  if (contains($app:params, 'tmargin')) then (app:paramrange('tmargin', "dimension[@type='margin']/t:dim[@type='top']")) else ()
+   let $marginBot :=  if (contains($app:params, 'bmargin')) then (app:paramrange('tmargin', "dimension[@type='margin']/t:dim[@type='bottom']")) else ()
+   let $marginR :=  if (contains($app:params, 'rmargin')) then (app:paramrange('tmargin', "dimension[@type='margin']/t:dim[@type='right']")) else ()
+   let $marginL :=  if (contains($app:params, 'lmargin')) then (app:paramrange('tmargin', "dimension[@type='margin']/t:dim[@type='left']")) else ()
+   let $marginIntercolumn :=  if (contains($app:params, 'intercolumn')) then (app:paramrange('intercolumn', "dimension[@type='margin']/t:dim[@type='intercolumn']")) else ()
                             
 let $query-string := if ($query != '') 
                                         then (
@@ -1183,7 +1190,7 @@ let $eachworktype := for $wtype in request:get-parameter('work-types', ())
 (:                                   in case there is only one collection parameter selected and this is equal to place, search also institutions :)
                                    if(count(request:get-parameter('work-types', ())) eq 1 and request:get-parameter('work-types', ()) = 'place' ) then ("or @type='ins'")   else '')
         
-let $wt := if(contains($parameterslist, 'work-types')) then "[" || string-join($eachworktype, ' or ') || "]" else ()
+let $wt := if(contains($app:params, 'work-types')) then "[" || string-join($eachworktype, ' or ') || "]" else ()
 let $nOfP := if(empty($numberOfParts) or $numberOfParts = '') then () else '[count(descendant::t:msPart) ge ' || $numberOfParts || ']'
 
 
@@ -1203,7 +1210,7 @@ union the sequences of results and remove the doubles from the union
 let $queryExpr := $query-string
     return
         if (empty($queryExpr) or $queryExpr = "") then
-          (if(empty($parameterslist)) then () else ( let $hits := 
+          (if(empty($app:params)) then () else ( let $hits := 
              let $path := 
              concat("$config:collection-root","//t:TEI", 
              $allfilters, $nOfP)
@@ -1574,6 +1581,18 @@ declare
               <div class="w3-third">
               <div class="w3-col" style="width:15%">
                 <span class="w3-tag w3-red">{format-number($score, '0,00')}</span>
+                <span class="w3-tag w3-red">{
+                if ($item//t:change[contains(., 'completed')]) then
+                        (attribute style {'background-color:rgb(172, 169, 166, 0.4)'},
+                        'complete')
+                    else
+                        if ($item//t:change[contains(., 'reviewed')]) then
+                            (attribute style {'background-color:white'},
+                            'reviewed')
+                        else
+                            (attribute style {'background-color:rgb(213, 75, 10, 0.4)'},
+                            'stub')}
+                 </span>
               </div>
               <div class="w3-col"  style="width:70%">
               <span class="w3-tag w3-gray">{$collection}:{$id}</span>
