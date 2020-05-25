@@ -4,9 +4,9 @@
         <create qname="id" type="xs:string"/>
         <lucene diacritics="no">
             <text qname="t:TEI">
-                <!--all-->
+                <!--all--> 
                 <facet dimension="type" expression="switch(@type) case 'mss' return 'manuscript' case 'work' return 'textual unit' case 'pers' return 'person' case 'place' return 'place' case 'ins' return 'repository' case 'narr' return 'narrative unit' default return 'authority file'"/>
-                <facet dimension="keywords" expression="t:teiHeader//t:term/@key"/>
+                <facet dimension="keywords" expression="for $k in t:teiHeader//t:term/@key return ti:test($k, 'auth')"/>
                 <facet dimension="languages" expression="t:teiHeader//t:language/@ident"/>
                 <facet dimension="changeWho" expression="t:teiHeader//t:change/@who"/>
                 <facet dimension="changeWhen" expression="t:teiHeader//t:change/@when"/>
@@ -20,51 +20,51 @@
                 <facet dimension="height" if="@type='mss'" expression="t:teiHeader//t:extent/t:dimensions/t:height"/>
                 <facet dimension="width" if="@type='mss'" expression="t:teiHeader//t:extent/t:dimensions/t:width"/>
                 <facet dimension="depth" if="@type='mss'" expression="t:teiHeader//t:extent/t:dimensions/t:depth"/>
-                <facet dimension="scribe" if="@type='mss'" expression="t:teiHeader//t:persName[@role='scribe']/@ref"/>
-                <facet dimension="donor" if="@type='mss'" expression="t:teiHeader//t:persName[@role='donor']/@ref"/>
+                <facet dimension="scribe" if="@type='mss'" expression="for $p in t:teiHeader//t:persName[@role='scribe']/@ref return ti:test($p, 'pers')"/>
+                <facet dimension="donor" if="@type='mss'" expression="for $p in t:teiHeader//t:persName[@role='donor']/@ref return ti:test($p, 'pers')"/>
                 <facet dimension="msItemsCount" if="@type='mss'" expression="count(t:teiHeader//t:msItem)"/>
                 <facet dimension="msPartsCount" if="@type='mss'" expression="count(t:teiHeader//t:msPart)"/>
                 <facet dimension="handsCount" if="@type='mss'" expression="count(t:teiHeader//t:handNote)"/>
                 <facet dimension="sealCount" if="@type='mss'" expression="count(t:teiHeader//t:seal)"/>
                 <facet dimension="QuireCount" if="@type='mss'" expression="count(t:teiHeader//t:collation//t:item[@n])"/>
                 <facet dimension="AdditionsCount" if="@type='mss'" expression="count(t:teiHeader//t:additions//t:item[starts-with(@xml:id, 'a')])"/>
-                <facet dimension="AdditionsType" if="@type='mss'" expression="t:teiHeader//t:additions//t:item[starts-with(@xml:id, 'a')]/t:desc/@type"/>
-                <facet dimension="titleRef" if="@type='mss'" expression="t:teiHeader//t:msContents/t:msItem/t:title/@ref"/>
+                <facet dimension="AdditionsType" if="@type='mss'" expression="for $a in t:teiHeader//t:additions//t:item[starts-with(@xml:id, 'a')]/t:desc/@type return ti:test($a, 'auth')"/>
+                <facet dimension="titleRef" if="@type='mss'" expression="for $i in t:teiHeader//t:msContents/t:msItem/t:title/@ref return ti:test($i, 'tex')"/>
                 <facet dimension="titleType" if="@type='mss'" expression="t:teiHeader//t:msItem//t:title/@type"/>
                 <facet dimension="ExtraCount" if="@type='mss'" expression="count(t:teiHeader//t:additions//t:item[starts-with(@xml:id, 'e')])"/>
+                <facet dimension="ExtraType" if="@type='mss'" expression="for $e in t:teiHeader//t:additions//t:item[starts-with(@xml:id, 'e')]/t:desc/@type return  ti:test($e, 'auth')"/>
+                <facet dimension="origPlace" if="@type='mss'" expression="for $e in t:teiHeader//t:origPlace/@ref return  ti:test($e, 'pl')"/>
                 <facet dimension="leafs" if="@type='mss'" expression="t:teiHeader//t:extent/t:measure[@unit='leaf'][not(@type)]"/>
                 <facet dimension="origDateNotBefore" if="@type='mss'" expression="t:teiHeader//t:origin/t:origDate/@notBefore"/>               
                 <facet dimension="origDateNotAfter" if="@type='mss'" expression="t:teiHeader//t:origin/t:origDate/@notAfter"/>               
-                <facet dimension="repository" if="@type='mss'" expression="t:teiHeader//t:repository/@ref"/>
+                <facet dimension="repository" if="@type='mss'" expression="for $r in t:teiHeader//t:repository/@ref return ti:test($r, 'ins')"/>
                 <facet dimension="collection" if="@type='mss'" expression="t:teiHeader//t:collection"/>
                 <facet dimension="rulingpattern" if="@type='mss'" expression="if(t:teiHeader//t:ab[@type='ruling'][@subtype='pattern']) then replace(t:teiHeader//t:ab[@type='ruling'][@subtype='pattern'], 'Ruling Pattern', '') else ''"/>
-                <facet dimension="artThemes" if="@type='mss'" expression="t:teiHeader//t:decoNote//t:ref[@type='authFile']/@corresp"/>
-                <facet dimension="decoType" if="@type='mss'" expression="t:teiHeader//t:decoNote/@type"/>
+                <facet dimension="artThemes" if="@type='mss'" expression="for $at in t:teiHeader//t:decoNote//t:ref[@type='authFile']/@corresp return ti:test($at, 'auth')"/>
+                <facet dimension="artkeywords" if="@type='mss'" expression="for $at in t:teiHeader//t:decoNote//t:term/@key return ti:test($at, 'auth')"/>
+                <facet dimension="decoType" if="@type='mss'" expression="for $d in t:teiHeader//t:decoNote/@type return ti:test($d, 'auth')"/>
                 <!-- countColophons, supplications, binding features, decoration features,  -->
                 <facet dimension="images" if="@type='mss'" expression="if(t:teiHeader//t:msIdentifier/t:idno[@facs]) then 'yes' else 'no'"/>
                 <facet dimension="writtenLines" if="@type='mss'" expression="t:teiHeader//t:layout/@writtenLines"/>
                 <facet dimension="columns" if="@type='mss'" expression="t:teiHeader//t:layout/@columns"/>
                 <facet dimension="thereistranscription" if="@type='work'" expression="if(t:text//t:div[@type='edition']//t:div/t:ab) then 'some text present' else 'only metadata'"/>
                 <!--works-->
-                <facet dimension="authors" if="@type='work'" expression="t:text//t:relation[@name='dcterms:creator' or @name='saws:isAttributedToAuthor']/@passive"/>
-                <facet dimension="divsubtypes" if="@type='work'" expression="t:text//t:div[@type='edition']//t:div/@subtype"/>
-                <facet dimension="sawsVersionOf" if="@type='work'" expression="t:text//t:relation[@name='saws:isVersionOf']/@passive"/>
+                <facet dimension="authors" if="@type='work'" expression="for $aut in t:text//t:relation[@name='dcterms:creator' or @name='saws:isAttributedToAuthor']/@passive return ti:test($aut, 'pers')"/>
+                <facet dimension="sawsVersionOf" if="@type='work'" expression="for $v in t:text//t:relation[@name='saws:isVersionOf']/@passive return ti:test($v, 'tex')"/>
                 <facet dimension="witness" if="@type='work'" expression="t:text//t:witness/@corresp"/>
                 <facet dimension="thereistext" if="@type='work'" expression="if(t:text//t:div[@type='edition']//t:div/t:ab) then 'some text present' else 'only metadata'"/>
                 <!--persons-->
                 <facet dimension="sex" if="@type='pers'" expression="switch(t:text//t:person/@sex) case '1' return 'male' case '2' return 'female' default return 'n/a'"/>
                 <facet dimension="personSameAs" if="@type='pers'" expression="t:text//t:person/@sameAs"/>
-                <facet dimension="name" if="@type='pers'" expression="t:text//t:person/t:persName/@xml:lang"/>
                 <facet dimension="group" if="@type='pers'" expression="if(t:text//t:personGrp) then 'group' else 'individual'"/>
                 <facet dimension="faith" if="@type='pers'" expression="t:text//t:faith/@type"/>
                 <facet dimension="occupation" if="@type='pers'" expression="t:text//t:occupation/@type"/>
                 <!--places-->
-                <facet dimension="sameAs" if="@type='place'" expression="t:text//t:place/@sameAs"/>
                 <facet dimension="placetype" if="@type='place'" expression="for $x in tokenize(t:text//t:place/@type,' ') return $x"/>
-                <facet dimension="settlement" if="@type='place'" expression="t:text//t:settlement/@ref"/>
-                <facet dimension="region" if="@type='place'" expression="t:text//t:region/@ref"/>
-                <facet dimension="country" if="@type='place'" expression="t:text//t:country/@ref"/>
-                <facet dimension="tabot" if="@type='place'" expression="t:text//t:ab[@type='tabot']//t:persName[@type='tabot']/@ref"/>
+                <facet dimension="settlement" if="@type='place'" expression="for $s t:text//t:settlement/@ref return ti:test($s, 'pl')"/>
+                <facet dimension="region" if="@type='place'" expression="for $r in t:text//t:region/@ref return ti:test($r, 'pl')"/>
+                <facet dimension="country" if="@type='place'" expression="for $c in t:text//t:country/@ref return ti:test($c, 'pl')"/>
+                <facet dimension="tabot" if="@type='place'" expression="for $t in t:text//t:ab[@type='tabot']//t:persName[@type='tabot']/@ref return ti:test($t, 'pers')"/>
             </text>
             <text qname="t:p"/>
             <text qname="t:placeName"/>

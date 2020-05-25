@@ -937,28 +937,25 @@ declare function app:facetDiv ($f, $facets, $facetTitle){
     <div
         class="w3-padding w3-hide" 
         id="{string($f)}-facet-list">
-        {let $inputs :=map:for-each($facets, function($label, $count) {
+        {
+(:        line0 on slack suggested 
+map:keys($map) => sort() => for-each(function ($key) {
+   let $value := $map($key)
+   (: do something with $key and $value :)
+   return $value
+})
+however this here cannot work, because the values are not the ones to be displayed directly.
+if and when the import module function will work and enable 
+to store in the index the titles, then this will be much better solution
+:)
+        let $inputs :=map:for-each($facets, function($label, $count) {
             <span><input 
             class="w3-check w3-margin-right" 
             type="checkbox" 
             name="{string($f)}-facet" 
             value="{$label}"/>
-         {   if ($f = 'keywords'  
-                or $f = 'decoType' 
-                or $f = 'artThemes' 
-                or $f = 'AdditionsType' ) 
+         {   if ($f = 'witness') 
                 then titles:printTitleID($label)
-            else if($f='personSameAs'
-                or $f = 'authors'
-                or $f = 'sawsVersionOf'
-                or $f = 'country'
-                or $f = 'settlement'
-                or $f = 'region'
-                or $f = 'scribe'
-                or $f = 'donor'
-                or $f = 'titleRef'
-                or $f = 'tabot') 
-                then <span class="MainTitle" data-value="{$label}">{$label}</span>
             else if($f= 'changeWho') then editors:editorKey($label)
             else if($f = 'languages') then $app:languages//t:item[@xml:id=$label]/text()
             else $label}
@@ -998,20 +995,22 @@ declare function app:facetName($f){
                 case 'titleRef' return 'Contents'
                 case 'titleType' return 'Complete/Incomplete contents'
                 case 'ExtraCount' return 'N. of Extras'
+                case 'ExtraType' return 'N. of Extras'
                 case 'leafs' return 'N. of leaves'
                 case 'origDateNotBefore' return 'Date of production (not before)'
                 case 'origDateNotAfter' return 'Date of production (not after)'
+                case 'origplace' return 'Place of origin'
                 case 'repository' return 'Repository'
                 case 'collection' return 'Collection'
                 case 'rulingpattern' return 'Ruling Pattern'
                 case 'artThemes' return 'Art Themes'
+                case 'artkeywords' return 'Art Keywords'
                 case 'decoType' return 'Type of Decoration'
                 case 'images' return 'Images Availability'
                 case 'writtenLines' return 'Written Lines'
                 case 'columns' return 'Columns'
                 case 'authors' return 'Authors'
                 case 'textDivs' return 'Text parts'
-                case 'divsubtipes' return 'Type of text parts'
                 case 'sawsVersionOf' return 'Versions'
                 case 'sex' return 'Gender'
                 case 'name' return 'Personal Name in language'
