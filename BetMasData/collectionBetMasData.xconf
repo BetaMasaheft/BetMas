@@ -47,7 +47,7 @@
                 <facet dimension="images" if="@type='mss'" expression="if(t:teiHeader//t:msIdentifier/t:idno[@facs]) then 'yes' else 'no'"/>
                 <facet dimension="writtenLines" if="@type='mss'" expression="t:teiHeader//t:layout/@writtenLines"/>
                 <facet dimension="columns" if="@type='mss'" expression="t:teiHeader//t:layout/@columns"/>
-                <facet dimension="thereistranscription" if="@type='work'" expression="if(t:text//t:div[@type='edition']//t:div/t:ab) then 'some text present' else 'only metadata'"/>
+                <facet dimension="thereistranscription" if="@type='mss'" expression="if(t:text//t:div[@type='edition']//t:div/t:ab) then 'some text present' else 'only metadata'"/>
                 <!--works-->
                 <facet dimension="authors" if="@type='work'" expression="for $aut in t:text//t:relation[@name='dcterms:creator' or @name='saws:isAttributedToAuthor']/@passive return ti:test($aut, 'pers')"/>
                 <facet dimension="sawsVersionOf" if="@type='work'" expression="for $v in t:text//t:relation[@name='saws:isVersionOf']/@passive return ti:test($v, 'tex')"/>
