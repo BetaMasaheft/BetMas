@@ -1544,11 +1544,9 @@ function app:paginateNew($node as node(), $model as map(*), $start as xs:int, $p
 
 declare    
 %templates:wrap
-    %templates:default('start', 1)
-    %templates:default("per-page", 40)
-    function app:facetSearchRes (
-    $node as node()*, 
-    $model as map(*), $start as xs:integer,  $per-page as xs:integer) {
+%templates:default('start', 1)
+%templates:default("per-page", 40)
+function app:facetSearchRes ( $node as node()*,  $model as map(*), $start as xs:integer,  $per-page as xs:integer) {
         <div class="w3-row w3-border-bottom w3-margin-bottom w3-gray">
               <div class="w3-third">
               <div class="w3-col" style="width:15%">
@@ -1582,11 +1580,11 @@ declare
               <div class="w3-col" style="width:15%">
                 <span class="w3-tag w3-red">{format-number($score, '0,00')}</span>
                 <span class="w3-tag w3-red">{
-                if ($item//t:change[contains(., 'completed')]) then
+                if ($item//t:change[contains(., 'complete')]) then
                         (attribute style {'background-color:rgb(172, 169, 166, 0.4)'},
                         'complete')
                     else
-                        if ($item//t:change[contains(., 'reviewed')]) then
+                        if ($item//t:change[contains(., 'review')]) then
                             (attribute style {'background-color:white'},
                             'reviewed')
                         else
@@ -1598,7 +1596,7 @@ declare
               <span class="w3-tag w3-gray">{$collection}:{$id}</span>
               <span class="w3-tag w3-red"><a href="{('/tei/' || $id || '.xml')}" target="_blank">TEI</a></span>
               <span class="w3-tag w3-red"><a href="/{$id}.pdf" target="_blank" >PDF</a></span><br/>
-               <a target="_blank" href="/{$collection}/{$id}/main?hi={request:get-parameter('query',())}"><b>{titles:printTitleID($id)}</b></a><br/>
+               <a target="_blank" href="/{$collection}/{$id}/main?hi={request:get-parameter('query',())}"><b>{if(starts-with($id, 'corpus')) then $root//t:titleStmt/t:title[1]/text() else try{titles:printTitleID($id)} catch *{console:log(($text, $id, $err:description))}}</b></a><br/>
                {if ($item//t:facsimile/t:graphic/@url) then <a target="_blank" href="{$item//t:facsimile/t:graphic/@url}">Link to images</a> else if($item//t:msIdentifier/t:idno/@facs) then 
                  <a target="_blank" href="/manuscripts/{$id}/viewer">{
                 if($item//t:collection = 'Ethio-SPaRe') 

@@ -717,7 +717,7 @@ declare function item2:RestNav ($this, $collection, $type) {
 let $document := $this
 let $id := string($this/@xml:id)
 return
-<div class="w3-sidebar w3-bar-block w3-card w3-animate-left " id="sidebar" style="max-height:50vh;width:10%">
+<div class="w3-sidebar w3-bar-block w3-card w3-animate-left " id="sidebar" style="max-height:50vh;width:10%;z-index:auto;">
        <button type="button" class="w3-bar-item w3-button w3-hide-large" onclick="w3_closeItemSB()">
                     Close Item Navigation
                 </button>
