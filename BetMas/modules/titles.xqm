@@ -476,19 +476,28 @@ else
 declare function titles:updatePlaceList($name, $pRef){
 let $placeslist := $titles:placeNamesList//t:list
 return 
-update insert <item xmlns="http://www.tei-c.org/ns/1.0" corresp="{$pRef}">{$name}</item> into  $placeslist
+update insert <item 
+xmlns="http://www.tei-c.org/ns/1.0" 
+change="entryAddedAt{current-dateTime()}"
+corresp="{$pRef}">{$name}</item> into  $placeslist
 };
 
 declare function titles:updatePersList($name, $pRef){
 let $perslist := $titles:persNamesList//t:list
 return 
-update insert <item xmlns="http://www.tei-c.org/ns/1.0" corresp="{$pRef}">{$name}</item> into  $perslist
+update insert <item 
+xmlns="http://www.tei-c.org/ns/1.0" 
+change="entryAddedAt{current-dateTime()}"
+corresp="{$pRef}">{$name}</item> into  $perslist
 };
 
 declare function titles:updateTUList($name, $pRef){
 let $TUlist := $titles:TUList//t:list
 return 
-update insert <item xmlns="http://www.tei-c.org/ns/1.0" corresp="{$pRef}">{$name}</item> into  $TUlist
+update insert <item 
+xmlns="http://www.tei-c.org/ns/1.0" 
+change="entryAddedAt{current-dateTime()}"
+corresp="{$pRef}">{$name}</item> into  $TUlist
 };
 
 
