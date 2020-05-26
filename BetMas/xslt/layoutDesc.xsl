@@ -196,7 +196,7 @@
                 </xsl:for-each>
             </ul>
         </xsl:if>
-        <xsl:if test=".//t:ab[@type = 'punctuation']">
+       <!-- <xsl:if test=".//t:ab[@type = 'punctuation']">
             <h5>Punctuation <xsl:if test="./ancestor::t:msPart">
                     <xsl:variable name="currentMsPart">
                         <a href="{./ancestor::t:msPart/@xml:id}">
@@ -216,7 +216,7 @@
                 </xsl:for-each>
             </ul>
         </xsl:if>
-        <xsl:if test=".//t:ab[@type != 'pricking'][@type != 'ruling'][@type != 'punctuation']">
+       --> <xsl:if test=".//t:ab[@type != 'pricking'][@type != 'ruling'][@type != 'punctuation']">
             <h3>Other <xsl:if test="./ancestor::t:msPart">
                     <xsl:variable name="currentMsPart">
                         <a href="{./ancestor::t:msPart/@xml:id}">
@@ -297,8 +297,14 @@
             <xsl:apply-templates select="child::node() except (t:list | t:ab[@type = 'script'] | t:seg)"/>
         </xsl:for-each>
       </xsl:if>  
-            <xsl:if test="//t:ab[@subtype = 'Executed'] or //t:ab[@subtype = 'Usage']">
-            <h4>Punctuation</h4>
+  <xsl:if test="//t:ab[@subtype = 'Executed'] or //t:ab[@subtype = 'Usage']">
+      <h4>Punctuation<xsl:if test="./ancestor::t:msPart">
+          <xsl:variable name="currentMsPart">
+              <a href="{./ancestor::t:msPart/@xml:id}">
+                  <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
+              </a>
+          </xsl:variable> of codicological unit <xsl:value-of select="$currentMsPart"/>
+      </xsl:if></h4>
             <xsl:if test="//t:ab[@subtype = 'Executed']">
                 <p>Executed: <xsl:value-of select="//t:ab[@subtype = 'Executed']"/>
                 </p>
@@ -307,7 +313,7 @@
                 <p>Usage: <xsl:value-of select="//t:ab[@subtype = 'Usage']"/>
                 </p>
             </xsl:if>
-        </xsl:if>
+ </xsl:if>
         <ul>
             <xsl:for-each select=".//t:ab[not(@subtype)][@type = 'punctuation']//t:item">
                 <li>
