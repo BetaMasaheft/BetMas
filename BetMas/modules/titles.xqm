@@ -7,7 +7,7 @@ declare namespace http = "http://expath.org/ns/http-client";
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace sparql = "http://www.w3.org/2005/sparql-results#";
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
-
+import module namespace console="http://exist-db.org/xquery/console";
 (: these lists are separately indexed here in the app with the collection.xconf for BetMas :)
 declare variable $titles:placeNamesList := doc('/db/apps/BetMas/lists/placeNamesLabels.xml');
 declare variable $titles:institutionsList := doc('/db/apps/BetMas/lists/institutions.xml');
@@ -91,8 +91,8 @@ function titles:printTitleID($id as xs:string)
     (: another hack for things like ref="#" :) 
     else if ($id = '#') then <span class="w3-tag w3-red">{ 'no item yet with id ' || $id }</span>
     (: hack to avoid the bad usage of # at the end of an id like <title type="complete" ref="LIT2317Senodo#" xml:lang="gez"> :) 
-    else if ($titles:TUList//t:item[@corresp = $id]) then ($titles:TUList//t:item[@corresp = $id]/node())
-    else if ($titles:persNamesList//t:item[@corresp = $id]) then ($titles:persNamesList//t:item[@corresp = $id]/node())
+    else if ($titles:TUList//t:item[@corresp = $id]) then ($titles:TUList//t:item[@corresp = $id][1]/node())
+    else if ($titles:persNamesList//t:item[@corresp = $id]) then ($titles:persNamesList//t:item[@corresp = $id][1]/node())
     else if (ends-with($id, '#')) then (
                                 let $newid := replace($id, '#', '') 
                                 return titles:printTitleID($newid) )
@@ -139,9 +139,10 @@ function titles:printTitleID($id as xs:string)
 
 
 declare function titles:printTitleMainID($id as xs:string, $c)
-   {
-       if (matches($id, 'wd:Q\d+') or starts-with($id, 'gn:') or starts-with($id, 'pleiades:')) then
+   {if (matches($id, 'wd:Q\d+') or starts-with($id, 'gn:') or starts-with($id, 'pleiades:')) then
            (titles:decidePlaceNameSource($id))
+(:           because wikidata identifiers are not speaking, the result of this operation is that the
+eventually added result is added to the place list names:)
        else (: always look at the root of the given node parameter of the function and then switch :)
            let $resource := collection($c)//id($id)
            let $resource := $resource[name() = 'TEI']
@@ -204,7 +205,7 @@ declare function titles:manuscriptLabelFormatter($resource) as xs:string {
           else if ($resource//t:repository/@ref and $resource//t:msDesc/t:msIdentifier/t:idno/text())
                 then
                     let $repoid := string(($resource//t:repository/@ref)[1])
-                    let $reponame := $titles:institutionsList/id($repoid)/text()
+                    let $reponame := $titles:institutionsList/id($repoid)[1]/text()
                     let $r := $config:collection-rootIn/id($repoid)
                     let $repo := if ($r) then ($r) else 'No Institution record'
                     let $repoPlace := if ($repo = 'No Institution record') then $repo else
@@ -423,7 +424,7 @@ declare function titles:decidePlName($plaID){
 declare function titles:decidePlaceNameSource($pRef as xs:string){
    
 if ($titles:placeNamesList//t:item[@corresp = $pRef]) 
-    then $titles:placeNamesList//t:item[@corresp = $pRef]/text()
+    then $titles:placeNamesList//t:item[@corresp = $pRef][1]/text()
 else if (starts-with($pRef, 'gn:')) then (
         let $name := titles:getGeoNames($pRef) 
         let $addit := titles:updatePlaceList($name, $pRef) 
@@ -436,6 +437,7 @@ else if (starts-with($pRef, 'pleiades:')) then (
             titles:decidePlaceNameSource($pRef)) 
 else if (matches($pRef, 'wd:Q\d+')) then (
         let $name := titles:getwikidataNames($pRef) 
+    let $test := console:log($name)
         let $addit := titles:updatePlaceList($name, $pRef) 
         return
             titles:decidePlaceNameSource($pRef)) 
@@ -448,9 +450,10 @@ else (
 (:Given an id, decides if it is one of BM or from another source and gets the name accordingly:)
 declare function titles:decidepersNameSource($resource, $pRef as xs:string){
 if ($titles:persNamesList//t:item[@corresp = $pRef]) 
-    then $titles:persNamesList//t:item[@corresp = $pRef]/text()
+    then $titles:persNamesList//t:item[@corresp = $pRef][1]/text()
 else if (matches($pRef, 'wd:Q\d+')) then (
     let $name := titles:getwikidataNames($pRef) 
+    let $test := console:log($name)
     let $addit := titles:updatePersList($name, $pRef) 
     return titles:decidepersNameSource($resource, $pRef)
     ) 
@@ -463,7 +466,7 @@ else
 (:Given an id, decides if it is one of BM or from another source and gets the name accordingly:)
 declare function titles:decideTUSource($resource, $pRef as xs:string){
 if ($titles:TUList//t:item[@corresp = $pRef]) 
-    then $titles:TUList//t:item[@corresp = $pRef]/text()
+    then $titles:TUList//t:item[@corresp = $pRef][1]/text()
 else 
   let $name := titles:worknarrTitleSelector($resource)
   let $addit := titles:updateTUList($name, $pRef)
@@ -519,7 +522,7 @@ declare function titles:getwikidataNames($pRef as xs:string){
 let $pRef := substring-after($pRef, 'wd:')
 let $sparql := 'SELECT * WHERE {
   wd:' || $pRef || ' rdfs:label ?label . 
-  FILTER (langMatches( lang(?label), "EN-GB" ) )  
+  FILTER (langMatches( lang(?label), "EN" ) )  
 }'
 
 
@@ -528,7 +531,7 @@ let $query := 'https://query.wikidata.org/sparql?query='|| xmldb:encode-uri($spa
 let $req := try{let $request := <http:request href="{xs:anyURI($query)}" method="GET"/>
     return http:send-request($request)[2]} catch * {$err:description}
 return
-$req//sparql:result/sparql:binding[@name="label"]/sparql:literal[@xml:lang='en-gb']/text()
+$req//sparql:result/sparql:binding[@name="label"]/sparql:literal[@xml:lang='en']/text()
 };
 
 
