@@ -1680,7 +1680,7 @@ declare
         return
         <div class="w3-container w3-panel w3-card-2 w3-padding results{$collection}">
         <div class="w3-margin w3-padding">
-        <h4>{count($text)} result{if(count($text) gt 1) then 's' else ''} in {$collection}</h4>
+        <h4>{count($text)} result{if(count($text) gt 1) then 's' else ''} in {if($collection='institutions') then 'repositories' else $collection}</h4>
         {
         for $tex at $p in subsequence($text, $start, $per-page)
         let $expanded := kwic:expand($tex)
@@ -1725,7 +1725,7 @@ declare
         return
         <div class="w3-container w3-panel w3-card-2 w3-padding results{$collection}">
         <div class="w3-margin w3-padding">
-        <h4>{count($text)} result{if(count($text) gt 1) then 's' else ''} in {$collection}</h4>
+        <h4>{count($text)} result{if(count($text) gt 1) then 's' else ''} in {if($collection='institutions') then 'repositories' else $collection}</h4>
         {
         for $tex at $p in subsequence($text, $start, $per-page)
         let $root := root($tex)
