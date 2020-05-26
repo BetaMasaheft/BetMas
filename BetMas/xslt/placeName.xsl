@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:funct="my.funct" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:placeName | t:region | t:country | t:settlement">
         <xsl:if test="@type and not(ancestor::t:div[@type='edition'])">
@@ -20,9 +19,19 @@
                     </xsl:when>
                     <xsl:when test="starts-with(@ref, 'wd:')">
                         <xsl:if test="not(ancestor::t:div[@type='edition'])">
-                            <span xmlns="http://www.w3.org/1999/xhtml" class="MainTitle" data-value="{@ref}"/>
+                            <a target="_blank" href="https://www.wikidata.org/entity/{substring-after(@ref, 'wd:')}">
+                                <xsl:choose>
+                                <xsl:when test="text()">
+                                    <xsl:value-of select="."/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                            <span xmlns="http://www.w3.org/1999/xhtml" 
+                                class="MainTitle" data-value="{@ref}"/>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                            </a>
                         </xsl:if>
-                        <xsl:apply-templates select="child::node()[not(name()='certainty')]"/>
+                        <xsl:apply-templates select="child::element()[not(name()='certainty')]"/>
                         <span xmlns="http://www.w3.org/1999/xhtml" class="pelagios popup" data-pelagiosID="{encode-for-uri(replace(@ref, 'wd:', 'http://www.wikidata.org/entity/'))}" data-href="https://www.wikidata.org/wiki/{replace(@ref, 'wd:', '')}" data-value="{@ref}">
                             ↗
                         </span>
