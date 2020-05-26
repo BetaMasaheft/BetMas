@@ -5,7 +5,7 @@
                 <xsl:value-of select="./ancestor::t:msPart/@xml:id"/>
             </xsl:if>
         </xsl:variable>
-        <h3>Collation <xsl:if test="./ancestor::t:msPart">
+        <h3><span class="w3-tooltip">Quire Structure <span class="w3-text w3-tag w3-gray">Collation</span></span> <xsl:if test="./ancestor::t:msPart">
                 <xsl:variable name="currentMsPart">
                     <a href="{./ancestor::t:msPart/@xml:id}">
                         <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
