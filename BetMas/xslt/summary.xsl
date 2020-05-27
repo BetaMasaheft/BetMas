@@ -11,7 +11,7 @@
                 </xsl:variable> of codicological unit <xsl:value-of select="$currentMsPart"/>
             </xsl:if>
         </h3>
-        <div class="w3-bar w3-black">
+        <div class="w3-bar w3-gray">
             <button class="w3-bar-item w3-button w3-half" onclick="openSummary('extracted{$id}')">
            Extracted
             </button>

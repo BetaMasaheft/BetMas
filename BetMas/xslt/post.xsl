@@ -56,7 +56,7 @@
         </xsl:copy>
     </xsl:template>
     
-<!--    <xsl:template match="comment()"/>-->
+<xsl:template match="comment()"/>
     
  <xsl:template match="processing-instruction('xml-model')">
      <xsl:if test="contains(.,'http://relaxng.org/ns/structure/1.0')">

@@ -1,13 +1,18 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:msDesc">
         <div class="w3-twothird well" id="textualcontents{@xml:id}">
-
+<div class="w3-half">
             <xsl:if test="t:history">
                 <div id="{@xml:id}history" class="w3-container w3-margin-bottom">
                 <xsl:apply-templates select="t:history"/>
             </div>
             </xsl:if>
+</div>
+            <div class="w3-half">
+            <xsl:if test="t:msContents/t:summary">
+                <xsl:apply-templates select="t:msContents/t:summary"/>
+            </xsl:if>
+            </div>
             <xsl:if test="t:msContents">
                 <div id="{@xml:id}content" class="w3-container w3-margin-bottom">
                     <xsl:apply-templates select="t:msContents"/>
@@ -31,11 +36,8 @@
 
 
         </div>
-        <div class="w3-third" id="codicologicalInformation{@xml:id}">
+        <div class="w3-third w3-border-left" id="codicologicalInformation{@xml:id}">
 
-        <xsl:if test="t:msContents/t:summary">
-            <xsl:apply-templates select="t:msContents/t:summary"/>
-        </xsl:if>
 
         <xsl:if test="t:physDesc//t:objectDesc/t:supportDesc">
             <div id="{@xml:id}dimensions" class="w3-container w3-margin-bottom">
@@ -136,9 +138,18 @@
                 <div class="w3-panel w3-card-2 w3-margin-right">
                     <xsl:apply-templates select="t:msIdentifier" mode="unit"/>
                 </div>
-                <div id="{@xml:id}history" class="w3-container w3-margin-bottom">
-                <xsl:apply-templates select="t:history"/>
-            </div>
+                <div class="w3-half">
+                    <xsl:if test="t:history">
+                        <div id="{@xml:id}history" class="w3-container w3-margin-bottom">
+                            <xsl:apply-templates select="t:history"/>
+                        </div>
+                    </xsl:if>
+                </div>
+                <div class="w3-half">
+                    <xsl:if test="t:msContents/t:summary">
+                        <xsl:apply-templates select="t:msContents/t:summary"/>
+                    </xsl:if>
+                </div>
                 <div id="{@xml:id}content" class="w3-container w3-margin-bottom">
                     <xsl:apply-templates select="t:msContents except t:summary"/>
                 </div>
@@ -153,10 +164,7 @@
                 </div>
             </div>
             <div class="w3-third" id="codicologicalInformation{@xml:id}">
-                <xsl:if test="t:msContents/t:summary">
-                <xsl:apply-templates select="t:msContents/t:summary"/>
-            </xsl:if>
-                <div id="{@xml:id}dimensions" class="w3-container w3-margin-bottom">
+              <div id="{@xml:id}dimensions" class="w3-container w3-margin-bottom">
                 <xsl:apply-templates select="t:physDesc//t:objectDesc/t:supportDesc"/>
             </div>
                 <div id="{@xml:id}binding" class="w3-container w3-margin-bottom">
@@ -227,9 +235,18 @@
                 <div class="w3-panel w3-card-2 w3-margin-right">
                     <xsl:apply-templates select="t:msIdentifier" mode="unit"/>
                 </div>
-                <div id="{@xml:id}history" class="w3-container w3-margin-bottom">
-                <xsl:apply-templates select="t:history"/>
-            </div>
+                <div class="w3-half">
+                    <xsl:if test="t:history">
+                        <div id="{@xml:id}history" class="w3-container w3-margin-bottom">
+                            <xsl:apply-templates select="t:history"/>
+                        </div>
+                    </xsl:if>
+                </div>
+                <div class="w3-half">
+                    <xsl:if test="t:msContents/t:summary">
+                        <xsl:apply-templates select="t:msContents/t:summary"/>
+                    </xsl:if>
+                </div>
                 <div id="{@xml:id}content" class="w3-container w3-margin-bottom">
                     <xsl:apply-templates select="t:msContents except t:summary"/>
                 </div>
@@ -244,9 +261,7 @@
                 </div>
             </div>
             <div class="w3-third" id="codicologicalInformation{@xml:id}">
-                <xsl:if test="t:msContents/t:summary">
-                <xsl:apply-templates select="t:msContents/t:summary"/>
-            </xsl:if>
+               
                 <div id="{@xml:id}dimensions" class="w3-container w3-margin-bottom">
                     <xsl:apply-templates select="t:physDesc//t:objectDesc/t:supportDesc"/>
                 </div>
@@ -311,9 +326,18 @@
             </xsl:attribute>
             <hr align="left" class="msParts"/>
             <div class="w3-twothird well" id="textualcontents{@xml:id}">
-                <div id="{@xml:id}history">
-                <xsl:apply-templates select="t:history"/>
-            </div>
+                <div class="w3-half">
+                    <xsl:if test="t:history">
+                        <div id="{@xml:id}history" class="w3-container w3-margin-bottom">
+                            <xsl:apply-templates select="t:history"/>
+                        </div>
+                    </xsl:if>
+                </div>
+                <div class="w3-half">
+                    <xsl:if test="t:msContents/t:summary">
+                        <xsl:apply-templates select="t:msContents/t:summary"/>
+                    </xsl:if>
+                </div>
                 <div id="{@xml:id}content">
                     <xsl:apply-templates select="t:msContents except t:summary"/>
                 </div>
@@ -328,9 +352,7 @@
                 </div>
             </div>
             <div class="w3-third" id="codicologicalInformation{@xml:id}">
-                <xsl:if test="t:msContents/t:summary">
-                <xsl:apply-templates select="t:msContents/t:summary"/>
-            </xsl:if>
+                
                 <div id="{@xml:id}dimensions" class="w3-container w3-margin-bottom">
                 <xsl:apply-templates select="t:physDesc//t:objectDesc/t:supportDesc"/>
             </div>
@@ -393,9 +415,18 @@
             </xsl:attribute>
             <hr align="left" class="msParts"/>
             <div class="w3-twothird well" id="textualcontents{@xml:id}">
-                <div id="{@xml:id}history" class="w3-container w3-margin-bottom">
-                <xsl:apply-templates select="t:history"/>
-            </div>
+                <div class="w3-half">
+                    <xsl:if test="t:history">
+                        <div id="{@xml:id}history" class="w3-container w3-margin-bottom">
+                            <xsl:apply-templates select="t:history"/>
+                        </div>
+                    </xsl:if>
+                </div>
+                <div class="w3-half">
+                    <xsl:if test="t:msContents/t:summary">
+                        <xsl:apply-templates select="t:msContents/t:summary"/>
+                    </xsl:if>
+                </div>
                 <div id="{@xml:id}content" class="w3-container w3-margin-bottom">
                     <xsl:apply-templates select="t:msContents except t:summary"/>
                 </div>
@@ -410,9 +441,7 @@
                 </div>
             </div>
             <div class="w3-third" id="codicologicalInformation{@xml:id}">
-                <xsl:if test="t:msContents/t:summary">
-                <xsl:apply-templates select="t:msContents/t:summary"/>
-            </xsl:if>
+                
                 <div id="{@xml:id}dimensions" class="w3-container w3-margin-bottom">
                 <xsl:apply-templates select="t:physDesc//t:objectDesc/t:supportDesc"/>
             </div>

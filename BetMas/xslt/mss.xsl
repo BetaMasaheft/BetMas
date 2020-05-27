@@ -44,28 +44,29 @@
                 <div id="maintoogles" class="btn-group">
                 
                     <div class="w3-bar">
+                        <a class="w3-bar-item  w3-hide-medium w3-hide-small w3-button w3-red" id="showattestations" data-value="mss" data-id="{string(t:TEI/@xml:id)}">Show attestations</a>
                         <a class="w3-bar-item  w3-hide-medium w3-hide-small w3-button w3-gray" id="tooglecodicologicalInformation">Hide/show codicological information</a>
                         <a class="w3-bar-item w3-hide-medium w3-hide-small w3-button w3-gray" id="toogletextualcontents">Hide/show contents</a>
                     </div>
             </div>
             
-            <h2>General description <xsl:if test="//t:repository[@ref='INS0880WHU']"><a href="https://betamasaheft.eu/tweed.html"><span class="w3-tag w3-red">Tweed Collection</span></a></xsl:if></h2> 
-            <div class="w3-third  w3-padding">
-                <h4 property="http://purl.org/dc/elements/1.1/title">
-                <xsl:apply-templates select="//t:titleStmt/t:title"/>
-            </h4>
-               
-                <button class="w3-button w3-red w3-large" id="showattestations" data-value="mss" data-id="{string(t:TEI/@xml:id)}">Show attestations</button>
-                <div id="allattestations" class="w3-container"/>
-            <xsl:if test="//t:listPerson/t:person[@ref]">
+            <div class="w3-third"><h2>General description</h2></div> 
+            <div class="w3-third"/>
+            <div class="w3-third"> <xsl:if test="//t:listPerson/t:person[@ref]">
                 <h3>People</h3>
                 <xsl:for-each select="//t:listPerson/t:person">
                     <p>
                         <xsl:apply-templates/>
                     </p>
                 </xsl:for-each>
-            </xsl:if>
-            </div>
+            </xsl:if></div>
+            <div id="allattestations" class="w3-container"/>
+            
+            <div class="w3-third  w3-padding">
+                <h4 property="http://purl.org/dc/elements/1.1/title">
+                <xsl:apply-templates select="//t:titleStmt/t:title"/>
+                </h4>
+              </div>
             <div class="w3-third  w3-padding">
                 <h4>Number of Text units: <span class="label label-default">
                         <xsl:value-of select="count(//t:msItem[contains(@xml:id, 'i')])"/>
