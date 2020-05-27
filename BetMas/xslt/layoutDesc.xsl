@@ -9,7 +9,7 @@
                 </xsl:variable> of codicological unit <xsl:value-of select="$currentMsPart"/>
             </xsl:if>
         </h3>
-            <xsl:apply-templates select="t:summary"/>
+        <xsl:apply-templates select="t:summary"/>
         <xsl:for-each select=".//t:layout">
             <xsl:sort select="position()"/>
         <div id="layout{position()}" resource="http://betamasaheft.eu/{$mainID}/layout/layout{position()}">    
@@ -104,7 +104,8 @@
                 <xsl:variable name="computedheight" select="number($heighText) + number($bottomargin) + number($topmargin)"/>
                 <xsl:variable name="computedwidth" select="number($textwidth) + number($rightmargin) + number($leftmargin)"/>
                 <xsl:variable name="currentMsPart">
-                    <xsl:choose><xsl:when test="./ancestor::t:msPart">
+                    <xsl:choose>
+                                <xsl:when test="./ancestor::t:msPart">
                         <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
                     </xsl:when>
                     <xsl:otherwise> main part</xsl:otherwise>
@@ -196,7 +197,7 @@
                 </xsl:for-each>
             </ul>
         </xsl:if>
-       <!-- <xsl:if test=".//t:ab[@type = 'punctuation']">
+        <!-- <xsl:if test=".//t:ab[@type = 'punctuation']">
             <h5>Punctuation <xsl:if test="./ancestor::t:msPart">
                     <xsl:variable name="currentMsPart">
                         <a href="{./ancestor::t:msPart/@xml:id}">
@@ -216,7 +217,8 @@
                 </xsl:for-each>
             </ul>
         </xsl:if>
-       --> <xsl:if test=".//t:ab[@type != 'pricking'][@type != 'ruling'][@type != 'punctuation']">
+       -->
+        <xsl:if test=".//t:ab[@type != 'pricking'][@type != 'ruling'][@type != 'punctuation']">
             <h3>Other <xsl:if test="./ancestor::t:msPart">
                     <xsl:variable name="currentMsPart">
                         <a href="{./ancestor::t:msPart/@xml:id}">
@@ -297,8 +299,8 @@
             <xsl:apply-templates select="child::node() except (t:list | t:ab[@type = 'script'] | t:seg)"/>
         </xsl:for-each>
       </xsl:if>  
-  <xsl:if test="//t:ab[@subtype = 'Executed'] or //t:ab[@subtype = 'Usage']">
-      <h4>Punctuation<xsl:if test="./ancestor::t:msPart">
+            <xsl:if test="//t:ab[@subtype = 'Executed'] or //t:ab[@subtype = 'Usage']">
+            <h4>Punctuation<xsl:if test="./ancestor::t:msPart">
           <xsl:variable name="currentMsPart">
               <a href="{./ancestor::t:msPart/@xml:id}">
                   <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
@@ -313,7 +315,22 @@
                 <p>Usage: <xsl:value-of select="//t:ab[@subtype = 'Usage']"/>
                 </p>
             </xsl:if>
- </xsl:if>
+                <xsl:if test="//t:ab[@subtype = 'Dividers']">
+                    <p>Dividers: 
+                        <ul>
+                            <xsl:for-each select=".//t:ab[@subtype = 'Dividers']//t:item">
+                                <li>
+                                    <xsl:attribute name="id">
+                                        <xsl:value-of select="@xml:id"/>
+                                    </xsl:attribute>
+                                    <xsl:apply-templates/>
+                                </li>
+                            </xsl:for-each>
+                        </ul>
+                    </p>
+                    
+                </xsl:if>
+        </xsl:if>
         <ul>
             <xsl:for-each select=".//t:ab[not(@subtype)][@type = 'punctuation']//t:item">
                 <li>
