@@ -159,7 +159,7 @@ if($doc//t:listBibl[@type='clavis'])
             default return <a href="https://en.wikipedia.org/wiki/Clavis_Patrum_Graecorum">Clavis Patrum Graecorum</a>}</span></span>
           </td>
             <td>
-            <a href='{$bibl/@corresp}'>{$bibl/t:citedRange/text()}{if($bibl/ancestor::t:div[@type='textpart' or @type='edition']) then (' (' || string($bibl/ancestor::t:div[@type][1]/@xml:id) || ')') else ()}</a>
+            <a href='{$bibl/@corresp}'>{$bibl/t:citedRange/text()}{if($bibl/ancestor::t:div[@type='textpart' or @type='edition']) then (' ( part ' || (let $subtitle := $bibl/ancestor::t:div[@type][1] return titles:printSubtitle($subtitle, string($subtitle/@xml:id))) || ')') else ()}</a>
             </td>
             </tr>
             }
