@@ -9,7 +9,9 @@
             <xsl:when test="matches($date, '\d{4}-\d{2}-\d{2}')">
                 <xsl:value-of select="format-date(xs:date($date), '[D]-[M]-[Y0001]', 'en', 'AD', ())"/>
             </xsl:when>
-            <xsl:otherwise><xsl:value-of select="format-number($date, '####')"/></xsl:otherwise>
+            <xsl:otherwise>
+                <xsl:value-of select="format-number($date, '####')"/>
+            </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
     <xsl:function name="funct:datepicker">
@@ -18,9 +20,15 @@
             <xsl:when test="$element/@notBefore or $element/@notAfter">
                 <xsl:if test="not($element/@notBefore)">Before </xsl:if>
                 <xsl:if test="not($element/@notAfter)">After </xsl:if>
-                <xsl:if test="$element/@notBefore"><xsl:value-of select="funct:date($element/@notBefore)"/></xsl:if>
-                <xsl:if test="$element/@notBefore and $element/@notAfter"><xsl:text>-</xsl:text></xsl:if>
-                <xsl:if test="$element/@notAfter"><xsl:value-of select="funct:date($element/@notAfter)"/></xsl:if>
+                <xsl:if test="$element/@notBefore">
+                    <xsl:value-of select="funct:date($element/@notBefore)"/>
+                </xsl:if>
+                <xsl:if test="$element/@notBefore and $element/@notAfter">
+                    <xsl:text>-</xsl:text>
+                </xsl:if>
+                <xsl:if test="$element/@notAfter">
+                    <xsl:value-of select="funct:date($element/@notAfter)"/>
+                </xsl:if>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="funct:date($element/@when)"/>
@@ -44,13 +52,14 @@
                 <div id="maintoogles" class="btn-group">
                 
                     <div class="w3-bar">
+                        <xsl:if test="//t:collection[.='Tweed Collection']"><a class="w3-bar-item  w3-hide-medium w3-hide-small w3-button w3-red" href="https://betamasaheft.eu/tweed.html">Tweed Collection</a></xsl:if>
                         <a class="w3-bar-item  w3-hide-medium w3-hide-small w3-button w3-red" id="showattestations" data-value="mss" data-id="{string(t:TEI/@xml:id)}">Show attestations</a>
                         <a class="w3-bar-item  w3-hide-medium w3-hide-small w3-button w3-gray" id="tooglecodicologicalInformation">Hide/show codicological information</a>
                         <a class="w3-bar-item w3-hide-medium w3-hide-small w3-button w3-gray" id="toogletextualcontents">Hide/show contents</a>
                     </div>
             </div>
             
-            <div class="w3-third"><h2>General description</h2></div> 
+            <div class="w3-third"><h2>General description</h2></div>
             <div class="w3-third"/>
             <div class="w3-third"> <xsl:if test="//t:listPerson/t:person[@ref]">
                 <h3>People</h3>
@@ -96,9 +105,13 @@
                             <xsl:sort order="ascending" select="count(preceding-sibling::t:relation)+1"/>
                             <xsl:variable name="p" select="count(preceding-sibling::t:relation)+1"/>
                             <xsl:variable name="tot" select="count(//t:relation)"/>
-                            <xsl:apply-templates select="." mode="gendesc"/><xsl:choose>
-                                <xsl:when test="$p!=$tot"><xsl:text>, </xsl:text></xsl:when>
-                                <xsl:otherwise>.</xsl:otherwise></xsl:choose>
+                            <xsl:apply-templates select="." mode="gendesc"/>
+                            <xsl:choose>
+                                <xsl:when test="$p!=$tot">
+                                    <xsl:text>, </xsl:text>
+                                </xsl:when>
+                                <xsl:otherwise>.</xsl:otherwise>
+                            </xsl:choose>
                         </xsl:for-each>
                         For a table of all relations from and to this record, please go to the <a class="w3-tag w3-gray" href="/manuscripts/{$mainID}/analytic">Relations</a> view. In the Relations boxes on the right of this page, you can also find all available relations grouped by name.
                     </p>

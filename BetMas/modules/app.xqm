@@ -42,6 +42,7 @@ declare variable $app:params := request:get-parameter-names() ;
 declare variable $app:facets := doc("/db/system/config/db/apps/BetMasData/collection.xconf")//xconf:facet/@dimension ;
 declare variable $app:rest  as xs:string := '/rest/';
 declare variable $app:languages := doc('/db/apps/BetMas/lists/languages.xml');
+declare variable $app:tax := doc('/db/apps/BetMas/lists/canonicaltaxonomy.xml');
 declare variable $app:range-lookup := 
     (
         function-lookup(xs:QName("range:index-keys-for-field"), 4),
@@ -948,7 +949,7 @@ however this here cannot work, because the values are not the ones to be display
 if and when the import module function will work and enable 
 to store in the index the titles, then this will be much better solution
 :)
-        let $inputs :=map:for-each($facets, function($label, $count) {
+    let $inputs :=map:for-each($facets, function($label, $count) {
             <span><input 
             class="w3-check w3-margin-right" 
             type="checkbox" 
@@ -959,24 +960,89 @@ to store in the index the titles, then this will be much better solution
             else if($f= 'changeWho') then editors:editorKey($label)
             else if($f = 'languages') then $app:languages//t:item[@xml:id=$label]/text()
             else $label}
-            <span class="w3-badge w3-margin-left">{$count}</span><br/></span>
-        })
-        for $input in $inputs
-        let $sortkey := 
-             string-join($input//text())
-             => replace('ʾ', '')
-             =>replace('ʿ','')
-             =>replace('\s','')
-             =>translate('ṢṣḫḥǝʷāṖ','SshhewaP') 
-             => lower-case()
+            <span class="w3-badge w3-margin-left">{$count}</span><br/></span>        })
+         return
+         if($f='keywords') then
+          (   for $input in $inputs
+             let $val := $input/*:input/@value
+             let $taxonomy := $app:tax//t:catDesc[.=$val]/ancestor::t:category[t:desc][1]/t:desc/text()
+             group by $taxonomy
+             order by $taxonomy
+             return 
+            <div class="w3-row w3-left-align">
+    <button type="button" 
+            onclick="openAccordion('{string($f)}-{replace($taxonomy, ' ','')}-facet-sublist')" 
+            class="w3-button w3-block w3-left-align w3-gray">
+                {$taxonomy}
+            </button>
+    <div
+        class="w3-padding w3-hide" 
+        id="{string($f)}-{replace($taxonomy, ' ','')}-facet-sublist">{
+             for $i in $input
+        let $sortkey := app:sortingkey($i)
+        order by $sortkey
+        return
+        $i/node()}</div></div>)
+        else if($f='changeWhen') then
+          (   for $input in $inputs
+             let $val := $input/*:input/@value
+             let $taxonomy := substring-before($val,'-')
+             group by $taxonomy
+             order by xs:gYear($taxonomy) descending
+             return 
+            <div class="w3-row w3-left-align">
+    <button type="button" 
+            onclick="openAccordion('{string($f)}-{replace($taxonomy, ' ','')}-facet-sublist')" 
+            class="w3-button w3-block w3-left-align w3-gray">
+                {$taxonomy}
+            </button>
+    <div
+        class="w3-padding w3-hide" 
+        id="{string($f)}-{replace($taxonomy, ' ','')}-facet-sublist">{
+             for $i in $input
+        let $sortkey := app:sortingkey($i)
+        order by $sortkey
+        return
+        $i/node()}</div></div>)
+        else if($f='titleRef') then
+          (   for $input in $inputs
+              let $sortkey := app:sortingkey($input)
+              let $first := substring($sortkey, 1, 1)
+             group by $first
+             order by $first
+             return 
+            <div class="w3-row w3-left-align">
+    <button type="button" 
+            onclick="openAccordion('{string($f)}-{$first}-facet-sublist')" 
+            class="w3-button w3-block w3-left-align w3-gray">
+                {upper-case($first)}
+            </button>
+    <div
+        class="w3-padding w3-hide" 
+        id="{string($f)}-{$first}-facet-sublist">{
+             for $i in $input
+        let $sortkey := app:sortingkey($i)
+        order by $sortkey
+        return
+        $i/node()}</div></div>)
+            else 
+       ( for $input in $inputs
+        let $sortkey := app:sortingkey($input)
         order by $sortkey
         return
         $input/node()
+        )
         }
     </div>
     </div>
 };
 
+declare function app:sortingkey($input){ string-join($input//text())
+             => replace('ʾ', '')
+             =>replace('ʿ','')
+             =>replace('\s','')
+             =>translate('ƎḤḪŚṢṣḫḥǝʷāṖ','EHHSSshhewaP') 
+             => lower-case()};
 declare function app:facetName($f){
     switch($f)
                 case 'keywords' return 'Keywords'
@@ -998,11 +1064,11 @@ declare function app:facetName($f){
                 case 'sealCount' return 'N. of Seals'
                 case 'QuireCount' return 'N. of Quires'
                 case 'AdditionsCount' return 'N. of Additions'
-                case 'AdditionsType' return 'Type of Additions'
+                case 'AdditionsType' return 'Types of Addition'
                 case 'titleRef' return 'Contents'
                 case 'titleType' return 'Complete/Incomplete contents'
                 case 'ExtraCount' return 'N. of Extras'
-                case 'ExtraType' return 'N. of Extras'
+                case 'ExtraType' return 'Types of Extra'
                 case 'leafs' return 'N. of leaves'
                 case 'origDateNotBefore' return 'Date of production (not before)'
                 case 'origDateNotAfter' return 'Date of production (not after)'
