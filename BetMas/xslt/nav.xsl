@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     
     
@@ -16,7 +15,7 @@
                         </xsl:if>
                             <a class="w3-bar-item page-scroll" href="#general">General</a>
                             <a class="w3-bar-item page-scroll" href="#description">Description</a>
-                            <a class="w3-bar-item page-scroll" href="#generalphysical">Physical description</a>
+                            <a class="w3-bar-item page-scroll" href="#generalphysical">Physical Description</a>
                         <xsl:if test="//t:msPart or //t:msFrag">
                             <div class="w3-bar-item">
                                 Main parts

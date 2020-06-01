@@ -38,6 +38,10 @@ list-style-type : none;
     height: 20px;
 }
 
+.summary {    max-height: 400px;
+    overflow-y: auto;
+}
+
 .alpheios-popup {
     position: static;
 }
@@ -1641,6 +1645,7 @@ sans-serif;
 .summary {
     list-style: none;
 }
+.divset{padding:unset;}
 
 /* Sidebar Styles */
 

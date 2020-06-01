@@ -1,6 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:supportDesc">
-        <h2>Physical description<xsl:if test="./ancestor::t:msPart">
+        <h2>Physical Description<xsl:if test="./ancestor::t:msPart">
             <xsl:variable name="currentMsPart">
                 <a href="{./ancestor::t:msPart/@xml:id}">
                     <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
