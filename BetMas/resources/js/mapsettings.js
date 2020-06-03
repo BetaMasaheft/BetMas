@@ -1,5 +1,5 @@
  L.mapbox.accessToken = 
-        'pk.eyJ1IjoicGlldHJvbGl1enpvIiwiYSI6ImNpbDB6MjE0bDAwOGl4MW0wa2JvMDd0cHMifQ.wuV3-VuvmCzY69kWRf6CHA';
+        'pk.eyJ1IjoicGlldHJvbGl1enpvIiwiYSI6ImNpbDB5cTZlcjAwOWR3OW0wbG5yemJzeGoifQ.-D9ed84-kODSYEb5gpPMRQ';
         var 
         ancientworld = L.mapbox.tileLayer('isawnyu.map-knmctlkh')
         grayscale   = L.mapbox.styleLayer('mapbox://styles/mapbox/light-v10'),

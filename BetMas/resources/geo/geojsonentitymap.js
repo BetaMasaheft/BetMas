@@ -9,8 +9,8 @@ accessToken: 'YOUR_MAPBOX_ACCESS_TOKEN'
 }).addTo(map);
  * */
 var mbAttr = '© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong>',
-       mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoicGlldHJvbGl1enpvIiwiYSI6ImNpbDB6MjE0bDAwOGl4MW0wa2JvMDd0cHMifQ.wuV3-VuvmCzY69kWRf6CHA',
-       mbAT = 'pk.eyJ1IjoicGlldHJvbGl1enpvIiwiYSI6ImNpbDB6MjE0bDAwOGl4MW0wa2JvMDd0cHMifQ.wuV3-VuvmCzY69kWRf6CHA'        ;                      
+       mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoicGlldHJvbGl1enpvIiwiYSI6ImNpbDB5cTZlcjAwOWR3OW0wbG5yemJzeGoifQ.-D9ed84-kODSYEb5gpPMRQ',
+       mbAT = 'pk.eyJ1IjoicGlldHJvbGl1enpvIiwiYSI6ImNpbDB5cTZlcjAwOWR3OW0wbG5yemJzeGoifQ.-D9ed84-kODSYEb5gpPMRQ'        ;                      
 var grayscale   = L.tileLayer(mbUrl, {
 	                                           tileSize: 512,
                                                           maxZoom: 18,
