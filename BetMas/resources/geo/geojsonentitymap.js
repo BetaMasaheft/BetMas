@@ -1,12 +1,44 @@
-var mbAttr = 'Map data © OpenStreetMap contributors, ' +
-			'CC-BY-SA, ' +
-			'Imagery © Mapbox',
-		mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoicGlldHJvbGl1enpvIiwiYSI6ImNpbDB6MjE0bDAwOGl4MW0wa2JvMDd0cHMifQ.wuV3-VuvmCzY69kWRf6CHA';
-                                     
-	var grayscale   = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
-		streets  = L.tileLayer(mbUrl, {id: 'mapbox.streets',   attribution: mbAttr});
-		satellite = L.tileLayer(mbUrl, {id: 'mapbox.satellite',   attribution: mbAttr});
-		outdoor = L.tileLayer(mbUrl, {id: 'mapbox.outdoors',   attribution: mbAttr});
+/*change for MAPBOX Classic style
+ * L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+attribution: '© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong>',
+tileSize: 512,
+maxZoom: 18,
+zoomOffset: -1,
+id: 'mapbox/streets-v11',
+accessToken: 'YOUR_MAPBOX_ACCESS_TOKEN'
+}).addTo(map);
+ * */
+var mbAttr = '© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong>',
+       mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoicGlldHJvbGl1enpvIiwiYSI6ImNpbDB6MjE0bDAwOGl4MW0wa2JvMDd0cHMifQ.wuV3-VuvmCzY69kWRf6CHA',
+       mbAT = 'pk.eyJ1IjoicGlldHJvbGl1enpvIiwiYSI6ImNpbDB6MjE0bDAwOGl4MW0wa2JvMDd0cHMifQ.wuV3-VuvmCzY69kWRf6CHA'        ;                      
+var grayscale   = L.tileLayer(mbUrl, {
+	                                           tileSize: 512,
+                                                          maxZoom: 18,
+                                                          zoomOffset: -1,
+                                                          id: 'mapbox/light-v10', 
+                                                            attribution: mbAttr,
+                                                            accessToken: mbAT}),
+          streets  = L.tileLayer(mbUrl, {
+	                                           tileSize: 512,
+                                                          maxZoom: 18,
+                                                          zoomOffset: -1,
+                                                          id: 'mapbox/streets-v11',  
+                                                          attribution: mbAttr,
+                                                            accessToken: mbAT});
+		satellite = L.tileLayer(mbUrl, {
+	                                           tileSize: 512,
+                                                          maxZoom: 18,
+                                                          zoomOffset: -1,
+                                                          id: 'mapbox/satellite-v9', 
+                                                          attribution: mbAttr,
+                                                            accessToken: mbAT});
+		outdoor = L.tileLayer(mbUrl, {
+	                                           tileSize: 512,
+                                                          maxZoom: 18,
+                                                          zoomOffset: -1,
+                                                          id: 'mapbox/outdoors-v11', 
+                                                          attribution: mbAttr,
+                                                            accessToken: mbAT});
             
     var colPoint1 = '#000';
 			var colPoint2 = 'green';

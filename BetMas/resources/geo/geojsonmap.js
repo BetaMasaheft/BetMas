@@ -1,20 +1,38 @@
 var colPoint = '#000';
 var colPlace = 'rgb(172, 230, 0)';
 var colIns = 'rgb(255, 212, 128)';
-var mbAttr = 'Map data © OpenStreetMap contributors, ' + 'CC-BY-SA, ' + 'Imagery © Mapbox';
-var mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoicGlldHJvbGl1enpvIiwiYSI6ImNpbDB6MjE0bDAwOGl4MW0wa2JvMDd0cHMifQ.wuV3-VuvmCzY69kWRf6CHA';
-var grayscale = L.tileLayer(mbUrl, {
-    id: 'mapbox.light', attribution: mbAttr
-});
-var streets = L.tileLayer(mbUrl, {
-    id: 'mapbox.streets', attribution: mbAttr
-});
-var satellite = L.tileLayer(mbUrl, {
-    id: 'mapbox.satellite', attribution: mbAttr
-});
-var outdoor = L.tileLayer(mbUrl, {
-    id: 'mapbox.outdoors', attribution: mbAttr
-});
+var mbAttr = '© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong>',
+     mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoicGlldHJvbGl1enpvIiwiYSI6ImNpbDB6MjE0bDAwOGl4MW0wa2JvMDd0cHMifQ.wuV3-VuvmCzY69kWRf6CHA',
+       mbAT = 'pk.eyJ1IjoicGlldHJvbGl1enpvIiwiYSI6ImNpbDB6MjE0bDAwOGl4MW0wa2JvMDd0cHMifQ.wuV3-VuvmCzY69kWRf6CHA'        ;                      
+                                
+var grayscale   = L.tileLayer(mbUrl, {
+	                                           tileSize: 512,
+                                                          maxZoom: 18,
+                                                          zoomOffset: -1,
+                                                          id: 'mapbox/light-v10', 
+                                                            attribution: mbAttr,
+                                                            accessToken: mbAT}),
+          streets  = L.tileLayer(mbUrl, {
+	                                           tileSize: 512,
+                                                          maxZoom: 18,
+                                                          zoomOffset: -1,
+                                                          id: 'mapbox/streets-v11',  
+                                                          attribution: mbAttr,
+                                                            accessToken: mbAT});
+		satellite = L.tileLayer(mbUrl, {
+	                                           tileSize: 512,
+                                                          maxZoom: 18,
+                                                          zoomOffset: -1,
+                                                          id: 'mapbox/satellite-v9', 
+                                                          attribution: mbAttr,
+                                                            accessToken: mbAT});
+		outdoor = L.tileLayer(mbUrl, {
+	                                           tileSize: 512,
+                                                          maxZoom: 18,
+                                                          zoomOffset: -1,
+                                                          id: 'mapbox/outdoors-v11', 
+                                                          attribution: mbAttr,
+                                                            accessToken: mbAT});
 
 
 function onEachFeature(feature, layer) {
