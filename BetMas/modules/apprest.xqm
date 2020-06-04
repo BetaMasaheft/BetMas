@@ -1167,8 +1167,7 @@ let $keys :=
 declare function apprest:searchFilter-rest($collection, $model as map(*)) {
 let $items-info := $model('hits')
 let $context := $model('query')
-let $test := console:log($context)
-let $evalContext := $items-info
+let $evalContext := util:eval($context)
 let $onchange := 'if (this.value) window.location.href=this.value'
 return
 
@@ -1234,7 +1233,7 @@ case 'works' return (
 </select>
 <input class="w3-input w3-border" type="number" name="clavisID"/>
 </div>,
-if(<start/> = $items-info) then (
+if($items-info = <start/>) then (
 (:no selection done yet, provide index value:)
 <div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that keyword">
 <label for="keyword">keywords </label>
@@ -1269,7 +1268,7 @@ apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titl
              <div id="AddFilters"/>
 )
 case 'places' return 
-if(<start/> = $items-info) then (
+if($items-info = <start/>) then (
 (:no selection done yet, provide index value:)
 <div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that keyword">
 <label for="keyword">keywords </label>
@@ -1322,7 +1321,7 @@ apprest:formcontrol('settlement','settlement', $items-info//t:settlement/@ref, '
 )
 
 case 'institutions' return 
-if(<start/> = $items-info) then (
+if($items-info = <start/>) then (
 (:no selection done yet, provide index value:)
 <div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that keyword">
 <label for="keyword">keywords </label>
@@ -1369,7 +1368,7 @@ apprest:formcontrol('settlement','settlement', $items-info//t:settlement/@ref, '
 )
 case 'persons' return 
 (
-if(<start/> = $items-info) then (
+if($items-info = <start/>) then (
 (:no selection done yet, provide index value:)
 <div class="w3-container">
 <label for="keyword">keywords </label>
@@ -1403,7 +1402,7 @@ apprest:formcontrol('faith','faith', $items-info//t:faith/@type, 'true', 'titles
 (:default is a manuscript related list view, catalogue, institutions or general view:)
 default return
 (
-if(<start/> = $items-info) then (
+if($items-info = <start/>) then (
 (:no selection done yet, provide index value:)
 <div class="w3-container">
 <label for="keyword">keywords </label>
