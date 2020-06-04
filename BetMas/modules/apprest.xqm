@@ -966,7 +966,7 @@ let $ContentPr := if ($contentProvider = '') then () else
                         case 'GG' return "[starts-with(@xml:id, 'GG')]"
                         default return ''
 
-let $CaeIDs := if($CAeID = '') then () else "[contains(@xml:id, '"||$CAeID ||"') and not(ends-with(@xml:id, 'IHA'))]"
+let $CaeIDs := if($CAeID = '') then () else "[contains(@xml:id, '"||string(format-number($CAeID, '0000')) ||"') and not(ends-with(@xml:id, 'IHA'))]"
 let $ClavisIDs :=
                 if(($clavisID = '') and ($clavisType = '')) then ()
                       else if(($clavisID = '') and (matches($clavisType, '\w+'))) then "[descendant::t:bibl[@type='"||$clavisType||"']]"

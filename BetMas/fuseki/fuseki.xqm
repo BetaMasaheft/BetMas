@@ -17,13 +17,14 @@ declare variable $fusekisparql:port := 'http://localhost:8081/fuseki/';
 
 (:~ given a SPARQL query this will pass it to the selected dataset  and return SPARQL Results in XML:)
 declare function fusekisparql:query($dataset, $query) {
-    let $url := concat($fusekisparql:port||$dataset||'/query?query=', encode-for-uri($query))
-    (:   here the format of the response could be set:)
+    let $format := if(contains($query, 'CONSTRUCT')) then 'format=xml&amp;' else ()
+    let $url := concat($fusekisparql:port||$dataset||'/query?'||$format||'query=', encode-for-uri($query))
     let $request := <http:request href="{xs:anyURI($url)}" method="GET"/>
     let $file := http:send-request($request)
     return
-        $file//sr:sparql
+        $file
 };
+
 
 (:~ given a SPARQL Update input for the type of operation (INSERT or DELETE),  the triples to be added in the SPARQL Update and the destination
 dataset, this function will send a POST request to the location of a running Fuseki instance and perform the operation:)

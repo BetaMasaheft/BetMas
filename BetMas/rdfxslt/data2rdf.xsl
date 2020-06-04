@@ -441,6 +441,15 @@
                 
 
                
+            <xsl:for-each select="//t:titleStmt/t:title[@xml:id]">
+                    <rdf:Description rdf:about="{funct:id(concat($mainID, '#',@xml:id))}">
+                        <rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/E35_Title"/>
+                        <rdfs:label>
+                            <xsl:value-of select="."/>
+                        </rdfs:label>
+                    </rdf:Description>
+                    </xsl:for-each>
+                
             </xsl:if>
 
         </rdf:RDF>
@@ -1362,7 +1371,7 @@
             <xsl:if test="$passage != ' ' and $citation != ''">
                 <lawd:hasAttestation>
                     <xsl:attribute name="rdf:resource">
-                        <xsl:value-of select="concat('https://betamasaheft.eu/api/dts/document?id=urn:dts:betmas:',$mainID,':',$passage)"/>
+                        <xsl:value-of select="concat('https://betamasaheft.eu/api/dts/document?id=https://betamasaheft.eu/',$mainID,':',$passage)"/>
                     </xsl:attribute>
                 </lawd:hasAttestation>
             <lawd:hasCitation>
@@ -1400,7 +1409,7 @@
             <xsl:if test="$passage != ' ' and $citation != ''">
                 <lawd:hasAttestation>
                     <xsl:attribute name="rdf:resource">
-                        <xsl:value-of select="concat('https://betamasaheft.eu/api/dts/document?id=urn:dts:betmas:',$mainID,':',$passage)"/>
+                        <xsl:value-of select="concat('https://betamasaheft.eu/api/dts/document?id=https://betamasaheft.eu/',$mainID,':',$passage)"/>
                     </xsl:attribute>
                 </lawd:hasAttestation>
             <lawd:hasCitation>
