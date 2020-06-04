@@ -15,12 +15,9 @@ var getUrlParameter = function getUrlParameter(sParam) {
 
 $(document).ready(function () {
     var fullq = getUrlParameter('hi');
-    //console.log(fullq)
-    /*var split = fullq.split(/\s/g);
-    console.log(split)
-    for(var i = 0; i < split.length; i++) {
-     */
-    if (/[\*\?\~\(]/g.test(fullq)) {
+    console.log(fullq)
+   if(fullq === undefined){} else {
+   if (/[\*\?\~\(]/g.test(fullq)) {
         var q = fullq.replace(/[\*\?\~\(]/g, '')
     } else {
         var q = fullq
@@ -29,7 +26,7 @@ $(document).ready(function () {
     //console.log(q)
     $('span:contains("' + q + '")').toggleClass('queryTerm')
     $('p:contains("' + q + '")').toggleClass('queryTerm')
-    /*}*/
+    }
 });
 
 function popup(id) {
