@@ -253,7 +253,7 @@ case 'manuscripts' return
 
             {if($document//t:altIdentifier) then
             <p>Other identifiers: {
-                   for $altId at $p in $document//t:msIdentifier/t:altIdentifier/t:idno
+                   for $altId at $p in $document//t:msIdentifier/t:altIdentifier/t:idno[text()]
                    return
                    if ( $altId/@type='TM') 
                    then 
