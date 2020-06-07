@@ -1299,8 +1299,8 @@ let $manifests := for $w in distinct-values($witnesses)
                                                         then map {"@id": $facs,  "@type": "sc:Manifest", "dc:title":  ("IIIF Manifest for images of " || titles:printTitleMainID($w))} 
                                                   else 
 (:                                                  our manifest, we can point to a specific range:)
-                                             ( if($witness//t:msItem[t:title[@ref=$id]]) then map {"@id": "https://betamasaheft.eu/api/iiif/"||$w||"/range/" || string($witness//t:msItem[t:title[@ref=$id]]/@xml:id),  
-                                                                                                                                "@type": "sc:Range", "dc:title":  ("IIIF Range for images of " || titles:printTitleMainID(concat($w, '#', string($witness//t:msItem[t:title[@ref=$id]]/@xml:id))))} 
+                                             ( if($witness//t:msItem[t:title[@ref=$id]]) then for $x in $witness//t:msItem[t:title[@ref=$id]] return map {"@id": "https://betamasaheft.eu/api/iiif/"||$w||"/range/" || string($x/@xml:id),  
+                                                                                                                                "@type": "sc:Range", "dc:title":  ("IIIF Range for images of " || titles:printTitleMainID(concat($w, '#', string($x/@xml:id))))} 
                                                else
                                                 map {"@id": "https://betamasaheft.eu/api/iiif/"||$w||"/manifest",  "@type": "sc:Manifest", "dc:title":  ("IIIF Manifest for images of " || titles:printTitleMainID($w))})
                                     else ()

@@ -134,7 +134,7 @@ return
         foaf:page <'||$thisUrl||'/viewer>;
         dcterms:license <http://opendatacommons.org/licenses/odbl/1.0/>;
         void:feature <http://www.w3.org/ns/formats/JSON-LD>;
-        void:uriLookupEndpoint <'||$config:appUrl||'/api/dts/collections?id=urn:dts:betmas'||(switch($coll) case 'manuscripts' return 'MS' default return '')||':'||$id||'> ;
+        void:uriLookupEndpoint <'||$config:appUrl||'/api/dts/collections?id='||$config:appUrl||'/'||$id||'> ;
         '||(if($coll='manuscripts' and $item//t:idno[@facs]) then 'void:uriLookupEndpoint <'||$config:appUrl||'/api/iiif/'||$id||'/manifest> ; '  else ()) || '
         .
         

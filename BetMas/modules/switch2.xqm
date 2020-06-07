@@ -88,5 +88,5 @@ return switch ($prefix)
                                                             'auth'
                                                     default return
                                                         'mss'
-else ()
+else 'auth'
                                                         };
