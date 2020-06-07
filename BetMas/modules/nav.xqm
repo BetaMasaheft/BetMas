@@ -233,12 +233,17 @@ return
                                 <a class="w3-bar-item w3-button"   href="/xpath">XPath search</a>
                                 <a class="w3-bar-item w3-button"   href="/sparql">SPARQL Endpoint</a>
                                 <a class="w3-bar-item w3-button"   href="/collate">Collate passages with Collatex</a>
-                                <a class="w3-bar-item w3-button"   href="/chojnacki/viewer">Chojnacki Collection</a>
-                                <a class="w3-bar-item w3-button"   href="/tweed.html">Tweed Collection</a>
-                                <a class="w3-bar-item w3-button"   href="/DSintro.html">Dayr al-Suryān Collection</a>
-                                <a class="w3-bar-item w3-button"   href="/Fricke.html">The Fricke Collection</a>
                      </div>
     </div>
+    <div class="w3-dropdown-hover w3-hide-medium w3-hide-small" id="projects">
+      <button class=" w3-button " title="projects">Projects <i class="fa fa-caret-down"></i></button>     
+      <div class="w3-dropdown-content w3-bar-block w3-card-4">
+                                <a class="w3-bar-item w3-button"   href="/chojnacki.html">The Stanislaw Chojnacki Photographic Database</a>
+                                <a class="w3-bar-item w3-button"   href="/tweed.html">The André Tweed Collection of Ethiopic Manuscripts</a>
+                                <a class="w3-bar-item w3-button"   href="/DSintro.html">The Dayr al-Suryān Collection</a>
+                                <a class="w3-bar-item w3-button"   href="/Fricke.html">The Fricke Collection</a>
+      </div>
+      </div>
     <a href="/morpho" class="w3-bar-item w3-button  w3-hide-medium w3-hide-small" 
      data-toggle="tooltip" data-placement="bottom" title="Gǝʿǝz Morphological Parser (TraCES project)">Parser</a>
     <a href="/Dillmann" class="w3-bar-item w3-button  w3-hide-medium w3-hide-small" 
