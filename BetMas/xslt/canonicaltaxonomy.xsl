@@ -35,7 +35,7 @@
     
 <xsl:template match="t:catDesc">
     <xsl:copy>
-    <xsl:apply-templates/>
+        <xsl:value-of select="document(concat('https://betamasaheft.eu/', text(), '.xml'))//t:titleStmt/t:title[1]"/>
     </xsl:copy>
 </xsl:template>
     
