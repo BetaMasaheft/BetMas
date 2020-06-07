@@ -294,7 +294,9 @@ let $oth := $otherrels[ancestor::t:TEI[not(@xml:id = $id)]][@name]
 let $allrels := ($rels, $oth)
 return
 (<div class="w3-panel w3-small w3-red"><span class="w3-tag w3-gray">{count($allrels)}</span> relations found</div>,
-                        <div class="responsive"><table class="w3-table w3-hoverable w3-small"  xmlns="http://www.w3.org/1999/xhtml">
+                        <div style="word-break:break-all;">
+                        <table class="w3-table-all w3-small"  
+                        xmlns="http://www.w3.org/1999/xhtml">
                             <thead>
                                 <tr>
                                     <th>Subject</th>
@@ -615,7 +617,7 @@ let $id := string($this/@xml:id)
 let $app:bibdata := apprest:bibdata($id, $collection)
 return
 
-<div class="w3-container " id="citations">
+<div class="w3-container" id="citations" style="word-break:break-word;">
 <div class="w3-third" id="citation">
 <div class="w3-panel w3-card-4 w3-padding w3-margin  w3-gray " >
 

@@ -1745,7 +1745,7 @@ declare
         
         return
         <div class="w3-container w3-panel w3-card-2 w3-padding results{$collection}">
-        <div class="w3-margin w3-padding">
+        <div class="w3-padding">
         <h4>{count($text)} result{if(count($text) gt 1) then 's' else ''} in {if($collection='institutions') then 'repositories' else $collection}</h4>
         {
         for $tex at $p in subsequence($text, $start, $per-page)
@@ -1758,13 +1758,13 @@ declare
          return
             <div class="w3-row reference">
             <div class="w3-third">
-            <div class="w3-col" style="width:15%">
+            <div class="w3-col w3-padding" style="width:10%">
                 <span class="number">{$start + $p - 1}</span>
                 </div>
-             <div class="w3-col"  style="width:70%">
+             <div class="w3-col w3-padding"  style="width:70%;word-break:break-all">
              <a target="_blank" href="/{$collection}/{$id}/main" class="MainTitle" data-value="{$id}">{$id}</a> ({$id})
              </div>
-             <div class="w3-col"  style="width:15%">
+             <div class="w3-col w3-padding"  style="width:15%;overflow:auto;">
                 <span class="w3-badge">{$count}</span>
                 </div>
             </div>
