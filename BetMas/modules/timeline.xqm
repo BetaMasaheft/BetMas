@@ -4,6 +4,7 @@ module namespace tl="https://www.betamasaheft.uni-hamburg.de/BetMas/timeline";
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
 import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "xmldb:exist:///db/apps/BetMas/modules/apprest.xqm";
+import module namespace console="http://exist-db.org/xquery/console";
 
 declare namespace t="http://www.tei-c.org/ns/1.0";
 declare option exist:serialize "method=text mediatype=text/javascript";
@@ -103,7 +104,7 @@ declare function tl:link($date as node(), $mode as xs:string, $context as xs:str
        switch ($mode)
        case 'prs' return  ('var ' || $date/item ||  "= '" || '<a href="'|| $date/item || '">' || $date/name || "</a>'; ")
       case 'work' return ('var ' || $date/item || '_' || $date/location || "= '" || '<a href="'|| $date/item || '#' || $date/location || '">' || $date/name || "</a>'; ")
-      default return             ('var ' || $date/item || '_' || $date/location|| '_' || substring(replace(tl:resp($date/resp), ' ', ''), 1, 5) ||  "= '" || $label|| "'; ")
+      default return             ('var ' || $date/item || '_' || $date/location|| '_' || substring(replace(tl:resp($date/resp), ' ', ''), 1, 5) ||  "= '" || normalize-space($label)|| "'; ")
            
         };
     
@@ -210,14 +211,15 @@ timeline.setOptions(options);
 (:builds a temporary date object ready for use in js serialization:)
 declare function tl:date($date as node(), $mode as xs:string) {
 let $root := $date/ancestor::t:TEI
+let $rid:=string($root/@xml:id)
 (:collect all ids:)
 let $tree := 
 <date>
         <item>
-            {string($root/@xml:id)}
+            {$rid}
         </item>
         <name>
-             {titles:printTitle($root)}
+             {titles:printTitleMainID($rid)}
         </name>
         <location>
             {string($date/ancestor::t:*[@xml:id][1]/@xml:id)}
