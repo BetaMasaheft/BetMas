@@ -20,7 +20,7 @@ import module namespace LitFlow = "https://www.betamasaheft.uni-hamburg.de/BetMa
 import module namespace xdb="http://exist-db.org/xquery/xmldb";
 import module namespace kwic = "http://exist-db.org/xquery/kwic"
     at "resource:org/exist/xquery/lib/kwic.xql";
-
+import module namespace dtsc="https://www.betamasaheft.uni-hamburg.de/BetMas/dtsc" at "xmldb:exist:///db/apps/BetMas/modules/dtsclient.xqm";
 (: For interacting with the TEI document :)
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace dcterms = "http://purl.org/dc/terms";
@@ -39,111 +39,170 @@ parameters start and perpage are for the text visualization with pagination as p
 declare
 %rest:GET
 %rest:path("/BetMas/{$id}/main")
-%rest:query-param("start", "{$start}", 1)
-%rest:query-param("per-page", "{$per-page}", 1)
+%rest:query-param("start", "{$start}", "")
+%rest:query-param("end", "{$end}", "")
+%rest:query-param("ref", "{$ref}", "")
+%rest:query-param("edition", "{$edition}", "")
 %rest:query-param("hi", "{$hi}", '')
+%rest:query-param("per-page", "{$per-page}", "")
 %output:method("html5")
 function restItem:getItem(
 $id as xs:string*,
-$start as xs:integer*,
-$per-page as xs:integer*,
+$start as xs:string*,
+$end as xs:string*,
+$ref as xs:string*,
+$edition as xs:string*,
+$per-page as xs:string*,
 $hi as xs:string*) {
   let $item := $config:collection-root/id($id)[name()='TEI']
   let $col := switch2:col($item/@type)
   let $log := log:add-log-message('/'||$id||'/main', sm:id()//sm:real/sm:username/string() , 'item')
   return
-restItem:ITEM('main', $id, $col,$start,$per-page, $hi)
+restItem:ITEM('main', $id, $col,$start,
+$end,
+$ref,
+$edition,$per-page, $hi)
 };
 
 declare
 %rest:GET
 %rest:path("/BetMas/{$collection}/{$id}/main")
-%rest:query-param("start", "{$start}", 1)
-%rest:query-param("per-page", "{$per-page}", 1)
+%rest:query-param("start", "{$start}", "")
+%rest:query-param("end", "{$end}", "")
+%rest:query-param("ref", "{$ref}", "")
+%rest:query-param("edition", "{$edition}", "")
+%rest:query-param("hi", "{$hi}", '')
+%rest:query-param("per-page", "{$per-page}", "")
 %rest:query-param("hi", "{$hi}", '')
 %output:method("html5")
 function restItem:getItemC(
 $collection as xs:string*,
 $id as xs:string*,
-$start as xs:integer*,
-$per-page as xs:integer*,
+$start as xs:string*,
+$end as xs:string*,
+$ref as xs:string*,
+$edition as xs:string*,
+$per-page as xs:string*,
 $hi as xs:string*) {
   let $log := log:add-log-message('/'||$collection||'/'||$id||'/main', sm:id()//sm:real/sm:username/string() , 'item')
   return
-restItem:ITEM('main', $id, $collection,$start,$per-page, $hi)
+restItem:ITEM('main', $id, $collection,$start,
+$end,
+$ref,
+$edition,$per-page, $hi)
 };
 
 
 declare
 %rest:GET
 %rest:path("/BetMas/{$collection}/{$id}/geoBrowser")
-%rest:query-param("start", "{$start}", 1)
-%rest:query-param("per-page", "{$per-page}", 1)
+%rest:query-param("start", "{$start}", "")
+%rest:query-param("end", "{$end}", "")
+%rest:query-param("ref", "{$ref}", "")
+%rest:query-param("edition", "{$edition}", "")
+%rest:query-param("hi", "{$hi}", '')
+%rest:query-param("per-page", "{$per-page}", "")
 %rest:query-param("hi", "{$hi}", '')
 %output:method("html5")
 function restItem:getgeoBrowser(
 $collection as xs:string*,
 $id as xs:string*,
-$start as xs:integer*,
-$per-page as xs:integer*,
+$start as xs:string*,
+$end as xs:string*,
+$ref as xs:string*,
+$edition as xs:string*,
+$per-page as xs:string*,
 $hi as xs:string*) {
 let $log := log:add-log-message('/'||$collection||'/'||$id||'/geoBrowser', sm:id()//sm:real/sm:username/string() , 'item')
   return
-restItem:ITEM('geobrowser', $id, $collection,$start,$per-page, $hi)
+restItem:ITEM('geobrowser', $id, $collection,$start,
+$end,
+$ref,
+$edition,$per-page, $hi)
 };
+
 
 declare
 %rest:GET
 %rest:path("/BetMas/{$collection}/{$id}/text")
-%rest:query-param("start", "{$start}", 1)
-%rest:query-param("per-page", "{$per-page}", 1)
+%rest:query-param("start", "{$start}", "")
+%rest:query-param("end", "{$end}", "")
+%rest:query-param("ref", "{$ref}", "")
+%rest:query-param("edition", "{$edition}", "")
 %rest:query-param("hi", "{$hi}", '')
+%rest:query-param("per-page", "{$per-page}", "")
 %output:method("html5")
 function restItem:gettext(
 $collection as xs:string*,
 $id as xs:string*,
-$start as xs:integer*,
-$per-page as xs:integer*,
+$start as xs:string*,
+$end as xs:string*,
+$ref as xs:string*,
+$edition as xs:string*,
+$per-page as xs:string*,
 $hi as xs:string*) {
 let $log := log:add-log-message('/'||$collection||'/'||$id||'/text', sm:id()//sm:real/sm:username/string() , 'item')
   return
-restItem:ITEM('text', $id, $collection,$start,$per-page, $hi)
+restItem:ITEM('text', $id, $collection,$start,
+$end,
+$ref,
+$edition,$per-page, $hi)
 };
 
 
 declare
 %rest:GET
 %rest:path("/BetMas/{$collection}/{$id}/analytic")
-%rest:query-param("start", "{$start}", 1)
-%rest:query-param("per-page", "{$per-page}", 1)
+%rest:query-param("start", "{$start}", "")
+%rest:query-param("end", "{$end}", "")
+%rest:query-param("ref", "{$ref}", "")
+%rest:query-param("edition", "{$edition}", "")
+%rest:query-param("hi", "{$hi}", '')
+%rest:query-param("per-page", "{$per-page}", "")
 %rest:query-param("hi", "{$hi}", '')
 %output:method("html5")
 function restItem:getanalytic(
 $collection as xs:string*,
 $id as xs:string*,
-$start as xs:integer*,
-$per-page as xs:integer*,
+$start as xs:string*,
+$end as xs:string*,
+$ref as xs:string*,
+$edition as xs:string*,
+$per-page as xs:string*,
 $hi as xs:string*) {
 let $log := log:add-log-message('/'||$collection||'/'||$id||'/analytic', sm:id()//sm:real/sm:username/string() , 'item')
   return
-restItem:ITEM('analytic', $id, $collection,$start,$per-page, $hi)
+restItem:ITEM('analytic', $id, $collection,$start,
+$end,
+$ref,
+$edition,$per-page, $hi)
 };
 
 
 declare
 %rest:GET
 %rest:path("/BetMas/{$collection}/{$id}/graph")
-%rest:query-param("start", "{$start}", 1)
-%rest:query-param("per-page", "{$per-page}", 1)
+%rest:query-param("start", "{$start}", "")
+%rest:query-param("end", "{$end}", "")
+%rest:query-param("ref", "{$ref}", "")
+%rest:query-param("edition", "{$edition}", "")
+%rest:query-param("hi", "{$hi}", '')
+%rest:query-param("per-page", "{$per-page}", "")
 %rest:query-param("hi", "{$hi}", '')
 %output:method("html5")
 function restItem:getgraph(
 $collection as xs:string*,
 $id as xs:string*,
-$start as xs:integer*,
-$per-page as xs:integer*,
+$start as xs:string*,
+$end as xs:string*,
+$ref as xs:string*,
+$edition as xs:string*,
+$per-page as xs:string*,
 $hi as xs:string*) {
-restItem:ITEM('graph', $id, $collection,$start,$per-page, $hi)
+restItem:ITEM('graph', $id, $collection,$start,
+$end,
+$ref,
+$edition,$per-page, $hi)
 };
 
 
@@ -151,18 +210,28 @@ restItem:ITEM('graph', $id, $collection,$start,$per-page, $hi)
 declare
 %rest:GET
 %rest:path("/BetMas/{$id}/corpus")
-%rest:query-param("start", "{$start}", 1)
-%rest:query-param("per-page", "{$per-page}", 1)
+%rest:query-param("start", "{$start}", "")
+%rest:query-param("end", "{$end}", "")
+%rest:query-param("ref", "{$ref}", "")
+%rest:query-param("edition", "{$edition}", "")
+%rest:query-param("hi", "{$hi}", '')
+%rest:query-param("per-page", "{$per-page}", "")
 %rest:query-param("hi", "{$hi}", '')
 %output:method("html5")
 function restItem:getcorpus(
 $id as xs:string*,
-$start as xs:integer*,
-$per-page as xs:integer*,
+$start as xs:string*,
+$end as xs:string*,
+$ref as xs:string*,
+$edition as xs:string*,
+$per-page as xs:string*,
 $hi as xs:string*) {
 let $log := log:add-log-message('/corpus/'||$id, sm:id()//sm:real/sm:username/string() , 'item')
   return
-restItem:ITEM('corpus', $id, 'corpora', $start,$per-page, $hi)
+restItem:ITEM('corpus', $id, 'corpora', $start,
+$end,
+$ref,
+$edition,$per-page, $hi)
 };
 
 
@@ -187,8 +256,11 @@ for $node in $nodes
 };
 
 declare function restItem:ITEM($type, $id, $collection,
-$start as xs:integer*,
-$per-page as xs:integer*,
+$start,
+$end,
+$ref,
+$edition,
+$per-page,
 $hi as xs:string*){
 let $collect := switch2:collectionVar($collection)
 let $coll := $config:data-root || '/' || $collection
@@ -407,7 +479,11 @@ transform:transform(
 
         </div>
    )
-   case 'text' return (item2:RestText($this, $start, $per-page))
+   case 'text' return (
+   
+   dtsc:text($id, $edition, $ref, $start, $end, $collection)
+   
+   )
    case 'graph' return (
    switch($collection)
 case 'manuscripts' return

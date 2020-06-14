@@ -285,14 +285,15 @@ else if (ends-with($exist:path, ".json")) then
 else if (starts-with($exist:path, '/tei/') and ends-with($exist:path, ".xml")) then
                                
                             let $id := substring-before($exist:resource, '.xml')
-                           let $item := $config:collection-root/id($id)[name()='TEI']
+                            let $item := $config:collection-root/id($id)[name()='TEI']
                             let $collection := local:switchCol($item/@type)
+                            let $uri := base-uri($item)
+                               
                             return
                             if ($item) then
                                 <dispatch
                                     xmlns="http://exist.sourceforge.net/NS/exist">
-                                    <forward url="/restxq/BetMas/api/post/{$id}/tei" absolute="yes"/>
-                                   <!-- <forward
+                                    <forward
                                         url="/{substring-after($uri, 'db/apps/')}"/>
                                     <view>
                                         <forward
@@ -303,7 +304,7 @@ else if (starts-with($exist:path, '/tei/') and ends-with($exist:path, ".xml")) t
                                                                             
                                         <set-header name="Cache-Control" value="no-cache"/>
                                         </forward>
-                                    </view>-->
+                                    </view>
                                 </dispatch>
                                  else 
                                 
@@ -520,23 +521,45 @@ construct the annotation graph if application/rdf+xml is specified
                                                     
                                                     </dispatch>
 
-(: if the resource match an id of a work or a manuscript followed by a passage reference, then go to the text view of that
- : http://betamasaheft.eu/LIT1340EnochE:1.3
+(: 
+allow understandable simple syntax for resolving
+LIT1234name#anchor => LIT1234name&ref=anchor
+LIT1234name.n1.n2.n3 => LIT1234name&ref=n1.n2.n3
+LIT1234name.n1-n4 =>LIT1234name&start=n1&end=n4
+
+if the resource match an id of a work or a 
+manuscript followed by a passage reference, then go to the text view of that
+ : http://betamasaheft.eu/LIT1340EnochE.1.3
+ : LIT1340EnochE.1.3-2.5
+ : BAVet1.1ra-4vb
  : should redirect to
- : http://betamasaheft.eu/works/LIT1340EnochE/text?start=1
+ : http://betamasaheft.eu/works/LIT1340EnochE/text?ref=1.3
+ : http://betamasaheft.eu/manuscripts/BAVet1/text?start=1ra&amp;end=4vb
+ : these will actually go to the api
   :)
-                                      (:  else
-                                            if (matches($exist:resource, "^\w+\d+(\w+)?:(a-zA-Z0-9\.)+$")) then
+                                        else
+                                            if (matches($exist:resource, "^(\w+\d+(\w+)?(_(ED|TR)_([a-zA-Z0-9]+)?)?(\.))((NAR[0-9A-Za-z]+|(\d+(r|v)[a-z])|([A-Za-z]+)?([0-9]+))(\.)?)+(\-)?(((NAR[0-9A-Za-z]+|(\d+(r|v)[a-z])|([A-Za-z]+)?([0-9]+))(\.)?)+)?")) then
                                                 let $prefix := substring($exist:resource, 1, 2)
                                                 let $switchCollection := local:switchPrefix($prefix)
-                                                let $passage := substring-after($exist:resource, ':')
+(:                                                looks for the FIRST dot, which separates ref and identifier:)
+                                                let $passage := substring-after($exist:resource, '.')
+                                                let $idarea := substring-before($exist:resource, '.')
+(:                                                looks for the first underscore, which separates the main identifier from the edition/translation:)
+                                                let $id := substring-before($idarea, '_')
+                                                 let $ed := substring-after($idarea, '_')
+                                                let $reforrange := if (contains($passage, '-')) then
+                                                '?start='|| substring-before($passage, '-') ||'&amp;end='|| substring-after($passage, '-')
+                                                else '?ref=' || $passage
+                                                let $edition := '&amp;edition=' || $ed
+                                                let $parms := ($reforrange||$edition)
+(:     let $test:= console:log(($exist:resource, '++>', $switchCollection,'/', $id, $parms)):)
                                             return
                                                <dispatch
                                                         xmlns="http://exist.sourceforge.net/NS/exist">
-                                                        <redirect
-                                                            url="/{$switchCollection}/{$exist:resource}/text?start={encode-for-uri($passage)}"/>
+                                                        <forward
+                                                            url="/{$switchCollection}/{$id}/text{$parms}"/>
                                                     </dispatch>
-:)
+
 
 (: if the resource does match the id, then redirect to main view of that item:)
                                         

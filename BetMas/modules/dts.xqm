@@ -1,7 +1,7 @@
 xquery version "3.1" encoding "UTF-8";
 (:~
  : test implementation of the https://github.com/distributed-text-services
- : 
+ : SERVER
  : @author Pietro Liuzzo 
  : to do 
  : if I want to retrive 1ra@ወወልድ[1]-3vb, should the  @ወወልድ[1] piece also be in the passage/start/end parameter 
@@ -24,6 +24,30 @@ xquery version "3.1" encoding "UTF-8";
 : urn:dts:betmasMS:Zotemberg1234:BLorient12314
  :)
 
+(:
+texts
+LIT1349EpistlEusebius short text with <l n="2"/>text()
+LIT1758Lefafa multiple editions 
+LIT1546Genesi div/div/ab/l[@n]/text()
+LIT2170Peripl multiple pb and divs + images
+LIT1401Physio + versions
+LIT2375Synaxa (months/days structure)
+LIT5439rie iscription
+
+
+manuscripts
+BLorient718 standard div[folio] with pb + cb
+EMIP01859 
+divs + pb and cb
+        where also corresp with NARR are available NAR0019SBarkisos
+level 1 not available, but normal page level and column level are available.
+
+DW03
+DabraLibanosHamGG1
+IVEf921 letter only mss transcription
+RIE 285 multiple text inscription
+RIE193 inscription, only divs
+:)
 module namespace dts="https://www.betamasaheft.uni-hamburg.de/BetMas/dts";
 
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
@@ -35,7 +59,6 @@ declare namespace json = "http://www.json.org";
 declare namespace cx ="http://interedition.eu/collatex/ns/1.0";
 declare namespace sr="http://www.w3.org/2005/sparql-results#";
 declare namespace test="http://exist-db.org/xquery/xqsuite";
-
 import module namespace functx="http://www.functx.com";
 import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
@@ -125,11 +148,7 @@ return $analyse
 
 (:~ Given a dts urn distinguish if it is a manuscript or a work and parse with analyse string the urn to split it into its components. :)
 declare function dts:parseDTS($dts){
-
-
-let $analyse := analyze-string($dts,"(https://betamasaheft.eu/)(textualunits|narrativeunits|transcriptions)?([a-zA-Z\d]+)?(:)?(((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?(\-)?((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?)")
-return 
-$analyse
+analyze-string($dts,"(https://betamasaheft.eu/)(textualunits|narrativeunits|transcriptions)?([a-zA-Z\d]+)?(_(ED|TR)_([a-zA-Z0-9]+)?)?(((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?(\-)?((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?)")
 };
 
 
@@ -170,6 +189,10 @@ $text//t:ab//node()[preceding::t:pb[position()=1][@n = string($pb)]]
 
 else
 $text//t:ab//node()[preceding::t:pb[position()=1][@n = $pb] and preceding::t:cb[position()=1][@n = $cb]]
+};
+
+declare function dts:TranscriptionPassageNodesLB($text, $lb){
+$text//t:ab//node()[preceding::t:lb[position()=1][@n = string($lb)]]
 };
 
 (:~ Xpath to select the nodes requested from a work given passage with two levels :)
@@ -334,10 +357,11 @@ declare
 %rest:GET
 %rest:path("/BetMas/api/dts/collections")
 %rest:query-param("id", "{$id}",  "")
+%rest:query-param("version", "{$version}",  "")
 %rest:query-param("page", "{$page}", 1)
 %rest:query-param("nav", "{$nav}", "children")
 %output:method("json")
-function dts:Collection($id as xs:string*,$page as xs:integer*,$nav as xs:string*) {
+function dts:Collection($id as xs:string*,$page as xs:integer*,$nav as xs:string*,$version as xs:string*) {
 if($id = '') then (
  <rest:response>
   <http:response status="302">
@@ -352,14 +376,15 @@ if(matches($id, '(https://betamasaheft.eu/)?(textualunits/|narrativeunits/|trans
 let $parsedURN := dts:parseDTS($id)
 return
 if (matches($parsedURN//s:group[@nr=2], '(textualunits|narrativeunits|transcriptions)'))
-then (dts:Coll($id, $page, $nav))
+then (dts:Coll($id, $page, $nav, $version))
 else
 if (matches($parsedURN//s:group[@nr=3], '[a-zA-Z\d]+'))
 then (
                 let $specificID := $parsedURN//s:group[@nr=3]/text() 
-                return dts:CollMember($id, $specificID, $page, $nav))
+                let $edition := $parsedURN//s:group[@nr=4]
+                return dts:CollMember($id, $edition, $specificID, $page, $nav, $version))
 else
-dts:Coll($id, $page, $nav)
+dts:Coll($id, $page, $nav, $version)
 else 
 (
 $config:response400 ,
@@ -512,7 +537,7 @@ declare
 %rest:query-param("start", "{$start}", "")
 %rest:query-param("end", "{$end}", "")
 function dts:anyDocumentDEFAULT($id as xs:string*, $ref as xs:string*, $start , $end) {
-console:log('got to default'),
+(:console:log('got to default'),:)
 dts:docs($id, $ref, $start, $end, 'application/tei+xml')
 };
 
@@ -535,6 +560,17 @@ function dts:anyDocumentNotAccepted($id as xs:string*, $ref as xs:string*, $star
 };
 :)
 
+declare function dts:nodes($text, $path){
+(:let $t:= console:log($text):)
+(:let $t2 := console:log($path):)
+for $selector in util:eval($path)
+                        return 
+                        if ($selector/name() = 'pb')
+                                          then dts:TranscriptionPassageNodes($text, $selector/@n, '')
+                        else if ($selector/name()='lb') 
+                                          then dts:TranscriptionPassageNodesLB($text, $selector/@n)
+                       else $selector
+                       };
 declare function dts:docs($id as xs:string*, $ref as xs:string*, $start, $end, $Content-Type){
 (:redirect if id not specified:)
 if ($id = '') then dts:redirectToCollections() 
@@ -580,103 +616,55 @@ else <http:header
 </rest:response>
  else
  let $thisid := $parsedURN//s:group[@nr=3]/text()
+ let $edition := $parsedURN//s:group[@nr=4]
  let $file := $config:collection-root/id($thisid)
- let $text := $file//t:div[@type='edition']
+ let $text := if($edition/node()) then dts:pickDivText($file, $edition)  else $file//t:div[@type='edition']
+(: let $t := console:log($text):)
  let $doc := 
 (: in case there is passage, then look for that place:)
   if ($ref != '') then 
   (:fetch narrative unit passage:)
- if (starts-with($ref, 'NAR')) then 
+ if (starts-with($ref, 'NAR')) then (
 (:will match the content of any div with a corresp corresponding to that narrative unit, if any:)
     
-    let $narrative := $file//t:*[@corresp =$ref]
+    let $narrative := $text//t:*[@corresp =$ref]
             return
                         <TEI xmlns="http://www.tei-c.org/ns/1.0" >
                             <dts:fragment xmlns:dts="https://w3id.org/dts/api#">
                                 {$narrative}
                             </dts:fragment>
-                       </TEI> 
+                       </TEI> )
 (:otherwise go for a passage in the standard structure:)
- else  if ($file/@type='mss')  
-        then 
-                        let $pass:= dts:parsePassageMS($ref)
-                        let $level1 := $pass//s:group[@nr=1] 
-                        let $level2 := if($pass//s:group[@nr=4]) then $pass//s:group[@nr=4] else ''
-                        let $entirepart := dts:TranscriptionPassageNodes($text, $level1, $level2)
+ else (
+                    let $path := dts:selectorRef(1, $text,$ref,'no')
+                    let $t := console:log($path)
+                        let $entirepart := dts:nodes($text, $path)
+(:                        let $t2:=console:log($entirepart):)
                         return
                         <TEI xmlns="http://www.tei-c.org/ns/1.0" >
                             <dts:fragment xmlns:dts="https://w3id.org/dts/api#">
                                 {$entirepart}
                             </dts:fragment>
                        </TEI>
-                else (
-                  let $pass:= dts:parsePassage($ref)
-                        let $level1 := $pass//s:group[@nr=1] 
-                        let $level2 := $pass//s:group[@nr=3] 
-                        let $entirepart := dts:EditionPassageNodes($text, $level1, $level2)
-                        return
-                        <TEI xmlns="http://www.tei-c.org/ns/1.0" >
-                            <dts:fragment xmlns:dts="https://w3id.org/dts/api#">
-                                {$entirepart}
-                            </dts:fragment>
-                       </TEI>
-                
-                )       
-         
+                    
+         )
 (:         if there are start and end, look for a range:)
 else if($start != '' or $end != '') then (
 
-let $parsedURN := dts:parseDTSURN($id)
-let $parsedid := $parsedURN//s:group[@nr=3]/text()
-
+ let $l := count(tokenize($start, '\.'))
+ let $possibleRefs := dts:listRefs($l, $text)
+ let $startP := index-of($possibleRefs,$start)
+ let $endP := index-of($possibleRefs,$end)
+ let $selectors := for $r in $startP to $endP 
+   return 
+   dts:selectorRef($l, $text,$possibleRefs[$r], 'no')
+ let $nodes := for $selector in $selectors return dts:nodes($text, $selector)
 return 
-        if ($file/@type='mss')  
-        then 
-(:       it is a manuscript transcription :)
-        (
-         let $from:= dts:parsePassage($start)
-         let $to :=dts:parsePassage($end)
-                    let $frompage := $from//s:group[@nr=1]//text() 
-                    let $fromcolumn := $from//s:group[@nr=3]//text() 
-                    let $topage := $to//s:group[@nr=1]//text()
-                    let $tocolumn := $to//s:group[@nr=3]//text() 
-                    let $div1 := $text//t:pb[@n=$frompage]/ancestor::t:div/@n
-                    let $part1 := dts:TranscriptionPassageNodes($text, $frompage, $fromcolumn)
-                    let $div2 := $text//t:pb[@n=$topage]/ancestor::t:div/@n
-                    let $part2 :=  dts:TranscriptionPassageNodes($text, $topage, $tocolumn)
-                    let $middle := $text//t:ab[parent::t:div[(number(@n) gt number(string($div1))) and (number(@n) lt number(string($div2)))]]/node()
-                     let $all := ($part1, $middle,$part2)
-                      return 
-                      
-                      <TEI xmlns="http://www.tei-c.org/ns/1.0">
-                            <dts:fragment xmlns:dts="https://w3id.org/dts/api#">
-                                {$all}
-                             </dts:fragment>
-                        </TEI>
-                                   
-        )
-        else 
-(:        it is a literary work:)
-        (
-         let $from:= dts:parsePassage($start)
-         let $to :=dts:parsePassage($end)
-                    let $fromlevel1 := $from//s:group[@nr=1]//text()
-                    let $fromlevel2 := $from//s:group[@nr=3]//text() 
-                    let $tolevel1 := $to//s:group[@nr=1]//text()
-                    let $tolevel2 := $to//s:group[@nr=3]//text() 
-                    let $part1 := dts:EditionPassageNodesRange($text, $fromlevel1, $fromlevel2, 'start')
-                    let $part2 :=  dts:EditionPassageNodesRange($text, $tolevel1, $tolevel2, 'end')
-                    let $middle := $text//t:*[parent::t:div[@type='edition']][(number(@n) gt number($fromlevel1))][(number(@n) lt number($tolevel1))]
-                     let $all := ($part1, $middle,$part2)
-                      return 
-                      
-                      <TEI xmlns="http://www.tei-c.org/ns/1.0" >
-                            <dts:fragment xmlns:dts="https://w3id.org/dts/api#">
-                                {$all}
-                                
-                                </dts:fragment>
-                                </TEI>
-        )
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+    <dts:fragment xmlns:dts="https://w3id.org/dts/api#">
+        {$nodes}
+    </dts:fragment>
+</TEI>
 )
                        
 else $file 
@@ -760,185 +748,309 @@ else if ($text/name() = 'pb') then <iiifRange>{$config:appUrl}/api/iiif/{$id}/ca
 else if ($text/name() = 'cb') then <iiifRange>{$config:appUrl}/api/iiif/{$id}/canvas/p{if(ends-with($text/preceding-sibling::t:pb[1]/@n, 'r')) then string(translate($text/preceding-sibling::t:pb[1]/@n, 'rv', '')) else string(number(translate($text/preceding-sibling::t:pb[1]/@n, 'rv', '')) + 1)}</iiifRange>
  else ()
  };
+ 
+ declare function dts:citeDepth($text){
+ if($text/ancestor::t:TEI/@type='mss' and not($text/ancestor::t:TEI//t:objectDesc/@form ='Inscription')) then 
 
-(:~ dts/navigation https://github.com/distributed-text-services/specifications/blob/master/Navigation-Endpoint.md:)
-declare
-%rest:GET
-%rest:path("/BetMas/api/dts/navigation")
-%rest:query-param("id", "{$id}",  "")
-%rest:query-param("ref", "{$ref}", "")
-%rest:query-param("level", "{$level}", "")
-%rest:query-param("start", "{$start}", "")
-%rest:query-param("end", "{$end}", "")
-%rest:query-param("page", "{$page}", "")
-%rest:query-param("groupBy", "{$groupBy}", "")
-%rest:query-param("max", "{$max}", "")
-%output:method("json")
-function dts:Cit($id as xs:string*, $ref as xs:string*, $level as xs:string*, $start as xs:string*, $end as xs:string*, $groupBy as xs:string*, $page as xs:string*, $max as xs:string*) {
-if($id = '') then (<rest:response>
-  <http:response status="302">
-    <http:header name="location" value="/api/dts/collections?id=https://betamasaheft.eu"/>
-  </http:response>
-</rest:response>) else
-let $parsedURN := dts:parseDTS($id)
-let $BMid := $parsedURN//s:group[@nr=3]/text()
-let $mydoc := $config:collection-root/id($BMid)
-let $text := $mydoc//t:div[@type='edition']
-let $textType := $mydoc//t:objectDesc/@form
-let $manifest := $mydoc//t:idno/@facs
-let $computedWitnesses := if($mydoc/@type= 'mss') then ()
-                              else if($mydoc/@type= 'nar') then (
-                              for $witness in $config:collection-rootMS//t:*[starts-with(@corresp, $BMid)]
-                            let $root := root($witness)/t:TEI/@xml:id
-                                group by $groupkey := $root
-                            return string($groupkey))
-                              else 
-                            (for $witness in $config:collection-rootMS//t:title[starts-with(@ref, $BMid)]
-                            let $root := root($witness)/t:TEI/@xml:id
-                                group by $groupkey := $root
-                            return string($groupkey))
+    (if($text/t:div[@subtype !='folio']) then 
+(:    determine the maximum possible levels of descendence for div, pb and cb
+https://stackoverflow.com/questions/5694759/how-do-you-calculate-the-number-of-levels-of-descendants-of-a-nokogiri-node
+:)
+let $nodes := $text/descendant::node()[name()='div' or name()='l' or name()='lb' or name()='pb' or name()='cb']
+return
+    max(for $leaf in $nodes,
+        $depth in count($leaf/ancestor::node()[name()='div' or name()='l' or name()='lb' or name()='pb' or name()='cb'])
+      return
+        $depth
+    ) else 3) 
+                                else 
+                                       ( let $counts := for $div in ($text//t:div[@type='textpart'], $text//t:l, $text//t:lb) 
+                                        return count($div/ancestor::t:div)
+                                        return
+                                        max($counts)
+                                        )
+                                        };
+               
+(:~  
+given a formatted $ref as string parses it in parts
+for use in other functions
+returns a node in analyze-string-result, e.g. 
+<analyze-string-result xmlns="http://www.w3.org/2005/xpath-functions">
+    <match>
+        <group nr="1">
+            <group nr="3">3</group>
+        </group>
+        <group nr="4">.</group>
+    </match>
+    <match>
+        <group nr="1">
+            <group nr="2">Gen</group>
+            <group nr="3">1</group>
+        </group>
+        <group nr="4">.</group>
+    </match>
+    <match>
+        <group nr="1">
+            <group nr="2">month</group>
+            <group nr="3">1</group>
+        </group>
+        <group nr="4">.</group>
+    </match>
+    <match>
+        <group nr="1">NAR0069Gabreel</group>
+        <group nr="4">.</group>
+    </match>
+    <match>
+        <group nr="1">
+            <group nr="2">day</group>
+            <group nr="3">30</group>
+        </group>
+        <group nr="4">.</group>
+    </match>
+    <match>
+        <group nr="1">
+            <group nr="3">1</group>
+        </group>
+    </match>
+</analyze-string-result>
+:)
+declare function dts:parseRef($ref){
+(:dts:ref can be constructed as a series of dotted sub references
+each level is separated by a dot, each level can be the value of either 
+    - a @n
+    - a @xml:id
+    - a @corresp
+    - a concatenation of @subtype and @n
+    
+   the total number of position in ref cannot be greater than citeDepth
+   and must be coherent with it.
+
+e.g.
+1 (div[@type='folio']/@n)
+1r (pb/@n)
+1va ((pb/@n),(cb/@n))
+1  (@n)
+1.1 (@n.@n)
+Gen1.1 (@xml:id.@n)
+1.verse1 (@n.@xml:id)
+Gen1.verse1 (@xml:id.@xml:id)
+month1.day3 ((@subtype,@n).(@subtype,@n))
+1.30.NAR0069Gabreel (@n.@n.@corresp)
+month1.day30.NAR0069Gabreel ((@subtype,@n).(@subtype,@n).(@corresp))
+ :)
+let $parseRef := analyze-string($ref, 
+               '(NAR[0-9A-Za-z]+|((\d+[r|v])([a-z]?))|([A-Za-z]+)?([0-9]+))(\.)?')
+let $refs := for $m at $p in $parseRef//s:match 
+                    let $t := $m/s:group[@nr=1]//text()
+                    return
+                     if(matches($m, '\d+[r|v][a-z]?')) 
+(:           the normal reference to the folio, is to be found split in pb and cb          :)
+                                then <ref type='folio' l="{$p}">
+                                        <part type="pb">{$m//s:group[@nr=3]/text()}</part>
+                                        <part type="cb">{$m//s:group[@nr=4]/text()}</part>
+                                        </ref>
+                     else if(matches($m, 'NAR[0-9A-Za-z]+')) 
+                                then <ref type='nar' l="{$p}">{$t}</ref>
+                     else if(matches($m, '([A-Za-z]+)([0-9]+)')) 
+(:                     this is an ambiguous type, because it may refer to 
+a subtype and a n as well as referring simply an xmlid :)
+                                then <ref type='subtypeNorXMLid'  l="{$p}">
+                                           <option type="subtype">
+                                           <part type="subtype">{$m//s:group[@nr=5]/text()}</part>
+                                           <part type="n">{$m//s:group[@nr=6]/text()}</part>
+                                           </option>
+                                           <option type="xmlid">{$t}</option>
+                                        </ref>
+                     else if(matches($m, '([A-Za-z]+)')) 
+                                then <ref type='subtype'  l="{$p}">{$t}</ref>
+                     else (<ref type='n' l="{$p}">{$t}</ref>)
+return <refs>{$refs}</refs>
+ };
+               
+(:~  called by dts:pas to format and select the references :)
+declare function dts:refname($n){
+(:has to recurs each level of ancestor of the node which 
+   has a valid position in the text structure:)
+let $refname:=  dts:rn($n)
+let $this := normalize-space($refname)
+let $ancestors := for $a in $n/ancestor::t:div[@xml:id or @n or @corresp][ancestor::t:div[@type='edition']]
+return dts:rn($a)
+let $all := ($ancestors , $this)
+return string-join($all,'.')
+};
+declare function dts:rn($n){
+ if($n/@n) then string($n/@n)
+    else if ($n/name()='cb') then 
+         (string($n/preceding-sibling::t:pb[@n][1]/@n)||string($n/@n)) 
+    else if($n/@xml:id) then string($n/@xml:id)
+    else if($n/@subtype) then string($n/@subtype)
+    else 'tei:' ||$n/name() ||'['|| $n/position() || ']'
+    };
+(:~  called by dts:pas to select the title of a passage:)
+declare function dts:reftitle($n){
+if($n/@corresp) then 
+             (if(starts-with($n/@corresp, '#')) 
+                 then <title>{normalize-space(titles:printSubtitle($n, substring-after($n/@corresp, '#')))}</title>
+              else if(starts-with($n/@corresp, 'LIT')) then <title>{normalize-space(titles:printTitleID($n/@corresp))}</title>
+              else if(starts-with($n/@corresp, 'NAR')) then <title>{normalize-space(titles:printTitleID($n/@corresp))}</title>
+              else <title>{string($n/@corresp)}</title>)
+ else if ($n/t:label) then <title>{string:tei2string($n/t:label)}</title>
+ else ()
+              };
+              
+(:~  called by dts:pas to select the type name:)
+declare function dts:typename($n, $fallback){
+<type>{if(string($n/@subtype)) then string($n/@subtype)
+else if($n/name() = 'l') then 'verse'
+else if($n/name() = 'lb') then 'line'
+else if($n/name() = 'pb') then 'page'
+else if($n/name() = 'cb') then 'column'
+else $fallback}</type>};
+
+(:~ fetches all available computed or declared witnesses and
+flattens this distinction building one list of 
+computed and declared witnesses, 
+as well as the eventual nesting of witnesses for each edition:)
+declare function dts:wits($mydoc, $BMid){
+let $computedWitnesses := 
+     if($mydoc/@type= 'mss') then ()
+     else if($mydoc/@type= 'nar') then (
+              for $witness in $config:collection-rootMS//t:*[starts-with(@corresp, $BMid)]
+               let $root := root($witness)/t:TEI/@xml:id
+                group by $groupkey := $root
+                return string($groupkey))
+    else (for $witness in $config:collection-rootMS//t:title[starts-with(@ref, $BMid)]
+                    let $root := root($witness)/t:TEI/@xml:id
+                    group by $groupkey := $root
+                    return string($groupkey))
 let $declaredWitnesses := if($mydoc/@type= 'mss') then () else 
                             for $witness in $mydoc//t:witness/@corresp return string($witness)
 (: flattens the distinction between computed and declared witnesses, as well as the eventual nesting of witnesses for each edition:)
-let $allwits := ($computedWitnesses, $declaredWitnesses)
-let $witnesses := for $witness in distinct-values($allwits)
-(:filters out the witnesses which do not have images available:)
-                            return if(starts-with($witness, 'http')) then $witness else let $mss := $config:collection-rootMS/id($witness) return if ($mss//t:idno/@facs) then $witness else ()
-let $passage := if ($mydoc/@type='mss' and not($textType='Inscription')) then (
-                        (:manuscripts:)
-                              (:    no ref specified, list all main divs, assuming by the guidelines they are folios:)
-                                if($ref='' and $level = '' and $start ='' and $end = ''and $groupBy = '' and $max = '') 
-                                          then for $n in $text/t:div[@n] return <p>{string($n/@n)}<type>folio</type>{if($n/@corresp) then <title>{titles:printTitleID(concat($BMid,$n/@corresp))}</title> else ()}{dts:passageIIIFrange($n, $manifest, 'mss', $BMid)}</p>
-                                       (:     if the level is not empty, than it has been specified to be either the second or third level, pages and columns                  :)
-                                 else if($level != '') 
-                                         then if ($level = '2') 
-                                      (:       then the pages of folios have been requested:)
-                                                     then for $n in $text//t:pb[@n] return <p>{(string($n/@n))}<type>page</type>{dts:passageIIIFrange($n, $manifest, 'mss', $BMid)}</p>
-                                                  else if ($level = '3')
-                                      (:       the columns of a pages have been requested:)
-                                                    then for $n in $text//t:cb[@n] return <p>{(string($n/preceding-sibling::t:pb[@n][1]/@n)||string($n/@n))}<type>column</type>{dts:passageIIIFrange($n, $manifest, 'mss', $BMid)}</p>
-                                                else  () 
-                                 else if($ref != '') 
-                                        then 
-                                        let $reftext := if(starts-with($ref, 'NAR')) then $text//t:div[@corresp=$ref] else $text//t:div[@n=$ref]
-                                          let $combos := for $pb in $reftext/descendant::t:pb[@n] 
-                                                                     for $cb in $pb/following-sibling::t:cb[@n] 
-                                                                    return string($pb/@n)||string($cb/@n)
-                                          for $c in distinct-values($combos)
-                                            return <p>{$c}{dts:passageIIIFrange($reftext, $manifest, 'mss', $BMid)}</p>
-                               else ()
-                        ) else 
-                        (:works and inscriptions. 
-                        textual units have different structures 
-                        some are encoded with a basic nested divs structure, some instaed, especially bible texts use l, while inscriptions have lb :)
-                                if($ref='' and $level = '' and $start ='' and $end = ''and $groupBy = '' and $max = '') 
-(:                                if no  parameter is specified, go through the child elements of div type edition, whatever they are:)
-                                then  for $n in $text/t:* return 
-(:                                linebreaks as in inscriptions:)
-                                                 if($n//t:lb) then 
-                                                     for $n in $text//t:lb return 
-                                                            <p>{string($n/@n)}<type>line</type></p>
-(:                                                            lines / versets as in biblical texts transcriptions:)
-                                                 else if($n/t:ab/t:l) then 
-                                                        for $n in $text//t:l return 
-                                                             <p>{string($n/@n)}<type>verse</type></p>
-(:                                                any other nested div:)
-                                                else 
-                                <p>{string($n/@n )}
-                                         {if($n/@subtype) then <type>{string($n/@subtype)}</type> else ()}
-                                         {if($n/@corresp) then <title>{titles:printTitleMainID($n/@corresp)}</title> 
-                                            else if($n/t:label) then <title>{string:tei2string($n/t:label)}</title> else ()}
-                                            {dts:passageIIIFrange($n, $witnesses, 'work', $BMid)}</p>
-                              
-(:                              if a ref is specified show that navigation point:)
+return ($computedWitnesses, $declaredWitnesses)
+};
 
-(:this relies a lot of @n for the purpose of ranging, while @xml:id is what is used instead, and NAR. In this ref system, which can point to independent units also xml:id should be visible:)
-                              else if($ref != '' and $start = '') 
-                               then   for $n in $text/t:div[@n=$ref]/descendant::t:*[@n] return 
-                               <p>
-                                         {($ref || '.'|| string($n/@n))}
-                                         {if($n/@subtype) then <type>{string($n/@subtype)}</type> else ()}
-                                         {if($n/@corresp) then <title>{titles:printTitleMainID($n/@corresp)}</title> 
-                                            else if($n/t:label) then <title>{$n/t:label/string()}</title> else ()}
-                                            {dts:passageIIIFrange($n, $witnesses, 'work', $BMid)}
-                                          </p>
-                               
-                             else if($level != '' and $start = '') 
+(:~  given a passage node calls the functions to add to it relevant information:)
+declare function dts:pas($n, $fallback, $type, $manifest, $BMid){
+<p>{dts:refname($n)}{dts:typename($n, $fallback)}{dts:reftitle($n)}{dts:passageIIIFrange($n, $manifest, $type, $BMid)}</p>
+};
+
+(:~  given a passage node calls the functions to add to it relevant information,
+starting from a given refname, not building it from a node:)
+declare function dts:pasCombo($n, $reftext, $type, $manifest, $BMid){
+<p>{$n}{dts:passageIIIFrange($reftext, $manifest, $type, $BMid)}</p>
+};
+
+(:~  calls for all relevant nodes in a selection the builder for the passage node:)
+declare function dts:pasS($selector, $fallback, $type, $manifest, $BMid){
+for $n in $selector
+ return dts:pas($n, $fallback, $type, $manifest, $BMid)
+};
+
+declare function dts:pasLev($level, $text, $fallback, $type, $manifest, $BMid){
+let $levs := string-join((for $i in 1 to xs:integer($level) 
+                     return "/(t:div|t:cb|t:pb|t:lb|t:l)/(t:ab|.)"))
+let $path := '$text' || $levs
+(:let $t:= console:log($path):)
+  return  dts:pasS(util:eval($path), $fallback, $type, $manifest, $BMid)
+};
+
+declare function dts:listRefs($level, $text){
+let $levs := string-join((for $i in 1 to xs:integer($level) 
+                     return "/(t:div|t:cb|t:pb|t:lb|t:l)/(t:ab|.)"))
+let $path := '$text' || $levs 
+(:let $t := console:log($path):)
+ for $ref in util:eval($path)
+ return
+ dts:refname($ref)  
+};
+
+declare function dts:selectorRef($level, $text,$ref, $children){
+(:the children parameter is there because the selection is the same, but if selecting for references, then we want the children nodes, if selecting for nodes, we want the nodes and stop there:)
+let $refs := dts:parseRef($ref)
+(:let $t := console:log($refs):)
+let $count := if ($level=1) then count($refs/*:ref) else $level
+(:returns one <ref> for each level of the ref separated by a dot :)
+ let $levs := 
+(: matches the correct level with the correct part of the ref:)
+ string-join((for $i in 1 to $count 
+(: level 1 will always be edition. 
+References will be available for level 2, so 
+first level/part of a ref will point to level 2:)
+                    let $r := $refs/*:ref[@l=($i)]
+(:                    let $t1 := console:log($r):)
+                    let $ty := $r/@type
+(:  this path will be ok to look for id or n, but will fail for composed refs, i.e. where the ref
+is built from pb and cb or from subtype and n. :)
+ let $partpath := (switch($ty)
+                                case 'nar' return "/t:div[@corresp='"||$r/text()||"']"
+                                case 'n' return "/(t:div|t:lb|t:l)[@n='"||$r/text()||"']"
+                                case 'subtype' return "/t:div[@subtype='"||$r/text()||"']"
+                                (:it is folio reference a normal ref to a manuscript transcription will have the shape of a folio reference
+like 1ra or 34vb or 35 or 67v , which is stored in <pb n='1r'> and <cb n='a'>
+where pb will never have the column and the column will never have the pb...
+in this case match the partent div and return all combinations 
+of pbs and cbs available within it.   :)   
+                                case 'folio' return "/t:div[t:pb[@n='"||
+                                                                   $r/*:part[@type='pb']/text()||"']"||
+                                                                   (if($r/*:part[@type='cb']/text()) 
+                                                                   then ("[following-sibling::t:cb[@n='"||
+                                                                   $r/*:part[@type='cb']/text()||"']]") 
+                                                                   else ())||"]"
+                               case 'subtypeNorXMLid' return "/(t:div[@subtype='"||
+                                                                   $r/*:option[@type='subtype']/*:part[@type='subtype']/text()||"']"||
+                                                                   (if($r/*:option[@type='subtype']/*:part[@type='n']/text()) 
+                                                                   then ("[@n='"||
+                                                                   $r/*:option[@type='subtype']/*:part[@type='n']/text()||"']") 
+                                                                   else ()) || " | " ||"t:div[@xml:id='"||
+                                                                   $r/*:option[@type='xmlid']/text()||"']"|| ")"
+                                default return
+                            "/(t:div|t:cb|t:pb|t:lb|t:l)[(@xml:id|@n)='"||
+                                $r/text()||"' or contains(@corresp,'"||$r/text()||"')]"
+                                )
+       (:  always think there may be an ab... :)
+                                ||(if($children='no' and $i = $count) then "" else '/(t:ab|.)') 
+(: let $t1 := console:log($partpath):)
+ return $partpath))   
+ let $kids := if($children='yes') then '/(t:div|t:lb|t:l|t:pb|t:cb)' else ''
+(: navigation shows options available for a given reference, so, selected a level or reference
+it returns the possible children:)
+ return
+ '$text' || $levs ||$kids
+};
+
+(:~  calls for all relevant nodes in a selection the builder for the passage node:)
+declare function dts:pasRef($level, $text, $ref, $fallback, $type, $manifest, $BMid){
+let $path := dts:selectorRef($level, $text, $ref, 'yes')
+(: let $t4 := console:log($path):)
+     for $n in util:eval($path)  
+     return dts:pas($n, $fallback, $type, $manifest, $BMid)
+};
+
+declare function dts:ctype ($mydoc, $text, $level, $cdepth){
+ if($mydoc/@type='mss' 
+                      and not($text/ancestor::t:TEI//t:objectDesc/@form ='Inscription')) 
+                    then  (
+                    if($cdepth gt 3) 
+                                then  'textpart' 
+                   else if(($level = '') and $cdepth=3) 
                                 then 
-                                if($ref != '') then 
-                                                        for $n in ($text/t:div[@n=$ref]//t:div[@n or @xml:id][count(ancestor::t:div) = (number($level) - 1)], $text/t:div[@n=$ref]/t:ab[count(ancestor::t:div) = (number($level) - 1)]/t:l[@n], $text/t:div[@n=$ref]/t:ab[count(ancestor::t:div) = (number($level) - 1)]/t:lb[@n]) 
-                                                        return 
-                                         <p>
-                                         {if($n/@xml:id) then string($n/@xml:id) else (string($n/ancestor::t:*[@n][1]/@n) ||'.' || string($n/@n))}
-                                         <type>{if($n/name() = 'l') then 'verse' else if($n/name() = 'lb') then 'line' else string($n/@subtype)}</type>
-                                         {dts:passageIIIFrange($n, $witnesses, 'work', $BMid)}
-                                          </p>
-                               else
-                                           for $n in ($text//t:div[@n or @xml:id][count(ancestor::t:div) = (number($level) - 1)], $text//t:ab[count(ancestor::t:div) = (number($level) - 1)]/t:l[@n], $text//t:ab[count(ancestor::t:div) = (number($level) - 1)]/t:lb[@n]) return 
-                                          <p>
-                                         {if($n/@xml:id) then string($n/@xml:id) else (string($n/ancestor::t:*[@n][1]/@n) ||'.' || string($n/@n))}
-                                         <type>{if($n/name() = 'l') then 'verse' else if($n/name() = 'lb') then 'line' else string($n/@subtype)}</type>
-                                         {dts:passageIIIFrange($n, $witnesses, 'work', $BMid)}
-                                          </p>
-                           
-                             
-                            else if($start != '' and $end != '') 
-                               then if ($level != '') then (
-                                  if ($level = '2') then 
-                                  let $range := $text/t:div[number(@n) ge number($start)][number(@n) le number($end)] 
-                                  return 
-                                  for $n in ($range/t:div[@n], $range/t:ab/t:l[@n], $range/t:ab/t:lb[@n]) 
-                                  return 
-                                   <p>
-                                         {(string($n/ancestor::t:*[@n][1]/@n) ||'.' || string($n/@n))}
-                                         <type>{if($n/name() = 'l') then 'verse' else if($n/name() = 'lb') then 'line' else string($n/@subtype)}</type>
-                                         {dts:passageIIIFrange($n, $witnesses, 'work', $BMid)}
-                                          </p>
-                                   else ()
-                               )
-                               
-                               else 
-                               
-                              ( if($text//t:lb) then 
-                               for $n in $text//t:lb[number(@n) ge number($start)][number(@n) le number($end)] return 
-                               <p>
-                                         {string($n/@n)}
-                                        <type>line</type>
-                                          </p>
-                               else 
-                               if($text//t:l) then 
-                               for $n in $text//t:l[number(@n) ge number($start)][number(@n) le number($end)] return 
-                               <p>
-                                         {string($n/@n)}
-                                        <type>verse</type>
-                                          </p>
-                               else 
-                               for $n in $text/t:div[number(@n) ge number($start)][number(@n) le number($end)] return 
-                               <p>
-                                         {string($n/@n)}
-                                         {if($n/@subtype) then <type>{string($n/@subtype)}</type> else ()}
-                                         {if($n/@corresp) then <title>{titles:printTitleMainID($n/@corresp)}</title> 
-                                            else if($n/t:label) then <title>{$n/t:label/string()}</title> else ()}
-                                          </p>
-                             )
-                             else ()
-(:                             the following step should take the list of results and format it using the chunksize and max parameters:)
-let $CS := number($groupBy)
-let $M := number($max)
-
-let $ctype := if($mydoc/@type='mss' and not($text/ancestor::t:TEI//t:objectDesc/@form ='Inscription')) 
-then  (if($level = '') then 'folio' else if($level='2') then 'page' else 'column')
-                                else 
-                                (if($level = '') then (let $types := for $t in ($text/t:div, $text//t:lb)
-                                            let $typ := if($t/name() = 'lb') then 'line' 
+                                        if($text/t:div[@subtype]) 
+                                        then distinct-values($text/t:div/@subtype) 
+                                        else 'folio' 
+                  else if($level='2' and $cdepth=3) then 'page'  
+                  else 'column'
+                    )
+else (if($level = '') 
+                then (let $types := for $t in ($text/t:div, $text//t:lb)
+                                                        let $typ := if($t/name() = 'lb') then 'line' 
                                                             else if($t/@subtype) then string($t/@subtype)
                                                             else if($t/@corresp) then string($t/@corresp) 
                                                             else 'textpart'
-                                           group by $T := $typ 
-                                           let $count := count($T)
-                                           return <t tot="{$count}">{$T}</t>
-                                     return $types[max(@tot)]/text())
-                                 else  if($level = '2') then (
+                                                        group by $T := $typ 
+                                                        let $count := count($T)
+                                                     return <t tot="{$count}">{$T}</t>
+                                         return $types[max(@tot)]/text())
+                            else  if($level = '2') then (
                                  if($text/t:div/t:ab/t:l) then 'verse'
                                  else if($text/t:div/t:ab/t:lb) then 'line'
                                  else
@@ -952,6 +1064,182 @@ then  (if($level = '') then 'folio' else if($level='2') then 'page' else 'column
                                   return $types[max(@tot)]/text()                        
                                                                     )
                              else 'textpart')
+};
+
+(:citation tree and level
+level 1 is div[@type='edition']
+level 2 is a div[@type='edition']/(t:div|t:lb|t:l|t:pb|t:cb) 
+level 3 is a div[@type='edition']/(t:div|t:lb|t:l|t:pb|t:cb)/(t:div|t:lb|t:l|t:pb|t:cb)
+
+requesting a level will return the options for that level 
+
+e.g. 
+
+request for EMIP01859 or EMIP01859&level=1
+returns the months, which are the first divs children of edition
+  EMIP01859.1, EMIP01859.2
+  because it looks for div[@type='edition']/(t:div|t:lb|t:l|t:pb|t:cb)
+  
+request for EMIP01859&level=2 
+returns the days in each month
+   EMIP01859.1.1, EMIP01859.1.2, EMIP01859.1.3, etc.
+   because it looks for div[@type='edition']/(t:div|t:lb|t:l|t:pb|t:cb)/(t:div|t:lb|t:l|t:pb|t:cb)
+   
+request for EMIP01859&level=3 
+returns the commemorations in each day
+   EMIP01859.1.1.1, EMIP01859.1.1.2, EMIP01859.1.1.3, etc.
+   because it looks for div[@type='edition']/(t:div|t:lb|t:l|t:pb|t:cb)/(t:div|t:lb|t:l|t:pb|t:cb)/(t:div|t:lb|t:l|t:pb|t:cb)   
+      
+request for EMIP01859&level=4 
+returns the subdivisions of a commemoration
+   EMIP01859.1.1.1.1, EMIP01859.1.1.1.2, EMIP01859.1.1.1.3, etc.
+ because it looks for div[@type='edition']/(t:div|t:lb|t:l|t:pb|t:cb)/(t:div|t:lb|t:l|t:pb|t:cb)/(t:div|t:lb|t:l|t:pb|t:cb)/(t:div|t:lb|t:l|t:pb|t:cb)   
+  
+$ref will limit to a specific reference, and although @n is preferred, also other reference formats will be matched
+
+request for EMIP01859&ref=1 or EMIP01859&level=1&ref=1 or EMIP01859&level&ref=month1
+returns as a resource the months, 
+which are the first divs children of edition and match that $ref
+"list of passage identifiers that are part of the textual Resource identified", i.e. EMIP01859.1, 
+  because it looks for div[@type='edition']/(t:div|t:lb|t:l|t:pb|t:cb)[@n=1]/(t:div|t:lb|t:l|t:pb|t:cb)
+
+
+$ref=1.3 or e.g. EMIP01859&ref=month1.day3
+because it looks for div[@type='edition']/(t:div|t:lb|t:l|t:pb|t:cb)[@n=month1]/(t:div|t:lb|t:l|t:pb|t:cb)[@n=day1]/(t:div|t:lb|t:l|t:pb|t:cb)
+and returns level 4 references which are passage identifiers that are part of the textual Resource identified month1.day3,
+so. e.g. commemorations identified by month1.day1.NAR0019SBarkisos
+
+$ref=1.1.1 or month1.day1.NAR0019SBarkisos
+willl not return anything, because there is no level 5. If there will be some passage identifiers part of it it will return them
+:)
+
+declare function dts:startend($level, $text, $start, $end, $fallback, $type, $manifest, $BMid){
+ let $l := if ($level != '') then $level else count(tokenize($start, '\.'))
+ let $possibleRefs := dts:listRefs($l, $text)
+(: dts:listRefs returns a list of the most standardizable refs. 
+this means that, while an alternative ref will work singularly, for a range the most canonical ones will have to be used
+start=month1.day4&end=month1.day6
+will not work although in principle equivalent to
+start=1.4&end=1.6
+which will return the correct set of passage references contained in this range
+:)
+ let $startP := index-of($possibleRefs,$start)
+ let $endP := index-of($possibleRefs,$end)
+ for $r in $startP to $endP 
+   return dts:pasRef($l, $text, $possibleRefs[$r], $fallback, $type, $manifest, $BMid)
+                };
+
+(:~ dts/navigation https://github.com/distributed-text-services/specifications/blob/master/Navigation-Endpoint.md:)
+declare
+%rest:GET
+%rest:path("/BetMas/api/dts/navigation")
+%rest:query-param("id", "{$id}",  "")
+%rest:query-param("ref", "{$ref}", "")
+%rest:query-param("level", "{$level}", "")
+%rest:query-param("start", "{$start}", "")
+%rest:query-param("end", "{$end}", "")
+%rest:query-param("page", "{$page}", "")
+%rest:query-param("groupBy", "{$groupBy}", "")
+%rest:query-param("max", "{$max}", "")
+%rest:query-param("version", "{$version}", "")
+%output:method("json")
+function dts:Cit($id as xs:string*, $ref as xs:string*, $level as xs:string*, $start as xs:string*, $end as xs:string*, $groupBy as xs:string*, $page as xs:string*, $max as xs:string*, $version as xs:string*) {
+if($id = '') then (<rest:response>
+  <http:response status="302">
+    <http:header name="location" value="/api/dts/collections?id=https://betamasaheft.eu"/>
+  </http:response>
+</rest:response>) else
+let $parsedURN := dts:parseDTS($id)
+let $BMid := $parsedURN//s:group[@nr=3]/text()
+let $mydoc := $config:collection-root/id($BMid)
+let $edition := $parsedURN//s:group[@nr=4]
+let $text := if($edition/node()) then dts:pickDivText($mydoc, $edition)  else $mydoc//t:div[@type='edition']
+                (: there may be more edition and translations how are these fetched?  
+                LIT1709Kebran, LIT1758Lefafa multiple editions 
+                LIT2170Peripl multiple pb and divs + images
+                
+                there needs to be evidence of multiple editions and a possibility to 
+                switch based on @xml:id
+                with fallback on div[@type='edition']
+                multiple values for navigation api provided in Collection 
+                
+                LIT4915PhysA_ED_ed1.1.1.1
+                LIT4915PhysA_ED_ed2.1.1
+                LIT2170Peripl_ED_
+                LIT2170Peripl_TR_
+                :)
+let $textType := $mydoc//t:objectDesc/@form
+let $manifest := $mydoc//t:idno/@facs
+let $allwits := dts:wits($mydoc, $BMid) 
+let $witnesses := for $witness in distinct-values($allwits)
+(:filters out the witnesses which do not have images available:)
+                            return if(starts-with($witness, 'http')) then $witness else let $mss := $config:collection-rootMS/id($witness) return if ($mss//t:idno/@facs) then $witness else ()
+let $cdepth := dts:citeDepth($text)
+let $passage := 
+if ($mydoc/@type='mss' and not($textType='Inscription')) then (
+   (:manuscripts:)
+
+(:  THERE IS A REF:)   
+    if($ref != '') then 
+             let $l := if ($level='') then 1 else $level
+           return
+          dts:pasRef($l, $text, $ref, 'unit', 'mss', $manifest, $BMid)
+(:$ref can be a NAR, but how does one know that this is a possibility within this text?:)
+
+(:start and end:)
+     else if($start != '') then
+             dts:startend($level, $text, $start, $end, 'part', 'mss', $manifest, $BMid)
+   (: no ref specified, list all main divs, assuming by the guidelines they are folios:)
+         else if($ref='' and $level = '' and $start ='' and $end = ''and $groupBy = '' and $max = '') 
+                then dts:pasS($text/t:div[@n], 'folio', 'mss', $manifest, $BMid)
+  (: if the level is not empty, than it has been specified to be either the second or third level, pages and columns                  :)
+         else if (($level != '') and ($cdepth gt 3))  then
+  (:  the citation depth is higer than 3:)
+(:  let $t := console:log($level) return:)
+                  dts:pasLev($level, $text, 'unit', 'mss', $manifest, $BMid )
+        else if(($level != '') and ($cdepth = 3)) then 
+                  (if ($level = '2') 
+  (: the pages of folios have been requested:)
+                    then dts:pasS($text//t:pb[@n], 'page', 'mss', $manifest, $BMid)
+                    else if ($level = '3')
+  (: the columns of a pages have been requested:)
+                     then dts:pasS($text//t:cb[@n], 'column', 'mss', $manifest, $BMid)
+  (:  in theory there is no such case which will not be matched by cdepth gt 3...   :)
+                     else()  )         
+(:    no other option taken into consideration:)
+    else ()
+                        ) else 
+(:works and inscriptions. 
+                        textual units have different structures 
+                        some are encoded with a basic nested divs structure, some instaed, especially bible texts use l, while inscriptions have lb :)
+                                if($ref='' and $level = '' and $start ='' and $end = ''and $groupBy = '' and $max = '') 
+(:   if no  parameter is specified, go through the child elements of div type edition, whatever they are:)
+                                then  dts:pasS($text/(t:ab|.)/t:*, 'unit', 'work', $witnesses, $BMid)
+(:   if a ref is specified show that navigation point:)
+else if($ref != '' and $start = '')  
+(:e.g. LIT1546Genesi&ref=2.3 :)
+        then dts:pasRef(1, $text, $ref, 'unit', 'work', $witnesses, $BMid)
+(:   if a level is specified that use that information, and check for ref
+e.g. LIT1546Genesi&level=2
+:) 
+ else if($level != '' and $start = '') 
+                                then 
+(:  e.g. LIT1546Genesi&level=2&ref=4:)
+                                if($ref != '') then dts:pasRef($level, $text, $ref, 'unit', 'work', $witnesses, $BMid)
+(:  e.g. LIT1546Genesi&level=2 (max level is value of citeDepth!):)                               
+                               else dts:pasLev($level, $text, 'unit', 'work', $witnesses, $BMid )
+ else if($start != '' and $end != '') 
+(: needs to make a sequence of possible 
+refs at the given level and limit it by the positions in $start and $end
+LIT1546Genesi&start=3&end=4 :)
+               then 
+              dts:startend($level, $text, $start, $end, 'texpart', 'work', $witnesses, $BMid)
+else ()
+                             
+(:                             the following step should take the list of results and format it using the chunksize and max parameters:)
+let $CS := number($groupBy)
+let $M := number($max)
+let $ctype := dts:ctype($mydoc,$text, $level, $cdepth)
 let $chunkedpassage := if(string($groupBy) !='') 
                                                 then       
                                                (
@@ -966,17 +1254,17 @@ let $chunkedpassage := if(string($groupBy) !='')
                                                         let $sequenceN := for $p in $passage return  number(substring-after($p, '.'))
                                                         let $end := max($sequenceN)
                                                         let $rangeEnd := if($ceiling gt $end) then $end else $ceiling
-                                                        let $chunck  := map {'dts:start' :  $passage[$rangeStart], 'dts:end' : $passage[$rangeEnd]}
+                                                        let $chunck  := map {'dts:start' :  $passage[$rangeStart]/text()[1], 'dts:end' : $passage[$rangeEnd]/text()[1]}
                                                        return 
                                                                     $chunck)
                                                 else for $p in $passage 
-                                                            let $refonly := map {"dts:ref" : $p/text()}
-                                                         let $refandtype := if((count($p/type) eq 1) and ($p/type/text() !=$ctype)) then map:put($refonly, 'dts:citeType', $p/type/text()) else $refonly
-                                                         let $refTypeTitle := if(count($p/title) eq 1 or count($p/iiifRange) ge 1) 
+                                                            let $refonly := map {"dts:ref" : $p/text()[1]}
+                                                         let $refandtype := if((count($p/*:type) eq 1) and ($p/*:type/text() !=$ctype)) then map:put($refonly, 'dts:citeType', $p/*:type/text()) else $refonly
+                                                         let $refTypeTitle := if(count($p/*:title) eq 1 or count($p/*:iiifRange) ge 1) 
                                                                                         then 
                                                                                                     let $dublincore := map{}
-                                                                                                    let $parttitle := if($p/title) then map:put($dublincore, 'dc:title', $p/title/text()) else $dublincore
-                                                                                                    let $iiifreference := for $i in $p/iiifRange 
+                                                                                                    let $parttitle := if($p/*:title) then map:put($dublincore, 'dc:title', $p/*:title/text()) else $dublincore
+                                                                                                    let $iiifreference := for $i in $p/*:iiifRange 
                                                                                                                                     return map {"@id": $i/text(),  
                                                                                                                                                        "@type": (if(contains($i/text(), 'canvas'))  
                                                                                                                                                                                                  then "sc:Canvas" 
@@ -990,14 +1278,9 @@ let $chunkedpassage := if(string($groupBy) !='')
 
 (: regardless of passages sequence type (ranges as maps or items as strings) the following steps limits the number of results                                                :)
 let $maximized :=if(string($max) !='') then for $p in subsequence($chunkedpassage, 1, $M) return $p else $chunkedpassage
-let $cdepth := if($text/ancestor::t:TEI/@type='mss' and not($text/ancestor::t:TEI//t:objectDesc/@form ='Inscription')) then 3 
-                                else 
-                                       ( let $counts := for $div in ($text//t:div[@type='textpart'], $text//t:l, $text//t:lb) 
-                                        return count($div/ancestor::t:div)
-                                        return
-                                        max($counts)
-                                        )
+let $array := if(count($maximized)=1) then [$maximized] else $maximized
  let $l := if($level = '') then 1 else number($level)
+let $versions := if($version='yes') then  dts:fileingitCommits($id, $BMid, 'navigation') else ('version set to '||$version||', no version links retrieved from GitHub.')
 
 return
 if(count($text//text()) lt 1) then 
@@ -1018,33 +1301,38 @@ else
         "dc": "http://purl.org/dc/terms/",
         "dts": "https://w3id.org/dts/api#"
     },
-    "@base": "/dts/api/document/",
+    "@base": "/dts/api/navigation",
     "@id": ('/api/dts/navigation?id='|| $id),
     "dts:citeDepth" : $cdepth,
     "dts:level" : $l,
     "dts:citeType": $ctype,
-    "dc:hasVersion" : dts:fileingitCommits($id, $BMid, 'navigation'),
+    "dc:hasVersion" : $versions,
     "dts:passage" : ('dts/api/document?id=' || $id||'{&amp;ref}{&amp;start}{&amp;end}'),
-    "member": $maximized
+    "member": $array
 })
          
 };
 
+declare function dts:pickDivText($doc, $parsedID){
+(:let $t := console:log($parsedID):)
+let $type := if($parsedID/s:group[@nr=5] = 'ED') then 'edition' else 'translation'
+let $xmlid := if($parsedID/s:group[@nr=6]) then $parsedID/s:group[@nr=6]/text()[1] else ''
+     return
+          if($xmlid = '') then $doc//t:div[@type=$type][not(@xml:id)]
+          else $doc//t:div[@type=$type][@xml:id=$xmlid]
+};
+
 (:~ given the URN in the id parameter and the plain Beta Masahaeft id if any, produces the list of members of the collection filtering only the entities which do have a div[@type='edition'] :)
-declare function dts:CollMember($id, $bmID, $page, $nav){
-let $doc := $config:collection-root//id($bmID)
-let $eds := $doc//t:div[@type='edition']
-let $document := if(count($eds) gt 1) 
-                            then (if($eds[@xml:id = 'traces']) 
-                                    then $eds[@xml:id = 'traces'] 
-                                    else $eds[1]) 
-                            else if ($doc/@type='nar') then $doc  
-                            else $doc//t:div[@type='edition']
+declare function dts:CollMember($id, $edition, $bmID, $page, $nav, $version){
+let $doc := $config:collection-root//id($bmID) 
+let $eds := if($edition/node()) then
+                                dts:pickDivText($doc, $edition)
+                    else ($doc//t:div[@type='edition'], $doc//t:div[@type='translation'])
 return
 if(count($doc) eq 1) then (
 $config:response200JsonLD,
-let $shortid:=substring-before($id, concat(':',$bmID))
-let $memberInfo := dts:member($shortid,$document, 'yes')
+(:let $t := console:log($id):)
+let $memberInfo := dts:member($bmID,$edition,$eds, $version)
 let $addcontext := map:put($memberInfo, "@context", $dts:context)
 let $addnav := if($nav = 'parent') then 
 let $parent :=if($doc/@type='mss') then 
@@ -1091,7 +1379,7 @@ map {
 
 (:~ called if the collection api path is requested without an indication of a precise betamasaheft id. returns either the main collection 
 : entry point or one of the three main collections, manuscripts transcriptions, textual units or narrativa units in which case it will call dts:mainColl :)
-declare function dts:Coll($id, $page, $nav){
+declare function dts:Coll($id, $page, $nav, $version){
 let $availableCollectionIDs := ('https://betamasaheft.eu', 'https://betamasaheft.eu/textualunits', 'https://betamasaheft.eu/narrativeunits', 'https://betamasaheft.eu/transcriptions')
 let $ms := $config:collection-rootMS//t:div[@type='edition'][descendant::t:ab[text()]]
 let $w := $config:collection-rootW//t:div[@type='edition'][descendant::t:ab[text()]]
@@ -1115,7 +1403,7 @@ map {
     "@context": $dts:context,
     "@id": $id,
     "@type": "Collection",
-    "totalItems": 2,
+    "totalItems": 3,
     "title": "Beta maṣāḥǝft",
     "description" : "The project Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea (Schriftkultur des christlichen Äthiopiens: eine multimediale Forschungsumgebung) is a long-term project funded within the framework of the Academies' Programme (coordinated by the Union of the German Academies of Sciences and Humanities) under survey of the Akademie der Wissenschaften in Hamburg. The funding will be provided for 25 years, from 2016–2040. The project is hosted by the Hiob Ludolf Centre for Ethiopian Studies at the University of Hamburg. It aims at creating a virtual research environment that shall manage complex data related to predominantly Christian manuscript tradition of the Ethiopian and Eritrean Highlands.",
     "dts:dublincore": map {
@@ -1181,8 +1469,9 @@ let $nextpage :=if($page = $lastpg) then () else $pg ||string($page + 1)
 let $end := $page * $perpage
 let $start := ($end - $perpage) +1
 let $members :=  for $document in subsequence($items , $start, $end) 
+                                 let $edition := ''
                                         return
-                                      dts:member($collURN, $document, 'no')
+                                      dts:member($collURN, $edition, $document, 'no')
     return
     map {
     "@context": $dts:context,
@@ -1250,7 +1539,7 @@ declare function dts:manifest($doc, $id){
 };
 
 (:~ produces the information needed for each member of a collection :)
-declare function dts:member($collURN,$document, $vers){
+declare function dts:member($collURN,$edition,$document, $vers){
 if(not($document))
 then <rest:response>
         <http:response
@@ -1262,13 +1551,43 @@ then <rest:response>
                     />
         </http:response>
     </rest:response>
-else 
-let $doc := root($document)
+else if(count($document) = 1) then
+dts:membercontent($document, $edition, $vers)
+(:     if there are more editions, then this has to be treated as a collection resource, and each
+edition or translation gets its own identifier:)
+else ( 
+(:any is fine, they all come from a selection, this is just to have the ID:)
+let $doc := root($document[1]) 
 let $id := string($doc//t:TEI/@xml:id)
 let $title := titles:printTitleMainID($id)
-let $description := if($doc//t:TEI/@type= 'nar') then 'The narrative unit '||$title||' in Beta maṣāḥǝft ' else if($doc//t:TEI/@type= 'mss') then 'The transcription of manuscript '||$title||' in Beta maṣāḥǝft ' else 'The abstract textual unit '||$title||' in Beta maṣāḥǝft. '  || normalize-space(string-join(string:tei2string($doc//t:abstract), ''))
-let $dc := dts:dublinCore($id)
-let $computed := if($doc//t:TEI/@type= 'mss') then ()
+let $description := if($doc//t:TEI/@type= 'nar') 
+                                 then 'The narrative unit '||$title||
+                                 ' in Beta maṣāḥǝft ' 
+                                 else if($doc//t:TEI/@type= 'mss') 
+                                 then 'The transcription of manuscript '||
+                                 $title||' in Beta maṣāḥǝft ' 
+                                 else 'The abstract textual unit '||$title||
+                                 ' in Beta maṣāḥǝft. '  || 
+                                 normalize-space(string-join(string:tei2string($doc//t:abstract), ''))
+let $resourceURN := 'https://betamasaheft.eu/' || $id
+let $members := for $d in $document 
+                                        let $divuri := ($resourceURN || '_' ||upper-case(substring(string($d/@type),1,2))|| '_' ||string($d/@xml:id))
+                                        return dts:editioncontent($divuri,string($d/@type),string($d/@xml:id),$d, $vers)
+    return
+map{"@id" : $resourceURN,
+             "title" : "Editions and Translations of " || $title,
+             "description": $description,
+             "@type" : "Collection",
+             "totalItems" : count($document),
+              "dts:totalParents": 1,
+             "dts:totalChildren": count($document),
+             "member" :   $members    
+             }         
+          
+       )
+};
+declare function dts:computedWit($doc, $id){
+if($doc//t:TEI/@type= 'mss') then ()
                               else if($doc//t:TEI/@type= 'nar') then (
                               for $witness in $config:collection-rootMS//t:*[@corresp = $id]
                             let $root := root($witness)/t:TEI/@xml:id
@@ -1279,37 +1598,35 @@ let $computed := if($doc//t:TEI/@type= 'mss') then ()
                             let $root := root($witness)/t:TEI/@xml:id
                                 group by $groupkey := $root
                             return string($groupkey))
-let $declared := if($doc//t:TEI/@type= 'mss') then () else 
-                            for $witness in $doc//t:witness/@corresp return string($witness)
-(: flattens the distinction between computed and declared witnesses, as well as the eventual nesting of witnesses for each edition:)
-let $witnesses := ($computed, $declared)
-let $distinctW := for $w in distinct-values($witnesses) return 
+                            };
+                            
+declare function dts:distinctW($witnesses){
+for $w in distinct-values($witnesses) return 
                             map { "fabio:isManifestationOf" : if(starts-with($w, 'http')) then $w else ($config:appUrl || "/" || $w),
                                         "@id" : if(starts-with($w, 'http')) then $w else ("https://betamasaheft.eu/" || $w),
                                         "@type" : "lawd:AssembledWork",
                                         "dc:title": titles:printTitleMainID($w)}
-let $manifests := for $w in distinct-values($witnesses)
-                               let $witness := $config:collection-root/id($w)
-                               return 
-                                             if ($witness//t:idno[@facs]) then 
-                                                 let $facs := string($witness//t:idno/@facs)
-                                                 return
-                                                 if(starts-with($facs, 'http')) 
-(:                                                 external manifest:)
-                                                        then map {"@id": $facs,  "@type": "sc:Manifest", "dc:title":  ("IIIF Manifest for images of " || titles:printTitleMainID($w))} 
-                                                  else 
-(:                                                  our manifest, we can point to a specific range:)
-                                             ( if($witness//t:msItem[t:title[@ref=$id]]) then for $x in $witness//t:msItem[t:title[@ref=$id]] return map {"@id": "https://betamasaheft.eu/api/iiif/"||$w||"/range/" || string($x/@xml:id),  
-                                                                                                                                "@type": "sc:Range", "dc:title":  ("IIIF Range for images of " || titles:printTitleMainID(concat($w, '#', string($x/@xml:id))))} 
-                                               else
-                                                map {"@id": "https://betamasaheft.eu/api/iiif/"||$w||"/manifest",  "@type": "sc:Manifest", "dc:title":  ("IIIF Manifest for images of " || titles:printTitleMainID($w))})
-                                    else ()
+                                        };
+
+declare function dts:membercontent($document, $edition, $vers){
+let $doc := root($document)
+let $id := string($doc//t:TEI/@xml:id)
+let $title := titles:printTitleMainID($id)
+let $description := dts:docDesc($doc, $title)
+let $dc := dts:dublinCore($id)
+let $computed := dts:computedWit($doc, $id)
+let $declared := if($doc//t:TEI/@type= 'mss') then () else 
+                            for $witness in $doc//t:witness/@corresp return string($witness)
+(: flattens the distinction between computed and declared witnesses, as well as the eventual nesting of witnesses for each edition:)
+let $witnesses := ($computed, $declared)
+let $distinctW := dts:distinctW($witnesses)
+let $manifests := dts:manifests($witnesses, $id)
  let $worksAndManifests := ($distinctW, $manifests)                                     
 let $dcAndWitnesses := if(count($distinctW) gt 0) then map:put($dc, 'dc:source', $worksAndManifests) else $dc
 let $DcSelector := 
 if($doc//t:TEI/@type= 'mss') then $dc else $dcAndWitnesses
 (:$dc:)
-let $resourceURN := 'https://betamasaheft.eu/' || $id
+let $resourceURN := 'https://betamasaheft.eu/' || $id || $edition
 let $versions := if($vers = 'yes') then dts:fileingitCommits($resourceURN, $id, 'collections') else ()
 let $DcWithVersions :=  if($vers = 'yes') then map:put($DcSelector, "dc:hasVersion", $versions) else $DcSelector
 let $ext := dts:extension($id)
@@ -1341,14 +1658,12 @@ let $teirefdecl := if($doc/@type= 'mss' and not($doc//t:objectDesc/@form ='Inscr
 else if ($doc/@type='nar') then ()
 else
 [
-dts:nestedDivs($document//t:div[@type='edition'])
+dts:nestedDivs($document)
             ]
-let $c := count($document//t:div[@type='edition']//t:ab//text())
+let $c := count($document//t:ab//text())
 let $all := map{
              "@id" : $resourceURN,
-              "ecrm:P1_is_identified_by": map {
-        "rdfs:label": $resourceURN
-   },
+              (:  "ecrm:P1_is_identified_by": map { "rdfs:label": $resourceURN},:)
              "title" : $title,
              "description": $description,
              "@type" : "Resource",
@@ -1363,9 +1678,108 @@ let $pass :=  if($c le 1) then $ext else map:put($ext, "dts:passage", $dtsPass)
 let $nav := if($c le 1) then $pass else map:put($pass, "dts:references", $dtsNav)
         return
         $nav
-         
 };
 
+declare function dts:docDesc($doc, $title){
+if($doc//t:TEI/@type= 'nar') 
+  then 'The narrative unit '||$title||' in Beta maṣāḥǝft ' 
+else if($doc//t:TEI/@type= 'mss') 
+   then 'The transcription of manuscript '|| $title||' in Beta maṣāḥǝft ' 
+else 'The abstract textual unit '||$title|| ' in Beta maṣāḥǝft. '  || 
+                                 normalize-space(string-join(string:tei2string($doc//t:abstract), ''))
+};
+
+declare function dts:manifests($witnesses, $id){
+for $w in distinct-values($witnesses)
+                               let $witness := $config:collection-root/id($w)
+                               return 
+                                             if ($witness//t:idno[@facs]) then 
+                                                 let $facs := string($witness//t:idno/@facs)
+                                                 return
+                                                 if(starts-with($facs, 'http')) 
+(:                                                 external manifest:)
+                                                        then map {"@id": $facs,  "@type": "sc:Manifest", "dc:title":  ("IIIF Manifest for images of " || titles:printTitleMainID($w))} 
+                                                  else 
+(:                                                  our manifest, we can point to a specific range:)
+                                             ( if($witness//t:msItem[t:title[@ref=$id]]) then for $x in $witness//t:msItem[t:title[@ref=$id]] return map {"@id": "https://betamasaheft.eu/api/iiif/"||$w||"/range/" || string($x/@xml:id),  
+                                                                                                                                "@type": "sc:Range", "dc:title":  ("IIIF Range for images of " || titles:printTitleMainID(concat($w, '#', string($x/@xml:id))))} 
+                                               else
+                                                map {"@id": "https://betamasaheft.eu/api/iiif/"||$w||"/manifest",  "@type": "sc:Manifest", "dc:title":  ("IIIF Manifest for images of " || titles:printTitleMainID($w))})
+                                    else ()
+};
+
+declare function dts:editioncontent($divuri, $type, $xmlid, $document, $vers){
+let $doc := root($document)
+let $id := string($doc//t:TEI/@xml:id)
+let $title := titles:printTitleMainID($id)
+let $edtitle := functx:capitalize-first($type) || ' of ' || $title || (if($xmlid='') then '' else (' with ID ' || $xmlid))
+let $description := dts:docDesc($doc, $title)
+let $dc := dts:dublinCore($id)
+let $computed := dts:computedWit($doc, $id)
+let $declared := if($doc//t:TEI/@type= 'mss') then () else 
+                            for $witness in $doc//t:witness/@corresp return string($witness)
+(: flattens the distinction between computed and declared witnesses, as well as the eventual nesting of witnesses for each edition:)
+let $witnesses := ($computed, $declared)
+let $distinctW := dts:distinctW($witnesses)
+let $manifests := dts:manifests($witnesses, $id)
+ let $worksAndManifests := ($distinctW, $manifests)                                     
+let $dcAndWitnesses := if(count($distinctW) gt 0) then map:put($dc, 'dc:source', $worksAndManifests) else $dc
+let $DcSelector := 
+if($doc//t:TEI/@type= 'mss') then $dc else $dcAndWitnesses
+(:$dc:)
+let $resourceURN := 'https://betamasaheft.eu/' || $id
+let $versions := if($vers = 'yes') then dts:fileingitCommits($resourceURN, $id, 'collections') else ()
+let $DcWithVersions :=  if($vers = 'yes') then map:put($DcSelector, "dc:hasVersion", $versions) else $DcSelector
+let $ext := dts:extension($id)
+let $haspart := dts:haspart($id)
+let $manifest :=dts:manifest($doc, $id)
+let $addmanifest := if (count($manifest) ge 1) then map:put($ext, "foaf:depiction", $manifest) else $ext
+let $parts := if(count($haspart) ge 1) then map:put($addmanifest, 'dc:hasPart', $haspart) else $addmanifest
+let $dtsPass := "/api/dts/document?id=" || $divuri
+let $dtsNav := "/api/dts/navigation?id=" || $divuri
+let $download := "https://betamasaheft.eu/tei/" || $id || '.xml'
+let $citeDepth :=  if($doc/@type= 'mss' and not($doc//t:objectDesc/@form ='Inscription')) then 3 
+else let $counts := for $div in ($document//t:div[@type='textpart'], $document//t:l, $document//t:lb) return count($div/ancestor::t:div)
+return max($counts)
+let $teirefdecl := if($doc/@type= 'mss' and not($doc//t:objectDesc/@form ='Inscription')) then 
+[ map{
+                 "dts:citeType": "folio",
+                    "dts:citeStructure": [
+                       map {
+                            "dts:citeType": "page",
+                             "dts:citeStructure": [
+                       map {
+                            "dts:citeType": "column"
+                        }
+                  ]
+             }
+          ]
+     }
+]
+else if ($doc/@type='nar') then ()
+else
+[
+dts:nestedDivs($document//t:div[@type=$type][@xml:id=$xmlid])
+            ]
+let $c := count($document//t:div[@type=$type][@xml:id=$xmlid]//t:ab//text())
+let $all := map{
+             "@id" : $divuri,
+              (:  "ecrm:P1_is_identified_by": map { "rdfs:label": $resourceURN},:)
+             "title" : $edtitle,
+             "description": $description,
+             "@type" : "Resource",
+             "totalItems": 0,
+             "dts:dublincore": $DcWithVersions ,
+            "dts:download": $download,
+            "dts:citeDepth": $citeDepth,
+            "dts:citeStructure": $teirefdecl
+        }
+let $ext :=         if(count($parts) ge 1) then  map:put($all,"dts:extensions",$parts) else $all
+let $pass :=  if($c le 1) then $ext else map:put($ext, "dts:passage", $dtsPass) 
+let $nav := if($c le 1) then $pass else map:put($pass, "dts:references", $dtsNav)
+        return
+        $nav
+};
 
 declare function dts:haspart($id){
 (:the query starts from the part statements, that is it flattens the nesting of parts which is actually available in the XML:)
@@ -1403,11 +1817,12 @@ $result/sr:uri/text()
 declare function dts:DCsparqls($id, $property){
 if ($property = 'title') then
 
-let $query := $config:sparqlPrefixes ||  "SELECT ?"||$property||" ?language 
+let $querytext := $config:sparqlPrefixes ||  "SELECT ?"||$property||" ?language 
 WHERE {bm:" || $id || " dc:"||$property||" ?"||$property||".
  BIND (lang(?title) AS ?language )
 }"
-let $query := fusekisparql:query('betamasaheft', $query)
+(:let $t := console:log($querytext):)
+let $query := fusekisparql:query('betamasaheft', $querytext)
 for $result in $query//sr:result
 let $val := $result/sr:binding[@*:name=$property]/sr:literal/text()
 let $lang := $result/sr:binding[@*:name='language']/sr:literal/text()
