@@ -576,6 +576,7 @@ declare function dts:docs($id as xs:string*, $ref as xs:string*, $start, $end, $
 if ($id = '') then dts:redirectToCollections() 
 else
  let $parsedURN := dts:parseDTS($id)
+(: let $t := console:log($parsedURN):)
  return
 if($ref != '' and (($start != '') or ($end != ''))) then ($config:response400XML, 
 <error statusCode="400" xmlns="https://w3id.org/dts/api#">
@@ -600,11 +601,13 @@ else <http:header
                     value="&lt;/api/dts/document?id={$id}&amp;ref={number($ref) - 1}&gt; ; rel='prev', &lt;/api/dts/document/?id={$id}&amp;ref={number($ref) + 1}&gt; ; rel='next'"/>
                     
  return
-(:we need a restxq redirect in case the id contains already the passage. it should redirect the urn with passage to one which splits it and redirect it to a parametrized query:)
- if(count($parsedURN//s:group[@nr=5]//text()) ge 1) then 
- let $location := if($parsedURN//s:group[@nr=15]/text() = '-') 
-                    then ('/api/dts/document?id='||$parsedURN//s:group[@nr=1]//text()||$parsedURN//s:group[@nr=2]//text()||$parsedURN//s:group[@nr=3]//text()|| '&amp;start=' ||$parsedURN//s:group[@nr=6]//text()|| '&amp;end=' ||$parsedURN//s:group[@nr=16]//text()) 
-                    else ('/api/dts/document?id='||$parsedURN//s:group[@nr=1]//text()||$parsedURN//s:group[@nr=2]//text()||$parsedURN//s:group[@nr=3]//text()|| '&amp;ref=' ||$parsedURN//s:group[@nr=5]//text())
+(:we need a restxq redirect in case the id contains already the passage. 
+it should redirect the urn with passage to one which splits it and 
+redirect it to a parametrized query:)
+ (:if(count($parsedURN//s:group[@nr=8]//text()) ge 1) then 
+ let $location := if($parsedURN//s:group[@nr=18]/text() = '-') 
+                    then ('/api/dts/document?id='||$parsedURN//s:group[@nr=1]//text()||$parsedURN//s:group[@nr=2]//text()||$parsedURN//s:group[@nr=3]//text()|| '&amp;start=' ||$parsedURN//s:group[@nr=9]//text()|| '&amp;end=' ||$parsedURN//s:group[@nr=19]//text()) 
+                    else ('/api/dts/document?id='||$parsedURN//s:group[@nr=1]//text()||$parsedURN//s:group[@nr=2]//text()||$parsedURN//s:group[@nr=3]//text()|| '&amp;ref=' ||$parsedURN//s:group[@nr=8]//text())
  return
  <rest:response>
   <http:response status="302">
@@ -614,20 +617,27 @@ else <http:header
                     value="*"/>
   </http:response>
 </rest:response>
- else
+ else:)
  let $thisid := $parsedURN//s:group[@nr=3]/text()
  let $edition := $parsedURN//s:group[@nr=4]
  let $file := $config:collection-root/id($thisid)
  let $text := if($edition/node()) then dts:pickDivText($file, $edition)  else $file//t:div[@type='edition']
-(: let $t := console:log($text):)
  let $doc := 
 (: in case there is passage, then look for that place:)
-  if ($ref != '') then 
+  if ($edition/node() and $ref = '' and $start='') then 
+  let $t4 := console:log('edition')
+  return
+  <TEI xmlns="http://www.tei-c.org/ns/1.0" >
+        <dts:fragment xmlns:dts="https://w3id.org/dts/api#">
+          {$text}
+        </dts:fragment>
+   </TEI>
+  else if ($ref != '' ) then 
   (:fetch narrative unit passage:)
- if (starts-with($ref, 'NAR')) then (
-(:will match the content of any div with a corresp corresponding to that narrative unit, if any:)
+            if (starts-with($ref, 'NAR')) then (
+                (:will match the content of any div with a corresp corresponding to that narrative unit, if any:)
     
-    let $narrative := $text//t:*[@corresp =$ref]
+      let $narrative := $text//t:*[@corresp =$ref]
             return
                         <TEI xmlns="http://www.tei-c.org/ns/1.0" >
                             <dts:fragment xmlns:dts="https://w3id.org/dts/api#">

@@ -19,7 +19,7 @@ import module namespace console="http://exist-db.org/xquery/console";
 
 
 declare function dtsc:text($id, $edition, $ref, $start, $end, $collection){
-let $t := console:log(string-join(($edition, $ref, $start, $end), ' - '))
+(:let $t := console:log(string-join(($edition, $ref, $start, $end), ' - ')):)
 let $approot:= 
 (:'https://betamasaheft.eu':)
 'http://localhost:8080/exist/apps/BetMas'
