@@ -151,6 +151,9 @@ declare function dts:parseDTS($dts){
 analyze-string($dts,"(https://betamasaheft.eu/)(textualunits|narrativeunits|transcriptions)?([a-zA-Z\d]+)?(_(ED|TR)_([a-zA-Z0-9]+)?)?(((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?(\-)?((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?)")
 };
 
+declare function dts:parseDTSid($dts){
+analyze-string($dts,"([a-zA-Z\d]+)?(_(ED|TR)_([a-zA-Z0-9]+)?)?(\.)(((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?(\-)?((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?)")
+};
 
 (:~ Given a  string which is expected to be a dts passage parameter it parses with regex and returns the result 
 of an analyze string function to split parts of . this version has a regex matching manuscript transcription references:)
@@ -246,68 +249,34 @@ if($parsedURN//s:group[@nr=$p1] = '@')
 
 (:~ Produces as string a json object which contains the id of the manuscript witnesses selected and the text passege as of the urn  which can be used to build the body of a post request to collatex:)
 declare function dts:getCollatexWitnessText($dtsURN){
-
-let $parsedURN := dts:parseDTSURN($dtsURN)
-
-let $id := $parsedURN//s:group[@nr=3]/text()
+let $parsedURN := dts:parseDTSid($dtsURN)
+let $id := $parsedURN//s:group[@nr=1]/text()
+let $edition := $parsedURN//s:group[@nr=2]
 let $file := $config:collection-root/id($id)[name()='TEI']
-let $passage := $parsedURN//s:group[@nr=5]/text()
-return
-if (matches($passage, 'NAR')) then (let $text := string-join($file//t:*[@corresp = $passage]//text())
-let $cleantext := dts:cleanforcollatex($text) return '{"id" : "' ||$id ||'", "content" : "'||$cleantext||'"}' )
-else if ($file/@type='mss')  then
-let $frompage := $parsedURN//s:group[@nr=7] ||$parsedURN//s:group[@nr=8]
-let $fromcolumn := $parsedURN//s:group[@nr=9] 
-let $topage := $parsedURN//s:group[@nr=17] ||$parsedURN//s:group[@nr=18]
-let $tocolumn := $parsedURN//s:group[@nr=19] 
-let $text := $config:collection-rootMS/id($id)//t:div[@type='edition']
-let $content := 
-(:if there is - (group 15) it is an inclusive range:)
-if($parsedURN//s:group[@nr=15] = '-') then
+let $ref := string-join($parsedURN//s:group[@nr=6]//text())
+let $splitref := if(contains($ref, '-')) then tokenize($ref, '-') else $ref
+let $cleanref := for $r in $splitref return if(contains($r, '@')) then substring-before($r, '@') else $r
+let $delimiters := for $r in $splitref return if(contains($r, '@')) then substring-after($r, '@') else 'n/a'
+let $text := if($edition/node()) then dts:pickDivText($file, $edition)  else $file//t:div[@type='edition']
+let $passage := if(count($cleanref) = 2) 
+                            then dts:docs(('https://betamasaheft.eu/'||$id||$edition), '', $cleanref[1], $cleanref[2], 'application/tei+xml')
+                            else dts:docs(('https://betamasaheft.eu/'||$id||$edition), $cleanref, '', '', 'application/tei+xml')
 
-(
-let $div1 := $text//t:pb[@n=$frompage]/ancestor::t:div/@n
-let $part1 := dts:TranscriptionPassageText($parsedURN, 11, 14, $text, $frompage, $fromcolumn)
-
-let $div2 := $text//t:pb[@n=$topage]/ancestor::t:div/@n
-let $part2 :=  dts:TranscriptionPassageText($parsedURN, 21, 24, $text, $topage, $tocolumn)
-
-let $middle := $text//t:ab[parent::t:div[(number(@n) gt number(string($div1))) and (number(@n) lt number(string($div2)))]]//text()
-let $middlepart := normalize-space(string-join($middle, ' '))
-
-let $all := if($frompage = $topage and $fromcolumn = $tocolumn) then (substring-before($part1, $parsedURN//s:group[@nr=22]/text()) ||' ' || $parsedURN//s:group[@nr=22]/text())  else ($part1, $middlepart,$part2)
-
-return
-$all
-
-)
-else (
-let $nodes := dts:passageSelector($text, $frompage, $fromcolumn) 
-
-let $join := string-join($nodes, '')
-return
-(
-(:if there is @ limit:)
-if($parsedURN//s:group[@nr=11] = '@') 
-then 
-let $position := if(matches($parsedURN//s:group[@nr=14], '\d+')) then $parsedURN//s:group[@nr=14]/text() else if ($parsedURN//s:group[@nr=14]= 'last') then 'last()' else '1'
-let $term := $parsedURN//s:group[@nr=12]/text()
-let $indexposition := functx:index-of-string($join,$term) 
-let $index := if(count($indexposition) = 1) then $indexposition else $indexposition[$position]
-            return normalize-space(substring($join, $index))
-(:otherways the entire:)
-else normalize-space($join)
-)
-)
-let $joinAll := string-join($content, ' ')
-let $clean := dts:cleanforcollatex($joinAll)
-(:limits to a maximum 2000 characters including whitespaces the text passed to collatex:)
-let $limit := substring($clean, 1, 2000)
-return
- '{"id" : "' ||$id ||'", "content" : "'||$limit||'"}'
-else (
-(:This function is for manuscript witnesses, and returns the mini format required by collatex. you do not collate editions:)
-)
+let $cleantext := dts:cleanforcollatex(string-join($passage[2]//text()))
+(: let $t := console:log($passage):)
+let $tokenizetext := <ts>{for $t in tokenize($cleantext, '\s+') return <t>{$t}</t>}</ts>
+(:  let $t := console:log($delimiters):)
+let $l1 := if(count($delimiters) = 1) then $delimiters else $delimiters[1]
+(:  let $t := console:log($l1):)
+let $l2 := if(count($delimiters) = 2) then $delimiters[2] else 'n/a'
+(:let $t := console:log($l2):)
+let $firstlimit := if($l1='n/a') then 1 else count($tokenizetext//*:t[contains(., $l1)]/preceding-sibling::*:t)
+let $secondlimit := if($l2='n/a') then count($tokenizetext//*:t) 
+                                   else count($tokenizetext//*:t[contains(., $l2)]/preceding-sibling::*:t)
+(:      let $t := console:log(($firstlimit||'-'||$secondlimit)):)
+let $delimited:= for $r in $firstlimit to $secondlimit return $tokenizetext//*:t[$r]
+let $finalpassage := string-join($delimited, ' ')
+return '{"id" : "' ||$id ||'", "content" : "'||$finalpassage||'"}' 
 };
 
 (:~ Calls for each witness  dts:getCollatexWitnessText()  and builds the array which can be passed as body of the POST request to collatex:)
@@ -560,12 +529,35 @@ function dts:anyDocumentNotAccepted($id as xs:string*, $ref as xs:string*, $star
 };
 :)
 
-declare function dts:nodes($text, $path){
-(:let $t:= console:log($text):)
-(:let $t2 := console:log($path):)
+declare function dts:nodes($text, $path, $ref){
 for $selector in util:eval($path)
+(:let $test := console:log($selector):)
                         return 
-                        if ($selector/name() = 'pb')
+                        if(matches($ref, '\d+[r|v][a-z]?'))
+                        then 
+(:let $t2 := console:log($ref):)
+                        let $r := dts:parseRef($ref)
+(:                        let $t := console:log($r):)
+                        let $pb := $r//*:part[@type='pb']/text()
+                        let $cb := $r//*:part[@type='cb']
+                        let $lb := $r//*:part[@type='lb']
+(:                        $selector//node()[name()!='cb' and  name()!='pb'][preceding-sibling::t:pb[1][@n='1r']][preceding-sibling::t:cb[1][@n='a']]
+did not work, emailed exist db, Magdalena Turska very kindly provided this alternative approach.
+:)
+                       let $start := 
+                                         if($lb/text()) then 
+                                               $selector//t:pb[@n=$pb]/following-sibling::t:lb[@n=$lb/text()]
+                                         else if($cb/text()) then 
+                                            $selector//t:pb[@n=$pb]/following-sibling::t:cb[@n=$cb/text()]
+                                        else    $selector//t:pb[@n=$pb]
+                        let $next := 
+                                        if($lb/text()) then ($start/following-sibling::*[self::t:lb or self::t:cb or self::t:pb])[1]  
+                                        else if($cb/text()) then  ($start/following-sibling::*[self::t:cb or self::t:pb])[1]  
+                                        else ($start/following-sibling::*[self::t:pb])[1]
+                        return 
+                       if ($next) then   $start/following-sibling::node()[. << $next]
+                        else     $start/following-sibling::node()
+                        else if ($selector/name() = 'pb')
                                           then dts:TranscriptionPassageNodes($text, $selector/@n, '')
                         else if ($selector/name()='lb') 
                                           then dts:TranscriptionPassageNodesLB($text, $selector/@n)
@@ -577,6 +569,8 @@ if ($id = '') then dts:redirectToCollections()
 else
  let $parsedURN := dts:parseDTS($id)
 (: let $t := console:log($parsedURN):)
+(: let $t2 := console:log($start):)
+(: let $t3 := console:log($end):)
  return
 if($ref != '' and (($start != '') or ($end != ''))) then ($config:response400XML, 
 <error statusCode="400" xmlns="https://w3id.org/dts/api#">
@@ -625,8 +619,8 @@ redirect it to a parametrized query:)
  let $doc := 
 (: in case there is passage, then look for that place:)
   if ($edition/node() and $ref = '' and $start='') then 
-  let $t4 := console:log('edition')
-  return
+(:  let $t4 := console:log('edition')
+  return:)
   <TEI xmlns="http://www.tei-c.org/ns/1.0" >
         <dts:fragment xmlns:dts="https://w3id.org/dts/api#">
           {$text}
@@ -647,8 +641,8 @@ redirect it to a parametrized query:)
 (:otherwise go for a passage in the standard structure:)
  else (
                     let $path := dts:selectorRef(1, $text,$ref,'no')
-                    let $t := console:log($path)
-                        let $entirepart := dts:nodes($text, $path)
+(:                    let $t := console:log($path):)
+                        let $entirepart := dts:nodes($text, $path, $ref)
 (:                        let $t2:=console:log($entirepart):)
                         return
                         <TEI xmlns="http://www.tei-c.org/ns/1.0" >
@@ -663,12 +657,31 @@ else if($start != '' or $end != '') then (
 
  let $l := count(tokenize($start, '\.'))
  let $possibleRefs := dts:listRefs($l, $text)
- let $startP := index-of($possibleRefs,$start)
- let $endP := index-of($possibleRefs,$end)
+(:a folio side and eventually column has been requested
+the full list of possible references will look (correctly) like
+1.1r - 1.1ra - 1.1rb - 1.1v - 1.1va - 1.1vb - 2.2r - 2.2ra - 2.2rb - 2.2v - 2.2va - 2.2vb - 3.3r - 3.3ra - 3.3rb 
+so 1ra will never match anything. Also, several double references are present.
+the cleaned list has no folio redundancy and removes references which are not in full
+:)
+(: let $test := console:log(string-join($possibleRefs, ' - ')):)
+
+let $cleanMSrefs := if(matches($start, '\d+[r|v][a-z]'))
+                                        then(for $p in $possibleRefs return 
+                                        if(matches($p,'\d+[r|v][a-z]')) then  $p else () )
+                                    else if (matches($start, '\d+[r|v]'))
+                                        then (for $p in $possibleRefs return 
+                                        if(matches($p,'\d+[r|v]$')) then $p else ())
+                                    else $possibleRefs
+(: let $test := console:log(string-join($cleanMSrefs, ' - ')):)
+
+ let $startP := index-of($cleanMSrefs,$start)
+ let $endP := index-of($cleanMSrefs,$end)
  let $selectors := for $r in $startP to $endP 
    return 
-   dts:selectorRef($l, $text,$possibleRefs[$r], 'no')
- let $nodes := for $selector in $selectors return dts:nodes($text, $selector)
+   <s><ref>{$cleanMSrefs[$r]}</ref><path>{dts:selectorRef($l, $text,$cleanMSrefs[$r], 'no')}</path></s>
+ let $nodes := 
+ for $selector in $selectors 
+ return dts:nodes($text, $selector/*:path/text(), $selector/*:ref/text())
 return 
 <TEI xmlns="http://www.tei-c.org/ns/1.0">
     <dts:fragment xmlns:dts="https://w3id.org/dts/api#">
@@ -771,11 +784,11 @@ return
     max(for $leaf in $nodes,
         $depth in count($leaf/ancestor::node()[name()='div' or name()='l' or name()='lb' or name()='pb' or name()='cb'])
       return
-        $depth
-    ) else 3) 
+        if($leaf/name()='lb') then ($depth +1) else $depth
+        ) else 4) 
                                 else 
                                        ( let $counts := for $div in ($text//t:div[@type='textpart'], $text//t:l, $text//t:lb) 
-                                        return count($div/ancestor::t:div)
+                                        return count(($div/ancestor::t:div, $div/preceding::t:pb))
                                         return
                                         max($counts)
                                         )
@@ -839,6 +852,7 @@ e.g.
 1 (div[@type='folio']/@n)
 1r (pb/@n)
 1va ((pb/@n),(cb/@n))
+2ra1 (((pb/@n),(cb/@n)),(lb/@n))
 1  (@n)
 1.1 (@n.@n)
 Gen1.1 (@xml:id.@n)
@@ -849,15 +863,16 @@ month1.day3 ((@subtype,@n).(@subtype,@n))
 month1.day30.NAR0069Gabreel ((@subtype,@n).(@subtype,@n).(@corresp))
  :)
 let $parseRef := analyze-string($ref, 
-               '(NAR[0-9A-Za-z]+|((\d+[r|v])([a-z]?))|([A-Za-z]+)?([0-9]+))(\.)?')
+               '(NAR[0-9A-Za-z]+|((\d+[r|v])([a-z]?)(\d+)?)|([A-Za-z]+)?([0-9]+))(\.)?')
 let $refs := for $m at $p in $parseRef//s:match 
                     let $t := $m/s:group[@nr=1]//text()
                     return
-                     if(matches($m, '\d+[r|v][a-z]?')) 
+                     if(matches($m, '\d+[r|v][a-z]?(\d+)?')) 
 (:           the normal reference to the folio, is to be found split in pb and cb          :)
                                 then <ref type='folio' l="{$p}">
                                         <part type="pb">{$m//s:group[@nr=3]/text()}</part>
                                         <part type="cb">{$m//s:group[@nr=4]/text()}</part>
+                                        <part type="lb">{$m//s:group[@nr=5]/text()}</part>
                                         </ref>
                      else if(matches($m, 'NAR[0-9A-Za-z]+')) 
                                 then <ref type='nar' l="{$p}">{$t}</ref>
@@ -866,8 +881,8 @@ let $refs := for $m at $p in $parseRef//s:match
 a subtype and a n as well as referring simply an xmlid :)
                                 then <ref type='subtypeNorXMLid'  l="{$p}">
                                            <option type="subtype">
-                                           <part type="subtype">{$m//s:group[@nr=5]/text()}</part>
-                                           <part type="n">{$m//s:group[@nr=6]/text()}</part>
+                                           <part type="subtype">{$m//s:group[@nr=6]/text()}</part>
+                                           <part type="n">{$m//s:group[@nr=7]/text()}</part>
                                            </option>
                                            <option type="xmlid">{$t}</option>
                                         </ref>
@@ -883,15 +898,16 @@ declare function dts:refname($n){
    has a valid position in the text structure:)
 let $refname:=  dts:rn($n)
 let $this := normalize-space($refname)
-let $ancestors := for $a in $n/ancestor::t:div[@xml:id or @n or @corresp][ancestor::t:div[@type='edition']]
+let $ancestors := for $a in $n/ancestor::t:div[@xml:id or @n or @corresp][ancestor::t:div[@type]]
 return dts:rn($a)
 let $all := ($ancestors , $this)
 return string-join($all,'.')
 };
 declare function dts:rn($n){
- if($n/@n) then string($n/@n)
-    else if ($n/name()='cb') then 
-         (string($n/preceding-sibling::t:pb[@n][1]/@n)||string($n/@n)) 
+ 
+  if ($n/name()='cb') then 
+         (string($n/preceding::t:pb[@n][1]/@n)||string($n/@n)) 
+    else if($n/@n) then string($n/@n)
     else if($n/@xml:id) then string($n/@xml:id)
     else if($n/@subtype) then string($n/@subtype)
     else 'tei:' ||$n/name() ||'['|| $n/position() || ']'
@@ -974,7 +990,7 @@ let $path := '$text' || $levs
  dts:refname($ref)  
 };
 
-declare function dts:selectorRef($level, $text,$ref, $children){
+declare function dts:selectorRef($level, $text, $ref, $children){
 (:the children parameter is there because the selection is the same, but if selecting for references, then we want the children nodes, if selecting for nodes, we want the nodes and stop there:)
 let $refs := dts:parseRef($ref)
 (:let $t := console:log($refs):)
@@ -1000,12 +1016,16 @@ like 1ra or 34vb or 35 or 67v , which is stored in <pb n='1r'> and <cb n='a'>
 where pb will never have the column and the column will never have the pb...
 in this case match the partent div and return all combinations 
 of pbs and cbs available within it.   :)   
-                                case 'folio' return "/t:div[t:pb[@n='"||
+                                case 'folio' return "//t:pb[@n='"||
                                                                    $r/*:part[@type='pb']/text()||"']"||
                                                                    (if($r/*:part[@type='cb']/text()) 
                                                                    then ("[following-sibling::t:cb[@n='"||
-                                                                   $r/*:part[@type='cb']/text()||"']]") 
-                                                                   else ())||"]"
+                                                                   $r/*:part[@type='cb']/text()||"']"||
+                                                                   (if($r/*:part[@type='lb']/text()) 
+                                                                   then ("[following-sibling::t:lb[@n='"||
+                                                                   $r/*:part[@type='lb']/text()||"']]") 
+                                                                   else ())||"]") 
+                                                                   else ())||"/ancestor::t:div[1]"
                                case 'subtypeNorXMLid' return "/(t:div[@subtype='"||
                                                                    $r/*:option[@type='subtype']/*:part[@type='subtype']/text()||"']"||
                                                                    (if($r/*:option[@type='subtype']/*:part[@type='n']/text()) 
@@ -1213,7 +1233,10 @@ if ($mydoc/@type='mss' and not($textType='Inscription')) then (
                     then dts:pasS($text//t:pb[@n], 'page', 'mss', $manifest, $BMid)
                     else if ($level = '3')
   (: the columns of a pages have been requested:)
-                     then dts:pasS($text//t:cb[@n], 'column', 'mss', $manifest, $BMid)
+                     then dts:pasS($text//(t:cb[@n]), 'column', 'mss', $manifest, $BMid)
+                     else if ($level = '4')
+  (: the columns of a pages have been requested:)
+                     then dts:pasS($text//(t:lb[@n]), 'line', 'mss', $manifest, $BMid)
   (:  in theory there is no such case which will not be matched by cdepth gt 3...   :)
                      else()  )         
 (:    no other option taken into consideration:)
