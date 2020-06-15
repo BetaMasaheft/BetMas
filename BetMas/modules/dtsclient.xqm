@@ -48,11 +48,12 @@ let $xslpars := <parameters><param name="mainID" value="{$id}"/></parameters>
 return
 <div class="w3-container">
 <div class="w3-row">
-<h3>{for $d in $DTScol?('dts:dublincore')?('dc:title')?*?('@value') return $d}</h3>
-{if($DTScol?('@type') = 'Collection') then 
-(<h4>Editions</h4>,
 <div class="w3-bar">
-<button class="w3-bar-item w3-gray" id="toogleTextBibl">Hide Bibliography</button>
+<div class="w3-bar-item w3-small">{for $d in $DTScol?('dts:dublincore')?('dc:title')?*?('@value') return $d}</div>
+<button class="w3-bar-item w3-gray w3-small" id="toogleTextBibl">Hide Bibliography</button></div>
+{if($DTScol?('@type') = 'Collection') then 
+(<div class="w3-bar">
+<div class="w3-bar-item w3-red">Editions</div>
 {for $ed in $DTScol?member?*
 return 
 <div class="w3-bar-item w3-red"><a href="{$ed?('@id')}" target="_blank">{$ed?title}</a></div>
