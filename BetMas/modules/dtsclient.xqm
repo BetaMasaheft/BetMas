@@ -52,11 +52,11 @@ return
 <div class="w3-bar-item w3-small">{for $d in $DTScol?('dts:dublincore')?('dc:title')?*?('@value') return $d}</div>
 <button class="w3-bar-item w3-gray w3-small" id="toogleTextBibl">Hide Bibliography</button></div>
 {if($DTScol?('@type') = 'Collection') then 
-(<div class="w3-bar">
-<div class="w3-bar-item w3-red">Editions</div>
+(<div class="w3-bar w3-border">
+<div class="w3-bar-item">Editions and translations: </div>
 {for $ed in $DTScol?member?*
 return 
-<div class="w3-bar-item w3-red"><a href="{$ed?('@id')}" target="_blank">{$ed?title}</a></div>
+<div class="w3-bar-item"><a href="{$ed?('@id')}" target="_blank">{$ed?title}</a></div>
 }
 </div>) else ()}
 </div>
