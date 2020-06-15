@@ -1257,106 +1257,18 @@ let $transformation := try{transform:transform($document,$xslt,$parameters)} cat
 };
 
 
-(:~ sends to the correct XSLT producing the main content of the page for text view:)
-declare  function item2:RestText($this,
-$start as xs:integer*,
-$per-page as xs:integer*) {
-let $document := $this
-let $parameters := map{}
-let $xslt :=   'xmldb:exist:///db/apps/BetMas/xslt/text.xsl'
-        let $xslpars := <parameters>
-    <param name="startsection" value="{$start}"/>
-    <param name="perpage" value="{$per-page}"/>
-</parameters>
+(:~ sends to the correct XSLT producing the main content of 
+the page for text view
+REPLACED BY dtsc:client() in dtsclient.xqm item2:RestText() 
+:)
 
+declare function item2:title($id){
+titles:printTitleMainID($id)
+};
+
+declare function item2:textBibl($this, $id){
+let $xslt :=   'xmldb:exist:///db/apps/BetMas/xslt/textfragmentbibl.xsl'  
+let $xslpars := <parameters><param name="mainID" value="{$id}"/></parameters>
 return
-    if(count($document//t:div[@type='edition']) gt 1) then
-        let $matches := $document//t:div[@type='edition'][max(count(t:div[@type='textpart']))]/t:div[@type='textpart']
-        let $hits :=        map { 'hits' : $matches, 'type' : 'text'}
-        return
-        <div class="w3-container">
-            {if(count($hits('hits')) gt 1) 
-                then <div class="w3-left w3-row" >
-            {apprest:paginate-rest($hits, $parameters, $start, $per-page, 1, 21)}
-                    </div> 
-                else ()}
-        <div class="w3-row w3-margin-top" >
-                   {
-    transform:transform(
-        $document,
-       $xslt,
-$xslpars)}
-</div>
-    </div>
-    else
-if($document//t:div[@type='textpart']) then
-let $matches := for $hit in $document//t:div[@type='textpart']
-                            return $hit
-let $hits :=        map { 'hits' : $matches, 'type' : 'text'}
-let $count := count($matches)
-return
-   <div class="w3-container">
-   
-{if($per-page = $count) then () else
-<div class="w3-container w3-twothird">
-   <div class="w3-left">
-    {apprest:paginate-rest($hits, $parameters, $start, $per-page, 1, 10)}
-    </div>
-    </div>
-    }
-                   {
-    transform:transform(
-        $document,
-       $xslt,
-$xslpars)}
-    </div>
-    else if($document//t:div[@type='edition'][t:ab]) then
-   
-   <div class="w3-container">{ transform:transform(
-        $document,
-       $xslt,
-$xslpars)}
-</div>
-    else if($document//t:relation[@name="saws:contains"])
-    then
-    let $ids := for $contains in $document//t:relation[@name="saws:contains"]/@passive 
-                         return 
-                       if(contains($contains, ' ')) then for $x in tokenize($contains, ' ') return $x else string($contains)
-return
-    <div class="w3-container">
-
-    { for $contained in $ids
-
-    let $file := $config:collection-rootW//id($contained)[name()='TEI']
-     let $matches := for $hit in $file//t:div[@type='textpart'] return $hit
-    let $hits :=        map { 'hits' : $matches, 'type' : 'text'}
-
-let $xsltlocalparameters  :=  <parameters>
-    <param name="startsection" value="{$start}"/>
-    <param name="perpage" value="{$per-page}"/>
-</parameters>
-    return
-     <div class="w3-container">
-     <h1><a target="_blank" href="/works/{$contained}/text">{titles:printTitleID($contained)}</a></h1>
-     <div class="w3-left">
-    {apprest:paginate-rest($hits, $parameters, $start, $per-page, 1, 21)}
-    </div>
-    {transform:transform(
-        $file,
-       $xslt,
-$xslpars)}
-
-     </div>
-    }
-
-
-    <div>
-
-    </div>
-
-    </div>
-    else ()
-
-
-
+transform:transform($this, $xslt, $xslpars)
 };

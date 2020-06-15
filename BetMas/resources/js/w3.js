@@ -130,4 +130,11 @@ $("#toogleSeeAlso").click(function () {
      x.classList.toggle("w3-twothird");
 });
 
+$("#toogleTextBibl").click(function () {
+    $('[id^="bibliographyText"]').toggle("slow");
+   var x = document.getElementById('dtstext'); 
+    x.classList.toggle("w3-container");
+     x.classList.toggle("w3-twothird");
+});
+
 $('.slider').css('width','100%');

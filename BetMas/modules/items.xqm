@@ -481,8 +481,26 @@ transform:transform(
    )
    case 'text' return (
    
-   dtsc:text($id, $edition, $ref, $start, $end, $collection)
    
+   <div class="w3-container">
+  <div class="w3-twothird" id="dtstext">{ if($this//t:div[@type='edition'])
+   then dtsc:text($id, $edition, $ref, $start, $end, $collection) else <p>No text available here.</p>}</div>
+   <div class="w3-third w3-gray w3-padding">{item2:textBibl($this, $id)}</div>
+   </div>
+    ,
+   for $contains in $this//t:relation[@name="saws:contains"]/@passive 
+     let $ids:=  if(contains($contains, ' ')) then for $x in tokenize($contains, ' ') return $x else string($contains)
+     for $contained in $ids
+    let $cfile := $config:collection-rootW//id($contained)[name()='TEI']
+   return 
+   
+   <div class="w3-container">
+   {<div class="w3-twothird" id="dtstext">Contains  {item2:title($contained)}
+   {if ($cfile//t:div[@type='edition']) 
+   then dtsc:text($contained, '', '', '', '', 'works') else ()}</div>,
+   <div class="w3-third w3-gray w3-padding">{item2:textBibl($this, $id)}</div>
+   }</div>
+ 
    )
    case 'graph' return (
    switch($collection)
