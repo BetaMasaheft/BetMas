@@ -265,15 +265,15 @@ let $passage := if(count($cleanref) = 2)
 let $cleantext := dts:cleanforcollatex(string-join($passage[2]//text()))
 (: let $t := console:log($passage):)
 let $tokenizetext := <ts>{for $t in tokenize($cleantext, '\s+') return <t>{$t}</t>}</ts>
-(:  let $t := console:log($delimiters):)
+  let $t := console:log($tokenizetext)
 let $l1 := if(count($delimiters) = 1) then $delimiters else $delimiters[1]
-(:  let $t := console:log($l1):)
+  let $t := console:log($l1)
 let $l2 := if(count($delimiters) = 2) then $delimiters[2] else 'n/a'
 (:let $t := console:log($l2):)
-let $firstlimit := if($l1='n/a') then 1 else count($tokenizetext//*:t[contains(., $l1)]/preceding-sibling::*:t)
+let $firstlimit := if($l1='n/a') then 1 else (count($tokenizetext//*:t[contains(., $l1)]/preceding-sibling::*:t) +1 )
 let $secondlimit := if($l2='n/a') then count($tokenizetext//*:t) 
-                                   else count($tokenizetext//*:t[contains(., $l2)]/preceding-sibling::*:t)
-(:      let $t := console:log(($firstlimit||'-'||$secondlimit)):)
+                                   else (count($tokenizetext//*:t[contains(., $l2)]/preceding-sibling::*:t) + 1)
+      let $t := console:log(($firstlimit||'-'||$secondlimit))
 let $delimited:= for $r in $firstlimit to $secondlimit return $tokenizetext//*:t[$r]
 let $finalpassage := string-join($delimited, ' ')
 return '{"id" : "' ||$id ||'", "content" : "'||$finalpassage||'"}' 

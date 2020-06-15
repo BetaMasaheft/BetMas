@@ -61,7 +61,7 @@ return
 <div class="w3-col" style="width:10%">
 <div class="w3-bar-block">
 <div class="w3-bar-item w3-black w3-small">
-<a target="_blank" href="{$uridoc}">Voyant</a>
+<a target="_blank" href="http://voyant-tools.org/?input={$uridoc}">Voyant</a>
         </div>
 {if($ref !='' or $start !='') then 
 <div class="w3-bar-item w3-red w3-small">

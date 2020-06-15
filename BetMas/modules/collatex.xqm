@@ -41,11 +41,11 @@ return
 
 if(count($urns) le 1) 
 
-then (<info>please provide at least 2 dts urns separated with comma</info>)  else(
+then (<info>please provide at least 2 dts URIs separated with comma</info>)  else(
   
                                          
    let $body :=   if ($nU !='') then dts:getnarrUnitWittnesses($nU) else dts:getCollatexBody($urns)
-   let $test0 := console:log($body)
+(:   let $test0 := console:log($body):)
      let $req :=
         <http:request
         http-version="1.1"
@@ -119,14 +119,20 @@ return
             <p>In the form below you have to provide the two DTS URNs of the passages you want to compare, then hit the collate button and you will get a visualization of the TEI apparatus output from Collatex.</p>
             <p>The format of your URNs has to be the following</p>
             <ul>
-            <li><pre>BLorient718:1</pre> will point to all the folio 1 of BL Orient 718 (recto and verso) and take all what is in there</li>
-            <li><pre>BLorient718:1r</pre> will point to all the folio 1 recto of BL Orient 718 and take all what is on that page</li>
-            <li><pre>BLorient718:1ra</pre> will point to  the folio 1 recto, column a  of BL Orient 718 and take all what is in that column</li>
-            <li><pre>BLorient718:1ra@ወወልድ</pre>  will point to  the folio 1 recto, column a  of BL Orient 718 and take all what is in that column starting from the first occurrence of the word ወወልድ</li>
-            <li><pre>BLorient718:1ra@ወወልድ[1]</pre> will point to  the folio 1 recto, column a  of BL Orient 718 and take all what is in that column starting from the first occurrence of the word ወወልድ, but note the specification of the occurrence, it could also be [2]</li>
-            <li><pre>BLorient718:1ra@ወወልድ[1]-1ra@ቅዱስ[1]</pre> will point to the folio 1 recto, column a  of BL Orient 718 and take all what is in that column starting from the first occurrence of the word ወወልድ, and ending at the first occurrence of the word ቅዱስ</li>
-            <li><pre>BLorient718:1ra@ወወልድ[1]-3va</pre> will point to the folio 1 recto, column a  of BL Orient 718 and take all what is in that column starting from the first occurrence of the word ወወልድ, and everything including in the transcription up to the end of folio 3va</li>
-            <li><pre>EMIP01859:NAR0019SBarkisos</pre> is also a valid reference and will fetch the element in the manuscript transcription associated with the specified narrative unit. If you want to fetch passages connected to a narrative unit without specifiying the manuscript, add the narrative unit id instead</li>
+            <li><pre>BLorient718.1</pre> will point to all the folio 1 of BL Orient 718 (recto and verso) and take all what is in there</li>
+            <li><pre>BLorient718.1r</pre> will point to all the folio 1 recto of BL Orient 718 and take all what is on that page</li>
+            <li><pre>BLorient718.1ra</pre> will point to  the folio 1 recto, column a  of BL Orient 718 and take all what is in that column</li>
+            <li><pre>BLorient718.1ra1</pre> will point to  the folio 1 recto, column a  of BL Orient 718 and take all what is in that column, line 1</li>
+            <li><pre>BLorient718.1ra1-1ra3</pre>will point to  the folio 1 recto, column a  of BL Orient 718 and take all what is in that column, line 1 to 3</li>
+            <li><pre>BLorient718.1.1-1.3</pre> will point to  the folio 1 recto, column a  of BL Orient 718 and take all what is in that column, line 1 to 3</li>
+            <li><pre>BLorient718.1ra@ወወልድ</pre>  will point to  the folio 1 recto, column a  of BL Orient 718 and take all what is in that column starting from the first occurrence of the word ወወልድ</li>
+            <li><pre>BLorient718.1ra@ወወልድ[1]</pre> will point to  the folio 1 recto, column a  of BL Orient 718 and take all what is in that column starting from the first occurrence of the word ወወልድ, but note the specification of the occurrence, it could also be [2]</li>
+            <li><pre>BLorient718.1ra@ወወልድ[1]-1ra@ቅዱስ[1]</pre> will point to the folio 1 recto, column a  of BL Orient 718 and take all what is in that column starting from the first occurrence of the word ወወልድ, and ending at the first occurrence of the word ቅዱስ</li>
+            <li><pre>BLorient718.1ra@ወወልድ[1]-3va</pre> will point to the folio 1 recto, column a  of BL Orient 718 and take all what is in that column starting from the first occurrence of the word ወወልድ, and everything including in the transcription up to the end of folio 3va</li>
+            <li><pre>EMIP01859.month1.day1</pre> is also a valid reference and will fetch the element in the manuscript transcription associated with the specified structure of type and names</li>
+           <li><pre>EMIP01859.1.1.1</pre> is also a valid reference and will fetch the nested structured marked with n</li>
+           <li><pre>EMIP01859.month1.day1.NAR0019SBarkisos</pre> is also a valid reference and will fetch the element in the manuscript transcription associated with the specified narrative unit. If you want to fetch passages connected to a narrative unit without specifiying the manuscript, add the narrative unit id instead</li>
+           <li><pre>EMIP01859.NAR0019SBarkisos</pre> is also a valid reference and will fetch the element in the manuscript transcription associated with the specified narrative unit. If you want to fetch passages connected to a narrative unit without specifiying the manuscript, add the narrative unit id instead</li>
            
             </ul>
             <p>Of course, if there is no transcription, there will be no text to collate and the quality of the transcription depends on external factors.</p>
@@ -135,8 +141,8 @@ return
         </div>
         <div class="w3-threequarter">
         <div id="dtsURNs">
-        <input type="text" class="dts w3-input w3-margin w3-border" placeholder="{{manuscriptid}}:{{passage}}-{{passage}}"></input>
-        <input type="text" class="dts w3-input w3-margin w3-border" placeholder="{{manuscriptid}}:{{passage}}-{{passage}}"></input>
+        <input type="text" class="dts w3-input w3-margin w3-border" placeholder="{{manuscriptid}}.{{passage}}-{{passage}}"></input>
+        <input type="text" class="dts w3-input w3-margin w3-border" placeholder="{{manuscriptid}}.{{passage}}-{{passage}}"></input>
         
         </div>
         <p>Alternatively, you can specify a narrative unit and we will pick any manuscript transcription which contains a reference to that and collate it.</p>
