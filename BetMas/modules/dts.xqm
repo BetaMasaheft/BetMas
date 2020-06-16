@@ -533,7 +533,7 @@ declare function dts:nodes($text, $path, $ref){
 for $selector in util:eval($path)
 (:let $test := console:log($selector):)
                         return 
-                        if(matches($ref, '\d+[r|v][a-z]?'))
+                        if(matches($ref, '(\d+[r|v][a-z]?(\[\w+\])?|\d+[r|v]?[a-z]?(\[\w+\]))'))
                         then 
 (:let $t2 := console:log($ref):)
                         let $r := dts:parseRef($ref)
@@ -541,16 +541,22 @@ for $selector in util:eval($path)
                         let $pb := $r//*:part[@type='pb']/text()
                         let $cb := $r//*:part[@type='cb']
                         let $lb := $r//*:part[@type='lb']
+                        let $corr := $r//*:part[@type='corr']
 (:                        $selector//node()[name()!='cb' and  name()!='pb'][preceding-sibling::t:pb[1][@n='1r']][preceding-sibling::t:cb[1][@n='a']]
 did not work, emailed exist db, Magdalena Turska very kindly provided this alternative approach.
-:)
+:)                     let $pbstart := if($corr/text()) then $selector//t:pb[@n=$pb][contains(@corresp, $corr)] else $selector//t:pb[@n=$pb]
                        let $start := 
                                          if($lb/text()) then 
-                                               $selector//t:pb[@n=$pb]/following-sibling::t:lb[@n=$lb/text()]
+                                               $pbstart/following-sibling::t:lb[@n=$lb/text()]
                                          else if($cb/text()) then 
-                                            $selector//t:pb[@n=$pb]/following-sibling::t:cb[@n=$cb/text()]
-                                        else    $selector//t:pb[@n=$pb]
+                                            $pbstart/following-sibling::t:cb[@n=$cb/text()]
+                                        else    $pbstart
                         let $next := 
+                        if($corr/text()) then 
+                                       if($lb/text()) then ($start/following-sibling::*[self::t:lb or self::t:cb or self::t:pb[contains(@corresp, $corr)]])[1]  
+                                        else if($cb/text()) then  ($start/following-sibling::*[self::t:cb or self::t:pb[contains(@corresp, $corr)]])[1]  
+                                        else ($start/following-sibling::*[self::t:pb[contains(@corresp, $corr)]])[1]
+                           else
                                         if($lb/text()) then ($start/following-sibling::*[self::t:lb or self::t:cb or self::t:pb])[1]  
                                         else if($cb/text()) then  ($start/following-sibling::*[self::t:cb or self::t:pb])[1]  
                                         else ($start/following-sibling::*[self::t:pb])[1]
@@ -863,7 +869,7 @@ month1.day3 ((@subtype,@n).(@subtype,@n))
 month1.day30.NAR0069Gabreel ((@subtype,@n).(@subtype,@n).(@corresp))
  :)
 let $parseRef := analyze-string($ref, 
-               '(NAR[0-9A-Za-z]+|((\d+[r|v])([a-z]?)(\d+)?)|([A-Za-z]+)?([0-9]+))(\.)?')
+               '(NAR[0-9A-Za-z]+|((\d+[r|v])([a-z]?)(\[\w+\])?(\d+)?)|([A-Za-z]+)?([0-9]+))(\.)?')
 let $refs := for $m at $p in $parseRef//s:match 
                     let $t := $m/s:group[@nr=1]//text()
                     return
@@ -872,7 +878,8 @@ let $refs := for $m at $p in $parseRef//s:match
                                 then <ref type='folio' l="{$p}">
                                         <part type="pb">{$m//s:group[@nr=3]/text()}</part>
                                         <part type="cb">{$m//s:group[@nr=4]/text()}</part>
-                                        <part type="lb">{$m//s:group[@nr=5]/text()}</part>
+                                        <part type="corr">{$m//s:group[@nr=5]/text()}</part>
+                                        <part type="lb">{$m//s:group[@nr=6]/text()}</part>
                                         </ref>
                      else if(matches($m, 'NAR[0-9A-Za-z]+')) 
                                 then <ref type='nar' l="{$p}">{$t}</ref>
@@ -881,8 +888,8 @@ let $refs := for $m at $p in $parseRef//s:match
 a subtype and a n as well as referring simply an xmlid :)
                                 then <ref type='subtypeNorXMLid'  l="{$p}">
                                            <option type="subtype">
-                                           <part type="subtype">{$m//s:group[@nr=6]/text()}</part>
-                                           <part type="n">{$m//s:group[@nr=7]/text()}</part>
+                                           <part type="subtype">{$m//s:group[@nr=7]/text()}</part>
+                                           <part type="n">{$m//s:group[@nr=8]/text()}</part>
                                            </option>
                                            <option type="xmlid">{$t}</option>
                                         </ref>
@@ -904,14 +911,18 @@ let $all := ($ancestors , $this)
 return string-join($all,'.')
 };
 declare function dts:rn($n){
- 
   if ($n/name()='cb') then 
          (string($n/preceding::t:pb[@n][1]/@n)||string($n/@n)) 
+ else if ($n/name()='pb' and $n/@corresp) then 
+         (string($n/@n) || '[' ||substring-after($n/@corresp, '#')||']') 
     else if($n/@n) then string($n/@n)
     else if($n/@xml:id) then string($n/@xml:id)
     else if($n/@subtype) then string($n/@subtype)
     else 'tei:' ||$n/name() ||'['|| $n/position() || ']'
     };
+    
+
+    
 (:~  called by dts:pas to select the title of a passage:)
 declare function dts:reftitle($n){
 if($n/@corresp) then 
@@ -1018,6 +1029,9 @@ in this case match the partent div and return all combinations
 of pbs and cbs available within it.   :)   
                                 case 'folio' return "//t:pb[@n='"||
                                                                    $r/*:part[@type='pb']/text()||"']"||
+                                                                   (if($r/*:part[@type='corr']/text()) 
+                                                                   then "[contains(@corresp, "||$r/*:part[@type='corr']/text()
+                                                                   ||")]" else ())||
                                                                    (if($r/*:part[@type='cb']/text()) 
                                                                    then ("[following-sibling::t:cb[@n='"||
                                                                    $r/*:part[@type='cb']/text()||"']"||

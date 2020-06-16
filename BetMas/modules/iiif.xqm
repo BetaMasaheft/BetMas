@@ -16,6 +16,7 @@ import module namespace kwic = "http://exist-db.org/xquery/kwic"
     at "resource:org/exist/xquery/lib/kwic.xql";
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
 import module namespace console = "http://exist-db.org/xquery/console";
+import module namespace locus = "https://www.betamasaheft.uni-hamburg.de/BetMas/locus" at "xmldb:exist:///db/apps/BetMas/modules/locus.xqm";
 (: namespaces of data used :)
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace dcterms = "http://purl.org/dc/terms";
@@ -60,12 +61,11 @@ declare function iiif:manifestsource($item as node()){
 
 };
 
-declare function iiif:folio($folio as xs:string){if(matches($folio, '\d')) then xs:integer(replace(replace($folio, '[rvabcd]', ''), '#', '')) else 0};
 
 declare function iiif:locus($l as node()){
   if($l[@from][@to]) 
-                            then (let $f := iiif:folio($l/@from)
-                                     let $t := iiif:folio($l/@to)
+                            then (let $f := locus:folio($l/@from)
+                                     let $t := locus:folio($l/@to)
                                      return
                                     if($l/@facs and not($l/ancestor::t:TEI//t:repository/@ref = 'INS0303BNF')) 
                                     then 
@@ -82,12 +82,12 @@ declare function iiif:locus($l as node()){
                                                                                 then
                                                                                 for $t in tokenize(normalize-space($l/@facs), ' ') return format-number(number($t), '###')
                                                                                 else
-                                                                                for $t in tokenize(normalize-space($l/@target), ' ') return iiif:folio($t)
+                                                                                for $t in tokenize(normalize-space($l/@target), ' ') return locus:folio($t)
                                                                             )
-                                                                  else (if($l/@facs) then format-number(number($l/@facs), '###') else  iiif:folio($l/@target))
+                                                                  else (if($l/@facs) then format-number(number($l/@facs), '###') else  locus:folio($l/@target))
                                        )
    else if($l[@from][not(@to)]) 
-                            then ( if($l/@facs and not($l/ancestor::t:TEI//t:repository/@ref = 'INS0303BNF')) then format-number(number($l/@facs), '###') else iiif:folio($l/@from)) 
+                            then ( if($l/@facs and not($l/ancestor::t:TEI//t:repository/@ref = 'INS0303BNF')) then format-number(number($l/@facs), '###') else locus:folio($l/@from)) 
    else ()};
 
 declare function iiif:range($iiifroot as xs:string, $structure as xs:string, $title as xs:string, $locusrange){

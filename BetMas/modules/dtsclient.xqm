@@ -49,7 +49,8 @@ return
 <div class="w3-container">
 <div class="w3-row">
 <div class="w3-bar">
-<div class="w3-bar-item w3-small">{for $d in $DTScol?('dts:dublincore')?('dc:title')?*?('@value') return $d}</div>
+{try{for $d in $DTScol?('dts:dublincore')?('dc:title')?*?('@value') 
+return <div class="w3-bar-item w3-small">{$d}</div>} catch * {console:log($err:description)}}
 <button class="w3-bar-item w3-gray w3-small" id="toogleTextBibl">Hide Bibliography</button></div>
 {if($DTScol?('@type') = 'Collection') then 
 (<div class="w3-bar w3-border">
@@ -57,7 +58,7 @@ return
 {for $ed in $DTScol?member?*
 return 
 <div class="w3-bar-item"><a href="{$ed?('@id')}" target="_blank">{$ed?title}</a></div>
-}
+} 
 </div>) else ()}
 </div>
 <div class="w3-row">

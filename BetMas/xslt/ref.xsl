@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:ref">
         
@@ -19,13 +18,11 @@
                                     <i class="fa fa-angle-double-right"/>ref<i class="fa fa-angle-double-right"/>
                                 </a>
                             </xsl:when>
-                            <xsl:when test="starts-with(@cRef, 'urn:dts:betmas')">
-                                <xsl:variable name="id" select="substring-before(substring-after(@cRef, 'urn:dts:betmas:'), ':')"/>
-                                <xsl:variable name="loc" select="substring-after(substring-after(@cRef, 'urn:dts:betmas:'), ':')"/>
-                                <xsl:variable name="value" select="concat($id,'/',replace($loc, '\.', '/'))"/>
+                            <xsl:when test="starts-with(@cRef, 'betmas')">
+                                <xsl:variable name="id" select="substring-after(@cRef, 'betmas:')"/>
                                 <xsl:apply-templates/>
-                                <a class="reference" data-bmid="{$id}" data-value="{$value}">
-                                    <i class="fa fa-angle-double-right"/>ref<i class="fa fa-angle-double-right"/>
+                                <a class="reference" href="{$id}" target="_blank">
+                                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
                                 </a>
                             </xsl:when>
                         </xsl:choose>
@@ -66,6 +63,25 @@
                                             <xsl:when test="contains(., '#')">
                                                 <xsl:value-of select="substring-before(., '#')"/>
                                             </xsl:when>
+                                            <xsl:when test="contains(., '_')">
+                                                <xsl:value-of select="substring-before(., '_')"/>
+                                            </xsl:when>
+                                            <xsl:when test="contains(., '.')">
+                                                <xsl:value-of select="substring-before(., '.')"/>
+                                            </xsl:when>
+                                            <xsl:otherwise>
+                                                <xsl:value-of select="."/>
+                                            </xsl:otherwise>
+                                        </xsl:choose>
+                                    </xsl:variable>
+                                    <xsl:variable name="dataValue">
+                                        <xsl:choose>
+                                            <xsl:when test="contains(., '_')">
+                                                <xsl:value-of select="substring-before(., '_')"/>
+                                            </xsl:when>
+                                            <xsl:when test="contains(., '.')">
+                                                <xsl:value-of select="substring-before(., '.')"/>
+                                            </xsl:when>
                                             <xsl:otherwise>
                                                 <xsl:value-of select="."/>
                                             </xsl:otherwise>
@@ -82,7 +98,7 @@
                                             <xsl:otherwise>manuscripts</xsl:otherwise>
                                         </xsl:choose>
                                     </xsl:variable>
-                                    <a href="/{.}" class="MainTitle" data-value="{.}">
+                                    <a href="/{.}" class="MainTitle" data-value="{$dataValue}">
                                         <xsl:value-of select="."/>
                                     </a>
                                     <a id="{$relsid}Ent{$filename}relations">

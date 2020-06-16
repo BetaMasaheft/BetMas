@@ -1,9 +1,23 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:funct="my.funct"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+    xmlns:t="http://www.tei-c.org/ns/1.0" 
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    exclude-result-prefixes="#all" version="2.0">
+    <xsl:function name="funct:parseRef">
+        <xsl:param name="FromToTarget"/>
+        <xsl:analyze-string select="$FromToTarget" regex="(\d+)([r|v])?([a-z])?(\d+)?">
+                    <xsl:matching-substring>
+                        <xsl:value-of select="regex-group(1)"/><xsl:value-of select="regex-group(2)"/><xsl:value-of select="regex-group(3)"/><xsl:if test="regex-group(4)"><xsl:value-of select="concat(' l.', regex-group(4))"/></xsl:if>
+                    </xsl:matching-substring>
+            <xsl:non-matching-substring>
+                <xsl:value-of select="."/>
+            </xsl:non-matching-substring>
+        </xsl:analyze-string>
+    </xsl:function>
     <xsl:template match="t:locus">
         <xsl:param name="text" tunnel="yes"/>
         <xsl:variable name="parent" select="parent::node()"/>
-        
         <xsl:variable name="anc" select="ancestor::t:*[@xml:id][1]"/>
         <xsl:variable name="ancID" select="replace($anc/@xml:id, '\.', '_')"/>
         <xsl:if test="parent::t:ab[not(@type = 'CruxAnsata' or @type = 'ChiRho' or @type = 'coronis')]">
@@ -46,7 +60,7 @@
                                                 
                                             </xsl:otherwise>
                                         </xsl:choose>
-                                        <xsl:value-of select="concat(substring-after(.,'#'), ' ')"/>
+                                        <xsl:value-of select="funct:parseRef(concat(substring-after(.,'#'), ' '))"/>
                                     </a>
                                 </xsl:for-each>
                             </xsl:when>
@@ -78,7 +92,7 @@
                                             <xsl:text>f. </xsl:text>
                                         </xsl:otherwise>
                                     </xsl:choose>
-                                    <xsl:value-of select="substring-after(@target,'#')"/>
+                                    <xsl:value-of select="funct:parseRef(substring-after(@target,'#'))"/>
                                 </a>
                             </xsl:otherwise>
                         </xsl:choose>
@@ -110,7 +124,7 @@
                                     
                                 </xsl:otherwise>
                             </xsl:choose>
-                            <xsl:value-of select="@from"/>
+                            <xsl:value-of select="funct:parseRef(@from)"/>
                         </a>
                         <xsl:text>-</xsl:text>
                         <a href="#{@to}">
@@ -129,14 +143,14 @@
                                     </span>
                                     </xsl:otherwise>
                             </xsl:choose>
-                            <xsl:value-of select="@to"/>
+                            <xsl:value-of select="funct:parseRef(@to)"/>
                         </a>
                     </xsl:otherwise>
                 </xsl:choose>
-                <xsl:if test="@n">
+                <!--<xsl:if test="@n">
                     <xsl:text>, l.</xsl:text>
                     <xsl:value-of select="@n"/>
-                </xsl:if>
+                </xsl:if>-->
             </xsl:when>
             <xsl:otherwise>
 <!--                if there is text or other data inside locus-->
@@ -499,6 +513,19 @@
                 
             </div>
         </xsl:if>
+        <xsl:if test="ancestor::t:TEI//t:div[@type='edition'][descendant::t:ab[//text()]]">
+            <xsl:variable name="refs">
+                <xsl:for-each select="@from">
+                    <xsl:value-of select="@from"/><xsl:if test="@to"><xsl:value-of select="concat('-', @to)"/></xsl:if>
+                </xsl:for-each>
+                <xsl:for-each select="if(contains(@target, ' ')) then tokenize(@target, ' ') else @target">
+                    <xsl:value-of select="substring-after(., '#')"/>
+                </xsl:for-each>
+            </xsl:variable>
+            <xsl:for-each select="$refs">
+                <a class="locusReference" target="_blank" href="/{$mainID}.{.}"><i class="fa fa-file-text-o" aria-hidden="true"></i></a>
+         </xsl:for-each>
+            </xsl:if>
         <xsl:if test="parent::t:ab">
             <xsl:text>)</xsl:text>
             <br/>

@@ -15,15 +15,21 @@ declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json = "http://www.json.org";
 
-
-    (:~ given a role, search other attestations of it and print the persName around them and related infos :) 
+(:~ 
+given a passage in a text, search places where this passage has been
+quoted
+cRef=betmas:LIT1546Genesi.1.1
+where betmas: is prefix for https://betamasaheft.eu/
+and .1.1 will map to &ref=1.1
+:) 
 declare
 %rest:GET
 %rest:path("/BetMas/api/quotations/{$text}/{$passage}")
 %output:method("json")
 function quotations:allquotations($text  as xs:string*,$passage  as xs:string*){
 let $quotations := $config:collection-root//t:cit[t:ref[contains(@cRef, $text)]]
-let $thispassage := for $quote in $quotations[t:ref[contains(substring-after(@cRef, concat($text, ':')), $passage)]]
+let $thispassage := 
+for $quote in $quotations[t:ref[contains(substring-after(@cRef, concat($text, ':')), $passage)]]
                                             let $id := string(root($quote)/t:TEI/@xml:id) 
                                           let $titlesource := titles:printTitleMainID($id)
                                            let $source := map {'id' : $id, 'title' : $titlesource} 
