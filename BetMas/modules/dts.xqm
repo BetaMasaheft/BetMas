@@ -2087,7 +2087,7 @@ let $refs := for $a in $indexEntries
                                     ) then '#' else ()
                                     let $r := $anchor || dts:refname($closestreference)
                                     let $t := dts:reftitle($closestreference)
-                                     let $refmap :=  map {"ref": $r}
+                                     let $refmap :=  map {"dts:ref": $r}
                                      let $reftit := if($t) then map:put($refmap, 'title', $t) else $refmap
                                      let $refval := if ($att/text()) then map:put($reftit,"@value", normalize-space(string-join($att//text()))) else $reftit
                                      let $reflang := if ($att/text()) then map:put($refval,"@lang", string($att/ancestor-or-self::t:*[@xml:lang][1]/@xml:lang)) else $refval
