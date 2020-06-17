@@ -14,7 +14,7 @@ import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas
 import module namespace dts="https://www.betamasaheft.uni-hamburg.de/BetMas/dts" at "xmldb:exist:///db/apps/BetMas/modules/dts.xqm";
 import module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMas/error" at "xmldb:exist:///db/apps/BetMas/modules/error.xqm";
 import module namespace console="http://exist-db.org/xquery/console";
-
+declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 
 (: For REST annotations :)
@@ -170,3 +170,67 @@ return
 </html>
         )
 };
+
+
+
+(:~ Produces as string a json object which contains the id of the manuscript witnesses selected and the text passege as of the urn  which can be used to build the body of a post request to collatex:)
+declare function collatex:getCollatexWitnessText($dtsURN){
+let $parsedURN := dts:parseDTSid($dtsURN)
+let $id := $parsedURN//s:group[@nr=1]/text()
+let $edition := $parsedURN//s:group[@nr=2]
+let $file := $config:collection-root/id($id)[name()='TEI']
+let $ref := string-join($parsedURN//s:group[@nr=6]//text())
+let $splitref := if(contains($ref, '-')) then tokenize($ref, '-') else $ref
+let $cleanref := for $r in $splitref return if(contains($r, '@')) then substring-before($r, '@') else $r
+let $delimiters := for $r in $splitref return if(contains($r, '@')) then substring-after($r, '@') else 'n/a'
+let $text := if($edition/node()) then dts:pickDivText($file, $edition)  else $file//t:div[@type='edition']
+let $passage := if(count($cleanref) = 2) 
+                            then dts:docs(('https://betamasaheft.eu/'||$id||$edition), '', $cleanref[1], $cleanref[2], 'application/tei+xml')
+                            else dts:docs(('https://betamasaheft.eu/'||$id||$edition), $cleanref, '', '', 'application/tei+xml')
+
+let $cleantext := collatex:cleanforcollatex(string-join($passage[2]//text()))
+(: let $t := console:log($passage):)
+let $tokenizetext := <ts>{for $t in tokenize($cleantext, '\s+') return <t>{$t}</t>}</ts>
+  let $t := console:log($tokenizetext)
+let $l1 := if(count($delimiters) = 1) then $delimiters else $delimiters[1]
+  let $t := console:log($l1)
+let $l2 := if(count($delimiters) = 2) then $delimiters[2] else 'n/a'
+(:let $t := console:log($l2):)
+let $firstlimit := if($l1='n/a') then 1 else (count($tokenizetext//*:t[contains(., $l1)]/preceding-sibling::*:t) +1 )
+let $secondlimit := if($l2='n/a') then count($tokenizetext//*:t) 
+                                   else (count($tokenizetext//*:t[contains(., $l2)]/preceding-sibling::*:t) + 1)
+      let $t := console:log(($firstlimit||'-'||$secondlimit))
+let $delimited:= for $r in $firstlimit to $secondlimit return $tokenizetext//*:t[$r]
+let $finalpassage := string-join($delimited, ' ')
+return '{"id" : "' ||$id ||'", "content" : "'||$finalpassage||'"}' 
+};
+
+(:~ Calls for each witness  dts:getCollatexWitnessText()  and builds the array which can be passed as body of the POST request to collatex:)
+declare function collatex:getCollatexBody($urns){ 
+let $matchingmss := for $ms in $urns
+                                            let $witness := collatex:getCollatexWitnessText($ms)
+                                           return
+                                           $witness
+                          return
+            '{"witnesses" : [' ||string-join($matchingmss, ',') ||']}'
+            };
+            
+(:~ Calls for each witness of a specified narrative builds the array which can be passed as body of the POST request to collatex:)
+declare function collatex:getnarrUnitWittnesses($nU){ 
+let $matchingmss := for $ms in $config:collection-rootMS//t:*[@corresp = $nU]
+                                           let $id := string($ms/ancestor::t:TEI/@xml:id)
+                                           let $text := string-join($ms//text())
+                                            let $cleantext := collatex:cleanforcollatex($text)
+                                             return
+                                         '{"id" : "' ||$id ||'", "content" : "'||$cleantext||'"}' 
+                          return
+            '{"witnesses" : [' ||string-join($matchingmss, ',') ||']}'
+            };
+
+(:~ Given a string text in fidal, removes punctuation. This function is intended to clean up text in preparation for collatex :)
+declare function collatex:cleanforcollatex($text){
+let $cleantext := $text => replace('\.', '') (:=> replace('፡', '') => replace('።', '') => replace('፨', '') => replace('፤', ''):) 
+return
+normalize-space($cleantext)
+};
+

@@ -27,6 +27,7 @@ let $APIroot:='/api/dts/'
 let $NavAPI:='navigation'
 let $ColAPI:='collections'
 let $DocAPI:='document'
+(:let $IndAPI:='indexes':)
 let $baseid := '?id=https://betamasaheft.eu/' 
 let $ps := (if($ref='') then () else 'ref='||$ref , 
                     if($start='') then () else 'start='||$start , 
@@ -37,8 +38,14 @@ let $citationuri := ($approot||'/'||$id||$edition||$refstart)
 let $uricol := ($approot||$APIroot||$ColAPI||$baseid||$id||$edition)
 let $urinav := ($approot||$APIroot||$NavAPI||$baseid||$id||$edition||$parm)
 let $uridoc := ($approot||$APIroot||$DocAPI||$baseid||$id||$edition||$parm)
+(:let $uriindex := ($approot||$APIroot||$IndAPI||$baseid||$id||$edition||$parm):)
 let $DTScol := dtsc:request($uricol)
 let $DTSnav := dtsc:request($urinav)
+(:let $DTSind := dtsc:request($uriindex)
+let $indexes := for $i in $DTSind?*?member?name
+                            let $namedindexURI := $uriindex || '&amp;name=' ||$i
+                            return
+                            dtsc:request($namedindexURI):)
 let $DTSdoc := dtsc:requestXML($uridoc)
 let $docnode := if($DTSdoc//dts:fragment) then $DTSdoc//dts:fragment else $DTSdoc//t:div[@type='edition']
 (:fetch text of the translation if available:)
@@ -61,7 +68,6 @@ return
 } 
 </div>) else ()}
 </div>
-<div class="w3-row">
 <div class="w3-col" style="width:10%">
 <div class="w3-bar-block">
 <div class="w3-bar-item w3-black w3-small">
