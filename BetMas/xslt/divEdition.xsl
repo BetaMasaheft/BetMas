@@ -146,12 +146,12 @@
             <xsl:text>) </xsl:text>
         </xsl:if>
         <xsl:if test="@corresp and ancestor::t:TEI/@type='work'">
-            <div class="parallelversions w3-bar w3-tooltip">
+            <span class="parallelversions w3-tooltip">
                 <a class="parallelversion w3-small w3-button w3-red" data-textid="{$text}" data-unit="{@corresp}">
                     Versions
                 </a>
                 <span class="w3-tag w3-text">See parallel versions if any is available</span>
-            </div>
+            </span>
         </xsl:if>
         <xsl:apply-templates select="child::t:label"/>
         </i></p>
