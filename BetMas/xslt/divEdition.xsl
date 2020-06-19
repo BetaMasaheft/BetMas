@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:dts="https://w3id.org/dts/api#" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t" version="2.0">
     
     <xsl:template match="t:*[@xml:lang='gez']//text()[parent::t:*[name() != 'label'][name() != 'note'][name() != 'persName'] [name() != 'placeName']]">
         
@@ -51,8 +50,115 @@
         <br/>
     </xsl:template>
     
-  
+    <xsl:template name="title">
+        <xsl:param name="div"/>
+        <xsl:param name="text"/>
+        <p><i>
+        <xsl:if test="parent::t:div[@type='edition']/@resp">
+            <xsl:variable name="r" select="parent::t:div[@type='edition']/@resp"/>
+            Edition by <xsl:choose>
+                <xsl:when test="starts-with($r, '#')">
+                    <span class="Zotero Zotero-full">
+                        <xsl:attribute name="data-value">
+                            <xsl:value-of select="ancestor::t:TEI//t:bibl[@xml:id = substring-after($r, '#')]/t:ptr/@target"/>
+                        </xsl:attribute>
+                    </span>
+                </xsl:when>
+                <xsl:otherwise> <xsl:choose>
+                    <xsl:when test="$r = 'AB'">Alessandro Bausi</xsl:when>
+                    <xsl:when test="$r = 'ES'">Eugenia Sokolinski</xsl:when>
+                    <xsl:when test="$r = 'DN'">Denis Nosnitsin</xsl:when>
+                    <xsl:when test="$r = 'MV'">Massimo Villa</xsl:when>
+                    <xsl:when test="$r = 'DR'">Dorothea Reule</xsl:when>
+                    <xsl:when test="$r = 'SG'">Solomon Gebreyes</xsl:when>
+                    <xsl:when test="$r = 'PL'">Pietro Maria Liuzzo</xsl:when>
+                    <xsl:when test="$r = 'SA'">Stéphane Ancel</xsl:when>
+                    <xsl:when test="$r = 'SD'">Sophia Dege</xsl:when>
+                    <xsl:when test="$r = 'VP'">Vitagrazia Pisani</xsl:when>
+                    <xsl:when test="$r = 'IF'">Iosif Fridman</xsl:when>
+                    <xsl:when test="$r = 'SH'">Susanne Hummel</xsl:when>
+                    <xsl:when test="$r = 'FP'">Francesca Panini</xsl:when>
+                    <xsl:when test="$r = 'AA'">Abreham Adugna</xsl:when>
+                    <xsl:when test="$r = 'EG'">Ekaterina Gusarova</xsl:when>
+                    <xsl:when test="$r = 'IR'">Irene Roticiani</xsl:when>
+                    <xsl:when test="$r = 'MB'">Maria Bulakh</xsl:when>
+                    <xsl:when test="$r = 'VR'">Veronika Roth</xsl:when>
+                    <xsl:when test="$r = 'MK'">Magdalena Krzyzanowska</xsl:when>
+                    <xsl:when test="$r = 'DE'">Daria Elagina</xsl:when>
+                    <xsl:when test="$r = 'NV'">Nafisa Valieva</xsl:when>
+                    <xsl:when test="$r = 'RHC'">Ran HaCohen</xsl:when>
+                    <xsl:when test="$r = 'SS'">Sisay Sahile</xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="$r"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+                    
+                </xsl:otherwise>
+            </xsl:choose>
+            <xsl:text> </xsl:text>
+        </xsl:if>
+        <xsl:if test="@subtype">
+            <a href="/{if (@corresp) then @corresp else concat($mainID, '#mscontent')}">
+                <xsl:value-of select="@subtype"/>
+                <xsl:if test="@n">
+                    <xsl:text>: </xsl:text>
+                    <xsl:value-of select="@n"/>
+                </xsl:if>
+                
+            </a>
+            <xsl:text> </xsl:text>
+        </xsl:if>
+        <xsl:if test="@corresp">
+            <xsl:text> (</xsl:text>
+            <xsl:variable name="id" select="substring-after(@corresp, '#')"/>
+            <xsl:variable name="match" select="current()//ancestor::t:TEI//t:*[@xml:id = $id]"/>
+            <!--            TEST            <xsl:copy-of select="$match"/>-->
+            <xsl:choose>
+                <xsl:when test="starts-with(@corresp, '#')">
+                    <xsl:text> </xsl:text>
+                    <xsl:if test="$match/t:title">
+                        <xsl:apply-templates select="$match/t:title"/>
+                    </xsl:if>
+                    <a>
+                        <xsl:choose>
+                            <xsl:when test="$match/name() = 'msItem'">
+                                <xsl:attribute name="href">
+                                    <xsl:value-of select="concat('../../manuscripts/', ancestor::t:TEI/@xml:id, @corresp)"/>
+                                </xsl:attribute>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:attribute name="href">
+                                    <xsl:value-of select="@corresp"/>
+                                </xsl:attribute>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                        <xsl:value-of select="substring-after(@corresp, '#')"/>
+                    </a>
+                </xsl:when>
+                <xsl:otherwise>
+                    <span class="MainTitle" data-value="{@corresp}"/>
+                    <a href="{@corresp}">
+                        <xsl:text>  </xsl:text>
+                        <span class="glyphicon glyphicon-share"/>
+                    </a>
+                </xsl:otherwise>
+            </xsl:choose>
+            <xsl:text>) </xsl:text>
+        </xsl:if>
+        <xsl:if test="@corresp and ancestor::t:TEI/@type='work'">
+            <div class="parallelversions w3-bar w3-tooltip">
+                <a class="parallelversion w3-small w3-button w3-red" data-textid="{$text}" data-unit="{@corresp}">
+                    Versions
+                </a>
+                <span class="w3-tag w3-text">See parallel versions if any is available</span>
+            </div>
+        </xsl:if>
+        <xsl:apply-templates select="child::t:label"/>
+        </i></p>
+    </xsl:template>
+    
     <xsl:template match="t:div[@type = 'textpart'] | t:div[@type='edition'][not(child::t:div)]">
+       <div class="w3-container">
         <xsl:if test="not(descendant::t:pb) and not(parent::t:div[@type='textpart'])">
             <xsl:apply-templates select="preceding::t:pb[1]"/>
         </xsl:if>
@@ -61,173 +167,22 @@
         </xsl:variable>
         <xsl:choose>
             <xsl:when test="child::t:div[@type = 'textpart']">
-                <xsl:if test="parent::t:div[@type='edition']/@resp">
-                    <xsl:variable name="r" select="parent::t:div[@type='edition']/@resp"/>
-                    Edition by <xsl:choose>
-                        <xsl:when test="starts-with($r, '#')">
-                            <span class="Zotero Zotero-full">
-                                <xsl:attribute name="data-value">
-                                    <xsl:value-of select="ancestor::t:TEI//t:bibl[@xml:id = substring-after($r, '#')]/t:ptr/@target"/>
-                                </xsl:attribute>
-                            </span>
-                        </xsl:when>
-                        <xsl:otherwise> <xsl:choose>
-                            <xsl:when test="$r = 'AB'">Alessandro Bausi</xsl:when>
-                            <xsl:when test="$r = 'ES'">Eugenia Sokolinski</xsl:when>
-                            <xsl:when test="$r = 'DN'">Denis Nosnitsin</xsl:when>
-                            <xsl:when test="$r = 'MV'">Massimo Villa</xsl:when>
-                            <xsl:when test="$r = 'DR'">Dorothea Reule</xsl:when>
-                            <xsl:when test="$r = 'SG'">Solomon Gebreyes</xsl:when>
-                            <xsl:when test="$r = 'PL'">Pietro Maria Liuzzo</xsl:when>
-                            <xsl:when test="$r = 'SA'">Stéphane Ancel</xsl:when>
-                            <xsl:when test="$r = 'SD'">Sophia Dege</xsl:when>
-                            <xsl:when test="$r = 'VP'">Vitagrazia Pisani</xsl:when>
-                            <xsl:when test="$r = 'IF'">Iosif Fridman</xsl:when>
-                            <xsl:when test="$r = 'SH'">Susanne Hummel</xsl:when>
-                            <xsl:when test="$r = 'FP'">Francesca Panini</xsl:when>
-                            <xsl:when test="$r = 'AA'">Abreham Adugna</xsl:when>
-                            <xsl:when test="$r = 'EG'">Ekaterina Gusarova</xsl:when>
-                            <xsl:when test="$r = 'IR'">Irene Roticiani</xsl:when>
-                            <xsl:when test="$r = 'MB'">Maria Bulakh</xsl:when>
-                            <xsl:when test="$r = 'VR'">Veronika Roth</xsl:when>
-                            <xsl:when test="$r = 'MK'">Magdalena Krzyzanowska</xsl:when>
-                            <xsl:when test="$r = 'DE'">Daria Elagina</xsl:when>
-                            <xsl:when test="$r = 'NV'">Nafisa Valieva</xsl:when>
-                            <xsl:when test="$r = 'RHC'">Ran HaCohen</xsl:when>
-                            <xsl:when test="$r = 'SS'">Sisay Sahile</xsl:when>
-                            <xsl:otherwise>
-                                <xsl:value-of select="$r"/>
-                            </xsl:otherwise>
-                        </xsl:choose>
-                            
-                        </xsl:otherwise>
-                    </xsl:choose>
-                </xsl:if>
-                
-                
-                    <xsl:if test="@subtype">
-                        <a href="/{if (@corresp) then @corresp else concat($mainID, '#mscontent')}">
-                            <xsl:value-of select="@subtype"/>
-                            <xsl:if test="@n">
-                                    <xsl:text>: </xsl:text>
-                                    <xsl:value-of select="@n"/>
-                                </xsl:if>
-                                
-                        </a>
-                    </xsl:if>
-                    <xsl:if test="@corresp">
-                        <xsl:text> (</xsl:text>
-                        <xsl:variable name="id" select="substring-after(@corresp, '#')"/>
-                        <xsl:variable name="match" select="current()//ancestor::t:TEI//t:*[@xml:id = $id]"/>
-<!--            TEST            <xsl:copy-of select="$match"/>-->
-                        <xsl:choose>
-                            <xsl:when test="starts-with(@corresp, '#')">
-                                <xsl:text> </xsl:text>
-                                <xsl:if test="$match/t:title">
-                                    <xsl:apply-templates select="$match/t:title"/>
-                                </xsl:if>
-                                <a>
-                                    <xsl:choose>
-                                        <xsl:when test="$match/name() = 'msItem'">
-                                            <xsl:attribute name="href">
-                                                <xsl:value-of select="concat('../../manuscripts/', ancestor::t:TEI/@xml:id, @corresp)"/>
-                                            </xsl:attribute>
-                                        </xsl:when>
-                                        <xsl:otherwise>
-                                            <xsl:attribute name="href">
-                                                <xsl:value-of select="@corresp"/>
-                                            </xsl:attribute>
-                                        </xsl:otherwise>
-                                    </xsl:choose>
-                                    <xsl:value-of select="substring-after(@corresp, '#')"/>
-                                </a>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <span class="MainTitle" data-value="{@corresp}"/>
-                                <a href="{@corresp}">
-                                    <xsl:text>  </xsl:text>
-                                    <span class="glyphicon glyphicon-share"/>
-                                </a>
-                            </xsl:otherwise>
-                        </xsl:choose>
-                        <xsl:text>)</xsl:text>
-                    </xsl:if>
-                    <xsl:if test="@corresp and ancestor::t:TEI/@type='work'">
-                        <div class="parallelversions w3-bar w3-tooltip">
-                            <a class="parallelversion w3-small w3-button w3-red" data-textid="{$text}" data-unit="{@corresp}">
-                                Versions
-                            </a>
-                            <span class="w3-tag w3-text">See parallel versions if any is available</span>
-                        </div>
-                    </xsl:if><!--
-                    <div class="ugaritcontrols btn-group">
-                        <a class="ugarit btn btn-success btn-xs" data-textid="{$text}" data-currentid="{@n}" data-toggle="tooltip" title="Start a translation alignment with Ugarit" disabled="disabled">
-                            Ugarit Alignment
-                        </a>
-                    </div>
-                        <div class="quotations btn-group">
-                            <a id="quotations{@n}" class="quotations btn btn-success btn-xs" data-textid="{$text}" data-unit="{@n}" data-toggle="tooltip" title="Check for marked up quotations of a passage in this section">
-                                Quotations
-                            </a>
-                        </div>
-                    
-                    <div id="AllQuotations{@n}"/>-->
-               
-                <xsl:apply-templates select="child::t:label"/>
+                <xsl:call-template name="title">
+                    <xsl:with-param name="div" select="."></xsl:with-param>
+                    <xsl:with-param name="text" select="$text"></xsl:with-param>
+                </xsl:call-template>
+                <xsl:apply-templates select="child::node()[name() !='div' and name()!='label']"/>
                 <xsl:apply-templates select="child::t:div[@type='textpart']"/>
             </xsl:when>
             <xsl:otherwise>
                 <div class="{if(./parent::t:div[@type='textpart']) then 'subtextpart' else ()} w3-row" id="{if(@xml:id) then (@xml:id) else if(@n) then(@n) else(concat('textpart', string(position())))}" lang="{ancestor-or-self::t:div[@xml:lang][1]/@xml:lang}">
+                    <xsl:call-template name="title">
+                            <xsl:with-param name="div" select="."></xsl:with-param>
+                            <xsl:with-param name="text" select="$text"></xsl:with-param>
+                        </xsl:call-template>
                     <div class="w3-col" style="width:15%">
-                        
-                            <xsl:if test="@subtype">
-                                <a href="/{if (@corresp) then @corresp else concat($mainID, '#mscontent')}">
-                                    <xsl:value-of select="@subtype"/>
-                                    <xsl:if test="@n">
-                                            <xsl:text>: </xsl:text>
-                                            <xsl:value-of select="@n"/>
-                                        </xsl:if>
-                                        
-                                </a>
-                            </xsl:if>
-                            <xsl:if test="@corresp">
-                                <xsl:text> (</xsl:text>
-                                <xsl:variable name="id" select="substring-after(@corresp, '#')"/>
-                                <xsl:variable name="match" select="current()//ancestor::t:TEI//t:*[@xml:id = $id]"/>
-                                <xsl:choose>
-                                    <xsl:when test="starts-with(@corresp, '#')">
-                                        <xsl:text> </xsl:text>
-                                        <xsl:if test="$match//t:title">
-                                            <xsl:apply-templates select="$match//t:title"/>
-                                        </xsl:if>
-                                        <a>
-                                            <xsl:choose>
-                                                <xsl:when test="$match/name() = 'msItem'">
-                                                    <xsl:attribute name="href">
-                                                        <xsl:value-of select="concat('../../manuscripts/', ancestor::t:TEI/@xml:id, @corresp)"/>
-                                                    </xsl:attribute>
-                                                </xsl:when>
-                                                <xsl:otherwise>
-                                                    <xsl:attribute name="href">
-                                                        <xsl:value-of select="@corresp"/>
-                                                    </xsl:attribute>
-                                                </xsl:otherwise>
-                                            </xsl:choose>
-                                            <xsl:value-of select="substring-after(@corresp, '#')"/>
-                                        </a>
-                                    </xsl:when>
-                                    <xsl:otherwise>
-                                        <span class="MainTitle" data-value="{@corresp}"/>
-                                        <a href="{@corresp}">
-                                            <xsl:text>  </xsl:text>
-                                            <span class="fa fa-share"/>
-                                        </a>
-                                    </xsl:otherwise>
-                                </xsl:choose>
-                                <xsl:text>)</xsl:text>
-                            </xsl:if>
-                            
-                        <div class="w3-bar-block">
+                        <xsl:if test="t:ab[descendant::text()]">
+                            <div class="w3-bar-block">
                             <div class="ugaritcontrols w3-tooltip w3-bar-item w3-button w3-padding-small w3-gray">
                             <a class="ugarit  w3-small" data-textid="{$text}" data-currentid="{@n}" disabled="disabled">
                                     Alignment
@@ -255,7 +210,7 @@
                             <i class="fa fa-info-circle" aria-hidden="true"/>
                         </a>
                         </div>
-                        
+                        </xsl:if>
                         <div id="AllQuotations{@n}"/> 
                         <div class="w3-modal" id="textHelp">
                             <div class="w3-modal-content">
@@ -280,11 +235,10 @@
                                     </div>
                             </div>
                         </div>
-                        
                     </div>
                     <div class="w3-col" style="width:85%">
                      <div class="w3-twothird w3-container chapterText" id="{@xml:id}">
-                         <xsl:apply-templates select="child::node()"/>
+                         <xsl:apply-templates select="child::node()[name()!='label']"/>
                     </div>  
                     <div class="w3-third row apparata ">
                         <xsl:for-each select="t:ab//t:app[not(@type)]">
@@ -342,128 +296,8 @@
                 </div>
             </xsl:otherwise>
         </xsl:choose>
-       <!-- <div class="{if(./parent::t:div[@type='textpart']) then 'subtextpart' else ()}" id="{if(@xml:id) then (@xml:id) else if(@n) then(@n) else(('textpart', string(position())))}">
-           <h2>
-                <xsl:if test="@subtype">
-                <a href="/{if (@corresp) then @corresp else concat($mainID, '#mscontent')}">
-                    <xsl:value-of select="@subtype"/>
-                    <xsl:choose>
-                        <xsl:when test="@n">
-                            <xsl:text>: </xsl:text>
-                            <xsl:value-of select="@n"/>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:text>: </xsl:text>
-                            <xsl:if test="parent::t:div[@type='textpart']">
-                                <xsl:value-of select="count(parent::t:div[@type='textpart']/preceding-sibling::t:div[@type='textpart']) + 1"/>
-                                <xsl:text>.</xsl:text>
-                            </xsl:if>
-                            <xsl:value-of select="count(preceding-sibling::t:div[@type='textpart']) + 1"/>
-                        </xsl:otherwise>
-                    </xsl:choose>
-                </a>
-            </xsl:if>
-            <xsl:if test="@corresp">
-                <xsl:text> (</xsl:text>
-                <xsl:variable name="id" select="substring-after(@corresp, '#')"/>
-                <xsl:variable name="match" select="current()//ancestor::t:TEI//t:*[@xml:id = $id]"/>
-                <xsl:choose>
-                    <xsl:when test="starts-with(@corresp, '#')">
-                        <xsl:text> </xsl:text>
-                        <xsl:if test="$match//t:title">
-                            <xsl:apply-templates select="$match//t:title"/>
-                        </xsl:if>
-                        <a>
-                            <xsl:choose>
-                                <xsl:when test="$match/name() = 'msItem'">
-                                    <xsl:attribute name="href">
-                                        <xsl:value-of select="concat('../../manuscripts/', ancestor::t:TEI/@xml:id, @corresp)"/>
-                                    </xsl:attribute>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <xsl:attribute name="href">
-                                        <xsl:value-of select="@corresp"/>
-                                    </xsl:attribute>
-                                </xsl:otherwise>
-                            </xsl:choose>
-                            <xsl:value-of select="substring-after(@corresp, '#')"/>
-                        </a>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <span class="MainTitle" data-value="{@corresp}"/>
-                        <a href="{@corresp}">
-                            <xsl:text>  </xsl:text>
-                            <span class="glyphicon glyphicon-share"/>
-                        </a>
-                    </xsl:otherwise>
-                </xsl:choose>
-                <xsl:text>)</xsl:text>
-            </xsl:if>
-           <div class="ugaritcontrols btn-group">
-                    <a class="ugarit btn btn-success btn-xs" data-textid="{$text}" data-currentid="{@n}" data-toggle="tooltip" title="Start a translation alignment with Ugarit" disabled="disabled">
-                        Ugarit Alignment
-                    </a>
-                </div>
-               <xsl:if test="@corresp">
-                    <div class="parallelversions btn-group">
-                   <a class="parallelversion btn btn-success btn-xs" data-textid="{$text}" data-unit="{@corresp}" data-toggle="tooltip" title="See parallel versions if any is available">
-                       Versions
-                   </a>
-               </div>
-                </xsl:if>
-       </h2>
-            
-            <br/>
-            <div class="col-md-12" id="chapterText">
-                <div class="row">
-                    <xsl:apply-templates/>
-                </div>
-                <div class="row apparata">
-                    <hr/>
-                    <xsl:for-each select="t:ab//t:app[not(@type)]">
-                        <xsl:sort select="position()"/>
-                      <span id="{ancestor::t:div[@type='textpart'][1]/@n}appPointer{position()}"> 
-                            <a href="#{ancestor::t:div[@type='textpart'][1]/@n}appnote{position()}">
-                            <xsl:value-of select="count(preceding-sibling::t:app) + 1"/>
-                        </a>
-                            <xsl:text>) </xsl:text>
-                            <xsl:apply-templates select="./t:lem"/> <xsl:text>: </xsl:text>
-                            <xsl:apply-templates select="./t:rdg"/>
-                        </span>
-                        <xsl:if test="not(position() = last())">
-                            <xsl:text> | </xsl:text>
-                        </xsl:if>
-                    </xsl:for-each>
-                     <hr/>
-                        <xsl:for-each-group select="t:ab//t:app[@type]" group-by="@type">
-                        
-                            <span class="badge">
-                            <xsl:value-of select="current-grouping-key()"/> </span>
-                        <xsl:text>  </xsl:text>
-                            <xsl:for-each select="current-group()">
-                            <xsl:sort select="position()"/>
-                                <span id="{ancestor::t:div[@type='textpart'][1]/@n}appPointer{position()}"> 
-                            <a href="#{ancestor::t:div[@type='textpart'][1]/@n}appnote{position()}">
-                            <xsl:value-of select="count(preceding-sibling::t:app) + 1"/>
-                        </a>
-                            <xsl:text>) </xsl:text>
-                            <xsl:apply-templates select="./t:lem"/> <xsl:text>: </xsl:text>
-                            <xsl:apply-templates select="./t:rdg"/>
-                        </span>
-                        <xsl:if test="not(position() = last())">
-                            <xsl:text> | </xsl:text>
-                        </xsl:if>
-                        </xsl:for-each>
-                            <hr/>
-                    </xsl:for-each-group>
-                        
-                  
-                        
-                    
-                </div>
-            </div>
-        </div>
- -->   </xsl:template>
+       </div>   
+    </xsl:template>
     
     <xsl:template match="t:label">
         <xsl:choose>
@@ -474,6 +308,7 @@
         </xsl:choose>
         
     </xsl:template>
+   
     <xsl:template match="t:ab">
         <div class="w3-container">
             <xsl:apply-templates/>
@@ -527,7 +362,6 @@
         </div>
     </xsl:template>
 
-
     <!--lb-->
     <xsl:template match="t:lb[parent::t:ab]">
        <xsl:choose>
@@ -542,6 +376,7 @@
         </xsl:choose>
        
     </xsl:template>
+    
     <xsl:template match="t:lb[ancestor::t:ab][parent::t:placeName or parent::t:persName or parent::t:w]">
         <xsl:choose>
             <xsl:when test="@break"> <xsl:text>|</xsl:text>
@@ -560,6 +395,7 @@
             <br/>
         </xsl:if>
     </xsl:template>
+    
     <xsl:template match="t:lb[not(parent::t:ab)][not(parent::t:l)][not(parent::t:w)][not(parent::t:persName)][not(parent::t:placeName)]">
         <xsl:variable name="line">
             <xsl:if test="@n">
@@ -577,13 +413,13 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
+    
     <xsl:template name="margin-num">
         <xsl:value-of select="@n"/>
         <!-- template »line-numbering-tab« found in txt-tpl-linenumberingtab.xsl respectively odf-tpl-linenumberingtab.xsl -->
         <xsl:call-template name="line-numbering-tab"/>
     </xsl:template>
 
-    <!-- $Id: txt-tpl-linenumberingtab.xsl 1543 2011-08-31 15:47:37Z ryanfb $ -->
     <xsl:template name="line-numbering-tab">
         <!--<xsl:text>		</xsl:text>-->
         <span style="padding-left: 5em;"/>
@@ -592,7 +428,7 @@
     
     <xsl:template match="t:pb">
         <xsl:choose>
-            <xsl:when test="ancestor::t:div[@type='edition']">|<sup>
+            <xsl:when test="ancestor::t:div[@type='edition'] or ancestor::dts:fragment">|<sup>
                     <xsl:value-of select="@n"/>
                 </sup>
                 <xsl:choose>
@@ -635,8 +471,7 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-    
-    
+ 
     <xsl:template match="t:cb">
         <xsl:text>|</xsl:text>
         <sup id="{preceding-sibling::t:pb[1]/@n}{@n}">
@@ -644,6 +479,7 @@
         </sup>
         <xsl:apply-templates/>
     </xsl:template>
+    
     <xsl:template match="t:handShift">
         <sub>
             <a href="{@new}">
@@ -655,13 +491,16 @@
     <xsl:template match="t:surplus">
         {<xsl:apply-templates/>}
     </xsl:template>
+    
     <xsl:template match="t:subst">
         <xsl:apply-templates/>
     </xsl:template>
+    
     <xsl:template match="t:unclear">
         <xsl:value-of select="."/>
         <xsl:text>?</xsl:text>
     </xsl:template>
+    
     <xsl:template match="t:orig">
         <span class="undeciphrable">
             <xsl:value-of select="."/>
@@ -703,6 +542,7 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
+    
     <xsl:template match="t:gap">
         <xsl:variable name="quantity" select="@quantity"/>
         <a>
@@ -842,8 +682,7 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-    
-    
+     
     <xsl:template match="t:supplied">
         <xsl:choose>
             <xsl:when test="@reason = 'undefined'">
@@ -879,6 +718,7 @@
             </xsl:for-each>
         </div>
     </xsl:template>
+    
     <xsl:template match="t:lem">
         <xsl:variable name="resp" select="@resp"/>
         <xsl:variable name="listWit" select="ancestor::t:TEI//t:listWit"/>
