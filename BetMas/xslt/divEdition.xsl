@@ -54,6 +54,7 @@
         <xsl:param name="div"/>
         <xsl:param name="text"/>
         <p><i>
+            <xsl:apply-templates select="child::t:label"/>
         <xsl:if test="parent::t:div[@type='edition']/@resp">
             <xsl:variable name="r" select="parent::t:div[@type='edition']/@resp"/>
             Edition by <xsl:choose>
@@ -146,14 +147,13 @@
             <xsl:text>) </xsl:text>
         </xsl:if>
         <xsl:if test="@corresp and ancestor::t:TEI/@type='work'">
-            <span class="parallelversions w3-tooltip">
-                <a class="parallelversion w3-small w3-button w3-red" data-textid="{$text}" data-unit="{@corresp}">
+            <span class="parallelversions  w3-tooltip">
+                <a class="parallelversion w3-red" data-textid="{$text}" data-unit="{@corresp}">
                     Versions
                 </a>
                 <span class="w3-tag w3-text">See parallel versions if any is available</span>
             </span>
         </xsl:if>
-        <xsl:apply-templates select="child::t:label"/>
         </i></p>
     </xsl:template>
     
@@ -168,8 +168,8 @@
         <xsl:choose>
             <xsl:when test="child::t:div[@type = 'textpart']">
                 <xsl:call-template name="title">
-                    <xsl:with-param name="div" select="."></xsl:with-param>
-                    <xsl:with-param name="text" select="$text"></xsl:with-param>
+                    <xsl:with-param name="div" select="."/>
+                    <xsl:with-param name="text" select="$text"/>
                 </xsl:call-template>
                 <xsl:apply-templates select="child::node()[name() !='div' and name()!='label']"/>
                 <xsl:apply-templates select="child::t:div[@type='textpart']"/>
@@ -177,8 +177,8 @@
             <xsl:otherwise>
                 <div class="{if(./parent::t:div[@type='textpart']) then 'subtextpart' else ()} w3-row" id="{if(@xml:id) then (@xml:id) else if(@n) then(@n) else(concat('textpart', string(position())))}" lang="{ancestor-or-self::t:div[@xml:lang][1]/@xml:lang}">
                     <xsl:call-template name="title">
-                            <xsl:with-param name="div" select="."></xsl:with-param>
-                            <xsl:with-param name="text" select="$text"></xsl:with-param>
+                            <xsl:with-param name="div" select="."/>
+                            <xsl:with-param name="text" select="$text"/>
                         </xsl:call-template>
                     <div class="w3-col" style="width:15%">
                         <xsl:if test="t:ab[descendant::text()]">
