@@ -11,11 +11,13 @@ module namespace locus = "https://www.betamasaheft.uni-hamburg.de/BetMas/locus";
 declare namespace test = "http://exist-db.org/xquery/xqsuite";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace sr="http://www.w3.org/2005/sparql-results#";
+declare namespace s = "http://www.w3.org/2005/xpath-functions";
 
 import module namespace r = 'http://joewiz.org/ns/xquery/roman-numerals' at 'roman-numerals.xqm';
 import module namespace functx="http://www.functx.com";
 
-declare variable $locus:Regex := '\d+(r|v)?([a-z])?(\d+)?';
+declare variable $locus:Regex := '^\d+(r|v)?([a-z])?(\d+)?';
+declare variable $locus:RegexProt := '^[xvi]+';
 (:
 funzione per collegare riferimenti in locus al testo
 target=1rv => &ref=1rv oppure (vedi sopra) a .1rv che poi verra rediretto a &ref=1rv
@@ -65,19 +67,33 @@ folio numer, verso or recto, letter for column.
 \d[+]                [v|r]                  \w
 
 but if folio is in protective quire, 
-then small roman numerals are used and (verso)|(recto)
+then small roman numerals are used and v(erso)|r(ecto)
 which need to be converted to the previous format
 :)
 declare 
 %test:arg('folio', '1ra') %test:assertEquals(1)
 %test:arg('folio', '2v') %test:assertEquals(2)
 %test:arg('folio', '45ra5') %test:assertEquals(45)
+%test:arg('folio', 'iii') %test:assertEquals(3)
+%test:arg('folio', 'ivv') %test:assertEquals(4)
+%test:arg('folio', 'iir') %test:assertEquals(2)
+%test:arg('folio', 'ivv(erso)') %test:assertEquals(4)
+%test:arg('folio', 'ir(ecto)') %test:assertEquals(1)
 function locus:folio($folio as xs:string) as xs:integer {
     if (matches($folio, $locus:Regex)) then
        replace($folio, '\d+$', '') 
        => replace('[rvabcd]', '') 
        => replace('#', '') 
        => xs:integer()
+    else if(matches($folio, $locus:RegexProt))
+    then 
+    let $strictRomanNumeralMatch := 
+(:    https://www.oreilly.com/library/view/regular-expressions-cookbook/9780596802837/ch06s09.html#:~:text=Roman%20numerals%20are%20written%20using,form%20a%20proper%20Roman%20numeral.:)
+       analyze-string($folio, '^(x[cl]|l?x*)(i[xv]|v?i*)') 
+(:       the regex should match only VALID roman numerals, what will not be achieved is to match
+an ambiguous syntax as iv where v could be verso or part of a valid 4 in roman numerals. 
+this vails also where iv(erso) is used, because it will match as 4 :)
+       return locus:roman-arabic($strictRomanNumeralMatch//s:match//text())
     else
         0
 };
