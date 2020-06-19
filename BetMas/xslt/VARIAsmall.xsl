@@ -77,6 +77,7 @@
         <xsl:apply-templates/>
     </xsl:template>
     <xsl:template match="t:adminInfo">
+        <xsl:if test="t:note"><h2>Administrative Information</h2></xsl:if>
         <xsl:apply-templates/>
     </xsl:template>
     <xsl:template match="t:head">
@@ -99,6 +100,9 @@
     
     <xsl:template match="t:note">
         <xsl:choose>
+        <xsl:when test="not(parent::*:fragment)">
+            <p><xsl:apply-templates/></p>
+        </xsl:when>    
         <xsl:when test="parent::t:placeName">
         <div class="w3-panel w3-gray">
            <xsl:choose>
@@ -118,27 +122,35 @@
             </xsl:if>
         </div>
     </xsl:when>
-            <xsl:when test="t:p">
+        <xsl:when test="t:p">
                 <xsl:apply-templates/>
             </xsl:when>
-            <xsl:when test="parent::t:rdg">
+        <xsl:when test="parent::t:rdg">
                 <xsl:text> </xsl:text>
                 <i>
                     <xsl:apply-templates/>
                 </i>
                 <xsl:text> </xsl:text>
             </xsl:when>
-            <xsl:otherwise>
+        <xsl:otherwise>
                     <xsl:apply-templates/>
-                
-            </xsl:otherwise>
+        </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
+    
     <xsl:template match="t:filiation">
         <p>
             <b>Filiation: </b>
             <xsl:apply-templates/>
         </p>
+    </xsl:template>
+    <xsl:template match="t:seg[@part]">
+        <xsl:choose>
+            <xsl:when test="@part = 'I'">Incipit: </xsl:when>
+            <xsl:when test="@part = 'F'">Explicit: </xsl:when>
+            <xsl:when test="@part = 'M'">Excerpt: </xsl:when>
+        </xsl:choose>
+        <xsl:apply-templates/>
     </xsl:template>
     <xsl:template match="t:incipit">
         <xsl:variable name="lang" select="@xml:lang"/>
@@ -267,14 +279,6 @@
                 <xsl:apply-templates/>
             </xsl:otherwise>
         </xsl:choose>
-    </xsl:template>
-    <xsl:template match="t:seg[@part]">
-        <xsl:choose>
-            <xsl:when test="@part = 'I'">Incipit: </xsl:when>
-            <xsl:when test="@part = 'F'">Explicit: </xsl:when>
-            <xsl:when test="@part = 'M'">Excerpt: </xsl:when>
-        </xsl:choose>
-        <xsl:apply-templates/>
     </xsl:template>
     <xsl:template match="t:ab[not(ancestor::t:body)] | t:seg[@type = 'script'] | t:desc[parent::t:handNote] | t:seg[@type = 'rubrication']">
         <p>
