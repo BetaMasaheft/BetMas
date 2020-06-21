@@ -13,6 +13,7 @@ import module namespace wiki="https://www.betamasaheft.uni-hamburg.de/BetMas/wik
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
 import module namespace apptable="https://www.betamasaheft.uni-hamburg.de/BetMas/apptable" at "xmldb:exist:///db/apps/BetMas/modules/apptable.xqm";
 import module namespace xdb="http://exist-db.org/xquery/xmldb";
+import module namespace locus = "https://www.betamasaheft.uni-hamburg.de/BetMas/locus" at "xmldb:exist:///db/apps/BetMas/modules/locus.xqm";
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace t="http://www.tei-c.org/ns/1.0";
@@ -994,9 +995,6 @@ EMIP:)
                                                          <ul class="w3-padding">{
                                                          for $h in $hit
                                                          let $msitem := $h/parent::t:msItem
-                                                      (:   let $placement := if ($h/preceding-sibling::t:locus) then ( ' ('|| (let $locs :=for $loc in $h/preceding-sibling::t:locus return string:tei2string($loc) return string-join($locs, ' ')) || ')') else ''
-                                                         let $position := ' [' || count($msitem/preceding-sibling::t:msItem) +1 || '/' || count($msitem/parent::t:*/child::t:msItem) || ']'
-                                                         :)
                                                          return
 
 <li>content item with id <b>{string($msitem/@xml:id)}</b> {if($h/text()) then (', ', <i>{$h/text()}</i> ) else () } 
@@ -1029,7 +1027,7 @@ EMIP:)
                                                          <ul class="w3-padding">{
                                                          for $h in $hit
                                                          let $item := $h/ancestor::t:item[1]
-                                                         let $placement := if ($item/t:locus) then ( ' ('|| (let $locs :=for $loc in $item/t:locus return string:tei2string($loc) return string-join($locs, ' ')) || ')') else ''
+                                                         let $placement := locus:placement($item)
                                                          let $position := ' [' || count($item/preceding-sibling::t:item) +1 || '/' || count($item/parent::t:*/child::t:item) || ']'
                                                          return
 
@@ -1071,7 +1069,7 @@ EMIP:)
                                                          <ul class="w3-padding ">{
                                                          for $h in $hit
                                                          let $item := $h/ancestor::t:item[1]
-                                                         let $placement := if ($item/t:locus) then ( ' ('|| (let $locs :=for $loc in $item/t:locus return string:tei2string($loc) return string-join($locs, ' ')) || ')') else ''
+                                                         let $placement := locus:placement($item)
                                                          let $position := ' [' || count($item/preceding-sibling::t:item) +1 || '/' || count($item/parent::t:*/child::t:item) || ']'
                                                          return
 

@@ -66,8 +66,8 @@ let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($item//t:msIdentifier/
        let $objectType := string($item//@form[1])
        let $iiifroot := $config:appUrl ||"/api/iiif/" || $id
        let $image := $config:appUrl ||'/iiif/'||$id||'/'
-       let $canvas := iiif:Canvases($item, $id, $iiifroot)
-       let $structures := iiif:Structures($item, $iiifroot)
+       let $canvas := iiif:Canvases($item, $id, $iiifroot, $tot)
+       let $structures := iiif:Structures($item, $iiifroot, $tot)
 (:       this is where the manifest is:)
        let $request := $iiifroot || "/manifest"
        (:       this is where the sequence is:)
@@ -151,7 +151,7 @@ let $iiifroot := $config:appUrl ||"/api/iiif/" || $id
 let $sequence := $iiifroot || "/sequence/normal"
 let $startCanvas := $iiifroot || '/canvas/p1'
 
-let $canvas := iiif:Canvases($item, $id, $iiifroot)
+let $canvas := iiif:Canvases($item, $id, $iiifroot, $item//t:msIdentifier/t:idno[@facs])
 
        return
        

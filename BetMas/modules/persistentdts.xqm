@@ -174,98 +174,13 @@ else <http:header
 </rest:response>
  else
  let $thisid := $parsedURN//s:group[@nr=3]/text()
+ let $edition := $parsedURN//s:group[@nr=4]
  let $currentfile := $config:collection-root/id($id)[name()='TEI']
  let $collection := if($currentfile/@type='mss') then 'Manuscripts'  else  if($currentfile/@type='narr') then 'Narrative' else 'Works'
 let $permapath := replace(persdts:capitalize-first(substring-after(base-uri($cfile), '/db/apps/BetMasData/')), $collection, '')
 let $file:= doc('https://raw.githubusercontent.com/BetaMasaheft/' || $collection || '/'||$sha||'/'|| $permapath)//t:TEI
- let $text := $file//t:div[@type='edition']
- let $doc := 
-(: in case there is passage, then look for that place:)
-  if ($ref != '') then 
-   if (contains($id,'betmasMS'))  
-        then 
-                        let $pass:= dts:parsePassageMS($ref)
-                        let $level1 := $pass//s:group[@nr=1] 
-                        let $level2 := if($pass//s:group[@nr=4]) then $pass//s:group[@nr=4] else ''
-                        let $entirepart := dts:TranscriptionPassageNodes($text, $level1, $level2)
-                        return
-                        <TEI xmlns="http://www.tei-c.org/ns/1.0" >
-                            <dts:fragment xmlns:dts="https://w3id.org/dts/api#">
-                                {$entirepart}
-                            </dts:fragment>
-                       </TEI>
-                else (
-                  let $pass:= dts:parsePassage($ref)
-                        let $level1 := $pass//s:group[@nr=1] 
-                        let $level2 := $pass//s:group[@nr=3] 
-                        let $entirepart := dts:EditionPassageNodes($text, $level1, $level2)
-                        return
-                        <TEI xmlns="http://www.tei-c.org/ns/1.0" >
-                            <dts:fragment xmlns:dts="https://w3id.org/dts/api#">
-                                {$entirepart}
-                            </dts:fragment>
-                       </TEI>
-                
-                )       
-         
-(:         if there are start and end, look for a range:)
-else if($start != '' or $end != '') then (
-
-let $parsedURN := dts:parseDTSURN($id)
-let $parsedid := $parsedURN//s:group[@nr=3]/text()
-
-return 
-        if (contains($id,'betmasMS'))  
-        then 
-(:       it is a manuscript transcription :)
-        (
-         let $from:= dts:parsePassage($start)
-         let $to :=dts:parsePassage($end)
-                    let $frompage := $from//s:group[@nr=1]//text() 
-                    let $fromcolumn := $from//s:group[@nr=3]//text() 
-                    let $topage := $to//s:group[@nr=1]//text()
-                    let $tocolumn := $to//s:group[@nr=3]//text() 
-                    let $div1 := $text//t:pb[@n=$frompage]/ancestor::t:div/@n
-                    let $part1 := dts:TranscriptionPassageNodes($text, $frompage, $fromcolumn)
-                    let $div2 := $text//t:pb[@n=$topage]/ancestor::t:div/@n
-                    let $part2 :=  dts:TranscriptionPassageNodes($text, $topage, $tocolumn)
-                    let $middle := $text//t:ab[parent::t:div[(number(@n) gt number(string($div1))) and (number(@n) lt number(string($div2)))]]/node()
-                     let $all := ($part1, $middle,$part2)
-                      return 
-                      
-                      <TEI xmlns="http://www.tei-c.org/ns/1.0">
-                            <dts:fragment xmlns:dts="https://w3id.org/dts/api#">
-                                {$all}
-                             </dts:fragment>
-                        </TEI>
-                                   
-        )
-        else 
-(:        it is a literary work:)
-        (
-         let $from:= dts:parsePassage($start)
-         let $to :=dts:parsePassage($end)
-                    let $fromlevel1 := $from//s:group[@nr=1]//text()
-                    let $fromlevel2 := $from//s:group[@nr=3]//text() 
-                    let $tolevel1 := $to//s:group[@nr=1]//text()
-                    let $tolevel2 := $to//s:group[@nr=3]//text() 
-                    let $part1 := dts:EditionPassageNodesRange($text, $fromlevel1, $fromlevel2, 'start')
-                    let $part2 :=  dts:EditionPassageNodesRange($text, $tolevel1, $tolevel2, 'end')
-                    let $middle := $text//t:*[parent::t:div[@type='edition']][(number(@n) gt number($fromlevel1))][(number(@n) lt number($tolevel1))]
-                     let $all := ($part1, $middle,$part2)
-                      return 
-                      
-                      <TEI xmlns="http://www.tei-c.org/ns/1.0" >
-                            <dts:fragment xmlns:dts="https://w3id.org/dts/api#">
-                                {$all}
-                                
-                                </dts:fragment>
-                                </TEI>
-        )
-)
-                       
-else $file 
-
+let $text := if($edition/node()) then dts:pickDivText($file, $edition)  else $file//t:div[@type='edition']
+let $doc := dts:fragment($file, $edition, $ref, $start, $end, $text)
                        
  return
   ( <rest:response>
@@ -305,114 +220,84 @@ if($id = '') then (<rest:response>
 </rest:response>) else
 let $parsedURN := dts:parseDTS($id)
 let $BMid := $parsedURN//s:group[@nr=3]
+let $edition := $parsedURN//s:group[@nr=4]
 let $file:= persdts:fileingit($id, $BMid, $sha)
-let $text := $file//t:div[@type='edition']
+let $text := if($edition/node()) then dts:pickDivText($mydoc, $edition)  else $mydoc//t:div[@type='edition']
 let $textType := $file//t:objectDesc/@form
-let $passage := if (contains($id, 'betmasMS:')) then (
-                                                (:manuscripts:)
+let $allwits := dts:wits($file, $BMid) 
+let $witnesses := for $witness in distinct-values($allwits)
+(:filters out the witnesses which do not have images available:)
+                            return if(starts-with($witness, 'http')) then $witness else let $mss := $config:collection-rootMS/id($witness) return if ($mss//t:idno/@facs) then $witness else ()
+let $cdepth := dts:citeDepth($text)
+
+let $passage :=  
+if ($file/@type='mss' and not($textType='Inscription')) then (
+   (:manuscripts:)
+
+(:  THERE IS A REF:)   
+    if($ref != '') then 
+             let $l := if ($level='') then 1 else $level
+           return
+          dts:pasRef($l, $text, $ref, 'unit', 'mss', $manifest, $BMid)
+(:$ref can be a NAR, but how does one know that this is a possibility within this text?:)
+
+(:start and end:)
+     else if($start != '') then
+             dts:startend($level, $text, $start, $end, 'part', 'mss', $manifest, $BMid)
+   (: no ref specified, list all main divs, assuming by the guidelines they are folios:)
+         else if($ref='' and $level = '' and $start ='' and $end = ''and $groupBy = '' and $max = '') 
+                then dts:pasS($text/t:div[@n], 'folio', 'mss', $manifest, $BMid)
+  (: if the level is not empty, than it has been specified to be either the second or third level, pages and columns                  :)
+         else if (($level != '') and ($cdepth gt 3))  then
+  (:  the citation depth is higer than 3:)
+(:  let $t := console:log($level) return:)
+                  dts:pasLev($level, $text, 'unit', 'mss', $manifest, $BMid )
+        else if(($level != '') and ($cdepth = 3)) then 
+                  (if ($level = '2') 
+  (: the pages of folios have been requested:)
+                    then dts:pasS($text//t:pb[@n], 'page', 'mss', $manifest, $BMid)
+                    else if ($level = '3')
+  (: the columns of a pages have been requested:)
+                     then dts:pasS($text//(t:cb[@n]), 'column', 'mss', $manifest, $BMid)
+                     else if ($level = '4')
+  (: the columns of a pages have been requested:)
+                     then dts:pasS($text//(t:lb[@n]), 'line', 'mss', $manifest, $BMid)
+  (:  in theory there is no such case which will not be matched by cdepth gt 3...   :)
+                     else()  )         
+(:    no other option taken into consideration:)
+    else ()
+                        ) else 
+(:works and inscriptions. 
+                        textual units have different structures 
+                        some are encoded with a basic nested divs structure, some instaed, especially bible texts use l, while inscriptions have lb :)
                                 if($ref='' and $level = '' and $start ='' and $end = ''and $groupBy = '' and $max = '') 
-                                then for $n in $text/t:div/@n return <p>{string($n)}<type>folio</type></p>
-                               else if($level != '') 
-                                then if ($level = '2') 
-                                            then for $n in $text//t:pb[@n] return <p>{(string($n/@n))}<type>page</type></p>
-                                          else if ($level = '3')
-                                           then for $n in $text//t:cb[@n] return <p>{(string($n/preceding-sibling::t:pb[@n][1]/@n)||string($n/@n))}<type>column</type></p>
-                                          else  () 
-                                 else if($ref != '') 
-                               then 
-                               let $combos := for $pb in $text/t:div[@n=$ref]/descendant::t:pb[@n] 
-                                         for $cb in $pb/following-sibling::t:cb[@n] 
-                                         return string($pb/@n)||string($cb/@n)
-                              for $c in distinct-values($combos)
-                              return <p>{$c}</p>
-                                       
-                               else ()
-) else 
-(:works. some are encoded with a basic nested divs structure, some instaed, especially bible texts use l :)
-                                if($ref='' and $level = '' and $start ='' and $end = ''and $groupBy = '' and $max = '') 
-                                then  for $n in $text/t:* return 
-                                <p>
-                                         {string($n/@n )}
-                                         {if($n/@subtype) then <type>{string($n/@subtype)}</type> else ()}
-                                         {if($n/@corresp) then <title>{titles:printTitleMainID($n/@corresp)}</title> 
-                                            else if($n/t:label) then <title>{$n/t:label/string()}</title> else ()}
-                                          </p>
-                              else if($ref != '' and $start = '') 
-                               then   for $n in $text/t:div[@n=$ref]/descendant::t:*[@n] return 
-                               
-                               
-                               <p>
-                                         {($ref || '.'|| string($n/@n))}
-                                         {if($n/@subtype) then <type>{string($n/@subtype)}</type> else ()}
-                                         {if($n/@corresp) then <title>{titles:printTitleMainID($n/@corresp)}</title> 
-                                            else if($n/t:label) then <title>{$n/t:label/string()}</title> else ()}
-                                          </p>
-                               
-                             else if($level = '2' and $start = '') 
+(:   if no  parameter is specified, go through the child elements of div type edition, whatever they are:)
+                                then  dts:pasS($text/(t:ab|.)/t:*, 'unit', 'work', $witnesses, $BMid)
+(:   if a ref is specified show that navigation point:)
+else if($ref != '' and $start = '')  
+(:e.g. LIT1546Genesi&ref=2.3 :)
+        then dts:pasRef(1, $text, $ref, 'unit', 'work', $witnesses, $BMid)
+(:   if a level is specified that use that information, and check for ref
+e.g. LIT1546Genesi&level=2
+:) 
+ else if($level != '' and $start = '') 
                                 then 
-                                if($ref != '') then 
-                                                        for $n in ($text/t:div[@n=$ref]/t:div[@n], $text/t:div[@n=$ref]/t:ab/t:l[@n]) 
-                                                        return 
-                                         <p>
-                                         {(string($n/ancestor::t:*[@n][1]/@n) ||'.' || string($n/@n))}
-                                         <type>verse</type>
-                                          </p>
-                                                else
-                                                
-                                                      for $n in ($text/t:div[@n]/t:div[@n], $text/t:div[@n]/t:ab/t:l[@n]) return 
-                                          <p>
-                                         {(string($n/ancestor::t:*[@n][1]/@n) ||'.' || string($n/@n))}
-                                         <type>verse</type>
-                                          </p>
+(:  e.g. LIT1546Genesi&level=2&ref=4:)
+                                if($ref != '') then dts:pasRef($level, $text, $ref, 'unit', 'work', $witnesses, $BMid)
+(:  e.g. LIT1546Genesi&level=2 (max level is value of citeDepth!):)                               
+                               else dts:pasLev($level, $text, 'unit', 'work', $witnesses, $BMid )
+ else if($start != '' and $end != '') 
+(: needs to make a sequence of possible 
+refs at the given level and limit it by the positions in $start and $end
+LIT1546Genesi&start=3&end=4 :)
+               then 
+              dts:startend($level, $text, $start, $end, 'texpart', 'work', $witnesses, $BMid)
+else ()
                              
-                            else if($start != '' and $end != '') 
-                               then if ($level != '') then (
-                                  if ($level = '2') then 
-                                  let $range := $text/t:div[number(@n) ge number($start)][number(@n) le number($end)] 
-                                  return 
-                                  for $n in ($range/t:div[@n], $range/t:ab/t:l[@n]) 
-                                  return 
-                                   <p>
-                                         {(string($n/ancestor::t:*[@n][1]/@n) ||'.' || string($n/@n))}
-                                         <type>verse</type>
-                                          </p>
-                                   else ()
-                               )
-                               
-                               else for $n in $text/t:div[number(@n) ge number($start)][number(@n) le number($end)] return 
-                               <p>
-                                         {string($n/@n)}
-                                         {if($n/@subtype) then <type>{string($n/@subtype)}</type> else ()}
-                                         {if($n/@corresp) then <title>{titles:printTitleMainID($n/@corresp)}</title> 
-                                            else if($n/t:label) then <title>{$n/t:label/string()}</title> else ()}
-                                          </p>
-                             
-                             else ()
 (:                             the following step should take the list of results and format it using the chunksize and max parameters:)
 let $CS := number($groupBy)
 let $M := number($max)
-
-let $ctype := if(contains($id, 'betmasMS:')) then 
- (if($level = '') then 'folio' else if($level='2') then 'page' else 'column')
-                                else 
-                                (if($level = '') then (let $types := for $t in $text/t:div
-                                            let $typ := if($t/@subtype) then string($t/@subtype) else 'textpart'
-                                                                    group by $T := $typ 
-                                                                    let $count := count($T)
-                                                                    return <t tot="{$count}">{$T}</t>
-                                                                    return $types[max(@tot)]/text())
-                                 else  if($level = '2') then (
-                                 if($text/t:div/t:ab/t:l) then 'verse'
-                                 else
-                                 let $types :=  for $t in $text/t:div/t:div
-                                            let $typ := if($t/@subtype) then string($t/@subtype) else 'textpart'
-                                               group by $T := $typ 
-                                             let $count := count($T)
-                                                                    return <t tot="{$count}">{$T}</t>
-                                  return $types[max(@tot)]/text()                        
-                                                                    )
-                             else 'textpart')
-                             
+let $ctype := dts:ctype($mydoc,$text, $level, $cdepth)
 let $chunkedpassage := if(string($groupBy) !='') 
                                                 then       
                                                (

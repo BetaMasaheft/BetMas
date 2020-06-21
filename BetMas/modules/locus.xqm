@@ -15,6 +15,7 @@ declare namespace s = "http://www.w3.org/2005/xpath-functions";
 
 import module namespace r = 'http://joewiz.org/ns/xquery/roman-numerals' at 'roman-numerals.xqm';
 import module namespace functx="http://www.functx.com";
+import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
 
 declare variable $locus:Regex := '^\d+(r|v)?([a-z])?(\d+)?';
 declare variable $locus:RegexProt := '^[xvi]+';
@@ -118,4 +119,17 @@ declare
 %test:arg("value", "xxx") %test:assertEquals("30")
 function locus:roman-arabic($value as xs:string*) {
     r:roman-numeral-to-integer(upper-case($value))
+};
+
+declare function locus:stringloc($node){
+' ('|| (let $locs :=for $loc in $node/t:locus 
+                                        return string:tei2string($loc) 
+                      return string-join($locs, ' ')) || ')'
+                      };
+
+(:~  locuses in any node as string:)
+declare function locus:placement($node){
+if ($node/t:locus) 
+then ( locus:stringloc($node)) 
+else ''
 };

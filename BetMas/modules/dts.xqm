@@ -722,7 +722,7 @@ else <http:header
 (:we need a restxq redirect in case the id contains already the passage. 
 it should redirect the urn with passage to one which splits it and 
 redirect it to a parametrized query:)
- (:if(count($parsedURN//s:group[@nr=8]//text()) ge 1) then 
+ if(count($parsedURN//s:group[@nr=8]//text()) ge 1) then 
  let $location := if($parsedURN//s:group[@nr=18]/text() = '-') 
                     then ('/api/dts/document?id='||$parsedURN//s:group[@nr=1]//text()||$parsedURN//s:group[@nr=2]//text()||$parsedURN//s:group[@nr=3]//text()|| '&amp;start=' ||$parsedURN//s:group[@nr=9]//text()|| '&amp;end=' ||$parsedURN//s:group[@nr=19]//text()) 
                     else ('/api/dts/document?id='||$parsedURN//s:group[@nr=1]//text()||$parsedURN//s:group[@nr=2]//text()||$parsedURN//s:group[@nr=3]//text()|| '&amp;ref=' ||$parsedURN//s:group[@nr=8]//text())
@@ -735,12 +735,51 @@ redirect it to a parametrized query:)
                     value="*"/>
   </http:response>
 </rest:response>
- else:)
+ else
  let $thisid := $parsedURN//s:group[@nr=3]/text()
  let $edition := $parsedURN//s:group[@nr=4]
  let $file := $config:collection-root/id($thisid)
  let $text := if($edition/node()) then dts:pickDivText($file, $edition)  else $file//t:div[@type='edition']
- let $doc := 
+ let $doc := dts:fragment($file, $edition, $ref, $start, $end, $text)
+                       
+ return
+ 
+  switch($Content-Type) 
+  
+  case 'application/rdf+xml' return dts:redirectToRDF($thisid)
+  case 'application/pdf' return dts:redirectToPDF($thisid)
+  case 'text/html' return  dts:redirectToHTML($thisid, $ref, $start)
+  case 'text/plain' return  ( <rest:response>
+  <http:response
+                status="200">
+                <http:header
+                    name="Content-Type"
+                    value="{$Content-Type}; charset=utf-8"/>
+                <http:header
+                    name="Access-Control-Allow-Origin"
+                    value="*"/>
+                   {$links}
+            </http:response>
+        </rest:response>,
+string:tei2string($doc/node()[not(name()='teiHeader')]))
+(:  default is on XML TEI :)
+  default return  ( <rest:response>
+  <http:response
+                status="200">
+                <http:header
+                    name="Content-Type"
+                    value="{$Content-Type}; charset=utf-8"/>
+                <http:header
+                    name="Access-Control-Allow-Origin"
+                    value="*"/>
+                   {$links}
+            </http:response>
+        </rest:response>,$doc)
+  
+
+};
+
+declare function dts:fragment($file, $edition, $ref, $start, $end, $text){
 (: in case there is passage, then look for that place:)
   if ($edition/node() and $ref = '' and $start='') then 
 (:  let $t4 := console:log('edition')
@@ -815,42 +854,6 @@ return
 )
                        
 else $file 
-
-                       
- return
- 
-  switch($Content-Type) 
-  
-  case 'application/rdf+xml' return dts:redirectToRDF($thisid)
-  case 'application/pdf' return dts:redirectToPDF($thisid)
-  case 'text/html' return  dts:redirectToHTML($thisid, $ref, $start)
-  case 'text/plain' return  ( <rest:response>
-  <http:response
-                status="200">
-                <http:header
-                    name="Content-Type"
-                    value="{$Content-Type}; charset=utf-8"/>
-                <http:header
-                    name="Access-Control-Allow-Origin"
-                    value="*"/>
-                   {$links}
-            </http:response>
-        </rest:response>,
-string:tei2string($doc/node()[not(name()='teiHeader')]))
-(:  default is on XML TEI :)
-  default return  ( <rest:response>
-  <http:response
-                status="200">
-                <http:header
-                    name="Content-Type"
-                    value="{$Content-Type}; charset=utf-8"/>
-                <http:header
-                    name="Access-Control-Allow-Origin"
-                    value="*"/>
-                   {$links}
-            </http:response>
-        </rest:response>,$doc)
-  
 
 };
 
@@ -2094,6 +2097,7 @@ let $refs := for $a in $indexEntries
                                  return $reflang
    return 
                 map {"@id" : "https://betamasaheft.eu/" || $ref,
+                "title" : titles:printTitleMainID($ref),
                             "member": $members}
 return                          
 subsequence($refs, $start, $end)

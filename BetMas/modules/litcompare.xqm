@@ -14,6 +14,7 @@ import module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMas/
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
+import module namespace locus = "https://www.betamasaheft.uni-hamburg.de/BetMas/locus" at "xmldb:exist:///db/apps/BetMas/modules/locus.xqm";
 
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace dcterms = "http://purl.org/dc/terms";
@@ -165,7 +166,7 @@ for $m in $mss
                         let $root :=string(root($m)/t:TEI/@xml:id)
                         
                         let $msitem := $m/parent::t:msItem
-                        let $placement := if ($m/preceding-sibling::t:locus) then ( ' ('|| (let $locs :=for $loc in $m/preceding-sibling::t:locus return string:tei2string($loc) return string-join($locs, ' ')) || ')') else ''
+                        let $placement := if ($m/preceding-sibling::t:locus) then ( locus:stringloc($m/preceding-sibling::t:locus)) else ''
                         let $number := count($msitem/preceding-sibling::t:msItem) +1
                         let $totalparts := count($msitem/parent::t:*/child::t:msItem)
                         let $position :=$number || '/' || $totalparts

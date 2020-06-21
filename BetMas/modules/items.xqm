@@ -20,6 +20,7 @@ import module namespace LitFlow = "https://www.betamasaheft.uni-hamburg.de/BetMa
 import module namespace xdb="http://exist-db.org/xquery/xmldb";
 import module namespace kwic = "http://exist-db.org/xquery/kwic"
     at "resource:org/exist/xquery/lib/kwic.xql";
+import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
 import module namespace dtsc="https://www.betamasaheft.uni-hamburg.de/BetMas/dtsc" at "xmldb:exist:///db/apps/BetMas/modules/dtsclient.xqm";
 (: For interacting with the TEI document :)
 declare namespace t = "http://www.tei-c.org/ns/1.0";
@@ -235,26 +236,6 @@ $edition,$per-page, $hi)
 };
 
 
-declare function restItem:additionstitles($nodes as node()*){
-for $node in $nodes
-    return
-        typeswitch ($node)
-            case element(t:term)
-                return
-                    <b>{$node/text()}</b>
-                    case element(t:locus)
-                return
-                    if($node/@from and $node/@to) then ('ff. ' || $node/@from || '-' || $node/@to)
-                    else if($node/@from) then ('ff. ' || $node/@from || '-')
-                    else if($node/@target) then
-                          if (contains($node/@target, ' ')) then let $targets :=  for $t in tokenize($node/@target, ' ') return substring-after($t, '#') return 'ff.'|| string-join($targets, ', ')
-                          else('f. ' || substring-after($node/@target, '#'))
-                    else ()
-            default
-                return
-                    $node
-};
-
 declare function restItem:ITEM($type, $id, $collection,
 $start,
 $end,
@@ -424,8 +405,8 @@ return
 (
 <div class="w3-col" style="width:15%">
 <a href="/{$msid}" class="MainTitle" data-value="{$msid}">{$msid}</a><br/>
-     <a href="/{$rootid}">{if($doc/t:title) then restItem:additionstitles($doc/t:title/node()) else if($doc/t:desc/@type) then string($doc/t:desc/@type) else $itemid}</a>
-    ({restItem:additionstitles($doc/t:locus)})
+     <a href="/{$rootid}">{if($doc/t:title) then string:additionstitles($doc/t:title/node()) else if($doc/t:desc/@type) then string($doc/t:desc/@type) else $itemid}</a>
+    ({string:additionstitles($doc/t:locus)})
      
      </div>,
 <div class="w3-rest">{
@@ -485,7 +466,7 @@ transform:transform(
    <div class="w3-container">
   <div class="w3-twothird" id="dtstext">{ if($this//t:div[@type='edition'])
    then dtsc:text($id, $edition, $ref, $start, $end, $collection) else <p>No text available here.</p>}</div>
-   <div class="w3-third w3-gray w3-padding">{item2:textBibl($this, $id)}</div>
+   <!--<div class="w3-third w3-gray w3-padding">{item2:textBibl($this, $id)}</div>-->
    </div>
     ,
    for $contains in $this//t:relation[@name="saws:contains"]/@passive 
@@ -498,7 +479,7 @@ transform:transform(
    {<div class="w3-twothird" id="dtstext">Contains  {item2:title($contained)}
    {if ($cfile//t:div[@type='edition']) 
    then dtsc:text($contained, '', '', '', '', 'works') else ()}</div>,
-   <div class="w3-third w3-gray w3-padding">{item2:textBibl($this, $id)}</div>
+   <!--<div class="w3-third w3-gray w3-padding">{item2:textBibl($this, $id)}</div>-->
    }</div>
  
    )

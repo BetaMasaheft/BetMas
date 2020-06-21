@@ -1,6 +1,21 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:pleiades="https://pleiades.stoa.org/" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:wd="https://www.wikidata.org/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:oa="http://www.w3.org/ns/oa#" xmlns:doap="http://usefulinc.com/ns/doap#" xmlns:rel="http://purl.org/vocab/relationship/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:pelagios="http://pelagios.github.io/vocab/terms#" xmlns:syriaca="http://syriaca.org/documentation/relations.html#" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:crm="http://www.cidoc-crm.org/cidoc-crm/" xmlns:saws="http://purl.org/saws/ontology#" xmlns:iha="http://islhornafr.tors.sc.ku.dk/" xmlns:funct="http://myfunction" xmlns:svcs="http://rdfs.org/sioc/services#" xmlns:gn="http://www.geonames.org/ontology#" xmlns:agrelon="http://d-nb.info/standards/elementset/agrelon.owl#" xmlns:betmas="https://betamasaheft.eu/" xmlns:lawd="http://lawd.info/ontology/" xmlns:sdc="https://w3id.org/sdc/ontology#" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:ecrm="http://erlangen-crm.org/current/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:snap="http://data.snapdrgn.net/ontology/snap#" xmlns:dc="http://purl.org/dc/elements/1.1/" exclude-result-prefixes="funct" version="2.0">
+<xsl:stylesheet xmlns:pleiades="https://pleiades.stoa.org/" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:wd="https://www.wikidata.org/" xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:oa="http://www.w3.org/ns/oa#" xmlns:doap="http://usefulinc.com/ns/doap#" xmlns:rel="http://purl.org/vocab/relationship/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:pelagios="http://pelagios.github.io/vocab/terms#" xmlns:syriaca="http://syriaca.org/documentation/relations.html#" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:crm="http://www.cidoc-crm.org/cidoc-crm/" xmlns:saws="http://purl.org/saws/ontology#" xmlns:iha="http://islhornafr.tors.sc.ku.dk/" xmlns:funct="http://myfunction" xmlns:svcs="http://rdfs.org/sioc/services#" xmlns:gn="http://www.geonames.org/ontology#" xmlns:agrelon="http://d-nb.info/standards/elementset/agrelon.owl#" xmlns:betmas="https://betamasaheft.eu/" xmlns:lawd="http://lawd.info/ontology/" xmlns:sdc="https://w3id.org/sdc/ontology#" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:ecrm="http://erlangen-crm.org/current/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:snap="http://data.snapdrgn.net/ontology/snap#" xmlns:dc="http://purl.org/dc/elements/1.1/" exclude-result-prefixes="funct" version="2.0">
     <xsl:output method="xml" indent="yes" encoding="UTF-8"/>
+    <xsl:function name="funct:parseLocusRef">
+        <xsl:param name="FromToTarget"/>
+        <xsl:analyze-string select="$FromToTarget" regex="(\d+)([r|v])?([a-z])?(\d+)?">
+            <xsl:matching-substring>
+                <ref>
+                    <xsl:if test="regex-group(1)"><folio><xsl:value-of select="regex-group(1)"/></folio></xsl:if>
+                <xsl:if test="regex-group(2)"><page><xsl:value-of select="regex-group(2)"/></page></xsl:if>
+                <xsl:if test="regex-group(3)"><column><xsl:value-of select="regex-group(3)"/></column></xsl:if>
+                </ref>
+                <xsl:if test="regex-group(4)"><line><xsl:value-of select="regex-group(4)"/></line></xsl:if>
+            </xsl:matching-substring>
+            <xsl:non-matching-substring>
+                <xsl:value-of select="."/>
+            </xsl:non-matching-substring>
+        </xsl:analyze-string>
+    </xsl:function>
     <xsl:function name="funct:date">
         <xsl:param name="date"/>
         <xsl:choose>
@@ -438,10 +453,7 @@
                             <xsl:value-of select="$mainID"/>
                         </xsl:with-param>
                     </xsl:apply-templates>
-                
-
-               
-            <xsl:for-each select="//t:titleStmt/t:title[@xml:id]">
+                    <xsl:for-each select="//t:titleStmt/t:title[@xml:id]">
                     <rdf:Description rdf:about="{funct:id(concat($mainID, '#',@xml:id))}">
                         <rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/E35_Title"/>
                         <rdfs:label>
@@ -875,36 +887,58 @@
         <betmas:hasLocus>
             <betmas:Locus>
         <xsl:if test="@from">
+            <xsl:variable name="parseFrom" select="funct:parseLocusRef(@from)"/>
             <betmas:locusFrom>
-                <xsl:value-of select="@from"/>
+                <xsl:value-of select="$parseFrom/*:ref"/>
+                <xsl:if test="$parseFrom/*:line">
+                    <betmas:locusLine>
+                        <xsl:value-of select="$parseFrom/*:line"/>
+                    </betmas:locusLine>
+                </xsl:if>
             </betmas:locusFrom>
         </xsl:if>
         <xsl:if test="@to">
+            <xsl:variable name="parseTo" select="funct:parseLocusRef(@to)"/>
             <betmas:locusTo>
-                <xsl:value-of select="@to"/>
+                <xsl:value-of select="$parseTo/*:ref"/>
+                <xsl:if test="$parseTo/*:line">
+                    <betmas:locusLine>
+                        <xsl:value-of select="$parseTo/*:line"/>
+                    </betmas:locusLine>
+                </xsl:if>
             </betmas:locusTo>
         </xsl:if>
         <xsl:if test="@target">
             <xsl:choose>
                 <xsl:when test="contains(@target, ' ')">
                     <xsl:for-each select="tokenize(@target, ' ')">
+                        
                         <betmas:locusTarget>
-                            <xsl:value-of select="substring-after(., '#')"/>
+                            <xsl:variable name="t" select="substring-after(., '#')"/>
+                            <xsl:variable name="parseT" select="funct:parseLocusRef($t)"/>
+                            <xsl:value-of select="$parseT/*:ref"/>
+                            <xsl:if test="$parseT/*:line">
+                                <betmas:locusLine>
+                                    <xsl:value-of select="$parseT/*:line"/>
+                                </betmas:locusLine>
+                            </xsl:if>
                         </betmas:locusTarget>
                     </xsl:for-each>
                 </xsl:when>
                 <xsl:otherwise>
                     <betmas:locusTarget>
-                        <xsl:value-of select="substring-after(@target, '#')"/>
+                        <xsl:variable name="t" select="substring-after(@target, '#')"/>
+                        <xsl:variable name="parseT" select="funct:parseLocusRef($t)"/>
+                        <xsl:value-of select="funct:parseLocusRef($t)/*:ref"/>
+                        <xsl:if test="$parseT/*:line">
+                            <betmas:locusLine>
+                                <xsl:value-of select="$parseT/*:line"/>
+                            </betmas:locusLine>
+                        </xsl:if>
                     </betmas:locusTarget>
                 </xsl:otherwise>
             </xsl:choose>
 
-        </xsl:if>
-        <xsl:if test="@n">
-            <betmas:locusLine>
-                <xsl:value-of select="@n"/>
-            </betmas:locusLine>
         </xsl:if>
         </betmas:Locus>
         </betmas:hasLocus>
@@ -1314,6 +1348,8 @@
             </crm:P102_has_title>
         </xsl:if>
     </xsl:template>
+    
+    
 
     <xsl:template match="t:placeName" mode="pn">
         <lawd:hasName>
