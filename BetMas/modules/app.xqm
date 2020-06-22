@@ -892,7 +892,8 @@ declare function app:facetquery($node as node()*, $model as map(*), $query as xs
 declare function app:showFacets($node as node()*, $model as map(*)){
     
 let $subsequence := $model('hits')
-let $general:=$app:facets[parent::xconf:facet[not(@if)]]
+let $itemtype:=$app:facets[.='type']
+let $general:=$app:facets[parent::xconf:facet[not(@if)][not(@dimension='type')]]
 let $mss:=$app:facets[parent::xconf:facet[contains(@if, 'mss')]]
 let $works:=$app:facets[parent::xconf:facet[contains(@if, 'work')]]
 let $places:=$app:facets[parent::xconf:facet[contains(@if, 'place')]]
@@ -903,6 +904,7 @@ return
     <button type="submit" class="w3-button w3-block w3-left-align w3-red">refine search results <i class="fa fa-search"></i></button>
     <input name="query" value="{request:get-parameter('query', ())}" hidden="hidden"/>
     </div>
+     {app:facetGroup($itemtype, 'Resource type', $subsequence)}
     {app:facetGroup($general, 'General', $subsequence)}
     {app:facetGroup($mss, 'Manuscripts', $subsequence)}
     {app:facetGroup($works, 'Textual and Narrative Units', $subsequence)}
@@ -1079,6 +1081,7 @@ declare function app:facetName($f){
                 case 'artThemes' return 'Art Themes (in decorations)'
                 case 'artkeywords' return 'Art Keywords (in decorations)'
                 case 'decoType' return 'Type of Decoration'
+                case 'calendarType' return 'Type of calendar used'
                 case 'images' return 'Images Availability'
                 case 'writtenLines' return 'Written Lines'
                 case 'columns' return 'Columns'
@@ -1169,7 +1172,7 @@ let $leaves :=  if (contains($app:params, 'folia'))
                 else if (empty($range))
                 then ()
                 else
-                "[descendant::t:extent/t:measure[@unit='leaf'][not(@type)][xs:integer(.) >="||$min|| ' ][ xs:integer(.)  <= ' || $max ||"]]"
+                "[descendant::t:extent/t:measure[@unit='leaf'][not(@type)][. >="||$min|| ' ][ .  <= ' || $max ||"]]"
                ) else ()
 let $wL :=  if (contains($app:params, 'wL')) 
                 then (
@@ -1659,7 +1662,8 @@ function app:facetSearchRes ( $node as node()*,  $model as map(*), $start as xs:
                  </span>
               </div>
               <div class="w3-col"  style="width:70%">
-              <span class="w3-tag w3-gray">{$collection}:{$id}</span>
+              <span class="w3-tag w3-gray">{$collection}</span>
+              <span class="w3-tag w3-gray" style="word-break: break-all; text-align: left;">{$id}</span>
               <span class="w3-tag w3-red"><a href="{('/tei/' || $id || '.xml')}" target="_blank">TEI</a></span>
               <span class="w3-tag w3-red"><a href="/{$id}.pdf" target="_blank" >PDF</a></span><br/>
                <a target="_blank" href="/{$collection}/{$id}/main?hi={request:get-parameter('query',())}"><b>{if(starts-with($id, 'corpus')) then $root//t:titleStmt/t:title[1]/text() else try{titles:printTitleID($id)} catch *{console:log(($text, $id, $err:description))}}</b></a><br/>
