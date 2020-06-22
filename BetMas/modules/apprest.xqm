@@ -24,6 +24,7 @@ import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/c
 import module namespace charts = "https://www.betamasaheft.uni-hamburg.de/BetMas/charts" at "xmldb:exist:///db/apps/BetMas/modules/charts.xqm";
 import module namespace console = "http://exist-db.org/xquery/console"; 
 import module namespace exreq = "http://exquery.org/ns/request";
+import module namespace locus = "https://www.betamasaheft.uni-hamburg.de/BetMas/locus" at "xmldb:exist:///db/apps/BetMas/modules/locus.xqm";
 
 declare variable $apprest:languages := doc('/db/apps/BetMas/lists/languages.xml');
 declare variable $apprest:prefixes := doc('https://raw.githubusercontent.com/BetaMasaheft/Documentation/master/prefixDef.xml');
@@ -1033,7 +1034,7 @@ let $leaves :=  if(empty($Pfolia) or $Pfolia = '') then () else
                 else if (empty($Pfolia))
                 then ()
                 else
-                "[descendant::t:extent/t:measure[@unit='leaf'][not(@type)][. >="||$min|| ' ][ .  <= ' || $max ||"]]"
+                "[descendant::t:extent/t:measure[@unit='leaf'][not(@type)][xs:integer(.) >="||$min|| ' ][ xs:integer(.)  <= ' || $max ||"]]"
                )
 let $wL := if(empty($PwL) or $PwL = '') then () else (
                 let $min := substring-before($PwL, ',')
@@ -1051,7 +1052,7 @@ let $quires :=  if(empty($Pqn) or $Pqn = '' or $Pqn = '1,100')
                 let $min := substring-before($Pqn, ',')
                 let $max := substring-after($Pqn, ',')
                 return
-                "[descendant::t:extent/t:measure[@unit='quire'][not(@type)][not(.='')][. ge "||$min|| ' ][.  le ' || $max ||"]]")
+                "[descendant::t:extent/t:measure[@unit='quire'][not(@type)][not(.='')][xs:integer(.) ge "||$min|| ' ][xs:integer(.)  le ' || $max ||"]]")
 let $quiresComp :=  if(empty($Pqcn) or $Pqcn = '' or $Pqcn = '1,40')
                      then () else  (
                    let $min := substring-before($Pqcn, ',')
@@ -1615,6 +1616,7 @@ then (
         )
 };
 
+
 (:~  given an id looks for all manuscripts containing it and returns a div with cards use by Slick for the Carousel view:)
  declare function apprest:compareMssFromForm($target-work as xs:string?) {
 
@@ -1653,7 +1655,7 @@ return
 {for $msitem at $p in root($manuscript)/t:TEI//t:msItem
 (:  store in a variable the ref in the title or nothing:)
 let $title := if ($msitem/t:title[@ref]) then $msitem/t:title[1]/@ref else ''
-let $placement := if ($msitem/t:locus) then ( ' ('|| (let $locs :=for $loc in $msitem/t:locus return string:tei2string($loc) return string-join($locs, ' ')) || ')') else ''
+let $placement := locus:placement($msitem)
 order by $p
 return
 <li style="{if(matches($msitem/@xml:id, '\d+\.\d+\.\d+'))
@@ -1687,7 +1689,7 @@ else try{titles:printTitleID($title)} catch * {$title}}</a>
 {for $additem at $p in root($manuscript)/t:TEI//t:additions//t:item
 (:  store in a variable the ref in the title or nothing:)
 let $title := if ($additem//t:title[@ref]) then for $t in $additem//t:title/@ref return $t else ''
-let $placement := if ($additem/t:locus) then ( ' ('|| (let $locs :=for $loc in $additem/t:locus return string:tei2string($loc) return string-join($locs, ' ')) || ')') else ''
+let $placement := locus:placement($additem) 
 order by $p
 return
 <li>
@@ -1747,7 +1749,7 @@ if($mss = '') then ()  else(
                                             {for $msitem at $p in $manuscript//t:msItem
                                             (:  store in a variable the ref in the title or nothing:)
                                             let $title := if ($msitem/t:title[@ref]) then $msitem/t:title[1]/@ref else ''
-                                            let $placement := if ($msitem/t:locus) then ( ' ('|| (let $locs :=for $loc in $msitem/t:locus return string:tei2string($loc) return string-join($locs, ' ')) || ')') else ''
+                                            let $placement :=  locus:placement($msitem)
                                             order by $p
                                             return
                                                     <li style="{if(matches($msitem/@xml:id, '\d+\.\d+\.\d+'))
@@ -1778,7 +1780,7 @@ if($mss = '') then ()  else(
 {for $additem at $p in root($manuscript)/t:TEI//t:additions//t:item
 (:  store in a variable the ref in the title or nothing:)
 let $title := if ($additem//t:title[@ref]) then for $t in $additem//t:title/@ref return $t else ''
-let $placement := if ($additem/t:locus) then ( ' ('|| (let $locs :=for $loc in $additem/t:locus return string:tei2string($loc) return string-join($locs, ' ')) || ')') else ''
+let $placement := locus:placement($additem) 
 order by $p
 return
 <li>

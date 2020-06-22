@@ -1,4 +1,177 @@
-<xsl:stylesheet xmlns="http://www.w3.torg/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.torg/1999/xhtml" 
+    xmlns:funct="my.funct"
+    xmlns:number="roman.numerals.funct"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+    xmlns:t="http://www.tei-c.org/ns/1.0" 
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    exclude-result-prefixes="#all" version="2.0">
+<!--    from https://stackoverflow.com/questions/43732638/roman-numeral-to-integer-value-using-xslt-->
+    <xsl:function name="number:RomanToInteger">
+        <xsl:param name="romannumber"/>
+        <xsl:param name="followingvalue"/>
+        <xsl:choose>
+            <xsl:when test="ends-with($romannumber,'CM')">
+                <xsl:value-of select="900 + number:RomanToInteger(substring($romannumber,1,string-length($romannumber)-2), 900)"/>
+            </xsl:when>
+            <xsl:when test="ends-with($romannumber,'M')">
+                <xsl:value-of select="1000+ number:RomanToInteger(substring($romannumber,1,string-length($romannumber)-1), 1000)"/>
+            </xsl:when>
+            <xsl:when test="ends-with($romannumber,'CD')">
+                <xsl:value-of select="400+ number:RomanToInteger(substring($romannumber,1,string-length($romannumber)-2), 400)"/>
+            </xsl:when>
+            <xsl:when test="ends-with($romannumber,'D')">
+                <xsl:value-of select="500+ number:RomanToInteger(substring($romannumber,1,string-length($romannumber)-1), 500)"/>
+            </xsl:when>
+            <xsl:when test="ends-with($romannumber,'XC')">
+                <xsl:value-of select="90+ number:RomanToInteger(substring($romannumber,1,string-length($romannumber)-2), 90)"/>
+            </xsl:when>
+            <xsl:when test="ends-with($romannumber,'C')">
+                <xsl:value-of select="(if(100 ge number($followingvalue)) then 100 else -100)+ number:RomanToInteger(substring($romannumber,1,string-length($romannumber)-1), 100)"/>
+            </xsl:when>
+            <xsl:when test="ends-with($romannumber,'XL')">
+                <xsl:value-of select="40+ number:RomanToInteger(substring($romannumber,1,string-length($romannumber)-2), 40)"/>
+            </xsl:when>
+            <xsl:when test="ends-with($romannumber,'L')">
+                <xsl:value-of select="50+ number:RomanToInteger(substring($romannumber,1,string-length($romannumber)-1), 50)"/>
+            </xsl:when>
+            <xsl:when test="ends-with($romannumber,'IX')">
+                <xsl:value-of select="9+ number:RomanToInteger(substring($romannumber,1,string-length($romannumber)-2), 9)"/>
+            </xsl:when>
+            <xsl:when test="ends-with($romannumber,'X')">
+                <xsl:value-of select="(if(10 ge number($followingvalue)) then 10 else -10) + number:RomanToInteger(substring($romannumber,1,string-length($romannumber)-1), 10)"/>
+            </xsl:when>
+            <xsl:when test="ends-with($romannumber,'IV')">
+                <xsl:value-of select="4+ number:RomanToInteger(substring($romannumber,1,string-length($romannumber)-2), 4)"/>
+            </xsl:when>
+            <xsl:when test="ends-with($romannumber,'V')">
+                <xsl:value-of select="5+ number:RomanToInteger(substring($romannumber,1,string-length($romannumber)-1), 5)"/>
+            </xsl:when>
+            <xsl:when test="ends-with($romannumber,'I')">
+                <xsl:value-of select="(if(1 ge number($followingvalue)) then 1 else -1)+ number:RomanToInteger(substring($romannumber,1,string-length($romannumber)-1), 1)"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="0"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:function>
+    <xsl:function name="funct:analyseMeasure">
+       <xsl:param name="measure"/>
+       <xsl:choose>
+           <xsl:when test="matches($measure,'\s*(\d+)\s*\+\s*(\d+)\s*\+\s*(\d+)\s*')">
+               <xsl:analyze-string select="$measure" regex="\s*(\d+)\s*\+\s*(\d+)\s*\+\s*(\d+)\s*">
+                   <xsl:matching-substring>
+                       <beginning><xsl:value-of select="regex-group(1)"/></beginning>
+                       <text><xsl:value-of select="regex-group(2)"/></text>
+                       <end><xsl:value-of select="regex-group(3)"/></end>
+                   </xsl:matching-substring>
+                   <xsl:non-matching-substring>
+                       <xsl:value-of select="."/>
+                   </xsl:non-matching-substring>
+               </xsl:analyze-string>
+           </xsl:when>
+           <xsl:when test="matches($measure,'\s*(\d+)\s*\+\s*(\d+)\s*')">
+               <xsl:analyze-string select="$measure" regex="\s*(\d+)\s*\+\s*(\d+)\s*">
+                   <xsl:matching-substring>
+                       <xsl:variable name="values">
+                           <vals>
+                               <val><xsl:value-of select="regex-group(1)"/></val>
+                               <val><xsl:value-of select="regex-group(2)"/></val>
+                           </vals>
+                       </xsl:variable>
+                       <xsl:variable name="max" select="max($values//*:val)"/>
+                       <xsl:variable name="min" select="min($values//*:val)"/>
+                       <xsl:if test="$min=xs:integer(regex-group(1))"><beginning><xsl:value-of select="$min"/></beginning></xsl:if>
+                       <text><xsl:value-of select="$max"/></text>
+                       <xsl:if test="$min=xs:integer(regex-group(2))"><end><xsl:value-of select="$min"/></end></xsl:if>
+                   </xsl:matching-substring>
+                   <xsl:non-matching-substring>
+                       <xsl:value-of select="."/>
+                   </xsl:non-matching-substring>
+               </xsl:analyze-string>
+           </xsl:when>
+           <xsl:when test="matches($measure, '\s*([ivx|IVX]+)\s*\+\s*(\d{1,3})\s*\+\s*([ivx|IVX]+)\s*')">
+               <xsl:analyze-string select="$measure" regex="\s*([ivx|IVX]+)\s*\+\s*(\d{{1,3}})\s*\+\s*([ivx|IVX]+)\s*">
+                   <xsl:matching-substring>
+                       <beginning><xsl:number value="number:RomanToInteger(regex-group(1), 0)" format="1"/></beginning>
+                       <text><xsl:value-of select="regex-group(2)"/></text>
+                       <end><xsl:number value="number:RomanToInteger(regex-group(3), 0)" format="1"/></end>
+                   </xsl:matching-substring>
+                   <xsl:non-matching-substring>
+                       <xsl:value-of select="."/>
+                   </xsl:non-matching-substring>
+               </xsl:analyze-string>
+           </xsl:when>
+           <xsl:when test="matches($measure, '\s*([ivx|IVX]+)\s*\+\s*(\d{1,3})\s*')">
+               <xsl:analyze-string select="$measure" regex="\s*([ivx|IVX]+)\s*\+\s*(\d{{1,3}})\s*">
+                   <xsl:matching-substring>
+                       <beginning><xsl:number value="number:RomanToInteger(regex-group(1), 0)" format="1"/></beginning>
+                       <text><xsl:value-of select="regex-group(2)"/></text>
+                   </xsl:matching-substring>
+                   <xsl:non-matching-substring>
+                       <xsl:value-of select="."/>
+                   </xsl:non-matching-substring>
+               </xsl:analyze-string>
+           </xsl:when>
+           <xsl:when test="matches($measure, '\s*(\d{1,3})\s*\+\s*([ivx|IVX]+)\s*')">
+               <xsl:analyze-string select="$measure" regex="\s*(\d{{1,3}})\s*\+\s*([ivx|IVX]+)\s*">
+                   <xsl:matching-substring>
+                       <text><xsl:value-of select="regex-group(1)"/></text>
+                       <end><xsl:number value="number:RomanToInteger(regex-group(2), 0)" format="1"/></end>
+                   </xsl:matching-substring>
+                   <xsl:non-matching-substring>
+                       <xsl:value-of select="."/>
+                   </xsl:non-matching-substring>
+               </xsl:analyze-string>
+           </xsl:when>
+           <xsl:when test="matches($measure, '.*\((.*)\)')">
+               <xsl:analyze-string select="$measure" regex=".*\((.*)\)">
+                   <xsl:matching-substring>
+               <xsl:value-of select="funct:analyseMeasure(regex-group(1))"/>
+                   </xsl:matching-substring>
+               </xsl:analyze-string>
+           </xsl:when>
+       </xsl:choose>
+   </xsl:function>
+   <xsl:function name="funct:measure">
+        <xsl:param name="measure"/>
+       <xsl:variable name="parsedMeasure">
+            <xsl:copy-of select="funct:analyseMeasure($measure)"/>
+        </xsl:variable>
+       <xsl:variable name="totalprotectives" >
+            <xsl:choose>
+                <xsl:when test="$parsedMeasure//*:beginning and $parsedMeasure//*:end">
+                    <xsl:value-of select="xs:integer($parsedMeasure//*:beginning/data()) + xs:integer($parsedMeasure//*:end/data())"/>
+                </xsl:when>
+                <xsl:when test="$parsedMeasure//*:beginning and not($parsedMeasure//*:end)">
+                    <xsl:value-of select="xs:integer($parsedMeasure//*:beginning/data())"/>
+                </xsl:when>
+                <xsl:when test="$parsedMeasure//*:end and not($parsedMeasure//*:beginning)">
+                    <xsl:value-of select="xs:integer($parsedMeasure//*:end/data())"/>
+                </xsl:when>
+            </xsl:choose>
+        </xsl:variable>
+       <xsl:if test="$parsedMeasure//*:beginning">
+            <xsl:choose>
+            <xsl:when test="xs:integer($parsedMeasure//*:beginning/data()) gt 1">
+                i-<xsl:number format="i" value="$parsedMeasure//*:beginning/data()"/>
+            </xsl:when>
+            <xsl:otherwise>i</xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>+</xsl:text>
+       </xsl:if>
+        <xsl:number value="$parsedMeasure//*:text/data()"/> 
+        <xsl:if test="$parsedMeasure//*:end"> 
+            <xsl:text>+</xsl:text>
+            <xsl:choose>
+                <xsl:when test="(xs:integer($parsedMeasure//*:end/data()) gt 1) and $parsedMeasure//*:beginning">
+                    <xsl:number format="i" 
+                        value="($parsedMeasure//*:beginning/data()+1)"/>-<xsl:number 
+                            format="i" value="$totalprotectives"/>
+                </xsl:when>
+                <xsl:otherwise><xsl:number format="i" value="$totalprotectives"/></xsl:otherwise>
+            </xsl:choose>
+        </xsl:if>
+    </xsl:function>
     
     <xsl:template match="t:relation" mode="gendesc">
         <xsl:choose>
@@ -144,14 +317,6 @@
             <xsl:apply-templates/>
         </p>
     </xsl:template>
-    <xsl:template match="t:seg[@part]">
-        <xsl:choose>
-            <xsl:when test="@part = 'I'">Incipit: </xsl:when>
-            <xsl:when test="@part = 'F'">Explicit: </xsl:when>
-            <xsl:when test="@part = 'M'">Excerpt: </xsl:when>
-        </xsl:choose>
-        <xsl:apply-templates/>
-    </xsl:template>
     <xsl:template match="t:incipit">
         <xsl:variable name="lang" select="@xml:lang"/>
         <p lang="{$lang}">
@@ -205,7 +370,15 @@
     </xsl:template>
     
     <xsl:template match="t:measure[. != '']">
-        <xsl:value-of select="."/>
+        <span class="w3-tooltip">
+            <xsl:choose>
+                <xsl:when test="contains(.,'+')">
+                <xsl:value-of select="funct:measure(.)"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="."/>    
+                </xsl:otherwise>
+            </xsl:choose>
         <xsl:text> (</xsl:text>
         <xsl:value-of select="@unit"/>
         <xsl:if test="@type">
@@ -224,6 +397,8 @@
                 <xsl:text>.</xsl:text>
             </xsl:otherwise>
         </xsl:choose>
+   <span class="w3-teg">Entered as <xsl:value-of select="."/></span>
+        </span>
     </xsl:template>
     
     

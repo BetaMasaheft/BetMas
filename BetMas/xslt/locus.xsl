@@ -516,7 +516,7 @@
         <xsl:if test="ancestor::t:TEI//t:div[@type='edition'][descendant::t:ab[//text()]]">
             <xsl:variable name="refs">
                 <xsl:for-each select="@from">
-                    <xsl:value-of select="@from"/><xsl:if test="@to"><xsl:value-of select="concat('-', @to)"/></xsl:if>
+                    <xsl:value-of select="."/><xsl:if test="./parent::t:*/@to"><xsl:value-of select="concat('-', ./parent::t:*/@to)"/></xsl:if>
                 </xsl:for-each>
                 <xsl:for-each select="if(contains(@target, ' ')) then tokenize(@target, ' ') else @target">
                     <xsl:value-of select="substring-after(., '#')"/>
