@@ -1172,7 +1172,7 @@ let $leaves :=  if (contains($app:params, 'folia'))
                 else if (empty($range))
                 then ()
                 else
-                "[descendant::t:extent/t:measure[@unit='leaf'][not(@type)][. >="||$min|| ' ][ .  <= ' || $max ||"]]"
+                "[descendant::t:extent/t:measure[@unit='leaf'][not(@type)][matches(.,'^\d+$')][xs:integer(.) >="||$min|| ' ][ xs:integer(.)  <= ' || $max ||"]]"
                ) else ()
 let $wL :=  if (contains($app:params, 'wL')) 
                 then (
@@ -1194,7 +1194,7 @@ let $quires :=  if (contains($app:params, 'qn'))
                  if ($range = '1,100')
                 then ()
                 else
-                app:paramrange('qn', "extent/t:measure[@unit='quire'][not(@type)]")
+                app:paramrange('qn', "extent/t:measure[@unit='quire'][not(@type)][matches(.,'^\d+$')]")
                ) else ()
 let $quiresComp :=  if (contains($app:params, 'qcn')) 
                 then (
