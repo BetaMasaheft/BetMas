@@ -53,6 +53,15 @@ declare variable $dts:context := map{
         "foaf": "http://xmlns.com/foaf/0.1/",
         "sc": "http://iiif.io/api/presentation/2#"
   };
+  declare variable $dts:publisher := map {
+        "dc:publisher": ["Akademie der Wissenschaften in Hamburg", "Hiob-Ludolf-Zentrum für Äthiopistik"],
+        "dc:description": [
+            map {
+                "@lang": "en",
+                "@value": "The project Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea (Schriftkultur des christlichen Äthiopiens: eine multimediale Forschungsumgebung) is a long-term project funded within the framework of the Academies' Programme (coordinated by the Union of the German Academies of Sciences and Humanities) under survey of the Akademie der Wissenschaften in Hamburg. The funding will be provided for 25 years, from 2016–2040. The project is hosted by the Hiob Ludolf Centre for Ethiopian Studies at the University of Hamburg. It aims at creating a virtual research environment that shall manage complex data related to predominantly Christian manuscript tradition of the Ethiopian and Eritrean Highlands."
+            }
+        ]
+    };
   declare variable $dts:regexCol := "(https://betamasaheft.eu/)(textualunits|narrativeunits|transcriptions)?";
   declare variable $dts:regexID := "([a-zA-Z\d]+)?(_(ED|TR)_([a-zA-Z0-9]+)?)?(\.)?(((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?(\-)?((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?)";
    
@@ -195,9 +204,10 @@ function dts:dtsmain() {
   "@id": "/api/dts",
   "@type": "EntryPoint",
   "collections": "/api/dts/collections",
-  "documents": "/api/dts/document",
+  "document": "/api/dts/document",
   "navigation" : "/api/dts/navigation",
-  "indexes" : "/api/dts/indexes"
+  "indexes" : "/api/dts/indexes",
+  "annotations" : "/api/dts/annotations"
 })
          
 };
@@ -1048,10 +1058,13 @@ declare function dts:reftitle($n){
 if($n/@corresp) then 
              (if(starts-with($n/@corresp, '#')) 
                  then <title>{normalize-space(titles:printSubtitle($n, substring-after($n/@corresp, '#')))}</title>
-              else if(starts-with($n/@corresp, 'LIT')) then <title>{normalize-space(titles:printTitleID($n/@corresp))}</title>
-              else if(starts-with($n/@corresp, 'NAR')) then <title>{normalize-space(titles:printTitleID($n/@corresp))}</title>
+              else if(starts-with($n/@corresp, 'LIT')) 
+              then <title>{normalize-space(titles:printTitleID($n/@corresp))}</title>
+              else if(starts-with($n/@corresp, 'NAR')) 
+              then <title>{normalize-space(titles:printTitleID($n/@corresp))}</title>
               else <title>{string($n/@corresp)}</title>)
  else if ($n/t:label) then <title>{string:tei2string($n/t:label)}</title>
+ else if ($n/@subtye) then <title>{string($n/@subtye)} {if($n/@n) then string($n/@n) else $n/position()}</title>
  else ()
               };
               
@@ -1191,7 +1204,7 @@ let $path := dts:selectorRef($level, $text, $ref, 'yes')
      return dts:pas($n, $fallback, $type, $manifest, $BMid)
 };
 
-declare function dts:ctype ($mydoc, $text, $level, $cdepth){
+declare function dts:ctype($mydoc, $text, $level, $cdepth){
  if($mydoc/@type='mss' 
                       and not($text/ancestor::t:TEI//t:objectDesc/@form ='Inscription')) 
                     then  (
@@ -1340,15 +1353,7 @@ map {
     "totalItems": 3,
     "title": "Beta maṣāḥǝft",
     "description" : "The project Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea (Schriftkultur des christlichen Äthiopiens: eine multimediale Forschungsumgebung) is a long-term project funded within the framework of the Academies' Programme (coordinated by the Union of the German Academies of Sciences and Humanities) under survey of the Akademie der Wissenschaften in Hamburg. The funding will be provided for 25 years, from 2016–2040. The project is hosted by the Hiob Ludolf Centre for Ethiopian Studies at the University of Hamburg. It aims at creating a virtual research environment that shall manage complex data related to predominantly Christian manuscript tradition of the Ethiopian and Eritrean Highlands.",
-    "dts:dublincore": map {
-        "dc:publisher": ["Akademie der Wissenschaften in Hamburg", "Hiob-Ludolf-Zentrum für Äthiopistik"],
-        "dc:description": [
-            map {
-                "@lang": "en",
-                "@value": "The project Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea (Schriftkultur des christlichen Äthiopiens: eine multimediale Forschungsumgebung) is a long-term project funded within the framework of the Academies' Programme (coordinated by the Union of the German Academies of Sciences and Humanities) under survey of the Akademie der Wissenschaften in Hamburg. The funding will be provided for 25 years, from 2016–2040. The project is hosted by the Hiob Ludolf Centre for Ethiopian Studies at the University of Hamburg. It aims at creating a virtual research environment that shall manage complex data related to predominantly Christian manuscript tradition of the Ethiopian and Eritrean Highlands."
-            }
-        ]
-    },
+    "dts:dublincore": $dts:publisher,
     "member": [
         map {
              "@id" : "https://betamasaheft.eu/textualunits",
@@ -1413,9 +1418,7 @@ let $members :=  for $document in subsequence($items , $start, $end)
     "@type": "Collection",
     "totalItems": $count,
     "title": $title,
-    "dts:dublincore": map {
-        "dc:publisher": ["Akademie der Wissenschaften in Hamburg", "Hiob-Ludolf-Zentrum für Äthiopistik"]
-    },
+    "dts:dublincore": $dts:publisher,
     "member": $members,
     "view": map{
         "@id": $pageid,
@@ -2138,15 +2141,48 @@ map{
     
 declare function dts:indexentries($id, $name){
 let $file := $config:collection-root/id($id)
-let $t := console:log($file//t:titleStmt)
 return
 switch($name) 
-                            case 'persons' return $file//t:placeName[@ref]
-                            case 'places' return $file//t:persName[@ref]
+                            case 'places' return $file//t:placeName[@ref]
+                            case 'persons' return $file//t:persName[@ref[. !='PRS00000' and . !='PRS0000']]
                             case 'works' return $file//t:title[@ref]
                             case 'loci' return $file//t:ref[@cRef]
                             case 'keywords' return $file//t:term[@key]
                             default return ()
+};
+
+declare function dts:indexentriesFile($file, $id, $name){
+switch($name) 
+                            case 'places' return $file//t:placeName[@ref =$id]
+                            case 'persons' return $file//t:persName[@ref = $id]
+                            case 'works' return $file//t:title[@ref = $id]
+                            case 'loci' return $file//t:ref[@cRef = $id]
+                            case 'keywords' return $file//t:term[@key = $id]
+                            default return ()
+};
+
+declare function dts:indexentriesColl($id, $coll, $name){
+(:let $t := console:log($id):)
+let $files := dts:switchContext($coll)
+return
+if($id!='') then
+(:let $t := console:log($id)
+return:)
+switch($name)
+    case 'persons' return $files//t:persName[@ref = $id]
+    case 'places' return $files//t:placeName[@ref=$id]
+    case 'works' return $files//t:title[@ref=$id]
+    case 'loci' return $files//t:ref[@cRef=$id]
+    case 'keywords' return $files//t:term[@key=$id]
+    default return ()
+    else 
+    switch($name)
+    case 'places' return $files//t:placeName[@ref]
+    case 'persons' return $files//t:persName[@ref[. !='PRS00000' and . !='PRS0000']]
+    case 'works' return $files//t:title[@ref]
+    case 'loci' return $files//t:ref[@cRef]
+    case 'keywords' return $files//t:term[@key]
+    default return ()
 };
 
 declare function dts:indextitle($name){
@@ -2178,3 +2214,523 @@ let $key:= if ($file//t:term[@key]) then map{"name": "places"} else ()
 return ($pl, $pr, $w, $loci, $key)
 };
 
+
+
+(:~annotations main collection, returns a list of collections of annotations, one for each 
+resource type and one for all items in the db with indexable terms :)
+declare
+%rest:GET
+%rest:path("/BetMas/api/dts/annotations")
+%rest:query-param("version", "{$version}", "")
+%output:method("json")
+function dts:WebAnnotationsMain($version as xs:string*){
+let $topmembers := for $topcol in ('works', 'mss', 'narr', 'all') return 
+dts:annotationCollection($topcol, 7, 1)
+return
+map {
+    "@context": $dts:context,
+    "@type" : 'AnnotationCollection',
+    "@id": $config:appUrl || '/api/dts/annotations',
+    "totalItems": 4,
+    "dts:totalParents": 0,
+    "dts:totalChildren": 4,
+    "member": $topmembers,
+    "title": "Annotations Root Collection",
+    "dts:dublincore": $dts:publisher
+} 
+};
+
+
+(:~annotations collection for a type of items (manuscripts, works or narrative units), 
+returns a list of collections of annotations, one for which available index types
+'persons', 'places','keywords', 'loci', 'works' if there are all indexable terms for that index,
+from items in that resources collection.
+An additiona Annotation Collaction for 
+each item is added whcih is instead an annotation collection of annotation collections.
+:)
+declare
+%rest:GET
+%rest:path("/BetMas/api/dts/annotations/{$coll}")
+%rest:query-param("version", "{$version}", "")
+%output:method("json")
+function dts:WebAnnotationsColl($coll as xs:string*, $version as xs:string*){
+let $indexnames := ('persons', 'places','keywords', 'loci', 'works')
+let $indexes := dts:CollAnno($coll,$indexnames)
+let $itemsIndex := dts:ItemAnnotationCollection($coll, 1)
+let $all := ($indexes, $itemsIndex)
+let $topinfo := dts:annotationCollection($coll, count($all), 1)
+let $contents:=
+map {
+    "@context": $dts:context,
+    "member": $all,
+    "dts:dublincore": $dts:publisher
+} 
+return
+map:merge(($topinfo,$contents))
+};
+
+(:~ annotations collection for a type of items (manuscripts, works or narrative units), and a 
+specific index type among
+'persons', 'places','keywords', 'loci', 'works' and 'items'.
+Indexed passages are grouped by their reference and one annotation collection with that id
+is provided. the annotations in the single reference  annotation collation are retrieved by
+adding an $id parameter with the full reference :)
+declare
+%rest:GET
+%rest:path("/BetMas/api/dts/annotations/{$coll}/{$indexName}")
+%rest:query-param("begin", "{$begin}", "1")
+%rest:query-param("page", "{$page}", "1")
+%rest:query-param("id", "{$id}", "")
+%rest:query-param("version", "{$version}", "")
+%output:method("json")
+function dts:WebAnnotationsIndex($coll as xs:string*, $id as xs:string*, 
+$indexName as xs:string*, 
+$begin as xs:string*, $page as xs:string*, $version as xs:string*){
+let $parsedURN := dts:parseDTS($id)
+let $BMid := if(matches($id,'https://betamasaheft.eu')) then $parsedURN//s:group[@nr=3]//text() else $id
+(:if $indexName is items then list each item in the collection as annotation collection
+else print all paginated values for that index in the collection:)
+let $indexEntries := if($indexName='items') 
+                                   then dts:AnnoItems($coll)
+                                   else dts:indexentriesColl($BMid, $coll, $indexName) 
+let $c := count($indexEntries)
+let $indexes :=  if($indexName='items') 
+                           then dts:AnnoItemInfo($coll, $indexEntries, $page)
+                           else if($id='') 
+                            then dts:AnnoEntriesAttestations($indexName, $indexEntries, $page)
+                           else dts:WebAnn($id, $indexEntries, $page)
+let $path := "/api/dts/annotations/"||$coll||'/'||$indexName
+let $v := dts:AnnoEntriesView($path, $id, $indexName, $indexEntries, $page)
+let $topinfo := if($indexName='items') 
+                            then  dts:ItemsAnnotationsCollections($coll, $c)
+                            else if($id!='') 
+                            then dts:refannocol($BMid, $c, $indexName)
+                            else  dts:CollAnno($coll,$indexName) 
+let $response := 
+map {
+    "@context": $dts:context,
+    "view": $v,
+    "member": $indexes,
+    "dts:dublincore": $dts:publisher
+    } 
+return
+map:merge(($topinfo,$response))
+
+};
+
+
+(:~
+annotations collection for a type of items (manuscripts, works or narrative units), and a 
+specific item in that collection of resources. Returns a collection of annotation collections
+if available annotations are  present in the item for each type
+'persons', 'places','keywords', 'loci', 'works'.
+:)
+declare
+%rest:GET
+%rest:path("/BetMas/api/dts/annotations/{$coll}/items/{$BMid}")
+%rest:query-param("begin", "{$begin}", "1")
+%rest:query-param("page", "{$page}", "1")
+%rest:query-param("version", "{$version}", "")
+%output:method("json")
+function dts:WebAnnotationsIndex($coll as xs:string*, $BMid as xs:string*, 
+$begin as xs:string*, $page as xs:string*, $version as xs:string*){
+let $indexes := ('persons', 'places','keywords', 'loci', 'works')
+let $file := dts:switchContext($coll)/id($BMid)
+let $title := titles:printTitleMainID($BMid)
+let $availableIndexesForItem :=   
+                                    for $index in $indexes 
+                                    let $count := dts:ItemAnnotationsEntries($file, $index)
+                                    return if($count=0) then () 
+                                    else dts:ItemAnnotationCollections($coll,$BMid, $title, $index, $count, 3)
+let $c := count($availableIndexesForItem)
+let $topinfo := map {
+    "@type" : 'AnnotationCollection',
+    "title": "Annotations of "||$title||" in "||$coll,
+    "@id": $config:appUrl || '/api/dts/annotations/' ||$coll ||'/items/' || $BMid,
+    "totalItems": $c,
+    "dts:totalParents": 3,
+    "dts:totalChildren": $c
+    }
+
+let $contents:=
+map {
+    "@context": $dts:context,
+    "member": $availableIndexesForItem,
+    "dts:dublincore": $dts:publisher
+} 
+return
+map:merge(($topinfo,$contents))
+};
+
+(:~
+annotations collection for a type of items (manuscripts, works or narrative units), and a 
+specific item in that collection of resources and a specific index type among
+'persons', 'places','keywords', 'loci', 'works'. 
+The annotations in the single reference  annotation collation are retrieved by
+adding an $id parameter with the full reference
+. :)
+declare
+%rest:GET
+%rest:path("/BetMas/api/dts/annotations/{$coll}/items/{$BMid}/{$indexName}")
+%rest:query-param("id", "{$id}", "")
+%rest:query-param("begin", "{$begin}", "1")
+%rest:query-param("page", "{$page}", "1")
+%rest:query-param("version", "{$version}", "")
+%output:method("json")
+function dts:WebAnnotationsIndex($coll as xs:string*, 
+$BMid as xs:string*, $indexName as xs:string*, $id as xs:string*, 
+$begin as xs:string*, $page as xs:string*, $version as xs:string*){
+let $file := dts:switchContext($coll)/id($BMid)
+let $title := titles:printTitleMainID($BMid)
+let $count := dts:ItemAnnotationsEntries($file, $indexName)
+let $topinfo:= dts:ItemAnnotationCollections($coll,$BMid, $title, $indexName, $count, 4)
+let $indexEntries:=dts:indexentriesFile($file, $id, $indexName)
+(:let $test := console:log($indexEntries):)
+let $indexes :=  if($id='') then dts:AnnoEntriesAttestationsItem($BMid, $title, $indexName, $indexEntries, $page)
+                           else dts:WebAnn($id, $indexEntries, $page)
+let $path := "/api/dts/annotations/"||$coll||'/items/'||$BMid||'/'||$indexName
+let $v := dts:AnnoEntriesView($path, $id, $indexName, $indexEntries, $page)
+let $response := map{
+    "@context": $dts:context,
+    "view": $v,
+    "member": $indexes,
+    "dts:dublincore": $dts:publisher
+    } 
+return
+map:merge(($topinfo,$response))
+};
+
+
+declare function dts:AnnoItems($coll){
+let $context:= dts:switchContext($coll)
+return $context//t:TEI[descendant::t:persName[@ref[. !='PRS00000' and . !='PRS0000']] or descendant::t:placeName[@ref] or descendant::t:title[@ref] or descendant::t:term[@key] or descendant::t:ref[@cRef]]
+};
+
+(:~ print the annotations for an id (content of ref as http://webannotation.org/)
+after the example by Thibault Clérice in DTS 
+https://github.com/distributed-text-services/specifications/issues/167
+:)
+declare function dts:WebAnn($id, $indexEntries, $page){
+let $t := console:log($id)
+let $perpage:=10
+let $end := xs:integer($page) * $perpage
+let $start := ($end - $perpage) +1
+for $wa in subsequence($indexEntries, $start, $end)
+let $sourceID := $config:appUrl || '/'|| string($wa/ancestor::t:TEI/@xml:id)
+let $t := normalize-space(string-join($wa//text()))
+let $lang := string($wa/ancestor-or-self::t:*[@xml:lang][1]/@xml:lang)
+let $xpath :=  functx:path-to-node-with-pos($wa)
+let $closestreference := if($wa/preceding-sibling::t:*[@n]) 
+                                             then $wa/preceding-sibling::t:*[@n][1] 
+                                               else if($wa/ancestor::t:*[@n]) 
+                                             then $wa/ancestor::t:*[@n][1] 
+                                                 else if ($wa/ancestor::t:*[@xml:id][name() != 'TEI'])
+                                             then $wa/ancestor::t:*[@xml:id][name() != 'TEI'][1]
+                                                  else $wa
+let $anchor := if($closestreference/name() != 'pb' and 
+                                    $closestreference/name() != 'cb' and 
+                                    $closestreference/name() != 'lb' and 
+                                    $closestreference/name() != 'l' and 
+                                    $closestreference/name() != 'div' 
+                                    ) then '#' else ()
+let $r := $anchor || dts:refname($closestreference)
+let $doc := if(starts-with($r, '#')) 
+                    then ( '/api/dts/document'|| '?id='|| $sourceID) 
+                    else ( '/api/dts/document'|| '?id='|| $sourceID||'&amp;ref=' || $r)
+let $nav := '/api/dts/navigation'|| '?id='|| $sourceID||'&amp;ref=' || $r
+let $dtslinks := if(starts-with($r, '#')) 
+                            then map{"dts:passage" : $doc} 
+                            else map {"dts:passage" : $doc, "dts:references" : $nav}
+let $separator := if(starts-with($r, '#')) then () else '.'
+let $tit := if(starts-with($r, '#')) 
+                  then titles:printSubtitle($closestreference, $r) 
+                  else dts:reftitle($closestreference)
+let $level := if (contains($r, '\.')) then string(count(tokenize($r, '\.'))) else '1'
+let $cdepth := dts:citeDepth($closestreference/ancestor::t:div[@type='edition'])
+let $ctype := dts:typename($closestreference, 'textpart')
+let $basesource := map{"type": "Resource",
+			 "dts:ref": $r,
+			 "dts:citeType": $ctype/text(),
+			 "dts:level": $level,
+                                            "dts:citeDepth": $cdepth,
+			 "id": $sourceID,
+			 "link" : ($sourceID ||$separator || $r)}
+let $source := map:merge(($dtslinks, $basesource))
+   return
+map {
+		  "@context": "http://www.w3.org/ns/anno.jsonld",
+		  "type": "Annotation",
+		  "body": [
+		   map {
+		      "role": $wa/name(),
+		      "text": $t ,
+		      "id": $id,
+		      "@lang" : $lang
+		    }
+		  ],  
+		  "target": map {
+		    "source": $source,
+		    "selector": map{
+		      "type": "XPath",
+		      "@value" :$xpath
+		      }
+		  }
+		}
+
+};
+
+
+(:~ given the collection name and the count of children collections and partens
+returns an object to be merged into a response:)
+declare function dts:annotationCollection($collname, $indexesCount, $parents){
+map {
+    "@type" : 'AnnotationCollection',
+    "title": "Annotations of "||$collname||" Root Collection",
+    "@id": $config:appUrl || '/api/dts/annotations/' ||$collname,
+    "totalItems": $indexesCount,
+    "dts:totalParents": $parents,
+    "dts:totalChildren": $indexesCount
+    }};
+    
+(:~ given the collection name and the count of parents
+returns an object to be merged into a response which contains the 
+special annotation collection with one collection for each item
+the count of parents must be provided but the number of child collection is
+computer to retrieve the number of actually available indexes for that item
+i.e. if there is no persName[@ref] there is no need for an index of persons for that item:)
+declare function dts:ItemAnnotationCollection($collname, $parents){
+    let $c := dts:ItemAnnotationsEntries($collname)
+    return
+map {
+    "@type" : 'AnnotationCollection',
+    "title": "Annotations of each item in "||$collname,
+    "@id": $config:appUrl || '/api/dts/annotations/' ||$collname ||'/items',
+    "totalItems": $c,
+    "dts:totalParents": $parents,
+    "dts:totalChildren": $c
+    }};
+
+(:~ given the collection name and the count of children
+returns an object to be merged into a response which contains the 
+special annotation collection with one collection for each item
+the count of parents is set to 2:)
+declare function dts:ItemsAnnotationsCollections($collname, $c){
+map {
+    "@type" : 'AnnotationCollection',
+    "title": "Annotations of each item in "||$collname,
+    "@id": $config:appUrl || '/api/dts/annotations/' ||$collname ||'/items',
+    "totalItems": $c,
+    "dts:totalParents": 2,
+    "dts:totalChildren": $c
+    }};
+    
+(:~ This is used by the special Annotation Collection of EACH ITEM.
+given the collection name and the index entries (which in this case will be a list of TEI nodes) 
+and the page parameter
+returns a sequence of objects, which are annotations collections for each item 
+to be merged into a response :)    
+declare function dts:AnnoItemInfo($collname, $indexEntries, $page){
+let $perpage:=10
+let $end := xs:integer($page) * $perpage
+let $start := ($end - $perpage) +1
+for $item in subsequence($indexEntries, $start, $end)
+let $id := string($item/@xml:id)
+   let $indexes := ('persons', 'places', 'works', 'loci', 'keywords')
+   let $file := $config:collection-root/id($id)
+ let $availableIndexesForItem :=   for $index in $indexes 
+let $count := dts:ItemAnnotationsEntries($file, $index)
+return if($count=0) then () else 'yes'
+let $c := count($availableIndexesForItem)
+    let $title := titles:printTitleMainID($id)
+    return
+map {
+    "@type" : 'AnnotationCollection',
+    "title": "Annotations of "||$title||" in "||$collname,
+    "@id": $config:appUrl || '/api/dts/annotations/' ||$collname ||'/items/' || $id,
+    "totalItems": $c,
+    "dts:totalParents": 3,
+    "dts:totalChildren": $c
+    }};
+    
+    
+
+declare function dts:AnnoEntriesAttestations($indexName, $indexEntries, $page){
+let $perpage:=10
+let $end := xs:integer($page) * $perpage
+let $start := ($end - $perpage) +1
+let $refs := for $a in $indexEntries
+   let $ref := switch($indexName)
+                                    case 'loci' return $a/@cRef
+                                    case 'keywords' return $a/@key
+                                    default return $a/@ref
+   group by $ref
+   let $c := count($a)
+   order by $c descending
+   return <ref><id>{string($ref)}</id><count>{$c}</count></ref>
+   
+   for $r in subsequence($refs, $start, $end)
+   let $c := $r//*:count/text()
+   let $i := $r//*:id/text()
+return    
+                dts:refannocol($i, $c, $indexName)
+ };
+ 
+ declare function dts:AnnoEntriesAttestationsItem($BMid, $title, $indexName, $indexEntries, $page){
+let $perpage:=10
+let $end := xs:integer($page) * $perpage
+let $start := ($end - $perpage) +1
+let $refs := for $a in $indexEntries
+   let $ref := switch($indexName)
+                                    case 'loci' return $a/@cRef
+                                    case 'keywords' return $a/@key
+                                    default return $a/@ref
+   group by $ref
+   let $c := count($a)
+   order by $c descending
+   return <ref><id>{string($ref)}</id><count>{$c}</count></ref>
+   
+   for $r in subsequence($refs, $start, $end)
+   let $c := $r//*:count/text()
+   let $i := $r//*:id/text()
+return    
+                dts:refannocolItem($BMid, $title, $i, $c, $indexName)
+ };
+
+declare function dts:refannocol($i, $c, $indexName){
+let $t:= console:log($i)
+let $entityorlocus := if(matches($i, 'urn') or matches($i, 'betmas:')) then $i else titles:printTitleMainID($i)
+let $IDentityorlocus := if(matches($i, 'urn') or matches($i, 'betmas:')) then $i else  "https://betamasaheft.eu/" || $i
+return
+map {"@id" : $IDentityorlocus,
+                "title" : 'Annotations of ' || $entityorlocus || ' in ' || $indexName || ' index.',
+                   "totalItems" : $c,
+             "@type" : "AnnotationCollection",
+             "dts:totalParents": 3,
+             "dts:totalChildren": $c}
+};
+
+declare function dts:refannocolItem($BMid, $title, $i, $c, $indexName){
+
+let $entityorlocus := if(contains($i, ':')) then $i else titles:printTitleMainID($i)
+let $IDentityorlocus := if(contains($i, ':')) then $i else  "https://betamasaheft.eu/" || $i
+return
+map {"@id" : $IDentityorlocus,
+           "title" : 'Annotations of ' || $entityorlocus|| ' in ' || $indexName || ' index of ' || $title || '(' ||$BMid||')',
+           "totalItems" : $c,
+             "@type" : "AnnotationCollection",
+             "dts:totalParents": 3,
+             "dts:totalChildren": $c}
+};
+
+declare function dts:AnnoEntriesView($path, $id, $indexName, $indexEntries, $page){
+let $refs := for $ref in $indexEntries 
+                    let $r := switch($indexName)
+                                    case 'loci' return $ref/@cRef
+                                    case 'keywords' return $ref/@key
+                                    default return $ref/@ref
+                    group by $r 
+                    return $r 
+let $count := if($id!='' or $indexName='items') then count($indexEntries) else count($refs)
+let $pg := $path || (if($id = '') then "?page=" else '?id=' || $id ||"&amp;page=")
+let $p := xs:integer($page)
+let $perpage := 10
+let $lastpg := ceiling($count div $perpage)
+let $pageid:=  $pg|| string($page)
+let $firstpage := $pg ||'1'
+let $lastpage:=  $pg ||$lastpg
+let $prevpage:= if($p = 1) then () else $pg ||string($p - 1)
+let $nextpage :=if($p = $lastpg) then () else $pg ||string($p + 1)
+let $end := $p * $perpage
+let $start := ($end - $perpage) +1
+return
+map{
+        "@id": $pageid,
+        "@type": "PartialIndexView",
+        "first": $firstpage,
+        "previous": $prevpage,
+        "next": $nextpage,
+        "last": $lastpage,
+        "totalItems": $count,
+    "title" : dts:indextitle($indexName),
+     "name" : $indexName
+    }};
+
+declare function dts:annotationsEntries($files, $name){
+switch($name) 
+                            case 'persons' return count($files//t:TEI[descendant::t:persName[@ref[. !='PRS00000' and . !='PRS0000']]])
+                            case 'places' return count($files//t:TEI[descendant::t:placeName[@ref]])
+                            case 'works' return count($files//t:TEI[descendant::t:title[@ref]])
+                            case 'loci' return count($files//t:TEI[descendant::t:ref[@cRef]])
+                            case 'keywords' return count($files//t:TEI[descendant::t:term[@key]])
+                            default return ()
+};
+
+declare function dts:ItemAnnotationsEntries($files, $name){
+switch($name) 
+                            case 'persons' return count($files//t:persName[@ref[. !='PRS00000' and . !='PRS0000']])
+                            case 'places' return count($files//t:placeName[@ref])
+                            case 'works' return count($files//t:title[@ref])
+                            case 'loci' return count($files//t:ref[@cRef])
+                            case 'keywords' return count($files//t:term[@key])
+                            default return ()
+};
+
+declare function dts:ItemAnnotationsEntries($name){
+switch($name) 
+                            case 'mss' return count($config:collection-rootMS//t:TEI[descendant::t:persName[@ref[. !='PRS00000' and . !='PRS0000']] or descendant::t:placeName[@ref] or descendant::t:title[@ref] or descendant::t:term[@key] or descendant::t:ref[@cRef]])
+                            case 'works' return count($config:collection-rootW//t:TEI[descendant::t:persName[@ref] or descendant::t:placeName[@ref] or descendant::t:title[@ref] or descendant::t:term[@key] or descendant::t:ref[@cRef]])
+                            case 'narr' return count($config:collection-rootN//t:TEI[descendant::t:persName[@ref] or descendant::t:placeName[@ref] or descendant::t:title[@ref] or descendant::t:term[@key] or descendant::t:ref[@cRef]])
+                            default return count(($config:collection-rootMS,$config:collection-rootW,$config:collection-rootN)//t:TEI[descendant::t:persName[@ref] or descendant::t:placeName[@ref] or descendant::t:title[@ref] or descendant::t:term[@key] or descendant::t:ref[@cRef]])
+};
+
+declare function dts:ItemAnnoCount($id){
+count($config:collection-root//id($id)[descendant::t:persName[@ref[. !='PRS00000' and . !='PRS0000']] or descendant::t:placeName[@ref] or descendant::t:title[@ref] or descendant::t:term[@key] or descendant::t:ref[@cRef]])
+};
+
+declare function dts:MainAnnotationCollections($context, $index, $count){
+map {
+             "@id" : $config:appUrl ||"/api/dts/annotations/"||$context ||'/'|| $index,
+             "title" : "Index of " || $index ||' for ' || $context,
+             "@type" : "AnnotationCollection",
+             "totalItems" : $count,
+             "dts:totalParents": 1,
+             "dts:totalChildren": $count
+        }
+        };
+        
+declare function dts:ItemAnnotationCollections($coll, $BMid, $title, $index, $count, $parents){
+map {
+             "@id" : $config:appUrl ||"/api/dts/annotations/"||$coll ||'/items/'||$BMid ||'/'|| $index,
+             "title" : "Index of " || $index ||' for ' || $title || ' in ' || $coll,
+             "@type" : "AnnotationCollection",
+             "totalItems" : $count,
+             "dts:totalParents": $parents,
+             "dts:totalChildren": $count
+        }
+        };
+
+declare function dts:switchContext($context){
+switch ($context)
+case 'mss' return $config:collection-rootMS
+case 'works' return $config:collection-rootW
+case 'narr' return $config:collection-rootN
+(:default is value 'all':)
+default return ($config:collection-rootMS, $config:collection-rootW, $config:collection-rootN)
+};
+
+declare function dts:CollAnno($context, $indexes){
+let $c := dts:switchContext($context)
+for $index in $indexes 
+let $count := dts:annotationsEntries($c, $index)
+return if($count=0) then () else dts:MainAnnotationCollections($context, $index, $count)
+};
+    
+declare function dts:CollAnnoMember($id, $edition, $specificID, $page, $version){
+let $file := $config:collection-root/id($specificID)
+let $pl:= if ($file//t:placeName[@ref]) then map{"name": "places"} else ()
+let $pr:= if ($file//t:persName[@ref[. !='PRS00000' and . !='PRS0000']]) then map{"name": "persons"} else ()
+let $w:= if ($file//t:title[@ref]) then map{"name": "works"} else ()
+let $loci:= if ($file//t:ref[@cRef]) then map{"name": "loci"} else ()
+let $key:= if ($file//t:term[@key]) then map{"name": "places"} else ()
+return ($pl, $pr, $w, $loci, $key)
+};
