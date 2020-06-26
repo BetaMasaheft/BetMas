@@ -2063,7 +2063,8 @@ let $resultPass :=  if(matches($parsedURN//s:group[@nr=3], '[a-zA-Z\d]+')) then 
 let $resultNav := if(matches($parsedURN//s:group[@nr=3], '[a-zA-Z\d]+')) then map:put($resultPass, "dts:references", $dtsNav) else $resultPass
 
 return
-$resultNav
+($config:response200JsonLD,
+$resultNav)
 };
 
 declare function dts:indexEntriesAttestations($id, $indexName, $indexEntries, $page){
@@ -2227,6 +2228,7 @@ function dts:WebAnnotationsMain($version as xs:string*){
 let $topmembers := for $topcol in ('works', 'mss', 'narr', 'all') return 
 dts:annotationCollection($topcol, 7, 1)
 return
+($config:response200JsonLD,
 map {
     "@context": $dts:context,
     "@type" : 'AnnotationCollection',
@@ -2237,7 +2239,7 @@ map {
     "member": $topmembers,
     "title": "Annotations Root Collection",
     "dts:dublincore": $dts:publisher
-} 
+} )
 };
 
 
@@ -2266,7 +2268,8 @@ map {
     "dts:dublincore": $dts:publisher
 } 
 return
-map:merge(($topinfo,$contents))
+($config:response200JsonLD,
+map:merge(($topinfo,$contents)))
 };
 
 (:~ annotations collection for a type of items (manuscripts, works or narrative units), and a 
@@ -2314,7 +2317,8 @@ map {
     "dts:dublincore": $dts:publisher
     } 
 return
-map:merge(($topinfo,$response))
+($config:response200JsonLD,
+map:merge(($topinfo,$response)))
 
 };
 
@@ -2359,7 +2363,8 @@ map {
     "dts:dublincore": $dts:publisher
 } 
 return
-map:merge(($topinfo,$contents))
+($config:response200JsonLD,
+map:merge(($topinfo,$contents)))
 };
 
 (:~
@@ -2397,7 +2402,8 @@ let $response := map{
     "dts:dublincore": $dts:publisher
     } 
 return
-map:merge(($topinfo,$response))
+($config:response200JsonLD,
+map:merge(($topinfo,$response)))
 };
 
 
@@ -2471,8 +2477,8 @@ map {
 		  "target": map {
 		    "source": $source,
 		    "selector": map{
-		      "type": "XPath",
-		      "@value" :$xpath
+		      "type": "XPathSelector",
+		      "value" :$xpath
 		      }
 		  }
 		}
