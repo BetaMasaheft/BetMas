@@ -2628,8 +2628,11 @@ map {"@id" : $IDentityorlocus,
 
 declare function dts:refannocolItem($BMid, $title, $i, $c, $indexName){
 
-let $entityorlocus := if(contains($i, ':')) then $i else titles:printTitleMainID($i)
-let $IDentityorlocus := if(contains($i, ':')) then $i else  "https://betamasaheft.eu/" || $i
+let $entityorlocus := if(contains($i, 'urn:')) then $i else titles:printTitleMainID($i)
+let $IDentityorlocus := if(contains($i, 'urn:')) then $i 
+                                            else if(starts-with($i, 'wd:')) then  replace($i, 'wd:', 'https://www.wikidata.org/entity/')
+                                            else if(starts-with($i, 'pleiades:')) then  replace($i, 'pleaides:', 'https://pleiades.stoa.org/places/')
+                                            else  "https://betamasaheft.eu/" || $i
 return
 map {"@id" : $IDentityorlocus,
             "shortTitle" : $entityorlocus,
