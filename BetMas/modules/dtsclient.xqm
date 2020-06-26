@@ -27,7 +27,7 @@ let $APIroot:='/api/dts/'
 let $NavAPI:='navigation'
 let $ColAPI:='collections'
 let $DocAPI:='document'
-(:let $IndAPI:='indexes':)
+let $AnnoAPI:='annotations'
 let $baseid := '?id=https://betamasaheft.eu/' 
 let $ps := (if($ref='') then () else 'ref='||$ref , 
                     if($start='') then () else 'start='||$start , 
@@ -38,18 +38,13 @@ let $citationuri := ($approot||'/'||$id||$edition||$refstart)
 let $uricol := ($approot||$APIroot||$ColAPI||$baseid||$id||$edition)
 let $urinav := ($approot||$APIroot||$NavAPI||$baseid||$id||$edition||$parm)
 let $uridoc := ($approot||$APIroot||$DocAPI||$baseid||$id||$edition||$parm)
-(:let $uriindex := ($approot||$APIroot||$IndAPI||$baseid||$id||$edition||$parm):)
+let $urianno := ($approot||$APIroot||$AnnoAPI||'/'||$collection||'/items/'||$id)
 let $DTScol := dtsc:request($uricol)
 let $DTSnav := dtsc:request($urinav)
-(:let $DTSind := dtsc:request($uriindex)
-let $indexes := for $i in $DTSind?*?member?name
-                            let $namedindexURI := $uriindex || '&amp;name=' ||$i
-                            return
-                            dtsc:request($namedindexURI):)
+let $DTSanno := dtsc:request($urianno)
+let $test := console:log($urianno)
 let $DTSdoc := dtsc:requestXML($uridoc)
 let $docnode := if($DTSdoc//dts:fragment) then $DTSdoc//dts:fragment else $DTSdoc//t:div[@type='edition']
-(:fetch text of the translation if available:)
-(:let $translation := if($DTScol?('@type') = 'Collection' and contains($DTScol?member?('@id'), '_TR_')) then () else ():)
 let $xslt :=   'xmldb:exist:///db/apps/BetMas/xslt/textfragment.xsl'  
 let $xslpars := <parameters><param name="mainID" value="{$id}"/></parameters>
 return
@@ -58,7 +53,15 @@ return
 <div class="w3-bar">
 {try{for $d in $DTScol?('dts:dublincore')?('dc:title')?*?('@value') 
 return <div class="w3-bar-item w3-small">{$d}</div>} catch * {console:log($err:description)}}
-<button class="w3-bar-item w3-gray w3-small" id="toogleTextBibl">Hide Bibliography</button></div>
+<button class="w3-bar-item w3-gray w3-small" id="toogleTextBibl">Hide/Show Bibliography</button>
+{for $index in $DTSanno?member?*
+let $t := console:log($index?title)
+return <button class="w3-bar-item 
+w3-gray w3-small 
+DTSannoCollectionLink">{(attribute data-value {replace($index?('@id'), 'https://betamasaheft.eu', '')}, substring-before($index?title, ' for'))}</button>
+}
+</div>
+
 {if($DTScol?('@type') = 'Collection') then 
 (<div class="w3-bar w3-border">
 <div class="w3-bar-item">Editions and translations: </div>
@@ -68,6 +71,8 @@ return
 } 
 </div>) else ()}
 </div>
+<div id="indexNav" class="w3-col w3-hide " style="width:10%">
+<script type="text/javascript" src="resources/js/dtsAnno.js"/></div>
 <div class="w3-col" style="width:10%">
 <div class="w3-bar-block">
 <div class="w3-bar-item w3-black w3-small">
@@ -105,7 +110,6 @@ DTS uris</button>
 <div class="w3-rest">{
 try{transform:transform($docnode,$xslt,$xslpars)} catch * {$err:description}
 }</div>
-</div>
 </div>
 };
 

@@ -2153,12 +2153,23 @@ switch($name)
 };
 
 declare function dts:indexentriesFile($file, $id, $name){
+if ($id='') then 
 switch($name) 
-                            case 'places' return $file//t:placeName[@ref =$id]
-                            case 'persons' return $file//t:persName[@ref = $id]
-                            case 'works' return $file//t:title[@ref = $id]
-                            case 'loci' return $file//t:ref[@cRef = $id]
-                            case 'keywords' return $file//t:term[@key = $id]
+                            case 'places' return $file//t:placeName[@ref]
+                            case 'persons' return $file//t:persName[@ref]
+                            case 'works' return $file//t:title[@ref]
+                            case 'loci' return $file//t:ref[@cRef]
+                            case 'keywords' return $file//t:term[@key][not(parent::t:keywords)]
+                            default return ()
+else 
+let $cleanid := replace($id, 'https://betamasaheft.eu/', '')
+return
+switch($name) 
+                            case 'places' return $file//t:placeName[@ref =$cleanid]
+                            case 'persons' return $file//t:persName[@ref = $cleanid]
+                            case 'works' return $file//t:title[@ref = $cleanid]
+                            case 'loci' return $file//t:ref[@cRef = $cleanid]
+                            case 'keywords' return $file//t:term[@key = $cleanid][not(parent::t:keywords)]
                             default return ()
 };
 
@@ -2174,7 +2185,7 @@ switch($name)
     case 'places' return $files//t:placeName[@ref=$id]
     case 'works' return $files//t:title[@ref=$id]
     case 'loci' return $files//t:ref[@cRef=$id]
-    case 'keywords' return $files//t:term[@key=$id]
+    case 'keywords' return $files//t:term[@key=$id][not(parent::t:keywords)]
     default return ()
     else 
     switch($name)
@@ -2182,7 +2193,7 @@ switch($name)
     case 'persons' return $files//t:persName[@ref[. !='PRS00000' and . !='PRS0000']]
     case 'works' return $files//t:title[@ref]
     case 'loci' return $files//t:ref[@cRef]
-    case 'keywords' return $files//t:term[@key]
+    case 'keywords' return $files//t:term[@key][not(parent::t:keywords)]
     default return ()
 };
 
@@ -2211,7 +2222,7 @@ let $pl:= if ($file//t:placeName[@ref]) then map{"name": "places"} else ()
 let $pr:= if ($file//t:persName[@ref]) then map{"name": "persons"} else ()
 let $w:= if ($file//t:title[@ref]) then map{"name": "works"} else ()
 let $loci:= if ($file//t:ref[@cRef]) then map{"name": "loci"} else ()
-let $key:= if ($file//t:term[@key]) then map{"name": "places"} else ()
+let $key:= if ($file//t:term[@key][not(parent::t:keywords)]) then map{"name": "places"} else ()
 return ($pl, $pr, $w, $loci, $key)
 };
 
@@ -2409,7 +2420,7 @@ map:merge(($topinfo,$response)))
 
 declare function dts:AnnoItems($coll){
 let $context:= dts:switchContext($coll)
-return $context//t:TEI[descendant::t:persName[@ref[. !='PRS00000' and . !='PRS0000']] or descendant::t:placeName[@ref] or descendant::t:title[@ref] or descendant::t:term[@key] or descendant::t:ref[@cRef]]
+return $context//t:TEI[descendant::t:persName[@ref[. !='PRS00000' and . !='PRS0000']] or descendant::t:placeName[@ref] or descendant::t:title[@ref] or descendant::t:term[@key][not(parent::t:keywords)] or descendant::t:ref[@cRef]]
 };
 
 (:~ print the annotations for an id (content of ref as http://webannotation.org/)
@@ -2417,7 +2428,7 @@ after the example by Thibault Clérice in DTS
 https://github.com/distributed-text-services/specifications/issues/167
 :)
 declare function dts:WebAnn($id, $indexEntries, $page){
-let $t := console:log($id)
+(:let $t := console:log($id):)
 let $perpage:=10
 let $end := xs:integer($page) * $perpage
 let $start := ($end - $perpage) +1
@@ -2603,7 +2614,7 @@ return
  };
 
 declare function dts:refannocol($i, $c, $indexName){
-let $t:= console:log($i)
+(:let $t:= console:log($i):)
 let $entityorlocus := if(matches($i, 'urn') or matches($i, 'betmas:')) then $i else titles:printTitleMainID($i)
 let $IDentityorlocus := if(matches($i, 'urn') or matches($i, 'betmas:')) then $i else  "https://betamasaheft.eu/" || $i
 return
@@ -2621,7 +2632,8 @@ let $entityorlocus := if(contains($i, ':')) then $i else titles:printTitleMainID
 let $IDentityorlocus := if(contains($i, ':')) then $i else  "https://betamasaheft.eu/" || $i
 return
 map {"@id" : $IDentityorlocus,
-           "title" : 'Annotations of ' || $entityorlocus|| ' in ' || $indexName || ' index of ' || $title || '(' ||$BMid||')',
+            "shortTitle" : $entityorlocus,
+           "title" : 'Annotations of ' || $entityorlocus|| ' in ' || $indexName || ' index of ' || $title || ' (' ||$BMid||')',
            "totalItems" : $c,
              "@type" : "AnnotationCollection",
              "dts:totalParents": 3,
@@ -2667,7 +2679,7 @@ switch($name)
                             case 'places' return count($files//t:TEI[descendant::t:placeName[@ref]])
                             case 'works' return count($files//t:TEI[descendant::t:title[@ref]])
                             case 'loci' return count($files//t:TEI[descendant::t:ref[@cRef]])
-                            case 'keywords' return count($files//t:TEI[descendant::t:term[@key]])
+                            case 'keywords' return count($files//t:TEI[descendant::t:term[@key][not(parent::t:keywords)]])
                             default return ()
 };
 
@@ -2677,20 +2689,20 @@ switch($name)
                             case 'places' return count($files//t:placeName[@ref])
                             case 'works' return count($files//t:title[@ref])
                             case 'loci' return count($files//t:ref[@cRef])
-                            case 'keywords' return count($files//t:term[@key])
+                            case 'keywords' return count($files//t:term[@key][not(parent::t:keywords)])
                             default return ()
 };
 
 declare function dts:ItemAnnotationsEntries($name){
 switch($name) 
-                            case 'mss' return count($config:collection-rootMS//t:TEI[descendant::t:persName[@ref[. !='PRS00000' and . !='PRS0000']] or descendant::t:placeName[@ref] or descendant::t:title[@ref] or descendant::t:term[@key] or descendant::t:ref[@cRef]])
-                            case 'works' return count($config:collection-rootW//t:TEI[descendant::t:persName[@ref] or descendant::t:placeName[@ref] or descendant::t:title[@ref] or descendant::t:term[@key] or descendant::t:ref[@cRef]])
-                            case 'narr' return count($config:collection-rootN//t:TEI[descendant::t:persName[@ref] or descendant::t:placeName[@ref] or descendant::t:title[@ref] or descendant::t:term[@key] or descendant::t:ref[@cRef]])
-                            default return count(($config:collection-rootMS,$config:collection-rootW,$config:collection-rootN)//t:TEI[descendant::t:persName[@ref] or descendant::t:placeName[@ref] or descendant::t:title[@ref] or descendant::t:term[@key] or descendant::t:ref[@cRef]])
+                            case 'mss' return count($config:collection-rootMS//t:TEI[descendant::t:persName[@ref[. !='PRS00000' and . !='PRS0000']] or descendant::t:placeName[@ref] or descendant::t:title[@ref] or descendant::t:term[@key][not(parent::t:keywords)] or descendant::t:ref[@cRef]])
+                            case 'works' return count($config:collection-rootW//t:TEI[descendant::t:persName[@ref] or descendant::t:placeName[@ref] or descendant::t:title[@ref] or descendant::t:term[@key][not(parent::t:keywords)] or descendant::t:ref[@cRef]])
+                            case 'narr' return count($config:collection-rootN//t:TEI[descendant::t:persName[@ref] or descendant::t:placeName[@ref] or descendant::t:title[@ref] or descendant::t:term[@key][not(parent::t:keywords)] or descendant::t:ref[@cRef]])
+                            default return count(($config:collection-rootMS,$config:collection-rootW,$config:collection-rootN)//t:TEI[descendant::t:persName[@ref] or descendant::t:placeName[@ref] or descendant::t:title[@ref] or descendant::t:term[@key][not(parent::t:keywords)] or descendant::t:ref[@cRef]])
 };
 
 declare function dts:ItemAnnoCount($id){
-count($config:collection-root//id($id)[descendant::t:persName[@ref[. !='PRS00000' and . !='PRS0000']] or descendant::t:placeName[@ref] or descendant::t:title[@ref] or descendant::t:term[@key] or descendant::t:ref[@cRef]])
+count($config:collection-root//id($id)[descendant::t:persName[@ref[. !='PRS00000' and . !='PRS0000']] or descendant::t:placeName[@ref] or descendant::t:title[@ref] or descendant::t:term[@key][not(parent::t:keywords)] or descendant::t:ref[@cRef]])
 };
 
 declare function dts:MainAnnotationCollections($context, $index, $count){
@@ -2737,6 +2749,6 @@ let $pl:= if ($file//t:placeName[@ref]) then map{"name": "places"} else ()
 let $pr:= if ($file//t:persName[@ref[. !='PRS00000' and . !='PRS0000']]) then map{"name": "persons"} else ()
 let $w:= if ($file//t:title[@ref]) then map{"name": "works"} else ()
 let $loci:= if ($file//t:ref[@cRef]) then map{"name": "loci"} else ()
-let $key:= if ($file//t:term[@key]) then map{"name": "places"} else ()
+let $key:= if ($file//t:term[@key][not(parent::t:keywords)]) then map{"name": "places"} else ()
 return ($pl, $pr, $w, $loci, $key)
 };

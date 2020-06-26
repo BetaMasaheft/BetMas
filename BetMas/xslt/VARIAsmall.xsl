@@ -1,10 +1,4 @@
-<xsl:stylesheet xmlns="http://www.w3.torg/1999/xhtml" 
-    xmlns:funct="my.funct"
-    xmlns:number="roman.numerals.funct"
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-    xmlns:t="http://www.tei-c.org/ns/1.0" 
-    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-    exclude-result-prefixes="#all" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.torg/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:number="roman.numerals.funct" xmlns:funct="my.funct" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
 <!--    from https://stackoverflow.com/questions/43732638/roman-numeral-to-integer-value-using-xslt-->
     <xsl:function name="number:RomanToInteger">
         <xsl:param name="romannumber"/>
@@ -137,7 +131,7 @@
        <xsl:variable name="parsedMeasure">
             <xsl:copy-of select="funct:analyseMeasure($measure)"/>
         </xsl:variable>
-       <xsl:variable name="totalprotectives" >
+       <xsl:variable name="totalprotectives">
             <xsl:choose>
                 <xsl:when test="$parsedMeasure//*:beginning and $parsedMeasure//*:end">
                     <xsl:value-of select="xs:integer($parsedMeasure//*:beginning/data()) + xs:integer($parsedMeasure//*:end/data())"/>
@@ -164,9 +158,7 @@
             <xsl:text>+</xsl:text>
             <xsl:choose>
                 <xsl:when test="(xs:integer($parsedMeasure//*:end/data()) gt 1) and $parsedMeasure//*:beginning">
-                    <xsl:number format="i" 
-                        value="($parsedMeasure//*:beginning/data()+1)"/>-<xsl:number 
-                            format="i" value="$totalprotectives"/>
+                    <xsl:number format="i" value="($parsedMeasure//*:beginning/data()+1)"/>-<xsl:number format="i" value="$totalprotectives"/>
                 </xsl:when>
                 <xsl:otherwise><xsl:number format="i" value="$totalprotectives"/></xsl:otherwise>
             </xsl:choose>
@@ -282,6 +274,9 @@
             <xsl:when test="t:p">
                 <xsl:apply-templates/>
             </xsl:when> 
+               <xsl:when test="ancestor::t:app">
+                   <xsl:apply-templates/>
+               </xsl:when> 
             <xsl:otherwise>
                 <p>
                     <xsl:apply-templates/>
