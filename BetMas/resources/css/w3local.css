@@ -169,8 +169,7 @@ div#SeeAlsoResults {
 
 .contentItem {
     white-space: normal;
-    text-align: left;
-    overflow: scroll
+    text-align: left
 }
 
 div.msItem, div.subtextpart {
