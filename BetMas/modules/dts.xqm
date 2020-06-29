@@ -200,7 +200,7 @@ function dts:dtsmain() {
 
   ( $config:response200JsonLD,
   map {
-  "@context": "/dts/api/contexts/EntryPoint.jsonld",
+  "@context": "api/dts/contexts/EntryPoint.jsonld",
   "@id": "/api/dts",
   "@type": "EntryPoint",
   "collections": "/api/dts/collections",
@@ -643,13 +643,13 @@ else
         "dc": "http://purl.org/dc/terms/",
         "dts": "https://w3id.org/dts/api#"
     },
-    "@base": "/dts/api/navigation",
+    "@base": "/api/dts/navigation",
     "@id": ('/api/dts/navigation?id='|| $id),
     "dts:citeDepth" : $cdepth,
     "dts:level" : $l,
     "dts:citeType": $ctype,
     "dc:hasVersion" : $versions,
-    "dts:passage" : ('dts/api/document?id=' || $id||'{&amp;ref}{&amp;start}{&amp;end}'),
+    "dts:passage" : ('/api/dts/document?id=' || $id),
     "member": $array
 })
          
@@ -1887,7 +1887,7 @@ map {
         "tei": "http://www.tei-c.org/ns/1.0"
   },  
   "@type": "IriTemplate",
-  "template": "/dts/api/navigation/?id={collection_id}&amp;passage={passage}&amp;level={level}&amp;start={start}&amp;end={end}&amp;page={page}",
+  "template": "/api/dts/navigation/?id={collection_id}&amp;passage={passage}&amp;level={level}&amp;start={start}&amp;end={end}&amp;page={page}",
   "variableRepresentation": "BasicRepresentation",
   "mapping": [
     map {
@@ -1933,7 +1933,7 @@ map {
         "tei": "http://www.tei-c.org/ns/1.0"
   },
   "@type": "IriTemplate",
-  "template": "/dts/api/document/?id={collection_id}&amp;passage={passage}&amp;level={level}&amp;start={start}&amp;end={end}&amp;page={page}",
+  "template": "/api/dts/document/?id={collection_id}&amp;passage={passage}&amp;level={level}&amp;start={start}&amp;end={end}&amp;page={page}",
   "variableRepresentation": "BasicRepresentation",
   "mapping": [
     map {
@@ -1970,7 +1970,7 @@ map {
         "tei": "http://www.tei-c.org/ns/1.0"
   },
   "@type": "IriTemplate",
-  "template": "/dts/api/collection/?id={collection_id}&amp;page={page}",
+  "template": "/api/dts/collection/?id={collection_id}&amp;page={page}",
   "variableRepresentation": "BasicRepresentation",
   "mapping": [
     map {
@@ -2201,7 +2201,7 @@ declare function dts:indextitle($name){
 switch($name) 
                             case 'persons' return 'Index of persons'
                             case 'places' return 'Index of places'
-                            case 'works' return 'Index of works'
+                            case 'works' return 'Index of textual units'
                             case 'loci' return 'Index locorum'
                             case 'keywords' return 'Index of keywords'
                             default return ()
@@ -2597,20 +2597,35 @@ let $perpage:=10
 let $end := xs:integer($page) * $perpage
 let $start := ($end - $perpage) +1
 let $refs := for $a in $indexEntries
-   let $ref := switch($indexName)
+                     let $ref := switch($indexName)
                                     case 'loci' return $a/@cRef
                                     case 'keywords' return $a/@key
                                     default return $a/@ref
-   group by $ref
-   let $c := count($a)
-   order by $c descending
-   return <ref><id>{string($ref)}</id><count>{$c}</count></ref>
-   
-   for $r in subsequence($refs, $start, $end)
+                    group by $ref
+                        let $c := count($a)
+                        let $tit :=  if(contains($ref, 'urn:')) 
+                                            then $ref 
+                                            else    
+                                                    try{titles:printTitleMainID($ref)} 
+                                                    catch*{console:log($err:description)}
+                    order by $c descending
+                    return 
+                        <ref>
+                        <title>{$tit}</title>
+                        <id>{string($ref)}</id>
+                        <count>{$c}</count>
+                        </ref>
+   let $orderedRefs := for $r in $refs 
+                                        let $sortingkey := dts:sortingkey($r/*:title)
+                                        order by $sortingkey
+                                        return $r
+   for $r in subsequence($orderedRefs, $start, $end)
    let $c := $r//*:count/text()
    let $i := $r//*:id/text()
+   let $entityorlocus := $r//*:title/text()
+   
 return    
-                dts:refannocolItem($BMid, $title, $i, $c, $indexName)
+                dts:refannocolItem($BMid, $title, $i, $c, $indexName, $entityorlocus)
  };
 
 declare function dts:refannocol($i, $c, $indexName){
@@ -2626,9 +2641,8 @@ map {"@id" : $IDentityorlocus,
              "dts:totalChildren": $c}
 };
 
-declare function dts:refannocolItem($BMid, $title, $i, $c, $indexName){
+declare function dts:refannocolItem($BMid, $title, $i, $c, $indexName, $entityorlocus){
 
-let $entityorlocus := if(contains($i, 'urn:')) then $i else titles:printTitleMainID($i)
 let $IDentityorlocus := if(contains($i, 'urn:')) then $i 
                                             else if(starts-with($i, 'wd:')) then  replace($i, 'wd:', 'https://www.wikidata.org/entity/')
                                             else if(starts-with($i, 'pleiades:')) then  replace($i, 'pleaides:', 'https://pleiades.stoa.org/places/')
@@ -2755,3 +2769,10 @@ let $loci:= if ($file//t:ref[@cRef]) then map{"name": "loci"} else ()
 let $key:= if ($file//t:term[@key][not(parent::t:keywords)]) then map{"name": "places"} else ()
 return ($pl, $pr, $w, $loci, $key)
 };
+
+declare function dts:sortingkey($input){ string-join($input//text())
+             => replace('ʾ', '')
+             =>replace('ʿ','')
+             =>replace('\s','')
+             =>translate('ƎḤḪŚṢṣŠǦḫḥǝʷāṖ','EHHSSsSGhhewaP') 
+             => lower-case()};

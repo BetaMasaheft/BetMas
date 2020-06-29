@@ -2,14 +2,20 @@ function updateindex(indexUrl){
 /*console.log(indexUrl)*/
 var api = 'http://localhost:8080/exist/apps/BetMas/' + indexUrl
 $.getJSON(api, function (d) {
-var nav = '<div class="w3-bar-item w3-grey w3-small" \
-><div class="w3-bar"><div class="w3-bar-item w3-tiny indexNavigation" data-nav="'+d.view.first
-+'"><i class="fa fa-angle-double-left"></i></div><div class="w3-bar-item w3-tiny indexNavigation" data-nav="'+d.view.previous
-+'"><i class="fa fa-angle-left"></i></div><div class="w3-bar-item w3-tiny indexNavigation" data-nav="'+d.view["@id"]
-+'"><i class="fa fa-angle-double-down"></i></div><div class="w3-bar-item w3-tiny indexNavigation" data-nav="'+d.view.next
-+'"><i class="fa fa-angle-right"></i></div><div class="w3-bar-item w3-tiny indexNavigation" data-nav="'+d.view.last
-+'"><i class="fa fa-angle-double-right"></i></div></div></div>'
-$('#indexNav').append(nav)
+var last = d.view.last
+var ln = last.lastIndexOf('page=')
+var totalpages = last.substring(ln+5)
+var current = d.view["@id"]
+var cn = current.lastIndexOf('page=')
+var currentpage = current.substring(cn+5)
+var nav = '<div style="padding: 8px 8px;" class="w3-bar-item  indexNavigation" data-nav="'+ d.view.first
++'"><i class="fa fa-angle-double-left"></i></div><div style="padding: 8px 8px;"  class="w3-bar-item indexNavigation" data-nav="'+ d.view.previous
++'"><i class="fa fa-angle-left"></i></div><div style="padding: 8px 8px;"  class="w3-bar-item indexNavigation" data-nav="'+ current
++'">'+currentpage + '/' + totalpages+'</div><div style="padding: 8px 8px;"  class="w3-bar-item  indexNavigation" data-nav="'+ d.view.next
++'"><i class="fa fa-angle-right"></i></div><div style="padding: 8px 8px;"  class="w3-bar-item  indexNavigation" data-nav="'+ last
++'"><i class="fa fa-angle-double-right"></i></div>'
+$('#indexnavigation').append(nav)
+
    var first = d.view.first
    var members = d.member
    $(members).each(function( index ) {
@@ -25,22 +31,34 @@ $('#indexNav').append(nav)
     + ' "  target="_blank" style="word-break:break-all;">' + 
    tit + '</div>'
    $('#indexNav').addClass("w3-show");
-   $('#indexNav').append(button)
+   $('#indexitems').append(button);
+  
 });
+ var closebutton = 
+   '<div class="w3-bar-item w3-gray w3-small CloseIndex">Close</div>'
+   $('#indexitems').append(closebutton);
 });
 };
 
 $('body').on('click', ".DTSannoCollectionLink", function () {
 var indexUrl = $(this).data('value') ;
-$('#indexNav').empty() ;
 /*console.log(indexUrl) ;*/
+$('#indexnavigation').empty() ;
+$('#indexitems').empty() ;
 updateindex(indexUrl) ;
+});
+
+
+$('body').on('click', ".CloseIndex", function () {
+$('#indexnavigation').empty() ;
+$('#indexitems').empty() ;
 });
 
 $('body').on('click', ".indexNavigation", function () {
 var indexUrl = $(this).data('nav')
 /*console.log(indexUrl) ;*/
-$('#indexNav').empty() ;
+$('#indexnavigation').empty() ;
+$('#indexitems').empty() ;
 updateindex(indexUrl) ;
 });
 
@@ -60,7 +78,7 @@ $.getJSON(api, function (d) {
    var button = 
    '<div class="w3-bar-item w3-black w3-small indexItem"> \
    <a href=" ' + link + ' " target="_blank" \
-   style="word-break:break-all;">' +  ctype + 
+   style="word-break:break-word;">' +  ctype + 
    ' '+ ref  + '</a></div>'
    indexItem.after(button)
 });
