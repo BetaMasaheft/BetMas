@@ -137,4 +137,9 @@ $("#toogleTextBibl").click(function () {
      x.classList.toggle("w3-twothird");
 });
 
+$("#toogleNavIndex").click(function () {
+/*console.log('toggled index')*/
+    $("#refslist").toggle("slow");
+});
+
 $('.slider').css('width','100%');

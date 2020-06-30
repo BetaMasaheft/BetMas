@@ -146,7 +146,6 @@ div#SeeAlsoResults {
 
 .popup {
     position: relative;
-    display: inline-block;
     cursor: pointer;
     
 }
@@ -169,7 +168,8 @@ div#SeeAlsoResults {
 
 .contentItem {
     white-space: normal;
-    text-align: left
+    text-align: left;
+    overflow: scroll
 }
 
 div.msItem, div.subtextpart {

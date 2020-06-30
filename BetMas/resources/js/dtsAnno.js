@@ -77,9 +77,10 @@ $.getJSON(api, function (d) {
    var ref = i[0].target.source["dts:ref"]
    var button = 
    '<div class="w3-bar-item w3-black w3-small indexItem"> \
-   <a href=" ' + link + ' " target="_blank" \
+   <a class="page-scroll" href="#' + ref + '"\
    style="word-break:break-word;">' +  ctype + 
-   ' '+ ref  + '</a></div>'
+   ' '+ ref  + '<a href=" ' + link + ' " target="_blank" class="w3-right" \
+   >↗</a></div>'
    indexItem.after(button)
 });
 });

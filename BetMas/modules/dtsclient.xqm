@@ -53,6 +53,7 @@ return
 {try{for $d in $DTScol?('dts:dublincore')?('dc:title')?*?('@value') 
 return <div class="w3-bar-item w3-small">{$d}</div>} catch * {console:log($err:description)}}
 <button class="w3-bar-item w3-gray w3-small" id="toogleTextBibl">Hide/Show Bibliography</button>
+<button class="w3-bar-item w3-gray w3-small" id="toogleNavIndex">Hide/Show Text Navigation</button>
 {try {
 for $index in $DTSanno?member?*
 return 
@@ -80,7 +81,7 @@ return
 <div class="w3-bar-block" id="indexitems"/>
 <script type="text/javascript" src="resources/js/dtsAnno.js"/>
 </div>
-<div class="w3-col" style="width:10%">
+<div id="refslist" class="w3-col" style="width:10%">
 <div class="w3-bar-block">
 <div class="w3-bar-item w3-black w3-small">
 <a target="_blank" href="http://voyant-tools.org/?input={$uridoc}">Voyant</a>
@@ -95,12 +96,14 @@ else ()}
 {
 for $members in $DTSnav?member
 for $member in $members?*
+let $r := $member?('dts:ref')
 return 
 <div class="w3-bar-item w3-gray w3-small">
-<span class="w3-tooltip"><a href="/{$id}{$edition}.{$member?('dts:ref')}">
-{($member?('dts:citeType')|| ' '|| $member?('dts:ref'))}
-</a>
-<span class="w3-text w3-tag" style="word-break:break-all;">{$approot}/{$id}{$edition}.{$member?('dts:ref')}</span>
+<span class="w3-tooltip">
+<a class="page-scroll" href="#{$r}">
+{($member?('dts:citeType')|| ' '|| $r)}
+</a><a href="/{$id}{$edition}.{$r}" target="_blank" class="w3-right">↗</a>
+<span class="w3-text w3-tag" style="word-break:break-all;">{$approot}/{$id}{$edition}.{$r}</span>
 </span>
 </div>
 }

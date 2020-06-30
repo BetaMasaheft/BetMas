@@ -29,7 +29,7 @@ list-style-type : none;
     text-indent: -40px;
     margin-left: 40px
 }
-
+.breakwords{word-break: break-all;}
 .table-hover {
     word-break: break-all;
 }
@@ -1168,8 +1168,12 @@ div > div[id *= transcription].row {
 }
 div.chapterText {
     margin-bottom: 30px;
-    font-size: larger;
+    font-size: x-large;
+    word-break: break-all ;
+    text-align: justify ;
 }
+.word, .alpheios-word { word-break: inherit ;}
+
 .version {
     background-color: #e5e6f7;
 }
