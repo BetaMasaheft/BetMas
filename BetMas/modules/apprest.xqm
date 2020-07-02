@@ -1093,7 +1093,7 @@ let $path := switch($type)
                        )
 
 let $context := switch($type)
-                case 'catalogue' return ('$config:collection-rootMS//t:listBibl[@type="catalogue"][descendant::t:ptr[@target=bm:"'||$collection||'"]]/ancestor::t:TEI' || $key || $languages || $dR || $allMssFilters)
+                case 'catalogue' return ('$config:collection-rootMS//t:listBibl[@type="catalogue"][descendant::t:ptr[@target="bm:'||$collection||'"]]/ancestor::t:TEI' || $key || $languages || $dR || $allMssFilters)
                 case 'repo' return  ('$config:collection-rootMS//t:repository[@ref="'|| $collection||'" ]/ancestor::t:TEI' || $key || $languages || $dR || $allMssFilters)
                 default return $path 
                        
