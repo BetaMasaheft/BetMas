@@ -37,9 +37,12 @@
         </xsl:if>
     </xsl:function>
     <xsl:template match="/">
-        <div >
-                <div id="transcription" >
-                                   <xsl:apply-templates/>
+        <div>
+                <div id="transcription">
+                <xsl:if test="not(./child::t:div)">
+                    <xsl:attribute name="class">w3-container chapterText</xsl:attribute>
+                </xsl:if>
+                    <xsl:apply-templates/>
                     <div class="w3-modal" id="textHelp">
                         <div class="w3-modal-content">
                             <header class="w3-container w3-red">

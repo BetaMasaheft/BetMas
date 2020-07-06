@@ -10,10 +10,18 @@
             <xsl:when test="$node//t:cb">
                 <xsl:value-of select="string($node/preceding::t:pb[@n][1]/@n)||string($node/@n)"/>
             </xsl:when>
-            <xsl:when test="$node/@corresp"><xsl:value-of select="$node/@corresp"/></xsl:when>
-            <xsl:when test="$node/@n"><xsl:value-of select="$node/@n"/></xsl:when>
-            <xsl:when test="$node/@xml:id"><xsl:value-of select="$node/@xml:id"/></xsl:when>
-            <xsl:when test="$node/@subtype"><xsl:value-of select="$node/@subtype"/></xsl:when>
+            <xsl:when test="$node/@corresp">
+                <xsl:value-of select="$node/@corresp"/>
+            </xsl:when>
+            <xsl:when test="$node/@n">
+                <xsl:value-of select="$node/@n"/>
+            </xsl:when>
+            <xsl:when test="$node/@xml:id">
+                <xsl:value-of select="$node/@xml:id"/>
+            </xsl:when>
+            <xsl:when test="$node/@subtype">
+                <xsl:value-of select="$node/@subtype"/>
+            </xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="concat('tei:', $node/name(),'[', $node/position() , ']')"/>
             </xsl:otherwise>
@@ -87,6 +95,7 @@
                 <div class="w3-bar-item">
                     <i>
                         <xsl:apply-templates select="child::t:label"/>
+                        <xsl:text> </xsl:text>
                         <xsl:if test="parent::t:div[@type='edition']/@resp">
                             <xsl:variable name="r" select="parent::t:div[@type='edition']/@resp"/>
                             Edition by <xsl:choose>
@@ -249,7 +258,9 @@
                              <xsl:when test="t:ab//t:app">
                                  <xsl:attribute name="class">w3-twothird w3-padding chapterText</xsl:attribute>
                              </xsl:when>
-                             <xsl:otherwise><xsl:attribute name="class">w3-container w3-padding chapterText</xsl:attribute></xsl:otherwise>
+                             <xsl:otherwise>
+                                        <xsl:attribute name="class">w3-container w3-padding chapterText</xsl:attribute>
+                                    </xsl:otherwise>
                          </xsl:choose>
                          <xsl:apply-templates select="child::node()[name()!='label']"/>
                     </div>  
