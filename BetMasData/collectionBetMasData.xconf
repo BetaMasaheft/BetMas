@@ -45,8 +45,9 @@
                 <facet dimension="artkeywords" if="@type='mss'" expression="for $at in t:teiHeader//t:decoNote//t:term/@key return ti:test($at, 'auth')"/>
                 <facet dimension="decoType" if="@type='mss'" expression="for $d in t:teiHeader//t:decoNote/@type return ti:test($d, 'auth')"/>
                 <facet dimension="calendarType" if="@type='mss'" expression="for $d in t:teiHeader//(t:date|t:origDate)/@calendar return string($d)"/>
+                
                 <!-- countColophons, supplications, binding features, decoration features,  -->
-                <facet dimension="images" if="@type='mss'" expression="if(t:teiHeader//t:msIdentifier/t:idno[@facs]) then 'yes' else 'no'"/>
+                <facet dimension="images" if="@type='mss'" expression="if(t:teiHeader//t:msIdentifier/t:idno[@facs][@n]) then 'yes' else 'no'"/>
                 <facet dimension="writtenLines" if="@type='mss'" expression="t:teiHeader//t:layout/@writtenLines"/>
                 <facet dimension="columns" if="@type='mss'" expression="t:teiHeader//t:layout/@columns"/>
                 <facet dimension="thereistranscription" if="@type='mss'" expression="if(t:text//t:div[@type='edition']//t:div/t:ab) then 'some text present' else 'only metadata'"/>
