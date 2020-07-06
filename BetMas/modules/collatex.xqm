@@ -44,7 +44,7 @@ if(count($urns) le 1)
 then (<info>please provide at least 2 dts URIs separated with comma</info>)  else(
   
                                          
-   let $body :=   if ($nU !='') then dts:getnarrUnitWittnesses($nU) else dts:getCollatexBody($urns)
+   let $body :=   if ($nU !='') then collatex:getnarrUnitWittnesses($nU) else collatex:getCollatexBody($urns)
 (:   let $test0 := console:log($body):)
      let $req :=
         <http:request
