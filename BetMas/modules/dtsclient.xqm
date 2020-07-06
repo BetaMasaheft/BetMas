@@ -21,8 +21,8 @@ import module namespace console="http://exist-db.org/xquery/console";
 declare function dtsc:text($id, $edition, $ref, $start, $end, $collection){
 (:let $t := console:log(string-join(($edition, $ref, $start, $end), ' - ')):)
 let $approot:= 
-(:'https://betamasaheft.eu':)
-'http://localhost:8080/exist/apps/BetMas'
+'https://betamasaheft.eu'
+(:'http://localhost:8080/exist/apps/BetMas':)
 let $APIroot:='/api/dts/'
 let $NavAPI:='navigation'
 let $ColAPI:='collections'
@@ -84,7 +84,7 @@ return
 <div id="refslist" class="w3-col" style="width:10%">
 <div class="w3-bar-block">
 <div class="w3-bar-item w3-black w3-small">
-<a target="_blank" href="http://voyant-tools.org/?input={$uridoc}">Voyant</a>
+<a target="_blank" href="http://voyant-tools.org/?input={encode-for-uri(($approot||'/'||$id||'.xml'))}">Voyant</a>
         </div>
 {if($ref !='' or $start !='') then 
 <div class="w3-bar-item w3-red w3-small">
