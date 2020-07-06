@@ -5,6 +5,8 @@ import module namespace request = "http://exist-db.org/xquery/request";
 import module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMas/error" at "modules/error.xqm";
 import module namespace console="http://exist-db.org/xquery/console";
 
+import module namespace functx="http://www.functx.com";
+
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 
 declare variable $exist:path external;
@@ -538,25 +540,25 @@ manuscript followed by a passage reference, then go to the text view of that
  : these will actually go to the api
   :)
                                         else
-                                            if (matches($exist:resource, "^(\w+\d+(\w+)?(_(ED|TR)_([a-zA-Z0-9]+)?)?(\.))((NAR[0-9A-Za-z]+|(\d+(r|v)?([a-z])?(\d+)?)|([A-Za-z]+)?([0-9]+))(\.)?)+(\-)?(((NAR[0-9A-Za-z]+|(\d+(r|v)[a-z])|([A-Za-z]+)?([0-9]+))(\.)?)+)?")) then
+                                            if (matches($exist:resource, "^(\w+\d+(\w+)?(_(ED|TR)_([a-zA-Z0-9]+)?)?(\.)?)((NAR[0-9A-Za-z]+|(\d+(r|v)?([a-z])?(\d+)?)|([A-Za-z]+)?([0-9]+))(\.)?)+(\-)?(((NAR[0-9A-Za-z]+|(\d+(r|v)[a-z])|([A-Za-z]+)?([0-9]+))(\.)?)+)?")) then
                                                 let $prefix := substring($exist:resource, 1, 2)
                                                 let $switchCollection := local:switchPrefix($prefix)
 (:                                                looks for the FIRST dot, which separates ref and identifier:)
-                                                let $passage := substring-after($exist:resource, '.')
-                                                let $idarea := substring-before($exist:resource, '.')
+                                                let $passage := if(contains($exist:resource, '.')) then substring-after($exist:resource, '.') else ()
+                                                let $idarea := if(contains($exist:resource, '.')) then substring-before($exist:resource, '.') else $exist:resource 
 (:                                                looks for the first underscore, which separates the main identifier from the edition/translation:)
-                                                let $id := substring-before($idarea, '_')
-                                                 let $ed := substring-after($idarea, '_')
+                                                let $id := if(contains($idarea, '_ED_') or contains($idarea, '_TR_')) then substring-before($idarea, '_') else $idarea
+                                                 let $ed := if(contains($idarea, '_ED_') or contains($idarea, '_TR_')) then substring-after($idarea,substring-before($idarea, '_')) else ()
                                                 let $reforrange := if (contains($passage, '-')) then
                                                 '?start='|| substring-before($passage, '-') ||'&amp;end='|| substring-after($passage, '-')
                                                 else '?ref=' || $passage
                                                 let $edition := '&amp;edition=' || $ed
                                                 let $parms := ($reforrange||$edition)
-(:     let $test:= console:log(($exist:resource, '++>', $switchCollection,'/', $id, $parms)):)
+                                                
                                             return
                                                <dispatch
                                                         xmlns="http://exist.sourceforge.net/NS/exist">
-                                                        <forward
+                                                        <redirect
                                                             url="/{$switchCollection}/{$id}/text{$parms}"/>
                                                     </dispatch>
 
