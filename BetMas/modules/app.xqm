@@ -1135,7 +1135,8 @@ $numberOfParts as xs:string*,
    let $logparams := '?' || string-join($paramstobelogged, '&amp;')
    let $log := log:add-log-message($logparams, sm:id()//sm:real/sm:username/string() , 'query')
     let $IDpart := app:ListQueryParam('xmlid', '@xml:id', 'any', 'search')
-    let $collection := app:ListQueryParam('work-types', '@type', 'any', 'search')
+   let $t := console:log($IDpart)
+   let $collection := app:ListQueryParam('work-types', '@type', 'any', 'search')
     let $script := app:ListQueryParam('script', 't:handNote/@script', 'any', 'search')
     let $mss := app:ListQueryParam('target-ms', '@xml:id', 'any', 'search')
     let $texts := app:ListQueryParam('target-work', '@xml:id', 'any', 'search')
@@ -1283,6 +1284,7 @@ let $queryExpr := $query-string
              let $path := 
              concat("$config:collection-root","//t:TEI", 
              $allfilters, $nOfP)
+             let $console := console:log($path)
              return
                    for $hit in util:eval($path)
                    return $hit
@@ -1667,7 +1669,9 @@ function app:facetSearchRes ( $node as node()*,  $model as map(*), $start as xs:
               <span class="w3-tag w3-red"><a href="{('/tei/' || $id || '.xml')}" target="_blank">TEI</a></span>
               <span class="w3-tag w3-red"><a href="/{$id}.pdf" target="_blank" >PDF</a></span><br/>
                <a target="_blank" href="/{$collection}/{$id}/main?hi={request:get-parameter('query',())}"><b>{if(starts-with($id, 'corpus')) then $root//t:titleStmt/t:title[1]/text() else try{titles:printTitleID($id)} catch *{console:log(($text, $id, $err:description))}}</b></a><br/>
-               {if ($item//t:facsimile/t:graphic/@url) then <a target="_blank" href="{$item//t:facsimile/t:graphic/@url}">Link to images</a> else if($item//t:msIdentifier/t:idno/@facs) then 
+               {if ($item//t:facsimile/t:graphic/@url) 
+               then <a target="_blank" href="{$item//t:facsimile/t:graphic/@url}">Link to images</a> 
+               else if($item//t:msIdentifier/t:idno[@facs][@n]) then 
                  <a target="_blank" href="/manuscripts/{$id}/viewer">{
                 if($item//t:collection = 'Ethio-SPaRe') 
                then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
