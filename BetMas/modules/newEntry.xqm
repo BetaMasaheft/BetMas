@@ -35,7 +35,7 @@ let $schema := doc($config:app-root || '/schema/tei-betamesaheft.xml')
 <div class="w3-container w3-margin-bottom">
 <label>ID</label><br/>
 <input  class="w3-input" id="suffix" name="suffix"  required="required"></input>
-<small class="form-text text-muted">type here the {$option} new id <a target="_blank" href="https://betamasaheft.eu/Guidelines/?id=entities-id-structure">(assigning IDs guidelines page)</a></small>
+<small class="form-text text-muted">type here the {$option} new id <a target="_blank" href="https://betamasaheft.eu/Guidelines/?id=entities-id-structure">(assigning IDs guidelines page)</a>. This must not start with a number.</small>
 </div>
 
 <div class="w3-container w3-margin-bottom">
