@@ -950,8 +950,8 @@ return
                                                 let $item := root($hit)
                                               let $root := $item/t:TEI/@xml:id
                                               let $itemid := string($root)
-                                                group by $groupkey := $root
-                                                 let $tit := titles:printTitleID($groupkey)
+                                                group by $groupkey := $itemid
+                                                 let $tit := titles:printTitleMainID($groupkey)
                                                  order by $tit[1]
 
                                                (: inside the list then :)

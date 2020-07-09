@@ -289,25 +289,13 @@ else if (starts-with($exist:path, '/tei/') and ends-with($exist:path, ".xml")) t
                             let $id := substring-before($exist:resource, '.xml')
                             let $item := $config:collection-root/id($id)[name()='TEI']
                             let $collection := local:switchCol($item/@type)
-                            let $uri := base-uri($item)
                                
                             return
                             if ($item) then
                                 <dispatch
                                     xmlns="http://exist.sourceforge.net/NS/exist">
-                                    <forward
-                                        url="/{substring-after($uri, 'db/apps/')}"/>
-                                    <view>
-                                        <forward
-                                            servlet="XSLTServlet">
-                                            <set-attribute
-                                                name="xslt.stylesheet"
-                                                value="xmldb:exist:///db/apps/BetMas/xslt/post.xsl"/>
-                                                                            
-                                        <set-header name="Cache-Control" value="no-cache"/>
-                                        </forward>
-                                    </view>
-                                </dispatch>
+                                    <forward url="/restxq/BetMas/api/post/{$id}/tei" absolute="yes"/>
+                                    </dispatch>
                                  else 
                                 
                               let $Imap := map {'type': 'xmlitem', 'name' : $id, 'path' : $collection}

@@ -16,6 +16,7 @@ declare namespace s = "http://www.w3.org/2005/xpath-functions";
 import module namespace r = 'http://joewiz.org/ns/xquery/roman-numerals' at 'roman-numerals.xqm';
 import module namespace functx="http://www.functx.com";
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
+import module namespace console="http://exist-db.org/xquery/console";
 
 declare variable $locus:Regex := '^\d+(r|v)?([a-z])?(\d+)?';
 declare variable $locus:RegexProt := '^[xvi]+';
@@ -72,6 +73,7 @@ then small roman numerals are used and v(erso)|r(ecto)
 which need to be converted to the previous format
 :)
 declare 
+%test:arg('folio', '20') %test:assertEquals(20)
 %test:arg('folio', '1ra') %test:assertEquals(1)
 %test:arg('folio', '2v') %test:assertEquals(2)
 %test:arg('folio', '45ra5') %test:assertEquals(45)
@@ -81,7 +83,8 @@ declare
 %test:arg('folio', 'ivv(erso)') %test:assertEquals(4)
 %test:arg('folio', 'ir(ecto)') %test:assertEquals(1)
 function locus:folio($folio as xs:string) as xs:integer {
-    if (matches($folio, $locus:Regex)) then
+    if (matches($folio, '^\d+$')) then xs:integer($folio)
+    else    if (matches($folio, $locus:Regex)) then
        replace($folio, '\d+$', '') 
        => replace('[rvabcd]', '') 
        => replace('#', '') 
