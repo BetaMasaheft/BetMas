@@ -528,7 +528,7 @@ manuscript followed by a passage reference, then go to the text view of that
  : these will actually go to the api
   :)
                                         else
-                                            if (matches($exist:resource, "^(\w+\d+(\w+)?(((_(ED|TR)_([a-zA-Z0-9]+)?)(\.)?)|\.))((NAR[0-9A-Za-z]+|(\d+(r|v)?([a-z])?(\d+)?)|([A-Za-z]+)?([0-9]+))(\.)?)+(\-)?(((NAR[0-9A-Za-z]+|(\d+(r|v)[a-z])|([A-Za-z]+)?([0-9]+))(\.)?)+)?")) then
+                                            if (matches($exist:resource, "^(\w+\d+(\w+)?(((_(ED|TR)_([a-zA-Z0-9]+)?)(\.)?)|\.))((NAR[0-9A-Za-z]+|(\d+(r|v)?([a-z])?(\d+)?)|([A-Za-z]+)?([0-9]+))(\.)?)?(\-)?(((NAR[0-9A-Za-z]+|(\d+(r|v)[a-z])|([A-Za-z]+)?([0-9]+))(\.)?)+)?")) then
                                                 let $prefix := substring($exist:resource, 1, 2)
                                                 let $switchCollection := local:switchPrefix($prefix)
 (:                                                looks for the FIRST dot, which separates ref and identifier:)
