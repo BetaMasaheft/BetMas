@@ -1,4 +1,7 @@
 @charset "utf-8";
+#alpheios-toolbar-inner {
+  display: none;
+}
 /* Application styles could go here */
 .resultsauthority-files{background-color:#85b3fc; max-height: 400px;
     overflow: auto;     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
