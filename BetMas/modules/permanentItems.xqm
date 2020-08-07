@@ -347,7 +347,7 @@ transform:transform(
    
    <div class="w3-container">
   <div class="w3-twothird" id="dtstext">{ if($this//t:div[@type='edition'])
-   then dtsc:text($id, $edition, $ref, $start, $end, $collection) else <p>No text available here.</p>}</div>
+   then dtsc:text($id, $this//t:div[@type='edition'], '', '', '', $collection) else <p>No text available here.</p>}</div>
    <!--<div class="w3-third w3-gray w3-padding">{item2:textBibl($this, $id)}</div>-->
    </div>
     ,
