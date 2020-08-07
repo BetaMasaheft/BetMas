@@ -11,7 +11,7 @@ import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas
 import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "xmldb:exist:///db/apps/BetMas/modules/editors.xqm";
 import module namespace fusekisparql = 'https://www.betamasaheft.uni-hamburg.de/BetMas/sparqlfuseki' at "xmldb:exist:///db/apps/BetMas/fuseki/fuseki.xqm";
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
-    
+    import module namespace console="http://exist-db.org/xquery/console";
 (: namespaces of data used :)
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
@@ -119,9 +119,8 @@ function apisparql:sparqlQuery($query as xs:string*) {
 let $q := ((if(starts-with($query, 'PREFIX')) then () else $apisparql:prefixes) || normalize-space($query))  
 let $xml := fusekisparql:query('betamasaheft', $q)
 return
-($apisparql:response200XML,
 $xml
-)};
+};
 
  declare
 %rest:GET
@@ -154,15 +153,14 @@ $json
 %rest:query-param("query", "{$query}", "")
 %output:method("json")
 function apisparql:sparqljsonQuery($query as xs:string*) {
-
+(:let $t := console:log($query):)
 let $q := ((if(starts-with($query, 'PREFIX')) then () else $apisparql:prefixes) || normalize-space($query))  
 let $xml := fusekisparql:query('betamasaheft', $q)
+let $json := try{apisparql:xml2json($xml[2]/node())} catch * {console:log($err:description)}
 return
 
 ($apisparql:response200Json,
-
-let $json := apisparql:xml2json($xml)
-return $json
+$json
 )};
 
                                                              
