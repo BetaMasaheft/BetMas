@@ -233,6 +233,7 @@ return
                                 <a class="w3-bar-item w3-button"   href="/xpath">XPath search</a>
                                 <a class="w3-bar-item w3-button"   href="/sparql">SPARQL Endpoint</a>
                                 <a class="w3-bar-item w3-button"   href="/collate">Collate passages with Collatex</a>
+                                <a class="w3-bar-item w3-button"   href="/gender">Gender and Manuscripts</a>
                      </div>
     </div>
     <div class="w3-dropdown-hover w3-hide-medium w3-hide-small" id="projects">

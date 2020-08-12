@@ -250,7 +250,8 @@ else if (contains($exist:path, '/api/') or
                 starts-with($exist:path, '/corpus') or
                 starts-with($exist:path, '/listIds') or
                 starts-with($exist:path, '/workmap') or
-                starts-with($exist:path, '/litcomp')) then
+                starts-with($exist:path, '/litcomp') or
+                starts-with($exist:path, '/gender')) then
                    
                     if (ends-with($exist:path, "/")) then
                         <dispatch
