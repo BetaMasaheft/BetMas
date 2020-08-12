@@ -82,8 +82,8 @@ return
     
      let $inthisrepo := $mss//t:repository[@ref = $i]
      let $count := count($inthisrepo)
-    
-    return
+     return
+    if($count=0) then () else 
         <div class="w3-row">
         <div class="w3-half"><h2><a href="/manuscripts/{$i}/list">{$repoi}</a></h2></div>
         <div class="w3-col" style="width:5%"><span class="w3-badge">{$count}</span></div>
