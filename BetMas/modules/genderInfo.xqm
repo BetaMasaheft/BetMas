@@ -45,10 +45,56 @@ OPTIONAL {  ?ms   dcterms:temporal ?temporal .}
   FILTER STRSTARTS(STR(?role), 'https://betamasaheft.eu/')
 }";
 
-declare variable $genderInfo:sparqlquery := genderInfo:runquery() ;
+declare variable $genderInfo:queryF := "SELECT DISTINCT ?ms ?temporal ?repo ?person ?role ?occupation ?birth ?death ?bondType ?related
+WHERE {
+?annotation a ?role ;
+    oa:hasBody ?person ;
+    oa:hasTarget ?ms .
+?ms a bm:mss .
+OPTIONAL {  ?ms   dcterms:temporal ?temporal .}
+ ?ms crm:P55_has_current_location ?repo .
+?person foaf:gender 'female' .
+  OPTIONAL {
+   ?person        crm:P4_has_time_span [a crm:E67_Birth ;crm:P79_beginning_is_qualified_by ?birth] ; 
+       crm:P4_has_time_span [a crm:E69_Death ; crm:P79_beginning_is_qualified_by ?death] .
+  }
+  OPTIONAL { ?person snap:occupation ?occupation}
+  OPTIONAL {
+    ?person snap:hasBond ?bond .
+    ?bond a ?bondType ;
+          snap:bond-with ?related .
+  }
+  FILTER STRSTARTS(STR(?role), 'https://betamasaheft.eu/')
+}";
 
-declare function genderInfo:runquery() {
-    let $query := $config:sparqlPrefixes ||$genderInfo:query
+declare variable $genderInfo:queryM := "SELECT DISTINCT ?ms ?temporal ?repo ?person ?role ?occupation ?birth ?death ?bondType ?related
+WHERE {
+?annotation a ?role ;
+    oa:hasBody ?person ;
+    oa:hasTarget ?ms .
+?ms a bm:mss .
+OPTIONAL {  ?ms   dcterms:temporal ?temporal .}
+ ?ms crm:P55_has_current_location ?repo .
+?person foaf:gender 'male' .
+  OPTIONAL {
+   ?person        crm:P4_has_time_span [a crm:E67_Birth ;crm:P79_beginning_is_qualified_by ?birth] ; 
+       crm:P4_has_time_span [a crm:E69_Death ; crm:P79_beginning_is_qualified_by ?death] .
+  }
+  OPTIONAL { ?person snap:occupation ?occupation}
+  OPTIONAL {
+    ?person snap:hasBond ?bond .
+    ?bond a ?bondType ;
+          snap:bond-with ?related .
+  }
+  FILTER STRSTARTS(STR(?role), 'https://betamasaheft.eu/')
+}";
+
+declare variable $genderInfo:sparqlquery := genderInfo:runquery($genderInfo:query) ;
+declare variable $genderInfo:sparqlqueryF := genderInfo:runquery($genderInfo:queryF) ;
+declare variable $genderInfo:sparqlqueryM := genderInfo:runquery($genderInfo:queryM) ;
+
+declare function genderInfo:runquery($q) {
+    let $query := $config:sparqlPrefixes || $q
     return
         fusekisparql:query('betamasaheft', $query)
 };
@@ -234,8 +280,8 @@ return
                             import from a SPARQL Endpoint, for example Palladio (endpoint is https://betamasaheft.eu/api/SPARQL/json), or in <a target="_blank" href="/sparql">our SPARQL Endpoint</a>.</p>
                         <p>At the moment the data contains some information 
                              about {count(distinct-values($sparql//sr:binding[@name="person"]))}, 
-                             {count(genderInfo:filter($sparql, 'female'))} women 
-                             and {count(genderInfo:filter($sparql, 'male'))} men. </p>
+                             <a href="/gender/table/female">{count(genderInfo:filter($sparql, 'female'))} women </a>
+                             and <a href="/gender/table/male">{count(genderInfo:filter($sparql, 'male'))} men</a>. </p>
                              </div>
                              </div> {nav:footerNew()}
                 <script
@@ -264,6 +310,159 @@ declare
 %output:method("html5")
 function genderInfo:table() {
     let $sparql := $genderInfo:sparqlquery[2]
+   return 
+        (<rest:response>
+            <http:response
+                status="200">
+                <http:header
+                    name="Content-Type"
+                    value="text/html; charset=utf-8"/>
+            </http:response>
+        </rest:response>,
+        <html
+            xmlns="http://www.w3.org/1999/xhtml">
+            <head>
+                <title
+                    property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
+                <link
+                    rel="shortcut icon"
+                    href="resources/images/favicon.ico"/>
+                <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1.0"/>
+                <meta
+                    xmlns="http://www.w3.org/1999/xhtml"
+                    property="og:site_name"
+                    content="Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea"></meta>
+                <meta
+                    xmlns="http://www.w3.org/1999/xhtml"
+                    property="dcterms:language schema:inLanguage"
+                    content="en"></meta>
+                <meta
+                    xmlns="http://www.w3.org/1999/xhtml"
+                    property="dcterms:rights"
+                    content="Copyright &#169; Akademie der Wissenschaften in Hamburg, Hiob-Ludolf-Zentrum für Äthiopistik.  Sharing and remixing permitted under terms of the Creative Commons Attribution Share alike Non Commercial 4.0 License (cc-by-nc-sa)."></meta>
+                <meta
+                    xmlns="http://www.w3.org/1999/xhtml"
+                    property="dcterms:publisher schema:publisher"
+                    content="Akademie der Wissenschaften in Hamburg, Hiob-Ludolf-Zentrum für Äthiopistik"></meta>
+                {apprest:scriptStyle()}
+                <script
+                    type="text/javascript"
+                    src="https://www.gstatic.com/charts/loader.js"/>
+            
+            </head>
+            <body
+                id="body">
+                {nav:barNew()}
+                {nav:modalsNew()}
+                <div
+                    id="content"
+                    class="w3-container w3-margin w3-padding-64">
+                    <div
+                        class="w3-container">{
+   
+   transform:transform($sparql,
+    'xmldb:exist:///db/apps/BetMas/rdfxslt/sparqltable.xsl', ())    }
+    </div></div>
+      {nav:footerNew()}
+                <script
+                    type="text/javascript"
+                    src="resources/js/w3.js"/>
+                <script
+                    type="text/javascript"
+                    src="resources/js/titles.js"/>
+                <script
+                    type="text/javascript"
+                    src="resources/js/tablesorter.js"/>
+            </body>
+        </html>)
+    };
+    
+    
+declare
+%rest:GET
+%rest:path("/BetMas/gender/table/female")
+%output:method("html5")
+function genderInfo:tableF() {
+    let $sparql := $genderInfo:sparqlqueryF[2]
+   return 
+        (<rest:response>
+            <http:response
+                status="200">
+                <http:header
+                    name="Content-Type"
+                    value="text/html; charset=utf-8"/>
+            </http:response>
+        </rest:response>,
+        <html
+            xmlns="http://www.w3.org/1999/xhtml">
+            <head>
+                <title
+                    property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
+                <link
+                    rel="shortcut icon"
+                    href="resources/images/favicon.ico"/>
+                <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1.0"/>
+                <meta
+                    xmlns="http://www.w3.org/1999/xhtml"
+                    property="og:site_name"
+                    content="Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea"></meta>
+                <meta
+                    xmlns="http://www.w3.org/1999/xhtml"
+                    property="dcterms:language schema:inLanguage"
+                    content="en"></meta>
+                <meta
+                    xmlns="http://www.w3.org/1999/xhtml"
+                    property="dcterms:rights"
+                    content="Copyright &#169; Akademie der Wissenschaften in Hamburg, Hiob-Ludolf-Zentrum für Äthiopistik.  Sharing and remixing permitted under terms of the Creative Commons Attribution Share alike Non Commercial 4.0 License (cc-by-nc-sa)."></meta>
+                <meta
+                    xmlns="http://www.w3.org/1999/xhtml"
+                    property="dcterms:publisher schema:publisher"
+                    content="Akademie der Wissenschaften in Hamburg, Hiob-Ludolf-Zentrum für Äthiopistik"></meta>
+                {apprest:scriptStyle()}
+                <script
+                    type="text/javascript"
+                    src="https://www.gstatic.com/charts/loader.js"/>
+            
+            </head>
+            <body
+                id="body">
+                {nav:barNew()}
+                {nav:modalsNew()}
+                <div
+                    id="content"
+                    class="w3-container w3-margin w3-padding-64">
+                    <div
+                        class="w3-container">{
+   
+   transform:transform($sparql,
+    'xmldb:exist:///db/apps/BetMas/rdfxslt/sparqltable.xsl', ())    }
+    </div></div>
+      {nav:footerNew()}
+                <script
+                    type="text/javascript"
+                    src="resources/js/w3.js"/>
+                <script
+                    type="text/javascript"
+                    src="resources/js/titles.js"/>
+                <script
+                    type="text/javascript"
+                    src="resources/js/tablesorter.js"/>
+            </body>
+        </html>)
+    };
+    
+    
+    
+declare
+%rest:GET
+%rest:path("/BetMas/gender/table/male")
+%output:method("html5")
+function genderInfo:tableM() {
+    let $sparql := $genderInfo:sparqlqueryM[2]
    return 
         (<rest:response>
             <http:response
