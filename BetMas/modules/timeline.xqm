@@ -187,7 +187,7 @@ document.getElementById('imperial').onclick = function() {
      (if ($mode = 'general') then $periods else ())
     ||
     
-    replace($data//dates, ', end: ""', ', type: "point"') ||
+    replace($data//dates, ', end: ""', ', type: "box"') ||
     "]); " ||
     "var options = {
     " || 
@@ -369,6 +369,7 @@ default return
                             <from>
                                 {string($date/@when)}
                             </from>
+                            
                         else
                             ()
         

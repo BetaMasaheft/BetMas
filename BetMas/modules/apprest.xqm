@@ -839,14 +839,15 @@ declare function apprest:ItemScriptStyle(){
         <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="resources/css/leaflet.css"  />,
         <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="resources/css/leaflet.fullscreen.css"  />,
         <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="resources/css/leaflet-search.css"  />,
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.12.0/vis.min.css"  />,
+       <link xmlns="http://www.w3.org/1999/xhtml" href="https://unpkg.com/vis-timeline/styles/vis-timeline-graph2d.min.css" rel="stylesheet" type="text/css" />,
        <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"  />,
         <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/js/mapbox.js"  />,
         <script  xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/js/Leaflet.fullscreen.min.js"  />,
-       <script type="text/javascript" src="resources/js/leaflet-ajax-gh-pages/dist/leaflet.ajax.min.js"  ></script>,
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"  ></script>,
-        <script type="text/javascript" src="resources/openseadragon/openseadragon.min.js"  />,
-                         <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.12.0/vis.min.js"  />
+       <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/js/leaflet-ajax-gh-pages/dist/leaflet.ajax.min.js"  ></script>,
+        <script xmlns="http://www.w3.org/1999/xhtml"  type="text/javascript" src="https://www.gstatic.com/charts/loader.js"  ></script>,
+        <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/openseadragon/openseadragon.min.js"  />,
+        <script  xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://unpkg.com/vis-timeline/standalone/umd/vis-timeline-graph2d.min.js"></script>,
+        <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://unpkg.com/vis-network/peer/umd/vis-network.min.js"></script>
 };
 
 (:~html page script and styles to be included specific for item :)
