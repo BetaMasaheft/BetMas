@@ -370,7 +370,7 @@ else
                 }}'}
             </style>,
         <link rel="stylesheet" type="text/css" href="resources/mirador/css/mirador-combined.css"/>,
-            <script src="resources/mirador/mirador.min.js"></script>) else ()}
+            <script src="resources/mirador/mirador.js"></script>) else ()}
     </head>
     <body id="body">
         {nav:barNew()}

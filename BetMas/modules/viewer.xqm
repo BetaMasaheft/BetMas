@@ -44,7 +44,7 @@ log:add-log-message('/manuscripts/viewer', sm:id()//sm:real/sm:username/string()
 <title xmlns="http://www.w3.org/1999/xhtml" property="dcterms:title og:title schema:name" >Mirador Manuscript viewer</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" type="text/css" href="resources/mirador/css/mirador-combined.css"/>
-    <script src="resources/mirador/mirador.min.js"></script>
+    <script src="resources/mirador/mirador.js"></script>
     
      
     </head>
@@ -91,7 +91,7 @@ log:add-log-message('/manuscripts/'||$repoid||'/viewer', sm:id()//sm:real/sm:use
 <title xmlns="http://www.w3.org/1999/xhtml" property="dcterms:title og:title schema:name" >Mirador Manuscript viewer</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" type="text/css" href="resources/mirador/css/mirador-combined.css"/>
-    <script src="resources/mirador/mirador.min.js"></script>
+    <script src="resources/mirador/mirador.js"></script>
     
      
     </head>
@@ -190,7 +190,7 @@ if(xdb:collection-available($coll)) then (
   {apprest:app-meta($biblio)}
      {apprest:scriptStyle()}
     <link rel="stylesheet" type="text/css" href="resources/mirador/css/mirador-combined.css"/>
-    <script src="resources/mirador/mirador.min.js"></script>
+    <script src="resources/mirador/mirador.js"></script>
     </head>
     <body id="body">
       {nav:barNew()}
@@ -310,7 +310,7 @@ if(xdb:collection-available($coll)) then (
   {apprest:app-meta($biblio)}
      {apprest:scriptStyle()}
     <link rel="stylesheet" type="text/css" href="resources/mirador/css/mirador-combined.css"/>
-    <script src="resources/mirador/mirador.min.js"></script>
+    <script src="resources/mirador/mirador.js"></script>
     </head>
     <body id="body">
       {nav:barNew()}
@@ -427,7 +427,7 @@ log:add-log-message('/chojnacki/viewer', sm:id()//sm:real/sm:username/string() ,
 <title xmlns="http://www.w3.org/1999/xhtml" property="dcterms:title og:title schema:name" >Mirador Chojnacki images viewer</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" type="text/css" href="resources/mirador/css/mirador-combined.css"/>
-    <script src="resources/mirador/mirador.min.js"></script>
+    <script src="resources/mirador/mirador.js"></script>
     
      
     </head>
