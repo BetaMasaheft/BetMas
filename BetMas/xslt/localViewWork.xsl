@@ -9,6 +9,25 @@
             <xsl:when test="matches($date, '\d{4}-\d{2}-\d{2}')">
                 <xsl:value-of
                     select="format-date(xs:date($date), '[D]-[M]-[Y0001]', 'en', 'AD', ())"/>
+            </xsl:when><xsl:when test="matches($date, '\d{4}-\d{2}')">
+                <xsl:variable name="monthnumber" select="substring-after($date, '-')"/>
+                <xsl:variable name="monthname">
+                    <xsl:choose>
+                        <xsl:when test="$monthnumber = '01'">January</xsl:when>
+                        <xsl:when test="$monthnumber = '02'">February</xsl:when>
+                        <xsl:when test="$monthnumber = '03'">March</xsl:when>
+                        <xsl:when test="$monthnumber = '04'">April</xsl:when>
+                        <xsl:when test="$monthnumber = '05'">May</xsl:when>
+                        <xsl:when test="$monthnumber = '06'">June</xsl:when>
+                        <xsl:when test="$monthnumber = '07'">July</xsl:when>
+                        <xsl:when test="$monthnumber = '08'">August</xsl:when>
+                        <xsl:when test="$monthnumber = '09'">September</xsl:when>
+                        <xsl:when test="$monthnumber = '10'">October</xsl:when>
+                        <xsl:when test="$monthnumber = '11'">November</xsl:when>
+                        <xsl:when test="$monthnumber = '12'">December</xsl:when>
+                    </xsl:choose>
+                </xsl:variable>
+                <xsl:value-of select="concat(replace(substring-after($date, '-'), $monthnumber, $monthname), ' ', substring-before($date, '-'))"/>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="format-number($date, '####')"/>
