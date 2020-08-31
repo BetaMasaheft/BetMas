@@ -39,11 +39,11 @@ let $log := log:add-log-message('/api/'||$collection||'/list/json', sm:id()//sm:
          ( $config:response200Json,
     
     let $term := if ($term != '') then
-        ("[descendant::t:term/@key = '" || $term || "' ]")
+        ("[descendant::t:term/@key eq '" || $term || "' ]")
     else
         ''
           let $repo := if ($repo != '') then
-        ("[descendant::t:repository/@ref = '" || $repo || "' ]")
+        ("[descendant::t:repository/@ref eq '" || $repo || "' ]")
     else
         ''
     let $collecPath := switch2:collection($collection)
@@ -118,19 +118,19 @@ return
                                                         json:array="true"><value>{string($r)}</value></json:value>
                                             },
                                             element scribe {
-                                                for $r in $resource//t:persName[@role = 'scribe']/@ref[not(. = 'PRS00000') and not(. = 'PRS0000')]
+                                                for $r in $resource//t:persName[@role eq 'scribe']/@ref[not(. eq 'PRS00000') and not(. = 'PRS0000')]
                                                 return
                                                     <json:value
                                                         json:array="true"><id>{string($r)}</id></json:value>
                                             },
                                             element donor {
-                                                for $r in $resource//t:persName[@role = 'donor']/@ref[not(. = 'PRS00000') and not(. = 'PRS0000')]
+                                                for $r in $resource//t:persName[@role eq 'donor']/@ref[not(. eq 'PRS00000') and not(. eq 'PRS0000')]
                                                 return
                                                     <json:value
                                                         json:array="true"><id>{string($r)}</id></json:value>
                                             },
                                             element patron {
-                                                for $r in $resource//t:persName[@role = 'patron']/@ref[not(. = 'PRS00000') and not(. = 'PRS0000')]
+                                                for $r in $resource//t:persName[@role eq 'patron']/@ref[not(. eq 'PRS00000') and not(. eq 'PRS0000')]
                                                 return
                                                     <json:value
                                                         json:array="true"><id>{string($r)}</id></json:value>
@@ -157,7 +157,7 @@ return
                                                         json:array="true"><id>{string($r)}</id></json:value>
                                             },
                                             element tabot {
-                                                for $r in $resource//t:ab[@type = 'tabot']/t:persName/@ref
+                                                for $r in $resource//t:ab[@type eq 'tabot']/t:persName/@ref
                                                 return
                                                     <json:value
                                                         json:array="true"><id>{string($r)}</id></json:value>
@@ -172,7 +172,7 @@ return
                                                         json:array="true"><id>{string($r)}</id></json:value>
                                             },
                                             element tabot {
-                                                for $r in $resource//t:ab[@type = 'tabot']/t:persName/@ref
+                                                for $r in $resource//t:ab[@type eq 'tabot']/t:persName/@ref
                                                 return
                                                     <json:value
                                                         json:array="true"><value>{string($r)}</value></json:value>
@@ -192,7 +192,7 @@ return
                                                         json:array="true"><value>{string($r)}</value></json:value>
                                             },
                                             element author {
-                                                for $r in ($resource//t:relation[@name = "saws:isAttributedToAuthor"]/@passive, $resource//t:relation[@name = "dcterms:creator"]/@passive)
+                                                for $r in ($resource//t:relation[@name eq "saws:isAttributedToAuthor"]/@passive, $resource//t:relation[@name eq "dcterms:creator"]/@passive)
                                                 return
                                                     <json:value
                                                         json:array="true"><id>{string($r)}</id></json:value>
@@ -218,7 +218,7 @@ return
                                                         json:array="true"><value>{string($r)}</value></json:value>
                                             },
                                             element author {
-                                                for $r in ($resource//t:relation[@name = "saws:isAttributedToAuthor"]/@passive, $resource//t:relation[@name = "dcterms:creator"]/@passive)
+                                                for $r in ($resource//t:relation[@name eq "saws:isAttributedToAuthor"]/@passive, $resource//t:relation[@name eq "dcterms:creator"]/@passive)
                                                 return
                                                     <json:value
                                                         json:array="true"><id>{string($r)}</id></json:value>
@@ -248,7 +248,7 @@ let $log := log:add-log-message('/api/manuscripts/'||$repo||'/list/ids/json', sm
     let $login := xmldb:login($config:data-root, $config:ADMIN, $config:ppw)
     return
          ( $config:response200Json,
-    let $msfromrepo := $config:collection-rootMS//t:TEI[descendant::t:repository[@ref = $repo]]
+    let $msfromrepo := $config:collection-rootMS//t:TEI[descendant::t:repository[@ref eq $repo]]
     let $total := count($msfromrepo) 
    let $items :=  for $resource in $msfromrepo 
     let $id := string($resource/@xml:id)
@@ -278,7 +278,7 @@ let $log := log:add-log-message('/api/' || $collection || '/list', sm:id()//sm:r
         ( $config:response200XML,
     
     let $term := if ($term != '') then
-        ("[descendant::t:term/@key = '" || $term || "' ]")
+        ("[descendant::t:term/@key eq '" || $term || "' ]")
     else
         ''
     let $collecPath := switch2:collection($collection)
@@ -342,17 +342,17 @@ return
                                         string($r) || ' '
                                 },
                                 attribute scribe {
-                                    for $r in $resource//t:persName[@role = 'scribe']/@ref[not(. = 'PRS00000') and not(. = 'PRS0000')]
+                                    for $r in $resource//t:persName[@role eq 'scribe']/@ref[not(. eq 'PRS00000') and not(. eq 'PRS0000')]
                                     return
                                         string($r) || ' '
                                 },
                                 attribute donor {
-                                    for $r in $resource//t:persName[@role = 'donor']/@ref[not(. = 'PRS00000') and not(. = 'PRS0000')]
+                                    for $r in $resource//t:persName[@role eq 'donor']/@ref[not(. eq 'PRS00000') and not(. eq 'PRS0000')]
                                     return
                                         string($r) || ' '
                                 },
                                 attribute patron {
-                                    for $r in $resource//t:persName[@role = 'patron']/@ref[not(. = 'PRS00000') and not(. = 'PRS0000')]
+                                    for $r in $resource//t:persName[@role eq 'patron']/@ref[not(. eq 'PRS00000') and not(. eq 'PRS0000')]
                                     return
                                         string($r) || ' '
                                 })
@@ -377,7 +377,7 @@ return
                                         string($r) || ' '
                                 },
                                 attribute tabot {
-                                    for $r in $resource//t:ab[@type = 'tabot']/t:persName/@ref
+                                    for $r in $resource//t:ab[@type eq 'tabot']/t:persName/@ref
                                     return
                                         string($r) || ' '
                                 })
@@ -389,7 +389,7 @@ return
                                         string($r) || ' '
                                 },
                                 attribute tabot {
-                                    for $r in $resource//t:ab[@type = 'tabot']/t:persName/@ref
+                                    for $r in $resource//t:ab[@type eq 'tabot']/t:persName/@ref
                                     return
                                         string($r) || ' '
                                 })
@@ -406,7 +406,7 @@ return
                                         string($r) || ' '
                                 },
                                 attribute author {
-                                    for $r in ($resource//t:relation[@name = "saws:isAttributedToAuthor"]/@passive, $resource//t:relation[@name = "dcterms:creator"]/@passive)
+                                    for $r in ($resource//t:relation[@name eq "saws:isAttributedToAuthor"]/@passive, $resource//t:relation[@name eq "dcterms:creator"]/@passive)
                                     return
                                         string($r) || ' '
                                 },
@@ -428,7 +428,7 @@ return
                                         string($r) || ' '
                                 },
                                 attribute author {
-                                    for $r in ($resource//t:relation[@name = "saws:isAttributedToAuthor"]/@passive, $resource//t:relation[@name = "dcterms:creator"]/@passive)
+                                    for $r in ($resource//t:relation[@name eq "saws:isAttributedToAuthor"]/@passive, $resource//t:relation[@name eq "dcterms:creator"]/@passive)
                                     return
                                         string($r) || ' '
                                 })

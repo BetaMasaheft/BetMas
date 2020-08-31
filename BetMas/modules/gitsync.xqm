@@ -82,7 +82,7 @@ declare function gitsync:rdf($collection-uri, $file-name){
 declare function gitsync:updateinstitutionsMOD($file-name){
     let $institutionslist := $gitsync:institutions//t:list
     let $id := substring-before($file-name, '.xml')
-    let $update :=  update value  $institutionslist/t:item[@xml:id=$id] with titles:printTitleMainID($id)
+    let $update :=  update value  $institutionslist/t:item[@xml:id eq $id] with titles:printTitleMainID($id)
     return
         'updated institutions.xml static list'
 };
@@ -110,7 +110,7 @@ declare function gitsync:updatepersonsMOD($file-name){
     let $id := substring-before($file-name, '.xml')
     let $file := $config:collection-rootPr//id($id)
     let $t := titles:persNameSelector($file)
-    let $update :=  update value  $perslist/t:item[@corresp=$id] with $t
+    let $update :=  update value  $perslist/t:item[@corresp eq $id] with $t
     return
         'updated persNamesLabels.xml static list with ' || $t || ' for item with id = ' || $id || '. '
 };
@@ -118,7 +118,7 @@ declare function gitsync:updatepersonsMOD($file-name){
 declare function gitsync:updatepersonsDEL($file-name){
     let $perslist := $gitsync:persons//t:list
     let $id := substring-before($file-name, '.xml')
-    let $update :=  update delete  $perslist/t:item[@corresp=$id]
+    let $update :=  update delete  $perslist/t:item[@corresp eq $id]
     return
         'removed value from list in persNamesLabels.xml '
 };
@@ -129,7 +129,7 @@ declare function gitsync:updateplacesMOD($file-name){
     let $id := substring-before($file-name, '.xml')
     let $file := $config:collection-rootPl//id($id) 
     let $newtitleSelector := titles:placeNameSelector($file)
-    let $update :=  update value  $placelist/t:item[@corresp=$id] with $newtitleSelector
+    let $update :=  update value  $placelist/t:item[@corresp eq $id] with $newtitleSelector
     return
         'updated placeNamesLabels.xml static list'
 };
@@ -137,7 +137,7 @@ declare function gitsync:updateplacesMOD($file-name){
 declare function gitsync:updateplacesDEL($file-name){
     let $placelist := $gitsync:places//t:list
     let $id := substring-before($file-name, '.xml')
-    let $update :=  update delete  $placelist/t:item[@corresp=$id]
+    let $update :=  update delete  $placelist/t:item[@corresp eq $id]
     return
         'removed value from list in placeNamesLabels.xml '
 };
@@ -147,7 +147,7 @@ declare function gitsync:updatetextpartsMOD($file-name){
     let $id := substring-before($file-name, '.xml')
     let $file := $config:collection-rootW//id($id) 
     let $newtitleSelector := titles:worknarrTitleSelector($file)
-    let $update :=  update value  $textslist/t:item[@corresp=$id] with $newtitleSelector
+    let $update :=  update value  $textslist/t:item[@corresp eq $id] with $newtitleSelector
     return
         'updated textpartstitles.xml static list '
 };
@@ -155,7 +155,7 @@ declare function gitsync:updatetextpartsMOD($file-name){
 declare function gitsync:updatetextpartsDEL($file-name){
     let $textslist := $gitsync:textparts//t:list
     let $id := substring-before($file-name, '.xml')
-    let $update :=  update delete  $textslist/t:item[@corresp=$id]
+    let $update :=  update delete  $textslist/t:item[@corresp eq $id]
     return
         'removed value from list in textpartstitles.xml '
 };

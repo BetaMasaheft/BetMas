@@ -298,7 +298,7 @@ declare function fo:Zotero($ZoteroUniqueBMtag as xs:string) {
     let $xml-url := concat('https://api.zotero.org/groups/358366/items?tag=', $ZoteroUniqueBMtag, '&amp;format=bib&amp;locale=en-GB&amp;style=hiob-ludolf-centre-for-ethiopian-studies&amp;linkwrap=1')
    let $request := <http:request href="{xs:anyURI($xml-url)}" method="GET"/>
     let $data := http:send-request($request)[2]
-    let $datawithlink := fo:tei2fo($data//div[@class = 'csl-entry'])
+    let $datawithlink := fo:tei2fo($data//div[@class eq  'csl-entry'])
     return
         $datawithlink
 };
@@ -452,7 +452,7 @@ declare function fo:tei2fo($nodes as node()*) {
             fo:tei2fo($node/node())
     case element(tei:hi)
         return
-            if ($node/@rend = "rubric") then
+            if ($node/@rend eq  "rubric") then
                 <fo:inline
                     color="red">{$node/text()}</fo:inline>
             else
@@ -515,7 +515,7 @@ declare function fo:tei2fo($nodes as node()*) {
             else
                 let $nl := string($node/@xml:lang)
                 let $languages := root($node)//tei:langUsage
-                let $matchLang := $languages/tei:language[@ident = $nl]
+                let $matchLang := $languages/tei:language[@ident eq  $nl]
                 return
                     <fo:block>Text in {$matchLang/text()}</fo:block>
     
@@ -536,7 +536,7 @@ declare function fo:tei2fo($nodes as node()*) {
             </fo:block>
     case element(tei:person)
         return
-            if (root($node)/tei:TEI/@type = 'pers') then
+            if (root($node)/tei:TEI/@type eq  'pers') then
                 <fo:block
                 >( {
                         for $pn in $node/tei:persName
@@ -584,7 +584,7 @@ declare function fo:tei2fo($nodes as node()*) {
     case element(tei:witness)
         return
             
-            <fo:block margin-bottom="2mm">{if($node/@xml:id) then <fo:inline font-weight="bold">{(string($node/@xml:id) || ': ')}</fo:inline> else ()} {if($node/@type = 'external') then <fo:basic-link
+            <fo:block margin-bottom="2mm">{if($node/@xml:id) then <fo:inline font-weight="bold">{(string($node/@xml:id) || ': ')}</fo:inline> else ()} {if($node/@type eq  'external') then <fo:basic-link
                         external-destination="{string($node/@facs)}" font-weight="bold">{string($node/@corresp)}</fo:basic-link> else titles:printTitleID(string($node/@corresp))}</fo:block>
     
     
@@ -599,7 +599,7 @@ declare function fo:tei2fo($nodes as node()*) {
                 if ($node/@when) then
                     <fo:inline>{string($node/@when)}</fo:inline>
                 else
-                    if ($node/@type = 'foundation')
+                    if ($node/@type eq  'foundation')
                     then
                         <fo:inline>(Foundation: {$node/text()})</fo:inline>
                     else
@@ -695,7 +695,7 @@ declare function fo:tei2fo($nodes as node()*) {
                                else concat($ref/name(), ' ', string($ref/@corresp)))
                                ||
                                
-                               (if($ref/@xml:lang) then concat(' [', $file//tei:language[@ident = $ref/@xml:lang], ']') else ()))
+                               (if($ref/@xml:lang) then concat(' [', $file//tei:language[@ident eq  $ref/@xml:lang], ']') else ()))
                 return (' (about: ' || 
                 string-join($correspsEl, '; ')
                 || ')'
@@ -736,7 +736,7 @@ declare function fo:tei2fo($nodes as node()*) {
                                else concat($ref/name(), ' ', string($ref/@corresp)))
                                ||
                                
-                               (if($ref/@xml:lang) then concat(' [', $file//tei:language[@ident = $ref/@xml:lang], ']') else ()))
+                               (if($ref/@xml:lang) then concat(' [', $file//tei:language[@ident eq  $ref/@xml:lang], ']') else ()))
                 return ('(about: ' || 
                 string-join($correspsEl, '; ')
                 || ')'
@@ -747,7 +747,7 @@ declare function fo:tei2fo($nodes as node()*) {
     
     case element(tei:div)
         return
-            if ($node/@type = 'edition') then
+            if ($node/@type eq  'edition') then
                 <fo:block>{
                         if ($node/@xml:lang) then
                             fo:lang($node/@xml:lang)
@@ -755,7 +755,7 @@ declare function fo:tei2fo($nodes as node()*) {
                             ()
                     }{fo:tei2fo($node/node())}</fo:block>
             else
-                if ($node/@type = 'textpart') then
+                if ($node/@type eq  'textpart') then
                     
                     (<fo:block
                         space-before="3mm">
@@ -771,13 +771,13 @@ declare function fo:tei2fo($nodes as node()*) {
                     <fo:block
                         space-before="3mm">{fo:tei2fo($node/node()[not(name() = 'label')])}</fo:block>)
                 else
-                    if ($node/@type = 'bibliography') then
+                    if ($node/@type eq  'bibliography') then
                         fo:tei2fo($node/node())
                     else
                         ()
     case element(tei:ab)
         return
-            if ($node/@type = 'foundation') then
+            if ($node/@type eq  'foundation') then
                 (<fo:block
                     font-size="1.2em"
                     space-before="2mm"
@@ -785,7 +785,7 @@ declare function fo:tei2fo($nodes as node()*) {
                 <fo:block>{fo:tei2fo($node/node())}</fo:block>)
             
             else
-                if ($node/@type = 'history') then
+                if ($node/@type eq  'history') then
                     <fo:block>{fo:tei2fo($node/node())}</fo:block>
                 else
                                 <fo:block linefeed-treatment="preserve">{fo:tei2fo($node/node()[not(name() = 'title')])}</fo:block>
@@ -793,7 +793,7 @@ declare function fo:tei2fo($nodes as node()*) {
     
     case element(tei:lb)
         return
-('&#x000A;', <fo:inline margin-left="15mm">{if(number($node/@n) and $node/@n mod 5 = 0 and not($node/@n = 0)) then string($node/@n) else(' ')}</fo:inline>)
+('&#x000A;', <fo:inline margin-left="15mm">{if(number($node/@n) and $node/@n mod 5 = 0 and not($node/@n eq  0)) then string($node/@n) else(' ')}</fo:inline>)
       
     case element(tei:desc)
         return
@@ -996,7 +996,7 @@ declare function fo:citation($title, $doc, $id) {
     let $bibdata := <bibl>
         {
             for $author in distinct-values($auths)
-let $count := count($doc//tei:revisionDesc/tei:change[@who = $author])
+let $count := count($doc//tei:revisionDesc/tei:change[@who eq  $author])
 order by $count descending
             return
                 <author>{editors:editorKey(string($author))}</author>
@@ -1033,14 +1033,14 @@ order by $count descending
                 for $a in $bibdata//author/text()
                 return
                     ($a || ', ')
-            } ʻ{<fo:inline>{(if(matches($title, '\p{IsArabic}')) then (attribute font-family {'coranica'}, attribute writing-mode {'rl'}) else(),$bibdata//title[@level = 'a']/text())}</fo:inline>}ʼ, in Alessandro Bausi, ed.,
+            } ʻ{<fo:inline>{(if(matches($title, '\p{IsArabic}')) then (attribute font-family {'coranica'}, attribute writing-mode {'rl'}) else(),$bibdata//title[@level eq  'a']/text())}</fo:inline>}ʼ, in Alessandro Bausi, ed.,
             <fo:inline
-                font-style="italic">{($bibdata//title[@level = 'j']/text() || ' ')}</fo:inline>
-            {$bibdata//date[@type = 'lastModified']/text()}
+                font-style="italic">{($bibdata//title[@level eq  'j']/text() || ' ')}</fo:inline>
+            {$bibdata//date[@type eq  'lastModified']/text()}
             <fo:basic-link
-                external-destination="{$bibdata/idno[@type='url']/text()}">{$bibdata/idno[@type='url']/text()}</fo:basic-link>
-                <fo:inline>{(  ' (' || $bibdata//idno[@type = 'DOI']/text() || ') ')}</fo:inline>
-            {$bibdata//date[@type = 'accessed']/text()}
+                external-destination="{$bibdata/idno[@type eq 'url']/text()}">{$bibdata/idno[@type eq 'url']/text()}</fo:basic-link>
+                <fo:inline>{(  ' (' || $bibdata//idno[@type eq  'DOI']/text() || ') ')}</fo:inline>
+            {$bibdata//date[@type eq  'accessed']/text()}
                     <fo:block>{fo:tei2fo($doc/tei:editionStmt/node())}</fo:block>
         </fo:block>
         
@@ -1473,17 +1473,17 @@ declare function fo:physic($physDesc as element(tei:physDesc)) {
                         ()
                 }
                 {
-                    if ($physDesc//tei:extent/tei:dimensions[@type='leaf']) then
+                    if ($physDesc//tei:extent/tei:dimensions[@type eq 'leaf']) then
                         <fo:table-row
                             height="25pt">
                             <fo:table-cell><fo:block
                                     font-weight="bold">Leaf Dimension</fo:block></fo:table-cell>
                             <fo:table-cell><fo:block>{
-                                        for $dim in $physDesc//tei:extent/tei:dimensions[@type = 'leaf']/element()
+                                        for $dim in $physDesc//tei:extent/tei:dimensions[@type eq  'leaf']/element()
                                         let $dimID := string($dim/@xml:id)
                                         return
-                                            (<fo:inline>{(functx:capitalize-first(string($dim/name())) || ' ' || $dim/text() || string($physDesc//tei:dimensions[@type = 'outer']/@unit) || ' ')}</fo:inline>,
-                                            <fo:inline>{if($dim/following-sibling::tei:note[@corresp = $dimID]) then (fo:tei2fo($dim/following-sibling::tei:note[@corresp = $dimID])) else ()}</fo:inline>
+                                            (<fo:inline>{(functx:capitalize-first(string($dim/name())) || ' ' || $dim/text() || string($physDesc//tei:dimensions[@type eq  'outer']/@unit) || ' ')}</fo:inline>,
+                                            <fo:inline>{if($dim/following-sibling::tei:note[@corresp eq  $dimID]) then (fo:tei2fo($dim/following-sibling::tei:note[@corresp eq  $dimID])) else ()}</fo:inline>
                                             )
                                     }</fo:block></fo:table-cell>
                         
@@ -1492,14 +1492,14 @@ declare function fo:physic($physDesc as element(tei:physDesc)) {
                         ()
                 }
                 {
-                    if ($physDesc//tei:extent/tei:dimensions[@type = 'outer']/node()) then
+                    if ($physDesc//tei:extent/tei:dimensions[@type eq  'outer']/node()) then
                         <fo:table-row
                             height="25pt"><fo:table-cell><fo:block
                                     font-weight="bold">Outer Dimension</fo:block></fo:table-cell>
                             <fo:table-cell><fo:block>{
-                                        for $dim in $physDesc//tei:extent/tei:dimensions[@type = 'outer']/element()
+                                        for $dim in $physDesc//tei:extent/tei:dimensions[@type eq  'outer']/element()
                                         return
-                                            <fo:inline>{(functx:capitalize-first(string($dim/name())) || ' ' || $dim/text() || string($physDesc//tei:dimensions[@type = 'outer']/@unit) || ' ')}</fo:inline>
+                                            <fo:inline>{(functx:capitalize-first(string($dim/name())) || ' ' || $dim/text() || string($physDesc//tei:dimensions[@type eq  'outer']/@unit) || ' ')}</fo:inline>
                                     }</fo:block></fo:table-cell>
                         
                         </fo:table-row>
@@ -1732,13 +1732,13 @@ declare function fo:codic($msPart) {
                         ()
                 }
                 {
-                    if ($msPart//tei:source/tei:listBibl[@type = 'catalogue']) then
+                    if ($msPart//tei:source/tei:listBibl[@type eq  'catalogue']) then
                         <fo:table-row
                             height="25pt">
                             <fo:table-cell><fo:block
                                     font-weight="bold">Catalogue</fo:block></fo:table-cell>
                             <fo:table-cell><fo:block>{
-                                        for $catalogue in $msPart//tei:source/tei:listBibl[@type = 'catalogue']/tei:bibl
+                                        for $catalogue in $msPart//tei:source/tei:listBibl[@type eq  'catalogue']/tei:bibl
                                         return
                                             (fo:Zotero($catalogue/tei:ptr/@target),
                                             if ($catalogue/tei:citedRange) then
@@ -2062,7 +2062,7 @@ case 'place'
 case 'pers'
                             return
                                 (<fo:block>{fo:tei2fo($file//tei:person/node())}</fo:block>
-                                (:<fo:block>{fo:tei2fo($file//tei:div[@type = 'bibliography']/node())}</fo:block>:))
+                                (:<fo:block>{fo:tei2fo($file//tei:div[@type eq  'bibliography']/node())}</fo:block>:))
 
 
 
@@ -2092,7 +2092,7 @@ case 'work'
                     </fo:list-item-label>
                     <fo:list-item-body
                         start-indent="body-start()">
-                        <fo:block>{if($title/@type = 'main') then (attribute font-size{'1.3em'}) else ()} { if($title/@type = 'short') then 'Canonical abbreviation: ' else ()}{fo:tei2fo($title)} ({string($title/@xml:lang)} {if($title/@type = 'normalized') then (', transliterated') else ()})</fo:block>
+                        <fo:block>{if($title/@type eq  'main') then (attribute font-size{'1.3em'}) else ()} { if($title/@type eq  'short') then 'Canonical abbreviation: ' else ()}{fo:tei2fo($title)} ({string($title/@xml:lang)} {if($title/@type eq  'normalized') then (', transliterated') else ()})</fo:block>
                     </fo:list-item-body>
                 </fo:list-item>
         }
@@ -2129,7 +2129,7 @@ case 'work'
                                     </fo:block>
                                 else
                                     (),
-                                if ($file//tei:div[@type='bibliography']/tei:listBibl) then
+                                if ($file//tei:div[@type eq 'bibliography']/tei:listBibl) then
                                     <fo:block>
                                         
                                         <fo:block
@@ -2140,11 +2140,11 @@ case 'work'
                                             space-after="3mm">Edition Bibliography</fo:block>
                                         
                                         <fo:block>
-                                            {fo:tei2fo($file//tei:div[@type='bibliography']/tei:listBibl)}</fo:block>
+                                            {fo:tei2fo($file//tei:div[@type eq 'bibliography']/tei:listBibl)}</fo:block>
                                     </fo:block>
                                 else
                                     (),
-                                if ($file//tei:div[@type='edition']) then
+                                if ($file//tei:div[@type eq 'edition']) then
                                     <fo:block>
                                         
                                         <fo:block
@@ -2155,7 +2155,7 @@ case 'work'
                                             space-after="3mm">Text</fo:block>
                                         
                                         <fo:block>
-                                            {fo:tei2fo($file//tei:div[@type='edition']/node())}</fo:block>
+                                            {fo:tei2fo($file//tei:div[@type eq 'edition']/node())}</fo:block>
                                     </fo:block>
                                 else
                                     ())
@@ -2189,7 +2189,7 @@ case 'auth'
                     </fo:list-item-label>
                     <fo:list-item-body
                         start-indent="body-start()">
-                        <fo:block>{if($title/@type = 'main') then (attribute font-size{'1.3em'}) else ()} { if($title/@type = 'short') then 'Canonical abbreviation: ' else ()}{fo:tei2fo($title)} ({string($title/@xml:lang)} {if($title/@type = 'normalized') then (', transliterated') else ()})</fo:block>
+                        <fo:block>{if($title/@type eq  'main') then (attribute font-size{'1.3em'}) else ()} { if($title/@type eq  'short') then 'Canonical abbreviation: ' else ()}{fo:tei2fo($title)} ({string($title/@xml:lang)} {if($title/@type eq  'normalized') then (', transliterated') else ()})</fo:block>
                     </fo:list-item-body>
                 </fo:list-item>
         }
@@ -2211,7 +2211,7 @@ case 'auth'
                                     </fo:block>
                                 else
                                     () ,
-                                if ($file//tei:div[@type='bibliography']/tei:listBibl) then
+                                if ($file//tei:div[@type eq 'bibliography']/tei:listBibl) then
                                     <fo:block>
                                         
                                         <fo:block
@@ -2222,7 +2222,7 @@ case 'auth'
                                             space-after="3mm">Bibliography</fo:block>
                                         
                                         <fo:block>
-                                            {fo:tei2fo($file//tei:div[@type='bibliography']/tei:listBibl/node())}</fo:block>
+                                            {fo:tei2fo($file//tei:div[@type eq 'bibliography']/tei:listBibl/node())}</fo:block>
                                     </fo:block>
                                 else
                                     ())

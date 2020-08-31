@@ -55,7 +55,7 @@ $ref as xs:string*,
 $edition as xs:string*,
 $per-page as xs:string*,
 $hi as xs:string*) {
-  let $item := $config:collection-root/id($id)[name()='TEI']
+  let $item := $config:collection-root/id($id)[name() eq 'TEI']
   let $col := switch2:col($item/@type)
   let $log := log:add-log-message('/'||$id||'/main', sm:id()//sm:real/sm:username/string() , 'item')
   return
@@ -277,8 +277,8 @@ if(xdb:collection-available($coll)) then (
  (:controller should handle this by redirecting /institutions/ID/main to /manuscripts/ID/list which is then taken care of by list.xql:)
  ) else
 (:check if the item has been deleted:)
-if( $restItem:deleted//t:item[. =$id]) then
-(let $formerlyListed := $config:collection-root//t:relation[@name='betmas:formerlyAlsoListedAs'][@passive=$id]
+if( $restItem:deleted//t:item[. eq $id]) then
+(let $formerlyListed := $config:collection-root//t:relation[@name eq 'betmas:formerlyAlsoListedAs'][@passive eq $id]
 return
 if(count($formerlyListed) = 1) then 
 (:redirect to record containing formerly listed as:)
@@ -311,7 +311,7 @@ else
         </html>
         )
 (:        check if there is more then one:)
-         else   if(count($config:collection-root/id($id)[name() = 'TEI']) gt 1) then 
+         else   if(count($config:collection-root/id($id)[name() eq 'TEI']) gt 1) then 
          (
 <rest:response>
             <http:response
@@ -326,14 +326,14 @@ else
         <title>Not here any more...</title></head>
         <body><p>Something has gone wrong and there are more than one item with id {$id}.</p>
         <ul>
-        {for $i in $config:collection-root/id($id)[name() = 'TEI']
+        {for $i in $config:collection-root/id($id)[name() eq 'TEI']
         return <li>{base-uri($i)}</li>}
         </ul>
         </body>
         </html>
         )
         (:        check that the item exists:)
-    else   if(count($config:collection-root/id($id)[name() = 'TEI']) = 1) then (
+    else   if(count($config:collection-root/id($id)[name() eq 'TEI']) = 1) then (
 <rest:response>
             <http:response
                 status="200">
@@ -464,12 +464,12 @@ transform:transform(
    
    
    <div class="w3-container">
-  <div class="w3-twothird" id="dtstext">{ if($this//t:div[@type='edition'])
+  <div class="w3-twothird" id="dtstext">{ if($this//t:div[@type eq 'edition'])
    then dtsc:text($id, $edition, $ref, $start, $end, $collection) else <p>No text available here.</p>}</div>
    <div class="w3-third w3-gray w3-padding">{item2:textBibl($this, $id)}</div>
    </div>
     ,
-   for $contains in $this//t:relation[@name="saws:contains"]/@passive 
+   for $contains in $this//t:relation[@name eq "saws:contains"]/@passive 
      let $ids:=  if(contains($contains, ' ')) then for $x in tokenize($contains, ' ') return $x else string($contains)
      for $contained in $ids
     let $cfile := $config:collection-rootW//id($contained)[name()='TEI']
@@ -477,7 +477,7 @@ transform:transform(
    
    <div class="w3-container">
    {<div class="w3-twothird" id="dtstext">Contains  {item2:title($contained)}
-   {if ($cfile//t:div[@type='edition']) 
+   {if ($cfile//t:div[@type eq 'edition']) 
    then dtsc:text($contained, '', '', '', '', 'works') else ()}</div>,
   <div class="w3-third w3-gray w3-padding">{item2:textBibl($this, $id)}</div>
    }</div>
@@ -486,7 +486,7 @@ transform:transform(
    case 'graph' return (
    switch($collection)
 case 'manuscripts' return
-let $ex :=  $this//t:msDesc/t:physDesc//t:extent/t:measure[@unit='leaf'][not(@type='blank')]/text()
+let $ex :=  $this//t:msDesc/t:physDesc//t:extent/t:measure[@unit eq 'leaf'][not(@type eq 'blank')]/text()
 return
 <div class="w3-container" >
 <button id="enrichTable" class="w3-button w3-red" disabled="disabled">Enrich Table</button>

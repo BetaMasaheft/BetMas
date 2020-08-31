@@ -98,7 +98,7 @@ let $regions := if($item//t:region[@ref])   then  for $region in $item//t:region
         let $connects := ($regions, $settlements, "https://pleiades.stoa.org/places/39274")
         let $creators := for $c in distinct-values($item//t:revisionDesc/t:change[contains(., 'created')]/@who) return map {"name" : editors:editorKey($c)}
         let $contributors := for $c in distinct-values($item//t:revisionDesc/t:change/@who) return map {"name" : editors:editorKey($c)}
-        let $periods := if($item//t:state) then for $c in $item//t:state[@type='existence']/@ref return titles:printTitleMainID($c) else ()
+        let $periods := if($item//t:state) then for $c in $item//t:state[@type eq 'existence']/@ref return titles:printTitleMainID($c) else ()
         let $names := for $name in $item//t:place/t:placeName 
         let $nID := $name/@xml:id
         return 
@@ -117,9 +117,9 @@ let $regions := if($item//t:region[@ref])   then  for $region in $item//t:region
                 let $title := titles:printTitleID($id)
                 let $uri := ($places:bmurl ||'/' || $id)
                 let $coords := 
-                if($item//t:geo[@rend='polygon']) then 
+                if($item//t:geo[@rend eq 'polygon']) then 
                 (
-                                for $latlng in tokenize($item//t:geo[@rend='polygon'], '\n') 
+                                for $latlng in tokenize($item//t:geo[@rend eq 'polygon'], '\n') 
                                 return replace(normalize-space($latlng), ' ', ',') 
                                 ) else for $c in tokenize(coord:invertCoord(coord:getCoords($id)), ',') return number($c)
 return 
@@ -165,19 +165,19 @@ return
             ],
             "creators":  $creators,
             "contributors":  $contributors,
-            "description" : if ($item//t:desc[@type='foundation']) then normalize-space(string-join(string:tei2string($item//t:desc[@type='foundation']), '')) else (),
-            "details" : if ($item//t:ab[@type='history']) then normalize-space(string-join(string:tei2string($item//t:ab[@type='history']), '')) else (),
+            "description" : if ($item//t:desc[@type eq 'foundation']) then normalize-space(string-join(string:tei2string($item//t:desc[@type eq 'foundation']), '')) else (),
+            "details" : if ($item//t:ab[@type eq 'history']) then normalize-space(string-join(string:tei2string($item//t:ab[@type eq 'history']), '')) else (),
            
             "geometry": map {    
-                "coordinates": if ($item//t:geo[@rend='polygon']) then array{ array { for $latlng in $coords return let $array := array {for $c in tokenize($latlng, ',') return number($c)} return $array}} else $coords,
-                "type": if ($item//t:geo[@rend='polygon']) then 'Polygon' else 'Point'
+                "coordinates": if ($item//t:geo[@rend eq 'polygon']) then array{ array { for $latlng in $coords return let $array := array {for $c in tokenize($latlng, ',') return number($c)} return $array}} else $coords,
+                "type": if ($item//t:geo[@rend eq 'polygon']) then 'Polygon' else 'Point'
                 },
             "id": $id,
             "properties": map {
             "description": "Location based on Encyclopaedia Aethiopica",
             "link": $uri,
             "location_precision": "precise",
-            "snippet": if ($item//t:ab[@type='foundation']) then normalize-space(string-join(string:tei2string($item//t:ab[@type='foundation']), '')) else (),
+            "snippet": if ($item//t:ab[@type eq 'foundation']) then normalize-space(string-join(string:tei2string($item//t:ab[@type eq 'foundation']), '')) else (),
             "title": $title},
             "type": "Feature",
            "history": [
@@ -191,7 +191,7 @@ return
              "place_types": ($types, $periods),
              "provenance": "Encyclopedia Aethiopica",
              "references": $bibls,
-             "reprPoint": if ($item//t:geo[@rend='polygon']) then () else $coords,
+             "reprPoint": if ($item//t:geo[@rend eq 'polygon']) then () else $coords,
               "title": $title, 
               "uri": $uri
             }
@@ -306,7 +306,7 @@ then(
 $places:response200xml,
 
 let $log := log:add-log-message('/api/KML/places/' || $placeid, sm:id()//sm:real/sm:username/string() , 'places')
-       let $items := $config:collection-root//t:placeName[@ref = $placeid]
+       let $items := $config:collection-root//t:placeName[@ref eq  $placeid]
 return 
        <kml>
        {for $place in $items

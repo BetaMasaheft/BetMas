@@ -59,7 +59,7 @@ if($app:collection = 'persons') then (
 <select  class="w3-select"  id="keywords" name="keywords" multiple="multiple">
                 {
                 
-                let $categories :=  $taxonomy//t:category[t:desc='Confessions']//t:catDesc/text()
+                let $categories :=  $taxonomy//t:category[t:desc eq 'Confessions']//t:catDesc/text()
                  for $k in $categories
                 order by $k
                 return
@@ -75,7 +75,7 @@ if($app:collection = 'persons') then (
 <option value="" selected="selected">choose</option>
                 {
                 
-                let $categories :=  $schema//t:elementSpec[@ident='occupation']//t:attDef[@ident='type']//t:valItem
+                let $categories :=  $schema//t:elementSpec[@ident eq 'occupation']//t:attDef[@ident eq 'type']//t:valItem
                  for $k in $categories
                 order by $k/@ident
                 return
@@ -91,7 +91,7 @@ if($app:collection = 'persons') then (
 <option value="" selected="selected">choose</option>
                 {
                 
-                let $categories :=  $schema//t:elementSpec[@ident='nationality']//t:attDef[@ident='type']//t:valItem
+                let $categories :=  $schema//t:elementSpec[@ident eq 'nationality']//t:attDef[@ident eq 'type']//t:valItem
                  for $k in $categories
                  let $i := $k/@ident
                 order by $i
@@ -256,7 +256,7 @@ else if($app:collection = 'manuscripts') then (
 <small class="form-text text-muted">You might specify here how many msParts you think you will need. Default is none.</small>
 </div>
 )
-else if ($app:collection = 'places' or $app:collection = 'institutions') then (
+else if (($app:collection eq 'places' ) or ($app:collection eq 'institutions')) then (
 <div class="w3-container w3-margin-bottom">
 <label>Attested in</label><br/>
 <label >

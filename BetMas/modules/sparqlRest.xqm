@@ -356,7 +356,7 @@ let $texts :=
 if ($version//t:div[contains(@corresp, $chapterID)])
 then
     (for $edition in $version//t:div[@corresp[contains(., $chapterID)]]
-    let $respsource := string($edition/parent::t:div[@type='edition']/@resp)
+    let $respsource := string($edition/parent::t:div[@type eq 'edition']/@resp)
     let $resp:= if(starts-with($respsource, '#')) then (
     let $biblID := substring-after($respsource, '#') 
     let $bibl := $version//id($biblID)

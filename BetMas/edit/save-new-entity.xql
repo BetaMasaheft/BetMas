@@ -62,14 +62,13 @@ else
     let $ids := for $x in switch2:collectionVar($collection)//t:TEI/@xml:id
     return
         analyze-string($x, '([A-Z]+)(\d+)(\w+)')
-    let $numericvalue := for $id in $ids//s:group[@nr = '2']
+    let $numericvalue := for $id in $ids//s:group[@nr eq '2']
     return
         $id
     let $maxid := max($numericvalue) + 1
     let $formattedID := if($maxid > 999) then ($maxid) else format-number($maxid, '0000')
     return
         ($prefix//pre/text() || $formattedID || replace($suffix, ' ', '_'))
-
 return
     if (collection(concat($config:data-root, '/', $collection))//id($Newid)) then
         (
@@ -135,8 +134,7 @@ return
         )
     else
         let $editor := editors:editorNames(sm:id()//sm:real/sm:username/string())
-            
-                (: get the form data that has been "POSTed" to this XQuery :)
+               (: get the form data that has been "POSTed" to this XQuery :)
     let $item :=
     document {
         processing-instruction xml-model {

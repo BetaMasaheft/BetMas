@@ -62,16 +62,16 @@ return
 
 let $data := collection($config:data-root) 
 (:looks for the roots and orders them, so that the next one is the next root:)
-let $lexicogEntries := for $lexicogentry in $data//t:rs[@type='root'] order by number($lexicogentry/ancestor::t:entry/@n) return $lexicogentry/ancestor::t:entry
+let $lexicogEntries := for $lexicogentry in $data//t:rs[@type eq 'root'] order by number($lexicogentry/ancestor::t:entry/@n) return $lexicogentry/ancestor::t:entry
 (:takes all the non roots, so that they can be grabbed by looking at @n:)
-let $limeEntry := $data//t:entry[not(descendant::t:rs[@type='root'])]
+let $limeEntry := $data//t:entry[not(descendant::t:rs[@type eq 'root'])]
 
 let $triplesentry := 
                 for $root in $lexicogEntries
                    let $id := $root/@xml:id
                    let $entryURI := concat('dillmann:',string($id))
                    let $entryN := $root/@n
-                   let $entryIndex := index-of($lexicogEntries, $lexicogEntries[@xml:id = $id])
+                   let $entryIndex := index-of($lexicogEntries, $lexicogEntries[@xml:id eq $id])
                    let $NextEntryN := $lexicogEntries[$entryIndex[1] +1]/@n  (:added first in sequence because I got a scary "too many operands at the left of  +", hinting at the presence in the root sequence of one o more double numbered entries...:)
                    let $rootentries := ($root, $limeEntry[xs:integer(@n) ge xs:integer($entryN)][xs:integer(@n) lt xs:integer($NextEntryN)])
                    let $rootentriescount := count($rootentries)
@@ -110,8 +110,8 @@ let $lexicon := for $entry in ($lexicogEntries, $limeEntry)
                     let $entryURI := concat('dillmann:',string($entry/@xml:id))
                    let $senses := for $sense in $entry/t:sense
                                                 let $senseURI := $entryURI || '_sense_' ||string($sense/@xml:id)
-                                                let $definition := if($sense/t:cit[@type="translation"]/t:quote) 
-                                                                                    then (for $d in $sense/t:cit[@type='translation']
+                                                let $definition := if($sense/t:cit[@type eq "translation"]/t:quote) 
+                                                                                    then (for $d in $sense/t:cit[@type eq 'translation']
                                                                                                 group by $L := $d/@xml:lang 
                                                                                                    let $values := for $def in $d/t:quote return '"' || $def ||'"@'||string($L)
                                                                                                   return 'skos:definition ' || string-join($values, ', ')) else ()

@@ -61,7 +61,7 @@ $id as xs:string*,
 $start as xs:integer*,
 $per-page as xs:integer*,
 $hi as xs:string*) {
-  let $item := $config:collection-root/id($id)[name()='TEI']
+  let $item := $config:collection-root/id($id)[name() eq 'TEI']
   let $col := switch2:col($item/@type)
   let $log := log:add-log-message('/'||$id||'/main', sm:id()//sm:real/sm:username/string() , 'item')
   return
@@ -192,7 +192,7 @@ $sha as xs:string*){
 let $collect := switch2:collectionVar($collection)
 let $coll := $config:data-root || '/' || $collection
 let $capCol := PermRestItem:capitalize-first($collection)
-let $permapath := if( $PermRestItem:deleted//t:item[. =$id]) then (replace(string($PermRestItem:deleted//t:item[. =$id]/@source), $collection, '') =>replace('^/', '') || '/' || $PermRestItem:deleted//t:item[. =$id]/text() || '.xml' ) else replace(PermRestItem:capitalize-first(substring-after(base-uri($config:collection-root/id($id)[name()='TEI']), '/db/apps/BetMasData/')), $capCol, '')
+let $permapath := if( $PermRestItem:deleted//t:item[. eq $id]) then (replace(string($PermRestItem:deleted//t:item[. eq $id]/@source), $collection, '') =>replace('^/', '') || '/' || $PermRestItem:deleted//t:item[. eq $id]/text() || '.xml' ) else replace(PermRestItem:capitalize-first(substring-after(base-uri($config:collection-root/id($id)[name()eq 'TEI']), '/db/apps/BetMasData/')), $capCol, '')
 let $docpath:= 'https://raw.githubusercontent.com/BetaMasaheft/' || $capCol || '/'||$sha||'/'|| $permapath
 let $this:= doc($docpath)//t:TEI
 let $biblio :=
@@ -257,8 +257,8 @@ return
           {nav:searchhelpNew()}
          <div id="content" class="w3-container w3-padding-48">
          {item2:RestViewOptions($this, $collection)}
-         {if( $PermRestItem:deleted//t:item[. =$id]) then
-<div class='w3-red w3-container'>{$PermRestItem:deleted//t:item[. =$id]/text()} was deleted permanently on {string($PermRestItem:deleted//t:item[. =$id]/@change)}</div>
+         {if( $PermRestItem:deleted//t:item[. eq $id]) then
+<div class='w3-red w3-container'>{$PermRestItem:deleted//t:item[. eq $id]/text()} was deleted permanently on {string($PermRestItem:deleted//t:item[. eq $id]/@change)}</div>
 else ()}
   { item2:RestItemHeader($this, $collection)}
  
@@ -346,20 +346,20 @@ transform:transform(
    
    
    <div class="w3-container">
-  <div class="w3-twothird" id="dtstext">{ if($this//t:div[@type='edition'])
-   then dtsc:text($id, $this//t:div[@type='edition'], '', '', '', $collection) else <p>No text available here.</p>}</div>
+  <div class="w3-twothird" id="dtstext">{ if($this//t:div[@type eq 'edition'])
+   then dtsc:text($id, $this//t:div[@type eq 'edition'], '', '', '', $collection) else <p>No text available here.</p>}</div>
    <!--<div class="w3-third w3-gray w3-padding">{item2:textBibl($this, $id)}</div>-->
    </div>
     ,
-   for $contains in $this//t:relation[@name="saws:contains"]/@passive 
+   for $contains in $this//t:relation[@name eq "saws:contains"]/@passive 
      let $ids:=  if(contains($contains, ' ')) then for $x in tokenize($contains, ' ') return $x else string($contains)
      for $contained in $ids
-    let $cfile := $config:collection-rootW//id($contained)[name()='TEI']
+    let $cfile := $config:collection-rootW//id($contained)[name() eq 'TEI']
    return 
    
    <div class="w3-container">
    {<div class="w3-twothird" id="dtstext">Contains  {item2:title($contained)}
-   {if ($cfile//t:div[@type='edition']) 
+   {if ($cfile//t:div[@type eq 'edition']) 
    then dtsc:text($contained, '', '', '', '', 'works') else ()}</div>,
    <!--<div class="w3-third w3-gray w3-padding">{item2:textBibl($this, $id)}</div>-->
    }</div>
@@ -368,7 +368,7 @@ transform:transform(
    case 'graph' return (
    switch($collection)
 case 'manuscripts' return
-let $ex :=  $this//t:msDesc/t:physDesc//t:extent/t:measure[@unit='leaf'][not(@type='blank')]/text()
+let $ex :=  $this//t:msDesc/t:physDesc//t:extent/t:measure[@unit eq 'leaf'][not(@type eq 'blank')]/text()
 return
 <div class="w3-container" >
 <button id="enrichTable" class="w3-button w3-red" disabled="disabled">Enrich Table</button>
@@ -436,7 +436,7 @@ return
   <div class="w3-container">{charts:pieAttestations($id, 'persName')}</div>
    </div>
    case 'authority-files' return
-let $Subjects := doc(concat($config:data-rootA, '/taxonomy.xml'))//t:category[t:desc='Subjects']//t:category/t:catDesc/text()
+let $Subjects := doc(concat($config:data-rootA, '/taxonomy.xml'))//t:category[t:desc eq 'Subjects']//t:category/t:catDesc/text()
 return
 if ($id = $Subjects) then  (try{LitFlow:Sankey($id, 'works')} catch * {$err:description}, 
        try{LitFlow:Sankey($id, 'mss')} catch * {$err:description}) 

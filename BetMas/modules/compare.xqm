@@ -170,6 +170,7 @@ return
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css"  />
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick-theme.css"  />
         
+        
 {apprest:scriptStyle()}
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"/>

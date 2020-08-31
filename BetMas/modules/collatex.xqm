@@ -16,7 +16,6 @@ import module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMas/
 import module namespace console="http://exist-db.org/xquery/console";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
-
 (: For REST annotations :)
 declare namespace http = "http://expath.org/ns/http-client";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
@@ -176,14 +175,14 @@ return
 (:~ Produces as string a json object which contains the id of the manuscript witnesses selected and the text passege as of the urn  which can be used to build the body of a post request to collatex:)
 declare function collatex:getCollatexWitnessText($dtsURN){
 let $parsedURN := dts:parseDTSid($dtsURN)
-let $id := $parsedURN//s:group[@nr=1]/text()
-let $edition := $parsedURN//s:group[@nr=2]
+let $id := $parsedURN//s:group[@nr eq 1]/text()
+let $edition := $parsedURN//s:group[@nr eq 2]
 let $file := $config:collection-root/id($id)[name()='TEI']
-let $ref := string-join($parsedURN//s:group[@nr=6]//text())
+let $ref := string-join($parsedURN//s:group[@nr eq 6]//text())
 let $splitref := if(contains($ref, '-')) then tokenize($ref, '-') else $ref
 let $cleanref := for $r in $splitref return if(contains($r, '@')) then substring-before($r, '@') else $r
 let $delimiters := for $r in $splitref return if(contains($r, '@')) then substring-after($r, '@') else 'n/a'
-let $text := if($edition/node()) then dts:pickDivText($file, $edition)  else $file//t:div[@type='edition']
+let $text := if($edition/node()) then dts:pickDivText($file, $edition)  else $file//t:div[@type eq 'edition']
 let $passage := if(count($cleanref) = 2) 
                             then dts:docs(('https://betamasaheft.eu/'||$id||$edition), '', $cleanref[1], $cleanref[2], 'application/tei+xml')
                             else dts:docs(('https://betamasaheft.eu/'||$id||$edition), $cleanref, '', '', 'application/tei+xml')

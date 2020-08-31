@@ -42,14 +42,14 @@ se interrogato da titolo da gli id, altrimenti per id da gli altri id e il titol
                     let $root := api:get-tei-by-ID($id)
                     let $id := string($root/@xml:id)
                     let $title := titles:printTitleMainID($id)
-                    let $clavisBibl := $root//t:listBibl[@type='clavis']
-                    let $CC := $clavisBibl/t:bibl[@type='CC']/t:citedRange/text()
-                    let $CPG := $clavisBibl/t:bibl[@type='CPG']/t:citedRange/text()
-                    let $CANT := $clavisBibl/t:bibl[@type='CANT']/t:citedRange/text()
-                    let $CAVT := $clavisBibl/t:bibl[@type='CAVT']/t:citedRange/text()
-                    let $BHO := $clavisBibl/t:bibl[@type='BHO']/t:citedRange/text()
-                    let $BHL := $clavisBibl/t:bibl[@type='BHL']/t:citedRange/text()
-                    let $syriaca := $clavisBibl/t:bibl[@type='syriaca']/t:citedRange/text()
+                    let $clavisBibl := $root//t:listBibl[@type eq 'clavis']
+                    let $CC := $clavisBibl/t:bibl[@type eq 'CC']/t:citedRange/text()
+                    let $CPG := $clavisBibl/t:bibl[@type eq 'CPG']/t:citedRange/text()
+                    let $CANT := $clavisBibl/t:bibl[@type eq 'CANT']/t:citedRange/text()
+                    let $CAVT := $clavisBibl/t:bibl[@type eq 'CAVT']/t:citedRange/text()
+                    let $BHO := $clavisBibl/t:bibl[@type eq 'BHO']/t:citedRange/text()
+                    let $BHL := $clavisBibl/t:bibl[@type eq 'BHL']/t:citedRange/text()
+                    let $syriaca := $clavisBibl/t:bibl[@type eq 'syriaca']/t:citedRange/text()
                     let $clavisIDS := map {
                     "CC":  $CC,
                     "CPG":  $CPG,
@@ -88,18 +88,18 @@ se interrogato da titolo da gli id, altrimenti per id da gli altri id e il titol
     let $log := log:add-log-message('/api/clavis/' || $id , sm:id()//sm:real/sm:username/string() , 'REST')
                :)  
                let $bibl := if ($type != '') then "[t:bibl[@type = '" ||$type||"']]" else ()
-               let $path := util:eval("$config:collection-rootW//t:listBibl[@type='clavis']" || $bibl)
+               let $path := util:eval("$config:collection-rootW//t:listBibl[@type eq 'clavis']" || $bibl)
               let $results := for $work in $path
                     let $root := root($work)
                     let $id := string($root/t:TEI/@xml:id)
                     let $title := titles:printTitleMainID($id)
-                    let $CC := $work/t:bibl[@type='CC']/t:citedRange/text()
-                    let $CPG := $work/t:bibl[@type='CPG']/t:citedRange/text()
-                    let $CANT := $work/t:bibl[@type='CANT']/t:citedRange/text()
-                    let $CAVT := $work/t:bibl[@type='CAVT']/t:citedRange/text()
-                    let $BHO := $work/t:bibl[@type='BHO']/t:citedRange/text()
-                    let $BHL := $work/t:bibl[@type='BHL']/t:citedRange/text()
-                    let $syriaca := $work/t:bibl[@type='syriaca']/t:citedRange/text()
+                    let $CC := $work/t:bibl[@type eq 'CC']/t:citedRange/text()
+                    let $CPG := $work/t:bibl[@type eq 'CPG']/t:citedRange/text()
+                    let $CANT := $work/t:bibl[@type eq 'CANT']/t:citedRange/text()
+                    let $CAVT := $work/t:bibl[@type eq 'CAVT']/t:citedRange/text()
+                    let $BHO := $work/t:bibl[@type eq 'BHO']/t:citedRange/text()
+                    let $BHL := $work/t:bibl[@type eq 'BHL']/t:citedRange/text()
+                    let $syriaca := $work/t:bibl[@type eq 'syriaca']/t:citedRange/text()
                     let $clavisIDS := map {
                     "CC":  $CC,
                     "CPG":  $CPG,
@@ -150,14 +150,14 @@ let $hi :=   for $hit in $hits
                     group by $id := $id
                     let $title := titles:printTitleMainID($id)
                     let $hitCount := count($hit)
-                    let $clavisBibl := $root//t:listBibl[@type='clavis']
-                    let $CC := $clavisBibl/t:bibl[@type='CC']/t:citedRange/text()
-                    let $CPG := $clavisBibl/t:bibl[@type='CPG']/t:citedRange/text()
-                    let $CANT := $clavisBibl/t:bibl[@type='CANT']/t:citedRange/text()
-                    let $CAVT := $clavisBibl/t:bibl[@type='CAVT']/t:citedRange/text()
-                    let $BHO := $clavisBibl/t:bibl[@type='BHO']/t:citedRange/text()
-                    let $BHL := $clavisBibl/t:bibl[@type='BHL']/t:citedRange/text()
-                    let $syriaca := $clavisBibl/t:bibl[@type='syriaca']/t:citedRange/text()
+                    let $clavisBibl := $root//t:listBibl[@type eq 'clavis']
+                    let $CC := $clavisBibl/t:bibl[@type eq 'CC']/t:citedRange/text()
+                    let $CPG := $clavisBibl/t:bibl[@type eq 'CPG']/t:citedRange/text()
+                    let $CANT := $clavisBibl/t:bibl[@type eq 'CANT']/t:citedRange/text()
+                    let $CAVT := $clavisBibl/t:bibl[@type eq 'CAVT']/t:citedRange/text()
+                    let $BHO := $clavisBibl/t:bibl[@type eq 'BHO']/t:citedRange/text()
+                    let $BHL := $clavisBibl/t:bibl[@type eq 'BHL']/t:citedRange/text()
+                    let $syriaca := $clavisBibl/t:bibl[@type eq 'syriaca']/t:citedRange/text()
                     let $clavisIDS := map {
                     "CC":  $CC,
                     "CPG":  $CPG,

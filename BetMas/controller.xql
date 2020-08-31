@@ -74,7 +74,7 @@ declare function local:user-allowed() {
     (
         request:get-attribute("org.exist.login.user") and
         request:get-attribute("org.exist.login.user") != "guest"
-    ) or config:get-configuration()/restrictions/@guest = "yes"
+    ) or config:get-configuration()/restrictions/@guest eq  "yes"
 };
 
 declare function local:switchCol($type){

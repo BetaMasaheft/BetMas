@@ -52,7 +52,7 @@ function apiTit:get-FormattedTitleandID($id as xs:string, $SUBid as xs:string) {
     ($config:response200, 
     let $fullid := ($id||'#'||$SUBid)
     return
-    if ($apiTit:TUList//t:item[@corresp = $fullid]) then ($apiTit:TUList//t:item[@corresp = $fullid]/node()) else (
+    if ($apiTit:TUList//t:item[@corresp eq $fullid]) then ($apiTit:TUList//t:item[@corresp eq $fullid]/node()) else (
     titles:printTitleID($fullid)    
     )
     )

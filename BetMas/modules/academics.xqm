@@ -25,7 +25,7 @@ declare
 %rest:path("/BetMas/api/academics")
 %output:method("json")
 function aka:academics(){
-for $academic in  $config:collection-rootPr//t:occupation[@type='academic']
+for $academic in  $config:collection-rootPr//t:occupation[@type eq 'academic']
 let $title := normalize-space(string(titles:printTitle($academic)))
 let $zoterurl := 'https://www.zotero.org/groups/ethiostudies/items/q/'||xmldb:encode-uri($title)
 let $root := root($academic)

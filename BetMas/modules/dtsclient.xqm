@@ -43,7 +43,7 @@ let $DTScol := dtsc:request($uricol)
 let $DTSnav := dtsc:request($urinav)
 let $DTSanno := dtsc:request($urianno)
 let $DTSdoc := dtsc:requestXML($uridoc)
-let $docnode := if($DTSdoc//dts:fragment) then $DTSdoc//dts:fragment else $DTSdoc//t:div[@type='edition']
+let $docnode := if($DTSdoc//dts:fragment) then $DTSdoc//dts:fragment else $DTSdoc//t:div[@type eq 'edition']
 let $xslt :=   'xmldb:exist:///db/apps/BetMas/xslt/textfragment.xsl'  
 let $xslpars := <parameters><param name="mainID" value="{$id}"/></parameters>
 return

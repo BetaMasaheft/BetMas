@@ -214,7 +214,7 @@ declare variable $config:data-rootA := $config:data-root || "/authority-files";
 declare variable $config:data-rootCh := $config:data-root || "/Chojnacki";
 declare variable $config:data-rootTraces := $config:app-root || "/traces";
 
-declare variable $config:collection-root := collection($config:data-root );
+declare variable $config:collection-root := collection($config:data-root);
 declare variable $config:collection-rootMS := collection($config:data-rootMS);
 declare variable $config:collection-rootN := collection($config:data-rootN);
 declare variable $config:collection-rootW := collection($config:data-rootW);
@@ -314,7 +314,7 @@ declare function config:get-data-dir() as xs:string? {
         let $request := <http:request http-version="1.1" method="GET" href="http://localhost:8080/{request:get-context-path()}/status?c=disk"/>
         let $response := http:send-request($request)
         return
-            if ($response[1]/@status = "200") then
+            if ($response[1]/@status eq  "200") then
                 let $dir := $response[2]//jmx:DataDirectory/string()
                 return
                     if (matches($dir, "^\w:")) then

@@ -47,7 +47,7 @@ let $persWithRole := $entity//t:persName[@role and @ref[. != 'PRS00000']]
 let $msItems := $entity//t:msItem/t:title
 
 (:takes divs in the transcription or edition:)
-let $divs := $entity//t:div[@type='edition']//t:div
+let $divs := $entity//t:div[@type eq 'edition']//t:div
 
 (:looks for relations with @mutual or the couple @active @passive:)
 let $relations := $entity//t:relation[@name][(@active and @passive) or @mutual]
@@ -124,7 +124,7 @@ return
 { 
 (:divs, this will always have their own xml:id the parent will always be a div, worst case scenario, the edition div. :)
 for $div in $divs
-let $parent := $div/parent::t:div[1][not(@type='edition')]
+let $parent := $div/parent::t:div[1][not(@type eq 'edition')]
 
 return 
 <data>

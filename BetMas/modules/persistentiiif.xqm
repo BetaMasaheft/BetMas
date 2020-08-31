@@ -35,7 +35,7 @@ declare namespace json = "http://www.json.org";
 
 declare function persiiif:fileingit($bmID, $sha){
 
-let $permapath := replace(persiiif:capitalize-first(substring-after(base-uri($config:collection-root/id($bmID)[name()='TEI']), '/db/apps/BetMasData/')), 'Manuscripts', '')
+let $permapath := replace(persiiif:capitalize-first(substring-after(base-uri($config:collection-root/id($bmID)[name() eq 'TEI']), '/db/apps/BetMasData/')), 'Manuscripts', '')
 return 
 doc('https://raw.githubusercontent.com/BetaMasaheft/Manuscripts/'||$sha||'/'|| $permapath)//t:TEI
 };
@@ -62,7 +62,7 @@ let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($item//t:msIdentifier/
        let $tot := $item//t:msIdentifier/t:idno/@n
        let $url :=  $config:appUrl ||"/manuscripts/" || $id
       (:       this is where the images actually are, in the images server:)
-       let $thumbid := $imagesbaseurl ||(if($item//t:collection='EMIP') then () else if($item//t:repository/@ref[.='INS0339BML']) then () else '_') || '001.tif/full/80,100/0/default.jpg'
+       let $thumbid := $imagesbaseurl ||(if($item//t:collection='EMIP') then () else if($item//t:repository/@ref eq 'INS0339BML') then () else '_') || '001.tif/full/80,100/0/default.jpg'
        let $objectType := string($item//@form[1])
        let $iiifroot := $config:appUrl ||"/api/iiif/" || $id
        let $image := $config:appUrl ||'/iiif/'||$id||'/'
@@ -71,8 +71,8 @@ let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($item//t:msIdentifier/
 (:       this is where the manifest is:)
        let $request := $iiifroot || "/manifest"
        (:       this is where the sequence is:)
-       let $attribution := if($item//t:repository/@ref[.='INS0339BML']) then ('The images of the manuscript taken by Antonella Brita, Karsten Helmholz and Susanne Hummel during a mission funded by the Sonderforschungsbereich 950 Manuskriptkulturen in Asien, Afrika und Europa, the ERC Advanced Grant TraCES, From Translation to Creation: Changes in Ethiopic Style and Lexicon from Late Antiquity to the Middle Ages (Grant Agreement no. 338756) and Beta maṣāḥǝft. The images are published in conjunction with this descriptive data about the manuscript with the permission of the https://www.bmlonline.it/la-biblioteca/cataloghi/, prot. 190/28.13.10.01/2.23 of the 24 January 2019 and are available for research purposes.') else "Provided by "||$item//t:collection/text()||" project."
-       let $logo := if($item//t:repository/@ref[.='INS0339BML']) then ('/rest/BetMas/resources/images/logobml.png') else "/rest/BetMas/resources/images/logo"||$item//t:collection/text()||".png"
+       let $attribution := if($item//t:repository/@ref  eq 'INS0339BML') then ('The images of the manuscript taken by Antonella Brita, Karsten Helmholz and Susanne Hummel during a mission funded by the Sonderforschungsbereich 950 Manuskriptkulturen in Asien, Afrika und Europa, the ERC Advanced Grant TraCES, From Translation to Creation: Changes in Ethiopic Style and Lexicon from Late Antiquity to the Middle Ages (Grant Agreement no. 338756) and Beta maṣāḥǝft. The images are published in conjunction with this descriptive data about the manuscript with the permission of the https://www.bmlonline.it/la-biblioteca/cataloghi/, prot. 190/28.13.10.01/2.23 of the 24 January 2019 and are available for research purposes.') else "Provided by "||$item//t:collection/text()||" project."
+       let $logo := if($item//t:repository/@ref eq 'INS0339BML') then ('/rest/BetMas/resources/images/logobml.png') else "/rest/BetMas/resources/images/logo"||$item//t:collection/text()||".png"
        let $sequence := $iiifroot || "/sequence/normal"
      
      
@@ -181,8 +181,8 @@ let $item := persiiif:fileingit($id, $sha)
 let $iiifroot := $config:appUrl ||"/api/iiif/" || $id 
 let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs)
  let $imagefile := format-number($n, '000') || '.tif'
-let $resid := ($imagesbaseurl || (if($item//t:collection='EMIP') then () else if($item//t:repository/@ref[.='INS0339BML']) then () else '_') || $imagefile )
- let $image := ($imagesbaseurl || (if($item//t:collection='EMIP') then () else if($item//t:repository/@ref[.='INS0339BML']) then () else '_') || $imagefile || '/full/full/0/default.jpg' )
+let $resid := ($imagesbaseurl || (if($item//t:collection='EMIP') then () else if($item//t:repository[@ref eq 'INS0339BML']) then () else '_') || $imagefile )
+ let $image := ($imagesbaseurl || (if($item//t:collection='EMIP') then () else if($item//t:repository[@ref eq 'INS0339BML']) then () else '_') || $imagefile || '/full/full/0/default.jpg' )
 let $name := string($n)
 let $id := $iiifroot || '/canvas/p'  || $n
        return

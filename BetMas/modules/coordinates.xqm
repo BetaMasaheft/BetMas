@@ -28,7 +28,7 @@ declare function coord:coordType($placenameref as xs:string) {
 let $data := <coord>{coord:getCoords($placenameref)}</coord>
 let $seq := for $point in tokenize($data//coord, ' ') return $point
  return
- if((count($seq) gt 1) and ($seq[last()] = $seq[1])) then('polygon') else ('point')
+ if((count($seq) gt 1) and ($seq[last()] eq $seq[1])) then('polygon') else ('point')
 };
 
 (:~
@@ -36,7 +36,7 @@ let $seq := for $point in tokenize($data//coord, ' ') return $point
 declare function coord:coordType($coord as item()*, $string) {
 let $seq := for $point in tokenize($coord, ' ') return $point
  return
- if((count($seq) gt 1) and ($seq[last()] = $seq[1])) then('polygon') else ('point')
+ if((count($seq) gt 1) and ($seq[last()] eq $seq[1])) then('polygon') else ('point')
 };
 
 
@@ -49,21 +49,21 @@ declare function coord:getCoords($placenameref as xs:string) {
     if (starts-with($placenameref, 'LOC') or starts-with($placenameref, 'INS')) then
         let $pRec := $config:collection-rootPlIn/id($placenameref)
          return
-         if ($pRec//t:geo[@rend='polygon']/text()) then
-                for $point in tokenize($pRec//t:geo[@rend='polygon'], '\n')
+         if ($pRec//t:geo[@rend eq 'polygon']/text()) then
+                for $point in tokenize($pRec//t:geo[@rend eq 'polygon'], '\n')
                 let $p := normalize-space($point)
                 return
                 concat(substring-before($p, ' '), ',', substring-after($p, ' '))
             else
-            if ($pRec//t:geo[not(@rend='polygon')]/text()) then
+            if ($pRec//t:geo[not(@rend eq 'polygon')]/text()) then
 (:                replace(normalize-space($pRec//t:geo), ' ', ','):)
                 concat(substring-before($pRec//t:geo, ' '), ',', substring-after($pRec//t:geo, ' '))
             else
                 if ($pRec//@sameAs) then
                     coord:GNorWD(($pRec//@sameAs)[1])
             else
-            if ($pRec//t:relation[@name='skos:exactMatch']) then
-            let $passive := string($pRec//t:relation[@name='skos:exactMatch']/@passive)
+            if ($pRec//t:relation[@name eq 'skos:exactMatch']) then
+            let $passive := string($pRec//t:relation[@name eq 'skos:exactMatch']/@passive)
             return
                 coord:getCoords($passive)
            
@@ -127,7 +127,7 @@ declare function coord:getWikiDataCoord($Qid as xs:string) {
     let $query := 'https://query.wikidata.org/sparql?query=' || xmldb:encode-uri($sparql)
      let $request := <http:request href="{xs:anyURI($query)}" method="GET"/>
     let $req := http:send-request($request)[2]
-    let $removePoint := replace(($req//sparql:result/sparql:binding[@name = "coordLabel"])[1], 'Point\(', '')
+    let $removePoint := replace(($req//sparql:result/sparql:binding[@name eq "coordLabel"])[1], 'Point\(', '')
     let $removetrailing := replace($removePoint, '\)', '')
     return
         normalize-space(replace($removetrailing, ' ', ','))

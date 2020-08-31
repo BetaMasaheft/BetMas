@@ -80,7 +80,7 @@ return
     for $repoi at $p in doc('/db/apps/BetMas/lists/institutions.xml')//t:item
     let $i := string($repoi/@xml:id)
     
-     let $inthisrepo := $mss//t:repository[@ref = $i]
+     let $inthisrepo := $mss//t:repository[@ref eq $i]
      let $count := count($inthisrepo)
      return
     if($count=0) then () else 
@@ -437,15 +437,15 @@ if(xdb:collection-available($c)) then (
  then (<div class="w3-panel w3-gray w3-card-4">Select an entry on the left to see all records where this occurs.</div>)
  else (
  let $res :=
- let $terms := $config:collection-root/t:TEI[descendant::t:term[@key = $keyword]]
- let $title := $config:collection-root/t:TEI[descendant::t:title[@type = $keyword]]
- let $person := $config:collection-root/t:TEI[descendant::t:person[@type = $keyword]]
- let $desc := $config:collection-root/t:TEI[descendant::t:desc[@type = $keyword] ]
- let $place := $config:collection-root/t:TEI[descendant::t:place[@type = $keyword] ]
- let $ab := $config:collection-root/t:TEI[descendant::t:ab[@type = $keyword] ]
- let $faith := $config:collection-root/t:TEI[descendant::t:faith[@type = $keyword] ]
- let $occupation := $config:collection-root/t:TEI[descendant::t:occupation[@type = $keyword]]
- let $ref := $config:collection-root/t:TEI[descendant::t:ref[@type = 'authFile'][@corresp=$keyword]]
+ let $terms := $config:collection-root/t:TEI[descendant::t:term[@key eq  $keyword]]
+ let $title := $config:collection-root/t:TEI[descendant::t:title[@type eq  $keyword]]
+ let $person := $config:collection-root/t:TEI[descendant::t:person[@type eq  $keyword]]
+ let $desc := $config:collection-root/t:TEI[descendant::t:desc[@type eq  $keyword] ]
+ let $place := $config:collection-root/t:TEI[descendant::t:place[@type eq  $keyword] ]
+ let $ab := $config:collection-root/t:TEI[descendant::t:ab[@type eq  $keyword] ]
+ let $faith := $config:collection-root/t:TEI[descendant::t:faith[@type eq  $keyword] ]
+ let $occupation := $config:collection-root/t:TEI[descendant::t:occupation[@type eq  $keyword]]
+ let $ref := $config:collection-root/t:TEI[descendant::t:ref[@type eq  'authFile'][@corresp eq $keyword]]
  let $hits := ($terms | $title |$person|$desc|$place|$ab|$faith|$occupation|$ref)
    return
                       map {
@@ -496,7 +496,7 @@ href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exr
 ) else ()}
 {if ($collection = 'works') 
    then
-   let $texts :=  $hits('hits')[descendant::t:div[@type='edition']//t:ab//text()] 
+   let $texts :=  $hits('hits')[descendant::t:div[@type eq 'edition']//t:ab//text()] 
    return
    if(count($texts) lt 100) then 
   let $ids := for $hit in $texts return 'input=https://betamasaheft.eu/works/'||string($hit/@xml:id)||'.xml'
@@ -1420,17 +1420,17 @@ if($file or starts-with($place, 'wd:')) then (
        </div>
 
 
- {let $allrepositories := for $repo in ($config:collection-rootIn//t:settlement[@ref=$place],
-                                        $config:collection-rootIn//t:region[@ref=$place],
-                                        $config:collection-rootIn//t:country[@ref=$place],
-                                        $config:collection-rootIn//t:settlement[@ref=$sameAs],
-                                        $config:collection-rootIn//t:region[@ref=$sameAs],
-                                        $config:collection-rootIn//t:country[@ref=$sameAs]) 
+ {let $allrepositories := for $repo in ($config:collection-rootIn//t:settlement[@ref eq $place],
+                                        $config:collection-rootIn//t:region[@ref eq $place],
+                                        $config:collection-rootIn//t:country[@ref eq $place],
+                                        $config:collection-rootIn//t:settlement[@ref eq $sameAs],
+                                        $config:collection-rootIn//t:region[@ref eq $sameAs],
+                                        $config:collection-rootIn//t:country[@ref eq $sameAs]) 
                           return $repo/ancestor::t:TEI/@xml:id
  let $repositoriesIDS := distinct-values($allrepositories)
- let $selected := if(count($repositoriesIDS) ge 1) then $config:collection-rootMS//t:repository[@ref = $repositoriesIDS] else ()
+ let $selected := if(count($repositoriesIDS) ge 1) then $config:collection-rootMS//t:repository[@ref eq  $repositoriesIDS] else ()
  let $allmssinregion := if(count($selected) ge 1 ) then (for $s in $selected return $s/ancestor::t:TEI) else 0
- let $stringquery := '$config:collection-rootMS//t:repository[@ref =("' || string-join($repositoriesIDS, '","') || '")]/ancestor::t:TEI'
+ let $stringquery := '$config:collection-rootMS//t:repository[@ref eq ("' || string-join($repositoriesIDS, '","') || '")]/ancestor::t:TEI'
 let $hits :=  
             map {
                       'hits' : $allmssinregion, 
@@ -1578,12 +1578,12 @@ if($file or starts-with($place, 'wd:')) then (
         {nav:searchhelpNew()}
        
  {
- let $allrepositories := for $repo in ($config:collection-rootIn//t:settlement[@ref=$place],
- $config:collection-rootIn//t:region[@ref=$place],
- $config:collection-rootIn//t:country[@ref=$place]) 
+ let $allrepositories := for $repo in ($config:collection-rootIn//t:settlement[@ref eq $place],
+ $config:collection-rootIn//t:region[@ref eq $place],
+ $config:collection-rootIn//t:country[@ref eq $place]) 
  return $repo/ancestor::t:TEI/@xml:id
  let $repositoriesIDS := distinct-values($allrepositories)
- let $allmssinregion := $config:collection-rootMS//t:repository[@ref = $repositoriesIDS]/ancestor::t:TEI
+ let $allmssinregion := $config:collection-rootMS//t:repository[@ref eq  $repositoriesIDS]/ancestor::t:TEI
  let $hits :=  
             map {
                       'hits' : $allmssinregion
@@ -1661,7 +1661,7 @@ function list:getcatalogues() {
         {nav:modalsNew()}
         {nav:searchhelpNew()}
        {
-         let $cats := $config:collection-rootMS//t:listBibl[@type='catalogue']
+         let $cats := $config:collection-rootMS//t:listBibl[@type eq 'catalogue']
        let $dist := distinct-values($cats//t:ptr/@target)
        return
        <div class="w3-container w3-margin w3-padding-64">
@@ -1676,13 +1676,13 @@ function list:getcatalogues() {
    for $catalogue in $dist
    let $itemID := replace($catalogue, ':','_')
    let $zoTag := substring-after($catalogue, 'bm:')
-   let $count := count($cats//t:ptr[@target=$catalogue])
+   let $count := count($cats//t:ptr[@target eq $catalogue])
 	let $xml-url := concat('https://api.zotero.org/groups/358366/items?&amp;tag=', $catalogue, '&amp;format=bib&amp;locale=en-GB&amp;style=hiob-ludolf-centre-for-ethiopian-studies')
 let $data := 
  if($list:catalogues//t:item[@xml:id = $itemID]) 
  then <span n="{count($list:catalogues//t:item[@xml:id = $itemID]/preceding-sibling::t:item) +1}">{$list:catalogues//t:item[@xml:id = $itemID]/node() }</span>
  else  <span n="new">{let $request := <http:request href="{xs:anyURI($xml-url)}" method="GET"/>
-    let $response := http:send-request($request)[2] return $response//div[@class="csl-bib-body"]/div/node()}</span>
+    let $response := http:send-request($request)[2] return $response//div[@class eq "csl-bib-body"]/div/node()}</span>
  let $sorting := $data//text()[1]
 order by $sorting
 return
@@ -1782,7 +1782,7 @@ $prms as xs:string*) {
 (:the file for that institution:)
 
 let $log := log:add-log-message('/catalogues/'||$catalogueID||'/list', sm:id()//sm:real/sm:username/string() , 'list')
-let $catalogues := for $catalogue in distinct-values($config:collection-rootMS//t:listBibl[@type='catalogue']//t:ptr/@target)
+let $catalogues := for $catalogue in distinct-values($config:collection-rootMS//t:listBibl[@type eq 'catalogue']//t:ptr/@target)
 	return $catalogue
 	let $prefixedcatID := 'bm:' ||$catalogueID
 let $Cmap := map {'type': 'catalogue', 'name' :  $catalogueID, 'path' :  $catalogues}
@@ -1997,7 +1997,7 @@ $prms as xs:string*) {
 (:the file for that institution:)
 
 let $log := log:add-log-message('/catalogues/'||$catalogueID||'/list', sm:id()//sm:real/sm:username/string() , 'list')
-let $catalogues := for $catalogue in distinct-values($config:collection-rootMS//t:listBibl[@type='catalogue']//t:ptr/@target)
+let $catalogues := for $catalogue in distinct-values($config:collection-rootMS//t:listBibl[@type eq 'catalogue']//t:ptr/@target)
 	return $catalogue
 	let $prefixedcatID := 'bm:' ||$catalogueID
 let $Cmap := map {'type': 'catalogue', 'name' :  $catalogueID, 'path' : $catalogues}

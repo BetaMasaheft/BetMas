@@ -51,9 +51,9 @@ let $baseuris := for $bu in $w return base-uri($bu)
 let $Cmap := map {'type': 'item', 'name' : $worksid, 'path' : string-join($baseuris)}
 let $worktitles := for $work in $w/@xml:id return titles:printTitleID($work)
 let $query := switch($type) 
-case 'mightFormPart' return $config:collection-rootW//t:relation[@name='ecrm:CLP46i_may_form_part_of'][@passive=$worksid]
-case 'contains' return $config:collection-rootW//t:relation[@name='saws:contains'][@active=$worksid]
-default return  $config:collection-rootW//t:relation[@name='saws:formsPartOf'][@passive=$worksid]
+case 'mightFormPart' return $config:collection-rootW//t:relation[@name eq 'ecrm:CLP46i_may_form_part_of'][@passive eq $worksid]
+case 'contains' return $config:collection-rootW//t:relation[@name eq 'saws:contains'][@active eq $worksid]
+default return  $config:collection-rootW//t:relation[@name eq 'saws:formsPartOf'][@passive eq $worksid]
 return
 if(exists($w) or $worksid ='') then (
 <rest:response>
@@ -139,9 +139,9 @@ let $bibl := for $bib in $miraclefile//t:bibl return
            for $c in $bib/t:citedRange return $c/@unit || $c/text(),
            <br/>
            )
-let $incipit := replace(string-join($miraclefile//t:div[@subtype='incipit']/t:ab/text(), ' '), ',', '')
-let $incipitnote := replace(string-join(string:tei2string($miraclefile//t:div[@subtype='incipit']/t:note), ' '), ',', '')
-let $mss := $config:collection-rootMS//t:title[@ref= $bmid]
+let $incipit := replace(string-join($miraclefile//t:div[@subtype eq 'incipit']/t:ab/text(), ' '), ',', '')
+let $incipitnote := replace(string-join(string:tei2string($miraclefile//t:div[@subtype eq 'incipit']/t:note), ' '), ',', '')
+let $mss := $config:collection-rootMS//t:title[@ref eq  $bmid]
 
 return
 <tr>
@@ -172,7 +172,7 @@ for $m in $mss
                         let $position :=$number || '/' || $totalparts
                          let $works := for $w in $msitem/ancestor::t:TEI//t:msItem/t:title/@ref 
                                               return $config:collection-rootW/id($w)//t:keywords
-                         let $totalmiracles := count($works//t:term[@key = 'Miracle'])                         
+                         let $totalmiracles := count($works//t:term[@key eq  'Miracle'])                         
                         return 
                         <tr>
                         <td><a href="https://betamasaheft.eu/{$root}">{titles:printTitleMainID($root)}</a></td>

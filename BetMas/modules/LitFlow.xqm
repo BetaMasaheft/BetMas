@@ -15,7 +15,7 @@ import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/t
 
 declare function LitFlow:compareGroups($groups , $g1  as xs:string*, $g2  as xs:string*){
 (:select the starting group:)
-for $kG1 in $groups//local:group[@key=$g1]/local:keysGroup
+for $kG1 in $groups//local:group[@key eq $g1]/local:keysGroup
 (:formats the name of the group prefixing it with the period:)
 let $kG1Name := $g1||'/' || $kG1/text() 
 (:sequence of keywords definying the starting group:)
@@ -24,7 +24,7 @@ let $t1 := $kG1/@total
 
 let $pairs := 
 (:selects the groups in the target period which share at least one keyword with those of the starting group:)
-for $kG2 in $groups//local:group[@key=$g2]/local:keysGroup[local:key=$keys]
+for $kG2 in $groups//local:group[@key=$g2]/local:keysGroup[local:key eq $keys]
 (:for each of those target groups formats the name prefixing it with the target period:)
 let $kG2Name := $g2||'/' || $kG2/text() 
 (:I want to get a figure of the relation between one group and another 
@@ -32,7 +32,7 @@ which takes into account the number of attestations and the number of keywords
 :)
 (:the actual number of shared keywords, the more out of the total, the stronger the connection between two groups
 :)
-let $totalShared := count($kG2/local:key[. = $keys])
+let $totalShared := count($kG2/local:key[. eq $keys])
 
 (: the distance between keywords groups (K) is calculated by multiplying the number of keywords in the target group to the shared keywords 
 and subtracting from that the result of multiplying the number of keywords in the starting group to the shared keywords
@@ -70,19 +70,19 @@ return
 };
 
 declare function LitFlow:Sankey($filter, $type){
-let $AdditionsTypes := doc(concat($config:data-rootA, '/taxonomy.xml'))//t:category[t:desc='Additiones']//t:category/t:catDesc
+let $AdditionsTypes := doc(concat($config:data-rootA, '/taxonomy.xml'))//t:category[t:desc eq 'Additiones']//t:category/t:catDesc
 
 (:the following selector excludes translations from subject list:)
-let $Subjects := doc(concat($config:data-rootA, '/taxonomy.xml'))//t:category[t:desc='Subjects']//t:category/t:catDesc
+let $Subjects := doc(concat($config:data-rootA, '/taxonomy.xml'))//t:category[t:desc eq 'Subjects']//t:category/t:catDesc
 
-let $Periods := doc(concat($config:data-rootA, '/taxonomy.xml'))//t:category[t:desc='Periods']//t:category/t:catDesc
+let $Periods := doc(concat($config:data-rootA, '/taxonomy.xml'))//t:category[t:desc eq 'Periods']//t:category/t:catDesc
 
-let $DW := $config:collection-rootW//t:term[@key = $Periods]
+let $DW := $config:collection-rootW//t:term[@key eq $Periods]
 
 let $DatedMss :=  $config:collection-rootMS//t:TEI[descendant::t:term[@key = $Periods]]
 
 let $works := for $dMS in $DatedMss
-                            for $key in $dMS//t:term[@key = $Periods]
+                            for $key in $dMS//t:term[@key eq $Periods]
                             let $root := string(root($key)/t:TEI/@xml:id)
 (:                            select only the first level of msItems:)
                             for $WorkInDMS in $dMS//t:msItem[not(parent::t:msItem)]/t:title/@ref
@@ -93,9 +93,9 @@ let $works := for $dMS in $DatedMss
                             </work>
                             
 let $GuestText :=    for $dMS in $DatedMss
-                            for $key in $dMS//t:term[@key = $Periods]
+                            for $key in $dMS//t:term[@key eq $Periods]
 (:                            select only the first level of msItems:)
-                            for $WorkInDMS in $dMS//t:item[ancestor::t:additions]/t:desc[@type='GuestText']/t:title/@ref
+                            for $WorkInDMS in $dMS//t:item[ancestor::t:additions]/t:desc[@type eq 'GuestText']/t:title/@ref
                             return
                             <work>
                             {$key/@key}
@@ -116,8 +116,8 @@ let $id := string($W/@ref)
 
 let $root := 
                 if ($type= 'works') 
-                then root($W)[descendant::t:term[@key=$filter]] 
-                else  $config:collection-rootW/id($id)[descendant::t:term[@key=$filter]]
+                then root($W)[descendant::t:term[@key eq $filter]] 
+                else  $config:collection-rootW/id($id)[descendant::t:term[@key eq $filter]]
                 
 let $keywords := for $k in $root//t:term
                                     where $k/@key = $Subjects

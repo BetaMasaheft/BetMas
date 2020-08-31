@@ -33,12 +33,12 @@ declare function string:ref($node){
                             then
                                   let $anchor := substring-after($node/@target, '#')
                                   let $r :=root($node)
-                                  let $item :=$r//t:*[@xml:id = $anchor]
+                                  let $item :=$r//t:*[@xml:id eq $anchor]
                                   let $nodeName := $item/name()
                                   let $title := switch($nodeName) 
                                                 case 'persName' return
-                                                                                            if($r//t:persName[@type = 'normalized'][contains(@corresp,$anchor)]) 
-                                                                                            then string-join($r//t:persName[@type = 'normalized'][contains(@corresp,$anchor)]//text(), '')
+                                                                                            if($r//t:persName[@type eq  'normalized'][contains(@corresp,$anchor)]) 
+                                                                                            then string-join($r//t:persName[@type eq  'normalized'][contains(@corresp,$anchor)]//text(), '')
                                                                                             else normalize-space(string-join($item, '')) 
                                                 case 'msItem' return 
                                                                          if ($item/t:title/@ref)
@@ -48,7 +48,7 @@ declare function string:ref($node){
                                               normalize-space(string-join(string:tei2string($item/t:title), ''))
                      
                                                 case 'div' return
-                                                                if($item[@type = 'edition']) then (
+                                                                if($item[@type eq  'edition']) then (
                                                                 
                      
                                                                 'edition ' || (if($item[@resp]) then (let $respsource := string($item/@resp)
@@ -179,7 +179,7 @@ declare function string:Zotero($ZoteroUniqueBMtag as xs:string) {
     let $xml-url := concat('https://api.zotero.org/groups/358366/items?tag=', $ZoteroUniqueBMtag, '&amp;format=bib&amp;style=hiob-ludolf-centre-for-ethiopian-studies&amp;linkwrap=1')
    let $request := <http:request href="{xs:anyURI($xml-url)}" method="GET"/>
     let $data := http:send-request($request)[2]
-    let $datawithlink := string:tei2string($data//div[@class = 'csl-entry'])
+    let $datawithlink := string:tei2string($data//div[@class eq  'csl-entry'])
     return
         $datawithlink
 };

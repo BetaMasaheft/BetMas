@@ -61,7 +61,7 @@ default return
     case 'catalogue' return (<h1>{$name('name')} is not the id af any available catalogue.</h1>,<p class="w3-large">Available catalogues are the following:</p>,
     <ul>
     {
-   for $catalogue in distinct-values($config:collection-rootMS//t:listBibl[@type='catalogue']//t:ptr/@target)
+   for $catalogue in distinct-values($config:collection-rootMS//t:listBibl[@type eq 'catalogue']//t:ptr/@target)
 	let $xml-url := concat('https://api.zotero.org/groups/358366/items?&amp;tag=', $catalogue, '&amp;format=bib&amp;style=hiob-ludolf-centre-for-ethiopian-studies')
  let $request := <http:request href="{xs:anyURI($xml-url)}" method="GET"/>
     let $data := http:send-request($request)[2]

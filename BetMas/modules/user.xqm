@@ -38,7 +38,7 @@ let $Imap := map {'type': 'user', 'name' : ($un||'/'||$username)}
 
 return 
 
-    if (sm:is-dba($un) or (($username = $un) and sm:is-account-enabled($un)  and sm:is-authenticated()) or doc('/db/apps/BetMas/lists/editors.xml')//t:item[@n=$username])
+    if (sm:is-dba($un) or (($username = $un) and sm:is-account-enabled($un)  and sm:is-authenticated()) or doc('/db/apps/BetMas/lists/editors.xml')//t:item[@n eq $username])
     then
     (
     <rest:response>
@@ -86,7 +86,7 @@ return
                         <div
                         class="w3-margin w3-panel w3-card-4 ">
                         {let $userinitials := editors:editorNames($username)
-                                    let $changes := $config:collection-root//t:change[@who = $userinitials]
+                                    let $changes := $config:collection-root//t:change[@who eq  $userinitials]
                                     let $changed := for $c in $changes
                                     order by $c/@when descending
                                     return $c
@@ -125,7 +125,7 @@ return
                         <h3>The last 50 pages you visited</h3>
                         <div  class=" w3-container userpanel w3-responsive" ><table
                                 class="w3-table w3-hoverable"><thead><tr><th>type</th><th>date and time</th><th>info</th></tr></thead><tbody>{
-                                       let $selection :=  for $c in $user:logs//l:logentry[l:user[. = $username]][not(l:type[.='query'])][not(contains(l:type, 'XPath'))]
+                                       let $selection :=  for $c in $user:logs//l:logentry[l:user[. eq $username]][not(l:type eq 'query')][not(contains(l:type, 'XPath'))]
                                                                   order by $c/@timestamp descending
                                                                   return $c
                                        for $loggedentity in subsequence($selection, 1, 50)
@@ -150,7 +150,7 @@ return
                         <h3>Your queries</h3>
                         <div  class="w3-container userpanel w3-responsive" ><table
                                 class="w3-table w3-hoverable"><thead><tr><th>date</th><th>info</th></tr></thead><tbody>{
-                                       let $selection := for $c in $user:logs//l:logentry[l:user[. = $username]][l:type[.='query']]
+                                       let $selection := for $c in $user:logs//l:logentry[l:user[. eq $username]][l:type eq 'query']
                                                                  order by $c/@timestamp descending
                                                                   return $c
                                        for $loggedentity in subsequence($selection, 1, 50) 
@@ -169,7 +169,7 @@ return
                         <h3>Your XPATHs</h3>
                         <div class="userpanel w3-responsive" ><table
                                 class="w3-table w3-hoverable"><thead><tr><th>date</th><th>info</th></tr></thead><tbody>{
-                                       let $selection := for $c in $user:logs//l:logentry[l:user[. = $username]][contains(l:type, 'XPath')]
+                                       let $selection := for $c in $user:logs//l:logentry[l:user[. eq $username]][contains(l:type, 'XPath')]
                                                                  order by $c/@timestamp descending
                                                                   return $c
                                        for $loggedentity in subsequence($selection, 1, 50) 
@@ -252,7 +252,7 @@ return
     <select class="w3-select w3-border" id="group2" name="group2">
     <option selected="selected" disabled="disabled">none</option>
       {for $g in sm:list-groups()
-      return if($g = 'dba') then () else <option value="{$g}">{$g}</option>}
+      return if($g eq 'dba') then () else <option value="{$g}">{$g}</option>}
     </select>
   <button type="submit" class="w3-button w3-red">Submit</button>
                             </form>

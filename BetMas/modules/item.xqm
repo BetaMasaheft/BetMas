@@ -22,7 +22,7 @@ declare namespace t="http://www.tei-c.org/ns/1.0";
 declare function item2:witnesses($id){
 let $item := ($config:collection-rootMS, $config:collection-rootW)//t:TEI/id($id)
 return
-if($item/@type='mss') then 
+if($item/@type eq 'mss') then 
 <div class="w3-bar-item" id="textWitnesses">
 <h5>Transcription of the manuscript</h5>
 </div>
@@ -36,13 +36,13 @@ for $wit in $item//t:witness[not(@type)] return
 <li class="nodot" id="{string($wit/@xml:id)}">
 <a href="/manuscripts/{string($wit/@corresp)}/main" target="_blank"><b class="lead">{string($wit/@xml:id)}</b>: {titles:printTitleID(string($wit/@corresp))}</a></li>}
 {
-for $wit in $item//t:witness[@type = 'external'] return
+for $wit in $item//t:witness[@type eq 'external'] return
 <li class="nodot" id="{string($wit/@xml:id)}">
 <a href="{$wit/@facs}" target="_blank"><b class="lead">{string($wit/@xml:id)}</b>: {if($wit/text()) then $wit/text() else string($wit/@corresp)}</a></li>}
 
 </ul>
        ,
-       let $versions := $config:collection-root//t:relation[@name='saws:isVersionOf'][contains(@passive, $id)]
+       let $versions := $config:collection-root//t:relation[@name eq 'saws:isVersionOf'][contains(@passive, $id)]
        return
        if($versions) then (<h5 class="w3-bar-item">Other versions</h5>,
          <ul  class="w3-bar-item nodot">
@@ -57,7 +57,7 @@ for $wit in $item//t:witness[@type = 'external'] return
             else()
             ,
             
-            let $versionsO := $config:collection-root//t:relation[@name='isVersionInAnotherLanguageOf'][contains(@passive, $id)]
+            let $versionsO := $config:collection-root//t:relation[@name eq 'isVersionInAnotherLanguageOf'][contains(@passive, $id)]
        return
        if($versionsO) then (
             <h5 class="w3-bar-item">Versions in another language</h5>,
@@ -199,7 +199,7 @@ let $repoids := if ($document//t:repository/text() = 'Lost' or $document//t:repo
                              else if ($document//t:repository/@ref) 
                                 then distinct-values($document//t:repository/@ref) 
                              else 'No Repository Specified'
-let $key := for $ed in $document//t:titleStmt/t:editor[not(@role = 'generalEditor')]  
+let $key := for $ed in $document//t:titleStmt/t:editor[not(@role eq  'generalEditor')]  
                                   return 
                                   editors:editorKey(string($ed/@key)) || (if($ed/@role) then ' (' ||string($ed/@role)|| ')' else ())
 
@@ -211,8 +211,8 @@ return
             <h1 id="headtitle">
                 {titles:printTitleID($id)}
             </h1>
-            {let $formerly := $document//t:relation[@name='betmas:formerlyAlsoListedAs'][@active=$id]
-             let $same := $document//t:relation[@name='skos:exactMatch'][@active=$id]
+            {let $formerly := $document//t:relation[@name eq 'betmas:formerlyAlsoListedAs'][@active eq $id]
+             let $same := $document//t:relation[@name eq 'skos:exactMatch'][@active eq $id]
             return
             (if($formerly) then <p>This record was formerly also listed as {string($formerly/@passive)}.</p> 
             else(),
@@ -220,7 +220,7 @@ return
                     for $s in $same return <p>This record is the same as <a href="{string($s/@passive)}" target="_blank">{titles:printTitleID($s/@passive)}</a>.</p> 
             else ())}
           <p id="mainEditor"><i>{string-join($key, ', ')}</i></p>
-          {if($collection = 'manuscripts') then <p>{if($this//t:additional//t:source/t:listBibl[@type='catalogue']) then ('This manuscript description is based on ' , <a href="#catalogue">the catalogues listed in the catalogue bibliography</a> )
+          {if($collection = 'manuscripts') then <p>{if($this//t:additional//t:source/t:listBibl[@type eq 'catalogue']) then ('This manuscript description is based on ' , <a href="#catalogue">the catalogues listed in the catalogue bibliography</a> )
           else if($this//t:collection = 'EMIP') then string-join($this//t:collection//text(), ', ')
           else if(contains($this//t:funder, 'IslHornAfr')) then ('Newly catalogued in IslHornAfr, see also ', <a href="http://islhornafr.tors.sc.ku.dk/backend/manuscripts/{format-number(number(replace($id, 'IHA', '')), '####')}">IslHornAfr manuscript {format-number(number(replace($id, 'IHA', '')), '####')}</a>)
           else if(contains($this//t:idno, 'EMML')) then string:tei2string($this//t:editionStmt)
@@ -234,7 +234,7 @@ return
     <div  id="general" class="w3-container">
     <div class="w3-row">
    
-   {if (count($document//t:change[not(@who='PL')]) eq 1) then
+   {if (count($document//t:change[not(@who eq 'PL')]) eq 1) then
    <span class="w3-tag w3-red">Stub</span>
    else if ($document//t:change[contains(.,'completed')]) then
    <span class="w3-tag w3-gray" >Under Review</span>
@@ -256,7 +256,7 @@ case 'manuscripts' return
             <p>Other identifiers: {
                    for $altId at $p in $document//t:msIdentifier/t:altIdentifier/t:idno[text()]
                    return
-                   if ( $altId/@type='TM') 
+                   if ( $altId/@type eq 'TM') 
                    then 
                    <a href="https://www.trismegistos.org/text/{$altId/text()}" property="http://www.cidoc-crm.org/cidoc-crm/P1_is_identified_by" 
                     content="{$altId}">TM{$altId/text()}{if($altId[$p = count($document//t:msIdentifier/t:altIdentifier/t:idno/text())]) then ' ' else ', '}</a>
@@ -290,7 +290,7 @@ return
             <p>Other identifiers: {
                    for $altId at $p in $document//t:msIdentifier/t:altIdentifier/t:idno
                    return
-                   if ( $altId/@type='TM') 
+                   if ( $altId/@type eq 'TM') 
                    then 
                    <a href="https://www.trismegistos.org/text/{$altId/text()}" property="http://www.cidoc-crm.org/cidoc-crm/P1_is_identified_by" 
                     content="{$altId}">TM{$altId/text()}{if($altId[$p = count($document//t:msIdentifier/t:altIdentifier/t:idno/text())]) then ' ' else ', '}</a>
@@ -343,7 +343,7 @@ return
  case 'persons' return
  if($document//t:personGrp) then
                          <div  class="w3-row">   <span class="w3-tag w3-red">
-                            {if ($document//t:personGrp[@role = 'ethnic']) then 'Ethnic/Linguistic' else ()}
+                            {if ($document//t:personGrp[@role eq  'ethnic']) then 'Ethnic/Linguistic' else ()}
                             Group</span></div> else ()
  case 'work' return
   if ($document//t:titleStmt/t:author) then <div  class="w3-row"><p class="w3-large"><a href="{$document//t:titleStmt/t:author[1]/@ref}">{$document//t:titleStmt/t:author[1]}</a></p></div> else ()
@@ -392,18 +392,18 @@ declare function item2:mainRels($this,$collection){
      switch($collection)
      case 'persons' return (
      let $isSubjectof :=
-            for $corr in $w//t:relation[@passive = $id][@name = 'ecrm:P129_is_about']
+            for $corr in $w//t:relation[@passive eq  $id][@name eq  'ecrm:P129_is_about']
 
             return
                 $corr
       let $isAuthorof :=
-            for $corr in ($w//t:relation[@passive = $id][@name = 'saws:isAttributedToAuthor'],
-            $w//t:relation[@passive = $id][@name = 'dcterms:creator'])
+            for $corr in ($w//t:relation[@passive eq  $id][@name eq  'saws:isAttributedToAuthor'],
+            $w//t:relation[@passive eq  $id][@name eq  'dcterms:creator'])
 
             return
                 $corr
                   let $predecessorSuccessor :=
-            for $corr in ($this//t:relation[@active = $id][@name = 'betmas:isSuccessorOf'], $this//t:relation[@active = $id][@name = 'betmas:isPredecessorOf'])
+            for $corr in ($this//t:relation[@active eq  $id][@name eq  'betmas:isSuccessorOf'], $this//t:relation[@active eq  $id][@name eq  'betmas:isPredecessorOf'])
 
             return
                 $corr
@@ -443,7 +443,7 @@ return
                    <b class="openInDialog">Successors and predecessors</b>
                         <ul  class="w3-ul w3-hoverable">{
                         for $p in $predecessorSuccessor
-                        let $rel := if($p/@name = 'bm:isSuccessorOf') then 'Predecessor: ' else 'Successor: '
+                        let $rel := if($p/@name eq  'bm:isSuccessorOf') then 'Predecessor: ' else 'Successor: '
                     return
                         if (contains($p/@passive, ' ')) then for $value in tokenize ($p/@passive, ' ') return
                         <li  class="nodot">{$rel}<a href="{$value}">{titles:printTitleID(string($value))}</a></li>
@@ -455,8 +455,8 @@ return
              </div>
       )
        case 'places' return (
-     let $isSubjectof :=  for $corr in $w//t:relation[@passive = $id][@name = 'ecrm:P129_is_about'] return $corr
-     let $churchesAndMonasteries :=  for $corr in $plin//t:place[contains(@type, 'church') or contains(@type, 'monastery')][t:*[@ref = $id]] return $corr
+     let $isSubjectof :=  for $corr in $w//t:relation[@passive eq  $id][@name eq  'ecrm:P129_is_about'] return $corr
+     let $churchesAndMonasteries :=  for $corr in $plin//t:place[contains(@type, 'church') or contains(@type, 'monastery')][t:*[@ref eq  $id]] return $corr
 return
 <div  class="mainrelations w3-container">
 
@@ -473,8 +473,8 @@ return
                                           if($this//t:location/t:geo) then <tr><td>Coordinates</td><td>{$this//t:location/t:geo/text()}</td></tr> else (),
                                           if($this//t:location/t:height) then <tr><td>Altitude</td><td>{concat($this//t:location/t:height/text(), $this//t:location/t:height/@unit)}</td></tr>  else (),
                                          
-                                          if($this//t:location[@typ='relative']) then
-                                          <tr><td>Relative location</td><td>{$this//t:location[@typ='relative']/text()}</td></tr> else ()
+                                          if($this//t:location[@typ eq 'relative']) then
+                                          <tr><td>Relative location</td><td>{$this//t:location[@typ eq 'relative']/text()}</td></tr> else ()
 
                                            }
                                            </tbody>
@@ -486,7 +486,7 @@ return
                                             { if ($this//t:state) then  <div  class="relBox  w3-panel w3-card-4 w3-gray">
                                            {
                                            <b  class="openInDialog">Place attested in the following periods</b>,
-                                          <ul  class="w3-ul w3-hoverable">{for $s in $this//t:state[@type='existence']/@ref
+                                          <ul  class="w3-ul w3-hoverable">{for $s in $this//t:state[@type eq 'existence']/@ref
                                           let $file := $config:collection-rootA/id($s)
                                           let $name := $file//t:title[1]/text()
                                           let $link := $file//t:sourceDesc//t:ref/@target
@@ -527,8 +527,8 @@ return
              </div>
       )
      case 'works' return (
-     let $relations := ($w//t:relation[@active = $id],
-     $w//t:relation[@passive = $id])
+     let $relations := ($w//t:relation[@active eq  $id],
+     $w//t:relation[@passive eq  $id])
      let $relatedWorks :=
             for $corr in $relations[@name  != 'saws:isAttributedToAuthor'][@name != 'dcterms:creator']
 
@@ -597,7 +597,7 @@ else
       
       case 'narratives' return (
    
-let $relations := $document//t:relation[@name = 'skos:broadMatch']
+let $relations := $document//t:relation[@name eq  'skos:broadMatch']
 return
 if(not($document//t:relation)) then ()
 else
@@ -638,7 +638,7 @@ else
       
        case 'authority-files' return (
    let $pass := concat('betmas:', $id)
-let $relations := $config:collection-rootN//t:relation[@name = 'skos:broadMatch'][@passive=$pass]
+let $relations := $config:collection-rootN//t:relation[@name eq  'skos:broadMatch'][@passive eq $pass]
 return
 if(count($relations) eq 0) then ()
 else
@@ -697,8 +697,8 @@ return
                                           item2:AdminLocTable($this//t:settlement),
                                            if($this//t:location/t:geo) then <tr><td>Coordinates</td><td>{$this//t:location/t:geo/text()}</td></tr> else (),
                                           if($this//t:location/t:height) then <tr><td>Altitude</td><td>{concat($this//t:location/t:height/text(), $this//t:location/t:height/@unit)}</td></tr>  else (),
-                                          if($this//t:location[@typ='relative']) then
-                                          <tr><td>Relative location</td><td>{$this//t:location[@typ='relative']/text()}</td></tr> else ()
+                                          if($this//t:location[@typ eq 'relative']) then
+                                          <tr><td>Relative location</td><td>{$this//t:location[@typ eq 'relative']/text()}</td></tr> else ()
 
                                            }
                                            </tbody>
@@ -739,7 +739,7 @@ declare function item2:RestPersRole($file, $collection){
     return
 if ($collection = 'persons') then(
 <div  class="w3-panel w3-margin  w3-gray w3-card-4">{
-let $persrol := $config:collection-root//t:persName[@ref = $id]
+let $persrol := $config:collection-root//t:persName[@ref eq  $id]
 let $persrole := $persrol[@role]
 return
 if($persrole) then
@@ -788,7 +788,7 @@ else if ($collection = 'manuscripts' or $collection = 'works' or $collection = '
 
     {
     let $tei := $config:collection-root//t:TEI[@xml:id !=$id]
-    let $persons := $tei//t:persName[@ref = string($ID)]
+    let $persons := $tei//t:persName[@ref eq  string($ID)]
     for $role in $persons[@role]
 
     group by $r := $role/@role
@@ -834,7 +834,7 @@ else ()
 declare function item2:RestAdditions($id){
        let $adds := $config:collection-rootMS//t:additions
        let $sameKey :=
-            for $corr in $adds//t:persName[@ref= $id]
+            for $corr in $adds//t:persName[@ref eq  $id]
             return $corr
 return
 if ($sameKey) then
@@ -853,9 +853,9 @@ if ($sameKey) then
 
       (:~ returns a div with a list of additions containing the given id :)
 declare function item2:RestMiniatures($id){
-       let $adds := $config:collection-root//t:decoNote[@type='miniature']
+       let $adds := $config:collection-root//t:decoNote[@type eq 'miniature']
        let $sameKey :=
-            for $corr in $adds//t:persName[@ref= $id]
+            for $corr in $adds//t:persName[@ref eq  $id]
             return $corr
 return
 if ($sameKey) then
@@ -874,7 +874,7 @@ if ($sameKey) then
 
       (:~ returns a div with a list of the keywords used in the description of a miniture with the given art theme :)
 declare function item2:RestMiniaturesKeys($id){
-       let $adds := $config:collection-rootMS//t:decoNote[@type='miniature'][descendant::t:ref[@type='authFile'][@corresp=$id]]
+       let $adds := $config:collection-rootMS//t:decoNote[@type eq 'miniature'][descendant::t:ref[@type eq 'authFile'][@corresp eq $id]]
        let $themes := $adds//t:term
      return
                                            <ul  class="w3-ul w3-hoverable">{
@@ -899,9 +899,9 @@ declare function item2:RestMiniaturesKeys($id){
        };
       (:~ returns a div with a list of place like records containing the given id as tabot :)
 declare function item2:RestTabot($id){
-       let $tabot := $config:collection-rootPlIn//t:place//t:ab[@type='tabot']
+       let $tabot := $config:collection-rootPlIn//t:place//t:ab[@type eq 'tabot']
        let $sameKey :=
-            for $corr in $tabot//t:persName[@ref = $id]
+            for $corr in $tabot//t:persName[@ref eq  $id]
             return $corr
 
 return
@@ -966,12 +966,12 @@ return
                 if($item//t:collection = 'Ethio-SPaRe') 
                then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
 (:laurenziana:)
-else  if($item//t:repository/@ref[.='INS0339BML']) 
+else  if($item//t:repository[@ref = 'INS0339BML']) 
                then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '005.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
           
 (:          
 EMIP:)
-              else if($item//t:collection = 'EMIP' and $item//t:msIdentifier/t:idno/@n) 
+              else if(($item//t:collection = 'EMIP') and $item//t:msIdentifier/t:idno/@n) 
                then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
               
               (:BNF:)
@@ -1043,10 +1043,10 @@ EMIP:)
                                              ) else ()}
                                              {  if(starts-with($id, 'NAR')) then (
                                              let $file := $config:collection-rootN//id($id)
-                                             let $broadMatch := $file//t:relation[@name="skos:broadMatch"]/@passive
+                                             let $broadMatch := $file//t:relation[@name eq "skos:broadMatch"]/@passive
                                              for $b in $broadMatch
                                              let $broad := substring-after($b, 'betmas:')
-                                             let $usedasType :=  $config:collection-rootMS//t:additions//t:item/t:desc[@type = $broad]
+                                             let $usedasType :=  $config:collection-rootMS//t:additions//t:item/t:desc[@type eq  $broad]
                                              return
   (<p>As additional content associated with the keyword <b><a href="/authority-files/list?keyword={string($broad)}">{titles:printTitleMainID($broad)}</a></b> this unit 
   is present an additional {count($usedasType)} time{if(count($usedasType) gt 1) then 's' else ()}</p>,       
@@ -1086,17 +1086,20 @@ EMIP:)
 
 
              {
-let $corresps := $config:collection-rootW//t:div[@type ='textpart'][@corresp = $id]
+let $corresps := $config:collection-rootW//t:div[@type eq 'textpart'][@corresp eq  $id]
 return
 if (count($corresps) ge 1) then
  (
 for $c in $corresps
 let $workid := string(root($c)/t:TEI/@xml:id )
-let $witnesses := $config:collection-rootMS//t:title[contains(@ref, $workid)]
+let $witnesses := $config:collection-rootMS//t:title[contains(@ref, $workid)][parent::t:msItem or ancestor::t:additions]
+let $countwitnesses := for $wit in $witnesses
+ let $wid :=  string(root($wit)/t:TEI/@xml:id )
+ group by $id := $wid return $id
 let $tit := titles:printTitleMainID($workid)
 return
 (
-<p>This work is also part of <a target="_blank" href="/{$workid}">{$tit}</a>, which is contained in the following manuscripts:</p>,
+<p>This textual unit is also part of <a target="_blank" href="/{$workid}">{$tit}</a>, which is contained in the following {count($countwitnesses)} manuscripts {count($witnesses)} times:</p>,
 <div><ul class=" w3-padding">{
 for $wit in $witnesses
  let $wid :=  string(root($wit)/t:TEI/@xml:id )
@@ -1106,6 +1109,49 @@ return
 <li><a target="_blank" href="/{$id}">{$wtit}</a></li>
 }</ul></div>
 )
+) else ()
+}
+
+ {
+(: subparts :)
+let $work := $config:collection-rootW/id($id)
+let $parts := $work//t:div[@type eq 'textpart'][@corresp]/@corresp
+let $rels := $config:collection-root//t:relation[@name eq 'saws:contains'][starts-with(@active,$id)]/@passive  
+let $relformspart := $config:collection-root//t:relation[(@name eq 'saws:formsPartOf') or (@name eq 'ecrm:CLP46i_may_form_part_of')][starts-with(@passive,$id)]/@active
+let $all := ($parts,$rels,$relformspart)
+let $ids := distinct-values($all)
+return
+if (count($ids) ge 1) then
+ (
+ <p>This textual unit has also {count($ids)} parts which are also independent Textual Units. Below is a list of witnesses for each of them.</p>
+, 
+for $c in $ids
+let $witnesses := $config:collection-rootMS//t:title[contains(@ref, $c)][parent::t:msItem or ancestor::t:additions]
+let $countwitnesses := for $wit in $witnesses
+ let $wid :=  string(root($wit)/t:TEI/@xml:id )
+ group by $id := $wid return $id
+let $tit := titles:printTitleMainID($c)
+
+return
+if(count($witnesses) ge 1) then (
+<p>
+<a target="_blank" href="/{$c}">{$tit}</a> is listed as {$c} in the following {count($countwitnesses)} manuscripts {count($witnesses)} times:</p>,
+<div class="w3-panel w3-card-2"><ul class=" w3-padding">{
+for $wit in $witnesses
+ let $wid :=  string(root($wit)/t:TEI/@xml:id )
+ group by $id := $wid
+ let $wtit :=  titles:printTitleMainID($id)
+return
+<li><a target="_blank" href="/{$id}">{$wtit}</a></li>
+}</ul>
+{if($work//t:div[@type eq 'textpart'][@corresp=$c]) 
+then 
+    let $subids := for $subid in $work//t:div[@type eq 'textpart'][@corresp eq $c]/@xml:id return $id || '#' || string($subid)
+let $stringsubids:=string-join($subids, ',')
+return <p>Click the following link to compare a <a target="_blank" href="/compareSelected?mss={$stringsubids},{$id}">list of manuscripts linked to both {$stringsubids} and {$c}.</a></p> else ()}
+</div>
+) else <p>
+<a target="_blank" href="/{$c}">{$tit}</a> is listed also as {$c}, but not recorded with this reference in any manuscript at the moment.</p>
 ) else ()
 }
      </div>
@@ -1126,13 +1172,13 @@ return
                    if ($file//t:objectDesc/@form) then <optgroup label="form">{for $x in distinct-values($file//t:objectDesc/@form) return <option value="{$x}">{string($x)}</option>}</optgroup> else ())
                    case 'works' return
                    (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in distinct-values($file//t:term/@key) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
-                   if ($file//t:relation[@name='dcterms:creator']) then <optgroup label="author">{for $x in ($file//t:relation[@name='dcterms:creator']) let $auth := string($x/@passive) return <option value="{$auth}">{titles:printTitleID($auth)}</option>}</optgroup> else (),
-                   if ($file//t:relation[@name='saws:isAttributedToAuthor']) then <optgroup label="relation">{for $x in ($file//t:relation[@name='saws:isAttributedToAuthor']) let $auth := string($x/@passive) return <option value="{$auth}">{titles:printTitleID($auth)}</option>}</optgroup> else ()
+                   if ($file//t:relation[@name eq 'dcterms:creator']) then <optgroup label="author">{for $x in ($file//t:relation[@name eq 'dcterms:creator']) let $auth := string($x/@passive) return <option value="{$auth}">{titles:printTitleID($auth)}</option>}</optgroup> else (),
+                   if ($file//t:relation[@name eq 'saws:isAttributedToAuthor']) then <optgroup label="relation">{for $x in ($file//t:relation[@name eq 'saws:isAttributedToAuthor']) let $auth := string($x/@passive) return <option value="{$auth}">{titles:printTitleID($auth)}</option>}</optgroup> else ()
                    )
                     case 'narratives' return
                    (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in distinct-values($file//t:term/@key) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
-                   if ($file//t:relation[@name='dcterms:creator']) then <optgroup label="author">{for $x in ($file//t:relation[@name='dcterms:creator']) let $auth := string($x/@passive) return <option value="{$auth}">{titles:printTitleID($auth)}</option>}</optgroup> else (),
-                   if ($file//t:relation[@name='saws:isAttributedToAuthor']) then <optgroup label="attributed author">{for $x in ($file//t:relation[@name='saws:isAttributedToAuthor']) let $auth := string($x/@active) return <option value="{$auth}">{titles:printTitleID($auth)}</option>}</optgroup> else ()
+                   if ($file//t:relation[@name eq 'dcterms:creator']) then <optgroup label="author">{for $x in ($file//t:relation[@name eq 'dcterms:creator']) let $auth := string($x/@passive) return <option value="{$auth}">{titles:printTitleID($auth)}</option>}</optgroup> else (),
+                   if ($file//t:relation[@name eq 'saws:isAttributedToAuthor']) then <optgroup label="attributed author">{for $x in ($file//t:relation[@name eq 'saws:isAttributedToAuthor']) let $auth := string($x/@active) return <option value="{$auth}">{titles:printTitleID($auth)}</option>}</optgroup> else ()
                    )
                    case 'places' return
                    (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in distinct-values($file//t:term/@key) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),

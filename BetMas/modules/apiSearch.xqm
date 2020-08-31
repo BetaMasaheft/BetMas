@@ -103,10 +103,10 @@ let $hi :=  for $hit in $hits
                             for $match in subsequence($ex//exist:match, 1, 3) 
                             return  kwic:get-summary($ex, $match,<config width="40"/>)
             let $test := console:log($results)
-            let $pname := $expanded//exist:match[ancestor::t:div[@type='edition']]
+            let $pname := $expanded//exist:match[ancestor::t:div[@type eq 'edition']]
             let $text := if($pname) then 'text' else 'main'
             let $textpart := if($text = 'text') then 
-            let $tpart := $expanded//exist:match[ancestor::t:div[@type='edition']][1]/ancestor::t:div[@type='textpart'][1]/@n
+            let $tpart := $expanded//exist:match[ancestor::t:div[@type eq 'edition']][1]/ancestor::t:div[@type eq 'textpart'][1]/@n
             return
                 if($tpart[1]) then  string($tpart[1]) 
                 else if ($tpart ='') then '1' else '1'
@@ -175,37 +175,37 @@ let $log := log:add-log-message('/api/search?q=' || $q, sm:id()//sm:real/sm:user
         <filter-rewrite>yes</filter-rewrite>
     </options>
     let $script := if ($script != '') then
-        ("[ancestor::t:TEI//@script = '" || $script || "' ]")
+        ("[ancestor::t:TEI//@script eq '" || $script || "' ]")
     else
         ''
     let $material := if ($material != '') then
-        ("[ancestor::t:TEI//t:material/@key = '" || $material || "' ]")
+        ("[ancestor::t:TEI//t:material/@key eq '" || $material || "' ]")
     else
         ''
     let $term := if ($term != '') then
-        ("[ancestor::t:TEI//t:term/@key = '" || $term || "' ]")
+        ("[ancestor::t:TEI//t:term/@key eq '" || $term || "' ]")
     else
         ''
     
     let $collection := switch ($collection)
         case 'manuscripts'
             return
-                "[ancestor::t:TEI/@type = 'mss']"
+                "[ancestor::t:TEI/@type eq 'mss']"
         case 'works'
             return
-                "[ancestor::t:TEI/@type = 'work']"
+                "[ancestor::t:TEI/@type eq 'work']"
         case 'places'
             return
-                "[ancestor::t:TEI/@type = 'place' or ancestor::t:TEI/@type = 'ins']"
+                "[(ancestor::t:TEI/@type eq 'place') or (ancestor::t:TEI/@type eq 'ins')]"
         case 'institutions'
             return
-                "[ancestor::t:TEI/@type = 'ins']"
+                "[ancestor::t:TEI/@type eq 'ins']"
         case 'narratives'
             return
-                "[ancestor::t:TEI/@type = 'narr']"
+                "[ancestor::t:TEI/@type eq 'narr']"
         case 'authority-files'
             return
-                "[ancestor::t:TEI/@type = 'auth']"
+                "[ancestor::t:TEI/@type eq 'auth']"
         case 'persons'
             return
                 "[ancestor::t:TEI/@type = 'pers']"

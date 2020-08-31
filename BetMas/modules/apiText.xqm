@@ -39,14 +39,14 @@ function apiT:get-level1XML($id as xs:string, $level1 as xs:string*) {
     let $recordid := $item/@xml:id
     
     return
-        if ($item//t:div[@type = 'edition']/t:div[@n = $level1][t:ab])
+        if ($item//t:div[@type = 'edition']/t:div[@n eq $level1][t:ab])
         then
             <work>
                 
                 <id>{data($recordid)}</id>
                 <citation>{(api:citation($item) || ' ' || $level1)}</citation>
-                <title>{$item//t:titleStmt/t:title[@xml:id = 't1']/text()}</title>
-                <text>{$item//t:div[@type = 'edition']/t:div[@n = $level1]//text()}</text>
+                <title>{$item//t:titleStmt/t:title[@xml:id eq 't1']/text()}</title>
+                <text>{$item//t:div[@type = 'edition']/t:div[@n eq $level1]//text()}</text>
                 
                 {
                     if (number($level1) > 1)
@@ -57,11 +57,11 @@ function apiT:get-level1XML($id as xs:string, $level1 as xs:string*) {
                 }
                 
                 {
-                    if (number($level1) = count($item//t:div[@type = 'edition']/t:div))
+                    if (number($level1) = count($item//t:div[@type eq 'edition']/t:div))
                     then
                         ()
                     else
-                        if ($item//t:div[@type = 'edition']/t:div[@n = (number($level1) + 1)])
+                        if ($item//t:div[@type eq 'edition']/t:div[@n eq (number($level1) + 1)])
                         then
                             <next>{$config:appUrl}/api/xml/{$id}/{number($level1) + 1}</next>
                         else
@@ -71,7 +71,7 @@ function apiT:get-level1XML($id as xs:string, $level1 as xs:string*) {
                 <partofwork>{$config:appUrl}/api/xml/{$id}</partofwork>
                 <contains>
                     {
-                        for $subtype in $item//t:div[@type = 'edition']/t:div[@subtype]
+                        for $subtype in $item//t:div[@type eq 'edition']/t:div[@subtype]
                         return
                             
                             element {string($subtype/@subtype)} {($config:appUrl || '/api/xml/' || $id || '/' || $subtype/@n)}
@@ -106,17 +106,17 @@ function apiT:get-level1LineXML($id as xs:string, $level1 as xs:string*, $line a
     let $item := api:get-tei-rec-by-ID($id)
     
     let $recordid := $item/@xml:id
-    let $L1 := $item//t:div[@type = 'edition']/t:div[@n = $level1]
+    let $L1 := $item//t:div[@type eq 'edition']/t:div[@n eq $level1]
     return
         if (contains($line, '-'))
         then
             <work>
                 <id>{data($recordid)}</id>
                 <citation>{(api:citation($item) || ' ' || $level1 || ', ' || $line)}</citation>
-                <title>{$item//t:titleStmt/t:title[@xml:id = 't1']/text()}</title>
+                <title>{$item//t:titleStmt/t:title[@xml:id eq 't1']/text()}</title>
                 <text>{
                         for $l in (xs:integer(substring-before($line, '-')) to xs:integer(substring-after($line, '-')))
-                        let $textnodes := $L1//t:l[@n = string($l)]
+                        let $textnodes := $L1//t:l[@n eq string($l)]
                         let $onlytext := string-join($textnodes//text(), '')
                         return
                             normalize-space($onlytext)
@@ -129,11 +129,11 @@ function apiT:get-level1LineXML($id as xs:string, $level1 as xs:string*, $line a
                         ()
                 }
                 {
-                    if (number($line) = count($L1//t:l[@n = substring-after($line, '-')]))
+                    if (number($line) = count($L1//t:l[@n eq substring-after($line, '-')]))
                     then
                         ()
                     else
-                        if ($L1//t:l[@n = (number(substring-after($line, '-')) + 1)])
+                        if ($L1//t:l[@n eq (number(substring-after($line, '-')) + 1)])
                         then
                             <next>{$config:appUrl}/api/xml/{$id}/{$level1}/{number(substring-after($line, '-')) + 1}</next>
                         else
@@ -154,16 +154,16 @@ function apiT:get-level1LineXML($id as xs:string, $level1 as xs:string*, $line a
                 </contains>
             </work>
         else
-            if ($L1//t:l[@n = $line])
+            if ($L1//t:l[@n eq $line])
             then
                 <work>
                     
                     <id>{data($recordid)}</id>
                     <citation>{(api:citation($item) || ' ' || $level1 || ', ' || $line)}</citation>
-                    <title>{$item//t:titleStmt/t:title[@xml:id = 't1']/text()}</title>
+                    <title>{$item//t:titleStmt/t:title[@xml:id eq 't1']/text()}</title>
                     
                     <text>{
-                    let $textnodes := $L1//t:l[@n = $line]//text()
+                    let $textnodes := $L1//t:l[@n eq $line]//text()
                         let $onlytext := string-join($textnodes, '')
                         return
                             normalize-space($onlytext)}</text>
@@ -175,11 +175,11 @@ function apiT:get-level1LineXML($id as xs:string, $level1 as xs:string*, $line a
                             ()
                     }
                     {
-                        if (number($line) = count($L1//t:l[@n = $line]))
+                        if (number($line) = count($L1//t:l[@n eq $line]))
                         then
                             ()
                         else
-                            if ($L1//t:l[@n = (number($line) + 1)])
+                            if ($L1//t:l[@n eq (number($line) + 1)])
                             then
                                 <next>{$config:appUrl}/api/xml/{$id}/{$level1}/{number($line) + 1}</next>
                             else
@@ -229,8 +229,8 @@ function apiT:get-level2lineXML($id as xs:string, $level1 as xs:string*, $level2
     let $collection := 'works'
     let $item := api:get-tei-rec-by-ID($id)
     let $recordid := $item/@xml:id
-    let $L1 := $item//t:div[@type = 'edition']/t:div[@n = $level1]
-    let $L2 := $L1/t:div[@n = $level2]
+    let $L1 := $item//t:div[@type eq 'edition']/t:div[@n eq $level1]
+    let $L2 := $L1/t:div[@n eq $level2]
     
     return
         if (contains($line, '-'))
@@ -238,10 +238,10 @@ function apiT:get-level2lineXML($id as xs:string, $level1 as xs:string*, $level2
             <work>
                 <id>{data($recordid)}</id>
                 <citation>{(api:citation($item) || ' ' || $level2 || ', ' || $line)}</citation>
-                <title>{$item//t:titleStmt/t:title[@xml:id = 't1']/text()}</title>
+                <title>{$item//t:titleStmt/t:title[@xml:id eq 't1']/text()}</title>
                 <text>{
                         for $l in (xs:integer(substring-before($line, '-')) to xs:integer(substring-after($line, '-')))
-                        let $textnodes := $L2//t:l[@n = string($l)]
+                        let $textnodes := $L2//t:l[@n eq string($l)]
                         let $onlytext := string-join($textnodes//text(), '')
                         return
                             normalize-space($onlytext)
@@ -254,11 +254,11 @@ function apiT:get-level2lineXML($id as xs:string, $level1 as xs:string*, $level2
                         ()
                 }
                 {
-                    if (number($line) = count($L2//t:l[@n = substring-after($line, '-')]))
+                    if (number($line) = count($L2//t:l[@n eq substring-after($line, '-')]))
                     then
                         ()
                     else
-                        if ($L2//t:l[@n = (number(substring-after($line, '-')) + 1)])
+                        if ($L2//t:l[@n eq (number(substring-after($line, '-')) + 1)])
                         then
                             <next>{$config:appUrl}/api/xml/{$id}/{$level1}/{$level2}/{number(substring-after($line, '-')) + 1}</next>
                         else
@@ -282,15 +282,15 @@ function apiT:get-level2lineXML($id as xs:string, $level1 as xs:string*, $level2
             
             </work>
         else
-            if ($item//t:div[@type = 'edition']/t:div[@n = $level1]/t:div[@n = $level2]//t:*[@n = $line])
+            if ($item//t:div[@type eq 'edition']/t:div[@n eq $level1]/t:div[@n eq $level2]//t:*[@n eq $line])
             then
                 <work>
                     
                     <id>{data($recordid)}</id>
                     <citation>{(api:citation($item) || ' ' || $level1 || ' ' || $level2 || ', ' || $line)}</citation>
-                    <title>{$item//t:titleStmt/t:title[@xml:id = 't1']/text()}</title>
+                    <title>{$item//t:titleStmt/t:title[@xml:id eq 't1']/text()}</title>
                     
-                    <text>{ let $textnodes := $L2//t:l[@n = $line]//text()
+                    <text>{ let $textnodes := $L2//t:l[@n eq $line]//text()
                         let $onlytext := string-join($textnodes, '')
                         return
                             normalize-space($onlytext)}</text>
@@ -302,11 +302,11 @@ function apiT:get-level2lineXML($id as xs:string, $level1 as xs:string*, $level2
                             ()
                     }
                     {
-                        if (number($line) = count($L2//t:l[@n = $line]))
+                        if (number($line) = count($L2//t:l[@n eq $line]))
                         then
                             ()
                         else
-                            if ($L2//t:l[@n = (number($line) + 1)])
+                            if ($L2//t:l[@n eq (number($line) + 1)])
                             then
                                 <next>{$config:appUrl}/api/xml/{$id}/{$level1}/{$level2}/{number($line) + 1}</next>
                             else

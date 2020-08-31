@@ -65,7 +65,7 @@ return
 <bibl>
 {
 for $author in distinct-values($auths)
-let $count := count($file//t:revisionDesc/t:change[@who = $author])
+let $count := count($file//t:revisionDesc/t:change[@who eq $author])
 order by $count descending
                 return
 <author>{editors:editorKey(string($author))}</author>
@@ -115,7 +115,7 @@ declare function app:interpretationSegments($node as node(), $model as map(*)){
 (:get parallel diplomatique forms:)
 declare function app:diplomatiqueforms($node as node(), $model as map(*),$interpret as xs:string*)
 {
-let $path := '$config:collection-root//t:seg[@ana="' || $interpret ||'"]'
+let $path := '$config:collection-root//t:seg[@ana eq "' || $interpret ||'"]'
 let $hits := for $occurrence in util:eval($path)
                  return $occurrence
 return
@@ -259,7 +259,7 @@ return
             else if ($type = 'institutions')
                       then (
                              let $institutions := $config:collection-rootIn//t:TEI/@xml:id
-                                 for $institutionId in $nodes[.=$institutions]
+                                 for $institutionId in $nodes[. eq $institutions]
                             return
             
                             <option value="{$institutionId}" class="MainTitle" data-value="{$institutionId}">{$institutionId}</option>
@@ -277,7 +277,7 @@ return
             for $n in $nodes[. != ''][. != ' ']
                 let $thiskey := replace(functx:trim($n), '_', ' ')
                 let $title := if($nodeName = 'keyword' or $nodeName = "placetype"or $nodeName = "country"or $nodeName = "settlement") then titles:printTitleID($thiskey) 
-                                        else if ($nodeName = 'language') then $app:languages//t:item[@xml:id=$thiskey]/text()
+                                        else if ($nodeName = 'language') then $app:languages//t:item[@xml:id eq $thiskey]/text()
                                         else $thiskey
                 let $rangeindexname := 
                                         switch($nodeName) 
@@ -384,7 +384,7 @@ declare function app:ListQueryParam($parameter, $context, $mode, $function){
                                 else
                                       let $keys :=  if ($parameter = 'keyword')  then (
                                                                         for $k in $allparamvalues 
-                                                                        let $ks := doc($config:data-rootA || '/taxonomy.xml')//t:catDesc[text() = $k]/following-sibling::t:*/t:catDesc/text() 
+                                                                        let $ks := doc($config:data-rootA || '/taxonomy.xml')//t:catDesc[text() eq $k]/following-sibling::t:*/t:catDesc/text() 
                                                                          let $nestedCats := for $n in $ks return $n 
                                                                            return 
                                                                             if ($nestedCats >= 2) then (replace($k, '#', ' ') || ' OR ' || string-join($nestedCats, ' OR ')) else (replace($k, '#', ' ')))
@@ -398,10 +398,10 @@ declare function app:ListQueryParam($parameter, $context, $mode, $function){
                                                          let $limit := for $k in $allparamvalues  
                                                                               return 
                                                                              if($parameter = 'author')
-                                                                             then "descendant::" || $context || "='" || $k ||"' or  descendant::t:relation[@name='dcterms:creator']/@passive ='"|| $k ||"'"
+                                                                             then "descendant::" || $context || "='" || $k ||"' or  descendant::t:relation[@name eq 'dcterms:creator']/@passive eq '"|| $k ||"'"
                                                                            else if($parameter = 'tabot')
                                                                              then 
-                                                                             "descendant::t:ab[@type='tabot'][descendant::t:persName[contains(@ref, '"||$k||"')] or descendant::t:ref[contains(@corresp, '"||$k||"')]]"
+                                                                             "descendant::t:ab[@type eq 'tabot'][descendant::t:persName[contains(@ref, '"||$k||"')] or descendant::t:ref[contains(@corresp, '"||$k||"')]]"
                                                                             
                                                                             else 
                                                                                          let $c := if(starts-with($context, '@')) then () else "descendant::"
@@ -452,8 +452,8 @@ declare function app:deleted ($node as node(), $model as map(*)) {
     data-id="{$deleted}" 
     data-path="{functx:capitalize-first(string($deleted/@source))}/{$deleted}.xml"
     data-type="{functx:capitalize-first($coll)}" >{$deleted/text()}, deleted from {string($deleted/@source)} on {string($deleted/@change)}.
-    {let $formerly := $config:collection-root//t:relation[@name='betmas:formerlyAlsoListedAs'][@passive=$deleted]
-             let $same := $config:collection-root//t:relation[@name='skos:exactMatch'][@passive=$deleted]
+    {let $formerly := $config:collection-root//t:relation[@name eq 'betmas:formerlyAlsoListedAs'][@passive eq $deleted]
+             let $same := $config:collection-root//t:relation[@name eq 'skos:exactMatch'][@passive eq $deleted]
             return
             (if($formerly) then <p>This record is now listed as {string($formerly/@active)}.</p> 
             else(),
@@ -468,7 +468,7 @@ declare function app:deleted ($node as node(), $model as map(*)) {
 
 declare function functx:value-intersect  ( $arg1 as xs:anyAtomicType* ,    $arg2 as xs:anyAtomicType* )  as xs:anyAtomicType* {
 
-  distinct-values($arg1[.=$arg2])
+  distinct-values($arg1[. eq $arg2])
  } ;
 
 declare function functx:trim( $arg as xs:string? )  as xs:string {
@@ -602,7 +602,7 @@ declare
 %templates:default("context", "$config:collection-rootMS") 
 function app:bmaterial($node as node(), $model as map(*), $context as xs:string*) {
     let $cont := util:eval($context)
-      let $bmaterials := distinct-values($cont//t:decoNote[@type='bindingMaterial']/t:material/@key)
+      let $bmaterials := distinct-values($cont//t:decoNote[@type eq 'bindingMaterial']/t:material/@key)
     
    let $control :=
         app:formcontrol('bmaterial', $bmaterials, 'false', 'values', $context)
@@ -668,7 +668,7 @@ declare
 %templates:default("context", "$config:collection-rootMS")  
 function app:scribes($node as node(), $model as map(*), $context as xs:string*) {
      let $cont := util:eval($context)
-      let $elements := $cont//t:persName[@role='scribe'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
+      let $elements := $cont//t:persName[@role eq 'scribe'][not(@ref eq 'PRS00000')][ not(@ref eq 'PRS0000')]
     let $keywords := distinct-values($elements/@ref)
     let $control := app:formcontrol('scribe', $keywords, 'false', 'rels', $context)
     return
@@ -680,7 +680,7 @@ declare
 %templates:default("context", "$config:collection-rootMS")   
 function app:donors($node as node(), $model as map(*), $context as xs:string*) {
      let $cont := util:eval($context)
-    let $elements := $cont//t:persName[@role='donor'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
+    let $elements := $cont//t:persName[@role eq 'donor'][not(@ref eq 'PRS00000')][ not(@ref eq 'PRS0000')]
     let $keywords := distinct-values($elements/@ref)
    let $control :=app:formcontrol('donor', $keywords, 'false', 'rels', $context)
     return
@@ -692,7 +692,7 @@ declare
 %templates:default("context", "$config:collection-rootMS")   
 function app:patrons($node as node(), $model as map(*), $context as xs:string*) {
      let $cont := util:eval($context)
-      let $elements := $cont//t:persName[@role='patron'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
+      let $elements := $cont//t:persName[@role eq 'patron'][not(@ref eq 'PRS00000')][ not(@ref eq 'PRS0000')]
     let $keywords := distinct-values($elements/@ref)
   let $control :=app:formcontrol('patron', $keywords, 'false', 'rels', $context)
     return
@@ -704,7 +704,7 @@ declare
 %templates:default("context", "$config:collection-rootMS")  
 function app:owners($node as node(), $model as map(*), $context as xs:string*) {
       let $cont := util:eval($context)
-      let $elements := $cont//t:persName[@role='owner'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
+      let $elements := $cont//t:persName[@role eq 'owner'][not(@ref eq 'PRS00000')][ not(@ref eq 'PRS0000')]
       let $keywords := distinct-values($elements/@ref)
       let $control := app:formcontrol('owner', $keywords, 'false', 'rels', $context)
       return
@@ -716,7 +716,7 @@ declare
 %templates:default("context", "$config:collection-rootMS") 
 function app:binders($node as node(), $model as map(*), $context as xs:string*) {
       let $cont := util:eval($context)
-      let $elements := $cont//t:persName[@role='binder'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
+      let $elements := $cont//t:persName[@role eq 'binder'][not(@ref eq 'PRS00000')][ not(@ref eq 'PRS0000')]
     let $keywords := distinct-values($elements/@ref)
    let $control := app:formcontrol('binder', $keywords, 'false', 'rels', $context)
     return
@@ -728,7 +728,7 @@ declare
 %templates:default("context", "$config:collection-rootMS")
 function app:parmakers($node as node(), $model as map(*), $context as xs:string*) {
     let $cont := util:eval($context)
-      let $elements := $cont//t:persName[@role='parchmentMaker'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
+      let $elements := $cont//t:persName[@role eq 'parchmentMaker'][not(@ref eq 'PRS00000')][ not(@ref eq 'PRS0000')]
     let $keywords := distinct-values($elements/@ref)
     let $control := app:formcontrol('parchmentMaker', $keywords, 'false', 'rels', $context)
        return
@@ -762,7 +762,7 @@ declare
 %templates:default("context", "$config:collection-rootMS")
 function app:WorkAuthors($node as node(), $model as map(*), $context as xs:string*) {
 let $works := util:eval($context)
-let $attributions := for $rel in ($works//t:relation[@name="saws:isAttributedToAuthor"], $works//t:relation[@name="dcterms:creator"])
+let $attributions := for $rel in ($works//t:relation[@name eq "saws:isAttributedToAuthor"], $works//t:relation[@name eq "dcterms:creator"])
 let $r := $rel/@passive
                 return 
                 if (contains($r, ' ')) then tokenize($r, ' ') else $r  
@@ -776,7 +776,7 @@ declare
 %templates:default("context", "$config:collection-rootIn") 
 function app:tabots($node as node(), $model as map(*), $context as xs:string*) {
 let $cont := util:eval($context)
-let $tabots:= $cont//t:ab[@type='tabot']
+let $tabots:= $cont//t:ab[@type eq 'tabot']
     let $personTabot := distinct-values($tabots//t:persName/@ref) 
     let $thingsTabot := distinct-values($tabots//t:ref/@corresp)
     let $alltabots := ($personTabot, $thingsTabot)
@@ -843,7 +843,7 @@ declare function app:paramrange($par, $path as xs:string){
                 else if ($rangeparam = '')
                 then ()
                 else
-    ("[descendant::t:"||$path||"[. >=" || $from ||' ][ .  <= ' || $to || "]]")
+    ("[descendant::t:"||$path||"[. ge " || $from ||' ][ .  le ' || $to || "]]")
     
     };
 
@@ -892,8 +892,8 @@ declare function app:facetquery($node as node()*, $model as map(*), $query as xs
 declare function app:showFacets($node as node()*, $model as map(*)){
     
 let $subsequence := $model('hits')
-let $itemtype:=$app:facets[.='type']
-let $general:=$app:facets[parent::xconf:facet[not(@if)][not(@dimension='type')]]
+let $itemtype:=$app:facets[. eq 'type']
+let $general:=$app:facets[parent::xconf:facet[not(@if)][not(@dimension eq 'type')]]
 let $mss:=$app:facets[parent::xconf:facet[contains(@if, 'mss')]]
 let $works:=$app:facets[parent::xconf:facet[contains(@if, 'work')]]
 let $places:=$app:facets[parent::xconf:facet[contains(@if, 'place')]]
@@ -960,14 +960,14 @@ to store in the index the titles, then this will be much better solution
          {   if ($f = 'witness') 
                 then titles:printTitleID($label)
             else if($f= 'changeWho') then editors:editorKey($label)
-            else if($f = 'languages') then $app:languages//t:item[@xml:id=$label]/text()
+            else if($f = 'languages') then $app:languages//t:item[@xml:id eq $label]/text()
             else $label}
             <span class="w3-badge w3-margin-left">{$count}</span><br/></span>        })
          return
          if($f='keywords') then
           (   for $input in $inputs
              let $val := $input/*:input/@value
-             let $taxonomy := $app:tax//t:catDesc[.=$val]/ancestor::t:category[t:desc][1]/t:desc/text()
+             let $taxonomy := $app:tax//t:catDesc[. eq $val]/ancestor::t:category[t:desc][1]/t:desc/text()
              group by $taxonomy
              order by $taxonomy
              return 
@@ -1142,26 +1142,26 @@ $numberOfParts as xs:string*,
     let $texts := app:ListQueryParam('target-work', '@xml:id', 'any', 'search')
     let $support := app:ListQueryParam('support', 't:objectDesc/@form', 'any', 'search')
     let $material := app:ListQueryParam('material', 't:support/t:material/@key', 'any', 'search')
-    let $bmaterial := app:ListQueryParam('bmaterial', "t:decoNote[@type='bindingMaterial']/t:material/@key", 'any', 'search')
+    let $bmaterial := app:ListQueryParam('bmaterial', "t:decoNote[@type eq 'bindingMaterial']/t:material/@key", 'any', 'search')
     let $placeType := app:ListQueryParam('placeType', 't:place/@type', 'any', 'search') 
     let $personType := app:ListQueryParam('persType', 't:person//t:occupation/@type', 'any', 'search')
     let $relationType := app:ListQueryParam('relType', 't:relation/@name', 'any', 'search')
     let $repository := app:ListQueryParam('target-ins', 't:repository/@ref ', 'any', 'search')
     let $keyword := app:ListQueryParam('keyword', 't:term/@key ', 'any', 'search')
     let $languages := app:ListQueryParam('language', 't:language/@ident', 'any', 'search')
-let $scribes := app:ListQueryParam('scribe', "t:persName[@role='scribe']/@ref", 'any',  'search')
-let $donors := app:ListQueryParam('donor', "t:persName[@role='donor']/@ref", 'any',  'search')
-let $patrons := app:ListQueryParam('patron', "t:persName[@role='patron']/@ref", 'any', 'search')
-let $owners := app:ListQueryParam('owner', "t:persName[@role='owner']/@ref", 'any',  'search')
-let $parchmentMakers := app:ListQueryParam('parchmentMaker', "t:persName[@role='parchmentMaker']/@ref", 'any',  'search')
-let $binders := app:ListQueryParam('binder', "t:persName[@role='binder']/@ref", 'any',  'search')
+let $scribes := app:ListQueryParam('scribe', "t:persName[@role eq 'scribe']/@ref", 'any',  'search')
+let $donors := app:ListQueryParam('donor', "t:persName[@role eq 'donor']/@ref", 'any',  'search')
+let $patrons := app:ListQueryParam('patron', "t:persName[@role eq 'patron']/@ref", 'any', 'search')
+let $owners := app:ListQueryParam('owner', "t:persName[@role eq 'owner']/@ref", 'any',  'search')
+let $parchmentMakers := app:ListQueryParam('parchmentMaker', "t:persName[@role eq 'parchmentMaker']/@ref", 'any',  'search')
+let $binders := app:ListQueryParam('binder', "t:persName[@role eq 'binder']/@ref", 'any',  'search')
 let $contents := app:ListQueryParam('content', "t:title/@ref", 'any', 'search')
 let $wits := app:ListQueryParam('ms', "t:witness/@corresp", 'any', 'search')
-let $authors := app:ListQueryParam('author', "t:relation[@name='saws:isAttributedToAuthor']/@passive", 'any', 'search')
+let $authors := app:ListQueryParam('author', "t:relation[@name eq 'saws:isAttributedToAuthor']/@passive", 'any', 'search')
 (:let $authorsCertain := app:ListQueryParam('author', "t:relation[@name='dcterms:creator']/@passive", 'any', 'search'):)
-let $tabots := app:ListQueryParam('tabot', "t:ab[@type='tabot']/t:*/(@ref|@corresp)", 'any', 'search')
-let $references := if (contains($app:params, 'references')) then let $refs := for $ref in tokenize(request:get-parameter('references', ()), ',') return "[descendant::t:*/@*[not(name()='xml:id')] ='"  ||$ref || "' ]" return string-join($refs, '') else ()
-let $genders := if (contains($app:params, 'gender')) then '[descendant::t:person/@sex ='  ||request:get-parameter('gender', ()) || ' ]' else ()
+let $tabots := app:ListQueryParam('tabot', "t:ab[@type eq 'tabot']/t:*/(@ref|@corresp)", 'any', 'search')
+let $references := if (contains($app:params, 'references')) then let $refs := for $ref in tokenize(request:get-parameter('references', ()), ',') return "[descendant::t:*/@*[not(name() eq 'xml:id')] ='"  ||$ref || "' ]" return string-join($refs, '') else ()
+let $genders := if (contains($app:params, 'gender')) then '[descendant::t:person/@sex  eq '  ||request:get-parameter('gender', ()) || ' ]' else ()
 let $leaves :=  if (contains($app:params, 'folia')) 
                 then (
                 let $range := request:get-parameter('folia', ())
@@ -1173,7 +1173,7 @@ let $leaves :=  if (contains($app:params, 'folia'))
                 else if (empty($range))
                 then ()
                 else
-                "[descendant::t:extent/t:measure[@unit='leaf'][not(@type)][matches(.,'^\d+$')][xs:integer(.) >="||$min|| ' ][ xs:integer(.)  <= ' || $max ||"]]"
+                "[descendant::t:extent/t:measure[@unit eq 'leaf'][not(@type)][matches(.,'^\d+$')][xs:integer(.) ge "||$min|| ' ][ xs:integer(.)  le ' || $max ||"]]"
                ) else ()
 let $wL :=  if (contains($app:params, 'wL')) 
                 then (
@@ -1186,7 +1186,7 @@ let $wL :=  if (contains($app:params, 'wL'))
                 else if (empty($range))
                 then ()
                 else
-                "[descendant::t:layout[@writtenLines >="||$min|| '][@writtenLines  <= ' || $max ||"]]"
+                "[descendant::t:layout[@writtenLines ge "||$min|| '][@writtenLines  le ' || $max ||"]]"
                ) else ()
 let $quires :=  if (contains($app:params, 'qn')) 
                 then (
@@ -1195,7 +1195,7 @@ let $quires :=  if (contains($app:params, 'qn'))
                  if ($range = '1,100')
                 then ()
                 else
-                app:paramrange('qn', "extent/t:measure[@unit='quire'][not(@type)][matches(.,'^\d+$')]")
+                app:paramrange('qn', "extent/t:measure[@unit eq 'quire'][not(@type)][matches(.,'^\d+$')]")
                ) else ()
 let $quiresComp :=  if (contains($app:params, 'qcn')) 
                 then (
@@ -1204,7 +1204,7 @@ let $quiresComp :=  if (contains($app:params, 'qcn'))
                  if ($range = '1,40')
                 then ()
                 else
-                app:paramrange('qcn', "collation//t:dim[@unit='leaf']")
+                app:paramrange('qcn', "collation//t:dim[@unit eq 'leaf']")
                ) else ()
 let $dateRange := 
                 if (contains($app:params, 'dataRange')) 
@@ -1221,23 +1221,23 @@ let $dateRange :=
                 "[descendant::t:*[(if 
 (contains(@notBefore, '-')) 
 then (substring-before(@notBefore, '-')) 
-else @notBefore)[. !=''][. >= " || $from || '][.  <= ' || $to || "] 
+else @notBefore)[. !=''][. ge " || $from || '][.  le ' || $to || "] 
 
 or 
 (if (contains(@notAfter, '-')) 
 then (substring-before(@notAfter, '-')) 
-else @notAfter)[. !=''][. >= " || $from || '][.  <= ' || $to || '] 
+else @notAfter)[. !=''][. ge " || $from || '][.  le ' || $to || '] 
 
 ]
 ]' ) else ()
    let $height :=   if (contains($app:params, 'height')) then (app:paramrange('height', 'height')) else ()
    let $width :=  if (contains($app:params, 'width')) then (app:paramrange('width', 'width')) else ()
    let $depth :=  if (contains($app:params, 'depth')) then (app:paramrange('depth', 'depth')) else ()
-   let $marginTop :=  if (contains($app:params, 'tmargin')) then (app:paramrange('tmargin', "dimension[@type='margin']/t:dim[@type='top']")) else ()
-   let $marginBot :=  if (contains($app:params, 'bmargin')) then (app:paramrange('tmargin', "dimension[@type='margin']/t:dim[@type='bottom']")) else ()
-   let $marginR :=  if (contains($app:params, 'rmargin')) then (app:paramrange('tmargin', "dimension[@type='margin']/t:dim[@type='right']")) else ()
-   let $marginL :=  if (contains($app:params, 'lmargin')) then (app:paramrange('tmargin', "dimension[@type='margin']/t:dim[@type='left']")) else ()
-   let $marginIntercolumn :=  if (contains($app:params, 'intercolumn')) then (app:paramrange('intercolumn', "dimension[@type='margin']/t:dim[@type='intercolumn']")) else ()
+   let $marginTop :=  if (contains($app:params, 'tmargin')) then (app:paramrange('tmargin', "dimension[@type eq 'margin']/t:dim[@type eq 'top']")) else ()
+   let $marginBot :=  if (contains($app:params, 'bmargin')) then (app:paramrange('tmargin', "dimension[@type eq 'margin']/t:dim[@type eq 'bottom']")) else ()
+   let $marginR :=  if (contains($app:params, 'rmargin')) then (app:paramrange('tmargin', "dimension[@type eq 'margin']/t:dim[@type eq 'right']")) else ()
+   let $marginL :=  if (contains($app:params, 'lmargin')) then (app:paramrange('tmargin', "dimension[@type eq 'margin']/t:dim[@type eq 'left']")) else ()
+   let $marginIntercolumn :=  if (contains($app:params, 'intercolumn')) then (app:paramrange('intercolumn', "dimension[@type eq 'margin']/t:dim[@type eq 'intercolumn']")) else ()
                             
 let $query-string := if ($query != '') 
                                         then (
@@ -1673,19 +1673,19 @@ function app:facetSearchRes ( $node as node()*,  $model as map(*), $start as xs:
                then <a target="_blank" href="{$item//t:facsimile/t:graphic/@url}">Link to images</a> 
                else if($item//t:msIdentifier/t:idno[@facs][@n]) then 
                  <a target="_blank" href="/manuscripts/{$id}/viewer">{
-                if($item//t:collection = 'Ethio-SPaRe') 
+                if($item//t:collection eq 'Ethio-SPaRe') 
                then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
 (:laurenziana:)
-else  if($item//t:repository/@ref[.='INS0339BML']) 
+else  if($item//t:repository[@ref eq 'INS0339BML']) 
                then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '005.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
           
 (:          
 EMIP:)
-              else if($item//t:collection = 'EMIP' and $item//t:msIdentifier/t:idno/@n) 
+              else if(($item//t:collection eq 'EMIP') and $item//t:msIdentifier/t:idno/@n) 
                then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
               
              (:BNF:)
-            else if ($item//t:repository/@ref = 'INS0303BNF') 
+            else if ($item//t:repository/@ref eq 'INS0303BNF') 
             then <img src="{replace($item//t:msIdentifier/t:idno/@facs, 'ark:', 'iiif/ark:') || '/f1/full/140,/0/native.jpg'}" class="thumb w3-image"/>
 (:           vatican :)
                 else if (contains($item//t:msIdentifier/t:idno/@facs, 'digi.vat')) then <img src="{replace(substring-before($item//t:msIdentifier/t:idno/@facs, '/manifest.json'), 'iiif', 'pub/digit') || '/thumb/'

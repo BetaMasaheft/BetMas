@@ -99,7 +99,7 @@ function roles:role($role as xs:string*) {
 
 let $log := log:add-log-message('/api/hasrole/' || $role, sm:id()//sm:real/sm:username/string() , 'REST')
 let $cp := $config:collection-rootPr
-let $path :=  $config:collection-root//t:persName[@role = $role][@ref[not(starts-with(. ,'PRS0000'))][. != 'PRS0476IHA'][. != 'PRS0204IHA']]
+let $path :=  $config:collection-root//t:persName[@role eq  $role][@ref[not(starts-with(. ,'PRS0000'))][. != 'PRS0476IHA'][. != 'PRS0204IHA']]
 let $total := count($path)
 let $hits := for $pwl in $path
                     let $id := string($pwl/@ref)
@@ -134,7 +134,7 @@ declare
 function roles:roleID($role as xs:string*, $ID as xs:string*) {
 
 let $log := log:add-log-message('/api/hasrole/' || $role, sm:id()//sm:real/sm:username/string() , 'REST')
-let $path :=  $config:collection-root//t:persName[@role = $role][@ref=$ID]
+let $path :=  $config:collection-root//t:persName[@role eq  $role][@ref eq $ID]
 let $hits := for $x in $path
                         let $root := string(root($x)/t:TEI/@xml:id)
                         group by $r := $root

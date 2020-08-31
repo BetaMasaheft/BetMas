@@ -21,7 +21,6 @@ declare namespace json = "http://www.json.org";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 
 
-
 declare 
 %rest:GET
 %rest:POST
@@ -76,7 +75,7 @@ return
   
   <select class="w3-select w3-border" id="inputGroupSelect01" multiple="multiple" name="subj">
     <option selected='Selected'>Choose...</option>
-    {for $subject in doc(concat($config:data-rootA, '/taxonomy.xml'))//t:category[t:desc='Subjects']//t:category/t:catDesc
+    {for $subject in doc(concat($config:data-rootA, '/taxonomy.xml'))//t:category[t:desc eq 'Subjects']//t:category/t:catDesc
     return 
     <option value="{$subject/text()}" class="MainTitle" data-value="{$subject/text()}">{$subject/text()}</option>}
   </select>

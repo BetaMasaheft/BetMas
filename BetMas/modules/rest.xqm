@@ -88,7 +88,7 @@ declare
 %rest:path("/BetMas/api/witnessesOfContainer/{$id}")
 %output:method("json")
 function api:witnessesOfContainerWork($id as xs:string*){
-let $corresps := $config:collection-rootW//t:div[@type ='textpart'][@corresp = $id]
+let $corresps := $config:collection-rootW//t:div[@type eq 'textpart'][@corresp eq  $id]
 for $c in $corresps 
 let $workid := string(root($c)/t:TEI/@xml:id )
 let $witnesses := $config:collection-rootMS//t:title[contains(@ref, $workid)]
@@ -301,11 +301,11 @@ function api:getauthorfromrelation($id as xs:string*) {
 let $item :=$config:collection-rootW/id($id)
 return 
 
-if($item//t:relation[@name = 'saws:isAttributedToAuthor']) then (
+if($item//t:relation[@name eq  'saws:isAttributedToAuthor']) then (
 
 log:add-log-message('/api/' || $id || '/author', sm:id()//sm:real/sm:username/string() , 'REST'),
 $api:response200XML,
-        $item//t:relation[@name = 'saws:isAttributedToAuthor']
+        $item//t:relation[@name eq  'saws:isAttributedToAuthor']
         )
         else 
         (
@@ -407,14 +407,14 @@ function api:get-workXML($id as xs:string) {
         let $item := api:get-tei-rec-by-ID($id)
         let $recordid := $item/t:TEI/@xml:id
         return
-            if ($item//t:div[@type = 'edition'])
+            if ($item//t:div[@type eq  'edition'])
             then
                 <work>
                     <id>{data($recordid)}</id>
-                    <text>{$item//t:div[@type = 'edition']//text()}</text>
+                    <text>{$item//t:div[@type eq  'edition']//text()}</text>
                     <contains>
                         {
-                            for $subtype in $item//t:div[@type = 'edition']/t:div[@subtype]
+                            for $subtype in $item//t:div[@type eq  'edition']/t:div[@subtype]
                             return
                                 
                                 element {string($subtype/@subtype)} {($config:appUrl || '/api/xml/' || $id || '/' || $subtype/@n)}
@@ -433,7 +433,7 @@ function api:get-workXML($id as xs:string) {
 
 
 declare function api:citation($item as node()){
-if($item//t:titleStmt/t:title[@type='short']) then $item//t:titleStmt/t:title[@type='short']/text() else $item//t:titleStmt/t:title[@xml:id = 't1']/text()};
+if($item//t:titleStmt/t:title[@type eq 'short']) then $item//t:titleStmt/t:title[@type eq 'short']/text() else $item//t:titleStmt/t:title[@xml:id eq 't1']/text()};
 
 
 (:~ given the file id, returns the source TEI xml:)

@@ -40,7 +40,7 @@ let $ty := switch($type)
 case 'person' return 't:persName[@ref'
 case 'place' return 't:placeName[@ref'
 case 'work' return 't:title[@ref'
-case 'mss' return 't:ref[@type="mss"][@corresp'
+case 'mss' return 't:ref[@type eq "mss"][@corresp'
 case 'term' return 't:term[@key'
 default return 't:persName'
 

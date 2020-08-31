@@ -5,7 +5,7 @@ import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/c
 import module namespace locus = "https://www.betamasaheft.uni-hamburg.de/BetMas/locus" at "xmldb:exist:///db/apps/BetMas/modules/locus.xqm";
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
 'BMid,	bibliography,	Incipit text,	Note to the incipit,	Link to record in Beta Masaheft,	english titles separated by |, in MSS, total mss',
-for $miracle in $config:collection-rootW//t:relation[@name='saws:formsPartOf'][@passive='LIT2384Taamme'][@active="LIT3615Miracle"]
+for $miracle in $config:collection-rootW//t:relation[@name eq 'saws:formsPartOf'][@passive eq 'LIT2384Taamme'][@active eq "LIT3615Miracle"]
 let $bmid := string($miracle/@active)
 let $link := 'https://betamasaheft.eu/'||$bmid
 let $textlink := 'https://betamasaheft.eu/works/'||$bmid||'/text'
@@ -16,9 +16,9 @@ let $bibl := for $bib in $miraclefile//t:bibl return
            data-value="{$bib/t:ptr/@target}" 
            data-unit="{$bib/t:citedRange[1]/@unit}" 
            data-range="{$bib/t:citedRange[1]/text()}">{string($bib/t:ptr/@target)}</span>
-let $incipit := replace(string-join($miraclefile//t:div[@subtype='incipit']/t:ab/text(), ' '), ',', '')
-let $incipitnote := replace(string-join(string:tei2string($miraclefile//t:div[@subtype='incipit']/t:note), ' '), ',', '')
-let $mss := $config:collection-rootMS//t:title[@ref= $bmid]
+let $incipit := replace(string-join($miraclefile//t:div[@subtype eq 'incipit']/t:ab/text(), ' '), ',', '')
+let $incipitnote := replace(string-join(string:tei2string($miraclefile//t:div[@subtype eq 'incipit']/t:note), ' '), ',', '')
+let $mss := $config:collection-rootMS//t:title[@ref eq  $bmid]
 
 return
 <tr>
@@ -49,7 +49,7 @@ for $m in $mss
                         let $position :=$number || '/' || $totalparts
                          let $works := for $w in $msitem/ancestor::t:TEI//t:msItem/t:title/@ref 
                                               return $config:collection-rootW/id($w)//t:keywords
-                         let $totalmiracles := count($works//t:term[@key = 'Miracle'])                         
+                         let $totalmiracles := count($works//t:term[@key eq  'Miracle'])                         
                         return 
                         <tr>
                         <td><a href="https://betamasaheft.eu/{$root}">{titles:printTitleMainID($root)}</a></td>

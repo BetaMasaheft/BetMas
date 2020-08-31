@@ -39,8 +39,8 @@ else
             
             (let $r := root($item)
             return
-            if($r//t:persName[@type = 'normalized'][contains(@corresp,$SUBid)]) 
-            then string-join($r//t:persName[@type = 'normalized'][contains(@corresp,$SUBid)]//text(), '')
+            if($r//t:persName[@type eq  'normalized'][contains(@corresp,$SUBid)]) 
+            then string-join($r//t:persName[@type eq  'normalized'][contains(@corresp,$SUBid)]//text(), '')
             else normalize-space(string-join($item, ''))
             )
         else if ($item/name() = 'msItem') then
@@ -58,7 +58,7 @@ else
                    normalize-space(string-join(titles:printTitleID($item/@corresp), ''))
             else if ($item/t:desc) then
                     (titles:printTitleID(string($item/t:desc/@type)) || ' ' || $SUBid)
-            else if (($item/@subtype = 'Monday' or $item/@subtype = 'Tuesday' or $item/@subtype = 'Wednesday' or $item/@subtype = 'Thursday' or $item/@subtype = 'Friday' or $item/@subtype = 'Saturday' or $item/@subtype = 'Sunday'    )and not($item/node())) then
+            else if (($item/@subtype eq  'Monday' or $item/@subtype eq  'Tuesday' or $item/@subtype eq  'Wednesday' or $item/@subtype eq  'Thursday' or $item/@subtype eq  'Friday' or $item/@subtype eq  'Saturday' or $item/@subtype eq  'Sunday'    )and not($item/node())) then
                     (' for '|| $SUBid)
             else if ($item/@subtype) then
                     (titles:printTitleID(string($item/@subtype)) || ': ' || $SUBid)
@@ -82,7 +82,7 @@ declare
 function titles:printTitleID($id as xs:string)
 { if ($titles:deleted//t:item[.=$id]) then
       let $del := $titles:deleted//t:item[.=$id]
-      let $formerly := $config:collection-root//t:relation[@name='betmas:formerlyAlsoListedAs'][@passive=$id]
+      let $formerly := $config:collection-root//t:relation[@name eq 'betmas:formerlyAlsoListedAs'][@passive eq $id]
               return
               if($formerly) then
                 titles:printTitleID($formerly/@active) || ' [now '||string($formerly/@active)||', formerly also listed as '||$id||', which was requested here but has been deleted on '||string($del/@change)||']'
@@ -91,8 +91,8 @@ function titles:printTitleID($id as xs:string)
     (: another hack for things like ref="#" :) 
     else if ($id = '#') then <span class="w3-tag w3-red">{ 'no item yet with id ' || $id }</span>
     (: hack to avoid the bad usage of # at the end of an id like <title type="complete" ref="LIT2317Senodo#" xml:lang="gez"> :) 
-    else if ($titles:TUList//t:item[@corresp = $id]) then ($titles:TUList//t:item[@corresp = $id][1]/node())
-    else if ($titles:persNamesList//t:item[@corresp = $id]) then ($titles:persNamesList//t:item[@corresp = $id][1]/node())
+    else if ($titles:TUList//t:item[@corresp eq  $id]) then ($titles:TUList//t:item[@corresp eq  $id][1]/node())
+    else if ($titles:persNamesList//t:item[@corresp eq  $id]) then ($titles:persNamesList//t:item[@corresp eq  $id][1]/node())
     else if (ends-with($id, '#')) then (
                                 let $newid := replace($id, '#', '') 
                                 return titles:printTitleID($newid) )
@@ -108,8 +108,8 @@ function titles:printTitleID($id as xs:string)
             if($node) then(
              if (starts-with($SUBid, 't')) then
                     (let $subtitles:=$node//t:title[contains(@corresp, $SUBid)]
-                       let $subtitlemain := $subtitles[@type = 'main']/text()
-                       let $subtitlenorm := $subtitles[@type = 'normalized']/text()
+                       let $subtitlemain := $subtitles[@type eq  'main']/text()
+                       let $subtitlenorm := $subtitles[@type eq  'normalized']/text()
                          let $tit := $node//t:title[@xml:id = $SUBid]
                         return
                              if ($subtitlemain) then $subtitlemain
@@ -183,6 +183,8 @@ function titles:printTitleMainID($id as xs:string)
    };
    
    declare function titles:switcher($type, $resource){
+  (: let $test := console:log(string-join($resource/ancestor-or-self::t:TEI/@xml:id, ' '))
+   return:)
 switch($type)
             case "mss"
                     return
@@ -198,7 +200,7 @@ switch($type)
 
    
 declare function titles:manuscriptLabelFormatter($resource) as xs:string {
-   if ($resource//objectDesc[@form = 'Inscription']) 
+   if ($resource//objectDesc[@form eq  'Inscription']) 
        then ($resource//t:msIdentifier/t:idno/text())
     else (if ($resource//t:repository/text() = 'Lost') 
           then ('Lost. ' || $resource//t:msIdentifier/t:idno/text())
@@ -226,7 +228,7 @@ declare function titles:manuscriptLabelFormatter($resource) as xs:string {
                     let $candidate := string-join($repoPlace, ' ') || ', ' || (
                                      if ($repo = 'No Institution record') then $repo else ($reponame)
                                      ) || ', ' || 
-                                           $resource//t:msDesc/t:msIdentifier/t:idno/text()
+                                           $resource//t:msDesc/t:msIdentifier/t:idno[1]/text()
                     return normalize-space($candidate)
         else 'no repository data for ' || string($resource/@xml:id)
         )
@@ -235,8 +237,8 @@ declare function titles:manuscriptLabelFormatter($resource) as xs:string {
 
 declare function titles:placeNameSelector($resource as node()){
       let $pl := $resource//t:place
-let $pnorm := $pl/t:placeName[@corresp = '#n1'][@type = 'normalized']
-let $pEN := $pl/t:placeName[@corresp = '#n1'][@xml:lang='en']
+let $pnorm := $pl/t:placeName[@corresp eq  '#n1'][@type eq  'normalized']
+let $pEN := $pl/t:placeName[@corresp eq  '#n1'][@xml:lang='en']
 return
  if ($pnorm)
                         then
@@ -261,15 +263,15 @@ return
 declare function titles:persNameSelector($resource as node()){
     let $p := $resource//t:person
     let $pg := $resource//t:personGrp
-let $Maintitle := $p/t:persName[@type = 'main']
+let $Maintitle := $p/t:persName[@type eq  'main']
 let $twonames:= $p/t:persName[t:forename or t:surname]
-let $namegez := $p/t:persName[@corresp = '#n1'][@xml:lang = 'gez']
-let $nameennorm := $p/t:persName[@corresp = '#n1'][@xml:lang = 'en'][@type = 'normalized']
-let $nameen := $p/t:persName[@corresp = '#n1'][@xml:lang = 'en']
-let $nameOthers := $p/t:persName[@corresp = '#n1'][@xml:lang[not(. = 'en')][not(. = 'gez')]]
+let $namegez := $p/t:persName[@corresp eq  '#n1'][@xml:lang = 'gez']
+let $nameennorm := $p/t:persName[@corresp eq  '#n1'][@xml:lang = 'en'][@type eq  'normalized']
+let $nameen := $p/t:persName[@corresp eq  '#n1'][@xml:lang = 'en']
+let $nameOthers := $p/t:persName[@corresp eq  '#n1'][@xml:lang[not(. = 'en')][not(. = 'gez')]]
 let $group := $pg/t:persName
-let $groupgez := $pg/t:persName[@corresp = '#n1'][@xml:lang = 'gez']
-let $groupennorm := $pg/t:persName[@corresp = '#n1'][@xml:lang = 'en'][@type = 'normalized']
+let $groupgez := $pg/t:persName[@corresp eq  '#n1'][@xml:lang = 'gez']
+let $groupennorm := $pg/t:persName[@corresp eq  '#n1'][@xml:lang = 'en'][@type eq  'normalized']
 
 return
  (:            first check for persons with two names:)
@@ -374,10 +376,10 @@ return
 
 declare function titles:worknarrTitleSelector($resource as node()){
     let $W := $resource//t:titleStmt
-let $Maintitle := $W/t:title[@type = 'main'][@corresp = '#t1'][text()]
-                    let $amarictitle := $W/t:title[@corresp = '#t1'][@xml:lang = 'am' or @xml:lang = 'ar']
-                    let $geztitle := $W/t:title[@corresp = '#t1'][@xml:lang = 'gez']
-                    let $entitle := $W/t:title[@corresp = '#t1'][@xml:lang = 'en']
+let $Maintitle := $W/t:title[@type eq  'main'][@corresp eq  '#t1'][text()]
+                    let $amarictitle := $W/t:title[@corresp eq  '#t1'][@xml:lang = 'am' or @xml:lang = 'ar']
+                    let $geztitle := $W/t:title[@corresp eq  '#t1'][@xml:lang = 'gez']
+                    let $entitle := $W/t:title[@corresp eq  '#t1'][@xml:lang = 'en']
                     return
                         if ($Maintitle)
                         then
@@ -423,8 +425,8 @@ declare function titles:decidePlName($plaID){
 (:Given an id, decides if it is one of BM or from another source and gets the name accordingly:)
 declare function titles:decidePlaceNameSource($pRef as xs:string){
    
-if ($titles:placeNamesList//t:item[@corresp = $pRef]) 
-    then $titles:placeNamesList//t:item[@corresp = $pRef][1]/text()
+if ($titles:placeNamesList//t:item[@corresp eq  $pRef]) 
+    then $titles:placeNamesList//t:item[@corresp eq  $pRef][1]/text()
 else if (starts-with($pRef, 'gn:')) then (
         let $name := titles:getGeoNames($pRef) 
         let $addit := titles:updatePlaceList($name, $pRef) 
@@ -437,7 +439,7 @@ else if (starts-with($pRef, 'pleiades:')) then (
             titles:decidePlaceNameSource($pRef)) 
 else if (matches($pRef, 'wd:Q\d+')) then (
         let $name := titles:getwikidataNames($pRef) 
-    let $test := console:log($name)
+(:    let $test := console:log($name):)
         let $addit := titles:updatePlaceList($name, $pRef) 
         return
             titles:decidePlaceNameSource($pRef)) 
@@ -449,11 +451,11 @@ else (
 
 (:Given an id, decides if it is one of BM or from another source and gets the name accordingly:)
 declare function titles:decidepersNameSource($resource, $pRef as xs:string){
-if ($titles:persNamesList//t:item[@corresp = $pRef]) 
-    then $titles:persNamesList//t:item[@corresp = $pRef][1]/text()
+if ($titles:persNamesList//t:item[@corresp eq  $pRef]) 
+    then $titles:persNamesList//t:item[@corresp eq  $pRef][1]/text()
 else if (matches($pRef, 'wd:Q\d+')) then (
     let $name := titles:getwikidataNames($pRef) 
-    let $test := console:log($name)
+(:    let $test := console:log($name):)
     let $addit := titles:updatePersList($name, $pRef) 
     return titles:decidepersNameSource($resource, $pRef)
     ) 
@@ -465,8 +467,8 @@ else
 
 (:Given an id, decides if it is one of BM or from another source and gets the name accordingly:)
 declare function titles:decideTUSource($resource, $pRef as xs:string){
-if ($titles:TUList//t:item[@corresp = $pRef]) 
-    then $titles:TUList//t:item[@corresp = $pRef][1]/text()
+if ($titles:TUList//t:item[@corresp eq  $pRef]) 
+    then $titles:TUList//t:item[@corresp eq  $pRef][1]/text()
 else 
   let $name := titles:worknarrTitleSelector($resource)
   let $addit := titles:updateTUList($name, $pRef)
@@ -540,7 +542,7 @@ let $query := 'https://query.wikidata.org/sparql?query='|| xmldb:encode-uri($spa
 let $req := try{let $request := <http:request href="{xs:anyURI($query)}" method="GET"/>
     return http:send-request($request)[2]} catch * {$err:description}
 return
-$req//sparql:result/sparql:binding[@name="label"]/sparql:literal[@xml:lang='en']/text()
+$req//sparql:result/sparql:binding[@name eq "label"]/sparql:literal[@xml:lang='en']/text()
 };
 
 
@@ -552,7 +554,7 @@ declare function titles:tei2string($nodes as node()*) {
         typeswitch ($node)
         case element(t:title)
                 return
-                    titles:printTitleMainID($node/@ref)
+                   try{ titles:printTitleMainID($node/@ref) } catch * {console:log($node)}
         case element(t:persName)
                 return
                     titles:printTitleMainID($node/@ref)

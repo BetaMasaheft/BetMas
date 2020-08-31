@@ -15,7 +15,7 @@ declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare
 %test:arg("key", "PL") %test:assertEquals('Pietro Maria Liuzzo')
 function editors:editorKey($key as xs:string){
-$editors:list/t:item[@xml:id=$key]/text()
+$editors:list/t:item[@xml:id eq $key]/text()
 };
 
 
@@ -23,5 +23,5 @@ $editors:list/t:item[@xml:id=$key]/text()
 declare 
 %test:arg("key", "Pietro") %test:assertEquals('PL')
 function editors:editorNames($key as xs:string){
-string($editors:list/t:item[@n=$key]/@xml:id)
+string($editors:list/t:item[@n eq $key]/@xml:id)
 };
