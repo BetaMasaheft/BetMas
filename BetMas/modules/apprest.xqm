@@ -1717,7 +1717,7 @@ else (   <span><a class="itemtitle" data-value="{$t}" href="{$t}">{if($t = '') t
 <div class="w3-container">{
 let $hits := for $match in $matchingmss return root($match)/t:TEI
 return
-charts:chart($hits)
+try{charts:chart($hits)} catch * {console:log($err:description)}
 }</div>
 ))
 };
@@ -1738,7 +1738,7 @@ if($mss = '') then ()  else(
                                          for $sm in $selectMss
                                          let $ms := root($sm)
                                          group by $MS := $ms
-                                         return $MS
+                                         return $MS/t:TEI
                                           ) 
                                           else $config:collection-rootMS//id($ms)[name()='TEI']
     return

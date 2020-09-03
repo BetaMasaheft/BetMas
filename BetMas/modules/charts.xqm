@@ -128,17 +128,20 @@ declare function charts:pieAttestations($itemid, $name){
       )
 };
 
+
 declare function charts:dateFilter($from, $to, $hits){
   $hits[descendant::t:origDate[(if (contains(@notBefore, '-'))
-                                                                              then (substring-before(@notBefore, '-'))
-                                                                              else @notBefore)[. !=''][number(.) ge  $from][number(.)  le $to]
-                                                                              or
-                                                                             (if (contains(@notAfter, '-'))
-                                                                              then (substring-before(@notAfter, '-'))
-                                                                              else @notAfter)[. !=''][number(.) ge $from][number(.)  le $to]]]
+         then (substring-before(@notBefore, '-'))
+        else @notBefore)[. !=''][xs:integer(format-number(., '####')) ge  xs:integer($from)][xs:integer(format-number(., '####'))  le xs:integer($to)]
+           or
+        (if (contains(@notAfter, '-'))
+          then (substring-before(@notAfter, '-'))
+         else @notAfter)[. !=''][xs:integer(format-number(., '####')) ge xs:integer($from)][xs:integer(format-number(., '####'))  le xs:integer($to)]]]
 };
 
+
 declare function charts:chart($hits){
+    
     let $mssAks := charts:dateFilter(0300, 0700, $hits)
     let $mssPaks1 := charts:dateFilter(1200, 1433, $hits)  
     let $mssPaks2 := charts:dateFilter(1434, 1632, $hits)
@@ -173,8 +176,8 @@ declare function charts:chart($hits){
   
   let $countNotDated := count($mssNotDated)
 
-  let $countmswithSSta := count($hits[descendant::t:decoNote[@type='SewingStations']])
-  let $spvalues := distinct-values($hits//t:decoNote[@type='SewingStations'])
+  let $countmswithSSta := count($hits[descendant::t:decoNote[@type eq 'SewingStations']])
+  let $spvalues := distinct-values($hits//t:decoNote[@type eq 'SewingStations'])
 
   let $countmswithSPat := count($hits[descendant::t:term[starts-with(@key,'pattern')]])
   let $spatvalues := distinct-values($hits//t:term[starts-with(@key, 'pattern')]/@key)
@@ -214,7 +217,7 @@ declare function charts:chart($hits){
 let $dimensionOfQuiresINS := distinct-values($hits//t:collation//t:item/t:dim[@unit eq 'leaf'])
 let $percents := for $dim in $dimensionOfQuiresINS
                 let $test := $hits//t:collation//t:item
-                let $numberQuiresThisDim := count($test/t:dim[@unit eq 'leaf'][. eq $dim])
+                let $numberQuiresThisDim := count($test/t:dim[@unit = 'leaf'][. = $dim])
                 order by $numberQuiresThisDim descending
                   return
                                '["' ||  $dim || ' leaves ", ' ||  $numberQuiresThisDim || ']'
@@ -740,17 +743,17 @@ chart.draw(view, options);
 
 if($countRulPat ge 1) then (
 let $patterns := for $ruling in $rulingpattern return <mss><id>{string($ruling/ancestor::t:TEI/@xml:id)}</id><pattern>{analyze-string($ruling, '(([A-Z\d\-]+)/([A-Z\d\-]+)/([A-Z\d\-]+)/([A-Z\d\-]+))')}</pattern></mss>
-let $fullpatterns := for $p in $patterns//s:group[@nr eq 1] return string-join($p//text())
-let $verticals:= $patterns//s:group[@nr eq 2]
-let $Hmarginals:= $patterns//s:group[@nr eq 3]
-let $RectricesMajs:= $patterns//s:group[@nr eq 4]
-let $Rectrices:= $patterns//s:group[@nr eq 5]
+let $fullpatterns := for $p in $patterns//s:group[@nr = 1] return string-join($p//text())
+let $verticals:= $patterns//s:group[@nr = 2]
+let $Hmarginals:= $patterns//s:group[@nr = 3]
+let $RectricesMajs:= $patterns//s:group[@nr = 4]
+let $Rectrices:= $patterns//s:group[@nr = 5]
 return (
 (:pie total diversity distribution:)
 let $distinct-patterns:= distinct-values($fullpatterns)
-let $matcher := for $p in $patterns return string-join($p//s:group[@nr eq 1]//text())
+let $matcher := for $p in $patterns return string-join($p//s:group[@nr = 1]//text())
 let $data := for $pat in $distinct-patterns
-                let $count := count($matcher[. eq $pat])
+                let $count := count($matcher[. = $pat])
                  return
                                '["' ||  $pat || '", ' ||  $count || ']'
 let $patts := '[["Ruling Pattern","Quantity"],' ||string-join($data, ', ') || ']'
@@ -791,7 +794,7 @@ let $patts := '[["Ruling Pattern","Quantity"],' ||string-join($data, ', ') || ']
         (: Zone III = 4=Rectrices Majeures :)
         
         (: Zone IV = 5=Rectices       :)
-        let $RPZvalues := distinct-values($patterns//s:group[@nr eq $formulaZone])
+        let $RPZvalues := distinct-values($patterns//s:group[@nr = $formulaZone])
         let $formulaZoneName := 
                         switch($formulaZone) 
                         case 2 return 'Zone I (Verticales)'
@@ -997,7 +1000,7 @@ declare function charts:OTsupport($mss, $rangeName, $values){
   if(count($mssthisperiod) eq 0) then () else
   let $total := count($mssthisperiod)
   let $columns := for $value in $values
-                  let $countms := count($mssthisperiod[@form eq $value])
+                  let $countms := count($mssthisperiod[@form = $value])
                   let $div := ($countms div $total)
                   let $perc := format-number($div, "#.#")
                   return ',' ||$perc
@@ -1017,7 +1020,7 @@ declare function charts:RulingSupport($DatedMSS, $rangeName, $values, $formulaZo
   return
   if(count($mssthisperiod) eq 0) then () else
   let $columns := for $value in $values
-                  let $countms := count($patterns[descendant::s:group[@nr eq $formulaZone][. eq $value]])
+                  let $countms := count($patterns[descendant::s:group[@nr = $formulaZone][. = $value]])
                   return ',' ||$countms
   return
     '["'||$rangeName||'"'||string-join($columns)||']'
