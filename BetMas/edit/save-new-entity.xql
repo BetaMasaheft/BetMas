@@ -62,7 +62,7 @@ else
     let $ids := for $x in switch2:collectionVar($collection)//t:TEI/@xml:id
     return
         analyze-string($x, '([A-Z]+)(\d+)(\w+)')
-    let $numericvalue := for $id in $ids//s:group[@nr eq '2']
+    let $numericvalue := for $id in $ids//s:group[@nr = '2']
     return
         $id
     let $maxid := max($numericvalue) + 1
@@ -272,15 +272,13 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                                         </msIdentifier>
                                         <msContents>
                                             <msItem
-                                                xml:id="p{$mP}_i1"
-                                                class="content">
+                                                xml:id="p{$mP}_i1">
                                                 <locus from=""/>
                                        <title type="" ref=""/>
                                        <textLang mainLang="gez"/> 
                                             </msItem>
                                             <msItem
-                                                xml:id="p{$mP}_i2"
-                                                class="content">
+                                                xml:id="p{$mP}_i2">
                                                 <locus from=""/>
                                        <title type="" ref=""/>
                                        <textLang mainLang="gez"/> 
