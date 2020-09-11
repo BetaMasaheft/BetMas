@@ -43,6 +43,8 @@
                 <facet dimension="rulingpattern" if="@type='mss'" expression="if(t:teiHeader//t:ab[@type='ruling'][@subtype='pattern']) then replace(t:teiHeader//t:ab[@type='ruling'][@subtype='pattern'], 'Ruling Pattern', '') else ''"/>
                 <facet dimension="artThemes" if="@type='mss'" expression="for $at in t:teiHeader//t:decoNote//t:ref[@type='authFile']/@corresp return ti:test($at, 'auth')"/>
                 <facet dimension="artkeywords" if="@type='mss'" expression="for $at in t:teiHeader//t:decoNote//t:term/@key return ti:test($at, 'auth')"/>
+                <facet dimension="bindingkeywords" if="@type='mss'" expression="for $at in t:teiHeader//t:binding//t:decoNote//t:term/@key return ti:test($at, 'auth')"/>
+                <facet dimension="rubricationkeywords" if="@type='mss'" expression="for $at in t:teiHeader//t:seg[@type='rubrication']//t:term/@key return ti:test($at, 'auth')"/>
                 <facet dimension="decoType" if="@type='mss'" expression="for $d in t:teiHeader//t:decoNote/@type return ti:test($d, 'auth')"/>
                 <facet dimension="calendarType" if="@type='mss'" expression="for $d in t:teiHeader//(t:date|t:origDate)/@calendar return string($d)"/>
                 
