@@ -54,9 +54,15 @@
            <xsl:when test="matches($measure,'\s*(\d+)\s*\+\s*(\d+)\s*\+\s*(\d+)\s*')">
                <xsl:analyze-string select="$measure" regex="\s*(\d+)\s*\+\s*(\d+)\s*\+\s*(\d+)\s*">
                    <xsl:matching-substring>
-                       <beginning><xsl:value-of select="regex-group(1)"/></beginning>
-                       <text><xsl:value-of select="regex-group(2)"/></text>
-                       <end><xsl:value-of select="regex-group(3)"/></end>
+                       <beginning>
+                            <xsl:value-of select="regex-group(1)"/>
+                        </beginning>
+                       <text>
+                            <xsl:value-of select="regex-group(2)"/>
+                        </text>
+                       <end>
+                            <xsl:value-of select="regex-group(3)"/>
+                        </end>
                    </xsl:matching-substring>
                    <xsl:non-matching-substring>
                        <xsl:value-of select="."/>
@@ -68,15 +74,29 @@
                    <xsl:matching-substring>
                        <xsl:variable name="values">
                            <vals>
-                               <val><xsl:value-of select="regex-group(1)"/></val>
-                               <val><xsl:value-of select="regex-group(2)"/></val>
+                               <val>
+                                    <xsl:value-of select="regex-group(1)"/>
+                                </val>
+                               <val>
+                                    <xsl:value-of select="regex-group(2)"/>
+                                </val>
                            </vals>
                        </xsl:variable>
                        <xsl:variable name="max" select="max($values//*:val)"/>
                        <xsl:variable name="min" select="min($values//*:val)"/>
-                       <xsl:if test="$min=xs:integer(regex-group(1))"><beginning><xsl:value-of select="$min"/></beginning></xsl:if>
-                       <text><xsl:value-of select="$max"/></text>
-                       <xsl:if test="$min=xs:integer(regex-group(2))"><end><xsl:value-of select="$min"/></end></xsl:if>
+                       <xsl:if test="$min=xs:integer(regex-group(1))">
+                            <beginning>
+                                <xsl:value-of select="$min"/>
+                            </beginning>
+                        </xsl:if>
+                       <text>
+                            <xsl:value-of select="$max"/>
+                        </text>
+                       <xsl:if test="$min=xs:integer(regex-group(2))">
+                            <end>
+                                <xsl:value-of select="$min"/>
+                            </end>
+                        </xsl:if>
                    </xsl:matching-substring>
                    <xsl:non-matching-substring>
                        <xsl:value-of select="."/>
@@ -86,9 +106,15 @@
            <xsl:when test="matches($measure, '\s*([ivx|IVX]+)\s*\+\s*(\d{1,3})\s*\+\s*([ivx|IVX]+)\s*')">
                <xsl:analyze-string select="$measure" regex="\s*([ivx|IVX]+)\s*\+\s*(\d{{1,3}})\s*\+\s*([ivx|IVX]+)\s*">
                    <xsl:matching-substring>
-                       <beginning><xsl:number value="number:RomanToInteger(regex-group(1), 0)" format="1"/></beginning>
-                       <text><xsl:value-of select="regex-group(2)"/></text>
-                       <end><xsl:number value="number:RomanToInteger(regex-group(3), 0)" format="1"/></end>
+                       <beginning>
+                            <xsl:number value="number:RomanToInteger(regex-group(1), 0)" format="1"/>
+                        </beginning>
+                       <text>
+                            <xsl:value-of select="regex-group(2)"/>
+                        </text>
+                       <end>
+                            <xsl:number value="number:RomanToInteger(regex-group(3), 0)" format="1"/>
+                        </end>
                    </xsl:matching-substring>
                    <xsl:non-matching-substring>
                        <xsl:value-of select="."/>
@@ -98,8 +124,12 @@
            <xsl:when test="matches($measure, '\s*([ivx|IVX]+)\s*\+\s*(\d{1,3})\s*')">
                <xsl:analyze-string select="$measure" regex="\s*([ivx|IVX]+)\s*\+\s*(\d{{1,3}})\s*">
                    <xsl:matching-substring>
-                       <beginning><xsl:number value="number:RomanToInteger(regex-group(1), 0)" format="1"/></beginning>
-                       <text><xsl:value-of select="regex-group(2)"/></text>
+                       <beginning>
+                            <xsl:number value="number:RomanToInteger(regex-group(1), 0)" format="1"/>
+                        </beginning>
+                       <text>
+                            <xsl:value-of select="regex-group(2)"/>
+                        </text>
                    </xsl:matching-substring>
                    <xsl:non-matching-substring>
                        <xsl:value-of select="."/>
@@ -109,8 +139,12 @@
            <xsl:when test="matches($measure, '\s*(\d{1,3})\s*\+\s*([ivx|IVX]+)\s*')">
                <xsl:analyze-string select="$measure" regex="\s*(\d{{1,3}})\s*\+\s*([ivx|IVX]+)\s*">
                    <xsl:matching-substring>
-                       <text><xsl:value-of select="regex-group(1)"/></text>
-                       <end><xsl:number value="number:RomanToInteger(regex-group(2), 0)" format="1"/></end>
+                       <text>
+                            <xsl:value-of select="regex-group(1)"/>
+                        </text>
+                       <end>
+                            <xsl:number value="number:RomanToInteger(regex-group(2), 0)" format="1"/>
+                        </end>
                    </xsl:matching-substring>
                    <xsl:non-matching-substring>
                        <xsl:value-of select="."/>
@@ -160,7 +194,9 @@
                 <xsl:when test="(xs:integer($parsedMeasure//*:end/data()) gt 1) and $parsedMeasure//*:beginning">
                     <xsl:number format="i" value="($parsedMeasure//*:beginning/data()+1)"/>-<xsl:number format="i" value="$totalprotectives"/>
                 </xsl:when>
-                <xsl:otherwise><xsl:number format="i" value="$totalprotectives"/></xsl:otherwise>
+                <xsl:otherwise>
+                    <xsl:number format="i" value="$totalprotectives"/>
+                </xsl:otherwise>
             </xsl:choose>
         </xsl:if>
     </xsl:function>
@@ -242,7 +278,9 @@
         <xsl:apply-templates/>
     </xsl:template>
     <xsl:template match="t:adminInfo">
-        <xsl:if test="t:note"><h2>Administrative Information</h2></xsl:if>
+        <xsl:if test="t:note">
+            <h2>Administrative Information</h2>
+        </xsl:if>
         <xsl:apply-templates/>
     </xsl:template>
     <xsl:template match="t:head">
@@ -264,10 +302,7 @@
     </xsl:template>
     
     <xsl:template match="t:note">
-        <xsl:choose>
-        <xsl:when test="not(parent::*:fragment)">
-            <p><xsl:apply-templates/></p>
-        </xsl:when>    
+        <xsl:choose>   
         <xsl:when test="parent::t:placeName">
         <div class="w3-panel w3-gray">
            <xsl:choose>
@@ -276,6 +311,11 @@
             </xsl:when> 
                <xsl:when test="ancestor::t:app">
                    <xsl:apply-templates/>
+               </xsl:when> 
+               <xsl:when test="not(parent::*:fragment)">
+                   <p>
+                                <xsl:apply-templates/>
+                            </p>
                </xsl:when> 
             <xsl:otherwise>
                 <p>
@@ -392,7 +432,8 @@
                 <xsl:text>.</xsl:text>
             </xsl:otherwise>
         </xsl:choose>
-   <span class="w3-teg">Entered as <xsl:value-of select="."/></span>
+   <span class="w3-teg">Entered as <xsl:value-of select="."/>
+            </span>
         </span>
     </xsl:template>
     
@@ -546,6 +587,15 @@
         </p>
     </xsl:template>
     
-    
+    <xsl:template match="t:list">
+        <ul>
+            <xsl:apply-templates/>
+        </ul>
+    </xsl:template>
+    <xsl:template match="t:item">
+        <li>
+            <xsl:apply-templates/>
+        </li>
+    </xsl:template>
     
 </xsl:stylesheet>
