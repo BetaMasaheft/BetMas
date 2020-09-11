@@ -1080,6 +1080,8 @@ declare function app:facetName($f){
                 case 'rulingpattern' return 'Ruling Pattern'
                 case 'artThemes' return 'Art Themes (in decorations)'
                 case 'artkeywords' return 'Art Keywords (in decorations)'
+                case 'bindingkeywords' return 'Keywords (in binding)'
+                case 'rubricationkeywords' return 'Keywords (in rubrication)'
                 case 'decoType' return 'Type of Decoration'
                 case 'calendarType' return 'Type of calendar used'
                 case 'images' return 'Images Availability'
