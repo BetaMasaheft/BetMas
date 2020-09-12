@@ -21,8 +21,8 @@ import module namespace console="http://exist-db.org/xquery/console";
 declare function dtsc:text($id, $edition, $ref, $start, $end, $collection){
 (:let $t := console:log(string-join(($edition, $ref, $start, $end), ' - ')):)
 let $approot:= 
-'https://betamasaheft.eu'
-(:'http://localhost:8080/exist/apps/BetMas':)
+(:'https://betamasaheft.eu':)
+'http://localhost:8080/exist/apps/BetMas'
 let $APIroot:='/api/dts/'
 let $NavAPI:='navigation'
 let $ColAPI:='collections'
@@ -43,7 +43,10 @@ let $DTScol := dtsc:request($uricol)
 let $DTSnav := dtsc:request($urinav)
 let $DTSanno := dtsc:request($urianno)
 let $DTSdoc := dtsc:requestXML($uridoc)
-let $docnode := if($DTSdoc//dts:fragment) then $DTSdoc//dts:fragment else $DTSdoc//t:div[@type eq 'edition']
+let $links := for $link in tokenize($DTSdoc//http:header[@name="link"]/string(@value), ',') return 
+            <link><val>{substring-after(substring-before($link, '&gt;'), 'ref=')}</val> 
+                        <dir>{replace(substring-after($link, '&gt; ; rel='), "'",  '')}</dir></link>
+let $docnode := if($DTSdoc//dts:fragment) then $DTSdoc//dts:fragment else $DTSdoc//t:div[@type='edition']
 let $xslt :=   'xmldb:exist:///db/apps/BetMas/xslt/textfragment.xsl'  
 let $xslpars := <parameters><param name="mainID" value="{$id}"/></parameters>
 return
@@ -82,16 +85,35 @@ return
 <script type="text/javascript" src="resources/js/dtsAnno.js"/>
 </div>
 <div id="refslist" class="w3-col" style="width:10%">
+{if($ref!='' or $start !='') then <div class="w3-bar-item">
+<div class="w3-bar w3-gray" id="textnavigation">
+<div style="padding: 8px 8px;" 
+class="w3-bar-item textNavigation" >
+<a href="/{$collection}/{$id}/text?ref={$links[dir='prev']/val/text()}">
+<i class="fa fa-angle-left"></i></a>
+</div>
+<div style="padding: 8px 8px;" 
+class="w3-bar-item textNavigation" >
+<a href="/{$collection}/{$id}/text?level={$DTSnav?('dts:level')}">level</a>
+</div>
+<div style="padding: 8px 8px;" class="w3-bar-item  textNavigation">
+<a href="/{$collection}/{$id}/text?ref={$links[dir='next']/val/text()}">
+<i class="fa fa-angle-right"></i>
+</a>
+</div>
+</div>
+</div> else ()}
 <div class="w3-bar-block">
 <div class="w3-bar-item w3-black w3-small">
-<a target="_blank" href="http://voyant-tools.org/?input={encode-for-uri(($approot||'/'||$id||'.xml'))}">Voyant</a>
+<a target="_blank" href="http://voyant-tools.org/?input={$uridoc}">Voyant</a>
         </div>
 {if($ref !='' or $start !='') then 
+(
 <div class="w3-bar-item w3-red w3-small">
 <a href="/{$collection}/{$id}/text">
 Full text view
 </a>
-</div> 
+</div>) 
 else ()}
 {
 for $members in $DTSnav?member
