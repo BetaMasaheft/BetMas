@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.tei-c.org/ns/1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:post="http://myfunction" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:output encoding="UTF-8" method="xml"/>
     <xsl:output indent="yes" method="xml"/>
@@ -50,13 +49,13 @@
     </xsl:function>
     
     
-    <xsl:template match="@* | node()">
+    <xsl:template match="@* | text() | element()">
         <xsl:copy>
-            <xsl:apply-templates select="@* | node()"/>
+            <xsl:apply-templates select="@* | text() | element()"/>
         </xsl:copy>
     </xsl:template>
     
-<xsl:template match="comment()"/>
+  <xsl:template match="comment()"/>
     
  <xsl:template match="processing-instruction('xml-model')">
      <xsl:if test="contains(.,'http://relaxng.org/ns/structure/1.0')">
@@ -73,6 +72,19 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
         </xsl:if>
  </xsl:template>
    
+   <xsl:template match="t:TEI">
+        <xsl:copy>
+            <xsl:apply-templates select="@*"/>
+            <xsl:apply-templates select="t:teiHeader"/>
+            <standOff xmlns="http://www.tei-c.org/ns/1.0">
+                <listRelation>
+                    <xsl:apply-templates select="//t:relation" mode="standoff"/>
+                </listRelation>
+            </standOff>
+            <xsl:apply-templates select="t:facsimile"/>
+            <xsl:apply-templates select="t:text"/>
+        </xsl:copy>
+   </xsl:template>
 
     <!--
     
@@ -135,6 +147,7 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
             <xsl:variable name="cwhos" select="//t:change/@who"/>
             <xsl:for-each select="distinct-values($cwhos[not(.=$ekeys)])">
                 <respStmt xml:id="{.}" corresp="https://betamasaheft.eu/team.html#{.}">
+                    <resp>contributor</resp>
                     <name>
                         <xsl:value-of select="$editorslist//t:item[@xml:id=current()]"/>
                     </name>
@@ -143,7 +156,7 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
         </xsl:copy>
     </xsl:template>
     
-    <xsl:template match="category"/>
+    <xsl:template match="t:category"/>
 
 <xsl:template match="t:profileDesc">
     <xsl:copy>
@@ -362,9 +375,9 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
     </xsl:template>
 
 
-
+    <xsl:template match="t:listRelation"/>
     <!--    relations need to have uris in a ref rather than @name-->
-    <xsl:template match="t:relation">
+    <xsl:template match="t:relation" mode="standoff">
         <xsl:copy>
             <xsl:attribute name="name">
                 <xsl:value-of select="@name"/>
