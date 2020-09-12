@@ -179,8 +179,6 @@ declare function app:newissue($node as node()*, $model as map(*)){
 
 (:~determins what the selectors for various form controls will look like, is called by app:formcontrol() :)
 declare function app:selectors($nodeName, $path, $nodes, $type, $context){
-let $test := console:log($context)
-return
              <select multiple="multiple" name="{$nodeName}" id="{$nodeName}" class="w3-select w3-border">
             {
             
@@ -1137,8 +1135,7 @@ $numberOfParts as xs:string*,
    let $logparams := '?' || string-join($paramstobelogged, '&amp;')
    let $log := log:add-log-message($logparams, sm:id()//sm:real/sm:username/string() , 'query')
     let $IDpart := app:ListQueryParam('xmlid', '@xml:id', 'any', 'search')
-   let $t := console:log($IDpart)
-   let $collection := app:ListQueryParam('work-types', '@type', 'any', 'search')
+    let $collection := app:ListQueryParam('work-types', '@type', 'any', 'search')
     let $script := app:ListQueryParam('script', 't:handNote/@script', 'any', 'search')
     let $mss := app:ListQueryParam('target-ms', '@xml:id', 'any', 'search')
     let $texts := app:ListQueryParam('target-work', '@xml:id', 'any', 'search')
@@ -1286,8 +1283,6 @@ let $queryExpr := $query-string
              let $path := 
              concat("$config:collection-root","//t:TEI", 
              $allfilters, $nOfP)
-             let $console := console:log($path)
-             return
                    for $hit in util:eval($path)
                    return $hit
                  
@@ -1309,7 +1304,6 @@ let $queryExpr := $query-string
                    
                    let $allels := string-join($elements, ' or ')
                    let $path:=    concat("$config:collection-root","//t:TEI[",$allels, "]", $allfilters)
-                   let $test := console:log($path)
                    let $logpath := log:add-log-message($path, sm:id()//sm:real/sm:username/string() , 'XPath')  
                    let $hits := util:eval($path)
                    for $hit in $hits
@@ -1638,7 +1632,14 @@ function app:facetSearchRes ( $node as node()*,  $model as map(*), $start as xs:
             </div>
             </div>,
         for $text at $p in subsequence($model('hits'), $start, $per-page)
+        let $queryText := request:get-parameter('query', ())
+        
             let $expanded := kwic:expand($text)
+            let $firstancestorwithID:=$expanded//exist:match/(ancestor::t:text|ancestor::t:*[(@xml:id|@n)][not(name()='TEI')])[1]
+        let $firstancestorwithIDid := $firstancestorwithID/string(@xml:id)
+        let $view := if($firstancestorwithID[ancestor-or-self::t:text]) then 'text' else 'main'
+         let $firstancestorwithIDanchor := if($view = 'main') then '#' || $firstancestorwithIDid else ()
+        
             let $count := count($expanded//exist:match)
             let $root := root($text)
             let $item := $root/t:TEI
@@ -1670,7 +1671,7 @@ function app:facetSearchRes ( $node as node()*,  $model as map(*), $start as xs:
               <span class="w3-tag w3-gray" style="word-break: break-all; text-align: left;">{$id}</span>
               <span class="w3-tag w3-red"><a href="{('/tei/' || $id || '.xml')}" target="_blank">TEI</a></span>
               <span class="w3-tag w3-red"><a href="/{$id}.pdf" target="_blank" >PDF</a></span><br/>
-               <a target="_blank" href="/{$collection}/{$id}/main?hi={request:get-parameter('query',())}"><b>{if(starts-with($id, 'corpus')) then $root//t:titleStmt/t:title[1]/text() else try{titles:printTitleID($id)} catch *{console:log(($text, $id, $err:description))}}</b></a><br/>
+               <a target="_blank" href="/{$collection}/{$id}/main"><b>{if(starts-with($id, 'corpus')) then $root//t:titleStmt/t:title[1]/text() else try{titles:printTitleID($id)} catch *{console:log(($text, $id, $err:description))}}</b></a><br/>
                {if ($item//t:facsimile/t:graphic/@url) 
                then <a target="_blank" href="{$item//t:facsimile/t:graphic/@url}">Link to images</a> 
                else if($item//t:msIdentifier/t:idno[@facs][@n]) then 
@@ -1711,7 +1712,25 @@ else if (contains($item//t:msIdentifier/t:idno/@facs, 'bodleian')) then ('images
             <div class="w3-twothird">
                  <div class="w3-twothird">{
                      for $match in subsequence($expanded//exist:match, 1, 3) return  
-                     <div class="w3-row w3-padding">{kwic:get-summary($match/parent::node(), $match,<config width="40"/>)}</div>
+                      let $matchref := replace(app:refname($match), '.$', '')
+                let $ref := if($view = 'text' and $matchref !='') then '&amp;ref=' || $matchref else ()
+                return 
+               <div class="w3-row w3-padding"><div class="w3-twothird w3-padding match">
+                   {  kwic:get-summary($match/parent::node(), $match,<config width="40"/>)}
+                     </div>
+                        <div class="w3-third w3-padding">
+                        <a href="/{$collection}/{$id}/{$view}{$firstancestorwithIDanchor}?hi={$queryText}{$ref}">
+                        {' in element ' ||
+                        $firstancestorwithID/name() 
+                        || 
+                       (if($view = 'text'  and $matchref !='') 
+                                then ', at ' || $matchref 
+                       else if($view = 'main') 
+                                then ', with id ' || $firstancestorwithIDid 
+                        else ())
+                        }</a>
+                        </div>
+                        </div>
                  }</div>
                  <div class="w3-third">
                      {switch($t)
@@ -1737,17 +1756,34 @@ else if (contains($item//t:msIdentifier/t:idno/@facs, 'bodleian')) then ('images
             </div>
     };
 
+(:~  copied from  dts: to format and select the references :)
+declare function app:refname($n){
+(:has to recurs each level of ancestor of the node which 
+   has a valid position in the text structure:)
+let $refname:=  if ($n[name()='ab'] or $n[name()='match']) then () else app:rn($n)
+let $this := normalize-space($refname)
+let $ancestors := for $a in $n/ancestor::t:div[@xml:id or @n or @corresp][ancestor::t:div[@type]]
+return app:rn($a)
+let $all := ($ancestors , $this)
+return string-join($all,'.')
+};
 
-declare    
-%templates:wrap
-    %templates:default('start', 1)
-    %templates:default("per-page", 10)
-    function app:searchRes (
-    $node as node()*, 
-    $model as map(*), $start as xs:integer,  $per-page as xs:integer) {
-        switch($model("type"))
-        case 'matches' return
-    for $text at $p in $model('hits')
+(:~  copied and adapted from dts and called by app:refname to format 
+a single reference starting from a match :)
+declare function app:rn($n){
+  if ($n[name()='exist:match']) then ()
+ else  if ($n/preceding-sibling::t:cb) then 
+         (string($n/preceding-sibling::t:pb[@n][1]/@n)||string($n/preceding-sibling::t:cb[@n][1]/@n)) 
+ else if ($n/name()='pb' and $n/@corresp) then 
+         (string($n/@n) || '[' ||substring-after($n/@corresp, '#')||']') 
+    else if($n/@n) then string($n/@n)
+    else if($n/@xml:id) then string($n/@xml:id)
+    else if($n/@subtype) then string($n/@subtype)
+    else  'tei:' ||$n/name() ||'['|| $n/position() || ']'
+    };
+
+declare function app:searchResMatches($model, $start, $per-page){
+for $text at $p in $model('hits')
         let $root := root($text)
         let $t := $root/t:TEI/@type
         group by $type := $t
@@ -1759,9 +1795,14 @@ declare
         <h4>{count($text)} result{if(count($text) gt 1) then 's' else ''} in {if($collection='institutions') then 'repositories' else $collection}</h4>
         {
         for $tex at $p in subsequence($text, $start, $per-page)
+        let $queryText := request:get-parameter('query', ())
         let $expanded := kwic:expand($tex)
+        let $firstancestorwithID:=$expanded//exist:match/(ancestor::t:text|ancestor::t:*[(@xml:id|@n)][not(name()='TEI')])[1]
+        let $firstancestorwithIDid := $firstancestorwithID/string(@xml:id)
+        let $view := if($firstancestorwithID[ancestor-or-self::t:text]) then 'text' else 'main'
+         let $firstancestorwithIDanchor := if($view = 'main') then '#' || $firstancestorwithIDid else ()
         let $root := root($tex)
-         let $count := count($expanded//exist:match)
+        let $count := count($expanded//exist:match)
         let $id := data($root/t:TEI/@xml:id)
         
         let $score as xs:float := ft:score($tex)
@@ -1772,7 +1813,9 @@ declare
                 <span class="number">{$start + $p - 1}</span>
                 </div>
              <div class="w3-col w3-padding"  style="width:70%;word-break:break-all">
-             <a target="_blank" href="/{$collection}/{$id}/main" class="MainTitle" data-value="{$id}">{$id}</a> ({$id})
+             {if(count($text) gt 50) then 
+             <a target="_blank" href="/{$collection}/{$id}/main?hi={$queryText}" class="MainTitle" data-value="{$id}">{$id}</a> else
+             <a target="_blank" href="/{$collection}/{$id}/main?hi={$queryText}" >{titles:printTitleMainID($id)}</a>} ({$id})
              </div>
              <div class="w3-col w3-padding"  style="width:15%;overflow:auto;">
                 <span class="w3-badge">{$count}</span>
@@ -1780,18 +1823,34 @@ declare
             </div>
             
             <div class="w3-twothird">
-            
-                 <div class="w3-twothird">{for $match in subsequence($expanded//exist:match, 1, 3) 
-                 
-                 return  
-                     kwic:get-summary($match/parent::node(), $match,<config width="40"/>)}</div>
-                        
-                        <div class="w3-third">{data($text/ancestor::t:*[@xml:id][1]/@xml:id)}</div>
+               { for $match in subsequence($expanded//exist:match, 1, 3) 
+               let $matchref := replace(app:refname($match), '.$', '')
+                let $ref := if($view = 'text' and $matchref !='') then '&amp;ref=' || $matchref else ()
+                return 
+               <div><div class="w3-twothird w3-padding match">
+                   {  kwic:get-summary($match/parent::node(), $match,<config width="40"/>)}
+                     </div>
+                        <div class="w3-third w3-padding">
+                        <a href="/{$collection}/{$id}/{$view}{$firstancestorwithIDanchor}?hi={$queryText}{$ref}">
+                        {' in element ' ||
+                        $firstancestorwithID/name() 
+                        || 
+                       (if($view = 'text'  and $matchref !='') 
+                                then ', at ' || $matchref 
+                       else if($view = 'main') 
+                                then ', with id ' || $firstancestorwithIDid 
+                        else ())
+                        }</a>
+                        </div>
+                        </div>
+                        }
                         </div>
                     </div>
-       }</div></div>
-                default return 
-                
+       }</div></div>};
+
+
+declare function app:searchResNotMatches($model, $start, $per-page){
+
                  for $text in $model('hits')
         let $root := root($text)
         let $t := $root/t:TEI/@type
@@ -1816,7 +1875,20 @@ declare
                     </div>
        }</div></div>
                 
+};
 
+declare    
+%templates:wrap
+    %templates:default('start', 1)
+    %templates:default("per-page", 10)
+    function app:searchRes (
+    $node as node()*, 
+    $model as map(*), $start as xs:integer,  $per-page as xs:integer) {
+        switch($model("type"))
+(:        These will have exist:match and are results of a ft:query :)
+        case 'matches' return app:searchResMatches($model,$start,$per-page)
+(:        These are results of a query which does not include ft:query :)        
+        default return  app:searchResNotMatches($model, $start, $per-page)
     };
     
     
