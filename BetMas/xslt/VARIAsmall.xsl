@@ -283,6 +283,10 @@
         </xsl:if>
         <xsl:apply-templates/>
     </xsl:template>
+    <xsl:template match="t:surrogates">
+            <h2>Surrogates</h2>
+        <xsl:apply-templates/>
+    </xsl:template>
     <xsl:template match="t:head">
         <xsl:apply-templates/>
     </xsl:template>
