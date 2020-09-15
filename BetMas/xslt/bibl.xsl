@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:listBibl[not(ancestor::t:note)]">
         <xsl:if test="not(parent::t:item) and not(ancestor::t:physDesc)">
@@ -96,7 +95,9 @@
         </ul>
     </xsl:template>
     
-    
+    <xsl:template match="t:bibl[parent::t:surrogates]">
+        <p><xsl:apply-templates/></p>
+    </xsl:template>
     <xsl:template match="t:bibl[parent::t:listBibl][not(ancestor::t:note)]">
         <li class="bibliographyItem">
             <xsl:if test="@xml:id">
@@ -360,7 +361,7 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-    <xsl:template match="t:bibl[not(parent::t:listBibl)]">
+    <xsl:template match="t:bibl[not(parent::t:listBibl)][not(parent::t:surrogates)]">
         <xsl:choose>
             <xsl:when test="not(@corresp) and not(t:ptr[@target])">
                 <b style="color:red;">THIS BIBLIOGRAPHIC RECORD
