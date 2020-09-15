@@ -1635,7 +1635,7 @@ function app:facetSearchRes ( $node as node()*,  $model as map(*), $start as xs:
         let $queryText := request:get-parameter('query', ())
         
             let $expanded := kwic:expand($text)
-            let $firstancestorwithID:=$expanded//exist:match/(ancestor::t:text|ancestor::t:*[(@xml:id|@n)][not(name()='TEI')])[1]
+            let $firstancestorwithID:=($expanded//exist:match/(ancestor::t:text|ancestor::t:*[(@xml:id|@n)][not(name()='TEI')]))[1]
         let $firstancestorwithIDid := $firstancestorwithID/string(@xml:id)
         let $view := if($firstancestorwithID[ancestor-or-self::t:text]) then 'text' else 'main'
          let $firstancestorwithIDanchor := if($view = 'main') then '#' || $firstancestorwithIDid else ()
@@ -1796,17 +1796,17 @@ for $text at $p in $model('hits')
         {
         for $tex at $p in subsequence($text, $start, $per-page)
         let $queryText := request:get-parameter('query', ())
-        let $expanded := kwic:expand($tex)
-        let $firstancestorwithID:=$expanded//exist:match/(ancestor::t:text|ancestor::t:*[(@xml:id|@n)][not(name()='TEI')])[1]
-        let $firstancestorwithIDid := $firstancestorwithID/string(@xml:id)
+         let $root := root($tex)
+         let $id := $root/t:TEI/string(@xml:id)
+         let $expanded := kwic:expand($tex)
+        let $firstancestorwithID:=($expanded//exist:match/(ancestor::t:text|ancestor::t:*[(@xml:id|@n)][not(name()='TEI')]))[1]
+        let $firstancestorwithIDid := if($firstancestorwithID/@xml:id) then $firstancestorwithID/string(@xml:id) else ' without id '
         let $view := if($firstancestorwithID[ancestor-or-self::t:text]) then 'text' else 'main'
          let $firstancestorwithIDanchor := if($view = 'main') then '#' || $firstancestorwithIDid else ()
-        let $root := root($tex)
-        let $count := count($expanded//exist:match)
-        let $id := data($root/t:TEI/@xml:id)
-        
+       let $count := count($expanded//exist:match)
         let $score as xs:float := ft:score($tex)
-         return
+        return
+        
             <div class="w3-row reference">
             <div class="w3-third">
             <div class="w3-col w3-padding" style="width:10%">
@@ -1815,7 +1815,7 @@ for $text at $p in $model('hits')
              <div class="w3-col w3-padding"  style="width:70%;word-break:break-all">
              {if(count($text) gt 50) then 
              <a target="_blank" href="/{$collection}/{$id}/main?hi={$queryText}" class="MainTitle" data-value="{$id}">{$id}</a> else
-             <a target="_blank" href="/{$collection}/{$id}/main?hi={$queryText}" >{titles:printTitleMainID($id)}</a>} ({$id})
+             <a target="_blank" href="/{$collection}/{$id}/main?hi={$queryText}" >{try{titles:printTitleMainID($id)} catch * {console:log($err:description)}}</a>} ({$id})
              </div>
              <div class="w3-col w3-padding"  style="width:15%;overflow:auto;">
                 <span class="w3-badge">{$count}</span>
@@ -1846,7 +1846,8 @@ for $text at $p in $model('hits')
                         }
                         </div>
                     </div>
-       }</div></div>};
+       }</div></div>
+       };
 
 
 declare function app:searchResNotMatches($model, $start, $per-page){
