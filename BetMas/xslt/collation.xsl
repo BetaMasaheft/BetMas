@@ -174,7 +174,7 @@
                                     </xsl:analyze-string>
                                 </xsl:variable>
                                 <xsl:variable name="countstubs" select="string-length($stubs)"/>
-                                <xsl:value-of select="number(t:dim)-number($countstubs)"/>+<xsl:value-of select="$countstubs"/>
+                                <xsl:value-of select="number(t:dim[1])-number($countstubs)"/>+<xsl:value-of select="$countstubs"/>
                             </xsl:when>
                             <xsl:otherwise>
                                 <xsl:value-of select="$dim"/>

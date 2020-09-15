@@ -4,7 +4,7 @@
         <collation>
             <xsl:for-each select=".//t:item">
                 <xsl:sort select="position()"/>
-                <quire contoreale="{number(t:dim[@unit = 'leaf'])}" quireid="{@xml:id}">
+                <quire contoreale="{number(t:dim[@unit = 'leaf'][1])}" quireid="{@xml:id}">
                     <xsl:if test="@rend">
                         <xsl:attribute name="rend">
                             <xsl:value-of select="@rend"/>
@@ -50,7 +50,7 @@
                             <xsl:value-of select="sum(preceding::t:dim[@unit='leaf'])"/>
                         </xsl:with-param>
                         <xsl:with-param name="count">
-                            <xsl:value-of select="number(t:dim[@unit='leaf'])"/>
+                            <xsl:value-of select="number(t:dim[@unit='leaf'][1])"/>
                         </xsl:with-param>
                         <xsl:with-param name="singletons">
                             <xsl:value-of select="string-length($singletoncount)"/>

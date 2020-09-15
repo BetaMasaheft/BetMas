@@ -597,5 +597,8 @@
             <xsl:apply-templates/>
         </li>
     </xsl:template>
+    <xsl:template match="t:rs[@type='inline']">
+        <img src="{t:graphic/@url}" alt="Region of image from {t:graphic/@url}"/>
+    </xsl:template>
     
 </xsl:stylesheet>

@@ -79,7 +79,7 @@
                     <xsl:value-of select="t:leaf[not(@mode)][6]/@position"/>
                 </xsl:variable>
                 <units>
-                    <xsl:for-each select="0 to $div2">
+                    <xsl:for-each select="0 to xs:integer(ceiling($div2))">
                         <xsl:variable name="test">
                             <xsl:value-of select="."/>
                         </xsl:variable>
