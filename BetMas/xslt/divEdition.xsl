@@ -66,6 +66,7 @@
     
     <xsl:template match="t:div[parent::t:body][not(@type = 'apparatus')]">
         <div class="w3-row" id="{@type}">
+            <xsl:if test="@xml:id='Transkribus'"><xsl:attribute name="style">color:gray;</xsl:attribute></xsl:if>
             <head>
                 <xsl:if test="@corresp">
                     <a href="{@corresp}">
