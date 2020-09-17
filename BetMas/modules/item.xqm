@@ -169,12 +169,6 @@ then you will see visualizations based on La Syntaxe du Codex, by Andrist, Canar
     target="_blank">Images</a>
     <span class="w3-text w3-tag itemoptiontooltip">Manuscript images in the Mirador viewer via IIIF</span>
     </div> else ()}
-    {if ($collection = 'manuscripts' and ($this//t:msIdentifier/t:idno[not(@facs)] ) and $this//t:collection[. eq 'Ethio-SPaRe']) then
-    <div class="w3-bar-item w3-tooltip" >
-    <a class="w3-button w3-padding-small w3-gray"  href="{('mailto:denis.nosnitsin@uni-hamburg.de,pietro.liuzzo@uni-hamburg.de?Subject=Request%20for%20images%20of%20Ethio-SPaRe%20Manuscript%20' || $id )}" 
-    target="_blank">Request Images from Ethio-SPaRe</a>
-    <span class="w3-text w3-tag itemoptiontooltip">Send an email to Ethio-SPaRe Project leader to request to make the images of this manuscript available here.</span>
-    </div> else ()}
     {if ($collection = 'manuscripts' and $this//t:facsimile/t:graphic) then
     <div class="w3-bar-item w3-tooltip" >
     <a class="w3-button w3-padding-small w3-gray"  href="{$this//t:facsimile/t:graphic/@url}" 
@@ -217,13 +211,14 @@ return
             <h1 id="headtitle">
                 {titles:printTitleID($id)}
             </h1>
-            {let $formerly := $document//t:relation[@name eq 'betmas:formerlyAlsoListedAs'][@active eq $id]
-             let $same := $document//t:relation[@name eq 'skos:exactMatch'][@active eq $id]
+            {let $formerly := $document//t:relation[@name = 'betmas:formerlyAlsoListedAs'][@active eq $id]
+             let $same := $document//t:relation[@name = 'skos:exactMatch'][@active eq $id]
             return
-            (if($formerly) then <p>This record was formerly also listed as {string($formerly/@passive)}.</p> 
+            (if($formerly) then <p>This record was formerly also listed as {string-join($formerly/@passive, ', ')}.</p> 
             else(),
             if($same) then 
-                    for $s in $same return <p>This record is the same as <a href="{string($s/@passive)}" target="_blank">{titles:printTitleID($s/@passive)}</a>.</p> 
+                    for $s in $same return <p>This record is the same as {for $x in $s/@passive return <a href="{string($s)}" 
+                    target="_blank">{titles:printTitleID($s)}</a>}.</p> 
             else ())}
           <p id="mainEditor"><i>{string-join($key, ', ')}</i></p>
           {if($collection = 'manuscripts') then <p>{if($this//t:additional//t:source/t:listBibl[@type eq 'catalogue']) then ('This manuscript description is based on ' , <a href="#catalogue">the catalogues listed in the catalogue bibliography</a> )
@@ -1154,7 +1149,7 @@ return
 then 
     let $subids := for $subid in $work//t:div[@type eq 'textpart'][@corresp eq $c]/@xml:id return $id || '#' || string($subid)
 let $stringsubids:=string-join($subids, ',')
-return <p>Click the following link to compare a <a target="_blank" href="/compareSelected?mss={$stringsubids},{$id}">list of manuscripts linked to both {$stringsubids} and {$c}.</a></p> else ()}
+return <p>Click the following link to compare a <a target="_blank" href="/compareSelected?mss={$stringsubids},{$c}">list of manuscripts linked to both {$stringsubids} and {$c}.</a></p> else ()}
 </div>
 ) else <p>
 <a target="_blank" href="/{$c}">{$tit}</a> is listed also as {$c}, but not recorded with this reference in any manuscript at the moment.</p>

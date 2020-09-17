@@ -342,6 +342,12 @@
         </div>
     </xsl:template>
     
+    <xsl:template match="t:lg">
+        <div class="w3-container" style="white-space: pre-line;">
+            <xsl:apply-templates/>
+        </div>
+    </xsl:template>
+    
     <xsl:template match="t:ab[ancestor::t:div[@subtype='Psalmus']]">
         <div class="w3-container">
             <h3>
@@ -375,6 +381,8 @@
             
         </sup>
         <xsl:apply-templates select="node() except t:ref"/>
+    <xsl:if test="ancestor::t:lg"><xsl:text>
+     </xsl:text></xsl:if>
     </xsl:template>
     
     <xsl:template match="t:l[ancestor::t:div[@subtype='Psalmus']]">
