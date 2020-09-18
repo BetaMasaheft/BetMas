@@ -239,9 +239,6 @@
         <xsl:apply-templates/>
         <xsl:text>"</xsl:text>
     </xsl:template>
-    <xsl:template match="t:surrogates">
-        <xsl:apply-templates/>
-    </xsl:template>
     <xsl:template match="t:support">
         <xsl:apply-templates/>
     </xsl:template>

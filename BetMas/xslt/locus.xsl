@@ -667,13 +667,25 @@
     <xsl:template name="matchinglb">
         <xsl:param name="locus"/>
         <xsl:variable name="modalid" select="funct:imagesID($locus, 'id', @*, '')"/>
+        <xsl:variable name="iiifbase">https://betamasaheft.eu/iiif/</xsl:variable>
         <xsl:variable name="values"
             select="($locus/string(@from), $locus/string(@to), tokenize($locus/@target, '#'))"/>
+
+        <xsl:variable name="ranges">
+            <xsl:for-each select="$values[string-length() ge 1]">
+                <val>
+                    <pos><xsl:value-of select="position()"/></pos>
+                    <xsl:variable name="FromToTarget" select="replace(., '\s', '')"/>
+                    <xsl:copy-of select="funct:breakdownRef($FromToTarget)"/>
+                </val>
+            </xsl:for-each>
+        </xsl:variable>
+
         <div class="w3-modal" id="{$modalid}">
             <!-- Modal content-->
             <div class="w3-modal-content">
                 <header class="w3-container">
-                    <h4>Images relevant for <xsl:value-of select="string-join($values, ',')"/></h4>
+                    <h4>Images relevant for <xsl:value-of select="string-join($values[string-length() ge 1], ',')"/></h4>
                     <button class="w3-button w3-gray w3-display-topright"
                         onclick="document.getElementById('{$modalid}').style.display='none'"
                         >Close</button>
@@ -684,24 +696,43 @@
                     <xsl:variable name="file" select="$locus/ancestor::t:TEI"/>
                     <xsl:variable name="location"
                         select="tokenize($file//t:msIdentifier/t:idno/@facs/string(), '/')"/>
-                    <xsl:for-each select="$values">
-                        <xsl:variable name="FromToTarget" select="replace(., '\s', '')"/>
-                        <xsl:variable name="parsedRef" select="funct:breakdownRef($FromToTarget)"/>
-                        <xsl:variable name="folioside"
-                            select="($parsedRef//*:folio/text() || $parsedRef//*:side/text())"/>
+                    <xsl:for-each select="$ranges/*:val">
+                        <xsl:message><xsl:copy-of select="."/></xsl:message>
+                        <xsl:variable name="nextpos" select="(xs:integer(./*:pos) + 1)"/>
+                        <xsl:variable name="prevpos" select="(xs:integer(./*:pos) - 1)"/>
+                        <xsl:variable name="next"
+                            select="$ranges//*:val[*:pos = $nextpos]"/>
+                        <xsl:variable name="prev"
+                            select="$ranges//*:val[*:pos = $prevpos]"/>
+                        <xsl:variable name="f" select=".//*:folio"/>
+                        <xsl:variable name="s" select=".//*:side"/>
+                        <xsl:variable name="c" select=".//*:col"/>
+                        <xsl:variable name="l" select=".//*:line"/>
+                        <xsl:variable name="fs" select="($f || $s)"/>
+                        <xsl:variable name="nf" select="$next//*:folio"/>
+                        <xsl:variable name="ns" select="$next//*:side"/>
+                        <xsl:variable name="nc" select="$next//*:col"/>
+                        <xsl:variable name="nl" select="$next//*:line"/>
+                        <xsl:variable name="nfs" select="($nf || $ns)"/>
+                        <xsl:variable name="pf" select="$prev//*:folio"/>
+                        <xsl:variable name="ps" select="$prev//*:side"/>
+                        <xsl:variable name="pc" select="$prev//*:col"/>
+                        <xsl:variable name="pl" select="$prev//*:line"/>
+                        <xsl:variable name="pfs" select="($pf || $ps)"/>
+                        <xsl:choose>
+                            <xsl:when test="($f = $pf) and ($s = $ps)"/>
+<!--                            This will have been already taken into consideration looking at next -->
+                        <xsl:otherwise>
                         <xsl:variable name="url">
                             <xsl:choose>
                                 <!--                if it is a reference to a line (1ra1), 
-                           then match the zone[@rendition="Line"] and parents
-                if it is a reference to a column (1ra) 
-                           then match the zone[@rendition="TextRegion"] and parents
-                if it is a folio and side (1r) or if it is a folio only (1)
-                           then match the facsimile 
-                           and get it in full -->
+                           then match the zone[@rendition="Line"] and parents -->
                                 <xsl:when
-                                    test="$parsedRef//*:line and $file//t:lb[@n = $parsedRef//*:line/text()][starts-with(@facs, '#facs_')][preceding-sibling::t:cb[1][@n = $parsedRef//*:col]][preceding-sibling::t:pb[1][@n = $folioside]]">
-                                      <xsl:variable name="matchingPageBreak"
-                                        select="$file//t:lb[@n = $parsedRef//*:line/text()][starts-with(@facs, '#facs_')][preceding-sibling::t:cb[1][@n = $parsedRef//*:col]][preceding-sibling::t:pb[1][@n = $folioside]]"/>
+                                    test="$l and $file//t:lb[@n = $l/text()][starts-with(@facs, '#facs_')][preceding-sibling::t:cb[1][@n = $c]][preceding-sibling::t:pb[1][@n = $fs]]">
+                                    <xsl:variable name="matchingPageBreak"
+                                        select="$file//t:lb[@n = $l/text()][starts-with(@facs, '#facs_')][preceding-sibling::t:cb[1][@n = $c]][preceding-sibling::t:pb[1][@n = $fs]]"/>
+                                    <xsl:variable name="nextMatchingPageBreak"
+                                        select="$file//t:lb[@n = $nl/text()][starts-with(@facs, '#facs_')][preceding-sibling::t:cb[1][@n = $nc]][preceding-sibling::t:pb[1][@n = $nfs]]"/>
                                     <xsl:variable name="matchingLine"
                                         select="$file//t:zone[@rendition = 'Line'][@xml:id = substring-after($matchingPageBreak/@facs, '#')]"/>
                                     <!--                    https://betamasaheft.eu/iiif/AP/046/AP-046_003.tif/670,321,458,118/full/0/default.jpg
@@ -710,8 +741,12 @@
                                             surface/@corresp                    >>> AP-046_003.tif
                                             zone/(@ulx |@uly |@lrx @lry) >>> 670,321,458,118
                                                                                                      full/0/default.jpg   -->
-                                    <xsl:variable name="iiifbase"
-                                        >https://betamasaheft.eu/iiif/</xsl:variable>
+                                    <xsl:variable name="nextMatchingLine"
+                                        select="
+                                            if ($f = $nf and ($c = $nc or $s = $ns)) then
+                                                $file//t:zone[@rendition = 'Line'][@xml:id = substring-after($nextMatchingPageBreak/@facs, '#')]
+                                            else
+                                                ()"/>
                                     <xsl:variable name="locationclean"
                                         select="string-join($location[position() lt last()], '/')"/>
                                     <xsl:variable name="filename"
@@ -719,9 +754,17 @@
                                     <xsl:variable name="regionX" select="$matchingLine/@ulx"/>
                                     <xsl:variable name="regionY" select="$matchingLine/@uly"/>
                                     <xsl:variable name="regionW"
-                                        select="$matchingLine/@lrx - $matchingLine/@ulx"/>
+                                        select="
+                                            (if ($nextMatchingLine) then
+                                                $nextMatchingLine/@lrx
+                                            else
+                                                $matchingLine/@lrx) - $matchingLine/@ulx"/>
                                     <xsl:variable name="regionZ"
-                                        select="$matchingLine/@lry - $matchingLine/@uly"/>
+                                        select="
+                                            (if ($nextMatchingLine) then
+                                                $nextMatchingLine/@lry
+                                            else
+                                                $matchingLine/@lry) - $matchingLine/@uly"/>
                                     <xsl:variable name="region"
                                         select="string-join(($regionX, $regionY, $regionW, $regionZ), ',')"/>
                                     <xsl:value-of
@@ -736,17 +779,92 @@
                                     />
                                 </xsl:when>
 
+                                <!--               
+                if it is a reference to a column (1ra) 
+                           then match the zone[@rendition="TextRegion"] and parents
+               -->
+                                <xsl:when
+                                    test="$c and $file//t:cb[@n = $c][starts-with(@facs, '#facs_')][preceding-sibling::t:pb[1][@n = $fs]]">
+                                    <xsl:variable name="matchingColumnBreak"
+                                        select="$file//t:cb[@n = $c][starts-with(@facs, '#facs_')][preceding-sibling::t:pb[1][@n = $fs]]"/>
+                                    <xsl:variable name="nextMatchingColBreak"
+                                        select="$file//t:cb[@n = $nc][preceding-sibling::t:pb[1][@n = $nfs]]"/>
+                                    <xsl:variable name="matchingCol"
+                                        select="$file//t:zone[@rendition = 'TextRegion'][@xml:id = substring-after($matchingColumnBreak/@facs, '#')]"/>
+                                    <xsl:variable name="nextMatchingCol"
+                                        select="
+                                        if ($f = $nf and ($c = $nc or $s = $ns)) then
+                                        $file//t:zone[@rendition = 'TextRegion'][@xml:id = substring-after($nextMatchingColBreak/@facs, '#')]
+                                        else
+                                        ()"/>
+                                    <xsl:variable name="locationclean"
+                                        select="string-join($location[position() lt last()], '/')"/>
+                                    <xsl:variable name="filename"
+                                        select="$matchingCol/ancestor::t:surface[1]/@corresp"/>
+                                    <xsl:variable name="regionX" select="$matchingCol/@ulx"/>
+                                    <xsl:variable name="regionY" select="$matchingCol/@uly"/>
+                                    <xsl:variable name="regionW"
+                                        select=" (if ($nextMatchingCol) then
+                                        $nextMatchingCol/@lrx
+                                        else
+                                        $matchingCol/@lrx) - $matchingCol/@ulx"/>
+                                    <xsl:variable name="regionZ"
+                                        select=" (if ($nextMatchingCol) then
+                                        $nextMatchingCol/@lry
+                                        else
+                                        $matchingCol/@lry) - $matchingCol/@uly"/>
+                                    <xsl:variable name="region"
+                                        select="string-join(($regionX, $regionY, $regionW, $regionZ), ',')"/>
+                                    <xsl:value-of
+                                        select="
+                                            concat(
+                                            $iiifbase,
+                                            $locationclean, '/',
+                                            $filename, '/',
+                                            $region,
+                                            '/full/0/default.jpg'
+                                            )"
+                                    />
+                                </xsl:when>
+                                <!--              
+                                    if it is a folio and side (1r) or if it is a folio only (1)
+                           then match the facsimile 
+                           and get it in full-->
+                                <xsl:when
+                                    test="$s and $file//t:pb[@n = $fs][starts-with(@facs, '#facs_')]">
+                                    <xsl:variable name="matchingPageBreak"
+                                        select="$file//t:pb[@n = $fs][starts-with(@facs, '#facs_')]"/>
+                                    <xsl:variable name="matchingImage"
+                                        select="$file//t:facsimile[@xml:id = substring-after($matchingPageBreak/@facs, '#')]"/>
+                                    <xsl:variable name="locationclean"
+                                        select="string-join($location[position() lt last()], '/')"/>
+                                    <xsl:variable name="filename"
+                                        select="$matchingImage/t:surface/@corresp"/>
+                                    <!--                                  if we could be sure all fotos are openings, the side could be extracted with a selection of a percentage width.
+                                    This is however not the case. some images are openings, some are not.-->
+                                    <xsl:value-of
+                                        select="
+                                            concat(
+                                            $iiifbase,
+                                            $locationclean, '/',
+                                            $filename, '/full/full/0/default.jpg'
+                                            )"
+                                    />
+                                </xsl:when>
                             </xsl:choose>
                         </xsl:variable>
+                        <xsl:variable name="FromToTarget" select="string-join(.//text()[not(parent::*:pos)])"/>
                         <xsl:variable name="firscanvas"
-                            select="concat('https://betamasaheft.eu/manuscripts/', $mainID, '/viewer?FirstCanv=https://betamasaheft.eu/api/iiif/', $mainID, '/canvas/p', $parsedRef//*:folio/text())"/>
+                            select="concat('https://betamasaheft.eu/manuscripts/', $mainID, '/viewer?FirstCanv=https://betamasaheft.eu/api/iiif/', $mainID, '/canvas/p', $f)"/>
                         <p>
                             <xsl:value-of select="funct:parseRef($FromToTarget)"/>
                         </p>
                         <a href="{$firscanvas}" target="_blank">
-                            <img style="height:4em;" src="{$url}"
+                            <img src="{$url}"
                                 alt="Extract from {$location} for {$FromToTarget}"/>
                         </a>
+                   </xsl:otherwise> 
+                        </xsl:choose>
                     </xsl:for-each>
                 </div>
             </div>
