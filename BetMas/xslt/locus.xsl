@@ -70,6 +70,7 @@
 
     <xsl:template match="t:locus">
         <xsl:param name="text" tunnel="yes"/>
+        <xsl:variable name="this" select="."/>
         <xsl:variable name="parent" select="parent::node()"/>
         <xsl:variable name="anc" select="ancestor::t:*[@xml:id][1]"/>
         <xsl:variable name="ancID" select="replace($anc/@xml:id, '\.', '_')"/>
@@ -100,7 +101,7 @@
                                 <xsl:for-each select="tokenize(@target, ' ')">
                                     <a href="{.}">
                                         <xsl:call-template name="choosefacsorlb">
-                                            <xsl:with-param name="locus" select="."/>
+                                            <xsl:with-param name="locus" select="$this"/>
                                             <xsl:with-param name="text" select="$text"/>
                                             <xsl:with-param name="ancID" select="$ancID"/>
                                         </xsl:call-template>
@@ -246,7 +247,7 @@
                     <xsl:value-of select="funct:imagesID(., 'call', $locus/@facs, $ancID)"/>
                 </xsl:attribute>
             </xsl:when>
-            <xsl:when test="//t:div[@xml:id = 'Transkribus']">
+            <xsl:when test="$locus/ancestor::t:TEI//t:div[@xml:id = 'Transkribus']">
                 <xsl:attribute name="onclick">
                     <xsl:value-of select="funct:imagesID($locus, 'call', @*, '')"/>
                 </xsl:attribute>
@@ -255,9 +256,7 @@
             <xsl:otherwise>
                 <!--                                            if there is no image or external reference then add a simple popover-->
                 <xsl:attribute name="class">w3-tooltip</xsl:attribute>
-                <span class="w3-text w3-tag">There is no image available at the moment for
-                        <xsl:value-of select="@from"/>
-                </span>
+                <span class="w3-text w3-tag">No image available</span>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
