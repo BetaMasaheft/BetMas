@@ -7,18 +7,37 @@
         <img class="w3-image" src="resources/images/homepage/1.JPG" style="width:100%;opacity:0.6"/>
 
         <div class="w3-display-middle w3-container">
-
-            <img src="resources/images/logo-color.png" alt="Beta maṣāḥǝft Project logo" id="logo" style="width:100%"/>
+            <div class="w3-center-align">
+            <img src="resources/images/logo-color-small.png" alt="Beta maṣāḥǝft Project logo" id="logo" style="width:60%"/>
+            </div>
+            <div class="w3-center-align">
+                <form action="/facet.html" role="search">
+                        <div class="w3-row-padding">
+                            <input type="text" class="w3-input w3-border diacritics" placeholder="search" name="query" id="q"/>
+                            
+                            
+                            <a class="kb w3-button w3-dark-grey">
+                                <i class="fa fa-keyboard" aria-hidden="true"/>
+                            </a>
+                            
+                            <a href="/as.html" title="advanced search" class="w3-button w3-dark-grey">
+                                <i class="fa fa-plus" aria-hidden="true"/>
+                            </a>
+                            
+                            <a href="#" class="w3-button w3-dark-grey" onclick="document.getElementById('searchHelp').style.display='block'">
+                                <i class="fa fa-info-circle" aria-hidden="true"/>
+                            </a>
+                            
+                            <button id="f-btn-search" type="submit" class="w3-button w3-black">
+                                <i class="fa fa-search" aria-hidden="true"/>
+                            </button>
+                            
+                        </div>
+                    </form>
+            </div>
+            
         </div>
-
-        <div class="w3-display-right  w3-display-hover w3-bar-block">
-            <a class="w3-bar-item w3-button w3-xxlarge w3-dark-grey" href="#cover" onclick="w3_open()">
-                <i class="fa fa-bars"/>
-            </a>
-            <a class=" w3-bar-item  w3-button w3-xxlarge w3-dark-grey" href="#intro">
-                <i class="fa fa-arrow-down"/>
-            </a>
-        </div>
+        
         <div class="w3-display-bottomright w3-small w3-hide-small w3-margin">
             <a href="https://betamasaheft.eu/manuscripts/ESdd038/viewer?FirstCanv=https://betamasaheft.eu/api/iiif/ESdd038/canvas/p147">DD-038</a> by Ethio-SPaRe</div>
         <div class="w3-display-bottommiddle w3-center w3-bar w3-hide-small">
@@ -442,11 +461,11 @@
         <div class="w3-display-bottomright w3-small w3-hide-small w3-margin">
             <a href="https://betamasaheft.eu/manuscripts/ESbhm002/viewer?FirstCanv=https://betamasaheft.eu/api/iiif/ESbhm002/canvas/p7">BHM-002 by Ethio-SPaRe</a>
         </div>
-        
         <div class="w3-display-right w3-padding w3-col l6 m8 s12 w3-red" style="max-height:100%;overflow-y:auto">
             <h2 class="w3-wide w3-left-align">Search</h2>
             <p class="w3-left-align w3-hide-small">We also offer a number of <a href="/searching.html">alternative ways to
-                search.</a></p>
+                search.</a>
+            </p>
             <div class="w3-row">
                 <a class="w3-button w3-margin-bottom w3-black w3-xlarge" href="/as.html">Advanced
                     search</a>
@@ -527,6 +546,7 @@
             </div>
 
         </div>
+        
         <div class="w3-display-left  w3-display-hover w3-bar-block">
             <a class="w3-bar-item w3-button w3-dark-grey" href="#cover" onclick="w3_open()">
                 <i class="fa fa-bars"/>

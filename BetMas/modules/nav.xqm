@@ -197,6 +197,7 @@ return
                                 <a class="w3-bar-item w3-button"  href="/UniCirc/browse">UniCirc (full list)</a>
                                 --><a class="w3-bar-item w3-button"  href="/manuscripts/viewer">Manuscripts Images</a>
                                 <a class="w3-bar-item w3-button"  href="/catalogues/list">Catalogues</a>
+                                <a class="w3-bar-item w3-button"  href="/manuscripts/list?objectType=Inscription">Inscriptions</a>
                       </div>
     </div>
     <div class="w3-dropdown-hover w3-hide-small" id="places">
@@ -259,8 +260,9 @@ return
                                         <i class="fa fa-info-circle"/>
                                     </a>
     {if(contains($url, 'as.html') ) then 
-    <a href="/facet.html" class="w3-padding w3-hover-red w3-hide-small w3-right"><i class="fab fa-searchengin"></i></a>
-    else(<a href="/as.html" class="w3-padding w3-hover-red w3-hide-small w3-right"><i class="fa fa-search"></i></a>, <a href="/facet.html" class="w3-padding w3-hover-red w3-hide-small w3-right"><i class="fab fa-searchengin"></i></a>)}
+    <a href="/facet.html" class="w3-padding w3-hover-red w3-hide-small w3-right"><i class="fa fa-search"></i></a>
+    else(<a href="/as.html" class="w3-padding w3-hover-red w3-hide-small w3-right"><i class="fab fa-searchengin"></i></a>, 
+    <a href="/facet.html" class="w3-padding w3-hover-red w3-hide-small w3-right"><i class="fa fa-search"></i></a>)}
   </div>
 </div>,
 <div id="navDemo" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
