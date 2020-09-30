@@ -529,3 +529,32 @@ declare function api:noresults($call) {
     </html>
 };
 
+
+declare 
+%rest:GET
+%rest:path("/BetMas/api/chaines")
+%output:method("json")
+function api:chaines() {
+<chaines>{
+for $chaine in $config:collection-rootW//t:ptr[@target='bm:Chaine1913Rep']
+let $unit := $chaine/following-sibling::t:citedRange[@unit]
+order by $unit
+let $id := $chaine/ancestor::t:TEI/@xml:id
+let $EditionIncipit := $chaine/ancestor::t:TEI//t:div[@subtype='incipit']
+group by $I := $id
+return
+<chaine>{$I}
+<title>{titles:printTitleMainID($I)}</title>
+<editionIncipit>{$EditionIncipit}</editionIncipit>
+<chaineN>{$unit/text()}</chaineN>
+{for $incipit in $config:collection-rootMS//t:incipit[parent::t:msItem[t:title[@ref=$I]]]
+let $ms := $incipit/ancestor::t:TEI/@xml:id
+return 
+<incipit>
+<ms>{$ms}{titles:printTitleMainID($ms)}</ms>
+<text>{$incipit}</text></incipit>
+}
+</chaine>
+}</chaines>
+};
+
