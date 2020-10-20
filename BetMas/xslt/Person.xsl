@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:funct="my.funct" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:variable name="mainID" select="t:TEI/@xml:id"/>
     <xsl:function name="funct:date">
@@ -95,10 +94,10 @@
               <xsl:if test="//t:relation">
                   <div class="w3-container">
                   <p>
-                      <xsl:if test="//t:relation">
+                      <xsl:if test="//t:relation[not(@name= 'betmas:formerlyAlsoListedAs')]">
                           <xsl:text>See </xsl:text>
                       </xsl:if>
-                      <xsl:for-each select="//t:relation">
+                      <xsl:for-each select="//t:relation[not(@name= 'betmas:formerlyAlsoListedAs')]">
                           <xsl:sort order="ascending" select="count(preceding-sibling::t:relation)+1"/>
                           <xsl:variable name="p" select="count(preceding-sibling::t:relation)+1"/>
                           <xsl:variable name="tot" select="count(//t:relation)"/>

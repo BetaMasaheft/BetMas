@@ -265,10 +265,10 @@
                 <h2>General description</h2>
                <xsl:apply-templates select="//t:abstract"/>
                 <p>
-                    <xsl:if test="//t:relation">
+                    <xsl:if test="//t:relation[not(@name= 'betmas:formerlyAlsoListedAs')]">
                         <xsl:text>See </xsl:text>
                     </xsl:if>
-                    <xsl:for-each select="//t:relation">
+                    <xsl:for-each select="//t:relation[not(@name= 'betmas:formerlyAlsoListedAs')]">
                         <xsl:sort order="ascending" select="count(preceding-sibling::t:relation)+1"/>
                         <xsl:variable name="p" select="count(preceding-sibling::t:relation)+1"/>
                         <xsl:variable name="tot" select="count(//t:relation)"/>

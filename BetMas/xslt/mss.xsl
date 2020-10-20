@@ -8,7 +8,8 @@
         <xsl:choose>
             <xsl:when test="matches($date, '\d{4}-\d{2}-\d{2}')">
                 <xsl:value-of select="format-date(xs:date($date), '[D]-[M]-[Y0001]', 'en', 'AD', ())"/>
-            </xsl:when><xsl:when test="matches($date, '\d{4}-\d{2}')">
+            </xsl:when>
+            <xsl:when test="matches($date, '\d{4}-\d{2}')">
                 <xsl:variable name="monthnumber" select="substring-after($date, '-')"/>
                 <xsl:variable name="monthname">
                     <xsl:choose>
@@ -71,14 +72,18 @@
                 <div id="maintoogles" class="btn-group">
                 
                     <div class="w3-bar">
-                        <xsl:if test="//t:collection[.='Tweed Collection']"><a class="w3-bar-item  w3-hide-medium w3-hide-small w3-button w3-red" href="https://betamasaheft.eu/tweed.html">Tweed Collection</a></xsl:if>
+                        <xsl:if test="//t:collection[.='Tweed Collection']">
+                            <a class="w3-bar-item  w3-hide-medium w3-hide-small w3-button w3-red" href="https://betamasaheft.eu/tweed.html">Tweed Collection</a>
+                        </xsl:if>
                         <a class="w3-bar-item  w3-hide-medium w3-hide-small w3-button w3-red" id="showattestations" data-value="mss" data-id="{string(t:TEI/@xml:id)}">Show attestations</a>
                         <a class="w3-bar-item  w3-hide-medium w3-hide-small w3-button w3-gray" id="tooglecodicologicalInformation">Hide/show codicological information</a>
                         <a class="w3-bar-item w3-hide-medium w3-hide-small w3-button w3-gray" id="toogletextualcontents">Hide/show contents</a>
                     </div>
             </div>
             
-            <div class="w3-third"><h2>General description</h2></div>
+            <div class="w3-third">
+                    <h2>General description</h2>
+                </div>
             <div class="w3-third"/>
             <div class="w3-third"> <xsl:if test="//t:listPerson/t:person[@ref]">
                 <h3>People</h3>
@@ -87,7 +92,8 @@
                         <xsl:apply-templates/>
                     </p>
                 </xsl:for-each>
-            </xsl:if></div>
+            </xsl:if>
+                </div>
             <div id="allattestations" class="w3-container"/>
             
             <div class="w3-third  w3-padding">
@@ -117,10 +123,10 @@
             <xsl:if test="//t:relation">
                 <div class="w3-container">
                     <p>
-                        <xsl:if test="//t:relation[not(starts-with(@name, 'sdc:'))][not(contains(@passive, $mainID))]">
+                        <xsl:if test="//t:relation[not(starts-with(@name, 'sdc:'))][not(@name= 'betmas:formerlyAlsoListedAs')][not(contains(@passive, $mainID))]">
                             <xsl:text>See </xsl:text>
                         </xsl:if>
-                        <xsl:for-each select="//t:relation[not(starts-with(@name, 'sdc:'))][not(contains(@passive, $mainID))]">
+                        <xsl:for-each select="//t:relation[not(starts-with(@name, 'sdc:'))][not(@name= 'betmas:formerlyAlsoListedAs')][not(contains(@passive, $mainID))]">
                             <xsl:sort order="ascending" select="count(preceding-sibling::t:relation)+1"/>
                             <xsl:variable name="p" select="count(preceding-sibling::t:relation)+1"/>
                             <xsl:variable name="tot" select="count(//t:relation)"/>
