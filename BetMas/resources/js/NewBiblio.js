@@ -68,13 +68,23 @@ function printbibl() {
                         if(/\s/.test($(el).attr('data-range'))){
 /*                            more then one value for citation range*/
                              var citationRanges = []
+                             var ExtraCitationRanges = []
                         var split = unit.split(" ")
                         var splitrange = range.split(" ")
+                        var rangesize = splitrange.length
+                        console.log(rangesize)
                         var splitsize = split.length
+                          console.log(splitsize)
                         for (i = 0; i < splitsize; i++) {
                         citationRanges.push( split[i] + ' ' + splitrange[i])
                         }
-                            citationrange += ', ' + citationRanges.join( ', ')
+                        if(rangesize > splitsize) {
+                            for (i = splitsize; i < rangesize; i++) {
+                            console.log(i)
+                        ExtraCitationRanges.push(splitrange[i])
+                        }
+                        } else {}
+                            citationrange += ', ' + citationRanges.join( ', ') + ' ' + ExtraCitationRanges.join( ' ')
                         } else{
 /*                       only one citation range*/
                             citationrange += ', ' + unit + ' ' + range
