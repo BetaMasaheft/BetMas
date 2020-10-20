@@ -1435,8 +1435,7 @@ declare function app:hit-params($node as node()*, $model as map(*)) {
 declare function app:gotoadvanced($node as node()*, $model as map(*)){
 let $query := request:get-parameter('query', ())
 return 
-(<a href="/as.html?query={$query}" class="w3-button w3-red w3-margin">Repeat search in the Facet Search.</a>,
-<a href="/as.html?query={$query}" class="w3-button w3-red w3-margin">Repeat search in the Advanced Search.</a>)
+<a href="/as.html?query={$query}" class="w3-button w3-red w3-margin">Repeat search in the Advanced Search.</a>
 };
 
 declare function app:list-count($node as node()*, $model as map(*)) {
@@ -1674,19 +1673,19 @@ function app:facetSearchRes ( $node as node()*,  $model as map(*), $start as xs:
               <span class="w3-tag w3-red"><a href="/{$id}.pdf" target="_blank" >PDF</a></span><br/>
                <a target="_blank" href="/{$collection}/{$id}/main"><b>{if(starts-with($id, 'corpus')) then $root//t:titleStmt/t:title[1]/text() else try{titles:printTitleID($id)} catch *{console:log(($text, $id, $err:description))}}</b></a><br/>
                {if ($item//t:facsimile/t:graphic/@url) 
-               then <a target="_blank" href="{$item//t:facsimile/t:graphic/@url}">Link to images</a> 
+               then <a target="_blank" href="{$item//t:facsimile/t:graphic/@url}">Link to external image set</a> 
                else if($item//t:msIdentifier/t:idno[@facs][@n]) then 
                  <a target="_blank" href="/manuscripts/{$id}/viewer">{
-                if($item//t:collection eq 'Ethio-SPaRe') 
-               then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
+                if($item//t:collection = 'Ethio-SPaRe') 
+               then <img src="{$config:appUrl ||'/iiif/' || string(($item//t:msIdentifier)[1]/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
 (:laurenziana:)
 else  if($item//t:repository[@ref eq 'INS0339BML']) 
                then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '005.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
           
 (:          
 EMIP:)
-              else if(($item//t:collection eq 'EMIP') and $item//t:msIdentifier/t:idno/@n) 
-               then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
+              else if(($item//t:collection = 'EMIP') and $item//t:msIdentifier/t:idno/@n) 
+               then <img src="{$config:appUrl ||'/iiif/' || string(($item//t:msIdentifier)[1]/t:idno/@facs) || '001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
               
              (:BNF:)
             else if ($item//t:repository/@ref eq 'INS0303BNF') 

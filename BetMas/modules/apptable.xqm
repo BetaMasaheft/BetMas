@@ -102,7 +102,7 @@ declare function apptable:tr($doc as node(), $list as xs:string) {
 
     <tr class="ListItems"
         style="{
-                if (count($doc//t:change[@who != 'PL']) eq 1) then
+                if (count($doc//t:change[@who != 'PL']) = 1) then
                     'background-color:rgb(213, 75, 10, 0.4)'
                 else
                     if ($doc//t:change[contains(., 'completed')]) then
@@ -131,7 +131,7 @@ declare function apptable:clavisIds($doc as node()){
     <span class="w3-text"><a href="https://www.traces.uni-hamburg.de/en/texts/clavis.html"><em>Clavis Aethiopica</em></a>, an ongoing repertory of all known Ethiopic <a href="https://betamasaheft.eu/Guidelines/?id=definitionWorks">Textual Units</a>. Use this to refer univocally to a specific text in your publications. Please note that this shares only the 
     numeric part with the <a href="https://betamasaheft.eu/Guidelines/?id=entities-id-structure">Textual Unit Record Identifier</a>.</span>
     </span> ,
-if($doc//t:listBibl[@type eq 'clavis']) 
+if($doc//t:listBibl[@type = 'clavis']) 
             then (
             <div class="w3-responsive"><table class="w3-table w3-hoverable">
             <thead>
@@ -223,7 +223,7 @@ if ($list = 'works') then (
                         <li>{$author}</li>
                 }
                 {
-                let $attributions := for $r in $item//t:relation[@name eq "saws:isAttributedToAuthor"]
+                let $attributions := for $r in $item//t:relation[@name = "saws:isAttributedToAuthor"]
                 let $rpass := $r/@passive
                 return 
                 if (contains($rpass, ' ')) then tokenize($rpass, ' ') else $rpass
@@ -246,7 +246,7 @@ if ($list = 'works') then (
             </ul>
             <ul  class="nodot">
                 {
-                    for $parallel in $config:collection-root//t:relation[@name eq 'saws:isVersionOf'][contains(@passive, $itemid)]
+                    for $parallel in $config:collection-root//t:relation[@name = 'saws:isVersionOf'][contains(@passive, $itemid)]
                     let $p := $parallel/@active
                     return
                         <li><a
@@ -255,7 +255,7 @@ if ($list = 'works') then (
             </ul>
             <ul  class="nodot">
                 {
-                    for $parallel in $config:collection-root//t:relation[@name eq 'isVersionInAnotherLanguageOf'][contains(@passive, $itemid)]
+                    for $parallel in $config:collection-root//t:relation[@name = 'isVersionInAnotherLanguageOf'][contains(@passive, $itemid)]
                      let $p := $parallel/@active
                     return
                         <li><a
@@ -275,21 +275,21 @@ if ($list = 'works') then (
 (:      images  msitemsm msparts, hands, script:)
             (<td>{let $idnos := for $shelfmark in $item//t:msIdentifier//t:idno return $shelfmark/text() return string-join($idnos, ', ')}
             </td>,
-            <td>{if ($item//t:facsimile/t:graphic/@url) then <a target="_blank" href="{$item//t:facsimile/t:graphic/@url}">Link to images</a> else if($item//t:msIdentifier/t:idno/@facs) then 
+            <td>{if ($item//t:facsimile[not(@facs)]/t:graphic/@url) then <a target="_blank" href="{$item//t:facsimile[not(@facs)]/t:graphic/@url}">Link to external image set</a> else if($item//t:msIdentifier/t:idno/@facs) then 
                  <a target="_blank" href="/manuscripts/{$itemid}/viewer">{
                 if($item//t:collection = 'Ethio-SPaRe') 
                then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
 (:laurenziana:)
-else  if($item//t:repository[@ref eq 'INS0339BML']) 
+else  if($item//t:repository[@ref = 'INS0339BML']) 
                then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '005.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
           
 (:          
 EMIP:)
-              else if(($item//t:collection eq 'EMIP') and $item//t:msIdentifier/t:idno/@n) 
+              else if(($item//t:collection = 'EMIP') and $item//t:msIdentifier/t:idno/@n) 
                then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
               
              (:BNF:)
-            else if ($item//t:repository/@ref eq 'INS0303BNF') 
+            else if ($item//t:repository/@ref = 'INS0303BNF') 
             then <img src="{replace($item//t:msIdentifier/t:idno/@facs, 'ark:', 'iiif/ark:') || '/f1/full/140,/0/native.jpg'}" class="thumb w3-image"/>
 (:           vatican :)
                 else if (contains($item//t:msIdentifier/t:idno/@facs, 'digi.vat')) then <img src="{replace(substring-before($item//t:msIdentifier/t:idno/@facs, '/manifest.json'), 'iiif', 'pub/digit') || '/thumb/'
@@ -351,7 +351,7 @@ else if (contains($item//t:msIdentifier/t:idno/@facs, 'bodleian')) then ('images
                 (
                 <td>{
                         let $id := string($itemid)
-                        let $mss := $config:collection-rootMS//t:repository[@ref eq $id]
+                        let $mss := $config:collection-rootMS//t:repository[@ref = $id]
                         return
                             count($mss)
                     }</td>
@@ -402,9 +402,9 @@ else
         
         then (
       let $dates :=
-           for $date in ($item//t:date[@evidence eq 'internal-date'],
+           for $date in ($item//t:date[@evidence = 'internal-date'],
         $item//t:origDate, 
-        $item//t:date[@type eq 'foundation'], 
+        $item//t:date[@type = 'foundation'], 
         $item//t:creation)
              
            return
