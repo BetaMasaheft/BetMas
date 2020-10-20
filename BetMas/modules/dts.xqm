@@ -1643,7 +1643,7 @@ for $w in distinct-values($witnesses)
                                let $witness := $config:collection-root/id($w)
                                return 
                                              if ($witness//t:idno[@facs]) then 
-                                                 let $facs := string($witness//t:idno/@facs)
+                                                 let $facs := string($witness//t:idno[@facs][1]/@facs)
                                                  return
                                                  if(starts-with($facs, 'http')) 
 (:                                                 external manifest:)
