@@ -581,6 +581,7 @@
     
     <xsl:template match="t:gap">
         <xsl:variable name="quantity" select="@quantity"/>
+        <xsl:variable name="extent" select="@extent"/>
         <a>
             <xsl:if test="@resp">
                 <xsl:attribute name="data-value">
@@ -590,9 +591,18 @@
             </xsl:if>
         <xsl:choose>
                 <xsl:when test="@reason = 'illegible'">
-                    <xsl:for-each select="1 to $quantity">
+                    <xsl:choose>
+                        <xsl:when test="@quantity">
+                            <xsl:for-each select="1 to $quantity">
             <xsl:text>+</xsl:text>
         </xsl:for-each>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:for-each select="1 to $extent">
+                                <xsl:text>▧</xsl:text>
+                            </xsl:for-each>
+                        </xsl:otherwise>
+                    </xsl:choose>
                 </xsl:when>
             <xsl:when test="@reason = 'omitted'">. . . . .</xsl:when>
             <xsl:when test="@reason = 'lost'">[ - ca. <xsl:value-of select="$quantity"/> <xsl:value-of select="@unit"/> - ]</xsl:when>
@@ -639,7 +649,13 @@
             });</xsl:text>
         </script>
     </xsl:template>
+   
+    <xsl:template match="t:choice[t:sic and t:orig]">
+        <xsl:variable name="id" select="generate-id()"/>
+        {<xsl:value-of select="t:corr"/>}
+    </xsl:template>
     
+   
     <xsl:template match="t:sic">
         <span class="w3-tooltip">
         <a class="CorrResp" data-value="{@resp}">
