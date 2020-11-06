@@ -44,7 +44,7 @@ let $whatpointshere := api:restWhatPointsHere($localId, $config:collection-root)
 
 let $refs := ($entity//@ref[not(./ancestor::t:respStmt)], $entity//@active, $entity//@passive)
 let $secondaryrelations := 
-for $id in distinct-values($refs[.!=$localId]) return 
+for $id in config:distinct-values($refs[.!=$localId]) return 
 (:exclude empty values :)
 if($id ='') then () 
 else if(starts-with($id,'INS')) then () 
@@ -60,7 +60,7 @@ let $wph :=
                 let $refid := root($pointerRoot)/t:TEI/@xml:id
                 return $refid
     let $allids :=($ids, $refs)
-    let $distincts :=  distinct-values($allids)
+    let $distincts :=  config:distinct-values($allids)
     for $I in $distincts
     let $cleanId := if(contains($I, '#')) then substring-before($I,  '#') else $I
 (:    let $thisI := $c//id($cleanId)[name()='TEI']:)

@@ -82,7 +82,7 @@ declare function gitsync:rdf($collection-uri, $file-name){
 declare function gitsync:updateinstitutionsMOD($file-name){
     let $institutionslist := $gitsync:institutions//t:list
     let $id := substring-before($file-name, '.xml')
-    let $update :=  update value  $institutionslist/t:item[@xml:id eq $id] with titles:printTitleMainID($id)
+    let $update :=  update value  $institutionslist/t:item[@xml:id=$id] with titles:printTitleMainID($id)
     return
         'updated institutions.xml static list'
 };
@@ -99,7 +99,10 @@ declare function gitsync:updateinstitutionsADD($file-name){
     let $institutionslist := $gitsync:institutions//t:list
     let $id := substring-before($file-name, '.xml')
 (:  This will inevitably cause the order in that list to be broken :)
-    let $update :=  update insert <item xmlns="http://www.tei-c.org/ns/1.0">{titles:printTitleMainID($id)}</item> into  $institutionslist
+    let $update :=  update insert <item 
+    xmlns="http://www.tei-c.org/ns/1.0"
+    change="entryAddedAt{current-dateTime()}"
+     >{titles:printTitleMainID($id)}</item> into  $institutionslist
     return
         'added value at the end of the list in institutions.xml'
 };
@@ -108,9 +111,8 @@ declare function gitsync:updateinstitutionsADD($file-name){
 declare function gitsync:updatepersonsMOD($file-name){
     let $perslist := $gitsync:persons//t:list
     let $id := substring-before($file-name, '.xml')
-    let $file := $config:collection-rootPr//id($id)
-    let $t := titles:persNameSelector($file)
-    let $update :=  update value  $perslist/t:item[@corresp eq $id] with $t
+    let $t := titles:printTitleMainID($id)
+    let $update :=  update value  $perslist/t:item[@corresp=$id] with $t
     return
         'updated persNamesLabels.xml static list with ' || $t || ' for item with id = ' || $id || '. '
 };
@@ -118,7 +120,7 @@ declare function gitsync:updatepersonsMOD($file-name){
 declare function gitsync:updatepersonsDEL($file-name){
     let $perslist := $gitsync:persons//t:list
     let $id := substring-before($file-name, '.xml')
-    let $update :=  update delete  $perslist/t:item[@corresp eq $id]
+    let $update :=  update delete  $perslist/t:item[@corresp=$id]
     return
         'removed value from list in persNamesLabels.xml '
 };
@@ -127,9 +129,7 @@ declare function gitsync:updatepersonsDEL($file-name){
 declare function gitsync:updateplacesMOD($file-name){
     let $placelist := $gitsync:places//t:list
     let $id := substring-before($file-name, '.xml')
-    let $file := $config:collection-rootPl//id($id) 
-    let $newtitleSelector := titles:placeNameSelector($file)
-    let $update :=  update value  $placelist/t:item[@corresp eq $id] with $newtitleSelector
+    let $update :=  update value  $placelist/t:item[@corresp=$id] with titles:printTitleMainID($id)
     return
         'updated placeNamesLabels.xml static list'
 };
@@ -137,25 +137,23 @@ declare function gitsync:updateplacesMOD($file-name){
 declare function gitsync:updateplacesDEL($file-name){
     let $placelist := $gitsync:places//t:list
     let $id := substring-before($file-name, '.xml')
-    let $update :=  update delete  $placelist/t:item[@corresp eq $id]
+    let $update :=  update delete  $placelist/t:item[@corresp=$id]
     return
         'removed value from list in placeNamesLabels.xml '
 };
 
 declare function gitsync:updatetextpartsMOD($file-name){
-    let $textslist := $gitsync:textparts//t:list
+    let $institutionslist := $gitsync:places//t:list
     let $id := substring-before($file-name, '.xml')
-    let $file := $config:collection-rootW//id($id) 
-    let $newtitleSelector := titles:worknarrTitleSelector($file)
-    let $update :=  update value  $textslist/t:item[@corresp eq $id] with $newtitleSelector
+    let $update :=  update value  $institutionslist/t:item[@corresp=$id] with titles:printTitleMainID($id)
     return
         'updated textpartstitles.xml static list '
 };
 
 declare function gitsync:updatetextpartsDEL($file-name){
-    let $textslist := $gitsync:textparts//t:list
+    let $institutionslist := $gitsync:places//t:list
     let $id := substring-before($file-name, '.xml')
-    let $update :=  update delete  $textslist/t:item[@corresp eq $id]
+    let $update :=  update delete  $institutionslist/t:item[@corresp=$id]
     return
         'removed value from list in textpartstitles.xml '
 };
@@ -220,9 +218,7 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
                     if(contains($data-collection, 'institutions')) then (
                     gitsync:updateinstitutionsMOD($file-name) )
                     else if(contains($data-collection, 'persons')) then (
-                    gitsync:updatepersonsMOD($file-name) )
-                   else if(contains($data-collection, 'works')) then (
-                    gitsync:updatetextpartsMOD($file-name))
+                    gitsync:updatepersonsMOD($file-name) ) 
                     else if(contains($data-collection, 'places')) then (
                     gitsync:updateplacesMOD($file-name) ) 
                     else ()
@@ -237,7 +233,7 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
                      let $taxonomy := for $key in $gitsync:taxonomy//t:catDesc/text() return lower-case($key)
                      return
                      if ($stored-fileID eq $filename) then (
-                     if(($allids = $taxonomy) and ($collectionName !='authority-files')) then (let $intersect := distinct-values($allids[.=$taxonomy])
+                     if(($allids = $taxonomy) and ($collectionName !='authority-files')) then (let $intersect := config:distinct-values($allids[.=$taxonomy])
                      return
                      gitsync:wrongAnchor($committerEmail, $intersect, $filename)) else ()
                      ) else (
@@ -349,7 +345,7 @@ declare function gitsync:do-add($commits, $contents-url as xs:string?, $data-col
                      let $taxonomy := for $key in $gitsync:taxonomy//t:catDesc/text() return lower-case($key)
                      return
                      if ($stored-fileID eq $filename) then (
-                     if(($allids = $taxonomy) and ($collectionName !='authority-files')) then (let $intersect := distinct-values($allids[.=$taxonomy])
+                     if(($allids = $taxonomy) and ($collectionName !='authority-files')) then (let $intersect := config:distinct-values($allids[.=$taxonomy])
                      return
                      gitsync:wrongAnchor($committerEmail, $intersect, $filename)) else ()
                      )
@@ -401,15 +397,14 @@ return
                     gitsync:updateinstitutionsDEL($file-name)) 
                     else if(contains($data-collection, 'persons')) then (
                     gitsync:updatepersonsDEL($file-name)) 
-                   else if(contains($data-collection, 'works')) then (
-                    gitsync:updatetextpartsDEL($file-name))
                     else if(contains($data-collection, 'places')) then (
                     gitsync:updateplacesDEL($file-name)) 
                     else (),
                     let $deletedlist := $gitsync:deleted//t:list
                     let $id := substring-before($file-name, '.xml')
 (:                    This will inevitably cause the order in that list to be broken :)
-                    let $update :=  update insert <item xmlns="http://www.tei-c.org/ns/1.0" 
+                    let $update :=  update insert <item 
+                    xmlns="http://www.tei-c.org/ns/1.0" 
                     source="{concat($collection, '/', $resource-path)}"
                     change="{current-dateTime()}">{$id}</item> into  $deletedlist
                     return

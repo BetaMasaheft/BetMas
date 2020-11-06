@@ -100,27 +100,27 @@ declare function genderInfo:runquery($q) {
 };
 
 declare function genderInfo:filter($res, $gen){
-for $r in $res//sr:binding[@name eq 'gender'][sr:literal eq $gen]
-                                      let $p := $r/preceding-sibling::sr:binding[@name eq 'person']
+for $r in $res//sr:binding[@name='gender'][sr:literal=$gen]
+                                      let $p := $r/preceding-sibling::sr:binding[@name='person']
                                       group by $person := $p
                                       return $person
 };
 
 declare function genderInfo:timeline($sparql){
-for $res in $sparql//sr:result[sr:binding[@name eq 'birth']]
-let $person := $res//sr:binding[@name eq 'person']/sr:uri/text() 
+for $res in $sparql//sr:result[sr:binding[@name='birth']]
+let $person := $res//sr:binding[@name='person']/sr:uri/text() 
             group by $p := $person
             let $id := substring-after($p,'https://betamasaheft.eu/')
             let $name := titles:printTitleMainID($id)
-            let $birth := $res[1]/sr:binding[@name eq 'birth']/sr:literal/text()
-            let $death := $res[1]/sr:binding[@name eq 'birth']/sr:literal/text()
+            let $birth := $res[1]/sr:binding[@name='birth']/sr:literal/text()
+            let $death := $res[1]/sr:binding[@name='birth']/sr:literal/text()
             return
             '["'||$name||'", new Date('||replace($birth, '-', ', ') ||'), new Date('||replace($death, '-', ', ')||')]'
    
 };
 declare function genderInfo:TempBarChartData($sparql){
           for $res in $sparql//sr:result
-            let $temp := $res//sr:binding[@name eq 'temporal']/sr:uri/text() 
+            let $temp := $res//sr:binding[@name='temporal']/sr:uri/text() 
             group by $r := $temp
             let $rname := 
                      if (contains($r, 't5z3')) then '-0999–0000 (South-Arabian Pre-Aksumite and Proto-Aksumite)'
@@ -142,7 +142,7 @@ declare function genderInfo:TempBarChartData($sparql){
 declare function genderInfo:GenBarChartData($sparql){
 
             for $res in $sparql//sr:result
-            let $role := $res//sr:binding[@name eq 'role'] 
+            let $role := $res//sr:binding[@name='role'] 
             group by $r := $role
             let $countF := genderInfo:filter($res, 'female')
              let $countM := genderInfo:filter($res, 'male')
@@ -173,20 +173,20 @@ for $n in $genderInfo:sparqlquery//sr:result
 return
 (   
 (:manuscript - repo:)
-map {'from': $n//sr:binding[@name eq 'ms']/sr:uri/text(), 
-      'to': $n//sr:binding[@name eq 'repo']/sr:uri/text(), 
+map {'from': $n//sr:binding[@name='ms']/sr:uri/text(), 
+      'to': $n//sr:binding[@name='repo']/sr:uri/text(), 
       'label': 'repository',   'value':  1, 
       'font':  map {'align':  'top'}},
 (:      manuscript - person (label = role) :)
-map {'from': $n//sr:binding[@name eq 'person']/sr:uri/text(), 
-      'to': $n//sr:binding[@name eq 'ms']/sr:uri/text(), 
-      'label': substring-after($n//sr:binding[@name eq 'role']/sr:uri/text(), 'https://betamasaheft.eu/'),   'value':  1, 
+map {'from': $n//sr:binding[@name='person']/sr:uri/text(), 
+      'to': $n//sr:binding[@name='ms']/sr:uri/text(), 
+      'label': substring-after($n//sr:binding[@name='role']/sr:uri/text(), 'https://betamasaheft.eu/'),   'value':  1, 
       'font':  map {'align':  'top'}},
 (: persons - person (label = snap ) :)
-if($n//sr:binding[@name eq 'related']/sr:uri/text()) then 
-map {'from': $n//sr:binding[@name eq 'person']/sr:uri/text(), 
-      'to': $n//sr:binding[@name eq 'related']/sr:uri/text(), 
-      'label': substring-after($n//sr:binding[@name eq 'bondType']/sr:uri/text(),'http://data.snapdrgn.net/ontology/snap#'), 
+if($n//sr:binding[@name='related']/sr:uri/text()) then 
+map {'from': $n//sr:binding[@name='person']/sr:uri/text(), 
+      'to': $n//sr:binding[@name='related']/sr:uri/text(), 
+      'label': substring-after($n//sr:binding[@name='bondType']/sr:uri/text(),'http://data.snapdrgn.net/ontology/snap#'), 
         'value':  1, 
         'font':  map {'align':  'top'}}
         else ()
@@ -279,7 +279,7 @@ return
                             application supporting
                             import from a SPARQL Endpoint, for example Palladio (endpoint is https://betamasaheft.eu/api/SPARQL/json), or in <a target="_blank" href="/sparql">our SPARQL Endpoint</a>.</p>
                         <p>At the moment the data contains some information 
-                             about {count(distinct-values($sparql//sr:binding[@name eq "person"]))}, 
+                             about {count(config:distinct-values($sparql//sr:binding[@name="person"]))}, 
                              <a href="/gender/table/female">{count(genderInfo:filter($sparql, 'female'))} women </a>
                              and <a href="/gender/table/male">{count(genderInfo:filter($sparql, 'male'))} men</a>. </p>
                              </div>

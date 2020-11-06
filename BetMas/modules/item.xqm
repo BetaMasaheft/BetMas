@@ -169,6 +169,12 @@ then you will see visualizations based on La Syntaxe du Codex, by Andrist, Canar
     target="_blank">Images</a>
     <span class="w3-text w3-tag itemoptiontooltip">Manuscript images in the Mirador viewer via IIIF</span>
     </div> else ()}
+    {if ($collection = 'manuscripts' and ($this//t:msIdentifier/t:idno[not(@facs)] ) and $this//t:collection[. eq 'Ethio-SPaRe']) then
+    <div class="w3-bar-item w3-tooltip" >
+    <a class="w3-button w3-padding-small w3-gray"  href="{('mailto:denis.nosnitsin@uni-hamburg.de,pietro.liuzzo@uni-hamburg.de?Subject=Request%20for%20images%20of%20Ethio-SPaRe%20Manuscript%20' || $id )}" 
+    target="_blank">Request Images from Ethio-SPaRe</a>
+    <span class="w3-text w3-tag itemoptiontooltip">Send an email to Ethio-SPaRe Project leader to request to make the images of this manuscript available here.</span>
+    </div> else ()}
     {if ($collection = 'manuscripts' and $this//t:facsimile/t:graphic) then
     <div class="w3-bar-item w3-tooltip" >
     <a class="w3-button w3-padding-small w3-gray"  href="{$this//t:facsimile/t:graphic/@url}" 
@@ -197,7 +203,7 @@ let $id := string($this/@xml:id)
 let $repoids := if ($document//t:repository/text() = 'Lost' or $document//t:repository/text() = 'In situ' ) 
                                then ($document//t:repository/text()) 
                              else if ($document//t:repository/@ref) 
-                                then distinct-values($document//t:repository/@ref) 
+                                then config:distinct-values($document//t:repository/@ref) 
                              else 'No Repository Specified'
 let $key := for $ed in $document//t:titleStmt/t:editor[not(@role eq  'generalEditor')]  
                                   return 
@@ -211,14 +217,13 @@ return
             <h1 id="headtitle">
                 {titles:printTitleID($id)}
             </h1>
-            {let $formerly := $document//t:relation[@name = 'betmas:formerlyAlsoListedAs'][@active eq $id]
-             let $same := $document//t:relation[@name = 'skos:exactMatch'][@active eq $id]
+            {let $formerly := $document//t:relation[@name eq 'betmas:formerlyAlsoListedAs'][@active eq $id]
+             let $same := $document//t:relation[@name eq 'skos:exactMatch'][@active eq $id]
             return
-            (if($formerly) then <p>This record was formerly also listed as {string-join($formerly/@passive, ', ')}.</p> 
+            (if($formerly) then <p>This record was formerly also listed as {string($formerly/@passive)}.</p> 
             else(),
             if($same) then 
-                    for $s in $same return <p>This record is the same as {for $x in $s/@passive return <a href="{string($s)}" 
-                    target="_blank">{titles:printTitleID($s)}</a>}.</p> 
+                    for $s in $same return <p>This record is the same as <a href="{string($s/@passive)}" target="_blank">{titles:printTitleID($s/@passive)}</a>.</p> 
             else ())}
           <p id="mainEditor"><i>{string-join($key, ', ')}</i></p>
           {if($collection = 'manuscripts') then <p>{if($this//t:additional//t:source/t:listBibl[@type eq 'catalogue']) then ('This manuscript description is based on ' , <a href="#catalogue">the catalogues listed in the catalogue bibliography</a> )
@@ -785,7 +790,7 @@ else if ($collection = 'manuscripts' or $collection = 'works' or $collection = '
  return
 <div  class="w3-panel w3-margin w3-gray w3-card-4">
     <a href="{$ID}">{titles:printTitleID($ID)}</a>
-    is <span class="w3-tag w3-red">{for $role in distinct-values($p/@role) return string($role) || ' '}</span>{' of this manuscript'}.
+    is <span class="w3-tag w3-red">{for $role in config:distinct-values($p/@role) return string($role) || ' '}</span>{' of this manuscript'}.
 
     {
     let $tei := $config:collection-root//t:TEI[@xml:id !=$id]
@@ -936,7 +941,7 @@ let $sameKey :=
                 $corr
    let $count := count($sameKey) + count($sameKeyAdd)      
    let $distinctMssIds := for $s in ($sameKey, $sameKeyAdd) return string($s/ancestor::t:TEI/@xml:id)
-   let $countDistMss := count(distinct-values($distinctMssIds))
+   let $countDistMss := count(config:distinct-values($distinctMssIds))
 return
 
    <div class="w3-panel w3-margin w3-red w3-card-4" id="computedWitnesses">
@@ -1120,7 +1125,7 @@ let $parts := $work//t:div[@type eq 'textpart'][@corresp]/@corresp
 let $rels := $config:collection-root//t:relation[@name eq 'saws:contains'][starts-with(@active,$id)]/@passive  
 let $relformspart := $config:collection-root//t:relation[(@name eq 'saws:formsPartOf') or (@name eq 'ecrm:CLP46i_may_form_part_of')][starts-with(@passive,$id)]/@active
 let $all := ($parts,$rels,$relformspart)
-let $ids := distinct-values($all)
+let $ids := config:distinct-values($all)
 return
 if (count($ids) ge 1) then
  (
@@ -1149,7 +1154,7 @@ return
 then 
     let $subids := for $subid in $work//t:div[@type eq 'textpart'][@corresp eq $c]/@xml:id return $id || '#' || string($subid)
 let $stringsubids:=string-join($subids, ',')
-return <p>Click the following link to compare a <a target="_blank" href="/compareSelected?mss={$stringsubids},{$c}">list of manuscripts linked to both {$stringsubids} and {$c}.</a></p> else ()}
+return <p>Click the following link to compare a <a target="_blank" href="/compareSelected?mss={$stringsubids},{$id}">list of manuscripts linked to both {$stringsubids} and {$c}.</a></p> else ()}
 </div>
 ) else <p>
 <a target="_blank" href="/{$c}">{$tit}</a> is listed also as {$c}, but not recorded with this reference in any manuscript at the moment.</p>
@@ -1167,41 +1172,41 @@ return <p>Click the following link to compare a <a target="_blank" href="/compar
  let $options := switch($collection)
 (:                   decides on the basis of the collection what is relevant to match related records :)
                    case 'manuscripts' return
-                   (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in distinct-values($file//t:term/@key) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
+                   (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in config:distinct-values($file//t:term/@key) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
                    if ($file//t:supportDesc/t:material/@key) then <optgroup label="material">{for $x in ($file//t:supportDesc/t:material/@key) return <option value="{$x}">{$x}</option>}</optgroup> else (),
-                   if ($file//t:handNote[@script]/@script) then <optgroup label="script">{for $x in distinct-values($file//t:handNote[@script]/@script) return <option value="{$x}">{string($x)}</option>}</optgroup> else (),
-                   if ($file//t:objectDesc/@form) then <optgroup label="form">{for $x in distinct-values($file//t:objectDesc/@form) return <option value="{$x}">{string($x)}</option>}</optgroup> else ())
+                   if ($file//t:handNote[@script]/@script) then <optgroup label="script">{for $x in config:distinct-values($file//t:handNote[@script]/@script) return <option value="{$x}">{string($x)}</option>}</optgroup> else (),
+                   if ($file//t:objectDesc/@form) then <optgroup label="form">{for $x in config:distinct-values($file//t:objectDesc/@form) return <option value="{$x}">{string($x)}</option>}</optgroup> else ())
                    case 'works' return
-                   (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in distinct-values($file//t:term/@key) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
+                   (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in config:distinct-values($file//t:term/@key) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
                    if ($file//t:relation[@name eq 'dcterms:creator']) then <optgroup label="author">{for $x in ($file//t:relation[@name eq 'dcterms:creator']) let $auth := string($x/@passive) return <option value="{$auth}">{titles:printTitleID($auth)}</option>}</optgroup> else (),
                    if ($file//t:relation[@name eq 'saws:isAttributedToAuthor']) then <optgroup label="relation">{for $x in ($file//t:relation[@name eq 'saws:isAttributedToAuthor']) let $auth := string($x/@passive) return <option value="{$auth}">{titles:printTitleID($auth)}</option>}</optgroup> else ()
                    )
                     case 'narratives' return
-                   (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in distinct-values($file//t:term/@key) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
+                   (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in config:distinct-values($file//t:term/@key) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
                    if ($file//t:relation[@name eq 'dcterms:creator']) then <optgroup label="author">{for $x in ($file//t:relation[@name eq 'dcterms:creator']) let $auth := string($x/@passive) return <option value="{$auth}">{titles:printTitleID($auth)}</option>}</optgroup> else (),
                    if ($file//t:relation[@name eq 'saws:isAttributedToAuthor']) then <optgroup label="attributed author">{for $x in ($file//t:relation[@name eq 'saws:isAttributedToAuthor']) let $auth := string($x/@active) return <option value="{$auth}">{titles:printTitleID($auth)}</option>}</optgroup> else ()
                    )
                    case 'places' return
-                   (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in distinct-values($file//t:term/@key) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
+                   (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in config:distinct-values($file//t:term/@key) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
                     if ($file//t:settlement) then <optgroup label="settlement">{for $x in $file//t:settlement/@ref return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
                    if ($file//t:region) then <optgroup label="region">{for $x in $file//t:region/@ref return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
                    if ($file//t:country) then <optgroup label="country">{for $x in $file//t:country/@ref return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
                    if ($file//t:place[@type]) then <optgroup label="type">{if(contains($file//t:place/@type, ' ')) then for $x in tokenize($file//t:place/@type, ' ')  return <option value="{$x}">{titles:printTitleID($x)}</option> else let $type := $file//t:place/@type return <option value="{$type}">{titles:printTitleID($type)}</option>}</optgroup> else ()
                    )
                    case 'institutions' return
-                   (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in distinct-values($file//t:term/@key) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
+                   (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in config:distinct-values($file//t:term/@key) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
                     if ($file//t:settlement) then <optgroup label="settlement">{for $x in $file//t:settlement/@ref return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
                    if ($file//t:region) then <optgroup label="region">{for $x in $file//t:region/@ref return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
                    if ($file//t:country) then <optgroup label="country">{for $x in $file//t:country/@ref return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
                    if ($file//t:place[@type]) then <optgroup label="type">{if(contains($file//t:place/@type, ' ')) then for $x in ($file//t:place/@type)  return <option value="{$x}">{titles:printTitleID($x)}</option> else let $type := $file//t:place/@type return <option value="{$type}">{titles:printTitleID($type)}</option>}</optgroup> else ()
                    )
                    case 'persons' return
-                   (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in distinct-values($file//t:term/@key) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
+                   (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in config:distinct-values($file//t:term/@key) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
                   if ($file//t:roleName) then <optgroup label="role">{for $x in ($file//t:roleName/@type) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
                    if ($file//t:faith) then <optgroup label="faith">{for $x in ($file//t:faith/@type) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else (),
                    if ($file//t:occupation) then <optgroup label="occupation">{for $x in ($file//t:occupation/@type) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else ()
                    )
-                  default return (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in distinct-values($file//t:term/@key) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else ()
+                  default return (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in config:distinct-values($file//t:term/@key) return <option value="{$x}">{titles:printTitleID($x)}</option>}</optgroup> else ()
                    )
  return
        <div class="{if(starts-with($id, 'INS')) then 'w3-container w3-padding' else 'w3-third w3-padding'}" id="seeAlsoForm" >

@@ -64,7 +64,7 @@ return
 (:~here I cannot use for the title the javascript titles.js because the content is not exposed:)
 <bibl>
 {
-for $author in distinct-values($auths)
+for $author in config:distinct-values($auths)
 let $count := count($file//t:revisionDesc/t:change[@who eq $author])
 order by $count descending
                 return
@@ -106,7 +106,7 @@ declare function functx:capitalize-first( $arg as xs:string? )  as xs:string? {
  } ;
  
 declare function app:interpretationSegments($node as node(), $model as map(*)){
- for $d in distinct-values($config:collection-rootMS//t:seg/@ana)
+ for $d in config:distinct-values($config:collection-rootMS//t:seg/@ana)
                     return
                     <option value="{$d}">{substring-after($d, '#')}</option>
                     };
@@ -316,7 +316,7 @@ declare function app:formcontrol($nodeName as xs:string, $path, $group, $type, $
 if ($group = 'true') 
 then ( 
       let $values := for $i in $path return  if (contains($i, ' ')) then tokenize($i, ' ') else if ($i=' ' or $i='' ) then () else functx:trim(normalize-space($i))
-      let $nodes := distinct-values($values)
+      let $nodes := config:distinct-values($values)
       return 
        <div class="w3-container">
                     <label for="{$nodeName}">{$nodeName}s <span class="w3-badge">{count($nodes[. != ''][. != ' '])}</span></label>
@@ -466,7 +466,7 @@ declare function app:deleted ($node as node(), $model as map(*)) {
 
 declare function functx:value-intersect  ( $arg1 as xs:anyAtomicType* ,    $arg2 as xs:anyAtomicType* )  as xs:anyAtomicType* {
 
-  distinct-values($arg1[. eq $arg2])
+  config:distinct-values($arg1[. eq $arg2])
  } ;
 
 declare function functx:trim( $arg as xs:string? )  as xs:string {
@@ -578,7 +578,7 @@ declare
 %templates:default("context", "$config:collection-rootMS")
 function app:support($node as node(), $model as map(*), $context as xs:string*) {
      let $cont := util:eval($context)
-     let $forms := distinct-values($cont//@form)
+     let $forms := config:distinct-values($cont//@form)
      let $control := app:formcontrol('support', $forms, 'false', 'values', $context)
      return
         templates:form-control($control, $model)
@@ -589,7 +589,7 @@ declare
 %templates:default("context", "$config:collection-rootMS")
 function app:material($node as node(), $model as map(*), $context as xs:string*) {
       let $cont := util:eval($context)
-      let $materials := distinct-values($cont//t:support/t:material/@key)
+      let $materials := config:distinct-values($cont//t:support/t:material/@key)
       let $control := app:formcontrol('material', $materials, 'false', 'values', $context)
       return
         templates:form-control($control, $model)
@@ -600,7 +600,7 @@ declare
 %templates:default("context", "$config:collection-rootMS") 
 function app:bmaterial($node as node(), $model as map(*), $context as xs:string*) {
     let $cont := util:eval($context)
-      let $bmaterials := distinct-values($cont//t:decoNote[@type eq 'bindingMaterial']/t:material/@key)
+      let $bmaterials := config:distinct-values($cont//t:decoNote[@type eq 'bindingMaterial']/t:material/@key)
     
    let $control :=
         app:formcontrol('bmaterial', $bmaterials, 'false', 'values', $context)
@@ -614,7 +614,7 @@ declare
 %templates:default("context", "$config:collection-rootPlIn") 
 function app:placeType($node as node(), $model as map(*), $context as xs:string*) {
       let $cont := util:eval($context)
-     let $placeTypes := distinct-values($cont//t:place/@type/tokenize(., '\s+'))
+     let $placeTypes := config:distinct-values($cont//t:place/@type/tokenize(., '\s+'))
     let $control := app:formcontrol('placeType', $placeTypes, 'false', 'values', $context)
     return
         templates:form-control($control, $model)
@@ -625,7 +625,7 @@ declare
 %templates:default("context", "$config:collection-rootPr") 
 function app:personType($node as node(), $model as map(*), $context as xs:string*) {
     let $cont := util:eval($context)
-      let $persTypes := distinct-values($cont//t:person//t:occupation/@type/tokenize(., '\s+'))
+      let $persTypes := config:distinct-values($cont//t:person//t:occupation/@type/tokenize(., '\s+'))
     let $control := app:formcontrol('persType', $persTypes, 'false', 'values', $context)
     return
         templates:form-control($control, $model)
@@ -636,7 +636,7 @@ declare
 %templates:default("context", "$config:collection-root") 
 function app:relationType($node as node(), $model as map(*), $context as xs:string*) {
     let $cont := util:eval($context)
-    let $relTypes := distinct-values($cont//t:relation/@name/tokenize(., '\s+'))
+    let $relTypes := config:distinct-values($cont//t:relation/@name/tokenize(., '\s+'))
     let $control :=app:formcontrol('relType', $relTypes, 'false', 'values', $context)
     return
         templates:form-control($control, $model)
@@ -655,7 +655,7 @@ declare
 %templates:default("context", "$config:collection-rootMS") 
 function app:languages($node as node(), $model as map(*), $context as xs:string*) {
      let $cont := util:eval($context)
-     let $keywords := distinct-values($cont//t:language/@ident)
+     let $keywords := config:distinct-values($cont//t:language/@ident)
      let $control := app:formcontrol('language', $keywords, 'false', 'values', $context)
       return
         templates:form-control($control, $model)
@@ -667,7 +667,7 @@ declare
 function app:scribes($node as node(), $model as map(*), $context as xs:string*) {
      let $cont := util:eval($context)
       let $elements := $cont//t:persName[@role eq 'scribe'][not(@ref eq 'PRS00000')][ not(@ref eq 'PRS0000')]
-    let $keywords := distinct-values($elements/@ref)
+    let $keywords := config:distinct-values($elements/@ref)
     let $control := app:formcontrol('scribe', $keywords, 'false', 'rels', $context)
     return
         templates:form-control($control, $model)
@@ -679,7 +679,7 @@ declare
 function app:donors($node as node(), $model as map(*), $context as xs:string*) {
      let $cont := util:eval($context)
     let $elements := $cont//t:persName[@role eq 'donor'][not(@ref eq 'PRS00000')][ not(@ref eq 'PRS0000')]
-    let $keywords := distinct-values($elements/@ref)
+    let $keywords := config:distinct-values($elements/@ref)
    let $control :=app:formcontrol('donor', $keywords, 'false', 'rels', $context)
     return
         templates:form-control($control, $model)
@@ -691,7 +691,7 @@ declare
 function app:patrons($node as node(), $model as map(*), $context as xs:string*) {
      let $cont := util:eval($context)
       let $elements := $cont//t:persName[@role eq 'patron'][not(@ref eq 'PRS00000')][ not(@ref eq 'PRS0000')]
-    let $keywords := distinct-values($elements/@ref)
+    let $keywords := config:distinct-values($elements/@ref)
   let $control :=app:formcontrol('patron', $keywords, 'false', 'rels', $context)
     return
         templates:form-control($control, $model)
@@ -703,7 +703,7 @@ declare
 function app:owners($node as node(), $model as map(*), $context as xs:string*) {
       let $cont := util:eval($context)
       let $elements := $cont//t:persName[@role eq 'owner'][not(@ref eq 'PRS00000')][ not(@ref eq 'PRS0000')]
-      let $keywords := distinct-values($elements/@ref)
+      let $keywords := config:distinct-values($elements/@ref)
       let $control := app:formcontrol('owner', $keywords, 'false', 'rels', $context)
       return
         templates:form-control($control, $model)
@@ -715,7 +715,7 @@ declare
 function app:binders($node as node(), $model as map(*), $context as xs:string*) {
       let $cont := util:eval($context)
       let $elements := $cont//t:persName[@role eq 'binder'][not(@ref eq 'PRS00000')][ not(@ref eq 'PRS0000')]
-    let $keywords := distinct-values($elements/@ref)
+    let $keywords := config:distinct-values($elements/@ref)
    let $control := app:formcontrol('binder', $keywords, 'false', 'rels', $context)
     return
         templates:form-control($control, $model)
@@ -727,7 +727,7 @@ declare
 function app:parmakers($node as node(), $model as map(*), $context as xs:string*) {
     let $cont := util:eval($context)
       let $elements := $cont//t:persName[@role eq 'parchmentMaker'][not(@ref eq 'PRS00000')][ not(@ref eq 'PRS0000')]
-    let $keywords := distinct-values($elements/@ref)
+    let $keywords := config:distinct-values($elements/@ref)
     let $control := app:formcontrol('parchmentMaker', $keywords, 'false', 'rels', $context)
        return
         templates:form-control($control, $model)
@@ -740,7 +740,7 @@ function app:contents($node as node(), $model as map(*), $context as xs:string*)
     let $cont := util:eval($context)
     let $elements :=$cont//t:msItem[not(contains(@xml:id, '.'))]
     let $titles := $elements/t:title/@ref
-    let $keywords := distinct-values($titles)
+    let $keywords := config:distinct-values($titles)
   return
    app:formcontrol('content', $keywords, 'false', 'hierels', $context)
 };
@@ -764,7 +764,7 @@ let $attributions := for $rel in ($works//t:relation[@name eq "saws:isAttributed
 let $r := $rel/@passive
                 return 
                 if (contains($r, ' ')) then tokenize($r, ' ') else $r  
-let $keywords := distinct-values($attributions)
+let $keywords := config:distinct-values($attributions)
   return
    app:formcontrol('author', $keywords, 'false', 'rels', $context)
 };
@@ -775,8 +775,8 @@ declare
 function app:tabots($node as node(), $model as map(*), $context as xs:string*) {
 let $cont := util:eval($context)
 let $tabots:= $cont//t:ab[@type eq 'tabot']
-    let $personTabot := distinct-values($tabots//t:persName/@ref) 
-    let $thingsTabot := distinct-values($tabots//t:ref/@corresp)
+    let $personTabot := config:distinct-values($tabots//t:persName/@ref) 
+    let $thingsTabot := config:distinct-values($tabots//t:ref/@corresp)
     let $alltabots := ($personTabot, $thingsTabot)
   return
    app:formcontrol('tabot', $alltabots, 'false', 'rels', $context)
@@ -1435,7 +1435,8 @@ declare function app:hit-params($node as node()*, $model as map(*)) {
 declare function app:gotoadvanced($node as node()*, $model as map(*)){
 let $query := request:get-parameter('query', ())
 return 
-<a href="/as.html?query={$query}" class="w3-button w3-red w3-margin">Repeat search in the Advanced Search.</a>
+(<a href="/as.html?query={$query}" class="w3-button w3-red w3-margin">Repeat search in the Facet Search.</a>,
+<a href="/as.html?query={$query}" class="w3-button w3-red w3-margin">Repeat search in the Advanced Search.</a>)
 };
 
 declare function app:list-count($node as node()*, $model as map(*)) {
@@ -1673,19 +1674,19 @@ function app:facetSearchRes ( $node as node()*,  $model as map(*), $start as xs:
               <span class="w3-tag w3-red"><a href="/{$id}.pdf" target="_blank" >PDF</a></span><br/>
                <a target="_blank" href="/{$collection}/{$id}/main"><b>{if(starts-with($id, 'corpus')) then $root//t:titleStmt/t:title[1]/text() else try{titles:printTitleID($id)} catch *{console:log(($text, $id, $err:description))}}</b></a><br/>
                {if ($item//t:facsimile/t:graphic/@url) 
-               then <a target="_blank" href="{$item//t:facsimile/t:graphic/@url}">Link to external image set</a> 
+               then <a target="_blank" href="{$item//t:facsimile/t:graphic/@url}">Link to images</a> 
                else if($item//t:msIdentifier/t:idno[@facs][@n]) then 
                  <a target="_blank" href="/manuscripts/{$id}/viewer">{
-                if($item//t:collection = 'Ethio-SPaRe') 
-               then <img src="{$config:appUrl ||'/iiif/' || string(($item//t:msIdentifier)[1]/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
+                if($item//t:collection eq 'Ethio-SPaRe') 
+               then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
 (:laurenziana:)
 else  if($item//t:repository[@ref eq 'INS0339BML']) 
                then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '005.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
           
 (:          
 EMIP:)
-              else if(($item//t:collection = 'EMIP') and $item//t:msIdentifier/t:idno/@n) 
-               then <img src="{$config:appUrl ||'/iiif/' || string(($item//t:msIdentifier)[1]/t:idno/@facs) || '001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
+              else if(($item//t:collection eq 'EMIP') and $item//t:msIdentifier/t:idno/@n) 
+               then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
               
              (:BNF:)
             else if ($item//t:repository/@ref eq 'INS0303BNF') 
@@ -1706,7 +1707,7 @@ else if (contains($item//t:msIdentifier/t:idno/@facs, 'bodleian')) then ('images
               </div>
               <div class="w3-col"  style="width:15%">
                 <span class="w3-badge">{$count}</span>
-                in {for $match in distinct-values($expanded//exist:match/parent::t:*/name()) return (<code>{string($match)}</code>,<br/>) }
+                in {for $match in config:distinct-values($expanded//exist:match/parent::t:*/name()) return (<code>{string($match)}</code>,<br/>) }
               </div>
             </div>
             <div class="w3-twothird">

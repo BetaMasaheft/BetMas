@@ -11,6 +11,7 @@ declare namespace test="http://exist-db.org/xquery/xqsuite";
 (:~
  : provided a string substitutes characters matching one by one, returning all possible combinations (but multiple times).
  : :)
+ 
 declare function all:repl($query, $match, $sub)
 {
 (: take the string and make into a sequence eg. abcabc   :)
@@ -58,7 +59,7 @@ declare function all:subs($query, $homophones, $mode) {
                             return
                                 (
                                 let $values := all:repl($q, $b, $s) return 
-                                distinct-values($values),
+                                all:distinct-values($values),
                                 if ($mode = 'ws') then
                                     (replace($q, $b, ''))
                                      else()
@@ -72,7 +73,7 @@ declare function all:subs($query, $homophones, $mode) {
         else
             ()
    let $queryAndAll := ($query, $all)
-   return distinct-values($queryAndAll)
+   return all:distinct-values($queryAndAll)
 };
 
 
@@ -209,4 +210,11 @@ declare function all:limitoptions($options){
                 (:the string length of the options is safe and can be passed to lucene. There is off course no guarantee that the desired option is included in the once filtered, but we are not Daniel.:)
                 $string
     
+};
+
+declare function all:distinct-values($values){
+for $value in $values
+   group by $value
+   return
+       $value
 };

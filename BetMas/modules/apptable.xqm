@@ -102,7 +102,7 @@ declare function apptable:tr($doc as node(), $list as xs:string) {
 
     <tr class="ListItems"
         style="{
-                if (count($doc//t:change[@who != 'PL']) = 1) then
+                if (count($doc//t:change[@who != 'PL']) eq 1) then
                     'background-color:rgb(213, 75, 10, 0.4)'
                 else
                     if ($doc//t:change[contains(., 'completed')]) then
@@ -131,7 +131,7 @@ declare function apptable:clavisIds($doc as node()){
     <span class="w3-text"><a href="https://www.traces.uni-hamburg.de/en/texts/clavis.html"><em>Clavis Aethiopica</em></a>, an ongoing repertory of all known Ethiopic <a href="https://betamasaheft.eu/Guidelines/?id=definitionWorks">Textual Units</a>. Use this to refer univocally to a specific text in your publications. Please note that this shares only the 
     numeric part with the <a href="https://betamasaheft.eu/Guidelines/?id=entities-id-structure">Textual Unit Record Identifier</a>.</span>
     </span> ,
-if($doc//t:listBibl[@type = 'clavis']) 
+if($doc//t:listBibl[@type='clavis']) 
             then (
             <div class="w3-responsive"><table class="w3-table w3-hoverable">
             <thead>
@@ -140,7 +140,7 @@ if($doc//t:listBibl[@type = 'clavis'])
 <span class="w3-text">(list of identifiable texts)</span></span></th><th>ID</th></tr>
             </thead>
             <tbody>
-            {for $bibl in $doc//t:listBibl[@type eq 'clavis']/t:bibl 
+            {for $bibl in $doc//t:listBibl[@type='clavis']/t:bibl 
              let $st := string($bibl/@type)
             return 
             <tr>
@@ -159,7 +159,7 @@ if($doc//t:listBibl[@type = 'clavis'])
             default return <a href="https://en.wikipedia.org/wiki/Clavis_Patrum_Graecorum">Clavis Patrum Graecorum</a>}</span></span>
           </td>
             <td>
-            <a href='{$bibl/@corresp}'>{$bibl/t:citedRange/text()}{if($bibl/ancestor::t:div[(@type eq 'textpart') or (@type eq 'edition')]) then (' ( part ' || (let $subtitle := $bibl/ancestor::t:div[@type][1] return titles:printSubtitle($subtitle, string($subtitle/@xml:id))) || ')') else ()}</a>
+            <a href='{$bibl/@corresp}'>{$bibl/t:citedRange/text()}{if($bibl/ancestor::t:div[@type='textpart' or @type='edition']) then (' ( part ' || (let $subtitle := $bibl/ancestor::t:div[@type][1] return titles:printSubtitle($subtitle, string($subtitle/@xml:id))) || ')') else ()}</a>
             </td>
             </tr>
             }
@@ -223,11 +223,11 @@ if ($list = 'works') then (
                         <li>{$author}</li>
                 }
                 {
-                let $attributions := for $r in $item//t:relation[@name = "saws:isAttributedToAuthor"]
+                let $attributions := for $r in $item//t:relation[@name="saws:isAttributedToAuthor"]
                 let $rpass := $r/@passive
                 return 
                 if (contains($rpass, ' ')) then tokenize($rpass, ' ') else $rpass
-                    for $author in distinct-values($attributions)
+                    for $author in config:distinct-values($attributions)
                     return
                         <li><a href="{$author}"><mark>{try{titles:printTitleID($author)} catch*{$author//t:titleStmt/t:title[1]/text()}}</mark></a></li>
                 }
@@ -246,7 +246,7 @@ if ($list = 'works') then (
             </ul>
             <ul  class="nodot">
                 {
-                    for $parallel in $config:collection-root//t:relation[@name = 'saws:isVersionOf'][contains(@passive, $itemid)]
+                    for $parallel in $config:collection-root//t:relation[@name='saws:isVersionOf'][contains(@passive, $itemid)]
                     let $p := $parallel/@active
                     return
                         <li><a
@@ -255,7 +255,7 @@ if ($list = 'works') then (
             </ul>
             <ul  class="nodot">
                 {
-                    for $parallel in $config:collection-root//t:relation[@name = 'isVersionInAnotherLanguageOf'][contains(@passive, $itemid)]
+                    for $parallel in $config:collection-root//t:relation[@name='isVersionInAnotherLanguageOf'][contains(@passive, $itemid)]
                      let $p := $parallel/@active
                     return
                         <li><a
@@ -275,17 +275,17 @@ if ($list = 'works') then (
 (:      images  msitemsm msparts, hands, script:)
             (<td>{let $idnos := for $shelfmark in $item//t:msIdentifier//t:idno return $shelfmark/text() return string-join($idnos, ', ')}
             </td>,
-            <td>{if ($item//t:facsimile[not(@facs)]/t:graphic/@url) then <a target="_blank" href="{$item//t:facsimile[not(@facs)]/t:graphic/@url}">Link to external image set</a> else if($item//t:msIdentifier/t:idno/@facs) then 
+            <td>{if ($item//t:facsimile/t:graphic/@url) then <a target="_blank" href="{$item//t:facsimile/t:graphic/@url}">Link to images</a> else if($item//t:msIdentifier/t:idno/@facs) then 
                  <a target="_blank" href="/manuscripts/{$itemid}/viewer">{
                 if($item//t:collection = 'Ethio-SPaRe') 
                then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
 (:laurenziana:)
-else  if($item//t:repository[@ref = 'INS0339BML']) 
+else  if($item//t:repository/@ref[.='INS0339BML']) 
                then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '005.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
           
 (:          
 EMIP:)
-              else if(($item//t:collection = 'EMIP') and $item//t:msIdentifier/t:idno/@n) 
+              else if($item//t:collection = 'EMIP' and $item//t:msIdentifier/t:idno/@n) 
                then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
               
              (:BNF:)
@@ -316,7 +316,7 @@ else if (contains($item//t:msIdentifier/t:idno/@facs, 'bodleian')) then ('images
                         ()
                 }</td>,
             <td>{count($item//t:handNote)}</td>,
-            <td>{distinct-values(data($item//@script))}</td>,
+            <td>{config:distinct-values(data($item//@script))}</td>,
 <td><input type="checkbox" class="w3-check compareSelected" data-value="{$itemid}"/></td>
             )
         else

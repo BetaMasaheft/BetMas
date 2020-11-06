@@ -29,11 +29,11 @@ function indexesNE:placeNames ($node as node(), $model as map(*),  $collection a
    case 'place' return '$config:collection-rootPl'
    case 'ins' return '$config:collection-rootIn'
    default return '$config:collection-root'
-   let $Pointer := if($pointer = '') then "[@ref]" else "[@ref eq '"||$pointer||"']"
+   let $Pointer := if($pointer = '') then "[@ref]" else "[@ref='"||$pointer||"']"
    let $entityRef := if($entity='') then '' else '/id($entity)'
    let $path := $coll||$entityRef||'//t:placeName'||$Pointer 
    let $places := util:eval($path)
-let $placeIDS := distinct-values($places/@ref)
+let $placeIDS := config:distinct-values($places/@ref)
     return
    map {
                     "hits" : $placeIDS,
@@ -58,11 +58,11 @@ function indexesNE:persNames ($node as node(), $model as map(*),  $collection as
    case 'place' return '$config:collection-rootPl'
    case 'ins' return '$config:collection-rootIn'
    default return '$config:collection-root'
-   let $Pointer := if($pointer = '') then "[@ref]" else "[@ref eq '"||$pointer||"']"
+   let $Pointer := if($pointer = '') then "[@ref]" else "[@ref='"||$pointer||"']"
    let $entityRef := if($entity='') then '' else '/id($entity)'
    let $path := $coll||$entityRef||'//t:persName'||$Pointer 
    let $persons := util:eval($path)
-let $persIDS := distinct-values($persons/@ref)
+let $persIDS := config:distinct-values($persons/@ref)
     return
    map {
                     "hits" : $persIDS[.!='PRS00000'][.!='PRS0000'],
@@ -136,7 +136,7 @@ declare
     function indexesNE:placeNamesRes($node as node(), $model as map(*), $start as xs:integer, $per-page as xs:integer){
 
 for $target at $p in subsequence($model("hits"), $start, $per-page)
-let $ptrs := $config:collection-root//t:placeName[@ref eq $target]
+let $ptrs := $config:collection-root//t:placeName[@ref = $target]
 let $count := count($ptrs)
 return
 <div class="w3-container w3-margin">
@@ -179,7 +179,7 @@ declare
     function indexesNE:persNamesRes($node as node(), $model as map(*), $start as xs:integer, $per-page as xs:integer){
 
 for $target at $p in subsequence($model("hits"), $start, $per-page)
-let $ptrs := $config:collection-root//t:persName[@ref eq $target]
+let $ptrs := $config:collection-root//t:persName[@ref = $target]
 let $count := count($ptrs)
 return
 <div class="w3-margin">

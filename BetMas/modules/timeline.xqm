@@ -18,18 +18,18 @@ let $whatpointshere := apprest:WhatPointsHere($itemid, $config:collection-root)
 let $data :=
 let $dateManuscripts :=
 let $dateofThisManuscript := $this//t:origDate[@when or (@notBefore or @notAfter)]
-let $datesofRelatedManuscripts := for $ref in distinct-values($this//@ref[not(matches(., '\w{3}\d+\w+'))][not(starts-with(., 'wd:'))][not(starts-with(., 'pleiades:'))])
+let $datesofRelatedManuscripts := for $ref in config:distinct-values($this//@ref[not(matches(., '\w{3}\d+\w+'))][not(starts-with(., 'wd:'))][not(starts-with(., 'pleiades:'))])
 return doc(($config:data-rootMS || '/' ||string($ref)|| '.xml'))//t:origDate[@when or (@notBefore or @notAfter)]
-let $datesofcitingMss := for $citingms in distinct-values($whatpointshere[ancestor::t:TEI[@type eq 'mss']]/ancestor::t:TEI/@xml:id) return doc(($config:data-rootMS || '/' ||string($citingms)|| '.xml'))//t:origDate[@when or (@notBefore or @notAfter)]
+let $datesofcitingMss := for $citingms in config:distinct-values($whatpointshere[ancestor::t:TEI[@type='mss']]/ancestor::t:TEI/@xml:id) return doc(($config:data-rootMS || '/' ||string($citingms)|| '.xml'))//t:origDate[@when or (@notBefore or @notAfter)]
 for $date in ($dateofThisManuscript, $datesofRelatedManuscripts, $datesofcitingMss)
 return
 tl:date($date, 'obj')
 
 let $dateInManuscripts :=
 let $dateinthisms := $this//t:date[@when or @notBefore or @notAfter]
-let $datesinRelatedManuscripts := for $ref in distinct-values($this//@ref[not(matches(., '\w{3}\d+\w+'))][not(starts-with(., 'wd:'))][not(starts-with(., 'pleiades:'))])
+let $datesinRelatedManuscripts := for $ref in config:distinct-values($this//@ref[not(matches(., '\w{3}\d+\w+'))][not(starts-with(., 'wd:'))][not(starts-with(., 'pleiades:'))])
 return doc(($config:data-rootMS || '/' ||string($ref)|| '.xml'))//t:date[@when or @notBefore or @notAfter]
-let $datesIncitingMss := for $Incitingms in distinct-values($whatpointshere[ancestor::t:TEI[@type eq 'mss']]/ancestor::t:TEI/@xml:id) return doc(($config:data-rootMS || '/' ||string($Incitingms)|| '.xml'))//t:date[@when or @notBefore or @notAfter]
+let $datesIncitingMss := for $Incitingms in config:distinct-values($whatpointshere[ancestor::t:TEI[@type='mss']]/ancestor::t:TEI/@xml:id) return doc(($config:data-rootMS || '/' ||string($Incitingms)|| '.xml'))//t:date[@when or @notBefore or @notAfter]
 
 for $date in ($dateinthisms, $datesinRelatedManuscripts, $datesIncitingMss)
 return
@@ -37,10 +37,10 @@ tl:date($date, 'obj')
 
 
 let $datePersons :=
-let $datesOfThisPerson := $this//t:person[t:birth[@evidence eq  "internal"][@when or @notBefore or @notAfter] or t:death[@evidence eq  "internal"][@when or @notBefore or @notAfter] or t:floruit[@evidence eq  "internal"][@when or @notBefore or @notAfter]]
-let $datesofRelatedPersons := for $ref in distinct-values($this//@ref[starts-with(.,'PRS')])
-return doc(($config:data-rootPr || '/' ||string($ref)|| '.xml'))//t:person[t:birth[@evidence eq  "internal"][@when or @notBefore or @notAfter] or t:death[@evidence eq  "internal"][@when or @notBefore or @notAfter] or t:floruit[@evidence eq  "internal"][@when or @notBefore or @notAfter]]
-let $datesIncitingPrs := for $citingpr in distinct-values($whatpointshere[ancestor::t:TEI[@type eq 'pers']]/ancestor::t:TEI/@xml:id) return doc(($config:data-rootPr || '/' ||string($citingpr)|| '.xml'))//t:person[t:birth[@evidence eq  "internal"][@when or @notBefore or @notAfter] or t:death[@evidence eq  "internal"][@when or @notBefore or @notAfter] or t:floruit[@evidence eq  "internal"][@when or @notBefore or @notAfter]]
+let $datesOfThisPerson := $this//t:person[t:birth[@evidence = "internal"][@when or @notBefore or @notAfter] or t:death[@evidence = "internal"][@when or @notBefore or @notAfter] or t:floruit[@evidence = "internal"][@when or @notBefore or @notAfter]]
+let $datesofRelatedPersons := for $ref in config:distinct-values($this//@ref[starts-with(.,'PRS')])
+return doc(($config:data-rootPr || '/' ||string($ref)|| '.xml'))//t:person[t:birth[@evidence = "internal"][@when or @notBefore or @notAfter] or t:death[@evidence = "internal"][@when or @notBefore or @notAfter] or t:floruit[@evidence = "internal"][@when or @notBefore or @notAfter]]
+let $datesIncitingPrs := for $citingpr in config:distinct-values($whatpointshere[ancestor::t:TEI[@type='pers']]/ancestor::t:TEI/@xml:id) return doc(($config:data-rootPr || '/' ||string($citingpr)|| '.xml'))//t:person[t:birth[@evidence = "internal"][@when or @notBefore or @notAfter] or t:death[@evidence = "internal"][@when or @notBefore or @notAfter] or t:floruit[@evidence = "internal"][@when or @notBefore or @notAfter]]
 
 for $datep in ($datesOfThisPerson, $datesofRelatedPersons)
 let $root := $datep/ancestor::t:TEI
@@ -361,15 +361,14 @@ default return
                     </from>
                 else
                     if ($date[@notAfter and not(@notBefore)]) then
-                        <from>
+                        <to>
                             {string($date/@notAfter)}
-                        </from>
+                        </to>
                     else
                         if ($date[@when]) then
                             <from>
                                 {string($date/@when)}
                             </from>
-                            
                         else
                             ()
         

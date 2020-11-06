@@ -93,7 +93,7 @@ var options = {
 
 
 declare function charts:pieAttestations($itemid, $name){
-  let $path:= '$config:collection-root//t:' || $name || '[@ref eq $itemid][text()]'
+  let $path:= '$config:collection-root//t:' || $name || '[@ref=$itemid][text()]'
   let $attestations := util:eval($path)
   let $forms := for $att in $attestations
                  let $groupkey := normalize-space(string-join($att/text(), ' '))
@@ -128,20 +128,17 @@ declare function charts:pieAttestations($itemid, $name){
       )
 };
 
-
 declare function charts:dateFilter($from, $to, $hits){
   $hits[descendant::t:origDate[(if (contains(@notBefore, '-'))
-         then (substring-before(@notBefore, '-'))
-        else @notBefore)[. !=''][xs:integer(format-number(., '####')) ge  xs:integer($from)][xs:integer(format-number(., '####'))  le xs:integer($to)]
-           or
-        (if (contains(@notAfter, '-'))
-          then (substring-before(@notAfter, '-'))
-         else @notAfter)[. !=''][xs:integer(format-number(., '####')) ge xs:integer($from)][xs:integer(format-number(., '####'))  le xs:integer($to)]]]
+                                                                              then (substring-before(@notBefore, '-'))
+                                                                              else @notBefore)[. !=''][number(.) >= $from][number(.)  <= $to]
+                                                                              or
+                                                                             (if (contains(@notAfter, '-'))
+                                                                              then (substring-before(@notAfter, '-'))
+                                                                              else @notAfter)[. !=''][number(.) >= $from][number(.)  <= $to]]]
 };
 
-
 declare function charts:chart($hits){
-    
     let $mssAks := charts:dateFilter(0300, 0700, $hits)
     let $mssPaks1 := charts:dateFilter(1200, 1433, $hits)  
     let $mssPaks2 := charts:dateFilter(1434, 1632, $hits)
@@ -176,35 +173,35 @@ declare function charts:chart($hits){
   
   let $countNotDated := count($mssNotDated)
 
-  let $countmswithSSta := count($hits[descendant::t:decoNote[@type eq 'SewingStations']])
-  let $spvalues := distinct-values($hits//t:decoNote[@type eq 'SewingStations'])
+  let $countmswithSSta := count($hits[descendant::t:decoNote[@type='SewingStations']])
+  let $spvalues := config:distinct-values($hits//t:decoNote[@type='SewingStations'])
 
   let $countmswithSPat := count($hits[descendant::t:term[starts-with(@key,'pattern')]])
-  let $spatvalues := distinct-values($hits//t:term[starts-with(@key, 'pattern')]/@key)
+  let $spatvalues := config:distinct-values($hits//t:term[starts-with(@key, 'pattern')]/@key)
 
   let $countmswithThreadMat := count($hits[descendant::t:term[ends-with(@key, 'Thread') or contains(@key, 'tannedSkin')]])
-  let $TMvalues := distinct-values($hits//t:term[ends-with(@key, 'Thread') or contains(@key, 'tannedSkin')]/@key)
+  let $TMvalues := config:distinct-values($hits//t:term[ends-with(@key, 'Thread') or contains(@key, 'tannedSkin')]/@key)
 
 
     let $countmswithbindingMat := count($hits[descendant::t:decoNote[parent::t:binding][t:material]])
-    let $BMvalues := distinct-values($hits//t:decoNote[parent::t:binding]/t:material/@key)
+    let $BMvalues := config:distinct-values($hits//t:decoNote[parent::t:binding]/t:material/@key)
 
     let $countmswithMainMat := count($hits[descendant::t:support[t:material]])
-    let $MMvalues := distinct-values($hits//t:support/t:material/@key)
+    let $MMvalues := config:distinct-values($hits//t:support/t:material/@key)
 
 
         let $countmsObjTyp := count($hits[descendant::t:objectDesc])
-        let $OTvalues := distinct-values($hits//t:objectDesc/@form)
+        let $OTvalues := config:distinct-values($hits//t:objectDesc/@form)
 
   let $numberQuiresIns := count($hits//t:collation[descendant::t:item])
-  let $dimensions := $hits//t:extent[descendant::t:dimensions[@type eq 'outer'][t:height][t:width][t:depth]]
-  let $units := ($dimensions/t:dimensions[@type eq 'outer']/@unit, $dimensions/t:dimensions[@type eq 'outer']/t:*/@unit)
-  let $unit := distinct-values($units)
+  let $dimensions := $hits//t:extent[descendant::t:dimensions[@type='outer'][t:height][t:width][t:depth]]
+  let $units := ($dimensions/t:dimensions[@type='outer']/@unit, $dimensions/t:dimensions[@type='outer']/t:*/@unit)
+  let $unit := config:distinct-values($units)
   let $countDim := count($dimensions)
   let $layoutdimensions := $hits//t:layoutDesc/t:layout[descendant::t:dimensions[t:height][t:width]]
   let $countLayout := count($layoutdimensions)
 
-  let $rulingpattern := $hits//t:ab[@type eq "ruling"][@subtype eq "pattern"]
+  let $rulingpattern := $hits//t:ab[@type="ruling"][@subtype="pattern"]
   let $countRulPat := count($rulingpattern)
   
       return
@@ -214,10 +211,10 @@ declare function charts:chart($hits){
  if($numberQuiresIns ge 1050 ) then (<div  class="w3-half w3-panel w3-red w3-padding w3-padding"><p>
     We think that a chart with data from {$numberQuiresIns} items would be impossible to read and not useful. Filter your search to limit the number of items, with less then 1000 we will print also the charts.
   </p></div>) else
-let $dimensionOfQuiresINS := distinct-values($hits//t:collation//t:item/t:dim[@unit eq 'leaf'])
+let $dimensionOfQuiresINS := config:distinct-values($hits//t:collation//t:item/t:dim[@unit='leaf'])
 let $percents := for $dim in $dimensionOfQuiresINS
                 let $test := $hits//t:collation//t:item
-                let $numberQuiresThisDim := count($test/t:dim[@unit = 'leaf'][. = $dim])
+                let $numberQuiresThisDim := count($test/t:dim[@unit='leaf'][.=$dim])
                 order by $numberQuiresThisDim descending
                   return
                                '["' ||  $dim || ' leaves ", ' ||  $numberQuiresThisDim || ']'
@@ -258,7 +255,7 @@ if($countDim ge 1050 ) then (<div  class="w3-half w3-panel w3-red w3-padding"><p
 </p></div>) else
 if (count($unit) gt 1) then (<div  class="w3-half w3-panel w3-red w3-padding"><p>Unfortunately we cannot put on a chart the dimensions of the manuscripts, because they are provided using different units of measure ({string-join($unit,', ')})</p></div>) else
     let $dims := for $d in $dimensions
-    let $all := $d/t:dimensions[@type eq 'outer']
+    let $all := $d/t:dimensions[@type='outer']
                         let $SM := $d//ancestor::t:TEI//t:msIdentifier/t:idno/text()
                         let $title := titles:printTitle($d)
                         let $h := if($all/t:height/text()) then $all/t:height/text() else '0'
@@ -269,8 +266,8 @@ if (count($unit) gt 1) then (<div  class="w3-half w3-panel w3-red w3-padding"><p
 
 let $dimensionsTable := '[["shelf mark","width","height","title","depth"],' ||string-join($dims, ', ') || ']'
 
-let $taglie := for $d in $hits//t:extent[descendant::t:dimensions[@type eq 'outer'][t:height][t:width][t:depth]]
-               let $all := $d/t:dimensions[@type eq 'outer']
+let $taglie := for $d in $hits//t:extent[descendant::t:dimensions[@type='outer'][t:height][t:width][t:depth]]
+               let $all := $d/t:dimensions[@type='outer']
                let $h := if($all/t:height/text()) then string-join($all/t:height/text(), ' ') else '0'
                let $w := if($all/t:width/text()) then string-join($all/t:width/text(), ' ') else '0'
                let $realtaglia := number($h) + number($w)
@@ -743,17 +740,17 @@ chart.draw(view, options);
 
 if($countRulPat ge 1) then (
 let $patterns := for $ruling in $rulingpattern return <mss><id>{string($ruling/ancestor::t:TEI/@xml:id)}</id><pattern>{analyze-string($ruling, '(([A-Z\d\-]+)/([A-Z\d\-]+)/([A-Z\d\-]+)/([A-Z\d\-]+))')}</pattern></mss>
-let $fullpatterns := for $p in $patterns//s:group[@nr = 1] return string-join($p//text())
-let $verticals:= $patterns//s:group[@nr = 2]
-let $Hmarginals:= $patterns//s:group[@nr = 3]
-let $RectricesMajs:= $patterns//s:group[@nr = 4]
-let $Rectrices:= $patterns//s:group[@nr = 5]
+let $fullpatterns := for $p in $patterns//s:group[@nr=1] return string-join($p//text())
+let $verticals:= $patterns//s:group[@nr=2]
+let $Hmarginals:= $patterns//s:group[@nr=3]
+let $RectricesMajs:= $patterns//s:group[@nr=4]
+let $Rectrices:= $patterns//s:group[@nr=5]
 return (
 (:pie total diversity distribution:)
-let $distinct-patterns:= distinct-values($fullpatterns)
-let $matcher := for $p in $patterns return string-join($p//s:group[@nr = 1]//text())
+let $distinct-patterns:= config:distinct-values($fullpatterns)
+let $matcher := for $p in $patterns return string-join($p//s:group[@nr=1]//text())
 let $data := for $pat in $distinct-patterns
-                let $count := count($matcher[. = $pat])
+                let $count := count($matcher[.=$pat])
                  return
                                '["' ||  $pat || '", ' ||  $count || ']'
 let $patts := '[["Ruling Pattern","Quantity"],' ||string-join($data, ', ') || ']'
@@ -794,7 +791,7 @@ let $patts := '[["Ruling Pattern","Quantity"],' ||string-join($data, ', ') || ']
         (: Zone III = 4=Rectrices Majeures :)
         
         (: Zone IV = 5=Rectices       :)
-        let $RPZvalues := distinct-values($patterns//s:group[@nr = $formulaZone])
+        let $RPZvalues := config:distinct-values($patterns//s:group[@nr=$formulaZone])
         let $formulaZoneName := 
                         switch($formulaZone) 
                         case 2 return 'Zone I (Verticales)'
@@ -907,8 +904,8 @@ if($countLayout ge 1) then (
 
 
 declare function  charts:tagliasupport($mssDate, $totcount, $from, $to){
- let  $mssDateTaglias := for $ms in $mssDate//t:extent[descendant::t:dimensions[@type eq 'outer'][t:height][t:width][t:depth]]
-                                                                     let $all := $ms/t:dimensions[@type eq 'outer']
+ let  $mssDateTaglias := for $ms in $mssDate//t:extent[descendant::t:dimensions[@type='outer'][t:height][t:width][t:depth]]
+                                                                     let $all := $ms/t:dimensions[@type='outer']
                                                                     let $h := if($all/t:height/text()) then string-join($all/t:height/text(), ' ') else '0'
                let $w := if($all/t:width/text()) then string-join($all/t:width/text(), ' ') else '0'
                let $realtaglia := number($h) + number($w)
@@ -919,7 +916,7 @@ declare function  charts:tagliasupport($mssDate, $totcount, $from, $to){
                                               };
 
 declare function charts:spsupport($mss, $rangeName, $values){
-  let $mssthisperiod:= $mss//t:decoNote[@type eq 'SewingStations']
+  let $mssthisperiod:= $mss//t:decoNote[@type='SewingStations']
   return
   if(count($mssthisperiod) eq 0) then () else
   let $total := count($mssthisperiod)
@@ -939,7 +936,7 @@ declare function charts:spatsupport($mss, $rangeName, $values){
   if(count($mssthisperiod) eq 0) then () else
   let $total := count($mssthisperiod)
   let $columns := for $value in $values
-                  let $countms := count($mssthisperiod/t:term[@key eq  $value])
+                  let $countms := count($mssthisperiod/t:term[@key = $value])
                   let $div := ($countms div $total)
                   let $perc := format-number($div, "#.#")
                   return ',' ||$perc
@@ -954,7 +951,7 @@ declare function charts:TMsupport($mss, $rangeName, $values){
   if(count($mssthisperiod) eq 0) then () else
   let $total := count($mssthisperiod)
   let $columns := for $value in $values
-                  let $countms := count($mssthisperiod/t:term[@key eq $value])
+                  let $countms := count($mssthisperiod/t:term[@key = $value])
                   let $div := ($countms div $total)
                   let $perc := format-number($div, "#.#")
                   return ',' ||$perc
@@ -969,7 +966,7 @@ declare function charts:BMsupport($mss, $rangeName, $values){
   if(count($mssthisperiod) eq 0) then () else
   let $total := count($mssthisperiod)
   let $columns := for $value in $values
-                  let $countms := count($mssthisperiod/t:material[@key eq $value])
+                  let $countms := count($mssthisperiod/t:material[@key = $value])
                   let $div := ($countms div $total)
                   let $perc := format-number($div, "#.#")
                   return ',' ||$perc
@@ -984,7 +981,7 @@ declare function charts:MMsupport($mss, $rangeName, $values){
   if(count($mssthisperiod) eq 0) then () else
   let $total := count($mssthisperiod)
   let $columns := for $value in $values
-                  let $countms := count($mssthisperiod/t:material[@key eq $value])
+                  let $countms := count($mssthisperiod/t:material[@key = $value])
                   let $div := ($countms div $total)
                   let $perc := format-number($div, "#.#")
                   return ',' ||$perc
@@ -1010,7 +1007,7 @@ declare function charts:OTsupport($mss, $rangeName, $values){
 };
 
 declare function charts:RulingSupport($DatedMSS, $rangeName, $values, $formulaZone){
-  let $mssthisperiod:= $DatedMSS//t:ab[@type eq "ruling"][@subtype eq "pattern"]
+  let $mssthisperiod:= $DatedMSS//t:ab[@type="ruling"][@subtype="pattern"]
   let $patterns := for $ruling in $mssthisperiod return 
   <mss>
   <id>{string($ruling/ancestor::t:TEI/@xml:id)}</id>
@@ -1020,7 +1017,7 @@ declare function charts:RulingSupport($DatedMSS, $rangeName, $values, $formulaZo
   return
   if(count($mssthisperiod) eq 0) then () else
   let $columns := for $value in $values
-                  let $countms := count($patterns[descendant::s:group[@nr = $formulaZone][. = $value]])
+                  let $countms := count($patterns[descendant::s:group[@nr=$formulaZone][. = $value]])
                   return ',' ||$countms
   return
     '["'||$rangeName||'"'||string-join($columns)||']'

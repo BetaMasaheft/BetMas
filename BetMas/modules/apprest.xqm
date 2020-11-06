@@ -39,7 +39,7 @@ declare function functx:trim( $arg as xs:string? )  as xs:string {
  %templates:default("context", "$config:collection-rootMS")
  function apprest:origPlace($context as xs:string*) {
      let $cont := util:eval($context)
-     let $scripts := distinct-values($cont//t:origPlace/t:placeName/@ref)
+     let $scripts := config:distinct-values($cont//t:origPlace/t:placeName/@ref)
    return
    apprest:formcontrol('Place of origin','origPlace', $scripts, 'false', 'rels', $context)
 
@@ -50,7 +50,7 @@ declare
 %templates:default("context", "$config:collection-rootMS")
 function apprest:scripts($context as xs:string*) {
     let $cont := util:eval($context)
-    let $scripts := distinct-values($cont//@script)
+    let $scripts := config:distinct-values($cont//@script)
   return
   apprest:formcontrol('Script','script', $scripts, 'false', 'values', $context)
 
@@ -61,7 +61,7 @@ declare
 %templates:default("context", "$config:collection-rootMS")
 function apprest:support($context as xs:string*) {
      let $cont := util:eval($context)
-     let $forms := distinct-values($cont//@form)
+     let $forms := config:distinct-values($cont//@form)
     return
     apprest:formcontrol('Object Type', 'objectType', $forms, 'false', 'values', $context)
 
@@ -72,7 +72,7 @@ declare
 %templates:default("context", "$config:collection-rootMS")
 function apprest:material($context as xs:string*) {
       let $cont := util:eval($context)
-      let $materials := distinct-values($cont//t:support/t:material/@key)
+      let $materials := config:distinct-values($cont//t:support/t:material/@key)
     return
     apprest:formcontrol('Material', 'material', $materials, 'false', 'values', $context)
 
@@ -83,7 +83,7 @@ declare
 %templates:default("context", "$config:collection-rootMS")
 function apprest:bmaterial($context as xs:string*) {
     let $cont := util:eval($context)
-      let $bmaterials := distinct-values($cont//t:decoNote[@type='bindingMaterial']/t:material/@key)
+      let $bmaterials := config:distinct-values($cont//t:decoNote[@type='bindingMaterial']/t:material/@key)
     return
         apprest:formcontrol('Binding Material','bmaterial', $bmaterials, 'false', 'values', $context)
 
@@ -95,7 +95,7 @@ declare
 %templates:default("context", "$config:collection-rootPlIn")
 function apprest:placeType($context as xs:string*) {
       let $cont := util:eval($context)
-     let $placeTypes := distinct-values($cont//t:place/@type/tokenize(., '\s+'))
+     let $placeTypes := config:distinct-values($cont//t:place/@type/tokenize(., '\s+'))
    return
    apprest:formcontrol('Place Type', 'placeType', $placeTypes, 'false', 'values', $context)
 
@@ -106,7 +106,7 @@ declare
 %templates:default("context", "$config:collection-rootPr")
 function apprest:personType($context as xs:string*) {
     let $cont := util:eval($context)
-      let $persTypes := distinct-values($cont//t:person//t:occupation/@type/tokenize(., '\s+'))
+      let $persTypes := config:distinct-values($cont//t:person//t:occupation/@type/tokenize(., '\s+'))
     return
     apprest:formcontrol('Person Type', 'persType', $persTypes, 'false', 'values', $context)
 
@@ -117,7 +117,7 @@ declare
 %templates:default("context", "$config:collection-root")
 function apprest:relationType($node as node(), $model as map(*)) {
     let $cont := util:eval($context)
-    let $relTypes := distinct-values($cont//t:relation/@name/tokenize(., '\s+'))
+    let $relTypes := config:distinct-values($cont//t:relation/@name/tokenize(., '\s+'))
  return
  apprest:formcontrol('Relation Type', 'relType', $relTypes, 'false', 'values', $context)
 
@@ -129,7 +129,7 @@ declare
 %templates:default("context", "$config:collection-rootMS")
 function apprest:languages($context as xs:string*) {
      let $cont := util:eval($context)
-     let $keywords := distinct-values($cont//t:language/@ident)
+     let $keywords := config:distinct-values($cont//t:language/@ident)
     return
     apprest:formcontrol('Language', 'language', $keywords, 'false', 'values', $context)
 
@@ -141,7 +141,7 @@ declare
 function apprest:scribes($context as xs:string*) {
      let $cont := util:eval($context)
       let $elements := $cont//t:persName[@role='scribe'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
-    let $keywords := distinct-values($elements/@ref)
+    let $keywords := config:distinct-values($elements/@ref)
     return
     apprest:formcontrol('Scribe', 'scribe', $keywords, 'false', 'rels', $context)
 
@@ -153,7 +153,7 @@ declare
 function apprest:donors($context as xs:string*) {
      let $cont := util:eval($context)
     let $elements := $cont//t:persName[@role='donor'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
-    let $keywords := distinct-values($elements/@ref)
+    let $keywords := config:distinct-values($elements/@ref)
   return
   apprest:formcontrol('Donor', 'donor', $keywords, 'false', 'rels', $context)
 
@@ -165,7 +165,7 @@ declare
 function apprest:patrons($context as xs:string*) {
      let $cont := util:eval($context)
       let $elements := $cont//t:persName[@role='patron'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
-    let $keywords := distinct-values($elements/@ref)
+    let $keywords := config:distinct-values($elements/@ref)
  return apprest:formcontrol('Patron', 'patron', $keywords, 'false', 'rels', $context)
 
 };
@@ -176,7 +176,7 @@ declare
 function apprest:owners($context as xs:string*) {
       let $cont := util:eval($context)
       let $elements := $cont//t:persName[@role='owner'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
-      let $keywords := distinct-values($elements/@ref)
+      let $keywords := config:distinct-values($elements/@ref)
      return apprest:formcontrol('Owner', 'owner', $keywords, 'false', 'rels', $context)
 
 };
@@ -187,7 +187,7 @@ declare
 function apprest:binders($context as xs:string*) {
       let $cont := util:eval($context)
       let $elements := $cont//t:persName[@role='binder'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
-    let $keywords := distinct-values($elements/@ref)
+    let $keywords := config:distinct-values($elements/@ref)
  return
  apprest:formcontrol('Binder', 'binder', $keywords, 'false', 'rels', $context)
 
@@ -199,7 +199,7 @@ declare
 function apprest:parmakers($context as xs:string*) {
     let $cont := util:eval($context)
       let $elements := $cont//t:persName[@role='parchmentMaker'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
-    let $keywords := distinct-values($elements/@ref)
+    let $keywords := config:distinct-values($elements/@ref)
    return
    apprest:formcontrol('Parchment Maker', 'parchmentMaker', $keywords, 'false', 'rels', $context)
 
@@ -212,7 +212,7 @@ function apprest:contents($context as xs:string*) {
     let $cont := util:eval($context)
     let $elements :=$cont//t:msItem
     let $titles := $elements/t:title/@ref
-    let $keywords := distinct-values($titles)
+    let $keywords := config:distinct-values($titles)
   return
    apprest:formcontrol('Contents', 'contents', $keywords, 'false', 'rels', $context)
 };
@@ -227,7 +227,7 @@ let $attributions := for $rel in ($works//t:relation[@name="saws:isAttributedToA
 let $r := $rel/@passive
                 return
                 if (contains($r, ' ')) then tokenize($r, ' ') else $r
-let $keywords := distinct-values($attributions)
+let $keywords := config:distinct-values($attributions)
   return
    apprest:formcontrol('Authors','authors', $keywords, 'false', 'rels', $context)
 };
@@ -238,8 +238,8 @@ declare
 function apprest:tabots($context as xs:string*) {
 let $cont := util:eval($context)
 let $tabots:= $cont//t:ab[@type='tabot']
-    let $personTabot := distinct-values($tabots//t:persName/@ref)
-    let $thingsTabot := distinct-values($tabots//t:ref/@corresp)
+    let $personTabot := config:distinct-values($tabots//t:persName/@ref)
+    let $thingsTabot := config:distinct-values($tabots//t:ref/@corresp)
     let $alltabots := ($personTabot, $thingsTabot)
   return
    apprest:formcontrol('Tabot','tabot', $alltabots, 'false', 'rels', $context)
@@ -491,7 +491,7 @@ for $r in $document//t:ref[@corresp]
 
                        return <ref ref="{if (contains($r/@corresp, '#')) then substring-before($r/@corresp, '#') else string($r/@corresp)}"></ref>
 let $all := ($refs/@ref, $corresps/@ref)
-for $namedEntity in distinct-values($all)
+for $namedEntity in config:distinct-values($all)
 return
 <div id="{$namedEntity}relations-all" class="hidden">
 <div id="{$namedEntity}relations-content">
@@ -564,7 +564,7 @@ return
 (:here I cannot use for the title the javascript titles.js because the content is not exposed:)
 <bibl>
 {
-for $author in distinct-values(($file//t:revisionDesc/t:change/@who| $file//t:editor/@key))
+for $author in config:distinct-values(($file//t:revisionDesc/t:change/@who| $file//t:editor/@key))
 let $score := count($file//t:revisionDesc/t:change[@who = $author]) + count($file//t:editor[@key = $author]) + (if($file//t:editor[@key = $author][@role='cataloguer' or @role='editor']) then 100 else 0)
 order by $score descending
                 return
@@ -590,7 +590,7 @@ return
 (:here I cannot use for the title the javascript titles.js because the content is not exposed:)
 <bibl>
 {
-for $author in distinct-values(($file//t:revisionDesc/t:change/@who| $file//t:editor/@key))
+for $author in config:distinct-values(($file//t:revisionDesc/t:change/@who| $file//t:editor/@key))
 let $count := count($file//t:revisionDesc/t:change[@who = $author])
 order by $count descending
                 return
@@ -1605,7 +1605,7 @@ then (
     if (contains($i, ' ')) then tokenize($i, ' ')
     else if ($i=' ' or $i='' ) then ()
     else functx:trim(normalize-space($i))
-                    let $nodes := distinct-values($values)
+                    let $nodes := config:distinct-values($values)
 
                     return <div class="w3-container">
                     <label for="{$nodeName}">{$label}s
