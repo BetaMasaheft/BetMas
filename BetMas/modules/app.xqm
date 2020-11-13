@@ -1699,7 +1699,7 @@ EMIP:)
                 }" class="thumb w3-image"/>
 (:                bodleian:)
 else if (contains($item//t:msIdentifier/t:idno/@facs, 'bodleian')) then ('images')
-                else (<img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>)
+                else (<img src="{$config:appUrl ||'/iiif/' || string(($item//t:msIdentifier/t:idno)[1]/@facs) || '_001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>)
                  }</a>
                 
                 else ()}
