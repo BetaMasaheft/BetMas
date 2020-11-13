@@ -849,7 +849,7 @@ declare function apprest:ItemScriptStyle(){
         <script xmlns="http://www.w3.org/1999/xhtml"  type="text/javascript" src="https://www.gstatic.com/charts/loader.js"  ></script>,
         <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/openseadragon/openseadragon.min.js"  />,
         <script  xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://unpkg.com/vis-timeline/standalone/umd/vis-timeline-graph2d.min.js"></script>,
-        <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://unpkg.com/vis-network/peer/umd/vis-network.min.js"></script>
+        <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://unpkg.com/vis-network@7.10.2/peer/umd/vis-network.min.js"></script>
   
 };
 
