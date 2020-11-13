@@ -76,7 +76,7 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
         <xsl:copy>
             <xsl:apply-templates select="@*"/>
             <xsl:apply-templates select="t:teiHeader"/>
-            <standOff xmlns="http://www.tei-c.org/ns/1.0">
+            <standOff>
                 <listRelation>
                     <xsl:apply-templates select="//t:relation" mode="standoff"/>
                 </listRelation>
@@ -268,10 +268,14 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
     <xsl:template match="@facs">
         <xsl:variable name="id" select="root(.)/t:TEI/@xml:id"/>
         <xsl:attribute name="{name()}">
-        <xsl:choose>
+            <xsl:variable name="facs" select="if(contains(@facs, ' ')) then tokenize(normalize-space(@facs), ' ') else @facs"/>
+       
+            <xsl:choose>
             <xsl:when test="parent::t:*/name() = 'locus'">
+       
 <!--                depending on the content of msIdentifier/idno/@facs, the format of uris to be added in @facs changes. -->
-                <xsl:variable select="root(.)//t:idno[@facs]/@facs" name="mainFacs"/>
+                 <xsl:for-each select="$facs">
+                     <xsl:variable select="root(.)//t:idno[@facs]/@facs" name="mainFacs"/>
                 <xsl:choose>
                     <xsl:when test="contains($mainFacs, 'vatlib')">
                         <xsl:variable name="msname" select="substring-after(substring-before($mainFacs, 'manifest.json'), 'MSS_')"/>
@@ -286,9 +290,11 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
                         <xsl:value-of select="concat($BMurl, 'api/iiif/', $id, '/canvas/p', format-number(.,'###'))"/>
                     </xsl:otherwise>
                 </xsl:choose>
+                 </xsl:for-each>
             </xsl:when>
             <xsl:when test="parent::t:*/name() = 'idno'">
 <!--                the full manifest uri is present for the digital vatican library and ofr bnf.-->
+                <xsl:for-each select="$facs">
                 <xsl:choose>
                     <xsl:when test="contains(., 'vatlib')">
                         <xsl:value-of select="."/>
@@ -301,7 +307,7 @@ schematypens="http://relaxng.org/ns/structure/1.0"</xsl:text>
                         <xsl:value-of select="concat($BMurl, 'api/iiif/', $id, '/manifest')"/>
                     </xsl:otherwise>
                 </xsl:choose>
-                
+                </xsl:for-each>
             </xsl:when>
             <xsl:otherwise>
                     <xsl:value-of select="."/>
