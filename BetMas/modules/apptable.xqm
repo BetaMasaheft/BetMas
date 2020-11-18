@@ -387,7 +387,7 @@ else
       {
   if ($item//t:div/t:ab) 
   then
-         <a href="{('/' || $itemid || '/text')}"
+         <a href="{('/' || $list || '/' || $itemid || '/text')}"
                         target="_blank">text</a>
             else
                 ()
