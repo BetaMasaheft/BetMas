@@ -124,6 +124,7 @@
     <xsl:include href="certainty.xsl"/>
     <xsl:include href="locus.xsl"/>
     <xsl:include href="ref.xsl"/>
+    <xsl:include href="bibl.xsl"/>
     <xsl:include href="persName.xsl"/>
     <xsl:include href="placeName.xsl"/>
     <xsl:include href="title.xsl"/>
