@@ -978,7 +978,7 @@ else  if($item//t:repository[@ref = 'INS0339BML'])
 (:          
 EMIP:)
               else if(($item//t:collection = 'EMIP') and $item//t:msIdentifier/t:idno/@n) 
-               then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
+               then <img src="{$config:appUrl ||'/iiif/' || string(($item//t:msIdentifier/t:idno)[1]/@facs) || '001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
               
               (:BNF:)
             else if ($item//t:repository/@ref = 'INS0303BNF') 
