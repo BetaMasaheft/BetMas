@@ -1015,7 +1015,7 @@ let $owners := if(empty($Powner) or $Powner = '') then () else apprest:ListQuery
 let $parchmentMakers := if(empty($PparchmentMaker) or $PparchmentMaker = '') then () else apprest:ListQueryParam-rest($PparchmentMaker, "t:persName[@role='parchmentMaker']/@ref", 'any',  'search')
 let $binders := if(empty($Pbinder) or $Pbinder = '') then () else apprest:ListQueryParam-rest($Pbinder, "t:persName[@role='binder']/@ref", 'any',  'search')
 let $contents := if(empty($Pcontent) or $Pcontent= '') then () else apprest:ListQueryParam-rest($Pcontent, "t:title/@ref", 'any', 'search')
-let $tabots := if(empty($Ptabot) or $Ptabot= '') then () else apprest:ListQueryParam-rest($Ptabot, "t:ab[@type='tabot']//t:*/@*", 'any', 'search')
+let $tabots := if(empty($Ptabot) or $Ptabot= '') then () else apprest:ListQueryParam-rest($Ptabot, "t:ab[@type='tabot']//t:*/@*", 'any', 'list')
 let $placetypess := if(empty($Pplacetype) or $Pplacetype= '') then () else apprest:ListQueryParam-rest($Pplacetype, "t:place/@type", 'any', 'search')
 let $Allauthors := if(empty($Pauthors) or $Pauthors= '') then () else apprest:ListQueryParam-rest($Pauthors, "t:relation[@name='saws:isAttributedToAuthor' or @name='dcterms:creator']/@passive", 'any', 'search')
 let $placetypess := if(empty($Pplacetype) or $Pplacetype= '') then () else apprest:ListQueryParam-rest($Pplacetype, "t:place/@type", 'any', 'search')
@@ -1024,8 +1024,8 @@ let $faiths := if(empty($Pfaith) or $Pfaith= '') then () else apprest:ListQueryP
 let $genders := if(empty($Pgender) or $Pgender= '') then () else apprest:ListQueryParam-rest($Pgender, "t:person/@sex", 'any', 'list')
 let $periods := if(empty($Pperiod) or $Pperiod= '') then () else apprest:ListQueryParam-rest($Pperiod, "t:term/@key", 'any', 'search')
 let $restorationss := if(empty($Prestorations) or $Prestorations= '') then () else apprest:ListQueryParam-rest($Prestorations, "t:custEvent/@subtype", 'any', 'list')
-let $countries := if(empty($Pcountry) or $Pcountry = '') then () else apprest:ListQueryParam-rest($Pcountry, 't:country/@ref', 'any', 'range')
-let $settlements := if(empty($Psettlement) or $Psettlement = '') then () else apprest:ListQueryParam-rest($Psettlement, 't:settlement/@ref', 'any', 'range')
+let $countries := if(empty($Pcountry) or $Pcountry = '') then () else apprest:ListQueryParam-rest($Pcountry, 't:country/@ref', 'any', 'list')
+let $settlements := if(empty($Psettlement) or $Psettlement = '') then () else apprest:ListQueryParam-rest($Psettlement, 't:settlement/@ref', 'any', 'list')
 
 let $leaves :=  if(empty($Pfolia) or $Pfolia = '') then () else
                 (let $min := substring-before($Pfolia, ',')
