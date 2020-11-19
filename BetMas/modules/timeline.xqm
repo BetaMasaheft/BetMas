@@ -19,7 +19,7 @@ let $data :=
 let $dateManuscripts :=
 let $dateofThisManuscript := $this//t:origDate[@when or (@notBefore or @notAfter)]
 let $datesofRelatedManuscripts := for $ref in config:distinct-values($this//@ref[not(matches(., '\w{3}\d+\w+'))][not(starts-with(., 'wd:'))][not(starts-with(., 'pleiades:'))])
-return doc(($config:data-rootMS || '/' ||string($ref)|| '.xml'))//t:origDate[@when or (@notBefore or @notAfter)]
+return doc(($config:data-rootMS || '/' ||replace(string($ref), '\s', '')|| '.xml'))//t:origDate[@when or (@notBefore or @notAfter)]
 let $datesofcitingMss := for $citingms in config:distinct-values($whatpointshere[ancestor::t:TEI[@type='mss']]/ancestor::t:TEI/@xml:id) return doc(($config:data-rootMS || '/' ||string($citingms)|| '.xml'))//t:origDate[@when or (@notBefore or @notAfter)]
 for $date in ($dateofThisManuscript, $datesofRelatedManuscripts, $datesofcitingMss)
 return
