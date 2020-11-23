@@ -79,8 +79,8 @@
                 <div id="maintoogles" class="btn-group">
                     
                     <div class="w3-bar">
-                        <a class="w3-bar-item  w3-hide-medium w3-hide-small w3-button w3-gray" id="tooglecodicologicalInformation">Hide/show codicological information</a>
-                        <a class="w3-bar-item w3-hide-medium w3-hide-small w3-button w3-gray" id="toogletextualcontents">Hide/show contents</a>
+                        <a class="w3-bar-item  w3-hide-medium w3-hide-small w3-button w3-gray" id="togglecodicologicalInformation"><span class="showHideText">Hide</span> codicological information</a>
+                        <a class="w3-bar-item w3-hide-medium w3-hide-small w3-button w3-gray" id="toggletextualcontents"><span class="showHideText">Hide</span> contents</a>
                     </div>
                 </div>
                 
