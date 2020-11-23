@@ -108,6 +108,10 @@ function popup(id) {
   }
 }
 
+$("a[id^=toggle]").click(function(){
+  $(this).find('.showHideText').text(($(this).find('.showHideText').text() == 'Hide' ? 'Show' : 'Hide'));
+});
+
 $("#toggleHands").click(function () {
     $('.fa-hand-o-left').toggle("slow");
     $('.glyphicon-hand-left').toggle("slow");
@@ -123,7 +127,7 @@ $("#toogletextualcontents").click(function () {
     $('[id^="textualcontents"]').toggle("slow");
 });
 
-$("#toogleSeeAlso").click(function () {
+$("#toggleSeeAlso").click(function () {
     $('[id^="seeAlsoForm"]').toggle("slow");
    var x = document.getElementById('MainData'); 
     x.classList.toggle("w3-container");
