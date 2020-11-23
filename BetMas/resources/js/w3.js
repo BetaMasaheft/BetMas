@@ -119,11 +119,11 @@ $("#toggleHands").click(function () {
     $('span.pelagios').toggle("slow");
 });
 
-$("#tooglecodicologicalInformation").click(function () {
+$("#togglecodicologicalInformation").click(function () {
     $('[id^="codicologicalInformation"]').toggle("slow");
 });
 
-$("#toogletextualcontents").click(function () {
+$("#toggletextualcontents").click(function () {
     $('[id^="textualcontents"]').toggle("slow");
 });
 
