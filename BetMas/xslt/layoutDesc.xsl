@@ -31,39 +31,39 @@
                 <p>Number of lines: <xsl:value-of select="if (contains(@writtenLines, ' ')) then replace(@writtenLines, ' ', '-') else @writtenLines "/>
             </p>
             </xsl:if>
-            <xsl:if test=".//t:dimensions">
+            <xsl:if test=".//t:dimensions[not(@xml:lang)]">
                 <div class="w3-responsive">
                             <table class="w3-table w3-hoverable">
                     <tr>
                         <td>H</td>
                         <td>
                             <span class="lead">
-                                <xsl:value-of select="t:dimensions/t:height"/>
+                                <xsl:value-of select="t:dimensions[not(@xml:lang)]/t:height"/>
                             </span>
-                            <xsl:value-of select="t:dimensions[t:height]/@unit"/>
+                            <xsl:value-of select="t:dimensions[not(@xml:lang)][t:height]/@unit"/>
                         </td>
                     </tr>
                     <tr>
                         <td>W</td>
                         <td>
                             <span class="lead">
-                                <xsl:value-of select="t:dimensions/t:width"/>
+                                <xsl:value-of select="t:dimensions[not(@xml:lang)]/t:width"/>
                             </span>
-                            <xsl:value-of select=".//t:dimensions[t:width]/@unit"/>
+                            <xsl:value-of select=".//t:dimensions[not(@xml:lang)][t:width]/@unit"/>
                         </td>
                     </tr>
-                    <xsl:if test="t:dimensions[not(@type = 'margin')]/t:dim[@type = 'intercolumn']">
+                    <xsl:if test="t:dimensions[not(@xml:lang)][not(@type = 'margin')]/t:dim[@type = 'intercolumn']">
                         <tr>
                         <td>Intercolumn</td>
                         <td>
                             <span class="lead">
-                                <xsl:value-of select="t:dimensions[not(@type = 'margin')]/t:dim[@type = 'intercolumn']"/>
+                                <xsl:value-of select="t:dimensions[not(@xml:lang)][not(@type = 'margin')]/t:dim[@type = 'intercolumn']"/>
                             </span>
-                            <xsl:value-of select=".//t:dimensions[not(@type = 'margin')][t:dim[@type = 'intercolumn']]/@unit"/>
+                            <xsl:value-of select=".//t:dimensions[not(@xml:lang)][not(@type = 'margin')][t:dim[@type = 'intercolumn']]/@unit"/>
                         </td>
                     </tr>
                     </xsl:if>
-                   <xsl:if test="t:dimensions[@type = 'margin']/t:dim[@type]">
+                   <xsl:if test="t:dimensions[not(@xml:lang)][@type = 'margin']/t:dim[@type]">
                        
                        <tr>
                                         <td>
@@ -71,7 +71,7 @@
                                         </td>
                                         <td/>
                                     </tr>
-                       <xsl:for-each select="t:dimensions[@type = 'margin']/t:dim[@type]">
+                       <xsl:for-each select="t:dimensions[not(@xml:lang)][@type = 'margin']/t:dim[@type]">
                            
                            <tr>
                                <td>
@@ -93,14 +93,14 @@
                         <xsl:apply-templates select="t:note"/>
                     </p>
                 </xsl:if>
-                <xsl:variable name="topmargin" select="                         if (t:dimensions[@type = 'margin'][1]/t:dim[@type = 'top'][1]/text()) then                             (t:dimensions[@type = 'margin'][1]/t:dim[@type = 'top'][1])                         else                             ('0')"/>
-                <xsl:variable name="bottomargin" select="                         if (t:dimensions[@type = 'margin'][1]/t:dim[@type = 'bottom'][1]/text()) then                             (t:dimensions[@type = 'margin'][1]/t:dim[@type = 'bottom'][1])                         else                             ('0')"/>
-                <xsl:variable name="rightmargin" select="                         if (t:dimensions[@type = 'margin'][1]/t:dim[@type = 'right'][1]/text()) then                             (t:dimensions[@type = 'margin'][1]/t:dim[@type = 'right'][1])                         else                             ('0')"/>
-                <xsl:variable name="leftmargin" select="                         if (t:dimensions[@type = 'margin'][1]/t:dim[@type = 'left'][1]/text()) then                             (t:dimensions[@type = 'margin'][1]/t:dim[@type = 'left'][1])                         else                             ('0')"/>
-                <xsl:variable name="textwidth" select="t:dimensions[not(@type)][1]/t:width[1]"/>
-                <xsl:variable name="heighText" select="t:dimensions[not(@type)][1]/t:height[1]"/>
-                <xsl:variable name="totalHeight" select="                         if (ancestor::t:TEI//t:dimensions[@type = 'outer' and @unit = 'mm']/t:height/text() or ancestor::t:TEI//t:dimensions[@type = 'outer']/t:height[@unit='mm']/text()) then                             (max(ancestor::t:TEI//t:dimensions[@type = 'outer']/t:height))                         else                             0"/>
-                <xsl:variable name="totalwidth" select="                         if (ancestor::t:TEI//t:dimensions[@type = 'outer' and @unit = 'mm']/t:width/text() or ancestor::t:TEI//t:dimensions[@type = 'outer']/t:width[@unit='mm']/text()) then                             (max(ancestor::t:TEI//t:dimensions[@type = 'outer']/t:width))                         else                             0"/>
+                <xsl:variable name="topmargin" select="                         if (t:dimensions[not(@xml:lang)][@type = 'margin'][1]/t:dim[@type = 'top'][1]/text()) then                             (t:dimensions[not(@xml:lang)][@type = 'margin'][1]/t:dim[@type = 'top'][1])                         else                             ('0')"/>
+                <xsl:variable name="bottomargin" select="                         if (t:dimensions[not(@xml:lang)][@type = 'margin'][1]/t:dim[@type = 'bottom'][1]/text()) then                             (t:dimensions[not(@xml:lang)][@type = 'margin'][1]/t:dim[@type = 'bottom'][1])                         else                             ('0')"/>
+                <xsl:variable name="rightmargin" select="                         if (t:dimensions[not(@xml:lang)][@type = 'margin'][1]/t:dim[@type = 'right'][1]/text()) then                             (t:dimensions[not(@xml:lang)][@type = 'margin'][1]/t:dim[@type = 'right'][1])                         else                             ('0')"/>
+                <xsl:variable name="leftmargin" select="                         if (t:dimensions[not(@xml:lang)][@type = 'margin'][1]/t:dim[@type = 'left'][1]/text()) then                             (t:dimensions[not(@xml:lang)][@type = 'margin'][1]/t:dim[@type = 'left'][1])                         else                             ('0')"/>
+                <xsl:variable name="textwidth" select="t:dimensions[not(@xml:lang)][not(@type)][1]/t:width[1]"/>
+                <xsl:variable name="heighText" select="t:dimensions[not(@xml:lang)][not(@type)][1]/t:height[1]"/>
+                <xsl:variable name="totalHeight" select="                         if (ancestor::t:TEI//t:dimensions[not(@xml:lang)][@type = 'outer' and @unit = 'mm']/t:height/text() or ancestor::t:TEI//t:dimensions[not(@xml:lang)][@type = 'outer']/t:height[@unit='mm']/text()) then                             (max(ancestor::t:TEI//t:dimensions[not(@xml:lang)][@type = 'outer']/t:height))                         else                             0"/>
+                <xsl:variable name="totalwidth" select="                         if (ancestor::t:TEI//t:dimensions[not(@xml:lang)][@type = 'outer' and @unit = 'mm']/t:width/text() or ancestor::t:TEI//t:dimensions[not(@xml:lang)][@type = 'outer']/t:width[@unit='mm']/text()) then                             (max(ancestor::t:TEI//t:dimensions[not(@xml:lang)][@type = 'outer']/t:width))                         else                             0"/>
                 <xsl:variable name="computedheight" select="number($heighText) + number($bottomargin) + number($topmargin)"/>
                 <xsl:variable name="computedwidth" select="number($textwidth) + number($rightmargin) + number($leftmargin)"/>
                 <xsl:variable name="currentMsPart">

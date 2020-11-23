@@ -405,7 +405,7 @@
         </p>
     </xsl:template>
     
-    <xsl:template match="t:measure[. != '']">
+    <xsl:template match="t:measure[. != ''][not(@xml:lang)]">
         <span class="w3-tooltip">
             <xsl:choose>
                 <xsl:when test="contains(.,'+')">
@@ -426,7 +426,7 @@
             <xsl:when test="following-sibling::t:*[1][self::t:locus]">
                 <xsl:text>: </xsl:text>
             </xsl:when>
-            <xsl:when test="following-sibling::t:measure[@unit='leaf'][@type='blank']">
+            <xsl:when test="following-sibling::t:measure[not(@xml:lang)][@unit='leaf'][@type='blank']">
                 <xsl:text>, </xsl:text>
             </xsl:when>
             <xsl:otherwise>

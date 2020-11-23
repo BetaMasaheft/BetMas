@@ -1,6 +1,6 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:funct="my.funct"  xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:funct="my.funct" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:function name="funct:atleastatmost">
-        <xsl:param name="element"></xsl:param>
+        <xsl:param name="element"/>
         <xsl:choose>
             <xsl:when test="$element/@atLeast or $element/@atMost">
                 <xsl:if test="$element/@atLeast"><xsl:value-of select="$element/@atLeast"/></xsl:if>
@@ -10,38 +10,38 @@
         </xsl:choose>
     </xsl:function>
     
-    <xsl:template match="t:dimensions[@type = 'outer']">
+    <xsl:template match="t:dimensions[@type = 'outer'][not(@xml:lang)]">
         
         <h3>Outer dimension<xsl:if test="./ancestor::t:msPart">
-                <xsl:variable name="currentMsPart">
-                    <a href="{./ancestor::t:msPart/@xml:id}">
-                        <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
-                    </a>
-                </xsl:variable> of codicological unit <xsl:value-of select="$currentMsPart"/>
-            </xsl:if>
+            <xsl:variable name="currentMsPart">
+                <a href="{./ancestor::t:msPart/@xml:id}">
+                    <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
+                </a>
+            </xsl:variable> of codicological unit <xsl:value-of select="$currentMsPart"/>
+        </xsl:if>
         </h3>
         <xsl:choose>
-        <xsl:when test="t:*/text()">
+            <xsl:when test="t:*/text()">
                 <p>
-            <xsl:if test="t:height/text()">H: <span> 
-                <xsl:value-of select="funct:atleastatmost(t:height)"/>
-                </span>
-                <xsl:value-of select="@unit"/>
-            </xsl:if>
-            <xsl:if test="t:width/text()"> x W: <span>
-                <xsl:value-of select="funct:atleastatmost(t:width)"/>
-                </span>
-                <xsl:value-of select="@unit"/>
+                    <xsl:if test="t:height/text()">H: <span> 
+                        <xsl:value-of select="funct:atleastatmost(t:height)"/>
+                    </span>
+                        <xsl:value-of select="@unit"/>
                     </xsl:if>
-            <xsl:if test="t:depth/text()"> x D: <span>
-                <xsl:value-of select="funct:atleastatmost(t:depth)"/>
-                </span>
-                <xsl:value-of select="@unit"/>
-            </xsl:if>
-        </p>
+                    <xsl:if test="t:width/text()"> x W: <span>
+                        <xsl:value-of select="funct:atleastatmost(t:width)"/>
+                    </span>
+                        <xsl:value-of select="@unit"/>
+                    </xsl:if>
+                    <xsl:if test="t:depth/text()"> x D: <span>
+                        <xsl:value-of select="funct:atleastatmost(t:depth)"/>
+                    </span>
+                        <xsl:value-of select="@unit"/>
+                    </xsl:if>
+                </p>
             </xsl:when>
-        <xsl:otherwise>No dimensions provided.</xsl:otherwise>
-    </xsl:choose>
+            <xsl:otherwise>No dimensions provided.</xsl:otherwise>
+        </xsl:choose>
         <xsl:if test="not(ancestor::t:TEI//t:objectDesc/@form = 'Inscription')">
             <xsl:if test="(t:height/text() and t:width/text())">
                 <p>(proportion height/width: <xsl:value-of select="format-number(number(t:height div t:width), '#0.0###')"/> ) </p>
@@ -50,18 +50,18 @@
         <xsl:apply-templates select="node() except (t:height | t:width | t:depth )"/>
     </xsl:template>
     <xsl:template match="t:dimensions[@type='leaf']">
-            <h3>Leaves dimension</h3>
-            <p>
-                <xsl:if test="t:height/text()">H: <span> <xsl:value-of select="funct:atleastatmost(t:height)"/>
-                </span>
-                    <xsl:value-of select="@unit"/>
-                </xsl:if>
-                <xsl:if test="t:width/text()"> x W: <span>
-                    <xsl:value-of select="funct:atleastatmost(t:width)"/>
-                </span>
-                    <xsl:value-of select="@unit"/>
-                </xsl:if>
-            </p>
+        <h3>Leaves dimension</h3>
+        <p>
+            <xsl:if test="t:height/text()">H: <span> <xsl:value-of select="funct:atleastatmost(t:height)"/>
+            </span>
+                <xsl:value-of select="@unit"/>
+            </xsl:if>
+            <xsl:if test="t:width/text()"> x W: <span>
+                <xsl:value-of select="funct:atleastatmost(t:width)"/>
+            </span>
+                <xsl:value-of select="@unit"/>
+            </xsl:if>
+        </p>
         
     </xsl:template>
     <xsl:template match="t:dimensions[@type='binding']">

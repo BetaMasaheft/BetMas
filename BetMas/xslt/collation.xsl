@@ -89,14 +89,14 @@
                 </xsl:variable>
             <xsl:choose>
                 
-                <xsl:when test="$dimensionandstubs//item[child::dimensions[. mod 2 = 0]][child::stubs[. mod 2 != 0]]">
+                <xsl:when test="$dimensionandstubs//item[child::dimensions[not(@xml:lang)][. mod 2 = 0]][child::stubs[. mod 2 != 0]]">
                     <div class="w3-panel w3-black">
                         <p>
                             <b>It is unfortunately not possible with the information provided to print the collation diagrams and formula.
                             </b>
                         </p>
                         <ul>
-                            <xsl:for-each select="$dimensionandstubs//item[child::dimensions[. mod 2 = 0]][child::stubs[. mod 2 != 0]]">
+                            <xsl:for-each select="$dimensionandstubs//item[child::dimensions[not(@xml:lang)][. mod 2 = 0]][child::stubs[. mod 2 != 0]]">
                                 <li>
                                     <xsl:value-of select="concat('Quire with id:', id, ' and n ', n, ' is made of an even number of leaves (',  dimensions, '), but the number of stubs is odd.' )"/>
                                 </li>
