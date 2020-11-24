@@ -47,7 +47,7 @@ let $seq := for $point in tokenize($coord, ' ') return $point
  : 1. take ours if we have them, if not look for a sameAs and check there for coordinates:)
 declare function coord:getCoords($placenameref as xs:string) {
     if (starts-with($placenameref, 'LOC') or starts-with($placenameref, 'INS')) then
-        let $pRec := $config:collection-rootPlIn/id($placenameref)
+        let $pRec := collection($config:data-rootPl,$config:data-rootIn)/id($placenameref)
          return
          if ($pRec//t:geo[@rend eq 'polygon']/text()) then
                 for $point in tokenize($pRec//t:geo[@rend eq 'polygon'], '\n')

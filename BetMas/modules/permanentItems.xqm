@@ -61,7 +61,7 @@ $id as xs:string*,
 $start as xs:integer*,
 $per-page as xs:integer*,
 $hi as xs:string*) {
-  let $item := $config:collection-root/id($id)[name() eq 'TEI']
+  let $item := $apprest:collection-root/id($id)[name() eq 'TEI']
   let $col := switch2:col($item/@type)
   let $log := log:add-log-message('/'||$id||'/main', sm:id()//sm:real/sm:username/string() , 'item')
   return
@@ -192,13 +192,13 @@ $sha as xs:string*){
 let $collect := switch2:collectionVar($collection)
 let $coll := $config:data-root || '/' || $collection
 let $capCol := PermRestItem:capitalize-first($collection)
-let $permapath := if( $PermRestItem:deleted//t:item[. eq $id]) then (replace(string($PermRestItem:deleted//t:item[. eq $id]/@source), $collection, '') =>replace('^/', '') || '/' || $PermRestItem:deleted//t:item[. eq $id]/text() || '.xml' ) else replace(PermRestItem:capitalize-first(substring-after(base-uri($config:collection-root/id($id)[name()eq 'TEI']), '/db/apps/BetMasData/')), $capCol, '')
+let $permapath := if( $PermRestItem:deleted//t:item[. eq $id]) then (replace(string($PermRestItem:deleted//t:item[. eq $id]/@source), $collection, '') =>replace('^/', '') || '/' || $PermRestItem:deleted//t:item[. eq $id]/text() || '.xml' ) else replace(PermRestItem:capitalize-first(substring-after(base-uri($apprest:collection-root/id($id)[name()eq 'TEI']), '/db/apps/BetMasData/')), $capCol, '')
 let $docpath:= 'https://raw.githubusercontent.com/BetaMasaheft/' || $capCol || '/'||$sha||'/'|| $permapath
 let $this:= doc($docpath)//t:TEI
 let $biblio :=
 <bibl>
 {
-for $author in distinct-values(($this//t:revisionDesc/t:change/@who| $this//t:editor/@key))
+for $author in config:distinct-values(($this//t:revisionDesc/t:change/@who| $this//t:editor/@key))
                 return
 <author>{editors:editorKey(string($author))}</author>
 }
@@ -275,7 +275,7 @@ else ()}
   <div class="slider round" data-toggle="tooltip" title="Highlight diplomatic disourse interpretation"></div>
 </label>
    {
-   for $document in $config:collection-rootMS//t:relation[contains(@passive, $id)]
+   for $document in $apprest:collection-rootMS//t:relation[contains(@passive, $id)]
 let $rootid := string($document/@active)
 let $itemid :=substring-after($rootid, '#')
 let $msid :=substring-before($rootid, '#')
@@ -354,7 +354,7 @@ transform:transform(
    for $contains in $this//t:relation[@name eq "saws:contains"]/@passive 
      let $ids:=  if(contains($contains, ' ')) then for $x in tokenize($contains, ' ') return $x else string($contains)
      for $contained in $ids
-    let $cfile := $config:collection-rootW//id($contained)[name() eq 'TEI']
+    let $cfile := $apprest:collection-rootW//id($contained)[name() eq 'TEI']
    return 
    
    <div class="w3-container">

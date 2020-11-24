@@ -79,7 +79,7 @@ let $log := log:add-log-message('/api/kwicsearch?q=' || $q, sm:id()//sm:real/sm:
   let $elements : =
      for $e in $element
      let $elQ :=    apiS:BuildSearchQuery2($e, all:substitutionsInQuery($q))
-    let $string := concat("$config:collection-root//",$elQ)
+    let $string := concat("collection($config:data-root)//",$elQ)
    return
     util:eval($string)
 
@@ -226,12 +226,12 @@ let $query-string := if($homophones = 'true') then
 let $hits := 
 for $e in $element 
 let $eval-string := if($e = 'persName' and $descendants = 'false')  then
-concat(" $config:collection-root//t:persName[parent::t:person or parent::t:personGrp]"
+concat(" collection($config:data-root)//t:persName[parent::t:person or parent::t:personGrp]"
 , "[ft:query(.,'", $query-string, "',",serialize($SearchOptions),")]", $collection, $script, $material, $term)
 else if($e = 'placeName'  and $descendants = 'false')  then
-concat(" $config:collection-root//t:place/t:placeName"
+concat(" collection($config:data-root)//t:place/t:placeName"
 , "[ft:query(.,'", $query-string, "',",serialize($SearchOptions),")]", $collection, $script, $material, $term)
-else concat("$config:collection-root//t:"
+else concat("collection($config:data-root)//t:"
 , $e, "[ft:query(.,'", $query-string, "',",serialize($SearchOptions),")]", $collection, $script, $material, $term)
 
 return util:eval($eval-string)

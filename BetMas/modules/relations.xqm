@@ -301,7 +301,7 @@ return
 let $nodes :=
 <ids>
             {
-                for $distinctId in distinct-values($data//id)
+                for $distinctId in config:distinct-values($data//id)
                  let $collection :=
                 switch (substring($distinctId, 0, 4))
                     case 'LOC'
@@ -361,7 +361,7 @@ let $nodes :=
                                        else (
 (:                          use the main name of the file:)
                           
-                                    normalize-space(titles:printTitle($config:collection-root/id(if (contains($distinctId, '#')) 
+                                    normalize-space(titles:printTitle($titles:collection-root/id(if (contains($distinctId, '#')) 
                                                     then substring-before($distinctId, '#') 
                                                    else $distinctId ))) ||
 (                                                   if (contains($distinctId, '#')) 

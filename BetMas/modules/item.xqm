@@ -20,7 +20,7 @@ declare namespace t="http://www.tei-c.org/ns/1.0";
 
 (:~ used by item2:restNav:)
 declare function item2:witnesses($id){
-let $item := ($config:collection-rootMS, $config:collection-rootW)//t:TEI/id($id)
+let $item := ($apprest:collection-rootMS, $apprest:collection-rootW)//t:TEI/id($id)
 return
 if($item/@type eq 'mss') then 
 <div class="w3-bar-item" id="textWitnesses">
@@ -42,7 +42,7 @@ for $wit in $item//t:witness[@type eq 'external'] return
 
 </ul>
        ,
-       let $versions := $config:collection-root//t:relation[@name eq 'saws:isVersionOf'][contains(@passive, $id)]
+       let $versions := $titles:collection-root//t:relation[@name eq 'saws:isVersionOf'][contains(@passive, $id)]
        return
        if($versions) then (<h5 class="w3-bar-item">Other versions</h5>,
          <ul  class="w3-bar-item nodot">
@@ -57,7 +57,7 @@ for $wit in $item//t:witness[@type eq 'external'] return
             else()
             ,
             
-            let $versionsO := $config:collection-root//t:relation[@name eq 'isVersionInAnotherLanguageOf'][contains(@passive, $id)]
+            let $versionsO := $titles:collection-root//t:relation[@name eq 'isVersionInAnotherLanguageOf'][contains(@passive, $id)]
        return
        if($versionsO) then (
             <h5 class="w3-bar-item">Versions in another language</h5>,
@@ -110,11 +110,11 @@ Not sure how to do this? Have a look at the <a href="/Guidelines">Beta maṣā�
 </span>
     </div>
 <div class="w3-bar-item w3-tooltip" >
-<a class="w3-button w3-padding-small w3-gray" id="toggleHands"><span class="showHideText">Hide</span> pointers</a>
+<a class="w3-button w3-padding-small w3-gray" id="toggleHands">Hide/show pointers</a>
 <span class="w3-text w3-tag itemoptiontooltip">Click here to hide or show again the little arrows and small left pointing hands in this page.</span>
 </div>
 <div class="w3-bar-item w3-tooltip" >
-<a class="w3-button w3-padding-small w3-gray" id="toggleSeeAlso"><span class="showHideText">Hide</span> related</a>
+<a class="w3-button w3-padding-small w3-gray" id="toogleSeeAlso">Hide/show related</a>
 <span class="w3-text w3-tag itemoptiontooltip">Click here to hide or show again the right side of the content area, where related items and keywords are shown.</span>
 </div>
             
@@ -277,7 +277,7 @@ case 'manuscripts' return
     else
 <div>
             { for $repo in $repoids
-            let $repodoc := $config:collection-rootIn/id($repo)
+            let $repodoc := $apprest:collection-rootIn/id($repo)
              let $repoplace := if ($repodoc//t:settlement[1]/@ref) then titles:printTitleID($repodoc//t:settlement[1]/@ref) else if ($repodoc//t:settlement[1]/text()) then $repodoc//t:settlement[1]/text() else if ($repodoc//t:country[1]/@ref) then titles:printTitleID($repodoc//t:country[1]/@ref) else ()
 return
             <a target="_blank" 
@@ -389,10 +389,10 @@ declare function item2:AdminLocTable($adminLoc as element()*){
 declare function item2:mainRels($this,$collection){
       let $document := $this
       let $id := string($this/@xml:id)
-      let $w := $config:collection-rootW
-      let $n := $config:collection-rootN
-      let $ms := $config:collection-rootMS
-      let $plin := $config:collection-rootPlIn
+      let $w := $apprest:collection-rootW
+      let $n := collection($config:data-rootN)
+      let $ms := $apprest:collection-rootMS
+      let $plin := $apprest:collection-rootPlIn
       return
           <div class="allMainRel">{
      switch($collection)
@@ -493,7 +493,7 @@ return
                                            {
                                            <b  class="openInDialog">Place attested in the following periods</b>,
                                           <ul  class="w3-ul w3-hoverable">{for $s in $this//t:state[@type eq 'existence']/@ref
-                                          let $file := $config:collection-rootA/id($s)
+                                          let $file := collection($config:data-rootA)/id($s)
                                           let $name := $file//t:title[1]/text()
                                           let $link := $file//t:sourceDesc//t:ref/@target
                                           return
@@ -644,7 +644,7 @@ else
       
        case 'authority-files' return (
    let $pass := concat('betmas:', $id)
-let $relations := $config:collection-rootN//t:relation[@name eq  'skos:broadMatch'][@passive eq $pass]
+let $relations := collection($config:data-rootN)//t:relation[@name eq  'skos:broadMatch'][@passive eq $pass]
 return
 if(count($relations) eq 0) then ()
 else
@@ -745,7 +745,7 @@ declare function item2:RestPersRole($file, $collection){
     return
 if ($collection = 'persons') then(
 <div  class="w3-panel w3-margin  w3-gray w3-card-4">{
-let $persrol := $config:collection-root//t:persName[@ref eq  $id]
+let $persrol := $titles:collection-root//t:persName[@ref eq  $id]
 let $persrole := $persrol[@role]
 return
 if($persrole) then
@@ -793,7 +793,7 @@ else if ($collection = 'manuscripts' or $collection = 'works' or $collection = '
     is <span class="w3-tag w3-red">{for $role in config:distinct-values($p/@role) return string($role) || ' '}</span>{' of this manuscript'}.
 
     {
-    let $tei := $config:collection-root//t:TEI[@xml:id !=$id]
+    let $tei := $titles:collection-root//t:TEI[@xml:id !=$id]
     let $persons := $tei//t:persName[@ref eq  string($ID)]
     for $role in $persons[@role]
 
@@ -838,7 +838,7 @@ else ()
 
 (:~ returns a div with a list of additions containing the given id :)
 declare function item2:RestAdditions($id){
-       let $adds := $config:collection-rootMS//t:additions
+       let $adds := $apprest:collection-rootMS//t:additions
        let $sameKey :=
             for $corr in $adds//t:persName[@ref eq  $id]
             return $corr
@@ -859,7 +859,7 @@ if ($sameKey) then
 
       (:~ returns a div with a list of additions containing the given id :)
 declare function item2:RestMiniatures($id){
-       let $adds := $config:collection-root//t:decoNote[@type eq 'miniature']
+       let $adds := $titles:collection-root//t:decoNote[@type eq 'miniature']
        let $sameKey :=
             for $corr in $adds//t:persName[@ref eq  $id]
             return $corr
@@ -880,7 +880,7 @@ if ($sameKey) then
 
       (:~ returns a div with a list of the keywords used in the description of a miniture with the given art theme :)
 declare function item2:RestMiniaturesKeys($id){
-       let $adds := $config:collection-rootMS//t:decoNote[@type eq 'miniature'][descendant::t:ref[@type eq 'authFile'][@corresp eq $id]]
+       let $adds := $apprest:collection-rootMS//t:decoNote[@type eq 'miniature'][descendant::t:ref[@type eq 'authFile'][@corresp eq $id]]
        let $themes := $adds//t:term
      return
                                            <ul  class="w3-ul w3-hoverable">{
@@ -905,7 +905,7 @@ declare function item2:RestMiniaturesKeys($id){
        };
       (:~ returns a div with a list of place like records containing the given id as tabot :)
 declare function item2:RestTabot($id){
-       let $tabot := $config:collection-rootPlIn//t:place//t:ab[@type eq 'tabot']
+       let $tabot := $apprest:collection-rootPlIn//t:place//t:ab[@type eq 'tabot']
        let $sameKey :=
             for $corr in $tabot//t:persName[@ref eq  $id]
             return $corr
@@ -932,11 +932,11 @@ else ()
 declare function item2:RestMss($id){
        let $string := $id
 let $sameKey :=
-            for $corr in $config:collection-rootMS//t:title[starts-with(@ref , $id)][parent::t:msItem]
+            for $corr in $apprest:collection-rootMS//t:title[starts-with(@ref , $id)][parent::t:msItem]
             return
                 $corr
   let $sameKeyAdd :=
-            for $corr in               $config:collection-rootMS//t:additions//t:item//t:title[starts-with(@ref , $id)]
+            for $corr in               $apprest:collection-rootMS//t:additions//t:item//t:title[starts-with(@ref , $id)]
             return
                 $corr
    let $count := count($sameKey) + count($sameKeyAdd)      
@@ -978,7 +978,7 @@ else  if($item//t:repository[@ref = 'INS0339BML'])
 (:          
 EMIP:)
               else if(($item//t:collection = 'EMIP') and $item//t:msIdentifier/t:idno/@n) 
-               then <img src="{$config:appUrl ||'/iiif/' || string(($item//t:msIdentifier/t:idno)[1]/@facs) || '001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
+               then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
               
               (:BNF:)
             else if ($item//t:repository/@ref = 'INS0303BNF') 
@@ -1048,11 +1048,11 @@ EMIP:)
                                              
                                              ) else ()}
                                              {  if(starts-with($id, 'NAR')) then (
-                                             let $file := $config:collection-rootN//id($id)
+                                             let $file := collection($config:data-rootN)//id($id)
                                              let $broadMatch := $file//t:relation[@name eq "skos:broadMatch"]/@passive
                                              for $b in $broadMatch
                                              let $broad := substring-after($b, 'betmas:')
-                                             let $usedasType :=  $config:collection-rootMS//t:additions//t:item/t:desc[@type eq  $broad]
+                                             let $usedasType :=  $apprest:collection-rootMS//t:additions//t:item/t:desc[@type eq  $broad]
                                              return
   (<p>As additional content associated with the keyword <b><a href="/authority-files/list?keyword={string($broad)}">{titles:printTitleMainID($broad)}</a></b> this unit 
   is present an additional {count($usedasType)} time{if(count($usedasType) gt 1) then 's' else ()}</p>,       
@@ -1092,13 +1092,13 @@ EMIP:)
 
 
              {
-let $corresps := $config:collection-rootW//t:div[@type eq 'textpart'][@corresp eq  $id]
+let $corresps := $apprest:collection-rootW//t:div[@type eq 'textpart'][@corresp eq  $id]
 return
 if (count($corresps) ge 1) then
  (
 for $c in $corresps
 let $workid := string(root($c)/t:TEI/@xml:id )
-let $witnesses := $config:collection-rootMS//t:title[contains(@ref, $workid)][parent::t:msItem or ancestor::t:additions]
+let $witnesses := $apprest:collection-rootMS//t:title[contains(@ref, $workid)][parent::t:msItem or ancestor::t:additions]
 let $countwitnesses := for $wit in $witnesses
  let $wid :=  string(root($wit)/t:TEI/@xml:id )
  group by $id := $wid return $id
@@ -1120,10 +1120,10 @@ return
 
  {
 (: subparts :)
-let $work := $config:collection-rootW/id($id)
+let $work := $apprest:collection-rootW/id($id)
 let $parts := $work//t:div[@type eq 'textpart'][@corresp]/@corresp
-let $rels := $config:collection-root//t:relation[@name eq 'saws:contains'][starts-with(@active,$id)]/@passive  
-let $relformspart := $config:collection-root//t:relation[(@name eq 'saws:formsPartOf') or (@name eq 'ecrm:CLP46i_may_form_part_of')][starts-with(@passive,$id)]/@active
+let $rels := $titles:collection-root//t:relation[@name eq 'saws:contains'][starts-with(@active,$id)]/@passive  
+let $relformspart := $titles:collection-root//t:relation[(@name eq 'saws:formsPartOf') or (@name eq 'ecrm:CLP46i_may_form_part_of')][starts-with(@passive,$id)]/@active
 let $all := ($parts,$rels,$relformspart)
 let $ids := config:distinct-values($all)
 return
@@ -1132,7 +1132,7 @@ if (count($ids) ge 1) then
  <p>This textual unit has also {count($ids)} parts which are also independent Textual Units. Below is a list of witnesses for each of them.</p>
 , 
 for $c in $ids
-let $witnesses := $config:collection-rootMS//t:title[contains(@ref, $c)][parent::t:msItem or ancestor::t:additions]
+let $witnesses := $apprest:collection-rootMS//t:title[contains(@ref, $c)][parent::t:msItem or ancestor::t:additions]
 let $countwitnesses := for $wit in $witnesses
  let $wid :=  string(root($wit)/t:TEI/@xml:id )
  group by $id := $wid return $id

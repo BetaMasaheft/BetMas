@@ -47,7 +47,7 @@ function workmap:workmap(
 $worksid as xs:string*, $type as xs:string*) {
 let $fullurl := ('?worksid=' || $worksid)
 let $log := log:add-log-message($fullurl, sm:id()//sm:real/sm:username/string() , 'worksmap')
-let $w :=  if(contains($worksid, ',')) then for $work in tokenize($worksid, ',') return $config:collection-rootW/id($work) else $config:collection-rootW/id($worksid)  
+let $w :=  if(contains($worksid, ',')) then for $work in tokenize($worksid, ',') return $apprest:collection-rootW/id($work) else $apprest:collection-rootW/id($worksid)  
 let $baseuris := for $bu in $w return base-uri($bu)
 let $Cmap := map {'type': 'item', 'name' : $worksid, 'path' : string-join($baseuris)}
 let $kmlparam := for $work at $p in $w/@xml:id return  'kml'||$p||'=https://betamasaheft.eu/workmap/KML/'||string($work)||'?type='||$type
@@ -164,13 +164,13 @@ declare
 function workmap:kml($work as xs:string, $type as xs:string*) {
 $config:response200,
 let $log := log:add-log-message('/workmap/'||$work||'/KML/', sm:id()//sm:real/sm:username/string(), 'workmap')
-let $thisworkmss := $config:collection-rootMS//t:title[@ref = $work]
-let $part := $config:collection-rootW//t:div[@type ='textpart'][@corresp = $work]
+let $thisworkmss := $apprest:collection-rootMS//t:title[@ref = $work]
+let $part := $apprest:collection-rootW//t:div[@type ='textpart'][@corresp = $work]
 let $containedin := for $container in $part
                                        let $anchor := string($container/@xml:id)
                                         let $root := string(root($container)/t:TEI/@xml:id)
                                         let $IdPlusAnchor := $root || '#' ||$anchor
-                                       return  $config:collection-rootMS//t:title[@ref = $IdPlusAnchor]
+                                       return  $apprest:collection-rootMS//t:title[@ref = $IdPlusAnchor]
  let $mss := ($thisworkmss, $containedin)
 let $worktitle := titles:printTitleID($work)
 return

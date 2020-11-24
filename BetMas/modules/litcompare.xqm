@@ -46,14 +46,14 @@ function litcomp:litcomp(
 $worksid as xs:string*, $type as xs:string*) {
 let $fullurl := ('?worksid=' || $worksid)
 let $log := log:add-log-message($fullurl, sm:id()//sm:real/sm:username/string() , 'litcomp')
-let $w :=  if(contains($worksid, ',')) then for $work in tokenize($worksid, ',') return $config:collection-rootW/id($work) else $config:collection-rootW/id($worksid)  
+let $w :=  if(contains($worksid, ',')) then for $work in tokenize($worksid, ',') return $apprest:collection-rootW/id($work) else $apprest:collection-rootW/id($worksid)  
 let $baseuris := for $bu in $w return base-uri($bu)
 let $Cmap := map {'type': 'item', 'name' : $worksid, 'path' : string-join($baseuris)}
 let $worktitles := for $work in $w/@xml:id return titles:printTitleID($work)
 let $query := switch($type) 
-case 'mightFormPart' return $config:collection-rootW//t:relation[@name eq 'ecrm:CLP46i_may_form_part_of'][@passive eq $worksid]
-case 'contains' return $config:collection-rootW//t:relation[@name eq 'saws:contains'][@active eq $worksid]
-default return  $config:collection-rootW//t:relation[@name eq 'saws:formsPartOf'][@passive eq $worksid]
+case 'mightFormPart' return $apprest:collection-rootW//t:relation[@name eq 'ecrm:CLP46i_may_form_part_of'][@passive eq $worksid]
+case 'contains' return $apprest:collection-rootW//t:relation[@name eq 'saws:contains'][@active eq $worksid]
+default return  $apprest:collection-rootW//t:relation[@name eq 'saws:formsPartOf'][@passive eq $worksid]
 return
 if(exists($w) or $worksid ='') then (
 <rest:response>
@@ -131,7 +131,7 @@ if(exists($w) or $worksid ='') then (
 let $bmid := if($type='contains') then string($miracle/@passive) else string($miracle/@active)
 let $link := 'https://betamasaheft.eu/'||$bmid
 let $textlink := 'https://betamasaheft.eu/works/'||$bmid||'/text'
-let $miraclefile := $config:collection-rootW/id($bmid)
+let $miraclefile := $apprest:collection-rootW/id($bmid)
 let $entitles := replace(string-join($miraclefile//t:title[@xml:lang='en'], ' | '), ',', '')
 let $bibl := for $bib in $miraclefile//t:bibl return
 (<a href="https://betamasaheft.eu/bibliography?pointer={$bib/t:ptr/@target}"
@@ -141,7 +141,7 @@ let $bibl := for $bib in $miraclefile//t:bibl return
            )
 let $incipit := replace(string-join($miraclefile//t:div[@subtype eq 'incipit']/t:ab/text(), ' '), ',', '')
 let $incipitnote := replace(string-join(string:tei2string($miraclefile//t:div[@subtype eq 'incipit']/t:note), ' '), ',', '')
-let $mss := $config:collection-rootMS//t:title[@ref eq  $bmid]
+let $mss := $apprest:collection-rootMS//t:title[@ref eq  $bmid]
 
 return
 <tr>
@@ -171,7 +171,7 @@ for $m in $mss
                         let $totalparts := count($msitem/parent::t:*/child::t:msItem)
                         let $position :=$number || '/' || $totalparts
                          let $works := for $w in $msitem/ancestor::t:TEI//t:msItem/t:title/@ref 
-                                              return $config:collection-rootW/id($w)//t:keywords
+                                              return $apprest:collection-rootW/id($w)//t:keywords
                          let $totalmiracles := count($works//t:term[@key eq  'Miracle'])                         
                         return 
                         <tr>

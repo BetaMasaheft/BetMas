@@ -21,7 +21,7 @@ declare
 %rest:path("/BetMas/api/Chojnacki/{$id}")
 %output:method("json")
 function chojnacki:allChojnacki($id  as xs:string*){
-let $Chojnacki := $config:collection-rootCh//marc:record[descendant::marc:subfield[@code="a"][. = $id ]]
+let $Chojnacki := collection($config:data-rootCh)//marc:record[descendant::marc:subfield[@code="a"][. = $id ]]
 let $ChojnackItems := for $Choj in $Chojnacki
                                             let $DigiVatID := $Choj//marc:datafield[@tag="095"]/marc:subfield[@code="a"]/text()
                                             let $DigiVatSegnatura := $Choj//marc:datafield[@tag="852"]/marc:subfield[@code="h"]/text()

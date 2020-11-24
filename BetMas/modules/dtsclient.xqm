@@ -15,14 +15,15 @@ declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace dts = "https://w3id.org/dts/api#";
 declare namespace t="http://www.tei-c.org/ns/1.0";
 import module namespace functx="http://www.functx.com";
+import module namespace localdts="https://www.betamasaheft.uni-hamburg.de/BetMas/localdts" at "xmldb:exist:///db/apps/BetMas/modules/localdts.xqm";
 import module namespace console="http://exist-db.org/xquery/console";
 
 
 declare function dtsc:text($id, $edition, $ref, $start, $end, $collection){
-(:let $t := console:log(string-join(($edition, $ref, $start, $end), ' - ')):)
+let $t := console:log(string-join(($edition, $ref, $start, $end), ' - '))
 let $approot:= 
-(:'https://betamasaheft.eu':)
-'http://localhost:8080/exist/apps/BetMas'
+'https://betamasaheft.eu'
+(:'http://localhost:8080/exist/apps/BetMas':)
 let $APIroot:='/api/dts/'
 let $NavAPI:='navigation'
 let $ColAPI:='collections'
@@ -35,14 +36,16 @@ let $ps := (if($ref='') then () else 'ref='||$ref ,
 let $parm := if(count($ps) ge 1) then '&amp;' || string-join($ps,'&amp;') else ()
 let $refstart := if($ref != '') then ('.'||$ref) else if($start != '') then ('.'||$start || '-' || $end) else ()
 let $citationuri := ($approot||'/'||$id||$edition||$refstart)
-let $uricol := ($approot||$APIroot||$ColAPI||$baseid||$id||$edition)
-let $urinav := ($approot||$APIroot||$NavAPI||$baseid||$id||$edition||$parm)
-let $uridoc := ($approot||$APIroot||$DocAPI||$baseid||$id||$edition||$parm)
+let $fullid:=$approot||'/'||$id||$edition
+let $fullidpar:=$baseid||$id||$edition
+let $uricol := ($approot||$APIroot||$ColAPI||$fullidpar)
+let $urinav := ($approot||$APIroot||$NavAPI||$fullidpar||$parm)
+let $uridoc := ($approot||$APIroot||$DocAPI||$fullidpar||$parm)
 let $urianno := ($approot||$APIroot||$AnnoAPI||'/'||$collection||'/items/'||$id)
-let $DTScol := dtsc:request($uricol)
-let $DTSnav := dtsc:request($urinav)
-let $DTSanno := dtsc:request($urianno)
-let $DTSdoc := dtsc:requestXML($uridoc)
+let $DTScol := if(starts-with($fullid, $approot)) then  localdts:Collection($fullid, 1, 'children')    else dtsc:request($uricol)
+let $DTSnav := if(starts-with($fullid, $approot)) then localdts:Navigation($fullid, $ref, '', $start, $end, '', '', '', 'no') else  dtsc:request($urinav)
+let $DTSanno :=  if(starts-with($fullid, $approot)) then localdts:Annotations($fullid,'items', $ref, '', '1', $start, $end, '', '1', '', '') else  dtsc:request($urianno)
+let $DTSdoc :=  if(starts-with($fullid, $approot)) then localdts:Document($fullid, $ref, $start, $end) else  dtsc:requestXML($uridoc)
 let $links := for $link in tokenize($DTSdoc//http:header[@name="link"]/string(@value), ',') return 
             <link><val>{substring-after(substring-before($link, '&gt;'), 'ref=')}</val> 
                         <dir>{replace(substring-after($link, '&gt; ; rel='), "'",  '')}</dir></link>
@@ -73,10 +76,10 @@ substring-before($index?title, ' for'))
 {if($DTScol?('@type') = 'Collection') then 
 (<div class="w3-bar w3-border">
 <div class="w3-bar-item">Editions and translations: </div>
-{for $ed in $DTScol?member?*
+{try{ for $ed in $DTScol?member?*
 return 
 <div class="w3-bar-item"><a href="{$ed?('@id')}" target="_blank">{$ed?title}</a></div>
-} 
+} catch * {console:log($err:description)}} 
 </div>) else ()}
 </div>
 <div id="indexNav" class="w3-col w3-hide " style="width:15%">

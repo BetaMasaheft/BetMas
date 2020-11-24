@@ -248,7 +248,7 @@ let $log := log:add-log-message('/api/manuscripts/'||$repo||'/list/ids/json', sm
     let $login := xmldb:login($config:data-root, $config:ADMIN, $config:ppw)
     return
          ( $config:response200Json,
-    let $msfromrepo := $config:collection-rootMS//t:TEI[descendant::t:repository[@ref eq $repo]]
+    let $msfromrepo := collection($config:data-rootMS)//t:TEI[descendant::t:repository[@ref eq $repo]]
     let $total := count($msfromrepo) 
    let $items :=  for $resource in $msfromrepo 
     let $id := string($resource/@xml:id)

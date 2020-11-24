@@ -15,11 +15,10 @@ declare
 
 %rest:GET
 %rest:path("/BetMas/api/SearchFormParts/{$paraname}")
-%rest:query-param("cont", "{$cont}", "$config:collection-rootMS")
+%rest:query-param("cont", "{$cont}", "$apprest:collection-rootMS")
 %output:method("html5")
 function restSearch:FormPart($paraname  as xs:string*, $cont as xs:string*)
 {
-
 <div class="form-group" id="authorsform">
         <label  for="{$paraname}">{$paraname}</label>
                 {switch ($paraname)

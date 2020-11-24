@@ -175,10 +175,10 @@ return
 (:~ Produces as string a json object which contains the id of the manuscript witnesses selected and the text passege as of the urn  which can be used to build the body of a post request to collatex:)
 declare function collatex:getCollatexWitnessText($dtsURN){
 let $parsedURN := dts:parseDTSid($dtsURN)
-let $id := $parsedURN//s:group[@nr = 1]/text()
-let $edition := $parsedURN//s:group[@nr = 2]
-let $file := $config:collection-root/id($id)[name()='TEI']
-let $ref := string-join($parsedURN//s:group[@nr = 6]//text())
+let $id := $parsedURN//s:group[@nr eq 1]/text()
+let $edition := $parsedURN//s:group[@nr eq 2]
+let $file := collection($config:data-root)/id($id)[self::t:TEI]
+let $ref := string-join($parsedURN//s:group[@nr eq 6]//text())
 let $splitref := if(contains($ref, '-')) then tokenize($ref, '-') else $ref
 let $cleanref := for $r in $splitref return if(contains($r, '@')) then substring-before($r, '@') else $r
 let $delimiters := for $r in $splitref return if(contains($r, '@')) then substring-after($r, '@') else 'n/a'
@@ -216,7 +216,7 @@ let $matchingmss := for $ms in $urns
             
 (:~ Calls for each witness of a specified narrative builds the array which can be passed as body of the POST request to collatex:)
 declare function collatex:getnarrUnitWittnesses($nU){ 
-let $matchingmss := for $ms in $config:collection-rootMS//t:*[@corresp = $nU]
+let $matchingmss := for $ms in $apprest:collection-rootMS//t:*[@corresp = $nU]
                                            let $id := string($ms/ancestor::t:TEI/@xml:id)
                                            let $text := string-join($ms//text())
                                             let $cleantext := collatex:cleanforcollatex($text)

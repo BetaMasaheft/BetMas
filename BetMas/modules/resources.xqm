@@ -9,33 +9,28 @@ module namespace lists="https://www.betamasaheft.uni-hamburg.de/BetMas/lists";
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
+import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2"  at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm"; 
 import module namespace console="http://exist-db.org/xquery/console";
 
 declare namespace t="http://www.tei-c.org/ns/1.0";
 declare namespace templates="http://exist-db.org/xquery/templates" ;
 
+declare variable $lists:collection-rootMS := collection($config:data-rootMS);
+declare variable $lists:collection-rootW := collection($config:data-rootW);
+declare variable $lists:collection-rootA := collection($config:data-rootA);
 
 
 (:~prints a responsive table with the first 100 ptr targets fount in
  : all the bibliography entries in the  entities in the app taken once, requesting the data from Zotero:)
 declare
-
     %templates:default("collection", "")
     %templates:default("pointer", "")
     %templates:default("type", "all")
 function lists:bibl ($node as node(), $model as map(*),
     $type as xs:string+, $collection as xs:string, $pointer as xs:string*) {
-   let $coll := switch($collection)
-   case'all' return '$config:collection-root'
-   case 'mss' return '$config:collection-rootMS'
-   case 'work' return '$config:collection-rootW'
-   case 'auth' return '$config:collection-rootA'
-   case 'pers' return '$config:collection-rootPr'
-   case 'place' return '$config:collection-rootPl'
-   case 'ins' return '$config:collection-rootIn'
-   default return '$config:collection-root'
-   let $Pointer := if($pointer = '') then "[starts-with(@target,'bm:')]" else "[@target='"||$pointer||"']"
-    let $Type := if($type = 'all') then () else let $pars := for $ty in $type return "@type = '" || $ty || "'" return '//t:listBibl[' || string-join($pars, ' or ') || ']'
+   let $coll := switch2:collectionVarValTit($collection)
+   let $Pointer := if($pointer = '') then "[starts-with(@target,'bm:')]" else "[@target eq '"||$pointer||"']"
+    let $Type := if($type = 'all') then () else let $pars := for $ty in $type return "@type eq '" || $ty || "'" return '//t:listBibl[' || string-join($pars, ' or ') || ']'
    let $path := $coll||$Type||'//t:ptr'||$Pointer 
    let $query := util:eval($path)//@target
 let $bms :=
@@ -73,16 +68,16 @@ declare
     $termText as xs:string*,
     $otherText as xs:string*,
     $interpret as xs:string*) {
-   let $type := if($type = 'all') then '' else let $pars := for $ty in $type return "descendant::t:desc[@type = '" || $ty || "']" return '[' || string-join($pars, ' or ') || ']'
-   let $target-work := if($target-work = 'all') then () else let $pars := for $ty in $target-work return "@ref = '" || $ty || "'" return '[descendant::t:title[' || string-join($pars, ' or ') || ']]'
-   let $target-pers := if($target-pers = 'all') then () else let $pars := for $ty in $target-pers return "@ref = '" || $ty || "'" return '[descendant::t:persName[' || string-join($pars, ' or ') || ']]'
-   let $target-place := if($target-place = 'all') then () else let $pars := for $ty in $target-place return "@ref = '" || $ty || "'" return '[descendant::t:placeName[' || string-join($pars, ' or ') || ']]'
-   let $target-keyword := if($target-keyword = 'all') then () else let $pars := for $ty in $target-keyword return "@key = '" || $ty || "'" return '[descendant::t:term[' || string-join($pars, ' or ') || ']]'
-   let $target-language := if($target-language = 'all') then () else let $pars := for $ty in $target-language return "@xml:lang = '" || $ty || "'" return '[descendant::t:q[' || string-join($pars, ' or ') || ']]'
+   let $type := if($type = 'all') then '' else let $pars := for $ty in $type return "descendant::t:desc[@type eq '" || $ty || "']" return '[' || string-join($pars, ' or ') || ']'
+   let $target-work := if($target-work = 'all') then () else let $pars := for $ty in $target-work return "@ref eq '" || $ty || "'" return '[descendant::t:title[' || string-join($pars, ' or ') || ']]'
+   let $target-pers := if($target-pers = 'all') then () else let $pars := for $ty in $target-pers return "@ref eq '" || $ty || "'" return '[descendant::t:persName[' || string-join($pars, ' or ') || ']]'
+   let $target-place := if($target-place = 'all') then () else let $pars := for $ty in $target-place return "@ref eq '" || $ty || "'" return '[descendant::t:placeName[' || string-join($pars, ' or ') || ']]'
+   let $target-keyword := if($target-keyword = 'all') then () else let $pars := for $ty in $target-keyword return "@key eq '" || $ty || "'" return '[descendant::t:term[' || string-join($pars, ' or ') || ']]'
+   let $target-language := if($target-language = 'all') then () else let $pars := for $ty in $target-language return "@xml:lang eq '" || $ty || "'" return '[descendant::t:q[' || string-join($pars, ' or ') || ']]'
    let $termText :=  if($termText) then ("[descendant::t:term[contains(.,'" || $termText || "')]]") else ()
    let $otherText :=if($otherText) then ("[descendant::t:q[ft:query(.,'" || $otherText || "')]]") else ()
-   let $interpret :=if($interpret = 'all') then () else let $pars := for $ty in $interpret return "@ana = '" || $ty || "'" return '[descendant::t:seg[' || string-join($pars, ' or ') || ']]'
-   let $path := '$config:collection-rootMS//t:item[starts-with(@xml:id, "a")]' || $type || $target-work || $target-pers || $target-place || $target-keyword|| $target-language || $termText ||$otherText || $interpret
+   let $interpret :=if($interpret = 'all') then () else let $pars := for $ty in $interpret return "@ana eq '" || $ty || "'" return '[descendant::t:seg[' || string-join($pars, ' or ') || ']]'
+   let $path := '$lists:collection-rootMS//t:item[starts-with(@xml:id, "a")]' || $type || $target-work || $target-pers || $target-place || $target-keyword|| $target-language || $termText ||$otherText || $interpret
  let $additions := for $add in util:eval($path) return $add
    return
    map {
@@ -113,14 +108,14 @@ $query as xs:string*,
     $pastedown as xs:string+,
     $fastening as xs:string+
    ) {
-   let $type := if($type = 'all') then () else let $pars := for $ty in $type return "@type = '" || $ty || "'" return '[' || string-join($pars, ' or ') || ']'
-   let $target-keyword := if($target-keyword = 'all') then () else let $pars := for $ty in $target-keyword return "@key = '" || $ty || "'" return '[descendant::t:term[' || string-join($pars, ' or ') || ']]'
-   let $SewingStationsN := if($SewingStationsN = 'all' or $SewingStationsN = '' ) then () else ("[@type='SewingStations'][.="||$SewingStationsN||"]")
-   let $fastening := if($fastening = 'all') then () else ("[@type='Fastening'][.='"||$fastening||"']")
-   let $BindingMaterial := if($BindingMaterial='all') then () else ("[descendant::t:material[@key='"||$BindingMaterial||"']]")
-   let $color := if($color='all') then () else ("[@color='"||$color||"']")
+   let $type := if($type = 'all') then () else let $pars := for $ty in $type return "@type eq '" || $ty || "'" return '[' || string-join($pars, ' or ') || ']'
+   let $target-keyword := if($target-keyword = 'all') then () else let $pars := for $ty in $target-keyword return "@key eq '" || $ty || "'" return '[descendant::t:term[' || string-join($pars, ' or ') || ']]'
+   let $SewingStationsN := if($SewingStationsN = 'all' or $SewingStationsN = '' ) then () else ("[@type eq 'SewingStations'][. eq '"||$SewingStationsN||"']")
+   let $fastening := if($fastening = 'all') then () else ("[@type eq 'Fastening'][. eq '"||$fastening||"']")
+   let $BindingMaterial := if($BindingMaterial='all') then () else ("[descendant::t:material[@key eq '"||$BindingMaterial||"']]")
+   let $color := if($color='all') then () else ("[@color eq '"||$color||"']")
    let $pastedown := if($pastedown='all') then () else ("[matches(@pastedown, '"||$pastedown||"')]")
-   let $path := '$config:collection-rootMS//t:decoNote[starts-with(@xml:id, "b")]' || $type || $target-keyword || $SewingStationsN || $BindingMaterial || $color || $pastedown || $fastening
+   let $path := '$lists:collection-rootMS//t:decoNote[starts-with(@xml:id, "b")]' || $type || $target-keyword || $SewingStationsN || $BindingMaterial || $color || $pastedown || $fastening
   let $decos := for $dec in util:eval($path) return $dec
    return
    map {
@@ -151,15 +146,15 @@ $query as xs:string*,
     $legendText as xs:string*,
     $otherText as xs:string*
    ) {
-   let $type := if($type = 'all') then '[@type]' else let $pars := for $ty in $type return "@type = '" || $ty || "'" return '[' || string-join($pars, ' or ') || ']'
-   let $target-work := if($target-work = 'all') then () else let $pars := for $ty in $target-work return "@ref = '" || $ty || "'" return '[descendant::t:title[' || string-join($pars, ' or ') || ']]'
-   let $target-artTheme := if($target-artTheme= 'all') then () else let $pars := for $ty in $target-artTheme return "@corresp = '" || $ty || "'" return '[descendant::t:ref[@type="authFile"][' || string-join($pars, ' or ') || ']]'
-   let $target-pers := if($target-pers = 'all') then () else let $pars := for $ty in $target-pers return "@ref = '" || $ty || "'" return '[descendant::t:persName[' || string-join($pars, ' or ') || ']]'
-   let $target-place := if($target-place = 'all') then () else let $pars := for $ty in $target-place return "@ref = '" || $ty || "'" return '[descendant::t:placeName[' || string-join($pars, ' or ') || ']]'
-   let $target-keyword := if($target-keyword = 'all') then () else let $pars := for $ty in $target-keyword return "@key = '" || $ty || "'" return '[descendant::t:term[' || string-join($pars, ' or ') || ']]'
+   let $type := if($type = 'all') then '[@type]' else let $pars := for $ty in $type return "@type eq  '" || $ty || "'" return '[' || string-join($pars, ' or ') || ']'
+   let $target-work := if($target-work = 'all') then () else let $pars := for $ty in $target-work return "@ref eq  '" || $ty || "'" return '[descendant::t:title[' || string-join($pars, ' or ') || ']]'
+   let $target-artTheme := if($target-artTheme= 'all') then () else let $pars := for $ty in $target-artTheme return "@corresp eq  '" || $ty || "'" return '[descendant::t:ref[@type eq "authFile"][' || string-join($pars, ' or ') || ']]'
+   let $target-pers := if($target-pers = 'all') then () else let $pars := for $ty in $target-pers return "@ref eq  '" || $ty || "'" return '[descendant::t:persName[' || string-join($pars, ' or ') || ']]'
+   let $target-place := if($target-place = 'all') then () else let $pars := for $ty in $target-place return "@ref eq  '" || $ty || "'" return '[descendant::t:placeName[' || string-join($pars, ' or ') || ']]'
+   let $target-keyword := if($target-keyword = 'all') then () else let $pars := for $ty in $target-keyword return "@key eq  '" || $ty || "'" return '[descendant::t:term[' || string-join($pars, ' or ') || ']]'
    let $legendText :=  if($legendText) then ("[descendant::t:q[@xml:lang][ft:query(.,'" || $legendText || "')]]") else ()
    let $otherText :=if($otherText) then ("[descendant::t:foreign[@xml:lang='gez'][ft:query(.,'" || $otherText || "')]]") else ()
-   let $path := "$config:collection-rootMS//t:decoNote[starts-with(@xml:id, 'd')]" || $type || $target-work || $target-artTheme || $target-pers || $target-place || $target-keyword || $legendText ||$otherText
+   let $path := "$lists:collection-rootMS//t:decoNote[starts-with(@xml:id, 'd')]" || $type || $target-work || $target-artTheme || $target-pers || $target-place || $target-keyword || $legendText ||$otherText
   let $decos := for $dec in util:eval($path) return $dec
    return
    map {
@@ -189,13 +184,13 @@ $model as map(*),
     $target-work as xs:string+,
     $target-artTheme as xs:string+
    ) {
-   let $day := if($day='all') then "[starts-with(@ref, 'ethiocal:')]" else if($day='all' and $month !='all') then "[starts-with(@ref, 'ethiocal:"||$month||"')]" else "[@ref = 'ethiocal:"||$day||"']"
-   let $target-work := if($target-work = 'all') then () else let $pars := for $ty in $target-work return "@ref = '" || $ty || "'" return '[descendant::t:title[' || string-join($pars, ' or ') || ']]'
-   let $target-artTheme := if($target-artTheme= 'all') then () else let $pars := for $ty in $target-artTheme return "@corresp = '" || $ty || "'" return '[descendant::t:ref[@type="authFile"][' || string-join($pars, ' or ') || ']]'
-   let $target-pers := if($target-pers = 'all') then () else let $pars := for $ty in $target-pers return "@ref = '" || $ty || "'" return '[descendant::t:persName[' || string-join($pars, ' or ') || ']]'
-   let $target-place := if($target-place = 'all') then () else let $pars := for $ty in $target-place return "@ref = '" || $ty || "'" return '[descendant::t:placeName[' || string-join($pars, ' or ') || ']]'
-   let $target-keyword := if($target-keyword = 'all') then () else let $pars := for $ty in $target-keyword return "@key = '" || $ty || "'" return '[descendant::t:term[' || string-join($pars, ' or ') || ']]'
-    let $path := "$config:collection-root//t:date"||$day||(if($target-work!='all' or $target-artTheme !='all' or $target-pers !='all' or $target-place !='all' or $target-keyword !='all') then
+   let $day := if($day='all') then "[starts-with(@ref, 'ethiocal:')]" else if($day='all' and $month !='all') then "[starts-with(@ref, 'ethiocal:"||$month||"')]" else "[@ref eq 'ethiocal:"||$day||"']"
+   let $target-work := if($target-work = 'all') then () else let $pars := for $ty in $target-work return "@ref eq '" || $ty || "'" return '[descendant::t:title[' || string-join($pars, ' or ') || ']]'
+   let $target-artTheme := if($target-artTheme= 'all') then () else let $pars := for $ty in $target-artTheme return "@corresp eq '" || $ty || "'" return '[descendant::t:ref[@type eq "authFile"][' || string-join($pars, ' or ') || ']]'
+   let $target-pers := if($target-pers = 'all') then () else let $pars := for $ty in $target-pers return "@ref eq '" || $ty || "'" return '[descendant::t:persName[' || string-join($pars, ' or ') || ']]'
+   let $target-place := if($target-place = 'all') then () else let $pars := for $ty in $target-place return "@ref eq '" || $ty || "'" return '[descendant::t:placeName[' || string-join($pars, ' or ') || ']]'
+   let $target-keyword := if($target-keyword = 'all') then () else let $pars := for $ty in $target-keyword return "@key eq '" || $ty || "'" return '[descendant::t:term[' || string-join($pars, ' or ') || ']]'
+    let $path := "$titles:collection-root//t:date"||$day||(if($target-work!='all' or $target-artTheme !='all' or $target-pers !='all' or $target-place !='all' or $target-keyword !='all') then
     "[ancestor::t:*[@xml:id][1]" || $target-work || $target-artTheme || $target-pers || $target-place || $target-keyword || ']' else ())
   let $dates := for $dec in util:eval($path) return $dec
    return
@@ -237,22 +232,22 @@ $query as xs:string*,
    let $subtype := if($typeval = 'all') then ''  else if($typeval = 'marked') then '[contains(@subtype, $values)]' else let $pars := for $ty in $typeval return "contains(@subtype, '" || $ty || "')" return '[' || string-join($pars, ' or ') || ']'
    
    let $textquery:=if($query) then ("[ft:query(.,'" || $query || "')]") else ()
-   let $works := if($limit-work = '') then () else $config:collection-rootW//id($limit-work)
-   let $mss :=  if($limit-mss = '') then () else $config:collection-rootMS//id($limit-mss)
-   let $mssWork := $config:collection-rootMS//t:msItem[t:title[@ref=$limit-work]]
-   let $msitems := $mss//t:msItem[t:title[@ref=$limit-work]]
+   let $works := if($limit-work = '') then () else $lists:collection-rootW//id($limit-work)
+   let $mss :=  if($limit-mss = '') then () else $lists:collection-rootMS//id($limit-mss)
+   let $mssWork := $lists:collection-rootMS//t:msItem[t:title[@ref eq $limit-work]]
+   let $msitems := $mss//t:msItem[t:title[@ref eq $limit-work]]
    let $msitemsIDS :=  $msitems/@xml:id
    let $msSitemsIDS :=  $mssWork/@xml:id
-   let $divs := $mss//t:div[@corresp =$msitemsIDS]
-   let $mssdivs := $mssWork/following::t:div[@corresp =$msSitemsIDS]
-   let $additions := $mss//t:item[@corresp =$msitemsIDS]
-   let $mssadditions := $mssWork/following::t:item[@corresp =$msSitemsIDS]
-   let $workdivs := $works//t:div[@type='edition']
+   let $divs := $mss//t:div[@corresp eq $msitemsIDS]
+   let $mssdivs := $mssWork/following::t:div[@corresp eq $msSitemsIDS]
+   let $additions := $mss//t:item[@corresp eq $msitemsIDS]
+   let $mssadditions := $mssWork/following::t:item[@corresp eq $msSitemsIDS]
+   let $workdivs := $works//t:div[@type eq 'edition']
 
    let $context := 
 (:   if the search is limited to a set of manuscripts or a set of works, the context changes.
 first if the no limit is set, we will search all the collection :)
-                                 if($limit-work = '' and $limit-mss = '') then '$config:collection-root' 
+                                 if($limit-work = '' and $limit-mss = '') then '$titles:collection-root' 
 (:                                 if the search is limited by work, then we want to search
                                     - the file of that work, 
                                     - the relevant parts of manuscripts which contain that work 
@@ -269,11 +264,11 @@ first if the no limit is set, we will search all the collection :)
                                  else 
                                            '('||'$msitems' ||','||'$additions' ||','||'$divs'||")"
                                            
-  let $target-work := if($target-work = 'all') then () else let $pars := for $ty in $target-work return "@ref = '" || $ty || "'" return '[descendant::t:title[' || string-join($pars, ' or ') || ']]'
-    let $target-artTheme := if($target-artTheme= 'all') then () else let $pars := for $ty in $target-artTheme return "@corresp = '" || $ty || "'" return '[descendant::t:ref[@type="authFile"][' || string-join($pars, ' or ') || ']]'
-   let $target-pers := if($target-pers = 'all') then () else let $pars := for $ty in $target-pers return "@ref = '" || $ty || "'" return '[descendant::t:persName[' || string-join($pars, ' or ') || ']]'
-   let $target-place := if($target-place = 'all') then () else let $pars := for $ty in $target-place return "@ref = '" || $ty || "'" return '[descendant::t:placeName[' || string-join($pars, ' or ') || ']]'
-   let $target-keyword := if($target-keyword = 'all') then () else let $pars := for $ty in $target-keyword return "@key = '" || $ty || "'" return '[descendant::t:term[' || string-join($pars, ' or ') || ']]'
+  let $target-work := if($target-work = 'all') then () else let $pars := for $ty in $target-work return "@ref eq  '" || $ty || "'" return '[descendant::t:title[' || string-join($pars, ' or ') || ']]'
+    let $target-artTheme := if($target-artTheme= 'all') then () else let $pars := for $ty in $target-artTheme return "@corresp eq  '" || $ty || "'" return '[descendant::t:ref[@type eq "authFile"][' || string-join($pars, ' or ') || ']]'
+   let $target-pers := if($target-pers = 'all') then () else let $pars := for $ty in $target-pers return "@ref eq  '" || $ty || "'" return '[descendant::t:persName[' || string-join($pars, ' or ') || ']]'
+   let $target-place := if($target-place = 'all') then () else let $pars := for $ty in $target-place return "@ref eq  '" || $ty || "'" return '[descendant::t:placeName[' || string-join($pars, ' or ') || ']]'
+   let $target-keyword := if($target-keyword = 'all') then () else let $pars := for $ty in $target-keyword return "@key eq  '" || $ty || "'" return '[descendant::t:term[' || string-join($pars, ' or ') || ']]'
   let $filters := $target-work|| $target-artTheme || $target-pers || $target-place || $target-keyword || $textquery
   let $titles :=
    if($elements = 'all' or $elements = 'title') then
@@ -343,7 +338,7 @@ return util:eval($query) else ()
    };
 
      declare function lists:additionsform($node as node(), $model as map(*)){
-   let $auth := $config:collection-rootA
+   let $auth := $lists:collection-rootA
    return
    <form action="" class="w3-container">
 
@@ -418,7 +413,7 @@ return util:eval($query) else ()
    };
 
    declare function lists:titlesform($node as node(), $model as map(*)){
-   let $auth := $config:collection-rootA
+   let $auth := $lists:collection-rootA
    return
    <form action="" class="w3-container">
                                <div  class="w3-container  w3-margin">
@@ -456,12 +451,12 @@ return util:eval($query) else ()
             <option value="{$d}">{$d} ({count($model('hits')[name() = $d])})</option>}
                                 </select>
                                 </div>
-                               {if($model('hits')//t:ref[@type='authFile']) then  
+                               {if($model('hits')//t:ref[@type eq 'authFile']) then  
                                <div class="w3-container w3-margin">
                                  <small class="form-text text-muted">Select one or more Art Themes associated with the title/colophon/supplication</small><br/>
 
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-artTheme" name="target-artTheme" class="w3-select w3-border">
-            {for $d in config:distinct-values($model('hits')//t:ref[@type='authFile']/@corresp)
+            {for $d in config:distinct-values($model('hits')//t:ref[@type eq 'authFile']/@corresp)
             return
             <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
             </select>
@@ -509,7 +504,7 @@ return util:eval($query) else ()
    };
    
    declare function lists:decorationsform($node as node(), $model as map(*)){
-   let $auth := $config:collection-rootA
+   let $auth := $lists:collection-rootA
    return
    <form action="" class="w3-container">
                                <div  class="w3-container  w3-margin">
@@ -527,12 +522,12 @@ return util:eval($query) else ()
                                <small class="form-text text-muted">Select in text on the decorations which is not the legend</small><br/>
                                 <input  class="w3-input w3-border" name="otherText"></input>
                                 </div>
-                               {if($model('hits')//t:ref[@type='authFile']) then  
+                               {if($model('hits')//t:ref[@type eq 'authFile']) then  
                                <div class="w3-container w3-margin">
                                  <small class="form-text text-muted">Select one or more Art Themes associated with the decoration description</small><br/>
 
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-artTheme" name="target-artTheme" class="w3-select w3-border">
-            {for $d in config:distinct-values($model('hits')//t:ref[@type='authFile']/@corresp)
+            {for $d in config:distinct-values($model('hits')//t:ref[@type eq 'authFile']/@corresp)
             return
             <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
             </select>
@@ -581,7 +576,7 @@ return util:eval($query) else ()
 
 
 declare function lists:calendarform($node as node(), $model as map(*)){
-   let $auth := $config:collection-rootA
+   let $auth := $lists:collection-rootA
    return
    <form action="" class="w3-container">
                                
@@ -607,12 +602,12 @@ declare function lists:calendarform($node as node(), $model as map(*)){
             </select>
                                  </div>
                                  
-                               {if($model('hits')//t:ref[@type='authFile']) then  
+                               {if($model('hits')//t:ref[@type eq 'authFile']) then  
                                <div class="w3-container w3-margin">
                                  <small class="form-text text-muted">Select one or more Art Themes associated with the date</small><br/>
 
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-artTheme" name="target-artTheme" class="w3-select w3-border">
-            {for $d in config:distinct-values($model('hits')//t:ref[@type='authFile']/@corresp)
+            {for $d in config:distinct-values($model('hits')//t:ref[@type eq 'authFile']/@corresp)
             return
             <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
             </select>
@@ -661,7 +656,7 @@ declare function lists:calendarform($node as node(), $model as map(*)){
 
 
    declare function lists:bindingsform($node as node(), $model as map(*)){
-   let $auth := $config:collection-rootA
+   let $auth := $lists:collection-rootA
    return
    <form action="" class="w3-container">
                                <div  class="w3-container w3-margin">
@@ -711,12 +706,12 @@ declare function lists:calendarform($node as node(), $model as map(*)){
             <option value="{$d}">{$d}</option>}
             </select>
                                  </div> else() }
-                                 {if($model('hits')//t:decoNote[@type='Fastening']) then
+                                 {if($model('hits')//t:decoNote[@type eq 'Fastening']) then
                                  <div class="w3-container w3-margin">
                                  <small class="form-text text-muted">Select a fastening feature</small><br/>
                                     <select xmlns="http://www.w3.org/1999/xhtml" id="Fastening" name="fastening" class="w3-select w3-border">
             <option value="all">all</option>
-            {for $d in $model('hits')//t:decoNote[@type='Fastening']
+            {for $d in $model('hits')//t:decoNote[@type eq 'Fastening']
             return
             <option value="{$d/text()}">{$d/text()}</option>}
             </select>
@@ -742,7 +737,7 @@ declare
     function lists:biblRes($node as node(), $model as map(*), $start as xs:integer, $per-page as xs:integer){
 
 for $target at $p in subsequence($model("hits"), $start, $per-page)
-let $ptrs := util:eval($model("coll"))//t:ptr[@target = $target]
+let $ptrs := util:eval($model("coll"))//t:ptr[@target eq  $target]
 let $count := count($ptrs)
 return
 <div class="w3-container w3-padding w3-border-bottom">
@@ -782,21 +777,20 @@ return
 };
 
 
-
 declare
 %templates:wrap
 function lists:addRes($node as node(), $model as map(*)){
    let $data := $model("hits")
    return
 for $addition at $p in $data
-    let $t := if($addition//t:desc/@type) then string($addition//t:desc/@type) else 'undefined'
+    let $t := if($addition//t:desc/@type) then string-join($addition//t:desc/@type) else 'undefined'
     group by $type := $t
     order by $type
     let $tit := titles:printTitleMainID($type, $config:data-rootA)
     return
         
         (<button onclick="openAccordion('{data($type)}')" class="w3-button w3-block w3-gray w3-margin-bottom">
-<span class="w3-badge w3-right">{if ($type = 'undefined') then count($data[not(descendant::t:desc/@type)]) else count($data/t:desc[@type = $type])}</span>
+<span class="w3-badge w3-right">{if ($type = 'undefined') then count($data[not(descendant::t:desc/@type)]) else count($data/t:desc[@type eq  $type])}</span>
 <span class="w3-left additionType" data-value="{$type}">{
        if ($type = 'undefined') then $type else $tit
     }</span></button>,
@@ -816,7 +810,7 @@ for $addition at $p in $data
 
                <div
                id="{$fileID}_{$additionID}">
-               {if ($a//t:relation[@name='saws:formsPartOf'][contains(@passive, 'corpus')]) then (<p>Document in Corpus <a href="/{$a//t:relation/@passive}/corpus">{string($a//t:relation/@passive)}</a> </p>) else ()}
+               {if ($a//t:relation[@name eq 'saws:formsPartOf'][contains(@passive, 'corpus')]) then (<p>Document in Corpus <a href="/{$a//t:relation/@passive}/corpus">{string($a//t:relation/@passive)}</a> </p>) else ()}
                {for $q in $a//t:q return <p>{if($q[@xml:lang = 'gez']) then attribute class {'gez'} else()}{$q}</p>}
                </div>
 
@@ -862,7 +856,7 @@ for $binding at $p in $model("hits")
 (<button onclick="openAccordion('{data($ms)}')" 
         class="w3-button w3-block w3-red w3-padding w3-margin-bottom">
 <span class="w3-badge w3-right">{count($b)}</span>
-<span class="w3-left " data-value="{$type}">{$config:collection-rootMS//id($ms)//t:msIdentifier/t:idno}</span>
+<span class="w3-left " data-value="{$type}">{$lists:collection-rootMS//id($ms)//t:msIdentifier/t:idno}</span>
 </button>,
 <div class="w3-container w3-hide" id="{data($ms)}">
 <ul class="w3-ul w3-hoverable" >
@@ -971,13 +965,14 @@ for $decoration at $p in $model("hits")
                 return
 
 (<button onclick="openAccordion('{data($ms)}{data($type)}')" class="w3-button w3-block w3-red  w3-margin-bottom">
-<span class="w3-left">{$config:collection-rootMS//id($ms)//t:msIdentifier/t:idno}</span>
+<span class="w3-left">{$lists:collection-rootMS//id($ms)//t:msIdentifier/t:idno}</span>
 <span class="w3-badge w3-right">{count($d)}</span>
 </button>,
              <div  class="w3-container w3-hide" id="{data($ms)}{data($type)}">
 
                  <ul class="w3-ul w3-hoverable" >
-                 {for $sd in $d
+                 {
+                     for $sd in $d
                      let $images := root($sd)//t:msIdentifier/t:idno
                      let $locusfacs := string($sd/t:locus[1]/@facs)
                      let $locusfirst := if(contains($locusfacs, ' ')) then substring-before($locusfacs, ' ') else $locusfacs
@@ -985,6 +980,7 @@ for $decoration at $p in $model("hits")
                      order by $sd/@xml:id
                      return
             <li class="w3-container">
+
             {if($images/@facs and $locus) then (<a target="_blank"  href="/manuscripts/{$ms}/viewer"><img class="thumb" src="{
            if(starts-with($ms, 'BML'))
            then $config:appUrl ||'/iiif/' || string($images/@facs)||$locus||'.tif/full/150,/0/default.jpg'
@@ -1000,20 +996,26 @@ for $decoration at $p in $model("hits")
                     substring-before(substring-after($images/@facs, 'MSS_'), '/manifest.json') ||
                     '_'||$locus||'.tif.jpg'
            else ()}" style="width:10%"/></a>
+
            )
             else ()}
             <p class="w3-rest">
             <a href="{data($ms)}#{data($sd/@xml:id)}">{data($sd/@xml:id)}</a><br/>
-            {if(count($sd//t:ref[@type='authFile']) ge 1) then 'Art Themes: ' || string-join(string:tei2string($sd//t:ref[@type='authFile']), ', ') else ()}
+            {if(count($sd//t:ref[@type eq 'authFile']) ge 1) then 'Art Themes: ' || string-join(string:tei2string($sd//t:ref[@type eq 'authFile']), ', ') else ()}
             </p>
+
             </li>
                  }
             </ul>
             </div>
+            
             )}
+
         </div>
+        
     </div>
     )
+    
 };
 
 
@@ -1047,13 +1049,13 @@ for $title at $p in $model("hits")
                 return
 
 (<button onclick="openAccordion('{data($ms)}')" class="w3-button w3-block w3-red  w3-margin-bottom">
-<span class="w3-left">{if($type/@type= 'mss') then $config:collection-rootMS//id($ms)//t:msIdentifier/t:idno else titles:printTitleMainID($ms)}</span>
+<span class="w3-left">{if($type/@type eq  'mss') then $lists:collection-rootMS//id($ms)//t:msIdentifier/t:idno else titles:printTitleMainID($ms)}</span>
 <span class="w3-badge w3-right">{count($d)}</span>
 </button>,
              <div  class="w3-container w3-hide" id="{data($ms)}">
 
                  <ul class="w3-ul w3-hoverable" >
-                 {if($type/@type= 'mss') then 
+                 {if($type/@type eq  'mss') then 
                      for $sd in $d
                      let $images := root($sd)//t:msIdentifier/t:idno
                      let $locus := string($sd/t:locus/@facs)
@@ -1080,9 +1082,9 @@ for $title at $p in $model("hits")
             <div class="w3-third" >{string:tei2string($sd/node())}</div>
                  <div class="w3-third">
                  <div class="w3-third"><a href="/{$ms}"><b>{$sd/name()}</b>{" | "}{if($sd/@subtype) then string($sd/@subtype) else string($sd/@type)}</a></div>
-                 <div class="w3-third">Refers to {if($sd/name() = 'div' and $type/@type= 'work') 
+                 <div class="w3-third">Refers to {if($sd/name() = 'div' and $type/@type eq  'work') 
                                                    then <span class="MainTitle" data-value="{$ms}">{$ms}</span> 
-                                                 else if($sd/name() = 'div' and $type/@type= 'mss') then 
+                                                 else if($sd/name() = 'div' and $type/@type eq  'mss') then 
                                                                     (let $corr := $sd/@corresp 
                                                                     let $msitem := $sd/ancestor::t:TEI//t:msItem[@xml:id=$corr]
                                                                     let $work := $msitem/t:title/@ref
@@ -1094,7 +1096,7 @@ for $title at $p in $model("hits")
                                                   else 'unable to retrive reference'}</div>
                  <div class="w3-third">
             <a href="{data($ms)}#{data($sd/@xml:id)}">{data($sd/@xml:id)}</a><br/>
-            {if(count($sd//t:ref[@type='authFile']) ge 1) then 'Art Themes: ' || string-join(string:tei2string($sd//t:ref[@type='authFile']), ', ') else ()}
+            {if(count($sd//t:ref[@type eq 'authFile']) ge 1) then 'Art Themes: ' || string-join(string:tei2string($sd//t:ref[@type eq 'authFile']), ', ') else ()}
             </div>
             </div>
 
@@ -1106,13 +1108,13 @@ for $title at $p in $model("hits")
                  <div class="w3-half" >{string:tei2string($sd/node())}</div>
                  <div class="w3-half">
                  <div class="w3-third"><a href="/{$ms}"><b>{$sd/name()}</b>{" | "}{if($sd/@subtype) then string($sd/@subtype) else string($sd/@type)}</a></div>
-                 <div class="w3-third">Refers to {if($sd/name() = 'div' and $type/@type= 'work') 
+                 <div class="w3-third">Refers to {if($sd/name() = 'div' and $type/@type eq  'work') 
                                                    then (<a href="/{$ms}"><span class="MainTitle" data-value="{$ms}">{$ms}</span></a>, <br/>,
                                                                     <div class="w3-bar w3-gray w3-small"><a class="w3-bar-item w3-button" href="/titles?limit-work={$ms}">limit results to this work</a>
                                                                     <a  class="w3-bar-item w3-button" href="/compare?workid={$ms}">compare mss</a>
                                                                     <a  class="w3-bar-item w3-button" href="/workmap?worksid={$ms}">map mss</a>
                                                                     <a  class="w3-bar-item w3-button" href="/litcomp?worksid={$ms}">literature view</a></div>) 
-                                                 else if($sd/name() = 'div' and $type/@type= 'mss') then 
+                                                 else if($sd/name() = 'div' and $type/@type eq  'mss') then 
                                                                     (let $corr := $sd/@corresp 
                                                                     let $msitem := $sd/ancestor::t:TEI//t:msItem[@xml:id=$corr]
                                                                     let $work := $msitem/t:title/@ref
@@ -1132,7 +1134,7 @@ for $title at $p in $model("hits")
                                                   else 'unable to retrive reference'}</div>
                  <div class="w3-third">
             <a href="{data($ms)}#{data($sd/@xml:id)}">{data($sd/@xml:id)}</a><br/>
-            {if(count($sd//t:ref[@type='authFile']) ge 1) then 'Art Themes: ' || string-join(string:tei2string($sd//t:ref[@type='authFile']), ', ') else ()}
+            {if(count($sd//t:ref[@type eq 'authFile']) ge 1) then 'Art Themes: ' || string-join(string:tei2string($sd//t:ref[@type eq 'authFile']), ', ') else ()}
             </div>
             </div>
 
@@ -1190,13 +1192,13 @@ declare function lists:corpora ($node as node(), $model as map(*)){
 <tbody>{
 for $corpus in collection($config:data-root || '/corpora')//*:teiCorpus
 let $id := string($corpus//t:TEI/@xml:id)
-let $title := $corpus//t:titleStmt/t:title[@type='corpus']/text()
+let $title := $corpus//t:titleStmt/t:title[@type eq 'corpus']/text()
 order by $title
 return <tr>
 <td><a href="/{$id}/corpus"><h4>{$title}</h4></a></td>
 <td>{lists:corporaeditors($corpus//t:principal)}</td>
 <td>{$corpus//t:projectDesc}</td>
-<td><ul class="nodot">{for $document in $config:collection-rootMS//t:relation[contains(@passive, $id)]
+<td><ul class="nodot">{for $document in $lists:collection-rootMS//t:relation[contains(@passive, $id)]
 let $rootid := string($document/@active)
 let $mainid := substring-before($rootid, '#')
 group by $ID := $mainid

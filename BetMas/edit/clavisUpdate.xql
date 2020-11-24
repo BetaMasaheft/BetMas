@@ -38,7 +38,7 @@ let $editor := editors:editorNames(sm:id()//sm:real/sm:username/string())
     {$allbibl}
                </listBibl></p>
     let $sourceDesc := $item//t:sourceDesc
-    let $clavis := $item//t:listBibl[@type eq 'clavis']
+    let $clavis := $item//t:listBibl[@type='clavis']
     let $updateClavis := if(exists($clavis)) then (
 update insert $allbibl into $clavis
     ) else update insert $clavisListBibl into $sourceDesc

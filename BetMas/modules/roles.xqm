@@ -30,7 +30,7 @@ function roles:RoleAttestations($role  as xs:string*){
 ($config:response200,
 let $r :=$role
 let $q := <query><fuzzy min-similarity="0.8">{$r}</fuzzy></query>
-let $roleAttestations := ($config:collection-rootMS, $config:collection-rootW)//t:roleName[ft:query(., $q)]
+let $roleAttestations := (collection($config:data-rootMS), collection($config:data-rootW))//t:roleName[ft:query(., $q)]
 let $roleAttestationsIdentified := $roleAttestations[parent::t:persName]
 
 let $results := for $atttestation in $roleAttestations/parent::t:persName
@@ -80,7 +80,7 @@ let $results := for $atttestation in $roleAttestations/parent::t:persName
                      
 return
 <div class="w3-container">
-<p>There are in total {count($roleAttestationsIdentified)} attestations of the role name <span class="w3-tag w3-gray">{$r}</span> related to {count(distinct-values($roleAttestations/parent::t:persName/@ref))} persons.</p>
+<p>There are in total {count($roleAttestationsIdentified)} attestations of the role name <span class="w3-tag w3-gray">{$r}</span> related to {count(config:distinct-values($roleAttestations/parent::t:persName/@ref))} persons.</p>
 {for $result in $results return$result}
 </div>
 )
@@ -98,8 +98,8 @@ declare
 function roles:role($role as xs:string*) {
 
 let $log := log:add-log-message('/api/hasrole/' || $role, sm:id()//sm:real/sm:username/string() , 'REST')
-let $cp := $config:collection-rootPr
-let $path :=  $config:collection-root//t:persName[@role eq  $role][@ref[not(starts-with(. ,'PRS0000'))][. != 'PRS0476IHA'][. != 'PRS0204IHA']]
+let $cp := collection($config:data-rootPr)
+let $path :=  $titles:collection-root//t:persName[@role eq  $role][@ref[not(starts-with(. ,'PRS0000'))][. != 'PRS0476IHA'][. != 'PRS0204IHA']]
 let $total := count($path)
 let $hits := for $pwl in $path
                     let $id := string($pwl/@ref)
@@ -134,7 +134,7 @@ declare
 function roles:roleID($role as xs:string*, $ID as xs:string*) {
 
 let $log := log:add-log-message('/api/hasrole/' || $role, sm:id()//sm:real/sm:username/string() , 'REST')
-let $path :=  $config:collection-root//t:persName[@role eq  $role][@ref eq $ID]
+let $path :=  $titles:collection-root//t:persName[@role eq  $role][@ref eq $ID]
 let $hits := for $x in $path
                         let $root := string(root($x)/t:TEI/@xml:id)
                         group by $r := $root

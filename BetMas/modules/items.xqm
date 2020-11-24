@@ -18,8 +18,7 @@ import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas
 import module namespace charts = "https://www.betamasaheft.uni-hamburg.de/BetMas/charts" at "xmldb:exist:///db/apps/BetMas/modules/charts.xqm";
 import module namespace LitFlow = "https://www.betamasaheft.uni-hamburg.de/BetMas/LitFlow" at "xmldb:exist:///db/apps/BetMas/modules/LitFlow.xqm";
 import module namespace xdb="http://exist-db.org/xquery/xmldb";
-import module namespace kwic = "http://exist-db.org/xquery/kwic"
-    at "resource:org/exist/xquery/lib/kwic.xql";
+import module namespace kwic = "http://exist-db.org/xquery/kwic" at "resource:org/exist/xquery/lib/kwic.xql";
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
 import module namespace dtsc="https://www.betamasaheft.uni-hamburg.de/BetMas/dtsc" at "xmldb:exist:///db/apps/BetMas/modules/dtsclient.xqm";
 (: For interacting with the TEI document :)
@@ -55,7 +54,7 @@ $ref as xs:string*,
 $edition as xs:string*,
 $per-page as xs:string*,
 $hi as xs:string*) {
-  let $item := $config:collection-root/id($id)[name() eq 'TEI']
+  let $item := $apprest:collection-root/id($id)[name() eq 'TEI']
   let $col := switch2:col($item/@type)
   let $log := log:add-log-message('/'||$id||'/main', sm:id()//sm:real/sm:username/string() , 'item')
   return
@@ -249,7 +248,7 @@ let $this := $collect/id($id)
 let $biblio :=
 <bibl>
 {
-for $author in distinct-values(($this//t:revisionDesc/t:change/@who| $this//t:editor/@key))
+for $author in config:distinct-values(($this//t:revisionDesc/t:change/@who| $this//t:editor/@key))
                 return
 <author>{editors:editorKey(string($author))}</author>
 }
@@ -278,7 +277,7 @@ if(xdb:collection-available($coll)) then (
  ) else
 (:check if the item has been deleted:)
 if( $restItem:deleted//t:item[. eq $id]) then
-(let $formerlyListed := $config:collection-root//t:relation[@name eq 'betmas:formerlyAlsoListedAs'][@passive eq $id]
+(let $formerlyListed := $apprest:collection-root//t:relation[@name eq 'betmas:formerlyAlsoListedAs'][@passive eq $id]
 return
 if(count($formerlyListed) = 1) then 
 (:redirect to record containing formerly listed as:)
@@ -311,7 +310,7 @@ else
         </html>
         )
 (:        check if there is more then one:)
-         else   if(count($config:collection-root/id($id)[name() eq 'TEI']) gt 1) then 
+         else   if(count($apprest:collection-root/id($id)[name() eq 'TEI']) gt 1) then 
          (
 <rest:response>
             <http:response
@@ -326,14 +325,14 @@ else
         <title>Not here any more...</title></head>
         <body><p>Something has gone wrong and there are more than one item with id {$id}.</p>
         <ul>
-        {for $i in $config:collection-root/id($id)[name() eq 'TEI']
+        {for $i in $apprest:collection-root/id($id)[name() eq 'TEI']
         return <li>{base-uri($i)}</li>}
         </ul>
         </body>
         </html>
         )
         (:        check that the item exists:)
-    else   if(count($config:collection-root/id($id)[name() eq 'TEI']) = 1) then (
+    else   if(count($apprest:collection-root/id($id)[name() eq 'TEI']) = 1) then (
 <rest:response>
             <http:response
                 status="200">
@@ -393,7 +392,7 @@ else
   <div class="slider round" data-toggle="tooltip" title="Highlight diplomatic disourse interpretation"></div>
 </label>
    {
-   for $document in $config:collection-rootMS//t:relation[contains(@passive, $id)]
+   for $document in $apprest:collection-rootMS//t:relation[contains(@passive, $id)]
 let $rootid := string($document/@active)
 let $itemid :=substring-after($rootid, '#')
 let $msid :=substring-before($rootid, '#')
@@ -472,7 +471,7 @@ transform:transform(
    for $contains in $this//t:relation[@name eq "saws:contains"]/@passive 
      let $ids:=  if(contains($contains, ' ')) then for $x in tokenize($contains, ' ') return $x else string($contains)
      for $contained in $ids
-    let $cfile := $config:collection-rootW//id($contained)[name()='TEI']
+    let $cfile := $apprest:collection-rootW//id($contained)[self::t:TEI]
    return 
    
    <div class="w3-container">

@@ -11,6 +11,7 @@ import module namespace item2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/
 import module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMas/error" at "xmldb:exist:///db/apps/BetMas/modules/error.xqm";
 import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "xmldb:exist:///db/apps/BetMas/modules/apprest.xqm";
 import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2"  at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
+import module namespace console="http://exist-db.org/xquery/console";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace marc = "http://www.loc.gov/MARC21/slim";
 (: For REST annotations :)
@@ -169,7 +170,7 @@ if(xdb:collection-available($coll)) then (
  )
         else
 (:        check that the item exists:)
-       if($config:collection-root/id($id)[name() = 'TEI']) then (
+       if($apprest:collection-root/id($id)[name() = 'TEI']) then (
        log:add-log-message('/'||$collection||'/'||$id||'/viewer', sm:id()//sm:real/sm:username/string() , 'viewer'),
 
 <rest:response>
@@ -289,7 +290,7 @@ if(xdb:collection-available($coll)) then (
  )
         else
 (:        check that the item exists:)
-       if($config:collection-root/id($id)[name() = 'TEI']) then (
+       if($apprest:collection-root/id($id)[name() = 'TEI']) then (
        log:add-log-message('/'||$collection||'/'||$id||'/viewer', sm:id()//sm:real/sm:username/string() , 'viewer'),
 
 <rest:response>
@@ -373,14 +374,23 @@ var windowobjs =  [' || string-join($manifests, ', ') || ']
 declare function viewer:manifest($this, $id, $m){
 let $alt := if($m/parent::t:altIdentifier) then ('?alt='||string($m/parent::t:altIdentifier/@xml:id))  else ()
 return
-       (:vatican:)
-                                                 if(contains($m/@facs, 'http')) 
+                                                
+                                                (:BNF 
+                                                https://gallica.bnf.fr/ark:/12148/btv1b10087587w
+                                                https://gallica.bnf.fr/iiif/ark:/12148/btv1b10087587w/manifest.json
+                                                :)
+                                               if ($this//t:repository/@ref = 'INS0303BNF') 
+                                                  then (
+                                                  replace($m/@facs, 'ark:', 'iiif/ark:') || '/manifest.json'
+                                                  ,
+                                                  console:log((replace($m/@facs, 'ark:', 'iiif/ark:') || '/manifest.json'))
+                                                  )
+                                                else
+(:                                                vatican :)
+                                                if(contains($m/@facs, 'http:')) 
                                                   then  replace($m/@facs, 'http:', 'https:')
-                                                 else  if(contains($m/@facs, 'https')) 
+                                                 else   if(contains($m/@facs, 'https:')) 
                                                   then  $m/@facs
-                                                (:BNF:)
-                                                     else if ($this//t:repository/@ref = 'INS0303BNF') 
-                                                  then replace($m/@facs, 'ark:', 'iiif/ark:') || '/manifest.json'
                                              (:           Ethio-SPaRe, EMIP, Laurenziana, and all the others :)
                                                else  $config:appUrl|| '/api/iiif/' || $id || '/manifest' || $alt
 };
@@ -437,7 +447,7 @@ log:add-log-message('/chojnacki/viewer', sm:id()//sm:real/sm:username/string() ,
     <div id="viewer"></div>
     
 <script type="text/javascript" >{
-let $manifs := for $ch in $config:collection-rootCh//marc:record
+let $manifs := for $ch in collection($config:data-rootCh)//marc:record
 let $segnatura := $ch//marc:datafield[@tag="852"]/marc:subfield[@code="h"]/text()
 return
 '{"manifestUri": "https://digi.vatlib.it/iiif/STP_'||string-join($segnatura)||'/manifest.json", "location" : "DigiVatLib"}'

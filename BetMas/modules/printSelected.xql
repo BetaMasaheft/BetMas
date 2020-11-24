@@ -1030,7 +1030,7 @@ if(count($doc//tei:change[contains(., 'completed')]) ge 1) then ()
     let $auths := $doc//tei:revisionDesc/tei:change/@who[. != 'PL']
     let $bibdata := <bibl>
         {
-            for $author in distinct-values($auths)
+            for $author in config:distinct-values($auths)
             return
                 <author>{editors:editorKey(string($author))}</author>
         }
@@ -1371,7 +1371,7 @@ declare function fo:table-of-contents($ids) {
                 display-align="center">Table of Contents</fo:block>
                
             { for $i at $p in tokenize($ids, ',')
-            let $r := $config:collection-root/id($i)
+            let $r := $titles:collection-root/id($i)
             let $title := titles:printTitleMainID($i)
                     return
                         <fo:block
@@ -1397,7 +1397,7 @@ declare function fo:table-of-contents($ids) {
 declare function fo:bookmarks($ids) {
       <fo:bookmark-tree>
       { for $i at $p in tokenize($ids, ',')
-            let $r := $config:collection-root/id($i)
+            let $r := $titles:collection-root/id($i)
             let $title := titles:printTitleMainID($i)
                     return
                      <fo:bookmark
@@ -1924,7 +1924,7 @@ declare function fo:main($ids) {
            {
                     for $id in tokenize($ids, ',')
                     
-                    let $r := $config:collection-root/id($id) 
+                    let $r := $titles:collection-root/id($id) 
                     let $title := titles:printTitleMainID($id)
                     let $ty := string($r/@type) 
                     return

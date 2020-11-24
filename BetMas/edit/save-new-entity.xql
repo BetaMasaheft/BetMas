@@ -272,13 +272,15 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                                         </msIdentifier>
                                         <msContents>
                                             <msItem
-                                                xml:id="p{$mP}_i1">
+                                                xml:id="p{$mP}_i1"
+                                                class="content">
                                                 <locus from=""/>
                                        <title type="" ref=""/>
                                        <textLang mainLang="gez"/> 
                                             </msItem>
                                             <msItem
-                                                xml:id="p{$mP}_i2">
+                                                xml:id="p{$mP}_i2"
+                                                class="content">
                                                 <locus from=""/>
                                        <title type="" ref=""/>
                                        <textLang mainLang="gez"/> 

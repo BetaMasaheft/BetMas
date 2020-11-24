@@ -22,8 +22,8 @@ import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMa
 import module namespace editors = "https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "xmldb:exist:///db/apps/BetMas/modules/editors.xqm";
 import module namespace dts="https://www.betamasaheft.uni-hamburg.de/BetMas/dts" at "xmldb:exist:///db/apps/BetMas/modules/dts.xqm";
 
-declare variable $shine:TU := $config:collection-rootW//t:div[@type eq 'edition'][descendant::t:ab[text()]] ;
-declare variable $shine:MS := collection($config:data-rootMS)//t:div[@type eq 'edition'][descendant::t:ab[text()]] ;
+declare variable $shine:TU := collection($config:data-rootW)//t:div[@type='edition'][descendant::t:ab[text()]] ;
+declare variable $shine:MS := collection($config:data-rootMS)//t:div[@type='edition'][descendant::t:ab[text()]] ;
 declare variable $shine:all := ($shine:TU, $shine:MS) ;
 
 declare
@@ -73,7 +73,7 @@ declare
 %rest:path("/BetMas/shine/api/resources/{$uuid}/metadata")
 %output:method("json")
 function shine:resMeta($uuid as xs:string+) {
-let $TEI := $shine:all[ancestor::t:TEI[@xml:id eq $uuid]]
+let $TEI := $shine:all[ancestor::t:TEI[@xml:id=$uuid]]
 return
 if(count($TEI) = 1) then 
   ( $config:response200Json,
@@ -88,7 +88,7 @@ declare
 %rest:path("/BetMas/shine/api/resources/{$uuid}/sections")
 %output:method("json")
 function shine:resSection($uuid as xs:string+) {
-let $TEI := $shine:all[ancestor::t:TEI[@xml:id eq $uuid]]
+let $TEI := $shine:all[ancestor::t:TEI[@xml:id=$uuid]]
 return
 if((count($TEI) = 1) and $TEI/t:div) then 
   ( $config:response200Json,
@@ -107,7 +107,7 @@ declare
 function shine:CU($uuid as xs:string+) {
 let $mainID := substring-before($uuid, '_')
 let $nodeID := substring-after($uuid, '_')
-let $TEI := $shine:all[ancestor::t:TEI[@xml:id eq $mainID]]
+let $TEI := $shine:all[ancestor::t:TEI[@xml:id=$mainID]]
 let $node := for $candidate in $TEI/descendant-or-self::t:div 
                             let $candidateID := generate-id($candidate)
                             return
@@ -157,7 +157,7 @@ let $all := (map {
   shine:sections($d, $uuid)
   )
   
-let $parentUuid := if($d/parent::t:div[@type  eq 'edition']) then $all else map:put($all, "parentUuid", ($uuid||'_' || generate-id($parentnode)))
+let $parentUuid := if($d/parent::t:div[@type = 'edition']) then $all else map:put($all, "parentUuid", ($uuid||'_' || generate-id($parentnode)))
 
 return 
 $parentUuid

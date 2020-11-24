@@ -47,7 +47,7 @@ function dtsXML:CollectionsID($id as xs:string*) {
     <tei>http://www.tei-c.org/ns/1.0</tei>
     </context>
     <graph>{
-            let $record := $config:collection-root/id($id)[name()='TEI']
+            let $record := $titles:collection-root/id($id)[self::t:TEI]
             return
                 (
                 <id>urn:dts:betmas:{string($record/@xml:id)}</id>,
@@ -93,7 +93,7 @@ function dtsXML:CollectionsID($id as xs:string*) {
                                                        <rels><id>{$m}</id><n>{$name}</n></rels>
                                                      else
                                                        <rels><id>{data($mem)}</id><n>{$name}</n></rels>
-                            for $part in distinct-values($members//id)
+                            for $part in config:distinct-values($members//id)
                            return
                             <json:value>
                                     <id>urn:dts:betmas:{string($part)}</id>
@@ -114,8 +114,8 @@ function dtsXML:CollectionsID($id as xs:string*) {
                             json:array="true"> {
                        let $parents := for $par in ($record//t:relation[@name = 'saws:formsPartOf']/@passive) 
                                                     return $par
-                            for $parent in distinct-values($parents)
-                            let $papa := $config:collection-root/id($parent)[name()='TEI']
+                            for $parent in config:distinct-values($parents)
+                            let $papa := $titles:collection-root/id($parent)[self::t:TEI]
                             return
                                 
                                     (<id>urn:dts:betmas:{string($papa/@xml:id)}</id>,
@@ -168,7 +168,7 @@ function dtsXML:get-workJSON($id as xs:string) {
     ($config:response200Json,
  log:add-log-message('/api/dts/text/' || $id, sm:id()//sm:real/sm:username/string() , 'dts'),
     let $collection := 'works'
-    let $item := $config:collection-root/id($id)[name() ='TEI']
+    let $item := $titles:collection-root/id($id)[name() ='TEI']
     let $recordid := $item/@xml:id
     return
         if ($item//t:div[@type = 'edition'])
@@ -215,7 +215,7 @@ function dtsXML:get-toplevelJSON($id as xs:string, $level1 as xs:string*) {
     ($config:response200Json,
  log:add-log-message('/api/dts/text/'||$id||'/'||$level1, sm:id()//sm:real/sm:username/string() , 'dts'),
     let $collection := 'works'
-    let $item := $config:collection-root/id($id)[name() ='TEI']
+    let $item := $titles:collection-root/id($id)[name() ='TEI']
     let $recordid := $item/@xml:id
     let $L1 := $item//t:div[@type = 'edition']/t:div[@n = $level1]
     return
@@ -277,7 +277,7 @@ function dtsXML:get-level1JSON($id as xs:string, $level1 as xs:string*, $line as
     
  log:add-log-message('/api/dts/text/'||$id||'/'||$level1||'/'||$line, sm:id()//sm:real/sm:username/string() , 'dts'),
     let $collection := 'works'
-    let $item := $config:collection-root/id($id)[name() ='TEI']
+    let $item := $titles:collection-root/id($id)[name() ='TEI']
     let $recordid := $item/@xml:id
     let $L1 := $item//t:div[@type = 'edition']/t:div[@n = $level1]
     
@@ -399,7 +399,7 @@ function dtsXML:get-level2JSON($id as xs:string, $level1 as xs:string*, $level2 
     
  log:add-log-message('/api/dts/text/'||$id||'/'||$level1||'/'||$level2||'/'||$line, sm:id()//sm:real/sm:username/string() , 'dts'),
     let $collection := 'works'
-    let $item := $config:collection-root/id($id)[name() ='TEI']
+    let $item := $titles:collection-root/id($id)[name() ='TEI']
     let $recordid := $item/@xml:id
     let $L1 := $item//t:div[@type = 'edition']/t:div[@n = $level1]
     let $L2 := $L1/t:div[@n = $level2]

@@ -64,7 +64,7 @@ let $elementName := switch($element)
                             case 'faith' return 'faith'
                             case 'occupation' return 'occupation'
                             default return 'persName'
-let $buildQuery := '$config:collection-root//t:TEI[descendant::t:' || $elementName ||'[@' || $attr || " eq '" || $keyword || "']]"
+let $buildQuery := '$titles:collection-root//t:TEI[descendant::t:' || $elementName ||'[@' || $attr || " eq '" || $keyword || "']]"
 let $query :=  util:eval($buildQuery)
 let $total := count($query)
 let $hits := for $hit in $query

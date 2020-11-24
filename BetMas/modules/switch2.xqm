@@ -30,33 +30,50 @@ function switch2:col($type){
 
 (:~gets the collection variable as string from one of the standard values of the attribute type in the TEI element :)
 declare
-%test:arg("type", "works") %test:assertEquals("$config:collection-rootW")
-    %test:arg("type", "xxxx") %test:assertEquals("$config:collection-root")
+%test:arg("type", "works") %test:assertEquals("'collection($config:data-rootW)")
+    %test:arg("type", "xxxx") %test:assertEquals("'collection($config:data-root)")
     function switch2:collection($type){
     
+    
     switch($type)
-        case 'works' return '$config:collection-rootW'
-        case 'narratives' return '$config:collection-rootN'
-        case 'persons' return '$config:collection-rootPr'
-        case 'places' return '$config:collection-rootPl'
-        case 'institutions' return '$config:collection-rootIn'
-        case 'authority-files' return '$config:collection-rootA'
-        case 'manuscripts' return '$config:collection-rootMS'
-        default return '$config:collection-root'
+    
+    case 'works' return 'collection($config:data-rootW)'
+        case 'narratives' return 'collection($config:data-rootN)'
+        case 'persons' return 'collection($config:data-rootPr)'
+        case 'places' return 'collection($config:data-rootPl)'
+        case 'institutions' return 'collection($config:data-rootIn)'
+        case 'authority-files' return 'collection($config:data-rootA)'
+        case 'manuscripts' return 'collection($config:data-rootMS)'
+        default return 'collection($config:data-root)'
     
 };
 
 (:~gets the collection varibale from one of the standard values of the attribute type in the TEI element :)
 declare function switch2:collectionVar($type){  
     switch($type)
-        case 'works' return $config:collection-rootW
-        case 'narratives' return $config:collection-rootN
-        case 'persons' return $config:collection-rootPr
-        case 'places' return $config:collection-rootPl
-        case 'institutions' return $config:collection-rootIn
-        case 'authority-files' return $config:collection-rootA
-        case 'manuscripts' return $config:collection-rootMS
-        default return $config:collection-root
+        case 'works' return collection($config:data-rootW)
+        case 'narratives' return collection($config:data-rootN)
+        case 'persons' return collection($config:data-rootPr)
+        case 'places' return collection($config:data-rootPl)
+        case 'institutions' return collection($config:data-rootIn)
+        case 'authority-files' return collection($config:data-rootA)
+        case 'manuscripts' return collection($config:data-rootMS)
+        default return collection($config:data-root)
+};
+
+(:~gets the collection varibale from one of the standard values of the attribute type in the TEI element :)
+declare function switch2:collectionVarValTit($type){  
+    switch($type)
+     case'all' return '$titles:collection-root'
+   case 'mss' return '$titles:collection-root//t:TEI[@type="mss"]'
+   case 'work' return '$titles:collection-root//t:TEI[@type="work"]'
+   case 'narr' return '$titles:collection-root//t:TEI[@type="narr"]'
+   case 'auth' return '$titles:collection-root//t:TEI[@type="auth"]'
+   case 'pers' return '$titles:collection-root//t:TEI[@type="pers"]'
+   case 'place' return '$titles:collection-root//t:TEI[@type="place"]'
+   case 'ins' return '$titles:collection-root//t:TEI[@type="ins"]'
+   default return '$titles:collection-root'
+       
 };
 
 (:~Given an id tries to decide which type it is:)

@@ -131,7 +131,7 @@ declare function apptable:clavisIds($doc as node()){
     <span class="w3-text"><a href="https://www.traces.uni-hamburg.de/en/texts/clavis.html"><em>Clavis Aethiopica</em></a>, an ongoing repertory of all known Ethiopic <a href="https://betamasaheft.eu/Guidelines/?id=definitionWorks">Textual Units</a>. Use this to refer univocally to a specific text in your publications. Please note that this shares only the 
     numeric part with the <a href="https://betamasaheft.eu/Guidelines/?id=entities-id-structure">Textual Unit Record Identifier</a>.</span>
     </span> ,
-if($doc//t:listBibl[@type='clavis']) 
+if($doc//t:listBibl[@type eq 'clavis']) 
             then (
             <div class="w3-responsive"><table class="w3-table w3-hoverable">
             <thead>
@@ -140,7 +140,7 @@ if($doc//t:listBibl[@type='clavis'])
 <span class="w3-text">(list of identifiable texts)</span></span></th><th>ID</th></tr>
             </thead>
             <tbody>
-            {for $bibl in $doc//t:listBibl[@type='clavis']/t:bibl 
+            {for $bibl in $doc//t:listBibl[@type eq 'clavis']/t:bibl 
              let $st := string($bibl/@type)
             return 
             <tr>
@@ -159,7 +159,7 @@ if($doc//t:listBibl[@type='clavis'])
             default return <a href="https://en.wikipedia.org/wiki/Clavis_Patrum_Graecorum">Clavis Patrum Graecorum</a>}</span></span>
           </td>
             <td>
-            <a href='{$bibl/@corresp}'>{$bibl/t:citedRange/text()}{if($bibl/ancestor::t:div[@type='textpart' or @type='edition']) then (' ( part ' || (let $subtitle := $bibl/ancestor::t:div[@type][1] return titles:printSubtitle($subtitle, string($subtitle/@xml:id))) || ')') else ()}</a>
+            <a href='{$bibl/@corresp}'>{$bibl/t:citedRange/text()}{if($bibl/ancestor::t:div[(@type eq 'textpart') or (@type eq 'edition')]) then (' ( part ' || (let $subtitle := $bibl/ancestor::t:div[@type][1] return titles:printSubtitle($subtitle, string($subtitle/@xml:id))) || ')') else ()}</a>
             </td>
             </tr>
             }
@@ -223,7 +223,7 @@ if ($list = 'works') then (
                         <li>{$author}</li>
                 }
                 {
-                let $attributions := for $r in $item//t:relation[@name="saws:isAttributedToAuthor"]
+                let $attributions := for $r in $item//t:relation[@name eq "saws:isAttributedToAuthor"]
                 let $rpass := $r/@passive
                 return 
                 if (contains($rpass, ' ')) then tokenize($rpass, ' ') else $rpass
@@ -246,7 +246,7 @@ if ($list = 'works') then (
             </ul>
             <ul  class="nodot">
                 {
-                    for $parallel in $config:collection-root//t:relation[@name='saws:isVersionOf'][contains(@passive, $itemid)]
+                    for $parallel in $titles:collection-root//t:relation[@name eq 'saws:isVersionOf'][contains(@passive, $itemid)]
                     let $p := $parallel/@active
                     return
                         <li><a
@@ -255,7 +255,7 @@ if ($list = 'works') then (
             </ul>
             <ul  class="nodot">
                 {
-                    for $parallel in $config:collection-root//t:relation[@name='isVersionInAnotherLanguageOf'][contains(@passive, $itemid)]
+                    for $parallel in $titles:collection-root//t:relation[@name eq 'isVersionInAnotherLanguageOf'][contains(@passive, $itemid)]
                      let $p := $parallel/@active
                     return
                         <li><a
@@ -280,16 +280,16 @@ if ($list = 'works') then (
                 if($item//t:collection = 'Ethio-SPaRe') 
                then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
 (:laurenziana:)
-else  if($item//t:repository/@ref[.='INS0339BML']) 
+else  if($item//t:repository[@ref eq 'INS0339BML']) 
                then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '005.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
           
 (:          
 EMIP:)
-              else if($item//t:collection = 'EMIP' and $item//t:msIdentifier/t:idno/@n) 
+              else if(($item//t:collection eq 'EMIP') and $item//t:msIdentifier/t:idno/@n) 
                then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
               
              (:BNF:)
-            else if ($item//t:repository/@ref = 'INS0303BNF') 
+            else if ($item//t:repository/@ref eq 'INS0303BNF') 
             then <img src="{replace($item//t:msIdentifier/t:idno/@facs, 'ark:', 'iiif/ark:') || '/f1/full/140,/0/native.jpg'}" class="thumb w3-image"/>
 (:           vatican :)
                 else if (contains($item//t:msIdentifier/t:idno/@facs, 'digi.vat')) then <img src="{replace(substring-before($item//t:msIdentifier/t:idno/@facs, '/manifest.json'), 'iiif', 'pub/digit') || '/thumb/'
@@ -351,7 +351,7 @@ else if (contains($item//t:msIdentifier/t:idno/@facs, 'bodleian')) then ('images
                 (
                 <td>{
                         let $id := string($itemid)
-                        let $mss := $config:collection-rootMS//t:repository[@ref = $id]
+                        let $mss := $titles:collection-root//t:repository[@ref eq $id]
                         return
                             count($mss)
                     }</td>
@@ -387,7 +387,7 @@ else
       {
   if ($item//t:div/t:ab) 
   then
-         <a href="{('/' || $list || '/' || $itemid || '/text')}"
+         <a href="{('/' || $itemid || '/text')}"
                         target="_blank">text</a>
             else
                 ()
@@ -402,9 +402,9 @@ else
         
         then (
       let $dates :=
-           for $date in ($item//t:date[@evidence = 'internal-date'],
+           for $date in ($item//t:date[@evidence eq 'internal-date'],
         $item//t:origDate, 
-        $item//t:date[@type = 'foundation'], 
+        $item//t:date[@type eq 'foundation'], 
         $item//t:creation)
              
            return

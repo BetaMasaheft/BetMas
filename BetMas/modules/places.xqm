@@ -91,6 +91,11 @@ declare variable $places:response200json := $config:response200Json;
 
 declare variable $places:bmurl := $config:appUrl;
 
+declare variable $places:collection-rootMS := collection($config:data-rootMS);
+declare variable $places:collection-rootW := collection($config:data-rootW);
+declare variable $places:collection-rootIn := collection($config:data-rootIn);
+declare variable $places:collection-rootPlIn := collection($config:data-rootPl,$config:data-rootIn);
+declare variable $places:collection-root := $titles:collection-root;
 
 declare function places:JSONfile($item as node(), $id as xs:string){
 let $regions := if($item//t:region[@ref])   then  for $region in $item//t:region[@ref] return ann:getannotationbody($region/@ref)   else ()
@@ -98,7 +103,7 @@ let $regions := if($item//t:region[@ref])   then  for $region in $item//t:region
         let $connects := ($regions, $settlements, "https://pleiades.stoa.org/places/39274")
         let $creators := for $c in config:distinct-values($item//t:revisionDesc/t:change[contains(., 'created')]/@who) return map {"name" : editors:editorKey($c)}
         let $contributors := for $c in config:distinct-values($item//t:revisionDesc/t:change/@who) return map {"name" : editors:editorKey($c)}
-        let $periods := if($item//t:state) then for $c in $item//t:state[@type='existence']/@ref return titles:printTitleMainID($c) else ()
+        let $periods := if($item//t:state) then for $c in $item//t:state[@type eq 'existence']/@ref return titles:printTitleMainID($c) else ()
         let $names := for $name in $item//t:place/t:placeName 
         let $nID := $name/@xml:id
         return 
@@ -117,9 +122,9 @@ let $regions := if($item//t:region[@ref])   then  for $region in $item//t:region
                 let $title := titles:printTitleID($id)
                 let $uri := ($places:bmurl ||'/' || $id)
                 let $coords := 
-                if($item//t:geo[@rend='polygon']) then 
+                if($item//t:geo[@rend eq 'polygon']) then 
                 (
-                                for $latlng in tokenize($item//t:geo[@rend='polygon'], '\n') 
+                                for $latlng in tokenize($item//t:geo[@rend eq 'polygon'], '\n') 
                                 return replace(normalize-space($latlng), ' ', ',') 
                                 ) else for $c in tokenize(coord:invertCoord(coord:getCoords($id)), ',') return number($c)
 return 
@@ -165,19 +170,19 @@ return
             ],
             "creators":  $creators,
             "contributors":  $contributors,
-            "description" : if ($item//t:desc[@type='foundation']) then normalize-space(string-join(string:tei2string($item//t:desc[@type='foundation']), '')) else (),
-            "details" : if ($item//t:ab[@type='history']) then normalize-space(string-join(string:tei2string($item//t:ab[@type='history']), '')) else (),
+            "description" : if ($item//t:desc[@type eq 'foundation']) then normalize-space(string-join(string:tei2string($item//t:desc[@type eq 'foundation']), '')) else (),
+            "details" : if ($item//t:ab[@type eq 'history']) then normalize-space(string-join(string:tei2string($item//t:ab[@type eq 'history']), '')) else (),
            
             "geometry": map {    
-                "coordinates": if ($item//t:geo[@rend='polygon']) then array{ array { for $latlng in $coords return let $array := array {for $c in tokenize($latlng, ',') return number($c)} return $array}} else $coords,
-                "type": if ($item//t:geo[@rend='polygon']) then 'Polygon' else 'Point'
+                "coordinates": if ($item//t:geo[@rend eq 'polygon']) then array{ array { for $latlng in $coords return let $array := array {for $c in tokenize($latlng, ',') return number($c)} return $array}} else $coords,
+                "type": if ($item//t:geo[@rend eq 'polygon']) then 'Polygon' else 'Point'
                 },
             "id": $id,
             "properties": map {
             "description": "Location based on Encyclopaedia Aethiopica",
             "link": $uri,
             "location_precision": "precise",
-            "snippet": if ($item//t:ab[@type='foundation']) then normalize-space(string-join(string:tei2string($item//t:ab[@type='foundation']), '')) else (),
+            "snippet": if ($item//t:ab[@type eq 'foundation']) then normalize-space(string-join(string:tei2string($item//t:ab[@type eq 'foundation']), '')) else (),
             "title": $title},
             "type": "Feature",
            "history": [
@@ -191,7 +196,7 @@ return
              "place_types": ($types, $periods),
              "provenance": "Encyclopedia Aethiopica",
              "references": $bibls,
-             "reprPoint": if ($item//t:geo[@rend='polygon']) then () else $coords,
+             "reprPoint": if ($item//t:geo[@rend eq 'polygon']) then () else $coords,
               "title": $title, 
               "uri": $uri
             }
@@ -207,7 +212,7 @@ then(
 $places:response200json,
 
 let $log := log:add-log-message('/api/geoJson/places/'||$id, sm:id()//sm:real/sm:username/string() , 'places')
-       let $item := $config:collection-rootPlIn/id($id)[name() = 'TEI']
+       let $item := $places:collection-rootPlIn/id($id)[name() = 'TEI']
        return
       places:JSONfile($item, $id))
        else ()
@@ -223,7 +228,7 @@ function places:alljsonIns($start as xs:integer*) {
 $places:response200json,
 
 let $log := log:add-log-message('/api/geoJson/institutions/', sm:id()//sm:real/sm:username/string() , 'places')
-let $ps := $config:collection-rootIn//t:TEI[descendant::t:place[descendant::t:geo/text() or @sameAs]]
+let $ps := $places:collection-rootIn//t:TEI[descendant::t:place[descendant::t:geo/text() or @sameAs]]
 
 let $places := 
 
@@ -244,7 +249,7 @@ function places:alljsonPl($start as xs:integer*) {
 $places:response200json,
 
 let $log := log:add-log-message('/api/geoJson/places/', sm:id()//sm:real/sm:username/string() , 'places')
-let $ps := $config:collection-rootPl//t:TEI[descendant::t:place[descendant::t:geo/text() or @sameAs]]
+let $ps := $places:collection-rootPl//t:TEI[descendant::t:place[descendant::t:geo/text() or @sameAs]]
 let $places := for $item in $ps
                          let $id := string($item/@xml:id)
                        return 
@@ -264,7 +269,7 @@ function places:kmlattestation($id as xs:string*) {
 $places:response200xml,
 
 let $log := log:add-log-message('/api/KML/places/' || $id, sm:id()//sm:real/sm:username/string() , 'places')
-       let $items := $config:collection-root/id($id)
+       let $items := $places:collection-root/id($id)
 return 
        places:kmlplacesm($items)
 };
@@ -279,7 +284,7 @@ return
 function places:kmlDateswithPlacesatts($d as xs:date) {
 
 let $log := log:add-log-message('/api/KML/date/' || $id, sm:id()//sm:real/sm:username/string() , 'places')
-  let $items := ($config:collection-root//t:date[(@when | @notBefore | @notAfter)[contains(., $d)]][@corresp[contains(., '#P')]], $config:collection-root//t:creation[(@when | @notBefore | @notAfter)[contains(., $d)]][@corresp[contains(., '#P')]])
+  let $items := ($places:collection-root//t:date[(@when | @notBefore | @notAfter)[contains(., $d)]][@corresp[contains(., '#P')]], $places:collection-root//t:creation[(@when | @notBefore | @notAfter)[contains(., $d)]][@corresp[contains(., '#P')]])
 return 
      
 if($items >= 1)
@@ -306,7 +311,7 @@ then(
 $places:response200xml,
 
 let $log := log:add-log-message('/api/KML/places/' || $placeid, sm:id()//sm:real/sm:username/string() , 'places')
-       let $items := $config:collection-root//t:placeName[@ref = $placeid]
+       let $items := $places:collection-root//t:placeName[@ref eq  $placeid]
 return 
        <kml>
        {for $place in $items
@@ -377,7 +382,7 @@ function places:kmlmetadata($id as xs:string*) {
 $places:response200xml,
 
 let $log := log:add-log-message('/api/KML/datePlace/'||$id, sm:id()//sm:real/sm:username/string() , 'places')
-       let $items := $config:collection-root/id($id)
+       let $items := $places:collection-root/id($id)
 return 
        places:kmldataplaces($items)
 };
@@ -458,7 +463,7 @@ declare function places:datePlaceMark($datePlace as node()){
  let $root := root($datePlace)
  let $place := $root/id($pId)
  let $pRef := string($place/@ref)
-       let $pRec := $config:collection-rootPlIn//id($pRef)
+       let $pRec := $places:collection-rootPlIn//id($pRef)
       
        return 
 (:       if($pRec//t:coord) then:)
@@ -495,7 +500,7 @@ declare
 function places:placesGazetteer($start as xs:integer*) {
 
 let $log := log:add-log-message('/api/gazetteer', sm:id()//sm:real/sm:username/string() , 'places')
-let $data := subsequence($config:collection-rootPlIn//t:place, $start,100)
+let $data := subsequence($places:collection-rootPlIn//t:place, $start,100)
  let $annotations :=
  for $d in $data 
  let $r := root($d)//t:TEI/@xml:id
@@ -521,7 +526,7 @@ declare
 function places:placesGazetteer() {
 
 let $log := log:add-log-message('/api/gazetteer/all', sm:id()//sm:real/sm:username/string() , 'places')
-let $data := $config:collection-rootPlIn//t:place
+let $data := $places:collection-rootPlIn//t:place
  let $annotations :=
  for $d in $data 
  let $r := root($d)//t:TEI/@xml:id
@@ -547,7 +552,7 @@ declare
 function places:placesGazetteerOneplace($id as xs:string*) {
 
 let $log := log:add-log-message('/api/gazetteer/place/'||$id, sm:id()//sm:real/sm:username/string() , 'places')
-let $data := $config:collection-rootPlIn//t:TEI/id($id)//t:place
+let $data := $places:collection-rootPlIn//t:TEI/id($id)//t:place
 return
 if ($data) then
 let $tit := titles:printTitleID($id)
@@ -624,9 +629,9 @@ declare
 function places:placesInWorksTTL($start as xs:integer*) {
 
 let $log := log:add-log-message('/api/placeNames/works/all', sm:id()//sm:real/sm:username/string() , 'places')
-let $loc := $config:collection-rootW//t:placeName[starts-with(@ref, 'LOC')]
-let $q := $config:collection-rootW//t:placeName[starts-with(@ref, 'wd')]
-let $pl := $config:collection-rootW//t:placeName[starts-with(@ref, 'pleiades')]
+let $loc := $places:collection-rootW//t:placeName[starts-with(@ref, 'LOC')]
+let $q := $places:collection-rootW//t:placeName[starts-with(@ref, 'wd')]
+let $pl := $places:collection-rootW//t:placeName[starts-with(@ref, 'pleiades')]
 let $data:= ($loc, $q, $pl)
  let $annotations :=
  for $d in $data 
@@ -664,9 +669,9 @@ declare
 function places:placesInManuscriptsTTL($start as xs:integer*) {
 
 let $log := log:add-log-message('/api/placeNames/manuscripts/all', sm:id()//sm:real/sm:username/string() , 'places')
-let $loc := $config:collection-rootMS//t:placeName[starts-with(@ref, 'LOC')]
-let $q := $config:collection-rootMS//t:placeName[starts-with(@ref, 'wd')]
-let $pl := $config:collection-rootMS//t:placeName[starts-with(@ref, 'pleiades')]
+let $loc := $places:collection-rootMS//t:placeName[starts-with(@ref, 'LOC')]
+let $q := $places:collection-rootMS//t:placeName[starts-with(@ref, 'wd')]
+let $pl := $places:collection-rootMS//t:placeName[starts-with(@ref, 'pleiades')]
 let $data:= ($loc, $q, $pl)
 
 let $annotations :=
@@ -704,7 +709,7 @@ declare
 %output:method("text")
 function places:placesInOneWorkTTL($id as xs:string) {
 let $log := log:add-log-message('/api/placeNames/works/' || $id, sm:id()//sm:real/sm:username/string() , 'places')
-let $file := $config:collection-rootW/id($id)
+let $file := $places:collection-rootW/id($id)
 let $sid :=  string($id)
 let $r := $file/@xml:id
 return
@@ -745,7 +750,7 @@ declare
 function places:placesInOneManuscriptTTL($id as xs:string) {
 
 let $log := log:add-log-message('/api/placeNames/manuscripts/' || $id, sm:id()//sm:real/sm:username/string() , 'places')
-let $file := $config:collection-rootMS/id($id)
+let $file := $places:collection-rootMS/id($id)
 let $sid := string($id)
 let $r := $file/@xml:id
 return
@@ -786,13 +791,13 @@ declare
 function places:placesInWorksTTLVoid() {
 
 $places:response200turtle, 
-let $loc := $config:collection-rootMS//t:placeName[starts-with(@ref, 'LOC')]
-let $q := $config:collection-rootMS//t:placeName[starts-with(@ref, 'wd')]
-let $pl := $config:collection-rootMS//t:placeName[starts-with(@ref, 'pleiades')]
+let $loc := $places:collection-rootMS//t:placeName[starts-with(@ref, 'LOC')]
+let $q := $places:collection-rootMS//t:placeName[starts-with(@ref, 'wd')]
+let $pl := $places:collection-rootMS//t:placeName[starts-with(@ref, 'pleiades')]
 let $dataMS:= ($loc, $q, $pl)
-let $locW := $config:collection-rootW//t:placeName[starts-with(@ref, 'LOC')]
-let $qW := $config:collection-rootW//t:placeName[starts-with(@ref, 'wd')]
-let $plW := $config:collection-rootW//t:placeName[starts-with(@ref, 'pleiades')]
+let $locW := $places:collection-rootW//t:placeName[starts-with(@ref, 'LOC')]
+let $qW := $places:collection-rootW//t:placeName[starts-with(@ref, 'wd')]
+let $plW := $places:collection-rootW//t:placeName[starts-with(@ref, 'pleiades')]
 let $dataW:= ($locW, $qW, $plW)
 let $annotationsMS :=  for $d in $dataMS
  group by $r := root($d)//t:TEI/@xml:id
@@ -845,8 +850,8 @@ return
  output should be produced in exide and then validated with http://peripleo.pelagios.org/validator
  :)
 declare function places:pelagiosDump(){
-   let $pl := $config:collection-rootPl
-   let $in := $config:collection-rootIn
+   let $pl := $places:collection-rootPl
+   let $in := $places:collection-rootIn
    let $plp := $pl//t:place
    let $inp := $in//t:place
    let $data := ($plp, $inp)

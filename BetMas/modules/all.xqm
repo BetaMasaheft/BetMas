@@ -11,7 +11,6 @@ declare namespace test="http://exist-db.org/xquery/xqsuite";
 (:~
  : provided a string substitutes characters matching one by one, returning all possible combinations (but multiple times).
  : :)
- 
 declare function all:repl($query, $match, $sub)
 {
 (: take the string and make into a sequence eg. abcabc   :)

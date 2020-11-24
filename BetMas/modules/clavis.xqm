@@ -88,7 +88,7 @@ se interrogato da titolo da gli id, altrimenti per id da gli altri id e il titol
     let $log := log:add-log-message('/api/clavis/' || $id , sm:id()//sm:real/sm:username/string() , 'REST')
                :)  
                let $bibl := if ($type != '') then "[t:bibl[@type = '" ||$type||"']]" else ()
-               let $path := util:eval("$config:collection-rootW//t:listBibl[@type eq 'clavis']" || $bibl)
+               let $path := util:eval("$titles:collection-rootW//t:listBibl[@type eq 'clavis']" || $bibl)
               let $results := for $work in $path
                     let $root := root($work)
                     let $id := string($root/t:TEI/@xml:id)
@@ -139,7 +139,7 @@ declare
 %output:method("json")
 function clavis:Clavis($q as xs:string*) {
 
-let $eval-string := concat("$config:collection-rootW//t:title",
+let $eval-string := concat("collection($config:data-rootW)//t:title",
 "[ft:query(.,'", $q, "')]")
 
 let $log := log:add-log-message('/api/clavis?q=' || $q, sm:id()//sm:real/sm:username/string() , 'REST')

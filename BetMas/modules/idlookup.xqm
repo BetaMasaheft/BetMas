@@ -14,7 +14,6 @@ import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas
 (: namespaces of data used :)
 
 declare namespace t = "http://www.tei-c.org/ns/1.0";
-
 import module namespace http="http://expath.org/ns/http-client";
 
 (: For REST annotations :)
@@ -33,11 +32,11 @@ function lookID:IDSlookup($id as xs:string*) {
 log:add-log-message('/api/idlookup?id=' || $id, sm:id()//sm:real/sm:username/string() , 'REST'),
 
 let $query := (
-$config:collection-root/t:TEI[contains(@xml:id, $id)],
-$config:collection-root//t:msPart[contains(@xml:id, $id)],
-$config:collection-root//t:msItem[contains(@xml:id, $id)],
-$config:collection-root//t:title[contains(@xml:id, $id)],
-$config:collection-root//t:div[contains(@xml:id, $id)])
+$titles:collection-root/t:TEI[contains(@xml:id, $id)],
+$titles:collection-root//t:msPart[contains(@xml:id, $id)],
+$titles:collection-root//t:msItem[contains(@xml:id, $id)],
+$titles:collection-root//t:title[contains(@xml:id, $id)],
+$titles:collection-root//t:div[contains(@xml:id, $id)])
  let $results := for $hit in $query
  let $i := string($hit/@xml:id)
 (: let $rootID := string(root($hit)/t:TEI/@xml:id):)

@@ -995,7 +995,7 @@ declare function fo:citation($title, $doc, $id) {
     let $auths := $doc//tei:revisionDesc/tei:change/@who[. != 'PL']
     let $bibdata := <bibl>
         {
-            for $author in distinct-values($auths)
+            for $author in config:distinct-values($auths)
 let $count := count($doc//tei:revisionDesc/tei:change[@who eq  $author])
 order by $count descending
             return
@@ -1765,7 +1765,7 @@ declare function fo:codic($msPart) {
 
 declare function fo:main($id as xs:string) {
     let $title := titles:printTitleMainID($id)
-    let $file := root($config:collection-root/id($id))//tei:TEI
+    let $file := root($titles:collection-root/id($id))//tei:TEI
     
    
     let $ty := string($file/@type) 

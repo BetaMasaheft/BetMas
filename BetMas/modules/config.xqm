@@ -214,18 +214,6 @@ declare variable $config:data-rootA := $config:data-root || "/authority-files";
 declare variable $config:data-rootCh := $config:data-root || "/Chojnacki";
 declare variable $config:data-rootTraces := $config:app-root || "/traces";
 
-declare variable $config:collection-root := collection($config:data-root );
-declare variable $config:collection-rootMS := collection($config:data-rootMS);
-declare variable $config:collection-rootN := collection($config:data-rootN);
-declare variable $config:collection-rootW := collection($config:data-rootW);
-declare variable $config:collection-rootPl := collection($config:data-rootPl);
-declare variable $config:collection-rootPr := collection($config:data-rootPr);
-declare variable $config:collection-rootIn := collection($config:data-rootIn);
-declare variable $config:collection-rootA := collection($config:data-rootA);
-declare variable $config:collection-rootCh := collection($config:data-rootCh);
-declare variable $config:collection-rootTraces := collection($config:data-rootTraces);
-declare variable $config:collection-rootWN := collection($config:data-rootW, $config:data-rootN);
-declare variable $config:collection-rootPlIn := collection($config:data-rootPl,$config:data-rootIn);
 
 declare variable $config:repo-descriptor := doc(concat($config:app-root, "/repo.xml"))/repo:meta;
 
@@ -314,7 +302,7 @@ declare function config:get-data-dir() as xs:string? {
         let $request := <http:request http-version="1.1" method="GET" href="http://localhost:8080/{request:get-context-path()}/status?c=disk"/>
         let $response := http:send-request($request)
         return
-            if ($response[1]/@status = "200") then
+            if ($response[1]/@status eq  "200") then
                 let $dir := $response[2]//jmx:DataDirectory/string()
                 return
                     if (matches($dir, "^\w:")) then

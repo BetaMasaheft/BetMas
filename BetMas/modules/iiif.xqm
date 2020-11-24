@@ -39,6 +39,9 @@ http://iiif.io/api/presentation/2.0/
 
 :)
 
+declare variable $iiif:collection-rootMS  := collection($config:data-rootMS); 
+declare variable $iiif:collection-rootW  := collection($config:data-rootW); 
+
 declare variable $iiif:response200 := $config:response200Json;
 
 declare variable $iiif:response400 := $config:response400;
@@ -297,7 +300,7 @@ function iiif:allManifests() {
 ($iiif:response200,
 log:add-log-message('/api/iiif/collections', sm:id()//sm:real/sm:username/string() , 'iiif'),
        
-      let $allidno := $config:collection-rootMS//t:idno[@facs]
+      let $allidno := $iiif:collection-rootMS//t:idno[@facs]
 let $EMIP := $allidno[preceding-sibling::t:collection eq 'EMIP'][@n]
 let $ES := $allidno[preceding-sibling::t:collection eq 'Ethio-SPaRe'][@n]
 let $vat := $allidno[preceding-sibling::t:repository[@ref eq 'INS0003BAV']]
@@ -344,7 +347,7 @@ function iiif:RepoCollection($institutionid as xs:string) {
 
 log:add-log-message('/api/iiif/collections/' || $institutionid, sm:id()//sm:real/sm:username/string() , 'iiif'),
 let $repoName := titles:printTitleMainID($institutionid)
-let $repo := $config:collection-rootMS//t:repository[@ref eq $institutionid]
+let $repo := $iiif:collection-rootMS//t:repository[@ref eq $institutionid]
 let $mswithimages := 
         if($institutionid='INS0447EMIP') 
         then $repo[following-sibling::t:idno[@facs][@n]] 
@@ -387,13 +390,13 @@ function iiif:WitnessesCollection($workID as xs:string) {
 
 log:add-log-message('/api/iiif/witnesses/' || $workID, sm:id()//sm:real/sm:username/string() , 'iiif'),
 let $workName := titles:printTitleMainID($workID)
-let $work := $config:collection-rootW/id($workID)
+let $work := $iiif:collection-rootW/id($workID)
 let $mswithimages := $work//t:witness[@corresp]
 let $externalmswithimages := $work//t:witness[@facs][t:ptr/@target]
 let $listmanifests :=
 (for $images in $mswithimages
 let $msid := $images/@corresp
-let $ms := $config:collection-rootMS/id($msid)
+let $ms := $iiif:collection-rootMS/id($msid)
 return
 if($ms//t:idno[@facs]) then
 
@@ -444,7 +447,7 @@ function iiif:manifest($id as xs:string*, $alt as xs:string*) {
 let $item := if (starts-with($id, 'ES')) then collection($config:data-rootMS || '/ES')/id($id) 
                     else if (starts-with($id, 'BML')) then collection($config:data-rootMS || '/FlorenceBML')/id($id) 
                     else if (starts-with($id, 'EMIP')) then  collection($config:data-rootMS || '/EMIP')/id($id)
-                    else $config:collection-root//id($id)
+                    else $titles:collection-root//id($id)
 let $facsid := if($alt = '') then $item//t:msIdentifier/t:idno else $item//t:altIdentifier[@xml:id eq $alt]/t:idno 
 
 return
@@ -545,7 +548,7 @@ function iiif:singerange($id as xs:string*, $rangeId as xs:string*, $alt as xs:s
 let $item := if (starts-with($id, 'ES')) then collection($config:data-rootMS || '/ES')/id($id) 
                     else if (starts-with($id, 'BML')) then collection($config:data-rootMS || '/FlorenceBML')/id($id) 
                     else if (starts-with($id, 'EMIP')) then  collection($config:data-rootMS || '/EMIP')/id($id)
-                    else $config:collection-root//id($id)
+                    else $titles:collection-root//id($id)
 let $facsid := if($alt = '') then $item//t:msIdentifier/t:idno else $item//t:altIdentifier[@xml:id eq $alt]/t:idno 
 
 return
@@ -655,7 +658,7 @@ function iiif:canvas($id as xs:string*, $n as xs:string*, $alt as xs:string*) {
 ($iiif:response200,
 
 log:add-log-message('/api/iiif/'||$id||'/canvas/p' || $n, sm:id()//sm:real/sm:username/string() , 'iiif'),
-let $item := $config:collection-rootMS/id($id)
+let $item := $iiif:collection-rootMS/id($id)
 let $facsid := if(string-length($alt) = 0) then $item//t:msIdentifier/t:idno else $item//t:altIdentifier[@xml:id eq $alt]/t:idno 
 let $iiifroot := $config:appUrl ||"/api/iiif/" || $id 
 let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($facsid/@facs)

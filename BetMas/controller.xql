@@ -4,6 +4,7 @@ import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas
 import module namespace request = "http://exist-db.org/xquery/request";
 import module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMas/error" at "modules/error.xqm";
 import module namespace console="http://exist-db.org/xquery/console";
+import module namespace login="http://exist-db.org/xquery/login" at "resource:org/exist/xquery/modules/persistentlogin/login.xql";
 
 import module namespace functx="http://www.functx.com";
 
@@ -14,13 +15,16 @@ declare variable $exist:resource external;
 declare variable $exist:controller external;
 declare variable $exist:prefix external;
 declare variable $exist:root external;
+declare variable $domain := "org.exist.login";
+declare variable $collection-root :=  collection($config:data-root);
 declare variable $taxonomy := doc(concat($config:data-rootA, '/taxonomy.xml'))//t:catDesc;
 (:  get what Nginx sends:)
+
 declare function local:get-uri() {
     (request:get-header("nginx-request-uri"), request:get-uri())[1]
 };
 
-
+(:
 declare variable $login :=
     let $tryImport :=
         try {
@@ -36,7 +40,7 @@ declare variable $login :=
            
         else
             local:fallback-login#3
-;
+;:)
 
 
 
@@ -74,7 +78,7 @@ declare function local:user-allowed() {
     (
         request:get-attribute("org.exist.login.user") and
         request:get-attribute("org.exist.login.user") != "guest"
-    ) or config:get-configuration()/restrictions/@guest eq  "yes"
+    ) or config:get-configuration()/restrictions/@guest = "yes"
 };
 
 declare function local:switchCol($type){
@@ -208,7 +212,7 @@ else if (contains($exist:path, 'morpho')) then
                             <forward
                                 url="{$url}"
                                 absolute="yes"> 
-                                {$login("org.exist.login", (), false())}
+                                {login:set-user($domain, (), false())}
                                  <set-header name="Cache-Control" value="no-cache"/>
                                 </forward>
                         </dispatch>
@@ -226,7 +230,7 @@ else if (contains($exist:path, 'morpho')) then
                             <forward
                                 url="{concat('/restxq/BetMas/', $exist:path)}"
                                 absolute="yes"> 
-                                {$login("org.exist.login", (), false())}
+                                {login:set-user($domain, (), false())}
                                  <set-header name="Cache-Control" value="no-cache"/>
                                 </forward>
                         </dispatch>
@@ -265,7 +269,7 @@ else if (contains($exist:path, '/api/') or
                             <forward
                                 url="{concat('/restxq/BetMas', $exist:path)}"
                                 absolute="yes"> 
-                                {$login("org.exist.login", (), false())}
+                                {login:set-user($domain, (), false())}
                                  <set-header name="Cache-Control" value="no-cache"/>
                                 </forward>
                         </dispatch>
@@ -288,7 +292,7 @@ else if (ends-with($exist:path, ".json")) then
 else if (starts-with($exist:path, '/tei/') and ends-with($exist:path, ".xml")) then
                                
                             let $id := substring-before($exist:resource, '.xml')
-                            let $item := $config:collection-root/id($id)[name()='TEI']
+                            let $item := $collection-root/id($id)[name()='TEI']
                             let $collection := local:switchCol($item/@type)
                                
                             return
@@ -307,7 +311,7 @@ else if (starts-with($exist:path, '/tei/') and ends-with($exist:path, ".xml")) t
 else if (ends-with($exist:path, ".xml")) then
                           
                             let $id := substring-before($exist:resource, '.xml')
-                            let $item := $config:collection-root/id($id)[name()='TEI']
+                            let $item := $collection-root/id($id)[name()='TEI']
                             let $collection := local:switchCol($item/@type)
                             let $uri := base-uri($item)
                             return
@@ -371,7 +375,7 @@ else if (starts-with($exist:path, "/")) then
                                             xmlns="http://exist.sourceforge.net/NS/exist">
                                             <forward
                                                 url="{$exist:controller}/index.html">
-                                                     {$login("org.exist.login", (), false())}
+                                                     {login:set-user($domain, (), false())}
                                                      <set-header name="Cache-Control" value="no-cache"/>
                                             </forward>
                                             <view>
@@ -432,7 +436,7 @@ function apisparql:constructURIsubid() is called to construct a graph of that re
                                                         <forward
                                 url="{concat('/restxq/BetMas', $exist:path, '/rdf')}"
                                 absolute="yes"> 
-                                {$login("org.exist.login", (), false())}
+                                {login:set-user($domain, (), false())}
                                  <set-header name="Cache-Control" value="no-cache"/>
                                 </forward>
                                         
@@ -466,7 +470,7 @@ construct the annotation graph if application/rdf+xml is specified
                                                         <forward
                                 url="{concat('/restxq/BetMas', $exist:path, '/rdf')}"
                                 absolute="yes"> 
-                                {$login("org.exist.login", (), false())}
+                                {login:set-user($domain, (), false())}
                                  <set-header name="Cache-Control" value="no-cache"/>
                                 </forward>
                                         
@@ -497,7 +501,7 @@ construct the annotation graph if application/rdf+xml is specified
                                                         <forward
                                 url="{concat('/restxq/BetMas/bond/', encode-for-uri($tokenizePath[3]), '/rdf')}"
                                 absolute="yes"> 
-                                {$login("org.exist.login", (), false())}
+                                {login:set-user($domain, (), false())}
                                  <set-header name="Cache-Control" value="no-cache"/>
                                 </forward>
                                         
@@ -575,7 +579,7 @@ https://betamasaheft.eu/manuscript/BNFet32/main
                                                             <forward
                                 url="{concat('/restxq/BetMas/', $exist:resource, '/rdf')}"
                                 absolute="yes"> 
-                                {$login("org.exist.login", (), false())}
+                                {login:set-user($domain, (), false())}
                                  <set-header name="Cache-Control" value="no-cache"/>
                                 </forward>
                                                     </dispatch>
@@ -604,7 +608,7 @@ https://betamasaheft.eu/manuscript/BNFet32/main
                                                                         <view>
                                                                             <forward
                                                                                 url="{$exist:controller}/modules/view.xql"/>
-             {$login("org.exist.login", (), false())}
+             {login:set-user($domain, (), false())}
             <set-header name="Cache-Control" value="no-cache"/>
                                                                         
                                                                         </view>
@@ -641,7 +645,7 @@ https://betamasaheft.eu/authority-files/angel/main
                                                             <forward
                                 url="{concat('/restxq/BetMas/', $exist:resource, '/rdf')}"
                                 absolute="yes"> 
-                                {$login("org.exist.login", (), false())}
+                                {login:set-user($domain, (), false())}
                                  <set-header name="Cache-Control" value="no-cache"/>
                                 </forward>
                                         

@@ -35,7 +35,7 @@ declare namespace json = "http://www.json.org";
 
 declare function persiiif:fileingit($bmID, $sha){
 
-let $permapath := replace(persiiif:capitalize-first(substring-after(base-uri($config:collection-root/id($bmID)[name() eq 'TEI']), '/db/apps/BetMasData/')), 'Manuscripts', '')
+let $permapath := replace(persiiif:capitalize-first(substring-after(base-uri($titles:collection-root/id($bmID)[name() eq 'TEI']), '/db/apps/BetMasData/')), 'Manuscripts', '')
 return 
 doc('https://raw.githubusercontent.com/BetaMasaheft/Manuscripts/'||$sha||'/'|| $permapath)//t:TEI
 };

@@ -15,6 +15,8 @@ declare variable $titles:persNamesList := doc('/db/apps/BetMas/lists/persNamesLa
 declare variable $titles:TUList := doc('/db/apps/BetMas/lists/textpartstitles.xml');
 declare variable $titles:deleted := doc('/db/apps/BetMas/lists/deleted.xml');
 
+declare variable $titles:collection-root := collection($config:data-root);
+declare variable $titles:collection-rootPl := collection($config:data-rootPl);
 
 (:establishes the different rules and priority to print a title referring to a record:)
 declare function titles:printTitle($node as element()) {
@@ -82,7 +84,7 @@ declare
 function titles:printTitleID($id as xs:string)
 { if ($titles:deleted//t:item[.=$id]) then
       let $del := $titles:deleted//t:item[.=$id]
-      let $formerly := $config:collection-root//t:relation[@name eq 'betmas:formerlyAlsoListedAs'][@passive eq $id]
+      let $formerly := $titles:collection-root//t:relation[@name eq 'betmas:formerlyAlsoListedAs'][@passive eq $id]
               return
               if($formerly) then
                 titles:printTitleID($formerly/@active) || ' [now '||string($formerly/@active)||', formerly also listed as '||$id||', which was requested here but has been deleted on '||string($del/@change)||']'
@@ -103,7 +105,7 @@ function titles:printTitleID($id as xs:string)
     else if (contains($id, '#')) then
     (   let $mainID := substring-before($id, '#')
         let $SUBid := substring-after($id, '#')
-        let $node := $config:collection-root//id($mainID)
+        let $node := $titles:collection-root//id($mainID)
         return
             if($node) then(
              if (starts-with($SUBid, 't')) then
@@ -169,7 +171,7 @@ function titles:printTitleMainID($id as xs:string)
     then
            (titles:decidePlaceNameSource($id))
     else (: always look at the root of the given node parameter of the function and then switch :)
-           let $catchID := $config:collection-root/id($id)
+           let $catchID := $titles:collection-root/id($id)
            let $resource := $catchID[name() = 'TEI']
            return
                if (count($resource) = 0) then
@@ -208,7 +210,7 @@ declare function titles:manuscriptLabelFormatter($resource) as xs:string {
                 then
                     let $repoid := string(($resource//t:repository/@ref)[1])
                     let $reponame := $titles:institutionsList/id($repoid)[1]/text()
-                    let $r := $config:collection-rootIn/id($repoid)
+                    let $r := collection($config:data-rootIn)/id($repoid)
                     let $repo := if ($r) then ($r) else 'No Institution record'
                     let $repoPlace := if ($repo = 'No Institution record') then $repo else
                                         (if ($repo[not(descendant::t:settlement)][not(descendant::t:country)]) then ('No location record')
@@ -417,7 +419,7 @@ declare function titles:decidePlName($plaID){
     else if (starts-with($plaID, 'gn:'))
         then titles:getGeoNames($plaID)
     else
-        let $placefile := $config:collection-rootPl/id($plaID)
+        let $placefile := $titles:collection-rootPl/id($plaID)
         return
             titles:placeNameSelector($placefile[1])
 };
@@ -444,7 +446,7 @@ else if (matches($pRef, 'wd:Q\d+')) then (
         return
             titles:decidePlaceNameSource($pRef)) 
 else (
-    let $resource := $config:collection-rootPl/id($pRef)
+    let $resource := $titles:collection-rootPl/id($pRef)
     return titles:placeNameSelector($resource)
     )
 };

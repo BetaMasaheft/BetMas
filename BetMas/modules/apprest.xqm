@@ -28,6 +28,12 @@ import module namespace locus = "https://www.betamasaheft.uni-hamburg.de/BetMas/
 
 declare variable $apprest:languages := doc('/db/apps/BetMas/lists/languages.xml');
 declare variable $apprest:prefixes := doc('https://raw.githubusercontent.com/BetaMasaheft/Documentation/master/prefixDef.xml');
+declare variable $apprest:collection-rootMS := collection($config:data-rootMS);
+declare variable $apprest:collection-rootPr := collection($config:data-rootPr);
+declare variable $apprest:collection-rootW := collection($config:data-rootW);
+declare variable $apprest:collection-rootIn := collection($config:data-rootIn);
+declare variable $apprest:collection-rootPlIn := collection($config:data-rootPl,$config:data-rootIn);
+declare variable $apprest:collection-root := $titles:collection-root;
 
 declare function functx:trim( $arg as xs:string? )  as xs:string {
 
@@ -36,7 +42,7 @@ declare function functx:trim( $arg as xs:string? )  as xs:string {
 
  (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js MANUSCRIPTS FILTERS for CONTEXT:)
  declare
- %templates:default("context", "$config:collection-rootMS")
+ %templates:default("context", "$apprest:collection-rootMS")
  function apprest:origPlace($context as xs:string*) {
      let $cont := util:eval($context)
      let $scripts := config:distinct-values($cont//t:origPlace/t:placeName/@ref)
@@ -47,7 +53,7 @@ declare function functx:trim( $arg as xs:string? )  as xs:string {
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js MANUSCRIPTS FILTERS for CONTEXT:)
 declare
-%templates:default("context", "$config:collection-rootMS")
+%templates:default("context", "$apprest:collection-rootMS")
 function apprest:scripts($context as xs:string*) {
     let $cont := util:eval($context)
     let $scripts := config:distinct-values($cont//@script)
@@ -58,7 +64,7 @@ function apprest:scripts($context as xs:string*) {
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "$config:collection-rootMS")
+%templates:default("context", "$apprest:collection-rootMS")
 function apprest:support($context as xs:string*) {
      let $cont := util:eval($context)
      let $forms := config:distinct-values($cont//@form)
@@ -69,7 +75,7 @@ function apprest:support($context as xs:string*) {
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "$config:collection-rootMS")
+%templates:default("context", "$apprest:collection-rootMS")
 function apprest:material($context as xs:string*) {
       let $cont := util:eval($context)
       let $materials := config:distinct-values($cont//t:support/t:material/@key)
@@ -80,10 +86,10 @@ function apprest:material($context as xs:string*) {
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "$config:collection-rootMS")
+%templates:default("context", "$apprest:collection-rootMS")
 function apprest:bmaterial($context as xs:string*) {
     let $cont := util:eval($context)
-      let $bmaterials := config:distinct-values($cont//t:decoNote[@type='bindingMaterial']/t:material/@key)
+      let $bmaterials := config:distinct-values($cont//t:decoNote[@type eq 'bindingMaterial']/t:material/@key)
     return
         apprest:formcontrol('Binding Material','bmaterial', $bmaterials, 'false', 'values', $context)
 
@@ -92,7 +98,7 @@ function apprest:bmaterial($context as xs:string*) {
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js PLACES FILTERS for CONTEXT:)
 declare
-%templates:default("context", "$config:collection-rootPlIn")
+%templates:default("context", "$apprest:collection-rootPlIn")
 function apprest:placeType($context as xs:string*) {
       let $cont := util:eval($context)
      let $placeTypes := config:distinct-values($cont//t:place/@type/tokenize(., '\s+'))
@@ -103,7 +109,7 @@ function apprest:placeType($context as xs:string*) {
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "$config:collection-rootPr")
+%templates:default("context", "$apprest:collection-rootPr")
 function apprest:personType($context as xs:string*) {
     let $cont := util:eval($context)
       let $persTypes := config:distinct-values($cont//t:person//t:occupation/@type/tokenize(., '\s+'))
@@ -114,7 +120,7 @@ function apprest:personType($context as xs:string*) {
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "$config:collection-root")
+%templates:default("context", "$titles:collection-root")
 function apprest:relationType($node as node(), $model as map(*)) {
     let $cont := util:eval($context)
     let $relTypes := config:distinct-values($cont//t:relation/@name/tokenize(., '\s+'))
@@ -126,7 +132,7 @@ function apprest:relationType($node as node(), $model as map(*)) {
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "$config:collection-rootMS")
+%templates:default("context", "$apprest:collection-rootMS")
 function apprest:languages($context as xs:string*) {
      let $cont := util:eval($context)
      let $keywords := config:distinct-values($cont//t:language/@ident)
@@ -137,10 +143,10 @@ function apprest:languages($context as xs:string*) {
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "$config:collection-rootMS")
+%templates:default("context", "$apprest:collection-rootMS")
 function apprest:scribes($context as xs:string*) {
      let $cont := util:eval($context)
-      let $elements := $cont//t:persName[@role='scribe'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
+      let $elements := $cont//t:persName[@role eq 'scribe'][not(@ref eq 'PRS00000')][ not(@ref eq 'PRS0000')]
     let $keywords := config:distinct-values($elements/@ref)
     return
     apprest:formcontrol('Scribe', 'scribe', $keywords, 'false', 'rels', $context)
@@ -149,10 +155,10 @@ function apprest:scribes($context as xs:string*) {
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "$config:collection-rootMS")
+%templates:default("context", "$apprest:collection-rootMS")
 function apprest:donors($context as xs:string*) {
      let $cont := util:eval($context)
-    let $elements := $cont//t:persName[@role='donor'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
+    let $elements := $cont//t:persName[@role eq 'donor'][not(@ref eq 'PRS00000')][ not(@ref eq 'PRS0000')]
     let $keywords := config:distinct-values($elements/@ref)
   return
   apprest:formcontrol('Donor', 'donor', $keywords, 'false', 'rels', $context)
@@ -161,10 +167,10 @@ function apprest:donors($context as xs:string*) {
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "$config:collection-rootMS")
+%templates:default("context", "$apprest:collection-rootMS")
 function apprest:patrons($context as xs:string*) {
      let $cont := util:eval($context)
-      let $elements := $cont//t:persName[@role='patron'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
+      let $elements := $cont//t:persName[@role eq 'patron'][not(@ref eq 'PRS00000')][ not(@ref eq 'PRS0000')]
     let $keywords := config:distinct-values($elements/@ref)
  return apprest:formcontrol('Patron', 'patron', $keywords, 'false', 'rels', $context)
 
@@ -172,10 +178,10 @@ function apprest:patrons($context as xs:string*) {
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "$config:collection-rootMS")
+%templates:default("context", "$apprest:collection-rootMS")
 function apprest:owners($context as xs:string*) {
       let $cont := util:eval($context)
-      let $elements := $cont//t:persName[@role='owner'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
+      let $elements := $cont//t:persName[@role eq 'owner'][not(@ref eq 'PRS00000')][ not(@ref eq 'PRS0000')]
       let $keywords := config:distinct-values($elements/@ref)
      return apprest:formcontrol('Owner', 'owner', $keywords, 'false', 'rels', $context)
 
@@ -183,10 +189,10 @@ function apprest:owners($context as xs:string*) {
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "$config:collection-rootMS")
+%templates:default("context", "$apprest:collection-rootMS")
 function apprest:binders($context as xs:string*) {
       let $cont := util:eval($context)
-      let $elements := $cont//t:persName[@role='binder'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
+      let $elements := $cont//t:persName[@role eq 'binder'][not(@ref eq  'PRS00000')][ not(@ref eq 'PRS0000')]
     let $keywords := config:distinct-values($elements/@ref)
  return
  apprest:formcontrol('Binder', 'binder', $keywords, 'false', 'rels', $context)
@@ -195,10 +201,10 @@ function apprest:binders($context as xs:string*) {
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "$config:collection-rootMS")
+%templates:default("context", "$apprest:collection-rootMS")
 function apprest:parmakers($context as xs:string*) {
     let $cont := util:eval($context)
-      let $elements := $cont//t:persName[@role='parchmentMaker'][not(@ref= 'PRS00000')][ not(@ref= 'PRS0000')]
+      let $elements := $cont//t:persName[@role eq 'parchmentMaker'][not(@ref eq 'PRS00000')][ not(@ref eq 'PRS0000')]
     let $keywords := config:distinct-values($elements/@ref)
    return
    apprest:formcontrol('Parchment Maker', 'parchmentMaker', $keywords, 'false', 'rels', $context)
@@ -207,7 +213,7 @@ function apprest:parmakers($context as xs:string*) {
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "$config:collection-rootMS")
+%templates:default("context", "$apprest:collection-rootMS")
 function apprest:contents($context as xs:string*) {
     let $cont := util:eval($context)
     let $elements :=$cont//t:msItem
@@ -220,10 +226,10 @@ function apprest:contents($context as xs:string*) {
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "$config:collection-rootW")
+%templates:default("context", "$apprest:collection-rootW")
 function apprest:WorkAuthors($context as xs:string*) {
 let $works := util:eval($context)
-let $attributions := for $rel in ($works//t:relation[@name="saws:isAttributedToAuthor"], $works//t:relation[@name="dcterms:creator"])
+let $attributions := for $rel in ($works//t:relation[@name eq "saws:isAttributedToAuthor"], $works//t:relation[@name eq "dcterms:creator"])
 let $r := $rel/@passive
                 return
                 if (contains($r, ' ')) then tokenize($r, ' ') else $r
@@ -234,10 +240,10 @@ let $keywords := config:distinct-values($attributions)
 
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js :)
 declare
-%templates:default("context", "$config:collection-rootIn")
+%templates:default("context", "$apprest:collection-rootIn")
 function apprest:tabots($context as xs:string*) {
 let $cont := util:eval($context)
-let $tabots:= $cont//t:ab[@type='tabot']
+let $tabots:= $cont//t:ab[@type eq 'tabot']
     let $personTabot := config:distinct-values($tabots//t:persName/@ref)
     let $thingsTabot := config:distinct-values($tabots//t:ref/@corresp)
     let $alltabots := ($personTabot, $thingsTabot)
@@ -259,7 +265,7 @@ declare function apprest:decidelink($link){
 if(contains($link, 'http')) then $link
 else if (contains($link, ':')) then (
         let $ns := substring-before($link, ':')
-        let $prefixDef := $apprest:prefixes//t:prefixDef[@ident=$ns]
+        let $prefixDef := $apprest:prefixes//t:prefixDef[@ident eq $ns]
         return replace(substring-after($link, ':'), $prefixDef/@matchPattern, $prefixDef/@replacementPattern)
         )
 else concat($config:appUrl,'/',$link)
@@ -287,10 +293,10 @@ declare function apprest:EntityRelsTable($this, $collection){
 let $entity := $this
 let $id := string($this/@xml:id)
 let $rels := $entity//t:relation[@name][(@active and @passive) or @mutual]
-let $otherrelsp := $config:collection-root//t:relation[contains(@passive, $id)]
-let $otherrelsa := $config:collection-root//t:relation[contains(@active, $id)]
+let $otherrelsp := $titles:collection-root//t:relation[contains(@passive, $id)]
+let $otherrelsa := $titles:collection-root//t:relation[contains(@active, $id)]
 let $otherrels := ($otherrelsp, $otherrelsa)
-let $oth := $otherrels[ancestor::t:TEI[not(@xml:id = $id)]][@name]
+let $oth := $otherrels[ancestor::t:TEI[not(@xml:id eq $id)]][@name]
 (:the three variables here assume that there will be relations in the requested file, and that if a relation somewhere else has this id in active it will not have it in passive:)
 let $allrels := ($rels, $oth)
 return
@@ -380,11 +386,11 @@ else ()
 
 (:~The SEE ALSO section has ready made queries providing related contents,these are all dispalyed in divs with lists of which this is the template:)
 declare function apprest:ModalRefsList($id, $string as xs:string, $sameKey){
-let $value := if (doc($config:data-rootA || '/taxonomy.xml')//t:catDesc[text() = $string] )
-                           then $config:collection-root/id($string)//t:titleStmt/t:title/text()
+let $value := if (doc($config:data-rootA || '/taxonomy.xml')//t:catDesc[text() eq $string] )
+                           then $titles:collection-root/id($string)//t:titleStmt/t:title/text()
                            else if (matches($string, 'gn:'))  then titles:getGeoNames($string)
                            else if (matches($string, '(LOC|INS)(\d+)(\w+)'))
-                           then try {titles:printTitle($config:collection-rootPlIn/id($string)//t:place)}
+                           then try {titles:printTitle($apprest:collection-rootPlIn/id($string)//t:place)}
                            catch * {'no record'}
                            else $string
 return
@@ -479,10 +485,10 @@ $document//t:placeName[@ref],
 $document//t:region[@ref],
 $document//t:country[@ref],
 $document//t:settlement[@ref],
-$document//t:relation[@name ='saws:isAttributedToAuthor'])
+$document//t:relation[@name eq 'saws:isAttributedToAuthor'])
 return
 if($r/@ref = ' ' or $r/@ref = '') then (<ref>no valid id</ref>)
-else if($r[name() = 'relation']) then <ref ref="{$r/@passive}"></ref>
+else if($r[name() eq 'relation']) then <ref ref="{$r/@passive}"></ref>
 else
                        <ref ref="{if (contains($r/@ref, '#')) then substring-before($r/@ref, '#') else string($r/@ref)}"></ref>
  let $corresps :=
@@ -503,7 +509,7 @@ return
 
 (:~a list of items pointing to something:)
 declare function apprest:AnyReferences($sourceid, $id as xs:string){
-let $file := $config:collection-root
+let $file := $titles:collection-root
 let $ref := apprest:WhatPointsHere($id, $file)
   return
 <ul xmlns="http://www.w3.org/1999/xhtml" class="nodot"><head xmlns="http://www.w3.org/1999/xhtml" >This record, with ID: {string($id)} is mentioned by </head>
@@ -514,9 +520,9 @@ let $ref := apprest:WhatPointsHere($id, $file)
 
 (:~searches an ID in a @corresp, @ref, <relation> and makes a list :)
 declare function apprest:WhatPointsHereQuery($id as xs:string){
-for $corr in ($config:collection-root//t:*[ft:query(@corresp, $id)],
-        $config:collection-root//t:*[ft:query(@ref, $id)],
-        $config:collection-root//t:relation[ft:query(., $id)])
+for $corr in ($titles:collection-root//t:*[ft:query(@corresp, $id)],
+        $titles:collection-root//t:*[ft:query(@ref, $id)],
+        $titles:collection-root//t:relation[ft:query(., $id)])
         order by ft:score($corr) descending
         return
             $corr
@@ -525,17 +531,17 @@ for $corr in ($config:collection-root//t:*[ft:query(@corresp, $id)],
 
 (: ~          used by apprest.xqm and timeline.xqm :)
 declare function apprest:WhatPointsHere($id as xs:string, $c){
-            let $witnesses := $c//t:witness[@corresp = $id]
-let $placeNames := $c//t:placeName[@ref = $id]
-let $persNames := $c//t:persName[@ref = $id]
-let $ref := $c//t:ref[@corresp = $id]
-let $titles := $c//t:title[@ref = $id]
-let $settlement := $c//t:settlement[@ref = $id]
-let $region := $c//t:region[@ref = $id]
-let $country := $c//t:country[@ref = $id]
-let $active := $c//t:relation[@active = $id]
-let $passive := $c//t:relation[@passive = $id]
-let $locus := $c//t:locus[@corresp = $id]
+            let $witnesses := $c//t:witness[@corresp eq $id]
+let $placeNames := $c//t:placeName[@ref eq $id]
+let $persNames := $c//t:persName[@ref eq $id]
+let $ref := $c//t:ref[@corresp eq $id]
+let $titles := $c//t:title[@ref eq $id]
+let $settlement := $c//t:settlement[@ref eq $id]
+let $region := $c//t:region[@ref eq $id]
+let $country := $c//t:country[@ref eq $id]
+let $active := $c//t:relation[@active eq $id]
+let $passive := $c//t:relation[@passive eq $id]
+let $locus := $c//t:locus[@corresp eq $id]
 let $allrefs := ($witnesses,
         $placeNames,
         $persNames,
@@ -558,14 +564,14 @@ for $corr in $allrefs
 
 (:~collects bibliographical information for zotero metadata:)
 declare function apprest:bibdata ($id, $collection)  as node()*{
-let $file := $config:collection-root//t:TEI/id($id)
+let $file := $titles:collection-root//t:TEI/id($id)
 return
 
 (:here I cannot use for the title the javascript titles.js because the content is not exposed:)
 <bibl>
 {
 for $author in config:distinct-values(($file//t:revisionDesc/t:change/@who| $file//t:editor/@key))
-let $score := count($file//t:revisionDesc/t:change[@who = $author]) + count($file//t:editor[@key = $author]) + (if($file//t:editor[@key = $author][@role='cataloguer' or @role='editor']) then 100 else 0)
+let $score := count($file//t:revisionDesc/t:change[@who eq $author]) + count($file//t:editor[@key eq $author]) + (if($file//t:editor[@key eq $author][@role eq 'cataloguer' or @role eq 'editor']) then 100 else 0)
 order by $score descending
                 return
 <author>{editors:editorKey(string($author))}</author>
@@ -591,7 +597,7 @@ return
 <bibl>
 {
 for $author in config:distinct-values(($file//t:revisionDesc/t:change/@who| $file//t:editor/@key))
-let $count := count($file//t:revisionDesc/t:change[@who = $author])
+let $count := count($file//t:revisionDesc/t:change[@who eq $author])
 order by $count descending
                 return
 <author>{editors:editorKey(string($author))}</author>
@@ -625,9 +631,9 @@ return
 <h3>Suggested Citation of this record</h3>
 <p>To cite a precise version, please, click on load permalinks and to the desired version (<a href="/pid.html">see documentation on permalinks</a>), then import the metadata or copy the below, with the correct link.</p>
 <div class="w3-container" id="citationString">
-<p>{for $a in $app:bibdata//author/text()  return ($a|| ', ')} ʻ{$app:bibdata//title[@level='a']/text()}ʼ, in Alessandro Bausi, ed.,
-<i>{($app:bibdata//title[@level='j']/text() || ' ')}</i> {$app:bibdata//date[@type='lastModified']/text()}
-<a href="{$app:bibdata/idno/text()}">{$app:bibdata/idno[@type='url']/text()}</a> {$app:bibdata//date[@type='accessed']/text()}</p></div>
+<p>{for $a in $app:bibdata//author/text()  return ($a|| ', ')} ʻ{$app:bibdata//title[@level eq 'a']/text()}ʼ, in Alessandro Bausi, ed.,
+<i>{($app:bibdata//title[@level eq 'j']/text() || ' ')}</i> {$app:bibdata//date[@type eq 'lastModified']/text()}
+<a href="{$app:bibdata/idno/text()}">{$app:bibdata/idno[@type eq 'url']/text()}</a> {$app:bibdata//date[@type eq 'accessed']/text()}</p></div>
 </div>
 
 
@@ -692,9 +698,9 @@ return
 <h3>Suggested Citation of this record</h3>
 <p>To cite a precise version, please, click on load permalinks and to the desired version (<a href="/pid.html">see documentation on permalinks</a>), then import the metadata or copy the below, with the correct link.</p>
 <div class="w3-container" id="citationString">
-<p>{for $a in $app:bibdata//author/text()  return ($a|| ', ')} ʻ{$app:bibdata//title[@level='a']/text()}ʼ, in Alessandro Bausi, ed.,
-<i>{($app:bibdata//title[@level='j']/text() || ' ')}</i> {$app:bibdata//date[@type='lastModified']/text()}
-<a href="{$app:bibdata/idno/text()}">{$app:bibdata/idno[@type='url']/text()}</a> {$app:bibdata//date[@type='accessed']/text()}</p></div>
+<p>{for $a in $app:bibdata//author/text()  return ($a|| ', ')} ʻ{$app:bibdata//title[@level eq 'a']/text()}ʼ, in Alessandro Bausi, ed.,
+<i>{($app:bibdata//title[@level eq 'j']/text() || ' ')}</i> {$app:bibdata//date[@type eq 'lastModified']/text()}
+<a href="{$app:bibdata/idno/text()}">{$app:bibdata/idno[@type eq 'url']/text()}</a> {$app:bibdata//date[@type eq 'accessed']/text()}</p></div>
 </div>
 
 
@@ -750,9 +756,9 @@ return
 declare function apprest:app-meta($biblio as node()){
 
 let $col :=$biblio//coll/text()
-let $LM :=$biblio//date[@type='lastModified']/text()
-let $url := $biblio//idno[@type='url']
-let $DOI := $biblio//idno[@type='DOI']
+let $LM :=$biblio//date[@type eq 'lastModified']/text()
+let $url := $biblio//idno[@type eq 'url']
+let $DOI := $biblio//idno[@type eq 'DOI']
 return
         (
      <meta  xmlns="http://www.w3.org/1999/xhtml" name="description" content="{$config:repo-descriptor/repo:description/text()}"/>,
@@ -803,8 +809,7 @@ declare function apprest:scriptStyle(){
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/introjs.css"  />,
         <link rel="stylesheet" type="text/css" href="resources/css/style.css"  />,
 (:        Alpheios :)
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alpheios-embedded@0.6.1/dist/style/style.min.css"  />,
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alpheios-embedded@0.6.1/dist/style/style-embedded.min.css"  />,
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alpheios-components@latest/dist/style/style-components.min.css"/>,
       
 (:      d3 :)
       <link rel="stylesheet" type="text/css" href="resources/css/d3.css"  />,
@@ -822,8 +827,7 @@ declare function apprest:scriptStyle(){
           <link rel="stylesheet" type="text/css" href="$shared/resources/css/bootstrap-3.0.3.min.css"  />,
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>,
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.5.1/css/bootstrap-slider.min.css"  />,
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alpheios-embedded/dist/style/style.min.css"  />,
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alpheios-embedded@0.6.1/dist/style/style-embedded.min.css"  />,
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alpheios-components@rc/dist/style/style-components.min.css"  />,
         <link rel="stylesheet" href="$shared/resources/css/w3.css"/>,
         <link rel="stylesheet" href="resources/css/w3local.css"/>,
         <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"/>,
@@ -849,8 +853,7 @@ declare function apprest:ItemScriptStyle(){
         <script xmlns="http://www.w3.org/1999/xhtml"  type="text/javascript" src="https://www.gstatic.com/charts/loader.js"  ></script>,
         <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/openseadragon/openseadragon.min.js"  />,
         <script  xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://unpkg.com/vis-timeline/standalone/umd/vis-timeline-graph2d.min.js"></script>,
-        <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://unpkg.com/vis-network@7.10.2/peer/umd/vis-network.min.js"></script>
-  
+        <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://unpkg.com/vis-network/peer/umd/vis-network.min.js"></script>
 };
 
 (:~html page script and styles to be included specific for item :)
@@ -867,7 +870,6 @@ declare function apprest:ItemFooterScript(){
         <script type="text/javascript" src="resources/js/diacriticskeyboard.js"  />,
         <script type="text/javascript" src="resources/js/analytics.js"  ></script>,
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/intro.js"  ></script>,
-        <script src="https://cdn.jsdelivr.net/npm/alpheios-embedded@0.6.1/dist/alpheios-embedded.min.js"  ></script>,
         <script type="text/javascript" src="resources/alpheios/alpheiosStart.js" />,
         <script type="application/javascript" src="resources/js/introText.js"/>,
 <script type="text/javascript" src="resources/js/versions.js"/>,
@@ -956,7 +958,7 @@ let $allnames :=  if($names = '') then () else
 let $key := if($keywords = '') then () else
             switch($collection)
                 case 'narratives' return ()
-                case 'institutions' return apprest:ListQueryParam-rest($keywords, 't:ab[@type="tabot"]/t:persName/@ref', 'any', 'list')
+                case 'institutions' return apprest:ListQueryParam-rest($keywords, 't:ab[@type eq "tabot"]/t:persName/@ref', 'any', 'list')
                 case 'places' return apprest:ListQueryParam-rest($keywords, 't:place/@type', 'any', 'list')
 (:                case 'persons' return apprest:ListQueryParam-rest($keywords, 't:occupation/@type', 'any', 'list'):)
            default return apprest:ListQueryParam-rest($keywords, 't:term/@key', 'any', 'list')
@@ -974,8 +976,8 @@ let $ContentPr := if ($contentProvider = '') then () else
 let $CaeIDs := if($CAeID = '') then () else "[contains(@xml:id, '"||string(format-number($CAeID, '0000')) ||"') and not(ends-with(@xml:id, 'IHA'))]"
 let $ClavisIDs :=
                 if(($clavisID = '') and ($clavisType = '')) then ()
-                      else if(($clavisID = '') and (matches($clavisType, '\w+'))) then "[descendant::t:bibl[@type='"||$clavisType||"']]"
-                      else  "[descendant::t:bibl[@type='"||$clavisType||"'][t:citedRange ='"||$clavisID||"']]"
+                      else if(($clavisID = '') and (matches($clavisType, '\w+'))) then "[descendant::t:bibl[@type eq '"||$clavisType||"']]"
+                      else  "[descendant::t:bibl[@type eq '"||$clavisType||"'][t:citedRange eq '"||$clavisID||"']]"
 
 let $languages := if($languages = '') then () else  apprest:ListQueryParam-rest($languages, 't:language/@ident', 'any', 'list')
 
@@ -989,43 +991,43 @@ let $dR :=  if ($dateRange)
                 then ()
                 else
                 "[descendant::t:origDate
-                [xs:integer((if (contains(@notBefore, '-')) then (substring-before(@notBefore, '-')) else @notBefore)[. !='']) >= " || $from || " or
-                xs:integer((if (contains(@notAfter, '-')) then    (substring-before(@notAfter, '-')) else    @notAfter)[. != '']) >= " ||$from||"]
-                [xs:integer((if (contains(@notBefore, '-')) then (substring-before(@notBefore, '-')) else @notBefore)[. !='']) <= " || $to || " or
-                xs:integer((if (contains(@notAfter, '-')) then (substring-before(@notAfter, '-')) else @notAfter)[. != '']) <= " ||$to ||"]]" ) else ()
+                [xs:integer((if (contains(@notBefore, '-')) then (substring-before(@notBefore, '-')) else @notBefore)[. !='']) ge " || $from || " or
+                xs:integer((if (contains(@notAfter, '-')) then    (substring-before(@notAfter, '-')) else    @notAfter)[. != '']) ge " ||$from||"]
+                [xs:integer((if (contains(@notBefore, '-')) then (substring-before(@notBefore, '-')) else @notBefore)[. !='']) le " || $to || " or
+                xs:integer((if (contains(@notAfter, '-')) then (substring-before(@notAfter, '-')) else @notAfter)[. != '']) le " ||$to ||"]]" ) else ()
 
 let $nOfP := if(empty($numberOfP) or $numberOfP = '') then () else '[count(descendant::t:msPart) ge ' || $numberOfP || ']'
 let $opl := if(empty($PorigPlace) or $PorigPlace = '') then () else apprest:ListQueryParam-rest($PorigPlace, 't:origPlace/t:placeName/@ref', 'any', 'search')
 let $height :=   if(empty($Pheight) or $Pheight = '') then () else (app:paramrange('height', 'height'))
 let $width :=  if(empty($Pwidth) or $Pwidth = '') then () else  (app:paramrange('width', 'width'))
 let $depth :=  if(empty($Pdepth) or $Pdepth = '') then () else  (app:paramrange('depth', 'depth'))
-let $marginTop :=  if(empty($Ptmargin) or $Ptmargin = '') then () else  (app:paramrange('tmargin', "dimension[@type='margin']/t:dim[@type='top']"))
-let $marginBot := if(empty($Pbmargin) or $Pbmargin = '') then () else (app:paramrange('bmargin', "dimension[@type='margin']/t:dim[@type='bottom']"))
-let $marginR :=  if(empty($Prmargin) or $Prmargin = '') then () else (app:paramrange('rmargin', "dimension[@type='margin']/t:dim[@type='right']"))
-let $marginL :=  if(empty($Plmargin) or $Plmargin = '') then () else (app:paramrange('lmargin', "dimension[@type='margin']/t:dim[@type='left']"))
-let $marginIntercolumn :=  if(empty($Pintercolumn) or $Pintercolumn = '') then () else (app:paramrange('intercolumn', "dimension[@type='margin']/t:dim[@type='intercolumn']"))
+let $marginTop :=  if(empty($Ptmargin) or $Ptmargin = '') then () else  (app:paramrange('tmargin', "dimension[@type eq 'margin']/t:dim[@type eq 'top']"))
+let $marginBot := if(empty($Pbmargin) or $Pbmargin = '') then () else (app:paramrange('bmargin', "dimension[@type eq 'margin']/t:dim[@type eq 'bottom']"))
+let $marginR :=  if(empty($Prmargin) or $Prmargin = '') then () else (app:paramrange('rmargin', "dimension[@type eq 'margin']/t:dim[@type eq 'right']"))
+let $marginL :=  if(empty($Plmargin) or $Plmargin = '') then () else (app:paramrange('lmargin', "dimension[@type eq 'margin']/t:dim[@type eq 'left']"))
+let $marginIntercolumn :=  if(empty($Pintercolumn) or $Pintercolumn = '') then () else (app:paramrange('intercolumn', "dimension[@type eq 'margin']/t:dim[@type eq 'intercolumn']"))
 let $support :=  if(empty($PobjectType) or $PobjectType = '') then () else apprest:ListQueryParam-rest($PobjectType, 't:objectDesc/@form', 'any', 'search')
 let $material := if(empty($Pmaterial) or $Pmaterial = '') then () else apprest:ListQueryParam-rest($Pmaterial, 't:support/t:material/@key', 'any', 'search')
-let $bmaterial := if(empty($Pbmaterial) or $Pbmaterial = '') then () else apprest:ListQueryParam-rest($Pbmaterial, "t:decoNote[@type='bindingMaterial']/t:material/@key", 'any', 'search')
+let $bmaterial := if(empty($Pbmaterial) or $Pbmaterial = '') then () else apprest:ListQueryParam-rest($Pbmaterial, "t:decoNote[@type eq 'bindingMaterial']/t:material/@key", 'any', 'search')
 let $scripts := if(empty($Pscript) or $Pscript = '') then () else apprest:ListQueryParam-rest($Pscript, "t:handNote/@script", 'any',  'search')
-let $scribes := if(empty($Pscribe) or $Pscribe = '') then () else apprest:ListQueryParam-rest($Pscribe, "t:persName[@role='scribe']/@ref", 'any',  'search')
-let $donors := if(empty($Pdonor) or $Pdonor = '') then () else apprest:ListQueryParam-rest($Pdonor, "t:persName[@role='donor']/@ref", 'any',  'search')
-let $patrons := if(empty($Ppatron) or $Ppatron = '') then () else apprest:ListQueryParam-rest($Ppatron, "t:persName[@role='patron']/@ref", 'any', 'search')
-let $owners := if(empty($Powner) or $Powner = '') then () else apprest:ListQueryParam-rest($Powner, "t:persName[@role='owner']/@ref", 'any',  'search')
-let $parchmentMakers := if(empty($PparchmentMaker) or $PparchmentMaker = '') then () else apprest:ListQueryParam-rest($PparchmentMaker, "t:persName[@role='parchmentMaker']/@ref", 'any',  'search')
-let $binders := if(empty($Pbinder) or $Pbinder = '') then () else apprest:ListQueryParam-rest($Pbinder, "t:persName[@role='binder']/@ref", 'any',  'search')
+let $scribes := if(empty($Pscribe) or $Pscribe = '') then () else apprest:ListQueryParam-rest($Pscribe, "t:persName[@role eq 'scribe']/@ref", 'any',  'search')
+let $donors := if(empty($Pdonor) or $Pdonor = '') then () else apprest:ListQueryParam-rest($Pdonor, "t:persName[@role eq 'donor']/@ref", 'any',  'search')
+let $patrons := if(empty($Ppatron) or $Ppatron = '') then () else apprest:ListQueryParam-rest($Ppatron, "t:persName[@role eq 'patron']/@ref", 'any', 'search')
+let $owners := if(empty($Powner) or $Powner = '') then () else apprest:ListQueryParam-rest($Powner, "t:persName[@role eq 'owner']/@ref", 'any',  'search')
+let $parchmentMakers := if(empty($PparchmentMaker) or $PparchmentMaker = '') then () else apprest:ListQueryParam-rest($PparchmentMaker, "t:persName[@role eq 'parchmentMaker']/@ref", 'any',  'search')
+let $binders := if(empty($Pbinder) or $Pbinder = '') then () else apprest:ListQueryParam-rest($Pbinder, "t:persName[@role eq 'binder']/@ref", 'any',  'search')
 let $contents := if(empty($Pcontent) or $Pcontent= '') then () else apprest:ListQueryParam-rest($Pcontent, "t:title/@ref", 'any', 'search')
-let $tabots := if(empty($Ptabot) or $Ptabot= '') then () else apprest:ListQueryParam-rest($Ptabot, "t:ab[@type='tabot']//t:*/@*", 'any', 'list')
+let $tabots := if(empty($Ptabot) or $Ptabot= '') then () else apprest:ListQueryParam-rest($Ptabot, "t:ab[@type eq 'tabot']//t:*/@*", 'any', 'search')
 let $placetypess := if(empty($Pplacetype) or $Pplacetype= '') then () else apprest:ListQueryParam-rest($Pplacetype, "t:place/@type", 'any', 'search')
-let $Allauthors := if(empty($Pauthors) or $Pauthors= '') then () else apprest:ListQueryParam-rest($Pauthors, "t:relation[@name='saws:isAttributedToAuthor' or @name='dcterms:creator']/@passive", 'any', 'search')
+let $Allauthors := if(empty($Pauthors) or $Pauthors= '') then () else apprest:ListQueryParam-rest($Pauthors, "t:relation[(@name eq 'saws:isAttributedToAuthor') or (@name eq 'dcterms:creator')]/@passive", 'any', 'search')
 let $placetypess := if(empty($Pplacetype) or $Pplacetype= '') then () else apprest:ListQueryParam-rest($Pplacetype, "t:place/@type", 'any', 'search')
 let $occupations := if(empty($Poccupation) or $Poccupation= '') then () else apprest:ListQueryParam-rest($Poccupation, "t:occupation/@type", 'any', 'search')
 let $faiths := if(empty($Pfaith) or $Pfaith= '') then () else apprest:ListQueryParam-rest($Pfaith, "t:faith/@type", 'any', 'search')
 let $genders := if(empty($Pgender) or $Pgender= '') then () else apprest:ListQueryParam-rest($Pgender, "t:person/@sex", 'any', 'list')
 let $periods := if(empty($Pperiod) or $Pperiod= '') then () else apprest:ListQueryParam-rest($Pperiod, "t:term/@key", 'any', 'search')
 let $restorationss := if(empty($Prestorations) or $Prestorations= '') then () else apprest:ListQueryParam-rest($Prestorations, "t:custEvent/@subtype", 'any', 'list')
-let $countries := if(empty($Pcountry) or $Pcountry = '') then () else apprest:ListQueryParam-rest($Pcountry, 't:country/@ref', 'any', 'list')
-let $settlements := if(empty($Psettlement) or $Psettlement = '') then () else apprest:ListQueryParam-rest($Psettlement, 't:settlement/@ref', 'any', 'list')
+let $countries := if(empty($Pcountry) or $Pcountry = '') then () else apprest:ListQueryParam-rest($Pcountry, 't:country/@ref', 'any', 'range')
+let $settlements := if(empty($Psettlement) or $Psettlement = '') then () else apprest:ListQueryParam-rest($Psettlement, 't:settlement/@ref', 'any', 'range')
 
 let $leaves :=  if(empty($Pfolia) or $Pfolia = '') then () else
                 (let $min := substring-before($Pfolia, ',')
@@ -1036,7 +1038,7 @@ let $leaves :=  if(empty($Pfolia) or $Pfolia = '') then () else
                 else if (empty($Pfolia))
                 then ()
                 else
-                "[descendant::t:extent/t:measure[@unit='leaf'][not(@type)][xs:integer(.) >="||$min|| ' ][ xs:integer(.)  <= ' || $max ||"]]"
+                "[descendant::t:extent/t:measure[@unit='leaf'][not(@type)][xs:integer(.) ge "||$min|| ' ][ xs:integer(.)  le ' || $max ||"]]"
                )
 let $wL := if(empty($PwL) or $PwL = '') then () else (
                 let $min := substring-before($PwL, ',')
@@ -1047,20 +1049,20 @@ let $wL := if(empty($PwL) or $PwL = '') then () else (
                 else if (empty($PwL))
                 then ()
                 else
-                "[descendant::t:layout[@writtenLines >="||$min|| '][@writtenLines  <= ' || $max ||"]]"
+                "[descendant::t:layout[@writtenLines ge "||$min|| '][@writtenLines  le ' || $max ||"]]"
                )
 let $quires :=  if(empty($Pqn) or $Pqn = '' or $Pqn = '1,100')
                 then () else (
                 let $min := substring-before($Pqn, ',')
                 let $max := substring-after($Pqn, ',')
                 return
-                "[descendant::t:extent/t:measure[@unit='quire'][not(@type)][not(.='')][xs:integer(.) ge "||$min|| ' ][xs:integer(.)  le ' || $max ||"]]")
+                "[descendant::t:extent/t:measure[@unit eq 'quire'][not(@type)][not(.='')][xs:integer(.) ge "||$min|| ' ][xs:integer(.)  le ' || $max ||"]]")
 let $quiresComp :=  if(empty($Pqcn) or $Pqcn = '' or $Pqcn = '1,40')
                      then () else  (
                    let $min := substring-before($Pqcn, ',')
                 let $max := substring-after($Pqcn, ',')
                 return
-                "[descendant::t:dim[ancestor::t:collation][@unit='leaf'][not(.='')][. ge "||$min|| ' ][.  le ' || $max ||"]]")
+                "[descendant::t:dim[ancestor::t:collation][@unit eq 'leaf'][not(.='')][. ge "||$min|| ' ][.  le ' || $max ||"]]")
 
 
 let $allMssFilters := concat($allnames, $support, $opl, $material, $bmaterial, $scripts, $scribes, $donors, $patrons, $owners, $parchmentMakers,
@@ -1070,24 +1072,24 @@ let $allMssFilters := concat($allnames, $support, $opl, $material, $bmaterial, $
 let $path := switch($type)
                 case 'catalogue' return 
                       let $catal := "bm:"||$collection
-                      let $all := $config:collection-rootMS//t:listBibl[@type='catalogue'][descendant::t:ptr[@target=$catal]]/ancestor::t:TEI
+                      let $all := $apprest:collection-rootMS//t:listBibl[@type eq 'catalogue'][descendant::t:ptr[@target eq $catal]]/ancestor::t:TEI
                       let $string := ('$all'|| $key || $languages || $dR || $allMssFilters)
                       return
                 util:eval($string)
                 case 'repo' return 
-                    let $all := $config:collection-rootMS//t:repository[@ref= $collection ]/ancestor::t:TEI
+                    let $all := $apprest:collection-rootMS//t:repository[@ref eq $collection ]/ancestor::t:TEI
                     let $string := ('$all'|| $key || $languages || $dR || $allMssFilters)
                     return   util:eval($string)
                 default return
                         (
                         if ($collection = 'places')
-                                    then ("$config:collection-rootPlIn//t:TEI"  || $countries|| $settlements||$allnames || $key || $languages|| $dR || $tabots||$placetypess )
+                                    then ("$apprest:collection-rootPlIn//t:TEI"  || $countries|| $settlements||$allnames || $key || $languages|| $dR || $tabots||$placetypess )
                                     
                        else if ($collection = 'works')
-                                    then ("$config:collection-rootW//t:TEI"  ||$CaeIDs|| $allnames ||$ContentPr   || $key || $languages|| $ClavisIDs || $dR ||$Allauthors || $periods  )
+                                    then ("$apprest:collection-rootW//t:TEI"  ||$CaeIDs|| $allnames ||$ContentPr   || $key || $languages|| $ClavisIDs || $dR ||$Allauthors || $periods  )
                       
                        else if ($collection = 'persons')
-                                    then ("$config:collection-rootPr//t:TEI"   || $allnames||$ContentPr   || $key || $dR ||$occupations || $faiths || $genders  )
+                                    then ("$apprest:collection-rootPr//t:TEI"   || $allnames||$ContentPr   || $key || $dR ||$occupations || $faiths || $genders  )
                                     
                       
                         else let $col := switch2:collection($collection)
@@ -1095,8 +1097,8 @@ let $path := switch($type)
                        )
 
 let $context := switch($type)
-                case 'catalogue' return ('$config:collection-rootMS//t:listBibl[@type="catalogue"][descendant::t:ptr[@target="bm:'||$collection||'"]]/ancestor::t:TEI' || $key || $languages || $dR || $allMssFilters)
-                case 'repo' return  ('$config:collection-rootMS//t:repository[@ref="'|| $collection||'" ]/ancestor::t:TEI' || $key || $languages || $dR || $allMssFilters)
+                case 'catalogue' return ('$apprest:collection-rootMS//t:listBibl[@type eq "catalogue"][descendant::t:ptr[@target eq "bm:'||$collection||'"]]/ancestor::t:TEI' || $key || $languages || $dR || $allMssFilters)
+                case 'repo' return  ('$apprest:collection-rootMS//t:repository[@ref eq "'|| $collection||'" ]/ancestor::t:TEI' || $key || $languages || $dR || $allMssFilters)
                 default return $path 
                        
 let $results := switch($type)
@@ -1130,7 +1132,7 @@ let $keys :=
         then (
         for $k in $parameter
 
-        let $ks := doc($config:data-rootA || '/taxonomy.xml')//t:catDesc[text() = $k]/following-sibling::t:*/t:catDesc/text()
+        let $ks := doc($config:data-rootA || '/taxonomy.xml')//t:catDesc[text() eq $k]/following-sibling::t:*/t:catDesc/text()
         let $nestedCats := for $n in $ks return $n
             return
             if ($nestedCats >= 2) then (replace($k, '#', ' ') || ' OR ' || string-join($nestedCats, ' OR ')) else (replace($k, '#', ' '))
@@ -1146,14 +1148,14 @@ let $keys :=
        then
      let $all :=  for $k in $keys
        return
-       "descendant::" || $context || "='" || $k ||"'"
+       "descendant::" || $context || " eq '" || $k ||"'"
        return
       "[" || string-join($all, ' or ') || "]"
        else if ($function = 'range')
        then
      let $all :=  for $k in $keys
        return
-       "descendant::" || $context || "[.='" || $k ||"']"
+       "[descendant::" || $context || ". eq '" || $k ||"']"
        return
       "[" || string-join($all, ' or ') || "]"
        else
@@ -1196,7 +1198,7 @@ return
 <div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that language">
 <label for="language">languages </label>
 <select multiple="multiple" name="language" id="language" class="w3-select w3-border">
-                            {$evalContext/$app:range-lookup('TEIlanguageIdent', '', function($key, $count) {<option value="{$key}">{$apprest:languages//t:item[@xml:id=$key]/text()} ({$count[1]})</option>}, 1000)}
+                            {$evalContext/$app:range-lookup('TEIlanguageIdent', '', function($key, $count) {<option value="{$key}">{$apprest:languages//t:item[@xml:id eq $key]/text()} ({$count[1]})</option>}, 1000)}
                             </select>
                             </div>
 (:app:formcontrol('language',  $evalContext//t:language/@ident, 'true', 'values', $context):)
@@ -1540,8 +1542,7 @@ apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titl
                 <button type="submit" class="w3-bar-item w3-button w3-red"><i class="fa fa-search" aria-hidden="true"></i>
 </button>
                     <a href="/{$collection}/list" class="w3-bar-item w3-button w3-gray"><i class="fa fa-th-list" aria-hidden="true"></i></a>
-                <a href="/facet.html" role="button" class="w3-bar-item w3-button w3-red"><i class="fa fa-cog" aria-hidden="true"/></a>
-                <a href="/as.html" role="button" class="w3-bar-item w3-button w3-red"><i class="fab fa-searchengin" aria-hidden="true"/></a>
+                <a href="/as.html" role="button" class="w3-bar-item w3-button w3-red"><i class="fa fa-cog" aria-hidden="true"/></a>
                 </div>
                 </div>
 </form>
@@ -1629,10 +1630,10 @@ then (
  else(
 <h2>Compare manuscripts which contain <span>{$MAINtit}</span></h2>,
 
-let $items := $config:collection-rootMS//t:msItem
-let $Additems := $config:collection-rootMS//t:additions//t:item[descendant::t:title[@ref]]
-let $matchingAddmss := $Additems//t:title[@ref = $target-work]
-let $matchingConmss := $items/t:title[@ref = $target-work]
+let $items := $apprest:collection-rootMS//t:msItem
+let $Additems := $apprest:collection-rootMS//t:additions//t:item[descendant::t:title[@ref]]
+let $matchingAddmss := $Additems//t:title[@ref eq $target-work]
+let $matchingConmss := $items/t:title[@ref eq $target-work]
 let $matchingmss := ($matchingConmss, $matchingAddmss)
 return
 if(count($matchingmss) = 0) then (<p class="lead">Oh no! Currently, none of the catalogued manuscripts contains a link to this work. You can still see the record in case you find there useful information.</p>,<a class="w3-button w3-red" href="{$target-work}"> Go to {$MAINtit}</a>) else
@@ -1729,9 +1730,23 @@ charts:chart($hits)
 
 (:~  given an id looks for all manuscripts containing it and returns a div with cards use by Slick for the Carousel view:)
  declare function apprest:compareMssFromlist($mss) {
+ let $test1 := console:log($mss)
+ return
 if($mss = '') then ()  else(
    
-    let $matchingmss := for $ms in tokenize($mss, ',') return $config:collection-rootMS//id($ms)
+    let $matchingmss := for $ms in tokenize($mss, ',')  
+                                    let $test := console:log($ms)
+                                    return 
+                                          if(starts-with($ms, 'LIT')) 
+                                          then (
+                                         let $titselectMss:= $apprest:collection-rootMS//t:title[contains(@ref, $ms)]
+                                         let $selectMss := $titselectMss[parent::t:msItem or ancestor::t:additions]
+                                         for $sm in $selectMss
+                                         let $ms := root($sm)
+                                         group by $MS := $ms
+                                         return $MS
+                                          ) 
+                                          else $apprest:collection-rootMS//id($ms)[self::t:TEI]
     return
     (<div class="msscomparison w3-container">
     {

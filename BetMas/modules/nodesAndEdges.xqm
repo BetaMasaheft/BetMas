@@ -29,7 +29,7 @@ declare
 %output:method("json")
 function NE:relNodes($id as xs:string*){
 
-let $entity := $config:collection-root/id($id)
+let $entity := $titles:collection-root/id($id)
 let $type := $entity/@type
 let $collection := switch2:col($type)
 
@@ -40,7 +40,7 @@ let $thisMap := map {
         "group" : string($type)
         }
 
-let $whatpointshere := api:restWhatPointsHere($localId, $config:collection-root)
+let $whatpointshere := api:restWhatPointsHere($localId, $titles:collection-root)
 
 let $refs := ($entity//@ref[not(./ancestor::t:respStmt)], $entity//@active, $entity//@passive)
 let $secondaryrelations := 
@@ -50,7 +50,7 @@ if($id ='') then ()
 else if(starts-with($id,'INS')) then () 
 else if(contains($id,' ')) then () 
 else 
-    let $whatppointstothat := api:restWhatPointsHere($id, $config:collection-root) 
+    let $whatppointstothat := api:restWhatPointsHere($id, $titles:collection-root) 
     return
         (:if more than 10 items are related then it is unlikely to be relevant:)
     if(count($whatppointstothat) gt 10) then () else $whatppointstothat

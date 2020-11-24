@@ -24,7 +24,7 @@ declare
 %test:args("FSUrueppII2", "LIT1933Mashaf") %test:assertEquals("no textual unit LIT1933Mashaf in the manuscript FSUrueppII2")
 %output:method("text")
 function WC:WordCount($manuscriptID  as xs:string*, $workID as xs:string*) as xs:string{
-let $ms := $config:collection-rootMS/id($manuscriptID)
+let $ms := collection($config:data-rootMS)/id($manuscriptID)
 let $tit := $ms//t:title[@ref = $workID]
 return
 if(count($tit) = 0) then ('no textual unit ' || $workID || ' in the manuscript ' || $manuscriptID) else

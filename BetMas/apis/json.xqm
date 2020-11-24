@@ -46,7 +46,7 @@ declare
 %output:method("json")
 function jsonapi:maintest($id as xs:string+) {
 let $type := switch2:switchPrefix($id)
-let $file := $config:collection-root//id($id)
+let $file := $titles:collection-root//id($id)
 let $title := titles:printTitleMainID($id)
 let $auths := ($file//t:editor/@key , $file//t:change/@who)
 let $authors := for $a in distinct-values($auths) return editors:editorKey($a)
@@ -57,7 +57,7 @@ let $availability := normalize-space(string-join($file//t:availability//text()))
 let $langs := for $language in $file//t:language/@ident return string($language)
 let $ptrs := ($file//t:*/@ref, $file//t:*/@passive)
 let $pointers := for $p in distinct-values($ptrs) let $t := switch2:switchPrefix($p) return map { "type": $t, "id": string($p) }
-let $pointhere := let $attestations:= api:restWhatPointsHere($id, $config:collection-root)
+let $pointhere := let $attestations:= api:restWhatPointsHere($id, $titles:collection-root)
                                 for $att in $attestations
                                 let $rootID := string(root($att)/t:TEI/@xml:id) 
                                 group by $MAINID := $rootID

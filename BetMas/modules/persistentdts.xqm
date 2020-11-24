@@ -46,6 +46,11 @@ import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas
 import module namespace editors = "https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "xmldb:exist:///db/apps/BetMas/modules/editors.xqm";
 import module namespace dts="https://www.betamasaheft.uni-hamburg.de/BetMas/dts" at "xmldb:exist:///db/apps/BetMas/modules/dts.xqm";
 
+
+  declare variable $persdts:collection-rootMS  := collection($config:data-rootMS);   
+  declare variable $persdts:collection-root  := $titles:collection-root; 
+  
+  
 declare option output:method "json";
 declare option output:indent "yes";
 
@@ -98,9 +103,9 @@ if(matches($id, '(https://betamasaheft.eu/)?(textualunits/|narrativeunits/|trans
 then (
 let $parsedURN := dts:parseDTS($id)
 return
-if (matches($parsedURN//s:group[@nr=3], '[a-zA-Z\d]+'))
+if (matches($parsedURN//s:group[@nr eq 3], '[a-zA-Z\d]+'))
 then (
-                let $specificID := $parsedURN//s:group[@nr=3]/text() 
+                let $specificID := $parsedURN//s:group[@nr eq 3]/text() 
                 return persdts:CollMember($id, $specificID, $page, $nav, $sha))
 else
 persdts:Coll($id, $page, $nav, $sha)
@@ -162,10 +167,10 @@ else <http:header
                     
  return
 (:we need a restxq redirect in case the id contains already the passage. it should redirect the urn with passage to one which splits it and redirect it to a parametrized query:)
- if(count($parsedURN//s:group[@nr=5]//text()) ge 1) then 
- let $location := if($parsedURN//s:group[@nr=15]/text() = '-') 
-                    then ('permanent/'||$sha||'/api/dts/document?id='||$parsedURN//s:group[@nr=1]//text()||$parsedURN//s:group[@nr=2]//text()||$parsedURN//s:group[@nr=3]//text()|| '&amp;start=' ||$parsedURN//s:group[@nr=6]//text()|| '&amp;end=' ||$parsedURN//s:group[@nr=16]//text()) 
-                    else ('permanent/'||$sha||'/api/dts/document?id='||$parsedURN//s:group[@nr=1]//text()||$parsedURN//s:group[@nr=2]//text()||$parsedURN//s:group[@nr=3]//text()|| '&amp;ref=' ||$parsedURN//s:group[@nr=5]//text())
+ if(count($parsedURN//s:group[@nr eq 5]//text()) ge 1) then 
+ let $location := if($parsedURN//s:group[@nr eq 15]/text() = '-') 
+                    then ('permanent/'||$sha||'/api/dts/document?id='||$parsedURN//s:group[@nr eq 1]//text()||$parsedURN//s:group[@nr eq 2]//text()||$parsedURN//s:group[@nr eq 3]//text()|| '&amp;start=' ||$parsedURN//s:group[@nr eq 6]//text()|| '&amp;end=' ||$parsedURN//s:group[@nr eq 16]//text()) 
+                    else ('permanent/'||$sha||'/api/dts/document?id='||$parsedURN//s:group[@nr eq 1]//text()||$parsedURN//s:group[@nr eq 2]//text()||$parsedURN//s:group[@nr eq 3]//text()|| '&amp;ref=' ||$parsedURN//s:group[@nr eq 5]//text())
  return
  <rest:response>
   <http:response status="302">
@@ -173,13 +178,13 @@ else <http:header
   </http:response>
 </rest:response>
  else
- let $thisid := $parsedURN//s:group[@nr=3]/text()
- let $edition := $parsedURN//s:group[@nr=4]
- let $currentfile := $config:collection-root/id($id)[name()='TEI']
- let $collection := if($currentfile/@type='mss') then 'Manuscripts'  else  if($currentfile/@type='narr') then 'Narrative' else 'Works'
+ let $thisid := $parsedURN//s:group[@nr eq 3]/text()
+ let $edition := $parsedURN//s:group[@nr eq 4]
+ let $currentfile := $persdts:collection-root/id($id)[self::t:TEI]
+ let $collection := if($currentfile/@type eq 'mss') then 'Manuscripts'  else  if($currentfile/@type eq 'narr') then 'Narrative' else 'Works'
 let $permapath := replace(persdts:capitalize-first(substring-after(base-uri($cfile), '/db/apps/BetMasData/')), $collection, '')
 let $file:= doc('https://raw.githubusercontent.com/BetaMasaheft/' || $collection || '/'||$sha||'/'|| $permapath)//t:TEI
-let $text := if($edition/node()) then dts:pickDivText($file, $edition)  else $file//t:div[@type='edition']
+let $text := if($edition/node()) then dts:pickDivText($file, $edition)  else $file//t:div[@type eq 'edition']
 let $doc := dts:fragment($file, $edition, $ref, $start, $end, $text)
                        
  return
@@ -219,19 +224,19 @@ if($id = '') then (<rest:response>
   </http:response>
 </rest:response>) else
 let $parsedURN := dts:parseDTS($id)
-let $BMid := $parsedURN//s:group[@nr=3]
-let $edition := $parsedURN//s:group[@nr=4]
+let $BMid := $parsedURN//s:group[@nr eq 3]
+let $edition := $parsedURN//s:group[@nr eq 4]
 let $file:= persdts:fileingit($id, $BMid, $sha)
-let $text := if($edition/node()) then dts:pickDivText($mydoc, $edition)  else $mydoc//t:div[@type='edition']
+let $text := if($edition/node()) then dts:pickDivText($mydoc, $edition)  else $mydoc//t:div[@type eq 'edition']
 let $textType := $file//t:objectDesc/@form
 let $allwits := dts:wits($file, $BMid) 
 let $witnesses := for $witness in config:distinct-values($allwits)
 (:filters out the witnesses which do not have images available:)
-                            return if(starts-with($witness, 'http')) then $witness else let $mss := $config:collection-rootMS/id($witness) return if ($mss//t:idno/@facs) then $witness else ()
+                            return if(starts-with($witness, 'http')) then $witness else let $mss := $persdts:collection-rootMS/id($witness) return if ($mss//t:idno/@facs) then $witness else ()
 let $cdepth := dts:citeDepth($text)
 
 let $passage :=  
-if ($file/@type='mss' and not($textType='Inscription')) then (
+if ($file/@type eq 'mss' and not($textType='Inscription')) then (
    (:manuscripts:)
 
 (:  THERE IS A REF:)   
@@ -329,7 +334,7 @@ let $chunkedpassage := if(string($groupBy) !='')
 let $maximized :=if(string($max) !='') then for $p in subsequence($chunkedpassage, 1, $M) return $p else $chunkedpassage
 let $cdepth := if(contains($id, 'betmasMS:')) then 3 
                                 else 
-                                       ( let $counts := for $div in ($text//t:div[@type='textpart'], $text//t:l) 
+                                       ( let $counts := for $div in ($text//t:div[@type eq 'textpart'], $text//t:l) 
                                         return count($div/ancestor::t:div)
                                         return
                                         max($counts)
@@ -448,9 +453,9 @@ if($id = '') then (
 if(matches($id, '(https://betamasaheft.eu/)?(textualunits/|narrativeunits/|transcriptions/)?([a-zA-Z\d]+)?(:)?(((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?(\-)?((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?)')) then
 let $parsedURN := dts:parseDTS($id)
 return
-if (matches($parsedURN//s:group[@nr=3], '[a-zA-Z\d]+'))
+if (matches($parsedURN//s:group[@nr eq 3], '[a-zA-Z\d]+'))
 then (
-                let $specificID := $parsedURN//s:group[@nr=3]/text() 
+                let $specificID := $parsedURN//s:group[@nr eq 3]/text() 
                 return persdts:CollMember($id, $specificID, $page, $nav, $sha))
 else
 (
@@ -480,8 +485,8 @@ map {
 
 declare function persdts:CollMember($id, $bmID, $page, $nav, $sha){
 let $doc := persdts:fileingit($id, $bmID, $sha)
-let $eds := $doc//t:div[@type='edition']
-let $document := if(count($eds) gt 1) then (if($eds[@xml:id = 'traces']) then $eds[@xml:id = 'traces'] else $eds[1]) else $doc//t:div[@type='edition']
+let $eds := $doc//t:div[@type eq 'edition']
+let $document := if(count($eds) gt 1) then (if($eds[@xml:id = 'traces']) then $eds[@xml:id = 'traces'] else $eds[1]) else $doc//t:div[@type eq 'edition']
 return
 if(count($doc) eq 1) then (
 $config:response200JsonLD,
@@ -489,14 +494,14 @@ let $shortid:=substring-before($id, concat(':',$bmID))
 let $memberInfo := persdts:member($shortid,$document, $sha)
 let $addcontext := map:put($memberInfo, "@context", $dts:context)
 let $addnav := if($nav = 'parent') then 
-let $parent :=if($doc/@type='mss') then 
+let $parent :=if($doc/@type eq 'mss') then 
         map{
              "@id" : "https://betamasaheft.eu/transcriptions",
              "title" : "Beta maṣāḥǝft Manuscripts",
              "description": "Collection of Ethiopic Manuscript trasncriptions",
              "@type" : "Collection"
         }
-        else if($doc/@type='narr') then 
+        else if($doc/@type eq 'narr') then 
         map{
              "@id" : "https://betamasaheft.eu/narrativeunits",
              "title" : "Beta maṣāḥǝft Narrative Units",
@@ -548,7 +553,7 @@ let $title := titles:printTitleMainID($id)
 let $description := if(contains($collURN, 'MS')) then 'The transcription of manuscript '||$title||' in Beta maṣāḥǝft ' else 'The abstract textual unit '||$title||' in Beta maṣāḥǝft. '  || normalize-space(string-join(string:tei2string($doc//t:abstract), ''))
 let $dc := dts:dublinCore($id)
 let $computed := if(contains($collURN, 'MS')) then () else 
-(for $witness in $config:collection-rootMS//t:title[@ref = $id]
+(for $witness in $persdts:collection-rootMS//t:title[@ref eq  $id]
           let $root := root($witness)/t:TEI/@xml:id
           group by $groupkey := $root
           return string($groupkey))
@@ -600,7 +605,7 @@ let $parts := if(count($haspart) ge 1) then map:put($addmanifest, 'dcterms:hasPa
 let $dtsPass := "/permanent/"||$sha||"/api/dts/document?id=" || $resourceURN
 let $dtsNav := "/permanent/"||$sha||"/api/dts/navigation?id=" || $resourceURN
 let $download := "https://betamasaheft.eu/tei/" || $id || '.xml'
-let $citeDepth :=  if(contains($collURN, 'MS')) then 3 else let $counts := for $div in ($document//t:div[@type='textpart'], $document//t:l) return count($div/ancestor::t:div)
+let $citeDepth :=  if(contains($collURN, 'MS')) then 3 else let $counts := for $div in ($document//t:div[@type eq 'textpart'], $document//t:l) return count($div/ancestor::t:div)
 return max($counts)
 let $teirefdecl := if(contains($collURN, 'MS')) then 
 [ map{
@@ -620,9 +625,9 @@ let $teirefdecl := if(contains($collURN, 'MS')) then
 
 else
 [
-dts:nestedDivs($document//t:div[@type='edition'])
+dts:nestedDivs($document//t:div[@type eq 'edition'])
             ]
-let $c := count($document//t:div[@type='edition']//t:ab//text())
+let $c := count($document//t:div[@type eq 'edition']//t:ab//text())
 let $all := map{
              "@id" : $resourceURN,
               "ecrm:P1_is_identified_by": map {
@@ -648,7 +653,7 @@ let $nav := map:put($pass, "dts:references", $dtsNav)
 
 declare function persdts:fileingit($id, $bmID, $sha){
 let $collection := if(contains($id, 'betmasMS')) then 'Manuscripts' else 'Works'
-let $permapath := replace(persdts:capitalize-first(substring-after(base-uri($config:collection-root/id($bmID)[name()='TEI']), '/db/apps/BetMasData/')), $collection, '')
+let $permapath := replace(persdts:capitalize-first(substring-after(base-uri($persdts:collection-root/id($bmID)[self::t:TEI]), '/db/apps/BetMasData/')), $collection, '')
 return 
 doc('https://raw.githubusercontent.com/BetaMasaheft/' || $collection || '/'||$sha||'/'|| $permapath)//t:TEI
 };

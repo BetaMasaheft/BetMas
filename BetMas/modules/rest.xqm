@@ -88,15 +88,15 @@ declare
 %rest:path("/BetMas/api/witnessesOfContainer/{$id}")
 %output:method("json")
 function api:witnessesOfContainerWork($id as xs:string*){
-let $corresps := $config:collection-rootW//t:div[@type eq 'textpart'][@corresp eq  $id]
+let $corresps := $dts:collection-rootW//t:div[@type eq 'textpart'][@corresp eq  $id]
 for $c in $corresps 
 let $workid := string(root($c)/t:TEI/@xml:id )
-let $witnesses := $config:collection-rootMS//t:title[contains(@ref, $workid)]
+let $witnesses := $dts:collection-rootMS//t:title[contains(@ref, $workid)]
 let $witnessesID := for $w in $witnesses let $wid :=  string(root($w)/t:TEI/@xml:id ) return  titles:printTitleMainID($wid)
 let $tit := titles:printTitleMainID($workid)
 return 
 map {'containerWork' : $tit,
-'witnesses' : distinct-values($witnessesID)
+'witnesses' : config:distinct-values($witnessesID)
 }
 };
 
@@ -108,11 +108,11 @@ declare
 %output:method("json")
 function api:count(){
  ($api:response200Json,
-let $total := count($config:collection-root)
-let $totalMS := count($config:collection-rootMS)
-let $totalInstitutions := count($config:collection-rootIn)
-let $totalWorks := (count($config:collection-rootW) + count($config:collection-rootN))
-let $totalPersons := count($config:collection-rootPr)
+let $total := count($titles:collection-root)
+let $totalMS := count($dts:collection-rootMS)
+let $totalInstitutions := count(collection($config:data-rootIn))
+let $totalWorks := (count($dts:collection-rootW) + count(collection($config:data-rootN)))
+let $totalPersons := count(collection($config:data-rootPr))
 return 
 
 map {
@@ -135,7 +135,7 @@ function api:latest(){
  ($api:response200Json,
 
 let $twoweekago := current-date() - xs:dayTimeDuration('P15D')
-let $changes := $config:collection-root//t:change[@when]
+let $changes := $titles:collection-root//t:change[@when]
 let $latests := 
     for $alllatest in $changes[xs:date(@when) > $twoweekago]
     order by xs:date($alllatest/@when) descending
@@ -243,7 +243,7 @@ declare
 %test:args("BAVet1", "a4") %test:assertExists
 function api:additiontext($id as xs:string*, $addID as xs:string*){
 let $log := log:add-log-message('/api/additions/'||$id||'/addition/'||$addID, sm:id()//sm:real/sm:username/string() , 'REST')
-let $entity := $config:collection-root/id($id)
+let $entity := $titles:collection-root/id($id)
 let $a := $entity//t:item[@xml:id = $addID]
 return
 <div xmlns="https://www.w3.org/1999/xhtml" >{
@@ -298,7 +298,7 @@ declare
 %test:arg("id","LIT1032Agains") %test:assertXPath("//@name[. = 'saws:isAttributedToAuthor']")
 %test:arg("id","BAVet1") %test:assertEquals('<rest:response xmlns:rest="http://exquery.org/ns/restxq"><http:response xmlns:http="http://expath.org/ns/http-client" status="400"><http:header name="Content-Type" value="application/xml; charset=utf-8"/></http:response></rest:response>','<sorry>no info</sorry>')
 function api:getauthorfromrelation($id as xs:string*) {
-let $item :=$config:collection-rootW/id($id)
+let $item :=$dts:collection-rootW/id($id)
 return 
 
 if($item//t:relation[@name eq  'saws:isAttributedToAuthor']) then (
@@ -498,7 +498,7 @@ declare function api:get-tei-rec($collection as xs:string, $id as xs:string) as 
 };
 
 declare function api:get-tei-rec-by-ID($id as xs:string) as node()* {
-    $config:collection-root/id($id)
+    $titles:collection-root/id($id)
 };
 
 
@@ -527,34 +527,5 @@ declare function api:noresults($call) {
             </p>
         </body>
     </html>
-};
-
-
-declare 
-%rest:GET
-%rest:path("/BetMas/api/chaines")
-%output:method("json")
-function api:chaines() {
-<chaines>{
-for $chaine in $config:collection-rootW//t:ptr[@target='bm:Chaine1913Rep']
-let $unit := $chaine/following-sibling::t:citedRange[@unit]
-order by $unit
-let $id := $chaine/ancestor::t:TEI/@xml:id
-let $EditionIncipit := $chaine/ancestor::t:TEI//t:div[@subtype='incipit']
-group by $I := $id
-return
-<chaine>{$I}
-<title>{titles:printTitleMainID($I)}</title>
-<editionIncipit>{$EditionIncipit}</editionIncipit>
-<chaineN>{$unit/text()}</chaineN>
-{for $incipit in $config:collection-rootMS//t:incipit[parent::t:msItem[t:title[@ref=$I]]]
-let $ms := $incipit/ancestor::t:TEI/@xml:id
-return 
-<incipit>
-<ms>{$ms}{titles:printTitleMainID($ms)}</ms>
-<text>{$incipit}</text></incipit>
-}
-</chaine>
-}</chaines>
 };
 

@@ -10,6 +10,7 @@ import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/c
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
 import module namespace charts = "https://www.betamasaheft.uni-hamburg.de/BetMas/charts" at "xmldb:exist:///db/apps/BetMas/modules/charts.xqm";
+import module namespace switch ="https://www.betamasaheft.uni-hamburg.de/BetMas/switch2" at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
 
 declare namespace t="http://www.tei-c.org/ns/1.0";
 declare namespace templates="http://exist-db.org/xquery/templates" ;
@@ -20,16 +21,8 @@ declare
     %templates:default("entity", "")
     %templates:default("pointer", "")
 function indexesNE:placeNames ($node as node(), $model as map(*),  $collection as xs:string,$entity as xs:string, $pointer as xs:string*) {
-   let $coll := switch($collection)
-   case'all' return '$config:collection-root'
-   case 'mss' return '$config:collection-rootMS'
-   case 'work' return '$config:collection-rootW'
-   case 'auth' return '$config:collection-rootA'
-   case 'pers' return '$config:collection-rootPr'
-   case 'place' return '$config:collection-rootPl'
-   case 'ins' return '$config:collection-rootIn'
-   default return '$config:collection-root'
-   let $Pointer := if($pointer = '') then "[@ref]" else "[@ref='"||$pointer||"']"
+   let $coll := switch2:collectionVarValTit($collection)
+   let $Pointer := if($pointer = '') then "[@ref]" else "[@ref eq '"||$pointer||"']"
    let $entityRef := if($entity='') then '' else '/id($entity)'
    let $path := $coll||$entityRef||'//t:placeName'||$Pointer 
    let $places := util:eval($path)
@@ -49,16 +42,8 @@ declare
     %templates:default("entity", "")
     %templates:default("pointer", "")
 function indexesNE:persNames ($node as node(), $model as map(*),  $collection as xs:string,$entity as xs:string, $pointer as xs:string*) {
-   let $coll := switch($collection)
-   case'all' return '$config:collection-root'
-   case 'mss' return '$config:collection-rootMS'
-   case 'work' return '$config:collection-rootW'
-   case 'auth' return '$config:collection-rootA'
-   case 'pers' return '$config:collection-rootPr'
-   case 'place' return '$config:collection-rootPl'
-   case 'ins' return '$config:collection-rootIn'
-   default return '$config:collection-root'
-   let $Pointer := if($pointer = '') then "[@ref]" else "[@ref='"||$pointer||"']"
+   let $coll := switch2:collectionVarValTit($collection)
+   let $Pointer := if($pointer = '') then "[@ref]" else "[@ref eq '"||$pointer||"']"
    let $entityRef := if($entity='') then '' else '/id($entity)'
    let $path := $coll||$entityRef||'//t:persName'||$Pointer 
    let $persons := util:eval($path)
@@ -136,7 +121,7 @@ declare
     function indexesNE:placeNamesRes($node as node(), $model as map(*), $start as xs:integer, $per-page as xs:integer){
 
 for $target at $p in subsequence($model("hits"), $start, $per-page)
-let $ptrs := $config:collection-root//t:placeName[@ref = $target]
+let $ptrs := $titles:collection-root//t:placeName[@ref eq $target]
 let $count := count($ptrs)
 return
 <div class="w3-container w3-margin">
@@ -179,7 +164,7 @@ declare
     function indexesNE:persNamesRes($node as node(), $model as map(*), $start as xs:integer, $per-page as xs:integer){
 
 for $target at $p in subsequence($model("hits"), $start, $per-page)
-let $ptrs := $config:collection-root//t:persName[@ref = $target]
+let $ptrs := $titles:collection-root//t:persName[@ref eq $target]
 let $count := count($ptrs)
 return
 <div class="w3-margin">
