@@ -10,14 +10,13 @@ module namespace localdts = "https://www.betamasaheft.uni-hamburg.de/BetMas/loca
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace t="http://www.tei-c.org/ns/1.0";
+declare option output:method "json";
 
 import module namespace dts = "https://www.betamasaheft.uni-hamburg.de/BetMas/dts" at "xmldb:exist:///db/apps/BetMas/modules/dts.xqm";
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace console="http://exist-db.org/xquery/console";
 
-declare
-%output:method("json")
-function localdts:Collection($id as xs:string*, $page as xs:integer*, $nav as xs:string*) {
+declare function localdts:Collection($id as xs:string*, $page as xs:integer*, $nav as xs:string*) as map(*) {
     if (matches($id, '(https://betamasaheft.eu/)?(textualunits/|narrativeunits/|transcriptions/)?([a-zA-Z\d]+)?(:)?(((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?(\-)?((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?)')) then
             let $parsedURN := dts:parseDTS($id)
             return
@@ -38,7 +37,7 @@ function localdts:Collection($id as xs:string*, $page as xs:integer*, $nav as xs
             ()
 };
 
-declare function localdts:Coll($id, $page, $nav, $version){
+declare function localdts:Coll($id, $page, $nav, $version) {
 let $availableCollectionIDs := ('https://betamasaheft.eu', 'https://betamasaheft.eu/textualunits', 'https://betamasaheft.eu/narrativeunits', 'https://betamasaheft.eu/transcriptions')
 let $ms := $dts:collection-rootMS//t:div[@type eq 'edition'][descendant::t:ab[text()]]
 let $w := $dts:collection-rootW//t:div[@type eq 'edition'][descendant::t:ab[text()]]
@@ -154,19 +153,15 @@ map {
 };
 
 
-declare
-%output:method("json")
-function localdts:Document($id as xs:string*, $ref as xs:string*, $start, $end) {
+declare function localdts:Document($id as xs:string*, $ref as xs:string*, $start, $end) {
 dts:docs($id, $ref, $start, $end, 'application/tei+xml')
 };
 
 
-declare
-%output:method("json")
-function localdts:Navigation($id as xs:string*, $ref as xs:string*, 
+declare function localdts:Navigation($id as xs:string*, $ref as xs:string*, 
 $level as xs:string*, $start as xs:string*, $end as xs:string*, 
 $groupBy as xs:string*, $page as xs:string*, $max as xs:string*, 
-$version as xs:string*) {
+$version as xs:string*) as map(*) {
 
 let $parsedURN := dts:parseDTS($id)
 let $BMid := $parsedURN//s:group[@nr=3]/text()
@@ -188,6 +183,7 @@ let $text := if($edition/node()) then dts:pickDivText($mydoc, $edition)  else $m
                 LIT2170Peripl_ED_
                 LIT2170Peripl_TR_
                 :)
+             
 let $textType := $mydoc//t:objectDesc/@form
 let $manifest := $mydoc//t:idno/@facs
 let $allwits := dts:wits($mydoc, $BMid) 
@@ -202,6 +198,7 @@ if ($mydoc/@type eq 'mss' and not($textType='Inscription')) then (
 (:  THERE IS A REF:)   
     if($ref != '') then 
              let $l := if ($level='') then 1 else $level
+               
            return
           dts:pasRef($l, $text, $ref, 'unit', 'mss', $manifest, $BMid)
 (:$ref can be a NAR, but how does one know that this is a possibility within this text?:)
@@ -237,7 +234,8 @@ if ($mydoc/@type eq 'mss' and not($textType='Inscription')) then (
                         some are encoded with a basic nested divs structure, some instaed, especially bible texts use l, while inscriptions have lb :)
                                 if($ref='' and $level = '' and $start ='' and $end = ''and $groupBy = '' and $max = '') 
 (:   if no  parameter is specified, go through the child elements of div type edition, whatever they are:)
-                                then  dts:pasS($text/(t:ab|.)/t:*, 'unit', 'work', $witnesses, $BMid)
+                                then 
+                                dts:pasS($text/(t:ab|.)/t:*, 'unit', 'work', $witnesses, $BMid)
 (:   if a ref is specified show that navigation point:)
 else if($ref != '' and $start = '')  
 (:e.g. LIT1546Genesi&ref=2.3 :)
@@ -306,53 +304,53 @@ let $array := if(count($maximized)=1) then [$maximized] else $maximized
 let $versions := if($version='yes') then  dts:fileingitCommits($id, $BMid, 'navigation') else ('version set to '||$version||', no version links retrieved from GitHub.')
 
 return
-()
+     map {
+    "@context": map {
+        "@vocab": "https://www.w3.org/ns/hydra/core#",
+        "dc": "http://purl.org/dc/terms/",
+        "dts": "https://w3id.org/dts/api#"
+    },
+    "@base": "/api/dts/navigation",
+    "@id": ('/api/dts/navigation?id='|| $id),
+    "dts:citeDepth" : $cdepth,
+    "dts:level" : $l,
+    "dts:citeType": $ctype,
+    "dc:hasVersion" : $versions,
+    "dts:passage" : ('/api/dts/document?id=' || $id),
+    "member": $array
+}
          
 };
 
 
-declare
-%output:method("json")
-function localdts:Annotations($id as xs:string*, 
-$indexName as xs:string*, $ref as xs:string*, 
-$level as xs:string*, $begin as xs:string*, 
-$start as xs:string*, $end as xs:string*, $groupBy as xs:string*, 
-$page as xs:string*, $max as xs:string*, $version as xs:string*){
-let $id := if($id='') then 'http://betamasaheft.eu' else $id
-let $parsedURN := dts:parseDTS($id)
-let $specificID := $parsedURN//s:group[@nr=3]/text() 
-let $edition := $parsedURN//s:group[@nr=4]
-let $indexes :=
-if (matches($parsedURN//s:group[@nr=2], '(textualunits|narrativeunits|transcriptions)'))
-then (dts:CollIndex($id, $page, $version))
-else
-if (matches($specificID, '[a-zA-Z\d]+'))
-then (dts:CollIndexMember($id, $edition, $specificID, $page,  $version))
-else
-(dts:CollIndex($id, $page, $version))
+declare function localdts:Annotations($coll as xs:string*, $BMid as xs:string*, 
+$begin as xs:string*, $page as xs:string*, $version as xs:string*){
+let $indexes := ('persons', 'places','keywords', 'loci', 'works')
+let $file := dts:switchContext($coll)/id($BMid)
+let $title := $BMid
+let $availableIndexesForItem :=   
+                                    for $index in $indexes 
+                                    let $count := dts:ItemAnnotationsEntries($file, $index)
+                                    return if($count=0) then () 
+                                    else dts:ItemAnnotationCollections($coll,$BMid, $title, $index, $count, 3)
+let $c := count($availableIndexesForItem)
+let $topinfo := map {
+    "@type" : 'AnnotationCollection',
+    "title": "Annotations of "||$title||" in "||$coll,
+    "@id": $config:appUrl || '/api/dts/annotations/' ||$coll ||'/items/' || $BMid,
+    "totalItems": $c,
+    "dts:totalParents": 3,
+    "dts:totalChildren": $c
+    }
 
-let $response := if($indexName='') then map {
-    "@context": $dts:context,
-    "@id":$id,
-    "member": $indexes,
-"dts:collection": "/api/dts/collections?id=" || $id
-} else 
-(:an index is named:)
-let $indexEntries := dts:indexentries($specificID, $indexName)
-return
+let $contents:=
 map {
     "@context": $dts:context,
-    "@id":$id,
-    "view": dts:indexEntriesView($id, $indexName, $indexEntries, $page),
-    "dts:attestations" : dts:indexEntriesAttestations($id, $indexName, $indexEntries, $page),
-"dts:collection": "/api/dts/collections?id=" || $id
-}
-let $dtsPass := "/api/dts/documents?id=" || $id
-let $dtsNav := "/api/dts/navigation?id=" || $id
-let $resultPass :=  if(matches($parsedURN//s:group[@nr=3], '[a-zA-Z\d]+')) then map:put($response, "dts:passage", $dtsPass)  else $response
-let $resultNav := if(matches($parsedURN//s:group[@nr=3], '[a-zA-Z\d]+')) then map:put($resultPass, "dts:references", $dtsNav) else $resultPass
-
+    "member": $availableIndexesForItem,
+    "dts:dublincore": $dts:publisher
+} 
 return
-$resultNav
+
+map:merge(($topinfo,$contents))
 };
 

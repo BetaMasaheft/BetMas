@@ -1125,7 +1125,7 @@ let $parts := $work//t:div[@type eq 'textpart'][@corresp]/@corresp
 let $rels := $titles:collection-root//t:relation[@name eq 'saws:contains'][starts-with(@active,$id)]/@passive  
 let $relformspart := $titles:collection-root//t:relation[(@name eq 'saws:formsPartOf') or (@name eq 'ecrm:CLP46i_may_form_part_of')][starts-with(@passive,$id)]/@active
 let $all := ($parts,$rels,$relformspart)
-let $ids := config:distinct-values($all)
+let $ids := distinct-values($all)
 return
 if (count($ids) ge 1) then
  (

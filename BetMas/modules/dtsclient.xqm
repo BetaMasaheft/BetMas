@@ -20,7 +20,7 @@ import module namespace console="http://exist-db.org/xquery/console";
 
 
 declare function dtsc:text($id, $edition, $ref, $start, $end, $collection){
-let $t := console:log(string-join(($edition, $ref, $start, $end), ' - '))
+(:let $t := console:log(string-join(($edition, $ref, $start, $end), ' - ')):)
 let $approot:= 
 'https://betamasaheft.eu'
 (:'http://localhost:8080/exist/apps/BetMas':)
@@ -42,10 +42,12 @@ let $uricol := ($approot||$APIroot||$ColAPI||$fullidpar)
 let $urinav := ($approot||$APIroot||$NavAPI||$fullidpar||$parm)
 let $uridoc := ($approot||$APIroot||$DocAPI||$fullidpar||$parm)
 let $urianno := ($approot||$APIroot||$AnnoAPI||'/'||$collection||'/items/'||$id)
-let $DTScol := if(starts-with($fullid, $approot)) then  localdts:Collection($fullid, 1, 'children')    else dtsc:request($uricol)
+let $DTScol := if(starts-with($fullid, $approot)) then  localdts:Collection($fullid, 1, 'children')   else dtsc:request($uricol)
 let $DTSnav := if(starts-with($fullid, $approot)) then localdts:Navigation($fullid, $ref, '', $start, $end, '', '', '', 'no') else  dtsc:request($urinav)
-let $DTSanno :=  if(starts-with($fullid, $approot)) then localdts:Annotations($fullid,'items', $ref, '', '1', $start, $end, '', '1', '', '') else  dtsc:request($urianno)
+let $DTSanno :=  if(starts-with($fullid, $approot)) then localdts:Annotations($collection, $id, '1', '1', 'no') else  dtsc:request($urianno)
+let $t :=console:log($DTSanno)
 let $DTSdoc :=  if(starts-with($fullid, $approot)) then localdts:Document($fullid, $ref, $start, $end) else  dtsc:requestXML($uridoc)
+
 let $links := for $link in tokenize($DTSdoc//http:header[@name="link"]/string(@value), ',') return 
             <link><val>{substring-after(substring-before($link, '&gt;'), 'ref=')}</val> 
                         <dir>{replace(substring-after($link, '&gt; ; rel='), "'",  '')}</dir></link>
@@ -56,12 +58,13 @@ return
 <div class="w3-container">
 <div class="w3-row">
 <div class="w3-bar">
-{try{for $d in $DTScol?('dts:dublincore')?('dc:title')?*?('@value') 
-return <div class="w3-bar-item w3-small">{$d}</div>} catch * {console:log($err:description)}}
+{for $d in $DTScol?('dts:dublincore')?('dc:title')?('@value') 
+return <div class="w3-bar-item w3-small">{$d}</div>}
 <button class="w3-bar-item w3-gray w3-small" id="toogleTextBibl">Hide/Show Bibliography</button>
 <button class="w3-bar-item w3-gray w3-small" id="toogleNavIndex">Hide/Show Text Navigation</button>
 {try {
-for $index in $DTSanno?member?*
+for $index in $DTSanno?member
+let $t := console:log($index)
 return 
 <button class="w3-bar-item w3-gray w3-small 
 DTSannoCollectionLink">{
@@ -76,10 +79,10 @@ substring-before($index?title, ' for'))
 {if($DTScol?('@type') = 'Collection') then 
 (<div class="w3-bar w3-border">
 <div class="w3-bar-item">Editions and translations: </div>
-{try{ for $ed in $DTScol?member?*
+{for $ed in $DTScol?member
 return 
 <div class="w3-bar-item"><a href="{$ed?('@id')}" target="_blank">{$ed?title}</a></div>
-} catch * {console:log($err:description)}} 
+} 
 </div>) else ()}
 </div>
 <div id="indexNav" class="w3-col w3-hide " style="width:15%">
@@ -120,7 +123,7 @@ Full text view
 else ()}
 {
 for $members in $DTSnav?member
-for $member in $members?*
+for $member in $members
 let $r := $member?('dts:ref')
 return 
 <div class="w3-bar-item w3-gray w3-small">
@@ -210,18 +213,18 @@ let $cleanbase := (if($base= '') then 'https://betamasaheft.eu'
                                 else if(contains($base, '/api')) then substring-before($base, '/api') 
                                 else $base)
 let $dtsCollection := $cleanbase|| dtsc:request($base)?collections ||'?id=' || $id
-let $t := console:log($dtsCollection)
+(:let $t := console:log($dtsCollection):)
 let $DTScol := dtsc:request($dtsCollection)
 let $context := $DTScol?('@context')
 let $vocab := $context?('@vocab')
 let $dtsprefix := if($vocab='https://w3id.org/dts/api#') then () else 'dts:'
 let $dtsReferences := $cleanbase || $DTScol?($dtsprefix||'references')
-let $t1 := console:log(normalize-unicode($dtsReferences))
+(:let $t1 := console:log(normalize-unicode($dtsReferences)):)
 let $DTSnav := dtsc:request(normalize-unicode($dtsReferences))
 let $dtsPassage := $cleanbase || $DTSnav?($dtsprefix||'passage')
-let $t2 := console:log($dtsPassage)
+(:let $t2 := console:log($dtsPassage):)
 let $cleanDTSpass := replace($dtsPassage, '\{&amp;ref\}\{&amp;start\}\{&amp;end\}', '')
-let $t3 := console:log($cleanDTSpass)
+(:let $t3 := console:log($cleanDTSpass):)
 let $DTSdoc := dtsc:requestXML($cleanDTSpass)
 let $xslt :=   'xmldb:exist:///db/apps/BetMas/xslt/textfragment.xsl'  
 return
