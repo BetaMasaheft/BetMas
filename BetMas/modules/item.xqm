@@ -114,7 +114,7 @@ Not sure how to do this? Have a look at the <a href="/Guidelines">Beta maṣā�
 <span class="w3-text w3-tag itemoptiontooltip">Click here to hide or show again the little arrows and small left pointing hands in this page.</span>
 </div>
 <div class="w3-bar-item w3-tooltip" >
-<a class="w3-button w3-padding-small w3-gray" id="toogleSeeAlso">Hide/show related</a>
+<a class="w3-button w3-padding-small w3-gray" id="toggleSeeAlso">Hide/show related</a>
 <span class="w3-text w3-tag itemoptiontooltip">Click here to hide or show again the right side of the content area, where related items and keywords are shown.</span>
 </div>
             
