@@ -801,6 +801,7 @@ concat("descendant::t:", $element, "[ft:query(., '" , $query, "', ", $SearchOpti
 declare  function app:xpathQuery($node as node(), $model as map(*), $xpath as xs:string?) {
 if(empty($xpath)) then () else 
 let $logpath := log:add-log-message($xpath, sm:id()//sm:real/sm:username/string() , 'XPath query')  
+let $xpath := replace($xpath, '\$config:collection-(\w+)(//.+)', 'collection(\$config:data-$1)$2') 
 let $hits := for $hit in util:eval($xpath)
 return $hit
  return            

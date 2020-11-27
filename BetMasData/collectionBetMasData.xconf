@@ -40,7 +40,7 @@
                 <facet dimension="origDateNotAfter" if="@type='mss'" expression="t:teiHeader//t:origin/t:origDate/@notAfter"/>               
                 <facet dimension="repository" if="@type='mss'" expression="for $r in t:teiHeader//t:repository/@ref return ti:test($r, 'ins')"/>
                 <facet dimension="collection" if="@type='mss'" expression="t:teiHeader//t:collection"/>
-                <facet dimension="rulingpattern" if="@type='mss'" expression="if(t:teiHeader//t:ab[@type='ruling'][@subtype='pattern']) then replace(t:teiHeader//t:ab[@type='ruling'][@subtype='pattern'], 'Ruling Pattern', '') else ''"/>
+                <facet dimension="rulingpattern" if="@type='mss'" expression="if(t:teiHeader//t:ab[@type='ruling'][@subtype='pattern']) then for $rulpat in t:teiHeader//t:ab[@type='ruling'][@subtype='pattern'] return replace($rulpat, 'Ruling Pattern', '') else ''"/>
                 <facet dimension="artThemes" if="@type='mss'" expression="for $at in t:teiHeader//t:decoNote//t:ref[@type='authFile']/@corresp return ti:test($at, 'auth')"/>
                 <facet dimension="artkeywords" if="@type='mss'" expression="for $at in t:teiHeader//t:decoNote//t:term/@key return ti:test($at, 'auth')"/>
                 <facet dimension="bindingkeywords" if="@type='mss'" expression="for $at in t:teiHeader//t:binding//t:decoNote//t:term/@key return ti:test($at, 'auth')"/>
@@ -66,7 +66,7 @@
                 <facet dimension="occupation" if="@type='pers'" expression="t:text//t:occupation/@type"/>
                 <!--places-->
                 <facet dimension="placetype" if="@type='place'" expression="for $x in tokenize(t:text//t:place/@type,' ') return $x"/>
-                <facet dimension="settlement" if="@type='place'" expression="for $s t:text//t:settlement/@ref return ti:test($s, 'pl')"/>
+                <facet dimension="settlement" if="@type='place'" expression="for $s in t:text//t:settlement/@ref return ti:test($s, 'pl')"/>
                 <facet dimension="region" if="@type='place'" expression="for $r in t:text//t:region/@ref return ti:test($r, 'pl')"/>
                 <facet dimension="country" if="@type='place'" expression="for $c in t:text//t:country/@ref return ti:test($c, 'pl')"/>
                 <facet dimension="tabot" if="@type='place'" expression="for $t in t:text//t:ab[@type='tabot']//t:persName[@type='tabot']/@ref return ti:test($t, 'pers')"/>

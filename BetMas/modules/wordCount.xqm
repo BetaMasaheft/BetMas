@@ -32,8 +32,8 @@ let $msitemID := $tit/parent::t:msItem/@xml:id
 
 return
 
-if($ms//t:div[contains(@corresp, $msitemID)]) then
-let $div := $ms//t:div[contains(@corresp, $msitemID)]
+if($ms//t:div[@corresp = $msitemID]) then
+let $div := $ms//t:div[@corresp = $msitemID]
 let $count := count(tokenize(string-join($div//text(), ' '), '\W+'))
 return
 'word count: ' || $count
