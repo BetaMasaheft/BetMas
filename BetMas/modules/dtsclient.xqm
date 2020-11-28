@@ -42,12 +42,10 @@ let $uricol := ($approot||$APIroot||$ColAPI||$fullidpar)
 let $urinav := ($approot||$APIroot||$NavAPI||$fullidpar||$parm)
 let $uridoc := ($approot||$APIroot||$DocAPI||$fullidpar||$parm)
 let $urianno := ($approot||$APIroot||$AnnoAPI||'/'||$collection||'/items/'||$id)
-let $DTScol := if(starts-with($fullid, $approot)) then  localdts:Collection($fullid, 1, 'children')   else dtsc:request($uricol)
+let $DTScol := if(starts-with($fullid, $approot)) then  localdts:Collection($fullid, 1, 'children')    else dtsc:request($uricol)
 let $DTSnav := if(starts-with($fullid, $approot)) then localdts:Navigation($fullid, $ref, '', $start, $end, '', '', '', 'no') else  dtsc:request($urinav)
 let $DTSanno :=  if(starts-with($fullid, $approot)) then localdts:Annotations($collection, $id, '1', '1', 'no') else  dtsc:request($urianno)
-let $t :=console:log($DTSanno)
 let $DTSdoc :=  if(starts-with($fullid, $approot)) then localdts:Document($fullid, $ref, $start, $end) else  dtsc:requestXML($uridoc)
-
 let $links := for $link in tokenize($DTSdoc//http:header[@name="link"]/string(@value), ',') return 
             <link><val>{substring-after(substring-before($link, '&gt;'), 'ref=')}</val> 
                         <dir>{replace(substring-after($link, '&gt; ; rel='), "'",  '')}</dir></link>
@@ -58,13 +56,12 @@ return
 <div class="w3-container">
 <div class="w3-row">
 <div class="w3-bar">
-{for $d in $DTScol?('dts:dublincore')?('dc:title')?('@value') 
+{for $d in $DTScol?('dts:dublincore')?('dc:title')?*?('@value') 
 return <div class="w3-bar-item w3-small">{$d}</div>}
 <button class="w3-bar-item w3-gray w3-small" id="toogleTextBibl">Hide/Show Bibliography</button>
 <button class="w3-bar-item w3-gray w3-small" id="toogleNavIndex">Hide/Show Text Navigation</button>
 {try {
 for $index in $DTSanno?member
-let $t := console:log($index)
 return 
 <button class="w3-bar-item w3-gray w3-small 
 DTSannoCollectionLink">{
@@ -122,8 +119,7 @@ Full text view
 </div>) 
 else ()}
 {
-for $members in $DTSnav?member
-for $member in $members
+for $member in $DTSnav?member?*
 let $r := $member?('dts:ref')
 return 
 <div class="w3-bar-item w3-gray w3-small">
@@ -249,8 +245,7 @@ return
 <a target="_blank" href="http://voyant-tools.org/?input={$dtsPassage}">Voyant</a>
         </div>
 {
-for $members in $DTSnav?member
-for $member in $members?*
+for $member in $DTSnav?member?*
 return 
 <div class="w3-bar-item w3-gray w3-small">
 <a href="{$dtsReferences}&amp;ref={$member?($dtsprefix||'ref')}">

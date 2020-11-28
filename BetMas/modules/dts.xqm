@@ -625,7 +625,7 @@ let $chunkedpassage := if(string($groupBy) !='')
 
 (: regardless of passages sequence type (ranges as maps or items as strings) the following steps limits the number of results                                                :)
 let $maximized :=if(string($max) !='') then for $p in subsequence($chunkedpassage, 1, $M) return $p else $chunkedpassage
-let $array := if(count($maximized)=1) then [$maximized] else $maximized
+let $array := array{$maximized}
  let $l := if($level = '') then 1 else number($level)
 let $versions := if($version='yes') then  dts:fileingitCommits($id, $BMid, 'navigation') else ('version set to '||$version||', no version links retrieved from GitHub.')
 
