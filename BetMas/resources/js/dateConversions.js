@@ -33,7 +33,7 @@ function convertDate(calendar, year, month, date, era) {
     }
 
     // if month is string (like maskaram) then change to number
-    if(typeof month == "number") month = ethiopianMonthsAscii[month];
+    if(typeof month !== "number") month = ethiopianMonthsAscii[month];
 
     const origDate = {
       year: year,
