@@ -43,6 +43,7 @@ function convertDate(calendar, year, month, date, era) {
       month: month
     }
     if(typeof date == "number") origDate.date = date;
+    else origDate.date = 15;
 
     const convDate = toWestern(origDate);
 
