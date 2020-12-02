@@ -135,25 +135,22 @@ function api:latest(){
  ($api:response200Json,
 
 let $twoweekago := current-date() - xs:dayTimeDuration('P15D')
-let $changes := $titles:collection-root//t:change[@when]
-let $latests := 
-    for $alllatest in $changes[xs:date(@when) > $twoweekago]
-    order by xs:date($alllatest/@when) descending
-    return $alllatest
-
-for $latest at $count in subsequence($latests, 1, 20)
-let $id := string(root($latest)/t:TEI/@xml:id)
-let $title := titles:printTitle($latest)
-let $when := string($latest/@when)
-let $who := editors:editorKey($latest/@who)
-let $what := $latest/text()
+let $coll := collection($config:data-root)//t:TEI
+for $doc in  xmldb:find-last-modified-since($coll, $twoweekago)
+let $id := string($doc/@xml:id)
+let $filename := ($id|| '.xml')
+let $baseUri := base-uri($doc)
+let $docColl := substring-before($baseUri, $filename)
+let $latest := for $c in $doc//t:change order by xs:date($c/@when) descending return $c
 return
 map { 'id' : $id,
-'title' : $title,
-'when' : $when,
-'who' : $who,
-'what' : $what
+'title' : titles:printTitleMainID($id),
+'when' : xmldb:last-modified($docColl, $filename),
+'who' : editors:editorKey($latest[1]/@who),
+'what' : $latest[1]/text()
 }
+
+
  )
 };
 

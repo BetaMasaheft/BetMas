@@ -214,7 +214,7 @@ declare function charts:chart($hits){
 let $dimensionOfQuiresINS := config:distinct-values($hits//t:collation//t:item/t:dim[@unit eq 'leaf'])
 let $percents := for $dim in $dimensionOfQuiresINS
                 let $test := $hits//t:collation//t:item
-                let $numberQuiresThisDim := count($test/t:dim[@unit eq 'leaf'][. eq $dim])
+                let $numberQuiresThisDim := count($test/t:dim[@unit eq 'leaf'][. = $dim])
                 order by $numberQuiresThisDim descending
                   return
                                '["' ||  $dim || ' leaves ", ' ||  $numberQuiresThisDim || ']'
@@ -740,17 +740,17 @@ chart.draw(view, options);
 
 if($countRulPat ge 1) then (
 let $patterns := for $ruling in $rulingpattern return <mss><id>{string($ruling/ancestor::t:TEI/@xml:id)}</id><pattern>{analyze-string($ruling, '(([A-Z\d\-]+)/([A-Z\d\-]+)/([A-Z\d\-]+)/([A-Z\d\-]+))')}</pattern></mss>
-let $fullpatterns := for $p in $patterns//s:group[@nr eq 1] return string-join($p//text())
-let $verticals:= $patterns//s:group[@nr eq 2]
-let $Hmarginals:= $patterns//s:group[@nr eq 3]
-let $RectricesMajs:= $patterns//s:group[@nr eq 4]
-let $Rectrices:= $patterns//s:group[@nr eq 5]
+let $fullpatterns := for $p in $patterns//s:group[@nr = 1] return string-join($p//text())
+let $verticals:= $patterns//s:group[@nr = 2]
+let $Hmarginals:= $patterns//s:group[@nr = 3]
+let $RectricesMajs:= $patterns//s:group[@nr = 4]
+let $Rectrices:= $patterns//s:group[@nr = 5]
 return (
 (:pie total diversity distribution:)
 let $distinct-patterns:= config:distinct-values($fullpatterns)
-let $matcher := for $p in $patterns return string-join($p//s:group[@nr eq 1]//text())
+let $matcher := for $p in $patterns return string-join($p//s:group[@nr = 1]//text())
 let $data := for $pat in $distinct-patterns
-                let $count := count($matcher[. eq $pat])
+                let $count := count($matcher[. = $pat])
                  return
                                '["' ||  $pat || '", ' ||  $count || ']'
 let $patts := '[["Ruling Pattern","Quantity"],' ||string-join($data, ', ') || ']'
@@ -791,7 +791,7 @@ let $patts := '[["Ruling Pattern","Quantity"],' ||string-join($data, ', ') || ']
         (: Zone III = 4=Rectrices Majeures :)
         
         (: Zone IV = 5=Rectices       :)
-        let $RPZvalues := config:distinct-values($patterns//s:group[@nr eq $formulaZone])
+        let $RPZvalues := config:distinct-values($patterns//s:group[@nr = $formulaZone])
         let $formulaZoneName := 
                         switch($formulaZone) 
                         case 2 return 'Zone I (Verticales)'
@@ -1017,7 +1017,7 @@ declare function charts:RulingSupport($DatedMSS, $rangeName, $values, $formulaZo
   return
   if(count($mssthisperiod) eq 0) then () else
   let $columns := for $value in $values
-                  let $countms := count($patterns[descendant::s:group[@nr eq $formulaZone][. eq $value]])
+                  let $countms := count($patterns[descendant::s:group[@nr = $formulaZone][. eq $value]])
                   return ',' ||$countms
   return
     '["'||$rangeName||'"'||string-join($columns)||']'
