@@ -26,14 +26,17 @@ function convertDate(calendar, year, month, date, era) {
   // ethiopic to western
   if(calendar == 'ethiopic') {
 
+    // if month is string (like maskaram) then change to number
+    if(typeof month !== "number") month = ethiopianMonthsAscii[month];
+
     // check if year needs to be converted based on era
     if(era !== undefined) {
       if(era == 'amata-alam') year -= 5500;
-      else if(era == 'anno-domini') year -= 5500;
+      else if(era == 'anno-domini') {
+        if(month < 5) year -= 7;
+        else year -= 8;
+      }
     }
-
-    // if month is string (like maskaram) then change to number
-    if(typeof month !== "number") month = ethiopianMonthsAscii[month];
 
     const origDate = {
       year: year,
