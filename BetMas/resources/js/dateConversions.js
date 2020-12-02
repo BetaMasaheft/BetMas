@@ -14,7 +14,7 @@
  * @param {('ethiopic'|'western'|'gregorian'|'julian')} calendar
  * @param {number} year Must be greater than 0
  * @param {number|string} month Must be from 1 to 13
- * @param {number} [date=1] Optional; may be skipped by using 0
+ * @param {number} [date] Optional
  * @param {('amata-seggawe'|'amata-alam','anno-domini')} [era] Optional; default is 'amata-seggawe' for 'ethiopic' and 'anno-domini' for 'western'
  */
 function convertDate(calendar, year, month, date, era) {
@@ -29,17 +29,17 @@ function convertDate(calendar, year, month, date, era) {
     }
 
     // if month is string (like maskaram) then change to number
-    if(typeof month == 'string') month = ethiopianMonthsAscii[month];
+    if(typeof month == "number") month = ethiopianMonthsAscii[month];
 
     const origDate = {
       year: year,
       month: month
     }
-    if(typeof date == 'number') origDate.date = date;
+    if(typeof date == "number") origDate.date = date;
 
     const convDate = toWestern(origDate);
 
-    return (typeof date == 'number' ? convDate.date+' ' : '') + westernMonths[convDate.month] + ' ' + convDate.year;
+    return (typeof date == "number" ? convDate.date+' ' : '') + westernMonths[convDate.month] + ' ' + convDate.year;
 
   }
 
