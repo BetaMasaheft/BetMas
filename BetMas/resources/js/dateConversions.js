@@ -31,7 +31,7 @@ function convertDate(calendar, year, month, date, era) {
     // if month is string (like maskaram) then change to number
     if(typeof month == "number") month = ethiopianMonthsAscii[month];
 
-    const origDate = {
+    var origDate = {
       year: year,
       month: month
     }
@@ -50,15 +50,15 @@ function convertDate(calendar, year, month, date, era) {
     calendar == 'julian'
   ) {
 
-    const origDate = {
+    var origDate = {
       year: year,
       month: month
     }
-    if(typeof date == 'number') origDate.date = date;
+    if(typeof date == "number") origDate.date = date;
 
     const convDate = toEthiopic(origDate);
 
-    return (typeof date == 'number' ? convDate.date+' ' : '') + ethiopianMonths[convDate.month] + ' ' + convDate.year + ' (' + (convDate.year+5500) + ')';
+    return (typeof date == "number" ? convDate.date+' ' : '') + ethiopianMonths[convDate.month] + ' ' + convDate.year + ' (' + (convDate.year+5500) + ')';
 
   }
 
