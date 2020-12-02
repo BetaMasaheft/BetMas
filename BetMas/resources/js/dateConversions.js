@@ -19,6 +19,10 @@
  */
 function convertDate(calendar, year, month, date, era) {
 
+  if(typeof year !== "number") year = parseInt(year);
+  if(typeof month !== "number" && !isNaN(parseInt(month))) return parseInt(month);
+  if(typeof date !== "number" && !isNaN(parseInt(date))) return parseInt(date);
+
   // ethiopic to western
   if(calendar == 'ethiopic') {
 
