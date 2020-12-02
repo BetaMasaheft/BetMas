@@ -20,8 +20,8 @@
 function convertDate(calendar, year, month, date, era) {
 
   if(typeof year !== "number") year = parseInt(year);
-  if(typeof month !== "number" && !isNaN(parseInt(month))) return parseInt(month);
-  if(typeof date !== "number" && !isNaN(parseInt(date))) return parseInt(date);
+  if(typeof month !== "number" && !isNaN(parseInt(month))) month = parseInt(month);
+  if(typeof date !== "number" && !isNaN(parseInt(date))) date = parseInt(date);
 
   // ethiopic to western
   if(calendar == 'ethiopic') {
@@ -35,7 +35,7 @@ function convertDate(calendar, year, month, date, era) {
     // if month is string (like maskaram) then change to number
     if(typeof month == "number") month = ethiopianMonthsAscii[month];
 
-    var origDate = {
+    const origDate = {
       year: year,
       month: month
     }
@@ -54,7 +54,7 @@ function convertDate(calendar, year, month, date, era) {
     calendar == 'julian'
   ) {
 
-    var origDate = {
+    const origDate = {
       year: year,
       month: month
     }
