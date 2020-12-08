@@ -43,6 +43,25 @@ function apiTit:get-FormattedTitle($id as xs:string) {
 };
 
 
+(:~ given the file id, returns the main title:)
+declare
+%rest:GET
+%rest:path("/BetMas/api/{$id}/title/json")
+%output:method("json")
+function apiTit:get-FormattedTitleJson($id as xs:string) {
+    ($config:response200Json,
+    let $id := replace($id, '_', ':') 
+   let $titletext :=  if (not(contains($id, ':'))) then
+normalize-space(string-join(titles:printTitleMainID($id))) 
+   else if (starts-with($id, 'wd:') or starts-with($id, 'pleaides:') or starts-with($id, 'sdc:') or starts-with($id, 'gn:')   )
+   then
+   normalize-space(titles:printTitleMainID($id))
+    else $id
+    
+    return map {'title':$titletext}
+    )
+};
+
 (:~ given the file id and an anchor, returns the formatted main title and the title of the reffered section:)
 declare
 %rest:GET
