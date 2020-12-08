@@ -87,9 +87,13 @@
                 </div>
             </xsl:if>
               <xsl:if test="//t:person/t:note">
-                  <div class="w3-container"> <h4>Notes</h4>
-                      <xsl:apply-templates select="//t:person/t:note"/>
-                  </div>
+                  <xsl:for-each select="//t:person/t:note"><div class="w3-container"> 
+                      <xsl:choose>
+                          <xsl:when test="@type"><h4><xsl:value-of select="concat(upper-case(substring(@type, 1,1)), substring(@type, 2))"/></h4></xsl:when>
+                          <xsl:otherwise><h4>Notes</h4></xsl:otherwise>
+                      </xsl:choose>
+                      <xsl:apply-templates select="."/>
+                  </div></xsl:for-each>
               </xsl:if>
               <xsl:if test="//t:relation">
                   <div class="w3-container">
