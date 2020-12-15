@@ -1700,8 +1700,8 @@ EMIP:)
                 }" class="thumb w3-image"/>
 (:                bodleian:)
 else if (contains($item//t:msIdentifier/t:idno/@facs, 'bodleian')) then ('images')
-                else (<img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>)
-                 }</a>
+          else (<img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno[not(starts-with(@facs, 'https'))][1]/@facs) ||  (if(starts-with($item//t:collection, 'Ethio')) then '_' else())||'001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>)
+                       }</a>
                 
                 else ()}
                 {if($collection = 'works') then apptable:clavisIds($root) else ()}
