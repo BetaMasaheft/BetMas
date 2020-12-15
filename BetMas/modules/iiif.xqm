@@ -201,7 +201,7 @@ map {"@context": "http://iiif.io/api/presentation/2/context.json",
 
 declare function iiif:Canvases($item, $id, $iiifroot, $facsid){
 let $tot := $facsid/@n
-let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($facsid/@facs)
+let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($facsid[not(starts-with(@facs, 'https'))][1]/@facs)
        
        return
  for $graphic at $p in 1 to $tot 
@@ -459,7 +459,7 @@ log:add-log-message('/api/iiif/'||$id||'/manifest', sm:id()//sm:real/sm:username
        let $institutionID := string($item//t:repository/@ref)
 
        let $institution := titles:printTitleMainID($institutionID)
-let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($facsid/@facs)
+let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($facsid[not(starts-with(@facs, 'https'))][1]/@facs)
        let $tot := $facsid/@n
        let $url :=  $config:appUrl ||"/manuscripts/" || $id
       (:       this is where the images actually are, in the images server:)
