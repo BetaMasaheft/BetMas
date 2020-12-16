@@ -220,7 +220,7 @@ return
             {let $formerly := $document//t:relation[@name eq 'betmas:formerlyAlsoListedAs'][@active eq $id]
              let $same := $document//t:relation[@name eq 'skos:exactMatch'][@active eq $id]
             return
-            (if($formerly) then <p>This record was formerly also listed as {string($formerly/@passive)}.</p> 
+            (if($formerly) then <p>This record was formerly also listed as {string-join($formerly/@passive, ', ')}.</p> 
             else(),
             if($same) then 
                     for $s in $same return <p>This record is the same as <a href="{string($s/@passive)}" target="_blank">{titles:printTitleID($s/@passive)}</a>.</p> 
