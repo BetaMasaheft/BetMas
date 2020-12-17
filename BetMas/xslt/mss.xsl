@@ -97,7 +97,7 @@
             <div id="allattestations" class="w3-container"/>
             
             <div class="w3-third  w3-padding">
-                <h4 property="http://purl.org/dc/elements/1.1/title">
+                <h4 property="http://purl.org/dc/elements/1.1/title" class="toptitle">
                 <xsl:apply-templates select="//t:titleStmt/t:title"/>
                 </h4>
               </div>

@@ -1739,3 +1739,5 @@ span.encircled a {
 span.encircled {
     border-style: solid;
 }
+
+h4.toptitle {word-break: break-all;}
