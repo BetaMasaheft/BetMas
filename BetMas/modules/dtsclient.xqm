@@ -49,7 +49,19 @@ let $DTSdoc :=  if(starts-with($fullid, $approot)) then localdts:Document($fulli
 let $links := for $link in tokenize($DTSdoc//http:header[@name="link"]/string(@value), ',') return 
             <link><val>{substring-after(substring-before($link, '&gt;'), 'ref=')}</val> 
                         <dir>{replace(substring-after($link, '&gt; ; rel='), "'",  '')}</dir></link>
-let $docnode := if($DTSdoc//dts:fragment) then $DTSdoc//dts:fragment else $DTSdoc//t:div[@type='edition']
+let $selectedFrag := if($DTSdoc//dts:fragment) then $DTSdoc//dts:fragment else $DTSdoc//t:div[@type='edition']
+(:This checks for the presence of a corresp and print the edition of that if present:)
+let $docnode :=  if($selectedFrag[self::dts:fragment][t:div/@corresp[starts-with(.,'LIT')] and not(t:div/t:ab|t:div/t:div[@type='textpart'])]) then 
+                                let $corresp := string($selectedFrag/t:div/@corresp) 
+                                    return 
+  (:                                  construct a node to be transformed which has the corresp for linking and a label which says it is imported from the linked entity:)
+                                    <div xmlns="http://www.tei-c.org/ns/1.0">{
+                                    $selectedFrag/t:div/@corresp,
+                                    $selectedFrag/t:div/@type,
+                                    <label xmlns="http://www.tei-c.org/ns/1.0">Text imported from linked Textual Unit</label>,
+                                    collection('/db/apps/BetMasData')//id($corresp)//t:div[@type='edition']/node() 
+                                      }</div>
+        else $selectedFrag
 let $xslt :=   'xmldb:exist:///db/apps/BetMas/xslt/textfragment.xsl'  
 let $xslpars := <parameters><param name="mainID" value="{$id}"/></parameters>
 return

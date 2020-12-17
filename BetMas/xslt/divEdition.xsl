@@ -176,8 +176,8 @@
                                     </a>
                                 </xsl:when>
                                 <xsl:otherwise>
-                                    <span class="MainTitle" data-value="{@corresp}"/>
-                                    <a href="{@corresp}">
+                                    <a href="/{@corresp}">
+                                        <span class="MainTitle" data-value="{@corresp}"/>
                                         <xsl:text>  </xsl:text>
                                         <span class="glyphicon glyphicon-share"/>
                                     </a>
