@@ -249,7 +249,7 @@
             </xsl:when>
             <xsl:when test="$locus/ancestor::t:TEI//t:div[@xml:id = 'Transkribus']">
                 <xsl:attribute name="onclick">
-                    <xsl:value-of select="funct:imagesID($locus, 'call', @*, '')"/>
+                    <xsl:value-of select="funct:imagesID($locus, 'call', $locus/@*, '')"/>
                 </xsl:attribute>
             </xsl:when>
             <!--                                            MISSING THE OPTION FOR INTERNAL IMAGE SERVER-->
@@ -787,13 +787,13 @@
                                     <xsl:variable name="matchingColumnBreak"
                                         select="$file//t:cb[@n = $c][starts-with(@facs, '#facs_')][preceding-sibling::t:pb[1][@n = $fs]]"/>
                                     <xsl:variable name="nextMatchingColBreak"
-                                        select="$file//t:cb[@n = $nc][preceding-sibling::t:pb[1][@n = $nfs]]"/>
+                                        select="($file//t:cb[@n = $nc][preceding-sibling::t:pb[1][@n = $nfs]])[1]"/>
                                     <xsl:variable name="matchingCol"
-                                        select="$file//t:zone[@rendition = 'TextRegion'][@xml:id = substring-after($matchingColumnBreak/@facs, '#')]"/>
+                                        select="$file//t:zone[@rendition = 'TextRegion'][@xml:id = substring-after($matchingColumnBreak[1]/@facs, '#')]"/>
                                     <xsl:variable name="nextMatchingCol"
                                         select="
                                         if ($f = $nf and ($c = $nc or $s = $ns)) then
-                                        $file//t:zone[@rendition = 'TextRegion'][@xml:id = substring-after($nextMatchingColBreak/@facs, '#')]
+                                        $file//t:zone[@rendition = 'TextRegion'][@xml:id = substring-after($nextMatchingColBreak[1]/@facs, '#')]
                                         else
                                         ()"/>
                                     <xsl:variable name="locationclean"
