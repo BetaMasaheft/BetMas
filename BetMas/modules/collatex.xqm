@@ -59,7 +59,7 @@ then (<info>please provide at least 2 dts URIs separated with comma</info>)  els
                 <http:body media-type="text" method="text" indent="yes">{$body}</http:body>
         </http:request>
 let $post:=          hc:send-request($req)[2]
-let $test :=console:log($post)
+(:let $test :=console:log($post):)
 let $decoded := if(contains($format, 'xml')) then $post else try{util:base64-decode($post)} catch * {console:log($err:description), $post}
 return 
 $decoded
@@ -218,8 +218,14 @@ let $matchingmss := for $ms in $urns
 declare function collatex:getnarrUnitWittnesses($nU){ 
 let $matchingmss := for $ms in $apprest:collection-rootMS//t:*[@corresp = $nU]
                                            let $id := string($ms/ancestor::t:TEI/@xml:id)
-                                           let $text := string-join($ms//text())
+(:                                          let $consol := console:log($ms):)
+                                          let $xslt :=   'xmldb:exist:///db/apps/BetMas/xslt/stringtext.xsl'  
+                                           let $stringtext := try{transform:transform($ms,$xslt,())} catch * {$err:description}
+(:                                         let $console := console:log($stringtext):)
+                                         let $text := string-join($stringtext//text())
+(:                                          let $console1 := console:log($text):)
                                             let $cleantext := collatex:cleanforcollatex($text)
+(:                                          let $console2 := console:log($cleantext):)
                                              return
                                          '{"id" : "' ||$id ||'", "content" : "'||$cleantext||'"}' 
                           return
