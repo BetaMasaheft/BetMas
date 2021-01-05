@@ -176,6 +176,7 @@
                                     </a>
                                 </xsl:when>
                                 <xsl:otherwise>
+                                    
                                     <a href="/{@corresp}">
                                         <span class="MainTitle" data-value="{@corresp}"/>
                                         <xsl:text>  </xsl:text>
@@ -597,10 +598,13 @@
             <xsl:text>+</xsl:text>
         </xsl:for-each>
                         </xsl:when>
-                        <xsl:otherwise>
+                        <xsl:when test="@extent">
                             <xsl:for-each select="1 to $extent">
                                 <xsl:text>▧</xsl:text>
                             </xsl:for-each>
+                        </xsl:when>
+                        <xsl:otherwise>
+                           <xsl:text>[...]</xsl:text>
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:when>
