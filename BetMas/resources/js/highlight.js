@@ -15,21 +15,6 @@ var getUrlParameter = function getUrlParameter(sParam) {
     }
 };
 
-$(document).ready(function () {
-    var fullq = getUrlParameter('hi');
-    console.log(fullq)
-   if(fullq === undefined){} else {
-   if (/[\*\?\~\(]/g.test(fullq)) {
-        var q = fullq.replace(/[\*\?\~\(]/g, '')
-    } else {
-        var q = fullq
-    }
-    if(q.length > 1) {$('.msItemContent').toggleClass('w3-show')}
-    //console.log(q)
-    $('span:contains("' + q + '")').toggleClass('queryTerm')
-    $('p:contains("' + q + '")').toggleClass('queryTerm')
-    }
-});
 
 function popup(id) {
   var x = document.getElementById(id);
@@ -44,7 +29,7 @@ $('.word').each(function (wn) {
     
     var word = $(this)
     /*make all spaces a single space*/
-    var normspace = $(word).text().replace(/\s\s+/g, ' ');
+    var normspace = $(word).text().replace(/\s+/g, ' ');
     /*    split the string in words at the white space*/
     var words = normspace.split(" ");
     var countwords = words.length;
@@ -131,5 +116,23 @@ $('.diplomaticHighlight').on('change', function () {
         <a role="button" class="w3-button w3-gray" target="_blank" href="/diplomatique.html?interpret=%23provision">compare</a>\
         <br/><span class="suscription w3-tag w3-red">suscription</span>\
         <a role="button" class="w3-button w3-gray" target="_blank" href="/diplomatique.html?interpret=%23suscription">compare</a><br/>')
+    }
+});
+
+
+
+$(document).ready(function () {
+    var fullq = getUrlParameter('hi');
+    console.log(fullq)
+   if(fullq === undefined){} else {
+   if (/[\*\?\~\(]/g.test(fullq)) {
+        var q = fullq.replace(/[\*\?\~\(]/g, '')
+    } else {
+        var q = fullq
+    }
+    if(q.length > 1) {$('.msItemContent').toggleClass('w3-show')}
+    //console.log(q)
+    $('span:contains("' + q + '")').toggleClass('queryTerm')
+    $('p:contains("' + q + '")').toggleClass('queryTerm')
     }
 });
