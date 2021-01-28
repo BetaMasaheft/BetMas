@@ -5,7 +5,7 @@ import module namespace titles = "https://www.betamasaheft.uni-hamburg.de/BetMas
 import module namespace console = "http://exist-db.org/xquery/console";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace xi = "http://www.w3.org/2001/XInclude";
-
+declare variable $expand:zotero := collection('/db/apps/EthioStudies') ;
 declare variable $expand:listPrefixDef :=
 <listPrefixDef
     xmlns="http://www.tei-c.org/ns/1.0">
@@ -645,7 +645,9 @@ declare function expand:file($filepath) {
     let $expanded := util:expand($doc/t:TEI)
     let $zotero :=
       for $ptr in distinct-values($expanded//t:ptr/@target[starts-with(., 'bm:')]) 
-                        let $z := try{doc(concat('https://api.zotero.org/groups/358366/items?tag=',$ptr, '&amp;format=tei'))//t:biblStruct} catch * {console:log($err:description)}
+                        let $z := if($expand:zotero//t:note[@type='tag']=$ptr)
+                                    then $expand:zotero//t:biblStruct[descendant::t:note[@type='tag']=$ptr][1]
+                                    else try{doc(concat('https://api.zotero.org/groups/358366/items?tag=',$ptr, '&amp;format=tei'))//t:biblStruct} catch * {console:log($err:description)}
                             return 
                             <bibl xmlns="http://www.tei-c.org/ns/1.0"
                                      corresp="{$z/@corresp}" 
