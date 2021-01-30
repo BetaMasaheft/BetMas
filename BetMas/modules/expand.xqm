@@ -132,15 +132,17 @@ declare variable $expand:fullTEIcol-path := '/db/apps/expanded';
 
 declare function expand:create-collections($uri as xs:string) {
     let $collection-uri := substring($uri, 1)
-    for $collections in tokenize($collection-uri, '/')
-    let $current-path := concat('/', substring-before($collection-uri, $collections), $collections)
-    let $parent-collection := substring($current-path, 1, string-length($current-path) - string-length(tokenize($current-path, '/')[last()]))
+   let $parts := for $part at $p in tokenize($collection-uri, '/') return <part n="{$p}">{$part}</part>
+    for $collection at $p in $parts
+    let $index := $collection/@n
+    let $parent-collection := concat('/', string-join($parts[@n lt $index]/text(), '/'), '/')
+    let $current-path := concat($parent-collection ,$collection)
     return
         if (xmldb:collection-available($current-path)) then
             ()
         else
-            (xmldb:create-collection($parent-collection, $collections),
-            let $createdcol := xs:anyURI($parent-collection||'/'||$collections)
+            (xmldb:create-collection($parent-collection, $collection),
+            let $createdcol := xs:anyURI($parent-collection||$collection)
             return(
             sm:chgrp($createdcol, 'Cataloguers'),
             sm:chmod($createdcol, 'rwxrwxr-x'))

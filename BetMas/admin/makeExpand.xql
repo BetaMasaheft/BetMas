@@ -5,7 +5,6 @@ declare namespace xi = "http://www.w3.org/2001/XInclude";
 import module namespace  expand="https://www.betamasaheft.uni-hamburg.de/BetMas/expand" at "xmldb:exist:///db/apps/BetMas/modules/expand.xqm";
 import module namespace console = "http://exist-db.org/xquery/console";
 
-
 for $file in collection('/db/apps/BetMasData')//t:TEI
 let $start-time := util:system-time()
 let $filepath := base-uri($file)
@@ -15,9 +14,18 @@ let $collection := replace(substring($filepath, 1, (string-length($filepath) - s
 let $collection-uri := if (xmldb:collection-available($collection)) then $collection
                                  else
                                   let $makeCollection := expand:create-collections($collection)
-                              return  $collection
-let $store := xmldb:store($collection-uri, xmldb:encode-uri($file-name), $file)
+                              return  $collection                           
+(:
+ : expanded iteration on collection, as well as that in git are faulty, the iteration assumes that there are no parts of the path which are the same to one another
+ : 
+ : Check if file already exist 
+ : and has same last change so that if already done it will not do anything 
+ : if (xmldb:last-modified($collection-uri as item(), $resource as xs:string) le xmldb:last-modified($collection-uri as item(), $resource as xs:string)) then....
+ :)                              
+let $store :=   if(doc-available(concat($collection-uri,$file-name))) 
+                then console:log( $file-name || ' is already available in ' || $collection-uri )
+                else xmldb:store($collection-uri, xmldb:encode-uri($file-name), $file)
 let $runtime-ms := ((util:system-time() - $start-time)
 div xs:dayTimeDuration('PT1S')) * 1000
 return
-    'stored ' || $file-name || ' into ' || $collection-uri || ' in ' || $runtime-ms || ' milliseconds'
+   console:log( 'stored ' || $file-name || ' into ' || $collection-uri || ' in ' || $runtime-ms || ' milliseconds')
