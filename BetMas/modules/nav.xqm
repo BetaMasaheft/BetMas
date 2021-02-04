@@ -170,7 +170,7 @@ return
                         else ()}
                                 <a class="w3-bar-item w3-button" href="/">Home</a>
                                 <a class="w3-bar-item w3-button" href="/team.html">Team</a>
-                                <a class="w3-bar-item w3-button" href="/partners.html">Partners</a>
+                                <a class="w3-bar-item w3-button" href="https://www.betamasaheft.uni-hamburg.de/team/partners.html">Partners</a>
                                 <a class="w3-bar-item w3-button" href="/contacts.html">Contacts</a>
                                 <a class="w3-bar-item w3-button" href="/Guidelines/">Guidelines and documentation</a>
                                 <a class="w3-bar-item w3-button" href="/apidoc.html">Data API</a>
@@ -259,8 +259,8 @@ return
                                         <i class="fa fa-info-circle"/>
                                     </a>
     {if(contains($url, 'as.html') ) then 
-    <a href="/facet.html" class="w3-padding w3-hover-red w3-hide-small w3-right"><i class="fab fa-searchengin"></i></a>
-    else(<a href="/as.html" class="w3-padding w3-hover-red w3-hide-small w3-right"><i class="fa fa-search"></i></a>, <a href="/facet.html" class="w3-padding w3-hover-red w3-hide-small w3-right"><i class="fab fa-searchengin"></i></a>)}
+    <a href="/facet.html" class="w3-padding w3-hover-red w3-hide-small w3-right"><i class="fab fa-search"></i></a>
+    else(<a href="/facet.html" class="w3-padding w3-hover-red w3-hide-small w3-right"><i class="fa fa-search"></i></a>, <a href="/as.html" class="w3-padding w3-hover-red w3-hide-small w3-right"><i class="fab fa-searchengin"></i></a>)}
   </div>
 </div>,
 <div id="navDemo" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
