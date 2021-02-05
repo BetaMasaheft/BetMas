@@ -1,0 +1,199 @@
+<div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/newsearch.html" data-template-at="content">
+    <div data-template="app:logging"/>
+    
+    <div class="w3-container w3-margin w3-padding-64">
+        <div class="w3-containter" id="searchform">
+            <form action="" id="gsf" class="w3-container w3-center">
+                
+                <span data-template="q:querytype"/>
+                <fieldset id="text" class="w3-container">
+                    <div class="w3-padding">
+                        <span data-template="app:queryinput"/>
+                        <div class="w3-bar w3-right">
+                            <div  class="w3-bar-item"><small>If running a text search, you can select the type of text search here </small></div>
+                            <div  class="w3-bar-item"><span data-template="q:textquerymode"/></div>
+                            <a class="w3-bar-item w3-button w3-gray kb">
+                                <i class="fa fa-keyboard" aria-hidden="true"/>
+                            </a>
+                            <button type="submit" id="submit-data" class="w3-button w3-bar-item w3-red">
+                                <i class="fa fa-search"/>
+                            </button>
+<!--                            add here button for additional filters-->
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset id="sparqls" class="w3-container w3-hide">
+                    <div class="w3-container w3-margin w3-padding-64">
+                        <p>You can enter here your SPARQL query to the RDF representation of the data stored in Apache Jena Fuseki. Please use single quotes ' not double.</p>
+                        <p>PREFIXes are already there (see below), so you can start with SELECT.  If you prefer  to use your prefixes, do so, no problem. A super tutorial on how to build SPARQL queries is <a href="https://jena.apache.org/tutorials/sparql_basic_patterns.html">here at Apache Jena</a>
+                        </p>
+                        
+                        <div data-template="app:logging"/>
+                        <div class="w3-container w3-margin-bottom">
+                            <div class="w3-half w3-padding">
+                                <form action="" class="w3-container">
+                                    <div class="w3-container">
+                                        <input id="endpoint" value="/api/SPARQL/json" type="text" hidden="hidden"/>
+                                        <textarea class="w3-input w3-border" id="sparql" name="query" style="height:200px" placeholder="Please enter a valid SPARQL query.">
+                                        </textarea>
+                                        <br/>
+                                        
+                                        <button type="button" class="w3-button w3-red" onclick="exec()">
+                                            Run your query (results with d3sparql.js)
+                                        </button>
+                                        <button type="submit" class="w3-button w3-gray ">
+                                            try local XSLT table visualization
+                                        </button>
+                                        <br/>
+                                        <small>
+                                            <br/>PREFIX rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+                                            <br/>PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+                                            <br/>PREFIX lawd: &lt;http://lawd.info/ontology/&gt;
+                                            <br/>PREFIX oa: &lt;http://www.w3.org/ns/oa#&gt;
+                                            <br/>PREFIX ecrm: &lt;http://erlangen-crm.org/current/&gt;
+                                            <br/>PREFIX crm: &lt;http://www.cidoc-crm.org/cidoc-crm/&gt;
+                                            <br/>PREFIX gn: &lt;http://www.geonames.org/ontology#&gt;
+                                            <br/>PREFIX agrelon: &lt;http://d-nb.info/standards/elementset/agrelon.owl#&gt;
+                                            <br/>PREFIX rel: &lt;http://purl.org/vocab/relationship/&gt;
+                                            <br/>PREFIX dcterms: &lt;http://purl.org/dc/terms/&gt;
+                                            <br/>PREFIX bm: &lt;https://betamasaheft.eu/&gt;
+                                            <br/>PREFIX pelagios: &lt;http://pelagios.github.io/vocab/terms#&gt;
+                                            <br/>PREFIX syriaca: &lt;http://syriaca.org/documentation/relations.html#&gt;
+                                            <br/>PREFIX saws: &lt;http://purl.org/saws/ontology#&gt;
+                                            <br/>PREFIX snap: &lt;http://data.snapdrgn.net/ontology/snap#&gt;
+                                            <br/>PREFIX pleiades: &lt;https://pleiades.stoa.org/&gt;
+                                            <br/>PREFIX wd: &lt;https://www.wikidata.org/&gt;
+                                            <br/>PREFIX dc: &lt;http://purl.org/dc/elements/1.1/&gt;
+                                            <br/>PREFIX skos: &lt;http://www.w3.org/2004/02/skos/core#&gt;
+                                            <br/>PREFIX xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt;
+                                            <br/>PREFIX t: &lt;http://www.tei-c.org/ns/1.0&gt;
+                                            <br/>PREFIX sdc: &lt;https://w3id.org/sdc/ontology#&gt;
+                                            <br/>PREFIX foaf: &lt;http://xmlns.com/foaf/0.1/&gt;
+                                        </small>
+                                    </div>
+                                </form>
+                                <p>You can also use the API to query the SPARQL endpoint, using https://betamasaheft.eu/api/SPARQL with the query in a parameter <i>q</i>. The results are SPARQL Query Results XML Format, as the one visualized below.</p>
+                            </div>
+                            <div class="w3-half w3-padding">
+                                <div class="w3-container">
+                                    <p>In the <a href="https://betamasaheft.eu/Guidelines/?id=ontologyView" target="_blank">Beta maṣāḥǝft Guidelines</a> you can find the OWLDoc Documentation and a
+                                        visualization thanks to <a href="http://vowl.visualdataweb.org/webvowl.html" target="_blank">webVOWL</a> of the current <a href="https://raw.githubusercontent.com/BetaMasaheft/RDF/master/betamasaheft.owl" target="_blank">ontology</a> developed with Protégé.</p>
+                                    <p>Some examples of the data you are querying</p>
+                                    <ul>
+                                        <li>
+                                            <a href="/rdf/works/LIT3122Galaw.rdf" target="_blank">Literary Work Record</a>
+                                        </li>
+                                        <li>
+                                            <a href="/rdf/manuscripts/BNFet32.rdf" target="_blank">Manuscript Record</a>
+                                        </li>
+                                        <li>
+                                            <a href="/rdf/places/LOC1261Adulis.rdf" target="_blank">Place Record</a>
+                                        </li>
+                                    </ul>
+                                    <p>Documentation on Linked Open Data can be found <a target="_blank" href="https://betamasaheft.eu/lod.html">here</a>.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-container w3-margin-bottom">
+                            <p>The results presented here are visualized with <a href="https://github.com/ktym/d3sparql" target="_blank">d3sparql</a>
+                            </p>   
+                            <div class="w3-container w3-margin-bottom" id="resulttable"/>
+                            
+                            <div class="w3-container w3-margin-bottom" id="result"/>
+                        </div>
+                    </div>
+                    
+                </fieldset>
+                <fieldset id="xpath" class="w3-container w3-hide">
+                    <div class="w3-container w3-justify  w3-padding-64"> 
+                        <p>Enter here your XPath 3.0 query to the data. 
+                            Please, use t: namespace for TEI elements. The starting point of any Xpath should 
+                            be <code class="w3-codespan">$config:collection-root</code> if you are searching the entire dataset.</p>
+                        <p>You can also use, as a cached and short form to point to collections the following variables:
+                            <code class="w3-codespan">$config:collection-rootMS</code> for manuscripts; <code class="w3-codespan">$config:collection-rootW</code> for Textual Units
+                            <code class="w3-codespan">$config:collection-rootPl</code> for places; <code class="w3-codespan">$config:collection-rootPr</code> for persons;
+                            <code class="w3-codespan">$config:collection-rootIn</code> for repositories; <code class="w3-codespan">$config:collection-rootA</code> for authority files.
+                            If you want to search for Places and Repositories, you can use <code class="w3-codespan">$config:collection-rootPlIn</code>
+                        </p>
+                    </div>
+                    
+                    <div class="w3-container w3-justify ">
+                            <input placeholder="e.g. start with $config:collection-root//t:" class="w3-input" name="xpath"/>
+                            
+                            <button type="submit" class="w3-btn w3-red"> Run
+                            </button>
+                    </div>
+                        
+                        
+                </fieldset>
+                <fieldset id="lists" class="w3-container w3-hide">
+                </fieldset>
+                <fieldset id="fields" class="w3-container w3-hide">
+                    <p>Here you can differentiate your search by looking at the text of constructed strings from specific portions of the data. You can search for records which
+                    have a word occurring in the decoration and another in the content description, for example.</p>
+                    <div>
+                        <small>Manuscripts</small>
+                        <div data-template="q:fieldInputHandDesc"/>
+                    <div data-template="q:fieldInputDecoDesc"/>
+                    <div data-template="q:fieldInputBinding"/>
+                    <div data-template="q:fieldInputSupportDesc"/>
+                    <div data-template="q:fieldInputMsContent"/>
+                        <div data-template="q:fieldInputAdditions"/>
+                        <div data-template="q:fieldInputIncipit"/>
+                        <div data-template="q:fieldInputExplicit"/>
+                        <div data-template="q:fieldInputColophon"/>
+                    </div>
+                    <div>
+                        <small>Works and manuscript transcriptions</small>
+                        <div data-template="q:fieldInputTitle"/>
+                        <div data-template="q:fieldInputText"/>
+                    </div> 
+                    <div>
+                        <small>Persons and groups</small>
+                        <div data-template="q:fieldInputPerson"/>
+                    </div>
+                    <div>
+                        <small>Places and institutions</small>
+                        <div data-template="q:fieldInputPlace"/>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="w3-containter">
+            <img id="loading" src="resources/Loading.gif" style="display: none;"/>   
+            <div data-template="q:query">
+                <div id="content">
+                    <a href="." class="nav-link" data-template="app:copy-params"/>
+                    
+                    <div class="w3-containter w3-quarter">
+                        <div data-template="q:showFacets" id="facets" class="w3-container w3-padding"/>
+                    </div>
+                    <div class="w3-containter w3-threequarter">
+                        <div class="w3-row">
+                            <span id="time" data-template="q:displayQtime"/>
+                        </div>
+                        <div class="w3-row">
+                                <span id="hit-param" data-template="app:hit-params"/>
+                            </div>
+                        <div class="w3-row">
+                                <ul class="pagination" data-template="app:paginateNew" data-template-per-page="40" data-template-max-pages="9" data-template-min-hits="41"/>
+                           </div>
+                        
+                        <!-- query results -->
+                        <div data-template="q:results" data-template-per-page="40" id="results" class="w3-container w3-padding"/>
+                        
+                        <!--             bottom pagination for larger device -->
+                        <div class="w3-row">
+                            <ul class="pagination" data-template="app:paginateNew" data-template-per-page="40" data-template-max-pages="9" data-template-min-hits="41"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="application/javascript" src="resources/js/selectForm.js"/>
+    <script type="application/javascript" src="resources/js/NewBiblio.js"/>
+    <script type="application/javascript" src="resources/js/preventformsubmission.js"/>
+    <script type="text/javascript" src="resources/js/titles.js"/>
+</div>

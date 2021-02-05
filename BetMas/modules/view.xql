@@ -4,6 +4,7 @@ import module namespace templates="http://exist-db.org/xquery/templates" ;
 import module namespace site="http://exist-db.org/apps/site-utils";
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace app="https://www.betamasaheft.uni-hamburg.de/BetMas/app" at "xmldb:exist:///db/apps/BetMas/modules/app.xqm";
+import module namespace q="https://www.betamasaheft.uni-hamburg.de/BetMas/queries" at "xmldb:exist:///db/apps/BetMas/modules/queries.xqm";
 import module namespace apidoc="https://www.betamasaheft.uni-hamburg.de/BetMas/apidoc" at "xmldb:exist:///db/apps/BetMas/modules/apidocumentation.xqm";
 import module namespace nav = "https://www.betamasaheft.uni-hamburg.de/BetMas/nav" at "xmldb:exist:///db/apps/BetMas/modules/nav.xqm";
 import module namespace new="https://www.betamasaheft.uni-hamburg.de/BetMas/new" at "xmldb:exist:///db/apps/BetMas/modules/newEntry.xqm";
