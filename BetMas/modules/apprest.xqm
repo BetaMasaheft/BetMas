@@ -662,7 +662,7 @@ return
 <h3>Attributions of the contents</h3>
                 <div>
                 {for $respStmt in $document//t:titleStmt/t:respStmt
-                let $action := $respStmt/t:resp
+                let $action := string-join($respStmt/t:resp, ' ')
                 let $authors :=
                             for $p in $respStmt/t:persName
                                 return
@@ -853,7 +853,7 @@ declare function apprest:ItemScriptStyle(){
         <script xmlns="http://www.w3.org/1999/xhtml"  type="text/javascript" src="https://www.gstatic.com/charts/loader.js"  ></script>,
         <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/openseadragon/openseadragon.min.js"  />,
         <script  xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://unpkg.com/vis-timeline/standalone/umd/vis-timeline-graph2d.min.js"></script>,
-        <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://unpkg.com/vis-network/peer/umd/vis-network.min.js"></script>
+        <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://unpkg.com/vis-network@7.10.2/peer/umd/vis-network.min.js"></script>
 };
 
 (:~html page script and styles to be included specific for item :)
@@ -1204,7 +1204,7 @@ return
 (:app:formcontrol('language',  $evalContext//t:language/@ident, 'true', 'values', $context):)
 ) else
 (:form selectors relative to query:)
-app:formcontrol('language', $items-info//t:language/@ident, 'true', 'values', $context)}
+apprest:formcontrol('language', 'language', $items-info//t:language/@ident, 'true', 'values', $context)}
  <div class="w3-container">
     <label>Data provenance</label>
                 <select name="cp" class="w3-select w3-border">
@@ -1612,14 +1612,141 @@ then (
                     <label for="{$nodeName}">{$label}s
                     <span class="badge">{count($nodes[. != ''][. != ' '])}</span>
                     </label>
-                    {app:selectors($nodeName, $path, $nodes, $type, $context)}
+                    {apprest:newselectors($nodeName, $path, $nodes, $type, $context)}
      </div>
      )
                 else (
-       app:selectors($nodeName, $path, $path, $type, $context)
+       apprest:newselectors($nodeName, $path, $path, $type, $context)
         )
 };
 
+
+(:~determins what the selectors for various form controls will look like, is called by app:formcontrol() :)
+declare function apprest:newselectors($nodeName, $path, $nodes, $type, $context){
+             <select multiple="multiple" name="{$nodeName}" id="{$nodeName}" class="w3-select w3-border">
+            {
+            
+            if ($type = 'keywords') then (
+                    for $group in $nodes/t:category[t:desc]
+                    let $label := $group/t:desc/text()
+                     let $rangeindexname := switch($label) 
+                    case 'Occupation' return 'occtype'
+                    case 'Art Themes' return 'refcorresp'
+                    case 'Additiones' return 'desctype'
+                    case 'Place types' return 'placetype'
+                    default return 'termkey'
+                    return
+                    for $n in $group//t:catDesc
+                    let $id := $n/text()
+                    let $title :=titles:printTitleMainID($id)
+                   
+                    let $facet := try{
+                        $path/$app:range-lookup($rangeindexname, $id, function($key, $count){$count[2]}, 100)} catch*{($err:code || $err:description)}
+                    let $fac := if($facet[1] ge 1) then $facet[1] else '0'
+                    return
+                       <option value="{$id}">{($title[1] ||' (' || $fac  ||')')}</option>
+                                )
+                                              
+            else if ($type = 'name')
+                            then (for $n in $nodes[. != ''][. != ' ']
+                            let $id := string($n/@xml:id)
+                            let $title := titles:printTitleMainID($id)
+                                               order by $id
+                                               return
+            
+                                                <option value="{$id}" >{$title}</option>
+                                          )
+            else if ($type = 'rels')
+                     then (
+                    
+                 for $n in $nodes[. != ''][. != ' ']
+                          let $title :=  titles:printTitleID($n)
+                            order by $title[1] 
+                             return
+            
+                             <option value="{$n}">{normalize-space(string-join($title))}</option>
+                        )
+             else if ($type = 'hierels')
+             then (
+             for $n in $nodes[. != ''][. != ' '][not(starts-with(.,'#'))]
+             group by $work := if (contains($n, '#')) then (substring-before($n, '#')) else $n
+                            order by $work
+                                return 
+                                let $label :=
+                                    try{
+                                        if ($titles:collection-root/id($work)) 
+                                        then titles:printTitle($titles:collection-root/id($work)) 
+                                        else $work} 
+(:                                        this has to stay because optgroup requires label and this cannot be computed from the javascript as in other places:)
+                                    catch* {
+                                        ('while trying to create a list for the filter ' ||$nodeName || ' I got '|| $err:code ||': '||$err:description || ' about ' || $work), 
+                                         $work}
+                                return
+                                if (count($n) = 1)
+                                then <option value="{$work}" class="MainTitle" data-value="{$work}">{$work}</option>
+                                else(
+                                      <optgroup label="{$label}">
+                  
+                    { for $subid in $n
+                    return
+                                        <option value="{$subid}">{
+                                          if (contains($subid, '#')) then substring-after($subid, '#') else 'all'
+                                         }</option>
+                                         }
+                             
+                             
+                                    </optgroup>)
+                                    
+                                    )
+            else if ($type = 'institutions')
+                      then (
+                             let $institutions := collection($config:data-rootIn)//t:TEI/@xml:id
+                                 for $institutionId in $nodes[. eq $institutions]
+                            return
+            
+                            <option value="{$institutionId}" class="MainTitle" data-value="{$institutionId}">{$institutionId}</option>
+                        )
+            
+            else if ($type = 'sex')
+                     then (for $n in $nodes[. != ''][. != ' ']
+                        let $key := replace(functx:trim($n), '_', ' ')
+                         order by $n
+                         return
+                             <option value="{string($key)}">{switch($key) case '1' return 'Male' default return 'Female'}</option>
+                        )
+            else(
+            (: type is values :)
+            for $n in $nodes[. != ''][. != ' ']
+                let $thiskey := replace(functx:trim($n), '_', ' ')
+                let $title := if($nodeName = 'keyword' or $nodeName = "placetype"or $nodeName = "country"or $nodeName = "settlement") then titles:printTitleID($thiskey) 
+                                        else if ($nodeName = 'language') then $app:languages//t:item[@xml:id eq $thiskey]/text()
+                                        else $thiskey
+                let $rangeindexname := 
+                                        switch($nodeName) 
+                                        case 'relType' return 'relname' 
+                                        case 'language' return 'TEIlanguageIdent' 
+                                        case 'material' return 'materialkey' 
+                                        case 'bmaterial' return 'materialkey'
+                                         case 'placetype' return 'placetype' 
+                                         case 'country' return 'countryref' 
+                                         case 'settlement' return 'settlref' 
+                                         case 'occupation' return 'occtype' 
+                                         case 'faith' return 'faithtype' 
+                                         case 'objectType' return 'form' 
+                                         default return 'termkey'
+                 let $ctx := util:eval($context)
+                 let $facet := if($nodeName = 'script') 
+                                          then ($app:util-index-lookup($ctx//@script, lower-case($thiskey), function($key, $count) {$count[2]}, 100, 'lucene-index' )) 
+                                          else ( $ctx/$app:range-lookup($rangeindexname, $thiskey, function($key, $count) {$count[2]}, 100))
+                order by $n
+                return
+                
+            <option value="{$thiskey}">{if($thiskey = 'Printedbook') then 'Printed Book' 
+             else $title} {(' ('||$facet[1]||')')}</option>
+            )
+            }
+        </select>
+};
 
 (:~  given an id looks for all manuscripts containing it and returns a div with cards use by Slick for the Carousel view:)
  declare function apprest:compareMssFromForm($target-work as xs:string?) {

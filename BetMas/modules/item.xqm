@@ -114,7 +114,7 @@ Not sure how to do this? Have a look at the <a href="/Guidelines">Beta maṣā�
 <span class="w3-text w3-tag itemoptiontooltip">Click here to hide or show again the little arrows and small left pointing hands in this page.</span>
 </div>
 <div class="w3-bar-item w3-tooltip" >
-<a class="w3-button w3-padding-small w3-gray" id="toggleSeeAlso"><span class="showHideText">Hide</span> related</a>
+<a class="w3-button w3-padding-small w3-gray" id="toogleSeeAlso"><span class="showHideText">Hide</span> related</a>
 <span class="w3-text w3-tag itemoptiontooltip">Click here to hide or show again the right side of the content area, where related items and keywords are shown.</span>
 </div>
             
@@ -978,7 +978,7 @@ else  if($item//t:repository[@ref = 'INS0339BML'])
 (:          
 EMIP:)
               else if(($item//t:collection = 'EMIP') and $item//t:msIdentifier/t:idno/@n) 
-               then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
+               then <img src="{$config:appUrl ||'/iiif/' || string(($item//t:msIdentifier)[1]/t:idno[@facs][@n]/@facs) || '001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
               
               (:BNF:)
             else if ($item//t:repository/@ref = 'INS0303BNF') 
