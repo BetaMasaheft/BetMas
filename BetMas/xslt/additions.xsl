@@ -4,8 +4,8 @@
         <div id="additiones" rel="http://purl.org/dc/terms/hasPart">
             <h2>Additions <xsl:if test="./ancestor::t:msPart">
                     <xsl:variable name="currentMsPart">
-                        <a href="{./ancestor::t:msPart/@xml:id}">
-                            <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
+                        <a href="{./ancestor::t:msPart[1]/@xml:id}">
+                            <xsl:value-of select="substring-after(./ancestor::t:msPart[1]/@xml:id, 'p')"/>
                         </a>
                     </xsl:variable> of codicological unit
                 <xsl:value-of select="$currentMsPart"/>
