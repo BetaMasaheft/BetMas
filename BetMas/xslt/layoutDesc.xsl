@@ -106,7 +106,7 @@
                 <xsl:variable name="currentMsPart">
                     <xsl:choose>
                                 <xsl:when test="./ancestor::t:msPart">
-                        <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
+                        <xsl:value-of select="substring-after(./ancestor::t:msPart[1]/@xml:id, 'p')"/>
                     </xsl:when>
                     <xsl:otherwise> main part</xsl:otherwise>
                     </xsl:choose>
@@ -180,8 +180,8 @@
         <xsl:if test=".//t:ab[@type = 'pricking']">
             <h5>Pricking <xsl:if test="./ancestor::t:msPart">
                     <xsl:variable name="currentMsPart">
-                        <a href="{./ancestor::t:msPart/@xml:id}">
-                            <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
+                        <a href="{./ancestor::t:msPart[1]/@xml:id}">
+                            <xsl:value-of select="substring-after(./ancestor::t:msPart[1]/@xml:id, 'p')"/>
                         </a>
                     </xsl:variable> of codicological unit <xsl:value-of select="$currentMsPart"/>
                 </xsl:if>
@@ -200,8 +200,8 @@
         <!-- <xsl:if test=".//t:ab[@type = 'punctuation']">
             <h5>Punctuation <xsl:if test="./ancestor::t:msPart">
                     <xsl:variable name="currentMsPart">
-                        <a href="{./ancestor::t:msPart/@xml:id}">
-                            <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
+                        <a href="{./ancestor::t:msPart[1]/@xml:id}">
+                            <xsl:value-of select="substring-after(./ancestor::t:msPart[1]/@xml:id, 'p')"/>
                         </a>
                     </xsl:variable> of codicological unit <xsl:value-of select="$currentMsPart"/>
                 </xsl:if>
@@ -221,8 +221,8 @@
         <xsl:if test=".//t:ab[@type != 'pricking'][@type != 'ruling'][@type != 'punctuation']">
             <h3>Other <xsl:if test="./ancestor::t:msPart">
                     <xsl:variable name="currentMsPart">
-                        <a href="{./ancestor::t:msPart/@xml:id}">
-                            <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
+                        <a href="{./ancestor::t:msPart[1]/@xml:id}">
+                            <xsl:value-of select="substring-after(./ancestor::t:msPart[1]/@xml:id, 'p')"/>
                         </a>
                     </xsl:variable> of codicological unit <xsl:value-of select="$currentMsPart"/>
                 </xsl:if>
@@ -244,8 +244,8 @@
         <xsl:if test=".//t:layout//t:ab[not(@type)]">
             <h3 style="color:red;">Ab without type <xsl:if test="./ancestor::t:msPart">
                     <xsl:variable name="currentMsPart">
-                        <a href="{./ancestor::t:msPart/@xml:id}">
-                            <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
+                        <a href="{./ancestor::t:msPart[1]/@xml:id}">
+                            <xsl:value-of select="substring-after(./ancestor::t:msPart[1]/@xml:id, 'p')"/>
                         </a>
                     </xsl:variable> of codicological unit <xsl:value-of select="$currentMsPart"/>
                 </xsl:if>
@@ -302,8 +302,8 @@
             <xsl:if test="//t:ab[@subtype = 'Executed'] or //t:ab[@subtype = 'Usage']">
             <h4>Punctuation<xsl:if test="./ancestor::t:msPart">
           <xsl:variable name="currentMsPart">
-              <a href="{./ancestor::t:msPart/@xml:id}">
-                  <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
+              <a href="{./ancestor::t:msPart[1]/@xml:id}">
+                  <xsl:value-of select="substring-after(./ancestor::t:msPart[1]/@xml:id, 'p')"/>
               </a>
           </xsl:variable> of codicological unit <xsl:value-of select="$currentMsPart"/>
       </xsl:if></h4>

@@ -60,7 +60,7 @@
                                             <xsl:when test="starts-with(@xml:id, 'p') and matches(@xml:id, '^\w\d+$')">Codicological Unit <xsl:value-of select="substring-after(@xml:id, 'p')"/>
                                                 <xsl:if test="./ancestor::t:msPart">
                                                     <xsl:variable name="currentMsPart">
-                                                        <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
+                                                        <xsl:value-of select="substring-after(./ancestor::t:msPart[1]/@xml:id, 'p')"/>
                                                     </xsl:variable> of codicological unit
                                                     <xsl:value-of select="$currentMsPart"/>
                                                 </xsl:if>
@@ -68,7 +68,7 @@
                                             <xsl:when test="starts-with(@xml:id, 'f') and matches(@xml:id, '^\w\d+$')">Fragment <xsl:value-of select="substring-after(@xml:id, 'f')"/>
                                                 <xsl:if test="./ancestor::t:msPart">
                                                     <xsl:variable name="currentMsPart">
-                                                        <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
+                                                        <xsl:value-of select="substring-after(./ancestor::t:msPart[1]/@xml:id, 'p')"/>
                                                     </xsl:variable> of codicological unit
                                                     <xsl:value-of select="$currentMsPart"/>
                                                 </xsl:if>
@@ -76,7 +76,7 @@
                                             <xsl:when test="contains(@xml:id, 't') and matches(@xml:id, '\w\d+')">Title <xsl:value-of select="substring-after(@xml:id, 't')"/>
                                                 <xsl:if test="./ancestor::t:msPart">
                                                     <xsl:variable name="currentMsPart">
-                                                        <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
+                                                        <xsl:value-of select="substring-after(./ancestor::t:msPart[1]/@xml:id, 'p')"/>
                                                     </xsl:variable> of codicological unit
                                                     <xsl:value-of select="$currentMsPart"/>
                                                 </xsl:if>
@@ -84,7 +84,7 @@
                                             <xsl:when test="contains(@xml:id, 'b') and matches(@xml:id, '\w\d+')">Binding <xsl:value-of select="substring-after(@xml:id, 'b')"/>
                                                 <xsl:if test="./ancestor::t:msPart">
                                                     <xsl:variable name="currentMsPart">
-                                                        <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
+                                                        <xsl:value-of select="substring-after(./ancestor::t:msPart[1]/@xml:id, 'p')"/>
                                                     </xsl:variable> of codicological unit
                                                     <xsl:value-of select="$currentMsPart"/>
                                                 </xsl:if>
@@ -92,7 +92,7 @@
                                             <xsl:when test="contains(@xml:id, 'a') and matches(@xml:id, '\w\d+')">Addition <xsl:value-of select="substring-after(@xml:id, 'a')"/>
                                                 <xsl:if test="./ancestor::t:msPart">
                                                     <xsl:variable name="currentMsPart">
-                                                        <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
+                                                        <xsl:value-of select="substring-after(./ancestor::t:msPart[1]/@xml:id, 'p')"/>
                                                     </xsl:variable> of codicological unit
                                                     <xsl:value-of select="$currentMsPart"/>
                                                 </xsl:if>
@@ -100,7 +100,7 @@
                                             <xsl:when test="contains(@xml:id, 'e') and matches(@xml:id, '\w\d+')">Extra <xsl:value-of select="substring-after(@xml:id, 'e')"/>
                                                 <xsl:if test="./ancestor::t:msPart">
                                                     <xsl:variable name="currentMsPart">
-                                                        <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
+                                                        <xsl:value-of select="substring-after(./ancestor::t:msPart[1]/@xml:id, 'p')"/>
                                                     </xsl:variable> of codicological unit
                                                     <xsl:value-of select="$currentMsPart"/>
                                                 </xsl:if>
@@ -108,7 +108,7 @@
                                             <xsl:when test="contains(@xml:id, 'i') and matches(@xml:id, '_\w\d+')">Content Item <xsl:value-of select="substring-after(@xml:id, 'i')"/>
                                                 <xsl:if test="./ancestor::t:msPart">
                                                     <xsl:variable name="currentMsPart">
-                                                        <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
+                                                        <xsl:value-of select="substring-after(./ancestor::t:msPart[1]/@xml:id, 'p')"/>
                                                     </xsl:variable> of codicological unit
                                                     <xsl:value-of select="$currentMsPart"/>
                                                 </xsl:if>
@@ -116,7 +116,7 @@
                                             <xsl:when test="contains(@xml:id, 'q') and matches(@xml:id, '\w\d+')">Quire <xsl:value-of select="substring-after(@xml:id, 'q')"/>
                                                 <xsl:if test="./ancestor::t:msPart">
                                                     <xsl:variable name="currentMsPart">
-                                                        <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
+                                                        <xsl:value-of select="substring-after(./ancestor::t:msPart[1]/@xml:id, 'p')"/>
                                                     </xsl:variable> of codicological unit
                                                     <xsl:value-of select="$currentMsPart"/>
                                                 </xsl:if>
@@ -125,7 +125,7 @@
                                                 <xsl:value-of select="substring-after(@xml:id, 'coloph')"/>
                                                 <xsl:if test="./ancestor::t:msPart">
                                                     <xsl:variable name="currentMsPart">
-                                                        <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
+                                                        <xsl:value-of select="substring-after(./ancestor::t:msPart[1]/@xml:id, 'p')"/>
                                                     </xsl:variable> of codicological unit
                                                     <xsl:value-of select="$currentMsPart"/>
                                                 </xsl:if>
@@ -133,7 +133,7 @@
                                             <xsl:when test="contains(@xml:id, 'h') and matches(@xml:id, '\w\d+')">Hand <xsl:value-of select="substring-after(@xml:id, 'h')"/>
                                                 <xsl:if test="./ancestor::t:msPart">
                                                     <xsl:variable name="currentMsPart">
-                                                        <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
+                                                        <xsl:value-of select="substring-after(./ancestor::t:msPart[1]/@xml:id, 'p')"/>
                                                     </xsl:variable> of codicological unit
                                                     <xsl:value-of select="$currentMsPart"/>
                                                 </xsl:if>
@@ -141,7 +141,7 @@
                                             <xsl:when test="contains(@xml:id, 'div')">Divider <xsl:value-of select="substring-after(@xml:id, 'div')"/>
                                                 <xsl:if test="./ancestor::t:msPart">
                                                     <xsl:variable name="currentMsPart">
-                                                        <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
+                                                        <xsl:value-of select="substring-after(./ancestor::t:msPart[1]/@xml:id, 'p')"/>
                                                     </xsl:variable> of codicological unit
                                                     <xsl:value-of select="$currentMsPart"/>
                                                 </xsl:if>
@@ -149,7 +149,7 @@
                                             <xsl:when test="contains(@xml:id, 'd') and matches(@xml:id, '\w\d+')">Decoration <xsl:value-of select="substring-after(@xml:id, 'd')"/>
                                                 <xsl:if test="./ancestor::t:msPart">
                                                     <xsl:variable name="currentMsPart">
-                                                        <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
+                                                        <xsl:value-of select="substring-after(./ancestor::t:msPart[1]/@xml:id, 'p')"/>
                                                     </xsl:variable> of codicological unit
                                                     <xsl:value-of select="$currentMsPart"/>
                                                 </xsl:if>

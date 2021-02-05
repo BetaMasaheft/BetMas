@@ -5,8 +5,8 @@
         <h3>Summary<xsl:if test="./ancestor::t:msPart">
                 <xsl:variable name="currentMsPart">
 <!--                    ms part matches only ms part, not msfrag. -->
-                    <a class="page-scroll" href="{./ancestor::t:msPart/@xml:id}">
-                        <xsl:value-of select="substring-after(./ancestor::t:msPart/@xml:id, 'p')"/>
+                    <a class="page-scroll" href="{./ancestor::t:msPart[1]/@xml:id}">
+                        <xsl:value-of select="substring-after(./ancestor::t:msPart[1]/@xml:id, 'p')"/>
                     </a>
                 </xsl:variable> of codicological unit <xsl:value-of select="$currentMsPart"/>
             </xsl:if>

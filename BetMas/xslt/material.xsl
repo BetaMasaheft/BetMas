@@ -2,7 +2,7 @@
     <xsl:template match="t:supportDesc">
         <h2>Physical Description<xsl:if test="./ancestor::t:msPart">
             <xsl:variable name="currentMsPart">
-                <a href="{./ancestor::t:msPart/@xml:id}">
+                <a href="{./ancestor::t:msPart[1]/@xml:id}">
                     <xsl:value-of select="substring-after(./ancestor::t:msPart[1]/@xml:id, 'p')"/>
                 </a>
             </xsl:variable> of codicological unit <xsl:value-of select="$currentMsPart"/>
@@ -11,7 +11,7 @@
         <xsl:if test="parent::t:objectDesc/@form">
             <h3>Form of support <xsl:if test="./ancestor::t:msPart">
                 <xsl:variable name="currentMsPart">
-                    <a href="{./ancestor::t:msPart/@xml:id}">
+                    <a href="{./ancestor::t:msPart[1]/@xml:id}">
                         <xsl:value-of select="substring-after(./ancestor::t:msPart[1]/@xml:id, 'p')"/>
                     </a>
                 </xsl:variable> of codicological unit
