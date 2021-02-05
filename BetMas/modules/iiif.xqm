@@ -50,12 +50,12 @@ declare variable $iiif:response400 := $config:response400;
 
 declare function iiif:manifestsource($item as node()){
             (:ES:)
-            if($item//t:collection = 'Ethio-SPaRe' or $item//t:repository/@ref = 'INS0339BML') 
+            if($item//t:collection = 'Ethio-SPaRe' or ($item//t:repository)[1]/@ref = 'INS0339BML') 
             then $config:appUrl ||'/api/iiif/' || string($item/@xml:id) || '/manifest' 
             else if($item//t:collection = 'EMIP') 
             then $config:appUrl ||'/api/iiif/' || string($item/@xml:id) || '/manifest' 
             (:BNF:)
-            else if ($item//t:repository[@ref  eq 'INS0303BNF']) 
+            else if ($item//t:repository[1][@ref  eq 'INS0303BNF']) 
             then replace($item//t:msIdentifier/t:idno/@facs, 'ark:', 'iiif/ark:') || '/manifest.json'
 (:           vatican :)
             else if(starts-with($item//t:msIdentifier/t:idno/@facs, 'http://digi.vatlib')) 
@@ -64,6 +64,13 @@ declare function iiif:manifestsource($item as node()){
 
 };
 
+(:for cases in which there is a facsimile with a @facs linked from the idno/@facs:)
+declare function iiif:facsSwitch($idnofacs){
+if (starts-with($idnofacs/@facs, '#')) 
+then (let $facsimileID := substring-after($idnofacs/@facs, '#') 
+            return $idnofacs/ancestor::t:TEI//t:facsimile[@xml:id=$facsimileID]/@facs) 
+else $idnofacs/@facs 
+};
 
 declare function iiif:locus($l as node()){
   if($l[@from][@to]) 
@@ -201,7 +208,8 @@ map {"@context": "http://iiif.io/api/presentation/2/context.json",
 
 declare function iiif:Canvases($item, $id, $iiifroot, $facsid){
 let $tot := $facsid/@n
-let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($facsid[not(starts-with(@facs, 'https'))][1]/@facs)
+let $facs := iiif:facsSwitch($facsid)
+let $imagesbaseurl := $config:appUrl ||'/iiif/' || $facs
        
        return
  for $graphic at $p in 1 to $tot 
@@ -449,17 +457,17 @@ let $item := if (starts-with($id, 'ES')) then collection($config:data-rootMS || 
                     else if (starts-with($id, 'EMIP')) then  collection($config:data-rootMS || '/EMIP')/id($id)
                     else $titles:collection-root//id($id)
 let $facsid := if($alt = '') then $item//t:msIdentifier/t:idno else $item//t:altIdentifier[@xml:id eq $alt]/t:idno 
-
+let $facs :=iiif:facsSwitch($facsid) (:returns an attribute @facs:)
 return
-       if($facsid/@facs) then
+       if($facs) then
 ($iiif:response200,
 
 log:add-log-message('/api/iiif/'||$id||'/manifest', sm:id()//sm:real/sm:username/string() , 'iiif'),
 
-       let $institutionID := string($item//t:repository/@ref)
+       let $institutionID := string(($item//t:repository)[1]/@ref)
 
        let $institution := titles:printTitleMainID($institutionID)
-let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($facsid[not(starts-with(@facs, 'https'))][1]/@facs)
+let $imagesbaseurl := $config:appUrl ||'/iiif/' || $facs
        let $tot := $facsid/@n
        let $url :=  $config:appUrl ||"/manuscripts/" || $id
       (:       this is where the images actually are, in the images server:)
@@ -472,8 +480,8 @@ let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($facsid[not(starts-wit
 (:       this is where the manifest is:)
        let $request := $iiifroot || "/manifest"
        (:       this is where the sequence is:)
-       let $attribution := if($item//t:repository[@ref eq 'INS0339BML']) then ('The images of the manuscript taken by Antonella Brita, Karsten Helmholz and Susanne Hummel during a mission funded by the Sonderforschungsbereich 950 Manuskriptkulturen in Asien, Afrika und Europa, the ERC Advanced Grant TraCES, From Translation to Creation: Changes in Ethiopic Style and Lexicon from Late Antiquity to the Middle Ages (Grant Agreement no. 338756) and Beta maṣāḥǝft. The images are published in conjunction with this descriptive data about the manuscript with the permission of the https://www.bmlonline.it/la-biblioteca/cataloghi/, prot. 190/28.13.10.01/2.23 of the 24 January 2019 and are available for research purposes.') else "Provided by "||string-join($item//t:collection/text(), ', ')||" project. " || (if($item//t:editionStmt/t:p) then string-join($item//t:editionStmt/t:p/string()) else ' ')
-       let $logo := if($item//t:repository[@ref eq 'INS0339BML']) then ('/rest/BetMas/resources/images/logobml.png') else "/rest/BetMas/resources/images/logo"||string-join($item//t:collection[1][not(matches(.,'\s'))]/text())||".png"
+       let $attribution := if($item//t:repository[1][@ref eq 'INS0339BML']) then ('The images of the manuscript taken by Antonella Brita, Karsten Helmholz and Susanne Hummel during a mission funded by the Sonderforschungsbereich 950 Manuskriptkulturen in Asien, Afrika und Europa, the ERC Advanced Grant TraCES, From Translation to Creation: Changes in Ethiopic Style and Lexicon from Late Antiquity to the Middle Ages (Grant Agreement no. 338756) and Beta maṣāḥǝft. The images are published in conjunction with this descriptive data about the manuscript with the permission of the https://www.bmlonline.it/la-biblioteca/cataloghi/, prot. 190/28.13.10.01/2.23 of the 24 January 2019 and are available for research purposes.') else "Provided by "||string-join($item//t:collection/text(), ', ')||" project. " || (if($item//t:editionStmt/t:p) then string-join($item//t:editionStmt/t:p/string()) else ' ')
+       let $logo := if($item//t:repository[1][@ref eq 'INS0339BML']) then ('/rest/BetMas/resources/images/logobml.png') else "/rest/BetMas/resources/images/logo"||string-join($item//t:collection[1][not(matches(.,'\s'))]/text())||".png"
        let $sequence := $iiifroot || "/sequence/normal"
      
      
@@ -550,17 +558,17 @@ let $item := if (starts-with($id, 'ES')) then collection($config:data-rootMS || 
                     else if (starts-with($id, 'EMIP')) then  collection($config:data-rootMS || '/EMIP')/id($id)
                     else $titles:collection-root//id($id)
 let $facsid := if($alt = '') then $item//t:msIdentifier/t:idno else $item//t:altIdentifier[@xml:id eq $alt]/t:idno 
-
+let $facs :=iiif:facsSwitch($facsid) (:returns an attribute @facs:)
 return
-       if($facsid/@facs) then
+       if($facs) then
 ($iiif:response200,
 
 log:add-log-message('/api/iiif/'||$id||'/range/'||$rangeId, sm:id()//sm:real/sm:username/string() , 'iiif'),
 
-       let $institutionID := string($item//t:repository/@ref)
+       let $institutionID := string($item//t:repository[1]/@ref)
 
        let $institution := titles:printTitleMainID($institutionID)
-let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($facsid/@facs)
+let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($facs)
        let $tot := $facsid/@n
        let $url :=  $config:appUrl ||"/manuscripts/" || $id
       (:       this is where the images actually are, in the images server:)
@@ -660,8 +668,9 @@ function iiif:canvas($id as xs:string*, $n as xs:string*, $alt as xs:string*) {
 log:add-log-message('/api/iiif/'||$id||'/canvas/p' || $n, sm:id()//sm:real/sm:username/string() , 'iiif'),
 let $item := $iiif:collection-rootMS/id($id)
 let $facsid := if(string-length($alt) = 0) then $item//t:msIdentifier/t:idno else $item//t:altIdentifier[@xml:id eq $alt]/t:idno 
+let $facs :=iiif:facsSwitch($facsid) (:returns an attribute @facs:)
 let $iiifroot := $config:appUrl ||"/api/iiif/" || $id 
-let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($facsid/@facs)
+let $imagesbaseurl := $config:appUrl ||'/iiif/' || $facs
  let $imagefile := format-number($n, '000') || '.tif'
 let $resid := ($imagesbaseurl || (if($item//t:collection='Ethio-SPaRe') then '_'  else ()) || $imagefile )
  let $image := ($imagesbaseurl || (if($item//t:collection='Ethio-SPaRe') then '_'  else ()) || $imagefile || '/full/full/0/default.jpg' )

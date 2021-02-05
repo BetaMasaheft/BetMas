@@ -143,17 +143,18 @@ if($countsets=1) then (
 let $manifest := viewer:manifest($this, $id, $this//t:msIdentifier/t:idno)
 
 let $location := viewer:location($this)
+let $m := $this//t:msIdentifier/t:idno
 
 let $firstcanvas := 
             (:bodleian:)
-                if(contains($this//t:msIdentifier/t:idno/@facs, 'bodleian')) 
+                if(contains(viewer:facsSwitch($m), 'bodleian')) 
                then   '' 
            (:vatican:)
-               else if(contains($this//t:msIdentifier/t:idno/@facs, 'digi.vat')) 
-               then replace(substring-before($this//t:msIdentifier/t:idno/@facs, '/manifest.json') || '/canvas/p0001', 'http:', 'https:')
+               else if(contains(viewer:facsSwitch($m), 'digi.vat')) 
+               then replace(substring-before(viewer:facsSwitch($m), '/manifest.json') || '/canvas/p0001', 'http:', 'https:')
                (:BNF:)
             else if ($this//t:repository/@ref = 'INS0303BNF') 
-            then replace($this//t:msIdentifier/t:idno/@facs, 'ark:', 'iiif/ark:') || '/canvas/f1'
+            then replace(viewer:facsSwitch($m), 'ark:', 'iiif/ark:') || '/canvas/f1'
 (:           ES, EMIP, Laurenziana, all the others :)
                 else 
                 $config:appUrl|| '/api/iiif/' || $id || '/canvas/p1' 
@@ -263,11 +264,11 @@ let $manifests := for $m in $this//t:idno[@facs][@n]
                                       if(contains($this//t:msIdentifier/t:idno/@facs, 'bodleian')) 
                                          then   '' 
                                     (:vatican:)
-                                  else  if(contains($m/@facs, 'digi.vat')) 
-                                                then replace(substring-before($m/@facs, '/manifest.json') || '/canvas/p0001', 'http:', 'https:')
+                                  else  if(contains(viewer:facsSwitch($m), 'digi.vat')) 
+                                                then replace(substring-before(viewer:facsSwitch($m), '/manifest.json') || '/canvas/p0001', 'http:', 'https:')
                                           (:BNF:)
                                              else if ($this//t:repository/@ref = 'INS0303BNF') 
-                                               then replace($m/@facs, 'ark:', 'iiif/ark:') || '/canvas/f1'
+                                               then replace(viewer:facsSwitch($m), 'ark:', 'iiif/ark:') || '/canvas/f1'
                                             (:  ES, EMIP, Laurenziana, all the others :)
                                              else 
                                            $config:appUrl|| '/api/iiif/' || $id || '/canvas/p1' 
@@ -371,26 +372,32 @@ var windowobjs =  [' || string-join($manifests, ', ') || ']
         )
 };
 
+(:for cases in which there is a facsimile with a @facs linked from the idno/@facs:)
+declare function viewer:facsSwitch($idnofacs){
+if (starts-with($idnofacs/@facs, '#')) 
+then (let $facsimileID := substring-after($idnofacs/@facs, '#') 
+            return $idnofacs/ancestor::t:TEI//t:facsimile[@xml:id=$facsimileID]/@facs) 
+else $idnofacs/@facs 
+};
+
 declare function viewer:manifest($this, $id, $m){
 let $alt := if($m/parent::t:altIdentifier) then ('?alt='||string($m/parent::t:altIdentifier/@xml:id))  else ()
-return
-                                                
-                                                (:BNF 
+return(:BNF 
                                                 https://gallica.bnf.fr/ark:/12148/btv1b10087587w
                                                 https://gallica.bnf.fr/iiif/ark:/12148/btv1b10087587w/manifest.json
                                                 :)
                                                if ($this//t:repository/@ref = 'INS0303BNF') 
                                                   then (
-                                                  replace($m/@facs, 'ark:', 'iiif/ark:') || '/manifest.json'
+                                                  replace(viewer:facsSwitch($m), 'ark:', 'iiif/ark:') || '/manifest.json'
                                                   ,
-                                                  console:log((replace($m/@facs, 'ark:', 'iiif/ark:') || '/manifest.json'))
+                                                  console:log((replace(viewer:facsSwitch($m), 'ark:', 'iiif/ark:') || '/manifest.json'))
                                                   )
                                                 else
 (:                                                vatican :)
-                                                if(contains($m/@facs, 'http:')) 
-                                                  then  replace($m/@facs, 'http:', 'https:')
-                                                 else   if(contains($m/@facs, 'https:')) 
-                                                  then  $m/@facs
+                                                if(contains(viewer:facsSwitch($m), 'http:')) 
+                                                  then  replace(viewer:facsSwitch($m), 'http:', 'https:')
+                                                 else   if(contains(viewer:facsSwitch($m), 'https:')) 
+                                                  then  viewer:facsSwitch($m)
                                              (:           Ethio-SPaRe, EMIP, Laurenziana, and all the others :)
                                                else  $config:appUrl|| '/api/iiif/' || $id || '/manifest' || $alt
 };
