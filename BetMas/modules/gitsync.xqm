@@ -189,15 +189,23 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
         let $resource-path := substring-before($modified, $file-name)
         let $collection-uri := concat($collection, '/', $resource-path)
         return
-            try {
-                (
+           ( try {
 (:                first update the mirror collection of the git repositories in BetMasData :)
-                  gitsync:updateMirrorCol($collection-uri, $file-name, $file-data, 'update'),
+                  gitsync:updateMirrorCol($collection-uri, $file-name, $file-data, 'update') } 
+                  catch * {
+                (<response
+                    status="fail">
+                    <message>Failed to update resource: {concat($err:code, ": ", $err:description)}</message>
+                </response>,
+                        gitsync:failedCommitMessage($committerEmail, $data-collection, concat('Failed to update resource ' ,$file-name, ': ',$err:code, ": ", $err:description))
+                        )
+            }
+            ,
 (:          then    update the  expanded collection    :)
                 gitsync:updateExpanded($collection-uri, $file-name) ,
 (:        if the update goes well, validation happens after storing, 
 :  because the app needs to remain in sync with the GIT repo. Yes, invalid data has to be allowed in... :)
-                gitsync:fileortax($collection-uri, $file-name) ,
+                gitsync:fileortax($collection-uri, $file-name, $committerEmail) ,
 (:   then update autority lists:)
                  gitsync:updateLists($data-collection, $file-name) ,
 (:                    then update the RDF repository:)
@@ -207,14 +215,7 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
 (:                    if any of these fails follow instructions in catch, 
 - send a fail response to git webhook and an email to the committer
 :)                )
-            } catch * {
-                (<response
-                    status="fail">
-                    <message>Failed to update resource: {concat($err:code, ": ", $err:description)}</message>
-                </response>,
-                        gitsync:failedCommitMessage($committerEmail, $data-collection, concat('Failed to update resource ' ,$file-name, ': ',$err:code, ": ", $err:description))
-                        )
-            }
+           
 };
 
 
@@ -397,7 +398,7 @@ declare function gitsync:updateMirrorCol($collection-uri, $file-name, $file-data
                     </response>
 };
 
-declare function gitsync:fileortax($collection-uri, $file-name){
+declare function gitsync:fileortax($collection-uri, $file-name, $committerEmail){
 let $stored-file := doc($collection-uri || '/' || $file-name)
                 return
                     if($file-name='taxonomy.xml') then (
@@ -449,7 +450,7 @@ declare function gitsync:updateExpanded($collection-uri, $file-name){
 let $expanded-collection-uri := replace($collection-uri,'/BetMasData/', '/expanded/')
 let $storedfilepath := $collection-uri || '/' || $file-name
 let $storedTEI := doc($storedfilepath)
-return if($stored-file/t:TEI) then 
+return if($storedTEI/t:TEI) then 
 let $expanded-file := expand:file($storedfilepath)
 return
                     if (xmldb:collection-available($expanded-collection-uri)) 
@@ -458,8 +459,8 @@ return
                         status="okay">
                         <message>{
                         (xmldb:store($expanded-collection-uri, xmldb:encode-uri($file-name), $expanded-file),
-                        sm:chmod(xs:anyURI(concat($collection-uri, '/', $file-name)), 'rwxrwxr-x'),
-                                sm:chgrp(xs:anyURI(concat($collection-uri, '/', $file-name)), 'Cataloguers'))
+                        sm:chmod(xs:anyURI(concat($expanded-collection-uri, '/', $file-name)), 'rwxrwxr-x'),
+                                sm:chgrp(xs:anyURI(concat($expanded-collection-uri, '/', $file-name)), 'Cataloguers'))
                         }</message>
                     </response>
                 else
@@ -469,8 +470,8 @@ return
                             {
                             (expand:create-collections($expanded-collection-uri), 
                             xmldb:store($expanded-collection-uri, xmldb:encode-uri($file-name), $expanded-file),
-                            sm:chmod(xs:anyURI(concat($collection-uri, '/', $file-name)), 'rwxrwxr-x'),
-                            sm:chgrp(xs:anyURI(concat($collection-uri, '/', $file-name)), 'Cataloguers'))}
+                            sm:chmod(xs:anyURI(concat($expanded-collection-uri, '/', $file-name)), 'rwxrwxr-x'),
+                            sm:chgrp(xs:anyURI(concat($expanded-collection-uri, '/', $file-name)), 'Cataloguers'))}
                         </message>
                     </response>
    else 
