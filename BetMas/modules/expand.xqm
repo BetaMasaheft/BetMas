@@ -130,6 +130,13 @@ declare variable $expand:canontax := doc('/db/apps/BetMas/lists/canonicaltaxonom
 
 declare variable $expand:fullTEIcol-path := '/db/apps/expanded';
 
+(:~
+ : Recursively creates new collections if necessary. 
+ : improved from former gitsync:create-collections 
+ : to avoid issues with parts of a uri which are the same
+ : and directly change ownership and access
+ : @param $uri url to resource being added to db 
+ :)
 declare function expand:create-collections($uri as xs:string) {
     let $collection-uri := substring($uri, 1)
    let $parts := for $part at $p in tokenize($collection-uri, '/') return <part n="{$p}">{$part}</part>
@@ -138,7 +145,7 @@ declare function expand:create-collections($uri as xs:string) {
     let $parent-collection := concat('/', string-join($parts[@n lt $index]/text(), '/'), '/')
     let $current-path := concat($parent-collection ,$collection)
     return
-        if (xmldb:collection-available($current-path)) then
+        if (xmldb:collection-available($current-path) or $current-path= '//') then
             ()
         else
             (xmldb:create-collection($parent-collection, $collection),

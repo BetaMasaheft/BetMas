@@ -22,12 +22,18 @@ module namespace gitsync = "http://syriaca.org/ns/gitsync";
  :  added validation and specific report, changed to use 3.1 and to use parse-json instead of xqjson
  : @see https://exist-db.org/exist/apps/wiki/blogs/eXist/XQuery31
  :  after storing the file this is transformed to RDF and stored in the RDF collection
+ : 
+ : @version 1.3
+ : calls expanded.xqm to expand xi:include elements and transform the file into a fully expanded entity to 
+ : store it in a separate collection where indexes with fields are provided and a lighter and faster set up
+ : updated the collection creation
  :)
 
 import module namespace xdb = "http://exist-db.org/xquery/xmldb";
 import module namespace http = "http://expath.org/ns/http-client";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
+import module namespace expand = "https://www.betamasaheft.uni-hamburg.de/BetMas/expand" at "xmldb:exist:///db/apps/BetMas/modules/expand.xqm";
 import module namespace updatefuseki = 'https://www.betamasaheft.uni-hamburg.de/BetMas/updatefuseki' at "xmldb:exist:///db/apps/BetMas/fuseki/updateFuseki.xqm";
 import module namespace validation = "http://exist-db.org/xquery/validation";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
@@ -41,22 +47,8 @@ declare variable $gitsync:deleted := doc('/db/apps/BetMas/lists/deleted.xml');
 declare variable $gitsync:taxonomy := doc(concat($config:data-rootA,'/taxonomy.xml'));
 declare variable $gitsync:canotax := doc('db/apps/BetMas/lists/canonicaltaxonomy.xml');
 declare variable $gitsync:data2rdf := 'xmldb:exist:///db/apps/BetMas/rdfxslt/data2rdf.xsl';
-(:~
- : Recursively creates new collections if necessary. 
- : @param $uri url to resource being added to db 
- :)
-declare function gitsync:create-collections($uri as xs:string) {
-    let $collection-uri := substring($uri, 1)
-    for $collections in tokenize($collection-uri, '/')
-    let $current-path := concat('/', substring-before($collection-uri, $collections), $collections)
-    let $parent-collection := substring($current-path, 1, string-length($current-path) - string-length(tokenize($current-path, '/')[last()]))
-    return
-        if (xmldb:collection-available($current-path)) then
-            ()
-        else
-            xmldb:create-collection($parent-collection, $collections)
-};
 
+(:Stores the RDF in the correct subcollection in the archive inside exist and sends a request to fuseki to update :)
 declare function gitsync:rdf($collection-uri, $file-name){
     let $stored-file := doc($collection-uri || '/' || $file-name)
 (:transforms and stores the RDF as XML:)
@@ -198,57 +190,23 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
         let $collection-uri := concat($collection, '/', $resource-path)
         return
             try {
-                (if (xmldb:collection-available($collection-uri)) then
-                    
-                    <response
-                        status="okay">
-                        <message>{xmldb:store($collection-uri, xmldb:encode-uri($file-name), xs:base64Binary($file-data))}</message>
-                    </response>
-                else
-                    <response
-                        status="okay">
-                        <message>
-                            {(gitsync:create-collections($collection-uri), xmldb:store($collection-uri, xmldb:encode-uri($file-name), xs:base64Binary($file-data)))}
-                        </message>
-                    </response>
-                ,
-                (:        if the update goes well, validation happens after storing, because the app needs to remain in sync with the GIT repo. Yes, invalid data has to be allowed in.:)
-                let $stored-file := doc($collection-uri || '/' || $file-name)
-                return
-                    if($file-name='taxonomy.xml') then (
-                    gitsync:TaxonomyMessage()
-                    ) 
-                    else gitsync:validateAndConfirm($stored-file, $committerEmail, 'updated')
-                    ,
-                    if(contains($data-collection, 'institutions')) then (
-                    gitsync:updateinstitutionsMOD($file-name) )
-                    else if(contains($data-collection, 'persons')) then (
-                    gitsync:updatepersonsMOD($file-name) )
-                   else if(contains($data-collection, 'works')) then (
-                    gitsync:updatetextpartsMOD($file-name))
-                    else if(contains($data-collection, 'places')) then (
-                    gitsync:updateplacesMOD($file-name) ) 
-                    else ()
-                    ,
-                   gitsync:rdf($collection-uri, $file-name),
-                     if (ends-with($file-name, '.xml')) then (
-                     let $Stfile := doc($collection-uri || '/' || $file-name)
-                     let $collectionName := substring-after($data-collection, '/db/apps/BetMasData/')
-                     let $stored-fileID := $Stfile/t:TEI/@xml:id/string()
-                     let $filename := substring-before($file-name, '.xml')
-                     let $allids := for $xmlid in $Stfile//@xml:id return lower-case(string($xmlid))
-                     let $taxonomy := for $key in $gitsync:taxonomy//t:catDesc/text() return lower-case($key)
-                     return
-                     if ($stored-fileID eq $filename) then (
-                     if(($allids = $taxonomy) and ($collectionName !='authority-files')) then (let $intersect := config:distinct-values($allids[.=$taxonomy])
-                     return
-                     gitsync:wrongAnchor($committerEmail, $intersect, $filename)) else ()
-                     ) else (
-                     gitsync:wrongID($committerEmail, $stored-fileID, $filename)
-                     )
-                     ) else ()
-                    
-                )
+                (
+(:                first update the mirror collection of the git repositories in BetMasData :)
+                  gitsync:updateMirrorCol($collection-uri, $file-name, $file-data, 'update'),
+(:          then    update the  expanded collection    :)
+                gitsync:updateExpanded($collection-uri, $file-name) ,
+(:        if the update goes well, validation happens after storing, 
+:  because the app needs to remain in sync with the GIT repo. Yes, invalid data has to be allowed in... :)
+                gitsync:fileortax($collection-uri, $file-name) ,
+(:   then update autority lists:)
+                 gitsync:updateLists($data-collection, $file-name) ,
+(:                    then update the RDF repository:)
+                 gitsync:rdf($collection-uri, $file-name) ,
+(:                   and finally check the ids for wrong anchors:)
+                 gitsync:checkAnchors($data-collection, $committerEmail, $collection-uri, $file-name)
+(:                    if any of these fails follow instructions in catch, 
+- send a fail response to git webhook and an email to the committer
+:)                )
             } catch * {
                 (<response
                     status="fail">
@@ -258,6 +216,7 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
                         )
             }
 };
+
 
 (:~
  : Adds new files to eXistdb. Changes permissions for group write. 
@@ -294,33 +253,10 @@ declare function gitsync:do-add($commits, $contents-url as xs:string?, $data-col
         let $collection-uri := concat($collection, '/', $resource-path)
         return
             try {
-                (if (xmldb:collection-available($collection-uri)) then
-                    <response
-                        status="okay">
-                        <message>
-                            {
-                                (
-                                xmldb:store($collection-uri, xmldb:encode-uri($file-name), xs:base64Binary($file-data)),
-                                sm:chmod(xs:anyURI(concat($collection-uri, '/', $file-name)), 'rwxrwxr-x'),
-                                sm:chgrp(xs:anyURI(concat($collection-uri, '/', $file-name)), 'Cataloguers')
-                                )
-                            }
-                        </message>
-                    </response>
-                else
-                    <response
-                        status="okay">
-                        <message>
-                            {
-                                (
-                                gitsync:create-collections($collection-uri),
-                                xmldb:store($collection-uri, xmldb:encode-uri($file-name), xs:base64Binary($file-data)),
-                                sm:chmod(xs:anyURI(concat($collection-uri, '/', $file-name)), 'rwxrwxr-x'),
-                                sm:chgrp(xs:anyURI(concat($collection-uri, '/', $file-name)), 'Cataloguers')
-                                )
-                            }
-                        </message>
-                    </response>,
+                (
+                gitsync:updateMirrorCol($collection-uri, $file-name, $file-data, 'add'),
+(:          then    update the  expanded collection    :)
+                gitsync:updateExpanded($collection-uri, $file-name) ,
                 (:        if the update goes well, validation happens after storing, because the app needs to remain in sync with the GIT repo. Yes, invalid data has to be allowed in.:)
                 let $stored-file := doc($collection-uri || '/' || $file-name)
                 return
@@ -390,6 +326,7 @@ return
     let $rdffilename := replace($file-name, '.xml', '.rdf')
     let $resource-path := substring-before($modified, $file-name)
     let $collection-uri := replace(concat($collection, '/', $resource-path), '/$', '')
+    let $expanded-collection-uri := replace($collection-uri, 'BetMasData', 'expanded')
     let $rdfcoll := '/db/rdf/' || substring-after($data-collection, 'Data/')
     let $rdfxml:= doc($rdfcoll||$rdffilename)
     let $updateFuseki := updatefuseki:update($rdfxml, 'DELETE')
@@ -397,7 +334,8 @@ return
         try {
             <response
                 status="okay">
-                <message>removed {$collection-uri}/{$file-name}{xmldb:remove($collection-uri, $file-name)} 
+                <message>removed {$collection-uri}/{$file-name}{xmldb:remove($collection-uri, $file-name)},
+                  {$expanded-collection-uri}/{$file-name}{xmldb:remove($expanded-collection-uri, $file-name)} from expanded data collection,
                 and {$rdfcoll}/{$rdffilename}{xmldb:remove($rdfcoll, $rdffilename)} also from fuseki
                 {(
                     if(contains($data-collection, 'institutions')) then (
@@ -423,7 +361,7 @@ return
         } catch * {
 (            <response
                 status="fail">
-                <message>Failed to remove resource: {concat($err:code, ": ", $err:description)}</message>
+                <message>Failed to remove resource {$file-name} : {concat($err:code, ": ", $err:description)}</message>
             </response>,
                         gitsync:failedCommitMessage($committerEmail, $data-collection, concat('Failed to remove resource ' ,$file-name, ': ',$err:code, ": ", $err:description))
                         )
@@ -431,7 +369,134 @@ return
 
 };
 
+(:This function updates the collection BetMasData, which is the mirror of the repositories in Github it is called when adding and updating resources:)
+declare function gitsync:updateMirrorCol($collection-uri, $file-name, $file-data, $updateoradd){
+   if (xmldb:collection-available($collection-uri)) 
+                then
+                    <response
+                        status="okay">
+                        <message>{
+                        (xmldb:store($collection-uri, xmldb:encode-uri($file-name), xs:base64Binary($file-data)),
+                        if($updateoradd = 'add') then 
+                                (sm:chmod(xs:anyURI(concat($collection-uri, '/', $file-name)), 'rwxrwxr-x'),
+                                sm:chgrp(xs:anyURI(concat($collection-uri, '/', $file-name)), 'Cataloguers'))
+                        else ())
+                        }</message>
+                    </response>
+                else
+                    <response
+                        status="okay">
+                        <message>
+                            {(expand:create-collections($collection-uri), 
+                            xmldb:store($collection-uri, xmldb:encode-uri($file-name), xs:base64Binary($file-data)),
+                        if($updateoradd = 'add') then 
+                                (sm:chmod(xs:anyURI(concat($collection-uri, '/', $file-name)), 'rwxrwxr-x'),
+                                sm:chgrp(xs:anyURI(concat($collection-uri, '/', $file-name)), 'Cataloguers'))
+                        else ())}
+                        </message>
+                    </response>
+};
 
+declare function gitsync:fileortax($collection-uri, $file-name){
+let $stored-file := doc($collection-uri || '/' || $file-name)
+                return
+                    if($file-name='taxonomy.xml') then (
+                    gitsync:TaxonomyMessage()
+                    ) 
+                    else gitsync:validateAndConfirm($stored-file, $committerEmail, 'updated')
+                   };
+
+declare function gitsync:updateLists($data-collection, $file-name){
+   if(contains($data-collection, 'institutions')) then (
+                    gitsync:updateinstitutionsMOD($file-name) )
+                    else if(contains($data-collection, 'persons')) then (
+                    gitsync:updatepersonsMOD($file-name) )
+                   else if(contains($data-collection, 'works')) then (
+                    gitsync:updatetextpartsMOD($file-name))
+                    else if(contains($data-collection, 'places')) then (
+                    gitsync:updateplacesMOD($file-name) ) 
+                    else ()};
+
+declare function gitsync:checkAnchors($data-collection, $committerEmail, $collection-uri, $file-name){
+  if (ends-with($file-name, '.xml')) then (
+                     let $Stfile := doc($collection-uri || '/' || $file-name)
+                     let $collectionName := substring-after($data-collection, '/db/apps/BetMasData/')
+                     let $stored-fileID := $Stfile/t:TEI/@xml:id/string()
+                     let $filename := substring-before($file-name, '.xml')
+                     let $allids := for $xmlid in $Stfile//@xml:id return lower-case(string($xmlid))
+                     let $taxonomy := for $key in $gitsync:taxonomy//t:catDesc/text() return lower-case($key)
+                     return
+                     if ($stored-fileID eq $filename) then (
+                     if(($allids = $taxonomy) and ($collectionName !='authority-files')) 
+                     then (
+                     let $intersect := config:distinct-values($allids[.=$taxonomy])
+                     return
+                     gitsync:wrongAnchor($committerEmail, $intersect, $filename)) else ()
+                     ) else (
+                     gitsync:wrongID($committerEmail, $stored-fileID, $filename)
+                     )
+                     ) else ()
+};
+
+(:This function, ALWAYS CALLED AFTER HAVING STORED A FILE IN THE MIRROR COLLECTION /BetMasData/
+: looks at the stored file and updates the collection expanded calling the module expand.xqm to expand all references and especially xi:include, 
+: this is the collection indexed with fields.
+: for xi:include the praxis is to create a collection with the id of the mss and then have inside it all the included parts. This means that only one TEI file will be
+: in the collection. 
+: if it is a partial file, included by another one, which has been updated, is changed than the function will look for the TEI file and run the expand.xqm on that
+: the function is called on update and add :)
+declare function gitsync:updateExpanded($collection-uri, $file-name){
+let $expanded-collection-uri := replace($collection-uri,'/BetMasData/', '/expanded/')
+let $storedfilepath := $collection-uri || '/' || $file-name
+let $storedTEI := doc($storedfilepath)
+return if($stored-file/t:TEI) then 
+let $expanded-file := expand:file($storedfilepath)
+return
+                    if (xmldb:collection-available($expanded-collection-uri)) 
+                then
+                    <response
+                        status="okay">
+                        <message>{
+                        (xmldb:store($expanded-collection-uri, xmldb:encode-uri($file-name), $expanded-file),
+                        sm:chmod(xs:anyURI(concat($collection-uri, '/', $file-name)), 'rwxrwxr-x'),
+                                sm:chgrp(xs:anyURI(concat($collection-uri, '/', $file-name)), 'Cataloguers'))
+                        }</message>
+                    </response>
+                else
+                    <response
+                        status="okay">
+                        <message>
+                            {
+                            (expand:create-collections($expanded-collection-uri), 
+                            xmldb:store($expanded-collection-uri, xmldb:encode-uri($file-name), $expanded-file),
+                            sm:chmod(xs:anyURI(concat($collection-uri, '/', $file-name)), 'rwxrwxr-x'),
+                            sm:chgrp(xs:anyURI(concat($collection-uri, '/', $file-name)), 'Cataloguers'))}
+                        </message>
+                    </response>
+   else 
+(:   the file being updated is not a TEI file, it must be a part of a TEI file, then the expansion needs to be done on the TEI including it:)
+let $includingfile := collection($collection-uri)/t:TEI
+let $includingfilepath := base-uri($includingfile)
+let $expanded-file := expand:file($includingfilepath)
+return
+  if (xmldb:collection-available($expanded-collection-uri)) 
+                then
+                    <response
+                        status="okay">
+                        <message>{
+                        xmldb:store($expanded-collection-uri, xmldb:encode-uri($file-name), $expanded-file)
+                        }</message>
+                    </response>
+                else
+                    <response
+                        status="okay">
+                        <message>
+                            {
+                            (expand:create-collections($expanded-collection-uri), 
+                            xmldb:store($expanded-collection-uri, xmldb:encode-uri($file-name), $expanded-file))}
+                        </message>
+                    </response>
+};
 
 (:~
  :after storing a resource (and thus keeping the app in sync with the git repos)
