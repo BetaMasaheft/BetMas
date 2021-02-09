@@ -85,6 +85,11 @@
                                <xsl:attribute name="data-year">   <xsl:value-of select="substring(., 1, 4)"/></xsl:attribute>
                                <xsl:attribute name="data-month">   <xsl:value-of select="substring(., 5, 7)"/></xsl:attribute>
                            </xsl:when>
+                           <xsl:when test="starts-with(.,'--')">
+                               <!--                           month and day   - - 04 -14 -->
+                               <xsl:attribute name="data-month">   <xsl:value-of select="substring(., 3, 4)"/></xsl:attribute>
+                               <xsl:attribute name="data-day">   <xsl:value-of select="substring(., 6, 7)"/></xsl:attribute>
+                           </xsl:when>
                             <xsl:otherwise>
 <!--                                the date is in the format 1900-03-01 -->
                                 <xsl:attribute name="data-year">   <xsl:value-of select="substring(., 1, 4)"/></xsl:attribute>
