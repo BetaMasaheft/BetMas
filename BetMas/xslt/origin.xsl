@@ -80,6 +80,36 @@
                 <xsl:text> according to </xsl:text>
                 <xsl:copy-of select="$resp"/>
             </xsl:if>
+            <xsl:if test="@calendar">
+                <xsl:variable name="cal" select="@calendar"/>
+                <xsl:if test="@notBefore | @notAfter |@when | @notBefore-custom | @notAfter-custom |@when-custom">
+                    <xsl:for-each select="@notBefore | @notAfter |@when| @notBefore-custom | @notAfter-custom |@when-custom">
+                        <time data-calendar="{$cal}">
+                            <span><xsl:value-of select="name()"/>: </span>
+                            <!--                        data-calendar="ethiopic" 
+                            data-day="18" data-month="tahsas" data-year="1437"-->
+                            <xsl:choose>
+                                <xsl:when test="string-length(.)=4">
+                                    <!--                                there is only a year-->
+                                    <xsl:attribute name="data-year">   <xsl:value-of select="."/></xsl:attribute>
+                                </xsl:when>
+                                <xsl:when test="string-length(.)=7">
+                                    <!--                                there is only a year and month-->
+                                    <xsl:attribute name="data-year">   <xsl:value-of select="substring(., 1, 4)"/></xsl:attribute>
+                                    <xsl:attribute name="data-month">   <xsl:value-of select="substring(., 5, 7)"/></xsl:attribute>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <!--                                the date is in the format 1900-03-01 -->
+                                    <xsl:attribute name="data-year">   <xsl:value-of select="substring(., 1, 4)"/></xsl:attribute>
+                                    <xsl:attribute name="data-month">   <xsl:value-of select="substring(., 6, 7)"/></xsl:attribute>
+                                    <xsl:attribute name="data-day">   <xsl:value-of select="substring(., 9, 10)"/></xsl:attribute>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                            <xsl:value-of select="."/>
+                        </time><span> </span>
+                    </xsl:for-each>
+                </xsl:if>
+            </xsl:if>
         </p>
         <xsl:if test="child::t:* or text()">
             <p class="w3-large">
