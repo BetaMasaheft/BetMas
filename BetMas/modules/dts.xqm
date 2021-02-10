@@ -1648,7 +1648,7 @@ for $w in config:distinct-values($witnesses)
                                let $witness := $titles:collection-root/id($w)
                                return 
                                              if ($witness//t:idno[@facs]) then 
-                                                 let $facs := string($witness//t:idno/@facs)
+                                                 let $facs := string(string-join($witness//t:idno[1]/@facs))
                                                  return
                                                  if(starts-with($facs, 'http')) 
 (:                                                 external manifest:)
