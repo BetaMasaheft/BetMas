@@ -589,7 +589,7 @@
                     <xsl:variable name="file" select="$locus/ancestor::t:TEI"/>
                     <xsl:variable name="location" select="tokenize($file//t:msIdentifier/t:idno/@facs/string(), '/')"/>
                     <xsl:for-each select="$ranges/*:val">
-                        <xsl:message><xsl:copy-of select="."/></xsl:message>
+<!--                        <xsl:message><xsl:copy-of select="."/></xsl:message>-->
                         <xsl:variable name="nextpos" select="(xs:integer(./*:pos) + 1)"/>
                         <xsl:variable name="prevpos" select="(xs:integer(./*:pos) - 1)"/>
                         <xsl:variable name="next" select="$ranges//*:val[*:pos = $nextpos]"/>
@@ -629,7 +629,8 @@
                                                                                                      full/0/default.jpg   -->
                                     <xsl:variable name="nextMatchingLine" select="                                             if ($f = $nf and ($c = $nc or $s = $ns)) then                                                 $file//t:zone[@rendition = 'Line'][@xml:id = substring-after($nextMatchingPageBreak/@facs, '#')]                                             else                                                 ()"/>
                                     <xsl:variable name="locationclean" select="string-join($location[position() lt last()], '/')"/>
-                                    <xsl:variable name="filename" select="$matchingLine/ancestor::t:surface[1]/@corresp"/>
+                                    <xsl:variable name="filename" select="$matchingLine/ancestor-or-self::t:surface[1]/t:graphic/@url"/>
+<xsl:message><xsl:value-of select="$filename"/></xsl:message>
                                     <xsl:variable name="regionX" select="$matchingLine/@ulx"/>
                                     <xsl:variable name="regionY" select="$matchingLine/@uly"/>
                                     <xsl:variable name="regionW" select="                                             (if ($nextMatchingLine) then                                                 $nextMatchingLine/@lrx                                             else                                                 $matchingLine/@lrx) - $matchingLine/@ulx"/>
@@ -648,7 +649,8 @@
                                     <xsl:variable name="matchingCol" select="$file//t:zone[@rendition = 'TextRegion'][@xml:id = substring-after($matchingColumnBreak[1]/@facs, '#')]"/>
                                     <xsl:variable name="nextMatchingCol" select="                                         if ($f = $nf and ($c = $nc or $s = $ns)) then                                         $file//t:zone[@rendition = 'TextRegion'][@xml:id = substring-after($nextMatchingColBreak[1]/@facs, '#')]                                         else                                         ()"/>
                                     <xsl:variable name="locationclean" select="string-join($location[position() lt last()], '/')"/>
-                                    <xsl:variable name="filename" select="$matchingCol/ancestor::t:surface[1]/@corresp"/>
+                                    <xsl:variable name="filename" select="$matchingCol/ancestor-or-self::t:surface[1]/t:graphic/@url"/>
+                                    <xsl:message><xsl:value-of select="$filename"/></xsl:message>
                                     <xsl:variable name="regionX" select="$matchingCol/@ulx"/>
                                     <xsl:variable name="regionY" select="$matchingCol/@uly"/>
                                     <xsl:variable name="regionW" select=" (if ($nextMatchingCol) then                                         $nextMatchingCol/@lrx                                         else                                         $matchingCol/@lrx) - $matchingCol/@ulx"/>
@@ -664,7 +666,7 @@
                                     <xsl:variable name="matchingPageBreak" select="$file//t:pb[@n = $fs][starts-with(@facs, '#facs_')]"/>
                                     <xsl:variable name="matchingImage" select="$file//(t:facsimile|t:surface)[@xml:id = substring-after($matchingPageBreak/@facs, '#')]"/>
                                     <xsl:variable name="locationclean" select="string-join($location[position() lt last()], '/')"/>
-                                    <xsl:variable name="filename" select="$matchingImage/(self::t:surface|child::t:surface)/@corresp"/>
+                                    <xsl:variable name="filename" select="$matchingImage/(self::t:surface|child::t:surface)/t:graphic/@url"/>
                                     <!--                                  if we could be sure all fotos are openings, the side could be extracted with a selection of a percentage width.
                                     This is however not the case. some images are openings, some are not.-->
                                     <xsl:value-of select="                                             concat(                                             $iiifbase,                                             $locationclean, '/',                                             $filename, '/full/full/0/default.jpg'                                             )"/>
@@ -677,7 +679,7 @@
                             <xsl:value-of select="funct:parseRef($FromToTarget)"/>
                         </p>
                         <a href="{$firscanvas}" target="_blank">
-                            <img src="{$url}" alt="Extract from {$location} for {$FromToTarget}"/>
+                            <img src="{$url}" alt="Extract from {$location} for {$FromToTarget}" style="max-width:100%"/>
                         </a>
                    </xsl:otherwise> 
                         </xsl:choose>
