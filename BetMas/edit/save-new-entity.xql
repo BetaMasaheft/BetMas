@@ -570,14 +570,16 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
     
     (: store the filename :)
     let $file := concat($Newid, '.xml')
-    
+
+    (:confirmation page with instructions for editors:)
+    return
+    try {
+        
     (: create the new file with a still-empty id element :)
     let $store := xmldb:store($data-collection, $file, $item)
 (:    permissions:)
    let $assigntoGroup := sm:chgrp(xs:anyURI($data-collection||'/'||$file), 'Cataloguers')
    let $setpermissions := sm:chmod(xs:anyURI($data-collection||'/'||$file), 'rwxrwxr-x')
-    
-    (:confirmation page with instructions for editors:)
     return
         <html>
             
@@ -657,4 +659,65 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                     type="text/javascript"
                     src="resources/js/confirmonleave.js"/>
             </body>
+        </html>}
+        catch * {
+        <html>
+            
+            <head>
+                <link
+                    rel="shortcut icon"
+                    href="resources/images/favicon.ico"/>
+                <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1.0"/>
+                <link
+                    rel="shortcut icon"
+                    href="resources/images/minilogo.ico"/>
+                <link
+                    rel="stylesheet"
+                    type="text/css"
+                    href="$shared/resources/css/bootstrap-3.0.3.min.css"/>
+                <link
+                    rel="stylesheet"
+                    href="resources/font-awesome-4.7.0/css/font-awesome.min.css"/>
+                <link
+                    rel="stylesheet"
+                    type="text/css"
+                    href="resources/css/style.css"/>
+                <script
+                    xmlns=""
+                    type="text/javascript"
+                    src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+                <script
+                    xmlns=""
+                    type="text/javascript"
+                    src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+                <script
+                    xmlns=""
+                    type="text/javascript"
+                    src="http://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"></script>
+                <script
+                    type="text/javascript"
+                    src="$shared/resources/scripts/loadsource.js"></script>
+                <script
+                    type="text/javascript"
+                    src="$shared/resources/scripts/bootstrap-3.0.3.min.js"></script>
+                
+                <title>Save Confirmation</title>
+            </head>
+            <body>
+                <div id="confirmation" class="container">
+                    <div class="jumbotron">
+                    <p
+                        class="lead">Thank you very much {sm:id()//sm:real/sm:username/string()} for trying to store a new file!</p>
+                    <p> Unfortunately
+                        <span
+                            class="lead">{$Newid}</span> could not be saved</p>
+                    <p>This is the first error which occurred {$err:description}, feel free to copy it and send it to pietro.liuzzo@uni-hamburg.de.</p>
+                    <a
+                        href="/newentry.html?collection={$collection}">create another entry</a>
+                </div>
+                </div>
+            </body>
         </html>
+        }
