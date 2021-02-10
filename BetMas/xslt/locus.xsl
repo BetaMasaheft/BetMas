@@ -1,19 +1,13 @@
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:funct="my.funct"
-    xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    exclude-result-prefixes="#all" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:funct="my.funct" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:function name="funct:imagesID">
         <xsl:param name="locus"/>
         <xsl:param name="callorid"/>
         <xsl:param name="att"/>
         <xsl:param name="ancID"/>
-        <xsl:variable name="id"
-            select="concat('images', replace(normalize-space(string-join($att)), ' ', '_'), $ancID)"/>
+        <xsl:variable name="id" select="concat('images', replace(normalize-space(string-join($att)), ' ', '_'), $ancID)"/>
         <xsl:choose>
             <xsl:when test="$callorid = 'call'">
-                <xsl:value-of
-                    select="concat('document.getElementById(&#34;', $id, '&#34;).style.display=&#34;block&#34;')"
-                />
+                <xsl:value-of select="concat('document.getElementById(&#34;', $id, '&#34;).style.display=&#34;block&#34;')"/>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="$id"/>
@@ -74,8 +68,7 @@
         <xsl:variable name="parent" select="parent::node()"/>
         <xsl:variable name="anc" select="ancestor::t:*[@xml:id][1]"/>
         <xsl:variable name="ancID" select="replace($anc/@xml:id, '\.', '_')"/>
-        <xsl:if
-            test="parent::t:ab[not(@type = 'CruxAnsata' or @type = 'ChiRho' or @type = 'coronis')]">
+        <xsl:if test="parent::t:ab[not(@type = 'CruxAnsata' or @type = 'ChiRho' or @type = 'coronis')]">
             <xsl:text>(Excerpt from </xsl:text>
         </xsl:if>
         <xsl:choose>
@@ -89,8 +82,7 @@
                             <xsl:when test="contains(@target, ' ')">
                                 <!--                                this will need a plural abbreviation-->
                                 <xsl:choose>
-                                    <xsl:when test="//t:extent/t:measure[@unit = 'page']"
-                                        >pp.</xsl:when>
+                                    <xsl:when test="//t:extent/t:measure[@unit = 'page']">pp.</xsl:when>
                                     <xsl:otherwise>
                                         <xsl:text>ff. </xsl:text>
                                     </xsl:otherwise>
@@ -105,9 +97,7 @@
                                             <xsl:with-param name="text" select="$text"/>
                                             <xsl:with-param name="ancID" select="$ancID"/>
                                         </xsl:call-template>
-                                        <xsl:value-of
-                                            select="funct:parseRef(concat(substring-after(., '#'), ' '))"
-                                        />
+                                        <xsl:value-of select="funct:parseRef(concat(substring-after(., '#'), ' '))"/>
                                     </a>
                                 </xsl:for-each>
                             </xsl:when>
@@ -120,14 +110,12 @@
                                         <xsl:with-param name="ancID" select="$ancID"/>
                                     </xsl:call-template>
                                     <xsl:choose>
-                                        <xsl:when test="//t:extent/t:measure[@unit = 'page']"
-                                            >p.</xsl:when>
+                                        <xsl:when test="//t:extent/t:measure[@unit = 'page']">p.</xsl:when>
                                         <xsl:otherwise>
                                             <xsl:text>f. </xsl:text>
                                         </xsl:otherwise>
                                     </xsl:choose>
-                                    <xsl:value-of
-                                        select="funct:parseRef(substring-after(@target, '#'))"/>
+                                    <xsl:value-of select="funct:parseRef(substring-after(@target, '#'))"/>
                                 </a>
                             </xsl:otherwise>
                         </xsl:choose>
@@ -215,12 +203,7 @@
                         <xsl:value-of select="concat('-', ./parent::t:*/@to)"/>
                     </xsl:if>
                 </xsl:for-each>
-                <xsl:for-each
-                    select="
-                        if (contains(@target, ' ')) then
-                            tokenize(@target, ' ')
-                        else
-                            @target">
+                <xsl:for-each select="                         if (contains(@target, ' ')) then                             tokenize(@target, ' ')                         else                             @target">
                     <xsl:value-of select="substring-after(., '#')"/>
                 </xsl:for-each>
             </xsl:variable>
@@ -274,16 +257,12 @@
             <!-- Modal content-->
             <div class="w3-modal-content">
                 <header class="w3-container">
-                    <h4>Images relevant for <span class="MainTitle" data-value="{$mainID}#{$ancID}"
-                        />, from <xsl:value-of select="ancestor::t:TEI//t:msIdentifier/t:idno/@facs"
-                        />
+                    <h4>Images relevant for <span class="MainTitle" data-value="{$mainID}#{$ancID}"/>, from <xsl:value-of select="ancestor::t:TEI//t:msIdentifier/t:idno/@facs"/>
                     </h4>
                     <div>
                         <xsl:choose>
                             <xsl:when test="@target">You are viewing a sequence of images including
-                                ff. <xsl:value-of
-                                    select="replace(string-join(tokenize(normalize-space(@target), ' #'), ', '), '#', '')"
-                                />
+                                ff. <xsl:value-of select="replace(string-join(tokenize(normalize-space(@target), ' #'), ', '), '#', '')"/>
                             </xsl:when>
                             <xsl:otherwise>You are viewing a sequence of images from f.
                                     <xsl:value-of select="@from"/>
@@ -292,14 +271,11 @@
                             </xsl:otherwise>
                         </xsl:choose>
                     </div>
-                    <button class="w3-button w3-gray w3-display-topright"
-                        onclick="document.getElementById('{$modalid}').style.display='none'"
-                        >Close</button>
+                    <button class="w3-button w3-gray w3-display-topright" onclick="document.getElementById('{$modalid}').style.display='none'">Close</button>
                 </header>
 
                 <div class="w3-container">
-                    <xsl:variable select="ancestor::t:TEI//t:msIdentifier/t:idno/@facs"
-                        name="MainFacs"/>
+                    <xsl:variable select="ancestor::t:TEI//t:msIdentifier/t:idno/@facs" name="MainFacs"/>
                     <xsl:variable name="mid">
                         <xsl:choose>
                             <xsl:when test="parent::t:witness">
@@ -316,9 +292,7 @@
                                 <xsl:value-of select="$MainFacs"/>
                             </xsl:when>
                             <xsl:otherwise>
-                                <xsl:value-of
-                                    select="concat('https://betamasaheft.eu/api/iiif/', $mid, '/manifest')"
-                                />
+                                <xsl:value-of select="concat('https://betamasaheft.eu/api/iiif/', $mid, '/manifest')"/>
                             </xsl:otherwise>
                         </xsl:choose>
                     </xsl:variable>
@@ -336,13 +310,10 @@
                         <xsl:variable name="fcc" select="replace($fc, '[a-z\s]', '')"/>
 
                         <xsl:if test="not(starts-with($MainFacs, 'http'))">
-                            <xsl:value-of
-                                select="concat('?FirstCanv=', 'https://betamasaheft.eu/api/iiif/', $mid, '/canvas/p', format-number(xs:integer($fcc), '###'))"
-                            />
+                            <xsl:value-of select="concat('?FirstCanv=', 'https://betamasaheft.eu/api/iiif/', $mid, '/canvas/p', format-number(xs:integer($fcc), '###'))"/>
                         </xsl:if>
                     </xsl:variable>
-                    <xsl:variable name="mirador"
-                        select="concat('https://betamasaheft.eu/manuscripts/', $mid, '/viewer', $firstCanv)"/>
+                    <xsl:variable name="mirador" select="concat('https://betamasaheft.eu/manuscripts/', $mid, '/viewer', $firstCanv)"/>
                     <p class="w3-panel w3-red">
                         <a href="{$manifest}" target="_blank">
                             <img src="/resources/images/iiif.png" width="20px"/>
@@ -350,8 +321,7 @@
                         <a href="{$mirador}" target="_blank">Open with Mirador Viewer</a>
                     </p>
 
-                    <div
-                        id="openseadragon{replace(@facs, ' ', '_')}{ancestor::t:*[@xml:id][1]/@xml:id}"/>
+                    <div id="openseadragon{replace(@facs, ' ', '_')}{ancestor::t:*[@xml:id][1]/@xml:id}"/>
                     <script type="text/javascript">
                                 <xsl:text>
                            OpenSeadragon({
@@ -384,22 +354,8 @@
                                         <xsl:variable name="iiif" select="replace($idnoFacs, '/ark:', '/iiif/ark:')"/>
                                 <xsl:choose>
                                     <xsl:when test="@from and @to">
-                                        <xsl:variable name="from" select="
-                                                if (contains(@from, 'r')) then
-                                                    substring-before(@from, 'r')
-                                                else
-                                                    if (contains(@from, 'v')) then
-                                                        (substring-before(@from, 'v'))
-                                                    else
-                                                        @from"/>
-                                        <xsl:variable name="to" select="
-                                                if (contains(@to, 'r')) then
-                                                    substring-before(@to, 'r')
-                                                else
-                                                    if (contains(@to, 'v')) then
-                                                        (substring-before(@to, 'v'))
-                                                    else
-                                                        @to"/>
+                                        <xsl:variable name="from" select="                                                 if (contains(@from, 'r')) then                                                     substring-before(@from, 'r')                                                 else                                                     if (contains(@from, 'v')) then                                                         (substring-before(@from, 'v'))                                                     else                                                         @from"/>
+                                        <xsl:variable name="to" select="                                                 if (contains(@to, 'r')) then                                                     substring-before(@to, 'r')                                                 else                                                     if (contains(@to, 'v')) then                                                         (substring-before(@to, 'v'))                                                     else                                                         @to"/>
                                         <xsl:variable name="count" select="(number($to) - number($from)) * 2"/>
                                         <xsl:variable name="tiles">
                                             <xsl:for-each select="0 to (xs:integer($count) + 1)">
@@ -436,22 +392,8 @@
                                     -->
                                     <xsl:choose>
                                         <xsl:when test="@from and @to">
-                                            <xsl:variable name="from" select="
-                                                if (contains(@from, 'r')) then
-                                                    substring-before(@from, 'r')
-                                                else
-                                                    if (contains(@from, 'v')) then
-                                                        (substring-before(@from, 'v'))
-                                                    else
-                                                        @from"/>
-                                            <xsl:variable name="to" select="
-                                                if (contains(@to, 'r')) then
-                                                    substring-before(@to, 'r')
-                                                else
-                                                    if (contains(@to, 'v')) then
-                                                        (substring-before(@to, 'v'))
-                                                    else
-                                                        @to"/>
+                                            <xsl:variable name="from" select="                                                 if (contains(@from, 'r')) then                                                     substring-before(@from, 'r')                                                 else                                                     if (contains(@from, 'v')) then                                                         (substring-before(@from, 'v'))                                                     else                                                         @from"/>
+                                            <xsl:variable name="to" select="                                                 if (contains(@to, 'r')) then                                                     substring-before(@to, 'r')                                                 else                                                     if (contains(@to, 'v')) then                                                         (substring-before(@to, 'v'))                                                     else                                                         @to"/>
                                             <xsl:variable name="count" select="(number($to) - number($from)) * 2"/>
                                             <xsl:variable name="tiles">
                                                 <xsl:for-each select="0 to (xs:integer($count) + 1)">
@@ -492,22 +434,8 @@
                                                 <xsl:choose>
                                                     <xsl:when test="matches(@from, 'i') or matches(@to, 'i')"/>
                                                     <xsl:otherwise>
-                                                <xsl:variable name="from" select="
-                                                        if (contains(@from, 'r')) then
-                                                            substring-before(@from, 'r')
-                                                        else
-                                                            if (contains(@from, 'v')) then
-                                                                (substring-before(@from, 'v'))
-                                                            else
-                                                                @from"/>
-                                                <xsl:variable name="to" select="
-                                                        if (contains(@to, 'r')) then
-                                                            substring-before(@to, 'r')
-                                                        else
-                                                            if (contains(@to, 'v')) then
-                                                                (substring-before(@to, 'v'))
-                                                            else
-                                                                @to"/>
+                                                <xsl:variable name="from" select="                                                         if (contains(@from, 'r')) then                                                             substring-before(@from, 'r')                                                         else                                                             if (contains(@from, 'v')) then                                                                 (substring-before(@from, 'v'))                                                             else                                                                 @from"/>
+                                                <xsl:variable name="to" select="                                                         if (contains(@to, 'r')) then                                                             substring-before(@to, 'r')                                                         else                                                             if (contains(@to, 'v')) then                                                                 (substring-before(@to, 'v'))                                                             else                                                                 @to"/>
                                                 <xsl:variable name="count" select="(number($to) - number($from)) * 2"/>
                                                 <xsl:variable name="tiles">
                                                     <xsl:for-each select="0 to (xs:integer($count) + 1)">
@@ -546,22 +474,8 @@
                                            -->
                                         <xsl:choose>
                                             <xsl:when test="@from and @to">
-                                                <xsl:variable name="from" select="
-                                                if (contains(@from, 'r')) then
-                                                    substring-before(@from, 'r')
-                                                else
-                                                    if (contains(@from, 'v')) then
-                                                        (substring-before(@from, 'v'))
-                                                    else
-                                                        @from"/>
-                                                <xsl:variable name="to" select="
-                                                if (contains(@to, 'r')) then
-                                                    substring-before(@to, 'r')
-                                                else
-                                                    if (contains(@to, 'v')) then
-                                                        (substring-before(@to, 'v'))
-                                                    else
-                                                        @to"/>
+                                                <xsl:variable name="from" select="                                                 if (contains(@from, 'r')) then                                                     substring-before(@from, 'r')                                                 else                                                     if (contains(@from, 'v')) then                                                         (substring-before(@from, 'v'))                                                     else                                                         @from"/>
+                                                <xsl:variable name="to" select="                                                 if (contains(@to, 'r')) then                                                     substring-before(@to, 'r')                                                 else                                                     if (contains(@to, 'v')) then                                                         (substring-before(@to, 'v'))                                                     else                                                         @to"/>
                                                 <xsl:variable name="count" select="(number($to) - number($from)) * 2"/>
                                                 <xsl:variable name="tiles">
                                                     <xsl:for-each select="0 to (xs:integer($count) + 1)">
@@ -605,31 +519,14 @@
                                         -->
                                         <xsl:choose>
                                             <xsl:when test="(@from and @to) and (matches(@from, '\d') and matches(@to, '\d'))">
-                                                <xsl:variable name="from" select="
-                                                if (contains(@from, 'r')) then
-                                                    substring-before(@from, 'r')
-                                                else
-                                                    if (contains(@from, 'v')) then
-                                                        (substring-before(@from, 'v'))
-                                                    else
-                                                        @from"/>
-                                                <xsl:variable name="to" select="
-                                                if (contains(@to, 'r')) then
-                                                    substring-before(@to, 'r')
-                                                else
-                                                    if (contains(@to, 'v')) then
-                                                        (substring-before(@to, 'v'))
-                                                    else
-                                                        @to"/>
+                                                <xsl:variable name="from" select="                                                 if (contains(@from, 'r')) then                                                     substring-before(@from, 'r')                                                 else                                                     if (contains(@from, 'v')) then                                                         (substring-before(@from, 'v'))                                                     else                                                         @from"/>
+                                                <xsl:variable name="to" select="                                                 if (contains(@to, 'r')) then                                                     substring-before(@to, 'r')                                                 else                                                     if (contains(@to, 'v')) then                                                         (substring-before(@to, 'v'))                                                     else                                                         @to"/>
                                                 <xsl:variable name="count" select="(number($to) - number($from)) + 1"/><!--how many images to take, images are openings in this case, + 1 is to include the verso-->
                                                 <xsl:variable name="tiles">
                                                     
                                                     <!--                                                        the format-number function in the concat takes what is in @facs of the current locus (stored in variable $f) and adds to it progressively the number in count. 
                                                             So, starting from 6 and looping on count=3 we will have the following sequence 6, 6+1=7, 6+2=8, 6+3=9 -->
-                                                    <xsl:sequence select="
-                                                    for $x in 0 to (xs:integer($count))
-                                                    return
-                                                        concat('&#34;', $iiif, format-number((xs:integer($f) + $x), '0000'), '.jp2/info.json', '&#34;,')"/>
+                                                    <xsl:sequence select="                                                     for $x in 0 to (xs:integer($count))                                                     return                                                         concat('&#34;', $iiif, format-number((xs:integer($f) + $x), '0000'), '.jp2/info.json', '&#34;,')"/>
                                                 </xsl:variable>
                                                 <xsl:variable name="str" select="string-join($tiles, ' ')"/><!--makes the sequence into a string-->
                                                 <xsl:value-of select="substring($str, 1, string-length($str) - 1)"/><!--strips the last commma-->
@@ -667,8 +564,7 @@
         <xsl:param name="locus"/>
         <xsl:variable name="modalid" select="funct:imagesID($locus, 'id', @*, '')"/>
         <xsl:variable name="iiifbase">https://betamasaheft.eu/iiif/</xsl:variable>
-        <xsl:variable name="values"
-            select="($locus/string(@from), $locus/string(@to), tokenize($locus/@target, '#'))"/>
+        <xsl:variable name="values" select="($locus/string(@from), $locus/string(@to), tokenize($locus/@target, '#'))"/>
 
         <xsl:variable name="ranges">
             <xsl:for-each select="$values[string-length() ge 1]">
@@ -685,24 +581,19 @@
             <div class="w3-modal-content">
                 <header class="w3-container">
                     <h4>Images relevant for <xsl:value-of select="string-join($values[string-length() ge 1], ',')"/></h4>
-                    <button class="w3-button w3-gray w3-display-topright"
-                        onclick="document.getElementById('{$modalid}').style.display='none'"
-                        >Close</button>
+                    <button class="w3-button w3-gray w3-display-topright" onclick="document.getElementById('{$modalid}').style.display='none'">Close</button>
                     <p>Click on the image to see the relevant page in Mirador viewer.</p>
                 </header>
 
                 <div class="w3-container">
                     <xsl:variable name="file" select="$locus/ancestor::t:TEI"/>
-                    <xsl:variable name="location"
-                        select="tokenize($file//t:msIdentifier/t:idno/@facs/string(), '/')"/>
+                    <xsl:variable name="location" select="tokenize($file//t:msIdentifier/t:idno/@facs/string(), '/')"/>
                     <xsl:for-each select="$ranges/*:val">
                         <xsl:message><xsl:copy-of select="."/></xsl:message>
                         <xsl:variable name="nextpos" select="(xs:integer(./*:pos) + 1)"/>
                         <xsl:variable name="prevpos" select="(xs:integer(./*:pos) - 1)"/>
-                        <xsl:variable name="next"
-                            select="$ranges//*:val[*:pos = $nextpos]"/>
-                        <xsl:variable name="prev"
-                            select="$ranges//*:val[*:pos = $prevpos]"/>
+                        <xsl:variable name="next" select="$ranges//*:val[*:pos = $nextpos]"/>
+                        <xsl:variable name="prev" select="$ranges//*:val[*:pos = $prevpos]"/>
                         <xsl:variable name="f" select=".//*:folio"/>
                         <xsl:variable name="s" select=".//*:side"/>
                         <xsl:variable name="c" select=".//*:col"/>
@@ -726,141 +617,67 @@
                             <xsl:choose>
                                 <!--                if it is a reference to a line (1ra1), 
                            then match the zone[@rendition="Line"] and parents -->
-                                <xsl:when
-                                    test="$l and $file//t:lb[@n = $l/text()][starts-with(@facs, '#facs_')][preceding-sibling::t:cb[1][@n = $c]][preceding-sibling::t:pb[1][@n = $fs]]">
-                                    <xsl:variable name="matchingPageBreak"
-                                        select="$file//t:lb[@n = $l/text()][starts-with(@facs, '#facs_')][preceding-sibling::t:cb[1][@n = $c]][preceding-sibling::t:pb[1][@n = $fs]]"/>
-                                    <xsl:variable name="nextMatchingPageBreak"
-                                        select="$file//t:lb[@n = $nl/text()][starts-with(@facs, '#facs_')][preceding-sibling::t:cb[1][@n = $nc]][preceding-sibling::t:pb[1][@n = $nfs]]"/>
-                                    <xsl:variable name="matchingLine"
-                                        select="$file//t:zone[@rendition = 'Line'][@xml:id = substring-after($matchingPageBreak/@facs, '#')]"/>
+                                <xsl:when test="$l and $file//t:lb[@n = $l/text()][starts-with(@facs, '#facs_')][preceding-sibling::t:cb[1][@n = $c]][preceding-sibling::t:pb[1][@n = $fs]]">
+                                    <xsl:variable name="matchingPageBreak" select="$file//t:lb[@n = $l/text()][starts-with(@facs, '#facs_')][preceding-sibling::t:cb[1][@n = $c]][preceding-sibling::t:pb[1][@n = $fs]]"/>
+                                    <xsl:variable name="nextMatchingPageBreak" select="$file//t:lb[@n = $nl/text()][starts-with(@facs, '#facs_')][preceding-sibling::t:cb[1][@n = $nc]][preceding-sibling::t:pb[1][@n = $nfs]]"/>
+                                    <xsl:variable name="matchingLine" select="$file//t:zone[@rendition = 'Line'][@xml:id = substring-after($matchingPageBreak/@facs, '#')]"/>
                                     <!--                    https://betamasaheft.eu/iiif/AP/046/AP-046_003.tif/670,321,458,118/full/0/default.jpg
                                             base                                         >>> https://betamasaheft.eu/iiif/
                                             idno/@facs                               >>> AP/046/AP-046 
                                             surface/@corresp                    >>> AP-046_003.tif
                                             zone/(@ulx |@uly |@lrx @lry) >>> 670,321,458,118
                                                                                                      full/0/default.jpg   -->
-                                    <xsl:variable name="nextMatchingLine"
-                                        select="
-                                            if ($f = $nf and ($c = $nc or $s = $ns)) then
-                                                $file//t:zone[@rendition = 'Line'][@xml:id = substring-after($nextMatchingPageBreak/@facs, '#')]
-                                            else
-                                                ()"/>
-                                    <xsl:variable name="locationclean"
-                                        select="string-join($location[position() lt last()], '/')"/>
-                                    <xsl:variable name="filename"
-                                        select="$matchingLine/ancestor::t:surface[1]/@corresp"/>
+                                    <xsl:variable name="nextMatchingLine" select="                                             if ($f = $nf and ($c = $nc or $s = $ns)) then                                                 $file//t:zone[@rendition = 'Line'][@xml:id = substring-after($nextMatchingPageBreak/@facs, '#')]                                             else                                                 ()"/>
+                                    <xsl:variable name="locationclean" select="string-join($location[position() lt last()], '/')"/>
+                                    <xsl:variable name="filename" select="$matchingLine/ancestor::t:surface[1]/@corresp"/>
                                     <xsl:variable name="regionX" select="$matchingLine/@ulx"/>
                                     <xsl:variable name="regionY" select="$matchingLine/@uly"/>
-                                    <xsl:variable name="regionW"
-                                        select="
-                                            (if ($nextMatchingLine) then
-                                                $nextMatchingLine/@lrx
-                                            else
-                                                $matchingLine/@lrx) - $matchingLine/@ulx"/>
-                                    <xsl:variable name="regionZ"
-                                        select="
-                                            (if ($nextMatchingLine) then
-                                                $nextMatchingLine/@lry
-                                            else
-                                                $matchingLine/@lry) - $matchingLine/@uly"/>
-                                    <xsl:variable name="region"
-                                        select="string-join(($regionX, $regionY, $regionW, $regionZ), ',')"/>
-                                    <xsl:value-of
-                                        select="
-                                            concat(
-                                            $iiifbase,
-                                            $locationclean, '/',
-                                            $filename, '/',
-                                            $region,
-                                            '/full/0/default.jpg'
-                                            )"
-                                    />
+                                    <xsl:variable name="regionW" select="                                             (if ($nextMatchingLine) then                                                 $nextMatchingLine/@lrx                                             else                                                 $matchingLine/@lrx) - $matchingLine/@ulx"/>
+                                    <xsl:variable name="regionZ" select="                                             (if ($nextMatchingLine) then                                                 $nextMatchingLine/@lry                                             else                                                 $matchingLine/@lry) - $matchingLine/@uly"/>
+                                    <xsl:variable name="region" select="string-join(($regionX, $regionY, $regionW, $regionZ), ',')"/>
+                                    <xsl:value-of select="                                             concat(                                             $iiifbase,                                             $locationclean, '/',                                             $filename, '/',                                             $region,                                             '/full/0/default.jpg'                                             )"/>
                                 </xsl:when>
 
                                 <!--               
                 if it is a reference to a column (1ra) 
                            then match the zone[@rendition="TextRegion"] and parents
                -->
-                                <xsl:when
-                                    test="$c and $file//t:cb[@n = $c][starts-with(@facs, '#facs_')][preceding-sibling::t:pb[1][@n = $fs]]">
-                                    <xsl:variable name="matchingColumnBreak"
-                                        select="$file//t:cb[@n = $c][starts-with(@facs, '#facs_')][preceding-sibling::t:pb[1][@n = $fs]]"/>
-                                    <xsl:variable name="nextMatchingColBreak"
-                                        select="($file//t:cb[@n = $nc][preceding-sibling::t:pb[1][@n = $nfs]])[1]"/>
-                                    <xsl:variable name="matchingCol"
-                                        select="$file//t:zone[@rendition = 'TextRegion'][@xml:id = substring-after($matchingColumnBreak[1]/@facs, '#')]"/>
-                                    <xsl:variable name="nextMatchingCol"
-                                        select="
-                                        if ($f = $nf and ($c = $nc or $s = $ns)) then
-                                        $file//t:zone[@rendition = 'TextRegion'][@xml:id = substring-after($nextMatchingColBreak[1]/@facs, '#')]
-                                        else
-                                        ()"/>
-                                    <xsl:variable name="locationclean"
-                                        select="string-join($location[position() lt last()], '/')"/>
-                                    <xsl:variable name="filename"
-                                        select="$matchingCol/ancestor::t:surface[1]/@corresp"/>
+                                <xsl:when test="$c and $file//t:cb[@n = $c][starts-with(@facs, '#facs_')][preceding-sibling::t:pb[1][@n = $fs]]">
+                                    <xsl:variable name="matchingColumnBreak" select="$file//t:cb[@n = $c][starts-with(@facs, '#facs_')][preceding-sibling::t:pb[1][@n = $fs]]"/>
+                                    <xsl:variable name="nextMatchingColBreak" select="($file//t:cb[@n = $nc][preceding-sibling::t:pb[1][@n = $nfs]])[1]"/>
+                                    <xsl:variable name="matchingCol" select="$file//t:zone[@rendition = 'TextRegion'][@xml:id = substring-after($matchingColumnBreak[1]/@facs, '#')]"/>
+                                    <xsl:variable name="nextMatchingCol" select="                                         if ($f = $nf and ($c = $nc or $s = $ns)) then                                         $file//t:zone[@rendition = 'TextRegion'][@xml:id = substring-after($nextMatchingColBreak[1]/@facs, '#')]                                         else                                         ()"/>
+                                    <xsl:variable name="locationclean" select="string-join($location[position() lt last()], '/')"/>
+                                    <xsl:variable name="filename" select="$matchingCol/ancestor::t:surface[1]/@corresp"/>
                                     <xsl:variable name="regionX" select="$matchingCol/@ulx"/>
                                     <xsl:variable name="regionY" select="$matchingCol/@uly"/>
-                                    <xsl:variable name="regionW"
-                                        select=" (if ($nextMatchingCol) then
-                                        $nextMatchingCol/@lrx
-                                        else
-                                        $matchingCol/@lrx) - $matchingCol/@ulx"/>
-                                    <xsl:variable name="regionZ"
-                                        select=" (if ($nextMatchingCol) then
-                                        $nextMatchingCol/@lry
-                                        else
-                                        $matchingCol/@lry) - $matchingCol/@uly"/>
-                                    <xsl:variable name="region"
-                                        select="string-join(($regionX, $regionY, $regionW, $regionZ), ',')"/>
-                                    <xsl:value-of
-                                        select="
-                                            concat(
-                                            $iiifbase,
-                                            $locationclean, '/',
-                                            $filename, '/',
-                                            $region,
-                                            '/full/0/default.jpg'
-                                            )"
-                                    />
+                                    <xsl:variable name="regionW" select=" (if ($nextMatchingCol) then                                         $nextMatchingCol/@lrx                                         else                                         $matchingCol/@lrx) - $matchingCol/@ulx"/>
+                                    <xsl:variable name="regionZ" select=" (if ($nextMatchingCol) then                                         $nextMatchingCol/@lry                                         else                                         $matchingCol/@lry) - $matchingCol/@uly"/>
+                                    <xsl:variable name="region" select="string-join(($regionX, $regionY, $regionW, $regionZ), ',')"/>
+                                    <xsl:value-of select="                                             concat(                                             $iiifbase,                                             $locationclean, '/',                                             $filename, '/',                                             $region,                                             '/full/0/default.jpg'                                             )"/>
                                 </xsl:when>
                                 <!--              
                                     if it is a folio and side (1r) or if it is a folio only (1)
                            then match the facsimile 
                            and get it in full-->
-                                <xsl:when
-                                    test="$s and $file//t:pb[@n = $fs][starts-with(@facs, '#facs_')]">
-                                    <xsl:variable name="matchingPageBreak"
-                                        select="$file//t:pb[@n = $fs][starts-with(@facs, '#facs_')]"/>
-                                    <xsl:variable name="matchingImage"
-                                        select="$file//t:facsimile[@xml:id = substring-after($matchingPageBreak/@facs, '#')]"/>
-                                    <xsl:variable name="locationclean"
-                                        select="string-join($location[position() lt last()], '/')"/>
-                                    <xsl:variable name="filename"
-                                        select="$matchingImage/t:surface/@corresp"/>
+                                <xsl:when test="$s and $file//t:pb[@n = $fs][starts-with(@facs, '#facs_')]">
+                                    <xsl:variable name="matchingPageBreak" select="$file//t:pb[@n = $fs][starts-with(@facs, '#facs_')]"/>
+                                    <xsl:variable name="matchingImage" select="$file//(t:facsimile|t:surface)[@xml:id = substring-after($matchingPageBreak/@facs, '#')]"/>
+                                    <xsl:variable name="locationclean" select="string-join($location[position() lt last()], '/')"/>
+                                    <xsl:variable name="filename" select="$matchingImage/(self::t:surface|child::t:surface)/@corresp"/>
                                     <!--                                  if we could be sure all fotos are openings, the side could be extracted with a selection of a percentage width.
                                     This is however not the case. some images are openings, some are not.-->
-                                    <xsl:value-of
-                                        select="
-                                            concat(
-                                            $iiifbase,
-                                            $locationclean, '/',
-                                            $filename, '/full/full/0/default.jpg'
-                                            )"
-                                    />
+                                    <xsl:value-of select="                                             concat(                                             $iiifbase,                                             $locationclean, '/',                                             $filename, '/full/full/0/default.jpg'                                             )"/>
                                 </xsl:when>
                             </xsl:choose>
                         </xsl:variable>
                         <xsl:variable name="FromToTarget" select="string-join(.//text()[not(parent::*:pos)])"/>
-                        <xsl:variable name="firscanvas"
-                            select="concat('https://betamasaheft.eu/manuscripts/', $mainID, '/viewer?FirstCanv=https://betamasaheft.eu/api/iiif/', $mainID, '/canvas/p', $f)"/>
+                        <xsl:variable name="firscanvas" select="concat('https://betamasaheft.eu/manuscripts/', $mainID, '/viewer?FirstCanv=https://betamasaheft.eu/api/iiif/', $mainID, '/canvas/p', $f)"/>
                         <p>
                             <xsl:value-of select="funct:parseRef($FromToTarget)"/>
                         </p>
                         <a href="{$firscanvas}" target="_blank">
-                            <img src="{$url}"
-                                alt="Extract from {$location} for {$FromToTarget}"/>
+                            <img src="{$url}" alt="Extract from {$location} for {$FromToTarget}"/>
                         </a>
                    </xsl:otherwise> 
                         </xsl:choose>
