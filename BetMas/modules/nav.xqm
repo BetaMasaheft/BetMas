@@ -243,7 +243,7 @@ return
                                 <a class="w3-bar-item w3-button"   href="/chojnacki.html">The Stanislaw Chojnacki Photographic Database</a>
                                 <a class="w3-bar-item w3-button"   href="/tweed.html">The André Tweed Collection of Ethiopic Manuscripts</a>
                                 <a class="w3-bar-item w3-button"   href="/DSintro.html">The Dayr al-Suryān Collection</a>
-                                <a class="w3-bar-item w3-button"   href="/Fricke.html">The Fricke Collection</a>
+                                <a class="w3-bar-item w3-button"   href="/Fricke.html">Private collections in Germany</a>
       </div>
       </div>
     <a href="/morpho" class="w3-bar-item w3-button  w3-hide-medium w3-hide-small" 
