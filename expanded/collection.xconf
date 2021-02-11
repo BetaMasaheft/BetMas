@@ -91,7 +91,7 @@
                 <facet dimension="settlement" if="@type='place'" expression="t:text//t:settlement/@ref"/>
                 <facet dimension="region" if="@type='place'" expression="t:text//t:region/@ref"/>
                 <facet dimension="country" if="@type='place'" expression="t:text//t:country/@ref"/>
-                <facet dimension="tabot" if="@type='place'" expression="t:text//t:ab[@type='tabot']//t:persName[@type='tabot']"/>
+                <facet dimension="tabot" if="@type='place'" expression="t:text//t:ab[@type='tabot']//(t:persName[@type='tabot']|t:ref[@type='authFile'])"/>
             
              </text> 
              
@@ -180,8 +180,8 @@
                 <facet dimension="placetype" if="@type='place'" expression="for $x in tokenize(t:text//t:place/@type,' ') return $x"/>
                 <facet dimension="settlement" if="@type='place'" expression="t:text//t:settlement/@ref"/>
                 <facet dimension="region" if="@type='place'" expression="t:text//t:region/@ref"/>
-                <facet dimension="country" if="@type='place'" expression="t:text//t:country/@ref"/>
-                <facet dimension="tabot" if="@type='place'" expression="t:text//t:ab[@type='tabot']//t:persName[@type='tabot']"/>
+                 <facet dimension="country" if="@type='place'" expression="t:text//t:country/@ref"/>
+                 <facet dimension="tabot" if="@type='place'" expression="t:text//t:ab[@type='tabot']//(t:persName[@type='tabot']|t:ref[@type='authFile'])"/>
             
              </text> 
              
