@@ -68,6 +68,7 @@
                 <facet dimension="rubricationkeywords" if="@type='mss'" expression="t:teiHeader//t:seg[@type='rubrication']//t:term"/>
                 <facet dimension="decoType" if="@type='mss'" expression="t:teiHeader//t:decoNote/@type"/>
                 <facet dimension="calendarType" if="@type='mss'" expression="t:teiHeader//(t:date|t:origDate)/@calendar"/>
+                <facet dimension="presenceOfPunctuation" if="@type='mss'" expression="if(t:teiHeader//t:ab[@type='punctuation']) then 'yes' else 'no'"/>
                 
                 <!-- countColophons, supplications, binding features, decoration features,  -->
                 <facet dimension="images" if="@type='mss'" expression="if(t:teiHeader//t:msIdentifier/t:idno[@facs][@n]) then 'yes' else 'no'"/>
