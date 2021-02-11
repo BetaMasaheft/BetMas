@@ -232,6 +232,14 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
                     element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
                         ($node/@*,
                         expand:tei2fulltei($node/node(), $bibliography)),
+                        <p xmlns="http://www.tei-c.org/ns/1.0">Encoded according 
+                        to the <ref target="https://betamasaheft.eu/Guidelines/">Beta maṣāḥǝft Guidelines</ref>. 
+                        These Guidelines detail the TEI format ruled by 
+                        the <ref target="https://betamasaheft.eu/Guidelines/?id=schemaView">Beta maṣāḥǝft Schema</ref>. 
+                        The present TEI file is enriched with an 
+                        <ref target="https://github.com/BetaMasaheft/BetMas/blob/master/BetMas/modules/expand.xqm">Xquery transformation</ref> 
+                        taking advantage of the <ref target="https://betamasaheft.eu">exist-db database instance</ref> where 
+                        the data is stored and of the many external resources to which this data points to.</p>,
                         $expand:canontax
                     }
             case element(t:relation)
