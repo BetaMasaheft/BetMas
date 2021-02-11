@@ -28,7 +28,7 @@
                 <field name="datesW" type="xs:date" expression="t:teiHeader//(t:date|t:origDate)/@when"/>
                 <!--all--> 
                 <facet dimension="type" expression="switch(@type) case 'mss' return 'manuscript' case 'work' return 'textual unit' case 'pers' return 'person' case 'place' return 'place' case 'ins' return 'repository' case 'narr' return 'narrative unit' default return 'authority file'"/>
-                <facet dimension="keywords" expression="t:teiHeader//t:term/@key"/>
+                <facet dimension="keywords" expression="t:teiHeader//(t:term/@key|t:ref[@type='authFile']/@corresp)"/>
                 <facet dimension="languages" expression="t:teiHeader//t:language/@ident"/>
                 <facet dimension="changeWho" expression="t:teiHeader//t:change/@who"/>
                 <facet dimension="changeWhen" expression="t:teiHeader//t:change/@when"/>
@@ -118,7 +118,7 @@
                 <field name="datesW" type="xs:date" expression="t:teiHeader//(t:date|t:origDate)/@when"/>
                 <!--all--> 
                 <facet dimension="type" expression="switch(@type) case 'mss' return 'manuscript' case 'work' return 'textual unit' case 'pers' return 'person' case 'place' return 'place' case 'ins' return 'repository' case 'narr' return 'narrative unit' default return 'authority file'"/>
-                <facet dimension="keywords" expression="t:teiHeader//t:term/@key"/>
+                <facet dimension="keywords" expression="t:teiHeader//(t:term/@key|t:ref[@type='authFile']/@corresp)"/>
                 <facet dimension="languages" expression="t:teiHeader//t:language/@ident"/>
                 <facet dimension="changeWho" expression="t:teiHeader//t:change/@who"/>
                 <facet dimension="changeWhen" expression="t:teiHeader//t:change/@when"/>
