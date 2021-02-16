@@ -401,7 +401,10 @@
     
     <xsl:template match="t:custEvent[@type='restorations']">
         <p class="w3-large">
-          This manuscript has <xsl:value-of select="@subtype"/>  restorations
+          This manuscript has <xsl:choose>
+              <xsl:when test="@subtype='none'">no</xsl:when>
+              <xsl:otherwise><xsl:value-of select="@subtype"/></xsl:otherwise>
+          </xsl:choose>  restorations
         </p>
     </xsl:template>
     
