@@ -454,7 +454,7 @@ declare function app:deleted ($node as node(), $model as map(*)) {
     {let $formerly := $titles:collection-root//t:relation[@name eq 'betmas:formerlyAlsoListedAs'][@passive eq $deleted]
              let $same := $titles:collection-root//t:relation[@name eq 'skos:exactMatch'][@passive eq $deleted]
             return
-            (if($formerly) then <p>This record is now listed as {string($formerly/@active)}.</p> 
+            (if($formerly) then <p>This record is now listed as {string-join($formerly/@active, ', ')}.</p> 
             else(),
             if($same) then 
                     for $s in $same return <p>This record is the same as <a href="{string($s/@active)}" target="_blank">{titles:printTitleID($s/@active)}</a>.</p> 
