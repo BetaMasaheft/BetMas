@@ -571,6 +571,22 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
                             (),
                         expand:tei2fulltei($node/node(), $bibliography))
                     }
+            case element(t:origDate)
+                return
+                   expand:datelike($node, $bibliography)    
+                    case element(t:date)
+                return
+                    expand:datelike($node, $bibliography)     
+                      case element(t:birth)
+                return
+                    expand:datelike($node, $bibliography)     
+                        case element(t:death)
+                return
+                    expand:datelike($node, $bibliography)     
+                       case element(t:floruit)
+                return
+                    expand:datelike($node, $bibliography)     
+                    
                     (:                    any other not named element goes through:)
             case element()
                 return
@@ -584,7 +600,24 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
                     $node
 };
 
-
+declare function expand:datelike($node, $bibliography){
+element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
+                        ($node/@*,
+                        if (empty($node)) then
+                            let $atts := for $att in $node/@* return  (
+                            (switch($att/name()) 
+                            case 'notBefore' return 'not before'
+                            case 'notAfter' return 'not after' 
+                            case 'cert' return 'certainty:' 
+                            case 'resp' return titles:printTitleMainID($att)
+                            default return $att/name()) || ' ' || $att/data())
+                        return
+                            string-join($atts, ' ')
+                        else
+                            (),
+                        expand:tei2fulltei($node/node(), $bibliography))
+                    }
+};
 declare function expand:refel($node, $bibliography){
 element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
                         ($node/@*[not(name() = 'ref')],

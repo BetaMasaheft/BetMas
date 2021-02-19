@@ -6,12 +6,31 @@
             <form action="" id="gsf" class="w3-container w3-center">
                 
                 <span data-template="q:querytype"/>
+                <fieldset id="otherclavis" class="w3-container w3-hide">
+                    <div class="w3-container">
+                        <label>Other Clavis ID</label>
+                        <select name="clavistype" class="w3-select w3-border">
+                            <option value="">no selection</option>
+                            <option value="BHG">BHG</option>
+                            <option value="BHO">BHO</option>
+                            <option value="CAVT">CAVT</option>
+                            <option value="CANT">CANT</option>
+                            <option value="CC">CC</option>
+                            <option value="CPG">CPG</option>
+                            <option value="KRZ">KRZ</option>
+                            <option value="H">H</option>
+                        </select>
+                    </div>
+                </fieldset>
                 <fieldset id="text" class="w3-container">
                     <div class="w3-padding">
-                        <span data-template="app:queryinput"/>
+                        <span data-template="q:queryinput"/>
                         <div class="w3-bar w3-right">
-                            <div  class="w3-bar-item"><small>If running a text search, you can select the type of text search here </small></div>
-                            <div  class="w3-bar-item"><span data-template="q:textquerymode"/></div>
+                            <div class="w3-bar-item"><small>If running a text search, you can select the  <span class="w3-tooltip">type of text search <span class="w3-text">= <em>this determines how the single words which you enter are matched in the indexes</em></span></span> here </small></div>
+                            <div class="w3-bar-item"><span data-template="q:textquerymode"/></div>
+                            <div class="w3-bar-item"><small> and you can check the following box to use <span class="w3-tooltip">smart sorting
+                                <span class="w3-text">= <em>a higher score is assigned to hits in placeName, persName, title or to records with text or an occupation element.</em></span></span> (and wait)</small></div>
+                            <div class="w3-bar-item"><input type="checkbox" class="w3-check" name="sort" style="padding:0px 0px;"/></div>
                             <a class="w3-bar-item w3-button w3-gray kb">
                                 <i class="fa fa-keyboard" aria-hidden="true"/>
                             </a>
@@ -24,9 +43,12 @@
                 </fieldset>
                 <fieldset id="sparqls" class="w3-container w3-hide">
                     <div class="w3-container w3-margin w3-padding-64">
-                        <p>You can enter here your SPARQL query to the RDF representation of the data stored in Apache Jena Fuseki. Please use single quotes ' not double.</p>
-                        <p>PREFIXes are already there (see below), so you can start with SELECT.  If you prefer  to use your prefixes, do so, no problem. A super tutorial on how to build SPARQL queries is <a href="https://jena.apache.org/tutorials/sparql_basic_patterns.html">here at Apache Jena</a>
+                        <p>You can enter above your SPARQL query to the RDF representation of the data stored in Apache Jena Fuseki. Please use single quotes ' not double.</p>
+                        <p>PREFIXes are already there (see below), so you can start with SELECT.  
+                            If you prefer  to use your prefixes, do so, no problem. A super tutorial on how to 
+                            build SPARQL queries is <a href="https://jena.apache.org/tutorials/sparql_basic_patterns.html">here at Apache Jena.</a>
                         </p>
+                        <p>Results do not have facets and are presented as they are requested in the query from the SPARQL response.</p>
                         
                         <div data-template="app:logging"/>
                         <div class="w3-container w3-margin-bottom">
@@ -34,10 +56,6 @@
                                 <form action="" class="w3-container">
                                     <div class="w3-container">
                                         <input id="endpoint" value="/api/SPARQL/json" type="text" hidden="hidden"/>
-                                        <textarea class="w3-input w3-border" id="sparql" name="query" style="height:200px" placeholder="Please enter a valid SPARQL query.">
-                                        </textarea>
-                                        <br/>
-                                        
                                         <button type="button" class="w3-button w3-red" onclick="exec()">
                                             Run your query (results with d3sparql.js)
                                         </button>
@@ -106,7 +124,7 @@
                 </fieldset>
                 <fieldset id="xpath" class="w3-container w3-hide">
                     <div class="w3-container w3-justify  w3-padding-64"> 
-                        <p>Enter here your XPath 3.0 query to the data. 
+                        <p>Enter above your XPath 3.0 query to the data. 
                             Please, use t: namespace for TEI elements. The starting point of any Xpath should 
                             be <code class="w3-codespan">$config:collection-root</code> if you are searching the entire dataset.</p>
                         <p>You can also use, as a cached and short form to point to collections the following variables:
@@ -116,20 +134,12 @@
                             If you want to search for Places and Repositories, you can use <code class="w3-codespan">$config:collection-rootPlIn</code>
                         </p>
                     </div>
-                    
-                    <div class="w3-container w3-justify ">
-                            <input placeholder="e.g. start with $config:collection-root//t:" class="w3-input" name="xpath"/>
-                            
-                            <button type="submit" class="w3-btn w3-red"> Run
-                            </button>
-                    </div>
-                        
-                        
                 </fieldset>
                 <fieldset id="lists" class="w3-container w3-hide">
                 </fieldset>
                 <fieldset id="fields" class="w3-container w3-hide">
-                    <p>Here you can differentiate your search by looking at the text of constructed strings from specific portions of the data. You can search for records which
+                    <p>Here you can differentiate your search by looking at the text of constructed 
+                        strings from specific portions of the data. You can search for records which
                     have a word occurring in the decoration and another in the content description, for example.</p>
                     <div>
                         <small>Manuscripts</small>

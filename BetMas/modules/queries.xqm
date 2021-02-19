@@ -12,7 +12,7 @@ import module namespace fusekisparql = 'https://www.betamasaheft.uni-hamburg.de/
 import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2" at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace apptable = "https://www.betamasaheft.uni-hamburg.de/BetMas/apptable" at "xmldb:exist:///db/apps/BetMas/modules/apptable.xqm";
-
+import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace xconf = "http://exist-db.org/collection-config/1.0";
 
@@ -21,7 +21,10 @@ declare variable $q:collection as xs:string := request:get-parameter('collection
 declare variable $q:name as xs:string := request:get-parameter('name', ());
 declare variable $q:searchType as xs:string := request:get-parameter('searchType', ());
 declare variable $q:mode as xs:string := request:get-parameter('mode', ());
-declare variable $q:sort as xs:string := if(request:get-parameter('sort', ())) then request:get-parameter('sort', ()) else '' ;
+declare variable $q:sort as xs:string := if (request:get-parameter('sort', ())) then
+    request:get-parameter('sort', ())
+else
+    '';
 declare variable $q:params := request:get-parameter-names();
 declare variable $q:facets := doc("/db/system/config/db/apps/expanded/collection.xconf")//xconf:facet/@dimension;
 declare variable $q:col := collection("/db/apps/expanded/");
@@ -72,6 +75,8 @@ declare function q:querytype($node as node(), $model as map(*)) {
             selected="selected">text search (select here another type of search)</option>
         <option
             value="clavis">Clavis Aethiopica Number</option>
+            <option
+            value="otherclavis">Other Clavis ID</option>
         <option
             value="fields">fields</option>
         <option
@@ -172,14 +177,18 @@ like the facet, simple and advanced searches :)
             return
                 q:sparql($q)
                 (:a query to a specific element returning options to filter it in more detail e.g. decorations, bibliography, additions :)
-        case 'clavis' 
-               return q:clavis($q)        
+        case 'clavis'
+            return
+                q:clavis($q)
+       case 'otherclavis'
+            return
+                q:otherclavis($q)
         case 'resources'
             return
                 'resources'
                 (:                default is a search for the empty string, returning all data...:)
         default return
-            $q:col//t:TEI[ft:query(., (), $q:allopts)]
+           for $r in $q:col//t:TEI[ft:query(., (), $q:allopts)] group by $TEI := $r return $TEI
 };
 
 
@@ -206,10 +215,12 @@ declare function q:displayQtime($node as node()*, $model as map(*)) {
                     (<h3> There are <span
                             xmlns="http://www.w3.org/1999/xhtml"
                             id="hit-count"
-                            class="w3-tag w3-gray">{count($model("hits"))}</span> 
-                            entities matching your 
-                            <span class="w3-label w3-margin">{$q:searchType} </span>
-                            <span
+                            class="w3-tag w3-gray">{count($model("hits"))}</span>
+                        entities matching your
+                        <span
+                            class="w3-label w3-margin">{$q:searchType}
+                        </span>
+                        <span
                             class="w3-tooltip">query
                             <span
                                 class="w3-text">(<em>{$model('query')}</em>)</span></span></h3>),
@@ -224,14 +235,42 @@ declare function q:displayQtime($node as node()*, $model as map(*)) {
 };
 
 
-declare function q:clavis($q){
-let $q := format-number($q, '0000')
-let $clavisNsearch := if($q = '') then () else "[contains(@xml:id, '"||string(format-number($q, '0000')) ||"') and not(ends-with(@xml:id, 'IHA'))]"
-let $deletedClavis := for $d in doc('/db/apps/BetMas/lists/deleted.xml')//t:item[contains(.,$q)] return map{'hit':$d, 'type':'deleted'}
-let $path := '$q:col//t:TEI[@type="work"]' || $clavisNsearch
-(:the following needs to group due to the two indexes:)
-let $matches := for $m in util:eval($path) group by $TEI := $m return map{'hit':$TEI, 'type':'match'}
-return ($deletedClavis,$matches)
+declare function q:otherclavis($q){
+let $clavisType := request:get-parameter('clavistype', ())
+let $selector :=  if(($q = '') and (matches($clavisType, '\w+'))) 
+                           then "[descendant::t:bibl[@type eq '"||$clavisType||"']]"
+                           else  "[descendant::t:bibl[@type eq '"||$clavisType||"'][t:citedRange eq '"||$q||"']]"
+ let $path := '$q:col//t:TEI[@type="work"]' || $selector
+let $test := util:log('INFO', $path)
+for $m in util:eval($path)
+        group by $TEI := $m
+    return $TEI
+};
+
+
+declare function q:clavis($q) {
+    let $q := format-number($q, '0000')
+    let $clavisNsearch := if ($q = '') then
+        ()
+    else
+        "[contains(@xml:id, '" || string(format-number($q, '0000')) || "') and not(ends-with(@xml:id, 'IHA'))]"
+    let $deletedClavis := for $d in doc('/db/apps/BetMas/lists/deleted.xml')//t:item[contains(., $q)]
+    return
+        map {
+            'hit': $d,
+            'type': 'deleted'
+        }
+    let $path := '$q:col//t:TEI[@type="work"]' || $clavisNsearch
+    (:the following needs to group due to the two indexes:)
+    let $matches := for $m in util:eval($path)
+        group by $TEI := $m
+    return
+        map {
+            'hit': $TEI,
+            'type': 'match'
+        }
+    return
+        ($deletedClavis, $matches)
 };
 
 declare function q:xpath($q, $params) {
@@ -242,8 +281,7 @@ declare function q:xpath($q, $params) {
         else
             $q
     let $xpath := replace($q, '\$config:collection-(\w+)(//.+)', 'collection(\$config:data-$1)$2')
-    return
-        util:eval($xpath)
+    return  util:eval($xpath)
 };
 
 declare function q:sparql($q) {
@@ -277,21 +315,23 @@ declare function q:sparql($q) {
 };
 
 declare function q:text($q, $params) {
-    let $m := if ($q:mode != '') then
-        $q:mode
-    else
-        'none'
+    let $m := if ($q:mode != '') then    $q:mode  else   'none'
     let $q := q:querystring($q, $q:mode)
-  let $query :=
-        $q:col//t:TEI[ft:query(., $q, $q:allopts)]
-   return
-   if ($q:sort='') 
-   then  for $r in $query return $r 
-   else 
-   for $r in $query
-  let $sort := q:enrichScore($r) 
-    order by $sort descending  
-    return $r
+    let $query :=  $q:col//t:TEI[ft:query(., $q, $q:allopts)]
+    return
+        if ($q:sort = '')
+        then
+            for $r in $query
+            group by $TEI := $r
+            return
+                $TEI
+        else
+            for $r in $query
+            group by $TEI := $r
+            let $sort := q:enrichScore($TEI)
+                order by $sort descending
+            return
+                $TEI
 };
 
 declare function q:indexquery($element, $q) {
@@ -337,7 +377,7 @@ declare function q:create-field-query($query-string, $mode) {
             substring-after($joinfields, 'OR '))
     else
         $joinfields)
-    let $log := util:log('INFO', $query)
+(:    let $log := util:log('INFO', $query):)
     return
         $query
 };
@@ -370,44 +410,50 @@ declare function q:subst($query, $homophones) {
 };
 
 declare function q:showFacets($node as node()*, $model as map(*)) {
-    if($q:searchType='clavis') then <div><p>No facets available for this type of search.</p></div> else
-    let $subsequence := $model('hits')
-    let $itemtype := $q:facets[. eq 'type']
-    let $general := $q:facets[parent::xconf:facet[not(@if)][not(@dimension eq 'type')]]
-    let $mss := $q:facets[parent::xconf:facet[contains(@if, 'mss')]]
-    let $works := $q:facets[parent::xconf:facet[contains(@if, 'work')]]
-    let $places := $q:facets[parent::xconf:facet[contains(@if, 'place')]]
-    let $persons := $q:facets[parent::xconf:facet[contains(@if, 'pers')]]
-    return
-        <form
-            id="facetsSearch"
-            action=""
-            class="w3-container w3-center">
-            <div
-                class="w3-row w3-left-align">
-                <button
-                    type="submit"
-                    class="w3-button w3-block w3-left-align w3-red">refine search results <i
-                        class="fa fa-search"></i></button>
-                <input
-                    name="query"
-                    value="{request:get-parameter('query', ())}"
-                    hidden="hidden"/>
-            </div>
-            {q:facetGroup($itemtype, 'Resource type', $subsequence)}
-            {q:facetGroup($general, 'General', $subsequence)}
-            {q:facetGroup($mss, 'Manuscripts', $subsequence)}
-            {q:facetGroup($works, 'Textual and Narrative Units', $subsequence)}
-            {q:facetGroup($places, 'Places and Repositories', $subsequence)}
-            {q:facetGroup($persons, 'Persons and Groups', $subsequence)}
-            <div
-                class="w3-row w3-left-align">
-                <button
-                    type="submit"
-                    class="w3-button w3-block w3-left-align w3-red">refine search results <i
-                        class="fa fa-search"></i></button>
-            </div>
-        </form>
+    if ($q:searchType = 'clavis' or $q:searchType = 'otherclavis' or $q:searchType = 'xpath' or $q:searchType = 'sparql' ) then
+        <div><p>No facets available for this type of search.</p></div>
+    else
+        let $subsequence := $model('hits')
+        let $itemtype := $q:facets[. eq 'type']
+        let $general := $q:facets[parent::xconf:facet[not(@if)][not(@dimension eq 'type')]]
+        let $mss := $q:facets[parent::xconf:facet[contains(@if, 'mss')]]
+        let $works := $q:facets[parent::xconf:facet[contains(@if, 'work')]]
+        let $places := $q:facets[parent::xconf:facet[contains(@if, 'place')]]
+        let $persons := $q:facets[parent::xconf:facet[contains(@if, 'pers')]]
+        return
+            <form
+                id="facetsSearch"
+                action=""
+                class="w3-container w3-center">
+                <div
+                    class="w3-row w3-left-align">
+                    <button
+                        type="submit"
+                        class="w3-button w3-block w3-left-align w3-red">refine search results <i
+                            class="fa fa-search"></i></button>
+                   { for $param in request:get-parameter-names()
+                   for $notfacet in $param[not(ends-with(.,'-facet'))]
+                   let $p := request:get-parameter($notfacet, ())
+                   return if(count($p)) then
+                    <input
+                        name="{$notfacet}"
+                        value="{$p}"
+                        hidden="hidden"/> else () }
+                </div>
+                {q:facetGroup($itemtype, 'Resource type', $subsequence)}
+                {q:facetGroup($general, 'General', $subsequence)}
+                {q:facetGroup($mss, 'Manuscripts', $subsequence)}
+                {q:facetGroup($works, 'Textual and Narrative Units', $subsequence)}
+                {q:facetGroup($places, 'Places and Repositories', $subsequence)}
+                {q:facetGroup($persons, 'Persons and Groups', $subsequence)}
+                <div
+                    class="w3-row w3-left-align">
+                    <button
+                        type="submit"
+                        class="w3-button w3-block w3-left-align w3-red">refine search results <i
+                            class="fa fa-search"></i></button>
+                </div>
+            </form>
 };
 
 declare function q:facetGroup($group, $groupname, $subsequence) {
@@ -1182,83 +1228,92 @@ declare
 %templates:default('start', 1)
 %templates:default("per-page", 40)
 function q:results($node as node()*, $model as map(*), $start as xs:integer, $per-page as xs:integer) {
-(:   produces a table of results. the header of the table is a row as the results. 
-
+(:util:log('INFO', $model),:)
+    (:   produces a table of results. the header of the table is a row as the results. 
 first here is the header of the results table:)
     q:resultsTableHeader($model),
-(:    here are the rows of the table:)
+    (:    here are the rows of the table:)
     for $hit at $p in subsequence($model('hits'), $start, $per-page)
     return
-        if ($model('type') = 'text' or $model('type') = 'fields') then
-        ( 
+        if ($model('type') = 'text' 
+        or $model('type') = 'fields') then
+            (
             q:resultswithmatch($hit, $p)
             )
         else
             if ($model('type') = 'sparql') then
                 q:sparqlRes($hit, $p)
             else
-                if ($model('type') = 'xpath' or $model('type') = 'clavis') then
+                if ($model('type') = 'xpath' 
+                or $model('type') = 'clavis' 
+                or $model('type') = 'otherclavis') then
                     q:resultswithoutmatch($hit, $p)
                 else
                     ()
 };
 
-declare function q:resultsTableHeader($model){
- if ($model('type') = 'sparql') then () (:the sparql results are passed to an XSLT which produces the header as well:)
-    else if ($model('type') = 'clavis' or $model('type') = 'xpath')  then
-(:    only return the status title and no KWIC sections  :)
-     <div
-        class="w3-row w3-border-bottom w3-margin-bottom w3-gray">
-        <div
-            class="w3-third">
+declare function q:resultsTableHeader($model) {
+    if ($model('type') = 'sparql') then
+        () (:the sparql results are passed to an XSLT which produces the header as well:)
+    else
+        if ($model('type') = 'clavis' 
+        or $model('type') = 'xpath'
+        or $model('type') = 'otherclavis') 
+        then
+            (:    only return the status title and no KWIC sections  :)
             <div
-                class="w3-col"
-                style="width:15%">
-                <span
-                    class="number">status</span>
+                class="w3-row w3-border-bottom w3-margin-bottom w3-gray">
+                <div
+                    class="w3-third">
+                    <div
+                        class="w3-col"
+                        style="width:10%">
+                        <span
+                            class="number">status</span>
+                    </div>
+                    <div
+                        class="w3-col"
+                        style="width:85%">
+                        title
+                    </div>
+                </div>
+                <div
+                    class="w3-twothird">item-type specific options
+                </div>
             </div>
+        
+        else
+            (:     results table header for results with KWIC matches:)
             <div
-                class="w3-col"
-                style="width:85%">
-                title
+                class="w3-row w3-border-bottom w3-margin-bottom w3-gray">
+                <div
+                    class="w3-third">
+                    <div
+                        class="w3-col"
+                        style="width:10%">
+                        <span
+                            class="number">status</span>
+                    </div>
+                    <div
+                        class="w3-col"
+                        style="width:70%">
+                        title
+                    </div>
+                    <div
+                        class="w3-col"
+                        style="width:20%">
+                        hits count
+                    </div>
+                </div>
+                <div
+                    class="w3-twothird">
+                    <div
+                        class="w3-twothird">first three keywords in context</div>
+                    <div
+                        class="w3-third">item-type specific options</div>
+                </div>
             </div>
-        </div>
-        <div
-            class="w3-twothird">item-type specific options
-        </div>
-    </div>
-     
-     else 
-(:     results table header for results with KWIC matches:)
-     <div
-        class="w3-row w3-border-bottom w3-margin-bottom w3-gray">
-        <div
-            class="w3-third">
-            <div
-                class="w3-col"
-                style="width:15%">
-                <span
-                    class="number">status</span>
-            </div>
-            <div
-                class="w3-col"
-                style="width:70%">
-                title
-            </div>
-            <div
-                class="w3-col"
-                style="width:15%">
-                hits count
-            </div>
-        </div>
-        <div
-            class="w3-twothird">
-            <div
-                class="w3-twothird">first three keywords in context</div>
-            <div
-                class="w3-third">item-type specific options</div>
-        </div>
-    </div>};
+};
 
 declare
 %templates:wrap
@@ -1269,8 +1324,8 @@ function q:sparqlRes($hit, $p) {
 
 (:if the smart sort function is selected then an enriched score will be used to sort the results which multiplies the values or adds to them according to set rules:)
 declare function q:enrichScore($text) {
-let $queryText := request:get-parameter('query', ())
-          let $expanded := kwic:expand($text)
+    let $queryText := request:get-parameter('query', ())
+    let $expanded := kwic:expand($text)
     let $score as xs:float := ft:score($text)
     let $tokvalues := for $tokenInQuery in tokenize($queryText, '\s')
     return
@@ -1333,8 +1388,8 @@ declare function q:resultswithmatch($text, $p) {
     
     let $count := count($expanded//exist:match)
     let $root := root($text)
-    let $item := $root/t:TEI
-    let $t := $root/t:TEI/@type
+    let $item := $root/ancestor-or-self::t:TEI
+    let $t := string($text/@type)
     let $id := data($root/t:TEI/@xml:id)
     let $collection := switch2:col($t)
     return
@@ -1343,309 +1398,645 @@ declare function q:resultswithmatch($text, $p) {
             <div
                 class="w3-third">
                 <div
-                    class="w3-col"
-                    style="width:15%">
-                    {q:statusBadge($item)}
-                </div>
-                <div
-                    class="w3-col"
-                    style="width:70%">
-                    {q:resultitemlinks($collection, $item, $id, $root, $text)}
+                    class="w3-row">
+                    <div
+                        class="w3-col"
+                        style="width:10%">
+                        {q:statusBadge($item)}
+                    </div>
+                    <div
+                        class="w3-col"
+                        style="width:70%">
+                        {q:resultitemlinks($collection, $item, $id, $root, $text)}
                     </div>
                     
-                <div
-                    class="w3-col"
-                    style="width:15%">
-                    <span
-                        class="w3-badge">{$count}</span>
-                    in {
-                        for $match in config:distinct-values($expanded//exist:match/parent::t:*/name())
-                        return
-                            (<code>{string($match)}</code>, <br/>)
-                    }
+                    <div
+                        class="w3-col"
+                        style="width:20%">
+                        <span
+                            class="w3-badge">{$count}</span>
+                        in {
+                            for $match in config:distinct-values($expanded//exist:match/parent::t:*/name())
+                            return
+                                (<code>{string($match)}</code>, <br/>)
+                        }
+                    </div>
                 </div>
+                <div
+                    class="w3-row">{q:summary($text)}</div>
             </div>
             <div
                 class="w3-twothird">
                 <div
-                    class="w3-twothird">{
-                        for $match in subsequence($expanded//exist:match, 1, 3)
-                        let $matchancestorwithID := ($match/(ancestor::t:*[(@xml:id | @n)] | ancestor::t:text))[last()]
-                        let $matchancestorwithIDid := $matchancestorwithID/string(@xml:id)
-                        let $view := if ($matchancestorwithID[ancestor-or-self::t:text]) then
-                            'text'
-                        else
-                            'main'
-                        let $matchancestorwithIDanchor := if ($view = 'main') then
-                            '#' || $matchancestorwithIDid
+                class="w3-twothird">
+                {
+                    for $match in subsequence($expanded//exist:match, 1, 3)
+                    let $matchancestorwithID := ($match/(ancestor::t:*[(@xml:id | @n)] | ancestor::t:text))[last()]
+                    let $matchancestorwithIDid := $matchancestorwithID/string(@xml:id)
+                    let $view := if ($matchancestorwithID[ancestor-or-self::t:text]) then
+                        'text'
+                    else
+                        'main'
+                    let $matchancestorwithIDanchor := if ($view = 'main') then
+                        '#' || $matchancestorwithIDid
+                    else
+                        ()
+                    
+                    return
+                        let $matchref := replace(q:refname($match), '.$', '')
+                        let $ref := if ($view = 'text' and $matchref != '') then
+                            '&amp;ref=' || $matchref
                         else
                             ()
-                        
                         return
-                            let $matchref := replace(q:refname($match), '.$', '')
-                            let $ref := if ($view = 'text' and $matchref != '') then
-                                '&amp;ref=' || $matchref
-                            else
-                                ()
-                            return
-                                <div
-                                    class="w3-row w3-padding"><div
-                                        class="w3-twothird w3-padding match">
-                                        {
-                                            kwic:get-summary($match/parent::node(), $match, <config
-                                                width="40"/>)
-                                        }
-                                    </div>
-                                    <div
-                                        class="w3-third w3-padding">
-                                        <a
-                                            href="/{$collection}/{$id}/{$view}{$matchancestorwithIDanchor}?hi={$queryText}{$ref}">
-                                            {
-                                                ' in element ' || $match/parent::t:*/name() || ' within a ' ||
-                                                $matchancestorwithID/name()
-                                                ||
-                                                (if ($view = 'text' and $matchref != '')
-                                                then
-                                                    ', at ' || $matchref
-                                                else
-                                                    if ($view = 'main')
-                                                    then
-                                                        ', with id ' || $matchancestorwithIDid
-                                                    else
-                                                        ())
-                                            }</a>
-                                    </div>
+                            <div
+                                class="w3-row w3-padding"><div
+                                    class="w3-twothird w3-padding match">
+                                    {
+                                        kwic:get-summary($match/parent::node(), $match, <config
+                                            width="40"/>)
+                                    }
                                 </div>
-                    }</div>
-    {q:resultslinkstoviews($t, $id, $collection)}
-    </div>
-    </div>
+                                <div
+                                    class="w3-third w3-padding">
+                                    <a
+                                        href="/{$collection}/{$id}/{$view}{$matchancestorwithIDanchor}?hi={$queryText}{$ref}">
+                                        {
+                                            ' in element ' || $match/parent::t:*/name() || ' within a ' ||
+                                            $matchancestorwithID/name()
+                                            ||
+                                            (if ($view = 'text' and $matchref != '')
+                                            then
+                                                ', at ' || $matchref
+                                            else
+                                                if ($view = 'main')
+                                                then
+                                                    ', with id ' || $matchancestorwithIDid
+                                                else
+                                                    ())
+                                        }</a>
+                                </div>
+                            </div>
+                }</div>
+                {q:resultslinkstoviews($t, $id, $collection)}
+        </div>
+            
+        </div>
 };
 
 (:outputs for a subsequence of results the rows of a table of results without KWIC for clavis and xpath searches:)
 declare function q:resultswithoutmatch($text, $p) {
+    let $test1 := util:log('INFO', $text)
     let $queryText := request:get-parameter('query', ())
-    let $root := if($q:searchType= 'clavis') then $text('hit') else root($text)
-    let $item := if($q:searchType= 'clavis') then $text('hit') else $root/ancestor-or-self::t:TEI
-    let $t := if($q:searchType= 'clavis' and $text('type') = 'deleted') then 'deleted' else $item/@type
-    let $id :=if($q:searchType= 'clavis' and $text('type') = 'deleted') then 'deleted' else  data($item/@xml:id)
-    let $collection := if($q:searchType= 'clavis' and $text('type') = 'deleted') then 'deleted' else  switch2:col($t)
-    let $test := util:log('INFO', $collection)
-     return
+    let $root := if ($q:searchType = 'clavis') then    $text('hit')     else   $text
+    let $item := if ($q:searchType = 'clavis') then  $text('hit')  else  $root/ancestor-or-self::t:TEI
+    let $t := if ($q:searchType = 'clavis' and $text('type') = 'deleted') then   'deleted'  else     $item/@type
+    let $id := if ($q:searchType = 'clavis' and $text('type') = 'deleted') then   'deleted'  else    data($item/@xml:id)
+    let $collection := if ($q:searchType = 'clavis' and $text('type') = 'deleted') then   'deleted'   else   switch2:col($t)
+    let $test := util:log('INFO', $item)
+    return
         <div
             class="w3-row w3-border-bottom w3-margin-bottom">
             <div
-                class="w3-third">
-                <div
-                    class="w3-col"
-                    style="width:15%">
-                   {if($q:searchType= 'clavis' and $text('type') = 'deleted') then  <span
-                        class="w3-tag w3-black">DELETED</span> else q:statusBadge($item)}
-                   </div>
-                <div
-                    class="w3-col"
-                    style="width:85%">
-                 {if($q:searchType= 'clavis' and $text('type') = 'deleted') then  () else q:resultitemlinks($collection, $item, $id, $root, $text)}
-                </div>
-                
-            </div>
+                class="w3-row"><
+                div
+                    class="w3-third">
+                    <div
+                        class="w3-col"
+                        style="width:10%">
+                        {
+                            if ($q:searchType = 'clavis' and $text('type') = 'deleted') then
+                                <span
+                                    class="w3-tag w3-black">DELETED</span>
+                            else
+                                q:statusBadge($item)
+                        }
+                    </div>
+                    <div
+                        class="w3-col"
+                        style="width:85%">
+                        {
+                            if ($q:searchType = 'clavis' and $text('type') = 'deleted') then
+                                ()
+                            else
+                                q:resultitemlinks($collection, $item, $id, $root, $text)
+                        }
+                    </div>
+               <div
+                    class="w3-row">{q:summary($item)}</div>
+          
+               </div>
             <div
                 class="w3-twothird">
-                {if($q:searchType= 'clavis' and $text('type') = 'deleted') then  <a href="/deleted.html">to see when {$text('hit')/text()} was deleted and why, click here for the list of deleted files</a> else q:resultslinkstoviews($t, $id, $collection)}
+                <div
+                    class="w3-container">
+                    {
+                        if ($q:searchType = 'clavis' and $text('type') = 'deleted') then
+                            <a
+                                href="/deleted.html">to see when {$text('hit')/text()} was deleted and why, click here for the list of deleted files</a>
+                        else
+                            q:resultslinkstoviews($t, $id, $collection)
+                    }</div>
+            </div>
         </div>
-    </div>
+                  </div>
+};
+
+(: adds a summary to the result of the search
+https://github.com/BetaMasaheft/Documentation/issues/1595 
+
+for persons
+
+dates, description, names, occupation
+for works
+
+abstract, author, dates
+for manuscripts
+
+date, general title, number of leaves, number of quires
+
+but there is already the format of the information given in the current list views to be merged with this to be generic enough.
+
+:)
+declare function q:summary($item) {
+    let $id := $item/@xml:id
+    let $dates := ($item//t:date[not(parent::t:publicationStmt)][not(parent::t:bibl)], $item//t:origDate, $item//t:birth, $item//t:floruit, $item//t:death)
+    return
+        <div
+            class="w3-card-4 w3-margin w3-padding"
+            style="height:200px;resize: both;overflow:auto">
+            <div
+                class="w3-container">
+                <h5>Titles</h5>
+                <ul
+                    class="nodot">
+                    {
+                        for $title in $item//t:titleStmt/t:title
+                        return
+                            <li>{$title/text()}
+                                {
+                                    if ($title/@xml:lang) then
+                                        (' (' || string($title/@xml:lang) || ')')
+                                    else
+                                        ()
+                                }</li>
+                    }
+                </ul>
+            </div>
+            {
+                if (count($dates) = 0) then
+                    ()
+                else
+                    <div
+                        class="w3-container">
+                        <h5>Dates</h5>
+                        <ul
+                            class="nodot">
+                            {
+                                for $date in ()
+                                return
+                                    <li>{$date/parent::node()//text()}</li>
+                            }
+                        </ul>
+                    </div>
+            }
+            {
+                switch ($item/@type)
+                    case 'work'
+                        return
+                            q:summaryWork($item, $id)
+                   case 'mss'
+                        return
+                            q:summaryMss($item, $id)
+                         case 'narr'
+                        return
+                            q:summaryWork($item, $id)
+                     case 'auth'
+                        return
+                            q:summaryWork($item, $id)
+                     case 'pers'
+                        return
+                            q:summaryPers($item, $id)
+                    case 'place'
+                        return
+                            q:summaryPlace($item, $id)
+                   case 'ins'
+                        return
+                            (q:summaryIns($item, $id), q:summaryPlace($item, $id))
+                    default return
+                        ()
+        }</div>
 };
 
 
-(:the following three functions are shared by results with and without matches:)
-declare function q:statusBadge($item){
- <span
-                        class="w3-tag w3-red">{
-                            if ($item//t:change[contains(., 'complete')]) then
-                                (attribute style {'background-color:rgb(172, 169, 166, 0.4)'},
-                                'complete')
-                            else
-                                if ($item//t:change[contains(., 'review')]) then
-                                    (attribute style {'background-color:white'},
-                                    'reviewed')
-                                else
-                                    (attribute style {'background-color:rgb(213, 75, 10, 0.4)'},
-                                    'stub')
-                        }
-                    </span>
-                };
-                        
-declare function q:resultitemlinks($collection, $item, $id, $root, $text){
-                <span
-                        class="w3-tag w3-gray">{$collection}</span>,
-                    <span
-                        class="w3-tag w3-gray"
-                        style="word-break: break-all; text-align: left;">{$id}</span>,
-                    <span
-                        class="w3-tag w3-red"><a
-                            href="{('/tei/' || $id || '.xml')}"
-                            target="_blank">TEI</a></span>,
-                    <span
-                        class="w3-tag w3-red"><a
-                            href="/{$id}.pdf"
-                            target="_blank">PDF</a></span>,
-                            <br/>,
-                    <a
-                        target="_blank"
-                        href="/{$collection}/{$id}/main"><b>{
-                                if (starts-with($id, 'corpus')) then
-                                    $root//t:titleStmt/t:title[1]/text()
-                                else
-                                    try {
-                                        titles:printTitleID($id)
-                                    } catch * {
-                                        console:log(($text, $id, $err:description))
-                                    }
-                            }</b></a>,
-                            <br/>
-                    ,
-                        if ($item//t:facsimile/t:graphic/@url)
-                        then
-                            <a
-                                target="_blank"
-                                href="{$item//t:facsimile/t:graphic/@url}">Link to images</a>
-                        else
-                            if ($item//t:msIdentifier/t:idno[@facs][@n]) then
-                                <a
-                                    target="_blank"
-                                    href="/manuscripts/{$id}/viewer">{
-                                        if ($item//t:collection = 'Ethio-SPaRe')
-                                        then
-                                            <img
-                                                src="{$config:appUrl || '/iiif/' || string(($item//t:msIdentifier)[1]/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}"
-                                                class="thumb w3-image"/>
-                                            (:laurenziana:)
-                                        else
-                                            if ($item//t:repository[@ref eq 'INS0339BML'])
-                                            then
-                                                <img
-                                                    src="{$config:appUrl || '/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '005.tif/full/140,/0/default.jpg'}"
-                                                    class="thumb w3-image"/>
-                                                
-                                                (:          
-EMIP:)
-                                            else
-                                                if (($item//t:collection = 'EMIP') and $item//t:msIdentifier/t:idno/@n)
-                                                then
-                                                    <img
-                                                        src="{$config:appUrl || '/iiif/' || string(($item//t:msIdentifier)[1]/t:idno/@facs) || '001.tif/full/140,/0/default.jpg'}"
-                                                        class="thumb w3-image"/>
-                                                    
-                                                    (:BNF:)
-                                                else
-                                                    if ($item//t:repository/@ref eq 'INS0303BNF')
-                                                    then
-                                                        <img
-                                                            src="{replace($item//t:msIdentifier/t:idno/@facs, 'ark:', 'iiif/ark:') || '/f1/full/140,/0/native.jpg'}"
-                                                            class="thumb w3-image"/>
-                                                        (:           vatican :)
-                                                    else
-                                                        if (contains($item//t:msIdentifier/t:idno/@facs, 'digi.vat')) then
-                                                            <img
-                                                                src="{
-                                                                        replace(substring-before($item//t:msIdentifier/t:idno/@facs, '/manifest.json'), 'iiif', 'pub/digit') || '/thumb/'
-                                                                        ||
-                                                                        substring-before(substring-after($item//t:msIdentifier/t:idno/@facs, 'MSS_'), '/manifest.json') ||
-                                                                        '_0001.tif.jpg'
-                                                                    }"
-                                                                class="thumb w3-image"/>
-                                                            (:                bodleian:)
-                                                        else
-                                                            if (contains($item//t:msIdentifier/t:idno/@facs, 'bodleian')) then
-                                                                ('images')
-                                                            else
-                                                                (<img
-                                                                    src="{$config:appUrl || '/iiif/' || string(($item//t:msIdentifier/t:idno)[1]/@facs) || '_001.tif/full/140,/0/default.jpg'}"
-                                                                    class="thumb w3-image"/>)
-                                    }</a>
-                            
-                            else
-                                ()
-                    
-                    ,
-                        if ($collection = 'works') then
-                            apptable:clavisIds($root)
-                        else
-                            ()
-                    
-                
-                };
+declare function q:summaryPers($item, $id) {
+<div class="w3-container">
+        {if($item//t:personGrp) then 'Group' else ()}
+        {if(//t:person/@sex = 1) then <i class="fa fa-mars"/> else  <i class="fa fa-venus"/>}
+        {if($item//t:person/@sameAs) then <a href="{$item//t:person/@sameAs}">
+                           <span class="icon-large icon-vcard"/>
+                       </a> else ()}
+        </div>,
+        <div  class="w3-container">
+         <h5>Names</h5>
+         <ul class="nodot">
+         {
+         for $n in $item//t:persName[@xml:id]
+         let $Nid := $n/@xml:id
+         return
+         <li>{$n//text()}<sup>{$n/@xml:lang}</sup> 
+         {if($item//t:persName[@corresp]) 
+         then (let $corrsNs := for $corrN in $item//t:persName[@corresp]
+                                                let $corrNcorr := substring-after($corrN/@corresp, '#')
+                                                return
+                                                 if($corrNcorr = $Nid) then ($corrN//text(),<sup>{$corrN/@xml:lang}</sup>) else ()
+                   return ('(', $corrsNs,')') )
+         else ()}</li>
+         }
+         </ul>
+         </div>,
+         if($item//t:floruit/@* or $item//t:birth/@* or $item//t:death/@*) 
+            then <div class="w3-container">
+            <h5>Dates</h5>
+            <ul class="nodot">
+            {for $d in ($item//t:floruit/@* | $item//t:birth/@* |$item//t:death/@*)
+            return <li>{q:dates($d)}</li>}
+            </ul>
+         </div> else (),
+         if($item//t:occupation) 
+            then <div class="w3-container">
+            <h5>Occupation</h5>
+            <ul class="nodot">
+            {for $o in ($item//t:occupation)
+            return <li>{$o/text()} ({string($o/@type)})</li>}
+            </ul>
+         </div> else ()
+};
 
-declare function q:resultslinkstoviews($t, $id, $collection){
-            <div
-                    class="w3-third">
+declare function q:summaryPlace($item, $id) {
+<div
+        class="w3-container">
+        {if($item//t:place/@sameAs) then let $wd := substring-after($item//t:place/@sameAs, 'wd:')
+            return
+                    <a
+                        href="{('https://www.wikidata.org/wiki/' || $wd)}"
+                        target="_blank">{$wd}</a>
+           else ()}
                     {
-                    switch ($t)
-                            case 'mss'
-                                return
-                                    (
-                                    <a
-                                        role="button"
-                                        class="w3-button w3-small w3-gray"
-                                        href="/IndexPlaces?entity={$id}">places</a>,
-                                    <a
-                                        role="button"
-                                        class="w3-button w3-small w3-gray"
-                                        href="/IndexPersons?entity={$id}">persons</a>)
-                            case 'pers'
-                                return
-                                    ()
-                            case 'ins'
-                                return
-                                    (<a
-                                        role="button"
-                                        class="w3-button w3-small w3-gray"
-                                        href="/manuscripts/{$id}/list">manuscripts</a>)
-                            case 'place'
-                                return
-                                    (<a
-                                        role="button"
-                                        class="w3-button w3-small w3-gray"
-                                        href="/manuscripts/place/list?place={$id}">manuscripts</a>)
-                            case 'narr'
-                                return
-                                    (<a
-                                        role="button"
-                                        class="w3-button w3-small w3-gray"
-                                        href="/collate">collate</a>)
-                            case 'work'
-                                return
-                                    (<a
-                                        role="button"
-                                        class="w3-button w3-small w3-gray"
-                                        href="/compare?workid={$id}">compare</a>,
-                                    <a
-                                        role="button"
-                                        class="w3-button w3-small w3-gray"
-                                        href="/workmap?worksid={$id}">map of mss</a>,
-                                    <a
-                                        role="button"
-                                        class="w3-button w3-small w3-gray"
-                                        href="/collate">collate</a>,
-                                    <a
-                                        role="button"
-                                        class="w3-button w3-small w3-gray"
-                                        href="/IndexPlaces?entity={$id}">places</a>,
-                                    <a
-                                        role="button"
-                                        class="w3-button w3-small w3-gray"
-                                        href="/IndexPersons?entity={$id}">persons</a>)
-                            default return
-                                <a
-                                    role="button"
-                                    class="w3-button w3-small w3-gray"
-                                    href="/authority-files/list?keyword={$id}">with this keyword</a>
-                }
+            if ($item//t:geo) then
                 <a
-                    role="button"
-                    class="w3-button w3-small w3-gray"
-                    href="/{$collection}/{$id}/analytic">relations</a>
-            </div>     
+                    href="{($id)}.json"
+                    target="_blank"><span
+                        class="glyphicon glyphicon-map-marker"></span></a>
+            else
+                ()
+        }
+        </div>
+};
+
+declare function q:summaryIns($item, $id) {
+let $fullid :=  ('https://betamasaheft.eu/'||$id)
+return
+<div class="w3-container">
+        There are {count($q:col//t:repository[@ref =$fullid])} items at this repository.
+        </div>
+};
+
+declare function q:summaryWork($item, $id) {
+
+                let $isVersion := $q:col//t:relation[@name = 'saws:isVersionOf'][contains(@passive, $id)]
+                let $anotherlang := $q:col//t:relation[@name = 'saws:isVersionInAnotherLanguageOf'][contains(@passive, $id)]
+                  let $creator := $item//t:relation[@name = "dcterms:creator"]
+                let $attributed := $item//t:relation[@name = "saws:isAttributedToAuthor"]
+             
+                return
+                (
+   if($item//t:titleStmt/t:author or $creator or $attributed) then  <div
+        class="w3-container">
+        <h5>Author attributions</h5>
+        <ul
+            class="nodot">
+            {
+                for $author in $item//t:titleStmt/t:author
+                return
+                    <li>{$author}</li>
+            }
+            {
+                 let $attributions := for $r in ($creator, $attributed)
+                let $rpass := $r/@passive
+                return
+                    if (contains($rpass, ' ')) then
+                        tokenize($rpass, ' ')
+                    else
+                        $rpass
+                for $author in config:distinct-values($attributions)
+                let $id := replace($author, 'https://betamasaheft.eu/', '')
+                return
+                    <li><a
+                            href="{$author}">{
+                                try {
+                                    titles:printTitleID($id)
+                                } catch * {
+                                    $author//t:titleStmt/t:title[1]/text()
+                                }
+                            }</a></li>
+            }
+        
+        </ul>
+    </div> else (),
+    if($item//t:listWit/t:witness or $isVersion or $anotherlang) then
+    <div
+        class="w3-container">
+        <h5>Witnesses</h5>
+        <ul
+            class="nodot">
+            {
+                for $witness in $item//t:listWit/t:witness
+                let $corr := $witness/@corresp
+                let $id := replace($corr, 'https://betamasaheft.eu/', '')
+                return
+                    <li><a
+                            href="{$corr}">{titles:printTitleID($id)}</a></li>
+            }
+        </ul>
+        <ul
+            class="nodot">
+            {
+                for $parallel in ($isVersion, $anotherlang)
+                let $p := $parallel/@active
+                let $id := replace($parallel, 'https://betamasaheft.eu/', '')
+                return
+                    <li><a
+                            href="{$p}">{titles:printTitleID($id)}</a></li>
+            }
+        </ul>
+    </div> else (),
+    if($item//t:abstract) then <div
+        class="w3-container">
+        <h5>Abstract</h5>
+        {string-join($item//t:abstract//text()[not(ancestor::t:bibl)], ' ')}
+    </div> else ()
+    )
+};
+
+declare function q:summaryMss($item, $id) {
+    <div
+        class="w3-container">
+        <h5>Signatures</h5>
+        {
+            let $idnos := for $shelfmark in $item//t:msIdentifier//t:idno
+            return
+                $shelfmark/text()
+            return
+                string-join($idnos, ', ')
+        }
+    </div>,
+    <div
+        class="w3-container">
+        <h5>Short Description</h5>
+        This {lower-case(($item//t:material/@key)[1])}
+        {lower-case(($item//t:objectDesc/@form)[1])}
+        is composed of {$item//t:extent/t:measure[@unit = 'leaf'][not(@type = 'blank')]} leaves.
+        It has {count($item//t:msItem[not(t:msItem)])
+        } main content units in {
+            if (count($item//t:msPart) = 0) then
+                1
+            else
+                count($item//t:msPart)
+        } codicological unit{
+            if (count($item//t:msPart) gt 1) then
+                's'
+            else
+                ''
+        }.
+        {
+            if ($item//t:origDate or $item//t:date[@evidence eq 'internal-date'])
+            then
+                'Available dates of origin in the description: '
+                || (
+                let $orig := $item//t:origDate
+                let $internal := $item//t:date[@evidence eq 'internal-date']
+                let $alldates := ($orig, $internal)
+               let $formatdates := for $d in $alldates
+                 return
+                    q:dates($d)
+                    return string-join($formatdates, ' '))
+                            || '. '
+            else
+                ()
+        }
+       {if($item//t:handNote) then 'There are ' || count($item//t:handNote) ||
+        ' described hands using ' || string-join(config:distinct-values(data($item//@script)), ', ') || ' script. ' else () }
+        The description {
+            if ($item//t:collation[descendant::t:item]) then
+                ' includes a collation of the quires.'
+            else
+                ' does not include a collation of the quires.'
+        }</div>
+};
+
+declare function q:dates($d){
+if ($d/text())
+                    then
+                        string-join($d//text(), ' ')
+                    else
+                        let $atts := for $att in $d/@* return  ($att/name() || ' ' || $att/data())
+                        return
+                            string-join($atts, ' ')};
+
+
+(:the following three functions are shared by results with and without matches:)
+declare function q:statusBadge($item) {
+    <span
+        class="w3-tag w3-red">{
+            if ($item//t:change[contains(., 'complete')]) then
+                (attribute style {'background-color:rgb(172, 169, 166, 0.4)'},
+                'complete')
+            else
+                if ($item//t:change[contains(., 'review')]) then
+                    (attribute style {'background-color:white'},
+                    'reviewed')
+                else
+                    (attribute style {'background-color:rgb(213, 75, 10, 0.4)'},
+                    'stub')
+        }
+    </span>
+};
+
+declare function q:resultitemlinks($collection, $item, $id, $root, $text) {
+    <span
+        class="w3-tag w3-gray">{$collection}</span>,
+    <span
+        class="w3-tag w3-gray"
+        style="word-break: break-all; text-align: left;">{$id}</span>,
+    <span
+        class="w3-tag w3-red"><a
+            href="{('/tei/' || $id || '.xml')}"
+            target="_blank">TEI</a></span>,
+    <span
+        class="w3-tag w3-red"><a
+            href="/{$id}.pdf"
+            target="_blank">PDF</a></span>,
+    <br/>,
+    <a
+        target="_blank"
+        href="/{$collection}/{$id}/main"><b>{
+                if (starts-with($id, 'corpus')) then
+                    $root//t:titleStmt/t:title[1]/text()
+                else
+                    try {
+                        titles:printTitleID($id)
+                    } catch * {
+                        console:log(($text, $id, $err:description))
+                    }
+            }</b></a>,
+    <br/>
+    ,
+    if ($item//t:facsimile/t:graphic/@url)
+    then
+        <a
+            target="_blank"
+            href="{$item//t:facsimile/t:graphic/@url}">Link to images</a>
+    else
+        if ($item//t:msIdentifier/t:idno[@facs][@n]) then
+            <a
+                target="_blank"
+                href="/manuscripts/{$id}/viewer">{
+                    if ($item//t:collection = 'Ethio-SPaRe')
+                    then
+                        <img
+                            src="{$config:appUrl || '/iiif/' || string(($item//t:msIdentifier)[1]/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}"
+                            class="thumb w3-image"/>
+                        (:laurenziana:)
+                    else
+                        if ($item//t:repository[@ref eq 'INS0339BML'])
+                        then
+                            <img
+                                src="{$config:appUrl || '/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '005.tif/full/140,/0/default.jpg'}"
+                                class="thumb w3-image"/>
+                            
+                            (:          
+EMIP:)
+                        else
+                            if (($item//t:collection = 'EMIP') and $item//t:msIdentifier/t:idno/@n)
+                            then
+                                <img
+                                    src="{$config:appUrl || '/iiif/' || string(($item//t:msIdentifier)[1]/t:idno/@facs) || '001.tif/full/140,/0/default.jpg'}"
+                                    class="thumb w3-image"/>
+                                
+                                (:BNF:)
+                            else
+                                if ($item//t:repository/@ref eq 'INS0303BNF')
+                                then
+                                    <img
+                                        src="{replace($item//t:msIdentifier/t:idno/@facs, 'ark:', 'iiif/ark:') || '/f1/full/140,/0/native.jpg'}"
+                                        class="thumb w3-image"/>
+                                    (:           vatican :)
+                                else
+                                    if (contains($item//t:msIdentifier/t:idno/@facs, 'digi.vat')) then
+                                        <img
+                                            src="{
+                                                    replace(substring-before($item//t:msIdentifier/t:idno/@facs, '/manifest.json'), 'iiif', 'pub/digit') || '/thumb/'
+                                                    ||
+                                                    substring-before(substring-after($item//t:msIdentifier/t:idno/@facs, 'MSS_'), '/manifest.json') ||
+                                                    '_0001.tif.jpg'
+                                                }"
+                                            class="thumb w3-image"/>
+                                        (:                bodleian:)
+                                    else
+                                        if (contains($item//t:msIdentifier/t:idno/@facs, 'bodleian')) then
+                                            ('images')
+                                        else
+                                            (<img
+                                                src="{$config:appUrl || '/iiif/' || string(($item//t:msIdentifier/t:idno)[1]/@facs) || '_001.tif/full/140,/0/default.jpg'}"
+                                                class="thumb w3-image"/>)
+                }</a>
+        
+        else
+            ()
+    
+    ,
+    if ($collection = 'works' and (contains($q:searchType, 'clavis'))) then
+    
+        apptable:clavisIds($item)
+    else     if ($collection = 'works' and (not(contains($q:searchType, 'clavis')))) then
+        apptable:clavisIds($text)
+    else
+        ()
+    
+    
+};
+
+declare function q:resultslinkstoviews($t, $id, $collection) {
+    <div
+        class="w3-third">
+        {
+            switch ($t)
+                case 'mss'
+                    return
+                        (
+                        <a
+                            role="button"
+                            class="w3-button w3-small w3-gray"
+                            href="/IndexPlaces?entity={$id}">places</a>,
+                        <a
+                            role="button"
+                            class="w3-button w3-small w3-gray"
+                            href="/IndexPersons?entity={$id}">persons</a>)
+                case 'pers'
+                    return
+                        ()
+                case 'ins'
+                    return
+                        (<a
+                            role="button"
+                            class="w3-button w3-small w3-gray"
+                            href="/manuscripts/{$id}/list">manuscripts</a>)
+                case 'place'
+                    return
+                        (<a
+                            role="button"
+                            class="w3-button w3-small w3-gray"
+                            href="/manuscripts/place/list?place={$id}">manuscripts</a>)
+                case 'narr'
+                    return
+                        (<a
+                            role="button"
+                            class="w3-button w3-small w3-gray"
+                            href="/collate">collate</a>)
+                case 'work'
+                    return
+                        (<a
+                            role="button"
+                            class="w3-button w3-small w3-gray"
+                            href="/compare?workid={$id}">compare</a>,
+                        <a
+                            role="button"
+                            class="w3-button w3-small w3-gray"
+                            href="/workmap?worksid={$id}">map of mss</a>,
+                        <a
+                            role="button"
+                            class="w3-button w3-small w3-gray"
+                            href="/collate">collate</a>,
+                        <a
+                            role="button"
+                            class="w3-button w3-small w3-gray"
+                            href="/IndexPlaces?entity={$id}">places</a>,
+                        <a
+                            role="button"
+                            class="w3-button w3-small w3-gray"
+                            href="/IndexPersons?entity={$id}">persons</a>)
+                default return
+                    <a
+                        role="button"
+                        class="w3-button w3-small w3-gray"
+                        href="/authority-files/list?keyword={$id}">with this keyword</a>
+    }
+    <a
+        role="button"
+        class="w3-button w3-small w3-gray"
+        href="/{$collection}/{$id}/analytic">relations</a>
+</div>
 };
 
 (:~  copied from  dts: to format and select the references :)
