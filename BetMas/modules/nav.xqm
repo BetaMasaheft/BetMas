@@ -197,6 +197,7 @@ return
                                 <a class="w3-bar-item w3-button"  href="/UniCirc/browse">UniCirc (full list)</a>
                                 --><a class="w3-bar-item w3-button"  href="/manuscripts/viewer">Manuscripts Images</a>
                                 <a class="w3-bar-item w3-button"  href="/catalogues/list">Catalogues</a>
+                                <a class="w3-bar-item w3-button"  href="/manuscripts/list?objectType=Inscription">Inscriptions</a>
                       </div>
     </div>
     <div class="w3-dropdown-hover w3-hide-small" id="places">
