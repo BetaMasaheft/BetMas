@@ -77,7 +77,7 @@ declare variable $config:response200Json := <rest:response>
                 status="200">
                 <http:header
                     name="Content-Type"
-                    value="application/ld+json; charset=utf-8"/>
+                    value="application/ld+json;charset=utf-8"/>
                 <http:header
                     name="Access-Control-Allow-Origin"
                     value="*"
@@ -207,6 +207,7 @@ declare variable $config:schema-root := $config:app-root || "/schema";
 declare variable $config:data-rootMS := $config:data-root || "/manuscripts";
 declare variable $config:data-rootN := $config:data-root || "/narratives";
 declare variable $config:data-rootW := $config:data-root || "/works";
+declare variable $config:data-rootS := $config:data-root || "/studies";
 declare variable $config:data-rootPl := $config:data-root || "/places";
 declare variable $config:data-rootPr := $config:data-root || "/persons";
 declare variable $config:data-rootIn := $config:data-root || "/institutions";
