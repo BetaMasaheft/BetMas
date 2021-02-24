@@ -88,11 +88,7 @@
                    </xsl:if>
                 </table>
                 </div>
-                        <xsl:if test="t:note">
-                    <p>
-                        <xsl:apply-templates select="t:note"/>
-                    </p>
-                </xsl:if>
+                      
                 <xsl:variable name="topmargin" select="                         if (t:dimensions[not(@xml:lang)][@type = 'margin'][1]/t:dim[@type = 'top'][1]/text()) then                             (t:dimensions[not(@xml:lang)][@type = 'margin'][1]/t:dim[@type = 'top'][1])                         else                             ('0')"/>
                 <xsl:variable name="bottomargin" select="                         if (t:dimensions[not(@xml:lang)][@type = 'margin'][1]/t:dim[@type = 'bottom'][1]/text()) then                             (t:dimensions[not(@xml:lang)][@type = 'margin'][1]/t:dim[@type = 'bottom'][1])                         else                             ('0')"/>
                 <xsl:variable name="rightmargin" select="                         if (t:dimensions[not(@xml:lang)][@type = 'margin'][1]/t:dim[@type = 'right'][1]/text()) then                             (t:dimensions[not(@xml:lang)][@type = 'margin'][1]/t:dim[@type = 'right'][1])                         else                             ('0')"/>
@@ -137,6 +133,11 @@
                         </xsl:choose>
                     </p>
                 </div>
+            </xsl:if>
+            <xsl:if test="t:note">
+                <p>
+                    <xsl:apply-templates select="t:note"/>
+                </p>
             </xsl:if>
         </div>
         <xsl:if test=".//t:ab[@type = 'ruling']">
