@@ -735,9 +735,7 @@ function genderInfo:graph() {
             <head>
                 <title
                     property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
-                <link
-                    rel="shortcut icon"
-                    href="resources/images/favicon.ico"/>
+                
                 <meta
                     name="viewport"
                     content="width=device-width, initial-scale=1.0"/>
@@ -758,7 +756,7 @@ function genderInfo:graph() {
                     property="dcterms:publisher schema:publisher"
                     content="Akademie der Wissenschaften in Hamburg, Hiob-Ludolf-Zentrum für Äthiopistik"></meta>
                 {apprest:scriptStyle()}
-                <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.12.0/vis.min.js"  />
+                <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://unpkg.com/vis-network@7.10.2/standalone/umd/vis-network.min.js"  />
             </head>
             
             <body
