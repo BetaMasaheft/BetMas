@@ -626,7 +626,7 @@ element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
                         else
                             (),
                         if ($node/@ref and not($node/text())) then
-                            titles:printTitleMainID($node/@ref)
+                            titles:printTitleID($node/@ref)
                         else
                             (),
                         expand:tei2fulltei($node/node(), $bibliography))
