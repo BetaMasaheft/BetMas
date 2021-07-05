@@ -45,8 +45,6 @@ return
         let $json-data := parse-json($payload)
         let $data-collection := $config:data-rootMS
         
-        let $login := xmldb:login($data-collection, 'Pietro', 'Hdt7.10')
-        
         return
             try {
                 
