@@ -732,7 +732,6 @@ declare function gitsync:TaxonomyMessage() {
  : @param $json-data github response serializing as xml xqjson:parse-json()  
  :)
 declare function gitsync:parse-request($json-data, $data-collection) {
-let $login := xmldb:login($data-collection, 'Pietro', 'Hdt7.10')
 let $repository := $json-data?repository
 let $cturl := $repository?contents_url
 let $contents-url := substring-before($cturl, '{')
