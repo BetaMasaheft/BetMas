@@ -6,7 +6,7 @@
             <module uri="https://www.betamasaheft.uni-hamburg.de/testfacetindex" prefix="ti" at="test.xqm"/>
             <text qname="t:TEI">
                 <!--all--> 
-                <facet dimension="type" expression="switch(@type) case 'mss' return 'manuscript' case 'work' return 'textual unit' case 'pers' return 'person' case 'place' return 'place' case 'ins' return 'repository' case 'narr' return 'narrative unit' default return 'authority file'"/>
+                <facet dimension="type" expression="switch(@type) case 'mss' return 'manuscript' case 'work' return 'textual unit' case 'pers' return 'person' case 'place' return 'place' case 'ins' return 'repository' case 'nar' return 'narrative unit' default return 'authority file'"/>
                 <facet dimension="keywords" expression="for $k in t:teiHeader//t:term/@key return ti:test($k, 'auth')"/>
                 <facet dimension="languages" expression="t:teiHeader//t:language/@ident"/>
                 <facet dimension="changeWho" expression="t:teiHeader//t:change/@who"/>
