@@ -21,7 +21,7 @@ declare
     %templates:default("entity", "")
     %templates:default("pointer", "")
 function indexesNE:placeNames ($node as node(), $model as map(*),  $collection as xs:string,$entity as xs:string, $pointer as xs:string*) {
-   let $coll := switch2:collectionVarValTit($collection)
+   let $coll := switch:collectionVarValTit($collection)
    let $Pointer := if($pointer = '') then "[@ref]" else "[@ref eq '"||$pointer||"']"
    let $entityRef := if($entity='') then '' else '/id($entity)'
    let $path := $coll||$entityRef||'//t:placeName'||$Pointer 
@@ -42,7 +42,7 @@ declare
     %templates:default("entity", "")
     %templates:default("pointer", "")
 function indexesNE:persNames ($node as node(), $model as map(*),  $collection as xs:string,$entity as xs:string, $pointer as xs:string*) {
-   let $coll := switch2:collectionVarValTit($collection)
+   let $coll := switch:collectionVarValTit($collection)
    let $Pointer := if($pointer = '') then "[@ref]" else "[@ref eq '"||$pointer||"']"
    let $entityRef := if($entity='') then '' else '/id($entity)'
    let $path := $coll||$entityRef||'//t:persName'||$Pointer 

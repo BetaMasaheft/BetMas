@@ -735,7 +735,9 @@ function genderInfo:graph() {
             <head>
                 <title
                     property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
-                
+                <link
+                    rel="shortcut icon"
+                    href="resources/images/favicon.ico"/>
                 <meta
                     name="viewport"
                     content="width=device-width, initial-scale=1.0"/>

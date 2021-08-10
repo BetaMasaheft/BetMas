@@ -27,6 +27,7 @@ else
     '';
 declare variable $q:params := request:get-parameter-names();
 declare variable $q:facets := doc("/db/system/config/db/apps/expanded/collection.xconf")//xconf:facet/@dimension;
+declare variable $q:TEIrangeFields := doc("/db/system/config/db/apps/expanded/collection.xconf")//xconf:range/xconf:create/xconf:field/@name;
 declare variable $q:col := collection("/db/apps/expanded/");
 declare variable $q:populatefacets := for $parm in $q:params[ends-with(., '-facet')]
 let $key := substring-before($parm, '-facet')
@@ -50,8 +51,10 @@ declare variable $q:allopts := map {
 };
 
 
+declare variable $q:lists := collection('/db/apps/BetMas/lists/');
 declare variable $q:languages := doc('/db/apps/BetMas/lists/languages.xml');
 declare variable $q:tax := doc('/db/apps/BetMas/lists/canonicaltaxonomy.xml');
+declare variable $q:range-lookup3 :=function-lookup(xs:QName("range:index-keys-for-field"), 3);
 declare variable $q:range-lookup :=
 (
 function-lookup(xs:QName("range:index-keys-for-field"), 4),
@@ -66,23 +69,17 @@ function-lookup(xs:QName("util:index-keys"), 4)
 
 
 declare function q:querytype($node as node(), $model as map(*)) {
-    <select
-        id="SType"
-        name="searchType"
-        class="w3-select w3-border">
-        <option
-            value="text"
-            selected="selected">text search (select here another type of search)</option>
-        <option
-            value="clavis">Clavis Aethiopica Number</option>
-            <option
-            value="otherclavis">Other Clavis ID</option>
-        <option
-            value="fields">fields</option>
-        <option
-            value="xpath">xpath</option>
-        <option
-            value="list">list</option>
+    <select id="SType" name="searchType" class="w3-select w3-border">
+        <option value="text" selected="selected">Simple Text search (select here another type of search)</option>
+        <option value="bmid">Lookup Beta maṣāḥǝft ID</option>
+        <option value="clavis">Lookup Clavis Aethiopica Number</option>
+        <option  value="otherclavis">Lookup other Clavis ID</option>
+        <option value="fields">Additional Fields</option>
+        <option  value="xpath">Xpath</option>
+        <option  value="cat">Catalogues</option>
+        <option  value="repos">Repositories</option>
+        <option  value="shelfmars">Shelfmarks</option>
+        <option   value="list">list</option>
         <!--
 split for each list or resource specific, it will show  a search box and a series of filters specific to the list type, 
 these will be the parameters and will be mixable with the facets. search without query will search all. each list as a specific context and specific filters
@@ -183,6 +180,9 @@ like the facet, simple and advanced searches :)
        case 'otherclavis'
             return
                 q:otherclavis($q)
+       case 'bmid'
+            return
+                q:bmid($q)
         case 'resources'
             return
                 'resources'
@@ -234,6 +234,11 @@ declare function q:displayQtime($node as node()*, $model as map(*)) {
 
 };
 
+declare function q:bmid($q){
+for $m in  $q:col//t:TEI[contains(@xml:id,$q)] 
+group by $TEI := $m
+    return $TEI
+};
 
 declare function q:otherclavis($q){
 let $clavisType := request:get-parameter('clavistype', ())
@@ -241,7 +246,7 @@ let $selector :=  if(($q = '') and (matches($clavisType, '\w+')))
                            then "[descendant::t:bibl[@type eq '"||$clavisType||"']]"
                            else  "[descendant::t:bibl[@type eq '"||$clavisType||"'][t:citedRange eq '"||$q||"']]"
  let $path := '$q:col//t:TEI[@type="work"]' || $selector
-let $test := util:log('INFO', $path)
+(:let $test := util:log('INFO', $path):)
 for $m in util:eval($path)
         group by $TEI := $m
     return $TEI
@@ -1486,14 +1491,14 @@ declare function q:resultswithmatch($text, $p) {
 
 (:outputs for a subsequence of results the rows of a table of results without KWIC for clavis and xpath searches:)
 declare function q:resultswithoutmatch($text, $p) {
-    let $test1 := util:log('INFO', $text)
+(:    let $test1 := util:log('INFO', $text):)
     let $queryText := request:get-parameter('query', ())
     let $root := if ($q:searchType = 'clavis') then    $text('hit')     else   $text
     let $item := if ($q:searchType = 'clavis') then  $text('hit')  else  $root/ancestor-or-self::t:TEI
     let $t := if ($q:searchType = 'clavis' and $text('type') = 'deleted') then   'deleted'  else     $item/@type
     let $id := if ($q:searchType = 'clavis' and $text('type') = 'deleted') then   'deleted'  else    data($item/@xml:id)
     let $collection := if ($q:searchType = 'clavis' and $text('type') = 'deleted') then   'deleted'   else   switch2:col($t)
-    let $test := util:log('INFO', $item)
+(:    let $test := util:log('INFO', $item):)
     return
         <div
             class="w3-row w3-border-bottom w3-margin-bottom">
@@ -2090,4 +2095,287 @@ declare function q:queryinput($node as node(), $model as map(*), $query as xs:st
         {$query}
     
     </textarea>
+};
+
+declare function q:elements($node as node(), $model as map(*)) {
+    let $control :=
+        <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="element" name="element" class="w3-select w3-border">
+            
+            <option value="title">Titles</option>
+            <option value="persName">Person names</option>
+            <option value="placeName">Place names</option>
+            <option value="ref">References</option>
+            <option value="ab">Texts</option>
+            <option value="l">Lines</option>
+            <option value="p">Paragraphs</option>
+            <option value="note">Notes</option>
+            <option value="incipit">Incipits</option>
+            <option value="explicit">Explicits</option>
+            <option value="colophon">Colophons</option>
+            <option value="q">Quotes</option>
+            <option value="occupation">Occupation</option>
+            <option value="roleName">Role</option>
+            <option value="summary">Summaries</option>
+            <option value="abstract">Abstracts</option>
+            <option value="desc">Descriptions</option>
+            <option value="relation">Relations</option>
+            <option value="foliation">Foliation</option>
+            <option value="origDate">Origin Dates</option>
+            <option value="measure">Measures</option>
+            <option value="floruit">Floruit</option>
+        </select>
+    return
+        templates:form-control($control, $model)
+};
+
+(:switch mapping the name of a filter to the correct range index name:)
+declare function q:rangeindexname($nodeName){
+                                        switch($nodeName) 
+                                        case 'relType' return 'relname' 
+                                        case 'language' return 'TEIlanguageIdent' 
+                                        case 'material' return 'materialkey' 
+                                        case 'bmaterial' return 'materialkey'
+                                         case 'placetype' return 'placetype' 
+                                         case 'country' return 'countryref' 
+                                         case 'settlement' return 'settlref' 
+                                         case 'occupation' return 'occtype' 
+                                         case 'faith' return 'faithtype' 
+                                         case 'objectType' return 'form' 
+                                         default return 'termkey'
+};
+
+declare function q:rangeindexlabel($nodeName){
+                                        switch($nodeName) 
+                                        case 'TEItermKey' return 'keyword' 
+                                        case 'TEIlanguageIdent' return 'language' 
+                                        case 'TEIrepo' return 'repository' 
+                                        case 'TEIclavistype' return 'clavis type'
+                                         case 'TEIclavisID' return 'clavis id' 
+                                         case 'TEIorigDateW' return 'origin date (when)' 
+                                         case 'TEIorigDateNB' return 'origin date (notBefore)' 
+                                         case 'TEIorigDateNA' return 'origin date (notAfter)' 
+                                         case 'TEIDateW' return 'date (when)' 
+                                         case 'TEIDateNB' return 'date (notBefore)' 
+                                         case 'TEIDateNA' return 'date (notAfter)' 
+                                         case 'TEIplNametx' return 'place reference' 
+                                         case 'TEIprNametx' return 'person reference' 
+                                         case 'TEIscript' return 'script' 
+                                         case 'TEIsupport' return 'form' 
+                                         case 'TEIdecoMat' return 'binding material'
+                                         case 'TEIpersOcc' return 'occupation type' 
+                                         case 'TEIreltx' return 'relation name' 
+                                         case 'TEIreltxA' return 'relation target (active)'
+                                         case 'TEIreltxP' return 'relation target (passive)' 
+                                         case 'TEItitle' return 'title reference' 
+                                         case 'TEIwitt' return 'witness'
+                                         case 'TEIsex' return 'gender'
+                                         case 'TEImeasure' return 'measure'
+                                         case 'TEIwrittenLines' return 'written lines'
+                                         case 'TEIquireDim' return 'quire dimension'
+                                         case 'materialkey' return 'material'
+                                         case 'itemtype' return 'addition'
+                                         case 'persrole' return 'person role'
+                                         case 'custEventsubtype' return 'restoration'
+                                         case 'repositorytext' return 'repository'
+                                         case 'titletext' return 'title'
+                                         case 'witnesstext' return 'witness'
+                                         default return 'unknown'
+};
+
+declare function q:rangeindexlookup ($rangeindexname){
+$q:col/$q:range-lookup3($rangeindexname, function($key, $count) 
+                {q:sortedoptions($rangeindexname, $key, $count)}, 
+                1000)
+(:                this tries to take all, keeping the total number of keys high:)
+};
+
+declare function q:sortedoptions($rangeindexname, $key, $count){
+let $options := for $option in q:formatOption($rangeindexname, $key, $count) 
+                           return
+                              if(starts-with($key,'https://betamasaheft.eu/') and contains($key, '#')) 
+                              then
+                                       try{ let $id := replace($key,'https://betamasaheft.eu/', '') 
+                                        let $subid := substring-after($key, '#')
+                                          let $mainid := substring-before($key, '#')
+                                          group by $MAIN := $mainid
+                                         return   
+                                         <optgroup label="{$MAIN/text()}">{for $o in $option return $o}</optgroup>} catch * {$err:description}
+                  else 
+                  let $sorting := q:sortingkey($option)
+(:                                         let $test := util:log('INFO', concat(string-join($option//text()), ' --- > ',$sorting)):)
+                                            order by $sorting
+                                            return $option 
+return $options};
+
+declare function q:formatOption($rangeindexname,$key, $count){
+if($rangeindexname='TEIlanguageIdent')
+then <option value="{$key}">{$q:languages//id($key)/text()} ({$count[2]})</option>
+
+else if(starts-with($key,'https://betamasaheft.eu/'))
+         then 
+                  let $id := replace($key,'https://betamasaheft.eu/', '') 
+                  let $title := ($q:lists//t:item[@xml:id=$id] | $q:lists//t:item[@corresp=$id])/text() 
+                  let $titlesel := if ($title) then $title else try{titles:printTitleID($id)} catch * {util:log('INFO',$err:description)}
+                  return <option value="{$key}">{$titlesel} ({$count[2]})</option>
+else if(starts-with($key,'#'))
+         then 
+                  let $id := replace($key,'#', '') 
+                  let $title := $q:lists//t:item[@xml:id=$id]/text() 
+                  return <option value="{$key}">{$title} ({$count[2]})</option>
+else  if ($rangeindexname = 'TEItermKey') then 
+(:            let $t := util:log('INFO', $key):)
+            let $cat := $q:tax//t:category[@xml:id=$key] 
+            return
+                     <option value="{$key}">{$cat/t:catDesc/text()}</option>
+else if ($rangeindexname ='TEIsex') then <option value="{$key}">{switch($key) case '1' return 'Male' default return 'Female'} ({$count[2]})</option>
+else 
+<option value="{$key}">{$key} ({$count[2]})</option>
+};
+
+
+declare function q:generalRangeIndexesFilters($node as node(), $model as map(*)) {
+let $indexnames:=('TEIlanguageIdent', 'TEItermKey')
+return q:datalist($indexnames)
+};
+
+declare function q:MssRangeIndexesFilters($node as node(), $model as map(*)) {
+let $indexnames:=('TEIscript', 'TEIsupport', 'materialkey', 'TEIdecoMat', 'custEventsubtype')
+return q:datalist($indexnames)
+};
+
+declare function q:target-ins($node as node(), $model as map(*)){
+q:datalist('repositorytext')
+};
+
+
+declare function q:roles($node as node(), $model as map(*)){
+q:datalist('persrole')
+};
+
+declare function q:contents($node as node(), $model as map(*)){
+let $indexes := ('titletext', 'itemtype') return
+q:datalist($indexes)
+};
+
+declare function q:datalist ($indexnames){
+let $indexesSelection := $q:TEIrangeFields[.=$indexnames]
+for $rangeindexname in $indexesSelection
+let $nodeName := q:rangeindexlabel($rangeindexname)
+let $lookup :=  q:rangeindexlookup($rangeindexname)
+   return 
+   <div class="w3-container">
+                    <label for="{$nodeName}">{$nodeName}s <span class="w3-badge">{count($lookup)}</span></label>
+                 <input
+                    list="{$nodeName}-list"
+                    class="w3-input"
+                    name="{$nodeName}" id="{$nodeName}" ></input>
+                <datalist style="width:100%"
+                    id="{$nodeName}-list">
+                    {for $option in $lookup return $option}
+                </datalist>
+      </div>};
+
+
+(:~determins what the selectors for various form controls will look like, is called by app:formcontrol() :)
+declare function q:selectors($nodeName, $nodes, $type){
+             <select multiple="multiple" name="{$nodeName}" id="{$nodeName}" class="w3-select w3-border">
+            {
+            
+            if ($type = 'keywords') then (
+                    for $group in $nodes/t:category[t:desc]
+                    let $label := $group/t:desc/text()
+                    
+                    return
+                    for $n in $group//t:catDesc
+                    let $id := $n/text()
+                    let $title :=titles:printTitleMainID($id)
+                    return
+                       <option value="{$id}">{$title[1]}</option>
+                                )
+                                              
+            else if ($type = 'name')
+                            then (for $n in $nodes[. != ''][. != ' ']
+                            let $id := string($n/@xml:id)
+                            let $title := titles:printTitleMainID($id)
+                            let $sortkey := q:sortingkey($title)
+                                               order by $sortkey
+                                               return
+            
+                                                <option value="{$id}" >{$title}</option>
+                                          )
+            else if ($type = 'rels')
+                     then (
+                    
+                 for $n in $nodes[. != ''][. != ' ']
+                          let $title :=  titles:printTitleID($n)  
+                          let $sortkey := q:sortingkey($title[1])
+                            order by $sortkey
+                             return
+            
+                             <option value="{$n}">{normalize-space(string-join($title))}</option>
+                        )
+             else if ($type = 'hierels')
+             then (
+             for $n in $nodes[. != ''][. != ' '][not(starts-with(.,'#'))]
+             let $cleanid := if (contains($n, '#')) then (substring-before($n, '#')) else $n
+             group by $work := $cleanid
+             let $record := $q:col/id($work)
+             let $titlework := titles:printTitle($record)
+               let $sortkey := q:sortingkey($titlework)
+               order by $sortkey
+                                  (:  try{
+                                        if ($titles:collection-root/id($work)) 
+                                        then titles:printTitle($titles:collection-root/id($work)) 
+                                        else $work} 
+(\:                                        this has to stay because optgroup requires label and this cannot be computed from the javascript as in other places:\)
+                                    catch* {
+                                        ('while trying to create a list for the filter ' ||$nodeName || ' I got '|| $err:code ||': '||$err:description || ' about ' || $work), 
+                                         $work}:)
+                                return
+                                if (count($n) = 1)
+                                then <option value="{$work}">{$titlework}</option>
+                                else(
+                                      <optgroup label="{$titlework}">
+                  
+                    { for $subid in $n
+                    return
+                                        <option value="{$subid}">{
+                                          if (contains($subid, '#')) then substring-after($subid, '#') else 'all'
+                                         }</option>
+                                         }
+                             
+                             
+                                    </optgroup>)
+                                    
+                                    )
+            else if ($type = 'institutions')
+                      then (
+                             let $institutions := collection($config:data-rootIn)//t:TEI/@xml:id
+                                 for $institutionId in $nodes[. eq $institutions]
+                            return
+            
+                            <option value="{$institutionId}">{titles:printTitleMainID($institutionId)}</option>
+                        )
+            
+            else if ($type = 'sex')
+                     then (for $n in $nodes[. != ''][. != ' ']
+                        let $key := replace(functx:trim($n), '_', ' ')
+                         order by $n
+                         return
+                             <option value="{string($key)}">{switch($key) case '1' return 'Male' default return 'Female'}</option>
+                        )
+            else(
+            (: type is values :)
+            for $n in $nodes[. != ''][. != ' ']
+                let $thiskey := replace(functx:trim($n), '_', ' ')
+                let $title := if($nodeName = 'keyword' or $nodeName = "placetype"or $nodeName = "country"or $nodeName = "settlement") then titles:printTitleID($thiskey) 
+                                        else if ($nodeName = 'language') then $q:languages//t:item[@xml:id eq $thiskey]/text()
+                                        else $thiskey
+               order by $n
+               return
+            <option value="{$thiskey}">{if($thiskey = 'Printedbook') then 'Printed Book' 
+             else $title}</option>
+            )
+            }
+        </select>
 };

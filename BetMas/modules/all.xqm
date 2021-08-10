@@ -192,8 +192,10 @@ function all:substitutionsInQuery($query as xs:string*) {
 declare function all:limitoptions($options){
     (:count the number of options:)
     let $optionsCount := count($options)
-    (:make a string of them, which is a candidate query:)
-    let $string := string-join($options, ' ')
+    (:make a string of them, which is a candidate query
+    
+    changed to make sure all options are alternative to one another:)
+    let $string := '(' ||string-join($options, ') OR (') || ')'
     (:measure the length of the candidate query:)
     let $stringLength := string-length($string)
     (:this is a set value to try and reduce the query, reducing one by one would be too long:)

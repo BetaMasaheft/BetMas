@@ -38,4 +38,31 @@ $('#SType').change(function () {
     }
 });
 
+$("#showfilters").one("click", function () {
+    callformpart('filters.html', 'advanced');
+});
+
+$("#showfilters").click(function () {
+    $('.filter').toggle("slow");
+});
+
+
+function callformpart(file, id) {
+    
+    // check first that the element is not there already
+    var myElem = document.getElementById(id);
+    // if it is not there, load it
+    if (myElem === null) {
+        $.ajax(file, {
+            success: function (data) {
+            console.log(data)
+                $("#filters").append(data);
+            }
+        });
+    }
+    // else it has already been loaded, therefore simply show it.
+    var jid = '#' + id
+    $(jid).toggle();
+};
+
 /*remove or disable text box for sparql and xpath not to confuse usage.*/

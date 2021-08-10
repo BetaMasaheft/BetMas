@@ -1425,8 +1425,10 @@ declare function app:hit-params($node as node()*, $model as map(*)) {
                     for $param in $app:params
                     for $value in request:get-parameter($param, ())
                     return
-                    if ($param = 'start') then ()
+                    if ($value = '') then ()
+                    else if ($param = 'start') then ()
                     else if ($param = 'query') then ()
+                    else if (ends-with($param, '-operator-field')) then ()
                     else if ($param = 'dateRange') 
                      then (<span class="w3-tag w3-gray w3-round w3-margin">{'between ' || substring-before(request:get-parameter('dateRange', ()), ',') || ' and ' || substring-after(request:get-parameter('dateRange', ()), ',')}</span>)
                     else
@@ -1637,8 +1639,9 @@ function app:facetSearchRes ( $node as node()*,  $model as map(*), $start as xs:
         let $queryText := request:get-parameter('query', ())
         
             let $expanded := kwic:expand($text)
-            let $firstancestorwithID:=($expanded//exist:match/(ancestor::t:text|ancestor::t:*[(@xml:id|@n)][self::t:TEI]))[1]
-        let $firstancestorwithIDid := $firstancestorwithID/string(@xml:id)
+            let $firstancestorwithID:=($expanded//exist:match/(ancestor::t:*[(@xml:id|@n)] | ancestor::t:text))[last()]
+      let $test := console:log($firstancestorwithID)
+      let $firstancestorwithIDid := $firstancestorwithID/string(@xml:id)
         let $view := if($firstancestorwithID[ancestor-or-self::t:text]) then 'text' else 'main'
          let $firstancestorwithIDanchor := if($view = 'main') then '#' || $firstancestorwithIDid else ()
         
@@ -1649,12 +1652,22 @@ function app:facetSearchRes ( $node as node()*,  $model as map(*), $start as xs:
             let $id := data($root/t:TEI/@xml:id)
             let $collection := switch2:col($t)
         let $score as xs:float := ft:score($text)
-        order by $score descending
+        let $tokvalues := for $tokenInQuery in tokenize($queryText, '\s') 
+                            return if ($text[contains(., $tokenInQuery)]) then 5 else 0
+      let $values := sum($tokvalues)
+        let $enrichedScore := 
+                            $score + 
+                            $values +
+                            (count($text//node()) div 100) + 
+                            ( if($text//t:ab[node()]) then 4 
+                            else if($text//t:occupation) then 2 
+                                else if ($text/ancestor::t:TEI//t:change[contains(.,'complete')]) then 1 else ())
+        order by $enrichedScore descending
              return
             <div class="w3-row w3-border-bottom w3-margin-bottom">
               <div class="w3-third">
               <div class="w3-col" style="width:15%">
-                <span class="w3-tag w3-red">{format-number($score, '0,00')}</span>
+                <span class="w3-tag w3-red">{$enrichedScore}</span>
                 <span class="w3-tag w3-red">{
                 if ($item//t:change[contains(., 'complete')]) then
                         (attribute style {'background-color:rgb(172, 169, 166, 0.4)'},
@@ -1713,7 +1726,13 @@ else if (contains($item//t:msIdentifier/t:idno/@facs, 'bodleian')) then ('images
             </div>
             <div class="w3-twothird">
                  <div class="w3-twothird">{
-                     for $match in subsequence($expanded//exist:match, 1, 3) return  
+                     for $match in subsequence($expanded//exist:match, 1, 3) 
+                      let $matchancestorwithID:=($match/(ancestor::t:*[(@xml:id|@n)] | ancestor::t:text))[last()]
+      let $matchancestorwithIDid := $matchancestorwithID/string(@xml:id)
+        let $view := if($matchancestorwithID[ancestor-or-self::t:text]) then 'text' else 'main'
+         let $matchancestorwithIDanchor := if($view = 'main') then '#' || $matchancestorwithIDid else ()
+        
+                     return  
                       let $matchref := replace(app:refname($match), '.$', '')
                 let $ref := if($view = 'text' and $matchref !='') then '&amp;ref=' || $matchref else ()
                 return 
@@ -1721,14 +1740,14 @@ else if (contains($item//t:msIdentifier/t:idno/@facs, 'bodleian')) then ('images
                    {  kwic:get-summary($match/parent::node(), $match,<config width="40"/>)}
                      </div>
                         <div class="w3-third w3-padding">
-                        <a href="/{$collection}/{$id}/{$view}{$firstancestorwithIDanchor}?hi={$queryText}{$ref}">
-                        {' in element ' ||
-                        $firstancestorwithID/name() 
+                        <a href="/{$collection}/{$id}/{$view}{$matchancestorwithIDanchor}?hi={$queryText}{$ref}">
+                        {' in element ' ||$match/parent::t:*/name() || ' within a ' ||
+                        $matchancestorwithID/name() 
                         || 
                        (if($view = 'text'  and $matchref !='') 
                                 then ', at ' || $matchref 
                        else if($view = 'main') 
-                                then ', with id ' || $firstancestorwithIDid 
+                                then ', with id ' || $matchancestorwithIDid 
                         else ())
                         }</a>
                         </div>

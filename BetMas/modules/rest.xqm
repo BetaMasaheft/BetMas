@@ -149,8 +149,6 @@ map { 'id' : $id,
 'who' : editors:editorKey($latest[1]/@who),
 'what' : $latest[1]/text()
 }
-
-
  )
 };
 

@@ -127,7 +127,7 @@ declare function apptable:tr($doc as node(), $list as xs:string) {
 
 (:~function to print the values of parallel clavis ids:)
 declare function apptable:clavisIds($doc as node()){
-    <span class="w3-tooltip"><span class="w3-tag">CAe {substring(string($doc/t:TEI/@xml:id), 4, 4)}</span>
+    <span class="w3-tooltip"><span class="w3-tag">CAe {substring(string($doc/ancestor-or-self::t:TEI/@xml:id), 4, 4)}</span>
     <span class="w3-text"><a href="https://www.traces.uni-hamburg.de/en/texts/clavis.html"><em>Clavis Aethiopica</em></a>, an ongoing repertory of all known Ethiopic <a href="https://betamasaheft.eu/Guidelines/?id=definitionWorks">Textual Units</a>. Use this to refer univocally to a specific text in your publications. Please note that this shares only the 
     numeric part with the <a href="https://betamasaheft.eu/Guidelines/?id=entities-id-structure">Textual Unit Record Identifier</a>.</span>
     </span> ,
@@ -285,8 +285,8 @@ else  if($item//t:repository[@ref eq 'INS0339BML'])
           
 (:          
 EMIP:)
-              else if(($item//t:collection eq 'EMIP') and $item//t:msIdentifier/t:idno/@n) 
-               then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
+              else if(($item//t:collection = 'EMIP') and ($item//t:msIdentifier/t:idno)[1]/@n) 
+               then <img src="{$config:appUrl ||'/iiif/' || string(($item//t:msIdentifier/t:idno)[1]/@facs) || '001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
               
              (:BNF:)
             else if ($item//t:repository/@ref eq 'INS0303BNF') 
@@ -299,7 +299,7 @@ EMIP:)
                 }" class="thumb w3-image"/>
 (:                bodleian:)
 else if (contains($item//t:msIdentifier/t:idno/@facs, 'bodleian')) then ('images')
-                else (<img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno[not(starts-with(@facs, 'https'))][1]/@facs) || (if(starts-with($item//t:collection, 'Ethio')) then '_' else())||'001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>)
+                else (<img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>)
                  }</a>
                 
                 else ()}</td>,

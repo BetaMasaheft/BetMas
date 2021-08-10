@@ -1357,7 +1357,7 @@ let $parameters := map{'key': $keyword,
 'bmaterial': $bmaterial,
 'contents': $contents,
 'origPlace': $origPlace}
-let $file := $apprest:collection-rootPl//id($place)[self::t:TEI]
+let $file := $apprest:collection-rootPlIn//id($place)[self::t:TEI]
 let $sameAs := string($file//t:place/@sameAs)
 return
 
