@@ -67,7 +67,7 @@ declare function switch2:collectionVarValTit($type){
      case'all' return '$titles:collection-root'
    case 'mss' return '$titles:collection-root//t:TEI[@type="mss"]'
    case 'work' return '$titles:collection-root//t:TEI[@type="work"]'
-   case 'narr' return '$titles:collection-root//t:TEI[@type="narr"]'
+   case 'nar' return '$titles:collection-root//t:TEI[@type="nar"]'
    case 'auth' return '$titles:collection-root//t:TEI[@type="auth"]'
    case 'pers' return '$titles:collection-root//t:TEI[@type="pers"]'
    case 'place' return '$titles:collection-root//t:TEI[@type="place"]'

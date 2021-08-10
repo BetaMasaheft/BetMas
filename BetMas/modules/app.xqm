@@ -1742,7 +1742,7 @@ else if (contains($item//t:msIdentifier/t:idno/@facs, 'bodleian')) then ('images
                         case 'pers' return ()
                         case 'ins' return (<a role="button" class="w3-button w3-small w3-gray" href="/manuscripts/{$id}/list">manuscripts</a>)
                         case 'place' return (<a role="button" class="w3-button w3-small w3-gray" href="/manuscripts/place/list?place={$id}">manuscripts</a>)
-                        case 'narr' return (<a role="button" class="w3-button w3-small w3-gray" href="/collate">collate</a>)
+                        case 'nar' return (<a role="button" class="w3-button w3-small w3-gray" href="/collate">collate</a>)
                         case 'work' return 
                             (<a role="button" class="w3-button w3-small w3-gray" href="/compare?workid={$id}">compare</a>,
                              <a role="button" class="w3-button w3-small w3-gray" href="/workmap?worksid={$id}">map of mss</a>,

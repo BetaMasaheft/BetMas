@@ -2732,7 +2732,7 @@ declare function dts:ItemAnnotationsEntries($name){
 switch($name) 
                             case 'mss' return count($dts:collection-rootMS//t:TEI[descendant::t:persName[@ref[. !='PRS00000' and . !='PRS0000']] or descendant::t:placeName[@ref] or descendant::t:title[@ref] or descendant::t:term[@key][not(parent::t:keywords)] or descendant::t:ref[@cRef]])
                             case 'works' return count($dts:collection-rootW//t:TEI[descendant::t:persName[@ref] or descendant::t:placeName[@ref] or descendant::t:title[@ref] or descendant::t:term[@key][not(parent::t:keywords)] or descendant::t:ref[@cRef]])
-                            case 'narr' return count($dts:collection-rootN//t:TEI[descendant::t:persName[@ref] or descendant::t:placeName[@ref] or descendant::t:title[@ref] or descendant::t:term[@key][not(parent::t:keywords)] or descendant::t:ref[@cRef]])
+                            case 'nar' return count($dts:collection-rootN//t:TEI[descendant::t:persName[@ref] or descendant::t:placeName[@ref] or descendant::t:title[@ref] or descendant::t:term[@key][not(parent::t:keywords)] or descendant::t:ref[@cRef]])
                             default return count(($dts:collection-rootMS,$dts:collection-rootW,$dts:collection-rootN)//t:TEI[descendant::t:persName[@ref] or descendant::t:placeName[@ref] or descendant::t:title[@ref] or descendant::t:term[@key][not(parent::t:keywords)] or descendant::t:ref[@cRef]])
 };
 
@@ -2766,7 +2766,7 @@ declare function dts:switchContext($context){
 switch ($context)
 case 'mss' return $dts:collection-rootMS
 case 'works' return $dts:collection-rootW
-case 'narr' return $dts:collection-rootN
+case 'nar' return $dts:collection-rootN
 (:default is value 'all':)
 default return ($dts:collection-rootMS, $dts:collection-rootW, $dts:collection-rootN)
 };

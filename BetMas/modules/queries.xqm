@@ -1608,7 +1608,7 @@ declare function q:summary($item) {
                    case 'mss'
                         return
                             q:summaryMss($item, $id)
-                         case 'narr'
+                         case 'nar'
                         return
                             q:summaryWork($item, $id)
                      case 'auth'
@@ -1998,7 +1998,7 @@ declare function q:resultslinkstoviews($t, $id, $collection) {
                             role="button"
                             class="w3-button w3-small w3-gray"
                             href="/manuscripts/place/list?place={$id}">manuscripts</a>)
-                case 'narr'
+                case 'nar'
                     return
                         (<a
                             role="button"
