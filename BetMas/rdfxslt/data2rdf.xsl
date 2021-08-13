@@ -201,10 +201,11 @@
                 <!--                OPEN DATA LICENSE FOR THE RDF-->
                 <dcterms:licence rdf:resource="http://opendatacommons.org/licenses/odbl/1.0/"/>
                 <!--                general part, valid for all records -->
-                <rdf:type rdf:resource="https://betamasaheft.eu/ontology/{@type}"/>
+                <rdf:type rdf:resource="https://betamasaheft.eu/{@type}"/>
                 <dcterms:source rdf:resource="{$xmluri}"/>
                 <foaf:homepage rdf:resource="{$mainurl}"/>
                 <crm:P48_has_preferred_identifier>
+<!--                    relates an E1 Entity (inherited from superProperty P1) with an E42 Identifier-->
                     <xsl:value-of select="@xml:id"/>
                 </crm:P48_has_preferred_identifier>
                 <dc:publisher>
@@ -224,9 +225,6 @@
 
                 <!--                specific parts in each main annotations group-->
                 <xsl:if test="@type = 'mss'">
-                    <rdf:type rdf:resource="http://lawd.info/ontology/AssembledWork"/>
-                    <rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/E18_Physical_Thing"/>
-                    <rdf:type rdf:resource="http://pelagios.github.io/vocab/terms#AnnotatedThing"/>
 <!--                    the present state of a mss is always a UniProd and a UniCirc-->
                     <rdf:type rdf:resource="https://w3id.org/sdc/ontology#UniProd"/>
                     <rdf:type rdf:resource="https://w3id.org/sdc/ontology#UniCirc"/>
@@ -249,6 +247,10 @@
                             <betmas:hasTotalQuires rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">
                                 <xsl:value-of select="count(//t:collation//t:item)"/>
                             </betmas:hasTotalQuires>
+                            <crm:E54_Dimension>
+                                <crm:P91_has_unit>quire</crm:P91_has_unit>
+                                <crm:P90_has_value><xsl:value-of select="count(//t:collation//t:item)"/></crm:P90_has_value>
+                            </crm:E54_Dimension>
                         </xsl:when>
                         <!--                        if the manuscript has parts, count them and add a pointer to them, a further call below will call the template in mode="parturis" producing the uris to which this will refer
                         if there are parts 
@@ -284,9 +286,6 @@
                     </xsl:apply-templates>
                 </xsl:if>
                 <xsl:if test="@type = 'work'">
-                    <rdf:type rdf:resource="http://pelagios.github.io/vocab/terms#AnnotatedThing"/>
-                    <rdf:type rdf:resource="http://lawd.info/ontology/ConceptualWork"/>
-                    <rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/E28_Conceptual_Object"/>
                     <xsl:apply-templates select="//t:listBibl[@type = 'clavis']"/>
                     <xsl:apply-templates select="//t:titleStmt/t:title">
                         <xsl:with-param name="mainID">
@@ -650,7 +649,7 @@
             <xsl:attribute name="rdf:about">
                 <xsl:value-of select="concat('https://betamasaheft.eu/', $mainID, '/colophon/', @xml:id)"/>
             </xsl:attribute>
-            <rdf:type rdf:resource="https://betamasaheft.eu/colophon"/>
+            <rdf:type rdf:resource="https://betamasaheft.eu/Colophon"/>
             <xsl:apply-templates select="t:locus"/>
             <xsl:apply-templates select="t:listBibl"/>
             <xsl:apply-templates select="descendant::t:date"/>
