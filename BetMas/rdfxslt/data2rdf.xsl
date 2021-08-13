@@ -300,13 +300,6 @@
                     </xsl:apply-templates>
                 </xsl:if>
                 <xsl:if test="@type = 'place' or @type = 'ins'">
-                    <xsl:if test="@type = 'place'">
-                        <rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/E53_Place"/>
-                    </xsl:if>
-                    <xsl:if test="@type = 'ins'">
-                        <rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/E29_Actor"/>
-                    </xsl:if>
-                    <rdf:type rdf:resource="http://lawd.info/ontology/Place"/>
                     <xsl:if test="//t:location/t:geo">
                         <geo:location>
                             <rdf:Description>
@@ -339,8 +332,6 @@
                     <xsl:apply-templates select="//t:place/t:placeName" mode="pn"/>
                 </xsl:if>
                 <xsl:if test="@type = 'pers'">
-                    <rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/E29_Actor"/>
-                    <rdf:type rdf:resource="http://lawd.info/ontology/Person"/>
                     <xsl:if test="//t:person/@sameAs">
                         <skos:exactMatch rdf:resource="https://www.wikidata.org/entity/{replace(//t:person/@sameAs, 'wd:', '')}"/>
                     </xsl:if>
