@@ -1,4 +1,34 @@
-<xsl:stylesheet xmlns:pleiades="https://pleiades.stoa.org/" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:wd="https://www.wikidata.org/" xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:oa="http://www.w3.org/ns/oa#" xmlns:doap="http://usefulinc.com/ns/doap#" xmlns:rel="http://purl.org/vocab/relationship/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:pelagios="http://pelagios.github.io/vocab/terms#" xmlns:syriaca="http://syriaca.org/documentation/relations.html#" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:crm="http://www.cidoc-crm.org/cidoc-crm/" xmlns:saws="http://purl.org/saws/ontology#" xmlns:iha="http://islhornafr.tors.sc.ku.dk/" xmlns:funct="http://myfunction" xmlns:svcs="http://rdfs.org/sioc/services#" xmlns:gn="http://www.geonames.org/ontology#" xmlns:agrelon="http://d-nb.info/standards/elementset/agrelon.owl#" xmlns:betmas="https://betamasaheft.eu/" xmlns:lawd="http://lawd.info/ontology/" xmlns:sdc="https://w3id.org/sdc/ontology#" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:ecrm="http://erlangen-crm.org/current/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:snap="http://data.snapdrgn.net/ontology/snap#" xmlns:dc="http://purl.org/dc/elements/1.1/" exclude-result-prefixes="funct" version="2.0">
+<xsl:stylesheet 
+    xmlns:pleiades="https://pleiades.stoa.org/" 
+    xmlns:skos="http://www.w3.org/2004/02/skos/core#" 
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
+    xmlns:wd="https://www.wikidata.org/" 
+    xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" 
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+    xmlns:oa="http://www.w3.org/ns/oa#" 
+    xmlns:doap="http://usefulinc.com/ns/doap#" 
+    xmlns:rel="http://purl.org/vocab/relationship/"
+    xmlns:dcterms="http://purl.org/dc/terms/" 
+    xmlns:pelagios="http://pelagios.github.io/vocab/terms#" 
+    xmlns:syriaca="http://syriaca.org/documentation/relations.html#"
+    xmlns:foaf="http://xmlns.com/foaf/0.1/" 
+    xmlns:crm="http://www.cidoc-crm.org/cidoc-crm/" 
+    xmlns:saws="http://purl.org/saws/ontology#" 
+    xmlns:iha="http://islhornafr.tors.sc.ku.dk/" 
+    xmlns:funct="http://myfunction" 
+    xmlns:svcs="http://rdfs.org/sioc/services#" 
+    xmlns:gn="http://www.geonames.org/ontology#" 
+    xmlns:agrelon="http://d-nb.info/standards/elementset/agrelon.owl#" 
+    xmlns:betmas="https://betamasaheft.eu/ontology/" 
+    xmlns:lawd="http://lawd.info/ontology/" 
+    xmlns:sdc="https://w3id.org/sdc/ontology#" 
+    xmlns:t="http://www.tei-c.org/ns/1.0" 
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+    xmlns:ecrm="http://erlangen-crm.org/current/" 
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    xmlns:snap="http://data.snapdrgn.net/ontology/snap#" 
+    xmlns:dc="http://purl.org/dc/elements/1.1/" 
+    exclude-result-prefixes="funct" version="2.0">
     <xsl:output method="xml" indent="yes" encoding="UTF-8"/>
     <xsl:function name="funct:parseLocusRef">
         <xsl:param name="FromToTarget"/>
@@ -156,6 +186,7 @@
                     <xsl:when test="@type = 'place'">places</xsl:when>
                     <xsl:when test="@type = 'pers'">persons</xsl:when>
                     <xsl:when test="@type = 'ins'">institutions</xsl:when>
+                    <xsl:when test="@type = 'studies'">studies</xsl:when>
                     <xsl:otherwise>authority-files</xsl:otherwise>
                 </xsl:choose>
             </xsl:variable>
@@ -170,7 +201,7 @@
                 <!--                OPEN DATA LICENSE FOR THE RDF-->
                 <dcterms:licence rdf:resource="http://opendatacommons.org/licenses/odbl/1.0/"/>
                 <!--                general part, valid for all records -->
-                <rdf:type rdf:resource="https://betamasaheft.eu/{@type}"/>
+                <rdf:type rdf:resource="https://betamasaheft.eu/ontology/{@type}"/>
                 <dcterms:source rdf:resource="{$xmluri}"/>
                 <foaf:homepage rdf:resource="{$mainurl}"/>
                 <crm:P48_has_preferred_identifier>
@@ -199,7 +230,7 @@
 <!--                    the present state of a mss is always a UniProd and a UniCirc-->
                     <rdf:type rdf:resource="https://w3id.org/sdc/ontology#UniProd"/>
                     <rdf:type rdf:resource="https://w3id.org/sdc/ontology#UniCirc"/>
-                    <sdc:hasCertainty rdf:resource="https://w3id.org/sdc/ontology#certain"/>
+                    <sdc:hasCertainty rdf:resource="https://w3id.org/sdc/ontology#Certain"/>
                     <!--                    the physDesc can be BOTH at top level and in each msPart, it needs to be called here anyway, then also in each msPart if there is any-->
                     <xsl:apply-templates select="//t:msDesc/t:msIdentifier">
                         <xsl:with-param name="mainID">
@@ -212,6 +243,13 @@
                         </xsl:with-param>
                     </xsl:apply-templates>
                     <xsl:choose>
+                        <!--                        if the manuscript has quires, count them
+                        -->
+                        <xsl:when test="//t:collation">
+                            <betmas:hasTotalQuires rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">
+                                <xsl:value-of select="count(//t:collation//t:item)"/>
+                            </betmas:hasTotalQuires>
+                        </xsl:when>
                         <!--                        if the manuscript has parts, count them and add a pointer to them, a further call below will call the template in mode="parturis" producing the uris to which this will refer
                         if there are parts 
                         -->
@@ -566,7 +604,7 @@
             <rdf:type rdf:resource="https://betamasaheft.eu/{$type}"/>
             <!--            a msPart or  msFrag is so encoded because recognized as UniProd. Units it contains might decide wheather it is a UniProd-MC, UniProd-C, UniProd-C-MC, UniProd-M -->
             <rdf:type rdf:resource="https://w3id.org/sdc/ontology#UniProd"/>
-            <sdc:hasCertainty rdf:resource="https://w3id.org/sdc/ontology#certain"/>
+            <sdc:hasCertainty rdf:resource="https://w3id.org/sdc/ontology#Certain"/>
             <rdf:type rdf:resource="http://purl.org/saws/ontology#ManuscriptPart"/>
             <xsl:apply-templates select="t:physDesc">
                 <xsl:with-param name="mainID">
@@ -946,7 +984,7 @@
 
 <xsl:template match="t:extent">
     <betmas:hasTotalLeaves>
-            <xsl:value-of select="t:measure[@unit='leaf']"/>
+            <xsl:value-of select="t:measure[@unit='leaf'][not(@xml:lang='ar')]"/>
         </betmas:hasTotalLeaves>
     <xsl:apply-templates select="t:dimensions"/>
     <xsl:apply-templates select="t:locus"/>
@@ -1041,7 +1079,7 @@
                     
                        <xsl:choose>
                            <xsl:when test="starts-with($n, 'snap:')">
-                               <snap:hasBond rdf:resource="https://betamasaheft.eu/bond/{$n}-{.}"/>
+                               <snap:hasBond rdf:resource="https://betamasaheft.eu/bond/{substring-after($n, 'snap:')}-{.}"/>
                            </xsl:when>
                            <xsl:otherwise>
                                <xsl:element name="{$n}">
@@ -1072,7 +1110,7 @@
                 </xsl:if>
                     <xsl:choose>
                         <xsl:when test="starts-with($n, 'snap:')">
-                            <snap:hasBond rdf:resource="https://betamasaheft.eu/bond/{$n}-{@passive}"/>
+                            <snap:hasBond rdf:resource="https://betamasaheft.eu/bond/{substring-after($n, 'snap:')}-{@passive}"/>
                         </xsl:when>
                         <xsl:otherwise>
                             <xsl:element name="{$n}">
@@ -1090,7 +1128,7 @@
             <xsl:variable name="resource">
             <xsl:value-of select="funct:id(@passive)"/>
         </xsl:variable>
-            <rdf:Description rdf:about="https://betamasaheft.eu/bond/{$n}-{@passive}">
+            <rdf:Description rdf:about="https://betamasaheft.eu/bond/{substring-after($n, 'snap:')}-{@passive}">
                 <rdf:type rdf:resource="{replace($n, 'snap:', 'http://data.snapdrgn.net/ontology/snap#')}"/>
                 <snap:bond-with>
                     <xsl:attribute name="rdf:resource">
@@ -1188,7 +1226,7 @@
     </xsl:template>
 
     <xsl:template match="t:objectDesc">
-        <rdf:type rdf:resource="https://betamasaheft.eu/{@form}"/>
+        <rdf:type rdf:resource="https://betamasaheft.eu/ontology/{@form}"/>
     </xsl:template>
 
     <xsl:template match="t:objectType">
@@ -1200,7 +1238,7 @@
     </xsl:template>
 
     <xsl:template match="@type | @subtype">
-        <rdf:type rdf:resource="https://betamasaheft.eu/{.}"/>
+        <rdf:type rdf:resource="https://betamasaheft.eu/ontology/{.}"/>
     </xsl:template>
 
     <xsl:template match="t:state[@type='existence']">
@@ -1435,7 +1473,7 @@
                 <rdf:type rdf:resource="https://betamasaheft.eu/{@type}"/>
             </xsl:if>
             <xsl:if test="@role">
-                <rdf:type rdf:resource="https://betamasaheft.eu/{@role}"/>
+                <rdf:type rdf:resource="https://betamasaheft.eu/ontology/{concat(upper-case(substring(@role,1,1)),substring(@role,2))}"/>
             </xsl:if>
             <oa:hasTarget rdf:resource="https://betamasaheft.eu/{$mainID}"/>
             <oa:hasBody rdf:resource="{if(starts-with(@ref, 'pleiades:')) then concat('https://pleiades.stoa.org/places/', substring-after(@ref, 'pleiades:')) else if (starts-with(@ref, 'wd:Q')) then concat('https://www.wikidata.org/entity/', replace(@ref, 'wd:', '')) else concat('https://betamasaheft.eu/',@ref)}"/>
@@ -1458,7 +1496,7 @@
                 <xsl:for-each select="t:roleName">
                     <betmas:hasRole>
                         <betmas:Role>
-                            <betmas:roleType rdf:resource="https://betamasaheft.eu/role/{@type}"/>
+                            <betmas:roleType rdf:resource="https://betamasaheft.eu/ontology/{@type}"/>
                             <betmas:roleName>
                                 <xsl:value-of select="."/>
                             </betmas:roleName>
