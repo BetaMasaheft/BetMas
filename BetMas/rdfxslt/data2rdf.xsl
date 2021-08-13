@@ -1071,6 +1071,13 @@
                            <xsl:when test="starts-with($n, 'snap:')">
                                <snap:hasBond rdf:resource="https://betamasaheft.eu/bond/{substring-after($n, 'snap:')}-{.}"/>
                            </xsl:when>
+<!--                     
+                               in laws are not in the snap ontology, where there is however a Class 'InLawFamilyRelationship'
+                           When this property from BM is present, it need to be transformed in a series of snap bonds.
+                           -->
+                           <xsl:when test="contains($n, 'inLawOf')">
+                               <snap:hasBond rdf:resource="https://betamasaheft.eu/bond/{substring-after($n, 'betmas:')}-{.}"/>
+                           </xsl:when>
                            <xsl:otherwise>
                                <xsl:element name="{$n}">
                                    <xsl:attribute name="rdf:resource">
@@ -1102,6 +1109,14 @@
                         <xsl:when test="starts-with($n, 'snap:')">
                             <snap:hasBond rdf:resource="https://betamasaheft.eu/bond/{substring-after($n, 'snap:')}-{@passive}"/>
                         </xsl:when>
+                        
+                        <!--                     
+                               in laws are not in the snap ontology, where there is however a Class 'InLawFamilyRelationship'
+                           When this property from BM is present, it need to be transformed in a series of snap bonds.
+                           -->
+                        <xsl:when test="contains($n, 'inLawOf')">
+                            <snap:hasBond rdf:resource="https://betamasaheft.eu/bond/{substring-after($n, 'betmas:')}-{.}"/>
+                        </xsl:when>
                         <xsl:otherwise>
                             <xsl:element name="{$n}">
                                 <xsl:attribute name="rdf:resource">
@@ -1120,6 +1135,20 @@
         </xsl:variable>
             <rdf:Description rdf:about="https://betamasaheft.eu/bond/{substring-after($n, 'snap:')}-{@passive}">
                 <rdf:type rdf:resource="{replace($n, 'snap:', 'http://data.snapdrgn.net/ontology/snap#')}"/>
+                <snap:bond-with>
+                    <xsl:attribute name="rdf:resource">
+                        <xsl:value-of select="$resource"/>
+                    </xsl:attribute>
+                </snap:bond-with>
+            </rdf:Description>
+        </xsl:if>
+        <xsl:if test="contains($n, 'inLawOf')">
+            <xsl:variable name="resource">
+                <xsl:value-of select="funct:id(@passive)"/>
+            </xsl:variable>
+            <xsl:variable name="inlaw" select="substring-after($n, 'betmas:')"/>
+            <rdf:Description rdf:about="https://betamasaheft.eu/bond/{substring-after($n, 'betmas:')}-{@passive}">
+                <rdf:type rdf:resource="https://betamasaheft/ontology/{concat(upper-case(substring($inlaw, 1)), substring-before($inlaw, 'Of'))}"/>
                 <snap:bond-with>
                     <xsl:attribute name="rdf:resource">
                         <xsl:value-of select="$resource"/>
