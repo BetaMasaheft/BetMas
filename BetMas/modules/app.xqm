@@ -793,6 +793,10 @@ let $SearchOptions := "map {
   'filter-rewrite': 'yes'
 }"
     return
+    if ($element='TEI') then 
+    
+concat("ft:query(., '" , $query, "', ", $SearchOptions ,")")
+    else 
 concat("descendant::t:", $element, "[ft:query(., '" , $query, "', ", $SearchOptions ,")]")
 };
 
@@ -1120,7 +1124,7 @@ declare
     %templates:default("target-work", "all")
     %templates:default("homophones", "true")
 %templates:default("numberOfParts", "")
-    %templates:default("element",  "placeName", "title", "persName", "ab", "floruit", "p", "note", "idno", "incipit", "explicit")
+    %templates:default("element",  "TEI")
 function app:query(
 $node as node()*, 
 $model as map(*), 
@@ -1306,6 +1310,7 @@ let $queryExpr := $query-string
                    
                    let $allels := string-join($elements, ' or ')
                    let $path:=    concat("$titles:collection-root","//t:TEI[",$allels, "]", $allfilters)
+                   let $log := util:log('info', $path)
                    let $logpath := log:add-log-message($path, sm:id()//sm:real/sm:username/string() , 'XPath')  
                    let $hits := util:eval($path)
                    for $hit in $hits
@@ -1321,7 +1326,7 @@ let $queryExpr := $query-string
        
             return
                 (: Process nested templates :)
-                map {
+              map {
                     "hits" : $hits,
                     "q" : $query,
                     "type" : 'matches',
@@ -1439,7 +1444,11 @@ declare function app:hit-params($node as node()*, $model as map(*)) {
 declare function app:gotoadvanced($node as node()*, $model as map(*)){
 let $query := request:get-parameter('query', ())
 return 
-<a href="/as.html?query={$query}" class="w3-button w3-red w3-margin">Repeat search in the Advanced Search.</a>
+<div class="w3-bar">
+<a href="/newSearch.html?query={$query}" class="w3-button w3-red w3-margin w3-bar-item">Repeat search in the Full Search.</a>
+<a href="/facet.html?query={$query}" class="w3-button w3-red w3-margin w3-bar-item">Repeat search in the Facet Search.</a>
+<a href="/as.html?query={$query}" class="w3-button w3-red w3-margin w3-bar-item">Repeat search in the Advanced Search.</a>
+</div>
 };
 
 declare function app:list-count($node as node()*, $model as map(*)) {
