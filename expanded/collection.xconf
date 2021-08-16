@@ -2,7 +2,6 @@
     <index xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:t="http://www.tei-c.org/ns/1.0">
         <fulltext default="none" attributes="false"/>
         <create qname="id" type="xs:string"/>
-        
         <lucene diacritics="no">
             <!--this index should have all facets AND only have terms from elements not indexed otherwise, since those which have indexes are also ignored later in the configuration--> 
             <text qname="t:TEI">
@@ -69,6 +68,7 @@
                 <facet dimension="decoType" if="@type='mss'" expression="t:teiHeader//t:decoNote/@type"/>
                 <facet dimension="calendarType" if="@type='mss'" expression="t:teiHeader//(t:date|t:origDate)/@calendar"/>
                 <facet dimension="presenceOfPunctuation" if="@type='mss'" expression="if(t:teiHeader//t:ab[@type='punctuation']) then 'yes' else 'no'"/>
+                <facet dimension="rubrication" if="@type='mss'" expression="t:teiHeader//t:seg[@type='rubrication']/t:term/@key"/>
                 
                 <!-- countColophons, supplications, binding features, decoration features,  -->
                 <facet dimension="images" if="@type='mss'" expression="if(t:teiHeader//t:msIdentifier/t:idno[@facs][@n]) then 'yes' else 'no'"/>
@@ -157,8 +157,9 @@
                 <facet dimension="bindingkeywords" if="@type='mss'" expression="t:teiHeader//t:binding//t:decoNote//t:term"/>
                 <facet dimension="rubricationkeywords" if="@type='mss'" expression="t:teiHeader//t:seg[@type='rubrication']//t:term"/>
                 <facet dimension="decoType" if="@type='mss'" expression="t:teiHeader//t:decoNote/@type"/>
-                 <facet dimension="calendarType" if="@type='mss'" expression="t:teiHeader//(t:date|t:origDate)/@calendar"/>
-                 <facet dimension="presenceOfPunctuation" if="@type='mss'" expression="if(t:teiHeader//t:ab[@type='punctuation']) then 'yes' else 'no'"/>
+                <facet dimension="calendarType" if="@type='mss'" expression="t:teiHeader//(t:date|t:origDate)/@calendar"/>
+                <facet dimension="presenceOfPunctuation" if="@type='mss'" expression="if(t:teiHeader//t:ab[@type='punctuation']) then 'yes' else 'no'"/>
+                <facet dimension="rubrication" if="@type='mss'" expression="t:teiHeader//t:seg[@type='rubrication']/t:term/@key"/>
                 
                 <!-- countColophons, supplications, binding features, decoration features,  -->
                 <facet dimension="images" if="@type='mss'" expression="if(t:teiHeader//t:msIdentifier/t:idno[@facs][@n]) then 'yes' else 'no'"/>
@@ -180,8 +181,8 @@
                 <facet dimension="placetype" if="@type='place'" expression="for $x in tokenize(t:text//t:place/@type,' ') return $x"/>
                 <facet dimension="settlement" if="@type='place'" expression="t:text//t:settlement/@ref"/>
                 <facet dimension="region" if="@type='place'" expression="t:text//t:region/@ref"/>
-                 <facet dimension="country" if="@type='place'" expression="t:text//t:country/@ref"/>
-                 <facet dimension="tabot" if="@type='place'" expression="t:text//t:ab[@type='tabot']//(t:persName[@type='tabot']|t:ref[@type='authFile'])"/>
+                <facet dimension="country" if="@type='place'" expression="t:text//t:country/@ref"/>
+                <facet dimension="tabot" if="@type='place'" expression="t:text//t:ab[@type='tabot']//(t:persName[@type='tabot']|t:ref[@type='authFile'])"/>
             
              </text> 
              
@@ -391,6 +392,7 @@
                 <field name="segtext" type="xs:string"/>
                 <field name="segana" match="@ana" type="xs:string"/>
                 <field name="segtype" match="@type" type="xs:string"/>
+                <field name="segsubtype" match="@type" type="xs:string"/>
             </create>
             
             <create qname="t:custEvent">
@@ -442,18 +444,21 @@
                 <field name="colophon-id" match="@xml:id" type="xs:string"/>
                 <field name="colophon-lang" match="@xml:lang" type="xs:string"/>
                 <field name="colophon-type" match="@type" type="xs:string"/>
+                <field name="colophon-subtype" match="@subtype" type="xs:string"/>
             </create>
             <create qname="t:incipit">
                 <field name="incipit-text" type="xs:string"/>
                 <field name="incipit-id" match="@xml:id" type="xs:string"/>
                 <field name="incipit-lang" match="@xml:lang" type="xs:string"/>
                 <field name="incipit-type" match="@type" type="xs:string"/>
+                <field name="incipit-subtype" match="@subtype" type="xs:string"/>
             </create>
             <create qname="t:explicit">
                 <field name="explicit-text" type="xs:string"/>
                 <field name="explicit-id" match="@xml:id" type="xs:string"/>
                 <field name="explicit-lang" match="@xml:lang" type="xs:string"/>
                 <field name="explicit-type" match="@type" type="xs:string"/>
+                <field name="explicit-subtype" match="@subtype" type="xs:string"/>
             </create>
             
             <create qname="t:msPart">
