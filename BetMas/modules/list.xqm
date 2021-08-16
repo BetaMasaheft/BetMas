@@ -72,22 +72,43 @@ function list:browseMS(){
         {nav:modalsNew()}
         {nav:searchhelpNew()}
 <div class="w3-main w3-margin w3-padding-64">
-<div class="w3-panel w3-card-4 w3-padding w3-margin">Here you can browse all shelfmarks available institution by institution and collection by collection.</div>
+<div class="w3-panel w3-card-4 w3-padding w3-margin">Here you can browse a full list of manuscripts available on the platform, arranged by repositories and shelf marks (clicking on the "show list" button will expand the list for each location). <span class="w3-hide-small">The letters on the right may speed up scrolling down the list.</span></div>
 <div class="w3-container">
 {
 let $mss := $apprest:collection-rootMS[descendant::t:repository[@ref]]
 return
+(
+ <div class="w3-row w3-hide-small" style="right: 0px;width: 300px;width:30%;position: fixed;">
+ <div class="w3-bar">
+ <a class="w3-bar-item page-scroll" href="#group-A">top</a>{ 
+ let $letter := for $repoi at $p in doc('/db/apps/BetMas/lists/institutions.xml')//t:item return upper-case(substring(replace($repoi/text(), '\s', ''), 1, 1))
+   for $l in distinct-values($letter) 
+   order by $l
+   return 
+   <a class="w3-bar-item page-scroll" href="#group-{$l}">{$l}</a>
+   }</div></div>
+,
+<div style="left:300px">{
     for $repoi at $p in doc('/db/apps/BetMas/lists/institutions.xml')//t:item
-    let $i := string($repoi/@xml:id)
-    
-     let $inthisrepo := $mss//t:repository[@ref eq $i]
+    let $firstletter := upper-case(substring($repoi/text(), 1, 1))
+    group by $First := $firstletter
+    order by $First
+    return
+    if($First='') then () else
+    <div id="group-{$First}">
+    <h3>{$First}</h3>
+    {
+    for $rep in $repoi
+    let $i := string($rep/@xml:id)
+     let $inthisrepo := $mss//t:repository[ends-with(@ref, $i)]
      let $count := count($inthisrepo)
+    let $log := util:log('info', ($i, ' = ',  $count))
      return
     if($count=0) then () else 
         <div class="w3-row">
-        <div class="w3-half"><h2><a href="/manuscripts/{$i}/list">{$repoi}</a></h2></div>
+        <div class="w3-col" style="width:30%"><h4><a href="/manuscripts/{$i}/list">{$rep/text()}</a></h4></div>
         <div class="w3-col" style="width:5%"><span class="w3-badge">{$count}</span></div>
-          <div class="w3-rest">   
+          <div  class="w3-col" style="width:35%">
           <a class="w3-button w3-red"  onclick="openAccordion('list{$i}')">show list</a>
           <div class="w3-hide" id="list{$i}">
             {if($count gt 500) then (
@@ -123,7 +144,12 @@ return
             </div>
         </div>
         }
+        </div>
+        }</div>
+)
+}
 </div>
+
 </div>
         {nav:footerNew()}
 
