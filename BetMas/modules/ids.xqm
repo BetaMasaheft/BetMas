@@ -46,7 +46,6 @@ function listIds:getlist(){
     <body id="body">
         {nav:barNew()}
         {nav:modalsNew()}
-          {nav:searchhelpNew()}
           <p class="w3-large">Please note that this list excludes the IslHornAfr manuscripts and EMML manuscripts. The ids of the first group are all made of the IHA sigla followed by a progressive number. The ids of the EMML manuscripts are made of the sigla EMML follwed by a progressive number.</p>
           {
 let $allrepos := collection($config:data-rootMS)//t:repository[matches(@ref, 'INS')]

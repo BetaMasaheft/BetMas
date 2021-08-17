@@ -70,9 +70,8 @@ function list:browseMS(){
     <body id="body">
         {nav:barNew()}
         {nav:modalsNew()}
-        {nav:searchhelpNew()}
 <div class="w3-main w3-margin w3-padding-64">
-<div class="w3-panel w3-card-4 w3-padding w3-margin">Here you can browse a full list of manuscripts available on the platform, arranged by repositories and shelf marks (clicking on the "show list" button will expand the list for each location). <span class="w3-hide-small">The letters on the right may speed up scrolling down the list.</span></div>
+<div class="w3-panel w3-card-4 w3-padding w3-margin">Here you can browse all shelfmarks available institution by institution and collection by collection. <span class="w3-hide-small">The letters on the right may speed up scrolling down the list.</span></div>
 <div class="w3-container">
 {
 let $mss := $apprest:collection-rootMS[descendant::t:repository[@ref]]
@@ -192,7 +191,6 @@ function list:browseUnits($unitType){
     <body id="body">
         {nav:barNew()}
         {nav:modalsNew()}
-        {nav:searchhelpNew()}
 <div class="w3-container w3-margin w3-padding-64">
 <div class="w3-main" id="result" data-value="{$unitType}"/>
 <script type="application/javascript" src="resources/js/UnitList.js"/>
@@ -388,7 +386,6 @@ if(xdb:collection-available($c)) then (
     <body id="body">
         {nav:barNew()}
         {nav:modalsNew()}
-        {nav:searchhelpNew()}
 
  <div id="content" class="w3-container w3-padding-64 w3-margin">
  {if($collection = 'authority-files') 
@@ -787,7 +784,6 @@ if(xdb:collection-available($c)) then (
      <body id="body">
         {nav:barNew()}
         {nav:modalsNew()}
-        {nav:searchhelpNew()}
        
        {let $hits := apprest:listrest('collection', 'manuscripts', $parameters, $prms)
     return
@@ -981,7 +977,6 @@ if($file) then (
     <body id="body">
         {nav:barNew()}
         {nav:modalsNew()}
-        {nav:searchhelpNew()}
 <div class="w3-main w3-container w3-margin w3-padding-64">
        
 <div class="w3-quarter w3-hide-small">
@@ -1226,7 +1221,6 @@ if($file) then (
     <body id="body">
         {nav:barNew()}
         {nav:modalsNew()}
-        {nav:searchhelpNew()}
        
  {let $hits := apprest:listrest('repo', $repoID, $parameters, $prms)
     return
@@ -1423,7 +1417,6 @@ if($file or starts-with($place, 'wd:')) then (
     <body id="body">
         {nav:barNew()}
         {nav:modalsNew()}
-        {nav:searchhelpNew()}
 <div class="w3-main w3-container w3-margin w3-padding-64">
        
 <div class="w3-quarter w3-hide-small">
@@ -1601,7 +1594,6 @@ if($file or starts-with($place, 'wd:')) then (
     <body id="body">
         {nav:barNew()}
         {nav:modalsNew()}
-        {nav:searchhelpNew()}
        
  {
  let $allrepositories := for $repo in ($apprest:collection-rootIn//t:settlement[@ref eq $place],
@@ -1685,7 +1677,6 @@ function list:getcatalogues() {
     <body id="body">
         {nav:barNew()}
         {nav:modalsNew()}
-        {nav:searchhelpNew()}
        {
          let $cats := $apprest:collection-rootMS//t:listBibl[@type eq 'catalogue']
        let $dist := config:distinct-values($cats//t:ptr/@target)
@@ -1865,7 +1856,6 @@ if($prefixedcatID = $catalogues) then (
     <body id="body">
         {nav:barNew()}
         {nav:modalsNew()}
-        {nav:searchhelpNew()}
        <div class="w3-container w3-margin w3-padding-64">
 
       <h1>{
@@ -2082,7 +2072,6 @@ if($prefixedcatID = $catalogues) then (
     <body id="body">
         {nav:barNew()}
         {nav:modalsNew()}
-        {nav:searchhelpNew()}
        <div class="w3-container w3-margin w3-padding-64">
 
       <h1>{

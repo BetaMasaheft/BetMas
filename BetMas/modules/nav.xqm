@@ -25,127 +25,6 @@ declare function nav:modalsNew(){
 </div>
         };
 
-declare function nav:searchhelpNew(){
-<div id="searchHelp" class="w3-modal">
-  <div class="w3-modal-content">
-    <header class="w3-container w3-red"> 
-      <span onclick="document.getElementById('searchHelp').style.display='none'" 
-      class="w3-button w3-display-topright"><i class="fa fa-times"></i></span>
-      <h2>Search Help</h2>
-    </header>
-    
-    <div class="w3-container">
-      
-      <div>
-                    <h3>Search</h3>
-                        <p>This app is built with exist-db, and uses Lucene as the standard search engine. This comes with several options available. A full list is <a href="https://lucene.apache.org/core/2_9_4/queryparsersyntax.html#Fuzzy Searches" target="_blank">here</a>
-                        </p>
-                        <p>Below very few examples.</p>
-                        <table class="table table-hover table-responsive">
-                            <thead>
-                                <tr>
-                                    <th/>
-                                    <th>sample</th>
-                                    <th>result</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>*</td>
-                                    <td>*custodir*</td>
-                                    <td>add wildcards to unlimit your string search</td>
-                                </tr>
-                                <tr>
-                                    <td>?</td>
-                                    <td>custodir?</td>
-                                    <td>Will find any match for the position with the question mark.</td>
-                                </tr>
-                                <tr>
-                                    <td>~</td>
-                                    <td>ምሕረትከ~</td>
-                                    <td>Will make a fuzzy search. you can decide also how much fuzzy, by saying for example ምሕረትከ~0.9 which will match only 90% similar terms.</td>
-                                </tr>
-                                <tr>
-                                    <td>""</td>
-                                    <td>"ምሕረትከ፡ ይትኖለወኒ፡"</td>
-                                    <td>Will find the exact string contained between quotes.</td>
-                                </tr>
-                                <tr>
-                                    <td>()</td>
-                                    <td>(verbo OR notionem) AND ይትኖለወኒ</td>
-                                    <td>Will find one of the two between brackets and the other string.</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        </div>
-                        <div>
-                        <h3>Input</h3>
-                        <p>If you want to transcribe some fidal into latin or update your transcription, you can <a target="_blank" href="https://betamasaheft.github.io/transliteration/">have a go with our transcription tools</a>.</p>
-                        <p>If you are using the keyboard provided, please note that there are four layers, the normal one and those activated by Shift, Alt, Alt+Shift.</p>
-                        <p>Normal and Shift contain mainly Fidal. Alt and Alt-Shift diacritics.</p>
-                        <p>To enter letters in Fidal and the diacritics with this keyboard, which is independent of your local input selection, you can use two methods.</p>
-                        <p>Orthographic variants of the Ethiopic language are searched as a standard if not otherwise
-                specified. The following are the options considered by the search engine. </p>
-            <ul>
-                <li>'s','s', 'ḍ'</li>
-               <li> 'e','ǝ','ə','ē'</li>
-                <li>'w','ʷ'</li>
-                <li>'ʾ', 'ʿ'</li>
-                <li>'`', 'ʾ', 'ʿ' (note that you can use the tick if you are not sure about the two, but none will be inferred for you)</li>
-                <li>'ሀ', 'ሐ', 'ኀ', 'ሃ', 'ሓ', 'ኃ'</li>
-                <li>'ሀ', 'ሐ', 'ኀ'</li>
-                <li>'ሁ', 'ሑ', 'ኁ'</li>
-               <li> 'ሂ', 'ሒ', 'ኂ'</li>
-                <li>'ሄ', 'ሔ', 'ኄ'</li>
-               <li> 'ህ', 'ሕ', 'ኅ'</li>
-               <li> 'ሆ', 'ሖ', 'ኆ'</li>
-               <li> 'ሠ','ሰ'</li>
-               <li> 'ሡ','ሱ'</li>
-                <li>'ሢ','ሲ'</li>
-                <li>'ሣ','ሳ'</li>
-               <li> 'ሥ','ስ'</li>
-                <li>'ሦ','ሶ'</li>
-                <li>'ሤ','ሴ'</li>
-               <li> 'ጸ', 'ፀ'</li>
-                <li>'ጹ', 'ፁ'</li>
-                <li>'ጺ', 'ፂ'</li>
-               <li> 'ጻ', 'ፃ'</li>
-                <li>'ጼ', 'ፄ'</li>
-               <li> 'ጽ', 'ፅ'</li>
-                <li>'ጾ', 'ፆ'</li>
-               <li> 'አ', 'ዐ', 'ኣ', 'ዓ'</li>
-               <li> 'ኡ', 'ዑ'</li>
-               <li> 'ኢ', 'ዒ'</li>
-               <li> 'ኤ', 'ዔ'</li>
-                <li>'እ', 'ዕ'</li>
-               <li> 'ኦ', 'ዖ'</li>
-            </ul>
-            <p>Some examples</p>
-           <ul><li>If you search Taammera, you will not find Taʾammǝra or Taʿammera but only Taammera. Try Ta`ammera
-instead or use the keyboard provided to enter aleph and ayn. </li>
-<li>If you are searching for Yāʿǝqob, you will not have a lot of luck searching Yaqob, unless some kind cataloguer has actually added it into the data as simplified spelling form. Try instead entering Yaqob~0.5 which is a fuzzy search, this will return also Yāʿǝqob. Also Ya`eqob is fine for example. </li></ul>
-                        <h4>Keys Combinations</h4>
-                        <p>With this method you use keys combinations to trigger specific characters.
-                        <a target="_blank" href="/combos.html">Click here for a list of the available combos.</a>
-                        This can be expanded<a target="_blank" href="https://github.com/BetaMasaheft/Documentation/issues/new/choose">, do not hesitate to ask (click here to post a new issue).</a>
-                        </p>
-                         <h4>Hold and choose</h4>
-                         <p>If you hold a key optional values will appear in a list. You can click on the desiderd value or use arrows and enter to select it. The options are the same as those activated by combinations.</p>
-                         <p>With this method you do not have to remember or lookup combos, but it does take many more clicks...</p>
-                        </div>
-                    </div>
-      
-      <footer class="w3-container w3-teal w3-red">
-      <span onclick="document.getElementById('searchHelp').style.display='none'" 
-      class="w3-button w3-display-topright"><i class="fa fa-times"></i></span>
-    </footer>
-      </div>
-      </div>
-      
-        
-
-};
-
 
 declare function nav:barNew(){
 let $url := try{request:get-url()} catch*{''}
@@ -255,10 +134,7 @@ return
      data-toggle="tooltip" data-placement="bottom" title="How to navigate this website">Help</a>
     
                {nav:newentryNew()}
-   <a href="#" class=" w3-hover-red w3-padding w3-hide-small w3-hide-medium w3-right"
-                                    onclick="document.getElementById('versionInfo').style.display='block'">
-                                        <i class="fa fa-info-circle"/>
-                                    </a>
+  
     {if(contains($url, 'as.html') ) then 
     <a href="/facet.html" class="w3-padding w3-hover-red w3-hide-small w3-right"><i class="fab fa-search"></i></a>
     else(<a href="/facet.html" class="w3-padding w3-hover-red w3-hide-small w3-right"><i class="fa fa-search"></i></a>, <a href="/as.html" class="w3-padding w3-hover-red w3-hide-small w3-right"><i class="fab fa-searchengin"></i></a>)}

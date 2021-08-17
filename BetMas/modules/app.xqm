@@ -167,7 +167,6 @@ declare function app:queryinput ($node as node(), $model as map(*), $query as xs
 
 (: ~ calls the templates for static parts of the page so that different templates can use them. To make those usable also from restxq, they have to be called by templates like this, so nav.xql needs not the template module :)
 declare function app:NbarNew($node as node()*, $model as map(*)){nav:barNew()};
-declare function app:searchhelpNew($node as node()*, $model as map(*)){nav:searchhelpNew()};
 declare function app:modalsNew($node as node()*, $model as map(*)){nav:modalsNew()};
 declare function app:footerNew($node as node()*, $model as map(*)){nav:footerNew()};
 

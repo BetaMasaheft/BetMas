@@ -68,7 +68,6 @@ return
             id="body">
             {nav:barNew()}
             {nav:modalsNew()}
-            {nav:searchhelpNew()}
             
             <div
                 id="content"

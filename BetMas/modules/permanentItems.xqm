@@ -254,7 +254,6 @@ return
     <body id="body">
         {nav:barNew()}
         {nav:modalsNew()}
-          {nav:searchhelpNew()}
          <div id="content" class="w3-container w3-padding-48">
          {item2:RestViewOptions($this, $collection)}
          {if( $PermRestItem:deleted//t:item[. eq $id]) then

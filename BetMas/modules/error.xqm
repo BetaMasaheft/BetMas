@@ -44,7 +44,6 @@ default return
    <body>
     {nav:barNew()}
         {nav:modalsNew()}
-        {nav:searchhelpNew()}
 <div xmlns="http://www.w3.org/1999/xhtml" class="w3-container w3-card-4 w3-red w3-margin w3-padding-64">
     {switch($name('type')) case 'collection' return (<h1>{$name('name')} is not a collection name.</h1>,
     <p class="lead">Available collections are:</p>,
