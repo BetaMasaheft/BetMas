@@ -42,7 +42,7 @@ return
 declare variable $q:optionsFacet := map:merge($q:populatefacets);
 declare variable $q:optionsFields := map:merge($q:populatefields);
 declare variable $q:allopts := map {
-    'default-operator': 'and',
+    'default-operator': request:get-parameter('defaultoperator', ()),
     'phrase-slop': '0',
     'leading-wildcard': 'no',
     'filter-rewrite': 'yes',
@@ -69,17 +69,19 @@ function-lookup(xs:QName("util:index-keys"), 4)
 
 
 declare function q:querytype($node as node(), $model as map(*)) {
+let $querytypeparam:= request:get-parameter('searchType', ())
+return
     <select id="SType" name="searchType" class="w3-select w3-border">
-        <option value="text" selected="selected">Simple Text search (select here another type of search)</option>
-        <option value="bmid">Lookup Beta maṣāḥǝft ID</option>
-        <option value="clavis">Lookup Clavis Aethiopica Number</option>
-        <option  value="otherclavis">Lookup other Clavis ID</option>
-        <option value="fields">Additional Fields</option>
-        <option  value="xpath">Xpath</option>
-        <option  value="cat">Catalogues</option>
-        <option  value="repos">Repositories</option>
-        <option  value="shelfmars">Shelfmarks</option>
-        <option   value="list">list</option>
+        <option value="text">{if($querytypeparam='' or $querytypeparam='text') then attribute selected {'selected'} else ()}Simple Text search (select here another type of search)</option>
+        <option value="bmid">{if($querytypeparam='bmid') then attribute selected {'selected'} else ()}Lookup Beta maṣāḥǝft ID</option>
+        <option value="clavis">{if($querytypeparam='clavis') then attribute selected {'selected'} else ()}Lookup Clavis Aethiopica Number</option>
+        <option  value="otherclavis">{if($querytypeparam='otherclavis') then attribute selected {'selected'} else ()}Lookup other Clavis ID</option>
+        <option value="fields">{if($querytypeparam='fields') then attribute selected {'selected'} else ()}Additional Fields</option>
+        <option  value="xpath">{if($querytypeparam='xpath') then attribute selected {'selected'} else ()}Xpath</option>
+        <option  value="cat">{if($querytypeparam='cat') then attribute selected {'selected'} else ()}Catalogues</option>
+        <option  value="repos">{if($querytypeparam='repos') then attribute selected {'selected'} else ()}Repositories</option>
+        <option  value="shelfmarks">{if($querytypeparam='shelfmarks') then attribute selected {'selected'} else ()}Shelfmarks</option>
+        <option   value="list">{if($querytypeparam='list') then attribute selected {'selected'} else ()}list</option>
         <!--
 split for each list or resource specific, it will show  a search box and a series of filters specific to the list type, 
 these will be the parameters and will be mixable with the facets. search without query will search all. each list as a specific context and specific filters
@@ -92,41 +94,68 @@ shelf marks list
 advanced search
 -->
         <option
-            value="sparql">sparql</option>
+            value="sparql">{if($querytypeparam='sparql') then attribute selected {'selected'} else ()}SPARQL</option>
     </select>
 };
 
 declare function q:textquerymode($node as node(), $model as map(*)) {
+let $textquerymodeparam:= request:get-parameter('mode', ())
+return
     <select
         name="mode"
         class="w3-select"
         style="padding:0px 0px;">
         <option
-            value="none"
-            selected="selected">default</option>
+            value="none">{if($textquerymodeparam='' or $textquerymodeparam='none') then attribute selected {'selected'} else ()}default (no mode)</option>
         <option
-            value="any">any</option>
+            value="any">{if($textquerymodeparam='any') then attribute selected {'selected'} else ()}any</option>
         <option
-            value="all">all</option>
+            value="all">{if($textquerymodeparam='all') then attribute selected {'selected'} else ()}all</option>
         <option
-            value="phrase">phrase</option>
+            value="phrase">{if($textquerymodeparam='phrase') then attribute selected {'selected'} else ()}phrase</option>
         <option
-            value="regex">regex</option>
+            value="regex">{if($textquerymodeparam='regex') then attribute selected {'selected'} else ()}regex</option>
         <option
-            value="wildcard">wildcard</option>
+            value="wildcard">{if($textquerymodeparam='wildcard') then attribute selected {'selected'} else ()}wildcard</option>
         <option
-            value="fuzzy">fuzzy</option>
+            value="fuzzy">{if($textquerymodeparam='fuzzy') then attribute selected {'selected'} else ()}fuzzy</option>
         <option
-            value="near-ordered">near-ordered</option>
+            value="near-ordered">{if($textquerymodeparam='near-ordered') then attribute selected {'selected'} else ()}near-ordered</option>
         <option
-            value="near-unordered">near-unordered</option>
+            value="near-unordered">{if($textquerymodeparam='near-unordered') then attribute selected {'selected'} else ()}near-unordered</option>
     </select>
 };
 
+declare function q:textquerydefaultoperator($node as node(), $model as map(*)) {
+let $defopparam:= request:get-parameter('defaultoperator', ())
+return
+    <select
+        name="defaultoperator"
+        class="w3-select"
+        style="padding:0px 0px;">
+        <option
+            value="OR">{if($defopparam='' or $defopparam='OR') then attribute selected {'selected'} else ()}default (OR)</option>
+        <option
+            value="AND">{if($defopparam='AND') then attribute selected {'selected'} else ()}AND</option>
+         </select>
+};
 
+declare function q:homophonecheckbox($node as node()*, $model as map(*)){
+let $h:= request:get-parameter('homophones', ())
+return
+<input type="checkbox" name="homophones">{if(not($q:params = $h) or $h='on') then attribute checked{"checked"} else ()}</input>
+};
 
-(:the most generic ft:query call returning a map with the  query, the results, the timing and the type of query:)
+declare function q:ranking($node as node()*, $model as map(*)){
+let $h:= request:get-parameter('sort', ())
+return
+<input type="checkbox" name="sort" >{if($h='on') then attribute checked{"checked"} else ()}</input>
+};
+(:~ 
+ : the most generic ft:query call returning a map with the  query, the results, the timing and the type of query
+ :)
 declare function q:query($node as node()*, $model as map(*), $query as xs:string*) {
+let $log := util:log('INFO', $query)
     let $start-time := util:system-time()
     let $t := if (request:get-parameter('searchType', ())) then
         $q:searchType
@@ -148,7 +177,8 @@ declare function q:query($node as node()*, $model as map(*), $query as xs:string
 };
 
 
-(:This function takes the query string and the parameters and redirects to the correct query type and result format passing on filtering parameters
+(:~
+: This function takes the query string and the parameters and redirects to the correct query type and result format passing on filtering parameters
 :)
 declare function q:switchSearchType($t, $q, $params) {
     switch ($t)
@@ -192,7 +222,9 @@ like the facet, simple and advanced searches :)
 };
 
 
-(:from the results of a q:query displays in the header of the search result the time of the query (not of loading the HTML... or response from the server...) :)
+(:~
+: from the results of a q:query displays in the header of the search result the time of the query (not of loading the HTML... or response from the server...) 
+:)
 declare function q:displayQtime($node as node()*, $model as map(*)) {
     
     <div
@@ -322,7 +354,10 @@ declare function q:sparql($q) {
 declare function q:text($q, $params) {
     let $m := if ($q:mode != '') then    $q:mode  else   'none'
     let $q := q:querystring($q, $q:mode)
+    let $log := util:log('INFO', $q)
+     let $log1 := util:log('INFO', $q:allopts)
     let $query :=  $q:col//t:TEI[ft:query(., $q, $q:allopts)]
+(:    let $log2 := util:log('INFO', $query):)
     return
         if ($q:sort = '')
         then
@@ -350,7 +385,10 @@ declare function q:querystring($query-string, $mode as xs:string*) {
     if ($q:searchType = 'fields') then
         q:create-field-query($query-string, $mode)
     else
-        let $homophones := if (string-length($query-string) le 10) then
+        let $homophonesparam := request:get-parameter('homophones', ())
+        let $homophones := 
+        
+        if ($homophonesparam='on' and (string-length($query-string) le 10)) then
             'true'
         else
             'false'
@@ -801,45 +839,39 @@ declare function q:facetName($f) {
 (:~
     Helper function: create a lucene query from the user input
 :)
+
 declare function q:create-query($query-string as xs:string?, $mode as xs:string) {
-    let $query-string :=
-    if ($query-string)
-    then
-        q:sanitize-lucene-query($query-string)
-    else
-        ''
+let $query-string := if ($query-string)   then q:sanitize-lucene-query($query-string)   else  ''
         (:        strip out full stop if in the query :)
-    let $query-string := replace(normalize-space($query-string), '\.', '')
-    
-    let $query :=
-    
+let $query-string := replace(normalize-space($query-string), '\.', '')
+(:let $log := util:log('info', $query-string)    :)
+let $query :=    
     (:    this filters queries to fields so that they are not passed as xml fragment:)
-    if ($mode = 'none' or contains($query-string, ':')) then
-        $query-string
+               if ($mode = 'none' or contains($query-string, ':')) 
+               then $query-string
         (:If the query contains any operator used in standard lucene searches or regex searches, pass it on to the query parser;:)
-    else
-        if (functx:contains-any-of($query-string, ('AND', 'OR', 'NOT', '+', '-', '!', '~', '^', '.', '?', '*', '|', '{', '[', '(', '<', '@', '#', '&amp;')) and $mode eq 'any')
-        then
-            let $luceneParse := q:parse-lucene($query-string)
-            let $luceneXML := parse-xml($luceneParse)
-            let $lucene2xml := q:lucene2xml($luceneXML/node(), $mode)
-            return
-                $lucene2xml
+                else
+                    if (functx:contains-any-of($query-string, ('AND', 'OR', 'NOT', '+', '-', '!', '~', '^', '.', '?', '*', '|', '{', '[', '(', '<', '@', '#', '&amp;')) and (($mode eq 'any') or ($mode eq 'phrase')))
+                    then
+                                let $luceneParse := q:parse-lucene($query-string)
+                                let $luceneXML := parse-xml($luceneParse)
+                                let $lucene2xml := q:lucene2xml($luceneXML/node(), $mode)
+                                return
+                            $lucene2xml
                 (:otherwise the query is performed by selecting one of the special options (any, all, phrase, near, fuzzy, wildcard or regex):)
-        else
-            let $query-string := tokenize($query-string, '\s')
-            let $last-item := $query-string[last()]
-            let $query-string :=
-            if ($last-item castable as xs:integer)
-            then
-                string-join(subsequence($query-string, 1, count($query-string) - 1), ' ')
-            else
-                string-join($query-string, ' ')
-            
-            
-            let $query :=
-            <query>
-                {
+                     else
+                                let $query-string := tokenize($query-string, '\s')
+                                let $last-item := $query-string[last()]
+                                let $query-string :=
+                                        if ($last-item castable as xs:integer)
+                                        then
+                                            string-join(subsequence($query-string, 1, count($query-string) - 1), ' ')
+                                        else
+                                                string-join($query-string, ' ')
+(:                                let $log := util:log('info', $query-string)               :)
+                                let $query :=
+                                                 <query>
+                            {
                     if ($mode eq 'any')
                     then
                         <bool>
@@ -908,8 +940,10 @@ declare function q:create-query($query-string as xs:string?, $mode as xs:string)
                                                 else
                                                     ()
                 }</query>
+(:           let $log2 := util:log('info', $query)    :)
             return
                 $query
+(:     let $log3 := util:log('info', $query)    :)
     return
         $query
 
@@ -1327,7 +1361,10 @@ function q:sparqlRes($hit, $p) {
 
 };
 
-(:if the smart sort function is selected then an enriched score will be used to sort the results which multiplies the values or adds to them according to set rules:)
+(:~
+: if the smart sort function is selected then an enriched score will be used to 
+: sort the results which multiplies the values or adds to them according to set rules
+:)
 declare function q:enrichScore($text) {
     let $queryText := request:get-parameter('query', ())
     let $expanded := kwic:expand($text)
@@ -1342,18 +1379,40 @@ declare function q:enrichScore($text) {
     let $matches := for $m in $expanded//exist:match
     return
         $m
+    let $countelnames := count($matches/parent::t:persName)
+    let $countelplace := count($matches/parent::t:placeName)
+    let $counttext := count($matches/ancestor::t:div)
+    let $countelmsItem := count($matches/(ancestor::t:msItem|ancestor::t:msPart|ancestor::t:msDesc))
+(:    doubles the full bill it the item type matches the most commonly used element for references to that entity. persName in person, placeName in place, etc.:)
+    let $elementtypematch := 
+                        if (((($countelnames gt $countelplace) 
+                            and ($countelnames gt $counttext) 
+                            and ($countelnames gt $countelmsItem)) 
+                            and string($text/ancestor-or-self::t:TEI/@type) ='pers')
+                            or
+                            ((($countelmsItem gt $countelplace) 
+                            and ($countelmsItem gt $counttext) 
+                            and ($countelmsItem gt $countelnames)) 
+                            and string($text/ancestor-or-self::t:TEI/@type) ='mss')
+                            ) then 2 else 1
     let $scores := for $match in $matches
     return
         if ($match/parent::t:idno)
         then
             $score * 5
         else
-            if ($match/parent::t:*[self::t:persName or self::t:placeName])
+            if ($match/parent::t:title[parent::t:titleStmt])
+            then
+                $score * 5
+                else if ($match/parent::t:*[self::t:persName or self::t:placeName])
             then
                 $score * 4
             else
                 $score
-    let $occupationChange := if ($text//t:ab[node()]) then
+   let $relations := count($text//t:relation)
+   let $occupationChange := 
+    
+    if ($text//t:ab[node()]) then
         4
     else
         if ($text//t:occupation) then
@@ -1367,10 +1426,12 @@ declare function q:enrichScore($text) {
     $score +
     $values +
     (count($text//node()) div 100) +
-    $occupationChange +
-    sum($scores)
+    $occupationChange + $relations +
+    (sum($scores) * $elementtypematch)
+    let $log := util:log('info', (string($text/ancestor-or-self::t:TEI/@type) || string($text/ancestor-or-self::t:TEI/@xml:id) || ' --> ' || $score || ' + ' || $values || ' + ' ||  (count($text//node()) div 100) || ' + ' || sum($scores) || ' x ' || string($elementtypematch) || ' = ' || string($enrichedScore)))
     return
-        format-number($enrichedScore, '#.00')
+        format-number($enrichedScore, '0000')
+        
 };
 
 
