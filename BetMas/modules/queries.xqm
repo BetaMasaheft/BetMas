@@ -13,6 +13,7 @@ import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMa
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace apptable = "https://www.betamasaheft.uni-hamburg.de/BetMas/apptable" at "xmldb:exist:///db/apps/BetMas/modules/apptable.xqm";
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
+import module namespace morpho="http://betamasaheft.eu/parser/morpho" at "xmldb:exist:///db/apps/parser/modules/morphoparser.xqm";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace xconf = "http://exist-db.org/collection-config/1.0";
 declare namespace sr = "http://www.w3.org/2005/sparql-results#";
@@ -369,9 +370,9 @@ declare function q:sparql($q) {
 };
 
 declare function q:text($q, $params) {
-    let $m := if ($q:mode != '') then    $q:mode  else   'none'
-    let $q := q:querystring($q, $q:mode)
-    let $query :=  $q:col//t:TEI[ft:query(., $q, $q:allopts)]
+    let $qs := q:querystring($q, $q:mode)
+    let $log := util:log('INFO', $qs)
+    let $query :=  $q:col//t:TEI[ft:query(., $qs, $q:allopts)]
     return
         if ($q:sort = '')
         then
@@ -399,26 +400,92 @@ declare function q:indexquery($element, $q) {
         $q/ancestor::t:TEI
 };
 
-declare function q:translitquery($query-string){
-let $tracesAnnotationsQuery := "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+declare function q:tracesquery($q){
+let $sparql := 
+"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT DISTINCT ?translit
 WHERE {
-{  ?subject rdfs:label '" || $query-string || "'@gez ;
+{  ?subject rdfs:label '" || $q || "'@gez ;
                  rdfs:label ?translit .
   FILTER (lang(?translit) = 'gez-trsl') }
   UNION
-  {  ?subject rdfs:label '" || $query-string || "'@gez-trsl ;
+  {  ?subject rdfs:label '" || $q || "'@gez-trsl ;
                  rdfs:label ?translit .
   FILTER (lang(?translit) = 'gez') }
-  
 }" 
-let $query := fusekisparql:query('traces', $tracesAnnotationsQuery)
-let $tracesresponse := $query//sr:binding/sr:literal/text()
-return 
-($query-string || ' OR ' || string-join($tracesresponse, ' OR '))
+                let $query := fusekisparql:query('traces', $sparql)
+               return $query//sr:binding/sr:literal/text()
+               };
+
+declare function q:gettranslit($sequenceoftokens){
+ for $q in $sequenceoftokens 
+                let $traces := q:tracesquery($q)
+                
+ (:if nothing has been found in traces then the morphoparser can provide a tempative transliteration, 
+   which will be in none of the official formats, because this is made meaningless by the homophons substitutions:)
+            return
+            if(count($traces) ge 1) 
+                then $traces 
+                else q:prepareformorphoparser($q)
 };
 
+declare function q:translitquery($query-string){
+let $tokenizedquery := if(contains($query-string, ' ')) then tokenize($query-string, ' ') else $query-string
+
+(:this variable will return at least one transliteration option for each token:)
+
+               let $trytraces :=  q:gettranslit($tokenizedquery)
+                let $log := util:log('INFO', $trytraces)
+(: traces contains only singe token annotations so the query must be repeated for each word. It may return for one part only of the query:)
+
+ (:how to join this, which will then be passed to the substitutions and then to the query builder, depends on the mode and the operator
+each transliteration is alternative to the term, so it should be (source OR translit) if the query is for any term 
+:)
+(:but if this is a phrase search, 
+<query><phrase>(wä-kāʿǝbä OR ወካዕበ፡) (äʿräfä OR አዕረፈ፡)</phrase></query> 
+will not work
+we need alternate phrases, so the results of the query for each term need to be joined among them before being grouped
+:)
+              let $modejoin := if(request:get-parameter('mode', ()) = 'phrase') 
+                            then <query><phrase>{string-join($trytraces, ' ')}</phrase><phrase>{string-join($tokenizedquery, ' ')}</phrase></query>
+(:                                      'source1 source2' OR 'translit1 translit2' :)
+                           else if(request:get-parameter('defaultoperator', ()) = 'AND') 
+                            then ('('||string-join($trytraces, ' AND ')||') OR ('|| string-join($tokenizedquery, ' AND ')||')') 
+                            (:    (source1 AND source2) OR (translit1 AND translit2) :)
+                            else for $tok at $p in $tokenizedquery return ('('||$trytraces[$p]||' OR '||$tok ||')')
+                            (:   (source1 OR translit1) AND/OR (source2 OR translit2)
+here AND / OR should be the default operator chosen, so leaving it blank actually defaults to the configuration
+(source1 OR translit1) (source2 OR translit2)
+:)
+                            
+             return $modejoin
+   
+
+ 
+};
+
+declare function q:prepareformorphoparser($q){
+let $cleanup := morpho:cleanQ($q, 'true', 'BM')
+return
+(:if the string was in transliteration, I already have what I want:)
+if(not(matches($q, '\p{IsEthiopic}'))) 
+    then $cleanup 
+    else 
+            let $chars := functx:chars($q)
+            let $parsed := morpho:formulas($chars,$q,'BM','fuzzy')
+            return morpho:genericTranscription($parsed)
+};
+
+(:before anything is done, get rid of punctuation... :)
+declare function q:cleanquery($query-string){
+replace($query-string, '፡', '')
+};
+
+
 declare function q:querystring($query-string, $mode as xs:string*) {
+let $query-string := q:cleanquery($query-string)
+let $log := util:log('INFO',$query-string)
+return
     if ($q:searchType = 'fields') 
     then
         q:create-field-query($query-string, $mode)
@@ -428,15 +495,57 @@ declare function q:querystring($query-string, $mode as xs:string*) {
         let $homophones :=  if ($homophonesparam='on' and (string-length($query-string) le 10)) then  'true'  else   'false'
         let $translit-query-string := if($translitparam='on') then q:translitquery($query-string) else $query-string
    (:        if translit on, the query will be a sequence of strings joined by OR :)
-        let $subs-query-string := q:subst($translit-query-string, $homophones)
+    let $log := util:log('INFO', $translit-query-string)
+       let $modequery := 
+           <querytemp>{if ($mode = 'none') then
+                                                  (  if (functx:contains-any-of($translit-query-string, ('AND', 'OR', 'NOT', '+', '-', '!', '~', '^', '.', '?', '*', '|', '{', '[', '(', '<', '@', '#', '&amp;'))) 
+                                                        then
+                                             q:create-query($translit-query-string, $mode)
+                                                         else
+                                                        $translit-query-string)
+                else if ($mode = 'phrase') then
+                 let $log := util:log('INFO', $translit-query-string)
+                 return
+               typeswitch($translit-query-string )
+               case element(query) return $translit-query-string
+               default return let $log := util:log('INFO', $translit-query-string) 
+                                            let $createq := q:create-query($translit-query-string, $mode)
+                                            let $log := util:log('INFO', $createq)
+                                            return $createq
+                else
+                q:create-query($translit-query-string, $mode)
+                }</querytemp> 
+                
+ let $log := util:log('INFO', $modequery)
+  let $subs-query-string := <querytemp>{q:loopqueryxml($modequery, $homophones)}</querytemp>
+            let $log := util:log('INFO', $subs-query-string)
          return
-            if ($mode = 'none') then
-                $subs-query-string
-            else
-                q:create-query($subs-query-string, $mode)
-
+         $subs-query-string/node()
 };
 
+declare function q:loopqueryxml($xmlquery, $homophones){
+for $node in $xmlquery/node() 
+   return 
+    typeswitch ($node)
+            case text() return 
+             let $log := util:log('INFO', $node)
+(:                  make substituions, you get a lucene query as a string. :)
+                  let $subst:= q:subst($node, $homophones)    
+                  return
+                  if (functx:contains-any-of($node, ('AND', 'OR', 'NOT', '+', '-', '!', '~', '^', '.', '?', '*', '|', '{', '[', '(', '<', '@', '#', '&amp;'))) then
+                   let $log := util:log('INFO', $subst)
+                  let $luceneParse := q:parse-lucene($subst)
+                   let $log := util:log('INFO', $luceneParse)
+                  let $luceneXML := parse-xml($luceneParse)
+                   let $log := util:log('INFO', $luceneXML)
+(:                  make the string part of a query:)
+                  let $querypart := q:lucene2xml($luceneXML/node(), 'any')
+                  let $log := util:log('INFO', $querypart)
+                                return $querypart
+                                else $subst
+     case element(phrase) return element {$node/name()} {$node/text()}
+     default return element {$node/name()} {q:loopqueryxml($node, $homophones)}
+};
 
 declare function q:create-field-query($query-string, $mode) {
     let $fields := for $field in $q:params[ends-with(., '-field')][not(contains(., '-operator'))]
@@ -460,26 +569,37 @@ declare function q:create-field-query($query-string, $mode) {
         $query
 };
 
-declare function q:subst($query, $homophones) {
-       if ($query != '')
-    then
-        (if ($homophones = 'true')
-        then
-            if (contains($query, 'AND')) then
+declare function q:groupsubst($query, $homophones){
+   if (contains($query, 'AND')) then
                 (let $parts := for $qpart in tokenize($query, 'AND')
                 return
                     all:substitutionsInQuery($qpart)
                 return
                     '(' || string-join($parts, ') AND (')) || ')'
-            else
-                if (contains($query, 'OR')) then
+            else  if (contains($query, 'OR') and (not(matches($query, '[\(\)]')))) then
                     (let $parts := for $qpart in tokenize($query, 'OR')
                     return
                         all:substitutionsInQuery($qpart)
                     return
                         '(' || string-join($parts, ') OR (')) || ')'
+                else  if (contains($query, 'OR') and (matches($query, '[\(\)]'))) then
+                     let $log := util:log('info', $query)  
+                                let $luceneParse := q:parse-lucene($query)
+                                let $luceneXML := parse-xml($luceneParse)
+                                let $lucene2xml := <querytemp>{q:lucene2xml($luceneXML/node(), 'any')}</querytemp>
+                                 let $log := util:log('info', $lucene2xml)  
+                                return
+                            q:loopqueryxml($lucene2xml, $homophones)
+                        
                 else
-                    all:substitutionsInQuery($query)
+                    all:substitutionsInQuery($query)};
+                    
+declare function q:subst($query, $homophones) {
+       if ($query != '')
+    then
+        (if ($homophones = 'true')
+        then
+            q:groupsubst($query, $homophones)
         else
             $query)
     else
@@ -885,8 +1005,9 @@ let $query :=
                then $query-string
         (:If the query contains any operator used in standard lucene searches or regex searches, pass it on to the query parser;:)
                 else
-                    if (functx:contains-any-of($query-string, ('AND', 'OR', 'NOT', '+', '-', '!', '~', '^', '.', '?', '*', '|', '{', '[', '(', '<', '@', '#', '&amp;')) and (($mode eq 'any') or ($mode eq 'phrase')))
+                    if (functx:contains-any-of($query-string, ('AND', 'OR', 'NOT', '+', '-', '!', '~', '^', '.', '?', '*', '|', '{', '[', '(', '<', '@', '#', '&amp;')) and ($mode eq 'any'))
                     then
+                                let $log := util:log('info', $query-string)  
                                 let $luceneParse := q:parse-lucene($query-string)
                                 let $luceneXML := parse-xml($luceneParse)
                                 let $lucene2xml := q:lucene2xml($luceneXML/node(), $mode)
@@ -902,7 +1023,7 @@ let $query :=
                                             string-join(subsequence($query-string, 1, count($query-string) - 1), ' ')
                                         else
                                                 string-join($query-string, ' ')
-(:                                let $log := util:log('info', $query-string)               :)
+                                let $log := util:log('info', $query-string)               
                                 let $query :=
                                                  <query>
                             {
@@ -1446,7 +1567,9 @@ declare function q:enrichScore($text) {
                 $score * 4
             else
                 $score
-   let $relations := count($text//t:relation)
+(:                the following two depend on the previous, so that they are incentives, and do not risk to overtake the previous measure:)
+   let $relations := if($elementtypematch=2) then count($text//t:relation) else 0
+   let $numberofnodes := if($relations gt 0) then (count($text//node()) div 100) else 0
    let $occupationChange := 
     
     if ($text//t:ab[node()]) then
@@ -1462,7 +1585,7 @@ declare function q:enrichScore($text) {
     let $enrichedScore :=
     $score +
     $values +
-    (count($text//node()) div 100) +
+    $numberofnodes +
     $occupationChange + $relations +
     (sum($scores) * $elementtypematch)
     let $log := util:log('info', (string($text/ancestor-or-self::t:TEI/@type) || string($text/ancestor-or-self::t:TEI/@xml:id) || ' --> ' || $score || ' + ' || $values || ' + ' ||  (count($text//node()) div 100) || ' + ' || sum($scores) || ' x ' || string($elementtypematch) || ' = ' || string($enrichedScore)))
