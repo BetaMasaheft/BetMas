@@ -15,6 +15,7 @@ import module namespace apptable = "https://www.betamasaheft.uni-hamburg.de/BetM
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace xconf = "http://exist-db.org/collection-config/1.0";
+declare namespace sr = "http://www.w3.org/2005/sparql-results#";
 
 declare variable $q:deleted := doc('/db/apps/BetMas/lists/deleted.xml');
 declare variable $q:collection as xs:string := request:get-parameter('collection', ());
@@ -67,6 +68,11 @@ function-lookup(xs:QName("util:index-keys"), 5),
 function-lookup(xs:QName("util:index-keys"), 4)
 )[1];
 
+
+(:~ 
+ : Functions with values which depend on the request parameters (to keep values as selected when the user runs a query.
+ : called by newSearch.html
+ :)
 
 declare function q:querytype($node as node(), $model as map(*)) {
 let $querytypeparam:= request:get-parameter('searchType', ())
@@ -151,11 +157,21 @@ let $h:= request:get-parameter('sort', ())
 return
 <input type="checkbox" name="sort" >{if($h='on') then attribute checked{"checked"} else ()}</input>
 };
+
+declare function q:translitcheckbox($node as node()*, $model as map(*)){
+let $h:= request:get-parameter('translit', ())
+return
+<input type="checkbox" name="translit">{if($h='on') then attribute checked{"checked"} else ()}</input>
+};
+
+
+
+
 (:~ 
  : the most generic ft:query call returning a map with the  query, the results, the timing and the type of query
  :)
 declare function q:query($node as node()*, $model as map(*), $query as xs:string*) {
-let $log := util:log('INFO', $query)
+(:let $log := util:log('INFO', $query):)
     let $start-time := util:system-time()
     let $t := if (request:get-parameter('searchType', ())) then
         $q:searchType
@@ -333,6 +349,7 @@ declare function q:sparql($q) {
          PREFIX rel: <http://purl.org/vocab/relationship/>
          PREFIX dcterms: <http://purl.org/dc/terms/>
          PREFIX bm: <https://betamasaheft.eu/>
+         PREFIX bmont: <https://betamasaheft.eu/ontology/>
          PREFIX pelagios: <http://pelagios.github.io/vocab/terms#>
          PREFIX syriaca: <http://syriaca.org/documentation/relations.html#>
          PREFIX saws: <http://purl.org/saws/ontology#>
@@ -354,20 +371,21 @@ declare function q:sparql($q) {
 declare function q:text($q, $params) {
     let $m := if ($q:mode != '') then    $q:mode  else   'none'
     let $q := q:querystring($q, $q:mode)
-    let $log := util:log('INFO', $q)
-     let $log1 := util:log('INFO', $q:allopts)
     let $query :=  $q:col//t:TEI[ft:query(., $q, $q:allopts)]
-(:    let $log2 := util:log('INFO', $query):)
     return
         if ($q:sort = '')
         then
             for $r in $query
             group by $TEI := $r
+            let $matchcount := q:matchescount($TEI)
+            order by $matchcount descending
             return
                 $TEI
         else
             for $r in $query
             group by $TEI := $r
+             let $matchcount := q:matchescount($TEI)
+            let $title := q:sortingkey($TEI//t:titleStmt/t:title[1]/text())
             let $sort := q:enrichScore($TEI)
                 order by $sort descending
             return
@@ -381,23 +399,41 @@ declare function q:indexquery($element, $q) {
         $q/ancestor::t:TEI
 };
 
+declare function q:translitquery($query-string){
+let $tracesAnnotationsQuery := "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT DISTINCT ?translit
+WHERE {
+{  ?subject rdfs:label '" || $query-string || "'@gez ;
+                 rdfs:label ?translit .
+  FILTER (lang(?translit) = 'gez-trsl') }
+  UNION
+  {  ?subject rdfs:label '" || $query-string || "'@gez-trsl ;
+                 rdfs:label ?translit .
+  FILTER (lang(?translit) = 'gez') }
+  
+}" 
+let $query := fusekisparql:query('traces', $tracesAnnotationsQuery)
+let $tracesresponse := $query//sr:binding/sr:literal/text()
+return 
+($query-string || ' OR ' || string-join($tracesresponse, ' OR '))
+};
+
 declare function q:querystring($query-string, $mode as xs:string*) {
-    if ($q:searchType = 'fields') then
+    if ($q:searchType = 'fields') 
+    then
         q:create-field-query($query-string, $mode)
     else
         let $homophonesparam := request:get-parameter('homophones', ())
-        let $homophones := 
-        
-        if ($homophonesparam='on' and (string-length($query-string) le 10)) then
-            'true'
-        else
-            'false'
-        let $subs := q:subst($query-string, $homophones)
-        return
+        let $translitparam := request:get-parameter('translit', ())
+        let $homophones :=  if ($homophonesparam='on' and (string-length($query-string) le 10)) then  'true'  else   'false'
+        let $translit-query-string := if($translitparam='on') then q:translitquery($query-string) else $query-string
+   (:        if translit on, the query will be a sequence of strings joined by OR :)
+        let $subs-query-string := q:subst($translit-query-string, $homophones)
+         return
             if ($mode = 'none') then
-                $subs
+                $subs-query-string
             else
-                q:create-query($subs, $mode)
+                q:create-query($subs-query-string, $mode)
 
 };
 
@@ -420,14 +456,12 @@ declare function q:create-field-query($query-string, $mode) {
             substring-after($joinfields, 'OR '))
     else
         $joinfields)
-(:    let $log := util:log('INFO', $query):)
     return
         $query
 };
 
 declare function q:subst($query, $homophones) {
-    
-    if ($query != '')
+       if ($query != '')
     then
         (if ($homophones = 'true')
         then
@@ -1361,6 +1395,9 @@ function q:sparqlRes($hit, $p) {
 
 };
 
+declare function q:matchescount($text){
+let $expanded := kwic:expand($text) return count($expanded//exist:match)
+};
 (:~
 : if the smart sort function is selected then an enriched score will be used to 
 : sort the results which multiplies the values or adds to them according to set rules

@@ -36,30 +36,37 @@
                             <span id="smartrank" class="w3-hide w3-tiny w3-padding">
                                 You can check this box to use 'smart' ranking, where <em>a higher score is assigned to hits in placeName, persName, title or to records with text or an occupation element.</em> This will make you wait a bit more.
                             </span>
-                            <span id="searchtype"  class="w3-hide w3-tiny w3-padding">If running a text search, you can select the  type of text search. This determines how the single words which you enter are matched in the indexes
+                            <span id="searchtype" class="w3-hide w3-tiny w3-padding">If running a text search, you can select the  type of text search. This determines how the single words which you enter are matched in the indexes
                                 here </span>
-                            <span id="searchoperator"  class="w3-hide w3-tiny w3-padding">By default the search will use OR as an operator, which means that if you search two words you will get hits which contain one OR the other. You may wish to use AND to get the matches which contain your first word AND your second word. If you want them in that particular order, consider using phrase mode from the search type.</span>
-                            <span id="explainfilters"  class="w3-hide w3-tiny w3-padding">Click on this plus button to see a series of additional options for your search.</span>
+                            <span id="searchoperator" class="w3-hide w3-tiny w3-padding">By default the search will use OR as an operator, which means that if you search two words you will get hits which contain one OR the other. You may wish to use AND to get the matches which contain your first word AND your second word. If you want them in that particular order, consider using phrase mode from the search type.</span>
+                            <span id="explainfilters" class="w3-hide w3-tiny w3-padding">Click on this plus button to see a series of additional options for your search.</span>
                             <span id="keyboardexplain" class="w3-hide w3-tiny w3-padding">This may help you enter characters which are not immediately present on your keyboard. Keep a letter pressed for additional forms. Use Shift and Alt for alternative keyboards. Instead of the pointer you can use your own keyboard with these values when active.</span>
                             <span id="homophonesexplain" class="w3-hide w3-tiny w3-padding">Homophones are mechanically replaced for you, so that for example, if you search for one of 'ሀ', 'ሐ', 'ኀ', 'ሃ', 'ሓ', 'ኃ' we will search for all of them. 
                                 If you deselect this checkbox the list of homophones will not be considered and only the exact string you searched will be passed on. Homophones are not replaced for search strings longer than 10 characters and is not applied in all modes.</span>
+                            <span id="translitexplain" class="w3-hide w3-tiny w3-padding">If you entered a search string for a Gǝʿǝz string, either typing it in Fidal or in a transliteration format, we can try to convert it and search also the other form. If you entered ወልደ the search engine will look also for walda. If you entered walda also for ወልደ. This depends on the availability of the alternate form.
+                            </span>
                         </div>
-                        <div class="w3-half  w3-right"> <div class="w3-bar">
+                        <div class="w3-half  w3-right"> <div class="w3-bar w3-right">
                             <div class="w3-bar-item explain" data-value="searchoperator">
                                 <span data-template="q:textquerydefaultoperator"/>
                             </div>
                             <div class="w3-bar-item explain" data-value="searchtype">
                                 <span data-template="q:textquerymode"/>
                             </div>
-                            <div class="w3-bar-item w3-hide-medium  w3-hide-small">
+                            <div class="w3-bar-item w3-hide-medium  w3-hide-small"  style="padding: 8px 8px">
                                 <span class="explain" data-value="smartrank">
                                     <span data-template="q:ranking"/>
                                 </span>
                             </div>
-                            <div class="w3-bar-item w3-hide-medium  w3-hide-small"> 
+                            <div class="w3-bar-item w3-hide-medium  w3-hide-small"  style="padding: 8px 8px"> 
                                 <span class="explain" data-value="homophonesexplain">
                                     <span data-template="q:homophonecheckbox"/>
                             </span>
+                            </div>
+                            <div class="w3-bar-item w3-hide-medium  w3-hide-small"  style="padding: 8px 8px"> 
+                                <span class="explain" data-value="translitexplain">
+                                    <span data-template="q:translitcheckbox"/>
+                                </span>
                             </div>
                             <a class="w3-bar-item w3-button w3-gray kb explain" data-value="keyboardexplain">
                                 <i class="fa fa-keyboard" aria-hidden="true"/>
