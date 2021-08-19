@@ -173,7 +173,6 @@ return
  : the most generic ft:query call returning a map with the  query, the results, the timing and the type of query
  :)
 declare function q:query($node as node()*, $model as map(*), $query as xs:string*) {
-(:let $log := util:log('INFO', $query):)
     let $start-time := util:system-time()
     let $t := if (request:get-parameter('searchType', ())) then
         $q:searchType
@@ -296,7 +295,6 @@ let $selector :=  if(($q = '') and (matches($clavisType, '\w+')))
                            then "[descendant::t:bibl[@type eq '"||$clavisType||"']]"
                            else  "[descendant::t:bibl[@type eq '"||$clavisType||"'][t:citedRange eq '"||$q||"']]"
  let $path := '$q:col//t:TEI[@type="work"]' || $selector
-(:let $test := util:log('INFO', $path):)
 for $m in util:eval($path)
         group by $TEI := $m
     return $TEI
@@ -372,7 +370,6 @@ declare function q:sparql($q) {
 
 declare function q:text($q, $params) {
     let $qs := q:querystring($q, $q:mode)
-    let $log := util:log('INFO', $qs)
     let $query :=  $q:col//t:TEI[ft:query(., $qs, $q:allopts)]
     return
         if ($q:sort = '')
@@ -436,7 +433,6 @@ let $tokenizedquery := if(contains($query-string, ' ')) then tokenize($query-str
 (:this variable will return at least one transliteration option for each token:)
 
                let $trytraces :=  q:gettranslit($tokenizedquery)
-                let $log := util:log('INFO', $trytraces)
 (: traces contains only singe token annotations so the query must be repeated for each word. It may return for one part only of the query:)
 
  (:how to join this, which will then be passed to the substitutions and then to the query builder, depends on the mode and the operator
@@ -505,7 +501,6 @@ replace($query-string, '፡', '')
 
 declare function q:querystring($query-string, $mode as xs:string*) {
 let $query-string := q:cleanquery($query-string)
-let $log := util:log('INFO',$query-string)
 return
     if ($q:searchType = 'fields') 
     then
@@ -516,7 +511,6 @@ return
         let $homophones :=  if ($homophonesparam='on' and (string-length($query-string) le 10)) then  'true'  else   'false'
         let $translit-query-string := if($translitparam='on') then q:translitquery($query-string) else $query-string
    (:        translit will return a query already. but if that did not go through the input may be a string :)
-    let $log := util:log('INFO', $translit-query-string)
 (:    here a temporary query is stored, which is either a parsing of a string or an improvement of the existing one it calls the creat-query function :)
        let $modequery := 
            <querytemp>{if ($mode = 'none') then
@@ -528,23 +522,19 @@ return
                   else if ($mode = 'regex' or $mode='wildcard' or $mode = 'fuzzy') then q:create-query($query-string, $mode)
 (:                  for these three modes ignore any homophones or transliteration:)
                 else if ($mode = 'phrase'  or starts-with($mode, 'near')) then
-                 let $log := util:log('INFO', $translit-query-string)
-                 return
                typeswitch($translit-query-string )
                case element(query) return $translit-query-string
-               default return let $log := util:log('INFO', $translit-query-string) 
+               default return 
                                             let $createq := q:create-query($translit-query-string, $mode)
-                                            let $log := util:log('INFO', $createq)
                                             return $createq
                 else
                 q:create-query($translit-query-string, $mode)
                 }</querytemp> 
                 
- let $log := util:log('INFO', $modequery)
   let $subs-query-string := if ($mode = 'regex' or $mode='wildcard' or $mode = 'fuzzy') then $modequery else <querytemp>{q:loopqueryxml($modequery, $homophones)}</querytemp>
-            let $log := util:log('INFO', $subs-query-string)
+  
   let $query-clean-up := if ($mode = 'regex' or $mode='wildcard' or $mode = 'fuzzy') then $modequery/querytemp else q:querycleanup($subs-query-string)
-            let $log := util:log('INFO', $query-clean-up)
+    
          return
          $query-clean-up
 };
@@ -559,6 +549,8 @@ return typeswitch($node)
    case element(query) return  if($node/ancestor::query) then q:querycleanup($node) else <query>{q:querycleanup($node)}</query>
    case element(term) return  if((count($node/descendant::bool) ge 1) or ($node/ancestor::fuzzy)or ($node/ancestor::wildcard)or ($node/ancestor::regex)) then q:querycleanup($node) else element {$node/name()} {($node/@*, q:querycleanup($node))}
     case element(bool) return 
+    if ($node/@occur = 'must') then element {$node/name()} {($node/@*, q:querycleanup($node))} 
+    else
                    if($node/bool[@occur][count(term[@occur]) eq 1]) then 
                    for $term in $node/bool[@occur][count(term[@occur]) eq 1] 
                    group by $occur := $term/@occur
@@ -580,17 +572,13 @@ it goes in anyway, and the q:subst checks for the homophones parameter
 if the query is a phrase query, nothing should be done. otherways options should be added within the query structure
 :)
 declare function q:loopqueryxml($xmlquery, $homophones){
-let $log := util:log('INFO',$xmlquery) 
-return
 for $node in $xmlquery/node() 
    return 
     typeswitch ($node)
             case text() return 
-                  let $log := util:log('INFO', $node) 
 (:                  this should return a list of options for a term. these need to be formatted into a part of query:)
-             let $subs :=     q:subst($node, $homophones)
-             
-                        let $log := util:log('INFO', $subs)
+              let $andchecksubs := if(not(functx:contains-any-of($node, ('AND', 'OR', 'NOT', '+', '-', '!', '~', '^', '.', '?', '*', '|', '{', '[', '(', '<', '@', '#', '&amp;'))) and contains($node, ' ') and $q:defop = 'AND') then replace($node, ' ', ' AND ') else $node    
+              let $subs :=     q:subst($andchecksubs, $homophones)
              return typeswitch($subs)
 (:             if the result of substitutions is a query, go with that:)
                        case element()  
@@ -602,13 +590,10 @@ for $node in $xmlquery/node()
                                 let $luceneXML := parse-xml($luceneParse)
                                 let $mode := if($q:defop = 'AND') then 'all' else 'any'
                                 let $lucene2xml := q:lucene2xml($luceneXML/node(), $mode)
-                                let $log := util:log('INFO', $lucene2xml)
                                 return $lucene2xml
             case element(phrase) return  
-                  let $log := util:log('INFO', $node) 
-                  return element {$node/name()} {$node/text()}
-           default return  
-                  let $log := util:log('INFO', $node) 
+                   element {$node/name()} {$node/text()}
+           default 
                   return element {$node/name()} {($node/@*, q:loopqueryxml($node, $homophones))}
 };
 
@@ -634,11 +619,11 @@ declare function q:groupsubst($query, $homophones){
                         '(' || string-join($parts, ') OR (')) || ')'
 (:                        complex query :)
                 else  if (contains($query, 'OR') and (matches($query, '[\(\)]'))) then
-                     let $log := util:log('info', $query)  
+                  
                                 let $luceneParse := q:parse-lucene($query)
                                 let $luceneXML := parse-xml($luceneParse)
                                 let $lucene2xml := <querytemp>{q:lucene2xml($luceneXML/node(), 'any')}</querytemp>
-                                 let $log := util:log('info', $lucene2xml)  
+                                
                                 return
                             q:loopqueryxml($lucene2xml/query, $homophones)
                 else
@@ -1077,7 +1062,6 @@ declare function q:create-query($query-string as xs:string?, $mode as xs:string)
 let $query-string := if ($query-string)   then q:sanitize-lucene-query($query-string)   else  ''
         (:        strip out full stop if in the query :)
 let $query-string := replace(normalize-space($query-string), '\.', '')
-(:let $log := util:log('info', $query-string)    :)
 let $query :=    
     (:    this filters queries to fields so that they are not passed as xml fragment:)
                if ($mode = 'none' or contains($query-string, ':')) 
@@ -1085,8 +1069,7 @@ let $query :=
         (:If the query contains any operator used in standard lucene searches or regex searches, pass it on to the query parser;:)
                 else
                     if (functx:contains-any-of($query-string, ('AND', 'OR', 'NOT', '+', '-', '!', '~', '^', '.', '?', '*', '|', '{', '[', '(', '<', '@', '#', '&amp;')) and ($mode eq 'any'))
-                    then
-                                let $log := util:log('info', $query-string)  
+                    then 
                                 let $luceneParse := q:parse-lucene($query-string)
                                 let $luceneXML := parse-xml($luceneParse)
                                 let $lucene2xml := q:lucene2xml($luceneXML/node(), $mode)
@@ -1101,8 +1084,7 @@ let $query :=
                                         then
                                             string-join(subsequence($query-string, 1, count($query-string) - 1), ' ')
                                         else
-                                                string-join($query-string, ' ')
-                                let $log := util:log('info', $query-string)               
+                                                string-join($query-string, ' ')           
                                 let $query :=
                                                  <query>
                             {
@@ -1174,10 +1156,8 @@ let $query :=
                                                 else
                                                     ()
                 }</query>
-(:           let $log2 := util:log('info', $query)    :)
             return
                 $query
-(:     let $log3 := util:log('info', $query)    :)
     return
         $query
 
@@ -1501,7 +1481,6 @@ declare
 %templates:default('start', 1)
 %templates:default("per-page", 40)
 function q:results($node as node()*, $model as map(*), $start as xs:integer, $per-page as xs:integer) {
-(:util:log('INFO', $model),:)
     (:   produces a table of results. the header of the table is a row as the results. 
 first here is the header of the results table:)
     q:resultsTableHeader($model),
@@ -1667,7 +1646,6 @@ declare function q:enrichScore($text) {
     $numberofnodes +
     $occupationChange + $relations +
     (sum($scores) * $elementtypematch)
-    let $log := util:log('info', (string($text/ancestor-or-self::t:TEI/@type) || string($text/ancestor-or-self::t:TEI/@xml:id) || ' --> ' || $score || ' + ' || $values || ' + ' ||  (count($text//node()) div 100) || ' + ' || sum($scores) || ' x ' || string($elementtypematch) || ' = ' || string($enrichedScore)))
     return
         format-number($enrichedScore, '0000')
         
@@ -1791,14 +1769,12 @@ declare function q:resultswithmatch($text, $p) {
 
 (:outputs for a subsequence of results the rows of a table of results without KWIC for clavis and xpath searches:)
 declare function q:resultswithoutmatch($text, $p) {
-(:    let $test1 := util:log('INFO', $text):)
     let $queryText := request:get-parameter('query', ())
     let $root := if ($q:searchType = 'clavis') then    $text('hit')     else   $text
     let $item := if ($q:searchType = 'clavis') then  $text('hit')  else  $root/ancestor-or-self::t:TEI
     let $t := if ($q:searchType = 'clavis' and $text('type') = 'deleted') then   'deleted'  else     $item/@type
     let $id := if ($q:searchType = 'clavis' and $text('type') = 'deleted') then   'deleted'  else    data($item/@xml:id)
     let $collection := if ($q:searchType = 'clavis' and $text('type') = 'deleted') then   'deleted'   else   switch2:col($t)
-(:    let $test := util:log('INFO', $item):)
     return
         <div
             class="w3-row w3-border-bottom w3-margin-bottom">
@@ -2502,7 +2478,6 @@ let $options := for $option in q:formatOption($rangeindexname, $key, $count)
                                          <optgroup label="{$MAIN/text()}">{for $o in $option return $o}</optgroup>} catch * {$err:description}
                   else 
                   let $sorting := q:sortingkey($option)
-(:                                         let $test := util:log('INFO', concat(string-join($option//text()), ' --- > ',$sorting)):)
                                             order by $sorting
                                             return $option 
 return $options};
@@ -2523,7 +2498,6 @@ else if(starts-with($key,'#'))
                   let $title := $q:lists//t:item[@xml:id=$id]/text() 
                   return <option value="{$key}">{$title} ({$count[2]})</option>
 else  if ($rangeindexname = 'TEItermKey') then 
-(:            let $t := util:log('INFO', $key):)
             let $cat := $q:tax//t:category[@xml:id=$key] 
             return
                      <option value="{$key}">{$cat/t:catDesc/text()}</option>
