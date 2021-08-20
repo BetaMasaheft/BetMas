@@ -5,6 +5,8 @@ import module namespace all = "https://www.betamasaheft.uni-hamburg.de/BetMas/al
 import module namespace templates = "http://exist-db.org/xquery/templates";
 import module namespace editors = "https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "xmldb:exist:///db/apps/BetMas/modules/editors.xqm";
 import module namespace titles = "https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
+import module namespace exptit="https://www.betamasaheft.uni-hamburg.de/BetMas/exptit" at "xmldb:exist:///db/apps/BetMas/modules/exptit.xqm";
+import module namespace item2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/item2" at "xmldb:exist:///db/apps/BetMas/modules/item.xqm";
 import module namespace console = "http://exist-db.org/xquery/console";
 import module namespace functx = "http://www.functx.com";
 import module namespace kwic = "http://exist-db.org/xquery/kwic" at "resource:org/exist/xquery/lib/kwic.xql";
@@ -2317,6 +2319,17 @@ declare function q:resultslinkstoviews($t, $id, $collection) {
         role="button"
         class="w3-button w3-small w3-gray"
         href="/{$collection}/{$id}/analytic">relations</a>
+        <div class="w3-card">
+         {
+         let $item := $q:col/id($id)[name() = 'TEI']
+         let $log := if(count($item) gt 1) then for $i in $item return util:log('INFO', base-uri($i)) else ()
+         return
+         switch ($t)
+                case 'pers'
+                    return item2:RestPersRole($item, $collection)
+                default return ()    
+                    }
+        </div>
 </div>
 };
 

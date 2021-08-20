@@ -1,7 +1,6 @@
 xquery version "3.1" encoding "UTF-8";
 
 module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles";
-
 declare namespace t="http://www.tei-c.org/ns/1.0";
 declare namespace http = "http://expath.org/ns/http-client";
 declare namespace test="http://exist-db.org/xquery/xqsuite";
@@ -15,8 +14,8 @@ declare variable $titles:persNamesList := doc('/db/apps/BetMas/lists/persNamesLa
 declare variable $titles:TUList := doc('/db/apps/BetMas/lists/textpartstitles.xml');
 declare variable $titles:deleted := doc('/db/apps/BetMas/lists/deleted.xml');
 
-declare variable $titles:collection-root := collection($config:data-root);
-declare variable $titles:collection-rootPl := collection($config:data-rootPl);
+declare variable $titles:collection-root := collection($config:bmdata-root);
+declare variable $titles:collection-rootPl := collection(concat($config:bmdata-root, '/places'));
 
 (:establishes the different rules and priority to print a title referring to a record:)
 declare function titles:printTitle($node as element()) {
@@ -195,7 +194,7 @@ switch($type)
              case "ins" return  titles:placeNameSelector($resource)
             case "pers"  return titles:decidepersNameSource($resource, $resource/ancestor-or-self::t:TEI/@xml:id)
             case "work"  return titles:decideTUSource($resource, $resource/ancestor-or-self::t:TEI/@xml:id)
-            case "narr"  return titles:decideTUSource($resource, $resource/ancestor-or-self::t:TEI/@xml:id)
+            case "nar"  return titles:decideTUSource($resource, $resource/ancestor-or-self::t:TEI/@xml:id)
 (:            this should do also auths:)
             default return $resource//t:titleStmt/t:title[1]/text()
 };
@@ -210,7 +209,7 @@ declare function titles:manuscriptLabelFormatter($resource) as xs:string {
                 then
                     let $repoid := string(($resource//t:repository/@ref)[1])
                     let $reponame := $titles:institutionsList/id($repoid)[1]/text()
-                    let $r := collection($config:data-rootIn)/id($repoid)
+                    let $r := collection(concat($config:bmdata-root, '/institutions'))/id($repoid)
                     let $repo := if ($r) then ($r) else 'No Institution record'
                     let $repoPlace := if ($repo = 'No Institution record') then $repo else
                                         (if ($repo[not(descendant::t:settlement)][not(descendant::t:country)]) then ('No location record')
@@ -426,9 +425,8 @@ declare function titles:decidePlName($plaID){
 
 (:Given an id, decides if it is one of BM or from another source and gets the name accordingly:)
 declare function titles:decidePlaceNameSource($pRef as xs:string){
-   
-if ($titles:placeNamesList//t:item[@corresp eq  $pRef]) 
-    then $titles:placeNamesList//t:item[@corresp eq  $pRef][1]/text()
+if ($titles:placeNamesList//t:item[@corresp =  $pRef]) 
+    then $titles:placeNamesList//t:item[@corresp = $pRef][1]/text()
 else if (starts-with($pRef, 'gn:')) then (
         let $name := titles:getGeoNames($pRef) 
         let $addit := titles:updatePlaceList($name, $pRef) 

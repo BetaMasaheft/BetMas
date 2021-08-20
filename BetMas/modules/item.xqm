@@ -11,6 +11,7 @@ import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMa
 import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "xmldb:exist:///db/apps/BetMas/modules/editors.xqm";
 import module namespace wiki="https://www.betamasaheft.uni-hamburg.de/BetMas/wiki" at "xmldb:exist:///db/apps/BetMas/modules/wikitable.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
+import module namespace exptit="https://www.betamasaheft.uni-hamburg.de/BetMas/exptit" at "xmldb:exist:///db/apps/BetMas/modules/exptit.xqm";
 import module namespace apptable="https://www.betamasaheft.uni-hamburg.de/BetMas/apptable" at "xmldb:exist:///db/apps/BetMas/modules/apptable.xqm";
 import module namespace xdb="http://exist-db.org/xquery/xmldb";
 import module namespace locus = "https://www.betamasaheft.uni-hamburg.de/BetMas/locus" at "xmldb:exist:///db/apps/BetMas/modules/locus.xqm";
@@ -740,38 +741,41 @@ return
 
 (:~called by he RESTXQ module items.xql :)
 declare function item2:RestPersRole($file, $collection){
-   
     let $id := string($file/@xml:id)
     return
 if ($collection = 'persons') then(
-<div  class="w3-panel w3-margin  w3-gray w3-card-4">{
-let $persrol := $titles:collection-root//t:persName[@ref eq  $id]
+<div  class="w3-panel w3-margin w3-card-4">{
+let $persrol := $titles:collection-root//t:persName[ends-with(@ref,  $id)]
 let $persrole := $persrol[@role]
 return
 if($persrole) then
 for $role in $persrole
              group by $r := $role/@role
             return
-             <div>{<span class="MainTitle" data-value="{$id}"></span>} is <span class="w3-button w3-gray role" 
-             onclick="document.getElementById('{$r}list').style.display='block'">{string($r)}</span><div>
-                    <div id="{$r}list"  class="w3-modal fade">
-                    
-  <div class="w3-modal-content">
-                        <button type="button" class="w3-button w3-red" onclick="document.getElementById('{$r}list').style.display='none'">Close</button>
-                                    <header class="w3-container">
-                                            <h4 class="w3-margin" id="{$r}listcount">There are other</h4>
-                                    </header>
-                                    <div class="w3-container">
-                                            <ul id="{$r}listitems" class="w3-ul w3-hoverable"></ul>
-                                    </div>
-                                    </div>
-             </div>
-             </div>  of
+             <div>{exptit:printTitle($id)} is  {string($r)}  of the following items
              <ul class="w3-ul w3-hoverable">
             {for $root in $role/ancestor::t:TEI[@xml:id !=$id]
             let $thisid := string($root/@xml:id)
                    return
-                   <li><a href="{$thisid}">{titles:printTitleID($thisid)}</a></li>}
+                   <li>
+                   <a href="{$thisid}">{exptit:printTitle($thisid)}</a>
+                   {if((count($root//t:origDate[@evidence="internal-date"]) ge 1)) then 
+                       let $dates:=  for $date in $root//t:origDate[@evidence="internal-date"]
+                         return string:tei2string($date) 
+                         return
+                         ' which contains the following internal dates: ' || string-join($dates, ', ') || '.'
+                         else () 
+                         
+                   }
+                   {if((count($root//t:msDesc//t:date) ge 1)) then 
+                       let $dates:=  for $date in $root//t:msDesc//t:date
+                         return (string:tei2string($date) || ' in a ' || $date/parent::t:*/name() || " element")
+                         return
+                         ' The description of the manuscript also contains the following dates ' || string-join($dates, ', ') || '.'
+                         else () 
+                         
+                   }
+                   </li>}
                    </ul>
                    </div>
           else ('This person is mentioned nowhere with a specific role.')  }
@@ -789,7 +793,7 @@ else if ($collection = 'manuscripts' or $collection = 'works' or $collection = '
 
  return
 <div  class="w3-panel w3-margin w3-gray w3-card-4">
-    <a href="{$ID}">{titles:printTitleID($ID)}</a>
+    <a href="{$ID}">{exptit:printTitle($ID)}</a>
     is <span class="w3-tag w3-red">{for $role in config:distinct-values($p/@role) return string($role) || ' '}</span>{' of this manuscript'}.
 
     {
@@ -821,7 +825,7 @@ else if ($collection = 'manuscripts' or $collection = 'works' or $collection = '
                 {
                 for $root in $role/ancestor::t:TEI[@xml:id !=$id]
                    return
-                   <li><a href="{string($root/@xml:id)}">{titles:printTitleID(string($root/@xml:id))}</a></li>
+                   <li><a href="{string($root/@xml:id)}">{exptit:printTitle(string($root/@xml:id))}</a></li>
 
                 }
 

@@ -223,9 +223,10 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
             case element(t:publicationStmt)
                 return
                     element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
-                        ($node/@*,
-                        expand:tei2fulltei($node/node(), $bibliography)),
-                        <date>{current-dateTime()}</date>
+                        ($node/@*, 
+                        expand:tei2fulltei($node/node(), $bibliography),
+                        expand:dateidno($node)
+                        )
                     }
             case element(t:encodingDesc)
                 return
@@ -259,6 +260,7 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
                 return
                     <titleStmt
                         xmlns="http://www.tei-c.org/ns/1.0">
+                        <title type="full">{try{titles:printTitleMainID(string($node/ancestor::t:TEI/@xml:id))} catch * {util:log('INFO', concat('no full title added for ', string($node/ancestor::t:TEI/@xml:id)))}}</title>
                         {expand:tei2fulltei($node/node(), $bibliography)}
                         {
                             let $ekeys := $node//t:editor/@key
@@ -598,6 +600,16 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
             default
                 return
                     $node
+};
+
+declare function expand:dateidno($node){
+let $id := string($node/ancestor::t:TEI/@xml:id)
+let $log := util:log('INFO', $id)
+return 
+(<date type="expanded" xmlns="http://www.tei-c.org/ns/1.0">{current-dateTime()}</date>,
+<idno xmlns="http://www.tei-c.org/ns/1.0" type="URI">https://betamasaheft.eu/{$id}</idno>, 
+<idno xmlns="http://www.tei-c.org/ns/1.0" type="filename">{$id}.xml</idno>,
+<idno xmlns="http://www.tei-c.org/ns/1.0" type="ID">{$id}</idno>)
 };
 
 declare function expand:datelike($node, $bibliography){

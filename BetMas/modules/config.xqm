@@ -202,7 +202,9 @@ declare variable $config:app-root :=
 
 declare variable $config:app-title := "Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea" ;
 declare variable $config:xslt-root := $config:app-root || "/xslt";
-declare variable $config:data-root := "/db/apps/BetMasData";
+declare variable $config:bmdata-root := "/db/apps/BetMasData";
+declare variable $config:data-root := "/db/apps/expanded";
+declare variable $config:add-data-root := "/db/apps/expanded";
 declare variable $config:schema-root := $config:app-root || "/schema";
 declare variable $config:data-rootMS := $config:data-root || "/manuscripts";
 declare variable $config:data-rootN := $config:data-root || "/narratives";
@@ -212,7 +214,7 @@ declare variable $config:data-rootPl := $config:data-root || "/places";
 declare variable $config:data-rootPr := $config:data-root || "/persons";
 declare variable $config:data-rootIn := $config:data-root || "/institutions";
 declare variable $config:data-rootA := $config:data-root || "/authority-files";
-declare variable $config:data-rootCh := $config:data-root || "/Chojnacki";
+declare variable $config:data-rootCh := $config:add-data-root || "/Chojnacki";
 declare variable $config:data-rootTraces := $config:app-root || "/traces";
 
 

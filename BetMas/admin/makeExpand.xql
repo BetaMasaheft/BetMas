@@ -24,8 +24,10 @@ let $collection-uri := if (xmldb:collection-available($collection)) then $collec
  :)                              
 let $store :=   if(doc-available(concat($collection-uri,$file-name))) 
                 then console:log( $file-name || ' is already available in ' || $collection-uri )
-                else xmldb:store($collection-uri, xmldb:encode-uri($file-name), $file)
+                else try{xmldb:store($collection-uri, xmldb:encode-uri($file-name), $file)} catch * {console:log($err:description)}
+let $permissions := let $stored := concat($collection-uri, '/', $file-name) return (sm:chgrp($stored, 'Cataloguers'), sm:chmod($stored, 'rwxrwxrwx'))                
 let $runtime-ms := ((util:system-time() - $start-time)
 div xs:dayTimeDuration('PT1S')) * 1000
+let $message := 'stored ' || $file-name || ' into ' || $collection-uri || ' in ' || $runtime-ms || ' milliseconds'
 return
-   console:log( 'stored ' || $file-name || ' into ' || $collection-uri || ' in ' || $runtime-ms || ' milliseconds')
+   util:log('INFO', $message)

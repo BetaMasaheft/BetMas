@@ -244,7 +244,7 @@ $per-page,
 $hi as xs:string*){
 let $collect := switch2:collectionVar($collection)
 let $coll := $config:data-root || '/' || $collection
-let $this := $collect/id($id)
+let $this := $collect/id($id)[name()='TEI']
 let $biblio :=
 <bibl>
 {
@@ -310,7 +310,7 @@ else
         </html>
         )
 (:        check if there is more then one:)
-         else   if(count($apprest:collection-root/id($id)[name() eq 'TEI']) gt 1) then 
+         else   if(count($this) gt 1) then 
          (
 <rest:response>
             <http:response
@@ -322,17 +322,17 @@ else
         </rest:response>,
         <html xmlns="http://www.w3.org/1999/xhtml">
         <head>
-        <title>Not here any more...</title></head>
+        <title>More than one {$id}</title></head>
         <body><p>Something has gone wrong and there are more than one item with id {$id}.</p>
         <ul>
-        {for $i in $apprest:collection-root/id($id)[name() eq 'TEI']
+        {for $i in $this
         return <li>{base-uri($i)}</li>}
         </ul>
         </body>
         </html>
         )
-        (:        check that the item exists:)
-    else   if(count($apprest:collection-root/id($id)[name() eq 'TEI']) = 1) then (
+        (:        check that the item exists :)
+    else   if(count($this) = 1) then (
 <rest:response>
             <http:response
                 status="200">
@@ -448,7 +448,7 @@ transform:transform(
             <div class="w3-half w3-padding">
             <div id="timeLine" class="w3-container"/>
                 <script type="text/javascript">
-            {tl:RestEntityTimeLine($this, $collection)}
+            {(:tl:RestEntityTimeLine($this, $collection):)''}
             </script>
             </div>
             <div class="w3-half w3-padding">
@@ -593,7 +593,7 @@ if ($id = $Subjects) then  (try{LitFlow:Sankey($id, 'works')} catch * {$err:desc
    switch($collection)
    case 'works' return  (
    item2:RestMiniatures($id))
-  case 'persons' return (item2:RestTabot($id), item2:RestAdditions($id), item2:RestMiniatures($id))
+  case 'persons' return (item2:RestPersRole($this, $collection), item2:RestTabot($id), item2:RestAdditions($id), item2:RestMiniatures($id))
     case 'authority-files' return
     if (starts-with($id, 'AT')) then 
   <div class="w3-container">
@@ -641,6 +641,7 @@ else ()
         )
          
         else
+(:        error message if item does not exist:)
        (<rest:response>
             <http:response
                 status="400">
@@ -649,10 +650,12 @@ else ()
                     value="text/html; charset=utf-8"/>
             </http:response>
         </rest:response>,
-        error:error($Imap))
+        error:error($Imap)
+      )
 
         )
         else
+(:        error message if the collection does not exist:)
         (
         <rest:response>
             <http:response

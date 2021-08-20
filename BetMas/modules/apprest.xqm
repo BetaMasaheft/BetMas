@@ -5,6 +5,7 @@ xquery version "3.1" encoding "UTF-8";
  :
  : @author Pietro Liuzzo 
  :)
+ 
 module namespace apprest="https://www.betamasaheft.uni-hamburg.de/BetMas/apprest";
 
 declare namespace t="http://www.tei-c.org/ns/1.0";
@@ -752,7 +753,7 @@ return
 
 
 
-(:~embedded metadata for Zotero mapping:)
+(:~embedded metadata for Zotero mapping (schema.org and dcterms properties as RDFa) :)
 declare function apprest:app-meta($biblio as node()){
 
 let $col :=$biblio//coll/text()
