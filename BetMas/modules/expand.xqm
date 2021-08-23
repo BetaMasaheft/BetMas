@@ -607,10 +607,10 @@ declare function expand:dateidno($node){
 let $id := string($node/ancestor::t:TEI/@xml:id)
 let $log := util:log('INFO', $id)
 return 
-(<date type="expanded" xmlns="http://www.tei-c.org/ns/1.0">{current-dateTime()}</date>,
+(<date xmlns="http://www.tei-c.org/ns/1.0" type="expanded">{current-dateTime()}</date>,
 let $time := max($node/ancestor::t:TEI//t:revisionDesc/t:change/xs:date(@when))
 return
-<date type="lastModified">{format-date($time, '[D].[M].[Y]')}</date>
+<date xmlns="http://www.tei-c.org/ns/1.0" type="lastModified">{format-date($time, '[D].[M].[Y]')}</date>
 ,
 let $col := switch2:col($node/ancestor::t:TEI/@type) return
 (<idno xmlns="http://www.tei-c.org/ns/1.0" type="collection">{$col}</idno>,
