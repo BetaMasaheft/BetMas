@@ -2,6 +2,7 @@ xquery version "3.1";
 
 module namespace expand = "https://www.betamasaheft.uni-hamburg.de/BetMas/expand";
 import module namespace titles = "https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
+import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2"  at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
 import module namespace console = "http://exist-db.org/xquery/console";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace xi = "http://www.w3.org/2001/XInclude";
@@ -607,6 +608,13 @@ let $id := string($node/ancestor::t:TEI/@xml:id)
 let $log := util:log('INFO', $id)
 return 
 (<date type="expanded" xmlns="http://www.tei-c.org/ns/1.0">{current-dateTime()}</date>,
+let $time := max($node/ancestor::t:TEI//t:revisionDesc/t:change/xs:date(@when))
+return
+<date type="lastModified">{format-date($time, '[D].[M].[Y]')}</date>
+,
+let $col := switch2:col($node/ancestor::t:TEI/@type) return
+(<idno xmlns="http://www.tei-c.org/ns/1.0" type="collection">{$col}</idno>,
+<idno xmlns="http://www.tei-c.org/ns/1.0" type="url">https://betamasaheft.eu/{$col}/{$id}</idno>),
 <idno xmlns="http://www.tei-c.org/ns/1.0" type="URI">https://betamasaheft.eu/{$id}</idno>, 
 <idno xmlns="http://www.tei-c.org/ns/1.0" type="filename">{$id}.xml</idno>,
 <idno xmlns="http://www.tei-c.org/ns/1.0" type="ID">{$id}</idno>)

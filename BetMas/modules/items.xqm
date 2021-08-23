@@ -245,26 +245,6 @@ $hi as xs:string*){
 let $collect := switch2:collectionVar($collection)
 let $coll := $config:data-root || '/' || $collection
 let $this := $collect/id($id)[name()='TEI']
-let $biblio :=
-<bibl>
-{
-for $author in config:distinct-values(($this//t:revisionDesc/t:change/@who| $this//t:editor/@key))
-                return
-<author>{editors:editorKey(string($author))}</author>
-}
-{let $time := max($this//t:revisionDesc/t:change/xs:date(@when))
-return
-<date type="lastModified">{format-date($time, '[D].[M].[Y]')}</date>
-}
-<idno type="url">
-{($config:appUrl ||'/'|| $collection||'/' ||$id)}
-</idno>
-
-<idno type="DOI">
-{('DOI:'||$config:DOI || '.' ||$id)}
-</idno>
-<coll>{$collection}</coll>
-</bibl>
 let $Cmap := map {'type': 'collection', 'name' : $collection, 'path' : $coll}
 let $Imap := map {'type': 'item', 'name' : $id, 'path' : $collection}
 return
@@ -351,7 +331,7 @@ else
           title="RDF Representation"
           href="https://betamasaheft.eu/rdf/{$collection}/{$id}.rdf" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        {apprest:app-meta($biblio)}
+        {apprest:app-meta($this)}
         {apprest:scriptStyle()}
         {if($type='text') then () else apprest:ItemScriptStyle()}
         {if($type='graph') then (

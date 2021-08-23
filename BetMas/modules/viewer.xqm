@@ -126,17 +126,6 @@ function viewer:mirador($collection as xs:string, $id as xs:string, $FirstCanv a
 let $c := switch2:collectionVar($collection)
 let $coll := $config:data-root || '/' || $collection
 let $this := $c/id($id)
-let $biblio :=
-<bibl>
-{let $time := max($this//t:revisionDesc/t:change/xs:date(@when))
-return
-<date type="lastModified">{format-date($time, '[D].[M].[Y]')}</date>
-}
-<idno type="url">
-{($config:appUrl ||'/'|| $collection||'/' ||$id)}
-</idno>
-<coll>{$collection}</coll>
-</bibl>
 let $countsets:= count($this//t:idno[@facs])
 return
 if($countsets=1) then (
@@ -189,7 +178,7 @@ if(xdb:collection-available($coll)) then (
     {apprest:app-title($id)}
         <link rel="shortcut icon" href="resources/images/favicon.ico"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  {apprest:app-meta($biblio)}
+  {apprest:app-meta($this)}
      {apprest:scriptStyle()}
     <link rel="stylesheet" type="text/css" href="resources/mirador/css/mirador-combined.css"/>
     <script src="resources/mirador/mirador.js"></script>
@@ -308,7 +297,7 @@ if(xdb:collection-available($coll)) then (
     {apprest:app-title($id)}
         <link rel="shortcut icon" href="resources/images/favicon.ico"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  {apprest:app-meta($biblio)}
+  {apprest:app-meta($this)}
      {apprest:scriptStyle()}
     <link rel="stylesheet" type="text/css" href="resources/mirador/css/mirador-combined.css"/>
     <script src="resources/mirador/mirador.js"></script>

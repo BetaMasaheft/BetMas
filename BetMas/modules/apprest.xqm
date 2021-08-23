@@ -756,17 +756,15 @@ return
 (:~embedded metadata for Zotero mapping (schema.org and dcterms properties as RDFa) :)
 declare function apprest:app-meta($biblio as node()){
 
-let $col :=$biblio//coll/text()
-let $LM :=$biblio//date[@type eq 'lastModified']/text()
-let $url := $biblio//idno[@type eq 'url']
-let $DOI := $biblio//idno[@type eq 'DOI']
+let $col :=$biblio//t:idno[@type='collection']/text()
+let $LM :=$biblio//t:date[@type eq 'lastModified']/text()
+let $url := $biblio//t:idno[@type eq 'url']
+let $DOI := $biblio//t:idno[@type eq 'DOI']
 return
         (
      <meta  xmlns="http://www.w3.org/1999/xhtml" name="description" content="{$config:repo-descriptor/repo:description/text()}"/>,
-    for $genauthor in $config:repo-descriptor/repo:author
-    return <meta xmlns="http://www.w3.org/1999/xhtml" name="creator" content="{$genauthor/text()}"></meta>,
-    for $author in $biblio//author
-         return  <meta  xmlns="http://www.w3.org/1999/xhtml" property="dcterms:creator schema:creator" content="{$author}"></meta>,
+    for $author in config:distinct-values(($this//t:revisionDesc/t:change/@who| $this//t:editor/@key))
+         return  <meta  xmlns="http://www.w3.org/1999/xhtml" property="dcterms:creator schema:creator" content="{editors:editorKey(string($author))}"></meta>,
      <meta  xmlns="http://www.w3.org/1999/xhtml" property="dcterms:type schema:genre" content="{switch($col)
          case 'manuscripts' return 'Catalogue of Ethiopian Manuscripts'
          case 'works' return 'Clavis of Ethiopian Literature'
