@@ -763,8 +763,8 @@ let $DOI := $biblio//t:idno[@type eq 'DOI']
 return
         (
      <meta  xmlns="http://www.w3.org/1999/xhtml" name="description" content="{$config:repo-descriptor/repo:description/text()}"/>,
-    for $author in config:distinct-values(($biblio//t:revisionDesc/t:change/@who| $biblio//t:editor/@key))
-         return  <meta  xmlns="http://www.w3.org/1999/xhtml" property="dcterms:creator schema:creator" content="{editors:editorKey(string($author))}"></meta>,
+    for $author in config:distinct-values(($biblio//t:respStmt/t:name/text()| $biblio//t:editor/text()))
+         return  <meta  xmlns="http://www.w3.org/1999/xhtml" property="dcterms:creator schema:creator" content="{$author}"></meta>,
      <meta  xmlns="http://www.w3.org/1999/xhtml" property="dcterms:type schema:genre" content="{switch($col)
          case 'manuscripts' return 'Catalogue of Ethiopian Manuscripts'
          case 'works' return 'Clavis of Ethiopian Literature'

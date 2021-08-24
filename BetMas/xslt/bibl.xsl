@@ -322,6 +322,7 @@
                     </xsl:if>
                 </xsl:otherwise>
             </xsl:choose>
+            <xsl:if test="t:ref"><a href="{t:ref/@target}">[link]</a></xsl:if>
         </li>
     </xsl:template>
     <xsl:template match="t:listBibl[ancestor::t:note]">

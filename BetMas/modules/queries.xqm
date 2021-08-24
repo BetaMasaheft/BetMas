@@ -2319,7 +2319,8 @@ declare function q:resultslinkstoviews($t, $id, $collection) {
         role="button"
         class="w3-button w3-small w3-gray"
         href="/{$collection}/{$id}/analytic">relations</a>
-        <div class="w3-card">
+        <div class="w3-card w3-margin w3-padding" style="height:200px;resize: both;overflow:auto">
+        
          {
          let $item := $q:col/id($id)[name() = 'TEI']
          let $log := if(count($item) gt 1) then for $i in $item return util:log('INFO', base-uri($i)) else ()
@@ -2327,6 +2328,10 @@ declare function q:resultslinkstoviews($t, $id, $collection) {
          switch ($t)
                 case 'pers'
                     return item2:RestPersRole($item, $collection)
+                    case 'work'
+                    return (<h4>List of computed witnesses</h4>,item2:witList($item))
+                    case 'mss'
+                    return (<h4>List of related persons</h4>, item2:persList($item))
                 default return ()    
                     }
         </div>

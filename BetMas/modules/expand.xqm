@@ -404,7 +404,11 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
                             <!-- attributes from original bibl-->
                             </seg> else (),
                             $matchingbibl/element(),
-                            expand:tei2fulltei($node/t:citedRange, $bibliography))
+                            expand:tei2fulltei($node/t:citedRange, $bibliography),
+                            if($node/@corresp) then expand:biblCorresp($node/@corresp, $node) else (),
+                            expand:tei2fulltei($node/t:note, $bibliography),
+                            expand:tei2fulltei($node/t:ref, $bibliography)
+                            )
                         }
             case element(t:handNote)
                 return
@@ -719,9 +723,9 @@ declare function expand:file($filepath) {
                                     then $expand:zotero//t:biblStruct[descendant::t:note[@type='tag']=$ptr][1]
                                     else try{doc(concat('https://api.zotero.org/groups/358366/items?tag=',$ptr, '&amp;format=tei'))//t:biblStruct} catch * {console:log($err:description)}
                             return 
-                            <bibl xmlns="http://www.tei-c.org/ns/1.0"
-                                     corresp="{$z/@corresp}" 
-                                     type="{$z/@type}">
+                            <bibl xmlns="http://www.tei-c.org/ns/1.0">
+                                     {if($z/@corresp) then attribute corresp {$z/@corresp} else ()}
+                                     {if($z/@type) then attribute type {$z/@type} else ()}
                             <ptr target="{$ptr}"/>
                             {$z//t:title}
                             {$z//t:author}
@@ -738,4 +742,21 @@ declare function expand:file($filepath) {
         document {
             expand:tei2fulltei($expanded, $zotero)
         }
+};
+
+declare function expand:biblCorrTok($corresp, $node){
+let $c :=if(starts-with($corresp, '#')) then concat($node/ancestor::t:TEI/@xml:id, $corresp) else string($corresp) 
+let $anchor := if(starts-with($corresp, '#')) then substring-after($corresp, '#') else string($corresp)
+let $anchornode := $node/id($anchor)
+let $listWit := if ($anchornode/name() = 'listWit') then for $witness in $anchornode return titles:printTitleID($witness/@corresp) else ()
+let $prefix := if($listWit ge 1) then $listWit else if(string-length($anchornode/name()) ge 1) then ($anchornode/name(), ', ') else ()
+let $lang := if (string-length($anchornode/@xml:lang) ge 1) then concat(' [', $node//t:language[@ident = $anchornode/@xml:lang], ']') else ()
+return 
+($prefix,
+<ref target="/{$c}">{titles:printTitleID($c)}</ref>)
+};
+declare function expand:biblCorresp($corresp, $node){
+<note type='about'>(about: {
+if(contains($corresp, '\s')) then for $corr in tokenize($corresp, '\s') return expand:biblCorrTok($corr, $node) else expand:biblCorrTok($corresp, $node)
+})</note>
 };

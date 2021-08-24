@@ -19,6 +19,36 @@ declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace t="http://www.tei-c.org/ns/1.0";
 
+declare function item2:persList($item){
+(:expects a manuscript item:)
+let $id := $item/@xml:id
+let $persons := $item//t:persName[@role]
+return
+if (count($persons) le 0) then <p>No persons related to this manuscripts are known.</p> else
+ 
+<ul class=" w3-ul w3-hoverable">
+{
+for $pers in $item//t:persName[@role] return
+<li class="nodot">
+<a href="{$pers/@ref}" target="_blank">{string($pers/@role)}: {$pers/text()}</a>
+</li>}
+</ul>
+};
+
+declare function item2:witList($item){
+(:expects a work item:)
+<ul class=" w3-ul w3-hoverable">
+{
+for $wit in $item//t:witness[not(@type)] return
+<li class="nodot" id="{string($wit/@xml:id)}">
+<a href="{$wit/@corresp}" target="_blank">{if($wit/@xml:id) then (<b class="lead">{string($wit/@xml:id)}</b>,':') else ()} {$wit/t:idno/text(), ', ' ,$wit/t:title/text()}</a></li>}
+{
+for $wit in $item//t:witness[@type eq 'external'] return
+<li class="nodot" id="{string($wit/@xml:id)}">
+<a href="{$wit/@facs}" target="_blank">{if($wit/@xml:id) then (<b class="lead">{string($wit/@xml:id)}</b>,':') else ()}  {if($wit/text()) then $wit/text() else string($wit/@corresp)}</a></li>}
+
+</ul>
+};
 (:~ used by item2:restNav:)
 declare function item2:witnesses($id){
 let $item := ($apprest:collection-rootMS, $apprest:collection-rootW)//t:TEI/id($id)
@@ -31,17 +61,7 @@ else
 (<div class="w3-bar-item" id="textWitnesses">
 <h5>Witnesses of the edition</h5>
 </div>,
-<ul class=" w3-bar-item nodot">
-{
-for $wit in $item//t:witness[not(@type)] return
-<li class="nodot" id="{string($wit/@xml:id)}">
-<a href="/manuscripts/{string($wit/@corresp)}/main" target="_blank"><b class="lead">{string($wit/@xml:id)}</b>: {titles:printTitleID(string($wit/@corresp))}</a></li>}
-{
-for $wit in $item//t:witness[@type eq 'external'] return
-<li class="nodot" id="{string($wit/@xml:id)}">
-<a href="{$wit/@facs}" target="_blank"><b class="lead">{string($wit/@xml:id)}</b>: {if($wit/text()) then $wit/text() else string($wit/@corresp)}</a></li>}
-
-</ul>
+item2:witList($item)
        ,
        let $versions := $titles:collection-root//t:relation[@name eq 'saws:isVersionOf'][contains(@passive, $id)]
        return

@@ -2,7 +2,6 @@
     <index xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:t="http://www.tei-c.org/ns/1.0">
         <fulltext default="none" attributes="false"/>
         <create qname="id" type="xs:string"/>
-        
         <lucene diacritics="no">
              <text qname="t:biblStruct"/>
         </lucene>
@@ -12,10 +11,10 @@
                 <field name="t" match="@type" type="xs:string"/>
                 <field name="title" match="//t:title" type="xs:string"/>
                 <field name="author" match="//t:author" type="xs:string"/>
-                <field name="author" match="//t:note[@type='tag']" type="xs:string"/>
+                <field name="tag" match="//t:note[@type='tag']" type="xs:string"/>
             </create>
-           
         </range>
+        
     </index>
     <triggers>
         <trigger class="org.exist.extensions.exquery.restxq.impl.RestXqTrigger"/>
