@@ -727,15 +727,15 @@ declare function expand:file($filepath) {
                                      {if($z/@corresp) then attribute corresp {$z/@corresp} else ()}
                                      {if($z/@type) then attribute type {$z/@type} else ()}
                             <ptr target="{$ptr}"/>
-                            {$z//t:title}
-                            {$z//t:author}
-                            {$z//t:editor}
-                            {$z//t:pubPlace}
-                            {$z//t:publisher}
-                            {$z//t:date}
-                            {$z//t:series}
-                            {$z//t:biblScope}
-                            {$z//t:note}
+                            {for $t in $z//t:title return <title>{$t/@*}{$t/node()}</title>}
+                            {for $a in $z//t:author return <author>{$a/@*}{$a/node()}</author>}
+                            {for $a in $z//t:editor return <editor>{$a/@*}{$a/node()}</editor>}
+                            {for $a in $z//t:pubPlace return <pubPlace>{$a/@*}{$a/node()}</pubPlace>}
+                            {for $a in $z//t:publisher return <publisher>{$a/@*}{$a/node()}</publisher>}
+                            {for $a in $z//t:date return <date>{$a/@*}{$a/node()}</date>}
+                            {for $a in $z//t:series return <series>{$a/@*}{$a/node()}</series>}
+                            {for $a in $z//t:biblScope return <biblScope>{$a/@*}{$a/node()}</biblScope>}
+                            {for $a in $z//t:note return <note>{$a/@*}{$a/node()}</note>}
                             </bibl>
     (:                            let $test := console:log($zotero):)
     return
@@ -753,10 +753,10 @@ let $prefix := if($listWit ge 1) then $listWit else if(string-length($anchornode
 let $lang := if (string-length($anchornode/@xml:lang) ge 1) then concat(' [', $node//t:language[@ident = $anchornode/@xml:lang], ']') else ()
 return 
 ($prefix,
-<ref target="/{$c}">{titles:printTitleID($c)}</ref>)
+<ref xmlns="http://www.tei-c.org/ns/1.0" target="/{$c}">{titles:printTitleID($c)}</ref>)
 };
 declare function expand:biblCorresp($corresp, $node){
-<note type='about'>(about: {
+<note xmlns="http://www.tei-c.org/ns/1.0" type='about'>(about: {
 if(contains($corresp, '\s')) then for $corr in tokenize($corresp, '\s') return expand:biblCorrTok($corr, $node) else expand:biblCorrTok($corresp, $node)
 })</note>
 };

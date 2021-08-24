@@ -878,7 +878,6 @@ declare function apprest:ItemFooterScript(){
 <script type="text/javascript" src="resources/js/ugarit.js"/>,
 <script type="text/javascript" src="resources/js/highlight.js"/>,
         <script type="text/javascript" src="resources/js/titles.js"/>,
-        <script type="text/javascript" src="resources/js/NewBiblio.js"/>,
         <script type="text/javascript" src="resources/js/PointsHere.js"/>,
         <script type="text/javascript" src="resources/js/resp.js"/>,
         <script type="text/javascript" src="resources/js/relatedItems.js"/>,

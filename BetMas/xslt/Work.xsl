@@ -314,19 +314,16 @@
                 </div>
             </xsl:if>
             <xsl:if test="//t:publicationStmt">
-                <div class="col-md-12" id="publicationStmt">
-                    <h2>Publication Statement</h2>
-                    <xsl:apply-templates select="//t:publicationStmt"/>
-                </div>
+               <xsl:apply-templates select="//t:publicationStmt"/>
             </xsl:if>
             <xsl:if test="//t:encodingDesc">
-                <div class="col-md-12" id="encodingDesc">
+                <div class="w3-container" id="encodingDesc">
                     <h2>Encoding Description</h2>
-                    <xsl:apply-templates select="//t:encodingDesc"/>
+                    <xsl:apply-templates select="//t:encodingDesc/node()[not(self::t:classDecl)]"/>
                 </div>
             </xsl:if>
             <xsl:if test="//t:editionStmt">
-                <div class="col-md-12" id="editionStmt">
+                <div class="w3-container" id="editionStmt">
                     <h2>Edition Statement</h2>
                     <xsl:apply-templates select="//t:editionStmt"/>
                 </div>
@@ -335,7 +332,7 @@
                 <a class="w3-button w3-gray w3-large" target="_blank" href="{concat('http://voyant-tools.org/?input=https://betamasaheft.eu/works/',string(t:TEI/@xml:id),'.xml')}">Voyant</a>
             </xsl:if>
             <button class="w3-button w3-red w3-large" id="showattestations" data-value="work" data-id="{string(t:TEI/@xml:id)}">Show attestations</button>
-            <div id="allattestations" class="col-md-12"/>
+            <div id="allattestations" class="w3-container"/>
             <!--<xsl:if test="//t:body[t:div[@type='edition'][t:ab or t:div[@type='textpart']]]">
                 <div class="row-fluid well" id="textpartslist">
                     <h4>Text Parts</h4>
