@@ -13,6 +13,7 @@ import module namespace wiki="https://www.betamasaheft.uni-hamburg.de/BetMas/wik
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
 import module namespace exptit="https://www.betamasaheft.uni-hamburg.de/BetMas/exptit" at "xmldb:exist:///db/apps/BetMas/modules/exptit.xqm";
 import module namespace apptable="https://www.betamasaheft.uni-hamburg.de/BetMas/apptable" at "xmldb:exist:///db/apps/BetMas/modules/apptable.xqm";
+import module namespace viewItem = "https://www.betamasaheft.uni-hamburg.de/BetMas/viewItem" at "xmldb:exist:///db/apps/BetMas/modules/viewItem.xqm";
 import module namespace xdb="http://exist-db.org/xquery/xmldb";
 import module namespace locus = "https://www.betamasaheft.uni-hamburg.de/BetMas/locus" at "xmldb:exist:///db/apps/BetMas/modules/locus.xqm";
 declare namespace test="http://exist-db.org/xquery/xqsuite";
@@ -1322,6 +1323,7 @@ let $transformation := try{transform:transform($document,$xslt,$parameters)} cat
   return
    
        <div class="w3-container " resource="http://betamasaheft.eu/{$id}" >
+       {viewItem:main($document)}
 {if($transformation/error) then 
     <p>Sorry, an error happened and we could not transform the file you want to look at at the moment.</p>
     else $transformation 

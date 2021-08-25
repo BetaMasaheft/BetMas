@@ -351,6 +351,8 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
                         ($node/@*[not(name() = 'ref')][not(name() = 'corresp')],
                         if ($node/@ref) then
                             expand:reflike($node/@ref)
+                        else if ($node/@corresp) then
+                            expand:reflike($node/@corresp)
                         else
                             (),
                         if ($node/@ref and not($node/text())) then
