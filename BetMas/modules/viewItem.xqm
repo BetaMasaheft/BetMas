@@ -4,8 +4,10 @@ module namespace viewItem = "https://www.betamasaheft.uni-hamburg.de/BetMas/view
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace exptit="https://www.betamasaheft.uni-hamburg.de/BetMas/exptit" at "xmldb:exist:///db/apps/BetMas/modules/exptit.xqm";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
-
+declare namespace b = "betmas.biblio";
 declare variable $viewItem:coll := collection('/db/apps/expanded') ;
+
+declare variable $viewItem:bibliography := doc('/db/apps/BetMas/lists/bibliography.xml') ;
 
 declare function viewItem:VisColl($collation){
 let $xslt := 'xmldb:exist:///db/apps/BetMas/xslt/collationAlone.xsl'
@@ -188,9 +190,43 @@ declare function viewItem:TEI2HTML($nodes) {
              case element(t:titleStmt)
                 return
                 ()
+                case element(t:listbibl)
+                return
+                (
+(:                template to be completed :)
+                <h4>Bibliography</h4>,
+                <ul class="bibliographyList">
+                {viewItem:TEI2HTML($node/node())}
+                </ul>
+                )
+                case element(t:bibl)
+                return
+                let $t:= $node/t:ptr/@target return
+                if($node/parent::t:listBibl) then 
+                 (<li class="bibliographyItem"><div class="w3-row">
+            <div class="w3-col" style="width:85%">
+                <span class="Zotero Zotero-full" data-value="{$t}" data-type="{$node/t:seg/@type}"> 
+                {$viewItem:bibliography//b:entry[@id=$t]/b:reference/node()}
+                
+a about, note, cited range, etc.
+                
+                </span>
+              <span class="w3-bar-block w3-hide-small w3-hide-medium">
+            <a class="w3-bar-item w3-button w3-tiny" href="https://api.zotero.org/groups/358366/items?&amp;tag={$t}&amp;format=bib&amp;locale=en-GB&amp;style=hiob-ludolf-centre-for-ethiopian-studies">HLZ CSL style</a>
+            <a class="w3-bar-item w3-button w3-tiny" target="_blank" href="https://www.zotero.org/groups/358366/ethiostudies/tags/{$t}/library">Zotero</a>
+            <a class="w3-bar-item w3-button w3-tiny" href="/bibliography?pointer={$t}">Other citations</a>
+       
+        </span>
+        </div>
+        </div><hr/></li>)
+        else $viewItem:bibliography//b:entry[@id=$t]/b:citation/node()
                 case element(t:relation)
                 return
-                ()
+              (<a href="{$node/@active}">{exptit:printTitle($node/@active)}</a>, 
+              <a href="{$node//@ref}"> <code>{string($node/@name)}</code> </a>, 
+              <a href="{$node/@passive}">{exptit:printTitle($node/@passive)}</a>,
+              viewItem:TEI2HTML($node/t:desc)
+              )
             case element(t:collation)
                 return
                     viewItem:VisColl($node)
@@ -256,15 +292,25 @@ return
                      (<h2>General description</h2>,
                      viewItem:TEI2HTML($item//t:abstract),
                      <p>
-                    {let $notFormrly := $rels[not(@name= 'betmas:formerlyAlsoListedAs')]
+                    {let $notFormrly := $rels[not(@name= 'betmas:formerlyAlsoListedAs')][not(@name= 'betmas:isAuthorOfEthiopicTranslation')][@name='saws:isAttributedToAuthor'][@name='dc:creator']
                     return if(count($notFormrly) ge 1) then
                     ('See ',
                     for $r in $notFormrly
                     return viewItem:TEI2HTML($r)
                     )
                     else ()} 
-                     </p>)
+                     </p>,
+                     <p class="w3-tiny">For a table of all relations from and to this record, 
+                    please go to the <a class="w3-tag w3-gray" href="/works/{$id}/analytic">Relations</a> view. 
+                    In the Relations boxes on the right of this page, you can also find all available relations grouped by name.
+                    </p>)
                  else ()  }
+                 {<div id="bibliography">
+                <h4>Bibliography</h4>
+                <ul class="bibliographyList">
+{viewItem:TEI2HTML($item//t:listBibl[not(@type='clavis')])}
+</ul>
+                </div>}
             </div>
             </div>
 };
