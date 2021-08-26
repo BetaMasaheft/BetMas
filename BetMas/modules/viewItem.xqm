@@ -9,9 +9,10 @@ declare variable $viewItem:coll := collection('/db/apps/expanded');
 
 declare variable $viewItem:bibliography := doc('/db/apps/BetMas/lists/bibliography.xml');
 declare variable $viewItem:domlib := doc('/db/apps/BetMas/lists/domlib.xml');
+declare variable $viewItem:editors := doc('/db/apps/BetMas/lists/editors.xml')//t:list;
 
 
-declare function viewItem:VisColl($collation) {
+declare %private function viewItem:VisColl($collation) {
     let $xslt := 'xmldb:exist:///db/apps/BetMas/xslt/collationAlone.xsl'
     let $parameters := doc('/db/apps/BetMas/xslt/params.xml')
     let $transformation := try {
@@ -26,7 +27,7 @@ declare function viewItem:VisColl($collation) {
             $transformation
 };
 
-declare function viewItem:date($date) {
+declare %private function viewItem:date($date) {
     if (matches($date, '\d{4}-\d{2}-\d{2}')) then
         format-date(xs:date($date), '[D]-[M]-[Y0001]', 'en', 'AD', ())
     else
@@ -77,7 +78,7 @@ declare function viewItem:date($date) {
         format-number($date, '####')
 };
 
-declare function viewItem:notBnotA($element) {
+declare %private function viewItem:notBnotA($element) {
     let $prefix := if (not($element/@notBefore)) then
         'Before '
     else
@@ -101,7 +102,7 @@ declare function viewItem:notBnotA($element) {
         $prefix || $nB || $minus || $nA
 };
 
-declare function viewItem:datepicker($element) {
+declare %private function viewItem:datepicker($element) {
     (if ($element/@notBefore or $element/@notAfter) then
         viewItem:notBnotA($element)
     else
@@ -113,14 +114,14 @@ declare function viewItem:datepicker($element) {
         ()
     )
 };
-declare function viewItem:sup($t) {
+declare %private function viewItem:sup($t) {
     if ($t/@xml:lang) then
         <sup>{string($t/@xml:lang)}</sup>
     else
         ()
 };
 
-declare function viewItem:correspTit($t, $id) {
+declare %private function viewItem:correspTit($t, $id) {
     let $cors := $t/parent::t:titleStmt/t:title[substring-after(@corresp, '#') = $id]
     let $count := count($cors)
     for $corresp at $p in $cors
@@ -132,7 +133,7 @@ declare function viewItem:correspTit($t, $id) {
             ', ')
 };
 
-declare function viewItem:worktitle($t) {
+declare %private function viewItem:worktitle($t) {
     let $log := util:log('INFO', $t)
     let $id := string($t/@xml:id)
     
@@ -163,14 +164,14 @@ declare function viewItem:worktitle($t) {
 
 
 
-declare function viewItem:makeSequence($attribute) {
+declare %private function viewItem:makeSequence($attribute) {
     if (contains($attribute, ' ')) then
         tokenize($attribute, ' ')
     else
         string($attribute)
 };
 
-declare function viewItem:workAuthorList($parentname, $p, $a) {
+declare %private function viewItem:workAuthorList($parentname, $p, $a) {
     ($parentname,
     <a
         href="{$p}"
@@ -199,21 +200,21 @@ declare function viewItem:workAuthorList($parentname, $p, $a) {
     )
 };
 
-declare function viewItem:URI2ID($string) {
+declare %private function viewItem:URI2ID($string) {
     if (starts-with($string, $config:appUrl)) then
         substring-after($string, ($config:appUrl || '/'))
     else
         $string
 };
 
-declare function viewItem:ID2URI($string) {
+declare %private function viewItem:ID2URI($string) {
     if (starts-with($string, $config:appUrl)) then
         $string
     else
         $config:appUrl || '/' || $string
 };
 
-declare function viewItem:workAuthLi($a, $aorp) {
+declare %private function viewItem:workAuthLi($a, $aorp) {
     let $parentname := viewItem:parentLink($a)
     let $att := if ($aorp = 'a') then
         $a/@active
@@ -226,7 +227,7 @@ declare function viewItem:workAuthLi($a, $aorp) {
             <li>{viewItem:workAuthorList($parentname, $p, $a)}</li>
 };
 
-declare function viewItem:parentLink($node) {
+declare %private function viewItem:parentLink($node) {
     if ($node/ancestor::t:div[@xml:id]) then
         let $href := '/text/' || string($node/ancestor::t:TEI/@xml:id) || '#' || string($node/ancestor::t:div[@xml:id][1]/@xml:id)
         return
@@ -240,7 +241,7 @@ declare function viewItem:parentLink($node) {
         ()
 };
 
-declare function viewItem:headercontext($node) {
+declare %private function viewItem:headercontext($node) {
     if ($node/ancestor::t:msPart[1]) then
         (' of codicological unit ',
         <a
@@ -285,12 +286,12 @@ declare function viewItem:headercontext($node) {
         ()
 };
 
-declare function viewItem:biblioHeader($listBibl) {
+declare %private function viewItem:biblioHeader($listBibl) {
     concat(concat(upper-case(substring($listBibl/@type, 1, 1)), substring($listBibl/@type, 2), ' '[not(last())]), ' Bibliography'),
     viewItem:headercontext($listBibl)
 };
 
-declare function viewItem:bibliographyHeader($listBibl) {
+declare %private function viewItem:bibliographyHeader($listBibl) {
     if ($listBibl/ancestor::t:note) then
         viewItem:TEI2HTML($listBibl)
     else
@@ -305,7 +306,7 @@ declare function viewItem:bibliographyHeader($listBibl) {
                 }{viewItem:biblioHeader($listBibl)}</h4>
 };
 
-declare function viewItem:bibl($node, $t) {
+declare %private function viewItem:bibl($node, $t) {
     <div
         class="w3-row">
         <div
@@ -327,10 +328,11 @@ declare function viewItem:bibl($node, $t) {
                 {viewItem:TEI2HTML($node/t:ref[@target])}
                 {viewItem:TEI2HTML($node/t:note[not(@type)])}
             </span>
-            
+        
         </div>
-        <div class="w3-rest">
-        <span
+        <div
+            class="w3-rest">
+            <span
                 class="w3-bar-block w3-hide-small w3-hide-medium">
                 <a
                     class="w3-bar-item w3-button w3-tiny"
@@ -341,11 +343,11 @@ declare function viewItem:bibl($node, $t) {
                     href="/bibliography?pointer={$t}">Other citations</a>
             
             </span>
-            </div>
+        </div>
     </div>
 };
 
-declare function viewItem:bibliographyitem($node) {
+declare %private function viewItem:bibliographyitem($node) {
     if ($node[not(@corresp) and not(t:ptr[@target])]) then
         <b
             style="color:red;">THIS BIBLIOGRAPHIC RECORD ({$node}) has no @corresp or t:ptr/@target. Please check the
@@ -384,7 +386,7 @@ declare function viewItem:bibliographyitem($node) {
 
 };
 
-declare function viewItem:EthioSpareFormatter($node) {
+declare %private function viewItem:EthioSpareFormatter($node) {
     let $t := $node/t:ptr/@target
     let $TEI := $node/ancestor::t:TEI
     let $BMsignature := $TEI//t:idno[preceding-sibling::t:collection[. = 'Ethio-SPaRe']]
@@ -409,7 +411,7 @@ declare function viewItem:EthioSpareFormatter($node) {
             (digitized by the Ethio-SPaRe project), {$title}, {$date}, catalogued by {$cataloguer} In {$viewItem:bibliography//b:entry[@id = $t]/b:reference/node()}</a>
 };
 
-declare function viewItem:relation($node) {
+declare %private function viewItem:relation($node) {
     (<a
         href="{$node/@active}">{exptit:printTitle($node/@active)}</a>,
     <a
@@ -422,24 +424,103 @@ declare function viewItem:relation($node) {
     )
 };
 
-declare function viewItem:publicationStmt($node) {
-<div class="w3-container" id="publicationStmt">
-            <h2>Publication Statement</h2>
-            {for $n in $node/node() return
-                <div class="w3-row">
-                    <div class="w3-col" style="width:20%;">{$n/name()}</div>                            
-                    <div class="w3-col" style="width:20%;">{for $att in $n/@* return $att/name() || '=' || $att/data()}</div>
-                    <div class="w3-rest">{viewItem:TEI2HTML($n)}</div>
+declare %private function viewItem:publicationStmt($node) {
+    <div
+        class="w3-container"
+        id="publicationStmt">
+        <h2>Publication Statement</h2>
+        {
+            for $n in $node/node()
+            return
+                <div
+                    class="w3-row">
+                    <div
+                        class="w3-col"
+                        style="width:20%;">{$n/name()}</div>
+                    <div
+                        class="w3-col"
+                        style="width:20%;">{
+                            for $att in $n/@*
+                            return
+                                $att/name() || '=' || $att/data()
+                        }</div>
+                    <div
+                        class="w3-rest">{viewItem:TEI2HTML($n)}</div>
                 </div>
-                }
-</div>
+        }
+    </div>
 };
 
-declare function viewItem:ref($ref){
-<a href="{$ref/@target}">{$ref/text()}</a>
+declare %private function viewItem:ref($ref) {
+    <a
+        href="{$ref/@target}">{$ref/text()}</a>
 };
 
-declare function viewItem:TEI2HTML($nodes) {
+declare %private function viewItem:certainty($certainty) {
+    let $match := util:eval(concat('$certainty/', $certainty/@match))/name()
+    let $resp := $viewItem:editors//t:item[@xml:id = $certainty/@resp]/text()
+    let $statement := if ($certainty[@cert and not(@resp) and not(@assertedValue)])
+    then
+        concat(' is ', $certainty/@cert, '.')
+    else
+        if ($certainty[@resp and @assertedValue])
+        then
+            concat(' is ', $certainty/@assertedValue, ' according to ', $resp)
+        else
+            if ($certainty[not(@resp) and @assertedValue])
+            then
+                concat(' is low. It might alternatively be ', $certainty/@assertedValue, '.')
+            else
+                if ($certainty[@resp and not(@assertedValue)])
+                then
+                    concat(' is low according to ', $resp)
+                else
+                    ' is not set.'
+    let $desc := if ($certainty/t:desc) then
+        (': ', viewItem:TEI2HTML($certainty/t:desc))
+    else
+        ()
+    return
+        <span
+            class="w3-tooltip">
+            <sup>[!]</sup>
+            <span
+                class="w3-text">The certainty about the {string($certainty/@locus)} of {$match}
+                {$statement}{$desc}</span>
+        </span>
+};
+
+declare %private function viewItem:footnoteptr($node){
+let $target := $node/@target
+                 let $t := substring-after($node/@target, '#')
+                 let $note := $node/ancestor::t:TEI//t:note[@xml:id = $t]
+                 return
+              <sup>
+            <a href="{$node/@target}" id="pointer{$t}">
+                {string($note/@n)}
+            </a>
+        </sup>
+        };
+        
+declare %private function viewItem:footnote($node){
+<dl style="font-size:smaller;">
+        {let $t := substring-after($node/@xml:id, '#')
+        return
+        (<dt>
+                <i>
+                    <a href="#pointer{$t}" id="{$node/@xml:id}">
+                        {string($node/@n)})
+                    </a>
+                </i>
+            </dt>,
+            <dd>
+                {viewItem:TEI2HTML($node/node())}
+            </dd>)
+            }
+        </dl>
+        };
+        
+declare %private function viewItem:TEI2HTML($nodes) {
     for $node in $nodes
     return
         typeswitch ($node)
@@ -447,15 +528,20 @@ declare function viewItem:TEI2HTML($nodes) {
             case comment()
                 return
                     ()
-            case element(t:TEI)
+                    (:                    decides what to do for each named element, ordered alphabetically:)
+            case element(t:bibl)
                 return
-                    ()
-            case element(t:titleStmt)
+                    viewItem:bibliographyitem($node)
+            case element(t:certainty)
                 return
-                    ()
+                    viewItem:certainty($node)
+            
             case element(t:classDecl)
                 return
                     ()
+            case element(t:collation)
+                return
+                    viewItem:VisColl($node)
             case element(t:listbibl)
                 return
                     (
@@ -465,19 +551,36 @@ declare function viewItem:TEI2HTML($nodes) {
                         {viewItem:TEI2HTML($node/node())}
                     </ul>
                     )
-            case element(t:bibl)
-                return
-                    viewItem:bibliographyitem($node)
+            case element(t:note)  
+                 return 
+                 if($node[@xml:id][@n]) then
+                 viewItem:footnote($node)
+                 else viewItem:TEI2HTML($node/node())
+          case element(t:ptr)  
+                 return 
+                 if($node[starts-with(@target, '#')]) then
+                 viewItem:footnoteptr($node)
+                  else viewItem:TEI2HTML($node/node())
             case element(t:relation)
                 return
                     viewItem:relation($node)
             case element(t:ref)
                 return
                     viewItem:ref($node)
-                    
-            case element(t:collation)
+            case element(t:seg)
                 return
-                    viewItem:VisColl($node)
+                    if ($node/@ana) then
+                        <span
+                            class="{substring-after($node/@ana, '#')}">
+                            {viewItem:TEI2HTML($node/node())}
+                        </span>
+                    else
+                        viewItem:TEI2HTML($node/node())
+                         case element(t:term)
+                return
+                if($node/text()) then <b>{viewItem:TEI2HTML($node/node())}</b> else
+                    viewItem:TEI2HTML($node/node())
+(:                        default passthrough for elments not specified:)
             case element()
                 return
                     viewItem:TEI2HTML($node/node())
@@ -486,7 +589,7 @@ declare function viewItem:TEI2HTML($nodes) {
                     $node
 };
 
-declare function viewItem:work($item) {
+declare %private function viewItem:work($item) {
     let $id := string($item/@xml:id)
     let $uri := viewItem:ID2URI($id)
     let $relsP := $viewItem:coll//t:relation[@passive = $uri]
@@ -698,31 +801,49 @@ declare function viewItem:work($item) {
                     id="allattestations"
                     class="w3-container"/>
             </div>
+            <div
+                class="w3-hide">
+                {
+                    for $r in distinct-values($item//@resp)
+                    return
+                        <span
+                            id="{$r}Name">
+                            {$viewItem:editors//t:item[@xml:id = $r]/text()}
+                        </span>
+                }
+            </div>
         </div>
 };
-declare function viewItem:narrative($item) {
+declare %private function viewItem:narrative($item) {
+    (:replaces nar.xsl :)
     $item
 };
-declare function viewItem:person($item) {
+declare %private function viewItem:person($item) {
+    (:replaces Person.xsl :)
     $item
 };
-declare function viewItem:place($item) {
+declare %private function viewItem:place($item) {
+    (:replaces placesInstit.xsl :)
     $item
 };
-declare function viewItem:repo($item) {
+declare %private function viewItem:repo($item) {
+    (:replaces placesInstit.xsl :)
     $item
 };
-declare function viewItem:auth($item) {
+declare %private function viewItem:auth($item) {
+    (:replaces auth.xsl :)
     $item
 };
-declare function viewItem:corpus($item) {
+declare %private function viewItem:corpus($item) {
     $item
 };
-declare function viewItem:manuscript($item) {
+declare %private function viewItem:manuscript($item) {
+    (:replaces mss.xsl :)
     $item
 };
 
 declare function viewItem:main($item) {
+    (:replaces the switch in items.xql, redirecting to distinct xslts :)
     let $type := $item/@type
     return
         switch ($type)
@@ -749,4 +870,66 @@ declare function viewItem:main($item) {
                     viewItem:manuscript($item)
             default return
                 viewItem:corpus($item)
+};
+
+declare function viewItem:relations($rels) {
+    (:replaces relation.xsl:)
+    viewItem:TEI2HTML($rels)
+};
+
+declare function viewItem:documents($doc) {
+    (:replaces documents.xsl:)
+    (<div
+        class="w3-container">
+        <div
+            class="w3-twothird w3-padding w3-card-4">
+            <div
+                class="w3-row w3-padding w3-margin-bottom w3-red">
+                {viewItem:TEI2HTML($doc//t:note[@type = 'résumé'])}
+                <span
+                    class="w3-tag w3-gray">
+                    {viewItem:TEI2HTML($doc//t:date)}
+                </span>
+            </div>
+            <div
+                class="w3-row w3-margin-bottom">
+                <div
+                    class="w3-half w3-padding"
+                    lang="gez">
+                    {viewItem:TEI2HTML($doc//t:q[@xml:lang = 'gez'])}
+                </div>
+                <div
+                    class="w3-half w3-padding">
+                    {viewItem:TEI2HTML($doc//t:q[not(@xml:lang = 'gez')])}
+                </div>
+                <div
+                    class="footnotes">
+                    {viewItem:TEI2HTML($doc//t:note[@n][@xml:id])}
+                </div>
+            </div>
+        </div>
+        <div
+            class="w3-third w3-padding w3-card-4 w3-gray">
+            {viewItem:TEI2HTML($doc//t:note[not(@n)][not(@xml:id)][not(@type = 'résumé')])}
+            {viewItem:TEI2HTML($doc//t:listBibl)}
+        </div>
+    
+    </div>,
+    <hr/>)
+};
+
+declare function viewItem:q($q) {
+    (:replaces q.xsl:)
+    <div
+        class="w3-container w3-gray">
+        {viewItem:TEI2HTML($q)}
+    </div>
+    ,
+    for $n in $q//t:note
+    return
+        <div
+            class="w3-container">
+            {viewItem:TEI2HTML($n)}
+        </div>
+    
 };

@@ -21,6 +21,7 @@ import module namespace xdb="http://exist-db.org/xquery/xmldb";
 import module namespace kwic = "http://exist-db.org/xquery/kwic" at "resource:org/exist/xquery/lib/kwic.xql";
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
 import module namespace dtsc="https://www.betamasaheft.uni-hamburg.de/BetMas/dtsc" at "xmldb:exist:///db/apps/BetMas/modules/dtsclient.xqm";
+import module namespace viewItem = "https://www.betamasaheft.uni-hamburg.de/BetMas/viewItem" at "xmldb:exist:///db/apps/BetMas/modules/viewItem.xqm";
 (: For interacting with the TEI document :)
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace dcterms = "http://purl.org/dc/terms";
@@ -387,14 +388,7 @@ return
     ({string:additionstitles($doc/t:locus)})
      
      </div>,
-<div class="w3-rest">{
-transform:transform(
-        $doc,
-
-        'xmldb:exist:///db/apps/BetMas/xslt/documents.xsl'
-        ,
-        ()
-    )}</div>
+<div class="w3-rest">{viewItem:documents($doc)}</div>
     )
 }
 </div>

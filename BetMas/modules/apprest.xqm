@@ -25,6 +25,7 @@ import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/c
 import module namespace charts = "https://www.betamasaheft.uni-hamburg.de/BetMas/charts" at "xmldb:exist:///db/apps/BetMas/modules/charts.xqm";
 import module namespace console = "http://exist-db.org/xquery/console"; 
 import module namespace exreq = "http://exquery.org/ns/request";
+import module namespace viewItem = "https://www.betamasaheft.uni-hamburg.de/BetMas/viewItem" at "xmldb:exist:///db/apps/BetMas/modules/viewItem.xqm";
 import module namespace locus = "https://www.betamasaheft.uni-hamburg.de/BetMas/locus" at "xmldb:exist:///db/apps/BetMas/modules/locus.xqm";
 
 declare variable $apprest:languages := doc('/db/apps/BetMas/lists/languages.xml');
@@ -373,7 +374,7 @@ apprest:deciderelation($list//id)
                                         </td>
                                         <td>
 {     if($relation/t:desc)   then                                    
-transform:transform($relation/t:desc, 'xmldb:exist:///db/apps/BetMas/xslt/relation.xsl',())
+viewItem:relations($relation/t:desc)
 else ()
 }
                                         </td>

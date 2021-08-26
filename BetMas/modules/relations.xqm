@@ -9,7 +9,7 @@ module namespace rels="https://www.betamasaheft.uni-hamburg.de/BetMas/rels";
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
 import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "xmldb:exist:///db/apps/BetMas/modules/apprest.xqm";
-
+import module namespace viewItem = "https://www.betamasaheft.uni-hamburg.de/BetMas/viewItem" at "xmldb:exist:///db/apps/BetMas/modules/viewItem.xqm";
 
 declare namespace http = "http://expath.org/ns/http-client";
 declare namespace t="http://www.tei-c.org/ns/1.0";
@@ -482,7 +482,7 @@ return
                                            
                                         </th>
                                         <th>
-{                                            transform:transform($relation/t:desc, 'xmldb:exist:///db/apps/BetMas/xslt/relation.xsl',())
+{                                           viewItem:relations($relation/t:desc)
 
 }
                                         </th>
