@@ -276,6 +276,14 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
                                 </respStmt>
                         }
                     </titleStmt>
+            case element(t:revisionDesc)
+            return 
+            element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
+                        expand:tei2fulltei($node/node(), $bibliography)
+                    }
+           case element(t:change)
+            return
+            <change xmlns="http://www.tei-c.org/ns/1.0" who="#{$node/@who}" when="{$node/@when}">{let $resp := $node/@who return $expand:editorslist//t:item[@xml:id = $resp]/text()}: {$node/text()}</change>
             case element(t:profileDesc)
                 return
                     <profileDesc
@@ -602,7 +610,7 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
                     try{element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
                         ($node/@*,
                         expand:tei2fulltei($node/node(), $bibliography))
-                    }} catch * {console:log($err:description), console:log($node)}
+                    }} catch * {util:log('INFO', $err:description), util:log('INFO', $node)}
                     (:                    anything which is not a node of those named above, including text() and attributes:)
             default
                 return
