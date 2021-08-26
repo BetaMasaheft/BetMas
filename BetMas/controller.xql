@@ -395,8 +395,13 @@ else if (starts-with($exist:path, "/")) then
                                             
                                             </error-handler>
                                         </dispatch>
-
-                                        
+else if ($exist:path = '/Fricke.html') then 
+<dispatch
+                                                        xmlns="http://exist.sourceforge.net/NS/exist">
+                                                        <redirect
+                                                            url="/privateCollections.html"/>
+                                                    </dispatch>
+                                         
 (:                                        redirects uris of subpart URI like
 https://betamasaheft.eu/BDLaethe8/addition/a1
 to the actual homepage with a # to their id
