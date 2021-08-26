@@ -490,36 +490,42 @@ declare %private function viewItem:certainty($certainty) {
         </span>
 };
 
-declare %private function viewItem:footnoteptr($node){
-let $target := $node/@target
-                 let $t := substring-after($node/@target, '#')
-                 let $note := $node/ancestor::t:TEI//t:note[@xml:id = $t]
-                 return
-              <sup>
-            <a href="{$node/@target}" id="pointer{$t}">
+declare %private function viewItem:footnoteptr($node) {
+    let $target := $node/@target
+    let $t := substring-after($node/@target, '#')
+    let $note := $node/ancestor::t:TEI//t:note[@xml:id = $t]
+    return
+        <sup>
+            <a
+                href="{$node/@target}"
+                id="pointer{$t}">
                 {string($note/@n)}
             </a>
         </sup>
-        };
-        
-declare %private function viewItem:footnote($node){
-<dl style="font-size:smaller;">
-        {let $t := substring-after($node/@xml:id, '#')
-        return
-        (<dt>
-                <i>
-                    <a href="#pointer{$t}" id="{$node/@xml:id}">
-                        {string($node/@n)})
-                    </a>
-                </i>
-            </dt>,
-            <dd>
-                {viewItem:TEI2HTML($node/node())}
-            </dd>)
-            }
-        </dl>
-        };
-        
+};
+
+declare %private function viewItem:footnote($node) {
+    <dl
+        style="font-size:smaller;">
+        {
+            let $t := substring-after($node/@xml:id, '#')
+            return
+                (<dt>
+                    <i>
+                        <a
+                            href="#pointer{$t}"
+                            id="{$node/@xml:id}">
+                            {string($node/@n)})
+                        </a>
+                    </i>
+                </dt>,
+                <dd>
+                    {viewItem:TEI2HTML($node/node())}
+                </dd>)
+        }
+    </dl>
+};
+
 declare %private function viewItem:TEI2HTML($nodes) {
     for $node in $nodes
     return
@@ -551,16 +557,18 @@ declare %private function viewItem:TEI2HTML($nodes) {
                         {viewItem:TEI2HTML($node/node())}
                     </ul>
                     )
-            case element(t:note)  
-                 return 
-                 if($node[@xml:id][@n]) then
-                 viewItem:footnote($node)
-                 else viewItem:TEI2HTML($node/node())
-          case element(t:ptr)  
-                 return 
-                 if($node[starts-with(@target, '#')]) then
-                 viewItem:footnoteptr($node)
-                  else viewItem:TEI2HTML($node/node())
+            case element(t:note)
+                return
+                    if ($node[@xml:id][@n]) then
+                        viewItem:footnote($node)
+                    else
+                        viewItem:TEI2HTML($node/node())
+            case element(t:ptr)
+                return
+                    if ($node[starts-with(@target, '#')]) then
+                        viewItem:footnoteptr($node)
+                    else
+                        viewItem:TEI2HTML($node/node())
             case element(t:relation)
                 return
                     viewItem:relation($node)
@@ -576,11 +584,13 @@ declare %private function viewItem:TEI2HTML($nodes) {
                         </span>
                     else
                         viewItem:TEI2HTML($node/node())
-                         case element(t:term)
+            case element(t:term)
                 return
-                if($node/text()) then <b>{viewItem:TEI2HTML($node/node())}</b> else
-                    viewItem:TEI2HTML($node/node())
-(:                        default passthrough for elments not specified:)
+                    if ($node/text()) then
+                        <b>{viewItem:TEI2HTML($node/node())}</b>
+                    else
+                        viewItem:TEI2HTML($node/node())
+                        (:                        default passthrough for elments not specified:)
             case element()
                 return
                     viewItem:TEI2HTML($node/node())
@@ -936,101 +946,349 @@ declare function viewItem:q($q) {
 
 declare function viewItem:dates($date) {
     (:replaces dates.xsl expects origDate, floruit, death or birth returns a string:)
-   let $dates := if($date/@when) then string($date/@when) 
-    else if($date/(@from|@to)) then 
-           if($date/@from and $date/@to) then ( viewItem:date($date/@from) || '-' || viewItem:date($date/@to) )
-           else if ($date/@from and not($date/@to)) then ( 'Before ' || viewItem:date($date/@to))
-           else if (not($date/@from) and $date/@to) then ( 'After ' || viewItem:date($date/@from))
-           else ()
-    else if ($date/(@notBefore|@notAfter)) then 
-             if($date/@notBefore and $date/@notAfter) then ( viewItem:date($date/@notBefore) || '-' || viewItem:date($date/@notAfter) )
-              else if ($date/@notAfter and not($date/@notBefore)) then ( 'Before ' || viewItem:date($date/@notAfter))
-           else if (not($date/@notAfter) and $date/@notBefore) then ( 'After ' || viewItem:date($date/@notBefore))
-           else ()
-    else ()
-    let $evidence := if($date/@evidence) then concat(' (',$date/@evidence,')') else ()
-    let $cert := if($date/@cert = 'low') then '?' else ()
-    return ($dates, $evidence, $cert, viewItem:TEI2HTML($date/node()))
+    let $dates := if ($date/@when) then
+        string($date/@when)
+    else
+        if ($date/(@from | @to)) then
+            if ($date/@from and $date/@to) then
+                (viewItem:date($date/@from) || '-' || viewItem:date($date/@to))
+            else
+                if ($date/@from and not($date/@to)) then
+                    ('Before ' || viewItem:date($date/@to))
+                else
+                    if (not($date/@from) and $date/@to) then
+                        ('After ' || viewItem:date($date/@from))
+                    else
+                        ()
+        else
+            if ($date/(@notBefore | @notAfter)) then
+                if ($date/@notBefore and $date/@notAfter) then
+                    (viewItem:date($date/@notBefore) || '-' || viewItem:date($date/@notAfter))
+                else
+                    if ($date/@notAfter and not($date/@notBefore)) then
+                        ('Before ' || viewItem:date($date/@notAfter))
+                    else
+                        if (not($date/@notAfter) and $date/@notBefore) then
+                            ('After ' || viewItem:date($date/@notBefore))
+                        else
+                            ()
+            else
+                ()
+    let $evidence := if ($date/@evidence) then
+        concat(' (', $date/@evidence, ')')
+    else
+        ()
+    let $cert := if ($date/@cert = 'low') then
+        '?'
+    else
+        ()
+    return
+        ($dates, $evidence, $cert, viewItem:TEI2HTML($date/node()))
 };
 
 
-declare function viewItem:textfragment($frag){
-<div>
-                <div id="transcription">
-                {if($frag/[not(t:div)]) then attribute class {'w3-container chapterText'} else ()}
-                    {viewItem:TEI2HTML($frag)}
-                    <div class="w3-modal" id="textHelp">
-                        <div class="w3-modal-content">
-                            <header class="w3-container w3-red">
-                                <h2>Text visualization help</h2>
-                                <span class="w3-button w3-display-topright" onclick="document.getElementById('textHelp').style.display='none'">
-                                    <i class="fa fa-times"/>
-                                </span>
-                            </header>
-                            <div class="w3-container w3-margin">
-                                Page breaks are indicated with a line and the number of the page break.
-                                Column breaks are indicated with a pipe (|) followed by the name of the column.
-                                <p>In the text navigation bar:</p>
-                                <ul class="nodot">
-                                    <li>References are relative to the current level of the view. If you want to see further navigation levels, please click the arrow to open in another page.</li>
-                                    <li>Each reference available for the current view can be clicked to scroll to that point. alternatively you can view the section clicking on the arrow.</li>
-                                    <li>Using an hyphen between references, like LIT3122Galaw.1-2 you can get a view of these two sections only</li>
-                                    <li>Clicking on an index will call the list of relevant annotated entities and print a parallel navigation aid. This is not limited to the context but always refers to the entire text. 
-                                        Also these references can either be clicked if the text is present in the context or can be opened clicking on the arrow, to see them in another page.</li>
-                                </ul>
-                                
-                                <p>In the text:</p>
-                                <ul class="nodot">
-                                    <li>Click on ↗ to see the related items in Pelagios.</li>
-                                    <li>Click on <i class="fa fa-hand-o-left"/>
-                                        to see the which entities within Beta maṣāḥǝft point to this identifier.</li>
-                                    <li>
-                                        <sup>[!]</sup> contains additional information related to uncertainties in the encoding.</li>
-                                    <li>Superscript digits refer to notes in the apparatus which are displayed on the right.</li>
-                                    <li>to return to the top of the page, please use the back to top button</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                   </div>
-                <script type="text/javascript" src="resources/js/pelagios.js"/>
-               <img id="loadingRole" src="resources/Loading.gif" style="display: none;"/>
-                <div id="versions" class="w3-container"/>   
-                {if($frag//t:pb[@facs]) then 
-                    (<div id="viewer" class="w3-container"/>,
-                    <script type="text/javascript">
-                            {"var data = [{collectionUri: "|| concat('/api/iiif/witnesses/', $frag//ancestor::t:TEI/@xml:id) || "}]"}
-                    </script>,
-                    <script type="text/javascript" src="resources/js/editionmirador.js"/>)
-             else ()}
-                <div id="roleAttestations" class="w3-container"/>  
+declare function viewItem:textfragment($frag) {
+    <div>
+        <div
+            id="transcription">
+            {
+                if ($frag/[not(t:div)]) then
+                    attribute class {'w3-container chapterText'}
+                else
+                    ()
+            }
+            {viewItem:TEI2HTML($frag)}
+            <div
+                class="w3-modal"
+                id="textHelp">
                 <div
-                class="w3-hide">
-                {
-                    for $r in distinct-values($frag//@resp)
-                    return
+                    class="w3-modal-content">
+                    <header
+                        class="w3-container w3-red">
+                        <h2>Text visualization help</h2>
                         <span
-                            id="{$r}Name">
-                            {$viewItem:editors//t:item[@xml:id = $r]/text()}
+                            class="w3-button w3-display-topright"
+                            onclick="document.getElementById('textHelp').style.display='none'">
+                            <i
+                                class="fa fa-times"/>
                         </span>
-                }
+                    </header>
+                    <div
+                        class="w3-container w3-margin">
+                        Page breaks are indicated with a line and the number of the page break.
+                        Column breaks are indicated with a pipe (|) followed by the name of the column.
+                        <p>In the text navigation bar:</p>
+                        <ul
+                            class="nodot">
+                            <li>References are relative to the current level of the view. If you want to see further navigation levels, please click the arrow to open in another page.</li>
+                            <li>Each reference available for the current view can be clicked to scroll to that point. alternatively you can view the section clicking on the arrow.</li>
+                            <li>Using an hyphen between references, like LIT3122Galaw.1-2 you can get a view of these two sections only</li>
+                            <li>Clicking on an index will call the list of relevant annotated entities and print a parallel navigation aid. This is not limited to the context but always refers to the entire text.
+                                Also these references can either be clicked if the text is present in the context or can be opened clicking on the arrow, to see them in another page.</li>
+                        </ul>
+                        
+                        <p>In the text:</p>
+                        <ul
+                            class="nodot">
+                            <li>Click on ↗ to see the related items in Pelagios.</li>
+                            <li>Click on <i
+                                    class="fa fa-hand-o-left"/>
+                                to see the which entities within Beta maṣāḥǝft point to this identifier.</li>
+                            <li>
+                                <sup>[!]</sup> contains additional information related to uncertainties in the encoding.</li>
+                            <li>Superscript digits refer to notes in the apparatus which are displayed on the right.</li>
+                            <li>to return to the top of the page, please use the back to top button</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            </div>
+        </div>
+        <script
+            type="text/javascript"
+            src="resources/js/pelagios.js"/>
+        <img
+            id="loadingRole"
+            src="resources/Loading.gif"
+            style="display: none;"/>
+        <div
+            id="versions"
+            class="w3-container"/>
+        {
+            if ($frag//t:pb[@facs]) then
+                (<div
+                    id="viewer"
+                    class="w3-container"/>,
+                <script
+                    type="text/javascript">
+                    {"var data = [{collectionUri: " || concat('/api/iiif/witnesses/', $frag//ancestor::t:TEI/@xml:id) || "}]"}
+                </script>,
+                <script
+                    type="text/javascript"
+                    src="resources/js/editionmirador.js"/>)
+            else
+                ()
+        }
+        <div
+            id="roleAttestations"
+            class="w3-container"/>
+        <div
+            class="w3-hide">
+            {
+                for $r in distinct-values($frag//@resp)
+                return
+                    <span
+                        id="{$r}Name">
+                        {$viewItem:editors//t:item[@xml:id = $r]/text()}
+                    </span>
+            }
+        </div>
+    </div>
 };
 
-declare function viewItem:textfragmentbibl($this, $id){
-(:replaces textfragmentbibl.xsl:)
-if($this//t:listBibl)
-then 
-<div class="w3-container" id="bibliographyText{$id}">
-{viewItem:TEI2HTML($this//t:listBibl)}
-</div>
-else ()
-,
- for $r in distinct-values($this//@resp)
-                    return
-                        <span
-                            id="{$r}Name">
-                            {$viewItem:editors//t:item[@xml:id = $r]/text()}
-                        </span>
+declare function viewItem:textfragmentbibl($this, $id) {
+    (:replaces textfragmentbibl.xsl:)
+    if ($this//t:listBibl)
+    then
+        <div
+            class="w3-container"
+            id="bibliographyText{$id}">
+            {viewItem:TEI2HTML($this//t:listBibl)}
+        </div>
+    else
+        ()
+    ,
+    for $r in distinct-values($this//@resp)
+    return
+        <span
+            id="{$r}Name">
+            {$viewItem:editors//t:item[@xml:id = $r]/text()}
+        </span>
+};
+
+declare function viewItem:worknav($item) {
+    (
+    <a
+        class="w3-bar-item page-scroll"
+        href="#description">Description</a>,
+    if ($item//t:placeName) then
+        <a
+            class="w3-bar-item page-scroll"
+            href="/IndexPlaces?entity={string($item/@xml:id)}">Places Index</a>
+    else
+        (),
+    if ($item//t:persName) then
+        <a
+            class="w3-bar-item page-scroll"
+            href="/IndexPersons?entity={string($item/@xml:id)}">Persons Index</a>
+    else
+        (),
+    if ($item//t:body[t:div[@type = 'edition'][t:ab or t:div[@type = 'textpart']]]) then
+        <a
+            class="w3-bar-item page-scroll w3-red"
+            href="/works/{$item/@xml:id}/text">Text</a>
+    else
+        (),
+    if ($item//t:body[t:div[@type = 'translation'][t:ab or t:div[@type = 'textpart']]]) then
+        <a
+            class="w3-bar-item page-scroll w3-red"
+            href="/works/{$item/@xml:id}/text">Translation</a>
+    else
+        (),
+    <a
+        class="w3-bar-item page-scroll"
+        href="#bibliography">Bibliography</a>
+    )
+};
+
+
+declare function viewItem:personnav($item) {
+    (<a
+        class="w3-bar-item page-scroll"
+        href="/IndexPersons?pointer={string($item/@xml:id)}">Persons Index</a>,
+    <a
+        class="w3-bar-item page-scroll"
+        href="#general">General</a>,
+    if ($item//t:birth) then
+        <a
+            class="w3-bar-item page-scroll"
+            href="#birth">Birth</a>
+    else
+        (),
+    if ($item//t:floruit) then
+        <a
+            class="w3-bar-item page-scroll"
+            href="#floruit">Floruit</a>
+    else
+        (),
+    if ($item//t:death) then
+        <a
+            class="w3-bar-item page-scroll"
+            href="#death">Death</a>
+    else
+        ()
+    )
+};
+
+declare function viewItem:placenav($item) {
+    (
+    <a
+        class="w3-bar-item page-scroll"
+        href="/IndexPlaces?pointer={string($item/@xml:id)}">Places Index</a>,
+    <a
+        class="w3-bar-item page-scroll"
+        href="#general">General</a>,
+    <a
+        class="w3-bar-item page-scroll"
+        href="#description">Description</a>,
+    <a
+        class="w3-bar-item page-scroll"
+        href="#map">Map</a>
+    )
+};
+
+declare function viewItem:authnav($item) {
+    (
+    <a
+        class="w3-bar-item page-scroll"
+        href="#general">General</a>,
+    <a
+        class="w3-bar-item page-scroll"
+        href="#description">Description</a>,
+    <a
+        class="w3-bar-item page-scroll"
+        href="#authors">Authors</a>)
+};
+
+declare function viewItem:manuscriptnav($item) {
+(
+if ($item//t:placeName) then
+        <a
+            class="w3-bar-item page-scroll"
+            href="/IndexPlaces?entity={string($item/@xml:id)}">Places Index</a>
+    else
+        (),
+    if ($item//t:persName) then
+        <a
+            class="w3-bar-item page-scroll"
+            href="/IndexPersons?entity={string($item/@xml:id)}">Persons Index</a>
+    else
+        (),
+        <a class="w3-bar-item page-scroll" href="#general">General</a>,
+                            <a class="w3-bar-item page-scroll" href="#description">Description</a>,
+                            <a class="w3-bar-item page-scroll" href="#generalphysical">Physical Description</a>,
+                            if($item//t:msPart or $item//t:msFrag) then
+                            <div class="w3-bar-item">
+                                Main parts
+                                <ul>
+{                            for $part in ($item//t:msPart, $item//t:msFrag)
+                            return 
+                            <li>
+                                        <a class="page-scroll" href="#{$part/@xml:id}">Codicological unit {substring(@xml:id, 1)}</a>
+                                    </li>
+                            }</ul>
+                            </div>
+                            else (),
+                            if($item//t:additional//t:listBibl) then 
+                            <a class="w3-bar-item page-scroll" href="#catalogue">Catalogue</a>
+                            else (),
+                            if($item//t:body[t:div]) then 
+                            <a class=" w3-bar-item page-scroll" href="#transcription">Transcription </a>
+                            else (),
+                            <a class="w3-bar-item page-scroll" href="#footer">Authors</a>,
+                              <button class="w3-button w3-red w3-bar-item" onclick="openAccordion('NavByIds')">Show more links</button>,
+                <ul class="w3-bar-item w3-hide" id="NavByIds">
+                {for $node at $p in $item//t:*[not(self::t:TEI)][@xml:id]
+                let $anchor := string($node/@xml:id)
+                order by $p
+                return 
+                <li>
+                                    <a class="page-scroll" href="#{$anchor}">
+                                    {if ($anchor ='ms') then 'General manuscript description'
+                                    else if (starts-with($anchor, 'p') and matches($anchor, '^\w\d+$')) then 'Codicological Unit ' || substring($anchor, 1) || viewItem:headercontext($p)
+                                    else if (starts-with($anchor, 'f') and matches($anchor, '^\w\d+$')) then 'Fragment ' || substring($anchor, 1) || viewItem:headercontext($p)
+                                    else if (starts-with($anchor, 't') and matches($anchor, '\w\d+')) then 'Title ' || substring($anchor, 1) || viewItem:headercontext($p)
+                                    else if (starts-with($anchor, 'b') and matches($anchor, '\w\d+')) then 'Binding ' || substring($anchor, 1) || viewItem:headercontext($p)
+                                    else if (starts-with($anchor, 'a') and matches($anchor, '\w\d+')) then 'Addition ' || substring($anchor, 1) || viewItem:headercontext($p)
+                                    else if (starts-with($anchor, 'e') and matches($anchor, '\w\d+')) then 'Extra ' || substring($anchor, 1) || viewItem:headercontext($p)
+                                    else if (starts-with($anchor, 'd') and matches($anchor, '\w\d+')) then 'Decoration ' || substring($anchor, 1) || viewItem:headercontext($p)
+                                    else if (starts-with($anchor, 'coloph') and matches($anchor, 'coloph')) then 'Colophon ' || substring($anchor, 1) || viewItem:headercontext($p)
+                                    else if (starts-with($anchor, 'i') and matches($anchor, '\w\d+')) then 'Content Item ' || substring($anchor, 1) || viewItem:headercontext($p)
+                                    else if (starts-with($anchor, 'q') and matches($anchor, '\w\d+')) then 'Quire ' || substring($anchor, 1) || viewItem:headercontext($p)
+                                    else if (starts-with($anchor, 'h') and matches($anchor, '\w\d+')) then 'Hand ' || substring($anchor, 1) || viewItem:headercontext($p)
+                                    else $p/name() }
+                                    </a>
+                                    </li>
+                }
+                            </ul>
+                            
+)
+};
+
+declare function viewItem:nav($item) {
+    let $type := $item/@type
+    return
+        switch ($type)
+            case 'work'
+                return
+                    viewItem:worknav($item)
+            case 'nar'
+                return
+                    viewItem:authnav($item)
+            case 'pers'
+                return
+                    viewItem:personnav($item)
+            case 'place'
+                return
+                    viewItem:placenav($item)
+            case 'ins'
+                return
+                    viewItem:placenav($item)
+            case 'auth'
+                return
+                    viewItem:authnav($item)
+            case 'mss'
+                return
+                    viewItem:manuscriptnav($item)
+            default return
+                ()
 };

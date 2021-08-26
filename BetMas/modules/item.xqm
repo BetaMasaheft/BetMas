@@ -754,7 +754,7 @@ return
             if($type = 'text') then  item2:witnesses($id) 
             else <div class="w3-container w3-col">
             <img id="loading" src="resources/Loading.gif" style="display: none; align: centre;" width="100%"></img>
-            {transform:transform($document, 'xmldb:exist:///db/apps/BetMas/xslt/nav.xsl', ())}</div>
+            {viewItem:nav($item)}</div>
            }
 </div>
 };
