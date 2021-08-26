@@ -952,3 +952,85 @@ declare function viewItem:dates($date) {
     let $cert := if($date/@cert = 'low') then '?' else ()
     return ($dates, $evidence, $cert, viewItem:TEI2HTML($date/node()))
 };
+
+
+declare function viewItem:textfragment($frag){
+<div>
+                <div id="transcription">
+                {if($frag/[not(t:div)]) then attribute class {'w3-container chapterText'} else ()}
+                    {viewItem:TEI2HTML($frag)}
+                    <div class="w3-modal" id="textHelp">
+                        <div class="w3-modal-content">
+                            <header class="w3-container w3-red">
+                                <h2>Text visualization help</h2>
+                                <span class="w3-button w3-display-topright" onclick="document.getElementById('textHelp').style.display='none'">
+                                    <i class="fa fa-times"/>
+                                </span>
+                            </header>
+                            <div class="w3-container w3-margin">
+                                Page breaks are indicated with a line and the number of the page break.
+                                Column breaks are indicated with a pipe (|) followed by the name of the column.
+                                <p>In the text navigation bar:</p>
+                                <ul class="nodot">
+                                    <li>References are relative to the current level of the view. If you want to see further navigation levels, please click the arrow to open in another page.</li>
+                                    <li>Each reference available for the current view can be clicked to scroll to that point. alternatively you can view the section clicking on the arrow.</li>
+                                    <li>Using an hyphen between references, like LIT3122Galaw.1-2 you can get a view of these two sections only</li>
+                                    <li>Clicking on an index will call the list of relevant annotated entities and print a parallel navigation aid. This is not limited to the context but always refers to the entire text. 
+                                        Also these references can either be clicked if the text is present in the context or can be opened clicking on the arrow, to see them in another page.</li>
+                                </ul>
+                                
+                                <p>In the text:</p>
+                                <ul class="nodot">
+                                    <li>Click on ↗ to see the related items in Pelagios.</li>
+                                    <li>Click on <i class="fa fa-hand-o-left"/>
+                                        to see the which entities within Beta maṣāḥǝft point to this identifier.</li>
+                                    <li>
+                                        <sup>[!]</sup> contains additional information related to uncertainties in the encoding.</li>
+                                    <li>Superscript digits refer to notes in the apparatus which are displayed on the right.</li>
+                                    <li>to return to the top of the page, please use the back to top button</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                   </div>
+                <script type="text/javascript" src="resources/js/pelagios.js"/>
+               <img id="loadingRole" src="resources/Loading.gif" style="display: none;"/>
+                <div id="versions" class="w3-container"/>   
+                {if($frag//t:pb[@facs]) then 
+                    (<div id="viewer" class="w3-container"/>,
+                    <script type="text/javascript">
+                            {"var data = [{collectionUri: "|| concat('/api/iiif/witnesses/', $frag//ancestor::t:TEI/@xml:id) || "}]"}
+                    </script>,
+                    <script type="text/javascript" src="resources/js/editionmirador.js"/>)
+             else ()}
+                <div id="roleAttestations" class="w3-container"/>  
+                <div
+                class="w3-hide">
+                {
+                    for $r in distinct-values($frag//@resp)
+                    return
+                        <span
+                            id="{$r}Name">
+                            {$viewItem:editors//t:item[@xml:id = $r]/text()}
+                        </span>
+                }
+            </div>
+            </div>
+};
+
+declare function viewItem:textfragmentbibl($this, $id){
+(:replaces textfragmentbibl.xsl:)
+if($this//t:listBibl)
+then 
+<div class="w3-container" id="bibliographyText{$id}">
+{viewItem:TEI2HTML($this//t:listBibl)}
+</div>
+else ()
+,
+ for $r in distinct-values($this//@resp)
+                    return
+                        <span
+                            id="{$r}Name">
+                            {$viewItem:editors//t:item[@xml:id = $r]/text()}
+                        </span>
+};

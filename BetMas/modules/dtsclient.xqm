@@ -16,6 +16,7 @@ declare namespace dts = "https://w3id.org/dts/api#";
 declare namespace t="http://www.tei-c.org/ns/1.0";
 import module namespace functx="http://www.functx.com";
 import module namespace localdts="https://www.betamasaheft.uni-hamburg.de/BetMas/localdts" at "xmldb:exist:///db/apps/BetMas/modules/localdts.xqm";
+import module namespace viewItem = "https://www.betamasaheft.uni-hamburg.de/BetMas/viewItem" at "xmldb:exist:///db/apps/BetMas/modules/viewItem.xqm";
 import module namespace console="http://exist-db.org/xquery/console";
 
 
@@ -275,7 +276,7 @@ DTS uris</button>
 </ul>
 </div>
 <div class="w3-rest">{
-try{transform:transform($DTSdoc/node()[name()!='teiHeader'],$xslt,())} catch * {$err:description}
+try{viewItem:textfragment($DTSdoc/node()[name()!='teiHeader'])} catch * {$err:description}
 }</div>
 </div>
 };

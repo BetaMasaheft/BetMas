@@ -1289,45 +1289,11 @@ return <p>Click the following link to compare a <a target="_blank" href="/compar
 (:~ depending on the type of item sends to the correct XSLT producing the main content of the page :)
 declare function item2:RestItem($this, $collection) {
 let $document := $this
-let $id := string($document/t:TEI/@xml:id)
-return
-let $xslt :=  switch($collection)
-        case "manuscripts"  return       'xmldb:exist:///db/apps/BetMas/xslt/mss.xsl'
-        case "places"  return       'xmldb:exist:///db/apps/BetMas/xslt/placeInstit.xsl'
-        case "institutions"  return       'xmldb:exist:///db/apps/BetMas/xslt/placeInstit.xsl'
-        case "persons"  return       'xmldb:exist:///db/apps/BetMas/xslt/Person.xsl'
-        case "works"  return       'xmldb:exist:///db/apps/BetMas/xslt/Work.xsl'
-        case "narratives"  return       'xmldb:exist:///db/apps/BetMas/xslt/Work.xsl'
-        (:THE FOLLOWING TWO ARE TEMPORARY PLACEHOLDERS:)
-        case "authority-files"  return       'xmldb:exist:///db/apps/BetMas/xslt/auth.xsl'
-        default return 'xmldb:exist:///db/apps/BetMas/xslt/Work.xsl'
-
-let $parameters : = if ($collection = 'manuscripts') then <parameters>
-    <param name="porterified" value="."/>
-    <param name="folio" value="1"/>
-    <param name="currentpos" value="1"/>
-    <param name="rend" value="."/>
-    <param name="from" value="."/>
-    <param name="to" value="."/>
-    <param name="prec" value="."/>
-    <param name="count" value="."/>
-    <param name="singletons" value="."/>
-    <param name="step1ed" value="."/>
-    <param name="step2ed" value="."/>
-    <param name="step3ed" value="."/>
-    <param name="Finalvisualization" value="."/>
-</parameters> else ()
-let $transformation := try{transform:transform($document,$xslt,$parameters)} catch * {<error>{$err:description}</error>}
- 
+let $id := string($document/t:TEI/@xml:id) 
 (:because nav takes 2 colums:)
   return
-   
        <div class="w3-container " resource="http://betamasaheft.eu/{$id}" >
        {viewItem:main($document)}
-{if($transformation/error) then 
-    <p>Sorry, an error happened and we could not transform the file you want to look at at the moment.</p>
-    else $transformation 
-}
     {item2:RestSeeAlso($this, $collection)}
     </div>
 };
@@ -1339,12 +1305,9 @@ REPLACED BY dtsc:client() in dtsclient.xqm item2:RestText()
 :)
 
 declare function item2:title($id){
-titles:printTitleMainID($id)
+exptit:printTitle($id)
 };
 
 declare function item2:textBibl($this, $id){
-let $xslt :=   'xmldb:exist:///db/apps/BetMas/xslt/textfragmentbibl.xsl'  
-let $xslpars := <parameters><param name="mainID" value="{$id}"/></parameters>
-return
-transform:transform($this, $xslt, $xslpars)
+viewItem:textfragmentbibl($this, $id)
 };
