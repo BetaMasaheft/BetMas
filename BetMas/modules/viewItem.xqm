@@ -933,3 +933,22 @@ declare function viewItem:q($q) {
         </div>
     
 };
+
+declare function viewItem:dates($date) {
+    (:replaces dates.xsl expects origDate, floruit, death or birth returns a string:)
+   let $dates := if($date/@when) then string($date/@when) 
+    else if($date/(@from|@to)) then 
+           if($date/@from and $date/@to) then ( viewItem:date($date/@from) || '-' || viewItem:date($date/@to) )
+           else if ($date/@from and not($date/@to)) then ( 'Before ' || viewItem:date($date/@to))
+           else if (not($date/@from) and $date/@to) then ( 'After ' || viewItem:date($date/@from))
+           else ()
+    else if ($date/(@notBefore|@notAfter)) then 
+             if($date/@notBefore and $date/@notAfter) then ( viewItem:date($date/@notBefore) || '-' || viewItem:date($date/@notAfter) )
+              else if ($date/@notAfter and not($date/@notBefore)) then ( 'Before ' || viewItem:date($date/@notAfter))
+           else if (not($date/@notAfter) and $date/@notBefore) then ( 'After ' || viewItem:date($date/@notBefore))
+           else ()
+    else ()
+    let $evidence := if($date/@evidence) then concat(' (',$date/@evidence,')') else ()
+    let $cert := if($date/@cert = 'low') then '?' else ()
+    return ($dates, $evidence, $cert, viewItem:TEI2HTML($date/node()))
+};

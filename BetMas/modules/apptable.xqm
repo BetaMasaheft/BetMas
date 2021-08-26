@@ -6,7 +6,8 @@ xquery version "3.1" encoding "UTF-8";
  :)
 module namespace apptable="https://www.betamasaheft.uni-hamburg.de/BetMas/apptable";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
-import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
+import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm"; 
+import module namespace viewItem = "https://www.betamasaheft.uni-hamburg.de/BetMas/viewItem" at "xmldb:exist:///db/apps/BetMas/modules/viewItem.xqm";
 
 declare namespace t="http://www.tei-c.org/ns/1.0";
 
@@ -444,7 +445,7 @@ else
             then 'after ' || string($date/@notBefore)
             else if($date[@notAfter and not(@notbefore)]) 
             then 'before ' || string($date/@notAfter) 
-            else transform:transform($date, 'xmldb:exist:///db/apps/BetMas/xslt/dates.xsl',())  }</p>
+            else viewItem:dates($date)  }</p>
            
          )
            else
