@@ -315,7 +315,7 @@ declare function viewItem:bibl($node, $t) {
                 class="Zotero Zotero-full"
                 data-value="{$t}"
                 data-type="{$node/t:seg/@type}">
-                {$viewItem:bibliography//b:entry[@id = $t]/b:reference/node()}
+                {$viewItem:bibliography//b:entry[@id = $t]/b:reference/*:div/node()}
                 {
                     let $crs := for $cr in $node/t:citedRange
                     return
@@ -327,7 +327,10 @@ declare function viewItem:bibl($node, $t) {
                 {viewItem:TEI2HTML($node/t:ref[@target])}
                 {viewItem:TEI2HTML($node/t:note[not(@type)])}
             </span>
-            <span
+            
+        </div>
+        <div class="w3-rest">
+        <span
                 class="w3-bar-block w3-hide-small w3-hide-medium">
                 <a
                     class="w3-bar-item w3-button w3-tiny"
@@ -338,7 +341,7 @@ declare function viewItem:bibl($node, $t) {
                     href="/bibliography?pointer={$t}">Other citations</a>
             
             </span>
-        </div>
+            </div>
     </div>
 };
 
@@ -351,50 +354,59 @@ declare function viewItem:bibliographyitem($node) {
         if ($node[@corresp and not(t:ptr[@target])]) then
             (
             let $cors := viewItem:makeSequence($node/@corresp)
-            for $c in $cors  return
-            <a  href="{$c}">{exptit:printTitle($c)}</a> ,
+            for $c in $cors
+            return
+                <a
+                    href="{$c}">{exptit:printTitle($c)}</a>,
             $node/text(),
             viewItem:TEI2HTML($node/t:date),
             viewItem:TEI2HTML($node/t:note)
             )
-     else if ($node/t:ptr/@target='bm:EthioSpare' and $node/parent::t:listBibl[@type='catalogue'])      
-     then 
-       viewItem:EthioSpareFormatter($node)
         else
-            let $t := $node/t:ptr/@target
-            return
-                if ($node/parent::t:surrogates)
-                then
-                    <p>{viewItem:bibl($node, $t)}</p>
-                else
-                    if ($node/parent::t:listBibl[not(ancestor::t:note)]) then
-                        <li
-                            class="bibliographyItem">
-                            {viewItem:bibl($node, $t)}
-                            <hr/>
-                        </li>
+            if ($node/t:ptr/@target = 'bm:EthioSpare' and $node/parent::t:listBibl[@type = 'catalogue'])
+            then
+                viewItem:EthioSpareFormatter($node)
+            else
+                let $t := $node/t:ptr/@target
+                return
+                    if ($node/parent::t:surrogates)
+                    then
+                        <p>{viewItem:bibl($node, $t)}</p>
                     else
-                        $viewItem:bibliography//b:entry[@id = $t]/b:citation/node()
+                        if ($node/parent::t:listBibl[not(ancestor::t:note)]) then
+                            <li
+                                class="bibliographyItem">
+                                {viewItem:bibl($node, $t)}
+                                <hr/>
+                            </li>
+                        else
+                            $viewItem:bibliography//b:entry[@id = $t]/b:citation/node()
 
 };
 
-declare function viewItem:EthioSpareFormatter($node){
- let $t := $node/t:ptr/@target
-        let $TEI := $node/ancestor::t:TEI
-        let $BMsignature := $TEI//t:idno[preceding-sibling::t:collection[.='Ethio-SPaRe']]
-        let $domliblist := $viewItem:domlib//*:item[*:signature = $BMsignature]/*:domlib
-        let $cataloguer := if($TEI//t:editor[@role='cataloguer']) 
-                                   then $TEI//t:editor[@role='cataloguer']/text() 
-                                   else if ($TEI//t:editor[not(@role='generalEditor')]) 
-                                   then $TEI//t:editor[not(@role='generalEditor')]/text() 
-                                   else let $resp := substring-after(($TEI//t:change[contains(., 'created')]/@who)[1], '#') 
-                                   return string-join(distinct-values(($TEI//t:editor[@key=$resp]/text()|$TEI//t:respStmt[@xml:id=$resp]/t:name/text())), ', ')
-        let $repository := $TEI//t:repository/text()
-        let $date := viewItem:date($TEI//t:origDate)
-        let $title := $TEI//t:titleStmt/t:title[1]/text()
-        return
-         <a href="https://mycms-vs03.rrz.uni-hamburg.de/domlib/receive/{$domliblist}">MS {$repository}, {$BMsignature}  
-         (digitized by the Ethio-SPaRe project), {$title}, {$date}, catalogued by {$cataloguer} In {$viewItem:bibliography//b:entry[@id = $t]/b:reference/node()}</a>
+declare function viewItem:EthioSpareFormatter($node) {
+    let $t := $node/t:ptr/@target
+    let $TEI := $node/ancestor::t:TEI
+    let $BMsignature := $TEI//t:idno[preceding-sibling::t:collection[. = 'Ethio-SPaRe']]
+    let $domliblist := $viewItem:domlib//*:item[*:signature = $BMsignature]/*:domlib
+    let $cataloguer := if ($TEI//t:editor[@role = 'cataloguer'])
+    then
+        $TEI//t:editor[@role = 'cataloguer']/text()
+    else
+        if ($TEI//t:editor[not(@role = 'generalEditor')])
+        then
+            $TEI//t:editor[not(@role = 'generalEditor')]/text()
+        else
+            let $resp := substring-after(($TEI//t:change[contains(., 'created')]/@who)[1], '#')
+            return
+                string-join(distinct-values(($TEI//t:editor[@key = $resp]/text() | $TEI//t:respStmt[@xml:id = $resp]/t:name/text())), ', ')
+    let $repository := $TEI//t:repository/text()
+    let $date := viewItem:date($TEI//t:origDate)
+    let $title := $TEI//t:titleStmt/t:title[1]/text()
+    return
+        <a
+            href="https://mycms-vs03.rrz.uni-hamburg.de/domlib/receive/{$domliblist}">MS {$repository}, {$BMsignature}
+            (digitized by the Ethio-SPaRe project), {$title}, {$date}, catalogued by {$cataloguer} In {$viewItem:bibliography//b:entry[@id = $t]/b:reference/node()}</a>
 };
 
 declare function viewItem:relation($node) {
@@ -408,6 +420,23 @@ declare function viewItem:relation($node) {
         href="{$node/@passive}">{exptit:printTitle($node/@passive)}</a>,
     viewItem:TEI2HTML($node/t:desc)
     )
+};
+
+declare function viewItem:publicationStmt($node) {
+<div class="w3-container" id="publicationStmt">
+            <h2>Publication Statement</h2>
+            {for $n in $node/node() return
+                <div class="w3-row">
+                    <div class="w3-col" style="width:20%;">{$n/name()}</div>                            
+                    <div class="w3-col" style="width:20%;">{for $att in $n/@* return $att/name() || '=' || $att/data()}</div>
+                    <div class="w3-rest">{viewItem:TEI2HTML($n)}</div>
+                </div>
+                }
+</div>
+};
+
+declare function viewItem:ref($ref){
+<a href="{$ref/@target}">{$ref/text()}</a>
 };
 
 declare function viewItem:TEI2HTML($nodes) {
@@ -424,11 +453,13 @@ declare function viewItem:TEI2HTML($nodes) {
             case element(t:titleStmt)
                 return
                     ()
+            case element(t:classDecl)
+                return
+                    ()
             case element(t:listbibl)
                 return
                     (
-                    (:                template to be completed :)
-                    <h4>Bibliography</h4>,
+                    <h4>{viewItem:biblioHeader($node)}</h4>,
                     <ul
                         class="bibliographyList">
                         {viewItem:TEI2HTML($node/node())}
@@ -440,6 +471,10 @@ declare function viewItem:TEI2HTML($nodes) {
             case element(t:relation)
                 return
                     viewItem:relation($node)
+            case element(t:ref)
+                return
+                    viewItem:ref($node)
+                    
             case element(t:collation)
                 return
                     viewItem:VisColl($node)
@@ -560,6 +595,54 @@ declare function viewItem:work($item) {
                         ()
                 }
                 {
+                    if ($item//t:extent) then
+                        <p>
+                            <b>Extent: </b>
+                            {viewItem:TEI2HTML($item//t:extent)}
+                        </p>
+                    else
+                        ()
+                }
+                {
+                    if ($item//t:creation) then
+                        (<h2>Date</h2>,
+                        <p>
+                            {viewItem:TEI2HTML($item//t:creation)}
+                            {
+                                if ($item//t:creation/@evidence) then
+                                    '(' || string($item//t:creation/@evidence) || ')'
+                                else
+                                    ()
+                            }
+                        </p>)
+                    else
+                        ()
+                }
+                {
+                    if ($item//t:listWit) then
+                        (<h2>Witnesses</h2>,
+                        <p
+                            class="alert alert-info">The following manuscripts are reported in this record as witnesses of the source of the information or the edition here encoded.
+                            Please check the <a
+                                href="#computedWitnesses">box below</a> for a live updated list of manuscripts pointing to this record.</p>,
+                        if ($item//t:listWit/@rend = 'edition') then
+                            <b>Manuscripts used in this edition</b>
+                        else
+                            (),
+                        <ul>
+                            {viewItem:TEI2HTML($item//t:listWit[not(parent::t:listWit)])}
+                        </ul>
+                        )
+                    else
+                        ()
+                }
+                {
+                    if ($item//t:sourceDesc/t:p) then
+                        viewItem:TEI2HTML($item//t:sourceDesc/t:p)
+                    else
+                        ()
+                }
+                {
                     <div
                         id="clavisbibliography">
                         {viewItem:bibliographyHeader($item//t:listBibl[@type = 'clavis'])}
@@ -579,6 +662,41 @@ declare function viewItem:work($item) {
                         </ul>
                     </div>
                 }
+                {viewItem:publicationStmt($item//t:publicationStmt)}
+                {
+                    if ($item//t:editionStmt) then
+                        <div
+                            class="w3-container"
+                            id="editionStmt">
+                            <h2>Edition Statement</h2>
+                            {viewItem:TEI2HTML($item//t:editionStmt)}
+                        </div>
+                    else
+                        ()
+                }
+                <div
+                    class="w3-container"
+                    id="encodingDesc">
+                    <h2>Encoding Description</h2>
+                    {viewItem:TEI2HTML($item//t:encodingDesc/node())}
+                </div>
+                {
+                    if ($item//t:div[@type = 'edition']//t:ab//text()) then
+                        <a
+                            class="w3-button w3-gray w3-large"
+                            target="_blank"
+                            href="{concat('http://voyant-tools.org/?input=https://betamasaheft.eu/works/', $id, '.xml')}">Voyant</a>
+                    else
+                        ()
+                }
+                <button
+                    class="w3-button w3-red w3-large"
+                    id="showattestations"
+                    data-value="work"
+                    data-id="{$id}">Show attestations</button>
+                <div
+                    id="allattestations"
+                    class="w3-container"/>
             </div>
         </div>
 };
