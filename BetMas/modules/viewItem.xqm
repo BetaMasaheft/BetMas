@@ -27,7 +27,9 @@ declare %private function viewItem:VisColl($collation) {
             $transformation
 };
 
-declare %private function viewItem:date($date as xs:string) {
+declare %private function viewItem:date($date) {
+let $log := util:log('INFO', $date)
+return
     if (matches($date, '\d{4}-\d{2}-\d{2}')) then
         format-date(xs:date($date), '[D]-[M]-[Y0001]', 'en', 'AD', ())
     else
@@ -75,7 +77,7 @@ declare %private function viewItem:date($date as xs:string) {
         return
             concat(replace(substring-after($date, '-'), $monthnumber, $monthname), ' ', substring-before($date, '-'))
     else
-        format-number(xs:date($date), '####')
+        format-number($date, '####')
 };
 
 declare %private function viewItem:notBnotA($element) {
@@ -584,11 +586,11 @@ declare %private function viewItem:TEI2HTML($nodes) {
             
             case element(t:msFrag)
                 return
-                    viewItem:manuscriptStructure($node)
+                    viewItem:codicologicalUnit($node)
             
             case element(t:msPart)
                 return
-                    viewItem:manuscriptStructure($node)
+                    viewItem:codicologicalUnit($node)
             case element(t:note)
                 return
                     if ($node[@xml:id][@n]) then
@@ -633,6 +635,25 @@ declare %private function viewItem:TEI2HTML($nodes) {
             default
                 return
                     $node
+};
+
+declare %private function viewItem:standards($item){
+ viewItem:publicationStmt($item//t:publicationStmt),
+                    if ($item//t:editionStmt) then
+                        <div
+                            class="w3-container"
+                            id="editionStmt">
+                            <h2>Edition Statement</h2>
+                            {viewItem:TEI2HTML($item//t:editionStmt)}
+                        </div>
+                    else
+                        (),
+                <div
+                    class="w3-container"
+                    id="encodingDesc">
+                    <h2>Encoding Description</h2>
+                    {viewItem:TEI2HTML($item//t:encodingDesc/node())}
+                </div>
 };
 
 declare %private function viewItem:work($item) {
@@ -791,24 +812,7 @@ declare %private function viewItem:work($item) {
                         </ul>
                     </div>
                 }
-                {viewItem:publicationStmt($item//t:publicationStmt)}
-                {
-                    if ($item//t:editionStmt) then
-                        <div
-                            class="w3-container"
-                            id="editionStmt">
-                            <h2>Edition Statement</h2>
-                            {viewItem:TEI2HTML($item//t:editionStmt)}
-                        </div>
-                    else
-                        ()
-                }
-                <div
-                    class="w3-container"
-                    id="encodingDesc">
-                    <h2>Encoding Description</h2>
-                    {viewItem:TEI2HTML($item//t:encodingDesc/node())}
-                </div>
+               {viewItem:standards($item)}
                 {
                     if ($item//t:div[@type = 'edition']//t:ab//text()) then
                         <a
@@ -999,7 +1003,7 @@ declare %private function viewItem:manuscript($item) {
                     <h4>Number of Codicological units: <span
                             class="label label-default">
                             {
-                                if (count($item//(t:msPart | t:msFrag) ge 1)) then
+                                if (count($item//(t:msPart | t:msFrag)) ge 1) then
                                     count($item//(t:msPart | t:msFrag))
                                 else
                                     1
@@ -1021,9 +1025,7 @@ declare %private function viewItem:manuscript($item) {
                 <div
                     id="roleAttestations"/>
             </div>
-            {
-                viewItem:TEI2HTML($item)
-            }
+            {viewItem:standards($item)}
             {viewItem:calendartables($item)}
         </div>
 };
@@ -1119,10 +1121,29 @@ declare %private function viewItem:manuscriptStructure($msDesc) {
             else
                 ()
         }
-        {viewItem:divofmanuscriptpath($msDesc, '/t:msPart', 'parts')}
-        {viewItem:divofmanuscriptpath($msDesc, '/t:msFrag', 'fragments')}
-    </div>
+        
+    </div>,
+    viewItem:divofmanuscriptpath($msDesc, '/t:msPart', 'parts'),
+    viewItem:divofmanuscriptpath($msDesc, '/t:msFrag', 'fragments')
     )
+};
+
+
+declare %private function viewItem:codicologicalUnit($mspart){
+<div class="w3-container w3-margin-bottom" id="{$mspart/@xml:id}">
+            <div class="w3-container w3-margin-bottom">
+                <h2>Codicological Unit {substring($mspart/@xml:id, 1)}
+                </h2>
+                
+            </div>
+            <div class="w3-twothird" id="textualcontents{$mspart/@xml:id}">
+                <div class="w3-panel w3-card-2 w3-margin-right">
+                {viewItem:TEI2HTML($mspart/t:msIdentifier)}
+                </div>
+                </div>
+{                viewItem:manuscriptStructure($mspart)}
+                </div>
+               
 };
 
 declare %private function viewItem:calendartables($item) {
@@ -1357,7 +1378,7 @@ declare function viewItem:dates($date) {
         else
             if ($date/(@notBefore | @notAfter)) then
                 if ($date/@notBefore and $date/@notAfter) then
-                    (viewItem:date($date/@notBefore) || '-' || viewItem:date($date/@notAfter))
+                    (viewItem:date(string($date/@notBefore)) || '-' || viewItem:date(string($date/@notAfter)))
                 else
                     if ($date/@notAfter and not($date/@notBefore)) then
                         ('Before ' || viewItem:date($date/@notAfter))
@@ -1384,8 +1405,9 @@ declare function viewItem:dates($date) {
             viewItem:editorName($date/@resp))
     else
         ()
+        let $formatortext := if($date/text()) then viewItem:TEI2HTML($date/node()) else $dates
     return
-        ($dates, $evidence, $cert, $resp, viewItem:TEI2HTML($date/node()))
+        ($formatortext, $evidence, $cert, $resp)
 };
 
 
@@ -1639,7 +1661,7 @@ declare function viewItem:manuscriptnav($item) {
                         <li>
                             <a
                                 class="page-scroll"
-                                href="#{$part/@xml:id}">Codicological unit {substring(@xml:id, 1)}</a>
+                                href="#{$part/@xml:id}">Codicological unit {substring($part/@xml:id, 1)}</a>
                         </li>
                 }</ul>
         </div>
