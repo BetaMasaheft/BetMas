@@ -27,7 +27,7 @@ declare %private function viewItem:VisColl($collation) {
             $transformation
 };
 
-declare %private function viewItem:date($date) {
+declare %private function viewItem:date($date as xs:string) {
     if (matches($date, '\d{4}-\d{2}-\d{2}')) then
         format-date(xs:date($date), '[D]-[M]-[Y0001]', 'en', 'AD', ())
     else
@@ -75,7 +75,7 @@ declare %private function viewItem:date($date) {
         return
             concat(replace(substring-after($date, '-'), $monthnumber, $monthname), ' ', substring-before($date, '-'))
     else
-        format-number($date, '####')
+        format-number(xs:date($date), '####')
 };
 
 declare %private function viewItem:notBnotA($element) {
@@ -322,7 +322,7 @@ declare %private function viewItem:bibl($node, $t) {
                     return
                         (string($cr/@unit) || ' ' || $cr/text())
                     return
-                        string-join($crs, ', ')
+                      ' ' || string-join($crs, ', ')
                 }
                 {viewItem:TEI2HTML($node/t:note[@type = 'about'])}
                 {viewItem:TEI2HTML($node/t:ref[@target])}
@@ -458,7 +458,7 @@ declare %private function viewItem:ref($ref) {
 
 declare %private function viewItem:certainty($certainty) {
     let $match := util:eval(concat('$certainty/', $certainty/@match))/name()
-    let $resp := $viewItem:editors//t:item[@xml:id = $certainty/@resp]/text()
+    let $resp := viewItem:editorName($certainty/@resp)
     let $statement := if ($certainty[@cert and not(@resp) and not(@assertedValue)])
     then
         concat(' is ', $certainty/@cert, '.')
@@ -526,6 +526,24 @@ declare %private function viewItem:footnote($node) {
     </dl>
 };
 
+declare %private function viewItem:date-like($date) {
+    if ($date/@calendar) then
+        let $id := generate-id($date)
+        return
+            (
+            viewItem:dates($date),
+            <a
+                id="date{$id}calendar"
+                class="popup"
+                onclick="popup('dateInfo{$id}')">
+                <i
+                    class="fa fa-calendar-plus-o"
+                    aria-hidden="true"/>
+            </a>)
+    else
+        viewItem:dates($date)
+};
+
 declare %private function viewItem:TEI2HTML($nodes) {
     for $node in $nodes
     return
@@ -548,6 +566,9 @@ declare %private function viewItem:TEI2HTML($nodes) {
             case element(t:collation)
                 return
                     viewItem:VisColl($node)
+            case element(t:date)
+                return
+                    viewItem:date-like($node)
             case element(t:listbibl)
                 return
                     (
@@ -557,12 +578,27 @@ declare %private function viewItem:TEI2HTML($nodes) {
                         {viewItem:TEI2HTML($node/node())}
                     </ul>
                     )
+            case element(t:msDesc)
+                return
+                    viewItem:manuscriptStructure($node)
+            
+            case element(t:msFrag)
+                return
+                    viewItem:manuscriptStructure($node)
+            
+            case element(t:msPart)
+                return
+                    viewItem:manuscriptStructure($node)
             case element(t:note)
                 return
                     if ($node[@xml:id][@n]) then
                         viewItem:footnote($node)
                     else
                         viewItem:TEI2HTML($node/node())
+            
+            case element(t:origDate)
+                return
+                    viewItem:date-like($node)
             case element(t:ptr)
                 return
                     if ($node[starts-with(@target, '#')]) then
@@ -683,27 +719,7 @@ declare %private function viewItem:work($item) {
                     if ((count($rels) ge 1) or $item//t:abstract) then
                         (<h2>General description</h2>,
                         viewItem:TEI2HTML($item//t:abstract),
-                        <p>
-                            {
-                                let $notFormrly := $rels[not(@name = 'betmas:formerlyAlsoListedAs')][not(@name = 'betmas:isAuthorOfEthiopicTranslation')][@name = 'saws:isAttributedToAuthor'][@name = 'dc:creator']
-                                return
-                                    if (count($notFormrly) ge 1) then
-                                        ('See ',
-                                        for $r in $notFormrly
-                                        return
-                                            viewItem:TEI2HTML($r)
-                                        )
-                                    else
-                                        ()
-                            }
-                        </p>,
-                        <p
-                            class="w3-tiny">For a table of all relations from and to this record,
-                            please go to the <a
-                                class="w3-tag w3-gray"
-                                href="/works/{$id}/analytic">Relations</a> view.
-                            In the Relations boxes on the right of this page, you can also find all available relations grouped by name.
-                        </p>)
+                        viewItem:relsinfoblock($rels, $id))
                     else
                         ()
                 }
@@ -824,6 +840,33 @@ declare %private function viewItem:work($item) {
             </div>
         </div>
 };
+
+
+declare %private function viewItem:relsinfoblock($rels, $id) {
+    <p>
+        {
+            let $notFormrly := $rels[not(@name = 'betmas:formerlyAlsoListedAs')][not(@name = 'betmas:isAuthorOfEthiopicTranslation')][@name = 'saws:isAttributedToAuthor'][@name = 'dc:creator']
+            return
+                if (count($notFormrly) ge 1) then
+                    ('See ',
+                    for $r in $notFormrly
+                    return
+                        viewItem:TEI2HTML($r)
+                    )
+                else
+                    ()
+        }
+    </p>,
+    <p
+        class="w3-tiny">For a table of all relations from and to this record,
+        please go to the <a
+            class="w3-tag w3-gray"
+            href="/works/{$id}/analytic">Relations</a> view.
+        In the Relations boxes on the right of this page, you can also find all available relations grouped by name.
+    </p>
+};
+
+
 declare %private function viewItem:narrative($item) {
     (:replaces nar.xsl :)
     $item
@@ -844,12 +887,347 @@ declare %private function viewItem:auth($item) {
     (:replaces auth.xsl :)
     $item
 };
+
 declare %private function viewItem:corpus($item) {
     $item
 };
+
 declare %private function viewItem:manuscript($item) {
     (:replaces mss.xsl :)
-    $item
+    let $id := string($item/@xml:id)
+    let $uri := viewItem:ID2URI($id)
+    let $relsP := $viewItem:coll//t:relation[@passive = $uri]
+    let $relsA := $viewItem:coll//t:relation[@active = $uri]
+    let $rels := ($relsA | $relsP)
+    let $mainidno := $item//t:msIdentifier/t:idno
+    
+    return
+        <div
+            class="w3-twothird"
+            id="MainData">
+            <span
+                property="http://www.cidoc-crm.org/cidoc-crm/P48_has_preferred_identifier"
+                content="{$id}"/>
+            <div
+                class="w3-container"
+                id="description"
+                typeof="http://lawd.info/ontology/AssembledWork https://betamasaheft.eu/mss">
+                {
+                    if ($item//t:date[@evidence = 'internal-date'] or $item//t:origDate[@evidence = 'internal-date']) then
+                        <h1>
+                            <span
+                                class="label label-primary">Dated</span>
+                        </h1>
+                    else
+                        ()
+                }
+                <div
+                    id="maintoogles"
+                    class="btn-group">
+                    <div
+                        class="w3-bar">
+                        {
+                            if (//t:collection[. = 'Tweed Collection']) then
+                                <a
+                                    class="w3-bar-item  w3-hide-medium w3-hide-small w3-button w3-red"
+                                    href="https://betamasaheft.eu/tweed.html">Tweed Collection</a>
+                            else
+                                ()
+                        }
+                        <a
+                            class="w3-bar-item  w3-hide-medium w3-hide-small w3-button w3-red"
+                            id="showattestations"
+                            data-value="mss"
+                            data-id="{$id}">Show attestations</a>
+                        <a
+                            class="w3-bar-item  w3-hide-medium w3-hide-small w3-button w3-gray"
+                            id="togglecodicologicalInformation"><span
+                                class="showHideText">Hide</span> codicological information</a>
+                        <a
+                            class="w3-bar-item w3-hide-medium w3-hide-small w3-button w3-gray"
+                            id="toggletextualcontents"><span
+                                class="showHideText">Hide</span> contents</a>
+                    </div>
+                </div>
+                
+                <div
+                    class="w3-third">
+                    <h2>General description</h2>
+                </div>
+                <div
+                    class="w3-third"/>
+                <div
+                    class="w3-third">
+                    {
+                        if ($item//t:listPerson/t:person/t:persName[@ref]) then
+                            (<h3>People</h3>,
+                            for $person in $item//t:listPerson/t:person
+                            return
+                                <p>
+                                    {viewItem:TEI2HTML($person/node())}
+                                </p>
+                            )
+                        else
+                            ()
+                    }
+                </div>
+                
+                <div
+                    id="allattestations"
+                    class="w3-container"/>
+                <div
+                    class="w3-third  w3-padding">
+                    <h4
+                        property="http://purl.org/dc/elements/1.1/title"
+                        class="toptitle">
+                        {$item//t:titleStmt/t:title[not(@type = 'full')]/text()}
+                    </h4>
+                </div>
+                <div
+                    class="w3-third  w3-padding">
+                    <h4>Number of Text units: <span
+                            class="label label-default">
+                            {count($item//t:msItem[contains(@xml:id, 'i')])}
+                        </span>
+                    </h4>
+                </div>
+                <span
+                    property="http://www.cidoc-crm.org/cidoc-crm/P57_has_number_of_parts"
+                    content="{count(//t:msContents/t:msItem)}"/>
+                <div
+                    class="w3-third  w3-padding">
+                    <h4>Number of Codicological units: <span
+                            class="label label-default">
+                            {
+                                if (count($item//(t:msPart | t:msFrag) ge 1)) then
+                                    count($item//(t:msPart | t:msFrag))
+                                else
+                                    1
+                            }
+                        </span>
+                    </h4>
+                </div>
+                
+                {viewItem:relsinfoblock($rels, $id)}
+                <div
+                    class="w3-container"
+                    id="generalphysical">
+                    {viewItem:TEI2HTML($item//t:msDesc)}
+                </div>
+                <img
+                    id="loadingRole"
+                    src="resources/Loading.gif"
+                    style="display: none;"/>
+                <div
+                    id="roleAttestations"/>
+            </div>
+            {
+                viewItem:TEI2HTML($item)
+            }
+            {viewItem:calendartables($item)}
+        </div>
+};
+
+declare %private function viewItem:divofmanuscript($msDesc, $element, $label) {
+    let $this := $msDesc/t:*[name() = $element]
+    return
+        if (count($this) ge 1) then
+            <div
+                id="{$this/@xml:id}{$label}"
+                class="w3-container w3-margin-bottom">
+                {viewItem:TEI2HTML($this)}
+            </div>
+        else
+            ()
+};
+
+declare %private function viewItem:divofmanuscriptpath($msDesc, $path, $label) {
+    let $this := util:eval(concat('$msDesc', $path))
+    return
+        if (count($this) ge 1) then
+            <div
+                id="{$this/@xml:id}{$label}"
+                class="w3-container w3-margin-bottom">
+                {viewItem:TEI2HTML($this)}
+            </div>
+        else
+            ()
+};
+
+declare %private function viewItem:partofmanuscript($item, $path) {
+    let $this := util:eval(concat('$item', $path))
+    return
+        if (count($this) ge 1) then
+            viewItem:TEI2HTML($this)
+        else
+            ()
+};
+
+declare %private function viewItem:manuscriptStructure($msDesc) {
+    (:replaces msselements.xsl:)
+    (<div
+        class="w3-twothird well"
+        id="textualcontents{$msDesc/@xml:id}">
+        <div
+            class="w3-half">
+            {viewItem:divofmanuscript($msDesc, 'history', 'history')}
+        </div>
+        <div
+            class="w3-half">
+            {viewItem:partofmanuscript($msDesc, '/t:msContents/t:summary')}
+        </div>
+        {viewItem:divofmanuscriptpath($msDesc, '/msContents', 'content')}
+        {viewItem:divofmanuscriptpath($msDesc, '/t:physDesc/t:additions', 'additiones')}
+        {viewItem:divofmanuscriptpath($msDesc, '/t:physDesc/t:decoDesc', 'decorations')}
+        {viewItem:divofmanuscriptpath($msDesc, '/t:additional', 'additionals')}
+    </div>,
+    <div
+        class="w3-third w3-border-left"
+        id="codicologicalInformation{$msDesc/@xml:id}">
+        {viewItem:divofmanuscriptpath($msDesc, '/t:physDesc//t:objectDesc/t:supportDesc', 'dimensions')}
+        {viewItem:divofmanuscriptpath($msDesc, '/t:physDesc//t:bindingDesc', 'binding')}
+        {viewItem:divofmanuscriptpath($msDesc, '/t:physDesc//t:sealDesc', 'seals')}
+        {viewItem:divofmanuscriptpath($msDesc, '/t:physDesc//t:objectDesc/t:layoutDesc', 'dimensions') (:dimensions again! :)}
+        {viewItem:divofmanuscriptpath($msDesc, '/t:physDesc/t:handDesc', 'hands')}
+        {
+            if ($msDesc/ancestor::t:TEI//t:persName[@role])
+            then
+                <div
+                    id="perswithrolemainview"
+                    class="w3-panel w3-red w3-card-4 w3-margin-bottom">
+                    {
+                        for $person in $msDesc/ancestor::t:TEI//t:persName[@role]
+                            group by $ref := $person/@ref
+                        return
+                            (<a
+                                xmlns="http://www.w3.org/1999/xhtml"
+                                href="{$ref}"
+                                class="persName">
+                                {
+                                    for $r in $ref
+                                    return
+                                        (viewItem:TEI2HTML($r/t:choice), viewItem:TEI2HTML($r/t:roleName), viewItem:TEI2HTML($r/t:hi))
+                                }{exptit:printTitle($ref)}
+                            </a>,
+                            let $roles := for $role in $ref/@role
+                            return
+                                $role
+                            return
+                                string-join($roles, ', '), <br/>)
+                    }
+                </div>
+            else
+                ()
+        }
+        {viewItem:divofmanuscriptpath($msDesc, '/t:msPart', 'parts')}
+        {viewItem:divofmanuscriptpath($msDesc, '/t:msFrag', 'fragments')}
+    </div>
+    )
+};
+
+declare %private function viewItem:calendartables($item) {
+    for $date in $item//t:date[@calendar] | $item//t:origDate[@calendar]
+    let $id := generate-id($date)
+    return
+        <div
+            class="w3-hide">
+            <div
+                class="w3-responsive w3-hide popuptext"
+                id="dateInfo{$id}">
+                
+                <table
+                    class="w3-table w3-hoverable">
+                    <thead>
+                        <tr>
+                            <th>info</th>
+                            <th>value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Standard date</td>
+                            <td>
+                                {viewItem:dates($date)}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Date in current calendar</td>
+                            <td>
+                                {viewItem:dates-custom($date)}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Calendar</td>
+                            <td>
+                                {string($date/@calendar)}
+                            </td>
+                        </tr>
+                        {
+                            if ($date/@dur) then
+                                <tr>
+                                    <td>Duration</td>
+                                    <td>
+                                        {string($date/@dur)}
+                                    </td>
+                                </tr>
+                            else
+                                ()
+                        }
+                        {
+                            if ($date/@type) then
+                                <tr>
+                                    <td>Date type</td>
+                                    <td>
+                                        {string($date/@type)}
+                                    </td>
+                                </tr>
+                            else
+                                ()
+                        }
+                        {
+                            if ($date/@evidence) then
+                                <tr>
+                                    <td>Evidence</td>
+                                    <td>
+                                        {string($date/@evidence)}
+                                    </td>
+                                </tr>
+                            else
+                                ()
+                        }
+                        {
+                            if ($date/@cert) then
+                                <tr>
+                                    <td>Certainty</td>
+                                    <td>
+                                        {string($date/@cert)}
+                                    </td>
+                                </tr>
+                            else
+                                ()
+                        }
+                        {
+                            if ($date/@resp) then
+                                <tr>
+                                    <td>Attribution</td>
+                                    <td>
+                                        {
+                                            if (starts-with($date/@resp, 'PRS') or starts-with($date/@resp, 'ETH')) then
+                                                exptit:printTitle($date/@resp)
+                                            else
+                                                viewItem:editorName($date/@resp)
+                                        }
+                                    </td>
+                                </tr>
+                            else
+                                ()
+                        }
+                    
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
 };
 
 declare function viewItem:main($item) {
@@ -944,6 +1322,22 @@ declare function viewItem:q($q) {
     
 };
 
+declare function viewItem:dates-custom($date) {
+    if ($date/@notBefore-custom and $date/@notAfter-custom) then
+        (viewItem:date($date/@notBefore-custom) || '-' || viewItem:date($date/@notAfter-custom))
+    else
+        if ($date/@notAfter-custom and not($date/@notBefore-custom)) then
+            ('Before ' || viewItem:date($date/@notAfter-custom))
+        else
+            if (not($date/@notAfter-custom) and $date/@notBefore-custom) then
+                ('After ' || viewItem:date($date/@notBefore-custom))
+            else
+                if ($date/@when-custom) then
+                    string($date/@when-custom)
+                else
+                    ('no *-custom attributes')
+};
+
 declare function viewItem:dates($date) {
     (:replaces dates.xsl expects origDate, floruit, death or birth returns a string:)
     let $dates := if ($date/@when) then
@@ -982,8 +1376,16 @@ declare function viewItem:dates($date) {
         '?'
     else
         ()
+    let $resp := if ($date/@resp) then
+        (' according to ',
+        if (starts-with($date/@resp, 'PRS') or starts-with($date/@resp, 'ETH')) then
+            exptit:printTitle($date/@resp)
+        else
+            viewItem:editorName($date/@resp))
+    else
+        ()
     return
-        ($dates, $evidence, $cert, viewItem:TEI2HTML($date/node()))
+        ($dates, $evidence, $cert, $resp, viewItem:TEI2HTML($date/node()))
 };
 
 
@@ -1078,11 +1480,15 @@ declare function viewItem:textfragment($frag) {
                 return
                     <span
                         id="{$r}Name">
-                        {$viewItem:editors//t:item[@xml:id = $r]/text()}
+                        {viewItem:editorName($r)}
                     </span>
             }
         </div>
     </div>
+};
+
+declare %private function viewItem:editorName($ref) {
+    $viewItem:editors//t:item[@xml:id = $ref]/text()
 };
 
 declare function viewItem:textfragmentbibl($this, $id) {
@@ -1101,7 +1507,7 @@ declare function viewItem:textfragmentbibl($this, $id) {
     return
         <span
             id="{$r}Name">
-            {$viewItem:editors//t:item[@xml:id = $r]/text()}
+            {viewItem:editorName($r)}
         </span>
 };
 
@@ -1200,8 +1606,8 @@ declare function viewItem:authnav($item) {
 };
 
 declare function viewItem:manuscriptnav($item) {
-(
-if ($item//t:placeName) then
+    (
+    if ($item//t:placeName) then
         <a
             class="w3-bar-item page-scroll"
             href="/IndexPlaces?entity={string($item/@xml:id)}">Places Index</a>
@@ -1213,55 +1619,111 @@ if ($item//t:placeName) then
             href="/IndexPersons?entity={string($item/@xml:id)}">Persons Index</a>
     else
         (),
-        <a class="w3-bar-item page-scroll" href="#general">General</a>,
-                            <a class="w3-bar-item page-scroll" href="#description">Description</a>,
-                            <a class="w3-bar-item page-scroll" href="#generalphysical">Physical Description</a>,
-                            if($item//t:msPart or $item//t:msFrag) then
-                            <div class="w3-bar-item">
-                                Main parts
-                                <ul>
-{                            for $part in ($item//t:msPart, $item//t:msFrag)
-                            return 
-                            <li>
-                                        <a class="page-scroll" href="#{$part/@xml:id}">Codicological unit {substring(@xml:id, 1)}</a>
-                                    </li>
-                            }</ul>
-                            </div>
-                            else (),
-                            if($item//t:additional//t:listBibl) then 
-                            <a class="w3-bar-item page-scroll" href="#catalogue">Catalogue</a>
-                            else (),
-                            if($item//t:body[t:div]) then 
-                            <a class=" w3-bar-item page-scroll" href="#transcription">Transcription </a>
-                            else (),
-                            <a class="w3-bar-item page-scroll" href="#footer">Authors</a>,
-                              <button class="w3-button w3-red w3-bar-item" onclick="openAccordion('NavByIds')">Show more links</button>,
-                <ul class="w3-bar-item w3-hide" id="NavByIds">
-                {for $node at $p in $item//t:*[not(self::t:TEI)][@xml:id]
-                let $anchor := string($node/@xml:id)
+    <a
+        class="w3-bar-item page-scroll"
+        href="#general">General</a>,
+    <a
+        class="w3-bar-item page-scroll"
+        href="#description">Description</a>,
+    <a
+        class="w3-bar-item page-scroll"
+        href="#generalphysical">Physical Description</a>,
+    if ($item//t:msPart or $item//t:msFrag) then
+        <div
+            class="w3-bar-item">
+            Main parts
+            <ul>
+                {
+                    for $part in ($item//t:msPart, $item//t:msFrag)
+                    return
+                        <li>
+                            <a
+                                class="page-scroll"
+                                href="#{$part/@xml:id}">Codicological unit {substring(@xml:id, 1)}</a>
+                        </li>
+                }</ul>
+        </div>
+    else
+        (),
+    if ($item//t:additional//t:listBibl) then
+        <a
+            class="w3-bar-item page-scroll"
+            href="#catalogue">Catalogue</a>
+    else
+        (),
+    if ($item//t:body[t:div]) then
+        <a
+            class=" w3-bar-item page-scroll"
+            href="#transcription">Transcription </a>
+    else
+        (),
+    <a
+        class="w3-bar-item page-scroll"
+        href="#footer">Authors</a>,
+    <button
+        class="w3-button w3-red w3-bar-item"
+        onclick="openAccordion('NavByIds')">Show more links</button>,
+    <ul
+        class="w3-bar-item w3-hide"
+        id="NavByIds">
+        {
+            for $node at $p in $item//t:*[not(self::t:TEI)][not(self::t:category)][not(self::t:editor)][not(self::t:calendar)][@xml:id]
+            let $anchor := string($node/@xml:id)
                 order by $p
-                return 
+            return
                 <li>
-                                    <a class="page-scroll" href="#{$anchor}">
-                                    {if ($anchor ='ms') then 'General manuscript description'
-                                    else if (starts-with($anchor, 'p') and matches($anchor, '^\w\d+$')) then 'Codicological Unit ' || substring($anchor, 1) || viewItem:headercontext($p)
-                                    else if (starts-with($anchor, 'f') and matches($anchor, '^\w\d+$')) then 'Fragment ' || substring($anchor, 1) || viewItem:headercontext($p)
-                                    else if (starts-with($anchor, 't') and matches($anchor, '\w\d+')) then 'Title ' || substring($anchor, 1) || viewItem:headercontext($p)
-                                    else if (starts-with($anchor, 'b') and matches($anchor, '\w\d+')) then 'Binding ' || substring($anchor, 1) || viewItem:headercontext($p)
-                                    else if (starts-with($anchor, 'a') and matches($anchor, '\w\d+')) then 'Addition ' || substring($anchor, 1) || viewItem:headercontext($p)
-                                    else if (starts-with($anchor, 'e') and matches($anchor, '\w\d+')) then 'Extra ' || substring($anchor, 1) || viewItem:headercontext($p)
-                                    else if (starts-with($anchor, 'd') and matches($anchor, '\w\d+')) then 'Decoration ' || substring($anchor, 1) || viewItem:headercontext($p)
-                                    else if (starts-with($anchor, 'coloph') and matches($anchor, 'coloph')) then 'Colophon ' || substring($anchor, 1) || viewItem:headercontext($p)
-                                    else if (starts-with($anchor, 'i') and matches($anchor, '\w\d+')) then 'Content Item ' || substring($anchor, 1) || viewItem:headercontext($p)
-                                    else if (starts-with($anchor, 'q') and matches($anchor, '\w\d+')) then 'Quire ' || substring($anchor, 1) || viewItem:headercontext($p)
-                                    else if (starts-with($anchor, 'h') and matches($anchor, '\w\d+')) then 'Hand ' || substring($anchor, 1) || viewItem:headercontext($p)
-                                    else $p/name() }
-                                    </a>
-                                    </li>
-                }
-                            </ul>
-                            
-)
+                    <a
+                        class="page-scroll"
+                        href="#{$anchor}">
+                        {
+                            if ($anchor = 'ms') then
+                                'General manuscript description'
+                            else
+                                if (starts-with($anchor, 'p') and matches($anchor, '^\w\d+$')) then
+                                    'Codicological Unit ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+                                else
+                                    if (starts-with($anchor, 'f') and matches($anchor, '^\w\d+$')) then
+                                        'Fragment ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+                                    else
+                                        if (starts-with($anchor, 't') and matches($anchor, '\w\d+')) then
+                                            'Title ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+                                        else
+                                            if (starts-with($anchor, 'b') and matches($anchor, '\w\d+')) then
+                                                'Binding ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+                                            else
+                                                if (starts-with($anchor, 'a') and matches($anchor, '\w\d+')) then
+                                                    viewItem:categoryname($node, $node/t:desc/@type) || ' (' || substring($anchor, 1) || ') ' || string-join(viewItem:headercontext($node))
+                                                else
+                                                    if (starts-with($anchor, 'e') and matches($anchor, '\w\d+')) then
+                                                        viewItem:categoryname($node, $node/t:desc/@type) || ' (' || substring($anchor, 1) || ') ' || string-join(viewItem:headercontext($node))
+                                                    else
+                                                        if (starts-with($anchor, 'd') and matches($anchor, '\w\d+')) then
+                                                            'Decoration ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+                                                        else
+                                                            if (starts-with($anchor, 'coloph') and matches($anchor, 'coloph')) then
+                                                                'Colophon ' || substring-after($anchor, 'coloph') || string-join(viewItem:headercontext($node))
+                                                            else
+                                                                if (contains($anchor, '_i') and matches($anchor, '\w\d+')) then
+                                                                    'Content Item ' || substring-after($anchor, '_i') || string-join(viewItem:headercontext($node)) || $node/t:title/text()
+                                                                else
+                                                                    if (starts-with($anchor, 'q') and matches($anchor, '\w\d+')) then
+                                                                        'Quire ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+                                                                    else
+                                                                        if (starts-with($anchor, 'h') and matches($anchor, '\w\d+')) then
+                                                                            'Hand ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+                                                                        else
+                                                                            $node/name()
+                        }
+                    </a>
+                </li>
+        }
+    </ul>
+    
+    )
+};
+
+declare function viewItem:categoryname($item, $type) {
+    $item//t:category[@xml:id = $type]/t:catDesc/text()
 };
 
 declare function viewItem:nav($item) {
