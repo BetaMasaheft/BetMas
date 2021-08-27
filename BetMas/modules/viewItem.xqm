@@ -555,6 +555,11 @@ declare %private function viewItem:TEI2HTML($nodes) {
                 return
                     ()
                     (:                    decides what to do for each named element, ordered alphabetically:)
+                     case element(t:altIdentifier)
+                return
+                (<p>Also identified as</p>, 
+                viewItem:TEI2HTML($node/node())
+                )
             case element(t:bibl)
                 return
                     viewItem:bibliographyitem($node)
@@ -568,9 +573,15 @@ declare %private function viewItem:TEI2HTML($nodes) {
             case element(t:collation)
                 return
                     viewItem:VisColl($node)
+             case element(t:collection)
+             return
+              <p>Collection:  {$node/text()}</p>
             case element(t:date)
                 return
                     viewItem:date-like($node)
+                    case element(t:idno)
+                return
+                    <p>{$node/text()}</p>
             case element(t:listbibl)
                 return
                     (
@@ -613,6 +624,12 @@ declare %private function viewItem:TEI2HTML($nodes) {
             case element(t:ref)
                 return
                     viewItem:ref($node)
+           case element(t:repository)
+             return
+              <a target="_blank" href="{$node/@ref}" role="button" class="w3-tag w3-gray w3-margin-top" 
+              property="http://www.cidoc-crm.org/cidoc-crm/P55_has_current_location" resource="{$node/@ref}">
+            {$node/text()}
+        </a>
             case element(t:seg)
                 return
                     if ($node/@ana) then
