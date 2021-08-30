@@ -28,7 +28,7 @@ import module namespace exreq = "http://exquery.org/ns/request";
 import module namespace viewItem = "https://www.betamasaheft.uni-hamburg.de/BetMas/viewItem" at "xmldb:exist:///db/apps/BetMas/modules/viewItem.xqm";
 import module namespace locus = "https://www.betamasaheft.uni-hamburg.de/BetMas/locus" at "xmldb:exist:///db/apps/BetMas/modules/locus.xqm";
 
-declare variable $apprest:languages := doc('/db/apps/BetMas/lists/languages.xml');
+declare variable $apprest:languages := doc('/db/apps/lists/languages.xml');
 declare variable $apprest:prefixes := doc('https://raw.githubusercontent.com/BetaMasaheft/Documentation/master/prefixDef.xml');
 declare variable $apprest:collection-rootMS := collection($config:data-rootMS);
 declare variable $apprest:collection-rootPr := collection($config:data-rootPr);

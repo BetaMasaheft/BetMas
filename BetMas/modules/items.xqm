@@ -33,7 +33,7 @@ declare namespace http = "http://expath.org/ns/http-client";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json = "http://www.json.org";
 
-declare variable $restItem:deleted := doc('/db/apps/BetMas/lists/deleted.xml');
+declare variable $restItem:deleted := doc('/db/apps/lists/deleted.xml');
 
 (:parameter hi is used to highlight searched word when coming query from Dillmann
 parameters start and perpage are for the text visualization with pagination as per standard usage:)

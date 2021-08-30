@@ -83,8 +83,8 @@ let $bibliography :=
 
 
 
-let $store:=    xmldb:store('/db/apps/BetMas/lists', 'bibliography.xml', $bibliography)
-let $stored:= '/db/apps/BetMas/lists/bibliography.xml'
+let $store:=    xmldb:store('/db/apps/lists', 'bibliography.xml', $bibliography)
+let $stored:= '/db/apps/lists/bibliography.xml'
 let $permission := (sm:chgrp($stored, 'Cataloguers'), sm:chmod($stored, 'rwxrwxrwx'))  
 let $message :='stored ' || $stored
 return 

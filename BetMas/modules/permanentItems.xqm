@@ -37,7 +37,7 @@ declare namespace http = "http://expath.org/ns/http-client";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json = "http://www.json.org";
 
-declare variable $PermRestItem:deleted := doc('/db/apps/BetMas/lists/deleted.xml');
+declare variable $PermRestItem:deleted := doc('/db/apps/lists/deleted.xml');
 
 
 declare function PermRestItem:capitalize-first

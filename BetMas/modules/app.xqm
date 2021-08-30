@@ -35,14 +35,14 @@ import module namespace console="http://exist-db.org/xquery/console";
 import module namespace apptable="https://www.betamasaheft.uni-hamburg.de/BetMas/apptable" at "xmldb:exist:///db/apps/BetMas/modules/apptable.xqm";
 
 (:~declare variable $app:item-uri as xs:string := raequest:get-parameter('uri',());:)
-declare variable $app:deleted := doc('/db/apps/BetMas/lists/deleted.xml');
+declare variable $app:deleted := doc('/db/apps/lists/deleted.xml');
 declare variable $app:collection as xs:string := request:get-parameter('collection',());
 declare variable $app:name as xs:string := request:get-parameter('name',());
 declare variable $app:params := request:get-parameter-names() ;
 declare variable $app:facets := doc("/db/system/config/db/apps/BetMasData/collection.xconf")//xconf:facet/@dimension ;
 declare variable $app:rest  as xs:string := '/rest/';
-declare variable $app:languages := doc('/db/apps/BetMas/lists/languages.xml');
-declare variable $app:tax := doc('/db/apps/BetMas/lists/canonicaltaxonomy.xml');
+declare variable $app:languages := doc('/db/apps/lists/languages.xml');
+declare variable $app:tax := doc('/db/apps/lists/canonicaltaxonomy.xml');
 declare variable $app:range-lookup := 
     (
         function-lookup(xs:QName("range:index-keys-for-field"), 4),

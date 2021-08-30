@@ -20,7 +20,7 @@ declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace xconf = "http://exist-db.org/collection-config/1.0";
 declare namespace sr = "http://www.w3.org/2005/sparql-results#";
 
-declare variable $q:deleted := doc('/db/apps/BetMas/lists/deleted.xml');
+declare variable $q:deleted := doc('/db/apps/lists/deleted.xml');
 declare variable $q:collection as xs:string := request:get-parameter('collection', ());
 declare variable $q:name as xs:string := request:get-parameter('name', ());
 declare variable $q:searchType as xs:string := request:get-parameter('searchType', ());
@@ -56,9 +56,9 @@ declare variable $q:allopts := map {
 };
 
 
-declare variable $q:lists := collection('/db/apps/BetMas/lists/');
-declare variable $q:languages := doc('/db/apps/BetMas/lists/languages.xml');
-declare variable $q:tax := doc('/db/apps/BetMas/lists/canonicaltaxonomy.xml');
+declare variable $q:lists := collection('/db/apps/lists/');
+declare variable $q:languages := doc('/db/apps/lists/languages.xml');
+declare variable $q:tax := doc('/db/apps/lists/canonicaltaxonomy.xml');
 declare variable $q:range-lookup3 :=function-lookup(xs:QName("range:index-keys-for-field"), 3);
 declare variable $q:range-lookup :=
 (
@@ -309,7 +309,7 @@ declare function q:clavis($q) {
         ()
     else
         "[contains(@xml:id, '" || string(format-number($q, '0000')) || "') and not(ends-with(@xml:id, 'IHA'))]"
-    let $deletedClavis := for $d in doc('/db/apps/BetMas/lists/deleted.xml')//t:item[contains(., $q)]
+    let $deletedClavis := for $d in doc('/db/apps/lists/deleted.xml')//t:item[contains(., $q)]
     return
         map {
             'hit': $d,

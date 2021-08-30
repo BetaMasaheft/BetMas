@@ -38,7 +38,7 @@ let $Imap := map {'type': 'user', 'name' : ($un||'/'||$username)}
 
 return 
 
-    if (sm:is-dba($un) or (($username = $un) and sm:is-account-enabled($un)  and sm:is-authenticated()) or doc('/db/apps/BetMas/lists/editors.xml')//t:item[@n eq $username])
+    if (sm:is-dba($un) or (($username = $un) and sm:is-account-enabled($un)  and sm:is-authenticated()) or doc('/db/apps/lists/editors.xml')//t:item[@n eq $username])
     then
     (
     <rest:response>

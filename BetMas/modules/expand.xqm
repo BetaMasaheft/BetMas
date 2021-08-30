@@ -126,8 +126,8 @@ declare variable $expand:listPrefixDef :=
 </listPrefixDef>;
 
 declare variable $expand:BMurl := 'https://betamasaheft.eu/';
-declare variable $expand:editorslist := doc('/db/apps/BetMas/lists/editors.xml')//t:list;
-declare variable $expand:canontax := doc('/db/apps/BetMas/lists/canonicaltaxonomy.xml');
+declare variable $expand:editorslist := doc('/db/apps/BetMas/editors.xml')//t:list;
+declare variable $expand:canontax := doc('/db/apps/BetMas/canonicaltaxonomy.xml');
 
 declare variable $expand:fullTEIcol-path := '/db/apps/expanded';
 

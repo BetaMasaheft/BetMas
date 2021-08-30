@@ -34,8 +34,8 @@ declare namespace cmd = "http://www.clarin.eu/cmd/";
 (:~ For REST annotations :)
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json = "http://www.json.org";
-
-declare variable $list:catalogues := doc(concat($config:app-root, '/lists/catalogues.xml'))//t:list;
+declare variable $list:instit := doc('/db/apps/lists/institutions.xml') ;
+declare variable $list:catalogues := doc('/db/apps/lists/catalogues.xml')//t:list;
 declare variable $list:app-meta := <meta  xmlns="http://www.w3.org/1999/xhtml" name="description" content="{$config:repo-descriptor/repo:description/text()}"/>,
     for $genauthor in $config:repo-descriptor/repo:author
     return
@@ -80,7 +80,7 @@ return
  <div class="w3-row w3-hide-small" style="right: 0px;width: 300px;width:30%;position: fixed;">
  <div class="w3-bar">
  <a class="w3-bar-item page-scroll" href="#group-A">top</a>{ 
- let $letter := for $repoi at $p in doc('/db/apps/BetMas/lists/institutions.xml')//t:item return upper-case(substring(replace($repoi/text(), '\s', ''), 1, 1))
+ let $letter := for $repoi at $p in $list:instit//t:item return upper-case(substring(replace($repoi/text(), '\s', ''), 1, 1))
    for $l in distinct-values($letter) 
    order by $l
    return 
@@ -88,7 +88,7 @@ return
    }</div></div>
 ,
 <div style="left:300px">{
-    for $repoi at $p in doc('/db/apps/BetMas/lists/institutions.xml')//t:item
+    for $repoi at $p in $list:instit//t:item
     let $firstletter := upper-case(substring($repoi/text(), 1, 1))
     group by $First := $firstletter
     order by $First

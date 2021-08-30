@@ -8,11 +8,11 @@ declare namespace sparql = "http://www.w3.org/2005/sparql-results#";
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace console="http://exist-db.org/xquery/console";
 (: these lists are separately indexed here in the app with the collection.xconf for BetMas :)
-declare variable $titles:placeNamesList := doc('/db/apps/BetMas/lists/placeNamesLabels.xml');
-declare variable $titles:institutionsList := doc('/db/apps/BetMas/lists/institutions.xml');
-declare variable $titles:persNamesList := doc('/db/apps/BetMas/lists/persNamesLabels.xml');
-declare variable $titles:TUList := doc('/db/apps/BetMas/lists/textpartstitles.xml');
-declare variable $titles:deleted := doc('/db/apps/BetMas/lists/deleted.xml');
+declare variable $titles:placeNamesList := doc('/db/apps/lists/placeNamesLabels.xml');
+declare variable $titles:institutionsList := doc('/db/apps/lists/institutions.xml');
+declare variable $titles:persNamesList := doc('/db/apps/lists/persNamesLabels.xml');
+declare variable $titles:TUList := doc('/db/apps/lists/textpartstitles.xml');
+declare variable $titles:deleted := doc('/db/apps/lists/deleted.xml');
 
 declare variable $titles:collection-root := collection($config:bmdata-root);
 declare variable $titles:collection-rootPl := collection(concat($config:bmdata-root, '/places'));

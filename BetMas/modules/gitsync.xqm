@@ -39,13 +39,13 @@ import module namespace validation = "http://exist-db.org/xquery/validation";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare option exist:serialize "method=xml media-type=text/xml indent=yes";
 
-declare variable $gitsync:institutions := doc('/db/apps/BetMas/lists/institutions.xml');
-declare variable $gitsync:persons := doc('/db/apps/BetMas/lists/persNamesLabels.xml');
-declare variable $gitsync:textparts := doc('/db/apps/BetMas/lists/textpartstitles.xml');
-declare variable $gitsync:places := doc('/db/apps/BetMas/lists/placeNamesLabels.xml');
-declare variable $gitsync:deleted := doc('/db/apps/BetMas/lists/deleted.xml');
+declare variable $gitsync:institutions := doc('/db/apps/lists/institutions.xml');
+declare variable $gitsync:persons := doc('/db/apps/lists/persNamesLabels.xml');
+declare variable $gitsync:textparts := doc('/db/apps/lists/textpartstitles.xml');
+declare variable $gitsync:places := doc('/db/apps/lists/placeNamesLabels.xml');
+declare variable $gitsync:deleted := doc('/db/apps/lists/deleted.xml');
 declare variable $gitsync:taxonomy := doc(concat($config:data-rootA,'/taxonomy.xml'));
-declare variable $gitsync:canotax := doc('db/apps/BetMas/lists/canonicaltaxonomy.xml');
+declare variable $gitsync:canotax := doc('db/apps/lists/canonicaltaxonomy.xml');
 declare variable $gitsync:data2rdf := 'xmldb:exist:///db/apps/BetMas/rdfxslt/data2rdf.xsl';
 
 (:Stores the RDF in the correct subcollection in the archive inside exist and sends a request to fuseki to update :)
@@ -732,6 +732,7 @@ declare function gitsync:TaxonomyMessage() {
  : @param $json-data github response serializing as xml xqjson:parse-json()  
  :)
 declare function gitsync:parse-request($json-data, $data-collection) {
+let $login := xmldb:login($data-collection, 'Pietro', 'Hdt7.10')
 let $repository := $json-data?repository
 let $cturl := $repository?contents_url
 let $contents-url := substring-before($cturl, '{')

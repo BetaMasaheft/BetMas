@@ -60,7 +60,7 @@ declare
 %output:method("html")
 function api:listRepositoriesName()
 {
-for $i in doc('/db/apps/BetMas/lists/institutions.xml')//t:item
+for $i in doc('/db/apps/lists/institutions.xml')//t:item
 let $name := $i/text()
 order by $name
 return
@@ -74,7 +74,7 @@ declare
 %output:method("html")
 function api:getcataloguesZotero()
 {
-for $catalogue in doc('/db/apps/BetMas/lists/catalogues.xml')//t:item
+for $catalogue in doc('/db/apps/lists/catalogues.xml')//t:item
 let $sorting := $catalogue//text()[1]
 order by $sorting
 return

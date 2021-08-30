@@ -14,11 +14,11 @@ declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace sparql = "http://www.w3.org/2005/sparql-results#";
 
 declare variable $exptit:col := collection($config:data-root);
-declare variable $exptit:placeNamesList := doc('/db/apps/BetMas/lists/placeNamesLabels.xml');
-declare variable $exptit:institutionsList := doc('/db/apps/BetMas/lists/institutions.xml');
-declare variable $exptit:persNamesList := doc('/db/apps/BetMas/lists/persNamesLabels.xml');
-declare variable $exptit:TUList := doc('/db/apps/BetMas/lists/textpartstitles.xml');
-declare variable $exptit:deleted := doc('/db/apps/BetMas/lists/deleted.xml');
+declare variable $exptit:placeNamesList := doc('/db/apps/lists/placeNamesLabels.xml');
+declare variable $exptit:institutionsList := doc('/db/apps/lists/institutions.xml');
+declare variable $exptit:persNamesList := doc('/db/apps/lists/persNamesLabels.xml');
+declare variable $exptit:TUList := doc('/db/apps/lists/textpartstitles.xml');
+declare variable $exptit:deleted := doc('/db/apps/lists/deleted.xml');
 
 
 (: The entry point function of the module. Establishes the different rules and priority to print a title referring to a record. can start from any node in the document. :)
