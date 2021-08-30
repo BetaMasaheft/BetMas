@@ -1,5 +1,6 @@
 <collection xmlns="http://exist-db.org/collection-config/1.0">
     <index xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:t="http://www.tei-c.org/ns/1.0">
+    
         <fulltext default="none" attributes="false"/>
         <create qname="id" type="xs:string"/>
         <lucene diacritics="no">
@@ -116,6 +117,7 @@
                 <field name="datesNB" type="xs:date" expression="t:teiHeader//(t:date|t:origDate)/@notBefore"/>
                 <field name="datesNA" type="xs:date" expression="t:teiHeader//(t:date|t:origDate)/@notAfter"/>
                 <field name="datesW" type="xs:date" expression="t:teiHeader//(t:date|t:origDate)/@when"/>
+                
                 <!--all--> 
                 <facet dimension="type" expression="switch(@type) case 'mss' return 'manuscript' case 'work' return 'textual unit' case 'pers' return 'person' case 'place' return 'place' case 'ins' return 'repository' case 'nar' return 'narrative unit' default return 'authority file'"/>
                 <facet dimension="keywords" expression="t:teiHeader//(t:term/@key|t:ref[@type='authFile']/@corresp)"/>
@@ -741,6 +743,38 @@
             
             <create qname="t:layout">
                 <field name="writtenLines" match="@writtenLines" type="xs:string"/>
+            </create>
+            
+            <create qname="t:collection">
+                <field name="collectiontext" type="xs:string"/>
+            </create>
+            
+            <create qname="t:zone">
+                <field name="zonerendition" match="@rendition" type="xs:string"/>
+                <field name="zoneid" match="@xml:id" type="xs:string"/>
+            </create>
+            <create qname="t:facsimile">
+                <field name="facsimileid" match="@xml:id" type="xs:string"/>
+            </create>
+            <create qname="t:surface">
+                <field name="surfaceid" match="@xml:id" type="xs:string"/>
+            </create>
+            
+            
+            <create qname="t:lb">
+                <field name="lbid" match="@xml:id" type="xs:string"/>
+                <field name="lbfacs" match="@facs" type="xs:string"/>
+                <field name="lbn" match="@n" type="xs:string"/>
+            </create>
+            <create qname="t:cb">
+                <field name="cbid" match="@xml:id" type="xs:string"/>
+                <field name="cbfacs" match="@facs" type="xs:string"/>
+                <field name="cbn" match="@n" type="xs:string"/>
+            </create>
+            <create qname="t:pb">
+                <field name="pbid" match="@xml:id" type="xs:string"/>
+                <field name="pbfacs" match="@facs" type="xs:string"/>
+                <field name="pbn" match="@n" type="xs:string"/>
             </create>
             
         </range>
