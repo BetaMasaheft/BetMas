@@ -544,11 +544,11 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
             case element(t:idno)
                 return
                     element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
-                        ($node/@*[not(name() = 'facs')],
+                        ($node/@*,
                         if ($node/@facs) then
                             let $mainFacs := $node/@facs
                             return
-                                attribute facs {
+                                attribute corresp {
                                     if (contains($mainFacs, 'vatlib') or contains($mainFacs, 'gallica')) then
                                         $mainFacs
                                     else

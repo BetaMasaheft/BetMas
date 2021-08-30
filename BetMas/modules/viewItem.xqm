@@ -4,6 +4,7 @@ module namespace viewItem = "https://www.betamasaheft.uni-hamburg.de/BetMas/view
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace exptit = "https://www.betamasaheft.uni-hamburg.de/BetMas/exptit" at "xmldb:exist:///db/apps/BetMas/modules/exptit.xqm";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
+declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace b = "betmas.biblio";
 declare variable $viewItem:coll := collection('/db/apps/expanded');
 
@@ -11,10 +12,598 @@ declare variable $viewItem:bibliography := doc('/db/apps/BetMas/lists/bibliograp
 declare variable $viewItem:domlib := doc('/db/apps/BetMas/lists/domlib.xml');
 declare variable $viewItem:editors := doc('/db/apps/BetMas/lists/editors.xml')//t:list;
 
+declare %private function viewItem:imagesID($locus, $callorid, $att, $ancID) {
+    let $id := concat('images', replace(normalize-space(string-join($att)), ' ', '_'), $ancID)
+    return
+        if ($callorid = 'call') then
+            concat('document.getElementById(&#34;', $id, '&#34;).style.display=&#34;block&#34;')
+        else
+            $id
+};
+
+declare %private function viewItem:parseRef($FromToTarget) {
+    let $regex := '(\d+)([r|v])?([a-z])?(\d+)?'
+    let $analyse := analyze-string($FromToTarget, $regex)
+    return
+        (for $s in $analyse//s:non-match
+        return
+            $s,
+        for $s in $analyse//s:match
+        return
+            ($s/s:group[@nr = "1"]/text(), $s/s:group[@nr = "2"]/text(), $s/s:group[@nr = "3"]/text(),
+            if ($s/s:group[@nr = "4"]) then
+                concat(' l.', $s/s:group[@nr = "4"]/text())
+            else
+                ())
+        )
+};
+
+declare %private function viewItem:breakdownRef($FromToTarget) {
+    let $regex := '(\d+)([r|v])?([a-z])?(\d+)?'
+    let $analyse := analyze-string($FromToTarget, $regex)
+    return
+        (for $s in $analyse//s:non-match
+        return
+            $s,
+        for $s in $analyse//s:match
+        return
+            <ref>
+                <folio>
+                    {$s/s:group[@nr = "1"]/text()}
+                </folio>
+                {
+                    if ($s/s:group[@nr = "2"]) then
+                        <side>
+                            {$s/s:group[@nr = "2"]/text()}
+                        </side>
+                    else
+                        ()
+                }
+                {
+                    if ($s/s:group[@nr = "3"]) then
+                        <col>
+                            {$s/s:group[@nr = "3"]/text()}
+                        </col>
+                    else
+                        ()
+                }
+                
+                {
+                    if ($s/s:group[@nr = "4"]) then
+                        <line>
+                            {$s/s:group[@nr = "4"]/text()}
+                        </line>
+                    else
+                        ()
+                }
+            </ref>
+        )
+};
+
+declare %private function viewItem:mainID($node) {
+    string($node/ancestor::t:TEI/@xml:id)
+};
+
+declare %private function viewItem:locus($this) {
+    let $parent := $this/parent::node()
+    let $mainID := viewItem:mainID($this)
+    let $anc := ($this/ancestor::t:*[@xml:id])[1]
+    let $ancID := replace($anc/@xml:id, '\.', '_')
+    return
+        (
+        if ($this/parent::t:ab[not(@type = 'CruxAnsata' or @type = 'ChiRho' or @type = 'coronis')]) then
+            '(Excerpt from '
+        else
+            (),
+        if ($this[not(text())]) then
+            if (contains($this/@target, ' ')) then
+                let $prefix := if ($this/ancestor::t:TEI//t:extent/t:measure[@unit = 'page']) then
+                    'pp. '
+                else
+                    'ff. '
+                let $targets := for $t in viewItem:makeSequence($this/@target)
+                return
+                    <a
+                        href="{$t}">
+                        {viewItem:choosefacsorlb($this, $ancID)}
+                        {viewItem:parseRef(concat(substring-after($t, '#'), ' '))}
+                    </a>
+                return
+                    ($prefix,
+                    $targets)
+            else
+                if ($this/@target) then
+                    let $prefix := if ($this/ancestor::t:TEI//t:extent/t:measure[@unit = 'page']) then
+                        'p. '
+                    else
+                        'f. '
+                    return
+                        ($prefix,
+                        <a
+                            href="{$this/@target}">
+                            {viewItem:choosefacsorlb($this, $ancID)}
+                            {viewItem:parseRef(concat(substring-after($this/@target, '#'), ' '))}
+                        </a>)
+                else
+                    let $prefix := if ($this/ancestor::t:TEI//t:extent/t:measure[@unit = 'page']) then
+                        'pp. '
+                    else
+                        'ff. '
+                    return
+                        (<a
+                            href="#{$this/@from}">
+                            {viewItem:choosefacsorlb($this, $ancID)}
+                            {viewItem:parseRef($this/@from)}
+                        </a>,
+                        '–',
+                        <a
+                            href="#{$this/@to}">
+                            {viewItem:choosefacsorlb($this, $ancID)}
+                            {viewItem:parseRef($this/@to)}
+                        </a>
+                        )
+        else
+            (
+            if ($this/@target) then
+                <a
+                    href="{$this/@target}">
+                    {viewItem:choosefacsorlb($this, $ancID)}
+                    {$this/text()}
+                </a>
+            else
+                
+                <a
+                    href="#{$this/@from}">
+                    {viewItem:choosefacsorlb($this, $ancID)}
+                    {$this/text()}
+                </a>
+            ),
+        if ($this/@cert = 'low') then
+            ' (?)'
+        else
+            (),
+        (:             and not($text = 'only')"  ?????:)
+        if ($this/@facs) then
+            viewItem:matchingFacs($this)
+        else
+            if ($this/ancestor::t:TEI//t:div[@xml:id = 'Transkribus']) then
+                viewItem:matchinglb($this)
+            else
+                (),
+        if ($this/ancestor::t:TEI//t:div[@type = 'edition'][descendant::t:ab[//text()]]) then
+            let $refs :=
+            (for $f in $this/@from
+            return
+                ($f,
+                if ($f/parent::t:locus/@to) then
+                    concat('-', $this/parent::t:*/@to)
+                else
+                    ()),
+            for $t in viewItem:makeSequence($this/@target)
+            return
+                substring-after($t, '#')
+            )
+            for $r in $refs
+            return
+                <a
+                    class="locusReference"
+                    target="_blank"
+                    href="/{$mainID}.{$r}">
+                    <i
+                        class="fa fa-file-text-o"
+                        aria-hidden="true"/>
+                </a>
+        
+        else
+            (),
+        if ($this/parent::t:ab) then
+            (')', <br></br>)
+        else
+            ()
+        )
+};
+
+declare %private function viewItem:matchingFacs($locus) {
+    let $anc := ($locus/ancestor::t:*[@xml:id][1])
+    let $ancID := replace($anc/@xml:id, '\.', '_')
+    let $modalid := viewItem:imagesID($locus, 'id', $locus/@facs, $ancID)
+    let $mainID := viewItem:mainID($locus)
+    let $idandanchor := $mainID || '#' || $ancID
+    return
+        <div
+            class="w3-modal"
+            id="{$modalid}">
+            
+            
+            <!-- Modal content-->
+            <div
+                class="w3-modal-content">
+                <header
+                    class="w3-container">
+                    <h4>Images relevant for {exptit:printTitle($idandanchor)}, from {string($locus/ancestor::t:TEI//t:msIdentifier/t:idno/@facs)}</h4>
+                    <div>{
+                            if ($locus/@target) then
+                                ('You are viewing a sequence of images including ', $locus/text())
+                            else
+                                ('You are viewing a sequence of images from f.', string($locus/@from), 'to f. ', string($locus/@to))
+                        }</div>
+                    <button
+                        class="w3-button w3-gray w3-display-topright"
+                        onclick="document.getElementById('{$modalid}').style.display='none'">Close</button>
+                </header>
+                <div
+                    class="w3-container">
+                    {
+                        let $MainFacs := $locus/ancestor::t:TEI//t:msIdentifier/t:idno/@facs
+                        let $mid := if ($locus/parent::t:witness) then
+                            string($locus/parent::t:witness/@corresp)
+                        else
+                            $mainID
+                        let $manifest := if (starts-with($MainFacs, 'http')) then
+                            $MainFacs
+                        else
+                            concat('https://betamasaheft.eu/api/iiif/', $mid, '/manifest')
+                        let $firstCanv :=
+                        let $fc := if (contains($locus/@facs, ' ')) then
+                            substring-before($locus/@facs, ' ')
+                        else
+                            $locus/@facs
+                        let $fcc := replace($fc, '[a-z\s]', '')
+                        return
+                            if (not(starts-with($MainFacs, 'http'))) then
+                                concat('?FirstCanv=', 'https://betamasaheft.eu/api/iiif/', $mid, '/canvas/p', format-number(xs:integer($fcc), '###'))
+                            else
+                                ()
+                        let $mirador := concat('https://betamasaheft.eu/manuscripts/', $mid, '/viewer', $firstCanv)
+                        let $f := $locus/@facs
+                        let $idnoFacs := $locus/ancestor::t:TEI//t:msIdentifier/t:idno/@facs
+                        let $tilesources :=
+                        (:                        gallica :)
+                        if (contains($idnoFacs, 'gallica')) then
+                            let $iiif := replace($idnoFacs, '/ark:', '/iiif/ark:')
+                            return
+                                if ($locus/@from and $locus/@to) then
+                                    let $from := viewItem:locusrv($locus/@from)
+                                    let $to := viewItem:locusrv($locus/@to)
+                                    let $count := (number($to) - number($from)) * 2
+                                    let $tiles := for $tile in 0 to (xs:integer($count) + 1)
+                                    return
+                                        '"' || concat($iiif, '/f', (xs:integer(substring-after($f, 'f')) + $tile), '/info.json') || '"'
+                                    return
+                                        string-join($tiles, ', ')
+                                else
+                                    if ($locus/@from and not($locus/@to))
+                                    then
+                                        concat('"', $iiif, '/', $locus/@facs, '/info.json', '"')
+                                    else
+                                        if ($locus/@target) then
+                                            let $targets := viewItem:makeSequence($locus/@target)
+                                            let $tiles := for $t in $targets
+                                            return
+                                                '"' || concat($iiif, '/', $t, '/info.json') || '"'
+                                            return
+                                                string-join($tiles, ', ')
+                                        else
+                                            ()
+                                            
+                                            (:                         bm server , EthioSpare          :)
+                        else
+                            if (matches($idnoFacs, '\w{3}/\d{3}/\w{3,4}-\d{3}')) then
+                                let $iiif := $idnoFacs
+                                let $fullIIIF := concat('/iiif/', $idnoFacs)
+                                (:                        expected format: of //t:TEI//t:msIdentifier/t:idno/@facs is : BMQ/003/BMQM-003 where the 
+                                    first folder is the institution folder, then there is the number of the manuscript and the prefix of the photos which must have been converted to .tif 
+                                    :)
+                                return
+                                    if ($locus/@from and $locus/@to) then
+                                        let $from := viewItem:locusrv($locus/@from)
+                                        let $to := viewItem:locusrv($locus/@to)
+                                        let $count := (number($to) - number($from)) * 2
+                                        let $tiles := for $tile in 0 to (xs:integer($count) + 1)
+                                        return
+                                            '"' || concat($fullIIIF, '_', format-number((xs:integer($f) + $tile), '000'), '.tif/info.json') || '"'
+                                        return
+                                            string-join($tiles, ', ')
+                                    else
+                                        if ($locus/@from and not($locus/@to))
+                                        then
+                                            '"' || concat($fullIIIF, '_', $locus/@facs, '.tif/info.json') || '"'
+                                        else
+                                            if ($locus/@target)
+                                            then
+                                                let $targets := for $t in viewItem:makeSequence($locus/@facs)
+                                                return
+                                                    '"' || concat($fullIIIF, '_', $t, '.tif/info.json') || '"'
+                                                return
+                                                    string-join($targets, ', ')
+                                            else
+                                                ()
+                                                
+                                                (:                         bm server EMIP     and Laurenziana                 :)
+                            else
+                                if (matches($idnoFacs, 'EMIP/Codices/\d+/') or matches($idnoFacs, 'Laurenziana')) then
+                                    let $iiif := $idnoFacs
+                                    let $fullIIIF := concat('/iiif/', $idnoFacs)
+                                    return
+                                        if ($locus/@from and $locus/@to) then
+                                            let $from := viewItem:locusrv($locus/@from)
+                                            let $to := viewItem:locusrv($locus/@to)
+                                            let $count := (number($to) - number($from)) * 2
+                                            let $tiles := for $tile in 0 to (xs:integer($count) + 1)
+                                            return
+                                                '"' || concat($fullIIIF, format-number((xs:integer($f) + $tile), '000'), '.tif/info.json') || '"'
+                                            return
+                                                string-join($tiles, ', ')
+                                        else
+                                            if ($locus/@from and not($locus/@to))
+                                            then
+                                                '"' || concat($fullIIIF, string($locus/@facs), '.tif/info.json') || '"'
+                                            else
+                                                if ($locus/@target)
+                                                then
+                                                    let $targets := for $t in viewItem:makeSequence($locus/@facs)
+                                                    return
+                                                        '"' || concat($fullIIIF, ., '.tif/info.json') || '"'
+                                                    return
+                                                        string-join($targets, ', ')
+                                                else
+                                                    ()
+                                                    
+                                                    (:                         images infos are at 
+                                            http://digi.vatlib.it/iiifimage/MSS_Vat.et.1/Vat.et.1_0003.jp2/info.json
+                                        
+                                        http://digi.vatlib.it/iiif/MSS_Vat.et.1/manifest.json
+                                        http://digi.vatlib.it/mss/detail/Vat.et.1
+                                        as for gallica many assumptions are made, which could be avoided using jquery to build the viewer instead of this xslt script.
+                                                       :)
+                                else
+                                    if (contains($idnoFacs, 'vatlib')) then
+                                        let $msname := substring-after(substring-before($idnoFacs, 'manifest.json'), 'MSS_')
+                                        let $iiif := concat('https://digi.vatlib.it/iiifimage/MSS_', $msname, substring-before($msname, '/'), '_')
+                                        return
+                                            if (($locus/@from and $locus/@to) and (matches($locus/@from, '\d') and matches($locus/@to, '\d'))) then
+                                                let $from := viewItem:locusrv($locus/@from)
+                                                let $to := viewItem:locusrv($locus/@to)
+                                                let $count := (number($to) - number($from)) * 2
+                                                let $tiles := for $x in 0 to (xs:integer($count))
+                                                return
+                                                    concat('&#34;', $iiif, format-number((xs:integer($f) + $x), '0000'), '.jp2/info.json', '&#34;')
+                                                return
+                                                    string-join($tiles, ', ')
+                                            else
+                                                if ($locus/@from and not($locus/@to) and matches($locus/@from, '\d'))
+                                                then
+                                                    '"' || concat($iiif, $locus/@facs, '.jp2/info.json') || '"'
+                                                else
+                                                    if ($locus/@target and matches($locus/@target, '\d'))
+                                                    then
+                                                        let $targets := for $t in viewItem:makeSequence($locus/@target)
+                                                        return
+                                                            '"' || concat($iiif, ., '.jp2/info.json') || '"'
+                                                        return
+                                                            string-join($targets, ', ')
+                                                    else
+                                                        ()
+                                    
+                                    else
+                                        ('I do not know where these images come from')
+                        let $openseadragonjsid := 'openseadragon' || replace($locus/@facs, ' ', '_') || $locus/ancestor::t:*[@xml:id][1]/@xml:id
+                        let $openseadragonjs := 'OpenSeadragon({
+                           id: "openseadragon' || $openseadragonjsid || '",
+                           prefixUrl: "../resources/openseadragon/images/",
+                           preserveViewport: true,
+                           visibilityRatio:    1,
+                           minZoomLevel:       1,
+                           defaultZoomLevel:   1,"' || (if (($locus/@from and $locus/@to) or $locus/@target[contains(., ' ')]) then
+                            '    sequenceMode:      true, '
+                        else
+                            ()) || 'tileSources:   [' ||
+                        $tilesources
+                        ||
+                        ' ]
+                           });'
+                        return
+                            (<p
+                                class="w3-panel w3-red">
+                                <a
+                                    href="{$manifest}"
+                                    target="_blank">
+                                    <img
+                                        src="/resources/images/iiif.png"
+                                        width="20px"/>
+                                </a>
+                                <a
+                                    href="{$mirador}"
+                                    target="_blank">Open with Mirador Viewer</a>
+                            </p>,
+                            <div
+                                id="{$openseadragonjsid}"/>,
+                            <script
+                                type="text/javascript">
+                                {$openseadragonjs}
+                            </script>
+                            )
+                    }
+                </div>
+            </div>
+        </div>
+
+};
+
+declare %private function viewItem:matchinglb($locus) {
+    let $mainID := viewItem:mainID($locus)
+    let $modalid := viewItem:imagesID($locus, 'id', $locus/@*, '')
+    let $iiifbase := $config:appUrl || 'iiif/'
+    let $values := ($locus/string(@from), $locus/string(@to), tokenize($locus/@target, '#'))
+    let $ranges := for $v in $values[string-length() ge 1]
+    let $FromToTarget := replace($v, '\s', '')
+    return
+        <val>
+            <pos>{$locus/position()}</pos>
+            {viewItem:breakdownRef($FromToTarget)}
+        </val>
+    return
+        <div
+            class="w3-modal"
+            id="{$modalid}">
+            <!-- Modal content-->
+            <div
+                class="w3-modal-content">
+                <header
+                    class="w3-container">
+                    <h4>Images relevant for {string-join($values[string-length() ge 1], ', ')}</h4>
+                    <button
+                        class="w3-button w3-gray w3-display-topright"
+                        onclick="document.getElementById('{$modalid}').style.display='none'">Close</button>
+                    <p>Click on the image to see the relevant page in Mirador viewer.</p>
+                </header>
+                <div
+                    class="w3-container">{
+                        let $file := $locus/ancestor::t:TEI
+                        let $location := tokenize($file//t:msIdentifier/t:idno/@facs/string(), '/')
+                        for $range in $ranges/*:val
+                        let $nextpos := (xs:integer($range/*:pos) + 1)
+                        let $prevpos := (xs:integer($range/*:pos) - 1)
+                        let $next := $ranges//*:val[*:pos = $nextpos]
+                        let $prev := $ranges//*:val[*:pos = $prevpos]
+                        let $f := $ranges//*:folio
+                        let $s := $ranges//*:side
+                        let $c := $ranges//*:col
+                        let $l := $ranges//*:line
+                        let $fs := ($f || $s)
+                        let $nf := $next//*:folio
+                        let $ns := $next//*:side
+                        let $nc := $next//*:col
+                        let $nl := $next//*:line
+                        let $nfs := ($nf || $ns)
+                        let $pf := $prev//*:folio
+                        let $ps := $prev//*:side
+                        let $pc := $prev//*:col
+                        let $pl := $prev//*:line
+                        let $pfs := ($pf || $ps)
+                        return
+                            if (($f = $pf) and ($s = $ps)) then
+                                ()
+                            else
+                                let $url := if ($l and $file//t:lb[@n = $l/text()][starts-with(@facs, '#facs_')][preceding-sibling::t:cb[1][@n = $c]][preceding-sibling::t:pb[1][@n = $fs]]) then
+                                    let $matchingPageBreak := $file//t:lb[@n = $l/text()][starts-with(@facs, '#facs_')][preceding-sibling::t:cb[1][@n = $c]][preceding-sibling::t:pb[1][@n = $fs]]
+                                    let $nextMatchingPageBreak := $file//t:lb[@n = $nl/text()][starts-with(@facs, '#facs_')][preceding-sibling::t:cb[1][@n = $nc]][preceding-sibling::t:pb[1][@n = $nfs]]
+                                    let $matchingLine := $file//t:zone[@rendition = 'Line'][@xml:id = substring-after($matchingPageBreak/@facs, '#')]
+                                    let $nextMatchingLine := if ($f = $nf and ($c = $nc or $s = $ns)) then
+                                        $file//t:zone[@rendition = 'Line'][@xml:id = substring-after($nextMatchingPageBreak/@facs, '#')]
+                                    else
+                                        ()
+                                    let $locationclean := string-join($location[position() lt last()], '/')
+                                    let $filename := string($matchingLine/ancestor-or-self::t:surface[1]/t:graphic/@url)
+                                    let $regionX := string($matchingLine/@ulx)
+                                    let $regionY := string($matchingLine/@uly)
+                                    let $regionW := (if ($nextMatchingLine) then
+                                        $nextMatchingLine/@lrx
+                                    else
+                                        $matchingLine/@lrx) - $matchingLine/@ulx
+                                    let $regionZ := (if ($nextMatchingLine) then
+                                        $nextMatchingLine/@lry
+                                    else
+                                        $matchingLine/@lry) - $matchingLine/@uly
+                                    let $region := string-join(($regionX, $regionY, $regionW, $regionZ), ',')
+                                    return
+                                        concat($iiifbase, $locationclean, '/', $filename, '/', $region, '/full/0/default.jpg')
+                                
+                                else
+                                    if ($c and $file//t:cb[@n = $c][starts-with(@facs, '#facs_')][preceding-sibling::t:pb[1][@n = $fs]]) then
+                                        let $matchingColumnBreak := $file//t:cb[@n = $c][starts-with(@facs, '#facs_')][preceding-sibling::t:pb[1][@n = $fs]]
+                                        let $nextMatchingColBreak := ($file//t:cb[@n = $nc][preceding-sibling::t:pb[1][@n = $nfs]])[1]
+                                        let $matchingCol := $file//t:zone[@rendition = 'TextRegion'][@xml:id = substring-after($matchingColumnBreak[1]/@facs, '#')]
+                                        let $nextMatchingCol := if ($f = $nf and ($c = $nc or $s = $ns)) then
+                                            $file//t:zone[@rendition = 'TextRegion'][@xml:id = substring-after($nextMatchingColBreak[1]/@facs, '#')]
+                                        else
+                                            ()
+                                        let $locationclean := string-join($location[position() lt last()], '/')
+                                        let $filename := string($matchingCol/ancestor-or-self::t:surface[1]/t:graphic/@url)
+                                        let $regionX := string($matchingCol/@ulx)
+                                        let $regionY := string($matchingCol/@uly)
+                                        let $regionW := (if ($nextMatchingCol) then
+                                            $nextMatchingCol/@lrx
+                                        else
+                                            $matchingCol/@lrx) - $matchingCol/@ulx
+                                        let $regionZ := (if ($nextMatchingCol) then
+                                            $nextMatchingCol/@lry
+                                        else
+                                            $matchingCol/@lry) - $matchingCol/@uly
+                                        let $region := string-join(($regionX, $regionY, $regionW, $regionZ), ',')
+                                        return
+                                            concat($iiifbase, $locationclean, '/', $filename, '/', $region, '/full/0/default.jpg')
+                                    else
+                                        if ($s and $file//t:pb[@n = $fs][starts-with(@facs, '#facs_')]) then
+                                            let $matchingPageBreak := $file//t:pb[@n = $fs][starts-with(@facs, '#facs_')]
+                                            let $matchingImage := $file//(t:facsimile | t:surface)[@xml:id = substring-after($matchingPageBreak/@facs, '#')]
+                                            let $locationclean := string-join($location[position() lt last()], '/')
+                                            let $filename := string($matchingImage/(self::t:surface | child::t:surface)/t:graphic/@url)
+                                            return
+                                                concat($iiifbase, $locationclean, '/', $filename, '/full/full/0/default.jpg')
+                                        else
+                                            ()
+                                
+                                let $FromToTarget := string-join($range//text()[not(parent::*:pos)])
+                                let $firstcanvas := concat('https://betamasaheft.eu/manuscripts/', $mainID, '/viewer?FirstCanv=https://betamasaheft.eu/api/iiif/', $mainID, '/canvas/p', $f)
+                                return
+                                    (<p>{viewItem:parseRef($FromToTarget)}</p>,
+                                    <a
+                                        href="{$firstcanvas}"
+                                        target="_blank">
+                                        <img
+                                            src="{$url}"
+                                            alt="Extract from {$location} for {$FromToTarget}"
+                                            style="max-width:100%"/>
+                                    </a>
+                                    )
+                    }</div>
+            </div>
+        </div>
+};
+
+
+declare %private function viewItem:locusrv($att) {
+    if (contains($att, 'r')) then
+        substring-before($att, 'r')
+    else
+        if (contains($att, 'v')) then
+            (substring-before($att, 'v'))
+        else
+            string($att)
+};
+
+declare %private function viewItem:choosefacsorlb($locus, $ancID) {
+    if ($locus/@facs) then
+        attribute onclick {viewItem:imagesID($locus, 'call', $locus/@facs, $ancID)}
+    else
+        if ($locus/ancestor::t:TEI//t:div[@xml:id = 'Transkribus']) then
+            attribute onclick {viewItem:imagesID($locus, 'call', $locus/@*, '')}
+   else
+   (attribute class {'w3-tooltip'}, 
+   <span
+                class="w3-text w3-tag">No image available</span>)
+};
+
 
 declare %private function viewItem:VisColl($collation) {
     let $xslt := 'xmldb:exist:///db/apps/BetMas/xslt/collationAlone.xsl'
-    let $parameters := doc('/db/apps/BetMas/xslt/params.xml')
+    let $parameters := <parameters>
+    <param name="mainID" value="{string($collation/ancestor::t:TEI/@xml:id)}"></param>
+    <param name="porterified" value="."/>
+    <param name="folio" value="1"/>
+    <param name="currentpos" value="1"/>
+    <param name="rend" value="."/>
+    <param name="from" value="."/>
+    <param name="to" value="."/>
+    <param name="prec" value="."/>
+    <param name="count" value="."/>
+    <param name="singletons" value="."/>
+    <param name="step1ed" value="."/>
+    <param name="step2ed" value="."/>
+    <param name="step3ed" value="."/>
+    <param name="Finalvisualization" value="."/>
+</parameters>
     let $transformation := try {
         transform:transform($collation, $xslt, $parameters)
     } catch * {
@@ -28,56 +617,56 @@ declare %private function viewItem:VisColl($collation) {
 };
 
 declare %private function viewItem:date($date) {
-let $log := util:log('INFO', $date)
-return
-    if (matches($date, '\d{4}-\d{2}-\d{2}')) then
-        format-date(xs:date($date), '[D]-[M]-[Y0001]', 'en', 'AD', ())
-    else
-        if (matches($date, '\d{4}-\d{2}')) then
-            let $monthnumber := substring-after($date, '-')
-            let $monthname := switch ($monthnumber)
-                case '01'
-                    return
-                        'January'
-                case '02'
-                    return
-                        'February'
-                case '03'
-                    return
-                        'March'
-                case '04'
-                    return
-                        'April'
-                case '05'
-                    return
-                        'May'
-                case '06'
-                    return
-                        'June'
-                case '07'
-                    return
-                        'July'
-                case '08'
-                    return
-                        'August'
-                case '09'
-                    return
-                        'September'
-                case '10'
-                    return
-                        'October'
-                case '11'
-                    return
-                        'November'
-                case '12'
-                    return
-                        'December'
-                default return
-                    ()
-        return
-            concat(replace(substring-after($date, '-'), $monthnumber, $monthname), ' ', substring-before($date, '-'))
-    else
-        format-number($date, '####')
+    let $log := util:log('INFO', $date)
+    return
+        if (matches($date, '\d{4}-\d{2}-\d{2}')) then
+            format-date(xs:date($date), '[D]-[M]-[Y0001]', 'en', 'AD', ())
+        else
+            if (matches($date, '\d{4}-\d{2}')) then
+                let $monthnumber := substring-after($date, '-')
+                let $monthname := switch ($monthnumber)
+                    case '01'
+                        return
+                            'January'
+                    case '02'
+                        return
+                            'February'
+                    case '03'
+                        return
+                            'March'
+                    case '04'
+                        return
+                            'April'
+                    case '05'
+                        return
+                            'May'
+                    case '06'
+                        return
+                            'June'
+                    case '07'
+                        return
+                            'July'
+                    case '08'
+                        return
+                            'August'
+                    case '09'
+                        return
+                            'September'
+                    case '10'
+                        return
+                            'October'
+                    case '11'
+                        return
+                            'November'
+                    case '12'
+                        return
+                            'December'
+                    default return
+                        ()
+            return
+                concat(replace(substring-after($date, '-'), $monthnumber, $monthname), ' ', substring-before($date, '-'))
+        else
+            format-number($date, '####')
 };
 
 declare %private function viewItem:notBnotA($element) {
@@ -324,7 +913,7 @@ declare %private function viewItem:bibl($node, $t) {
                     return
                         (string($cr/@unit) || ' ' || $cr/text())
                     return
-                      ' ' || string-join($crs, ', ')
+                        ' ' || string-join($crs, ', ')
                 }
                 {viewItem:TEI2HTML($node/t:note[@type = 'about'])}
                 {viewItem:TEI2HTML($node/t:ref[@target])}
@@ -405,12 +994,13 @@ declare %private function viewItem:EthioSpareFormatter($node) {
             return
                 string-join(distinct-values(($TEI//t:editor[@key = $resp]/text() | $TEI//t:respStmt[@xml:id = $resp]/t:name/text())), ', ')
     let $repository := $TEI//t:repository/text()
-    let $date := viewItem:date($TEI//t:origDate)
+    let $date := viewItem:dates($TEI//t:origDate)
     let $title := $TEI//t:titleStmt/t:title[1]/text()
     return
-        <a
+        (<a
             href="https://mycms-vs03.rrz.uni-hamburg.de/domlib/receive/{$domliblist}">MS {$repository}, {$BMsignature}
-            (digitized by the Ethio-SPaRe project), {$title}, {$date}, catalogued by {$cataloguer} In {$viewItem:bibliography//b:entry[@id = $t]/b:reference/node()}</a>
+            (digitized by the Ethio-SPaRe project), {$title}, {$date}, catalogued by {$cataloguer}</a>, ' In ', 
+            $viewItem:bibliography//b:entry[@id = $t]/b:reference/node())
 };
 
 declare %private function viewItem:relation($node) {
@@ -555,11 +1145,11 @@ declare %private function viewItem:TEI2HTML($nodes) {
                 return
                     ()
                     (:                    decides what to do for each named element, ordered alphabetically:)
-                     case element(t:altIdentifier)
+            case element(t:altIdentifier)
                 return
-                (<p>Also identified as</p>, 
-                viewItem:TEI2HTML($node/node())
-                )
+                    (<p>Also identified as</p>,
+                    viewItem:TEI2HTML($node/node())
+                    )
             case element(t:bibl)
                 return
                     viewItem:bibliographyitem($node)
@@ -573,13 +1163,13 @@ declare %private function viewItem:TEI2HTML($nodes) {
             case element(t:collation)
                 return
                     viewItem:VisColl($node)
-             case element(t:collection)
-             return
-              <p>Collection:  {$node/text()}</p>
+            case element(t:collection)
+                return
+                    <p>Collection: {$node/text()}</p>
             case element(t:date)
                 return
                     viewItem:date-like($node)
-                    case element(t:idno)
+            case element(t:idno)
                 return
                     <p>{$node/text()}</p>
             case element(t:listbibl)
@@ -591,6 +1181,9 @@ declare %private function viewItem:TEI2HTML($nodes) {
                         {viewItem:TEI2HTML($node/node())}
                     </ul>
                     )
+            case element(t:locus)
+                return
+                    viewItem:locus($node)
             case element(t:msDesc)
                 return
                     viewItem:manuscriptStructure($node)
@@ -624,12 +1217,17 @@ declare %private function viewItem:TEI2HTML($nodes) {
             case element(t:ref)
                 return
                     viewItem:ref($node)
-           case element(t:repository)
-             return
-              <a target="_blank" href="{$node/@ref}" role="button" class="w3-tag w3-gray w3-margin-top" 
-              property="http://www.cidoc-crm.org/cidoc-crm/P55_has_current_location" resource="{$node/@ref}">
-            {$node/text()}
-        </a>
+            case element(t:repository)
+                return
+                    <a
+                        target="_blank"
+                        href="{$node/@ref}"
+                        role="button"
+                        class="w3-tag w3-gray w3-margin-top"
+                        property="http://www.cidoc-crm.org/cidoc-crm/P55_has_current_location"
+                        resource="{$node/@ref}">
+                        {$node/text()}
+                    </a>
             case element(t:seg)
                 return
                     if ($node/@ana) then
@@ -654,23 +1252,23 @@ declare %private function viewItem:TEI2HTML($nodes) {
                     $node
 };
 
-declare %private function viewItem:standards($item){
- viewItem:publicationStmt($item//t:publicationStmt),
-                    if ($item//t:editionStmt) then
-                        <div
-                            class="w3-container"
-                            id="editionStmt">
-                            <h2>Edition Statement</h2>
-                            {viewItem:TEI2HTML($item//t:editionStmt)}
-                        </div>
-                    else
-                        (),
-                <div
-                    class="w3-container"
-                    id="encodingDesc">
-                    <h2>Encoding Description</h2>
-                    {viewItem:TEI2HTML($item//t:encodingDesc/node())}
-                </div>
+declare %private function viewItem:standards($item) {
+    viewItem:publicationStmt($item//t:publicationStmt),
+    if ($item//t:editionStmt) then
+        <div
+            class="w3-container"
+            id="editionStmt">
+            <h2>Edition Statement</h2>
+            {viewItem:TEI2HTML($item//t:editionStmt)}
+        </div>
+    else
+        (),
+    <div
+        class="w3-container"
+        id="encodingDesc">
+        <h2>Encoding Description</h2>
+        {viewItem:TEI2HTML($item//t:encodingDesc/node())}
+    </div>
 };
 
 declare %private function viewItem:work($item) {
@@ -829,7 +1427,7 @@ declare %private function viewItem:work($item) {
                         </ul>
                     </div>
                 }
-               {viewItem:standards($item)}
+                {viewItem:standards($item)}
                 {
                     if ($item//t:div[@type = 'edition']//t:ab//text()) then
                         <a
@@ -1138,7 +1736,7 @@ declare %private function viewItem:manuscriptStructure($msDesc) {
             else
                 ()
         }
-        
+    
     </div>,
     viewItem:divofmanuscriptpath($msDesc, '/t:msPart', 'parts'),
     viewItem:divofmanuscriptpath($msDesc, '/t:msFrag', 'fragments')
@@ -1146,21 +1744,27 @@ declare %private function viewItem:manuscriptStructure($msDesc) {
 };
 
 
-declare %private function viewItem:codicologicalUnit($mspart){
-<div class="w3-container w3-margin-bottom" id="{$mspart/@xml:id}">
-            <div class="w3-container w3-margin-bottom">
-                <h2>Codicological Unit {substring($mspart/@xml:id, 1)}
-                </h2>
-                
-            </div>
-            <div class="w3-twothird" id="textualcontents{$mspart/@xml:id}">
-                <div class="w3-panel w3-card-2 w3-margin-right">
+declare %private function viewItem:codicologicalUnit($mspart) {
+    <div
+        class="w3-container w3-margin-bottom"
+        id="{$mspart/@xml:id}">
+        <div
+            class="w3-container w3-margin-bottom">
+            <h2>Codicological Unit {substring($mspart/@xml:id, 1)}
+            </h2>
+        
+        </div>
+        <div
+            class="w3-twothird"
+            id="textualcontents{$mspart/@xml:id}">
+            <div
+                class="w3-panel w3-card-2 w3-margin-right">
                 {viewItem:TEI2HTML($mspart/t:msIdentifier)}
-                </div>
-                </div>
-{                viewItem:manuscriptStructure($mspart)}
-                </div>
-               
+            </div>
+        </div>
+        {viewItem:manuscriptStructure($mspart)}
+    </div>
+
 };
 
 declare %private function viewItem:calendartables($item) {
@@ -1422,7 +2026,10 @@ declare function viewItem:dates($date) {
             viewItem:editorName($date/@resp))
     else
         ()
-        let $formatortext := if($date/text()) then viewItem:TEI2HTML($date/node()) else $dates
+    let $formatortext := if ($date/text()) then
+        viewItem:TEI2HTML($date/node())
+    else
+        $dates
     return
         ($formatortext, $evidence, $cert, $resp)
 };
