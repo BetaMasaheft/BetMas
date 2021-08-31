@@ -9,11 +9,13 @@ declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace b = "betmas.biblio";
 declare namespace d = "betmas.domlib";
 declare namespace functx = "http://www.functx.com";
+declare namespace number = "roman.numerals.funct";
 
 declare variable $viewItem:coll := collection('/db/apps/expanded');
 declare variable $viewItem:bibliography := doc('/db/apps/lists/bibliography.xml');
 declare variable $viewItem:domlib := doc('/db/apps/lists/domlib.xml');
 declare variable $viewItem:editors := doc('/db/apps/lists/editors.xml')//t:list;
+declare variable $viewItem:lang := doc('/db/apps/lists/languages.xml')//t:list;
 
 declare %private function viewItem:imagesID($locus, $callorid, $att, $ancID) {
     let $id := concat('images', replace(normalize-space(string-join($att)), ' ', '_'), $ancID)
@@ -1172,6 +1174,70 @@ declare %private function viewItem:date-like($date) {
         viewItem:dates($date)
 };
 
+declare %private function viewItem:witness($witness) {
+    <li><a
+            href="{
+                    if ($witness/@type = 'external' and $witness/@facs) then
+                        $witness/@facs
+                    else
+                        $witness/@corresp
+                }"
+            property="http://purl.org/dc/elements/1.1/source"
+            resource="{$witness/@corresp}">
+            {
+                if ($witness/@xml:id) then
+                    attribute id {$witness/@xml:id}
+                else
+                    ()
+            }
+            {
+                if ($witness/@facs) then
+                    attribute data-location {$witness/@facs}
+                else
+                    ()
+            }
+            {
+                if ($witness/t:ptr/@target) then
+                    attribute data-manifest {$witness/t:ptr/@target}
+                else
+                    ()
+            }
+            {
+                if ($witness/@corresp) then
+                    let $witid := viewItem:URI2ID($witness/@corresp)
+                    return
+                        $witness//text()
+                else
+                    ()
+            }</a>
+        {
+            if (contains($witness/@corresp, '#')) then
+                substring-after($witness/@corresp, '#')
+            else
+                ()
+        }
+        {
+            if ($witness/@type) then
+                ' (' || string($witness/@type) || ')'
+            else
+                ()
+        }
+        {
+            if ($witness/@cert = 'low') then
+                '?'
+            else
+                ()
+        }
+        {
+            if ($witness/@facs and not($witness/@type = 'external')) then
+                <a
+                    href="{$witness/@facs}"> [link]</a>
+            else
+                ()
+        }
+    </li>
+};
+
 declare %private function viewItem:TEI2HTML($nodes) {
     for $node in $nodes
     return
@@ -1181,6 +1247,22 @@ declare %private function viewItem:TEI2HTML($nodes) {
                 return
                     ()
                     (:                    decides what to do for each named element, ordered alphabetically:)
+            case element(t:ab)
+                return
+                <p>{if($node/@type) then (<b>{if($node/@type='script') then string($node/parent::t:handNote/@script) else string($node/@type)}</b>, ': ') else ()}
+                {viewItem:TEI2HTML($node/node())}</p>
+            case element(t:abbr)
+                return
+                (viewItem:TEI2HTML($node/node()), 
+                if(not($node/ancestor::t:expand)) then '(- - -)' else ())
+            case element(t:adminInfo)
+                return
+                    (if ($node/t:note) then
+                        <h2>Administrative Information</h2>
+                    else
+                        (),
+                    viewItem:TEI2HTML($node/node())
+                    )
             case element(t:altIdentifier)
                 return
                     (<p>Also identified as</p>,
@@ -1195,6 +1277,9 @@ declare %private function viewItem:TEI2HTML($nodes) {
             case element(t:certainty)
                 return
                     viewItem:certainty($node)
+            case element(t:cit)
+                return
+                    ('“' || viewItem:certainty($node/node()) || '”')
             
             case element(t:classDecl)
                 return
@@ -1205,23 +1290,88 @@ declare %private function viewItem:TEI2HTML($nodes) {
             case element(t:collection)
                 return
                     <p>Collection: {$node/text()}</p>
+                    case element(t:custEvent)
+                return
+                if($node/@type ='restorations') then 
+                    <p class="w3-large">
+          This manuscript has {if(@subtype='none') then 'no' else string(@subtype)} restorations.</p>
+                    else ()
             case element(t:date)
                 return
                     viewItem:date-like($node)
             case element(t:death)
                 return
                     viewItem:date-like($node)
+             case element(t:desc)
+                return
+                    if($node[not(parent::t:relation)][not(parent::t:handNote)]) 
+                    then <p>{viewItem:TEI2HTML($node/node())}</p>
+                    else viewItem:TEI2HTML($node/node())
+            case element(t:ex)
+                return
+              '('|| $node/text() ||')'
+              case element(t:explicit)
+                return
+                    <p
+                        lang="{$node/@xml:lang}">
+                        <b>{
+                                if ($node/@type = 'supplication') then
+                                    'Supplication'
+                                else
+                                    if ($node/@type = 'subscriptio') then
+                                        'Subscription'
+                                    else
+                                        'Explicit'
+                            } ({viewItem:fulllang($node/@xml:lang)}
+                            ):</b>
+                        {viewItem:TEI2HTML($node/node())}</p>
             case element(t:facsimile)
                 return
                     ()
+            case element(t:filiation)
+                return
+                    <p>
+                        <b>Filiation: </b>
+                        {viewItem:TEI2HTML($node/node())}
+                    </p>
             case element(t:floruit)
                 return
                     viewItem:date-like($node)
             case element(t:forename)
-            return $node/text() || ' '        
-            case element(t:idno)
+                return
+                    $node/text() || ' '
+            case element(t:hi)
+                return
+                if(@rend = 'ligature') then  <span style="border-top:1px solid">{viewItem:TEI2HTML($node/node())}</span>
+               else if(@rend = 'apices') then  <sup>{viewItem:TEI2HTML($node/node())}</sup>
+               else if(@rend = 'underline') then  <u>{viewItem:TEI2HTML($node/node())}</u>
+               else if(@rend = 'rubric') then  <span class="rubric">{viewItem:TEI2HTML($node/node())}</span>
+               else if(@rend = 'encircled') then  <span class="encircled">{viewItem:TEI2HTML($node/node())}</span>
+               else viewItem:TEI2HTML($node/node())
+           case element(t:idno)
                 return
                     <p>{$node/text()}</p>
+            
+            case element(t:incipit)
+                return
+                    <p
+                        lang="{$node/@xml:lang}">
+                        <b>{
+                                if ($node/@type = 'supplication') then
+                                    'Supplication'
+                                else
+                                    'Incipit'
+                            } ({viewItem:fulllang($node/@xml:lang)}
+                            ):</b>
+                        {viewItem:TEI2HTML($node/node())}</p>
+            case element(t:item)
+                return
+                    <li>{viewItem:TEI2HTML($node/node())}</li>
+            case element(t:list)
+                return
+                    <ul>
+                        {viewItem:TEI2HTML($node/node())}
+                    </ul>
             case element(t:listbibl)
                 return
                     (
@@ -1234,6 +1384,18 @@ declare %private function viewItem:TEI2HTML($nodes) {
             case element(t:locus)
                 return
                     viewItem:locus($node)
+            case element(t:measure)
+                return
+                    <span class="w3-tooltip">
+                    {if(contains($node,'+')) then viewItem:measure($node/text()) else $node/text()}
+                    ({$node/@unit}{if($node/@type) then (', '|| string($node/@type)) else ()})
+                    {if($node/following-sibling::t:*[1][self::t:locus]) then ': ' else if ($node/following-sibling::t:measure[not(@xml:lang)][@unit='leaf'][@type='blank']) then ', ' else '.'}
+                     <span class="w3-teg">Entered as {$node/text()}
+            </span>
+                    </span>
+           case element(t:metamark)
+                return
+                    ()
             case element(t:msDesc)
                 return
                     viewItem:manuscriptStructure($node)
@@ -1246,13 +1408,46 @@ declare %private function viewItem:TEI2HTML($nodes) {
                 return
                     viewItem:codicologicalUnit($node)
             case element(t:nationality)
-            return if($node/node()) then viewItem:TEI2HTML($node/node()) else string($node/@type)
+                return
+                    if ($node/node()) then
+                        viewItem:TEI2HTML($node/node())
+                    else
+                        string($node/@type)
             case element(t:note)
                 return
-                    if ($node[@xml:id][@n]) then
-                        viewItem:footnote($node)
+                    if ($node/parent::t:placeName) then
+                        <div
+                            class="w3-panel w3-gray">
+                            {
+                                if ($node/t:p or $node/ancestor::t:app)
+                                then
+                                    viewItem:TEI2HTML($node/node())
+                                else
+                                    if (not($node/parent::*:fragment))
+                                    then
+                                        <p>{viewItem:TEI2HTML($node/node())}</p>
+                                    else
+                                        <p>{viewItem:TEI2HTML($node/node())}</p>
+                            }
+                            {
+                                if ($node/@source) then
+                                    <a
+                                        href="{$node/@source}">Source <i
+                                            class="fa fa-link"
+                                            aria-hidden="true"/>
+                                    </a>
+                                else
+                                    ()
+                            }
+                        </div>
                     else
-                        viewItem:TEI2HTML($node/node())
+                        if (parent::t:rdg) then
+                            (' ', <i>{viewItem:TEI2HTML($node/node())}</i>, ' ')
+                        else
+                            if ($node[@xml:id][@n]) then
+                                viewItem:footnote($node)
+                            else
+                                viewItem:TEI2HTML($node/node())
             
             case element(t:origDate)
                 return
@@ -1271,18 +1466,40 @@ declare %private function viewItem:TEI2HTML($nodes) {
                     <p>
                         {viewItem:TEI2HTML($node/parent::t:origin/t:provenance)}
                     </p>)
+            case element(t:p)
+                return
+                    <p>{viewItem:TEI2HTML($node/node())}</p>       
             case element(t:ptr)
                 return
                     if ($node[starts-with(@target, '#')]) then
                         viewItem:footnoteptr($node)
                     else
                         viewItem:TEI2HTML($node/node())
+               case element(t:q)
+                return
+                if($node/parent::t:desc) then
+                    <span lang="{$node/@xml:lang}">
+                    {if($node/ancestor::t:decoNote) then 'Legend: ' else ()}
+                    {if($node/text()) then ('(', string($node/@xml:lang),') ') else ( 'Text in ', viewItem:fulllang($node/@xml:lang) )}
+                    {viewItem:TEI2HTML($node/node())}
+                    </span> 
+                    else 
+                    <p lang="{$node/@xml:lang}">
+                    {if($node/ancestor::t:decoNote) then 'Legend: ' else ()}
+                    {if($node/text()) then ('(', string($node/@xml:lang),') ') else ( 'Text in ', viewItem:fulllang($node/@xml:lang) )}
+                    {viewItem:TEI2HTML($node/node())}
+                    </p>
             case element(t:relation)
                 return
                     viewItem:relation($node)
             case element(t:ref)
                 return
                     viewItem:ref($node)
+            case element(t:rs)
+            return
+            if ($node/@type='inline') then 
+            <img src="{$node/t:graphic/@url}" alt="Region of image from {$node/t:graphic/@url}"/>
+            else viewItem:TEI2HTML($node/node())
             case element(t:repository)
                 return
                     <a
@@ -1294,6 +1511,18 @@ declare %private function viewItem:TEI2HTML($nodes) {
                         resource="{$node/@ref}">
                         {$node/text()}
                     </a>
+            case element(t:rubric)
+                return
+                    <p
+                        lang="{$node/@xml:lang}">
+                        <b>Rubric {string($node/@xml:lang)}: </b>
+                        {viewItem:TEI2HTML($node/node())}</p>
+            case element(t:sealDesc)
+                return
+                    (
+                    <h3>Seals {viewItem:headercontext($node)}</h3>,
+                    viewItem:TEI2HTML($node/node())
+                    )
             case element(t:seg)
                 return
                     if ($node/@ana) then
@@ -1303,8 +1532,47 @@ declare %private function viewItem:TEI2HTML($nodes) {
                         </span>
                     else
                         viewItem:TEI2HTML($node/node())
-            case element(t:surname)
-            return $node/text() || ' '
+            case element(t:signatures)
+                return
+                    ($node/text(), if($node/t:note) then ('-', viewItem:TEI2HTML($node/t:note)) else())
+          case element(t:surname)
+                return
+                    $node/text() || ' '
+            case element(t:surrogates)
+                return
+                    (<h2>Surrogates</h2>,
+                    viewItem:TEI2HTML($node/node())
+                    )
+             case element(t:textLang)
+                return
+                <p>
+                <b>Language of text: </b>
+                <span property="http://purl.org/dc/elements/1.1/language">{viewItem:fulllang($node/@xml:lang)}</span>
+                {if($node/@otherLangs) then
+                (' and ', viewItem:fulllang($node/@otherLangs)) else ()}
+                </p>        
+            case element(t:term)
+                return
+                if($node[parent::t:desc | parent::t:summary]) then
+                <a target="_blank">
+                {attribute href {concat('/authority-files/list?keyword=', @key)}}
+                {$node/text()}
+                </a> else ()
+           case element(t:witness)
+                return
+                    viewItem:witness($node)
+            case element(t:watermark)
+                return
+                    if ($node/parent::t:support[t:material[@key = 'parchment']]) then
+                        ()
+                    else
+                        (<h3>Watermark</h3>,
+                        <p>{
+                                if ($node != '') then
+                                    'Yes'
+                                else
+                                    'No'
+                            }</p>)
             case element(t:term)
                 return
                     if ($node/text()) then
@@ -1518,18 +1786,18 @@ declare %private function viewItem:work($item) {
         </div>
 };
 
-declare %private function viewItem:resp($item){
-<div
-                class="w3-hide">
-                {
-                    for $r in distinct-values($item//@resp)
-                    return
-                        <span
-                            id="{$r}Name">
-                            {$viewItem:editors//t:item[@xml:id = $r]/text()}
-                        </span>
-                }
-            </div>
+declare %private function viewItem:resp($item) {
+    <div
+        class="w3-hide">
+        {
+            for $r in distinct-values($item//@resp)
+            return
+                <span
+                    id="{$r}Name">
+                    {$viewItem:editors//t:item[@xml:id = $r]/text()}
+                </span>
+        }
+    </div>
 };
 
 declare %private function viewItem:relsinfoblock($rels, $id) {
@@ -1614,7 +1882,7 @@ declare %private function viewItem:person($item) {
                     id="description"
                     rel="http://xmlns.com/foaf/0.1/name">
                     <h3>Names {
-                        switch ($item//t:person/@sex)
+                            switch ($item//t:person/@sex)
                                 case '1'
                                     return
                                         <i
@@ -1641,10 +1909,15 @@ declare %private function viewItem:person($item) {
                     class="nodot">
                     {
                         for $name in $item//(t:personGrp | t:person)/t:persName[not(@corresp)]
-                        let $nameid :=$name/@xml:id
+                        let $nameid := $name/@xml:id
                         return
-                            <li>{if($nameid) then attribute 
-                                id {$nameid} else ()}{
+                            <li>{
+                                    if ($nameid) then
+                                        attribute
+                                        id {$nameid}
+                                    else
+                                        ()
+                                }{
                                     if ($name/@type) then
                                         string($name/@type) || ': '
                                     else
@@ -1659,43 +1932,78 @@ declare %private function viewItem:person($item) {
                                     else
                                         viewItem:TEI2HTML($name/node()[not(self::t:roleName)])
                                 }
-                                {if($name/@xml:lang) then <sup>{string($name/@xml:lang)}</sup> else ()}
-                                {if((count($nameid) gt 1) and $item//t:persName[matches(@corresp, $nameid)]) then 
-                                ('(',
-                               let $corrnames := for $corrname in $item//t:persName[matches(@corresp, $nameid)] 
-                                order by $corrname/text()
-                                return ($corrname/text(), if($corrname/@xml:lang) then <sup>{string($corrname/@xml:lang)}</sup> else ())
-                                for $c at $p in $corrnames return ($c, if($p=count($corrnames)) then '' else ', '),
-                                ')')
-                                else ()}
-                                </li>
+                                {
+                                    if ($name/@xml:lang) then
+                                        <sup>{string($name/@xml:lang)}</sup>
+                                    else
+                                        ()
+                                }
+                                {
+                                    if ((count($nameid) gt 1) and $item//t:persName[matches(@corresp, $nameid)]) then
+                                        ('(',
+                                        let $corrnames := for $corrname in $item//t:persName[matches(@corresp, $nameid)]
+                                            order by $corrname/text()
+                                        return
+                                            ($corrname/text(),
+                                            if ($corrname/@xml:lang) then
+                                                <sup>{string($corrname/@xml:lang)}</sup>
+                                            else
+                                                ())
+                                        for $c at $p in $corrnames
+                                        return
+                                            ($c,
+                                            if ($p = count($corrnames)) then
+                                                ''
+                                            else
+                                                ', '),
+                                        ')')
+                                    else
+                                        ()
+                                }
+                            </li>
                     }
                 </ul>
-                {if($item//(t:floruit | t:birth | t:death)/@*) then 
-                (<h3>Dates </h3>,
-                for $b in $item//t:birth[@when or @notBefore or @notAfter ]
-                return <p>Birth: {viewItem:datepicker($b)}</p>,
-                for $b in $item//t:floruit[@when or @notBefore or @notAfter ]
-                return <p>Period of activity: {viewItem:datepicker($b)}</p>,
-                for $b in $item//t:death[@when or @notBefore or @notAfter ]
-                return <p>Death: {viewItem:datepicker($b)}</p>
-                )
-                else ()}    </div>
-                {if($item//t:occupation) then 
-                (<h3>Occupation</h3>,
-                for $o in $item//t:occupation return
-                <p class="lead" property="http://data.snapdrgn.net/ontology/snap#occupation">
-                {viewItem:date-like($o)}
-                </p>
-                )
-                else ()}
-                {for $othernodes in ('residence', 'faith', 'nationality') 
+                {
+                    if ($item//(t:floruit | t:birth | t:death)/@*) then
+                        (<h3>Dates </h3>,
+                        for $b in $item//t:birth[@when or @notBefore or @notAfter]
+                        return
+                            <p>Birth: {viewItem:datepicker($b)}</p>,
+                        for $b in $item//t:floruit[@when or @notBefore or @notAfter]
+                        return
+                            <p>Period of activity: {viewItem:datepicker($b)}</p>,
+                        for $b in $item//t:death[@when or @notBefore or @notAfter]
+                        return
+                            <p>Death: {viewItem:datepicker($b)}</p>
+                        )
+                    else
+                        ()
+                }
+            </div>
+            {
+                if ($item//t:occupation) then
+                    (<h3>Occupation</h3>,
+                    for $o in $item//t:occupation
+                    return
+                        <p
+                            class="lead"
+                            property="http://data.snapdrgn.net/ontology/snap#occupation">
+                            {viewItem:date-like($o)}
+                        </p>
+                    )
+                else
+                    ()
+            }
+            {
+                for $othernodes in ('residence', 'faith', 'nationality')
                 return
-                viewItem:divofperson($item, $othernodes)}
-                 <div id="bibliography">
-                 <h3>{viewItem:bibliographyHeader($item//t:listBibl)}</h3>
-                 {viewItem:TEI2HTML($item//t:listBibl)}
-             
+                    viewItem:divofperson($item, $othernodes)
+            }
+            <div
+                id="bibliography">
+                <h3>{viewItem:bibliographyHeader($item//t:listBibl)}</h3>
+                {viewItem:TEI2HTML($item//t:listBibl)}
+            
             </div>
             {viewItem:standards($item)}
         </div>
@@ -2638,3 +2946,282 @@ declare function functx:capitalize-first($arg as xs:string?) as xs:string? {
     concat(upper-case(substring($arg, 1, 1)),
     substring($arg, 2))
 };
+
+declare %private function number:RomanToInteger($romannumber, $followingvalue) {
+    if (ends-with($romannumber, 'CM')) then
+        900 + number:RomanToInteger(substring($romannumber, 1, string-length($romannumber) - 2), 900)
+    else
+        if (ends-with($romannumber, 'M')) then
+            1000 + number:RomanToInteger(substring($romannumber, 1, string-length($romannumber) - 1), 1000)
+        else
+            if (ends-with($romannumber, 'CD')) then
+                400 + number:RomanToInteger(substring($romannumber, 1, string-length($romannumber) - 2), 400)
+            else
+                if (ends-with($romannumber, 'D')) then
+                    500 + number:RomanToInteger(substring($romannumber, 1, string-length($romannumber) - 1), 500)
+                else
+                    if (ends-with($romannumber, 'XC')) then
+                        90 + number:RomanToInteger(substring($romannumber, 1, string-length($romannumber) - 2), 90)
+                    else
+                        if (ends-with($romannumber, 'C')) then
+                            (if (100 ge number($followingvalue)) then
+                                100
+                            else
+                                -100) + number:RomanToInteger(substring($romannumber, 1, string-length($romannumber) - 1), 100)
+                        else
+                            if (ends-with($romannumber, 'XL')) then
+                                40 + number:RomanToInteger(substring($romannumber, 1, string-length($romannumber) - 2), 40)
+                            else
+                                if (ends-with($romannumber, 'L')) then
+                                    50 + number:RomanToInteger(substring($romannumber, 1, string-length($romannumber) - 1), 50)
+                                else
+                                    if (ends-with($romannumber, 'IX')) then
+                                        9 + number:RomanToInteger(substring($romannumber, 1, string-length($romannumber) - 2), 9)
+                                    else
+                                        if (ends-with($romannumber, 'X')) then
+                                            (if (10 ge number($followingvalue)) then
+                                                10
+                                            else
+                                                -10) + number:RomanToInteger(substring($romannumber, 1, string-length($romannumber) - 1), 10)
+                                        else
+                                            if (ends-with($romannumber, 'IV')) then
+                                                4 + number:RomanToInteger(substring($romannumber, 1, string-length($romannumber) - 2), 4)
+                                            else
+                                                if (ends-with($romannumber, 'V')) then
+                                                    5 + number:RomanToInteger(substring($romannumber, 1, string-length($romannumber) - 1), 5)
+                                                else
+                                                    if (ends-with($romannumber, 'I')) then
+                                                        (if (1 ge number($followingvalue)) then
+                                                            1
+                                                        else
+                                                            -1) + number:RomanToInteger(substring($romannumber, 1, string-length($romannumber) - 1), 1)
+                                                    else
+                                                        0
+};
+
+
+declare %private function viewItem:analyseMeasure($measure) {
+    let $regex1 := '\s*(\d+)\s*\+\s*(\d+)\s*\+\s*(\d+)\s*'
+    let $regex2 := '\s*(\d+)\s*\+\s*(\d+)\s*'
+    let $regex3 := '\s*([ivx|IVX]+)\s*\+\s*(\d{1,3})\s*\+\s*([ivx|IVX]+)\s*'
+    let $regex4 := '\s*([ivx|IVX]+)\s*\+\s*(\d{1,3})\s*'
+    let $regex5 := '\s*(\d{1,3})\s*\+\s*([ivx|IVX]+)\s*'
+    let $regex6 := '.*\((.*)\)'
+    
+    return
+        
+        if (matches($measure, $regex1)) then
+            let $analyse := analyze-string($measure, $regex1)
+            return
+                (for $m in $analyse/s:match
+                return
+                    (<beginning>
+                        {$m/s:group[@nr = '1']}
+                    </beginning>,
+                    <text>
+                        {$m/s:group[@nr = '2']}
+                    </text>,
+                    <end>
+                        {$m/s:group[@nr = '3']}
+                    </end>),
+                for $n in $analyse/s:not-match
+                return
+                    $n)
+        else
+            if (matches($measure, $regex2)) then
+                let $analyse := analyze-string($measure, $regex2)
+                return
+                    (for $m in $analyse/s:match
+                    return
+                        let $values := <vals>
+                            <val>
+                                {$m/s:group[@nr = '1']/text()}
+                            </val>
+                            <val>
+                                {$m/s:group[@nr = '2']/text()}
+                            </val>
+                        </vals>
+                        let $max := max($values//*:val)
+                        let $min := min($values//*:val)
+                        return
+                            (if ($min = xs:integer($m/s:group[@nr = '1']/text())) then
+                                <beginning>
+                                    {$min}
+                                </beginning>
+                            else
+                                (),
+                            <text>{$max}</text>,
+                            if ($min = xs:integer($m/s:group[@nr = '2']/text())) then
+                                <end>
+                                    {$min}
+                                </end>
+                            else
+                                ()
+                            ),
+                    for $n in $analyse/s:not-match
+                    return
+                        $n)
+            else
+                if (matches($measure, $regex3)) then
+                    let $analyse := analyze-string($measure, $regex3)
+                    return
+                        (for $m in $analyse/s:match
+                        return
+                            (
+                            <beginning>{format-number(number:RomanToInteger($m/s:group[@nr = '1']/text(), 0), '####')}</beginning>,
+                            <text>
+                                {$m/s:group[@nr = '2']/text()}
+                            </text>,
+                            <end>{format-number(number:RomanToInteger($m/s:group[@nr = '3']/text(), 0), '####')}</end>
+                            ),
+                        for $n in $analyse/s:not-match
+                        return
+                            $n)
+                else
+                    if (matches($measure, $regex4)) then
+                        let $analyse := analyze-string($measure, $regex4)
+                        return
+                            (for $m in $analyse/s:match
+                            return
+                                (<beginning>{format-number(number:RomanToInteger($m/s:group[@nr = '1']/text(), 0), '####')}</beginning>,
+                                <text>
+                                    {$m/s:group[@nr = '2']/text()}
+                                </text>
+                                ),
+                            for $n in $analyse/s:not-match
+                            return
+                                $n)
+                    else
+                        if (matches($measure, $regex5)) then
+                            let $analyse := analyze-string($measure, $regex5)
+                            return
+                                (for $m in $analyse/s:match
+                                return
+                                    (
+                                    <text>
+                                        {$m/s:group[@nr = '1']/text()}
+                                    </text>,
+                                    <end>{format-number(number:RomanToInteger($m/s:group[@nr = '2']/text(), 0), '####')}</end>
+                                    ),
+                                for $n in $analyse/s:not-match
+                                return
+                                    $n)
+                        else
+                            if (matches($measure, $regex6)) then
+                                let $analyse := analyze-string($measure, $regex6)
+                                return
+                                    (for $m in $analyse/s:match
+                                    return
+                                        viewItem:analyseMeasure($m/s:group[@nr = '1']/text())
+                                    )
+                            else
+                                $measure
+};
+
+declare %private function viewItem:measure($measure) {
+    let $parsedMeasure := viewItem:analyseMeasure($measure)
+    let $totalprotectives :=
+    if ($parsedMeasure//*:beginning and $parsedMeasure//*:end) then
+        xs:integer($parsedMeasure//*:beginning/data()) + xs:integer($parsedMeasure//*:end/data())
+    else
+        if ($parsedMeasure//*:beginning and not($parsedMeasure//*:end)) then
+            xs:integer($parsedMeasure//*:beginning/data())
+        else
+            if ($parsedMeasure//*:end and not($parsedMeasure//*:beginning)) then
+                xs:integer($parsedMeasure//*:end/data())
+            else
+                ()
+    let $seq := (if ($parsedMeasure//*:beginning) then
+        if (xs:integer($parsedMeasure//*:beginning/data()) gt 1) then
+            ' i-' || lower-case(viewItem:n2roman($parsedMeasure//*:beginning/data()))
+        else
+            'i'
+    else
+        (), '+',
+    format-number($parsedMeasure//*:text/data(), '####'),
+    if ($parsedMeasure//*:end) then
+        ('+',
+        if ((xs:integer($parsedMeasure//*:end/data()) gt 1) and $parsedMeasure//*:beginning)
+        then
+            viewItem:smallroman(($parsedMeasure//*:beginning/data() + 1)) || '-' || viewItem:smallroman($totalprotectives)
+        else
+            viewItem:smallroman($totalprotectives))
+    else
+        ()
+    )
+    return
+        string-join($seq)
+};
+
+declare %private function viewItem:smallroman($val) {
+    lower-case(viewItem:n2roman($val))
+};
+
+(:return the concatenation of strings by continuous reduction:)
+declare function viewItem:n2roman($num as xs:integer) as xs:string
+{
+    (:the basis of transformation is a series of strings for components:)
+    let $values := (
+    <value
+        num="1"
+        char="I"/>,
+    <value
+        num="4"
+        char="IV"/>,
+    <value
+        num="5"
+        char="V"/>,
+    <value
+        num="9"
+        char="IX"/>,
+    <value
+        num="10"
+        char="X"/>,
+    <value
+        num="40"
+        char="XL"/>,
+    <value
+        num="50"
+        char="L"/>,
+    <value
+        num="90"
+        char="XC"/>,
+    <value
+        num="100"
+        char="C"/>,
+    <value
+        num="400"
+        char="CD"/>,
+    <value
+        num="500"
+        char="D"/>,
+    <value
+        num="900"
+        char="CM"/>,
+    <value
+        num="1000"
+        char="M"/>)
+    return
+        (:as long as we have a number, keep going:)
+        if ($num) then
+            (:reduce by the largest number that has a string value:)
+            
+            for $val in $values[@num <= $num][fn:last()]
+            return
+                (:using the highest value:)
+                fn:concat($val/@char, viewItem:n2roman($num - xs:integer($val/@num
+                )))
+                (:nothing left:)
+        else
+            ""
+};
+
+
+
+
+declare %private function viewItem:fulllang($lang) {
+    $viewItem:lang//t:item[@xml:id = $lang]/text()
+};
+
+
+
