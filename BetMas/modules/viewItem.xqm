@@ -656,54 +656,54 @@ declare %private function viewItem:VisColl($collation) {
 };
 
 declare %private function viewItem:date($date) {
-        if (matches($date, '\d{4}-\d{2}-\d{2}')) then
-            format-date(xs:date($date), '[D]-[M]-[Y0001]', 'en', 'AD', ())
-        else
-            if (matches($date, '\d{4}-\d{2}')) then
-                let $monthnumber := substring-after($date, '-')
-                let $monthname := switch ($monthnumber)
-                    case '01'
-                        return
-                            'January'
-                    case '02'
-                        return
-                            'February'
-                    case '03'
-                        return
-                            'March'
-                    case '04'
-                        return
-                            'April'
-                    case '05'
-                        return
-                            'May'
-                    case '06'
-                        return
-                            'June'
-                    case '07'
-                        return
-                            'July'
-                    case '08'
-                        return
-                            'August'
-                    case '09'
-                        return
-                            'September'
-                    case '10'
-                        return
-                            'October'
-                    case '11'
-                        return
-                            'November'
-                    case '12'
-                        return
-                            'December'
-                    default return
-                        ()
-            return
-                concat(replace(substring-after($date, '-'), $monthnumber, $monthname), ' ', substring-before($date, '-'))
-        else
-            format-number($date, '####')
+    if (matches($date, '\d{4}-\d{2}-\d{2}')) then
+        format-date(xs:date($date), '[D]-[M]-[Y0001]', 'en', 'AD', ())
+    else
+        if (matches($date, '\d{4}-\d{2}')) then
+            let $monthnumber := substring-after($date, '-')
+            let $monthname := switch ($monthnumber)
+                case '01'
+                    return
+                        'January'
+                case '02'
+                    return
+                        'February'
+                case '03'
+                    return
+                        'March'
+                case '04'
+                    return
+                        'April'
+                case '05'
+                    return
+                        'May'
+                case '06'
+                    return
+                        'June'
+                case '07'
+                    return
+                        'July'
+                case '08'
+                    return
+                        'August'
+                case '09'
+                    return
+                        'September'
+                case '10'
+                    return
+                        'October'
+                case '11'
+                    return
+                        'November'
+                case '12'
+                    return
+                        'December'
+                default return
+                    ()
+        return
+            concat(replace(substring-after($date, '-'), $monthnumber, $monthname), ' ', substring-before($date, '-'))
+    else
+        format-number($date, '####')
 };
 
 declare %private function viewItem:notBnotA($element) {
@@ -762,14 +762,14 @@ declare %private function viewItem:correspTit($t, $id) {
 };
 
 declare %private function viewItem:worktitle($t) {
-      let $id := string($t/@xml:id)
+    let $id := string($t/@xml:id)
     
     return
         <li
             property="http://purl.org/dc/elements/1.1/title">
             {
                 attribute {'xml:id'} {$id},
-                 if ($t/@type) then
+                if ($t/@type) then
                     concat(string($t/@type), ': ')
                 else
                     (),
@@ -1079,8 +1079,63 @@ declare %private function viewItem:publicationStmt($node) {
 };
 
 declare %private function viewItem:ref($ref) {
-    <a
-        href="{$ref/@target}">{$ref/text()}</a>
+    ($ref/text(),
+    if ($ref/@cRef) then
+        if (starts-with($ref/@cRef, 'urn:cts')) then
+            <a
+                href="http://data.perseus.org/citations/{$ref/@cRef}">
+                <i
+                    class="fa fa-angle-double-right"/>ref<i
+                    class="fa fa-angle-double-right"/>
+            </a>
+        else
+            <a
+                class="reference"
+                href="{substring-after($ref/@cRef, 'betmas:')}"
+                target="_blank">
+                <i
+                    class="fa fa-file-text-o"
+                    aria-hidden="true"/>
+            </a>
+    else
+        ()
+    ,
+    if ($ref/@corresp) then
+        for $c in viewItem:makeSequence($ref/@corresp)
+        return
+            (<a
+                href="{$c}">{exptit:printTitle($c)}</a>,
+            let $relsid := generate-id($c)
+            return
+                <a
+                    id="{$relsid}Ent{viewItem:URI2ID($c)}relations">
+                    <xsl:text>
+                    </xsl:text>
+                    <span
+                        class="glyphicon glyphicon-hand-left"/>
+                </a>
+            )
+    else
+        (),
+    if ($ref/@target) then
+        for $t in viewItem:makeSequence($ref/@target)
+        return
+            if (starts-with($t, '#')) then
+                let $anchor := substring-after($t, '#')
+                let $node := $ref/ancestor::t:TEI/id($anchor)
+                return
+                    <a
+                        href="{$t}">{viewItem:switchsubids($anchor, $node)}</a>
+            else
+                if (starts-with($t, 'http')) then
+                    <a
+                        href="{$t}">{$t}</a>
+                else
+                    <a
+                        href="{$t}">[link]</a>
+    else
+        ()
+    )
 };
 
 declare %private function viewItem:certainty($certainty) {
@@ -1322,124 +1377,250 @@ declare %private function viewItem:summaryitems($item) {
 };
 
 declare %private function viewItem:namedEntity($entity) {
-(switch($entity/name())
-case 'title' return viewItem:namedEntityTitle($entity)
-case 'persName' return viewItem:namedEntityPerson($entity) 
-default return  viewItem:namedEntityPlace($entity),
+    (switch ($entity/name())
+        case 'title'
+            return
+                viewItem:namedEntityTitle($entity)
+        case 'persName'
+            return
+                viewItem:namedEntityPerson($entity)
+        default return
+            viewItem:namedEntityPlace($entity),
 viewItem:lefthand($entity),
-if ($entity/@evidence) then concat(' (', $entity/@evidence, ')')        else        (),
- if ($entity/@cert = 'low') then  '?' else ()
+if ($entity/@evidence) then
+    concat(' (', $entity/@evidence, ')')
+else
+    (),
+if ($entity/@cert = 'low') then
+    '?'
+else
+    ()
 )
 };
 
-declare %private function viewItem:cae($entity){
-let $id := viewItem:URI2ID($entity/@ref) 
-return 'CAe '||substring($id, 4, 4) || (if(contains($id, '#')) then (' ' || substring-after($id, '#')) else ())
+declare %private function viewItem:cae($entity) {
+    let $id := viewItem:URI2ID($entity/@ref)
+    return
+        'CAe ' || substring($id, 4, 4) || (if (contains($id, '#')) then
+            (' ' || substring-after($id, '#'))
+        else
+            ())
 };
 
-declare %private function viewItem:lefthand($entity){
-let $id := viewItem:URI2ID($entity/@ref) 
-return <span xmlns="http://www.w3.org/1999/xhtml" id="{generate-id($entity)}Ent{$id}relations" class="popup">
-                    <span class="fa fa-hand-o-left"/>
-                </span>
+declare %private function viewItem:lefthand($entity) {
+    let $id := viewItem:URI2ID($entity/@ref)
+    return
+        <span
+            xmlns="http://www.w3.org/1999/xhtml"
+            id="{generate-id($entity)}Ent{$id}relations"
+            class="popup">
+            <span
+                class="fa fa-hand-o-left"/>
+        </span>
 };
 
 declare %private function viewItem:namedEntityTitle($entity) {
-(<a xmlns="http://www.w3.org/1999/xhtml" href="{viewItem:reflink($entity/@ref)}">{viewItem:TEI2HTML($entity/node())}</a>,
-(' ('||viewItem:cae($entity)||')')
-)};
+    (<a
+        xmlns="http://www.w3.org/1999/xhtml"
+        href="{viewItem:reflink($entity/@ref)}">{viewItem:TEI2HTML($entity/node())}</a>,
+    (' (' || viewItem:cae($entity) || ')')
+    )
+};
 
 declare %private function viewItem:namedEntityTitleNoLink($entity) {
-(viewItem:TEI2HTML($entity/node()),
-<span property="http://purl.org/dc/terms/hasPart" resource="{viewItem:reflink($entity/@ref)}">{concat(substring(string-join($entity//text()), 1, 30), '...')}</span>,
-(' ('||viewItem:cae($entity)||')'),
-if ($entity/@evidence) then concat(' (', $entity/@evidence, ')')        else        (),
- if ($entity/@cert = 'low') then  '?' else (),
- ' / ' 
-)};
+    (viewItem:TEI2HTML($entity/node()),
+    <span
+        property="http://purl.org/dc/terms/hasPart"
+        resource="{viewItem:reflink($entity/@ref)}">{concat(substring(string-join($entity//text()), 1, 30), '...')}</span>,
+    (' (' || viewItem:cae($entity) || ')'),
+    if ($entity/@evidence) then
+        concat(' (', $entity/@evidence, ')')
+    else
+        (),
+    if ($entity/@cert = 'low') then
+        '?'
+    else
+        (),
+    ' / '
+    )
+};
 
 declare %private function viewItem:namedEntityPerson($entity) {
-(if($entity/@ref) then <a xmlns="http://www.w3.org/1999/xhtml" href="{viewItem:reflink($entity/@ref)}">{viewItem:TEI2HTML($entity/node()[not(self::t:note)])}</a> else viewItem:TEI2HTML($entity/node()),
-if ($entity/@role) then  string($entity/@role) else ()(:,
+    (if ($entity/@ref) then
+        <a
+            xmlns="http://www.w3.org/1999/xhtml"
+            href="{viewItem:reflink($entity/@ref)}">{viewItem:TEI2HTML($entity/node()[not(self::t:note)])}</a>
+    else
+        viewItem:TEI2HTML($entity/node()),
+    if ($entity/@role) then
+        string($entity/@role)
+    else
+        () (:,
 viewItem:TEI2HTML($entity/t:note):))
 };
 
 declare %private function viewItem:namedEntityPersonNoLink($entity) {
-(<span xmlns="http://www.w3.org/1999/xhtml" class="persName" property="http://purl.org/dc/elements/1.1/relation" 
-resource="{viewItem:reflink($entity/@ref)}">{viewItem:TEI2HTML($entity/node()[not(self::t:note)])}</span>,
-if ($entity/@role) then  string($entity/@role) else ()),
-viewItem:TEI2HTML($entity/t:note),
-if ($entity/@evidence) then concat(' (', $entity/@evidence, ')')        else        (),
- if ($entity/@cert = 'low') then  '?' else ()
+    (<span
+        xmlns="http://www.w3.org/1999/xhtml"
+        class="persName"
+        property="http://purl.org/dc/elements/1.1/relation"
+        resource="{viewItem:reflink($entity/@ref)}">{viewItem:TEI2HTML($entity/node()[not(self::t:note)])}</span>,
+    if ($entity/@role) then
+        string($entity/@role)
+    else
+        ()),
+    viewItem:TEI2HTML($entity/t:note),
+    if ($entity/@evidence) then
+        concat(' (', $entity/@evidence, ')')
+    else
+        (),
+    if ($entity/@cert = 'low') then
+        '?'
+    else
+        ()
 };
 
 declare %private function viewItem:namedEntityPlace($entity) {
-(if($entity/@type and not($entity/ancestor::t:div[@type='edition'])) then concat($entity/@type, ': ') else (),
-<a xmlns="http://www.w3.org/1999/xhtml" href="{viewItem:reflink($entity/@ref)}">{viewItem:TEI2HTML($entity/node()[not(self::t:note)][not(self::t:certainty)])}</a>,
-let $idref := viewItem:URI2ID($entity/@ref)
-return
-if(contains($idref, 'pleiades')) then let $pleiadesid := substring-after($idref, 'pleiades:') return <span xmlns="http://www.w3.org/1999/xhtml" class="pelagios popup" 
-data-pelagiosID="{encode-for-uri(concat('http://pleiades.stoa.org/places/',$pleiadesid))}" 
-data-href="https://pleiades.stoa.org/places/{$pleiadesid}" data-value="{$pleiadesid}">↗</span> 
-else if (contains($idref, 'wd')) then <span xmlns="http://www.w3.org/1999/xhtml" 
-class="pelagios popup" data-pelagiosID="{encode-for-uri(replace($idref, 'wd:', 'http://www.wikidata.org/entity/'))}" 
-data-href="https://www.wikidata.org/wiki/{replace($idref, 'wd:', '')}" data-value="{$entity/@ref}">↗</span>
-else <span xmlns="http://www.w3.org/1999/xhtml" class="pelagios popup" 
-data-pelagiosID="{encode-for-uri(concat('http://betamasaheft.eu/places/',$idref))}" 
-data-href="https://betamasaheft.eu/{$idref}" data-value="{$idref}">↗</span>,
-viewItem:TEI2HTML($entity/t:note),
-viewItem:TEI2HTML($entity/t:certainty),
-if(not($entity/ancestor::t:div[@type='edition']) and $entity[@when| @notBefore|@notAfter|@when-custom|@notBefore-custom|@notAfter-custom]) then 
-if($entity/@when) then (' (information recorded on: ' || viewItem:date($entity/@when)||')')
-else if($entity/@notBefore) then (' After: ' || viewItem:date($entity/@notBefore))
-else if($entity/@notAfter) then (' Before: ' || viewItem:date($entity/@notAfter))
-else()
-else (),
-if($entity/@type='qušat') then ' qušat '
-else if ($entity/@type='waradā') then ' waradā ' 
-else ()
-)
+    (if ($entity/@type and not($entity/ancestor::t:div[@type = 'edition'])) then
+        concat($entity/@type, ': ')
+    else
+        (),
+    <a
+        xmlns="http://www.w3.org/1999/xhtml"
+        href="{viewItem:reflink($entity/@ref)}">{viewItem:TEI2HTML($entity/node()[not(self::t:note)][not(self::t:certainty)])}</a>,
+    let $idref := viewItem:URI2ID($entity/@ref)
+    return
+        if (contains($idref, 'pleiades')) then
+            let $pleiadesid := substring-after($idref, 'pleiades:')
+            return
+                <span
+                    xmlns="http://www.w3.org/1999/xhtml"
+                    class="pelagios popup"
+                    data-pelagiosID="{encode-for-uri(concat('http://pleiades.stoa.org/places/', $pleiadesid))}"
+                    data-href="https://pleiades.stoa.org/places/{$pleiadesid}"
+                    data-value="{$pleiadesid}">↗</span>
+        else
+            if (contains($idref, 'wd')) then
+                <span
+                    xmlns="http://www.w3.org/1999/xhtml"
+                    class="pelagios popup"
+                    data-pelagiosID="{encode-for-uri(replace($idref, 'wd:', 'http://www.wikidata.org/entity/'))}"
+                    data-href="https://www.wikidata.org/wiki/{replace($idref, 'wd:', '')}"
+                    data-value="{$entity/@ref}">↗</span>
+            else
+                <span
+                    xmlns="http://www.w3.org/1999/xhtml"
+                    class="pelagios popup"
+                    data-pelagiosID="{encode-for-uri(concat('http://betamasaheft.eu/places/', $idref))}"
+                    data-href="https://betamasaheft.eu/{$idref}"
+                    data-value="{$idref}">↗</span>,
+    viewItem:TEI2HTML($entity/t:note),
+    viewItem:TEI2HTML($entity/t:certainty),
+    if (not($entity/ancestor::t:div[@type = 'edition']) and $entity[@when | @notBefore | @notAfter | @when-custom | @notBefore-custom | @notAfter-custom]) then
+        if ($entity/@when) then
+            (' (information recorded on: ' || viewItem:date($entity/@when) || ')')
+        else
+            if ($entity/@notBefore) then
+                (' After: ' || viewItem:date($entity/@notBefore))
+            else
+                if ($entity/@notAfter) then
+                    (' Before: ' || viewItem:date($entity/@notAfter))
+                else
+                    ()
+    else
+        (),
+    if ($entity/@type = 'qušat') then
+        ' qušat '
+    else
+        if ($entity/@type = 'waradā') then
+            ' waradā '
+        else
+            ()
+    )
 };
 
 
-declare %private function viewItem:reflink($ref){
-let $ref := viewItem:URI2ID($ref)
-return
-if(contains($ref, ':')) then 
-let $prefix:= substring-before($ref, ':')
-let $suffix:= substring-after($ref, ':')
-let $prefixDef:= $viewItem:prefixDef//t:prefixDef[@ident=$prefix]
-return 
-replace($suffix, $prefixDef/@matchPattern, $prefixDef/@replacementPattern)
-else string($ref)
+declare %private function viewItem:reflink($ref) {
+    let $ref := viewItem:URI2ID($ref)
+    return
+        if (contains($ref, ':')) then
+            let $prefix := substring-before($ref, ':')
+            let $suffix := substring-after($ref, ':')
+            let $prefixDef := $viewItem:prefixDef//t:prefixDef[@ident = $prefix]
+            return
+                replace($suffix, $prefixDef/@matchPattern, $prefixDef/@replacementPattern)
+        else
+            string($ref)
 };
 
-declare %private function  viewItem:msItem($msItem) {
-let $mainID := viewItem:mainID($msItem)
-let $id := string($msItem/@xml:id)
-let $trimid:= if($msItem/parent::t:msContents) then concat(replace($id, '\.', '-'), 'N', $msItem/position()) else replace($id, '\.', '-') 
-return
-<div class="w3-container msItem" resource="https://betamasaheft.eu/{$mainID}/msitem/{$id}" typeof="https://betamasaheft.eu/msitem https://w3id.org/sdc/ontology#UniCont" id="{$id}">
-            <button style="max-width:100%" onclick="openAccordion('item{$trimid}')" class="w3-button w3-gray contentItem " resource="https://betamasaheft.eu/{$mainID}/msitem/{$id}"> 
-            {viewItem:namedEntityTitleNoLink($msItem/t:title)} Item {$id}
-            {if($msItem/t:msItem) then 
-            <span class="w3-badge w3-margin-left" property="http://www.cidoc-crm.org/cidoc-crm/P57_has_number_of_parts" about="https://betamasaheft.eu/{$mainID}/msitem/{$id}">
-            {count($msItem/t:msItem)}
-            </span>
-            else ()}
+declare %private function viewItem:msItem($msItem) {
+    let $mainID := viewItem:mainID($msItem)
+    let $id := string($msItem/@xml:id)
+    let $trimid := if ($msItem/parent::t:msContents) then
+        concat(replace($id, '\.', '-'), 'N', $msItem/position())
+    else
+        replace($id, '\.', '-')
+    return
+        <div
+            class="w3-container msItem"
+            resource="https://betamasaheft.eu/{$mainID}/msitem/{$id}"
+            typeof="https://betamasaheft.eu/msitem https://w3id.org/sdc/ontology#UniCont"
+            id="{$id}">
+            <button
+                style="max-width:100%"
+                onclick="openAccordion('item{$trimid}')"
+                class="w3-button w3-gray contentItem "
+                resource="https://betamasaheft.eu/{$mainID}/msitem/{$id}">
+                {viewItem:namedEntityTitleNoLink($msItem/t:title)} Item {$id}
+                {
+                    if ($msItem/t:msItem) then
+                        <span
+                            class="w3-badge w3-margin-left"
+                            property="http://www.cidoc-crm.org/cidoc-crm/P57_has_number_of_parts"
+                            about="https://betamasaheft.eu/{$mainID}/msitem/{$id}">
+                            {count($msItem/t:msItem)}
+                        </span>
+                    else
+                        ()
+                }
             </button>
-            <div id="item{$trimid}" class="w3-hide msItemContent">
-                <div class="w3-container">
-                    <hr class="msItems" align="left"/>
-                    {let $anchor := concat('#', $id) 
-                    return if($msItem//ancestor::t:TEI//t:div[@corresp = $anchor]) 
-                    then let $number := if($msItem/ancestor::t:TEI//t:div[@corresp = $anchor]/@n) then $msItem/ancestor::t:TEI//t:div[@corresp = $anchor]/@n else 1 
-                    return  <a role="button" class="w3-button w3-gray w3-small" href="/manuscripts/{$mainID}/text?per-page=1&amp;start={$number}">Transcription</a>
-                    else ()}
-                    {if($msItem/t:msItem) then <div class="w3-container" id="contentItem{$trimid}" rel="http://purl.org/dc/terms/hasPart">{viewItem:TEI2HTML($msItem/node())}</div> else viewItem:TEI2HTML($msItem/node()) }
-                    </div>
-                    </div>
+            <div
+                id="item{$trimid}"
+                class="w3-hide msItemContent">
+                <div
+                    class="w3-container">
+                    <hr
+                        class="msItems"
+                        align="left"/>
+                    {
+                        let $anchor := concat('#', $id)
+                        return
+                            if ($msItem//ancestor::t:TEI//t:div[@corresp = $anchor])
+                            then
+                                let $number := if ($msItem/ancestor::t:TEI//t:div[@corresp = $anchor]/@n) then
+                                    $msItem/ancestor::t:TEI//t:div[@corresp = $anchor]/@n
+                                else
+                                    1
+                                return
+                                    <a
+                                        role="button"
+                                        class="w3-button w3-gray w3-small"
+                                        href="/manuscripts/{$mainID}/text?per-page=1&amp;start={$number}">Transcription</a>
+                            else
+                                ()
+                    }
+                    {
+                        if ($msItem/t:msItem) then
+                            <div
+                                class="w3-container"
+                                id="contentItem{$trimid}"
+                                rel="http://purl.org/dc/terms/hasPart">{viewItem:TEI2HTML($msItem/node())}</div>
+                        else
+                            viewItem:TEI2HTML($msItem/node())
+                    }
+                </div>
             </div>
+        </div>
 };
 
 declare %private function viewItem:TEI2HTML($nodes) {
@@ -1514,7 +1695,7 @@ declare %private function viewItem:TEI2HTML($nodes) {
                     <p>Collection: {$node/text()}</p>
             case element(t:country)
                 return
-                   viewItem:namedEntity($node)
+                    viewItem:namedEntity($node)
             case element(t:custEvent)
                 return
                     if ($node/@type = 'restorations') then
@@ -1663,12 +1844,14 @@ declare %private function viewItem:TEI2HTML($nodes) {
                 return
                     <span
                         class="w3-tooltip">
-                        { if($node/@xml:lang) then (attribute lang {$node/@xml:lang}, <span>{$node/text()}</span>) 
-                        else 
-                            if (contains($node, '+')) then
-                                viewItem:measure($node/text())
+                        {
+                            if ($node/@xml:lang) then
+                                (attribute lang {$node/@xml:lang}, <span>{$node/text()}</span>)
                             else
-                                $node/text()
+                                if (contains($node, '+')) then
+                                    viewItem:measure($node/text())
+                                else
+                                    $node/text()
                         }
                         ({string($node/@unit)}{
                             if ($node/@type) then
@@ -1699,7 +1882,7 @@ declare %private function viewItem:TEI2HTML($nodes) {
                     <div
                         id="contents"
                         class="accordion">
-                        {viewItem:TEI2HTML($node/node()[not(name() ='summary')])}
+                        {viewItem:TEI2HTML($node/node()[not(name() = 'summary')])}
                     </div>
                     )
             case element(t:msDesc)
@@ -1710,8 +1893,8 @@ declare %private function viewItem:TEI2HTML($nodes) {
                 return
                     viewItem:codicologicalUnit($node)
             case element(t:msItem)
-            return 
-            viewItem:msItem($node)
+                return
+                    viewItem:msItem($node)
             case element(t:msPart)
                 return
                     viewItem:codicologicalUnit($node)
@@ -1779,11 +1962,11 @@ declare %private function viewItem:TEI2HTML($nodes) {
                     <p>{viewItem:TEI2HTML($node/node())}</p>
             case element(t:persName)
                 return
-                   viewItem:namedEntity($node)
-                     case element(t:placeName)
+                    viewItem:namedEntity($node)
+            case element(t:placeName)
                 return
-                   viewItem:namedEntity($node)
-           case element(t:provenance)
+                    viewItem:namedEntity($node)
+            case element(t:provenance)
                 return
                     (<h3>Provenance</h3>,
                     <p>{viewItem:TEI2HTML($node/node())}
@@ -1830,10 +2013,10 @@ declare %private function viewItem:TEI2HTML($nodes) {
                             }
                             {viewItem:TEI2HTML($node/node())}
                         </p>
-          case element(t:region)
+            case element(t:region)
                 return
-                   viewItem:namedEntity($node)
-          case element(t:relation)
+                    viewItem:namedEntity($node)
+            case element(t:relation)
                 return
                     viewItem:relation($node)
             case element(t:ref)
@@ -1851,14 +2034,24 @@ declare %private function viewItem:TEI2HTML($nodes) {
                         resource="{$node/@ref}">
                         {$node/text()}
                     </a>
-            case element(t:roleName) 
-            return 
-            if($node[not(parent::t:persName)]) then <a xmlns="http://www.w3.org/1999/xhtml" href="#" class="AttestationsWithSameRole" data-value="{.}">
-            <sup>?</sup>
-        </a> else  <span xmlns="http://www.w3.org/1999/xhtml" class="w3-tooltip">
-            {concat($node/text(), ' ')}
-            <span class="w3-text">role: {string($node/@type)}</span>
-        </span>
+            case element(t:roleName)
+                return
+                    if ($node[not(parent::t:persName)]) then
+                        <a
+                            xmlns="http://www.w3.org/1999/xhtml"
+                            href="#"
+                            class="AttestationsWithSameRole"
+                            data-value="{.}">
+                            <sup>?</sup>
+                        </a>
+                    else
+                        <span
+                            xmlns="http://www.w3.org/1999/xhtml"
+                            class="w3-tooltip">
+                            {concat($node/text(), ' ')}
+                            <span
+                                class="w3-text">role: {string($node/@type)}</span>
+                        </span>
             case element(t:rs)
                 return
                     if ($node/@type = 'inline') then
@@ -1890,7 +2083,7 @@ declare %private function viewItem:TEI2HTML($nodes) {
                         viewItem:TEI2HTML($node/node())
             case element(t:settlement)
                 return
-                   viewItem:namedEntity($node)
+                    viewItem:namedEntity($node)
             case element(t:signatures)
                 return
                     ($node/text(),
@@ -1932,9 +2125,9 @@ declare %private function viewItem:TEI2HTML($nodes) {
                         </a>
                     else
                         ()
-                 case element(t:title)
+            case element(t:title)
                 return
-                   viewItem:namedEntity($node)         
+                    viewItem:namedEntity($node)
             case element(t:witness)
                 return
                     viewItem:witness($node)
@@ -3285,6 +3478,46 @@ declare function viewItem:manuscriptnav($item) {
     )
 };
 
+declare function viewItem:switchsubids($anchor, $node) {
+    if ($anchor = 'ms') then
+        'General manuscript description'
+    else
+        if (starts-with($anchor, 'p') and matches($anchor, '^\w\d+$')) then
+            'Codicological Unit ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+        else
+            if (starts-with($anchor, 'f') and matches($anchor, '^\w\d+$')) then
+                'Fragment ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+            else
+                if (starts-with($anchor, 't') and matches($anchor, '\w\d+')) then
+                    'Title ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+                else
+                    if (starts-with($anchor, 'b') and matches($anchor, '\w\d+')) then
+                        'Binding ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+                    else
+                        if (starts-with($anchor, 'a') and matches($anchor, '\w\d+')) then
+                            viewItem:categoryname($node, $node/t:desc/@type) || ' (' || substring($anchor, 1) || ') ' || string-join(viewItem:headercontext($node))
+                        else
+                            if (starts-with($anchor, 'e') and matches($anchor, '\w\d+')) then
+                                viewItem:categoryname($node, $node/t:desc/@type) || ' (' || substring($anchor, 1) || ') ' || string-join(viewItem:headercontext($node))
+                            else
+                                if (starts-with($anchor, 'd') and matches($anchor, '\w\d+')) then
+                                    'Decoration ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+                                else
+                                    if (starts-with($anchor, 'coloph') and matches($anchor, 'coloph')) then
+                                        'Colophon ' || substring-after($anchor, 'coloph') || string-join(viewItem:headercontext($node))
+                                    else
+                                        if (contains($anchor, '_i') and matches($anchor, '\w\d+')) then
+                                            'Content Item ' || substring-after($anchor, '_i') || string-join(viewItem:headercontext($node)) || $node/t:title/text()
+                                        else
+                                            if (starts-with($anchor, 'q') and matches($anchor, '\w\d+')) then
+                                                'Quire ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+                                            else
+                                                if (starts-with($anchor, 'h') and matches($anchor, '\w\d+')) then
+                                                    'Hand ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+                                                else
+                                                    $node/name()
+};
+
 declare function viewItem:categoryname($item, $type) {
     $item//t:category[@xml:id = $type]/t:catDesc/text()
 };
@@ -3597,6 +3830,9 @@ declare function viewItem:n2roman($num as xs:integer) as xs:string
 
 
 declare %private function viewItem:fulllang($lang) {
-   try{ $viewItem:lang//t:item[@xml:id = $lang]/text()} catch * {util:log('INFO', $lang)}
+    try {
+        $viewItem:lang//t:item[@xml:id = $lang]/text()
+    } catch * {
+        util:log('INFO', $lang)
+    }
 };
-
