@@ -10,6 +10,11 @@ declare namespace b = "betmas.biblio";
 declare namespace d = "betmas.domlib";
 declare namespace functx = "http://www.functx.com";
 declare namespace number = "roman.numerals.funct";
+declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method "html5";
+declare option output:indent "yes";
+
+(:to preserve white spaces in mixed content the option in conf.xml preserve-white-space needs to be set to yes! :)
 
 declare variable $viewItem:coll := collection('/db/apps/expanded');
 declare variable $viewItem:bibliography := doc('/db/apps/lists/bibliography.xml');
@@ -874,14 +879,14 @@ declare %private function viewItem:headercontext($node) {
             href="#{$node/ancestor::t:msPart[1]/@xml:id}">
             {substring-after($node/ancestor::t:msPart[1]/@xml:id, 'p')}</a>)
     else
-        (),
+        (), ' ', 
     if ($node/ancestor::t:msItem[1]) then
         (', item ',
         <a
             href="#{$node/ancestor::t:msItem[1]/@xml:id}">
             {substring-after($node/ancestor::t:msItem[1]/@xml:id, 'i')}</a>)
     else
-        (),
+        (), ' ', 
     if ($node/@corresp) then
         let $cors := viewItem:makeSequence($node/@corresp)
         let $file := $node/ancestor::t:TEI
@@ -901,7 +906,7 @@ declare %private function viewItem:headercontext($node) {
         let $lang := if ($item/@xml:lang) then
             concat(' [', $file//t:language[@ident = $item/@xml:lang], ']')
         else
-            ()
+            () 
         return
             <a
                 href="{$c}">{$text}
@@ -1125,14 +1130,14 @@ declare %private function viewItem:ref($ref) {
                 let $node := $ref/ancestor::t:TEI/id($anchor)
                 return
                     <a
-                        href="{$t}">{viewItem:switchsubids($anchor, $node)}</a>
+                        href="{$t}"> {viewItem:switchsubids($anchor, $node)}</a>
             else
                 if (starts-with($t, 'http')) then
                     <a
-                        href="{$t}">{$t}</a>
+                        href="{$t}"> {$t}</a>
                 else
                     <a
-                        href="{$t}">[link]</a>
+                        href="{$t}"> [link]</a>
     else
         ()
     )
@@ -1385,12 +1390,12 @@ declare %private function viewItem:namedEntity($entity) {
             return
                 viewItem:namedEntityPerson($entity)
         default return
-            viewItem:namedEntityPlace($entity),
-viewItem:lefthand($entity),
+            viewItem:namedEntityPlace($entity),' ',
+viewItem:lefthand($entity), ' ',
 if ($entity/@evidence) then
     concat(' (', $entity/@evidence, ')')
 else
-    (),
+    (), ' ',
 if ($entity/@cert = 'low') then
     '?'
 else
@@ -1422,7 +1427,7 @@ declare %private function viewItem:lefthand($entity) {
 declare %private function viewItem:namedEntityTitle($entity) {
     (<a
         xmlns="http://www.w3.org/1999/xhtml"
-        href="{viewItem:reflink($entity/@ref)}">{viewItem:TEI2HTML($entity/node())}</a>,
+        href="{$entity/@ref}">{viewItem:TEI2HTML($entity/node())}</a>,
     (' (' || viewItem:cae($entity) || ')')
     )
 };
@@ -1432,11 +1437,11 @@ declare %private function viewItem:namedEntityTitleNoLink($entity) {
     <span
         property="http://purl.org/dc/terms/hasPart"
         resource="{viewItem:reflink($entity/@ref)}">{concat(substring(string-join($entity//text()), 1, 30), '...')}</span>,
-    (' (' || viewItem:cae($entity) || ')'),
+    (' (' || viewItem:cae($entity) || ')'), ' ',
     if ($entity/@evidence) then
         concat(' (', $entity/@evidence, ')')
     else
-        (),
+        (),' ',
     if ($entity/@cert = 'low') then
         '?'
     else
@@ -1451,7 +1456,7 @@ declare %private function viewItem:namedEntityPerson($entity) {
             xmlns="http://www.w3.org/1999/xhtml"
             href="{viewItem:reflink($entity/@ref)}">{viewItem:TEI2HTML($entity/node()[not(self::t:note)])}</a>
     else
-        viewItem:TEI2HTML($entity/node()),
+        viewItem:TEI2HTML($entity/node()), ' ',
     if ($entity/@role) then
         string($entity/@role)
     else
@@ -1464,16 +1469,16 @@ declare %private function viewItem:namedEntityPersonNoLink($entity) {
         xmlns="http://www.w3.org/1999/xhtml"
         class="persName"
         property="http://purl.org/dc/elements/1.1/relation"
-        resource="{viewItem:reflink($entity/@ref)}">{viewItem:TEI2HTML($entity/node()[not(self::t:note)])}</span>,
+        resource="{viewItem:reflink($entity/@ref)}">{viewItem:TEI2HTML($entity/node()[not(self::t:note)])} </span>,
     if ($entity/@role) then
         string($entity/@role)
     else
-        ()),
-    viewItem:TEI2HTML($entity/t:note),
+        ()), ' ',
+    viewItem:TEI2HTML($entity/t:note), ' ',
     if ($entity/@evidence) then
         concat(' (', $entity/@evidence, ')')
     else
-        (),
+        (), ' ',
     if ($entity/@cert = 'low') then
         '?'
     else
@@ -1513,9 +1518,9 @@ declare %private function viewItem:namedEntityPlace($entity) {
                     class="pelagios popup"
                     data-pelagiosID="{encode-for-uri(concat('http://betamasaheft.eu/places/', $idref))}"
                     data-href="https://betamasaheft.eu/{$idref}"
-                    data-value="{$idref}">↗</span>,
-    viewItem:TEI2HTML($entity/t:note),
-    viewItem:TEI2HTML($entity/t:certainty),
+                    data-value="{$idref}">↗</span>, ' ',
+    viewItem:TEI2HTML($entity/t:note), ' ',
+    viewItem:TEI2HTML($entity/t:certainty), ' ',
     if (not($entity/ancestor::t:div[@type = 'edition']) and $entity[@when | @notBefore | @notAfter | @when-custom | @notBefore-custom | @notAfter-custom]) then
         if ($entity/@when) then
             (' (information recorded on: ' || viewItem:date($entity/@when) || ')')
@@ -1528,7 +1533,7 @@ declare %private function viewItem:namedEntityPlace($entity) {
                 else
                     ()
     else
-        (),
+        (), ' ',
     if ($entity/@type = 'qušat') then
         ' qušat '
     else
@@ -2558,14 +2563,14 @@ declare %private function viewItem:additionItem($a) {
         <p>{viewItem:TEI2HTML($a/t:locus)}
             {
                 if ($a/t:desc/@type) then
-                    ('(Type: ',
+                    (' (Type: ',
                     <a
                         href="/authority-files/list?keyword={$a/t:desc/@type}">{viewItem:categoryname($a/ancestor::t:TEI, $a/t:desc/@type)}</a>,
                     <a
                         href="/additions?type={$a/t:desc/@type}">
                         <i
                             class="fa fa-hand-o-left"/>
-                    </a>)
+                    </a>, ') ')
                 else
                     ()
             }
@@ -4823,19 +4828,19 @@ declare function viewItem:manuscriptnav($item) {
 
 declare function viewItem:switchsubids($anchor, $node) {
     if ($anchor = 'ms') then
-        'General manuscript description'
+        ' General manuscript description'
     else
         if (starts-with($anchor, 'p') and matches($anchor, '^\w\d+$')) then
-            'Codicological Unit ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+            ' Codicological Unit ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
         else
             if (starts-with($anchor, 'f') and matches($anchor, '^\w\d+$')) then
-                'Fragment ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+                ' Fragment ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
             else
                 if (starts-with($anchor, 't') and matches($anchor, '\w\d+')) then
-                    'Title ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+                    ' Title ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
                 else
                     if (starts-with($anchor, 'b') and matches($anchor, '\w\d+')) then
-                        'Binding ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+                        ' Binding ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
                     else
                         if (starts-with($anchor, 'a') and matches($anchor, '\w\d+')) then
                             viewItem:categoryname($node, $node/t:desc/@type) || ' (' || substring($anchor, 1) || ') ' || string-join(viewItem:headercontext($node))
@@ -4844,25 +4849,25 @@ declare function viewItem:switchsubids($anchor, $node) {
                                 viewItem:categoryname($node, $node/t:desc/@type) || ' (' || substring($anchor, 1) || ') ' || string-join(viewItem:headercontext($node))
                             else
                                 if (starts-with($anchor, 'd') and matches($anchor, '\w\d+')) then
-                                    'Decoration ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+                                    ' Decoration ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
                                 else
                                     if (starts-with($anchor, 'coloph') and matches($anchor, 'coloph')) then
-                                        'Colophon ' || substring-after($anchor, 'coloph') || string-join(viewItem:headercontext($node))
+                                        ' Colophon ' || substring-after($anchor, 'coloph') || string-join(viewItem:headercontext($node))
                                     else
                                         if (contains($anchor, '_i') and matches($anchor, '\w\d+')) then
-                                            'Content Item ' || substring-after($anchor, '_i') || string-join(viewItem:headercontext($node)) || $node/t:title/text()
+                                            ' Content Item ' || substring-after($anchor, '_i') || string-join(viewItem:headercontext($node)) || $node/t:title/text()
                                         else
                                             if (starts-with($anchor, 'q') and matches($anchor, '\w\d+')) then
-                                                'Quire ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+                                                ' Quire ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
                                             else
                                                 if (starts-with($anchor, 'h') and matches($anchor, '\w\d+')) then
-                                                    'Hand ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+                                                    ' Hand ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
                                                 else
                                                     $node/name()
 };
 
 declare function viewItem:categoryname($item, $type) {
-    $item//t:category[@xml:id = $type]/t:catDesc/text()
+    ' ' || $item//t:category[@xml:id = $type]/t:catDesc/text()
 };
 
 
