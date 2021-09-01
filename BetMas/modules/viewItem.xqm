@@ -1045,13 +1045,13 @@ declare %private function viewItem:EthioSpareFormatter($node) {
 
 declare %private function viewItem:relation($node) {
     (<a
-        href="{$node/@active}">{exptit:printTitle($node/@active)}</a>,
+        href="{viewItem:reflink($node/@active)}">{exptit:printTitle($node/@active)}</a>, ' ', 
     <a
-        href="{$node//@ref}">
+        href="{viewItem:reflink($node/@ref)}">
         <code>{string($node/@name)}</code>
-    </a>,
+    </a>, ' ', 
     <a
-        href="{$node/@passive}">{exptit:printTitle($node/@passive)}</a>,
+        href="{viewItem:reflink($node/@passive)}">{exptit:printTitle($node/@passive)}</a>, ' ', 
     viewItem:TEI2HTML($node/t:desc)
     )
 };

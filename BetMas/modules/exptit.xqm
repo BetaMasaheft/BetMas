@@ -19,7 +19,7 @@ declare variable $exptit:institutionsList := doc('/db/apps/lists/institutions.xm
 declare variable $exptit:persNamesList := doc('/db/apps/lists/persNamesLabels.xml');
 declare variable $exptit:TUList := doc('/db/apps/lists/textpartstitles.xml');
 declare variable $exptit:deleted := doc('/db/apps/lists/deleted.xml');
-
+declare variable $exptit:prefixDef := doc('/db/apps/lists/listPrefixDef.xml');
 
 (: The entry point function of the module. Establishes the different rules and priority to print a title referring to a record. can start from any node in the document. :)
 declare function exptit:printTitle($titleMe) {
@@ -38,7 +38,12 @@ declare function exptit:printTitle($titleMe) {
                 if (starts-with($titleMe, $config:appUrl)) then
                     (:                check if it is a local URI :)
                     let $id := substring-after($titleMe, concat($config:appUrl, '/'))
-                    let $log := util:log('INFO', $id)
+                    return
+                        exptit:printTitleID($id)
+                else
+                    if (contains($titleMe, 'betmas:')) then
+(:                    it is a prefixed http thing, replace and treat it accordingly :)
+let $id := substring-after($titleMe, 'betmas:')
                     return
                         exptit:printTitleID($id)
                 else
