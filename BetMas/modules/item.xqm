@@ -14,11 +14,40 @@ import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/t
 import module namespace exptit="https://www.betamasaheft.uni-hamburg.de/BetMas/exptit" at "xmldb:exist:///db/apps/BetMas/modules/exptit.xqm";
 import module namespace apptable="https://www.betamasaheft.uni-hamburg.de/BetMas/apptable" at "xmldb:exist:///db/apps/BetMas/modules/apptable.xqm";
 import module namespace viewItem = "https://www.betamasaheft.uni-hamburg.de/BetMas/viewItem" at "xmldb:exist:///db/apps/BetMas/modules/viewItem.xqm";
+import module namespace tl="https://www.betamasaheft.uni-hamburg.de/BetMas/timeline"at "xmldb:exist:///db/apps/BetMas/modules/timeline.xqm";
 import module namespace xdb="http://exist-db.org/xquery/xmldb";
 import module namespace locus = "https://www.betamasaheft.uni-hamburg.de/BetMas/locus" at "xmldb:exist:///db/apps/BetMas/modules/locus.xqm";
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace t="http://www.tei-c.org/ns/1.0";
+
+
+declare function item2:authorsSHA($id, $this, $collection, $sha){
+apprest:authorsSHA($id, $this, $collection, $sha)
+};
+
+declare function item2:printTitle($id){exptit:printTitle($id)};
+
+declare function item2:getTEIbyID($id){
+$apprest:collection-root/id($id)[name() eq 'TEI']
+};
+
+declare function item2:formerly($id){
+$apprest:collection-root//t:relation[@name eq 'betmas:formerlyAlsoListedAs'][@passive eq $id]
+};
+declare function item2:rels($id){
+$apprest:collection-rootMS//t:relation[contains(@passive, $id)]
+};
+
+declare function item2:namedentitiescorresps($this, $collection){
+apprest:namedentitiescorresps($this, $collection)
+};
+declare function item2:EntityRelsTable($this, $collection) {
+apprest:EntityRelsTable($this, $collection)
+};
+declare function item2:authors($this, $collection){
+apprest:authors($this, $collection)
+};
 
 declare function item2:persList($item){
 (:expects a manuscript item:)
@@ -1298,6 +1327,13 @@ let $id := string($document/t:TEI/@xml:id)
     </div>
 };
 
+declare function item2:documents($doc){
+viewItem:documents($doc)
+};
+
+declare function item2:timeline($this, $collection){
+tl:RestEntityTimeLine($this, $collection)
+};
 
 (:~ sends to the correct XSLT producing the main content of 
 the page for text view

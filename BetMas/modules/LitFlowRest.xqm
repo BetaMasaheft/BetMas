@@ -9,7 +9,7 @@ module namespace LitFlowRest = "https://www.betamasaheft.uni-hamburg.de/BetMas/L
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
-import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "xmldb:exist:///db/apps/BetMas/modules/apprest.xqm";
+import module namespace scriptlinks = "https://www.betamasaheft.uni-hamburg.de/BetMas/scriptlinks" at "xmldb:exist:///db/apps/BetMas/modules/scriptlinks.xqm";
 import module namespace nav = "https://www.betamasaheft.uni-hamburg.de/BetMas/nav" at "xmldb:exist:///db/apps/BetMas/modules/nav.xqm";
 import module namespace LitFlow = "https://www.betamasaheft.uni-hamburg.de/BetMas/LitFlow" at "xmldb:exist:///db/apps/BetMas/modules/LitFlow.xqm";
 
@@ -59,7 +59,7 @@ return
 
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css"  />
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick-theme.css"  />
-{apprest:scriptStyle()}
+{scriptlinks:scriptStyle()}
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"/>
     </head>
     <body id="body">

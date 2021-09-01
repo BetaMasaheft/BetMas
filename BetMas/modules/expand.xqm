@@ -242,6 +242,7 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
                         <ref target="https://github.com/BetaMasaheft/BetMas/blob/master/BetMas/modules/expand.xqm">Xquery transformation</ref> 
                         taking advantage of the <ref target="https://betamasaheft.eu">exist-db database instance</ref> where 
                         the data is stored and of the many external resources to which this data points to.</p>,
+                        $expand:listPrefixDef,
                         $expand:canontax
                     }
             case element(t:relation)
@@ -286,10 +287,9 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
             <change xmlns="http://www.tei-c.org/ns/1.0" who="#{$node/@who}" when="{$node/@when}">{let $resp := $node/@who return $expand:editorslist//t:item[@xml:id = $resp]/text()}: {$node/text()}</change>
             case element(t:profileDesc)
                 return
-                    <profileDesc
-                        xmlns="http://www.tei-c.org/ns/1.0">
-                        {expand:tei2fulltei($node/node(), $bibliography)}
-                        <calendarDesc>
+                    element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
+                        (expand:tei2fulltei($node/node(), $bibliography),
+                            <calendarDesc xmlns="http://www.tei-c.org/ns/1.0">
                             <calendar
                                 xml:id="world">
                                 <p>ʿĀmata ʿālam/ʿĀmata ʾəm-fəṭrat (Era of the World)</p>
@@ -327,8 +327,8 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
                                 xml:id="julian">
                                 <p>Julian</p>
                             </calendar>
-                        </calendarDesc>
-                    </profileDesc>
+                        </calendarDesc>)
+                    }
             case element(t:title)
                 return
                    expand:refel($node, $bibliography)

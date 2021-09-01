@@ -14,6 +14,7 @@ import module namespace item2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/
 import module namespace nav = "https://www.betamasaheft.uni-hamburg.de/BetMas/nav" at "xmldb:exist:///db/apps/BetMas/modules/nav.xqm";
 import module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMas/error" at "xmldb:exist:///db/apps/BetMas/modules/error.xqm";
 import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "xmldb:exist:///db/apps/BetMas/modules/apprest.xqm";
+import module namespace scriptlinks = "https://www.betamasaheft.uni-hamburg.de/BetMas/scriptlinks" at "xmldb:exist:///db/apps/BetMas/modules/scriptlinks.xqm";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace charts = "https://www.betamasaheft.uni-hamburg.de/BetMas/charts" at "xmldb:exist:///db/apps/BetMas/modules/charts.xqm";
 import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2"  at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
@@ -65,7 +66,7 @@ function list:browseMS(){
         <link rel="shortcut icon" href="resources/images/minilogo.ico"></link>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
        
-    {apprest:scriptStyle()}
+    {scriptlinks:scriptStyle()}
     </head>
     <body id="body">
         {nav:barNew()}
@@ -186,7 +187,7 @@ function list:browseUnits($unitType){
         <meta property="dcterms:publisher schema:publisher" content="Akademie der Wissenschaften in Hamburg, Hiob-Ludolf-Zentrum für Äthiopistik"/>
         
         
-{apprest:scriptStyle()}
+{scriptlinks:scriptStyle()}
     </head>
     <body id="body">
         {nav:barNew()}
@@ -381,7 +382,7 @@ if(xdb:collection-available($c)) then (
         <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         {$list:app-meta}
-        {apprest:listScriptStyle()}
+        {scriptlinks:listScriptStyle()}
     </head>
     <body id="body">
         {nav:barNew()}
@@ -778,7 +779,7 @@ if(xdb:collection-available($c)) then (
         <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         {$list:app-meta}
-{apprest:scriptStyle()}
+{scriptlinks:scriptStyle()}
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"/>
     </head>
      <body id="body">
@@ -966,7 +967,7 @@ if($file) then (
         <link rel="stylesheet" type="text/css" href="resources/css/leaflet.css"/>
         <link  rel="stylesheet" type="text/css" href="resources/css/leaflet.fullscreen.css"/>
         <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="resources/css/leaflet-search.css"/>
-        {apprest:listScriptStyle()} 
+        {scriptlinks:listScriptStyle()} 
        <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"/>
         <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/js/mapbox.js"/>
         <script  xmlns="http://www.w3.org/1999/xhtml"type="text/javascript" src="resources/js/Leaflet.fullscreen.min.js"/>
@@ -1215,7 +1216,7 @@ if($file) then (
         <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         {$list:app-meta}
-{apprest:scriptStyle()}
+{scriptlinks:scriptStyle()}
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"/>
     </head>
     <body id="body">
@@ -1406,7 +1407,7 @@ if($file or starts-with($place, 'wd:')) then (
         <link rel="stylesheet" type="text/css" href="resources/css/leaflet.css"/>
         <link  rel="stylesheet" type="text/css" href="resources/css/leaflet.fullscreen.css"/>
         <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="resources/css/leaflet-search.css"/>
-        {apprest:listScriptStyle()} 
+        {scriptlinks:listScriptStyle()} 
        <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"/>
         <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/js/mapbox.js"/>
         <script  xmlns="http://www.w3.org/1999/xhtml"type="text/javascript" src="resources/js/Leaflet.fullscreen.min.js"/>
@@ -1588,7 +1589,7 @@ if($file or starts-with($place, 'wd:')) then (
         <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         {$list:app-meta}
-{apprest:scriptStyle()}
+{scriptlinks:scriptStyle()}
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"/>
     </head>
     <body id="body">
@@ -1671,7 +1672,7 @@ function list:getcatalogues() {
         <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         {$list:app-meta}
-{apprest:scriptStyle()}
+{scriptlinks:scriptStyle()}
 
     </head>
     <body id="body">
@@ -1850,7 +1851,7 @@ if($prefixedcatID = $catalogues) then (
         <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         
-        {apprest:listScriptStyle()}
+        {scriptlinks:listScriptStyle()}
         
         </head>
     <body id="body">
@@ -2064,7 +2065,7 @@ if($prefixedcatID = $catalogues) then (
         <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         {$list:app-meta}
-{apprest:scriptStyle()}
+{scriptlinks:scriptStyle()}
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"/>
 
 

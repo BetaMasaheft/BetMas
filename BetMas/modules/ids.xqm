@@ -12,7 +12,7 @@ declare namespace t="http://www.tei-c.org/ns/1.0";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
-import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "xmldb:exist:///db/apps/BetMas/modules/apprest.xqm";
+import module namespace scriptlinks = "https://www.betamasaheft.uni-hamburg.de/BetMas/scriptlinks" at "xmldb:exist:///db/apps/BetMas/modules/scriptlinks.xqm";
 import module namespace nav = "https://www.betamasaheft.uni-hamburg.de/BetMas/nav" at "xmldb:exist:///db/apps/BetMas/modules/nav.xqm";
 import module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMas/error" at "xmldb:exist:///db/apps/BetMas/modules/error.xqm";
 
@@ -41,7 +41,7 @@ function listIds:getlist(){
         <link rel="shortcut icon" href="resources/images/favicon.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <title>list of ids</title>
-        {apprest:scriptStyle()}
+        {scriptlinks:scriptStyle()}
     </head>
     <body id="body">
         {nav:barNew()}

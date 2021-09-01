@@ -8,7 +8,7 @@ module namespace user = "https://www.betamasaheft.uni-hamburg.de/BetMas/user";
 import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace log = "http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
 import module namespace titles = "https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
-import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "xmldb:exist:///db/apps/BetMas/modules/apprest.xqm";
+import module namespace scriptlinks = "https://www.betamasaheft.uni-hamburg.de/BetMas/scriptlinks" at "xmldb:exist:///db/apps/BetMas/modules/scriptlinks.xqm";
 import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "xmldb:exist:///db/apps/BetMas/modules/editors.xqm";
 import module namespace nav = "https://www.betamasaheft.uni-hamburg.de/BetMas/nav" at "xmldb:exist:///db/apps/BetMas/modules/nav.xqm";
 import module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMas/error" at "xmldb:exist:///db/apps/BetMas/modules/error.xqm";
@@ -62,7 +62,7 @@ return
             <meta
                 name="viewport"
                 content="width=device-width, initial-scale=1.0"/>
-            {apprest:scriptStyle()}
+            {scriptlinks:scriptStyle()}
         </head>
         <body
             id="body">

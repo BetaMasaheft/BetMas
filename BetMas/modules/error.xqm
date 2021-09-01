@@ -10,7 +10,7 @@ declare namespace http = "http://expath.org/ns/http-client";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
-import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "xmldb:exist:///db/apps/BetMas/modules/apprest.xqm";
+import module namespace scriptlinks = "https://www.betamasaheft.uni-hamburg.de/BetMas/scriptlinks" at "xmldb:exist:///db/apps/BetMas/modules/scriptlinks.xqm";
 import module namespace nav = "https://www.betamasaheft.uni-hamburg.de/BetMas/nav" at "xmldb:exist:///db/apps/BetMas/modules/nav.xqm";
 
 
@@ -39,7 +39,7 @@ default return
         <link rel="shortcut icon" href="resources/images/favicon.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         
-        {apprest:scriptStyle()}
+        {scriptlinks:scriptStyle()}
    </head>
    <body>
     {nav:barNew()}

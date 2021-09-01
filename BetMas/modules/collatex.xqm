@@ -9,7 +9,7 @@ module namespace collatex = "https://www.betamasaheft.uni-hamburg.de/BetMas/coll
 import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
 import module namespace nav = "https://www.betamasaheft.uni-hamburg.de/BetMas/nav" at "xmldb:exist:///db/apps/BetMas/modules/nav.xqm";
-import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "xmldb:exist:///db/apps/BetMas/modules/apprest.xqm";
+import module namespace scriptlinks = "https://www.betamasaheft.uni-hamburg.de/BetMas/scriptlinks" at "xmldb:exist:///db/apps/BetMas/modules/scriptlinks.xqm";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace dts="https://www.betamasaheft.uni-hamburg.de/BetMas/dts" at "xmldb:exist:///db/apps/BetMas/modules/dts.xqm";
 import module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMas/error" at "xmldb:exist:///db/apps/BetMas/modules/error.xqm";
@@ -216,7 +216,7 @@ let $matchingmss := for $ms in $urns
             
 (:~ Calls for each witness of a specified narrative builds the array which can be passed as body of the POST request to collatex:)
 declare function collatex:getnarrUnitWittnesses($nU){ 
-let $matchingmss := for $ms in $apprest:collection-rootMS//t:*[@corresp = $nU]
+let $matchingmss := for $ms in collection($config:data-rootMS)//t:*[@corresp = $nU]
                                            let $id := string($ms/ancestor::t:TEI/@xml:id)
 (:                                          let $consol := console:log($ms):)
                                           let $xslt :=   'xmldb:exist:///db/apps/BetMas/xslt/stringtext.xsl'  

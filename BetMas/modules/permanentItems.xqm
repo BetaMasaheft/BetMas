@@ -15,6 +15,7 @@ import module namespace nav = "https://www.betamasaheft.uni-hamburg.de/BetMas/na
 import module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMas/error" at "xmldb:exist:///db/apps/BetMas/modules/error.xqm";
 import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "xmldb:exist:///db/apps/BetMas/modules/editors.xqm";
 import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "xmldb:exist:///db/apps/BetMas/modules/apprest.xqm";
+import module namespace scriptlinks = "https://www.betamasaheft.uni-hamburg.de/BetMas/scriptlinks" at "xmldb:exist:///db/apps/BetMas/modules/scriptlinks.xqm";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace charts = "https://www.betamasaheft.uni-hamburg.de/BetMas/charts" at "xmldb:exist:///db/apps/BetMas/modules/charts.xqm";
 import module namespace LitFlow = "https://www.betamasaheft.uni-hamburg.de/BetMas/LitFlow" at "xmldb:exist:///db/apps/BetMas/modules/LitFlow.xqm";
@@ -62,7 +63,7 @@ $id as xs:string*,
 $start as xs:integer*,
 $per-page as xs:integer*,
 $hi as xs:string*) {
-  let $item := $apprest:collection-root/id($id)[name() eq 'TEI']
+  let $item := item2:getTEIbyID($id)
   let $col := switch2:col($item/@type)
   let $log := log:add-log-message('/'||$id||'/main', sm:id()//sm:real/sm:username/string() , 'item')
   return
@@ -193,9 +194,13 @@ $sha as xs:string*){
 let $collect := switch2:collectionVar($collection)
 let $coll := $config:data-root || '/' || $collection
 let $capCol := PermRestItem:capitalize-first($collection)
-let $permapath := if( $PermRestItem:deleted//t:item[. eq $id]) then (replace(string($PermRestItem:deleted//t:item[. eq $id]/@source), $collection, '') =>replace('^/', '') || '/' || $PermRestItem:deleted//t:item[. eq $id]/text() || '.xml' ) else replace(PermRestItem:capitalize-first(substring-after(base-uri($apprest:collection-root/id($id)[name()eq 'TEI']), '/db/apps/BetMasData/')), $capCol, '')
+let $permapath := if( $PermRestItem:deleted//t:item[. eq $id]) then (replace(string($PermRestItem:deleted//t:item[. eq $id]/@source), $collection, '') =>replace('^/', '') || '/' || $PermRestItem:deleted//t:item[. eq $id]/text() || '.xml' ) else replace(PermRestItem:capitalize-first(substring-after(base-uri(item2:getTEIbyID($id)), '/db/apps/BetMasData/')), $capCol, '')
 let $docpath:= 'https://raw.githubusercontent.com/BetaMasaheft/' || $capCol || '/'||$sha||'/'|| $permapath
+(:THIS WILL HAVE TO EXPAND FIRST! without storing, otherwise all functions will not work.:)
+
 let $this:= doc($docpath)//t:TEI
+let $id := $this/@xml:id
+let $title := exptit:printTitle($id)
 let $biblio :=
 <bibl>
 {
@@ -227,14 +232,14 @@ return
         </rest:response>,
        <html xmlns="http://www.w3.org/1999/xhtml" version="XHTML+RDFa 1.1">
     <head>
-    {apprest:app-title($id)}
+    {scriptlinks:app-title($title)}
         <link rel="alternate" type="application/rdf+xml"
           title="RDF Representation"
           href="https://betamasaheft.eu/rdf/{$collection}/{$id}.rdf" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        {apprest:app-meta($biblio)}
-        {apprest:scriptStyle()}
-        {if($type='text') then () else apprest:ItemScriptStyle()}
+        {scriptlinks:app-meta($this)}
+        {scriptlinks:scriptStyle()}
+        {if($type='text') then () else scriptlinks:ItemScriptStyle()}
         {if($type='graph') then (
                          <script src="https://d3js.org/d3.v5.min.js"/>,
                          <script src="resources/js/d3sparql.js"/>) else ()}
@@ -275,7 +280,7 @@ else ()}
   <div class="slider round" data-toggle="tooltip" title="Highlight diplomatic disourse interpretation"></div>
 </label>
    {
-   for $document in $apprest:collection-rootMS//t:relation[contains(@passive, $id)]
+   for $document in item2:rels($id)
 let $rootid := string($document/@active)
 let $itemid :=substring-after($rootid, '#')
 let $msid :=substring-before($rootid, '#')
@@ -318,14 +323,14 @@ return
                 <script type="text/javascript"src="resources/js/visgraphspec.js"/>
             </div>
             <div class="container w3-half w3-padding">
-                  {apprest:EntityRelsTable($this, $collection)}
+                  {item2:EntityRelsTable($this, $collection)}
             </div>
             </div>
             <div class="w3-container">
             <div class="w3-half w3-padding">
             <div id="timeLine" class="w3-container"/>
                 <script type="text/javascript">
-            {tl:RestEntityTimeLine($this, $collection)}
+            {item2:RestEntityTimeLine($this, $collection)}
             </script>
             </div>
             <div class="w3-half w3-padding">
@@ -347,7 +352,7 @@ return
    for $contains in $this//t:relation[@name eq "saws:contains"]/@passive 
      let $ids:=  if(contains($contains, ' ')) then for $x in tokenize($contains, ' ') return $x else string($contains)
      for $contained in $ids
-    let $cfile := $apprest:collection-rootW//id($contained)[name() eq 'TEI']
+    let $cfile := item2:getTEIbyID($contained)
    return 
    
    <div class="w3-container">
@@ -465,7 +470,7 @@ if ($id = $Subjects) then  (try{LitFlow:Sankey($id, 'works')} catch * {$err:desc
    <div  class="alpheios-enabled">{item2:RestItem($this, $collection)}</div>,
    
         
-(:   apprest:namedentitiescorresps($this, $collection),:)
+(:   item2:namedentitiescorresps($this, $collection),:)
 (:   the form with a list of potental relation keywords to find related items. value is used by Jquery to query rest again on api:SharedKeyword($keyword) :)
    switch($collection)
    case 'works' return  (
@@ -506,7 +511,7 @@ if ($id = $Subjects) then  (try{LitFlow:Sankey($id, 'works')} catch * {$err:desc
    <script  type="text/javascript" src="resources/js/permanentID.js"></script>
    
    </div>
-  { apprest:authorsSHA($id, $this, $collection, $sha)}
+  { item2:authorsSHA($id, $this, $collection, $sha)}
    </div>
 
 
@@ -514,7 +519,7 @@ if ($id = $Subjects) then  (try{LitFlow:Sankey($id, 'works')} catch * {$err:desc
 
         {nav:footerNew()}
 
-       {apprest:ItemFooterScript()}
+       {scriptlinks:ItemFooterScript()}
 
     </body>
 </html>
