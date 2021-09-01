@@ -1694,6 +1694,921 @@ declare %private function viewItem:figure($figure) {
 };
 
 
+declare %private function viewItem:supportDesc($node) {
+    (<h2>Physical Description {viewItem:headercontext($node)}</h2>,
+    if ($node/parent::t:objectDesc/@form) then
+        (<h3>Form of support {viewItem:headercontext($node)}</h3>,
+        <p>{
+                if ($node//t:material/@key) then
+                    for $m in $node//t:material
+                    return
+                        <span
+                            class="w3-tag w3-gray"
+                            property="http://www.cidoc-crm.org/cidoc-crm/P46_is_composed_of"
+                            resource="https://betamasaheft.eu/material/{$m/@key}">
+                            {concat(upper-case(substring($m/@key, 1, 1)), substring($m/@key, 2), ' ')}
+                        </span>
+                else
+                    ()
+            }<span
+                class="w3-tag w3-red"
+                typeof="https://betamasaheft.eu/{$node/parent::t:objectDesc/@form}">
+                {string($node/parent::t:objectDesc/@form)}
+            </span></p>)
+    else
+        (),
+    viewItem:TEI2HTML($node/node())
+    )
+};
+
+declare %private function viewItem:layoutDesc($node) {
+    <div
+        rel="http://purl.org/dc/terms/hasPart">
+        <h3>Layout {viewItem:headercontext($node)}</h3>
+        {viewItem:TEI2HTML($node/t:summary)}
+        {
+            for $l in $node/t:layout
+                order by $l/position()
+            return
+                viewItem:layout($l)
+        }
+        {
+            if ($node//t:ab[@type = 'ruling']) then
+                (<h5>Ruling {viewItem:headercontext($node)}</h5>,
+                <ul>
+                    {
+                        for $ruling in $node//t:ab[@type = 'ruling']
+                        return
+                            <li>
+                                {
+                                    if ($ruling/@subtype) then
+                                        '(Subtype: ' || string($ruling/@subtype) || ')'
+                                    else
+                                        ()
+                                }
+                                {
+                                    if ($ruling/@subtype = 'pattern') then
+                                        let $muzerelle := 'http://palaeographia.org/muzerelle/regGraph2.php?F='
+                                        let $regex := '(([A-Z\d\-]+)/([A-Z\d\-]+)/([A-Z\d\-]+)/([A-Z\d\-]+))'
+                                        let $analyze := analyze-string($ruling, $regex)
+                                        for $m in $analyze/node()
+                                        return
+                                            if ($m/name() = 'match') then
+                                                let $formula := $m/s:group[@nr = '1']/text()
+                                                return
+                                                    <a
+                                                        href="{concat($muzerelle, $formula)}"
+                                                        target="_blank">{$formula}
+                                                    </a>
+                                            else
+                                                $m/text()
+                                    else
+                                        viewItem:TEI2HTML($ruling/node())
+                                }
+                            </li>
+                    }
+                </ul>
+                )
+            else
+                ()
+        }
+        {
+            if ($node//t:ab[@type = 'pricking']) then
+                (<h5>Pricking {viewItem:headercontext($node)}</h5>,
+                <ul>
+                    {
+                        for $ruling in $node//t:ab[@type = 'pricking']
+                        return
+                            <li>
+                                {
+                                    if ($ruling/@subtype) then
+                                        '(Subtype: ' || string($ruling/@subtype) || ')'
+                                    else
+                                        ()
+                                }
+                                {viewItem:TEI2HTML($ruling/node())}
+                            </li>
+                    }
+                </ul>
+                )
+            else
+                ()
+        }
+        {
+            if ($node//t:ab[@type != 'pricking'][@type != 'ruling'][@type != 'punctuation']) then
+                (<h5>Other {viewItem:headercontext($node)}</h5>,
+                <ul>
+                    {
+                        for $ruling in $node//t:ab[@type != 'pricking'][@type != 'ruling'][@type != 'punctuation']
+                        return
+                            <li>
+                                {
+                                    if ($ruling/@subtype) then
+                                        '(Subtype: ' || string($ruling/@subtype) || ')'
+                                    else
+                                        ()
+                                }
+                                {viewItem:TEI2HTML($ruling/node())}
+                            </li>
+                    }
+                </ul>
+                )
+            else
+                ()
+        }
+        {
+            if ($node//t:ab[not(@type)]) then
+                (<h5
+                    style="color:red;"><code>ab</code> element without <code>@type</code> in layout {viewItem:headercontext($node)}</h5>,
+                <ul>
+                    {
+                        for $ruling in $node//t:ab[not(@type)]
+                        return
+                            <li>
+                                <b
+                                    style="color:red;">THIS ab element does not have a required type.</b>
+                                {
+                                    if ($ruling/@subtype) then
+                                        '(Subtype: ' || string($ruling/@subtype) || ')'
+                                    else
+                                        ()
+                                }
+                                {viewItem:TEI2HTML($ruling/node())}
+                            </li>
+                    }
+                </ul>
+                )
+            else
+                ()
+        }
+        {
+            if (($node/(ancestor::t:msDesc | ancestor::t:msPart | ancestor::t:msFrag))[1]//t:handNote)
+            then
+                (
+                <h3>Palaeography {viewItem:headercontext($node)}</h3>,
+                for $h in ($node/(ancestor::t:msDesc | ancestor::t:msPart | ancestor::t:msFrag))[1]//t:handNote
+                return
+                    (<h4
+                        id="{$h/@xml:id}">Hand {substring-after($h/@xml:id, 'h')}</h4>,
+                    <p>{string($h/@script)}{
+                            if ($h/t:ab[@type = 'script']) then
+                                (': ', viewItem:TEI2HTML($h/t:ab[@type = 'script']))
+                            else
+                                ()
+                        }</p>,
+                    if ($h/t:seg[@type = 'ink']) then
+                        <p>Ink: {viewItem:TEI2HTML($h/t:seg[@type = 'ink'])}</p>
+                    else
+                        (),
+                    if ($h/t:list[@type = 'abbreviations']) then
+                        (<h4> Abbreviations </h4>,
+                        <ul>{viewItem:TEI2HTML($h/t:list[@type = 'abbreviations']/node())}</ul>)
+                    else
+                        (),
+                    if ($h/t:persName[@role = 'scribe']) then
+                        <p><b>Scribe</b>: {viewItem:TEI2HTML($h/t:persName[@role = 'scribe'])}</p>
+                    else
+                        (),
+                    viewItem:TEI2HTML($h/node()[not(self::t:seg)][not(self::t:list)][not(self::t:ab[@type = 'script'])])
+                    )
+                )
+            else
+                ()
+        }
+        {
+            if ($node//t:ab[@subtype = 'Executed'] or $node//t:ab[@subtype = 'Usage'] or $node//t:ab[@subtype = 'Dividers']) then
+                (<h4>Punctuation {viewItem:headercontext($node)}</h4>,
+                
+                for $punctuation in ($node//t:ab[@subtype = 'Executed'] | $node//t:ab[@subtype = 'Usage'] | $node//t:ab[@subtype = 'Dividers'])
+                return
+                    <p>
+                        {string($ruling/@subtype) || ': '}
+                        {viewItem:TEI2HTML($punctuation/node())}
+                    </p>
+                
+                )
+            else
+                ()
+        }
+        {
+            if ($node//t:ab[@type = 'punctuation'][not(@subtype)]) then
+                for $n in $node//t:ab[@type = 'punctuation'][not(@subtype)]
+                return
+                    viewItem:TEI2HTML($n)
+            else
+                ()
+        }
+        {
+            for $ab in ('CruxAnsata', 'coronis', 'ChiRho')
+            return
+                if ($node//t:ab[@type = $ab][not(@subtype)]) then
+                    (<h4>{$ab}</h4>,
+                    <p>Yes {viewItem:TEI2HTML($node//t:ab[@type = $ab][not(@subtype)])}
+                    </p>)
+                else
+                    ()
+        }
+    </div>
+};
+
+declare %private function viewItem:layoutdimensionunit($dim) {
+    (<span
+        class="lead">
+        {$dim/text()}
+    </span>,
+    string($dim/parent::t * /@unit))
+};
+declare %private function viewItem:layout($node) {
+    <div
+        id="layout{$node/position()}"
+        resource="http://betamasaheft.eu/{$node/ancestor::t:TEI/@xml:id}/layout/layout{$node/position()}">
+        <h4>Layout note {$node/position()}
+            {
+                if ($node/t:locus) then
+                    '(' || viewItem:TEI2HTML($node/t:locus) || ')'
+                else
+                    ()
+            }</h4>
+        {
+            if ($node/@columns) then
+                <p>Number of columns: {string($node/@columns)}</p>
+            else
+                ()
+        }
+        {
+            if ($node/@writtenLines) then
+                <p>Number of lines: {
+                        if (contains($node/@writtenLines, ' ')) then
+                            replace($node/@writtenLines, ' ', '-')
+                        else
+                            $node/@writtenLines
+                    }</p>
+            else
+                ()
+        }
+        {
+            if ($node//t:dimensions[not(@xml:lang)]) then
+                <div
+                    class="w3-responsive">
+                    <table
+                        class="w3-table w3-hoverable">
+                        <tr>
+                            <td>H</td>
+                            <td>{viewItem:layoutdimensionunit($node/t:dimensions[not(@xml:lang)]/t:height)}</td>
+                        </tr>
+                        <tr>
+                            <td>W</td>
+                            <td>{viewItem:layoutdimensionunit($node/t:dimensions[not(@xml:lang)]/t:width)}</td>
+                        </tr>
+                        {
+                            if ($node/t:dimensions[not(@xml:lang)][not(@type = 'margin')]/t:dim[@type = 'intercolumn']) then
+                                <tr>
+                                    <td>Intercolumn</td>
+                                    <td>{viewItem:layoutdimensionunit($node/t:dimensions[not(@xml:lang)][not(@type = 'margin')]/t:dim[@type = 'intercolumn'])}</td>
+                                </tr>
+                            else
+                                ()
+                        }
+                        {
+                            if ($node/t:dimensions[not(@xml:lang)][@type = 'margin']/t:dim[@type]) then
+                                (<tr>
+                                    <td><b>Margins</b></td>
+                                    <td/>
+                                </tr>,
+                                for $margin in $node/t:dimensions[not(@xml:lang)][@type = 'margin']/t:dim[@type]
+                                return
+                                    <tr>
+                                        <td>{string($margin/@type)}</td>
+                                        <td>{viewItem:layoutdimensionunit($margin)}</td>
+                                    </tr>
+                                )
+                            else
+                                ()
+                        }
+                    </table>
+                </div>
+            else
+                ()
+        }
+        {
+            if ($node/t:note) then
+                viewItem:TEI2HTML($node/t:note)
+            else
+                (),
+            let $topmargin := if ($node/t:dimensions[not(@xml:lang)][@type = 'margin'][1]/t:dim[@type = 'top'][1]/text()) then
+                ($node/t:dimensions[not(@xml:lang)][@type = 'margin'][1]/t:dim[@type = 'top'][1])
+            else
+                ('0')
+            let $bottomargin := if ($node/t:dimensions[not(@xml:lang)][@type = 'margin'][1]/t:dim[@type = 'bottom'][1]/text()) then
+                ($node/t:dimensions[not(@xml:lang)][@type = 'margin'][1]/t:dim[@type = 'bottom'][1])
+            else
+                ('0')
+            let $rightmargin := if ($node/t:dimensions[not(@xml:lang)][@type = 'margin'][1]/t:dim[@type = 'right'][1]/text()) then
+                ($node/t:dimensions[not(@xml:lang)][@type = 'margin'][1]/t:dim[@type = 'right'][1])
+            else
+                ('0')
+            let $leftmargin := if ($node/t:dimensions[not(@xml:lang)][@type = 'margin'][1]/t:dim[@type = 'left'][1]/text()) then
+                ($node/t:dimensions[not(@xml:lang)][@type = 'margin'][1]/t:dim[@type = 'left'][1])
+            else
+                ('0')
+            let $textwidth := $node/t:dimensions[not(@xml:lang)][not(@type)][1]/t:width[1]
+            let $heighText := $node/t:dimensions[not(@xml:lang)][not(@type)][1]/t:height[1]
+            let $totalHeight := if ($node/ancestor::t:TEI//t:dimensions[not(@xml:lang)][@type = 'outer' and @unit = 'mm']/t:height/text() or
+            $node/ancestor::t:TEI//t:dimensions[not(@xml:lang)][@type = 'outer']/t:height[@unit = 'mm']/text()) then
+                (max($node/ancestor::t:TEI//t:dimensions[not(@xml:lang)][@type = 'outer']/t:height))
+            else
+                0
+            let $totalwidth := if ($node/ancestor::t:TEI//t:dimensions[not(@xml:lang)][@type = 'outer' and @unit = 'mm']/t:width/text() or
+            $node/ancestor::t:TEI//t:dimensions[not(@xml:lang)][@type = 'outer']/t:width[@unit = 'mm']/text()) then
+                (max($node/ancestor::t:TEI//t:dimensions[not(@xml:lang)][@type = 'outer']/t:width))
+            else
+                0
+            let $computedheight := number($heighText) + number($bottomargin) + number($topmargin)
+            let $computedwidth := number($textwidth) + number($rightmargin) + number($leftmargin)
+            let $currentMsPart := if ($node/ancestor::t:msPart) then
+                substring-after($node/ancestor::t:msPart/@xml:id, 'p')
+            else
+                ' main part'
+            return
+                (<button
+                    type="button"
+                    class="w3-button w3-gray"
+                    onclick="openAccordion('layoutreport{$currentMsPart}')">Layout
+                    report</button>,
+                <div
+                    class="report w3-container w3-hide"
+                    id="layoutreport{$currentMsPart}">
+                    <p>Ms {concat(exptit:printTitle($node/ancestor::t:TEI/@xml:id), $currentMsPart)}</p>
+                    {
+                        if (number($computedheight) gt number($totalHeight))
+                        then
+                            <span>has a sum of layout height of {$computedheight}mm which is greater than the
+                                object height of {$totalHeight}mm </span>
+                        
+                        else
+                            ()
+                    }
+                    {
+                        if (number($computedwidth) gt number($totalwidth))
+                        then
+                            <span>has a sum of layout width of {$computedwidth}mm which is greater than the
+                                object height of {$totalwidth}mm </span>
+                        
+                        else
+                            ()
+                    }
+                    {
+                        if (not((number($computedheight) gt number($totalHeight)) or (number($computedwidth) gt number($totalwidth)))) then
+                            <span> looks ok for measures computed width is:
+                                {$computedwidth}mm, object width
+                                is: {$totalwidth}mm, computed height
+                                is: {$computedheight}mm and object
+                                height is: {$totalHeight}mm.
+                                {
+                                    if (number($topmargin) = 0 or number($bottomargin) = 0 or
+                                    number($rightmargin) = 0 or number($leftmargin) = 0 or
+                                    number($totalHeight) = 0 or number($totalwidth) = 0)
+                                    then
+                                        <span>but the following values are recognized as empty:
+                                            {
+                                                if (number($topmargin) = 0) then
+                                                    'top margin'
+                                                else
+                                                    ()
+                                            }
+                                            {
+                                                if (number($bottommargin) = 0) then
+                                                    'bottom margin'
+                                                else
+                                                    ()
+                                            }
+                                            {
+                                                if (number($rightmargin) = 0) then
+                                                    'right margin'
+                                                else
+                                                    ()
+                                            }
+                                            {
+                                                if (number($leftmargin) = 0) then
+                                                    'left margin'
+                                                else
+                                                    ()
+                                            }
+                                            {
+                                                if (number($totalHeight) = 0) then
+                                                    'object height'
+                                                else
+                                                    ()
+                                            }
+                                            {
+                                                if (number($totalwidth) = 0) then
+                                                    'object width'
+                                                else
+                                                    ()
+                                            }</span>
+                                    else
+                                        ()
+                                }</span>
+                        else
+                            ()
+                    }
+                </div>
+                )
+        }
+    </div>
+
+};
+
+declare %private function viewItem:ab($node) {
+    <p>{
+            if ($node/@type) then
+                (<b>{
+                        if ($node/@type = 'script') then
+                            string($node/parent::t:handNote/@script)
+                        else
+                            string($node/@type)
+                    }</b>, ': ')
+            else
+                ()
+        }
+        {viewItem:TEI2HTML($node/node())}</p>
+};
+
+declare %private function viewItem:abbr($node) {
+    (viewItem:TEI2HTML($node/node()),
+    if (not($node/ancestor::t:expand)) then
+        '(- - -)'
+    else
+        ())
+};
+
+declare %private function viewItem:acquisition($node) {
+    (<h3>Acquisition</h3>,
+    <p>{viewItem:TEI2HTML($node/node())}
+    </p>)
+};
+
+declare %private function viewItem:adminInfo($node) {
+    (if ($node/t:note) then
+        <h2>Administrative Information</h2>
+    else
+        (),
+    viewItem:TEI2HTML($node/node())
+    )
+};
+
+declare %private function viewItem:altIdentifier($node) {
+    (<p>Also identified as</p>,
+    for $idno in $node/t:idno
+    return
+        <span
+            property="http://www.cidoc-crm.org/cidoc-crm/P1_is_identified_by"
+            content="{$idno/text()}">{$idno/text()}</span>,
+    viewItem:TEI2HTML($node/node()[not(self::t:idno)])
+    )
+};
+
+declare %private function viewItem:cit($node) {
+    ('“' || viewItem:TEI2HTML($node/node()) || '”')
+};
+
+declare %private function viewItem:custEvent($node) {
+    if ($node/@type = 'restorations') then
+        <p
+            class="w3-large">
+            This manuscript has {
+                if ($node/@subtype = 'none') then
+                    'no'
+                else
+                    string($node/@subtype)
+            } restorations.</p>
+    else
+        ()
+};
+
+declare %private function viewItem:collectionelement($node) {
+    <p>Collection: {$node/text()}</p>
+};
+
+declare %private function viewItem:handDesc($node) {
+    <div
+        resource="https://betamasaheft.eu/{$node/ancestor::t:TEI/@xml:id}/hand/{$node/@xml:id}">
+        {
+            attribute typeof {
+                if ($node/@script) then
+                    ('https://betamasaheft.eu/scripts/' || string($node/@script))
+                else
+                    (), 'https://betamasaheft.eu/hand', 'https://w3id.org/sdc/ontology#UniMain'
+            }
+        }
+        <h5
+            id="{$node/@xml:id}">Hand {viewItem:headercontext($node)}
+            {
+                if ($node/@corresp) then
+                    ('(',
+                    for $c in viewItem:makeSequence($node/@corresp)
+                    let $type := switch ($c)
+                        case starts-with(., '#q')
+                            return
+                                'quire'
+                        case starts-with(., '#a')
+                            return
+                                'addition'
+                        case starts-with(., '#i')
+                            return
+                                'content item'
+                        case starts-with(., '#b')
+                            return
+                                'binding'
+                        case starts-with(., '#d')
+                            return
+                                'decoration'
+                        default return
+                            $c
+                return
+                    (<a
+                        href="{$c}">{$type}
+                        {substring-after($c, '#')}</a>,
+                    <span
+                        property="http://purl.org/dc/terms/relation"
+                        resource="https://betamasaheft/{$node/ancestor::t:TEI/@xml:id}/{$type}/{substring-after($c, '#')}"/>),
+                
+                ')')
+            else
+                ()
+        }</h5>
+    
+    <p>{string($node/@script)}{
+            if ($node/t:ab[@type = 'script']) then
+                (': ', viewItem:TEI2HTML($node/t:ab[@type = 'script']))
+            else
+                ()
+        }</p>
+    {
+        if ($node/t:seg[@type = 'ink']) then
+            <p>Ink: {viewItem:TEI2HTML($node/t:seg[@type = 'ink'])}</p>
+        else
+            ()
+    }
+    {
+        if ($node/t:list[@type = 'abbreviations']) then
+            (<h4> Abbreviations </h4>,
+            <ul>{viewItem:TEI2HTML($node/t:list[@type = 'abbreviations']/node())}</ul>)
+        else
+            ()
+    }
+    {
+        if ($node/t:persName[@role = 'scribe']) then
+            <p><b>Scribe</b>: {viewItem:TEI2HTML($node/t:persName[@role = 'scribe'])}</p>
+        else
+            ()
+    }
+    {viewItem:TEI2HTML($node/node()[not(self::t:seg)][not(self::t:list)][not(self::t:ab[@type = 'script'])])}
+</div>
+
+};
+
+
+declare %private function viewItem:foliation($node) {
+    (<h3>Foliation {viewItem:headercontext($node)}</h3>,
+    <p>{viewItem:TEI2HTML($node/node())}</p>
+    )
+};
+
+declare %private function viewItem:condition($node) {
+    (<h3>State of preservation {viewItem:headercontext($node)}</h3>,
+    <p>{string($node/@key)}</p>,
+    <h4>Condition</h4>,
+    <p>
+        {viewItem:TEI2HTML($node/node())}
+    </p>
+    )
+};
+
+declare %private function viewItem:extant($node) {
+    (<h4>Extent {viewItem:headercontext($node)}</h4>,
+    <div>
+        <span
+            property="http://betamasaheft.eu/hasTotalLeaves"
+            content="{$node/t:measure[1][@unit = 'leaf'][not(@type)]}"/>
+        {viewItem:TEI2HTML($node/node())}</div>
+    )
+};
+
+declare %private function viewItem:decoDesc($node) {
+    <div
+        id="deco"
+        rel="http://purl.org/dc/terms/hasPart">
+        <h2><span
+                class="w3-tooltip">Decoration {viewItem:headercontext($node)}
+                <span
+                    class="w3-text">
+                    In this unit there are in total {
+                        let $types := for $type in distinct-values($node/t:decoNote/@type)
+                        let $count := count($node/t:decoNote[@type = $type])
+                        return
+                            ($count || ' ' || viewItem:categoryname($node/ancestor::t:TEI, $type) || (if ($count gt 2) then
+                                's'
+                            else
+                                ''))
+                        return
+                            string-join($types, ', ')
+                    }.
+                </span>
+            </span>
+        </h2>
+        <p>{viewItem:TEI2HTML($node/t:summary)}</p>
+        {
+            if ($node/t:decoNote[@type = 'rubrication']) then
+                (<h3>Rubrication</h3>,
+                <ol>{
+                        for $r in $node/t:decoNote[@type = 'rubrication']
+                        return
+                            viewItem:decoNoteItem($node, $r)
+                    }
+                </ol>
+                )
+            else
+                ()
+        }
+        {
+            if ($node/t:decoNote[@type = 'frame']) then
+                (<h3>Frame notes</h3>,
+                <ol>{
+                        for $r in $node/t:decoNote[@type = 'frame']
+                        return
+                            viewItem:decoNoteItem($node, $r)
+                    }
+                </ol>
+                )
+            else
+                ()
+        }
+        {
+            if ($node/t:decoNote[@type = 'miniature']) then
+                (<h3>Miniatures notes</h3>,
+                <ol>{
+                        for $r in $node/t:decoNote[@type = 'miniature']
+                        return
+                            viewItem:decoNoteItem($node, $r)
+                    }
+                </ol>
+                )
+            else
+                ()
+        }
+        {
+            if ($node/t:decoNote[not(ancestor::t:binding)][@type != 'rubrication'][@type != 'miniature'][@type != 'frame']) then
+                (<h3>Other Decorations</h3>,
+                <ol>{
+                        for $r in $node/t:decoNote[not(ancestor::t:binding)][@type != 'rubrication'][@type != 'miniature'][@type != 'frame']
+                        return
+                            viewItem:decoNoteItem($node, $r)
+                    }
+                </ol>
+                )
+            else
+                ()
+        }
+    </div>
+};
+
+declare %private function viewItem:decoNoteItem($node, $r) {
+    <li
+        id="{$r/@xml:id}"
+        resource="http://betamasaheft.eu/{$node/ancestor::t:TEI/@xml:id}/decoration/{$node/@xml:id}">
+        {
+            attribute typeof {
+                for $type in $r//t:term/@key
+                return
+                    ('http://betamasaheft.eu/ontology/' || $type),
+                for $type in $r/@type
+                return
+                    ('http://betamasaheft.eu/ontology/' || $type)
+            }
+        }
+        {string($r/@type)}:
+        {viewItem:TEI2HTML($r/node())}
+    </li>
+};
+
+
+declare %private function viewItem:colophon($node) {
+    (
+    <hr
+        class="colophon"/>,
+    <h3
+        id="{$node/@xml:id}">{
+            if ($node/@type) then
+                string($node/@type)
+            else
+                'Colophon'
+        }</h3>,
+    <p>{viewItem:TEI2HTML($node/t:locus)}</p>,
+    <p>{viewItem:TEI2HTML($node/node()[not(self::t:note)][not(self::t:foreign)][not(self::t:listBibl)][not(self::t:locus)])}</p>,
+    if ($node/t:foreign) then
+        for $t in $node/t:foreign
+        return
+            <p
+                lang="{$t/@xml:lang}">
+                <b>Translation {viewItem:fulllang($t/@xml:lang)}: </b>
+                {viewItem:TEI2HTML($t/node())}
+            </p>
+    else
+        (),
+    if ($node/t:note) then
+        <p>
+            {viewItem:TEI2HTML($node/t:note)}
+        </p>
+    else
+        (),
+    if ($node/t:listBibl) then
+        <p>
+            {viewItem:TEI2HTML($node/t:listBibl)}
+        </p>
+    else
+        ()
+    )
+};
+
+
+declare %private function viewItem:bindingDesc($node) {
+    (<h3>Binding {viewItem:headercontext($node)}</h3>,
+    <p
+        id='b1'>{viewItem:TEI2HTML($node/t:decoNote[@xml:id = 'b1'])}</p>,
+    for $b in $node//t:decoNote[@type][not(@type = 'Other')][not(@type = 'bindingMaterial')][not(@xml:id = 'b1')]
+    return
+        (<h4
+            id="{$b/@xmlid}">{
+                if ($b/@type = 'SewingStations') then
+                    'Sewing Stations'
+                else
+                    $b/@type
+            }</h4>,
+        viewItem:TEI2HTML($b/node()),
+        if ($node//t:decoNote[@type = 'Other']) then
+            (for $bo in $node//t:binding/t:decoNote[@type = 'Other']
+            return
+                (<h4
+                    id="{$bo/@xml:id}">Binding decoration</h4>,
+                <p>
+                    {viewItem:TEI2HTML($bo/node())}
+                </p>))
+        else
+            (),
+        if ($node//t:decoNote[@type = 'bindingMaterial']) then
+            (for $bo in $node/t:binding/t:decoNote[@type = 'Other']
+            return
+                (<h4
+                    id="{$bo/@xml:id}">Binding material</h4>,
+                for $m in $bo/t:material/@key
+                return
+                    <p>{string($m)}</p>,
+                <p>
+                    {viewItem:TEI2HTML($bo/node())}
+                </p>))
+        else
+            (),
+        if ($node/t:binding/@contemporary) then
+            (<h4>Original binding</h4>,
+            <p>
+                {
+                    if ($node/t:binding/@contemporary = 'true') then
+                        'Yes'
+                    else
+                        'No'
+                }
+            </p>)
+        else
+            ()
+        )
+    )
+};
+
+declare %private function viewItem:revisionDesc($node) {
+    <ul>
+        {
+            for $change in $node/t:change
+            return
+                <li>{$change/text()}</li>
+        }
+    </ul>
+};
+
+
+declare %private function viewItem:additions($node) {
+    <div
+        id="additiones"
+        rel="http://purl.org/dc/terms/hasPart">
+        <h2><span
+                class="w3-tooltip">Additions {viewItem:headercontext($node)}
+                <span
+                    class="w3-text">
+                    In this unit there are in total {
+                        let $types := for $type in distinct-values($node//t:item/t:desc/@type)
+                        let $count := count($node//t:item/t:desc[@type = $type])
+                        return
+                            ($count || ' ' || viewItem:categoryname($node/ancestor::t:TEI, $type) || (if ($count gt 2) then
+                                's'
+                            else
+                                ''))
+                        return
+                            string-join($types, ', ')
+                    }.
+                </span>
+            </span>
+        </h2>
+        {
+            if ($node/t:note) then
+                viewItem:TEI2HTML($node/t:note)
+            else
+                ()
+        }
+        <ol>{
+                for $a in $node//t:item[starts-with(@xml:id, 'a')]
+                return
+                    viewItem:additionItem($a)
+            }</ol>
+        {
+            if ($node//t:item[starts-with(@xml:id, 'e')])
+            then
+                (<h3>Extras {viewItem:headercontext($node)}</h3>,
+                <ol>{
+                        for $a in $node//t:item[starts-with(@xml:id, 'e')]
+                        return
+                            viewItem:additionItem($a)
+                    }</ol>
+                )
+            else
+                ()
+        }
+    </div>
+};
+
+declare %private function viewItem:additionItem($a) {
+    <li
+        id="{$a/@xml:id}"
+        resource="https://betamasaheft.eu/{$node/ancestor::t:TEI/@xml:id}/addition/{$node/@xml:id}">
+        {
+            if ($a/t:desc/@type) then
+                attribute typeof {'https://betamasaheft.eu/ontology/' || string($a/t:desc/@type)}
+            else
+                ()
+        }
+        <p>{viewItem:TEI2HTML($a/t:locus)}
+            {
+                if ($a/t:desc/@type) then
+                    ('(Type: ',
+                    <a
+                        href="/authority-files/list?keyword={$a/t:desc/@type}">{viewItem:categoryname($node/ancestor::t:TEI, $a/t:desc/@type)}</a>,
+                    <a
+                        href="/additions?type={$a/t:desc/@type}">
+                        <i
+                            class="fa fa-hand-o-left"/>
+                    </a>)
+                else
+                    ()
+            }
+        </p>
+        {
+            if ($a/@rend) then
+                <p>{string($a/@rend)}</p>
+            else
+                ()
+        }
+        {
+            if ($a/t:desc) then
+                <p>{viewItem:TEI2HTML($a/t:desc)}</p>
+            else
+                ()
+        }
+        {
+            if ($a/t:q) then
+                viewItem:TEI2HTML($a/t:q)
+            else
+                ()
+        }
+        {
+            if ($a/text()) then
+                viewItem:TEI2HTML($a/text())
+            else
+                ()
+        }
+        {
+            if ($a/t:note) then
+                viewItem:TEI2HTML($a/t:note)
+            else
+                ()
+        }
+        {
+            if ($a/t:listBibl) then
+                viewItem:TEI2HTML($a/t:listBibl)
+            else
+                ()
+        }
+    </li>
+};
+
 declare %private function viewItem:TEI2HTML($nodes) {
     for $node in $nodes
     return
@@ -1705,46 +2620,28 @@ declare %private function viewItem:TEI2HTML($nodes) {
                     (:                    decides what to do for each named element, ordered alphabetically:)
             case element(t:ab)
                 return
-                    <p>{
-                            if ($node/@type) then
-                                (<b>{
-                                        if ($node/@type = 'script') then
-                                            string($node/parent::t:handNote/@script)
-                                        else
-                                            string($node/@type)
-                                    }</b>, ': ')
-                            else
-                                ()
-                        }
-                        {viewItem:TEI2HTML($node/node())}</p>
+                    viewItem:ab($node)
             case element(t:abbr)
                 return
-                    (viewItem:TEI2HTML($node/node()),
-                    if (not($node/ancestor::t:expand)) then
-                        '(- - -)'
-                    else
-                        ())
+                    viewItem:abbr($node)
             case element(t:acquisition)
                 return
-                    (<h3>Acquisition</h3>,
-                    <p>{viewItem:TEI2HTML($node/node())}
-                    </p>)
+                    viewItem:acquisition($node)
+            case element(t:additions)
+                return
+                    viewItem:additions($node)
             case element(t:adminInfo)
                 return
-                    (if ($node/t:note) then
-                        <h2>Administrative Information</h2>
-                    else
-                        (),
-                    viewItem:TEI2HTML($node/node())
-                    )
+                    viewItem:adminInfo($node)
             case element(t:altIdentifier)
                 return
-                    (<p>Also identified as</p>,
-                    viewItem:TEI2HTML($node/node())
-                    )
+                    viewItem:altIdentifier($node)
             case element(t:bibl)
                 return
                     viewItem:bibliographyitem($node)
+            case element(t:bindingDesc)
+                return
+                    viewItem:bindingDesc($node)
             case element(t:birth)
                 return
                     viewItem:date-like($node)
@@ -1753,8 +2650,7 @@ declare %private function viewItem:TEI2HTML($nodes) {
                     viewItem:certainty($node)
             case element(t:cit)
                 return
-                    ('“' || viewItem:certainty($node/node()) || '”')
-            
+                    viewItem:cit($node)
             case element(t:classDecl)
                 return
                     ()
@@ -1763,29 +2659,28 @@ declare %private function viewItem:TEI2HTML($nodes) {
                     viewItem:VisColl($node)
             case element(t:collection)
                 return
-                    <p>Collection: {$node/text()}</p>
+                    viewItem:collectionelement($node)
+            case element(t:colophon)
+                return
+                    viewItem:colophon($node)
+            case element(t:condition)
+                return
+                    viewItem:condition($node)
             case element(t:country)
                 return
                     viewItem:namedEntity($node)
             case element(t:custEvent)
                 return
-                    if ($node/@type = 'restorations') then
-                        <p
-                            class="w3-large">
-                            This manuscript has {
-                                if ($node/@subtype = 'none') then
-                                    'no'
-                                else
-                                    string($node/@subtype)
-                            } restorations.</p>
-                    else
-                        ()
+                    viewItem:custEvent($node)
             case element(t:date)
                 return
                     viewItem:date-like($node)
             case element(t:death)
                 return
                     viewItem:date-like($node)
+            case element(t:decoDesc)
+                return
+                    viewItem:decoDesc($node)
             case element(t:desc)
                 return
                     if ($node[not(parent::t:relation)][not(parent::t:handNote)])
@@ -1836,6 +2731,9 @@ declare %private function viewItem:TEI2HTML($nodes) {
                         <b>Filiation: </b>
                         {viewItem:TEI2HTML($node/node())}
                     </p>
+            case element(t:filiation)
+                return
+                    viewItem:foliation($node)
             case element(t:floruit)
                 return
                     viewItem:date-like($node)
@@ -1852,6 +2750,9 @@ declare %private function viewItem:TEI2HTML($nodes) {
                         }</h4>,
                     <div
                         rel="http://purl.org/dc/terms/hasPart">{viewItem:TEI2HTML($node/node())}</div>)
+            case element(t:handDesc)
+                return
+                    viewItem:handDesc($node)
             case element(t:hi)
                 return
                     if ($node/@rend = 'ligature') then
@@ -1899,9 +2800,13 @@ declare %private function viewItem:TEI2HTML($nodes) {
                     <li>{viewItem:TEI2HTML($node/node())}</li>
             case element(t:list)
                 return
-                    <ul>
-                        {viewItem:TEI2HTML($node/node())}
-                    </ul>
+                    if ($node[ancestor::t:abstract or ancestor::t:desc]) then
+                        <ol>
+                            {viewItem:TEI2HTML($node/node())}</ol>
+                    else
+                        <ul>
+                            {viewItem:TEI2HTML($node/node())}
+                        </ul>
             case element(t:listbibl)
                 return
                     (
@@ -2108,6 +3013,9 @@ declare %private function viewItem:TEI2HTML($nodes) {
                         resource="{$node/@ref}">
                         {$node/text()}
                     </a>
+            case element(t:revisionDesc)
+                return
+                    viewItem:revisionDesc($node)
             case element(t:roleName)
                 return
                     if ($node[not(parent::t:persName)]) then
@@ -2168,6 +3076,9 @@ declare %private function viewItem:TEI2HTML($nodes) {
             case element(t:summary)
                 return
                     viewItem:summary($node)
+            case element(t:supportDesc)
+                return
+                    viewItem:supportDesc($node)
             case element(t:surname)
                 return
                     $node/text() || ' '
@@ -2471,7 +3382,42 @@ declare %private function viewItem:relsinfoblock($rels, $id) {
 
 declare %private function viewItem:narrative($item) {
     (:replaces nar.xsl :)
-    $item
+    let $id := string($item/@xml:id)
+    let $uri := viewItem:ID2URI($id)
+    let $relsP := $viewItem:coll//t:relation[@passive = $uri]
+    let $relsA := $viewItem:coll//t:relation[@active = $uri]
+    let $rels := ($relsA | $relsP)
+    let $mainidno := $item//t:msIdentifier/t:idno
+    return
+        <div
+            id="MainData"
+            class="w3-twothird">
+            <div
+                id="description">
+                <h2>General description</h2>
+                <p>{viewItem:TEI2HTML($item//t:body)}</p>
+                {
+                    if ($item//t:witness) then
+                        (<h2>Witnesses</h2>,
+                        <p>This edition is based on the following manuscripts</p>,
+                        <ul>
+                            {viewItem:TEI2HTML($item//t:listWit)}</ul>)
+                    else
+                        ()
+                }
+                
+                <div
+                    id="bibliography">
+                    <h3>{viewItem:bibliographyHeader($item//t:listBibl)}</h3>
+                    {viewItem:TEI2HTML($item//t:listBibl)}
+                
+                </div>
+                
+                {viewItem:relsinfoblock($rels, $id)}
+            </div>
+            {viewItem:standards($item)}
+        </div>
+
 };
 declare %private function viewItem:person($item) {
     (:replaces Person.xsl :)
@@ -2807,7 +3753,42 @@ declare %private function viewItem:joinmixed($sequence) {
 
 declare %private function viewItem:auth($item) {
     (:replaces auth.xsl :)
-    $item
+    let $id := string($item/@xml:id)
+    let $uri := viewItem:ID2URI($id)
+    let $relsP := $viewItem:coll//t:relation[@passive = $uri]
+    let $relsA := $viewItem:coll//t:relation[@active = $uri]
+    let $rels := ($relsA | $relsP)
+    let $mainidno := $item//t:msIdentifier/t:idno
+    return
+        <div
+            id="MainData"
+            class="w3-twothird">
+            <div
+                id="description">
+                <h2>General description</h2>
+                <div>{viewItem:TEI2HTML($item//t:sourceDesc)}</div>
+                <div>{viewItem:TEI2HTML($item//t:abstract)}</div>
+                
+                {viewItem:relsinfoblock($rels, $id)}
+                <div
+                    id="bibliography">
+                    <h3>{viewItem:bibliographyHeader($item//t:listBibl)}</h3>
+                    {viewItem:TEI2HTML($item//t:listBibl)}
+                
+                </div>
+                <button
+                    class="w3-button w3-red"
+                    id="showattestations"
+                    data-value="term"
+                    data-id="{$id}">Show attestations</button>
+                <div
+                    id="allattestations"
+                    class="col-md-12"/>
+            
+            
+            </div>
+            {viewItem:standards($item)}
+        </div>
 };
 
 declare %private function viewItem:corpus($item) {
@@ -3754,6 +4735,7 @@ declare function viewItem:switchsubids($anchor, $node) {
 declare function viewItem:categoryname($item, $type) {
     $item//t:category[@xml:id = $type]/t:catDesc/text()
 };
+
 
 declare function viewItem:nav($item) {
     let $type := $item/@type
