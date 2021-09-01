@@ -1623,7 +1623,7 @@ declare %private function viewItem:msItem($msItem) {
         </div>
 };
 
-declare %private function viewItem:figure($figure) {
+declare %private function viewItem:figure($figure as element(t:figure)) {
     let $url := concat('https://betamasaheft.eu/iiif/', $figure/t:graphic/@url, '/info.json')
     let $mainID := $figure/ancestor::t:TEI/@xml:id
     let $id := concat($mainID, 'graphic')
@@ -2119,7 +2119,7 @@ declare %private function viewItem:layout($node) {
 
 };
 
-declare %private function viewItem:ab($node) {
+declare %private function viewItem:ab($node as element(t:ab)) {
     <p>{
             if ($node/@type) then
                 (<b>{
@@ -2134,7 +2134,7 @@ declare %private function viewItem:ab($node) {
         {viewItem:TEI2HTML($node/node())}</p>
 };
 
-declare %private function viewItem:abbr($node) {
+declare %private function viewItem:abbr($node as element(t:abbr)) {
     (viewItem:TEI2HTML($node/node()),
     if (not($node/ancestor::t:expand)) then
         '(- - -)'
@@ -2142,13 +2142,13 @@ declare %private function viewItem:abbr($node) {
         ())
 };
 
-declare %private function viewItem:acquisition($node) {
+declare %private function viewItem:acquisition($node as element(t:acquisition)) {
     (<h3>Acquisition</h3>,
     <p>{viewItem:TEI2HTML($node/node())}
     </p>)
 };
 
-declare %private function viewItem:adminInfo($node) {
+declare %private function viewItem:adminInfo($node as element(t:adminInfo)) {
     (if ($node/t:note) then
         <h2>Administrative Information</h2>
     else
@@ -2157,7 +2157,7 @@ declare %private function viewItem:adminInfo($node) {
     )
 };
 
-declare %private function viewItem:altIdentifier($node) {
+declare %private function viewItem:altIdentifier($node as element(t:altIdentifier)) {
     (<p>Also identified as</p>,
     for $idno in $node/t:idno
     return
@@ -2168,7 +2168,7 @@ declare %private function viewItem:altIdentifier($node) {
     )
 };
 
-declare %private function viewItem:cit($node) {
+declare %private function viewItem:cit($node as element(t:cit)) {
     ('“' || viewItem:TEI2HTML($node/node()) || '”')
 };
 
@@ -2269,13 +2269,13 @@ declare %private function viewItem:handDesc($node) {
 };
 
 
-declare %private function viewItem:foliation($node) {
+declare %private function viewItem:foliation($node as element(t:foliation)) {
     (<h3>Foliation {viewItem:headercontext($node)}</h3>,
     <p>{viewItem:TEI2HTML($node/node())}</p>
     )
 };
 
-declare %private function viewItem:condition($node) {
+declare %private function viewItem:condition($node as element(t:condition)) {
     (<h3>State of preservation {viewItem:headercontext($node)}</h3>,
     <p>{string($node/@key)}</p>,
     <h4>Condition</h4>,
@@ -2285,7 +2285,7 @@ declare %private function viewItem:condition($node) {
     )
 };
 
-declare %private function viewItem:extant($node) {
+declare %private function viewItem:extant($node as element(t:extant)) {
     (<h4>Extent {viewItem:headercontext($node)}</h4>,
     <div>
         <span
@@ -2393,7 +2393,7 @@ declare %private function viewItem:decoNoteItem($node, $r) {
 };
 
 
-declare %private function viewItem:colophon($node) {
+declare %private function viewItem:colophon($node as element(t:colophon)) {
     (
     <hr
         class="colophon"/>,
@@ -2548,7 +2548,7 @@ declare %private function viewItem:additions($node) {
 declare %private function viewItem:additionItem($a) {
     <li
         id="{$a/@xml:id}"
-        resource="https://betamasaheft.eu/{$node/ancestor::t:TEI/@xml:id}/addition/{$node/@xml:id}">
+        resource="https://betamasaheft.eu/{$a/ancestor::t:TEI/@xml:id}/addition/{$a/@xml:id}">
         {
             if ($a/t:desc/@type) then
                 attribute typeof {'https://betamasaheft.eu/ontology/' || string($a/t:desc/@type)}
@@ -2560,7 +2560,7 @@ declare %private function viewItem:additionItem($a) {
                 if ($a/t:desc/@type) then
                     ('(Type: ',
                     <a
-                        href="/authority-files/list?keyword={$a/t:desc/@type}">{viewItem:categoryname($node/ancestor::t:TEI, $a/t:desc/@type)}</a>,
+                        href="/authority-files/list?keyword={$a/t:desc/@type}">{viewItem:categoryname($a/ancestor::t:TEI, $a/t:desc/@type)}</a>,
                     <a
                         href="/additions?type={$a/t:desc/@type}">
                         <i
@@ -2608,6 +2608,409 @@ declare %private function viewItem:additionItem($a) {
         }
     </li>
 };
+
+
+declare %private function viewItem:desc($node as element(t:desc)) {
+    if ($node[not(parent::t:relation)][not(parent::t:handNote)])
+    then
+        <p>{viewItem:TEI2HTML($node/node())}</p>
+    else
+        viewItem:TEI2HTML($node/node())
+};
+
+
+declare %private function viewItem:ex($node as element(t:ex)) {
+    '(' || $node/text() || ')'
+};
+
+declare %private function viewItem:explicit($node as element(t:explicit)) {
+    <p
+        lang="{$node/@xml:lang}">
+        <b>{
+                if ($node/@type = 'supplication') then
+                    'Supplication'
+                else
+                    if ($node/@type = 'subscriptio') then
+                        'Subscription'
+                    else
+                        'Explicit'
+            } ({viewItem:fulllang($node/@xml:lang)}
+            ):</b>
+        {viewItem:TEI2HTML($node/node())}</p>
+};
+
+declare %private function viewItem:faith($node as element(t:faith)) {
+    if ($node/text()) then
+        $node/text()
+    else
+        if (count($node/ancestor::t:TEI//t:catDesc[. = string($node/@type)]) ge 1)
+        then
+            $node/ancestor::t:TEI//t:catDesc[. = string($node/@type)]/text()
+        else
+            if ($node/@type) then
+                string($node/@type)
+            else
+                'Unknown'
+};
+
+declare %private function viewItem:filiation($node as element(t:filiation)) {
+    <p>
+        <b>Filiation: </b>
+        {viewItem:TEI2HTML($node/node())}
+    </p>
+};
+
+
+declare %private function viewItem:forename($node as element(t:forename)) {
+    $node/text() || ' '
+};
+
+declare %private function viewItem:hi($node as element(t:hi)) {
+    if ($node/@rend = 'ligature') then
+        <span
+            style="border-top:1px solid">{viewItem:TEI2HTML($node/node())}</span>
+    else
+        if ($node/@rend = 'apices') then
+            <sup>{viewItem:TEI2HTML($node/node())}</sup>
+        else
+            if ($node/@rend = 'underline') then
+                <u>{viewItem:TEI2HTML($node/node())}</u>
+            else
+                if ($node/@rend = 'rubric') then
+                    <span
+                        class="rubric">{viewItem:TEI2HTML($node/node())}</span>
+                else
+                    if ($node/@rend = 'encircled') then
+                        <span
+                            class="encircled">{viewItem:TEI2HTML($node/node())}</span>
+                    else
+                        viewItem:TEI2HTML($node/node())
+};
+
+declare %private function viewItem:history($node as element(t:history)) {
+    (<h2>Origin {viewItem:headercontext($node)}</h2>,
+    <p>{viewItem:TEI2HTML($node/node())}</p>
+    )
+};
+
+declare %private function viewItem:idno($node as element(t:idno)) {
+    <p>{$node/text()}</p>
+};
+
+declare %private function viewItem:incipit($node as element(t:incipit)) {
+    <p
+        lang="{$node/@xml:lang}">
+        <b>{
+                if ($node/@type = 'supplication') then
+                    'Supplication'
+                else
+                    'Incipit'
+            } ({viewItem:fulllang($node/@xml:lang)}
+            ):</b>
+        {viewItem:TEI2HTML($node/node())}</p>
+};
+
+declare %private function viewItem:item($node as element(t:item)) {
+    <li>{viewItem:TEI2HTML($node/node())}</li>
+};
+
+declare %private function viewItem:list($node as element(t:list)) {
+    if ($node[ancestor::t:abstract or ancestor::t:desc]) then
+        <ol>
+            {viewItem:TEI2HTML($node/node())}</ol>
+    else
+        <ul>
+            {viewItem:TEI2HTML($node/node())}
+        </ul>
+};
+
+declare %private function viewItem:listBibl($node as element(t:listBibl)) {
+    (
+    <h4>{viewItem:biblioHeader($node)}</h4>,
+    <ul
+        class="bibliographyList">
+        {viewItem:TEI2HTML($node/node())}
+    </ul>
+    )
+};
+
+declare %private function viewItem:measureelement($node as element(t:measure)) {
+    <span
+        class="w3-tooltip">
+        {
+            if ($node/@xml:lang) then
+                (attribute lang {$node/@xml:lang}, <span>{$node/text()}</span>)
+            else
+                if (contains($node, '+')) then
+                    viewItem:measure($node/text())
+                else
+                    $node/text()
+        }
+        ({string($node/@unit)}{
+            if ($node/@type) then
+                (', ' || string($node/@type))
+            else
+                ()
+        })
+        {
+            if ($node/following-sibling::t:*[1][self::t:locus]) then
+                ': '
+            else
+                if ($node/following-sibling::t:measure[not(@xml:lang)][@unit = 'leaf'][@type = 'blank']) then
+                    ', '
+                else
+                    '.'
+        }
+        <span
+            class="w3-teg">Entered as {$node/text()}
+        </span>
+    </span>
+};
+
+
+
+
+declare %private function viewItem:msContents($node as element(t:msContents)) {
+    (
+    <h3>Contents</h3>,
+    <div
+        id="contents"
+        class="accordion">
+        {viewItem:TEI2HTML($node/node()[not(name() = 'summary')])}
+    </div>
+    )
+};
+
+declare %private function viewItem:note($node as element(t:note)) {
+    if ($node/parent::t:placeName) then
+        <div
+            class="w3-panel w3-gray">
+            {
+                if ($node/t:p or $node/ancestor::t:app)
+                then
+                    viewItem:TEI2HTML($node/node())
+                else
+                    if (not($node/parent::*:fragment))
+                    then
+                        <p>{viewItem:TEI2HTML($node/node())}</p>
+                    else
+                        <p>{viewItem:TEI2HTML($node/node())}</p>
+            }
+            {
+                if ($node/@source) then
+                    <a
+                        href="{$node/@source}">Source <i
+                            class="fa fa-link"
+                            aria-hidden="true"/>
+                    </a>
+                else
+                    ()
+            }
+        </div>
+    else
+        if ($node/parent::t:rdg) then
+            (' ', <i>{viewItem:TEI2HTML($node/node())}</i>, ' ')
+        else
+            if ($node[@xml:id][@n]) then
+                viewItem:footnote($node)
+            else
+                viewItem:TEI2HTML($node/node())
+};
+
+declare %private function viewItem:nationality($node as element(t:nationality)) {
+    if ($node/node()) then
+        viewItem:TEI2HTML($node/node())
+    else
+        string($node/@type)
+};
+
+declare %private function viewItem:origplace($node as element(t:origPlace)) {
+    (<p>
+        <b>Original Location: </b>
+        {viewItem:TEI2HTML($node/node())}
+    </p>,
+    <p>
+        {viewItem:TEI2HTML($node/parent::t:origin/t:provenance)}
+    </p>)
+};
+
+declare %private function viewItem:provenance($node as element(t:provenance)) {
+    (<h3>Provenance</h3>,
+    <p>{viewItem:TEI2HTML($node/node())}
+    </p>)
+};
+
+declare %private function viewItem:ptr($node as element(t:ptr)) {
+    if ($node[starts-with(@target, '#')]) then
+        viewItem:footnoteptr($node)
+    else
+        viewItem:TEI2HTML($node/node())
+};
+
+declare %private function viewItem:qelement($node as element(t:q)) {
+    if ($node/parent::t:desc) then
+        <span
+            lang="{$node/@xml:lang}">
+            {
+                if ($node/ancestor::t:decoNote) then
+                    'Legend: '
+                else
+                    ()
+            }
+            {
+                if ($node/text()) then
+                    ('(', string($node/@xml:lang), ') ')
+                else
+                    ('Text in ', viewItem:fulllang($node/@xml:lang))
+            }
+            {viewItem:TEI2HTML($node/node())}
+        </span>
+    else
+        <p
+            lang="{$node/@xml:lang}">
+            {
+                if ($node/ancestor::t:decoNote) then
+                    'Legend: '
+                else
+                    ()
+            }
+            {
+                if ($node/text()) then
+                    ('(', string($node/@xml:lang), ') ')
+                else
+                    ('Text in ', viewItem:fulllang($node/@xml:lang))
+            }
+            {viewItem:TEI2HTML($node/node())}
+        </p>
+
+};
+
+
+declare %private function viewItem:repository($node as element(t:repository)) {
+    <a
+        target="_blank"
+        href="{$node/@ref}"
+        role="button"
+        class="w3-tag w3-gray w3-margin-top"
+        property="http://www.cidoc-crm.org/cidoc-crm/P55_has_current_location"
+        resource="{$node/@ref}">
+        {$node/text()}
+    </a>
+};
+
+declare %private function viewItem:roleName($node as element(t:roleName)) {
+    if ($node[not(parent::t:persName)]) then
+        <a
+            xmlns="http://www.w3.org/1999/xhtml"
+            href="#"
+            class="AttestationsWithSameRole"
+            data-value="{.}">
+            <sup>?</sup>
+        </a>
+    else
+        <span
+            xmlns="http://www.w3.org/1999/xhtml"
+            class="w3-tooltip">
+            {concat($node/text(), ' ')}
+            <span
+                class="w3-text">role: {string($node/@type)}</span>
+        </span>
+
+};
+
+declare %private function viewItem:rs($node as element(t:rs)) {
+    if ($node/@type = 'inline') then
+        <img
+            src="{$node/t:graphic/@url}"
+            alt="Region of image from {$node/t:graphic/@url}"/>
+    else
+        viewItem:TEI2HTML($node/node())
+};
+
+declare %private function viewItem:rubric($node as element(t:rubric)) {
+    <p
+        lang="{$node/@xml:lang}">
+        <b>Rubric {string($node/@xml:lang)}: </b>
+        {viewItem:TEI2HTML($node/node())}</p>
+
+};
+
+declare %private function viewItem:sealDesc($node as element(t:sealDesc)) {
+    (
+    <h3>Seals {viewItem:headercontext($node)}</h3>,
+    viewItem:TEI2HTML($node/node())
+    )
+};
+
+declare %private function viewItem:seg($node as element(t:seg)) {
+    if ($node/@ana) then
+        <span
+            class="{substring-after($node/@ana, '#')}">
+            {viewItem:TEI2HTML($node/node())}
+        </span>
+    else
+        viewItem:TEI2HTML($node/node())
+};
+
+declare %private function viewItem:surname($node as element(t:surname)) {
+    $node/text() || ' '
+};
+
+declare %private function viewItem:signatures($node as element(t:signatures)) {
+    ($node/text(),
+    if ($node/t:note) then
+        ('-', viewItem:TEI2HTML($node/t:note))
+    else
+        ())
+};
+
+declare %private function viewItem:surrogates($node as element(t:surrogates)) {
+    (<h2>Surrogates</h2>,
+    viewItem:TEI2HTML($node/node())
+    )
+};
+
+declare %private function viewItem:textLang($node as element(t:textLang)) {
+    <p>
+        <b>Language of text: </b>
+        <span
+            property="http://purl.org/dc/elements/1.1/language">{viewItem:fulllang($node/@xml:lang)}</span>
+        {
+            if ($node/@otherLangs) then
+                (' and ', viewItem:fulllang($node/@otherLangs))
+            else
+                ()
+        }
+    </p>
+};
+
+declare %private function viewItem:term($node as element(t:term)) {
+    if ($node[parent::t:desc | parent::t:summary]) then
+        <a
+            target="_blank">
+            {attribute href {concat('/authority-files/list?keyword=', @key)}}
+            {$node/text()}
+        </a>
+    else
+        if ($node/text()) then
+            <b>{viewItem:TEI2HTML($node/node())}</b>
+        else
+            viewItem:TEI2HTML($node/node())
+};
+
+declare %private function viewItem:watermark($node as element(t:watermark)) {
+    if ($node/parent::t:support[t:material[@key = 'parchment']]) then
+        ()
+    else
+        (<h3>Watermark</h3>,
+        <p>{
+                if ($node != '') then
+                    'Yes'
+                else
+                    'No'
+            }</p>)
+};
+(:  as element(t:handDesc):)
 
 declare %private function viewItem:TEI2HTML($nodes) {
     for $node in $nodes
@@ -2683,54 +3086,25 @@ declare %private function viewItem:TEI2HTML($nodes) {
                     viewItem:decoDesc($node)
             case element(t:desc)
                 return
-                    if ($node[not(parent::t:relation)][not(parent::t:handNote)])
-                    then
-                        <p>{viewItem:TEI2HTML($node/node())}</p>
-                    else
-                        viewItem:TEI2HTML($node/node())
+                    viewItem:desc($node)
             case element(t:ex)
                 return
-                    '(' || $node/text() || ')'
+                    viewItem:ex($node)
             case element(t:explicit)
                 return
-                    <p
-                        lang="{$node/@xml:lang}">
-                        <b>{
-                                if ($node/@type = 'supplication') then
-                                    'Supplication'
-                                else
-                                    if ($node/@type = 'subscriptio') then
-                                        'Subscription'
-                                    else
-                                        'Explicit'
-                            } ({viewItem:fulllang($node/@xml:lang)}
-                            ):</b>
-                        {viewItem:TEI2HTML($node/node())}</p>
+                    viewItem:explicit($node)
             case element(t:facsimile)
                 return
                     ()
             case element(t:faith)
                 return
-                    if ($node/text()) then
-                        $node/text()
-                    else
-                        if (count($node/ancestor::t:TEI//t:catDesc[. = string($node/@type)]) ge 1)
-                        then
-                            $node/ancestor::t:TEI//t:catDesc[. = string($node/@type)]/text()
-                        else
-                            if ($node/@type) then
-                                string($node/@type)
-                            else
-                                'Unknown'
+                    viewItem:faith($node)
             case element(t:figure)
                 return
                     viewItem:figure($node)
             case element(t:filiation)
                 return
-                    <p>
-                        <b>Filiation: </b>
-                        {viewItem:TEI2HTML($node/node())}
-                    </p>
+                    viewItem:filiation($node)
             case element(t:filiation)
                 return
                     viewItem:foliation($node)
@@ -2739,131 +3113,43 @@ declare %private function viewItem:TEI2HTML($nodes) {
                     viewItem:date-like($node)
             case element(t:forename)
                 return
-                    $node/text() || ' '
-            case element(t:handDesc)
-                return
-                    (<h4>Hand{
-                            if (count($node//t:handNote) gt 1) then
-                                's'
-                            else
-                                ()
-                        }</h4>,
-                    <div
-                        rel="http://purl.org/dc/terms/hasPart">{viewItem:TEI2HTML($node/node())}</div>)
+                    viewItem:forename($node)
             case element(t:handDesc)
                 return
                     viewItem:handDesc($node)
             case element(t:hi)
                 return
-                    if ($node/@rend = 'ligature') then
-                        <span
-                            style="border-top:1px solid">{viewItem:TEI2HTML($node/node())}</span>
-                    else
-                        if ($node/@rend = 'apices') then
-                            <sup>{viewItem:TEI2HTML($node/node())}</sup>
-                        else
-                            if ($node/@rend = 'underline') then
-                                <u>{viewItem:TEI2HTML($node/node())}</u>
-                            else
-                                if ($node/@rend = 'rubric') then
-                                    <span
-                                        class="rubric">{viewItem:TEI2HTML($node/node())}</span>
-                                else
-                                    if ($node/@rend = 'encircled') then
-                                        <span
-                                            class="encircled">{viewItem:TEI2HTML($node/node())}</span>
-                                    else
-                                        viewItem:TEI2HTML($node/node())
+                    viewItem:hi($node)
             case element(t:history)
                 return
-                    (<h2>Origin {viewItem:headercontext($node)}</h2>,
-                    <p>{viewItem:TEI2HTML($node/node())}</p>
-                    )
+                    viewItem:history($node)
             case element(t:idno)
                 return
-                    <p>{$node/text()}</p>
-            
+                    viewItem:idno($node)
             case element(t:incipit)
                 return
-                    <p
-                        lang="{$node/@xml:lang}">
-                        <b>{
-                                if ($node/@type = 'supplication') then
-                                    'Supplication'
-                                else
-                                    'Incipit'
-                            } ({viewItem:fulllang($node/@xml:lang)}
-                            ):</b>
-                        {viewItem:TEI2HTML($node/node())}</p>
+                    viewItem:incipit($node)
             case element(t:item)
                 return
-                    <li>{viewItem:TEI2HTML($node/node())}</li>
+                    viewItem:item($node)
             case element(t:list)
                 return
-                    if ($node[ancestor::t:abstract or ancestor::t:desc]) then
-                        <ol>
-                            {viewItem:TEI2HTML($node/node())}</ol>
-                    else
-                        <ul>
-                            {viewItem:TEI2HTML($node/node())}
-                        </ul>
+                    viewItem:list($node)
             case element(t:listbibl)
                 return
-                    (
-                    <h4>{viewItem:biblioHeader($node)}</h4>,
-                    <ul
-                        class="bibliographyList">
-                        {viewItem:TEI2HTML($node/node())}
-                    </ul>
-                    )
+                    viewItem:listBibl($node)
             case element(t:locus)
                 return
                     viewItem:locus($node)
             case element(t:measure)
                 return
-                    <span
-                        class="w3-tooltip">
-                        {
-                            if ($node/@xml:lang) then
-                                (attribute lang {$node/@xml:lang}, <span>{$node/text()}</span>)
-                            else
-                                if (contains($node, '+')) then
-                                    viewItem:measure($node/text())
-                                else
-                                    $node/text()
-                        }
-                        ({string($node/@unit)}{
-                            if ($node/@type) then
-                                (', ' || string($node/@type))
-                            else
-                                ()
-                        })
-                        {
-                            if ($node/following-sibling::t:*[1][self::t:locus]) then
-                                ': '
-                            else
-                                if ($node/following-sibling::t:measure[not(@xml:lang)][@unit = 'leaf'][@type = 'blank']) then
-                                    ', '
-                                else
-                                    '.'
-                        }
-                        <span
-                            class="w3-teg">Entered as {$node/text()}
-                        </span>
-                    </span>
+                    viewItem:measureelement($node)
             case element(t:metamark)
                 return
                     ()
             case element(t:msContents)
                 return
-                    (
-                    <h3>Contents</h3>,
-                    <div
-                        id="contents"
-                        class="accordion">
-                        {viewItem:TEI2HTML($node/node()[not(name() = 'summary')])}
-                    </div>
-                    )
+                    viewItem:msContents($node)
             case element(t:msDesc)
                 return
                     viewItem:manuscriptStructure($node)
@@ -2879,46 +3165,10 @@ declare %private function viewItem:TEI2HTML($nodes) {
                     viewItem:codicologicalUnit($node)
             case element(t:nationality)
                 return
-                    if ($node/node()) then
-                        viewItem:TEI2HTML($node/node())
-                    else
-                        string($node/@type)
+                    viewItem:nationality($node)
             case element(t:note)
                 return
-                    if ($node/parent::t:placeName) then
-                        <div
-                            class="w3-panel w3-gray">
-                            {
-                                if ($node/t:p or $node/ancestor::t:app)
-                                then
-                                    viewItem:TEI2HTML($node/node())
-                                else
-                                    if (not($node/parent::*:fragment))
-                                    then
-                                        <p>{viewItem:TEI2HTML($node/node())}</p>
-                                    else
-                                        <p>{viewItem:TEI2HTML($node/node())}</p>
-                            }
-                            {
-                                if ($node/@source) then
-                                    <a
-                                        href="{$node/@source}">Source <i
-                                            class="fa fa-link"
-                                            aria-hidden="true"/>
-                                    </a>
-                                else
-                                    ()
-                            }
-                        </div>
-                    else
-                        if ($node/parent::t:rdg) then
-                            (' ', <i>{viewItem:TEI2HTML($node/node())}</i>, ' ')
-                        else
-                            if ($node[@xml:id][@n]) then
-                                viewItem:footnote($node)
-                            else
-                                viewItem:TEI2HTML($node/node())
-            
+                    viewItem:note($node)
             case element(t:origDate)
                 return
                     viewItem:date-like($node)
@@ -2929,13 +3179,7 @@ declare %private function viewItem:TEI2HTML($nodes) {
             
             case element(t:origPlace)
                 return
-                    (<p>
-                        <b>Original Location: </b>
-                        {viewItem:TEI2HTML($node/node())}
-                    </p>,
-                    <p>
-                        {viewItem:TEI2HTML($node/parent::t:origin/t:provenance)}
-                    </p>)
+                    viewItem:origplace($node)
             case element(t:p)
                 return
                     <p>{viewItem:TEI2HTML($node/node())}</p>
@@ -2947,51 +3191,13 @@ declare %private function viewItem:TEI2HTML($nodes) {
                     viewItem:namedEntity($node)
             case element(t:provenance)
                 return
-                    (<h3>Provenance</h3>,
-                    <p>{viewItem:TEI2HTML($node/node())}
-                    </p>)
+                    viewItem:provenance($node)
             case element(t:ptr)
                 return
-                    if ($node[starts-with(@target, '#')]) then
-                        viewItem:footnoteptr($node)
-                    else
-                        viewItem:TEI2HTML($node/node())
+                    viewItem:ptr($node)
             case element(t:q)
                 return
-                    if ($node/parent::t:desc) then
-                        <span
-                            lang="{$node/@xml:lang}">
-                            {
-                                if ($node/ancestor::t:decoNote) then
-                                    'Legend: '
-                                else
-                                    ()
-                            }
-                            {
-                                if ($node/text()) then
-                                    ('(', string($node/@xml:lang), ') ')
-                                else
-                                    ('Text in ', viewItem:fulllang($node/@xml:lang))
-                            }
-                            {viewItem:TEI2HTML($node/node())}
-                        </span>
-                    else
-                        <p
-                            lang="{$node/@xml:lang}">
-                            {
-                                if ($node/ancestor::t:decoNote) then
-                                    'Legend: '
-                                else
-                                    ()
-                            }
-                            {
-                                if ($node/text()) then
-                                    ('(', string($node/@xml:lang), ') ')
-                                else
-                                    ('Text in ', viewItem:fulllang($node/@xml:lang))
-                            }
-                            {viewItem:TEI2HTML($node/node())}
-                        </p>
+                    viewItem:qelement($node)
             case element(t:region)
                 return
                     viewItem:namedEntity($node)
@@ -3004,75 +3210,31 @@ declare %private function viewItem:TEI2HTML($nodes) {
             
             case element(t:repository)
                 return
-                    <a
-                        target="_blank"
-                        href="{$node/@ref}"
-                        role="button"
-                        class="w3-tag w3-gray w3-margin-top"
-                        property="http://www.cidoc-crm.org/cidoc-crm/P55_has_current_location"
-                        resource="{$node/@ref}">
-                        {$node/text()}
-                    </a>
+                    viewItem:repository($node)
             case element(t:revisionDesc)
                 return
                     viewItem:revisionDesc($node)
             case element(t:roleName)
                 return
-                    if ($node[not(parent::t:persName)]) then
-                        <a
-                            xmlns="http://www.w3.org/1999/xhtml"
-                            href="#"
-                            class="AttestationsWithSameRole"
-                            data-value="{.}">
-                            <sup>?</sup>
-                        </a>
-                    else
-                        <span
-                            xmlns="http://www.w3.org/1999/xhtml"
-                            class="w3-tooltip">
-                            {concat($node/text(), ' ')}
-                            <span
-                                class="w3-text">role: {string($node/@type)}</span>
-                        </span>
+                    viewItem:roleName($node)
             case element(t:rs)
                 return
-                    if ($node/@type = 'inline') then
-                        <img
-                            src="{$node/t:graphic/@url}"
-                            alt="Region of image from {$node/t:graphic/@url}"/>
-                    else
-                        viewItem:TEI2HTML($node/node())
+                    viewItem:rs($node)
             case element(t:rubric)
                 return
-                    <p
-                        lang="{$node/@xml:lang}">
-                        <b>Rubric {string($node/@xml:lang)}: </b>
-                        {viewItem:TEI2HTML($node/node())}</p>
+                    viewItem:rubric($node)
             case element(t:sealDesc)
                 return
-                    (
-                    <h3>Seals {viewItem:headercontext($node)}</h3>,
-                    viewItem:TEI2HTML($node/node())
-                    )
+                    viewItem:sealDesc($node)
             case element(t:seg)
                 return
-                    if ($node/@ana) then
-                        <span
-                            class="{substring-after($node/@ana, '#')}">
-                            {viewItem:TEI2HTML($node/node())}
-                        </span>
-                    else
-                        viewItem:TEI2HTML($node/node())
+                    viewItem:seg($node)
             case element(t:settlement)
                 return
                     viewItem:namedEntity($node)
             case element(t:signatures)
                 return
-                    ($node/text(),
-                    if ($node/t:note) then
-                        ('-', viewItem:TEI2HTML($node/t:note))
-                    else
-                        ())
+                    viewItem:signatures($node)
             case element(t:summary)
                 return
                     viewItem:summary($node)
@@ -3081,35 +3243,16 @@ declare %private function viewItem:TEI2HTML($nodes) {
                     viewItem:supportDesc($node)
             case element(t:surname)
                 return
-                    $node/text() || ' '
+                    viewItem:surname($node)
             case element(t:surrogates)
                 return
-                    (<h2>Surrogates</h2>,
-                    viewItem:TEI2HTML($node/node())
-                    )
+                    viewItem:surrogates($node)
             case element(t:textLang)
                 return
-                    <p>
-                        <b>Language of text: </b>
-                        <span
-                            property="http://purl.org/dc/elements/1.1/language">{viewItem:fulllang($node/@xml:lang)}</span>
-                        {
-                            if ($node/@otherLangs) then
-                                (' and ', viewItem:fulllang($node/@otherLangs))
-                            else
-                                ()
-                        }
-                    </p>
+                    viewItem:textLang($node)
             case element(t:term)
                 return
-                    if ($node[parent::t:desc | parent::t:summary]) then
-                        <a
-                            target="_blank">
-                            {attribute href {concat('/authority-files/list?keyword=', @key)}}
-                            {$node/text()}
-                        </a>
-                    else
-                        ()
+                    viewItem:term($node)
             case element(t:title)
                 return
                     viewItem:namedEntity($node)
@@ -3118,23 +3261,9 @@ declare %private function viewItem:TEI2HTML($nodes) {
                     viewItem:witness($node)
             case element(t:watermark)
                 return
-                    if ($node/parent::t:support[t:material[@key = 'parchment']]) then
-                        ()
-                    else
-                        (<h3>Watermark</h3>,
-                        <p>{
-                                if ($node != '') then
-                                    'Yes'
-                                else
-                                    'No'
-                            }</p>)
-            case element(t:term)
-                return
-                    if ($node/text()) then
-                        <b>{viewItem:TEI2HTML($node/node())}</b>
-                    else
-                        viewItem:TEI2HTML($node/node())
-                        (:                        default passthrough for elments not specified:)
+                    viewItem:watermark($node)
+                    
+                    (:                        default passthrough for elments not specified:)
             case element()
                 return
                     viewItem:TEI2HTML($node/node())
@@ -3792,7 +3921,7 @@ declare %private function viewItem:auth($item) {
 };
 
 declare %private function viewItem:corpus($item) {
-    $item
+    viewItem:documents($item)
 };
 
 declare %private function viewItem:manuscript($item) {
@@ -3859,7 +3988,7 @@ declare %private function viewItem:manuscript($item) {
                 </div>
                 <div
                     class="w3-third"/>
-                <div
+         <!--       <div
                     class="w3-third">
                     {
                         if ($item//t:listPerson/t:person/t:persName[@ref]) then
@@ -3873,7 +4002,7 @@ declare %private function viewItem:manuscript($item) {
                         else
                             ()
                     }
-                </div>
+                </div>-->
                 
                 <div
                     id="allattestations"
