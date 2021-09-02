@@ -31,7 +31,7 @@ let $url := try{request:get-url()} catch*{''}
 return
 (<div class="w3-top">
   <div class="w3-bar w3-black w3-card">
-    <a class="w3-bar-item w3-button  w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" 
+    <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red  w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" 
     onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
   {if(ends-with($url, '.html') or ($url =  $config:appUrl) or ends-with($url ,  'BetMas/')) then locallogin:loginNew() else  ()}
                 
@@ -39,91 +39,96 @@ return
       <button class=" w3-button" title="about">
       {if(string-length($url) gt 1) then ('Hi ' || sm:id()//sm:username/text() || '!') else ('Home')}
       <i class="fa fa-caret-down"></i></button>     
-      <div class="w3-dropdown-content w3-bar-block w3-card-4">
+      <div class="w3-dropdown-content w3-bar w3-card-4">
       {if(sm:is-authenticated() and contains(sm:get-user-groups(sm:id()//sm:username/text()), 'Editors')) then
                         (
-                                <a class="w3-bar-item w3-button" href="/user/{sm:id()//sm:real/sm:username/string() }">Your personal page</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red" href="/user/{sm:id()//sm:real/sm:username/string() }">Your personal page</a>
                             ,
-                                <a class="w3-bar-item w3-button" href="/clavismatching.html">Clavis Matching</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red" href="/clavismatching.html">Clavis Matching</a>
                             )
                         else ()}
-                                <a class="w3-bar-item w3-button" href="/">Home</a>
-                                <a class="w3-bar-item w3-button" href="/team.html">Team</a>
-                                <a class="w3-bar-item w3-button" href="https://www.betamasaheft.uni-hamburg.de/team/partners.html">Partners</a>
-                                <a class="w3-bar-item w3-button" href="/contacts.html">Contacts</a>
-                                <a class="w3-bar-item w3-button" href="/Guidelines/">Guidelines and documentation</a>
-                                <a class="w3-bar-item w3-button" href="/apidoc.html">Data API</a>
-                                <a class="w3-bar-item w3-button" href="/lod.html">Linked Open Data</a>
-                                <a class="w3-bar-item w3-button" href="/pid.html">Permalinks</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red" href="/">Home</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red" href="/team.html">Team</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red" href="https://www.betamasaheft.uni-hamburg.de/team/partners.html">Partners</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red" href="/contacts.html">Contacts</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red" href="/Guidelines/">Guidelines and documentation</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red" href="/apidoc.html">Data API</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red" href="/lod.html">Linked Open Data</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red" href="/pid.html">Permalinks</a>
         
       </div>
     </div>
  <div class="w3-dropdown-hover w3-hide-small" id="works">
       <button class=" w3-button" title="Works">Clavis <i class="fa fa-caret-down"></i></button>     
-      <div class="w3-dropdown-content w3-bar-block w3-card-4">
-                                <a class="w3-bar-item w3-button" href="/works/list">Textual Units</a>
-                              <a class="w3-bar-item w3-button" href="/narratives/list">Narrative Units</a>
-                                <a class="w3-bar-item w3-button" href="/documentcorpora.html">Documents corpora</a>
+      <div class="w3-dropdown-content w3-bar w3-card-4">
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red" href="/works/list">Textual Units</a>
+                              <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red" href="/narratives/list">Narrative Units</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red" href="/documentcorpora.html">Documents corpora</a>
                       </div>
     </div>  
     
     <div class="w3-dropdown-hover w3-hide-small" id="mss">
       <button class=" w3-button" title="manuscripts">Manuscripts <i class="fa fa-caret-down"></i></button>     
-      <div class="w3-dropdown-content w3-bar-block w3-card-4">
-                                <a class="w3-bar-item w3-button"  href="/manuscripts/list">Manuscripts (search)</a>
-                                <a class="w3-bar-item w3-button"  href="/manuscripts/browse">Shelf marks (full list)</a>
-                               <!--<a class="w3-bar-item w3-button"  href="/UniProd/browse">UniProd (full list)</a>
-                                <a class="w3-bar-item w3-button"  href="/UniCirc/browse">UniCirc (full list)</a>
-                                --><a class="w3-bar-item w3-button"  href="/manuscripts/viewer">Manuscripts Images</a>
-                                <a class="w3-bar-item w3-button"  href="/catalogues/list">Catalogues</a>
-                                <a class="w3-bar-item w3-button"  href="/manuscripts/list?objectType=Inscription">Inscriptions</a>
+      <div class="w3-dropdown-content w3-bar w3-card-4">
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"  href="/manuscripts/list">Manuscripts (search)</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"  href="/manuscripts/browse">Shelf marks (full list)</a>
+                               <!--<a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"  href="/UniProd/browse">UniProd (full list)</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"  href="/UniCirc/browse">UniCirc (full list)</a>
+                                --><a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"  href="/manuscripts/viewer">Manuscripts Images</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"  href="/catalogues/list">Catalogues</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"  href="/manuscripts/list?objectType=Inscription">Inscriptions</a>
                       </div>
     </div>
     <div class="w3-dropdown-hover w3-hide-small" id="places">
       <button class=" w3-button" title="Places">Places <i class="fa fa-caret-down"></i></button>     
-      <div class="w3-dropdown-content w3-bar-block w3-card-4">
-                                <a class="w3-bar-item w3-button"   href="/places/list">Places</a>
-                                <a class="w3-bar-item w3-button"   href="/institutions/list">Repositories</a>
+      <div class="w3-dropdown-content w3-bar w3-card-4">
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"   href="/places/list">Places</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"   href="/institutions/list">Repositories</a>
                                 </div>
     </div>
    
     <a href="/persons/list" class="w3-bar-item w3-button  w3-hide-small"  id="persons">Persons</a>
     <div class="w3-dropdown-hover w3-hide-medium w3-hide-small" id="indexes">
       <button class=" w3-button" title="indexes">Indexes <i class="fa fa-caret-down"></i></button>     
-      <div class="w3-dropdown-content w3-bar-block w3-card-4">
-                                <a class="w3-bar-item w3-button"  href="https://www.zotero.org/groups/ethiostudies/items">Zotero Library</a>
-                                <a class="w3-bar-item w3-button"  href="/bibliography">List of cited publications</a>
-                                <a class="w3-bar-item w3-button"  href="/IndexPersons">Persons</a>
-                                <a class="w3-bar-item w3-button"  href="/IndexPlaces">Places</a>
-                                <a class="w3-bar-item w3-button"  href="/titles">Titles/Colophon/Supplications</a>
-                                <a class="w3-bar-item w3-button"  href="/calendar.html">Calendar</a>
-                                <a class="w3-bar-item w3-button"  href="/decorations">Decorations</a>
-                                <a class="w3-bar-item w3-button"  href="/bindings">Bindings</a>
-                                <a class="w3-bar-item w3-button"  href="/additions">Additions</a>
-                                <a class="w3-bar-item w3-button"  href="/authority-files/list">Keywords</a>
+      <div class="w3-dropdown-content w3-bar w3-card-4">
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain" data-value="zoterolib"  href="https://www.zotero.org/groups/ethiostudies/items">Zotero Library</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"  href="/bibliography">List of cited publications</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"  href="/IndexPersons">Persons</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"  href="/IndexPlaces">Places</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"  href="/titles">Titles/Colophon/Supplications</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"  href="/calendar.html">Calendar</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"  href="/decorations">Decorations</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"  href="/bindings">Bindings</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"  href="/additions">Additions</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"  href="/authority-files/list">Keywords</a>
+                                <div id="navexplanations" class="w3-row">
+                            <span id="zoterolib" class="w3-hide w3-red w3-center">
+                               This button will take you to the EthioStudies Group Library in Zotero. This group library is openly available, please use it. Further guidelines on the use of it and the CSL styles of the Hiob Ludolf Center for Eritrean and Ethiopian Studies can be accessed from the 'help' page.
+                               </span>
+                               </div>
                           </div>
     </div>
     <div class="w3-dropdown-hover w3-hide-medium w3-hide-small" id="resources">
       <button class=" w3-button " title="resources">Resources <i class="fa fa-caret-down"></i></button>     
-      <div class="w3-dropdown-content w3-bar-block w3-card-4">
-                                <a class="w3-bar-item w3-button"   href="/compare">Compare manuscripts of a given work</a>
-                                <a class="w3-bar-item w3-button"   href="/workmap">Map of manuscripts with a given content</a>
-                                <a class="w3-bar-item w3-button"   href="/litcomp">Related Textual Units</a>
-                                <a class="w3-bar-item w3-button"   href="/LitFlow">Literature Flow Sankey view</a>
-                                <a class="w3-bar-item w3-button"   href="/xpath">XPath search</a>
-                                <a class="w3-bar-item w3-button"   href="/sparql">SPARQL Endpoint</a>
-                                <a class="w3-bar-item w3-button"   href="/collate">Collate passages with Collatex</a>
-                                <a class="w3-bar-item w3-button"   href="/gender">Gender and Manuscripts</a>
+      <div class="w3-dropdown-content w3-bar w3-card-4">
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"   href="/compare">Compare manuscripts of a given work</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"   href="/workmap">Map of manuscripts with a given content</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"   href="/litcomp">Related Textual Units</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"   href="/LitFlow">Literature Flow Sankey view</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"   href="/xpath">XPath search</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"   href="/sparql">SPARQL Endpoint</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"   href="/collate">Collate passages with Collatex</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"   href="/gender">Gender and Manuscripts</a>
                      </div>
     </div>
     <div class="w3-dropdown-hover w3-hide-medium w3-hide-small" id="projects">
       <button class=" w3-button " title="projects">Projects <i class="fa fa-caret-down"></i></button>     
-      <div class="w3-dropdown-content w3-bar-block w3-card-4">
-           <a class="w3-bar-item w3-button"   href="/lectures.html">Lectures</a>
-                                <a class="w3-bar-item w3-button"   href="/chojnacki.html">The Stanislaw Chojnacki Photographic Database</a>
-                                <a class="w3-bar-item w3-button"   href="/tweed.html">The André Tweed Collection of Ethiopic Manuscripts</a>
-                                <a class="w3-bar-item w3-button"   href="/DSintro.html">The Dayr al-Suryān Collection</a>
-                                <a class="w3-bar-item w3-button"   href="/privateCollections.html">Private collections in Germany</a>
+      <div class="w3-dropdown-content w3-bar w3-card-4">
+           <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"   href="/lectures.html">Lectures</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"   href="/chojnacki.html">The Stanislaw Chojnacki Photographic Database</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"   href="/tweed.html">The André Tweed Collection of Ethiopic Manuscripts</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"   href="/DSintro.html">The Dayr al-Suryān Collection</a>
+                                <a class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"   href="/privateCollections.html">Private collections in Germany</a>
       </div>
       </div>
     <a href="/morpho" class="w3-bar-item w3-button  w3-hide-medium w3-hide-small" 
@@ -176,7 +181,7 @@ declare function nav:footerNew(){
       <p class="w3-center">Copyright © <span property="http://purl.org/dc/elements/1.1/publisher">Akademie der Wissenschaften in Hamburg,
                 Hiob-Ludolf-Zentrum für Äthiopistik</span>.  Sharing and remixing permitted under terms of the <br/>
                 <a rel="license"  property="http://creativecommons.org/ns#license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
-                    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"/>
+                    <img alt="Creative Commons License" style="border-width:0" src="resources/images/88x31.png"/>
                 </a></p>
                 <br/>
  <p  class="w3-center"><a rel="license"  property="http://creativecommons.org/ns#license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.

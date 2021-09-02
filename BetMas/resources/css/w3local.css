@@ -179,3 +179,6 @@ div.msItem, div.subtextpart {
 
 .match span.hi {text-decoration: underline;}
 
+.w3-dropdown-content {left: 0;
+    right: 0;
+    text-align: center;}

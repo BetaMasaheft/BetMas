@@ -53,17 +53,17 @@
                             <div class="w3-bar-item explain" data-value="searchtype">
                                 <span data-template="q:textquerymode"/>
                             </div>
-                            <div class="w3-bar-item w3-hide-medium  w3-hide-small"  style="padding: 8px 8px">
+                            <div class="w3-bar-item w3-hide-medium  w3-hide-small" style="padding: 8px 8px">
                                 <span class="explain" data-value="smartrank">
                                     <span data-template="q:ranking"/>
                                 </span>
                             </div>
-                            <div class="w3-bar-item w3-hide-medium  w3-hide-small"  style="padding: 8px 8px"> 
+                            <div class="w3-bar-item w3-hide-medium  w3-hide-small" style="padding: 8px 8px"> 
                                 <span class="explain" data-value="homophonesexplain">
                                     <span data-template="q:homophonecheckbox"/>
                             </span>
                             </div>
-                            <div class="w3-bar-item w3-hide-medium  w3-hide-small"  style="padding: 8px 8px"> 
+                            <div class="w3-bar-item w3-hide-medium  w3-hide-small" style="padding: 8px 8px"> 
                                 <span class="explain" data-value="translitexplain">
                                     <span data-template="q:translitcheckbox"/>
                                 </span>
@@ -246,22 +246,4 @@
     <script type="application/javascript" src="resources/js/NewBiblio.js"/>
     <script type="application/javascript" src="resources/js/preventformsubmission.js"/>
     <script type="text/javascript" src="resources/js/titles.js"/>
-    <script type="text/javascript">
-        
-        $('.explain').on('mouseover mouseout',function () {
-        var id = $(this).data('value') 
-        //console.log(id)
-        explainer(id)
-        })
-        
-        function explainer(id) {
-        var x = document.getElementById(id);
-        if (x.className.indexOf("w3-show") == -1) {
-        x.className += " w3-show";
-        } else { 
-        x.className = x.className.replace(" w3-show", "");
-        }
-        }
-        
-    </script>
 </div>
