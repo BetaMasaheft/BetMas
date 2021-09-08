@@ -1084,7 +1084,62 @@ declare %private function viewItem:publicationStmt($node) {
 };
 
 declare %private function viewItem:ref($ref) {
-    ($ref/text(),
+    if($ref/text()) then (
+     if ($ref/@cRef) then
+        if (starts-with($ref/@cRef, 'urn:cts')) then
+            <a
+                href="http://data.perseus.org/citations/{$ref/@cRef}">
+                <i
+                    class="fa fa-angle-double-right"/>{$ref/text()}<i
+                    class="fa fa-angle-double-right"/>
+            </a>
+        else
+            <a
+                class="reference"
+                href="{substring-after($ref/@cRef, 'betmas:')}"
+                target="_blank">
+                {$ref/text()}
+                <i
+                    class="fa fa-file-text-o"
+                    aria-hidden="true"/>
+            </a>
+    else  if ($ref/@corresp) then
+        for $c in viewItem:makeSequence($ref/@corresp)
+        return
+            (<a
+                href="{$c}">{$ref/text()}</a>,
+            let $relsid := generate-id($c)
+            return
+                <a
+                    id="{$relsid}Ent{viewItem:URI2ID($c)}relations">
+                    <xsl:text>
+                    </xsl:text>
+                    <span
+                        class="glyphicon glyphicon-hand-left"/>
+                </a>
+            )
+    else  if ($ref/@target) then
+        for $t in viewItem:makeSequence($ref/@target)
+        return
+            if (starts-with($t, '#')) then
+                let $anchor := substring-after($t, '#')
+                let $node := $ref/ancestor::t:TEI/id($anchor)
+                return
+                    <a
+                        href="{viewItem:switchsubids($anchor, $node)}">
+                        {$ref/text()}</a>
+            else
+                if (starts-with($t, 'http')) then
+                    <a
+                        href="{$t}">
+                        {$ref/text()}</a>
+                else
+                    <a
+                        href="{$t}">{$ref/text()}</a>
+    else
+        ()
+        )
+    else 
     if ($ref/@cRef) then
         if (starts-with($ref/@cRef, 'urn:cts')) then
             <a
@@ -1102,10 +1157,7 @@ declare %private function viewItem:ref($ref) {
                     class="fa fa-file-text-o"
                     aria-hidden="true"/>
             </a>
-    else
-        ()
-    ,
-    if ($ref/@corresp) then
+    else if ($ref/@corresp) then
         for $c in viewItem:makeSequence($ref/@corresp)
         return
             (<a
@@ -1121,7 +1173,6 @@ declare %private function viewItem:ref($ref) {
                 </a>
             )
     else
-        (),
     if ($ref/@target) then
         for $t in viewItem:makeSequence($ref/@target)
         return
@@ -1142,7 +1193,6 @@ declare %private function viewItem:ref($ref) {
                         href="{$t}"> [link]</a>
     else
         ()
-    )
 };
 
 declare %private function viewItem:certainty($certainty) {
@@ -1221,6 +1271,7 @@ declare %private function viewItem:date-like($date) {
         return
             (
             viewItem:dates($date),
+            viewItem:time($date),
             <a
                 id="date{$id}calendar"
                 class="popup"
@@ -1228,36 +1279,44 @@ declare %private function viewItem:date-like($date) {
                 <i
                     class="fa fa-calendar-plus-o"
                     aria-hidden="true"/>
-            </a>,
-            viewItem:time($date)
+            </a>
             )
     else
-        viewItem:dates($date)
+        (
+        viewItem:dates($date),
+        viewItem:time($date)
+        )
 };
 
 
 declare %private function viewItem:time($date) {
     let $cal := $date/@calendar
-    for $att in ($date/@notBefore | $date/@notAfter | $date/@when | $date/@notBefore-custom | $date/@notAfter-custom | $date/@when-custom)
+    return 
+    <sup class="w3-tooltip">
+        <i class="fa fa-exchange"></i>
+        <span class="w3-text">
+        {for $att in ($date/@notBefore | $date/@notAfter | $date/@when | $date/@notBefore-custom | $date/@notAfter-custom | $date/@when-custom)
     return
-        <time
-            data-calendar="{$cal}">
+        <time 
+            data-calendar="{if($cal) then $cal else 'western'}">
             {
                 if (string-length($att) = 4) then
-                    attribute data-year {$att}
+                    attribute data-year {number($att)}
                 else
                     if (string-length($att) = 7) then
-                        (attribute data-year {$att}, attribute data-month {substring($att, 6, 7)})
+                        (attribute data-year {number(substring($att, 1, 4))}, attribute data-month {number(substring($att, 6, 2))})
                     else
                         if (starts-with($att, '--')) then
-                            (attribute data-month {substring($att, 3, 4)}, attribute data-day {substring($att, 6, 7)})
+                            (attribute data-month {number(substring($att, 3, 2))}, attribute data-day {number(substring($att, 6, 2))})
                         else
-                            (attribute data-year {substring($att, 1, 4)},
-                            attribute data-month {substring($att, 6, 7)},
-                            attribute data-day {substring($att, 9, 10)})
+                            (attribute data-year {number(substring($att, 1, 4))},
+                            attribute data-month {number(substring($att, 6, 2))},
+                            attribute data-day {number(substring($att, 9, 2))})
             }
-            <span>{$att/name()}: </span>
+          {$att/name()}: {$att/string()}
         </time>
+        }</span>
+        </sup>
 };
 
 declare %private function viewItem:witness($witness) {
@@ -2939,7 +2998,7 @@ declare %private function viewItem:roleName($node as element(t:roleName)) {
             xmlns="http://www.w3.org/1999/xhtml"
             href="#"
             class="AttestationsWithSameRole"
-            data-value="{.}">
+            data-value="{$node/text()}">
             <sup>?</sup>
         </a>
     else

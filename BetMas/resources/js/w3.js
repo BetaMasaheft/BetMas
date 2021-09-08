@@ -147,3 +147,17 @@ $("#toogleNavIndex").click(function () {
 });
 
 $('.slider').css('width','100%');
+
+$('time').each(function() {
+console.log( $(this).attr('data-calendar'))
+var date = convertDate(
+      $(this).attr('data-calendar'),
+      $(this).attr('data-year'),
+      $(this).attr('data-month'),
+      $(this).attr('data-day'),
+      $(this).attr('data-era')
+    )
+    $(this).append('<span class="w3-red"> = '+date+' </span>');
+
+
+  });
