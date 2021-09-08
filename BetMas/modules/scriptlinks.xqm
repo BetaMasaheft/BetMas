@@ -118,6 +118,7 @@ declare function scriptlinks:ItemScriptStyle(){
 declare function scriptlinks:ItemFooterScript(){
 
     <script type="text/javascript" src="resources/js/explain.js"/>,
+    <script type="text/javascript" src="resources/js/dateConversions.js"/>,
         <script type="application/javascript" src="resources/js/w3.js"/>,
         <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" ></script>,
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/virtual-keyboard/1.26.22/js/jquery.keyboard.js"  />,

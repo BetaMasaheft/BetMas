@@ -10,7 +10,7 @@ declare namespace b = "betmas.biblio";
 declare namespace d = "betmas.domlib";
 declare namespace functx = "http://www.functx.com";
 declare namespace number = "roman.numerals.funct";
-declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare option output:method "html5";
 declare option output:indent "yes";
 
@@ -879,14 +879,14 @@ declare %private function viewItem:headercontext($node) {
             href="#{$node/ancestor::t:msPart[1]/@xml:id}">
             {substring-after($node/ancestor::t:msPart[1]/@xml:id, 'p')}</a>)
     else
-        (), ' ', 
+        (), ' ',
     if ($node/ancestor::t:msItem[1]) then
         (', item ',
         <a
             href="#{$node/ancestor::t:msItem[1]/@xml:id}">
             {substring-after($node/ancestor::t:msItem[1]/@xml:id, 'i')}</a>)
     else
-        (), ' ', 
+        (), ' ',
     if ($node/@corresp) then
         let $cors := viewItem:makeSequence($node/@corresp)
         let $file := $node/ancestor::t:TEI
@@ -906,7 +906,7 @@ declare %private function viewItem:headercontext($node) {
         let $lang := if ($item/@xml:lang) then
             concat(' [', $file//t:language[@ident = $item/@xml:lang], ']')
         else
-            () 
+            ()
         return
             <a
                 href="{$c}">{$text}
@@ -1045,13 +1045,13 @@ declare %private function viewItem:EthioSpareFormatter($node) {
 
 declare %private function viewItem:relation($node) {
     (<a
-        href="{viewItem:reflink($node/@active)}">{exptit:printTitle($node/@active)}</a>, ' ', 
+        href="{viewItem:reflink($node/@active)}">{exptit:printTitle($node/@active)}</a>, ' ',
     <a
         href="{viewItem:reflink($node/@ref)}">
         <code>{string($node/@name)}</code>
-    </a>, ' ', 
+    </a>, ' ',
     <a
-        href="{viewItem:reflink($node/@passive)}">{exptit:printTitle($node/@passive)}</a>, ' ', 
+        href="{viewItem:reflink($node/@passive)}">{exptit:printTitle($node/@passive)}</a>, ' ',
     viewItem:TEI2HTML($node/t:desc)
     )
 };
@@ -1130,11 +1130,13 @@ declare %private function viewItem:ref($ref) {
                 let $node := $ref/ancestor::t:TEI/id($anchor)
                 return
                     <a
-                        href="{$t}"> {viewItem:switchsubids($anchor, $node)}</a>
+                        href="{$t}">
+                        {viewItem:switchsubids($anchor, $node)}</a>
             else
                 if (starts-with($t, 'http')) then
                     <a
-                        href="{$t}"> {$t}</a>
+                        href="{$t}">
+                        {$t}</a>
                 else
                     <a
                         href="{$t}"> [link]</a>
@@ -1226,9 +1228,36 @@ declare %private function viewItem:date-like($date) {
                 <i
                     class="fa fa-calendar-plus-o"
                     aria-hidden="true"/>
-            </a>)
+            </a>,
+            viewItem:time($date)
+            )
     else
         viewItem:dates($date)
+};
+
+
+declare %private function viewItem:time($date) {
+    let $cal := $date/@calendar
+    for $att in ($date/@notBefore | $date/@notAfter | $date/@when | $date/@notBefore-custom | $date/@notAfter-custom | $date/@when-custom)
+    return
+        <time
+            data-calendar="{$cal}">
+            {
+                if (string-length($att) = 4) then
+                    attribute data-year {$att}
+                else
+                    if (string-length($att) = 7) then
+                        (attribute data-year {$att}, attribute data-month {substring($att, 6, 7)})
+                    else
+                        if (starts-with($att, '--')) then
+                            (attribute data-month {substring($att, 3, 4)}, attribute data-day {substring($att, 6, 7)})
+                        else
+                            (attribute data-year {substring($att, 1, 4)},
+                            attribute data-month {substring($att, 6, 7)},
+                            attribute data-day {substring($att, 9, 10)})
+            }
+            <span>{$att/name()}: </span>
+        </time>
 };
 
 declare %private function viewItem:witness($witness) {
@@ -1390,7 +1419,7 @@ declare %private function viewItem:namedEntity($entity) {
             return
                 viewItem:namedEntityPerson($entity)
         default return
-            viewItem:namedEntityPlace($entity),' ',
+            viewItem:namedEntityPlace($entity), ' ',
 viewItem:lefthand($entity), ' ',
 if ($entity/@evidence) then
     concat(' (', $entity/@evidence, ')')
@@ -1441,7 +1470,7 @@ declare %private function viewItem:namedEntityTitleNoLink($entity) {
     if ($entity/@evidence) then
         concat(' (', $entity/@evidence, ')')
     else
-        (),' ',
+        (), ' ',
     if ($entity/@cert = 'low') then
         '?'
     else
@@ -1469,7 +1498,8 @@ declare %private function viewItem:namedEntityPersonNoLink($entity) {
         xmlns="http://www.w3.org/1999/xhtml"
         class="persName"
         property="http://purl.org/dc/elements/1.1/relation"
-        resource="{viewItem:reflink($entity/@ref)}">{viewItem:TEI2HTML($entity/node()[not(self::t:note)])} </span>,
+        resource="{viewItem:reflink($entity/@ref)}">{viewItem:TEI2HTML($entity/node()[not(self::t:note)])}
+    </span>,
     if ($entity/@role) then
         string($entity/@role)
     else
@@ -3993,7 +4023,7 @@ declare %private function viewItem:manuscript($item) {
                 </div>
                 <div
                     class="w3-third"/>
-         <!--       <div
+                <!--       <div
                     class="w3-third">
                     {
                         if ($item//t:listPerson/t:person/t:persName[@ref]) then
