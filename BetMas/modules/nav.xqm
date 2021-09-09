@@ -117,11 +117,11 @@ declare function nav:barNew() {
                         title="manuscripts">Manuscripts <i
                             class="fa fa-caret-down"></i></button>
                     <div
-                        class="w3-dropdown-content">
+                        class="w3-dropdown-content" style="background:transparent;">
                         <div
                             class="w3-threequarter">
                             <div
-                                class=" w3-bar w3-card-4">
+                                class=" w3-bar w3-card-4 w3-white">
                                 <a
                                     class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                                     data-value="shelfmarks"
@@ -152,28 +152,28 @@ declare function nav:barNew() {
                                 class="w3-row">
                                 <span
                                     id="shelfmarks"
-                                    class="w3-hide w3-red w3-center">
+                                    class="w3-hide w3-red w3-center w3-padding">
                                     Here you can browse a full list of manuscripts available on the platform, arranged by repositories and shelf marks (clicking on the "show list" button will expand the list for each location). </span>
                              <span
                                     id="manuscriptsearch"
-                                    class="w3-hide w3-red w3-center">
+                                    class="w3-hide w3-red w3-center w3-padding">
                                     In this search form you can search for (filter) all manuscripts encoded by the project. On the left side you get filters based on the indexes for that type of resources in the database, on the right side you will see, after searching, your results as in a table, paginated by 20 as per defaults. You can change the pagination option once you have done your search by entering a value in the "how many per page?" field of the pagination bar. Clicking on the hints button above will produce some additional blinking buttons which will provide additional guidance on the content.
 For more guidance in lists and filters visit the help page.
 </span>
                             <span
                                     id="imagesviewer"
-                                    class="w3-hide w3-red w3-center">
+                                    class="w3-hide w3-red w3-center w3-padding">
                                     The Mirador viewer can show all images of manuscripts we are currently serving or we have a usable link to a manifest for. You can either directly view the images in this mirador instance or click on the info box and go to the record for that manuscript.
 </span>
 <span
                                     id="cataloguesencoded"
-                                    class="w3-hide w3-red w3-center">
+                                    class="w3-hide w3-red w3-center w3-padding">
                                     The list of catalogue sources used for our manuscript descriptions. 
                                     Clicking on one of the titles will open a list view with all the manuscripts in that catalogue 
                                     for which we have a record.</span>
 <span
                                     id="inscriptions"
-                                    class="w3-hide w3-red w3-center">
+                                    class="w3-hide w3-red w3-center w3-padding">
                                    While the Beta maṣāḥǝft project focuses on manuscripts, inscriptions 
                                    are often an inseparable part of the manuscript tradition and its direct precursors, 
                                    therefore we also offer the encoding of the known inscriptions from Ethiopia and Eritrea 
@@ -206,50 +206,51 @@ For more guidance in lists and filters visit the help page.</span>
                         title="Works">Texts <i
                             class="fa fa-caret-down"></i></button>
                     <div
-                        class="w3-dropdown-content" >
+                        class="w3-dropdown-content"  
+                        style="background:transparent;">
                         <div
                         class="w3-threequarter">
                       <div
-                        class="w3-bar w3-card-4">
+                        class="w3-bar w3-card-4 w3-white">
                         <a
-                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red eplain"
+                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                             data-value="clavis"
                             href="/works/list">Clavis Aethiopica (Works)</a>
                         <a
-                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red eplain"
+                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                             data-value="narratives"
                             href="/narratives/list">Narrative Units</a>
                         <a
-                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red eplain"
+                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                             data-value="documentary"
                             href="/documentcorpora.html">Documentary corpora</a>
                              <a
-                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red eplain"
+                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                             data-value="studies"
                             href="/studies/list">Studies</a>
                             </div>
                             <div id="explanationsTexts">
                             <span
                                     id="clavis"
-                                    class="w3-hide w3-red w3-center">
+                                    class="w3-hide w3-red w3-center w3-padding">
                                     The project Beta maṣāḥǝft is working towards creating an exhaustive repertory of all works circulating in Ethiopian and Eritrean manuscript tradition. We consider a work any text with an independent circulation. Every clearly identifiable textual unit receives a unique number, which scholars now may use to univocally refer to a specific text in their publications. In case of multiple recensions or subtypes of a work, a Clavis ID is created for both the general record or the broader class of works and for each particular version.
 In the filter search offered here one can search for a work by its label, a keyword, but also directly by its CAe identifier - or, wherever known and provided, identifier used by other claves, including Bibliotheca Hagiographica Graeca (BHG), Clavis Patrum Graecorum (CPG), Clavis Coptica (CC), Clavis Apocryphorum Veteris Testamenti (CAVT), Clavis Apocryphorum Novi Testamenti (CANT), etc.
                                     </span>
                                       <span
                                     id="narratives"
-                                    class="w3-hide w3-red w3-center">
+                                    class="w3-hide w3-red w3-center w3-padding">
                                     The project additionally identifies Narrative Units to refer to recurring motifs or text types, where no clavis identification is possible or necessary. Frequently documentary additiones are assigned a Narrative Unit ID, or thematically clearly demarkated passages from various recensions of a larger work.
                                     </span>
                                       <span
                                     id="documentary"
-                                    class="w3-hide w3-red w3-center">
+                                    class="w3-hide w3-red w3-center w3-padding">
                                     This particular category is the result of cooperation between the project Beta maṣāḥǝft and the project Ethiopian Manuscript Archives. The EMA project, initially developed in 2010 by Anaïs Wion, and now part of the later project EthioChrisProcess - Christianization and religious interactions in Ethiopia (6th-13th century) : comparative approaches with Nubia and Egypt (ANR, 2018-2022, https://anr.fr/Project-ANR-17-CE27-0020), aims to edit and equip the corpus of administrative acts
 of the Christian kingdom of Ethiopia, for medieval and modern periods. The list view shows the documentary collections encoded.
 For a list of documents contained in the additiones in the manuscripts described by the Beta maṣāḥǝft project see https://betamasaheft.eu/additions.
 </span>
  <span
                                     id="studies"
-                                    class="w3-hide w3-red w3-center">
+                                    class="w3-hide w3-red w3-center w3-padding">
                                    Works of interest to Ethiopian and Eritrean studies.
                                    </span>
                             </div>
@@ -283,37 +284,37 @@ of <a href="/additions">additional texts</a> of different types present in the m
                         title="Works">Art Themes <i
                             class="fa fa-caret-down"></i></button>
                     <div
-                        class="w3-dropdown-content" >
+                        class="w3-dropdown-content" style="background:transparent;">
                         <div
                         class="w3-threequarter">
                       <div
-                        class="w3-bar w3-card-4">
+                        class="w3-bar w3-card-4 w3-white">
                         <a
-                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red eplain"
+                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                             data-value="decorations"
                             href="/decorations">Index of decorations</a>
                         <a
-                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red eplain"
+                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                             data-value="artkeywords"
                             href="/authority-files/list">Art Keywords</a>
                         <a
-                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red eplain"
+                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                             data-value="illuminations"
                             href="/newSearch.html">Illuminations</a>
                             </div>
                             <div id="explanationsAT">
                             <span
                                     id="decorations"
-                                    class="w3-hide w3-red w3-center">
+                                    class="w3-hide w3-red w3-center w3-padding">
                                    The decorations filtered search, originally designed with Jacopo Gnisci, looks at decorations and their features only. The filters on the left are relative only to the selected features, reading the legends will help you to figure out what you can filter. For example you can search for all encoded decorations of a specific art theme, or search the encoded legends. If the decorations are present, but not encoded, you will not get them in the results. If an image is available, you will also find a thumbnail linking to the image viewer for that manuscript.
                                    </span>
                                       <span
                                     id="artkeywords"
-                                    class="w3-hide w3-red w3-center">
+                                    class="w3-hide w3-red w3-center w3-padding">
                                     You can search for particular motifs or aspects, including style, also through the keyword search. Just click on "Art keywords" and "Art themes" on the left to browse through the options.</span>
                                        <span
                                     id="illuminations"
-                                    class="w3-hide w3-red w3-center">
+                                    class="w3-hide w3-red w3-center w3-padding">
                                    This is a short cut to a search for all those manuscripts which have miniatures of which we have images.</span>
                                       
                             </div>
@@ -342,29 +343,29 @@ Two types of searches for aspects of manuscript decoration are possible, the dec
                         title="Places">Places <i
                             class="fa fa-caret-down"></i></button>
                     <div
-                        class="w3-dropdown-content">
+                        class="w3-dropdown-content"  style="background:transparent;">
                          <div
                         class="w3-threequarter">
                     <div
-                        class=" w3-bar w3-card-4">
+                        class=" w3-bar w3-card-4 w3-white" >
                         <a
-                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red  eplain"
+                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red  explain"
                             data-value="places"
                             href="/places/list">Places</a>
                         <a
-                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red  eplain"
+                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red  explain"
                             data-value="repositories"
                             href="/institutions/list">Repositories</a>
                             </div>
                          <div id="explanationPl">
                          <span
                                     id="places"
-                                    class="w3-hide w3-red w3-center">
+                                    class="w3-hide w3-red w3-center w3-padding">
                                   This tab offers a filterable list of all available places. Geographical references of the type "land inhabited by people XXX" is encoded with the reference to the corresponding Ethnic unit (see below); ethnonyms, even those used in geographical contexts, do not appear in this list. For more guidance in lists and filters visit https://betamasaheft.eu/help.html.
                                   </span>
                                      <span
                                     id="repositories"
-                                    class="w3-hide w3-red w3-center">
+                                    class="w3-hide w3-red w3-center w3-padding">
                                  Repositories are those locations where manuscripts encoded by the project are or used to be preserved. While they are encoded in the same way as all places are, the view offered is different, showing a list of manuscripts associated with the place. For more guidance in lists and filters visit https://betamasaheft.eu/help.html. </span>
                         </div>
                     </div>  
@@ -389,23 +390,23 @@ As this is a work in progress, and many records were inherited from the Encyclop
                         title="Persons">Persons <i
                             class="fa fa-caret-down"></i></button>
                     <div
-                        class="w3-dropdown-content">
+                        class="w3-dropdown-content"  style="background:transparent;">
                          <div
                         class="w3-threequarter">
                     <div
-                        class=" w3-bar w3-card-4">
+                        class=" w3-bar w3-card-4 w3-white">
                         <a
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"
                             href="/persons/list">Persons and groups</a>
                         <a
-                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red  eplain"
+                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red  explain"
                             data-value="ethnics"
                             href="/persons/list">Ethnic units</a>
                             </div>
                          <div id="explanationPr">
                          <span
                                     id="ethnics"
-                                    class="w3-hide w3-red w3-center">
+                                    class="w3-hide w3-red w3-center w3-padding">
                                   We see ethnonyms as a subcategory of personal names, even when many are often used in literary works in the context of the "land inhabited by **". The present list of records has been mostly inherited from the Encyclopaedia Aethiopica, and there are still many inconsistencies that we are trying to gradually fix.</span>
                                     </div>
                     </div>  
@@ -413,7 +414,7 @@ As this is a work in progress, and many records were inherited from the Encyclop
                         class="w3-quarter">
                         <div
                         class="w3-gray w3-padding">
-                       We create metadata for all persons (and groups of persons) associated with the manuscript production and circulation (rulers, religious authorities, scribes, donors, and commissioners) as well as those mentioned in the texts used by the project. The encoding of persons in Beta maṣāḥǝft will thus result in a comprehensive Prosopography of the Ethiopian tradition. Records shoulod contain the person’s original and transliterated names and basic information on their life and occupations as well as a reference to their Wikidata ID, if existing.
+                       We create metadata for all persons (and groups of persons) associated with the manuscript production and circulation (rulers, religious authorities, scribes, donors, and commissioners) as well as those mentioned in the texts used by the project. The encoding of persons in Beta maṣāḥǝft will thus result in a comprehensive Prosopography of the Ethiopian tradition. Records should contain the person’s original and transliterated names and basic information on their life and occupations as well as a reference to their Wikidata ID, if existing.
 As this is a work in progress, and many records were inherited from the Encyclopaedia Aethiopica, there are still many inconsistencies that we are trying to gradually fix.
 For more guidance in lists and filters visit https://betamasaheft.eu/help.html.  
                         </div>
