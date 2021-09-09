@@ -1919,7 +1919,7 @@ declare function q:summaryPers($item, $id) {
             <h5>Dates</h5>
             <ul class="nodot">
             {for $d in ($item//t:floruit | $item//t:birth |$item//t:death | $item//t:date[ancestor::t:person])
-            return <li>{$d/name()}: {viewItem:dates($d)}</li>}
+            return <li>{$d/name()}: {try{viewItem:dates($d)} catch * {util:log('info', $err:description)}}</li>}
             </ul>
          </div> else (),
          if($item//t:occupation) 
@@ -2078,7 +2078,7 @@ declare function q:summaryMss($item, $id) {
                 let $alldates := ($orig, $internal)
                let $formatdates := for $d in $alldates
                  return
-                    viewItem:dates($d)
+                    try{viewItem:dates($d)} catch * {util:log('info', $err:description)}
                     return string-join($formatdates, ' '))
                             || '. '
             else
