@@ -10,6 +10,7 @@ import module namespace item2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/
 import module namespace console = "http://exist-db.org/xquery/console";
 import module namespace functx = "http://www.functx.com";
 import module namespace kwic = "http://exist-db.org/xquery/kwic" at "resource:org/exist/xquery/lib/kwic.xql";
+import module namespace viewItem = "https://www.betamasaheft.uni-hamburg.de/BetMas/viewItem" at "xmldb:exist:///db/apps/BetMas/modules/viewItem.xqm";
 import module namespace fusekisparql = 'https://www.betamasaheft.uni-hamburg.de/BetMas/sparqlfuseki' at "xmldb:exist:///db/apps/BetMas/fuseki/fuseki.xqm";
 import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2" at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
@@ -1049,6 +1050,18 @@ declare function q:facetName($f) {
         case 'occupation'
             return
                 'Occupation Type'
+       case 'persDateNotBefore'
+            return
+                'Date Not Before'
+                case 'persDateNotAfter'
+            return
+                'Date Not After'
+                case 'persDateWhen'
+            return
+                'Date point'
+                     case 'eth'
+            return
+                'Ethnic group'
         default return
             'Item type'
 };
@@ -1845,41 +1858,7 @@ declare function q:summary($item) {
         <div
             class="w3-card-4 w3-margin w3-padding"
             style="height:200px;resize: both;overflow:auto">
-            <div
-                class="w3-container">
-                <h5>Titles</h5>
-                <ul
-                    class="nodot">
-                    {
-                        for $title in $item//t:titleStmt/t:title
-                        return
-                            <li>{$title/text()}
-                                {
-                                    if ($title/@xml:lang) then
-                                        (' (' || string($title/@xml:lang) || ')')
-                                    else
-                                        ()
-                                }</li>
-                    }
-                </ul>
-            </div>
-            {
-                if (count($dates) = 0) then
-                    ()
-                else
-                    <div
-                        class="w3-container">
-                        <h5>Dates</h5>
-                        <ul
-                            class="nodot">
-                            {
-                                for $date in ()
-                                return
-                                    <li>{$date/parent::node()//text()}</li>
-                            }
-                        </ul>
-                    </div>
-            }
+            
             {
                 switch ($item/@type)
                     case 'work'
@@ -1911,7 +1890,7 @@ declare function q:summary($item) {
 
 declare function q:summaryPers($item, $id) {
 <div class="w3-container">
-        {if($item//t:personGrp) then 'Group' else ()}
+        {if(starts-with($item/@xml:id, 'E')) then 'Ethnic ' else ()} {if($item//t:personGrp) then 'Group' else ()}
         {if(//t:person/@sex = 1) then <i class="fa fa-mars"/> else  <i class="fa fa-venus"/>}
         {if($item//t:person/@sameAs) then <a href="{$item//t:person/@sameAs}">
                            <span class="icon-large icon-vcard"/>
@@ -1939,8 +1918,8 @@ declare function q:summaryPers($item, $id) {
             then <div class="w3-container">
             <h5>Dates</h5>
             <ul class="nodot">
-            {for $d in ($item//t:floruit/@* | $item//t:birth/@* |$item//t:death/@*)
-            return <li>{q:dates($d)}</li>}
+            {for $d in ($item//t:floruit | $item//t:birth |$item//t:death | $item//t:date[ancestor::t:person])
+            return <li>{$d/name()}: {viewItem:dates($d)}</li>}
             </ul>
          </div> else (),
          if($item//t:occupation) 
@@ -2099,7 +2078,7 @@ declare function q:summaryMss($item, $id) {
                 let $alldates := ($orig, $internal)
                let $formatdates := for $d in $alldates
                  return
-                    q:dates($d)
+                    viewItem:dates($d)
                     return string-join($formatdates, ' '))
                             || '. '
             else

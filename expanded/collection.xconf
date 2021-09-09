@@ -23,9 +23,9 @@
                 <field name="person" expression="t:teiHeader//(t:person | t:personGrp)"/> 
                 <field name="place" expression="t:teiHeader//t:place"/> 
                 <field name="title" expression="t:teiHeader//t:titleStmt"/>
-                <field name="datesNB" type="xs:date" expression="t:teiHeader//(t:date|t:origDate)/@notBefore"/>
-                <field name="datesNA" type="xs:date" expression="t:teiHeader//(t:date|t:origDate)/@notAfter"/>
-                <field name="datesW" type="xs:date" expression="t:teiHeader//(t:date|t:origDate)/@when"/>
+                <field name="datesNB" type="xs:date" expression="t:teiHeader//(t:date|t:origDate|t:floruit|t:birth|t:death)/@notBefore"/>
+                <field name="datesNA" type="xs:date" expression="t:teiHeader//(t:date|t:origDate|t:floruit|t:birth|t:death)/@notAfter"/>
+                <field name="datesW" type="xs:date" expression="t:teiHeader//(t:date|t:origDate|t:floruit|t:birth|t:death)/@when"/>
                 <!--all--> 
                 <facet dimension="type" expression="switch(@type) case 'mss' return 'manuscript' case 'work' return 'textual unit' case 'pers' return 'person' case 'place' return 'place' case 'ins' return 'repository' case 'nar' return 'narrative unit' default return 'authority file'"/>
                 <facet dimension="keywords" expression="t:teiHeader//(t:term/@key|t:ref[@type='authFile']/@corresp)"/>
@@ -85,8 +85,12 @@
                 <facet dimension="sex" if="@type='pers'" expression="switch(t:text//t:person/@sex) case '1' return 'male' case '2' return 'female' default return 'n/a'"/>
                 <facet dimension="personSameAs" if="@type='pers'" expression="t:text//t:person/@sameAs"/>
                 <facet dimension="group" if="@type='pers'" expression="if(t:text//t:personGrp) then 'group' else 'individual'"/>
+                <facet dimension="eth" if="@type='pers'" expression="if(starts-with(@xml:id, 'E')) then 'ethnic' else ''"/>
                 <facet dimension="faith" if="@type='pers'" expression="t:text//t:faith/@type"/>
                 <facet dimension="occupation" if="@type='pers'" expression="t:text//t:occupation/@type"/>
+                <facet dimension="persDateNotBefore" if="@type='pers'" expression="t:teiHeader//(t:birth|t:floruit|t:death|t:date)/@notBefore"/>               
+                <facet dimension="persDateNotAfter" if="@type='pers'" expression="t:teiHeader//(t:birth|t:floruit|t:death|t:date)/@notAfter"/>                 
+                <facet dimension="persDateWhen" if="@type='pers'" expression="t:teiHeader//(t:birth|t:floruit|t:death|t:date)/@when"/>   
                 <!--places-->
                 <facet dimension="placetype" if="@type='place'" expression="for $x in tokenize(t:text//t:place/@type,' ') return $x"/>
                 <facet dimension="settlement" if="@type='place'" expression="t:text//t:settlement/@ref"/>
@@ -176,10 +180,14 @@
                 <!--persons-->
                 <facet dimension="sex" if="@type='pers'" expression="switch(t:text//t:person/@sex) case '1' return 'male' case '2' return 'female' default return 'n/a'"/>
                 <facet dimension="personSameAs" if="@type='pers'" expression="t:text//t:person/@sameAs"/>
-                <facet dimension="group" if="@type='pers'" expression="if(t:text//t:personGrp) then 'group' else 'individual'"/>
+                 <facet dimension="group" if="@type='pers'" expression="if(t:text//t:personGrp) then 'group' else 'individual'"/>
+                 <facet dimension="eth" if="@type='pers'" expression="if(starts-with(@xml:id, 'E')) then 'ethnic' else ''"/>
                 <facet dimension="faith" if="@type='pers'" expression="t:text//t:faith/@type"/>
                 <facet dimension="occupation" if="@type='pers'" expression="t:text//t:occupation/@type"/>
-                <!--places-->
+                 <facet dimension="persDateNotBefore" if="@type='pers'" expression="t:teiHeader//(t:birth|t:floruit|t:death|t:date)/@notBefore"/>               
+                <facet dimension="persDateNotAfter" if="@type='pers'" expression="t:teiHeader//(t:birth|t:floruit|t:death|t:date)/@notAfter"/>                 
+                <facet dimension="persDateWhen" if="@type='pers'" expression="t:teiHeader//(t:birth|t:floruit|t:death|t:date)/@when"/>   
+               <!--places-->
                 <facet dimension="placetype" if="@type='place'" expression="for $x in tokenize(t:text//t:place/@type,' ') return $x"/>
                 <facet dimension="settlement" if="@type='place'" expression="t:text//t:settlement/@ref"/>
                 <facet dimension="region" if="@type='place'" expression="t:text//t:region/@ref"/>
@@ -753,24 +761,27 @@
                 <field name="zonerendition" match="@rendition" type="xs:string"/>
                 <field name="zoneid" match="@xml:id" type="xs:string"/>
             </create>
+            
             <create qname="t:facsimile">
                 <field name="facsimileid" match="@xml:id" type="xs:string"/>
             </create>
+            
             <create qname="t:surface">
                 <field name="surfaceid" match="@xml:id" type="xs:string"/>
             </create>
-            
             
             <create qname="t:lb">
                 <field name="lbid" match="@xml:id" type="xs:string"/>
                 <field name="lbfacs" match="@facs" type="xs:string"/>
                 <field name="lbn" match="@n" type="xs:string"/>
             </create>
+            
             <create qname="t:cb">
                 <field name="cbid" match="@xml:id" type="xs:string"/>
                 <field name="cbfacs" match="@facs" type="xs:string"/>
                 <field name="cbn" match="@n" type="xs:string"/>
             </create>
+            
             <create qname="t:pb">
                 <field name="pbid" match="@xml:id" type="xs:string"/>
                 <field name="pbfacs" match="@facs" type="xs:string"/>
