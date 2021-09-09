@@ -4,12 +4,29 @@
     <div class="w3-container w3-margin w3-padding-64">
         <div class="w3-containter" id="searchform">
             <form action="" id="gsf" class="w3-container w3-center">
-                <fieldset id="querytype" class="w3-container">
-                    <div class="w3-padding explain" data-value="querytypeexplain">
+                <fieldset id="querytype" class="w3-container" style="border:none;">
+                    <div class="w3-padding w3-half explain" data-value="querytypeexplain">
                         <span data-template="q:querytype"/>
                     </div>
+                    <div class="w3-padding w3-half" id="querytypeselectexplain">
+                        <span id="textquery" class="w3-hide w3-tiny w3-padding w3-red w3-show">
+                                You can run a simple search which will look in all text indexes. 
+                                This is a most simple search that we can offer. Check the options below the input box if you want to change the default settings.
+                        </span>
+                        <span id="listquery" class="w3-hide w3-tiny w3-padding  w3-red">Here you can get a list of items given some parameters, like the entity type, without searching for a string. You can play with the filters to restrict the search and you can certainly combine these with a text search.</span>
+                        <span id="bmidquery" class="w3-hide w3-tiny w3-padding  w3-red">If you know the identifier (ID) of an item (LIT1234name, MS123abc, PRS12345name, etc.) you can paste it here, and you will get it in the results. if you know only a part, eg. LIT20... it will give you all those which match. 
+                            To reach a given item with its ID, you can also append that to the base URL of the website, https://betamasaheft.eu/LIT1234name  and you will be redirected to the correct landing page.</span>
+                        <span id="clavisquery" class="w3-hide w3-tiny w3-padding w3-red">If you have at hand the Clavis Aethiopica number of a Textual Unit, e.g. CAe 1234, you can enter it here and the search will point you to that record.</span>
+                        <span id="otherclavisquery" class="w3-hide w3-tiny w3-padding w3-red">We record (unsystematically) corresponding identifiers from other Claves, like CAVT or CANT, here you can select which one you want to look for and search for records pointing to that.</span>
+                        <span id="fieldsquery" class="w3-hide w3-tiny w3-padding w3-red">If you wish to search for a given word in the hands descriptions and another word in the decorations, here you can do that, using fields.</span>
+                        <span id="xpathquery" class="w3-hide w3-tiny w3-padding w3-red">If you know how to write your XPath, and know the source TEI (available for each file, by appending .xml to the identifier of the record) you will be able to run that query against the db here. Not all possible paths are optimized.</span>
+                        <span id="sparqlquery" class="w3-hide w3-tiny w3-padding w3-red">Parallel to the XML, also an RDF triple store is maintained by the project. Here you get an interface to the SPARQL endpoint. You can add your SPARQL query and see the results available.</span>
+                        
+                    </div>
+                        
+                    
                 </fieldset>
-                <fieldset id="otherclavis" class="w3-container w3-hide">
+                <fieldset id="otherclavis" class="w3-container w3-hide"  style="border:none;">
                     <div class="w3-padding">
                         <label>Other Clavis ID</label>
                         <select name="clavistype" class="w3-select w3-border">
@@ -25,7 +42,7 @@
                         </select>
                     </div>
                 </fieldset>
-                <fieldset id="text" class="w3-container">
+                <fieldset id="text" class="w3-container"  style="border:none;">
                     <div class="w3-padding">
                         <span data-template="q:queryinput"/>
                         <div id="explanationa" class="w3-half w3-red">
@@ -81,7 +98,7 @@
                         </div>
                     </div></div>
                 </fieldset>
-                <fieldset id="sparqls" class="w3-container w3-hide">
+                <fieldset id="sparqls" class="w3-container w3-hide"  style="border:none;">
                     <div class="w3-padding">
                         <p>You can enter above your SPARQL query to the RDF representation of the data stored in Apache Jena Fuseki. Please use single quotes ' not double.</p>
                         <p>PREFIXes are already there (see below), so you can start with SELECT.  
@@ -161,7 +178,7 @@
                         </div>
                     </div>
                 </fieldset>
-                <fieldset id="xpath" class="w3-container w3-hide">
+                <fieldset id="xpath" class="w3-container w3-hide"  style="border:none;">
                     <div class="w3-padding"> 
                         <p>Enter above your XPath 3.0 query to the data. 
                             Please, use t: namespace for TEI elements. The starting point of any Xpath should 
@@ -174,9 +191,9 @@
                         </p>
                     </div>
                 </fieldset>
-                <fieldset id="filters" class="w3-container"/>
-                <fieldset id="lists" class="w3-container w3-hide"/>
-                <fieldset id="fields" class="w3-container w3-hide">
+                <fieldset id="filters" class="w3-container"  style="border:none;"></fieldset>
+                <fieldset id="lists" class="w3-container w3-hide"  style="border:none;"/>
+                <fieldset id="fields" class="w3-container w3-hide "  style="border:none;">
                  <div class="w3-padding">   <p>Here you can differentiate your search by looking at the text of constructed 
                         strings from specific portions of the data. You can search for records which
                     have a word occurring in the decoration and another in the content description, for example.</p>

@@ -17,3 +17,12 @@
    // console.log(explanationtext.className  + ' removed SHOW ');
         }
         }
+        
+        
+$('#SType').change(function(){
+$('#querytypeselectexplain span').removeClass('w3-show');
+var val = $(this).val()
+var valid = val + 'query'
+    explainer(valid)
+    
+})

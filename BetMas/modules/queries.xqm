@@ -81,16 +81,13 @@ function-lookup(xs:QName("util:index-keys"), 4)
 declare function q:querytype($node as node(), $model as map(*)) {
 let $querytypeparam:= request:get-parameter('searchType', ())
 return
-    <select id="SType" name="searchType" class="w3-select w3-border">
+    <select id="SType" name="searchType" class="w3-select">
         <option value="text">{if($querytypeparam='' or $querytypeparam='text') then attribute selected {'selected'} else ()}Simple Text search (select here another type of search)</option>
         <option value="bmid">{if($querytypeparam='bmid') then attribute selected {'selected'} else ()}Lookup Beta maṣāḥǝft ID</option>
         <option value="clavis">{if($querytypeparam='clavis') then attribute selected {'selected'} else ()}Lookup Clavis Aethiopica Number</option>
         <option  value="otherclavis">{if($querytypeparam='otherclavis') then attribute selected {'selected'} else ()}Lookup other Clavis ID</option>
         <option value="fields">{if($querytypeparam='fields') then attribute selected {'selected'} else ()}Additional Fields</option>
         <option  value="xpath">{if($querytypeparam='xpath') then attribute selected {'selected'} else ()}Xpath</option>
-        <option  value="cat">{if($querytypeparam='cat') then attribute selected {'selected'} else ()}Catalogues</option>
-        <option  value="repos">{if($querytypeparam='repos') then attribute selected {'selected'} else ()}Repositories</option>
-        <option  value="shelfmarks">{if($querytypeparam='shelfmarks') then attribute selected {'selected'} else ()}Shelfmarks</option>
         <option   value="list">{if($querytypeparam='list') then attribute selected {'selected'} else ()}list</option>
         <!--
 split for each list or resource specific, it will show  a search box and a series of filters specific to the list type, 
@@ -1417,7 +1414,7 @@ declare function q:fieldinputTemplate($name, $parm) {
                 value="OR">OR</option>
         </select>
         <input
-            class="w3-input w3-col w3-border"
+            class="w3-input w3-col "
             style="width:80%"
             name="{$parm}-field"
             placeholder="type here the text you want to search into tei:{$parm}"/>
@@ -2385,7 +2382,7 @@ declare function q:queryinput($node as node(), $model as map(*), $query as xs:st
         style="height:200px"
         name="query"
         type="search"
-        class="w3-input  w3-border diacritics">
+        class="w3-input diacritics">
         {$query}
     
     </textarea>
@@ -2393,7 +2390,7 @@ declare function q:queryinput($node as node(), $model as map(*), $query as xs:st
 
 declare function q:elements($node as node(), $model as map(*)) {
     let $control :=
-        <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="element" name="element" class="w3-select w3-border">
+        <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="element" name="element" class="w3-select">
             
             <option value="title">Titles</option>
             <option value="persName">Person names</option>
@@ -2570,7 +2567,7 @@ let $lookup :=  q:rangeindexlookup($rangeindexname)
 
 (:~determins what the selectors for various form controls will look like, is called by app:formcontrol() :)
 declare function q:selectors($nodeName, $nodes, $type){
-             <select multiple="multiple" name="{$nodeName}" id="{$nodeName}" class="w3-select w3-border">
+             <select multiple="multiple" name="{$nodeName}" id="{$nodeName}" class="w3-select">
             {
             
             if ($type = 'keywords') then (
