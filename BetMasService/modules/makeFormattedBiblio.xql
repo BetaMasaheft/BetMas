@@ -9,5 +9,5 @@ return gfb:makeBib($collection)
 
 - format, indent and save
 - replace escaped elements in the html fragments
-
+- check wrong pointers and notify in issue using fix.xql
 :)

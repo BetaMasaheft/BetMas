@@ -1,6 +1,6 @@
 xquery version "3.1";
 
-(:exrest:register-module(xs:anyURI("/db/apps/BetMas/modules/compare.xqm")),
+exrest:register-module(xs:anyURI("/db/apps/BetMas/modules/compare.xqm")),
 exrest:register-module(xs:anyURI("/db/apps/BetMas/modules/dts.xqm")),
 exrest:register-module(xs:anyURI("/db/apps/BetMas/modules/iiif.xqm")),
 exrest:register-module(xs:anyURI("/db/apps/BetMas/modules/items.xqm")),
@@ -36,6 +36,9 @@ exrest:register-module(xs:anyURI("/db/apps/BetMas/modules/list.xqm")),
 exrest:register-module(xs:anyURI("/db/apps/gez-en/modules/rest.xqm")),
 exrest:register-module(xs:anyURI("/db/apps/parser/modules/morphoparser.xqm")),
 exrest:register-module(xs:anyURI("/db/apps/parser/modules/litcompare.xqm")),
-exrest:register-module(xs:anyURI("/db/apps/parser/modules/permanentItems.xqm")),
-exrest:register-module(xs:anyURI("/db/apps/parser/modules/persistentdts.xqm")),:)
-exrest:register-module(xs:anyURI("/db/apps/BetMas/apis/shine.xqm"))
+exrest:register-module(xs:anyURI("/db/apps/BetMas/modules/permanentItems.xqm")),
+exrest:register-module(xs:anyURI("/db/apps/BetMas/modules/persistentdts.xqm")),
+exrest:register-module(xs:anyURI("/db/apps/BetMas/modules/persistentiiif.xqm")),
+exrest:register-module(xs:anyURI("/db/apps/gez-en/modules/rest.xqm")),
+exrest:register-module(xs:anyURI("/db/apps/BetMas/modules/dtsXML.xqm")),
+exrest:register-module(xs:anyURI("/db/apps/BetMas/modules/genderInfo.xqm"))

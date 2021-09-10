@@ -3,7 +3,6 @@ declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace xi = "http://www.w3.org/2001/XInclude";
 
 import module namespace  expand="https://www.betamasaheft.uni-hamburg.de/BetMas/expand" at "xmldb:exist:///db/apps/BetMas/modules/expand.xqm";
-import module namespace console = "http://exist-db.org/xquery/console";
 
 for $file in collection('/db/apps/BetMasData')//t:TEI
 let $start-time := util:system-time()
@@ -23,8 +22,8 @@ let $collection-uri := if (xmldb:collection-available($collection)) then $collec
  : if (xmldb:last-modified($collection-uri as item(), $resource as xs:string) le xmldb:last-modified($collection-uri as item(), $resource as xs:string)) then....
  :)                              
 let $store :=   if(doc-available(concat($collection-uri,$file-name))) 
-                then console:log( $file-name || ' is already available in ' || $collection-uri )
-                else try{xmldb:store($collection-uri, xmldb:encode-uri($file-name), $file)} catch * {console:log($err:description)}
+                then util:log('info', ($file-name || ' is already available in ' || $collection-uri ))
+                else try{xmldb:store($collection-uri, xmldb:encode-uri($file-name), $file)} catch * {util:log('info', $err:description)}
 let $permissions := let $stored := concat($collection-uri, '/', $file-name) return (sm:chgrp($stored, 'Cataloguers'), sm:chmod($stored, 'rwxrwxrwx'))                
 let $runtime-ms := ((util:system-time() - $start-time)
 div xs:dayTimeDuration('PT1S')) * 1000
