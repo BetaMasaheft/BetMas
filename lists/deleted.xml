@@ -1,0 +1,184 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>List of institutions</title>
+            </titleStmt>
+            <publicationStmt>
+                <p/>
+            </publicationStmt>
+            <sourceDesc>
+                <p>Generated from data</p>
+            </sourceDesc>
+        </fileDesc>
+    </teiHeader>
+    <text>
+        <body>
+            <list>
+                <item>LIT0000test</item>
+                <!--
+                <item>AT1108MMDaqseyos</item>
+                <item>AT1109MMWorker</item>-->
+                <item>ESamm005006</item>
+                <!--<item>LIT5604MMGigar</item>
+                <item>LIT5605MMDematyanos</item>
+                <item>LIT5606MMItenin</item>
+                <item>LIT5607MMMArriage</item>
+                <item>LIT5608MMZacharias</item>
+                <item>LIT5609MMCyriacus</item>
+                <item>LIT5610MMKidan</item>
+                <item>LIT5611MMApparition</item>
+                <item>LIT5612MMSchism</item>
+                <item>LIT5613MMHoms</item>
+                <item>LIT5614MMIyob</item>
+                <item>LIT5615MMHomily</item>
+                <item>LIT5616MMHanna</item>
+                <item>LIT5617MMHeir</item>
+                <item>LIT5618MMSedenya</item>
+                <item>LIT5619MMZaraYaqob</item>
+                <item>LIT5620MMTetos</item>
+                <item>LIT5621MMMuslim</item>
+                <item>LIT5622HomilyCyrilJohnMiyazya</item>
+                <item>LIT5623MalkeaAbib</item>
+                <item>LIT5625TergSenaFet</item>
+                <item>LIT5626AmaLesaneyaYebe</item>
+                <item>LIT5627NagaraArestaAemro</item>
+                <item>LIT5628CommCreed</item>
+                <item>LIT5629AndemtaCreed</item>
+                <item>LIT5630Tammer4Ensesa</item>
+                <item>LIT5631ActsofNob</item>
+                <item>LIT5632MMMetmaq</item>
+                <item>LIT5633DadalDahay</item>
+                <item>LIT5634MatshafaEnqu</item>
+                <item>LIT5636MashafaZalfeEstifanos</item>
+                <item>LIT5637DersanaSom</item>
+                <item>LIT5638MMBarsuma</item>
+                <item>LIT5639WeddaseMaryamTergwame</item>
+                <item>LIT5640MMCyriacus</item>
+                <item>LIT5641MMAtrib1</item>
+                <item>LIT5642MMAtrib2</item>
+                <item>LIT5643MMAtrib3</item>
+                <item>LIT5644MMAtrib4</item>
+                <item>LIT5645MMAtrib5</item>
+                <item>LIT5646Mastagabe</item>
+                <item>LIT5647MMMichael1</item>
+                <item>LIT5648MMMichael2</item>
+                <item>LIT5649MMStephanites1</item>
+                <item>LIT5650MMStephanites2</item>
+                <item>LIT5651MMDamot1</item>
+                <item>LIT5652MMDamot2</item>
+                <item>LIT5653MMGabraMaryam</item>
+                <item>LIT5654MGessew</item>
+                <item>LIT5655BarekannaEgzio</item>
+                <item>LIT5656Malheq</item>
+                <item>LIT5657MMMilk</item>
+                <item>LIT5658MMKing</item>
+                <item>LIT5659MMErmeyas</item>
+                <item>LIT5660MMGeorge</item>
+                <item>LIT5661MMSpendthrift1</item>
+                <item>LIT5662MMSpendthrift2</item>
+                <item>AT1110MMJew</item>
+                <item>AT1111MMDamianus</item>
+                <item>AT1112MMAbbas</item>
+                <item>AT1113MMYeshaq</item>
+                <item>AT1114MMMaryam</item>
+                <item>AT1115MMFrenchman</item>
+                <item>AT1116MMJerusalem</item>
+                <item>AT1117MMZakaryas</item>-->
+                <item>IVEf15</item>
+                <item>MMA</item>
+                <item>PRS12692NikolajBeneshevich</item>
+                <item>NAR0016NAElzMornigDayHours</item>
+                <item>LIT1849Malkea</item>
+                <item>LIT4955HymnMary</item>
+                <item>PRS12461Tasama</item>
+                <item>LIT5768test</item>
+                <item>LIT4147GadlaAntonii</item>
+                <item>LIT1018DossierAntony</item>
+                <item>EMML1692</item>
+                <item>PRS9271TasfaGa</item>
+                <item>PRS6295LibanZe</item>
+                <item>PRS6622MammaMe</item>
+                <item>PRS8391Salamago</item>
+                <item>PRS9211TaKli</item>
+                <item>PRS9913Waldaha</item>
+                <item>IVvostochn609</item>
+                <item>IVvostochn610</item>
+                <item>IVvostochn611</item>
+                <item>IVvostochn612</item>
+                <item>IVvostochn613</item>
+                <item>IVvostochn614</item>
+                <item>IVvostochn615</item>
+                <item>PRS12749Stella</item>
+                <item>IVefiopsk1</item>
+                <item>IVefiopsk2</item>
+                <item>IVefiopsk3</item>
+                <item>PRS11433Anonym</item>
+                <item>IVefiopsk4</item>
+                <item>IVefiopsk5</item>
+                <item>IVefiopsk6</item>
+                <item>LIT1122Apocal</item>
+                <item>LIT2214RaeyaG</item>
+                <item>LIT5779PrayeroftheblessedMary</item>
+                <item>IVefiopsk8</item>
+                <item>IVefiopsk9</item>
+                <item>BNFadd57</item>
+                <item>IVefiopsk10</item>
+                <item>IVefiopsk11</item>
+                <item>IVefiopsk12</item>
+                <item>IVefiopsk13</item>
+                <item>IVefiopsk14</item>
+                <item>LIT5783RepCh</item>
+                <item>LIT5784RepCh</item>
+                <item>LIT5785RepCh</item>
+                <item>LIT5789RepCh</item>
+                <item>LIT5790RepCh</item>
+                <item>LIT5791RepCh</item>
+                <item>LIT5792RepCh</item>
+                <item>EMML6533</item>
+                <item>LIT5189Sergius</item>
+                <item>LIT5192DiscourseofLord</item>
+                <item>IVefiopsk15</item>
+                <item>IVefiopsk16</item>
+                <item>PRS12840KresotsBena</item>
+                <item>PRS1162Abdalma</item>
+                <item>IVefiopsk18</item>
+                <item>BDLhunt626</item>
+                <item>IVefiopsk19</item>
+                <item>IVpapadopulokeramevs1</item>
+                <item>IVpapadopulokeramevs2</item>
+                <item>IVpapadopulokeramevs3</item>
+                <item>IVpapadopulokeramevs4</item>
+                <item>IVpapadopulokeramevs5</item>
+                <item>IVpapadopulokeramevs6</item>
+                <item>IVpapadopulokeramevs7</item>
+                <item>PRS12404DanielBezunah</item>
+                <item>PresentationAtTheTemple</item>
+                <item>Trinity</item>
+                <item>VirginAndChild</item>
+                <item>PRS10776Kidan</item>
+                <item>SealofSolomon</item>
+                <item>LOC2609DayrBa</item>
+                <item>LIT4918MalkeaMaryam</item>
+                <item>LIT5087Sunday</item>
+                <item>LIT4046Miracle</item>
+                <item>PRS12136GabraM</item>
+                <item>PRS12702MikailHabashi</item>
+            <item source="/db/apps/BetMasData/works/3001-4000/" change="2020-06-15T13:09:03.91+02:00">LIT3999Ofetun</item>
+                <item source="/db/apps/BetMasData/persons/new/" change="2020-06-16T12:42:02.815+02:00">PRS13036Isayeyyas</item>
+                <item source="/db/apps/BetMasData/works/5001-6000/" change="2020-07-06T17:29:39.202+02:00">LIT5067Hymn</item>
+                <item source="/db/apps/BetMasData/works/new/" change="2020-07-08T08:37:28.76+02:00">LIT60494TaammeraUrael</item>
+                <item source="/db/apps/BetMasData/works/new/" change="2020-07-08T08:37:28.76+02:00">LIT60495TammeraZamikael</item>
+                <item source="/db/apps/BetMasData/works/new/" change="2020-07-08T08:37:28.76+02:00">LIT60499HymnMarySalotki</item>
+                <item source="/db/apps/BetMasData/works/5001-6000/" change="2020-07-08T13:03:49.378+02:00">LIT5939CommCreed</item>
+                <item source="/db/apps/BetMasData/persons/PRS12001-13000/" change="2020-07-27T13:41:44.484+02:00">PRS12656Zadawit</item>
+                <item source="/db/apps/BetMasData/persons/PRS12001-13000/" change="2020-07-27T13:41:44.484+02:00">PRS12657ZasarsaKesos</item>
+                <item source="/db/apps/BetMasData/persons/PRS12001-13000/" change="2020-07-27T13:41:44.484+02:00">PRS12660ZayamanaKrestos</item>
+                <item source="/db/apps/BetMasData/persons/PRS12001-13000/" change="2020-07-27T13:41:44.484+02:00">PRS12662ZamalkeaKsos</item>
+                <item source="/db/apps/BetMasData/persons/PRS12001-13000/" change="2020-07-27T13:41:44.484+02:00">PRS12663Zaagnateyos</item>
+                <item source="/db/apps/BetMasData/persons/PRS12001-13000/" change="2020-07-27T13:41:44.484+02:00">PRS12664ZaamdaMikael</item>
+                <item source="/db/apps/BetMasData/works/new/" change="2020-08-19T11:25:51.007+02:00">LIT6157MamherTasiliye</item>
+            <item source="/db/apps/BetMasData/works/1001-2000/" change="2020-12-18T12:22:25.886+01:00">LIT1279dersan</item><item source="/db/apps/BetMasData/works/1001-2000/" change="2021-01-07T12:23:28.141+01:00">LIT1775Letter</item><item source="/db/apps/BetMasData/works/2001-3000/" change="2021-01-07T12:23:28.141+01:00">LIT2357Letter</item><item source="/db/apps/BetMasData/works/2001-3000/" change="2021-01-20T09:47:14.886+01:00">LIT2263salota</item><item source="/db/apps/BetMasData/works/3001-4000/" change="2021-01-27T21:20:59.295+01:00">LIT3998Dersan</item><item source="/db/apps/BetMasData/institutions/new/" change="2021-02-18T12:25:31.057+01:00">INS0915Neukirchen</item><item source="/db/apps/BetMasData/institutions/new/" change="2021-02-18T17:29:18.518+01:00">INS0915CHNJ</item><item source="/db/apps/BetMasData/institutions/new/" change="2021-06-21T12:12:40.396+02:00">INS0963RDW</item><item source="/db/apps/BetMasData/works/new/" change="2021-06-23T23:02:33.97+02:00">LIT6463Letter</item><item source="/db/apps/BetMasData/persons/new/" change="2021-06-28T09:50:33.755+02:00">PRS13437WalattaBM</item><item source="/db/apps/BetMasData/works/new/" change="2021-08-24T15:20:06.997+02:00">LIT6480MalkeaMamas</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/Neukirchen/" change="2021-08-25T11:11:01.444+02:00">Neukirchen001</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/Neukirchen/" change="2021-08-25T11:11:01.444+02:00">Neukirchen002</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/Neukirchen/" change="2021-08-25T11:11:01.444+02:00">Neukirchen003</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/Neukirchen/" change="2021-08-25T11:11:01.444+02:00">Neukirchen004</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/Neukirchen/" change="2021-08-25T11:11:01.444+02:00">Neukirchen005</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/Neukirchen/" change="2021-08-25T11:11:01.444+02:00">Neukirchen006</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/Balk/" change="2021-08-25T18:07:12.064+02:00">Balk001</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/Balk/" change="2021-08-25T18:07:12.064+02:00">Balk002</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/Balk/" change="2021-08-25T18:07:12.064+02:00">Balk003</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/" change="2021-08-25T18:07:12.064+02:00">CHJN001</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/" change="2021-08-25T18:07:12.064+02:00">CHJN002</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/" change="2021-08-25T18:07:12.064+02:00">CHJN003</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/" change="2021-08-25T18:07:12.064+02:00">CHJN004</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/" change="2021-08-25T18:07:12.064+02:00">CHJN005</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/" change="2021-08-25T18:07:12.064+02:00">CHJN006</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/" change="2021-08-25T18:07:12.064+02:00">CHJN007</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/" change="2021-08-25T18:07:12.064+02:00">CHJN008</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/" change="2021-08-25T18:07:12.064+02:00">Mueth001</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/TreeskeFricke/" change="2021-08-25T18:07:12.064+02:00">TF001</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/TreeskeFricke/" change="2021-08-25T18:07:12.064+02:00">TF002</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/TreeskeFricke/" change="2021-08-25T18:07:12.064+02:00">TF003</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/TreeskeFricke/" change="2021-08-25T18:07:12.064+02:00">TF004</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/TreeskeFricke/" change="2021-08-25T18:07:12.064+02:00">TF005</item></list>
+        </body>
+    </text>
+</TEI>
