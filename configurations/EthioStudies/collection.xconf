@@ -11,7 +11,7 @@
                 <field name="t" match="@type" type="xs:string"/>
                 <field name="title" match="//t:title" type="xs:string"/>
                 <field name="author" match="//t:author" type="xs:string"/>
-                <field name="tag" match="//t:note[@type='tag']" type="xs:string"/>
+                <field name="tag" match="t:note[@type='tags']/t:note[@type='tag']" type="xs:string"/>
             </create>
         </range>
         
