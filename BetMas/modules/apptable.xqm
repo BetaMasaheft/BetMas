@@ -161,6 +161,7 @@ if($doc//t:listBibl[@type eq 'clavis'])
           </td>
             <td>
             <a href='{$bibl/@corresp}'>{$bibl/t:citedRange/text()}{if($bibl/ancestor::t:div[(@type eq 'textpart') or (@type eq 'edition')]) then (' ( part ' || (let $subtitle := $bibl/ancestor::t:div[@type][1] return titles:printSubtitle($subtitle, string($subtitle/@xml:id))) || ')') else ()}</a>
+            <a class="w3-tiny" target="blank" href="https://clavis.brepols.net/clacla/OA/link.aspx?clavis={$st}&number={$bibl/t:citedRange/text()}">[Clavis Clavium]</a>
             </td>
             </tr>
             }
