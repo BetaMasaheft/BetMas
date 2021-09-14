@@ -376,7 +376,8 @@ return
     let $type := data($document//t:place/@type)
     let $list := if(contains($type, ' ')) then tokenize(normalize-space($type), ' ') else string($type)
     return
-     <div>{for $t in $list return <a class="w3-tag w3-red" href="/places/list?placetype={$t}" target="_blank">{$t}</a>}</div>
+     (<div>{for $t in $list return <a class="w3-tag w3-red" href="/places/list?placetype={$t}" target="_blank">{$t}</a>}</div>,
+  if(starts-with($document//t:place/@sameAs, 'wd:')) then wiki:wikitable(substring-after($document//t:place/@sameAs, 'wd:')) else (string($document//t:place/@sameAs)))
    else ()}</div>
 
 
@@ -388,7 +389,8 @@ return
     let $type := data($document//t:place/@type)
     let $list := if(contains($type, ' ')) then tokenize(normalize-space($type), ' ') else string($type)
     return
-     <div  class="w3-row">{for $t in $list return <a class="w3-tag w3-red" href="/places/list?placetype={$t}" target="_blank">{$t}</a>}</div>
+(     <div  class="w3-row">{for $t in $list return <a class="w3-tag w3-red" href="/places/list?placetype={$t}" target="_blank">{$t}</a>}</div>,
+  if(starts-with($document//t:place/@sameAs, 'wd:')) then wiki:wikitable(substring-after($document//t:place/@sameAs, 'wd:')) else (string($document//t:place/@sameAs)))
    else (),
     <a target="_blank" 
             href="/manuscripts/place/list?place={$id}" 
