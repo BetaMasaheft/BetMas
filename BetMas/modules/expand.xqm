@@ -126,8 +126,8 @@ declare variable $expand:listPrefixDef :=
 </listPrefixDef>;
 
 declare variable $expand:BMurl := 'https://betamasaheft.eu/';
-declare variable $expand:editorslist := doc('/db/apps/BetMas/editors.xml')//t:list;
-declare variable $expand:canontax := doc('/db/apps/BetMas/canonicaltaxonomy.xml');
+declare variable $expand:editorslist := doc('/db/apps/lists/editors.xml')//t:list;
+declare variable $expand:canontax := doc('/db/apps/lists/canonicaltaxonomy.xml');
 
 declare variable $expand:fullTEIcol-path := '/db/apps/expanded';
 
@@ -551,6 +551,8 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
                                 attribute corresp {
                                     if (contains($mainFacs, 'vatlib') or contains($mainFacs, 'gallica')) then
                                         $mainFacs
+                                    else    if (starts-with($mainFacs, '#')) then
+                                        $mainFacs
                                     else
                                         concat($expand:BMurl, 'api/iiif/', $node/ancestor::t:TEI/@xml:id/data(), '/manifest')
                                 }
@@ -624,14 +626,14 @@ return
 (<date xmlns="http://www.tei-c.org/ns/1.0" type="expanded">{current-dateTime()}</date>,
 let $time := max($node/ancestor::t:TEI//t:revisionDesc/t:change/xs:date(@when))
 return
-<date xmlns="http://www.tei-c.org/ns/1.0" type="lastModified">{format-date($time, '[D].[M].[Y]')}</date>
+(<date xmlns="http://www.tei-c.org/ns/1.0" type="lastModified">{format-date($time, '[D].[M].[Y]')}</date>
 ,
 let $col := switch2:col($node/ancestor::t:TEI/@type) return
 (<idno xmlns="http://www.tei-c.org/ns/1.0" type="collection">{$col}</idno>,
 <idno xmlns="http://www.tei-c.org/ns/1.0" type="url">https://betamasaheft.eu/{$col}/{$id}</idno>),
 <idno xmlns="http://www.tei-c.org/ns/1.0" type="URI">https://betamasaheft.eu/{$id}</idno>, 
 <idno xmlns="http://www.tei-c.org/ns/1.0" type="filename">{$id}.xml</idno>,
-<idno xmlns="http://www.tei-c.org/ns/1.0" type="ID">{$id}</idno>)
+<idno xmlns="http://www.tei-c.org/ns/1.0" type="ID">{$id}</idno>))
 };
 
 declare function expand:datelike($node, $bibliography){

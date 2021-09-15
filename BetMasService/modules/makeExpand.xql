@@ -4,7 +4,10 @@ declare namespace xi = "http://www.w3.org/2001/XInclude";
 
 import module namespace  expand="https://www.betamasaheft.uni-hamburg.de/BetMas/expand" at "xmldb:exist:///db/apps/BetMas/modules/expand.xqm";
 
-for $file in collection('/db/apps/BetMasData')//t:TEI
+let $context := collection('/db/apps/BetMasData/institutions')//t:TEI
+let $t := util:system-time()
+let $files := 
+for $file in $context
 let $start-time := util:system-time()
 let $filepath := base-uri($file)
 let $file := expand:file($filepath)
@@ -30,3 +33,8 @@ div xs:dayTimeDuration('PT1S')) * 1000
 let $message := 'stored ' || $file-name || ' into ' || $collection-uri || ' in ' || $runtime-ms || ' milliseconds'
 return
    util:log('INFO', $message)
+
+let $totrun := ((util:system-time() - $t)
+div xs:dayTimeDuration('PT1S'))
+return 
+'expanded ' || count($context) ||  ' file(s) in ' ||  $totrun || ' seconds'
