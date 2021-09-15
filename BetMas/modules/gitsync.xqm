@@ -35,6 +35,7 @@ import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
 import module namespace expand = "https://www.betamasaheft.uni-hamburg.de/BetMas/expand" at "xmldb:exist:///db/apps/BetMas/modules/expand.xqm";
 import module namespace updatefuseki = 'https://www.betamasaheft.uni-hamburg.de/BetMas/updatefuseki' at "xmldb:exist:///db/apps/BetMas/fuseki/updateFuseki.xqm";
+import module namespace gfb = "https://www.betamasaheft.uni-hamburg.de/BetMas/gfb" at "xmldb:exist:///db/apps/BetMas/modules/generateFormattedBibliography.xqm";
 import module namespace validation = "http://exist-db.org/xquery/validation";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare option exist:serialize "method=xml media-type=text/xml indent=yes";
@@ -201,6 +202,8 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
                         )
             }
             ,
+(:            update the bibliography    :)
+                gitsync:updateBibl($collection-uri, $file-name) ,
 (:          then    update the  expanded collection    :)
                 gitsync:updateExpanded($collection-uri, $file-name) ,
 (:        if the update goes well, validation happens after storing, 
@@ -256,6 +259,8 @@ declare function gitsync:do-add($commits, $contents-url as xs:string?, $data-col
             try {
                 (
                 gitsync:updateMirrorCol($collection-uri, $file-name, $file-data, 'add'),
+                
+                gitsync:updateBibl($collection-uri, $file-name) ,
 (:          then    update the  expanded collection    :)
                 gitsync:updateExpanded($collection-uri, $file-name) ,
                 (:        if the update goes well, validation happens after storing, because the app needs to remain in sync with the GIT repo. Yes, invalid data has to be allowed in.:)
@@ -437,6 +442,13 @@ declare function gitsync:checkAnchors($data-collection, $committerEmail, $collec
                      gitsync:wrongID($committerEmail, $stored-fileID, $filename)
                      )
                      ) else ()
+};
+
+(:this function calls the module generateFormattedBibliography which will look into bibliography.xml and update it with any new value. the updated list is needed also by expand.xqm, called in the successive call to gitsync:updateExpanded:)
+declare function gitsync:updateBibl($collection-uri, $file-name){
+let $storedfilepath := $collection-uri || '/' || $file-name
+let $storedTEI := doc($storedfilepath)
+return gfb:updateBib($storedTEI)
 };
 
 (:This function, ALWAYS CALLED AFTER HAVING STORED A FILE IN THE MIRROR COLLECTION /BetMasData/
