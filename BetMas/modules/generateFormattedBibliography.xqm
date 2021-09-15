@@ -2,6 +2,7 @@ xquery version "3.1";
 
 module namespace gfb = "https://www.betamasaheft.uni-hamburg.de/BetMas/gfb";
 import module namespace http = "http://expath.org/ns/http-client";
+declare namespace b = "betmas.biblio";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare option exist:serialize "method=xml media-type=text/xml indent=yes";
 
@@ -13,7 +14,7 @@ replace &lt;i&gt; and &lt;/i&gt; with proper tags:)
 
 declare function gfb:zot($c) {
     let $xml-url-formattedBiblio := concat($gfb:ethiostudies,'?tag=', $c, '&amp;format=bib&amp;locale=en-GB&amp;style=hiob-ludolf-centre-for-ethiopian-studies-with-url-doi&amp;linkwrap=1')
-    let $log := util:log('INFO', $xml-url-formattedBiblio)
+(:    let $log := util:log('INFO', $xml-url-formattedBiblio):)
    let $data := try{let $request := <http:request href="{xs:anyURI($xml-url-formattedBiblio)}" method="GET"/>
                                return http:send-request($request)[2]} catch *{$err:description}
     let $log2 := util:log('INFO', $data)
@@ -40,6 +41,13 @@ declare function gfb:shortCit($c){
                 $replaced
                 };
 
+declare function gfb:updateentry($ref){
+<entry xmlns="betmas.biblio" id="{$ref}">
+     <citation>{ try{gfb:shortCit($ref)} catch * {util:log('INFO', ($ref, $err:description))}}</citation>
+      <reference>{try{gfb:zot($ref)} catch * {util:log('INFO', ($ref, $err:description))} }</reference>
+ </entry>
+};
+
 declare function gfb:entry($cit, $ref){
 <entry xmlns="betmas.biblio" id="{$ref}">
      <citation>{$cit}</citation>
@@ -49,13 +57,43 @@ declare function gfb:entry($cit, $ref){
 
 
 (: given a collection parses all the ptr/@target and makes a bibliography.xml file with all the results of consecutive iterative requests:)
+declare function gfb:updateBib($context) {
+let $bibliography := doc('/db/apps/lists/bibliography.xml')/b:bibliography
+let $ptrs := $collection//t:bibl/t:ptr[starts-with(@target, 'bm:')]
+let $citations := distinct-values($ptrs/@target)
+let $cleancitations := for $c in $citations return replace($c, '\s+', '')
+ for $rawc in $cleancitations
+(: let $testrawc := util:log('INFO', $rawc):)
+let $match := $bibliography//b:entry[@id=$rawc]
+(: let $testmatch := util:log('INFO', $match):)
+ return
+ if (count($match) ge 1)
+ then ((:update the entry:)
+ util:log('INFO', ('entry for ' || $rawc || 'already exists'))
+ ) 
+ else 
+ let $test := util:log('INFO', ($rawc || ' is not in bibliography, adding entry '))
+(: let $total := util:log('INFO', $bibliography/b:total):)
+ let $entry := gfb:updateentry($rawc)
+ 
+let $update := if($entry/b:citation[not(text())] or $entry/b:reference[not(text())]) then util:log('WARN', $entry) else update insert $entry into $bibliography/b:entries
+let $updatetotal := update value $bibliography/b:total with count($cleancitations)
+(: add the entry:)
+return
+util:log('INFO', ('added entry for ' || $rawc))
+
+};
+
+(: given a collection parses all the ptr/@target and makes a bibliography.xml file with all the results of consecutive iterative requests:)
 declare function gfb:makeBib($collection) {
-let $citations := distinct-values($collection//t:bibl/t:ptr/@target)
+let $ptrs := $collection//t:bibl/t:ptr[starts-with(@target, 'bm:')]
+let $citations := distinct-values($ptrs/@target)
+let $cleancitations := for $c in $citations return replace($c, '\s+', '')
 let $bibliography :=
 <bibliography
     xmlns="betmas.biblio"><total>{count($citations)}</total>
     <entries>{
-            for $rawc in $citations
+            for $rawc in $cleancitations
             let $c := replace($rawc, '\s', '') 
             let $shortCit := try{gfb:shortCit($c)} catch * {util:log('INFO', ($c, $err:description))}
                group by $shortCit
