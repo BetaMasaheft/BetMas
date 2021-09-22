@@ -1,0 +1,106 @@
+<collection xmlns="http://exist-db.org/collection-config/1.0">
+    <index xmlns:tei="http://www.tei-c.org/ns/1.0">
+        <!-- Disable the standard full text index -->
+        <fulltext default="none" attributes="no"/>
+        <!-- Range index configuration on the id attribute -->
+        <!-- Most ids are integers but we will keep this general <create qname="id" type="xs:int"/> -->
+        <create qname="id" type="xs:string"/>
+
+        <!-- Lucene index configuration -->
+        <lucene diacritics="no">
+            <!-- Use the standard analyzer will ignore stopwords like 'the', 'and' -->
+            <analyzer class="org.apache.lucene.analysis.standard.StandardAnalyzer"/>
+            <analyzer id="ws" class="org.apache.lucene.analysis.core.WhitespaceAnalyzer"/>
+            <analyzer id="num" class="org.apache.lucene.analysis.core.DecimalDigitFilter"/>
+            <!-- an index boost can be used to give matches in the
+            name a higher score. This means a name match will have higher rank then
+            an match in the definition. -->
+            <text match="//tei:entry/tei:form" boost="4"/>
+            <text match="//tei:entry/tei:sense"/>
+            <text match="//tei:entry//tei:ref"/>
+            <text match="//tei:entry//tei:gramGrp"/>
+            <text match="//tei:entry//tei:lbl"/>
+            <text match="//tei:entry//tei:pos"/>
+            <text match="//tei:entry//tei:case"/>
+            <text match="//tei:entry//tei:cit"/>
+            <text match="//tei:entry//tei:num"/>
+            <text match="//tei:entry//tei:subc"/>
+            <text match="//tei:form/tei:foreign" boost="5"/>
+            <text match="@cRef"/>
+            <text match="//tei:entry//tei:foreign" boost="2"/>
+            <inline qname="tei:cit"/>
+            <inline qname="tei:ref"/>
+            <inline qname="tei:lbl"/>
+            <inline qname="tei:bibl"/>
+            <inline qname="tei:ptr"/>
+            <inline qname="tei:gramGrp"/>
+            <inline qname="tei:num"/>
+            <inline qname="tei:quote"/>
+            <inline qname="tei:case"/>
+            <inline qname="tei:gen"/>
+            <inline qname="tei:quote"/>
+            <inline qname="tei:foreign"/>
+            <inline qname="tei:subc"/>
+        </lucene>
+        <range>
+            <create qname="tei:TEI" type="xs:string"/>
+            <create qname="tei:num" type="xs:int"/>
+            <create qname="tei:entry">
+                <field name="entrytext" type="xs:string"/>
+                <field name="entryN" match="@n" type="xs:string"/>
+                <field name="entryid" match="@xml:id" type="xs:string"/>
+            </create>
+            <create qname="tei:sense">
+                <field name="sensetext" type="xs:string"/>
+                <field name="senselang" match="@xml:lang" type="xs:string"/>
+                <field name="sensename" match="@n" type="xs:string"/>
+            </create>
+            <create qname="tei:lemma" type="xs:string"/>
+            <create qname="tei:foreign">
+                <field name="foreigntext" type="xs:string"/>
+                <field name="forlang" match="@xml:lang" type="xs:string"/>
+            </create>
+            <create qname="tei:ref">
+                <field name="reftext" type="xs:string"/>
+                <field name="target" match="@target" type="xs:string"/>
+                <field name="canref" match="@cRef" type="xs:string"/>
+                <field name="passage" match="@loc" type="xs:string"/>
+            </create>
+
+            <create qname="tei:cit">
+                <field name="cittext" type="xs:string"/>
+                <field name="citlang" match="@xml:lang" type="xs:string"/>
+                <field name="transltype" match="@type" type="xs:string"/>
+            </create>
+            <create qname="tei:quote" type="xs:string"/>
+            <create qname="tei:gramGrp" type="xs:string"/>
+            <create qname="tei:lbl">
+                <field name="lbltext" type="xs:string"/>
+                <field name="lblexpand" match="@expand" type="xs:string"/>
+            </create>
+            <create qname="tei:pos">
+                <field name="postext" type="xs:string"/>
+                <field name="posexpand" match="@expand" type="xs:string"/>
+            </create>
+            <create qname="tei:gen">
+                <field name="gentext" type="xs:string"/>
+                <field name="genvalue" match="@value" type="xs:string"/>
+            </create>
+            <create qname="tei:subc">
+                <field name="subctext" type="xs:string"/>
+            </create>
+            <create qname="tei:change">
+                <field name="changetext" type="xs:string"/>
+                <field name="changewho" match="@who" type="xs:string"/>
+                <field name="changewhen" match="@when" type="xs:string"/>
+            </create>
+            <create qname="tei:case">
+                <field name="casetext" type="xs:string"/>
+                <field name="casevalue" match="@value" type="xs:string"/>
+            </create>
+        </range>
+    </index>
+    <triggers>
+        <trigger class="org.exist.extensions.exquery.restxq.impl.RestXqTrigger"/>
+    </triggers>
+</collection>

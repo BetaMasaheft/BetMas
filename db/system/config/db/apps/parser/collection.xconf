@@ -1,0 +1,54 @@
+<collection xmlns="http://exist-db.org/collection-config/1.0">
+    <index xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:f="http://fidal.parser" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+        <fulltext default="none" attributes="false"/>
+        <lucene diacritics="no">
+            <text qname="f:formula"/>
+        </lucene>
+        <range>
+            <create qname="t:foreign" type="xs:string"/>
+            <create qname="t:f" type="xs:string"/>
+            
+            <create qname="f:affix" type="xs:string"/>
+            <create qname="f:full" type="xs:string"/>
+            <create qname="f:proclitic" type="xs:string"/>
+            <create qname="f:realization" type="xs:string"/>
+            
+            <create qname="f:transcription">
+                <field name="transcriptionContent" type="xs:string"/>
+                <field name="transcriptionType" match="@type" type="xs:string"/>
+            </create>
+            <create qname="f:letter">
+                <field name="letterTranscription" match="f:transcription" type="xs:string"/>
+                <field name="letterRealizations" match="f:realizations/f:realization" type="xs:string"/>
+            </create>
+            <create qname="f:vowel" type="xs:string"/>
+            <create qname="f:formula">
+                <field name="formulaContent" type="xs:string"/>
+                <field name="formulaType" match="@type" type="xs:string"/>
+                <field name="formulaFttested" match="@attested" type="xs:string"/>
+            </create>
+            <create qname="f:pattern">
+                <field name="patternName" match="@name" type="xs:string"/>
+            </create>
+            <create qname="f:type">
+                <field name="typeName" match="@name" type="xs:string"/>
+            </create>
+            <create qname="f:group">
+                <field name="groupName" match="@name" type="xs:string"/>
+            </create>
+            
+            <create qname="f:num">
+                <field name="numName" match="@type" type="xs:string"/>
+            </create>
+            <create qname="f:person">
+                <field name="persName" match="@type" type="xs:string"/>
+            </create>
+            <create qname="f:gender">
+                <field name="genName" match="@type" type="xs:string"/>
+            </create>
+        </range>
+    </index>
+    <triggers>
+        <trigger class="org.exist.extensions.exquery.restxq.impl.RestXqTrigger"/>
+    </triggers>
+</collection>
