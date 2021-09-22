@@ -24,6 +24,7 @@ declare variable $config:sparqlPrefixes := "PREFIX rdf: <http://www.w3.org/1999/
          PREFIX rel: <http://purl.org/vocab/relationship/>
          PREFIX dcterms: <http://purl.org/dc/terms/>
          PREFIX bm: <https://betamasaheft.eu/>
+         PREFIX betmas: <https://betamasaheft.eu/ontology/>
          PREFIX pelagios: <http://pelagios.github.io/vocab/terms#>
          PREFIX syriaca: <http://syriaca.org/documentation/relations.html#>
          PREFIX saws: <http://purl.org/saws/ontology#>

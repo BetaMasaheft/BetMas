@@ -2,18 +2,23 @@ xquery version "3.1";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace xi = "http://www.w3.org/2001/XInclude";
 
+declare namespace rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 (:imports the transformation to RDF and module to take that and push it to the Fuseki Triplestore:)
 import module namespace updatefuseki = 'https://www.betamasaheft.uni-hamburg.de/BetMas/updatefuseki' at "xmldb:exist:///db/apps/BetMas/fuseki/updateFuseki.xqm";
 declare variable $local:data2rdf := 'xmldb:exist:///db/apps/BetMas/rdfxslt/data2rdf.xsl';
 
-let $collection-uri := '/db/apps/BetMasData/narratives'
+let $collections2RDF := ((:'authority-files', 'institutions', 'narratives', :)'works', 'manuscripts', 'places', 'persons')
+for $collection in $collections2RDF
+let $collection-uri := '/db/apps/BetMasData/' || $collection
 let $context := collection($collection-uri)//t:TEI
 let $t := util:system-time()
 let $files :=
 
 for $file in $context
 let $start-time := util:system-time()
-let $rdf := transform:transform($file, $local:data2rdf, ())
+let $rdf := try{transform:transform($file, $local:data2rdf, ())} catch * {util:log('info', $file),util:log('info', $err:description)}
+return
+if($rdf[not(node())]) then (util:log('info', 'issue transforming')) else 
 let $filepath := base-uri($file)
 let $file-name := tokenize($filepath, '/')[last()]
 let $rdffilename := replace($file-name, '.xml', '.rdf')
@@ -38,6 +43,9 @@ else
                     else
                         if (matches($collectionName, 'persons')) then
                             'persons'
+                            else
+                        if (matches($collectionName, 'narratives')) then
+                            'narratives'
                         else
                             'authority-files'
 let $storecoll := concat('/db/rdf/', $shortCollName)
@@ -52,4 +60,4 @@ return
 let $totrun := ((util:system-time() - $t)
 div xs:dayTimeDuration('PT1S'))
 return
-    'tranformed to RDF and stored in Fuseki ' || count($context) || ' file(s) in ' || $totrun || ' seconds'
+    'transformed to RDF and stored in Fuseki ' || count($context) || ' file(s) in ' || $totrun || ' seconds.'
