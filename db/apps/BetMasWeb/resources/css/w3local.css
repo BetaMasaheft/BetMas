@@ -1,0 +1,184 @@
+
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Noto Sans", "Noto Sans Ethiopic", "Noto Arabic", "Noto Sans Georgian", "Noto Sans Armenian", "Noto Sans Old South Arabian", "Noto Sans Coptic", sans-serif;
+}
+
+
+footer .poweredby {
+    margin: 33px 10px 0 0;
+}
+footer .poweredby img {
+    width: 180px;
+}
+.w3-red {
+    background-color: #d54b0a !important
+}
+.w3-black {
+    background-color: #2d2118 !important
+}
+.w3-gray {
+    background-color: #aca9a6 !important
+}
+
+
+.resultsauthority-files {
+    background-color: rgb(213, 75, 10, 0.4);
+    max-height: 400px;
+    overflow: auto;
+}
+.resultspersons {
+    background-color: rgb(213, 75, 10, 0.4);
+    max-height: 400px;
+    overflow: auto;
+}
+.resultsplaces {
+    background-color: rgb(172, 169, 166, 0.4);
+    max-height: 400px;
+    overflow: auto;
+}
+.resultsmanuscripts {
+    background-color: rgb(213, 75, 10, 0.4);
+    max-height: 400px;
+    overflow: auto;
+}
+.resultsinstitutions {
+    background-color: rgb(172, 169, 166, 0.4);
+    max-height: 400px;
+    overflow: auto;
+}
+.resultsnarratives {
+    background-color: rgb(213, 75, 10, 0.4);
+    max-height: 400px;
+    overflow: auto;
+}
+.resultsworks {
+    background-color: rgb(172, 169, 166, 0.4);
+    max-height: 400px;
+    overflow: auto;
+}
+
+
+.slider-handle {
+    background-color: #d54b0a !important;
+    background-image: linear-gradient(to bottom, #d54b0a 0, #d54b0a 100%)}
+
+.slider-selection {
+    background-image: linear-gradient(to bottom, #2d2118 0, #aca9a6 100%)
+}
+
+td ul.nodot {
+    overflow: auto;
+    max-height: 150px;
+}
+
+.nodot {
+    list-style-type: none;
+    padding: 0;
+    margin: 0}
+
+.urlexample pre {
+    white-space: pre-line;
+}
+
+.APIexampleJSON {
+    overflow: auto;
+    max-height: 250px;
+}
+
+
+.APIexample {
+    overflow: auto;
+    height: 250px;
+    width: 100%
+}
+
+.relBox {
+    overflow: auto;
+    max-height: 200px;
+}
+
+.academicBio {
+    overflow: auto;
+    max-height: 150px;
+}
+
+.itemoptiontooltip {
+    position: absolute;
+    left: 80px;
+    top: 0px;
+    width: 200px;
+    max-height: 40px;
+    overflow-y: auto;
+    z-index: 999;
+}
+
+.respoptiontooltip {
+    width: 160px;
+    background-color: black;
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    left: 100%;
+    top: 100%;
+    margin-left: -80px;
+    z-index: 999;
+    overflow-y:auto;
+}
+
+
+div#SeeAlsoResults {
+    max-height: 600px;
+    overflow: auto;
+}
+
+.ui-dialog-buttonset {
+    background-color: #aca9a6 !important
+}
+
+.popup {
+    position: relative;
+    cursor: pointer;
+    
+}
+
+/* The actual popup */
+.popup .popuptext {
+    width: 200px;
+    background-color: black;
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    left: 100%;
+    top: 100%;
+    margin-left: -100px;
+    z-index: 999;
+    overflow-y:auto;
+}
+
+.contentItem {
+    white-space: normal;
+    text-align: left;
+    overflow: scroll
+}
+
+div.msItem, div.subtextpart {
+    padding-left: 15px;
+    padding-top: 10px;
+}
+
+.match span.hi {text-decoration: underline;}
+
+.w3-dropdown-content {left: 0;
+    right: 0;
+    text-align: center;}

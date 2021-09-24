@@ -1,0 +1,255 @@
+<div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/newsearch.html" data-template-at="content">
+<div data-template="app:logging"/>
+
+<div class="w3-container w3-margin w3-padding-64">
+    <div class="w3-containter w3-half" id="searchform">
+<!--        <script type="text/javascript" src="resources/js/formSelector.js"/>-->
+    <form action="" id="gsf" class="w3-container">
+            <div class="w3-container">
+                    <div class="w3-row">
+                        <div class="w3-half w3-padding">
+                            <h3>General Search Options 
+                    </h3>
+                        </div>
+                    
+                
+               </div>
+                <div class="w3-row">
+                    <div class="w3-half w3-padding ">
+                        <label>Text</label>
+                        
+                            <span data-template="app:queryinput"/>
+<!--                                <input id="textarea" name="query" class="form-control diacritics" placeholder="type here the text you want to search"/>-->
+                            <input class="w3-check" type="checkbox" name="homophones" value="true" checked="checked">ignore homophones</input>
+                             <script type="application/javascript" src="resources/js/homophonescheck.js"/>
+                                    
+                            <div class="w3-bar">
+                                <a class="w3-bar-item w3-button w3-gray kb">
+                                    <i class="fa fa-keyboard" aria-hidden="true"/>
+                                </a>
+                                <a href="/Dillmann/" title="search lexicon" class="w3-bar-item w3-button w3-gray ">
+                                    <i class="fa fa-book" aria-hidden="true"/>
+                                </a>
+                            </div>
+                        
+                    </div>
+                    <div class="w3-half w3-padding ">
+                        <p>All filters are multiselect. Please, hold CTRL or CMD to select more than one option.</p>
+                            <p>Leave the option unselected to select all. The only required field is the text to be searched.</p>
+                        <p>    If you deselect the 'ignore homophones' these cases will not be considered and only the exact string you searched will be passed on.</p>
+                        <div/>
+                    </div>
+                </div>
+                
+                <div class="w3-row list place mss work nar ins pers" data-toggle="tooltip" data-placement="left" title="Where do you want to search?">
+                    <div class="w3-half w3-padding">
+                        <label>Indexes</label>
+                            <span data-template="app:elements"/>
+                        </div>
+                    <div class="w3-half w3-padding">
+                        <p>If you don't select anything, the text search will look into 
+                            <code class="w3-codespan">ab</code>, <code class="w3-codespan">persName</code> and <code class="w3-codespan">title</code>,
+                            which are the elements in the XML source files most likely to contain searchable text
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="w3-row list place mss work nar ins pers" data-toggle="tooltip" data-placement="left" title="Should the matching entities contain references to something else?">
+                    
+                    <div class="w3-half w3-padding">
+                        <label>Contains reference to...</label>
+                        <br/>
+                            <label>
+                            <input type="radio" class="w3-radio" name="AttestedInType" id="AttestedInTypeID" value="1" checked="checked"/>
+                            ID
+                        </label>
+                            <label class="form-check-label">
+                                <input type="radio" class="w3-radio" name="AttestedInType" id="AttestedInTypeTITLE" value="2"/>
+                                Title
+                            </label>
+                            <input placeholder="type the name of the entity" class="w3-input w3-border" id="GoTo" data-value="all"/>
+                            <select class="w3-select w3-border" id="gotohits" name="references">
+                                
+                            </select>
+                        
+                            
+                    </div>
+                    
+                    <div class="w3-half w3-padding">
+                        <p>Enter here a stable ID which should occur in the record you are looking for. You can also start typing a title to get suggestions. If more than one, please separate with comma. Both IDs will have to occur.</p>
+                    </div>
+                  
+                </div>
+                
+                <div class="w3-row list place mss work nar ins pers" data-toggle="tooltip" data-placement="left" title="look up the ID in the repositories">
+                    
+                    <div class="w3-half w3-padding">
+                    <label class="control-label col-sm-3">Look up by ID</label>
+                    <div class="col-sm-9">
+                        <input placeholder="type the ID of the entity or part of it" class="w3-input w3-border" name="xmlid"/>
+                        
+                    
+                        </div>
+                    
+            </div>
+        
+                    <div class="w3-half w3-padding">
+            <p>Type an ID or part of an ID which should occur in the record you are looking for. </p>
+        </div>
+        
+    </div>
+                
+                
+                <div class="w3-row">
+                    <div class="w3-half w3-padding">
+                        <label>Search only a type of entity</label>
+                        <br/>
+                        <input class="w3-check" type="checkbox" name="work-types" value="mss"/>Manuscripts<br/>
+                        <input class="w3-check" type="checkbox" name="work-types" value="work"/>Works<br/>
+                        <input class="w3-check" type="checkbox" name="work-types" value="nar"/>Narratives<br/>
+                        <input class="w3-check" type="checkbox" name="work-types" value="pers"/>Persons<br/>
+                        <input class="w3-check" type="checkbox" name="work-types" value="place"/>Places<br/>
+                        <input class="w3-check" type="checkbox" name="work-types" value="ins"/>Repositories<br/>
+                        
+                    </div>
+                    <div class="w3-half w3-padding">Select one or more collections. By selecting <b>Places</b> you will always also search into Repositories because there are places about which we only have information in a repository and vice versa.</div>
+                </div>
+                
+                <div class="w3-row">
+                    <div class="w3-half w3-padding">
+                        <label>General filters</label>
+                        <br/>
+                        <input class="w3-check" type="checkbox" value="languages"/> language<br/>
+                        <input class="w3-check" type="checkbox" value="keywords"/> keywords<br/>
+                        <input class="w3-check" type="checkbox" value="relations"/> relation types<br/>
+                        <input class="w3-check" type="checkbox" value="date"/> date range<br/>
+                        
+                    </div>
+                    <div class="w3-half w3-padding">Select more general filters</div>
+                </div>
+                
+                <div class="w3-row">
+                    <div class="w3-half w3-padding">
+                        <label>Specific filters</label>
+                        <br/>
+                            <select class="w3-select w3-border" id="collectionfilter">
+                                <option>Choose a data type</option>
+                                <option value="mss">Manuscripts</option>
+                                <option value="works">Textual and Narrative units (Works)</option>
+                                <option value="pers">Persons</option>
+                                <option value="places">Places and Repositories</option>
+                            </select>
+                        
+                    </div>
+                    <div class="w3-half w3-padding">Select to see a list of available specific filters</div>
+                </div>
+                
+                <div class="w3-row" id="manuscriptsFilters" style="display:none;">
+                    <div class="w3-half w3-padding">
+                        <label>Manuscripts Filters</label>
+                        <br/>
+                        <div id="mssFilter">
+                            <input class="w3-check" type="checkbox" value="institutions"/> repositories<br/>
+                            <input class="w3-check" type="checkbox" value="dimensions"/> dimensions<br/>
+                            <input class="w3-check" type="checkbox" value="folia"/> number of folia<br/>
+                            <input class="w3-check" type="checkbox" value="quires"/> number of quires<br/>
+                            <input class="w3-check" type="checkbox" value="quiresComp"/>quires composition<br/>
+                            <input class="w3-check" type="checkbox" value="writtenLines"/> number of written lines<br/>
+                            <input class="w3-check" type="checkbox" value="CUnumber"/> minimum number of codicological units<br/>
+                            <input class="w3-check" type="checkbox" value="script"/> script<br/>
+                            <input class="w3-check" type="checkbox" value="scribe"/> scribe<br/>
+                            <input class="w3-check" type="checkbox" value="donor"/> donor<br/>
+                            <input class="w3-check" type="checkbox" value="patron"/> patron<br/>
+                            <input class="w3-check" type="checkbox" value="owner"/> owner<br/>
+                            <input class="w3-check" type="checkbox" value="binder"/> binder<br/>
+                            <input class="w3-check" type="checkbox" value="parchmentMaker"/> parchment maker<br/>
+                            <input class="w3-check" type="checkbox" value="objectType"/> support<br/>
+                            <input class="w3-check" type="checkbox" value="material"/> material<br/>
+                            <input class="w3-check" type="checkbox" value="bmaterial"/> binding material<br/>
+                            <input class="w3-check" type="checkbox" value="contents"/> contents<br/>
+                        </div>
+                    </div>
+                    <div class="w3-half w3-padding">Select more general filters</div>
+                </div>
+                <div class="w3-row" id="worksFilters" style="display:none;">
+                    <div class="w3-half w3-padding">
+                        <label>Works Filters</label>
+                        <div id="wFilter">
+                            <input class="w3-check" type="checkbox" value="target-works"/>specific works<br/>
+                            <input class="w3-check" type="checkbox" value="authors"/>author<br/>
+                        </div>
+                    </div>
+                    <div class="w3-half w3-padding">Select more general filters</div>
+                </div>
+                <div class="w3-row" id="persFilters" style="display:none;">
+                    <div class="w3-half w3-padding">
+                        <label>Persons Filters</label>
+                        <div id="pFilter">
+                            <input class="w3-check" type="checkbox" value="gender"/> gender<br/>
+                            <input class="w3-check" type="checkbox" value="occupation"/> occupation<br/>
+                            <input class="w3-check" type="checkbox" value="role"/> role<br/>
+                        </div>
+                    </div>
+                    <div class="w3-half w3-padding">Select more general filters</div>
+                </div>
+                <div class="w3-row" id="placesFilters" style="display:none;">
+                    <div class="cw3-half w3-padding">
+                        <label>Places Filters</label>
+                        <div id="plFilter">
+                            <input class="w3-check" type="checkbox" value="placeType"/> type<br/>
+                            <input class="w3-check" type="checkbox" value="tabots"/> Tābots<br/>
+                        </div>
+                    </div>
+                    <div class="w3-half w3-padding">Select more general filters</div>
+                </div>
+                <img id="loadingform" src="resources/images/giphy.gif" style="display: none; width: 20%;"/>
+                <div id="AddFilters"/>
+            
+       
+            </div> 
+         <div class="w3-container w3-center">
+             <button type="submit" id="submit-data" class="w3-button w3-center w3-red w3-xxlarge w3-margin"> SEARCH
+                <span class="glyphicon glyphicon-search"/>
+            </button>
+                </div>
+    </form>
+    </div>
+    <div class="w3-containter w3-half">
+        <button class="w3-button w3-red" id="tooglesearchfield">Hide/show search filters</button>
+        
+        <img id="loading" src="resources/Loading.gif" style="display: none;"/>   
+        <div id="persWithRoleResults"/>
+        <div data-template="app:query">
+        <div id="content">
+            <a href="." class="nav-link" data-template="app:copy-params"/>
+            
+            <span id="hit-count" data-template="app:hit-count"/>
+            
+            <div class="w3-containter">
+            <span id="hit-param" data-template="app:hit-params"/>
+                <p>Click on the name of the entry on the left to get to the main view or click links to the right of the occurrences (3 only are shown!) to go to that occurrence.</p>
+                
+                <div class="hidden-xs">
+                    <ul class="pagination" data-template="app:paginateNew" data-template-per-page="20" data-template-max-pages="9" data-template-min-hits="21"/>
+                </div>
+                
+                <!-- query results -->
+                <div data-template="app:searchRes" data-template-per-page="20" id="results" class="w3-container w3-padding"/>
+                
+                <!--             bottom pagination for larger device -->
+                <div class="hidden-xs">
+                    <ul class="pagination" data-template="app:paginateNew" data-template-per-page="20" data-template-max-pages="9" data-template-min-hits="21"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+    
+    <script type="application/javascript" src="resources/js/preventformsubmission.js"/>
+    <script type="text/javascript" src="resources/js/lookup.js"/>
+    <script type="text/javascript" src="resources/js/titles.js"/>
+    <script type="text/javascript" src="resources/js/filters.js"/>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tinysort/2.3.6/tinysort.js"/>
+    <script type="text/javascript" src="resources/js/sort.js"/>
+</div>
