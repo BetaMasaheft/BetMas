@@ -7,6 +7,11 @@ import module namespace console = "http://exist-db.org/xquery/console";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace xi = "http://www.w3.org/2001/XInclude";
 declare variable $expand:zotero := collection('/db/apps/EthioStudies') ;
+declare variable $expand:BMurl := 'https://betamasaheft.eu/';
+declare variable $expand:editorslist := doc('/db/apps/lists/editors.xml') ;
+declare variable $expand:canontax := doc('/db/apps/lists/canonicaltaxonomy.xml');
+declare variable $expand:fullTEIcol-path := '/db/apps/expanded';
+
 declare variable $expand:listPrefixDef :=
 <listPrefixDef
     xmlns="http://www.tei-c.org/ns/1.0">
@@ -125,11 +130,6 @@ declare variable $expand:listPrefixDef :=
     </prefixDef>
 </listPrefixDef>;
 
-declare variable $expand:BMurl := 'https://betamasaheft.eu/';
-declare variable $expand:editorslist := doc('/db/apps/lists/editors.xml')//t:list;
-declare variable $expand:canontax := doc('/db/apps/lists/canonicaltaxonomy.xml');
-
-declare variable $expand:fullTEIcol-path := '/db/apps/expanded';
 
 (:~
  : Recursively creates new collections if necessary. 
@@ -273,7 +273,7 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
                                     xml:id="{$resp}"
                                     corresp="https://betamasaheft.eu/team.html#{$resp}">
                                     <resp>contributor</resp>
-                                    <name>{$expand:editorslist//t:item[@xml:id = $resp]/text()}</name>
+                                    <name>{$expand:editorslist//t:item[@xml:id = string($resp)]/text()}</name>
                                 </respStmt>
                         }
                     </titleStmt>
@@ -284,7 +284,7 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
                     }
            case element(t:change)
             return
-            <change xmlns="http://www.tei-c.org/ns/1.0" who="#{$node/@who}" when="{$node/@when}">{let $resp := $node/@who return $expand:editorslist//t:item[@xml:id = $resp]/text()}: {$node/text()}</change>
+            <change xmlns="http://www.tei-c.org/ns/1.0" who="#{$node/@who}" when="{$node/@when}">{let $resp := $node/@who return $expand:editorslist//t:item[@xml:id = string($resp)]/text()}: {$node/text()}</change>
             case element(t:profileDesc)
                 return
                     element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
@@ -392,13 +392,16 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
             case element(t:editor)
                 return
                     let $k := $node/@key
+                    
                     return
                         element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
-                            ($node/@*,
+                            (
+                            $node/@*,
                             attribute corresp {concat('https://betamasaheft.eu/team.html#', $k)},
                             attribute {'xml:id'} {$k},
-                            $expand:editorslist//t:item[@xml:id = $k]/text(),
-                            expand:tei2fulltei($node/node(), $bibliography))
+                            $expand:editorslist//t:item[@xml:id = string($k)]/text(),
+                            expand:tei2fulltei($node/node(), $bibliography)
+                            )
                         }
             case element(t:bibl)
                 return
@@ -671,7 +674,7 @@ declare function expand:attributes($node, $bibliography) {
     element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
         ($node/@*[not(name() = 'corresp')][not(name() = 'resp')][not(name() = 'who')][not(name() = 'ref')][not(name() = 'sameAs')][not(name() = 'calendar')],
         if ($node/@corresp) then
-            attribute corresp {$expand:BMurl || string($node/@corresp)}
+            attribute corresp {$expand:BMurl || (if(starts-with($node/@corresp, '#')) then string($node/ancestor::t:TEI/@xml:id) || string($node/@corresp) else string($node/@corresp))}
         else
             (),
         if ($node/@calendar) then
