@@ -7,7 +7,7 @@ declare namespace rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 import module namespace updatefuseki = 'https://www.betamasaheft.uni-hamburg.de/BetMas/updatefuseki' at "xmldb:exist:///db/apps/BetMas/fuseki/updateFuseki.xqm";
 declare variable $local:data2rdf := 'xmldb:exist:///db/apps/BetMas/rdfxslt/data2rdf.xsl';
 
-let $collections2RDF := ((:'authority-files', 'institutions', 'narratives', :)'works', 'manuscripts', 'places', 'persons')
+let $collections2RDF := ('authority-files', 'institutions', 'narratives', 'works', 'manuscripts', 'places', 'persons')
 for $collection in $collections2RDF
 let $collection-uri := '/db/apps/BetMasData/' || $collection
 let $context := collection($collection-uri)//t:TEI
@@ -49,7 +49,7 @@ else
                         else
                             'authority-files'
 let $storecoll := concat('/db/rdf/', $shortCollName)
-let $storeRDFXML := xmldb:store($storecoll, $rdffilename, $rdf)
+let $storeRDFXML := try{xmldb:store($storecoll, $rdffilename, $rdf)} catch * {util:log('info', $rdffilename),util:log('info', $err:description)}
 (:retrieve the RDF/XML as stored, and send it to update Apache Jena Fuseki and the triplestore:)
 let $rdfxml := doc($storecoll || '/' || $rdffilename)
 let $updateFuseki := try{updatefuseki:update($rdfxml, 'INSERT')} catch * {util:log('info', $err:description)}
