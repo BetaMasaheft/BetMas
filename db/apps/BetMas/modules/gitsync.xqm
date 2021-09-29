@@ -93,6 +93,7 @@ declare function gitsync:updateinstitutionsADD($file-name){
     let $id := substring-before($file-name, '.xml')
 (:  This will inevitably cause the order in that list to be broken :)
     let $update :=  update insert <item 
+    xml:id="{$id}"
     xmlns="http://www.tei-c.org/ns/1.0"
     change="entryAddedAt{current-dateTime()}"
      >{titles:printTitleMainID($id)}</item> into  $institutionslist
