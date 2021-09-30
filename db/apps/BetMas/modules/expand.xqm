@@ -243,7 +243,11 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
                         taking advantage of the <ref target="https://betamasaheft.eu">exist-db database instance</ref> where 
                         the data is stored and of the many external resources to which this data points to.</p>,
                         $expand:listPrefixDef,
-                        $expand:canontax
+                        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="xmldb:exist:///db/apps/lists/canonicaltaxonomy.xml">
+            <xi:fallback>
+               <p>Definitions of prefixes used.</p>
+            </xi:fallback>
+         </xi:include>
                     }
             case element(t:relation)
                 return
