@@ -114,17 +114,16 @@ declare function charts:pieAttestations($itemid, $name){
 
           var options = {
             title: 'percentual breakdown of " || count($attestations) ||" attested forms',
-            is3D: true,
           };
 
-          var chart = new google.visualization.PieChart(document.getElementById('piechart_3d"||$itemid||"'));
+          var chart = new google.visualization.PieChart(document.getElementById('piechart"||$itemid||"'));
           chart.draw(data, options);
         }"
 
         }
 
       </script>,
-      <div id="piechart_3d{$itemid}" style="width: 100%; height: 500px;"/>
+      <div id="piechart{$itemid}" style="width: 100%; height: 500px;"/>
       )
 };
 
@@ -231,17 +230,16 @@ let $collations := '[["Composition","Quantity"],' ||string-join($percents, ', ')
 
         var options = {
           title: 'Quires Distribution for the "||$numberQuiresIns||" codicological units in this selection which have a collation with quire descriptions',
-          is3D: true,
         };
 
-        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
         chart.draw(data, options);
       }"
 
       }
 
     </script>,
-    <div id="piechart_3d" class="w3-half"
+    <div id="piechart" class="w3-half"
      style="height: 500px;"/>
     )
     )
@@ -766,7 +764,6 @@ let $patts := '[["Ruling Pattern","Quantity"],' ||string-join($data, ', ') || ']
 
         var options = {
           title: 'Diversity of Ruling Pattern on "||$countRulPat||" manuscripts, based on ANALYSE DES RÉGLURES by D. MUZERELLE.',
-          is3D: true,
         };
 
         var chart = new google.visualization.PieChart(document.getElementById('piechart_ruling'));
