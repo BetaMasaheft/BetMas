@@ -155,7 +155,7 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
-
+    <xsl:variable name="editors" select="doc('https://raw.githubusercontent.com/BetaMasaheft/BetMas/master/db/apps/lists/editors.xml')"/>
     <xsl:template match="t:TEI">
         <rdf:RDF>
             <xsl:variable name="mainID" select="@xml:id"/>
@@ -271,7 +271,7 @@
                         </xsl:with-param>
                     </xsl:apply-templates>
                 </xsl:if>
-                <xsl:if test="@type = 'work'">
+                <xsl:if test="@type = 'work' or @type = 'studies'">
                     <xsl:apply-templates select="//t:listBibl[@type = 'clavis']"/>
                     <xsl:apply-templates select="//t:titleStmt/t:title">
                         <xsl:with-param name="mainID">
@@ -418,7 +418,6 @@
                     <xsl:with-param name="passage">
                         <xsl:if test="ancestor::t:ab">
                             <xsl:if test="ancestor::t:*[@n][1]/ancestor::t:*[@n][name() != 'lb'][1]">
-                                
                                 <xsl:value-of select="string(ancestor::t:*[@n][name() != 'lb'][1]/ancestor::t:*[@n][name() != 'lb'][1]/@n)"/>
                                 <xsl:text>.</xsl:text>
                             </xsl:if>
@@ -1455,7 +1454,7 @@
             <oa:annotatedAt rdf:datatype="http://www.w3.org/2001/XMLSchema#date">
                 <xsl:value-of select="current-date()"/>
             </oa:annotatedAt>
-            <xsl:if test="$passage != ' ' and $citation != ''">
+            <xsl:if test="($passage != ' ' and $citation != '') and matches($passage,'[\w\d]+')">
                 <lawd:hasAttestation>
                     <xsl:attribute name="rdf:resource">
                         <xsl:value-of select="concat('https://betamasaheft.eu/api/dts/document?id=https://betamasaheft.eu/',$mainID,':',$passage)"/>
@@ -1493,7 +1492,7 @@
             <oa:annotatedAt rdf:datatype="http://www.w3.org/2001/XMLSchema#date">
                 <xsl:value-of select="current-date()"/>
             </oa:annotatedAt>
-            <xsl:if test="$passage != ' ' and $citation != ''">
+            <xsl:if test="($passage != ' ' and $citation != '') and matches($passage,'[\w\d]+')">
                 <lawd:hasAttestation>
                     <xsl:attribute name="rdf:resource">
                         <xsl:value-of select="concat('https://betamasaheft.eu/api/dts/document?id=https://betamasaheft.eu/',$mainID,':',$passage)"/>
@@ -1554,8 +1553,8 @@
     <xsl:template name="editorKey">
         <xsl:param name="k"/>
         <xsl:choose>
-            <xsl:when test="doc('xmldb:exist:///db/apps/BetMas/lists/editors.xml')//t:item[@xml:id=$k]">
-                <xsl:value-of select="doc('xmldb:exist:///db/apps/BetMas/lists/editors.xml')//t:item[@xml:id=$k]/text()"/>
+            <xsl:when test="$editors//t:item[@xml:id=$k]">
+                <xsl:value-of select="$editors//t:item[@xml:id=$k]/text()"/>
             </xsl:when>
             <xsl:when test="$k = 'AB'">Alessandro Bausi</xsl:when>
             <xsl:when test="$k = 'ES'">Eugenia Sokolinski</xsl:when>
@@ -1594,6 +1593,7 @@
             <xsl:when test="$k = 'AG'">Alessandro Gori</xsl:when>
             <xsl:when test="$k = 'JK'">Jonas Karlsson</xsl:when>
             <xsl:when test="$k = 'EDS'">Eliana Dal Sasso</xsl:when>
+            <xsl:when test="$k = 'GC'">Giulia Casella</xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="."/>
             </xsl:otherwise>
