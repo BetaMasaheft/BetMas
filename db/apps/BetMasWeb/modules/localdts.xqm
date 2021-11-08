@@ -12,15 +12,15 @@ declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace t="http://www.tei-c.org/ns/1.0";
 declare option output:method "json";
 
-import module namespace dts = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/dts" at "xmldb:exist:///db/apps/BetMasWeb/modules/dts.xqm";
+import module namespace dts = "https://www.betamasaheft.uni-hamburg.de/BetMas/dts" at "xmldb:exist:///db/apps/BetMasApi/specifications/dts.xqm";
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
 import module namespace console="http://exist-db.org/xquery/console";
 
 declare function localdts:Collection($id as xs:string*, $page as xs:integer*, $nav as xs:string*) as map(*) {
-    if (matches($id, '(https://betamasaheft.eu/)?(textualunits/|narrativeunits/|transcriptions/)?([a-zA-Z\d]+)?(:)?(((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?(\-)?((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?)')) then
+    if (matches($id, '(https://betamasaheft.eu/)?(textualunits/|narrativeunits/|transcriptions/|studies/)?([a-zA-Z\d]+)?(:)?(((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?(\-)?((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?)')) then
             let $parsedURN := dts:parseDTS($id)
             return
-                if (matches($parsedURN//s:group[@nr = 2], '(textualunits|narrativeunits|transcriptions)'))
+                if (matches($parsedURN//s:group[@nr = 2], '(textualunits|narrativeunits|transcriptions|studies)'))
                 then
                     (localdts:Coll($id, $page, $nav, ''))
                 else
@@ -38,13 +38,15 @@ declare function localdts:Collection($id as xs:string*, $page as xs:integer*, $n
 };
 
 declare function localdts:Coll($id, $page, $nav, $version) {
-let $availableCollectionIDs := ('https://betamasaheft.eu', 'https://betamasaheft.eu/textualunits', 'https://betamasaheft.eu/narrativeunits', 'https://betamasaheft.eu/transcriptions')
+let $availableCollectionIDs := ('https://betamasaheft.eu', 'https://betamasaheft.eu/textualunits', 'https://betamasaheft.eu/narrativeunits', 'https://betamasaheft.eu/transcriptions','https://betamasaheft.eu/studies')
 let $ms := $dts:collection-rootMS//t:div[@type eq 'edition'][descendant::t:ab[text()]]
 let $w := $dts:collection-rootW//t:div[@type eq 'edition'][descendant::t:ab[text()]]
 let $n := $dts:collection-rootN
+let $s := $dts:collection-rootS
   let $countMS := count($ms)
   let $countW := count($w)
   let $countN := count($n)
+  let $countS := count($s)
     return
        (
  if($id = $availableCollectionIDs) then (
@@ -55,6 +57,8 @@ dts:mainColl($id, $countW, $w, $page, $nav)
 dts:mainColl($id, $countN, $n, $page, $nav)
 case 'https://betamasaheft.eu/transcriptions' return
 dts:mainColl($id, $countMS, $ms, $page, $nav)
+case 'https://betamasaheft.eu/studies' return
+dts:mainColl($id, $countS, $ms, $page, $nav)
 default return
 map {
     "@context": $dts:context,
@@ -82,9 +86,16 @@ map {
         map{
              "@id" : "https://betamasaheft.eu/transcriptions",
              "title" : "Beta maṣāḥǝft Manuscripts",
-             "description": "Collection of Ethiopic Manuscript trasncriptions",
+             "description": "Collection of Ethiopic Manuscript transcriptions",
              "@type" : "Collection",
              "totalItems" : $countMS
+        },
+        map{
+             "@id" : "https://betamasaheft.eu/studies",
+             "title" : "Beta maṣāḥǝft Studies",
+             "description": "Collection of Studies on Ethiopic Manuscript tradition",
+             "@type" : "Collection",
+             "totalItems" : $countS
         }
     ]
 })
@@ -106,7 +117,6 @@ let $eds := if($edition/node()) then
                     else ($doc//t:div[@type eq 'edition'], $doc//t:div[@type eq 'translation'])
 return
 if(count($doc) eq 1) then (
-(:let $t := console:log($id):)
 let $memberInfo := dts:member($bmID,$edition,$eds, $version)
 let $addcontext := map:put($memberInfo, "@context", $dts:context)
 let $addnav := if($nav = 'parent') then 
@@ -114,7 +124,7 @@ let $parent :=if($doc/@type eq 'mss') then
         map{
              "@id" : "https://betamasaheft.eu/transcriptions",
              "title" : "Beta maṣāḥǝft Manuscripts",
-             "description": "Collection of Ethiopic Manuscript trasncriptions",
+             "description": "Collection of Ethiopic Manuscript transcriptions",
              "@type" : "Collection",
              "totalItems" : count(collection($config:data-rootMS)//t:div[@type eq 'edition'][descendant::t:ab[text()]])
         }
@@ -125,6 +135,14 @@ let $parent :=if($doc/@type eq 'mss') then
              "description": "Collection of narrative units of the Ethiopic tradition",
              "@type" : "Collection",
              "totalItems" : count(collection($config:data-rootN)//t:div[@type eq 'edition'][descendant::t:ab[text()]])
+        }
+         else if($doc/@type eq 'studies') then 
+        map{
+             "@id" : "https://betamasaheft.eu/narrativeunits",
+             "title" : "Beta maṣāḥǝft Manuscripts",
+             "description": "Collection of Studies on the Ethiopic manuscript tradition",
+             "@type" : "Collection",
+             "totalItems" : count(collection($config:data-rootS)//t:div[@type eq 'edition'][descendant::t:ab[text()]])
         }
         else map {
              "@id" : "https://betamasaheft.eu/textualunits",

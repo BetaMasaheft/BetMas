@@ -135,7 +135,7 @@ declare function local:switchPrefix($prefix) {
         case 'AT'
             return
                 'authority-files'
-        case 'STU'
+        case 'ST'
             return
                 'studies'
         default return
