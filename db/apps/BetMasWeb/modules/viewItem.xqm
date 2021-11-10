@@ -3229,12 +3229,14 @@ declare %private function viewItem:space($node as element(t:space)) {
 };
 
 declare %private function viewItem:choice($node as element(t:choice)) {
+let $id := generate-id($node)
+return
     if ($node[t:sic and t:corr]) then
         (<b>
             <a
                 data-value="{$node/t:corr/@resp}"
                 class="w3-tooltip ChoiceResp"
-                id="{generate-id($node)}">
+                id="{$id}">
                 {$node/t:corr}
             </a>
         </b>,
@@ -3476,10 +3478,7 @@ e.g. LIT2170Peripl :)
         THIS IS NOT DONE YET!
         :)
         <span
-            class="imageLink"
-            data-manifest="{$manifest}"
-            data-location="{$location}"
-            data-canvas="{$node/@facs}"/>
+            class="imageLink"/>
         )
 };
 
@@ -3534,56 +3533,38 @@ declare %private function viewItem:lem($node as element(t:lem)) {
     let $resp := $node/@resp
     let $listWit := $node/ancestor::t:TEI//t:listWit
     return
-        (
-        viewItem:TEI2HTML($node/node()[not(self::t:app)]),
-        ' ',
-        if (contains($node/@wit, ' ')) then
-            (for $w in tokenize($node/@wit, ' ')
-            let $trimmedid := substring-after($w, '#')
-            let $witness := $listWit//t:witness[@xml:id = $trimmedid]/@corresp
-            return
-                <span
-                    class="w3-tooltip">{$trimmedid}</span>)
-        else
-            <span
-                data-resp="{$resp}"
-                class="w3-tooltip RdgRespMs">
-                {substring-after($node/@wit, '#')}
-            </span>,
-        ' '
-        )
-
+    (
+    viewItem:TEI2HTML($node/node()[not(self::t:app)]),
+    ' ',
+     if(contains($node/@wit, ' ')) then (for $w in tokenize($node/@wit, ' ') 
+     let $trimmedid := substring-after($w,'#') 
+     let $witness := $listWit//t:witness[@xml:id=$trimmedid]/@corresp
+     return <span class="w3-tooltip">{$trimmedid}</span>) else 
+     <span data-resp="{$resp}" class="w3-tooltip RdgRespMs">
+                   {substring-after($node/@wit,'#')}
+                </span>,
+    ' '
+    )
+    
 };
 
 
 declare %private function viewItem:rdg($node as element(t:rdg)) {
-    let $resp := $node/@resp
-    return
-        (<b
-            lang="{$node/@xml:lang}">
-            {
-                if (contains($node/@wit, ' ')) then
-                    (for $w in tokenize($node/@wit, ' ')
-                    let $trimmedid := substring-after($w, '#')
-                    return
-                        <span
-                            class="w3-tooltip">{$trimmedid}</span>)
-                else
-                    <span
-                        data-resp="{$resp}"
-                        class="w3-tooltip RdgResp">
-                        {substring-after($node/@wit, '#')}
-                    </span>
-            }
+   let $resp := $node/@resp
+   return 
+ (  <b lang="{$node/@xml:lang}">
+  { if(contains($node/@wit, ' ')) then (for $w in tokenize($node/@wit, ' ') 
+     let $trimmedid := substring-after($w,'#') 
+     return <span class="w3-tooltip">{$trimmedid}</span>) else 
+     <span data-resp="{$resp}" class="w3-tooltip RdgResp">
+                   {substring-after($node/@wit,'#')}
+                </span>}
         </b>,
-        ' ',
-        if ($node/@xml:lang) then
-            (
-            ' Cfr. ' || $node/@xml:lang)
-        else
-            ()
-        , viewItem:TEI2HTML($node)
-        )
+        ' ', 
+        if($node/@xml:lang) then (
+            ' Cfr. ' || $node/@xml:lang) else ()
+    , viewItem:TEI2HTML($node)
+    )
 };
 
 (:refactoring structures found in divEdition.xsl:)
@@ -3739,16 +3720,16 @@ declare %private function viewItem:titletemplate($div, $text) {
             <i>
                 {viewItem:TEI2HTML($div/t:label)}
                 {
-                    if ($node/parent::t:div[@type = 'edition']/@resp)
+                    if ($div/parent::t:div[@type = 'edition']/@resp)
                     then
-                        let $r := parent::t:div[@type = 'edition']/@resp
+                        let $r := $div/parent::t:div[@type = 'edition']/@resp
                         return
                             ('Edition by ',
                             if (starts-with($r, '#'))
                             then
                                 (
                                 let $bmbiblid := substring-after($r, '#')
-                                let $bibl := $node/ancestor::t:TEI//t:bibl[@xml:id = $bmbiblid]
+                                let $bibl := $div/ancestor::t:TEI//t:bibl[@xml:id = $bmbiblid]
                                 let $t := string($bibl/t:ptr/@target)
                                 return
                                     $viewItem:bibliography//b:entry[@id = $t]/b:reference/node())
@@ -3757,16 +3738,16 @@ declare %private function viewItem:titletemplate($div, $text) {
                             )
                     else
                         (
-                        viewItem:editorName($r)
+                        viewItem:editorName($div/parent::t:div[@type = 'edition']/@resp)
                         )
                 }
                 {
-                    if ($node/@subtype) then
+                    if ($div/@subtype) then
                         (
-                        string($node/@subtype),
-                        if ($node/@n) then
+                        string($div/@subtype),
+                        if ($div/@n) then
                             (': ',
-                            string($node/@n)
+                            string($div/@n)
                             )
                         else
                             (),
@@ -3776,22 +3757,22 @@ declare %private function viewItem:titletemplate($div, $text) {
                         ()
                 }
                 {
-                    if ($node/@corresp) then
+                    if ($div/@corresp) then
                         (' (',
-                        (if (starts-with($node/@subtype, '#')) then
-                            (let $id := substring-after($node/@subtype, '#')
-                            let $match := $node/ancestor::t:TEI//t:*[@xml:id = $id]
+                        (if (starts-with($div/@subtype, '#')) then
+                            (let $id := substring-after($div/@subtype, '#')
+                            let $match := $div/ancestor::t:TEI//t:*[@xml:id = $id]
                             return
                                 (viewItem:TEI2HTML($match/t:title),
                                 <a
-                                    href="{$node/@corresp}">{$id}</a>
+                                    href="{$div/@corresp}">{$id}</a>
                                 )
                             )
                         else
                             (
                             <a
-                                href="/{$node/@corresp}">
-                                {exptit:printTitle($node/@corresp)}
+                                href="/{$div/@corresp}">
+                                {exptit:printTitle($div/@corresp)}
                                 <span
                                     class="glyphicon glyphicon-share"/>
                             </a>
@@ -3804,7 +3785,7 @@ declare %private function viewItem:titletemplate($div, $text) {
                         ()
                 }
                 {
-                    if ($node/@corresp and $node/ancestor::t:TEI/@type = 'work')
+                    if ($div/@corresp and $div/ancestor::t:TEI/@type = 'work')
                     
                     then
                         <span
@@ -3812,7 +3793,7 @@ declare %private function viewItem:titletemplate($div, $text) {
                             <a
                                 class="parallelversion w3-red"
                                 data-textid="{$text}"
-                                data-unit="{$node/@corresp}">
+                                data-unit="{$div/@corresp}">
                                 Versions
                             </a>
                             <span
@@ -3825,7 +3806,7 @@ declare %private function viewItem:titletemplate($div, $text) {
             </i>
         </div>
         {
-            if ($node/t:ab[descendant::text()]) then
+            if ($div/t:ab[descendant::text()]) then
                 (<div
                     class="ugaritcontrols w3-tooltip w3-bar-item w3-button w3-padding-small w3-gray w3-right">
                     <a
@@ -3838,13 +3819,13 @@ declare %private function viewItem:titletemplate($div, $text) {
                             href="https://github.com/BetaMasaheft/alpheiosannotations">instructions in GitHub</a>. </span>
                 </div>
                 ,
-                if ($node/@corresp) then
+                if ($div/@corresp) then
                     <div
                         class="parallelversions w3-tooltip w3-bar-item w3-button w3-padding-small w3-gray w3-right">
                         <a
                             class="parallelversion  w3-small"
                             data-textid="{$text}"
-                            data-unit="{$node/@corresp}">
+                            data-unit="{$div/@corresp}">
                             Versions
                         </a>
                         <span
@@ -3855,10 +3836,10 @@ declare %private function viewItem:titletemplate($div, $text) {
                 <div
                     class="quotations w3-tooltip w3-bar-item w3-button w3-padding-small w3-gray w3-right">
                     <a
-                        id="quotations{@n}"
+                        id="quotations{$div/@n}"
                         class="quotations  w3-small"
                         data-textid="{$text}"
-                        data-unit="{@n}">
+                        data-unit="{$div/@n}">
                         Quotations
                     </a>
                     <span
@@ -3911,7 +3892,7 @@ declare %private function viewItem:applisting($app, $p) {
                 ()
         }
         {
-            if ($p = $tot) then
+            if ($p = count($app/parent::t:*/t:app)) then
                 ' | '
             else
                 ()
