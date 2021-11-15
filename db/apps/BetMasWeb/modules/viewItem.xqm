@@ -3402,7 +3402,7 @@ declare %private function viewItem:gap($node as element(t:gap)) {
                     ()
             }
             {
-                if (@reason = 'illegible') then
+                if ($node/@reason = 'illegible') then
                     (
                     if ($node/@quantity) then
                         (for $q in 1 to $quantity
@@ -3417,13 +3417,13 @@ declare %private function viewItem:gap($node as element(t:gap)) {
                             ('[...]')
                     )
                 else
-                    if (@reason = 'omitted') then
+                    if ($node/@reason = 'omitted') then
                         ('. . . . .')
                     else
-                        if (@reason = 'lost') then
+                        if ($node/@reason = 'lost') then
                             ('[ - ca. ', $quantity, ' ', string($node/@unit), ' - ]')
                         else
-                            if (@reason = 'ellipsis') then
+                            if ($node/@reason = 'ellipsis') then
                                 ('(…)')
                             else
                                 ()
@@ -3519,14 +3519,39 @@ declare %private function viewItem:l($node as element(t:l)) {
 
 
 declare %private function viewItem:app($node as element(t:app)) {
-    viewItem:TEI2HTML($node/t:lem),
+if($node/parent::t:lem) then () else (
+    viewItem:TEI2HTML($node/t:lem/node()),
     <sup
         id="{$node/ancestor::t:div[@type = 'textpart'][1]/@n}appNote{$node/position()}">
         <a
             href="#{$node/ancestor::t:div[@type = 'textpart'][1]/@n}appPointer{$node/position()}">
             {count($node/preceding-sibling::t:app) + 1}
         </a>
-    </sup>
+    </sup>,
+    ' ')
+};
+
+declare %private function viewItem:wit ($node) {
+let $listWit := $node/ancestor::t:TEI//t:listWit
+for $w in viewItem:makeSequence($node/@wit)
+            let $trimmedid := substring-after($w, '#')
+            let $witness := $listWit//t:witness[@xml:id = $trimmedid]
+            return
+                <span>
+                     {
+                    if ($node/@resp) then
+                        (attribute data-resp {string($node/@resp)},
+                        attribute class {'w3-tooltip RdgRespMs'})
+                    else
+                        (attribute class {'w3-tooltip'})
+                }
+                    {$trimmedid}
+                    <span
+                        class="w3-text">{
+                            <a
+                                href="{string($witness/@corresp)}">{$witness/t:idno/text()}</a>
+                        }</span>
+                </span>
 };
 
 declare %private function viewItem:lem($node as element(t:lem)) {
@@ -3534,15 +3559,9 @@ declare %private function viewItem:lem($node as element(t:lem)) {
     let $listWit := $node/ancestor::t:TEI//t:listWit
     return
     (
-    viewItem:TEI2HTML($node/node()[not(self::t:app)]),
+    viewItem:TEI2HTML($node/node()),
     ' ',
-     if(contains($node/@wit, ' ')) then (for $w in tokenize($node/@wit, ' ') 
-     let $trimmedid := substring-after($w,'#') 
-     let $witness := $listWit//t:witness[@xml:id=$trimmedid]/@corresp
-     return <span class="w3-tooltip">{$trimmedid}</span>) else 
-     <span data-resp="{$resp}" class="w3-tooltip RdgRespMs">
-                   {substring-after($node/@wit,'#')}
-                </span>,
+    viewItem:wit($node),
     ' '
     )
     
@@ -3552,18 +3571,17 @@ declare %private function viewItem:lem($node as element(t:lem)) {
 declare %private function viewItem:rdg($node as element(t:rdg)) {
    let $resp := $node/@resp
    return 
- (  <b lang="{$node/@xml:lang}">
-  { if(contains($node/@wit, ' ')) then (for $w in tokenize($node/@wit, ' ') 
-     let $trimmedid := substring-after($w,'#') 
-     return <span class="w3-tooltip">{$trimmedid}</span>) else 
-     <span data-resp="{$resp}" class="w3-tooltip RdgResp">
-                   {substring-after($node/@wit,'#')}
-                </span>}
+ (  <b>
+  { if ($node/@xml:lang) then
+                    attribute lang {$node/@xml:lang}
+                else
+                    () }
+  {viewItem:wit($node)}
         </b>,
         ' ', 
         if($node/@xml:lang) then (
-            ' Cfr. ' || $node/@xml:lang) else ()
-    , viewItem:TEI2HTML($node)
+            ' Cfr. ' || string($node/@xml:lang)) else ()
+    , viewItem:TEI2HTML($node/node())
     )
 };
 
@@ -3587,28 +3605,14 @@ declare %private function viewItem:div($node as element(t:div)) {
                         ()
                     )
             }
-            <xsl:for-each
-                select="t:app">
-                <xsl:sort
-                    select="position()"/>
-                <a
-                    href="{@from}">
-                    <xsl:value-of
-                        select=""/>
-                </a>
-                <xsl:apply-templates/>
-                <xsl:if
-                    test="not(position() = last())">
-                    <xsl:text> | </xsl:text>
-                </xsl:if>
-            </xsl:for-each>
+           
         </div>
     else
         if ($node[parent::t:body][not(@type = 'apparatus')])
         then
             (<div
                 class="w3-row"
-                id="{@type}">
+                id="{$node/@type}">
                 {
                     if ($node/@xml:id = 'Transkribus') then
                         attribute style {'color:gray;'}
@@ -3671,7 +3675,7 @@ declare %private function viewItem:div($node as element(t:div)) {
                                 <div
                                     id="{$node/@xml:id}">
                                     {
-                                        if ($node/t:ab//t:abb) then
+                                        if ($node/t:ab//t:app) then
                                             attribute class {'w3-twothird w3-padding chapterText'}
                                         else
                                             attribute class {'w3-container w3-padding chapterText'}
@@ -3868,35 +3872,15 @@ declare %private function viewItem:titletemplate($div, $text) {
 
 declare %private function viewItem:applisting($app, $p) {
     <span
-        id="{$app/ancestor::t:div[@type = 'textpart'][1]/@n}appPointer{$p}">
+        id="{string($app/ancestor::t:div[@type = 'textpart'][1]/@n)}appPointer{$p}">
         <a
-            href="#{$app/ancestor::t:div[@type = 'textpart'][1]/@n}appnote{$p}">
+            href="#{string($app/ancestor::t:div[@type = 'textpart'][1]/@n)}appnote{$p}">
             {count($app/preceding-sibling::t:app) + 1}
-        </a>)
-        {
-            if (count($app/t:lem/node()) ge 1) then
-                (viewItem:TEI2HTML($app/t:lem), ': ')
-            else
-                ()
-        }
-        {
-            if (count($app/t:rdg/node()) ge 1) then
-                (viewItem:TEI2HTML($app/t:rdg), '. ')
-            else
-                ()
-        }
-        {
-            if (count($app/t:note/node()) ge 1) then
-                viewItem:TEI2HTML($app/t:note)
-            else
-                ()
-        }
-        {
-            if ($p = count($app/parent::t:*/t:app)) then
-                ' | '
-            else
-                ()
-        }
+        </a>{')'}
+        {viewItem:TEI2HTML($app/t:lem)}:
+        {for $r in $app/*:rdg return try{viewItem:rdg($r)} catch * {$err:description}}
+        {viewItem:TEI2HTML($app/t:note)}
+        {if($p = (count($app/preceding-sibling::t:app)+1)) then () else ' | '}
     </span>
 };
 
@@ -3926,7 +3910,7 @@ declare %private function viewItem:DTSpartID($node) {
 
 (:  as element(t:handDesc):)
 
-declare %private function viewItem:TEI2HTML($nodes) {
+declare function viewItem:TEI2HTML($nodes) {
     for $node in $nodes
     return
         typeswitch ($node)
@@ -5585,7 +5569,8 @@ declare function viewItem:textfragment($frag) {
 };
 
 declare %private function viewItem:editorName($ref) {
-    $viewItem:editors//t:item[@xml:id = $ref]/text()
+if(string-length($ref) != 2 ) then () else (
+   try{ if($viewItem:editors//t:item[@xml:id = $ref]) then $viewItem:editors//t:item[@xml:id = $ref]/text() else string($ref)} catch * {util:log('info', concat('failed parsing with viewItem:editorName ', $ref ))})
 };
 
 declare function viewItem:textfragmentbibl($this, $id) {
