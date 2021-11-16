@@ -3149,7 +3149,10 @@ declare %private function viewItem:label($node as element(t:label)) {
 
 
 declare %private function viewItem:lb($node as element(t:lb)) {
-    if ($node/parent::t:ab)
+ if ($node/parent::t:p)
+    then  
+     <sup class="w3-tiny" id="{viewItem:DTSpartID($node)}">{$node/@n}</sup>
+  if ($node/parent::t:ab)
     then
         (if ($node/@break) then
             '|'
@@ -3884,6 +3887,13 @@ declare %private function viewItem:applisting($app, $p) {
     </span>
 };
 
+declare %private function viewItem:p($node as element(t:p)){
+if(count($node/t:lb) ge 1) then
+<div class="w3-container">{viewItem:TEI2HTML($node/node())}</div>
+else 
+<p>{viewItem:TEI2HTML($node/node())}</p>
+};
+
 declare %private function viewItem:DTSpartID($node) {
     if (count($node//t:cb) ge 1)
     then
@@ -4117,7 +4127,7 @@ declare function viewItem:TEI2HTML($nodes) {
                     viewItem:origplace($node)
             case element(t:p)
                 return
-                    <p>{viewItem:TEI2HTML($node/node())}</p>
+                    viewItem:p($node)
             case element(t:pb)
                 return
                     viewItem:pb($node)
@@ -5465,6 +5475,8 @@ declare function viewItem:dates($date) {
 
 
 declare function viewItem:textfragment($frag) {
+let $test := util:log('info', 'got to the textfragment' )
+return
     <div>
         <div
             id="transcription">
