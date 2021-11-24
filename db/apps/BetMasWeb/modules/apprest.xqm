@@ -37,7 +37,7 @@ declare variable $apprest:collection-rootIn := collection($config:data-rootIn);
 declare variable $apprest:collection-rootPlIn := collection($config:data-rootPl,$config:data-rootIn);
 declare variable $apprest:collection-root := $exptit:col;
 
-declare function functx:trim( $arg as xs:string? )  as xs:string {
+declare function apprest:trim( $arg as xs:string? )  as xs:string {
 
    replace(replace($arg,'\s+$',''),'^\s+','')
  } ;
@@ -978,7 +978,7 @@ let $hits := for $item in $results
                               order by $sorting
                              return
                                        $item
-let $test2 := console:log($context) 
+(:let $test2 := console:log($context) :)
  return
             map {
                       'hits' : $hits,
@@ -1467,7 +1467,7 @@ then (
   for $i in $path return
     if (contains($i, ' ')) then tokenize($i, ' ')
     else if ($i=' ' or $i='' ) then ()
-    else functx:trim(normalize-space($i))
+    else apprest:trim(normalize-space($i))
                     let $nodes := config:distinct-values($values)
 
                     return <div class="w3-container">
@@ -1571,7 +1571,7 @@ declare function apprest:newselectors($nodeName, $path, $nodes, $type, $context)
             
             else if ($type = 'sex')
                      then (for $n in $nodes[. != ''][. != ' ']
-                        let $key := replace(functx:trim($n), '_', ' ')
+                        let $key := replace(apprest:trim($n), '_', ' ')
                          order by $n
                          return
                              <option value="{string($key)}">{switch($key) case '1' return 'Male' default return 'Female'}</option>
@@ -1579,7 +1579,7 @@ declare function apprest:newselectors($nodeName, $path, $nodes, $type, $context)
             else(
             (: type is values :)
             for $n in $nodes[. != ''][. != ' ']
-                let $thiskey := replace(functx:trim($n), '_', ' ')
+                let $thiskey := replace(apprest:trim($n), '_', ' ')
                 let $title := if($nodeName = 'keyword' or $nodeName = "placetype"or $nodeName = "country"or $nodeName = "settlement") then exptit:printTitleID($thiskey) 
                                         else if ($nodeName = 'language') then $app:languages//t:item[@xml:id eq $thiskey]/text()
                                         else $thiskey

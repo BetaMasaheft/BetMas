@@ -4,7 +4,7 @@ module namespace q = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/queries"
 import module namespace all = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/all" at "xmldb:exist:///db/apps/BetMasWeb/modules/all.xqm";
 import module namespace templates = "http://exist-db.org/xquery/templates";
 import module namespace editors = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/editors" at "xmldb:exist:///db/apps/BetMasWeb/modules/editors.xqm";
-import module namespace exptit="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/exptit" at "xmldb:exist:///db/apps/BetMasWeb/modules/exptit.xqm";
+import module namespace exptit = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/exptit" at "xmldb:exist:///db/apps/BetMasWeb/modules/exptit.xqm";
 import module namespace item2 = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/item2" at "xmldb:exist:///db/apps/BetMasWeb/modules/item.xqm";
 import module namespace console = "http://exist-db.org/xquery/console";
 import module namespace functx = "http://www.functx.com";
@@ -15,7 +15,7 @@ import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMa
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
 import module namespace apptable = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/apptable" at "xmldb:exist:///db/apps/BetMasWeb/modules/apptable.xqm";
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/string" at "xmldb:exist:///db/apps/BetMasWeb/modules/tei2string.xqm";
-import module namespace morpho="http://betamasaheft.eu/parser/morpho" at "xmldb:exist:///db/apps/parser/modules/morphoparser.xqm";
+import module namespace morpho = "http://betamasaheft.eu/parser/morpho" at "xmldb:exist:///db/apps/parser/modules/morphoparser.xqm";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace xconf = "http://exist-db.org/collection-config/1.0";
 declare namespace sr = "http://www.w3.org/2005/sparql-results#";
@@ -59,7 +59,7 @@ declare variable $q:allopts := map {
 declare variable $q:lists := collection('/db/apps/lists/');
 declare variable $q:languages := doc('/db/apps/lists/languages.xml');
 declare variable $q:tax := doc('/db/apps/lists/canonicaltaxonomy.xml');
-declare variable $q:range-lookup3 :=function-lookup(xs:QName("range:index-keys-for-field"), 3);
+declare variable $q:range-lookup3 := function-lookup(xs:QName("range:index-keys-for-field"), 3);
 declare variable $q:range-lookup :=
 (
 function-lookup(xs:QName("range:index-keys-for-field"), 4),
@@ -79,17 +79,56 @@ function-lookup(xs:QName("util:index-keys"), 4)
  :)
 
 declare function q:querytype($node as node(), $model as map(*)) {
-let $querytypeparam:= request:get-parameter('searchType', ())
-return
-    <select id="SType" name="searchType" class="w3-select">
-        <option value="text">{if($querytypeparam='' or $querytypeparam='text') then attribute selected {'selected'} else ()}Simple Text search (select here another type of search)</option>
-        <option value="bmid">{if($querytypeparam='bmid') then attribute selected {'selected'} else ()}Lookup Beta maṣāḥǝft ID</option>
-        <option value="clavis">{if($querytypeparam='clavis') then attribute selected {'selected'} else ()}Lookup Clavis Aethiopica Number</option>
-        <option  value="otherclavis">{if($querytypeparam='otherclavis') then attribute selected {'selected'} else ()}Lookup other Clavis ID</option>
-        <option value="fields">{if($querytypeparam='fields') then attribute selected {'selected'} else ()}Additional Fields</option>
-        <option  value="xpath">{if($querytypeparam='xpath') then attribute selected {'selected'} else ()}Xpath</option>
-        <option   value="list">{if($querytypeparam='list') then attribute selected {'selected'} else ()}list</option>
-        <!--
+    let $querytypeparam := request:get-parameter('searchType', ())
+    return
+        <select
+            id="SType"
+            name="searchType"
+            class="w3-select">
+            <option
+                value="text">{
+                    if ($querytypeparam = '' or $querytypeparam = 'text') then
+                        attribute selected {'selected'}
+                    else
+                        ()
+                }Simple Text search (select here another type of search)</option>
+            <option
+                value="bmid">{
+                    if ($querytypeparam = 'bmid') then
+                        attribute selected {'selected'}
+                    else
+                        ()
+                }Lookup Beta maṣāḥǝft ID</option>
+            <option
+                value="clavis">{
+                    if ($querytypeparam = 'clavis') then
+                        attribute selected {'selected'}
+                    else
+                        ()
+                }Lookup Clavis Aethiopica Number</option>
+            <option
+                value="otherclavis">{
+                    if ($querytypeparam = 'otherclavis') then
+                        attribute selected {'selected'}
+                    else
+                        ()
+                }Lookup other Clavis ID</option>
+            <option
+                value="fields">{
+                    if ($querytypeparam = 'fields') then
+                        attribute selected {'selected'}
+                    else
+                        ()
+                }Additional Fields</option>
+            <option
+                value="xpath">{
+                    if ($querytypeparam = 'xpath') then
+                        attribute selected {'selected'}
+                    else
+                        ()
+                }Xpath</option>
+            <!--  <option   value="list">{if($querytypeparam='list') then attribute selected {'selected'} else ()}list</option>-->
+            <!--
 split for each list or resource specific, it will show  a search box and a series of filters specific to the list type, 
 these will be the parameters and will be mixable with the facets. search without query will search all. each list as a specific context and specific filters
 
@@ -100,69 +139,151 @@ catalogues list
 shelf marks list
 advanced search
 -->
-        <option
-            value="sparql">{if($querytypeparam='sparql') then attribute selected {'selected'} else ()}SPARQL</option>
-    </select>
+            <option
+                value="sparql">{
+                    if ($querytypeparam = 'sparql') then
+                        attribute selected {'selected'}
+                    else
+                        ()
+                }SPARQL</option>
+        </select>
 };
 
 declare function q:textquerymode($node as node(), $model as map(*)) {
-let $textquerymodeparam:= request:get-parameter('mode', ())
-return
-    <select
-        name="mode"
-        class="w3-select"
-        style="padding:0px 0px;">
-        <option
-            value="none">{if($textquerymodeparam='' or $textquerymodeparam='none') then attribute selected {'selected'} else ()}default (no mode)</option>
-        <option
-            value="any">{if($textquerymodeparam='any') then attribute selected {'selected'} else ()}any</option>
-        <option
-            value="all">{if($textquerymodeparam='all') then attribute selected {'selected'} else ()}all</option>
-        <option
-            value="phrase">{if($textquerymodeparam='phrase') then attribute selected {'selected'} else ()}phrase</option>
-        <option
-            value="regex">{if($textquerymodeparam='regex') then attribute selected {'selected'} else ()}regex</option>
-        <option
-            value="wildcard">{if($textquerymodeparam='wildcard') then attribute selected {'selected'} else ()}wildcard</option>
-        <option
-            value="fuzzy">{if($textquerymodeparam='fuzzy') then attribute selected {'selected'} else ()}fuzzy</option>
-        <option
-            value="near-ordered">{if($textquerymodeparam='near-ordered') then attribute selected {'selected'} else ()}near-ordered</option>
-        <option
-            value="near-unordered">{if($textquerymodeparam='near-unordered') then attribute selected {'selected'} else ()}near-unordered</option>
-    </select>
+    
+    let $textquerymodeparam := request:get-parameter('mode', ())
+    return
+        <select
+            name="mode"
+            class="w3-select"
+            style="padding:0px 0px;">
+            <option
+                value="none">{
+                    if ($textquerymodeparam = '' or $textquerymodeparam = 'none') then
+                        attribute selected {'selected'}
+                    else
+                        ()
+                }default (no mode)</option>
+            <option
+                value="any">{
+                    if ($textquerymodeparam = 'any') then
+                        attribute selected {'selected'}
+                    else
+                        ()
+                }any</option>
+            <option
+                value="all">{
+                    if ($textquerymodeparam = 'all') then
+                        attribute selected {'selected'}
+                    else
+                        ()
+                }all</option>
+            <option
+                value="phrase">{
+                    if ($textquerymodeparam = 'phrase') then
+                        attribute selected {'selected'}
+                    else
+                        ()
+                }phrase</option>
+            <option
+                value="regex">{
+                    if ($textquerymodeparam = 'regex') then
+                        attribute selected {'selected'}
+                    else
+                        ()
+                }regex</option>
+            <option
+                value="wildcard">{
+                    if ($textquerymodeparam = 'wildcard') then
+                        attribute selected {'selected'}
+                    else
+                        ()
+                }wildcard</option>
+            <option
+                value="fuzzy">{
+                    if ($textquerymodeparam = 'fuzzy') then
+                        attribute selected {'selected'}
+                    else
+                        ()
+                }fuzzy</option>
+            <option
+                value="near-ordered">{
+                    if ($textquerymodeparam = 'near-ordered') then
+                        attribute selected {'selected'}
+                    else
+                        ()
+                }near-ordered</option>
+            <option
+                value="near-unordered">{
+                    if ($textquerymodeparam = 'near-unordered') then
+                        attribute selected {'selected'}
+                    else
+                        ()
+                }near-unordered</option>
+        </select>
 };
 
 declare function q:textquerydefaultoperator($node as node(), $model as map(*)) {
-let $defopparam:= $q:defop
-return
-    <select
-        name="defaultoperator"
-        class="w3-select"
-        style="padding:0px 0px;">
-        <option
-            value="OR">{if($defopparam='' or $defopparam='OR') then attribute selected {'selected'} else ()}default (OR)</option>
-        <option
-            value="AND">{if($defopparam='AND') then attribute selected {'selected'} else ()}AND</option>
-         </select>
+    let $defopparam := $q:defop
+    return
+        <select
+            name="defaultoperator"
+            class="w3-select"
+            style="padding:0px 0px;">
+            <option
+                value="OR">{
+                    if ($defopparam = '' or $defopparam = 'OR') then
+                        attribute selected {'selected'}
+                    else
+                        ()
+                }default (OR)</option>
+            <option
+                value="AND">{
+                    if ($defopparam = 'AND') then
+                        attribute selected {'selected'}
+                    else
+                        ()
+                }AND</option>
+        </select>
 };
 
-declare function q:homophonecheckbox($node as node()*, $model as map(*)){
-let $h:= request:get-parameter('homophones', ())
-return
-<input type="checkbox" name="homophones">{if(not($q:params = $h) or $h='on') then attribute checked{"checked"} else ()}</input>
+declare function q:homophonecheckbox($node as node()*, $model as map(*)) {
+    let $h := request:get-parameter('homophones', ())
+    return
+        <input
+            type="checkbox"
+            name="homophones">{
+                if (not($q:params = $h) or $h = 'on') then
+                    attribute checked {"checked"}
+                else
+                    ()
+            }</input>
 };
 
-declare function q:ranking($node as node()*, $model as map(*)){
-let $h:= request:get-parameter('sort', ())
-return
-<input type="checkbox" name="sort" >{if($h='on') then attribute checked{"checked"} else ()}</input>
+declare function q:ranking($node as node()*, $model as map(*)) {
+    let $h := request:get-parameter('sort', ())
+    return
+        <input
+            type="checkbox"
+            name="sort">{
+                if ($h = 'on') then
+                    attribute checked {"checked"}
+                else
+                    ()
+            }</input>
 };
 
-declare function q:translitcheckbox($node as node()*, $model as map(*)){
-let $h:= request:get-parameter('translit', ())
-return
-<input type="checkbox" name="translit">{if($h='on') then attribute checked{"checked"} else ()}</input>
+declare function q:translitcheckbox($node as node()*, $model as map(*)) {
+    let $h := request:get-parameter('translit', ())
+    return
+        <input
+            type="checkbox"
+            name="translit">{
+                if ($h = 'on') then
+                    attribute checked {"checked"}
+                else
+                    ()
+            }</input>
 };
 
 
@@ -178,17 +299,19 @@ declare function q:query($node as node()*, $model as map(*), $query as xs:string
     else
         'undefined'
     return
-        if ((string-length($query) lt 1) and ($t != 'fields')) then
-            ()
+        if ((string-length($query) lt 1) and ($t != 'fields') and (count($q:params) = 0)) then
+            (util:log('info', ('doing nothing there is no query and no fields, stated parameters names: ', count($q:params))))
         else
             let $hits := q:switchSearchType($t, $query, $q:params)
+            
             let $runtime-ms := ((util:system-time() - $start-time) div xs:dayTimeDuration('PT1S')) * 1000
             return
                 map {
                     'runtime': $runtime-ms,
                     'type': $t,
                     'query': $query,
-                    'hits': $hits
+                    'hits': $hits('tei'),
+                    'qs': $hits('qs')
                 }
 };
 
@@ -211,10 +334,6 @@ like the facet, simple and advanced searches :)
         case 'xpath'
             return
                 q:xpath($q, $params)
-                (:a query based on xpath selectors returning TEI records homogeneous for their type, e.g. manuscripts/list, catalogue list, institution list, etc persons, clavis :)
-        case 'list'
-            return
-                'list'
                 (:a query to the sparql endpoint to the RDF, returning a sparql response :)
         case 'sparql'
             return
@@ -223,18 +342,18 @@ like the facet, simple and advanced searches :)
         case 'clavis'
             return
                 q:clavis($q)
-       case 'otherclavis'
+        case 'otherclavis'
             return
                 q:otherclavis($q)
-       case 'bmid'
+        case 'bmid'
             return
                 q:bmid($q)
-        case 'resources'
-            return
-                'resources'
                 (:                default is a search for the empty string, returning all data...:)
         default return
-           for $r in $q:col//t:TEI[ft:query(., (), $q:allopts)] group by $TEI := $r return $TEI
+            for $r in $q:col//t:TEI[ft:query(., (), $q:allopts)]
+                group by $TEI := $r
+            return
+                $TEI
 };
 
 
@@ -263,7 +382,12 @@ declare function q:displayQtime($node as node()*, $model as map(*)) {
                     (<h3> There are <span
                             xmlns="http://www.w3.org/1999/xhtml"
                             id="hit-count"
-                            class="w3-tag w3-gray">{count($model("hits"))}</span>
+                            class="w3-tag w3-gray">{
+                                if ($q:searchType = 'sparql') then
+                                    (' the following ')
+                                else
+                                    count($model("hits"))
+                            }</span>
                         entities matching your
                         <span
                             class="w3-label w3-margin">{$q:searchType}
@@ -271,7 +395,7 @@ declare function q:displayQtime($node as node()*, $model as map(*)) {
                         <span
                             class="w3-tooltip">query
                             <span
-                                class="w3-text">(<em>{$model('query')}</em>)</span></span></h3>),
+                                class="w3-text">for {string-join($model('qs'), ', ')} (entered: <em>{$model('query')}</em>)</span></span></h3>),
             <span
                 class="w3-right">{'Search time: '}
                 <span
@@ -282,21 +406,31 @@ declare function q:displayQtime($node as node()*, $model as map(*)) {
 
 };
 
-declare function q:bmid($q){
-for $m in  $q:col//t:TEI[contains(@xml:id,$q)] 
-group by $TEI := $m
-    return $TEI
+declare function q:bmid($q) {
+    for $m in $q:col//t:TEI[contains(@xml:id, $q)]
+        group by $TEI := $m
+    return
+        map {
+            'tei': $TEI,
+            'qs': $q
+        }
 };
 
-declare function q:otherclavis($q){
-let $clavisType := request:get-parameter('clavistype', ())
-let $selector :=  if(($q = '') and (matches($clavisType, '\w+'))) 
-                           then "[descendant::t:bibl[@type eq '"||$clavisType||"']]"
-                           else  "[descendant::t:bibl[@type eq '"||$clavisType||"'][t:citedRange eq '"||$q||"']]"
- let $path := '$q:col//t:TEI[@type="work"]' || $selector
-for $m in util:eval($path)
+declare function q:otherclavis($q) {
+    let $clavisType := request:get-parameter('clavistype', ())
+    let $selector := if (($q = '') and (matches($clavisType, '\w+')))
+    then
+        "[descendant::t:bibl[@type eq '" || $clavisType || "']]"
+    else
+        "[descendant::t:bibl[@type eq '" || $clavisType || "'][t:citedRange eq '" || $q || "']]"
+    let $path := '$q:col//t:TEI[@type="work"]' || $selector
+    for $m in util:eval($path)
         group by $TEI := $m
-    return $TEI
+    return
+        map {
+            'tei': $TEI,
+            'qs': $selector
+        }
 };
 
 
@@ -322,7 +456,11 @@ declare function q:clavis($q) {
             'type': 'match'
         }
     return
-        ($deletedClavis, $matches)
+        map {
+            'tei': ($deletedClavis, $matches),
+            'qs': $q
+        }
+
 };
 
 declare function q:xpath($q, $params) {
@@ -333,7 +471,12 @@ declare function q:xpath($q, $params) {
         else
             $q
     let $xpath := replace($q, '\$config:collection-(\w+)(//.+)', 'collection(\$config:data-$1)$2')
-    return  util:eval($xpath)
+    let $TEI := util:eval($xpath)
+    return
+        map {
+            'tei': $TEI,
+            'qs': $q
+        }
 };
 
 declare function q:sparql($q) {
@@ -363,31 +506,259 @@ declare function q:sparql($q) {
          PREFIX foaf: <http://xmlns.com/foaf/0.1/>
          PREFIX sdc: <https://w3id.org/sdc/ontology#>"
     let $allquery := ($prefixes || normalize-space($q))
+    let $results := fusekisparql:query('betamasaheft', $allquery)
     return
-        fusekisparql:query('betamasaheft', $allquery)
+        map {
+            'tei': $results,
+            'qs': $allquery
+        }
+};
+
+
+
+declare function q:ListQueryParam-rest($parameter, $context, $mode, $function) {
+    let $keys :=
+    if ($parameter = 'keyword')
+    then
+        (
+        for $k in $parameter
+        
+        let $ks := doc($config:data-rootA || '/taxonomy.xml')//t:catDesc[text() eq $k]/following-sibling::t:*/t:catDesc/text()
+        let $nestedCats := for $n in $ks
+        return
+            $n
+        return
+            if ($nestedCats >= 2) then
+                (replace($k, '#', ' ') || ' OR ' || string-join($nestedCats, ' OR '))
+            else
+                (replace($k, '#', ' '))
+        )
+    else
+        (
+        for $k in $parameter
+        return
+            replace($k, '#', ' ')
+        )
+    
+    return
+        if ($function = 'list')
+        then
+            let $all := for $k in $keys
+            return
+                "descendant::" || $context || " eq '" || $k || "'"
+            return
+                "[" || string-join($all, ' or ') || "]"
+        else
+            if ($function = 'range')
+            then
+                let $all := for $k in $keys
+                return
+                    "descendant::" || $context || "[. = '" || $k || "']"
+                return
+                    "[" || string-join($all, ' or ') || "]"
+            else
+                (:search:)
+                let $limit := for $k in $parameter
+                return
+                    "descendant::" || $context || "[ft:query(.,'" || $k || "')] "
+                return
+                    "[" || string-join($limit, ' or ') || "]"
+
+
+};
+
+(:~ produces a piece of xpath for the query if the input is a range    :)
+declare function q:paramrange($par, $path as xs:string) {
+    let $rangeparam := request:get-parameter($par, ())
+    
+    let $from := substring-before($rangeparam, ',')
+    let $to := substring-after($rangeparam, ',')
+    return
+        if ($rangeparam = '0,2000')
+        then
+            ()
+        else
+            if ($rangeparam = '')
+            then
+                ()
+            else
+                ("[descendant::t:" || $path || "[. ge " || $from || ' ][ .  le ' || $to || "]]")
+
+};
+
+(:returns a string of arguments to be appended to the main query context:)
+declare function q:parameters2arguments($params) {
+    let $work-type := request:get-parameter('work-types', ())
+    let $type := if ($work-type = '') then
+        ()
+    else
+        let $types := for $w in $work-type
+        return
+            if ($w = 'eth') then
+                '@type="pers"][starts-with(@xml:id, "' || upper-case($w) || '")'
+            else
+                '@type="' || $w || '"'
+        return
+            '[' || string-join($types, ' or ') || ']'
+    return
+        $type
+        (:let $allnames :=  if($names = '') then () else
+            switch($collection)
+                case 'manuscripts' return q:ListQueryParam-rest($names, 't:msIdentifier//t:idno', 'any', 'search')
+                case 'institutions' return q:ListQueryParam-rest($names, 't:place/t:placeName', 'any', 'search')
+                case 'places' return q:ListQueryParam-rest($names, 't:place/t:placeName', 'any', 'search')
+                case 'persons' return q:ListQueryParam-rest($names, 't:person/t:persName', 'any', 'search')
+                case 'works' return q:ListQueryParam-rest($names, 't:title', 'any', 'search')
+                case 'narratives' return q:ListQueryParam-rest($names, 't:title', 'any', 'search')
+           default return ()
+           
+let $key := if($keywords = '') then () else
+            switch($collection)
+                case 'narratives' return ()
+                case 'institutions' return q:ListQueryParam-rest($keywords, 't:ab[@type eq "tabot"]/t:persName/@ref', 'any', 'list')
+                case 'places' return q:ListQueryParam-rest($keywords, 't:place/@type', 'any', 'list')
+(\:                case 'persons' return q:ListQueryParam-rest($keywords, 't:occupation/@type', 'any', 'list'):\)
+           default return q:ListQueryParam-rest($keywords, 't:term/@key', 'any', 'list')
+
+let $ContentPr := if ($contentProvider = '') then () else
+                    switch($contentProvider)
+                        case 'BM' return "[not(starts-with(@xml:id, 'EMIP'))][not(starts-with(@xml:id, 'EMML'))][not(starts-with(@xml:id, 'ES'))][not(contains(@xml:id, 'IHA'))][not(starts-with(@xml:id, 'GG'))]"
+                        case 'EMML' return "[starts-with(@xml:id, 'EMML')]"
+                        case 'EMIP' return "[starts-with(@xml:id, 'EMIP')]"
+                        case 'ES' return "[starts-with(@xml:id, 'ES')]"
+                        case 'IHA' return "[contains(@xml:id, 'IHA')]"
+                        case 'GG' return "[starts-with(@xml:id, 'GG')]"
+                        default return ''
+
+let $CaeIDs := if($CAeID = '') then () else "[contains(@xml:id, '"||string(format-number($CAeID, '0000')) ||"') and not(ends-with(@xml:id, 'IHA'))]"
+let $ClavisIDs :=
+                if(($clavisID = '') and ($clavisType = '')) then ()
+                      else if(($clavisID = '') and (matches($clavisType, '\w+'))) then "[descendant::t:bibl[@type eq '"||$clavisType||"']]"
+                      else  "[descendant::t:bibl[@type eq '"||$clavisType||"'][t:citedRange eq '"||$clavisID||"']]"
+
+let $languages := if($languages = '') then () else  q:ListQueryParam-rest($languages, 't:language/@ident', 'any', 'list')
+
+let $dR :=  if ($dateRange)
+                then (
+                let $range := $dateRange
+                let $from := substring-before($dateRange, ',')
+                let $to := substring-after($dateRange, ',')
+                return
+                if ($dateRange = '0,2000')
+                then ()
+                else
+                "[descendant::t:origDate
+                [xs:integer((if (contains(@notBefore, '-')) then (substring-before(@notBefore, '-')) else @notBefore)[. !='']) ge " || $from || " or
+                xs:integer((if (contains(@notAfter, '-')) then    (substring-before(@notAfter, '-')) else    @notAfter)[. != '']) ge " ||$from||"]
+                [xs:integer((if (contains(@notBefore, '-')) then (substring-before(@notBefore, '-')) else @notBefore)[. !='']) le " || $to || " or
+                xs:integer((if (contains(@notAfter, '-')) then (substring-before(@notAfter, '-')) else @notAfter)[. != '']) le " ||$to ||"]]" ) else ()
+
+let $nOfP := if(empty($numberOfP) or $numberOfP = '') then () else '[count(descendant::t:msPart) ge ' || $numberOfP || ']'
+let $opl := if(empty($PorigPlace) or $PorigPlace = '') then () else q:ListQueryParam-rest($PorigPlace, 't:origPlace/t:placeName/@ref', 'any', 'search')
+let $height :=   if(empty($Pheight) or $Pheight = '') then () else (q:paramrange('height', 'height'))
+let $width :=  if(empty($Pwidth) or $Pwidth = '') then () else  (q:paramrange('width', 'width'))
+let $depth :=  if(empty($Pdepth) or $Pdepth = '') then () else  (q:paramrange('depth', 'depth'))
+let $marginTop :=  if(empty($Ptmargin) or $Ptmargin = '') then () else  (q:paramrange('tmargin', "dimension[@type eq 'margin']/t:dim[@type eq 'top']"))
+let $marginBot := if(empty($Pbmargin) or $Pbmargin = '') then () else (q:paramrange('bmargin', "dimension[@type eq 'margin']/t:dim[@type eq 'bottom']"))
+let $marginR :=  if(empty($Prmargin) or $Prmargin = '') then () else (q:paramrange('rmargin', "dimension[@type eq 'margin']/t:dim[@type eq 'right']"))
+let $marginL :=  if(empty($Plmargin) or $Plmargin = '') then () else (q:paramrange('lmargin', "dimension[@type eq 'margin']/t:dim[@type eq 'left']"))
+let $marginIntercolumn :=  if(empty($Pintercolumn) or $Pintercolumn = '') then () else (q:paramrange('intercolumn', "dimension[@type eq 'margin']/t:dim[@type eq 'intercolumn']"))
+let $support :=  if(empty($PobjectType) or $PobjectType = '') then () else q:ListQueryParam-rest($PobjectType, 't:objectDesc/@form', 'any', 'search')
+let $material := if(empty($Pmaterial) or $Pmaterial = '') then () else q:ListQueryParam-rest($Pmaterial, 't:support/t:material/@key', 'any', 'search')
+let $bmaterial := if(empty($Pbmaterial) or $Pbmaterial = '') then () else q:ListQueryParam-rest($Pbmaterial, "t:decoNote[@type eq 'bindingMaterial']/t:material/@key", 'any', 'search')
+let $scripts := if(empty($Pscript) or $Pscript = '') then () else q:ListQueryParam-rest($Pscript, "t:handNote/@script", 'any',  'search')
+let $scribes := if(empty($Pscribe) or $Pscribe = '') then () else q:ListQueryParam-rest($Pscribe, "t:persName[@role eq 'scribe']/@ref", 'any',  'search')
+let $donors := if(empty($Pdonor) or $Pdonor = '') then () else q:ListQueryParam-rest($Pdonor, "t:persName[@role eq 'donor']/@ref", 'any',  'search')
+let $patrons := if(empty($Ppatron) or $Ppatron = '') then () else q:ListQueryParam-rest($Ppatron, "t:persName[@role eq 'patron']/@ref", 'any', 'search')
+let $owners := if(empty($Powner) or $Powner = '') then () else q:ListQueryParam-rest($Powner, "t:persName[@role eq 'owner']/@ref", 'any',  'search')
+let $parchmentMakers := if(empty($PparchmentMaker) or $PparchmentMaker = '') then () else q:ListQueryParam-rest($PparchmentMaker, "t:persName[@role eq 'parchmentMaker']/@ref", 'any',  'search')
+let $binders := if(empty($Pbinder) or $Pbinder = '') then () else q:ListQueryParam-rest($Pbinder, "t:persName[@role eq 'binder']/@ref", 'any',  'search')
+let $contents := if(empty($Pcontent) or $Pcontent= '') then () else q:ListQueryParam-rest($Pcontent, "t:title/@ref", 'any', 'search')
+let $tabots := if(empty($Ptabot) or $Ptabot= '') then () else q:ListQueryParam-rest($Ptabot, "t:ab[@type eq 'tabot']//t:*/@*", 'any', 'search')
+let $placetypess := if(empty($Pplacetype) or $Pplacetype= '') then () else q:ListQueryParam-rest($Pplacetype, "t:place/@type", 'any', 'search')
+let $Allauthors := if(empty($Pauthors) or $Pauthors= '') then () else q:ListQueryParam-rest($Pauthors, "t:relation[(@name eq 'saws:isAttributedToAuthor') or (@name eq 'dcterms:creator')]/@passive", 'any', 'search')
+let $placetypess := if(empty($Pplacetype) or $Pplacetype= '') then () else q:ListQueryParam-rest($Pplacetype, "t:place/@type", 'any', 'search')
+let $occupations := if(empty($Poccupation) or $Poccupation= '') then () else q:ListQueryParam-rest($Poccupation, "t:occupation/@type", 'any', 'search')
+let $faiths := if(empty($Pfaith) or $Pfaith= '') then () else q:ListQueryParam-rest($Pfaith, "t:faith/@type", 'any', 'search')
+let $genders := if(empty($Pgender) or $Pgender= '') then () else q:ListQueryParam-rest($Pgender, "t:person/@sex", 'any', 'list')
+let $periods := if(empty($Pperiod) or $Pperiod= '') then () else q:ListQueryParam-rest($Pperiod, "t:term/@key", 'any', 'search')
+let $restorationss := if(empty($Prestorations) or $Prestorations= '') then () else q:ListQueryParam-rest($Prestorations, "t:custEvent/@subtype", 'any', 'list')
+let $countries := if(empty($Pcountry) or $Pcountry = '') then () else q:ListQueryParam-rest($Pcountry, 't:country/@ref', 'any', 'range')
+let $settlements := if(empty($Psettlement) or $Psettlement = '') then () else q:ListQueryParam-rest($Psettlement, 't:settlement/@ref', 'any', 'range')
+
+let $leaves :=  if(empty($Pfolia) or $Pfolia = '') then () else
+                (let $min := substring-before($Pfolia, ',')
+                let $max := substring-after($Pfolia, ',')
+                return
+                if ($Pfolia = '1,1000')
+                then ()
+                else if (empty($Pfolia))
+                then ()
+                else
+                "[descendant::t:extent/t:measure[@unit='leaf'][not(@type)][xs:integer(.) ge "||$min|| ' ][ xs:integer(.)  le ' || $max ||"]]"
+               )
+let $wL := if(empty($PwL) or $PwL = '') then () else (
+                let $min := substring-before($PwL, ',')
+                let $max := substring-after($PwL, ',')
+                return
+                if ($PwL = '1,100')
+                then ()
+                else if (empty($PwL))
+                then ()
+                else
+                "[descendant::t:layout[@writtenLines ge "||$min|| '][@writtenLines  le ' || $max ||"]]"
+               )
+let $quires :=  if(empty($Pqn) or $Pqn = '' or $Pqn = '1,100')
+                then () else (
+                let $min := substring-before($Pqn, ',')
+                let $max := substring-after($Pqn, ',')
+                return
+                "[descendant::t:extent/t:measure[@unit eq 'quire'][not(@type)][not(.='')][xs:integer(.) ge "||$min|| ' ][xs:integer(.)  le ' || $max ||"]]")
+let $quiresComp :=  if(empty($Pqcn) or $Pqcn = '' or $Pqcn = '1,40')
+                     then () else  (
+                   let $min := substring-before($Pqcn, ',')
+                let $max := substring-after($Pqcn, ',')
+                return
+                "[descendant::t:dim[ancestor::t:collation][@unit eq 'leaf'][not(.='')][. ge "||$min|| ' ][.  le ' || $max ||"]]")
+
+
+return 
+
+concat($allnames, $support, $opl, $material, $bmaterial, $scripts, $scribes, $donors, $patrons, $owners, $parchmentMakers,
+             $binders, $contents, $leaves, $wL,  $quires, $quiresComp,
+            $height, $width, $depth, $marginTop, $marginBot, $marginL, $marginR, $marginIntercolumn, $restorationss):)
 };
 
 declare function q:text($q, $params) {
     let $qs := q:querystring($q, $q:mode)
-    let $query :=  $q:col//t:TEI[ft:query(., $qs, $q:allopts)]
-    return
-        if ($q:sort = '')
-        then
-            for $r in $query
+    let $querycontext := '$q:col//t:TEI[ft:query(., $qs, $q:allopts)]'
+    let $parmstoquery := q:parameters2arguments($params)
+    let $querytext := concat($querycontext, $parmstoquery)
+    let $test := util:log('info', $querytext)
+    let $query := util:eval($querytext)
+    let $allTEI :=
+    if ($q:sort = '')
+    then
+        for $r in $query
             group by $TEI := $r
-            let $matchcount := q:matchescount($TEI)
+        let $matchcount := q:matchescount($TEI)
             order by $matchcount descending
-            return
-                $TEI
-        else
-            for $r in $query
+        return
+            $TEI
+    else
+        for $r in $query
             group by $TEI := $r
-             let $matchcount := q:matchescount($TEI)
-            let $title := q:sortingkey($TEI//t:titleStmt/t:title[1]/text())
-            let $sort := q:enrichScore($TEI)
-                order by $sort descending
-            return
-                $TEI
+        let $matchcount := q:matchescount($TEI)
+        let $title := q:sortingkey($TEI//t:titleStmt/t:title[1]/text())
+        let $sort := q:enrichScore($TEI)
+            order by $sort descending
+        return
+            $TEI
+    return
+        map {
+            'tei': $allTEI,
+            'qs': $qs
+        }
 };
 
 declare function q:indexquery($element, $q) {
@@ -397,9 +768,9 @@ declare function q:indexquery($element, $q) {
         $q/ancestor::t:TEI
 };
 
-declare function q:tracesquery($q){
-let $sparql := 
-"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+declare function q:tracesquery($q) {
+    let $sparql :=
+    "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT DISTINCT ?translit
 WHERE {
 {  ?subject rdfs:label '" || $q || "'@gez ;
@@ -409,133 +780,190 @@ WHERE {
   {  ?subject rdfs:label '" || $q || "'@gez-trsl ;
                  rdfs:label ?translit .
   FILTER (lang(?translit) = 'gez') }
-}" 
-                let $query := fusekisparql:query('traces', $sparql)
-               return $query//sr:binding/sr:literal/text()
-               };
-
-declare function q:gettranslit($sequenceoftokens){
- for $q in $sequenceoftokens 
-                let $traces := q:tracesquery($q)
-                
- (:if nothing has been found in traces then the morphoparser can provide a tempative transliteration, 
-   which will be in none of the official formats, because this is made meaningless by the homophons substitutions:)
-            return
-            if(count($traces) ge 1) 
-                then $traces 
-                else q:prepareformorphoparser($q)
+}"
+    let $query := try {
+        fusekisparql:query('traces', $sparql)
+    } catch * {
+        console:log($err:description)
+    }
+    return
+        $query//sr:binding/sr:literal/text()
 };
 
-declare function q:translitquery($query-string){
-let $tokenizedquery := if(contains($query-string, ' ')) then tokenize($query-string, ' ') else $query-string
+declare function q:gettranslit($sequenceoftokens) {
+    for $q in $sequenceoftokens
+    let $traces := q:tracesquery($q)
+    
+    (:if nothing has been found in traces then the morphoparser can provide a tempative transliteration, 
+   which will be in none of the official formats, because this is made meaningless by the homophons substitutions:)
+    return
+        if (count($traces) ge 1)
+        then
+            $traces
+        else
+            q:prepareformorphoparser($q)
+};
 
-(:this variable will return at least one transliteration option for each token:)
-
-               let $trytraces :=  q:gettranslit($tokenizedquery)
-(: traces contains only singe token annotations so the query must be repeated for each word. It may return for one part only of the query:)
-
- (:how to join this, which will then be passed to the substitutions and then to the query builder, depends on the mode and the operator
+declare function q:translitquery($query-string) {
+    let $tokenizedquery := if (contains($query-string, ' ')) then
+        tokenize($query-string, ' ')
+    else
+        $query-string
+        
+        (:this variable will return at least one transliteration option for each token:)
+    
+    let $trytraces := q:gettranslit($tokenizedquery)
+    (: traces contains only singe token annotations so the query must be repeated for each word. It may return for one part only of the query:)
+    
+    (:how to join this, which will then be passed to the substitutions and then to the query builder, depends on the mode and the operator
 each transliteration is alternative to the term, so it should be (source OR translit) if the query is for any term 
 :)
-(:but if this is a phrase search, 
+    (:but if this is a phrase search, 
 <query><phrase>(wä-kāʿǝbä OR ወካዕበ፡) (äʿräfä OR አዕረፈ፡)</phrase></query> 
 will not work
 we need alternate phrases, so the results of the query for each term need to be joined among them before being grouped
 :)
-              let $modejoin := if(request:get-parameter('mode', ()) = 'phrase') 
-                            then 
-                            (:                                      'source1 source2' OR 'translit1 translit2' :)
-                            <query><phrase>{string-join($trytraces, ' ')}</phrase><phrase>{string-join($tokenizedquery, ' ')}</phrase></query>
-
-                           else if($q:defop = 'AND') 
-                            then 
-                            (:    (source1 AND source2) OR (translit1 AND translit2) :)
-                            <query>
-                            <bool>
-                                 <bool occur="should">
-                                     {for $t in $trytraces return <term occur="must">{$t}</term>}
-                                 </bool>
-                                 <bool occur="should">
-                                     {for $t in $tokenizedquery return <term occur="must">{$t}</term>}
-                                 </bool>
-                            </bool>
-                            </query> 
-                            else 
-                            (:   (source1 OR translit1) AND/OR (source2 OR translit2)
+    let $modejoin := if (request:get-parameter('mode', ()) = 'phrase')
+    then
+        (:                                      'source1 source2' OR 'translit1 translit2' :)
+        <query><phrase>{string-join($trytraces, ' ')}</phrase><phrase>{string-join($tokenizedquery, ' ')}</phrase></query>
+    
+    else
+        if ($q:defop = 'AND')
+        then
+            (:    (source1 AND source2) OR (translit1 AND translit2) :)
+            <query>
+                <bool>
+                    <bool
+                        occur="should">
+                        {
+                            for $t in $trytraces
+                            return
+                                <term
+                                    occur="must">{$t}</term>
+                        }
+                    </bool>
+                    <bool
+                        occur="should">
+                        {
+                            for $t in $tokenizedquery
+                            return
+                                <term
+                                    occur="must">{$t}</term>
+                        }
+                    </bool>
+                </bool>
+            </query>
+        else
+            (:   (source1 OR translit1) AND/OR (source2 OR translit2)
 here AND / OR should be the default operator chosen, so leaving it blank actually defaults to the configuration
 (source1 OR translit1) (source2 OR translit2)    :)
-                               let $toks := for $tok at $p in $tokenizedquery 
-                                                return 
-                                                <bool>
-                                                {attribute occur {if($q:defop = 'AND') then 'must' else 'should'}}
-                                                <term occur="should">{$trytraces[$p]}</term>
-                                                <term occur="should">{$tok}</term>
-                                 </bool> 
-                               
-                               return <query><bool>{$toks}</bool></query>
-                          
-                          return $modejoin
-   
+            let $toks := for $tok at $p in $tokenizedquery
+            return
+                <bool>
+                    {
+                        attribute occur {
+                            if ($q:defop = 'AND') then
+                                'must'
+                            else
+                                'should'
+                        }
+                    }
+                    <term
+                        occur="should">{$trytraces[$p]}</term>
+                    <term
+                        occur="should">{$tok}</term>
+                </bool>
+            
+            return
+                <query><bool>{$toks}</bool></query>
+    
+    return
+        $modejoin
 
- 
+
+
 };
 
-declare function q:prepareformorphoparser($q){
-let $cleanup := morpho:cleanQ($q, 'true', 'BM')
-return
-(:if the string was in transliteration, I already have what I want:)
-if(not(matches($q, '\p{IsEthiopic}'))) 
-    then $cleanup 
-    else 
+declare function q:prepareformorphoparser($q) {
+    let $cleanup := morpho:cleanQ($q, 'true', 'BM')
+    return
+        (:if the string was in transliteration, I already have what I want:)
+        if (not(matches($q, '\p{IsEthiopic}')))
+        then
+            $cleanup
+        else
             let $chars := functx:chars($q)
-            let $parsed := morpho:formulas($chars,$q,'BM','fuzzy')
-            return morpho:genericTranscription($parsed)
+            let $parsed := morpho:formulas($chars, $q, 'BM', 'fuzzy')
+            return
+                morpho:genericTranscription($parsed)
 };
 
 (:before anything is done, get rid of punctuation... :)
-declare function q:cleanquery($query-string){
-replace($query-string, '፡', '')
+declare function q:cleanquery($query-string) {
+    replace($query-string, '፡', '')
 };
 
 
 declare function q:querystring($query-string, $mode as xs:string*) {
-let $query-string := q:cleanquery($query-string)
-return
-    if ($q:searchType = 'fields') 
-    then
-        q:create-field-query($query-string, $mode)
-    else
-        let $homophonesparam := request:get-parameter('homophones', ())
-        let $translitparam := request:get-parameter('translit', ())
-        let $homophones :=  if ($homophonesparam='on' and (string-length($query-string) le 10)) then  'true'  else   'false'
-        let $translit-query-string := if($translitparam='on') then q:translitquery($query-string) else $query-string
-   (:        translit will return a query already. but if that did not go through the input may be a string :)
-(:    here a temporary query is stored, which is either a parsing of a string or an improvement of the existing one it calls the creat-query function :)
-       let $modequery := 
-           <querytemp>{if ($mode = 'none') then
-                                                  (  if (functx:contains-any-of($translit-query-string, ('AND', 'OR', 'NOT', '+', '-', '!', '~', '^', '.', '?', '*', '|', '{', '[', '(', '<', '@', '#', '&amp;'))) 
-                                                        then
-                                             q:create-query($translit-query-string, $mode)
-                                                         else
-                                                        $translit-query-string)
-                  else if ($mode = 'regex' or $mode='wildcard' or $mode = 'fuzzy') then q:create-query($query-string, $mode)
-(:                  for these three modes ignore any homophones or transliteration:)
-                else if ($mode = 'phrase'  or starts-with($mode, 'near')) then
-               typeswitch($translit-query-string )
-               case element(query) return $translit-query-string
-               default return 
+    let $query-string := q:cleanquery($query-string)
+    return
+        if ($q:searchType = 'fields')
+        then
+            q:create-field-query($query-string, $mode)
+        else
+            let $homophonesparam := request:get-parameter('homophones', ())
+            (:        let $test := console:log($homophonesparam):)
+            let $translitparam := request:get-parameter('translit', ())
+            let $homophones := if ($homophonesparam = 'on' and (string-length($query-string) le 10)) then
+                'true'
+            else
+                'false'
+            let $translit-query-string := if ($translitparam = 'on') then
+                q:translitquery($query-string)
+            else
+                $query-string
+                (:        translit will return a query already. but if that did not go through the input may be a string :)
+                (:    here a temporary query is stored, which is either a parsing of a string or an improvement of the existing one it calls the creat-query function :)
+            let $modequery :=
+            <querytemp>{
+                    if ($mode = 'none') then
+                        (if (functx:contains-any-of($translit-query-string, ('AND', 'OR', 'NOT', '+', '-', '!', '~', '^', '.', '?', '*', '|', '{', '[', '(', '<', '@', '#', '&amp;')))
+                        then
+                            q:create-query($translit-query-string, $mode)
+                        else
+                            $translit-query-string)
+                    else
+                        if ($mode = 'regex' or $mode = 'wildcard' or $mode = 'fuzzy') then
+                            q:create-query($query-string, $mode)
+                            (:                  for these three modes ignore any homophones or transliteration:)
+                        else
+                            if ($mode = 'phrase' or starts-with($mode, 'near')) then
+                                typeswitch ($translit-query-string)
+                                    case element(query)
+                                        return
+                                            $translit-query-string
+                                    default
+                                        return
                                             let $createq := q:create-query($translit-query-string, $mode)
-                                            return $createq
-                else
-                q:create-query($translit-query-string, $mode)
-                }</querytemp> 
-                
-  let $subs-query-string := if ($mode = 'regex' or $mode='wildcard' or $mode = 'fuzzy') then $modequery else <querytemp>{q:loopqueryxml($modequery, $homophones)}</querytemp>
-  
-  let $query-clean-up := if ($mode = 'regex' or $mode='wildcard' or $mode = 'fuzzy') then $modequery/querytemp else q:querycleanup($subs-query-string)
-    
-         return
-         $query-clean-up
+                                            return
+                                                $createq
+                            else
+                                q:create-query($translit-query-string, $mode)
+                }</querytemp>
+            
+            let $subs-query-string := if ($mode = 'regex' or $mode = 'wildcard' or $mode = 'fuzzy') then
+                $modequery
+            else
+                <querytemp>{q:loopqueryxml($modequery, $homophones)}</querytemp>
+            
+            let $query-clean-up := if ($mode = 'regex' or $mode = 'wildcard' or $mode = 'fuzzy') then
+                $modequery/querytemp
+            else
+                q:querycleanup($subs-query-string)
+            
+            return
+                $query-clean-up
 };
 
 
@@ -543,25 +971,47 @@ return
 a descandant query element should be removed, only one is allowed at the top.
 a term with children bool shuold also be removed
 consecutive bool[@occur] with only one child element term[@occur] can be removed:)
-declare function q:querycleanup($xmlquery){for $node in $xmlquery/node()
-return typeswitch($node)
-   case element(query) return  if($node/ancestor::query) then q:querycleanup($node) else <query>{q:querycleanup($node)}</query>
-   case element(term) return  if((count($node/descendant::bool) ge 1) or ($node/ancestor::fuzzy)or ($node/ancestor::wildcard)or ($node/ancestor::regex)) then q:querycleanup($node) else element {$node/name()} {($node/@*, q:querycleanup($node))}
-    case element(bool) return 
-    if ($node/@occur = 'must') then element {$node/name()} {($node/@*, q:querycleanup($node))} 
-    else
-                   if($node/bool[@occur][count(term[@occur]) eq 1]) then 
-                   for $term in $node/bool[@occur][count(term[@occur]) eq 1] 
-                   group by $occur := $term/@occur
-                   return
-                   <bool>
-                   {$occur}
-                   {q:querycleanup($term)}
-                   </bool>
-                   else if ($node/ancestor::near or $node/ancestor::fuzzy) then q:querycleanup($node)
-                    else element {$node/name()} {($node/@*, q:querycleanup($node))}
-   case element() return element {$node/name()} {($node/@*, q:querycleanup($node))}
-   default return $node};
+declare function q:querycleanup($xmlquery) {
+    for $node in $xmlquery/node()
+    return
+        typeswitch ($node)
+            case element(query)
+                return
+                    if ($node/ancestor::query) then
+                        q:querycleanup($node)
+                    else
+                        <query>{q:querycleanup($node)}</query>
+            case element(term)
+                return
+                    if ((count($node/descendant::bool) ge 1) or ($node/ancestor::fuzzy) or ($node/ancestor::wildcard) or ($node/ancestor::regex)) then
+                        q:querycleanup($node)
+                    else
+                        element {$node/name()} {($node/@*, q:querycleanup($node))}
+            case element(bool)
+                return
+                    if ($node/@occur = 'must') then
+                        element {$node/name()} {($node/@*, q:querycleanup($node))}
+                    else
+                        if ($node/bool[@occur][count(term[@occur]) eq 1]) then
+                            for $term in $node/bool[@occur][count(term[@occur]) eq 1]
+                                group by $occur := $term/@occur
+                            return
+                                <bool>
+                                    {$occur}
+                                    {q:querycleanup($term)}
+                                </bool>
+                        else
+                            if ($node/ancestor::near or $node/ancestor::fuzzy) then
+                                q:querycleanup($node)
+                            else
+                                element {$node/name()} {($node/@*, q:querycleanup($node))}
+            case element()
+                return
+                    element {$node/name()} {($node/@*, q:querycleanup($node))}
+            default
+                return
+                    $node
+};
 
 (:the query may be text or already a moded xml query. This loops through whatever comes in and adds options from the substitutions 
 it should always get an xml node which should contain a query element and children
@@ -570,30 +1020,46 @@ text children are those which should be passed to substitute and add options fro
 it goes in anyway, and the q:subst checks for the homophones parameter
 if the query is a phrase query, nothing should be done. otherways options should be added within the query structure
 :)
-declare function q:loopqueryxml($xmlquery, $homophones){
-for $node in $xmlquery/node() 
-   return 
-    typeswitch ($node)
-            case text() return 
-(:                  this should return a list of options for a term. these need to be formatted into a part of query:)
-              let $andchecksubs := if(not(functx:contains-any-of($node, ('AND', 'OR', 'NOT', '+', '-', '!', '~', '^', '.', '?', '*', '|', '{', '[', '(', '<', '@', '#', '&amp;'))) and contains($node, ' ') and $q:defop = 'AND') then replace($node, ' ', ' AND ') else $node    
-              let $subs :=     q:subst($andchecksubs, $homophones)
-             return typeswitch($subs)
-(:             if the result of substitutions is a query, go with that:)
-                       case element()  
-                       return $subs/query
-(:                       if the result is a string, then pass it on to the query parser to make it into a series of element, but do not take the query element, which should already be there :)
-                       default return   
-                                let $andchecksubs := if(not(functx:contains-any-of($subs, ('AND', 'OR', 'NOT', '+', '-', '!', '~', '^', '.', '?', '*', '|', '{', '[', '(', '<', '@', '#', '&amp;'))) and contains($subs, ' ') and $q:defop = 'AND') then replace($subs, ' ', ' AND ') else $subs
-                                let $luceneParse := q:parse-lucene($andchecksubs)
-                                let $luceneXML := parse-xml($luceneParse)
-                                let $mode := if($q:defop = 'AND') then 'all' else 'any'
-                                let $lucene2xml := q:lucene2xml($luceneXML/node(), $mode)
-                                return $lucene2xml
-            case element(phrase) return  
-                   element {$node/name()} {$node/text()}
-           default 
-                  return element {$node/name()} {($node/@*, q:loopqueryxml($node, $homophones))}
+declare function q:loopqueryxml($xmlquery, $homophones) {
+    for $node in $xmlquery/node()
+    return
+        typeswitch ($node)
+            case text()
+                return
+                    (:                  this should return a list of options for a term. these need to be formatted into a part of query:)
+                    let $andchecksubs := if (not(functx:contains-any-of($node, ('AND', 'OR', 'NOT', '+', '-', '!', '~', '^', '.', '?', '*', '|', '{', '[', '(', '<', '@', '#', '&amp;'))) and contains($node, ' ') and $q:defop = 'AND') then
+                        replace($node, ' ', ' AND ')
+                    else
+                        $node
+                    let $subs := q:subst($andchecksubs, $homophones)
+                    return
+                        typeswitch ($subs)
+                            (:             if the result of substitutions is a query, go with that:)
+                            case element()
+                                return
+                                    $subs/query
+                                    (:                       if the result is a string, then pass it on to the query parser to make it into a series of element, but do not take the query element, which should already be there :)
+                            default
+                                return
+                                    let $andchecksubs := if (not(functx:contains-any-of($subs, ('AND', 'OR', 'NOT', '+', '-', '!', '~', '^', '.', '?', '*', '|', '{', '[', '(', '<', '@', '#', '&amp;'))) and contains($subs, ' ') and $q:defop = 'AND') then
+                                        replace($subs, ' ', ' AND ')
+                                    else
+                                        $subs
+                                    let $luceneParse := q:parse-lucene($andchecksubs)
+                                    let $luceneXML := parse-xml($luceneParse)
+                                    let $mode := if ($q:defop = 'AND') then
+                                        'all'
+                                    else
+                                        'any'
+                                    let $lucene2xml := q:lucene2xml($luceneXML/node(), $mode)
+                                    return
+                                        $lucene2xml
+            case element(phrase)
+                return
+                    element {$node/name()} {$node/text()}
+            default
+                return
+                    element {$node/name()} {($node/@*, q:loopqueryxml($node, $homophones))}
 };
 
 
@@ -601,39 +1067,42 @@ for $node in $xmlquery/node()
 The string can actually be also an already composed thing. 
 If that is the case, then the query will be built and the q:loopqueryxml called within, so xml will be returned. 
 in most cases a string query will be returned:)
-declare function q:groupsubst($query, $homophones){
-(:query with AND:)
-   if (contains($query, 'AND')) then
-                (let $parts := for $qpart in tokenize($query, 'AND')
+declare function q:groupsubst($query, $homophones) {
+    (:let $test := console:log($homophones) return:)
+    (:query with AND:)
+    if (contains($query, 'AND')) then
+        (let $parts := for $qpart in tokenize($query, 'AND')
+        return
+            all:substitutionsInQuery($qpart)
+        return
+            '(' || string-join($parts, ') AND (')) || ')'
+        (:                    query with OR :)
+    else
+        if (contains($query, 'OR') and (not(matches($query, '[\(\)]')))) then
+            (let $parts := for $qpart in tokenize($query, 'OR')
+            return
+                all:substitutionsInQuery($qpart)
+            return
+                '(' || string-join($parts, ') OR (')) || ')'
+            (:                        complex query :)
+        else
+            if (contains($query, 'OR') and (matches($query, '[\(\)]'))) then
+                
+                let $luceneParse := q:parse-lucene($query)
+                let $luceneXML := parse-xml($luceneParse)
+                let $lucene2xml := <querytemp>{q:lucene2xml($luceneXML/node(), 'any')}</querytemp>
+                
                 return
-                    all:substitutionsInQuery($qpart)
-                return
-                    '(' || string-join($parts, ') AND (')) || ')'
-(:                    query with OR :)
-            else  if (contains($query, 'OR') and (not(matches($query, '[\(\)]')))) then
-                    (let $parts := for $qpart in tokenize($query, 'OR')
-                    return
-                        all:substitutionsInQuery($qpart)
-                    return
-                        '(' || string-join($parts, ') OR (')) || ')'
-(:                        complex query :)
-                else  if (contains($query, 'OR') and (matches($query, '[\(\)]'))) then
-                  
-                                let $luceneParse := q:parse-lucene($query)
-                                let $luceneXML := parse-xml($luceneParse)
-                                let $lucene2xml := <querytemp>{q:lucene2xml($luceneXML/node(), 'any')}</querytemp>
-                                
-                                return
-                            q:loopqueryxml($lucene2xml/query, $homophones)
-                else
-(:                only text :)
-                    all:substitutionsInQuery($query)
-                    };
-                    
-                    
-                    
+                    q:loopqueryxml($lucene2xml/query, $homophones)
+            else
+                (:                only text :)
+                all:substitutionsInQuery($query)
+};
+
+
+
 declare function q:subst($query, $homophones) {
-       if ($query != '')
+    if ($query != '')
     then
         (if ($homophones = 'true')
         then
@@ -670,7 +1139,7 @@ declare function q:create-field-query($query-string, $mode) {
 
 
 declare function q:showFacets($node as node()*, $model as map(*)) {
-    if ($q:searchType = 'clavis' or $q:searchType = 'otherclavis' or $q:searchType = 'xpath' or $q:searchType = 'sparql' ) then
+    if ($q:searchType = 'clavis' or $q:searchType = 'otherclavis' or $q:searchType = 'xpath' or $q:searchType = 'sparql') then
         <div><p>No facets available for this type of search.</p></div>
     else
         let $subsequence := $model('hits')
@@ -691,14 +1160,19 @@ declare function q:showFacets($node as node()*, $model as map(*)) {
                         type="submit"
                         class="w3-button w3-block w3-left-align w3-red">refine search results <i
                             class="fa fa-search"></i></button>
-                   { for $param in request:get-parameter-names()
-                   for $notfacet in $param[not(ends-with(.,'-facet'))]
-                   let $p := request:get-parameter($notfacet, ())
-                   return if(count($p)) then
-                    <input
-                        name="{$notfacet}"
-                        value="{$p}"
-                        hidden="hidden"/> else () }
+                    {
+                        for $param in request:get-parameter-names()
+                        for $notfacet in $param[not(ends-with(., '-facet'))]
+                        let $p := request:get-parameter($notfacet, ())
+                        return
+                            if (count($p)) then
+                                <input
+                                    name="{$notfacet}"
+                                    value="{$p}"
+                                    hidden="hidden"/>
+                            else
+                                ()
+                    }
                 </div>
                 {q:facetGroup($itemtype, 'Resource type', $subsequence)}
                 {q:facetGroup($general, 'General', $subsequence)}
@@ -1049,16 +1523,16 @@ declare function q:facetName($f) {
         case 'occupation'
             return
                 'Occupation Type'
-       case 'persDateNotBefore'
+        case 'persDateNotBefore'
             return
                 'Date Not Before'
-                case 'persDateNotAfter'
+        case 'persDateNotAfter'
             return
                 'Date Not After'
-                case 'persDateWhen'
+        case 'persDateWhen'
             return
                 'Date point'
-                     case 'eth'
+        case 'eth'
             return
                 'Ethnic group'
         default return
@@ -1070,35 +1544,39 @@ declare function q:facetName($f) {
 :)
 
 declare function q:create-query($query-string as xs:string?, $mode as xs:string) {
-let $query-string := if ($query-string)   then q:sanitize-lucene-query($query-string)   else  ''
+    let $query-string := if ($query-string) then
+        q:sanitize-lucene-query($query-string)
+    else
+        ''
         (:        strip out full stop if in the query :)
-let $query-string := replace(normalize-space($query-string), '\.', '')
-let $query :=    
+    let $query-string := replace(normalize-space($query-string), '\.', '')
+    let $query :=
     (:    this filters queries to fields so that they are not passed as xml fragment:)
-               if ($mode = 'none' or contains($query-string, ':')) 
-               then $query-string
+    if ($mode = 'none' or contains($query-string, ':'))
+    then
+        $query-string
         (:If the query contains any operator used in standard lucene searches or regex searches, pass it on to the query parser;:)
-                else
-                    if (functx:contains-any-of($query-string, ('AND', 'OR', 'NOT', '+', '-', '!', '~', '^', '.', '?', '*', '|', '{', '[', '(', '<', '@', '#', '&amp;')) and ($mode eq 'any'))
-                    then 
-                                let $luceneParse := q:parse-lucene($query-string)
-                                let $luceneXML := parse-xml($luceneParse)
-                                let $lucene2xml := q:lucene2xml($luceneXML/node(), $mode)
-                                return
-                            $lucene2xml
+    else
+        if (functx:contains-any-of($query-string, ('AND', 'OR', 'NOT', '+', '-', '!', '~', '^', '.', '?', '*', '|', '{', '[', '(', '<', '@', '#', '&amp;')) and ($mode eq 'any'))
+        then
+            let $luceneParse := q:parse-lucene($query-string)
+            let $luceneXML := parse-xml($luceneParse)
+            let $lucene2xml := q:lucene2xml($luceneXML/node(), $mode)
+            return
+                $lucene2xml
                 (:otherwise the query is performed by selecting one of the special options (any, all, phrase, near, fuzzy, wildcard or regex):)
-                     else
-                                let $query-string := tokenize($query-string, '\s')
-                                let $last-item := $query-string[last()]
-                                let $query-string :=
-                                        if ($last-item castable as xs:integer)
-                                        then
-                                            string-join(subsequence($query-string, 1, count($query-string) - 1), ' ')
-                                        else
-                                                string-join($query-string, ' ')           
-                                let $query :=
-                                                 <query>
-                            {
+        else
+            let $query-string := tokenize($query-string, '\s')
+            let $last-item := $query-string[last()]
+            let $query-string :=
+            if ($last-item castable as xs:integer)
+            then
+                string-join(subsequence($query-string, 1, count($query-string) - 1), ' ')
+            else
+                string-join($query-string, ' ')
+            let $query :=
+            <query>
+                {
                     if ($mode eq 'any')
                     then
                         <bool>
@@ -1498,7 +1976,9 @@ first here is the header of the results table:)
     (:    here are the rows of the table:)
     for $hit at $p in subsequence($model('hits'), $start, $per-page)
     return
-        if ($model('type') = 'text' 
+        if (($model('type') = 'text') and ($model('qs') = ''))
+then         q:resultswithoutmatch($hit, $p)
+        else if ($model('type') = 'text'
         or $model('type') = 'fields') then
             (
             q:resultswithmatch($hit, $p)
@@ -1507,8 +1987,8 @@ first here is the header of the results table:)
             if ($model('type') = 'sparql') then
                 q:sparqlRes($hit, $p)
             else
-                if ($model('type') = 'xpath' 
-                or $model('type') = 'clavis' 
+                if ($model('type') = 'xpath'
+                or $model('type') = 'clavis'
                 or $model('type') = 'otherclavis') then
                     q:resultswithoutmatch($hit, $p)
                 else
@@ -1519,9 +1999,9 @@ declare function q:resultsTableHeader($model) {
     if ($model('type') = 'sparql') then
         () (:the sparql results are passed to an XSLT which produces the header as well:)
     else
-        if ($model('type') = 'clavis' 
+        if ($model('type') = 'clavis'
         or $model('type') = 'xpath'
-        or $model('type') = 'otherclavis') 
+        or $model('type') = 'otherclavis')
         then
             (:    only return the status title and no KWIC sections  :)
             <div
@@ -1585,8 +2065,10 @@ function q:sparqlRes($hit, $p) {
 
 };
 
-declare function q:matchescount($text){
-let $expanded := kwic:expand($text) return count($expanded//exist:match)
+declare function q:matchescount($text) {
+    let $expanded := kwic:expand($text)
+    return
+        count($expanded//exist:match)
 };
 (:~
 : if the smart sort function is selected then an enriched score will be used to 
@@ -1609,19 +2091,22 @@ declare function q:enrichScore($text) {
     let $countelnames := count($matches/parent::t:persName)
     let $countelplace := count($matches/parent::t:placeName)
     let $counttext := count($matches/ancestor::t:div)
-    let $countelmsItem := count($matches/(ancestor::t:msItem|ancestor::t:msPart|ancestor::t:msDesc))
-(:    doubles the full bill it the item type matches the most commonly used element for references to that entity. persName in person, placeName in place, etc.:)
-    let $elementtypematch := 
-                        if (((($countelnames gt $countelplace) 
-                            and ($countelnames gt $counttext) 
-                            and ($countelnames gt $countelmsItem)) 
-                            and string($text/ancestor-or-self::t:TEI/@type) ='pers')
-                            or
-                            ((($countelmsItem gt $countelplace) 
-                            and ($countelmsItem gt $counttext) 
-                            and ($countelmsItem gt $countelnames)) 
-                            and string($text/ancestor-or-self::t:TEI/@type) ='mss')
-                            ) then 2 else 1
+    let $countelmsItem := count($matches/(ancestor::t:msItem | ancestor::t:msPart | ancestor::t:msDesc))
+    (:    doubles the full bill it the item type matches the most commonly used element for references to that entity. persName in person, placeName in place, etc.:)
+    let $elementtypematch :=
+    if (((($countelnames gt $countelplace)
+    and ($countelnames gt $counttext)
+    and ($countelnames gt $countelmsItem))
+    and string($text/ancestor-or-self::t:TEI/@type) = 'pers')
+    or
+    ((($countelmsItem gt $countelplace)
+    and ($countelmsItem gt $counttext)
+    and ($countelmsItem gt $countelnames))
+    and string($text/ancestor-or-self::t:TEI/@type) = 'mss')
+    ) then
+        2
+    else
+        1
     let $scores := for $match in $matches
     return
         if ($match/parent::t:idno)
@@ -1631,15 +2116,22 @@ declare function q:enrichScore($text) {
             if ($match/parent::t:title[parent::t:titleStmt])
             then
                 $score * 5
-                else if ($match/parent::t:*[self::t:persName or self::t:placeName])
-            then
-                $score * 4
             else
-                $score
-(:                the following two depend on the previous, so that they are incentives, and do not risk to overtake the previous measure:)
-   let $relations := if($elementtypematch=2) then count($text//t:relation) else 0
-   let $numberofnodes := if($relations gt 0) then (count($text//node()) div 100) else 0
-   let $occupationChange := 
+                if ($match/parent::t:*[self::t:persName or self::t:placeName])
+                then
+                    $score * 4
+                else
+                    $score
+                    (:                the following two depend on the previous, so that they are incentives, and do not risk to overtake the previous measure:)
+    let $relations := if ($elementtypematch = 2) then
+        count($text//t:relation)
+    else
+        0
+    let $numberofnodes := if ($relations gt 0) then
+        (count($text//node()) div 100)
+    else
+        0
+    let $occupationChange :=
     
     if ($text//t:ab[node()]) then
         4
@@ -1659,7 +2151,7 @@ declare function q:enrichScore($text) {
     (sum($scores) * $elementtypematch)
     return
         format-number($enrichedScore, '0000')
-        
+
 };
 
 
@@ -1722,70 +2214,85 @@ declare function q:resultswithmatch($text, $p) {
             <div
                 class="w3-twothird">
                 <div
-                class="w3-twothird">
-                {
-                    for $match in subsequence($expanded//exist:match, 1, 3)
-                    let $matchancestorwithID := ($match/(ancestor::t:*[(@xml:id | @n)] | ancestor::t:text))[last()]
-                    let $matchancestorwithIDid := $matchancestorwithID/string(@xml:id)
-                    let $view := if ($matchancestorwithID[ancestor-or-self::t:text]) then
-                        'text'
-                    else
-                        'main'
-                    let $matchancestorwithIDanchor := if ($view = 'main') then
-                        '#' || $matchancestorwithIDid
-                    else
-                        ()
-                    
-                    return
-                        let $matchref := replace(q:refname($match), '.$', '')
-                        let $ref := if ($view = 'text' and $matchref != '') then
-                            '&amp;ref=' || $matchref
+                    class="w3-twothird">
+                    {
+                        for $match in subsequence($expanded//exist:match, 1, 3)
+                        let $matchancestorwithID := ($match/(ancestor::t:*[(@xml:id | @n)] | ancestor::t:text))[last()]
+                        let $matchancestorwithIDid := $matchancestorwithID/string(@xml:id)
+                        let $view := if ($matchancestorwithID[ancestor-or-self::t:text]) then
+                            'text'
+                        else
+                            'main'
+                        let $matchancestorwithIDanchor := if ($view = 'main') then
+                            '#' || $matchancestorwithIDid
                         else
                             ()
+                        
                         return
-                            <div
-                                class="w3-row w3-padding"><div
-                                    class="w3-twothird w3-padding match">
-                                    {
-                                        kwic:get-summary($match/parent::node(), $match, <config
-                                            width="40"/>)
-                                    }
-                                </div>
+                            let $matchref := replace(q:refname($match), '.$', '')
+                            let $ref := if ($view = 'text' and $matchref != '') then
+                                '&amp;ref=' || $matchref
+                            else
+                                ()
+                            return
                                 <div
-                                    class="w3-third w3-padding">
-                                    <a
-                                        href="/{$collection}/{$id}/{$view}{$matchancestorwithIDanchor}?hi={$queryText}{$ref}">
+                                    class="w3-row w3-padding"><div
+                                        class="w3-twothird w3-padding match">
                                         {
-                                            ' in element ' || $match/parent::t:*/name() || ' within a ' ||
-                                            $matchancestorwithID/name()
-                                            ||
-                                            (if ($view = 'text' and $matchref != '')
-                                            then
-                                                ', at ' || $matchref
-                                            else
-                                                if ($view = 'main')
+                                            kwic:get-summary($match/parent::node(), $match, <config
+                                                width="40"/>)
+                                        }
+                                    </div>
+                                    <div
+                                        class="w3-third w3-padding">
+                                        <a
+                                            href="/{$collection}/{$id}/{$view}{$matchancestorwithIDanchor}?hi={$queryText}{$ref}">
+                                            {
+                                                ' in element ' || $match/parent::t:*/name() || ' within a ' ||
+                                                $matchancestorwithID/name()
+                                                ||
+                                                (if ($view = 'text' and $matchref != '')
                                                 then
-                                                    ', with id ' || $matchancestorwithIDid
+                                                    ', at ' || $matchref
                                                 else
-                                                    ())
-                                        }</a>
+                                                    if ($view = 'main')
+                                                    then
+                                                        ', with id ' || $matchancestorwithIDid
+                                                    else
+                                                        ())
+                                            }</a>
+                                    </div>
                                 </div>
-                            </div>
-                }</div>
+                    }</div>
                 {q:resultslinkstoviews($t, $id, $collection)}
-        </div>
-            
+            </div>
+        
         </div>
 };
 
 (:outputs for a subsequence of results the rows of a table of results without KWIC for clavis and xpath searches:)
 declare function q:resultswithoutmatch($text, $p) {
     let $queryText := request:get-parameter('query', ())
-    let $root := if ($q:searchType = 'clavis') then    $text('hit')     else   $text
-    let $item := if ($q:searchType = 'clavis') then  $text('hit')  else  $root/ancestor-or-self::t:TEI
-    let $t := if ($q:searchType = 'clavis' and $text('type') = 'deleted') then   'deleted'  else     $item/@type
-    let $id := if ($q:searchType = 'clavis' and $text('type') = 'deleted') then   'deleted'  else    data($item/@xml:id)
-    let $collection := if ($q:searchType = 'clavis' and $text('type') = 'deleted') then   'deleted'   else   switch2:col($t)
+    let $root := if ($q:searchType = 'clavis') then
+        $text('hit')
+    else
+        $text
+    let $item := if ($q:searchType = 'clavis') then
+        $text('hit')
+    else
+        $root/ancestor-or-self::t:TEI
+    let $t := if ($q:searchType = 'clavis' and $text('type') = 'deleted') then
+        'deleted'
+    else
+        $item/@type
+    let $id := if ($q:searchType = 'clavis' and $text('type') = 'deleted') then
+        'deleted'
+    else
+        data($item/@xml:id)
+    let $collection := if ($q:searchType = 'clavis' and $text('type') = 'deleted') then
+        'deleted'
+    else
+        switch2:col($t)
     return
         <div
             class="w3-row w3-border-bottom w3-margin-bottom">
@@ -1814,24 +2321,24 @@ declare function q:resultswithoutmatch($text, $p) {
                                 q:resultitemlinks($collection, $item, $id, $root, $text)
                         }
                     </div>
-               <div
-                    class="w3-row">{q:summary($item)}</div>
-          
-               </div>
-            <div
-                class="w3-twothird">
+                    <div
+                        class="w3-row">{q:summary($item)}</div>
+                
+                </div>
                 <div
-                    class="w3-container">
-                    {
-                        if ($q:searchType = 'clavis' and $text('type') = 'deleted') then
-                            <a
-                                href="/deleted.html">to see when {$text('hit')/text()} was deleted and why, click here for the list of deleted files</a>
-                        else
-                            q:resultslinkstoviews($t, $id, $collection)
-                    }</div>
+                    class="w3-twothird">
+                    <div
+                        class="w3-container">
+                        {
+                            if ($q:searchType = 'clavis' and $text('type') = 'deleted') then
+                                <a
+                                    href="/deleted.html">to see when {$text('hit')/text()} was deleted and why, click here for the list of deleted files</a>
+                            else
+                                q:resultslinkstoviews($t, $id, $collection)
+                        }</div>
+                </div>
             </div>
         </div>
-                  </div>
 };
 
 (: adds a summary to the result of the search
@@ -1863,22 +2370,25 @@ declare function q:summary($item) {
                     case 'work'
                         return
                             q:summaryWork($item, $id)
-                   case 'mss'
+                    case 'studies'
+                        return
+                            q:summaryWork($item, $id)
+                    case 'mss'
                         return
                             q:summaryMss($item, $id)
-                         case 'nar'
+                    case 'nar'
                         return
                             q:summaryWork($item, $id)
-                     case 'auth'
+                    case 'auth'
                         return
                             q:summaryWork($item, $id)
-                     case 'pers'
+                    case 'pers'
                         return
                             q:summaryPers($item, $id)
                     case 'place'
                         return
                             q:summaryPlace($item, $id)
-                   case 'ins'
+                    case 'ins'
                         return
                             (q:summaryIns($item, $id), q:summaryPlace($item, $id))
                     default return
@@ -1888,59 +2398,121 @@ declare function q:summary($item) {
 
 
 declare function q:summaryPers($item, $id) {
-<div class="w3-container">
-        {if(starts-with($item/@xml:id, 'E')) then 'Ethnic ' else ()} {if($item//t:personGrp) then 'Group' else ()}
-        {if(//t:person/@sex = 1) then <i class="fa fa-mars"/> else  <i class="fa fa-venus"/>}
-        {if($item//t:person/@sameAs) then <a href="{$item//t:person/@sameAs}">
-                           <span class="icon-large icon-vcard"/>
-                       </a> else ()}
-        </div>,
-        <div  class="w3-container">
-         <h5>Names</h5>
-         <ul class="nodot">
-         {
-         for $n in $item//t:persName[@xml:id]
-         let $Nid := $n/@xml:id
-         return
-         <li>{$n//text()}<sup>{$n/@xml:lang}</sup> 
-         {if($item//t:persName[@corresp]) 
-         then (let $corrsNs := for $corrN in $item//t:persName[@corresp]
-                                                let $corrNcorr := substring-after($corrN/@corresp, '#')
-                                                return
-                                                 if($corrNcorr = $Nid) then ($corrN//text(),<sup>{$corrN/@xml:lang}</sup>) else ()
-                   return ('(', $corrsNs,')') )
-         else ()}</li>
-         }
-         </ul>
-         </div>,
-         if($item//t:floruit/@* or $item//t:birth/@* or $item//t:death/@*) 
-            then <div class="w3-container">
+    <div
+        class="w3-container">
+        {
+            if (starts-with($item/@xml:id, 'E')) then
+                'Ethnic '
+            else
+                ()
+        }
+        {
+            if ($item//t:personGrp) then
+                'Group'
+            else
+                ()
+        }
+        {
+            if ($item//t:person/@sex = 1) then
+                <i
+                    class="fa fa-mars"/>
+            else
+                <i
+                    class="fa fa-venus"/>
+        }
+        {
+            if ($item//t:person/@sameAs) then
+                <a
+                    href="{$item//t:person/@sameAs}">
+                    <span
+                        class="icon-large icon-vcard"/>
+                </a>
+            else
+                ()
+        }
+    </div>,
+    <div
+        class="w3-container">
+        <h5>Names</h5>
+        <ul
+            class="nodot">
+            {
+                for $n in $item//t:persName[@xml:id]
+                let $Nid := $n/@xml:id
+                return
+                    <li>{$n//text()}<sup>{$n/@xml:lang}</sup>
+                        {
+                            if ($item//t:persName[@corresp])
+                            then
+                                (let $corrsNs := for $corrN in $item//t:persName[@corresp]
+                                let $corrNcorr := substring-after($corrN/@corresp, '#')
+                                return
+                                    if ($corrNcorr = $Nid) then
+                                        ($corrN//text(), <sup>{$corrN/@xml:lang}</sup>)
+                                    else
+                                        ()
+                                return
+                                    ('(', $corrsNs, ')'))
+                            else
+                                ()
+                        }</li>
+            }
+        </ul>
+    </div>,
+    if ($item//t:floruit/@* or $item//t:birth/@* or $item//t:death/@*)
+    then
+        <div
+            class="w3-container">
             <h5>Dates</h5>
-            <ul class="nodot">
-            {for $d in ($item//t:floruit | $item//t:birth |$item//t:death | $item//t:date[ancestor::t:person])
-            return <li>{$d/name()}: {try{viewItem:dates($d)} catch * {util:log('info', $err:description)}}</li>}
+            <ul
+                class="nodot">
+                {
+                    for $d in ($item//t:floruit | $item//t:birth | $item//t:death | $item//t:date[ancestor::t:person])
+                    return
+                        <li>{$d/name()}: {
+                                try {
+                                    viewItem:dates($d)
+                                } catch * {
+                                    util:log('info', $err:description)
+                                }
+                            }</li>
+                }
             </ul>
-         </div> else (),
-         if($item//t:occupation) 
-            then <div class="w3-container">
+        </div>
+    else
+        (),
+    if ($item//t:occupation)
+    then
+        <div
+            class="w3-container">
             <h5>Occupation</h5>
-            <ul class="nodot">
-            {for $o in ($item//t:occupation)
-            return <li>{$o/text()} ({string($o/@type)})</li>}
+            <ul
+                class="nodot">
+                {
+                    for $o in ($item//t:occupation)
+                    return
+                        <li>{$o/text()} ({string($o/@type)})</li>
+                }
             </ul>
-         </div> else ()
+        </div>
+    else
+        ()
 };
 
 declare function q:summaryPlace($item, $id) {
-<div
+    <div
         class="w3-container">
-        {if($item//t:place/@sameAs) then let $wd := substring-after($item//t:place/@sameAs, 'wd:')
-            return
+        {
+            if ($item//t:place/@sameAs) then
+                let $wd := substring-after($item//t:place/@sameAs, 'wd:')
+                return
                     <a
                         href="{('https://www.wikidata.org/wiki/' || $wd)}"
                         target="_blank">{$wd}</a>
-           else ()}
-                    {
+            else
+                ()
+        }
+        {
             if ($item//t:geo) then
                 <a
                     href="{($id)}.json"
@@ -1949,92 +2521,101 @@ declare function q:summaryPlace($item, $id) {
             else
                 ()
         }
-        </div>
+    </div>
 };
 
 declare function q:summaryIns($item, $id) {
-let $fullid :=  ('https://betamasaheft.eu/'||$id)
-return
-<div class="w3-container">
-        There are {count($q:col//t:repository[@ref =$fullid])} items at this repository.
+    let $fullid := ('https://betamasaheft.eu/' || $id)
+    return
+        <div
+            class="w3-container">
+            There are {count($q:col//t:repository[@ref = $fullid])} items at this repository.
         </div>
 };
 
 declare function q:summaryWork($item, $id) {
-
-                let $isVersion := $q:col//t:relation[@name = 'saws:isVersionOf'][contains(@passive, $id)]
-                let $anotherlang := $q:col//t:relation[@name = 'saws:isVersionInAnotherLanguageOf'][contains(@passive, $id)]
-                  let $creator := $item//t:relation[@name = "dcterms:creator"]
-                let $attributed := $item//t:relation[@name = "saws:isAttributedToAuthor"]
-             
-                return
-                (
-   if($item//t:titleStmt/t:author or $creator or $attributed) then  <div
-        class="w3-container">
-        <h5>Author attributions</h5>
-        <ul
-            class="nodot">
-            {
-                for $author in $item//t:titleStmt/t:author
-                return
-                    <li>{$author}</li>
-            }
-            {
-                 let $attributions := for $r in ($creator, $attributed)
-                let $rpass := $r/@passive
-                return
-                    if (contains($rpass, ' ')) then
-                        tokenize($rpass, ' ')
-                    else
-                        $rpass
-                for $author in config:distinct-values($attributions)
-                let $id := replace($author, 'https://betamasaheft.eu/', '')
-                return
-                    <li><a
-                            href="{$author}">{
-                                try {
-                                    exptit:printTitleID($id)
-                                } catch * {
-                                    $author//t:titleStmt/t:title[1]/text()
-                                }
-                            }</a></li>
-            }
-        
-        </ul>
-    </div> else (),
-    if($item//t:listWit/t:witness or $isVersion or $anotherlang) then
-    <div
-        class="w3-container">
-        <h5>Witnesses</h5>
-        <ul
-            class="nodot">
-            {
-                for $witness in $item//t:listWit/t:witness
-                let $corr := $witness/@corresp
-                let $id := replace($corr, 'https://betamasaheft.eu/', '')
-                return
-                    <li><a
-                            href="{$corr}">{exptit:printTitleID($id)}</a></li>
-            }
-        </ul>
-        <ul
-            class="nodot">
-            {
-                for $parallel in ($isVersion, $anotherlang)
-                let $p := $parallel/@active
-                let $id := replace($parallel, 'https://betamasaheft.eu/', '')
-                return
-                    <li><a
-                            href="{$p}">{exptit:printTitleID($id)}</a></li>
-            }
-        </ul>
-    </div> else (),
-    if($item//t:abstract) then <div
-        class="w3-container">
-        <h5>Abstract</h5>
-        {string-join($item//t:abstract//text()[not(ancestor::t:bibl)], ' ')}
-    </div> else ()
-    )
+    
+    let $isVersion := $q:col//t:relation[@name = 'saws:isVersionOf'][contains(@passive, $id)]
+    let $anotherlang := $q:col//t:relation[@name = 'saws:isVersionInAnotherLanguageOf'][contains(@passive, $id)]
+    let $creator := $item//t:relation[@name = "dcterms:creator"]
+    let $attributed := $item//t:relation[@name = "saws:isAttributedToAuthor"]
+    
+    return
+        (
+        if ($item//t:titleStmt/t:author or $creator or $attributed) then
+            <div
+                class="w3-container">
+                <h5>Author attributions</h5>
+                <ul
+                    class="nodot">
+                    {
+                        for $author in $item//t:titleStmt/t:author
+                        return
+                            <li>{$author}</li>
+                    }
+                    {
+                        let $attributions := for $r in ($creator, $attributed)
+                        let $rpass := $r/@passive
+                        return
+                            if (contains($rpass, ' ')) then
+                                tokenize($rpass, ' ')
+                            else
+                                $rpass
+                        for $author in config:distinct-values($attributions)
+                        let $id := replace($author, 'https://betamasaheft.eu/', '')
+                        return
+                            <li><a
+                                    href="{$author}">{
+                                        try {
+                                            exptit:printTitleID($id)
+                                        } catch * {
+                                            $author//t:titleStmt/t:title[1]/text()
+                                        }
+                                    }</a></li>
+                    }
+                
+                </ul>
+            </div>
+        else
+            (),
+        if ($item//t:listWit/t:witness or $isVersion or $anotherlang) then
+            <div
+                class="w3-container">
+                <h5>Witnesses</h5>
+                <ul
+                    class="nodot">
+                    {
+                        for $witness in $item//t:listWit/t:witness
+                        let $corr := $witness/@corresp
+                        let $id := replace($corr, 'https://betamasaheft.eu/', '')
+                        return
+                            <li><a
+                                    href="{$corr}">{exptit:printTitleID($id)}</a></li>
+                    }
+                </ul>
+                <ul
+                    class="nodot">
+                    {
+                        for $parallel in ($isVersion, $anotherlang)
+                        let $p := $parallel/@active
+                        let $id := replace($parallel, 'https://betamasaheft.eu/', '')
+                        return
+                            <li><a
+                                    href="{$p}">{exptit:printTitleID($id)}</a></li>
+                    }
+                </ul>
+            </div>
+        else
+            (),
+        if ($item//t:abstract) then
+            <div
+                class="w3-container">
+                <h5>Abstract</h5>
+                {string-join($item//t:abstract//text()[not(ancestor::t:bibl)], ' ')}
+            </div>
+        else
+            ()
+        )
 };
 
 declare function q:summaryMss($item, $id) {
@@ -2052,7 +2633,8 @@ declare function q:summaryMss($item, $id) {
     <div
         class="w3-container">
         <h5>Short Description</h5>
-        This {lower-case(($item//t:material/@key)[1])}
+        This {lower-case(($item//t:material/@key)[1]) || ' '}
+        
         {lower-case(($item//t:objectDesc/@form)[1])}
         is composed of {$item//t:extent/t:measure[@unit = 'leaf'][not(@type = 'blank')]} leaves.
         It has {count($item//t:msItem[not(t:msItem)])
@@ -2075,16 +2657,35 @@ declare function q:summaryMss($item, $id) {
                 let $orig := $item//t:origDate
                 let $internal := $item//t:date[@evidence eq 'internal-date']
                 let $alldates := ($orig, $internal)
-               let $formatdates := for $d in $alldates
-                 return
-                    try{viewItem:dates($d)} catch * {util:log('info', $err:description)}
-                    return string-join($formatdates, ' '))
-                            || '. '
+                let $formatdates := for $d in $alldates
+                return
+                    try {
+                        viewItem:dates($d)
+                    } catch * {
+                        util:log('info', $err:description)
+                    }
+                return
+                    string-join($formatdates, ' '))
+                || '. '
             else
                 ()
         }
-       {if($item//t:handNote) then 'There are ' || count($item//t:handNote) ||
-        ' described hands using ' || string-join(config:distinct-values(data($item//@script)), ', ') || ' script. ' else () }
+        {
+            if ($item//t:handNote) then
+                let $hands := count($item//t:handNote)
+                return
+                    if ($hands gt 1) then
+                        'There are '
+                    else
+                        'There is ' || $hands || ' hand' ||
+                        (if ($hands gt 1) then
+                            's'
+                        else
+                            ()) ||
+                        ' described with ' || string-join(config:distinct-values(data($item//@script)), ', ') || ' script attested. '
+            else
+                ()
+        }
         The description {
             if ($item//t:collation[descendant::t:item]) then
                 ' includes a collation of the quires.'
@@ -2093,14 +2694,17 @@ declare function q:summaryMss($item, $id) {
         }</div>
 };
 
-declare function q:dates($d){
-if ($d/text())
-                    then
-                        string-join($d//text(), ' ')
-                    else
-                        let $atts := for $att in $d/@* return  ($att/name() || ' ' || $att/data())
-                        return
-                            string-join($atts, ' ')};
+declare function q:dates($d) {
+    if ($d/text())
+    then
+        string-join($d//text(), ' ')
+    else
+        let $atts := for $att in $d/@*
+        return
+            ($att/name() || ' ' || $att/data())
+        return
+            string-join($atts, ' ')
+};
 
 
 (:the following three functions are shared by results with and without matches:)
@@ -2215,12 +2819,13 @@ EMIP:)
     
     ,
     if ($collection = 'works' and (contains($q:searchType, 'clavis'))) then
-    
+        
         apptable:clavisIds($item)
-    else     if ($collection = 'works' and (not(contains($q:searchType, 'clavis')))) then
-        apptable:clavisIds($text)
     else
-        ()
+        if ($collection = 'works' and (not(contains($q:searchType, 'clavis')))) then
+            apptable:clavisIds($text)
+        else
+            ()
     
     
 };
@@ -2294,22 +2899,33 @@ declare function q:resultslinkstoviews($t, $id, $collection) {
         role="button"
         class="w3-button w3-small w3-gray"
         href="/{$collection}/{$id}/analytic">relations</a>
-        <div class="w3-card w3-margin w3-padding" style="height:200px;resize: both;overflow:auto">
+    <div
+        class="w3-card w3-margin w3-padding"
+        style="height:200px;resize: both;overflow:auto">
         
-         {
-         let $item := $q:col/id($id)[name() = 'TEI']
-         let $log := if(count($item) gt 1) then for $i in $item return util:log('INFO', base-uri($i)) else ()
-         return
-         switch ($t)
-                case 'pers'
-                    return item2:RestPersRole($item, $collection)
+        {
+            let $item := $q:col/id($id)[name() = 'TEI']
+            let $log := if (count($item) gt 1) then
+                for $i in $item
+                return
+                    util:log('INFO', base-uri($i))
+            else
+                ()
+            return
+                switch ($t)
+                    case 'pers'
+                        return
+                            item2:RestPersRole($item, $collection)
                     case 'work'
-                    return (<h4>List of computed witnesses</h4>,item2:witList($item))
+                        return
+                            (<h4>List of computed witnesses</h4>, item2:witList($item))
                     case 'mss'
-                    return (<h4>List of related persons</h4>, item2:persList($item))
-                default return ()    
-                    }
-        </div>
+                        return
+                            (<h4>List of related persons</h4>, item2:persList($item))
+                    default return
+                        ()
+    }
+</div>
 </div>
 };
 
@@ -2355,6 +2971,7 @@ declare function q:rn($n) {
 };
 
 declare function q:queryinput($node as node(), $model as map(*), $query as xs:string*) {
+    
     <textarea
         id="sparql"
         style="height:200px"
@@ -2368,229 +2985,415 @@ declare function q:queryinput($node as node(), $model as map(*), $query as xs:st
 
 declare function q:elements($node as node(), $model as map(*)) {
     let $control :=
-        <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="element" name="element" class="w3-select">
-            
-            <option value="title">Titles</option>
-            <option value="persName">Person names</option>
-            <option value="placeName">Place names</option>
-            <option value="ref">References</option>
-            <option value="ab">Texts</option>
-            <option value="l">Lines</option>
-            <option value="p">Paragraphs</option>
-            <option value="note">Notes</option>
-            <option value="incipit">Incipits</option>
-            <option value="explicit">Explicits</option>
-            <option value="colophon">Colophons</option>
-            <option value="q">Quotes</option>
-            <option value="occupation">Occupation</option>
-            <option value="roleName">Role</option>
-            <option value="summary">Summaries</option>
-            <option value="abstract">Abstracts</option>
-            <option value="desc">Descriptions</option>
-            <option value="relation">Relations</option>
-            <option value="foliation">Foliation</option>
-            <option value="origDate">Origin Dates</option>
-            <option value="measure">Measures</option>
-            <option value="floruit">Floruit</option>
-        </select>
+    <select
+        xmlns="http://www.w3.org/1999/xhtml"
+        multiple="multiple"
+        id="element"
+        name="element"
+        class="w3-select">
+        <option
+            value="title">Titles</option>
+        <option
+            value="persName">Person names</option>
+        <option
+            value="placeName">Place names</option>
+        <option
+            value="ref">References</option>
+        <option
+            value="ab">Texts</option>
+        <option
+            value="l">Lines</option>
+        <option
+            value="p">Paragraphs</option>
+        <option
+            value="note">Notes</option>
+        <option
+            value="incipit">Incipits</option>
+        <option
+            value="explicit">Explicits</option>
+        <option
+            value="colophon">Colophons</option>
+        <option
+            value="q">Quotes</option>
+        <option
+            value="occupation">Occupation</option>
+        <option
+            value="roleName">Role</option>
+        <option
+            value="summary">Summaries</option>
+        <option
+            value="abstract">Abstracts</option>
+        <option
+            value="desc">Descriptions</option>
+        <option
+            value="relation">Relations</option>
+        <option
+            value="foliation">Foliation</option>
+        <option
+            value="origDate">Origin Dates</option>
+        <option
+            value="measure">Measures</option>
+        <option
+            value="floruit">Floruit</option>
+    </select>
     return
         templates:form-control($control, $model)
 };
 
 (:switch mapping the name of a filter to the correct range index name:)
-declare function q:rangeindexname($nodeName){
-                                        switch($nodeName) 
-                                        case 'relType' return 'relname' 
-                                        case 'language' return 'TEIlanguageIdent' 
-                                        case 'material' return 'materialkey' 
-                                        case 'bmaterial' return 'materialkey'
-                                         case 'placetype' return 'placetype' 
-                                         case 'country' return 'countryref' 
-                                         case 'settlement' return 'settlref' 
-                                         case 'occupation' return 'occtype' 
-                                         case 'faith' return 'faithtype' 
-                                         case 'objectType' return 'form' 
-                                         default return 'termkey'
-};
-
-declare function q:rangeindexlabel($nodeName){
-                                        switch($nodeName) 
-                                        case 'TEItermKey' return 'keyword' 
-                                        case 'TEIlanguageIdent' return 'language' 
-                                        case 'TEIrepo' return 'repository' 
-                                        case 'TEIclavistype' return 'clavis type'
-                                         case 'TEIclavisID' return 'clavis id' 
-                                         case 'TEIorigDateW' return 'origin date (when)' 
-                                         case 'TEIorigDateNB' return 'origin date (notBefore)' 
-                                         case 'TEIorigDateNA' return 'origin date (notAfter)' 
-                                         case 'TEIDateW' return 'date (when)' 
-                                         case 'TEIDateNB' return 'date (notBefore)' 
-                                         case 'TEIDateNA' return 'date (notAfter)' 
-                                         case 'TEIplNametx' return 'place reference' 
-                                         case 'TEIprNametx' return 'person reference' 
-                                         case 'TEIscript' return 'script' 
-                                         case 'TEIsupport' return 'form' 
-                                         case 'TEIdecoMat' return 'binding material'
-                                         case 'TEIpersOcc' return 'occupation type' 
-                                         case 'TEIreltx' return 'relation name' 
-                                         case 'TEIreltxA' return 'relation target (active)'
-                                         case 'TEIreltxP' return 'relation target (passive)' 
-                                         case 'TEItitle' return 'title reference' 
-                                         case 'TEIwitt' return 'witness'
-                                         case 'TEIsex' return 'gender'
-                                         case 'TEImeasure' return 'measure'
-                                         case 'TEIwrittenLines' return 'written lines'
-                                         case 'TEIquireDim' return 'quire dimension'
-                                         case 'materialkey' return 'material'
-                                         case 'itemtype' return 'addition'
-                                         case 'persrole' return 'person role'
-                                         case 'custEventsubtype' return 'restoration'
-                                         case 'repositorytext' return 'repository'
-                                         case 'titletext' return 'title'
-                                         case 'witnesstext' return 'witness'
-                                         default return 'unknown'
-};
-
-declare function q:rangeindexlookup ($rangeindexname){
-$q:col/$q:range-lookup3($rangeindexname, function($key, $count) 
-                {q:sortedoptions($rangeindexname, $key, $count)}, 
-                1000)
-(:                this tries to take all, keeping the total number of keys high:)
-};
-
-declare function q:sortedoptions($rangeindexname, $key, $count){
-let $options := for $option in q:formatOption($rangeindexname, $key, $count) 
-                           return
-                              if(starts-with($key,'https://betamasaheft.eu/') and contains($key, '#')) 
-                              then
-                                       try{ let $id := replace($key,'https://betamasaheft.eu/', '') 
-                                        let $subid := substring-after($key, '#')
-                                          let $mainid := substring-before($key, '#')
-                                          group by $MAIN := $mainid
-                                         return   
-                                         <optgroup label="{$MAIN/text()}">{for $o in $option return $o}</optgroup>} catch * {$err:description}
-                  else 
-                  let $sorting := q:sortingkey($option)
-                                            order by $sorting
-                                            return $option 
-return $options};
-
-declare function q:formatOption($rangeindexname,$key, $count){
-if($rangeindexname='TEIlanguageIdent')
-then <option value="{$key}">{$q:languages//id($key)/text()} ({$count[2]})</option>
-
-else if(starts-with($key,'https://betamasaheft.eu/'))
-         then 
-                  let $id := replace($key,'https://betamasaheft.eu/', '') 
-                  let $title := ($q:lists//t:item[@xml:id=$id] | $q:lists//t:item[@corresp=$id])/text() 
-                  let $titlesel := if ($title) then $title else try{exptit:printTitleID($id)} catch * {util:log('INFO',$err:description)}
-                  return <option value="{$key}">{$titlesel} ({$count[2]})</option>
-else if(starts-with($key,'#'))
-         then 
-                  let $id := replace($key,'#', '') 
-                  let $title := $q:lists//t:item[@xml:id=$id]/text() 
-                  return <option value="{$key}">{$title} ({$count[2]})</option>
-else  if ($rangeindexname = 'TEItermKey') then 
-            let $cat := $q:tax//t:category[@xml:id=$key] 
+declare function q:rangeindexname($nodeName) {
+    switch ($nodeName)
+        case 'relType'
             return
-                     <option value="{$key}">{$cat/t:catDesc/text()}</option>
-else if ($rangeindexname ='TEIsex') then <option value="{$key}">{switch($key) case '1' return 'Male' default return 'Female'} ({$count[2]})</option>
-else 
-<option value="{$key}">{$key} ({$count[2]})</option>
+                'relname'
+        case 'language'
+            return
+                'TEIlanguageIdent'
+        case 'material'
+            return
+                'materialkey'
+        case 'bmaterial'
+            return
+                'materialkey'
+        case 'placetype'
+            return
+                'placetype'
+        case 'country'
+            return
+                'countryref'
+        case 'settlement'
+            return
+                'settlref'
+        case 'occupation'
+            return
+                'occtype'
+        case 'faith'
+            return
+                'faithtype'
+        case 'objectType'
+            return
+                'form'
+        default return
+            'termkey'
+};
+
+declare function q:rangeindexlabel($nodeName) {
+    switch ($nodeName)
+        case 'TEItermKey'
+            return
+                'keyword'
+        case 'TEIlanguageIdent'
+            return
+                'language'
+        case 'TEIrepo'
+            return
+                'repository'
+        case 'TEIclavistype'
+            return
+                'clavis type'
+        case 'TEIclavisID'
+            return
+                'clavis id'
+        case 'TEIorigDateW'
+            return
+                'origin date (when)'
+        case 'TEIorigDateNB'
+            return
+                'origin date (notBefore)'
+        case 'TEIorigDateNA'
+            return
+                'origin date (notAfter)'
+        case 'TEIDateW'
+            return
+                'date (when)'
+        case 'TEIDateNB'
+            return
+                'date (notBefore)'
+        case 'TEIDateNA'
+            return
+                'date (notAfter)'
+        case 'TEIplNametx'
+            return
+                'place reference'
+        case 'TEIprNametx'
+            return
+                'person reference'
+        case 'TEIscript'
+            return
+                'script'
+        case 'TEIsupport'
+            return
+                'form'
+        case 'TEIdecoMat'
+            return
+                'binding material'
+        case 'TEIpersOcc'
+            return
+                'occupation type'
+        case 'TEIreltx'
+            return
+                'relation name'
+        case 'TEIreltxA'
+            return
+                'relation target (active)'
+        case 'TEIreltxP'
+            return
+                'relation target (passive)'
+        case 'TEItitle'
+            return
+                'title reference'
+        case 'TEIwitt'
+            return
+                'witness'
+        case 'TEIsex'
+            return
+                'gender'
+        case 'TEImeasure'
+            return
+                'measure'
+        case 'TEIwrittenLines'
+            return
+                'written lines'
+        case 'TEIquireDim'
+            return
+                'quire dimension'
+        case 'materialkey'
+            return
+                'material'
+        case 'itemtype'
+            return
+                'addition'
+        case 'persrole'
+            return
+                'person role'
+        case 'custEventsubtype'
+            return
+                'restoration'
+        case 'repositorytext'
+            return
+                'repository'
+        case 'titletext'
+            return
+                'title'
+        case 'witnesstext'
+            return
+                'witness'
+        default return
+            'unknown'
+};
+
+declare function q:rangeindexlookup($rangeindexname) {
+    $q:col/$q:range-lookup3($rangeindexname, function ($key, $count)
+    {
+        q:sortedoptions($rangeindexname, $key, $count)
+    },
+    1000)
+    (:                this tries to take all, keeping the total number of keys high:)
+};
+
+declare function q:sortedoptions($rangeindexname, $key, $count) {
+    let $options := for $option in q:formatOption($rangeindexname, $key, $count)
+    return
+        if (starts-with($key, 'https://betamasaheft.eu/') and contains($key, '#'))
+        then
+            try {
+                let $id := replace($key, 'https://betamasaheft.eu/', '')
+                let $subid := substring-after($key, '#')
+                let $mainid := substring-before($key, '#')
+                    group by $MAIN := $mainid
+                return
+                    <optgroup
+                        label="{$MAIN/text()}">{
+                            for $o in $option
+                            return
+                                $o
+                        }</optgroup>
+            } catch * {
+                $err:description
+            }
+        else
+            let $sorting := q:sortingkey($option)
+                order by $sorting
+            return
+                $option
+    return
+        $options
+};
+
+declare function q:formatOption($rangeindexname, $key, $count) {
+    if ($rangeindexname = 'TEIlanguageIdent')
+    then
+        <option
+            value="{$key}">{$q:languages//id($key)/text()} ({$count[2]})</option>
+    
+    else
+        if (starts-with($key, 'https://betamasaheft.eu/'))
+        then
+            let $id := replace($key, 'https://betamasaheft.eu/', '')
+            let $title := ($q:lists//t:item[@xml:id = $id] | $q:lists//t:item[@corresp = $id])/text()
+            let $titlesel := if ($title) then
+                $title
+            else
+                try {
+                    exptit:printTitleID($id)
+                } catch * {
+                    util:log('INFO', $err:description)
+                }
+            return
+                <option
+                    value="{$key}">{$titlesel} ({$count[2]})</option>
+        else
+            if (starts-with($key, '#'))
+            then
+                let $id := replace($key, '#', '')
+                let $title := $q:lists//t:item[@xml:id = $id]/text()
+                return
+                    <option
+                        value="{$key}">{$title} ({$count[2]})</option>
+            else
+                if ($rangeindexname = 'TEItermKey') then
+                    let $cat := $q:tax//t:category[@xml:id = $key]
+                    return
+                        <option
+                            value="{$key}">{$cat/t:catDesc/text()}</option>
+                else
+                    if ($rangeindexname = 'TEIsex') then
+                        <option
+                            value="{$key}">{
+                            switch ($key)
+                                    case '1'
+                                        return
+                                            'Male'
+                                    default return
+                                        'Female'
+                        } ({$count[2]})</option>
+                else
+                    <option
+                        value="{$key}">{$key} ({$count[2]})</option>
 };
 
 
 declare function q:generalRangeIndexesFilters($node as node(), $model as map(*)) {
-let $indexnames:=('TEIlanguageIdent', 'TEItermKey')
-return q:datalist($indexnames)
+    let $indexnames := ('TEIlanguageIdent', 'TEItermKey')
+    return
+        q:datalist($indexnames)
 };
 
 declare function q:MssRangeIndexesFilters($node as node(), $model as map(*)) {
-let $indexnames:=('TEIscript', 'TEIsupport', 'materialkey', 'TEIdecoMat', 'custEventsubtype')
-return q:datalist($indexnames)
+    let $indexnames := ('TEIscript', 'TEIsupport', 'materialkey', 'TEIdecoMat', 'custEventsubtype')
+    return
+        q:datalist($indexnames)
 };
 
-declare function q:target-ins($node as node(), $model as map(*)){
-q:datalist('repositorytext')
+declare function q:target-ins($node as node(), $model as map(*)) {
+    q:datalist('repositorytext')
 };
 
 
-declare function q:roles($node as node(), $model as map(*)){
-q:datalist('persrole')
+declare function q:roles($node as node(), $model as map(*)) {
+    q:datalist('persrole')
 };
 
-declare function q:contents($node as node(), $model as map(*)){
-let $indexes := ('titletext', 'itemtype') return
-q:datalist($indexes)
+declare function q:contents($node as node(), $model as map(*)) {
+    let $indexes := ('titletext', 'itemtype')
+    return
+        q:datalist($indexes)
 };
 
-declare function q:datalist ($indexnames){
-let $indexesSelection := $q:TEIrangeFields[.=$indexnames]
-for $rangeindexname in $indexesSelection
-let $nodeName := q:rangeindexlabel($rangeindexname)
-let $lookup :=  q:rangeindexlookup($rangeindexname)
-   return 
-   <div class="w3-container">
-                    <label for="{$nodeName}">{$nodeName}s <span class="w3-badge">{count($lookup)}</span></label>
-                 <input
-                    list="{$nodeName}-list"
-                    class="w3-input"
-                    name="{$nodeName}" id="{$nodeName}" ></input>
-                <datalist style="width:100%"
-                    id="{$nodeName}-list">
-                    {for $option in $lookup return $option}
-                </datalist>
-      </div>};
+declare function q:datalist($indexnames) {
+    let $indexesSelection := $q:TEIrangeFields[. = $indexnames]
+    for $rangeindexname in $indexesSelection
+    let $nodeName := q:rangeindexlabel($rangeindexname)
+    let $lookup := q:rangeindexlookup($rangeindexname)
+    return
+        <div
+            class="w3-container">
+            <label
+                for="{$nodeName}">{$nodeName}s <span
+                    class="w3-badge">{count($lookup)}</span></label>
+            <input
+                list="{$nodeName}-list"
+                class="w3-input"
+                name="{$nodeName}"
+                id="{$nodeName}"></input>
+            <datalist
+                style="width:100%"
+                id="{$nodeName}-list">
+                {
+                    for $option in $lookup
+                    return
+                        $option
+                }
+            </datalist>
+        </div>
+};
 
 
 (:~determins what the selectors for various form controls will look like, is called by app:formcontrol() :)
-declare function q:selectors($nodeName, $nodes, $type){
-             <select multiple="multiple" name="{$nodeName}" id="{$nodeName}" class="w3-select">
-            {
+declare function q:selectors($nodeName, $nodes, $type) {
+    <select
+        multiple="multiple"
+        name="{$nodeName}"
+        id="{$nodeName}"
+        class="w3-select">
+        {
             
-            if ($type = 'keywords') then (
-                    for $group in $nodes/t:category[t:desc]
-                    let $label := $group/t:desc/text()
-                    
-                    return
+            if ($type = 'keywords') then
+                (
+                for $group in $nodes/t:category[t:desc]
+                let $label := $group/t:desc/text()
+                
+                return
                     for $n in $group//t:catDesc
                     let $id := $n/text()
-                    let $title :=exptit:printTitleID($id)
+                    let $title := exptit:printTitleID($id)
                     return
-                       <option value="{$id}">{$title[1]}</option>
-                                )
-                                              
-            else if ($type = 'name')
-                            then (for $n in $nodes[. != ''][. != ' ']
-                            let $id := string($n/@xml:id)
-                            let $title := exptit:printTitleID($id)
-                            let $sortkey := q:sortingkey($title)
-                                               order by $sortkey
-                                               return
+                        <option
+                            value="{$id}">{$title[1]}</option>
+                )
             
-                                                <option value="{$id}" >{$title}</option>
-                                          )
-            else if ($type = 'rels')
-                     then (
-                    
-                 for $n in $nodes[. != ''][. != ' ']
-                          let $title :=  exptit:printTitleID($n)  
-                          let $sortkey := q:sortingkey($title[1])
+            else
+                if ($type = 'name')
+                then
+                    (for $n in $nodes[. != ''][. != ' ']
+                    let $id := string($n/@xml:id)
+                    let $title := exptit:printTitleID($id)
+                    let $sortkey := q:sortingkey($title)
+                        order by $sortkey
+                    return
+                        
+                        <option
+                            value="{$id}">{$title}</option>
+                    )
+                else
+                    if ($type = 'rels')
+                    then
+                        (
+                        
+                        for $n in $nodes[. != ''][. != ' ']
+                        let $title := exptit:printTitleID($n)
+                        let $sortkey := q:sortingkey($title[1])
                             order by $sortkey
-                             return
-            
-                             <option value="{$n}">{normalize-space(string-join($title))}</option>
+                        return
+                            
+                            <option
+                                value="{$n}">{normalize-space(string-join($title))}</option>
                         )
-             else if ($type = 'hierels')
-             then (
-             for $n in $nodes[. != ''][. != ' '][not(starts-with(.,'#'))]
-             let $cleanid := if (contains($n, '#')) then (substring-before($n, '#')) else $n
-             group by $work := $cleanid
-             let $record := $q:col/id($work)
-             let $titlework := exptit:printTitle($record)
-               let $sortkey := q:sortingkey($titlework)
-               order by $sortkey
-                                  (:  try{
+                    else
+                        if ($type = 'hierels')
+                        then
+                            (
+                            for $n in $nodes[. != ''][. != ' '][not(starts-with(., '#'))]
+                            let $cleanid := if (contains($n, '#')) then
+                                (substring-before($n, '#'))
+                            else
+                                $n
+                                group by $work := $cleanid
+                            let $record := $q:col/id($work)
+                            let $titlework := exptit:printTitle($record)
+                            let $sortkey := q:sortingkey($titlework)
+                                order by $sortkey
+                                (:  try{
                                         if ($exptit:col/id($work)) 
                                         then exptit:printTitle($exptit:col/id($work)) 
                                         else $work} 
@@ -2598,51 +3401,83 @@ declare function q:selectors($nodeName, $nodes, $type){
                                     catch* {
                                         ('while trying to create a list for the filter ' ||$nodeName || ' I got '|| $err:code ||': '||$err:description || ' about ' || $work), 
                                          $work}:)
-                                return
-                                if (count($n) = 1)
-                                then <option value="{$work}">{$titlework}</option>
-                                else(
-                                      <optgroup label="{$titlework}">
-                  
-                    { for $subid in $n
-                    return
-                                        <option value="{$subid}">{
-                                          if (contains($subid, '#')) then substring-after($subid, '#') else 'all'
-                                         }</option>
-                                         }
-                             
-                             
-                                    </optgroup>)
-                                    
-                                    )
-            else if ($type = 'institutions')
-                      then (
-                             let $institutions := collection($config:data-rootIn)//t:TEI/@xml:id
-                                 for $institutionId in $nodes[. eq $institutions]
                             return
-            
-                            <option value="{$institutionId}">{exptit:printTitleID($institutionId)}</option>
-                        )
-            
-            else if ($type = 'sex')
-                     then (for $n in $nodes[. != ''][. != ' ']
-                        let $key := replace(functx:trim($n), '_', ' ')
-                         order by $n
-                         return
-                             <option value="{string($key)}">{switch($key) case '1' return 'Male' default return 'Female'}</option>
-                        )
-            else(
-            (: type is values :)
-            for $n in $nodes[. != ''][. != ' ']
-                let $thiskey := replace(functx:trim($n), '_', ' ')
-                let $title := if($nodeName = 'keyword' or $nodeName = "placetype"or $nodeName = "country"or $nodeName = "settlement") then exptit:printTitleID($thiskey) 
-                                        else if ($nodeName = 'language') then $q:languages//t:item[@xml:id eq $thiskey]/text()
-                                        else $thiskey
-               order by $n
-               return
-            <option value="{$thiskey}">{if($thiskey = 'Printedbook') then 'Printed Book' 
-             else $title}</option>
-            )
-            }
-        </select>
+                                if (count($n) = 1)
+                                then
+                                    <option
+                                        value="{$work}">{$titlework}</option>
+                                else
+                                    (
+                                    <optgroup
+                                        label="{$titlework}">
+                                        
+                                        {
+                                            for $subid in $n
+                                            return
+                                                <option
+                                                    value="{$subid}">{
+                                                        if (contains($subid, '#')) then
+                                                            substring-after($subid, '#')
+                                                        else
+                                                            'all'
+                                                    }</option>
+                                        }
+                                    
+                                    
+                                    </optgroup>)
+                            
+                            )
+                        else
+                            if ($type = 'institutions')
+                            then
+                                (
+                                let $institutions := collection($config:data-rootIn)//t:TEI/@xml:id
+                                for $institutionId in $nodes[. eq $institutions]
+                                return
+                                    
+                                    <option
+                                        value="{$institutionId}">{exptit:printTitleID($institutionId)}</option>
+                                )
+                            
+                            else
+                                if ($type = 'sex')
+                                then
+                                    (for $n in $nodes[. != ''][. != ' ']
+                                    let $key := replace(functx:trim($n), '_', ' ')
+                                        order by $n
+                                    return
+                                        <option
+                                            value="{string($key)}">{
+                                            switch ($key)
+                                                    case '1'
+                                                        return
+                                                            'Male'
+                                                    default return
+                                                        'Female'
+                                        }</option>
+                                )
+                            else
+                                (
+                                (: type is values :)
+                                for $n in $nodes[. != ''][. != ' ']
+                                let $thiskey := replace(functx:trim($n), '_', ' ')
+                                let $title := if ($nodeName = 'keyword' or $nodeName = "placetype" or $nodeName = "country" or $nodeName = "settlement") then
+                                    exptit:printTitleID($thiskey)
+                                else
+                                    if ($nodeName = 'language') then
+                                        $q:languages//t:item[@xml:id eq $thiskey]/text()
+                                    else
+                                        $thiskey
+                                    order by $n
+                                return
+                                    <option
+                                        value="{$thiskey}">{
+                                            if ($thiskey = 'Printedbook') then
+                                                'Printed Book'
+                                            else
+                                                $title
+                                        }</option>
+                                )
+    }
+</select>
 };
