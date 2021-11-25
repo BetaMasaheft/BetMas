@@ -374,7 +374,6 @@
                 <field name="TEIprNametx" match="//t:persName/@ref" type="xs:string"/>
                 <field name="TEIscript" match="//t:handNote/@script" type="xs:string"/>
                 <field name="TEIsupport" match="//t:objectDesc/@form" type="xs:string"/>
-                <!--<field name="TEIdecoMat" match="//t:decoNote[@type='bindingMaterial']/t:material/@key" type="xs:string"/>-->
                 <field name="TEIpersOcc" match="//t:occupation/@type" type="xs:string"/>
                 <field name="TEIreltx" match="//t:relation/@name" type="xs:string"/>
                 <field name="TEIreltxP" match="//t:relation/@passive" type="xs:string"/>

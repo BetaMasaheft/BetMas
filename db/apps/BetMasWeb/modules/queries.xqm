@@ -523,7 +523,7 @@ declare function q:ListQueryParam-rest($parameter, $context, $mode, $function) {
         (
         for $k in $parameter
         
-        let $ks := doc($config:data-rootA || '/taxonomy.xml')//t:catDesc[text() eq $k]/following-sibling::t:*/t:catDesc/text()
+        let $ks := $q:tax//t:catDesc[text() eq $k]/following-sibling::t:*/t:catDesc/text()
         let $nestedCats := for $n in $ks
         return
             $n
@@ -586,147 +586,341 @@ declare function q:paramrange($par, $path as xs:string) {
 
 };
 
-(:returns a string of arguments to be appended to the main query context:)
-declare function q:parameters2arguments($params) {
-    let $work-type := request:get-parameter('work-types', ())
-    let $type := if ($work-type = '') then
+declare %private function q:parrequest($par) {
+    request:get-parameter($par, ())
+};
+
+declare %private function q:par-works-type($work-type) {
+    let $types := for $w in $work-type
+    return
+        if ($w = 'eth') then
+            '@type="pers"][starts-with(@xml:id, "' || upper-case($w) || '")'
+        else
+            '@type="' || $w || '"'
+    return
+        '[' || string-join($types, ' or ') || ']'
+};
+
+declare %private function q:par-allnames($names, $collection) {
+    switch ($collection)
+        case 'manuscripts'
+            return
+                q:ListQueryParam-rest($names, 't:msIdentifier//t:idno', 'any', 'search')
+        case 'institutions'
+            return
+                q:ListQueryParam-rest($names, 't:place/t:placeName', 'any', 'search')
+        case 'places'
+            return
+                q:ListQueryParam-rest($names, 't:place/t:placeName', 'any', 'search')
+        case 'persons'
+            return
+                q:ListQueryParam-rest($names, 't:person/t:persName', 'any', 'search')
+        case 'ethnics'
+            return
+                q:ListQueryParam-rest($names, 't:personGrp/t:persName', 'any', 'search')
+        case 'works'
+            return
+                q:ListQueryParam-rest($names, 't:title', 'any', 'search')
+        case 'studies'
+            return
+                q:ListQueryParam-rest($names, 't:title', 'any', 'search')
+        case 'narratives'
+            return
+                q:ListQueryParam-rest($names, 't:title', 'any', 'search')
+        default return
+            ()
+};
+
+declare function q:par-keywords($keywords) {
+    (:keywords are used in a number of locations, so alternatives need to be built:)
+    let $strings := (q:ListQueryParam-rest($keywords, 't:ab[@type eq "tabot"]/t:persName/@ref', 'any', 'list'),
+    q:ListQueryParam-rest($keywords, 't:place/@type', 'any', 'list'),
+    q:ListQueryParam-rest($keywords, 't:occupation/@type', 'any', 'list'),
+    q:ListQueryParam-rest($keywords, 't:desc/@type', 'any', 'list'),
+    q:ListQueryParam-rest($keywords, 't:term/@key', 'any', 'list')
+    )
+    let $stripouterbrackets := for $arg in $strings
+    return
+        replace($arg, '$\[', '') => replace('\]&amp;', '')
+    return
+        '[' || string-join($stripouterbrackets, ' or ') || ']'
+};
+
+declare %private function q:par-contentPr($contentProvider) {
+    switch ($contentProvider)
+        case 'BM'
+            return
+                "[not(starts-with(@xml:id, 'EMIP'))][not(starts-with(@xml:id, 'EMML'))][not(starts-with(@xml:id, 'ES'))][not(contains(@xml:id, 'IHA'))][not(starts-with(@xml:id, 'GG'))]"
+        case 'EMML'
+            return
+                "[starts-with(@xml:id, 'EMML')]"
+        case 'EMIP'
+            return
+                "[starts-with(@xml:id, 'EMIP')]"
+        case 'ES'
+            return
+                "[starts-with(@xml:id, 'ES')]"
+        case 'IHA'
+            return
+                "[contains(@xml:id, 'IHA')]"
+        case 'GG'
+            return
+                "[starts-with(@xml:id, 'GG')]"
+        default return
+            ''
+};
+
+declare %private function q:par-CAeID($CAeID) {
+    "[contains(@xml:id, '" || string(format-number($CAeID, '0000')) || "') and not(ends-with(@xml:id, 'IHA'))]"
+};
+
+declare %private function q:par-clavis($clavisID, $clavisType) {
+    if ((empty($clavisID) or $clavisID = '' or not(matches($clavisID, '\d+'))) and (empty($clavisType) or $clavisType = ''  or not(matches($clavisType, '\w+')))) then
         ()
     else
-        let $types := for $w in $work-type
-        return
-            if ($w = 'eth') then
-                '@type="pers"][starts-with(@xml:id, "' || upper-case($w) || '")'
-            else
-                '@type="' || $w || '"'
-        return
-            '[' || string-join($types, ' or ') || ']'
+        if ((empty($clavisID) or $clavisID = '' or not(matches($clavisID, '\d+'))) and (matches($clavisType, '\w+'))) then
+            "[descendant::t:bibl[@type eq '" || $clavisType || "']]"
+        else
+            "[descendant::t:bibl[@type eq '" || $clavisType || "'][t:citedRange eq '" || $clavisID || "']]"
+};
+
+(:  two functions pass alternatively the parameters, because it is in this case legitimate that one may be empty for the query to run,
+although it does need to know both:)
+declare %private function q:par-ClavisIDs($clavisID, $clavisType) {
+    let $clavisType := q:parrequest($clavisType)
     return
-        $type
-        (:let $allnames :=  if($names = '') then () else
-            switch($collection)
-                case 'manuscripts' return q:ListQueryParam-rest($names, 't:msIdentifier//t:idno', 'any', 'search')
-                case 'institutions' return q:ListQueryParam-rest($names, 't:place/t:placeName', 'any', 'search')
-                case 'places' return q:ListQueryParam-rest($names, 't:place/t:placeName', 'any', 'search')
-                case 'persons' return q:ListQueryParam-rest($names, 't:person/t:persName', 'any', 'search')
-                case 'works' return q:ListQueryParam-rest($names, 't:title', 'any', 'search')
-                case 'narratives' return q:ListQueryParam-rest($names, 't:title', 'any', 'search')
-           default return ()
-           
-let $key := if($keywords = '') then () else
-            switch($collection)
-                case 'narratives' return ()
-                case 'institutions' return q:ListQueryParam-rest($keywords, 't:ab[@type eq "tabot"]/t:persName/@ref', 'any', 'list')
-                case 'places' return q:ListQueryParam-rest($keywords, 't:place/@type', 'any', 'list')
-(\:                case 'persons' return q:ListQueryParam-rest($keywords, 't:occupation/@type', 'any', 'list'):\)
-           default return q:ListQueryParam-rest($keywords, 't:term/@key', 'any', 'list')
+        q:par-clavis($clavisID, $clavisType)
+};
 
-let $ContentPr := if ($contentProvider = '') then () else
-                    switch($contentProvider)
-                        case 'BM' return "[not(starts-with(@xml:id, 'EMIP'))][not(starts-with(@xml:id, 'EMML'))][not(starts-with(@xml:id, 'ES'))][not(contains(@xml:id, 'IHA'))][not(starts-with(@xml:id, 'GG'))]"
-                        case 'EMML' return "[starts-with(@xml:id, 'EMML')]"
-                        case 'EMIP' return "[starts-with(@xml:id, 'EMIP')]"
-                        case 'ES' return "[starts-with(@xml:id, 'ES')]"
-                        case 'IHA' return "[contains(@xml:id, 'IHA')]"
-                        case 'GG' return "[starts-with(@xml:id, 'GG')]"
-                        default return ''
+declare %private function q:par-clavisType($clavisID, $clavisType) {
+    let $clavisID := q:parrequest($clavisID)
+    return
+        q:par-clavis($clavisID, $clavisType)
+};
 
-let $CaeIDs := if($CAeID = '') then () else "[contains(@xml:id, '"||string(format-number($CAeID, '0000')) ||"') and not(ends-with(@xml:id, 'IHA'))]"
-let $ClavisIDs :=
-                if(($clavisID = '') and ($clavisType = '')) then ()
-                      else if(($clavisID = '') and (matches($clavisType, '\w+'))) then "[descendant::t:bibl[@type eq '"||$clavisType||"']]"
-                      else  "[descendant::t:bibl[@type eq '"||$clavisType||"'][t:citedRange eq '"||$clavisID||"']]"
-
-let $languages := if($languages = '') then () else  q:ListQueryParam-rest($languages, 't:language/@ident', 'any', 'list')
-
-let $dR :=  if ($dateRange)
-                then (
-                let $range := $dateRange
-                let $from := substring-before($dateRange, ',')
-                let $to := substring-after($dateRange, ',')
-                return
-                if ($dateRange = '0,2000')
-                then ()
-                else
-                "[descendant::t:origDate
+declare %private function q:par-date-range($dateRange) {
+    let $from := substring-before($dateRange, ',')
+    let $to := substring-after($dateRange, ',')
+    return
+        if ($dateRange = '0,2000')
+        then
+            ()
+        else
+            "[descendant::(t:origDate|t:date|t:birth|t:death|t:floruit)
                 [xs:integer((if (contains(@notBefore, '-')) then (substring-before(@notBefore, '-')) else @notBefore)[. !='']) ge " || $from || " or
-                xs:integer((if (contains(@notAfter, '-')) then    (substring-before(@notAfter, '-')) else    @notAfter)[. != '']) ge " ||$from||"]
+                xs:integer((if (contains(@notAfter, '-')) then    (substring-before(@notAfter, '-')) else    @notAfter)[. != '']) ge " || $from || "]
                 [xs:integer((if (contains(@notBefore, '-')) then (substring-before(@notBefore, '-')) else @notBefore)[. !='']) le " || $to || " or
-                xs:integer((if (contains(@notAfter, '-')) then (substring-before(@notAfter, '-')) else @notAfter)[. != '']) le " ||$to ||"]]" ) else ()
+                xs:integer((if (contains(@notAfter, '-')) then (substring-before(@notAfter, '-')) else @notAfter)[. != '']) le " || $to || "]]"
+};
 
-let $nOfP := if(empty($numberOfP) or $numberOfP = '') then () else '[count(descendant::t:msPart) ge ' || $numberOfP || ']'
-let $opl := if(empty($PorigPlace) or $PorigPlace = '') then () else q:ListQueryParam-rest($PorigPlace, 't:origPlace/t:placeName/@ref', 'any', 'search')
-let $height :=   if(empty($Pheight) or $Pheight = '') then () else (q:paramrange('height', 'height'))
-let $width :=  if(empty($Pwidth) or $Pwidth = '') then () else  (q:paramrange('width', 'width'))
-let $depth :=  if(empty($Pdepth) or $Pdepth = '') then () else  (q:paramrange('depth', 'depth'))
-let $marginTop :=  if(empty($Ptmargin) or $Ptmargin = '') then () else  (q:paramrange('tmargin', "dimension[@type eq 'margin']/t:dim[@type eq 'top']"))
-let $marginBot := if(empty($Pbmargin) or $Pbmargin = '') then () else (q:paramrange('bmargin', "dimension[@type eq 'margin']/t:dim[@type eq 'bottom']"))
-let $marginR :=  if(empty($Prmargin) or $Prmargin = '') then () else (q:paramrange('rmargin', "dimension[@type eq 'margin']/t:dim[@type eq 'right']"))
-let $marginL :=  if(empty($Plmargin) or $Plmargin = '') then () else (q:paramrange('lmargin', "dimension[@type eq 'margin']/t:dim[@type eq 'left']"))
-let $marginIntercolumn :=  if(empty($Pintercolumn) or $Pintercolumn = '') then () else (q:paramrange('intercolumn', "dimension[@type eq 'margin']/t:dim[@type eq 'intercolumn']"))
-let $support :=  if(empty($PobjectType) or $PobjectType = '') then () else q:ListQueryParam-rest($PobjectType, 't:objectDesc/@form', 'any', 'search')
-let $material := if(empty($Pmaterial) or $Pmaterial = '') then () else q:ListQueryParam-rest($Pmaterial, 't:support/t:material/@key', 'any', 'search')
-let $bmaterial := if(empty($Pbmaterial) or $Pbmaterial = '') then () else q:ListQueryParam-rest($Pbmaterial, "t:decoNote[@type eq 'bindingMaterial']/t:material/@key", 'any', 'search')
-let $scripts := if(empty($Pscript) or $Pscript = '') then () else q:ListQueryParam-rest($Pscript, "t:handNote/@script", 'any',  'search')
-let $scribes := if(empty($Pscribe) or $Pscribe = '') then () else q:ListQueryParam-rest($Pscribe, "t:persName[@role eq 'scribe']/@ref", 'any',  'search')
-let $donors := if(empty($Pdonor) or $Pdonor = '') then () else q:ListQueryParam-rest($Pdonor, "t:persName[@role eq 'donor']/@ref", 'any',  'search')
-let $patrons := if(empty($Ppatron) or $Ppatron = '') then () else q:ListQueryParam-rest($Ppatron, "t:persName[@role eq 'patron']/@ref", 'any', 'search')
-let $owners := if(empty($Powner) or $Powner = '') then () else q:ListQueryParam-rest($Powner, "t:persName[@role eq 'owner']/@ref", 'any',  'search')
-let $parchmentMakers := if(empty($PparchmentMaker) or $PparchmentMaker = '') then () else q:ListQueryParam-rest($PparchmentMaker, "t:persName[@role eq 'parchmentMaker']/@ref", 'any',  'search')
-let $binders := if(empty($Pbinder) or $Pbinder = '') then () else q:ListQueryParam-rest($Pbinder, "t:persName[@role eq 'binder']/@ref", 'any',  'search')
-let $contents := if(empty($Pcontent) or $Pcontent= '') then () else q:ListQueryParam-rest($Pcontent, "t:title/@ref", 'any', 'search')
-let $tabots := if(empty($Ptabot) or $Ptabot= '') then () else q:ListQueryParam-rest($Ptabot, "t:ab[@type eq 'tabot']//t:*/@*", 'any', 'search')
-let $placetypess := if(empty($Pplacetype) or $Pplacetype= '') then () else q:ListQueryParam-rest($Pplacetype, "t:place/@type", 'any', 'search')
-let $Allauthors := if(empty($Pauthors) or $Pauthors= '') then () else q:ListQueryParam-rest($Pauthors, "t:relation[(@name eq 'saws:isAttributedToAuthor') or (@name eq 'dcterms:creator')]/@passive", 'any', 'search')
-let $placetypess := if(empty($Pplacetype) or $Pplacetype= '') then () else q:ListQueryParam-rest($Pplacetype, "t:place/@type", 'any', 'search')
-let $occupations := if(empty($Poccupation) or $Poccupation= '') then () else q:ListQueryParam-rest($Poccupation, "t:occupation/@type", 'any', 'search')
-let $faiths := if(empty($Pfaith) or $Pfaith= '') then () else q:ListQueryParam-rest($Pfaith, "t:faith/@type", 'any', 'search')
-let $genders := if(empty($Pgender) or $Pgender= '') then () else q:ListQueryParam-rest($Pgender, "t:person/@sex", 'any', 'list')
-let $periods := if(empty($Pperiod) or $Pperiod= '') then () else q:ListQueryParam-rest($Pperiod, "t:term/@key", 'any', 'search')
-let $restorationss := if(empty($Prestorations) or $Prestorations= '') then () else q:ListQueryParam-rest($Prestorations, "t:custEvent/@subtype", 'any', 'list')
-let $countries := if(empty($Pcountry) or $Pcountry = '') then () else q:ListQueryParam-rest($Pcountry, 't:country/@ref', 'any', 'range')
-let $settlements := if(empty($Psettlement) or $Psettlement = '') then () else q:ListQueryParam-rest($Psettlement, 't:settlement/@ref', 'any', 'range')
-
-let $leaves :=  if(empty($Pfolia) or $Pfolia = '') then () else
-                (let $min := substring-before($Pfolia, ',')
-                let $max := substring-after($Pfolia, ',')
-                return
-                if ($Pfolia = '1,1000')
-                then ()
-                else if (empty($Pfolia))
-                then ()
-                else
-                "[descendant::t:extent/t:measure[@unit='leaf'][not(@type)][xs:integer(.) ge "||$min|| ' ][ xs:integer(.)  le ' || $max ||"]]"
-               )
-let $wL := if(empty($PwL) or $PwL = '') then () else (
-                let $min := substring-before($PwL, ',')
-                let $max := substring-after($PwL, ',')
-                return
-                if ($PwL = '1,100')
-                then ()
-                else if (empty($PwL))
-                then ()
-                else
-                "[descendant::t:layout[@writtenLines ge "||$min|| '][@writtenLines  le ' || $max ||"]]"
-               )
-let $quires :=  if(empty($Pqn) or $Pqn = '' or $Pqn = '1,100')
-                then () else (
-                let $min := substring-before($Pqn, ',')
-                let $max := substring-after($Pqn, ',')
-                return
-                "[descendant::t:extent/t:measure[@unit eq 'quire'][not(@type)][not(.='')][xs:integer(.) ge "||$min|| ' ][xs:integer(.)  le ' || $max ||"]]")
-let $quiresComp :=  if(empty($Pqcn) or $Pqcn = '' or $Pqcn = '1,40')
-                     then () else  (
-                   let $min := substring-before($Pqcn, ',')
-                let $max := substring-after($Pqcn, ',')
-                return
-                "[descendant::t:dim[ancestor::t:collation][@unit eq 'leaf'][not(.='')][. ge "||$min|| ' ][.  le ' || $max ||"]]")
+declare %private function q:par-folia($Pfolia) {
+    let $min := substring-before($Pfolia, ',')
+    let $max := substring-after($Pfolia, ',')
+    return
+        if ($Pfolia = '1,1000')
+        then
+            ()
+        else
+            if (empty($Pfolia))
+            then
+                ()
+            else
+                "[descendant::t:extent/t:measure[@unit='leaf'][not(@type)][xs:integer(.) ge " || $min || ' ][ xs:integer(.)  le ' || $max || "]]"
+};
 
 
-return 
+declare %private function q:par-wL($PwL) {
+    let $min := substring-before($PwL, ',')
+    let $max := substring-after($PwL, ',')
+    return
+        if ($PwL = '1,100')
+        then
+            ()
+        else
+            if (empty($PwL))
+            then
+                ()
+            else
+                "[descendant::t:layout[@writtenLines ge " || $min || '][@writtenLines  le ' || $max || "]]"
+};
 
-concat($allnames, $support, $opl, $material, $bmaterial, $scripts, $scribes, $donors, $patrons, $owners, $parchmentMakers,
-             $binders, $contents, $leaves, $wL,  $quires, $quiresComp,
-            $height, $width, $depth, $marginTop, $marginBot, $marginL, $marginR, $marginIntercolumn, $restorationss):)
+declare %private function q:par-qn($Pqn) {
+    
+    if ($Pqn = '1,100') then
+        ()
+    else
+        let $min := substring-before($Pqn, ',')
+        let $max := substring-after($Pqn, ',')
+        return
+            "[descendant::t:extent/t:measure[@unit eq 'quire'][not(@type)][not(.='')][xs:integer(.) ge " || $min || ' ][xs:integer(.)  le ' || $max || "]]"
+
+};
+
+declare %private function q:par-qcn($Pqcn) {
+if($Pqcn = '1,40') then () else 
+    let $min := substring-before($Pqcn, ',')
+    let $max := substring-after($Pqcn, ',')
+    return
+        "[descendant::t:dim[ancestor::t:collation][@unit eq 'leaf'][not(.='')][. ge " || $min || ' ][.  le ' || $max || "]]"
+};
+
+(:returns a string of arguments to be appended to the main query context:)
+declare function q:parameters2arguments($params) {
+    let $args := for $p in $params
+    let $r := q:parrequest($p)
+    return
+        if ((count($r) = 0) or ($r = '') or (empty($r)) or (string-length($r) = 0)) then
+            ()
+        else
+            (:        this switch maps each parameter which has a value to a function building a string with the argument for an Xpath :)
+            switch ($p)
+                
+                (:            type of item:)
+                case 'works-type'
+                    return
+                        q:par-works-type($r)
+                        
+                        (:                   this should select a precise element to run a ft:query onto, it requires a collection, 
+while refactoring this has been left empty, the search here is always on all the TEI element and field are available for this :)
+                case 'mainname'
+                    return
+                        q:par-allnames($r, '')
+                case 'keyword'
+                    return
+                        q:par-keywords($r)
+                case 'cp'
+                    return
+                        q:par-contentPr($r)
+                case 'CAeID'
+                    return
+                        q:par-CAeID($r)
+                case 'ClavisIDs'
+                    return
+                        q:par-ClavisIDs($r, 'clavistype')
+                case 'clavistype'
+                    return
+                        q:par-clavisType('ClavisIDs', $r)
+                
+                case 'language'
+                    return
+                        q:ListQueryParam-rest($r, 't:language/@ident', 'any', 'list')
+                
+                case 'date-range'
+                    return
+                        q:par-date-range($r)
+                case 'numberOfParts'
+                    return
+                        '[count(descendant::t:msPart) ge ' || $r || ']'
+                case 'origPlace'
+                    return
+                        q:ListQueryParam-rest($r, 't:origPlace/t:placeName/@ref', 'any', 'search')
+                case 'height'
+                    return
+                        q:paramrange('height', 'height')
+                case 'width'
+                    return
+                        q:paramrange('width', 'width')
+                case 'depth'
+                    return
+                        q:paramrange('depth', 'depth')
+                case 'tmargin'
+                    return
+                        q:paramrange('tmargin', "dimension[@type eq 'margin']/t:dim[@type eq 'top']")
+                case 'bmargin'
+                    return
+                        q:paramrange('bmargin', "dimension[@type eq 'margin']/t:dim[@type eq 'bottom']")
+                case 'rmargin'
+                    return
+                        q:paramrange('rmargin', "dimension[@type eq 'margin']/t:dim[@type eq 'right']")
+                case 'lmargin'
+                    return
+                        q:paramrange('lmargin', "dimension[@type eq 'margin']/t:dim[@type eq 'left']")
+                case 'intercolumn'
+                    return
+                        q:paramrange('intercolumn', "dimension[@type eq 'margin']/t:dim[@type eq 'intercolumn']")
+                case 'objectType'
+                    return
+                        q:ListQueryParam-rest($r, 't:objectDesc/@form', 'any', 'search')
+                case 'material'
+                    return
+                        q:ListQueryParam-rest($r, 't:support/t:material/@key', 'any', 'search')
+                case 'bmaterial'
+                    return
+                        q:ListQueryParam-rest($r, "t:decoNote[@type eq 'bindingMaterial']/t:material/@key", 'any', 'search')
+                case 'script'
+                    return
+                        q:ListQueryParam-rest($r, "t:handNote/@script", 'any', 'search')
+                case 'scribe'
+                    return
+                        q:ListQueryParam-rest($r, "t:persName[@role eq 'scribe']/@ref", 'any', 'search')
+                case 'donor'
+                    return
+                        q:ListQueryParam-rest($r, "t:persName[@role eq 'donor']/@ref", 'any', 'search')
+                case 'patron'
+                    return
+                        q:ListQueryParam-rest($r, "t:persName[@role eq 'patron']/@ref", 'any', 'search')
+                case 'owner'
+                    return
+                        q:ListQueryParam-rest($r, "t:persName[@role eq 'owner']/@ref", 'any', 'search')
+                case 'parchmentMaker'
+                    return
+                        q:ListQueryParam-rest($r, "t:persName[@role eq 'parchmentMaker']/@ref", 'any', 'search')
+                case 'binder'
+                    return
+                        q:ListQueryParam-rest($r, "t:persName[@role eq 'binder']/@ref", 'any', 'search')
+                case 'content'
+                    return
+                        q:ListQueryParam-rest($r, "t:title/@ref", 'any', 'search')
+                case 'tabot'
+                    return
+                        q:ListQueryParam-rest($r, "t:ab[@type eq 'tabot']//t:*/@*", 'any', 'search')
+                case 'placetype'
+                    return
+                        q:ListQueryParam-rest($r, "t:place/@type", 'any', 'search')
+                case 'authors'
+                    return
+                        q:ListQueryParam-rest($r, "t:relation[(@name eq 'saws:isAttributedToAuthor') or (@name eq 'dcterms:creator')]/@passive", 'any', 'search')
+                case 'occupation'
+                    return
+                        q:ListQueryParam-rest($r, "t:occupation/@type", 'any', 'search')
+                case 'faith'
+                    return
+                        q:ListQueryParam-rest($r, "t:faith/@type", 'any', 'search')
+                case 'gender'
+                    return
+                        q:ListQueryParam-rest($r, "t:person/@sex", 'any', 'list')
+                case 'period'
+                    return
+                        q:ListQueryParam-rest($r, "t:term/@key", 'any', 'search')
+                case 'restorations'
+                    return
+                        q:ListQueryParam-rest($r, "t:custEvent/@subtype", 'any', 'list')
+                case 'country'
+                    return
+                        q:ListQueryParam-rest($r, 't:country/@ref', 'any', 'range')
+                case 'settlement'
+                    return
+                        q:ListQueryParam-rest($r, 't:settlement/@ref', 'any', 'range')
+                case 'folia'
+                    return
+                        q:par-folia($r)
+                case 'wL'
+                    return
+                        q:par-wL($r)
+                case 'qn'
+                    return
+                        q:par-qn($r)
+                case 'qcn'
+                    return
+                        q:par-qcn($r)
+                default return
+                    ()
+
+
+
+return
+    
+    string-join($args)
 };
 
 declare function q:text($q, $params) {
@@ -734,7 +928,10 @@ declare function q:text($q, $params) {
     let $querycontext := '$q:col//t:TEI[ft:query(., $qs, $q:allopts)]'
     let $parmstoquery := q:parameters2arguments($params)
     let $querytext := concat($querycontext, $parmstoquery)
-    let $test := util:log('info', $querytext)
+   
+      let $test0 := util:log('info', $parmstoquery)
+   let $test1 := util:log('info', $querycontext)
+      let $test2 := util:log('info', $querytext)
     let $query := util:eval($querytext)
     let $allTEI :=
     if ($q:sort = '')
@@ -1977,22 +2174,24 @@ first here is the header of the results table:)
     for $hit at $p in subsequence($model('hits'), $start, $per-page)
     return
         if (($model('type') = 'text') and ($model('qs') = ''))
-then         q:resultswithoutmatch($hit, $p)
-        else if ($model('type') = 'text'
-        or $model('type') = 'fields') then
-            (
-            q:resultswithmatch($hit, $p)
-            )
+        then
+            q:resultswithoutmatch($hit, $p)
         else
-            if ($model('type') = 'sparql') then
-                q:sparqlRes($hit, $p)
+            if ($model('type') = 'text'
+            or $model('type') = 'fields') then
+                (
+                q:resultswithmatch($hit, $p)
+                )
             else
-                if ($model('type') = 'xpath'
-                or $model('type') = 'clavis'
-                or $model('type') = 'otherclavis') then
-                    q:resultswithoutmatch($hit, $p)
+                if ($model('type') = 'sparql') then
+                    q:sparqlRes($hit, $p)
                 else
-                    ()
+                    if ($model('type') = 'xpath'
+                    or $model('type') = 'clavis'
+                    or $model('type') = 'otherclavis') then
+                        q:resultswithoutmatch($hit, $p)
+                    else
+                        ()
 };
 
 declare function q:resultsTableHeader($model) {
@@ -3260,7 +3459,7 @@ declare function q:formatOption($rangeindexname, $key, $count) {
                     if ($rangeindexname = 'TEIsex') then
                         <option
                             value="{$key}">{
-                            switch ($key)
+                                switch ($key)
                                     case '1'
                                         return
                                             'Male'
@@ -3448,7 +3647,7 @@ declare function q:selectors($nodeName, $nodes, $type) {
                                     return
                                         <option
                                             value="{string($key)}">{
-                                            switch ($key)
+                                                switch ($key)
                                                     case '1'
                                                         return
                                                             'Male'

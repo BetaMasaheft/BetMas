@@ -177,7 +177,7 @@ declare %private function viewItem:locus($this) {
             (),
         (:             and not($text = 'only')"  ?????:)
         if ($this/@facs) then
-            viewItem:matchingFacs($this)
+            try{viewItem:matchingFacs($this)} catch * {util:log('info', $err:description)}
         else
             if ($this/ancestor::t:TEI//t:div[@xml:id = 'Transkribus']) then
                 (:      'matches lb':)
@@ -923,7 +923,7 @@ declare %private function viewItem:headercontext($node) {
 declare %private function viewItem:biblioHeader($listBibl) {
     for $t in $listBibl/@type
     return
-        concat(concat(upper-case(substring($t, 1, 1)), substring($t, 2), ' '[not(last())]), ' Bibliography'),
+        concat(concat(upper-case(substring(string($t), 1, 1)), substring($t, 2), ' '[not(last())]), ' Bibliography'),
     viewItem:headercontext($listBibl)
 };
 
@@ -1814,12 +1814,13 @@ declare %private function viewItem:supportDesc($node) {
         <p>{
                 if ($node//t:material/@key) then
                     for $m in $node//t:material
+                    let $mk := string($m/@key)
                     return
                         <span
                             class="w3-tag w3-gray"
                             property="http://www.cidoc-crm.org/cidoc-crm/P46_is_composed_of"
-                            resource="https://betamasaheft.eu/material/{$m/@key}">
-                            {concat(upper-case(substring($m/@key, 1, 1)), substring($m/@key, 2), ' ')}
+                            resource="https://betamasaheft.eu/material/{$mk}">
+                            {concat(upper-case(substring($mk, 1, 1)), substring($mk, 2), ' ')}
                         </span>
                 else
                     ()
@@ -3149,10 +3150,7 @@ declare %private function viewItem:label($node as element(t:label)) {
 
 
 declare %private function viewItem:lb($node as element(t:lb)) {
- if ($node/parent::t:p)
-    then  
-     <sup class="w3-tiny" id="{viewItem:DTSpartID($node)}">{$node/@n}</sup>
-  if ($node/parent::t:ab)
+    if ($node/parent::t:ab)
     then
         (if ($node/@break) then
             '|'
@@ -3345,7 +3343,7 @@ declare %private function viewItem:add($node as element(t:add)) {
                         else
                             ''
                     }
-                    at {upper-case($node/@place)} according to TEI definitions.</span>
+                    at {upper-case(string($node/@place))} according to TEI definitions.</span>
             </span>
             )
         else
@@ -3384,7 +3382,7 @@ declare %private function viewItem:add($node as element(t:add)) {
                                     else
                                         ''
                                 }
-                                at {upper-case($node/@place)} according to TEI definitions.</span>
+                                at {upper-case(string($node/@place))} according to TEI definitions.</span>
                         </span>)
                     else
                         ()
@@ -3589,7 +3587,7 @@ declare %private function viewItem:rdg($node as element(t:rdg)) {
 };
 
 (:refactoring structures found in divEdition.xsl:)
-declare %private function viewItem:div($node as element(t:div)) {
+declare function viewItem:div($node as element(t:div)) {
     if ($node[@type = 'apparatus'])
     then
         <div
@@ -3672,7 +3670,9 @@ declare %private function viewItem:div($node as element(t:div)) {
                                                 ()
                                         } w3-row"
                                     id="{viewItem:DTSpartID($node)}"
-                                    lang="{$node/ancestor-or-self::t:div[@xml:lang][1]/@xml:lang}">{
+                                    >
+                                    {if($node/ancestor-or-self::t:div[@xml:lang][1]) then attribute lang {string($node/ancestor-or-self::t:div[@xml:lang][1]/@xml:lang)} else ()}
+                                    {
                                         viewItem:titletemplate($node, $text)
                                     }</div>,
                                 <div
@@ -3715,8 +3715,8 @@ declare %private function viewItem:div($node as element(t:div)) {
                                 )
                     }
                 </div>
-            else
-                $node
+      else
+            <div class="w3-container">{$node}</div>
 };
 
 declare %private function viewItem:titletemplate($div, $text) {
@@ -3887,13 +3887,6 @@ declare %private function viewItem:applisting($app, $p) {
     </span>
 };
 
-declare %private function viewItem:p($node as element(t:p)){
-if(count($node/t:lb) ge 1) then
-<div class="w3-container">{viewItem:TEI2HTML($node/node())}</div>
-else 
-<p>{viewItem:TEI2HTML($node/node())}</p>
-};
-
 declare %private function viewItem:DTSpartID($node) {
     if (count($node//t:cb) ge 1)
     then
@@ -3922,6 +3915,7 @@ declare %private function viewItem:DTSpartID($node) {
 
 declare function viewItem:TEI2HTML($nodes) {
     for $node in $nodes
+(:    let $test := util:log('info',$node/name()):)
     return
         typeswitch ($node)
             (:        clears all comments:)
@@ -4127,7 +4121,7 @@ declare function viewItem:TEI2HTML($nodes) {
                     viewItem:origplace($node)
             case element(t:p)
                 return
-                    viewItem:p($node)
+                    <p>{viewItem:TEI2HTML($node/node())}</p>
             case element(t:pb)
                 return
                     viewItem:pb($node)
@@ -5475,8 +5469,8 @@ declare function viewItem:dates($date) {
 
 
 declare function viewItem:textfragment($frag) {
-let $test := util:log('info', 'got to the textfragment' )
-return
+(:let $test := util:log('info', 'got to the textfragment' )
+return:)
     <div>
         <div
             id="transcription">
@@ -5895,7 +5889,7 @@ declare function viewItem:nav($item) {
 
 
 declare function viewItem:capitalize-first($arg as xs:string?) as xs:string? {
-    concat(upper-case(substring($arg, 1, 1)),
+    concat(upper-case(substring(string($arg), 1, 1)),
     substring($arg, 2))
 };
 
