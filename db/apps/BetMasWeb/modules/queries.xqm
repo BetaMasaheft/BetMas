@@ -399,8 +399,8 @@ declare function q:displayQtime($node as node()*, $model as map(*)) {
             <span
                 class="w3-right">{'Search time: '}
                 <span
-                    class="w3-badge">{$model('runtime')}</span>
-                {' milliseconds.'}</span>
+                    class="w3-badge">{$model('runtime') div 1000}</span>
+                {' seconds.'}</span>
         }
     </div>
 
@@ -2108,6 +2108,11 @@ declare function q:fieldinputTemplate($name, $parm) {
     
     </div>
 };
+
+declare function q:fieldInputSignature($node as node(), $model as map(*), $signature-field as xs:string*) {
+    q:fieldinputTemplate('Signature', 'signature')
+};
+
 declare function q:fieldInputDecoDesc($node as node(), $model as map(*), $decoDesc-field as xs:string*) {
     q:fieldinputTemplate('Decorations', 'decoDesc')
 };
