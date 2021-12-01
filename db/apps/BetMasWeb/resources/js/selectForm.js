@@ -39,12 +39,14 @@ $('#SType').change(function () {
 });
 
 $("#showfilters").one("click", function () {
+/*$("#filters").className += " w3-show"*/
     callformpart('filters.html', 'advanced');
 });
 
 $("#showfilters").click(function () {
     $('.filter').toggle("slow");
 });
+
 
 
 function callformpart(file, id) {
@@ -55,7 +57,7 @@ function callformpart(file, id) {
     if (myElem === null) {
         $.ajax(file, {
             success: function (data) {
-            console.log(data)
+            //console.log(data)
                 $("#filters").append(data);
             }
         });

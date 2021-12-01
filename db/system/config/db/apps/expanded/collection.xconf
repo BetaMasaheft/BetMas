@@ -1,6 +1,7 @@
 <collection xmlns="http://exist-db.org/collection-config/1.0">
     <index xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:t="http://www.tei-c.org/ns/1.0">
      <fulltext default="none" attributes="false"/>
+     
         <create qname="id" type="xs:string"/>
         <lucene diacritics="no">
             <!--this index should have all facets AND only have terms from elements not indexed otherwise, since those which have indexes are also ignored later in the configuration--> 
@@ -196,76 +197,7 @@
                 <facet dimension="tabot" if="@type='place'" expression="t:text//t:ab[@type='tabot']//(t:persName[@type='tabot']|t:ref[@type='authFile'])"/>
             
              </text> 
-             
-<!--            the boost orders the matches: more likely specific matches are ranked higher, less specific matches lower-->
-        <!--    <text qname="t:idno" boost="5.0"/>
-            <text qname="t:title" boost="4.0"/>
-            <text qname="t:placeName" boost="4.0"/>
-            <text qname="t:persName" boost="4.0"/>
-            <text qname="t:repository" boost="4.0"/>
-            <text qname="t:incipit" boost="3.0"/>
-            <text qname="t:explicit" boost="3.0"/>
-            <text qname="t:colophon" boost="3.0"/>
-            <text qname="t:floruit" boost="3.0"/>
-            <text qname="t:q" boost="3.0"/>
-            <text qname="t:term" boost="3.0"/>
-            <text qname="t:occupation" boost="2.0"/>
-            <text qname="t:roleName" boost="2.0"/>
-            <text qname="t:foreign" boost="2.0"/>
-            <text qname="t:ab" boost="2.0"/>
-            <text qname="t:ref"/>
-            <text qname="t:p"/>
-            <text qname="t:note"/>
-            <text qname="t:desc"/>
-            <text qname="t:handNote"/>
-            <text qname="t:decoNote"/>
-            <text qname="t:layout"/>
-            <text qname="t:summary"/>
-            <text qname="t:l"/>
-            <text qname="t:abstract"/>
-            <text qname="t:provenance"/>
-            <text qname="t:acquisition"/>
-            <text qname="t:region"/>
-            <text qname="t:settlement"/>
-            <text qname="t:faith"/>
-            <text qname="t:date"/>
-            <text qname="t:origDate"/>
-            <text qname="t:measure"/>
-            <text qname="t:birth"/>
-            <text qname="t:death"/>
-            <text qname="t:custEvent"/>
-            <text qname="t:item"/>
-            -->
-            <!--
-            <text qname="t:corr"/>
-            <text qname="t:sic"/>
-            <text qname="t:orig"/>
-            <text qname="t:unclear"/>
-            <text qname="t:subst"/>
-            <text qname="t:surplus"/>
-            <text qname="t:add"/>
-            <text qname="t:del"/>
-            <text qname="t:expan"/>
-            <text qname="t:ex"/>
-            <text qname="t:abbr"/>-->
-            
-            
-            <!-- who ever needed text indexes on attributes???
-            <text qname="@active"/>
-            <text qname="@passive"/>
-            <text qname="@mutual"/>
-            <text qname="@key"/>
-            <text qname="@who"/>
-            <text qname="@type"/>
-            <text qname="@subtype"/>
-            <text qname="@ref"/>
-            <text qname="@corresp"/>
-            <text qname="@role"/>
-            <text qname="@script"/>
-            <text qname="@form"/>
-            <text qname="@columns"/>
-            <text qname="@writtenLines"/>-->
-        
+   
 <!--            inlined nodes, listed here so that index will not break at their edges -->
             <inline qname="t:locus"/>
             <inline qname="t:role"/>
@@ -296,48 +228,7 @@
             <inline qname="t:choice"/>
             <inline qname="t:expan"/>
 
-<!--        ignored here globally to avoid matches outside of the actual dedicated index
-            <ignore qname="t:idno"/>
-            <ignore qname="t:title"/>
-            <ignore qname="t:placeName"/>
-            <ignore qname="t:persName"/>
-            <ignore qname="t:incipit"/>
-            <ignore qname="t:explicit"/>
-            <ignore qname="t:colophon"/>
-            <ignore qname="t:foreign"/>
-            <ignore qname="t:q"/>
-            <ignore qname="t:term"/>
-            <ignore qname="t:orig"/>
-            <ignore qname="t:sic"/>
-            <ignore qname="t:del"/>
-            <ignore qname="t:div"/>
-            <ignore qname="t:ab"/>
-            <ignore qname="t:p"/>
-            <ignore qname="t:note"/>
-            <ignore qname="t:desc"/>
-            <ignore qname="t:handNote"/>
-            <ignore qname="t:decoNote"/>
-            <ignore qname="t:layout"/>
-            <ignore qname="t:summary"/>
-            <ignore qname="t:l"/>
-            <ignore qname="t:abstract"/>
-            <ignore qname="t:provenance"/>
-            <ignore qname="t:acquisition"/>
-            <ignore qname="t:region"/>
-            <ignore qname="t:settlement"/>
-            <ignore qname="t:faith"/>
-            <ignore qname="t:occupation"/>
-            <ignore qname="t:roleName"/>
-            <ignore qname="t:date"/>
-            <ignore qname="t:origDate"/>
-            <ignore qname="t:measure"/>
-            <ignore qname="t:birth"/>
-            <ignore qname="t:death"/>
-            <ignore qname="t:floruit"/>
-            <ignore qname="t:custEvent"/>
-            <ignore qname="t:ref"/>
-            <ignore qname="t:item"/>-->
-            
+
             
             <!--elements not to be indexed at all in the expanded data-->
             <ignore qname="t:revisionDesc"/>            
@@ -345,6 +236,8 @@
             <ignore qname="t:authority"/>
             <ignore qname="t:taxonomy"/>
             <ignore qname="t:lb"/>
+            <ignore qname="t:cb"/>
+            <ignore qname="t:pb"/>
             <ignore qname="t:locus"/>
             <ignore qname="t:respStmt"/>
             <ignore qname="t:calendarDesc"/>
@@ -361,7 +254,8 @@
                 <field name="TEIid" match="@xml:id" type="xs:string"/>
                 <field name="TEIlanguageIdent" match="//t:language/@ident" type="xs:string"/>
                 <field name="TEItermKey" match="//t:term/@key" type="xs:string"/>
-                <field name="TEIrepo" match="//t:repository/@ref" type="xs:string"/>
+                <field name="TEIrepoRef" match="//t:repository/@ref" type="xs:string"/>
+                <field name="TEIrepo" match="//t:repository" type="xs:string"/>
                 <field name="TEIclavistype" match="//t:bibl/@type" type="xs:string"/>
                 <field name="TEIclavisID" match="//t:citedRange" type="xs:string"/>
                 <field name="TEIorigDateW" match="//t:origDate/@when" type="xs:string"/>
@@ -371,18 +265,24 @@
                 <field name="TEIDateNB" match="//t:date/@notBefore" type="xs:string"/>
                 <field name="TEIDateNA" match="//t:date/@notAfter" type="xs:string"/>
                 <field name="TEIplNametx" match="//t:placeName/@ref" type="xs:string"/>
+                <field name="TEIplName" match="//t:placeName" type="xs:string"/>
                 <field name="TEIprNametx" match="//t:persName/@ref" type="xs:string"/>
+                <field name="TEIprName" match="//t:persName" type="xs:string"/>
                 <field name="TEIscript" match="//t:handNote/@script" type="xs:string"/>
                 <field name="TEIsupport" match="//t:objectDesc/@form" type="xs:string"/>
                 <field name="TEIpersOcc" match="//t:occupation/@type" type="xs:string"/>
                 <field name="TEIreltx" match="//t:relation/@name" type="xs:string"/>
                 <field name="TEIreltxP" match="//t:relation/@passive" type="xs:string"/>
-                <field name="TEItitle" match="//t:title/@ref" type="xs:string"/>
-                <field name="TEIwitt" match="//t:witness/@corresp" type="xs:string"/>
+                <field name="TEItitleRef" match="//t:title/@ref" type="xs:string"/>
+                <field name="TEItitle" match="//t:title" type="xs:string"/>
+                <field name="TEIwittCorr" match="//t:witness/@corresp" type="xs:string"/>
+                <field name="TEIwitt" match="//t:witness" type="xs:string"/>
                 <field name="TEIsex" match="//t:person/@sex" type="xs:string"/>
                 <field name="TEImeasure" match="//t:extent/t:measure" type="xs:string"/>
                 <field name="TEIwrittenLines" match="//t:layout/@writtenLines" type="xs:string"/>
                 <field name="TEIquireDim" match="//t:dim" type="xs:string"/>
+                <field name="TEIbibltitle" match="//t:bibl/t:title" type="xs:string"/>
+                <field name="TEIbiblauthor" match="//t:bibl/t:author" type="xs:string"/>
             </create>
             
            

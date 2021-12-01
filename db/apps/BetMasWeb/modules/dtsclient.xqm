@@ -108,11 +108,11 @@ declare function dtsc:text($id, $edition, $ref, $start, $end, $collection) {
                 class="w3-row">
                 <div
                     class="w3-bar">
-                    {
+                    { try{
                         for $d in $DTScol?('dts:dublincore')?('dc:title')?*?('@value')
                         return
                             <div
-                                class="w3-bar-item w3-small">{$d}</div>
+                                class="w3-bar-item w3-small">{$d}</div>} catch * {util:log('info', $err:description)}
                     }
                     <button
                         class="w3-bar-item w3-gray w3-small"
