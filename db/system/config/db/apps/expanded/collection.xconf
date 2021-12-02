@@ -252,6 +252,9 @@
             <create qname="t:TEI">
                 <field name="TEItype" match="@type" type="xs:string"/>
                 <field name="TEIid" match="@xml:id" type="xs:string"/>
+                <field name="TEIidnoN" match="//t:idno/@n" type="xs:string"/>
+                <field name="TEIidnoF" match="//t:idno/@facs" type="xs:string"/>
+                <field name="TEIfacs" match="//t:facsimile/t:graphic/@url" type="xs:string"/>
                 <field name="TEIlanguageIdent" match="//t:language/@ident" type="xs:string"/>
                 <field name="TEItermKey" match="//t:term/@key" type="xs:string"/>
                 <field name="TEIrepoRef" match="//t:repository/@ref" type="xs:string"/>

@@ -1,53 +1,35 @@
 <div class="w3-padding" id="advanced">
     <div class="w3-containter">
         <div class="w3-container w3-half w3-left-align">
-            <div class="w3-row list place mss work nar ins pers" data-toggle="tooltip"
-                data-placement="left"
-                title="Do you want to limit your search to specific elements?">
-                <!--
-            indexes in new app only on TEI element
-            <div class="w3-padding">
-            <label>Indexes</label>
-            <span data-template="q:elements"/>
-        </div>-->
+            <div class="w3-row list place mss work nar ins pers" data-toggle="tooltip" data-placement="left" title="Do you want to limit your search to specific elements?">
                 <div class="w3-padding">
                     <div class="w3-padding">
                         <label>Select one or more item types. By selecting <b>Places</b> you
                             will always also search into Repositories because there are
                             places about which we only have information in a repository and
                             vice versa.</label>
-                        <br />
-                        <input class="w3-check" type="checkbox" name="work-types"
-                            value="mss" /> Manuscripts<br />
-                        <input class="w3-check" type="checkbox" name="work-types"
-                            value="work" /> Works<br />
-                        <input class="w3-check" type="checkbox" name="work-types"
-                            value="nar" /> Narratives<br />
-                        <input class="w3-check" type="checkbox" name="work-types"
-                            value="pers" /> Persons<br />
-                        <input class="w3-check" type="checkbox" name="work-types"
-                            value="place" /> Places<br />
-                        <input class="w3-check" type="checkbox" name="work-types"
-                            value="ins" /> Repositories<br />
-                        <input class="w3-check" type="checkbox" name="work-types"
-                            value="eth" /> Ethnic Groups<br />
-                        <input class="w3-check" type="checkbox" name="work-types"
-                            value="studies" /> Studies<br />
+                        <br/>
+                        <input class="w3-check" type="checkbox" name="work-types" value="mss"/> Manuscripts<br/>
+                        <input class="w3-check" type="checkbox" name="work-types" value="work"/> Works<br/>
+                        <input class="w3-check" type="checkbox" name="work-types" value="nar"/> Narratives<br/>
+                        <input class="w3-check" type="checkbox" name="work-types" value="pers"/> Persons<br/>
+                        <input class="w3-check" type="checkbox" name="work-types" value="place"/> Places<br/>
+                        <input class="w3-check" type="checkbox" name="work-types" value="ins"/> Repositories<br/>
+                        <input class="w3-check" type="checkbox" name="work-types" value="eth"/> Ethnic Groups<br/>
+                        <input class="w3-check" type="checkbox" name="work-types" value="studies"/> Studies<br/>
                     </div>
                 </div>
             </div>
             <div class="w3-row">
                 <div class="w3-padding">
                     <label>General filters</label>
-                    <br />
-                    <span data-template="q:generalRangeIndexesFilters"></span>
+                    <br/>
+                    <span data-template="q:generalRangeIndexesFilters"/>
                     <div class="w3-padding">
                         <label>Years Range</label>
-                        <br />
-                        <input id="dateFrom" class="w3-input w3-border w3-half"
-                            type="number" name="dateRange" placeholder="from" value="0" />
-                        <input id="dateTo" class="w3-input w3-border w3-half" type="number"
-                            name="dateRange" placeholder="to" value="2000" />
+                        <br/>
+                        <input id="dateFrom" class="w3-input w3-border w3-half" type="number" name="dateRange" placeholder="from" value="0"/>
+                        <input id="dateTo" class="w3-input w3-border w3-half" type="number" name="dateRange" placeholder="to" value="2000"/>
                     </div>
                 </div>
             </div>
@@ -58,7 +40,7 @@
                     <label>Specific filters</label>
                     <p>Select a value to load a list of additional filters relevant for the
                         item type.</p>
-                    <br />
+                    <br/>
                     <select class="w3-select w3-border" id="collectionfilter">
                         <option>Choose a data type</option>
                         <option value="mss">Manuscripts</option>
@@ -73,197 +55,168 @@
                     <label>Manuscripts Filters</label>
                     <div class="w3-padding">
                         <div class="w3-container">
+                                <label>Tick to restrict to manuscripts</label>
+                                <br/>
+                            <input type="checkbox" class="w3-check" name="images" value="all"/>  with available images here or linked <br/>
+                            <input type="checkbox" class="w3-check" name="images" value="bm"/>  with available images here (IIIF manifests from other institutions included)  <br/>
+                            <input type="checkbox" class="w3-check" name="images" value="iiif"/>  with available images from IIIF manifests from other institutions   <br/>
+                            <input type="checkbox" class="w3-check" name="images" value="bmonly"/>  with available images here   <br/>
+                            <input type="checkbox" class="w3-check" name="images" value="ext"/>  with available images linked  
+                            
+                        </div>
+                        <div class="w3-container">
                             <label>Height (mm)</label>
-                            <br />
-                            <input id="heightMin" class="w3-input w3-border w3-half"
-                                type="number" name="height" placeholder="min" value="0" />
-                            <input id="heightMax" class="w3-input w3-border w3-half"
-                                type="number" name="height" placeholder="max" value="2000"
-                             />
+                            <br/>
+                            <input id="heightMin" class="w3-input w3-border w3-half" type="number" name="height" placeholder="min" value="0"/>
+                            <input id="heightMax" class="w3-input w3-border w3-half" type="number" name="height" placeholder="max" value="2000"/>
                         </div>
                         <div class="w3-container">
                             <label>Width (mm)</label>
-                            <br />
-                            <input id="widthMin" class="w3-input w3-border w3-half"
-                                type="number" name="width" placeholder="min" value="0" />
-                            <input id="widthMax" class="w3-input w3-border w3-half"
-                                type="number" name="width" placeholder="max" value="2000" />
+                            <br/>
+                            <input id="widthMin" class="w3-input w3-border w3-half" type="number" name="width" placeholder="min" value="0"/>
+                            <input id="widthMax" class="w3-input w3-border w3-half" type="number" name="width" placeholder="max" value="2000"/>
                         </div>
                         <div class="w3-container">
                             <label>Thickness (mm)</label>
-                            <br />
-                            <input id="depthMin" class="w3-input w3-border w3-half"
-                                type="number" name="depth" placeholder="min" value="0" />
-                            <input id="depthMax" class="w3-input w3-border w3-half"
-                                type="number" name="depth" placeholder="max" value="2000" />
+                            <br/>
+                            <input id="depthMin" class="w3-input w3-border w3-half" type="number" name="depth" placeholder="min" value="0"/>
+                            <input id="depthMax" class="w3-input w3-border w3-half" type="number" name="depth" placeholder="max" value="2000"/>
                         </div>
                         <div class="w3-container">
                             <label>Columns per page</label>
-                            <br />
-                            <input id="NumberOfcolumns" type="number"
-                                class="w3-input w3-border" name="columnsNum" />
+                            <br/>
+                            <input id="NumberOfcolumns" type="number" class="w3-input w3-border" name="columnsNum"/>
                         </div>
                     </div>
                     <div class="w3-padding">
                         <div class="w3-container">
                             <label>Top Margin</label>
-                            <br />
-                            <input id="tmarginMin" class="w3-input w3-border w3-half"
-                                type="number" name="tmargin" placeholder="min" value="0" />
-                            <input id="tmarginMax" class="w3-input w3-border w3-half"
-                                type="number" name="tmargin" placeholder="max" value="2000"
-                             />
+                            <br/>
+                            <input id="tmarginMin" class="w3-input w3-border w3-half" type="number" name="tmargin" placeholder="min" value="0"/>
+                            <input id="tmarginMax" class="w3-input w3-border w3-half" type="number" name="tmargin" placeholder="max" value="2000"/>
                         </div>
                         <div class="w3-container">
                             <label>Bottom Margin</label>
-                            <br />
-                            <input id="bmarginMin" class="w3-input w3-border w3-half"
-                                type="number" name="bmargin" placeholder="min" value="0" />
-                            <input id="bmarginMax" class="w3-input w3-border w3-half"
-                                type="number" name="bmargin" placeholder="max" value="2000"
-                             />
+                            <br/>
+                            <input id="bmarginMin" class="w3-input w3-border w3-half" type="number" name="bmargin" placeholder="min" value="0"/>
+                            <input id="bmarginMax" class="w3-input w3-border w3-half" type="number" name="bmargin" placeholder="max" value="2000"/>
                         </div>
                         <div class="w3-container">
                             <label>Right Margin</label>
-                            <br />
-                            <input id="rmarginMin" class="w3-input w3-border w3-half"
-                                type="number" name="rmargin" placeholder="min" value="0" />
-                            <input id="rmarginMax" class="w3-input w3-border w3-half"
-                                type="number" name="rmargin" placeholder="max" value="2000"
-                             />
+                            <br/>
+                            <input id="rmarginMin" class="w3-input w3-border w3-half" type="number" name="rmargin" placeholder="min" value="0"/>
+                            <input id="rmarginMax" class="w3-input w3-border w3-half" type="number" name="rmargin" placeholder="max" value="2000"/>
                         </div>
                         <div class="w3-container">
                             <label>Left Margin</label>
-                            <br />
-                            <input id="lmarginMin" class="w3-input w3-border w3-half"
-                                type="number" name="lmargin" placeholder="min" value="0" />
-                            <input id="lmarginMax" class="w3-input w3-border w3-half"
-                                type="number" name="lmargin" placeholder="max" value="2000"
-                             />
+                            <br/>
+                            <input id="lmarginMin" class="w3-input w3-border w3-half" type="number" name="lmargin" placeholder="min" value="0"/>
+                            <input id="lmarginMax" class="w3-input w3-border w3-half" type="number" name="lmargin" placeholder="max" value="2000"/>
                         </div>
                         <div class="w3-container">
                             <label>Intercolumn</label>
-                            <br />
-                            <input id="intercolumnMin" class="w3-input w3-border w3-half"
-                                type="number" name="intercolumn" placeholder="min" value="0" />
-                            <input id="intercolumnMax" class="w3-input w3-border w3-half"
-                                type="number" name="intercolumn" placeholder="max"
-                                value="2000" />
+                            <br/>
+                            <input id="intercolumnMin" class="w3-input w3-border w3-half" type="number" name="intercolumn" placeholder="min" value="0"/>
+                            <input id="intercolumnMax" class="w3-input w3-border w3-half" type="number" name="intercolumn" placeholder="max" value="2000"/>
                         </div>
                     </div>
                     <div class="w3-padding">
                         <label>Number of quires</label>
-                        <br />
-                        <input id="quires" type="number" class="w3-input w3-border "
-                            name="qn" data-slider-min="1" />
+                        <br/>
+                        <input id="quires" type="number" class="w3-input w3-border " name="qn" data-slider-min="1"/>
                     </div>
                     <div class="w3-padding">
                         <label>Quires Composition (how big the quires are)</label>
-                        <br />
-                        <input id="quiresComp" type="number" class="w3-input w3-border "
-                            name="qcn" />
+                        <br/>
+                        <input id="quiresComp" type="number" class="w3-input w3-border " name="qcn"/>
                     </div>
                     <div class="w3-padding">
                         <label>Number of Leaves. Here you can filter manuscript according to
                             their extent.</label>
-                        <br />
-                        <input id="folia" type="number" class="w3-input w3-border "
-                            name="folia" />
+                        <br/>
+                        <input id="folia" type="number" class="w3-input w3-border " name="folia"/>
                         <!--                            at 6 February the maximum number of leaves is 604-->
                     </div>
                     <div class="w3-padding">
                         <label>Number of written lines</label>
-                        <br />
-                        <input id="writtenLines" type="number" class="w3-input w3-border "
-                            name="wL" />
+                        <br/>
+                        <input id="writtenLines" type="number" class="w3-input w3-border " name="wL"/>
                         <!--                            at 6 February the maximum number of writtenLines is 52-->
                     </div>
                     <div class="w3-padding">
                         <label>Minimum number of Codicological Units</label>
-                        <br />
-                        <input class="w3-input w3-border" type="number" name="numberOfParts"
-                         />
+                        <br/>
+                        <input class="w3-input w3-border" type="number" name="numberOfParts"/>
                     </div>
                     <div class="w3-padding">
                         <label>With known person for specified role</label>
-                        <span data-template="q:roles"></span>
+                        <span data-template="q:roles"/>
                     </div>
                     <div class="w3-padding">
                         <label>Known persons involved in manuscript production by
                             role</label>
-                        <span data-template="q:MssPersRoles"></span>
+                        <span data-template="q:MssPersRoles"/>
                     </div>
                     <div class="w3-padding">
-                        <span data-template="q:MssRangeIndexesFilters"></span>
+                        <span data-template="q:MssRangeIndexesFilters"/>
                     </div>
                 
             </div>
             <div class="w3-row" id="worksFilters" style="display:none;">
                 <div class="w3-padding">
                     <label>Works Filters</label>
-                    <span data-template="q:WorksRangeIndexesFilters"></span>
-                    <span data-template="q:WorkAuthors"></span>
+                    <span data-template="q:WorksRangeIndexesFilters"/>
+                    <span data-template="q:WorkAuthors"/>
                 </div>
             </div>
             <div class="w3-row" id="persFilters" style="display:none;">
                 <div class="w3-padding">
                     <label>Persons Filters</label>
-                    <div class="w3-container" data-toggle="tooltip" data-placement="left"
-                        title="Gender" id="genderform">
+                    <div class="w3-container" data-toggle="tooltip" data-placement="left" title="Gender" id="genderform">
                         <div class="w3-padding">
                             <label>Gender</label>
-                            <br />
-                            <input type="checkbox" class="w3-check" name="gender" value="1"/>
-                            > Male <input type="checkbox" class="w3-check" name="gender"
-                                value="2"/> Female </div>
+                            <br/>
+                            <input type="checkbox" class="w3-check" name="gender" value="1"/>   Male 
+                            <input type="checkbox" class="w3-check" name="gender" value="2"/> Female 
+                        </div>
                     </div>
-                    <span data-template="q:PersonsRangeIndexesFilters"></span>
+                    <span data-template="q:PersonsRangeIndexesFilters"/>
                     <div class="w3-padding">
                         <label>Birth Range</label>
-                        <br />
-                        <input id="birthFrom" class="w3-input w3-border w3-half"
-                            type="number" name="birthRange" placeholder="from" value="0" />
-                        <input id="birthTo" class="w3-input w3-border w3-half" type="number"
-                            name="birthRange" placeholder="to" value="2000" />
+                        <br/>
+                        <input id="birthFrom" class="w3-input w3-border w3-half" type="number" name="birthRange" placeholder="from" value="0"/>
+                        <input id="birthTo" class="w3-input w3-border w3-half" type="number" name="birthRange" placeholder="to" value="2000"/>
                     </div>
                     <div class="w3-padding">
                         <label>Death Range</label>
-                        <br />
-                        <input id="deathFrom" class="w3-input w3-border w3-half"
-                            type="number" name="deathRange" placeholder="from" value="0" />
-                        <input id="deathTo" class="w3-input w3-border w3-half" type="number"
-                            name="deathRange" placeholder="to" value="2000" />
+                        <br/>
+                        <input id="deathFrom" class="w3-input w3-border w3-half" type="number" name="deathRange" placeholder="from" value="0"/>
+                        <input id="deathTo" class="w3-input w3-border w3-half" type="number" name="deathRange" placeholder="to" value="2000"/>
                     </div>
                     <div class="w3-padding">
                         <label>Period of activity Range</label>
-                        <br />
-                        <input id="floruitFrom" class="w3-input w3-border w3-half"
-                            type="number" name="floruitRange" placeholder="from" value="0" />
-                        <input id="floruitTo" class="w3-input w3-border w3-half"
-                            type="number" name="floruitRange" placeholder="to" value="2000"
-                         />
+                        <br/>
+                        <input id="floruitFrom" class="w3-input w3-border w3-half" type="number" name="floruitRange" placeholder="from" value="0"/>
+                        <input id="floruitTo" class="w3-input w3-border w3-half" type="number" name="floruitRange" placeholder="to" value="2000"/>
                     </div>
                 </div>
             </div>
             <div class="w3-row" id="placesFilters" style="display:none;">
                 <div class="w3-padding">
                     <label>Places Filters</label>
-                    <span data-template="q:PlacesRangeIndexesFilters"></span>
-                    <span data-template="q:tabot"></span>
+                    <span data-template="q:PlacesRangeIndexesFilters"/>
+                    <span data-template="q:tabot"/>
                 </div>
                 <div class="w3-padding">
                     <label>Date Range</label>
-                    <br />
-                    <input id="anyDateFrom" class="w3-input w3-border w3-half" type="number"
-                        name="anyDateRange" placeholder="from" value="0" />
-                    <input id="anyDateTo" class="w3-input w3-border w3-half" type="number"
-                        name="anyDateRange" placeholder="to" value="2000" />
+                    <br/>
+                    <input id="anyDateFrom" class="w3-input w3-border w3-half" type="number" name="anyDateRange" placeholder="from" value="0"/>
+                    <input id="anyDateTo" class="w3-input w3-border w3-half" type="number" name="anyDateRange" placeholder="to" value="2000"/>
                 </div>
             </div>
-            <img id="loadingform" src="resources/images/giphy.gif"
-                style="display: none; width: 20%;" alt="loading" />
+            <img id="loadingform" src="resources/images/giphy.gif" style="display: none; width: 20%;" alt="loading"/>
            </div>
     </div>
-    <script type="application/javascript" src="resources/js/preventformsubmission.js"></script>
-    <script type="text/javascript" src="resources/js/filters.js"></script>
+    <script type="application/javascript" src="resources/js/preventformsubmission.js"/>
+    <script type="text/javascript" src="resources/js/filters.js"/>
 </div>

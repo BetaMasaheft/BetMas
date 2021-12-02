@@ -101,7 +101,7 @@ declare variable $app:APP_ROOT :=
             request:get-context-path() || "/apps/BetMas"
             ;
 
-declare function functx:capitalize-first( $arg as xs:string? )  as xs:string? {
+declare %private function functx:capitalize-first( $arg as xs:string? )  as xs:string? {
    concat(upper-case(substring($arg,1,1)),
              substring($arg,2))
  } ;
@@ -1426,17 +1426,21 @@ declare function app:hit-count($node as node()*, $model as map(*)) {
 
 declare function app:hit-params($node as node()*, $model as map(*)) {
     <div class="w3-container w3-margin">{
-                    for $param in $app:params
-                    for $value in request:get-parameter($param, ())
+                    for $param in distinct-values($app:params)
+                    let $values := request:get-parameter($param, ())
+                   return if (count($values) = 2 and ( (string-join($values,',') != '0,2000') or (string-join($values) = '' ) )) 
+                     then (<span class="w3-tag w3-gray w3-round ">{$param}{' between ', <span class="w3-badge">{$values[1]}</span>, ' and ', <span class="w3-badge">{$values[2]}</span>}</span>)
+                    else for $value in $values
                     return
                     if ($value = '') then ()
                     else if ($param = 'start') then ()
                     else if ($param = 'query') then ()
                     else if (ends-with($param, '-operator-field')) then ()
-                    else if ($param = 'dateRange') 
-                     then (<span class="w3-tag w3-gray w3-round w3-margin">{'between ' || substring-before(request:get-parameter('dateRange', ()), ',') || ' and ' || substring-after(request:get-parameter('dateRange', ()), ',')}</span>)
-                    else
-                        <span  class="w3-tag w3-gray w3-round w3-margin">{($param || ": ", <span class="w3-badge">{$value}</span>)}</span>
+                    else 
+                        <span 
+                        class="w3-tag w3-gray w3-round ">
+                        {($param || ": ", 
+                        <span class="w3-badge">{$value}</span>)}</span>
                 }</div>
 };
 

@@ -1,66 +1,266 @@
-<html xmlns="https://www.w3.org/1999/xhtml">
-    <head>
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"/>
-        <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-106148968-1');
-</script>
-        <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <meta data-template="config:app-meta"/>
-        <meta property="og:site_name" content="Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea"/>
-        <meta property="dcterms:language schema:inLanguage" content="en"/>
-        <meta property="dcterms:rights" content="Copyright © Akademie der Wissenschaften in Hamburg, Hiob-Ludolf-Zentrum für Äthiopistik.  Sharing and remixing permitted under terms of the Creative Commons Attribution Share alike Non Commercial 4.0 License (cc-by-nc-sa)."/>
-        <meta property="dcterms:publisher schema:publisher" content="Akademie der Wissenschaften in Hamburg, Hiob-Ludolf-Zentrum für Äthiopistik"/>
-        
-        <!--      icons  -->
-        <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.2/css/all.min.css"/>
-        
-<!--        bootstrap needs to stay to have the tooltips in the range sliders--><!--
-        <link rel="stylesheet" type="text/css" href="$shared/resources/css/bootstrap-3.0.3.min.css"/>-->
-        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/virtual-keyboard/1.26.22/css/keyboard-basic.min.css"/>
-            <link rel="stylesheet" href="$shared/resources/css/w3.css"/>
-        
-<!--        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.5.1/css/bootstrap-slider.min.css"/>-->
-        <link rel="stylesheet" href="resources/css/w3local.css"/>
-        
-        <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"/>
-        
-<!--        <script type="text/javascript" src="$shared/resources/scripts/bootstrap-3.0.3.min.js"/>-->
-    </head>
+<div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/newsearch.html" data-template-at="content">
+    <div data-template="app:logging"/>
     
-    <body id="body">
-        <div data-template="app:NbarNew"/>
-        <div data-template="app:modalsNew"/>
-        
-        
-        <!-- Page content -->
-        
-        <div id="content"/>
-        
-        <footer data-template="app:footerNew"/>
-        <!--js-->
-        
-        <script type="text/javascript" src="resources/js/explain.js"/>
-        <script type="application/javascript" src="resources/js/w3.js"/>
-        <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"/>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.5.1/bootstrap-slider.min.js"/>
-        <script type="application/javascript" src="resources/js/preventformsubmission.js"/>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/virtual-keyboard/1.26.22/js/jquery.keyboard.js"/>
-        <!-- keyboard extensions (optional) -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/virtual-keyboard/1.26.22/js/jquery.mousewheel.min.js"/>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/virtual-keyboard/1.26.22/js/jquery.keyboard.extension-typing.min.js"/>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/virtual-keyboard/1.26.22/js/jquery.keyboard.extension-altkeyspopup.min.js"/>
-        <script type="text/javascript" src="resources/js/jquery.easing.min.js"/>
-        <script type="text/javascript" src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"/>
-        <script type="text/javascript" src="$shared/resources/scripts/loadsource.js"/>
-        <script type="text/javascript" src="resources/js/diacriticskeyboard.js"/>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/cookie-bar/cookiebar-latest.min.js?customize=1&amp;scrolling=1"/>
-    </body>
-</html>
+    <div class="w3-container w3-margin w3-padding-64">
+        <div class="w3-containter" id="searchform">
+            <form action="" id="gsf" class="w3-container w3-center">
+                <fieldset id="querytype" class="w3-container" style="border:none;">
+                    <div class="w3-padding w3-half explain" data-value="querytypeexplain">
+                        <span data-template="q:querytype"/>
+                    </div>
+                    <div class="w3-padding w3-half" id="querytypeselectexplain">
+                        <span id="textquery" class="w3-hide w3-tiny w3-padding w3-red w3-show">
+                                You can run a simple search which will look in all text indexes. 
+                                This is a most simple search that we can offer. Check the options below the input box if you want to change the default settings.
+                        </span>
+                        <span id="listquery" class="w3-hide w3-tiny w3-padding  w3-red">Here you can get a list of items given some parameters, like the entity type, without searching for a string. You can play with the filters to restrict the search and you can certainly combine these with a text search.</span>
+                        <span id="bmidquery" class="w3-hide w3-tiny w3-padding  w3-red">If you know the identifier (ID) of an item (LIT1234name, MS123abc, PRS12345name, etc.) you can paste it here, and you will get it in the results. if you know only a part, eg. LIT20... it will give you all those which match. 
+                            To reach a given item with its ID, you can also append that to the base URL of the website, https://betamasaheft.eu/LIT1234name  and you will be redirected to the correct landing page.</span>
+                        <span id="clavisquery" class="w3-hide w3-tiny w3-padding w3-red">If you have at hand the Clavis Aethiopica number of a Textual Unit, e.g. CAe 1234, you can enter it here and the search will point you to that record.</span>
+                        <span id="otherclavisquery" class="w3-hide w3-tiny w3-padding w3-red">We record (unsystematically) corresponding identifiers from other Claves, like CAVT or CANT, here you can select which one you want to look for and search for records pointing to that.</span>
+                        <span id="fieldsquery" class="w3-hide w3-tiny w3-padding w3-red">If you wish to search for a given word in the hands descriptions and another word in the decorations, here you can do that, using fields.</span>
+                        <span id="xpathquery" class="w3-hide w3-tiny w3-padding w3-red">If you know how to write your XPath, and know the source TEI (available for each file, by appending .xml to the identifier of the record) you will be able to run that query against the db here. Not all possible paths are optimized.</span>
+                        <span id="sparqlquery" class="w3-hide w3-tiny w3-padding w3-red">Parallel to the XML, also an RDF triple store is maintained by the project. Here you get an interface to the SPARQL endpoint. You can add your SPARQL query and see the results available.</span>
+                        
+                    </div>
+                        
+                    
+                </fieldset>
+                <fieldset id="otherclavis" class="w3-container w3-hide" style="border:none;">
+                    <div class="w3-padding">
+                        <label>Other Clavis ID</label>
+                        <select name="clavistype" class="w3-select w3-border">
+                            <option value="">no selection</option>
+                            <option value="BHG">BHG</option>
+                            <option value="BHO">BHO</option>
+                            <option value="CAVT">CAVT</option>
+                            <option value="CANT">CANT</option>
+                            <option value="CC">CC</option>
+                            <option value="CPG">CPG</option>
+                            <option value="KRZ">KRZ</option>
+                            <option value="H">H</option>
+                        </select>
+                    </div>
+                </fieldset>
+                <fieldset id="text" class="w3-container" style="border:none;">
+                    <div class="w3-padding">
+                        <span data-template="q:queryinput"/>
+                        <div id="explanationa" class="w3-half w3-red">
+                            <span id="querytypeexplain" class="w3-hide w3-tiny w3-padding">
+                                In the big box above, you can search for text, below there are options and you can add filters. The results will include facets to help you drill down.
+                                But text is not all you can search for. In the top menu you can switch to other types of queries and searches which rely on different indexes and data formats.
+                               </span>
+                            <span id="smartrank" class="w3-hide w3-tiny w3-padding">
+                                You can check this box to use 'smart' ranking, where <em>a higher score is assigned to hits in placeName, persName, title or to records with text or an occupation element.</em> This will make you wait a bit more.
+                            </span>
+                            <span id="searchtype" class="w3-hide w3-tiny w3-padding">If running a text search, you can select the  type of text search. This determines how the single words which you enter are matched in the indexes
+                                here </span>
+                            <span id="searchoperator" class="w3-hide w3-tiny w3-padding">By default the search will use OR as an operator, which means that if you search two words you will get hits which contain one OR the other. You may wish to use AND to get the matches which contain your first word AND your second word. If you want them in that particular order, consider using phrase mode from the search type.</span>
+                            <span id="explainfilters" class="w3-hide w3-tiny w3-padding">Click on this plus button to see a series of additional options for your search.</span>
+                            <span id="keyboardexplain" class="w3-hide w3-tiny w3-padding">This may help you enter characters which are not immediately present on your keyboard. Keep a letter pressed for additional forms. Use Shift and Alt for alternative keyboards. Instead of the pointer you can use your own keyboard with these values when active.</span>
+                            <span id="homophonesexplain" class="w3-hide w3-tiny w3-padding">Homophones are mechanically replaced for you, so that for example, if you search for one of 'ሀ', 'ሐ', 'ኀ', 'ሃ', 'ሓ', 'ኃ' we will search for all of them. 
+                                If you deselect this checkbox the list of homophones will not be considered and only the exact string you searched will be passed on. Homophones are not replaced for search strings longer than 10 characters and is not applied in all modes.</span>
+                            <span id="translitexplain" class="w3-hide w3-tiny w3-padding">If you entered a search string for a Gǝʿǝz string, either typing it in Fidal or in a transliteration format, we can try to convert it and search also the other form. If you entered ወልደ the search engine will look also for walda. If you entered walda also for ወልደ. This depends on the availability of the alternate form.
+                            </span>
+                        </div>
+                        <div class="w3-half  w3-right"> <div class="w3-bar w3-right">
+                            <div class="w3-bar-item explain" data-value="searchoperator">
+                                <span data-template="q:textquerydefaultoperator"/>
+                            </div>
+                            <div class="w3-bar-item explain" data-value="searchtype">
+                                <span data-template="q:textquerymode"/>
+                            </div>
+                            <div class="w3-bar-item w3-hide-medium  w3-hide-small" style="padding: 8px 8px">
+                                <span class="explain" data-value="smartrank">
+                                    <span data-template="q:ranking"/>
+                                </span>
+                            </div>
+                            <div class="w3-bar-item w3-hide-medium  w3-hide-small" style="padding: 8px 8px"> 
+                                <span class="explain" data-value="homophonesexplain">
+                                    <span data-template="q:homophonecheckbox"/>
+                            </span>
+                            </div>
+                            <div class="w3-bar-item w3-hide-medium  w3-hide-small" style="padding: 8px 8px"> 
+                                <span class="explain" data-value="translitexplain">
+                                    <span data-template="q:translitcheckbox"/>
+                                </span>
+                            </div>
+                            <a class="w3-bar-item w3-button w3-gray kb explain" data-value="keyboardexplain">
+                                <i class="fa fa-keyboard" aria-hidden="true"/>
+                            </a>
+                            <span class="w3-bar-item w3-button w3-hide-medium  w3-hide-small explain" data-value="explainfilters" id="showfilters">
+                                <i class="fa fa-plus" aria-hidden="true"/>
+                            </span>
+                            <button type="submit" id="submit-data" class="w3-button w3-bar-item w3-red">
+                                <i class="fa fa-search"/>
+                            </button>
+<!--                            add here button for additional filters-->
+                        </div>
+                    </div></div>
+                </fieldset>
+                <fieldset id="sparqls" class="w3-container w3-hide" style="border:none;">
+                    <div class="w3-padding">
+                        <p>You can enter above your SPARQL query to the RDF representation of the data stored in Apache Jena Fuseki. Please use single quotes ' not double.</p>
+                        <p>PREFIXes are already there (see below), so you can start with SELECT.  
+                            If you prefer  to use your prefixes, do so, no problem. A super tutorial on how to 
+                            build SPARQL queries is <a href="https://jena.apache.org/tutorials/sparql_basic_patterns.html">here at Apache Jena.</a>
+                        </p>
+                        <p>Results do not have facets and are presented as they are requested in the query from the SPARQL response.</p>
+                        
+                        <div class="w3-container w3-margin-bottom">
+                            <div class="w3-half w3-padding">
+                               
+                                    <div class="w3-container">
+                                        <input id="endpoint" value="/api/SPARQL/json" type="text" hidden="hidden"/>
+                                        <button type="button" class="w3-button w3-red" onclick="exec()">
+                                            Run your query (results with d3sparql.js)
+                                        </button>
+                                        <button type="submit" class="w3-button w3-gray ">
+                                            try local XSLT table visualization
+                                        </button>
+                                        <br/>
+                                        <small>
+                                            <br/>PREFIX rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+                                            <br/>PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+                                            <br/>PREFIX lawd: &lt;http://lawd.info/ontology/&gt;
+                                            <br/>PREFIX oa: &lt;http://www.w3.org/ns/oa#&gt;
+                                            <br/>PREFIX ecrm: &lt;http://erlangen-crm.org/current/&gt;
+                                            <br/>PREFIX crm: &lt;http://www.cidoc-crm.org/cidoc-crm/&gt;
+                                            <br/>PREFIX gn: &lt;http://www.geonames.org/ontology#&gt;
+                                            <br/>PREFIX agrelon: &lt;http://d-nb.info/standards/elementset/agrelon.owl#&gt;
+                                            <br/>PREFIX rel: &lt;http://purl.org/vocab/relationship/&gt;
+                                            <br/>PREFIX dcterms: &lt;http://purl.org/dc/terms/&gt;
+                                            <br/>PREFIX bm: &lt;https://betamasaheft.eu/&gt;
+                                            <br/>PREFIX pelagios: &lt;http://pelagios.github.io/vocab/terms#&gt;
+                                            <br/>PREFIX syriaca: &lt;http://syriaca.org/documentation/relations.html#&gt;
+                                            <br/>PREFIX saws: &lt;http://purl.org/saws/ontology#&gt;
+                                            <br/>PREFIX snap: &lt;http://data.snapdrgn.net/ontology/snap#&gt;
+                                            <br/>PREFIX pleiades: &lt;https://pleiades.stoa.org/&gt;
+                                            <br/>PREFIX wd: &lt;https://www.wikidata.org/&gt;
+                                            <br/>PREFIX dc: &lt;http://purl.org/dc/elements/1.1/&gt;
+                                            <br/>PREFIX skos: &lt;http://www.w3.org/2004/02/skos/core#&gt;
+                                            <br/>PREFIX xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt;
+                                            <br/>PREFIX t: &lt;http://www.tei-c.org/ns/1.0&gt;
+                                            <br/>PREFIX sdc: &lt;https://w3id.org/sdc/ontology#&gt;
+                                            <br/>PREFIX foaf: &lt;http://xmlns.com/foaf/0.1/&gt;
+                                        </small>
+                                    </div>
+                                
+                                <p>You can also use the API to query the SPARQL endpoint, using https://betamasaheft.eu/api/SPARQL with the query in a parameter <i>q</i>. The results are SPARQL Query Results XML Format, as the one visualized below.</p>
+                            </div>
+                            <div class="w3-half w3-padding">
+                                <div class="w3-container">
+                                    <p>In the <a href="https://betamasaheft.eu/Guidelines/?id=ontologyView" target="_blank">Beta maṣāḥǝft Guidelines</a> you can find the OWLDoc Documentation and a
+                                        visualization thanks to <a href="http://vowl.visualdataweb.org/webvowl.html" target="_blank">webVOWL</a> of the current <a href="https://raw.githubusercontent.com/BetaMasaheft/RDF/master/betamasaheft.owl" target="_blank">ontology</a> developed with Protégé.</p>
+                                    <p>Some examples of the data you are querying</p>
+                                    <ul>
+                                        <li>
+                                            <a href="/rdf/works/LIT3122Galaw.rdf" target="_blank">Literary Work Record</a>
+                                        </li>
+                                        <li>
+                                            <a href="/rdf/manuscripts/BNFet32.rdf" target="_blank">Manuscript Record</a>
+                                        </li>
+                                        <li>
+                                            <a href="/rdf/places/LOC1261Adulis.rdf" target="_blank">Place Record</a>
+                                        </li>
+                                    </ul>
+                                    <p>Documentation on Linked Open Data can be found <a target="_blank" href="https://betamasaheft.eu/lod.html">here</a>.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w3-container w3-margin-bottom">
+                            <p>The results presented here are visualized with <a href="https://github.com/ktym/d3sparql" target="_blank">d3sparql</a>
+                            </p>   
+                            <div class="w3-container w3-margin-bottom" id="resulttable"/>
+                            
+                            <div class="w3-container w3-margin-bottom" id="result"/>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset id="xpath" class="w3-container w3-hide" style="border:none;">
+                    <div class="w3-padding"> 
+                        <p>Enter above your XPath 3.0 query to the data. 
+                            Please, use t: namespace for TEI elements. The starting point of any Xpath should 
+                            be <code class="w3-codespan">$config:collection-root</code> if you are searching the entire dataset.</p>
+                        <p>You can also use, as a cached and short form to point to collections the following variables:
+                            <code class="w3-codespan">$config:collection-rootMS</code> for manuscripts; <code class="w3-codespan">$config:collection-rootW</code> for Textual Units
+                            <code class="w3-codespan">$config:collection-rootPl</code> for places; <code class="w3-codespan">$config:collection-rootPr</code> for persons;
+                            <code class="w3-codespan">$config:collection-rootIn</code> for repositories; <code class="w3-codespan">$config:collection-rootA</code> for authority files.
+                            If you want to search for Places and Repositories, you can use <code class="w3-codespan">$config:collection-rootPlIn</code>
+                        </p>
+                    </div>
+                </fieldset>
+                <fieldset id="filters" class="w3-container" style="border:none;"/>
+                <fieldset id="lists" class="w3-container w3-hide" style="border:none;"/>
+                <fieldset id="fields" class="w3-container w3-hide " style="border:none;">
+                 <div class="w3-padding">   <p>Here you can differentiate your search by looking at the text of constructed 
+                        strings from specific portions of the data. You can search for records which
+                    have a word occurring in the decoration and another in the content description, for example.</p>
+                    <div>
+                        <small>Manuscripts</small>
+                        <div data-template="q:fieldInputSignature"/>
+                        <div data-template="q:fieldInputHandDesc"/>
+                    <div data-template="q:fieldInputDecoDesc"/>
+                    <div data-template="q:fieldInputBinding"/>
+                    <div data-template="q:fieldInputSupportDesc"/>
+                    <div data-template="q:fieldInputMsContent"/>
+                        <div data-template="q:fieldInputAdditions"/>
+                        <div data-template="q:fieldInputIncipit"/>
+                        <div data-template="q:fieldInputExplicit"/>
+                        <div data-template="q:fieldInputColophon"/>
+                    </div>
+                    <div>
+                        <small>Works and manuscript transcriptions</small>
+                        <div data-template="q:fieldInputTitle"/>
+                        <div data-template="q:fieldInputText"/>
+                    </div> 
+                    <div>
+                        <small>Persons and groups</small>
+                        <div data-template="q:fieldInputPerson"/>
+                    </div>
+                    <div>
+                        <small>Places and institutions</small>
+                        <div data-template="q:fieldInputPlace"/>
+                    </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="w3-containter">
+            <img id="loading" src="resources/Loading.gif" style="display: none;"/>   
+            <div data-template="q:query">
+                <div id="content">
+                    <a href="." class="nav-link" data-template="app:copy-params"/>
+                    
+                    <div class="w3-containter w3-quarter">
+                        <div data-template="q:showFacets" id="facets" class="w3-container w3-padding"/>
+                    </div>
+                    <div class="w3-containter w3-threequarter">
+                        <div class="w3-row">
+                            <span id="time" data-template="q:displayQtime"/>
+                        </div>
+                        <div class="w3-row">
+                                <span id="hit-param" data-template="app:hit-params"/>
+                            </div>
+                        <div class="w3-row">
+                                <ul class="pagination" data-template="app:paginateNew" data-template-per-page="40" data-template-max-pages="9" data-template-min-hits="41"/>
+                           </div>
+                        
+                        <!-- query results -->
+                        <div data-template="q:results" data-template-per-page="40" id="results" class="w3-container w3-padding"/>
+                        
+                        <!--             bottom pagination for larger device -->
+                        <div class="w3-row">
+                            <ul class="pagination" data-template="app:paginateNew" data-template-per-page="40" data-template-max-pages="9" data-template-min-hits="41"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="application/javascript" src="resources/js/selectForm.js"/>
+    <script type="application/javascript" src="resources/js/NewBiblio.js"/>
+    <script type="application/javascript" src="resources/js/preventformsubmission.js"/>
+    <script type="text/javascript" src="resources/js/titles.js"/>
+</div>

@@ -765,171 +765,201 @@ declare %private function q:par-qcn($Pqcn) {
             "[descendant::t:dim[ancestor::t:collation][@unit eq 'leaf'][not(.='')][. ge " || $min || ' ][.  le ' || $max || "]]"
 };
 
+
+declare %private function q:images($r){
+  if ($r = 'all') then
+                                '[descendant::t:idno[@facs][@n] or descendant::t:idno[starts-with(@facs, "https")] or descendant::t:facsimile[t:graphic[@url]]]'
+                            else
+                                if ($r = 'ext') then
+                                    '[descendant::t:facsimile[t:graphic[@url]]]'
+                                else
+                                    if ($r = 'iiif') then
+                                        '[descendant::t:idno[starts-with(@facs, "https")]]'
+                                    else
+                                        if ($r = 'bm') then
+                                            '[descendant::t:idno[@facs][@n] or descendant::t:idno[starts-with(@facs, "https")]]'
+                                        else
+                                            if ($r = 'bmonly') then
+                                                '[descendant::t:idno[@facs][@n]'
+                                            else
+                                                ()
+};
+
+
 (:returns a string of arguments to be appended to the main query context:)
 declare function q:parameters2arguments($params) {
-    let $test := util:log('info', $params)
+    (:  let $test := util:log('info', string-join($params, ' 
+    ')):)
     let $args := for $p in $params
+    (: let $t := util:log('info', $p):)
     let $r := q:parrequest($p)
+    (:  let $t2 := util:log('info', $r):)
     return
-        if ((count($r) = 0) or ($r = '') or (empty($r)) or (string-length(string-join($r)) = 0)) then
+        if (ends-with($p, '-field') or ends-with($p, '-facet')) then
             ()
+            (:    these should be taken into consideration already at the top :)
         else
-            (:        this switch maps each parameter which has a value to a function building a string with the argument for an Xpath :)
-            switch ($p)
-                
-                (:            type of item:)
-                case 'work-types'
-                    return
-                        q:par-works-type($r)
-                        
-                        (:                   this should select a precise element to run a ft:query onto, it requires a collection, 
+            if ((count($r) = 0) or ($r = '') or (empty($r)) or (string-length(string-join($r)) = 0)) then
+                ((:util:log('info', concat(' not passing ', string-join($r))):) )
+            else
+                (:        this switch maps each parameter which has a value to a function building a string with the argument for an Xpath :)
+                switch ($p)
+                    case "images"
+                        return
+                          q:images($r)
+                                                (:            type of item:)
+                    case 'work-types'
+                        return
+                            q:par-works-type($r)
+                            
+                            (:                   this should select a precise element to run a ft:query onto, it requires a collection, 
 while refactoring this has been left empty, the search here is always on all the TEI element and field are available for this :)
-                case 'mainname'
-                    return
-                        q:par-allnames($r, '')
-                case 'keyword'
-                    return
-                        q:par-keywords($r)
-                case 'cp'
-                    return
-                        q:par-contentPr($r)
-                case 'CAeID'
-                    return
-                        q:par-CAeID($r)
-                case 'ClavisIDs'
-                    return
-                        q:par-ClavisIDs($r, 'clavistype')
-                case 'clavistype'
-                    return
-                        q:par-clavisType('ClavisIDs', $r)
-                
-                case 'language'
-                    return
-                        q:ListQueryParam-rest($r, 't:language/@ident', 'any', 'list')
-                
-                case 'dateRange'
-                    return
-                        q:par-date-range('origDate', string-join($r, ','))
-                case 'birthRange'
-                    return
-                        q:par-date-range('birth', string-join($r, ','))
-                case 'deathRange'
-                    return
-                        q:par-date-range('death', string-join($r, ','))
-                
-                case 'floruitRange'
-                    return
-                        q:par-date-range('floruit', string-join($r, ','))
-                case 'anyDateRange'
-                    return
-                        q:par-date-range('date', string-join($r, ','))
-                case 'numberOfParts'
-                    return
-                        '[count(descendant::t:msPart) ge ' || $r || ']'
-                case 'origPlace'
-                    return
-                        q:ListQueryParam-rest($r, 't:origPlace/t:placeName/@ref', 'any', 'search')
-                case 'height'
-                    return
-                        q:paramrange(string-join($r, ','), 'height')
-                case 'width'
-                    return
-                        q:paramrange(string-join($r, ','), 'width')
-                case 'depth'
-                    return
-                        q:paramrange(string-join($r, ','), 'depth')
-                case 'tmargin'
-                    return
-                        q:paramrange(string-join($r, ','), "dimension[@type eq 'margin']/t:dim[@type eq 'top']")
-                case 'bmargin'
-                    return
-                        q:paramrange(string-join($r, ','), "dimension[@type eq 'margin']/t:dim[@type eq 'bottom']")
-                case 'rmargin'
-                    return
-                        q:paramrange(string-join($r, ','), "dimension[@type eq 'margin']/t:dim[@type eq 'right']")
-                case 'lmargin'
-                    return
-                        q:paramrange(string-join($r, ','), "dimension[@type eq 'margin']/t:dim[@type eq 'left']")
-                case 'intercolumn'
-                    return
-                        q:paramrange(string-join($r, ','), "dimension[@type eq 'margin']/t:dim[@type eq 'intercolumn']")
-                case 'objectType'
-                    return
-                        q:ListQueryParam-rest($r, 't:objectDesc/@form', 'any', 'search')
-                case 'material'
-                    return
-                        q:ListQueryParam-rest($r, 't:support/t:material/@key', 'any', 'search')
-                case 'bmaterial'
-                    return
-                        q:ListQueryParam-rest($r, "t:decoNote[@type eq 'bindingMaterial']/t:material/@key", 'any', 'search')
-                case 'script'
-                    return
-                        q:ListQueryParam-rest($r, "t:handNote/@script", 'any', 'list')
-                case 'scribe'
-                    return
-                        q:ListQueryParam-rest($r, "t:persName[@role eq 'scribe']/@ref", 'any', 'list')
-                case 'donor'
-                    return
-                        q:ListQueryParam-rest($r, "t:persName[@role eq 'donor']/@ref", 'any', 'list')
-                case 'patron'
-                    return
-                        q:ListQueryParam-rest($r, "t:persName[@role eq 'patron']/@ref", 'any', 'list')
-                case 'owner'
-                    return
-                        q:ListQueryParam-rest($r, "t:persName[@role eq 'owner']/@ref", 'any', 'list')
-                case 'parchmentMaker'
-                    return
-                        q:ListQueryParam-rest($r, "t:persName[@role eq 'parchmentMaker']/@ref", 'any', 'list')
-                case 'binder'
-                    return
-                        q:ListQueryParam-rest($r, "t:persName[@role eq 'binder']/@ref", 'any', 'list')
-                case 'content'
-                    return
-                        q:ListQueryParam-rest($r, "t:title/@ref", 'any', 'list')
-                case 'tabot'
-                    return
-                        q:ListQueryParam-rest($r, "t:ab[@type eq 'tabot']//t:*/@*", 'any', 'search')
-                case 'placetype'
-                    return
-                        q:ListQueryParam-rest($r, "t:place/@type", 'any', 'search')
-                case 'authors'
-                    return
-                        q:ListQueryParam-rest($r, "t:relation[(@name eq 'saws:isAttributedToAuthor') or (@name eq 'dcterms:creator')]/@passive", 'any', 'search')
-                case 'occupation'
-                    return
-                        q:ListQueryParam-rest($r, "t:occupation/@type", 'any', 'search')
-                case 'faith'
-                    return
-                        q:ListQueryParam-rest($r, "t:faith/@type", 'any', 'search')
-                case 'gender'
-                    return
-                        q:ListQueryParam-rest($r, "t:person/@sex", 'any', 'list')
-                case 'period'
-                    return
-                        q:ListQueryParam-rest($r, "t:term/@key", 'any', 'search')
-                case 'restorations'
-                    return
-                        q:ListQueryParam-rest($r, "t:custEvent/@subtype", 'any', 'list')
-                case 'country'
-                    return
-                        q:ListQueryParam-rest($r, 't:country/@ref', 'any', 'range')
-                case 'settlement'
-                    return
-                        q:ListQueryParam-rest($r, 't:settlement/@ref', 'any', 'range')
-                case 'folia'
-                    return
-                        q:par-folia($r)
-                case 'wL'
-                    return
-                        q:par-wL($r)
-                case 'qn'
-                    return
-                        q:par-qn($r)
-                case 'qcn'
-                    return
-                        q:par-qcn($r)
-                default return
-                    ()
+                    case 'mainname'
+                        return
+                            q:par-allnames($r, '')
+                    case 'keyword'
+                        return
+                            q:par-keywords($r)
+                    case 'cp'
+                        return
+                            q:par-contentPr($r)
+                    case 'CAeID'
+                        return
+                            q:par-CAeID($r)
+                    case 'ClavisIDs'
+                        return
+                            q:par-ClavisIDs($r, 'clavistype')
+                    case 'clavistype'
+                        return
+                            q:par-clavisType('ClavisIDs', $r)
+                    
+                    case 'language'
+                        return
+                            q:ListQueryParam-rest($r, 't:language/@ident', 'any', 'list')
+                    
+                    case 'dateRange'
+                        return
+                            q:par-date-range('origDate', string-join($r, ','))
+                    case 'birthRange'
+                        return
+                            q:par-date-range('birth', string-join($r, ','))
+                    case 'deathRange'
+                        return
+                            q:par-date-range('death', string-join($r, ','))
+                    
+                    case 'floruitRange'
+                        return
+                            q:par-date-range('floruit', string-join($r, ','))
+                    case 'anyDateRange'
+                        return
+                            q:par-date-range('date', string-join($r, ','))
+                    case 'numberOfParts'
+                        return
+                            '[count(descendant::t:msPart) ge ' || $r || ']'
+                    case 'origPlace'
+                        return
+                            q:ListQueryParam-rest($r, 't:origPlace/t:placeName/@ref', 'any', 'search')
+                    case 'height'
+                        return
+                            q:paramrange(string-join($r, ','), 'height')
+                    case 'width'
+                        return
+                            q:paramrange(string-join($r, ','), 'width')
+                    case 'depth'
+                        return
+                            q:paramrange(string-join($r, ','), 'depth')
+                    case 'tmargin'
+                        return
+                            q:paramrange(string-join($r, ','), "dimension[@type eq 'margin']/t:dim[@type eq 'top']")
+                    case 'bmargin'
+                        return
+                            q:paramrange(string-join($r, ','), "dimension[@type eq 'margin']/t:dim[@type eq 'bottom']")
+                    case 'rmargin'
+                        return
+                            q:paramrange(string-join($r, ','), "dimension[@type eq 'margin']/t:dim[@type eq 'right']")
+                    case 'lmargin'
+                        return
+                            q:paramrange(string-join($r, ','), "dimension[@type eq 'margin']/t:dim[@type eq 'left']")
+                    case 'intercolumn'
+                        return
+                            q:paramrange(string-join($r, ','), "dimension[@type eq 'margin']/t:dim[@type eq 'intercolumn']")
+                    case 'form'
+                        return
+                            q:ListQueryParam-rest($r, 't:objectDesc/@form', 'any', 'list')
+                    case 'material'
+                        return
+                            q:ListQueryParam-rest($r, 't:support/t:material/@key', 'any', 'list')
+                    case 'bmaterial'
+                        return
+                            q:ListQueryParam-rest($r, "t:decoNote[@type eq 'bindingMaterial']/t:material/@key", 'any', 'search')
+                    case 'script'
+                        return
+                            q:ListQueryParam-rest($r, "t:handNote/@script", 'any', 'list')
+                    case 'scribe'
+                        return
+                            q:ListQueryParam-rest($r, "t:persName[@role eq 'scribe']/@ref", 'any', 'list')
+                    case 'donor'
+                        return
+                            q:ListQueryParam-rest($r, "t:persName[@role eq 'donor']/@ref", 'any', 'list')
+                    case 'patron'
+                        return
+                            q:ListQueryParam-rest($r, "t:persName[@role eq 'patron']/@ref", 'any', 'list')
+                    case 'owner'
+                        return
+                            q:ListQueryParam-rest($r, "t:persName[@role eq 'owner']/@ref", 'any', 'list')
+                    case 'parchmentMaker'
+                        return
+                            q:ListQueryParam-rest($r, "t:persName[@role eq 'parchmentMaker']/@ref", 'any', 'list')
+                    case 'binder'
+                        return
+                            q:ListQueryParam-rest($r, "t:persName[@role eq 'binder']/@ref", 'any', 'list')
+                    case 'content'
+                        return
+                            q:ListQueryParam-rest($r, "t:title/@ref", 'any', 'list')
+                    case 'tabot'
+                        return
+                            q:ListQueryParam-rest($r, "t:ab[@type eq 'tabot']//t:*/@*", 'any', 'search')
+                    case 'placetype'
+                        return
+                            q:ListQueryParam-rest($r, "t:place/@type", 'any', 'search')
+                    case 'authors'
+                        return
+                            q:ListQueryParam-rest($r, "t:relation[(@name eq 'saws:isAttributedToAuthor') or (@name eq 'dcterms:creator')]/@passive", 'any', 'search')
+                    case 'occupation'
+                        return
+                            q:ListQueryParam-rest($r, "t:occupation/@type", 'any', 'search')
+                    case 'faith'
+                        return
+                            q:ListQueryParam-rest($r, "t:faith/@type", 'any', 'search')
+                    case 'gender'
+                        return
+                            q:ListQueryParam-rest($r, "t:person/@sex", 'any', 'list')
+                    case 'period'
+                        return
+                            q:ListQueryParam-rest($r, "t:term/@key", 'any', 'search')
+                    case 'restorations'
+                        return
+                            q:ListQueryParam-rest($r, "t:custEvent/@subtype", 'any', 'list')
+                    case 'country'
+                        return
+                            q:ListQueryParam-rest($r, 't:country/@ref', 'any', 'range')
+                    case 'settlement'
+                        return
+                            q:ListQueryParam-rest($r, 't:settlement/@ref', 'any', 'range')
+                    case 'folia'
+                        return
+                            q:par-folia($r)
+                    case 'wL'
+                        return
+                            q:par-wL($r)
+                    case 'qn'
+                        return
+                            q:par-qn($r)
+                    case 'qcn'
+                        return
+                            q:par-qcn($r)
+                    default return
+                        ()
 
 
 
@@ -939,14 +969,11 @@ return
 };
 
 declare function q:text($q, $params) {
-    let $test := util:log('info', $params)
+    (:    let $test := util:log('info', $params):)
     let $qs := q:querystring($q, $q:mode)
     let $querycontext := '$q:col//t:TEI[ft:query(., $qs, $q:allopts)]'
     let $parmstoquery := q:parameters2arguments($params)
     let $querytext := concat($querycontext, $parmstoquery)
-    let $test := util:log('info', $params)
-    let $test0 := util:log('info', $parmstoquery)
-    let $test1 := util:log('info', $querycontext)
     let $test2 := util:log('info', $querytext)
     let $query := util:eval($querytext)
     let $allTEI :=
@@ -3425,6 +3452,9 @@ declare function q:rangeindexlabel($nodeName) {
         case 'faithtype'
             return
                 'faith type'
+        case "TEIbibltitle"
+            return
+                "bibliography title"
         default return
             'unknown'
 };
@@ -3456,6 +3486,8 @@ let $t2 := util:log('info', $count):)
                     <optgroup
                         label="{$MAIN/text()}">{
                             for $o in $option
+                            let $sorting := q:sortingkey($o)
+                                order by $sorting
                             return
                                 $o
                         }</optgroup>
@@ -3497,7 +3529,7 @@ declare function q:formatOption($rangeindexname, $key, $count) {
                     }
                 return
                     <option
-                        value="{$key}">{$titlesel} ({$count[2]})</option>
+                        value="{$key}">{normalize-space($titlesel)} ({$count[2]})</option>
             else
                 if (starts-with($key, '#'))
                 then
@@ -3506,13 +3538,14 @@ declare function q:formatOption($rangeindexname, $key, $count) {
                     let $title := string-join($t/text())
                     return
                         <option
-                            value="{$key}">{$title} ({$count[2]})</option>
+                            value="{$key}">{normalize-space($title)} ({$count[2]})</option>
                 else
                     if ($rangeindexname = 'TEItermKey') then
                         let $cat := $q:lists//t:category[@xml:id = $key]
                         return
                             <option
-                                value="{$key}">{$cat/t:catDesc/text()}</option>
+                                value="{$key}">{$cat/t:catDesc/text()}
+                                {($count[2])}</option>
                     else
                         if ($rangeindexname = 'TEIsex') then
                             <option
@@ -3531,23 +3564,28 @@ declare function q:formatOption($rangeindexname, $key, $count) {
 
 
 declare function q:generalRangeIndexesFilters($node as node(), $model as map(*)) {
-    let $indexnames := ('TEIlanguageIdent', 'TEItermKey', 'changewho', 'relname', 'TEIbibltitle')
+    let $indexnames := ('TEIlanguageIdent', 'TEItermKey', 'changewho')
+(: unused  'relname',  
+heavy to load 'TEIbibltitle':)
     return
         q:datalist($indexnames)
 };
 
 declare function q:MssRangeIndexesFilters($node as node(), $model as map(*)) {
-    let $indexnames := ('TEIrepo', 'TEIscript', 'TEIsupport', 'materialkey', 'TEIdecoMat', 'custEventsubtype', 'TEItitle')
+    let $indexnames := ('TEIrepo', 'TEIscript', 'TEIsupport', 'materialkey', 'TEIdecoMat', 'custEventsubtype')
     return
         q:datalist($indexnames)
 };
 
 declare function q:MssPersRoles($node as node(), $model as map(*)) {
-    let $roles := $q:col/$q:range-lookup3('persrole', function ($key, $count)    {$key},    1000)
-for $role in $roles
-let $elements := $q:col//t:persName[@role eq $role][not(@ref eq 'PRS00000')][ not(@ref eq 'PRS0000')]
+    let $roles := $q:col/$q:range-lookup3('persrole', function ($key, $count) {
+        $key
+    }, 1000)
+    for $role in $roles
+    let $elements := $q:col//t:persName[@role eq $role][not(@ref eq 'PRS00000')][not(@ref eq 'PRS0000')]
     let $keywords := distinct-values($elements/@ref)
-return q:formcontrol($role, $keywords, 'false', 'rels')
+    return
+        q:formcontrol($role, $keywords, 'false', 'rels')
 };
 
 declare function q:WorksRangeIndexesFilters($node as node(), $model as map(*)) {
@@ -3729,9 +3767,9 @@ declare function q:selectors($nodeName, $nodes, $type) {
                             substring-after($n, ($config:appUrl || '/'))
                         else
                             $n
-                        let $t := util:log('info', $id)
+                            (:                        let $t := util:log('info', $id):)
                         let $title := exptit:printTitleID($id)
-                        let $t := util:log('info', $title)
+                        (:                        let $t := util:log('info', $title):)
                         let $sortkey := q:sortingkey($title[1])
                             order by $sortkey
                         return
