@@ -1,111 +1,10 @@
 <collection xmlns="http://exist-db.org/collection-config/1.0">
     <index xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:t="http://www.tei-c.org/ns/1.0">
-     <fulltext default="none" attributes="false"/>
-     
-        <create qname="id" type="xs:string"/>
         <lucene diacritics="no">
-            <!--this index should have all facets AND only have terms from elements not indexed otherwise, since those which have indexes are also ignored later in the configuration--> 
-            <text qname="t:TEI">
-                <ignore qname="t:corr"/>
-                <ignore qname="t:add"/>
-                <ignore qname="t:ex"/>
-                <field name="signature" expression="t:teiHeader//t:msIdentifier//t:idno"/>
-                <field name="handDesc" expression="t:teiHeader//t:handDesc"/>
-                <field name="decoDesc" expression="t:teiHeader//t:decoDesc"/>
-                <field name="binding" expression="t:teiHeader//t:binding"/>
-                <field name="support" expression="t:teiHeader//t:supportDesc"/>
-                <field name="msContent" expression="t:teiHeader//t:msContents"/>
-                <field name="text" expression="t:text//t:div[@type='edition']"/>
-                <field name="incipit" expression="t:teiHeader//t:incipit"/>
-                <field name="explicit" expression="t:teiHeader//t:explicit"/>
-                <field name="colophon" expression="t:teiHeader//t:colophon"/>
-                <field name="history" expression="t:teiHeader//t:history"/>
-                <field name="additions" expression="t:teiHeader//t:additions"/>
-                <field name="person" expression="t:teiHeader//(t:person | t:personGrp)"/> 
-                <field name="place" expression="t:teiHeader//t:place"/> 
-                <field name="title" expression="t:teiHeader//t:titleStmt"/>
-                <field name="datesNB" type="xs:date" expression="t:teiHeader//(t:date|t:origDate|t:floruit|t:birth|t:death)/@notBefore"/>
-                <field name="datesNA" type="xs:date" expression="t:teiHeader//(t:date|t:origDate|t:floruit|t:birth|t:death)/@notAfter"/>
-                <field name="datesW" type="xs:date" expression="t:teiHeader//(t:date|t:origDate|t:floruit|t:birth|t:death)/@when"/>
-                <!--all--> 
-                <facet dimension="type" expression="switch(@type) case 'mss' return 'manuscript' case 'work' return 'textual unit' case 'pers' return 'person' case 'place' return 'place' case 'ins' return 'repository' case 'nar' return 'narrative unit'  case 'studies' return 'studies' default return 'authority file'"/>
-                <facet dimension="keywords" expression="t:teiHeader//(t:term/@key|t:ref[@type='authFile']/@corresp)"/>
-                <facet dimension="languages" expression="t:teiHeader//t:language/@ident"/>
-                <facet dimension="changeWho" expression="t:teiHeader//t:change/@who"/>
-                <facet dimension="changeWhen" expression="t:teiHeader//t:change/@when"/>
-                <facet dimension="reltype" expression="t:teiHeader//t:relation/@name"/>
-                <!--mss-->
-                <facet dimension="script" if="@type='mss'" expression="t:teiHeader//t:handNote/@script"/>
-                <facet dimension="condition" if="@type='mss'" expression="t:teiHeader//t:condition/@key"/>
-                <facet dimension="form" if="@type='mss'" expression="t:teiHeader//t:objectDesc/@form"/>
-                <facet dimension="material" if="@type='mss'" expression="t:teiHeader//t:support/t:material/@key"/>
-                <facet dimension="bindingMaterial" if="@type='mss'" expression="t:teiHeader//t:binding//t:material/@key"/>
-                <facet dimension="height" if="@type='mss'" expression="t:teiHeader//t:extent/t:dimensions/t:height"/>
-                <facet dimension="width" if="@type='mss'" expression="t:teiHeader//t:extent/t:dimensions/t:width"/>
-                <facet dimension="depth" if="@type='mss'" expression="t:teiHeader//t:extent/t:dimensions/t:depth"/>
-                <facet dimension="scribe" if="@type='mss'" expression="t:teiHeader//t:persName[@role='scribe']"/>
-                <facet dimension="donor" if="@type='mss'" expression="t:teiHeader//t:persName[@role='donor']"/>
-                <facet dimension="msItemsCount" if="@type='mss'" expression="count(t:teiHeader//t:msItem)"/>
-                <facet dimension="msPartsCount" if="@type='mss'" expression="count(t:teiHeader//t:msPart)"/>
-                <facet dimension="handsCount" if="@type='mss'" expression="count(t:teiHeader//t:handNote)"/>
-                <facet dimension="sealCount" if="@type='mss'" expression="count(t:teiHeader//t:seal)"/>
-                <facet dimension="QuireCount" if="@type='mss'" expression="count(t:teiHeader//t:collation//t:item[@n])"/>
-                <facet dimension="AdditionsCount" if="@type='mss'" expression="count(t:teiHeader//t:additions//t:item[starts-with(@xml:id, 'a')])"/>
-                <facet dimension="AdditionsType" if="@type='mss'" expression="t:teiHeader//t:additions//t:item[starts-with(@xml:id, 'a')]/t:desc/@type"/>
-                <facet dimension="titleRef" if="@type='mss'" expression="t:teiHeader//t:msContents/t:msItem/t:title"/>
-                <facet dimension="titleType" if="@type='mss'" expression="t:teiHeader//t:msItem//t:title/@type"/>
-                <facet dimension="ExtraCount" if="@type='mss'" expression="count(t:teiHeader//t:additions//t:item[starts-with(@xml:id, 'e')])"/>
-                <facet dimension="ExtraType" if="@type='mss'" expression="t:teiHeader//t:additions//t:item[starts-with(@xml:id, 'e')]/t:desc/@type"/>
-                <facet dimension="origPlace" if="@type='mss'" expression="t:teiHeader//t:origPlace/@ref"/>
-                <facet dimension="leafs" if="@type='mss'" expression="t:teiHeader//t:extent/t:measure[@unit='leaf'][not(@type)]"/>
-                <facet dimension="origDateNotBefore" if="@type='mss'" expression="t:teiHeader//t:origin/t:origDate/@notBefore"/>               
-                <facet dimension="origDateNotAfter" if="@type='mss'" expression="t:teiHeader//t:origin/t:origDate/@notAfter"/>               
-                <facet dimension="repository" if="@type='mss'" expression="t:teiHeader//t:repository/@ref"/>
-                <facet dimension="collection" if="@type='mss'" expression="t:teiHeader//t:collection"/>
-                <facet dimension="rulingpattern" if="@type='mss'" expression="if(t:teiHeader//t:ab[@type='ruling'][@subtype='pattern']) then for $rulpat in t:teiHeader//t:ab[@type='ruling'][@subtype='pattern'] return replace($rulpat, 'Ruling Pattern', '') else ''"/>
-                <facet dimension="artThemes" if="@type='mss'" expression="t:teiHeader//t:decoNote//t:ref[@type='authFile']"/>
-                <facet dimension="artkeywords" if="@type='mss'" expression="t:teiHeader//t:decoNote//t:term"/>
-                <facet dimension="bindingkeywords" if="@type='mss'" expression="t:teiHeader//t:binding//t:decoNote//t:term"/>
-                <facet dimension="rubricationkeywords" if="@type='mss'" expression="t:teiHeader//t:seg[@type='rubrication']//t:term"/>
-                <facet dimension="decoType" if="@type='mss'" expression="t:teiHeader//t:decoNote/@type"/>
-                <facet dimension="calendarType" if="@type='mss'" expression="t:teiHeader//(t:date|t:origDate)/@calendar"/>
-                <facet dimension="presenceOfPunctuation" if="@type='mss'" expression="if(t:teiHeader//t:ab[@type='punctuation']) then 'yes' else 'no'"/>
-                <facet dimension="rubrication" if="@type='mss'" expression="t:teiHeader//t:seg[@type='rubrication']/t:term/@key"/>
-                
-                <!-- countColophons, supplications, binding features, decoration features,  -->
-                <facet dimension="images" if="@type='mss'" expression="if(t:teiHeader//t:msIdentifier/t:idno[@facs][@n]) then 'yes' else 'no'"/>
-                <facet dimension="writtenLines" if="@type='mss'" expression="t:teiHeader//t:layout/@writtenLines"/>
-                <facet dimension="columns" if="@type='mss'" expression="t:teiHeader//t:layout/@columns"/>
-                <facet dimension="thereistranscription" if="@type='mss'" expression="if(t:text//t:div[@type='edition']//t:div/t:ab) then 'some text present' else 'only metadata'"/>
-                <!--works-->
-                <facet dimension="authors" if="@type='work'" expression="t:text//t:relation[@name='dcterms:creator' or @name='saws:isAttributedToAuthor']/@passive"/>
-                <facet dimension="sawsVersionOf" if="@type='work'" expression="t:text//t:relation[@name='saws:isVersionOf']/@passive"/>
-                <facet dimension="witness" if="@type='work'" expression="t:text//t:witness/@corresp"/>
-                <facet dimension="thereistext" if="@type='work'" expression="if(t:text//t:div[@type='edition']//t:div/t:ab) then 'some text present' else 'only metadata'"/>
-                <!--persons-->
-                <facet dimension="sex" if="@type='pers'" expression="switch(t:text//t:person/@sex) case '1' return 'male' case '2' return 'female' default return 'n/a'"/>
-                <facet dimension="personSameAs" if="@type='pers'" expression="t:text//t:person/@sameAs"/>
-                <facet dimension="group" if="@type='pers'" expression="if(t:text//t:personGrp) then 'group' else 'individual'"/>
-                <facet dimension="eth" if="@type='pers'" expression="if(starts-with(@xml:id, 'E')) then 'ethnic' else ''"/>
-                <facet dimension="faith" if="@type='pers'" expression="t:text//t:faith/@type"/>
-                <facet dimension="occupation" if="@type='pers'" expression="t:text//t:occupation/@type"/>
-                <facet dimension="persDateNotBefore" if="@type='pers'" expression="t:teiHeader//(t:birth|t:floruit|t:death|t:date)/@notBefore"/>               
-                <facet dimension="persDateNotAfter" if="@type='pers'" expression="t:teiHeader//(t:birth|t:floruit|t:death|t:date)/@notAfter"/>                 
-                <facet dimension="persDateWhen" if="@type='pers'" expression="t:teiHeader//(t:birth|t:floruit|t:death|t:date)/@when"/>   
-                <!--places-->
-                <facet dimension="placetype" if="@type='place'" expression="for $x in tokenize(t:text//t:place/@type,' ') return $x"/>
-                <facet dimension="settlement" if="@type='place'" expression="t:text//t:settlement/@ref"/>
-                <facet dimension="region" if="@type='place'" expression="t:text//t:region/@ref"/>
-                <facet dimension="country" if="@type='place'" expression="t:text//t:country/@ref"/>
-                <facet dimension="tabot" if="@type='place'" expression="t:text//t:ab[@type='tabot']//(t:persName[@type='tabot']|t:ref[@type='authFile'])"/>
             
-             </text> 
              
              <text qname="t:TEI">
-                <ignore qname="t:orig"/>
-                <ignore qname="t:sic"/>
-                 <ignore qname="t:del"/>
-                 <field name="signature" expression="t:teiHeader//t:msIdentifier//t:idno"/>
+                <field name="signature" expression="t:teiHeader//t:msIdentifier//t:idno"/>
                 <field name="handDesc" expression="t:teiHeader//t:handDesc"/>
                 <field name="decoDesc" expression="t:teiHeader//t:decoDesc"/>
                 <field name="binding" expression="t:teiHeader//t:binding"/>
@@ -228,7 +127,6 @@
             <inline qname="t:choice"/>
             <inline qname="t:expan"/>
 
-
             
             <!--elements not to be indexed at all in the expanded data-->
             <ignore qname="t:revisionDesc"/>            
@@ -243,52 +141,32 @@
             <ignore qname="t:calendarDesc"/>
             <ignore qname="t:standOff"/>
             <ignore qname="t:facsimile"/>
-            
         </lucene>
-        
         
         <!-- Range indexes -->
         <range>
             <create qname="t:TEI">
                 <field name="TEItype" match="@type" type="xs:string"/>
                 <field name="TEIid" match="@xml:id" type="xs:string"/>
-                <field name="TEIidnoN" match="//t:idno/@n" type="xs:string"/>
-                <field name="TEIidnoF" match="//t:idno/@facs" type="xs:string"/>
-                <field name="TEIfacs" match="//t:facsimile/t:graphic/@url" type="xs:string"/>
-                <field name="TEIlanguageIdent" match="//t:language/@ident" type="xs:string"/>
-                <field name="TEItermKey" match="//t:term/@key" type="xs:string"/>
-                <field name="TEIrepoRef" match="//t:repository/@ref" type="xs:string"/>
-                <field name="TEIrepo" match="//t:repository" type="xs:string"/>
-                <field name="TEIclavistype" match="//t:bibl/@type" type="xs:string"/>
-                <field name="TEIclavisID" match="//t:citedRange" type="xs:string"/>
-                <field name="TEIorigDateW" match="//t:origDate/@when" type="xs:string"/>
-                <field name="TEIorigDateNB" match="//t:origDate/@notBefore" type="xs:string"/>
-                <field name="TEIorigDateNA" match="//t:origDate/@notAfter" type="xs:string"/>
-                <field name="TEIDateW" match="//t:date/@when" type="xs:string"/>
-                <field name="TEIDateNB" match="//t:date/@notBefore" type="xs:string"/>
-                <field name="TEIDateNA" match="//t:date/@notAfter" type="xs:string"/>
-                <field name="TEIplNametx" match="//t:placeName/@ref" type="xs:string"/>
-                <field name="TEIplName" match="//t:placeName" type="xs:string"/>
-                <field name="TEIprNametx" match="//t:persName/@ref" type="xs:string"/>
-                <field name="TEIprName" match="//t:persName" type="xs:string"/>
-                <field name="TEIscript" match="//t:handNote/@script" type="xs:string"/>
-                <field name="TEIsupport" match="//t:objectDesc/@form" type="xs:string"/>
-                <field name="TEIpersOcc" match="//t:occupation/@type" type="xs:string"/>
-                <field name="TEIreltx" match="//t:relation/@name" type="xs:string"/>
-                <field name="TEIreltxP" match="//t:relation/@passive" type="xs:string"/>
-                <field name="TEItitleRef" match="//t:title/@ref" type="xs:string"/>
-                <field name="TEItitle" match="//t:title" type="xs:string"/>
-                <field name="TEIwittCorr" match="//t:witness/@corresp" type="xs:string"/>
-                <field name="TEIwitt" match="//t:witness" type="xs:string"/>
-                <field name="TEIsex" match="//t:person/@sex" type="xs:string"/>
-                <field name="TEImeasure" match="//t:extent/t:measure" type="xs:string"/>
-                <field name="TEIwrittenLines" match="//t:layout/@writtenLines" type="xs:string"/>
-                <field name="TEIquireDim" match="//t:dim" type="xs:string"/>
-                <field name="TEIbibltitle" match="//t:bibl/t:title" type="xs:string"/>
-                <field name="TEIbiblauthor" match="//t:bibl/t:author" type="xs:string"/>
+             </create>
+           
+            <create qname="t:person">
+                <field name="persontext" type="xs:string"/>
+                <field name="sex" match="@sex" type="xs:string"/>
+                <field name="persontype" match="@type" type="xs:string"/>
+                <field name="personSameAs" match="@sameAs" type="xs:string"/>
+            </create>
+        
+           <create qname="t:handNote">
+               <field name="script" match="@script" type="xs:string"/>
+           </create>
+          
+            <create qname="t:idno">
+                <field name="idno" type="xs:string"/>
+                <field name="idnoN" match="@n" type="xs:string"/>
+                <field name="idnoF" match="@facs" type="xs:string"/>
             </create>
             
-           
             <create qname="t:l">
                 <field name="ltext" type="xs:string"/>
                 <field name="lnum" match="@n" type="xs:string"/>
@@ -352,6 +230,7 @@
                 <field name="title-type" match="@type" type="xs:string"/>
                 <field name="title-subtype" match="@subtype" type="xs:string"/>
             </create>
+            
             <create qname="t:colophon">
                 <field name="colophon-text" type="xs:string"/>
                 <field name="colophon-id" match="@xml:id" type="xs:string"/>
@@ -359,6 +238,7 @@
                 <field name="colophon-type" match="@type" type="xs:string"/>
                 <field name="colophon-subtype" match="@subtype" type="xs:string"/>
             </create>
+            
             <create qname="t:incipit">
                 <field name="incipit-text" type="xs:string"/>
                 <field name="incipit-id" match="@xml:id" type="xs:string"/>
@@ -366,6 +246,7 @@
                 <field name="incipit-type" match="@type" type="xs:string"/>
                 <field name="incipit-subtype" match="@subtype" type="xs:string"/>
             </create>
+            
             <create qname="t:explicit">
                 <field name="explicit-text" type="xs:string"/>
                 <field name="explicit-id" match="@xml:id" type="xs:string"/>
@@ -491,12 +372,13 @@
                 <field name="faithtype" match="@type" type="xs:string"/>
             </create>
             
-            
             <create qname="t:roleName" type="xs:string"/>
-            <create qname="t:height" type="xs:string"/>
-            <create qname="t:depth" type="xs:string"/>
-            <create qname="t:width" type="xs:string"/>
            
+            <create qname="t:height" type="xs:string"/>
+           
+            <create qname="t:depth" type="xs:string"/>
+           
+            <create qname="t:width" type="xs:string"/>
            
             <create qname="t:dimension">
                 <field name="dimensionstext" type="xs:string"/>
@@ -522,7 +404,6 @@
                 <field name="placeSameAs" match="@sameAs" type="xs:string"/>
                 <field name="placeGeo" match="//t:geo" type="xs:string"/>
             </create>
-            
             
             <create qname="t:rs" type="xs:string"/>      
                  
@@ -591,7 +472,6 @@
                 <field name="floruitresp" match="@resp" type="xs:string"/>
             </create>
             
-            
             <create qname="t:origDate">
                 <field name="origDatetext" type="xs:string"/>
                 <field name="Odatewhen" match="@when" type="xs:date"/>
@@ -622,17 +502,14 @@
                 <field name="origPlaceLANG" match="@xml:lang" type="xs:string"/>
             </create>
             
-            
             <create qname="t:objectDesc">
                 <field name="form" match="@form" type="xs:string"/>
             </create>
-            
             
             <create qname="t:listBibl">
                 <field name="listBiblType" match="@type" type="xs:string"/>
             </create>
             
-           
             <create qname="t:relation">
                 <field name="relationtext" match="t:desc" type="xs:string"/>
                 <field name="relname" match="@name" type="xs:string"/>
@@ -647,6 +524,8 @@
             
             <create qname="t:bibl">
                 <field name="bibltext" type="xs:string"/>
+                <field name="bibltitle" match="t:title" type="xs:string"/>
+                <field name="biblauthor" match="t:author" type="xs:string"/>
                 <field name="biblptrtg" match="t:ptr/@target" type="xs:string"/>
                 <field name="biblrange" match="t:citedRange" type="xs:string"/>
                 <field name="bibltype" match="@type" type="xs:string"/>
@@ -667,6 +546,7 @@
             
             <create qname="t:facsimile">
                 <field name="facsimileid" match="@xml:id" type="xs:string"/>
+                <field name="graphicurl" match="t:graphic/@url" type="xs:string"/>
             </create>
             
             <create qname="t:surface">

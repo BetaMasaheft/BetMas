@@ -18,7 +18,7 @@
                             To reach a given item with its ID, you can also append that to the base URL of the website, https://betamasaheft.eu/LIT1234name  and you will be redirected to the correct landing page.</span>
                         <span id="clavisquery" class="w3-hide w3-tiny w3-padding w3-red">If you have at hand the Clavis Aethiopica number of a Textual Unit, e.g. CAe 1234, you can enter it here and the search will point you to that record.</span>
                         <span id="otherclavisquery" class="w3-hide w3-tiny w3-padding w3-red">We record (unsystematically) corresponding identifiers from other Claves, like CAVT or CANT, here you can select which one you want to look for and search for records pointing to that.</span>
-                        <span id="fieldsquery" class="w3-hide w3-tiny w3-padding w3-red">If you wish to search for a given word in the hands descriptions and another word in the decorations, here you can do that, using fields.</span>
+                       
                         <span id="xpathquery" class="w3-hide w3-tiny w3-padding w3-red">If you know how to write your XPath, and know the source TEI (available for each file, by appending .xml to the identifier of the record) you will be able to run that query against the db here. Not all possible paths are optimized.</span>
                         <span id="sparqlquery" class="w3-hide w3-tiny w3-padding w3-red">Parallel to the XML, also an RDF triple store is maintained by the project. Here you get an interface to the SPARQL endpoint. You can add your SPARQL query and see the results available.</span>
                         
@@ -57,6 +57,7 @@
                                 here </span>
                             <span id="searchoperator" class="w3-hide w3-tiny w3-padding">By default the search will use OR as an operator, which means that if you search two words you will get hits which contain one OR the other. You may wish to use AND to get the matches which contain your first word AND your second word. If you want them in that particular order, consider using phrase mode from the search type.</span>
                             <span id="explainfilters" class="w3-hide w3-tiny w3-padding">Click on this plus button to see a series of additional options for your search.</span>
+                            <span id="fieldsquery" class="w3-hide w3-tiny w3-padding">If you wish to search for a given word in the hands descriptions and another word in the decorations, here you can do that, using fields.</span>
                             <span id="keyboardexplain" class="w3-hide w3-tiny w3-padding">This may help you enter characters which are not immediately present on your keyboard. Keep a letter pressed for additional forms. Use Shift and Alt for alternative keyboards. Instead of the pointer you can use your own keyboard with these values when active.</span>
                             <span id="homophonesexplain" class="w3-hide w3-tiny w3-padding">Homophones are mechanically replaced for you, so that for example, if you search for one of 'ሀ', 'ሐ', 'ኀ', 'ሃ', 'ሓ', 'ኃ' we will search for all of them. 
                                 If you deselect this checkbox the list of homophones will not be considered and only the exact string you searched will be passed on. Homophones are not replaced for search strings longer than 10 characters and is not applied in all modes.</span>
@@ -90,6 +91,9 @@
                             </a>
                             <span class="w3-bar-item w3-button w3-hide-medium  w3-hide-small explain" data-value="explainfilters" id="showfilters">
                                 <i class="fa fa-plus" aria-hidden="true"/>
+                            </span>
+                            <span class="w3-bar-item w3-button w3-hide-medium  w3-hide-small explain" data-value="fieldsquery" id="showfields">
+                                <i class="fa fa-bars" aria-hidden="true"/>
                             </span>
                             <button type="submit" id="submit-data" class="w3-button w3-bar-item w3-red">
                                 <i class="fa fa-search"/>
@@ -191,13 +195,12 @@
                     </div>
                 </fieldset>
                 <fieldset id="filters" class="w3-container" style="border:none;"/>
-                <fieldset id="lists" class="w3-container w3-hide" style="border:none;"/>
                 <fieldset id="fields" class="w3-container w3-hide " style="border:none;">
                  <div class="w3-padding">   <p>Here you can differentiate your search by looking at the text of constructed 
                         strings from specific portions of the data. You can search for records which
                     have a word occurring in the decoration and another in the content description, for example.</p>
-                    <div>
-                        <small>Manuscripts</small>
+                     <div class="w3-padding">
+                        <label>Manuscripts</label>
                         <div data-template="q:fieldInputSignature"/>
                         <div data-template="q:fieldInputHandDesc"/>
                     <div data-template="q:fieldInputDecoDesc"/>
@@ -209,17 +212,17 @@
                         <div data-template="q:fieldInputExplicit"/>
                         <div data-template="q:fieldInputColophon"/>
                     </div>
-                    <div>
-                        <small>Works and manuscript transcriptions</small>
+                     <div class="w3-padding">
+                        <label>Works and manuscript transcriptions</label>
                         <div data-template="q:fieldInputTitle"/>
                         <div data-template="q:fieldInputText"/>
                     </div> 
-                    <div>
-                        <small>Persons and groups</small>
+                     <div class="w3-padding">
+                        <label>Persons and groups</label>
                         <div data-template="q:fieldInputPerson"/>
                     </div>
-                    <div>
-                        <small>Places and institutions</small>
+                     <div class="w3-padding">
+                        <label>Places and institutions</label>
                         <div data-template="q:fieldInputPlace"/>
                     </div>
                     </div>

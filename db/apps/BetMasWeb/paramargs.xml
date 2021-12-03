@@ -1,0 +1,240 @@
+<indexes>
+    <!--   
+    Intermediate file to make sure consistency betwenn names of indexes, labeling and argument name.
+imnported by queries.xqm    
+    @name is the field name in collection.xconf, and can be used for the name of the input field in a form this needs to be spaceless
+    @label is the name a filter will have in the form which can be capitalized, pluralized and contain punctuation
+    @form declares which part of the form uses the index to present options, not all indexes are presented for search directly
+            can have value: g (general), m (manuscripts), pr (persons), pl (places), w (works)
+    @keywords="yes" is for index which store values taken from the taxonomy
+    -->
+    <rangeindex name="TEItype" label="Item Types"/>
+    <rangeindex name="TEIid" label="Item identifier"/>
+    <rangeindex name="persontext" label="Person"/>
+    <rangeindex name="sex" label="Gender"/>
+    <rangeindex name="persontype" label="Person type" form="pr"/>
+    <rangeindex name="personSameAs" label="Person External Identifier"/>
+    <rangeindex name="script" label="Scripts" form="m"/>
+    <rangeindex name="idno" label="Signatures"/>
+    <rangeindex name="idnoN" label="idno @n"/>
+    <rangeindex name="idnoF" label="idno @facs"/>
+    <rangeindex name="ltext" label="l text"/>
+    <rangeindex name="lnum" label="l num"/>
+    <rangeindex name="reftext" label="Link text"/>
+    <rangeindex name="reftype" label="Link type"/>
+    <rangeindex name="refcorresp" label="ref @corresp"/>
+    <rangeindex name="reftarget" label="ref @target"/>
+    <rangeindex name="segtext" label="Segments"/>
+    <rangeindex name="segana" label="seg @ana"/>
+    <rangeindex name="segtype" label="Segment types"/>
+    <rangeindex name="segsubtype" label="Segment subtypes"/>
+    <rangeindex name="custeventtext" label="custEvent"/>
+    <rangeindex name="custEventtype" label="custEvent @type" />
+    <rangeindex name="custEventsubtype" label="Restorations" form="m"/>
+    <rangeindex name="lemtext" label="Lemmas"/>
+    <rangeindex name="lemwit" label="Lemma Witnesses"/>
+    <rangeindex name="rdgtext" label="Readings"/>
+    <rangeindex name="rdgwit" label="Reading Witnesses"/>
+    <rangeindex name="AppLem" label="app lem"/>
+    <rangeindex name="AppRdg" label="app rdg"/>
+    <rangeindex name="stateType" label="State types"/>
+    <rangeindex name="stateRef" label="State refs"/>
+    <rangeindex name="statefrom" label="State from"/>
+    <rangeindex name="stateto" label="State to"/>
+    <rangeindex name="eventSource" label="Source of event"/>
+    <rangeindex name="eventwhen" label="Date of event"/>
+    <rangeindex name="eventfrom" label="Event from"/>
+    <rangeindex name="eventto" label="Event to"/>
+    <rangeindex name="titletext" label="Titles"/>
+    <rangeindex name="title-ref" label="title @ref"/>
+    <rangeindex name="title-id" label="title @id"/>
+    <rangeindex name="title-lang" label="title @xml:lang"/>
+    <rangeindex name="title-corresp" label="title @corresp"/>
+    <rangeindex name="title-type" label="Content Item types"/>
+    <rangeindex name="title-subtype" label="Content Items @subtype"/>
+    <rangeindex name="colophon-text" label="Colophons"/>
+    <rangeindex name="colophon-id" label="colophon @xml:id"/>
+    <rangeindex name="colophon-lang" label="Colophon languages"/>
+    <rangeindex name="colophon-type" label="Colophon types"/>
+    <rangeindex name="colophon-subtype" label="Colophon subtypes" form="m"/>
+    <rangeindex name="incipit-text" label="Incipits"/>
+    <rangeindex name="incipit-id" label="incipit @xml:id"/>
+    <rangeindex name="incipit-lang" label="Incipit languages" />
+    <rangeindex name="incipit-type" label="Incipit types"/>
+    <rangeindex name="incipit-subtype" label="Incipit subtypes" form="m"/>
+    <rangeindex name="explicit-text" label="Explicits"/>
+    <rangeindex name="explicit-id" label="explicit @xml:id"/>
+    <rangeindex name="explicit-lang" label="Explicit languages" />
+    <rangeindex name="explicit-type" label="Explicit types" />
+    <rangeindex name="explicit-subtype" label="Explicit subtypes" form="m"/>
+    <rangeindex name="msPartID" label="Manuscript part @xml:id"/>
+    <rangeindex name="msParttype" label="msPart @type"/>
+    <rangeindex name="msPartcorresp" label="msPart @corresp"/>
+    <rangeindex name="msItemID" label="Content Item ID"/>
+    <rangeindex name="msItemtype" label="Content Item types" />
+    <rangeindex name="msItemcorresp" label="msItem @corresp"/>
+    <rangeindex name="itemtext" label="Additions"/>
+    <rangeindex name="itemID" label="item @xml:id"/>
+    <rangeindex name="itemtype" label="Addition types" form="m" keywords="yes"/>
+    <rangeindex name="abtype" label="Block types"/>
+    <rangeindex name="qtext" label="Quotation texts"/>
+    <rangeindex name="qLang" label="q @xml:lang"/>
+    <rangeindex name="languagetext" label="language text"/>
+    <rangeindex name="ident" label="Languages" form="g"/>
+    <rangeindex name="desctext" label="Decoration Descriptions"/>
+    <rangeindex name="desctype" label="Description Types" form="m"/>
+    <rangeindex name="termtext" label="Keywords text"/>
+    <rangeindex name="termkey" label="Keywords" form="g"  keywords="yes"/>
+    <rangeindex name="materialtext" label="Material text"/>
+    <rangeindex name="materialkey" label="Materials" form="m"  keywords="yes"/>
+    <rangeindex name="divID" label="div @xml:id"/>
+    <rangeindex name="divLANG" label="Text parts @xml:lang"/>
+    <rangeindex name="divtype" label="Text parts types" form="w"  keywords="yes"/>
+    <rangeindex name="divsubtype" label="Text parts subtypes" form="w"/>
+    <rangeindex name="divcorresp" label="div @corresp"/>
+    <rangeindex name="divn" label="div @n"/>
+    <rangeindex name="witnesstext" label="Witnesses " form="w"/>
+    <rangeindex name="wittcorr" label="wittness @corresp"/>
+    <rangeindex name="witttype" label="wittness @type"/>
+    <rangeindex name="locustext" label="locus text"/>
+    <rangeindex name="locuscorr" label="locus @corresp"/>
+    <rangeindex name="locusFrom" label="locus @from"/>
+    <rangeindex name="locusTo" label="locus @to"/>
+    <rangeindex name="locusTarget" label="locus @target"/>
+    <rangeindex name="decoNid" label="decoNote @xml:id"/>
+    <rangeindex name="decoNtype" label="Decoration types" form="m"  keywords="yes"/>
+    <rangeindex name="decoNref" label="decoNote @ref"/>
+    <rangeindex name="decoNpers" label="decoNote pers"/>
+    <rangeindex name="decoNplace" label="decoNote place"/>
+    <rangeindex name="decoNtitle" label="decoNote title"/>
+    <rangeindex name="decoNloc" label="decoNote loc"/>
+    <rangeindex name="changetext" label="change text"/>
+    <rangeindex name="changewhen" label="change date"/>
+    <rangeindex name="changewho" label="Contributors" form="g"/>
+    <rangeindex name="repositorytext" label="Repositories" form="m"/>
+    <rangeindex name="reporef" label="repository @ref"/>
+    <rangeindex name="regiontext" label="Regions" form="pl"/>
+    <rangeindex name="regioref" label="region @ref"/>
+    <rangeindex name="settlementtext" label="Settlements" form="pl"/>
+    <rangeindex name="settlref" label="settlement @ref"/>
+    <rangeindex name="countrytext" label="Countries" form="pl"/>
+    <rangeindex name="countryref" label="country @ref"/>
+    <rangeindex name="occupationtext" label="occupation text"/>
+    <rangeindex name="occtype" label="Occupation types" form="pr"  keywords="yes"/>
+    <rangeindex name="faithtext" label="faith text"/>
+    <rangeindex name="faithtype" label="Faith types" form="pr"  keywords="yes"/>
+    <rangeindex name="dimensionstext" label="dimensions text"/>
+    <rangeindex name="dimensiontype" label="Dimension types"/>
+    <rangeindex name="dimensionunit" label="Dimension units"/>
+    <rangeindex name="dimtext" label="quire dimension text"/>
+    <rangeindex name="dimtype" label="quire dimension type"/>
+    <rangeindex name="dimunit" label="quire dimension unit"/>
+    <rangeindex name="measuretext" label="measure text"/>
+    <rangeindex name="measuretype" label="measure types"/>
+    <rangeindex name="measureunit" label="measure units"/>
+    <rangeindex name="placetext" label="place text"/>
+    <rangeindex name="placetype" label="Place Types" form="pl"  keywords="yes"/>
+    <rangeindex name="placeSameAs" label="place @sameAs"/>
+    <rangeindex name="placeGeo" label="coordinates"/>
+    <rangeindex name="persNametext" label="person text"/>
+    <rangeindex name="forename" label="forename"/>
+    <rangeindex name="surname" label="surname"/>
+    <rangeindex name="addname" label="addname"/>
+    <rangeindex name="orgName" label="orgname"/>
+    <rangeindex name="persrole" label="persrole" form="m"/>
+    <rangeindex name="persref" label="persName @ref"/>
+    <rangeindex name="persID" label="persName @xml:id"/>
+    <rangeindex name="persType" label="persName @type"  keywords="yes"/>
+    <rangeindex name="persLANG" label="persName @xml:lang"/>
+    <rangeindex name="datetext" label="date text"/>
+    <rangeindex name="datewhen" label="date @when"/>
+    <rangeindex name="datenB" label="date @notBefore"/>
+    <rangeindex name="datenA" label="date @notAfter"/>
+    <rangeindex name="datewhenc" label="date @when-custom"/>
+    <rangeindex name="datenBc" label="date @notBefore-custom"/>
+    <rangeindex name="datenAc" label="date @notAfter-custom"/>
+    <rangeindex name="datecalendar" label="Calendars"/>
+    <rangeindex name="dateevidence" label="Date Evidence"/>
+    <rangeindex name="dateresp" label="date @resp"/>
+    <rangeindex name="birthtext" label="birth text"/>
+    <rangeindex name="birthwhen" label="birth @when"/>
+    <rangeindex name="birthnB" label="birth @notBefore"/>
+    <rangeindex name="birthnA" label="birth @notAfter"/>
+    <rangeindex name="birthwhenc" label="birth @when-custom"/>
+    <rangeindex name="birthnBc" label="birth @notBefore-custom"/>
+    <rangeindex name="birthnAc" label="birth @notAfter-custom"/>
+    <rangeindex name="birthcalendar" label="birth @calendar"/>
+    <rangeindex name="birthevidence" label="birth @evidence"/>
+    <rangeindex name="birthresp" label="birth @resp"/>
+    <rangeindex name="deathtext" label="death text"/>
+    <rangeindex name="deathwhen" label="death @when"/>
+    <rangeindex name="deathnB" label="death @notBefore"/>
+    <rangeindex name="deathnA" label="death @notAfter"/>
+    <rangeindex name="deathwhenc" label="death @when-custom"/>
+    <rangeindex name="deathnBc" label="death @notBefore-custom"/>
+    <rangeindex name="deathnAc" label="death @notAfter-custom"/>
+    <rangeindex name="deathcalendar" label="death @calendar"/>
+    <rangeindex name="deathevidence" label="death @evidence"/>
+    <rangeindex name="deathresp" label="death @resp"/>
+    <rangeindex name="floruittext" label="floruit text"/>
+    <rangeindex name="floruitwhen" label="floruit @when"/>
+    <rangeindex name="floruitnB" label="floruit @notBefore"/>
+    <rangeindex name="floruitnA" label="floruit @notAfter"/>
+    <rangeindex name="floruitwhenc" label="floruit @when-custom"/>
+    <rangeindex name="floruitnBc" label="floruit @notBefore-custom"/>
+    <rangeindex name="floruitnAc" label="floruit @notAfter-custom"/>
+    <rangeindex name="floruitcalendar" label="floruit @calendar"/>
+    <rangeindex name="floruitevidence" label="floruit @evidence"/>
+    <rangeindex name="floruitresp" label="floruit @resp"/>
+    <rangeindex name="origDatetext" label="origDate text"/>
+    <rangeindex name="Odatewhen" label="origDate @when"/>
+    <rangeindex name="OdatenB" label="origDate @notBefore"/>
+    <rangeindex name="OdatenA" label="origDate @notAfter"/>
+    <rangeindex name="Odatewhenc" label="origDate @when-custom"/>
+    <rangeindex name="OdatenBc" label="origDate @notBefore-custom"/>
+    <rangeindex name="OdatenAc" label="origDate @notAfter-custom"/>
+    <rangeindex name="Odatecalendar" label="origDate @calendar"/>
+    <rangeindex name="Odateevidence" label="origDate @evidence"/>
+    <rangeindex name="Odateresp" label="origDate @resp"/>
+    <rangeindex name="placeNametext" label="Place names"/>
+    <rangeindex name="placeref" label="placeName @ref"/>
+    <rangeindex name="placetype" label="placeName @type"  keywords="yes"/>
+    <rangeindex name="placeID" label="placeName @xml:id"/>
+    <rangeindex name="placeLANG" label="placeName @xml:lang"/>
+    <rangeindex name="origPlacePlaceNametext" label="origPlace text"/>
+    <rangeindex name="origPlaceNametext" label="origPlace placeName text"/>
+    <rangeindex name="origPlaceref" label="origPlace @ref"/>
+    <rangeindex name="origPlacetype" label="origPlace @type"  keywords="yes"/>
+    <rangeindex name="origPlaceID" label="origPlace @xml:id"/>
+    <rangeindex name="origPlaceLANG" label="origPlace @xml:lang"/>
+    <rangeindex name="form" label="Supports" form="m"/>
+    <rangeindex name="listBiblType" label="Types of bibliography"/>
+    <rangeindex name="relationtext" label="Types of Relationships"/>
+    <rangeindex name="relname" label="relation @name"/>
+    <rangeindex name="relactive" label="relation @active"/>
+    <rangeindex name="relpassive" label="relation @passive"/>
+    <rangeindex name="relmutual" label="relation @mutual"/>
+    <rangeindex name="ptrtarget" label="ptr @target"/>
+    <rangeindex name="bibltext" label="bibl"/>
+    <rangeindex name="bibltitle" label="Title of bibliographical reference"/>
+    <rangeindex name="biblauthor" label="Author of bibliographical reference"/>
+    <rangeindex name="biblptrtg" label="bibl ptr @target"/>
+    <rangeindex name="biblrange" label="bibl citedRange"/>
+    <rangeindex name="bibltype" label="bibl @type"/>
+    <rangeindex name="writtenLines" label="Written Lines" form="m"/>
+    <rangeindex name="collectiontext" label="Collections" form="m"/>
+    <rangeindex name="zonerendition" label="zone @rendition"/>
+    <rangeindex name="zoneid" label="zone @xml:id"/>
+    <rangeindex name="facsimileid" label="facsimile @xml:id"/>
+    <rangeindex name="graphicurl" label="graphic url"/>
+    <rangeindex name="surfaceid" label="surface @xml:id"/>
+    <rangeindex name="lbid" label="lb @xml:id"/>
+    <rangeindex name="lbfacs" label="lb @facs"/>
+    <rangeindex name="lbn" label="lb @n"/>
+    <rangeindex name="cbid" label="cb @xml:id"/>
+    <rangeindex name="cbfacs" label="cb @facs"/>
+    <rangeindex name="cbn" label="cb @n"/>
+    <rangeindex name="pbid" label="pb @xml:id"/>
+    <rangeindex name="pbfacs" label="pb @facs"/>
+    <rangeindex name="pbn" label="pb @n"/>
+</indexes>
