@@ -2564,7 +2564,7 @@ declare function q:resultswithoutmatch($text, $p) {
                         }
                     </div>
                     <div
-                        class="w3-col"
+                        class="w3-col links"
                         style="width:85%">
                         {
                             if ($q:searchType = 'clavis' and $text('type') = 'deleted') then
@@ -2573,8 +2573,7 @@ declare function q:resultswithoutmatch($text, $p) {
                                 q:resultitemlinks($collection, $item, $id, $root, $text)
                         }
                     </div>
-                    <div
-                        class="w3-row">{q:summary($item)}</div>
+                    <div class="w3-row">{q:summary($item)}</div>
                 
                 </div>
                 <div
@@ -3006,63 +3005,76 @@ declare function q:resultitemlinks($collection, $item, $id, $root, $text) {
             }</b></a>,
     <br/>
     ,
-    if ($item//t:facsimile/t:graphic/@url)
+    if ($text//t:facsimile/t:graphic/@url)
     then
         <a
             target="_blank"
-            href="{$item//t:facsimile/t:graphic/@url}">Link to images</a>
+            href="{$text//t:facsimile/t:graphic/@url}">Link to images</a>
+    
     else
-        if ($item//t:msIdentifier/t:idno[@facs][@n]) then
+        if ($text//t:msIdentifier/t:idno[@facs]) then
             <a
                 target="_blank"
                 href="/manuscripts/{$id}/viewer">{
-                    if ($item//t:collection = 'Ethio-SPaRe')
+                    if ($text//t:collection = 'Ethio-SPaRe')
                     then
                         <img
-                            src="{$config:appUrl || '/iiif/' || string(($item//t:msIdentifier)[1]/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}"
+                            src="{$config:appUrl || '/iiif/' || string(($text//t:msIdentifier)[1]/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}"
                             class="thumb w3-image"/>
                         (:laurenziana:)
                     else
-                        if ($item//t:repository[@ref eq 'INS0339BML'])
+                        if ($text//t:repository[ends-with(@ref , 'INS0339BML')])
                         then
                             <img
-                                src="{$config:appUrl || '/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '005.tif/full/140,/0/default.jpg'}"
+                                src="{$config:appUrl || '/iiif/' || string($text//t:msIdentifier/t:idno/@facs) || '005.tif/full/140,/0/default.jpg'}"
                                 class="thumb w3-image"/>
                             
                             (:          
 EMIP:)
                         else
-                            if (($item//t:collection = 'EMIP') and $item//t:msIdentifier/t:idno/@n)
+                            if (($text//t:collection = 'EMIP') and $text//t:msIdentifier/t:idno/@n)
                             then
                                 <img
-                                    src="{$config:appUrl || '/iiif/' || string(($item//t:msIdentifier)[1]/t:idno/@facs) || '001.tif/full/140,/0/default.jpg'}"
+                                    src="{$config:appUrl || '/iiif/' || string(($text//t:msIdentifier)[1]/t:idno/@facs) || '001.tif/full/140,/0/default.jpg'}"
                                     class="thumb w3-image"/>
                                 
                                 (:BNF:)
                             else
-                                if ($item//t:repository/@ref eq 'INS0303BNF')
+                                if ($text//t:repository[ends-with(@ref, 'INS0303BNF')])
                                 then
                                     <img
-                                        src="{replace($item//t:msIdentifier/t:idno/@facs, 'ark:', 'iiif/ark:') || '/f1/full/140,/0/native.jpg'}"
+                                        src="{replace($text//t:msIdentifier/t:idno/@facs, 'ark:', 'iiif/ark:') || '/f1/full/140,/0/native.jpg'}"
                                         class="thumb w3-image"/>
                                     (:           vatican :)
                                 else
-                                    if (contains($item//t:msIdentifier/t:idno/@facs, 'digi.vat')) then
+                                    if ($text//t:msIdentifier/t:idno[contains(@facs, 'digi.vat')]) then
                                         <img
                                             src="{
-                                                    replace(substring-before($item//t:msIdentifier/t:idno/@facs, '/manifest.json'), 'iiif', 'pub/digit') || '/thumb/'
+                                                    replace(substring-before($text//t:msIdentifier/t:idno/@facs, '/manifest.json'), 'iiif', 'pub/digit') || '/thumb/'
                                                     ||
-                                                    substring-before(substring-after($item//t:msIdentifier/t:idno/@facs, 'MSS_'), '/manifest.json') ||
+                                                    substring-before(substring-after($text//t:msIdentifier/t:idno/@facs, 'MSS_'), '/manifest.json') ||
                                                     '_0001.tif.jpg'
                                                 }"
                                             class="thumb w3-image"/>
                                         (:                bodleian:)
                                     else
-                                        if (contains($item//t:msIdentifier/t:idno/@facs, 'bodleian')) then
+                                        if ($text//t:msIdentifier/t:idno[contains(@facs, 'bodleian')]) then
                                             ('images')
+                                            
+                                            else
+                                        if ($text//t:msIdentifier/t:idno[contains(@facs, 'staatsbibliothek-berlin')]) then
+                                            (
+                                           (: https://content.staatsbibliothek-berlin.de/dc/1751174670/manifest
+                                            https:\/\/content.staatsbibliothek-berlin.de\/dc\/1751174670-0001\/full\/full\/0\/default.jpg:)
+                                            <img
+                                            src="{
+                                                    replace($text//t:msIdentifier/t:idno/@facs, '/manifest', '-0001/full/140,/0/default.jpg')
+                                                }"
+                                            class="thumb w3-image"/>
+                                            )
                                         else
                                             (<img
-                                                src="{$config:appUrl || '/iiif/' || string(($item//t:msIdentifier/t:idno)[1]/@facs) || '_001.tif/full/140,/0/default.jpg'}"
+                                                src="{$config:appUrl || '/iiif/' || string(($text//t:msIdentifier/t:idno)[1]/@facs) || '_001.tif/full/140,/0/default.jpg'}"
                                                 class="thumb w3-image"/>)
                 }</a>
         
