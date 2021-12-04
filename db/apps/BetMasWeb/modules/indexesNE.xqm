@@ -126,7 +126,7 @@ let $count := count($ptrs)
 return
 <div class="w3-container w3-margin">
 <div id="{$target}" class="w3-col" style="width:15%">
-    <a href="/{$target}" class="MainTitle" data-value="{$target}">{$target}</a> 
+    <a href="{$target}">{exptit:printTitle($target)}</a> 
     has been marked up <span class="badge">{$count}</span> times in the selected collections.
     </div>
 <div class="w3-rest">
@@ -139,7 +139,7 @@ return
 
    group by $root :=    $stringR 
     return
-     <li style="margin-bottom:20pt">in <a href="/{$root}" class="MainTitle" data-value="{$root}">{$root}</a> as
+     <li style="margin-bottom:20pt">in <a href="{$root}" >{exptit:printTitle($root)}</a> as
      <ol>
      {for $ptr in $citingentity
      return
@@ -169,7 +169,7 @@ let $count := count($ptrs)
 return
 <div class="w3-margin">
     <div id="{$target}" class="w3-col" style="width:15%">
-    <a href="/{$target}" class="MainTitle" data-value="{$target}">{$target}</a> 
+    <a href="{$target}" >{exptit:printTitle($target)}</a> 
     has been marked up <span class="badge">{$count}</span> times in the selected collections.
     </div>
 <div class="w3-rest">
@@ -182,7 +182,7 @@ return
 
    group by $root :=    $stringR 
     return
-     <li style="margin-bottom:20pt">in <a href="/{$root}" class="MainTitle" data-value="{$root}">{$root}</a> as
+     <li style="margin-bottom:20pt">in <a href="{$root}" >{exptit:printTitle($root)}</a> as
      <ol>
      {for $ptr in $citingentity
      return

@@ -4,7 +4,6 @@ module namespace tl="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/timeline"
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
 import module namespace exptit="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/exptit" at "xmldb:exist:///db/apps/BetMasWeb/modules/exptit.xqm";
 import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/apprest" at "xmldb:exist:///db/apps/BetMasWeb/modules/apprest.xqm";
-import module namespace console="http://exist-db.org/xquery/console";
 
 declare namespace t="http://www.tei-c.org/ns/1.0";
 declare option exist:serialize "method=text mediatype=text/javascript";
@@ -18,28 +17,24 @@ let $whatpointshere := apprest:WhatPointsHere($itemid, $exptit:col)
 let $data :=
 let $dateManuscripts :=
 let $dateofThisManuscript := $this//t:origDate[@when or (@notBefore or @notAfter)]
-let $datesofRelatedManuscripts := for $ref in config:distinct-values($this//@ref[not(matches(., '\w{3}\d+\w+'))][not(starts-with(., 'wd:'))][not(starts-with(., 'pleiades:'))])
-return doc(($config:data-rootMS || '/' ||string($ref)|| '.xml'))//t:origDate[@when or (@notBefore or @notAfter)]
-let $datesofcitingMss := for $citingms in config:distinct-values($whatpointshere[ancestor::t:TEI[@type eq 'mss']]/ancestor::t:TEI/@xml:id) return doc(($config:data-rootMS || '/' ||string($citingms)|| '.xml'))//t:origDate[@when or (@notBefore or @notAfter)]
-for $date in ($dateofThisManuscript, $datesofRelatedManuscripts, $datesofcitingMss)
+let $datesofcitingMss := for $citingms in distinct-values($whatpointshere[ancestor::t:TEI[@type eq 'mss']]/ancestor::t:TEI/@xml:id) return doc(($config:data-rootMS || '/' ||string($citingms)|| '.xml'))//t:origDate[@when or (@notBefore or @notAfter)]
+for $date in ($dateofThisManuscript, $datesofcitingMss)
 return
 tl:date($date, 'obj')
 
 let $dateInManuscripts :=
 let $dateinthisms := $this//t:date[@when or @notBefore or @notAfter]
-let $datesinRelatedManuscripts := for $ref in config:distinct-values($this//@ref[not(matches(., '\w{3}\d+\w+'))][not(starts-with(., 'wd:'))][not(starts-with(., 'pleiades:'))])
-return doc(($config:data-rootMS || '/' ||string($ref)|| '.xml'))//t:date[@when or @notBefore or @notAfter]
 let $datesIncitingMss := for $Incitingms in config:distinct-values($whatpointshere[ancestor::t:TEI[@type eq 'mss']]/ancestor::t:TEI/@xml:id) return doc(($config:data-rootMS || '/' ||string($Incitingms)|| '.xml'))//t:date[@when or @notBefore or @notAfter]
 
-for $date in ($dateinthisms, $datesinRelatedManuscripts, $datesIncitingMss)
+for $date in ($dateinthisms, $datesIncitingMss)
 return
 tl:date($date, 'obj')
 
 
 let $datePersons :=
 let $datesOfThisPerson := $this//t:person[t:birth[@evidence eq  "internal"][@when or @notBefore or @notAfter] or t:death[@evidence eq  "internal"][@when or @notBefore or @notAfter] or t:floruit[@evidence eq  "internal"][@when or @notBefore or @notAfter]]
-let $datesofRelatedPersons := for $ref in config:distinct-values($this//@ref[starts-with(.,'PRS')])
-return doc(($config:data-rootPr || '/' ||string($ref)|| '.xml'))//t:person[t:birth[@evidence eq  "internal"][@when or @notBefore or @notAfter] or t:death[@evidence eq  "internal"][@when or @notBefore or @notAfter] or t:floruit[@evidence eq  "internal"][@when or @notBefore or @notAfter]]
+let $datesofRelatedPersons := for $ref in config:distinct-values($this//@ref[contains(.,'PRS')])
+return doc(($config:data-rootPr || '/' ||substring-after($ref, 'https://betamasaheft.eu/')|| '.xml'))//t:person[t:birth[@evidence eq  "internal"][@when or @notBefore or @notAfter] or t:death[@evidence eq  "internal"][@when or @notBefore or @notAfter] or t:floruit[@evidence eq  "internal"][@when or @notBefore or @notAfter]]
 let $datesIncitingPrs := for $citingpr in config:distinct-values($whatpointshere[ancestor::t:TEI[@type eq 'pers']]/ancestor::t:TEI/@xml:id) return doc(($config:data-rootPr || '/' ||string($citingpr)|| '.xml'))//t:person[t:birth[@evidence eq  "internal"][@when or @notBefore or @notAfter] or t:death[@evidence eq  "internal"][@when or @notBefore or @notAfter] or t:floruit[@evidence eq  "internal"][@when or @notBefore or @notAfter]]
 
 for $datep in ($datesOfThisPerson, $datesofRelatedPersons)

@@ -101,7 +101,7 @@ item2:witList($item)
                     let $p := $parallel/@active
                     return
                         <li><a
-                                href="{$p}" class="MainTitle"  data-value="{$p}" >{$p}</a></li>
+                                href="{$p}" >{exptit:printTitle($p)}</a></li>
                 }
             </ul>)
             else()
@@ -117,7 +117,7 @@ item2:witList($item)
                      let $p := $parallel/@active
                     return
                         <li><a
-                                href="{$p}" class="MainTitle"  data-value="{$p}" >{$p}</a></li>
+                                href="{$p}" >{exptit:printTitle($p)}</a></li>
                 }
             </ul>)
             else(),
@@ -619,14 +619,9 @@ else
                         return
                         if (contains($normp, ' ')) then
                         for $value in tokenize ($normp, ' ') return
-                        if(starts-with($value,'http')) then 
-                        <li class="nodot"><a href="{$value}">{$value}</a></li>
-                        else <li class="nodot"><a href="{$value}" class="MainTitle" data-value="{$value}">{$value}</a></li>
+                       <li class="nodot"><a href="{$value}">{exptit:printTitle($value)}</a></li>
                         else
-                         if(starts-with($p,'http')) then 
-                        <li class="nodot"><a href="{$p}">{$p}</a></li>
-                        else
-                        <li class="nodot"><a href="{$p}"  class="MainTitle" data-value="{$p}">{$p}</a></li>
+                        <li class="nodot"><a href="{$p}"  >{exptit:printTitle($p)}</a></li>
                         }</ul>)
 
                 }</div>}
@@ -644,7 +639,7 @@ else
                        default return <b  class="openInDialog">The following <span class="w3-tag">{count($par)}</span> textual units have a relation {$rn} with this work</b>,
                         <ul  class="w3-ul w3-hoverable">{for $p in $par
                         return
-                        <li  class="nodot"><a href="{$p/@active}" class="MainTitle" data-value="{string($p/@active)}">{string($p/@active)}</a></li>
+                        <li  class="nodot"><a href="{$p/@active}" >{exptit:printTitle($p/@active)}</a></li>
                         }</ul>)
                 } </div>}
 
@@ -678,14 +673,12 @@ else
                         return
                         if (contains($normp, ' ')) then
                         for $value in tokenize ($normp, ' ') return
-                        if(starts-with($value,'http')) then 
-                        <li class="nodot"><a href="{$value}">{$value}</a></li>
-                        else <li class="nodot"><a href="{$value}" class="MainTitle" data-value="{$value}">{$value}</a></li>
+                        <li class="nodot"><a href="{$value}">{exptit:printTitle($value)}</a></li>
                         else
                          if(starts-with($p,'http')) then 
-                        <li class="nodot"><a href="{$p}">{$p}</a></li>
+                        <li class="nodot"><a href="{$p}">{exptit:printTitle($p)}</a></li>
                         else
-                        <li class="nodot"><a href="/{substring-after($p, 'betmas:')}"  class="MainTitle" data-value="{substring-after($p, 'betmas:')}">{substring-after($p, 'betmas:')}</a></li>
+                        <li class="nodot"><a href="/{substring-after($p, 'betmas:')}"  class="MainTitle" data-value="{substring-after($p, 'betmas:')}">{exptit:printTitle(substring-after($p, 'betmas:'))}</a></li>
                         }</ul>)
 
                 }</div>}
@@ -719,14 +712,10 @@ else
                         return
                         if (contains($normp, ' ')) then
                         for $value in tokenize ($normp, ' ') return
-                        if(starts-with($value,'http')) then 
-                        <li class="nodot"><a href="{$value}">{$value}</a></li>
-                        else <li class="nodot"><a href="{$value}" class="MainTitle" data-value="{$value}">{$value}</a></li>
+                        <li class="nodot"><a href="{$value}" >{exptit:printTitle($value)}</a></li>
                         else
-                         if(starts-with($p,'http')) then 
-                        <li class="nodot"><a href="{$p}">{$p}</a></li>
-                        else
-                        <li class="nodot"><a href="/{$p}"  class="MainTitle" data-value="{$p}">{$p}</a></li>
+                        
+                        <li class="nodot"><a href="{$p}"  >{exptit:printTitle($p)}</a></li>
                         }</ul>)
 
                 }</div>}
@@ -900,7 +889,7 @@ declare function item2:RestAdditions($id){
 return
 if ($sameKey) then
 <div class="w3-panel w3-card-4 w3-margin w3-gray" id="InAdditions">
-   <h4 class="modal-title">{count($sameKey)} Addition{if(count($sameKey) gt 1) then 's' else ()} name{if(count($sameKey) gt 1) then () else 's'} person <span class="MainTitle" data-value="{$id}">{$id}</span> </h4>
+   <h4 class="modal-title">{count($sameKey)} Addition{if(count($sameKey) gt 1) then 's' else ()} name{if(count($sameKey) gt 1) then () else 's'} person <span>{exptit:printTitle($id)}</span> </h4>
                        <div id="InAdditions{$id}">
                                            <ul>{
                                                 apprest:referencesList($id, $sameKey, 'name')
@@ -921,7 +910,7 @@ declare function item2:RestMiniatures($id){
 return
 if ($sameKey) then
 <div class="w3-panel w3-card-4 w3-margin w3-gray" id="InMiniatures">
-   <h4 class="modal-title">{count($sameKey)} Miniature{if(count($sameKey) gt 1) then 's' else ()} name{if(count($sameKey) gt 1) then () else 's'} person <span class="MainTitle" data-value="{$id}">{$id}</span> </h4>
+   <h4 class="modal-title">{count($sameKey)} Miniature{if(count($sameKey) gt 1) then 's' else ()} name{if(count($sameKey) gt 1) then () else 's'} person <span >{exptit:printTitle($id)}</span> </h4>
                        <div id="InMiniatures{$id}">
                                            <ul class="w3-ul w3-hoverable">{
                                                 apprest:referencesList($id, $sameKey, 'name')
@@ -968,7 +957,7 @@ declare function item2:RestTabot($id){
 return
 if ($sameKey) then
 <div class="w3-panel w3-card-4 w3-margin w3-gray" id="tabots">
-   <h4 class="modal-title">{count($sameKey)} place record{if(count($sameKey) gt 1) then 's' else ()} name{if(count($sameKey) gt 1) then () else 's'} person <span class="MainTitle" data-value="{$id}">{$id}</span> as a tabot</h4>
+   <h4 class="modal-title">{count($sameKey)} place record{if(count($sameKey) gt 1) then 's' else ()} name{if(count($sameKey) gt 1) then () else 's'} person <span >{exptit:printTitle($id)}</span> as a tabot</h4>
 
                        <div id="Tabot{$id}">
                                            <ul  class="w3-ul w3-hoverable">{

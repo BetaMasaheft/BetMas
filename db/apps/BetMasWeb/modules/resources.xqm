@@ -364,7 +364,7 @@ return util:eval($query) else ()
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-work" name="target-work" class="w3-select w3-border">
             {for $d in config:distinct-values($model('hits')//t:title/@ref)
             return
-            <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
+            <option value="{$d}">{exptit:printTitle($d)}</option>}
             </select>
                                  </div> else () }
                                  {if($model('hits')//t:seg) then  <div class="w3-container w3-margin">
@@ -381,7 +381,7 @@ return util:eval($query) else ()
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-pers" name="target-pers" class="w3-select w3-border">
             {for $d in config:distinct-values($model('hits')//t:persName/@ref[not(contains(., '.xml'))])
             return
-            <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
+            <option value="{$d}">{exptit:printTitle($d)}</option>}
             </select>
                                  </div> else ()}
                                  {if($model('hits')//t:placeName) then <div class="w3-container w3-margin">
@@ -389,7 +389,7 @@ return util:eval($query) else ()
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-place" name="target-place" class="w3-select w3-border">
             {for $d in config:distinct-values($model('hits')//t:placeName/@ref[not(contains(., '.xml'))])
             return
-            <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
+            <option value="{$d}">{exptit:printTitle($d)}</option>}
             </select>
                                  </div> else () }
                                  {if($model('hits')//t:term) then
@@ -398,7 +398,7 @@ return util:eval($query) else ()
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-keyword" name="target-keyword" class="w3-select w3-border">
             {for $d in config:distinct-values($model('hits')//t:term/@key)
             return
-            <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
+            <option value="{$d}">{exptit:printTitle($d)}</option>}
             </select>
                                  </div> else() }
                                  <div id="additiontypes"></div>
@@ -457,7 +457,7 @@ return util:eval($query) else ()
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-artTheme" name="target-artTheme" class="w3-select w3-border">
             {for $d in config:distinct-values($model('hits')//t:ref[@type eq 'authFile']/@corresp)
             return
-            <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
+            <option value="{$d}">{exptit:printTitle($d)}</option>}
             </select>
                                  </div> else () }
                                {if($model('hits')//t:title) then  <div class="w3-container w3-margin">
@@ -466,7 +466,7 @@ return util:eval($query) else ()
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-work" name="target-work"  class="w3-select w3-border">
             {for $d in config:distinct-values($model('hits')//t:title/@ref)
             return
-            <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
+            <option value="{$d}" >{exptit:printTitle($d)}</option>}
             </select>
                                  </div> else () }
                                  {if($model('hits')//t:persName) then <div class="w3-container w3-margin">
@@ -474,7 +474,7 @@ return util:eval($query) else ()
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-pers" name="target-pers"  class="w3-select w3-border">
             {for $d in config:distinct-values($model('hits')//t:persName/@ref)
             return
-            <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
+            <option value="{$d}">{exptit:printTitle($d)}</option>}
             </select>
                                  </div> else ()}
                                  {if($model('hits')//t:placeName) then <div class="w3-container w3-margin">
@@ -482,7 +482,7 @@ return util:eval($query) else ()
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-place" name="target-place"  class="w3-select w3-border">
             {for $d in config:distinct-values($model('hits')//t:placeName/@ref)
             return
-            <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
+            <option value="{$d}" >{exptit:printTitle($d)}</option>}
             </select>
                                  </div> else () }
                                  {if($model('hits')//t:term) then
@@ -491,7 +491,7 @@ return util:eval($query) else ()
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-keyword" name="target-keyword"  class="w3-select w3-border">
             {for $d in config:distinct-values($model('hits')//t:term/@key)
             return
-            <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
+            <option value="{$d}" >{exptit:printTitle($d)}</option>}
             </select>
                                  </div> else() }
                                  <div class="w3-container w3-margin">
@@ -528,7 +528,7 @@ return util:eval($query) else ()
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-artTheme" name="target-artTheme" class="w3-select w3-border">
             {for $d in config:distinct-values($model('hits')//t:ref[@type eq 'authFile']/@corresp)
             return
-            <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
+            <option value="{$d}">{exptit:printTitle($d)}</option>}
             </select>
                                  </div> else () }
                                {if($model('hits')//t:title) then  <div class="w3-container w3-margin">
@@ -537,7 +537,7 @@ return util:eval($query) else ()
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-work" name="target-work"  class="w3-select w3-border">
             {for $d in config:distinct-values($model('hits')//t:title/@ref)
             return
-            <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
+            <option value="{$d}" >{exptit:printTitle($d)}</option>}
             </select>
                                  </div> else () }
                                  {if($model('hits')//t:persName) then <div class="w3-container w3-margin">
@@ -545,7 +545,7 @@ return util:eval($query) else ()
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-pers" name="target-pers"  class="w3-select w3-border">
             {for $d in config:distinct-values($model('hits')//t:persName/@ref)
             return
-            <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
+            <option value="{$d}" >{exptit:printTitle($d)}</option>}
             </select>
                                  </div> else ()}
                                  {if($model('hits')//t:placeName) then <div class="w3-container w3-margin">
@@ -553,7 +553,7 @@ return util:eval($query) else ()
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-place" name="target-place"  class="w3-select w3-border">
             {for $d in config:distinct-values($model('hits')//t:placeName/@ref)
             return
-            <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
+            <option value="{$d}" >{exptit:printTitle($d)}</option>}
             </select>
                                  </div> else () }
                                  {if($model('hits')//t:term) then
@@ -562,7 +562,7 @@ return util:eval($query) else ()
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-keyword" name="target-keyword"  class="w3-select w3-border">
             {for $d in config:distinct-values($model('hits')//t:term/@key)
             return
-            <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
+            <option value="{$d}" >{exptit:printTitle($d)}</option>}
             </select>
                                  </div> else() }
                                  <div class="w3-container w3-margin">
@@ -608,7 +608,7 @@ declare function lists:calendarform($node as node(), $model as map(*)){
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-artTheme" name="target-artTheme" class="w3-select w3-border">
             {for $d in config:distinct-values($model('hits')//t:ref[@type eq 'authFile']/@corresp)
             return
-            <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
+            <option value="{$d}">{exptit:printTitle($d)}</option>}
             </select>
                                  </div> else () }
                                {if($model('hits')/parent::t:*[@xml:id][1]//t:title) then  <div class="w3-container w3-margin">
@@ -617,7 +617,7 @@ declare function lists:calendarform($node as node(), $model as map(*)){
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-work" name="target-work"  class="w3-select w3-border">
             {for $d in config:distinct-values($model('hits')/parent::t:*[@xml:id][1]//t:title/@ref)
             return
-            <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
+            <option value="{$d}">{exptit:printTitle($d)}</option>}
             </select>
                                  </div> else () }
                                  {if($model('hits')/parent::t:*[@xml:id][1]//t:persName) then <div class="w3-container w3-margin">
@@ -625,7 +625,7 @@ declare function lists:calendarform($node as node(), $model as map(*)){
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-pers" name="target-pers"  class="w3-select w3-border">
             {for $d in config:distinct-values($model('hits')/parent::t:*[@xml:id][1]//t:persName/@ref)
             return
-            <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
+            <option value="{$d}" >{exptit:printTitle($d)}</option>}
             </select>
                                  </div> else ()}
                                  {if($model('hits')/parent::t:*[@xml:id][1]//t:placeName) then <div class="w3-container w3-margin">
@@ -633,7 +633,7 @@ declare function lists:calendarform($node as node(), $model as map(*)){
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-place" name="target-place"  class="w3-select w3-border">
             {for $d in config:distinct-values($model('hits')/parent::t:*[@xml:id][1]//t:placeName/@ref)
             return
-            <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
+            <option value="{$d}" >{exptit:printTitle($d)}</option>}
             </select>
                                  </div> else () }
                                  {if($model('hits')/parent::t:*[@xml:id][1]//t:term) then
@@ -642,7 +642,7 @@ declare function lists:calendarform($node as node(), $model as map(*)){
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-keyword" name="target-keyword"  class="w3-select w3-border">
             {for $d in config:distinct-values($model('hits')/parent::t:*[@xml:id][1]//t:term/@key)
             return
-            <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
+            <option value="{$d}" >{exptit:printTitle($d)}</option>}
             </select>
                                  </div> else() }
                                  <div class="w3-container w3-margin">
@@ -672,7 +672,7 @@ declare function lists:calendarform($node as node(), $model as map(*)){
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-keyword" name="target-keyword" class="w3-select w3-border">
             {for $d in config:distinct-values($model('hits')//t:term/@key)
             return
-            <option value="{$d}" class="MainTitle" data-value="{$d}">{$d}</option>}
+            <option value="{$d}" >{exptit:printTitle($d)}</option>}
             </select>
                                  </div> else() }
                                  {if($model('hits')//@color) then
@@ -741,7 +741,9 @@ let $count := count($ptrs)
 return
 <div class="w3-container w3-padding w3-border-bottom">
 <div class="w3-half w3-padding">
-    <div id="{$target}" class="biblioentry w3-col" style="width:90%"/>
+    <div id="{$target}" class="w3-col" style="width:90%">
+    {doc('/db/apps/lists/bibliography.xml')//*:entry[@xml:id=$target]/*:reference}
+    </div>
     <div class="w3-col w3-center" style="width:10%">
     <a href="https://www.zotero.org/groups/358366/ethiostudies/items/tag/{$target}" target="_blank"><img src="/resources/images/zotero_16x16x32.png" style="display:inline;"/></a>
     <br/>
@@ -758,7 +760,7 @@ return
    let $n := number($cr[1] => replace('-', '') => replace('[a-zA-Z]', ''))group by $root :=    $stringR 
     order by $n[1] ascending
    return
-     <li class="w3-padding"><a href="/{$root}" class="MainTitle" data-value="{$root}">{$root}</a>
+     <li class="w3-padding"><a href="{$root}">{exptit:printTitle($root)}</a>
      {let $ranges := for $c in $citingentity
      let $cr := $c/parent::t:ptr/following-sibling::t:citedRange
      order by $cr[1]
@@ -1100,16 +1102,16 @@ let $log := util:log('INFO',  count($group))
                  <div class="w3-third">
                  <div class="w3-third"><a href="/{$ms}"><b>{$sd/name()}</b>{" | "}{if($sd/@subtype) then string($sd/@subtype) else string($sd/@type)}</a></div>
                  <div class="w3-third">Refers to {if($sd/name() = 'div' and $itemtype eq  'work') 
-                                                   then <span class="MainTitle" data-value="{$ms}">{$ms}</span> 
+                                                   then <span>{exptit:printTitle($ms)}</span> 
                                                  else if($sd/name() = 'div' and $itemtype eq  'mss') then 
                                                                     (let $corr := $sd/@corresp 
                                                                     let $msitem := $sd/ancestor::t:TEI//t:msItem[@xml:id=$corr]
                                                                     let $work := $msitem/t:title/@ref
-                                                                    return <span class="MainTitle" data-value="{string($work[1])}">{string($work[1])}</span> )
+                                                                    return <span>{exptit:printTitle(string($work[1]))}</span> )
                                                   else if($sd/name() = 'colophon' or $sd/name() = 'incipit' or $d/name() = 'explicit' or $sd/name() = 'title') 
                                                                    then (  let $msitem := $sd/ancestor::t:msItem 
                                                                    let $work := $msitem/t:title/@ref
-                                                                   return <span class="MainTitle" data-value="{string($work[1])}">{string($work[1])}</span> )
+                                                                   return <span>{exptit:printTitle(string($work[1]))}</span>)
                                                   else 'unable to retrive reference'}</div>
                  <div class="w3-third">
             <a href="{data($ms)}#{data($sd/@xml:id)}">{data($sd/@xml:id)}</a><br/>
@@ -1126,7 +1128,7 @@ let $log := util:log('INFO',  count($group))
                  <div class="w3-half">
                  <div class="w3-third"><a href="/{$ms}"><b>{$sd/name()}</b>{" | "}{if($sd/@subtype) then string($sd/@subtype) else string($sd/@type)}</a></div>
                  <div class="w3-third">Refers to {if($sd/name() = 'div' and $itemtype eq  'work') 
-                                                   then (<a href="/{$ms}"><span class="MainTitle" data-value="{$ms}">{$ms}</span></a>, <br/>,
+                                                   then (<a href="/{$ms}"><span >{$ms}</span></a>, <br/>,
                                                                     <div class="w3-bar w3-gray w3-small"><a class="w3-bar-item w3-button" href="/titles?limit-work={$ms}">limit results to this work</a>
                                                                     <a  class="w3-bar-item w3-button" href="/compare?workid={$ms}">compare mss</a>
                                                                     <a  class="w3-bar-item w3-button" href="/workmap?worksid={$ms}">map mss</a>
@@ -1135,7 +1137,7 @@ let $log := util:log('INFO',  count($group))
                                                                     (let $corr := $sd/@corresp 
                                                                     let $msitem := $sd/ancestor::t:TEI//t:msItem[@xml:id=$corr]
                                                                     let $work := $msitem/t:title/@ref
-                                                                    return (<a href="/{string($work[1])}"><span class="MainTitle" data-value="{string($work[1])}">{string($work[1])}</span></a>, <br/>,
+                                                                    return (<a href="{string($work[1])}"><span>{exptit:printTitle(string($work[1]))}</span></a>, <br/>,
                                                                     <div class="w3-bar w3-gray w3-small"><a class="w3-bar-item w3-button" href="/titles?limit-work={string($work[1])}">limit results to this work</a>
                                                                     <a  class="w3-bar-item w3-button" href="/compare?workid={string($work[1])}">compare mss</a>
                                                                     <a  class="w3-bar-item w3-button" href="/workmap?worksid={string($work[1])}">map mss</a>
@@ -1143,7 +1145,7 @@ let $log := util:log('INFO',  count($group))
                                                   else if($sd/name() = 'colophon' or $sd/name() = 'incipit' or $d/name() = 'explicit' or $sd/name() = 'title') 
                                                                    then (  let $msitem := $sd/ancestor::t:msItem 
                                                                    let $work := $msitem/t:title/@ref
-                                                                   return (<a href="/{string($work[1])}"><span class="MainTitle" data-value="{string($work[1])}">{string($work[1])}</span></a>, <br/>,
+                                                                   return (<a href="{string($work[1])}"><span>{exptit:printTitle(string($work[1]))}</span></a>, <br/>,
                                                                     <div class="w3-bar w3-gray w3-small"><a class="w3-bar-item w3-button" href="/titles?limit-work={string($work[1])}">limit results to this work</a>
                                                                     <a  class="w3-bar-item w3-button" href="/compare?workid={string($work[1])}">compare mss</a>
                                                                     <a  class="w3-bar-item w3-button" href="/workmap?worksid={string($work[1])}">map mss</a>

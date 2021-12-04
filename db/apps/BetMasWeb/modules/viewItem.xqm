@@ -4568,7 +4568,7 @@ declare %private function viewItem:person($item) {
                         class="w3-button w3-red w3-large"
                         id="showattestations"
                         data-value="person"
-                        data-id="{string($item/ancestor-or-self::t:TEI/@xml:id)}">Show attestations</button>
+                        data-id="{$id}">Show attestations</button>
                     <div
                         id="allattestations"
                         class="w3-container"/>

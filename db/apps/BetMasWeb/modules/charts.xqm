@@ -128,13 +128,13 @@ declare function charts:pieAttestations($itemid, $name){
 };
 
 declare function charts:dateFilter($from, $to, $hits){
-  $hits[descendant::t:origDate[(if (contains(@notBefore, '-'))
+  try{$hits[descendant::t:origDate[(if (contains(@notBefore, '-'))
                                                                               then (substring-before(@notBefore, '-'))
                                                                               else @notBefore)[. !=''][number(.) ge  $from][number(.)  le $to]
                                                                               or
                                                                              (if (contains(@notAfter, '-'))
                                                                               then (substring-before(@notAfter, '-'))
-                                                                              else @notAfter)[. !=''][number(.) ge $from][number(.)  le $to]]]
+                                                                              else @notAfter)[. !=''][number(.) ge $from][number(.)  le $to]]]} catch * {util:log('info', $err:description)}
 };
 
 declare function charts:chart($hits){
@@ -256,9 +256,9 @@ if (count($unit) gt 1) then (<div  class="w3-half w3-panel w3-red w3-padding"><p
     let $all := $d/t:dimensions[@type eq 'outer']
                         let $SM := $d//ancestor::t:TEI//t:msIdentifier/t:idno/text()
                         let $title := exptit:printTitle($d)
-                        let $h := if($all/t:height/text()) then $all/t:height/text() else '0'
-                        let $w := if($all/t:width/text()) then $all/t:width/text() else '0'
-                        let $dep :=if($all/t:depth/text()) then $all/t:depth/text() else '0'
+                        let $h := if($all/t:height/text()) then string-join($all/t:height[1]/text()) else '0'
+                        let $w := if($all/t:width/text()) then string-join($all/t:width[1]/text()) else '0'
+                        let $dep :=if($all/t:depth/text()) then string-join($all/t:depth[1]/text()) else '0'
                                     return
                                     '["'||$SM||'",'||$w||','||$h||',"'||$title||'",'||$dep||']'
 

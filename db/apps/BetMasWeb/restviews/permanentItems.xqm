@@ -292,7 +292,7 @@ let $doc := doc(base-uri($document))//id($itemid)
 return
 (
 <div class="w3-col" style="width:15%">
-<a href="/{$msid}" class="MainTitle" data-value="{$msid}">{$msid}</a><br/>
+<a href="{$msid}" >{exptit:printTitle($msid)}</a><br/>
      <a href="/{$rootid}">{if($doc/t:title) then string:additionstitles($doc/t:title/node()) else if($doc/t:desc/@type) then string($doc/t:desc/@type) else $itemid}</a>
     ({string:additionstitles($doc/t:locus)})
      

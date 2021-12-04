@@ -75,9 +75,9 @@ return
   
   <select class="w3-select w3-border" id="inputGroupSelect01" multiple="multiple" name="subj">
     <option selected='Selected'>Choose...</option>
-    {for $subject in doc(concat($config:data-rootA, '/taxonomy.xml'))//t:category[t:desc eq 'Subjects']//t:category/t:catDesc
+    {for $subject in doc( '/db/apps/list/canonicaltaxonomy.xml')//t:category[t:desc eq 'Subjects']//t:category/t:catDesc
     return 
-    <option value="{$subject/text()}" class="MainTitle" data-value="{$subject/text()}">{$subject/text()}</option>}
+    <option value="{$subject/text()}">{$subject/text()}</option>}
   </select>
                     <div class="w3-bar">
                     <button type="submit" class="w3-bar-item w3-button w3-red">

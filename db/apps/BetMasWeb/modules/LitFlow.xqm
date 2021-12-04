@@ -234,11 +234,11 @@ return
 {for $work at $p in $g/local:work
 return <tr><td>{$p}</td>
 <td>
-<a href="/{$work/local:id/text()}" class="MainTitle" data-value="{$work/local:id/text()}" target="_blank">{$work/local:id/text()}</a>
+<a href="/{$work/local:id/text()}" target="_blank">{exptit:printTitle($work/local:id/text())}</a>
 {if($type='works')
       then () else 
     (  ' in ',
-<a href="/{$work/local:mss/text()}" class="MainTitle" data-value="{$work/local:mss/text()}" target="_blank">{$work/local:mss/text()}</a>)
+<a href="/{$work/local:mss/text()}" target="_blank">{exptit:printTitle($work/local:mss/text())}</a>)
 }
 </td></tr>}
 </tbody>

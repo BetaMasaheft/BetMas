@@ -243,7 +243,7 @@ if ($list = 'works') then (
                     let $corr := $witness/@corresp
                     return
                         <li><a
-                                href="{$witness/@corresp}" class="MainTitle"  data-value="{$corr}" >{string($corr)}</a></li>
+                                href="{$witness/@corresp}">{$witness}</a></li>
                 }
             </ul>
             <ul  class="nodot">
@@ -252,7 +252,7 @@ if ($list = 'works') then (
                     let $p := $parallel/@active
                     return
                         <li><a
-                                href="{$p}" class="MainTitle"  data-value="{$p}" >{$p}</a></li>
+                                href="{$p}">{exptit:printTitle($p)}</a></li>
                 }
             </ul>
             <ul  class="nodot">
@@ -260,8 +260,8 @@ if ($list = 'works') then (
                     for $parallel in $exptit:col//t:relation[@name eq 'isVersionInAnotherLanguageOf'][contains(@passive, $itemid)]
                      let $p := $parallel/@active
                     return
-                        <li><a
-                                href="{$p}" class="MainTitle"  data-value="{$p}" >{$p}</a></li>
+                         <li><a
+                                href="{$p}">{exptit:printTitle($p)}</a></li>
                 }
             </ul>
             <a role="button" class="w3-button w3-small w3-gray" href="/compare?workid={$itemid}">compare</a>

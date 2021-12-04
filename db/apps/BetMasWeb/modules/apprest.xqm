@@ -284,7 +284,7 @@ declare function apprest:deciderelation($list){
                    <a target="_blank"  href="/{encode-for-uri($id)}">{$id/text()}</a>
                    
      else
-                   <a target="_blank"  href="{apprest:decidelink($id)}" class="MainTitle" data-value="{$id/text()}">{$id/text()}</a>
+                   <a target="_blank"  href="{apprest:decidelink($id)}">{exptit:printTitle($id)}</a>
                    }</li>
 }</ul>
 };
@@ -421,8 +421,7 @@ declare function apprest:referencesList($id, $list, $mode as xs:string){
          <li class="nodot" xmlns="http://www.w3.org/1999/xhtml" >
          {if ($strid = $id) then ('here') else <a
           href="{concat('/',$stringid)}"
-   class="MainTitle" data-value="{$stringid}"
-   >{$stringid}</a>} ({$stringid})
+   >{exptit:printTitleID($stringid)}</a>} ({$stringid})
    <ul  class="nodot">
    {for $h in $hit
    let $n := $h/name()
@@ -1545,7 +1544,7 @@ declare function apprest:newselectors($nodeName, $path, $nodes, $type, $context)
                                          $work}
                                 return
                                 if (count($n) = 1)
-                                then <option value="{$work}" class="MainTitle" data-value="{$work}">{$work}</option>
+                                then <option value="{$work}">{exptit:printTitle($work)}</option>
                                 else(
                                       <optgroup label="{$label}">
                   
@@ -1566,7 +1565,7 @@ declare function apprest:newselectors($nodeName, $path, $nodes, $type, $context)
                                  for $institutionId in $nodes[. eq $institutions]
                             return
             
-                            <option value="{$institutionId}" class="MainTitle" data-value="{$institutionId}">{$institutionId}</option>
+                            <option value="{$institutionId}" >{exptit:printTitle($institutionId)}</option>
                         )
             
             else if ($type = 'sex')
@@ -1621,8 +1620,8 @@ declare function apprest:newselectors($nodeName, $path, $nodes, $type, $context)
 
 let $items := $apprest:collection-rootMS//t:msItem
 let $Additems := $apprest:collection-rootMS//t:additions//t:item[descendant::t:title[@ref]]
-let $matchingAddmss := $Additems//t:title[@ref eq $target-work]
-let $matchingConmss := $items/t:title[@ref eq $target-work]
+let $matchingAddmss := $Additems//t:title[contains(@ref , $target-work)]
+let $matchingConmss := $items/t:title[contains(@ref , $target-work)]
 let $matchingmss := ($matchingConmss, $matchingAddmss)
 return
 if(count($matchingmss) = 0) then (<p class="lead">Oh no! Currently, none of the catalogued manuscripts contains a link to this work. You can still see the record in case you find there useful information.</p>,<a class="w3-button w3-red" href="{$target-work}"> Go to {$MAINtit}</a>) else

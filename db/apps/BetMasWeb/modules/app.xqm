@@ -239,7 +239,7 @@ declare function app:selectors($nodeName, $path, $nodes, $type, $context){
                                          $work}
                                 return
                                 if (count($n) = 1)
-                                then <option value="{$work}" class="MainTitle" data-value="{$work}">{$work}</option>
+                                then <option value="{$work}">{exptit:printTitleID($work)}</option>
                                 else(
                                       <optgroup label="{$label}">
                   
@@ -260,7 +260,7 @@ declare function app:selectors($nodeName, $path, $nodes, $type, $context){
                                  for $institutionId in $nodes[. eq $institutions]
                             return
             
-                            <option value="{$institutionId}" class="MainTitle" data-value="{$institutionId}">{$institutionId}</option>
+                            <option value="{$institutionId}" >{exptit:printTitleID($institutionId)}</option>
                         )
             
             else if ($type = 'sex')
@@ -1847,7 +1847,7 @@ for $text at $p in $model('hits')
                 </div>
              <div class="w3-col w3-padding"  style="width:70%;word-break:break-all">
              {if(count($text) gt 50) then 
-             <a target="_blank" href="/{$collection}/{$id}/main?hi={$queryText}" class="MainTitle" data-value="{$id}">{$id}</a> else
+             <a target="_blank" href="/{$collection}/{$id}/main?hi={$queryText}" >{exptit:printTitleID($id)}</a> else
              <a target="_blank" href="/{$collection}/{$id}/main?hi={$queryText}" >{try{exptit:printTitleID($id)} catch * {console:log($err:description)}}</a>} ({$id})
              </div>
              <div class="w3-col w3-padding"  style="width:15%;overflow:auto;">

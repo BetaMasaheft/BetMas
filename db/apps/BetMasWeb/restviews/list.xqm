@@ -20,9 +20,6 @@ import module namespace charts = "https://www.betamasaheft.uni-hamburg.de/BetMas
 import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/switch2"  at "xmldb:exist:///db/apps/BetMasWeb/modules/switch2.xqm";
 import module namespace exreq = "http://exquery.org/ns/request";
 import module namespace xdb="http://exist-db.org/xquery/xmldb";
-import module namespace kwic = "http://exist-db.org/xquery/kwic"
-    at "resource:org/exist/xquery/lib/kwic.xql";
-import module namespace console="http://exist-db.org/xquery/console";
 (: For interacting with the TEI document :)
 
 declare namespace http = "http://expath.org/ns/http-client";
@@ -36,6 +33,7 @@ declare namespace cmd = "http://www.clarin.eu/cmd/";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json = "http://www.json.org";
 declare variable $list:instit := doc('/db/apps/lists/institutions.xml') ;
+declare variable $list:taxonomy := doc('/db/apps/lists/institutions.xml') ;
 declare variable $list:catalogues := doc('/db/apps/lists/catalogues.xml')//t:list;
 declare variable $list:app-meta := <meta  xmlns="http://www.w3.org/1999/xhtml" name="description" content="{$config:repo-descriptor/repo:description/text()}"/>,
     for $genauthor in $config:repo-descriptor/repo:author
@@ -130,11 +128,11 @@ return
                             <ul class="w3-ul w3-hoverable">{
                                     for $mcol in $m
                                     let $r := root($mcol)
-                                    let $mainID := ($r//t:idno)[1]/text()
+                                    let $mainID := ($r//t:msIdentifier/t:idno)[1]/text()
                                     order by $mainID
                                     return
                                         <li><a
-                                                href="/{string($r/t:TEI/@xml:id)}">{string-join($r//t:idno/text(), ', ')}</a></li>
+                                                href="/{string($r/t:TEI/@xml:id)}">{string-join($r//t:msIdentifier//t:idno/text(), ', ')}</a></li>
                                 }
                             </ul>
                         </div>
@@ -480,7 +478,7 @@ if(xdb:collection-available($c)) then (
    return
  <div class="w3-container">
  <h1><a href="/authority-files/{$keyword}/main">{exptit:printTitleID($keyword)}</a></h1>
- {let $file := $apprest:collection-rootA/id($keyword)
+ {let $file := $list:taxonomy/id($keyword)
  for $element in ($file//t:abstract, $file//t:listBibl)
  return <p>{string:tei2string($element)}</p>}
  
@@ -490,7 +488,7 @@ if(xdb:collection-available($c)) then (
    </div>
    </div>
    <div class="w3-responsive">
-    <table class="w3-table w3--hoverable"><thead><tr class="w3-tiny"><th>id</th><th>title</th><th>type</th></tr></thead><tbody>{for $h in $res("hits") return <tr><td>{string($h/@xml:id)}</td><td><a href="{string($h/@xml:id)}">{try{exptit:printTitleID($h/@xml:id)} catch * {console:log(string($h/@xml:id))}}</a></td><td>{string($h/@type)}</td></tr>}</tbody></table>
+    <table class="w3-table w3--hoverable"><thead><tr class="w3-tiny"><th>id</th><th>title</th><th>type</th></tr></thead><tbody>{for $h in $res("hits") return <tr><td>{string($h/@xml:id)}</td><td><a href="{string($h/@xml:id)}">{try{exptit:printTitleID($h/@xml:id)} catch * {util:log('info',string($h/@xml:id))}}</a></td><td>{string($h/@type)}</td></tr>}</tbody></table>
    </div>
                    </div>                 ) }
  </div>
