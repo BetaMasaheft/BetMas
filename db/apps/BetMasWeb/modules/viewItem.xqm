@@ -3118,7 +3118,7 @@ declare %private function viewItem:term($node as element(t:term)) {
     if ($node[parent::t:desc | parent::t:summary]) then
         <a
             target="_blank">
-            {attribute href {concat('/authority-files/list?keyword=', @key)}}
+            {attribute href {concat('/authority-files/list?keyword=', $node/@key)}}
             {$node/text()}
         </a>
     else
@@ -4568,10 +4568,10 @@ declare %private function viewItem:person($item) {
                         class="w3-button w3-red w3-large"
                         id="showattestations"
                         data-value="person"
-                        data-id="{string($item/ancestor::t:TEI/@xml:id)}">Show attestations</button>
+                        data-id="{string($item/ancestor-or-self::t:TEI/@xml:id)}">Show attestations</button>
                     <div
                         id="allattestations"
-                        class="col-md-12"/>
+                        class="w3-container"/>
                 </div>
                 <div
                     class="w3-quarter w3-panel w3-red w3-card-4 w3-padding "
@@ -4889,7 +4889,7 @@ declare %private function viewItem:auth($item) {
                     data-id="{$id}">Show attestations</button>
                 <div
                     id="allattestations"
-                    class="col-md-12"/>
+                    class="w3-container"/>
             
             
             </div>
