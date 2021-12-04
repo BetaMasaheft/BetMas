@@ -404,8 +404,8 @@ declare function q:displayQtime($node as node()*, $model as map(*)) {
 };
 
 declare function q:bmid($q) {
-    for $m in $q:col//t:TEI[contains(@xml:id, $q)]
-        group by $TEI := $m
+    let $TEI := $q:col//t:TEI[contains(@xml:id, $q)]
+       
     return
         map {
             'tei': $TEI,
@@ -421,11 +421,10 @@ declare function q:otherclavis($q) {
     else
         "[descendant::t:bibl[@type eq '" || $clavisType || "'][t:citedRange eq '" || $q || "']]"
     let $path := '$q:col//t:TEI[@type="work"]' || $selector
-    for $m in util:eval($path)
-        group by $TEI := $m
+   let $allTEI:=  util:eval($path)
     return
         map {
-            'tei': $TEI,
+            'tei': $allTEI,
             'qs': $selector
         }
 };
@@ -566,6 +565,8 @@ declare function q:ListQueryParam-rest($parameter, $context, $mode, $function) {
 
 (:~ produces a piece of xpath for the query if the input is a range    :)
 declare function q:paramrange($par, $path as xs:string) {
+(:let $t := util:log('info', $par)
+let $t2 := util:log('info', $path):)
     let $from := substring-before($par, ',')
     let $to := substring-after($par, ',')
     return
@@ -784,12 +785,12 @@ declare %private function q:images($r) {
 
 (:returns a string of arguments to be appended to the main query context:)
 declare function q:parameters2arguments($params) {
-    (:  let $test := util:log('info', string-join($params, ' 
+   (:   let $test := util:log('info', string-join($params, ' 
     ')):)
     let $args := for $p in $params
-    (: let $t := util:log('info', $p):)
+(:     let $t := util:log('info', $p):)
     let $r := q:parrequest($p)
-    (:  let $t2 := util:log('info', $r):)
+(:      let $t2 := util:log('info', $r):)
     return
         if (ends-with($p, '-field') or ends-with($p, '-facet')) then
             ()
@@ -955,10 +956,71 @@ names are those of the indexes where the filter is built directly from there, ot
                             q:par-wL($r)
                     case 'qn'
                         return
-                            q:par-qn($r)
+                            q:par-qn(string-join($r, ','))
                     case 'qcn'
                         return
                             q:par-qcn($r)
+                    case 'collectiontext'
+                        return
+                            q:ListQueryParam-rest($r, "t:collection", 'any', 'list')
+                    case 'decoNtype'
+                        return
+                            q:ListQueryParam-rest($r, "t:decoDesc/@type", 'any', 'list')
+                             case 'desctype'
+                        return
+                            q:ListQueryParam-rest($r, "t:desc/@type", 'any', 'list')
+                               case 'itemtype'
+                        return
+                            q:ListQueryParam-rest($r, "t:item/t:desc/@type", 'any', 'list')
+                            
+                                 case 'explicit-type'
+                        return
+                            q:ListQueryParam-rest($r, "t:explicit/@type", 'any', 'list')
+                            case 'incipit-type'
+                        return
+                            q:ListQueryParam-rest($r, "t:incipit/@type", 'any', 'list')
+                               case 'colophon-type'
+                        return
+                            q:ListQueryParam-rest($r, "t:colophon/@type", 'any', 'list')
+                            case 'translator'
+                        return
+                            q:ListQueryParam-rest($r, "t:persName[@role='translator']/@ref", 'any', 'list')
+                            case 'sponsor'
+                        return
+                            q:ListQueryParam-rest($r, "t:persName[@role='sponsor']/@ref", 'any', 'list')
+                             case 'scribe'
+                        return
+                            q:ListQueryParam-rest($r, "t:persName[@role='scribe']/@ref", 'any', 'list') 
+                            case 'presentCustodian'
+                        return
+                            q:ListQueryParam-rest($r, "t:persName[@role='presentCustodian']/@ref", 'any', 'list')
+                             case 'patron'
+                        return
+                            q:ListQueryParam-rest($r, "t:persName[@role='patron']/@ref", 'any', 'list') 
+                            case 'owner'
+                        return
+                            q:ListQueryParam-rest($r, "t:persName[@role='owner']/@ref", 'any', 'list') 
+                            case 'other'
+                        return
+                            q:ListQueryParam-rest($r, "t:persName[@role='other']/@ref", 'any', 'list')
+                             case 'mainCollector'
+                        return
+                            q:ListQueryParam-rest($r, "t:persName[@role='mainCollector']/@ref", 'any', 'list')
+                             case 'illustrator'
+                        return
+                            q:ListQueryParam-rest($r, "t:persName[@role='illustrator']/@ref", 'any', 'list')
+                             case 'bequeather'
+                        return
+                            q:ListQueryParam-rest($r, "t:persName[@role='bequeather']/@ref", 'any', 'list')  
+                            case 'author'
+                        return
+                            q:ListQueryParam-rest($r, "t:persName[@role='author']/@ref", 'any', 'list')
+                             case 'donor'
+                        return
+                            q:ListQueryParam-rest($r, "t:persName[@role='donor']/@ref", 'any', 'list')
+                             case 'columnsNum'
+                        return
+                            q:ListQueryParam-rest($r, "t:layout/@columns", 'any', 'list')
                     default return
                         ()
 
@@ -977,9 +1039,11 @@ declare function q:text($q, $params) {
     let $ftquery := '[ft:query(., $qs, $q:allopts)]'
     let $parmstoquery := q:parameters2arguments($params)
     let $querytext := concat($querycontext, $parmstoquery, $ftquery)
-    let $test2 := util:log('info', $querytext)
-    let $query := util:eval($querytext)
-    let $allTEI :=
+(:    let $test2 := util:log('info', $querytext):)
+    let $query :=   util:eval($querytext)
+(:    <TEI></TEI> :)
+  
+   let $allTEI :=
     if ($q:sort = '')
     then
         for $r in $query
@@ -2239,6 +2303,7 @@ first here is the header of the results table:)
                     q:sparqlRes($hit, $p)
                 else
                     if ($model('type') = 'xpath'
+                    or $model('type') = 'bmid'
                     or $model('type') = 'clavis'
                     or $model('type') = 'otherclavis') then
                         q:resultswithoutmatch($hit, $p)
@@ -3005,6 +3070,7 @@ declare function q:resultitemlinks($collection, $item, $id, $root, $text) {
             }</b></a>,
     <br/>
     ,
+    if($q:searchType= 'clavis') then () else (
     if ($text//t:facsimile/t:graphic/@url)
     then
         <a
@@ -3080,7 +3146,7 @@ EMIP:)
         
         else
             ()
-    
+    )
     ,
     if ($collection = 'works' and (contains($q:searchType, 'clavis'))) then
         
@@ -3436,11 +3502,49 @@ declare function q:MssPersRoles($node as node(), $model as map(*)) {
     for $role in $roles
     let $elements := $q:col//t:persName[@role eq $role][not(@ref eq 'PRS00000')][not(@ref eq 'PRS0000')]
     let $keywords := distinct-values($elements/@ref)
+    let $label := switch($role)
+          case 'translator'
+                        return
+                            'Translators'
+                            case 'sponsor'
+                        return
+                           'Sponsors'
+                             case 'scribe'
+                        return
+                            'Scribes'
+                            case 'presentCustodian'
+                        return
+                           'Present Custodians'
+                             case 'patron'
+                        return
+                            'Patrons'
+                            case 'owner'
+                        return
+                            'Owners'
+                            case 'other'
+                        return
+                            'Persons with another, unspecified, role'
+                             case 'mainCollector'
+                        return
+                            'Main Collectors'
+                             case 'illustrator'
+                        return
+                            'Illustrators'
+                             case 'bequeather'
+                        return
+                            'Bequeathers'
+                            case 'author'
+                        return
+                            'Authors'
+                            case 'donor'
+                        return
+                            'Donors'
+                            default return $role
     return
         <div
             class="w3-container">
             <label
-                for="{$role}">{$role}s <span
+                for="{$role}">{$label} <span
                     class="w3-badge">{count($keywords)}</span></label>
             <input
                 list="{$role}-list"

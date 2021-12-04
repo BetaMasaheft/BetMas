@@ -26,11 +26,6 @@ $('#SType').change(function () {
     } else {
         xpath.className = xpath.className.replace(" w3-show", "")
     }
-    if ($(this).val() === 'lists') {
-        list.className += " w3-show"
-    } else {
-        list.className = list.className.replace(" w3-show", "")
-    }
     if ($(this).val() === 'otherclavis') {
         otherclavis.className += " w3-show"
     } else {
