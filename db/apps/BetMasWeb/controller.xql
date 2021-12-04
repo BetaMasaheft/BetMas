@@ -16,7 +16,6 @@ declare variable $exist:controller external;
 declare variable $exist:prefix external;
 declare variable $exist:root external;
 declare variable $domain := "org.exist.login";
-declare variable $collection-root := collection($config:data-root);
 declare variable $taxonomy := doc(concat($config:data-rootA, '/taxonomy.xml'))//t:catDesc;
 (:  get what Nginx sends:)
 
@@ -366,7 +365,7 @@ else
                                                         if (starts-with($exist:path, '/tei/') and ends-with($exist:path, ".xml")) then
                                                             
                                                             let $id := substring-before($exist:resource, '.xml')
-                                                            let $item := $collection-root/id($id)[name() = 'TEI']
+                                                            let $item := collection($config:data-root)/id($id)[name() = 'TEI']
                                                             let $collection := local:switchCol($item/@type)
                                                             
                                                             return
@@ -392,7 +391,7 @@ else
                                                             if (ends-with($exist:path, ".xml")) then
                                                                 
                                                                 let $id := substring-before($exist:resource, '.xml')
-                                                                let $item := $collection-root/id($id)[name() = 'TEI']
+                                                                let $item := collection($config:data-root)/id($id)[name() = 'TEI']
                                                                 let $collection := local:switchCol($item/@type)
                                                                 let $uri := base-uri($item)
                                                                 return

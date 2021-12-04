@@ -519,7 +519,7 @@ declare function q:ListQueryParam-rest($parameter, $context, $mode, $function) {
     then
         (
         for $k in $parameter
-        let $kk := $q:lists//t:category[t:catDesc eq $k]
+        let $kk := $q:tax//t:category[t:catDesc eq $k]
         let $ks := $kk/t:catDesc/following-sibling::t:*/t:catDesc/text()
         let $nestedCats := for $n in $ks
         return
@@ -973,24 +973,24 @@ declare function q:text($q, $params) {
 (:    let $test := util:log('info', $q:allopts):)
     let $qscheck := q:querystring($q, $q:mode)
     let $qs := if ($qscheck='' or $qscheck=' ') then () else $qscheck
-    let $querycontext := '$q:col//t:TEI[ft:query(., $qs, $q:allopts)]'
+    let $querycontext := '$q:col//t:TEI'
+    let $ftquery := '[ft:query(., $qs, $q:allopts)]'
     let $parmstoquery := q:parameters2arguments($params)
-    let $querytext := concat($querycontext, $parmstoquery)
-(:    let $test2 := util:log('info', $querytext):)
+    let $querytext := concat($querycontext, $parmstoquery, $ftquery)
+    let $test2 := util:log('info', $querytext)
     let $query := util:eval($querytext)
     let $allTEI :=
     if ($q:sort = '')
     then
         for $r in $query
-            group by $TEI := $r
-        let $matchcount := q:matchescount($TEI)
+        let $matchcount := ft:score($r)
             order by $matchcount descending
+            group by $TEI := $r
         return
             $TEI
     else
         for $r in $query
             group by $TEI := $r
-        let $matchcount := q:matchescount($TEI)
         let $title := q:sortingkey($TEI//t:titleStmt/t:title[1]/text())
         let $sort := q:enrichScore($TEI)
             order by $sort descending
@@ -1029,7 +1029,7 @@ WHERE {
         console:log($err:description)
     }
     return
-        $query//sr:binding/sr:literal/text()
+        try{$query//sr:binding/sr:literal/text()} catch * {util:log('info', $err:description)}
 };
 
 declare function q:gettranslit($sequenceoftokens) {
@@ -1493,7 +1493,7 @@ declare function q:facetDiv($f, $facets, $facetTitle) {
                             if ($f = 'keywords') then
                                 (for $input in $inputs
                                 let $val := $input/*:input/@value
-                                let $kk := $q:lists//t:category[t:catDesc eq $val]
+                                let $kk := $q:tax//t:category[t:catDesc eq $val]
                                 let $taxonomy := string-join($kk[t:desc][1]/t:desc[1]/text())
                                     group by $taxonomy
                                     order by $taxonomy
@@ -2230,8 +2230,7 @@ first here is the header of the results table:)
         then
             q:resultswithoutmatch($hit, $p)
         else
-            if ($model('type') = 'text'
-            or $model('type') = 'fields') then
+            if ($model('type') = 'text') then
                 (
                 q:resultswithmatch($hit, $p)
                 )
@@ -2412,7 +2411,7 @@ declare function q:resultswithmatch($text, $p) {
     
     let $queryText := request:get-parameter('query', ())
     
-    let $expanded := kwic:expand($text)
+    let $expanded := kwic:expand($text) 
     let $firstancestorwithID := ($expanded//exist:match/(ancestor::t:*[(@xml:id | @n)] | ancestor::t:text))[last()]
     let $firstancestorwithIDid := $firstancestorwithID/string(@xml:id)
     let $view := if ($firstancestorwithID[ancestor-or-self::t:text]) then
@@ -3157,7 +3156,7 @@ declare function q:resultslinkstoviews($t, $id, $collection) {
         style="height:200px;resize: both;overflow:auto">
         
         {
-            let $item := $q:col/id($id)[name() = 'TEI']
+            let $item := $q:col/id($id)[self::t:TEI]
             let $log := if (count($item) gt 1) then
                 for $i in $item
                 return
@@ -3382,7 +3381,8 @@ return
                             value="{$key}">{normalize-space($title)} ({$count[2]})</option>
                 else
                     if ($rangeindexname = $keywordsindexes) then
-                        let $cat := $q:lists//t:category[@xml:id = $key]
+                    let $k := string($key)
+                        let $cat := $q:tax/id($k)[self::t:category]
                         return
                             <option
                                 value="{$key}">{$cat/t:catDesc/text()} 
