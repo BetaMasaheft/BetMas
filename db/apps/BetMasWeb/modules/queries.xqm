@@ -541,6 +541,15 @@ declare function q:ListQueryParam-rest($parameter, $context, $mode, $function) {
                 "descendant::" || $context || " eq '" || $k || "'"
             return
                 "[" || string-join($all, ' or ') || "]"
+                
+        else  if ($function = 'id')
+        then
+            let $all := for $k in $keys
+            return
+                "contains(descendant::" || $context || " , '" || $k || ")'"
+            return
+                "[" || string-join($all, ' or ') || "]"
+        
         else
             if ($function = 'range')
             then
@@ -1018,6 +1027,14 @@ names are those of the indexes where the filter is built directly from there, ot
                              case 'columnsNum'
                         return
                             q:ListQueryParam-rest($r, "t:layout/@columns", 'any', 'list')
+                            
+(: parameters not provided in filter search:)
+   case 'reporef'
+                        return
+                            q:ListQueryParam-rest($r, "t:repository/@ref", 'any', 'id')
+   case 'biblref'
+                        return
+                            q:ListQueryParam-rest($r, "t:listBibl[@type='catalogue']/t:bibl:t:ptr/@target", 'any', 'id')
                     default return
                         ()
 
