@@ -233,6 +233,54 @@ else
                                                 url="{$exist:controller}/modules/view.xql"/>
                                         </error-handler>
                                     </dispatch>
+                                    else
+                                if ($exist:path = '/manuscripts/list') then
+                                       <dispatch
+                                            xmlns="http://exist.sourceforge.net/NS/exist">
+                                            <redirect
+                                                url="/newSearch.html?searchType=text&amp;mode=any&amp;type=mss"
+                                                absolute="yes"/>
+                                        </dispatch>
+                                          else
+                                if ($exist:path = '/places/list') then
+                                       <dispatch
+                                            xmlns="http://exist.sourceforge.net/NS/exist">
+                                            <redirect
+                                                url="/newSearch.html?searchType=text&amp;mode=any&amp;type=place&amp;type=ins"
+                                                absolute="yes"/>
+                                        </dispatch>
+                                         else
+                                if ($exist:path = '/repositories/list') then
+                                       <dispatch
+                                            xmlns="http://exist.sourceforge.net/NS/exist">
+                                            <redirect
+                                                url="/newSearch.html?searchType=text&amp;mode=any&amp;type=ins"
+                                                absolute="yes"/>
+                                        </dispatch>
+                                        else
+                                         if ($exist:path = '/narratives/list') then
+                                       <dispatch
+                                            xmlns="http://exist.sourceforge.net/NS/exist">
+                                            <redirect
+                                                url="/newSearch.html?searchType=text&amp;mode=any&amp;type=nar"
+                                                absolute="yes"/>
+                                        </dispatch>
+                                         else
+                                         if ($exist:path = '/worlks/list') then
+                                       <dispatch
+                                            xmlns="http://exist.sourceforge.net/NS/exist">
+                                            <redirect
+                                                url="/newSearch.html?searchType=text&amp;mode=any&amp;type=work"
+                                                absolute="yes"/>
+                                        </dispatch>
+                                        else
+                                         if ($exist:path = '/studies/list') then
+                                       <dispatch
+                                            xmlns="http://exist.sourceforge.net/NS/exist">
+                                            <redirect
+                                                url="/newSearch.html?searchType=text&amp;mode=any&amp;type=studies"
+                                                absolute="yes"/>
+                                        </dispatch>
 (:                            redirect /institutions/INSid/main to /newSearch?type=mss&amp;reporef=INSid ?? :)
                          (:   else
                                 if (contains($exist:path, 'institutions') and ends-with($exist:path, '/main')) then
