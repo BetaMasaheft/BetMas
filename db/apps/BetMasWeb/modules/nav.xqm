@@ -546,117 +546,120 @@ declare function nav:footerNew() {
     
     <footer
         class="w3-container w3-padding-64 w3-center"
+       
         id="footer">
-        <div
-            class="w3-container">
-            <p
-                class="w3-center">Copyright © <span
+        <div class="w3-third">
+        <div class="w3-margin">
+        
+        <p  style="text-align:left;">Copyright © <span
                     property="http://purl.org/dc/elements/1.1/publisher">Akademie der Wissenschaften in Hamburg,
-                    Hiob-Ludolf-Zentrum für Äthiopistik</span>. Sharing and remixing permitted under terms of the <br/>
-                <a
+                    Hiob-Ludolf-Zentrum für Äthiopistik</span>. Sharing and remixing permitted under terms of the 
+                    <a
                     rel="license"
                     property="http://creativecommons.org/ns#license"
-                    href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
-                    <img
+                    href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License <img  
                         alt="Creative Commons License"
                         style="border-width:0"
-                        src="resources/images/88x31.png"/>
-                </a></p>
-            <br/>
-            <p
-                class="w3-center"><a
-                    rel="license"
-                    property="http://creativecommons.org/ns#license"
-                    href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
-            </p><br/>
-            <p
-                class="w3-center">DOI: {$config:DOI}</p>
-            <hr/>
-            <p
-                class="w3-center">Many thanks for their wonderful work to all the developers of free software for the code we use throughout the website.</p>
+                        src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"/></a>. Project DOI: {$config:DOI}.
+               </p>
+        <div id="wcb" class="carbonbadge w3-row"></div>
         </div>
-        <div
-            class="w3-row w3-center">
-            <a
-                class="poweredby"
+        </div>
+        <div class="w3-third">
+        <div class=" w3-container w3-border-left w3-margin">
+        <div class="w3-half"> 
+        <div class="w3-bar-block">  
+         <a class="w3-bar-item" 
                 property="http://purl.org/dc/elements/1.1/publisher"
                 href="http://www.awhamburg.de/"
                 target="_blank">
-                <img
+                <img width="100%" style="border-width:0"
                     src="resources/images/logo-adw.png"
                     alt="Akademie der Wissenschaften in Hamburg logo"/>
             </a>
-            <a
-                class="poweredby"
+            <a class="w3-bar-item"
                 property="http://purl.org/dc/elements/1.1/publisher"
                 href="https://www.betamasaheft.uni-hamburg.de/"
                 target="_blank">
-                <img
+                <img width="100%"  style="border-width:0"
                     src="resources/images/logo.png"
                     alt="Beta maṣāḥǝft Project logo"/>
-            </a>
-            <a
-                class="poweredby"
-                href="http://exist-db.org">
-                <img
-                    src="$shared/resources/images/powered-by.svg"
-                    alt="Powered by eXist-db"/>
-            </a>
-            <a
-                class="poweredby"
+            </a></div>
+            </div>
+        
+        <div class="w3-half">
+        <p style="text-align:left;">The domain betamasaheft.eu is hosted by Universität Hamburg.</p>
+            <p  style="text-align:left;">This website is maintained by the project team at the <a
+                    href="https://www.aai.uni-hamburg.de/en/ethiostudies.html">Hiob Ludolf Center for Ethiopian and Eritrean Studies</a>.</p>
+            <p style="text-align:left;"><a
+                    href="/impressum.html">Impressum.</a></p>
+        </div>
+        </div>
+        </div>
+        <div class="w3-third">
+        <div class="w3-container w3-margin w3-border-left" style="text-align:left">
+        <div class="w3-margin">
+        
+        <div class="w3-bar">
+        <a
+                class="w3-bar-item"
                 href="http://www.tei-c.org/">
-                <img
+                <img width="100"
                     src="resources/images/We-use-TEI.png"
                     alt="We use TEI"/>
             </a>
-            <a
-                class="poweredby"
-                href="http://commons.pelagios.org/">
-                <img
-                    src="resources/images/Pelagios-logo.png"
-                    alt="Proud members of the Linked Pasts Network"/>
-            </a>
-            <a
-                href="https://iipimage.sourceforge.io/">
-                <img
-                    src="resources/images/iip_logo.png"
-                    width="90px"
-                    alt="We use the IIP Image Server"/>
-            </a>
-            <a
+            <a class="w3-bar-item"
                 href="https://iiif.io/">
-                <img
+                <img 
                     src="resources/images/iiif.png"
-                    width="90px"
+                    width="50"
                     alt="Providing and resuing images with IIIF presentation API 2.0"/>
             </a>
             <a
+                class=" w3-bar-item"
+                href="http://exist-db.org">
+                <img width="100"
+                    src="$shared/resources/images/powered-by.svg"
+                    alt="Powered by eXist-db"/>
+            </a>
+            </div>
+            <div class="w3-bar">
+             <a  class="w3-bar-item"
                 href="https://www.zotero.org/groups/358366/ethiostudies/items">
-                <img
+                <img width="40"
                     src="resources/images/zotero_logo.png"
-                    width="90px"
+                    
                     alt="All bibliography is managed with Zotero."/>
             </a>
-            <a
+            <a  class="w3-bar-item"
                 href="https://github.com/BetaMasaheft">
                 <img
                     src="resources/images/GitHub-Mark-120px-plus.png"
-                    width="90px"
+                    width="40"
                     alt="Our data is all in GitHub!"/>
             </a>
-        
-        </div>
-        <div
-            class="w3-row w3-center">
-            <p>The domain betamasaheft.eu is hosted by Universität Hamburg.</p>
-            <p>This website is maintained by the project team.</p>
-            <p><a
-                    href="/impressum.html">Impressum.</a></p>
-        </div>
-        <p
-            class="w3-medium">Powered by <a
+            <a
+                class=" w3-bar-item"
+                href="http://commons.pelagios.org/">
+                <img width="90"
+                    src="resources/images/Pelagios-logo.png"
+                    alt="Proud members of the Linked Pasts Network"/>
+            </a>
+            <a class="w3-bar-item"
+                href="https://iipimage.sourceforge.io/">
+                <img width="40"
+                    src="resources/images/iip_logo.png"
+                    alt="We use the IIP Image Server"/>
+            </a>
+            </div>
+            <p>Powered by <a
                 href="https://www.w3schools.com/w3css/default.asp"
                 target="_blank">w3.css</a></p>
+        <p >Many thanks for their wonderful work to all the developers of free software for the code we use throughout the website.</p>
+        </div>
+        </div>
+        </div>
+        
     </footer>
 
 };
