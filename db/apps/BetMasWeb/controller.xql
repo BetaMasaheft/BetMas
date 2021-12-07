@@ -233,17 +233,17 @@ else
                                                 url="{$exist:controller}/modules/view.xql"/>
                                         </error-handler>
                                     </dispatch>
-                            
-                            else
+(:                            redirect /institutions/INSid/main to /newSearch?type=mss&amp;reporef=INSid ?? :)
+                         (:   else
                                 if (contains($exist:path, 'institutions') and ends-with($exist:path, '/main')) then
-                                    let $url := replace(replace($exist:path, 'institutions', 'manuscripts'), 'main', 'list')
+                                    let $insid := substring-after(substring-before($exist:path, '/main'), '/institutions/')
                                     return
                                         <dispatch
                                             xmlns="http://exist.sourceforge.net/NS/exist">
                                             <redirect
-                                                url="{$url}"
+                                                url="/newSearch?type=mss&amp;reporef={$insid}"
                                                 absolute="yes"/>
-                                        </dispatch>
+                                        </dispatch>:)
                                         
                                         (:            redirect to api all calls starting with /api/ ending with one of the specific rest modules:)
                                 else

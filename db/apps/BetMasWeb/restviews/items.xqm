@@ -243,6 +243,7 @@ $hi as xs:string*){
 let $collect := switch2:collectionVar($collection)
 let $coll := $config:data-root || '/' || $collection
 let $this := $collect/id($id)[name()='TEI']
+let $t := util:log("info", $id)
 let $title := item2:printTitle($id)
 let $Cmap := map {'type': 'collection', 'name' : $collection, 'path' : $coll}
 let $Imap := map {'type': 'item', 'name' : $id, 'path' : $collection}
@@ -250,10 +251,6 @@ return
 
 
 if(xdb:collection-available($coll)) then (
-(:check that it is one of our collections:)
- if ($collection='institutions') then (
- (:controller should handle this by redirecting /institutions/ID/main to /manuscripts/ID/list which is then taken care of by list.xql:)
- ) else
 (:check if the item has been deleted:)
 if( $restItem:deleted//t:item[. eq $id]) then
 (let $formerlyListed := item2:formerly($id)
@@ -322,8 +319,8 @@ else
         </rest:response>,
        <html xmlns="http://www.w3.org/1999/xhtml" version="XHTML+RDFa 1.1">
     <head>
-       <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
+       <!-- Global site tag (gtag.js) - Google Analytics 
+        <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>-->
      
     {scriptlinks:app-title($title)}
         <link rel="alternate" type="application/rdf+xml"

@@ -21,7 +21,7 @@ import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMa
 import module namespace exreq = "http://exquery.org/ns/request";
 import module namespace xdb="http://exist-db.org/xquery/xmldb";
 (: For interacting with the TEI document :)
-
+declare namespace b = "betmas.biblio";
 declare namespace http = "http://expath.org/ns/http-client";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace dcterms = "http://purl.org/dc/terms";
@@ -35,6 +35,7 @@ declare namespace json = "http://www.json.org";
 declare variable $list:instit := doc('/db/apps/lists/institutions.xml') ;
 declare variable $list:taxonomy := doc('/db/apps/lists/institutions.xml') ;
 declare variable $list:catalogues := doc('/db/apps/lists/catalogues.xml')//t:list;
+declare variable $list:bibliography := doc('/db/apps/lists/bibliography.xml');
 declare variable $list:app-meta := <meta  xmlns="http://www.w3.org/1999/xhtml" name="description" content="{$config:repo-descriptor/repo:description/text()}"/>,
     for $genauthor in $config:repo-descriptor/repo:author
     return
@@ -1695,15 +1696,16 @@ function list:getcatalogues() {
    let $count := count($cats//t:ptr[@target eq $catalogue])
 	let $xml-url := concat('https://api.zotero.org/groups/358366/items?&amp;tag=', $catalogue, '&amp;format=bib&amp;locale=en-GB&amp;style=hiob-ludolf-centre-for-ethiopian-studies')
 let $data := 
- if($list:catalogues//t:item[@xml:id = $itemID]) 
- then <span n="{count($list:catalogues//t:item[@xml:id = $itemID]/preceding-sibling::t:item) +1}">{$list:catalogues//t:item[@xml:id = $itemID]/node() }</span>
+ if($list:bibliography//b:entry[@xml:id = $catalogue]) 
+ then let $c := $list:bibliography//b:entry[@xml:id = $catalogue]
+ return <span n="{count($c/preceding-sibling::t:item) +1}">{$c/b:reference/node() }</span>
  else  <span n="new">{let $request := <http:request href="{xs:anyURI($xml-url)}" method="GET"/>
     let $response := http:send-request($request)[2] return $response//div[@class eq "csl-bib-body"]/div/node()}</span>
  let $sorting := $data//text()[1]
 order by $sorting
 return
     <tr>
-    <td><a href="/catalogues/{$zoTag}/list" class="lead">{$data}</a></td>
+    <td><a href="/newSearch.html?biblref={$catalogue}" class="lead">{$data}</a></td>
     <td><span class="w3-badge">{$count}</span></td>
     </tr>
     }

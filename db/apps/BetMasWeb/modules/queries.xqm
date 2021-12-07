@@ -347,10 +347,7 @@ like the facet, simple and advanced searches :)
                 q:bmid($q)
                 (:                default is a search for the empty string, returning all data...:)
         default return
-            for $r in $q:col//t:TEI[ft:query(., (), $q:allopts)]
-                group by $TEI := $r
-            return
-                $TEI
+           q:text($q, $params)
 };
 
 
