@@ -812,7 +812,7 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                         xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                                                         
                                                                                                                         <forward
-                                                                                                                            url="{concat('/restxq/BetMas/', $exist:resource, '/rdf')}"
+                                                                                                                            url="{concat('/restxq/BetMasWeb/', $exist:resource, '/rdf')}"
                                                                                                                             absolute="yes">
                                                                                                                             {login:set-user($domain, (), false())}
                                                                                                                             <set-header
@@ -841,7 +841,7 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                             method="get">
                                                                                                                             <add-parameter
                                                                                                                                 name="uri"
-                                                                                                                                value="{('/db/apps/BetMas/decorations.html')}"/>
+                                                                                                                                value="{('/db/apps/BetMasWeb/decorations.html')}"/>
                                                                                                                         </forward>
                                                                                                                         <view>
                                                                                                                             <forward
@@ -867,7 +867,7 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                 method="get">
                                                                                                                                 <add-parameter
                                                                                                                                     name="uri"
-                                                                                                                                    value="{('/db/apps/BetMas/titles.html')}"/>
+                                                                                                                                    value="{('/db/apps/BetMasWeb/titles.html')}"/>
                                                                                                                             </forward>
                                                                                                                             <view>
                                                                                                                                 <forward
@@ -894,7 +894,7 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                     method="get">
                                                                                                                                     <add-parameter
                                                                                                                                         name="uri"
-                                                                                                                                        value="{('/db/apps/BetMas/calendar.html')}"/>
+                                                                                                                                        value="{('/db/apps/BetMasWeb/calendar.html')}"/>
                                                                                                                                 </forward>
                                                                                                                                 <view>
                                                                                                                                     <forward
@@ -922,7 +922,7 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                         method="get">
                                                                                                                                         <add-parameter
                                                                                                                                             name="uri"
-                                                                                                                                            value="{('/db/apps/BetMas/bindings.html')}"/>
+                                                                                                                                            value="{('/db/apps/BetMasWeb/bindings.html')}"/>
                                                                                                                                     </forward>
                                                                                                                                     <view>
                                                                                                                                         <forward
@@ -949,7 +949,7 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                             method="get">
                                                                                                                                             <add-parameter
                                                                                                                                                 name="uri"
-                                                                                                                                                value="{('/db/apps/BetMas/xpath.html')}"/>
+                                                                                                                                                value="{('/db/apps/BetMasWeb/xpath.html')}"/>
                                                                                                                                         </forward>
                                                                                                                                         <view>
                                                                                                                                             <forward
@@ -976,7 +976,7 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                                 method="get">
                                                                                                                                                 <add-parameter
                                                                                                                                                     name="uri"
-                                                                                                                                                    value="{('/db/apps/BetMas/sparql.html')}"/>
+                                                                                                                                                    value="{('/db/apps/BetMasWeb/sparql.html')}"/>
                                                                                                                                             </forward>
                                                                                                                                             <view>
                                                                                                                                                 <forward

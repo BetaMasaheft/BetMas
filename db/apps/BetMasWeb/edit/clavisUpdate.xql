@@ -1,8 +1,8 @@
 xquery version "3.0" encoding "UTF-8";
 
-import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "../modules/config.xqm";
+import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "../modules/config.xqm";
 import module namespace console = "http://exist-db.org/xquery/console";
-import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "../modules/editors.xqm";
+import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/editors" at "../modules/editors.xqm";
 
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";

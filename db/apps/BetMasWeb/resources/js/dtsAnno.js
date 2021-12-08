@@ -1,6 +1,6 @@
 function updateindex(indexUrl){   
 /*console.log(indexUrl)*/
-var api = 'http://localhost:8080/exist/apps/BetMas/' + indexUrl
+var api = 'http://localhost:8080/exist/apps/BetMasWeb/' + indexUrl
 $.getJSON(api, function (d) {
 var last = d.view.last
 var ln = last.lastIndexOf('page=')

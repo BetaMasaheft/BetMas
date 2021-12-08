@@ -1,5 +1,5 @@
 xquery version "3.1";
-import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "../modules/config.xqm";
+import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "../modules/config.xqm";
 import module namespace xdb = "http://exist-db.org/xquery/xmldb";
 import module namespace console = "http://exist-db.org/xquery/console";
 declare option exist:serialize "method=xhtml media-type=text/html indent=yes";
@@ -8,7 +8,7 @@ declare variable $email := request:get-parameter('email', ());
 declare variable $opw := request:get-parameter('oldpassword', ());
 declare variable $npw := request:get-parameter('newpassword', ());
 
-let $user := xmldb:get-current-user()
+let $user := sm:id()//sm:real/sm:username/string()
 
 
 return
@@ -105,7 +105,7 @@ return
                 <body>
                     <div
                         id="confirmation"><p
-                            class="lead">Thank you very much {xmldb:get-current-user()}!</p>
+                            class="lead">Thank you very much {sm:id()//sm:real/sm:username/string()}!</p>
                         <p>Your account data has been saved!</p>
                     
                     </div>

@@ -12,13 +12,13 @@ declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace t="http://www.tei-c.org/ns/1.0";
 declare option output:method "json";
 
-import module namespace dts = "https://www.betamasaheft.uni-hamburg.de/BetMas/dts" at "xmldb:exist:///db/apps/BetMasApi/specifications/dts.xqm";
+import module namespace dtslib = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/dtslib" at "xmldb:exist:///db/apps/BetMasWeb/modules/dtslib.xqm";
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
 import module namespace console="http://exist-db.org/xquery/console";
 
 declare function localdts:Collection($id as xs:string*, $page as xs:integer*, $nav as xs:string*) as map(*) {
     if (matches($id, '(https://betamasaheft.eu/)?(textualunits/|narrativeunits/|transcriptions/|studies/)?([a-zA-Z\d]+)?(:)?(((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?(\-)?((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?)')) then
-            let $parsedURN := dts:parseDTS($id)
+            let $parsedURN := dtslib:parseDTS($id)
             return
                 if (matches($parsedURN//s:group[@nr = 2], '(textualunits|narrativeunits|transcriptions|studies)'))
                 then
@@ -39,10 +39,10 @@ declare function localdts:Collection($id as xs:string*, $page as xs:integer*, $n
 
 declare function localdts:Coll($id, $page, $nav, $version) {
 let $availableCollectionIDs := ('https://betamasaheft.eu', 'https://betamasaheft.eu/textualunits', 'https://betamasaheft.eu/narrativeunits', 'https://betamasaheft.eu/transcriptions','https://betamasaheft.eu/studies')
-let $ms := $dts:collection-rootMS//t:div[@type eq 'edition'][descendant::t:ab[text()]]
-let $w := $dts:collection-rootW//t:div[@type eq 'edition'][descendant::t:ab[text()]]
-let $n := $dts:collection-rootN
-let $s := $dts:collection-rootS
+let $ms := $dtslib:collection-rootMS//t:div[@type eq 'edition'][descendant::t:ab[text()]]
+let $w := $dtslib:collection-rootW//t:div[@type eq 'edition'][descendant::t:ab[text()]]
+let $n := $dtslib:collection-rootN
+let $s := $dtslib:collection-rootS
   let $countMS := count($ms)
   let $countW := count($w)
   let $countN := count($n)
@@ -52,22 +52,22 @@ let $s := $dts:collection-rootS
  if($id = $availableCollectionIDs) then (
  switch($id) 
  case 'https://betamasaheft.eu/textualunits' return
-dts:mainColl($id, $countW, $w, $page, $nav)
+dtslib:mainColl($id, $countW, $w, $page, $nav)
  case 'https://betamasaheft.eu/narrativeunits' return
-dts:mainColl($id, $countN, $n, $page, $nav)
+dtslib:mainColl($id, $countN, $n, $page, $nav)
 case 'https://betamasaheft.eu/transcriptions' return
-dts:mainColl($id, $countMS, $ms, $page, $nav)
+dtslib:mainColl($id, $countMS, $ms, $page, $nav)
 case 'https://betamasaheft.eu/studies' return
-dts:mainColl($id, $countS, $ms, $page, $nav)
+dtslib:mainColl($id, $countS, $ms, $page, $nav)
 default return
 map {
-    "@context": $dts:context,
+    "@context": $dtslib:context,
     "@id": $id,
     "@type": "Collection",
     "totalItems": 3,
     "title": "Beta maṣāḥǝft",
     "description" : "The project Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea (Schriftkultur des christlichen Äthiopiens: eine multimediale Forschungsumgebung) is a long-term project funded within the framework of the Academies' Programme (coordinated by the Union of the German Academies of Sciences and Humanities) under survey of the Akademie der Wissenschaften in Hamburg. The funding will be provided for 25 years, from 2016–2040. The project is hosted by the Hiob Ludolf Centre for Ethiopian Studies at the University of Hamburg. It aims at creating a virtual research environment that shall manage complex data related to predominantly Christian manuscript tradition of the Ethiopian and Eritrean Highlands.",
-    "dts:dublincore": $dts:publisher,
+    "dts:dublincore": $dtslib:publisher,
     "member": [
         map {
              "@id" : "https://betamasaheft.eu/textualunits",
@@ -111,14 +111,14 @@ map {
 };
 
 declare function localdts:CollMember($id, $edition, $bmID, $page, $nav, $version){
-let $doc := $dts:collection-root//id($bmID) 
+let $doc := $dtslib:collection-root//id($bmID) 
 let $eds := if($edition/node()) then
-                                dts:pickDivText($doc, $edition)
+                                dtslib:pickDivText($doc, $edition)
                     else ($doc//t:div[@type eq 'edition'], $doc//t:div[@type eq 'translation'])
 return
 if(count($doc) eq 1) then (
-let $memberInfo := dts:member($bmID,$edition,$eds, $version)
-let $addcontext := map:put($memberInfo, "@context", $dts:context)
+let $memberInfo := dtslib:member($bmID,$edition,$eds, $version)
+let $addcontext := map:put($memberInfo, "@context", $dtslib:context)
 let $addnav := if($nav = 'parent') then 
 let $parent :=if($doc/@type eq 'mss') then 
         map{
@@ -149,7 +149,7 @@ let $parent :=if($doc/@type eq 'mss') then
              "title" : "Beta maṣāḥǝft Textual Units",
              "description": "Collection of literary textual units of the Ethiopic tradition",
              "@type" : "Collection",
-             "totalItems" : count($dts:collection-rootW//t:div[@type eq 'edition'][descendant::t:ab[text()]])
+             "totalItems" : count($dtslib:collection-rootW//t:div[@type eq 'edition'][descendant::t:ab[text()]])
         }
 return
 map:put($addcontext, "member", $parent) 
@@ -172,7 +172,7 @@ map {
 
 
 declare function localdts:Document($id as xs:string*, $ref as xs:string*, $start, $end) {
-dts:docs($id, $ref, $start, $end, 'application/tei+xml')
+dtslib:docs($id, $ref, $start, $end, 'application/tei+xml')
 };
 
 
@@ -181,12 +181,12 @@ $level as xs:string*, $start as xs:string*, $end as xs:string*,
 $groupBy as xs:string*, $page as xs:string*, $max as xs:string*, 
 $version as xs:string*) as map(*) {
 
-let $parsedURN := dts:parseDTS($id)
+let $parsedURN := dtslib:parseDTS($id)
 let $BMid := $parsedURN//s:group[@nr=3]/text()
 
 let $mydoc := collection($config:data-root)/id($BMid)
 let $edition := $parsedURN//s:group[@nr=4]
-let $text := if($edition/node()) then dts:pickDivText($mydoc, $edition)  else $mydoc//t:div[@type eq 'edition']
+let $text := if($edition/node()) then dtslib:pickDivText($mydoc, $edition)  else $mydoc//t:div[@type eq 'edition']
                 (: there may be more edition and translations how are these fetched?  
                 LIT1709Kebran, LIT1758Lefafa multiple editions 
                 LIT2170Peripl multiple pb and divs + images
@@ -204,11 +204,11 @@ let $text := if($edition/node()) then dts:pickDivText($mydoc, $edition)  else $m
              
 let $textType := $mydoc//t:objectDesc/@form
 let $manifest := $mydoc//t:idno/@facs
-let $allwits := dts:wits($mydoc, $BMid) 
+let $allwits := dtslib:wits($mydoc, $BMid) 
 let $witnesses := for $witness in config:distinct-values($allwits)
 (:filters out the witnesses which do not have images available:)
-                            return if(starts-with($witness, 'http')) then $witness else let $mss := $dts:collection-rootMS/id($witness) return if ($mss//t:idno/@facs) then $witness else ()
-let $cdepth := dts:citeDepth($text)
+                            return if(starts-with($witness, 'http')) then $witness else let $mss := $dtslib:collection-rootMS/id($witness) return if ($mss//t:idno/@facs) then $witness else ()
+let $cdepth := dtslib:citeDepth($text)
 let $passage := 
 if ($mydoc/@type eq 'mss' and not($textType='Inscription')) then (
    (:manuscripts:)
@@ -218,30 +218,30 @@ if ($mydoc/@type eq 'mss' and not($textType='Inscription')) then (
              let $l := if ($level='') then 1 else $level
                
            return
-          dts:pasRef($l, $text, $ref, 'unit', 'mss', $manifest, $BMid)
+          dtslib:pasRef($l, $text, $ref, 'unit', 'mss', $manifest, $BMid)
 (:$ref can be a NAR, but how does one know that this is a possibility within this text?:)
 
 (:start and end:)
      else if($start != '') then
-             dts:startend($level, $text, $start, $end, 'part', 'mss', $manifest, $BMid)
+             dtslib:startend($level, $text, $start, $end, 'part', 'mss', $manifest, $BMid)
    (: no ref specified, list all main divs, assuming by the guidelines they are folios:)
          else if($ref='' and $level = '' and $start ='' and $end = ''and $groupBy = '' and $max = '') 
-                then dts:pasS($text/t:div[@n], 'folio', 'mss', $manifest, $BMid)
+                then dtslib:pasS($text/t:div[@n], 'folio', 'mss', $manifest, $BMid)
   (: if the level is not empty, than it has been specified to be either the second or third level, pages and columns                  :)
          else if (($level != '') and ($cdepth gt 3))  then
   (:  the citation depth is higer than 3:)
 (:  let $t := console:log($level) return:)
-                  dts:pasLev($level, $text, 'unit', 'mss', $manifest, $BMid )
+                  dtslib:pasLev($level, $text, 'unit', 'mss', $manifest, $BMid )
         else if(($level != '') and ($cdepth = 3)) then 
                   (if ($level = '2') 
   (: the pages of folios have been requested:)
-                    then dts:pasS($text//t:pb[@n], 'page', 'mss', $manifest, $BMid)
+                    then dtslib:pasS($text//t:pb[@n], 'page', 'mss', $manifest, $BMid)
                     else if ($level = '3')
   (: the columns of a pages have been requested:)
-                     then dts:pasS($text//(t:cb[@n]), 'column', 'mss', $manifest, $BMid)
+                     then dtslib:pasS($text//(t:cb[@n]), 'column', 'mss', $manifest, $BMid)
                      else if ($level = '4')
   (: the columns of a pages have been requested:)
-                     then dts:pasS($text//(t:lb[@n]), 'line', 'mss', $manifest, $BMid)
+                     then dtslib:pasS($text//(t:lb[@n]), 'line', 'mss', $manifest, $BMid)
   (:  in theory there is no such case which will not be matched by cdepth gt 3...   :)
                      else()  )         
 (:    no other option taken into consideration:)
@@ -253,32 +253,32 @@ if ($mydoc/@type eq 'mss' and not($textType='Inscription')) then (
                                 if($ref='' and $level = '' and $start ='' and $end = ''and $groupBy = '' and $max = '') 
 (:   if no  parameter is specified, go through the child elements of div type edition, whatever they are:)
                                 then 
-                                dts:pasS($text/(t:ab|.)/t:*, 'unit', 'work', $witnesses, $BMid)
+                                dtslib:pasS($text/(t:ab|.)/t:*, 'unit', 'work', $witnesses, $BMid)
 (:   if a ref is specified show that navigation point:)
 else if($ref != '' and $start = '')  
 (:e.g. LIT1546Genesi&ref=2.3 :)
-        then dts:pasRef(1, $text, $ref, 'unit', 'work', $witnesses, $BMid)
+        then dtslib:pasRef(1, $text, $ref, 'unit', 'work', $witnesses, $BMid)
 (:   if a level is specified that use that information, and check for ref
 e.g. LIT1546Genesi&level=2
 :) 
  else if($level != '' and $start = '') 
                                 then 
 (:  e.g. LIT1546Genesi&level=2&ref=4:)
-                                if($ref != '') then dts:pasRef($level, $text, $ref, 'unit', 'work', $witnesses, $BMid)
+                                if($ref != '') then dtslib:pasRef($level, $text, $ref, 'unit', 'work', $witnesses, $BMid)
 (:  e.g. LIT1546Genesi&level=2 (max level is value of citeDepth!):)                               
-                               else dts:pasLev($level, $text, 'unit', 'work', $witnesses, $BMid )
+                               else dtslib:pasLev($level, $text, 'unit', 'work', $witnesses, $BMid )
  else if($start != '' and $end != '') 
 (: needs to make a sequence of possible 
 refs at the given level and limit it by the positions in $start and $end
 LIT1546Genesi&start=3&end=4 :)
                then 
-              dts:startend($level, $text, $start, $end, 'texpart', 'work', $witnesses, $BMid)
+              dtslib:startend($level, $text, $start, $end, 'texpart', 'work', $witnesses, $BMid)
 else ()
                              
 (:                             the following step should take the list of results and format it using the chunksize and max parameters:)
 let $CS := number($groupBy)
 let $M := number($max)
-let $ctype := dts:ctype($mydoc,$text, $level, $cdepth)
+let $ctype := dtslib:ctype($mydoc,$text, $level, $cdepth)
 let $chunkedpassage := if(string($groupBy) !='') 
                                                 then       
                                                (
@@ -319,7 +319,7 @@ let $chunkedpassage := if(string($groupBy) !='')
 let $maximized :=if(string($max) !='') then for $p in subsequence($chunkedpassage, 1, $M) return $p else $chunkedpassage
 let $array := array{$maximized}
  let $l := if($level = '') then 1 else number($level)
-let $versions := if($version='yes') then  dts:fileingitCommits($id, $BMid, 'navigation') else ('version set to '||$version||', no version links retrieved from GitHub.')
+let $versions := if($version='yes') then  dtslib:fileingitCommits($id, $BMid, 'navigation') else ('version set to '||$version||', no version links retrieved from GitHub.')
 
 return
      map {
@@ -345,13 +345,13 @@ return
 declare function localdts:Annotations($coll as xs:string*, $BMid as xs:string*, 
 $begin as xs:string*, $page as xs:string*, $version as xs:string*){
 let $indexes := ('persons', 'places','keywords', 'loci', 'works')
-let $file := dts:switchContext($coll)/id($BMid)
+let $file := dtslib:switchContext($coll)/id($BMid)
 let $title := $BMid
 let $availableIndexesForItem :=   
                                     for $index in $indexes 
-                                    let $count := dts:ItemAnnotationsEntries($file, $index)
+                                    let $count := dtslib:ItemAnnotationsEntries($file, $index)
                                     return if($count=0) then () 
-                                    else dts:ItemAnnotationCollections($coll,$BMid, $title, $index, $count, 3)
+                                    else dtslib:ItemAnnotationCollections($coll,$BMid, $title, $index, $count, 3)
 let $c := count($availableIndexesForItem)
 let $topinfo := map {
     "@type" : 'AnnotationCollection',
@@ -364,9 +364,9 @@ let $topinfo := map {
 
 let $contents:=
 map {
-    "@context": $dts:context,
+    "@context": $dtslib:context,
     "member": $availableIndexesForItem,
-    "dts:dublincore": $dts:publisher
+    "dts:dublincore": $dtslib:publisher
 } 
 return
 

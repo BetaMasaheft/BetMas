@@ -1,5 +1,5 @@
 xquery version "3.1";
-import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "../modules/config.xqm";
+import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "../modules/config.xqm";
 import module namespace xdb = "http://exist-db.org/xquery/xmldb";
 import module namespace console = "http://exist-db.org/xquery/console";
 declare option exist:serialize "method=xhtml media-type=text/html indent=yes";
@@ -13,7 +13,7 @@ declare variable $maingroup := request:get-parameter('group', ());
 declare variable $secondarygroup := request:get-parameter('group2', ());
 
 
-if (sm:is-authenticated() and sm:is-dba(xmldb:get-current-user()))
+if (sm:is-authenticated() and sm:is-dba(sm:id()//sm:real/sm:username/string()))
     
     then
     try{
@@ -115,7 +115,7 @@ return
                 <body>
                     <div
                         id="confirmation"><p
-                            class="lead">Thank you very much {xmldb:get-current-user()}!</p>
+                            class="lead">Thank you very much {sm:id()//sm:real/sm:username/string()}!</p>
                         <p>Your account data has been saved!</p>
                     
                     </div>

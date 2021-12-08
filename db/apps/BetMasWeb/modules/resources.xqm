@@ -18,7 +18,7 @@ declare namespace templates="http://exist-db.org/xquery/templates" ;
 declare variable $lists:collection-rootMS := collection($config:data-rootMS);
 declare variable $lists:collection-rootW := collection($config:data-rootW);
 declare variable $lists:collection-rootA := collection($config:data-rootA);
-
+declare variable $lists:cal := doc('/db/apps/BetMasWeb/calendars/ethiopian.xml');
 
 (:~prints a responsive table with the first 100 ptr targets fount in
  : all the bibliography entries in the  entities in the app taken once, requesting the data from Zotero:)
@@ -583,7 +583,7 @@ declare function lists:calendarform($node as node(), $model as map(*)){
                                  <small class="form-text text-muted">Select a month</small><br/>
 
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="month" name="month" class="w3-select w3-border">
-            {for $d  at $p in doc('/db/apps/BetMas/calendars/ethiopian.xml')//t:body/t:list/t:item/@xml:id
+            {for $d  at $p in $lists:cal//t:body/t:list/t:item/@xml:id
             order by $p
             return
             <option value="{string($d)}" >{string($d)}</option>}
@@ -594,7 +594,7 @@ declare function lists:calendarform($node as node(), $model as map(*)){
                                  <small class="form-text text-muted">Select a day</small><br/>
 
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="day" name="day" class="w3-select w3-border">
-            {for $d  at $p in doc('/db/apps/BetMas/calendars/ethiopian.xml')//t:body/t:list/t:item/t:list/t:item
+            {for $d  at $p in $lists:cal//t:body/t:list/t:item/t:list/t:item
             order by $p
             return
             <option value="{string($d/@xml:id)}">{$d/text()}</option>}

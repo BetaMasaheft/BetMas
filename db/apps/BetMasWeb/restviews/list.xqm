@@ -33,7 +33,7 @@ declare namespace cmd = "http://www.clarin.eu/cmd/";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json = "http://www.json.org";
 declare variable $list:instit := doc('/db/apps/lists/institutions.xml') ;
-declare variable $list:taxonomy := doc('/db/apps/lists/institutions.xml') ;
+declare variable $list:taxonomy := doc('/db/apps/lists/canonicaltaxonomy.xml') ;
 declare variable $list:catalogues := doc('/db/apps/lists/catalogues.xml')//t:list;
 declare variable $list:bibliography := doc('/db/apps/lists/bibliography.xml');
 declare variable $list:app-meta := <meta  xmlns="http://www.w3.org/1999/xhtml" name="description" content="{$config:repo-descriptor/repo:description/text()}"/>,
@@ -392,7 +392,7 @@ if(xdb:collection-available($c)) then (
  then 
  <div class="w3-container">
  <div class="w3-container w3-quarter w3-animate-left w3-padding "  data-hint="The values listed here all come from the taxonomy. Click on one of them to see which entities point to it.">
-{for $MainCat in doc('/db/apps/BetMas/lists/canonicaltaxonomy.xml')//t:category[not(parent::t:category)]
+{for $MainCat in $list:taxonomy//t:category[not(parent::t:category)]
  let $collection := 'authority-files'
  let $MainCatval := $MainCat/t:desc/text()
  order by replace(lower-case($MainCatval), '\s', '')
