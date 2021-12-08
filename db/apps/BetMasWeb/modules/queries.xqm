@@ -597,6 +597,9 @@ declare %private function q:par-works-type($work-type) {
     return
         if ($w = 'eth') then
             '@type="pers"][starts-with(@xml:id, "' || upper-case($w) || '")'
+(:            IGNORES IHA in searches limited to works :)
+      else if ($w = 'work') then
+            '@type="work"][not(ends-with(@xml:id, "IHA"))'
         else
             '@type="' || $w || '"'
     return

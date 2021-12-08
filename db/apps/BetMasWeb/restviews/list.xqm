@@ -58,9 +58,6 @@ function list:browseMS(){
         </rest:response>,
  <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-    
-        <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
-        <script type="text/javascript" src="resources/js/analytics.js"></script>
         <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
         <link rel="shortcut icon" href="resources/images/minilogo.ico"></link>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
@@ -178,8 +175,6 @@ function list:browseUnits($unitType){
         </rest:response>,
  <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-<script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
-        <script type="text/javascript" src="resources/js/analytics.js"></script>
         <meta property="og:site_name" content="Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea"/>
         <meta property="dcterms:language schema:inLanguage" content="en"/>
         <meta property="dcterms:rights" content="Copyright © Akademie der Wissenschaften in Hamburg, Hiob-Ludolf-Zentrum für Äthiopistik.  Sharing and remixing permitted under terms of the Creative Commons Attribution Share alike Non Commercial 4.0 License (cc-by-nc-sa)."/>
@@ -205,6 +200,147 @@ function list:browseUnits($unitType){
         
         };
         
+        
+        declare
+        %rest:GET
+%rest:path("/BetMasWeb/art-themes/list")
+%rest:query-param("keyword", "{$keyword}", "")
+%output:method("html5")
+        function list:artthemes(
+$keyword as xs:string*){
+<rest:response>
+            <http:response
+                status="200">
+                <http:header
+                    name="Content-Type"
+                    value="text/html; charset=utf-8"/>
+            </http:response>
+        </rest:response>,        
+ <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
+        <link rel="shortcut icon" href="resources/images/minilogo.ico"></link>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+        {$list:app-meta}
+       {scriptlinks:listScriptStyle()}
+    </head>
+    <body id="body">
+        {nav:barNew()}
+        {nav:modalsNew()}
+
+ <div id="content" class="w3-container w3-padding-64 w3-margin">
+        <div class="w3-container">
+ <div class="w3-container w3-quarter w3-animate-left w3-padding "  data-hint="The values listed here all come from the taxonomy. Click on one of them to see which entities point to it.">
+{
+ let $collection := 'authority-files' return
+ for $MainCat in $list:taxonomy//t:category[not(parent::t:category)][t:desc='Art Themes' or t:desc= 'Art Keywords' or t:desc = 'Objects and Animals']
+ let $MainCatval := $MainCat/t:desc/text()
+ order by replace(lower-case($MainCatval), '\s', '')
+ return
+ <div class="w3-panel w3-padding">  
+     <button class="w3-bar-item w3-button w3-red" 
+        onclick="openAccordion('list{replace($MainCatval, '\s', '')}')">{$MainCatval} 
+        <span class="w3-badge w3-margin-left">{count($MainCat/t:category)}</span>
+    </button>
+   <div id="list{replace($MainCatval, '\s', '')}" class="w3-hide">
+      <ul class="w3-ul w3-hoverable">{
+        for $subcat in $MainCat/t:category
+        let $subcatid := string($subcat/@xml:id)
+        order by replace(lower-case($subcat/t:*[1]/text()), '\s', '')
+        return
+           if($subcat/t:desc) 
+             then (let $subval := $subcat/t:desc
+                  return (
+                          <button class="w3-button  w3-gray w3-margin-top" 
+                          onclick="openAccordion('list{$subval}')">{$subval} 
+                          <span class="w3-badge  w3-margin-left">{count($subcat/t:category)}</span></button>,
+                          <br/>,
+                          <div id="list{$subval}" class="w3-hide">
+                         <ul class="w3-ul w3-hoverable">
+                         {for $c in  $subcat/t:category
+                         let $subcatid := string($c/@xml:id)
+                         let $text := $c/t:catDesc/text()
+                         order by $text
+                         return <li><a href="/art-themes/list?keyword={$subcatid}">{$text}</a></li>
+                        }</ul> 
+                        </div> ) ) 
+             else 
+                 let $sstext := $subcat/t:catDesc/text()
+                 order by $sstext
+                 return 
+                     if ($subcat/t:category) 
+                      then (
+                            <div class="w3-container w3-margin-top">
+                             <button class="w3-button w3-gray" 
+                             onclick="openAccordion('list{$sstext}')">{$sstext} 
+                             <span class="w3-badge  w3-margin-left">{count($subcat/t:category)}</span></button>
+                             <br/>
+                             <div id="list{$sstext}" class="w3-hide">
+                             <ul class="w3-ul w3-hoverable">{
+                                 for $subsubcat in $subcat/t:category
+                                 let $ssid := string($subsubcat/@xml:id)
+                                 let $stext := $subsubcat/t:catDesc/text()
+                                 order by $stext
+                                 return
+                                     <li><a href="/art-themes/list?keyword={$ssid}">{$stext}</a></li>
+                             }</ul> 
+                             </div>
+                             </div>)
+                    else(<li><a href="/art-themes/list?keyword={$subcatid}">{$sstext}</a></li>)
+ }
+ </ul>
+ </div>
+ </div>}
+
+ </div>
+ <div class="w3-threequarter w3-container w3-padding" id="main" >
+ {if($keyword = '')
+ then (<div class="w3-panel w3-gray w3-card-4">Select an entry on the left to see all records where this occurs.</div>)
+ else (
+ let $res :=
+ let $terms := $apprest:collection-root/t:TEI[descendant::t:term[@key eq  $keyword]]
+ let $title := $apprest:collection-root/t:TEI[descendant::t:title[@type eq  $keyword]]
+ let $person := $apprest:collection-root/t:TEI[descendant::t:person[@type eq  $keyword]]
+ let $desc := $apprest:collection-root/t:TEI[descendant::t:desc[@type eq  $keyword] ]
+ let $place := $apprest:collection-root/t:TEI[descendant::t:place[@type eq  $keyword] ]
+ let $ab := $apprest:collection-root/t:TEI[descendant::t:ab[@type eq  $keyword] ]
+ let $faith := $apprest:collection-root/t:TEI[descendant::t:faith[@type eq  $keyword] ]
+ let $occupation := $apprest:collection-root/t:TEI[descendant::t:occupation[@type eq  $keyword]]
+ let $ref := $apprest:collection-root/t:TEI[descendant::t:ref[@type eq  'authFile'][@corresp eq $keyword]]
+ let $hits := ($terms | $title |$person|$desc|$place|$ab|$faith|$occupation|$ref)
+   return
+                      map {
+                      'hits' : $hits,
+                      'collection' : 'authority-files'
+                      }
+
+   return
+ <div class="w3-container">
+ <h1><a href="/authority-files/{$keyword}/main">{exptit:printTitleID($keyword)}</a></h1>
+ {let $file := $list:taxonomy/id($keyword)
+ for $element in ($file//t:abstract, $file//t:listBibl)
+ return <p>{string:tei2string($element)}</p>}
+ 
+  <div class="w3-bar"> 
+  <div id="hit-count" class="w3-bar-item">
+   {'There are ' || count($res("hits")) || ' resources that contain the exact keyword: '}  <span class="w3-tag w3-red">{$keyword}</span>
+   </div>
+   </div>
+   <div class="w3-responsive">
+    <table class="w3-table w3--hoverable"><thead><tr class="w3-tiny"><th>id</th><th>title</th><th>type</th></tr></thead><tbody>{for $h in $res("hits") return <tr><td>{string($h/@xml:id)}</td><td><a href="{string($h/@xml:id)}">{try{exptit:printTitleID($h/@xml:id)} catch * {util:log('info',string($h/@xml:id))}}</a></td><td>{string($h/@type)}</td></tr>}</tbody></table>
+   </div>
+                   </div>                 ) }
+ </div>
+ </div>
+ 
+</div>
+
+        {nav:footerNew()}
+
+       <script type="text/javascript" src="resources/js/w3.js"/>
+    </body>
+</html>
+        };
         
 declare
 %rest:GET
@@ -375,8 +511,7 @@ if(xdb:collection-available($c)) then (
         </rest:response>,
        <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
-        <script type="text/javascript" src="resources/js/analytics.js"></script>
+        
         <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
         <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -772,8 +907,7 @@ if(xdb:collection-available($c)) then (
         </rest:response>,
        <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
-        <script type="text/javascript" src="resources/js/analytics.js"></script>
+        
         <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
         <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -955,8 +1089,7 @@ if($file) then (
 
        <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
-        <script type="text/javascript" src="resources/js/analytics.js"></script>
+        
         <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
         <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -1209,8 +1342,7 @@ if($file) then (
 
        <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
-        <script type="text/javascript" src="resources/js/analytics.js"></script>
+        
         <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
         <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -1395,8 +1527,7 @@ if($file or starts-with($place, 'wd:')) then (
 
        <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
-        <script type="text/javascript" src="resources/js/analytics.js"></script>
+        
         <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
         <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -1582,8 +1713,7 @@ if($file or starts-with($place, 'wd:')) then (
 
        <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
-        <script type="text/javascript" src="resources/js/analytics.js"></script>
+        
         <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
         <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -1665,8 +1795,7 @@ function list:getcatalogues() {
 
        <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
-        <script type="text/javascript" src="resources/js/analytics.js"></script>
+        
         <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
         <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -1694,11 +1823,14 @@ function list:getcatalogues() {
    let $itemID := replace($catalogue, ':','_')
    let $zoTag := substring-after($catalogue, 'bm:')
    let $count := count($cats//t:ptr[@target eq $catalogue])
-	let $xml-url := concat('https://api.zotero.org/groups/358366/items?&amp;tag=', $catalogue, '&amp;format=bib&amp;locale=en-GB&amp;style=hiob-ludolf-centre-for-ethiopian-studies')
+   let $xml-url := concat('https://api.zotero.org/groups/358366/items?&amp;tag=', $catalogue, '&amp;format=bib&amp;locale=en-GB&amp;style=hiob-ludolf-centre-for-ethiopian-studies')
+   let $val := string($catalogue)
+   let $entry := $list:bibliography//b:entry[@id=$val]
+  
 let $data := 
- if($list:bibliography//b:entry[@xml:id = $catalogue]) 
- then let $c := $list:bibliography//b:entry[@xml:id = $catalogue]
- return <span n="{count($c/preceding-sibling::t:item) +1}">{$c/b:reference/node() }</span>
+ if(count($entry) ge 1) 
+ then let $c := $entry
+ return <span n="{count($c/preceding-sibling::t:item) +1}">{$c/*:reference/node() }</span>
  else  <span n="new">{let $request := <http:request href="{xs:anyURI($xml-url)}" method="GET"/>
     let $response := http:send-request($request)[2] return $response//div[@class eq "csl-bib-body"]/div/node()}</span>
  let $sorting := $data//text()[1]
@@ -1845,8 +1977,7 @@ if($prefixedcatID = $catalogues) then (
 
        <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
-        <script type="text/javascript" src="resources/js/analytics.js"></script>
+        
         <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
         <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -2055,12 +2186,9 @@ if($prefixedcatID = $catalogues) then (
                     value="text/html; charset=utf-8"/>
             </http:response>
         </rest:response>,
-
-
-       <html xmlns="http://www.w3.org/1999/xhtml">
+        <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
-        <script type="text/javascript" src="resources/js/analytics.js"></script>
+        
         <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
         <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>

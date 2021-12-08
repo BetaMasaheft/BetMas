@@ -510,7 +510,7 @@ return util:eval($query) else ()
                                <small class="form-text text-muted">Select one or more type of decoration</small><br/>
 
                                {for $d in config:distinct-values($model('hits')/@type)
-                                 return  (<label class="checkbox"><input type="checkbox" class="w3-check" value="{$d}" name="type"/>{$d}</label>,<br/>)}
+                                 return  (<label class="checkbox"><input type="checkbox" class="w3-check" value="{$d}" name="type"/>{string($d)}</label>,<br/>)}
 
                                 </div>
                                 <div  class="w3-container  w3-margin">

@@ -296,11 +296,11 @@ of <a href="/additions">additional texts</a> of different types present in the m
                         <a
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                             data-value="artkeywords"
-                            href="/authority-files/list">Art Keywords</a>
+                            href="/art-themes/list">Art Keywords</a>
                         <a
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                             data-value="illuminations"
-                            href="/newSearch.html">Illuminations</a>
+                            href="/decorations?type=miniature">Illuminations</a>
                             </div>
                             <div id="explanationsAT">
                             <span
@@ -401,7 +401,7 @@ As this is a work in progress, and many records were inherited from the Encyclop
                         <a
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red  explain"
                             data-value="ethnics"
-                            href="/persons/list">Ethnic units</a>
+                            href="/ethnic/list">Ethnic units</a>
                             </div>
                          <div id="explanationPr">
                          <span

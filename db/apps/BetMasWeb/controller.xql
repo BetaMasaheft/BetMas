@@ -242,6 +242,22 @@ else
                                                 absolute="yes"/>
                                         </dispatch>
                                           else
+                                            if ($exist:path = '/persons/list') then
+                                       <dispatch
+                                            xmlns="http://exist.sourceforge.net/NS/exist">
+                                            <redirect
+                                                url="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=pers"
+                                                absolute="yes"/>
+                                        </dispatch>
+                                          else
+                                            if ($exist:path = '/ethnic/list') then
+                                       <dispatch
+                                            xmlns="http://exist.sourceforge.net/NS/exist">
+                                            <redirect
+                                                url="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=eth"
+                                                absolute="yes"/>
+                                        </dispatch>
+                                          else
                                 if ($exist:path = '/places/list') then
                                        <dispatch
                                             xmlns="http://exist.sourceforge.net/NS/exist">
@@ -250,7 +266,7 @@ else
                                                 absolute="yes"/>
                                         </dispatch>
                                          else
-                                if ($exist:path = '/repositories/list') then
+                                if ($exist:path = '/institutions/list') then
                                        <dispatch
                                             xmlns="http://exist.sourceforge.net/NS/exist">
                                             <redirect
@@ -266,7 +282,7 @@ else
                                                 absolute="yes"/>
                                         </dispatch>
                                          else
-                                         if ($exist:path = '/worlks/list') then
+                                         if ($exist:path = '/works/list') then
                                        <dispatch
                                             xmlns="http://exist.sourceforge.net/NS/exist">
                                             <redirect
