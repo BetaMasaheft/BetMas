@@ -6,21 +6,21 @@ xquery version "3.1" encoding "UTF-8";
  :)
 module namespace api = "https://www.betamasaheft.uni-hamburg.de/BetMasApi/api";
 import module namespace rest = "http://exquery.org/ns/restxq";
-import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2"  at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
-import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
-import module namespace all="https://www.betamasaheft.uni-hamburg.de/BetMas/all" at "xmldb:exist:///db/apps/BetMas/modules/all.xqm";
-import module namespace dts="https://www.betamasaheft.uni-hamburg.de/BetMas/dts" at "xmldb:exist:///db/apps/BetMas/modules/dts.xqm";
-import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "xmldb:exist:///db/apps/BetMas/modules/editors.xqm";
-import module namespace wiki="https://www.betamasaheft.uni-hamburg.de/BetMas/wiki" at "xmldb:exist:///db/apps/BetMas/modules/wikitable.xqm";
-import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
-import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
-import module namespace viewItem = "https://www.betamasaheft.uni-hamburg.de/BetMas/viewItem" at "xmldb:exist:///db/apps/BetMas/modules/viewItem.xqm";
+import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/switch2"  at "xmldb:exist:///db/apps/BetMasWeb/modules/switch2.xqm";
+import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMasWeb/modules/log.xqm";
+import module namespace all="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/all" at "xmldb:exist:///db/apps/BetMasWeb/modules/all.xqm";
+import module namespace dts="https://www.betamasaheft.uni-hamburg.de/BetMas/dts" at "xmldb:exist:///db/apps/BetMasApi/specifications/dts.xqm";
+import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/editors" at "xmldb:exist:///db/apps/BetMasWeb/modules/editors.xqm";
+import module namespace wiki="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/wiki" at "xmldb:exist:///db/apps/BetMasWeb/modules/wikitable.xqm";
+import module namespace exptit="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/exptit" at "xmldb:exist:///db/apps/BetMasWeb/modules/exptit.xqm";
+import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
+import module namespace viewItem = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/viewItem" at "xmldb:exist:///db/apps/BetMasWeb/modules/viewItem.xqm";
 import module namespace kwic = "http://exist-db.org/xquery/kwic"
     at "resource:org/exist/xquery/lib/kwic.xql"; 
 
 
-import module namespace fusekisparql = 'https://www.betamasaheft.uni-hamburg.de/BetMas/sparqlfuseki' at "xmldb:exist:///db/apps/BetMas/fuseki/fuseki.xqm";
-import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
+import module namespace fusekisparql = 'https://www.betamasaheft.uni-hamburg.de/BetMasWeb/sparqlfuseki' at "xmldb:exist:///db/apps/BetMasWeb/fuseki/fuseki.xqm";
+import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/string" at "xmldb:exist:///db/apps/BetMasWeb/modules/tei2string.xqm";
 
 (: namespaces of data used :)
 declare namespace test="http://exist-db.org/xquery/xqsuite";
@@ -94,8 +94,8 @@ let $corresps := $dts:collection-rootW//t:div[@type eq 'textpart'][@corresp eq  
 for $c in $corresps 
 let $workid := string(root($c)/t:TEI/@xml:id )
 let $witnesses := $dts:collection-rootMS//t:title[contains(@ref, $workid)]
-let $witnessesID := for $w in $witnesses let $wid :=  string(root($w)/t:TEI/@xml:id ) return  titles:printTitleMainID($wid)
-let $tit := titles:printTitleMainID($workid)
+let $witnessesID := for $w in $witnesses let $wid :=  string(root($w)/t:TEI/@xml:id ) return  exptit:printTitle($wid)
+let $tit := exptit:printTitle($workid)
 return 
 map {'containerWork' : $tit,
 'witnesses' : config:distinct-values($witnessesID)
@@ -110,11 +110,11 @@ declare
 %output:method("json")
 function api:count(){
  ($api:response200Json,
-let $total := count($titles:collection-root)
-let $totalMS := count($dts:collection-rootMS)
-let $totalInstitutions := count(collection($config:data-rootIn))
-let $totalWorks := (count($dts:collection-rootW) + count(collection($config:data-rootN)))
-let $totalPersons := count(collection($config:data-rootPr))
+let $total := count($exptit:col)
+let $totalMS := count($exptit:col/t:TEI[@type='mss'])
+let $totalInstitutions := count($exptit:col/t:TEI[@type='ins'])
+let $totalWorks := (count($exptit:col/t:TEI[@type='work']) + count($exptit:col/t:TEI[@type='nar']) +count($exptit:col/t:TEI[@type='studies']))
+let $totalPersons := count($exptit:col/t:TEI[@type='pers'])
 return 
 
 map {
@@ -146,7 +146,7 @@ let $docColl := substring-before($baseUri, $filename)
 let $latest := for $c in $doc//t:change order by xs:date($c/@when) descending return $c
 return
 map { 'id' : $id,
-'title' : titles:printTitleMainID($id),
+'title' : exptit:printTitle($id),
 'when' : xmldb:last-modified($docColl, $filename),
 'who' : editors:editorKey($latest[1]/@who),
 'what' : $latest[1]/text()
@@ -240,7 +240,7 @@ declare
 %test:args("BAVet1", "a4") %test:assertExists
 function api:additiontext($id as xs:string*, $addID as xs:string*){
 let $log := log:add-log-message('/api/additions/'||$id||'/addition/'||$addID, sm:id()//sm:real/sm:username/string() , 'REST')
-let $entity := $titles:collection-root/id($id)
+let $entity := $exptit:col/id($id)
 let $a := $entity//t:item[@xml:id = $addID]
 return
 <div xmlns="https://www.w3.org/1999/xhtml" >{
@@ -457,7 +457,7 @@ declare function api:get-tei-rec($collection as xs:string, $id as xs:string) as 
 };
 
 declare function api:get-tei-rec-by-ID($id as xs:string) as node()* {
-    $titles:collection-root/id($id)
+    $exptit:col/id($id)
 };
 
 
