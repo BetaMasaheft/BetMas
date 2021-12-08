@@ -7,16 +7,16 @@ xquery version "3.1" encoding "UTF-8";
  :)
 module namespace iiif = "https://www.betamasaheft.uni-hamburg.de/BetMas/iiif";
 import module namespace rest = "http://exquery.org/ns/restxq";
-import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
-import module namespace all="https://www.betamasaheft.uni-hamburg.de/BetMas/all" at "xmldb:exist:///db/apps/BetMas/modules/all.xqm";
-import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
-import module namespace api="https://www.betamasaheft.uni-hamburg.de/BetMas/api" at "xmldb:exist:///db/apps/BetMas/modules/rest.xqm";
-import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
+import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMasWeb/modules/log.xqm";
+import module namespace all="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/all" at "xmldb:exist:///db/apps/BetMasWeb/modules/all.xqm";
+import module namespace exptit="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/exptit" at "xmldb:exist:///db/apps/BetMasWeb/modules/exptit.xqm";
+import module namespace api="https://www.betamasaheft.uni-hamburg.de/BetMasApi/api" at "xmldb:exist:///db/apps/BetMasApi/local/rest.xqm";
+import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
 import module namespace kwic = "http://exist-db.org/xquery/kwic"
     at "resource:org/exist/xquery/lib/kwic.xql";
-import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
+import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/string" at "xmldb:exist:///db/apps/BetMasWeb/modules/tei2string.xqm";
 import module namespace console = "http://exist-db.org/xquery/console";
-import module namespace locus = "https://www.betamasaheft.uni-hamburg.de/BetMas/locus" at "xmldb:exist:///db/apps/BetMas/modules/locus.xqm";
+import module namespace locus = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/locus" at "xmldb:exist:///db/apps/BetMasWeb/modules/locus.xqm";
 (: namespaces of data used :)
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace dcterms = "http://purl.org/dc/terms";
@@ -226,7 +226,7 @@ let $imagesbaseurl := $config:appUrl ||'/iiif/' || $facs
 declare function iiif:msItemRange($msItem, $iiifroot){
    <range>
     <r>{$iiifroot ||"/range/" || string($msItem/@xml:id)}</r>
-    <t>{if ($msItem/t:title[1]/@ref) then titles:printTitleID($msItem/t:title[1]/@ref) else 'item ' || string($msItem/@xml:id)}</t>
+    <t>{if ($msItem/t:title[1]/@ref) then exptit:printTitleID($msItem/t:title[1]/@ref) else 'item ' || string($msItem/@xml:id)}</t>
     {$msItem}
     </range>};
 
@@ -319,7 +319,7 @@ let $manifests :=
      for $images in $filtered
      let $this := $images/ancestor::t:TEI
      let $manifest := iiif:manifestsource($this)
-     let $tit := try {titles:printTitleMainID($this/@xml:id)} catch * {$err:description}
+     let $tit := try {exptit:printTitleID($this/@xml:id)} catch * {$err:description}
          return
              map {'label' : $tit ,
       "@type": "sc:Manifest", 
@@ -354,7 +354,7 @@ function iiif:RepoCollection($institutionid as xs:string) {
 ($iiif:response200,
 
 log:add-log-message('/api/iiif/collections/' || $institutionid, sm:id()//sm:real/sm:username/string() , 'iiif'),
-let $repoName := titles:printTitleMainID($institutionid)
+let $repoName := exptit:printTitleID($institutionid)
 let $repo := $iiif:collection-rootMS//t:repository[@ref eq $institutionid]
 let $mswithimages := 
         if($institutionid='INS0447EMIP') 
@@ -366,7 +366,7 @@ let $manifests :=
                 let $idno := $images/following-sibling::t:idno[@facs]
                 let $manifest := iiif:manifestsource($this)
                     return
-                            map {'label' : titles:printTitleMainID($this/@xml:id) ,
+                            map {'label' : exptit:printTitleID($this/@xml:id) ,
                                         '@type': "sc:Manifest", 
                                         '@id' : $manifest}
 
@@ -397,7 +397,7 @@ function iiif:WitnessesCollection($workID as xs:string) {
 ($iiif:response200,
 
 log:add-log-message('/api/iiif/witnesses/' || $workID, sm:id()//sm:real/sm:username/string() , 'iiif'),
-let $workName := titles:printTitleMainID($workID)
+let $workName := exptit:printTitleID($workID)
 let $work := $iiif:collection-rootW/id($workID)
 let $mswithimages := $work//t:witness[@corresp]
 let $externalmswithimages := $work//t:witness[@facs][t:ptr/@target]
@@ -410,7 +410,7 @@ if($ms//t:idno[@facs]) then
 
 let $manifest := iiif:manifestsource($ms)
          return
-             map {'label' : titles:printTitleMainID($msid)  ,
+             map {'label' : exptit:printTitleID($msid)  ,
       "@type": "sc:Manifest", 
       '@id' : $manifest}
    else (),
@@ -455,7 +455,7 @@ function iiif:manifest($id as xs:string*, $alt as xs:string*) {
 let $item := if (starts-with($id, 'ES')) then collection($config:data-rootMS || '/ES')/id($id) 
                     else if (starts-with($id, 'BML')) then collection($config:data-rootMS || '/FlorenceBML')/id($id) 
                     else if (starts-with($id, 'EMIP')) then  collection($config:data-rootMS || '/EMIP')/id($id)
-                    else $titles:collection-root//id($id)
+                    else $exptit:col/id($id)
 let $facsid := if($alt = '') then $item//t:msIdentifier/t:idno else $item//t:altIdentifier[@xml:id eq $alt]/t:idno 
 let $facs :=iiif:facsSwitch($facsid) (:returns an attribute @facs:)
 return
@@ -466,7 +466,7 @@ log:add-log-message('/api/iiif/'||$id||'/manifest', sm:id()//sm:real/sm:username
 
        let $institutionID := string(($item//t:repository)[1]/@ref)
 
-       let $institution := titles:printTitleMainID($institutionID)
+       let $institution := exptit:printTitleID($institutionID)
 let $imagesbaseurl := $config:appUrl ||'/iiif/' || $facs
        let $tot := $facsid/@n
        let $url :=  $config:appUrl ||"/manuscripts/" || $id
@@ -490,7 +490,7 @@ return
 map {"@context": "http://iiif.io/api/presentation/2/context.json",
   "@id": $request,
   "@type": "sc:Manifest",
-  "label": titles:printTitleMainID($id),
+  "label": exptit:printTitleID($id),
   "metadata": [
     map {"label": "Repository", 
                 "value": [
@@ -556,7 +556,7 @@ function iiif:singerange($id as xs:string*, $rangeId as xs:string*, $alt as xs:s
 let $item := if (starts-with($id, 'ES')) then collection($config:data-rootMS || '/ES')/id($id) 
                     else if (starts-with($id, 'BML')) then collection($config:data-rootMS || '/FlorenceBML')/id($id) 
                     else if (starts-with($id, 'EMIP')) then  collection($config:data-rootMS || '/EMIP')/id($id)
-                    else $titles:collection-root//id($id)
+                    else $exptit:col/id($id)
 let $facsid := if($alt = '') then $item//t:msIdentifier/t:idno else $item//t:altIdentifier[@xml:id eq $alt]/t:idno 
 let $facs :=iiif:facsSwitch($facsid) (:returns an attribute @facs:)
 return
@@ -567,7 +567,7 @@ log:add-log-message('/api/iiif/'||$id||'/range/'||$rangeId, sm:id()//sm:real/sm:
 
        let $institutionID := string($item//t:repository[1]/@ref)
 
-       let $institution := titles:printTitleMainID($institutionID)
+       let $institution := exptit:printTitleID($institutionID)
 let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($facs)
        let $tot := $facsid/@n
        let $url :=  $config:appUrl ||"/manuscripts/" || $id
