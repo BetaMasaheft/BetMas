@@ -870,7 +870,7 @@ let $xmlid := if($parsedID/s:group[@nr=6]) then $parsedID/s:group[@nr=6]/text()[
 };
 
 (:~ given the URN in the id parameter and the plain Beta Masahaeft id if any, produces the list of members of the collection filtering only the entities which do have a div[@type eq 'edition'] :)
-declare %private function dtslib:CollMember($id, $edition, $bmID, $page, $nav, $version){
+declare function dtslib:CollMember($id, $edition, $bmID, $page, $nav, $version){
 let $doc := $exptit:col//id($bmID) 
 let $eds := if($edition/node()) then
                                 dtslib:pickDivText($doc, $edition)
@@ -926,7 +926,7 @@ map {
 
 (:~ called if the collection api path is requested without an indication of a precise betamasaheft id. returns either the main collection 
 : entry point or one of the three main collections, manuscripts transcriptions, textual units or narrativa units in which case it will call dtslib:mainColl :)
-declare %private function dtslib:Coll($id, $page, $nav, $version){
+declare  function dtslib:Coll($id, $page, $nav, $version){
 let $availableCollectionIDs := ('https://betamasaheft.eu', 'https://betamasaheft.eu/textualunits', 'https://betamasaheft.eu/narrativeunits', 'https://betamasaheft.eu/transcriptions')
 let $ms := $dtslib:collection-rootMS//t:div[@type eq 'edition'][descendant::t:ab[text()]]
 let $w := $dtslib:collection-rootW//t:div[@type eq 'edition'][descendant::t:ab[text()]]
@@ -1472,7 +1472,7 @@ return
 if (map:size($etcmap) = 0) then () else $etcmap
 };
 
-declare %private function dtslib:indexEntriesAttestations($id, $indexName, $indexEntries, $page){
+declare  function dtslib:indexEntriesAttestations($id, $indexName, $indexEntries, $page){
 let $perpage:=10
 let $end := xs:integer($page) * $perpage
 let $start := ($end - $perpage) +1
@@ -1512,7 +1512,7 @@ return
 subsequence($refs, $start, $end)
 };
 
-declare %private function dtslib:indexEntriesView($id, $indexName, $indexEntries, $page){
+declare  function dtslib:indexEntriesView($id, $indexName, $indexEntries, $page){
 let $refs := for $ref in $indexEntries 
                     let $r := switch($indexName)
                                     case 'loci' return $ref/@cRef
@@ -1545,7 +1545,7 @@ map{
      "name" : $indexName
     }};
     
-declare %private function dtslib:indexentries($id, $name){
+declare  function dtslib:indexentries($id, $name){
 let $file := $exptit:col/id($id)
 return
 switch($name) 
@@ -1557,7 +1557,7 @@ switch($name)
                             default return ()
 };
 
-declare %private function dtslib:indexentriesFile($file, $id, $name){
+declare function dtslib:indexentriesFile($file, $id, $name){
 if ($id='') then 
 switch($name) 
                             case 'places' return $file//t:placeName[@ref]
@@ -1578,7 +1578,7 @@ switch($name)
                             default return ()
 };
 
-declare %private function dtslib:indexentriesColl($id, $coll, $name){
+declare function dtslib:indexentriesColl($id, $coll, $name){
 (:let $t := console:log($id):)
 let $files := dtslib:switchContext($coll)
 return
@@ -1612,7 +1612,7 @@ switch($name)
                             default return ()
 };
 
-declare %private function dtslib:CollIndex($id, $page, $version){
+declare  function dtslib:CollIndex($id, $page, $version){
 [
       map {"name": "persons"},
       map {"name": "places"},
@@ -1621,7 +1621,7 @@ declare %private function dtslib:CollIndex($id, $page, $version){
       map {"name": "keywords"}
     ]};
     
-declare %private function dtslib:CollIndexMember($id, $edition, $specificID, $page, $version){
+declare  function dtslib:CollIndexMember($id, $edition, $specificID, $page, $version){
 let $file := $exptit:col/id($specificID)
 let $pl:= if ($file//t:placeName[@ref]) then map{"name": "places"} else ()
 let $pr:= if ($file//t:persName[@ref]) then map{"name": "persons"} else ()
@@ -1634,7 +1634,7 @@ return ($pl, $pr, $w, $loci, $key)
 
 
 
-declare %private function dtslib:AnnoItems($coll){
+declare function dtslib:AnnoItems($coll){
 let $context:= dtslib:switchContext($coll)
 return $context//t:TEI[descendant::t:persName[@ref[. !='PRS00000' and . !='PRS0000']] or descendant::t:placeName[@ref] or descendant::t:title[@ref] or descendant::t:term[@key][not(parent::t:keywords)] or descendant::t:ref[@cRef]]
 };
@@ -1643,7 +1643,7 @@ return $context//t:TEI[descendant::t:persName[@ref[. !='PRS00000' and . !='PRS00
 after the example by Thibault Clérice in DTS 
 https://github.com/distributed-text-services/specifications/issues/167
 :)
-declare %private function dtslib:WebAnn($id, $indexEntries, $page){
+declare  function dtslib:WebAnn($id, $indexEntries, $page){
 (:let $t := console:log($id):)
 let $perpage:=10
 let $end := xs:integer($page) * $perpage
@@ -1715,7 +1715,7 @@ map {
 
 (:~ given the collection name and the count of children collections and partens
 returns an object to be merged into a response:)
-declare %private function dtslib:annotationCollection($collname, $indexesCount, $parents){
+declare function dtslib:annotationCollection($collname, $indexesCount, $parents){
 map {
     "@type" : 'AnnotationCollection',
     "title": "Annotations of "||$collname||" Root Collection",
@@ -1762,7 +1762,7 @@ given the collection name and the index entries (which in this case will be a li
 and the page parameter
 returns a sequence of objects, which are annotations collections for each item 
 to be merged into a response :)    
-declare %private function dtslib:AnnoItemInfo($collname, $indexEntries, $page){
+declare  function dtslib:AnnoItemInfo($collname, $indexEntries, $page){
 let $perpage:=10
 let $end := xs:integer($page) * $perpage
 let $start := ($end - $perpage) +1
@@ -1787,7 +1787,7 @@ map {
     
     
 
-declare %private function dtslib:AnnoEntriesAttestations($indexName, $indexEntries, $page){
+declare  function dtslib:AnnoEntriesAttestations($indexName, $indexEntries, $page){
 let $perpage:=10
 let $end := xs:integer($page) * $perpage
 let $start := ($end - $perpage) +1
@@ -1808,7 +1808,7 @@ return
                 dtslib:refannocol($i, $c, $indexName)
  };
  
- declare %private function dtslib:AnnoEntriesAttestationsItem($BMid, $title, $indexName, $indexEntries, $page){
+ declare function dtslib:AnnoEntriesAttestationsItem($BMid, $title, $indexName, $indexEntries, $page){
 let $perpage:=10
 let $end := xs:integer($page) * $perpage
 let $start := ($end - $perpage) +1
@@ -1873,7 +1873,7 @@ map {"@id" : $IDentityorlocus,
              "dtslib:totalChildren": $c}
 };
 
-declare %private function dtslib:AnnoEntriesView($path, $id, $indexName, $indexEntries, $page){
+declare function dtslib:AnnoEntriesView($path, $id, $indexName, $indexEntries, $page){
 let $refs := for $ref in $indexEntries 
                     let $r := switch($indexName)
                                     case 'loci' return $ref/@cRef
@@ -1969,7 +1969,7 @@ case 'nar' return $dtslib:collection-rootN
 default return ($dtslib:collection-rootMS, $dtslib:collection-rootW, $dtslib:collection-rootN)
 };
 
-declare %private function dtslib:CollAnno($context, $indexes){
+declare  function dtslib:CollAnno($context, $indexes){
 let $c := dtslib:switchContext($context)
 for $index in $indexes 
 let $count := dtslib:annotationsEntries($c, $index)
