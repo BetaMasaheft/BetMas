@@ -177,7 +177,11 @@ declare %private function viewItem:locus($this) {
             (),
         (:             and not($text = 'only')"  ?????:)
         if ($this/@facs) then
-            try{viewItem:matchingFacs($this)} catch * {util:log('info', $err:description)}
+            try {
+                viewItem:matchingFacs($this)
+            } catch * {
+                util:log('info', $err:description)
+            }
         else
             if ($this/ancestor::t:TEI//t:div[@xml:id = 'Transkribus']) then
                 (:      'matches lb':)
@@ -2690,7 +2694,7 @@ declare %private function viewItem:additionItem($a) {
                 if ($a/t:desc/@type) then
                     (' (Type: ',
                     <a
-                        href="/authority-files/list?keyword={$a/t:desc/@type}">{viewItem:categoryname($a/ancestor::t:TEI, $a/t:desc/@type)}</a>,
+                        target="_blank" href="/authority-files/list?keyword={$a/t:desc/@type}">{viewItem:categoryname($a/ancestor::t:TEI, $a/t:desc/@type)}</a>,
                     <a
                         href="/additions?type={$a/t:desc/@type}">
                         <i
@@ -3230,31 +3234,31 @@ declare %private function viewItem:space($node as element(t:space)) {
 };
 
 declare %private function viewItem:choice($node as element(t:choice)) {
-let $id := generate-id($node)
-return
-    if ($node[t:sic and t:corr]) then
-        (<b>
-            <a
-                data-value="{$node/t:corr/@resp}"
-                class="w3-tooltip ChoiceResp"
-                id="{$id}">
-                {$node/t:corr}
-            </a>
-        </b>,
-        <script
-            type="text/javascript">
-            {
-                "$('#" || $id || "').bind('click', function() {
+    let $id := generate-id($node)
+    return
+        if ($node[t:sic and t:corr]) then
+            (<b>
+                <a
+                    data-value="{$node/t:corr/@resp}"
+                    class="w3-tooltip ChoiceResp"
+                    id="{$id}">
+                    {$node/t:corr}
+                </a>
+            </b>,
+            <script
+                type="text/javascript">
+                {
+                    "$('#" || $id || "').bind('click', function() {
             $(this).html($(this).html() == '" || $node/t:corr || "' ? '" || concat(viewItem:TEI2HTML($node/t:sic), ' (!)') || "' : '" || $node/t:corr || "');
             });"
-            }
-        </script>
-        )
-    else
-        if ($node[t:sic and t:orig]) then
-            ('{', $node/t:orig, '}')
+                }
+            </script>
+            )
         else
-            (viewItem:TEI2HTML($node))
+            if ($node[t:sic and t:orig]) then
+                ('{', $node/t:orig, '}')
+            else
+                (viewItem:TEI2HTML($node))
 };
 
 declare %private function viewItem:unclear($node as element(t:unclear)) {
@@ -3520,70 +3524,78 @@ declare %private function viewItem:l($node as element(t:l)) {
 
 
 declare %private function viewItem:app($node as element(t:app)) {
-if($node/parent::t:lem) then () else (
-    viewItem:TEI2HTML($node/t:lem/node()),
-    <sup
-        id="{$node/ancestor::t:div[@type = 'textpart'][1]/@n}appNote{$node/position()}">
-        <a
-            href="#{$node/ancestor::t:div[@type = 'textpart'][1]/@n}appPointer{$node/position()}">
-            {count($node/preceding-sibling::t:app) + 1}
-        </a>
-    </sup>,
-    ' ')
+    if ($node/parent::t:lem) then
+        ()
+    else
+        (
+        viewItem:TEI2HTML($node/t:lem/node()),
+        <sup
+            id="{$node/ancestor::t:div[@type = 'textpart'][1]/@n}appNote{$node/position()}">
+            <a
+                href="#{$node/ancestor::t:div[@type = 'textpart'][1]/@n}appPointer{$node/position()}">
+                {count($node/preceding-sibling::t:app) + 1}
+            </a>
+        </sup>,
+        ' ')
 };
 
-declare %private function viewItem:wit ($node) {
-let $listWit := $node/ancestor::t:TEI//t:listWit
-for $w in viewItem:makeSequence($node/@wit)
-            let $trimmedid := substring-after($w, '#')
-            let $witness := $listWit//t:witness[@xml:id = $trimmedid]
-            return
-                <span>
-                     {
-                    if ($node/@resp) then
-                        (attribute data-resp {string($node/@resp)},
-                        attribute class {'w3-tooltip RdgRespMs'})
-                    else
-                        (attribute class {'w3-tooltip'})
-                }
-                    {$trimmedid}
-                    <span
-                        class="w3-text">{
-                            <a
-                                href="{string($witness/@corresp)}">{$witness/t:idno/text()}</a>
-                        }</span>
-                </span>
+declare %private function viewItem:wit($node) {
+    let $listWit := $node/ancestor::t:TEI//t:listWit
+    for $w in viewItem:makeSequence($node/@wit)
+    let $trimmedid := substring-after($w, '#')
+    let $witness := $listWit//t:witness[@xml:id = $trimmedid]
+    return
+        <span>
+            {
+                if ($node/@resp) then
+                    (attribute data-resp {string($node/@resp)},
+                    attribute class {'w3-tooltip RdgRespMs'})
+                else
+                    (attribute class {'w3-tooltip'})
+            }
+            {$trimmedid}
+            <span
+                class="w3-text">{
+                    <a
+                        href="{string($witness/@corresp)}">{$witness/t:idno/text()}</a>
+                }</span>
+        </span>
 };
 
 declare %private function viewItem:lem($node as element(t:lem)) {
     let $resp := $node/@resp
     let $listWit := $node/ancestor::t:TEI//t:listWit
     return
-    (
-    viewItem:TEI2HTML($node/node()),
-    ' ',
-    viewItem:wit($node),
-    ' '
-    )
-    
+        (
+        viewItem:TEI2HTML($node/node()),
+        ' ',
+        viewItem:wit($node),
+        ' '
+        )
+
 };
 
 
 declare %private function viewItem:rdg($node as element(t:rdg)) {
-   let $resp := $node/@resp
-   return 
- (  <b>
-  { if ($node/@xml:lang) then
+    let $resp := $node/@resp
+    return
+        (<b>
+            {
+                if ($node/@xml:lang) then
                     attribute lang {$node/@xml:lang}
                 else
-                    () }
-  {viewItem:wit($node)}
+                    ()
+            }
+            {viewItem:wit($node)}
         </b>,
-        ' ', 
-        if($node/@xml:lang) then (
-            ' Cfr. ' || string($node/@xml:lang)) else ()
-    , viewItem:TEI2HTML($node/node())
-    )
+        ' ',
+        if ($node/@xml:lang) then
+            (
+            ' Cfr. ' || string($node/@xml:lang))
+        else
+            ()
+        , viewItem:TEI2HTML($node/node())
+        )
 };
 
 (:refactoring structures found in divEdition.xsl:)
@@ -3606,7 +3618,7 @@ declare function viewItem:div($node as element(t:div)) {
                         ()
                     )
             }
-           
+        
         </div>
     else
         if ($node[parent::t:body][not(@type = 'apparatus')])
@@ -3670,8 +3682,13 @@ declare function viewItem:div($node as element(t:div)) {
                                                 ()
                                         } w3-row"
                                     id="{viewItem:DTSpartID($node)}"
-                                    >
-                                    {if($node/ancestor-or-self::t:div[@xml:lang][1]) then attribute lang {string($node/ancestor-or-self::t:div[@xml:lang][1]/@xml:lang)} else ()}
+                                >
+                                    {
+                                        if ($node/ancestor-or-self::t:div[@xml:lang][1]) then
+                                            attribute lang {string($node/ancestor-or-self::t:div[@xml:lang][1]/@xml:lang)}
+                                        else
+                                            ()
+                                    }
                                     {
                                         viewItem:titletemplate($node, $text)
                                     }</div>,
@@ -3715,8 +3732,9 @@ declare function viewItem:div($node as element(t:div)) {
                                 )
                     }
                 </div>
-      else
-            <div class="w3-container">{$node}</div>
+            else
+                <div
+                    class="w3-container">{$node}</div>
 };
 
 declare %private function viewItem:titletemplate($div, $text) {
@@ -3881,9 +3899,22 @@ declare %private function viewItem:applisting($app, $p) {
             {count($app/preceding-sibling::t:app) + 1}
         </a>{')'}
         {viewItem:TEI2HTML($app/t:lem)}:
-        {for $r in $app/*:rdg return try{viewItem:rdg($r)} catch * {$err:description}}
+        {
+            for $r in $app/*:rdg
+            return
+                try {
+                    viewItem:rdg($r)
+                } catch * {
+                    $err:description
+                }
+        }
         {viewItem:TEI2HTML($app/t:note)}
-        {if($p = (count($app/preceding-sibling::t:app)+1)) then () else ' | '}
+        {
+            if ($p = (count($app/preceding-sibling::t:app) + 1)) then
+                ()
+            else
+                ' | '
+        }
     </span>
 };
 
@@ -3915,7 +3946,7 @@ declare %private function viewItem:DTSpartID($node) {
 
 declare function viewItem:TEI2HTML($nodes) {
     for $node in $nodes
-(:    let $test := util:log('info',$node/name()):)
+    (:    let $test := util:log('info',$node/name()):)
     return
         typeswitch ($node)
             (:        clears all comments:)
@@ -4244,6 +4275,7 @@ declare %private function viewItem:tokenize-text($node) {
 };
 
 declare %private function viewItem:standards($item) {
+    viewItem:keywords($item, switch2:col($item/@type)),
     viewItem:publicationStmt($item//t:publicationStmt),
     if ($item//t:editionStmt) then
         <div
@@ -4710,12 +4742,7 @@ declare %private function viewItem:place($item) {
             (),
         <div
             id="MainData"
-            class="{
-                    if ($item/@type = 'ins') then
-                        'institutionView'
-                    else
-                        'w3-twothird'
-                }">
+            class="w3-twothird">
             <div
                 id="description">
                 <h2>Names {
@@ -4912,7 +4939,7 @@ declare %private function viewItem:manuscript($item) {
     
     return
         <div
-            class="w3-twothird"
+            
             id="MainData">
             <span
                 property="http://www.cidoc-crm.org/cidoc-crm/P48_has_preferred_identifier"
@@ -5469,7 +5496,7 @@ declare function viewItem:dates($date) {
 
 
 declare function viewItem:textfragment($frag) {
-(:let $test := util:log('info', 'got to the textfragment' )
+    (:let $test := util:log('info', 'got to the textfragment' )
 return:)
     <div>
         <div
@@ -5575,8 +5602,18 @@ return:)
 };
 
 declare %private function viewItem:editorName($ref) {
-if(string-length($ref) != 2 ) then () else (
-   try{ if($viewItem:editors//t:item[@xml:id = $ref]) then $viewItem:editors//t:item[@xml:id = $ref]/text() else string($ref)} catch * {util:log('info', concat('failed parsing with viewItem:editorName ', $ref ))})
+    if (string-length($ref) != 2) then
+        ()
+    else
+        (
+        try {
+            if ($viewItem:editors//t:item[@xml:id = $ref]) then
+                $viewItem:editors//t:item[@xml:id = $ref]/text()
+            else
+                string($ref)
+        } catch * {
+            util:log('info', concat('failed parsing with viewItem:editorName ', $ref))
+        })
 };
 
 declare function viewItem:textfragmentbibl($this, $id) {
@@ -6171,4 +6208,381 @@ declare %private function viewItem:fulllang($lang) {
     } catch * {
         util:log('INFO', $lang)
     }
+};
+
+(:~ returns a selector with values which can be searched. a javascript will pick the selected one and send it to the restxq to get related items :)
+declare function viewItem:keywords($file, $collection) {
+    let $id := string($file/@xml:id)
+    let $classes := for $class in $file//t:term/@key
+    return
+        'http://betamasaheft.eu/' || $class
+    let $options := switch ($collection)
+        (:                   decides on the basis of the collection what is relevant to match related records :)
+        case 'manuscripts'
+            return
+                (if ($file//t:term/@key) then
+                    <ul
+                        class="w3-ul"
+                        label="keywords">{
+                            for $x in distinct-values($file//t:term/@key)
+                            return
+                                <li><a
+                                        target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
+                        }</ul>
+                else
+                    (),
+                if ($file//t:supportDesc/t:material/@key) then
+                    <ul
+                        class="w3-ul"
+                        label="material">{
+                            for $x in ($file//t:supportDesc/t:material/@key)
+                            return
+                                <li><a
+                                        target="_blank" href="/authority-files/list?keyword={$x}">{$x}</a></li>
+                        }</ul>
+                else
+                    (),
+                if ($file//t:handNote[@script]/@script) then
+                    <ul
+                        class="w3-ul"
+                        label="script">{
+                            for $x in distinct-values($file//t:handNote[@script]/@script)
+                            return
+                                <li><a
+                                        target="_blank" href="/authority-files/list?keyword={$x}">{string($x)}</a></li>
+                        }</ul>
+                else
+                    (),
+                if ($file//t:objectDesc/@form) then
+                    <ul
+                        class="w3-ul"
+                        label="form">{
+                            for $x in distinct-values($file//t:objectDesc/@form)
+                            return
+                                <li><a
+                                        target="_blank" href="/authority-files/list?keyword={$x}">{string($x)}</a></li>
+                        }</ul>
+                else
+                    ())
+        case 'works'
+            return
+                (if ($file//t:term/@key) then
+                    <ul
+                        class="w3-ul"
+                        label="keywords">{
+                            for $x in distinct-values($file//t:term/@key)
+                            return
+                                <li><a
+                                        target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
+                        }</ul>
+                else
+                    (),
+                if ($file//t:relation[@name eq 'dcterms:creator']) then
+                    <ul
+                        class="w3-ul"
+                        label="author">{
+                            for $x in ($file//t:relation[@name eq 'dcterms:creator'])
+                            let $auth := string($x/@passive)
+                            return
+                                <li><a
+                                        target="_blank" href="/authority-files/list?keyword={$auth}">{exptit:printTitleID($auth)}</a></li>
+                        }</ul>
+                else
+                    (),
+                if ($file//t:relation[@name eq 'saws:isAttributedToAuthor']) then
+                    <ul
+                        class="w3-ul"
+                        label="relation">{
+                            for $x in ($file//t:relation[@name eq 'saws:isAttributedToAuthor'])
+                            let $auth := string($x/@passive)
+                            return
+                                <li><a
+                                        target="_blank" href="/authority-files/list?keyword={$auth}">{exptit:printTitleID($auth)}</a></li>
+                        }</ul>
+                else
+                    ()
+                )
+        case 'studies'
+            return
+                (if ($file//t:term/@key) then
+                    <ul
+                        class="w3-ul"
+                        label="keywords">{
+                            for $x in distinct-values($file//t:term/@key)
+                            return
+                                <li><a
+                                        target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
+                        }</ul>
+                else
+                    (),
+                if ($file//t:relation[@name eq 'dcterms:creator']) then
+                    <ul
+                        class="w3-ul"
+                        label="author">{
+                            for $x in ($file//t:relation[@name eq 'dcterms:creator'])
+                            let $auth := string($x/@passive)
+                            return
+                                <li><a
+                                        target="_blank" href="/authority-files/list?keyword={$auth}">{exptit:printTitleID($auth)}</a></li>
+                        }</ul>
+                else
+                    (),
+                if ($file//t:relation[@name eq 'saws:isAttributedToAuthor']) then
+                    <ul
+                        class="w3-ul"
+                        label="relation">{
+                            for $x in ($file//t:relation[@name eq 'saws:isAttributedToAuthor'])
+                            let $auth := string($x/@passive)
+                            return
+                                <li><a
+                                        target="_blank" href="/authority-files/list?keyword={$auth}">{exptit:printTitleID($auth)}</a></li>
+                        }</ul>
+                else
+                    ()
+                )
+        case 'narratives'
+            return
+                (if ($file//t:term/@key) then
+                    <ul
+                        class="w3-ul"
+                        label="keywords">{
+                            for $x in distinct-values($file//t:term/@key)
+                            return
+                                <li><a
+                                        target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
+                        }</ul>
+                else
+                    (),
+                if ($file//t:relation[@name eq 'dcterms:creator']) then
+                    <ul
+                        class="w3-ul"
+                        label="author">{
+                            for $x in ($file//t:relation[@name eq 'dcterms:creator'])
+                            let $auth := string($x/@passive)
+                            return
+                                <li><a
+                                        target="_blank" href="/authority-files/list?keyword={$auth}">{exptit:printTitleID($auth)}</a></li>
+                        }</ul>
+                else
+                    (),
+                if ($file//t:relation[@name eq 'saws:isAttributedToAuthor']) then
+                    <ul
+                        class="w3-ul"
+                        label="attributed author">{
+                            for $x in ($file//t:relation[@name eq 'saws:isAttributedToAuthor'])
+                            let $auth := string($x/@active)
+                            return
+                                <li><a
+                                        target="_blank" href="/authority-files/list?keyword={$auth}">{exptit:printTitleID($auth)}</a></li>
+                        }</ul>
+                else
+                    ()
+                )
+        case 'places'
+            return
+                (if ($file//t:term/@key)
+                then
+                    <ul
+                        class="w3-ul"
+                        label="keywords">{
+                            for $x in distinct-values($file//t:term/@key)
+                            return
+                                <li><a
+                                        target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
+                        }</ul>
+                else
+                    (),
+                if ($file//t:settlement)
+                then
+                    <ul
+                        class="w3-ul"
+                        label="settlement">{
+                            for $x in $file//t:settlement/@ref
+                            return
+                                <li><a
+                                        target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
+                        }</ul>
+                else
+                    (),
+                if ($file//t:region)
+                then
+                    <ul
+                        class="w3-ul"
+                        label="region">{
+                            for $x in $file//t:region/@ref
+                            return
+                                <li><a
+                                        target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
+                        }</ul>
+                else
+                    (),
+                if ($file//t:country)
+                then
+                    <ul
+                        class="w3-ul"
+                        label="country">{
+                            for $x in $file//t:country/@ref
+                            return
+                                <li><a
+                                        target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
+                        }</ul>
+                else
+                    (),
+                if ($file//t:place[@type])
+                then
+                    <ul
+                        class="w3-ul"
+                        label="type">{
+                            if (contains($file//t:place/@type, ' '))
+                            then
+                                for $x in tokenize($file//t:place/@type, ' ')
+                                return
+                                    <li><a
+                                            target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
+                            else
+                                let $type := $file//t:place/@type
+                                return
+                                    <li><a
+                                            target="_blank" href="/authority-files/list?keyword={$type}">{exptit:printTitleID($type)}</a></li>
+                        }</ul>
+                else
+                    ()
+                )
+        case 'institutions'
+            return
+                (if ($file//t:term/@key)
+                then
+                    <ul
+                        class="w3-ul"
+                        label="keywords">{
+                            for $x in distinct-values($file//t:term/@key)
+                            return
+                                <li><a
+                                        target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
+                        }</ul>
+                else
+                    (),
+                if ($file//t:settlement)
+                then
+                    <ul
+                        class="w3-ul"
+                        label="settlement">{
+                            for $x in $file//t:settlement/@ref
+                            return
+                                <li><a
+                                        target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
+                        }</ul>
+                else
+                    (),
+                if ($file//t:region)
+                then
+                    <ul
+                        class="w3-ul"
+                        label="region">{
+                            for $x in $file//t:region/@ref
+                            return
+                                <li><a
+                                        target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
+                        }</ul>
+                else
+                    (),
+                if ($file//t:country)
+                then
+                    <ul
+                        class="w3-ul"
+                        label="country">{
+                            for $x in $file//t:country/@ref
+                            return
+                                <li><a
+                                        target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
+                        }</ul>
+                else
+                    (),
+                if ($file//t:place[@type])
+                then
+                    <ul
+                        class="w3-ul"
+                        label="type">{
+                            if (contains($file//t:place/@type, ' '))
+                            then
+                                for $x in ($file//t:place/@type)
+                                return
+                                    <li><a
+                                            target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
+                            else
+                                let $type := $file//t:place/@type
+                                return
+                                    <li><a
+                                            target="_blank" href="/authority-files/list?keyword={$type}">{exptit:printTitleID($type)}</a></li>
+                        }</ul>
+                else
+                    ()
+                )
+        case 'persons'
+            return
+                (if ($file//t:term/@key) then
+                    <ul
+                        class="w3-ul"
+                        label="keywords">{
+                            for $x in distinct-values($file//t:term/@key)
+                            return
+                                <li><a
+                                        target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
+                        }</ul>
+                else
+                    (),
+                if ($file//t:roleName) then
+                    <ul
+                        class="w3-ul"
+                        label="role">{
+                            for $x in ($file//t:roleName/@type)
+                            return
+                                <li><a
+                                        target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
+                        }</ul>
+                else
+                    (),
+                if ($file//t:faith) then
+                    <ul
+                        class="w3-ul"
+                        label="faith">{
+                            for $x in ($file//t:faith/@type)
+                            return
+                                <li><a
+                                        target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
+                        }</ul>
+                else
+                    (),
+                if ($file//t:occupation) then
+                    <ul
+                        class="w3-ul"
+                        label="occupation">{
+                            for $x in ($file//t:occupation/@type)
+                            return
+                                <li><a
+                                        target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
+                        }</ul>
+                else
+                    ()
+                )
+        default return
+            (if ($file//t:term/@key) then
+                <ul
+                    class="w3-ul"
+                    label="keywords">{
+                        for $x in distinct-values($file//t:term/@key)
+                        return
+                            <li><a
+                                    target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
+                    }</ul>
+            else
+                ()
+            )
+return
+    <div
+        class="w3-container"
+        id="keywordslist">
+        <h2>Keywords</h2>
+        {$options}
+    </div>
 };

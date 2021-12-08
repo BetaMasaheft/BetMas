@@ -1215,70 +1215,12 @@ return <p>Click the following link to compare a <a target="_blank" href="/compar
  declare function item2:RestSeeAlso ($this, $collection)  {
  let $file := $this
  let $id := string($this/@xml:id)
- let $classes := for $class in $this//t:term/@key return 'http://betamasaheft.eu/'||$class
- let $options := switch($collection)
-(:                   decides on the basis of the collection what is relevant to match related records :)
-                   case 'manuscripts' return
-                   (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in config:distinct-values($file//t:term/@key) return <option value="{$x}">{exptit:printTitleID($x)}</option>}</optgroup> else (),
-                   if ($file//t:supportDesc/t:material/@key) then <optgroup label="material">{for $x in ($file//t:supportDesc/t:material/@key) return <option value="{$x}">{$x}</option>}</optgroup> else (),
-                   if ($file//t:handNote[@script]/@script) then <optgroup label="script">{for $x in config:distinct-values($file//t:handNote[@script]/@script) return <option value="{$x}">{string($x)}</option>}</optgroup> else (),
-                   if ($file//t:objectDesc/@form) then <optgroup label="form">{for $x in config:distinct-values($file//t:objectDesc/@form) return <option value="{$x}">{string($x)}</option>}</optgroup> else ())
-                   case 'works' return
-                   (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in config:distinct-values($file//t:term/@key) return <option value="{$x}">{exptit:printTitleID($x)}</option>}</optgroup> else (),
-                   if ($file//t:relation[@name eq 'dcterms:creator']) then <optgroup label="author">{for $x in ($file//t:relation[@name eq 'dcterms:creator']) let $auth := string($x/@passive) return <option value="{$auth}">{exptit:printTitleID($auth)}</option>}</optgroup> else (),
-                   if ($file//t:relation[@name eq 'saws:isAttributedToAuthor']) then <optgroup label="relation">{for $x in ($file//t:relation[@name eq 'saws:isAttributedToAuthor']) let $auth := string($x/@passive) return <option value="{$auth}">{exptit:printTitleID($auth)}</option>}</optgroup> else ()
-                   )
-                    case 'narratives' return
-                   (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in config:distinct-values($file//t:term/@key) return <option value="{$x}">{exptit:printTitleID($x)}</option>}</optgroup> else (),
-                   if ($file//t:relation[@name eq 'dcterms:creator']) then <optgroup label="author">{for $x in ($file//t:relation[@name eq 'dcterms:creator']) let $auth := string($x/@passive) return <option value="{$auth}">{exptit:printTitleID($auth)}</option>}</optgroup> else (),
-                   if ($file//t:relation[@name eq 'saws:isAttributedToAuthor']) then <optgroup label="attributed author">{for $x in ($file//t:relation[@name eq 'saws:isAttributedToAuthor']) let $auth := string($x/@active) return <option value="{$auth}">{exptit:printTitleID($auth)}</option>}</optgroup> else ()
-                   )
-                   case 'places' return
-                   (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in config:distinct-values($file//t:term/@key) return <option value="{$x}">{exptit:printTitleID($x)}</option>}</optgroup> else (),
-                    if ($file//t:settlement) then <optgroup label="settlement">{for $x in $file//t:settlement/@ref return <option value="{$x}">{exptit:printTitleID($x)}</option>}</optgroup> else (),
-                   if ($file//t:region) then <optgroup label="region">{for $x in $file//t:region/@ref return <option value="{$x}">{exptit:printTitleID($x)}</option>}</optgroup> else (),
-                   if ($file//t:country) then <optgroup label="country">{for $x in $file//t:country/@ref return <option value="{$x}">{exptit:printTitleID($x)}</option>}</optgroup> else (),
-                   if ($file//t:place[@type]) then <optgroup label="type">{if(contains($file//t:place/@type, ' ')) then for $x in tokenize($file//t:place/@type, ' ')  return <option value="{$x}">{exptit:printTitleID($x)}</option> else let $type := $file//t:place/@type return <option value="{$type}">{exptit:printTitleID($type)}</option>}</optgroup> else ()
-                   )
-                   case 'institutions' return
-                   (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in config:distinct-values($file//t:term/@key) return <option value="{$x}">{exptit:printTitleID($x)}</option>}</optgroup> else (),
-                    if ($file//t:settlement) then <optgroup label="settlement">{for $x in $file//t:settlement/@ref return <option value="{$x}">{exptit:printTitleID($x)}</option>}</optgroup> else (),
-                   if ($file//t:region) then <optgroup label="region">{for $x in $file//t:region/@ref return <option value="{$x}">{exptit:printTitleID($x)}</option>}</optgroup> else (),
-                   if ($file//t:country) then <optgroup label="country">{for $x in $file//t:country/@ref return <option value="{$x}">{exptit:printTitleID($x)}</option>}</optgroup> else (),
-                   if ($file//t:place[@type]) then <optgroup label="type">{if(contains($file//t:place/@type, ' ')) then for $x in ($file//t:place/@type)  return <option value="{$x}">{exptit:printTitleID($x)}</option> else let $type := $file//t:place/@type return <option value="{$type}">{exptit:printTitleID($type)}</option>}</optgroup> else ()
-                   )
-                   case 'persons' return
-                   (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in config:distinct-values($file//t:term/@key) return <option value="{$x}">{exptit:printTitleID($x)}</option>}</optgroup> else (),
-                  if ($file//t:roleName) then <optgroup label="role">{for $x in ($file//t:roleName/@type) return <option value="{$x}">{exptit:printTitleID($x)}</option>}</optgroup> else (),
-                   if ($file//t:faith) then <optgroup label="faith">{for $x in ($file//t:faith/@type) return <option value="{$x}">{exptit:printTitleID($x)}</option>}</optgroup> else (),
-                   if ($file//t:occupation) then <optgroup label="occupation">{for $x in ($file//t:occupation/@type) return <option value="{$x}">{exptit:printTitleID($x)}</option>}</optgroup> else ()
-                   )
-                  default return (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in config:distinct-values($file//t:term/@key) return <option value="{$x}">{exptit:printTitleID($x)}</option>}</optgroup> else ()
-                   )
- return
-       <div class="{if(starts-with($id, 'INS')) then 'w3-container w3-padding' else 'w3-third w3-padding'}" id="seeAlsoForm" >
 
-{if(count($options) ge 1) then(
-       <p class="w3-large">Select one of the keywords listed from the record to see related data</p>,
-       <span typeof="{string-join($classes, ' ')}"/>,
-        <form action="" class="w3-container">
-                <div class="w3-container w3-margin-bottom">
-                    <select class="w3-select w3-border" name="seealso" id="seealsoSelector">
-                    <option>select...</option>
-                   {$options}
-                   </select>
-                    </div>
-            
-        </form>,
-     <img id="loading" src="resources/Loading.gif" style="display: none;"></img>,
-     <div id="SeeAlsoResults" class="w3-panel w3-margin w3-card-4 w3-gray">No keyword selected.</div>) else
-     <div class="w3-panel w3-margin w3-card-4 w3-gray">No keywords associated with this item yet.</div>}
+ return
+       <div class="w3-third w3-padding" id="seeAlsoForm" >         
      {if($collection='works' or $collection='narratives') then item2:RestMss($id) else ()}
      {item2:mainRels($this, $collection)}
-     <div class="w3-panel w3-margin w3-gray w3-card-4"><b>Hypothes.is public annotations pointing here</b>
-     <div id="hypothesisFeedResults" data-value="{$id}"></div>
-     <p>Use the tag <span class="w3-tag w3-red">BetMas:{$id}</span> in your public <a href="https://web.hypothes.is/">hypothes.is</a> annotations which refer to this entity.</p>
-     </div>
+   
      {if($collection = 'places' or $collection='institutions') then <div>
      <div class="w3-panel w3-margin w3-gray w3-card-4" id="pelagiosrelateditems" data-id="{$id}">
      {if($file//t:place/@sameAs) then attribute data-sameAs {string($file//t:place/@sameAs)} else ()}
@@ -1308,6 +1250,8 @@ return <p>Click the following link to compare a <a target="_blank" href="/compar
 
       };
 
+
+
 (:~ depending on the type of item sends to the correct XSLT producing the main content of the page :)
 declare function item2:RestItem($this, $collection) {
 let $document := $this
@@ -1316,7 +1260,7 @@ let $id := string($document/t:TEI/@xml:id)
   return
        <div class="w3-container " resource="http://betamasaheft.eu/{$id}" >
        {viewItem:main($document)}
-    {item2:RestSeeAlso($this, $collection)}
+    {if($collection != 'manuscripts') then item2:RestSeeAlso($this, $collection) else ()}
     </div>
 };
 

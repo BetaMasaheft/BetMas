@@ -537,7 +537,7 @@ if ($id = $Subjects) then  (try{LitFlow:Sankey($id, 'works')} catch * {$err:desc
    )
    default return
 (:   THE MAIN VIEW :)
-  (if($collection='places') then (
+  (if($collection='places' or $collection='institutions') then (
   <div class="w3-container" >
   <div 
     class="w3-half w3-padding" ><div id="entitymap" style="height: 400px"/></div>
@@ -571,29 +571,28 @@ if ($id = $Subjects) then  (try{LitFlow:Sankey($id, 'works')} catch * {$err:desc
    <div  class="w3-panel w3-red">{item2:RestMiniatures($id)}</div>
 </div>
 else ()
-   case  'institutions' return (<div 
-    class="w3-container" >   <iframe
-   style="border:none;"
-                allowfullscreen="true"
-                width="100%" 
-                height="400" 
-                src="https://peripleo.pelagios.org/embed/{encode-for-uri(concat('http://betamasaheft.eu/places/',$id))}">
-            </iframe>
-            </div>,<div id="entitymap" style="width: 100%; height: 400px"/>,
-   <script>{'var placeid = "'||$id||'"'}</script>,
-            <script  type="text/javascript" src="resources/geo/geojsonentitymap.js"></script>
-            )
+  
    default return ()
    )
    }
    <div class="w3-container w3-margin-bottom">
-   <div class="w3-container w3-padding w3-black w3-card-4 ">This page contains RDFa. 
+   <div class="w3-twothird">
+   <div class="w3-container w3-margin w3-black w3-card-4 ">This page contains RDFa. 
    <a href="/rdf/{$collection}/{$id}.rdf">RDF+XML</a> graph of this resource. Alternate representations available via <a href="/api/void/{$id}">VoID</a>.</div>
-   <div class="w3-container w3-padding w3-card-4 " id="permanentIDs{$id}" style="max-heigh:400px;overflow:auto"
+   
+   <div class="w3-container w3-margin w3-card-4 " id="permanentIDs{$id}" style="max-heigh:400px;overflow:auto"
    data-path="{restItem:capitalize-first(substring-after(base-uri($this), '/db/apps/BetMasData/'))}" 
    data-id="{$id}" data-type="{restItem:capitalize-first($collection)}"><a class="w3-btn w3-gray" id="LoadPermanentIDs{$id}">Permalinks</a></div>
-   <script  type="text/javascript" src="resources/js/permanentID.js"></script>
    
+   <script  type="text/javascript" src="resources/js/permanentID.js"></script>
+   </div>
+    <div class="w3-third">
+     <div class="w3-container w3-margin w3-gray w3-card-4"><b>Hypothes.is public annotations pointing here</b>
+     <div id="hypothesisFeedResults" data-value="{$id}"></div>
+     <p>Use the tag <span class="w3-tag w3-red">BetMas:{$id}</span> in your public <a href="https://web.hypothes.is/">hypothes.is</a> annotations which refer to this entity.</p>
+     </div>
+     </div>
+     
    </div>
   { item2:authors($this, $collection)}
    </div>

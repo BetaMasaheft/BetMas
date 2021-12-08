@@ -2858,11 +2858,17 @@ declare function q:summaryPlace($item, $id) {
 
 declare function q:summaryIns($item, $id) {
     let $fullid := ('https://betamasaheft.eu/' || $id)
+    let $mss := $q:col//t:repository[@ref = $fullid]
     return
-        <div
+       if(count($mss) ge 1) then <div
             class="w3-container">
-            There are {count($q:col//t:repository[@ref = $fullid])} items at this repository.
-        </div>
+            There are {count($mss)} 
+            <a href="/newSearch.html?searchType=text&amp;mode=any&amp;reporef={$id}"> manuscripts at this repository</a>.
+            <ul class="w3-ul">
+            {for $m in $mss
+            return <li><a target="blank" href="/{string($m/ancestor::t:TEI/@xml:id)}">{exptit:printTitle($m)}</a></li>
+            }</ul>
+        </div> else ()
 };
 
 declare function q:summaryWork($item, $id) {
@@ -3200,7 +3206,7 @@ declare function q:resultslinkstoviews($t, $id, $collection) {
                         (<a
                             role="button"
                             class="w3-button w3-small w3-gray"
-                            href="/manuscripts/{$id}/list">manuscripts</a>)
+                            href="/newSearch.html?searchType=text&amp;mode=any&amp;reporef={$id}">manuscripts</a>)
                 case 'place'
                     return
                         (<a
