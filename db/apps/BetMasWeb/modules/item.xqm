@@ -330,13 +330,16 @@ case 'manuscripts' return
             let $repodoc := $apprest:collection-rootIn/id($repo)
              let $repoplace := if ($repodoc//t:settlement[1]/@ref) then exptit:printTitleID($repodoc//t:settlement[1]/@ref) else if ($repodoc//t:settlement[1]/text()) then $repodoc//t:settlement[1]/text() else if ($repodoc//t:country[1]/@ref) then exptit:printTitleID($repodoc//t:country[1]/@ref) else ()
 return
-            <a target="_blank" 
-            href="/manuscripts/{$repo}/list" 
+            (<a target="_blank" 
+            href="/newSearch.html?searchType=text&amp;mode=any&amp;reporef={replace($repo, concat($config:appUrl, '/'), '')}" 
             role="button"
             class="w3-tag w3-gray w3-large w3-margin-top" 
             property="http://www.cidoc-crm.org/cidoc-crm/P55_has_current_location" 
-            resource="http://betamasaheft.eu/{$repo}">{if($repoplace) then ($repoplace, ', ') else ()}
-                   {exptit:printTitleID($repo) }</a>
+            resource="{$repo}">{if($repoplace) then ($repoplace, ', ') else ()}
+                   {distinct-values($this//t:repository/text())}</a>,
+                  <a target="_blank" 
+            href="{replace($repo, $config:appUrl, '')}">
+                   <sup>[view repository]</sup></a>)   
                   }
 
 

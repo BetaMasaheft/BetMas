@@ -1705,7 +1705,7 @@ let $data :=
 order by $sorting
 return
     <tr>
-    <td><a href="/newSearch.html?biblref={$catalogue}" class="lead">{$data}</a></td>
+    <td><a href="/newSearch.html?searchType=text&amp;mode=any&amp;biblref={$catalogue}" class="lead">{$data}</a></td>
     <td><span class="w3-badge">{$count}</span></td>
     </tr>
     }

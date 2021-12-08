@@ -238,7 +238,7 @@ else
                                        <dispatch
                                             xmlns="http://exist.sourceforge.net/NS/exist">
                                             <redirect
-                                                url="/newSearch.html?searchType=text&amp;mode=any&amp;type=mss"
+                                                url="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=mss"
                                                 absolute="yes"/>
                                         </dispatch>
                                           else
@@ -246,7 +246,7 @@ else
                                        <dispatch
                                             xmlns="http://exist.sourceforge.net/NS/exist">
                                             <redirect
-                                                url="/newSearch.html?searchType=text&amp;mode=any&amp;type=place&amp;type=ins"
+                                                url="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=place&amp;work-types=ins"
                                                 absolute="yes"/>
                                         </dispatch>
                                          else
@@ -254,7 +254,7 @@ else
                                        <dispatch
                                             xmlns="http://exist.sourceforge.net/NS/exist">
                                             <redirect
-                                                url="/newSearch.html?searchType=text&amp;mode=any&amp;type=ins"
+                                                url="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=ins"
                                                 absolute="yes"/>
                                         </dispatch>
                                         else
@@ -262,7 +262,7 @@ else
                                        <dispatch
                                             xmlns="http://exist.sourceforge.net/NS/exist">
                                             <redirect
-                                                url="/newSearch.html?searchType=text&amp;mode=any&amp;type=nar"
+                                                url="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=nar"
                                                 absolute="yes"/>
                                         </dispatch>
                                          else
@@ -270,7 +270,7 @@ else
                                        <dispatch
                                             xmlns="http://exist.sourceforge.net/NS/exist">
                                             <redirect
-                                                url="/newSearch.html?searchType=text&amp;mode=any&amp;type=work"
+                                                url="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=work"
                                                 absolute="yes"/>
                                         </dispatch>
                                         else
@@ -278,7 +278,7 @@ else
                                        <dispatch
                                             xmlns="http://exist.sourceforge.net/NS/exist">
                                             <redirect
-                                                url="/newSearch.html?searchType=text&amp;mode=any&amp;type=studies"
+                                                url="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=studies"
                                                 absolute="yes"/>
                                         </dispatch>
 (:                            redirect /institutions/INSid/main to /newSearch?type=mss&amp;reporef=INSid ?? :)
