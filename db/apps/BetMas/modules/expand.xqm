@@ -202,6 +202,7 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
                         xmlns="http://www.tei-c.org/ns/1.0">{
                             $node/@type, $node/@xml:lang, $node/@xml:id,
                             expand:tei2fulltei($node/t:teiHeader, $bibliography),
+                            if(count($node//t:listRelation) ge 1) then
                             <standOff
                                 xmlns="http://www.tei-c.org/ns/1.0">
                                 <listRelation>
@@ -211,7 +212,7 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
                                             expand:tei2fulltei($relations/node(), $bibliography)
                                     }
                                 </listRelation>
-                            </standOff>,
+                            </standOff> else (),
                             expand:tei2fulltei($node/t:facsimile, $bibliography),
                             expand:tei2fulltei($node/t:text, $bibliography)
                         }</TEI>
@@ -266,11 +267,11 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
                 return
                     <titleStmt
                         xmlns="http://www.tei-c.org/ns/1.0">
-                        <title type="full">{try{titles:printTitleMainID(string($node/ancestor::t:TEI/@xml:id))} catch * {util:log('INFO', concat('no full title added for ', string($node/ancestor::t:TEI/@xml:id)))}}</title>
+                        <title type="full">{try{titles:printTitleMainID(string($node/ancestor-or-self::t:TEI/@xml:id))} catch * {util:log('INFO', concat('no full title added for ', string($node/ancestor-or-self::t:TEI/@xml:id)))}}</title>
                         {expand:tei2fulltei($node/node(), $bibliography)}
                         {
                             let $ekeys := $node//t:editor/@key
-                            let $cwhos := $node/ancestor::t:TEI//t:change/@who
+                            let $cwhos := $node/ancestor-or-self::t:TEI//t:change/@who
                             for $resp in distinct-values($cwhos[not(. = $ekeys)])
                             return
                                 <respStmt
@@ -379,14 +380,14 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
                         else
                             (),
                         if ( $node[not(text())] and $node/@corresp and $node/@type) then
-                        let $corrnode := $node/ancestor::t:TEI/id($node/@corresp) 
+                        let $corrnode := $node/ancestor-or-self::t:TEI/id($node/@corresp) 
                         return
                             if ($corrnode) then
-                                let $buildID := titles:printTitleMainID($node/ancestor::t:TEI/@xml:id) || ' element '|| $corrnode/name()|| ' with id ' || string($node/@corresp)
+                                let $buildID := titles:printTitleMainID($node/ancestor-or-self::t:TEI/@xml:id) || ' element '|| $corrnode/name()|| ' with id ' || string($node/@corresp)
                                 return
                                     $buildID
                            else if (starts-with($node/@corresp, '#')) then
-                                let $buildID := titles:printTitleMainID($node/ancestor::t:TEI/@xml:id) || ' id ' || string($node/@corresp)
+                                let $buildID := titles:printTitleMainID($node/ancestor-or-self::t:TEI/@xml:id) || ' id ' || string($node/@corresp)
                                 return
                                     $buildID
                             else
@@ -473,7 +474,7 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
                                 'F'
                             let $fFornot := if (($node/preceding-sibling::element())[1]/name() = 'locus') then
                                 'x'
-                                else if ($node/ancestor::t:TEI//t:extent/t:measure[@unit = 'page']) then 'pp'
+                                else if ($node/ancestor-or-self::t:TEI//t:extent/t:measure[@unit = 'page']) then 'pp'
                             else
                                 if (($node/following-sibling::element())[1]/name() = 'locus') then
                                     ($fF || 'ols')
@@ -564,7 +565,7 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
                                     else    if (starts-with($mainFacs, '#')) then
                                         $mainFacs
                                     else
-                                        concat($expand:BMurl, 'api/iiif/', $node/ancestor::t:TEI/@xml:id/data(), '/manifest')
+                                        concat($expand:BMurl, 'api/iiif/', $node/ancestor-or-self::t:TEI/@xml:id/data(), '/manifest')
                                 }
                         else
                             (),
@@ -632,15 +633,15 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
 };
 
 declare function expand:dateidno($node){
-let $id := string($node/ancestor::t:TEI/@xml:id)
+let $id := string($node/ancestor-or-self::t:TEI/@xml:id)
 (:let $log := util:log('INFO', $id):)
 return 
 (<date xmlns="http://www.tei-c.org/ns/1.0" type="expanded">{current-dateTime()}</date>,
-let $time := max($node/ancestor::t:TEI//t:revisionDesc/t:change/xs:date(@when))
+let $time := max($node/ancestor-or-self::t:TEI//t:revisionDesc/t:change/xs:date(@when))
 return
 (<date xmlns="http://www.tei-c.org/ns/1.0" type="lastModified">{format-date($time, '[D].[M].[Y]')}</date>
 ,
-let $col := switch2:col($node/ancestor::t:TEI/@type) return
+let $col := switch2:col($node/ancestor-or-self::t:TEI/@type) return
 (<idno xmlns="http://www.tei-c.org/ns/1.0" type="collection">{$col}</idno>,
 <idno xmlns="http://www.tei-c.org/ns/1.0" type="url">https://betamasaheft.eu/{$col}/{$id}</idno>),
 <idno xmlns="http://www.tei-c.org/ns/1.0" type="URI">https://betamasaheft.eu/{$id}</idno>, 
@@ -687,7 +688,7 @@ declare function expand:attributes($node, $bibliography) {
     element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
         ($node/@*[not(name() = 'corresp')][not(name() = 'resp')][not(name() = 'who')][not(name() = 'ref')][not(name() = 'sameAs')][not(name() = 'calendar')],
         if ($node/@corresp) then
-            attribute corresp {$expand:BMurl || (if(starts-with($node/@corresp, '#')) then string($node/ancestor::t:TEI/@xml:id) || string($node/@corresp) else string($node/@corresp))}
+            attribute corresp {$expand:BMurl || (if(starts-with($node/@corresp, '#')) then string($node/ancestor-or-self::t:TEI/@xml:id) || string($node/@corresp) else string($node/@corresp))}
         else
             (),
         if ($node/@calendar) then
@@ -788,7 +789,7 @@ else
 };
 
 declare function expand:biblCorrTok($corresp, $node){
-let $c :=if(starts-with($corresp, '#')) then concat($node/ancestor::t:TEI/@xml:id, $corresp) else string($corresp) 
+let $c :=if(starts-with($corresp, '#')) then concat($node/ancestor-or-self::t:TEI/@xml:id, $corresp) else string($corresp) 
 let $anchor := if(starts-with($corresp, '#')) then substring-after($corresp, '#') else string($corresp)
 let $anchornode := $node/id($anchor)
 let $listWit := if ($anchornode/name() = 'listWit') then for $witness in $anchornode return titles:printTitleID($witness/@corresp) else ()
