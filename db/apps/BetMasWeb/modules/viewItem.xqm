@@ -6579,10 +6579,10 @@ declare function viewItem:keywords($file, $collection) {
                 ()
             )
 return
-    <div
+    if(count($options) gt 1) then <div
         class="w3-container"
         id="keywordslist">
         <h2>Keywords</h2>
         {$options}
-    </div>
+    </div> else ()
 };

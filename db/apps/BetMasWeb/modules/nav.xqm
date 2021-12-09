@@ -129,7 +129,7 @@ declare function nav:barNew() {
                                 <a
                                     class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                                     data-value="manuscriptsearch"
-                                    href="/newSearch.html?searchType=text&amp;mode=any&amp;type=mss">Manuscripts (search)</a>
+                                    href="/newSearch.html?searchType=text&amp;mode=any&amp;works-type=mss">Manuscripts (search)</a>
                                 <a
                                     class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                                     data-value="imagesviewer"

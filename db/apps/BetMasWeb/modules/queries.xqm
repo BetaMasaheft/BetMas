@@ -347,7 +347,7 @@ like the facet, simple and advanced searches :)
                 q:bmid($q)
                 (:                default is a search for the empty string, returning all data...:)
         default return
-           q:text($q, $params)
+            q:text($q, $params)
 };
 
 
@@ -402,7 +402,7 @@ declare function q:displayQtime($node as node()*, $model as map(*)) {
 
 declare function q:bmid($q) {
     let $TEI := $q:col//t:TEI[contains(@xml:id, $q)]
-       
+    
     return
         map {
             'tei': $TEI,
@@ -418,7 +418,7 @@ declare function q:otherclavis($q) {
     else
         "[descendant::t:bibl[@type eq '" || $clavisType || "'][t:citedRange eq '" || $q || "']]"
     let $path := '$q:col//t:TEI[@type="work"]' || $selector
-   let $allTEI:=  util:eval($path)
+    let $allTEI := util:eval($path)
     return
         map {
             'tei': $allTEI,
@@ -541,37 +541,38 @@ declare function q:ListQueryParam-rest($parameter, $context, $mode, $function) {
                 "descendant::" || $context || " eq '" || $k || "'"
             return
                 "[" || string-join($all, ' or ') || "]"
-                
-        else  if ($function = 'id')
-        then
-            let $all := for $k in $keys
-            return
-                "contains(descendant::" || $context || " , '" || $k || "')"
-            return
-                "[" || string-join($all, ' or ') || "]"
         
         else
-            if ($function = 'range')
+            if ($function = 'id')
             then
                 let $all := for $k in $keys
                 return
-                    "descendant::" || $context || "[. = '" || $k || "']"
+                    "contains(descendant::" || $context || " , '" || $k || "')"
                 return
                     "[" || string-join($all, ' or ') || "]"
+            
             else
-                (:search:)
-                let $limit := for $k in $parameter
-                return
-                    "descendant::" || $context || "[ft:query(.,'" || $k || "')] "
-                return
-                    "[" || string-join($limit, ' or ') || "]"
+                if ($function = 'range')
+                then
+                    let $all := for $k in $keys
+                    return
+                        "descendant::" || $context || "[. = '" || $k || "']"
+                    return
+                        "[" || string-join($all, ' or ') || "]"
+                else
+                    (:search:)
+                    let $limit := for $k in $parameter
+                    return
+                        "descendant::" || $context || "[ft:query(.,'" || $k || "')] "
+                    return
+                        "[" || string-join($limit, ' or ') || "]"
 
 
 };
 
 (:~ produces a piece of xpath for the query if the input is a range    :)
 declare function q:paramrange($par, $path as xs:string) {
-(:let $t := util:log('info', $par)
+    (:let $t := util:log('info', $par)
 let $t2 := util:log('info', $path):)
     let $from := substring-before($par, ',')
     let $to := substring-after($par, ',')
@@ -597,11 +598,12 @@ declare %private function q:par-works-type($work-type) {
     return
         if ($w = 'eth') then
             '@type="pers"][starts-with(@xml:id, "' || upper-case($w) || '")'
-(:            IGNORES IHA in searches limited to works :)
-      else if ($w = 'work') then
-            '@type="work"][not(ends-with(@xml:id, "IHA"))'
+            (:            IGNORES IHA in searches limited to works :)
         else
-            '@type="' || $w || '"'
+            if ($w = 'work') then
+                '@type="work"][not(ends-with(@xml:id, "IHA"))'
+            else
+                '@type="' || $w || '"'
     return
         '[' || string-join($types, ' or ') || ']'
 };
@@ -794,12 +796,12 @@ declare %private function q:images($r) {
 
 (:returns a string of arguments to be appended to the main query context:)
 declare function q:parameters2arguments($params) {
-   (:   let $test := util:log('info', string-join($params, ' 
+    (:   let $test := util:log('info', string-join($params, ' 
     ')):)
     let $args := for $p in $params
-(:     let $t := util:log('info', $p):)
+    (:     let $t := util:log('info', $p):)
     let $r := q:parrequest($p)
-(:      let $t2 := util:log('info', $r):)
+    (:      let $t2 := util:log('info', $r):)
     return
         if (ends-with($p, '-field') or ends-with($p, '-facet')) then
             ()
@@ -951,7 +953,7 @@ names are those of the indexes where the filter is built directly from there, ot
                     case 'countrytext'
                         return
                             q:ListQueryParam-rest($r, 't:country/@ref', 'any', 'range')
-                             case 'regiontext'
+                    case 'regiontext'
                         return
                             q:ListQueryParam-rest($r, 't:region/@ref', 'any', 'range')
                     case 'settlementtext'
@@ -975,69 +977,69 @@ names are those of the indexes where the filter is built directly from there, ot
                     case 'decoNtype'
                         return
                             q:ListQueryParam-rest($r, "t:decoDesc/@type", 'any', 'list')
-                             case 'desctype'
+                    case 'desctype'
                         return
                             q:ListQueryParam-rest($r, "t:desc/@type", 'any', 'list')
-                               case 'itemtype'
+                    case 'itemtype'
                         return
                             q:ListQueryParam-rest($r, "t:item/t:desc/@type", 'any', 'list')
-                            
-                                 case 'explicit-type'
+                    
+                    case 'explicit-type'
                         return
                             q:ListQueryParam-rest($r, "t:explicit/@type", 'any', 'list')
-                            case 'incipit-type'
+                    case 'incipit-type'
                         return
                             q:ListQueryParam-rest($r, "t:incipit/@type", 'any', 'list')
-                               case 'colophon-type'
+                    case 'colophon-type'
                         return
                             q:ListQueryParam-rest($r, "t:colophon/@type", 'any', 'list')
-                            case 'translator'
+                    case 'translator'
                         return
                             q:ListQueryParam-rest($r, "t:persName[@role='translator']/@ref", 'any', 'list')
-                            case 'sponsor'
+                    case 'sponsor'
                         return
                             q:ListQueryParam-rest($r, "t:persName[@role='sponsor']/@ref", 'any', 'list')
-                             case 'scribe'
+                    case 'scribe'
                         return
-                            q:ListQueryParam-rest($r, "t:persName[@role='scribe']/@ref", 'any', 'list') 
-                            case 'presentCustodian'
+                            q:ListQueryParam-rest($r, "t:persName[@role='scribe']/@ref", 'any', 'list')
+                    case 'presentCustodian'
                         return
                             q:ListQueryParam-rest($r, "t:persName[@role='presentCustodian']/@ref", 'any', 'list')
-                             case 'patron'
+                    case 'patron'
                         return
-                            q:ListQueryParam-rest($r, "t:persName[@role='patron']/@ref", 'any', 'list') 
-                            case 'owner'
+                            q:ListQueryParam-rest($r, "t:persName[@role='patron']/@ref", 'any', 'list')
+                    case 'owner'
                         return
-                            q:ListQueryParam-rest($r, "t:persName[@role='owner']/@ref", 'any', 'list') 
-                            case 'other'
+                            q:ListQueryParam-rest($r, "t:persName[@role='owner']/@ref", 'any', 'list')
+                    case 'other'
                         return
                             q:ListQueryParam-rest($r, "t:persName[@role='other']/@ref", 'any', 'list')
-                             case 'mainCollector'
+                    case 'mainCollector'
                         return
                             q:ListQueryParam-rest($r, "t:persName[@role='mainCollector']/@ref", 'any', 'list')
-                             case 'illustrator'
+                    case 'illustrator'
                         return
                             q:ListQueryParam-rest($r, "t:persName[@role='illustrator']/@ref", 'any', 'list')
-                             case 'bequeather'
+                    case 'bequeather'
                         return
-                            q:ListQueryParam-rest($r, "t:persName[@role='bequeather']/@ref", 'any', 'list')  
-                            case 'author'
+                            q:ListQueryParam-rest($r, "t:persName[@role='bequeather']/@ref", 'any', 'list')
+                    case 'author'
                         return
                             q:ListQueryParam-rest($r, "t:persName[@role='author']/@ref", 'any', 'list')
-                             case 'donor'
+                    case 'donor'
                         return
                             q:ListQueryParam-rest($r, "t:persName[@role='donor']/@ref", 'any', 'list')
-                             case 'columnsNum'
+                    case 'columnsNum'
                         return
                             q:ListQueryParam-rest($r, "t:layout/@columns", 'any', 'list')
-                            case 'repositorytext'
+                    case 'repositorytext'
                         return
                             q:ListQueryParam-rest($r, "t:repository", 'any', 'list')
-(: parameters not provided in filter search:)
-   case 'reporef'
+                            (: parameters not provided in filter search:)
+                    case 'reporef'
                         return
                             q:ListQueryParam-rest($r, "t:repository/@ref", 'any', 'id')
-   case 'biblref'
+                    case 'biblref'
                         return
                             q:ListQueryParam-rest($r, "t:listBibl[@type='catalogue']/t:bibl/t:ptr/@target", 'any', 'id')
                     default return
@@ -1051,30 +1053,36 @@ return
 };
 
 declare function q:text($q, $params) {
-(:    let $test := util:log('info', $q:allopts):)
+    (:    let $test := util:log('info', $q:allopts):)
     let $qscheck := q:querystring($q, $q:mode)
-    let $qs := if ($qscheck='' or $qscheck=' ') then () else $qscheck
+    let $qs := if ($qscheck = '' or $qscheck = ' ') then
+        ()
+    else
+        $qscheck
     let $querycontext := '$q:col//t:TEI'
     let $ftquery := '[ft:query(., $qs, $q:allopts)]'
     let $parmstoquery := q:parameters2arguments($params)
     let $querytext := concat($querycontext, $parmstoquery, $ftquery)
-(:    let $test2 := util:log('info', $querytext):)
-    let $query :=   util:eval($querytext)
-(:    <TEI></TEI> :)
-  
-   let $allTEI :=
+    (:    let $test2 := util:log('info', $querytext):)
+    let $query := util:eval($querytext)
+    (:    <TEI></TEI> :)
+    
+    let $allTEI :=
     if ($q:sort = '')
     then
         for $r in $query
         let $matchcount := ft:score($r)
+        let $title := q:sortingkey($r//t:title[@type = 'full'])
+         let $t := util:log('info', $title)
             order by $matchcount descending
             group by $TEI := $r
+            order by $title[1]
         return
             $TEI
     else
         for $r in $query
             group by $TEI := $r
-        let $title := q:sortingkey($TEI//t:titleStmt/t:title[1]/text())
+        let $title := q:sortingkey($TEI//t:title[@type = 'full'])
         let $sort := q:enrichScore($TEI)
             order by $sort descending
         return
@@ -1112,7 +1120,11 @@ WHERE {
         console:log($err:description)
     }
     return
-        try{$query//sr:binding/sr:literal/text()} catch * {util:log('info', $err:description)}
+        try {
+            $query//sr:binding/sr:literal/text()
+        } catch * {
+            util:log('info', $err:description)
+        }
 };
 
 declare function q:gettranslit($sequenceoftokens) {
@@ -1232,10 +1244,12 @@ declare function q:cleanquery($query-string) {
 
 declare function q:querystring($query-string, $mode as xs:string*) {
     let $query-string := q:cleanquery($query-string)
-    let $fields := for $parm in $q:params[ends-with(., '-field')][not(contains(., '-operator-'))] return request:get-parameter($parm, ())
-(:    let $t := util:log('info', count($fields[.!=''])):)
+    let $fields := for $parm in $q:params[ends-with(., '-field')][not(contains(., '-operator-'))]
     return
-        if (count($fields[.!='']) !=0)
+        request:get-parameter($parm, ())
+        (:    let $t := util:log('info', count($fields[.!=''])):)
+    return
+        if (count($fields[. != '']) != 0)
         then
             q:create-field-query($query-string, $mode)
         else
@@ -2495,7 +2509,7 @@ declare function q:resultswithmatch($text, $p) {
     
     let $queryText := request:get-parameter('query', ())
     
-    let $expanded := kwic:expand($text) 
+    let $expanded := kwic:expand($text)
     let $firstancestorwithID := ($expanded//exist:match/(ancestor::t:*[(@xml:id | @n)] | ancestor::t:text))[last()]
     let $firstancestorwithIDid := $firstancestorwithID/string(@xml:id)
     let $view := if ($firstancestorwithID[ancestor-or-self::t:text]) then
@@ -2657,7 +2671,8 @@ declare function q:resultswithoutmatch($text, $p) {
                                 q:resultitemlinks($collection, $item, $id, $root, $text)
                         }
                     </div>
-                    <div class="w3-row">{q:summary($item)}</div>
+                    <div
+                        class="w3-row">{q:summary($item)}</div>
                 
                 </div>
                 <div
@@ -2863,15 +2878,24 @@ declare function q:summaryIns($item, $id) {
     let $fullid := ('https://betamasaheft.eu/' || $id)
     let $mss := $q:col//t:repository[@ref = $fullid]
     return
-       if(count($mss) ge 1) then <div
-            class="w3-container">
-            There are {count($mss)} 
-            <a href="/newSearch.html?searchType=text&amp;mode=any&amp;reporef={$id}"> manuscripts at this repository</a>.
-            <ul class="w3-ul">
-            {for $m in $mss
-            return <li><a target="blank" href="/{string($m/ancestor::t:TEI/@xml:id)}">{exptit:printTitle($m)}</a></li>
-            }</ul>
-        </div> else ()
+        if (count($mss) ge 1) then
+            <div
+                class="w3-container">
+                There are {count($mss)}
+                <a
+                    href="/newSearch.html?searchType=text&amp;mode=any&amp;reporef={$id}"> manuscripts at this repository</a>.
+                <ul
+                    class="w3-ul">
+                    {
+                        for $m in $mss
+                        return
+                            <li><a
+                                    target="blank"
+                                    href="/{string($m/ancestor::t:TEI/@xml:id)}">{exptit:printTitle($m)}</a></li>
+                    }</ul>
+            </div>
+        else
+            ()
 };
 
 declare function q:summaryWork($item, $id) {
@@ -3095,83 +3119,86 @@ declare function q:resultitemlinks($collection, $item, $id, $root, $text) {
             }</b></a>,
     <br/>
     ,
-    if($q:searchType= 'clavis') then () else (
-    if ($text//t:facsimile/t:graphic/@url)
-    then
-        <a
-            target="_blank"
-            href="{$text//t:facsimile/t:graphic/@url}">Link to images</a>
-    
+    if ($q:searchType = 'clavis') then
+        ()
     else
-        if ($text//t:msIdentifier/t:idno[@facs]) then
+        (
+        if ($text//t:facsimile/t:graphic/@url)
+        then
             <a
                 target="_blank"
-                href="/manuscripts/{$id}/viewer">{
-                    if ($text//t:collection = 'Ethio-SPaRe')
-                    then
-                        <img
-                            src="{$config:appUrl || '/iiif/' || string(($text//t:msIdentifier)[1]/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}"
-                            class="thumb w3-image"/>
-                        (:laurenziana:)
-                    else
-                        if ($text//t:repository[ends-with(@ref , 'INS0339BML')])
-                        then
-                            <img
-                                src="{$config:appUrl || '/iiif/' || string($text//t:msIdentifier/t:idno/@facs) || '005.tif/full/140,/0/default.jpg'}"
-                                class="thumb w3-image"/>
-                            
-                            (:          
-EMIP:)
-                        else
-                            if (($text//t:collection = 'EMIP') and $text//t:msIdentifier/t:idno/@n)
-                            then
-                                <img
-                                    src="{$config:appUrl || '/iiif/' || string(($text//t:msIdentifier)[1]/t:idno/@facs) || '001.tif/full/140,/0/default.jpg'}"
-                                    class="thumb w3-image"/>
-                                
-                                (:BNF:)
-                            else
-                                if ($text//t:repository[ends-with(@ref, 'INS0303BNF')])
-                                then
-                                    <img
-                                        src="{replace($text//t:msIdentifier/t:idno/@facs, 'ark:', 'iiif/ark:') || '/f1/full/140,/0/native.jpg'}"
-                                        class="thumb w3-image"/>
-                                    (:           vatican :)
-                                else
-                                    if ($text//t:msIdentifier/t:idno[contains(@facs, 'digi.vat')]) then
-                                        <img
-                                            src="{
-                                                    replace(substring-before($text//t:msIdentifier/t:idno/@facs, '/manifest.json'), 'iiif', 'pub/digit') || '/thumb/'
-                                                    ||
-                                                    substring-before(substring-after($text//t:msIdentifier/t:idno/@facs, 'MSS_'), '/manifest.json') ||
-                                                    '_0001.tif.jpg'
-                                                }"
-                                            class="thumb w3-image"/>
-                                        (:                bodleian:)
-                                    else
-                                        if ($text//t:msIdentifier/t:idno[contains(@facs, 'bodleian')]) then
-                                            ('images')
-                                            
-                                            else
-                                        if ($text//t:msIdentifier/t:idno[contains(@facs, 'staatsbibliothek-berlin')]) then
-                                            (
-                                           (: https://content.staatsbibliothek-berlin.de/dc/1751174670/manifest
-                                            https:\/\/content.staatsbibliothek-berlin.de\/dc\/1751174670-0001\/full\/full\/0\/default.jpg:)
-                                            <img
-                                            src="{
-                                                    replace($text//t:msIdentifier/t:idno/@facs, '/manifest', '-0001/full/140,/0/default.jpg')
-                                                }"
-                                            class="thumb w3-image"/>
-                                            )
-                                        else
-                                            (<img
-                                                src="{$config:appUrl || '/iiif/' || string(($text//t:msIdentifier/t:idno)[1]/@facs) || '_001.tif/full/140,/0/default.jpg'}"
-                                                class="thumb w3-image"/>)
-                }</a>
+                href="{$text//t:facsimile/t:graphic/@url}">Link to images</a>
         
         else
-            ()
-    )
+            if ($text//t:msIdentifier/t:idno[@facs]) then
+                <a
+                    target="_blank"
+                    href="/manuscripts/{$id}/viewer">{
+                        if ($text//t:collection = 'Ethio-SPaRe')
+                        then
+                            <img
+                                src="{$config:appUrl || '/iiif/' || string(($text//t:msIdentifier)[1]/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}"
+                                class="thumb w3-image"/>
+                            (:laurenziana:)
+                        else
+                            if ($text//t:repository[ends-with(@ref, 'INS0339BML')])
+                            then
+                                <img
+                                    src="{$config:appUrl || '/iiif/' || string($text//t:msIdentifier/t:idno/@facs) || '005.tif/full/140,/0/default.jpg'}"
+                                    class="thumb w3-image"/>
+                                
+                                (:          
+EMIP:)
+                            else
+                                if (($text//t:collection = 'EMIP') and $text//t:msIdentifier/t:idno/@n)
+                                then
+                                    <img
+                                        src="{$config:appUrl || '/iiif/' || string(($text//t:msIdentifier)[1]/t:idno/@facs) || '001.tif/full/140,/0/default.jpg'}"
+                                        class="thumb w3-image"/>
+                                    
+                                    (:BNF:)
+                                else
+                                    if ($text//t:repository[ends-with(@ref, 'INS0303BNF')])
+                                    then
+                                        <img
+                                            src="{replace($text//t:msIdentifier/t:idno/@facs, 'ark:', 'iiif/ark:') || '/f1/full/140,/0/native.jpg'}"
+                                            class="thumb w3-image"/>
+                                        (:           vatican :)
+                                    else
+                                        if ($text//t:msIdentifier/t:idno[contains(@facs, 'digi.vat')]) then
+                                            <img
+                                                src="{
+                                                        replace(substring-before($text//t:msIdentifier/t:idno/@facs, '/manifest.json'), 'iiif', 'pub/digit') || '/thumb/'
+                                                        ||
+                                                        substring-before(substring-after($text//t:msIdentifier/t:idno/@facs, 'MSS_'), '/manifest.json') ||
+                                                        '_0001.tif.jpg'
+                                                    }"
+                                                class="thumb w3-image"/>
+                                            (:                bodleian:)
+                                        else
+                                            if ($text//t:msIdentifier/t:idno[contains(@facs, 'bodleian')]) then
+                                                ('images')
+                                            
+                                            else
+                                                if ($text//t:msIdentifier/t:idno[contains(@facs, 'staatsbibliothek-berlin')]) then
+                                                    (
+                                                    (: https://content.staatsbibliothek-berlin.de/dc/1751174670/manifest
+                                            https:\/\/content.staatsbibliothek-berlin.de\/dc\/1751174670-0001\/full\/full\/0\/default.jpg:)
+                                                    <img
+                                                        src="{
+                                                                replace($text//t:msIdentifier/t:idno/@facs, '/manifest', '-0001/full/140,/0/default.jpg')
+                                                            }"
+                                                        class="thumb w3-image"/>
+                                                    )
+                                                else
+                                                    (<img
+                                                        src="{$config:appUrl || '/iiif/' || string(($text//t:msIdentifier/t:idno)[1]/@facs) || '_001.tif/full/140,/0/default.jpg'}"
+                                                        class="thumb w3-image"/>)
+                    }</a>
+            
+            else
+                ()
+        )
     ,
     if ($collection = 'works' and (contains($q:searchType, 'clavis'))) then
         
@@ -3397,7 +3424,7 @@ declare function q:elements($node as node(), $model as map(*)) {
 
 
 declare function q:rangeindexlabel($nodeName) {
-    $q:paramargs/rangeindex[@name=$nodeName]/@label/string()   
+    $q:paramargs/rangeindex[@name = $nodeName]/@label/string()
 };
 
 declare function q:rangeindexlookup($rangeindexname) {
@@ -3445,77 +3472,77 @@ let $t2 := util:log('info', $count):)
 };
 
 declare function q:formatOption($rangeindexname, $key, $count) {
-let $keywordsindexes := $q:paramargs/rangeindex[@keywords='yes']/@name/string()
-return
-    if ($rangeindexname = 'ident')
-    then
-        <option
-            value="{$key}">{$q:languages//id($key)/text()} ({$count[2]})</option>
-    else
-        if ($rangeindexname = 'changewho')
+    let $keywordsindexes := $q:paramargs/rangeindex[@keywords = 'yes']/@name/string()
+    return
+        if ($rangeindexname = 'ident')
         then
             <option
-                value="{$key}">{editors:editorKey(substring-after($key, '#'))} ({$count[2]})</option>
-        
+                value="{$key}">{$q:languages//id($key)/text()} ({$count[2]})</option>
         else
-            if (starts-with($key, 'https://betamasaheft.eu/'))
+            if ($rangeindexname = 'changewho')
             then
-                let $id := replace($key, 'https://betamasaheft.eu/', '')
-                let $title := ($q:lists//t:item[@xml:id = $id] | $q:lists//t:item[@corresp = $id])/text()
-                let $titlesel := if ($title) then
-                    $title
-                else
-                    try {
-                        exptit:printTitleID($id)
-                    } catch * {
-                        util:log('INFO', $err:description)
-                    }
-                return
-                    <option
-                        value="{$key}">{normalize-space($titlesel)} ({$count[2]})</option>
+                <option
+                    value="{$key}">{editors:editorKey(substring-after($key, '#'))} ({$count[2]})</option>
+            
             else
-                if (starts-with($key, '#'))
+                if (starts-with($key, 'https://betamasaheft.eu/'))
                 then
-                    let $id := replace($key, '#', '')
-                    let $t := $q:lists//t:item[@xml:id = $id]
-                    let $title := string-join($t/text())
+                    let $id := replace($key, 'https://betamasaheft.eu/', '')
+                    let $title := ($q:lists//t:item[@xml:id = $id] | $q:lists//t:item[@corresp = $id])/text()
+                    let $titlesel := if ($title) then
+                        $title
+                    else
+                        try {
+                            exptit:printTitleID($id)
+                        } catch * {
+                            util:log('INFO', $err:description)
+                        }
                     return
                         <option
-                            value="{$key}">{normalize-space($title)} ({$count[2]})</option>
+                            value="{$key}">{normalize-space($titlesel)} ({$count[2]})</option>
                 else
-                    if ($rangeindexname = $keywordsindexes) then
-                    let $k := string($key)
-                        let $cat := $q:tax/id($k)[self::t:category]
+                    if (starts-with($key, '#'))
+                    then
+                        let $id := replace($key, '#', '')
+                        let $t := $q:lists//t:item[@xml:id = $id]
+                        let $title := string-join($t/text())
                         return
                             <option
-                                value="{$key}">{$cat/t:catDesc/text()} 
-                                ({$count[2]})</option>
+                                value="{$key}">{normalize-space($title)} ({$count[2]})</option>
                     else
-                        if ($rangeindexname = 'sex') then
+                        if ($rangeindexname = $keywordsindexes) then
+                            let $k := string($key)
+                            let $cat := $q:tax/id($k)[self::t:category]
+                            return
+                                <option
+                                    value="{$key}">{$cat/t:catDesc/text()}
+                                    ({$count[2]})</option>
+                        else
+                            if ($rangeindexname = 'sex') then
+                                <option
+                                    value="{$key}">{
+                                        switch ($key)
+                                            case '1'
+                                                return
+                                                    'Male'
+                                            default return
+                                                'Female'
+                                } ({$count[2]})</option>
+                        else
                             <option
-                                value="{$key}">{
-                                    switch ($key)
-                                        case '1'
-                                            return
-                                                'Male'
-                                        default return
-                                            'Female'
-                            } ({$count[2]})</option>
-                    else
-                        <option
-                            value="{$key}">{$key} ({$count[2]})</option>
+                                value="{$key}">{$key} ({$count[2]})</option>
 };
 
 
 declare function q:generalRangeIndexesFilters($node as node(), $model as map(*)) {
-    let $indexnames := $q:paramargs/rangeindex[@form='g']/@name/string()
+    let $indexnames := $q:paramargs/rangeindex[@form = 'g']/@name/string()
     return
         q:datalist($indexnames)
 };
 
 declare function q:MssRangeIndexesFilters($node as node(), $model as map(*)) {
-    let $indexnames := $q:paramargs/rangeindex[@form='m']/@name/string()
-(:    ('TEIrepo', 'TEIscript', 'TEIsupport', 'materialkey', 'TEIdecoMat', 'custEventsubtype'):)
+    let $indexnames := $q:paramargs/rangeindex[@form = 'm']/@name/string()
+    (:    ('TEIrepo', 'TEIscript', 'TEIsupport', 'materialkey', 'TEIdecoMat', 'custEventsubtype'):)
     return
         q:datalist($indexnames)
 };
@@ -3527,67 +3554,69 @@ declare function q:MssPersRoles($node as node(), $model as map(*)) {
     for $role in $roles
     let $elements := $q:col//t:persName[@role eq $role][not(@ref eq 'PRS00000')][not(@ref eq 'PRS0000')]
     let $keywords := distinct-values($elements/@ref)
-    let $label := switch($role)
-          case 'translator'
-                        return
-                            'Translators'
-                            case 'sponsor'
-                        return
-                           'Sponsors'
-                             case 'scribe'
-                        return
-                            'Scribes'
-                            case 'presentCustodian'
-                        return
-                           'Present Custodians'
-                             case 'patron'
-                        return
-                            'Patrons'
-                            case 'owner'
-                        return
-                            'Owners'
-                            case 'other'
-                        return
-                            'Persons with another, unspecified, role'
-                             case 'mainCollector'
-                        return
-                            'Main Collectors'
-                             case 'illustrator'
-                        return
-                            'Illustrators'
-                             case 'bequeather'
-                        return
-                            'Bequeathers'
-                            case 'author'
-                        return
-                            'Authors'
-                            case 'donor'
-                        return
-                            'Donors'
-                            default return $role
-    return
-        <div
-            class="w3-container">
-            <label
-                for="{$role}">{$label} <span
-                    class="w3-badge">{count($keywords)}</span></label>
-            <input
-                list="{$role}-list"
-                class="w3-input w3-border"
-                name="{$role}"
-                id="{$role}"></input>
-            <datalist
-                style="width:100%"
-                id="{$role}-list">
-                {
-                    q:selectors($role, $keywords, 'rels')
-                }
-            </datalist>
-        </div>
+    let $label := switch ($role)
+        case 'translator'
+            return
+                'Translators'
+        case 'sponsor'
+            return
+                'Sponsors'
+        case 'scribe'
+            return
+                'Scribes'
+        case 'presentCustodian'
+            return
+                'Present Custodians'
+        case 'patron'
+            return
+                'Patrons'
+        case 'owner'
+            return
+                'Owners'
+        case 'other'
+            return
+                'Persons with another, unspecified, role'
+        case 'mainCollector'
+            return
+                'Main Collectors'
+        case 'illustrator'
+            return
+                'Illustrators'
+        case 'bequeather'
+            return
+                'Bequeathers'
+        case 'author'
+            return
+                'Authors'
+        case 'donor'
+            return
+                'Donors'
+        default return
+            $role
+return
+    <div
+        class="w3-container">
+        <label
+            for="{$role}">{$label}
+            <span
+                class="w3-badge">{count($keywords)}</span></label>
+        <input
+            list="{$role}-list"
+            class="w3-input w3-border"
+            name="{$role}"
+            id="{$role}"></input>
+        <datalist
+            style="width:100%"
+            id="{$role}-list">
+            {
+                q:selectors($role, $keywords, 'rels')
+            }
+        </datalist>
+    </div>
 };
 
 declare function q:WorksRangeIndexesFilters($node as node(), $model as map(*)) {
-    let $indexnames := $q:paramargs/rangeindex[@form='w']/@name/string()
+    let $indexnames := $q:paramargs/rangeindex[@form = 'w']/@name/string()
     return
         q:datalist($indexnames)
 };
@@ -3608,15 +3637,15 @@ declare function q:WorkAuthors($node as node(), $model as map(*)) {
 
 
 declare function q:PersonsRangeIndexesFilters($node as node(), $model as map(*)) {
-    let $indexnames := $q:paramargs/rangeindex[@form='pr']/@name/string()
-(:    ('TEIpersOcc', 'occupationtext', 'faithtext', 'faithtype', 'persrole'):)
+    let $indexnames := $q:paramargs/rangeindex[@form = 'pr']/@name/string()
+    (:    ('TEIpersOcc', 'occupationtext', 'faithtext', 'faithtype', 'persrole'):)
     return
         q:datalist($indexnames)
 };
 
 declare function q:PlacesRangeIndexesFilters($node as node(), $model as map(*)) {
-    let $indexnames := $q:paramargs/rangeindex[@form='pl']/@name/string()
-(:    ('TEIplName', 'placetype'):)
+    let $indexnames := $q:paramargs/rangeindex[@form = 'pl']/@name/string()
+    (:    ('TEIplName', 'placetype'):)
     return
         q:datalist($indexnames)
 };
