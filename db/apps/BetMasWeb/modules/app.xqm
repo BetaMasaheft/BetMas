@@ -1697,7 +1697,7 @@ function app:facetSearchRes ( $node as node()*,  $model as map(*), $start as xs:
               <span class="w3-tag w3-gray">{$collection}</span>
               <span class="w3-tag w3-gray" style="word-break: break-all; text-align: left;">{$id}</span>
               <span class="w3-tag w3-red"><a href="{('/tei/' || $id || '.xml')}" target="_blank">TEI</a></span>
-              <span class="w3-tag w3-red"><a href="/{$id}.pdf" target="_blank" >PDF</a></span><br/>
+             <!-- <span class="w3-tag w3-red"><a href="/{$id}.pdf" target="_blank" >PDF</a></span><br/>-->
                <a target="_blank" href="/{$collection}/{$id}/main"><b>{if(starts-with($id, 'corpus')) then $root//t:titleStmt/t:title[1]/text() else try{exptit:printTitleID($id)} catch *{console:log(($text, $id, $err:description))}}</b></a><br/>
                {if ($item//t:facsimile/t:graphic/@url) 
                then <a target="_blank" href="{$item//t:facsimile/t:graphic/@url}">Link to images</a> 

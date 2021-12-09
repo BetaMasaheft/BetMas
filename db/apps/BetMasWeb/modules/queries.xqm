@@ -3100,10 +3100,10 @@ declare function q:resultitemlinks($collection, $item, $id, $root, $text) {
         class="w3-tag w3-red"><a
             href="{('/tei/' || $id || '.xml')}"
             target="_blank">TEI</a></span>,
-    <span
+    (:<span
         class="w3-tag w3-red"><a
             href="/{$id}.pdf"
-            target="_blank">PDF</a></span>,
+            target="_blank">PDF</a></span>,:)
     <br/>,
     <a
         target="_blank"

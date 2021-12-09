@@ -168,10 +168,10 @@ Not sure how to do this? Have a look at the <a href="/Guidelines">Beta maṣā�
 <span class="w3-text w3-tag itemoptiontooltip">Click here to hide or show again the right side of the content area, where related items and keywords are shown.</span>
 </div>
             
-<div class="w3-bar-item w3-tooltip">
+<!--<div class="w3-bar-item w3-tooltip">
 {apptable:pdf-link($id)}
 <span class="w3-text w3-tag itemoptiontooltip">Produces a PDF on the fly from the source TEI-XML using XSL-FO and Apache FOP</span>
-</div>
+</div>-->
 
 <div class="w3-bar-item w3-tooltip" >
            <a class="w3-button w3-padding-small w3-gray"  id="mainEntryLink" href="/{$collection}/{$id}/main" 
