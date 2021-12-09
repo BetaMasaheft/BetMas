@@ -15,6 +15,7 @@ import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMa
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
 import module namespace apptable = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/apptable" at "xmldb:exist:///db/apps/BetMasWeb/modules/apptable.xqm";
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/string" at "xmldb:exist:///db/apps/BetMasWeb/modules/tei2string.xqm";
+import module namespace charts = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/charts" at "xmldb:exist:///db/apps/BetMasWeb/modules/charts.xqm";
 import module namespace morpho = "http://betamasaheft.eu/parser/morpho" at "xmldb:exist:///db/apps/parser/modules/morphoparser.xqm";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace xconf = "http://exist-db.org/collection-config/1.0";
@@ -356,8 +357,7 @@ like the facet, simple and advanced searches :)
 :)
 declare function q:displayQtime($node as node()*, $model as map(*)) {
     
-    <div
-        class="w3-panel w3-card-4">{
+    <div>{
             if ($model('type') = 'bibliography') then
                 <h3>There are <span
                         xmlns="http://www.w3.org/1999/xhtml"
@@ -384,15 +384,13 @@ declare function q:displayQtime($node as node()*, $model as map(*)) {
                             }</span>
                         entities matching your
                         <span
-                            class="w3-label w3-margin">{$q:searchType}
+                            class="w3-label w3-gray">{$q:searchType}
                         </span>
                         <span
-                            class="w3-tooltip">query
+                            class="w3-tooltip"> query for "{string-join($model('qs'), ', ')}"
                             <span
-                                class="w3-text">for {string-join($model('qs'), ', ')} (entered: <em>{$model('query')}</em>)</span></span></h3>),
-            <span
-                class="w3-right">{'Search time: '}
-                <span
+                                class="w3-text"> (entered: <em>{$model('query')}</em>)</span></span></h3>),
+            <span>{'Search time: '}<span
                     class="w3-badge">{$model('runtime') div 1000}</span>
                 {' seconds.'}</span>
         }
@@ -1073,7 +1071,7 @@ declare function q:text($q, $params) {
         for $r in $query
         let $matchcount := ft:score($r)
         let $title := q:sortingkey($r//t:title[@type = 'full'])
-         let $t := util:log('info', $title)
+(:         let $t := util:log('info', $title):)
             order by $matchcount descending
             group by $TEI := $r
             order by $title[1]
@@ -2311,6 +2309,59 @@ declare function q:fieldInputPerson($node as node(), $model as map(*), $person-f
 };
 
 
+declare
+%templates:wrap
+function q:charts($node as node()*, $model as map(*))
+{let $mss := $model('hits')[@type='mss'] return
+(<div class="w3-row">
+   {'There are '}<span class="w3-tag w3-gray">{count($mss) }</span>{ ' manuscripts among the results of this search.' }
+   </div>,
+    <div class="w3-container w3-margin w3-padding">
+   {try{charts:chart($mss)} catch * {util:log('info', $err:description)}}
+   </div>
+   )
+
+};
+
+declare
+%templates:wrap
+function q:geobrowser($node as node()*, $model as map(*))
+{let $worksid := $model('hits')[@type='work'] 
+let $kmlparam := for $work at $p in $worksid/@xml:id return  'kml'||$p||'=https://betamasaheft.eu/workmap/KML/'||string($work)||'?type=repo'
+let $worktitles := for $work in $worksid/@xml:id return <a target="_blank" href="/{string($work)}">{exptit:printTitleID($work)}</a>
+return
+(
+   <div class="w3-container">
+   <div class="w3-container alert alert-info">You can download the KML file visualized below in the <a href="https://geobrowser.de.dariah.eu">Dariah-DE Geobrowser</a>.</div>
+   <p>Map of the witnesses of {$worktitles} at their current location.</p>
+   <p>For each textual unit a different color of dots is given (i.e. a different KML file is loaded). 
+   For each manuscript containing the selected textual units the point is placed at the current repository or at the place of origin according
+   to the selection. The default is the current repository. 
+   If place of origin is selected and for the manuscript this information is not available (e.g. in cases where 
+   this corresponds in fact to the current repository), the point will be made on the repository which is always available.
+   The dates given for each manuscript correspond to the most inclusive range possible from the origin dates given in the manuscript.
+   If a manuscript has a part from exactly 1550 and one dated 1789 to 1848, then the time span will be 1550 - 1848.</p>
+   <iframe style="width: 100%; height: 1200px;" id="geobrowserMap" src="https://geobrowser.de.dariah.eu/embed/index.html?{string-join($kmlparam, '&amp;')}"/>
+<div class="w3-panel w3-card-2 w3-red">You do not find all the information you would like to 
+    have?  <a href="https://betamasaheft.eu/Guidelines/?id=howto">Help improve the data and contribute to the project editing the files!</a></div>
+  
+   </div>
+         
+   )
+
+};
+
+declare %templates:wrap
+function q:voyant($node as node()*, $model as map(*)){
+let $texts := $model('hits')[@type='work'] 
+let $ids := for $hit in $texts return 'input=https://betamasaheft.eu/works/'||string($hit/@xml:id)||'.xml'
+  let $urls := string-join($ids,'&amp;')
+   return
+   <a target="_blank" href="{concat('http://voyant-tools.org/?', $urls)}">
+   <span class="w3-tooltip">Voyant 
+   <span class="w3-text"> limited to textual units and manuscripts </span>
+   </span></a>
+};
 
 declare
 %templates:wrap
@@ -3356,7 +3407,7 @@ declare function q:queryinput($node as node(), $model as map(*), $query as xs:st
     
     <textarea
         id="sparql"
-        style="height:200px"
+        style="height:100px"
         name="query"
         type="search"
         class="w3-input diacritics">

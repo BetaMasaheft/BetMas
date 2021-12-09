@@ -40,6 +40,15 @@ function openSummary(type) {
   document.getElementById(type).style.display = "block"; 
 }
 
+function showRes(type) {
+  var i;
+  var x = document.getElementsByClassName("queryresults");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none"; 
+  }
+  document.getElementById(type).style.display = "block"; 
+}
+
 // Used to toggle the menu on small screens when clicking on the menu button
 function myFunction() {
   var x = document.getElementById("navDemo");

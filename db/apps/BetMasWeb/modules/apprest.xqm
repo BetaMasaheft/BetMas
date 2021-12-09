@@ -1806,10 +1806,6 @@ else (   <a class="itemtitle" data-value="{$t}" href="{$t}">{if($t = '') then <s
               }
 
               </div>
-,
-<div class="w3-container">{
-charts:chart($matchingmss)
-}</div>
 
 )
 )
