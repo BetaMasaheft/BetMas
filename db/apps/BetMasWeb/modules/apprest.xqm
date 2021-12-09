@@ -1627,7 +1627,15 @@ return
 if(count($matchingmss) = 0) then (<p class="lead">Oh no! Currently, none of the catalogued manuscripts contains a link to this work. You can still see the record in case you find there useful information.</p>,<a class="w3-button w3-red" href="{$target-work}"> Go to {$MAINtit}</a>) else
 (
 <p class="w3-panel w3-card-2">They are currently <span class="w3-tag w3-gray">{count($matchingmss)}</span>.</p>,
-<div class="msscomparison w3-container">
+<div class="w3-bar">
+  <button class="w3-bar-item w3-button" onclick="document.getElementById('mscomps').scrollBy(-200,0)">
+<i class="fa fa-arrow-left"></i>
+  </button>
+  <button class="w3-bar-item w3-button w3-right" onclick="document.getElementById('mscomps').scrollBy(200,0)">
+  <i class="fa fa-arrow-right"></i>
+  </button>
+</div>,
+<div id="mscomps" class=" w3-container" style="overflow: auto; scroll-behavior: smooth;">
 {
 for $manuscript in $matchingmss
 let $msid := string(root($manuscript)/t:TEI/@xml:id)
@@ -1637,7 +1645,8 @@ let $minnotBefore := min($notbefores)
 let $maxnotAfter := min($notafters)
 order by $minnotBefore
 return
-<div class="w3-card-2 w3-margin " >
+<div class="w3-cell">
+<div class="w3-card-2 w3-margin w3-padding" style="width:250px;word-wrap: break-word;" >
 
 <header class="w3-red w3-padding">
 <a href="{('/'||$msid)}">{exptit:printTitleID($msid)}</a> 
@@ -1706,13 +1715,13 @@ else (   <span><a class="itemtitle" data-value="{$t}" href="{$t}">{if($t = '') t
 </div>
 
 </div>
-}
-</div>,
+</div>}
+</div>(:,
 <div class="w3-container">{
 let $hits := for $match in $matchingmss return root($match)/t:TEI
 return
 charts:chart($hits)
-}</div>
+}</div>:)
 ))
 };
 

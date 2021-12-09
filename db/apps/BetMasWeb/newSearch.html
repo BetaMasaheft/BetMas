@@ -244,58 +244,29 @@
                             <div class="w3-col w3-border w3-padding w3-margin-right w3-margin-left" style="width:45%" id="querysummary">
                                 <span id="time" data-template="q:displayQtime"/>
                             </div>
-                            <div class="w3-col" style="width:35%;max-height:150px;overflow:auto" id="parms">
+                            <div class="w3-col" style="width:45%;max-height:150px;overflow:auto" id="parms">
                                 <span id="hit-param" data-template="app:hit-params"/>
                             </div> 
                             <div class="w3-rest w3-hide-small w3-small" id="mini">
-                                <div class="w3-half">
-                                <div id="minibar"
-                            class="w3-bar-block w3-gray">
-                            <button
-                                class="w3-bar-item w3-button"
-                                style="padding: 2px 8px;"
-                                onclick="showRes('results')">
+                                <div id="minibar" class="w3-bar-block w3-gray">
+                            <button class="w3-bar-item w3-button" style="padding: 2px 8px;" onclick="showRes('results')">
                                 <span class="w3-tooltip">list <span class="w3-text"> default </span></span>
                             </button>
-                            <button
-                                class="w3-bar-item w3-button"
-                                style="padding: 2px 8px;"
-                                onclick="showRes('charts')">
+                            <button class="w3-bar-item w3-button" style="padding: 2px 8px;" onclick="showRes('charts')">
                                 <span class="w3-tooltip">charts <span class="w3-text"> limited to manuscripts </span></span>
                             </button>
-                                    <button
-                                        class="w3-bar-item w3-button"
-                                        style="padding: 2px 8px;"
-                                        onclick="showRes('geobrowser')"
-                                        >
+                                    <button class="w3-bar-item w3-button" style="padding: 2px 8px;" onclick="showRes('geobrowser')">
                                         <span class="w3-tooltip">map<span class="w3-text"> of witnesses limited to textual units</span></span>
                                     </button>
-                        </div>
-                            </div>
-                            <div class="w3-half">
-                                <div id="additionalviews"
-                                    class="w3-bar-block w3-gray">
-                                    <button
-                                        class="w3-bar-item w3-button"
-                                        style="padding: 2px 8px;"
-                                        >
-                                        <span class="w3-tooltip">place index <span class="w3-text"> limited to places </span></span>
-                                    </button>
-                                    <button
-                                        class="w3-bar-item w3-button"
-                                        style="padding: 2px 8px;"
-                                        >
-                                        <span class="w3-tooltip">Voyant <span class="w3-text"> limited to textual units and manuscripts </span></span>
-                                    </button>
                                     
-                                    <button
-                                        class="w3-bar-item w3-button"
-                                        style="padding: 2px 8px;"
-                                       >
+                                    <button class="w3-bar-item w3-button" style="padding: 2px 8px;" onclick="showRes('compare')">
                                         <span class="w3-tooltip">compare <span class="w3-text"> limited to manuscripts </span></span>
                                     </button>
-                                </div>
-                            </div>
+                                    <button class="w3-bar-item w3-button" style="padding: 2px 8px;">
+                                        <span class="w3-tooltip">Voyant <span class="w3-text"> limited to textual units and manuscripts </span></span>
+                                    </button>
+                        </div>
+                            
                             </div>
                         </div>
                        
@@ -303,16 +274,16 @@
                      
                         <!-- query results -->
                         
-                        <div  id="results" class="w3-container w3-padding queryresults">
+                        <div id="results" class="w3-container w3-padding queryresults">
                             <div class="w3-row" id="paginationlist">
                                 <ul class="pagination" data-template="app:paginateNew" data-template-per-page="40" data-template-max-pages="9" data-template-min-hits="41"/>
                             </div>
-                            <div  data-template="q:results" data-template-per-page="40" />
+                            <div data-template="q:results" data-template-per-page="40"/>
                         </div>
                         
                         
                         <div id="charts" data-template="q:charts" class="w3-container w3-padding queryresults" style="display:none;"/>
-                        <div id="geobrowser" data-template="q:geobrowser" class="w3-container w3-padding queryresults" style="display:none;"/>
+                        <div id="geobrowser" data-template="q:geobrowser" class="w3-container w3-padding queryresults" style="display:none;"/><div id="compare" data-template="q:compare" class="w3-container w3-padding queryresults" style="display:none;"/>
                         <!--             bottom pagination for larger device -->
                       </div>
                 </div>

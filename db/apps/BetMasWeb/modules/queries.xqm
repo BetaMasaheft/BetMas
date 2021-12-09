@@ -16,6 +16,7 @@ import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas
 import module namespace apptable = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/apptable" at "xmldb:exist:///db/apps/BetMasWeb/modules/apptable.xqm";
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/string" at "xmldb:exist:///db/apps/BetMasWeb/modules/tei2string.xqm";
 import module namespace charts = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/charts" at "xmldb:exist:///db/apps/BetMasWeb/modules/charts.xqm";
+import module namespace locus = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/locus" at "xmldb:exist:///db/apps/BetMasWeb/modules/locus.xqm";
 import module namespace morpho = "http://betamasaheft.eu/parser/morpho" at "xmldb:exist:///db/apps/parser/modules/morphoparser.xqm";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace xconf = "http://exist-db.org/collection-config/1.0";
@@ -1071,7 +1072,7 @@ declare function q:text($q, $params) {
         for $r in $query
         let $matchcount := ft:score($r)
         let $title := q:sortingkey($r//t:title[@type = 'full'])
-(:         let $t := util:log('info', $title):)
+        (:         let $t := util:log('info', $title):)
             order by $matchcount descending
             group by $TEI := $r
             order by $title[1]
@@ -2312,55 +2313,268 @@ declare function q:fieldInputPerson($node as node(), $model as map(*), $person-f
 declare
 %templates:wrap
 function q:charts($node as node()*, $model as map(*))
-{let $mss := $model('hits')[@type='mss'] return
-(<div class="w3-row">
-   {'There are '}<span class="w3-tag w3-gray">{count($mss) }</span>{ ' manuscripts among the results of this search.' }
-   </div>,
-    <div class="w3-container w3-margin w3-padding">
-   {try{charts:chart($mss)} catch * {util:log('info', $err:description)}}
-   </div>
-   )
+{
+    
+    let $mss := $model('hits')[@type = 'mss']
+    return
+        (<div
+            class="w3-row">
+            {'There are '}<span
+                class="w3-tag w3-gray">{count($mss)}</span>{' manuscripts among the results of this search.'}
+        </div>,
+        <div
+            class="w3-container w3-margin w3-padding">
+            {
+                try {
+                    charts:chart($mss)
+                } catch * {
+                    util:log('info', $err:description)
+                }
+            }
+        </div>
+        )
+};
 
+declare %templates:wrap
+function q:compare($node as node()*, $model as map(*)) {
+    let $matchingmss := $model('hits')[@type = 'mss']
+    return
+        if (count($matchingmss) = 0) then
+            (<p>There are no manuscripts among the results of this query.</p>)
+        else
+            (
+            <p
+                class="w3-panel w3-card-2">They are <span
+                    class="w3-tag w3-gray">{count($matchingmss)}</span> manuscripts which can be put side by side.</p>,
+            <div
+                class="w3-bar">
+                <button
+                    class="w3-bar-item w3-button"
+                    onclick="document.getElementById('mscomps').scrollBy(-200,0)">
+                    <i
+                        class="fa fa-arrow-left"></i>
+                </button>
+                <button
+                    class="w3-bar-item w3-button w3-right"
+                    onclick="document.getElementById('mscomps').scrollBy(200,0)">
+                    <i
+                        class="fa fa-arrow-right"></i>
+                </button>
+            </div>,
+            <div
+                id="mscomps"
+                class=" w3-container"
+                style="overflow: auto; scroll-behavior: smooth;">
+                {
+                    for $manuscript in $matchingmss
+                    let $msid := string(root($manuscript)/t:TEI/@xml:id)
+                    let $notbefores := for $nbef in root($manuscript)/t:TEI//@notBefore
+                    return
+                        number(substring($nbef, 1, 4))
+                    let $notafters := for $naft in root($manuscript)/t:TEI//@notBefore
+                    return
+                        number(substring($naft, 1, 4))
+                    let $minnotBefore := min($notbefores)
+                    let $maxnotAfter := min($notafters)
+                        order by $minnotBefore
+                    return
+                        <div
+                            class="w3-cell">
+                            <div
+                                class="w3-card-2 w3-margin w3-padding"
+                                style="width:250px;word-wrap: break-word;">
+                                
+                                <header
+                                    class="w3-red w3-padding">
+                                    <a
+                                        href="{('/' || $msid)}">{exptit:printTitleID($msid)}</a>
+                                    ({string($minnotBefore)}-{string($maxnotAfter)})</header>
+                                <div
+                                    class="w3-container"
+                                    style="max-height:60vh; overflow-y:auto">
+                                    <ul
+                                        class="nodot">
+                                        {
+                                            for $msitem at $p in root($manuscript)/t:TEI//t:msItem
+                                            (:  store in a variable the ref in the title or nothing:)
+                                            let $title := if ($msitem/t:title[@ref]) then
+                                                $msitem/t:title[1]/@ref
+                                            else
+                                                ''
+                                            let $placement := locus:placement($msitem)
+                                                order by $p
+                                            return
+                                                <li
+                                                    style="{
+                                                            if (matches($msitem/@xml:id, '\d+\.\d+\.\d+'))
+                                                            then
+                                                                'text-indent: 4%;'
+                                                            else
+                                                                if (matches($msitem/@xml:id, '\d+\.\d+'))
+                                                                then
+                                                                    'text-indent: 2%;'
+                                                                else
+                                                                    ()
+                                                        }">
+                                                    {string($msitem/@xml:id)}
+                                                    {
+                                                        if ($msitem/t:title/@type)
+                                                        then
+                                                            (' (' || string($msitem/t:title[1]/@type) || ')')
+                                                        else
+                                                            ()
+                                                    },
+                                                    {    if ($msitem/t:title[not(@ref)]/text())
+                                                            then
+                                                                (normalize-space(string-join(string:tei2string($msitem/t:title/node()))), $placement)
+                                                                (:normally print the title of the referred item:)
+                                                            else
+                                                                (
+                                                                <span>
+                                                                    <a
+                                                                        class="itemtitle"
+                                                                        data-value="{$title}"
+                                                                        href="{$title}">{
+                                                                            if ($title = '') then
+                                                                                <span
+                                                                                    class="w3-tag w3-red">{'no ref in title'}</span>
+                                                                            else
+                                                                                try {
+                                                                                    exptit:printTitleID($title)
+                                                                                } catch * {
+                                                                                    $title
+                                                                                }
+                                                                        }</a>
+                                                                    {$placement}</span>
+                                                                )
+                                                    }
+                                                </li>
+                                        }
+                                    </ul>
+                                    <ul
+                                        class="nodot">
+                                        {
+                                            for $additem at $p in root($manuscript)/t:TEI//t:additions//t:item
+                                            (:  store in a variable the ref in the title or nothing:)
+                                            let $title := if ($additem//t:title[@ref]) then
+                                                for $t in $additem//t:title/@ref
+                                                return
+                                                    $t
+                                            else
+                                                ''
+                                            let $placement := locus:placement($additem)
+                                                order by $p
+                                            return
+                                                <li>
+                                                    {string($additem/@xml:id)}
+                                                    {
+                                                        if ($additem/t:desc/@type)
+                                                        then
+                                                            (' (' || string($additem/t:desc/@type) || ')')
+                                                        else
+                                                            ()
+                                                    },
+                                                    {
+                                                        for $t in $title
+                                                        return
+                                                                if ($additem/t:title[not(@ref)]/text())
+                                                                then
+                                                                    (normalize-space(string-join(string:tei2string($additem/t:title/node()))), $placement)
+                                                                    (:normally print the title of the referred item:)
+                                                                else
+                                                                    (<span><a
+                                                                            class="itemtitle"
+                                                                            data-value="{$t}"
+                                                                            href="{$t}">{
+                                                                                if ($t = '') then
+                                                                                    <span
+                                                                                        class="w3-tag w3-red">{'no ref in title'}</span>
+                                                                                else
+                                                                                    try {
+                                                                                        exptit:printTitleID($t)
+                                                                                    } catch * {
+                                                                                        $t
+                                                                                    }
+                                                                            }</a>
+                                                                        {$placement}</span>)
+                                                    }
+                                                </li>
+                                        }
+                                    </ul>
+                                </div>
+                            
+                            </div>
+                        </div>
+                }
+            </div>)
 };
 
 declare
 %templates:wrap
 function q:geobrowser($node as node()*, $model as map(*))
-{let $worksid := $model('hits')[@type='work'] 
-let $kmlparam := for $work at $p in $worksid/@xml:id return  'kml'||$p||'=https://betamasaheft.eu/workmap/KML/'||string($work)||'?type=repo'
-let $worktitles := for $work in $worksid/@xml:id return <a target="_blank" href="/{string($work)}">{exptit:printTitleID($work)}</a>
-return
-(
-   <div class="w3-container">
-   <div class="w3-container alert alert-info">You can download the KML file visualized below in the <a href="https://geobrowser.de.dariah.eu">Dariah-DE Geobrowser</a>.</div>
-   <p>Map of the witnesses of {$worktitles} at their current location.</p>
-   <p>For each textual unit a different color of dots is given (i.e. a different KML file is loaded). 
-   For each manuscript containing the selected textual units the point is placed at the current repository or at the place of origin according
-   to the selection. The default is the current repository. 
-   If place of origin is selected and for the manuscript this information is not available (e.g. in cases where 
-   this corresponds in fact to the current repository), the point will be made on the repository which is always available.
-   The dates given for each manuscript correspond to the most inclusive range possible from the origin dates given in the manuscript.
-   If a manuscript has a part from exactly 1550 and one dated 1789 to 1848, then the time span will be 1550 - 1848.</p>
-   <iframe style="width: 100%; height: 1200px;" id="geobrowserMap" src="https://geobrowser.de.dariah.eu/embed/index.html?{string-join($kmlparam, '&amp;')}"/>
-<div class="w3-panel w3-card-2 w3-red">You do not find all the information you would like to 
-    have?  <a href="https://betamasaheft.eu/Guidelines/?id=howto">Help improve the data and contribute to the project editing the files!</a></div>
-  
-   </div>
-         
-   )
-
+{
+    
+    let $worksid := $model('hits')[@type = 'work']
+    return
+        if (count($worksid) = 0) then
+            <div
+                class="w3-row">
+                There are no textual units to map among the results of this search.
+            </div>
+        else
+            let $kmlparam := for $work at $p in $worksid/@xml:id
+            return
+                'kml' || $p || '=https://betamasaheft.eu/workmap/KML/' || string($work) || '?type=repo'
+            let $worktitles := for $work in $worksid/@xml:id
+            return
+                <a
+                    target="_blank"
+                    href="/{string($work)}">{exptit:printTitleID($work)}, </a>
+            return
+                (
+                <div
+                    class="w3-container">
+                    <div
+                        class="w3-container alert alert-info">You can download the KML file visualized below in the <a
+                            href="https://geobrowser.de.dariah.eu">Dariah-DE Geobrowser</a>.</div>
+                    <p>Map of the witnesses of {$worktitles} at their current location.</p>
+                    <p>For each textual unit a different color of dots is given (i.e. a different KML file is loaded).
+                        For each manuscript containing the selected textual units the point is placed at the current repository or at the place of origin according
+                        to the selection. The default is the current repository.
+                        If place of origin is selected and for the manuscript this information is not available (e.g. in cases where
+                        this corresponds in fact to the current repository), the point will be made on the repository which is always available.
+                        The dates given for each manuscript correspond to the most inclusive range possible from the origin dates given in the manuscript.
+                        If a manuscript has a part from exactly 1550 and one dated 1789 to 1848, then the time span will be 1550 - 1848.</p>
+                    <iframe
+                        style="width: 100%; height: 1200px;"
+                        id="geobrowserMap"
+                        src="https://geobrowser.de.dariah.eu/embed/index.html?{string-join($kmlparam, '&amp;')}"/>
+                    <div
+                        class="w3-panel w3-card-2 w3-red">You do not find all the information you would like to
+                        have? <a
+                            href="https://betamasaheft.eu/Guidelines/?id=howto">Help improve the data and contribute to the project editing the files!</a></div>
+                
+                </div>
+                
+                )
 };
 
 declare %templates:wrap
-function q:voyant($node as node()*, $model as map(*)){
-let $texts := $model('hits')[@type='work'] 
-let $ids := for $hit in $texts return 'input=https://betamasaheft.eu/works/'||string($hit/@xml:id)||'.xml'
-  let $urls := string-join($ids,'&amp;')
-   return
-   <a target="_blank" href="{concat('http://voyant-tools.org/?', $urls)}">
-   <span class="w3-tooltip">Voyant 
-   <span class="w3-text"> limited to textual units and manuscripts </span>
-   </span></a>
+function q:voyant($node as node()*, $model as map(*)) {
+    let $texts := $model('hits')[@type = 'work']
+    let $ids := for $hit in $texts
+    return
+        'input=https://betamasaheft.eu/works/' || string($hit/@xml:id) || '.xml'
+    let $urls := string-join($ids, '&amp;')
+    return
+        <a
+            target="_blank"
+            href="{concat('http://voyant-tools.org/?', $urls)}">
+            <span
+                class="w3-tooltip">Voyant
+                <span
+                    class="w3-text"> limited to textual units and manuscripts </span>
+            </span></a>
 };
 
 declare
