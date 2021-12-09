@@ -388,7 +388,7 @@ declare function q:displayQtime($node as node()*, $model as map(*)) {
                             class="w3-label w3-gray">{$q:searchType}
                         </span>
                         <span
-                            class="w3-tooltip"> query for "{string-join($model('qs'), ', ')}"
+                            class="w3-tooltip"> query for "{string-join($model('qs'), ', ')}" with the parameters shown at the right.
                             <span
                                 class="w3-text"> (entered: <em>{$model('query')}</em>)</span></span></h3>),
             <span>{'Search time: '}<span
@@ -1505,10 +1505,11 @@ declare function q:showFacets($node as node()*, $model as map(*)) {
                         for $notfacet in $param[not(ends-with(., '-facet'))]
                         let $p := request:get-parameter($notfacet, ())
                         return
-                            if (count($p)) then
+                            if ((count($p) ge 1) and ($p !='') and  (string-join($p, ',') !='0,2000')) then
+                            for $par in $p return
                                 <input
                                     name="{$notfacet}"
-                                    value="{$p}"
+                                    value="{$par}"
                                     hidden="hidden"/>
                             else
                                 ()
@@ -1539,9 +1540,8 @@ declare function q:facetGroup($group, $groupname, $subsequence) {
             let $facetTitle := q:facetName($f)
             let $facets := ft:facets($subsequence, string($f), ())
                 order by $facetTitle
-                group by $ft := $facetTitle
             return
-                q:facetDiv($f[1], $facets, $ft)
+                q:facetDiv($f, $facets, $facetTitle)
         }</div>
 };
 
@@ -1569,18 +1569,20 @@ declare function q:facetDiv($f, $facets, $facetTitle) {
                                     type="checkbox"
                                     name="{string($f)}-facet"
                                     value="{$label}"/>
-                                {
-                                    if ($f = 'witness')
-                                    then
-                                        exptit:printTitleID($label)
-                                    else
-                                        if ($f = 'changeWho') then
-                                            editors:editorKey($label)
+                                { if ($f = 'changeWho') then
+                                            editors:editorKey(replace($label, '#', ''))
                                         else
                                             if ($f = 'languages') then
                                                 $q:languages//t:item[@xml:id eq $label]/text()
+                                        else
+                                            if ($f = 'keywords') then
+                                            let $cleanlabel := if (starts-with($label, $config:appUrl)) then replace(substring-after($label, $config:appUrl), '/', '') else $label
+                                            let $t := util:log('info', $cleanlabel)
+                                                let $taxname := ($q:tax//t:category[(@xml:id eq $cleanlabel) or (t:catDesc = $cleanlabel)])[1]/t:catDesc/text()
+                                                return $taxname
                                             else
-                                                $label
+                                                let $tit := exptit:printTitleID($label) return
+                                                if (string-length(string-join($tit//text())) ge 1) then normalize-space($tit) else normalize-space($label)
                                 }
                                 <span
                                     class="w3-badge w3-margin-left">{$count}</span><br/></span>
@@ -1589,8 +1591,10 @@ declare function q:facetDiv($f, $facets, $facetTitle) {
                             if ($f = 'keywords') then
                                 (for $input in $inputs
                                 let $val := $input/*:input/@value
-                                let $kk := $q:tax//t:category[t:catDesc eq $val]
-                                let $taxonomy := string-join($kk[t:desc][1]/t:desc[1]/text())
+                                 let $cleanval := if (starts-with($val, $config:appUrl)) then 
+                                 replace(substring-after($val, $config:appUrl), '/', '') else $val
+                                let $kk := ($q:tax//t:category[t:catDesc eq $val] | $q:tax//t:category[@xml:id eq $val])
+                                let $taxonomy := string-join($kk/parent::t:category[t:desc][1]/t:desc[1]/text())
                                     group by $taxonomy
                                     order by $taxonomy
                                 return
@@ -1606,6 +1610,7 @@ declare function q:facetDiv($f, $facets, $facetTitle) {
                                             class="w3-padding w3-hide"
                                             id="{string($f)}-{replace($taxonomy, ' ', '')}-facet-sublist">{
                                                 for $i in $input
+                                                let $name := exptit:printTitle($i//*:input/@value)
                                                 let $sortkey := q:sortingkey($i)
                                                     order by $sortkey
                                                 return
@@ -1876,6 +1881,9 @@ declare function q:facetName($f) {
         case 'eth'
             return
                 'Ethnic group'
+                case 'presenceOfPunctuation'
+            return
+                'Presence of Punctuation'
         default return
             'Item type'
 };
@@ -2622,17 +2630,7 @@ declare function q:resultsTableHeader($model) {
                 class="w3-row w3-border-bottom w3-margin-bottom w3-gray">
                 <div
                     class="w3-third">
-                    <div
-                        class="w3-col"
-                        style="width:10%">
-                        <span
-                            class="number">status</span>
-                    </div>
-                    <div
-                        class="w3-col"
-                        style="width:85%">
-                        title
-                    </div>
+                    title
                 </div>
                 <div
                     class="w3-twothird">item-type specific options
@@ -2645,12 +2643,7 @@ declare function q:resultsTableHeader($model) {
                 class="w3-row w3-border-bottom w3-margin-bottom w3-gray">
                 <div
                     class="w3-third">
-                    <div
-                        class="w3-col"
-                        style="width:10%">
-                        <span
-                            class="number">status</span>
-                    </div>
+                    
                     <div
                         class="w3-col"
                         style="width:70%">
@@ -2658,7 +2651,7 @@ declare function q:resultsTableHeader($model) {
                     </div>
                     <div
                         class="w3-col"
-                        style="width:20%">
+                        style="width:30%">
                         hits count
                     </div>
                 </div>
@@ -2801,18 +2794,13 @@ declare function q:resultswithmatch($text, $p) {
                     class="w3-row">
                     <div
                         class="w3-col"
-                        style="width:10%">
-                        {q:statusBadge($item)}
-                    </div>
-                    <div
-                        class="w3-col"
                         style="width:70%">
                         {q:resultitemlinks($collection, $item, $id, $root, $text)}
                     </div>
                     
                     <div
                         class="w3-col"
-                        style="width:20%">
+                        style="width:30%">
                         <span
                             class="w3-badge">{$count}</span>
                         in {
@@ -3356,8 +3344,10 @@ declare function q:statusBadge($item) {
 };
 
 declare function q:resultitemlinks($collection, $item, $id, $root, $text) {
-    <span
+       q:statusBadge($item),
+       <span
         class="w3-tag w3-gray">{$collection}</span>,
+    
     <span
         class="w3-tag w3-gray"
         style="word-break: break-all; text-align: left;">{$id}</span>,

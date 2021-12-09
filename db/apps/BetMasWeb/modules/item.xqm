@@ -1215,12 +1215,33 @@ return <p>Click the following link to compare a <a target="_blank" href="/compar
  declare function item2:RestSeeAlso ($this, $collection)  {
  let $file := $this
  let $id := string($this/@xml:id)
-
  return
        <div class="w3-third w3-padding" id="seeAlsoForm" >         
      {if($collection='works' or $collection='narratives') then item2:RestMss($id) else ()}
      {item2:mainRels($this, $collection)}
-   
+   {if($collection="institutions") then 
+    let $t := util:log('info', concat('item see also for ', $id, ' in ', $collection))
+    let $fullid := ('https://betamasaheft.eu/' || $id)
+    let $mss := $exptit:col//t:repository[@ref = $fullid]
+    return
+        if (count($mss) ge 1) then
+            <div
+                class="w3-container">
+                There are {count($mss)}
+                <a
+                    href="/newSearch.html?searchType=text&amp;mode=any&amp;reporef={$id}"> manuscripts at this repository</a>.
+                <ul
+                    class="w3-ul">
+                    {
+                        for $m in $mss
+                        return
+                            <li><a
+                                    target="blank"
+                                    href="/{string($m/ancestor::t:TEI/@xml:id)}">{exptit:printTitle($m)}</a></li>
+                    }</ul>
+            </div>
+   else()
+   else ()}
      {if($collection = 'places' or $collection='institutions') then <div>
      <div class="w3-panel w3-margin w3-gray w3-card-4" id="pelagiosrelateditems" data-id="{$id}">
      {if($file//t:place/@sameAs) then attribute data-sameAs {string($file//t:place/@sameAs)} else ()}
