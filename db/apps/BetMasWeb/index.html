@@ -3,7 +3,6 @@
     <div data-template="app:logging"/>
     
     <!--  cover  -->
-    <p>I AM THE NEW APP</p>
     <div class="w3-display-container w3-center" id="cover">
         <img class="w3-image" src="resources/images/homepage/1.JPG" style="width:100%;opacity:0.6"/>
         <div class="w3-display-right  w3-display-hover w3-bar-block">
@@ -17,25 +16,16 @@
             </div>
             <div class="w3-center-align">
                 <form action="/newSearch.html" role="search">
-                        <div class="w3-row-padding">
+                        <div class="w3-bar">
                         <input hidden="hidden" value="text" name="searchType"/>
                         <input hidden="hidden" value="any" name="mode"/>
-                            <input type="text" class="w3-input w3-border diacritics" placeholder="search" name="query" id="q"/>
+                            <input type="text" class="w3-bar-item w3-input w3-border diacritics" placeholder="search" name="query" id="q" style="width:300;height:32"/>
                             
-                            
-                            <a class="kb w3-button w3-dark-grey">
+                            <a class="kb w3-button w3-dark-grey w3-bar-item ">
                                 <i class="fa fa-keyboard" aria-hidden="true"/>
                             </a>
                             
-                            <a href="/as.html" title="advanced search" class="w3-button w3-dark-grey">
-                                <i class="fa fa-plus" aria-hidden="true"/>
-                            </a>
-                            
-                            <a href="#" class="w3-button w3-dark-grey" onclick="document.getElementById('searchHelp').style.display='block'">
-                                <i class="fa fa-info-circle" aria-hidden="true"/>
-                            </a>
-                            
-                            <button id="f-btn-search" type="submit" class="w3-button w3-black">
+                            <button id="f-btn-search" type="submit" class="w3-button w3-black w3-bar-item ">
                                 <i class="fa fa-search" aria-hidden="true"/>
                             </button>
                             
