@@ -234,7 +234,8 @@ else
                                         </error-handler>
                                     </dispatch>
                                     else
-                                if ($exist:path = '/as.html' or $exist:path = '/search.html' or $exist:path = '/facet.html') then
+                                if ($exist:path = '/as.html' or $exist:path = '/search.html' or $exist:path = '/facet.html' 
+                                or $exist:path = '/sparql.html' or $exist:path = '/xpath.html') then
                                        <dispatch
                                             xmlns="http://exist.sourceforge.net/NS/exist">
                                             <redirect
