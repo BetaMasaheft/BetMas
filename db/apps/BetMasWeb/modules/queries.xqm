@@ -1577,12 +1577,9 @@ declare function q:facetDiv($f, $facets, $facetTitle) {
                                         else
                                             if ($f = 'keywords') then
                                             let $cleanlabel := if (starts-with($label, $config:appUrl)) then replace(substring-after($label, $config:appUrl), '/', '') else $label
-                                            let $t := util:log('info', $cleanlabel)
                                                 let $taxname := ($q:tax//t:category[(@xml:id eq $cleanlabel) or (t:catDesc = $cleanlabel)])[1]/t:catDesc/text()
                                                 return $taxname
-                                            else
-                                                let $tit := exptit:printTitleID($label) return
-                                                if (string-length(string-join($tit//text())) ge 1) then normalize-space($tit) else normalize-space($label)
+                                            else $label
                                 }
                                 <span
                                     class="w3-badge w3-margin-left">{$count}</span><br/></span>
@@ -2325,6 +2322,12 @@ function q:charts($node as node()*, $model as map(*))
     
     let $mss := $model('hits')[@type = 'mss']
     return
+    if (count($mss) gt 300) then
+            <div
+                class="w3-row">
+                There are are more than 300 different manuscripts  to chart among the results of this search. This is a bit too much. Please, refine your query or try and use the on-demand version of this functionality.
+            </div>
+            else
         (<div
             class="w3-row">
             {'There are '}<span
@@ -2349,6 +2352,11 @@ function q:compare($node as node()*, $model as map(*)) {
     return
         if (count($matchingmss) = 0) then
             (<p>There are no manuscripts among the results of this query.</p>)
+         else   if (count($matchingmss) gt 100) then
+            <div
+                class="w3-row">
+                There are are more than 100 different manuscripts  to compare among the results of this search. This is a bit too much. Please, refine your query or try and use the on-demand version of this functionality.
+            </div>
         else
             (
             <p
@@ -2528,6 +2536,11 @@ function q:geobrowser($node as node()*, $model as map(*))
             <div
                 class="w3-row">
                 There are no textual units to map among the results of this search.
+            </div>
+           else   if (count($worksid) gt 50) then
+            <div
+                class="w3-row">
+                There are are more than 50 textual units to map among the results of this search. This is a bit too much. Please, refine your query or try and use the on-demand version of this functionality.
             </div>
         else
             let $kmlparam := for $work at $p in $worksid/@xml:id
