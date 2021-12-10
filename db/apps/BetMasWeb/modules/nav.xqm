@@ -129,7 +129,7 @@ declare function nav:barNew() {
                                 <a
                                     class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                                     data-value="manuscriptsearch"
-                                    href="/newSearch.html?searchType=text&amp;mode=any&amp;works-type=mss">Manuscripts (search)</a>
+                                    href="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=mss">Manuscripts (search)</a>
                                 <a
                                     class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                                     data-value="imagesviewer"
@@ -464,20 +464,12 @@ For more guidance in lists and filters visit https://betamasaheft.eu/help.html.
                 {nav:newentryNew()}
                 
                 {
-                    if (contains($url, 'as.html')) then
-                        <a
-                            href="/facet.html"
-                            class="w3-padding w3-hover-red w3-hide-small w3-right"><i
-                                class="fab fa-search"></i></a>
+                    if (contains($url, 'newSearch.html')) then ()
                     else
-                        (<a
-                            href="/facet.html"
-                            class="w3-padding w3-hover-red w3-hide-small w3-right"><i
-                                class="fa fa-search"></i></a>,
                         <a
-                            href="/as.html"
+                            href="/newSearch.html"
                             class="w3-padding w3-hover-red w3-hide-small w3-right"><i
-                                class="fab fa-searchengin"></i></a>)
+                                class="fa fa-search"></i></a>
                 }
             </div>
         </div>,
@@ -498,7 +490,7 @@ For more guidance in lists and filters visit https://betamasaheft.eu/help.html.
                 class="w3-bar-item w3-button w3-padding-large"
                 onclick="myFunction()">Manuscripts</a>
             <a
-                href="/facet.html"
+                href="/newSearch.html"
                 class="w3-bar-item w3-button w3-padding-large"
                 onclick="myFunction()">Search</a>
         </div>

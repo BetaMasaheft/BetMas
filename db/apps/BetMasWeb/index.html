@@ -16,8 +16,10 @@
             <img src="resources/images/logo-color.png" alt="Beta maṣāḥǝft Project logo" id="logo" style="width:60%"/>
             </div>
             <div class="w3-center-align">
-                <form action="/facet.html" role="search">
+                <form action="/newSearch.html" role="search">
                         <div class="w3-row-padding">
+                        <input hidden="hidden" value="text" name="searchType"/>
+                        <input hidden="hidden" value="any" name="mode"/>
                             <input type="text" class="w3-input w3-border diacritics" placeholder="search" name="query" id="q"/>
                             
                             
@@ -467,78 +469,10 @@
             <a href="https://betamasaheft.eu/manuscripts/ESbhm002/viewer?FirstCanv=https://betamasaheft.eu/api/iiif/ESbhm002/canvas/p7">BHM-002 by Ethio-SPaRe</a>
         </div>
         <div class="w3-display-right w3-padding w3-col l6 m8 s12 w3-red" style="max-height:100%;overflow-y:auto">
-            <h2 class="w3-wide w3-left-align">Search</h2>
-            <p class="w3-left-align w3-hide-small">We also offer a number of <a href="/help.html#searchesintro">alternative ways to
-                search.</a>
+            <h2 class="w3-wide w3-left-align">Indexes</h2>
+            <p class="w3-left-align w3-hide-small">We also offer a number of <a href="/help.html#searchesintro">indexes as focused alternatives to searches.</a>
             </p>
-            <div class="w3-row">
-                <a class="w3-button w3-margin-bottom w3-black w3-xlarge" href="/as.html">Advanced
-                    search</a>
-                <a class="w3-button w3-margin-bottom w3-black w3-xlarge" href="/facet.html">Faceted
-                        search</a>
-            </div>
-
-            <div class="w3-half w3-margin-bottom">
-
-                <div class="w3-container w3-white" style="height:300px">
-                    <p>
-                        <b>Simple search</b>
-                    </p>
-                    <form action="/search.html" role="search">
-                        <div class="w3-row-padding">
-                            <input type="text" class="w3-input w3-border diacritics" placeholder="search" name="query" id="q"/>
-
-
-                            <a class="kb w3-button w3-dark-grey">
-                                <i class="fa fa-keyboard" aria-hidden="true"/>
-                            </a>
-
-                            <a href="/as.html" title="advanced search" class="w3-button w3-dark-grey">
-                                <i class="fa fa-plus" aria-hidden="true"/>
-                            </a>
-
-                            <a href="#" class="w3-button w3-dark-grey" onclick="document.getElementById('searchHelp').style.display='block'">
-                                <i class="fa fa-info-circle" aria-hidden="true"/>
-                            </a>
-
-                            <button id="f-btn-search" type="submit" class="w3-button w3-black">
-                                <i class="fa fa-search" aria-hidden="true"/>
-                            </button>
-
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="w3-half w3-margin-bottom w3-hide-small">
-                <div class="w3-container w3-white" style="height:300px">
-                    <p>
-                        <b>ID lookup</b>
-                    </p>
-                    <div class="w3-row-padding" id="JumpToRecord">
-
-                        <input type="radio" class="w3-radio w3-margin-bottom" name="AttestedInType" id="AttestedInTypeID" value="1" checked="checked"/>
-                        <label> ID</label>
-
-                        <input type="radio" class="w3-radio w3-margin-bottom" name="AttestedInType" id="AttestedInTypeTITLE" value="2"/>
-                        <label> Title</label>
-
-
-                        <input placeholder="Start typing content of a title or part of an id here..." class="w3-input w3-border w3-margin-bottom" id="GoTo" autocomplete="on"/>
-                        <select class="w3-select w3-margin-bottom" id="gotohits"> </select>
-
-
-
-                        <button id="clickandgoto" class="w3-button w3-black"> Go </button>
-                        <script src="resources/js/lookup.js" type="application/javascript"/>
-
-
-                        <small>Selecting or typing an item ID here and clicking on go will take you
-                            to that item directly.</small>
-
-
-                    </div>
-                </div>
-            </div>
+           
             <div class="w3-bar">
                 <a class="w3-bar-item w3-button w3-black" href="/decorations">Decorations</a>
                 <a class="w3-bar-item w3-button w3-black" href="/bindings">Bindings</a>
@@ -666,8 +600,6 @@
 
                     <div class="w3-bar">
                         <a class="w3-bar-item w3-button w3-black w3-margin-bottom" href="/apidoc.html">Data API</a>
-                        <a class="w3-bar-item w3-button w3-black w3-margin-bottom" href="/sparql">SPARQL Endpoint</a>
-                        <a class="w3-bar-item w3-button w3-black w3-margin-bottom" href="/xpath">XPath search</a>
                         <a class="w3-bar-item w3-button w3-black w3-margin-bottom" href="/lod.html">LOD documentation</a>
 
                     </div>

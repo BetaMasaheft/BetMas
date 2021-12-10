@@ -433,7 +433,7 @@ declare function app:team ($node as node(), $model as map(*)) {
 <ul class="w3-ul w3-hoverable w3-padding">{
     $exptit:col/$app:range-lookup('changewho', (),
         function($key, $count) {
-             <li id="{$key}">{editors:editorKey($key) || ' ('||$key||')' || ' made ' || $count[1] ||' changes in ' || $count[2]||' documents. '}<a href="/xpath?xpath=%24config%3Acollection-root%2F%2Ft%3Achange%5B%40who%3D%27{$key}%27%5D">See the changes.</a></li>
+             <li id="{$key}">{editors:editorKey(replace($key, '#', '')) || ' ('||$key||')' || ' made ' || $count[1] ||' changes in ' || $count[2]||' documents. '}<a href="/xpath?xpath=%24config%3Acollection-root%2F%2Ft%3Achange%5B%40who%3D%27{$key}%27%5D">See the changes.</a></li>
         }, 1000)
        }
        </ul>
@@ -1425,7 +1425,7 @@ declare function app:hit-count($node as node()*, $model as map(*)) {
 };
 
 declare function app:hit-params($node as node()*, $model as map(*)) {
-    <div class="w3-container w3-margin">{
+    <div>{
                     for $param in distinct-values($app:params)
                     let $values := request:get-parameter($param, ())
                    return if (count($values) = 2 and ( (string-join($values,',') != '0,2000') or (string-join($values) = '' ) )) 
@@ -1448,9 +1448,7 @@ declare function app:gotoadvanced($node as node()*, $model as map(*)){
 let $query := request:get-parameter('query', ())
 return 
 <div class="w3-bar">
-<a href="/newSearch.html?query={$query}" class="w3-button w3-red w3-margin w3-bar-item">Repeat search in the Full Search.</a>
-<a href="/facet.html?query={$query}" class="w3-button w3-red w3-margin w3-bar-item">Repeat search in the Facet Search.</a>
-<a href="/as.html?query={$query}" class="w3-button w3-red w3-margin w3-bar-item">Repeat search in the Advanced Search.</a>
+<a href="/newSearch.html?query={$query}" class="w3-button w3-red w3-margin w3-bar-item">Repeat search in the New Search.</a>
 </div>
 };
 

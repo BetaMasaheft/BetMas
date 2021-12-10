@@ -138,17 +138,17 @@ function api:latest(){
 
 let $twoweekago := current-date() - xs:dayTimeDuration('P15D')
 let $coll := collection($config:data-root)//t:TEI
-for $doc in  xmldb:find-last-modified-since($coll, $twoweekago)
+for $doc in  subsequence(xmldb:find-last-modified-since($coll, $twoweekago), 1, 20)
 let $id := string($doc/@xml:id)
 let $filename := ($id|| '.xml')
 let $baseUri := base-uri($doc)
 let $docColl := substring-before($baseUri, $filename)
-let $latest := for $c in $doc//t:change order by xs:date($c/@when) descending return $c
+let $latest := for $c in $doc//t:change  return $c
 return
 map { 'id' : $id,
 'title' : exptit:printTitle($id),
 'when' : xmldb:last-modified($docColl, $filename),
-'who' : editors:editorKey($latest[1]/@who),
+'who' : editors:editorKey(substring-after($latest[1]/@who, "#")),
 'what' : $latest[1]/text()
 }
  )
