@@ -234,7 +234,14 @@ else
                                         </error-handler>
                                     </dispatch>
                                     else
-                                if ($exist:path = '/manuscripts/list') then
+                                if ($exist:path = '/as.html' or $exist:path = '/search.html' or $exist:path = '/facet.html') then
+                                       <dispatch
+                                            xmlns="http://exist.sourceforge.net/NS/exist">
+                                            <redirect
+                                                url="/newSearch.html"
+                                                absolute="yes"/>
+                                        </dispatch>
+                                          else if ($exist:path = '/manuscripts/list') then
                                        <dispatch
                                             xmlns="http://exist.sourceforge.net/NS/exist">
                                             <redirect
