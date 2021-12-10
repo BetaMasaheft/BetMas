@@ -375,11 +375,11 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
                             titles:printTitleMainID($node/@ref)
                         else
                             (),
-                        if ($node/@type = 'authFile' and not($node/text())) then
+                        if ($node/@type = 'authFile' and (string-length($node/text()) = 0)) then
                             titles:printTitleMainID($node/@corresp)
                         else
                             (),
-                        if ( $node[not(text())] and $node/@corresp and $node/@type) then
+                        if ( $node[not(text())] and $node/@corresp and $node/@type[not(. ='authFile')]) then
                         let $corrnode := $node/ancestor-or-self::t:TEI/id($node/@corresp) 
                         return
                             if ($corrnode) then

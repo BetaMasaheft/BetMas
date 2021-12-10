@@ -1561,7 +1561,7 @@ declare %private function viewItem:namedEntityPerson($entity) {
     (if ($entity/@ref) then
         <a
             xmlns="http://www.w3.org/1999/xhtml"
-            href="{viewItem:reflink($entity/@ref)}">{viewItem:TEI2HTML($entity/node()[not(self::t:note)])}</a>
+            href="{viewItem:reflink($entity/@ref)}">{viewItem:TEI2HTML($entity/node())}</a>
     else
         viewItem:TEI2HTML($entity/node()), ' ',
     if ($entity/@role) then
@@ -3122,8 +3122,8 @@ declare %private function viewItem:term($node as element(t:term)) {
     if ($node[parent::t:desc | parent::t:summary]) then
         <a
             target="_blank">
-            {attribute href {concat('/authority-files/list?keyword=', $node/@key)}}
-            {$node/text()}
+            {attribute href {concat('/newSearch.html?searchType=text&amp;mode=any&amp;termkey=', string($node/@key))}}
+            {$node/text()||' '}
         </a>
     else
         if ($node/text()) then
@@ -6210,6 +6210,53 @@ declare %private function viewItem:fulllang($lang) {
     }
 };
 
+
+declare %private function viewItem:keywordtag($x){<span class="w3-tag w3-gray"><a
+                                        target="_blank" href="/newSearch.html?searchType=text&amp;mode=any&amp;termkey={$x}">{exptit:printTitleID($x)}</a></span>};
+                                        
+  declare %private function viewItem:keywordgroup($keys){
+                                        if ($keys) then
+                    <div
+                        class="w3-row">{
+                            for $x in distinct-values($keys)
+                            return
+                                viewItem:keywordtag($x)
+                        }</div>
+                else
+                    ()
+                                        };
+                                        
+  declare %private function viewItem:keywordgroupauth($keys){
+                                        if ($keys) then
+                    <div
+                        class="w3-row">{
+                            for $x in $keys
+                             let $auth := string($x/@passive)
+                            return
+                                viewItem:keywordtag($x)
+                        }</div>
+                else
+                    ()
+                                        };
+                                        
+  declare %private function viewItem:keywordgroupmulti($keys){
+                                        if ($keys) then
+                    <div
+                        class="w3-row">{
+                             if (contains($keys, ' '))
+                            then
+                                for $x in tokenize($keys, ' ')
+                                return
+                                   
+                                viewItem:keywordtag($x)
+                            else
+                                let $type := $keys
+                                return
+                                viewItem:keywordtag($type)
+                        }</div>
+                else
+                    ()
+                                        };
 (:~ returns a selector with values which can be searched. a javascript will pick the selected one and send it to the restxq to get related items :)
 declare function viewItem:keywords($file, $collection) {
     let $id := string($file/@xml:id)
@@ -6220,364 +6267,54 @@ declare function viewItem:keywords($file, $collection) {
         (:                   decides on the basis of the collection what is relevant to match related records :)
         case 'manuscripts'
             return
-                (if ($file//t:term/@key) then
-                    <ul
-                        class="w3-ul"
-                        label="keywords">{
-                            for $x in distinct-values($file//t:term/@key)
-                            return
-                                <li><a
-                                        target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
-                        }</ul>
-                else
-                    (),
-                if ($file//t:supportDesc/t:material/@key) then
-                    <ul
-                        class="w3-ul"
-                        label="material">{
-                            for $x in ($file//t:supportDesc/t:material/@key)
-                            return
-                                <li><a
-                                        target="_blank" href="/authority-files/list?keyword={$x}">{$x}</a></li>
-                        }</ul>
-                else
-                    (),
-                if ($file//t:handNote[@script]/@script) then
-                    <ul
-                        class="w3-ul"
-                        label="script">{
-                            for $x in distinct-values($file//t:handNote[@script]/@script)
-                            return
-                                <li><a
-                                        target="_blank" href="/authority-files/list?keyword={$x}">{string($x)}</a></li>
-                        }</ul>
-                else
-                    (),
-                if ($file//t:objectDesc/@form) then
-                    <ul
-                        class="w3-ul"
-                        label="form">{
-                            for $x in distinct-values($file//t:objectDesc/@form)
-                            return
-                                <li><a
-                                        target="_blank" href="/authority-files/list?keyword={$x}">{string($x)}</a></li>
-                        }</ul>
-                else
-                    ())
+              (  viewItem:keywordgroup($file//t:term/@key),
+                viewItem:keywordgroup($file//t:supportDesc/t:material/@key),
+                viewItem:keywordgroup($file//t:handNote[@script]/@script),
+                viewItem:keywordgroup($file//t:objectDesc/@form)
+               )
         case 'works'
             return
-                (if ($file//t:term/@key) then
-                    <ul
-                        class="w3-ul"
-                        label="keywords">{
-                            for $x in distinct-values($file//t:term/@key)
-                            return
-                                <li><a
-                                        target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
-                        }</ul>
-                else
-                    (),
-                if ($file//t:relation[@name eq 'dcterms:creator']) then
-                    <ul
-                        class="w3-ul"
-                        label="author">{
-                            for $x in ($file//t:relation[@name eq 'dcterms:creator'])
-                            let $auth := string($x/@passive)
-                            return
-                                <li><a
-                                        target="_blank" href="/authority-files/list?keyword={$auth}">{exptit:printTitleID($auth)}</a></li>
-                        }</ul>
-                else
-                    (),
-                if ($file//t:relation[@name eq 'saws:isAttributedToAuthor']) then
-                    <ul
-                        class="w3-ul"
-                        label="relation">{
-                            for $x in ($file//t:relation[@name eq 'saws:isAttributedToAuthor'])
-                            let $auth := string($x/@passive)
-                            return
-                                <li><a
-                                        target="_blank" href="/authority-files/list?keyword={$auth}">{exptit:printTitleID($auth)}</a></li>
-                        }</ul>
-                else
-                    ()
+                (viewItem:keywordgroup($file//t:term/@key),
+                viewItem:keywordgroupauth($file//t:relation[@name eq 'dcterms:creator']),
+                viewItem:keywordgroupauth($file//t:relation[@name eq 'saws:isAttributedToAuthor'])
                 )
         case 'studies'
             return
-                (if ($file//t:term/@key) then
-                    <ul
-                        class="w3-ul"
-                        label="keywords">{
-                            for $x in distinct-values($file//t:term/@key)
-                            return
-                                <li><a
-                                        target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
-                        }</ul>
-                else
-                    (),
-                if ($file//t:relation[@name eq 'dcterms:creator']) then
-                    <ul
-                        class="w3-ul"
-                        label="author">{
-                            for $x in ($file//t:relation[@name eq 'dcterms:creator'])
-                            let $auth := string($x/@passive)
-                            return
-                                <li><a
-                                        target="_blank" href="/authority-files/list?keyword={$auth}">{exptit:printTitleID($auth)}</a></li>
-                        }</ul>
-                else
-                    (),
-                if ($file//t:relation[@name eq 'saws:isAttributedToAuthor']) then
-                    <ul
-                        class="w3-ul"
-                        label="relation">{
-                            for $x in ($file//t:relation[@name eq 'saws:isAttributedToAuthor'])
-                            let $auth := string($x/@passive)
-                            return
-                                <li><a
-                                        target="_blank" href="/authority-files/list?keyword={$auth}">{exptit:printTitleID($auth)}</a></li>
-                        }</ul>
-                else
-                    ()
+               (viewItem:keywordgroup($file//t:term/@key),
+                viewItem:keywordgroupauth($file//t:relation[@name eq 'dcterms:creator']),
+                viewItem:keywordgroupauth($file//t:relation[@name eq 'saws:isAttributedToAuthor'])
                 )
         case 'narratives'
             return
-                (if ($file//t:term/@key) then
-                    <ul
-                        class="w3-ul"
-                        label="keywords">{
-                            for $x in distinct-values($file//t:term/@key)
-                            return
-                                <li><a
-                                        target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
-                        }</ul>
-                else
-                    (),
-                if ($file//t:relation[@name eq 'dcterms:creator']) then
-                    <ul
-                        class="w3-ul"
-                        label="author">{
-                            for $x in ($file//t:relation[@name eq 'dcterms:creator'])
-                            let $auth := string($x/@passive)
-                            return
-                                <li><a
-                                        target="_blank" href="/authority-files/list?keyword={$auth}">{exptit:printTitleID($auth)}</a></li>
-                        }</ul>
-                else
-                    (),
-                if ($file//t:relation[@name eq 'saws:isAttributedToAuthor']) then
-                    <ul
-                        class="w3-ul"
-                        label="attributed author">{
-                            for $x in ($file//t:relation[@name eq 'saws:isAttributedToAuthor'])
-                            let $auth := string($x/@active)
-                            return
-                                <li><a
-                                        target="_blank" href="/authority-files/list?keyword={$auth}">{exptit:printTitleID($auth)}</a></li>
-                        }</ul>
-                else
-                    ()
+                 (viewItem:keywordgroup($file//t:term/@key),
+                viewItem:keywordgroupauth($file//t:relation[@name eq 'dcterms:creator']),
+                viewItem:keywordgroupauth($file//t:relation[@name eq 'saws:isAttributedToAuthor'])
                 )
         case 'places'
             return
-                (if ($file//t:term/@key)
-                then
-                    <ul
-                        class="w3-ul"
-                        label="keywords">{
-                            for $x in distinct-values($file//t:term/@key)
-                            return
-                                <li><a
-                                        target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
-                        }</ul>
-                else
-                    (),
-                if ($file//t:settlement)
-                then
-                    <ul
-                        class="w3-ul"
-                        label="settlement">{
-                            for $x in $file//t:settlement/@ref
-                            return
-                                <li><a
-                                        target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
-                        }</ul>
-                else
-                    (),
-                if ($file//t:region)
-                then
-                    <ul
-                        class="w3-ul"
-                        label="region">{
-                            for $x in $file//t:region/@ref
-                            return
-                                <li><a
-                                        target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
-                        }</ul>
-                else
-                    (),
-                if ($file//t:country)
-                then
-                    <ul
-                        class="w3-ul"
-                        label="country">{
-                            for $x in $file//t:country/@ref
-                            return
-                                <li><a
-                                        target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
-                        }</ul>
-                else
-                    (),
-                if ($file//t:place[@type])
-                then
-                    <ul
-                        class="w3-ul"
-                        label="type">{
-                            if (contains($file//t:place/@type, ' '))
-                            then
-                                for $x in tokenize($file//t:place/@type, ' ')
-                                return
-                                    <li><a
-                                            target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
-                            else
-                                let $type := $file//t:place/@type
-                                return
-                                    <li><a
-                                            target="_blank" href="/authority-files/list?keyword={$type}">{exptit:printTitleID($type)}</a></li>
-                        }</ul>
-                else
-                    ()
+                (viewItem:keywordgroup($file//t:term/@key),
+                viewItem:keywordgroup($file//t:settlement/@ref),
+                viewItem:keywordgroup($file//t:region/@ref),
+                viewItem:keywordgroup($file//t:country/@ref),
+                viewItem:keywordgroupmulti($file//t:place/@type)
                 )
         case 'institutions'
             return
-                (if ($file//t:term/@key)
-                then
-                    <ul
-                        class="w3-ul"
-                        label="keywords">{
-                            for $x in distinct-values($file//t:term/@key)
-                            return
-                                <li><a
-                                        target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
-                        }</ul>
-                else
-                    (),
-                if ($file//t:settlement)
-                then
-                    <ul
-                        class="w3-ul"
-                        label="settlement">{
-                            for $x in $file//t:settlement/@ref
-                            return
-                                <li><a
-                                        target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
-                        }</ul>
-                else
-                    (),
-                if ($file//t:region)
-                then
-                    <ul
-                        class="w3-ul"
-                        label="region">{
-                            for $x in $file//t:region/@ref
-                            return
-                                <li><a
-                                        target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
-                        }</ul>
-                else
-                    (),
-                if ($file//t:country)
-                then
-                    <ul
-                        class="w3-ul"
-                        label="country">{
-                            for $x in $file//t:country/@ref
-                            return
-                                <li><a
-                                        target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
-                        }</ul>
-                else
-                    (),
-                if ($file//t:place[@type])
-                then
-                    <ul
-                        class="w3-ul"
-                        label="type">{
-                            if (contains($file//t:place/@type, ' '))
-                            then
-                                for $x in ($file//t:place/@type)
-                                return
-                                    <li><a
-                                            target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
-                            else
-                                let $type := $file//t:place/@type
-                                return
-                                    <li><a
-                                            target="_blank" href="/authority-files/list?keyword={$type}">{exptit:printTitleID($type)}</a></li>
-                        }</ul>
-                else
-                    ()
+             (viewItem:keywordgroup($file//t:term/@key),
+                viewItem:keywordgroup($file//t:settlement/@ref),
+                viewItem:keywordgroup($file//t:region/@ref),
+                viewItem:keywordgroup($file//t:country/@ref),
+                viewItem:keywordgroupmulti($file//t:place/@type)
                 )
         case 'persons'
             return
-                (if ($file//t:term/@key) then
-                    <ul
-                        class="w3-ul"
-                        label="keywords">{
-                            for $x in distinct-values($file//t:term/@key)
-                            return
-                                <li><a
-                                        target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
-                        }</ul>
-                else
-                    (),
-                if ($file//t:roleName) then
-                    <ul
-                        class="w3-ul"
-                        label="role">{
-                            for $x in ($file//t:roleName/@type)
-                            return
-                                <li><a
-                                        target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
-                        }</ul>
-                else
-                    (),
-                if ($file//t:faith) then
-                    <ul
-                        class="w3-ul"
-                        label="faith">{
-                            for $x in ($file//t:faith/@type)
-                            return
-                                <li><a
-                                        target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
-                        }</ul>
-                else
-                    (),
-                if ($file//t:occupation) then
-                    <ul
-                        class="w3-ul"
-                        label="occupation">{
-                            for $x in ($file//t:occupation/@type)
-                            return
-                                <li><a
-                                        target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
-                        }</ul>
-                else
-                    ()
+            (viewItem:keywordgroup($file//t:term/@key),
+            viewItem:keywordgroup($file//t:roleName/@type),
+            viewItem:keywordgroup($file//t:faith/@type),
+            viewItem:keywordgroup($file//t:occupation/@type)
                 )
         default return
-            (if ($file//t:term/@key) then
-                <ul
-                    class="w3-ul"
-                    label="keywords">{
-                        for $x in distinct-values($file//t:term/@key)
-                        return
-                            <li><a
-                                    target="_blank" href="/authority-files/list?keyword={$x}">{exptit:printTitleID($x)}</a></li>
-                    }</ul>
-            else
-                ()
-            )
+            viewItem:keywordgroup($file//t:term/@key)
 return
     if(count($options) gt 1) then <div
         class="w3-container"
