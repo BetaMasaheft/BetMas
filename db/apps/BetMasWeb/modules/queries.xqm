@@ -3017,8 +3017,8 @@ declare function q:summary($item) {
     let $dates := ($item//t:date[not(parent::t:publicationStmt)][not(parent::t:bibl)], $item//t:origDate, $item//t:birth, $item//t:floruit, $item//t:death)
     return
         <div
-            class="w3-card-4 w3-margin w3-padding"
-            style="height:200px;resize: both;overflow:auto">
+            class="w3-padding"
+            style="max-height:200px;resize: both;overflow:auto">
             
             {
                 switch ($item/@type)
@@ -3589,8 +3589,8 @@ declare function q:resultslinkstoviews($t, $id, $collection) {
         class="w3-button w3-small w3-gray"
         href="/{$collection}/{$id}/analytic">relations</a>
     <div
-        class="w3-card w3-margin w3-padding"
-        style="height:200px;resize: both;overflow:auto">
+        class="w3-padding"
+        style="max-height:200px;resize: both;overflow:auto">
         
         {
             let $item := $q:col/id($id)[self::t:TEI]
