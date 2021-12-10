@@ -301,17 +301,21 @@ declare function q:query($node as node()*, $model as map(*), $query as xs:string
         if ((string-length($query) lt 1) and ($t != 'fields') and (count($q:params) = 0)) then
             (util:log('info', ('doing nothing there is no query and no fields, stated parameters names: ', count($q:params))))
         else
-            let $hits := q:switchSearchType($t, $query, $q:params)
-            
-            let $runtime-ms := ((util:system-time() - $start-time) div xs:dayTimeDuration('PT1S')) * 1000
-            return
-                map {
-                    'runtime': $runtime-ms,
-                    'type': $t,
-                    'query': $query,
-                    'hits': $hits('tei'),
-                    'qs': $hits('qs')
-                }
+            if (count($q:params) = 3 and $q:params = 'searchType' and $q:params = 'mode' and $q:params = 'query'
+            and (string-length($query) lt 1)) then
+                (util:log('info', ('doing nothing there is no query and no fields, stated parameters names are only the necessary ones: ', count($q:params), ': ', string-join($q:params, ','), ' should simply return the empty form.')))
+            else
+                let $hits := q:switchSearchType($t, $query, $q:params)
+                
+                let $runtime-ms := ((util:system-time() - $start-time) div xs:dayTimeDuration('PT1S')) * 1000
+                return
+                    map {
+                        'runtime': $runtime-ms,
+                        'type': $t,
+                        'query': $query,
+                        'hits': $hits('tei'),
+                        'qs': $hits('qs')
+                    }
 };
 
 
@@ -1044,8 +1048,8 @@ names are those of the indexes where the filter is built directly from there, ot
                     case 'persrole'
                         return
                             '[descendant::t:persName[@role="' || $r || '"]]'
-                   
-                   default return
+                    
+                    default return
                         ()
 
 
@@ -1567,76 +1571,61 @@ declare function q:facetDiv($f, $facets, $facetTitle) {
             if (map:size($facets) gt 1000) then
                 (util:log("info", concat($facetTitle, " has ", map:size($facets), " facets")))
             else
-               (: (util:log("info", concat($facetTitle, " has ", map:size($facets), " facets"))):)
-                 <div
-                class="w3-row w3-left-align">
-                <button
-                    type="button"
-                    onclick="openAccordion('{string($f)}-facet-list')"
-                    class="w3-button w3-block w3-left-align w3-gray">{
-                        $facetTitle
-                    }</button>
+                (: (util:log("info", concat($facetTitle, " has ", map:size($facets), " facets"))):)
                 <div
-                    class="w3-padding w3-hide"
-                    id="{string($f)}-facet-list">
-                    {
-                        let $inputs := map:for-each($facets, function ($label, $count) {
-                            <span><input
-                                    class="w3-check w3-margin-right"
-                                    type="checkbox"
-                                    name="{string($f)}-facet"
-                                    value="{$label}"/>
-                                { if ($f = 'changeWho') then
+                    class="w3-row w3-left-align">
+                    <button
+                        type="button"
+                        onclick="openAccordion('{string($f)}-facet-list')"
+                        class="w3-button w3-block w3-left-align w3-gray">{
+                            $facetTitle
+                        }</button>
+                    <div
+                        class="w3-padding w3-hide"
+                        id="{string($f)}-facet-list">
+                        {
+                            let $inputs := map:for-each($facets, function ($label, $count) {
+                                <span><input
+                                        class="w3-check w3-margin-right"
+                                        type="checkbox"
+                                        name="{string($f)}-facet"
+                                        value="{$label}"/>
+                                    {
+                                        if ($f = 'changeWho') then
                                             editors:editorKey(replace($label, '#', ''))
                                         else
                                             if ($f = 'languages') then
                                                 $q:languages//t:item[@xml:id eq $label]/text()
-                                        else
-                                            if ($f = 'keywords') then
-                                            let $cleanlabel := if (starts-with($label, $config:appUrl)) then replace(substring-after($label, $config:appUrl), '/', '') else $label
-                                                let $taxname := ($q:tax//t:category[@xml:id eq $cleanlabel] | $q:tax//t:category[t:catDesc = $cleanlabel])[1]/t:catDesc/text()
-                                                return $taxname
-                                            else if (starts-with($label, $config:appUrl)) then exptit:printTitle($label) else $label
-                                }
-                                <span
-                                    class="w3-badge w3-margin-left">{$count}</span><br/></span>
-                        })
-                        return
-                            if ($f = 'keywords') then
-                                (for $input in $inputs
-                                let $val := $input/*:input/@value
-                                 let $cleanval := if (starts-with($val, $config:appUrl)) then 
-                                 replace(substring-after($val, $config:appUrl), '/', '') else $val
-                                let $kk := ($q:tax//t:category[t:catDesc eq $val] | $q:tax//t:category[@xml:id eq $val])
-                                let $taxonomy := string-join($kk/parent::t:category[t:desc][1]/t:desc[1]/text())
-                                    group by $taxonomy
-                                    order by $taxonomy
-                                return
-                                    <div
-                                        class="w3-row w3-left-align">
-                                        <button
-                                            type="button"
-                                            onclick="openAccordion('{string($f)}-{replace($taxonomy, ' ', '')}-facet-sublist')"
-                                            class="w3-button w3-block w3-left-align w3-gray">
-                                            {$taxonomy}
-                                        </button>
-                                        <div
-                                            class="w3-padding w3-hide"
-                                            id="{string($f)}-{replace($taxonomy, ' ', '')}-facet-sublist">{
-                                                for $i in $input
-                                                let $name := exptit:printTitle($i//*:input/@value)
-                                                let $sortkey := q:sortingkey($i)
-                                                    order by $sortkey
-                                                return
-                                                    $i/node()
-                                            }</div></div>)
-                            else
-                                if ($f = 'changeWhen') then
+                                            else
+                                                if ($f = 'keywords') then
+                                                    let $cleanlabel := if (starts-with($label, $config:appUrl)) then
+                                                        replace(substring-after($label, $config:appUrl), '/', '')
+                                                    else
+                                                        $label
+                                                    let $taxname := ($q:tax//t:category[@xml:id eq $cleanlabel] | $q:tax//t:category[t:catDesc = $cleanlabel])[1]/t:catDesc/text()
+                                                    return
+                                                        $taxname
+                                                else
+                                                    if (starts-with($label, $config:appUrl)) then
+                                                        exptit:printTitle($label)
+                                                    else
+                                                        $label
+                                    }
+                                    <span
+                                        class="w3-badge w3-margin-left">{$count}</span><br/></span>
+                            })
+                            return
+                                if ($f = 'keywords') then
                                     (for $input in $inputs
                                     let $val := $input/*:input/@value
-                                    let $taxonomy := substring-before($val, '-')
+                                    let $cleanval := if (starts-with($val, $config:appUrl)) then
+                                        replace(substring-after($val, $config:appUrl), '/', '')
+                                    else
+                                        $val
+                                    let $kk := ($q:tax//t:category[t:catDesc eq $val] | $q:tax//t:category[@xml:id eq $val])
+                                    let $taxonomy := string-join($kk/parent::t:category[t:desc][1]/t:desc[1]/text())
                                         group by $taxonomy
-                                        order by xs:gYear($taxonomy) descending
+                                        order by $taxonomy
                                     return
                                         <div
                                             class="w3-row w3-left-align">
@@ -1650,30 +1639,31 @@ declare function q:facetDiv($f, $facets, $facetTitle) {
                                                 class="w3-padding w3-hide"
                                                 id="{string($f)}-{replace($taxonomy, ' ', '')}-facet-sublist">{
                                                     for $i in $input
+                                                    let $name := exptit:printTitle($i//*:input/@value)
                                                     let $sortkey := q:sortingkey($i)
                                                         order by $sortkey
                                                     return
                                                         $i/node()
                                                 }</div></div>)
                                 else
-                                    if ($f = 'titleRef') then
+                                    if ($f = 'changeWhen') then
                                         (for $input in $inputs
-                                        let $sortkey := q:sortingkey($input)
-                                        let $first := substring($sortkey, 1, 1)
-                                            group by $first
-                                            order by $first
+                                        let $val := $input/*:input/@value
+                                        let $taxonomy := substring-before($val, '-')
+                                            group by $taxonomy
+                                            order by xs:gYear($taxonomy) descending
                                         return
                                             <div
                                                 class="w3-row w3-left-align">
                                                 <button
                                                     type="button"
-                                                    onclick="openAccordion('{string($f)}-{$first}-facet-sublist')"
+                                                    onclick="openAccordion('{string($f)}-{replace($taxonomy, ' ', '')}-facet-sublist')"
                                                     class="w3-button w3-block w3-left-align w3-gray">
-                                                    {upper-case($first)}
+                                                    {$taxonomy}
                                                 </button>
                                                 <div
                                                     class="w3-padding w3-hide"
-                                                    id="{string($f)}-{$first}-facet-sublist">{
+                                                    id="{string($f)}-{replace($taxonomy, ' ', '')}-facet-sublist">{
                                                         for $i in $input
                                                         let $sortkey := q:sortingkey($i)
                                                             order by $sortkey
@@ -1681,15 +1671,40 @@ declare function q:facetDiv($f, $facets, $facetTitle) {
                                                             $i/node()
                                                     }</div></div>)
                                     else
-                                        (for $input in $inputs
-                                        let $sortkey := q:sortingkey($input)
-                                            order by $sortkey
-                                        return
-                                            $input/node()
-                                        )
-                    }
+                                        if ($f = 'titleRef') then
+                                            (for $input in $inputs
+                                            let $sortkey := q:sortingkey($input)
+                                            let $first := substring($sortkey, 1, 1)
+                                                group by $first
+                                                order by $first
+                                            return
+                                                <div
+                                                    class="w3-row w3-left-align">
+                                                    <button
+                                                        type="button"
+                                                        onclick="openAccordion('{string($f)}-{$first}-facet-sublist')"
+                                                        class="w3-button w3-block w3-left-align w3-gray">
+                                                        {upper-case($first)}
+                                                    </button>
+                                                    <div
+                                                        class="w3-padding w3-hide"
+                                                        id="{string($f)}-{$first}-facet-sublist">{
+                                                            for $i in $input
+                                                            let $sortkey := q:sortingkey($i)
+                                                                order by $sortkey
+                                                            return
+                                                                $i/node()
+                                                        }</div></div>)
+                                        else
+                                            (for $input in $inputs
+                                            let $sortkey := q:sortingkey($input)
+                                                order by $sortkey
+                                            return
+                                                $input/node()
+                                            )
+                        }
+                    </div>
                 </div>
-            </div>
 
 };
 
@@ -1899,7 +1914,7 @@ declare function q:facetName($f) {
         case 'presenceOfPunctuation'
             return
                 'Presence of Punctuation'
-         case 'origPlace'
+        case 'origPlace'
             return
                 'Place of Origin'
         default return

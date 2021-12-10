@@ -234,12 +234,23 @@ else
                                         </error-handler>
                                     </dispatch>
                                     else
-                                if ($exist:path = '/as.html' or $exist:path = '/search.html' or $exist:path = '/facet.html' 
+                                if ($exist:path = '/as.html' or $exist:path = '/search.html' or $exist:path = '/facet.html'
                                 or $exist:path = '/sparql.html' or $exist:path = '/xpath.html') then
                                        <dispatch
                                             xmlns="http://exist.sourceforge.net/NS/exist">
                                             <redirect
                                                 url="/newSearch.html"
+                                                absolute="yes"/>
+                                        </dispatch>
+(:                                        another backward compatibility redirect:)
+                                        else if (matches($exist:path, '/manuscripts/INS\d+[\w_-]+/list'))
+                                        then
+                                        let $insid := replace($exist:path, '/manuscripts/', '') => replace('/list', '')
+                                        return
+                                        <dispatch
+                                            xmlns="http://exist.sourceforge.net/NS/exist">
+                                            <redirect
+                                                url="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=mss&amp;reporef={$insid}"
                                                 absolute="yes"/>
                                         </dispatch>
                                           else if ($exist:path = '/manuscripts/list') then
