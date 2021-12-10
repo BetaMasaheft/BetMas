@@ -3651,7 +3651,8 @@ declare function q:queryinput($node as node(), $model as map(*), $query as xs:st
         style="height:100px"
         name="query"
         type="search"
-        class="w3-input diacritics">
+        class="w3-input w3-border diacritics"
+        placeholder="type here...">
         {$query}
     
     </textarea>
