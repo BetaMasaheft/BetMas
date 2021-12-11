@@ -3439,8 +3439,7 @@ declare %private function viewItem:gap($node as element(t:gap)) {
 };
 
 declare %private function viewItem:pb($node as element(t:pb)) {
-    
-    (if ($node/ancestor::t:div[@type = 'edition'] or $node/ancestor::dts:fragment)
+    if ($node/ancestor::t:div[@type = 'edition'] or $node/ancestor::dts:fragment)
     then
         (' |',
         <sup
@@ -3451,9 +3450,6 @@ declare %private function viewItem:pb($node as element(t:pb)) {
             id="part{$node/@n}"/>,
         <p>{viewItem:imagelink($node)}</p>
         )
-    ,
-    viewItem:TEI2HTML($node)
-    )
 };
 
 declare %private function viewItem:imagelink($node) {
@@ -3948,7 +3944,7 @@ declare %private function viewItem:DTSpartID($node) {
 
 declare function viewItem:TEI2HTML($nodes) {
     for $node in $nodes
-    (:    let $test := util:log('info',$node/name()):)
+(:        let $test := util:log('info',$node/name()):)
     return
         typeswitch ($node)
             (:        clears all comments:)
@@ -5498,7 +5494,7 @@ declare function viewItem:dates($date) {
 
 
 declare function viewItem:textfragment($frag) {
-    (:let $test := util:log('info', 'got to the textfragment' )
+  (:  let $test := util:log('info', 'got to the textfragment' )
 return:)
     <div>
         <div
@@ -5509,7 +5505,10 @@ return:)
                 else
                     ()
             }
-            {
+            {if($frag[@subtype="transkribus"] and (count($frag/t:div[@subtype='folio']) gt 20)) 
+            then  <div>This manuscript transcription has {count($frag/t:div[@subtype='folio'])} folia, which is too much to show. 
+            Please, use the navigation bar on the left to narrow down.</div>
+            else 
                 try {
                     viewItem:TEI2HTML($frag)
                 } catch * {

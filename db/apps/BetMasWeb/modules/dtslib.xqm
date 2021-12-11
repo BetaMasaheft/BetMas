@@ -245,7 +245,7 @@ let $l := if(contains($ref, '.')) then count(tokenize($ref, '.')) else 1
 let $parseRef := dtslib:parseRef($ref)
 let $l :=$parseRef//ref[1]/xs:integer(@l)
 let $list := dtslib:listRefs($l, $text)
-return if ($prevornext = 'next') then $list[index-of($list,$ref)+1] else $list[index-of($list,$ref)-1]
+return if ($prevornext = 'next') then $list[index-of($list,$ref)+1] else $list[index-of($list,$ref)[1]-1]
 };
 
 declare function dtslib:redirectToCollections (){
@@ -396,9 +396,9 @@ declare %private function dtslib:fragment($file, $edition, $ref, $start, $end, $
 (:  let $t4 := console:log('edition')
   return:)
   <TEI xmlns="http://www.tei-c.org/ns/1.0" >
-        <dtslib:fragment xmlns:dts="https://w3id.org/dts/api#">
+        <dts:fragment xmlns:dts="https://w3id.org/dts/api#">
           {$text}
-        </dtslib:fragment>
+        </dts:fragment>
    </TEI>
   else if ($ref != '' ) then 
   (:fetch narrative unit passage:)
@@ -408,9 +408,9 @@ declare %private function dtslib:fragment($file, $edition, $ref, $start, $end, $
       let $narrative := $text//t:*[@corresp =$ref]
             return
                         <TEI xmlns="http://www.tei-c.org/ns/1.0" >
-                            <dtslib:fragment xmlns:dts="https://w3id.org/dts/api#">
+                            <dts:fragment xmlns:dts="https://w3id.org/dts/api#">
                                 {$narrative}
-                            </dtslib:fragment>
+                            </dts:fragment>
                        </TEI> )
 (:otherwise go for a passage in the standard structure:)
  else (
@@ -420,9 +420,9 @@ declare %private function dtslib:fragment($file, $edition, $ref, $start, $end, $
 (:                        let $t2:=console:log($entirepart):)
                         return
                         <TEI xmlns="http://www.tei-c.org/ns/1.0" >
-                            <dtslib:fragment xmlns:dts="https://w3id.org/dts/api#">
+                            <dts:fragment xmlns:dts="https://w3id.org/dts/api#">
                                 {$entirepart}
-                            </dtslib:fragment>
+                            </dts:fragment>
                        </TEI>
                     
          )
@@ -458,9 +458,9 @@ let $cleanMSrefs := if(matches($start, '\d+[r|v][a-z]'))
  return dtslib:nodes($text, $selector/*:path/text(), $selector/*:ref/text())
 return 
 <TEI xmlns="http://www.tei-c.org/ns/1.0">
-    <dtslib:fragment xmlns:dts="https://w3id.org/dts/api#">
+    <dts:fragment xmlns:dts="https://w3id.org/dts/api#">
         {$nodes}
-    </dtslib:fragment>
+    </dts:fragment>
 </TEI>
 )
                        
@@ -1170,7 +1170,7 @@ let $DcWithVersions :=  if($vers = 'yes') then map:put($DcSelector, "dc:hasVersi
 let $ext := dtslib:extension($id)
 let $haspart := dtslib:haspart($id)
 let $manifest :=dtslib:manifest($doc, $id)
-let $addmanifest := if (count($manifest) ge 1) then map:put($ext, "foaf:depiction", $manifest) else $ext
+let $addmanifest := if ((count($ext) ge 1) and (count($manifest) ge 1)) then map:put($ext, "foaf:depiction", $manifest) else $ext
 let $parts := if(count($haspart) ge 1) then map:put($addmanifest, 'dc:hasPart', $haspart) else $addmanifest
 let $dtsPass := "/api/dts/document?id=" || $resourceURN
 let $dtsNav := "/api/dts/navigation?id=" || $resourceURN
