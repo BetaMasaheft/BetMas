@@ -1038,7 +1038,15 @@ EMIP:)
                     '_0001.tif.jpg'
                 }" class="thumb w3-image"/>
                 else 'no images' }</a>
-                
+                                                            else
+                                                if ($item//t:msIdentifier/t:idno[contains(@facs, 'staatsbibliothek-berlin')]) then
+                                                    (: https://content.staatsbibliothek-berlin.de/dc/1751174670/manifest
+                                            https:\/\/content.staatsbibliothek-berlin.de\/dc\/1751174670-0001\/full\/full\/0\/default.jpg:)
+                                                    <img
+                                                        src="{
+                                                                replace($item//t:msIdentifier/t:idno/@facs, '/manifest', '-0001/full/140,/0/default.jpg')
+                                                            }"
+                                                        class="thumb w3-image"/>
                 else ()}
                                                           <a class="w3-bar-item"
                                                href="/manuscripts/{$groupkey}/main">{$tit} ({string($groupkey)}) </a>

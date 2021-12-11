@@ -3532,10 +3532,10 @@ declare %private function viewItem:app($node as element(t:app)) {
         (
         viewItem:TEI2HTML($node/t:lem/node()),
         <sup
-            id="{$node/ancestor::t:div[@type = 'textpart'][1]/@n}appNote{$node/position()}">
+            id="{$node/ancestor::t:div[@type = 'textpart'][1]/@n}appNote{generate-id($node)}">
             <a
-                href="#{$node/ancestor::t:div[@type = 'textpart'][1]/@n}appPointer{$node/position()}">
-                {count($node/preceding-sibling::t:app) + 1}
+                href="#{$node/ancestor::t:div[@type = 'textpart'][1]/@n}appPointer{generate-id($node)}">
+                {count($node/parent::t:*/t:app[. << $node]) + 1}
             </a>
         </sup>,
         ' ')
