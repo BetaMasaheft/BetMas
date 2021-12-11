@@ -533,7 +533,7 @@ declare function gitsync:validateAndConfirm($item, $mail, $type) {
             (:build the message:)
             let $report := validation:jing-report($item, $schema)
             let $contributorMessage := <mail>
-                <from>pietro.liuzzo@uni-hamburg.de</from>
+                <from>info@betamasaheft.eu</from>
                 <to>{$mail[1]}</to>
                 <cc></cc>
                 <bcc></bcc>
@@ -581,9 +581,9 @@ declare function gitsync:validateAndConfirm($item, $mail, $type) {
  : this function is called only on add and update
 :)
 declare function gitsync:wrongID($mail, $storedFileID, $filename) {
-let $address := if ($mail[1] = 'noreply@github.com') then 'pietro.liuzzo@uni-hamburg.de' else $mail[1]
+let $address := if ($mail[1] = 'noreply@github.com') then 'info@betamasaheft.eu' else $mail[1]
      let $WrongIdMessage := <mail>
-                <from>pietro.liuzzo@uni-hamburg.de</from>
+                <from>info@betamasaheft.eu</from>
                 <to>{$address}</to>
                 <cc></cc>
                 <bcc></bcc>
@@ -615,7 +615,7 @@ let $address := if ($mail[1] = 'noreply@github.com') then 'pietro.liuzzo@uni-ham
 :)
 declare function gitsync:wrongAnchor($mail, $intersect, $filename) {
      let $WrongIdMessage := <mail>
-                <from>pietro.liuzzo@uni-hamburg.de</from>
+                <from>info@betamasaheft.eu</from>
                 <to>{$mail[1]}</to>
                 <cc></cc>
                 <bcc></bcc>
@@ -652,8 +652,8 @@ declare function gitsync:wrongAnchor($mail, $intersect, $filename) {
 :)
 declare function gitsync:failedCommitMessage($mail, $data-collection, $message) {
      let $failureMessage := <mail>
-                <from>pietro.liuzzo@uni-hamburg.de</from>
-                <to>pietro.liuzzo@uni-hamburg.de</to>
+                <from>info@betamasaheft.eu</from>
+                <to>info@betamasaheft.eu</to>
                 <cc>{$mail[1]}</cc>
                 <bcc></bcc>
                 <subject>The Syncing of GitHub with the Beta Masaheft App failed</subject>
@@ -689,8 +689,8 @@ declare function gitsync:failedCommitMessage($mail, $data-collection, $message) 
 :)
 declare function gitsync:mergeCommitMessage($mail, $data-collection, $message, $branch) {
      let $failureMessage := <mail>
-                <from>pietro.liuzzo@uni-hamburg.de</from>
-                <to>pietro.liuzzo@uni-hamburg.de</to>
+                <from>info@betamasaheft.eu</from>
+                <to>info@betamasaheft.eu</to>
                 <bcc></bcc>
                 <subject>Commit to {$branch}, not synced</subject>
                 <message>
@@ -718,8 +718,8 @@ declare function gitsync:mergeCommitMessage($mail, $data-collection, $message, $
 :)
 declare function gitsync:TaxonomyMessage() {
      let $failureMessage := <mail>
-                <from>pietro.liuzzo@uni-hamburg.de</from>
-                <to>pietro.liuzzo@uni-hamburg.de</to>
+                <from>info@betamasaheft.eu</from>
+                <to>info@betamasaheft.eu</to>
                 <subject>taxonomy.xml has been updated. the canonicaltaxonomy.xml is thus outdated.</subject>
                 <message>
                     <xhtml>

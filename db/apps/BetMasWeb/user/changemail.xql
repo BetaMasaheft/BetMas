@@ -18,7 +18,7 @@ return
        (
        sm:set-account-metadata($user, xs:anyURI('http://axschema.org/contact/email'), $email),
            let $contributorMessage := <mail>
-                <from>pietro.liuzzo@uni-hamburg.de</from>
+                <from>info@betamasaheft.eu</from>
                 <to>{sm:get-account-metadata($user, xs:anyURI('http://axschema.org/contact/email'))}</to>
                 <cc></cc>
                 <bcc></bcc>
@@ -47,8 +47,8 @@ return
             ,
             
           let $adminMessage := <mail>
-                <from>pietro.liuzzo@uni-hamburg.de</from>
-                <to>pietro.liuzzo@uni-hamburg.de</to>
+                <from>info@betamasaheft.eu</from>
+                <to>info@betamasaheft.eu</to>
                 <cc></cc>
                 <bcc></bcc>
                 <subject>A user has reset his/her email on Beta Maṣāḥǝft.</subject>
@@ -115,8 +115,8 @@ return
         catch *{
             (
             let $adminMessage := <mail>
-                <from>pietro.liuzzo@uni-hamburg.de</from>
-                <to>pietro.liuzzo@uni-hamburg.de</to>
+                <from>info@betamasaheft.eu</from>
+                <to>info@betamasaheft.eu</to>
                 <cc></cc>
                 <bcc></bcc>
                 <subject>A user has tried to reset his/her email on Beta Maṣāḥǝft and failed.</subject>

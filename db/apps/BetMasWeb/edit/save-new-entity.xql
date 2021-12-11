@@ -713,7 +713,7 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                     <p> Unfortunately
                         <span
                             class="lead">{$Newid}</span> could not be saved</p>
-                    <p>This is the first error which occurred {$err:description}, feel free to copy it and send it to pietro.liuzzo@uni-hamburg.de.</p>
+                    <p>This is the first error which occurred {$err:description}, feel free to copy it and send it to info@betamasaheft.eu.</p>
                     <a
                         href="/newentry.html?collection={$collection}">create another entry</a>
                 </div>

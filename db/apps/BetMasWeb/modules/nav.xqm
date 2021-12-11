@@ -21,7 +21,7 @@ declare function nav:modalsNew() {
                         class="fa fa-times"></i></span>
                 <p> You are looking at work in progress version of this website.
                     For questions <a
-                        href="mailto:pietro.liuzzo@uni-hamburg.de?Subject=Issue%20Report%20BetaMasaheft">contact the dev team</a>.</p>
+                        href="mailto:info@betamasaheft.eu?Subject=Issue%20Report%20BetaMasaheft">contact the dev team</a>.</p>
                 
                 <p> Hover on words to see search options.</p>
                 <p>Double-click to see morphological parsing.</p>
@@ -543,7 +543,7 @@ declare function nav:footerNew() {
         <div class="w3-third">
         <div class="w3-margin">
         
-        <p  style="text-align:left;">Copyright © <span
+        <p  style="margin-left:50;text-align:left;">Copyright © <span
                     property="http://purl.org/dc/elements/1.1/publisher">Akademie der Wissenschaften in Hamburg,
                     Hiob-Ludolf-Zentrum für Äthiopistik</span>. Sharing and remixing permitted under terms of the 
                     <a

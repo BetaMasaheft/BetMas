@@ -24,7 +24,7 @@ return
             try{
             (
             let $contributorMessage := <mail>
-                <from>pietro.liuzzo@uni-hamburg.de</from>
+                <from>info@betamasaheft.eu</from>
                 <to>{sm:get-account-metadata($user, xs:anyURI('http://axschema.org/contact/email'))}</to>
                 <cc></cc>
                 <bcc></bcc>
@@ -58,8 +58,8 @@ return
             ,
             
             let $adminMessage := <mail>
-                <from>pietro.liuzzo@uni-hamburg.de</from>
-                <to>pietro.liuzzo@uni-hamburg.de</to>
+                <from>info@betamasaheft.eu</from>
+                <to>info@betamasaheft.eu</to>
                 <cc></cc>
                 <bcc></bcc>
                 <subject>A user account has been created.</subject>
@@ -127,8 +127,8 @@ return
         
             (
             let $adminMessage := <mail>
-                <from>pietro.liuzzo@uni-hamburg.de</from>
-                <to>pietro.liuzzo@uni-hamburg.de</to>
+                <from>info@betamasaheft.eu</from>
+                <to>info@betamasaheft.eu</to>
                 <cc></cc>
                 <bcc></bcc>
                 <subject>A user has tried to set up an account on Beta Maṣāḥǝft and failed.</subject>
