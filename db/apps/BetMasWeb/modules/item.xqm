@@ -429,7 +429,7 @@ declare function item2:AdminLocTable($adminLoc as element()*){
                                            <td>{if($s/@type) then exptit:printTitleID($s/@type/data()) else $s/name()}</td>
                                            <td>{
                                            if($s/@ref) then
-                                           (<a target="_blank" href="/{$s/@ref}">{exptit:printTitleID($s/@ref)}</a>,
+                                           (<a target="_blank" href="/{if(starts-with($s/@ref, $config:appUrl)) then substring-after($s/@ref, concat($config:appUrl, '/')) else $s/@ref}">{exptit:printTitle($s/@ref)}</a>,
                                            <a xmlns="http://www.w3.org/1999/xhtml"
                                            id="{generate-id($s)}Ent{$s/@ref}relations"> <i class="fa fa-hand-o-left"/>
                                            </a>)

@@ -392,7 +392,7 @@ declare function q:displayQtime($node as node()*, $model as map(*)) {
                             class="w3-label w3-gray">{$q:searchType}
                         </span>
                         <span
-                            class="w3-tooltip"> query for "{string-join($model('qs'), ', ')}" with the parameters shown at the right.
+                            class="w3-tooltip"> query for "{if($q:searchType != 'sparql') then string-join($model('qs'), ', ') else ()}" with the parameters shown at the right.
                             <span
                                 class="w3-text"> (entered: <em>{$model('query')}</em>)</span></span></h3>),
             <span>{'Search time: '}<span
@@ -2355,10 +2355,11 @@ declare
 %templates:wrap
 function q:charts($node as node()*, $model as map(*))
 {
-    
+      if (count($model('hits')) = 0) then () else
     let $mss := $model('hits')[@type = 'mss']
     return
-        if (count($mss) gt 300) then
+      if (count($mss) = 0) then () 
+      else  if (count($mss) gt 300) then
             <div
                 class="w3-row">
                 There are are more than 300 different manuscripts to chart among the results of this search. This is a bit too much. Please, refine your query or try and use the on-demand version of this functionality.

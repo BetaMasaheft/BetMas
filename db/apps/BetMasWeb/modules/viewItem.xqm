@@ -216,7 +216,9 @@ declare %private function viewItem:locus($this) {
         if ($this/parent::t:ab) then
             (')', <br></br>)
         else
-            ()
+            (),
+            
+            ' '
         )
 };
 
