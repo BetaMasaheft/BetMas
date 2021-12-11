@@ -119,6 +119,14 @@ declare function q:querytype($node as node(), $model as map(*)) {
                     else
                         ()
                 }Lookup other Clavis ID</option>
+            
+            <option
+                value="placeSearch">{
+                    if ($querytypeparam = 'placeSearch') then
+                        attribute selected {'selected'}
+                    else
+                        ()
+                }Manuscript Place Search</option>
             <option
                 value="xpath">{
                     if ($querytypeparam = 'xpath') then
@@ -126,18 +134,6 @@ declare function q:querytype($node as node(), $model as map(*)) {
                     else
                         ()
                 }Xpath</option>
-            <!--  <option   value="list">{if($querytypeparam='list') then attribute selected {'selected'} else ()}list</option>-->
-            <!--
-split for each list or resource specific, it will show  a search box and a series of filters specific to the list type, 
-these will be the parameters and will be mixable with the facets. search without query will search all. each list as a specific context and specific filters
-
-keywords list
-decorations, additions, titles, binding lists
-clavis/mss/institutions/places/persons lists
-catalogues list
-shelf marks list
-advanced search
--->
             <option
                 value="sparql">{
                     if ($querytypeparam = 'sparql') then
@@ -348,6 +344,9 @@ like the facet, simple and advanced searches :)
         case 'otherclavis'
             return
                 q:otherclavis($q)
+        case 'placeSearch'
+            return
+                q:placeSearch($q)
         case 'bmid'
             return
                 q:bmid($q)
@@ -364,21 +363,21 @@ declare function q:displayQtime($node as node()*, $model as map(*)) {
     
     <div>{
             if ($model('type') = 'bibliography') then
-                <h3>There are <span
+                <p>There are <span
                         xmlns="http://www.w3.org/1999/xhtml"
                         class="w3-tag w3-gray"
                         id="hit-count">{count($model("hits"))}</span>
-                    distinct bibliographical references</h3>
+                    distinct bibliographical references</p>
             else
                 if ($model('type') = 'matches') then
-                    <h3>You found <span
+                    <p>You found <span
                             class="w3-tag w3-gray">{q:create-field-query($model('query'), $q:mode)}</span> in
                         <span
                             xmlns="http://www.w3.org/1999/xhtml"
                             id="hit-count"
-                            class="w3-tag w3-gray">{count($model("hits"))}</span> results</h3>
+                            class="w3-tag w3-gray">{count($model("hits"))}</span> results</p>
                 else
-                    (<h3> There are <span
+                    (<p> There are <span
                             xmlns="http://www.w3.org/1999/xhtml"
                             id="hit-count"
                             class="w3-tag w3-gray">{
@@ -392,15 +391,63 @@ declare function q:displayQtime($node as node()*, $model as map(*)) {
                             class="w3-label w3-gray">{$q:searchType}
                         </span>
                         <span
-                            class="w3-tooltip"> query for "{if($q:searchType != 'sparql') then string-join($model('qs'), ', ') else ()}" with the parameters shown at the right.
+                            class="w3-tooltip"> query for "{
+                                if ($q:searchType != 'sparql') then
+                                    string-join($model('qs'), ', ')
+                                else
+                                    ()
+                            }" with the parameters shown at the right.
                             <span
-                                class="w3-text"> (entered: <em>{$model('query')}</em>)</span></span></h3>),
+                                class="w3-text"> (entered: <em>{$model('query')}</em>)</span></span></p>),
             <span>{'Search time: '}<span
                     class="w3-badge">{$model('runtime') div 1000}</span>
                 {' seconds.'}</span>
         }
     </div>
 
+};
+
+declare function q:placeSearch($place) {
+    if (not(starts-with($place, "LOC"))) then
+        (util:log('info', 'sorry, this is not a valid place identifier, it should start with LOC'),
+        map {
+            'qs': "sorry, this is not a valid place identifier, it should start with LOC"
+        })
+    else
+        let $placeuri := ($config:appUrl || '/' || $place)
+        let $file := $q:col//id($place)[self::t:TEI]
+        let $sameAs := string($file//t:place/@sameAs)
+        let $allrepositories := for $repo in ($q:col//t:settlement[@ref eq $placeuri],
+        $q:col//t:region[@ref eq $placeuri],
+        $q:col//t:country[@ref eq $placeuri],
+        $q:col//t:settlement[@ref eq $sameAs],
+        $q:col//t:region[@ref eq $sameAs],
+        $q:col//t:country[@ref eq $sameAs])
+        return
+            string($repo/ancestor::t:TEI/@xml:id)
+            let $t := util:log('info', count($allrepositories))
+        let $repositoriesIDS := config:distinct-values($allrepositories)
+          let $t2 := util:log('info', string-join($repositoriesIDS, ' - '))
+        let $selected := if (count($repositoriesIDS) ge 1) then
+        let $fullrepoids := for $r in $repositoriesIDS return  ($config:appUrl || '/' || $r)
+        
+          let $t3 := util:log('info', string-join($fullrepoids, ' - '))
+        return
+            $q:col//t:repository[@ref eq $fullrepoids]
+        else
+            ()
+             let $t4 := util:log('info', count($selected))
+        let $TEI := if (count($selected) ge 1) then
+            (for $s in $selected
+            return
+                $s/ancestor::t:TEI)
+        else
+            ()
+        return
+            map {
+                'tei': $TEI,
+                'qs': $place
+            }
 };
 
 declare function q:bmid($q) {
@@ -2355,32 +2402,36 @@ declare
 %templates:wrap
 function q:charts($node as node()*, $model as map(*))
 {
-      if (count($model('hits')) = 0) then () else
-    let $mss := $model('hits')[@type = 'mss']
-    return
-      if (count($mss) = 0) then () 
-      else  if (count($mss) gt 300) then
-            <div
-                class="w3-row">
-                There are are more than 300 different manuscripts to chart among the results of this search. This is a bit too much. Please, refine your query or try and use the on-demand version of this functionality.
-            </div>
-        else
-            (<div
-                class="w3-row">
-                {'There are '}<span
-                    class="w3-tag w3-gray">{count($mss)}</span>{' manuscripts among the results of this search.'}
-            </div>,
-            <div
-                class="w3-container w3-margin w3-padding">
-                {
-                    try {
-                        charts:chart($mss)
-                    } catch * {
-                        util:log('info', $err:description)
-                    }
-                }
-            </div>
-            )
+    if (count($model('hits')) = 0) then
+        ()
+    else
+        let $mss := $model('hits')[@type = 'mss']
+        return
+            if (count($mss) = 0) then
+                ()
+            else
+                if (count($mss) gt 300) then
+                    <div
+                        class="w3-row">
+                        There are are more than 300 different manuscripts to chart among the results of this search. This is a bit too much. Please, refine your query or try and use the on-demand version of this functionality.
+                    </div>
+                else
+                    (<div
+                        class="w3-row">
+                        {'There are '}<span
+                            class="w3-tag w3-gray">{count($mss)}</span>{' manuscripts among the results of this search.'}
+                    </div>,
+                    <div
+                        class="w3-container w3-margin w3-padding">
+                        {
+                            try {
+                                charts:chart($mss)
+                            } catch * {
+                                util:log('info', $err:description)
+                            }
+                        }
+                    </div>
+                    )
 };
 
 declare %templates:wrap
@@ -2664,6 +2715,7 @@ first here is the header of the results table:)
                     if ($model('type') = 'xpath'
                     or $model('type') = 'bmid'
                     or $model('type') = 'clavis'
+                    or $model('type') = 'placeSearch'
                     or $model('type') = 'otherclavis') then
                         q:resultswithoutmatch($hit, $p)
                     else
@@ -2964,7 +3016,7 @@ declare function q:resultswithoutmatch($text, $p) {
                                 <span
                                     class="w3-tag w3-black">DELETED</span>
                             else
-                                q:statusBadge($item)
+                                ()
                         }
                     </div>
                     <div
@@ -3381,7 +3433,7 @@ declare function q:dates($d) {
 (:the following three functions are shared by results with and without matches:)
 declare function q:statusBadge($item) {
     <span
-        class="w3-tag w3-red">{
+        class="w3-tag">{
             if ($item//t:change[contains(., 'complete')]) then
                 (attribute style {'background-color:rgb(172, 169, 166, 0.4)'},
                 'complete')

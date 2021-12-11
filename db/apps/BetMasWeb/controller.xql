@@ -253,6 +253,14 @@ else
                                                 url="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=mss&amp;reporef={$insid}"
                                                 absolute="yes"/>
                                         </dispatch>
+                                        
+                                        else if ($exist:path = '/manuscripts/place/list') then
+                                       <dispatch
+                                            xmlns="http://exist.sourceforge.net/NS/exist">
+                                            <redirect
+                                                url="/newSearch.html?searchType=placeSearch&amp;mode=any&amp;query={request:get-parameter('place', ())}"
+                                                absolute="yes"/>
+                                        </dispatch>
                                           else if ($exist:path = '/manuscripts/list') then
                                        <dispatch
                                             xmlns="http://exist.sourceforge.net/NS/exist">

@@ -18,7 +18,7 @@
                             To reach a given item with its ID, you can also append that to the base URL of the website, https://betamasaheft.eu/LIT1234name  and you will be redirected to the correct landing page.</span>
                         <span id="clavisquery" class="w3-hide w3-tiny w3-padding w3-red">If you have at hand the Clavis Aethiopica number of a Textual Unit, e.g. CAe 1234, you can enter it here and the search will point you to that record.</span>
                         <span id="otherclavisquery" class="w3-hide w3-tiny w3-padding w3-red">We record (unsystematically) corresponding identifiers from other Claves, like CAVT or CANT, here you can select which one you want to look for and search for records pointing to that.</span>
-                       
+                        <span id="placeSearchquery" class="w3-hide w3-tiny w3-padding w3-red">We record for each repository information on settlement, region and country. By searching for the identifier of a place the query will look at related places and check for other repositories which may be associated.</span>   
                         <span id="xpathquery" class="w3-hide w3-tiny w3-padding w3-red">If you know how to write your XPath, and know the source TEI (available for each file, by appending .xml to the identifier of the record) you will be able to run that query against the db here. Not all possible paths are optimized.</span>
                         <span id="sparqlquery" class="w3-hide w3-tiny w3-padding w3-red">Parallel to the XML, also an RDF triple store is maintained by the project. Here you get an interface to the SPARQL endpoint. You can add your SPARQL query and see the results available.</span>
                         
@@ -282,9 +282,9 @@
                         </div>
                         
                         
-                        <div id="charts" data-template="q:charts" class="w3-container w3-padding queryresults" style="display:none;"/>
-                        <div id="geobrowser" data-template="q:geobrowser" class="w3-container w3-padding queryresults" style="display:none;"/>
-                        <div id="compare" data-template="q:compare" class="w3-container w3-padding queryresults" style="display:none;"/>
+            <div id="charts" data-template="q:charts" class="w3-container w3-padding queryresults" style="display:none;"/>
+            <div id="geobrowser" data-template="q:geobrowser" class="w3-container w3-padding queryresults" style="display:none;"/>
+            <div id="compare" data-template="q:compare" class="w3-container w3-padding queryresults" style="display:none;"/>
                         <!--             bottom pagination for larger device -->
                       </div>
                 </div>
