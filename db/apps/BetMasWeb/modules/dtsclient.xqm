@@ -21,7 +21,7 @@ import module namespace console = "http://exist-db.org/xquery/console";
 
 
 declare function dtsc:text($id, $edition, $ref, $start, $end, $collection) {
-    (:let $t := console:log(string-join(($edition, $ref, $start, $end), ' - ')):)
+(:    let $t := util:log('info', string-join(($edition, $ref, $start, $end), ' - ')):)
     let $approot :=
     'https://betamasaheft.eu'
     (:'http://localhost:8080/exist/apps/BetMas':)
@@ -77,7 +77,7 @@ declare function dtsc:text($id, $edition, $ref, $start, $end, $collection) {
         localdts:Document($fullid, $ref, $start, $end)
     else
         dtsc:requestXML($uridoc)
-    let $test := util:log('info', $DTScol)    
+(:    let $test := util:log('info', $DTSdoc)   :)
     let $links := for $link in tokenize($DTSdoc//http:header[@name = "link"]/string(@value), ',')
     return
         <link><val>{substring-after(substring-before($link, '&gt;'), 'ref=')}</val>
@@ -86,6 +86,8 @@ declare function dtsc:text($id, $edition, $ref, $start, $end, $collection) {
         $DTSdoc//dts:fragment
     else
         $DTSdoc//t:div[@type = 'edition']
+    
+(:    let $test := util:log('info', $selectedFrag/name())     :)
         (:This checks for the presence of a corresp and print the edition of that if present:)
     let $docnode := if ($selectedFrag[self::dts:fragment][t:div/@corresp[starts-with(., 'LIT')] and not(t:div/t:ab | t:div/t:div[@type = 'textpart'])]) then
         let $corresp := string($selectedFrag/t:div/@corresp)
@@ -97,7 +99,7 @@ declare function dtsc:text($id, $edition, $ref, $start, $end, $collection) {
                     $selectedFrag/t:div/@type,
                     <label
                         xmlns="http://www.tei-c.org/ns/1.0">Text imported from linked Textual Unit</label>,
-                    collection('/db/apps/BetMasData')//id($corresp)//t:div[@type = 'edition']/node()
+                    collection('/db/apps/expanded')//id($corresp)//t:div[@type = 'edition']/node()
                 }</div>
     else
         $selectedFrag
@@ -270,6 +272,9 @@ DTSannoCollectionLink">{
             </div>
             <div
                 class="w3-rest">{
+                
+(:    let $test := util:log('info', $docnode/name())  
+    return:)
                     try {
                         viewItem:textfragment($docnode)
                     } catch * {
