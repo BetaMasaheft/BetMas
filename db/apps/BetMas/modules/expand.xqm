@@ -248,7 +248,25 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
             <xi:fallback>
                <p>Definitions of prefixes used.</p>
             </xi:fallback>
-         </xi:include>
+         </xi:include>,
+<refsDecl xmlns="http://www.tei-c.org/ns/1.0">
+{
+let $text :=  $node/ancestor::t:TEI//t:div[@type = 'edition']
+let $cS :=
+     expand:citeStructBypass($text/(t:div | t:lg | t:l))
+  (: a further step to reduce the list to similar instances should be performed grouping the citeStructures obtained:)
+  
+   return
+   <citeStructure
+        unit="edition"
+        match="//div[@type='edition']"
+        use="@xml:id" delim=".">
+        {
+       expand:groupCS($cS)
+   }
+    </citeStructure>
+}
+</refsDecl>
                     }
             case element(t:relation)
                 return
@@ -630,6 +648,90 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
             default
                 return
                     $node
+};
+
+declare function expand:rn($n) as xs:string {
+    if ($n/name() = 'cb') then
+        (string($n/preceding::t:pb[@n][1]/@n) || string($n/@n))
+    else
+        if ($n/name() = 'pb' and $n/@corresp) then
+            (string($n/@n) || '[' || substring-after($n/@corresp, '#') || ']')
+        else
+            if ($n/@n) then
+                string($n/@n)
+            else
+                if ($n/@xml:id) then
+                    string($n/@xml:id)
+                else
+                    if ($n/@subtype) then
+                        string($n/@subtype)
+                    else
+                        'tei:' || $n/name() || '[' || $n/position() || ']'
+};
+
+declare function expand:citeStructure($level) {
+    <citeStructure>
+        {
+            attribute unit {
+                if ($level/@subtype) then
+                    string($level/@subtype)
+                else
+                    if ($level/t:label) then
+                        string-join($level/t:label//text())
+                    else
+                        if ($level/name() = 'lb') then
+                            'line break'
+                        else
+                            if ($level/name() = 'cb') then
+                                'column break'
+                            else
+                                if ($level/name() = 'pb') then
+                                    'page break'
+                                else
+                                    $level/name()
+            }
+        }
+        {attribute match {$level/name()}}
+        {
+            attribute use {
+                if ($level/@n) then
+                    '@n'
+                else
+                    if ($level/@subtype) then
+                        '@subtype'
+                    else
+                        '@xml:id'
+            }
+        }
+        <desc>{expand:rn($level)}</desc>
+        {
+            expand:citeStructBypass($level/(t:div | t:lg | t:l | t:cb | t:pb | t:lb))
+        }
+        {
+           expand:citeStructBypass($level/t:ab/(t:div | t:lg | t:l | t:cb | t:pb | t:lb))
+        }
+    </citeStructure>
+};
+
+
+declare function expand:citeStructBypass($nodes){
+for $sublevel in $nodes
+            return
+                expand:citeStructure($sublevel)
+};
+
+declare function expand:groupCS($cS){
+ for $c in $cS 
+        group by $Unit := $c/@unit
+        return
+        <citeStructure
+        unit="{$Unit}"
+        match="{distinct-values($c/@match)}"
+        use="{distinct-values($c/@match)}">
+       <desc><list> {for $desc in $c/desc
+        return <item>{$desc/text()}</item>}</list></desc>
+        {expand:groupCS($c/citeStructure)}
+        </citeStructure>
 };
 
 declare function expand:dateidno($node){
