@@ -130,10 +130,12 @@ declare function nav:barNew() {
                                     class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                                     data-value="manuscriptsearch"
                                     href="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=mss">Manuscripts (search)</a>
-                                <a
+                             <!--  
+                             limitation of access to expensive requests (this was actually never requested over a year)
+                             <a
                                     class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                                     data-value="imagesviewer"
-                                    href="/manuscripts/viewer">Images Viewer</a>
+                                    href="/manuscripts/viewer">Images Viewer</a>-->
                                     <a
                                     class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                                     data-value="imagesviewer"
@@ -220,10 +222,12 @@ For more guidance in lists and filters visit the help page.</span>
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                             data-value="narratives"
                             href="/narratives/list">Narrative Units</a>
-                        <a
+                      <!-- 
+                      removing link to resource which is currently not maintained
+                      <a
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                             data-value="documentary"
-                            href="/documentcorpora.html">Documentary corpora</a>
+                            href="/documentcorpora.html">Documentary corpora</a>-->
                              <a
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                             data-value="studies"

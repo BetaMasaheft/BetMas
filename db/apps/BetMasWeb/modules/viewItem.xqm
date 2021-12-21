@@ -3997,6 +3997,9 @@ declare function viewItem:TEI2HTML($nodes) {
             case element(t:cit)
                 return
                     viewItem:cit($node)
+             case element(t:citeStructure)
+                return
+                    ()
             case element(t:classDecl)
                 return
                     ()
