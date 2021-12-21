@@ -205,7 +205,7 @@ for $selector in util:eval($path)
                         then 
 (:let $t2 := util:log("info",$ref):)
                         let $r := dtslib:parseRef($ref)
-                        let $t := util:log("info",$r)
+(:                        let $t := util:log("info",$r):)
                         let $pb := $r//*:part[@type eq 'pb']/text()
                         let $cb := $r//*:part[@type eq 'cb']
                         let $lb := $r//*:part[@type eq 'lb']
@@ -229,24 +229,24 @@ did not work, emailed exist db, Magdalena Turska very kindly provided this alter
                                         else if($cb/text()) then  ($start/following-sibling::*[self::t:cb or self::t:pb])[1]  
                                         else ($start/following-sibling::*[self::t:pb])[1]
                         
-                           let $t2 := util:log("info",$next)
+(:                           let $t2 := util:log("info",$next):)
                            return
                        if ($next) then   
-                        let $t2 := util:log("info",$start)
-                         let $t2 := util:log("info",$start/following-sibling::node()[. << $next])
-                        return
+(:                        let $t2 := util:log("info",$start):)
+(:                         let $t2 := util:log("info",$start/following-sibling::node()[. << $next]):)
+(:                        return:)
                        $start/following-sibling::node()[. << $next]
                         else     
-                        let $t2 := util:log("info",$start/following-sibling::node())
-                        return
+(:                        let $t2 := util:log("info",$start/following-sibling::node()):)
+(:                        return:)
                         $start/following-sibling::node()
                         else if ($selector/name() = 'pb')
                                           then dtslib:TranscriptionPassageNodes($text, $selector/@n, '')
                         else if ($selector/name()='lb') 
                         
                                           then
-                                          let $t2 := util:log("info",$ref)
-                                          return
+                                         (: let $t2 := util:log("info",$ref)
+                                          return:)
                                           dtslib:TranscriptionPassageNodesLB($text, $selector/@n)
                        else $selector
                        };
@@ -320,9 +320,9 @@ else
  let $thisid := $parsedURN//s:group[@nr=3]/text()
  let $edition := $parsedURN//s:group[@nr=4]
  
- let $t2 := util:log("info",$thisid)
+(: let $t2 := util:log("info",$thisid):)
  let $file := $dtslib:collection-root/id($thisid)
- let $t2 := util:log("info",count($file))
+(: let $t2 := util:log("info",count($file)):)
  let $text := if($edition/node()) then dtslib:pickDivText($file, $edition)  else $file//t:div[@type eq 'edition']
  
 (: let $t := console:log($parsedURN):)
@@ -432,9 +432,9 @@ declare %private function dtslib:fragment($file, $edition, $ref, $start, $end, $
 (:otherwise go for a passage in the standard structure:)
  else (
                     let $path := dtslib:selectorRef(1, $text,$ref,'no')
-                    let $t := util:log("info",$path)
+(:                    let $t := util:log("info",$path):)
                         let $entirepart := dtslib:nodes($text, $path, $ref)
-                        let $t2:=util:log("info",$entirepart)
+(:                        let $t2:=util:log("info",$entirepart):)
                         return
 (:                        util:log("info", "breakpoint"):)
                         <TEI xmlns="http://www.tei-c.org/ns/1.0" >
@@ -748,9 +748,9 @@ let $path := '$text' || $levs
 
 declare %private function dtslib:listRefs($level, $text){
 if($text/ancestor-or-self::t:TEI//t:citeStructure) then
-(util:log("info", "citestruct"),
+(:(util:log("info", "citestruct"),:)
 $text/ancestor::t:TEI//t:citeStructure//t:item/text()
-)
+(:):)
 else 
 let $levs := string-join((for $i in 1 to xs:integer($level) 
                      return "/(t:div|t:lg|t:l)/(t:ab|.)/(.|t:cb|t:pb|t:lb)"))
