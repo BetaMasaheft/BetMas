@@ -728,8 +728,8 @@ declare function expand:groupCS($cS){
         unit="{$Unit}"
         match="{distinct-values($c/@match)}"
         use="{distinct-values($c/@match)}">
-       <desc><list> {for $desc in $c/desc
-        return <item>{$desc/text()}</item>}</list></desc>
+       <desc><list> {for $desc in distinct-values($c/desc)
+        return <item>{$desc}</item>}</list></desc>
         {expand:groupCS($c/citeStructure)}
         </citeStructure>
 };

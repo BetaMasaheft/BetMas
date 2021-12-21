@@ -197,14 +197,15 @@ if($parsedURN//s:group[@nr=$p1] = '@')
 
 
 declare %private function dtslib:nodes($text, $path, $ref){
+(:let $test := util:log("info",$text):)
 for $selector in util:eval($path)
-(:let $test := console:log($selector):)
+(:let $t2 := util:log("info",$selector):)
                         return 
                         if(matches($ref, '(\d+[r|v][a-z]?(\[\w+\])?|\d+[r|v]?[a-z]?(\[\w+\]))'))
                         then 
-(:let $t2 := console:log($ref):)
+(:let $t2 := util:log("info",$ref):)
                         let $r := dtslib:parseRef($ref)
-(:                        let $t := console:log($r):)
+                        let $t := util:log("info",$r)
                         let $pb := $r//*:part[@type eq 'pb']/text()
                         let $cb := $r//*:part[@type eq 'cb']
                         let $lb := $r//*:part[@type eq 'lb']
@@ -227,13 +228,26 @@ did not work, emailed exist db, Magdalena Turska very kindly provided this alter
                                         if($lb/text()) then ($start/following-sibling::*[self::t:lb or self::t:cb or self::t:pb])[1]  
                                         else if($cb/text()) then  ($start/following-sibling::*[self::t:cb or self::t:pb])[1]  
                                         else ($start/following-sibling::*[self::t:pb])[1]
-                        return 
-                       if ($next) then   $start/following-sibling::node()[. << $next]
-                        else     $start/following-sibling::node()
+                        
+                           let $t2 := util:log("info",$next)
+                           return
+                       if ($next) then   
+                        let $t2 := util:log("info",$start)
+                         let $t2 := util:log("info",$start/following-sibling::node()[. << $next])
+                        return
+                       $start/following-sibling::node()[. << $next]
+                        else     
+                        let $t2 := util:log("info",$start/following-sibling::node())
+                        return
+                        $start/following-sibling::node()
                         else if ($selector/name() = 'pb')
                                           then dtslib:TranscriptionPassageNodes($text, $selector/@n, '')
                         else if ($selector/name()='lb') 
-                                          then dtslib:TranscriptionPassageNodesLB($text, $selector/@n)
+                        
+                                          then
+                                          let $t2 := util:log("info",$ref)
+                                          return
+                                          dtslib:TranscriptionPassageNodesLB($text, $selector/@n)
                        else $selector
                        };
 
@@ -305,7 +319,10 @@ else
  let $parsedURN := dtslib:parseDTS($id)
  let $thisid := $parsedURN//s:group[@nr=3]/text()
  let $edition := $parsedURN//s:group[@nr=4]
- let $file := $exptit:col/id($thisid)
+ 
+ let $t2 := util:log("info",$thisid)
+ let $file := $dtslib:collection-root/id($thisid)
+ let $t2 := util:log("info",count($file))
  let $text := if($edition/node()) then dtslib:pickDivText($file, $edition)  else $file//t:div[@type eq 'edition']
  
 (: let $t := console:log($parsedURN):)
@@ -415,10 +432,11 @@ declare %private function dtslib:fragment($file, $edition, $ref, $start, $end, $
 (:otherwise go for a passage in the standard structure:)
  else (
                     let $path := dtslib:selectorRef(1, $text,$ref,'no')
-(:                    let $t := console:log($path):)
+                    let $t := util:log("info",$path)
                         let $entirepart := dtslib:nodes($text, $path, $ref)
-(:                        let $t2:=console:log($entirepart):)
+                        let $t2:=util:log("info",$entirepart)
                         return
+(:                        util:log("info", "breakpoint"):)
                         <TEI xmlns="http://www.tei-c.org/ns/1.0" >
                             <dts:fragment xmlns:dts="https://w3id.org/dts/api#">
                                 {$entirepart}
@@ -600,7 +618,7 @@ month1.day3 ((@subtype,@n).(@subtype,@n))
 month1.day30.NAR0069Gabreel ((@subtype,@n).(@subtype,@n).(@corresp))
  :)
 let $parseRef := analyze-string($ref, 
-               '(NAR[0-9A-Za-z]+|((\d+[r|v])([a-z]?)(\[\w+\])?(\d+)?)|([A-Za-z]+)?([0-9]+))(\.)?')
+               '(NAR[0-9A-Za-z]+|((\d+[r|v])([a-z]?)(\[\w+\])?(\.)?(\d+)?)|([A-Za-z]+)?([0-9]+))(\.)?')
 let $refs := for $m at $p in $parseRef//s:match 
                     let $t := $m/s:group[@nr=1]//text()
                     return
@@ -609,8 +627,8 @@ let $refs := for $m at $p in $parseRef//s:match
                                 then <ref type='folio' l="{$p}">
                                         <part type="pb">{$m//s:group[@nr=3]/text()}</part>
                                         <part type="cb">{$m//s:group[@nr=4]/text()}</part>
-                                        <part type="corr">{$m//s:group[@nr=5]/text()}</part>
-                                        <part type="lb">{$m//s:group[@nr=6]/text()}</part>
+                                        <part type="corr">{$m//s:group[@nr=6]/text()}</part>
+                                        <part type="lb">{$m//s:group[@nr=7]/text()}</part>
                                         </ref>
                      else if(matches($m, 'NAR[0-9A-Za-z]+')) 
                                 then <ref type='nar' l="{$p}">{$t}</ref>
@@ -619,8 +637,8 @@ let $refs := for $m at $p in $parseRef//s:match
 a subtype and a n as well as referring simply an xmlid :)
                                 then <ref type='subtypeNorXMLid'  l="{$p}">
                                            <option type="subtype">
-                                           <part type="subtype">{$m//s:group[@nr=7]/text()}</part>
-                                           <part type="n">{$m//s:group[@nr=8]/text()}</part>
+                                           <part type="subtype">{$m//s:group[@nr=8]/text()}</part>
+                                           <part type="n">{$m//s:group[@nr=9]/text()}</part>
                                            </option>
                                            <option type="xmlid">{$t}</option>
                                         </ref>
@@ -639,12 +657,14 @@ let $this := normalize-space($refname)
 let $ancestors := for $a in $n/ancestor::t:div[@xml:id or @n or @corresp][ancestor::t:div[@type]]
 return dtslib:rn($a)
 let $all := ($ancestors , $this)
-return string-join($all,'.')
+return if( $n/name()='pb' or $n/name()='cb' or $n/name()='lb') then $this else string-join($all,'.')
 };
 
 (:~  called by dtslib:refname to format a single reference :)
 declare function dtslib:rn($n){
-  if ($n/name()='cb') then 
+  if ($n/name()='lb') then 
+         (string($n/preceding::t:pb[@n][1]/@n)||string($n/preceding::t:cb[@n][1]/@n)||string($n/@n)) 
+ else if ($n/name()='cb') then 
          (string($n/preceding::t:pb[@n][1]/@n)||string($n/@n)) 
  else if ($n/name()='pb' and $n/@corresp) then 
          (string($n/@n) || '[' ||substring-after($n/@corresp, '#')||']') 
@@ -727,6 +747,11 @@ let $path := '$text' || $levs
 };
 
 declare %private function dtslib:listRefs($level, $text){
+if($text/ancestor-or-self::t:TEI//t:citeStructure) then
+(util:log("info", "citestruct"),
+$text/ancestor::t:TEI//t:citeStructure//t:item/text()
+)
+else 
 let $levs := string-join((for $i in 1 to xs:integer($level) 
                      return "/(t:div|t:lg|t:l)/(t:ab|.)/(.|t:cb|t:pb|t:lb)"))
 let $path := '$text' || $levs 
@@ -1076,6 +1101,55 @@ declare %private function dtslib:manifest($doc, $id){
 };
 
 (:~ produces the information needed for each member of a collection :)
+declare function dtslib:member($collURN,$edition,$document, $vers, $nosparql){
+if(not($document))
+then <rest:response>
+        <http:response
+            status="204">
+                
+            <http:header
+                    name="Access-Control-Allow-Origin"
+                    value="*"
+                    />
+        </http:response>
+    </rest:response>
+else if(count($document) = 1) then
+dtslib:membercontent($document, $edition, $vers, $nosparql)
+(:     if there are more editions, then this has to be treated as a collection resource, and each
+edition or translation gets its own identifier:)
+else ( 
+(:any is fine, they all come from a selection, this is just to have the ID:)
+let $doc := root($document[1]) 
+let $id := string($doc//t:TEI/@xml:id)
+let $title := exptit:printTitleID($id)
+let $description := if($doc//t:TEI/@type eq  'nar') 
+                                 then 'The narrative unit '||$title||
+                                 ' in Beta maṣāḥǝft ' 
+                                 else if($doc//t:TEI/@type eq  'mss') 
+                                 then 'The transcription of manuscript '||
+                                 $title||' in Beta maṣāḥǝft ' 
+                                 else 'The abstract textual unit '||$title||
+                                 ' in Beta maṣāḥǝft. '  || 
+                                 normalize-space(string-join(string:tei2string($doc//t:abstract), ''))
+let $resourceURN := 'https://betamasaheft.eu/' || $id
+let $members := for $d in $document 
+                                        let $divuri := ($resourceURN || '_' ||upper-case(substring(string($d/@type),1,2))|| '_' ||string($d/@xml:id))
+                                        return dtslib:editioncontent($divuri,string($d/@type),string($d/@xml:id),$d, $vers, $nosparql)
+    return
+map{"@id" : $resourceURN,
+             "title" : "Editions and Translations of " || $title,
+             "description": $description,
+             "@type" : "Collection",
+             "totalItems" : count($document),
+              "dtslib:totalParents": 1,
+             "dtslib:totalChildren": count($document),
+             "member" :   $members    
+             }         
+          
+       )
+};
+
+(:~ produces the information needed for each member of a collection :)
 declare function dtslib:member($collURN,$edition,$document, $vers){
 if(not($document))
 then <rest:response>
@@ -1145,6 +1219,78 @@ for $w in config:distinct-values($witnesses) return
                                         "@type" : "lawd:AssembledWork",
                                         "dc:title": exptit:printTitleID($w)}
                                         };
+
+declare %private function dtslib:membercontent($document, $edition, $vers, $nosparql){
+let $doc := root($document)
+let $id := string($doc//t:TEI/@xml:id)
+let $title := exptit:printTitleID($id)
+let $description := dtslib:docDesc($doc, $title)
+let $dc := map{
+                "dc:title": $title
+               }
+let $computed := dtslib:computedWit($doc, $id)
+let $declared := if($doc//t:TEI/@type eq  'mss') then () else 
+                            for $witness in $doc//t:witness/@corresp return string($witness)
+(: flattens the distinction between computed and declared witnesses, as well as the eventual nesting of witnesses for each edition:)
+let $witnesses := ($computed, $declared)
+let $distinctW := dtslib:distinctW($witnesses)
+let $manifests := dtslib:manifests($witnesses, $id)
+ let $worksAndManifests := ($distinctW, $manifests)                                     
+let $dcAndWitnesses := if(count($distinctW) gt 0) then map:put($dc, 'dc:source', $worksAndManifests) else $dc
+let $DcSelector := 
+if($doc//t:TEI/@type eq  'mss') then $dc else $dcAndWitnesses
+(:$dc:)
+let $resourceURN := 'https://betamasaheft.eu/' || $id || $edition
+let $versions := if($vers = 'yes') then dtslib:fileingitCommits($resourceURN, $id, 'collections') else ()
+let $DcWithVersions :=  if($vers = 'yes') then map:put($DcSelector, "dc:hasVersion", $versions) else $DcSelector
+let $manifest :=dtslib:manifest($doc, $id)
+let $addmanifest := if (count($manifest) ge 1) then map{"foaf:depiction": $manifest} else ()
+let $parts := $addmanifest
+let $dtsPass := "/api/dts/document?id=" || $resourceURN
+let $dtsNav := "/api/dts/navigation?id=" || $resourceURN
+let $download := "https://betamasaheft.eu/tei/" || $id || '.xml'
+let $citeDepth :=  if($doc/@type eq  'mss' and not($doc//t:objectDesc/@form ='Inscription')) then 3 
+else let $counts := for $div in ($document//t:div[@type eq 'textpart'], $document//t:l, $document//t:lb) return count($div/ancestor::t:div)
+return max($counts)
+let $teirefdecl := if($doc/@type eq  'mss' and not($doc//t:objectDesc/@form ='Inscription')) then 
+[ map{
+                 "dtslib:citeType": "folio",
+                    "dtslib:citeStructure": [
+                       map {
+                            "dtslib:citeType": "page",
+                             "dtslib:citeStructure": [
+                       map {
+                            "dtslib:citeType": "column"
+                        }
+                  ]
+             }
+          ]
+     }
+]
+else if ($doc/@type eq 'nar') then ()
+else
+[
+dtslib:nestedDivs($document)
+            ]
+let $c := count($document//t:ab//text())
+let $all := map{
+             "@id" : $resourceURN,
+              (:  "ecrm:P1_is_identified_by": map { "rdfs:label": $resourceURN},:)
+             "title" : $title,
+             "description": $description,
+             "@type" : "Resource",
+             "totalItems": 0,
+             "dtslib:dublincore": $DcWithVersions ,
+            "dtslib:download": $download,
+            "dtslib:citeDepth": $citeDepth,
+            "dtslib:citeStructure": $teirefdecl
+        }
+let $ext :=         if(count($parts) ge 1) then  map:put($all,"dtslib:extensions",$parts) else $all
+let $pass :=  if($c le 1) then $ext else map:put($ext, "dtslib:passage", $dtsPass) 
+let $nav := if($c le 1) then $pass else map:put($pass, "dtslib:references", $dtsNav)
+        return
+        $nav
+};
 
 declare %private function dtslib:membercontent($document, $edition, $vers){
 let $doc := root($document)
@@ -1244,6 +1390,77 @@ for $w in config:distinct-values($witnesses)
                                                else
                                                 map {"@id": "https://betamasaheft.eu/api/iiif/"||$w||"/manifest",  "@type": "sc:Manifest", "dc:title":  ("IIIF Manifest for images of " || exptit:printTitleID($w))})
                                     else ()
+};
+
+declare %private function dtslib:editioncontent($divuri, $type, $xmlid, $document, $vers, $nosparql){
+let $doc := root($document)
+let $id := string($doc//t:TEI/@xml:id)
+let $title := exptit:printTitleID($id)
+let $edtitle := functx:capitalize-first($type) || ' of ' || $title || (if($xmlid='') then '' else (' with ID ' || $xmlid))
+let $description := dtslib:docDesc($doc, $title)
+let $dc := map{'dc:title':$title}
+let $computed := dtslib:computedWit($doc, $id)
+let $declared := if($doc//t:TEI/@type eq  'mss') then () else 
+                            for $witness in $doc//t:witness/@corresp return string($witness)
+(: flattens the distinction between computed and declared witnesses, as well as the eventual nesting of witnesses for each edition:)
+let $witnesses := ($computed, $declared)
+let $distinctW := dtslib:distinctW($witnesses)
+let $manifests := dtslib:manifests($witnesses, $id)
+ let $worksAndManifests := ($distinctW, $manifests)                                     
+let $dcAndWitnesses := if(count($distinctW) gt 0) then map:put($dc, 'dc:source', $worksAndManifests) else $dc
+let $DcSelector := 
+if($doc//t:TEI/@type eq  'mss') then $dc else $dcAndWitnesses
+(:$dc:)
+let $resourceURN := 'https://betamasaheft.eu/' || $id
+let $versions := if($vers = 'yes') then dtslib:fileingitCommits($resourceURN, $id, 'collections') else ()
+let $DcWithVersions :=  if($vers = 'yes') then map:put($DcSelector, "dc:hasVersion", $versions) else $DcSelector
+let $manifest :=dtslib:manifest($doc, $id)
+let $addmanifest := if (count($manifest) ge 1) then map{ "foaf:depiction": $manifest} else ()
+let $parts := $addmanifest
+let $dtsPass := "/api/dts/document?id=" || $divuri
+let $dtsNav := "/api/dts/navigation?id=" || $divuri
+let $download := "https://betamasaheft.eu/tei/" || $id || '.xml'
+let $citeDepth :=  if($doc/@type eq  'mss' and not($doc//t:objectDesc/@form ='Inscription')) then 3 
+else let $counts := for $div in ($document//t:div[@type eq 'textpart'], $document//t:l, $document//t:lb) return count($div/ancestor::t:div)
+return max($counts)
+let $teirefdecl := if($doc/@type eq  'mss' and not($doc//t:objectDesc/@form ='Inscription')) then 
+[ map{
+                 "dtslib:citeType": "folio",
+                    "dtslib:citeStructure": [
+                       map {
+                            "dtslib:citeType": "page",
+                             "dtslib:citeStructure": [
+                       map {
+                            "dtslib:citeType": "column"
+                        }
+                  ]
+             }
+          ]
+     }
+]
+else if ($doc/@type eq 'nar') then ()
+else
+[
+dtslib:nestedDivs($document//t:div[@type eq $type][@xml:id=$xmlid])
+            ]
+let $c := count($document//t:div[@type eq $type][@xml:id=$xmlid]//t:ab//text())
+let $all := map{
+             "@id" : $divuri,
+              (:  "ecrm:P1_is_identified_by": map { "rdfs:label": $resourceURN},:)
+             "title" : $edtitle,
+             "description": $description,
+             "@type" : "Resource",
+             "totalItems": 0,
+             "dtslib:dublincore": $DcWithVersions ,
+            "dtslib:download": $download,
+            "dtslib:citeDepth": $citeDepth,
+            "dtslib:citeStructure": $teirefdecl
+        }
+let $ext :=         if(count($parts) ge 1) then  map:put($all,"dtslib:extensions",$parts) else $all
+let $pass :=  if($c le 1) then $ext else map:put($ext, "dtslib:passage", $dtsPass) 
+let $nav := if($c le 1) then $pass else map:put($pass, "dtslib:references", $dtsNav)
+        return
+        $nav
 };
 
 declare %private function dtslib:editioncontent($divuri, $type, $xmlid, $document, $vers){

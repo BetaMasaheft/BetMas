@@ -117,7 +117,7 @@ let $eds := if($edition/node()) then
                     else ($doc//t:div[@type eq 'edition'], $doc//t:div[@type eq 'translation'])
 return
 if(count($doc) eq 1) then (
-let $memberInfo := dtslib:member($bmID,$edition,$eds, $version)
+let $memberInfo := dtslib:member($bmID,$edition,$eds, $version, 'nosparql')
 let $addcontext := map:put($memberInfo, "@context", $dtslib:context)
 let $addnav := if($nav = 'parent') then 
 let $parent :=if($doc/@type eq 'mss') then 
