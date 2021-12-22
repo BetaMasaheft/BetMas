@@ -81,7 +81,7 @@ function NE:relNodes($localId as xs:string*) {
     let $allids := ($ids, $refs)
 (:    let $log2 := util:log('info', $allids):)
     let $distincts := distinct-values($allids)
-    for $I in $distincts
+    for $I in $distincts[.!=$localId][.!=$uri]
     let $cleanId := if (contains($I, '#')) then
         substring-before($I, '#')
     else

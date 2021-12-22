@@ -276,15 +276,16 @@ else concat($config:appUrl,'/',$link)
 declare function apprest:deciderelation($list){
   <ul class="nodot">{
     for $id in $list
+    let $t := util:log('info', $id)
                 return
                   <li>{
                 if (starts-with($id/text(), 'sdc:')) then 'La Synthaxe du Codex ' || substring-after($id/text(), 'sdc:' )
                 
                else if (starts-with($id/text(), 'urn:')) then
-                   <a target="_blank"  href="/{encode-for-uri($id)}">{$id/text()}</a>
+                   <a target="_blank"  href="/{encode-for-uri($id/text())}">{$id/text()}</a>
                    
      else
-                   <a target="_blank"  href="{apprest:decidelink($id)}">{exptit:printTitle($id)}</a>
+                   <a target="_blank"  href="{apprest:decidelink($id)}">{exptit:printTitle($id/text())}</a>
                    }</li>
 }</ul>
 };
