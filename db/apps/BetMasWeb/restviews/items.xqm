@@ -243,7 +243,7 @@ $hi as xs:string*){
 let $collect := switch2:collectionVar($collection)
 let $coll := $config:data-root || '/' || $collection
 let $this := $collect/id($id)[name()='TEI']
-let $t := util:log("info", $id)
+(:let $t := util:log("info", $id):)
 let $title := item2:printTitle($id)
 let $Cmap := map {'type': 'collection', 'name' : $collection, 'path' : $coll}
 let $Imap := map {'type': 'item', 'name' : $id, 'path' : $collection}
@@ -439,13 +439,20 @@ return
    for $contains in $this//t:relation[@name eq "saws:contains"]/@passive 
      let $ids:=  if(contains($contains, ' ')) then for $x in tokenize($contains, ' ') return $x else string($contains)
      for $contained in $ids
-    let $cfile := item2:getTEIbyID($contained) 
+(:     let $t2 := util:log('info', $contained):)
+    let $cfile := item2:getTEIbyID(substring-after($contained, concat($config:appUrl, '/'))) 
+    
+(:     let $t3 := util:log('info', count($cfile)):)
    return 
    
    <div class="w3-container">
    {<div class="w3-twothird" id="dtstext">Contains  {item2:title($contained)}
    {if ($cfile//t:div[@type eq 'edition']) 
-   then dtsc:text($contained, '', '', '', '', 'works') else ()}</div>,
+   then  try{dtsc:text($contained, '', '', '', '', 'works')} 
+   catch * {util:log('info', concat('I did not manage to dtsc:text() ', $contained))} 
+   
+   else ()
+   }</div>,
   <div class="w3-third w3-gray w3-padding">{item2:textBibl($this, $id)}</div>
    }</div>
  

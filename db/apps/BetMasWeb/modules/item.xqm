@@ -28,7 +28,7 @@ apprest:authorsSHA($id, $this, $collection, $sha)
 declare function item2:printTitle($id){exptit:printTitle($id)};
 
 declare function item2:getTEIbyID($id){
-$apprest:collection-root/id($id)[name() eq 'TEI']
+$apprest:collection-root/id($id)[self::t:TEI]
 };
 
 declare function item2:formerly($id){
@@ -978,12 +978,13 @@ else ()
        (:~ returns a div with a list of manuscripts containing the work with the given id :)
 declare function item2:RestMss($id){
        let $string := $id
+(:           let $test := util:log("info",$id):)
 let $sameKey :=
-            for $corr in $apprest:collection-rootMS//t:title[starts-with(@ref , $id)][parent::t:msItem]
+            for $corr in $apprest:collection-rootMS//t:title[contains(@ref , $id)][parent::t:msItem]
             return
                 $corr
   let $sameKeyAdd :=
-            for $corr in               $apprest:collection-rootMS//t:additions//t:item//t:title[starts-with(@ref , $id)]
+            for $corr in               $apprest:collection-rootMS//t:additions//t:item//t:title[contains(@ref , $id)]
             return
                 $corr
    let $count := count($sameKey) + count($sameKeyAdd)      
