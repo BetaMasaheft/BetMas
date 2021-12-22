@@ -45,7 +45,7 @@ doc('https://raw.githubusercontent.com/BetaMasaheft/Manuscripts/'||$sha||'/'|| $
 (:IIIF: The manifest response contains sufficient information for the client to initialize itself and begin to display something quickly to the user. The manifest resource represents a single object and any intellectual work or works embodied within that object. In particular it includes the descriptive, rights and linking information for the object. It then embeds the sequence(s) of canvases that should be rendered to the user.:)
 declare 
 %rest:GET
-%rest:path("/BetMas/permanent/{$sha}/api/iiif/{$id}/manifest")
+%rest:path("/permanent/{$sha}/api/iiif/{$id}/manifest")
 %output:method("json") 
 function persiiif:manifest($id as xs:string*,$sha as xs:string*) {
 let $item := persiiif:fileingit($id, $sha)
@@ -72,7 +72,7 @@ let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($item//t:msIdentifier/
        let $request := $iiifroot || "/manifest"
        (:       this is where the sequence is:)
        let $attribution := if($item//t:repository/@ref  eq 'INS0339BML') then ('The images of the manuscript taken by Antonella Brita, Karsten Helmholz and Susanne Hummel during a mission funded by the Sonderforschungsbereich 950 Manuskriptkulturen in Asien, Afrika und Europa, the ERC Advanced Grant TraCES, From Translation to Creation: Changes in Ethiopic Style and Lexicon from Late Antiquity to the Middle Ages (Grant Agreement no. 338756) and Beta maṣāḥǝft. The images are published in conjunction with this descriptive data about the manuscript with the permission of the https://www.bmlonline.it/la-biblioteca/cataloghi/, prot. 190/28.13.10.01/2.23 of the 24 January 2019 and are available for research purposes.') else "Provided by "||$item//t:collection/text()||" project."
-       let $logo := if($item//t:repository/@ref eq 'INS0339BML') then ('/rest/BetMas/resources/images/logobml.png') else "/rest/BetMas/resources/images/logo"||$item//t:collection/text()||".png"
+       let $logo := if($item//t:repository/@ref eq 'INS0339BML') then ('/rest/BetMasWeb/resources/images/logobml.png') else "/rest/BetMasWeb/resources/images/logo"||$item//t:collection/text()||".png"
        let $sequence := $iiifroot || "/sequence/normal"
      
      
@@ -139,7 +139,7 @@ map {"@context": "http://iiif.io/api/presentation/2/context.json",
 (:dereferencable sequence The sequence conveys the ordering of the views of the object.:)
 declare 
 %rest:GET
-%rest:path("/BetMas/permanent/{$sha}/api/iiif/{$id}/sequence/normal")
+%rest:path("/permanent/{$sha}/api/iiif/{$id}/sequence/normal")
 %output:method("json")
 function persiiif:sequence($id as xs:string*,$sha as xs:string*) {
 ($iiif:response200,
@@ -171,7 +171,7 @@ let $canvas := iiif:Canvases($item, $id, $iiifroot, $item//t:msIdentifier/t:idno
 (:IIIF: The canvas represents an individual page or view and acts as a central point for laying out the different content resources that make up the display. :)
        declare 
 %rest:GET
-%rest:path("/BetMas/permanent/{$sha}/api/iiif/{$id}/canvas/p{$n}")
+%rest:path("/permanent/{$sha}/api/iiif/{$id}/canvas/p{$n}")
 %output:method("json")
 function persiiif:canvas($id as xs:string*, $n as xs:string*,$sha as xs:string*) {
 ($iiif:response200,

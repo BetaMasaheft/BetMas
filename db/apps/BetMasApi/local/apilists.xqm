@@ -6,11 +6,11 @@ xquery version "3.1" encoding "UTF-8";
  :)
 module namespace apiL = "https://www.betamasaheft.uni-hamburg.de/BetMas/apiLists";
 import module namespace rest = "http://exquery.org/ns/restxq";
-import module namespace all="https://www.betamasaheft.uni-hamburg.de/BetMas/all" at "xmldb:exist:///db/apps/BetMas/modules/all.xqm";
-import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
-import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
-import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
-import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2"  at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
+import module namespace all="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/all" at "xmldb:exist:///db/apps/BetMasWeb/modules/all.xqm";
+import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMasWeb/modules/log.xqm";
+import module namespace exptit="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/exptit" at "xmldb:exist:///db/apps/BetMasWeb/modules/exptit.xqm";
+import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
+import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/switch2"  at "xmldb:exist:///db/apps/BetMasWeb/modules/switch2.xqm";
 (: namespaces of data used :)
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace json = "http://www.w3.org/2013/XSL/json";
@@ -60,7 +60,7 @@ return
                 for $resource in subsequence($hits, $start, $perpage)
                 let $rid := $resource/@xml:id
                 let $rids := string($rid)
-                let $title := titles:printTitleMainID($rid)
+                let $title := exptit:printTitleID($rid)
                 order by $title[1] descending
                 return
                     <json:value
@@ -253,7 +253,7 @@ let $log := log:add-log-message('/api/manuscripts/'||$repo||'/list/ids/json', sm
     let $total := count($msfromrepo) 
    let $items :=  for $resource in $msfromrepo 
     let $id := string($resource/@xml:id)
-    let $title :=  titles:printTitleMainID($id)
+    let $title :=  exptit:printTitleID($id)
     return map {'id' : $id, 'title' : $title}
     return 
     map {'items' : $items,
@@ -294,7 +294,7 @@ return
     <items>
         {
             for $resource in subsequence($hits, $start, $perpage)
-            let $title := titles:printTitleMainID(string($resource/@xml:id))
+            let $title := exptit:printTitleID(string($resource/@xml:id))
             order by $title[1] descending
             return
                 

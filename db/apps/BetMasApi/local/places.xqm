@@ -843,7 +843,7 @@ declare function places:pelagiosDump(){
    let $plp := $pl//t:place
    let $inp := $in//t:place
    let $data := ($plp, $inp)
-   let $txtarchive := '/db/apps/BetMas/ttl/'
+   let $txtarchive := '/db/apps/ttl/'
    (: store the filename :)
    let $filename := concat('allplaces', format-dateTime(current-dateTime(), "[Y,4][M,2][D,2][H01][m01][s01]"), '.ttl')
    

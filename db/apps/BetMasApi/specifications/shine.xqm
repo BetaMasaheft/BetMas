@@ -13,14 +13,14 @@ declare namespace test="http://exist-db.org/xquery/xqsuite";
 
 import module namespace functx="http://www.functx.com";
 import module namespace rest = "http://exquery.org/ns/restxq";
-import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
-import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
-import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
+import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMasWeb/modules/log.xqm";
+import module namespace exptit="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/exptit" at "xmldb:exist:///db/apps/BetMasWeb/modules/exptit.xqm";
+import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
 import module namespace sparql="http://exist-db.org/xquery/sparql" at "java:org.exist.xquery.modules.rdf.SparqlModule";
-import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMas/string" at "xmldb:exist:///db/apps/BetMas/modules/tei2string.xqm";
-import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2" at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
-import module namespace editors = "https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "xmldb:exist:///db/apps/BetMas/modules/editors.xqm";
-import module namespace dts="https://www.betamasaheft.uni-hamburg.de/BetMas/dts" at "xmldb:exist:///db/apps/BetMas/modules/dts.xqm";
+import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/string" at "xmldb:exist:///db/apps/BetMasWeb/modules/tei2string.xqm";
+import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/switch2" at "xmldb:exist:///db/apps/BetMasWeb/modules/switch2.xqm";
+import module namespace editors = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/editors" at "xmldb:exist:///db/apps/BetMasWeb/modules/editors.xqm";
+import module namespace dtslib="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/dtslib" at "xmldb:exist:///db/apps/BetMasWeb/modules/dtslib.xqm";
 
 declare variable $shine:TU := collection($config:data-rootW)//t:div[@type='edition'][descendant::t:ab[text()]] ;
 declare variable $shine:MS := collection($config:data-rootMS)//t:div[@type='edition'][descendant::t:ab[text()]] ;
@@ -77,7 +77,7 @@ let $TEI := $shine:all[ancestor::t:TEI[@xml:id=$uuid]]
 return
 if(count($TEI) = 1) then 
   ( $config:response200Json,
-  dts:dublinCore($uuid)
+  dtslib:dublinCore($uuid)
   )
          else $config:response404
 };
@@ -132,7 +132,7 @@ declare function shine:sectionName($d, $p, $uuid){
 let $t := if($d/t:label) then () else if($d/@subtype) then string($d/@subtype) else string($d/@type)
 let $n :=      if($d/@corresp) 
                                 then let $c := string($d/@corresp)
-                                return titles:printTitleID($c) 
+                                return exptit:printTitleID($c) 
           else if($d/t:label) 
                                 then string:tei2string($d/t:label) 
           else if($d/@xml:id) 

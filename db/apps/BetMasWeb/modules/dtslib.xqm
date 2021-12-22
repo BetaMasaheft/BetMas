@@ -1596,7 +1596,7 @@ $query//sr:binding[@*:name=$property]/sr:literal/text()
 };
 
 (:~ retrives and adds to a map/array the values needed for the dc values in the member property dtslib:dublinCore() :)
-declare %private function dtslib:dublinCore($id){
+declare function dtslib:dublinCore($id){
 let $creator := dtslib:DCsparqls($id, 'creator')
 let $contributor := dtslib:DCsparqls($id, 'contributor')
 let $language := dtslib:DCsparqls($id, 'language')

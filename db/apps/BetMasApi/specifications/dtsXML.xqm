@@ -13,9 +13,9 @@ declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace http = "http://expath.org/ns/http-client";
 declare namespace json = "http://www.json.org";
 import module namespace rest = "http://exquery.org/ns/restxq";
-import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
-import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
-import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
+import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMasWeb/modules/log.xqm";
+import module namespace exptit="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/exptit" at "xmldb:exist:///db/apps/BetMasWeb/modules/exptit.xqm";
+import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
 declare option output:method "json";
 declare option output:indent "yes";
 
@@ -47,7 +47,7 @@ function dtsXML:CollectionsID($id as xs:string*) {
     <tei>http://www.tei-c.org/ns/1.0</tei>
     </context>
     <graph>{
-            let $record := $titles:collection-root/id($id)[self::t:TEI]
+            let $record := $exptit:col/id($id)[self::t:TEI]
             return
                 (
                 <id>urn:dts:betmas:{string($record/@xml:id)}</id>,
@@ -62,7 +62,7 @@ function dtsXML:CollectionsID($id as xs:string*) {
                                      {  string($lang/@ident) }
                                  </lang>
                             }
-                        <value>{titles:printTitleMainID($id)}</value>
+                        <value>{exptit:printTitleID($id)}</value>
                         <description>{$record//t:abstract//text()}</description>
                     </labels>,
                 <vocabulary>http://purl.org/dc/elements/1.1/</vocabulary>,
@@ -71,8 +71,8 @@ function dtsXML:CollectionsID($id as xs:string*) {
                     <hasRoles>false</hasRoles>
                 </capabilities>,
                 <metadata>
-                {if ($record//t:relation[@name='dcterms:creator']) then (element dcterms:creator{titles:printTitleMainID($record//t:relation[@name='dcterms:creator']/string(@passive))}) 
-                else if ($record//t:relation[@name='saws:isAttributedToAuthor']) then (element saws:isAttributedToAuthor{titles:printTitleMainID($record//t:relation[@name='saws:isAttributedToAuthor']/string(@passive))})
+                {if ($record//t:relation[@name='dcterms:creator']) then (element dcterms:creator{exptit:printTitleID($record//t:relation[@name='dcterms:creator']/string(@passive))}) 
+                else if ($record//t:relation[@name='saws:isAttributedToAuthor']) then (element saws:isAttributedToAuthor{exptit:printTitleID($record//t:relation[@name='saws:isAttributedToAuthor']/string(@passive))})
                 else if ($record//t:author) then <t:author>{$record//t:author/text()}</t:author> 
                 else ()}
                 </metadata>,
@@ -115,7 +115,7 @@ function dtsXML:CollectionsID($id as xs:string*) {
                        let $parents := for $par in ($record//t:relation[@name = 'saws:formsPartOf']/@passive) 
                                                     return $par
                             for $parent in config:distinct-values($parents)
-                            let $papa := $titles:collection-root/id($parent)[self::t:TEI]
+                            let $papa := $exptit:col/id($parent)[self::t:TEI]
                             return
                                 
                                     (<id>urn:dts:betmas:{string($papa/@xml:id)}</id>,
@@ -129,7 +129,7 @@ function dtsXML:CollectionsID($id as xs:string*) {
                                  <lang>     {  string($lang/@ident) }</lang>
                             }
                         
-                        <value>{titles:printTitleMainID($parent)}</value>
+                        <value>{exptit:printTitleID($parent)}</value>
                     
                 </labels>
                                     )
@@ -168,7 +168,7 @@ function dtsXML:get-workJSON($id as xs:string) {
     ($config:response200Json,
  log:add-log-message('/api/dts/text/' || $id, sm:id()//sm:real/sm:username/string() , 'dts'),
     let $collection := 'works'
-    let $item := $titles:collection-root/id($id)[name() ='TEI']
+    let $item := $exptit:col/id($id)[name() ='TEI']
     let $recordid := $item/@xml:id
     return
         if ($item//t:div[@type = 'edition'])
@@ -215,7 +215,7 @@ function dtsXML:get-toplevelJSON($id as xs:string, $level1 as xs:string*) {
     ($config:response200Json,
  log:add-log-message('/api/dts/text/'||$id||'/'||$level1, sm:id()//sm:real/sm:username/string() , 'dts'),
     let $collection := 'works'
-    let $item := $titles:collection-root/id($id)[name() ='TEI']
+    let $item := $exptit:col/id($id)[name() ='TEI']
     let $recordid := $item/@xml:id
     let $L1 := $item//t:div[@type = 'edition']/t:div[@n = $level1]
     return
@@ -277,7 +277,7 @@ function dtsXML:get-level1JSON($id as xs:string, $level1 as xs:string*, $line as
     
  log:add-log-message('/api/dts/text/'||$id||'/'||$level1||'/'||$line, sm:id()//sm:real/sm:username/string() , 'dts'),
     let $collection := 'works'
-    let $item := $titles:collection-root/id($id)[name() ='TEI']
+    let $item := $exptit:col/id($id)[name() ='TEI']
     let $recordid := $item/@xml:id
     let $L1 := $item//t:div[@type = 'edition']/t:div[@n = $level1]
     
@@ -399,7 +399,7 @@ function dtsXML:get-level2JSON($id as xs:string, $level1 as xs:string*, $level2 
     
  log:add-log-message('/api/dts/text/'||$id||'/'||$level1||'/'||$level2||'/'||$line, sm:id()//sm:real/sm:username/string() , 'dts'),
     let $collection := 'works'
-    let $item := $titles:collection-root/id($id)[name() ='TEI']
+    let $item := $exptit:col/id($id)[name() ='TEI']
     let $recordid := $item/@xml:id
     let $L1 := $item//t:div[@type = 'edition']/t:div[@n = $level1]
     let $L2 := $L1/t:div[@n = $level2]

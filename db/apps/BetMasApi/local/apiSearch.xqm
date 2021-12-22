@@ -6,15 +6,15 @@ xquery version "3.1" encoding "UTF-8";
  : @author Pietro Liuzzo 
  :)
 module namespace apiS = "https://www.betamasaheft.uni-hamburg.de/BetMas/apiSearch";
-import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
+import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
 import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace kwic = "http://exist-db.org/xquery/kwic" at "resource:org/exist/xquery/lib/kwic.xql";
-import module namespace all="https://www.betamasaheft.uni-hamburg.de/BetMas/all" at "xmldb:exist:///db/apps/BetMas/modules/all.xqm";
-import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
-import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
+import module namespace all="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/all" at "xmldb:exist:///db/apps/BetMasWeb/modules/all.xqm";
+import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMasWeb/modules/log.xqm";
+import module namespace exptit="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/exptit" at "xmldb:exist:///db/apps/BetMasWeb/modules/exptit.xqm";
 (: namespaces of data used :)
 import module namespace http="http://expath.org/ns/http-client";
-import module namespace console="http://exist-db.org/xquery/console";
+(:import module namespace console="http://exist-db.org/xquery/console";:)
 
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
@@ -56,7 +56,7 @@ declare
 %rest:query-param("id", "{$id}", "")
 %output:method("json")
 function apiS:titleTest($id) {
-   map{ 'title' : titles:printTitleMainID($id) }
+   map{ 'title' : exptit:printTitleID($id) }
 };
 
 (:~ returns a map containing the KWIC hits from the evaluation of an xpath containing lucene full text index queries for the API search. :)
@@ -89,7 +89,7 @@ let $hi :=  for $hit in $hits
             let $root := root($hit)/t:TEI
             group by $R := $root
             let $id := string($R/@xml:id)
-            let $title := titles:printTitleMainID($id)
+            let $title := exptit:printTitleID($id)
             let $collection := switch($R/@type) 
                                 case 'mss' return 'manuscripts'
                                 case 'place' return 'places' 
@@ -102,7 +102,7 @@ let $hi :=  for $hit in $hits
             let $results := for $ex in $expanded
                             for $match in subsequence($ex//exist:match, 1, 3) 
                             return  kwic:get-summary($ex, $match,<config width="40"/>)
-            let $test := console:log($results)
+(:            let $test := console:log($results):)
             let $pname := $expanded//exist:match[ancestor::t:div[@type eq 'edition']]
             let $text := if($pname) then 'text' else 'main'
             let $textpart := if($text = 'text') then 
@@ -240,7 +240,7 @@ return util:eval($eval-string)
 let $results := 
                     for $hit in $hits
                     let $id := string($hit/ancestor::t:TEI/@xml:id)
-                     let $t := normalize-space(titles:printTitleMainID($id))
+                     let $t := normalize-space(exptit:printTitleID($id))
                let $r := normalize-space(string-join($hit//text(), ' '))
                     return
                        map{

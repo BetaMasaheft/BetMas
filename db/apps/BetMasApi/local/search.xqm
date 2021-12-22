@@ -6,7 +6,7 @@ xquery version "3.1" encoding "UTF-8";
  :)
 module namespace restSearch = "https://www.betamasaheft.uni-hamburg.de/BetMas/restSearch";
 import module namespace rest = "http://exquery.org/ns/restxq";
-import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "xmldb:exist:///db/apps/BetMas/modules/apprest.xqm";
+import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/apprest" at "xmldb:exist:///db/apps/BetMasWeb/modules/apprest.xqm";
 
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 

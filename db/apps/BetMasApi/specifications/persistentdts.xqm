@@ -64,7 +64,7 @@ declare option output:indent "yes";
 (:~ Main access point to DTS style API returning passages from text :)
 declare
 %rest:GET
-%rest:path("/BetMas/permanent/{$sha}/api/dts")
+%rest:path("/permanent/{$sha}/api/dts")
 %output:method("json")
 function persdts:dtsmain($sha as xs:string+) {
 let $perma :=  ("/permanent/"||$sha||"/api/dts/")
@@ -86,7 +86,7 @@ return
 (:~ dts/collection https://github.com/distributed-text-services/specifications/blob/master/Collection-Endpoint.md :)
 declare
 %rest:GET
-%rest:path("/BetMas/permanent/{$sha}/api/dts/collections")
+%rest:path("/permanent/{$sha}/api/dts/collections")
 %rest:query-param("id", "{$id}",  "")
 %rest:query-param("page", "{$page}", 1)
 %rest:query-param("nav", "{$nav}", "children")
@@ -128,7 +128,7 @@ map {
 (:~ dts/document https://github.com/distributed-text-services/specifications/blob/master/Document-Endpoint.md:)
 declare
 %rest:GET
-%rest:path("/BetMas/permanent/{$sha}/api/dts/document")
+%rest:path("/permanent/{$sha}/api/dts/document")
 %rest:query-param("id", "{$id}",  "")
 %rest:query-param("ref", "{$ref}", "")
 %rest:query-param("start", "{$start}", "")
@@ -207,7 +207,7 @@ let $doc := dts:fragment($file, $edition, $ref, $start, $end, $text)
 (:~ dts/navigation https://github.com/distributed-text-services/specifications/blob/master/Navigation-Endpoint.md:)
 declare
 %rest:GET
-%rest:path("/BetMas/permanent/{$sha}/api/dts/navigation")
+%rest:path("/permanent/{$sha}/api/dts/navigation")
 %rest:query-param("id", "{$id}",  "")
 %rest:query-param("ref", "{$ref}", "")
 %rest:query-param("level", "{$level}", "")
@@ -437,7 +437,7 @@ map {
 };
 declare
 %rest:GET
-%rest:path("/BetMas/permanent/{$sha}/api/dts/collections")
+%rest:path("/permanent/{$sha}/api/dts/collections")
 %rest:query-param("id", "{$id}",  "")
 %rest:query-param("page", "{$page}", 1)
 %rest:query-param("nav", "{$nav}", "children")

@@ -44,12 +44,12 @@ function NE:relNodes($localId as xs:string*) {
     
     
     let $refs := ($entity//@ref[not(./ancestor::t:respStmt)], $entity//@active, $entity//@passive)
-    let $log := util:log('info', $refs)
+(:    let $log := util:log('info', $refs):)
     
     
     let $secondaryrelations := 
     for $id in config:distinct-values($refs[. != $uri])
-    let $logid := util:log('info', $id)
+(:    let $logid := util:log('info', $id):)
     let $ins := $config:baseURI || 'INS'
     return
     try {
@@ -64,7 +64,7 @@ function NE:relNodes($localId as xs:string*) {
                     ()
                 else
                     let $whatppointstothat := what:PointsHere($id, $exptit:col)
-                       let $log0 := util:log('info',  $whatppointstothat)
+(:                       let $log0 := util:log('info',  $whatppointstothat):)
                     return
                         (:if more than 10 items are related then it is unlikely to be relevant:)
                         if (count($whatppointstothat) gt 10) then

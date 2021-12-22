@@ -5,10 +5,10 @@ xquery version "3.1" encoding "UTF-8";
  :)
 
 module namespace void = "https://www.betamasaheft.uni-hamburg.de/BetMas/void";
-import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2"  at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
-import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
-import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
-import module namespace api="https://www.betamasaheft.uni-hamburg.de/BetMas/api" at "xmldb:exist:///db/apps/BetMas/modules/rest.xqm";
+import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/switch2"  at "xmldb:exist:///db/apps/BetMasWeb/modules/switch2.xqm";
+import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
+import module namespace exptit="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/exptit" at "xmldb:exist:///db/apps/BetMasWeb/modules/exptit.xqm";
+import module namespace api="https://www.betamasaheft.uni-hamburg.de/BetMasApi/api" at "xmldb:exist:///db/apps/BetMasApi/local/rest.xqm";
 
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace http = "http://expath.org/ns/http-client";
@@ -74,7 +74,7 @@ declare
 function void:entity($id as xs:string*) {
 
 ($void:response200turtle, 
-let $item := $titles:collection-root/id($id)
+let $item := $exptit:col/id($id)
 let $coll := switch2:col($item/@type)
 let $dctermsContributor := ''
 let $dctermsCreated := ''
@@ -88,7 +88,7 @@ return
         @prefix foaf: <http://xmlns.com/foaf/0.1/> .
         
         :'||$id||'_RDF a void:Dataset;
-        dcterms:title "'||titles:printTitleMainID($id)||'";
+        dcterms:title "'||exptit:printTitleID($id)||'";
         dcterms:publisher "Akademie der Wissenschaften in Hamburg";
         dcterms:publisher "Hiob-Ludolf-Zentrum für Äthiopistik";
         dcterms:source <'||$config:appUrl||'/'||$id||'.xml>;
@@ -102,7 +102,7 @@ return
         .
         
          :'||$id||'_RDFa a void:Dataset;
-        dcterms:title "'||titles:printTitleMainID($id)||'";
+        dcterms:title "'||exptit:printTitleID($id)||'";
         dcterms:publisher "Akademie der Wissenschaften in Hamburg";
         dcterms:publisher "Hiob-Ludolf-Zentrum für Äthiopistik";
         dcterms:source <'||$config:appUrl||'/'||$id||'.xml>;
@@ -123,7 +123,7 @@ return
         '
         
         :'||$id||'_JSONLD a void:Dataset;
-        dcterms:title "'||titles:printTitleMainID($id)||'";
+        dcterms:title "'||exptit:printTitleID($id)||'";
         dcterms:publisher "Akademie der Wissenschaften in Hamburg";
         dcterms:publisher "Hiob-Ludolf-Zentrum für Äthiopistik";
         dcterms:source <'||$config:appUrl||'/'||$id||'.xml>;
@@ -146,7 +146,7 @@ return
         then 
         '
         :'||$id||'_TTL a void:Dataset;
-        dcterms:title "'||titles:printTitleMainID($id)||'";
+        dcterms:title "'||exptit:printTitleID($id)||'";
         dcterms:publisher "Akademie der Wissenschaften in Hamburg";
         dcterms:publisher "Hiob-Ludolf-Zentrum für Äthiopistik";
         dcterms:source <'||$config:appUrl||'/'||$id||'.xml>;
