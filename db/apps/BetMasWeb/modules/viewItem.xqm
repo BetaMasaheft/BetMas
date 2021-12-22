@@ -787,7 +787,7 @@ declare %private function viewItem:worktitle($t) {
                     (),
                 if ($t/@ref) then
                     <a
-                        href="{$t/@ref}"
+                        href="/{viewItem:URI2ID($t/@ref)}"
                         target="_blank">{$t/text()}</a>
                 else
                     viewItem:TEI2HTML($t),
@@ -810,9 +810,11 @@ declare %private function viewItem:makeSequence($attribute) {
 };
 
 declare %private function viewItem:workAuthorList($parentname, $p, $a) {
+    let $filename := viewItem:URI2ID($p)
+    return
     ($parentname,
     <a
-        href="{$p}"
+        href="/{$filename}"
         class="persName">
         {exptit:printTitle($p)}
     </a>,
@@ -822,8 +824,6 @@ declare %private function viewItem:workAuthorList($parentname, $p, $a) {
             class="w3-tag w3-round-large w3-red">attributed</span>)
     else
         (),
-    let $filename := viewItem:URI2ID($p)
-    return
         <a
             id="{generate-id($a)}Ent{$filename}relations">
             
@@ -918,7 +918,7 @@ declare %private function viewItem:headercontext($node) {
             ()
         return
             <a
-                href="{$c}">{$text}
+                href="/{viewItem:URI2ID($c)}">{$text}
                 {$lang}</a>
         return
             ('(about:', $items, ')')
@@ -1108,7 +1108,7 @@ declare %private function viewItem:ref($ref) {
             else
                 <a
                     class="reference"
-                    href="{substring-after($ref/@cRef, 'betmas:')}"
+                    href="/{substring-after($ref/@cRef, 'betmas:')}"
                     target="_blank">
                     {$ref/text()}
                     <i
@@ -1120,7 +1120,7 @@ declare %private function viewItem:ref($ref) {
                 for $c in viewItem:makeSequence($ref/@corresp)
                 return
                     (<a
-                        href="{$c}">{$ref/text()}</a>,
+                        href="/{viewItem:URI2ID($c)}">{$ref/text()}</a>,
                     let $relsid := generate-id($ref)
                     return
                         <a
@@ -1147,7 +1147,7 @@ declare %private function viewItem:ref($ref) {
                                     {$ref/text()}</a>
                             else
                                 <a
-                                    href="{$t}">{$ref/text()}</a>
+                                    href="/{$t}">{$ref/text()}</a>
                 else
                     ()
         )
@@ -1174,7 +1174,7 @@ declare %private function viewItem:ref($ref) {
                 for $c in viewItem:makeSequence($ref/@corresp)
                 return
                     (<a
-                        href="{$c}">{exptit:printTitle($c)}</a>,
+                        href="/{viewItem:URI2ID($c)}">{exptit:printTitle($c)}</a>,
                     let $relsid := generate-id($c)
                     return
                         <a
@@ -1191,9 +1191,9 @@ declare %private function viewItem:ref($ref) {
                             let $anchor := substring-after($t, '#')
                             let $node := $ref/ancestor::t:TEI/id($anchor)
                             return
-                                <a
+                            if(count($node) = 1) then    <a
                                     href="{$t}">
-                                    {viewItem:switchsubids($anchor, $node)}</a>
+                                    {viewItem:switchsubids($anchor, $node)}</a> else $anchor || ' not found in this file'
                         else
                             if (starts-with($t, 'http')) then
                                 <a
@@ -1533,9 +1533,9 @@ declare %private function viewItem:lefthand($entity) {
 };
 
 declare %private function viewItem:namedEntityTitle($entity) {
-    (<a
+    (<a target="_blank"
         xmlns="http://www.w3.org/1999/xhtml"
-        href="{$entity/@ref}">{viewItem:TEI2HTML($entity/node())}</a>,
+        href="/{viewItem:URI2ID($entity/@ref)}">{viewItem:TEI2HTML($entity/node())}</a>,
     if (matches($entity/@ref, 'LIT')) then
         (' (' || viewItem:cae($entity) || ')')
     else
@@ -5880,7 +5880,8 @@ declare function viewItem:switchsubids($anchor, $node) {
                                         ' Colophon ' || substring-after($anchor, 'coloph') || string-join(viewItem:headercontext($node))
                                     else
                                         if (contains($anchor, '_i') and matches($anchor, '\w\d+')) then
-                                            ' Content Item ' || substring-after($anchor, '_i') || string-join(viewItem:headercontext($node)) || $node/t:title/text()
+                                           ( ' Content Item ' || substring-after($anchor, '_i') || string-join(viewItem:headercontext($node)) , 
+                                            if(count($node/t:title) ge 1) then viewItem:TEI2HTML($node/t:title[1]) else ())
                                         else
                                             if (starts-with($anchor, 'q') and matches($anchor, '\w\d+')) then
                                                 ' Quire ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
