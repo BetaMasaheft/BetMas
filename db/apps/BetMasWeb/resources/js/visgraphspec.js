@@ -15,7 +15,7 @@ var entity = $("#BetMasRelView").data('value');
     $.getJSON(apicall, function (data) {
  var nodes = new vis.DataSet(data.nodes);
 var edges = new vis.DataSet(data.edges);
-        if(nodes instanceof DataSet){console.log('nodes is a Dataset')}
+/*        if(nodes instanceof DataSet){console.log('nodes is a Dataset')}*/
 var hier = false;
 var edgedrag = false;
 
