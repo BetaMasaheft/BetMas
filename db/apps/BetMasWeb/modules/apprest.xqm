@@ -665,16 +665,16 @@ return
                 <div>
                 {for $respStmt in $document//t:titleStmt/t:respStmt
                 let $action := string-join($respStmt/t:resp, ' ')
-                let $authors :=
+                let $authorspersname :=
                             for $p in $respStmt/t:persName
                                 return
                                     (if($p/@ref) then editors:editorKey(string($p/@ref)) else $p) || (if($p/@from or $p/@to) then (' ('||'from '||$p/@from || ' to ' ||$p/@to||')') else ())
-
-
+                 let $authorsname := for $p in $respStmt/t:name   return $p/text()
+let $authors := ($authorspersname, $authorsname)
                 order by $action descending
                 return
                 <p>
-                {($action || ' by ' || string-join($authors, ', '))}
+                {($action || ': ' || string-join($authors, ', '))}
                 </p>
                 }
                 </div>
