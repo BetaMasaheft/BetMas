@@ -1,6 +1,7 @@
 <bibliography xmlns="betmas.biblio">
-    <total>3149</total>
+    <total>3165</total>
     <entries>
+        
         <entry id="bm:IHABook557">
             <citation><i>Archives et manuscrits, Bibliothèque nationale de France</i>
                 n.d.</citation>
@@ -234,10 +235,7 @@
         </entry>
         <entry id="bm:IHABook715">
             <citation><i>Muʻǧam al-šuʻarā’ al-ʻarab</i> 2010</citation>
-            <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry"><i>Muʻǧam al-šuʻarā’
-                        al-ʻarab</i> 2010. (2010).</div>
-            </reference>
+            <reference/>
         </entry>
         <entry id="bm:IHABook965">
             <citation><i>Muṣḥaf ǧawāmiʻī šarīf bi-ḫaṭṭ al-sayyid Muṣṭafā Naẓīf al-šahīr
@@ -422,8 +420,8 @@
             </reference>
         </entry>
         <entry id="bm:MalkaGubae1974">
-            <citation><i>መልክዐ ጉባኤ <span style="font-style:normal;">(</span>Mälkǝʾa
-                gubaʾe<span style="font-style:normal;">, 'Collection of hymns’</span>)</i>
+            <citation><i>መልክዐ ጉባኤ <span style="font-style:normal;">(Mälkǝʾa
+                gubaʾe</span>, 'Collection of hymns’)</i>
                 1981–1982</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry"><i>መልክዐ ጉባኤ <span style="font-style:normal;">(</span>Mälkǝʾa gubaʾe<span style="font-style:normal;">, 'Collection of hymns’)</span></i>
@@ -438,12 +436,12 @@
             </reference>
         </entry>
         <entry id="bm:MashafaGessawe1968">
-            <citation><i>መጽሐፈ፡ ግጻዌ። &amp;#60;i&amp;#62;(&amp;#60;i&amp;#62;Maṣḥafa
-                gǝṣṣāwe<span style="font-style:normal;">, ‘The book of the
-                lectionary’</span>)</i> 2013–2014</citation>
+            <citation><i>መጽሐፈ፡ ግጻዌ። (<span style="font-style:normal;">Maṣḥafa
+                gǝṣṣāwe</span>, ‘The book of the
+                lectionary’)</i> 2013–2014</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry"><i>መጽሐፈ፡ ግጻዌ።
-                        (Maṣḥafa gǝṣṣāwe<span style="font-style:normal;">, ‘The
+                    <span style="font-style:normal;">(Maṣḥafa gǝṣṣāwe, ‘The
                             book of the lectionary’)</span></i> 2013–2014. (ʾAddis ʾAbabā:
                     2013–2014).</div>
             </reference>
@@ -460,10 +458,10 @@
             </reference>
         </entry>
         <entry id="bm:Malkea1967Geez">
-            <citation><i>ሰባቱ፡ ኪዳናት፡ ቅዳሴ፡ ማርያም። መልክአ፡ ጉባኤ፡ <span style="font-style:normal;">(Sabātu kidānāt, qǝddāse Māryām, malkǝʾa gubāʾe
-                ba-lǝssāna gǝʿǝz</span>, ‘The Seven
-                Kidanat, the ‘Anaphora of Mary’, and the Collection of
-                Images)</i> 1966</citation>
+            <citation>ሰባቱ፡ ኪዳናት፡ ቅዳሴ፡ ማርያም። መልክአ፡ ጉባኤ፡ <span style="font-style:normal;">(Sabātu kidānāt, qǝddāse Māryām, malkǝʾa gubāʾe
+                ba-lǝssāna gǝʿǝz</span>, ‘The <i>Seven
+                Kidanat</i>, the ‘Anaphora of Mary’, and the <i>Collection of
+                Images</i>) 1966</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry"><i>ሰባቱ፡ ኪዳናት፡ ቅዳሴ፡ ማርያም።
                         መልክአ፡ ጉባኤ፡ <span style="font-style:normal;">(</span>Sabātu kidānāt, qǝddāse
@@ -1071,6 +1069,16 @@
                         Collections</i>, 250–73.</div>
             </reference>
         </entry>
+        <entry id="bm:Ancel2016Travelling">
+            <citation>Ancel 2016</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Ancel, S. 2016.
+                    ‘Travelling Books: Changes of Ownership and Location in Ethiopian Manuscript
+                    Culture’, in G. Ciotti and H. Lin, eds, <i>Tracing Manuscripts in Time and Space
+                        through Paratexts</i>, Studies in Manuscript Cultures, 7 (Berlin: De
+                    Gruyter, 2016), 269–299.</div>
+            </reference>
+        </entry>
         <entry id="bm:1972Annequin">
             <citation>Annequin 1972</citation>
             <reference>
@@ -1141,20 +1149,20 @@
                     of Education and Fine Arts-Department of Fine Arts and Culture, 1970).</div>
             </reference>
         </entry>
+        <entry id="bm:1967Qandil">
+            <citation>Anon. 1973a</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Anon. 1973. <i>መጽሐፈ፡
+                        ቀንዲል፡ ወንስሓ፡ (ኑዛዜ) ወሥርዓተ፡ ውሂቦተ፡ ቍርባን፡ ለሕሙማን፡ (Maṣḥafa qandil wa-nǝssǝḥā
+                        (nuzāze) wa-śǝrʿāta wǝhibota q<sup>w</sup>ǝrbān la-ḥǝmumān)</i> (Rome:
+                    n.pub., 1973).</div>
+            </reference>
+        </entry>
         <entry id="bm:1973Krestenna">
-            <citation>Anon. 1973</citation>
+            <citation>Anon. 1973b</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Anon. 1973. <i>መጽሐፈ፡
                         ክርስትና (Maṣḥafa krǝstǝnnā)</i> (Addis Ababa: 1973).</div>
-            </reference>
-        </entry>
-        <entry id="bm:1967Qandil">
-            <citation>Anon. 1974</citation>
-            <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Anon. 1974. <i>መጽሐፈ፡
-                        ቀንዲል፡ ወንስሓ፡ (ኑዛዜ) ወሥርዓተ፡ ውሂቦተ፡ ቍርባን፡ ለሕሙማን፡ (Maṣḥafa qandil wa-nǝssǝḥā
-                        (nuzāze) wa-śǝrʿāta wǝhibota q<sup>w</sup>ǝrbān la-ḥǝmumān)</i> (Rome:
-                    n.pub., 1974).</div>
             </reference>
         </entry>
         <entry id="bm:1982Aragawi">
@@ -2341,8 +2349,16 @@
                         <i>Rassegna di Studi Etiopici</i>, 41 (1997), 13–56 (DOI: <a shape="rect" href="https://doi.org/10.2307/41299838">10.2307/41299838</a>).</div>
             </reference>
         </entry>
+        <entry id="bm:Bausi1998Remarks">
+            <citation>Bausi 1998a</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Bausi, A. 1998. ‘Some
+                    Short Remarks on the <i>Canon Tables</i> in Ethiopic Manuscripts’,
+                    ed. C. Baffioni <i>Studi Magrebini</i>, 26 (1998), 45–67.</div>
+            </reference>
+        </entry>
         <entry id="bm:Bausi1998Cipriano">
-            <citation>Bausi 1998</citation>
+            <citation>Bausi 1998b</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Bausi, A. 1998.
                     ‘L’Epistola 70 di Cipriano di Cartagine in versione etiopica’,
@@ -2434,6 +2450,18 @@
                     (Darmstadt: Wissenschaftliche Buchgesellschaft, 2009), 291–321.</div>
             </reference>
         </entry>
+        <entry id="bm:Bausi2010Najran">
+            <citation>Bausi 2010</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Bausi, A. 2010. ‘The
+                    Massacre of Najrān: The Ethiopic Sources’, in J. Beaucamp, F. Briquel-Chatonnet,
+                    and C. J. Robin, eds, <i>Juifs et chrétiens en Arabie aux V<sup>e</sup> et
+                            VI<sup>e</sup> siècles: Regards croisés sur les sources</i>, Collège de
+                    France–CNRS, Centre de recherche d’Histoire et Civilisation de Byzance,
+                    Monographies, 32, Le massacre de Najrân, 2 (Paris: Association des amis du
+                    Centre d’histoire et civilisation de Byzance, 2010), 241–254.</div>
+            </reference>
+        </entry>
         <entry id="bm:Bausi2011AG">
             <citation>Bausi 2011a</citation>
             <reference>
@@ -2519,15 +2547,7 @@
         </entry>
         <entry id="bm:Bausi2017Garima">
             <citation>Bausi 2017a</citation>
-            <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Bausi, A. 2017. ‘Review
-                    of Judith S. McKenzie and Francis Watson, <i>The Garima Gospels: Early
-                        Illuminated Gospel Books from Ethiopia</i>, with Preface and Photographs by
-                    Michael Gervers and Contributions by Matthew R. Crawford,  Linda R. Macaulay,
-                    Sarah S. Norodom, Andres  T.  Reyes, and Miranda E. Williams, Manar al-Athar
-                    Monograph, 3 (Oxford: Manar al­-Athar, 2016)’, <i>Aethiopica</i>, 20 (2017),
-                    289–292.</div>
-            </reference>
+            <reference/>
         </entry>
         <entry id="bm:Bausi2017Azqir">
             <citation>Bausi 2017b</citation>
@@ -2986,6 +3006,16 @@
                         History</i>, 8/3 (2004), 294–318.</div>
             </reference>
         </entry>
+        <entry id="bm:2008BoscTiesseIles">
+            <citation>Bosc-Tiessé 2008</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Bosc-Tiessé, C. 2008.
+                        <i>Les îles de la mémoire: Fabrique des images et écriture de l’histoire
+                        dans les églises du lac Ṭānā, Éthiopie, XVII<sup>e</sup>–XVIII<sup>e</sup>
+                        siècle</i>, Histoire ancienne et médiévale, 97 (Paris: Publications de la
+                    Sorbonne, 2008).</div>
+            </reference>
+        </entry>
         <entry id="bm:BoscWion1998Inventaire">
             <citation>Bosc-Tiessé and Wion 1998</citation>
             <reference>
@@ -3040,7 +3070,7 @@
                     135 (Lovanii: In aedibus Peeters, 2016), 93–98.</div>
             </reference>
         </entry>
-        <entry id="bm:IHABook1051">
+        <entry id="bm:Braukamper2002Islam">
             <citation>Braukämper 2002a</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Braukämper, U. 2002.
@@ -3048,12 +3078,21 @@
                     Göttinger Beiträge zur Ethnologie, 9 (Münster: LIT Verlag, 2002).</div>
             </reference>
         </entry>
-        <entry id="bm:Braukamper2002Islam">
+        <entry id="bm:IHABook1051">
             <citation>Braukämper 2002b</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Braukämper, U. 2002.
                         <i>Islamic History and Culture in Southern Ethiopia: Collected Essays</i>,
                     Göttinger Beiträge zur Ethnologie, 9 (Münster: LIT Verlag, 2002).</div>
+            </reference>
+        </entry>
+        <entry id="bm:Brerewood1679Scrutinium">
+            <citation>Brerewood 1679</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Brerewood, E. 1679.
+                        <i>Scrutinium Religionum &amp; Linguarum, Editio novissima, cui summaria
+                        capitum accesserunt</i> (Francofurti: Sumptibus haeredum Thomae Matthiae
+                    Götzii, 1679).</div>
             </reference>
         </entry>
         <entry id="bm:Brita2010Christianization">
@@ -3307,13 +3346,22 @@
         <entry id="bm:Budge1909Mena">
             <citation>Budge 1909</citation>
             <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Budge, E. A. W. 1909.
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Budge, E. A. T. W. 1909.
                         <i>Texts relating to Saint Mêna of Egypt and canons of Nicaea in Nubian
-                        dialect with Facsimile</i> (1909).</div>
+                        dialect with Facsimile</i> (London: Printed by order of the Trustees,
+                    1909).</div>
+            </reference>
+        </entry>
+        <entry id="bm:Budge1922Mary">
+            <citation>Budge 1922a</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Budge, E. A. W. 1922.
+                        <i>Legends of Our Lady Mary the Perpetual Virgin and Her Mother Ḥannâ</i>
+                    (London, Liverpool &amp; Boston, Mass.: The Medici Society, Ltd., 1922).</div>
             </reference>
         </entry>
         <entry id="bm:Budge1922Kebra">
-            <citation>Budge 1922a</citation>
+            <citation>Budge 1922b</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Budge, E. A. T. W. 1922.
                         <i>The Queen of Sheba &amp; her only son Menyelek; being the history of the
@@ -3322,24 +3370,8 @@
                         line of kings in that country</i> (London: Medici Society, 1922).</div>
             </reference>
         </entry>
-        <entry id="bm:Budge1922Mary">
-            <citation>Budge 1922b</citation>
-            <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Budge, E. A. W. 1922.
-                        <i>Legends of Our Lady Mary the Perpetual Virgin and Her Mother Ḥannâ</i>
-                    (London, Liverpool &amp; Boston, Mass.: The Medici Society, Ltd., 1922).</div>
-            </reference>
-        </entry>
-        <entry id="bm:Budge1923Miracles">
-            <citation>Budge 1923a</citation>
-            <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Budge, E. A. [Thompson]
-                    W. 1923. <i>One hundred and ten miracles of Our Lady Mary</i> (London: Medici
-                    Society, 1923).</div>
-            </reference>
-        </entry>
         <entry id="bm:Budge1923BaralamText">
-            <citation>Budge 1923b</citation>
+            <citation>Budge 1923a</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Budge, E. A. W. 1923.
                         <i>Baralâm and Yewâsef: being the Ethiopic version of a Christianized
@@ -3348,13 +3380,21 @@
             </reference>
         </entry>
         <entry id="bm:Budge1923BaralamTranslation">
-            <citation>Budge 1923c</citation>
+            <citation>Budge 1923b</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Budge, E. A. W. 1923.
                         <i>Baralâm and Yewâsef: being the Ethiopic version of a Christianized
                         recension of the Buddhist legend of the Buddha and the Bodhisattva. Volume
                         II. The Introduction, English Translation, etc.</i>, II (Cambridge: At the
                     University Press, 1923).</div>
+            </reference>
+        </entry>
+        <entry id="bm:Budge1923Miracles">
+            <citation>Budge 1923c</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Budge, E. A. [Thompson]
+                    W. 1923. <i>One hundred and ten miracles of Our Lady Mary</i> (London: Medici
+                    Society, 1923).</div>
             </reference>
         </entry>
         <entry id="bm:Budge1928History">
@@ -3414,6 +3454,17 @@
                         <i>The Book of the Saints of the Ethiopian Church : [a translation of the
                         Ethiopic Synaxarium : made from the manuscripts Oriental 660 and 661 in the
                         British Museum]</i>, III/IV (Hildesheim: Georg Olms, 1976).</div>
+            </reference>
+        </entry>
+        <entry id="bm:Bulakh2014Ancient">
+            <citation>Bulakh 2014</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Bulakh, M. 2014.
+                    ‘Ancient Gǝʿǝz Orthography: Evaluation of the Fragment of Luke (Verses
+                    6:37-6:43) in the Manuscript MY-002 from Däbrä Maʿṣo, Tǝgray’, in A. Bausi, A.
+                    Gori, and G. Lusini, eds, <i>Linguistic, Oriental and Ethiopian Studies in
+                        Memory of Paolo Marrassini</i> (Wiesbaden: Harrassowitz Verlag, 2014),
+                    177–212.</div>
             </reference>
         </entry>
         <entry id="bm:Butts2013Reception">
@@ -3707,21 +3758,21 @@
                         Orientali</i>, 21 (1946), 121–156.</div>
             </reference>
         </entry>
-        <entry id="bm:Cerulli1947EtiopiII">
+        <entry id="bm:1947CerulliMocking">
             <citation>Cerulli 1947a</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Cerulli, E. 1947. ‘Il
+                    «Gesù percosso» nell’arte etiopica e le sue origini nell’Europa del xv secolo’,
+                        <i>Rassegna di Studi Etiopici</i>, 6/2 (1947), 109–129 (DOI: <a shape="rect" href="https://doi.org/10.2307/41460227">10.2307/41460227</a>).</div>
+            </reference>
+        </entry>
+        <entry id="bm:Cerulli1947EtiopiII">
+            <citation>Cerulli 1947b</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Cerulli, E. 1947.
                         <i>Etiopi in Palestina: Storia della comunità etiopica di Gerusalemme</i>,
                     II, Collezione scientifica e documentaria a cura dell’Ufficio studi del
                     Ministero dell’Africa Italiana, 14 (Roma: La Libreria dello Stato, 1947).</div>
-            </reference>
-        </entry>
-        <entry id="bm:1947CerulliMocking">
-            <citation>Cerulli 1947b</citation>
-            <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Cerulli, E. 1947. ‘Il
-                    «Gesù percosso» nell’arte etiopica e le sue origini nell’Europa del xv secolo’,
-                        <i>Rassegna di Studi Etiopici</i>, 6/2 (1947), 109–129 (DOI: <a shape="rect" href="https://doi.org/10.2307/41460227">10.2307/41460227</a>).</div>
             </reference>
         </entry>
         <entry id="bm:Cerulli1950Battesimo">
@@ -4110,14 +4161,6 @@
                     Orientalis, 43/3 (195) (Turnhout: Brepols, 1986).</div>
             </reference>
         </entry>
-        <entry id="bm:Colin1987GiyorgisSagla">
-            <citation>Colin 1987</citation>
-            <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Colin, G. 1987. <i>Vie
-                        de Georges de Saglā</i>, Corpus Scriptorum Christianorum Orientalium, 492,
-                    493, Scriptores Aethiopici, 81, 82 (Louvain: Peeters, 1987).</div>
-            </reference>
-        </entry>
         <entry id="bm:Colin1988Etat">
             <citation>Colin 1988</citation>
             <reference>
@@ -4141,6 +4184,22 @@
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Colin, G. 1992. <i>Le
                         Synaxaire éthiopien. Mois de Yakkātit</i>, ed., tr. G. Colin, Patrologia
                     Orientalis, 45/3 (203) (Turnhout: Brepols, 1992).</div>
+            </reference>
+        </entry>
+        <entry id="bm:Colin1994SynMagg">
+            <citation>Colin 1994</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Colin, G. 1994. <i>Le
+                        Synaxaire éthiopien. Mois de Maggābit</i>, ed., tr. G. Colin, Patrologia
+                    Orientalis, 46/3 (207) (Turnhout: Brepols, 1994).</div>
+            </reference>
+        </entry>
+        <entry id="bm:Colin1997SynGen">
+            <citation>Colin 1997</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Colin, G. 1997. <i>Le
+                        Synaxaire éthiopien. Mois de Genbot</i>, ed., tr. G. Colin, Patrologia
+                    Orientalis, 47/3 (211) (Turnhout: Brepols, 1997).</div>
             </reference>
         </entry>
         <entry id="bm:Colin2001Timothee">
@@ -4491,16 +4550,8 @@
                         filologiche</i>, Serie quinta, 27 (1918), 279–296.</div>
             </reference>
         </entry>
-        <entry id="bm:ContiRossini1921Aeth1">
-            <citation>Conti Rossini 1923a</citation>
-            <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Conti Rossini, C. 1923.
-                    ‘Aethiopica’, <i>Rivista degli Studi Orientali</i>, 9 (1923), 365–382,
-                    449–468.</div>
-            </reference>
-        </entry>
         <entry id="bm:ContiRossini1921Aeth2">
-            <citation>Conti Rossini 1923b</citation>
+            <citation>Conti Rossini 1923</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Conti Rossini, C. 1923.
                     ‘Aethiopica (II)’, <i>Rivista degli Studi Orientali</i>, 10/2 (1923),
@@ -5321,24 +5372,16 @@
             <citation>DomLib/Ethio-SPARE Manuscript Cataloguing Database 2009</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry"><i>DomLib/Ethio-SPARE
-                        Manuscript Cataloguing Database</i> (Database) (2009) <a shape="rect" href="http://mycms-vs03.rrz.uni-hamburg.de/domlib/">http://mycms-vs03.rrz.uni-hamburg.de/domlib/</a>.</div>
+                        Manuscript Cataloguing Database</i> (Database) (2009) &lt;<a shape="rect" href="http://mycms-vs03.rrz.uni-hamburg.de/domlib/">http://mycms-vs03.rrz.uni-hamburg.de/domlib/</a>&gt;.</div>
             </reference>
         </entry>
         <entry id="bm:Dombrowski1983TanaseeA">
-            <citation>Dombrowski 1983a</citation>
+            <citation>Dombrowski 1983</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Dombrowski, F. A. 1983.
                         <i>Ṭānāsee 106: Eine Chronik der Herrscher Äthiopiens<span style="font-style:normal;">, I:</span> Teil A</i>, ed., tr. F. A.
                     Dombrowski, Äthiopistische Forschungen, 12A (Wiesbaden: Franz Steiner Verlag
                     GmbH, 1983).</div>
-            </reference>
-        </entry>
-        <entry id="bm:Dombrowski1983TanaseeB">
-            <citation>Dombrowski 1983b</citation>
-            <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Dombrowski, F. A. 1983.
-                        <i>Ṭānāsee 106: Eine Chronik der Herrscher Äthiopiens<span style="font-style:normal;">, II:</span> Teil B</i>, Äthiopistische
-                    Forschungen, 12B (Wiesbaden: Franz Steiner Verlag GmbH, 1983).</div>
             </reference>
         </entry>
         <entry id="bm:Donzel1969Enbaqom">
@@ -5443,7 +5486,7 @@
                 n.d.</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry"><i>EMML = Ethiopian
-                        Manuscript Microfilm Library, Addis Ababa - Collegeville, MN</i> <a shape="rect" href="http://www.hmml.org/emml.html">http://www.hmml.org/emml.html</a>.</div>
+                    Manuscript Microfilm Library, Addis Ababa - Collegeville, MN</i> &lt;<a shape="rect" href="http://www.hmml.org/emml.html">http://www.hmml.org/emml.html</a>&gt;.</div>
             </reference>
         </entry>
         <entry id="bm:IHAArticle32">
@@ -5699,11 +5742,7 @@
         </entry>
         <entry id="bm:Falivene1982Catalogue">
             <citation>Falivene and Jesson 1982</citation>
-            <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Falivene, M. R. and A.
-                    F. Jesson 1982. <i>Historical Catalogue of the Manuscripts in Bible House
-                        Library</i> (London: The British and Foreign Bible Society, 1982).</div>
-            </reference>
+            <reference/>
         </entry>
         <entry id="bm:IHABook529">
             <citation>Faraǧ ʻAbd al-Salām al-Sawqī et al. 1398</citation>
@@ -6377,12 +6416,7 @@
         </entry>
         <entry id="bm:Getatchew2017Lament">
             <citation>Getatchew Haile 2017b</citation>
-            <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Getatchew Haile 2017.
-                    ‘Lamentation of the Soul (Säqoqawä Näfs). EMML 6993 (A), fols 88r-92v; 7121 (B),
-                    fols 46r-60r; Abbadie 206 (P)’, in Getatchew Haile, ed., <i>Ethiopian Studies in
-                        Honour of Amha Asfaw</i> (New York: Getatchew Haile, 2017), 225–256.</div>
-            </reference>
+            <reference/>
         </entry>
         <entry id="bm:Getatchew2018Cross">
             <citation>Getatchew Haile 2018</citation>
@@ -6754,7 +6788,7 @@
             <citation>Graf 1944</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Graf, G. 1944.
-                        <i>Geschichte der christlichen arabischen Literatur<span style="font-style:normal;">, I:</span> Die Übersetzungen</i>, Studi e
+                        <i>Geschichte der christlichen arabischen Literatur<span style="font-style:normal;">, I:</span> Die Übersetzungen</i>, I, Studi e
                     Testi, 118 (Città del Vaticano: Biblioteca Apostolica Vaticana, 1944).</div>
             </reference>
         </entry>
@@ -6918,14 +6952,6 @@
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Grébaut, S. 1913. ‘Les
                     miracles de l’archange Râgouʾêl’, <i>Revue de l’Orient Chrétien</i>, 18 (1913),
                     113-120 277-282.</div>
-            </reference>
-        </entry>
-        <entry id="bm:Grebaut1913Cyriaque1">
-            <citation>Grébaut 1913e</citation>
-            <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Grébaut, S. 1913. ‘Les
-                    miracles du saint enfant Cyriaque’, <i>Revue de l’Orient Chrétien</i>, 18
-                    (1913), 419–423.</div>
             </reference>
         </entry>
         <entry id="bm:Grebaut1914Menologe1">
@@ -7137,20 +7163,20 @@
                     273–286.</div>
             </reference>
         </entry>
-        <entry id="bm:Grebaut1935LesanaSab">
-            <citation>Grébaut 1935c</citation>
-            <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Grébaut, S. 1935.
-                    ‘L’Hymne-Invocation Lesâna Sab’e’, <i>Aethiopica : revue philologique</i>, 3/1
-                    (1935), 6–12.</div>
-            </reference>
-        </entry>
         <entry id="bm:Grebaut1935Litanies">
-            <citation>Grébaut 1935d</citation>
+            <citation>Grébaut 1935c</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Grébaut, S. 1935.
                     ‘Litanies adressées à Jésus-Christ par l’entremise de Marie’, <i>Aethiopica</i>,
                     3 (1935), 145–153.</div>
+            </reference>
+        </entry>
+        <entry id="bm:Grebaut1935LesanaSab">
+            <citation>Grébaut 1935d</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Grébaut, S. 1935.
+                    ‘L’Hymne-Invocation Lesâna Sab’e’, <i>Aethiopica : revue philologique</i>, 3/1
+                    (1935), 6–12.</div>
             </reference>
         </entry>
         <entry id="bm:Grebaut1935Formules">
@@ -7181,6 +7207,20 @@
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Grébaut, S. 1936.
                     ‘Mémento des commémorations mensuelles et de quelques fêtes de l’Eglise
                     éthiopienne (suite)’, <i>Aethiopica</i>, 4 (1936), 19–22.</div>
+            </reference>
+        </entry>
+        <entry id="bm:Grebaut1938GriauleI">
+            <citation>Grébaut 1938</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Grébaut, S. 1938.
+                        <i>Catalogue des Manuscrits Éthiopiens de la Collection Griaule<span style="font-style:normal;">, I/1:</span> Ancien et Nouveau
+                            Testament<span style="font-style:normal;">, 2:</span> Apocryphes et
+                            Pseudépigraphes<span style="font-style:normal;">, 3:</span>
+                            Théologie<span style="font-style:normal;">, 4:</span> Ouvrages
+                            ascétiques<span style="font-style:normal;">, 5:</span> Liturgies<span style="font-style:normal;">, 6:</span> Rituels</i>, I/1: Ancien et
+                    Nouveau Testament, 2: Apocryphes et Pseudépigraphes, 3: Théologie, 4: Ouvrages
+                    ascétiques, 5: Liturgies, 6: Rituels, Travaux et mémoires de l’Institut
+                    d’ethnologie, 29 (Paris: Institut d’ethnologie, 1938).</div>
             </reference>
         </entry>
         <entry id="bm:Grebaut1940Habit">
@@ -7425,6 +7465,15 @@
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Guidi, I. 1911. ‘Due
                     antiche preghiere nel Rituale abissino dei defonti’, <i>Oriens Christianus</i>,
                     n.F. 1 (1911), 20–25.</div>
+            </reference>
+        </entry>
+        <entry id="bm:Guidi1916Aron">
+            <citation>Guidi 1916</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Guidi, M. 1916.
+                    ‘Contributo all’agiografia etiopica, I. La vita di Aron di Sarūg’, <i>Atti della
+                        Reale Accademia dei Lincei, Rendiconti, Classe di scienze morale, storiche e
+                        filologiche</i>, Serie quinta, 25 (1916), 659–701.</div>
             </reference>
         </entry>
         <entry id="bm:Guidi1922Contributi">
@@ -7906,8 +7955,7 @@
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Hofmann, J. and S.
                     Uhlig, eds, 1993. <i>Novum Testamentum Aethiopice: Die katholischen Briefe</i>,
-                    Aethiopistische Forschungen, 29 (Stuttgart: Franz Steiner Verlag Stuttgart,
-                    1993).</div>
+                    Aethiopistische Forschungen, 29 (Stuttgart: Franz Steiner, 1993).</div>
             </reference>
         </entry>
         <entry id="bm:Hommel1877Physiologus">
@@ -8034,7 +8082,7 @@
                     New York - Köln: E.J. Brill, 1995).</div>
             </reference>
         </entry>
-        <entry id="bm:IHAArticle13">
+        <entry id="bm:Hussein1992Islam">
             <citation>Hussein Ahmed 1992a</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Hussein Ahmed 1992. ‘The
@@ -8042,7 +8090,7 @@
                     (1992), 15–46.</div>
             </reference>
         </entry>
-        <entry id="bm:Hussein1992Islam">
+        <entry id="bm:IHAArticle13">
             <citation>Hussein Ahmed 1992b</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Hussein Ahmed 1992. ‘The
@@ -8058,7 +8106,7 @@
                         Languages and Literature</i>, 8 (1998), 25–37.</div>
             </reference>
         </entry>
-        <entry id="bm:IHABook175">
+        <entry id="bm:Hussein2001Islam">
             <citation>Hussein Ahmed 2001a</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Hussein Ahmed 2001.
@@ -8067,7 +8115,7 @@
                     Asia, 74 (Leiden, Boston, Köln: Brill, 2001).</div>
             </reference>
         </entry>
-        <entry id="bm:Hussein2001Islam">
+        <entry id="bm:IHABook175">
             <citation>Hussein Ahmed 2001b</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Hussein Ahmed 2001.
@@ -8095,11 +8143,7 @@
         </entry>
         <entry id="bm:IHABookSection31">
             <citation>Hussein Ahmed n.d.b</citation>
-            <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Hussein Ahmed n.d.
-                    ‘Introducing an Arabic hagiography from Wallo’, in <i>Proceedings of the 8th
-                        International Conference of Ethiopian Studies</i>, 185–197.</div>
-            </reference>
+            <reference/>
         </entry>
         <entry id="bm:IHABook1023">
             <citation>Hāfiẓ Ibrāhīm 1987</citation>
@@ -8203,20 +8247,20 @@
                         ḫaṣā’iṣuhu</i>, ed. Muṣṭafā ʻAbd al-Wāḥid (Bayrūt: Dār al-Maʻrifa, ).</div>
             </reference>
         </entry>
-        <entry id="bm:IHABook435">
-            <citation>Ibn Kaṯīr, Ismāʻīl b. ʻUmar s.a.a</citation>
-            <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Ibn Kaṯīr, Ismāʻīl b.
-                    ʻUmar s.a. <i>Tafsīr al-Qur’ān al-ʻaẓīm</i> (al-Qāhira: Maktabat Dār al-Turāṯ,
-                    s.a.).</div>
-            </reference>
-        </entry>
         <entry id="bm:IHABook465">
-            <citation>Ibn Kaṯīr, Ismāʻīl b. ʻUmar s.a.b</citation>
+            <citation>Ibn Kaṯīr, Ismāʻīl b. ʻUmar s.a.a</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Ibn Kaṯīr, Ismāʻīl b.
                     ʻUmar s.a. <i>Qiṣaṣ al-anbiyā’ li-al-Imām Abī al-Fidā’ Ismāʻīl b. Kaṯīr</i>, ed.
                     Muḥammad Aḥmad ʻAbd al-ʻAzīz (Ǧidda / [al-Qāhira]: Dār al-Walīd / Dār al-Ḥadīṯ,
+                    s.a.).</div>
+            </reference>
+        </entry>
+        <entry id="bm:IHABook435">
+            <citation>Ibn Kaṯīr, Ismāʻīl b. ʻUmar s.a.b</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Ibn Kaṯīr, Ismāʻīl b.
+                    ʻUmar s.a. <i>Tafsīr al-Qur’ān al-ʻaẓīm</i> (al-Qāhira: Maktabat Dār al-Turāṯ,
                     s.a.).</div>
             </reference>
         </entry>
@@ -8332,15 +8376,6 @@
                     Muḥammad b. Aḥmad b. Muḥammad b. Aḥmad 2010. <i>Bidāyat al-muǧtahid wa-nihāyat
                         al-muqtaṣid</i>, eds ʻAlī Muḥammad Muʻawwaḍ and ʻĀdil Aḥmad ʻAbd al-Mawǧūd
                     (Bayrūt: Dār al-Kutub al-ʻIlmiyya, 2010).</div>
-            </reference>
-        </entry>
-        <entry id="bm:IHABook776">
-            <citation>Ibn Rušd, Muḥammad b. Aḥmad b. Muḥammad b. Aḥmad al-Qurṭubī 1960</citation>
-            <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Ibn Rušd, Muḥammad b.
-                    Aḥmad b. Muḥammad b. Aḥmad al-Qurṭubī 1960. <i>Bidāyat al-muǧtahid wa-nihāyat
-                        al-muqtaṣid</i> (Šarika Maktabat wa Maṭbaʻat Muṣṭafā al-Bābī al-Ḥalabī wa
-                    Awlādihi bi-Miṣr - Maḥmūd Naṣṣār al-Ḥalabī wa Šurakā’ihi - Ḫulafā’, 1960).</div>
             </reference>
         </entry>
         <entry id="bm:IHABook752">
@@ -8878,17 +8913,8 @@
                         Study Monographs</i>, Suppl. 41 (2010), 81–89.</div>
             </reference>
         </entry>
-        <entry id="bm:IHABookSection22">
-            <citation>Ishihara, Minako n.d.a</citation>
-            <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Ishihara, Minako n.d.
-                    ‘Spirit Possession and Pilgrimage The Formation and Configuration of the Tijjānī
-                    Cult in Western Oromoland’, in <i>Proceedings of the 16th International
-                        Conference of Ethiopian Studies</i>, 505–15.</div>
-            </reference>
-        </entry>
         <entry id="bm:IHAArticle22">
-            <citation>Ishihara, Minako n.d.b</citation>
+            <citation>Ishihara, Minako n.d.a</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Ishihara, Minako n.d.
                     ‘Spirit Possession and Pilgrimage The Formation and Configuration of the Tijjānī
@@ -8896,12 +8922,21 @@
             </reference>
         </entry>
         <entry id="bm:IHABookSection35">
-            <citation>Ishihara, Minako n.d.c</citation>
+            <citation>Ishihara, Minako n.d.b</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Ishihara, Minako n.d.
                     ‘The life history of a Muslim holyman: Al-Faki Ahmad Umar’, in <i>Ethiopia in
                         broader perspective: papers of the XIIIth International Conference of
                         Ethiopian Studies. 12-17 December 1997.</i>, 391–402.</div>
+            </reference>
+        </entry>
+        <entry id="bm:IHABookSection22">
+            <citation>Ishihara, Minako n.d.c</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Ishihara, Minako n.d.
+                    ‘Spirit Possession and Pilgrimage The Formation and Configuration of the Tijjānī
+                    Cult in Western Oromoland’, in <i>Proceedings of the 16th International
+                        Conference of Ethiopian Studies</i>, 505–15.</div>
             </reference>
         </entry>
         <entry id="bm:IHABook71">
@@ -9080,6 +9115,14 @@
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Kane, T. L. 1975.
                         <i>Ethiopian Literature in Amharic</i> (Wiesbaden: Harrassowitz,
                     1975).</div>
+            </reference>
+        </entry>
+        <entry id="bm:Kane1990DictAmhVol2">
+            <citation>Kane 1990</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Kane, T. L. 1990.
+                        <i>Amharic–English Dictionary<span style="font-style:normal;">, II:</span>
+                        ኘ–ፐ</i> (Wiesbaden: Otto Harrassowitz, 1990).</div>
             </reference>
         </entry>
         <entry id="bm:Kaplan1984Monastic">
@@ -9263,11 +9306,7 @@
         </entry>
         <entry id="bm:Kolmodin1915TraditionsV">
             <citation>Kolmodin 1915</citation>
-            <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Kolmodin, J. 1915.
-                        <i>Traditions de Tsazzega et Hazzega: Traduction française</i>, 5/2,
-                    Archives d’Études Orientales (Roma: C. de Luigi, 1915).</div>
-            </reference>
+            <reference/>
         </entry>
         <entry id="bm:Kolmodin1916Note">
             <citation>Kolmodin 1916</citation>
@@ -9338,12 +9377,13 @@
                         Christianus</i>, 70 (1986), 188–191.</div>
             </reference>
         </entry>
-        <entry id="bm:Kropp1988Serata">
+        <entry id="bm:Kropp1988LebnaI">
             <citation>Kropp 1988a</citation>
             <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Kropp, M. 1988. ‘The
-                    Sǝrʿatä Gǝbr: A Mirror View of Daily Life at the Ethiopian Royal Court in the
-                    Middle Ages’, <i>Northeast African Studies</i>, 10/2–3 (1988), 51–87.</div>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Kropp, M. 1988. <i>Die
+                        Geschichte des Lebna-Dengel, Claudius und Minās</i>, I, Corpus Scriptorum
+                    Christianorum Orientalium, 503 Scriptores Aethiopici, 83 (Lovanii: Peeters,
+                    1988).</div>
             </reference>
         </entry>
         <entry id="bm:Kropp1988LebnaII">
@@ -9355,13 +9395,12 @@
                     Peeters, 1988).</div>
             </reference>
         </entry>
-        <entry id="bm:Kropp1988LebnaI">
+        <entry id="bm:Kropp1988Serata">
             <citation>Kropp 1988c</citation>
             <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Kropp, M. 1988. <i>Die
-                        Geschichte des Lebna-Dengel, Claudius und Minās</i>, I, Corpus Scriptorum
-                    Christianorum Orientalium, 503 Scriptores Aethiopici, 83 (Lovanii: Peeters,
-                    1988).</div>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Kropp, M. 1988. ‘The
+                    Sǝrʿatä Gǝbr: A Mirror View of Daily Life at the Ethiopian Royal Court in the
+                    Middle Ages’, <i>Northeast African Studies</i>, 10/2–3 (1988), 51–87.</div>
             </reference>
         </entry>
         <entry id="bm:Kropp1989Haylu">
@@ -9385,9 +9424,9 @@
         <entry id="bm:Kropp1994AmdaSeyonTr">
             <citation>Kropp 1994b</citation>
             <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Kropp, M. 1994. <i>Der
-                        siegreiche Feldzug des Königs ʿĀmda-Ṣeyon gegen die Muslime in Adal im Jahre
-                        1332 n. Chr.</i>, Corpus Scriptorum Christianorum Orientalium, 539,
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Kropp, M., tr., 1994.
+                        <i>Der siegreiche Feldzug des Königs ʿĀmda-Ṣeyon gegen die Muslime in Adal
+                        im Jahre 1332 n. Chr.</i>, Corpus Scriptorum Christianorum Orientalium, 539,
                     Scriptores Aethiopici, 100 (Louvain: Peeters, 1994).</div>
             </reference>
         </entry>
@@ -9500,6 +9539,15 @@
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Lagarde, A. 1856.
                         <i>Reliquiae juris ecclesiastici antiquissimae: Syriace</i> (London:
                     Williams and Norgate, 1856).</div>
+            </reference>
+        </entry>
+        <entry id="bm:Lamma1971Heruy">
+            <citation>Lamma Walda Maryam 1970</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Lamma Walda Maryam 1970.
+                        <i>የብላታ፡ ጌታ፡ ኅሩይ፡ ወልደ፡ ሥላሴ፡  ሕይወት፡ ታሪክ፡ 1871-1931 (Yablātten getā Ḫǝruy
+                        Walda Śǝllāse ḥǝwat Tārik), 1871-1931, ’The Biography of blātten getā Ḫǝruy
+                        Walda Śǝllāse, 1871-1931’)</i> Haile Slassie I University (1970).</div>
             </reference>
         </entry>
         <entry id="bm:Land1875Anecdota">
@@ -9676,19 +9724,19 @@
                     Wilhelm Serlin und Georg Fickwirth, 1656).</div>
             </reference>
         </entry>
-        <entry id="bm:IHABook53">
+        <entry id="bm:IHABook52">
             <citation>Lirola Delgado, J. y Puerta Vílchez, J. M. 2004a</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Lirola Delgado, J. y
-                    Puerta Vílchez, J. M. 2004. <i>Biblioteca de al-Andalus II</i> (Almería:
+                    Puerta Vílchez, J. M. 2004. <i>Biblioteca de al-Andalus IV</i> (Almería:
                     Fundación Ibn Tufayl de Estudios Árabes, 2004).</div>
             </reference>
         </entry>
-        <entry id="bm:IHABook52">
+        <entry id="bm:IHABook53">
             <citation>Lirola Delgado, J. y Puerta Vílchez, J. M. 2004b</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Lirola Delgado, J. y
-                    Puerta Vílchez, J. M. 2004. <i>Biblioteca de al-Andalus IV</i> (Almería:
+                    Puerta Vílchez, J. M. 2004. <i>Biblioteca de al-Andalus II</i> (Almería:
                     Fundación Ibn Tufayl de Estudios Árabes, 2004).</div>
             </reference>
         </entry>
@@ -9745,8 +9793,8 @@
             <citation>Littmann 1914</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Littmann, E. 1914.
-                        <i>Die Altamharischen Kaiserlieder</i> (Straßburg: J. H. Ed. Heinz Heinz
-                    &amp; Mündel, 1914).</div>
+                    <i>Die Altamharischen Kaiserlieder</i> (Straßburg: J. H. Ed. Heinz &lt;Heinz
+                    &amp; Mündel&gt;, 1914).</div>
             </reference>
         </entry>
         <entry id="bm:Littmann1918NaffaWadEtman">
@@ -9808,8 +9856,33 @@
                     (1946), 67–78 (DOI: <a shape="rect" href="https://doi.org/10.2307/41465361">10.2307/41465361</a>).</div>
             </reference>
         </entry>
-        <entry id="bm:Ludolf1661Lexicon">
+        <entry id="bm:Ludolf1661Confessio">
             <citation>Ludolf 1661a</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Ludolf, H. 1661.
+                        <i>Confessio fidei Claudii Regis Aethiopiae, cum Notis et Versione Latina
+                        Jobi Ludolfi J.C. antehac Sereniss. Electori Palatino dedicata; Nunc verò
+                        edita, curâ et studio Johannis Michaelis Wanslebii, qui Liturgiam S.
+                        Dioscori Patriarchae Alexandrini Aethiopicè et Latinè addidit</i> (Londini:
+                    Apud Thomam Roycroft, LL: Orientalium Typographum Regium, 1661).</div>
+            </reference>
+        </entry>
+        <entry id="bm:Ludolf1661lexicon">
+            <citation>Ludolf 1661b</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Ludolf, H. 1661.
+                        <i>ዘኢዮብ፡ ሉዶልፍ፡ መዝገበ፡ ቃላት፡ ዘልሳነ፡ ግዕዝ፡ ዝውእቱ፡ ልሳነ፡ መጽሐፍ፡ ዘ ኢ ት ዮ ጵ ያ፡ Sive,
+                        Jobi Ludolfi I.C. Lexicon Aethiopico-latinum, Ex omnibus libris impressis,
+                        nonnullisque Manuscriptis collectum, Et cum docto quodam Aethiope relectum.
+                        Accessit Authoris Grammatica, Cum aliis nonnullis, quorum Catalogum sequens
+                        pagina exhibebit. Nunc primum in lucem editum, studio et cura Johannis
+                        Michaelis Wanslebii Mathem. &amp; Orient. LL. Stud. Qui Indicem Latinum, et
+                        Appendicem operi addidit</i> (Londini: Apud Thomam Roycroft, LL: Orientalium
+                    Typographum Regium, 1661).</div>
+            </reference>
+        </entry>
+        <entry id="bm:Ludolf1661Lexicon">
+            <citation>Ludolf 1661c</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Ludolf, H. 1661.
                         <i>ዘኢዮብ፡ ሉዶልፍ፡ መዝገበ፡ ቃላት፡ ዘልሳነ፡ ግዕዝ፡ ዝውእቱ፡ ልሳነ፡ መጽሐፍ፡ ዘ ኢ ት ዮ ጵ ያ፡ Sive,
@@ -9823,38 +9896,13 @@
             </reference>
         </entry>
         <entry id="bm:Ludolf1661Grammatica">
-            <citation>Ludolf 1661b</citation>
+            <citation>Ludolf 1661d</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Ludolf, H. 1661.
                         <i>ዘኢዮብ፡ ሉዶልፍ፡ ትምህርተ፡ ልሳነ፡ ግዕዝ፡ ዘውእቱ፡ ልሳነ፡ መጽሐፈ፡ ዘኢትዮጵያ፡, Sive Jobi Ludolfi
                         J.C. Grammatica Aethiopica. Nunc primum edita, studio et curâ Johannis
                         Michaelis Wanslebii Mathem. et Orient. LL. Stud.</i> (Londini: Apud Thomam
                     Roycroft, LL: Orientalium Typographum Regium, 1661).</div>
-            </reference>
-        </entry>
-        <entry id="bm:Ludolf1661Confessio">
-            <citation>Ludolf 1661c</citation>
-            <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Ludolf, H. 1661.
-                        <i>Confessio fidei Claudii Regis Aethiopiae, cum Notis et Versione Latina
-                        Jobi Ludolfi J.C. antehac Sereniss. Electori Palatino dedicata; Nunc verò
-                        edita, curâ et studio Johannis Michaelis Wanslebii, qui Liturgiam S.
-                        Dioscori Patriarchae Alexandrini Aethiopicè et Latinè addidit</i> (Londini:
-                    Apud Thomam Roycroft, LL: Orientalium Typographum Regium, 1661).</div>
-            </reference>
-        </entry>
-        <entry id="bm:Ludolf1661lexicon">
-            <citation>Ludolf 1661d</citation>
-            <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Ludolf, H. 1661.
-                        <i>ዘኢዮብ፡ ሉዶልፍ፡ መዝገበ፡ ቃላት፡ ዘልሳነ፡ ግዕዝ፡ ዝውእቱ፡ ልሳነ፡ መጽሐፍ፡ ዘ ኢ ት ዮ ጵ ያ፡ Sive,
-                        Jobi Ludolfi I.C. Lexicon Aethiopico-latinum, Ex omnibus libris impressis,
-                        nonnullisque Manuscriptis collectum, Et cum docto quodam Aethiope relectum.
-                        Accessit Authoris Grammatica, Cum aliis nonnullis, quorum Catalogum sequens
-                        pagina exhibebit. Nunc primum in lucem editum, studio et cura Johannis
-                        Michaelis Wanslebii Mathem. &amp; Orient. LL. Stud. Qui Indicem Latinum, et
-                        Appendicem operi addidit</i> (Londini: Apud Thomam Roycroft, LL: Orientalium
-                    Typographum Regium, 1661).</div>
             </reference>
         </entry>
         <entry id="bm:Ludolf1676Sciagraphia">
@@ -9877,12 +9925,20 @@
             </reference>
         </entry>
         <entry id="bm:Ludolf1684NewHistory">
-            <citation>Ludolf 1684</citation>
+            <citation>Ludolf 1684a</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Ludolf, H. 1684. <i>A
                         new history of Ethiopia being a full and accurate description of the kingdom
                         of Abessinia, vulgarly, though erroneously called the empire of Prester John
                         (2nd edition)</i> (London: Printed for Samuel Smith, 1684).</div>
+            </reference>
+        </entry>
+        <entry id="bm:Ludolf1684Histoire">
+            <citation>Ludolf 1684b</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Ludolf, H. 1684.
+                        <i>Nouvelle histoire d’Abissinie ou d’Ethiopie, tirée de l’histoire
+                        latine</i> (Paris: Veuve A. Cellier, 1684).</div>
             </reference>
         </entry>
         <entry id="bm:Ludolf1687Histoire">
@@ -10549,21 +10605,21 @@
                     159–180.</div>
             </reference>
         </entry>
-        <entry id="bm:Marrassini2003GabraManfasQeddusTextus">
+        <entry id="bm:Marrassini2003GabraManfasQeddusVersio">
             <citation>Marrassini 2003a</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Marrassini, P. 2003.
                         <i>«Vita», «Omelia», «Miracoli» del santo Gabra Manfas Qeddus</i>, Corpus
-                    Scriptorum Christianorum Orientalium, 597, Scriptores Aethiopici, 107 (Lovanii:
+                    Scriptorum Christianorum Orientalium, 598, Scriptores Aethiopici, 108 (Lovanii:
                     Peeters, 2003).</div>
             </reference>
         </entry>
-        <entry id="bm:Marrassini2003GabraManfasQeddusVersio">
+        <entry id="bm:Marrassini2003GabraManfasQeddusTextus">
             <citation>Marrassini 2003b</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Marrassini, P. 2003.
                         <i>«Vita», «Omelia», «Miracoli» del santo Gabra Manfas Qeddus</i>, Corpus
-                    Scriptorum Christianorum Orientalium, 598, Scriptores Aethiopici, 108 (Lovanii:
+                    Scriptorum Christianorum Orientalium, 597, Scriptores Aethiopici, 107 (Lovanii:
                     Peeters, 2003).</div>
             </reference>
         </entry>
@@ -10852,6 +10908,14 @@
                         séances</i>, (2000), 35–71.</div>
             </reference>
         </entry>
+        <entry id="bm:MercierArt2001">
+            <citation>Mercier 2001</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Mercier, J., ed., 2001.
+                        <i>L’arche éthiopienne: art chretien d’Éthiopie. 27 septembre 2000-7 janvier
+                        2001, Pavillon des Arts.</i> (Paris: Paris musées, 2001).</div>
+            </reference>
+        </entry>
         <entry id="bm:Merid1971Thesis">
             <citation>Merid Wolde Aregay 1971</citation>
             <reference>
@@ -11037,6 +11101,14 @@
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Moreno, M. M. 1942. ‘La
                     cronaca di Re Teodoro attribuita al dabtarà « Zaneb »’, <i>Rassegna di Studi
                         Etiopici</i>, 2/2 (1942), 143–180 (DOI: <a shape="rect" href="https://doi.org/10.2307/41460148">10.2307/41460148</a>).</div>
+            </reference>
+        </entry>
+        <entry id="bm:Moreno1949Struttura">
+            <citation>Moreno 1949</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Moreno, M. M. 1949.
+                    ‘Struttura e terminologia del <i>Sawāsĕw</i>’, <i>Rassegna                    di
+                        Studi            Etiopici</i>, 8 (pub. 1950) (1949), 12–62.</div>
             </reference>
         </entry>
         <entry id="bm:Moreno1960BarbaraGiuliana">
@@ -11455,22 +11527,22 @@
                     al-naǧāt, 2007).</div>
             </reference>
         </entry>
-        <entry id="bm:IHABook1042">
-            <citation>Muḥammad al-Amīn b. ʻAbd Allāh b. Yūsuf al-Hararī al-Buwayṭī 2008a</citation>
-            <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Muḥammad al-Amīn b. ʻAbd
-                    Allāh b. Yūsuf al-Hararī al-Buwayṭī 2008. <i>al-Futūḥāt al-Qayyūmiyya fī ḥall
-                        wa-fakk maʻānī wa-mabānī matn al-Aǧurrumiyya</i> (Beirut: Dār Ṭawq al-naǧāt,
-                    2008).</div>
-            </reference>
-        </entry>
         <entry id="bm:IHABook1041">
-            <citation>Muḥammad al-Amīn b. ʻAbd Allāh b. Yūsuf al-Hararī al-Buwayṭī 2008b</citation>
+            <citation>Muḥammad al-Amīn b. ʻAbd Allāh b. Yūsuf al-Hararī al-Buwayṭī 2008a</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Muḥammad al-Amīn b. ʻAbd
                     Allāh b. Yūsuf al-Hararī al-Buwayṭī 2008. <i>al-Durar al-bahiyya fī iʻrāb
                         amṯilat al-Aǧurrūmiyya wa-faww laʻānīhā wa-bayā ḍawābiṭihā wa-ʻilalihā</i>
                     (Beirut: Dār Ṭawq al-naǧāt, 2008).</div>
+            </reference>
+        </entry>
+        <entry id="bm:IHABook1042">
+            <citation>Muḥammad al-Amīn b. ʻAbd Allāh b. Yūsuf al-Hararī al-Buwayṭī 2008b</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Muḥammad al-Amīn b. ʻAbd
+                    Allāh b. Yūsuf al-Hararī al-Buwayṭī 2008. <i>al-Futūḥāt al-Qayyūmiyya fī ḥall
+                        wa-fakk maʻānī wa-mabānī matn al-Aǧurrumiyya</i> (Beirut: Dār Ṭawq al-naǧāt,
+                    2008).</div>
             </reference>
         </entry>
         <entry id="bm:IHABook818">
@@ -12453,7 +12525,7 @@
             </reference>
         </entry>
         <entry id="bm:Nosnitsin2013Churches">
-            <citation>Nosnitsin 2013</citation>
+            <citation>Nosnitsin 2013a</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Nosnitsin, D. 2013.
                         <i>Churches and Monasteries of Tǝgray: A Survey of Manuscript
@@ -12461,8 +12533,28 @@
                     Verlag, 2013).</div>
             </reference>
         </entry>
+        <entry id="bm:Nosnitsin2013Exercise">
+            <citation>Nosnitsin 2013b</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Nosnitsin, D. 2013. ‘The
+                    Four Gospel Book of Däbrä Maʿṣo and its Marginal Notes. Part 2. An Exercise in
+                    Ethiopian Palaeography’, <i>Comparative Oriental Manuscript Studies
+                        Newsletter</i>, 6 (2013), 29–33 (DOI: <a shape="rect" href="https://doi.org/10.25592/uhhfdm.531">10.25592/uhhfdm.531</a>).</div>
+            </reference>
+        </entry>
+        <entry id="bm:Nosnitsin2014Charters">
+            <citation>Nosnitsin 2014a</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Nosnitsin, D. 2014. ‘The
+                    Charters of the Four Gospels Book of Dabra Ma’so’, in D. Nosnitsin, ed.,
+                        <i>Ecclesiastic Landscape of North Ethiopia: Proceedings of the
+                        International Workshop, Ecclesiastic Landscape of North Ethiopia: History,
+                        Change and Cultural Heritage Hamburg, July 15-16, 2011</i>, Supplement to
+                    Aethiopica, 2 (Wiesbaden: Harrassowitz, 2014), 119–131.</div>
+            </reference>
+        </entry>
         <entry id="bm:Nosnitsin2014Stephanite">
-            <citation>Nosnitsin 2014</citation>
+            <citation>Nosnitsin 2014b</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Nosnitsin, D. 2014. ‘New
                     Branches of the Stephanite Monastic Network? Cases of Some Under-Explored Sites
@@ -12492,6 +12584,16 @@
                     T. Osmond, eds, <i>Movements in Ethiopia, Ethiopia in Movement. Proceedings of
                         the 18th International Conference of Ethiopian Studies</i>, I (Addis Ababa
                     and Los Angeles: CFEE–IES and Tsehai Publishers, 2016), 75–90.</div>
+            </reference>
+        </entry>
+        <entry id="bm:NosnitsinBulakh2014Fragment">
+            <citation>Nosnitsin and Bulakh 2014</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Nosnitsin, D. and M.
+                    Bulakh 2014. ‘A Fragment of an Ancient Four Gospels Book (Lk 6:35–7:7): A Short
+                    Analysis’, in A. Bausi, A. Gori, and G. Lusini, eds, <i>Linguistic, Oriental and
+                        Ethiopian Studies in Memory of Paolo Marrassini</i> (Wiesbaden: Harrassowitz
+                    Verlag, 2014), 551–582.</div>
             </reference>
         </entry>
         <entry id="bm:Noldeke1896Susenyos">
@@ -12575,7 +12677,7 @@
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Orlandi, T. <i>Clavis
                         patrum Copticorum. An index of the authors and works of the Coptic
-                        literature</i> <a shape="rect" href="http://www.cmcl.it/~cmcl/chiam_clavis.html">http://www.cmcl.it/~cmcl/chiam_clavis.html</a>.</div>
+                        literature</i> &lt;<a shape="rect" href="http://www.cmcl.it/~cmcl/chiam_clavis.html">http://www.cmcl.it/~cmcl/chiam_clavis.html</a>&gt;.</div>
             </reference>
         </entry>
         <entry id="bm:Orlowska2002Susenyos">
@@ -12661,6 +12763,15 @@
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Padwick, Constance E.
                     1961. <i>Muslim Devotions: A Study of Prayer-Manuals in Common Use</i> (London:
                     SPCK, 1961).</div>
+            </reference>
+        </entry>
+        <entry id="bm:Paez1906HistAeth">
+            <citation>Paez 1906</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Paez, P. 1906. <i>Rerum
+                        Aethiopicarum scriptores occidentales inediti a saeculo XVI ad XIX, III: P.
+                        Petri Paez S.I. Historia Aethiopiae, Liber III</i>, ed. C. Beccari (Romae:
+                    Excudebat C. de Luigi, 1906).</div>
             </reference>
         </entry>
         <entry id="bm:Panckoucke1826Description">
@@ -12892,20 +13003,20 @@
                         ethiopica</i> (Coimbra: Imprensa da Universidade, 1904).</div>
             </reference>
         </entry>
-        <entry id="bm:Pereira1905Job">
-            <citation>Pereira 1905a</citation>
-            <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Pereira, F. M. E. 1905.
-                        <i>Le livre de Job. Version éthiopienne</i>, 5th, Patrologia Orientalis, 2
-                    (Paris: Firmin Didot et Cie, 1905).</div>
-            </reference>
-        </entry>
         <entry id="bm:Pereira1905Abunafre">
-            <citation>Pereira 1905b</citation>
+            <citation>Pereira 1905a</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Pereira, F. M. E., ed.,
                     1905. <i>Vida de Santo Abunafre (S. Onuphrio). Versão ethiopica</i>, tr. F. M.
                     E. Pereira (Lisboa: 1905).</div>
+            </reference>
+        </entry>
+        <entry id="bm:Pereira1905Job">
+            <citation>Pereira 1905b</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Pereira, F. M. E. 1905.
+                        <i>Le livre de Job. Version éthiopienne</i>, 5th, Patrologia Orientalis, 2
+                    (Paris: Firmin Didot et Cie, 1905).</div>
             </reference>
         </entry>
         <entry id="bm:Pereira1906Jacobi">
@@ -12982,9 +13093,8 @@
             <citation>Perruchon 1889</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Perruchon, J. 1889.
-                    ‘Histoire des guerres d’ʾAmda Ṣyon, rois dʾÉthiopie, traduite de l’Éthiopien,
-                    par M. Jules Perruchon’, <i>Journal Asiatique</i>, VIII, 14 (1889), 271–363,
-                    381–493.</div>
+                    ‘Histoire des guerres d’ʾAmda Ṣyon, rois dʾÉthiopie’, tr. J. Perruchon
+                        <i>Journal Asiatique</i>, ser. 8, 14 (1889), 271–363, 381–493.</div>
             </reference>
         </entry>
         <entry id="bm:Perruchon1892Lalibela">
@@ -13486,14 +13596,6 @@
                     at his shop in Pauls Church-hard at the signe of the Rose, 1625).</div>
             </reference>
         </entry>
-        <entry id="bm:Paez1906HistAeth">
-            <citation>Páez 1906</citation>
-            <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Páez, P. 1906.
-                        <i>Historia Aethiopiae. Liber III</i>, Rerum Aethiopicarum scriptores
-                    occidentales inediti a saeculo XVI ad XIX, III (Romae: C. de Luigi, 1906).</div>
-            </reference>
-        </entry>
         <entry id="bm:Peres1999Epitre">
             <citation>Pérès 1999</citation>
             <reference>
@@ -13595,7 +13697,7 @@
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Raineri, O. 1980. ‘Vita
                     dei giusti: missionari dell’Etiopia nel sesto secolo: varianti e inno’,
-                        <i>Ephemerides Carmelicae</i>, 31/2 (1980), 377–413.</div>
+                        <i>Ephemerides Carmeliticae</i>, 31/2 (1980), 377–413.</div>
             </reference>
         </entry>
         <entry id="bm:Raineri1983Abranyos">
@@ -14063,12 +14165,7 @@
         </entry>
         <entry id="bm:IHABook179">
             <citation>Sabzavārī, Hādī b. Mahdī 1920</citation>
-            <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Sabzavārī, Hādī b.
-                    Mahdī, ed., 1920. <i>Ḥirz al-Ǧawšan al-kabīr wa-maʻahu šarḥ asmā’ Allāh al-ḥusnā
-                        wa-al-sabʻ āyāt al-munǧiyāt wa-nādi ʻaliyyan wa-duʻā’ dafʻ al-balā’
-                        wa-al-ṭāʻūn</i> (Singapore: Sulaymān Marʻī, 1920).</div>
-            </reference>
+            <reference/>
         </entry>
         <entry id="bm:Salaville1936Priere">
             <citation>Salaville 1936</citation>
@@ -14659,8 +14756,8 @@
             <citation>Strelcyn 1955</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Strelcyn, S. 1955.
-                        <i>Prières magiques éthiopiennes pour délier les charmes (<span style="font-style:normal;">maftǝḥe šǝrāy</span>)</i>, Rocznik
-                    orientalistyczny, 18 (Warszawa: Państwowe wydawnictwo naukowe, 1955).</div>
+                        <i>Prières magiques éthiopiennes pour délier les charmes (<span style="font-style:normal;">maftǝḥe šǝrāy</span>)</i>, &lt;Rocznik
+                    orientalistyczny&gt;, 18 (Warszawa: Państwowe wydawnictwo naukowe, 1955).</div>
             </reference>
         </entry>
         <entry id="bm:Strelcyn1964Materiaux">
@@ -14838,7 +14935,7 @@
             <citation>Syriaca.org: The Syriac Reference Portal n.d.</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry"><i>Syriaca.org: The
-                        Syriac Reference Portal</i> <a shape="rect" href="http://syriaca.org/">http://syriaca.org/</a>, accessed 28 March 2017.</div>
+                    Syriac Reference Portal</i> &lt;<a shape="rect" href="http://syriaca.org/">http://syriaca.org/</a>&gt;, accessed 28 March 2017.</div>
             </reference>
         </entry>
         <entry id="bm:Szirmai1999Bookbinding">
@@ -14936,23 +15033,23 @@
                     (Roma: 1937).</div>
             </reference>
         </entry>
-        <entry id="bm:Tasfa1955Saatat">
+        <entry id="bm:Tasfa1954DersanaM">
             <citation>Tasfā Gabra Śǝllāse 1954a</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Tasfā Gabra Śǝllāse,
+                    ed., 1954. <i>Dǝrsāna Mikāʾel wadǝrsāna Rufāʾel. Malkǝʾa Mikāʾel wamalkǝʾa
+                        Rufāʾel. Dǝrsāna Gabrǝʾel wamalkǝʾa Gabrǝʾel</i> (baTasfā māttamiyā bet
+                    tāttama, 1954).</div>
+            </reference>
+        </entry>
+        <entry id="bm:Tasfa1955Saatat">
+            <citation>Tasfā Gabra Śǝllāse 1954b</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Tasfā Gabra Śǝllāse,
                     ed., 1954. <i><span style="font-style:normal;">ሰዓታት። ዘሌሊት፡ ወዘነግህ።
                         (</span>Saʿātāt. Za-lelit wa-za-nagh<span style="font-style:normal;">, ‘The
                             Book of the Hours. Of the night and of the morning’)</span></i> (ʾAddis
                     ʾAbabā: Tasfā Gabra Śǝllāse māttamiyā bet, 1954).</div>
-            </reference>
-        </entry>
-        <entry id="bm:Tasfa1954DersanaM">
-            <citation>Tasfā Gabra Śǝllāse 1954b</citation>
-            <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Tasfā Gabra Śǝllāse,
-                    ed., 1954. <i>Dǝrsāna Mikāʾel wadǝrsāna Rufāʾel. Malkǝʾa Mikāʾel wamalkǝʾa
-                        Rufāʾel. Dǝrsāna Gabrǝʾel wamalkǝʾa Gabrǝʾel</i> (baTasfā māttamiyā bet
-                    tāttama, 1954).</div>
             </reference>
         </entry>
         <entry id="bm:Tasfa1962Qedar">
@@ -15498,7 +15595,7 @@
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Uhlig, S. and H.
                     Maehlum, eds, 1993. <i>Novum Testamentum Aethiopice: Die
                         Gefangenschaftsbriefe</i>, Aethiopistische Forschungen, 33 (Stuttgart: Franz
-                    Steiner Verlag Stuttgart, 1993).</div>
+                    Steiner, 1993).</div>
             </reference>
         </entry>
         <entry id="bm:IHABook21">
@@ -15573,6 +15670,14 @@
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Ullendorff, E. 1987.
                     ‘The Confessio Fidei of King Claudius of Ethiopia’, <i>Journal of Semitic
                         Studies</i>, 32/1 (1987), 159–176 (DOI: <a shape="rect" href="https://doi.org/10.1093/jss/XXXII.1.159">https://doi.org/10.1093/jss/XXXII.1.159</a>).</div>
+            </reference>
+        </entry>
+        <entry id="bm:1961Ullendorff">
+            <citation>Ullendorff and Wright 1961</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Ullendorff, E. and S.
+                    Wright 1961. <i>Catalogue of Ethiopian manuscripts in the Cambridge University
+                        Library</i> (Cambridge: Cambridge University Press, 1961).</div>
             </reference>
         </entry>
         <entry id="bm:IHABook903">
@@ -15851,7 +15956,11 @@
         </entry>
         <entry id="bm:IHABook188">
             <citation>Wagner, Ewald 1983</citation>
-            <reference/>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Wagner, Ewald 1983.
+                        <i>Harari-Texte in arabischer Schrift mit Überzetzung und Kommentar</i>,
+                    Äthiopistische Forschungen, 13 (Wiesbaden: Franz Steiner, 1983).</div>
+            </reference>
         </entry>
         <entry id="bm:IHABook189">
             <citation>Wagner, Ewald 1997</citation>
@@ -16254,8 +16363,7 @@
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Wright, W. 1877.
                         <i>Catalogue of the Ethiopic Manuscripts in the British Museum Acquired
-                        since the Year 1847</i> (Piccadilly, Covent Garden–Berlin: Longmans &amp;
-                    CO., Asher &amp; CO., 1877).</div>
+                        since the Year 1847</i> (London: Gilbert and Rivington, 1877).</div>
             </reference>
         </entry>
         <entry id="bm:Wudu1995Wag">
@@ -16557,6 +16665,17 @@
                     1938).</div>
             </reference>
         </entry>
+        <entry id="bm:Zanetti2011Abraham">
+            <citation>Zanetti 2011</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Zanetti, U. 2011. ‘Le
+                    dossier d’Abraham et Georges, moines de Scété’, in M.-J. Pierre and F. Jullien,
+                    eds, <i>Monachismes d’Orient: images, échanges, influences. Hommage à Antoine
+                        Guillaumont Cinquantenaire de la chaire des «Christianisme orientaux», EPHE
+                        SR</i>, Bibliothèque de l’École des Hautes Études, Section des Sciences
+                    Religieuses, 148 (Turnhout: Brepols, 2011), 227–287.</div>
+            </reference>
+        </entry>
         <entry id="bm:Zanutto1932Bibliografia">
             <citation>Zanutto 1932</citation>
             <reference>
@@ -16705,8 +16824,8 @@
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Zuurmond, R. 1989.
                         <i>Novum Testamentum Aethiopice: The Synoptic Gospels<span style="font-style:normal;">, I:</span> General Introduction<span style="font-style:normal;">; II:</span> Edition of the Gospel of
-                        Mark</i>, Äthiopistische Forschungen, 27 (Stuttgart: Franz Steiner Verlag
-                    Wiesbaden GmbH, 1989).</div>
+                        Mark</i>, Äthiopistische Forschungen, 27 (Stuttgart: Franz Steiner,
+                    1989).</div>
             </reference>
         </entry>
         <entry id="bm:Zuurmond2001Background">
@@ -17189,11 +17308,7 @@
         </entry>
         <entry id="bm:IHABook750">
             <citation>al-Būnī, Abū al-ʻAbbās Aḥmad b. ʻAlī 1390</citation>
-            <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">al-Būnī, Abū al-ʻAbbās
-                    Aḥmad b. ʻAlī 1390. <i>Šams al-maʻārif wa-laṭā’if al-ʻawārif</i> (Beirut:
-                    al-Maktaba al-Šaʻbiyya, 1390).</div>
-            </reference>
+            <reference/>
         </entry>
         <entry id="bm:IHABook1072">
             <citation>al-Būnī, Abū al-ʻAbbās Aḥmad b. ʻAlī 1985</citation>
@@ -17641,11 +17756,7 @@
         </entry>
         <entry id="bm:IHABook480">
             <citation>al-Mīrġānī, ʻAbd Allāh b. Ibrāhīm ʻAfīf al-Dīn S. A.</citation>
-            <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">al-Mīrġānī, ʻAbd Allāh
-                    b. Ibrāhīm ʻAfīf al-Dīn S. A. <i>al-Rasā’il al-mīrġaniyya</i> (S. L: S.
-                    A.).</div>
-            </reference>
+            <reference/>
         </entry>
         <entry id="bm:IHABook616">
             <citation>al-Nabahānī, Yūsuf 1330</citation>
@@ -17706,16 +17817,8 @@
                     1329).</div>
             </reference>
         </entry>
-        <entry id="bm:IHABook1069">
-            <citation>al-Nabahānī, Yūsuf b. Ismāʻīl n.d.a</citation>
-            <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">al-Nabahānī, Yūsuf b.
-                    Ismāʻīl n.d. <i>Dīwān al-madā’iḥ al-nabawiyya al-musammā al-ʻUqūd al-lu’lu’iyya
-                        fī al-madā’iḥ al-muḥammadiyya</i>.</div>
-            </reference>
-        </entry>
         <entry id="bm:IHABook682">
-            <citation>al-Nabahānī, Yūsuf b. Ismāʻīl n.d.b</citation>
+            <citation>al-Nabahānī, Yūsuf b. Ismāʻīl n.d.a</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">al-Nabahānī, Yūsuf b.
                     Ismāʻīl n.d. <i>Maǧmūʻ yaštamil ʻalā ṯalāṯa kutub: (1) al-Qaṣīda al-rā’iyya
@@ -17723,6 +17826,14 @@
                         al-islāmiyya wa-al-milal al-uḫrā, (2) Saʻādat al-anām fī atbāʻ dīn al-islām,
                         (3) Muḫtaṣar Iršād al-ḥayārā fī taḥḏīr al-muslimīn min madāris
                     al-naṣārā</i>.</div>
+            </reference>
+        </entry>
+        <entry id="bm:IHABook1069">
+            <citation>al-Nabahānī, Yūsuf b. Ismāʻīl n.d.b</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">al-Nabahānī, Yūsuf b.
+                    Ismāʻīl n.d. <i>Dīwān al-madā’iḥ al-nabawiyya al-musammā al-ʻUqūd al-lu’lu’iyya
+                        fī al-madā’iḥ al-muḥammadiyya</i>.</div>
             </reference>
         </entry>
         <entry id="bm:IHABook713">
@@ -19419,7 +19530,7 @@
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry"><i>e-Clavis: Christian
                         Apocrypha</i>
-                    <i>NASSCAL</i> (2015) <a shape="rect" href="https://www.nasscal.com/e-clavis-christian-apocrypha/">https://www.nasscal.com/e-clavis-christian-apocrypha/</a>, accessed 24
+                    <i>NASSCAL</i> (2015) &lt;<a shape="rect" href="https://www.nasscal.com/e-clavis-christian-apocrypha/">https://www.nasscal.com/e-clavis-christian-apocrypha/</a>&gt;, accessed 24
                     August 2021.</div>
             </reference>
         </entry>
@@ -20627,11 +20738,11 @@
                         Gabra ʾIyasus of Zage’)</i> (Addis Ababa: 1964ec_1972ce).</div>
             </reference>
         </entry>
-        <entry id="bm:IHABook45">
+        <entry id="bm:IHABook47">
             <citation>Ḫayr al-Dīn al-Ziriklī 1986a</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Ḫayr al-Dīn al-Ziriklī
-                    1986. <i>al-Aʻlām: qāmūs tarāǧim, vol. 8, Nāfiʻ b. Ẓarīb - Yūhannis</i> (Bayrūt:
+                    1986. <i>al-Aʻlām: qāmūs tarāǧim, vol. 3, al-Dahhān - ʻAbd al-Salām</i> (Bayrūt:
                     Dār al-ʻilm lil-malāyīn, 1986).</div>
             </reference>
         </entry>
@@ -20643,20 +20754,20 @@
                     al-ʻilm lil-malāyīn, 1986).</div>
             </reference>
         </entry>
-        <entry id="bm:IHABook41">
+        <entry id="bm:IHABook45">
             <citation>Ḫayr al-Dīn al-Ziriklī 1986c</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Ḫayr al-Dīn al-Ziriklī
+                    1986. <i>al-Aʻlām: qāmūs tarāǧim, vol. 8, Nāfiʻ b. Ẓarīb - Yūhannis</i> (Bayrūt:
+                    Dār al-ʻilm lil-malāyīn, 1986).</div>
+            </reference>
+        </entry>
+        <entry id="bm:IHABook41">
+            <citation>Ḫayr al-Dīn al-Ziriklī 1986d</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Ḫayr al-Dīn al-Ziriklī
                     1986. <i>al-Aʻlām: qāmūs tarāǧim, vol. 5, ʻAlī b. Muḥammad - Muḥammad b.
                         Aḥmad</i> (Bayrūt: Dār al-ʻilm lil-malāyīn, 1986).</div>
-            </reference>
-        </entry>
-        <entry id="bm:IHABook34">
-            <citation>Ḫayr al-Dīn al-Ziriklī 1986d</citation>
-            <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Ḫayr al-Dīn al-Ziriklī
-                    1986. <i>al-Aʻlām: qāmūs tarāǧim, vol. 6, Muḥammad - Muḥammad</i> (Beirut: Dār
-                    al-ʻilm lil-malāyīn, 1986).</div>
             </reference>
         </entry>
         <entry id="bm:IHABook37">
@@ -20667,12 +20778,12 @@
                     al-ʻilm lil-malāyīn, 1986).</div>
             </reference>
         </entry>
-        <entry id="bm:IHABook47">
+        <entry id="bm:IHABook36">
             <citation>Ḫayr al-Dīn al-Ziriklī 1986f</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Ḫayr al-Dīn al-Ziriklī
-                    1986. <i>al-Aʻlām: qāmūs tarāǧim, vol. 3, al-Dahhān - ʻAbd al-Salām</i> (Bayrūt:
-                    Dār al-ʻilm lil-malāyīn, 1986).</div>
+                    1986. <i>al-Aʻlām: qāmūs tarāǧim, vol. 4,  ʻAbd al-Salām - ʻAlī</i> (Beirut: Dār
+                    al-ʻilm lil-malāyīn, 1986).</div>
             </reference>
         </entry>
         <entry id="bm:IHABook184">
@@ -20683,11 +20794,11 @@
                     al-ʻilm lil-malāyīn, 1986).</div>
             </reference>
         </entry>
-        <entry id="bm:IHABook36">
+        <entry id="bm:IHABook34">
             <citation>Ḫayr al-Dīn al-Ziriklī 1986h</citation>
             <reference>
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Ḫayr al-Dīn al-Ziriklī
-                    1986. <i>al-Aʻlām: qāmūs tarāǧim, vol. 4,  ʻAbd al-Salām - ʻAlī</i> (Beirut: Dār
+                    1986. <i>al-Aʻlām: qāmūs tarāǧim, vol. 6, Muḥammad - Muḥammad</i> (Beirut: Dār
                     al-ʻilm lil-malāyīn, 1986).</div>
             </reference>
         </entry>
@@ -21222,6 +21333,15 @@
                 <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Nosnitsin, D. and Red.
                     2014. ‘Amhara’, in A. Bausi and S. Uhlig, eds, <i>Encyclopaedia Aethiopica</i>,
                     V (Wiesbaden: Harrassowitz Verlag, 2014), 236a–239b.</div>
+            </reference>
+        </entry>
+        <entry id="bm:Coquin1991Ammonius">
+            <citation>‘Ammonius of Tunah’, <i>The Coptic Encyclopedia</i>, 1 (1991),
+                114a–114b (R.-G. Coquin)</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Coquin, R.-G. 1991.
+                    ‘Ammonius of Tunah’, in A. S. Atiya, ed., <i>The Coptic Encyclopedia</i>, 1st
+                    (New York: Macmillan Publishing Company, 1991), 114a–114b.</div>
             </reference>
         </entry>
         <entry id="bm:Bahru2003AmmehaIyasus">
@@ -23377,6 +23497,15 @@
                     (Wiesbaden: Harrassowitz Verlag, 2005), 627a-b.</div>
             </reference>
         </entry>
+        <entry id="bm:Molvaer2005GabraEgzihabher">
+            <citation>‘Gäbrä Ǝgziʾabǝḥer Elyas’, <i>EAe</i>, II (2005), 607b–608b (R. K.
+                Molvaer)</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Molvaer, R. K. 2005.
+                    ‘Gäbrä Ǝgziʾabǝḥer Elyas’, in S. Uhlig, ed., <i>Encyclopaedia Aethiopica</i>, II
+                    (Wiesbaden: Harrassowitz Verlag, 2005), 607b–608b.</div>
+            </reference>
+        </entry>
         <entry id="bm:Nosnitsin20005GabraEndreyas">
             <citation>‘Gäbrä Ǝndrǝyas’, <i>EAe</i>, II (2005), 609a–610a (D.
                 Nosnitsin)</citation>
@@ -24738,6 +24867,15 @@
                     (Wiesbaden: Harrassowitz Verlag, 2007), 876a-b.</div>
             </reference>
         </entry>
+        <entry id="bm:Getatchew2007Mazgaba">
+            <citation>‘Mäzgäbä haymanot’, <i>EAe</i>, III (2007), 892b–893b (Getatchew
+                Haile)</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Getatchew Haile 2007.
+                    ‘Mäzgäbä haymanot’, in S. Uhlig, ed., <i>Encyclopaedia Aethiopica</i>, III
+                    (Wiesbaden: Harrassowitz Verlag, 2007), 892b–893b.</div>
+            </reference>
+        </entry>
         <entry id="bm:Nosnitsin2007MazgabaSellase">
             <citation>‘Mäzgäbä Śǝllase’, <i>EAe</i>, III (2007), 893b–894a (D.
                 Nosnitsin)</citation>
@@ -25967,11 +26105,7 @@
         <entry id="bm:Nosnitsin2010TaklaHaymanot">
             <citation>‘Täklä Haymanot’, <i>EAe</i>, IV (2010), 831a–834b (D.
                 Nosnitsin)</citation>
-            <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Nosnitsin, D. 2010.
-                    ‘Täklä Haymanot’, in S. Uhlig and A. Bausi, eds, <i>Encyclopaedia
-                    Aethiopica</i>, IV (Wiesbaden: Harrassowitz Verlag, 2010), 831a–834b.</div>
-            </reference>
+            <reference/>
         </entry>
         <entry id="bm:Bairu2010TaklaHaymanot">
             <citation>‘Täklä Haymanot’, <i>EAe</i>, IV (2010), 837a–839a (Bairu
@@ -27063,11 +27197,7 @@
         <entry id="bm:Derat2010SaraqaBerhan">
             <citation>‘Śaraqa Bǝrhan’, <i>EAe</i>, IV (2010), 537a (M.-L.
                 Derat)</citation>
-            <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Derat, M.-L. 2010.
-                    ‘Śaraqa Bǝrhan’, in S. Uhlig and A. Bausi, eds, <i>Encyclopaedia Aethiopica</i>,
-                    IV (Wiesbaden: Harrassowitz Verlag, 2010), 537a.</div>
-            </reference>
+            <reference/>
         </entry>
         <entry id="bm:Pisani2014SamraKrestos">
             <citation>‘Śämrä Krǝstos’, <i>EAe</i>, V (2014), 504b (V. Pisani)</citation>
@@ -27764,6 +27894,15 @@
                     (Wiesbaden: Harrassowitz Verlag, 2007), 54b–55a.</div>
             </reference>
         </entry>
+        <entry id="bm:Getatchew2007Hedar">
+            <citation>‘Ḫǝdar: Mäṣḥafä Ḫǝdar’, <i>EAe</i>, III (2007), 6b–7b (Getatchew
+                Haile)</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Getatchew Haile 2007.
+                    ‘Ḫǝdar: Mäṣḥafä Ḫǝdar’, in S. Uhlig, ed., <i>Encyclopaedia Aethiopica</i>, III
+                    (Wiesbaden: Harrassowitz Verlag, 2007), 6b–7b.</div>
+            </reference>
+        </entry>
         <entry id="bm:Bahru2007Heruy">
             <citation>‘Ḫǝruy Wäldä Śǝllase’, <i>EAe</i>, III (2007), 20–21 (Bahru
                 Zewde)</citation>
@@ -27968,21 +28107,47 @@
                     918b–919a.</div>
             </reference>
         </entry>
-        <entry id="bm:Molvaer2005GabraEgzihabher">
+        <entry id="bm:ContiRossini1921Aeth1">
             <citation>a</citation>
             <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Molvaer, R. K. 2005.
-                    ‘Gäbrä Ǝgziʾabǝḥer Elyas’, in S. Uhlig, ed., <i>Encyclopaedia Aethiopica</i>, II
-                    (Wiesbaden: Harrassowitz Verlag, 2005), 607b–608b.</div>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry" style="margin-bottom: 1em;">Conti Rossini, C. 1923a. ‘Aethiopica’, <i>Rivista
+                        degli studi orientali</i>, 9/4 (1923), 365–382, 449–468.</div>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Conti Rossini, C. 1923b.
+                    ‘Aethiopica’, <i>Rivista degli Studi Orientali</i>, 9 (1923), 365–382,
+                    449–468.</div>
             </reference>
         </entry>
-        <entry id="bm:Lamma1971Heruy">
+        <entry id="bm:Dombrowski1983TanaseeB">
             <citation>b</citation>
             <reference>
-                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Lamma Walda Maryam 1970.
-                        <i>የብላታ፡ ጌታ፡ ኅሩይ፡ ወልደ፡ ሥላሴ፡  ሕይወት፡ ታሪክ፡ 1871-1931 (Yablātten getā Ḫǝruy
-                        Walda Śǝllāse ḥǝwat Tārik), 1871-1931, ’The Biography of blātten getā Ḫǝruy
-                        Walda Śǝllāse, 1871-1931’)</i> Haile Slassie I University (1970).</div>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Dombrowski, F. A. 1983.
+                        <i>Ṭānāsee 106: Eine Chronik der Herrscher Äthiopiens<span style="font-style:normal;">, II:</span> Teil B</i>, Äthiopistische
+                    Forschungen, 12B (Wiesbaden: Franz Steiner Verlag GmbH, 1983).</div>
+            </reference>
+        </entry>
+        <entry id="bm:Colin1987GiyorgisSagla">
+            <citation>c</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Colin, G. 1987. <i>Vie
+                        de Georges de Saglā</i>, Corpus Scriptorum Christianorum Orientalium, 492,
+                    493, Scriptores Aethiopici, 81, 82 (Louvain: Peeters, 1987).</div>
+            </reference>
+        </entry>
+        <entry id="bm:Grebaut1913Cyriaque1">
+            <citation>d</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Grébaut, S. 1913. ‘Les
+                    miracles du saint enfant Cyriaque’, <i>Revue de l’Orient Chrétien</i>, 18
+                    (1913), 419–423.</div>
+            </reference>
+        </entry>
+        <entry id="bm:IHABook776">
+            <citation>e</citation>
+            <reference>
+                <div xmlns="http://www.w3.org/1999/xhtml" class="csl-entry">Ibn Rušd, Muḥammad b.
+                    Aḥmad b. Muḥammad b. Aḥmad al-Qurṭubī 1960. <i>Bidāyat al-muǧtahid wa-nihāyat
+                        al-muqtaṣid</i> (Šarika Maktabat wa Maṭbaʻat Muṣṭafā al-Bābī al-Ḥalabī wa
+                    Awlādihi bi-Miṣr - Maḥmūd Naṣṣār al-Ḥalabī wa Šurakā’ihi - Ḫulafā’, 1960).</div>
             </reference>
         </entry>
     </entries>
