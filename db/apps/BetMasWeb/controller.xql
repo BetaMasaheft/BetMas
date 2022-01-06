@@ -373,6 +373,20 @@ else
                                                             value="no-cache"/>
                                                     </forward>
                                                 </dispatch>
+                                                  else
+                                            if (starts-with($exist:path, '/api/Dillmann'))
+                                            then 
+                                             <dispatch
+                                                        xmlns="http://exist.sourceforge.net/NS/exist">
+                                                        <forward
+                                                            url="{concat('/restxq/gez-en/', $exist:path)}"
+                                                            absolute="yes">
+                                                            {login:set-user($domain, (), false())}
+                                                            <set-header
+                                                                name="Cache-Control"
+                                                                value="no-cache"/>
+                                                        </forward>
+                                                    </dispatch>
                                         else
                                             if (
                                             ends-with($exist:path, '/rdf') or
