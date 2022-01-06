@@ -1088,9 +1088,9 @@ declare %private function dtslib:manifest($doc, $id){
                        else if($doc//t:idno[@facs[starts-with(.,'http')]]) 
                     then 
                         (:from europeana data model specification, taken from nomisma, not sure if this is correct in json LD:)
-                        ( map {'@id' : string($doc//t:idno/@facs),
+                        ( map {'@id' : string(($doc//t:idno/@facs)[1]),
                                         '@type' : 'edm:WebResource',
-                                        "svcs:has_service" : map{'@id' : string($doc//t:idno/@facs),
+                                        "svcs:has_service" : map{'@id' : string(($doc//t:idno/@facs)[1]),
                                                                                             '@type' : 'svcs:Service',
                                                                                             "dcterms:conformsTo": "http://iiif.io/api/image",
                                                                                             "doap:implements": "http://iiif.io/api/image/2/level1.json"

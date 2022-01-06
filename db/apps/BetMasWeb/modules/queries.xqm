@@ -3657,7 +3657,7 @@ declare function q:resultslinkstoviews($t, $id, $collection) {
                 switch ($t)
                     case 'pers'
                         return
-                            item2:RestPersRole($item, $collection)
+                            for $i in $item return item2:RestPersRole($i, $collection)
                     case 'work'
                         return
                             (<h4>List of computed witnesses</h4>, item2:witList($item))

@@ -29,11 +29,12 @@ declare function updatefuseki:datatype($node){
 };
 
 declare function updatefuseki:textnode($node){
-    ($node/name() ||  " '" || string($node/text()) || "'" )
+    ($node/name() ||  " '" || normalize-space(string-join($node/text())) || "'" )
 };
 
 declare function updatefuseki:rdfxml2turtle($node){
 if($node/@rdf:about) then updatefuseki:Class($node) 
+else if($node/name() = 'rdf:RDF') then updatefuseki:loop($node/node()) 
 else if($node/name() = 'rdf:type') then updatefuseki:rdftype($node) 
 else if($node/@rdf:resource) then updatefuseki:property($node)  
 else if($node/@rdf:datatype) then updatefuseki:datatype($node) 
@@ -51,7 +52,7 @@ declare function updatefuseki:loop($node){for $n at $p in $node/node() return  u
 
 (: takes as input the RDF/XML stored by the data2rdf.xslt and transforms it into triples in the format required for SPARQL Update :)
 declare function updatefuseki:update($rdfxml, $operation){
-let $parse := updatefuseki:loop($rdfxml)
+let $parse := updatefuseki:loop($rdfxml/rdf:RDF)
 let $rdfturtle := string-join($parse, '
         ')
 return

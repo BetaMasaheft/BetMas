@@ -30,7 +30,7 @@ let $tit := $ms//t:title[ends-with(@ref, $workID)]
 return
 if(count($tit) = 0) then ('no textual unit ' || $workID || ' in the manuscript ' || $manuscriptID) else
 let $msitem :=$tit/parent::t:msItem
-let $msitemID := string($msitem/@xml:id)
+let $msitemID := string($msitem[1]/@xml:id)
 
 return
 
