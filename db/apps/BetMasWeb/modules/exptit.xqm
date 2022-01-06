@@ -23,6 +23,7 @@ declare variable $exptit:prefixDef := doc('/db/apps/lists/listPrefixDef.xml');
 
 (: The entry point function of the module. Establishes the different rules and priority to print a title referring to a record. can start from any node in the document. :)
 declare function exptit:printTitle($titleMe) {
+if(count($titleMe) = 0 or $titleMe = "" ) then () else
     (:titleable could a node or a string, and the string could be anything...:)
     typeswitch ($titleMe)
         case element()
