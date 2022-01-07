@@ -1602,7 +1602,7 @@ declare %private function viewItem:namedEntityPlace($entity) {
         (),
     <a
         xmlns="http://www.w3.org/1999/xhtml"
-        href="{viewItem:reflink($entity/@ref)}">{viewItem:TEI2HTML($entity/node()[not(self::t:note)][not(self::t:certainty)])}</a>,
+        href="{viewItem:reflink($entity/@ref)}">{if(count($entity/node()) ge 1) then viewItem:TEI2HTML($entity/node()[not(self::t:note)][not(self::t:certainty)]) else ()}</a>,
     let $idref := viewItem:URI2ID($entity/@ref)
     return
         if (contains($idref, 'pleiades')) then
@@ -1730,10 +1730,19 @@ declare %private function viewItem:msItem($msItem) {
                     }
                     {
                         if ($msItem/t:msItem) then
+                        (
+                        viewItem:TEI2HTML($msItem/node()[not(name()='msItem')])
+                        ,
+                        for $m in $msItem/t:msItem
+                        let $innerMsItem :=  viewItem:msItem($m)
+                         return
                             <div
                                 class="w3-container"
                                 id="contentItem{$trimid}"
-                                rel="http://purl.org/dc/terms/hasPart">{viewItem:TEI2HTML($msItem/node())}</div>
+                                rel="http://purl.org/dc/terms/hasPart">{ 
+                               $innerMsItem
+                                }</div>
+                                )
                         else
                             viewItem:TEI2HTML($msItem/node())
                     }
@@ -2814,7 +2823,7 @@ declare %private function viewItem:hi($node as element(t:hi)) {
             else
                 if ($node/@rend = 'rubric') then
                     <span
-                        class="rubric">{viewItem:TEI2HTML($node/node())}</span>
+                        class="rubric">{$node/node()}</span>
                 else
                     if ($node/@rend = 'encircled') then
                         <span
@@ -2843,7 +2852,8 @@ declare %private function viewItem:incipit($node as element(t:incipit)) {
                     'Incipit'
             } ({viewItem:fulllang($node/@xml:lang)}
             ):</b>
-        {viewItem:TEI2HTML($node/node())}</p>
+        {viewItem:TEI2HTML($node/node())
+        (:distinct-values($node/node()/name()):)}</p>
 };
 
 declare %private function viewItem:item($node as element(t:item)) {
@@ -2906,7 +2916,7 @@ declare %private function viewItem:measureelement($node as element(t:measure)) {
 
 
 
-declare %private function viewItem:msContents($node as element(t:msContents)) {
+declare function viewItem:msContents($node as element(t:msContents)) {
     (
     <h3>Contents</h3>,
     <div
@@ -3298,17 +3308,17 @@ declare %private function viewItem:del($node as element(t:del)) {
                     (if (empty($node)) then
                         (concat($node/@extent, ' ', $node/@unit))
                     else
-                        viewItem:TEI2HTML($node)), '〛')
+                        viewItem:TEI2HTML($node/node())), '〛')
                 else
                     if ($node/@rend = 'strikethrough') then
                         <strike>{
                                 if (empty($node)) then
                                     (concat($node/@extent, ' ', $node/@unit))
                                 else
-                                    viewItem:TEI2HTML($node)
+                                    viewItem:TEI2HTML($node/node())
                             }</strike>
                     else
-                        viewItem:TEI2HTML($node)
+                        viewItem:TEI2HTML($node/node())
             }
         </span>
     </span>
@@ -3355,7 +3365,7 @@ declare %private function viewItem:add($node as element(t:add)) {
         else
             if ($node/@place = 'overstrike' and $node/preceding-sibling::t:del) then
                 (
-                '{', viewItem:TEI2HTML($node), '}'
+                '{', viewItem:TEI2HTML($node/node()), '}'
                 )
             else
                 if ($node/@hand and not($node/@place)) then
@@ -3363,7 +3373,7 @@ declare %private function viewItem:add($node as element(t:add)) {
                     '/',
                     <span
                         class="w3-tooltip">
-                        {viewItem:TEI2HTML($node)}
+                        {viewItem:TEI2HTML($node/node())}
                         <span
                             class="w3-text">Note added {
                                 if ($node/@hand)
@@ -3379,7 +3389,7 @@ declare %private function viewItem:add($node as element(t:add)) {
                         (
                         <span
                             class="w3-tooltip">
-                            {viewItem:TEI2HTML($node)}
+                            {viewItem:TEI2HTML($node/node())}
                             <span
                                 class="w3-text">Note added {
                                     if ($node/@hand)
@@ -3962,7 +3972,7 @@ declare function viewItem:TEI2HTML($nodes) {
                 return
                     viewItem:acquisition($node)
             case element(t:add)
-                return
+                return 
                     viewItem:add($node)
             case element(t:additions)
                 return
@@ -4031,7 +4041,7 @@ declare function viewItem:TEI2HTML($nodes) {
                 return
                     viewItem:decoDesc($node)
             case element(t:del)
-                return
+                return 
                     viewItem:del($node)
             case element(t:desc)
                 return
@@ -4043,7 +4053,7 @@ declare function viewItem:TEI2HTML($nodes) {
                 return
                     viewItem:ex($node)
             case element(t:explicit)
-                return
+                return 
                     viewItem:explicit($node)
             case element(t:facsimile)
                 return
@@ -4076,7 +4086,7 @@ declare function viewItem:TEI2HTML($nodes) {
                 return
                     viewItem:handShift($node)
             case element(t:hi)
-                return
+                return 
                     viewItem:hi($node)
             case element(t:history)
                 return
@@ -4085,7 +4095,7 @@ declare function viewItem:TEI2HTML($nodes) {
                 return
                     viewItem:idno($node)
             case element(t:incipit)
-                return
+                return 
                     viewItem:incipit($node)
             case element(t:item)
                 return
@@ -4103,13 +4113,13 @@ declare function viewItem:TEI2HTML($nodes) {
                 return
                     viewItem:label($node)
             case element(t:lb)
-                return
+                return 
                     viewItem:lb($node)
             case element(t:lg)
                 return
                     viewItem:lg($node)
             case element(t:locus)
-                return
+                return 
                     viewItem:locus($node)
             case element(t:measure)
                 return
@@ -4271,8 +4281,7 @@ declare %private function viewItem:tokenize-text($node) {
     else
         for $w in tokenize(normalize-space($node), '\s')
         return
-            <span
-                class="word">{$w}</span>
+            (<span class="word">{$w}</span>, ' ')
 };
 
 declare %private function viewItem:standards($item) {
@@ -4659,7 +4668,7 @@ declare %private function viewItem:person($item) {
                                             href="{@ref}"
                                             target="_blank">{viewItem:TEI2HTML($name/node()[not(self::t:roleName)])}</a>
                                     else
-                                        viewItem:TEI2HTML($name/node()[not(self::t:roleName)])
+                                        (viewItem:TEI2HTML($name/node()[not(self::t:roleName)]), ' ')
                                 }
                                 {viewItem:sup($name)}
                                 {
@@ -5104,7 +5113,7 @@ declare %private function viewItem:divofmanuscriptpath($msDesc, $path, $label) {
             <div
                 id="{$this/@xml:id}{$label}"
                 class="w3-container w3-margin-bottom">
-                {viewItem:TEI2HTML($this)}
+                {if(ends-with($path, "msContents")) then viewItem:msContents($this) else viewItem:TEI2HTML($this)}
             </div>
         else
             ()
@@ -5487,7 +5496,7 @@ declare function viewItem:dates($date) {
             viewItem:editorName($date/@resp))
     else
         ()
-    let $formatortext := if ($date/node()) then
+    let $formatortext := if (count($date/node()) gt 1) then
         viewItem:TEI2HTML($date/node())
     else
         $dates
