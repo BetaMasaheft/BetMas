@@ -51,10 +51,10 @@ declare function nav:barNew() {
                     title="Toggle Navigation Menu"><i
                         class="fa fa-bars"></i></a>
                 {
-                    if (ends-with($url, '.html') or ($url = $config:appUrl) or ends-with($url, 'BetMas/')) then
-                        locallogin:loginNew()
-                    else
-                        ()
+                   (: if (ends-with($url, '.html') or ($url = $config:appUrl) or ($url = 'https://betamasaheft.eu/')  or ($url = 'http://localhost/') or ends-with($url, 'BetMas/')) then:)
+                    locallogin:loginNew()
+                  (:  else
+                        ():)
                 }
                 
                 <div
