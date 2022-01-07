@@ -256,7 +256,7 @@ if($countDim ge 1050 ) then (<div  class="w3-half w3-panel w3-red w3-padding"><p
 </p></div>) else
 if (count($unit) gt 1) then (<div  class="w3-half w3-panel w3-red w3-padding"><p>Unfortunately we cannot put on a chart the dimensions of the manuscripts, because they are provided using different units of measure ({string-join($unit,', ')})</p></div>) else
     let $dims := for $d in $dimensions
-    let $all := $d/t:dimensions[@type eq 'outer']
+    let $all := $d/t:dimensions[@type eq 'outer'][not(@xml:lang='ar')]
                         let $SM := $d//ancestor::t:TEI//t:msIdentifier/t:idno/text()
                         let $title := exptit:printTitle($d)
                         let $h := if($all/t:height/text()) then string-join($all/t:height[1]/text()) else '0'
@@ -268,7 +268,7 @@ if (count($unit) gt 1) then (<div  class="w3-half w3-panel w3-red w3-padding"><p
 let $dimensionsTable := '[["shelf mark","width","height","title","depth"],' ||string-join($dims, ', ') || ']'
 
 let $taglie := for $d in $hits//t:extent[descendant::t:dimensions[@type eq 'outer'][t:height][t:width][t:depth]]
-               let $all := $d/t:dimensions[@type eq 'outer']
+               let $all := $d/t:dimensions[@type eq 'outer'][not(@xml:lang='ar')]
                let $h := if($all/t:height/text()) then string-join($all/t:height/text(), ' ') else '0'
                let $w := if($all/t:width/text()) then string-join($all/t:width/text(), ' ') else '0'
                let $realtaglia := number($h) + number($w)
@@ -856,7 +856,7 @@ chart.draw(data, google.charts.Bar.convertOptions(options));
 if($countLayout ge 1) then (
 
   let $dims := for $d in $layoutdimensions
-               let $all := $d/t:dimensions
+               let $all := $d/t:dimensions[not(@xml:lang='ar')]
                let $SM := string-join($d/ancestor::t:TEI//t:msIdentifier/t:idno/text(), ' / ')
                let $title := exptit:printTitle($d)
                let $h := if($all/t:height/text()) then string-join($all/t:height/text(), ' ') else '0'
@@ -905,7 +905,7 @@ if($countLayout ge 1) then (
 
 declare function  charts:tagliasupport($mssDate, $totcount, $from, $to){
  let  $mssDateTaglias := for $ms in $mssDate//t:extent[descendant::t:dimensions[@type eq 'outer'][t:height][t:width][t:depth]]
-                                                                     let $all := $ms/t:dimensions[@type eq 'outer']
+                                                                     let $all := $ms/t:dimensions[@type eq 'outer'][not(@xml:lang='ar')]
                                                                     let $h := if($all/t:height/text()) then string-join($all/t:height/text(), ' ') else '0'
                let $w := if($all/t:width/text()) then string-join($all/t:width/text(), ' ') else '0'
                let $realtaglia := number($h) + number($w)
