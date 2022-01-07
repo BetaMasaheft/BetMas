@@ -3148,7 +3148,7 @@ declare function q:summaryPers($item, $id) {
                 for $n in $item//t:persName[@xml:id]
                 let $Nid := $n/@xml:id
                 return
-                    <li>{$n//text()}<sup>{$n/@xml:lang}</sup>
+                    <li>{$n//text()}<sup>{string($n/@xml:lang)}</sup>
                         {
                             if ($item//t:persName[@corresp])
                             then
@@ -3156,11 +3156,11 @@ declare function q:summaryPers($item, $id) {
                                 let $corrNcorr := substring-after($corrN/@corresp, '#')
                                 return
                                     if ($corrNcorr = $Nid) then
-                                        ($corrN//text(), <sup>{$corrN/@xml:lang}</sup>)
+                                        ($corrN//text(), <sup>{string($corrN/@xml:lang)}</sup>)
                                     else
                                         ()
                                 return
-                                    ('(', $corrsNs, ')'))
+                                    (' (', (for $c in $corrsNs return ($c, ' ')), ')'))
                             else
                                 ()
                         }</li>
