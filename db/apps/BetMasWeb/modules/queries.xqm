@@ -2401,9 +2401,8 @@ declare function q:fieldInputPerson($node as node(), $model as map(*), $person-f
 declare
 %templates:wrap
 function q:charts($node as node()*, $model as map(*))
-{(:let $test := util:log('info', $model('hits')) return:)
-   if($q:searchType='clavis') then () else
-   if (count($model('hits')) = 0) then
+{if($q:searchType='clavis') then () else
+    if (count($model('hits')) = 0) then
         ()
     else
         let $mss := $model('hits')[@type = 'mss']
@@ -2437,7 +2436,7 @@ function q:charts($node as node()*, $model as map(*))
 
 declare %templates:wrap
 function q:compare($node as node()*, $model as map(*)) {
- if($q:searchType='clavis') then () else
+if($q:searchType='clavis') then () else
     let $matchingmss := $model('hits')[@type = 'mss']
     return
         if (count($matchingmss) = 0) then
@@ -2620,8 +2619,8 @@ function q:compare($node as node()*, $model as map(*)) {
 declare
 %templates:wrap
 function q:geobrowser($node as node()*, $model as map(*))
-{
-     if($q:searchType='clavis') then () else
+{if($q:searchType='clavis') then () else
+    
     let $worksid := $model('hits')[@type = 'work']
     return
         if (count($worksid) = 0) then
@@ -3512,7 +3511,7 @@ declare function q:resultitemlinks($collection, $item, $id, $root, $text) {
                                 (:          
 EMIP:)
                             else
-                                if (($text//t:collection = 'EMIP') and $text//t:msIdentifier/t:idno/@n)
+                                if ((($text//t:collection = 'EMIP') or starts-with($text//t:msIdentifier/t:idno/@facs, 'EMIP')) and $text//t:msIdentifier/t:idno/@n)
                                 then
                                     <img
                                         src="{$config:appUrl || '/iiif/' || string(($text//t:msIdentifier)[1]/t:idno/@facs) || '001.tif/full/140,/0/default.jpg'}"
