@@ -391,7 +391,7 @@ declare function q:displayQtime($node as node()*, $model as map(*)) {
                             class="w3-label w3-gray">{$q:searchType}
                         </span>
                         <span
-                            class="w3-tooltip"> query for "{
+                            class="w3-tooltip" style="word-break:break-all"> query for "{
                                 if ($q:searchType != 'sparql') then
                                     string-join($model('qs'), ', ')
                                 else
@@ -3794,7 +3794,7 @@ declare function q:rangeindexlookup($rangeindexname) {
     {
         q:sortedoptions($rangeindexname, $key, $count)
     },
-    100000)
+    10000)
     (:   this tries to take all, keeping the total number of keys high :)
 };
 
