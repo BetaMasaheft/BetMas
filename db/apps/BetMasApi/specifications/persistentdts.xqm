@@ -48,7 +48,7 @@ import module namespace dts="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/d
 
 
   declare variable $persdts:collection-rootMS  := collection($config:data-rootMS);   
-  declare variable $persdts:collection-root  := $titles:collection-root; 
+  declare variable $persdts:collection-root  := $exptit:col; 
   
   
 declare option output:method "json";
