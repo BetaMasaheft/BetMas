@@ -128,7 +128,7 @@ declare function apptable:tr($doc as node(), $list as xs:string) {
 
 (:~function to print the values of parallel clavis ids:)
 declare function apptable:clavisIds($doc as node()){
-    <span class="w3-tooltip"><span class="w3-tag">CAe {substring(string($doc/ancestor-or-self::t:TEI/@xml:id), 4, 4)}</span>
+    <span class="w3-tooltip"><span class="w3-tag">CAe {util:log("info", string($doc/t:TEI/@xml:id)),substring(string($doc/node()/ancestor-or-self::t:TEI/@xml:id), 4, 4)}</span>
     <span class="w3-text"><a href="https://www.traces.uni-hamburg.de/en/texts/clavis.html"><em>Clavis Aethiopica</em></a>, an ongoing repertory of all known Ethiopic <a href="https://betamasaheft.eu/Guidelines/?id=definitionWorks">Textual Units</a>. Use this to refer univocally to a specific text in your publications. Please note that this shares only the 
     numeric part with the <a href="https://betamasaheft.eu/Guidelines/?id=entities-id-structure">Textual Unit Record Identifier</a>.</span>
     </span> ,
