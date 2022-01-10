@@ -216,7 +216,7 @@ declare function charts:chart($hits){
 let $dimensionOfQuiresINS := config:distinct-values($hits//t:collation//t:item/t:dim[@unit eq 'leaf'])
 let $percents := for $dim in $dimensionOfQuiresINS
                 let $test := $hits//t:collation//t:item
-                let $numberQuiresThisDim := count($test/t:dim[@unit eq 'leaf'][number(.) = $dim])
+                let $numberQuiresThisDim := count($test/t:dim[@unit eq 'leaf'][. = $dim])
                 order by $numberQuiresThisDim descending
                   return
                                '["' ||  $dim || ' leaves ", ' ||  $numberQuiresThisDim || ']'
@@ -256,7 +256,8 @@ if($countDim ge 1050 ) then (<div  class="w3-half w3-panel w3-red w3-padding"><p
 </p></div>) else
 if (count($unit) gt 1) then (<div  class="w3-half w3-panel w3-red w3-padding"><p>Unfortunately we cannot put on a chart the dimensions of the manuscripts, because they are provided using different units of measure ({string-join($unit,', ')})</p></div>) else
     let $dims := for $d in $dimensions
-    let $all := $d/t:dimensions[@type eq 'outer'][not(@xml:lang='ar')]
+    let $allwithar := $d/t:dimensions[@type eq 'outer']
+    let $all := $allwithar[not(@xml:lang='ar')]
                         let $SM := $d//ancestor::t:TEI//t:msIdentifier/t:idno/text()
                         let $title := exptit:printTitle($d)
                         let $h := if($all/t:height/text()) then string-join($all/t:height[1]/text()) else '0'
@@ -268,8 +269,10 @@ if (count($unit) gt 1) then (<div  class="w3-half w3-panel w3-red w3-padding"><p
 let $dimensionsTable := '[["shelf mark","width","height","title","depth"],' ||string-join($dims, ', ') || ']'
 
 let $taglie := for $d in $hits//t:extent[descendant::t:dimensions[@type eq 'outer'][t:height][t:width][t:depth]]
-               let $all := $d/t:dimensions[@type eq 'outer'][not(@xml:lang='ar')]
-               let $h := if($all/t:height/text()) then string-join($all/t:height/text(), ' ') else '0'
+              
+    let $allwithar := $d/t:dimensions[@type eq 'outer']
+    let $all := $allwithar[not(@xml:lang='ar')]
+    let $h := if($all/t:height/text()) then string-join($all/t:height/text(), ' ') else '0'
                let $w := if($all/t:width/text()) then string-join($all/t:width/text(), ' ') else '0'
                let $realtaglia := number($h) + number($w)
 
@@ -856,8 +859,10 @@ chart.draw(data, google.charts.Bar.convertOptions(options));
 if($countLayout ge 1) then (
 
   let $dims := for $d in $layoutdimensions
-               let $all := $d/t:dimensions[not(@xml:lang='ar')]
-               let $SM := string-join($d/ancestor::t:TEI//t:msIdentifier/t:idno/text(), ' / ')
+              
+    let $allwithar := $d/t:dimensions[@type eq 'outer']
+    let $all := $allwithar[not(@xml:lang='ar')]
+    let $SM := string-join($d/ancestor::t:TEI//t:msIdentifier/t:idno/text(), ' / ')
                let $title := exptit:printTitle($d)
                let $h := if($all/t:height/text()) then string-join($all/t:height/text(), ' ') else '0'
                let $w := if($all/t:width/text()) then string-join($all/t:width/text(), ' ') else '0'
@@ -905,8 +910,10 @@ if($countLayout ge 1) then (
 
 declare function  charts:tagliasupport($mssDate, $totcount, $from, $to){
  let  $mssDateTaglias := for $ms in $mssDate//t:extent[descendant::t:dimensions[@type eq 'outer'][t:height][t:width][t:depth]]
-                                                                     let $all := $ms/t:dimensions[@type eq 'outer'][not(@xml:lang='ar')]
-                                                                    let $h := if($all/t:height/text()) then string-join($all/t:height/text(), ' ') else '0'
+                                                                     
+    let $allwithar := $ms/t:dimensions[@type eq 'outer']
+    let $all := $allwithar[not(@xml:lang='ar')]
+    let $h := if($all/t:height/text()) then string-join($all/t:height/text(), ' ') else '0'
                let $w := if($all/t:width/text()) then string-join($all/t:width/text(), ' ') else '0'
                let $realtaglia := number($h) + number($w)
                                                                    return if((number($realtaglia) ge $from) and (number($realtaglia) le $to)) then 1 else 0
