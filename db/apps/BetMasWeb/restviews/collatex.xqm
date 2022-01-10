@@ -216,9 +216,12 @@ let $matchingmss := for $ms in $urns
             
 (:~ Calls for each witness of a specified narrative builds the array which can be passed as body of the POST request to collatex:)
 declare function collatex:getnarrUnitWittnesses($nU){ 
-let $matchingmss := for $ms in collection($config:data-rootMS)//t:*[@corresp = $nU]
+let $matchingmss := for $ms in ($collatex:expanded//t:*[ends-with(@corresp, $nU)], $apprest:collection-rootMS//t:*[@corresp = $nU])
                                            let $id := string($ms/ancestor::t:TEI/@xml:id)
-(:                                          let $consol := console:log($ms):)
+                                           group by $ID := $id
+                                       return 
+                                       if($ID='') then () else
+(:                                       let $cons1 := console:log($id) :)
                                           let $xslt :=   'xmldb:exist:///db/apps/BetMasWeb/xslt/stringtext.xsl'  
                                            let $stringtext := try{transform:transform($ms,$xslt,())} catch * {$err:description}
 (:                                         let $console := console:log($stringtext):)
@@ -227,7 +230,7 @@ let $matchingmss := for $ms in collection($config:data-rootMS)//t:*[@corresp = $
                                             let $cleantext := collatex:cleanforcollatex($text)
 (:                                          let $console2 := console:log($cleantext):)
                                              return
-                                         '{"id" : "' ||$id ||'", "content" : "'||$cleantext||'"}' 
+                                         '{"id" : "' ||$ID ||'", "content" : "'||$cleantext||'"}' 
                           return
             '{"witnesses" : [' ||string-join($matchingmss, ',') ||']}'
             };
