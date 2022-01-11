@@ -2839,7 +2839,7 @@ declare %private function viewItem:hi($node as element(t:hi)) {
             else
                 if ($node/@rend = 'rubric') then
                     <span
-                        class="rubric">{$node/node()}</span>
+                        class="rubric">{viewItem:TEI2HTML($node/node())}</span>
                 else
                     if ($node/@rend = 'encircled') then
                         <span
@@ -2868,8 +2868,7 @@ declare %private function viewItem:incipit($node as element(t:incipit)) {
                     'Incipit'
             } ({viewItem:fulllang($node/@xml:lang)}
             ):</b>
-        {viewItem:TEI2HTML($node/node())
-        (:distinct-values($node/node()/name()):)}</p>
+        {viewItem:TEI2HTML($node/node())}</p>
 };
 
 declare %private function viewItem:item($node as element(t:item)) {
@@ -2932,7 +2931,7 @@ declare %private function viewItem:measureelement($node as element(t:measure)) {
 
 
 
-declare function viewItem:msContents($node as element(t:msContents)) {
+declare %private function viewItem:msContents($node as element(t:msContents)) {
     (
     <h3>Contents</h3>,
     <div
