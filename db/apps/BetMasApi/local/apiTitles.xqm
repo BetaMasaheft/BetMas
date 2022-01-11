@@ -7,10 +7,10 @@ xquery version "3.1" encoding "UTF-8";
  
 module namespace apiTit = "https://www.betamasaheft.uni-hamburg.de/BetMas/apiTitles";
 import module namespace rest = "http://exquery.org/ns/restxq";
-import module namespace api = "https://www.betamasaheft.uni-hamburg.de/BetMasApi/api"  at "xmldb:exist:///db/apps/BetMasApi/local/rest.xqm";
-import module namespace all="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/all" at "xmldb:exist:///db/apps/BetMasWeb/modules/all.xqm";
-import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMasWeb/modules/log.xqm";
-import module namespace exptit="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/exptit" at "xmldb:exist:///db/apps/BetMasWeb/modules/exptit.xqm";
+import module namespace api = "https://www.betamasaheft.uni-hamburg.de/BetMas/api"  at "xmldb:exist:///db/apps/BetMas/modules/rest.xqm";
+import module namespace all="https://www.betamasaheft.uni-hamburg.de/BetMas/all" at "xmldb:exist:///db/apps/BetMas/modules/all.xqm";
+import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
+import module namespace exptit="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
 (: namespaces of data used :)
 declare namespace t = "http://www.tei-c.org/ns/1.0";
@@ -21,7 +21,7 @@ declare namespace test="http://exist-db.org/xquery/xqsuite";
 (: For REST annotations :)
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
-declare variable $apiTit:TUList := doc(concat($config:app-root, '/lists/textpartstitles.xml'));
+declare variable $apiTit:TUList := doc('/db/apps/lists/textpartstitles.xml');
 
 (:~ given the file id, returns the main title:)
 declare
@@ -34,10 +34,10 @@ function apiTit:get-FormattedTitle($id as xs:string) {
     
     return
     if (not(contains($id, ':'))) then
-   normalize-space(string-join(exptit:printTitleID($id)))
+   normalize-space(string-join(exptit:printTitleMainID($id)))
    else if (starts-with($id, 'wd:') or starts-with($id, 'pleaides:') or starts-with($id, 'sdc:') or starts-with($id, 'gn:')   )
    then
-   normalize-space(exptit:printTitleID($id))
+   normalize-space(exptit:printTitleMainID($id))
     else $id
     )
 };
@@ -52,10 +52,10 @@ function apiTit:get-FormattedTitleJson($id as xs:string) {
     ($config:response200Json,
     let $id := replace($id, '_', ':') 
    let $titletext :=  if (not(contains($id, ':'))) then
-normalize-space(string-join(exptit:printTitleID($id))) 
+normalize-space(string-join(exptit:printTitleMainID($id))) 
    else if (starts-with($id, 'wd:') or starts-with($id, 'pleaides:') or starts-with($id, 'sdc:') or starts-with($id, 'gn:')   )
    then
-   normalize-space(exptit:printTitleID($id))
+   normalize-space(exptit:printTitleMainID($id))
     else $id
     
     return map {'title':$titletext}
