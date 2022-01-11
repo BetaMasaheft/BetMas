@@ -103,6 +103,9 @@ declare %private function viewItem:locus($this) {
     let $ancID := replace($anc/@xml:id, '\.', '_')
     
     return
+    if((count($this/ancestor::t:msItem) gt 2) or (count($this/ancestor::t:TEI//t:msItem) gt 100)) then
+    $this/text()
+    else
         (
         if ($this/parent::t:ab[not(@type = 'CruxAnsata' or @type = 'ChiRho' or @type = 'coronis')]) then
             '(Excerpt from '
@@ -1175,7 +1178,7 @@ declare %private function viewItem:ref($ref) {
                 return
                     (<a
                         href="/{viewItem:URI2ID($c)}">{exptit:printTitle($c)}</a>,
-                    let $relsid := generate-id($c)
+                    let $relsid := generate-id($ref)
                     return
                         <a
                             id="{$relsid}Ent{viewItem:URI2ID($c)}relations">
@@ -1472,7 +1475,9 @@ declare %private function viewItem:summaryitems($item) {
         </a>
         ({viewItem:TEI2HTML($item/t:locus)}),
         {$item/t:title/text()}
-        {
+        {if ((count($item/ancestor::t:TEI//t:msItem) gt 100) and (count($item/ancestor::t:msItem) gt 1))
+                    then <p>There are {count($item/ancestor::t:TEI//t:msItem)} items in this description, to show this page we have to stop here.</p>
+                    else
             if ($item/t:msItem) then
                 <ol
                     class="summary">
@@ -1533,6 +1538,15 @@ declare %private function viewItem:lefthand($entity) {
 };
 
 declare %private function viewItem:namedEntityTitle($entity) {
+  if(count($entity/ancestor::t:msItem) gt 2) then
+   
+   (string-join($entity//text()),
+    if (matches($entity/@ref, 'LIT')) then
+        (' (' || viewItem:cae($entity) || ')')
+    else
+        ()
+    )
+    else
     (<a target="_blank"
         xmlns="http://www.w3.org/1999/xhtml"
         href="/{viewItem:URI2ID($entity/@ref)}">{viewItem:TEI2HTML($entity/node())}</a>,
@@ -1544,8 +1558,7 @@ declare %private function viewItem:namedEntityTitle($entity) {
 };
 
 declare %private function viewItem:namedEntityTitleNoLink($entity) {
-    (viewItem:TEI2HTML($entity/node()),
-    concat(substring(string-join($entity//text()), 1, 30), '...'),
+ (concat(substring(string-join($entity//text()), 1, 30), '...'),
     (' (' || viewItem:cae($entity) || ')'), ' ',
     if ($entity/@evidence) then
         concat(' (', $entity/@evidence, ')')
@@ -1675,6 +1688,7 @@ declare %private function viewItem:reflink($ref) {
 declare %private function viewItem:msItem($msItem) {
     let $mainID := viewItem:mainID($msItem)
     let $id := string($msItem/@xml:id)
+    let $msItemsCount := count($msItem/ancestor::t:TEI//t:msItem)
     let $trimid := if ($msItem/parent::t:msContents) then
         concat(replace($id, '\.', '-'), 'N', $msItem/position())
     else
@@ -1729,7 +1743,9 @@ declare %private function viewItem:msItem($msItem) {
                                 ()
                     }
                     {
-                        if ($msItem/t:msItem) then
+                    if ((count($msItem/ancestor::t:msItem) gt 1) and ($msItemsCount gt 100))
+                    then <div>There are {$msItemsCount} items in this description, to show this page we have to stop here.</div>
+                    else   if ($msItem/t:msItem) then
                         (
                         viewItem:TEI2HTML($msItem/node()[not(name()='msItem')])
                         ,
@@ -3161,7 +3177,7 @@ declare %private function viewItem:label($node as element(t:label)) {
     if ($node/parent::t:div[@subtype = 'Psalmus']) then
         ()
     else
-        viewItem:TEI2HTML($node)
+        viewItem:TEI2HTML($node/node())
 };
 
 
@@ -3270,7 +3286,7 @@ declare %private function viewItem:choice($node as element(t:choice)) {
             if ($node[t:sic and t:orig]) then
                 ('{', $node/t:orig, '}')
             else
-                (viewItem:TEI2HTML($node))
+                (viewItem:TEI2HTML($node/node()))
 };
 
 declare %private function viewItem:unclear($node as element(t:unclear)) {
@@ -3327,13 +3343,13 @@ declare %private function viewItem:del($node as element(t:del)) {
 
 declare %private function viewItem:supplied($node as element(t:supplied)) {
     if ($node/@reason = 'undefined') then
-        ('[', viewItem:TEI2HTML($node), '(?)]')
+        ('[', viewItem:TEI2HTML($node/node()), '(?)]')
     else
         if ($node/@reason = 'lost') then
-            ('[', viewItem:TEI2HTML($node), ']')
+            ('[', viewItem:TEI2HTML($node/node()), ']')
         else
             if ($node/@reason = 'omitted') then
-                ('&lt;', viewItem:TEI2HTML($node), '&gt;')
+                ('&lt;', viewItem:TEI2HTML($node/node()), '&gt;')
             else
                 (string-join($node/@*, ' '))
 };
@@ -3350,7 +3366,7 @@ declare %private function viewItem:add($node as element(t:add)) {
             (
             <span
                 class="w3-tooltip">
-                {viewItem:TEI2HTML($node)}
+                {viewItem:TEI2HTML($node/node())}
                 <span
                     class="w3-text">Note added {
                         if ($node/@hand)
@@ -4276,12 +4292,15 @@ declare function viewItem:TEI2HTML($nodes) {
 };
 
 declare %private function viewItem:tokenize-text($node) {
-    if ($node[parent::t:*[name() != 'label'][name() != 'note'][name() != 'persName'][name() != 'placeName']][(ancestor::t:*[@xml:lang])[1][. = 'gez']]) then
-        $node
-    else
+    if ($node[
+    (ancestor::t:*[@xml:lang])[1][@xml:lang = 'gez']][
+    parent::t:*[name() != 'label'][name() != 'note'][name() != 'persName'][name() != 'placeName']]) then
+       
         for $w in tokenize(normalize-space($node), '\s')
         return
             (<span class="word">{$w}</span>, ' ')
+            else 
+            $node
 };
 
 declare %private function viewItem:standards($item) {
