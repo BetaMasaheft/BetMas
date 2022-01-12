@@ -572,14 +572,16 @@ return
 (:here I cannot use for the title the javascript titles.js because the content is not exposed:)
 <bibl>
 {
-for $author in config:distinct-values(($file//t:revisionDesc/t:change/@who| $file//t:editor/@key))
-let $score := count($file//t:revisionDesc/t:change[@who eq $author]) + count($file//t:editor[@key eq $author]) + (if($file//t:editor[@key eq $author][@role eq 'cataloguer' or @role eq 'editor']) then 100 else 0)
+let $ids := ($file//t:revisionDesc/t:change/@who| $file//t:fileDesc/t:titleStmt/t:editor/@key| $file//t:respStmt/@xml:id)
+let $cleanids := for $i in distinct-values($ids) return replace($i, '#', '') 
+for $author in distinct-values($cleanids)
+let $score := count($file//t:revisionDesc/t:change[@who eq $author]) + count($file//t:fileDesc/t:titleStmt/t:editor[@key eq $author]) + (if($file//t:editor[@key eq $author][@role eq 'cataloguer' or @role eq 'editor']) then 100 else 0)
 order by $score descending
                 return
 <author>{editors:editorKey(string($author))}</author>
 }
 <title level="a">{exptit:printTitleID($id)}</title>
-<title level="j">{$file//t:publisher/text()}</title>
+<title level="j">{$file//t:fileDesc/t:publicationStmt/t:publisher/text()}</title>
 <date type="accessed"> [Accessed: {current-date()}] </date>
 {let $time := max($file//t:revisionDesc/t:change/xs:date(@when))
 return
@@ -598,14 +600,16 @@ return
 (:here I cannot use for the title the javascript titles.js because the content is not exposed:)
 <bibl>
 {
-for $author in config:distinct-values(($file//t:revisionDesc/t:change/@who| $file//t:editor/@key))
+let $ids := ($file//t:revisionDesc/t:change/@who| $file//t:fileDesc/t:titleStmt/t:editor/@key| $file//t:respStmt/@xml:id)
+let $cleanids := for $i in distinct-values($ids) return replace($i, '#', '') 
+for $author in distinct-values($cleanids)
 let $count := count($file//t:revisionDesc/t:change[@who eq $author])
 order by $count descending
                 return
 <author>{editors:editorKey(string($author))}</author>
 }
 <title level="a">{exptit:printTitleID($id)}</title>
-<title level="j">{$this//t:publisher/text()}</title>
+<title level="j">{$this//t:fileDesc/t:publicationStmt/t:publisher/text()}</title>
 <date type="accessed"> [Accessed: {current-date()}] </date>
 {let $time := max($file//t:revisionDesc/t:change/xs:date(@when))
 return
@@ -665,17 +669,21 @@ return
                 <div>
                 {for $respStmt in $document//t:titleStmt/t:respStmt
                 let $action := string-join($respStmt/t:resp, ' ')
-                let $authorspersname :=
+              return
+              if($respStmt/t:persName) then 
+            (   let $authors :=
                             for $p in $respStmt/t:persName
                                 return
                                     (if($p/@ref) then editors:editorKey(string($p/@ref)) else $p) || (if($p/@from or $p/@to) then (' ('||'from '||$p/@from || ' to ' ||$p/@to||')') else ())
-                 let $authorsname := for $p in $respStmt/t:name   return $p/text()
-let $authors := ($authorspersname, $authorsname)
+
+
                 order by $action descending
                 return
                 <p>
-                {($action || ': ' || string-join($authors, ', '))}
-                </p>
+                {($action || ' by ' || string-join($authors, ', '))}
+                </p>)
+                else <p>{$respStmt/t:name/text() || ', ' || $respStmt/t:resp/text()}</p>
+                
                 }
                 </div>
     </div>
@@ -731,8 +739,12 @@ return
                 <div>
                 {for $respStmt in $document//t:titleStmt/t:respStmt
                 let $action := $respStmt/t:resp
-                let $authors :=
-                            for $p in $respStmt/t:persName
+               return
+               
+               if($respStmt/t:persName) then 
+            (   let $authors :=
+                  
+                  for $p in $respStmt/t:persName
                                 return
                                     (if($p/@ref) then editors:editorKey(string($p/@ref)) else $p) || (if($p/@from or $p/@to) then (' ('||'from '||$p/@from || ' to ' ||$p/@to||')') else ())
 
@@ -741,7 +753,8 @@ return
                 return
                 <p>
                 {($action || ' by ' || string-join($authors, ', '))}
-                </p>
+                </p>)
+                else <p>{$respStmt/t:name/text() || ', ' || $respStmt/t:resp/text()}</p>
                 }
                 </div>
     </div>
