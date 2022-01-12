@@ -15,6 +15,7 @@ declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare
 %test:arg("key", "PL") %test:assertEquals('Pietro Maria Liuzzo')
 function editors:editorKey($key as xs:string){
+let $key := replace($key, '#', '') return
 $editors:list/t:item[@xml:id eq $key]/text()
 };
 

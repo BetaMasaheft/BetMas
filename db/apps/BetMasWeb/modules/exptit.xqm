@@ -55,7 +55,7 @@ let $id := substring-after($titleMe, 'betmas:')
                     else
                         let $title := exptit:printTitleID($titleMe)
                         return
-                            if (string-length($title) ge 1) then
+                            if (string-length(string-join($title)) ge 1) then
                                 $title
                             else
                                 $titleMe
