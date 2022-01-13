@@ -391,14 +391,14 @@ declare function q:displayQtime($node as node()*, $model as map(*)) {
                             class="w3-label w3-gray">{$q:searchType}
                         </span>
                         <span
-                            class="w3-tooltip" style="word-break:break-all"> query for "{
+                            class="w3-tooltip" style="word-break:break-all"> query for "{$model('query')}" with the parameters shown at the right.
+                            <span
+                                class="w3-text"> (searched: <em>{
                                 if ($q:searchType != 'sparql') then
                                     string-join($model('qs'), ', ')
                                 else
                                     ()
-                            }" with the parameters shown at the right.
-                            <span
-                                class="w3-text"> (entered: <em>{$model('query')}</em>)</span></span></p>),
+                            }</em>)</span></span></p>),
             <span>{'Search time: '}<span
                     class="w3-badge">{$model('runtime') div 1000}</span>
                 {' seconds.'}</span>
