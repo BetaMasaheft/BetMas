@@ -17,7 +17,7 @@ declare namespace t="http://www.tei-c.org/ns/1.0";
 (:this is a small form that points to the xquery generating the new file and prompting the editor to save it in the correct location:)
 declare function new:newentry($node as node()*, $model as map(*)) {
 
-let $taxonomy := doc($config:data-rootA || '/taxonomy.xml')//t:taxonomy 
+let $taxonomy := doc('/db/apps/lists/canonicaltaxonomy.xml')//t:taxonomy 
 let $schema := doc($config:app-root || '/schema/tei-betamesaheft.xml') 
      let $option := switch($app:collection) 
      case 'manuscripts' return ''
