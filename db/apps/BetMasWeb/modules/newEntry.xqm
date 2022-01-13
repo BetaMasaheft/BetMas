@@ -117,13 +117,13 @@ if($app:collection = 'persons') then (
                 case 'places' return  $taxonomy/t:category[t:desc='Place types']//t:catDesc/text()
                 case 'institutions' return  $taxonomy/t:category[t:desc='Place types']//t:catDesc/text()
                default return $taxonomy//t:catDesc/text()
-                for $k in $categories
+                for $k in distinct-values($categories)
                 order by $k
                 return
                 <span class="w3-tag w3-gray w3-margin">
                 
                 <input type="checkbox" class="w3-check" value="{$k}" name="keywords"/>
-                <label>{exptit:printTitleID($k)}</label>
+                <label>{$k}</label>
                 </span>
                 }
 <br/>
