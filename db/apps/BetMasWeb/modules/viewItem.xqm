@@ -3696,7 +3696,11 @@ declare function viewItem:div($node as element(t:div)) {
                         return
                             if ($node/child::t:div[@type = 'textpart']) then
                                  (viewItem:titletemplate($node, $text),
-                                viewItem:TEI2HTML($node/node()))
+(:                                if the div has its own contant, print that, not that of nested divs:)
+                                if($node/child::t:ab) then viewItem:TEI2HTML($node/node()[not(self::t:div)])
+(:                                otherways look at first order of nested divs which do not have further nested divs to came back here :)
+                                else viewItem:TEI2HTML($node/node()[not(self::t:div[t:div])])
+                             )
                             else
                                 (<div
                                     class="{
@@ -3943,7 +3947,7 @@ declare %private function viewItem:applisting($app, $p) {
 };
 
 declare %private function viewItem:DTSpartID($node) {
-    if (count($node//t:cb) ge 1)
+    if (count($node/t:ab/t:cb) ge 1)
     then
         string($node/preceding::t:pb[@n][1]/@n) || string($node/@n)
     else
@@ -5092,7 +5096,8 @@ declare %private function viewItem:manuscript($item) {
 };
 
 declare %private function viewItem:divofperson($item, $element) {
-    let $this := $item/t:*[name() = $element]
+let $path := '$item//t:person/t:'||$element
+    let $this := util:eval($path)
     return
         if (count($this) ge 1) then
             <div

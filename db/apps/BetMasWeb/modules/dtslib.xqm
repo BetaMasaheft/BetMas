@@ -122,7 +122,7 @@ analyze-string($dts,$regex)
 
 (:~ Given a dts URI resource part only (without domain) 
 parse with analyse string the urn to split it into its components. :)
-declare %private function dtslib:parseDTSid($dts){
+declare function dtslib:parseDTSid($dts){
 analyze-string($dts,$dtslib:regexID)
 };
 
@@ -429,6 +429,16 @@ declare %private function dtslib:fragment($file, $edition, $ref, $start, $end, $
                                 {$narrative}
                             </dts:fragment>
                        </TEI> )
+     else   if (starts-with($ref, 'ms') or starts-with($ref, 'p')) then (
+                    (:will match the content of any div with a corresp corresponding to a given msItem, if any:)
+    
+      let $msCorr := $text//t:div[ends-with(@corresp, $ref)]
+            return
+                        <TEI xmlns="http://www.tei-c.org/ns/1.0" >
+                            <dts:fragment xmlns:dts="https://w3id.org/dts/api#">
+                                {$msCorr}
+                            </dts:fragment>
+                       </TEI> )     
 (:otherwise go for a passage in the standard structure:)
  else (
                     let $path := dtslib:selectorRef(1, $text,$ref,'no')
@@ -619,7 +629,15 @@ month1.day30.NAR0069Gabreel ((@subtype,@n).(@subtype,@n).(@corresp))
  :)
 let $parseRef := analyze-string($ref, 
                '(NAR[0-9A-Za-z]+|((\d+[r|v])([a-z]?)(\[\w+\])?(\.)?(\d+)?)|([A-Za-z]+)?([0-9]+))(\.)?')
-let $refs := for $m at $p in $parseRef//s:match 
+let $refs := if(matches($ref, 'ms_') or matches($ref, 'p\d+_') ) then
+<ref type='corresp'>{$ref}</ref>
+else if (not($parseRef//s:match))
+then for $m at $p in $parseRef//s:non-match
+return <ref type='subtypeNorXMLid'  l="{$p}">
+                                           <option type="xmlid">{$m/text()}</option>
+                                        </ref>
+else
+for $m at $p in $parseRef//s:match 
                     let $t := $m/s:group[@nr=1]//text()
                     return
                      if(matches($m, '\d+[r|v][a-z]?(\d+)?')) 
@@ -657,21 +675,23 @@ let $this := normalize-space($refname)
 let $ancestors := for $a in $n/ancestor::t:div[@xml:id or @n or @corresp][ancestor::t:div[@type]]
 return dtslib:rn($a)
 let $all := ($ancestors , $this)
-return if( $n/name()='pb' or $n/name()='cb' or $n/name()='lb') then $this else string-join($all,'.')
+return if(starts-with($this, 'ms_') or  $n/name()='pb' or $n/name()='cb' or $n/name()='lb') then $this else string-join($all,'.')
 };
 
 (:~  called by dtslib:refname to format a single reference :)
 declare function dtslib:rn($n){
-  if ($n/name()='lb') then 
+  if ($n/self::t:lb) then 
          (string($n/preceding::t:pb[@n][1]/@n)||string($n/preceding::t:cb[@n][1]/@n)||string($n/@n)) 
- else if ($n/name()='cb') then 
+ else if ($n/self::t:cb) then 
          (string($n/preceding::t:pb[@n][1]/@n)||string($n/@n)) 
- else if ($n/name()='pb' and $n/@corresp) then 
+ else if ($n/self::t:pb and $n/@corresp) then 
          (string($n/@n) || '[' ||substring-after($n/@corresp, '#')||']') 
+   else if (matches($n/@corresp, '#[mp]')) then substring-after($n/@corresp, '#')
     else if($n/@n) then string($n/@n)
     else if($n/@xml:id) then string($n/@xml:id)
     else if($n/@subtype) then string($n/@subtype)
     else 'tei:' ||$n/name() ||'['|| $n/position() || ']'
+    
     };
         
 (:~  called by dtslib:pas to select the title of a passage:)
@@ -778,6 +798,8 @@ first level/part of a ref will point to level 2:)
 (:  this path will be ok to look for id or n, but will fail for composed refs, i.e. where the ref
 is built from pb and cb or from subtype and n. :)
  let $partpath := (switch($ty)
+ 
+case 'corresp' return "/t:div[ends-with(@corresp,'"||$r/text()||"')]"
                                 case 'nar' return "/t:div[@corresp='"||$r/text()||"']"
                                 case 'n' return "/(t:div|t:lb|t:l)[@n='"||$r/text()||"']"
                                 case 'subtype' return "/t:div[@subtype='"||$r/text()||"']"
