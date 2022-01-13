@@ -3695,7 +3695,8 @@ declare function viewItem:div($node as element(t:div)) {
                         let $text := string($node/ancestor::t:TEI/@xml:id)
                         return
                             if ($node/child::t:div[@type = 'textpart']) then
-                                viewItem:titletemplate($node, $text)
+                                 (viewItem:titletemplate($node, $text),
+                                viewItem:TEI2HTML($node/node()))
                             else
                                 (<div
                                     class="{
@@ -3987,7 +3988,7 @@ declare function viewItem:TEI2HTML($nodes) {
                 return
                     viewItem:acquisition($node)
             case element(t:add)
-                return 
+                return
                     viewItem:add($node)
             case element(t:additions)
                 return
@@ -4056,7 +4057,7 @@ declare function viewItem:TEI2HTML($nodes) {
                 return
                     viewItem:decoDesc($node)
             case element(t:del)
-                return 
+                return
                     viewItem:del($node)
             case element(t:desc)
                 return
@@ -4068,7 +4069,7 @@ declare function viewItem:TEI2HTML($nodes) {
                 return
                     viewItem:ex($node)
             case element(t:explicit)
-                return 
+                return
                     viewItem:explicit($node)
             case element(t:facsimile)
                 return
@@ -4101,7 +4102,7 @@ declare function viewItem:TEI2HTML($nodes) {
                 return
                     viewItem:handShift($node)
             case element(t:hi)
-                return 
+                return
                     viewItem:hi($node)
             case element(t:history)
                 return
@@ -4110,7 +4111,7 @@ declare function viewItem:TEI2HTML($nodes) {
                 return
                     viewItem:idno($node)
             case element(t:incipit)
-                return 
+                return
                     viewItem:incipit($node)
             case element(t:item)
                 return
@@ -4128,13 +4129,13 @@ declare function viewItem:TEI2HTML($nodes) {
                 return
                     viewItem:label($node)
             case element(t:lb)
-                return 
+                return
                     viewItem:lb($node)
             case element(t:lg)
                 return
                     viewItem:lg($node)
             case element(t:locus)
-                return 
+                return
                     viewItem:locus($node)
             case element(t:measure)
                 return
