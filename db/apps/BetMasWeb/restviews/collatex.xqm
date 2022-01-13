@@ -11,7 +11,7 @@ import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///
 import module namespace nav = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/nav" at "xmldb:exist:///db/apps/BetMasWeb/modules/nav.xqm";
 import module namespace scriptlinks = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/scriptlinks" at "xmldb:exist:///db/apps/BetMasWeb/modules/scriptlinks.xqm";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
-import module namespace dts="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/dts" at "xmldb:exist:///db/apps/BetMasWeb/modules/dts.xqm";
+import module namespace dtslib="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/dtslib" at "xmldb:exist:///db/apps/BetMasWeb/modules/dtslib.xqm";
 import module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/error" at "xmldb:exist:///db/apps/BetMasWeb/modules/error.xqm";
 import module namespace console="http://exist-db.org/xquery/console";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
@@ -24,12 +24,13 @@ declare namespace test="http://exist-db.org/xquery/xqsuite";
 
 declare variable $collatex:meta := <meta  xmlns="http://www.w3.org/1999/xhtml" name="description" content="Collation Interface using Collatex https://collatex.net/"/>;
 
+declare variable $collatex:expanded := collection('/db/apps/expanded') ;
 
 (:~ given a series of dts urn of witness passages, produces the json required for a request to collatex and posts it :) 
 declare
 %rest:POST
 %rest:GET
-%rest:path("/BetMasWeb/api/collatex")
+%rest:path("/api/collatex")
 %rest:query-param("dts", "{$dts}", "")
 %rest:query-param("nU", "{$nU}", "")
 %rest:query-param("format", "{$format}", "tei+xml")
@@ -44,7 +45,7 @@ then (<info>please provide at least 2 dts URIs separated with comma</info>)  els
   
                                          
    let $body :=   if ($nU !='') then collatex:getnarrUnitWittnesses($nU) else collatex:getCollatexBody($urns)
-(:   let $test0 := console:log($body):)
+   let $test0 := console:log($body)
      let $req :=
         <http:request
         http-version="1.1"
@@ -113,7 +114,7 @@ return
         <div id="content" class="w3-container w3-margin w3-padding-64">
         <div class="w3-container">
         <div class="w3-quarter">
-        <p>Here you can collate transcriptions of manuscripts using Collatex <a href="https://collatex.net/">https://collatex.net/</a>) from our server installation.</p>
+        <p>In this page you can collate transcriptions of manuscripts using Collatex <a href="https://collatex.net/">https://collatex.net/</a>) from our server installation.</p>
         <p>You cannot enter your own text, but you can collate any text which is in the database. To add your transcription, see the guidelines <a href="/Guidelines/?id=howto">here</a>.</p>
             <p>In the form below you have to provide the two DTS URNs of the passages you want to compare, then hit the collate button and you will get a visualization of the TEI apparatus output from Collatex.</p>
             <p>The format of your URNs has to be the following</p>
@@ -174,31 +175,32 @@ return
 
 (:~ Produces as string a json object which contains the id of the manuscript witnesses selected and the text passege as of the urn  which can be used to build the body of a post request to collatex:)
 declare function collatex:getCollatexWitnessText($dtsURN){
-let $parsedURN := dts:parseDTSid($dtsURN)
-let $id := $parsedURN//s:group[@nr eq 1]/text()
-let $edition := $parsedURN//s:group[@nr eq 2]
+let $parsedURN := dtslib:parseDTSid(replace($dtsURN, 'https://betamasaheft.eu/', ''))
+(:let $test := console:log($parsedURN):)
+let $id := $parsedURN//s:group[@nr = 1]/text()
+let $edition := $parsedURN//s:group[@nr = 2]
 let $file := collection($config:data-root)/id($id)[self::t:TEI]
-let $ref := string-join($parsedURN//s:group[@nr eq 6]//text())
+let $ref := string-join($parsedURN//s:group[@nr = 6]//text())
 let $splitref := if(contains($ref, '-')) then tokenize($ref, '-') else $ref
 let $cleanref := for $r in $splitref return if(contains($r, '@')) then substring-before($r, '@') else $r
 let $delimiters := for $r in $splitref return if(contains($r, '@')) then substring-after($r, '@') else 'n/a'
-let $text := if($edition/node()) then dts:pickDivText($file, $edition)  else $file//t:div[@type eq 'edition']
+let $text := if($edition/node()) then dtslib:pickDivText($file, $edition)  else $file//t:div[@type = 'edition']
 let $passage := if(count($cleanref) = 2) 
-                            then dts:docs(('https://betamasaheft.eu/'||$id||$edition), '', $cleanref[1], $cleanref[2], 'application/tei+xml')
-                            else dts:docs(('https://betamasaheft.eu/'||$id||$edition), $cleanref, '', '', 'application/tei+xml')
+                            then dtslib:docs(('https://betamasaheft.eu/'||$id||$edition), '', $cleanref[1], $cleanref[2], 'application/tei+xml')
+                            else dtslib:docs(('https://betamasaheft.eu/'||$id||$edition), $cleanref, '', '', 'application/tei+xml')
 
 let $cleantext := collatex:cleanforcollatex(string-join($passage[2]//text()))
 (: let $t := console:log($passage):)
 let $tokenizetext := <ts>{for $t in tokenize($cleantext, '\s+') return <t>{$t}</t>}</ts>
-  let $t := console:log($tokenizetext)
+(:  let $t := console:log($tokenizetext):)
 let $l1 := if(count($delimiters) = 1) then $delimiters else $delimiters[1]
-  let $t := console:log($l1)
+(:  let $t := console:log($l1):)
 let $l2 := if(count($delimiters) = 2) then $delimiters[2] else 'n/a'
 (:let $t := console:log($l2):)
 let $firstlimit := if($l1='n/a') then 1 else (count($tokenizetext//*:t[contains(., $l1)]/preceding-sibling::*:t) +1 )
 let $secondlimit := if($l2='n/a') then count($tokenizetext//*:t) 
                                    else (count($tokenizetext//*:t[contains(., $l2)]/preceding-sibling::*:t) + 1)
-      let $t := console:log(($firstlimit||'-'||$secondlimit))
+(:      let $t := console:log(($firstlimit||'-'||$secondlimit)):)
 let $delimited:= for $r in $firstlimit to $secondlimit return $tokenizetext//*:t[$r]
 let $finalpassage := string-join($delimited, ' ')
 return '{"id" : "' ||$id ||'", "content" : "'||$finalpassage||'"}' 
@@ -216,7 +218,7 @@ let $matchingmss := for $ms in $urns
             
 (:~ Calls for each witness of a specified narrative builds the array which can be passed as body of the POST request to collatex:)
 declare function collatex:getnarrUnitWittnesses($nU){ 
-let $matchingmss := for $ms in ($collatex:expanded//t:*[ends-with(@corresp, $nU)], $apprest:collection-rootMS//t:*[@corresp = $nU])
+let $matchingmss := for $ms in ($collatex:expanded//t:div[ends-with(@corresp, $nU)], $collatex:expanded//t:div[@corresp = $nU])
                                            let $id := string($ms/ancestor::t:TEI/@xml:id)
                                            group by $ID := $id
                                        return 
