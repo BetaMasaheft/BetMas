@@ -4,9 +4,7 @@ module namespace viewItem = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/v
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
 import module namespace exptit = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/exptit" at "xmldb:exist:///db/apps/BetMasWeb/modules/exptit.xqm";
 import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/switch2" at "xmldb:exist:///db/apps/BetMasWeb/modules/switch2.xqm";
-
-import module namespace console="http://exist-db.org/xquery/console";
-
+import module namespace http = "http://expath.org/ns/http-client";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace b = "betmas.biblio";
@@ -954,6 +952,15 @@ declare %private function viewItem:bibliographyHeader($listBibl) {
                 }{viewItem:biblioHeader($listBibl)}</h4>
 };
 
+declare %private function viewItem:zot($c) {
+    let $xml-url-formattedBiblio := concat('https://api.zotero.org/groups/358366/items?tag=', $c, '&amp;format=bib&amp;locale=en-GB&amp;style=hiob-ludolf-centre-for-ethiopian-studies-with-url-doi&amp;linkwrap=1')
+   let $data := try{let $request := <http:request href="{xs:anyURI($xml-url-formattedBiblio)}" method="GET"/>
+                               return http:send-request($request)[2]} catch *{$err:description}
+    let $datawithlink := $data//*:div[@class = 'csl-entry']
+    return
+        $datawithlink
+};
+
 declare %private function viewItem:bibl($node, $t) {
     <div
         class="w3-row">
@@ -964,7 +971,9 @@ declare %private function viewItem:bibl($node, $t) {
                 class="Zotero Zotero-full"
                 data-value="{$t}"
                 data-type="{$node/t:seg/@type}">
-                {$viewItem:bibliography//b:entry[@id = $t]/b:reference/*:div/node()}
+                {let $bib := $viewItem:bibliography//b:entry[@id = $t]/b:reference/*:div/node()
+                return if(count($bib) ge 1 ) then $bib else viewItem:zot($t)
+                }
                 {
                     let $crs := for $cr in $node/t:citedRange
                     return
@@ -1899,12 +1908,11 @@ declare %private function viewItem:layoutDesc($node) {
                                         
                                         let $regex := '(([A-Z\d\-]+)/([A-Z\d\-]+)/([A-Z\d\-]+)/([A-Z\d\-]+))'
                                         let $analyze := analyze-string($ruling, $regex)
-                                        let $t := console:log($analyze)
                                         for $m in $analyze/node()
                                         return
                                             if ($m/name() = 'match') then
-                                              let $muzerelle := 'http://palaeographia.org/muzerelle/regGraph2.php?F='
-                                                let $formula := $m/s:group[@nr = '1']//text()
+                                                let $muzerelle := 'http://palaeographia.org/muzerelle/regGraph2.php?F='
+                                                let $formula := $m/s:group[@nr = '1']/text()
                                                 return
                                                     <a
                                                         href="{concat($muzerelle, string-join($formula))}"
@@ -2075,7 +2083,7 @@ declare %private function viewItem:layout($node) {
         <h4>Layout note {$node/position()}
             {
                 if ($node/t:locus) then
-                  (  '(' , viewItem:TEI2HTML($node/t:locus), ')' )
+                    (  '(' , viewItem:TEI2HTML($node/t:locus), ')' )
                 else
                     ()
             }</h4>
@@ -3694,18 +3702,18 @@ declare function viewItem:div($node as element(t:div)) {
                         if (not($node/descendant::t:pb) and not($node/parent::t:div[@type = 'textpart'])) then
                             viewItem:TEI2HTML($node/preceding::t:pb[1])
                         else
-                           ()
+                            ()
                     }
                     {
                         let $text := string($node/ancestor::t:TEI/@xml:id)
                         return
                             if ($node/child::t:div[@type = 'textpart']) then
-                                (viewItem:titletemplate($node, $text),
+                                 (viewItem:titletemplate($node, $text),
 (:                                if the div has its own contant, print that, not that of nested divs:)
                                 if($node/child::t:ab) then viewItem:TEI2HTML($node/node()[not(self::t:div)])
 (:                                otherways look at first order of nested divs which do not have further nested divs to came back here :)
                                 else viewItem:TEI2HTML($node/node()[not(self::t:div[t:div])])
-                                )
+                             )
                             else
                                 (<div
                                     class="{
@@ -3733,7 +3741,6 @@ declare function viewItem:div($node as element(t:div)) {
                                         else
                                             attribute class {'w3-container w3-padding chapterText'}
                                     }
-                                    
                                     {viewItem:TEI2HTML($node/node()[not(self::t:label)])}
                                 </div>,
                                 if ($node/t:ab//t:app) then
@@ -3998,7 +4005,7 @@ declare function viewItem:TEI2HTML($nodes) {
                 return
                     viewItem:acquisition($node)
             case element(t:add)
-                return 
+                return
                     viewItem:add($node)
             case element(t:additions)
                 return
@@ -4067,7 +4074,7 @@ declare function viewItem:TEI2HTML($nodes) {
                 return
                     viewItem:decoDesc($node)
             case element(t:del)
-                return 
+                return
                     viewItem:del($node)
             case element(t:desc)
                 return
@@ -4079,7 +4086,7 @@ declare function viewItem:TEI2HTML($nodes) {
                 return
                     viewItem:ex($node)
             case element(t:explicit)
-                return 
+                return
                     viewItem:explicit($node)
             case element(t:facsimile)
                 return
@@ -4112,7 +4119,7 @@ declare function viewItem:TEI2HTML($nodes) {
                 return
                     viewItem:handShift($node)
             case element(t:hi)
-                return 
+                return
                     viewItem:hi($node)
             case element(t:history)
                 return
@@ -4121,15 +4128,12 @@ declare function viewItem:TEI2HTML($nodes) {
                 return
                     viewItem:idno($node)
             case element(t:incipit)
-                return 
+                return
                     viewItem:incipit($node)
             case element(t:item)
                 return
                     viewItem:item($node)
-            case element(t:layoutDesc)
-                return
-                    viewItem:layoutDesc($node)
-                    case element(t:lem)
+            case element(t:lem)
                 return
                     viewItem:lem($node)
             case element(t:list)
@@ -4142,13 +4146,13 @@ declare function viewItem:TEI2HTML($nodes) {
                 return
                     viewItem:label($node)
             case element(t:lb)
-                return 
+                return
                     viewItem:lb($node)
             case element(t:lg)
                 return
                     viewItem:lg($node)
             case element(t:locus)
-                return 
+                return
                     viewItem:locus($node)
             case element(t:measure)
                 return
@@ -5105,7 +5109,8 @@ declare %private function viewItem:manuscript($item) {
 };
 
 declare %private function viewItem:divofperson($item, $element) {
-    let $this := $item/t:*[name() = $element]
+let $path := '$item//t:person/t:'||$element
+    let $this := util:eval($path)
     return
         if (count($this) ge 1) then
             <div
@@ -5200,7 +5205,7 @@ declare %private function viewItem:manuscriptStructure($msDesc) {
         {viewItem:divofmanuscriptpath($msDesc, '/t:physDesc//t:objectDesc/t:supportDesc', 'dimensions')}
         {viewItem:divofmanuscriptpath($msDesc, '/t:physDesc//t:bindingDesc', 'binding')}
         {viewItem:divofmanuscriptpath($msDesc, '/t:physDesc//t:sealDesc', 'seals')}
-        {viewItem:divofmanuscriptpath($msDesc, '/t:physDesc//t:objectDesc/t:layoutDesc', 'layout') (:dimensions again! :)}
+        {viewItem:divofmanuscriptpath($msDesc, '/t:physDesc//t:objectDesc/t:layoutDesc', 'dimensions') (:dimensions again! :)}
         {viewItem:divofmanuscriptpath($msDesc, '/t:physDesc/t:handDesc', 'hands')}
         {
             if ($msDesc/ancestor::t:TEI//t:persName[@role])
@@ -5531,7 +5536,7 @@ declare function viewItem:dates($date) {
     let $formatortext := if (count($date/node()) gt 1) then
         viewItem:TEI2HTML($date/node()) 
     else if($date/text()) then $date/text() 
-     else
+        else
         $dates
     return
         ($formatortext, $evidence, $cert, $resp)
