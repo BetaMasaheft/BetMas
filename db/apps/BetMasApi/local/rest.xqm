@@ -50,8 +50,115 @@ declare variable $api:response400 := $config:response400;
         
 declare variable $api:response400XML := $config:response400XML;
 
+declare %private function api:namedEntityTitleNoLink($entity) {
+let $id := replace($entity/@ref, 'https://betamasaheft.eu/', '')
+return
+ (concat(substring(string-join($entity//text()), 1, 30), '...'),
+    (' (' ||  'CAe ' || substring($id, 4, 4) || (if (contains($id, '#')) then
+            (' ' || substring-after($id, '#')) || ')' else ())|| ' '),
+    if ($entity/@evidence) then
+        concat(' (', $entity/@evidence, ')')
+    else
+        (), ' ',
+    if ($entity/@cert = 'low') then
+        '?'
+    else
+        (),
+    ' / '
+    )
+};
 
-       
+declare %private function api:msItem($mainID, $msItem) {
+    let $id := string($msItem/@xml:id)
+    let $msItemsCount := count($msItem/ancestor::t:TEI//t:msItem)
+    let $trimid := if ($msItem/parent::t:msContents) then
+        concat(replace($id, '\.', '-'), 'N', $msItem/position())
+    else
+        replace($id, '\.', '-')
+    return
+        <div
+            class="w3-container msItem"
+            resource="https://betamasaheft.eu/{$mainID}/msitem/{$id}"
+            typeof="https://betamasaheft.eu/msitem https://w3id.org/sdc/ontology#UniCont"
+            id="{$id}">
+            <button
+                style="max-width:100%"
+                onclick="openAccordion('item{$trimid}')"
+                class="w3-button w3-gray contentItem "
+                resource="https://betamasaheft.eu/{$mainID}/msitem/{$id}">
+                {api:namedEntityTitleNoLink($msItem/t:title)} Item {$id}
+                {
+                    if ($msItem/t:msItem) then
+                        <span
+                            class="w3-badge w3-margin-left"
+                            property="http://www.cidoc-crm.org/cidoc-crm/P57_has_number_of_parts"
+                            about="https://betamasaheft.eu/{$mainID}/msitem/{$id}">
+                            {count($msItem/t:msItem)}
+                        </span>
+                    else
+                        ()
+                }
+            </button>
+            <div
+                id="item{$trimid}"
+                class="w3-hide msItemContent">
+                <div
+                    class="w3-container">
+                    <hr
+                        class="msItems"
+                        align="left"/>
+                    {
+                        let $anchor := concat('#', $id)
+                        return
+                            if ($msItem//ancestor::t:TEI//t:div[@corresp = $anchor])
+                            then
+                                let $number := if ($msItem/ancestor::t:TEI//t:div[@corresp = $anchor]/@n) then
+                                    $msItem/ancestor::t:TEI//t:div[@corresp = $anchor]/@n
+                                else
+                                    1
+                                return
+                                    <a
+                                        role="button"
+                                        class="w3-button w3-gray w3-small"
+                                        href="/manuscripts/{$mainID}/text?per-page=1&amp;start={$number}">Transcription</a>
+                            else
+                                ()
+                    }
+                    { if ($msItem/t:msItem) then
+                        (
+                        viewItem:TEI2HTML($msItem/node()[not(name()='msItem')])
+                        ,
+                        for $m in $msItem/t:msItem
+                        let $innerMsItem :=  api:msItem($mainID, $m)
+                         return
+                            <div
+                                class="w3-container"
+                                id="contentItem{$trimid}"
+                                rel="http://purl.org/dc/terms/hasPart">{ 
+                               $innerMsItem
+                                }</div>
+                                )
+                        else
+                            viewItem:TEI2HTML($msItem/node())
+                    }
+                </div>
+            </div>
+        </div>
+};       
+   
+
+declare 
+%rest:GET
+%rest:path("/api/loadmsItems/{$mainid}/{$msItem}")
+%output:method("json")
+function api:loadmsItems($mainid as xs:string, $msItem as xs:string*)
+{let $item:= collection($config:data-rootMS)/id($mainid)
+let $msItemID := replace($msItem, '-', '.')
+let $msItem := $item/id($msItemID)
+let $items := for $ms in $msItem/t:msItem return api:msItem($mainid, $ms)
+return map{'msitems':$items}
+
+};
    
 
 declare 

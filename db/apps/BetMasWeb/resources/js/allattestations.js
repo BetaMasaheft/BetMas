@@ -118,3 +118,16 @@ function lines(name) {
     var line = '<tr><td>' + link + '</td><td>' + typ + '</td></tr>'
     return line
 };
+
+/*<div><a class="w3-button msitemloader" data-mainid="ESqdq004" data-msitem="ms_i1-1-2">Click here to load the 3 contained in the current one.</a><div id="msitemloadcontainerms_i1-1-2"></div></div>*/
+$('.msitemloader').on('click', function () {
+    var mainid = $(this).data('mainid')
+    var msitemid = $(this).data('msitem')
+    var apicall = '/api/loadmsItems/' + mainid + '/' + msitemid
+    var mscontainer = '#msitemloadcontainer'+msitemid
+    console.log(mscontainer)
+    console.log($(mscontainer))
+    $.getJSON(apicall, function (data) {
+    $(mscontainer).append(data.msitems)
+    })
+    })

@@ -1756,7 +1756,10 @@ declare %private function viewItem:msItem($msItem) {
                     }
                     {
                     if ((count($msItem/ancestor::t:msItem) gt 1) and ($msItemsCount gt 100))
-                    then <div>There are {$msItemsCount} items in this description, to show this page we have to stop here.</div>
+                    then <div><a 
+                    class="w3-button msitemloader" 
+                    data-mainID="{$mainID}" 
+                    data-msItem="{replace($msItem/@xml:id, '\.', '-')}">Click here to load the {count($msItem/t:msItem)} items contained in the current one.</a><div id="msitemloadcontainer{replace($msItem/@xml:id, '\.', '-')}"/></div>
                     else   if ($msItem/t:msItem) then
                         (
                         viewItem:TEI2HTML($msItem/node()[not(name()='msItem')])
@@ -1912,7 +1915,7 @@ declare %private function viewItem:layoutDesc($node) {
                                         return
                                             if ($m/name() = 'match') then
                                                 let $muzerelle := 'http://palaeographia.org/muzerelle/regGraph2.php?F='
-                                                let $formula := $m/s:group[@nr = '1']/text()
+                                                let $formula := $m/s:group[@nr = '1']//text()
                                                 return
                                                     <a
                                                         href="{concat($muzerelle, string-join($formula))}"
@@ -4133,7 +4136,10 @@ declare function viewItem:TEI2HTML($nodes) {
             case element(t:item)
                 return
                     viewItem:item($node)
-            case element(t:lem)
+            case element(t:layoutDesc)
+                return
+                    viewItem:layoutDesc($node)
+                    case element(t:lem)
                 return
                     viewItem:lem($node)
             case element(t:list)
@@ -5205,7 +5211,7 @@ declare %private function viewItem:manuscriptStructure($msDesc) {
         {viewItem:divofmanuscriptpath($msDesc, '/t:physDesc//t:objectDesc/t:supportDesc', 'dimensions')}
         {viewItem:divofmanuscriptpath($msDesc, '/t:physDesc//t:bindingDesc', 'binding')}
         {viewItem:divofmanuscriptpath($msDesc, '/t:physDesc//t:sealDesc', 'seals')}
-        {viewItem:divofmanuscriptpath($msDesc, '/t:physDesc//t:objectDesc/t:layoutDesc', 'dimensions') (:dimensions again! :)}
+        {viewItem:divofmanuscriptpath($msDesc, '/t:physDesc//t:objectDesc/t:layoutDesc', 'layout') (:dimensions again! :)}
         {viewItem:divofmanuscriptpath($msDesc, '/t:physDesc/t:handDesc', 'hands')}
         {
             if ($msDesc/ancestor::t:TEI//t:persName[@role])
