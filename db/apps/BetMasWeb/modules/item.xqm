@@ -994,7 +994,7 @@ return
 
    <div class="w3-panel w3-margin w3-red w3-card-4" id="computedWitnesses">
    <h4  class="openInDialog">This unit, or parts of it, is contained in {$countDistMss} manuscript records {$count} time{if($count gt 1) then 's' else ()}</h4>
-<p><a target="_blank" href="/manuscripts/list?contents={$id}">See these {$countDistMss} manuscripts in the list view.</a> Scrolling in this box will also show you a summary of all the occurences.</p>
+<p><a target="_blank" href="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=mss&amp;titletext=https://betamasaheft.eu/{$id}">See these {$countDistMss} manuscripts in the list view.</a> Scrolling in this box will also show you a summary of all the occurences.</p>
     <div id="Samekeyword{$string}"  >
     {if(count($sameKey) gt 0) then
 (<p>As main content</p>,
