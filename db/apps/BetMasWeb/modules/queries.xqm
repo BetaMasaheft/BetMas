@@ -2910,7 +2910,7 @@ declare function q:resultswithmatch($text, $p) {
                         <span
                             class="w3-badge">{$count}</span>
                         in {
-                            for $match in config:distinct-values($expanded//exist:match/parent::t:*/name())
+                            for $match in distinct-values($expanded//exist:match/parent::t:*/name())
                             return
                                 (<code>{string($match)}</code>, <br/>)
                         }
@@ -3285,7 +3285,7 @@ declare function q:summaryWork($item, $id) {
                                 tokenize($rpass, ' ')
                             else
                                 $rpass
-                        for $author in config:distinct-values($attributions)
+                        for $author in distinct-values($attributions)
                         let $id := replace($author, 'https://betamasaheft.eu/', '')
                         return
                             <li><a
@@ -3301,7 +3301,8 @@ declare function q:summaryWork($item, $id) {
                 </ul>
             </div>
         else
-            (),
+            ()
+            ,
         if ($item//t:listWit/t:witness or $isVersion or $anotherlang) then
             <div
                 class="w3-container">
@@ -3325,7 +3326,7 @@ declare function q:summaryWork($item, $id) {
                         let $id := replace($parallel, 'https://betamasaheft.eu/', '')
                         return
                             <li><a
-                                    href="{$p}">{exptit:printTitleID($id)}</a></li>
+                                    href="{$p}">{$id}</a></li>
                     }
                 </ul>
             </div>
@@ -3335,7 +3336,7 @@ declare function q:summaryWork($item, $id) {
             <div
                 class="w3-container">
                 <h5>Abstract</h5>
-                {string-join($item//t:abstract//text()[not(ancestor::t:bibl)], ' ')}
+                {string:tei2string($item//t:abstract/node()[not(self::t:bibl)])}
             </div>
         else
             ()
