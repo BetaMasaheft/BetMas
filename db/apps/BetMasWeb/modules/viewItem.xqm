@@ -2612,19 +2612,19 @@ declare %private function viewItem:colophon($node as element(t:colophon)) {
 declare %private function viewItem:bindingDesc($node) {
     (<h3>Binding {viewItem:headercontext($node)}</h3>,
     <p
-        id='b1'>{viewItem:TEI2HTML($node/t:decoNote[@xml:id = 'b1'])}</p>,
-    for $b in $node//t:decoNote[@type][not(@type = 'Other')][not(@type = 'bindingMaterial')][not(@xml:id = 'b1')]
+        id='b1'>{viewItem:TEI2HTML($node/t:binding/t:decoNote[@xml:id = 'b1'])}</p>,
+    for $b in $node/t:binding/t:decoNote[@type][not(@type = 'Other')][not(@type = 'bindingMaterial')][not(@xml:id = 'b1')]
     return
         (<h4
-            id="{$b/@xmlid}">{
+            id="{$b/@xml:id}">{
                 if ($b/@type = 'SewingStations') then
                     'Sewing Stations'
                 else
                     $b/@type
             }</h4>,
-        viewItem:TEI2HTML($b/node()),
-        if ($node//t:decoNote[@type = 'Other']) then
-            (for $bo in $node//t:binding/t:decoNote[@type = 'Other']
+        viewItem:TEI2HTML($b/node())),
+        if ($node/t:binding/t:decoNote[@type = 'Other']) then
+            (for $bo in $node/t:binding/t:decoNote[@type = 'Other']
             return
                 (<h4
                     id="{$bo/@xml:id}">Binding decoration</h4>,
@@ -2634,7 +2634,7 @@ declare %private function viewItem:bindingDesc($node) {
         else
             (),
         if ($node//t:decoNote[@type = 'bindingMaterial']) then
-            (for $bo in $node/t:binding/t:decoNote[@type = 'Other']
+            (for $bo in $node/t:binding/t:decoNote[@type = 'bindingMaterial']
             return
                 (<h4
                     id="{$bo/@xml:id}">Binding material</h4>,
@@ -2659,7 +2659,6 @@ declare %private function viewItem:bindingDesc($node) {
         else
             ()
         )
-    )
 };
 
 declare %private function viewItem:revisionDesc($node) {
