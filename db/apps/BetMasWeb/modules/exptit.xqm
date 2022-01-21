@@ -99,7 +99,8 @@ function exptit:printTitleID($id as xs:string)
     else if ($id = '') then <span class="w3-tag w3-red">{ 'no id' }</span>
     (: if the id has a subid, than split it :) 
     else if (contains($id, '#')) then
-    (   let $mainID := substring-before($id, '#')
+    (   let $mainIDstart := substring-before($id, '#')
+        let $mainID := if(starts-with($mainIDstart, $config:baseURI)) then substring-after($mainIDstart, $config:baseURI) else $mainIDstart
         let $SUBid := substring-after($id, '#')
         let $node := $exptit:col//id($mainID)
         return

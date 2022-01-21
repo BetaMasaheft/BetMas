@@ -1693,7 +1693,7 @@ else (
 <span>
 <a class="itemtitle" data-value="{$title}" href="{$title}">{
 if($title = '') then <span class="w3-tag w3-red">{'no ref in title'}</span> 
-else try{exptit:printTitleID($title)} catch * {$title}}</a>
+else try{exptit:printTitle($title)} catch * {$title}}</a>
 {$placement}</span>
 )
  }
@@ -1721,7 +1721,7 @@ return if($t = $target-work) (:highlight the position of the currently selected 
         else if ($additem/t:title[not(@ref)]/text())
    then (normalize-space(string-join(string:tei2string($additem/t:title/node()))), $placement)
     (:normally print the title of the referred item:)
-else (   <span><a class="itemtitle" data-value="{$t}" href="{$t}">{if($t = '') then <span class="w3-tag w3-red">{'no ref in title'}</span> else try{exptit:printTitleID($t)} catch * {$t}}</a> {$placement}</span>)
+else (   <span><a class="itemtitle" data-value="{$t}" href="{$t}">{if($t = '') then <span class="w3-tag w3-red">{'no ref in title'}</span> else try{exptit:printTitle($t)} catch * {$t}}</a> {$placement}</span>)
  }
  </li>
  }
@@ -1792,7 +1792,7 @@ if($mss = '') then ()  else(
                                                                         {
                                                                                 if($title = '')
                                                                                 then <span class="w3-tag w3-red">{'no ref in title'}</span>
-                                                                                 else (try{exptit:printTitleID($title)} catch * {$title})
+                                                                                 else (try{exptit:printTitle($title)} catch * {$title})
                                                                         }
                                                                      </a>,
                                                                      $placement
@@ -1818,7 +1818,7 @@ return
 if ($additem/t:title[not(@ref)]/text())
    then (normalize-space(string-join(string:tei2string($additem/t:title/node()))), $placement)
     (:normally print the title of the referred item:)
-else (   <a class="itemtitle" data-value="{$t}" href="{$t}">{if($t = '') then <span class="w3-tag w3-red">{'no ref in title'}</span> else try{exptit:printTitleID($t)} catch * {$t}}</a>, $placement)
+else (   <a class="itemtitle" data-value="{$t}" href="{$t}">{if($t = '') then <span class="w3-tag w3-red">{'no ref in title'}</span> else try{exptit:printTitle($t)} catch * {$t}}</a>, $placement)
  }
  </li>
  }

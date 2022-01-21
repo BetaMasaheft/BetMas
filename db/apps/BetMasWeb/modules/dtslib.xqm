@@ -122,7 +122,7 @@ analyze-string($dts,$regex)
 
 (:~ Given a dts URI resource part only (without domain) 
 parse with analyse string the urn to split it into its components. :)
-declare %private function dtslib:parseDTSid($dts){
+declare function dtslib:parseDTSid($dts){
 analyze-string($dts,$dtslib:regexID)
 };
 
@@ -197,9 +197,9 @@ if($parsedURN//s:group[@nr=$p1] = '@')
 
 
 declare %private function dtslib:nodes($text, $path, $ref){
-let $test := util:log("info",$path)
+(:let $test := util:log("info",$text):)
 for $selector in util:eval($path)
-let $t2 := util:log("info",$selector)
+(:let $t2 := util:log("info",$selector):)
                         return 
                         if(matches($ref, '(\d+[r|v][a-z]?(\[\w+\])?|\d+[r|v]?[a-z]?(\[\w+\]))'))
                         then 
@@ -317,8 +317,6 @@ declare function dtslib:docs($id as xs:string*, $ref as xs:string*, $start, $end
 if ($id = '') then dtslib:redirectToCollections() 
 else
  let $parsedURN := dtslib:parseDTS($id)
- 
-(: let $t := console:log($parsedURN):)
  let $thisid := $parsedURN//s:group[@nr=3]/text()
  let $edition := $parsedURN//s:group[@nr=4]
  
@@ -369,7 +367,6 @@ redirect it to a parametrized query:)
   </http:response>
 </rest:response>
  else
-(: let $t2 := console:log($text):)
  let $doc := dtslib:fragment($file, $edition, $ref, $start, $end, $text)
                        
  return
@@ -410,12 +407,10 @@ string:tei2string($doc/node()[not(name()='teiHeader')]))
 };
 
 declare %private function dtslib:fragment($file, $edition, $ref, $start, $end, $text){
-let $t1 := util:log("info",$ref)
-return
 (: in case there is passage, then look for that place:)
   if ($edition/node() and $ref = '' and $start='') then 
-  let $t4 := console:log('edition')
-  return
+(:  let $t4 := console:log('edition')
+  return:)
   <TEI xmlns="http://www.tei-c.org/ns/1.0" >
         <dts:fragment xmlns:dts="https://w3id.org/dts/api#">
           {$text}
@@ -423,32 +418,32 @@ return
    </TEI>
   else if ($ref != '' ) then 
   (:fetch narrative unit passage:)
-        if (starts-with($ref, 'NAR') or starts-with($ref, 'https://betasamaheft.eu/NAR')) then (
-                    (:will match the content of any div with a corresp corresponding to that narrative unit, if any:)
+            if (starts-with($ref, 'NAR') or starts-with($ref, 'https://betasamaheft.eu/NAR')) then (
+                (:will match the content of any div with a corresp corresponding to that narrative unit, if any:)
     
-      let $narrative := $text//t:div[@corresp =$ref]
+      let $narrative := $text//t:div[ends-with(@corresp, $ref)]
             return
                         <TEI xmlns="http://www.tei-c.org/ns/1.0" >
                             <dts:fragment xmlns:dts="https://w3id.org/dts/api#">
                                 {$narrative}
                             </dts:fragment>
                        </TEI> )
-        else   if (matches($ref, 'ms_') or matches($ref, 'p\d+')) then (
+     else   if (matches($ref, 'ms_') or matches($ref, 'p\d+')) then (
                     (:will match the content of any div with a corresp corresponding to a given msItem, if any:)
-    let $t5 := console:log('ms')
+    
       let $msCorr := $text//t:div[ends-with(@corresp, $ref)]
             return
                         <TEI xmlns="http://www.tei-c.org/ns/1.0" >
                             <dts:fragment xmlns:dts="https://w3id.org/dts/api#">
                                 {$msCorr}
                             </dts:fragment>
-                       </TEI> )                
+                       </TEI> )     
 (:otherwise go for a passage in the standard structure:)
- else (let $t1 := util:log("info",$ref)
+ else (
                     let $path := dtslib:selectorRef(1, $text,$ref,'no')
-                    let $t := util:log("info",$path)
+(:                    let $t := util:log("info",$path):)
                         let $entirepart := dtslib:nodes($text, $path, $ref)
-                        let $t2:=util:log("info",$entirepart)
+(:                        let $t2:=util:log("info",$entirepart):)
                         return
 (:                        util:log("info", "breakpoint"):)
                         <TEI xmlns="http://www.tei-c.org/ns/1.0" >
@@ -633,20 +628,17 @@ month1.day30.NAR0069Gabreel ((@subtype,@n).(@subtype,@n).(@corresp))
  :)
 let $parseRef := analyze-string($ref, 
                '(NAR[0-9A-Za-z]+|((\d+[r|v])([a-z]?)(\[\w+\])?(\.)?(\d+)?)|([A-Za-z]+)?([0-9]+))(\.)?')
-               let $test := console:log($parseRef)
 let $refs := if(matches($ref, 'ms_') or matches($ref, 'p\d+_') ) then
 <ref type='corresp'>{$ref}</ref>
-
-else if (not($parseRef//s:match))
-then for $m at $p in $parseRef//s:non-match
-return if(matches($m, '\.')) then for $mp at $pp in tokenize($m, '\.')
+else if ($parseRef//s:non-match)
+then  (if(matches($ref, '\.')) then for $mp at $pp in tokenize($ref, '\.')
 return <ref type='subtypeNorXMLid'  l="{$pp}">
                                            <option type="xmlid">{$mp}</option>
                                         </ref>
                                         else
-<ref type='subtypeNorXMLid'  l="{$p}">
-                                           <option type="xmlid">{$m/text()}</option>
-                                        </ref>
+<ref type='subtypeNorXMLid'  l="1">
+                                           <option type="xmlid">{$ref/text()}</option>
+                                        </ref>)
 else
 for $m at $p in $parseRef//s:match 
                     let $t := $m/s:group[@nr=1]//text()
@@ -686,7 +678,7 @@ let $this := normalize-space($refname)
 let $ancestors := for $a in $n/ancestor::t:div[@xml:id or @n or @corresp][ancestor::t:div[@type]]
 return dtslib:rn($a)
 let $all := ($ancestors , $this)
-return if( starts-with($this, 'ms_') or $n/name()='pb' or $n/name()='cb' or $n/name()='lb') then $this else string-join($all,'.')
+return if(starts-with($this, 'ms_') or  $n/name()='pb' or $n/name()='cb' or $n/name()='lb') then $this else string-join($all,'.')
 };
 
 (:~  called by dtslib:refname to format a single reference :)
@@ -698,7 +690,7 @@ declare function dtslib:rn($n){
  else if ($n/self::t:pb and $n/@corresp) then 
          (string($n/@n) || '[' ||substring-after($n/@corresp, '#')||']') 
    else if (matches($n/@corresp, '#[mp]')) then substring-after($n/@corresp, '#')
-   else if($n/@n) then string($n/@n)
+    else if($n/@n) then string($n/@n)
     else if($n/@xml:id) then string($n/@xml:id)
     else if($n/@subtype) then string($n/@subtype)
     else 'tei:' ||$n/name() ||'['|| $n/position() || ']'
@@ -793,7 +785,7 @@ let $path := '$text' || $levs
 declare function dtslib:selectorRef($level, $text, $ref, $children){
 (:the children parameter is there because the selection is the same, but if selecting for references, then we want the children nodes, if selecting for nodes, we want the nodes and stop there:)
 let $refs := dtslib:parseRef($ref)
-let $t := console:log($refs)
+(:let $t := console:log($refs):)
 let $count := if ($level=1) then count($refs/*:ref) else $level
 (:returns one <ref> for each level of the ref separated by a dot :)
  let $levs := 
@@ -808,6 +800,7 @@ first level/part of a ref will point to level 2:)
 (:  this path will be ok to look for id or n, but will fail for composed refs, i.e. where the ref
 is built from pb and cb or from subtype and n. :)
  let $partpath := (switch($ty)
+ 
 case 'corresp' return "/t:div[ends-with(@corresp,'"||$r/text()||"')]"
 case 'nar' return "/t:div[@corresp='"||$r/text()||"']"
                                 case 'n' return "/(t:div|t:lb|t:l)[@n='"||$r/text()||"']"
@@ -856,11 +849,8 @@ it returns the possible children:)
 (:~  calls for all relevant nodes in a selection the builder for the passage node:)
 declare function dtslib:pasRef($level, $text, $ref, $fallback, $type, $manifest, $BMid){
 let $path := dtslib:selectorRef($level, $text, $ref, 'yes')
- let $t4 := console:log($path)
      for $n in util:eval($path)  
-(:      let $t5 := console:log($n):)
-      let $pas := dtslib:pas($n, $fallback, $type, $manifest, $BMid)
-      let $t6 := console:log($pas)
+     let $pas := dtslib:pas($n, $fallback, $type, $manifest, $BMid)
      return $pas
 };
 

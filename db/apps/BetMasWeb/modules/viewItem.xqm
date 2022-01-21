@@ -3743,7 +3743,7 @@ declare function viewItem:div($node as element(t:div)) {
                                         else
                                             attribute class {'w3-container w3-padding chapterText'}
                                     }
-                                    {viewItem:TEI2HTML($node/node()[not(self::t:label)])}
+                                    {(:if($node/t:ab) then viewItem:TEI2HTML($node/node()[not(self::t:label)]) else :) viewItem:TEI2HTML($node/node())}
                                 </div>,
                                 if ($node/t:ab//t:app) then
                                     <div
@@ -3839,8 +3839,8 @@ declare %private function viewItem:titletemplate($div, $text) {
                         else
                             (
                             <a
-                                href="/{$div/@corresp}">
-                                {exptit:printTitle($div/@corresp)}
+                                href="{$div/@corresp}">
+                               {exptit:printTitle(string($div/@corresp))}
                                 <span
                                     class="glyphicon glyphicon-share"/>
                             </a>
