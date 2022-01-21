@@ -142,8 +142,15 @@ let $firstcanvas :=
            (:vatican:)
                else if(contains(viewer:facsSwitch($m), 'digi.vat')) 
                then replace(substring-before(viewer:facsSwitch($m), '/manifest.json') || '/canvas/p0001', 'http:', 'https:')
-               (:BNF:)
-            else if ($this//t:repository/@ref = 'INS0303BNF') 
+            (:berlin
+            https://content.staatsbibliothek-berlin.de/dc/1751174670/manifest
+            https:\/\/content.staatsbibliothek-berlin.de\/dc\/1751174670-0001\/canvas
+            :)
+               else if(contains(viewer:facsSwitch($m), 'staatsbib')) 
+               then substring-before(viewer:facsSwitch($m), '/manifest') || '-0001/canvas'
+           
+           (:BNF:)
+            else if (contains($this//t:repository/@ref, 'INS0303BNF')) 
             then replace(viewer:facsSwitch($m), 'ark:', 'iiif/ark:') || '/canvas/f1'
 (:           ES, EMIP, Laurenziana, all the others :)
                 else 
@@ -256,7 +263,7 @@ let $manifests := for $m in $this//t:idno[@facs][@n]
                                   else  if(contains(viewer:facsSwitch($m), 'digi.vat')) 
                                                 then replace(substring-before(viewer:facsSwitch($m), '/manifest.json') || '/canvas/p0001', 'http:', 'https:')
                                           (:BNF:)
-                                             else if ($this//t:repository/@ref = 'INS0303BNF') 
+                                             else if (contains($this//t:repository/@ref, 'INS0303BNF')) 
                                                then replace(viewer:facsSwitch($m), 'ark:', 'iiif/ark:') || '/canvas/f1'
                                             (:  ES, EMIP, Laurenziana, all the others :)
                                              else 
@@ -374,7 +381,7 @@ return(:BNF
                                                 https://gallica.bnf.fr/ark:/12148/btv1b10087587w
                                                 https://gallica.bnf.fr/iiif/ark:/12148/btv1b10087587w/manifest.json
                                                 :)
-                                               if ($this//t:repository/@ref = 'INS0303BNF') 
+                                               if (contains($this//t:repository/@ref, 'INS0303BNF')) 
                                                   then (
                                                   replace(viewer:facsSwitch($m), 'ark:', 'iiif/ark:') || '/manifest.json'
                                                   ,
@@ -396,13 +403,13 @@ declare function viewer:location($this){
             if($this//t:collection = 'Ethio-SPaRe' or $this//t:collection = 'EMIP') 
             then $this//t:collection[1]  
             (:BNF:)
-            else if ($this//t:repository/@ref = 'INS0303BNF') 
+            else if (contains($this//t:repository/@ref, 'INS0303BNF')) 
             then 'BnF'
 (:            Laurenziana:)
-            else if ($this//t:repository/@ref = 'INS0339BML')
+            else if (contains($this//t:repository/@ref, 'INS0339BML'))
             then 'Biblioteca Medicea Laurenziana'
 (:           vatican :)
- else if ($this//t:repository/@ref = 'INS0339BML')
+ else if (contains($this//t:repository/@ref, 'INS0339BML'))
             then  'Biblioteca Apostolica Vaticana'
             else  string-join($this//t:idno, ', ')
 };
