@@ -637,7 +637,7 @@ return <ref type='subtypeNorXMLid'  l="{$pp}">
                                         </ref>
                                         else
 <ref type='subtypeNorXMLid'  l="1">
-                                           <option type="xmlid">{$ref/text()}</option>
+                                           <option type="xmlid">{$ref}</option>
                                         </ref>)
 else
 for $m at $p in $parseRef//s:match 
