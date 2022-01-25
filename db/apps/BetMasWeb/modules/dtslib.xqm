@@ -1086,7 +1086,7 @@ for $node in ($edition/t:div[@type eq 'textpart'], $edition/t:ab/t:l, $edition/t
  let $typ := if($node/@subtype) then string($node/@subtype) else if ($node/name() = 'l') then 'verse 'else if ($node/name() = 'lb') then 'line' else 'textpart'
  group by $T := $typ
 let $citType :=  map {
-                 "dtslib:citeType": $T
+                 "dts:citeType": $T
                  }
 let $citStr : =if($node/child::t:div) then let $subType := dtslib:nestedDivs($node/child::t:div) return map:put($citType, 'dtslib:citeStructure', $subType)
 else if($node/t:ab/t:l) then let $subType := dtslib:nestedDivs($node) return map:put($citType, 'dtslib:citeStructure', $subType)
@@ -1239,7 +1239,7 @@ if($doc//t:TEI/@type eq  'mss') then ()
                             
 declare %private function dtslib:distinctW($witnesses){
 for $w in config:distinct-values($witnesses) return 
-                            map { "fabio:isManifestationOf" : if(starts-with($w, 'http')) then $w else ($config:appUrl || "/" || $w),
+                            map { "fabio:hasManifestation" : if(starts-with($w, 'http')) then $w else ($config:appUrl || "/" || $w),
                                         "@id" : if(starts-with($w, 'http')) then $w else ("https://betamasaheft.eu/" || $w),
                                         "@type" : "lawd:AssembledWork",
                                         "dc:title": exptit:printTitleID($w)}
@@ -1279,13 +1279,13 @@ else let $counts := for $div in ($document//t:div[@type eq 'textpart'], $documen
 return max($counts)
 let $teirefdecl := if($doc/@type eq  'mss' and not($doc//t:objectDesc/@form ='Inscription')) then 
 [ map{
-                 "dtslib:citeType": "folio",
+                 "dts:citeType": "folio",
                     "dtslib:citeStructure": [
                        map {
-                            "dtslib:citeType": "page",
-                             "dtslib:citeStructure": [
+                            "dts:citeType": "page",
+                             "dts:citeStructure": [
                        map {
-                            "dtslib:citeType": "column"
+                            "dts:citeType": "column"
                         }
                   ]
              }
@@ -1351,13 +1351,13 @@ else let $counts := for $div in ($document//t:div[@type eq 'textpart'], $documen
 return max($counts)
 let $teirefdecl := if($doc/@type eq  'mss' and not($doc//t:objectDesc/@form ='Inscription')) then 
 [ map{
-                 "dtslib:citeType": "folio",
+                 "dts:citeType": "folio",
                     "dtslib:citeStructure": [
                        map {
-                            "dtslib:citeType": "page",
-                             "dtslib:citeStructure": [
+                            "dts:citeType": "page",
+                             "dts:citeStructure": [
                        map {
-                            "dtslib:citeType": "column"
+                            "dts:citeType": "column"
                         }
                   ]
              }
@@ -1450,13 +1450,13 @@ else let $counts := for $div in ($document//t:div[@type eq 'textpart'], $documen
 return max($counts)
 let $teirefdecl := if($doc/@type eq  'mss' and not($doc//t:objectDesc/@form ='Inscription')) then 
 [ map{
-                 "dtslib:citeType": "folio",
-                    "dtslib:citeStructure": [
+                 "dts:citeType": "folio",
+                    "dts:citeStructure": [
                        map {
-                            "dtslib:citeType": "page",
-                             "dtslib:citeStructure": [
+                            "dts:citeType": "page",
+                             "dts:citeStructure": [
                        map {
-                            "dtslib:citeType": "column"
+                            "dts:citeType": "column"
                         }
                   ]
              }
@@ -1523,13 +1523,13 @@ else let $counts := for $div in ($document//t:div[@type eq 'textpart'], $documen
 return max($counts)
 let $teirefdecl := if($doc/@type eq  'mss' and not($doc//t:objectDesc/@form ='Inscription')) then 
 [ map{
-                 "dtslib:citeType": "folio",
-                    "dtslib:citeStructure": [
+                 "dts:citeType": "folio",
+                    "dts:citeStructure": [
                        map {
-                            "dtslib:citeType": "page",
-                             "dtslib:citeStructure": [
+                            "dts:citeType": "page",
+                             "dts:citeStructure": [
                        map {
-                            "dtslib:citeType": "column"
+                            "dts:citeType": "column"
                         }
                   ]
              }
@@ -1924,10 +1924,10 @@ let $level := if (contains($r, '\.')) then string(count(tokenize($r, '\.'))) els
 let $cdepth := dtslib:citeDepth($closestreference/ancestor::t:div[@type eq 'edition'])
 let $ctype := dtslib:typename($closestreference, 'textpart')
 let $basesource := map{"type": "Resource",
-			 "dtslib:ref": $r,
-			 "dtslib:citeType": $ctype/text(),
-			 "dtslib:level": $level,
-                                            "dtslib:citeDepth": $cdepth,
+			 "dts:ref": $r,
+			 "dts:citeType": $ctype/text(),
+			 "dts:level": $level,
+                                            "dts:citeDepth": $cdepth,
 			 "id": $sourceID,
 			 "link" : ($sourceID ||$separator || $r)}
 let $source := map:merge(($dtslinks, $basesource))
