@@ -16,7 +16,7 @@ declare variable $exist:controller external;
 declare variable $exist:prefix external;
 declare variable $exist:root external;
 declare variable $domain := "org.exist.login";
-declare variable $taxonomy := doc(concat($config:data-rootA, '/taxonomy.xml'))//t:catDesc;
+declare variable $taxonomy := doc('/db/apps/lists/canonicaltaxonomy.xml')//t:category/@xml:id;
 (:  get what Nginx sends:)
 
 declare function local:get-uri() {
@@ -481,7 +481,7 @@ else
                                                                                                                 <dispatch
                                                                                                                     xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                                                     <forward
-                                                                                                                        url="/restxq/BetMasWeb/api/post/{$id}/tei"
+                                                                                                                        url="/{$id}.xml"
                                                                                                                         absolute="yes"/>
                                                                                                                 </dispatch>
                                                                                                             else
@@ -856,7 +856,8 @@ https://betamasaheft.eu/authority-files/angel/main
 :)
                                                                                                                                             else
                                                                                                                                                 if (matches($exist:resource, "^[^.\d]+$")) then
-                                                                                                                                                    
+                                                                                                                                                 (:   let $t := console:log($exist:resource)
+                                                                                                                                                    return:)
                                                                                                                                                     (:                                            if it actually points to authority files, go there:)
                                                                                                                                                     if (contains($exist:path, "/authority-files/")) then
                                                                                                                                                         if (contains(request:get-header('Accept'), 'rdf'))
@@ -1178,7 +1179,10 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                                                                                         </dispatch>
                                                                                                                                                                                                     
                                                                                                                                                                                                     else
-                                                                                                                                                                                                        if ($taxonomy = $exist:resource) then
+                                                                                                                                                                                                  (:  let $c := console:log($exist:resource)
+                                                                                                                                                                                                   let $c2 := console:log($taxonomy)
+                                                                                                                                                                                                    return
+                                        :)                                                                                                                                                                if ($taxonomy = $exist:resource) then
                                                                                                                                                                                                             <dispatch
                                                                                                                                                                                                                 xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                                                                                                                                                 <redirect
