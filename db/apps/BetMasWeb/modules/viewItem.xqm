@@ -794,7 +794,7 @@ declare %private function viewItem:worktitle($t) {
                         href="/{viewItem:URI2ID($t/@ref)}"
                         target="_blank">{$t/text()}</a>
                 else
-                    viewItem:TEI2HTML($t),
+                    viewItem:TEI2HTML($t/node()),
                 viewItem:sup($t),
                 if ($t/parent::t:titleStmt/t:title[@corresp]) then
                     (' (', viewItem:correspTit($t, $id), ')')
