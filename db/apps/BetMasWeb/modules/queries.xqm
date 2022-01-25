@@ -1108,7 +1108,7 @@ return
 
 declare function q:text($q, $params) {
     (:    let $test := util:log('info', $q:allopts):)
-    let $qscheck := q:querystring($q, $q:mode)
+    let $qscheck := if(matches($q, '([A-Z]{1,3}-\d{3})')) then q:querystring($q, 'phrase') else q:querystring($q, $q:mode)
     let $qs := if ($qscheck = '' or $qscheck = ' ') then
         ()
     else
@@ -2547,7 +2547,7 @@ if($q:searchType='clavis') then () else
                                                                                     class="w3-tag w3-red">{'no ref in title'}</span>
                                                                             else
                                                                                 try {
-                                                                                    exptit:printTitleID($title)
+                                                                                    exptit:printTitle($title)
                                                                                 } catch * {
                                                                                     $title
                                                                                 }
@@ -2598,7 +2598,7 @@ if($q:searchType='clavis') then () else
                                                                                         class="w3-tag w3-red">{'no ref in title'}</span>
                                                                                 else
                                                                                     try {
-                                                                                        exptit:printTitleID($t)
+                                                                                        exptit:printTitle($t)
                                                                                     } catch * {
                                                                                         $t
                                                                                     }
