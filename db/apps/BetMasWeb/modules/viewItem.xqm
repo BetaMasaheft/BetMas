@@ -1060,7 +1060,7 @@ declare %private function viewItem:EthioSpareFormatter($node) {
             return
                 string-join(distinct-values(($TEI//t:editor[@key = $resp]/text() | $TEI//t:respStmt[@xml:id = $resp]/t:name/text())), ', ')
     let $repository := $TEI//t:repository/text()
-    let $date := viewItem:dates($TEI//t:origDate)
+    let $date := for $d in $TEI//t:origDate return viewItem:dates($d)
     let $title := $TEI//t:titleStmt/t:title[1]/text()
     return
         (<a
