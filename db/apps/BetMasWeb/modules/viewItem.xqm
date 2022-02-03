@@ -4646,7 +4646,7 @@ declare %private function viewItem:person($item) {
                         else
                             ()
                     }
-                    {viewItem:relsinfoblock($item, $rels)}
+                    {viewItem:relsinfoblock($rels, $item)}
                     <button
                         class="w3-button w3-red w3-large"
                         id="showattestations"
@@ -4896,7 +4896,7 @@ declare %private function viewItem:place($item) {
                             </div>
                     }
                 </div>
-                {viewItem:relsinfoblock($item, $rels)}
+                {viewItem:relsinfoblock($rels, $item)}
                 {viewItem:divofplacepath($item, "//t:location[@type='relative']", 'Location', 2)}
                 {viewItem:divofplacepath($item, "//t:ab[@type = 'appellations'][child::*]", 'Appellations', 2)}
                 <h2>Foundation</h2>
