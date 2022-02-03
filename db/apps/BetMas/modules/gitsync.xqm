@@ -37,6 +37,8 @@ import module namespace expand = "https://www.betamasaheft.uni-hamburg.de/BetMas
 import module namespace updatefuseki = 'https://www.betamasaheft.uni-hamburg.de/BetMas/updatefuseki' at "xmldb:exist:///db/apps/BetMas/fuseki/updateFuseki.xqm";
 import module namespace gfb = "https://www.betamasaheft.uni-hamburg.de/BetMas/gfb" at "xmldb:exist:///db/apps/BetMas/modules/generateFormattedBibliography.xqm";
 import module namespace validation = "http://exist-db.org/xquery/validation";
+import module namespace console="http://exist-db.org/xquery/console";
+
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare option exist:serialize "method=xml media-type=text/xml indent=yes";
 
@@ -170,6 +172,7 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
         
         for $modified in $commits?1?modified?*
         let $file-path := concat($contents-url, $modified)
+        let $t := console:log('got here')
         let $gitToken := environment-variable('GITTOKEN')
         (:environment-variable('GIT_TOKEN'):)
         let $req :=
@@ -190,6 +193,7 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
         let $collection := xs:anyURI($data-collection)
         let $resource-path := substring-before($modified, $file-name)
         let $collection-uri := concat($collection, '/', $resource-path)
+        let $t := console:log($collection-uri)
         return
            ( try {
 (:                first update the mirror collection of the git repositories in BetMasData :)
@@ -378,12 +382,18 @@ return
 
 (:This function updates the collection BetMasData, which is the mirror of the repositories in Github it is called when adding and updating resources:)
 declare function gitsync:updateMirrorCol($collection-uri, $file-name, $file-data, $updateoradd){
+let $collection-uri := if(contains($collection-uri, 'expanded')) then replace($collection-uri, 'expanded', 'BetMasData') else $collection-uri
+let $xml := util:base64-decode($file-data)
+let $t := console:log($xml)
+return
    if (xmldb:collection-available($collection-uri)) 
                 then
                     <response
                         status="okay">
                         <message>{
-                        (xmldb:store($collection-uri, xmldb:encode-uri($file-name), xs:base64Binary($file-data)),
+                        (xmldb:store($collection-uri, xmldb:encode-uri($file-name), $xml),
+                        console:log(concat($collection-uri, $file-name)),
+                        console:log(doc(concat($collection-uri, $file-name))/t:TEI),
                         if($updateoradd = 'add') then 
                                 (sm:chmod(xs:anyURI(concat($collection-uri, '/', $file-name)), 'rwxrwxr-x'),
                                 sm:chgrp(xs:anyURI(concat($collection-uri, '/', $file-name)), 'Cataloguers'))
@@ -395,7 +405,7 @@ declare function gitsync:updateMirrorCol($collection-uri, $file-name, $file-data
                         status="okay">
                         <message>
                             {(expand:create-collections($collection-uri), 
-                            xmldb:store($collection-uri, xmldb:encode-uri($file-name), xs:base64Binary($file-data)),
+                            xmldb:store($collection-uri, xmldb:encode-uri($file-name), $xml),
                         if($updateoradd = 'add') then 
                                 (sm:chmod(xs:anyURI(concat($collection-uri, '/', $file-name)), 'rwxrwxr-x'),
                                 sm:chgrp(xs:anyURI(concat($collection-uri, '/', $file-name)), 'Cataloguers'))
@@ -461,10 +471,13 @@ return gfb:updateBib($storedTEI)
 : the function is called on update and add :)
 declare function gitsync:updateExpanded($collection-uri, $file-name){
 let $expanded-collection-uri := replace($collection-uri,'/BetMasData/', '/expanded/')
+let $collection-uri := if(contains($collection-uri, 'expanded')) then replace($collection-uri, 'expanded', 'BetMasData') else $collection-uri
 let $storedfilepath := $collection-uri || '/' || $file-name
 let $storedTEI := doc($storedfilepath)
+let $t1 := console:log($storedTEI)
 return if($storedTEI/t:TEI) then 
 let $expanded-file := expand:file($storedfilepath)
+let $t := console:log($expanded-file)
 return
                     if (xmldb:collection-available($expanded-collection-uri)) 
                 then
