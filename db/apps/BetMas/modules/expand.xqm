@@ -161,8 +161,10 @@ declare function expand:id($id) {
     (:   refactoring from post.xslt post:id :)
     if (starts-with($id, 'http')) then
         $id
+         else
+        if (matches($id, 'betmas:')) then $id
     else
-        if (contains($id, ':')) then
+        if (contains($id, ':') and not(contains($id, '.'))) then
             let $prefix := substring-before($id, ':')
             let $pdef := $expand:listPrefixDef//t:prefixDef[@ident = $prefix]
             return
