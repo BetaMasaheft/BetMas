@@ -153,7 +153,7 @@ return
 <div class="w3-bar-item  w3-tooltip">
 
 <a target="_blank" class="w3-button w3-padding-small w3-gray" 
-    href="https://github.com/BetaMasaheft/{replace(replace(base-uri($this), '/db/apps/BetMasData/', ''), 
+    href="https://github.com/BetaMasaheft/{replace(replace(base-uri($this), '/db/apps/expanded/', ''), 
     $collection, concat($collection, '/blob/master'))}">Edit</a>
     <span class="w3-text w3-tag itemoptiontooltip">
 Not sure how to do this? Have a look at the <a href="/Guidelines">Beta maṣāḥǝft Guidelines</a>!
