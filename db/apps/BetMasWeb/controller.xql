@@ -460,7 +460,7 @@ else
                                                                                                     <dispatch
                                                                                                         xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                                         <forward
-                                                                                                            url="/restxq/BetMasWeb/api/geoJson/places/{substring-before($exist:resource, '.json')}"
+                                                                                                            url="/restxq/api/geoJson/places/{substring-before($exist:resource, '.json')}"
                                                                                                             absolute="yes"
                                                                                                         >
                                                                                                         
