@@ -1559,9 +1559,9 @@ declare function q:showFacets($node as node()*, $model as map(*)) {
                 class="w3-container w3-center">
                 <div
                     class="w3-row w3-left-align">
-                    <button
+                     <button
                         type="submit"
-                        class="w3-button w3-block w3-left-align w3-red">refine search results <i
+                        class="w3-button w3-block w3-left-align w3-red addMore" title="first select filters then press">refine search results <i
                             class="fa fa-search"></i></button>
                     {
                         for $param in request:get-parameter-names()
@@ -1589,7 +1589,7 @@ declare function q:showFacets($node as node()*, $model as map(*)) {
                     class="w3-row w3-left-align">
                     <button
                         type="submit"
-                        class="w3-button w3-block w3-left-align w3-red">refine search results <i
+                        class="w3-button w3-block w3-left-align w3-red addMore" title="first select filters then press">refine search results <i
                             class="fa fa-search"></i></button>
                 </div>
             </form>
