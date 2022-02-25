@@ -181,3 +181,18 @@ div.msItem, div.subtextpart {
 .w3-dropdown-content {left: 0;
     right: 0;
     text-align: center;}
+    
+        
+.addMore{
+  border: none;
+  width: 32px;
+  height: 32px;
+  background-color: #eee;
+  transition: all ease-in-out 0.2s;
+  cursor: pointer;
+}
+.addMore:hover{
+  border: 1px solid #888;
+  background-color: #aca9a6;
+}
+
