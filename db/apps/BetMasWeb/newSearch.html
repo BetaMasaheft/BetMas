@@ -9,18 +9,18 @@
                         <span data-template="q:querytype"/>
                     </div>
                     <div class="w3-padding w3-half" id="querytypeselectexplain">
-                        <span id="textquery" class="w3-hide w3-tiny w3-padding w3-red w3-show">
+                        <span id="textquery" class="w3-hide w3-padding w3-red w3-show">
                                 You can run a simple search which will look in all text indexes. 
-                                This is the simplest search that we can offer. Check the options below the input box if you want to change the default settings.
+                                This is the simplest search that we can offer. Check the options below the input box if you want to change the default settings. <br/> <br/>Note that you can click on  <span class="w3-select w3-border"><i class="fa fa-plus"/></span>  and/or <span class="w3-select w3-border"><i class="fa fa-bars" aria-hidden="true"/></span> symbols under the search field for additional filters/facets and on <i class="fa fa-keyboard" aria-hidden="true"/> to activate the virtual keyboard.
                         </span>
-                        <span id="listquery" class="w3-hide w3-tiny w3-padding  w3-red">Here you can get a list of items given some parameters, like the entity type, without searching for a string. You can play with the filters to restrict the search and you can certainly combine these with a text search.</span>
-                        <span id="bmidquery" class="w3-hide w3-tiny w3-padding  w3-red">If you know the identifier (ID) of an item (LIT1234name, MS123abc, PRS12345name, etc.) you can paste it here, and you will get it in the results. if you know only a part, eg. LIT20... it will give you all those which match. 
+                        <span id="listquery" class="w3-hide w3-padding  w3-red">Here you can get a list of items given some parameters, like the entity type, without searching for a string. You can play with the filters to restrict the search and you can certainly combine these with a text search.</span>
+                        <span id="bmidquery" class="w3-hide w3-padding  w3-red">If you know the identifier (ID) of an item (LIT1234name, MS123abc, PRS12345name, etc.) you can paste it here, and you will get it in the results. if you know only a part, eg. LIT20... it will give you all those which match. 
                             To reach a given item with its ID, you can also append that to the base URL of the website, https://betamasaheft.eu/LIT1234name  and you will be redirected to the correct landing page.</span>
-                        <span id="clavisquery" class="w3-hide w3-tiny w3-padding w3-red">If you have at hand the Clavis Aethiopica number of a Textual Unit, e.g. CAe 1234, you can enter it here and the search will point you to that record.</span>
-                        <span id="otherclavisquery" class="w3-hide w3-tiny w3-padding w3-red">We record (unsystematically) corresponding identifiers from other Claves, like CAVT or CANT, here you can select which one you want to look for and search for records pointing to that.</span>
-                        <span id="placeSearchquery" class="w3-hide w3-tiny w3-padding w3-red">We record for each repository information on settlement, region and country. By searching for the identifier of a place the query will look at related places and check for other repositories which may be associated.</span>   
-                        <span id="xpathquery" class="w3-hide w3-tiny w3-padding w3-red">If you know how to write your XPath, and know the source TEI (available for each file, by appending .xml to the identifier of the record) you will be able to run that query against the db here. Not all possible paths are optimized.</span>
-                        <span id="sparqlquery" class="w3-hide w3-tiny w3-padding w3-red">Parallel to the XML, also an RDF triple store is maintained by the project. Here you get an interface to the SPARQL endpoint. You can add your SPARQL query and see the results available.</span>
+                        <span id="clavisquery" class="w3-hide w3-padding w3-red">If you have at hand the Clavis Aethiopica number of a Textual Unit, e.g. CAe 1234, you can enter it here and the search will point you to that record.</span>
+                        <span id="otherclavisquery" class="w3-hide w3-padding w3-red">We record (unsystematically) corresponding identifiers from other Claves, like CAVT or CANT, here you can select which one you want to look for and search for records pointing to that.</span>
+                        <span id="placeSearchquery" class="w3-hide w3-padding w3-red">We record for each repository information on settlement, region and country. By searching for the identifier of a place the query will look at related places and check for other repositories which may be associated.</span>   
+                        <span id="xpathquery" class="w3-hide w3-padding w3-red">If you know how to write your XPath, and know the source TEI (available for each file, by appending .xml to the identifier of the record) you will be able to run that query against the db here. Not all possible paths are optimized.</span>
+                        <span id="sparqlquery" class="w3-hide w3-padding w3-red">Parallel to the XML, also an RDF triple store is maintained by the project. Here you get an interface to the SPARQL endpoint. You can add your SPARQL query and see the results available.</span>
                         
                     </div>
                         
@@ -46,22 +46,22 @@
                     <div class="w3-padding">
                         <span data-template="q:queryinput"/>
                         <div id="explanationa" class="w3-half w3-red">
-                            <span id="querytypeexplain" class="w3-hide w3-tiny w3-padding">
+                            <span id="querytypeexplain" class="w3-hide w3-padding">
                                 In the big box above, you can search for text, below there are options and you can add filters. The results will include facets to help you drill down.
                                 But text is not all you can search for. In the top menu you can switch to other types of queries and searches which rely on different indexes and data formats.
                                </span>
-                            <span id="smartrank" class="w3-hide w3-tiny w3-padding">
+                            <span id="smartrank" class="w3-hide w3-padding">
                                 You can check this box to use 'smart' ranking, where <em>a higher score is assigned to hits in placeName, persName, title or to records with text or an occupation element.</em> This will make you wait a bit more.
                             </span>
-                            <span id="searchtype" class="w3-hide w3-tiny w3-padding">If running a text search, you can select the  type of text search. This determines how the single words which you enter are matched in the indexes
+                            <span id="searchtype" class="w3-hide w3-padding">If running a text search, you can select the  type of text search. This determines how the single words which you enter are matched in the indexes
                                 here </span>
-                            <span id="searchoperator" class="w3-hide w3-tiny w3-padding">By default the search will use OR as an operator, which means that if you search two words you will get hits which contain one OR the other. You may wish to use AND to get the matches which contain your first word AND your second word. If you want them in that particular order, consider using phrase mode from the search type.</span>
-                            <span id="explainfilters" class="w3-hide w3-tiny w3-padding">Click on this plus button to see a series of additional options for your search.</span>
-                            <span id="fieldsquery" class="w3-hide w3-tiny w3-padding">If you wish to search for a given word in the hands descriptions and another word in the decorations, here you can do that, using fields.</span>
-                            <span id="keyboardexplain" class="w3-hide w3-tiny w3-padding">This may help you enter characters which are not immediately present on your keyboard. Keep a letter pressed for additional forms. Use Shift and Alt for alternative keyboards. Instead of the pointer you can use your own keyboard with these values when active.</span>
-                            <span id="homophonesexplain" class="w3-hide w3-tiny w3-padding">Homophones are mechanically replaced for you, so that for example, if you search for one of 'ሀ', 'ሐ', 'ኀ', 'ሃ', 'ሓ', 'ኃ' we will search for all of them. 
+                            <span id="searchoperator" class="w3-hide w3-padding">By default the search will use OR as an operator, which means that if you search two words you will get hits which contain one OR the other. You may wish to use AND to get the matches which contain your first word AND your second word. If you want them in that particular order, consider using phrase mode from the search type.</span>
+                            <span id="explainfilters" class="w3-hide w3-padding">Click on this plus button to see a series of additional options for your search.</span>
+                            <span id="fieldsquery" class="w3-hide w3-padding">If you wish to search for a given word in the hands descriptions and another word in the decorations, here you can do that, using fields.</span>
+                            <span id="keyboardexplain" class="w3-hide w3-padding">This may help you enter characters which are not immediately present on your keyboard. Keep a letter pressed for additional forms. Use Shift and Alt for alternative keyboards. Instead of the pointer you can use your own keyboard with these values when active.</span>
+                            <span id="homophonesexplain" class="w3-hide w3-padding">Homophones are mechanically replaced for you, so that for example, if you search for one of 'ሀ', 'ሐ', 'ኀ', 'ሃ', 'ሓ', 'ኃ' we will search for all of them. 
                                 If you deselect this checkbox the list of homophones will not be considered and only the exact string you searched will be passed on. Homophones are not replaced for search strings longer than 10 characters and is not applied in all modes.</span>
-                            <span id="translitexplain" class="w3-hide w3-tiny w3-padding">If you entered a search string for a Gǝʿǝz string, either typing it in Fidal or in a transliteration format, we can try to convert it and search also the other form. If you entered ወልደ the search engine will look also for walda. If you entered walda also for ወልደ. This depends on the availability of the alternate form.
+                            <span id="translitexplain" class="w3-hide w3-padding">If you entered a search string for a Gǝʿǝz string, either typing it in Fidal or in a transliteration format, we can try to convert it and search also the other form. If you entered ወልደ the search engine will look also for walda. If you entered walda also for ወልደ. This depends on the availability of the alternate form.
                             </span>
                         </div>
                         <div class="w3-half  w3-right"> <div class="w3-bar w3-right">
@@ -100,7 +100,8 @@
                             </button>
 <!--                            add here button for additional filters-->
                         </div>
-                    </div></div>
+                    </div>
+                    </div>
                 </fieldset>
                 <fieldset id="sparqls" class="w3-container w3-hide" style="border:none;">
                     <div class="w3-padding">
@@ -192,6 +193,8 @@
                             <code class="w3-codespan">$config:collection-rootIn</code> for repositories; <code class="w3-codespan">$config:collection-rootA</code> for authority files.
                             If you want to search for Places and Repositories, you can use <code class="w3-codespan">$config:collection-rootPlIn</code>
                         </p>
+                        <p>Example: persons marked up in colophons: collection($config:data-rootMS)//t:colophon[t:persName]</p>
+                        <p>Example: manuscripts with at least 26 additions: collection($config:data-rootMS)//t:additions/t:list/t:item[@xml:id='a26']</p>
                     </div>
                 </fieldset>
                 <fieldset id="filters" class="w3-container" style="border:none;"/>
@@ -250,20 +253,25 @@
                             <div class="w3-rest w3-hide-small w3-small" id="mini">
                                 <div id="minibar" class="w3-bar-block w3-gray">
                             <button class="w3-bar-item w3-button" style="padding: 2px 8px;" onclick="showRes('results')">
-                                <span class="w3-tooltip">list <span class="w3-text"> default </span></span>
+                                <span class="w3-tooltip">list <span class="w3-text"> default </span>
+                                        </span>
                             </button>
                             <button class="w3-bar-item w3-button" style="padding: 2px 8px;" onclick="showRes('charts')">
-                                <span class="w3-tooltip">charts <span class="w3-text"> limited to manuscripts </span></span>
+                                <span class="w3-tooltip">charts <span class="w3-text"> limited to manuscripts </span>
+                                        </span>
                             </button>
                                     <button class="w3-bar-item w3-button" style="padding: 2px 8px;" onclick="showRes('geobrowser')">
-                                        <span class="w3-tooltip">map<span class="w3-text"> of witnesses limited to textual units</span></span>
+                                        <span class="w3-tooltip">map<span class="w3-text"> of witnesses limited to textual units</span>
+                                        </span>
                                     </button>
                                     
                                     <button class="w3-bar-item w3-button" style="padding: 2px 8px;" onclick="showRes('compare')">
-                                        <span class="w3-tooltip">compare <span class="w3-text"> limited to manuscripts </span></span>
+                                        <span class="w3-tooltip">compare <span class="w3-text"> limited to manuscripts </span>
+                                        </span>
                                     </button>
                                     <button class="w3-bar-item w3-button" style="padding: 2px 8px;">
-                                        <span class="w3-tooltip">Voyant <span class="w3-text"> limited to textual units and manuscripts </span></span>
+                                        <span class="w3-tooltip">Voyant <span class="w3-text"> limited to textual units and manuscripts </span>
+                                        </span>
                                     </button>
                         </div>
                             
