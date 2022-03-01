@@ -185,7 +185,7 @@
                 </fieldset>
                 <fieldset id="xpath" class="w3-container w3-hide" style="border:none;">
                     <div class="w3-padding"> 
-                        <p>Enter above your XPath 3.0 query to the data. 
+                        <p>Enter above your XPath 3.0 query to the data. (You can alternatively use the old <a href="https://betamasaheft.eu/xpath">XPath search page here</a>)
                             Please, use t: namespace for TEI elements. The starting point of any Xpath should 
                             be <code class="w3-codespan">$config:collection-root</code> if you are searching the entire dataset.</p>
                         <p>You can also use, as a cached and short form to point to collections the following variables:
@@ -194,8 +194,14 @@
                             <code class="w3-codespan">$config:collection-rootIn</code> for repositories; <code class="w3-codespan">$config:collection-rootA</code> for authority files.
                             If you want to search for Places and Repositories, you can use <code class="w3-codespan">$config:collection-rootPlIn</code>
                         </p>
-                        <p>Example: persons marked up in colophons: collection($config:data-rootMS)//t:colophon[t:persName]</p>
-                        <p>Example: manuscripts with at least 26 additions: collection($config:data-rootMS)//t:additions/t:list/t:item[@xml:id='a26']</p>
+                        <p class="w3-light-gray">Examples: <br/>
+                            Persons marked up in colophons: <span class="w3-text-red">$config:collection-rootMS//t:colophon[t:persName]</span><br/>
+                            Manuscripts with at least 26 additions: <span class="w3-text-red">$config:collection-rootMS//t:additions/t:list/t:item[@xml:id='a26']</span><br/>
+                            Manuscripts with a text marked up as Amharic: <span class="w3-text-red">$config:collection-rootMS//t:TEI[descendant::t:textLang[@mainLang='am' or @otherLangs='am']]</span><br/>
+                            Manuscripts with additions that contain something tagged Amharic: <span class="w3-text-red">$config:collection-rootMS//t:TEI[not(contains(@xml:id, 'IHA'))]//t:additions[descendant::t:*[@xml:lang='am']]</span><br/>
+                            Records with the title with the subtype inscriptio:  <span class="w3-text-red">$config:collection-root//t:title[contains(@subtype,'inscriptio')]</span><br/>
+                            Manuscripts that have at least 31 quires: <span class="w3-text-red">$config:collection-rootMS//t:collation/t:list[count(t:item) ge 31]</span><br/>
+                            Manuscripts where a roleName appears: <span class="w3-text-red">$config:collection-rootMS//t:roleName</span></p>
                     </div>
                 </fieldset>
                 <fieldset id="filters" class="w3-container" style="border:none;"/>
