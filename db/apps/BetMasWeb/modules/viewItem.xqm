@@ -1700,7 +1700,6 @@ declare %private function viewItem:reflink($ref) {
 declare %private function viewItem:msItem($msItem) {
     let $mainID := viewItem:mainID($msItem)
     let $id := string($msItem/@xml:id)
-    let $msItemsCount := count($msItem/ancestor::t:TEI//t:msItem)
     let $trimid := if ($msItem/parent::t:msContents) then
         concat(replace($id, '\.', '-'), 'N', $msItem/position())
     else
@@ -1755,25 +1754,11 @@ declare %private function viewItem:msItem($msItem) {
                                 ()
                     }
                     {
-                    if ((count($msItem/ancestor::t:msItem) gt 1) and ($msItemsCount gt 100))
-                    then <div><a 
-                    class="w3-button msitemloader" 
-                    data-mainID="{$mainID}" 
-                    data-msItem="{replace($msItem/@xml:id, '\.', '-')}">Click here to load the {count($msItem/t:msItem)} items contained in the current one.</a><div id="msitemloadcontainer{replace($msItem/@xml:id, '\.', '-')}"/></div>
-                    else   if ($msItem/t:msItem) then
-                        (
-                        viewItem:TEI2HTML($msItem/node()[not(name()='msItem')])
-                        ,
-                        for $m in $msItem/t:msItem
-                        let $innerMsItem :=  viewItem:msItem($m)
-                         return
+                        if ($msItem/t:msItem) then
                             <div
                                 class="w3-container"
                                 id="contentItem{$trimid}"
-                                rel="http://purl.org/dc/terms/hasPart">{ 
-                               $innerMsItem
-                                }</div>
-                                )
+                                rel="http://purl.org/dc/terms/hasPart">{viewItem:TEI2HTML($msItem/node())}</div>
                         else
                             viewItem:TEI2HTML($msItem/node())
                     }
@@ -2880,6 +2865,9 @@ declare %private function viewItem:incipit($node as element(t:incipit)) {
                 if ($node/@type = 'supplication') then
                     'Supplication'
                 else
+                 if ($node/@type = 'inscriptio') then
+                    'Inscriptio'
+                    else
                     'Incipit'
             } ({viewItem:fulllang($node/@xml:lang)}
             ):</b>
