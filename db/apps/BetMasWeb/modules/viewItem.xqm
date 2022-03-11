@@ -3256,7 +3256,7 @@ declare %private function viewItem:space($node as element(t:space)) {
         }
         {
             if ($node/@reason = 'rubrication') then
-                concat('(', $node/@quantity, ' ', $node/@unit, 'left for rubrication and never filled)')
+                concat('(', $node/@quantity, ' ', $node/@unit, ' left for rubrication and never filled)')
             else
                 ()
         }
@@ -3344,6 +3344,19 @@ declare %private function viewItem:del($node as element(t:del)) {
 
 
 declare %private function viewItem:supplied($node as element(t:supplied)) {
+    <span
+        class="w3-tooltip">
+        <span>
+            {
+                if ($node/@resp) then
+                    (attribute class {'CorrResp'},
+                    attribute data-value {$node/@resp}
+                    )
+                else
+                    ()
+            } 
+
+    {
     if ($node/@reason = 'undefined') then
         ('[', viewItem:TEI2HTML($node/node()), '(?)]')
     else
@@ -3354,6 +3367,9 @@ declare %private function viewItem:supplied($node as element(t:supplied)) {
                 ('&lt;', viewItem:TEI2HTML($node/node()), '&gt;')
             else
                 (string-join($node/@*, ' '))
+                } 
+     </span>
+    </span>
 };
 
 declare %private function viewItem:orig($node as element(t:orig)) {
@@ -3443,20 +3459,35 @@ declare %private function viewItem:gap($node as element(t:gap)) {
                         (for $q in 1 to $quantity
                         return
                             '+')
-                    else
+                   else
                         if ($node/@extent) then
-                            (for $q in 1 to $extent
+                        (
+                        if ($node/@extent="unknown") then ('[...]')
+                        else
+                            for $q in 1 to $extent
                             return
-                                '▧')
+                                '▧') 
                         else
                             ('[...]')
                     )
                 else
                     if ($node/@reason = 'omitted') then
+                        (
+                    if ($node/@quantity) then
+                        (for $q in 1 to $quantity
+                        return
+                            '.')
+                    else
                         ('. . . . .')
+                        )
                     else
                         if ($node/@reason = 'lost') then
-                            ('[ - ca. ', $quantity, ' ', string($node/@unit), ' - ]')
+                        (
+                          if ($node/@quantity) then                       
+                            concat('[c. ', $node/@quantity, ' ', $node/@unit, ' lost]')
+                            else
+                            ('[]')
+                            )
                         else
                             if ($node/@reason = 'ellipsis') then
                                 ('(…)')
@@ -3583,7 +3614,7 @@ declare %private function viewItem:wit($node) {
             <span
                 class="w3-text">{
                     <a
-                        href="{string($witness/@corresp)}">{$witness/t:idno/text()}</a>
+                        href="{string($witness/@corresp)}"> {$witness/t:idno/text()} </a>
                 }</span>
         </span>
 };
@@ -4451,7 +4482,7 @@ declare %private function viewItem:work($item) {
                         <p
                             class="alert alert-info">The following manuscripts are reported in this record as witnesses of the source of the information or the edition here encoded.
                             Please check the <a
-                                href="#computedWitnesses">box below</a> for a live updated list of manuscripts pointing to this record.</p>,
+                                href="#computedWitnesses">box on the right</a> for a live updated list of manuscripts pointing to this record.</p>,
                         if ($item//t:listWit/@rend = 'edition') then
                             <b>Manuscripts used in this edition</b>
                         else
