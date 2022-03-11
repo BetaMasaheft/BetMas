@@ -3266,6 +3266,8 @@ declare %private function viewItem:space($node as element(t:space)) {
 declare %private function viewItem:choice($node as element(t:choice)) {
     let $id := generate-id($node)
     return
+    <span>
+            {
         if ($node[t:sic and t:corr]) then
             (<b>
                 <a
@@ -3289,8 +3291,10 @@ declare %private function viewItem:choice($node as element(t:choice)) {
                 ('{', $node/t:orig, '}')
             else
                 (viewItem:TEI2HTML($node/node()))
+                }
+                </span>
 };
-
+ 
 declare %private function viewItem:unclear($node as element(t:unclear)) {
     $node/text() || '?'
 };
@@ -3344,32 +3348,33 @@ declare %private function viewItem:del($node as element(t:del)) {
 
 
 declare %private function viewItem:supplied($node as element(t:supplied)) {
-    <span
-        class="w3-tooltip">
-        <span>
+         <span>
             {
                 if ($node/@resp) then
-                    (attribute class {'CorrResp'},
+                    (attribute class {'w3-tooltip SupResp'},
                     attribute data-value {$node/@resp}
                     )
                 else
                     ()
-            } 
-
-    {
-    if ($node/@reason = 'undefined') then
-        ('[', viewItem:TEI2HTML($node/node()), '(?)]')
+            }
+            {
+ if ($node/@reason = 'undefined') then
+    concat('[', viewItem:TEI2HTML($node/node()), '(?)]')
     else
         if ($node/@reason = 'lost') then
-            ('[', viewItem:TEI2HTML($node/node()), ']')
+            concat('[', viewItem:TEI2HTML($node/node()), ']')
         else
             if ($node/@reason = 'omitted') then
-                ('&lt;', viewItem:TEI2HTML($node/node()), '&gt;')
-            else
-                (string-join($node/@*, ' '))
-                } 
-     </span>
-    </span>
+                concat('&lt;', viewItem:TEI2HTML($node/node()), '&gt;')
+                else
+                    if ($node/@reason = 'explanation') then
+                        <span
+                            class="blue">{viewItem:TEI2HTML($node/node())}</span>
+                     else
+                        (string-join($node/@*, ' '))
+            }
+        </span>
+  
 };
 
 declare %private function viewItem:orig($node as element(t:orig)) {
@@ -3438,7 +3443,6 @@ declare %private function viewItem:add($node as element(t:add)) {
                         ()
 };
 
-
 declare %private function viewItem:gap($node as element(t:gap)) {
     let $quantity := $node/@quantity
     let $extent := $node/@extent
@@ -3486,7 +3490,7 @@ declare %private function viewItem:gap($node as element(t:gap)) {
                           if ($node/@quantity) then                       
                             concat('[c. ', $node/@quantity, ' ', $node/@unit, ' lost]')
                             else
-                            ('[]')
+                            ('[…]')
                             )
                         else
                             if ($node/@reason = 'ellipsis') then
@@ -4133,6 +4137,9 @@ declare function viewItem:TEI2HTML($nodes) {
             case element(t:gap)
                 return
                     viewItem:gap($node)
+             case element(t:supplied)
+                return
+                    viewItem:supplied($node)
             case element(t:handDesc)
                 return
                     viewItem:handDesc($node)
