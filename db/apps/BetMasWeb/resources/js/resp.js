@@ -1,10 +1,10 @@
 /*
-
+SupResp --> title="Supplied by {$resp}"
 RdgResp --->  title="Reading by {$resp}"
 RdgRespMs -->  title="Reading of {@wit} by {$resp}"
 CorrResp --> title="Marked as incorrect {if ($resp) then concat('by ', $resp) else ()}"
 choiceResp --> title="Corrected {if ($resp) then concat('by ', $resp) else ()} from {$sic}"
-OmissionResp --> title="Omission by {$author}"*/
+OmissionResp --> title="Omission by {$resp}"*/
 
 /*thanks to https://stackoverflow.com/questions/287188/how-to-know-when-all-ajax-calls-are-complete where I found out about this event... the elements in which the names are stored, call the api, and it needs to wait for the api call to have finished to find any text in those*/
 $(document).ajaxStop(function () {
@@ -26,6 +26,10 @@ $(document).ajaxStop(function () {
             
             case 'w3-tooltip CorrResp':
             type = "Marked as incorrect by ";
+            break;
+            
+            case 'w3-tooltip SupResp':
+            type = "Supplied by ";
             break;
             
             case 'w3-tooltip choiceResp':
