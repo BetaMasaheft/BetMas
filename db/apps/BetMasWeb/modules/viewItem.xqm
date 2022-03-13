@@ -3245,53 +3245,66 @@ declare %private function viewItem:surplus($node as element(t:surplus)) {
 };
 
 declare %private function viewItem:space($node as element(t:space)) {
-    <span>
-        {
-            if ($node/@resp) then
-                (attribute class {'w3-tooltip OmissionResp'},
-                attribute data-value {$node/@resp}
-                )
-            else
-                ()
-        }
-        {
-            if ($node/@reason = 'rubrication') then
+    <span
+        class="w3-tooltip">
+       
+           {
+               if ($node/@reason = 'rubrication') then
                 concat('(', $node/@quantity, ' ', $node/@unit, ' left for rubrication and never filled)')
             else
-                ()
-        }
+                concat('(', $node/@quantity, ' ', $node/@unit, ' unfilled space)')
+            }
+        
+<span
+            class="w3-text w3-tag w3-small">{
+            if ($node/@resp) then
+            (
+            if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
+                                                concat('resp: ', exptit:printTitle($node/@resp))
+   else
+                                                 concat('resp: ', viewItem:editorName($node/@resp)))
+          else
+                                                 ()}</span>
     </span>
-};
+};  
 
 declare %private function viewItem:choice($node as element(t:choice)) {
     let $id := generate-id($node)
     return
-    <span>
-            {
+        <span
+        class="w3-tooltip">{
         if ($node[t:sic and t:corr]) then
-            (<b>
-                <a
-                    data-value="{$node/t:corr/@resp}"
-                    class="w3-tooltip ChoiceResp"
-                    id="{$id}">
-                    {$node/t:corr}
-                </a>
-            </b>,
+            (<b>                
+                    {$node/t:corr}                
+            </b>       
+            ,
             <script
                 type="text/javascript">
                 {
                     "$('#" || $id || "').bind('click', function() {
-            $(this).html($(this).html() == '" || $node/t:corr || "' ? '" || concat(viewItem:TEI2HTML($node/t:sic), ' (!)') || "' : '" || $node/t:corr || "');
+            $(this).html($(this).html() == '" || $node/t:corr || "' ? '" || concat(viewItem:TEI2HTML($node/t:sic), '(!)') || "' : '" || $node/t:corr || "');
             });"
                 }
             </script>
             )
         else
             if ($node[t:sic and t:orig]) then
-                ('{', $node/t:orig, '}')
+                concat('{', $node/t:orig, '}')
             else
                 (viewItem:TEI2HTML($node/node()))
                 }
+                
+                <span
+            class="w3-text w3-tag w3-small">{
+            if ($node/@resp) then
+                  (      if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
+                        concat(viewItem:TEI2HTML($node/t:sic), '(!)', 'corrected by ', exptit:printTitle($node/@resp))
+   else
+                       concat(viewItem:TEI2HTML($node/t:sic), '(!)', 'corrected by ', viewItem:editorName($node/@resp))
+                                                 )
+                                                 else
+                      concat(viewItem:TEI2HTML($node/t:sic), '(!)')}
+                </span>                
                 </span>
 };
  
@@ -3302,29 +3315,24 @@ declare %private function viewItem:unclear($node as element(t:unclear)) {
 declare %private function viewItem:sic($node as element(t:sic)) {
     <span
         class="w3-tooltip">
-        <a
-            class="CorrResp"
-            data-value="{$node/@resp}">
             {$node/text()} (!)
-        </a>
-        <span
-            class="w3-text w3-tag">{$node/@resp}</span>
+  <span
+            class="w3-text w3-tag w3-small CorrResp">{
+            if ($node/@resp) then
+            (
+            if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
+                                                concat('sic by ', exptit:printTitle($node/@resp))
+   else
+                                                 concat('sic by ', viewItem:editorName($node/@resp)))
+          else
+                                                 ()}</span>
     </span>
 };
 
 declare %private function viewItem:del($node as element(t:del)) {
     <span
         class="w3-tooltip">
-        <span>
-            {
-                if ($node/@resp) then
-                    (attribute class {'CorrResp'},
-                    attribute data-value {$node/@resp}
-                    )
-                else
-                    ()
-            }
-            {
+           {
                 if ($node/@rend = 'erasure') then
                     ('〚',
                     (if (empty($node)) then
@@ -3342,21 +3350,23 @@ declare %private function viewItem:del($node as element(t:del)) {
                     else
                         viewItem:TEI2HTML($node/node())
             }
-        </span>
+        <span
+            class="w3-text w3-tag w3-small CorrResp">{
+            if ($node/@resp) then
+            (
+            if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
+                                                concat('corrected by ', exptit:printTitle($node/@resp))
+   else
+                                                 concat('corrected by ', viewItem:editorName($node/@resp)))
+          else
+                                                 ()}</span>
     </span>
-};
-
-
+};    
+ 
 declare %private function viewItem:supplied($node as element(t:supplied)) {
-         <span>
-            {
-                if ($node/@resp) then
-                    (attribute class {'w3-tooltip SupResp'},
-                    attribute data-value {$node/@resp}
-                    )
-                else
-                    ()
-            }
+    <span
+        class="w3-tooltip">
+
             {
  if ($node/@reason = 'undefined') then
     concat('[', viewItem:TEI2HTML($node/node()), '(?)]')
@@ -3368,13 +3378,23 @@ declare %private function viewItem:supplied($node as element(t:supplied)) {
                 concat('&lt;', viewItem:TEI2HTML($node/node()), '&gt;')
                 else
                     if ($node/@reason = 'explanation') then
-                        <span
-                            class="blue">{viewItem:TEI2HTML($node/node())}</span>
+                concat('&#34;', viewItem:TEI2HTML($node/node()), '&#34;')
+
                      else
                         (string-join($node/@*, ' '))
             }
-        </span>
-  
+         
+        <span
+            class="w3-text w3-tag w3-small SupResp">{
+            if ($node/@resp) then
+            (
+            if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
+                                                concat('supplied by ', exptit:printTitle($node/@resp))
+   else
+                                                 concat('supplied by ', viewItem:editorName($node/@resp)))
+          else
+                                                 ()}</span>
+    </span>
 };
 
 declare %private function viewItem:orig($node as element(t:orig)) {
@@ -3447,16 +3467,9 @@ declare %private function viewItem:gap($node as element(t:gap)) {
     let $quantity := $node/@quantity
     let $extent := $node/@extent
     return
-        <span>
-            {
-                if ($node/@resp) then
-                    (attribute class {'w3-tooltip OmissionResp'},
-                    attribute data-value {$node/@resp}
-                    )
-                else
-                    ()
-            }
-            {
+<span
+        class="w3-tooltip">
+             {
                 if ($node/@reason = 'illegible') then
                     (
                     if ($node/@quantity) then
@@ -3498,7 +3511,13 @@ declare %private function viewItem:gap($node as element(t:gap)) {
                             else
                                 ()
             }
-        </span>
+       
+       <span
+            class="w3-text w3-tag w3-small OmissionResp">{if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
+                                                concat('ommission by ', exptit:printTitle($node/@resp))
+   else
+                                                 concat('ommission by ', viewItem:editorName($node/@resp))}</span>
+    </span>
 };
 
 declare %private function viewItem:pb($node as element(t:pb)) {
