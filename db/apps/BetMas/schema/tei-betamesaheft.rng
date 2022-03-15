@@ -4872,7 +4872,7 @@ Normalization 12. Critical Apparatus]</a:documentation>
                <value>illegible</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">a sign, pointing to the place where the text should be added</a:documentation>
                <value>omitted</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Words or lines skipped in omitted by the editor in transcription</a:documentation>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Text erroneously omitted from the surface by the scribe</a:documentation>
                <value>ellipsis</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">Text omitted from the edition by the editor, for whatever reason (brevity, context, language, etc.)</a:documentation>
             </choice>
