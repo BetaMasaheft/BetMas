@@ -59,10 +59,10 @@ declare function nav:barNew() {
                 
                 <div
                     class="w3-dropdown-hover w3-hide-small"
-                    id="about">
+                    id="introductory">
                     <button
                         class=" w3-button"
-                        title="about">
+                        title="About">
                         {
                             if (string-length($url) gt 1) then
                                 ('Hi ' || sm:id()//sm:username/text() || '!')
@@ -71,8 +71,20 @@ declare function nav:barNew() {
                         }
                         <i
                             class="fa fa-caret-down"></i></button>
+                        <div
+        class="w3-dropdown-content" style="background:transparent;">
+        <div
+            class="w3-col" style="width:100%">
+            <div class="w3-container w3-left-align w3-sand w3-display-container w3-small"
+                id="generalinfo">
+                <span onclick="this.parentElement.style.display='none'"
+                    class="w3-button w3-text-red w3-large w3-display-topright" style="display:block; background:transparent;">&#x2716;</span>
+                <span style="display:block;">Here you can explore some general information about the project. See also <a href="https://www.betamasaheft.uni-hamburg.de" target="_blank">Beta maṣāḥəft</a> institutional web page. Select <a href="https://betamasaheft.eu/about.html">About</a> to meet the project team and our partners. Visit the
+                    <a href="https://betamasaheft.eu/Guidelines">
+                        Guidelines</a> section to learn about our encoding principles. The section <a href="https://betamasaheft.eu/lod.html">Data</a> contains the Linked Open Data information, and <a href="https://betamasaheft.eu/apidoc.html">API</a> the Application Programming Interface documentation for those who want to exchange data with the Beta maṣāḥǝft project. The <a href="https://betamasaheft.eu/pid.html">Permalinks</a> section documents the versioning and referencing earlier versions of each record.</span></div>     
                     <div
-                        class="w3-dropdown-content w3-bar w3-card-4">
+                    id="navexplanationintro"
+                        class="w3-bar w3-card-4 w3-white">
                         {
                             if (sm:is-authenticated() and contains(sm:get-user-groups(sm:id()//sm:username/text()), 'Editors')) then
                                 (
@@ -88,38 +100,102 @@ declare function nav:barNew() {
                                 ()
                         }
                         <a
-                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"
+                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red  explain"
+                            data-value="back"
                             href="/">Home</a>
                         <a
-                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"
+                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red  explain"
+                            data-value="ab"
                             href="/about.html">About</a>
                         <a
-                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"
+                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red  explain"
+                            data-value="guides"
                             href="/Guidelines/">Guidelines</a>
                         <a
-                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"
+                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red  explain"
+                            data-value="loddata"
                             href="/lod.html">Data</a>
                         <a
-                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"
+                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red  explain"
+                            data-value="apidata"
                             href="/apidoc.html">API</a>
                         <a
-                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"
+                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red  explain"
+                            data-value="permlink"
                             href="/pid.html">Permalinks</a>
                     
                     </div>
+                     <div
+                                id="explanationsIntro"
+                                class="w3-row">
+                                <span
+                                    id="back"
+                                    class="w3-hide w3-red w3-center w3-padding">
+                                    Click to get back to the home page.</span>
+                             <span
+                                    id="ab"
+                                    class="w3-hide w3-red w3-center w3-padding">
+                                    Here you can find out more about the <a href="/team">project team</a>, 
+                                    the <a href="https://www.betamasaheft.uni-hamburg.de/team/partners.html">cooperating projects</a>,
+                                    and the <a href="/contacts">contact information</a>. You can also visit 
+                                     <a href="https://www.betamasaheft.uni-hamburg.de/">our institutional page</a>.
+</span>
+                             <span
+                                    id="guides"
+                                    class="w3-hide w3-red w3-center w3-padding">
+                                    Find out more about our <a href="/Guidelines">Encoding Guidelines</a>.
+</span>
+<span
+                                    id="loddata"
+                                    class="w3-hide w3-red w3-center w3-padding">
+                                    In this section our Linked Open Data principles are explained.
+                                    </span>
+                                    <span
+                                    id="apidata"
+                                    class="w3-hide w3-red w3-center w3-padding">
+                                    Developers can find our Application Programming Interface documentation here.
+                                    </span>
+                                       <span
+                                    id="permlink"
+                                    class="w3-hide w3-red w3-center w3-padding">
+                                    The page documents the use of permalinks by the project.
+                                    </span>
+</div>
+                    
                 </div>
+        <div
+            class="w3-col w3-rest">
+        </div>
+    </div>
+</div>
                   
                 <div
                     class="w3-dropdown-hover w3-hide-small"
                     id="mss">
                     <button
                         class=" w3-button"
-                        title="manuscripts">Manuscripts <i
+                        title="Manuscripts">Manuscripts <i
                             class="fa fa-caret-down"></i></button>
                     <div
                         class="w3-dropdown-content" style="background:transparent;">
                         <div
-                            class="w3-threequarter">
+                            class="w3-col" style="width:100%">
+                            <div class="w3-container w3-left-align w3-sand w3-display-container w3-small"
+                                id="manuscriptsmenuintro">
+  <span onclick="this.parentElement.style.display='none'"
+  class="w3-button w3-text-red w3-large w3-display-topright" style="display:block; background:transparent;">&#x2716;</span>
+  <span style="display:block;">Descriptions of (predominantly) Christian 
+                                manuscripts from Ethiopia and Eritrea are the core of the Beta maṣāḥǝft project.. 
+                                We (1) gradually encode descriptions from printed catalogues, beginning 
+                                from the historical ones, 
+                                (2) incorporate digital descriptions produced by other projects, adjusting 
+                                them wherever possible, 
+                                and (3) produce descriptions of previously unknown and/or uncatalogued 
+                                manuscripts. 
+                                The encoding follows the TEI XML standards (check our 
+                                <a href="https://betamasaheft.eu/Guidelines/?id=manuscripts">
+                                guidelines</a>).</span></div>
+                        
                             <div
                                 class=" w3-bar w3-card-4 w3-white">
                                 <a
@@ -138,8 +214,8 @@ declare function nav:barNew() {
                                     href="/manuscripts/viewer">Images Viewer</a>-->
                                     <a
                                     class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
-                                    data-value="imagesviewer"
-                                    href="/availableImages.html">List of Images Available Elsewhere</a>
+                                    data-value="digitized"
+                                    href="/availableImages.html">List of Digitized Manuscripts</a>
                                 <a
                                     class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                                     data-value="cataloguesencoded"
@@ -155,48 +231,45 @@ declare function nav:barNew() {
                                 <span
                                     id="shelfmarks"
                                     class="w3-hide w3-red w3-center w3-padding">
-                                    Here you can browse a full list of manuscripts available on the platform, arranged by repositories and shelf marks (clicking on the "show list" button will expand the list for each location). </span>
+                                    Here you can browse a full list of manuscripts available on the platform, 
+                                    arranged by repositories and shelf marks (clicking on the "show list" button will expand the list for each location). </span>
                              <span
                                     id="manuscriptsearch"
                                     class="w3-hide w3-red w3-center w3-padding">
-                                    In this search form you can search for (filter) all manuscripts encoded by the project. On the left side you get filters based on the indexes for that type of resources in the database, on the right side you will see, after searching, your results as in a table, paginated by 20 as per defaults. You can change the pagination option once you have done your search by entering a value in the "how many per page?" field of the pagination bar. Clicking on the hints button above will produce some additional blinking buttons which will provide additional guidance on the content.
-For more guidance in lists and filters visit the help page.
+                                    This menu takes you to the search form listing all manuscripts encoded 
+                                    by the project. On the left side you get filters based on the indexes for 
+                                    that type of resources in the database, on the right side you will see your search results in a multi-page table (20 per page). You can refine the results by applying the filters.
 </span>
                             <span
-                                    id="imagesviewer"
+                                    id="digitized"
                                     class="w3-hide w3-red w3-center w3-padding">
-                                    The Mirador viewer can show all images of manuscripts we are currently serving or we have a usable link to a manifest for. You can either directly view the images in this mirador instance or click on the info box and go to the record for that manuscript.
+                                    Here you can view a list of manuscripts that have digitized images available online elsewhere.
 </span>
 <span
                                     id="cataloguesencoded"
                                     class="w3-hide w3-red w3-center w3-padding">
-                                    The list of catalogue sources used for our manuscript descriptions. 
-                                    Clicking on one of the titles will open a list view with all the manuscripts in that catalogue 
-                                    for which we have a record.</span>
+                                    The list of manuscript catalogues that were used as sources for our records. 
+                                    Clicking on one of the titles will open a list view with all the 
+                                    manuscripts in that catalogue 
+                                    that have been encoded.</span>
 <span
                                     id="inscriptions"
                                     class="w3-hide w3-red w3-center w3-padding">
-                                   While the Beta maṣāḥǝft project focuses on manuscripts, inscriptions 
-                                   are often an inseparable part of the manuscript tradition and its direct precursors, 
-                                   therefore we also offer the encoding of the known inscriptions from Ethiopia and Eritrea 
-                                   wherever possible. Part of the encoding is carried out in Hamburg, part is the result of 
-                                   cooperation with other projects, such as DASI: Digital Archive for the Study of pre-islamic
-                                   Arabian Inscriptions (http://dasi.cnr.it/).
-For more guidance in lists and filters visit the help page.</span>
+                                   Inscriptions 
+                                   are an inseparable part of the manuscript tradition and its direct precursors, 
+                                   therefore we also offer the encoding of the known inscriptions from Ethiopia and 
+                                   Eritrea 
+                                   wherever possible. Part of the encoding is carried out in Hamburg, part is 
+                                   the result of 
+                                   cooperation with other projects, such as 
+                                   <a href="http://dasi.cnr.it/">DASI: Digital Archive for the Study of pre-islamic
+                                   Arabian Inscriptions</a>. 
+</span>
                             </div>
                         </div>
                         <div
-                            class="w3-quarter">
-                            <div
-                                class="w3-gray w3-padding"
-                                id="manuscriptsmenuintro">Producing online descriptions of (predominantly) Christian manuscripts 
-                                from Ethiopia and Eritrea is the main aim of the Beta maṣāḥǝft project. 
-                                We (1) gradually encode descriptions from printed catalogues, beginning from the historical ones, 
-                                (2) incorporate digital descriptions produced by other projects, adjusting them wherever possible, 
-                                and (3) produce descriptions of previously unknown and/or uncatalogued manuscripts. 
-                                The encoding follows the TEI XML standards (for the encoding specifics you can 
-                                check our <a href="https://betamasaheft.eu/Guidelines/?id=manuscripts">guidelines</a>).</div>
-                        </div>
+                            class="w3-col w3-rest">
+                             </div>
                     </div>
                 </div>
                  
@@ -211,7 +284,20 @@ For more guidance in lists and filters visit the help page.</span>
                         class="w3-dropdown-content"  
                         style="background:transparent;">
                         <div
-                        class="w3-threequarter">
+                        class="w3-col" style="width:100%">
+                        <div class="w3-container w3-left-align w3-sand w3-display-container w3-small">
+  <span onclick="this.parentElement.style.display='none'"
+  class="w3-button w3-text-red w3-large w3-display-topright" style="display:block; background:transparent;">&#x2716;</span>
+  <span style="display:block;">We identify each unit of content in every manuscript. We consider any 
+                        text with an independent circulation a work, with its own identification number within 
+                        the <a href="https://betamasaheft.eu/works/list">Clavis Aethiopica (CAe)</a>. Parts of texts (e.g. chapters) 
+                        without independent circulation (univocally identifiable by IDs assigned within the records) or recurrent 
+                        motifs as well as documentary additional texts 
+                        (identified as <a href="https://betamasaheft.eu/narratives/list">Narrative Units</a>) 
+                        are not part of the CAe. You can also check the list of different <a href="/titles">types of 
+                        text titles</a> or various <a href="https://betamasaheft.eu/indexeslist.html">Indexes</a> 
+                        available from the top menu.</span>
+                        </div>
                       <div
                         class="w3-bar w3-card-4 w3-white">
                         <a
@@ -233,24 +319,31 @@ For more guidance in lists and filters visit the help page.</span>
                             data-value="studies"
                             href="/studies/list">Studies</a>
                             </div>
-                            <div id="explanationsTexts">
+                            <div id="explanationsTexts" class="w3-row">
                             <span
                                     id="clavis"
                                     class="w3-hide w3-red w3-center w3-padding">
-                                    The project Beta maṣāḥǝft is working towards creating an exhaustive repertory of all works circulating in Ethiopian and Eritrean manuscript tradition. We consider a work any text with an independent circulation. Every clearly identifiable textual unit receives a unique number, which scholars now may use to univocally refer to a specific text in their publications. In case of multiple recensions or subtypes of a work, a Clavis ID is created for both the general record or the broader class of works and for each particular version.
-In the filter search offered here one can search for a work by its label, a keyword, but also directly by its CAe identifier - or, wherever known and provided, identifier used by other claves, including Bibliotheca Hagiographica Graeca (BHG), Clavis Patrum Graecorum (CPG), Clavis Coptica (CC), Clavis Apocryphorum Veteris Testamenti (CAVT), Clavis Apocryphorum Novi Testamenti (CANT), etc.
+                                    The clavis is a repertory of all known works relevant for the Ethiopian and Eritrean tradition; the work being defined as any text with an independent circulation. 
+                                    Each work (as well as known recensions where applicable) receives a unique identifier in the Clavis Aethiopica (CAe). 
+In the filter search offered here one can search for a work by its title, a keyword, a short quotation, but also directly by its 
+CAe identifier - or, wherever known and provided, identifier used 
+by other claves, including Bibliotheca Hagiographica Graeca (BHG), 
+Clavis Patrum Graecorum (CPG), Clavis Coptica (CC), 
+Clavis Apocryphorum Veteris Testamenti (CAVT), Clavis Apocryphorum Novi Testamenti (CANT), etc.
                                     </span>
                                       <span
                                     id="narratives"
                                     class="w3-hide w3-red w3-center w3-padding">
-                                    The project additionally identifies Narrative Units to refer to recurring motifs or text types, where no clavis identification is possible or necessary. Frequently documentary additiones are assigned a Narrative Unit ID, or thematically clearly demarkated passages from various recensions of a larger work.
+                                    The project additionally identifies Narrative Units to refer to text types, where no clavis identification is possible or necessary. Recurring motifs or also frequently documentary 
+                                    additiones are assigned a Narrative Unit ID, or thematically clearly demarkated passages 
+                                    from various recensions of a larger work.
                                     </span>
                                       <span
                                     id="documentary"
                                     class="w3-hide w3-red w3-center w3-padding">
-                                    This particular category is the result of cooperation between the project Beta maṣāḥǝft and the project Ethiopian Manuscript Archives. The EMA project, initially developed in 2010 by Anaïs Wion, and now part of the later project EthioChrisProcess - Christianization and religious interactions in Ethiopia (6th-13th century) : comparative approaches with Nubia and Egypt (ANR, 2018-2022, https://anr.fr/Project-ANR-17-CE27-0020), aims to edit and equip the corpus of administrative acts
-of the Christian kingdom of Ethiopia, for medieval and modern periods. The list view shows the documentary collections encoded.
-For a list of documents contained in the additiones in the manuscripts described by the Beta maṣāḥǝft project see https://betamasaheft.eu/additions.
+                                    This list view shows the documentary collections encoded by the project <a href="https://hal.ird.fr/CEMAF/halshs-01871649v1" target="_blank">Ethiopian Manuscript Archives (EMA)</a> and its successor <a href="https://anr.fr/en/funded-projects-and-impact/funded-projects/project/funded/project/b2d9d3668f92a3b9fbbf7866072501ef-5ddfbccfcf/">EthioChrisProcess - Christianization and religious interactions in Ethiopia (6th-13th century) : comparative approaches with Nubia and Egypt</a>, which aim to edit the corpus of administrative acts
+of the Christian kingdom of Ethiopia, for medieval and modern periods. 
+See also <a href="https://betamasaheft.eu/additions">the list of documents contained in the additiones</a> in the manuscripts described by the Beta maṣāḥǝft project .
 </span>
  <span
                                     id="studies"
@@ -260,22 +353,8 @@ For a list of documents contained in the additiones in the manuscripts described
                             </div>
                             </div>
                             <div
-                        class="w3-quarter">
-                        <div
-                        class="w3-gray w3-padding">
-                        We clearly identify each unit of content in every manuscript. We consider any 
-                        text with an independent circulation a work, with its own identification number within 
-                        the Clavis Aethiopica (CAe, see below). Parts of texts (e.g. chapters) 
-                        without independent circulation are assigned identifiers within a record. 
-                        They are thus still univocally identifiable but are not part of the Clavis. 
-                        Recurrent motifs and documentary additional texts, while not being considered individual works, 
-                        are identified as Narrative Units - they are not part of the Clavis Aethiopica.
-Additional relevant resources include the list of different <a href="/titles">types of text titles</a> encoded by the 
-project, textual motifs as appearing in illuminations (see the Art themes 
-filter in the <a href="/authority-files/list">keyword list</a> or the index of 
-<a href="/decorations">decorations</a>), and the index 
-of <a href="/additions">additional texts</a> of different types present in the manuscripts.
-                        </div>
+                        class="w3-col w3-rest">
+                        
                         </div>
                     </div>
                 </div>
@@ -285,12 +364,23 @@ of <a href="/additions">additional texts</a> of different types present in the m
                     class="w3-dropdown-hover w3-hide-small">
                     <button
                         class=" w3-button"
-                        title="Works">Art Themes <i
+                        title="Art">Art Themes <i
                             class="fa fa-caret-down"></i></button>
                     <div
                         class="w3-dropdown-content" style="background:transparent;">
                         <div
-                        class="w3-threequarter">
+                        class="w3-col" style="width:100%">
+                          <div class="w3-container w3-left-align w3-sand w3-display-container w3-small">
+  <span onclick="this.parentElement.style.display='none'"
+  class="w3-button w3-text-red w3-large w3-display-topright" style="display:block; background:transparent;">&#x2716;</span>
+  <span style="display:block;">While encoding manuscripts, the project Beta maṣāḥǝft aims at creating an 
+                        exhaustive repertory of art themes and techniques present in Ethiopian 
+                        and Eritrean Christian tradition. See our <a href="https://betamasaheft.eu/Guidelines/?id=decorationDescription">
+                        encoding guidelines</a> for details.
+                        
+Two types of searches for aspects of manuscript decoration are possible, 
+the decorations filtered search and the general keyword search. [NB: The Index of Decorations sometimes times out, we are sorry for the inconvenience.]</span>
+                        </div>
                       <div
                         class="w3-bar w3-card-4 w3-white">
                         <a
@@ -306,11 +396,17 @@ of <a href="/additions">additional texts</a> of different types present in the m
                             data-value="illuminations"
                             href="/decorations?type=miniature">Illuminations</a>
                             </div>
-                            <div id="explanationsAT">
+                            <div id="explanationsAT" class="w3-row">
                             <span
                                     id="decorations"
                                     class="w3-hide w3-red w3-center w3-padding">
-                                   The decorations filtered search, originally designed with Jacopo Gnisci, looks at decorations and their features only. The filters on the left are relative only to the selected features, reading the legends will help you to figure out what you can filter. For example you can search for all encoded decorations of a specific art theme, or search the encoded legends. If the decorations are present, but not encoded, you will not get them in the results. If an image is available, you will also find a thumbnail linking to the image viewer for that manuscript.
+                                   The filtered search for decorations, originally designed with Jacopo Gnisci, 
+                                   looks at decorations and their features only. The filters on the left are relative 
+                                   only to the selected features, reading the legends will help you to figure out 
+                                   what you can filter. For example you can search for all encoded decorations of a specific art 
+                                   theme, or search the encoded legends. If the decorations are present, but not encoded, you 
+                                   will not get them in the results. If an image is available, you will also find a thumbnail linking
+                                   to the image viewer. [NB: The Index of Decorations currently often times out, we are sorry for the inconvenience.]
                                    </span>
                                       <span
                                     id="artkeywords"
@@ -319,21 +415,14 @@ of <a href="/additions">additional texts</a> of different types present in the m
                                        <span
                                     id="illuminations"
                                     class="w3-hide w3-red w3-center w3-padding">
-                                   This is a short cut to a search for all those manuscripts which have miniatures of which we have images.</span>
+                                   This is a short cut to a search for all those manuscripts which have miniatures of which we 
+                                   have images.</span>
                                       
                             </div>
                             </div>
                             <div
-                        class="w3-quarter">
-                        <div
-                        class="w3-gray w3-padding">
-                        While encoding the information on the decorations present
-                        in the manuscripts, the project Beta maṣāḥǝft aims at creating an 
-                        exhaustive repertory of art themes and techniques present in Ethiopian 
-                        and Eritrean Christian tradition. You can check our encoding guidelines 
-                        at https://betamasaheft.eu/Guidelines/?q=art%20theme&amp;id=decorationDescription.
-Two types of searches for aspects of manuscript decoration are possible, the decorations filtered search and the general keyword search.
-                        </div>
+                        class="w3-col w3-rest">
+                      
                         </div>
                     </div>
                 </div>
@@ -349,39 +438,53 @@ Two types of searches for aspects of manuscript decoration are possible, the dec
                     <div
                         class="w3-dropdown-content"  style="background:transparent;">
                          <div
-                        class="w3-threequarter">
+                        class="w3-col" style="width:100%">
+                        <div class="w3-container w3-left-align w3-sand w3-display-container w3-small">
+  <span onclick="this.parentElement.style.display='none'"
+  class="w3-button w3-text-red w3-large w3-display-topright" style="display:block; background:transparent;">&#x2716;</span>
+  <span style="display:block;">We create metadata for all places associated with the manuscript production and 
+                        circulation as well as those mentioned in the texts used by the project. 
+                        The encoding of places in Beta maṣāḥǝft will thus result in a 
+                        Gazetteer of the Ethiopian tradition. We follow the principles established by 
+                        <a href="https://pleiades.stoa.org/places">Pleiades</a> and lined out in the 
+                        <a href="http://syriaca.org/geo/index.html">Syriaca.org TEI 
+                        Manual and Schema for Historical Geography</a> which allow us to distinguish 
+                        between places, locations, and names of places.
+See also <a href="https://betamasaheft.eu/help.html">Help page</a> fore more guidance.                         
+                       </span>
+                       </div>
                     <div
                         class=" w3-bar w3-card-4 w3-white" >
                         <a
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red  explain"
-                            data-value="places"
+                            data-value="pl"
                             href="/places/list">Places</a>
                         <a
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red  explain"
                             data-value="repositories"
                             href="/institutions/list">Repositories</a>
                             </div>
-                         <div id="explanationPl">
+                         <div id="explanationPl" class="w3-row">
                          <span
-                                    id="places"
+                                    id="pl"
                                     class="w3-hide w3-red w3-center w3-padding">
-                                  This tab offers a filterable list of all available places. Geographical references of the type "land inhabited by people XXX" is encoded with the reference to the corresponding Ethnic unit (see below); ethnonyms, even those used in geographical contexts, do not appear in this list. For more guidance in lists and filters visit https://betamasaheft.eu/help.html.
+                                  This tab offers a filtrable list of all available places. 
+                                  Geographical references of the type "land inhabited by people XXX" 
+                                  is encoded with the reference to the corresponding Ethnic unit (see below); 
+                                  ethnonyms, even those used in geographical contexts, do not appear in this list. 
                                   </span>
                                      <span
                                     id="repositories"
                                     class="w3-hide w3-red w3-center w3-padding">
-                                 Repositories are those locations where manuscripts encoded by the project are or used to be preserved. While they are encoded in the same way as all places are, the view offered is different, showing a list of manuscripts associated with the place. For more guidance in lists and filters visit https://betamasaheft.eu/help.html. </span>
+                                 Repositories are those locations where manuscripts encoded by the project are or 
+                                 used to be preserved. While they 
+                                 are encoded in the same way as all places are, the view offered is different, 
+                                 showing a list of manuscripts associated with the repository. </span>
                         </div>
                     </div>  
                     <div
-                        class="w3-quarter">
-                        <div
-                        class="w3-gray w3-padding">
-                        We create metadata for all places associated with the manuscript production and circulation as well as those mentioned in the texts used by the project. The encoding of places in Beta maṣāḥǝft will thus result in a Gazetteer of the Ethiopian tradition. We follow the principles established by Pleiades (https://pleiades.stoa.org/places) and lined out in the Syriaca.org TEI Manual and Schema for Historical Geography (http://syriaca.org/geo/index.html) which allow us to distinguish between places, locations, and names of places.
-Place records should ideally contain the attested names of the place in local languages and translation, including possible variants, as well as any information available on the foundation of the place, its existence and development. Coordinates can be added or will be retrieved if a reference to the place’s Wikidata ID is given.
-As this is a work in progress, and many records were inherited from the Encyclopaedia Aethiopica, there are still many inconsistencies that we are trying to gradually fix.
-                         
-                        </div>
+                        class="w3-col w3-rest">
+                        
                         </div>
                     </div>
                 </div>
@@ -390,80 +493,163 @@ As this is a work in progress, and many records were inherited from the Encyclop
                     class="w3-dropdown-hover w3-hide-small"
                     id="persons">
                     <button
-                        class=" w3-button"
+                        class="w3-button"
                         title="Persons">Persons <i
                             class="fa fa-caret-down"></i></button>
                     <div
                         class="w3-dropdown-content"  style="background:transparent;">
                          <div
-                        class="w3-threequarter">
+                        class="w3-col" style="width:100%">
+                        <div class="w3-container w3-left-align w3-sand w3-display-container w3-small">
+  <span onclick="this.parentElement.style.display='none'"
+  class="w3-button w3-text-red w3-large w3-display-topright" style="display:block; background:transparent;">&#x2716;</span>
+  <span style="display:block;">We create metadata for all persons (and groups of persons) associated with the 
+                       manuscript production and circulation (rulers, religious authorities, scribes, 
+                       donors, and commissioners) as well as those mentioned in the texts used by the 
+                       project. The result will be a 
+                       comprehensive Prosopography of the Ethiopian and Eritrean tradition. 
+                       See also <a href="https://betamasaheft.eu/help.html">Help page</a> for 
+                       more guidance.</span>
+                        </div>
                     <div
                         class=" w3-bar w3-card-4 w3-white">
                         <a
-                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"
+                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red  explain"
+                            data-value="pers"
                             href="/persons/list">Persons and groups</a>
                         <a
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red  explain"
                             data-value="ethnics"
                             href="/ethnic/list">Ethnic units</a>
                             </div>
-                         <div id="explanationPr">
+                         <div id="explanationPr" class="w3-row">
+                              <span
+                                    id="pers"
+                                    class="w3-hide w3-red w3-center w3-padding">
+                                  We encode persons according to our 
+                                  <a href="https://betamasaheft.eu/Guidelines/?id=persons">Encoding Guidelines</a>. 
+                                  The initial list was 
+                                  inherited from the <a href="https://www.aai.uni-hamburg.de/en/ethiostudies/research/encyclopaedia/eae.html">Encyclopaedia Aethiopica</a>, 
+                                  and there are still many inconsistencies that we are trying to gradually fix.</span>
                          <span
                                     id="ethnics"
                                     class="w3-hide w3-red w3-center w3-padding">
-                                  We see ethnonyms as a subcategory of personal names, even when many are often used in literary works in the context of the "land inhabited by **". The present list of records has been mostly inherited from the Encyclopaedia Aethiopica, and there are still many inconsistencies that we are trying to gradually fix.</span>
+                                  We consider ethnonyms as a subcategory of personal names, even when 
+                                  many are often used in literary works in the context of the 
+                                  "land inhabited by **". The present list of records has been mostly 
+                                  inherited from the <a href="https://www.aai.uni-hamburg.de/en/ethiostudies/research/encyclopaedia/eae.html">Encyclopaedia Aethiopica</a>, 
+                                  and there are still many inconsistencies that we are trying to gradually fix.</span>
                                     </div>
                     </div>  
                     <div
-                        class="w3-quarter">
-                        <div
-                        class="w3-gray w3-padding">
-                       We create metadata for all persons (and groups of persons) associated with the manuscript production and circulation (rulers, religious authorities, scribes, donors, and commissioners) as well as those mentioned in the texts used by the project. The encoding of persons in Beta maṣāḥǝft will thus result in a comprehensive Prosopography of the Ethiopian tradition. Records should contain the person’s original and transliterated names and basic information on their life and occupations as well as a reference to their Wikidata ID, if existing.
-As this is a work in progress, and many records were inherited from the Encyclopaedia Aethiopica, there are still many inconsistencies that we are trying to gradually fix.
-For more guidance in lists and filters visit https://betamasaheft.eu/help.html.  
-                        </div>
+                        class="w3-col w3-rest">
+                       
                         </div>
                     </div>
                 </div>
                     
                     
-              <div
-                    class="w3-dropdown-hover w3-hide-medium w3-hide-small"
-                    id="resources">
-                    <button
-                        class=" w3-button "
-                        title="resources">Resources <i
-                            class="fa fa-caret-down"></i></button>
-                    <div
-                        class="w3-dropdown-content w3-bar w3-card-4">
-                        
-                        <a
-                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"
-                            href="/bibliography">Bibliography</a>
-                       <a
-                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"
-                            href="/indexeslist.html">Indexes</a>
-                           <a
-                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"
-                            href="/projects.html">Projects</a>
-                           <a
-                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"
-                            href="/visualizations.html">Visualizations</a>
-                       <a
-                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"
-                            href="/morpho">Gǝʿǝz Morphological Parser (TraCES project)</a>
-                       <a
-                            class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"
-                            href="/Dillmann">Online <i>Lexicon Linguae Aethiopicae</i> (TraCES project)</a>     
-                    </div>
-                </div>
+ <div
+    class="w3-dropdown-hover w3-hide-small"
+    id="res">
+    <button
+        class=" w3-button "
+        title="Resources">Resources <i
+            class="fa fa-caret-down"></i></button>
+    <div
+        class="w3-dropdown-content" style="background:transparent;">
+        <div
+            class="w3-col" style="width:100%">
+            <div class="w3-container w3-left-align w3-sand w3-display-container w3-small"
+                id="manuscriptsmenuintro">
+                <span onclick="this.parentElement.style.display='none'"
+                    class="w3-button w3-text-red w3-large w3-display-topright" style="display:block; background:transparent;">&#x2716;</span>
+                <span style="display:block;">This section collects some additional resources offered by the project. Select <a href="/bibliography">Bibliography</a> to explore the references cited in the project records. The
+                    <a href="/indexeslist.html">
+                        Indexes</a> list different types of project records (persons, places, titles, keywords, etc). 
+                    Visit <a href="/projects.html">Projects</a> for information on partners that have input data 
+                    directly in the Beta maṣāḥǝft database. Special ways of exploring the data are offered under 
+                    <a href="/visualizations.html">Visualizations</a>. 
+                    Two applications were developed in cooperation with the project 
+                    <a href="https://www.traces.uni-hamburg.de/">TraCES</a>, 
+                    the <a href="/morpho">Gǝʿǝz Morphological Parser</a> and the 
+                    <a href="/Dillmann">Online <i>Lexicon Linguae Aethiopicae</i></a>.</span></div>
+            
+            <div
+                class=" w3-bar w3-card-4 w3-white">
+                <a
+                    class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
+                    data-value="bibl"
+                    href="/bibliography">Bibliography</a>
+                <a
+                    class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
+                    data-value="ind"
+                    href="/indexeslist.html">Indexes</a>
+                <a
+                    class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
+                    data-value="proj"
+                    href="/projects.html">Projects</a>
+                <a
+                    class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
+                    data-value="views"
+                    href="/visualizations.html">Visualizations</a>
+                <a
+                    class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
+                    data-value="parser"
+                    href="/morpho">Gǝʿǝz Morphological Parser</a>
+                <a
+                    class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
+                    data-value="lexicon"
+                    href="/Dillmann">Online <i>Lexicon Linguae Aethiopicae</i></a>
+            </div>
+            <div
+                id="navexplanationsRes"
+                class="w3-row">
+                <span
+                    id="bibl"
+                    class="w3-hide w3-red w3-center w3-padding">
+                    Here you can view all references (extracted from Zotero) that have been cited in project records.</span>
+                <span
+                    id="ind"
+                    class="w3-hide w3-red w3-center w3-padding">
+                    The Indexes list different types of project records (persons, places, titles, keywords, etc).</span>
+                    
+                <span
+                    id="proj"
+                    class="w3-hide w3-red w3-center w3-padding">
+                    These associated projects have fed their data directly in the 
+                    Beta maṣāḥǝft database.  </span>
+                <span
+                    id="views"
+                    class="w3-hide w3-red w3-center w3-padding">
+                    Check some special ways of exploring our data, including comparing manuscripts containing the same work,
+                    mapping manuscripts with a given content, collating passages, searching for gender aspects, and many more.</span>
+                <span
+                    id="parser"
+                    class="w3-hide w3-red w3-center w3-padding">
+                    The experimental morphological parser was developed in cooperation with the project
+                    <a href="https://www.traces.uni-hamburg.de/">TraCES: From Translation to Creation: Changes in Ethiopic Style and Lexicon from Late Antiquity to the Middle Ages</a>.</span>
+               <span
+                    id="lexicon"
+                    class="w3-hide w3-red w3-center w3-padding">
+                    This application uses basic techniques to display data from the digitization process of the 
+                    <i>Lexicon Linguae Aethiopicae</i> by August Dillmann, with additions by the 
+                    team of the project <a href="https://www.traces.uni-hamburg.de/">TraCES: From Translation to Creation: Changes in 
+                    Ethiopic Style and Lexicon from Late Antiquity to the Middle Ages</a>.</span>
+            </div>
+        </div>
+        <div
+            class="w3-col w3-rest">
+        </div>
+    </div>
+</div>
          
                 <a
                     href="/help.html"
                     class="w3-bar-item w3-button  w3-hide-medium w3-hide-small"
                     data-toggle="tooltip"
                     data-placement="bottom"
-                    title="How to navigate this website">Help</a>
+                    title="How to navigate">Help</a>
                 
                 {nav:newentryNew()}
                 
