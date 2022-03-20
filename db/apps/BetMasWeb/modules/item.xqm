@@ -474,7 +474,10 @@ return
 
                                             {
 
-                   if ($isSubjectof) then  <div  class="relBox  w3-panel w3-card-4 w3-gray"><b class="openInDialog">This person is subject of the following <span class="w3-tag">{count($isSubjectof)}</span> textual units</b>
+                   if ($isSubjectof) then  
+                   <div  class="relBox  w3-panel w3-card-4 w3-gray">
+                   
+                   <b class="openInDialog">This person is subject of the following <span class="w3-tag">{count($isSubjectof)}</span> textual units</b>
                         <ul  class="w3-ul w3-hoverable">{
                         for $p in $isSubjectof
                     return
@@ -488,7 +491,7 @@ return
                 {
 
                    if ($isAuthorof) then  <div  class="relBox  w3-panel w3-card-4 w3-gray"><b  class="openInDialog">This person is author or attributed author of the following <span class="w3-tag">{count($isAuthorof)}</span> textual units</b>
-                        <ul  class="w3-ul w3-hoverable">{
+                        <ul  class="w3-ul w3-hoverable ">{
                         for $p in $isAuthorof
                     return
                         if (contains($p/@active, ' ')) then for $value in tokenize ($p/@active, ' ') return
@@ -995,14 +998,16 @@ let $sameKey :=
    let $countDistMss := count(config:distinct-values($distinctMssIds))
 return
 
-   <div class="w3-panel w3-margin w3-red w3-card-4" id="computedWitnesses">
-   <h4  class="openInDialog">This unit, or parts of it, is contained in {$countDistMss} manuscript records {$count} time{if($count gt 1) then 's' else ()}</h4>
-<p><a target="_blank" href="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=mss&amp;titletext=https://betamasaheft.eu/{$id}">See these {$countDistMss} manuscripts in the list view.</a> Scrolling in this box will also show you a summary of all the occurences.</p>
-    <div id="Samekeyword{$string}"  >
+   <div class="w3-panel w3-margin w3-red w3-card-4" style="word-break:break-all;"
+   id="computedWitnesses"><span class="scrollwrap nodot w3-small">
+   <h5  class="openInDialog">This unit, or parts of it, is contained in {$countDistMss} manuscript records {$count} time{if($count gt 1) then 's' else ()}</h5>
+<p><a target="_blank" href="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=mss&amp;titletext=https://betamasaheft.eu/{$id}">See these {$countDistMss} manuscripts in the list view.</a> 
+Scrolling in this box will also show you a summary of all the occurences.</p>
+    <div id="Samekeyword{$string}" class="w3-small">
     {if(count($sameKey) gt 0) then
 (<p>As main content</p>,
 
-                                            <ul class="nodot w3-padding">{
+                <ul class="nodot w3-padding">{
                                                 for $hit in  $sameKey
                                                 let $item := root($hit)
                                               let $root := $item/t:TEI/@xml:id
@@ -1041,9 +1046,9 @@ EMIP:)
                     substring-before(substring-after($item//t:msIdentifier/t:idno/@facs, 'MSS_'), '/manifest.json') || 
                     '_0001.tif.jpg'
                 }" class="thumb w3-image"/>
-                                (:Berlin:)
-                 else
-                                                if ($item//t:msIdentifier/t:idno[contains(@facs, 'staatsbibliothek-berlin')]) then
+                (:Berlin:)
+                  else  if ($item//t:msIdentifier/t:idno[contains(@facs, 'staatsbibliothek-berlin')]) 
+                                                then
                                                     (: https://content.staatsbibliothek-berlin.de/dc/1751174670/manifest
                                             https:\/\/content.staatsbibliothek-berlin.de\/dc\/1751174670-0001\/full\/full\/0\/default.jpg:)
                                                     <img
@@ -1051,8 +1056,8 @@ EMIP:)
                                                                 replace($item//t:msIdentifier/t:idno/@facs, '/manifest', '-0001/full/140,/0/default.jpg')
                                                             }"
                                                         class="thumb w3-image"/>
-                else 'no images' }</a>
-                                                           
+                else 'Link to images' }</a>
+                                                          
                 else ()}
                                                           <a class="w3-bar-item"
                                                href="/manuscripts/{$groupkey}/main">{$tit} ({string($groupkey)}) </a>
@@ -1086,7 +1091,7 @@ EMIP:)
 (:                                                         order by root($hit)/t:TEI/@xml:id:)
                                                     return
 
-                                                          <li class="list-group">
+                                                          <li class="w3-bar w3-card-2 list-group">
                                                           <a
                                                href="/manuscripts/{$groupkey}/main">{$tit} ({string($groupkey)}) </a> <br/>
                                                          <span class="WordCount" data-msID="{$groupkey}" data-wID="{$string}"/>
@@ -1128,12 +1133,12 @@ EMIP:)
 (:                                                         order by root($hit)/t:TEI/@xml:id:)
                                                     return
 
-                                                          <li class="list-group">
+                                                          <li class="w3-bar w3-card-2 list-group">
                                                           <a
                                                href="/manuscripts/{$groupkey}/main">{$tit} ({string($groupkey)}) </a> <br/>
                                                          <span class="WordCount" data-msID="{$groupkey}" data-wID="{$string}"/>
                                                          <br/>
-                                                         <ul class="w3-padding ">{
+                                                         <ul class="w3-padding nodot">{
                                                          for $h in $hit
                                                          let $item := $h/ancestor::t:item[1]
                                                          let $placement := locus:placement($item)
@@ -1166,8 +1171,9 @@ let $countwitnesses := for $wit in $witnesses
 let $tit := exptit:printTitleID($workid)
 return
 (
+<div id="Samepart{$string}"  class="w3-small scrollwrap">
 <p>This textual unit is also part of <a target="_blank" href="/{$workid}">{$tit}</a>, which is contained in the following {count($countwitnesses)} manuscripts {count($witnesses)} times:</p>,
-<div><ul class=" w3-padding">{
+<ul class=" w3-padding nodot">{
 for $wit in $witnesses
  let $wid :=  string(root($wit)/t:TEI/@xml:id )
  group by $id := $wid
@@ -1190,8 +1196,9 @@ let $ids := distinct-values($all)
 return
 if (count($ids) ge 1) then
  (
- <p>This textual unit has also {count($ids)} parts which are also independent Textual Units. Below is a list of witnesses for each of them.</p>
-, 
+ 
+ <p>This textual unit has also {count($ids)} parts which are also independent Textual Units. 
+ Below is a list of witnesses for each of them.</p>, 
 for $c in $ids
 let $witnesses := $apprest:collection-rootMS//t:title[contains(@ref, $c)][parent::t:msItem or ancestor::t:additions]
 let $countwitnesses := for $wit in $witnesses
@@ -1203,15 +1210,15 @@ let $stringsubids:=string-join($subids, ',')
 
 return
 if(count($witnesses) ge 1) then (
-<p>
-<a target="_blank" href="/{$c}">{$stringsubids}</a> is listed as {$c} in the following {count($countwitnesses)} manuscripts {count($witnesses)} times:</p>,
-<div class="w3-panel w3-card-2"><ul class=" w3-padding">{
+<div id="Samepart2{$string}"  class="w3-small scrollwrap"><p>
+<a target="_blank" href="/{$c}">{$stringsubids}</a> is listed as {$c} in the following {count($countwitnesses)} manuscripts {count($witnesses)} times:</p>
+<ul class="nodot w3-padding">{
 for $wit in $witnesses
  let $wid :=  string(root($wit)/t:TEI/@xml:id )
  group by $id := $wid
  let $wtit :=  exptit:printTitleID($id)
 return
-<li><a target="_blank" href="/{$id}">{$wtit}</a></li>
+<li class="w3-bar w3-card-2 list-group"><a target="_blank" href="/{$id}">{$wtit}</a></li>
 }</ul>
 {if($work//t:div[@type eq 'textpart'][@corresp=$c]) 
 then 
@@ -1223,7 +1230,7 @@ return <p>Click the following link to compare a <a target="_blank" href="/compar
 <a target="_blank" href="/{$c}">{$tit}</a> is listed also as {$c}, but not recorded with this reference in any manuscript at the moment.</p>
 ) else ()
 }
-     </div>
+    </span> </div>
        };
 
 
@@ -1231,7 +1238,7 @@ return <p>Click the following link to compare a <a target="_blank" href="/compar
  declare function item2:RestSeeAlso ($this, $collection)  {
  let $file := $this
  let $id := string($this/@xml:id)
-  let $classes := for $class in $this//t:term/@key return 'http://betamasaheft.eu/'||$class
+ let $classes := for $class in $this//t:term/@key return 'http://betamasaheft.eu/'||$class
  let $options := switch($collection)
 (:                   decides on the basis of the collection what is relevant to match related records :)
                    case 'manuscripts' return
