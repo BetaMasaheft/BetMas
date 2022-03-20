@@ -179,7 +179,7 @@ Not sure how to do this? Have a look at the <a href="/Guidelines">Beta maṣā�
 <span class="w3-text w3-tag itemoptiontooltip">Main Entry</span>
  </div>
 <div class="w3-bar-item w3-tooltip">
-<a class="w3-button w3-padding-small w3-gray"  id="TEILink" href="{( '/tei/' || $id ||  '.xml')}" target="_blank">TEI/XML</a>
+<a class="w3-button w3-padding-small w3-gray"  id="TEILink" href="{( '' || $id ||  '.xml')}" target="_blank">TEI/XML</a>
 <span class="w3-text w3-tag itemoptiontooltip">Download an enriched TEI file with explicit URIs bibliography from Zotero API. </span>
 </div>
 <div class="w3-bar-item w3-tooltip">
