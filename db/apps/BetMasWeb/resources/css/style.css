@@ -854,9 +854,24 @@ input:checked + .slider:before {
 }
 
 td ul.nodot {
+    overflow: scroll;
+    overflow-wrap: break-word;
+    word-break: break-all;
+    max-height: 120px;
+}
+
+ul.nodot {
     overflow: auto;
+    word-break: break-all;
     max-height: 150px;
 }
+
+.scrollwrap {
+    overflow: auto;
+    word-break: break-all;
+    max-height: 500px;
+}
+
 .APIexample {
     overflow: auto;
     height: 250px;
@@ -1730,6 +1745,22 @@ span.rubric a {
 
 span.rubric {
     color: red;
+}
+
+span.blue a {
+    color: blue;
+}
+
+span.blue {
+    color: blue;
+}
+
+span.bold a {
+    font-weight: bold;
+}
+
+span.bold {
+    font-weight: bold;
 }
 
 span.encircled a {
