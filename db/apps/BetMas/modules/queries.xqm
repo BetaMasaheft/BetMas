@@ -3390,7 +3390,7 @@ declare function q:resultitemlinks($collection, $item, $id, $root, $text) {
         style="word-break: break-all; text-align: left;">{$id}</span>,
     <span
         class="w3-tag w3-red"><a
-            href="{('/tei/' || $id || '.xml')}"
+            href="{('' || $id || '.xml')}"
             target="_blank">TEI</a></span>,
     (:<span
         class="w3-tag w3-red"><a
