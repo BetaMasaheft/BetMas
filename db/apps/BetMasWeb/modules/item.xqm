@@ -1198,11 +1198,13 @@ let $countwitnesses := for $wit in $witnesses
  let $wid :=  string(root($wit)/t:TEI/@xml:id )
  group by $id := $wid return $id
 let $tit := exptit:printTitleID($c)
+let $subids := for $subid in $work//t:div[@type eq 'textpart'][@corresp eq $c]/@xml:id return $id || '#' || string($subid)
+let $stringsubids:=string-join($subids, ',')
 
 return
 if(count($witnesses) ge 1) then (
 <p>
-<a target="_blank" href="/{$c}">{$tit}</a> is listed as {$c} in the following {count($countwitnesses)} manuscripts {count($witnesses)} times:</p>,
+<a target="_blank" href="/{$c}">{$stringsubids}</a> is listed as {$c} in the following {count($countwitnesses)} manuscripts {count($witnesses)} times:</p>,
 <div class="w3-panel w3-card-2"><ul class=" w3-padding">{
 for $wit in $witnesses
  let $wid :=  string(root($wit)/t:TEI/@xml:id )
