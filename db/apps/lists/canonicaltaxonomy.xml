@@ -503,51 +503,41 @@
             </category>
             <category>
                 <desc>Land Ownership</desc>
-            <category>
-                <desc>Land Charters</desc>
-                <category xml:id="LandGrant"
-                         corresp="https://betamasaheft.eu/authority-files/LandGrant/main">
-                    <catDesc>Land Grant</catDesc>
+                <category>
+                    <desc>Land Charters</desc>
+                    <category xml:id="LandGrant" corresp="https://betamasaheft.eu/authority-files/LandGrant/main">
+                      <catDesc>Land Grant</catDesc>
+                    </category>
+                    <category xml:id="GweltDeed" corresp="https://betamasaheft.eu/authority-files/GweltDeed/main">
+                        <catDesc>Gwəlt Deed</catDesc>
+                    </category>
+                    <category xml:id="RestDeed" corresp="https://betamasaheft.eu/authority-files/RestDeed/main">
+                        <catDesc>Rəst Deed</catDesc>
+                    </category>
+                    <category xml:id="RestaGweltDeed" corresp="https://betamasaheft.eu/authority-files/RestaGweltDeed/main">
+                        <catDesc>Rəsta gwəlt Deed</catDesc>
+                    </category>
                 </category>
-                <category xml:id="GweltDeed"
-                         corresp="https://betamasaheft.eu/authority-files/GweltDeed/main">
-                    <catDesc/>
-                </category>
-                <category xml:id="RestDeed"
-                         corresp="https://betamasaheft.eu/authority-files/RestDeed/main">
-                    <catDesc/>
-                </category>
-                <category xml:id="RestaGweltDeed"
-                         corresp="https://betamasaheft.eu/authority-files/RestaGweltDeed/main">
-                    <catDesc/>
-                </category>
-            </category>
                 <category xml:id="Rim" corresp="https://betamasaheft.eu/authority-files/Rim/main">
-                    <catDesc/>
+                    <catDesc>Rim</catDesc>
                 </category>
-                <category xml:id="siso"
-                      corresp="https://betamasaheft.eu/authority-files/siso/main">
-                    <catDesc/>
+                <category xml:id="siso" corresp="https://betamasaheft.eu/authority-files/siso/main">
+                    <catDesc>Siso</catDesc>
                 </category>
-                <category xml:id="Tazkar"
-                      corresp="https://betamasaheft.eu/authority-files/Tazkar/main">
-                    <catDesc/>
+                <category xml:id="Tazkar" corresp="https://betamasaheft.eu/authority-files/Tazkar/main">
+                    <catDesc>Tazkar</catDesc>
                 </category>
-                <category xml:id="Renovation"
-                      corresp="https://betamasaheft.eu/authority-files/Renovation/main">
-                    <catDesc/>
+                <category xml:id="Renovation" corresp="https://betamasaheft.eu/authority-files/Renovation/main">
+                    <catDesc>Renovation</catDesc>
                 </category>
-                <category xml:id="Confirmation"
-                      corresp="https://betamasaheft.eu/authority-files/Confirmation/main">
-                    <catDesc/>
+                <category xml:id="Confirmation" corresp="https://betamasaheft.eu/authority-files/Confirmation/main">
+                    <catDesc>Confirmation</catDesc>
                 </category>
-            <category xml:id="FoundationCharter"
-                      corresp="https://betamasaheft.eu/authority-files/FoundationCharter/main">
-                <catDesc>Foundation Charter</catDesc>
-            </category>
-                <category xml:id="unclearOwnershipDocument"
-                      corresp="https://betamasaheft.eu/authority-files/unclearOwnershipDocument/main">
-                    <catDesc/>
+                <category xml:id="FoundationCharter" corresp="https://betamasaheft.eu/authority-files/FoundationCharter/main">
+                    <catDesc>Foundation Charter</catDesc>
+                </category>
+                <category xml:id="unclearOwnershipDocument" corresp="https://betamasaheft.eu/authority-files/unclearOwnershipDocument/main">
+                    <catDesc>Unclear Ownership</catDesc>
                 </category>
             </category>
             <category xml:id="Genealogy"
