@@ -1,10 +1,10 @@
 <classDecl xmlns="http://www.tei-c.org/ns/1.0">
     <taxonomy>
         <category>
-          <desc>types of inscription</desc>
+          <desc>Types of Inscriptions</desc>
           <category xml:id="Royal"
                    corresp="https://betamasaheft.eu/authority-files/Royal/main">
-            <catDesc/>
+              <catDesc>Royal inscription</catDesc>
           </category>
           </category>
 
@@ -499,7 +499,7 @@
             </category>
             <category xml:id="DocumentaryText"
                    corresp="https://betamasaheft.eu/authority-files/DocumentaryText/main">
-                <catDesc/>
+                <catDesc>Documentary Text</catDesc>
             </category>
             <category>
                 <desc>Land Ownership</desc>
@@ -1180,10 +1180,7 @@
                    corresp="https://betamasaheft.eu/authority-files/AT1063AngelFeedsMary/main">
                 <catDesc>Mary fed by an Angel</catDesc>
             </category>
-            <category xml:id="AT1099Mary"
-                   corresp="https://betamasaheft.eu/authority-files/AT1099Mary/main">
-                <catDesc/>
-            </category>
+            
             <category xml:id="AT1020Massacre"
                    corresp="https://betamasaheft.eu/authority-files/AT1020Massacre/main">
                 <catDesc>Massacre of the Innocents</catDesc>
@@ -1425,9 +1422,20 @@
                    corresp="https://betamasaheft.eu/authority-files/AT1139MMDog/main">
                 <catDesc>Miracle of Mary: Mary gives a thirsty dog water to drink from her shoe</catDesc>
             </category>
-            <category xml:id="AT1140SealSol"
-                   corresp="https://betamasaheft.eu/authority-files/AT1140SealSol/main">
+            <category xml:id="AT1144SealSol" corresp="https://betamasaheft.eu/authority-files/AT1144SealSol/main">
                 <catDesc>Seal of Solomon</catDesc>
+            </category>
+            <category xml:id="AT1140AngelGoodThief" corresp="https://betamasaheft.eu/authority-files/AT1140AngelGoodThief/main">
+                <catDesc>The Angel and the Good Thief</catDesc>
+            </category>
+            <category xml:id="AT1141NursingMary" corresp="https://betamasaheft.eu/authority-files/AT1141NursingMary/main">
+                <catDesc>Nursing Mary</catDesc>
+            </category>
+            <category xml:id="AT1142Pentecost" corresp="https://betamasaheft.eu/authority-files/AT1142Pentecost/main">
+                <catDesc>Pentecost</catDesc>
+            </category>
+            <category xml:id="AT1143SecondComingJesus" corresp="https://betamasaheft.eu/authority-files/AT1143SecondComingJesus/main">
+                <catDesc>Second Coming of Jesus</catDesc>
             </category>
         </category>
 
