@@ -4,6 +4,7 @@ module namespace viewItem = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/v
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
 import module namespace exptit = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/exptit" at "xmldb:exist:///db/apps/BetMasWeb/modules/exptit.xqm";
 import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/switch2" at "xmldb:exist:///db/apps/BetMasWeb/modules/switch2.xqm";
+import module namespace item2 = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/item2" at "xmldb:exist:///db/apps/BetMasWeb/modules/item.xqm";
 import module namespace http = "http://expath.org/ns/http-client";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
@@ -1084,9 +1085,9 @@ declare %private function viewItem:relation($node) {
 
 declare %private function viewItem:publicationStmt($node) {
     <div
-        class="w3-container"
+        class="w3-container w3-small"
         id="publicationStmt">
-        <h2>Publication Statement</h2>
+        <h3>Publication Statement</h3>
         {
             for $n in $node/node()
             return
@@ -1094,13 +1095,11 @@ declare %private function viewItem:publicationStmt($node) {
                     class="w3-row">
                     <div
                         class="w3-col"
-                        style="width:20%;">{$n/name()}</div>
+                        style="width:15%;">{$n/name()}</div>
                     <div
                         class="w3-col"
-                        style="width:20%;">{
-                            for $att in $n/@*
-                            return
-                                $att/name() || '=' || $att/data()
+                        style="width:15%;">{
+                            for $att in $n/@* return $att/name() || '=' || $att/data()
                         }</div>
                     <div
                         class="w3-rest">{viewItem:TEI2HTML($n)}</div>
@@ -2176,6 +2175,8 @@ declare %private function viewItem:layout($node) {
             else
                 ' main part'
             return
+            if ($node/t:dimensions)
+            then
                 (<button
                     type="button"
                     class="w3-button w3-gray"
@@ -2260,9 +2261,10 @@ declare %private function viewItem:layout($node) {
                     }
                 </div>
                 )
+                else
+                ()
         }
     </div>
-
 };
 
 declare %private function viewItem:ab($node as element(t:ab)) {
@@ -2721,8 +2723,8 @@ declare %private function viewItem:additionItem($a) {
                 if ($a/t:desc/@type) then
                     (' (Type: ',
                     <a
-                        target="_blank" href="/authority-files/list?keyword={$a/t:desc/@type}">{viewItem:categoryname($a/ancestor::t:TEI, $a/t:desc/@type)}</a>,
-                    <a
+                        target="_blank" href="/authority-files/list?keyword={$a/t:desc/@type}">{string($a/t:desc/@type)}</a>,
+                    <a target="_blank"
                         href="/additions?type={$a/t:desc/@type}">
                         <i
                             class="fa fa-hand-o-left"/>
@@ -3303,6 +3305,14 @@ declare %private function viewItem:choice($node as element(t:choice)) {
                        concat(viewItem:TEI2HTML($node/t:sic), '(!)', 'corrected by ', viewItem:editorName($node/@resp))
                                                  )
                                                  else
+                                                 if ($node/t:corr/@resp) then
+                  (      if (starts-with($node/t:corr/@resp, 'PRS') or starts-with($node/t:corr/@resp, 'ETH')) then
+                        concat(viewItem:TEI2HTML($node/t:sic), '(!)', 'corrected by ', exptit:printTitle($node/t:corr/@resp))
+   else
+                       concat(viewItem:TEI2HTML($node/t:sic), '(!)', 'corrected by ', viewItem:editorName($node/t:corr/@resp))
+                                                 )
+                                                 else
+                                                 
                       concat(viewItem:TEI2HTML($node/t:sic), '(!)')}
                 </span>                
                 </span>
@@ -4156,9 +4166,6 @@ declare function viewItem:TEI2HTML($nodes) {
             case element(t:gap)
                 return
                     viewItem:gap($node)
-             case element(t:supplied)
-                return
-                    viewItem:supplied($node)
             case element(t:handDesc)
                 return
                     viewItem:handDesc($node)
@@ -4314,6 +4321,9 @@ declare function viewItem:TEI2HTML($nodes) {
             case element(t:summary)
                 return
                     viewItem:summary($node)
+             case element(t:supplied)
+                return
+                    viewItem:supplied($node)                    
             case element(t:supportDesc)
                 return
                     viewItem:supportDesc($node)
@@ -4375,17 +4385,17 @@ declare %private function viewItem:standards($item) {
     viewItem:publicationStmt($item//t:publicationStmt),
     if ($item//t:editionStmt) then
         <div
-            class="w3-container"
+            class="w3-container w3-small"
             id="editionStmt">
-            <h2>Edition Statement</h2>
+            <h3>Edition Statement</h3>
             {viewItem:TEI2HTML($item//t:editionStmt)}
         </div>
     else
         (),
     <div
-        class="w3-container"
+        class="w3-container w3-small"
         id="encodingDesc">
-        <h2>Encoding Description</h2>
+        <h3>Encoding Description</h3>
         {viewItem:TEI2HTML($item//t:encodingDesc/node())}
     </div>
 };
@@ -6421,7 +6431,8 @@ return
     if(count($options) gt 1) then <div
         class="w3-container"
         id="keywordslist">
-        <h2>Keywords</h2>
+        <h3>Keywords</h3>
         {$options}
     </div> else ()
 };
+      
