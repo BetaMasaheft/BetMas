@@ -2029,8 +2029,13 @@ declare %private function viewItem:layoutDesc($node) {
                     <li class="nodot"
                         id="{$h/@xml:id}">
                     {    <h4>Hand {substring-after($h/@xml:id, 'h')}</h4>}
-                    {  <p>{concat('Script: ', string($h/@script), ' ', viewItem:TEI2HTML($h/t:seg[@type = 'script']), '')}</p>
-                            
+                     {if ($h/t:persName[@role = 'scribe']) then
+                        <p><b>Scribe</b>: {viewItem:TEI2HTML($h/t:persName[@role = 'scribe'])}</p>
+                    else
+                       ()}
+                    {  <p>Script: {string($h/@script)}</p>                         
+                        }
+                    { <p>{viewItem:TEI2HTML($h/t:seg[@type = 'script'])}</p>                         
                         }
                     {if ($h/t:seg[@type = 'ink']) then
                         <p>Ink: {viewItem:TEI2HTML($h/t:seg[@type = 'ink'])}</p>
@@ -2048,11 +2053,7 @@ declare %private function viewItem:layoutDesc($node) {
                         (<h4> Abbreviations </h4>,
                         <ul>{viewItem:TEI2HTML($h/t:list[@type = 'abbreviations']/node())}</ul>)
                     else
-                        ()}
-                    {if ($h/t:persName[@role = 'scribe']) then
-                        <p><b>Scribe</b>: {viewItem:TEI2HTML($h/t:persName[@role = 'scribe'])}</p>
-                    else
-                       ()}
+                        ()}                   
                     {viewItem:TEI2HTML($h/node()[not(self::t:seg)][not(self::t:list)])}
                     </li>
                 )
@@ -6415,3 +6416,4 @@ return
         {$options}
     </div> else ()
 };
+      
