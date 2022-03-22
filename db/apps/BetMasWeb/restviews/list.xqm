@@ -98,7 +98,7 @@ return
     let $i := string($rep/@xml:id)
      let $inthisrepo := $mss//t:repository[ends-with(@ref, $i)]
      let $count := count($inthisrepo)
-    let $log := util:log('info', ($i, ' = ',  $count))
+(:    let $log := util:log('info', ($i, ' = ',  $count)):)
      return
     if($count=0) then () else 
         <div class="w3-row">
@@ -298,16 +298,22 @@ $keyword as xs:string*){
  then (<div class="w3-panel w3-gray w3-card-4">Select an entry on the left to see all records where this occurs.</div>)
  else (
  let $res :=
+ let $keywordlink := ('https://betamasaheft.eu/' || string($keyword))
  let $terms := $apprest:collection-root/t:TEI[descendant::t:term[@key eq  $keyword]]
  let $title := $apprest:collection-root/t:TEI[descendant::t:title[@type eq  $keyword]]
  let $person := $apprest:collection-root/t:TEI[descendant::t:person[@type eq  $keyword]]
- let $desc := $apprest:collection-root/t:TEI[descendant::t:desc[@type eq  $keyword] ]
- let $place := $apprest:collection-root/t:TEI[descendant::t:place[@type eq  $keyword] ]
- let $ab := $apprest:collection-root/t:TEI[descendant::t:ab[@type eq  $keyword] ]
- let $faith := $apprest:collection-root/t:TEI[descendant::t:faith[@type eq  $keyword] ]
+ let $desc := $apprest:collection-root/t:TEI[descendant::t:desc[@type eq  $keyword]]
+ let $place := $apprest:collection-root/t:TEI[descendant::t:place[@type eq  $keyword]]
+ let $ab := $apprest:collection-root/t:TEI[descendant::t:ab[@type eq  $keyword]]
+ let $abc := $apprest:collection-root/t:TEI[descendant::t:ab[@corresp eq  $keywordlink]]
+ let $rela := $apprest:collection-root/t:TEI[descendant::t:relation[@active eq  $keyword]]
+ let $relp := $apprest:collection-root/t:TEI[descendant::t:relation[@passive eq $keyword]]
+ let $rella := $apprest:collection-root/t:TEI[descendant::t:relation[@active eq  $keywordlink]]
+ let $rellp := $apprest:collection-root/t:TEI[descendant::t:relation[@passive eq $keywordlink]]
+ let $faith := $apprest:collection-root/t:TEI[descendant::t:faith[@type eq  $keyword]]
  let $occupation := $apprest:collection-root/t:TEI[descendant::t:occupation[@type eq  $keyword]]
- let $ref := $apprest:collection-root/t:TEI[descendant::t:ref[@type eq  'authFile'][@corresp eq $keyword]]
- let $hits := ($terms | $title |$person|$desc|$place|$ab|$faith|$occupation|$ref)
+ let $refb := $apprest:collection-root/t:TEI[descendant::t:ref[@corresp eq $keywordlink]]
+ let $hits := ($terms |$title |$person |$desc |$place |$ab |$abc |$faith  |$occupation |$refb |$rela |$relp |$rella |$rellp)
    return
                       map {
                       'hits' : $hits,
@@ -595,17 +601,23 @@ if(xdb:collection-available($c)) then (
  then (<div class="w3-panel w3-gray w3-card-4">Select an entry on the left to see all records where this occurs.</div>)
  else (
  let $res :=
+ let $keywordlink := ('https://betamasaheft.eu/' || string($keyword))
  let $terms := $apprest:collection-root/t:TEI[descendant::t:term[@key eq  $keyword]]
  let $title := $apprest:collection-root/t:TEI[descendant::t:title[@type eq  $keyword]]
  let $person := $apprest:collection-root/t:TEI[descendant::t:person[@type eq  $keyword]]
- let $desc := $apprest:collection-root/t:TEI[descendant::t:desc[@type eq  $keyword] ]
- let $place := $apprest:collection-root/t:TEI[descendant::t:place[@type eq  $keyword] ]
- let $ab := $apprest:collection-root/t:TEI[descendant::t:ab[@type eq  $keyword] ]
- let $faith := $apprest:collection-root/t:TEI[descendant::t:faith[@type eq  $keyword] ]
+ let $desc := $apprest:collection-root/t:TEI[descendant::t:desc[@type eq  $keyword]]
+ let $place := $apprest:collection-root/t:TEI[descendant::t:place[@type eq  $keyword]]
+ let $ab := $apprest:collection-root/t:TEI[descendant::t:ab[@type eq  $keyword]]
+ let $abc := $apprest:collection-root/t:TEI[descendant::t:ab[@corresp eq  $keywordlink]]
+ let $rela := $apprest:collection-root/t:TEI[descendant::t:relation[@active eq  $keyword]]
+ let $relp := $apprest:collection-root/t:TEI[descendant::t:relation[@passive eq $keyword]]
+ let $rella := $apprest:collection-root/t:TEI[descendant::t:relation[@active eq  $keywordlink]]
+ let $rellp := $apprest:collection-root/t:TEI[descendant::t:relation[@passive eq $keywordlink]]
+ let $faith := $apprest:collection-root/t:TEI[descendant::t:faith[@type eq  $keyword]]
  let $occupation := $apprest:collection-root/t:TEI[descendant::t:occupation[@type eq  $keyword]]
- let $ref := $apprest:collection-root/t:TEI[descendant::t:ref[@type eq  'authFile'][@corresp eq $keyword]]
- let $hits := ($terms | $title |$person|$desc|$place|$ab|$faith|$occupation|$ref)
-   return
+ let $refb := $apprest:collection-root/t:TEI[descendant::t:ref[@corresp eq $keywordlink]]
+ let $hits := ($terms |$title |$person |$desc |$place |$ab |$abc |$faith  |$occupation |$refb |$rela |$relp |$rella |$rellp)
+ return
                       map {
                       'hits' : $hits,
                       'collection' : $collection
