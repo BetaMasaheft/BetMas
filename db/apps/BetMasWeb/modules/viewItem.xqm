@@ -1971,7 +1971,7 @@ declare %private function viewItem:layoutDesc($node) {
                         return
                             <li>
                                 <b
-                                    style="color:red;">THIS ab element does not have a required type.</b>
+                                    style="color:red;">This ab element does not have a required type.</b>
                                 {
                                     if ($ruling/@subtype) then
                                         '(Subtype: ' || string($ruling/@subtype) || ')'
@@ -1982,40 +1982,6 @@ declare %private function viewItem:layoutDesc($node) {
                             </li>
                     }
                 </ul>
-                )
-            else
-                ()
-        }
-        {
-            if (($node/(ancestor::t:msDesc | ancestor::t:msPart | ancestor::t:msFrag))[1]//t:handNote)
-            then
-                (
-                <h3>Palaeography {viewItem:headercontext($node)}</h3>,
-                for $h in ($node/(ancestor::t:msDesc | ancestor::t:msPart | ancestor::t:msFrag))[1]//t:handNote
-                return
-                    (<h4
-                        id="{$h/@xml:id}">Hand {substring-after($h/@xml:id, 'h')}</h4>,
-                    <p>{string($h/@script)}{
-                            if ($h/t:ab[@type = 'script']) then
-                                (': ', viewItem:TEI2HTML($h/t:ab[@type = 'script']))
-                            else
-                                ()
-                        }</p>,
-                    if ($h/t:seg[@type = 'ink']) then
-                        <p>Ink: {viewItem:TEI2HTML($h/t:seg[@type = 'ink'])}</p>
-                    else
-                        (),
-                    if ($h/t:list[@type = 'abbreviations']) then
-                        (<h4> Abbreviations </h4>,
-                        <ul>{viewItem:TEI2HTML($h/t:list[@type = 'abbreviations']/node())}</ul>)
-                    else
-                        (),
-                    if ($h/t:persName[@role = 'scribe']) then
-                        <p><b>Scribe</b>: {viewItem:TEI2HTML($h/t:persName[@role = 'scribe'])}</p>
-                    else
-                        (),
-                    viewItem:TEI2HTML($h/node()[not(self::t:seg)][not(self::t:list)][not(self::t:ab[@type = 'script'])])
-                    )
                 )
             else
                 ()
@@ -2365,12 +2331,20 @@ declare %private function viewItem:handDesc($node) {
                     (), 'https://betamasaheft.eu/hand', 'https://w3id.org/sdc/ontology#UniMain'
             }
         }
-        <h5
-            id="{$node/@xml:id}">Hand {viewItem:headercontext($node)}
-            {
-                if ($node/@corresp) then
+                {
+            if (($node/(ancestor::t:msDesc | ancestor::t:msPart | ancestor::t:msFrag))[1]//t:handNote)
+            then
+                (
+                <h3>Palaeography {viewItem:headercontext($node)}</h3>,
+                for $h in ($node/(ancestor::t:msDesc | ancestor::t:msPart | ancestor::t:msFrag))[1]//t:handNote
+                return
+                    <li class="nodot"
+                        id="{$h/@xml:id}">
+                    {    <h4>Hand {substring-after($h/@xml:id, 'h')} 
+                    {
+                if ($h/@corresp) then
                     ('(',
-                    for $c in viewItem:makeSequence($node/@corresp)
+                    for $c in viewItem:makeSequence($h/@corresp)
                     let $type := switch ($c)
                         case starts-with(., '#q')
                             return
@@ -2400,37 +2374,42 @@ declare %private function viewItem:handDesc($node) {
                 ')')
             else
                 ()
-        }</h5>
-    
-    <p>{string($node/@script)}{
-            if ($node/t:ab[@type = 'script']) then
-                (': ', viewItem:TEI2HTML($node/t:ab[@type = 'script']))
+        }
+                    </h4>}
+                    {  <p>{concat('Script: ', string($h/@script), '; Handwriting: ', viewItem:TEI2HTML($h/t:seg[@type = 'script']), '')}</p>
+                            
+                        }
+                    {if ($h/t:persName[@role = 'scribe']) then
+                        <p><b>Scribe</b>: {viewItem:TEI2HTML($h/t:persName[@role = 'scribe'])}</p>
+                    else
+                       ()}                        
+                    {if ($h/t:seg[@type = 'ink']) then
+                        <p>Ink: {viewItem:TEI2HTML($h/t:seg[@type = 'ink'])}</p>
+                    else
+                        ()}
+                    {if ($h/t:seg[@type = 'rubrication']) then
+                        <p>Rubrication: {viewItem:TEI2HTML($h/t:seg[@type = 'rubrication'])}</p>
+                    else
+                        ()}
+                    {if ($h/t:date) then
+                        <p>Date: {viewItem:TEI2HTML($h/t:date)}</p>
+                    else
+                        ()}
+                    {if ($h/t:list[@type = 'abbreviations']) then
+                        (<h4> Abbreviations </h4>,
+                        <ul>{viewItem:TEI2HTML($h/t:list[@type = 'abbreviations']/node())}</ul>)
+                    else
+                        ()}
+                    {viewItem:TEI2HTML($h/node()[not(self::t:seg)][not(self::t:list)])}
+                    </li>
+                )
             else
                 ()
-        }</p>
-    {
-        if ($node/t:seg[@type = 'ink']) then
-            <p>Ink: {viewItem:TEI2HTML($node/t:seg[@type = 'ink'])}</p>
-        else
-            ()
-    }
-    {
-        if ($node/t:list[@type = 'abbreviations']) then
-            (<h4> Abbreviations </h4>,
-            <ul>{viewItem:TEI2HTML($node/t:list[@type = 'abbreviations']/node())}</ul>)
-        else
-            ()
-    }
-    {
-        if ($node/t:persName[@role = 'scribe']) then
-            <p><b>Scribe</b>: {viewItem:TEI2HTML($node/t:persName[@role = 'scribe'])}</p>
-        else
-            ()
-    }
-    {viewItem:TEI2HTML($node/node()[not(self::t:seg)][not(self::t:list)][not(self::t:ab[@type = 'script'])])}
-</div>
+        }
 
+    </div>
 };
+
 
 
 declare %private function viewItem:foliation($node as element(t:foliation)) {
@@ -4186,7 +4165,7 @@ declare function viewItem:TEI2HTML($nodes) {
                     viewItem:incipit($node)
             case element(t:item)
                 return
-                    viewItem:item($node)
+                    viewItem:item($node)         
             case element(t:layoutDesc)
                 return
                     viewItem:layoutDesc($node)
@@ -4559,7 +4538,7 @@ declare %private function viewItem:work($item) {
                                 {viewItem:TEI2HTML($b)}
                             </ul>
                         </div>
-                }
+                }                                             
                 {viewItem:standards($item)}
                 {
                     if ($item//t:div[@type = 'edition']//t:ab//text()) then
