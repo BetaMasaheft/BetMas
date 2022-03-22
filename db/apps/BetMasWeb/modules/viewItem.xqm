@@ -2029,14 +2029,12 @@ declare %private function viewItem:layoutDesc($node) {
                     <li class="nodot"
                         id="{$h/@xml:id}">
                     {    <h4>Hand {substring-after($h/@xml:id, 'h')}</h4>}
-                     {if ($h/t:persName[@role = 'scribe']) then
+                                        {if ($h/t:persName[@role = 'scribe']) then
                         <p><b>Scribe</b>: {viewItem:TEI2HTML($h/t:persName[@role = 'scribe'])}</p>
                     else
                        ()}
-                    {  <p>Script: {string($h/@script)}</p>                         
-                        }
-                    { <p>{viewItem:TEI2HTML($h/t:seg[@type = 'script'])}</p>                         
-                        }
+                    { <p>Script: {string($h/@script)}</p>}
+                    { <p>{viewItem:TEI2HTML($h/t:seg[@type = 'script'])}</p>}
                     {if ($h/t:seg[@type = 'ink']) then
                         <p>Ink: {viewItem:TEI2HTML($h/t:seg[@type = 'ink'])}</p>
                     else
@@ -2049,12 +2047,12 @@ declare %private function viewItem:layoutDesc($node) {
                         <p>Date: {viewItem:TEI2HTML($h/t:date)}</p>
                     else
                         ()}
+                    {viewItem:TEI2HTML($h/node()[empty(self::t:seg)][empty(self::t:list)])}
                     {if ($h/t:list[@type = 'abbreviations']) then
-                        (<h4> Abbreviations </h4>,
-                        <ul>{viewItem:TEI2HTML($h/t:list[@type = 'abbreviations']/node())}</ul>)
+                        (<h4>Abbreviations</h4>,
+                        <li>{viewItem:TEI2HTML($h/t:list[@type = 'abbreviations']/node())}</li>)
                     else
-                        ()}                   
-                    {viewItem:TEI2HTML($h/node()[not(self::t:seg)][not(self::t:list)])}
+                        ()}
                     </li>
                 )
             else
