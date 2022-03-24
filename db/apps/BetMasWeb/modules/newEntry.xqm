@@ -18,7 +18,7 @@ declare namespace t="http://www.tei-c.org/ns/1.0";
 declare function new:newentry($node as node()*, $model as map(*)) {
 
 let $taxonomy := doc('/db/apps/lists/canonicaltaxonomy.xml')//t:taxonomy 
-let $schema := doc($config:app-root || '/schema/tei-betamesaheft.xml') 
+let $schema := doc('/db/apps/BetMas/schema/tei-betamesaheft.xml') 
      let $option := switch($app:collection) 
      case 'manuscripts' return ''
      default return 'last part of the'
@@ -56,7 +56,7 @@ if($app:collection = 'persons') then (
 
 (<div class="w3-container w3-margin-bottom">
 <label >Faith</label><br/>
-<select  class="w3-select"  id="keywords" name="keywords" multiple="multiple">
+<select  class="w3-select"  id="faithkeywords" name="keywords" multiple="multiple">
                 {
                 
                 let $categories :=  $taxonomy//t:category[t:desc eq 'Confessions']//t:catDesc/text()
@@ -75,11 +75,11 @@ if($app:collection = 'persons') then (
 <option value="" selected="selected">choose</option>
                 {
                 
-                let $categories :=  $schema//t:elementSpec[@ident eq 'occupation']//t:attDef[@ident eq 'type']//t:valItem
+                let $categories :=  $schema//t:elementSpec[@ident eq 'occupation']//t:valItem
                  for $k in $categories
                 order by $k/@ident
                 return
-                <option value="{$k/@ident}">{$k//t:desc}</option>
+                <option value="{data($k/@ident)}">{data($k/t:desc)}</option>
                 }
 </select>
 <br/>
@@ -91,12 +91,11 @@ if($app:collection = 'persons') then (
 <option value="" selected="selected">choose</option>
                 {
                 
-                let $categories :=  $schema//t:elementSpec[@ident eq 'nationality']//t:attDef[@ident eq 'type']//t:valItem
+                let $categories :=  $schema//t:elementSpec[@ident eq 'nationality']//t:valItem
                  for $k in $categories
-                 let $i := $k/@ident
-                order by $i
+                order by $k/@ident
                 return
-                <option value="{$i}">{string($i)}</option>
+                <option value="{data($k/@ident)}">{data($k/@ident)}</option>
                 }
 </select>
 <br/>
@@ -108,22 +107,21 @@ if($app:collection = 'persons') then (
 <label>Keywords</label><br/>
 <div class="w3-container" id="formKeywords">
                 {
-                
                 let $categories := 
                 switch($app:collection)
-                case 'narratives' return  $taxonomy/t:category[t:desc='Subjects']//t:catDesc/text()
-                case 'works' return  $taxonomy/t:category[t:desc='Subjects']//t:catDesc/text()
-                case 'manuscripts' return  $taxonomy/t:category[t:desc='Subjects']//t:catDesc/text()
-                case 'places' return  $taxonomy/t:category[t:desc='Place types']//t:catDesc/text()
-                case 'institutions' return  $taxonomy/t:category[t:desc='Place types']//t:catDesc/text()
-               default return $taxonomy//t:catDesc/text()
-                for $k in distinct-values($categories)
-                order by $k
+                case 'narratives' return  $taxonomy/t:category[t:desc='Subjects']/t:category
+                case 'works' return  $taxonomy/t:category[t:desc='Subjects']/t:category
+                case 'manuscripts' return  $taxonomy/t:category[t:desc='Subjects']/t:category
+                case 'places' return  $taxonomy/t:category[t:desc='Place types']/t:category
+                case 'institutions' return  $taxonomy/t:category[t:desc='Place types']/t:category
+               default return $taxonomy/t:category/t:category
+                for $k in $categories
+                order by $k/@xml:id
                 return
                 <span class="w3-tag w3-gray w3-margin">
                 
-                <input type="checkbox" class="w3-check" value="{$k}" name="keywords"/>
-                <label>{$k}</label>
+                <input type="checkbox" class="w3-check" value="{data($k/@xml:id)}" name="keywords"/>
+                <label>{data($k/t:catDesc)}</label>
                 </span>
                 }
 <br/>
@@ -143,7 +141,6 @@ if($app:collection = 'persons') then (
 <option value="betmas:wifeOf">betmas:wifeOf</option>
 <option value="betmas:husbandOf">betmas:husbandOf</option>
 <option value="lawd:hasAttestation">lawd:hasAttestation</option>
-syriaca:has-relation-to-place
 <option value="snap:AllianceWith">snap:AllianceWith</option>
 <option value="betmas:ordainedBy">betmas:ordainedBy</option>
 <option value="ecrm:P129i_is_subject_of">ecrm:P129i_is_subject_of</option>
@@ -166,7 +163,6 @@ syriaca:has-relation-to-place
 <option value="saws:isRelatedTo">saws:isRelatedTo</option>
 <option value="ecrm:P57_has_number_of_parts">ecrm:P57_has_number_of_parts</option>
 <option value="saws:follows">saws:follows</option>
-<option value="ecrm:P57_has_number_of_parts">ecrm:P57_has_number_of_parts</option>
                 </select>
                 <br/>
                 <small class="form-text text-muted">Any relation needed for sure? select as many as you want. You will have to complete these in your file after download with passive attribute values</small>
