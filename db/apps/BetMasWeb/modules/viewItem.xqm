@@ -6365,22 +6365,14 @@ declare function viewItem:keywords($file, $collection) {
                )
         case 'works'
             return
-                (viewItem:keywordgroup($file//t:term/@key),
-                viewItem:keywordgroupauth($file//t:relation[@name eq 'dcterms:creator']),
-                viewItem:keywordgroupauth($file//t:relation[@name eq 'saws:isAttributedToAuthor'])
+                (viewItem:keywordgroup($file//t:term/@key)
                 )
         case 'studies'
             return
-               (viewItem:keywordgroup($file//t:term/@key),
-                viewItem:keywordgroupauth($file//t:relation[@name eq 'dcterms:creator']),
-                viewItem:keywordgroupauth($file//t:relation[@name eq 'saws:isAttributedToAuthor'])
-                )
+               (viewItem:keywordgroup($file//t:term/@key))
         case 'narratives'
             return
-                 (viewItem:keywordgroup($file//t:term/@key),
-                viewItem:keywordgroupauth($file//t:relation[@name eq 'dcterms:creator']),
-                viewItem:keywordgroupauth($file//t:relation[@name eq 'saws:isAttributedToAuthor'])
-                )
+                 (viewItem:keywordgroup($file//t:term/@key)                )
         case 'places'
             return
                 (viewItem:keywordgroup($file//t:term/@key),
