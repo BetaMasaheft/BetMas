@@ -4416,22 +4416,29 @@ declare %private function viewItem:work($item) {
                 }
                 {
                     let $attributed := $relsA[@name = 'saws:isAttributedToAuthor']
+                    let $attributedp := $relsP[@name = 'saws:isAttributedAuthorOf']
                     let $creator := $relsA[@name = 'dcterms:creator']
                     return
-                        if (count($item//t:author[not(parent::t:bibl)] | $attributed | $creator) ge 1)
+                        if (count($item//t:author[not(parent::t:bibl)] | $attributed | $attributedp | $creator) ge 1)
                         then
                             (<h2>Authorship</h2>,
                             <ul>
                                 {
-                                    for $a in ($attributed | $creator)
+                                    for $aut in ($attributed | $creator)
                                     return
-                                        viewItem:workAuthLi($a, 'p')
+                                        viewItem:workAuthLi($aut, 'p')
                                 }
                                 {
-                                    for $a in $item//t:author[not(parent::t:bibl)]
+                                    for $aut in ($attributedp)
                                     return
-                                        <li>{$a}</li>
+                                        viewItem:workAuthLi($aut, 'a')
                                 }
+                                {
+                                    for $aut in $item//t:author[not(parent::t:bibl)]
+                                    return
+                                        <li>{$aut}</li>
+                                }
+                                
                             </ul>
                             )
                         else
@@ -4439,8 +4446,10 @@ declare %private function viewItem:work($item) {
                 }
                 {
                     let $translator := $relsP[@name = 'betmas:isAuthorOfEthiopicTranslation']
+                    let $translatora := $relsA[@name = 'betmas:isAuthorOfEthiopicTranslation']
+
                     return
-                        if (count($translator) ge 1)
+                        if (count($translator | $translatora) ge 1)
                         then
                             (<h2>Translator</h2>,
                             <ul>
@@ -4448,6 +4457,11 @@ declare %private function viewItem:work($item) {
                                     for $a in ($translator)
                                     return
                                         viewItem:workAuthLi($a, 'a')
+                                }
+                                {
+                                    for $a in ($translatora)
+                                    return
+                                        viewItem:workAuthLi($a, 'p')
                                 }
                                 {
                                     for $a in $item//t:author[not(parent::t:bibl)]
