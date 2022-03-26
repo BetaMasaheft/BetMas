@@ -979,8 +979,6 @@ declare %private function viewItem:bibliographyHeader($listBibl) {
         viewItem:TEI2HTML($listBibl)
     else
         if ($listBibl[not(parent::t:item) and not(ancestor::t:physDesc)]) then
-            viewItem:biblioHeader($listBibl) 
-        else
             <h4>{
                     if ($listBibl/@type = 'catalogue') then
                         attribute id {string($listBibl/@type)}
@@ -4715,6 +4713,40 @@ declare %private function viewItem:person($item) {
                     {viewItem:divofperson($item, 'education')}
                     {viewItem:divofperson($item, 'floruit')}
                     {viewItem:divofperson($item, 'death')}
+                    {
+                    let $membera := $relsA[@name = 'snap:Group']
+                    return
+                        if (count($membera) ge 1)
+                        then
+                            (<h4>Group of</h4>,
+                            <ul class="w3-small">
+                                {
+                                    for $m in ($membera)
+                                    return
+                                        viewItem:workAuthLi($m, 'p')
+                                }                                                                
+                            </ul>
+                            )
+                        else
+                            ()
+                    }
+                    {
+                    let $memberp := $relsP[@name = 'snap:Group']
+                    return
+                        if (count($memberp) ge 1)
+                        then
+                            (<h4>Member of</h4>,
+                            <ul class="w3-small">
+                                {
+                                    for $m in ($memberp)
+                                    return
+                                        viewItem:workAuthLi($m, 'a')
+                                }                                                                
+                            </ul>
+                            )
+                        else
+                            ()
+                    }
                     {
                     let $attributed := $relsP[@name = 'saws:isAttributedToAuthor']
                     let $attributedp := $relsA[@name = 'saws:isAttributedAuthorOf']
