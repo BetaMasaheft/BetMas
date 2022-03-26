@@ -805,8 +805,44 @@ declare %private function viewItem:worktitle($t) {
         </li>
 };
 
-
-
+declare %private function viewItem:persname($name) {
+    let $id := string($name/@xml:id)    
+    return
+        <li>
+            {
+                attribute {'xml:id'} {$id},
+                if ($name/@type) then
+                    concat(string($name/@type), ': ')
+                else
+                    (),
+                if ($name/@ref) then
+                    <a
+                        href="/{viewItem:URI2ID($name/@ref)}"
+                        target="_blank">{$name/text()}</a>
+                else
+                    viewItem:TEI2HTML($name/node()),
+                viewItem:sup($name),
+                 if ($name/parent::t:person/t:persName[@corresp]) then
+                    (' (', viewItem:correspN($name, $id), ')')
+                else
+                    if ($name/parent::t:persGroup/t:persName[@corresp]) then
+                    (' (', viewItem:correspN($name, $id), ')')
+                else
+                    ()
+            }
+        </li>
+};
+declare %private function viewItem:correspN($name, $id) {
+    let $cors := $name/parent::t:listPerson//t:persName[substring-after(@corresp, '#') = $id]
+    let $count := count($cors)
+    for $corresp at $p in $cors
+    return
+        (viewItem:TEI2HTML($corresp), viewItem:sup($corresp),
+        if ($p = $count) then
+            ()
+        else
+            ', ')
+};
 declare %private function viewItem:makeSequence($attribute) {
     if (contains($attribute, ' ')) then
         tokenize($attribute, ' ')
@@ -943,7 +979,7 @@ declare %private function viewItem:bibliographyHeader($listBibl) {
         viewItem:TEI2HTML($listBibl)
     else
         if ($listBibl[not(parent::t:item) and not(ancestor::t:physDesc)]) then
-            viewItem:biblioHeader($listBibl)
+            viewItem:biblioHeader($listBibl) 
         else
             <h4>{
                     if ($listBibl/@type = 'catalogue') then
@@ -4664,6 +4700,7 @@ declare %private function viewItem:person($item) {
     let $relsA := $viewItem:coll//t:relation[@active = $uri]
     let $rels := ($relsA | $relsP)
     let $mainidno := $item//t:msIdentifier/t:idno
+    let $prs := $item//(personGrp | person)/persName
     return
         <div
             class="w3-twothird"
@@ -4677,6 +4714,56 @@ declare %private function viewItem:person($item) {
                     {viewItem:divofperson($item, 'education')}
                     {viewItem:divofperson($item, 'floruit')}
                     {viewItem:divofperson($item, 'death')}
+                    {
+                    let $attributed := $relsP[@name = 'saws:isAttributedToAuthor']
+                    let $attributedp := $relsA[@name = 'saws:isAttributedAuthorOf']
+                    let $creator := $relsP[@name = 'dcterms:creator']
+                    return
+                        if (count($attributed | $attributedp | $creator) ge 1)
+                        then
+                            (<h4>Author of</h4>,
+                            <ul class="w3-small">
+                                {
+                                    for $aut in ($attributed | $creator)
+                                    return
+                                        viewItem:workAuthLi($aut, 'a')
+                                }
+                                {
+                                    for $aut in ($attributedp)
+                                    return
+                                        viewItem:workAuthLi($aut, 'p')
+                                }       
+                                
+                            </ul>
+                            )
+                        else
+                            ()
+                }
+                {
+                    let $translator := $relsA[@name = 'betmas:isAuthorOfEthiopicTranslation']
+                    let $translatora := $relsP[@name = 'betmas:isAuthorOfEthiopicTranslation']
+
+                    return
+                        if (count($translator | $translatora) ge 1)
+                        then
+                            (<h4>Translator of</h4>,
+                            <ul class="w3-small">
+                                {
+                                    for $a in ($translator)
+                                    return
+                                        viewItem:workAuthLi($a, 'p')
+                                }
+                                {
+                                    for $a in ($translatora)
+                                    return
+                                        viewItem:workAuthLi($a, 'a')
+                                }                                
+                            </ul>
+                            )
+                        else
+                            ()
+                }
+ 
                     {
                         if ($item//t:person/t:note) then
                             for $n in $item//t:person/t:note
@@ -6386,7 +6473,7 @@ declare function viewItem:keywords($file, $collection) {
                (viewItem:keywordgroup($file//t:term/@key))
         case 'narratives'
             return
-                 (viewItem:keywordgroup($file//t:term/@key)                )
+                 (viewItem:keywordgroup($file//t:term/@key) )
         case 'places'
             return
                 (viewItem:keywordgroup($file//t:term/@key),
@@ -6420,4 +6507,3 @@ return
         {$options}
     </div> else ()
 };
-      
