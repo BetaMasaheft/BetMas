@@ -4710,6 +4710,7 @@ declare %private function viewItem:person($item) {
                 <div
                     class="w3-threequarter w3-padding"
                     id="history">
+                    {viewItem:divofperson($item, 'persName')}
                     {viewItem:divofperson($item, 'birth')}
                     {viewItem:divofperson($item, 'education')}
                     {viewItem:divofperson($item, 'floruit')}
@@ -5249,16 +5250,19 @@ declare %private function viewItem:manuscript($item) {
 };
 
 declare %private function viewItem:divofperson($item, $element) {
-let $path := '$item//t:person/t:'||$element
+let $path := '$item//(t:person | t:personGrp)/t:'||$element
     let $this := util:eval($path)
     return
         if (count($this) ge 1) then
-            <div
+                        <div
                 class="w3-container"
                 id="{$element}">
                 <h4>{
                         if ($element = "floruit") then
                             'Period of Activity'
+                        else
+                            if ($element = "persName") then
+                            'Names'
                         else
                             viewItem:capitalize-first($element)
                     }</h4>
