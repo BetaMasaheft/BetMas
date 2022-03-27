@@ -5067,6 +5067,7 @@ declare %private function viewItem:place($item) {
                             </div>
                     }
                 </div>
+                {viewItem:divofplacepath($item, "//t:placeName", ' ', 2)}
                 {viewItem:relsinfoblock($rels, $item)}
                 {viewItem:divofplacepath($item, "//t:location[@type='relative']", 'Location', 2)}
                 {viewItem:divofplacepath($item, "//t:ab[@type = 'appellations'][child::*]", 'Appellations', 2)}
