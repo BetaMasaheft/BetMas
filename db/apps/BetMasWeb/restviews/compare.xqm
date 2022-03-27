@@ -87,14 +87,15 @@ if(exists($w) or $workid ='') then (
         {nav:modalsNew()}
         <div id="content" class="w3-container w3-padding-64 w3-margin">
         <div class="w3-container">
-        <form action="" class="w3-container" data-hint="enter here the id of the work you would like to compare. Alternatively, if you go to the clavis list view you can select explicitly which mss you want to compare fromt the results of your search. From a literary work view you can click the compare tab to feed this view with the list of manuscripts containing that work.">
+        <form action="" class="w3-container" data-hint="enter here the id of the work you would like to compare. Alternatively, if you go to the clavis list view you can select explicitly which mss you want to compare from the results of your search. From a literary work view you can click the compare tab to feed this view with the list of manuscripts containing that work.">
         <input placeholder="choose work to compare manuscripts" class="w3-input w3-border" list="gotohits" id="GoTo" name="workid" data-value="works"/>
                 <datalist id="gotohits">
                     
                 </datalist>
           <div class="w3-bar"><button type="submit" class="w3-bar-item w3-button w3-red"> Compare
                 </button><a class="w3-bar-item w3-button w3-gray" href="javascript:void(0);" 
-        onclick="javascript:introJs().addHints();">show hints</a></div>
+        onclick="javascript:introJs().addHints();">show hints</a><a class="w3-bar-item w3-button w3-gray" href="/compareSelected"> Select specific mss
+                </a></div>
     </form>
     
         
@@ -178,13 +179,24 @@ return
     <body id="body">
        {nav:barNew()}
         {nav:modalsNew()}
-        <div id="content" class="w3-container w3-margin w3-padding-64">
+        <div id="content" class="w3-container w3-margin w3-padding-64">      
+        <div class="w3-container">
+        <form action="" class="w3-container" data-hint="enter here the ids of specific mss of a certain work you would like to compare.">
+        <input placeholder="choose mss to compare" class="w3-input w3-border" list="gotohits" id="GoTo" name="mss" data-value="manuscripts"/>
+                <datalist id="gotohits">
+                    
+                </datalist>
+          <div class="w3-bar"><button type="submit" class="w3-bar-item w3-button w3-red"> Compare
+                </button><a class="w3-bar-item w3-button w3-gray" href="javascript:void(0);" 
+        onclick="javascript:introJs().addHints();">show hints</a><a class="w3-bar-item w3-button w3-gray" href="/compare">Compare all</a></div>
+    </form>
+    
         
         <div class="msscomp w3-container">
             {apprest:compareMssFromlist($list)}
         </div>
         </div>
-        
+        </div>
          {nav:footerNew()}
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"  />
 
