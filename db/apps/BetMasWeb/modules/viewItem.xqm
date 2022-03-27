@@ -979,12 +979,15 @@ declare %private function viewItem:bibliographyHeader($listBibl) {
         viewItem:TEI2HTML($listBibl)
     else
         if ($listBibl[not(parent::t:item) and not(ancestor::t:physDesc)]) then
-            <h4>{
+            <p class="w3-text-white">{
                     if ($listBibl/@type = 'catalogue') then
                         attribute id {string($listBibl/@type)}
                     else
                         ()
-                }{viewItem:biblioHeader($listBibl)}</h4>
+                }
+                {viewItem:biblioHeader($listBibl)}
+                </p>
+                else ()
 };
 
 declare %private function viewItem:zot($c) {
