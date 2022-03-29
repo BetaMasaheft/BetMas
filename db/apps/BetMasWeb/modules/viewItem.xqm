@@ -4455,8 +4455,8 @@ declare %private function viewItem:standards($item) {
 declare %private function viewItem:work($item) {
     let $id := string($item/@xml:id)
     let $uri := viewItem:ID2URI($id)
-    let $relsP := $viewItem:coll//t:relation[@passive = $uri]
-    let $relsA := $viewItem:coll//t:relation[@active = $uri]
+    let $relsP := $viewItem:coll//t:relation[contains(@passive, $uri)]
+    let $relsA := $viewItem:coll//t:relation[contains(@active, $uri)]
     let $rels := ($relsA | $relsP)
     return
         <div
@@ -4565,7 +4565,7 @@ declare %private function viewItem:work($item) {
                 }
                 {
                     if ($item//t:creation) then
-                      (<h2>Creation</h2>,
+                        (<h2>Creation</h2>,
                         for $b in $item//t:creation[@when or @notBefore or @notAfter]
                         return
                             <p>Date: {viewItem:datepicker($b)}</p>,
@@ -4695,8 +4695,8 @@ declare %private function viewItem:narrative($item) {
     (:replaces nar.xsl :)
     let $id := string($item/@xml:id)
     let $uri := viewItem:ID2URI($id)
-    let $relsP := $viewItem:coll//t:relation[@passive = $uri]
-    let $relsA := $viewItem:coll//t:relation[@active = $uri]
+    let $relsP := $viewItem:coll//t:relation[contains(@passive, $uri)]
+    let $relsA := $viewItem:coll//t:relation[contains(@active, $uri)]
     let $rels := ($relsA | $relsP)
     let $mainidno := $item//t:msIdentifier/t:idno
     return
@@ -4736,8 +4736,8 @@ declare %private function viewItem:person($item) {
     (:replaces Person.xsl :)
     let $id := string($item/@xml:id)
     let $uri := viewItem:ID2URI($id)
-    let $relsP := $viewItem:coll//t:relation[@passive = $uri]
-    let $relsA := $viewItem:coll//t:relation[@active = $uri]
+    let $relsP := $viewItem:coll//t:relation[contains(@passive, $uri)]
+    let $relsA := $viewItem:coll//t:relation[contains(@active, $uri)]
     let $rels := ($relsA | $relsP)
     let $mainidno := $item//t:msIdentifier/t:idno
     let $prs := $item//(personGrp | person)/persName
@@ -4807,7 +4807,8 @@ declare %private function viewItem:person($item) {
                                     for $aut in ($attributedp)
                                     return
                                         viewItem:workAuthLi($aut, 'p')
-                                }       
+                                }
+         
                                 
                             </ul>
                             )
@@ -5051,8 +5052,8 @@ declare %private function viewItem:place($item) {
     (:replaces placesInstit.xsl :)
     let $id := string($item/@xml:id)
     let $uri := viewItem:ID2URI($id)
-    let $relsP := $viewItem:coll//t:relation[@passive = $uri]
-    let $relsA := $viewItem:coll//t:relation[@active = $uri]
+    let $relsP := $viewItem:coll//t:relation[contains(@passive, $uri)]
+    let $relsA := $viewItem:coll//t:relation[contains(@active, $uri)]
     let $rels := ($relsA | $relsP)
     return
         (if ($item//t:figure) then
@@ -5208,8 +5209,8 @@ declare %private function viewItem:auth($item) {
     (:replaces auth.xsl :)
     let $id := string($item/@xml:id)
     let $uri := viewItem:ID2URI($id)
-    let $relsP := $viewItem:coll//t:relation[@passive = $uri]
-    let $relsA := $viewItem:coll//t:relation[@active = $uri]
+    let $relsP := $viewItem:coll//t:relation[contains(@passive, $uri)]
+    let $relsA := $viewItem:coll//t:relation[contains(@active, $uri)]
     let $rels := ($relsA | $relsP)
     let $mainidno := $item//t:msIdentifier/t:idno
     return
@@ -5252,8 +5253,8 @@ declare %private function viewItem:manuscript($item) {
     (:replaces mss.xsl :)
     let $id := string($item/@xml:id)
     let $uri := viewItem:ID2URI($id)
-    let $relsP := $viewItem:coll//t:relation[@passive = $uri]
-    let $relsA := $viewItem:coll//t:relation[@active = $uri]
+    let $relsP := $viewItem:coll//t:relation[contains(@passive, $uri)]
+    let $relsA := $viewItem:coll//t:relation[contains(@active, $uri)]
     let $rels := ($relsA | $relsP)
     let $mainidno := $item//t:msIdentifier/t:idno
     
@@ -5387,7 +5388,7 @@ let $path := '$item//(t:person | t:personGrp)/t:'||$element
     let $this := util:eval($path)
     return
         if (count($this) ge 1) then
-                        <div
+            <div
                 class="w3-container"
                 id="{$element}">
                 <h4>{
