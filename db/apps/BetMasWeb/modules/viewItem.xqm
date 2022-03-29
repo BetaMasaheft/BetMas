@@ -908,6 +908,42 @@ declare %private function viewItem:workAuthLi($a, $aorp) {
             <li>{viewItem:workAuthorList($parentname, $p, $a)}</li>
 };
 
+
+declare %private function viewItem:personAuthLi($a, $aorp) {
+    let $parentname := viewItem:parentLink($a)
+    let $att := if ($aorp = 'a') then
+        $a/@active
+    else
+        $a/@passive
+    let $ps := viewItem:makeSequence($att)
+    return
+        for $p in $ps
+        return
+            <li>{viewItem:persRelList($parentname, $p, $a)}</li>
+};
+
+declare %private function viewItem:persRelList($parentname, $p, $a) {
+    let $filename := viewItem:URI2ID($p)
+    return
+     ($parentname,
+    <a
+        href="{viewItem:TEI2HTML($p)}">
+        {exptit:printTitle($p)}
+     </a>,
+  <a
+            id="{generate-id($a)}Ent{$filename}relations">
+            
+            <span
+                class="glyphicon glyphicon-hand-left"/>
+        </a>,
+    '.',
+    if ($a/t:desc) then
+        viewItem:TEI2HTML($a/t:desc)
+    else
+        ()
+    )
+};
+
 declare %private function viewItem:parentLink($node) {
     if ($node/ancestor::t:div[@xml:id]) then
         let $href := '/text/' || string($node/ancestor::t:TEI/@xml:id) || '#' || string($node/ancestor::t:div[@xml:id][1]/@xml:id)
@@ -4917,7 +4953,7 @@ declare %private function viewItem:person($item) {
                     else
                         ()
                 }
-            </div>
+            
             {
                 if ($item//t:occupation) then
                     (<h3>Occupation</h3>,
@@ -4937,8 +4973,68 @@ declare %private function viewItem:person($item) {
                 return
                     viewItem:divofperson($item, $othernodes)
             }
+             {
+                    let $successor := $relsA[@name = 'betmas:isSuccessorOf']
+                       return
+                        if (count($successor) ge 1)
+                        then
+                            (<h6></h6>,
+                            <ul class="w3-small nodot">
+                                {
+                                    for $aut in ($successor)
+                                    return
+                                        <li>Predecessor: {viewItem:personAuthLi($aut, 'p')}</li>
+                                }
+                            </ul>
+                            )
+                        else
+                            ()
+                }
+                             {
+                    let $predecessor := $relsA[@name = 'betmas:isPredecessorOf']
+                       return
+                        if (count($predecessor) ge 1)
+                        then
+                            (<h6></h6>,
+                            <ul class="w3-small nodot">                                
+                                {
+                                    for $aut in ($predecessor)
+                                    return
+                                        <li>Successor: {viewItem:personAuthLi($aut, 'p')}</li>
+                                }      
+                            </ul>
+                            )
+                        else
+                            ()
+                }
+                                {
+                    let $about := $relsP[@name = 'ecrm:P129_is_about']
+                    let $subject := $relsA[@name = 'ecrm:P129i_is_subject_of']
+                       return
+                        if (count($about | $subject) ge 1)
+                        then
+                            (<h6>Subject of</h6>,
+                            <ul class="w3-small">
+                                {
+                                    for $aut in ($about)
+                                    return
+                                        viewItem:workAuthLi($aut, 'a')
+                                }
+                                {
+                                    for $aut in ($subject)
+                                    return
+                                        viewItem:workAuthLi($aut, 'p')
+                                }
+         
+                                
+                            </ul>
+                            )
+                        else
+                            ()
+                }
+                </div>
             <div
-                id="bibliography">
+                id="bibliography" class="w3-container">
                 <h3>{viewItem:bibliographyHeader($item//t:listBibl)}</h3>
                 {viewItem:TEI2HTML($item//t:listBibl)}
             
@@ -4990,6 +5086,7 @@ declare %private function viewItem:place($item) {
                 </h2>
                 <div
                     class="placeNames w3-container">
+                    {viewItem:divofplacepath($item, "//t:placeName", ' ', 2)}
                     {
                         for $name in $item//t:place/t:placeName[@xml:id]
                         return
@@ -5067,17 +5164,14 @@ declare %private function viewItem:place($item) {
                             </div>
                     }
                 </div>
-                {viewItem:divofplacepath($item, "//t:placeName", ' ', 2)}
                 {viewItem:relsinfoblock($rels, $item)}
-                {viewItem:divofplacepath($item, "//t:location[@type='relative']", 'Location', 2)}
+                {viewItem:divofplacepath($item, "//t:ab[@type = 'description']", 'General information', 3)}
+                {viewItem:divofplacepath($item, "//t:location[@type='relative']", 'Location', 3)}
                 {viewItem:divofplacepath($item, "//t:ab[@type = 'appellations'][child::*]", 'Appellations', 2)}
-                <h2>Foundation</h2>
-                {viewItem:divofplacepath($item, "//t:date[@type = 'foundation']", 'Date of foundation', 3)}
-                {viewItem:divofplacepath($item, "//t:desc[@type = 'foundation']", 'Description of foundation', 3)}
+                {viewItem:divofplacepath($item, "//t:date[@type = 'foundation']", 'Foundation date', 3)}
+                {viewItem:divofplacepath($item, "//t:desc[@type = 'foundation']", 'Foundation story', 3)}
                 {viewItem:divofplacepath($item, "//t:ab[@type = 'history']", 'History', 3)}
-                {viewItem:divofplacepath($item, "//t:ab[@type = 'description']", 'Description', 3)}
                 {viewItem:divofplacepath($item, "//t:ab[@type = 'tabot']", 'Tābots', 3)}
-                <h2>Bibliography</h2>
                 {viewItem:TEI2HTML($item//t:listBibl)}
                 {viewItem:divofplacepath($item, "//t:note[not(descendant::t:ab)][not(parent::t:placeName)][not(@source)][not(starts-with(@type,'tag'))]", 'Other', 2)}
                 <button
