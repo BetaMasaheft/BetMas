@@ -4565,7 +4565,10 @@ declare %private function viewItem:work($item) {
                 }
                 {
                     if ($item//t:creation) then
-                        (<h2>Date</h2>,
+                      (<h2>Creation</h2>,
+                        for $b in $item//t:creation[@when or @notBefore or @notAfter]
+                        return
+                            <p>Date: {viewItem:datepicker($b)}</p>,
                         <p>
                             {viewItem:TEI2HTML($item//t:creation)}
                             {
