@@ -218,7 +218,7 @@ DTSannoCollectionLink">{
                         class="w3-bar-item w3-black w3-small">
                         <a
                             target="_blank"
-                            href="http://voyant-tools.org/?input={$uridoc}">Voyant</a>
+                            href="http://voyant-tools.org/?input=https://betamasaheft.eu/works/{$id}.xml">Voyant</a>
                     </div>
                     {
                         if ($ref != '' or $start != '') then
@@ -366,6 +366,7 @@ dtsc:DTStext($base, $id)
     let $cleanDTSpass := replace($dtsPassage, '\{&amp;ref\}\{&amp;start\}\{&amp;end\}', '')
     (:let $t3 := console:log($cleanDTSpass):)
     let $DTSdoc := dtsc:requestXML($cleanDTSpass)
+    let $voyantPassage := substring-after($dtsPassage, '?id=')
     return
         <div
             class="w3-container">
@@ -411,7 +412,7 @@ dtsc:DTStext($base, $id)
                         class="w3-bar-item w3-black w3-small">
                         <a
                             target="_blank"
-                            href="http://voyant-tools.org/?input={$dtsPassage}">Voyant</a>
+                            href="http://voyant-tools.org/?input={$voyantPassage}">Voyant</a>
                     </div>
                     {
                         for $member in $DTSnav?member?*

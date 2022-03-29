@@ -4635,7 +4635,7 @@ declare %private function viewItem:work($item) {
                         <a
                             class="w3-button w3-gray w3-large"
                             target="_blank"
-                            href="{concat('http://voyant-tools.org/?input=https://betamasaheft.eu/works/', $id, '.xml')}">Voyant</a>
+                            href="http://voyant-tools.org/?input=https://betamasaheft.eu/works/{$id}.xml">Voyant</a>
                     else
                         ()
                 }
