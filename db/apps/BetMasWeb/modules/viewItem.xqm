@@ -2092,16 +2092,19 @@ declare %private function viewItem:layoutDesc($node) {
                 else
                     ()
         }
-        {
-            if (($node/(ancestor::t:msDesc | ancestor::t:msPart | ancestor::t:msFrag))[1]//t:handNote)
-            then
-                (
-                <h3>Palaeography {viewItem:headercontext($node)}</h3>,
-                for $h in ($node/(ancestor::t:msDesc | ancestor::t:msPart | ancestor::t:msFrag))[1]//t:handNote
+    </div>
+};
+
+declare %private function viewItem:palaeography($node) {
+    <div
+        rel="http://purl.org/dc/terms/hasPart">
+        <h3>Palaeography {viewItem:headercontext($node)}</h3>,        
+        {      for $h in $node/t:handNote
                 return
                     <li class="nodot"
                         id="{$h/@xml:id}">
                     {    <h4>Hand {substring-after($h/@xml:id, 'h')}</h4>}
+                    {viewItem:handDesc($h)}
                                         {if ($h/t:persName[@role = 'scribe']) then
                         <p><b>Scribe</b>: {viewItem:TEI2HTML($h/t:persName[@role = 'scribe'])}</p>
                     else
@@ -2127,12 +2130,8 @@ declare %private function viewItem:layoutDesc($node) {
                     else
                         ()}
                     </li>
-                )
-            else
-                ()
-        }
-
-    </div>
+               }
+        </div>
 };
 
 declare %private function viewItem:layoutdimensionunit($dim) {
@@ -4244,9 +4243,9 @@ declare function viewItem:TEI2HTML($nodes) {
             case element(t:explicit)
                 return
                     viewItem:explicit($node)
-             case element(t:extent)
+            case element(t:extent)
                 return
-                    viewItem:extent($node)                   
+                    viewItem:extent($node)           
             case element(t:facsimile)
                 return
                     ()
@@ -4259,7 +4258,7 @@ declare function viewItem:TEI2HTML($nodes) {
             case element(t:filiation)
                 return
                     viewItem:filiation($node)
-            case element(t:filiation)
+            case element(t:foliation)
                 return
                     viewItem:foliation($node)
             case element(t:floruit)
@@ -4273,7 +4272,7 @@ declare function viewItem:TEI2HTML($nodes) {
                     viewItem:gap($node)
             case element(t:handDesc)
                 return
-                    viewItem:handDesc($node)
+                    viewItem:palaeography($node)
             case element(t:handShift)
                 return
                     viewItem:handShift($node)
