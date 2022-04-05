@@ -2511,6 +2511,50 @@ declare %private function viewItem:extant($node as element(t:extant)) {
     )
 };
 
+declare %private function viewItem:extent($node as element(t:extent)) {
+    (<h4>Extent {viewItem:headercontext($node)}</h4>,
+    <div>
+        <span
+            property="http://betamasaheft.eu/hasTotalLeaves"
+            content="{$node/t:measure[1][@unit = 'leaf'][not(@type)]}"/>
+        {viewItem:TEI2HTML($node/node())}</div>,
+        <h5> </h5>,
+    <div>
+          {
+            if ($node//t:dimensions[not(@xml:lang)][@type = 'outer']) then
+                <div
+                    class="w3-responsive">
+                    <table
+                        class="w3-table w3-hoverable">
+			<tr>
+                                    <td><b>Outer dimensions {viewItem:headercontext($node)}</b></td>
+                                    <td/>
+                                </tr>
+                        <tr>
+                            <td>Height</td>
+                            <td>{viewItem:layoutdimensionunit($node/t:dimensions[not(@xml:lang)]/t:height)}</td>
+                        </tr>
+                        <tr>
+                            <td>Width</td>
+                            <td>{viewItem:layoutdimensionunit($node/t:dimensions[not(@xml:lang)]/t:width)}</td>
+                        </tr>
+                        {
+                            if ($node/t:dimensions/t:depth) then
+                                <tr>
+                                    <td>Depth</td>
+                            		<td>{viewItem:layoutdimensionunit($node/t:dimensions[not(@xml:lang)]/t:depth)}</td>
+                                </tr>
+                            else
+                                ()
+                        }                        
+                    </table>
+                </div>
+            else
+                ()
+        }</div>
+    )
+};
+
 declare %private function viewItem:decoDesc($node) {
     <div
         id="deco"
@@ -2800,6 +2844,12 @@ declare %private function viewItem:additionItem($a) {
         {
             if ($a/t:q) then
                 viewItem:TEI2HTML($a/t:q)
+            else
+                ()
+        }
+         {
+            if ($a/t:quote) then
+                viewItem:TEI2HTML($a/t:quote)
             else
                 ()
         }
@@ -4194,6 +4244,9 @@ declare function viewItem:TEI2HTML($nodes) {
             case element(t:explicit)
                 return
                     viewItem:explicit($node)
+             case element(t:extent)
+                return
+                    viewItem:extent($node)                   
             case element(t:facsimile)
                 return
                     ()
