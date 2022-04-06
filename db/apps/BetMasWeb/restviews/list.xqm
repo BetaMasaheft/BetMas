@@ -672,7 +672,7 @@ href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exr
   let $ids := for $hit in $texts return 'input=https://betamasaheft.eu/works/'||string($hit/@xml:id)||'.xml'
   let $urls := string-join($ids,'&amp;')
    return
-   <a target="_blank" class="w3-button w3-bar-item w3-red" href="{concat('http://voyant-tools.org/?', $urls)}">Voyant</a>
+   <a target="_blank" class="w3-button w3-bar-item w3-red" href="http://voyant-tools.org/?{$urls}">Voyant</a>
   else if (count($texts) eq 0) then 
   (<span class="w3-button w3-bar-item w3-red" disabled="disabled" data-hint="No text available for analysis with Voyant Tools for this selection.">Voyant</span>)
   else (<span class="w3-button w3-bar-item w3-red" data-hint="With less than 100 hits, you will find here a button to analyse the available texts in your selection with Voyant Tools.">Voyant</span>)
@@ -1846,7 +1846,7 @@ let $data :=
  else  <span n="new">{let $request := <http:request href="{xs:anyURI($xml-url)}" method="GET"/>
     let $response := http:send-request($request)[2] return $response//div[@class eq "csl-bib-body"]/div/node()}</span>
  let $sorting := $data//text()[1]
-order by $sorting
+order by $catalogue
 return
     <tr>
     <td><a href="/newSearch.html?searchType=text&amp;mode=any&amp;biblref={$catalogue}" class="lead">{$data}</a></td>
