@@ -1221,11 +1221,12 @@ declare %private function viewItem:ref($ref) {
                     for $t in viewItem:makeSequence($ref/@target)
                     return
                         if (starts-with($t, '#')) then
+                            let $id := $ref/ancestor::t:TEI/@xml:id
                             let $anchor := substring-after($t, '#')
                             let $node := $ref/ancestor::t:TEI/id($anchor)
                             return
                                 <a
-                                    href="{viewItem:switchsubids($anchor, $node)}">
+                                    href="/{$id}#{$anchor}">
                                     {$ref/text()}</a>
                         else
                             if (starts-with($t, 'http')) then
@@ -2098,15 +2099,15 @@ declare %private function viewItem:layoutDesc($node) {
 declare %private function viewItem:palaeography($node) {
     <div
         rel="http://purl.org/dc/terms/hasPart">
-        <h3>Palaeography {viewItem:headercontext($node)}</h3>,        
+        <h3>Palaeography {viewItem:headercontext($node)}</h3>        
         {      for $h in $node/t:handNote
                 return
                     <li class="nodot"
                         id="{$h/@xml:id}">
                     {    <h4>Hand {substring-after($h/@xml:id, 'h')}</h4>}
-                    {viewItem:handDesc($h)}
-                                        {if ($h/t:persName[@role = 'scribe']) then
-                        <p><b>Scribe</b>: {viewItem:TEI2HTML($h/t:persName[@role = 'scribe'])}</p>
+                    {viewItem:headercontext($node)}
+                    {if ($h/t:persName[@role = 'scribe']) then
+                        <p>Scribe: {viewItem:TEI2HTML($h/t:persName[@role = 'scribe'])}</p>
                     else
                        ()}
                     { <p>Script: {string($h/@script)}</p>}
