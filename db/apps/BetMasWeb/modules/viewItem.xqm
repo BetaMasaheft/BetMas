@@ -5224,13 +5224,13 @@ declare %private function viewItem:place($item) {
                 {viewItem:relsinfoblock($rels, $item)}
                 {viewItem:divofplacepath($item, "//t:ab[@type = 'description']", 'General information', 3)}
                 {viewItem:divofplacepath($item, "//t:location[@type='relative']", 'Location', 3)}
-                {viewItem:divofplacepath($item, "//t:ab[@type = 'appellations'][child::*]", 'Appellations', 2)}
+                {viewItem:divofplacepath($item, "//t:ab[@type = 'appellations'][child::*]", 'Appellations', 3)}
                 {viewItem:divofplacepath($item, "//t:date[@type = 'foundation']", 'Foundation date', 3)}
                 {viewItem:divofplacepath($item, "//t:desc[@type = 'foundation']", 'Foundation story', 3)}
                 {viewItem:divofplacepath($item, "//t:ab[@type = 'history']", 'History', 3)}
                 {viewItem:divofplacepath($item, "//t:ab[@type = 'tabot']", 'Tābots', 3)}
                 {viewItem:TEI2HTML($item//t:listBibl)}
-                {viewItem:divofplacepath($item, "//t:note[not(descendant::t:ab)][not(parent::t:placeName)][not(@source)][not(starts-with(@type,'tag'))]", 'Other', 2)}
+                {viewItem:divofplacepath($item, "//t:note[not(descendant::t:ab)][not(descendant::t:listBibl)][not(parent::t:placeName)][not(@source)][not(starts-with(@type,'tag'))][not(starts-with(@type,'url'))]", 'Other', 3)}
                 <button
                     class="w3-button w3-red w3-large"
                     id="showattestations"
