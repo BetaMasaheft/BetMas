@@ -2532,17 +2532,17 @@ declare %private function viewItem:extent($node as element(t:extent)) {
                                 </tr>
                         <tr>
                             <td>Height</td>
-                            <td>{viewItem:layoutdimensionunit($node/t:dimensions[not(@xml:lang)]/t:height)}</td>
+                            <td>{viewItem:layoutdimensionunit($node/t:dimensions[not(@xml:lang)][@type = 'outer']/t:height)}</td>
                         </tr>
                         <tr>
                             <td>Width</td>
-                            <td>{viewItem:layoutdimensionunit($node/t:dimensions[not(@xml:lang)]/t:width)}</td>
+                            <td>{viewItem:layoutdimensionunit($node/t:dimensions[not(@xml:lang)][@type = 'outer']/t:width)}</td>
                         </tr>
                         {
-                            if ($node/t:dimensions/t:depth) then
+                            if ($node/t:dimensions[not(@xml:lang)][@type = 'outer']/t:depth) then
                                 <tr>
                                     <td>Depth</td>
-                            		<td>{viewItem:layoutdimensionunit($node/t:dimensions[not(@xml:lang)]/t:depth)}</td>
+                            		<td>{viewItem:layoutdimensionunit($node/t:dimensions[not(@xml:lang)][@type = 'outer']/t:depth)}</td>
                                 </tr>
                             else
                                 ()
@@ -2551,7 +2551,30 @@ declare %private function viewItem:extent($node as element(t:extent)) {
                 </div>
             else
                 ()
-        }</div>
+        }
+        {              if ($node//t:dimensions[not(@xml:lang)][@type = 'leaf']) then
+                <div
+                    class="w3-responsive">
+                    <table
+                        class="w3-table w3-hoverable">
+			<tr>
+                                    <td><b>Leaf dimensions {viewItem:headercontext($node)}</b></td>
+                                    <td/>
+                                </tr>
+                        <tr>
+                            <td>Height</td>
+                            <td>{viewItem:layoutdimensionunit($node/t:dimensions[not(@xml:lang)][@type = 'leaf']/t:height)}</td>
+                        </tr>
+                        <tr>
+                            <td>Width</td>
+                            <td>{viewItem:layoutdimensionunit($node/t:dimensions[not(@xml:lang)][@type = 'leaf']/t:width)}</td>
+                        </tr>                  
+                    </table>
+                </div>
+            else
+            ()
+            }
+        </div>
     )
 };
 
