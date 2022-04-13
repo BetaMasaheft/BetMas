@@ -2501,27 +2501,17 @@ declare %private function viewItem:condition($node as element(t:condition)) {
     )
 };
 
-declare %private function viewItem:extant($node as element(t:extant)) {
-    (<h4>Extent {viewItem:headercontext($node)}</h4>,
-    <div>
-        <span
-            property="http://betamasaheft.eu/hasTotalLeaves"
-            content="{$node/t:measure[1][@unit = 'leaf'][not(@type)]}"/>
-        {viewItem:TEI2HTML($node/node())}</div>
-    )
-};
-
 declare %private function viewItem:extent($node as element(t:extent)) {
-    (<h4>Extent {viewItem:headercontext($node)}</h4>,
-    <div>
+    <h4>Extent {viewItem:headercontext($node)}</h4>,
+     <div
+        rel="http://purl.org/dc/terms/hasPart">
         <span
             property="http://betamasaheft.eu/hasTotalLeaves"
             content="{$node/t:measure[1][@unit = 'leaf'][not(@type)]}"/>
-        {viewItem:TEI2HTML($node/node())}</div>,
-        <h5> </h5>,
-    <div>
-          {
-            if ($node//t:dimensions[not(@xml:lang)][@type = 'outer']) then
+        {viewItem:TEI2HTML($node/node())}    
+     {
+            for $d in $node/t:dimensions[@type = 'outer']                
+            return
                 <div
                     class="w3-responsive">
                     <table
@@ -2532,14 +2522,14 @@ declare %private function viewItem:extent($node as element(t:extent)) {
                                 </tr>
                         <tr>
                             <td>Height</td>
-                            <td>{viewItem:layoutdimensionunit($node/t:dimensions[not(@xml:lang)][@type = 'outer']/t:height)}</td>
+                            <td>{viewItem:layoutdimensionunit($d/t:height)}</td>
                         </tr>
                         <tr>
                             <td>Width</td>
-                            <td>{viewItem:layoutdimensionunit($node/t:dimensions[not(@xml:lang)][@type = 'outer']/t:width)}</td>
+                            <td>{viewItem:layoutdimensionunit($d/t:width)}</td>
                         </tr>
                         {
-                            if ($node/t:dimensions[not(@xml:lang)][@type = 'outer']/t:depth) then
+                            if ($d/t:depth) then
                                 <tr>
                                     <td>Depth</td>
                             		<td>{viewItem:layoutdimensionunit($node/t:dimensions[not(@xml:lang)][@type = 'outer']/t:depth)}</td>
@@ -2549,34 +2539,32 @@ declare %private function viewItem:extent($node as element(t:extent)) {
                         }                        
                     </table>
                 </div>
-            else
-                ()
         }
-        {              if ($node//t:dimensions[not(@xml:lang)][@type = 'leaf']) then
-                <div
+       {
+            for $l in $node/t:dimensions[@type = 'leaf']
+            return
+               <div
                     class="w3-responsive">
                     <table
                         class="w3-table w3-hoverable">
 			<tr>
-                                    <td><b>Leaf dimensions {viewItem:headercontext($node)}</b></td>
+                                    <td><b>Leaf dimensions</b></td>
                                     <td/>
                                 </tr>
                         <tr>
                             <td>Height</td>
-                            <td>{viewItem:layoutdimensionunit($node/t:dimensions[not(@xml:lang)][@type = 'leaf']/t:height)}</td>
+                            <td>{viewItem:layoutdimensionunit($l/t:height)}</td>
                         </tr>
                         <tr>
                             <td>Width</td>
-                            <td>{viewItem:layoutdimensionunit($node/t:dimensions[not(@xml:lang)][@type = 'leaf']/t:width)}</td>
+                            <td>{viewItem:layoutdimensionunit($l/t:width)}</td>
                         </tr>                  
                     </table>
                 </div>
-            else
-            ()
-            }
+   }
         </div>
-    )
 };
+
 
 declare %private function viewItem:decoDesc($node) {
     <div
