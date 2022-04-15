@@ -148,7 +148,21 @@ let $firstcanvas :=
             :)
                else if(contains(viewer:facsSwitch($m), 'staatsbib')) 
                then substring-before(viewer:facsSwitch($m), '/manifest') || '-0001/canvas'
-           
+              (:tuebingen
+            http://idb.ub.uni-tuebingen.de/opendigi/MaIX2/manifest
+            http://idb.ub.uni-tuebingen.de/opendigi/MaIX2/canvas/1
+            :)
+               else if(contains(viewer:facsSwitch($m), 'tuebingen')) 
+            then replace(viewer:facsSwitch($m), '/manifest', '/') || 'canvas/1'
+            (:princeton:)
+                else if(contains($this//t:msIdentifier/t:idno/@facs, 'princeton')) 
+                then   '' 
+            (:cambridge
+            https://cudl.lib.cam.ac.uk//iiif/MS-ADD-01569
+            https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01569/canvas/1
+            :)
+              else if(contains(viewer:facsSwitch($m), 'cudl')) 
+              then replace(viewer:facsSwitch($m), '//iiif', '/iiif') || '/canvas/1'
            (:BNF:)
             else if (contains($this//t:repository/@ref, 'INS0303BNF')) 
             then replace(viewer:facsSwitch($m), 'ark:', 'iiif/ark:') || '/canvas/f1'
@@ -258,6 +272,12 @@ let $manifests := for $m in $this//t:idno[@facs][@n]
                                let $firstcanvas :=   
                                (:bodleian:)
                                       if(contains($this//t:msIdentifier/t:idno/@facs, 'bodleian')) 
+                                         then   '' 
+                                   (:princeton:)
+                                      else  if(contains($this//t:msIdentifier/t:idno/@facs, 'princeton')) 
+                                         then   '' 
+                                    (:tuebingen:)
+                                      else if(contains($this//t:msIdentifier/t:idno/@facs, 'tuebingen')) 
                                          then   '' 
                                     (:vatican:)
                                   else  if(contains(viewer:facsSwitch($m), 'digi.vat')) 
@@ -387,9 +407,12 @@ return(:BNF
                                                   ,
                                                   console:log((replace(viewer:facsSwitch($m), 'ark:', 'iiif/ark:') || '/manifest.json'))
                                                   )
+   (:                                                tuebingen :)
+                                                else if(contains(viewer:facsSwitch($m), 'http://idb'))
+                                                  then  viewer:facsSwitch($m) 
                                                 else
 (:                                                vatican :)
-                                                if(contains(viewer:facsSwitch($m), 'http:')) 
+                                                if(contains(viewer:facsSwitch($m), 'http://digi')) 
                                                   then  replace(viewer:facsSwitch($m), 'http:', 'https:')
                                                  else   if(contains(viewer:facsSwitch($m), 'https:')) 
                                                   then  viewer:facsSwitch($m)
@@ -465,4 +488,3 @@ return 'var data = [' ||$chmanif||']'}</script>
         )
         
 };
-
