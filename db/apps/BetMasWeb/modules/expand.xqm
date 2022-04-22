@@ -1,4 +1,4 @@
-xquery version "3.1" encoding "UTF-8";
+xquery version "3.1";
 
 module namespace expand = "https://www.betamasaheft.uni-hamburg.de/BetMas/expand";
 import module namespace titles = "https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
@@ -161,8 +161,10 @@ declare function expand:id($id) {
     (:   refactoring from post.xslt post:id :)
     if (starts-with($id, 'http')) then
         $id
+         else
+        if (matches($id, 'betmas:')) then $id
     else
-        if (contains($id, ':')) then
+        if (contains($id, ':') and not(contains($id, '.'))) then
             let $prefix := substring-before($id, ':')
             let $pdef := $expand:listPrefixDef//t:prefixDef[@ident = $prefix]
             return
@@ -240,7 +242,7 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
                         These Guidelines detail the TEI format ruled by 
                         the <ref target="https://betamasaheft.eu/Guidelines/?id=schemaView">Beta maṣāḥǝft Schema</ref>. 
                         The present TEI file is enriched with an 
-                        <ref target="https://github.com/BetaMasaheft/BetMas/blob/master/BetMas/modules/expand.xqm">Xquery transformation</ref> 
+                        <ref target="https://github.com/BetaMasaheft/BetMas/blob/master/db/apps/BetMas/modules/expand.xqm">Xquery transformation</ref> 
                         taking advantage of the <ref target="https://betamasaheft.eu">exist-db database instance</ref> where 
                         the data is stored and of the many external resources to which this data points to.</p>,
                         $expand:listPrefixDef,
@@ -640,8 +642,9 @@ let $cS :=
                 return
                     try{element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
                         ($node/@*,
-                         if($node[t:subst|t:choice]) then expand:optionsexpand($node, $bibliography)
-                                 else expand:tei2fulltei($node/node(), $bibliography)
+                (:         if($node[t:subst|t:choice]) then expand:optionsexpand($node, $bibliography)
+                                 else :) 
+                                 expand:tei2fulltei($node/node(), $bibliography)
                         )
                     }} catch * {util:log('INFO', $err:description), util:log('INFO', $node)}
                     (:                    anything which is not a node of those named above, including text() and attributes:)
@@ -738,7 +741,7 @@ declare function expand:dateidno($node){
 let $id := string($node/ancestor-or-self::t:TEI/@xml:id)
 (:let $log := util:log('INFO', $id):)
 return 
-(<date xmlns="http://www.tei-c.org/ns/1.0" type="expanded">{current-dateTime()}</date>,
+(<date xmlns="http://www.tei-c.org/ns/1.0" type="expanded">{format-dateTime(current-dateTime(), "[D1].[M1].[Y1] at [H01]:[m01]:[s01]")}</date>,
 let $time := max($node/ancestor-or-self::t:TEI//t:revisionDesc/t:change/xs:date(@when))
 return
 (<date xmlns="http://www.tei-c.org/ns/1.0" type="lastModified">{format-date($time, '[D].[M].[Y]')}</date>
@@ -766,8 +769,9 @@ element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
                             string-join($atts, ' ')
                         else
                             (),
-                        if($node[t:subst|t:choice]) then expand:optionsexpand($node, $bibliography)
-                                 else expand:tei2fulltei($node/node(), $bibliography)
+                          (:         if($node[t:subst|t:choice]) then expand:optionsexpand($node, $bibliography)
+                                 else :) 
+                                 expand:tei2fulltei($node/node(), $bibliography)
                         )
                     }
 };
@@ -782,8 +786,8 @@ element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
                             titles:printTitleID($node/@ref)
                         else
                             (),
-                        if($node[t:subst|t:choice]) then expand:optionsexpand($node, $bibliography)
-                                 else expand:tei2fulltei($node/node(), $bibliography)
+                          (:         if($node[t:subst|t:choice]) then expand:optionsexpand($node, $bibliography)
+                                 else :)  expand:tei2fulltei($node/node(), $bibliography)
                                  )
                     }};
 declare function expand:attributes($node, $bibliography) {
@@ -875,7 +879,7 @@ declare function expand:file($filepath) {
         }
 };
 
-
+(:
 declare function expand:optionsexpand($model, $bibliography){
 if($model/t:choice[t:corr][t:sic]) then
 <choice xmlns="http://www.tei-c.org/ns/1.0"><corr>{$model//t:corr/@resp}{
@@ -887,8 +891,8 @@ else if ($model/t:choice[t:reg][t:orig]) then
 else
 <subst xmlns="http://www.tei-c.org/ns/1.0"><del>{$model//t:del/@*}{for $n in $model/node() return if ($n/self::t:subst) then expand:tei2fulltei($n/t:del/node(), $bibliography) else expand:tei2fulltei($n, $bibliography)}</del>
 <add>{$model//t:add/@*}{for $n in $model/node() return if ($n/self::t:subst) then expand:tei2fulltei($n/t:add/node(), $bibliography) else expand:tei2fulltei($n, $bibliography)}</add></subst>
-
-};
+}; 
+:)
 
 declare function expand:biblCorrTok($corresp, $node){
 let $c :=if(starts-with($corresp, '#')) then concat($node/ancestor-or-self::t:TEI/@xml:id, $corresp) else string($corresp) 
