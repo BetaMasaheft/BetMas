@@ -827,8 +827,7 @@ declare function expand:attributes($node, $bibliography) {
                 $node/@corresp
             let $file := collection('/db/apps/BetMasData/')/id($filename)
             return
-                ($file//t:msIdentifier/t:idno,
-                $file//t:titleStmt/t:title)
+                ($file//t:msIdentifier/t:idno)
             )
         else
             ()
