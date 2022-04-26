@@ -818,7 +818,7 @@ declare function expand:attributes($node, $bibliography) {
         else
             (),
         expand:tei2fulltei($node/node(), $bibliography)),
-        if ($node/name() = 'witness' and $node[not(@type = 'external')])
+        if ($node/name() = 'witness' and $node[not(@type = 'external')] and not($node/text()))
         then
             (
             let $filename := if (contains($node/@corresp, '#')) then
