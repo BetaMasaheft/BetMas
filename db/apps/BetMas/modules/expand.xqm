@@ -741,7 +741,7 @@ declare function expand:dateidno($node){
 let $id := string($node/ancestor-or-self::t:TEI/@xml:id)
 (:let $log := util:log('INFO', $id):)
 return 
-(<date xmlns="http://www.tei-c.org/ns/1.0" type="expanded">{current-dateTime()}</date>,
+(<date xmlns="http://www.tei-c.org/ns/1.0" type="expanded">{format-dateTime(current-dateTime(), "[D1].[M1].[Y1] at [H01]:[m01]:[s01]")}</date>,
 let $time := max($node/ancestor-or-self::t:TEI//t:revisionDesc/t:change/xs:date(@when))
 return
 (<date xmlns="http://www.tei-c.org/ns/1.0" type="lastModified">{format-date($time, '[D].[M].[Y]')}</date>
@@ -827,8 +827,7 @@ declare function expand:attributes($node, $bibliography) {
                 $node/@corresp
             let $file := collection('/db/apps/BetMasData/')/id($filename)
             return
-                ($file//t:msIdentifier/t:idno,
-                $file//t:titleStmt/t:title)
+                ($file//t:msIdentifier/t:idno)
             )
         else
             ()
