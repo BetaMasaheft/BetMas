@@ -1158,7 +1158,7 @@ declare %private function viewItem:relation($node) {
 
 declare %private function viewItem:publicationStmt($node) {
     <div
-        class="w3-container w3-small"
+        class="w3-container w3-small w3-responsive" style="overflow-x:auto;"
         id="publicationStmt">
         <h3>Publication Statement</h3>
         {
@@ -1168,14 +1168,14 @@ declare %private function viewItem:publicationStmt($node) {
                     class="w3-row">
                     <div
                         class="w3-col"
-                        style="width:15%;">{$n/name()}</div>
+                        style="width:80px;">{$n/name()}</div>
                     <div
                         class="w3-col"
-                        style="width:15%;">{
+                        style="width:110px;">{
                             for $att in $n/@* return $att/name() || '=' || $att/data()
                         }</div>
                     <div
-                        class="w3-rest">{viewItem:TEI2HTML($n)}</div>
+                        class="w3-rest" style="overflow-x:auto; vertical-align: text-top; text-align: left;">{viewItem:TEI2HTML($n)}</div>
                 </div>
         }
     </div>
@@ -2970,7 +2970,7 @@ declare %private function viewItem:history($node as element(t:history)) {
 };
 
 declare %private function viewItem:idno($node as element(t:idno)) {
-    <p>{$node/text()}</p>
+    <span>{$node/text()}</span>
 };
 
 declare %private function viewItem:incipit($node as element(t:incipit)) {
