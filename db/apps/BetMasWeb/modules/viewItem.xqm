@@ -608,9 +608,11 @@ declare %private function viewItem:choosefacsorlb($locus, $ancID) {
         if ($locus/ancestor::t:TEI//t:div[@xml:id = 'Transkribus']) then
             attribute onclick {viewItem:imagesID($locus, 'call', $locus/@*, '')}
         else
+            if ($locus/ancestor::t:TEI//t:idno/@facs) then
             (attribute class {'w3-tooltip'},
-            <span
-                class="w3-text w3-tag">No image available</span>)
+            <span style="position:absolute;left:0;bottom:18px"
+                class="w3-text w3-text-red w3-small">use the viewer for the images</span>)
+                else ()
 };
 
 
@@ -1121,7 +1123,7 @@ declare %private function viewItem:EthioSpareFormatter($node) {
     let $t := $node/t:ptr/@target
     let $TEI := $node/ancestor::t:TEI
     let $BMsignature := $TEI//t:idno[preceding-sibling::t:collection[. = 'Ethio-SPaRe']]
-    let $domliblist := $viewItem:domlib//d:item[d:signature = $BMsignature]/d:domlib
+    let $domliblist := $viewItem:domlib//item[signature = $BMsignature]/domlib
     let $cataloguer := if ($TEI//t:editor[@role = 'cataloguer'])
     then
         $TEI//t:editor[@role = 'cataloguer']/text()
@@ -1138,8 +1140,8 @@ declare %private function viewItem:EthioSpareFormatter($node) {
     let $title := $TEI//t:titleStmt/t:title[1]/text()
     return
         (<a
-            href="https://mycms-vs03.rrz.uni-hamburg.de/domlib/receive/{$domliblist}">MS {$repository}, {$BMsignature}
-            (digitized by the Ethio-SPaRe project), {$title}, {$date}, catalogued by {$cataloguer}</a>, ' In ',
+            href="https://mycms-vs03.rrz.uni-hamburg.de/domlib/receive/{$domliblist}">MS {$repository}, Ethio-SPaRe {$BMsignature}
+            , catalogued by {$cataloguer}</a>, ' in ',
         $viewItem:bibliography//b:entry[@id = $t]/b:reference/node())
 };
 
