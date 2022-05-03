@@ -464,6 +464,18 @@ declare function app:deleted ($node as node(), $model as map(*)) {
        <script type="text/javascript" src="resources/js/permanentID.js"></script>
 };
 
+declare function app:oldids ($node as node(), $model as map(*)) {
+<ul class="w3-ul w3-hoverable w3-padding">{
+let $formerly := $exptit:col//t:relation[@name eq 'betmas:formerlyAlsoListedAs']/@passive
+    for $deleted in $formerly
+    let $now := string-join($deleted/ancestor::t:relation[@passive eq $deleted]/@active, ', ')
+    order by $deleted  
+    return 
+    <li  class="w3-display-container">{substring-after($deleted, 'eu/')} is now listed as <a href="{$now}">{substring-after($now, 'eu/')}</a>. 
+    </li>}
+       </ul>
+};
+
 declare function functx:value-intersect  ( $arg1 as xs:anyAtomicType* ,    $arg2 as xs:anyAtomicType* )  as xs:anyAtomicType* {
 
   config:distinct-values($arg1[. eq $arg2])
