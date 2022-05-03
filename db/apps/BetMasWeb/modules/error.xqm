@@ -72,7 +72,7 @@ return
     }
     </ul>
     )
-    case 'item' return (<h1>{$name('name')} is not an available item.</h1>, <ul><li>Ids are case sensitive.</li><li>Try browsing or using simple or advanced search.</li></ul>)
+    case 'item' return (<h1>{$name('name')} is not an available item.</h1>, <ul><li>Ids are case sensitive.</li><li>Try browsing or using simple or advanced search.</li><li>You believe the ID should exist or has existed in the past? Check <a href="https://betamasaheft.eu/deleted.html">this list for IDs that have been changed, moved or renamed</a>.</li></ul>)
     default return 'There was an error, try again.'}
 </div>
 
