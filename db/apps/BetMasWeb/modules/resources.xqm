@@ -1086,7 +1086,11 @@ declare
             else ()}
             <p class="w3-rest">
             <a href="{data($ms)}#{data($sd/@xml:id)}">{data($sd/@xml:id)}</a><br/>
-            {if(count($sd//t:ref[@type eq 'authFile']) ge 1) then 'Art Themes: ' || string-join(string:tei2string($sd//t:ref[@type eq 'authFile']), ', ') else ()}
+           {if(count($sd//t:ref[@type eq 'authFile']) ge 1) then 
+            <span>Art themes: </span> else (),
+            for $at in $sd//t:ref[@type eq 'authFile']
+            return
+            <a href="/{string($at/@corresp)}">{concat(string-join(exptit:printTitle($at/@corresp), ' '), ', ')}</a>}
             </p>
 
             </li>
@@ -1197,7 +1201,11 @@ let $log := util:log('INFO',  count($group))
                                                   else 'unable to retrive reference'}</div>
                  <div class="w3-third">
             <a href="{data($ms)}#{data($sd/@xml:id)}">{data($sd/@xml:id)}</a><br/>
-            {if(count($sd//t:ref[@type eq 'authFile']) ge 1) then 'Art Themes: ' || string-join(string:tei2string($sd//t:ref[@type eq 'authFile']), ', ') else ()}
+            {if(count($sd//t:ref[@type eq 'authFile']) ge 1) then 
+            <span>Art themes: </span> else (),
+            for $at in $sd//t:ref[@type eq 'authFile']
+            return
+            <a href="/{string($at/@corresp)}">{concat(string-join(exptit:printTitle($at/@corresp), ' '), ', ')}</a>}
             </div>
             </div>
 
@@ -1235,7 +1243,11 @@ let $log := util:log('INFO',  count($group))
                                                   else 'unable to retrive reference'}</div>
                  <div class="w3-third">
             <a href="{data($ms)}#{data($sd/@xml:id)}">{data($sd/@xml:id)}</a><br/>
-            {if(count($sd//t:ref[@type eq 'authFile']) ge 1) then 'Art Themes: ' || string-join(string:tei2string($sd//t:ref[@type eq 'authFile']), ', ') else ()}
+            {if(count($sd//t:ref[@type eq 'authFile']) ge 1) then 
+            <span>Art themes: </span> else (),
+            for $at in $sd//t:ref[@type eq 'authFile']
+            return
+            <a href="/{string($at/@corresp)}">{concat(string-join(exptit:printTitle($at/@corresp), ' '), ', ')}</a>}
             </div>
             </div>
 
