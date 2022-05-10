@@ -11,7 +11,6 @@ import module namespace exptit="https://www.betamasaheft.uni-hamburg.de/BetMasWe
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/string" at "xmldb:exist:///db/apps/BetMasWeb/modules/tei2string.xqm";
 import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/switch2"  at "xmldb:exist:///db/apps/BetMasWeb/modules/switch2.xqm"; 
 import module namespace console="http://exist-db.org/xquery/console";
-
 declare namespace t="http://www.tei-c.org/ns/1.0";
 declare namespace templates="http://exist-db.org/xquery/templates" ;
 
@@ -54,6 +53,9 @@ declare
     %templates:default("type", "all")
     %templates:default("target-pers", "all")
     %templates:default("target-place", "all")
+    %templates:default("repo", "all")
+    %templates:default("content", "all")
+    %templates:default("main-key", "all")
     %templates:default("target-work", "all")
     %templates:default("target-keyword", "all")
     %templates:default("target-language", "all")
@@ -64,6 +66,9 @@ declare
     $target-language as xs:string+,
     $target-pers as xs:string+,
     $target-place as xs:string+,
+    $repo as xs:string+,
+    $content as xs:string+,
+    $main-key as xs:string+,
     $target-work as xs:string+,
     $termText as xs:string*,
     $otherText as xs:string*,
@@ -72,12 +77,15 @@ declare
    let $target-work := if($target-work = 'all') then () else let $pars := for $ty in $target-work return "@ref eq '" || $ty || "'" return '[descendant::t:title[' || string-join($pars, ' or ') || ']]'
    let $target-pers := if($target-pers = 'all') then () else let $pars := for $ty in $target-pers return "@ref eq '" || $ty || "'" return '[descendant::t:persName[' || string-join($pars, ' or ') || ']]'
    let $target-place := if($target-place = 'all') then () else let $pars := for $ty in $target-place return "@ref eq '" || $ty || "'" return '[descendant::t:placeName[' || string-join($pars, ' or ') || ']]'
+   let $repo := if($repo = 'all') then () else let $pars := for $ty in $repo return "@ref eq  '" || $ty || "'" return '[ancestor::t:TEI//t:repository[' || string-join($pars, ' or ') || ']]'
+   let $main-key := if($main-key = 'all') then () else let $pars := for $ty in $main-key return "@ref eq  '" || $ty || "'" return '[ancestor::t:TEI//t:textClass/t:keywords:/t:term[' || string-join($pars, ' or ') || ']]'
+   let $content := if($content = 'all') then () else let $pars := for $ty in $content return "@ref eq  '" || $ty || "'" return '[ancestor::t:TEI//t:msContents/t:msItem/t:title[' || string-join($pars, ' or ') || ']]'
    let $target-keyword := if($target-keyword = 'all') then () else let $pars := for $ty in $target-keyword return "@key eq '" || $ty || "'" return '[descendant::t:term[' || string-join($pars, ' or ') || ']]'
    let $target-language := if($target-language = 'all') then () else let $pars := for $ty in $target-language return "@xml:lang eq '" || $ty || "'" return '[descendant::t:q[' || string-join($pars, ' or ') || ']]'
    let $termText :=  if($termText) then ("[descendant::t:term[contains(.,'" || $termText || "')]]") else ()
    let $otherText :=if($otherText) then ("[descendant::t:q[ft:query(.,'" || $otherText || "')]]") else ()
    let $interpret :=if($interpret = 'all') then () else let $pars := for $ty in $interpret return "@ana eq '" || $ty || "'" return '[descendant::t:seg[' || string-join($pars, ' or ') || ']]'
-   let $path := '$lists:collection-rootMS//t:item[starts-with(@xml:id, "a")]' || $type || $target-work || $target-pers || $target-place || $target-keyword|| $target-language || $termText ||$otherText || $interpret
+   let $path := '$lists:collection-rootMS//t:item[starts-with(@xml:id, "a")]' || $type || $target-work || $target-pers || $target-place || $target-keyword|| $target-language || $termText ||$otherText || $interpret || $repo || $content || $main-key
  let $additions := for $add in util:eval($path) return $add
    return
    map {
@@ -130,6 +138,8 @@ declare
     %templates:default("type", "all")
     %templates:default("target-pers", "all")
     %templates:default("target-place", "all")
+    %templates:default("repo", "all")
+    %templates:default("content", "all")
     %templates:default("target-work", "all")
     %templates:default("target-artTheme", "all")
     %templates:default("target-keyword", "all")
@@ -141,6 +151,8 @@ $query as xs:string*,
     $target-keyword as xs:string+,
     $target-pers as xs:string+,
     $target-place as xs:string+,
+    $repo as xs:string+,
+    $content as xs:string+,
     $target-work as xs:string+,
     $target-artTheme as xs:string+,
     $legendText as xs:string*,
@@ -151,10 +163,12 @@ $query as xs:string*,
    let $target-artTheme := if($target-artTheme= 'all') then () else let $pars := for $ty in $target-artTheme return "@corresp eq  '" || $ty || "'" return '[descendant::t:ref[@type eq "authFile"][' || string-join($pars, ' or ') || ']]'
    let $target-pers := if($target-pers = 'all') then () else let $pars := for $ty in $target-pers return "@ref eq  '" || $ty || "'" return '[descendant::t:persName[' || string-join($pars, ' or ') || ']]'
    let $target-place := if($target-place = 'all') then () else let $pars := for $ty in $target-place return "@ref eq  '" || $ty || "'" return '[descendant::t:placeName[' || string-join($pars, ' or ') || ']]'
+   let $repo := if($repo = 'all') then () else let $pars := for $ty in $repo return "@ref eq  '" || $ty || "'" return '[ancestor::t:TEI//t:repository[' || string-join($pars, ' or ') || ']]'
+   let $content := if($content = 'all') then () else let $pars := for $ty in $content return "@ref eq  '" || $ty || "'" return '[ancestor::t:TEI//t:msContents/t:msItem/t:title[' || string-join($pars, ' or ') || ']]'
    let $target-keyword := if($target-keyword = 'all') then () else let $pars := for $ty in $target-keyword return "@key eq  '" || $ty || "'" return '[descendant::t:term[' || string-join($pars, ' or ') || ']]'
    let $legendText :=  if($legendText) then ("[descendant::t:q[@xml:lang][ft:query(.,'" || $legendText || "')]]") else ()
    let $otherText :=if($otherText) then ("[descendant::t:foreign[@xml:lang='gez'][ft:query(.,'" || $otherText || "')]]") else ()
-   let $path := "$lists:collection-rootMS//t:decoNote[starts-with(@xml:id, 'd')]" || $type || $target-work || $target-artTheme || $target-pers || $target-place || $target-keyword || $legendText ||$otherText
+   let $path := "$lists:collection-rootMS//t:decoNote[starts-with(@xml:id, 'd')]" || $type || $repo || $content || $target-work || $target-artTheme || $target-pers || $target-place || $target-keyword || $legendText ||$otherText 
   let $decos := for $dec in util:eval($path) return $dec
    return
    map {
@@ -340,7 +354,7 @@ return util:eval($query) else ()
    let $auth := $lists:collection-rootA
    return
    <form action="" class="w3-container">
-
+                                 <div id="additiontypes"></div>
                                 <div  class="w3-container w3-margin">
                                <small class="form-text text-muted">Search in the text of marked terms</small><br/>
                                 <input class="w3-input w3-border" name="termText"></input>
@@ -349,13 +363,41 @@ return util:eval($query) else ()
                                <small class="form-text text-muted">Search in the text of the documents or additions</small><br/>
                                 <input class="w3-input w3-border" name="otherText"></input>
                                 </div>
+                                <div class="w3-container w3-margin">
+                                 <small class="form-text text-muted">Select manuscript repository</small><br/>
+                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="repo" name="repo" class="w3-select w3-border">
+            {for $d in config:distinct-values($model('hits')/ancestor::t:TEI//t:repository/@ref)
+            order by exptit:printTitle($d)
+            return
+            <option value="{$d}">{exptit:printTitle($d)}</option>}
+            </select>
+                                 </div>
+                                {if($model('hits')/ancestor::t:TEI//t:msItem/t:title/@ref) then  <div class="w3-container w3-margin">
+                                 <small class="form-text text-muted">Select main content in the manuscripts</small><br/>
+                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="content" name="content" class="w3-select w3-border">
+            {for $d in config:distinct-values($model('hits')/ancestor::t:TEI//t:msContents/t:msItem/t:title/@ref[not(contains(., 'IHA'))])
+            order by exptit:printTitle($d)
+            return
+            <option value="{$d}">{exptit:printTitle($d)}</option>}
+            </select>
+                                 </div> else ()}
+{if($model('hits')/ancestor::t:TEI//t:textClass/t:keywords/t:term/@key) then  <div class="w3-container w3-margin">
+                                 <small class="form-text text-muted">Select main keywords associated with the manuscripts</small><br/>
+                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="main-key" name="main-key" class="w3-select w3-border">
+            {for $d in config:distinct-values($model('hits')/ancestor::t:TEI//t:textClass/t:keywords/t:term/@key)
+            order by exptit:printTitle($d)
+            return
+            <option value="{$d}">{exptit:printTitle($d)}</option>}
+            </select>
+                                 </div> else ()}
                                {if($model('hits')//t:q) then  <div class="w3-container w3-margin">
                                  <small class="form-text text-muted">Select the language of the additions you want to see</small><br/>
 
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-language" name="target-language" class="w3-select w3-border">
-            {for $d in config:distinct-values($model('hits')//t:q/@xml:lang)
+            {for $d in config:distinct-values($model('hits')//t:q/@xml:lang) 
+            order by $d
             return
-            <option value="{$d}">{$d}</option>}
+            <option value="{$d}">{data($d)}</option>}
             </select>
                                  </div> else () }
                                {if($model('hits')//t:title) then  <div class="w3-container w3-margin">
@@ -363,6 +405,7 @@ return util:eval($query) else ()
 
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-work" name="target-work" class="w3-select w3-border">
             {for $d in config:distinct-values($model('hits')//t:title/@ref)
+             order by exptit:printTitle($d)
             return
             <option value="{$d}">{exptit:printTitle($d)}</option>}
             </select>
@@ -372,6 +415,7 @@ return util:eval($query) else ()
 
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-int" name="interpret" class="w3-select w3-border">
             {for $d in config:distinct-values($model('hits')//t:seg/@ana)
+             order by $d
             return
             <option value="{$d}">{substring-after($d, '#')}</option>}
             </select>
@@ -379,7 +423,8 @@ return util:eval($query) else ()
                                  {if($model('hits')//t:persName) then <div class="w3-container w3-margin">
                                  <small class="form-text text-muted">Select one or more persons referred to in the document or addition</small><br/>
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-pers" name="target-pers" class="w3-select w3-border">
-            {for $d in config:distinct-values($model('hits')//t:persName/@ref[not(contains(., '.xml'))])
+            {for $d in config:distinct-values($model('hits')//t:persName/@ref[not(contains(., '.xml'))][not(contains(., '#'))])
+             order by replace(data($d), '^.*[0-9]', '')
             return
             <option value="{$d}">{exptit:printTitle($d)}</option>}
             </select>
@@ -388,6 +433,7 @@ return util:eval($query) else ()
                                  <small class="form-text text-muted">Select one or more places referred to in the document or addition</small><br/>
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-place" name="target-place" class="w3-select w3-border">
             {for $d in config:distinct-values($model('hits')//t:placeName/@ref[not(contains(., '.xml'))])
+             order by exptit:printTitle($d)
             return
             <option value="{$d}">{exptit:printTitle($d)}</option>}
             </select>
@@ -397,11 +443,12 @@ return util:eval($query) else ()
                                  <small class="form-text text-muted">Select one or more keywords referred to in the document or addition</small><br/>
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-keyword" name="target-keyword" class="w3-select w3-border">
             {for $d in config:distinct-values($model('hits')//t:term/@key)
+             order by $d
             return
             <option value="{$d}">{exptit:printTitle($d)}</option>}
             </select>
                                  </div> else() }
-                                 <div id="additiontypes"></div>
+
                                  <div class="w3-container w3-margin-top">
                                  <div class="w3-bar">
                                  <button type="submit" class="w3-bar-item w3-button w3-red">
@@ -509,7 +556,7 @@ return util:eval($query) else ()
                                <div  class="w3-container  w3-margin">
                                <small class="form-text text-muted">Select one or more type of decoration</small><br/>
 
-                               {for $d in config:distinct-values($model('hits')/@type)
+                               {for $d in config:distinct-values($model('hits')/@type) order by $d
                                  return  (<label class="checkbox"><input type="checkbox" class="w3-check" value="{$d}" name="type"/>{string($d)}</label>,<br/>)}
 
                                 </div>
@@ -521,12 +568,26 @@ return util:eval($query) else ()
                                <small class="form-text text-muted">Select in text on the decorations which is not the legend</small><br/>
                                 <input  class="w3-input w3-border" name="otherText"></input>
                                 </div>
+                                  
+                               <div class="w3-container w3-margin">
+                                 <small class="form-text text-muted">Select manuscript repository</small><br/>
+
+                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="repo" name="repo" class="w3-select w3-border">
+            {for $d in config:distinct-values($model('hits')/ancestor::t:TEI//t:repository/@ref)
+            order by exptit:printTitle($d)
+            return
+            <option value="{$d}">{exptit:printTitle($d)}</option>}
+            </select>
+                                 </div>
+                                
+                                
                                {if($model('hits')//t:ref[@type eq 'authFile']) then  
                                <div class="w3-container w3-margin">
                                  <small class="form-text text-muted">Select one or more Art Themes associated with the decoration description</small><br/>
 
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-artTheme" name="target-artTheme" class="w3-select w3-border">
             {for $d in config:distinct-values($model('hits')//t:ref[@type eq 'authFile']/@corresp)
+            order by exptit:printTitle($d)
             return
             <option value="{$d}">{exptit:printTitle($d)}</option>}
             </select>
@@ -536,7 +597,8 @@ return util:eval($query) else ()
 
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-work" name="target-work"  class="w3-select w3-border">
             {for $d in config:distinct-values($model('hits')//t:title/@ref)
-            return
+            order by exptit:printTitle($d)
+           return
             <option value="{$d}" >{exptit:printTitle($d)}</option>}
             </select>
                                  </div> else () }
@@ -544,6 +606,7 @@ return util:eval($query) else ()
                                  <small class="form-text text-muted">Select one or more persons referred to in the decoration description</small><br/>
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-pers" name="target-pers"  class="w3-select w3-border">
             {for $d in config:distinct-values($model('hits')//t:persName/@ref)
+           order by exptit:printTitle($d)
             return
             <option value="{$d}" >{exptit:printTitle($d)}</option>}
             </select>
@@ -552,15 +615,27 @@ return util:eval($query) else ()
                                  <small class="form-text text-muted">Select one or more places referred to in the decoration description</small><br/>
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-place" name="target-place"  class="w3-select w3-border">
             {for $d in config:distinct-values($model('hits')//t:placeName/@ref)
+            order by exptit:printTitle($d)
             return
             <option value="{$d}" >{exptit:printTitle($d)}</option>}
             </select>
                                  </div> else () }
+                                   {if($model('hits')/ancestor::t:TEI//t:msItem/t:title/@ref) then  <div class="w3-container w3-margin">
+                                 <small class="form-text text-muted">Select main content in the manuscripts</small><br/>
+                                    <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="content" name="content" class="w3-select w3-border">
+            {for $d in config:distinct-values($model('hits')/ancestor::t:TEI//t:msContents/t:msItem/t:title/@ref[not(contains(., 'IHA'))])
+            order by exptit:printTitle($d)
+            return
+            <option value="{$d}">{exptit:printTitle($d)}</option>}
+            </select>
+                                 </div> else ()}
+                                 
                                  {if($model('hits')//t:term) then
                                  <div class="w3-container w3-margin">
                                  <small class="form-text text-muted">Select one or more artistic elements referred to in the decoration description</small><br/>
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-keyword" name="target-keyword"  class="w3-select w3-border">
             {for $d in config:distinct-values($model('hits')//t:term/@key)
+            order by $d
             return
             <option value="{$d}" >{exptit:printTitle($d)}</option>}
             </select>
@@ -662,7 +737,7 @@ declare function lists:calendarform($node as node(), $model as map(*)){
                                <small class="form-text text-muted">Select one or more type of decoration</small><br/>
 
                                {for $d in config:distinct-values($model('hits')/@type)
-                                 return  (<label class="checkbox"><input type="checkbox" class="w3-check" value="{$d}" name="type"/>{$d}</label>,<br/>)}
+                                 return  (<label class="checkbox"><input type="checkbox" class="w3-check" value="{$d}" name="type"/>{string($d)}</label>,<br/>)}
 
                                 </div>
 
@@ -797,11 +872,17 @@ for $addition at $p in $data
     }</span></button>,
     
     <div class="w3-container w3-hide" id="{data($type)}">
-    <h2>{if ($type = 'undefined') then $type else <a href="/authority-files/list?keyword={string($type)}">{$tit}</a> }</h2>
+    <div>{if (count($addition) gt 100) then
+            
+                <span> (showing up to 100 results; use filters to narrow down your search)</span>
+            else ()}</div>
         
     <ul class="w3-ul w3-padding w3-hoverable">
-    {
-                for $a in $addition
+    {            
+            let $start := xs:integer(request:get-parameter("start", "1"))
+            let $num := xs:integer(request:get-parameter("num", "100"))
+                for $a in subsequence($addition, $start, $num)
+
                 let $fileID := data($a/ancestor::t:TEI/@xml:id)
                 let $additionID := data($a/@xml:id)
                 order by $fileID
@@ -935,13 +1016,10 @@ for $date at $p in $model("hits")
         </div>)
 };
 
-
-
 declare
 %templates:wrap
     function lists:decoRes($node as node(), $model as map(*)){
-   
-for $decoration at $p in $model("hits")
+    for $decoration at $p in $model("hits")
     let $t := $decoration/@type
    (: group by type :)
     group by $type := $t
@@ -957,13 +1035,19 @@ for $decoration at $p in $model("hits")
     
 <div  class="w3-container" id="{data($type)}">
             {
-                for $d in $decoration
+            if (count($decoration) gt 400) then            
+                <div>Showing up to 400 results; use filters to narrow down the search results</div>
+            else (),
+            
+            let $start := xs:integer(request:get-parameter("start", "1"))
+            let $num := xs:integer(request:get-parameter("num", "400"))
+                for $d in subsequence($decoration, $start, $num)
                 let $msid := $d/ancestor::t:TEI/@xml:id
-
                 (:group by containing ms:)
                 group by $ms := $msid
                 order by $ms
                 return
+                
 
 (<button onclick="openAccordion('{data($ms)}{data($type)}')" class="w3-button w3-block w3-red  w3-margin-bottom">
 <span class="w3-left">{$lists:collection-rootMS//id($ms)//t:msIdentifier/t:idno}</span>
@@ -1009,11 +1093,9 @@ for $decoration at $p in $model("hits")
                  }
             </ul>
             </div>
-            
             )}
 
         </div>
-        
     </div>
     )
     
