@@ -93,22 +93,20 @@ return
                                         (
                                         <h3>Your latest 50 changes in files out of {count($changes)} you recorded in a change element</h3>,
                         <div  class="userpanel w3-responsive" ><table
-                                class="w3-table w3-hoverable"><thead><tr><th>date and time</th><th>item</th></tr></thead><tbody>{
+                                class="w3-table w3-hoverable"><thead><tr><th>date and time</th><th>item</th><th>change content</th></tr></thead><tbody>{
                                     
                                     for $itemchanged in subsequence($changed, 1, 50)
                                     let $root := root($itemchanged)
                                     let $id := $root//t:TEI/@xml:id
                                     group by $ID := $id
                                     let $title := exptit:printTitleID($ID)
-                                    order by $title descending
-                                    return
-                                    (<tr style="font-weight:bold;  border-top: 4px solid #5bc0de">
-                                        <td><a
-                                                href="/{string($ID)}">{$title}</a></td><td></td><td></td></tr>,
-                                                for $changeToItem in $itemchanged 
+                                    for $changeToItem in $itemchanged 
                                                 order by $changeToItem/@when descending
-                                                return <tr><td></td>
+                                                return                                     
+                                    (<tr style="border-top: 4px solid #5bc0de">
                                         <td>{format-date($changeToItem/@when, "[D01].[M01].[Y1]")}</td>
+                                                <td><a
+                                                href="/{string($id)}">{string($id)}</a></td>                                                                                     
                                                 <td>{$changeToItem/text()}</td>
                                                 </tr>)
                                       
