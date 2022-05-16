@@ -15,13 +15,15 @@ var grayscale   = L.tileLayer(mbUrl, {
 	                                           tileSize: 512,
                                                           maxZoom: 18,
                                                           zoomOffset: -1,
-                                                          id: 'mapbox/light-v10', 
+                                                         zoomAnimation: false, 
+                                                         id: 'mapbox/light-v10', 
                                                             attribution: mbAttr,
                                                             accessToken: mbAT}),
           streets  = L.tileLayer(mbUrl, {
 	                                           tileSize: 512,
                                                           maxZoom: 18,
                                                           zoomOffset: -1,
+                                                          zoomAnimation: false, 
                                                           id: 'mapbox/streets-v11',  
                                                           attribution: mbAttr,
                                                             accessToken: mbAT});
@@ -29,6 +31,7 @@ var grayscale   = L.tileLayer(mbUrl, {
 	                                           tileSize: 512,
                                                           maxZoom: 18,
                                                           zoomOffset: -1,
+                                                          zoomAnimation: false, 
                                                           id: 'mapbox/satellite-v9', 
                                                           attribution: mbAttr,
                                                             accessToken: mbAT});
@@ -36,6 +39,7 @@ var grayscale   = L.tileLayer(mbUrl, {
 	                                           tileSize: 512,
                                                           maxZoom: 18,
                                                           zoomOffset: -1,
+                                                          zoomAnimation: false, 
                                                           id: 'mapbox/outdoors-v11', 
                                                           attribution: mbAttr,
                                                             accessToken: mbAT});
@@ -59,6 +63,7 @@ var geojsonLayer = new L.GeoJSON.AJAX(apicall);
 			  
         var map = L.map('entitymap', {
 		center: [10.8953849, 37.9227273],
+		zoomAnimation: false, 
 		zoom: 6,
 		layers: [outdoor, geojsonLayer],
         fullscreenControl: true,
@@ -71,10 +76,19 @@ var geojsonLayer = new L.GeoJSON.AJAX(apicall);
 var overlays = {
     "this place": geojsonLayer
 };
-      
-                L.control.layers(baseLayers, overlays).addTo(map);
-/*https://stackoverflow.com/questions/29735989/leaflet-ajax-map-fitbounds*/
-geojsonLayer.on('data:loaded', function() {
-  map.fitBounds(geojsonLayer.getBounds());
+
+//https://stackoverflow.com/questions/22212971/mapbox-js-set-map-default-zoom-option
+var polygonLayer = L.mapbox.featureLayer().loadURL(apicall).addTo(map);
+
+polygonLayer.on('ready', function() {
+    // featureLayer.getBounds() returns the corners of the furthest-out markers,
+    // and map.fitBounds() makes sure that the map contains these.
+    map.fitBounds(polygonLayer.getBounds());
 }.bind(this));
+                
+  //  L.control.layers(baseLayers, overlays).addTo(map);
+/*https://stackoverflow.com/questions/29735989/leaflet-ajax-map-fitbounds*/
+//geojsonLayer.on('data:loaded', function() {
+ // map.fitBounds(geojsonLayer.getBounds());
+//}.bind(this));
                 
