@@ -1844,6 +1844,7 @@ declare %private function viewItem:msItem($msItem) {
 
 declare %private function viewItem:figure($figure as element(t:figure)) {
     let $url := concat('https://betamasaheft.eu/iiif/', $figure/t:graphic/@url, '/info.json')
+    let $uri := concat('https://betamasaheft.eu/iiif/', $figure/t:graphic/@url)
     let $mainID := $figure/ancestor::t:TEI/@xml:id
     let $id := concat($mainID, 'graphic')
     return
@@ -1885,13 +1886,13 @@ declare %private function viewItem:figure($figure as element(t:figure)) {
             <div
                 id="{$id}">
                 <div
-                    id="openseadragon{$id}"
-                    style="height:300px"/>
+                    id="{$id}"
+                    style="height:300px"><a href="{$uri || '/full/1424,/0/default.jpg'}"><img src="{$uri || '/full/356,/0/default.jpg'}" style="height:300px"/></a></div>
                 <div
                     class="caption w3-margin-left w3-tiny">
                     {viewItem:TEI2HTML($figure/t:graphic/t:desc)}
                 </div>
-                <script
+         <!--       <script
                     type="text/javascript">
                     {
                         'OpenSeadragon({
@@ -1907,9 +1908,8 @@ declare %private function viewItem:figure($figure as element(t:figure)) {
                         ']
                            });'
                     }
-                </script>
+                </script>-->
             </div>
-
 };
 
 
@@ -2251,8 +2251,8 @@ declare %private function viewItem:layout($node) {
                 0
             let $computedheight := number($heighText) + number($bottomargin) + number($topmargin)
             let $computedwidth := number($textwidth) + number($rightmargin) + number($leftmargin)
-            let $currentMsPart := if ($node/ancestor::t:msPart) then
-                substring-after($node/ancestor::t:msPart/@xml:id, 'p')
+            let $currentMsPart := if ($node/ancestor::t:msPart[1]) then
+                substring-after($node/ancestor::t:msPart[1]/@xml:id, 'p')
             else
                 ' main part'
             return
@@ -5234,7 +5234,6 @@ declare %private function viewItem:place($item) {
                             </div>
                     }
                 </div>
-                {viewItem:relsinfoblock($rels, $item)}
                 {viewItem:divofplacepath($item, "//t:ab[@type = 'description']", 'General information', 3)}
                 {viewItem:divofplacepath($item, "//t:location[@type='relative']", 'Location', 3)}
                 {viewItem:divofplacepath($item, "//t:ab[@type = 'appellations'][child::*]", 'Appellations', 3)}
@@ -5253,6 +5252,7 @@ declare %private function viewItem:place($item) {
                     id="allattestations"
                     class="w3-container"/>
             </div>
+            {viewItem:relsinfoblock($rels, $item)}
             {viewItem:standards($item)}
         </div>,
         viewItem:resp($item)
