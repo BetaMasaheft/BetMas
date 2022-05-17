@@ -329,7 +329,7 @@ $keyword as xs:string*){
  
   <div class="w3-bar"> 
   <div id="hit-count" class="w3-bar-item">
-   {'There are ' || count($res("hits")) || ' resources that contain the exact keyword: '}  <span class="w3-tag w3-red">{$keyword}</span>
+   {'There are ' || count($res("hits")) || ' resources that contain the exact keyword: '}  <span class="w3-tag w3-red"><a href="/{$keyword}">{$keyword}</a></span>
    </div>
    </div>
    <div class="w3-responsive">
@@ -365,7 +365,7 @@ declare
 %rest:query-param("numberOfParts", "{$numberOfParts}", "")
 %rest:query-param("min-hits", "{$min-hits}", 0)
 %rest:query-param("max-pages", "{$max-pages}", 20)
- %rest:query-param("height","{$height}", "")
+%rest:query-param("height","{$height}", "")
 %rest:query-param("width","{$width}", "")
 %rest:query-param("depth","{$depth}", "")
 %rest:query-param("columnsNum","{$columnsNum}", "")
@@ -601,21 +601,20 @@ if(xdb:collection-available($c)) then (
  then (<div class="w3-panel w3-gray w3-card-4">Select an entry on the left to see all records where this occurs.</div>)
  else (
  let $res :=
- let $keywordlink := ('https://betamasaheft.eu/' || string($keyword))
  let $terms := $apprest:collection-root/t:TEI[descendant::t:term[@key eq  $keyword]]
  let $title := $apprest:collection-root/t:TEI[descendant::t:title[@type eq  $keyword]]
  let $person := $apprest:collection-root/t:TEI[descendant::t:person[@type eq  $keyword]]
  let $desc := $apprest:collection-root/t:TEI[descendant::t:desc[@type eq  $keyword]]
  let $place := $apprest:collection-root/t:TEI[descendant::t:place[@type eq  $keyword]]
  let $ab := $apprest:collection-root/t:TEI[descendant::t:ab[@type eq  $keyword]]
- let $abc := $apprest:collection-root/t:TEI[descendant::t:ab[@corresp eq  $keywordlink]]
+ let $abc := $apprest:collection-root/t:TEI[descendant::t:ab[@corresp eq  ('https://betamasaheft.eu/' || string($keyword))]]
  let $rela := $apprest:collection-root/t:TEI[descendant::t:relation[@active eq  $keyword]]
  let $relp := $apprest:collection-root/t:TEI[descendant::t:relation[@passive eq $keyword]]
- let $rella := $apprest:collection-root/t:TEI[descendant::t:relation[@active eq  $keywordlink]]
- let $rellp := $apprest:collection-root/t:TEI[descendant::t:relation[@passive eq $keywordlink]]
+ let $rella := $apprest:collection-root/t:TEI[descendant::t:relation[@active eq  ('https://betamasaheft.eu/' || string($keyword))]]
+ let $rellp := $apprest:collection-root/t:TEI[descendant::t:relation[@passive eq ('https://betamasaheft.eu/' || string($keyword))]]
  let $faith := $apprest:collection-root/t:TEI[descendant::t:faith[@type eq  $keyword]]
  let $occupation := $apprest:collection-root/t:TEI[descendant::t:occupation[@type eq  $keyword]]
- let $refb := $apprest:collection-root/t:TEI[descendant::t:ref[@corresp eq $keywordlink]]
+ let $refb := $apprest:collection-root/t:TEI[descendant::t:ref[@corresp eq ('https://betamasaheft.eu/' || string($keyword))]]
  let $hits := ($terms |$title |$person |$desc |$place |$ab |$abc |$faith  |$occupation |$refb |$rela |$relp |$rella |$rellp)
  return
                       map {
