@@ -45,7 +45,7 @@ declare function nav:barNew() {
             <div
                 class="w3-bar w3-black w3-card">
                 <a
-                    class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red  w3-hide-medium w3-hide-large w3-right"
+                    class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red  w3-hide-medium w3-hide-large w3-left"
                     href="javascript:void(0)"
                     onclick="myFunction()"
                     title="Toggle Navigation Menu"><i
@@ -60,7 +60,7 @@ declare function nav:barNew() {
                 <div
                     class="w3-dropdown-hover w3-hide-small"
                     id="introductory">
-                    <button
+                    <button onclick="window.location.href='/about.html'"
                         class=" w3-button"
                         title="About">
                         {
@@ -174,7 +174,7 @@ declare function nav:barNew() {
                     id="mss">
                     <button
                         class=" w3-button"
-                        title="Manuscripts">Manuscripts <i
+                        title="Manuscripts" onclick="window.location.href='/index.html#manuscripts'">Manuscripts <i
                             class="fa fa-caret-down"></i></button>
                     <div
                         class="w3-dropdown-content" style="background:transparent;">
@@ -278,7 +278,7 @@ declare function nav:barNew() {
                     id="works">
                     <button
                         class=" w3-button"
-                        title="Works">Texts <i
+                        title="Works" onclick="window.location.href='/index.html#texts'">Texts <i
                             class="fa fa-caret-down"></i></button>
                     <div
                         class="w3-dropdown-content"  
@@ -364,7 +364,7 @@ See also <a href="https://betamasaheft.eu/additions">the list of documents conta
                     class="w3-dropdown-hover w3-hide-small">
                     <button
                         class=" w3-button"
-                        title="Art">Art Themes <i
+                        title="Art" onclick="window.location.href='/index.html#taxonomy'">Art Themes <i
                             class="fa fa-caret-down"></i></button>
                     <div
                         class="w3-dropdown-content" style="background:transparent;">
@@ -379,7 +379,7 @@ See also <a href="https://betamasaheft.eu/additions">the list of documents conta
                         encoding guidelines</a> for details.
                         
 Two types of searches for aspects of manuscript decoration are possible, 
-the decorations filtered search and the general keyword search. [NB: The Index of Decorations sometimes times out, we are sorry for the inconvenience.]</span>
+the decorations filtered search and the general keyword search.</span>
                         </div>
                       <div
                         class="w3-bar w3-card-4 w3-white">
@@ -433,7 +433,7 @@ the decorations filtered search and the general keyword search. [NB: The Index o
                     id="places">
                     <button
                         class=" w3-button"
-                        title="Places">Places <i
+                        title="Places" onclick="window.location.href='/index.html#gazetteer'">Places <i
                             class="fa fa-caret-down"></i></button>
                     <div
                         class="w3-dropdown-content"  style="background:transparent;">
@@ -494,7 +494,7 @@ See also <a href="https://betamasaheft.eu/help.html">Help page</a> fore more gui
                     id="persons">
                     <button
                         class="w3-button"
-                        title="Persons">Persons <i
+                        title="Persons" onclick="window.location.href='/index.html#prosopography'">Persons <i
                             class="fa fa-caret-down"></i></button>
                     <div
                         class="w3-dropdown-content"  style="background:transparent;">
@@ -550,7 +550,7 @@ See also <a href="https://betamasaheft.eu/help.html">Help page</a> fore more gui
                     
                     
  <div
-    class="w3-dropdown-hover w3-hide-small"
+    class="w3-dropdown-hover w3-hide-small w3-hide-medium"
     id="res">
     <button
         class=" w3-button "

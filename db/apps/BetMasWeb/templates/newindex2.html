@@ -8,8 +8,7 @@
   gtag('js', new Date());
 
   gtag('config', 'UA-106148968-1');
-</script> -->
-        
+</script> -->        
         <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <meta data-template="config:app-meta"/>
@@ -27,12 +26,13 @@
         <link rel="stylesheet" href="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css"/>
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/virtual-keyboard/1.26.22/css/keyboard-basic.min.css"/>
-            <link rel="stylesheet" href="$shared/resources/css/w3.css"/>
+        <link rel="stylesheet" href="$shared/resources/css/w3.css"/>
         <link rel="stylesheet" href="resources/css/w3local.css"/>
+        
         <style>
 </style>
         
-<!--        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/introjs.css"/>-->
+        <!--        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/introjs.css"/>-->
         
         
         <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"/>
@@ -41,15 +41,20 @@
     
     <body id="body">
         
-        <div class="w3-sidebar w3-bar-block w3-card w3-animate-left w3-gray w3-padding-64" style="display:none" id="sidebar">
-            <button class="w3-bar-item w3-button w3-large" onclick="w3_close()">Close</button>
-            <a class="w3-bar-item w3-button" href="#intro">Introduction</a>
+        <div class="w3-sidebar w3-bar-block w3-animate-left" style="display:none;width:100px;max-height:300px;margin-top:80px" id="sidebar">
+            <div class="w3-bar-item"><b>On this page:</b> <button class="w3-btn w3-pale-red w3-border w3-border-red w3-round-large w3-display-topright w3-text-red w3-xlarge" onclick="w3_close()">
+                <b> × </b></button></div>
+            
+            <a class="w3-bar-item w3-button" href="#cover">Project</a>
+            <a class="w3-bar-item w3-button" href="#entities">Types of entities</a>
+            <a class="w3-bar-item w3-button" href="#intro">About</a>
             <a class="w3-bar-item w3-button" href="#manuscripts">Manuscripts</a>
-            <a class="w3-bar-item w3-button" href="#entities">Other Entities</a>
-            <a class="w3-bar-item w3-button" href="#furtherSearchOptions">Search</a>
+            <a class="w3-bar-item w3-button" href="#texts">Texts</a>
+            <a class="w3-bar-item w3-button" href="#prosopography">Persons</a>
+            <a class="w3-bar-item w3-button" href="#gazetteer">Places</a>
+            <a class="w3-bar-item w3-button" href="#taxonomy">Taxonomy</a>
             <a class="w3-bar-item w3-button" href="#DillParser">Lexicon and Parser</a>
-            <a class="w3-bar-item w3-button" href="#contribute">Contribute</a>
-            <a class="w3-bar-item w3-button" href="#maps">Map</a>
+            <a class="w3-bar-item w3-button" href="#contribute">Contribute</a>            
             
         </div>
         
@@ -63,7 +68,7 @@
             
             <div id="content"/>
         </div>
-        <footer data-template="app:footerNew"/>
+        <footer data-template="app:footerNew" id="footers"/>
         
         
         <script type="text/javascript" src="resources/js/explain.js"/>
@@ -72,7 +77,7 @@
         <!--js-->
         <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"/>
         
-<!--        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/intro.js"/>-->
+        <!--        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/intro.js"/>-->
         
         <!--        leaflet js-->
         <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin=""/>
