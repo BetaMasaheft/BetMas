@@ -1775,6 +1775,7 @@ declare %private function viewItem:reflink($ref) {
 declare %private function viewItem:msItem($msItem) {
     let $mainID := viewItem:mainID($msItem)
     let $id := string($msItem/@xml:id)
+    let $msItemsCount := count($msItem/ancestor::t:TEI//t:msItem)
     let $trimid := if ($msItem/parent::t:msContents) then
         concat(replace($id, '\.', '-'), 'N', $msItem/position())
     else
@@ -1829,11 +1830,20 @@ declare %private function viewItem:msItem($msItem) {
                                 ()
                     }
                     {
-                        if ($msItem/t:msItem) then
+                    if ($msItem/t:msItem) then
+                        (
+                        viewItem:TEI2HTML($msItem/node()[not(name()='msItem')])
+                        ,
+                        for $m in $msItem/t:msItem
+                        let $innerMsItem :=  viewItem:msItem($m)
+                         return
                             <div
                                 class="w3-container"
                                 id="contentItem{$trimid}"
-                                rel="http://purl.org/dc/terms/hasPart">{viewItem:TEI2HTML($msItem/node())}</div>
+                                rel="http://purl.org/dc/terms/hasPart">{ 
+                               $innerMsItem
+                                }</div>
+                                )
                         else
                             viewItem:TEI2HTML($msItem/node())
                     }
