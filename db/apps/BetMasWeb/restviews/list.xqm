@@ -583,7 +583,14 @@ if(xdb:collection-available($c)) then (
                                  let $stext := $subsubcat/t:catDesc/text()
                                  order by $stext
                                  return
-                                     <li><a href="/{$collection}/list?keyword={$ssid}">{$stext}</a></li>
+                                     <li><a href="/{$collection}/list?keyword={$ssid}">{$stext}</a></li>,
+                                     <ul>                                     {for $sss in $subcat/t:category/t:category
+                                 let $sssid := string($sss/@xml:id)
+                                 let $ssstext := concat($sss/ancestor::t:category[1]/t:catDesc/text(), ': ', $sss/t:catDesc/text())
+                                     return
+                                     
+                                     <li><a href="/{$collection}/list?keyword={$sssid}">{$ssstext}</a></li>
+                                     }</ul>
                              }</ul> 
                              </div>
                              </div>)
