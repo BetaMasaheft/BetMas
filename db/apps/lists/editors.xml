@@ -80,9 +80,13 @@
                 <item xml:id="GC" n="Giulia">Giulia Casella</item>
                 <item xml:id="AS" n="Angela">Angela Salerno</item>
                 <item xml:id="HAs" n="Haile">Haile Asnake</item>
-                <item xml:id="GS" n="Guesh">Guesh Solomon Teklu</item>
+                <item xml:id="GS" n="Guesh">Guesh Solomon</item>
                 <item xml:id="GA" n="Getinet">Getinet Asimare</item>
-                <item xml:id="AY" n="Addisie">Addisie Yalew Mengistu</item>
+                <item xml:id="AY" n="Addisie">Addisie Yalew</item>
+                <item xml:id="IZ" n="Ilaria">Ilaria Zorzan</item>
+                <item xml:id="DB" n="Dirbwork">Dirbwork Bitsu</item>
+                <item xml:id="CS" n="Calum">Calum Samuelson</item>
+                <item xml:id="JE" n="Jonathan">Jonathan Egid</item>
             </list>
         </body>
     </text>
