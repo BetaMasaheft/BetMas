@@ -3296,7 +3296,7 @@ declare %private function viewItem:watermark($node as element(t:watermark)) {
         (<h3>Watermark</h3>,
         <p>{
                 if ($node != '') then
-                    'Yes'
+                    viewItem:TEI2HTML($node/node())
                 else
                     'No'
             }</p>)
