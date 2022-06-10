@@ -62,13 +62,12 @@ let $id := substring-after($titleMe, 'betmas:')
 };
 
 
-
 (:this is now a switch function, deciding if to go ahead with simple print title or subtitles:)
 declare 
 %test:arg('id', 'sdc:UniCont1') %test:assertEquals('La Synthaxe du Codex UniCont1')
-%test:arg('id', 'LIT2317Senodo#') %test:assertEquals('Senodos')
 %test:arg('id', '#') %test:assertEquals('&lt;span class="w3-tag w3-red"&gt;no item yet with id #&lt;/span&gt;')
 %test:arg('id', '') %test:assertEquals('&lt;span class="w3-tag w3-red"&gt;no id&lt;/span&gt;')
+%test:arg('id', 'LIT2317Senodo#') %test:assertEquals('Senodos')
 %test:arg('id', 'BNFet32') %test:assertEquals('Paris, Bibliothèque nationale de France, BnF Éthiopien 32')
 %test:arg('id', 'LIT1367Exodus') %test:assertEquals('Exodus')
 %test:arg('id', 'PRS11160HabtaS') %test:assertEquals(' Habta Śǝllāse')
@@ -131,6 +130,10 @@ function exptit:printTitleID($id as xs:string)
             || ', could not check for ' || $SUBid
         }</span>)
     )    
+    else if (not(starts-with($id, 'http')) and matches($id, '(A-Za-z0-9\.\-)')) then 
+(:    in e.g. LIT1340EnochE.1.6-9 will remove .1 and .6-9 :)
+    let $mainid := replace($id, '(\.[A-Za-z0-9\-]+)', '') return
+    $exptit:col/id($mainid)//t:title[@type = 'full']/text()
        (: if not, procede to main title printing :)
     else
         $exptit:col/id($id)//t:title[@type = 'full']/text()
