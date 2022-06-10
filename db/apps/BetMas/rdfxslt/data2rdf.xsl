@@ -557,7 +557,7 @@
 <xsl:variable name="id" select="if(@xml:id) then @xml:id else concat(name(), (count(preceding-sibling::t:*[name() = $elemname])+1))"/>
         <dcterms:hasPart>
             <xsl:attribute name="rdf:resource">
-                <xsl:value-of select="concat('https://betamasaheft.eu/', $mainID, '/', $type, '/', $id)"/>
+                <xsl:value-of select="concat($mainID, '/', $type, '/', $id)"/>
             </xsl:attribute>
         </dcterms:hasPart>
 
@@ -652,7 +652,7 @@
                 <xsl:choose>
                     <xsl:when test="t:title[@ref]">
                         <xsl:attribute name="rdf:resource">
-                            <xsl:value-of select="concat('https://betamasaheft.eu/', t:title[1]/@ref)"/>
+                            <xsl:value-of select="string(t:title[1]/@ref)"/>
                         </xsl:attribute>
                     </xsl:when>
                     <xsl:otherwise>
@@ -1423,7 +1423,7 @@
     <xsl:template match="t:repository">
         <crm:P55_has_current_location>
             <xsl:attribute name="rdf:resource">
-                <xsl:value-of select="concat('https://betamasaheft.eu/', @ref)"/>
+                <xsl:value-of select="string(@ref)"/>
             </xsl:attribute>
         </crm:P55_has_current_location>
     </xsl:template>
@@ -1450,7 +1450,7 @@
         <xsl:param name="citation"/>
         <oa:Annotation rdf:about="https://betamasaheft.eu/{$mainID}/place/annotation/{$n}">
             <oa:hasTarget rdf:resource="https://betamasaheft.eu/{$mainID}"/>
-            <oa:hasBody rdf:resource="{if(starts-with(@ref, 'pleiades:')) then concat('https://pleiades.stoa.org/places/', substring-after(@ref, 'pleiades:')) else if (starts-with(@ref, 'wd:Q')) then concat('https://www.wikidata.org/entity/', replace(@ref, 'wd:', '')) else concat('https://betamasaheft.eu/',@ref)}"/>
+            <oa:hasBody rdf:resource="{if(starts-with(@ref, 'pleiades:')) then concat('https://pleiades.stoa.org/places/', substring-after(@ref, 'pleiades:')) else if (starts-with(@ref, 'wd:Q')) then concat('https://www.wikidata.org/entity/', replace(@ref, 'wd:', '')) else string(@ref)}"/>
             <oa:annotatedAt rdf:datatype="http://www.w3.org/2001/XMLSchema#date">
                 <xsl:value-of select="current-date()"/>
             </oa:annotatedAt>
