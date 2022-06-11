@@ -5,7 +5,7 @@ xquery version "3.1" encoding "UTF-8";
  : 
  : @author Pietro Liuzzo 
  :)
-module namespace apiS = "https://www.betamasaheft.uni-hamburg.de/BetMas/apiSearch";
+module namespace apiS = "https://www.betamasaheft.uni-hamburg.de/BetMasApi/apiSearch";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
 import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace kwic = "http://exist-db.org/xquery/kwic" at "resource:org/exist/xquery/lib/kwic.xql";
@@ -14,7 +14,7 @@ import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///
 import module namespace exptit="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/exptit" at "xmldb:exist:///db/apps/BetMasWeb/modules/exptit.xqm";
 (: namespaces of data used :)
 import module namespace http="http://expath.org/ns/http-client";
-(:import module namespace console="http://exist-db.org/xquery/console";:)
+import module namespace console="http://exist-db.org/xquery/console";
 
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
@@ -22,7 +22,7 @@ declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json = "http://www.json.org";
 
-
+(:declare variable $apiS:col := collection('/db/apps/expanded');:)
 
 (:~ builds XPath as string to be added to string which will be evaluated by API search. :)
 declare function apiS:BuildSearchQuery($element as xs:string, $query as xs:string){
@@ -64,10 +64,9 @@ declare
 %rest:GET
 %rest:path("/api/kwicsearch")
 %rest:query-param("q", "{$q}", "")
-%rest:query-param("element", "{$element}", "")
 %output:method("json")
-function apiS:kwicSearch($element as xs:string*, $q as xs:string*) {
-if ($q = '' or $q = ' ' or $element = '') then (<json:value>
+function apiS:kwicSearch($q as xs:string*) {
+if ($q = '' or $q = ' ' ) then (<json:value>
             <json:value
                 json:array="true">
                 <info>you have to specify a query string and a list or elements, sorry</info>
@@ -76,14 +75,9 @@ if ($q = '' or $q = ' ' or $element = '') then (<json:value>
 let $log := log:add-log-message('/api/kwicsearch?q=' || $q, sm:id()//sm:real/sm:username/string() , 'REST')
     let $login := xmldb:login($config:data-root, $config:ADMIN, $config:ppw)
     
-  let $elements : =
-     for $e in $element
-     let $elQ :=    apiS:BuildSearchQuery2($e, all:substitutionsInQuery($q))
-    let $string := concat("collection($config:data-root)//",$elQ)
-   return
-    util:eval($string)
 
-let $hits := ($elements)
+
+let $hits := collection($config:data-root)/t:TEI[ft:query(.,$q)]
 let $hi :=  for $hit in $hits
             let $expanded := kwic:expand($hit)
             let $root := root($hit)/t:TEI
@@ -175,42 +169,43 @@ let $log := log:add-log-message('/api/search?q=' || $q, sm:id()//sm:real/sm:user
         <filter-rewrite>yes</filter-rewrite>
     </options>
     let $script := if ($script != '') then
-        ("[ancestor::t:TEI//@script eq '" || $script || "' ]")
+        ("[descendant::t:handNote/@script eq '" || $script || "' ]")
     else
         ''
     let $material := if ($material != '') then
-        ("[ancestor::t:TEI//t:material/@key eq '" || $material || "' ]")
+        ("[descendant::t:TEI//t:material/@key eq '" || $material || "' ]")
     else
         ''
     let $term := if ($term != '') then
-        ("[ancestor::t:TEI//t:term/@key eq '" || $term || "' ]")
+        ("[descendant::t:TEI//t:term/@key eq '" || $term || "' ]")
     else
         ''
     
     let $collection := switch ($collection)
         case 'manuscripts'
             return
-                "[ancestor::t:TEI/@type eq 'mss']"
+                $config:data-rootMS
         case 'works'
             return
-                "[ancestor::t:TEI/@type eq 'work']"
+                $config:data-rootW
         case 'places'
             return
-                "[(ancestor::t:TEI/@type eq 'place') or (ancestor::t:TEI/@type eq 'ins')]"
+                ($config:data-rootPl,$config:data-rootIn)
         case 'institutions'
             return
-                "[ancestor::t:TEI/@type eq 'ins']"
+                $config:data-rootIn
         case 'narratives'
             return
-                "[ancestor::t:TEI/@type eq 'nar']"
+                $config:data-rootN
         case 'authority-files'
             return
-                "[ancestor::t:TEI/@type eq 'auth']"
+                $config:data-rootA
         case 'persons'
             return
-                "[ancestor::t:TEI/@type = 'pers']"
+                $config:data-rootPr
         default return
-            ''
+            $config:data-root
+            
 let $query-string := if($homophones = 'true') then   
                                                                     if(contains($q, 'AND')) then 
                                                                                 (let $parts:= for $qpart in tokenize($q, 'AND') 
@@ -223,25 +218,15 @@ let $query-string := if($homophones = 'true') then
                                                                                 else all:substitutionsInQuery($q)  
                                                                                 else ($q)
          
-let $hits := 
-for $e in $element 
-let $eval-string := if($e = 'persName' and $descendants = 'false')  then
-concat(" collection($config:data-root)//t:persName[parent::t:person or parent::t:personGrp]"
-, "[ft:query(.,'", $query-string, "',",serialize($SearchOptions),")]", $collection, $script, $material, $term)
-else if($e = 'placeName'  and $descendants = 'false')  then
-concat(" collection($config:data-root)//t:place/t:placeName"
-, "[ft:query(.,'", $query-string, "',",serialize($SearchOptions),")]", $collection, $script, $material, $term)
-else concat("collection($config:data-root)//t:"
-, $e, "[ft:query(.,'", $query-string, "',",serialize($SearchOptions),")]", $collection, $script, $material, $term)
-
-return util:eval($eval-string)
-
+let $queryhits := 'collection($collection)/t:TEI[ft:query(.,$query-string, $SearchOptions)]'||$material||$script||$term
+let $hits := util:eval($queryhits)
 
 let $results := 
                     for $hit in $hits
-                    let $id := string($hit/ancestor::t:TEI/@xml:id)
+                    let $expanded := kwic:expand($hit)
+                    let $id := string($hit/ancestor-or-self::t:TEI/@xml:id)
                      let $t := normalize-space(exptit:printTitleID($id))
-               let $r := normalize-space(string-join($hit//text(), ' '))
+               let $r := for $x in $expanded//exist:match/parent::t:* return normalize-space(string-join($x//text(), ' '))
                     return
                        map{
             'id': $id,
