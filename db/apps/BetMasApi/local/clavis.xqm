@@ -138,7 +138,7 @@ declare
 %output:method("json")
 function clavis:Clavis($q as xs:string*) {
 
-let $eval-string := concat("collection($config:data-rootW)//t:title",
+let $eval-string := concat("collection($config:data-rootW)//t:TEI",
 "[ft:query(.,'", $q, "')]")
 
 let $log := log:add-log-message('/api/clavis?q=' || $q, sm:id()//sm:real/sm:username/string() , 'REST')
