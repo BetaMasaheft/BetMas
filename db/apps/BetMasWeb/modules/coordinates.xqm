@@ -46,8 +46,9 @@ let $seq := for $point in tokenize($coord, ' ') return $point
  : first looks at what the id is, then if it is one of ours, looks for coordinates
  : 1. take ours if we have them, if not look for a sameAs and check there for coordinates:)
 declare function coord:getCoords($placenameref as xs:string) {
-    if (starts-with($placenameref, 'LOC') or starts-with($placenameref, 'INS')) then
-        let $pRec := collection($config:data-rootPl,$config:data-rootIn)/id($placenameref)
+    if (starts-with($placenameref, 'https://betamasaheft.eu/LOC') or starts-with($placenameref, 'https://betamasaheft.eu/INS')) then
+        let $onlyid := substring-after($placenameref, 'https://betamasaheft.eu/')
+        let $pRec := collection($config:data-rootPl,$config:data-rootIn)/id($onlyid)
          return
          if ($pRec//t:geo[@rend eq 'polygon']/text()) then
                 for $point in tokenize($pRec//t:geo[@rend eq 'polygon'], '\n')
@@ -95,7 +96,7 @@ declare function coord:GNorWD($placeexternalid as xs:string) {
             coord:getPleiadesCoord($placeexternalid)
         
         else
-            if (starts-with($placeexternalid, 'wd:')) then
+            if (starts-with($placeexternalid, 'https://www.wikidata.org/entity/')) then
                 coord:invertCoord(coord:getWikiDataCoord($placeexternalid))
             else
                 ("no valid external id" || $placeexternalid)
@@ -117,7 +118,7 @@ declare function coord:getGeoNamesCoord($string as xs:string) {
 
 (:~retrives coordinates from wikidata:)
 declare function coord:getWikiDataCoord($Qid as xs:string) {
- let $Qid := substring-after($Qid, 'wd:')
+ let $Qid := substring-after($Qid, 'https://www.wikidata.org/entity/')
     let $sparql := 'SELECT ?coord ?coordLabel WHERE {
    wd:' || $Qid || ' wdt:P625 ?coord .
    SERVICE wikibase:label { 
@@ -155,4 +156,35 @@ then ($gb(1), $gb(3)) else for $g in $gb?* return $g
 
 };
 
+
+declare function coord:getPleiadesNames($string as xs:string) {
+
+   let $plid := substring-after($string, 'https://pleiades.stoa.org/places/')
+   let $url := concat('http://pelagios.org/peripleo/places/http:%2F%2Fpleiades.stoa.org%2Fplaces%2F', $plid)
+  let $file := try{let $request := <http:request href="{xs:anyURI($url)}" method="GET"/>
+    return http:send-request($request)[2]} catch *{$err:description}
+  
+let $file-info := 
+    let $payload := util:base64-decode($file) 
+    let $parse-payload := parse-json($payload)
+    return $parse-payload 
+    return $file-info?title
+
+};
+
+declare function coord:getwikidataNames($pRef as xs:string){
+let $pRef := substring-after($pRef, 'https://www.wikidata.org/entity/')
+let $sparql := 'SELECT * WHERE {
+  wd:' || $pRef || ' rdfs:label ?label . 
+  FILTER (langMatches( lang(?label), "EN" ) )  
+}'
+
+
+let $query := 'https://query.wikidata.org/sparql?query='|| xmldb:encode-uri($sparql)
+
+let $req := try{let $request := <http:request href="{xs:anyURI($query)}" method="GET"/>
+    return http:send-request($request)[2]} catch * {$err:description}
+return
+$req//sparql:result/sparql:binding[@name eq "label"]/sparql:literal[@xml:lang='en']/text()
+};
 

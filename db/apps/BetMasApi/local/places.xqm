@@ -433,15 +433,32 @@ declare function places:SimplifiedPlaceMark($place as xs:string){
     
 };
 
+
+declare function places:decidePlaceNameSource($pRef as xs:string){
+if ($exptit:placeNamesList//t:item[@corresp =  $pRef]) 
+    then $exptit:placeNamesList//t:item[@corresp = $pRef][1]/text()
+else if (starts-with($pRef, 'https://pleiades.stoa.org/places/')) then 
+         coord:getPleiadesNames($pRef) 
+           
+else if (matches($pRef, 'https://www.wikidata.org/entity/Q\d+')) then 
+            coord:getwikidataNames($pRef) 
+else  
+
+ let $onlyId := substring-after($pRef, 'https://betamasaheft.eu/')
+ return
+$exptit:col/id($onlyId)//t:title[@type = 'full']/text()
+};
+
 declare function places:placeMark($place as node()){
  let $pId := string($place/@ref)
+ let $onlyId := substring-after($place/@ref, 'https://betamasaheft.eu/')
   let $root := root($place)
        return 
 (:       if($pRec//t:coord) then:)
        <Placemark>
-        <address>{ exptit:decidePlaceNameSource($pId)}</address>
+        <address>{ places:decidePlaceNameSource($pId)}</address>
         <description>A {$place/name()} in {exptit:printTitleID(string($root//t:TEI/@xml:id))}</description>
-        <name>{ann:getannotationbody($pId)}</name>
+        <name>{ann:getannotationbody($onlyId)}</name>
         <Point>
             <coordinates>{coord:invertCoord(coord:getCoords($pId))}</coordinates>
         </Point>
