@@ -97,7 +97,7 @@ declare function q:querytype($node as node(), $model as map(*)) {
                         attribute selected {'selected'}
                     else
                         ()
-                }Simple Text search (select here another type of search)</option>
+                }Simple Text search (or click here for other search types)</option>
             <option
                 value="bmid">{
                     if ($querytypeparam = 'bmid') then
@@ -1561,8 +1561,9 @@ declare function q:showFacets($node as node()*, $model as map(*)) {
                     class="w3-row w3-left-align">
                     <button
                         type="submit"
-                        class="w3-button w3-block w3-left-align w3-red addMore w3-tooltip" title="first select filters then press"><i
-                            class="fa fa-search"></i>  refine search results  <span class="w3-text w3-red">(first select filters then press)</span></button>
+                        class="w3-button w3-block w3-left-align w3-red w3-tooltip" title="first select then press"><i
+                            class="fa fa-search"></i>  refine search results  <span 
+class="w3-text w3-tag w3-tiny">first select then press</span></button>
                     {
                         for $param in request:get-parameter-names()
                         for $notfacet in $param[not(ends-with(., '-facet'))]
@@ -1589,8 +1590,9 @@ declare function q:showFacets($node as node()*, $model as map(*)) {
                     class="w3-row w3-left-align">
                     <button
                         type="submit"
-                        class="w3-button w3-block w3-left-align w3-red addMore w3-tooltip" title="first select filters then press"><i
-                            class="fa fa-search"></i>  refine search results  <span class="w3-text w3-red">(first select filters then press)</span></button>
+                        class="w3-button w3-block w3-left-align w3-red w3-tooltip" title="first select then press"><i
+                            class="fa fa-search"></i>  refine search results  <span 
+class="w3-text w3-tag w3-round-xlarge w3-dark-grey w3-small">first select then press</span></button>
                 </div>
             </form>
 };
@@ -2544,7 +2546,7 @@ if($q:searchType='clavis') then () else
                                                                         href="{$title}">{
                                                                             if ($title = '') then
                                                                                 <span
-                                                                                    class="w3-tag w3-red">{'no ref in title'}</span>
+                                                                                    class="w3-tag w3-pale-red">{'no ref in title'}</span>
                                                                             else
                                                                                 try {
                                                                                     exptit:printTitle($title)
@@ -2595,7 +2597,7 @@ if($q:searchType='clavis') then () else
                                                                             href="{$t}">{
                                                                                 if ($t = '') then
                                                                                     <span
-                                                                                        class="w3-tag w3-red">{'no ref in title'}</span>
+                                                                                        class="w3-tag w3-pale-red">{'no ref in title'}</span>
                                                                                 else
                                                                                     try {
                                                                                         exptit:printTitle($t)
