@@ -1625,7 +1625,7 @@ declare %private function viewItem:lefthand($entity) {
 };
 
 declare %private function viewItem:namedEntityTitle($entity) {
-  if(count($entity/ancestor::t:msItem) gt 2) then
+  (:if(count($entity/ancestor::t:msItem) gt 2) then
    
    (string-join($entity//text()),
     if (matches($entity/@ref, 'LIT')) then
@@ -1633,8 +1633,9 @@ declare %private function viewItem:namedEntityTitle($entity) {
     else
         ()
     )
-    else
-    (<a target="_blank"
+    else:)
+    (
+    <a target="_blank"
         xmlns="http://www.w3.org/1999/xhtml"
         href="/{viewItem:URI2ID($entity/@ref)}">{viewItem:TEI2HTML($entity/node())}</a>,
     if (matches($entity/@ref, 'LIT')) then
