@@ -522,10 +522,10 @@ return
      let $isSubjectof :=  for $corr in $w//t:relation[@passive eq  $id][@name eq  'ecrm:P129_is_about'] return $corr
      let $churchesAndMonasteries :=  for $corr in $plin//t:place[contains(@type, 'church') or contains(@type, 'monastery')][t:*[@ref eq  $id]] return $corr
 return
-<div  class="mainrelations w3-container">
+<div  class="mainrelations w3-display-container">
 
                                           { if ($this//t:settlement or $this//t:region or $this//t:country) then  
-                                          <div  class="relBox  w3-panel w3-card-4 w3-gray">
+                                          <div  class="relBox w3-display-right w3-panel w3-card-4 w3-gray">
                                            {
                                            <b  class="openInDialog">Administrative position</b>,
                                            <table class="w3-table w3-hoverable adminpos">
@@ -1002,7 +1002,7 @@ return
    id="computedWitnesses"><span class="scrollwrap nodot w3-small">
    <h5  class="openInDialog">This unit, or parts of it, is contained in {$countDistMss} manuscript records {$count} time{if($count gt 1) then 's' else ()}</h5>
 <p><a target="_blank" href="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=mss&amp;titletext=https://betamasaheft.eu/{$id}">See these {$countDistMss} manuscripts in the list view.</a> 
-Scrolling in this box will also show you a summary of all the occurences.</p>
+Scrolling in this box will also show you a summary of all the occurences.  <a target="_blank" href="/compare?workid={$id}">See also compare view.</a> </p>
     <div id="Samekeyword{$string}" class="w3-small">
     {if(count($sameKey) gt 0) then
 (<p>As main content</p>,
@@ -1211,7 +1211,7 @@ let $stringsubids:=string-join($subids, ',')
 return
 if(count($witnesses) ge 1) then (
 <div id="Samepart2{$string}"  class="w3-small scrollwrap"><p>
-<a target="_blank" href="/{$c}">{$stringsubids}</a> is listed as {$c} in the following {count($countwitnesses)} manuscripts {count($witnesses)} times:</p>
+{$stringsubids} is listed as <a target="_blank" href="{$c}">{$c}</a> in <a target="_blank" href="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=mss&amp;{$c}">{count($countwitnesses)} manuscripts {count($witnesses)} times</a>:</p>
 <ul class="nodot w3-padding">{
 for $wit in $witnesses
  let $wid :=  string(root($wit)/t:TEI/@xml:id )
@@ -1224,7 +1224,7 @@ return
 then 
     let $subids := for $subid in $work//t:div[@type eq 'textpart'][@corresp eq $c]/@xml:id return $id || '#' || string($subid)
 let $stringsubids:=string-join($subids, ',')
-return <p>Click the following link to compare a <a target="_blank" href="/compareSelected?mss={$stringsubids},{$id}">list of manuscripts linked to both {$stringsubids} and {$c}.</a></p> else ()}
+return <p><a target="_blank" href="/compare?workid={$stringsubids},{$c}">Click to compare manuscripts of both {$stringsubids} and {$c}.</a></p> else ()}
 </div>
 ) else <p>
 <a target="_blank" href="/{$c}">{$tit}</a> is listed also as {$c}, but not recorded with this reference in any manuscript at the moment.</p>
@@ -1305,7 +1305,7 @@ return <p>Click the following link to compare a <a target="_blank" href="/compar
     return
         if (count($mss) ge 1) then
             <div
-                class="w3-container">
+                class="w3-panel w3-margin w3-red relBox scrollwrap" style="word-break:break-all;">
                 There are {count($mss)}
                 <a
                     href="/newSearch.html?searchType=text&amp;mode=any&amp;reporef={$id}"> manuscripts at this repository</a>.
