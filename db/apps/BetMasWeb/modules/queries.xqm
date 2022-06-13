@@ -978,7 +978,7 @@ names are those of the indexes where the filter is built directly from there, ot
                             q:ListQueryParam-rest($r, "t:title/@ref", 'any', 'list')
                     case 'tabot'
                         return
-                            q:ListQueryParam-rest($r, "t:ab[@type eq 'tabot']//t:*/@*", 'any', 'search')
+                            q:ListQueryParam-rest($r, "t:ab[@type eq 'tabot']//t:*/@*", 'any', 'id')
                     case 'placetype'
                         return
                             q:ListQueryParam-rest($r, "t:place/@type", 'any', 'search')
@@ -2388,7 +2388,7 @@ declare function q:fieldInputAdditions($node as node(), $model as map(*), $addit
 };
 
 declare function q:fieldInputTitle($node as node(), $model as map(*), $titleStmt-field as xs:string*) {
-    q:fieldinputTemplate('Titles', 'titleStmt')
+    q:fieldinputTemplate('Titles', 'title')
 };
 
 declare function q:fieldInputPlace($node as node(), $model as map(*), $place-field as xs:string*) {
@@ -3462,7 +3462,7 @@ declare function q:resultitemlinks($collection, $item, $id, $root, $text) {
         style="word-break: break-all; text-align: left;">{$id}</span>,
     <span
         class="w3-tag w3-red"><a
-            href="{('/tei/' || $id || '.xml')}"
+            href="{('' || $id || '.xml')}"
             target="_blank">TEI</a></span>,
     (:<span
         class="w3-tag w3-red"><a
@@ -4094,7 +4094,7 @@ declare function q:formcontrol($nodeName as xs:string, $path, $group, $type) {
             <div
                 class="w3-container">
                 <label
-                    for="{$nodeName}">{$nodeName}s <span
+                    for="{$nodeName}">{if($nodeName='tabot') then 'Tābots' else ($nodeName||'s')} <span
                         class="w3-badge">{count($nodes[. != ''][. != ' '])}</span></label>
                 {q:selectors($nodeName, $nodes, $type)}
             </div>
@@ -4132,7 +4132,7 @@ declare function q:selectors($nodeName, $nodes, $type) {
                 return
                     for $n in $group//t:catDesc
                     let $id := $n/text()
-                    let $title := exptit:printTitleID($id)
+                    let $title := exptit:printTitle($id)
                     return
                         <option
                             value="{$id}">{$title[1]}</option>
@@ -4143,7 +4143,7 @@ declare function q:selectors($nodeName, $nodes, $type) {
                 then
                     (for $n in $nodes[. != ''][. != ' ']
                     let $id := string($n/@xml:id)
-                    let $title := exptit:printTitleID($id)
+                    let $title := exptit:printTitle($id)
                     let $sortkey := q:sortingkey($title)
                         order by $sortkey
                     return
