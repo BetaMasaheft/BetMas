@@ -553,7 +553,7 @@ if ($id = $Subjects) then  (try{LitFlow:Sankey($id, 'works')} catch * {$err:desc
    style="border:none;"
                 allowfullscreen="true"
                 width="100%" 
-                height="400" 
+                height="100" 
                 src="https://peripleo.pelagios.org/embed/{encode-for-uri(concat('http://betamasaheft.eu/places/',$id))}">
             </iframe>
             </div>
