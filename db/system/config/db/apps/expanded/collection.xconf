@@ -1,8 +1,6 @@
 <collection xmlns="http://exist-db.org/collection-config/1.0">
     <index xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:t="http://www.tei-c.org/ns/1.0">
         <lucene diacritics="no">
-            
-             
              <text qname="t:TEI">
                 <field name="signature" expression="t:teiHeader//t:msIdentifier//t:idno"/>
                 <field name="handDesc" expression="t:teiHeader//t:handDesc"/>
@@ -16,8 +14,8 @@
                 <field name="colophon" expression="t:teiHeader//t:colophon"/>
                 <field name="history" expression="t:teiHeader//t:history"/>
                 <field name="additions" expression="t:teiHeader//t:additions"/>
-                <field name="person" expression="t:teiHeader//(t:person | t:personGrp)"/> 
-                <field name="place" expression="t:teiHeader//t:place"/> 
+                <field name="person" expression="t:body//(t:person | t:personGrp)"/> 
+                <field name="place" expression="t:body//t:place"/> 
                 <field name="title" expression="t:teiHeader//t:titleStmt"/>
                 <field name="datesNB" type="xs:date" expression="t:teiHeader//(t:date|t:origDate)/@notBefore"/>
                 <field name="datesNA" type="xs:date" expression="t:teiHeader//(t:date|t:origDate)/@notAfter"/>
