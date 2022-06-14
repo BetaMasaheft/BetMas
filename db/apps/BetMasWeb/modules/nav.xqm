@@ -185,7 +185,7 @@ declare function nav:barNew() {
   <span onclick="this.parentElement.style.display='none'"
   class="w3-button w3-text-red w3-large w3-display-topright" style="display:block; background:transparent;">&#x2716;</span>
   <span style="display:block;">Descriptions of (predominantly) Christian 
-                                manuscripts from Ethiopia and Eritrea are the core of the Beta maṣāḥǝft project.. 
+                                manuscripts from Ethiopia and Eritrea are the core of the Beta maṣāḥǝft project. 
                                 We (1) gradually encode descriptions from printed catalogues, beginning 
                                 from the historical ones, 
                                 (2) incorporate digital descriptions produced by other projects, adjusting 
@@ -561,7 +561,7 @@ See also <a href="https://betamasaheft.eu/help.html">Help page</a> fore more gui
         <div
             class="w3-col" style="width:100%">
             <div class="w3-container w3-left-align w3-sand w3-display-container w3-small"
-                id="manuscriptsmenuintro">
+                id="resourcesintro">
                 <span onclick="this.parentElement.style.display='none'"
                     class="w3-button w3-text-red w3-large w3-display-topright" style="display:block; background:transparent;">&#x2716;</span>
                 <span style="display:block;">This section collects some additional resources offered by the project. Select <a href="/bibliography">Bibliography</a> to explore the references cited in the project records. The
