@@ -309,7 +309,7 @@ let $cS :=
                     }
            case element(t:change)
             return
-            <change xmlns="http://www.tei-c.org/ns/1.0" who="#{$node/@who}" when="{$node/@when}">{let $resp := $node/@who return $expand:editorslist//t:item[@xml:id = string($resp)]/text()}: {$node/text()}</change>
+            <change xmlns="http://www.tei-c.org/ns/1.0" who="#{$node/@who}" when="{$node/@when}"><!--{let $resp := $node/@who return $expand:editorslist//t:item[@xml:id = string($resp)]/text()}: -->{$node/text()}</change>
             case element(t:profileDesc)
                 return
                     element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
@@ -748,7 +748,7 @@ return
 ,
 let $col := switch2:col($node/ancestor-or-self::t:TEI/@type) return
 (<idno xmlns="http://www.tei-c.org/ns/1.0" type="collection">{$col}</idno>,
-<idno xmlns="http://www.tei-c.org/ns/1.0" type="url">https://betamasaheft.eu/{$col}/{$id}</idno>),
+<idno xmlns="http://www.tei-c.org/ns/1.0" type="url">https://betamasaheft.eu/{$col}/{$id}/main</idno>),
 <idno xmlns="http://www.tei-c.org/ns/1.0" type="URI">https://betamasaheft.eu/{$id}</idno>, 
 <idno xmlns="http://www.tei-c.org/ns/1.0" type="filename">{$id}.xml</idno>,
 <idno xmlns="http://www.tei-c.org/ns/1.0" type="ID">{$id}</idno>))
