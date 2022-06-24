@@ -651,7 +651,8 @@ return
                 {for $change in $document//t:revisionDesc/t:change
                 let $time := $change/@when
                 let $author := editors:editorKey(string($change/@who))
-                let $ES := if(contains($change/text(), 'Ethio-SPaRe team photographed the manuscript')) then () else if (xs:date($time) ge xs:date('2016-05-10')) then () else ' in Ethio-SPaRe '
+                let $collection :=  $change/ancestor::t:TEI//t:collection
+                let $ES := if(contains($change/text(), 'Ethio-SPaRe team photographed the manuscript')) then () else if (xs:date($time) ge xs:date('2016-05-10')) then () else if  (not(starts-with($collection/text(), 'Ethio-')))  then () else ' in Ethio-SPaRe '
                 order by $time descending
                 return
                 <li>
@@ -659,7 +660,6 @@ return
                 (' ' || $change/text() || $ES || ' on ' ||  format-date($time, '[D].[M].[Y]'))}
                 </li>
                 }
-
     </ul>
     </div>
     </div>
