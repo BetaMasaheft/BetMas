@@ -289,6 +289,28 @@ let $cS :=
                         xmlns="http://www.tei-c.org/ns/1.0">
                         <title type="full">{try{titles:printTitleMainID(string($node/ancestor-or-self::t:TEI/@xml:id))} catch * {util:log('INFO', concat('no full title added for ', string($node/ancestor-or-self::t:TEI/@xml:id)))}}</title>
                         {expand:tei2fulltei($node/node(), $bibliography)}
+                         {
+                            let $gened := $node//t:editor[@role = 'generalEditor']/@key
+                            for $resp in distinct-values($gened)
+                            return
+                                <respStmt
+                                    xml:id="ed-{$resp}"
+                                    corresp="https://betamasaheft.eu/team.html#{$resp}">
+                                    <resp>general editor</resp>
+                                    <name>{$expand:editorslist//t:item[@xml:id = string($resp)]/text()}</name>
+                                </respStmt>
+                        }
+                         {
+                            let $ekeys := $node//t:editor[not(@role = 'generalEditor')]/@key
+                            for $resp in distinct-values($ekeys)
+                            return
+                                <respStmt
+                                    xml:id="ed-{$resp}"
+                                    corresp="https://betamasaheft.eu/team.html#{$resp}">
+                                    <resp>editor</resp>
+                                    <name>{$expand:editorslist//t:item[@xml:id = string($resp)]/text()}</name>
+                                </respStmt>
+                        }
                         {
                             let $ekeys := $node//t:editor/@key
                             let $cwhos := $node/ancestor-or-self::t:TEI//t:change/@who
@@ -301,6 +323,7 @@ let $cS :=
                                     <name>{$expand:editorslist//t:item[@xml:id = string($resp)]/text()}</name>
                                 </respStmt>
                         }
+                                              
                     </titleStmt>
             case element(t:revisionDesc)
             return 
