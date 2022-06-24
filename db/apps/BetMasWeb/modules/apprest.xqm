@@ -660,6 +660,7 @@ return
                 (' ' || $change/text() || $ES || ' on ' ||  format-date($time, '[D].[M].[Y]'))}
                 </li>
                 }
+
     </ul>
     </div>
     </div>
@@ -736,28 +737,34 @@ return
     <div class=" w3-third" id="attributions">
 <div class="w3-panel w3-card-4 w3-padding w3-margin w3-gray " >
 <h3>Attributions of the contents</h3>
-                <div>
+<div>
                 {for $respStmt in $document//t:titleStmt/t:respStmt
-                let $action := $respStmt/t:resp
-               return
-               
-               if($respStmt/t:persName) then 
+                let $task := $respStmt/t:resp
+                let $action := string-join($respStmt/t:resp, ' ')
+              return
+              if($respStmt/t:persName) then
             (   let $authors :=
-                  
-                  for $p in $respStmt/t:persName
+                            for $p in $respStmt/t:persName
                                 return
                                     (if($p/@ref) then editors:editorKey(string($p/@ref)) else $p) || (if($p/@from or $p/@to) then (' ('||'from '||$p/@from || ' to ' ||$p/@to||')') else ())
 
 
                 order by $action descending
                 return
-                <p>
-                {($action || ' by ' || string-join($authors, ', '))}
-                </p>)
-                else <p>{$respStmt/t:name/text() || ', ' || $respStmt/t:resp/text()}</p>
+                <ul class="nodot">
+                {for $task in $respStmt
+                return
+                <li class="nodot">{$action || ' by ' || string-join($authors, ', ')}</li>
                 }
+                </ul>)
+               else
+               for $task in $respStmt
+                return
+                <li class="nodot">{$respStmt/t:name/text() || ', ' || $respStmt/t:resp/text()}</li>
+                }             
+              
                 </div>
-    </div>
+          </div>
      {if($document//t:editionStmt/node()) then <div class="w3-panel w3-card-4 w3-padding w3-margin w3-red " >{string:tei2string($document//t:editionStmt/node())}</div> else ()}
      {if($document//t:availability/node()) then <div class="w3-panel w3-card-4 w3-padding w3-margin w3-white " >{string:tei2string($document//t:availability/node())}</div> else ()}
     </div>
@@ -1766,7 +1773,7 @@ if($mss = '') then ()  else(
 
                 <div  class="w3-card-2 w3-margin">
                                     <header class="w3-red w3-padding">
-                                        <a href="{('/'||$msid)}">{exptit:printTitleID($msid)}</a>
+<a href="{('/'||$msid)}">{exptit:printTitleID($msid)}</a> 
                                         ({string($minnotBefore)}-{string($maxnotAfter)})
                                      </header>
                                     <div class="w3-container" style="max-height:60vh; overflow-y:auto">
