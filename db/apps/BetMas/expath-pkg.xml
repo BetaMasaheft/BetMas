@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <package xmlns="http://expath.org/ns/pkg" name="https://www.betamasaheft.uni-hamburg.de/BetMas" abbrev="BetaMasaheft" version="5.0" spec="1.0">
     <title>Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
-    <dependency package="http://exist-db.org/apps/shared"/>
+    <dependency package="http://exist-db.org/apps/shared" semver-min="0.9.1"/>
+    <dependency package="https://betamasaheft.eu/betmasweb/" semver-min="0.1"/>
+    <dependency package="http://betamasaheft.aai.uni-hamburg.de/gez-en/" semver-min="2.6"/>
+    <dependency package="http://betamasaheft.eu/guidelines" semver-min="0.1"/>
+    <dependency package="http://betamasaheft.aai.uni-hamburg.de/parser/" semver-min="0.5"/>
+    <dependency processor="http://exist-db.org" semver-min="5.2.0"/>
 </package>
