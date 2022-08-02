@@ -297,7 +297,7 @@ return
      else if ($document//t:change[contains(.,'reviewed')]) then
    <span class="w3-tag w3-white" >Version of {max($document//t:change/xs:date(@when))}</span>
    else
-<span class="w3-tag w3-red" >{"Work in progress, please don't use as reference"}</span>
+<span class="w3-tag w3-red" >{"Work in Progress"}</span>
     }
     </div>
     <div class="w3-row w3-hide-small"><span class="w3-tag w3-gray w3-small" style="word-break:break-all;">{$config:appUrl || '/' || $id}</span></div>
