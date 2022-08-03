@@ -216,7 +216,7 @@ declare variable $config:data-rootPl := $config:data-root || "/places";
 declare variable $config:data-rootPr := $config:data-root || "/persons";
 declare variable $config:data-rootIn := $config:data-root || "/institutions";
 declare variable $config:data-rootA := $config:data-root || "/authority-files";
-declare variable $config:data-rootCh := $config:add-data-root || "/Chojnacki";
+declare variable $config:data-rootCh := $config:bmdata-root || "/Chojnacki";
 declare variable $config:data-rootTraces := $config:app-root || "/traces";
 
 
