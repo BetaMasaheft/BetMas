@@ -610,8 +610,8 @@ declare %private function viewItem:choosefacsorlb($locus, $ancID) {
         else
             if ($locus/ancestor::t:TEI//t:idno/@facs) then
             (attribute class {'w3-tooltip'},
-            <span style="position:absolute;left:0;bottom:18px"
-                class="w3-text w3-text-red w3-small">use the viewer for the images</span>)
+            <span style="position:absolute;left:0;bottom:16px"
+                class="w3-text w3-tag w3-dark-grey w3-tiny">check the viewer</span>)
                 else ()
 };
 
@@ -2768,6 +2768,12 @@ declare %private function viewItem:bindingDesc($node) {
         )
 };
 
+declare %private function viewItem:accMat($node as element(t:accMat)) {
+    (<h3>Accompanying Material</h3>,
+    <p>{viewItem:TEI2HTML($node/node())}
+    </p>)
+};
+
 declare %private function viewItem:revisionDesc($node) {
     <ul>
         {
@@ -4181,6 +4187,9 @@ declare function viewItem:TEI2HTML($nodes) {
             case element(t:abbr)
                 return
                     viewItem:abbr($node)
+             case element(t:accMat)
+                return
+                    viewItem:accMat($node)         
             case element(t:acquisition)
                 return
                     viewItem:acquisition($node)
