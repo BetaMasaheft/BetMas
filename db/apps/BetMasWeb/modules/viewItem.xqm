@@ -5568,6 +5568,7 @@ declare %private function viewItem:manuscriptStructure($msDesc) {
         id="codicologicalInformation{$msDesc/@xml:id}">
         {viewItem:divofmanuscriptpath($msDesc, '/t:physDesc//t:objectDesc/t:supportDesc', 'dimensions')}
         {viewItem:divofmanuscriptpath($msDesc, '/t:physDesc//t:bindingDesc', 'binding')}
+        {viewItem:divofmanuscriptpath($msDesc, '/t:physDesc//t:accMat', 'accompanying material')}
         {viewItem:divofmanuscriptpath($msDesc, '/t:physDesc//t:sealDesc', 'seals')}
         {viewItem:divofmanuscriptpath($msDesc, '/t:physDesc//t:objectDesc/t:layoutDesc', 'layout') (:dimensions again! :)}
         {viewItem:divofmanuscriptpath($msDesc, '/t:physDesc/t:handDesc', 'hands')}
