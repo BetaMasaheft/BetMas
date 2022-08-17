@@ -60,6 +60,8 @@ declare function gitsync:rdf($collection-uri, $file-name){
     let $collectionName := substring-after($collection-uri, '/db/apps/BetMasData/')
     let $shortCollName := if( matches($collectionName, 'manuscripts')) then 'manuscripts' 
                         else if( matches($collectionName, 'works')) then 'works' 
+                        else if( matches($collectionName, 'studies')) then 'studies' 
+                        else if( matches($collectionName, 'narratives')) then 'narratives' 
                         else if( matches($collectionName, 'persons')) then 'persons' 
                         else if( matches($collectionName, 'places')) then 'places'  
                         else if( matches($collectionName, 'institutions')) then 'institutions' 
@@ -143,8 +145,9 @@ declare function gitsync:updateplacesDEL($file-name){
 
 declare function gitsync:updatetextpartsMOD($file-name){
     let $textslist := $gitsync:textparts//t:list
-    let $id := substring-before($file-name, '.xml')
-    let $file := collection($config:data-rootW)//id($id) 
+    let $longid := substring-after($file-name, '.eu/')
+    let $id := substring-before($longid, '.xml')
+    let $file := collection($config:data-rootW)//id($id)  or collection($config:data-rootS)//id($id) 
     let $newtitleSelector := titles:worknarrTitleSelector($file)
     let $update :=  update value  $textslist/t:item[@corresp eq $id] with $newtitleSelector
     return
@@ -153,7 +156,8 @@ declare function gitsync:updatetextpartsMOD($file-name){
 
 declare function gitsync:updatetextpartsDEL($file-name){
     let $textslist := $gitsync:textparts//t:list
-    let $id := substring-before($file-name, '.xml')
+    let $longid := substring-after($file-name, '.eu/')
+    let $id := substring-before($longid, '.xml')
     let $update :=  update delete  $textslist/t:item[@corresp eq $id]
     return
         'removed value from list in textpartstitles.xml '
@@ -355,6 +359,10 @@ return
                     gitsync:updatepersonsDEL($file-name)) 
                    else if(contains($data-collection, 'works')) then (
                     gitsync:updatetextpartsDEL($file-name))
+                    else if(contains($data-collection, 'studies')) then (
+                    gitsync:updatetextpartsDEL($file-name))
+                    else if(contains($data-collection, 'narratives')) then (
+                    gitsync:updatetextpartsDEL($file-name))
                     else if(contains($data-collection, 'places')) then (
                     gitsync:updateplacesDEL($file-name)) 
                     else (),
@@ -429,6 +437,10 @@ declare function gitsync:updateLists($data-collection, $file-name){
                     else if(contains($data-collection, 'persons')) then (
                     gitsync:updatepersonsMOD($file-name) )
                    else if(contains($data-collection, 'works')) then (
+                    gitsync:updatetextpartsMOD($file-name))
+                    else if(contains($data-collection, 'studies')) then (
+                    gitsync:updatetextpartsMOD($file-name))
+                    else if(contains($data-collection, 'narratives')) then (
                     gitsync:updatetextpartsMOD($file-name))
                     else if(contains($data-collection, 'places')) then (
                     gitsync:updateplacesMOD($file-name) ) 
