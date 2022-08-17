@@ -43,7 +43,9 @@ return
         let $payload := util:base64-decode($post-data)
         let $json-data := parse-json($payload)
         
-        let $data-collection := $config:data-rootS
+        let $data-collection := '/db/apps/BetMasData/studies'
+        
+        let $login := xmldb:login($data-collection, 'BetaMasaheftAdmin', 'BMAdmin')
         
         return
             try {
