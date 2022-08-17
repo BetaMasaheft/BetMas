@@ -33,6 +33,9 @@ let $prefix := switch ($collection)
     case 'works'
         return
             <ref><pre>LIT</pre><type>work</type></ref>
+    case 'studies'
+        return
+            <ref><pre>STU</pre><type>studies</type></ref>            
     case 'narratives'
         return
             <ref><pre>NAR</pre><type>nar</type></ref>

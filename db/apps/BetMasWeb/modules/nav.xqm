@@ -708,6 +708,8 @@ declare function nav:newentryNew() {
                     value="works">work</option>
                 <option
                     value="narratives">narrative</option>
+                  <option
+                    value="studies">study</option>
                 <option
                     value="places">place</option>
                 <option

@@ -18,6 +18,7 @@ function switch2:col($type){
     switch($type)
         case 'work' return 'works'
         case 'nar' return 'narratives'
+        case 'studies' return 'studies'
         case 'pers' return 'persons'
         case 'place' return 'places'
         case 'ins' return 'institutions'
@@ -39,6 +40,7 @@ declare
     
     case 'works' return 'collection($config:data-rootW)'
         case 'narratives' return 'collection($config:data-rootN)'
+        case 'studies' return 'collection($config:data-rootS)'
         case 'persons' return 'collection($config:data-rootPr)'
         case 'places' return 'collection($config:data-rootPl)'
         case 'institutions' return 'collection($config:data-rootIn)'
@@ -53,6 +55,7 @@ declare function switch2:collectionVar($type){
     switch($type)
         case 'works' return collection($config:data-rootW)
         case 'narratives' return collection($config:data-rootN)
+        case 'studies' return collection($config:data-rootS)
         case 'persons' return collection($config:data-rootPr)
         case 'places' return collection($config:data-rootPl)
         case 'institutions' return collection($config:data-rootIn)
@@ -68,6 +71,7 @@ declare function switch2:collectionVarValTit($type){
    case 'mss' return '$exptit:col//t:TEI[@type="mss"]'
    case 'work' return '$exptit:col//t:TEI[@type="work"]'
    case 'nar' return '$exptit:col//t:TEI[@type="nar"]'
+   case 'studies' return '$exptit:col//t:TEI[@type="studies"]'
    case 'auth' return '$exptit:col//t:TEI[@type="auth"]'
    case 'pers' return '$exptit:col//t:TEI[@type="pers"]'
    case 'place' return '$exptit:col//t:TEI[@type="place"]'
@@ -100,6 +104,9 @@ return switch ($prefix)
                                                     case 'NA'
                                                         return
                                                             'nar'
+                                                    case 'ST'
+                                                        return
+                                                            'studies'
                                                     case 'AT'
                                                         return
                                                             'auth'

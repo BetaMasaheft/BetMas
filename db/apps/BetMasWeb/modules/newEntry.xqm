@@ -111,6 +111,7 @@ if($app:collection = 'persons') then (
                 switch($app:collection)
                 case 'narratives' return  $taxonomy/t:category[t:desc='Subjects']/t:category
                 case 'works' return  $taxonomy/t:category[t:desc='Subjects']/t:category
+                case 'studies' return  $taxonomy/t:category[t:desc='Subjects']/t:category
                 case 'manuscripts' return  $taxonomy/t:category[t:desc='Subjects']/t:category
                 case 'places' return  $taxonomy/t:category[t:desc='Place types']/t:category
                 case 'institutions' return  $taxonomy/t:category[t:desc='Place types']/t:category
