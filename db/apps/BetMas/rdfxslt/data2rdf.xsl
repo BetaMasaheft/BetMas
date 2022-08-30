@@ -1488,7 +1488,7 @@
                 <rdf:type rdf:resource="https://betamasaheft.eu/ontology/{concat(upper-case(substring(@role,1,1)),substring(@role,2))}"/>
             </xsl:if>
             <oa:hasTarget rdf:resource="https://betamasaheft.eu/{$mainID}"/>
-            <oa:hasBody rdf:resource="{if(starts-with(@ref, 'pleiades:')) then concat('https://pleiades.stoa.org/places/', substring-after(@ref, 'pleiades:')) else if (starts-with(@ref, 'wd:Q')) then concat('https://www.wikidata.org/entity/', replace(@ref, 'wd:', '')) else concat('https://betamasaheft.eu/',@ref)}"/>
+            <oa:hasBody rdf:resource="{if(starts-with(@ref, 'pleiades:')) then concat('https://pleiades.stoa.org/places/', substring-after(@ref, 'pleiades:')) else if (starts-with(@ref, 'wd:Q')) then concat('https://www.wikidata.org/entity/', replace(@ref, 'wd:', '')) else  string(@ref)}"/>
             <oa:annotatedAt rdf:datatype="http://www.w3.org/2001/XMLSchema#date">
                 <xsl:value-of select="current-date()"/>
             </oa:annotatedAt>
