@@ -324,8 +324,9 @@
                     <xsl:if test="//t:person/@sex">
                         <foaf:gender>
                             <xsl:choose>
-                            <xsl:when test="1">male</xsl:when>
-                            <xsl:otherwise>female</xsl:otherwise>
+                                <xsl:when test="matches(//t:person/@sex, '1')">male</xsl:when>
+                                <xsl:when test="matches(//t:person/@sex, '2')">female</xsl:when>
+                            <xsl:otherwise>undefined</xsl:otherwise>
                         </xsl:choose>
                         </foaf:gender>
                     </xsl:if>
