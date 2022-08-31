@@ -250,15 +250,15 @@ then you will see visualizations based on La Syntaxe du Codex, by Andrist, Canar
 declare function item2:RestItemHeader($this, $collection) {
 let $document := $this
 let $id := string($this/@xml:id)
-let $repoids := if ($document//t:repository/text() = 'Lost' or $document//t:repository/text() = 'In situ' ) 
-                               then ($document//t:repository/text()) 
-                             else if ($document//t:repository/@ref) 
-                                then config:distinct-values($document//t:repository/@ref) 
+let $repoids := if ($document//t:msIdentifier/t:repository/text() = 'Lost' or $document//t:msIdentifier/t:repository/text() = 'In situ' ) 
+                               then ($document//t:msIdentifier/t:repository/text()) 
+                             else if ($document//t:msIdentifier/t:repository/@ref) 
+                                then config:distinct-values($document//t:msIdentifier/t:repository/@ref) 
                              else 'No Repository Specified'
 let $key := for $ed in $document//t:titleStmt/t:editor[not(@role eq  'generalEditor')]  
                                   return 
                                   editors:editorKey(string($ed/@key)) || (if($ed/@role) then ' (' ||string($ed/@role)|| ')' else ())
-
+let $altID := config:distinct-values($document//t:msIdentifier/t:altIdentifier/t:idno/text())
 return
 
     <div xmlns="http://www.w3.org/1999/xhtml" class="ItemHeader w3-container">
@@ -336,7 +336,7 @@ return
             class="w3-tag w3-gray w3-large w3-margin-top" 
             property="http://www.cidoc-crm.org/cidoc-crm/P55_has_current_location" 
             resource="{$repo}">{if($repoplace) then ($repoplace, ', ') else ()}
-                   {distinct-values($this//t:repository/text())}</a>,
+                   {string($this//t:msIdentifier/t:repository/text())}</a>,
                   <a target="_blank" 
             href="{replace($repo, $config:appUrl, '')}">
                    <sup>[view repository]</sup></a>)   
@@ -355,7 +355,7 @@ return
                     content="{$altId}">TM{$altId/text()}{if($altId[$p = count($document//t:msIdentifier/t:altIdentifier/t:idno/text())]) then ' ' else ', '}</a>
                    else 
                      <span property="http://www.cidoc-crm.org/cidoc-crm/P1_is_identified_by" 
-                    content="{$altId/text()}">{$altId/text()}{if($altId[$p = count($document//t:msIdentifier/t:altIdentifier/t:idno/text())]) then ' ' else ', '}</span>
+                    content="{$altId/text()}">{concat(string($altId/ancestor::t:altIdentifier[1]/t:repository), ' ', $altId/text())}{if($altId[$p = count($document//t:msIdentifier/t:altIdentifier/t:idno/text())]) then ' ' else ', '}</span>
             }
             </p>
             else
