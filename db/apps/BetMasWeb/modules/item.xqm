@@ -193,7 +193,7 @@ then you will see visualizations based on La Syntaxe du Codex, by Andrist, Canar
 <div class="w3-bar-item w3-tooltip"  
 ><a class="w3-button w3-padding-small w3-gray"  href="/{$collection}/{$id}/analytic" target="_blank">Relations</a>
 <span class="w3-text w3-tag itemoptiontooltip">Further visualization of relational information</span></div>
-    {if ($collection = 'works' or $collection = 'narratives') then
+    {if ($collection = 'works' or $collection = 'narratives' or $collection = 'studes') then
     (<div class="w3-bar-item w3-tooltip" 
   >
     <a class="w3-button w3-padding-small w3-red"  href="{('/'||$collection|| '/' || $id || '/text' )}" 
@@ -231,7 +231,7 @@ then you will see visualizations based on La Syntaxe du Codex, by Andrist, Canar
     target="_blank">Link to images</a>
     <span class="w3-text w3-tag itemoptiontooltip">Link to images available not on this site</span>
     </div> else ()}
-    {if ($collection = 'works' or $collection = 'narratives') then
+    {if ($collection = 'works' or $collection = 'narratives' or $collection = 'studes') then
     (<div class="w3-bar-item w3-tooltip" >
     <a class="w3-button w3-padding-small w3-gray"  href="{('/compare?workid=' || $id  )}" target="_blank">Compare</a>
     <span class="w3-text w3-tag itemoptiontooltip">Compare manuscripts with this content</span>
@@ -654,6 +654,72 @@ else
 
              </div>
       )
+      
+      case 'studies' return (
+     let $relations := ($w//t:relation[@active eq  $id],
+     $w//t:relation[@passive eq  $id])
+     let $relatedWorks :=
+            for $corr in $relations[@name  != 'saws:isAttributedToAuthor'][@name != 'dcterms:creator']
+
+            return
+                if ($corr[ancestor::t:TEI[@xml:id [. = $id]]]) then () else $corr
+let $relations := $document//t:relation[@name [. != 'saws:isAttributedToAuthor'][. != 'dcterms:creator']]
+return
+if(empty($relatedWorks) and not($document//t:relation)) then ()
+else
+<div  class="mainrelations w3-container">
+
+
+                                            {
+                    for $par in $relations
+                    let $relname := string(($par/@name)[1])
+                    group by $rn := $relname
+                    return
+                      <div  class="relBox  w3-panel w3-card-4 w3-gray"> {(
+
+                       switch($rn)
+                        case 'saws:contains' return <b  class="openInDialog">The following <span class="w3-tag">{count($par)}</span> parts of this textual unit are also independent textual units ({$rn})</b>
+                        case 'ecrm:P129_is_about' return <b  class="openInDialog">The following <span class="w3-tag">{count($par)}</span> subjects are treated in this textual unit  ({$rn})</b>
+                       case 'saws:isVersionInAnotherLanguageOf' return <b  class="openInDialog">The following <span class="w3-tag">{count($par)}</span> textual units are versions in other languages of this ({$rn})</b>
+                         case 'saws:formsPartOf' return <b  class="openInDialog">This textual unit is included in the following <span class="w3-tag">{count($par)}</span> textual units ({$rn})</b>
+                        case 'saws:isDifferentTo' return <b  class="openInDialog">This textual unit is marked as different from the following <span class="w3-tag">{count($par)}</span> ({$rn})</b>
+                       default return <b  class="openInDialog">The following <span class="w3-tag">{count($par)}</span> textual units have a relation {$rn} with this textual unit</b>,
+
+                      <ul  class="w3-ul w3-hoverable">{for $p in $par/@passive
+                        let $normp := normalize-space($p)
+                        return
+                        if (contains($normp, ' ')) then
+                        for $value in tokenize ($normp, ' ') return
+                       <li class="nodot"><a href="{$value}">{exptit:printTitle($value)}</a></li>
+                        else
+                        <li class="nodot">{if(contains($p, 'betmas:')) 
+                        then <a href="/{substring-after($p, 'betmas:')}" >{exptit:printTitle(substring-before(substring-after($p, 'betmas:'), '.'))}{()}</a> else <a href="{$p}" >{exptit:printTitle($p)}</a>}</li>
+                        }</ul>)
+
+                }</div>}
+
+                {
+                    for $par in $relatedWorks
+                    let $relname := string(($par/@name)[1])
+                    group by $rn := $relname
+                    return
+                     <div  class="relBox  w3-panel w3-card-4 w3-gray">
+                     {( switch($rn)
+                        case 'saws:isVersionOf' return <b  class="openInDialog">The following <span class="w3-tag">{count($par)}</span> textual units are versions of this ({$rn})</b>
+                        case 'saws:isVersionInAnotherLanguageOf' return <b  class="openInDialog">The following <span class="w3-tag">{count($par)}</span> textual units are versions in other languages of this ({$rn})</b>
+                        case 'saws:isDifferentTo' return <b  class="openInDialog">This textual unit is marked as different from the following <span class="w3-tag">{count($par)}</span> ({$rn})</b>
+                       default return <b  class="openInDialog">The following <span class="w3-tag">{count($par)}</span> textual units have a relation {$rn} with this work</b>,
+                        <ul  class="w3-ul w3-hoverable">{for $p in $par
+                        return
+                        <li  class="nodot"><a href="{$p/@active}" >{exptit:printTitle($p/@active)}</a></li>
+                        }</ul>)
+                } </div>}
+
+
+
+             </div>
+      )
+      
       
       case 'narratives' return (
    
@@ -1250,6 +1316,11 @@ return <p><a target="_blank" href="/compare?workid={$stringsubids},{$c}">Click t
                    (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in config:distinct-values($file//t:term/@key) return <option value="{$x}">{exptit:printTitleID($x)}</option>}</optgroup> else (),
                    if ($file//t:relation[@name eq 'dcterms:creator']) then <optgroup label="author">{for $x in ($file//t:relation[@name eq 'dcterms:creator']) let $auth := string($x/@passive) return <option value="{$auth}">{exptit:printTitleID($auth)}</option>}</optgroup> else (),
                    if ($file//t:relation[@name eq 'saws:isAttributedToAuthor']) then <optgroup label="relation">{for $x in ($file//t:relation[@name eq 'saws:isAttributedToAuthor']) let $auth := string($x/@passive) return <option value="{$auth}">{exptit:printTitleID($auth)}</option>}</optgroup> else ()
+                   )                   
+                   case 'studies' return
+                   (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in config:distinct-values($file//t:term/@key) return <option value="{$x}">{exptit:printTitleID($x)}</option>}</optgroup> else (),
+                   if ($file//t:relation[@name eq 'dcterms:creator']) then <optgroup label="author">{for $x in ($file//t:relation[@name eq 'dcterms:creator']) let $auth := string($x/@passive) return <option value="{$auth}">{exptit:printTitleID($auth)}</option>}</optgroup> else (),
+                   if ($file//t:relation[@name eq 'saws:isAttributedToAuthor']) then <optgroup label="relation">{for $x in ($file//t:relation[@name eq 'saws:isAttributedToAuthor']) let $auth := string($x/@passive) return <option value="{$auth}">{exptit:printTitleID($auth)}</option>}</optgroup> else ()
                    )
                     case 'narratives' return
                    (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in config:distinct-values($file//t:term/@key) return <option value="{$x}">{exptit:printTitleID($x)}</option>}</optgroup> else (),
@@ -1296,7 +1367,7 @@ return <p><a target="_blank" href="/compare?workid={$stringsubids},{$c}">Click t
      <img id="loading" src="resources/Loading.gif" style="display: none;"></img>,
      <div id="SeeAlsoResults" class="w3-panel w3-margin w3-card-4 w3-gray">No keyword selected.</div>) else
      <div class="w3-panel w3-margin w3-card-4 w3-gray">No keywords associated with this item yet.</div>}
-     {if($collection='works' or $collection='narratives') then item2:RestMss($id) else ()}
+     {if($collection='works' or $collection='narratives' or $collection='studies') then item2:RestMss($id) else ()}
      {item2:mainRels($this, $collection)}
    {if($collection="institutions") then 
     let $t := util:log('info', concat('item see also for ', $id, ' in ', $collection))
