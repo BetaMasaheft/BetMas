@@ -657,7 +657,7 @@ See also <a href="https://betamasaheft.eu/help.html">Help page</a> fore more gui
                     if (contains($url, 'newSearch.html')) then ()
                     else
                         <a
-                            href="/newSearch.html"
+                            href="/simpleSearch.html"
                             class="w3-padding w3-hover-red w3-hide-small w3-right"><i
                                 class="fa fa-search"></i></a>
                 }
@@ -680,7 +680,7 @@ See also <a href="https://betamasaheft.eu/help.html">Help page</a> fore more gui
                 class="w3-bar-item w3-button w3-padding-large"
                 onclick="myFunction()">Manuscripts</a>
             <a
-                href="/newSearch.html"
+                href="/simpleSearch.html"
                 class="w3-bar-item w3-button w3-padding-large"
                 onclick="myFunction()">Search</a>
         </div>
