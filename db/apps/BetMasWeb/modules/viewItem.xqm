@@ -608,11 +608,9 @@ declare %private function viewItem:choosefacsorlb($locus, $ancID) {
         if ($locus/ancestor::t:TEI//t:div[@xml:id = 'Transkribus']) then
             attribute onclick {viewItem:imagesID($locus, 'call', $locus/@*, '')}
         else
-            if ($locus/ancestor::t:TEI//t:idno/@facs) then
             (attribute class {'w3-tooltip'},
             <span style="position:absolute;left:0;bottom:16px"
                 class="w3-text w3-tag w3-dark-grey w3-tiny">check the viewer</span>)
-                else ()
 };
 
 
