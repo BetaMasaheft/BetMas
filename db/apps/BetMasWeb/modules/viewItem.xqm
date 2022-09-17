@@ -105,9 +105,9 @@ declare %private function viewItem:locus($this) {
     let $ancID := replace($anc/@xml:id, '\.', '_')
     
     return
-    if((count($this/ancestor::t:msItem) gt 2) or (count($this/ancestor::t:TEI//t:msItem) gt 100)) then
+  (::  if((count($this/ancestor::t:msItem) gt 2) or (count($this/ancestor::t:TEI//t:msItem) gt 100)) then
     $this/text()
-    else
+    else ::)
         (
         if ($this/parent::t:ab[not(@type = 'CruxAnsata' or @type = 'ChiRho' or @type = 'coronis')]) then
             '(Excerpt from '
