@@ -816,9 +816,12 @@ element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
 declare function expand:attributes($node, $bibliography) {
     element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
         ($node/@*[not(name() = 'corresp')][not(name() = 'resp')][not(name() = 'who')][not(name() = 'ref')][not(name() = 'sameAs')][not(name() = 'calendar')],
-        if ($node/@corresp) then
+        if ($node/@corresp and $node[not(@type = 'external')] ) then
             attribute corresp {$expand:BMurl || (if(starts-with($node/@corresp, '#')) then string($node/ancestor-or-self::t:TEI/@xml:id) || string($node/@corresp) else string($node/@corresp))}
         else
+          if ($node/@corresp and $node[@type = 'external'] ) then
+            attribute corresp { (if(starts-with($node/@corresp, '#')) then string($node/ancestor-or-self::t:TEI/@xml:id) || string($node/@corresp) else string($node/@corresp))}
+            else
             (),
         if ($node/@calendar) then
             attribute calendar {'#' || $node/@calendar/data()}
