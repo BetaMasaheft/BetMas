@@ -142,6 +142,11 @@ let $firstcanvas :=
            (:vatican:)
                else if(contains(viewer:facsSwitch($m), 'digi.vat')) 
                then replace(substring-before(viewer:facsSwitch($m), '/manifest.json') || '/canvas/p0001', 'http:', 'https:')
+             (:sinai and other loc.gov:)
+            (:https://www.loc.gov/item/00279385706-ms/manifest.json
+            https://tile.loc.gov/image-services/iiif/service:amed:amedmonastery:00279385706-ms:0001 :)
+               else if(contains(viewer:facsSwitch($m), 'loc.gov')) 
+               then concat('https://tile.loc.gov/image-services/iiif/service:amed:amedmonastery:', substring-before(substring-after(viewer:facsSwitch($m), 'item/'), '/manifest.json'), ':0001')
             (:berlin
             https://content.staatsbibliothek-berlin.de/dc/1751174670/manifest
             https:\/\/content.staatsbibliothek-berlin.de\/dc\/1751174670-0001\/canvas
