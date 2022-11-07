@@ -147,6 +147,27 @@ let $firstcanvas :=
             https://tile.loc.gov/image-services/iiif/service:amed:amedmonastery:00279385706-ms:0001 :)
                else if(contains(viewer:facsSwitch($m), 'loc.gov')) 
                then concat('https://tile.loc.gov/image-services/iiif/service:amed:amedmonastery:', substring-before(substring-after(viewer:facsSwitch($m), 'item/'), '/manifest.json'), ':0001')
+                 (:windsor
+            https://rct.resourcespace.com/iiif/1005080/            
+            https://rct.resourcespace.com/iiif/1005079/canvas/ 003
+            https://rct.resourcespace.com/iiif/1005080/canvas/001
+            https://rct.resourcespace.com/iiif/1005081/canvas/P000
+            https://rct.resourcespace.com/iiif/1005082/canvas/001
+            https://rct.resourcespace.com/iiif/1005083/canvas/000
+            https://rct.resourcespace.com/iiif/1005084/canvas/ _P002-hpr.jpg
+            https://rct.resourcespace.com/iiif/1005085/canvas/1005085.a (1)-hpr.jpg
+            :)
+
+               else if(contains(viewer:facsSwitch($m), 'https://rct.resourcespace.com/iiif/1005081')) 
+               then viewer:facsSwitch($m) || 'canvas/P000'  
+               else if(contains(viewer:facsSwitch($m), 'https://rct.resourcespace.com/iiif/1005079')) 
+               then viewer:facsSwitch($m) || 'canvas/ 003'  
+               else if(contains(viewer:facsSwitch($m), 'https://rct.resourcespace.com/iiif/1005084')) 
+               then viewer:facsSwitch($m) || 'canvas/ _P002-hpr.jpg'  
+               else if(contains(viewer:facsSwitch($m), 'https://rct.resourcespace.com/iiif/1005085')) 
+               then viewer:facsSwitch($m) || 'canvas/1005085.a (1)-hpr.jpg' 
+               else if(contains(viewer:facsSwitch($m), 'rct.')) 
+               then viewer:facsSwitch($m) || 'canvas/001'  
             (:berlin
             https://content.staatsbibliothek-berlin.de/dc/1751174670/manifest
             https:\/\/content.staatsbibliothek-berlin.de\/dc\/1751174670-0001\/canvas
