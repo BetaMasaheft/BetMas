@@ -142,12 +142,12 @@ let $firstcanvas :=
            (:vatican:)
                else if(contains(viewer:facsSwitch($m), 'digi.vat')) 
                then replace(substring-before(viewer:facsSwitch($m), '/manifest.json') || '/canvas/p0001', 'http:', 'https:')
-             (:sinai and other loc.gov:)
+            (:sinai and other loc.gov:)
             (:https://www.loc.gov/item/00279385706-ms/manifest.json
             https://tile.loc.gov/image-services/iiif/service:amed:amedmonastery:00279385706-ms:0001 :)
                else if(contains(viewer:facsSwitch($m), 'loc.gov')) 
                then concat('https://tile.loc.gov/image-services/iiif/service:amed:amedmonastery:', substring-before(substring-after(viewer:facsSwitch($m), 'item/'), '/manifest.json'), ':0001')
-                 (:windsor
+             (:windsor
             https://rct.resourcespace.com/iiif/1005080/            
             https://rct.resourcespace.com/iiif/1005079/canvas/ 003
             https://rct.resourcespace.com/iiif/1005080/canvas/001
@@ -168,12 +168,29 @@ let $firstcanvas :=
                then viewer:facsSwitch($m) || 'canvas/1005085.a (1)-hpr.jpg' 
                else if(contains(viewer:facsSwitch($m), 'rct.')) 
                then viewer:facsSwitch($m) || 'canvas/001'  
+               
+                 (:EAP
+            https://eap.bl.uk/archive-file/EAP432-1-1/manifest
+            https:\/\/eap.bl.uk\/archive-file\/EAP432-1-1\/canvas\/1
+            :)
+               else if(contains(viewer:facsSwitch($m), 'eap.')) 
+               then replace(viewer:facsSwitch($m), 'manifest', 'canvas') || '/1'
+               
             (:berlin
             https://content.staatsbibliothek-berlin.de/dc/1751174670/manifest
             https:\/\/content.staatsbibliothek-berlin.de\/dc\/1751174670-0001\/canvas
             :)
                else if(contains(viewer:facsSwitch($m), 'staatsbib')) 
                then substring-before(viewer:facsSwitch($m), '/manifest') || '-0001/canvas'
+                           (:leicester
+            https://specialcollections.le.ac.uk/digital/collection/p15407coll6/id/19840
+            https://specialcollections.le.ac.uk/digital/collection/p15407coll6/id/20000
+            https://specialcollections.le.ac.uk/iiif/2/p15407coll6:20030/manifest.json
+            
+            https://cdm16445.contentdm.oclc.org/iiif/p15407coll6:19840/canvas/c0
+            :)
+               else if(contains(viewer:facsSwitch($m), 'le.ac.uk')) 
+               then concat('https://cdm16445.contentdm.oclc.org/iiif/', substring-before(substring-after(viewer:facsSwitch($m), 'iiif/'), 'coll6'), 'coll6:19840', '/canvas/c0')
               (:tuebingen
             http://idb.ub.uni-tuebingen.de/opendigi/MaIX2/manifest
             http://idb.ub.uni-tuebingen.de/opendigi/MaIX2/canvas/1
@@ -183,6 +200,12 @@ let $firstcanvas :=
             (:princeton:)
                 else if(contains($this//t:msIdentifier/t:idno/@facs, 'princeton')) 
                 then   '' 
+            (:dublin
+            https://viewer.cbl.ie/viewer/api/v1/records/W_916/manifest/
+            https://viewer.cbl.ie/viewer/api/v1/records/W_916/pages/1/canvas/
+            :)
+                else if(contains($this//t:msIdentifier/t:idno/@facs, 'cbl.ie')) 
+            then substring-before(viewer:facsSwitch($m), '/manifest') || '/pages/1/canvas/'
             (:cambridge
             https://cudl.lib.cam.ac.uk//iiif/MS-ADD-01569
             https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01569/canvas/1
