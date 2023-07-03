@@ -10,7 +10,7 @@
                     
                 <div class="w3-display-middle w3-container">
                     <div class="w3-center-align">
-                        <img src="resources/images/logo_color.png" alt="Beta maṣāḥǝft Project logo" id="logo" style="width:80%;"/>
+                        <a href="https://www.betamasaheft.uni-hamburg.de/"><img src="resources/images/logo_color.png" alt="Beta maṣāḥǝft Project logo" id="logo" style="width:70%;"/></a>
                     </div>
                     <div class="w3-center-align">
                         <form action="/simpleSearch.html" role="search">
@@ -36,13 +36,64 @@
                     </div> -->
                         
                     </div>       
-                </div>       
+                </div> 
+            
             </div>
+        <div class="w3-row w3-center-align">
+            
+            <button onclick="document.getElementById('highlight').style.display='block'" class="w3-button w3-red w3-row w3-center-align" style="vertical-align: top;width:300;">Highlight of the month</button>
+            <button onclick="document.getElementById('feed').style.display='block'" class="w3-button" style="vertical-align: top;"><i class="fas fa-rss-square" style="font-size:20px;color:rgb(188,56,38)"/></button>
+            
+            <div id="highlight" class="w3-modal w3-card">
+                <div class="w3-modal-content">
+                    
+                    <header class="w3-container w3-red">
+                        <span onclick="document.getElementById('highlight').style.display='none'" class="w3-button w3-display-topright">CLOSE</span>
+                        <h4>July 2023 highlight: Bm project presentations</h4>
+                    </header>
+                    
+                    <div class="w3-container">
+                        <p>Project members regularly showcase the project and offer trainings in creating and accessing project data.</p>
+                        <p><a href="https://www.betamasaheft.uni-hamburg.de/news/20220405xml/presentation-bm-2022.pdf">Take a look at this recent presentation offering a quick overview</a></p>   
+                        <p>Visit our <a href="/Guidelines/?id=trainingMaterials">Training materials</a> section for even more presentations.</p>
+                        <!--  <iframe src="https://www.betamasaheft.uni-hamburg.de/news/20220405xml/presentation-bm-2022.pdf" style="width:800; height:300;"></iframe>-->
+                        
+                    </div>
+                    
+                    <footer class="w3-container" style="background-color: rgba(240,224,188,0.3)">
+                        <span onclick="document.getElementById('highlight').style.display='none'" class="w3-button w3-display-bottomright">CLOSE</span>
+                        <p><a href="/highlights.html">Past highlights</a> </p>
+                        
+                    </footer>
+                    
+                </div>
+            </div>
+            
+            <div id="feed" class="w3-modal w3-card">
+                <div class="w3-modal-content">
+                    
+                    <header class="w3-container w3-red">
+                        <span onclick="document.getElementById('feed').style.display='none'" class="w3-button w3-display-topright">CLOSE</span>
+                        
+                    </header>
+                    
+                    <div class="w3-container">
+                        <iframe src="https://widgets.sociablekit.com/rss-feed/iframe/158412" width="700" height="700"/>
+                        
+                    </div>
+                    
+                    
+                    
+                </div>
+            </div>
+            
+        </div>
     </div>
 
+    
    <!-- entities -->
 
-    <div class="w3-container" style="position:relative;" id="entities">
+    <div class="w3-container" style="position:relative;background-color: rgba(240,224,188,0.3)" id="entities">
         <div class="w3-row w3-bar w3-margin-bottom  w3-margin-right" style="margin-top: 40;width:99%;">
             <div class="w3-col w3-mobile w3-display-container" style="width:20%;">   
                 <img src="resources/images/homepage/3a.JPG" alt="mss" class="w3-image w3-hover-opacity " style="filter:grayscale(90%);object-fit: cover;width:100%;"/>
