@@ -45,8 +45,8 @@ let $schema := doc('/db/apps/BetMas/schema/tei-betamesaheft.xml')
 </div>
 {if($app:collection = 'persons' or  $app:collection = 'places') then (
 <div class="w3-container w3-margin-bottom">
-<label>WikiData</label><br/>
-      <input placeholder="enter the Q item id" class="w3-input"  list="WDhits" id="Wdata" name="WD" type="text"/>
+<label>WikiData (with wd: prefix)</label><br/>
+      <input placeholder="enter the Q item id in the form wd:Q12345" class="w3-input"  list="WDhits" id="Wdata" name="WD" type="text"/>
       </div>
       ) else ()
       }
