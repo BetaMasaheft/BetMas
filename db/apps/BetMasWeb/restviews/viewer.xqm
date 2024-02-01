@@ -206,6 +206,14 @@ let $firstcanvas :=
             :)
                 else if(contains($this//t:msIdentifier/t:idno/@facs, 'cbl.ie')) 
             then substring-before(viewer:facsSwitch($m), '/manifest') || '/pages/1/canvas/'
+            
+            (:hamburg
+            https://iiif.sub.uni-hamburg.de/object/PPN1845525922/manifest
+            https://iiif.sub.uni-hamburg.de/object/PPN1845525922/canvas/PHYS_0001
+            :)
+            else if(contains($this//t:msIdentifier/t:idno/@facs, 'uni-hamburg')) 
+            then substring-before(viewer:facsSwitch($m), '/manifest') || '/canvas/PHYS_0001'
+            
             (:cambridge
             https://cudl.lib.cam.ac.uk//iiif/MS-ADD-01569
             https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01569/canvas/1
