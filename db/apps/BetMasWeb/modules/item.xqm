@@ -1090,7 +1090,7 @@ Scrolling in this box will also show you a summary of all the occurences.  <a ta
                                                         {  if ($item//t:facsimile/t:graphic/@url) then 
                                                         <a class="w3-bar-item" target="_blank" href="{$item//t:facsimile/t:graphic/@url}">Link to images</a> 
                                                         else if($item//t:msIdentifier/t:idno/@facs) then 
-                 <a class="w3-bar-item w3-circle" target="_blank" href="/manuscripts/{$itemid}/viewer">{
+                 <a class="w3-bar-item w3-circle" target="_blank" href="/manuscripts/{$groupkey}/viewer">{
                 if($item//t:collection = 'Ethio-SPaRe') 
                then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
 (:laurenziana:)
@@ -1099,7 +1099,7 @@ else  if($item//t:repository[@ref = 'INS0339BML'])
           
 (:          
 EMIP:)
-              else if(($item//t:collection = 'EMIP') and $item//t:msIdentifier/t:idno/@n) 
+              else if(($item//t:msIdentifier/t:idno[contains(@facs, 'EMIP')]) and $item//t:msIdentifier/t:idno/@n) 
                then <img src="{$config:appUrl ||'/iiif/' || string(($item//t:msIdentifier)[1]/t:idno[@facs][@n]/@facs) || '001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
               
               (:BNF:)
@@ -1128,7 +1128,7 @@ EMIP:)
                                                           <a class="w3-bar-item"
                                                href="/manuscripts/{$groupkey}/main">{$tit} ({string($groupkey)}) </a>
                                                
-                                                      <div class="w3-bar-item">  <span class="WordCount w3-tag" data-msID="{$groupkey}" data-wID="{$string}"/>
+                                                      <div class="w3-bar-item"><!--  <span class="WordCount w3-tag" data-msID="{$groupkey}" data-wID="{$string}"/> -->
                                                          
                                                          <ul class="w3-padding">{
                                                          for $h in $hit
@@ -1160,8 +1160,8 @@ EMIP:)
                                                           <li class="w3-bar w3-card-2 list-group">
                                                           <a
                                                href="/manuscripts/{$groupkey}/main">{$tit} ({string($groupkey)}) </a> <br/>
-                                                         <span class="WordCount" data-msID="{$groupkey}" data-wID="{$string}"/>
-                                                         <br/>
+                                                   <!--       <span class="WordCount" data-msID="{$groupkey}" data-wID="{$string}"/>
+                                                         <br/> -->
                                                          <ul class="w3-padding">{
                                                          for $h in $hit
                                                          let $item := $h/ancestor::t:item[1]
@@ -1202,8 +1202,8 @@ EMIP:)
                                                           <li class="w3-bar w3-card-2 list-group">
                                                           <a
                                                href="/manuscripts/{$groupkey}/main">{$tit} ({string($groupkey)}) </a> <br/>
-                                                         <span class="WordCount" data-msID="{$groupkey}" data-wID="{$string}"/>
-                                                         <br/>
+                                                <!--          <span class="WordCount" data-msID="{$groupkey}" data-wID="{$string}"/>
+                                                         <br/>-->
                                                          <ul class="w3-padding nodot">{
                                                          for $h in $hit
                                                          let $item := $h/ancestor::t:item[1]
