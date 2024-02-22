@@ -1602,6 +1602,12 @@ else
 };
 
 declare %private function viewItem:cae($entity) {
+ if (contains($entity/@ref, 'NAR')) then
+        ()
+    else
+     if (contains($entity/@ref, 'STU')) then
+        ()
+    else
     let $id := viewItem:URI2ID($entity/@ref)
     return
         'CAe ' || substring($id, 4, 4) || (if (contains($id, '#')) then
@@ -5314,6 +5320,7 @@ declare %private function viewItem:auth($item) {
                     {viewItem:TEI2HTML($item//t:listBibl)}
                 
                 </div>
+                 <button  class="w3-button w3-red"><a href="https://betamasaheft.eu/authority-files/list?keyword={$id}" target="_blank">List of entities using the keyword</a></button>
                 <button
                     class="w3-button w3-red"
                     id="showattestations"
