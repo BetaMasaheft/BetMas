@@ -1607,6 +1607,9 @@ declare %private function viewItem:cae($entity) {
     else
      if (contains($entity/@ref, 'STU')) then
         ()
+     else
+     if (contains($entity/@ref, 'IHA')) then
+        ()
     else
     let $id := viewItem:URI2ID($entity/@ref)
     return
