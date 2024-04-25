@@ -954,7 +954,37 @@
                 <item xml:id="INS1003MEAG" change="entryAddedAt2023-10-16T13:12:57.67+02:00">Private Collection of Məntasnot ʾAbbuhay</item>
                 <item xml:id="INS1005Maaqud" change="entryAddedAt2023-12-06T14:38:40.875+01:00">Maʿāquddi Yoḥannǝs Walda Nagʷadgʷād</item>
                 <item xml:id="INS1006FCCOS" change="entryAddedAt2023-12-20T11:22:32.49+01:00">Franciscan Center of Christian Oriental Studies</item>
-                <item xml:id="INS1007TaqotMaryam" change="entryAddedAt2024-01-11T12:43:38.669+01:00">Ṭāq̲ot Dabra Ṣəyon Māryām</item><item xml:id="INS1008EndaYohannes" change="entryAddedAt2024-01-24T14:13:28.68+01:00">ʾƎndā Yoḥannǝs Ḥādduš ʿAddi</item><item xml:id="INS0010AmbirM" change="entryAddedAt2024-01-26T11:08:59.456+01:00">Ambǝrsǝwā Mikaʾel</item><item xml:id="INS0011GuyaTH" change="entryAddedAt2024-01-26T11:08:59.456+01:00">Guyā Takla Ḥaymānot</item><item xml:id="INS0012Gewamara" change="entryAddedAt2024-01-26T11:08:59.456+01:00">Ǧǝwāmāra Mikaʾel</item></list>
+                <item xml:id="INS1007TaqotMaryam" change="entryAddedAt2024-01-11T12:43:38.669+01:00">Ṭāq̲ot Dabra Ṣəyon Māryām</item><item xml:id="INS1008EndaYohannes" change="entryAddedAt2024-01-24T14:13:28.68+01:00">ʾƎndā Yoḥannǝs Ḥādduš ʿAddi</item><item xml:id="INS0010AmbirM" change="entryAddedAt2024-01-26T11:08:59.456+01:00">Ambǝrsǝwā Mikaʾel</item><item xml:id="INS0011GuyaTH" change="entryAddedAt2024-01-26T11:08:59.456+01:00">Guyā Takla Ḥaymānot</item><item xml:id="INS0012Gewamara" change="entryAddedAt2024-01-26T11:08:59.456+01:00">Ǧǝwāmāra Mikaʾel</item>
+                <item xml:id="INS0043DabraSarabi">Dabra Ṣarābi</item>
+                <item xml:id="INS0052Texas">University of Texas at Austin, Harry Ransom Center</item>
+                <item xml:id="INS0048Abbaye">Abbaye Saint-Benoît d'En Calcat</item>
+                <item xml:id="INS0047JerMark">St Mark Monastery</item>
+                <item xml:id="INS0045JerSav">Biblioteca Generale della Custodia di Terra Sancta</item>
+                <item xml:id="INS0046JerFr">Studium Biblicum Franciscanum</item>
+                <item xml:id="INS0013Eton">Eton</item>
+                <item xml:id="INS0055TGS">Täsfa Gäbrä Śəllase Printing Press</item>
+                <item xml:id="INS0051SouthAfrica">South Africa Library</item>
+                <item xml:id="INS0044DabraAbbay">Dabra ʾAbbāy</item>
+                <item xml:id="INS0041Gregoriana">Biblioteca Gregoriana</item>
+                <item xml:id="INS0040BLG">Beta Lǝḥem Māryām</item>
+                <item xml:id="INS0066Woynam">Waynām Kidāna Mǝḥrat</item>
+                <item xml:id="INS0033MEM">ʿƎndā Mikāʾel</item>
+                <item xml:id="INS0032Scripps">Scripps College, Ella Strong Denison Library</item>
+                <item xml:id="INS0031BdR">Bibliothèque du roi des Belges</item>
+                <item xml:id="INS0029McCarthy">Collection of Robert (Bob) McCarthy</item>
+                <item xml:id="INS0026MY">Mekane Yesus Seminary Library</item>
+                <item xml:id="INS0027Armagh">Armagh Robinson Library</item>
+                <item xml:id="INS0025Whisnant">Whisnant Collection</item>
+                <item xml:id="INS0024Marwick">Marwick Collection</item>
+                <item xml:id="INS0023Eliza">Eliza Bennett Collection</item>
+                <item xml:id="INS0022Delamarter">Steven Delamarter Collection</item>
+                <item xml:id="INS0021Alwan">Alwan Collection</item>
+                <item xml:id="INS0020Rudulph">Rudulph Collection</item>
+                <item xml:id="INS0019Pavoni">Pavoni Social Center</item>
+                <item xml:id="INS0015Mannagasa">Mannāgašā Qǝddus Giyorgis</item>
+                <item xml:id="INS0014Brown">Brown University Library</item>
+                <item xml:id="INS0018Anon">Anonymous</item>
+            </list>
         </body>
     </text>
 </TEI>
