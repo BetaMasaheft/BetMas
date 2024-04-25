@@ -63,7 +63,7 @@
                 <item xml:id="INS0294TGM">ʾĀmbā Tahulā Mikāʾel</item>
                 <item xml:id="INS0539AAR">ʾAmbārge Takla Hāymānot</item>
                 <item xml:id="INS0103AKM">ʾAmbasat Kidāna Mǝḥrat</item>
-                <item xml:id="INS0473American_Bible_Society">American Bible Society</item>
+                <item xml:id="INS0473ABS">American Bible Society</item>
                 <item xml:id="INS0145MA">ʾĀndel Qǝddǝst Māryām</item>
                 <item xml:id="INS0581AHC">ʾAngaddā Hāwāryāt</item>
                 <item xml:id="INS0594AKP">ʾAngolalā Kidāna Mǝḥrat</item>
@@ -75,7 +75,7 @@
                 <item xml:id="INS0537AAN">ʾAnta Gǝbaññ Giyorgis</item>
                 <item xml:id="INS0225AMS">ʿĀrabāy Qǝddus Mikāʾel</item>
                 <item xml:id="INS0095ATH">ʾArāʿro Takla Hāymānot</item>
-                <item xml:id="INS0429Archaeological_museum_in_Florence">Archaeological museum in
+                <item xml:id="INS0429MANF">Archaeological museum in
                     Florence</item>
                 <item xml:id="INS0760HAM">Armanya Māryām Church</item>
                 <item xml:id="INS0461Art_Institute_of_Chicago">Art Institute of Chicago</item>
@@ -83,7 +83,7 @@
                 <item xml:id="INS0002AAI">Asien-Afrika-Institut</item>
                 <item xml:id="INS0007AM">ʾAsir Matirā</item>
                 <item xml:id="INS0778MAA">ʿAskaren ʿAbbo</item>
-                <item xml:id="INS0887WQA">ʾAššannāfi Bayyana, qes</item>
+                <item xml:id="INS0887WQA">Qes ʾAššannāfi Bayyana</item>
                 <item xml:id="INS0598AKT">ʾAstit Kidāna Mǝḥrat</item>
                 <item xml:id="INS0616AMT">Atkwar Mikāʾel</item>
                 <item xml:id="INS0779MAB">ʿAtle Walde, ʿato</item>
@@ -94,7 +94,7 @@
                 <item xml:id="INS0781MAE">ʾAwāzā ʾƎgziʾābǝḥer ʾAb</item>
                 <item xml:id="INS0698DAY">ʾAygabbǝr Mikāʾel</item>
                 <item xml:id="INS0546ABM">ʿAyne Bakāffa Māryām</item>
-                <item xml:id="INS0490Aziz_S._Atiya_Middle_East_Library">Aziz S. Atiya Middle East
+                <item xml:id="INS0490Atiya">Aziz S. Atiya Middle East
                     Library</item>
                 <item xml:id="INS0872WAA">ʾAzzāž ʾAmbā Mikāʾel</item>
                 <item xml:id="INS0131DMB">Baʿātti Qǝddus Mikāʾel</item>
@@ -112,16 +112,16 @@
                 <item xml:id="INS0836QBT">Baruga Takla Hāymānot</item>
                 <item xml:id="INS0784MBM">Bataso Māryām</item>
                 <item xml:id="INS0623AQB">Bātrā Fantāye, qes</item>
-                <item xml:id="INS0396Bavarian_National_Museum">Bavarian National Museum
+                <item xml:id="INS0396BNM">Bavarian National Museum
                     München</item>
                 <item xml:id="INS0318BSB">Bayerische Staatsbibliothek</item>
-                <item xml:id="INS0831NBY">Beineke Manuscript Library of Yale University</item>
-                <item xml:id="INS0427Bergamo_Museum">Bergamo Museum</item>
+                <item xml:id="INS0831NBY">Yale University, Beinecke Rare Book and Manuscript Library</item>
+                <item xml:id="INS0427Bergamo">Bergamo Museum</item>
                 <item xml:id="INS0333SBB">Berlin State Library</item>
                 <item xml:id="INS0525Quaritch">Bernard Quaritch Ltd</item>
                 <item xml:id="INS0111SSB">Bet Ḥāwāryāt</item>
                 <item xml:id="INS0208BMQM">Bet Muḵāʿ Mikāʾel</item>
-                <item xml:id="INS0519Beta_Libanos">Beta ʾAbbā Libānos</item>
+                <item xml:id="INS0519BetaLibanos">Beta ʾAbbā Libānos</item>
                 <item xml:id="INS0520BetaEmmanuel">Beta ʾAmānuʾel</item>
                 <item xml:id="INS0906BetaGo">Beta Golgotā</item>
                 <item xml:id="INS0521BetaMadhaneAlem">Beta Madḫāne ʿĀlam</item>
@@ -138,20 +138,19 @@
                 <item xml:id="INS0453Bibl_Giov_Veroli">Biblioteca Giovardiana di Veroli</item>
                 <item xml:id="INS0339BML">Biblioteca Medicea Laurenziana</item>
                 <item xml:id="INS0514PalatinaParma">Biblioteca Palatina</item>
-                <item xml:id="INS0384Bibliothek_der_Deutschen_Morgenlaendischen_Gesellschaft"
-                    >Bibliothek der Deutschen Morgenlaendischen Gesellschaft</item>
-                <item xml:id="INS0419Bibliotheque_Mejanes">Bibliotheque Mejanes Aix en
+                <item xml:id="INS0384DMG">Bibliothek der Deutschen Morgenlaendischen Gesellschaft</item>
+                <item xml:id="INS0419Mejanes">Bibliotheque Mejanes Aix en
                     Provence</item>
                 <item xml:id="INS0020IHA">Bibliothèque nationale de France</item>
                 <item xml:id="INS0303BNF">Bibliothèque nationale de France</item>
                 <item xml:id="INS0312BDL">Bodleian Library</item>
-                <item xml:id="INS0440Bodmer_Library">Bodmer Library</item>
+                <item xml:id="INS0440Bodmer">Bodmer Library</item>
                 <item xml:id="INS0606AMC">Bole Madḫāne ʿĀlam</item>
                 <item xml:id="INS0624AQE">Bole Qǝddus ʾƎsṭifānos</item>
                 <item xml:id="INS0592AKC">Bole Qirqos</item>
                 <item xml:id="INS0545ABB">Bollād Baʿāla Wald</item>
                 <item xml:id="INS0850TBS">Bora Śǝllāse</item>
-                <item xml:id="INS0483Boston_College_Law_Library">Boston College Law Library Daniel
+                <item xml:id="INS0483BostonLaw">Boston College Law Library Daniel
                     R. Coquillette Rare Book Room</item>
                 <item xml:id="INS0874WBU">Brandeis University</item>
                 <item xml:id="INS00001BL">British Library</item>
@@ -165,19 +164,18 @@
                 <item xml:id="INS0507CTH">Čankār Takla Hāymānot</item>
                 <item xml:id="INS0548ACC">Capuchin Center for Research and Retreat</item>
                 <item xml:id="INS0547ACA">Čaraččā ʾAbbo</item>
-                <item xml:id="INS0469Kroch_Library">Carl A. Kroch Library New York</item>
+                <item xml:id="INS0469Kroch">Carl A. Kroch Library New York</item>
                 <item xml:id="INS0875WCU">Catholic University of America</item>
-                <item xml:id="INS0493Catholic_University_of_America_Library">Catholic University of
+                <item xml:id="INS0493WCUMullen">Catholic University of
                     America Mullen Library</item>
                 <item xml:id="INS0552ACS">Čǝbsi Giyorgis</item>
                 <item xml:id="INS0422Chester_Beatty_Library">Chester Beatty Library Dublin</item>
                 <item xml:id="INS0311CM">Church of St. Marc</item>
-                <item xml:id="INS0464Cleveland_Public_Library">Cleveland Public Library</item>
-                <item xml:id="INS0474Columbia_University_Department_of_Middle_Eastern_Studies"
-                    >Columbia University Department of Middle Eastern, South Asian, and African
+                <item xml:id="INS0464Cleveland">Cleveland Public Library</item>
+                <item xml:id="INS0474ColumbiaME">Columbia University Department of Middle Eastern, South Asian, and African
                     Studies</item>
-                <item xml:id="INS0415Copenhagen_Library">Copenhagen University Library</item>
-                <item xml:id="INS0416Coptic_Museum">Coptic Museum Cairo</item>
+                <item xml:id="INS0472CopULibrary">Copenhagen University Library</item>
+                <item xml:id="INS0416CMCairo">Coptic Museum Cairo</item>
                 <item xml:id="INS0555ADE">Dabbaba Ešatu</item>
                 <item xml:id="INS0572AGQ">Dābbo Gadam Mikāʾel</item>
                 <item xml:id="INS0560ADS">Dabdabbo Masqala Krǝstos</item>
@@ -228,7 +226,7 @@
                 <item xml:id="INS0478DS">Dayr as-Suryān</item>
                 <item xml:id="INS0324DS">Dayr Sayyida</item>
                 <item xml:id="INS0129DMD">Dǝblā Yoḥannǝs Maṭmǝq</item>
-                <item xml:id="INS0397Deutsches_Museum_">Deutsches Museum München</item>
+                <item xml:id="INS0397DMM">Deutsches Museum München</item>
                 <item xml:id="INS0789MDI">Dima Giyorgis</item>
                 <item xml:id="INS0786MDD">Dǝkkub Gābrǝʾel</item>
                 <item xml:id="INS0876WDG">Dǝnzud Giyorgis, ʾato</item>
@@ -237,7 +235,7 @@
                 <item xml:id="INS0100DAY">Dǝrbā Dabra ʾAbuna Yāsāy</item>
                 <item xml:id="INS0023IHA">Drewes - Stroomer</item>
                 <item xml:id="INS0701DDG">Dubrā Giyorgis</item>
-                <item xml:id="INS0465Duke_University_Libraries">Duke University Libraries</item>
+                <item xml:id="INS0465Duke">Duke University Libraries</item>
                 <item xml:id="INS0762HDB">Dunham Bible Museum</item>
                 <item xml:id="INS0788MDH">Dur Giyorgis</item>
                 <item xml:id="INS0562ADW">Dway Mikāʾel</item>
@@ -265,8 +263,8 @@
                 <item xml:id="INS0797MEQ">ʾƎnǧarā Masqal</item>
                 <item xml:id="INS0745GES">ʾƎngǝdāw Setotāw</item>
                 <item xml:id="INS0795MEO">ʾƎnnasarbo Madḫāne ʿĀlam Church</item>
-                <item xml:id="INS0658ATM">ʾƎnṭoṭṭo Manbara Śǝllāse</item>
-                <item xml:id="INS0646ASM">ʾƎnṭoṭṭo Mārqos</item>
+                <item xml:id="INS0658ATM">Manbara Sǝbḥat Qǝddǝst Śǝllāse</item>
+                <item xml:id="INS0646ASM">Manbara Lǝʿul Qǝddus Mārqos</item>
                 <item xml:id="INS0564AEK">ʾƎrasme Kidāna Mǝḥrat</item>
                 <item xml:id="INS0853TEM">Ethiopian Manuscript Digital Library</item>
                 <item xml:id="INS0500NALA">Ethiopian National Archives and Library Agency</item>
@@ -275,7 +273,7 @@
                 <item xml:id="INS0027IHA">Ethiopic Manuscript Imaging Project</item>
                 <item xml:id="INS0447EMIP">Ethiopic Manuscript Imaging Project</item>
                 <item xml:id="INS0524InEtn">Etnografičeskij Muzej Akademii Nauk</item>
-                <item xml:id="INS0414Abbey_of_St_Mary_of_Grottaferrata">Exarchic Greek Abbey of St.
+                <item xml:id="INS0414Grottaferrata">Exarchic Greek Abbey of St.
                     Mary of Grottaferrata</item>
                 <item xml:id="INS0746GFG">Fanǧāl Giyorgis</item>
                 <item xml:id="INS0071FBM">Faqādā Māryām</item>
@@ -312,8 +310,8 @@
                 <item xml:id="INS0800MGD">Gašot ʾƎgziʾābǝḥer ʾAb</item>
                 <item xml:id="INS0879WGS">Gatāt Śǝllāse</item>
                 <item xml:id="INS0625AQF">Gazmu, qes</item>
-                <item xml:id="INS0439Geneva_Ethnography_Museum">Geneva Ethnography Museum</item>
-                <item xml:id="INS0360Gen">Genoa Historical Archive</item>
+                <item xml:id="INS0439GenfEth">Geneva Ethnography Museum</item>
+                <item xml:id="INS0360Gen">Historical Archive of the Municipality of Genoa</item>
                 <item xml:id="INS0570AGG">Geta Gadal ʾAbbo</item>
                 <item xml:id="INS0844SGM">Ǧǝggā Māryām</item>
                 <item xml:id="INS0804MGH">Gǝhur Madḫāne ʿĀlam</item>
@@ -345,7 +343,7 @@
                 <item xml:id="INS0764HHC">Ḥabru</item>
                 <item xml:id="INS0751GMH">Hāddis, marigetā</item>
                 <item xml:id="INS0900YQH">Ḥāddis, qes</item>
-                <item xml:id="INS0448HamaraN">Ḥamara Noḫ</item>
+                <item xml:id="INS0448HamaraN">Ḥamara Noḫ Kidāna Mǝḥrat</item>
                 <item xml:id="INS0200HMM">Ḥangodā Dabra Mǝḥrat Qǝddus Mikāʾel</item>
                 <item xml:id="INS0585AHM">Ḥānnā Māryām</item>
                 <item xml:id="INS0763HHA">Hār ʾAmbā</item>
@@ -359,7 +357,7 @@
                 <item xml:id="INS0587AHR">Hārr ʾAmbā Mikāʾel</item>
                 <item xml:id="INS0584AHL">Hārr ʾAmbā Yoḥānnǝs</item>
                 <item xml:id="INS0761HCO">Haverford College</item>
-                <item xml:id="INS0468Haverford_College_Libraries">Haverford College Libraries</item>
+                <item xml:id="INS0468Haverford">Haverford College Libraries</item>
                 <item xml:id="INS0167GH">Ḥawāṣi Gabrǝʾel</item>
                 <item xml:id="INS0808MHM">Hayadur Madḫāne ʿĀlam</item>
                 <item xml:id="INS0582AHG">Ḫāyla Gwarfnah</item>
@@ -370,11 +368,11 @@
                 <item xml:id="INS0589AHY">Ḥāyq Takla Hāymānot</item>
                 <item xml:id="INS0858THY">Ḥāyq Yoḥānnǝs</item>
                 <item xml:id="INS0376Schoenebeck">Heimatmuseum Schloss Schönebeck</item>
-                <item xml:id="INS0408Herzog_August_Library">Herzog August Library
+                <item xml:id="INS0408HAB">Herzog August Library
                     Wolfenbüttel</item>
                 <item xml:id="INS0004HMML">Hill Museum and Manuscript Library</item>
-                <item xml:id="INS0460_Houghton_Library">Houghton Library Harvard University</item>
-                <item xml:id="INS0494Howard_Divinity_Library">Howard Divinity Library</item>
+                <item xml:id="INS0460Harvard">Houghton Library Harvard University</item>
+                <item xml:id="INS0494Howard">Howard Divinity Library</item>
                 <item xml:id="INS0880WHU">Howard University School of Divinity</item>
                 <item xml:id="INS0586AHQ">Hulara Madḫāne ʿĀlam</item>
                 <item xml:id="INS0695DAH">Ḥǝzān Mǝḥratu, ʾabbā</item>
@@ -382,20 +380,20 @@
                 <item xml:id="INS0008IHA">IES Harar</item>
                 <item xml:id="INS0907Akademija">Imperatorskaja Akademija Nauk</item>
                 <item xml:id="INS0364IIL">Indian Institute Library</item>
-                <item xml:id="INS0436Institut_Orientaliste_de_Louvain">Institut Orientaliste de
+                <item xml:id="INS0436IOLouvain">Institut Orientaliste de
                     Louvain</item>
                 <item xml:id="INS0301IV">Institut Vostočnyh Rukopisej Rossijskoj Akademii
                     Nauk</item>
-                <item xml:id="INS0400Institute_for_Testament_Textual_Research_">Institute for New
+                <item xml:id="INS0400Institute">Institute for New
                     Testament Textual Research Münster</item>
                 <item xml:id="INS0029IHA">IslHornAfr</item>
                 <item xml:id="INS0590AIG">ʾIyasus Gadam</item>
-                <item xml:id="INS0471Getty_Museum">J. Paul Getty Museum</item>
+                <item xml:id="INS0471Getty">J. Paul Getty Museum</item>
                 <item xml:id="INS0304JSH">Jacobins Saint-Honoré</item>
                 <item xml:id="INS0771JPA">Jerusalem Patriarchate of the Armenian Orthodox
                     Church</item>
                 <item xml:id="INS0326MPJ">Jesuits Professed House</item>
-                <item xml:id="INS0425National_Library_of_Israel">Jewish National and University
+                <item xml:id="INS0425NLI">Jewish National and University
                     Library</item>
                 <item xml:id="INS0019IHA">Jimma Museum</item>
                 <item xml:id="INS0379Emden">Johannes a Lasco Bibliothek Emden</item>
@@ -413,7 +411,7 @@
                 <item xml:id="INS0897YKT">Kārrāyyo Takla Hāymānot</item>
                 <item xml:id="INS0881WKM">Kāšāt Mikāʾel</item>
                 <item xml:id="INS0810MKA">Kase ʾAbbo</item>
-                <item xml:id="INS0390Kassel_University_Library">Kassel University Library</item>
+                <item xml:id="INS0390Kassel">Kassel University Library</item>
                 <item xml:id="INS0357Kebran">Kǝbrān Gabrǝʾel</item>
                 <item xml:id="INS0772LKM">Kešo Māryām</item>
                 <item xml:id="INS0782MAK">Kǝflu Takkāllǝññ</item>
@@ -422,14 +420,14 @@
                 <item xml:id="INS0309KM">Kidāna Mǝḥrat</item>
                 <item xml:id="INS0740FKK">Kidāna Mǝḥrat</item>
                 <item xml:id="INS0715DMK">Kidāne, mamhǝr</item>
-                <item xml:id="INS0391_Kiel_University_Library">Kiel University Library</item>
+                <item xml:id="INS0391Kiel">Kiel University Library</item>
                 <item xml:id="INS0371Andechs">Kloster Andechs</item>
                 <item xml:id="INS0596AKR">Kǝnafa Rǝgb, Dr</item>
                 <item xml:id="INS0380Erlangen">Koenigliche Universitaetsbibliothek zu
                     Erlangen-Nuernberg</item>
                 <item xml:id="INS0171KY">Koholo Yoḥannǝs Dabra Betel</item>
                 <item xml:id="INS0595AKQ">Koso Qirqos</item>
-                <item xml:id="INS0435University_Library_Leuven">KU Leuven Library</item>
+                <item xml:id="INS0435Leuven">KU Leuven Library</item>
                 <item xml:id="INS0811MKB">Kulǝyo Baʾāla Wald</item>
                 <item xml:id="INS0234KAE">Kunāle ʾArbāʿtu ʾƎnsǝsā</item>
                 <item xml:id="INS0510KHM">Kunsthistorisches Museum Wien</item>
@@ -444,14 +442,13 @@
                 <item xml:id="INS0289LQM">Lǝḥuṣā Māryām</item>
                 <item xml:id="INS0495Library_of_Congress">Library of Congress</item>
                 <item xml:id="INS0365LEC">Library of Etchmiadzin Cathedral</item>
-                <item xml:id="INS0392Library_of_Oriental_Studies_Leipzig">Library of Oriental
-                    Studies Leipzig</item>
+                
                 <item xml:id="INS0012IHA">Limmū-Ghannat</item>
                 <item xml:id="INS0316LM">Linden-Museum Stuttgart</item>
                 <item xml:id="INS0601ALM">Loza Mikāʾel</item>
                 <item xml:id="INS0334LUL">Lund Universitetsbiblioteket</item>
                 <item xml:id="INS0135MMA">Maʿago ʾAmānuʾel</item>
-                <item xml:id="INS0603AMA">Madḫāne ʿĀlam</item>
+                <item xml:id="INS0603AMA">Qač̣ane Madḫāne ʿĀlam</item>
                 <item xml:id="INS0535AAL">Madḫāne ʿĀlam</item>
                 <item xml:id="INS0101MadhaneAlam">Madḫāne ʿĀlam</item>
                 <item xml:id="INS0610AMM">Maḥaggǝl Māryām</item>
@@ -470,7 +467,7 @@
                 <item xml:id="INS0792MEE">Maqala ʾƎndāʾ Iyasus</item>
                 <item xml:id="INS0812MKM">Marʿāwi Krǝstos</item>
                 <item xml:id="INS0178QMM">Margāḥǝya Qǝddus Mikāʾel</item>
-                <item xml:id="INS0394Maria_Laach_Abbey">Maria Laach Abbey</item>
+                <item xml:id="INS0394Laach">Maria Laach Abbey</item>
                 <item xml:id="INS0899YMM">Marṭo Mikāʾel</item>
                 <item xml:id="INS0814MMM">Marṭula Māryām</item>
                 <item xml:id="INS0614AMR">Māryām Church</item>
@@ -495,10 +492,10 @@
                 <item xml:id="INS0292MDS">Mazābǝr Dabra Śǝllāse</item>
                 <item xml:id="INS0716DMM">Mazgaba Mǝḥrat Māryām</item>
                 <item xml:id="INS0823MUL">McGill University Library</item>
-                <item xml:id="INS0417McLennan_Library">McLennan Library Building Montreal</item>
+                <item xml:id="INS0417McLennan">McLennan Library Building Montreal</item>
                 <item xml:id="INS0042MR">Mǝdra Rubā Sǝllase</item>
-                <item xml:id="INS0476Metropolitan_Museum_of_Art">Metropolitan Museum of Art</item>
-                <item xml:id="INS0466Michigan_State_University_Libraries">Michigan State University
+                <item xml:id="INS0476Met">Metropolitan Museum of Art</item>
+                <item xml:id="INS0466MichU">Michigan State University
                     Libraries</item>
                 <item xml:id="INS0239Add">Mikāʾel ʿĀddi Č̣ǝwā</item>
                 <item xml:id="INS0696DAM">Mināse Zallaqa, ʾalaqā</item>
@@ -507,8 +504,8 @@
                 <item xml:id="INS0863TMT">Mitāq Takla Hāymānot</item>
                 <item xml:id="INS0251MQMA">Mǝngāś Qǝddǝst Māryām</item>
                 <item xml:id="INS0813MMF">Moğā Fǝqur Waldā</item>
-                <item xml:id="INS0426Monastery_Deir_es-Sultan">Dayr as-Sulṭān</item>
-                <item xml:id="INS0424Monastery_of_Dabra_Gannat_Kidana_Mehrat">Monastery of Dabra
+                <item xml:id="INS0426JerDarSultan">Dayr as-Sulṭān</item>
+                <item xml:id="INS0424JerDabraGannat">Monastery of Dabra
                     Gannat Kidana Mehrat</item>
                 <item xml:id="INS0452Mon_Naz_Casamari">Monumento Nazionale Abbazia di
                     Casamari</item>
@@ -516,69 +513,69 @@
                 <item xml:id="INS0518MotaGiorgis">Moṭā Giyorgis</item>
                 <item xml:id="INS0883WMA">Motatit ʾAragāwi</item>
                 <item xml:id="INS0216MGM">Mǝʾǝsār Gwǝḥilā Qǝddus Mikāʾel</item>
-                <item xml:id="INS0401Muensterschwarzach_Abbey">Muensterschwarzach Abbey</item>
+                <item xml:id="INS0401Muensterschwarzach">Muensterschwarzach Abbey</item>
                 <item xml:id="INS0026IHA">Muḥammad Abba Jamaal</item>
                 <item xml:id="INS0794MEN">Muhǝr ʾIyasus</item>
                 <item xml:id="INS0018IHA">Muḫtār b. Abbā Ǧihād</item>
                 <item xml:id="INS0885WMZ">Mus Zenā Mārqos</item>
-                <item xml:id="INS0421Musee_du_Quai_Branly">Musee du Quai Branly</item>
+                <item xml:id="INS0421Branly">Musee du Quai Branly</item>
                 <item xml:id="INS0307MB">Museo borgiano</item>
-                <item xml:id="INS0430Museo_Etiope_Guglielmo_Massaia">Museo Etiope Guglielmo
+                <item xml:id="INS0430GMassaia">Museo Etiope Guglielmo
                     Massaia</item>
-                <item xml:id="INS0406Weinheim_Museum">Museum der Stadt Weinheim</item>
-                <item xml:id="INS0410Stadtmuseum_Wels">Museum der Stadt Wels</item>
-                <item xml:id="INS0381Museum_der_Weltkulturen">Museum der Weltkulturen Frankfurt am
+                <item xml:id="INS0406Weinheim">Museum der Stadt Weinheim</item>
+                <item xml:id="INS0410Wels">Museum der Stadt Wels</item>
+                <item xml:id="INS0381Weltkulturen">Museum der Weltkulturen Frankfurt am
                     Main</item>
-                <item xml:id="INS0398Museum_Fuenf_Kontinente">Museum Fuenf Kontinente München</item>
-                <item xml:id="INS0378Voelkerkundemuseum_Dresden">Museum fuer Voelkerkunde
+                
+                <item xml:id="INS0378Dresden">Museum fuer Voelkerkunde
                     Dresden</item>
-                <item xml:id="INS0373Ethnologisches_Museum">Museum für Völkerkunde Ethnologisches
+                <item xml:id="INS0373BerlinEth">Museum für Völkerkunde Ethnologisches
                     Museum</item>
-                <item xml:id="INS0405Gottorf_Castle_">Museum Gottorf Castle</item>
-                <item xml:id="INS0404Sankt_Augustin">Museum Haus Voelker und Kulturen in Sankt
+                <item xml:id="INS0405Gottorf">Archaeological Museum Schloss Gottorf</item>
+                <item xml:id="INS0404Augustin">Museum Haus Voelker und Kulturen in Sankt
                     Augustin</item>
-                <item xml:id="INS0386Museum_of_Ethnology">Museum of Ethnology Hamburg</item>
+                <item xml:id="INS0386MARKK">Museum of Ethnology Hamburg</item>
                 <item xml:id="INS0407Witzenhausen">Museum of Ethnology Witzenhausen</item>
                 <item xml:id="INS0522LalibelaMuseum">Museum of Lalibela</item>
-                <item xml:id="INS0467_Oregon_Museum_of_Natural_and_Cultural_History">Museum of
+                <item xml:id="INS0467OregonMuseum">Museum of
                     Natural and Cultural History of the University of Oregon</item>
                 <item xml:id="INS0884WMB">Museum of the Bible</item>
                 <item xml:id="INS0509MuseumZafar">Museum of Zafar</item>
-                <item xml:id="INS0402Museum_Rade_am_Schloss_Reinbek">Museum Rade am Schloss
+                <item xml:id="INS0402Reinbek">Museum Rade am Schloss
                     Reinbek</item>
-                <item xml:id="INS0393Museums_Reiss-Engelhorn">Museums Reiss-Engelhorn
+                <item xml:id="INS0393Reiss">Museums Reiss-Engelhorn
                     Mannheim</item>
                 <item xml:id="INS0612AMQ">Mutar ʾAmānuʾel</item>
                 <item xml:id="INS0908Naakkw">Naʾakkʷǝto Laʾab</item>
                 <item xml:id="INS0815MNB">Nač̣č̣ Gadal Baʾātā</item>
                 <item xml:id="INS0886WNM">Nas Māryām</item>
                 <item xml:id="INS0328NALE">National Archives and Library of Ethiopia</item>
-                <item xml:id="INS0438National_Library_of_Finlande">National Library of
-                    Finlande</item>
+                <item xml:id="INS0438Helsinki">National Library of
+                    Finland</item>
                 <item xml:id="INS0511NatMusAden">National Museum of Aden</item>
                 <item xml:id="INS0513MuseumAsmara">National Museum of Eritrea</item>
                 <item xml:id="INS0505MuseumAddis">National Museum of Ethiopia</item>
                 <item xml:id="INS0345Sana">National Museum of Yemen, Ṣanʿāʾ</item>
-                <item xml:id="INS0455Nationalmuseum_Stockholm">Nationalmuseum Stockholm</item>
+                <item xml:id="INS0455Stockholm">Nationalmuseum Stockholm</item>
                 <item xml:id="INS0516NazretMaryam">Nāzret Māryām</item>
                 <item xml:id="INS0832NYP">New York Public Library</item>
-                <item xml:id="INS0460Newberry_Library">Newberry Library Chicago</item>
+                <item xml:id="INS0460Newberry">Newberry Library Chicago</item>
                 <item xml:id="INS0113NSM">Nǝḥbi Qǝddus Mikāʾel</item>
                 <item xml:id="INS0314ONB">Österreichische Nationalbibliothek</item>
                 <item xml:id="INS0621AOL">Our Lady of Mount Qʷǝsqʷām</item>
-                <item xml:id="INS0470Oviatt_Library">Oviatt Library</item>
-                <item xml:id="INS0484Pennsylvania_University_Center">Pennsylvania University Center
+                <item xml:id="INS0470Oviatt">Oviatt Library</item>
+                <item xml:id="INS0484Penn">Pennsylvania University Center
                     for Advanced Judaic Studies Library</item>
                 <item xml:id="INS0635AQP">Ṗeṭros wa-Ṗāwlos</item>
-                <item xml:id="INS0482Pierpont_Morgan_Library">Pierpont Morgan Library</item>
-                <item xml:id="INS0458Pitts_Theology_Library">Pitts Theology Library Emory
+                <item xml:id="INS0482Pierpont">Pierpont Morgan Library</item>
+                <item xml:id="INS0458PittsEmory">Pitts Theology Library Emory
                     University</item>
-                <item xml:id="INS0485Princeton_Theological_Seminary_Library">Princeton Theological
+                <item xml:id="INS0485Princeton">Princeton Theological
                     Seminary Library</item>
                 <item xml:id="INS0486Princeton_University_Library">Princeton University
                     Library</item>
                 <item xml:id="INS0368atohayle">Private Collection of Ato Hayle Bayyana</item>
-                <item xml:id="INS0904TF">Private collection of Dr Treeske Fricke</item>
+                <item xml:id="INS0904TF">TFR private collection</item>
                 <item xml:id="INS0010IHA">Proyecto Birana</item>
                 <item xml:id="INS0816MQA">Qafad ʾAbbo / Qafad Gabra Manfas Qǝddus</item>
                 <item xml:id="INS0450QahaI">Qāḥa ʾIyasus</item>
@@ -588,15 +585,15 @@
                 <item xml:id="INS0198QS">Qalāqǝl Māryām Ṣǝyon</item>
                 <item xml:id="INS0186QDQ">Qandāʿro Qǝddus Qirqos</item>
                 <item xml:id="INS0221QDGM">Qaqamā Dabra Gannat Qǝddǝst Māryām</item>
-                <item xml:id="INS0725DQM">Qaranǝyo Madḫāne ʿĀlam</item>
+                <item xml:id="INS0725DQM">Qarānǝyo Madḫāne ʿĀlam</item>
                 <item xml:id="INS0049QSM">Qarsabar Qǝddus Mikāʾel</item>
                 <item xml:id="INS0755GQS">Qayaba Śǝllāse</item>
                 <item xml:id="INS0754GQM">Qǝddǝst Māryām</item>
-                <item xml:id="INS0588AHT">Qǝddǝst Śǝllāse / Holy Trinity Cathedral</item>
+                <item xml:id="INS0588AHT">Qǝddǝst Śǝllāse</item>
                 <item xml:id="INS0644ASI">Qǝddus Gābrǝʾel</item>
                 <item xml:id="INS0721DQG">Qǝddus Gābrǝʾel / Dabra Ḍaḥāy</item>
                 <item xml:id="INS0626AQG">Qǝddus Gābrǝʾel Catholic Church / St Gabriel</item>
-                <item xml:id="INS0690BQG">Qǝddus Giyorgis</item>
+                <item xml:id="INS0690BQG">Bǝčanā Giyorgis</item>
                 <item xml:id="INS0632AQM">Qǝddus Mārqos</item>
                 <item xml:id="INS0599AKU">Qǝddus Rāguʾel Church</item>
                 <item xml:id="INS0636AQR">Qǝddus Rufāʾel</item>
@@ -615,29 +612,28 @@
                 <item xml:id="INS0727DQU">Qʷǝndi Giyorgis Church</item>
                 <item xml:id="INS0325CR">Récollets Convent</item>
                 <item xml:id="INS0359Rema">Remā Madḫane ʿAlam</item>
-                <item xml:id="INS0499Remnant_Trust">Remnant Trust</item>
-                <item xml:id="INS0488Rogers_Public_Library">Rogers Public Library</item>
+                <item xml:id="INS0499Remnant">Remnant Trust</item>
+                <item xml:id="INS0488Rogers">Rogers Public Library</item>
                 <item xml:id="INS0148RQM">Romānāt Qǝddus Mikāʾel</item>
                 <item xml:id="INS0508RNB">Rossijskaja Nacionalnaja Biblioteka</item>
-                <item xml:id="INS0413Royal_Library">Royal Library of Belgium</item>
-                <item xml:id="INS0418Royal_Ontario_Museum">Royal Ontario Museum</item>
+                <item xml:id="INS0413RLB">Royal Library of Belgium</item>
+                <item xml:id="INS0418Ontario">Royal Ontario Museum</item>
                 <item xml:id="INS0248RQG">Rubāḵusā Qǝddus Giyorgis</item>
-                <item xml:id="INS0497Fairmount_University_Library">Ruth Ann Musick Library</item>
+                <item xml:id="INS0497Fairmount">Ruth Ann Musick Library</item>
                 <item xml:id="INS0204SDGM">Ṣabalā Dabra Gannat Māryām</item>
                 <item xml:id="INS0053SM">Sabayā Māryām</item>
-                <item xml:id="INS0377Saechsische_Landesbibliothek">Saechsische Landesbibliothek
+                <item xml:id="INS0377Dres">Saechsische Landesbibliothek
                     Staats- und Universitätsbibliothek Dresden</item>
                 <item xml:id="INS0651ASY">Safg Yoḥānnǝs</item>
                 <item xml:id="INS0211SQMM">Saglāt Qǝddus Mikāʾel</item>
                 <item xml:id="INS0152Sagw">Šagwālā Māryām</item>
                 <item xml:id="INS0252SDMM">Ṣāḥǝlo Dabra Ṣaḥāy Qǝddǝst Māryām</item>
-                <item xml:id="INS0320DAA">Saint Anthony</item>
-                <item xml:id="INS0437Saint_Catherine_Monastery">Saint Catherines Monastery
-                    Sinai</item>
+                <item xml:id="INS0320DAA">Dayr ʾAnbā ʾAnṭūniyūs</item>
+                <item xml:id="INS0437Saint_Catherine_Monastery">Saint Catherine’s Monastery Sinai</item>
                 <item xml:id="INS0321DI">Saint Elija</item>
-                <item xml:id="INS0489Saint_Louis_University_Library">Saint Louis University Pius XII
+                <item xml:id="INS0489StLouis">Saint Louis University Pius XII
                     Memorial Library</item>
-                <item xml:id="INS0420Saint_Marks_Coptic_Church">Saint Marks Coptic Orthodox Church
+                <item xml:id="INS0420TorontoMk">Saint Marks Coptic Orthodox Church
                     Toronto</item>
                 <item xml:id="INS0645ASL">Salal Kullā Qǝddus Mikāʾel</item>
                 <item xml:id="INS0643ASG">Salāyǝš Gābrǝʾel</item>
@@ -645,7 +641,7 @@
                 <item xml:id="INS0801MGE">Sallā Dǝngāy Mārqos</item>
                 <item xml:id="INS0819MSS">Sāmā Sanbat</item>
                 <item xml:id="INS0054SMM">Samāz Māryām</item>
-                <item xml:id="INS0491San_Diego_University_Library">San Diego  State University
+                <item xml:id="INS0491SanDiego">San Diego State University
                     Library</item>
                 <item xml:id="INS0840QSM">Sano Māryām</item>
                 <item xml:id="INS0210SFM">Sanqāṭā Fǝrewayni Māryām</item>
@@ -665,12 +661,12 @@
                 <item xml:id="INS0704DDS">Ṣǝge, dabtarā</item>
                 <item xml:id="INS0125GMS">Siʿet Qǝddǝst Māryām</item>
                 <item xml:id="INS0647ASO">Sina Mikāʾel</item>
-                <item xml:id="INS0431St._Andrew_Abbey">Sint-Andriesabdij St. Andrew Abbey</item>
+                <item xml:id="INS0431StAndrew">Sint-Andriesabdij St. Andrew Abbey</item>
                 <item xml:id="INS0756GSD">Sisāy Dāññāw</item>
                 <item xml:id="INS0852TDM">Sǝlaši 'Abbaba, mammǝre</item>
-                <item xml:id="INS0496Smithsonian_Institution_Libraries">Smithsonian Institution
+                <item xml:id="INS0496Smiths">Smithsonian Institution
                     Libraries</item>
-                <item xml:id="INS0434Societe_des_Bollandistes">Société des Bollandistes</item>
+                <item xml:id="INS0434Bollandistes">Société des Bollandistes</item>
                 <item xml:id="INS0867TSM">Sola Māryām</item>
                 <item xml:id="INS0820MSW">Solā Wāšā Giyorgis</item>
                 <item xml:id="INS0177SDM">Soṭā Dabra Salām Qǝddus Mikāʾel</item>
@@ -678,7 +674,7 @@
                 <item xml:id="INS0337MG">St. George</item>
                 <item xml:id="INS0310DAP">St. Paul's Monastery</item>
                 <item xml:id="INS0375dillingen">Stadt- &amp; Hochstiftmuseum Dillingen</item>
-                <item xml:id="INS0387State_and_University_Library_Hamburg_">State and University
+                <item xml:id="INS0387UBHamburg">State and University
                     Library Hamburg Carl von Ossietzky</item>
                 <item xml:id="INS0512NatMusSudan">Sudan National Museum</item>
                 <item xml:id="INS0003IHA">Suuse</item>
@@ -706,13 +702,12 @@
                 <item xml:id="INS0866TSL">Tel Aviv University Sourasky Central Library</item>
                 <item xml:id="INS0001IHA">Test</item>
                 <item xml:id="INS0541AAT">Tewoflos, ʾabuna</item>
-                <item xml:id="INS0472Beinecke_Library">The Beinecke Rare Book and Manuscript
-                     Library</item>
-                <item xml:id="INS0475The_Jewish_Theological_Seminary">The Jewish Theological
+                
+                <item xml:id="INS0475JTS">The Jewish Theological
                     Seminary</item>
                 <item xml:id="INS0363CPH">The Royal Library</item>
-                <item xml:id="INS0432Thomas_Fisher_Library_">Thomas Fisher Rare Book Library</item>
-                <item xml:id="INS0389University_Library_Jena">Thuringian State and University
+                <item xml:id="INS0432TFL">Thomas Fisher Rare Book Library</item>
+                <item xml:id="INS0389Jena">Thuringian State and University
                     Library</item>
                 <item xml:id="INS0006IHA">Tije</item>
                 <item xml:id="INS0653ATB">Tǝmqatā Bāḥǝr Māryām</item>
@@ -722,33 +717,32 @@
                 <item xml:id="INS0773LTW">Trinity Western University</item>
                 <item xml:id="INS0822MTR">Tullu Rǝ'e Madḫāne ʿĀlam</item>
                 <item xml:id="INS0602ALT">Tǝʾuma Lǝssān Kāsā, liqe</item>
-                <item xml:id="INS0467United_Library_Evanston">United Library Evanston</item>
-                <item xml:id="INS0383Bibliothek_Erfurt_Gotha">Universitaets und Forschungsbibliothek
+                <item xml:id="INS0467ULEvanston">United Library Evanston</item>
+                <item xml:id="INS0383Erfurt">Universitaets und Forschungsbibliothek
                     Erfurt/Gotha</item>
-                <item xml:id="INS0374Bibliothek_Bonn">Universitäts- und Landesbibliothek Bonn</item>
+                <item xml:id="INS0374Bonn">Universitäts- und Landesbibliothek Bonn</item>
                 <item xml:id="INS0317Frank">Universitätsbibliothek Johann Christian
                     Senckenberg</item>
                 <item xml:id="INS0313UBT">Universitätsbibliothek Tübingen</item>
-                <item xml:id="INS0385University_and_State_Library_of_Saxony-Anhalt">University and
+                <item xml:id="INS0385ULBHalle">University and
                     State Library of Saxony-Anhalt</item>
-                <item xml:id="INS0388University_Library_of_Heidelberg">University Library of
+                <item xml:id="INS0388Heidelberg">University Library of
                     Heidelberg</item>
-                <item xml:id="INS0399University_Library_LMU">University Library of the LMU
+                <item xml:id="INS0399LMU">University Library of the LMU
                     Munich</item>
-                <item xml:id="INS0403Library_Rostock">University Library Rostock</item>
+                <item xml:id="INS0403Rostock">University Library Rostock</item>
                 <item xml:id="INS0774LUC">University of California Los Angeles</item>
-                <item xml:id="INS0462University_of_Chicago_">University of Chicago</item>
-                <item xml:id="INS0463University_of_Chicago_Oriental_Institute">University of Chicago
+                <item xml:id="INS0462Chic">University of Chicago</item>
+                <item xml:id="INS0463COrIns">University of Chicago
                     Oriental Institute</item>
-                <item xml:id="INS0409Graz_Library">University of Graz Library</item>
-                <item xml:id="INS0492University_of_Illinois_at_Urbana-Champaign_University_Library"
-                    >University of Illinois at Urbana-Champaign University Library</item>
-                <item xml:id="INS0457University_of_Michigan_Library">University of Michigan
+                <item xml:id="INS0409Graz">University of Graz Library</item>
+                <item xml:id="INS0492Urbana">University of Illinois at Urbana-Champaign University Library</item>
+                <item xml:id="INS0457UML">University of Michigan
                     Library</item>
-                <item xml:id="INS0498Randall_Library">University of North Carolina Wilmington
+                <item xml:id="INS0498Randall">University of North Carolina Wilmington
                     Randall Library</item>
                 <item xml:id="INS0739EUO">University of Oregon Library</item>
-                <item xml:id="INS0433Scarborough_Library">University of Toronto Scarborough
+                <item xml:id="INS0433ScarboroughT">University of Toronto Scarborough
                     Library</item>
                 <item xml:id="INS0759GUN">unknown</item>
                 <item xml:id="INS0677AWU">Unknown (private)</item>
@@ -757,7 +751,7 @@
                 <item xml:id="INS0356Upp">Uppsala University Library</item>
                 <item xml:id="INS0082UMQ">ʿUrā Masqal</item>
                 <item xml:id="INS0017UM">ʿUrā Qirqos</item>
-                <item xml:id="INS0487Virginia_Museum_of_fine_arts">Virginia Museum of fine
+                <item xml:id="INS0487Virginia">Virginia Museum of fine
                     arts</item>
                 <item xml:id="INS0670AWF">Wač̣ač̣ā Māryām</item>
                 <item xml:id="INS0668AWD">Wadarra Māryām</item>
@@ -774,7 +768,7 @@
                 <item xml:id="INS0901YWG">Waldǝya Gābrǝʾel</item>
                 <item xml:id="INS0676AWM">Wālgā Mǝḥratu, dealer</item>
                 <item xml:id="INS0891WWC">Walmarā Wač̣ač̣ā Māryām</item>
-                <item xml:id="INS0459Walters_Art_Museum">Walters Art Museum Baltimore</item>
+                <item xml:id="INS0459Walters">Walters Art Museum Baltimore</item>
                 <item xml:id="INS0196WQ">Walwālo Dabra Bǝrhān Qirqos</item>
                 <item xml:id="INS0824MWA">Wanfas ʾAmānuʾel</item>
                 <item xml:id="INS0669AWE">Waqǝra Giyorgis</item>
@@ -799,7 +793,7 @@
                 <item xml:id="INS0870TWN">Wǝte Madḫāne ʿĀlam</item>
                 <item xml:id="INS0671AWG">Wǝtti Giyorgis</item>
                 <item xml:id="INS0343SWL">Württembergische Landesbibliothek Stuttgart</item>
-                <item xml:id="INS0501IES">Ya-ʾItyoṗṗǝyā ṭenātǝnnā mǝrǝmmǝr taqʷām</item>
+                <item xml:id="INS0501IES">Institute of Ethiopian Studies</item>
                 <item xml:id="INS0777LYG">Yagare Giyorgis</item>
                 <item xml:id="INS0735DYM">Yamāna</item>
                 <item xml:id="INS0682AYM">Yamāna Walda Māryām</item>
@@ -821,7 +815,7 @@
                 <item xml:id="INS0687AZM">Zǝnqi Māryām</item>
                 <item xml:id="INS0769HZT">Zoma Takla Hāymānot</item>
                 <item xml:id="INS0683AZA">Zǝqʷālā ʾAbbo</item>
-                <item xml:id="INS0770HZY">Zǝqʷala Yoḥānnǝs</item>
+                <item xml:id="INS0770HZY">Zǝqʷālā Yoḥānnǝs</item>
                 <item xml:id="INS0912BetaGabreel">Beta Gabrǝʾel</item>
                 <item xml:id="INS0914Matushita">Matsushita Museum of Art</item>
                 <item xml:id="INS0942MacaGiyorgis"
@@ -930,8 +924,37 @@
                     >Private collection</item>
                 
                 <item xml:id="INS0923Samuel" change="entryAddedAt2021-09-29T09:19:45.357+02:00">አባ፡
-                    ሳሙኤል፡</item>
-            </list>
+                    ሳሙኤል፡</item>                
+                <item xml:id="INS1001MusKulBasel">Museum der Kulturen Basel</item>
+                <item xml:id="INS0981MDDL">Private collection of Mamhǝr Dǝggu</item>
+                <item xml:id="INS0984MH">Mamhǝr Haymanot private collection</item>
+                <item xml:id="INS0985MSDM">Private collection of Mamhǝr Salomon (Dabra Mārqos)</item>
+                <item xml:id="INS0997AleqaMangast">Private collection of Aleqa Mangest</item>
+                <item xml:id="INS0998HaylaMaryamDL">Private Collection of mamhǝr Hāyla Māryām of Dabra Libānos</item>
+                <item xml:id="INS0999Salomon">Private Collection of mamhǝr Salomon</item>
+                <item xml:id="INS1000WaldaIyasus">Private Collection of Walda Iyasus</item>
+                <item xml:id="INS0989BDS">Bāhǝr Dār Śǝllase</item>
+                <item xml:id="INS0994GondarDBS">Dabra Bǝrhān Śǝllāse</item>
+                <item xml:id="INS0995GondarBLM">Baʾatā Lamāryām</item>
+                <item xml:id="INS0993BahrDarTH">Bāhǝr Dār Takla Hāymānot</item>
+                <item xml:id="INS0991Serbian">National Library of Serbia</item>
+                <item xml:id="INS0992UeberseeFehmarn">Museum Übersee</item>
+                <item xml:id="INS0972MahdaraSebhat">Māḫǝdara Sǝbḥāt lǝdatā la-Māryām</item>
+                <item xml:id="INS0818Abbay">ʿAbbāy Mādo Qǝddus Gabrǝʾel</item>
+                <item xml:id="INS0979DabraNagwad">Dabra Nagʷadgʷād qǝddus Yoḥānnǝs</item>
+                <item xml:id="INS0980Manbara">Manbara Ṣabāʾot qǝddǝst Śǝllāse</item>
+                <item xml:id="INS0978Meskaya">Mǝskāya ḫǝzunān Madḫāne ʿĀlam</item>
+                
+            <item xml:id="INS0990NLS" change="entryAddedAt2022-12-22T13:14:33.599+01:00">National Library of Scotland</item>
+                <item xml:id="INS1002CCRG" change="entryAddedAt2023-08-02T14:10:08.32+02:00">Č̣āč̣ara Giyorgis</item>
+                <item xml:id="INS0008Cluj" change="entryAddedAt2023-09-14T12:12:52.2+02:00">Lucian Blaga Central University Library Cluj</item>
+                <item xml:id="INS0006ZHBL" change="entryAddedAt2023-09-20T10:37:54.45+02:00">Zentral- und Hochschulbibliothek Luzern</item>
+                <item xml:id="INS0009DabSey" change="entryAddedAt2023-09-21T11:28:53.638+02:00">Dabra Ṣeyon Māryām</item>
+                <item xml:id="INS1004TanaQirqos" change="entryAddedAt2023-10-02T18:19:59.007+02:00">Ṭānā Qirqos</item>
+                <item xml:id="INS1003MEAG" change="entryAddedAt2023-10-16T13:12:57.67+02:00">Private Collection of Məntasnot ʾAbbuhay</item>
+                <item xml:id="INS1005Maaqud" change="entryAddedAt2023-12-06T14:38:40.875+01:00">Maʿāquddi Yoḥannǝs Walda Nagʷadgʷād</item>
+                <item xml:id="INS1006FCCOS" change="entryAddedAt2023-12-20T11:22:32.49+01:00">Franciscan Center of Christian Oriental Studies</item>
+                <item xml:id="INS1007TaqotMaryam" change="entryAddedAt2024-01-11T12:43:38.669+01:00">Ṭāq̲ot Dabra Ṣəyon Māryām</item><item xml:id="INS1008EndaYohannes" change="entryAddedAt2024-01-24T14:13:28.68+01:00">ʾƎndā Yoḥannǝs Ḥādduš ʿAddi</item><item xml:id="INS0010AmbirM" change="entryAddedAt2024-01-26T11:08:59.456+01:00">Ambǝrsǝwā Mikaʾel</item><item xml:id="INS0011GuyaTH" change="entryAddedAt2024-01-26T11:08:59.456+01:00">Guyā Takla Ḥaymānot</item><item xml:id="INS0012Gewamara" change="entryAddedAt2024-01-26T11:08:59.456+01:00">Ǧǝwāmāra Mikaʾel</item></list>
         </body>
     </text>
 </TEI>
