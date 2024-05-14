@@ -625,10 +625,10 @@ else
                         return
                         if (contains($normp, ' ')) then
                         for $value in tokenize ($normp, ' ') return
-                       <li class="nodot"><a href="{$value}">{exptit:printTitle($value)}</a></li>
+                       <li class="nodot"><a href="{$value}">{if (contains($p, 'betamasaheft')) then exptit:printTitle($p) else string($p)}</a></li>
                         else
                         <li class="nodot">{if(contains($p, 'betmas:')) 
-                        then <a href="/{substring-after($p, 'betmas:')}" >{exptit:printTitle(substring-before(substring-after($p, 'betmas:'), '.'))}{()}</a> else <a href="{$p}" >{exptit:printTitle($p)}</a>}</li>
+                        then <a href="/{substring-after($p, 'betmas:')}" >{exptit:printTitle(substring-before(substring-after($p, 'betmas:'), '.'))}{()}</a> else <a href="{$p}" >{if (contains($p, 'betamasaheft')) then exptit:printTitle($p) else string($p)}</a>}</li>
                         }</ul>)
 
                 }</div>}
@@ -693,7 +693,7 @@ else
                        <li class="nodot"><a href="{$value}">{exptit:printTitle($value)}</a></li>
                         else
                         <li class="nodot">{if(contains($p, 'betmas:')) 
-                        then <a href="/{substring-after($p, 'betmas:')}" >{exptit:printTitle(substring-before(substring-after($p, 'betmas:'), '.'))}{()}</a> else <a href="{$p}" >{exptit:printTitle($p)}</a>}</li>
+                        then <a href="/{substring-after($p, 'betmas:')}" >{exptit:printTitle(substring-before(substring-after($p, 'betmas:'), '.'))}{()}</a> else <a href="{$p}" >{if (contains($p, 'betamasaheft')) then exptit:printTitle($p) else string($p)}</a>}</li>
                         }</ul>)
 
                 }</div>}
@@ -749,7 +749,7 @@ else
                         <li class="nodot"><a href="{$value}">{exptit:printTitle($value)}</a></li>
                         else
                          if(starts-with($p,'http')) then 
-                        <li class="nodot"><a href="{$p}">{exptit:printTitle($p)}</a></li>
+                        <li class="nodot"><a href="{$p}">{if (contains($p, 'betamasaheft')) then exptit:printTitle($p) else string($p)}</a></li>
                         else
                         <li class="nodot"><a href="/{substring-after($p, 'betmas:')}">{exptit:printTitle(substring-after($p, 'betmas:'))} ({substring-after($p, 'betmas:')})</a></li>
                         }</ul>)
@@ -790,7 +790,7 @@ else
                         else
                         
                         <li class="nodot">{if(contains($p, 'betmas:')) 
-                        then <a href="/{substring-after($p, 'betmas:')}" >{exptit:printTitle(substring-before(substring-after($p, 'betmas:'), '.'))}{()}</a> else <a href="{$p}" >{exptit:printTitle($p)}</a>}</li>
+                        then <a href="/{substring-after($p, 'betmas:')}" >{exptit:printTitle(substring-before(substring-after($p, 'betmas:'), '.'))}{()}</a> else <a href="{$p}" >{if (contains($p, 'betamasaheft')) then exptit:printTitle($p) else string($p)}</a>}</li>
                         }</ul>)
 
                 }</div>}
