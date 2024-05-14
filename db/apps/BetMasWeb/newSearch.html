@@ -1,8 +1,8 @@
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/newsearch.html" data-template-at="content">
-    <div data-template="app:logging"/>
+    
     
     <div class="w3-container w3-margin w3-padding-64">
-        <div class="w3-containter" id="searchform">
+        <div class="w3-containter w3-margin w3-padding-64" id="searchform">
             <form action="" id="gsf" class="w3-container w3-center">
                 <fieldset id="querytype" class="w3-container" style="border:none;">
                     <div class="w3-padding w3-half explain" data-value="querytypeexplain">
@@ -11,7 +11,12 @@
                     <div class="w3-padding w3-half" id="querytypeselectexplain">
                         <span id="textquery" class="w3-hide w3-padding w3-red w3-show">
                                 You can run a simple search which will look in all text indexes. 
-                                This is the simplest search that we can offer. Check the options below the input box if you want to change the default settings. <br/> <br/>Note that you can click on  <span class="w3-select w3-border"><i class="fa fa-plus"/></span>  and/or <span class="w3-select w3-border"><i class="fa fa-bars" aria-hidden="true"/></span> symbols under the search field for additional filters/facets and on <i class="fa fa-keyboard" aria-hidden="true"/> to activate the virtual keyboard.<br/><br/>When the results appear you can use facets to narrow your selection. For that, first select the facet (Item type, Author of changes, Keywords, etc.) and then press "refine search results <i class="fa fa-search"/>".
+                                This is the simplest search that we can offer. Check the options below the input box if you want to change the default settings. <br/> <br/>Note that you can click on  <span class="w3-select w3-border">
+                                <i class="fa fa-plus"/>
+                            </span>  and/or <span class="w3-select w3-border">
+                                <i class="fa fa-bars" aria-hidden="true"/>
+                            </span> symbols under the search field for additional filters/facets and on <i class="fa fa-keyboard" aria-hidden="true"/> to activate the virtual keyboard.<br/>
+                            <br/>When the results appear you can use facets to narrow your selection. For that, first select the facet (Item type, Author of changes, Keywords, etc.) and then press "refine search results <i class="fa fa-search"/>".
                         </span>
                         <span id="listquery" class="w3-hide w3-padding  w3-red">Here you can get a list of items given some parameters, like the entity type, without searching for a string. You can play with the filters to restrict the search and you can certainly combine these with a text search.</span>
                         <span id="bmidquery" class="w3-hide w3-padding  w3-red">If you know the identifier (ID) of an item (LIT1234name, MS123abc, PRS12345name, etc.) you can paste it here, and you will get it in the results. if you know only a part, eg. LIT20... it will give you all those which match. 
@@ -39,6 +44,7 @@
                             <option value="CPG">CPG (Clavis Patrum Graecorum)</option>
                             <option value="KRZ">KRZ (Kinefe-Rigb Zelleke Bibliography 1975)</option>
                             <option value="H">H (Hammerschmidt Anaphoras 1987)</option>
+                            <option value="PEMM">PEMM (Princeton Miracles of Mary)</option>
                         </select>
                     </div>
                 </fieldset>
@@ -171,6 +177,25 @@
                                         </li>
                                     </ul>
                                     <p>Documentation on Linked Open Data can be found <a target="_blank" href="https://betamasaheft.eu/lod.html">here</a>.</p>
+                                    <p class="w3-light-gray">Examples: <br/>
+                                        
+                                           
+                                           Search for female donors: "SELECT ?ms ?person WHERE { ?annotation a bm:donor ; oa:hasBody ?person ; oa:hasTarget ?ms . ?ms a bm:mss . ?person foaf:gender 'female' . } "
+                                            
+                                            <br/>
+                                        Manuscripts with a patron of the imperial family: "SELECT DISTINCT ?manuscript ?patron ?relation ?ruler     WHERE{       ?annotation a bm:patron ; oa:hasTarget ?manuscript ; oa:hasBody ?patron . ?manuscript a bm:mss . ?patron snap:hasBond ?bondName . ?bondName rdf:type ?relation ; snap:bond-with ?ruler . ?ruler snap:occupation 'Emperor' . }"
+                                        <br/>
+                                        Mountains mentioned in Liturgy manuscripts: "SELECT DISTINCT ?mountain ?manuscript
+                                        WHERE { ?att oa:hasBody ?mountain ;
+                                        oa:hasTarget ?manuscript .
+                                        ?manuscript a bm:mss ;
+                                        a bm:Liturgy .
+                                        ?mountain a bm:place ;
+                                        pleiades:hasFeatureType in &lt;https://betamasaheft.eu/authority-files/mountain&gt; .
+                                            } LIMIT 50"
+                                            
+                                        
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -188,20 +213,43 @@
                         <p>Enter above your XPath 3.0 query to the data. (You can alternatively use the old <a href="https://betamasaheft.eu/xpath">XPath search page here</a>)
                             Please, use t: namespace for TEI elements. The starting point of any Xpath should 
                             be <code class="w3-codespan">$config:collection-root</code> if you are searching the entire dataset.</p>
+                        <span class="w3-pale-blue">NB: if you are a member of the BM GitHub organization and work with Oxygen you may run your XPath Queries directly in your Oxygen project; in this case start the string directly with <code class="w3-codespan">//TEI</code>.</span>
                         <p>You can also use, as a cached and short form to point to collections the following variables:
                             <code class="w3-codespan">$config:collection-rootMS</code> for manuscripts; <code class="w3-codespan">$config:collection-rootW</code> for Textual Units
                             <code class="w3-codespan">$config:collection-rootPl</code> for places; <code class="w3-codespan">$config:collection-rootPr</code> for persons;
                             <code class="w3-codespan">$config:collection-rootIn</code> for repositories; <code class="w3-codespan">$config:collection-rootA</code> for authority files.
-                            If you want to search for Places and Repositories, you can use <code class="w3-codespan">$config:collection-rootPlIn</code>
                         </p>
                         <p class="w3-light-gray">Examples: <br/>
-                            Persons marked up in colophons: <span class="w3-text-red">$config:collection-rootMS//t:colophon[t:persName]</span><br/>
-                            Manuscripts with at least 26 additions: <span class="w3-text-red">$config:collection-rootMS//t:additions/t:list/t:item[@xml:id='a26']</span><br/>
-                            Manuscripts with a text marked up as Amharic: <span class="w3-text-red">$config:collection-rootMS//t:TEI[descendant::t:textLang[@mainLang='am' or @otherLangs='am']]</span><br/>
-                            Manuscripts with additions that contain something tagged Amharic: <span class="w3-text-red">$config:collection-rootMS//t:TEI[not(contains(@xml:id, 'IHA'))]//t:additions[descendant::t:*[@xml:lang='am']]</span><br/>
-                            Records with the title with the subtype inscriptio:  <span class="w3-text-red">$config:collection-root//t:title[contains(@subtype,'inscriptio')]</span><br/>
-                            Manuscripts that have at least 31 quires: <span class="w3-text-red">$config:collection-rootMS//t:collation/t:list[count(t:item) ge 31]</span><br/>
-                            Manuscripts where a roleName appears: <span class="w3-text-red">$config:collection-rootMS//t:roleName</span></p>
+                            Persons marked up in colophons: <span class="w3-text-red">$config:collection-rootMS//t:colophon[t:persName]</span>
+                            <br/>
+                            Manuscripts with at least 26 additions: <span class="w3-text-red">$config:collection-rootMS//t:additions/t:list/t:item[@xml:id='a26']</span>
+                            <br/>
+                            Manuscripts with a text marked up as Amharic: <span class="w3-text-red">$config:collection-rootMS//t:TEI[descendant::t:textLang[@mainLang='am' or @otherLangs='am']]</span>
+                            <br/>
+                            Manuscripts with additions that contain something tagged Amharic: <span class="w3-text-red">$config:collection-rootMS//t:TEI[not(contains(@xml:id, 'IHA'))]//t:additions[descendant::t:*[@xml:lang='am']]</span>
+                            <br/>
+                            Records with the title with the subtype inscriptio:  <span class="w3-text-red">$config:collection-root//t:title[contains(@subtype,'inscriptio')]</span>
+                            <br/>
+                            Manuscripts that have at least 31 quires: <span class="w3-text-red">$config:collection-rootMS//t:collation/t:list[count(t:item) ge 31]</span>
+                            <br/>
+                            Manuscripts where a roleName appears: <span class="w3-text-red">$config:collection-rootMS//t:roleName</span>
+                            <br/>
+                            Additons of the type OwnershipNote: <span class="w3-text-red">$config:collection-rootMS//t:additions/t:list/t:item[t:desc[@type='OwnershipNote']]</span>
+                            <br/>
+                            Place records revised in 2022: <span class="w3-text-red">$config:collection-rootPl//t:revisionDesc/t:change[contains(concat(' ', @when, ' '), '2022')]</span>
+                            <br/>
+                            Work records that contain "Senodos" inside <code>title</code>: <span class="w3-text-red">$config:collection-rootW//t:titleStmt/t:title[contains(.,'Senodos')]</span>
+                            <br/>Works that contain the string "Senodos" somewhere:  <span class="w3-text-red">$config:collection-rootW//*[contains(.,'Senodos')]</span>
+                            <br/>
+                            Person record which have at least some attribute for birth and death (can be when, notBefore, notAfter) elements and occupation type ruler:
+                            <span class="w3-text-red">$config:collection-rootPr//t:person[t:birth[@*]][t:death[@*]][t:occupation[@type='ruler']]</span>
+                            <br/>
+                            Manuscripts with miniatures in them: <span class="w3-text-red">$config:collection-rootMS//t:decoDesc[t:decoNote[@type='miniature']]</span>
+                            <br/>
+                            
+                            Manuscripts with an addition element typed Ownership Note followed by another one with type Supplication:
+                            <span class="w3-text-red">$config:collection-rootMS//t:additions/t:list/t:item[t:desc[@type='OwnershipNote']][following-sibling::t:item[t:desc[@type='Supplication']]]</span>
+                        </p>
                     </div>
                 </fieldset>
                 <fieldset id="filters" class="w3-container" style="border:none;"/>

@@ -128,7 +128,7 @@ declare function apptable:tr($doc as node(), $list as xs:string) {
 
 (:~function to print the values of parallel clavis ids:)
 declare function apptable:clavisIds($doc as node()){
-    <span class="w3-tooltip"><span class="w3-tag">CAe {util:log("info", string($doc/t:TEI/@xml:id)),substring(string($doc/node()/ancestor-or-self::t:TEI/@xml:id), 4, 4)}</span>
+    <span class="w3-tooltip"><span class="w3-tag">CAe {substring(string($doc/node()/ancestor-or-self::t:TEI/@xml:id), 4, 4)}</span>
     <span class="w3-text"><a href="https://www.traces.uni-hamburg.de/en/texts/clavis.html"><em>Clavis Aethiopica</em></a>, an ongoing repertory of all known Ethiopic <a href="https://betamasaheft.eu/Guidelines/?id=definitionWorks">Textual Units</a>. Use this to refer univocally to a specific text in your publications. Please note that this shares only the 
     numeric part with the <a href="https://betamasaheft.eu/Guidelines/?id=entities-id-structure">Textual Unit Record Identifier</a>.</span>
     </span> ,
@@ -146,7 +146,7 @@ if($doc//t:listBibl[@type eq 'clavis'])
             return 
             <tr>
             <td>
-            <span class="w3-tooltip">{$st}<span class="w3-text">{
+            <span class="w3-tooltip">{$st}<span class="w3-text w3-tiny">{
             switch($st) 
             case "CC" return (<a href="http://www.cmcl.it/">Clavis Coptica</a>, <a href="http://paths.uniroma1.it/">PAThs</a>)
               case "BHO" return <a href="https://en.wikipedia.org/wiki/Bibliotheca_Hagiographica_Orientalis">Bibliotheca Hagiographica Orientalis</a> 
@@ -155,13 +155,21 @@ if($doc//t:listBibl[@type eq 'clavis'])
                   case "CAVT" return <a href="http://www.brepols.net/pages/ShowProduct.aspx?prod_id=IS-9782503507033-1">Clavis Apocryphorum Veteris Testamenti</a>
                     case "BHL" return <a href="https://it.wikipedia.org/wiki/Bibliotheca_hagiographica_latina">Bibliotheca Hagiographica Latina</a>
                     case "syriaca" return <a href="http://syriaca.org">Syriaca.org</a>
+                    case "PEMM" return <a href="https://pemm.princeton.edu">The Princeton Ethiopian, Eritrean, and Egyptian Miracles of Mary (PEMM) project</a>
                       case "KRZ" return 'Kinefe-Rigb Zelleke 1975. ‘Bibliography of the Ethiopic Hagiographical Traditions’, Journal of Ethiopian Studies, 13/2 (1975), 57–102.' 
                       case "H" return 'Hammerschmidt, E. 1987. Studies in the Ethiopic Anaphoras, Äthiopistische Forschungen, 25 (Stuttgart: Franz Steiner Verlag Wiesbaden GmbH,1987)'
-            default return <a href="https://en.wikipedia.org/wiki/Clavis_Patrum_Graecorum">Clavis Patrum Graecorum</a>}</span></span>
+            case "CPG" return <a href="https://en.wikipedia.org/wiki/Clavis_Patrum_Graecorum">Clavis Patrum Graecorum</a>
+            default return <a href="">Clavis</a>}</span></span>
           </td>
             <td>
             <a href='{$bibl/@corresp}'>{$bibl/t:citedRange/text()}{if($bibl/ancestor::t:div[(@type eq 'textpart') or (@type eq 'edition')]) then (' ( part ' || (let $subtitle := $bibl/ancestor::t:div[@type][1] return exptit:printSubtitle($subtitle, string($subtitle/@xml:id))) || ')') else ()}</a>
-            <a class="w3-tiny" target="blank" href="https://clavis.brepols.net/clacla/OA/link.aspx?clavis={$st}&amp;number={$bibl/t:citedRange/text()}">[Clavis Clavium]</a>
+             </td>
+            <td>
+            {
+            switch($st) 
+            case "PEMM" return (<a href="https://pemm.princeton.edu/stories/{$bibl/t:citedRange/text()}">[external link]</a>)
+            default return
+            <a class="w3-tiny" target="blank" href="https://clavis.brepols.net/clacla/OA/link.aspx?clavis={$st}&amp;number={$bibl/t:citedRange/text()}">[check the Clavis Clavium]</a>}
             </td>
             </tr>
             }
