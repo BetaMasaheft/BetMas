@@ -3719,7 +3719,13 @@ e.g. LIT2170Peripl :)
 declare %private function viewItem:lg($node as element(t:lg)) {
     <div
         class="w3-container"
-        style="white-space: pre-line;">{viewItem:TEI2HTML($node)}</div>
+        style="white-space: pre-line;"> {
+                  if ($node/@type) then 
+                   string($node/@type) || (if ($node/@n) then
+                                            '  ' || string($node/@n)
+                                        else
+                                            ()) else ()
+            } <br/>{viewItem:TEI2HTML($node/node())}</div>
 };
 
 declare %private function viewItem:l($node as element(t:l)) {
