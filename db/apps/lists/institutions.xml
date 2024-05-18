@@ -439,7 +439,7 @@
                 <item xml:id="INS0859TLS">Lāy Sǝččat Māryām</item>
                 <item xml:id="INS0631AQL">Lǝdatā Māryām</item>
                 <item xml:id="INS0315LUL">Leiden University Library</item>
-                <item xml:id="INS0289LQM">Lǝḥuṣā Māryām</item>
+                <item xml:id="INS0289LQM">Lǝḥuṣā Qǝddǝst Māryām</item>
                 <item xml:id="INS0495Library_of_Congress">Library of Congress</item>
                 <item xml:id="INS0365LEC">Library of Etchmiadzin Cathedral</item>
                 
@@ -818,113 +818,75 @@
                 <item xml:id="INS0770HZY">Zǝqʷālā Yoḥānnǝs</item>
                 <item xml:id="INS0912BetaGabreel">Beta Gabrǝʾel</item>
                 <item xml:id="INS0914Matushita">Matsushita Museum of Art</item>
-                <item xml:id="INS0942MacaGiyorgis"
-                    change="entryAddedAt2021-09-29T09:19:45.357+02:00">ማጫ፡ ጊዮርጊስ፡</item>
+                <item xml:id="INS0942MacaGiyorgis" change="entryAddedAt2021-09-29T09:19:45.357+02:00">ማጫ፡ ጊዮርጊስ፡</item>
                 
                 <item xml:id="INS0961CPH" change="entryAddedAt2021-09-29T09:19:45.357+02:00">Private
                     house</item>
                 <item xml:id="INS0921QM" change="entryAddedAt2021-09-29T09:19:45.357+02:00">Qarānyo
                     Madḫāne ʿĀlam</item>
-                <item xml:id="INS0913BetaMaryam" change="entryAddedAt2021-09-29T09:19:45.357+02:00"
-                    >Beta Māryām</item>
-                <item xml:id="INS0958Qwarata" change="entryAddedAt2021-09-29T09:19:45.357+02:00"
-                    >Qʷarāṭā Walatta Pēṭros</item>
-                <item xml:id="INS0962AbbaPantaleon"
-                    change="entryAddedAt2021-09-29T09:19:45.357+02:00">Church of Abba
+                <item xml:id="INS0913BetaMaryam" change="entryAddedAt2021-09-29T09:19:45.357+02:00">Beta Māryām</item>
+                <item xml:id="INS0958Qwarata" change="entryAddedAt2021-09-29T09:19:45.357+02:00">Qʷarāṭā Walatta Pēṭros</item>
+                <item xml:id="INS0962AbbaPantaleon" change="entryAddedAt2021-09-29T09:19:45.357+02:00">Church of Abba
                     Pantaleon</item>
-                <item xml:id="INS0956Rufael" change="entryAddedAt2021-09-29T09:19:45.357+02:00"
-                    >ሩፋኤል፡</item>
-                <item xml:id="INS0937FitMikael" change="entryAddedAt2021-09-29T09:19:45.357+02:00"
-                    >ፊት፡ ሚካኤል፡</item>
-                <item xml:id="INS0927AyiraMikael" change="entryAddedAt2021-09-29T09:19:45.357+02:00"
-                    >አዪራ፡ ሚካኤል፡</item>
+                <item xml:id="INS0956Rufael" change="entryAddedAt2021-09-29T09:19:45.357+02:00">ሩፋኤል፡</item>
+                <item xml:id="INS0937FitMikael" change="entryAddedAt2021-09-29T09:19:45.357+02:00">ፊት፡ ሚካኤል፡</item>
+                <item xml:id="INS0927AyiraMikael" change="entryAddedAt2021-09-29T09:19:45.357+02:00">አዪራ፡ ሚካኤል፡</item>
                 
                 <item xml:id="INS0948Semon" change="entryAddedAt2021-09-29T09:19:45.357+02:00">ስምዖን፡
                     ዘዓምድ፡</item>
-                <item xml:id="INS0959MadhaneAlem" change="entryAddedAt2021-09-29T09:19:45.357+02:00"
-                    >Madḫāne ʿĀlam</item>
-                <item xml:id="INS0939GwaraYohannes"
-                    change="entryAddedAt2021-09-29T09:19:45.357+02:00">ጓራ፡ ዮሐንስ፡</item>
+                <item xml:id="INS0959MadhaneAlem" change="entryAddedAt2021-09-29T09:19:45.357+02:00">Madḫāne ʿĀlam</item>
+                <item xml:id="INS0939GwaraYohannes" change="entryAddedAt2021-09-29T09:19:45.357+02:00">ጓራ፡ ዮሐንስ፡</item>
                 
-                <item xml:id="INS0932DabraTH" change="entryAddedAt2021-09-29T09:19:45.357+02:00"
-                    >ደብር፡ ተክለ፡ ሃይማኖት፡</item>
-                <item xml:id="INS0930CacqunaMaryam"
-                    change="entryAddedAt2021-09-29T09:19:45.357+02:00">ጫጭቁና፡ ማርያም፡</item>
-                <item xml:id="INS0926ArogeLedata" change="entryAddedAt2021-09-29T09:19:45.357+02:00"
-                    >አሮጌ፡ ልደታ፡</item>
+                <item xml:id="INS0932DabraTH" change="entryAddedAt2021-09-29T09:19:45.357+02:00">ደብር፡ ተክለ፡ ሃይማኖት፡</item>
+                <item xml:id="INS0930CacqunaMaryam" change="entryAddedAt2021-09-29T09:19:45.357+02:00">ጫጭቁና፡ ማርያም፡</item>
+                <item xml:id="INS0926ArogeLedata" change="entryAddedAt2021-09-29T09:19:45.357+02:00">አሮጌ፡ ልደታ፡</item>
                 
-                <item xml:id="INS0931DamotGiyorgis"
-                    change="entryAddedAt2021-09-29T09:19:45.357+02:00">ዳሞት፡ ጊዮርጊስ፡</item>
-                <item xml:id="INS0940LamafagGi" change="entryAddedAt2021-09-29T09:19:45.357+02:00"
-                    >ላመፈጅ፡ ጊዮርጊስ፡</item>
-                <item xml:id="INS0925Amanuel" change="entryAddedAt2021-09-29T09:19:45.357+02:00"
-                    >አማኑኤል፡</item>
-                <item xml:id="INS0949TaransabbaI" change="entryAddedAt2021-09-29T09:19:45.357+02:00"
-                    >ጣረንሰባ፡ ኢየሱስ፡</item>
+                <item xml:id="INS0931DamotGiyorgis" change="entryAddedAt2021-09-29T09:19:45.357+02:00">ዳሞት፡ ጊዮርጊስ፡</item>
+                <item xml:id="INS0940LamafagGi" change="entryAddedAt2021-09-29T09:19:45.357+02:00">ላመፈጅ፡ ጊዮርጊስ፡</item>
+                <item xml:id="INS0925Amanuel" change="entryAddedAt2021-09-29T09:19:45.357+02:00">አማኑኤል፡</item>
+                <item xml:id="INS0949TaransabbaI" change="entryAddedAt2021-09-29T09:19:45.357+02:00">ጣረንሰባ፡ ኢየሱስ፡</item>
                 
-                <item xml:id="INS0957SeherM" change="entryAddedAt2021-09-29T09:19:45.357+02:00"
-                    >Seher Māryām</item>
+                <item xml:id="INS0957SeherM" change="entryAddedAt2021-09-29T09:19:45.357+02:00">Seher Māryām</item>
                 
-                <item xml:id="INS0953YibraragG" change="entryAddedAt2021-09-29T09:19:45.357+02:00"
-                    >ዪብረረቅ፡ ገብርኤል፡</item>
-                <item xml:id="INS0951WarangabG" change="entryAddedAt2021-09-29T09:19:45.357+02:00"
-                    >ወራንገብ፡ ጊዮርጊስ፡</item>
+                <item xml:id="INS0953YibraragG" change="entryAddedAt2021-09-29T09:19:45.357+02:00">ዪብረረቅ፡ ገብርኤል፡</item>
+                <item xml:id="INS0951WarangabG" change="entryAddedAt2021-09-29T09:19:45.357+02:00">ወራንገብ፡ ጊዮርጊስ፡</item>
                 
-                <item xml:id="INS0954YohannesW" change="entryAddedAt2021-09-29T09:19:45.357+02:00"
-                    >ዮሐንስ፡ ወልደ፡ ነጐድጓድ፡</item>
-                <item xml:id="INS0929BerahelaMikael"
-                    change="entryAddedAt2021-09-29T09:19:45.357+02:00">ብራህላ፡ ሚካኤል፡</item>
-                <item xml:id="INS0922AbiyaEgzi" change="entryAddedAt2021-09-29T09:19:45.357+02:00"
-                    >አባ፡ ዓቢየ፡ እግዚእ፡</item>
+                <item xml:id="INS0954YohannesW" change="entryAddedAt2021-09-29T09:19:45.357+02:00">ዮሐንስ፡ ወልደ፡ ነጐድጓድ፡</item>
+                <item xml:id="INS0929BerahelaMikael" change="entryAddedAt2021-09-29T09:19:45.357+02:00">ብራህላ፡ ሚካኤል፡</item>
+                <item xml:id="INS0922AbiyaEgzi" change="entryAddedAt2021-09-29T09:19:45.357+02:00">አባ፡ ዓቢየ፡ እግዚእ፡</item>
                 <item xml:id="INS0917RusMusEth" change="entryAddedAt2021-09-29T09:19:45.357+02:00"/>
-                <item xml:id="INS0941LozaMaryam" change="entryAddedAt2021-09-29T09:19:45.357+02:00"
-                    >ሎዛ፡ ማርያም፡</item>
-                <item xml:id="INS0928BelaggigMikael"
-                    change="entryAddedAt2021-09-29T09:19:45.357+02:00">ብለጂግ፡ ሚካኤል፡</item>
+                <item xml:id="INS0941LozaMaryam" change="entryAddedAt2021-09-29T09:19:45.357+02:00">ሎዛ፡ ማርያም፡</item>
+                <item xml:id="INS0928BelaggigMikael" change="entryAddedAt2021-09-29T09:19:45.357+02:00">ብለጂግ፡ ሚካኤል፡</item>
                 
-                <item xml:id="INS0952WaybelaM" change="entryAddedAt2021-09-29T09:19:45.357+02:00"
-                    >ወይቤላ፡ ማርያም፡</item>
-                <item xml:id="INS0943MantiMarq" change="entryAddedAt2021-09-29T09:19:45.357+02:00"
-                    >መንቲ፡ መርቆሬዎስ፡</item>
+                <item xml:id="INS0952WaybelaM" change="entryAddedAt2021-09-29T09:19:45.357+02:00">ወይቤላ፡ ማርያም፡</item>
+                <item xml:id="INS0943MantiMarq" change="entryAddedAt2021-09-29T09:19:45.357+02:00">መንቲ፡ መርቆሬዎስ፡</item>
                 <item xml:id="INS0934DebaKM" change="entryAddedAt2021-09-29T09:19:45.357+02:00">ድባ፡
                     ኪዳነ፡ ምሕረት፡</item>
-                <item xml:id="INS0933DebaHawaryat"
-                    change="entryAddedAt2021-09-29T09:19:45.357+02:00">ድባ፡ ሐዋርያት፡</item>
-                <item xml:id="INS0938GondaroccM" change="entryAddedAt2021-09-29T09:19:45.357+02:00"
-                    >ጎንደሮች፡ ማርያም፡</item>
-                <item xml:id="INS0946DabraSR" change="entryAddedAt2021-09-29T09:19:45.357+02:00"
-                    >ደብረ፡ ሳህል፡ ሩፋኤል፡</item>
-                <item xml:id="INS0935Fasiladas" change="entryAddedAt2021-09-29T09:19:45.357+02:00"
-                    >ፋሲለደስ፡</item>
-                <item xml:id="INS0947SeyonMaryam" change="entryAddedAt2021-09-29T09:19:45.357+02:00"
-                    >ጽዮን፡ ማርያም፡</item>
-                <item xml:id="INS0950WogaretM" change="entryAddedAt2021-09-29T09:19:45.357+02:00"
-                    >ዎገሬት፡ ማርያም፡</item>
-                <item xml:id="INS0960FourAnimals" change="entryAddedAt2021-09-29T09:19:45.357+02:00"
-                    >Church of the Four Animals</item>
+                <item xml:id="INS0933DebaHawaryat" change="entryAddedAt2021-09-29T09:19:45.357+02:00">ድባ፡ ሐዋርያት፡</item>
+                <item xml:id="INS0938GondaroccM" change="entryAddedAt2021-09-29T09:19:45.357+02:00">ጎንደሮች፡ ማርያም፡</item>
+                <item xml:id="INS0946DabraSR" change="entryAddedAt2021-09-29T09:19:45.357+02:00">ደብረ፡ ሳህል፡ ሩፋኤል፡</item>
+                <item xml:id="INS0935Fasiladas" change="entryAddedAt2021-09-29T09:19:45.357+02:00">ፋሲለደስ፡</item>
+                <item xml:id="INS0947SeyonMaryam" change="entryAddedAt2021-09-29T09:19:45.357+02:00">ጽዮን፡ ማርያም፡</item>
+                <item xml:id="INS0950WogaretM" change="entryAddedAt2021-09-29T09:19:45.357+02:00">ዎገሬት፡ ማርያም፡</item>
+                <item xml:id="INS0960FourAnimals" change="entryAddedAt2021-09-29T09:19:45.357+02:00">Church of the Four Animals</item>
                 <item xml:id="INS0963MM" change="entryAddedAt2021-09-29T09:19:45.357+02:00">Private
                     collection of Dr Matthias Müth</item>
                 
-                <item xml:id="INS0945Qirqos" change="entryAddedAt2021-09-29T09:19:45.357+02:00"
-                    >ቂርቆስ፡</item>
-                <item xml:id="INS0936FantarLedata"
-                    change="entryAddedAt2021-09-29T09:19:45.357+02:00">ፈንጠር፡ ልደታ፡</item>
+                <item xml:id="INS0945Qirqos" change="entryAddedAt2021-09-29T09:19:45.357+02:00">ቂርቆስ፡</item>
+                <item xml:id="INS0936FantarLedata" change="entryAddedAt2021-09-29T09:19:45.357+02:00">ፈንጠር፡ ልደታ፡</item>
                 <item xml:id="INS0918TZM" change="entryAddedAt2021-09-29T09:19:45.357+02:00">ተመዞ፡
                     ማርያም፡</item>
-                <item xml:id="INS0919Baraknaha" change="entryAddedAt2021-09-29T09:19:45.357+02:00"
-                    >Bāraknāhā</item>
-                <item xml:id="INS0955AbbajaleTH" change="entryAddedAt2021-09-29T09:19:45.357+02:00"
-                    >አባ፡ ጃሌ፡ ተክለ፡ ሃይማኖት፡</item>
-                <item xml:id="INS0916RussianMuseum"
-                    change="entryAddedAt2021-09-29T09:19:45.357+02:00">Государственный Русский
+                <item xml:id="INS0919Baraknaha" change="entryAddedAt2021-09-29T09:19:45.357+02:00">Bāraknāhā</item>
+                <item xml:id="INS0955AbbajaleTH" change="entryAddedAt2021-09-29T09:19:45.357+02:00">አባ፡ ጃሌ፡ ተክለ፡ ሃይማኖት፡</item>
+                <item xml:id="INS0916RussianMuseum" change="entryAddedAt2021-09-29T09:19:45.357+02:00">Государственный Русский
                     музей</item>
                 <item xml:id="INS0920GCA" change="entryAddedAt2021-09-29T09:19:45.357+02:00">Genova
                     Castello d'Albertis</item>
-                <item xml:id="INS0915CHJN" change="entryAddedAt2021-09-29T09:19:45.357+02:00"
-                    >Private collection</item>
+                <item xml:id="INS0915CHJN" change="entryAddedAt2021-09-29T09:19:45.357+02:00">Private collection</item>
                 
                 <item xml:id="INS0923Samuel" change="entryAddedAt2021-09-29T09:19:45.357+02:00">አባ፡
-                    ሳሙኤል፡</item>                
+                    ሳሙኤል፡</item>
+                
                 <item xml:id="INS1001MusKulBasel">Museum der Kulturen Basel</item>
                 <item xml:id="INS0981MDDL">Private collection of Mamhǝr Dǝggu</item>
                 <item xml:id="INS0984MH">Mamhǝr Haymanot private collection</item>
@@ -984,6 +946,9 @@
                 <item xml:id="INS0015Mannagasa">Mannāgašā Qǝddus Giyorgis</item>
                 <item xml:id="INS0014Brown">Brown University Library</item>
                 <item xml:id="INS0018Anon">Anonymous</item>
+                
+
+                
             </list>
         </body>
     </text>
