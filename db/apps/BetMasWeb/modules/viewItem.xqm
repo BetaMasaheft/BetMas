@@ -4564,20 +4564,20 @@ declare %private function viewItem:work($item) {
             <div
                 id="description">
                 {
-                    if (count($item//t:titleStmt/t:title) gt 1)
+                    if (count($item//t:titleStmt/t:title) ge 1)
                     then
                         (<h2>Titles</h2>,
                         <ul>
                             {
                                 for $t in $item//t:titleStmt/t:title[not(@type = 'full')][@xml:id]
                                     order by $t/@xml:id,
-                                        $t/text()
+                                        string-join($t/text())
                                 return
                                     viewItem:worktitle($t)
                             }
                             {
                                 for $t in $item//t:titleStmt/t:title[not(@type = 'full')][not(@xml:id or @corresp)]
-                                    order by $t/text()
+                                    order by string-join($t/text())
                                 return
                                     viewItem:worktitle($t)
                             }
@@ -5026,7 +5026,7 @@ declare %private function viewItem:person($item) {
                                     if ((count($nameid) gt 1) and $item//t:persName[matches(@corresp, $nameid)]) then
                                         ('(',
                                         let $corrnames := for $corrname in $item//t:persName[matches(@corresp, $nameid)]
-                                            order by $corrname/text()
+                                            order by string-join($corrname/text())
                                         return
                                             ($corrname/text(),
                                             viewItem:sup($corrname)
