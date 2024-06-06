@@ -601,7 +601,7 @@ else ()
      </div>
      
    </div>
-  { item2:authors($this, $collection)}
+  { item2:bottom($this, $collection)}
    </div>
 
 

@@ -622,6 +622,98 @@ return
 </bibl>
 };
 
+(:~prints the revision information in buttons:)
+declare function apprest:bottom($this, $collection) {
+let $document := $this
+let $id := string($this/@xml:id)
+let $app:bibdata := apprest:bibdata($id, $collection)
+return
+<div class="w3-container">
+<div class="w3-row">
+            
+            <button onclick="document.getElementById('cite').style.display='block'" class="w3-button w3-grey" style="vertical-align: top;width:300;">Suggested citation</button>
+            <button onclick="document.getElementById('revision').style.display='block'" class="w3-button w3-grey" style="vertical-align: top;width:300;">Revision history</button>
+              <button onclick="document.getElementById('att').style.display='block'" class="w3-button w3-grey" style="vertical-align: top;width:300;">Attribution of the content</button>
+
+<div id="cite" class="w3-modal w3-card">
+ <div class="w3-modal-content">
+                    
+                    <header class="w3-container w3-red">
+                        <span onclick="document.getElementById('cite').style.display='none'" class="w3-button w3-display-topright">CLOSE</span>
+                        <h4>Suggested citation of this record</h4>
+                    </header>
+                    <div class="w3-container" id="citationString">
+<p>{for $a in $app:bibdata//author/text()  return ($a|| ', ')} ʻ{$app:bibdata//title[@level eq 'a']/text()} {if (contains($this//t:revisionDesc/t:change, 'PEMM')) then ' (originally prepared for The Princeton Ethiopian, Eritrean, and Egyptian Miracles of Mary (PEMM) project)' else ()}ʼ, in 
+<i>{($app:bibdata//title[@level eq 'j']/text() || ' ')}</i> {$app:bibdata//date[@type eq 'lastModified']/text()}
+<a href="{$app:bibdata/idno/text()}">{$app:bibdata/idno[@type eq 'url']/text()}</a> {$app:bibdata//date[@type eq 'accessed']/text()}</p>
+<p>To cite a precise version, please, click on load permalinks and to the desired version (<a href="/pid.html">see documentation on permalinks</a>), then import the metadata or copy the below, with the correct link.</p>
+</div>                    
+</div>
+</div>
+            
+            
+<div id="revision" class="w3-modal w3-card">
+ <div class="w3-modal-content">
+                    
+                    <header class="w3-container w3-red">
+                        <span onclick="document.getElementById('revision').style.display='none'" class="w3-button w3-display-topright">CLOSE</span>
+                        <h4>Revision history</h4>
+                    </header>
+                    <ul>
+                {for $change in $document//t:revisionDesc/t:change
+                let $time := $change/@when
+                let $author := editors:editorKey(string($change/@who))
+                let $collection :=  $change/ancestor::t:TEI//t:collection
+                let $ES := if(contains($change/text(), 'Ethio-SPaRe team photographed the manuscript')) then () else if (xs:date($time) ge xs:date('2016-05-10')) then () else if  (not(starts-with($collection/text(), 'Ethio-')))  then () else ' in Ethio-SPaRe '
+                order by $time descending
+                return
+                <li>
+                {(if (contains($change/text(), 'Ethio-SPaRe team photographed the manuscript')) then () else <span property="http://purl.org/dc/elements/1.1/contributor">{$author}</span>),
+                (' ' || $change/text() || $ES || ' on ' ||  format-date($time, '[D].[M].[Y]'))}
+                </li>
+                }
+
+    </ul>
+</div>
+</div>
+ 
+ 
+ <div id="att" class="w3-modal w3-card">
+ <div class="w3-modal-content">
+                    
+                    <header class="w3-container w3-red">
+                        <span onclick="document.getElementById('att').style.display='none'" class="w3-button w3-display-topright">CLOSE</span>
+                        <h4>Attribution of the content</h4>
+                    </header>
+                        <div>
+                {for $respStmt in $document//t:titleStmt/t:respStmt
+                let $action := string-join($respStmt/t:resp, ' ')
+              return
+              if($respStmt/t:persName) then 
+            (   let $authors :=
+                            for $p in $respStmt/t:persName
+                                return
+                                    (if($p/@ref) then editors:editorKey(string($p/@ref)) else $p) || (if($p/@from or $p/@to) then (' ('||'from '||$p/@from || ' to ' ||$p/@to||')') else ())
+
+
+                order by $action descending
+                return
+                <p>
+                {($action || ' by ' || string-join($authors, ', '))}
+                </p>)
+                else <p>{$respStmt/t:name/text() || ', ' || $respStmt/t:resp/text()}</p>
+                
+                }
+                </div>
+</div>
+</div>
+ 
+        </div>
+             {if($document//t:editionStmt/node()) then <div class="w3-panel w3-card-4 w3-padding w3-margin w3-red " >{string:tei2string($document//t:editionStmt/node())}</div> else ()}
+     {if($document//t:availability/node()) then <div class="w3-panel w3-card-4 w3-padding w3-margin w3-white " >{string:tei2string($document//t:availability/node())}</div> else ()}
+     </div>
+        
+};
 
 (:~prints the revision informations:)
 declare function apprest:authors($this, $collection) {

@@ -4533,8 +4533,7 @@ declare %private function viewItem:tokenize-text($node) {
 
 declare %private function viewItem:standards($item) {
     viewItem:keywords($item, switch2:col($item/@type)),
-    viewItem:publicationStmt($item//t:publicationStmt),
-    if ($item//t:editionStmt) then
+     (::if ($item//t:editionStmt) then
         <div
             class="w3-container w3-small"
             id="editionStmt">
@@ -4542,13 +4541,21 @@ declare %private function viewItem:standards($item) {
             {viewItem:TEI2HTML($item//t:editionStmt)}
         </div>
     else
-        (),
-    <div
-        class="w3-container w3-small"
-        id="encodingDesc">
-        <h3>Encoding Description</h3>
-        {viewItem:TEI2HTML($item//t:encodingDesc/node())}
-    </div>
+        (),::)
+     <button
+        class="w3-button w3-gray w3-bar-item"
+        onclick="openAccordion('pub')">Publication Statement</button>,
+    <ul
+        class="w3-bar-item w3-hide"
+        id="pub">{viewItem:publicationStmt($item//t:publicationStmt)}
+        </ul>,
+        <button
+        class="w3-button w3-gray w3-bar-item"
+        onclick="openAccordion('enc')">Encoding Description</button>,
+    <ul
+        class="w3-bar-item w3-hide"
+        id="enc">{viewItem:TEI2HTML($item//t:encodingDesc/node())}
+        </ul>
 };
 
 declare %private function viewItem:work($item) {

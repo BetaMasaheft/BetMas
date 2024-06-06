@@ -47,7 +47,9 @@ apprest:EntityRelsTable($this, $collection)
 declare function item2:authors($this, $collection){
 apprest:authors($this, $collection)
 };
-
+declare function item2:bottom($this, $collection){
+apprest:bottom($this, $collection)
+};
 declare function item2:persList($item){
 (:expects a manuscript item:)
 let $id := $item/@xml:id
