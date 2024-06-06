@@ -88,9 +88,15 @@
                 <item xml:id="CS" n="Calum">Calum Samuelson</item>
                 <item xml:id="JE" n="Jonathan">Jonathan Egid</item>
                 <item xml:id="TE" n="Ted">Ted Erho</item>
-                <item xml:id="AMB" n="Aaron">Aaron Michael Butts</item>
-                <item xml:id="GB" n="Gay">Gay Byron</item>
+                <item xml:id="AMB" n="Aaron">Aaron Michael Butts</item>                
                 <item xml:id="EES" n="Elisheva">Elizaveta Shvarts</item>
+                <item xml:id="AmAb" n="Amanuel">Amanuel Abraham</item>
+                <item xml:id="JRB" n="Jeremy">Jeremy Brown</item>
+                <item xml:id="WLB" n="Wendy">Wendy Laura Belcher</item>
+                <item xml:id="TEg" n="Taylor">Taylor Eggan</item>
+                <item xml:id="EP" n="EkaterinaP">Ekaterina Pukhovaia</item>
+                <item xml:id="BW" n="Bret">Bret Windhauser</item>
+                <item xml:id="DM" n="Dawit">Dawit Muluneh</item>
             </list>
         </body>
     </text>
