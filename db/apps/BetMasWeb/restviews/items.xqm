@@ -588,7 +588,7 @@ else ()
    <a href="/rdf/{$collection}/{$id}.rdf">RDF+XML</a> graph of this resource. Alternate representations available via <a href="/api/void/{$id}">VoID</a>.</div>
    
    <div class="w3-container w3-margin w3-card-4 " id="permanentIDs{$id}" style="max-height:400px;overflow:auto"
-   data-path="{restItem:capitalize-first(substring-after(base-uri($this), '/db/apps/BetMasData/'))}" 
+   data-path="{restItem:capitalize-first(substring-after(base-uri($this), '/db/apps/expanded/'))}" 
    data-id="{$id}" data-type="{restItem:capitalize-first($collection)}"><a class="w3-btn w3-gray" id="LoadPermanentIDs{$id}">Permalinks</a></div>
    
    <script  type="text/javascript" src="resources/js/permanentID.js"></script>
