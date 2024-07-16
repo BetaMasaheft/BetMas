@@ -545,7 +545,7 @@ if ($id = $Subjects) then  (try{LitFlow:Sankey($id, 'works')} catch * {$err:desc
    default return
 (:   THE MAIN VIEW :)
   (if($collection='places' or $collection='institutions') then (
-  <div class="w3-container" >
+  <!--<div class="w3-container" >
   <div 
     class="w3-half w3-padding" ><div id="entitymap" style="height: 400px"/></div>
 <div 
@@ -557,7 +557,8 @@ if ($id = $Subjects) then  (try{LitFlow:Sankey($id, 'works')} catch * {$err:desc
                 src="https://peripleo.pelagios.org/embed/{encode-for-uri(concat('http://betamasaheft.eu/places/',$id))}">
             </iframe>
             </div>
-   </div>,
+          
+   </div>-->,
    <script>{'var placeid = "'||$id||'"'}</script>,
             <script  type="text/javascript" src="resources/geo/geojsonentitymap.js"></script>) else (),
 
@@ -584,10 +585,10 @@ else ()
    }
    <div class="w3-container w3-margin-bottom">
    <div class="w3-twothird">
-   <div class="w3-container w3-margin w3-black w3-card-4 ">This page contains RDFa. 
+   <div class="w3-container w3-margin w3-grey w3-small w3-card-4 ">This page contains RDFa. 
    <a href="/rdf/{$collection}/{$id}.rdf">RDF+XML</a> graph of this resource. Alternate representations available via <a href="/api/void/{$id}">VoID</a>.</div>
    
-   <div class="w3-container w3-margin w3-card-4 " id="permanentIDs{$id}" style="max-height:400px;overflow:auto"
+   <div class="w3-container w3-margin w3-small w3-card-4 " id="permanentIDs{$id}" style="max-height:250px;overflow:auto"
    data-path="{restItem:capitalize-first(substring-after(base-uri($this), '/db/apps/expanded/'))}" 
    data-id="{$id}" data-type="{restItem:capitalize-first($collection)}"><a class="w3-btn w3-gray" id="LoadPermanentIDs{$id}">Permalinks</a></div>
    
@@ -650,3 +651,4 @@ declare function restItem:capitalize-first
    concat(upper-case(substring($arg,1,1)),
              substring($arg,2))
  } ;
+ 
