@@ -1838,7 +1838,12 @@ declare %private function viewItem:msItem($msItem) {
                                 ()
                     }
                     {
-                    if ($msItem/t:msItem) then
+         (::           if ((count($msItem/ancestor::t:msItem) gt 1) and ($msItemsCount gt 100))
+                    then <div><a 
+                    class="w3-button msitemloader" 
+                    data-mainID="{$mainID}" 
+                    data-msItem="{replace($msItem/@xml:id, '\.', '-')}">Click here to load the {count($msItem/t:msItem)} items contained in the current one.</a><div id="msitemloadcontainer{replace($msItem/@xml:id, '\.', '-')}"/></div>
+                    else  ::) if ($msItem/t:msItem) then
                         (
                         viewItem:TEI2HTML($msItem/node()[not(name()='msItem')])
                         ,
@@ -3718,8 +3723,7 @@ e.g. LIT2170Peripl :)
 
 declare %private function viewItem:lg($node as element(t:lg)) {
     <div
-        class="w3-container"
-        style="white-space: pre-line;"> {
+        class="w3-container"> {
                   if ($node/@type) then 
                    string($node/@type) || (if ($node/@n) then
                                             '  ' || string($node/@n)
@@ -4739,14 +4743,14 @@ declare %private function viewItem:work($item) {
                 {
                     if ($item//t:div[@type = 'edition']//t:ab//text()) then
                         <a
-                            class="w3-button w3-gray w3-large"
+                            class="w3-button w3-gray"
                             target="_blank"
                             href="http://voyant-tools.org/?input=https://betamasaheft.eu/works/{$id}.xml">Voyant</a>
                     else
                         ()
                 }
                 <button
-                    class="w3-button w3-red w3-large"
+                    class="w3-button w3-red"
                     id="showattestations"
                     data-value="work"
                     data-id="{$id}">Show attestations</button>
@@ -5274,6 +5278,8 @@ declare %private function viewItem:place($item) {
                             </div>
                     }
                 </div>
+                 {viewItem:osm($item)}
+
                 {viewItem:divofplacepath($item, "//t:ab[@type = 'description']", 'General information', 3)}
                 {viewItem:divofplacepath($item, "//t:location[@type='relative']", 'Location', 3)}
                 {viewItem:divofplacepath($item, "//t:ab[@type = 'appellations'][child::*]", 'Appellations', 3)}
@@ -6752,4 +6758,19 @@ return
         <h3>Keywords</h3>
         {$options}
     </div> else ()
+};
+
+declare function viewItem:osm($item) {
+let $coor := string($item//t:location/t:geo)
+let $geo := tokenize($coor, ',')
+let $geo1 := substring-before($coor, ' ')
+let $geo2 := substring-after($coor, ' ')
+let $marker := concat('=',$geo1,'%2C',$geo2)
+return
+if  ($item//t:location/t:geo) then 
+<div 
+    class="w3-container w3-padding float" > 
+<iframe width="425" height="350" src="https://www.openstreetmap.org/export/embed.html?bbox=33.68408203125001%2C11.646856393732364%2C42.857666015625%2C16.883403464236842&amp;layer=mapnik&amp;marker={$geo1}%2C{$geo2}" style="border: 1px solid black"></iframe><br/><small><a href="https://www.openstreetmap.org/?mlat={$geo1}&amp;mlon={$geo2}#map=8/{$geo1}/{$geo2}">Show a larger map</a></small>
+</div>
+else ()
 };
