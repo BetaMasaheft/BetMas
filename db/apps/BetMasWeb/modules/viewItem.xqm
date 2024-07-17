@@ -1866,12 +1866,24 @@ declare %private function viewItem:msItem($msItem) {
 };
 
 declare %private function viewItem:figure($figure as element(t:figure)) {
-    let $url := concat('https://betamasaheft.eu/iiif/', $figure/t:graphic/@url, '/info.json')
-    let $uri := concat('https://betamasaheft.eu/iiif/', $figure/t:graphic/@url)
+    let $link := $figure/t:graphic/@url
+    let $height := $figure/t:graphic/@height
+    let $url := concat('https://betamasaheft.eu/iiif/', $link, '/info.json')
+    let $uri := concat('https://betamasaheft.eu/iiif/', $link)
     let $mainID := $figure/ancestor::t:TEI/@xml:id
     let $id := concat($mainID, 'graphic')
     return
         
+    if (contains($link, 'http')) then            
+                <div
+                    id="{$id}">
+                    <span><a href="{$link}"><img src="{$link}" style="height:{$height}"/></a></span>
+                <div
+                    class="caption w3-margin-left w3-tiny">
+                    {viewItem:TEI2HTML($figure/t:graphic/t:desc)}
+                </div>
+                </div>
+        else
         if ($figure/t:graphic/@n) then
             let $n := $figure/t:graphic/@n
             let $urls := for $f in 1 to $n
