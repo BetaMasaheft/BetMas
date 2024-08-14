@@ -3760,15 +3760,13 @@ declare %private function viewItem:l($node as element(t:l)) {
                     <a
                         target="_blank"
                         href="{string($node/t:ref[1]/@target)}">{string($node/@n)}</a>
-                else
+                else if ($node/@n) then
                     string($node/@n)
+                  else ' '
             }
         </sup>,
         viewItem:TEI2HTML($node/node()[not(self::t:ref)]),
-        if ($node/ancestor::t:lg) then
-            <br/>
-        else
-            ()
+        <br/>
         )
 };
 
@@ -4375,6 +4373,9 @@ declare function viewItem:TEI2HTML($nodes) {
             case element(t:lg)
                 return
                     viewItem:lg($node)
+            case element(t:l)
+                return
+                    viewItem:l($node)                    
             case element(t:locus)
                 return
                     viewItem:locus($node)
