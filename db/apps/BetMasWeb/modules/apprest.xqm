@@ -572,7 +572,7 @@ return
 (:here I cannot use for the title the javascript titles.js because the content is not exposed:)
 <bibl>
 {
-let $ids := ($file//t:revisionDesc/t:change/@who| $file//t:fileDesc/t:titleStmt/t:editor/@key| $file//t:respStmt/@xml:id)
+let $ids := ($file//t:revisionDesc/t:change/@who| $file//t:fileDesc/t:titleStmt/t:editor[not(contains(@role,  'generalEditor'))]/@key| $file//t:respStmt/@xml:id)
 let $cleanids := for $i in distinct-values($ids) return replace($i, '#', '') 
 for $author in distinct-values($cleanids)
 let $score := count($file//t:revisionDesc/t:change[@who eq $author]) + count($file//t:fileDesc/t:titleStmt/t:editor[@key eq $author]) + (if($file//t:editor[@key eq $author][@role eq 'cataloguer' or @role eq 'editor']) then 100 else 0)
@@ -640,10 +640,9 @@ return
                     
                     <header class="w3-container w3-red">
                         <span onclick="document.getElementById('cite').style.display='none'" class="w3-button w3-display-topright">CLOSE</span>
-                        <h4>Suggested citation of this record</h4>
-                    </header>
-                    <div class="w3-container" id="citationString">
-<p>{for $a in $app:bibdata//author/text()  return ($a|| ', ')} ʻ{$app:bibdata//title[@level eq 'a']/text()} {if (contains($this//t:revisionDesc/t:change, 'PEMM')) then ' (originally prepared for The Princeton Ethiopian, Eritrean, and Egyptian Miracles of Mary (PEMM) project)' else ()}ʼ, in 
+                        <h4>Suggested Citation of this record</h4>
+<div class="w3-container" id="citationString">
+<p>{for $a in $app:bibdata//author/text()  return ($a|| ', ')} ʻ{$app:bibdata//title[@level eq 'a']/text()} {if (contains($this//t:revisionDesc/t:change, 'PEMM')) then ' (originally prepared for The Princeton Ethiopian, Eritrean, and Egyptian Miracles of Mary (PEMM) project)' else ()} {if ($this//t:additional//t:source/t:listBibl[@type eq 'catalogue']/t:bibl/t:ptr[@target eq 'bm:BmWebsite']) then ' (based on a historical catalogue and considerably enriched by the Bm team)' else if ($this//t:additional//t:source/t:listBibl[@type eq 'catalogue']) then ' (encoded from the catalogue)' else ()}ʼ, in 
 <i>{($app:bibdata//title[@level eq 'j']/text() || ' ')}</i> {$app:bibdata//date[@type eq 'lastModified']/text()}
 <a href="{$app:bibdata/idno/text()}">{$app:bibdata/idno[@type eq 'url']/text()}</a> {$app:bibdata//date[@type eq 'accessed']/text()}</p>
 <p>To cite a precise version, please, click on load permalinks and to the desired version (<a href="/pid.html">see documentation on permalinks</a>), then import the metadata or copy the below, with the correct link.</p>
@@ -726,12 +725,12 @@ return
 <div class="w3-third" id="citation">
 <div class="w3-panel w3-card-4 w3-padding w3-margin  w3-gray " >
 
-<h3>Suggested Citation of this record</h3>
-<p>To cite a precise version, please, click on load permalinks and to the desired version (<a href="/pid.html">see documentation on permalinks</a>), then import the metadata or copy the below, with the correct link.</p>
+<h4>Suggested Citation of this record</h4>
 <div class="w3-container" id="citationString">
-<p>{for $a in $app:bibdata//author/text()  return ($a|| ', ')} ʻ{$app:bibdata//title[@level eq 'a']/text()}ʼ, in Alessandro Bausi, ed.,
+<p>{for $a in $app:bibdata//author/text()  return ($a|| ', ')} ʻ{$app:bibdata//title[@level eq 'a']/text()} {if (contains($this//t:revisionDesc/t:change, 'PEMM')) then ' (originally prepared for The Princeton Ethiopian, Eritrean, and Egyptian Miracles of Mary (PEMM) project)' else ()} {if ($this//t:additional//t:source/t:listBibl[@type eq 'catalogue']/t:bibl/t:ptr[@target eq 'bm:BmWebsite']) then ' (based on a historical catalogue and considerably enriched by the Bm team)' else if ($this//t:additional//t:source/t:listBibl[@type eq 'catalogue']) then ' (encoded from the catalogue)' else ()}ʼ, in 
 <i>{($app:bibdata//title[@level eq 'j']/text() || ' ')}</i> {$app:bibdata//date[@type eq 'lastModified']/text()}
-<a href="{$app:bibdata/idno/text()}">{$app:bibdata/idno[@type eq 'url']/text()}</a> {$app:bibdata//date[@type eq 'accessed']/text()}</p></div>
+<a href="{$app:bibdata/idno/text()}">{$app:bibdata/idno[@type eq 'url']/text()}</a> {$app:bibdata//date[@type eq 'accessed']/text()}</p>
+<p>To cite a precise version, please, click on load permalinks and to the desired version (<a href="/pid.html">see documentation on permalinks</a>), then import the metadata or copy the below, with the correct link.</p></div>
 </div>
 
 
@@ -798,12 +797,12 @@ return
 <div class="w3-third" id="citation">
 <div class="w3-panel w3-card-4 w3-padding w3-margin  w3-gray " >
 
-<h3>Suggested Citation of this record</h3>
-<p>To cite a precise version, please, click on load permalinks and to the desired version (<a href="/pid.html">see documentation on permalinks</a>), then import the metadata or copy the below, with the correct link.</p>
+<h4>Suggested Citation of this record</h4>
 <div class="w3-container" id="citationString">
-<p>{for $a in $app:bibdata//author/text()  return ($a|| ', ')} ʻ{$app:bibdata//title[@level eq 'a']/text()}ʼ, in Alessandro Bausi, ed.,
+<p>{for $a in $app:bibdata//author/text()  return ($a|| ', ')} ʻ{$app:bibdata//title[@level eq 'a']/text()} {if (contains($this//t:revisionDesc/t:change, 'PEMM')) then ' (originally prepared for The Princeton Ethiopian, Eritrean, and Egyptian Miracles of Mary (PEMM) project)' else ()} {if ($this//t:additional//t:source/t:listBibl[@type eq 'catalogue']/t:bibl/t:ptr[@target eq 'bm:BmWebsite']) then ' (based on a historical catalogue and considerably enriched by the Bm team)' else if ($this//t:additional//t:source/t:listBibl[@type eq 'catalogue']) then ' (encoded from the catalogue)' else ()}ʼ, in 
 <i>{($app:bibdata//title[@level eq 'j']/text() || ' ')}</i> {$app:bibdata//date[@type eq 'lastModified']/text()}
-<a href="{$app:bibdata/idno/text()}">{$app:bibdata/idno[@type eq 'url']/text()}</a> {$app:bibdata//date[@type eq 'accessed']/text()}</p></div>
+<a href="{$app:bibdata/idno/text()}">{$app:bibdata/idno[@type eq 'url']/text()}</a> {$app:bibdata//date[@type eq 'accessed']/text()}</p>
+<p>To cite a precise version, please, click on load permalinks and to the desired version (<a href="/pid.html">see documentation on permalinks</a>), then import the metadata or copy the below, with the correct link.</p></div>
 </div>
 
 

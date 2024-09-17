@@ -280,7 +280,7 @@ return
           <p id="mainEditor"><i>{string-join($key, ', ')}</i></p>
           {if($collection = 'manuscripts') then <p>{if($this//t:additional//t:source/t:listBibl[@type eq 'catalogue']) then 
           ('This manuscript description is based on ' , <a href="#additionals">the catalogues listed in the Catalogue Bibliography</a>, if($this//t:additional//t:source/t:listBibl[@type eq 'catalogue']/t:bibl/t:ptr[@target eq 'bm:BmWebsite']) then 
-          (' and has been corrected or enriched by the Bm project team; please check ', <a href="#footer">Revision history for more information</a> )
+          (' and has been corrected or enriched by the Bm project team; please check our ', <a href="#footer">Revision history for more information</a> )
           else () )
           else if($this//t:collection = 'EMIP') then string-join($this//t:collection//text(), ', ')
           else if(contains($this//t:funder, 'IslHornAfr')) then ('Newly catalogued in IslHornAfr, see also ', <a href="http://islhornafr.tors.sc.ku.dk/backend/manuscripts/{format-number(number(replace($id, 'IHA', '')), '####')}">IslHornAfr manuscript {format-number(number(replace($id, 'IHA', '')), '####')}</a>)
