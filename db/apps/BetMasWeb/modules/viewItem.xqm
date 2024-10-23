@@ -3475,7 +3475,8 @@ declare %private function viewItem:choice($node as element(t:choice)) {
 };
  
 declare %private function viewItem:unclear($node as element(t:unclear)) {
-    $node/text() || '?'
+     <span
+                        style="color:-50%; text-decoration-line: underline; text-decoration-style: wavy; text-decoration-color: red;">{viewItem:TEI2HTML($node/node())}</span>
 };
 
 declare %private function viewItem:sic($node as element(t:sic)) {
@@ -3565,7 +3566,7 @@ declare %private function viewItem:supplied($node as element(t:supplied)) {
 
 declare %private function viewItem:orig($node as element(t:orig)) {
     <span
-        class="undeciphrable">{$node/text()}</span>
+        class="undeciphrable">{viewItem:TEI2HTML($node/node())}</span>
 };
 
 declare %private function viewItem:add($node as element(t:add)) {
