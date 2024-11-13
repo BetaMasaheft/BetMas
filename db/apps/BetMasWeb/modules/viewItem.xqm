@@ -6774,6 +6774,17 @@ return
     </div> else ()
 };
 
+declare function viewItem:zotero($file) {
+    let $id := string($file/@xml:id)    
+    return
+   <div
+        class="w3-container"
+        id="zoterolink">
+        <h3>Check for additional bibliography</h3>
+        <div><a href="{concat('https://api.zotero.org/groups/358366/items?tag=',$id,'&amp;format=bib&amp;style=hiob-ludolf-centre-for-ethiopian-studies-with-url-doi&amp;linkwrap=1')}  target='_blank'">Click on this link to view bibliography mentioning this record</a></div>
+    </div> 
+};
+
 declare function viewItem:osm($item) {
 let $coor := string($item//t:location/t:geo)
 let $geo := tokenize($coor, ',')
