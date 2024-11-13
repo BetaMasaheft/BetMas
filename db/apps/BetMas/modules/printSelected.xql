@@ -11,6 +11,7 @@ import module namespace coord = "https://www.betamasaheft.uni-hamburg.de/BetMas/
 import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
 import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "xmldb:exist:///db/apps/BetMas/modules/editors.xqm";
 import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2"  at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
+import module namespace functx = "http://www.functx.com";
 
 
 declare namespace http = "http://expath.org/ns/http-client";
@@ -18,7 +19,6 @@ declare namespace fo = "http://www.w3.org/1999/XSL/Format";
 declare namespace xslfo = "http://exist-db.org/xquery/xslfo";
 declare namespace tei = "http://www.tei-c.org/ns/1.0";
 declare namespace file = "http://exist-db.org/xquery/file";
-declare namespace functx = "http://www.functx.com";
 
 declare variable $local:issue := current-date();
 
@@ -290,32 +290,6 @@ return
         </renderers>
     </fop>
 ;
-declare function functx:index-of-node($nodes as node()*, $nodeToFind as node()) as xs:integer* {
-    
-    for $seq in (1 to count($nodes))
-    return
-        $seq[$nodes[$seq] is $nodeToFind]
-};
-
-declare function functx:capitalize-first($arg as xs:string?) as xs:string? {
-    
-    concat(upper-case(substring($arg, 1, 1)),
-    substring($arg, 2))
-};
-
-declare function functx:index-of-string ( $arg as xs:string? , $substring as xs:string )  as xs:integer* {
-
-  if (contains($arg, $substring))
-  then (string-length(substring-before($arg, $substring))+1,
-        for $other in
-           functx:index-of-string(substring-after($arg, $substring),
-                               $substring)
-        return
-          $other +
-          string-length(substring-before($arg, $substring)) +
-          string-length($substring))
-  else ()
- } ;
 
 declare function fo:zoteroCit($ZoteroUniqueBMtag as xs:string) {
     let $xml-url := concat('https://api.zotero.org/groups/358366/items?&amp;tag=', $ZoteroUniqueBMtag, '&amp;include=citation&amp;style=hiob-ludolf-centre-for-ethiopian-studies')

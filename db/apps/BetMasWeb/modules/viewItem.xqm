@@ -6,12 +6,12 @@ import module namespace exptit = "https://www.betamasaheft.uni-hamburg.de/BetMas
 import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/switch2" at "xmldb:exist:///db/apps/BetMasWeb/modules/switch2.xqm";
 import module namespace item2 = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/item2" at "xmldb:exist:///db/apps/BetMasWeb/modules/item.xqm";
 import module namespace http = "http://expath.org/ns/http-client";
+
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace b = "betmas.biblio";
 declare namespace d = "betmas.domlib";
 declare namespace dts = "https://w3id.org/dts/api#";
-declare namespace functx = "http://www.functx.com";
 declare namespace number = "roman.numerals.funct";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare option output:method "html5";
