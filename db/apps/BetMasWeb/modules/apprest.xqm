@@ -9,7 +9,6 @@ xquery version "3.1" encoding "UTF-8";
 module namespace apprest="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/apprest";
 
 declare namespace t="http://www.tei-c.org/ns/1.0";
-declare namespace functx = "http://www.functx.com";
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace http = "http://expath.org/ns/http-client";
@@ -277,15 +276,17 @@ declare function apprest:deciderelation($list){
   <ul class="nodot">{
     for $id in $list
     let $t := util:log('info', $id)
+    let $link := apprest:decidelink($id/text())
                 return
                   <li>{
                 if (starts-with($id/text(), 'sdc:')) then 'La Synthaxe du Codex ' || substring-after($id/text(), 'sdc:' )
                 
                else if (starts-with($id/text(), 'urn:')) then
                    <a target="_blank"  href="/{encode-for-uri($id/text())}">{$id/text()}</a>
-                   
+     else if (contains($link, 'betamasaheft')) then
+                   <a target="_blank"  href="{apprest:decidelink($id)}">{exptit:printTitle($id/text())}</a>                   
      else
-                   <a target="_blank"  href="{apprest:decidelink($id)}">{exptit:printTitle($id/text())}</a>
+                   <a target="_blank"  href="{apprest:decidelink($id)}">{$link}</a>
                    }</li>
 }</ul>
 };
@@ -582,10 +583,10 @@ order by $score descending
 }
 <title level="a">{exptit:printTitleID($id)}</title>
 <title level="j">{$file//t:fileDesc/t:publicationStmt/t:publisher/text()}</title>
-<date type="accessed"> [Accessed: {current-date()}] </date>
+<date type="accessed"> [Accessed: {format-date(current-date(), "[Y0001]-[M01]-[D01]")}] </date>
 {let $time := max($file//t:revisionDesc/t:change/xs:date(@when))
 return
-<date type="lastModified">(Last Modified: {format-date($time, '[D].[M].[Y]')}) </date>
+<date type="lastModified">(Last Modified: {format-date($time, '[Y0001]-[M01]-[D01]')}) </date>
 }
 <idno type="url">
 {($config:appUrl||'/' || $collection||'/' ||$id)}
@@ -610,10 +611,10 @@ order by $count descending
 }
 <title level="a">{exptit:printTitleID($id)}</title>
 <title level="j">{$this//t:fileDesc/t:publicationStmt/t:publisher/text()}</title>
-<date type="accessed"> [Accessed: {current-date()}] </date>
+<date type="accessed"> [Accessed: {format-date(current-date(), "[Y0001]-[M01]-[D01]")}] </date>
 {let $time := max($file//t:revisionDesc/t:change/xs:date(@when))
 return
-<date type="lastModified">(Last Modified: {format-date($time, '[D].[M].[Y]')}) </date>
+<date type="lastModified">(Last Modified: {format-date($time, '[Y0001]-[M01]-[D01]')}) </date>
 }
 <idno type="url">
 {($config:appUrl||'/permanent/' ||$sha || '/' || $collection||'/' ||$id || '/main')}
@@ -635,13 +636,14 @@ return
             <button onclick="document.getElementById('revision').style.display='block'" class="w3-button w3-grey" style="vertical-align: top;width:300;">Revision history</button>
               <button onclick="document.getElementById('att').style.display='block'" class="w3-button w3-grey" style="vertical-align: top;width:300;">Attribution of the content</button>
 
-<div id="cite" class="w3-modal w3-card">
+<div id="cite" class="w3-modal w3-card w3-margin">
  <div class="w3-modal-content">
                     
                     <header class="w3-container w3-red">
                         <span onclick="document.getElementById('cite').style.display='none'" class="w3-button w3-display-topright">CLOSE</span>
-                        <h4>Suggested Citation of this record</h4>
-<div class="w3-container" id="citationString">
+                        <h4>Suggested citation of this record</h4>
+                    </header>
+                    <div class="w3-container" id="citationString">
 <p>{for $a in $app:bibdata//author/text()  return ($a|| ', ')} ʻ{$app:bibdata//title[@level eq 'a']/text()} {if (contains($this//t:revisionDesc/t:change, 'PEMM')) then ' (originally prepared for The Princeton Ethiopian, Eritrean, and Egyptian Miracles of Mary (PEMM) project)' else ()} {if ($this//t:additional//t:source/t:listBibl[@type eq 'catalogue']/t:bibl/t:ptr[@target eq 'bm:BmWebsite']) then ' (based on a historical catalogue and considerably enriched by the Bm team)' else if ($this//t:additional//t:source/t:listBibl[@type eq 'catalogue']) then ' (encoded from the catalogue)' else ()}ʼ, in 
 <i>{($app:bibdata//title[@level eq 'j']/text() || ' ')}</i> {$app:bibdata//date[@type eq 'lastModified']/text()}
 <a href="{$app:bibdata/idno/text()}">{$app:bibdata/idno[@type eq 'url']/text()}</a> {$app:bibdata//date[@type eq 'accessed']/text()}</p>
@@ -651,7 +653,7 @@ return
 </div>
             
             
-<div id="revision" class="w3-modal w3-card">
+<div id="revision" class="w3-modal w3-card w3-margin">
  <div class="w3-modal-content">
                     
                     <header class="w3-container w3-red">
@@ -664,11 +666,12 @@ return
                 let $author := editors:editorKey(string($change/@who))
                 let $collection :=  $change/ancestor::t:TEI//t:collection
                 let $ES := if(contains($change/text(), 'Ethio-SPaRe team photographed the manuscript')) then () else if (xs:date($time) ge xs:date('2016-05-10')) then () else if  (not(starts-with($collection/text(), 'Ethio-')))  then () else ' in Ethio-SPaRe '
+                let $PEMM := if(contains($change/text(), '(PEMM')) then ' for the PEMM project ' else ()
                 order by $time descending
                 return
                 <li>
                 {(if (contains($change/text(), 'Ethio-SPaRe team photographed the manuscript')) then () else <span property="http://purl.org/dc/elements/1.1/contributor">{$author}</span>),
-                (' ' || $change/text() || $ES || ' on ' ||  format-date($time, '[D].[M].[Y]'))}
+                (' ' || $change/text() || $ES || $PEMM), (if (contains($change/text(), '(PEMM')) then () else ' on ' ||  format-date($time, '[D].[M].[Y]'))}
                 </li>
                 }
 
@@ -677,7 +680,7 @@ return
 </div>
  
  
- <div id="att" class="w3-modal w3-card">
+ <div id="att" class="w3-modal w3-card w3-margin">
  <div class="w3-modal-content">
                     
                     <header class="w3-container w3-red">
@@ -723,21 +726,23 @@ return
 
 <div class="w3-container" id="citations" style="word-break:break-word;">
 <div class="w3-third" id="citation">
-<div class="w3-panel w3-card-4 w3-padding w3-margin  w3-gray " >
+<div class="w3-panel w3-card-4 w3-padding w3-margin  w3-gray  w3-small" >
 
 <h4>Suggested Citation of this record</h4>
 <div class="w3-container" id="citationString">
 <p>{for $a in $app:bibdata//author/text()  return ($a|| ', ')} ʻ{$app:bibdata//title[@level eq 'a']/text()} {if (contains($this//t:revisionDesc/t:change, 'PEMM')) then ' (originally prepared for The Princeton Ethiopian, Eritrean, and Egyptian Miracles of Mary (PEMM) project)' else ()} {if ($this//t:additional//t:source/t:listBibl[@type eq 'catalogue']/t:bibl/t:ptr[@target eq 'bm:BmWebsite']) then ' (based on a historical catalogue and considerably enriched by the Bm team)' else if ($this//t:additional//t:source/t:listBibl[@type eq 'catalogue']) then ' (encoded from the catalogue)' else ()}ʼ, in 
 <i>{($app:bibdata//title[@level eq 'j']/text() || ' ')}</i> {$app:bibdata//date[@type eq 'lastModified']/text()}
 <a href="{$app:bibdata/idno/text()}">{$app:bibdata/idno[@type eq 'url']/text()}</a> {$app:bibdata//date[@type eq 'accessed']/text()}</p>
-<p>To cite a precise version, please, click on load permalinks and to the desired version (<a href="/pid.html">see documentation on permalinks</a>), then import the metadata or copy the below, with the correct link.</p></div>
+<p>To cite a precise version, please, click on load permalinks and to the desired version (<a href="/pid.html">see documentation on permalinks</a>), then import the metadata or copy the below, with the correct link.</p>
+
+</div>
 </div>
 
 
 </div>
 <div class="w3-third" id="revisions">
-<div class="w3-panel w3-card-4 w3-padding w3-margin  w3-gray " >
-<h3>Revisions of the data</h3>
+<div class="w3-panel w3-card-4 w3-padding w3-margin  w3-gray w3-small" >
+<h4>Revisions of the data</h4>
                 <ul>
                 {for $change in $document//t:revisionDesc/t:change
                 let $time := $change/@when
@@ -756,8 +761,8 @@ return
     </div>
     </div>
     <div class=" w3-third" id="attributions">
-<div class="w3-panel w3-card-4 w3-padding w3-margin w3-gray " >
-<h3>Attributions of the contents</h3>
+<div class="w3-panel w3-card-4 w3-padding w3-margin w3-gray w3-small" >
+<h4>Attributions of the contents</h4>
                 <div>
                 {for $respStmt in $document//t:titleStmt/t:respStmt
                 let $action := string-join($respStmt/t:resp, ' ')
@@ -795,21 +800,23 @@ return
 
 <div class="w3-container " id="citations">
 <div class="w3-third" id="citation">
-<div class="w3-panel w3-card-4 w3-padding w3-margin  w3-gray " >
+<div class="w3-panel w3-card-4 w3-padding w3-margin  w3-gray  w3-small" >
 
 <h4>Suggested Citation of this record</h4>
 <div class="w3-container" id="citationString">
 <p>{for $a in $app:bibdata//author/text()  return ($a|| ', ')} ʻ{$app:bibdata//title[@level eq 'a']/text()} {if (contains($this//t:revisionDesc/t:change, 'PEMM')) then ' (originally prepared for The Princeton Ethiopian, Eritrean, and Egyptian Miracles of Mary (PEMM) project)' else ()} {if ($this//t:additional//t:source/t:listBibl[@type eq 'catalogue']/t:bibl/t:ptr[@target eq 'bm:BmWebsite']) then ' (based on a historical catalogue and considerably enriched by the Bm team)' else if ($this//t:additional//t:source/t:listBibl[@type eq 'catalogue']) then ' (encoded from the catalogue)' else ()}ʼ, in 
 <i>{($app:bibdata//title[@level eq 'j']/text() || ' ')}</i> {$app:bibdata//date[@type eq 'lastModified']/text()}
 <a href="{$app:bibdata/idno/text()}">{$app:bibdata/idno[@type eq 'url']/text()}</a> {$app:bibdata//date[@type eq 'accessed']/text()}</p>
-<p>To cite a precise version, please, click on load permalinks and to the desired version (<a href="/pid.html">see documentation on permalinks</a>), then import the metadata or copy the below, with the correct link.</p></div>
+<p>To cite a precise version, please, click on load permalinks and to the desired version (<a href="/pid.html">see documentation on permalinks</a>), then import the metadata or copy the below, with the correct link.</p>
+
+</div>
 </div>
 
 
 </div>
 <div class="w3-third" id="revisions">
-<div class="w3-panel w3-card-4 w3-padding w3-margin  w3-gray " >
-<h3>Revisions of the data</h3>
+<div class="w3-panel w3-card-4 w3-padding w3-margin  w3-gray w3-small" >
+<h4>Revisions of the data</h4>
                 <ul>
                 {for $change in $document//t:revisionDesc/t:change
                 let $time := $change/@when
@@ -818,7 +825,7 @@ return
                 return
                 <li>
                 {<span property="http://purl.org/dc/elements/1.1/contributor">{$author}</span>,
-                (' ' || $change/text() || ' on ' ||  format-date($time, '[D].[M].[Y]'))}
+                (' ' || viewItem:TEI2HTML(string($change)) || ' on ' ||  format-date($time, '[D].[M].[Y]'))}
                 </li>
                 }
 
@@ -826,8 +833,8 @@ return
     </div>
     </div>
     <div class=" w3-third" id="attributions">
-<div class="w3-panel w3-card-4 w3-padding w3-margin w3-gray " >
-<h3>Attributions of the contents</h3>
+<div class="w3-panel w3-card-4 w3-padding w3-margin w3-gray w3-small" >
+<h4>Attributions of the contents</h4>
 <div>
                 {for $respStmt in $document//t:titleStmt/t:respStmt
                 let $task := $respStmt/t:resp
@@ -1210,6 +1217,8 @@ case 'works' return (
 <option value="CPG">CPG</option>
 <option value="KRZ">KRZ</option>
 <option value="H">H</option>
+<option value="PEMM">PEMM</option>
+
 </select>
 <input class="w3-input w3-border" type="number" name="clavisID"/>
 </div>,
