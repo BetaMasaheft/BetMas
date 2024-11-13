@@ -3399,7 +3399,22 @@ declare %private function viewItem:handShift($node as element(t:handShift)) {
 };
 
 declare %private function viewItem:surplus($node as element(t:surplus)) {
-    ('{', viewItem:DTSpartID($node), '}')
+<span
+        class="w3-tooltip">
+   { ('{', viewItem:TEI2HTML($node/node()), '}')}
+    <span
+            class="w3-text w3-tag w3-small">{
+            if ($node/@resp) then
+            (
+            if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
+                                                concat('resp: ', exptit:printTitle($node/@resp))
+   else if (starts-with($node/@resp, 'bm:')) then
+                                                concat('resp: ', viewItem:bibliographyitem($node/@resp))
+   else
+                                                 concat('resp: ', viewItem:editorName($node/@resp)))
+          else
+                                                 ()}</span>
+    </span>
 };
 
 declare %private function viewItem:space($node as element(t:space)) {
