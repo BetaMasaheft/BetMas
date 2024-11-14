@@ -4728,7 +4728,10 @@ declare %private function viewItem:work($item) {
                             Please check the <a
                                 href="#computedWitnesses">box on the right</a> for a live updated list of manuscripts pointing to this record.</p>,
                         if ($item//t:listWit/@rend = 'edition') then
-                            <b>Manuscripts used in this edition</b>
+                            <b>Manuscripts used in the edition</b>
+                        else
+                        if ($item//t:listWit) then
+                            ()
                         else
                             (),
                         <ul>
