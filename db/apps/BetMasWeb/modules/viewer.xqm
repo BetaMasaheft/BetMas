@@ -152,6 +152,11 @@ let $firstcanvas :=
            (:BNF:)
             else if ($this//t:repository/@ref = 'INS0303BNF') 
             then replace(viewer:facsSwitch($m), 'ark:', 'iiif/ark:') || '/canvas/f1'
+
+            (:manchester  :)
+               else if(contains(viewer:facsSwitch($m), 'manchester')) 
+               then viewer:facsSwitch($m) || '/canvas/1'
+               
 (:           ES, EMIP, Laurenziana, all the others :)
                 else 
                 $config:appUrl|| '/api/iiif/' || $id || '/canvas/p1' 
