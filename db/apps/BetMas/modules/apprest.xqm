@@ -9,7 +9,6 @@ xquery version "3.1" encoding "UTF-8";
 module namespace apprest="https://www.betamasaheft.uni-hamburg.de/BetMas/apprest";
 
 declare namespace t="http://www.tei-c.org/ns/1.0";
-declare namespace functx = "http://www.functx.com";
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace http = "http://expath.org/ns/http-client";
@@ -27,6 +26,7 @@ import module namespace console = "http://exist-db.org/xquery/console";
 import module namespace exreq = "http://exquery.org/ns/request";
 import module namespace viewItem = "https://www.betamasaheft.uni-hamburg.de/BetMas/viewItem" at "xmldb:exist:///db/apps/BetMas/modules/viewItem.xqm";
 import module namespace locus = "https://www.betamasaheft.uni-hamburg.de/BetMas/locus" at "xmldb:exist:///db/apps/BetMas/modules/locus.xqm";
+import module namespace functx = "http://www.functx.com";
 
 declare variable $apprest:languages := doc('/db/apps/lists/languages.xml');
 declare variable $apprest:prefixes := doc('https://raw.githubusercontent.com/BetaMasaheft/Documentation/master/prefixDef.xml');
@@ -36,11 +36,6 @@ declare variable $apprest:collection-rootW := collection($config:data-rootW);
 declare variable $apprest:collection-rootIn := collection($config:data-rootIn);
 declare variable $apprest:collection-rootPlIn := collection($config:data-rootPl,$config:data-rootIn);
 declare variable $apprest:collection-root := $titles:collection-root;
-
-declare function functx:trim( $arg as xs:string? )  as xs:string {
-
-   replace(replace($arg,'\s+$',''),'^\s+','')
- } ;
 
  (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js MANUSCRIPTS FILTERS for CONTEXT:)
  declare
