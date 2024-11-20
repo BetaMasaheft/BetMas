@@ -1,0 +1,2354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<patterns xmlns="http://fidal.parser">
+    <!--    NO TRANSCRIPTIONS! PATTERNS!-->
+    <pos name="verb">
+        <group name="I">
+            <type name="1">
+                <pattern name="Perfect">
+                    <formula>1a2a3a</formula>
+                    <!--
+                    <formula type="w1">Wa2a3a</formula>
+                    <formula type="w2">1aWa3a</formula>
+                    <formula type="w2">1aW3a</formula>
+                    <formula type="w3">1a2aWa</formula>
+                    
+                    <formula type="y1">Ya23a</formula>
+                    <formula type="y2">1aYa3a</formula>
+                    <formula type="y3">1a2aYa</formula>
+                    
+                    <formula type="l1">La2a3a</formula>
+                    <formula type="l2">1aLa3a</formula>-->
+                    <formula type="l3">1a2La</formula>
+                    
+                    <solution>I,1 Perf. 3 m. sg.</solution>
+                </pattern>
+                <pattern name="Imperfect">
+                    <formula>yǝ1a22ǝ3</formula>
+                  <!--  <formula type="w1">yǝWa22ǝ3</formula>
+                    <formula type="w2">yǝ1aWWǝ3</formula>
+                    <formula type="w3">yǝ1a22u</formula>
+                    
+                    <formula type="y1">yǝYa22ǝ3</formula>
+                    <formula type="y2">yǝ1aYYǝ3</formula>
+                    <formula type="y3">yǝ1a22i</formula>
+                    
+                    <formula type="l1">yaLa22ǝ3</formula>
+                    <formula type="l2">yǝ1ǝLǝ3</formula>-->
+                    <formula type="l3">yǝ1a22ǝL</formula>
+                    <solution>I,1 Imperf. 3 m. sg.</solution>
+                </pattern>
+                <pattern name="Subjunctive">
+                    <formula>yǝ12ǝ3</formula>
+<!--                    <formula type="w1">yǝ2a3</formula>-->
+                    <!--                    <formula type="w1">yǝW2ǝ3</formula>
+                    <formula type="w1">yǝ2ǝ3</formula>-->
+                    <!--<formula type="w2">yǝ1Wa3</formula>
+                    <formula type="w3">yǝ12u</formula>-->
+                    
+                  <formula type="y1">yǝY2a3</formula>
+                  <!--    <formula type="y2">yǝ1Yǝ3</formula>
+                    <formula type="y3">yǝ12i</formula>
+                    
+                    <formula type="l1">yǝL2ǝ3</formula>
+                    <formula type="l2">yǝ1La3</formula>-->
+                    <formula type="l3">yǝ12āL</formula>
+                    <solution>I,1 Subj. 3 m. sg.</solution>
+                </pattern>
+                <pattern name="Imperative">
+                    <formula>1ǝ2ǝ3</formula>
+<!--                    <formula type="w1">2a3</formula>-->
+                    <!-- <formula type="w1">Wǝ2ǝ3</formula>
+                    <formula type="w1">2ǝ3</formula>-->
+                   <!-- <formula type="w2">1Wa3</formula>
+                    <formula type="w3">1ǝ2u</formula>
+                    
+                    <formula type="y2">1ǝYa3</formula>
+                    <formula type="y3">1ǝ2i</formula>
+                    <formula type="l1">Lǝ2ǝ3</formula>
+                    <formula type="l2">1aLa3</formula>-->
+                 <formula type="y1">Yǝ2a3</formula>   
+                    <formula type="l3">1ǝ2āL</formula>
+                    <solution>I,1 Impera. 2 m. sg.</solution>
+                </pattern>
+                <pattern name="Gerundive">
+                    <formula>1a2i3o</formula>
+                   <!-- <formula type="w1">Wa2i3o</formula>
+                    <formula type="w2">1aWi3o</formula>
+                    <formula type="w3">1a2iWo</formula>
+                    
+                    <formula type="y2">1aYi3o</formula>
+                    <formula type="y3">1a2iYo</formula>
+                    
+                    <formula type="l1">La2i3o</formula>
+                    <formula type="l2">1ǝLi3o</formula>-->
+                    <formula type="y1">Ya2i3o</formula>
+                    <formula type="l3">1a2iLo</formula>
+                    <solution>I,1 Gerund. 3 m. sg.</solution>
+                </pattern>
+                <pattern name="Infinitive">
+                    <formula>1a2i3</formula>
+                    <formula>1a2i3ot</formula>
+                    <!--<formula type="w1">Wa2i3</formula>
+                    <formula type="w1">Wa2i3ot</formula>
+                    <formula type="w2">1aWi3</formula>
+                    <formula type="w2">1aWi3ot</formula>
+                    <formula type="w2">1aWǝ3</formula>
+                    <formula type="w2">1aWǝ3ot</formula>
+                    <formula type="w3">1a2iW</formula>
+                    <formula type="w3">1a2iWot</formula>
+                    
+                    <formula type="y2">1aYi3</formula>
+                    <formula type="y2">1aYi3ot</formula>
+                    <formula type="y3">1a2iY</formula>
+                    <formula type="y3">1a2iYot</formula>
+                    
+                    <formula type="l1">La2i3</formula>
+                    <formula type="l1">La2i3ot</formula>
+                    <formula type="l2">1ǝLi3</formula>
+                    <formula type="l2">1ǝLi3ot</formula>-->
+                    <formula type="y1">Ya2i3</formula>
+                    <formula type="y1">Ya2i3ot</formula>
+                    <formula type="l3">1a2iL</formula>
+                    <formula type="l3">1a2iLot</formula>
+                    <solution>I,1 Infinit.</solution>
+                </pattern>
+            </type>
+            <type name="1a">
+                <pattern name="Perfect">
+                    <formula>1a2a3a</formula>
+
+                    <formula type="w1">Wa2a3a</formula>
+                    <formula type="w2">1aWa3a</formula>
+                    <formula type="w2">1aW3a</formula>
+                    <formula type="w3">1a2aWa</formula>
+
+<!--                    <formula type="y1">Ya23a</formula>-->
+                    <formula type="y2">1aYa3a</formula>
+                    <formula type="y3">1a2aYa</formula>
+
+                    <formula type="l1">La2a3a</formula>
+                    <formula type="l2">1aLa3a</formula>
+<!--                    <formula type="l3">1a2La</formula>-->
+
+                    <solution>I,1a Perf. 3 m. sg.</solution>
+                </pattern>
+                <pattern name="Imperfect">
+                    <formula>yǝ1a22ǝ3</formula>
+                    <formula type="w1">yǝWa22ǝ3</formula>
+                    <formula type="w2">yǝ1aWWǝ3</formula>
+                    <formula type="w3">yǝ1a22u</formula>
+
+                    <!--<formula type="y1">yǝYa22ǝ3</formula>
+                    <formula type="y2">yǝ1aYYǝ3</formula>-->
+                    <formula type="y3">yǝ1a22i</formula>
+
+                    <formula type="l1">yaLa22ǝ3</formula>
+                    <formula type="l2">yǝ1ǝLǝ3</formula>
+<!--                    <formula type="l3">yǝ1a22ǝL</formula>-->
+                    <solution>I,1a Imperf. 3 m. sg.</solution>
+                </pattern>
+                <pattern name="Subjunctive">
+                    <formula>yǝ12ǝ3</formula>
+                    <formula type="w1">yǝ2a3</formula>
+<!--                    <formula type="w1">yǝW2ǝ3</formula>
+                    <formula type="w1">yǝ2ǝ3</formula>-->
+                    <formula type="w2">yǝ1Wa3</formula>
+                    <formula type="w3">yǝ12u</formula>
+
+<!--                    <formula type="y1">yǝY2a3</formula>-->
+                    <formula type="y2">yǝ1Yǝ3</formula>
+                    <formula type="y3">yǝ12i</formula>
+
+                    <formula type="l1">yǝL2ǝ3</formula>
+                    <formula type="l2">yǝ1La3</formula>
+                    <formula type="l3">yǝ12āL</formula>
+                    <solution>I,1a Subj. 3 m. sg.</solution>
+                </pattern>
+                <pattern name="Imperative">
+                    <formula>1ǝ2ǝ3</formula>
+                    <formula type="w1">2a3</formula>
+                   <!-- <formula type="w1">Wǝ2ǝ3</formula>
+                    <formula type="w1">2ǝ3</formula>-->
+                    <formula type="w2">1Wa3</formula>
+                    <formula type="w3">1ǝ2u</formula>
+<!--                    <formula type="y1">Yǝ2a3</formula>-->
+                    <formula type="y2">1ǝYa3</formula>
+                    <formula type="y3">1ǝ2i</formula>
+                    <formula type="l1">Lǝ2ǝ3</formula>
+                    <formula type="l2">1aLa3</formula>
+                    <formula type="l3">1ǝ2āL</formula>
+                    <solution>I,1a Impera. 2 m. sg.</solution>
+                </pattern>
+                <pattern name="Gerundive">
+                    <formula>1a2i3o</formula>
+                    <formula type="w1">Wa2i3o</formula>
+                    <formula type="w2">1aWi3o</formula>
+                    <formula type="w3">1a2iWo</formula>
+
+<!--                    <formula type="y1">Ya2i3o</formula>-->
+                    <formula type="y2">1aYi3o</formula>
+                    <formula type="y3">1a2iYo</formula>
+
+                    <formula type="l1">La2i3o</formula>
+                    <formula type="l2">1ǝLi3o</formula>
+                    <formula type="l3">1a2iLo</formula>
+                    <solution>I,1a Gerund. 3 m. sg.</solution>
+                </pattern>
+                <pattern name="Infinitive">
+                    <formula>1a2i3</formula>
+                    <formula>1a2i3ot</formula>
+                    <formula type="w1">Wa2i3</formula>
+                    <formula type="w1">Wa2i3ot</formula>
+                    <formula type="w2">1aWi3</formula>
+                    <formula type="w2">1aWi3ot</formula>
+                    <formula type="w2">1aWǝ3</formula>
+                    <formula type="w2">1aWǝ3ot</formula>
+                    <formula type="w3">1a2iW</formula>
+                    <formula type="w3">1a2iWot</formula>
+
+                    <!--<formula type="y1">Ya2i3</formula>
+                    <formula type="y1">Ya2i3ot</formula>
+                    -->
+                    <formula type="y2">1aYi3</formula>
+                    <formula type="y2">1aYi3ot</formula>
+                    <formula type="y3">1a2iY</formula>
+                    <formula type="y3">1a2iYot</formula>
+
+                    <formula type="l1">La2i3</formula>
+                    <formula type="l1">La2i3ot</formula>
+                    <formula type="l2">1ǝLi3</formula>
+                    <formula type="l2">1ǝLi3ot</formula>
+                    <formula type="l3">1a2iL</formula>
+                    <formula type="l3">1a2iLot</formula>
+                    <solution>I,1a Infinit.</solution>
+                </pattern>
+            </type>
+            <type name="1b">
+                <pattern name="Perfect">
+                    <formula>1a23a</formula>
+                    <formula type="w1">Wa23a</formula>
+                    <formula type="w1">Wa2a3a</formula>
+                    <formula type="w2">1o3a</formula>
+                    <formula type="w2">1aW3a</formula>
+                    <formula type="w3">1a2Wa</formula>
+
+                    <formula type="y2">1e2a</formula>
+                    <formula type="y3">1a2Ya</formula>
+
+                    <formula type="l1">La23a</formula>
+                    <formula type="l2">1ǝL3a</formula>
+                    <solution>I,1b Perf. 3 m. sg.</solution>
+                </pattern>
+                <pattern name="Imperfect">
+                    <formula>yǝ1a22ǝ3</formula>
+                    <formula type="w1">yǝWa22ǝ3</formula>
+                    <formula type="w2">yǝ1aWWǝ3</formula>
+                    <formula type="w3">yǝ1a22u</formula>
+
+                    <formula type="y2">yǝ1aYYǝ3</formula>
+                    <formula type="y3">yǝ1a22i</formula>
+
+                    <formula type="l1">yaLa22ǝ3</formula>
+                    <formula type="l2">yǝ1Lǝ3</formula>
+                    <solution>I,1b Imperf. 3 m. sg.</solution>
+                </pattern>
+                <pattern name="Subjunctive">
+                    <formula>yǝ12a3</formula>
+                    <formula type="w1">yǝ2a3</formula>
+<!--                    <formula type="w1">yǝW2a3</formula>-->
+                    <formula type="w2">yǝ1u3</formula>
+                    <formula type="w2">yǝ1o3</formula>
+                    <formula type="w2">yǝ1ǝ3</formula>
+                    <formula type="w3">yǝ12aW</formula>
+                    <formula type="w3">yǝ12o</formula>
+
+                    <formula type="y2">yǝ1i3</formula>
+                    <formula type="y2">yǝ1Yǝ3</formula>
+                    <formula type="y3">yǝ12aY</formula>
+
+                    <formula type="l1">yǝL2a3</formula>
+                    <formula type="l2">yǝ1La3</formula>
+                    <solution>I,1b Subj. 3 m. sg.</solution>
+                </pattern>
+                <pattern name="Imperative">
+                    <formula>1ǝ2a3</formula>
+                    <formula type="w1">2a3</formula>
+<!--                    <formula type="w1">Wǝ2a3</formula>-->
+                    <formula type="w2">1u3</formula>
+                    <formula type="w2">1o3</formula>
+                    <formula type="w2">1ǝ3</formula>
+                    <formula type="w3">1ǝ2aW</formula>
+                    <formula type="w3">1ǝ2o</formula>
+
+                    <formula type="y2">1i3</formula>
+                    <formula type="y2">1ǝYǝ3</formula>
+                    <formula type="y3">1ǝ2aY</formula>
+
+                    <formula type="l1">Lǝ2a3</formula>
+                    <formula type="l2">1aLa3</formula>
+                    <solution>I,1b Impera. 2 m. sg.</solution>
+                </pattern>
+                <pattern name="Gerundive">
+                    <formula>1a2i3o</formula>
+                    <formula type="w1">Wa2i3o</formula>
+                    <formula type="w2">1aWi3o</formula>
+                    <formula type="w3">1a2iWo</formula>
+
+                    <formula type="y2">1aYi3o</formula>
+                    <formula type="y2">1aYǝ3o</formula>
+                    <formula type="y3">1a2iYo</formula>
+
+                    <formula type="l1">La2i3o</formula>
+                    <formula type="l2">1ǝLi3o</formula>
+                    <solution>I,1b Gerund. 3 m. sg.</solution>
+                </pattern>
+                <pattern name="Infinitive">
+                    <formula>1a2i3</formula>
+                    <formula>1a2i3ot</formula>
+                    <formula type="w1">Wa2i3</formula>
+                    <formula type="w1">Wa2i3ot</formula>
+                    <formula type="w2">1aWi3</formula>
+                    <formula type="w2">1aWi3ot</formula>
+                    <formula type="w3">1a2iW</formula>
+                    <formula type="w3">1a2iWot</formula>
+
+                    <formula type="y2">1aYi3</formula>
+                    <formula type="y2">1aYi3ot</formula>
+                    <formula type="y2">1aYǝ3</formula>
+                    <formula type="y2">1aYǝ3ot</formula>
+                    <formula type="y3">1a2iY</formula>
+                    <formula type="y3">1a2iYot</formula>
+
+                    <formula type="l1">La2i3</formula>
+                    <formula type="l1">La2i3ot</formula>
+                    <formula type="l2">1ǝLi3</formula>
+                    <formula type="l2">1ǝLi3ot</formula>
+                    <solution>I,1b Infinit.</solution>
+                </pattern>
+            </type>
+            <type name="1c">
+                <pattern name="Perfect">
+                    <formula>1a23a</formula>
+                    <formula type="w1">Wa2a3a</formula>
+                    <formula type="w2">1oLa</formula>
+                    <formula type="w3">La2aWa</formula>
+                    <formula type="y2">LaYWa</formula>
+                    <formula attested="no" type="w3">1a2aWa</formula>
+                    <formula type="y3">La2aYa</formula>
+                    <formula type="y3" attested="no">1a2aYa</formula>
+                    <formula type="y3">La2Ya</formula>
+                    <formula type="y3" attested="no">1a2Ya</formula>
+
+                    <solution>I,1c Perf. 3 m. sg.</solution>
+                </pattern>
+                <pattern name="Imperfect">
+                    <formula>yǝ1a22ǝ3</formula>
+                    <formula type="w1">yǝWa22ǝ3</formula>
+                    <formula type="w2">yǝ1aWWǝL</formula>
+                    <formula type="w3">yaLa22u</formula>
+                    <formula attested="no" type="w3">yǝ1a22u</formula>
+                    <formula type="y2">yaLaYYu</formula>
+                    <formula type="y3">yaLa22i</formula>
+                    <formula type="y3" attested="no">yǝ1a22i</formula>
+
+                    <solution>I,1c Imperf. 3 m. sg.</solution>
+                </pattern>
+                <pattern name="Subjunctive">
+                    <formula>yǝ12a3</formula>
+                    <formula type="w1">yǝW2ǝ3</formula>
+                    <formula type="w1">yǝ2a3</formula>
+                    <formula type="w1">yǝ2ǝ3</formula>
+                    <formula type="w2">yǝ1āL</formula>
+                    <formula type="w2">yǝ1uL</formula>
+                    <formula type="w3">yǝL2u</formula>
+                    <formula attested="no" type="w3">yǝ1a22u</formula>
+                    <formula type="w3">yǝL2aW</formula>
+                    <formula attested="no" type="w3">yǝ12aW</formula>
+                    <formula type="y2">yaLYaW</formula>
+                    <formula type="y2">yaLYo</formula>
+                    <formula type="y3">yǝL2aY</formula>
+                    <formula type="y3" attested="no">yǝ12aY</formula>
+
+                    <solution>I,1c Subj. 3 m. sg.</solution>
+                </pattern>
+                <pattern name="Imperative">
+                    <formula>1ǝ2a3</formula>
+                    <formula type="w1">Wǝ2ǝ3</formula>
+                    <formula type="w1">2a3</formula>
+                    <formula type="w1">2ǝ3</formula>
+                    <formula type="w2">1āL</formula>
+                    <formula type="w2">1uL</formula>
+                    <formula type="w3">Lǝ2u</formula>
+                    <formula attested="no" type="w3">1ǝ2u</formula>
+                    <formula type="w3">Lǝ2aW</formula>
+                    <formula attested="no" type="w3">1ǝ2aW</formula>
+                    <formula type="y2">LǝYaW</formula>
+                    <formula type="y2">LǝYo</formula>
+                    <formula type="y3">Lǝ2aY</formula>
+                    <formula type="y3" attested="no">1ǝ2aY</formula>
+
+                    <solution>I,1c Impera. 2 m. sg.</solution>
+                </pattern>
+                <pattern name="Gerundive">
+                    <formula>1a2i3o</formula>
+                    <formula type="w1">Wa2i3o</formula>
+                    <formula type="w2">1aWiLo</formula>
+                    <formula type="w3">La2iWo</formula>
+                    <formula attested="no" type="w3">1a2iWo</formula>
+                    <formula type="y2">LaYiWo</formula>
+                    <formula type="y2">LaYǝWo</formula>
+                    <formula type="y3">La2iYo</formula>
+                    <formula type="y3" attested="no">1a2iYo</formula>
+
+                    <solution>I,1c Gerund. 3 m. sg.</solution>
+                </pattern>
+                <pattern name="Infinitive">
+                    <formula>1a2i3</formula>
+                    <formula>1a2i3ot</formula>
+                    <formula type="w1">Wa2i3</formula>
+                    <formula type="w1">Wa2i3ot</formula>
+                    <formula type="w2">1aWiL</formula>
+                    <formula type="w2">1aWiLot</formula>
+                    <formula type="w3">La2iW</formula>
+                    <formula type="w3">La2iWot</formula>
+                    <formula attested="no" type="w3">La2iW</formula>
+                    <formula attested="no" type="w3">La2iWot</formula>
+                    <formula type="y2">LaYiW</formula>
+                    <formula type="y2">LaYiWot</formula>
+                    <formula type="y2">LaYǝW</formula>
+                    <formula type="y2">LaYǝWot</formula>
+                    <formula type="y3">La2iY</formula>
+                    <formula type="y3">La2iYot</formula>
+                    <formula type="y3" attested="no">1a2iY</formula>
+                    <formula type="y3" attested="no">1a2iYot</formula>
+
+
+                    <solution>I,1c Infinit.</solution>
+                </pattern>
+            </type>
+            <type name="1d">
+                <pattern name="Perfect">
+                    <formula>1a23a</formula>
+                    <formula type="w1">Wa2a3a</formula>
+                    <formula type="w2">1aWaYa</formula>
+                    <formula type="w2" attested="no">1aWa3a</formula>
+                    <formula type="w2">1aWYa</formula>
+                    <formula type="w2" attested="no">1aW3a</formula>
+                    <solution>I,1d Perf. 3 m. sg.</solution>
+                </pattern>
+                <pattern name="Imperfect">
+                    <formula>yǝ1a22ǝ3</formula>
+                    <formula type="w1">yǝWa22ǝ3</formula>
+                    <formula type="w2">yǝ1aWWǝY</formula>
+                    <formula type="w2" attested="no">yǝ1aWWǝ3</formula>
+                    <solution>I,1d Imperf. 3 m. sg.</solution>
+                </pattern>
+                <pattern name="Subjunctive">
+                    <formula>yǝ12a3</formula>
+                    <formula type="w1">yǝW2ǝ3</formula>
+                    <formula type="w1">yǝW2a3</formula>
+                    <formula type="w2">yǝ1āL</formula>
+                    <formula type="w2" attested="no">1aWa3a</formula>
+                    <solution>I,1d Subj. 3 m. sg.</solution>
+                </pattern>
+                <pattern name="Imperative">
+                    <formula>1ǝ2a3</formula>
+                    <formula type="w1">Wǝ2ǝ3</formula>
+                    <formula type="w1">Wǝ2a3</formula>
+                    <formula type="w2">1ǝWaY</formula>
+                    <formula type="w2" attested="no">1Wa3</formula>
+                    <solution>I,1d Impera. 2 m. sg.</solution>
+                </pattern>
+                <pattern name="Gerundive">
+                    <formula>1a2i3o</formula>
+                    <formula type="w1">Wa2i3o</formula>
+                    <formula type="w2">1aWiYo</formula>
+                    <formula type="w2" attested="no">1aWi3o</formula>
+                    <solution>I,1d Gerund. 3 m. sg.</solution>
+                </pattern>
+                <pattern name="Infinitive">
+                    <formula>1a2i3</formula>
+                    <formula>1a2i3ot</formula>
+                    <formula type="w1">Wa2i3</formula>
+                    <formula type="w1">Wa2i3ot</formula>
+                    <formula type="w2">1aWiY</formula>
+                    <formula type="w2">1aWiYot</formula>
+                    <formula type="w2" attested="no">1aWi3</formula>
+                    <formula type="w2" attested="no">1aWi3ot</formula>
+                    <solution>I,1d Infinit.</solution>
+                </pattern>
+            </type>
+            <type name="2">
+                <pattern name="Perfect">
+                    <formula>1a22a3a</formula>
+                    <formula type="w1">Wa22a3a</formula>
+                    <formula type="w2">1aWWa3a</formula>
+                    <formula type="w3">1a22aWa</formula>
+
+                    <formula type="y1">Ya22a3a</formula>
+                    <formula type="y2">1aYYa3a</formula>
+                    <formula type="y3">1a22aYa</formula>
+
+                    <formula type="l1">La22a3a</formula>
+                    <formula type="l2">1aLa3a</formula>
+                    <formula type="l3">1a22ǝLa</formula>
+                    <solution>I,2 Perf. 3 p. m. sg.</solution>
+                </pattern>
+                <pattern name="Imperfect">
+                    <formula>yǝ1e22ǝ3</formula>
+                    <formula type="w1">yǝWe22ǝ3</formula>
+                    <formula type="w2">yǝ1eWWǝ3</formula>
+                    <formula type="w3">yǝ1e22u</formula>
+
+                    <formula type="y1">yǝYe22ǝ3</formula>
+                    <formula type="y2">yǝ1eYYǝ3</formula>
+                    <formula type="y3">yǝ1e22i</formula>
+
+                    <formula type="l1">yǝLe22ǝ3</formula>
+                    <formula type="l2">yǝ1eLǝ3</formula>
+                    <formula type="l3">yǝ1e22ǝL</formula>
+                    <solution>I,2 Imperf. 3 p. m. sg.</solution>
+                </pattern>
+                <pattern name="Subjunctive">
+                    <formula>yǝ1a22ǝ3</formula>
+                    <formula type="w1">yǝWa22ǝ3</formula>
+                    <formula type="w2">yǝ1aWWǝ3</formula>
+                    <formula type="w3">yǝ1a22u</formula>
+
+                    <formula type="y1">yǝYa22ǝ3</formula>
+                    <formula type="y2">yǝ1aYYǝ3</formula>
+                    <formula type="y3">yǝ1a22i</formula>
+
+                    <formula type="l1">yaLa22ǝ3</formula>
+                    <formula type="l2">yǝ1ǝLǝ3</formula>
+                    <formula type="l2">yǝ1aLǝ3</formula>
+                    <formula type="l3">yǝ1a22ǝL</formula>
+                    <solution>I,2 Subj. 3 m. sg.</solution>
+                </pattern>
+                <pattern name="Imperative">
+                    <formula>1a22ǝ3</formula>
+                    <formula type="w1">Wa22ǝ3</formula>
+                    <formula type="w2">1aWWǝ3</formula>
+                    <formula type="w3">1a22u</formula>
+
+                    <formula type="y1">Ya22ǝ3</formula>
+                    <formula type="y2">1aYYǝ3</formula>
+                    <formula type="y3">1a22i</formula>
+
+                    <formula type="l1">La22ǝ3</formula>
+                    <formula type="l2">1ǝLa3</formula>
+                    <formula type="l2">1aLǝ3</formula>
+                    <formula type="l3">1a22ǝL</formula>
+                    <solution>I,2 Impera. 2 m. sg.</solution>
+                </pattern>
+                <pattern name="Gerundive">
+                    <formula>1a22i3o</formula>
+                    <formula type="w1">Wa22i3o</formula>
+                    <formula type="w2">1aWWi3o</formula>
+                    <formula type="w3">1a22iWo</formula>
+
+                    <formula type="y1">Ya22i3o</formula>
+                    <formula type="y2">1aYYi3o</formula>
+                    <formula type="y3">1a22iYo</formula>
+
+                    <formula type="l1">La22i3o</formula>
+                    <formula type="l2">1aLi3o</formula>
+                    <formula type="l3">1a22iLo</formula>
+                    <solution>I,2 Gerund. 3 m. sg.</solution>
+                </pattern>
+                <pattern name="Infinitive">
+                    <formula>1a22ǝ3o</formula>
+                    <formula>1a22ǝ3ot</formula>
+                    <formula type="w1">Wa22ǝ3o</formula>
+                    <formula type="w1">Wa22ǝ3ot</formula>
+                    <formula type="w2">1aWWǝ3o</formula>
+                    <formula type="w2">1aWWǝ3ot</formula>
+                    <formula type="w3">1a22ǝWo</formula>
+                    <formula type="w3">1a22ǝWot</formula>
+
+                    <formula type="y1">Ya22ǝ3o</formula>
+                    <formula type="y1">Ya22ǝ3ot</formula>
+                    <formula type="y2">1aYYǝ3o</formula>
+                    <formula type="y2">1aYYǝ3ot</formula>
+                    <formula type="y3">1a22ǝY</formula>
+                    <formula type="y3">1a22ǝYot</formula>
+
+                    <formula type="l1">La22ǝ3o</formula>
+                    <formula type="l1">La22ǝ3ot</formula>
+                    <formula type="l2">1aLǝ3o</formula>
+                    <formula type="l2">1aLǝ3ot</formula>
+                    <formula type="l3">1a22ǝLo</formula>
+                    <formula type="l3">1a22ǝLot</formula>
+                    <solution>I,2 Infinit.</solution>
+                </pattern>
+            </type>
+            <type name="3">
+                <pattern name="Perfect">
+                    <formula>1ā2a3a</formula>
+                    <formula type="w1" attested="no">Wā2a3a</formula>
+                    <formula type="w2">1āWa3a</formula>
+                    <formula type="w3">1ā2aWa</formula>
+
+                    <formula type="y1" attested="no">Yā2a3a</formula>
+                    <formula type="y2">1āYa3a</formula>
+                    <formula type="y3">1ā2aYa</formula>
+
+                    <formula type="l1" attested="no">Lā2a3a</formula>
+                    <formula type="l2" attested="no">1āLa3a</formula>
+                    <formula type="l3">1ā2ǝLa</formula>
+                    <solution>I,3 Perf. 3 m. sg.</solution>
+                </pattern>
+                <pattern name="Imperfect">
+                    <formula>yǝ1ā22ǝ3</formula>
+                    <formula type="w1" attested="no">yǝWā22ǝ3</formula>
+                    <formula type="w2">yǝ1āWWǝ3</formula>
+                    <formula type="w3">yǝ1ā22u</formula>
+
+                    <formula type="y1" attested="no">yǝYā22ǝ3</formula>
+                    <formula type="y2">yǝ1āYYǝ3</formula>
+                    <formula type="y3">yǝ1ā22i</formula>
+
+                    <formula type="l1" attested="no">yaLā22ǝ3</formula>
+                    <formula type="l2" attested="no">yǝ1āLǝ3</formula>
+                    <formula type="l3">yǝ1ā22ǝL</formula>
+                    <solution>I,3 Imperf. 3 p. m. sg.</solution>
+                </pattern>
+                <pattern name="Subjunctive">
+                    <formula>yǝ1ā2ǝ3</formula>
+                    <formula type="w1" attested="no">yǝWā2ǝ3</formula>
+                    <formula type="w2">yǝ1āWǝ3</formula>
+                    <formula type="w3">yǝ1ā2u</formula>
+
+                    <formula type="y1" attested="no">yǝYā2ǝ3</formula>
+                    <formula type="y2">yǝ1āYǝ3</formula>
+                    <formula type="y3">yǝ1ā2i</formula>
+
+                    <formula type="l1" attested="no">yaLā2ǝ3</formula>
+                    <formula type="l2" attested="no">yǝ1āLǝ3</formula>
+                    <formula type="l3">yǝ1ā2ǝL</formula>
+                    <solution>I,3 Subj. 3 m. sg.</solution>
+                </pattern>
+                <pattern name="Imperative">
+                    <formula>1ā2ǝ3</formula>
+                    <formula type="w1" attested="no">Wā2ǝ3</formula>
+                    <formula type="w2">1āWǝ3</formula>
+                    <formula type="w3">1ā2u</formula>
+
+                    <formula type="y1" attested="no">Yā2ǝ3</formula>
+                    <formula type="y2">1āYǝ3</formula>
+                    <formula type="y3">1ā2i</formula>
+
+                    <formula type="l1" attested="no">Lā2ǝ3</formula>
+                    <formula type="l2" attested="no">1āLǝ3</formula>
+                    <formula type="l3">1ā2ǝL</formula>
+                    <solution>I,3 Impera. 2 m. sg.</solution>
+                </pattern>
+                <pattern name="Gerundive">
+                    <formula>1ā2i3o</formula>
+                    <formula type="w1" attested="no">Wā2i3o</formula>
+                    <formula type="w2">1āWi3o</formula>
+                    <formula type="w3">1ā2iWo</formula>
+
+                    <formula type="y1" attested="no">Yā2i3o</formula>
+                    <formula type="y2">1āYi3</formula>
+                    <formula type="y3">1ā2iYo</formula>
+
+                    <formula type="l1" attested="no">Lā2i3o</formula>
+                    <formula type="l2">1āLi3o</formula>
+                    <formula type="l3">1ā2iLo</formula>
+                    <solution>I,3 Gerund. 3 m. sg.</solution>
+                </pattern>
+                <pattern name="Infinitive">
+                    <formula>1ā2ǝ3o</formula>
+                    <formula>1ā2ǝ3ot</formula>
+                    <formula type="w1" attested="no">Wā2ǝ3o</formula>
+                    <formula type="w1" attested="no">Wā2ǝ3ot</formula>
+                    <formula type="w2">1āWǝ3o</formula>
+                    <formula type="w2">1āWǝ3ot</formula>
+                    <formula type="w3">1ā2ǝWo</formula>
+                    <formula type="w3">1ā2ǝWot</formula>
+
+
+                    <formula type="y1" attested="no">Yā2ǝ3o</formula>
+                    <formula type="y1" attested="no">Yā2ǝ3ot</formula>
+                    <formula type="y2">1āYǝ3</formula>
+                    <formula type="y2">1āYǝ3ot</formula>
+                    <formula type="y3">1ā2ǝY</formula>
+                    <formula type="y3">1ā2ǝYot</formula>
+
+                    <formula type="l1" attested="no">Lā2ǝ3o</formula>
+                    <formula type="l1" attested="no">Lā2ǝ3ot</formula>
+                    <formula type="l2">1āLǝ3o</formula>
+                    <formula type="l2">1āLǝ3ot</formula>
+                    <formula type="l3">1ā2ǝLo</formula>
+                    <formula type="l3">1ā2ǝLot</formula>
+                    <solution>I,3 Infinit.</solution>
+                </pattern>
+            </type>
+        </group>
+        <group name="II">
+            <type name="1">
+                <pattern name="Perfect">
+                    <formula>ʾa12a3a</formula>
+                   <formula type="w1">ʾaW2a3a</formula>
+                   <formula type="w3">ʾa12aWa</formula>
+                    <formula type="y1">ʾaY2a3a</formula>
+                    <formula type="y3">ʾa12aYa</formula>
+                    <!--  <formula type="w2">ʾa1o3a</formula>
+                    <formula type="w2">ʾa1a3a</formula>
+                    <formula type="y2">ʾa1e3a</formula>
+                    <formula type="y2">ʾa1Ya3a</formula>-->
+                    
+                    <formula type="l1">ʾaL2a3a</formula>
+                    <formula type="l2">ʾa1La3a</formula>
+                    <formula type="l3">ʾa12ǝLa</formula>
+                    <solution>II,1 Perf. 3 m. sg.</solution>
+                </pattern>
+                
+                <pattern name="Imperfect">
+                    <formula>yā1a22ǝ3</formula>
+                    <formula type="w1">yāWa22ǝ3</formula>
+                    <formula type="w3">yā1a22u</formula>
+                    <formula type="y1">yāYa22ǝ3</formula>
+                    <!--<formula type="w2">yā1aWWǝ3</formula>
+                    <formula type="y2">yā1aYYǝ3</formula>
+                    <formula type="y2">yā1a22ǝm</formula>-->
+                    <!-- ? error in table ?-->
+                    <formula type="y3">yā1a22i</formula>
+                    
+                    <formula type="l1">yāLa22ǝ3</formula>
+                    <formula type="l2">yā1ǝLǝ3</formula>
+                    <formula type="l3">yā1a22ǝL</formula>
+                    <solution>II,1 Imperf. 3 m. sg. </solution>
+                </pattern>
+                <pattern name="Subjunctive">
+                    <formula>yā12ǝ3</formula>
+                    <formula type="w1">yāW2ǝ3</formula>
+                    <formula type="w3">yā12u</formula>
+                    <formula type="y1">yāY2ǝ3</formula>
+                    <!--<formula type="w2">yā1u3</formula>
+                    <formula type="w2">yā1ǝ3</formula>
+                    <formula type="w2">yā1o3</formula>
+                    <formula type="y2">yā1i3</formula>
+                    <formula type="y2">yā1ǝ3</formula>-->
+                    <formula type="y3">yā12i</formula>
+                    
+                    <formula type="l1">yāL2ǝ3</formula>
+                   <formula type="l2">yā1Lǝ3</formula>
+                     <formula type="l3">yā12ǝL</formula>
+                    <solution> II,1 Subj. 3 m. sg.</solution>
+                </pattern>
+                
+                <pattern name="Imperative">
+                    <formula>ʾa12ǝ3</formula>
+                    <formula type="w1">ʾaW2ǝ3</formula>
+                    <formula type="w3">ʾa12u</formula>
+                    <formula type="y1">ʾaY2ǝ3</formula>
+                    <!--<formula type="w2">ʾa1u3</formula>
+                    <formula type="w2">ʾa1ǝ3</formula>
+                    <formula type="w2">ʾa1o3</formula>
+                    <formula type="y2">ʾa1i3</formula>
+                    <formula type="y2">ʾa1ǝ3</formula>-->
+                    <formula type="y3">ʾa12i</formula>
+                    
+                    <formula type="l1">ʾaL2ǝ3</formula>
+                    <formula type="l2">ʾa1Lǝ3</formula>
+                    <formula type="l3">ʾa12ǝL</formula>
+                    <solution>II,1 Impera. 2 m. sg.</solution>
+                </pattern>
+                
+                <pattern name="Gerundive">
+                    <formula>ʾa12i3o</formula>
+                    <formula type="w1">ʾaW2i3o</formula>
+                    <formula type="w3">ʾa12iWo</formula>
+                    <formula type="y1">ʾaY2i3o</formula>
+                    <!--  <formula type="w2">ʾa1aWi3o</formula>
+                    <formula type="y2">ʾa1Yi3o</formula> -->
+                    <formula type="y3">ʾa12iYo</formula>
+                   
+                    <formula type="l1">ʾaL2i3o</formula>
+                    <formula type="l2">ʾa1Li3o</formula>
+                    <formula type="l3">ʾa12iLo</formula>
+                    <solution>II,1 Gerund. 3 m. sg.</solution>
+                </pattern>
+                
+                <pattern name="Infinitive">
+                    <formula>ʾa12ǝ3o</formula>
+                    <formula>ʾa12ǝ3ot</formula>
+                 <formula type="w1">ʾaW2ǝ3o</formula>
+                    <formula type="w1">ʾaW2ǝ3ot</formula>
+                    <formula type="w3">ʾa12ǝWo</formula>
+                    <formula type="w3">ʾa12ǝWot</formula>
+                    <formula type="y1">ʾaY2ǝ3o</formula>
+                    <formula type="y1">ʾaY2ǝ3ot</formula>
+                    <!--   <formula type="w2">ʾa1aWǝ3o</formula>
+                    <formula type="w2">ʾa1aWǝ3ot</formula>
+                    <formula type="y2">ʾa1Yǝ3</formula>
+                    <formula type="y2">ʾa1Yǝ3ot</formula>-->
+                    <formula type="y3">ʾa12ǝYo</formula>
+                    <formula type="y3">ʾa12ǝYot</formula>
+                    
+                    <formula type="l1">ʾaL2ǝ3o</formula>
+                    <formula type="l1">ʾaL2ǝ3ot</formula>
+                    
+                   <formula type="l2">ʾa1Lǝ3o</formula>
+                    <formula type="l2">ʾa1Lǝ3ot</formula>
+                     <formula type="l3">ʾa12ǝLo</formula>
+                    <formula type="l3">ʾa12ǝLot</formula>
+                    <solution>II,1 Infinit. </solution>
+                </pattern>
+            </type>
+            <type name="1a">
+                <pattern name="Perfect">
+<!--                    <formula>ʾa12a3a</formula>-->
+<!--                    <formula type="w1">ʾaW2a3a</formula>-->
+                    <formula type="w2">ʾa1o3a</formula>
+                    <formula type="w2">ʾa1a3a</formula>
+<!--                    <formula type="w3">ʾa12aWa</formula>-->
+
+<!--                    <formula type="y1">ʾaY2a3a</formula>-->
+                    <formula type="y2">ʾa1e3a</formula>
+                    <formula type="y2">ʾa1Ya3a</formula>
+<!--                    <formula type="y3">ʾa12aYa</formula>-->
+
+<!--                    <formula type="l1">ʾaL2a3a</formula>-->
+<!--                    <formula type="l2">ʾa1La3a</formula>-->
+<!--                    <formula type="l3">ʾa12ǝLa</formula>-->
+                    <solution>II,1a Perf. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Imperfect">
+<!--                    <formula>yā1a22ǝ3</formula>-->
+<!--                    <formula type="w1">yāWa22ǝ3</formula>-->
+                    <formula type="w2">yā1aWWǝ3</formula>
+<!--                    <formula type="w3">yā1a22u</formula>-->
+
+<!--                    <formula type="y1">yāYa22ǝ3</formula>-->
+                    <formula type="y2">yā1aYYǝ3</formula>
+                    <formula type="y2">yā1a22ǝm</formula>
+                    <!-- ? error in table ?-->
+<!--                    <formula type="y3">yā1a22i</formula>-->
+
+<!--                    <formula type="l1">yāLa22ǝ3</formula>-->
+<!--                    <formula type="l2">yā1ǝLǝ3</formula>-->
+<!--                    <formula type="l3">yā1a22ǝL</formula>-->
+                    <solution>II,1a Imperf. 3 m. sg. </solution>
+                </pattern>
+                <pattern name="Subjunctive">
+<!--                    <formula>yā12ǝ3</formula>-->
+<!--                    <formula type="w1">yāW2ǝ3</formula>-->
+                    <formula type="w2">yā1u3</formula>
+                    <formula type="w2">yā1ǝ3</formula>
+                    <formula type="w2">yā1o3</formula>
+
+<!--                    <formula type="w3">yā12u</formula>-->
+
+<!--                    <formula type="y1">yāY2ǝ3</formula>-->
+                    <formula type="y2">yā1i3</formula>
+                    <formula type="y2">yā1ǝ3</formula>
+<!--                    <formula type="y3">yā12i</formula>-->
+
+<!--                    <formula type="l1">yāL2ǝ3</formula>-->
+<!--                    <formula type="l2">yā1Lǝ3</formula>-->
+<!--                    <formula type="l3">yā12ǝL</formula>-->
+                    <solution> II,1a Subj. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Imperative">
+<!--                    <formula>ʾa12ǝ3</formula>-->
+<!--                    <formula type="w1">ʾaW2ǝ3</formula>-->
+                    <formula type="w2">ʾa1u3</formula>
+                    <formula type="w2">ʾa1ǝ3</formula>
+                    <formula type="w2">ʾa1o3</formula>
+
+<!--                    <formula type="w3">ʾa12u</formula>-->
+
+<!--                    <formula type="y1">ʾaY2ǝ3</formula>-->
+                    <formula type="y2">ʾa1i3</formula>
+                    <formula type="y2">ʾa1ǝ3</formula>
+<!--                    <formula type="y3">ʾa12i</formula>-->
+
+<!--                    <formula type="l1">ʾaL2ǝ3</formula>-->
+<!--                    <formula type="l2">ʾa1Lǝ3</formula>-->
+<!--                    <formula type="l3">ʾa12ǝL</formula>-->
+                    <solution>II,1a Impera. 2 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Gerundive">
+<!--                    <formula>ʾa12i3o</formula>-->
+<!--                    <formula type="w1">ʾaW2i3o</formula>-->
+                    <formula type="w2">ʾa1aWi3o</formula>
+<!--                    <formula type="w3">ʾa12iWo</formula>-->
+
+<!--                    <formula type="y1">ʾaY2i3o</formula>-->
+                    <formula type="y2">ʾa1Yi3o</formula>
+<!--                    <formula type="y3">ʾa12iYo</formula>-->
+
+<!--                    <formula type="l1">ʾaL2i3o</formula>-->
+<!--                    <formula type="l2">ʾa1Li3o</formula>-->
+<!--                    <formula type="l3">ʾa12iLo</formula>-->
+                    <solution>II,1a Gerund. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Infinitive">
+                   <!-- <formula>ʾa12ǝ3o</formula>
+                    <formula>ʾa12ǝ3ot</formula>-->
+                    <!--<formula type="w1">ʾaW2ǝ3o</formula>
+                    <formula type="w1">ʾaW2ǝ3ot</formula>
+                    -->
+                    <formula type="w2">ʾa1aWǝ3o</formula>
+                    <formula type="w2">ʾa1aWǝ3ot</formula>
+                 <!--   <formula type="w3">ʾa12ǝWo</formula>
+                    <formula type="w3">ʾa12ǝWot</formula>-->
+
+                    <!--<formula type="y1">ʾaY2ǝ3o</formula>
+                    <formula type="y1">ʾaY2ǝ3ot</formula>-->
+                    <formula type="y2">ʾa1Yǝ3</formula>
+                    <formula type="y2">ʾa1Yǝ3ot</formula>
+                    <!--<formula type="y3">ʾa12ǝYo</formula>
+                    <formula type="y3">ʾa12ǝYot</formula>-->
+<!--
+                    <formula type="l1">ʾaL2ǝ3o</formula>
+                    <formula type="l1">ʾaL2ǝ3ot</formula>-->
+<!--
+                    <formula type="l2">ʾa1Lǝ3o</formula>
+                    <formula type="l2">ʾa1Lǝ3ot</formula>-->
+                    <!--<formula type="l3">ʾa12ǝLo</formula>
+                    <formula type="l3">ʾa12ǝLot</formula>-->
+                    <solution>II,1a Infinit. </solution>
+                </pattern>
+            </type>
+            <type name="1b">
+                <pattern name="Perfect">
+                    <formula>ʾa12a3a</formula>
+                    <formula type="w2">ʾa1a3a</formula>
+                    <formula type="w2">ʾa1ǝWa3a</formula>
+                    <formula type="y2">ʾaLYaWa</formula>
+                    <solution>II,1 Perf. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Imperfect">
+                    <formula>yā1a22ǝ3</formula>
+                    <formula type="w2">yā1aWWǝ3</formula>
+                    <formula type="y2">yāLaYYǝW</formula>
+                    <solution>II,1 Imperf. 3 m. sg. </solution>
+                </pattern>
+                <pattern name="Subjunctive">
+                    <formula>yā12ǝ3</formula>
+                    <formula type="w2">yā1ǝ3</formula>
+                    <formula type="w2">yā1Wǝ3</formula>
+                    <formula type="y2">yāLaYǝW</formula>
+                    <solution>II,1 Subj. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Imperative">
+                    <formula>ʾa12ǝ3</formula>
+                    <formula type="w2">ʾa1ǝ3</formula>
+                    <formula type="w2">ʾa1Wǝ3</formula>
+                    <formula type="y2">ʾaLaYǝW</formula>
+                    <solution>II,1 Impera. 2 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Gerundive">
+                    <formula>ʾa12i3o</formula>
+                    <formula type="w2">ʾa1Wi3o</formula>
+                    <formula type="y2">ʾaLYiWo</formula>
+                    <solution>II,1 Gerund. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Infinitive">
+                    <formula>ʾa12ǝ3o</formula>
+                    <formula>ʾa12ǝ3ot</formula>
+                    <formula type="y2">ʾaLYǝW</formula>
+                    <formula type="y2">ʾaLYǝWot</formula>
+                    <formula type="w2">ʾa1Wǝ3o</formula>
+                    <formula type="w2">ʾa1Wǝ3ot</formula>
+
+                    <solution>II,1 Infinit. </solution>
+                </pattern>
+            </type>
+            <type name="2">
+                <pattern name="Perfect">
+                    <formula>ʾa1a22a3a</formula>
+                    <formula type="w1">ʾaWa22a3a</formula>
+                    <formula type="w2">ʾa1aWWa3a</formula>
+                    <formula type="w3">ʾa1a22aWa</formula>
+
+                    <formula type="y1" attested="no">ʾaYa22a3a</formula>
+                    <formula type="y2">ʾa1aYYa3a</formula>
+                    <formula type="y3">ʾa1a22aYa</formula>
+
+                    <formula type="l2">ʾa1aLa3a</formula>
+                    <formula type="l2">yā1eLǝ3</formula>
+                    <formula type="l3">ʾa1a22ǝLa</formula>
+                    <solution> II,2 Perf. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Imperfect">
+                    <formula>yā1e22ǝ3</formula>
+                    <formula type="w1">yāWe22ǝ3</formula>
+                    <formula type="w2">yā1eWWǝ3</formula>
+                    <formula type="w3">yā1e22u</formula>
+
+                    <formula type="y1" attested="no">yāYe22ǝ3</formula>
+                    <formula type="y2">yā1eYYǝ3</formula>
+                    <formula type="y3">yā1e22i</formula>
+
+                    <formula type="l2">yā1eLǝ3</formula>
+                    <formula type="l3">yā1e22ǝL</formula>
+                    <solution>II,2 Imperf. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Subjunctive">
+                    <formula>yā1a22ǝ3</formula>
+                    <formula type="w1">yāWa22ǝ3</formula>
+                    <formula type="w2">yā1aWWǝ3</formula>
+                    <formula type="w3">yā1a22u</formula>
+
+                    <formula type="y1">yāYa22ǝ3</formula>
+                    <formula type="y2">yā1aYYǝ3</formula>
+                    <formula type="y3">yā1a22i</formula>
+
+                    <formula type="l2">yā1ǝLǝ3</formula>
+                    <formula type="l3">yā1a22ǝL</formula>
+                    <solution>II,2 Subj. 3 m. sg. </solution>
+                </pattern>
+
+                <pattern name="Imperative">
+                    <formula>ʾa1a22ǝ3</formula>
+                    <formula type="w1">ʾaWa22a3</formula>
+                    <formula type="w2">ʾa1aWWǝ3</formula>
+                    <formula type="w3">ʾa1a22u</formula>
+
+                    <formula type="y1" attested="no">ʾaYa22a3</formula>
+                    <formula type="y2">ʾa1aYYǝ3</formula>
+                    <formula type="y3">ʾa1a22i</formula>
+
+                    <formula type="l2">ʾa1ǝLǝ3</formula>
+                    <formula type="l3">ʾa1a22ǝL</formula>
+                    <solution>II,2 Impera. 2 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Gerundive">
+                    <formula>ʾa1a22i3o</formula>
+                    <formula type="w1">ʾaWa22i3o</formula>
+                    <formula type="w2">ʾa1aWWi3o</formula>
+                    <formula type="w3">ʾa1a22iWo</formula>
+
+                    <formula type="y1" attested="no">ʾaYa22i3o</formula>
+                    <formula type="y2">ʾa1aYYi3</formula>
+                    <formula type="y3">ʾa1a22iYo</formula>
+
+                    <formula type="l2">ʾa1aLi3o</formula>
+                    <formula type="l3">ʾa1a22iLo</formula>
+                    <solution>II,2 Gerund. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Infinitive">
+                    <formula>ʾa1a22ǝ3o</formula>
+                    <formula>ʾa1a22ǝ3ot</formula>
+
+                    <formula type="w1">ʾaWa22ǝ3o</formula>
+                    <formula type="w1">ʾaWa22ǝ3ot</formula>
+                    <formula type="w2">ʾa1aWWǝ3o</formula>
+                    <formula type="w2">ʾa1aWWǝ3ot</formula>
+                    <formula type="w3">ʾa1a22ǝWo</formula>
+                    <formula type="w3">ʾa1a22ǝWot</formula>
+
+
+                    <formula type="y1" attested="no">ʾaYa22ǝ3o</formula>
+                    <formula type="y1" attested="no">ʾaYa22ǝ3ot</formula>
+                    <formula type="y2">ʾa1aYYǝ3</formula>
+                    <formula type="y3">ʾa1a22ǝY</formula>
+                    <formula type="y3">ʾa1a22ǝYot</formula>
+
+                    <formula type="l2">ʾa1aLǝ3o</formula>
+                    <formula type="l2">ʾa1aLǝ3ot</formula>
+                    <formula type="l3">ʾa1a22ǝLo</formula>
+                    <formula type="l3">ʾa1a22ǝLot</formula>
+                    <solution>II,2 Infinit.</solution>
+                </pattern>
+            </type>
+            <type name="2a">
+                <pattern name="Perfect">
+                    <formula type="l1">ʾaLa22a3a</formula>
+                    <solution>II,2a Perf. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Imperfect">
+                    <formula type="l1">yāLe22ǝ3</formula>
+                    <solution>II,2a Imperf. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Subjunctive">
+                    <formula type="l1">yāLa22ǝ3</formula>
+                    <solution>II,2a Subj. 3 m. sg. </solution>
+                </pattern>
+                <pattern name="Imperative">
+                    <formula type="l1">ʾaLa22ǝ3</formula>
+                    <solution>II,2a Impera. 2 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Gerundive">
+                    <formula type="l1">ʾaLa22i3o</formula>
+                    <solution>II,2a Gerund. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Infinitive">
+                    <formula type="l1">ʾaLa22ǝ3o</formula>
+                    <formula type="l1">ʾaLa22ǝ3ot</formula>
+
+                    <solution>II,2a Infinit.</solution>
+                </pattern>
+            </type>
+            <type name="2b">
+                <pattern name="Perfect">
+                    <formula type="l1">ʾaLǝ22a3a</formula>
+                    <formula type="l1">ʾaLa22a3a</formula>
+                    <solution>II,2b Perf. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Imperfect">
+                    <formula type="l1">yāLe22ǝ3</formula>
+                    <solution>II,2b Imperf. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Subjunctive">
+                    <formula type="l1">yāLa22ǝ3</formula>
+                    <solution>II,2b Subj. 3 m. sg. </solution>
+                </pattern>
+
+                <pattern name="Imperative">
+                    <formula type="l1">ʾaLa22ǝ3</formula>
+                    <solution>II,2b Impera. 2 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Gerundive">
+                    <formula type="l1">ʾaLa22i3o</formula>
+                    <solution>II,2b Gerund. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Infinitive">
+                    <formula type="l1">ʾaLa22ǝ3o</formula>
+                    <formula type="l1">ʾaLa22ǝ3ot</formula>
+
+                    <solution>II,2b Infinit.</solution>
+                </pattern>
+            </type>
+            <type name="3">
+                <pattern name="Perfect">
+                    <formula>ʾa1ā2a3a</formula>
+                    <formula type="w1" attested="no">ʾaWā2a3a</formula>
+                    <formula type="w2" attested="no">ʾa1āWa3a</formula>
+                    <formula type="w3">ʾa1ā2aWa</formula>
+
+                    <formula type="y1" attested="no">ʾaYā22a3a</formula>
+                    <formula type="y2" attested="no">ʾa1āYa3a</formula>
+                    <formula type="y3">ʾa1ā2aYa</formula>
+
+                    <formula type="l1" attested="no">ʾaLā2a3a</formula>
+                    <formula type="l2">ʾa1ā2a3a</formula>
+                    <formula type="l3" attested="no">ʾa1ā2ǝLa</formula>
+                    <solution>II,3 Perf. 3 m. sg. </solution>
+                </pattern>
+                <pattern name="Imperfect">
+                    <formula>yā1ā22ǝ3</formula>
+                    <formula type="w1" attested="no">yāWā22ǝ3</formula>
+                    <formula type="w2" attested="no">yā1āWWǝ3</formula>
+                    <formula type="w3">yā1ā22u</formula>
+
+                    <formula type="y1" attested="no">yāYā22ǝ3</formula>
+                    <formula type="y2" attested="no">yā1āYYǝ3</formula>
+                    <formula type="y3">yā1ā22i</formula>
+
+                    <formula type="l1" attested="no">yāLā22ǝ3</formula>
+                    <formula type="l2">yā1āLǝ3</formula>
+                    <formula type="l3" attested="no">yā1ā22ǝL</formula>
+                    <solution>II,3 Imperf. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Subjunctive">
+                    <formula>yā1ā2ǝ3</formula>
+                    <formula type="w1" attested="no">yāWā2ǝ3</formula>
+                    <formula type="w2" attested="no">yā1āWǝ3</formula>
+                    <formula type="w3">yā1ā2u</formula>
+
+                    <formula type="y1" attested="no">yāYā22ǝ3</formula>
+                    <formula type="y2" attested="no">yā1āYǝ3</formula>
+                    <formula type="y3">yā1ā2i</formula>
+
+                    <formula type="l1" attested="no">yāLā2ǝ3</formula>
+                    <formula type="l2">yā1āLǝ3</formula>
+                    <formula type="l3" attested="no">yā1ā2ǝL</formula>
+                    <solution>II,3 Subj. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Imperative">
+                    <formula>ʾa1ā2ǝ3</formula>
+                    <formula type="w1" attested="no">ʾaWā2ǝ3</formula>
+                    <formula type="w2" attested="no">ʾa1āWǝ3</formula>
+                    <formula type="w3">ʾa1ā2u</formula>
+
+                    <formula type="y1" attested="no">ʾaYā2ǝ3</formula>
+                    <formula type="y2" attested="no">ʾa1āYǝ3</formula>
+                    <formula type="y3">ʾa1ā2i</formula>
+
+                    <formula type="l1" attested="no">ʾaLā2ǝ3</formula>
+                    <formula type="l2">ʾa1āLǝ3</formula>
+                    <formula type="l3" attested="no">ʾa1ā2ǝL</formula>
+                    <solution>II,3 Impera. 2 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Gerundive">
+                    <formula>ʾa1ā2i3o</formula>
+                    <formula type="w1" attested="no">ʾaWā2i3o</formula>
+                    <formula type="w2" attested="no">ʾa1āWi3o</formula>
+                    <formula type="w3">ʾa1ā2iWo</formula>
+
+                    <formula type="y1" attested="no">ʾaYā2i3o</formula>
+                    <formula type="y2" attested="no">ʾa1āYi3o</formula>
+                    <formula type="y3">ʾa1ā2iYo</formula>
+
+                    <formula type="l1" attested="no">ʾaLā2i3o</formula>
+                    <formula type="l2">ʾa1āLi3o</formula>
+                    <formula type="l3">ʾa1ā2iLo</formula>
+                    <solution>II,3 Gerund. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Infinitive">
+                    <formula>ʾa1ā2ǝ3o</formula>
+                    <formula>ʾa1ā2ǝ3ot</formula>
+                    <formula type="w1" attested="no">ʾaWā2ǝ3o</formula>
+                    <formula type="w1" attested="no">ʾaWā2ǝ3ot</formula>
+                    <formula type="w2" attested="no">ʾa1āWǝ3o</formula>
+                    <formula type="w2" attested="no">ʾa1āWǝ3ot</formula>
+                    <formula type="w3">ʾa1ā2ǝWo</formula>
+                    <formula type="w3">ʾa1ā2ǝWot</formula>
+
+                    <formula type="y1" attested="no">ʾaYā2ǝ3o</formula>
+                    <formula type="y1" attested="no">ʾaYā2ǝ3ot</formula>
+                    <formula type="y2" attested="no">ʾa1āYǝ3o</formula>
+                    <formula type="y2" attested="no">ʾa1āYǝ3ot</formula>
+                    <formula type="y3">ʾa1ā2ǝY</formula>
+                    <formula type="y3">ʾa1ā2ǝYot</formula>
+
+                    <formula type="l1" attested="no">ʾaLā2ǝ3o</formula>
+                    <formula type="l1" attested="no">ʾaLā2ǝ3ot</formula>
+                    <formula type="l2">ʾa1ā2ǝ3o</formula>
+                    <formula type="l2">ʾa1ā2ǝ3ot</formula>
+                    <formula type="l3">ʾa1ā2ǝLo</formula>
+                    <formula type="l3">ʾa1ā2ǝLot</formula>
+                    <solution>II,3 Infinit.</solution>
+                </pattern>
+            </type>
+        </group>
+        <group name="III">
+            <type name="1">
+                <pattern name="Perfect">
+                    <!--<formula>ta1a23a</formula>
+                    <formula type="w2">ta1aW3a</formula>
+                    <formula type="w3">ta1a2Wa</formula>
+                    
+                    <formula type="y1" attested="no">taYa23a</formula>
+                    
+                    <formula type="y2">ta1aY3a</formula>
+                    
+                    <formula type="l1">taLa23a</formula>
+                    <formula type="l2">ta1ǝL3a</formula>-->
+                    <formula type="w1">taWa23a</formula>
+                    <formula type="y1">taYa2La</formula>
+                    <formula type="y3">ta1a2Ya</formula>
+                    <formula type="l3">ta1a2La</formula>
+                    <solution>III,1 Perf. 3 m. sg.</solution>
+                </pattern>
+                
+                <pattern name="Imperfect">
+                    <formula>yǝt1a22a3</formula>
+                    <formula>yǝSSa22a3</formula>
+                    <formula>yǝDDa22a3</formula>
+                    <formula>yǝ11a22a3</formula>
+                    <!--<formula type="w2">yǝtǝ1aWWa3</formula>
+                    <formula type="w3">yǝt1a22aW</formula>
+                    <formula type="w3">yǝt1a22o</formula>
+                    
+                    <formula type="y2">yǝt1aYYa3</formula>
+                    
+                    <formula type="l1">yǝtLa22a3</formula>
+                    <formula type="l2">yǝt1aLa3</formula>-->
+                    <formula type="w1">yǝtWa22a3</formula>
+                    <formula type="y1" attested="no">yǝtYa22a3</formula>
+                    <formula type="y1">yǝtYa22āL</formula>
+                    <formula type="y3">yǝt1a22aY</formula>
+                    <formula type="l3">yǝt1a22āL</formula>
+                    <solution>III,1 Imperf. 3 m. sg.</solution>
+                </pattern>
+                
+                <pattern name="Subjunctive">
+                   <formula>yǝt1a2a3</formula>
+                    <formula>yǝSSa2a3</formula>
+                    <formula>yǝ11a22a3</formula>
+                    <formula>yǝDDa2a3</formula>
+                    <!-- <formula type="w2">yǝtǝ1aWa3</formula>
+                    <formula type="w3">yǝt1a2aW</formula>
+                    <formula type="w3">yǝt1a2o</formula>
+                    
+                    <formula type="y2">yǝt1aYa3</formula>
+                    
+                    <formula type="l1">yǝtLa2a3</formula>
+                    <formula type="l2">yǝt1aLa3</formula>-->
+                      <formula type="w1">yǝtWa2a3</formula>
+                   <formula type="y1">yǝtYa2āL</formula>
+                    <formula type="y1" attested="no">yǝtYa2a3</formula>
+                   <formula type="y3">yǝt1a2aY</formula>
+                    <formula type="l3">yǝt1a2āL</formula>
+                    <solution>III,1 Subj. 3 m. sg.</solution>
+                </pattern>
+                
+                <pattern name="Imperative">
+                    <formula>ta1a2a3</formula>
+                   
+                    <!--<formula type="w2">ta1aWa3</formula>
+                    <formula type="w3">ta1a2aW</formula>
+                    <formula type="w3">ta1a2o</formula>
+                    
+                    <formula type="y2">ta1aYa3</formula>
+                    
+                    <formula type="l1">taLa2a3</formula>
+                    <formula type="l2">ta1aLa3</formula>-->
+                     <formula type="w1">taWa2a3</formula>
+                    <formula type="y1">taYa2āL</formula>
+                    <formula type="y1" attested="no">taYa2a3</formula>
+                    <formula type="y3">ta1a2aY</formula>
+                    <formula type="l3">ta1a2āL</formula>
+                    <solution>III,1 Impera. 2 m. sg.</solution>
+                </pattern>
+                
+                <pattern name="Gerundive">
+                    <formula>ta1a2i3o</formula>
+                    <!--<formula type="w1">taWa2i3o</formula>
+                    <formula type="w2">ta1aWi3o</formula>
+                    <formula type="w3">ta1a2iWo</formula>
+                    <formula type="y2">ta1aYi3o</formula>
+                    <formula type="l1">taLa2i3o</formula>
+                    <formula type="l2">ta1ǝLi3o</formula>-->
+                    <formula type="y1">taYa22iLo</formula>
+                    <formula type="y1" attested="no">taYa22i3o</formula>
+                    <formula type="y3">ta1a2iYo</formula>
+                    <formula type="l3">ta1a2iLo</formula>
+                    <solution>III,1 Gerund. 3 m. sg</solution>
+                </pattern>
+                
+                <pattern name="Infinitive">
+                    <formula>ta1a2ǝ3o</formula>
+                    <formula>ta1a2ǝ3ot</formula>
+                   <!-- <formula type="w2">ta1aWǝ3o</formula>
+                    <formula type="w2">ta1aWǝ3ot</formula>
+                    <formula type="w3">ta1a2ǝWo</formula>
+                    <formula type="w3">ta1a2ǝWot</formula>
+                    
+                    <formula type="y2">ta1aYǝ3</formula>
+                    <formula type="y2">ta1aYǝ3ot</formula>
+                    
+                    
+                    <formula type="l1">taLa2ǝ3o</formula>
+                    <formula type="l1">taLa2ǝ3ot</formula>
+                    <formula type="l2">ta1ǝLǝ3o</formula>
+                    <formula type="l2">ta1ǝLǝ3ot</formula>-->
+                    <formula type="w1">taWa2ǝ3o</formula>
+                    <formula type="w1">taWa2ǝ3ot</formula>
+                    <formula type="y1">taYa22ǝLo</formula>
+                    <formula type="y1">taYa22ǝLot</formula>
+                    <formula type="y1" attested="no">taYa22ǝ3o</formula>
+                    <formula type="y1" attested="no">taYa22ǝ3ot</formula>
+                    <formula type="y3">ta1a2ǝY</formula>
+                    <formula type="y3">ta1a2ǝYot</formula>
+                    <formula type="l3">ta1a2ǝLo</formula>
+                    <formula type="l3">ta1a2ǝLot</formula>
+                    <solution>III,1 Infinit.</solution>
+                </pattern>
+            </type>
+            <type name="1a">
+                <pattern name="Perfect">
+                    <formula>ta1a23a</formula>
+<!--                    <formula type="w1">taWa23a</formula>-->
+                    <formula type="w2">ta1aW3a</formula>
+                    <formula type="w3">ta1a2Wa</formula>
+
+                    <!--<formula type="y1" attested="no">taYa23a</formula>
+                    <formula type="y1">taYa2La</formula>-->
+                    <formula type="y2">ta1aY3a</formula>
+<!--                    <formula type="y3">ta1a2Ya</formula>-->
+
+                    <formula type="l1">taLa23a</formula>
+                    <formula type="l2">ta1ǝL3a</formula>
+<!--                    <formula type="l3">ta1a2La</formula>-->
+                    <solution>III,1a Perf. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Imperfect">
+                    <!--<formula>yǝt1a22a3</formula>
+                    <formula>yǝSSa22a3</formula>
+                    <formula>yǝDDa22a3</formula>
+                    <formula>yǝ11a22a3</formula>-->
+<!--                    <formula type="w1">yǝtWa22a3</formula>-->
+                    <formula type="w2">yǝtǝ1aWWa3</formula>
+                    <formula type="w3">yǝt1a22aW</formula>
+                    <formula type="w3">yǝt1a22o</formula>
+
+                   <!-- <formula type="y1" attested="no">yǝtYa22a3</formula>
+                    <formula type="y1">yǝtYa22āL</formula>-->
+                    <formula type="y2">yǝt1aYYa3</formula>
+<!--                    <formula type="y3">yǝt1a22aY</formula>-->
+
+                    <formula type="l1">yǝtLa22a3</formula>
+                    <formula type="l2">yǝt1aLa3</formula>
+<!--                    <formula type="l3">yǝt1a22āL</formula>-->
+                    <solution>III,1a Imperf. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Subjunctive">
+                    <!--<formula>yǝt1a2a3</formula>
+                    <formula>yǝSSa2a3</formula>
+                    <formula>yǝ11a22a3</formula>
+                    <formula>yǝDDa2a3</formula>-->
+<!--                    <formula type="w1">yǝtWa2a3</formula>-->
+                    <formula type="w2">yǝtǝ1aWa3</formula>
+                    <formula type="w3">yǝt1a2aW</formula>
+                    <formula type="w3">yǝt1a2o</formula>
+
+                    <!--<formula type="y1">yǝtYa2āL</formula>
+                    <formula type="y1" attested="no">yǝtYa2a3</formula>-->
+                    <formula type="y2">yǝt1aYa3</formula>
+<!--                    <formula type="y3">yǝt1a2aY</formula>-->
+
+                    <formula type="l1">yǝtLa2a3</formula>
+                    <formula type="l2">yǝt1aLa3</formula>
+<!--                    <formula type="l3">yǝt1a2āL</formula>-->
+                    <solution>III,1a Subj. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Imperative">
+<!--                    <formula>ta1a2a3</formula>-->
+<!--                    <formula type="w1">taWa2a3</formula>-->
+                    <formula type="w2">ta1aWa3</formula>
+                    <formula type="w3">ta1a2aW</formula>
+                    <formula type="w3">ta1a2o</formula>
+<!--
+                    <formula type="y1">taYa2āL</formula>
+                    <formula type="y1" attested="no">taYa2a3</formula>-->
+                    <formula type="y2">ta1aYa3</formula>
+<!--                    <formula type="y3">ta1a2aY</formula>-->
+
+                    <formula type="l1">taLa2a3</formula>
+                    <formula type="l2">ta1aLa3</formula>
+<!--                    <formula type="l3">ta1a2āL</formula>-->
+                    <solution>III,1a Impera. 2 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Gerundive">
+<!--                    <formula>ta1a2i3o</formula>-->
+<!--                    <formula type="w1">taWa2i3o</formula>-->
+                    <formula type="w2">ta1aWi3o</formula>
+                    <formula type="w3">ta1a2iWo</formula>
+
+                    <!--<formula type="y1">taYa22iLo</formula>
+                    <formula type="y1" attested="no">taYa22i3o</formula>-->
+                    <formula type="y2">ta1aYi3o</formula>
+<!--                    <formula type="y3">ta1a2iYo</formula>-->
+
+                    <formula type="l1">taLa2i3o</formula>
+                    <formula type="l2">ta1ǝLi3o</formula>
+<!--                    <formula type="l3">ta1a2iLo</formula>-->
+                    <solution>III,1a Gerund. 3 m. sg</solution>
+                </pattern>
+
+                <pattern name="Infinitive">
+                    <!--<formula>ta1a2ǝ3o</formula>
+                    <formula>ta1a2ǝ3ot</formula>-->
+                    <!--<formula type="w1">taWa2ǝ3o</formula>
+                    <formula type="w1">taWa2ǝ3ot</formula>-->
+                    <formula type="w2">ta1aWǝ3o</formula>
+                    <formula type="w2">ta1aWǝ3ot</formula>
+                    <formula type="w3">ta1a2ǝWo</formula>
+                    <formula type="w3">ta1a2ǝWot</formula>
+
+                    <!--<formula type="y1">taYa22ǝLo</formula>
+                    <formula type="y1">taYa22ǝLot</formula>
+                    <formula type="y1" attested="no">taYa22ǝ3o</formula>
+                    <formula type="y1" attested="no">taYa22ǝ3ot</formula>-->
+                    <formula type="y2">ta1aYǝ3</formula>
+                    <formula type="y2">ta1aYǝ3ot</formula>
+                    <!--<formula type="y3">ta1a2ǝY</formula>
+                    <formula type="y3">ta1a2ǝYot</formula>-->
+
+                    <formula type="l1">taLa2ǝ3o</formula>
+                    <formula type="l1">taLa2ǝ3ot</formula>
+                    <formula type="l2">ta1ǝLǝ3o</formula>
+                    <formula type="l2">ta1ǝLǝ3ot</formula>
+                   <!-- <formula type="l3">ta1a2ǝLo</formula>
+                    <formula type="l3">ta1a2ǝLot</formula>-->
+                    <solution>III,1a Infinit.</solution>
+                </pattern>
+            </type>
+            <type name="1b">
+
+                <pattern name="Perfect">
+                    <formula>ta1a2a3a</formula>
+                    <formula type="w2">ta1aWa3a</formula>
+                    <formula type="w2">taLaW3a</formula>
+                    <formula type="w2" attested="no">ta1aW3a</formula>
+                    <formula type="w2">taLaWa3a</formula>
+                    <formula type="w2" attested="no">ta1aWa3a</formula>
+                    <formula type="w2">taLo3a</formula>
+                    <formula type="w2" attested="no">ta1o3a</formula>
+                    <formula type="w3">taLa2aWa</formula>
+                    <formula type="w3" attested="no">ta1a2aWa</formula>
+                    <formula type="w3">taLa2Wa</formula>
+                    <formula type="w3" attested="no">ta1a2Wa</formula>
+
+                    <formula type="y2">ta1aY3a</formula>
+                    <formula type="y2">ta1e3a</formula>
+
+                    <formula type="l1">taLa23a</formula>
+                    <formula type="l1">taLa2a3a</formula>
+                    <formula type="l2">ta1ǝL3a</formula>
+                    <formula type="l2">ta1aLa3a</formula>
+
+                    <solution>III,1b Perf. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Imperfect">
+                    <!--<formula>yǝt1a22a3</formula>
+                    <formula>yǝSSa22a3</formula>
+                    <formula>yǝDDa22a3</formula>
+                    <formula>yǝ11a22a3</formula>-->
+                    <formula type="w2">yǝtLaWWa3</formula>
+                    <formula type="w2" attested="no">yǝt1aWWa3</formula>
+                    <formula type="w3">yǝtLa22aW</formula>
+                    <formula type="w3" attested="no">yǝt1a22aW</formula>
+                    <formula type="w3">yǝtLa22o</formula>
+                    <formula type="w3" attested="no">yǝt1a22o</formula>
+                    <formula type="y2">yǝt1aYYa3</formula>
+
+                    <formula type="l1">yǝtLa22a3</formula>
+                    <formula type="l2">yǝt1aLa3</formula>
+                    <solution>III,1b Imperf. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Subjunctive">
+                    <!--<formula>yǝt1a2a3</formula>
+                    <formula>yǝSSa2a3</formula>
+                    <formula>yǝDDa2a3</formula>
+                    <formula>yǝ11a2a3</formula>-->
+                    <formula type="w2">yǝtLaWa3</formula>
+                    <formula type="w2" attested="no">yǝt1aWa3</formula>
+                    <formula type="w3">yǝtLa2aW</formula>
+                    <formula type="w3" attested="no">yǝt1a2aW</formula>
+                    <formula type="w3">yǝtLa2o</formula>
+                    <formula type="w3" attested="no">yǝt1a2o</formula>
+
+                    <formula type="y2">yǝt1aYa3</formula>
+
+                    <formula type="l1">yǝtLa2a3</formula>
+                    <formula type="l2">yǝt1aLa3</formula>
+                    <solution>III,1b Subj. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Imperative">
+<!--                    <formula>ta1a2a3</formula>-->
+                    <formula type="w2">taLaWa3</formula>
+                    <formula type="w2" attested="no">ta1aWa3</formula>
+                    <formula type="w3">taLa2aW</formula>
+                    <formula type="w3" attested="no">ta1a2aW</formula>
+                    <formula type="w3">taLa2o</formula>
+                    <formula type="w3" attested="no">ta1a2o</formula>
+
+                    <formula type="y2">ta1aYa3</formula>
+
+                    <formula type="l1">taLa2a3</formula>
+                    <formula type="l2">ta1aLa3</formula>
+                    <solution>III,1b Impera. 2 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Gerundive">
+<!--                    <formula>ta1a2i3o</formula>-->
+                    <formula type="w2">taLaWi3o</formula>
+                    <formula type="w2" attested="no">ta1aWi3o</formula>
+                    <formula type="w3">taLa2iWo</formula>
+                    <formula type="w3" attested="no">ta1a2iWo</formula>
+
+                    <formula type="y2">ta1aYi3o</formula>
+
+                    <formula type="l1">taLa2i3o</formula>
+                    <formula type="l2">ta1ǝLi3o</formula>
+                    <solution>III,1b Gerund. 3 m. sg</solution>
+                </pattern>
+
+                <pattern name="Infinitive">
+                    <!--<formula>ta1a2ǝ3o</formula>
+                    <formula>ta1a2ǝ3ot</formula>-->
+                    <formula type="w2">taLaWǝ3o</formula>
+                    <formula type="w2">taLaWǝ3ot</formula>
+                    <formula type="w2" attested="no">ta1aWǝ3o</formula>
+                    <formula type="w2" attested="no">ta1aWǝ3ot</formula>
+                    <formula type="w3">taLa2ǝWo</formula>
+                    <formula type="w3">taLa2ǝWot</formula>
+                    <formula type="w3" attested="no">ta1a2ǝWo</formula>
+                    <formula type="w3" attested="no">ta1a2ǝWot</formula>
+
+                    <formula type="y2">ta1a2ǝ3</formula>
+                    <formula type="y2">ta1a2ǝ3ot</formula>
+
+                    <formula type="l1">taLa2ǝ3o</formula>
+                    <formula type="l1">taLa2ǝ3ot</formula>
+                    <formula type="l2">ta1ǝLǝ3o</formula>
+                    <formula type="l2">ta1ǝLǝ3ot</formula>
+                    <solution>III,1b Infinit.</solution>
+                </pattern>
+            </type>
+            <type name="2">
+                <pattern name="Perfect">
+                    <formula>ta1a22a3a</formula>
+                    <formula type="w1">taWa22a3a</formula>
+                    <formula type="w2">ta1aWWa3a</formula>
+                    <formula type="w3">ta1a22aWa</formula>
+
+                    <formula type="y1">taYaWWǝLa</formula>
+                    <formula type="y1" attested="no">taYa22a3a</formula>
+                    <formula type="y2">ta1aYYa3a</formula>
+                    <formula type="y3">ta1a22aYa</formula>
+
+                    <formula type="l1">taLa22a3a</formula>
+                    <formula type="l2">ta1aLa3a</formula>
+                    <formula type="l2">ta1ǝL3a</formula>
+                    <formula type="l3">ta1a22ǝLa</formula>
+                    <solution> III,2 Perf. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Imperfect">
+                    <formula>yǝt1e22ar</formula>
+                    <formula>yǝSSe22a3</formula>
+                    <formula>yǝDDe22a3</formula>
+                    <formula>yǝ11e22a3</formula>
+                    <formula type="w1">yǝtWe22a3</formula>
+                    <formula type="w2">yǝt1eWWa3</formula>
+                    <formula type="w3">yǝt1e22aW</formula>
+                    <formula type="w3">yǝt1e22o</formula>
+
+                    <formula type="y1">yǝtYeWWāL</formula>
+                    <formula type="y1" attested="no">yǝtYe22a3</formula>
+                    <formula type="y2" attested="no">yǝt1eYYa3</formula>
+                    <formula type="y2">yǝDDeYYa3</formula>
+                    <formula type="y2">yǝtDeYYa3</formula>
+                    <formula type="y3">yǝt1e22aY</formula>
+
+                    <formula type="l1">yǝtLe22a3</formula>
+                    <formula type="l2">yǝt1eLa3</formula>
+                    <formula type="l3">yǝt1e22āL</formula>
+                    <solution>III,2 Imperf. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Subjunctive">
+                    <formula>yǝt1a22a3</formula>
+                    <formula>yǝSSa22a3</formula>
+                    <formula>yǝDDa22a3</formula>
+                    <formula>yǝ11a22a3</formula>
+                    <formula type="w1">yǝtWa22a3</formula>
+                    <formula type="w2">yǝt1aWWa3</formula>
+                    <formula type="w3">yǝt1a22aW</formula>
+                    <formula type="w3">yǝt1a22o</formula>
+
+                    <formula type="y1">yǝtYaWWāL</formula>
+                    <formula type="y1" attested="no">yǝtYa22a3</formula>
+                    <formula type="y2" attested="no">yǝt1aYYa3</formula>
+                    <formula type="y2">yǝDDaYYa3</formula>
+                    <formula type="y2">yǝtDaYYa3</formula>
+                    <formula type="y3">yǝt1a22aY</formula>
+
+                    <formula type="l1">yǝtLa22a3</formula>
+                    <formula type="l2">yǝt1aLa3</formula>
+                    <formula type="l3">yǝt1a22āL</formula>
+                    <solution>III,2 Subj. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Imperative">
+                    <formula>ta1a22a3</formula>
+                    <formula type="w1">taWa22a3</formula>
+                    <formula type="w2">ta1aWWa3</formula>
+                    <formula type="w3">ta1a22aW</formula>
+                    <formula type="w3">ta1a22o</formula>
+
+                    <formula type="y1">taYaWWāL</formula>
+                    <formula type="y1" attested="no">taYa22a3</formula>
+                    <formula type="y2">ta1aYYa3</formula>
+                    <formula type="y3">ta1a22aY</formula>
+
+                    <formula type="l1">taLa22a3</formula>
+                    <formula type="l2">ta1aLa3</formula>
+                    <formula type="l3">ta1a22āL</formula>
+                    <solution>III,2 Impera. 2 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Gerundive">
+                    <formula>ta1a22i3o</formula>
+                    <formula type="w1">taWa22i3o</formula>
+                    <formula type="w2">ta1aWWi3o</formula>
+                    <formula type="w3">ta1a22iWo</formula>
+
+                    <formula type="y1">taYaWWiLo</formula>
+                    <formula type="y1" attested="no">taYa22i3o</formula>
+                    <formula type="y2">ta1aYYi3o</formula>
+                    <formula type="y3">ta1a22iYo</formula>
+
+                    <formula type="l1">taLa22i3o</formula>
+                    <formula type="l2">ta1aLi3o</formula>
+                    <formula type="l3">ta1a22iLo</formula>
+                    <solution>III,2 Gerund. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Infinitive">
+                    <formula>ta1a22ǝ3o</formula>
+                    <formula>ta1a22ǝ3ot</formula>
+                    <formula type="w1">taWa22ǝ3o</formula>
+                    <formula type="w1">taWa22ǝ3ot</formula>
+                    <formula type="w2">ta1aWWǝ3o</formula>
+                    <formula type="w2">ta1aWWǝ3ot</formula>
+                    <formula type="w3">ta1a22ǝWo</formula>
+                    <formula type="w3">ta1a22ǝWot</formula>
+
+
+                    <formula type="y1">taYaWWǝLo</formula>
+                    <formula type="y1">taYaWWǝLot</formula>
+                    <formula type="y1" attested="no">taYa22ǝ3o</formula>
+                    <formula type="y1" attested="no">taYa22ǝ3ot</formula>
+                    <formula type="y2">ta1aYYǝ3</formula>
+                    <formula type="y2">ta1aYYǝ3ot</formula>
+                    <formula type="y3">ta1a22ǝY</formula>
+                    <formula type="y3">ta1a22ǝYot</formula>
+
+                    <formula type="l1">taLa22ǝ3o</formula>
+                    <formula type="l1">taLa22ǝ3ot</formula>
+                    <formula type="l2">ta1aLǝ3o</formula>
+                    <formula type="l2">ta1aLǝ3ot</formula>
+                    <formula type="l3">ta1a22ǝLo</formula>
+                    <formula type="l3">ta1a22ǝLot</formula>
+                    <solution>III,2 Infinit.</solution>
+                </pattern>
+            </type>
+            <type name="3">
+                <pattern name="Perfect">
+                    <formula>ta1ā2a3a</formula>
+                    <formula type="w1">taWā2a3a</formula>
+                    <formula type="w2">ta1āWa3a</formula>
+                    <formula type="w3">ta1ā2aWa</formula>
+
+                    <formula type="y1">taYāWaLa</formula>
+                    <formula type="y1" attested="no">taYā2a3a</formula>
+                    <formula type="y2">ta1āYa3a</formula>
+                    <formula type="y3">ta1ā2aYa</formula>
+
+                    <formula type="l1" attested="no">taLā2a3a</formula>
+                    <formula type="l2">ta1āLa3a</formula>
+                    <formula type="l3">ta1ā2ǝLa</formula>
+                    <solution>III,3 Perf. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Imperfect">
+                    <formula>yǝt1ā22a3</formula>
+                    <formula>yǝSSā22a3</formula>
+                    <formula>yǝDDā22a3</formula>
+                    <formula>yǝ11ā22a3</formula>
+                    <formula type="w1">yǝtWā22a3</formula>
+                    <formula type="w2">yǝt1āWWa3</formula>
+                    <formula type="w3">yǝt1ā22aW</formula>
+                    <formula type="w3">yǝt1ā22o</formula>
+
+                    <formula type="y1">yǝtYāWWāL</formula>
+                    <formula type="y1" attested="no">yǝtYā22a3</formula>
+                    <formula type="y2">yǝt1āYYa3</formula>
+                    <formula type="y3">yǝt1ā22aY</formula>
+
+                    <formula type="l1" attested="no">yǝtLā22a3</formula>
+                    <formula type="l2">yǝt1āLa3</formula>
+                    <formula type="l3">yǝt1ā22āL</formula>
+                    <solution>III, 3 Imperf. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Subjunctive">
+                    <formula>yǝt1ā2a3</formula>
+                    <formula>yǝSSā2a3</formula>
+                    <formula>yǝDDā2a3</formula>
+                    <formula>yǝ11ā2a3</formula>
+                    <formula type="w1">yǝtWā2a3</formula>
+                    <formula type="w2">yǝt1āWa3</formula>
+                    <formula type="w3">yǝt1ā2aW</formula>
+                    <formula type="w3">yǝt1ā2o</formula>
+
+                    <formula type="y1">yǝtYāWāL</formula>
+                    <formula type="y1" attested="no">yǝtYā2a3</formula>
+                    <formula type="y2">yǝt1āYa3</formula>
+                    <formula type="y3">yǝt1ā2aY</formula>
+
+                    <formula type="l1" attested="no">yǝtLā2a3</formula>
+                    <formula type="l2">yǝt1āLa3</formula>
+                    <formula type="l3">yǝt1ā2āL</formula>
+                    <solution>III, 3 Subj. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Imperative">
+                    <formula>ta1ā2a3</formula>
+                    <formula type="w1">taWā2a3</formula>
+                    <formula type="w2">ta1āWa3</formula>
+                    <formula type="w3">ta1ā2aW</formula>
+                    <formula type="w3">ta1ā2o</formula>
+
+                    <formula type="y1">taYāWāL</formula>
+                    <formula type="y1" attested="no">taYā2a3</formula>
+                    <formula type="y2">ta1āYa3</formula>
+                    <formula type="y3">ta1ā2aY</formula>
+
+                    <formula type="l1" attested="no">taLā2a3</formula>
+                    <formula type="l2">ta1āLa3</formula>
+                    <formula type="l3">ta1ā2āL</formula>
+                    <solution>III, 3 Impera. 2 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Gerundive">
+                    <formula>ta1ā2i3o</formula>
+                    <formula type="w1">taWā2i3o</formula>
+                    <formula type="w2">ta1āWi3o</formula>
+                    <formula type="w3">ta1ā2iWo</formula>
+
+                    <formula type="y1">taYāWiLo</formula>
+                    <formula type="y1" attested="no">taYā2i3o</formula>
+                    <formula type="y2">ta1āYi3o</formula>
+                    <formula type="y3">ta1ā2iYo</formula>
+
+                    <formula type="l1" attested="no">taLā2i3o</formula>
+                    <formula type="l2">ta1āLi3o</formula>
+                    <formula type="l3">ta1ā2iLo</formula>
+                    <solution>III, 3 Gerund. 3 m. sg</solution>
+                </pattern>
+
+                <pattern name="Infinitive">
+                    <formula>ta1ā2ǝ3o</formula>
+                    <formula>ta1ā2ǝ3ot</formula>
+                    <formula type="w1">taWā2ǝ3o</formula>
+                    <formula type="w1">taWā2ǝ3ot</formula>
+                    <formula type="w2">ta1āWǝ3o</formula>
+                    <formula type="w2">ta1āWǝ3ot</formula>
+                    <formula type="w3">ta1ā2ǝWo</formula>
+                    <formula type="w3">ta1ā2ǝWot</formula>
+
+                    <formula type="y1">taYāWǝLo</formula>
+                    <formula type="y1">taYāWǝLot</formula>
+                    <formula type="y1" attested="no">taYā2ǝ3o</formula>
+                    <formula type="y1" attested="no">taYā2ǝ3ot</formula>
+                    <formula type="y2">ta1āYǝ3</formula>
+                    <formula type="y2">ta1āYǝ3ot</formula>
+                    <formula type="y3">ta1ā2ǝY</formula>
+                    <formula type="y3">ta1ā2ǝYot</formula>
+
+                    <formula type="l1" attested="no">taLā2ǝ3o</formula>
+                    <formula type="l1" attested="no">taLā2ǝ3ot</formula>
+                    <formula type="l2">ta1āLǝ3o</formula>
+                    <formula type="l2">ta1āLǝ3ot</formula>
+                    <formula type="l3">ta1ā2ǝLo</formula>
+                    <formula type="l3">ta1ā2ǝLot</formula>
+                    <solution>III, 3 Infinit.</solution>
+                </pattern>
+            </type>
+        </group>
+        <group name="IV">
+            <type name="1">
+                <pattern name="Perfect">
+                    <formula>ʾasta12a3a</formula>
+                    <formula type="w1">ʾastaWLa3a</formula>
+                    <formula type="w1" attested="no">ʾastaW2a3a</formula>
+                    <!--<formula type="w2" attested="no">ʾasta1Wa3a</formula>
+                    <formula type="w2">ʾasta1WaLa</formula>
+                    <formula type="l1">ʾastaLa2a3a</formula>-->
+                    <formula type="w3" attested="no">ʾasta12aWa</formula>
+                     <formula type="y1" attested="no">ʾastaY2a3a</formula>
+                    <formula type="y2" attested="no">ʾasta1Ya3a</formula>
+                   <formula type="y3" attested="no">ʾasta12aYa</formula>
+                    <formula type="l2">ʾasta1La3a</formula>
+                    <formula type="l2">ʾasta1aLa3a</formula>
+                    <formula type="l3">ʾasta12ǝLa</formula>
+                    <formula type="l3">ʾasta1a2ǝLa</formula>
+                    <solution>IV,1 Perf. 3 m. sg.</solution>
+                </pattern>
+                
+                <pattern name="Imperfect">
+                    <formula>yāsta1a22ǝ3</formula>
+                    <formula type="w1">yāstaWǝLǝ3</formula>
+                    <formula type="w1" attested="no">yāstaWa22ǝ3</formula>
+                    <formula type="w2" attested="no">yāsta1aWWǝ3</formula>
+                    <formula type="w2">yāsta1aWWǝL</formula>
+                    <formula type="w3" attested="no">yāsta1a22u</formula>
+                    <formula type="y1" attested="no">yāstaYa22ǝ3</formula>
+                    <formula type="y2" attested="no">yāsta1aYYǝ3</formula>
+                    <formula type="y3" attested="no">yāsta1a22i</formula>
+                    
+<!--                    <formula type="l1">yāstaLa22ǝ3</formula>-->
+                    <formula type="l2">yāsta1ǝLǝ3</formula>
+                    <formula type="l3">yāsta1a22ǝL</formula>
+                    <solution>IV,1 Imperf. 3 m. sg.</solution>
+                </pattern>
+                <pattern name="Subjunctive">
+                    <formula>yāsta12ǝ3</formula>
+                    <formula type="w1">yāstaWLǝ3</formula>
+                    <formula type="w1" attested="no">yāstaW2ǝ3</formula>
+                    <formula type="w2" attested="no">yāsta1Wǝ3</formula>
+                    <formula type="w2">yāsta1WǝL</formula>
+                    <formula type="w3" attested="no">yāsta12u</formula>
+                    <formula type="y1" attested="no">yāstaY2ǝ3</formula>
+                    <formula type="y2" attested="no">yāsta1Yǝ3</formula>
+                    <formula type="y3" attested="no">yāsta12i</formula>
+                    
+<!--                    <formula type="l1">yāstāL2ǝ3</formula>-->
+                    <formula type="l2">yāsta1Lǝ3</formula>
+                    <formula type="l3">yāsta12ǝL</formula>
+                    <solution>IV,1 Subj. 3 m. sg.</solution>
+                </pattern>
+                <pattern name="Imperative">
+                    <formula>ʾasta12ǝ3</formula>
+                    <formula type="w1">ʾastaWLǝ3</formula>
+                    <formula type="w1" attested="no">ʾastaW2ǝ3</formula>
+                    <!--<formula type="l1">ʾastāL2ǝ3</formula>-->
+                    <formula type="w2" attested="no">ʾasta1Wǝ3</formula>
+                    <formula type="w2">ʾasta1WǝL</formula>
+                    <formula type="w3" attested="no">ʾasta12u</formula>
+                    <formula type="y1" attested="no">ʾastaY2ǝ3</formula>
+                    <formula type="y2" attested="no">ʾasta1Yǝ3</formula>
+                    <formula type="y3" attested="no">ʾasta12i</formula>
+                    <formula type="l2">ʾasta1Lǝ3</formula>
+                    <formula type="l3">ʾasta12ǝL</formula>
+                    <solution>IV,1 Impera. 2 m. sg.</solution>
+                </pattern>
+                <pattern name="Gerundive">
+                    <formula>ʾasta12i3o</formula>
+                    <formula type="w1">ʾastaWLi3o</formula>
+                    <formula type="w1" attested="no">ʾastaW2i3o</formula>
+                    <!--<formula type="l1">ʾastaLa2i3o</formula>-->
+                    <formula type="w2" attested="no">ʾasta1Wi3o</formula>
+                    <formula type="w2">ʾasta1WiLo</formula>
+                    <formula type="w3" attested="no">ʾasta12iWo</formula>
+                    <formula type="y1" attested="no">ʾastaY2i3o</formula>
+                    <formula type="y2" attested="no">ʾasta1Yi3o</formula>
+                    <formula type="y3" attested="no">ʾasta12iYo</formula>
+                    <formula type="l2">ʾasta1Li3o</formula>
+                    <formula type="l3">ʾasta12iLo</formula>
+                    <solution>IV,1 Gerund. 3 m. sg</solution>
+                </pattern>
+                
+                <pattern name="Infinitive">
+                    <formula>ʾasta12ǝ3o</formula>
+                    <formula>ʾasta12ǝ3ot</formula>
+                    <formula type="w1">ʾastaWLǝ3o</formula>
+                    <formula type="w1">ʾastaWLǝ3ot</formula>
+                    <formula type="w1" attested="no">ʾastaW2ǝ3o</formula>
+                    <formula type="w1" attested="no">ʾastaW2ǝ3ot</formula>
+                    <!--<formula type="l1">ʾastaLa2ǝ3o</formula>
+                    <formula type="l1">ʾastaLa2ǝ3ot</formula>-->
+                    <formula type="w2" attested="no">ʾasta1Wǝ3o</formula>
+                    <formula type="w2" attested="no">ʾasta1Wǝ3ot</formula>
+                    <formula type="w2">ʾasta1WǝLo</formula>
+                    <formula type="w2">ʾasta1WǝLot</formula>
+                    <formula type="w3" attested="no">ʾasta12ǝWo</formula>
+                    <formula type="w3" attested="no">ʾasta12ǝWot</formula>
+                    <formula type="y1" attested="no">ʾastaY2ǝ3o</formula>
+                    <formula type="y1" attested="no">ʾastaY2ǝ3ot</formula>
+                    <formula type="y2" attested="no">ʾasta1Yǝ3o</formula>
+                    <formula type="y2" attested="no">ʾasta1Yǝ3ot</formula>
+                    <formula type="y3" attested="no">ʾasta12ǝY</formula>
+                    <formula type="y3" attested="no">ʾasta12ǝYot</formula>
+                    <formula type="l2">ʾasta1Lǝ3o</formula>
+                    <formula type="l2">ʾasta1Lǝ3ot</formula>
+                    <formula type="l3">ʾasta12ǝLo</formula>
+                    <formula type="l3">ʾasta12ǝLot</formula>
+                    <solution>IV,1 Infinit.</solution>
+                </pattern>
+            </type>
+            <type name="1a">
+                <pattern name="Perfect">
+<!--                    <formula>ʾasta12a3a</formula>-->
+                    <!--<formula type="w1">ʾastaWLa3a</formula>
+                    <formula type="w1" attested="no">ʾastaW2a3a</formula>-->
+                    <formula type="w2" attested="no">ʾasta1Wa3a</formula>
+                    <formula type="w2">ʾasta1WaLa</formula>
+<!--                    <formula type="w3" attested="no">ʾasta12aWa</formula>-->
+<!--                    <formula type="y1" attested="no">ʾastaY2a3a</formula>-->
+<!--                    <formula type="y2" attested="no">ʾasta1Ya3a</formula>-->
+                    <formula type="y3" attested="no">ʾasta12aYa</formula>
+
+                    <formula type="l1">ʾastaLa2a3a</formula>
+                    <!--<formula type="l2">ʾasta1La3a</formula>
+                    <formula type="l2">ʾasta1aLa3a</formula>
+                    <formula type="l3">ʾasta12ǝLa</formula>
+                    <formula type="l3">ʾasta1a2ǝLa</formula>-->
+                    <solution>IV,1a Perf. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Imperfect">
+<!--                    <formula>yāsta1a22ǝ3</formula>-->
+                    <!--<formula type="w1">yāstaWǝLǝ3</formula>
+                    <formula type="w1" attested="no">yāstaWa22ǝ3</formula>-->
+                    <!--<formula type="w2" attested="no">yāsta1aWWǝ3</formula>
+                    <formula type="w2">yāsta1aWWǝL</formula>-->
+<!--                    <formula type="w3" attested="no">yāsta1a22u</formula>-->
+<!--                    <formula type="y1" attested="no">yāstaYa22ǝ3</formula>-->
+<!--                    <formula type="y2" attested="no">yāsta1aYYǝ3</formula>-->
+                    <formula type="y3" attested="no">yāsta1a22i</formula>
+
+                    <formula type="l1">yāstaLa22ǝ3</formula>
+                    <!--<formula type="l2">yāsta1ǝLǝ3</formula>
+                    <formula type="l3">yāsta1a22ǝL</formula>-->
+                    <solution>IV,1a Imperf. 3 m. sg.</solution>
+                </pattern>
+                <pattern name="Subjunctive">
+<!--                    <formula>yāsta12ǝ3</formula>-->
+                    <!--<formula type="w1">yāstaWLǝ3</formula>
+                    <formula type="w1" attested="no">yāstaW2ǝ3</formula>-->
+                    <!--<formula type="w2" attested="no">yāsta1Wǝ3</formula>
+                    <formula type="w2">yāsta1WǝL</formula>-->
+<!--                    <formula type="w3" attested="no">yāsta12u</formula>-->
+
+<!--                    <formula type="y1" attested="no">yāstaY2ǝ3</formula>-->
+<!--                    <formula type="y2" attested="no">yāsta1Yǝ3</formula>-->
+                    <formula type="y3" attested="no">yāsta12i</formula>
+
+                    <formula type="l1">yāstāL2ǝ3</formula>
+                    <!--<formula type="l2">yāsta1Lǝ3</formula>
+                    <formula type="l3">yāsta12ǝL</formula>-->
+                    <solution>IV,1a Subj. 3 m. sg.</solution>
+                </pattern>
+                <pattern name="Imperative">
+<!--                    <formula>ʾasta12ǝ3</formula>-->
+                   <!-- <formula type="w1">ʾastaWLǝ3</formula>
+                    <formula type="w1" attested="no">ʾastaW2ǝ3</formula>-->
+                    <!--<formula type="w2" attested="no">ʾasta1Wǝ3</formula>
+                    <formula type="w2">ʾasta1WǝL</formula>-->
+<!--                    <formula type="w3" attested="no">ʾasta12u</formula>-->
+
+<!--                    <formula type="y1" attested="no">ʾastaY2ǝ3</formula>-->
+<!--                    <formula type="y2" attested="no">ʾasta1Yǝ3</formula>-->
+                    <formula type="y3" attested="no">ʾasta12i</formula>
+
+                    <formula type="l1">ʾastāL2ǝ3</formula>
+                  <!--  <formula type="l2">ʾasta1Lǝ3</formula>
+                    <formula type="l3">ʾasta12ǝL</formula>-->
+                    <solution>IV,1a Impera. 2 m. sg.</solution>
+                </pattern>
+                <pattern name="Gerundive">
+<!--                    <formula>ʾasta12i3o</formula>-->
+                   <!-- <formula type="w1">ʾastaWLi3o</formula>
+                    <formula type="w1" attested="no">ʾastaW2i3o</formula>-->
+                    <!--<formula type="w2" attested="no">ʾasta1Wi3o</formula>
+                    <formula type="w2">ʾasta1WiLo</formula>-->
+<!--                    <formula type="w3" attested="no">ʾasta12iWo</formula>-->
+
+<!--                    <formula type="y1" attested="no">ʾastaY2i3o</formula>-->
+<!--                    <formula type="y2" attested="no">ʾasta1Yi3o</formula>-->
+                    <formula type="y3" attested="no">ʾasta12iYo</formula>
+
+                    <formula type="l1">ʾastaLa2i3o</formula>
+                    <!--<formula type="l2">ʾasta1Li3o</formula>
+                    <formula type="l3">ʾasta12iLo</formula>-->
+                    <solution>IV,1a Gerund. 3 m. sg</solution>
+                </pattern>
+
+                <pattern name="Infinitive">
+                    <!--<formula>ʾasta12ǝ3o</formula>
+                    <formula>ʾasta12ǝ3ot</formula>
+                 -->   
+                    <!--<formula type="w1">ʾastaWLǝ3o</formula>
+                    <formula type="w1">ʾastaWLǝ3ot</formula>-->
+                  <!--  <formula type="w1" attested="no">ʾastaW2ǝ3o</formula>
+                    <formula type="w1" attested="no">ʾastaW2ǝ3ot</formula>
+                    <formula type="w2" attested="no">ʾasta1Wǝ3o</formula>
+                    <formula type="w2" attested="no">ʾasta1Wǝ3ot</formula>-->
+                    <!--<formula type="w2">ʾasta1WǝLo</formula>
+                    <formula type="w2">ʾasta1WǝLot</formula>-->
+                    <!--<formula type="w3" attested="no">ʾasta12ǝWo</formula>
+                    <formula type="w3" attested="no">ʾasta12ǝWot</formula>
+-->
+                   <!-- <formula type="y1" attested="no">ʾastaY2ǝ3o</formula>
+                    <formula type="y1" attested="no">ʾastaY2ǝ3ot</formula>
+                   --><!-- <formula type="y2" attested="no">ʾasta1Yǝ3o</formula>
+                    <formula type="y2" attested="no">ʾasta1Yǝ3ot</formula>
+                   --> <formula type="y3" attested="no">ʾasta12ǝY</formula>
+                    <formula type="y3" attested="no">ʾasta12ǝYot</formula>
+
+                    <formula type="l1">ʾastaLa2ǝ3o</formula>
+                   <!-- <formula type="l1">ʾastaLa2ǝ3ot</formula>
+                    <formula type="l2">ʾasta1Lǝ3o</formula>
+                    <formula type="l2">ʾasta1Lǝ3ot</formula>
+                    <formula type="l3">ʾasta12ǝLo</formula>
+                    <formula type="l3">ʾasta12ǝLot</formula>-->
+                    <solution>IV,1a Infinit.</solution>
+                </pattern>
+            </type>
+            <type name="1b">
+                <pattern name="Perfect">
+                    <formula>ʾasta12a3a</formula>
+                    <formula type="w2" attested="no">ʾasta1ǝ3a</formula>
+                    <formula type="w2">ʾasta1ǝLa</formula>
+                    <formula type="l1">ʾastaLa2a3a</formula>
+                    <formula type="l1">ʾastāL23a</formula>
+                    <solution>IV,1 Perf. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Imperfect">
+                    <formula>yāsta1a22ǝ3</formula>
+                    <formula type="l1">yāstaLa22ǝ3</formula>
+                    <solution>IV,1 Imperf. 3 m. sg.</solution>
+                </pattern>
+                <pattern name="Subjunctive">
+                    <formula>yāsta12ǝ3</formula>
+                    <formula type="l1">yāstāL2ǝ3</formula>
+                    <solution>IV,1 Subj. 3 m. sg.</solution>
+                </pattern>
+                <pattern name="Imperative">
+                    <formula>ʾasta12ǝ3</formula>
+                    <formula type="l1">ʾastāL2ǝ3</formula>
+                    <solution>IV,1 Impera. 2 m. sg.</solution>
+                </pattern>
+                <pattern name="Gerundive">
+                    <formula>ʾasta12i3o</formula>
+                    <formula type="l1">ʾastaLa2i3o</formula>
+                    <solution>IV,1 Gerund. 3 m. sg</solution>
+                </pattern>
+
+                <pattern name="Infinitive">
+                    <formula>ʾasta12ǝ3o</formula>
+                    <formula>ʾasta12ǝ3ot</formula>
+                    <formula type="l1">ʾastaLa2ǝ3o</formula>
+                    <formula type="l1">ʾastaLa2ǝ3ot</formula>
+
+                    <solution>IV,1 Infinit.</solution>
+                </pattern>
+            </type>
+            <type name="2">
+                <pattern name="Perfect">
+                    <formula>ʾasta1a22a3a</formula>
+                    <formula type="w1">ʾastaWa22a3a</formula>
+                    <formula type="w2" attested="no">ʾasta1aWWa3a</formula>
+                    <formula type="w3">ʾasta1a22aWa</formula>
+
+                    <formula type="y1" attested="no">ʾastaYa22a3a</formula>
+                    <formula type="y2">ʾastaLaYYa3a</formula>
+                    <formula type="y2" attested="no">ʾasta1aYYa3a</formula>
+                    <formula type="y3">ʾasta1a22aYa</formula>
+
+                    <formula type="l1">ʾastaLa22a3a</formula>
+                    <formula type="l2" attested="no">ʾasta1aLa3a</formula>
+                    <formula type="l3">ʾasta1a22ǝLa</formula>
+                    <solution>IV,2 Perf. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Imperfect">
+                    <formula>yāsta1e22ǝ3</formula>
+                    <formula type="w1">yāstaWe22ǝ3</formula>
+                    <formula type="w2" attested="no">yāsta1eWWǝ3</formula>
+                    <formula type="w3">yāsta1e22u</formula>
+
+                    <formula type="y1" attested="no">yāstaYe22ǝ3</formula>
+                    <formula type="y2" attested="no">yāsta1eYYǝ3</formula>
+                    <formula type="y2">yāstaLeYYǝ3</formula>
+                    <formula type="y3">yāsta1e22i</formula>
+
+                    <formula type="l1">yāstaLe22ǝ3</formula>
+                    <formula type="l2" attested="no">yāsta1eLǝ3</formula>
+                    <formula type="l3">yāsta1e22ǝL</formula>
+                    <solution>IV,2 Imperf. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Subjunctive">
+                    <formula>yāsta1a22ǝ3</formula>
+                    <formula type="w1">yāstaWa22ǝ3</formula>
+                    <formula type="w2" attested="no">yāsta1aWWǝ3</formula>
+                    <formula type="w3">yāsta1a22i</formula>
+
+                    <formula type="y1" attested="no">yāstaYa22ǝ3</formula>
+                    <formula type="y2" attested="no">yāsta1aYYǝ3</formula>
+                    <formula type="y2">yāstaLaYYǝ3</formula>
+                    <formula type="y3">yāsta1a22i</formula>
+
+                    <formula type="l1">yāstaLa22ǝ3</formula>
+                    <formula type="l2" attested="no">yāsta1aLǝ3</formula>
+                    <formula type="l3">yāsta1a22ǝL</formula>
+                    <solution>IV,2 Subj. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Imperative">
+                    <formula>ʾasta1a22ǝ3</formula>
+                    <formula type="w1">ʾastaWa22ǝ3</formula>
+                    <formula type="w2" attested="no">ʾasta1aWWǝ3</formula>
+                    <formula type="w3">ʾasta1a22u</formula>
+
+                    <formula type="y1" attested="no">ʾastaYa22ǝ3</formula>
+                    <formula type="y2" attested="no">ʾasta1aYYǝ3</formula>
+                    <formula type="y2">ʾastaLaYYǝ3</formula>
+                    <formula type="y3">ʾasta1a22i</formula>
+
+                    <formula type="l1">ʾastaLa22ǝ3</formula>
+                    <formula type="l2" attested="no">ʾasta1aLǝ3</formula>
+                    <formula type="l3">ʾasta1a22ǝL</formula>
+                    <solution>IV,2 Impera. 2 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Gerundive">
+                    <formula>ʾasta1a22i3o</formula>
+                    <formula type="w1">ʾastaWa22i3o</formula>
+                    <formula type="w2" attested="no">ʾasta1aWWi3o</formula>
+                    <formula type="w3">ʾasta1a22iWo</formula>
+
+                    <formula type="y1" attested="no">ʾastaYa22i3o</formula>
+                    <formula type="y2" attested="no">ʾasta1aYYi3o</formula>
+                    <formula type="y2">ʾastaLaYYi3o</formula>
+                    <formula type="y3">ʾasta1a22iYo</formula>
+
+                    <formula type="l1">ʾastaLa22i3o</formula>
+                    <formula type="l2">ʾasta1aLǝ3o</formula>
+                    <formula type="l3">ʾasta1a22iLo</formula>
+                    <solution>IV,2 Gerund. 3 m. sg</solution>
+                </pattern>
+
+                <pattern name="Infinitive">
+                    <formula>ʾasta1a22ǝ3o</formula>
+                    <formula>ʾasta1a22ǝ3ot</formula>
+                    <formula type="w1">ʾastaWa22ǝ3o</formula>
+                    <formula type="w1">ʾastaWa22ǝ3ot</formula>
+                    <formula type="w2" attested="no">ʾasta1aWWǝ3o</formula>
+                    <formula type="w2" attested="no">ʾasta1aWWǝ3ot</formula>
+                    <formula type="w3">ʾasta1a22ǝWo</formula>
+                    <formula type="w3">ʾasta1a22ǝWot</formula>
+
+                    <formula type="y1" attested="no">ʾastaYa22ǝ3o</formula>
+                    <formula type="y1" attested="no">ʾastaYa22ǝ3ot</formula>
+                    <formula type="y2" attested="no">ʾasta1aYYǝ3o</formula>
+                    <formula type="y2" attested="no">ʾasta1aYYǝ3ot</formula>
+                    <formula type="y2">ʾastaLaYYǝ3</formula>
+                    <formula type="y2">ʾastaLaYYǝ3ot</formula>
+                    <formula type="y3">ʾasta1a22ǝY</formula>
+                    <formula type="y3">ʾasta1a22ǝYot</formula>
+
+                    <formula type="l1">ʾastaLa22ǝ3o</formula>
+                    <formula type="l1">ʾastaLa22ǝ3ot</formula>
+                    <formula type="l2">ʾasta1aLǝ3o</formula>
+                    <formula type="l2">ʾasta1aLǝ3ot</formula>
+                    <formula type="l3">ʾasta1a22ǝLo</formula>
+                    <formula type="l3">ʾasta1a22ǝLot</formula>
+                    <solution>IV,2 Infinit.</solution>
+                </pattern>
+            </type>
+            <type name="3">
+                <pattern name="Perfect">
+                    <formula>ʾasta1ā2a3a</formula>
+                    <formula type="w1">ʾastaWā2a3a</formula>
+                    <formula type="w2">ʾasta1āWa3a</formula>
+                    <formula type="w3">ʾasta1ā2aWa</formula>
+
+                    <formula type="y1" attested="no">ʾastaYā2a3a</formula>
+                    <formula type="y2">ʾasta1āYa3a</formula>
+                    <formula type="y3">ʾasta1ā2aYa</formula>
+
+                    <formula type="l1">ʾastaLā2a3a</formula>
+                    <formula type="l2">ʾasta1āLa3a</formula>
+                    <formula type="l3">ʾasta1ā2ǝLa</formula>
+                    <solution>IV,3 Perf. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Imperfect">
+                    <formula>yāsta1ā22ǝ3</formula>
+                    <formula type="w1" attested="no">yāstaYe22ǝ3</formula>
+                    <formula type="w2">yāsta1āWWǝ3</formula>
+                    <formula type="w3">yāsta1ā22u</formula>
+
+                    <formula type="y1" attested="no">yāstaYe22ǝ3</formula>
+                    <formula type="y2">yāsta1āYYǝ3</formula>
+                    <formula type="y3">yāsta1ā22i</formula>
+
+                    <formula type="l1">yāstaLā22ǝ3</formula>
+                    <formula type="l2">yāsta1āLǝ3</formula>
+                    <formula type="l3">yāsta1ā22ǝL</formula>
+                    <solution>IV,3 Imperf. 3 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Subjunctive">
+                    <formula>yāsta1ā2ǝ3</formula>
+                    <formula type="w1">yāstaWā22ǝ3</formula>
+                    <formula type="w2">yāsta1āWǝ3</formula>
+                    <formula type="w3">yāsta1ā2u</formula>
+
+                    <formula type="y1" attested="no">yāstaYā22ǝ3</formula>
+                    <formula type="y2">yāsta1āYǝ3</formula>
+                    <formula type="y3">yāsta1ā2i</formula>
+
+                    <formula type="l1">yāstaLā2ǝ3</formula>
+                    <formula type="l2">yāsta1āLǝ3</formula>
+                    <formula type="l3">yāsta1ā2ǝL</formula>
+                    <solution>IV,3 Subj. 3 m. sg.</solution>
+                </pattern>
+                <pattern name="Imperative">
+                    <formula>ʾasta1ā2ǝ3</formula>
+                    <formula type="w1">yāstaWā2ǝ3</formula>
+                    <formula type="w2">ʾasta1āWǝ3</formula>
+                    <formula type="w3">ʾasta1ā2u</formula>
+
+                    <formula type="y1" attested="no">yāstaYā2ǝ3</formula>
+                    <formula type="y2">ʾasta1āYǝ3</formula>
+                    <formula type="y3">ʾasta1ā2i</formula>
+
+                    <formula type="l1">ʾastaLā2ǝ3</formula>
+                    <formula type="l2">ʾasta1āLǝ3</formula>
+                    <formula type="l3">ʾasta1ā2ǝL</formula>
+                    <solution>IV,3 Impera. 2 m. sg.</solution>
+                </pattern>
+
+                <pattern name="Gerundive">
+                    <formula>ʾasta1ā2i3o</formula>
+                    <formula type="w1">ʾastaWā2i3o</formula>
+                    <formula type="w2">ʾasta1āWi3o</formula>
+                    <formula type="w3">ʾasta1ā2iWo</formula>
+
+                    <formula type="y1" attested="no">ʾastaYā2i3o</formula>
+                    <formula type="y2">ʾasta1āYi3</formula>
+                    <formula type="y3">ʾasta1ā2iYo</formula>
+
+                    <formula type="l1">ʾastaLā2i3o</formula>
+                    <formula type="l2">ʾasta1āLi3o</formula>
+                    <formula type="l3">ʾasta1ā2iLo</formula>
+                    <solution>IV,3 Gerund. 3 m. sg</solution>
+                </pattern>
+
+                <pattern name="Infinitive">
+                    <formula>ʾasta1ā2ǝ3o</formula>
+                    <formula>ʾasta1ā2ǝ3ot</formula>
+                    <formula type="w1">ʾastaWā2ǝ3o</formula>
+                    <formula type="w1">ʾastaWā2ǝ3ot</formula>
+                    <formula type="w2">ʾasta1āWǝ3o</formula>
+                    <formula type="w2">ʾasta1āWǝ3ot</formula>
+                    <formula type="w3">ʾasta1ā2ǝWo</formula>
+                    <formula type="w3">ʾasta1ā2ǝWot</formula>
+
+                    <formula type="y1" attested="no">ʾastaYā2ǝ3o</formula>
+                    <formula type="y1" attested="no">ʾastaYā2ǝ3ot</formula>
+                    <formula type="y2">ʾasta1āYǝ3</formula>
+                    <formula type="y2">ʾasta1āYǝ3ot</formula>
+                    <formula type="y3">ʾasta1ā2ǝY</formula>
+                    <formula type="y3">ʾasta1ā2ǝYot</formula>
+
+                    <formula type="l1">ʾastaLā2ǝ3o</formula>
+                    <formula type="l1">ʾastaLā2ǝ3ot</formula>
+                    <formula type="l2">ʾasta1āLǝ3o</formula>
+                    <formula type="l2">ʾasta1āLǝ3ot</formula>
+                    <formula type="l3">ʾasta1ā2ǝLo</formula>
+                    <formula type="l3">ʾasta1ā2ǝLot</formula>
+                    <solution>IV,3 Infinit.</solution>
+                </pattern>
+            </type>
+        </group>
+    </pos>
+</patterns>

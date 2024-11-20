@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pronouns xmlns="http://fidal.parser">
+    <group name="demonstrative">
+        <type name="nominative">
+        <num type="Singular">
+                <gender type="Masculine">
+                    <proclitic>ዝ</proclitic>
+                    <full>ዝንቱ</full>
+                </gender>
+                <gender type="Feminine">
+                    <proclitic>ዛ</proclitic>
+                    <full>ዛቲ</full>
+                </gender>
+        </num>
+        <num type="Plural">
+            
+                <gender type="Masculine">
+                    <full>እሉ</full>
+                    <full>እሎንቱ</full>
+                </gender>
+                <gender type="Feminine">
+                    <full>እላ</full>
+                    <full>እላንቱ</full>
+                </gender>
+            
+        </num>
+    </type>
+        <type name="akkusative">
+            <num type="Singular">
+                <gender type="Masculine">
+                    <proclitic>ዘ</proclitic>
+                    <full>ዘንተ</full>
+                </gender>
+                <gender type="Feminine">
+                    <proclitic>ዛ</proclitic>
+                    <full>ዛተ</full>
+                </gender>
+            </num>
+            <num type="Plural">
+                
+                <gender type="Masculine">
+                    <full>እሉ</full>
+                    <full>እሎንተ</full>
+                </gender>
+                <gender type="Feminine">
+                    <full>እላ</full>
+                    <full>እላንተ</full>
+                </gender>
+                
+            </num>
+        </type>
+    </group>
+    <group name="relavite">
+        <type name="nominative">
+            <num type="Singular">
+                <gender type="Masculine">
+                    <proclitic>ዘ</proclitic>
+                    <full>ዘ</full>
+                </gender>
+                <gender type="Feminine">
+                    <full>እንተ</full>
+                </gender>
+            </num>
+            <num type="Plural">
+                <full>እለ</full>
+            </num>
+        </type>
+        <type name="accusative">
+            <num type="Singular">
+                <gender type="Masculine">
+                    <full>ዘ</full>
+                </gender>
+                <gender type="Feminine">
+                    <full>እንተ</full>
+                </gender>
+            </num>
+            <num type="Plural">
+                <full>እለ</full>
+            </num>
+        </type>
+        <type name="genitive">
+            <num type="Singular">
+                <gender type="Masculine">
+                    <full>ዘዘ</full>
+                </gender>
+                <gender type="Feminine">
+                    <full>ዘእንተ</full>
+                </gender>
+            </num>
+            <num type="Plural">
+                <full>ዘእለ</full>
+            </num>
+        </type>
+    </group>
+    <group name="interrogative">
+        <full>መኑ</full>
+        <full>ምንት</full>
+    </group>
+</pronouns>
