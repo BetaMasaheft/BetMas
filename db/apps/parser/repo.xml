@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<meta xmlns="http://exist-db.org/xquery/repo">
+    <description>Gǝʿǝz Morphological Parser</description>
+    <author>Pietro Maria Liuzzo</author>
+    <website>http://www.betamasaheft.eu/morpho/</website>
+    <status>alpha</status>
+    <license>GNU-LGPL</license>
+    <copyright>true</copyright>
+    <type>application</type>
+    <target>parser</target>
+    <prepare>pre-install.xql</prepare>
+    <finish/>
+    <permissions user="Pietro" group="dba" mode="rw-rw-r--"/>
+<deployed>2021-08-18T08:12:06.237+02:00</deployed>
+</meta>

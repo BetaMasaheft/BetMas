@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<particles xmlns="http://fidal.parser">
+    <particle type="Accusative Particle" position="suf">ሃ</particle>
+    <particle type="Vocative Particle / Interjection" position="af">ኦ</particle>
+    <particle type="Other Particles - conjunction" position="suf">ኒ</particle>
+    <particle type="Other Particles - conjunction" position="suf">ሂ</particle>
+    <particle type="Other Particles - direction" position="suf">ኔ</particle>
+    <particle type="Other Particles - direction" position="suf">ሄ</particle>
+    <particle type="Other Particles" position="suf">ሶ</particle>
+    <particle type="Other Particles - emphatic" position="suf">ሰ</particle>
+    <particle type="Interrogative Adverb (What? How?)" position="af">ሚ</particle>
+    <particle type="Other Particles" position="suf">መ</particle>
+    <particle type="Other Particles" position="suf">ማ</particle>
+    <particle type="Other Particles" position="suf">ኬ</particle>
+    <particle type="Affirmative Particle" position="suf">ጓ</particle>
+</particles>
