@@ -9,7 +9,6 @@ module namespace app="https://www.betamasaheft.uni-hamburg.de/BetMas/app";
 
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace t="http://www.tei-c.org/ns/1.0";
-declare namespace functx = "http://www.functx.com";
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
 declare namespace skos = "http://www.w3.org/2004/02/skos/core#";
 declare namespace rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
@@ -33,6 +32,7 @@ import module namespace validation = "http://exist-db.org/xquery/validation";
 import module namespace fusekisparql = 'https://www.betamasaheft.uni-hamburg.de/BetMas/sparqlfuseki' at "xmldb:exist:///db/apps/BetMas/fuseki/fuseki.xqm";
 import module namespace console="http://exist-db.org/xquery/console";
 import module namespace apptable="https://www.betamasaheft.uni-hamburg.de/BetMas/apptable" at "xmldb:exist:///db/apps/BetMas/modules/apptable.xqm";
+import module namespace functx = "http://www.functx.com";
 
 (:~declare variable $app:item-uri as xs:string := raequest:get-parameter('uri',());:)
 declare variable $app:deleted := doc('/db/apps/lists/deleted.xml');
@@ -101,11 +101,6 @@ declare variable $app:APP_ROOT :=
             request:get-context-path() || "/apps/BetMas"
             ;
 
-declare function functx:capitalize-first( $arg as xs:string? )  as xs:string? {
-   concat(upper-case(substring($arg,1,1)),
-             substring($arg,2))
- } ;
- 
 declare function app:interpretationSegments($node as node(), $model as map(*)){
  for $d in config:distinct-values(collection($config:data-rootMS)//t:seg/@ana)
                     return
@@ -464,29 +459,13 @@ declare function app:deleted ($node as node(), $model as map(*)) {
        <script type="text/javascript" src="resources/js/permanentID.js"></script>
 };
 
-declare function functx:value-intersect  ( $arg1 as xs:anyAtomicType* ,    $arg2 as xs:anyAtomicType* )  as xs:anyAtomicType* {
-
-  config:distinct-values($arg1[. eq $arg2])
- } ;
-
-declare function functx:trim( $arg as xs:string? )  as xs:string {
-
-   replace(replace($arg,'\s+$',''),'^\s+','')
- } ;
-
-declare function functx:contains-any-of( $arg as xs:string? ,$searchStrings as xs:string* )  as xs:boolean {
-
-   some $searchString in $searchStrings
-   satisfies contains($arg,$searchString)
- } ;
-
 (:modified by applying functx:escape-for-regex() :)
-declare function functx:number-of-matches ( $arg as xs:string? ,$pattern as xs:string )  as xs:integer {
+declare function app:number-of-matches ( $arg as xs:string? ,$pattern as xs:string )  as xs:integer {
        
-   count(tokenize(functx:escape-for-regex(functx:escape-for-regex($arg)),functx:escape-for-regex($pattern))) - 1
+   count(tokenize(app:escape-for-regex(app:escape-for-regex($arg)),app:escape-for-regex($pattern))) - 1
  } ;
 
-declare function functx:escape-for-regex( $arg as xs:string? )  as xs:string {
+declare function app:escape-for-regex( $arg as xs:string? )  as xs:string {
 
    replace($arg,
            '(\.|\[|\]|\\|\||\-|\^|\$|\?|\*|\+|\{|\}|\(|\))','\\$1')
@@ -1993,23 +1972,23 @@ declare %private function app:sanitize-lucene-query($query-string as xs:string) 
     (:Remove colons – Lucene fields are not supported.:)
     let $query-string := translate($query-string, ":", " ")
     let $query-string := 
-	   if (functx:number-of-matches($query-string, '"') mod 2) 
+	   if (app:number-of-matches($query-string, '"') mod 2) 
 	   then $query-string
 	   else replace($query-string, '"', ' ') (:if there is an uneven number of quotation marks, delete all quotation marks.:)
     let $query-string := 
-	   if ((functx:number-of-matches($query-string, '\(') + functx:number-of-matches($query-string, '\)')) mod 2 eq 0) 
+	   if ((app:number-of-matches($query-string, '\(') + app:number-of-matches($query-string, '\)')) mod 2 eq 0) 
 	   then $query-string
 	   else translate($query-string, '()', ' ') (:if there is an uneven number of parentheses, delete all parentheses.:)
     let $query-string := 
-	   if ((functx:number-of-matches($query-string, '\[') + functx:number-of-matches($query-string, '\]')) mod 2 eq 0) 
+	   if ((app:number-of-matches($query-string, '\[') + app:number-of-matches($query-string, '\]')) mod 2 eq 0) 
 	   then $query-string
 	   else translate($query-string, '[]', ' ') (:if there is an uneven number of brackets, delete all brackets.:)
     let $query-string := 
-	   if ((functx:number-of-matches($query-string, '{') + functx:number-of-matches($query-string, '}')) mod 2 eq 0) 
+	   if ((app:number-of-matches($query-string, '{') + app:number-of-matches($query-string, '}')) mod 2 eq 0) 
 	   then $query-string
 	   else translate($query-string, '{}', ' ') (:if there is an uneven number of braces, delete all braces.:)
     let $query-string := 
-	   if ((functx:number-of-matches($query-string, '<') + functx:number-of-matches($query-string, '>')) mod 2 eq 0) 
+	   if ((app:number-of-matches($query-string, '<') + app:number-of-matches($query-string, '>')) mod 2 eq 0) 
 	   then $query-string
 	   else translate($query-string, '<>', ' ') (:if there is an uneven number of angle brackets, delete all angle brackets.:)
     return $query-string
