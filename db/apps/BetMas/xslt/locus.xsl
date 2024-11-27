@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:funct="my.funct" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:function name="funct:imagesID">
         <xsl:param name="locus"/>
@@ -569,7 +570,9 @@
         <xsl:variable name="ranges">
             <xsl:for-each select="$values[string-length() ge 1]">
                 <val>
-                    <pos><xsl:value-of select="position()"/></pos>
+                    <pos>
+                        <xsl:value-of select="position()"/>
+                    </pos>
                     <xsl:variable name="FromToTarget" select="replace(., '\s', '')"/>
                     <xsl:copy-of select="funct:breakdownRef($FromToTarget)"/>
                 </val>
@@ -580,7 +583,8 @@
             <!-- Modal content-->
             <div class="w3-modal-content">
                 <header class="w3-container">
-                    <h4>Images relevant for <xsl:value-of select="string-join($values[string-length() ge 1], ',')"/></h4>
+                    <h4>Images relevant for <xsl:value-of select="string-join($values[string-length() ge 1], ',')"/>
+                    </h4>
                     <button class="w3-button w3-gray w3-display-topright" onclick="document.getElementById('{$modalid}').style.display='none'">Close</button>
                     <p>Click on the image to see the relevant page in Mirador viewer.</p>
                 </header>
@@ -630,7 +634,9 @@
                                     <xsl:variable name="nextMatchingLine" select="                                             if ($f = $nf and ($c = $nc or $s = $ns)) then                                                 $file//t:zone[@rendition = 'Line'][@xml:id = substring-after($nextMatchingPageBreak/@facs, '#')]                                             else                                                 ()"/>
                                     <xsl:variable name="locationclean" select="string-join($location[position() lt last()], '/')"/>
                                     <xsl:variable name="filename" select="$matchingLine/ancestor-or-self::t:surface[1]/t:graphic/@url"/>
-<xsl:message><xsl:value-of select="$filename"/></xsl:message>
+<xsl:message>
+                                                <xsl:value-of select="$filename"/>
+                                            </xsl:message>
                                     <xsl:variable name="regionX" select="$matchingLine/@ulx"/>
                                     <xsl:variable name="regionY" select="$matchingLine/@uly"/>
                                     <xsl:variable name="regionW" select="                                             (if ($nextMatchingLine) then                                                 $nextMatchingLine/@lrx                                             else                                                 $matchingLine/@lrx) - $matchingLine/@ulx"/>
@@ -650,7 +656,9 @@
                                     <xsl:variable name="nextMatchingCol" select="                                         if ($f = $nf and ($c = $nc or $s = $ns)) then                                         $file//t:zone[@rendition = 'TextRegion'][@xml:id = substring-after($nextMatchingColBreak[1]/@facs, '#')]                                         else                                         ()"/>
                                     <xsl:variable name="locationclean" select="string-join($location[position() lt last()], '/')"/>
                                     <xsl:variable name="filename" select="$matchingCol/ancestor-or-self::t:surface[1]/t:graphic/@url"/>
-                                    <xsl:message><xsl:value-of select="$filename"/></xsl:message>
+                                    <xsl:message>
+                                                <xsl:value-of select="$filename"/>
+                                            </xsl:message>
                                     <xsl:variable name="regionX" select="$matchingCol/@ulx"/>
                                     <xsl:variable name="regionY" select="$matchingCol/@uly"/>
                                     <xsl:variable name="regionW" select=" (if ($nextMatchingCol) then                                         $nextMatchingCol/@lrx                                         else                                         $matchingCol/@lrx) - $matchingCol/@ulx"/>

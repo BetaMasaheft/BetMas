@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:funct="my.funct" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:variable name="mainID" select="t:TEI/@xml:id"/>
     <xsl:function name="funct:date">
@@ -5,7 +6,8 @@
         <xsl:choose>
             <xsl:when test="matches($date, '\d{4}-\d{2}-\d{2}')">
                 <xsl:value-of select="format-date(xs:date($date), '[D]-[M]-[Y0001]', 'en', 'AD', ())"/>
-            </xsl:when><xsl:when test="matches($date, '\d{4}-\d{2}')">
+            </xsl:when>
+            <xsl:when test="matches($date, '\d{4}-\d{2}')">
                 <xsl:variable name="monthnumber" select="substring-after($date, '-')"/>
                 <xsl:variable name="monthname">
                     <xsl:choose>
@@ -87,13 +89,21 @@
                 </div>
             </xsl:if>
               <xsl:if test="//t:person/t:note">
-                  <xsl:for-each select="//t:person/t:note"><div class="w3-container"> 
+                  <xsl:for-each select="//t:person/t:note">
+                            <div class="w3-container"> 
                       <xsl:choose>
-                          <xsl:when test="@type"><h4><xsl:value-of select="concat(upper-case(substring(@type, 1,1)), substring(@type, 2))"/></h4></xsl:when>
-                          <xsl:otherwise><h4>Notes</h4></xsl:otherwise>
+                          <xsl:when test="@type">
+                                        <h4>
+                                            <xsl:value-of select="concat(upper-case(substring(@type, 1,1)), substring(@type, 2))"/>
+                                        </h4>
+                                    </xsl:when>
+                          <xsl:otherwise>
+                                        <h4>Notes</h4>
+                                    </xsl:otherwise>
                       </xsl:choose>
                       <xsl:apply-templates select="."/>
-                  </div></xsl:for-each>
+                  </div>
+                        </xsl:for-each>
               </xsl:if>
               <xsl:if test="//t:relation">
                   <div class="w3-container">

@@ -28,7 +28,7 @@ $(document).on('ready', function () {
     
       $("#graphloadingstatus").text('Querying SPARQL data')
     $.getJSON(apicall, function (sparqlresult) {
-    //console.log(sparqlresult)
+    console.log(sparqlresult)
         var table =[];
       $("#graphloadingstatus").text('building the table')
         for (var i = 0; i < extent; i++) {

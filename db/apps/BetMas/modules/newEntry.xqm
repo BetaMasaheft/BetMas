@@ -235,7 +235,7 @@ else if($app:collection = 'manuscripts') then (
 <label>Institution</label>
 <br/><select  class="w3-select"  id="institution" name="institution">
                 {
-                for $i in doc('/db/apps/lists/institutions.xml')//t:item
+                for $i in doc('/db/apps/BetMas/lists/institutions.xml')//t:item
                 let $title := $i/text()
                 order by $title
                 return

@@ -9,7 +9,7 @@ declare namespace rdfs="http://www.w3.org/2000/01/rdf-schema#";
 declare namespace t="http://www.tei-c.org/ns/1.0";
 let $operation := 'INSERT'
 return
-for $title in $config:collection-rootW//t:titleStmt/t:title[@xml:id] 
+for $title in collection($config:data-rootW)//t:titleStmt/t:title[@xml:id] 
    let $rootID := string($title/ancestor::t:TEI/@xml:id)
     let $rdfxml :=  
                 <rdf:RDF>

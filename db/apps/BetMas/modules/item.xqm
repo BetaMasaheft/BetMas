@@ -11,74 +11,13 @@ import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMa
 import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "xmldb:exist:///db/apps/BetMas/modules/editors.xqm";
 import module namespace wiki="https://www.betamasaheft.uni-hamburg.de/BetMas/wiki" at "xmldb:exist:///db/apps/BetMas/modules/wikitable.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
-import module namespace exptit="https://www.betamasaheft.uni-hamburg.de/BetMas/exptit" at "xmldb:exist:///db/apps/BetMas/modules/exptit.xqm";
 import module namespace apptable="https://www.betamasaheft.uni-hamburg.de/BetMas/apptable" at "xmldb:exist:///db/apps/BetMas/modules/apptable.xqm";
-import module namespace viewItem = "https://www.betamasaheft.uni-hamburg.de/BetMas/viewItem" at "xmldb:exist:///db/apps/BetMas/modules/viewItem.xqm";
-import module namespace tl="https://www.betamasaheft.uni-hamburg.de/BetMas/timeline"at "xmldb:exist:///db/apps/BetMas/modules/timeline.xqm";
 import module namespace xdb="http://exist-db.org/xquery/xmldb";
 import module namespace locus = "https://www.betamasaheft.uni-hamburg.de/BetMas/locus" at "xmldb:exist:///db/apps/BetMas/modules/locus.xqm";
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace t="http://www.tei-c.org/ns/1.0";
 
-
-declare function item2:authorsSHA($id, $this, $collection, $sha){
-apprest:authorsSHA($id, $this, $collection, $sha)
-};
-
-declare function item2:printTitle($id){exptit:printTitle($id)};
-
-declare function item2:getTEIbyID($id){
-$apprest:collection-root/id($id)[name() eq 'TEI']
-};
-
-declare function item2:formerly($id){
-$apprest:collection-root//t:relation[@name eq 'betmas:formerlyAlsoListedAs'][@passive eq $id]
-};
-declare function item2:rels($id){
-$apprest:collection-rootMS//t:relation[contains(@passive, $id)]
-};
-
-declare function item2:namedentitiescorresps($this, $collection){
-apprest:namedentitiescorresps($this, $collection)
-};
-declare function item2:EntityRelsTable($this, $collection) {
-apprest:EntityRelsTable($this, $collection)
-};
-declare function item2:authors($this, $collection){
-apprest:authors($this, $collection)
-};
-
-declare function item2:persList($item){
-(:expects a manuscript item:)
-let $id := $item/@xml:id
-let $persons := $item//t:persName[@role]
-return
-if (count($persons) le 0) then <p>No persons related to this manuscripts are known.</p> else
- 
-<ul class=" w3-ul w3-hoverable">
-{
-for $pers in $item//t:persName[@role] return
-<li class="nodot">
-<a href="{$pers/@ref}" target="_blank">{string($pers/@role)}: {$pers/text()}</a>
-</li>}
-</ul>
-};
-
-declare function item2:witList($item){
-(:expects a work item:)
-<ul class=" w3-ul w3-hoverable">
-{
-for $wit in $item//t:witness[not(@type)] return
-<li class="nodot" id="{string($wit/@xml:id)}">
-<a href="{$wit/@corresp}" target="_blank">{if($wit/@xml:id) then (<b class="lead">{string($wit/@xml:id)}</b>,':') else ()} {$wit/t:idno/text(), ', ' ,$wit/t:title/text()}</a></li>}
-{
-for $wit in $item//t:witness[@type eq 'external'] return
-<li class="nodot" id="{string($wit/@xml:id)}">
-<a href="{$wit/@facs}" target="_blank">{if($wit/@xml:id) then (<b class="lead">{string($wit/@xml:id)}</b>,':') else ()}  {if($wit/text()) then $wit/text() else string($wit/@corresp)}</a></li>}
-
-</ul>
-};
 (:~ used by item2:restNav:)
 declare function item2:witnesses($id){
 let $item := ($apprest:collection-rootMS, $apprest:collection-rootW)//t:TEI/id($id)
@@ -91,7 +30,17 @@ else
 (<div class="w3-bar-item" id="textWitnesses">
 <h5>Witnesses of the edition</h5>
 </div>,
-item2:witList($item)
+<ul class=" w3-bar-item nodot">
+{
+for $wit in $item//t:witness[not(@type)] return
+<li class="nodot" id="{string($wit/@xml:id)}">
+<a href="/manuscripts/{string($wit/@corresp)}/main" target="_blank"><b class="lead">{string($wit/@xml:id)}</b>: {titles:printTitleID(string($wit/@corresp))}</a></li>}
+{
+for $wit in $item//t:witness[@type eq 'external'] return
+<li class="nodot" id="{string($wit/@xml:id)}">
+<a href="{$wit/@facs}" target="_blank"><b class="lead">{string($wit/@xml:id)}</b>: {if($wit/text()) then $wit/text() else string($wit/@corresp)}</a></li>}
+
+</ul>
        ,
        let $versions := $titles:collection-root//t:relation[@name eq 'saws:isVersionOf'][contains(@passive, $id)]
        return
@@ -376,10 +325,9 @@ return
     let $type := data($document//t:place/@type)
     let $list := if(contains($type, ' ')) then tokenize(normalize-space($type), ' ') else string($type)
     return
-     (<div>{for $t in $list return <a class="w3-tag w3-red" href="/places/list?placetype={$t}" target="_blank">{$t}</a>}</div>,
-  if(starts-with($document//t:place/@sameAs, 'wd:')) then wiki:wikitable(substring-after($document//t:place/@sameAs, 'wd:')) else (string($document//t:place/@sameAs)))
-   else ()}</div>
-
+(     <div>{for $t in $list return <a class="w3-tag w3-red" href="/places/list?placetype={$t}" target="_blank">{$t}</a>}</div>,
+  if(starts-with($document//t:place/@sameAs, 'wd:')) then wiki:wikitable(substring-after($document//t:place/@sameAs, 'wd:')) else (string($document//t:place/@sameAs))
+) else ()}</div>
 
  case 'places' return
 
@@ -389,9 +337,9 @@ return
     let $type := data($document//t:place/@type)
     let $list := if(contains($type, ' ')) then tokenize(normalize-space($type), ' ') else string($type)
     return
-(     <div  class="w3-row">{for $t in $list return <a class="w3-tag w3-red" href="/places/list?placetype={$t}" target="_blank">{$t}</a>}</div>,
-  if(starts-with($document//t:place/@sameAs, 'wd:')) then wiki:wikitable(substring-after($document//t:place/@sameAs, 'wd:')) else (string($document//t:place/@sameAs)))
+     <div  class="w3-row">{for $t in $list return <a class="w3-tag w3-red" href="/places/list?placetype={$t}" target="_blank">{$t}</a>}</div>
    else (),
+   if(starts-with($document//t:place/@sameAs, 'wd:')) then wiki:wikitable(substring-after($document//t:place/@sameAs, 'wd:')) else (string($document//t:place/@sameAs)),
     <a target="_blank" 
             href="/manuscripts/place/list?place={$id}" 
             role="button"
@@ -785,7 +733,7 @@ return
             if($type = 'text') then  item2:witnesses($id) 
             else <div class="w3-container w3-col">
             <img id="loading" src="resources/Loading.gif" style="display: none; align: centre;" width="100%"></img>
-            {viewItem:nav($this)}</div>
+            {transform:transform($document, 'xmldb:exist:///db/apps/BetMas/xslt/nav.xsl', ())}</div>
            }
 </div>
 };
@@ -793,41 +741,38 @@ return
 
 (:~called by he RESTXQ module items.xql :)
 declare function item2:RestPersRole($file, $collection){
+   
     let $id := string($file/@xml:id)
     return
 if ($collection = 'persons') then(
-<div  class="w3-panel w3-margin w3-card-4">{
-let $persrol := $titles:collection-root//t:persName[ends-with(@ref,  $id)]
+<div  class="w3-panel w3-margin  w3-gray w3-card-4">{
+let $persrol := $titles:collection-root//t:persName[@ref eq  $id]
 let $persrole := $persrol[@role]
 return
 if($persrole) then
 for $role in $persrole
              group by $r := $role/@role
             return
-             <div>{exptit:printTitle($id)} is  {string($r)}  of the following items
+             <div>{<span class="MainTitle" data-value="{$id}"></span>} is <span class="w3-button w3-gray role" 
+             onclick="document.getElementById('{$r}list').style.display='block'">{string($r)}</span><div>
+                    <div id="{$r}list"  class="w3-modal fade">
+                    
+  <div class="w3-modal-content">
+                        <button type="button" class="w3-button w3-red" onclick="document.getElementById('{$r}list').style.display='none'">Close</button>
+                                    <header class="w3-container">
+                                            <h4 class="w3-margin" id="{$r}listcount">There are other</h4>
+                                    </header>
+                                    <div class="w3-container">
+                                            <ul id="{$r}listitems" class="w3-ul w3-hoverable"></ul>
+                                    </div>
+                                    </div>
+             </div>
+             </div>  of
              <ul class="w3-ul w3-hoverable">
             {for $root in $role/ancestor::t:TEI[@xml:id !=$id]
             let $thisid := string($root/@xml:id)
                    return
-                   <li>
-                   <a href="{$thisid}">{exptit:printTitle($thisid)}</a>
-                   {if((count($root//t:origDate[@evidence="internal-date"]) ge 1)) then 
-                       let $dates:=  for $date in $root//t:origDate[@evidence="internal-date"]
-                         return string:tei2string($date) 
-                         return
-                         ' which contains the following internal dates: ' || string-join($dates, ', ') || '.'
-                         else () 
-                         
-                   }
-                   {if((count($root//t:msDesc//t:date) ge 1)) then 
-                       let $dates:=  for $date in $root//t:msDesc//t:date
-                         return (string:tei2string($date) || ' in a ' || $date/parent::t:*/name() || " element")
-                         return
-                         ' The description of the manuscript also contains the following dates ' || string-join($dates, ', ') || '.'
-                         else () 
-                         
-                   }
-                   </li>}
+                   <li><a href="{$thisid}">{titles:printTitleID($thisid)}</a></li>}
                    </ul>
                    </div>
           else ('This person is mentioned nowhere with a specific role.')  }
@@ -845,7 +790,7 @@ else if ($collection = 'manuscripts' or $collection = 'works' or $collection = '
 
  return
 <div  class="w3-panel w3-margin w3-gray w3-card-4">
-    <a href="{$ID}">{exptit:printTitle($ID)}</a>
+    <a href="{$ID}">{titles:printTitleID($ID)}</a>
     is <span class="w3-tag w3-red">{for $role in config:distinct-values($p/@role) return string($role) || ' '}</span>{' of this manuscript'}.
 
     {
@@ -877,7 +822,7 @@ else if ($collection = 'manuscripts' or $collection = 'works' or $collection = '
                 {
                 for $root in $role/ancestor::t:TEI[@xml:id !=$id]
                    return
-                   <li><a href="{string($root/@xml:id)}">{exptit:printTitle(string($root/@xml:id))}</a></li>
+                   <li><a href="{string($root/@xml:id)}">{titles:printTitleID(string($root/@xml:id))}</a></li>
 
                 }
 
@@ -1320,22 +1265,48 @@ return <p>Click the following link to compare a <a target="_blank" href="/compar
 (:~ depending on the type of item sends to the correct XSLT producing the main content of the page :)
 declare function item2:RestItem($this, $collection) {
 let $document := $this
-let $id := string($document/t:TEI/@xml:id) 
+let $id := string($document/t:TEI/@xml:id)
+return
+let $xslt :=  switch($collection)
+        case "manuscripts"  return       'xmldb:exist:///db/apps/BetMas/xslt/mss.xsl'
+        case "places"  return       'xmldb:exist:///db/apps/BetMas/xslt/placeInstit.xsl'
+        case "institutions"  return       'xmldb:exist:///db/apps/BetMas/xslt/placeInstit.xsl'
+        case "persons"  return       'xmldb:exist:///db/apps/BetMas/xslt/Person.xsl'
+        case "works"  return       'xmldb:exist:///db/apps/BetMas/xslt/Work.xsl'
+        case "narratives"  return       'xmldb:exist:///db/apps/BetMas/xslt/Work.xsl'
+        (:THE FOLLOWING TWO ARE TEMPORARY PLACEHOLDERS:)
+        case "authority-files"  return       'xmldb:exist:///db/apps/BetMas/xslt/auth.xsl'
+        default return 'xmldb:exist:///db/apps/BetMas/xslt/Work.xsl'
+
+let $parameters : = if ($collection = 'manuscripts') then <parameters>
+    <param name="porterified" value="."/>
+    <param name="folio" value="1"/>
+    <param name="currentpos" value="1"/>
+    <param name="rend" value="."/>
+    <param name="from" value="."/>
+    <param name="to" value="."/>
+    <param name="prec" value="."/>
+    <param name="count" value="."/>
+    <param name="singletons" value="."/>
+    <param name="step1ed" value="."/>
+    <param name="step2ed" value="."/>
+    <param name="step3ed" value="."/>
+    <param name="Finalvisualization" value="."/>
+</parameters> else ()
+let $transformation := try{transform:transform($document,$xslt,$parameters)} catch * {<error>{$err:description}</error>}
+ 
 (:because nav takes 2 colums:)
   return
+   
        <div class="w3-container " resource="http://betamasaheft.eu/{$id}" >
-       {viewItem:main($document)}
+{if($transformation/error) then 
+    <p>Sorry, an error happened and we could not transform the file you want to look at at the moment.</p>
+    else $transformation 
+}
     {item2:RestSeeAlso($this, $collection)}
     </div>
 };
 
-declare function item2:documents($doc){
-viewItem:documents($doc)
-};
-
-declare function item2:timeline($this, $collection){
-tl:RestEntityTimeLine($this, $collection)
-};
 
 (:~ sends to the correct XSLT producing the main content of 
 the page for text view
@@ -1343,9 +1314,12 @@ REPLACED BY dtsc:client() in dtsclient.xqm item2:RestText()
 :)
 
 declare function item2:title($id){
-exptit:printTitle($id)
+titles:printTitleMainID($id)
 };
 
 declare function item2:textBibl($this, $id){
-viewItem:textfragmentbibl($this, $id)
+let $xslt :=   'xmldb:exist:///db/apps/BetMas/xslt/textfragmentbibl.xsl'  
+let $xslpars := <parameters><param name="mainID" value="{$id}"/></parameters>
+return
+transform:transform($this, $xslt, $xslpars)
 };

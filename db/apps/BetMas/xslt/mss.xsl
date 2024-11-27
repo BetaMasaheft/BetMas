@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:funct="my.funct" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:key name="decotype" match="//t:decoNote" use="@type"/>
     <xsl:key name="additiontype" match="//t:item[contains(@xml:id, 'a')]/t:desc" use="@type"/>
@@ -76,8 +77,10 @@
                             <a class="w3-bar-item  w3-hide-medium w3-hide-small w3-button w3-red" href="https://betamasaheft.eu/tweed.html">Tweed Collection</a>
                         </xsl:if>
                         <a class="w3-bar-item  w3-hide-medium w3-hide-small w3-button w3-red" id="showattestations" data-value="mss" data-id="{string(t:TEI/@xml:id)}">Show attestations</a>
-                        <a class="w3-bar-item  w3-hide-medium w3-hide-small w3-button w3-gray" id="togglecodicologicalInformation"><span class="showHideText">Hide</span> codicological information</a>
-                        <a class="w3-bar-item w3-hide-medium w3-hide-small w3-button w3-gray" id="toggletextualcontents"><span class="showHideText">Hide</span> contents</a>
+                        <a class="w3-bar-item  w3-hide-medium w3-hide-small w3-button w3-gray" id="togglecodicologicalInformation">
+                            <span class="showHideText">Hide</span> codicological information</a>
+                        <a class="w3-bar-item w3-hide-medium w3-hide-small w3-button w3-gray" id="toggletextualcontents">
+                            <span class="showHideText">Hide</span> contents</a>
                     </div>
             </div>
             

@@ -203,7 +203,7 @@ return
                                                     <json:value
                                                         json:array="true"><id>{string($r)}</id></json:value>
                                             })
-                                    case 'nar'
+                                    case 'narr'
                                         return
                                             (element keyword {
                                                 for $r in $resource//t:term/@key
@@ -415,7 +415,7 @@ return
                                     return
                                         string($r) || ' '
                                 })
-                        case 'nar'
+                        case 'narr'
                             return
                                 (attribute keyword {
                                     for $r in $resource//t:term/@key

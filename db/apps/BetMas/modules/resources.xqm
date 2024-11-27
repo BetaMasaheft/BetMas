@@ -290,7 +290,8 @@ return util:eval($query) else ()
    return
    map {
                     "hits" : $allTitles
-    }
+
+                }
    };
 
 
@@ -432,11 +433,11 @@ return util:eval($query) else ()
                                <small class="form-text text-muted">Limit by type</small><br/>
                                 <select class="w3-select w3-border" name="typeval" multiple="multiple">
                                 <option selected="selected" val="marked">marked</option>
-                                {let $types := lists:typedistvalues($model('hits'))
+                                {let $types := ($model('hits')[name() = 'title' or name()='div']//@subtype, 
+                                                   $model('hits')[name() = 'incipit' or name()='explicit'or name()='colophon' or name()='seg']//@type)
                                          for $d in config:distinct-values($types)
-                                         let $group := lists:typegroups($model('hits'), $d)
             return
-            <option value="{$d}">{$d} ({count($group)})</option>}
+            <option value="{$d}">{$d} ({count($model('hits')[@* = $d])})</option>}
             <option value="all">all</option>
                                 </select>
                                 </div>
@@ -509,7 +510,7 @@ return util:eval($query) else ()
                                <div  class="w3-container  w3-margin">
                                <small class="form-text text-muted">Select one or more type of decoration</small><br/>
 
-                               {for $d in config:distinct-values($model('hits')/@type)
+                               {for $d in distinct-values($model('hits')/@type)
                                  return  (<label class="checkbox"><input type="checkbox" class="w3-check" value="{$d}" name="type"/>{$d}</label>,<br/>)}
 
                                 </div>
@@ -661,7 +662,7 @@ declare function lists:calendarform($node as node(), $model as map(*)){
                                <div  class="w3-container w3-margin">
                                <small class="form-text text-muted">Select one or more type of decoration</small><br/>
 
-                               {for $d in config:distinct-values($model('hits')/@type)
+                               {for $d in distinct-values($model('hits')/@type)
                                  return  (<label class="checkbox"><input type="checkbox" class="w3-check" value="{$d}" name="type"/>{$d}</label>,<br/>)}
 
                                 </div>
@@ -907,7 +908,7 @@ for $date at $p in $model("hits")
 (<button onclick="openAccordion('{data($ms)}{data($type)}')" 
         class="w3-button w3-block w3-red w3-padding w3-margin-bottom">
 <span class="w3-badge w3-right">{count($d)}</span>
-<span class="w3-left " data-value="{$type}">{titles:printTitleMainID($ms)}</span>
+<span class="w3-left " data-value="{$type}">{try{titles:printTitleMainID($ms)} catch * {$ms}}</span>
 </button>,
 <div class="w3-container w3-hide" id="{data($ms)}{data($type)}">
 <ul class="w3-ul w3-hoverable" >
@@ -1017,62 +1018,44 @@ for $decoration at $p in $model("hits")
     
 };
 
-declare function lists:typedistvalues($hits){
-for $title in $hits[self::t:seg[ancestor::t:text][not(ancestor::t:bibl)] or self::t:incipit or self::t:explicit or self::t:colophon or self::t:div  or self::t:title]
-    let $t := if($title/@subtype) then string($title/@subtype) else string($title/@type)
-    return distinct-values(tokenize(normalize-space(string-join($t,' ')), ' '))};
-
-declare function lists:typegroups($hits, $i){
- let $segs:= $hits//self::t:seg[ancestor::t:text][not(ancestor::t:bibl)][contains(@type,$i)] | $hits//self::t:seg[ancestor::t:text][not(ancestor::t:bibl)][contains(@subtype,$i)]
- let $incipits:= $hits//self::t:incipit[contains(@type,$i)] | $hits//self::t:incipit[contains(@subtype,$i)]
- let $explicits:= $hits//self::t:explicit[contains(@type,$i)] | $hits//self::t:explicit[contains(@subtype,$i)]
- let $colophons:= $hits//self::t:colophon[contains(@type,$i)] | $hits//self::t:colophon[contains(@subtype,$i)]
- let $titles:= $hits//self::t:title[contains(@type,$i)] | $hits//self::t:title[contains(@subtype,$i)]
- let $divs:= $hits//self::t:div[contains(@type,$i)] | $hits//self::t:div[contains(@subtype,$i)]
-return ($segs | $incipits | $colophons | $explicits | $titles | $divs)
-};
 
 declare
 %templates:wrap
     function lists:titlesRes($node as node(), $model as map(*)){
-   let $hits :=$model("hits")
- let $individualvalues := lists:typedistvalues($hits)
-    
-   (: group by tokenized type :)
-for $i in distinct-values($individualvalues)
-(:let $log := util:log('INFO', $i):)
-order by $i 
-let $group := lists:typegroups($hits, $i)
-let $log := util:log('INFO',  count($group))
+   
+for $title at $p in $model("hits")
+    let $t := if($title/@subtype) then $title/@subtype else $title/@type
+   (: group by type :)
+    group by $type := $t
+    order by $type
     return
     
-    (<button onclick="openAccordion('{$i}')" class="w3-button w3-block w3-gray w3-padding w3-margin-bottom">
-<span class="w3-badge w3-right">{count($group)}</span>
-<span class="w3-left additionType" data-value="{$i}">{$i}</span>
+    (<button onclick="openAccordion('{data($type)}')" class="w3-button w3-block w3-gray w3-padding w3-margin-bottom">
+<span class="w3-badge w3-right">{count($title)}</span>
+<span class="w3-left additionType" data-value="{$type}">{string($type)}</span>
 </button>,
     
-    <div class="w3-container w3-hide" id="{$i}">
+    <div class="w3-container w3-hide" id="{data($type)}">
     
-<div  class="w3-container" id="{$i}">
+<div  class="w3-container" id="{data($type)}">
             {
-            for $d at $p in $group
+                for $d in $title
                 let $tei := $d/ancestor::t:TEI
                 let $msid := $tei/@xml:id
 
                 (:group by containing ms:)
                 group by $ms := $msid
-                let $itemtype :=  distinct-values($tei/@type)[1]
                 order by $ms
                 return
 
 (<button onclick="openAccordion('{data($ms)}')" class="w3-button w3-block w3-red  w3-margin-bottom">
-<span class="w3-left">{if($itemtype eq  'mss') then $lists:collection-rootMS//id($ms)//t:msIdentifier/t:idno else try{titles:printTitleMainID($ms)} catch * {util:log('WARNING', $ms)}}</span>
+<span class="w3-left">{if($type/@type eq  'mss') then $lists:collection-rootMS//id($ms)//t:msIdentifier/t:idno else try{titles:printTitleMainID($ms)} catch * {util:log('WARNING', $ms)}}</span>
 <span class="w3-badge w3-right">{count($d)}</span>
 </button>,
              <div  class="w3-container w3-hide" id="{data($ms)}">
 
                  <ul class="w3-ul w3-hoverable" >
-                 {if($itemtype eq  'mss') then 
+                 {if($type/@type eq  'mss') then 
                      for $sd in $d
                      let $images := root($sd)//t:msIdentifier/t:idno
                      let $locus := string($sd/t:locus/@facs)
@@ -1099,9 +1082,9 @@ let $log := util:log('INFO',  count($group))
             <div class="w3-third" >{string:tei2string($sd/node())}</div>
                  <div class="w3-third">
                  <div class="w3-third"><a href="/{$ms}"><b>{$sd/name()}</b>{" | "}{if($sd/@subtype) then string($sd/@subtype) else string($sd/@type)}</a></div>
-                 <div class="w3-third">Refers to {if($sd/name() = 'div' and $itemtype eq  'work') 
+                 <div class="w3-third">Refers to {if($sd/name() = 'div' and $type/@type eq  'work') 
                                                    then <span class="MainTitle" data-value="{$ms}">{$ms}</span> 
-                                                 else if($sd/name() = 'div' and $itemtype eq  'mss') then 
+                                                 else if($sd/name() = 'div' and $type/@type eq  'mss') then 
                                                                     (let $corr := $sd/@corresp 
                                                                     let $msitem := $sd/ancestor::t:TEI//t:msItem[@xml:id=$corr]
                                                                     let $work := $msitem/t:title/@ref
@@ -1125,13 +1108,13 @@ let $log := util:log('INFO',  count($group))
                  <div class="w3-half" >{string:tei2string($sd/node())}</div>
                  <div class="w3-half">
                  <div class="w3-third"><a href="/{$ms}"><b>{$sd/name()}</b>{" | "}{if($sd/@subtype) then string($sd/@subtype) else string($sd/@type)}</a></div>
-                 <div class="w3-third">Refers to {if($sd/name() = 'div' and $itemtype eq  'work') 
+                 <div class="w3-third">Refers to {if($sd/name() = 'div' and $type/@type eq  'work') 
                                                    then (<a href="/{$ms}"><span class="MainTitle" data-value="{$ms}">{$ms}</span></a>, <br/>,
                                                                     <div class="w3-bar w3-gray w3-small"><a class="w3-bar-item w3-button" href="/titles?limit-work={$ms}">limit results to this work</a>
                                                                     <a  class="w3-bar-item w3-button" href="/compare?workid={$ms}">compare mss</a>
                                                                     <a  class="w3-bar-item w3-button" href="/workmap?worksid={$ms}">map mss</a>
                                                                     <a  class="w3-bar-item w3-button" href="/litcomp?worksid={$ms}">literature view</a></div>) 
-                                                 else if($sd/name() = 'div' and $itemtype eq  'mss') then 
+                                                 else if($sd/name() = 'div' and $type/@type eq  'mss') then 
                                                                     (let $corr := $sd/@corresp 
                                                                     let $msitem := $sd/ancestor::t:TEI//t:msItem[@xml:id=$corr]
                                                                     let $work := $msitem/t:title/@ref

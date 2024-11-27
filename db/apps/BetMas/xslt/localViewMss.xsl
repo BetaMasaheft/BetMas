@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:funct="my.funct" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:key name="decotype" match="//t:decoNote" use="@type"/>
     <xsl:key name="additiontype" match="//t:item[contains(@xml:id, 'a')]/t:desc" use="@type"/>
@@ -30,7 +31,9 @@
                 </xsl:variable>
                 <xsl:value-of select="concat(replace(substring-after($date, '-'), $monthnumber, $monthname), ' ', substring-before($date, '-'))"/>
             </xsl:when>
-            <xsl:otherwise><xsl:value-of select="format-number($date, '####')"/></xsl:otherwise>
+            <xsl:otherwise>
+                <xsl:value-of select="format-number($date, '####')"/>
+            </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
     <xsl:function name="funct:datepicker">
@@ -39,9 +42,15 @@
             <xsl:when test="$element/@notBefore or $element/@notAfter">
                 <xsl:if test="not($element/@notBefore)">Before </xsl:if>
                 <xsl:if test="not($element/@notAfter)">After </xsl:if>
-                <xsl:if test="$element/@notBefore"><xsl:value-of select="funct:date($element/@notBefore)"/></xsl:if>
-                <xsl:if test="$element/@notBefore and $element/@notAfter"><xsl:text>-</xsl:text></xsl:if>
-                <xsl:if test="$element/@notAfter"><xsl:value-of select="funct:date($element/@notAfter)"/></xsl:if>
+                <xsl:if test="$element/@notBefore">
+                    <xsl:value-of select="funct:date($element/@notBefore)"/>
+                </xsl:if>
+                <xsl:if test="$element/@notBefore and $element/@notAfter">
+                    <xsl:text>-</xsl:text>
+                </xsl:if>
+                <xsl:if test="$element/@notAfter">
+                    <xsl:value-of select="funct:date($element/@notAfter)"/>
+                </xsl:if>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="funct:date($element/@when)"/>
@@ -54,18 +63,21 @@
     <xsl:template match="/">
 <html version="XHTML+RDFa 1.1">
     <head>
-        <title>PREVIEW of <xsl:value-of select="//t:title[parent::t:titleStmt][1]"/></title>
+        <title>PREVIEW of <xsl:value-of select="//t:title[parent::t:titleStmt][1]"/>
+                </title>
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
         <link rel="stylesheet" href="/Users/liuzzo/Documents/BetMas/application/BetMas/resources/css/style.css"/>
         <link rel="stylesheet" href="/Users/liuzzo/Documents/BetMas/application/BetMas/resources/css/w3local.css"/>
-        <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"/>
     </head>
     <body>
-        <div class="w3-panel w3-card-4 w3-red w3-center"><p>THIS IS ONLY A PREVIEW.</p>
+        <div class="w3-panel w3-card-4 w3-red w3-center">
+                    <p>THIS IS ONLY A PREVIEW.</p>
             <p>It shows only limited details with the only purpose of facilitating the editorial process before submitting a formal Pull Request.</p>
         <p>Only the functionalities of XSLT, CSS and JQUERY are provided. No Links will work. No button with request functions.</p>
             
-            <p>References to files which are not yet approved will also not show anything.</p></div>
+            <p>References to files which are not yet approved will also not show anything.</p>
+                </div>
         <div class="w3-container" id="MainData">
             <span property="http://www.cidoc-crm.org/cidoc-crm/P48_has_preferred_identifier" content="{$mainID}"/>
             <div class="w3-container" id="description" typeof="http://lawd.info/ontology/AssembledWork https://betamasaheft.eu/mss">
@@ -79,8 +91,10 @@
                 <div id="maintoogles" class="btn-group">
                     
                     <div class="w3-bar">
-                        <a class="w3-bar-item  w3-hide-medium w3-hide-small w3-button w3-gray" id="togglecodicologicalInformation"><span class="showHideText">Hide</span> codicological information</a>
-                        <a class="w3-bar-item w3-hide-medium w3-hide-small w3-button w3-gray" id="toggletextualcontents"><span class="showHideText">Hide</span> contents</a>
+                        <a class="w3-bar-item  w3-hide-medium w3-hide-small w3-button w3-gray" id="togglecodicologicalInformation">
+                                    <span class="showHideText">Hide</span> codicological information</a>
+                        <a class="w3-bar-item w3-hide-medium w3-hide-small w3-button w3-gray" id="toggletextualcontents">
+                                    <span class="showHideText">Hide</span> contents</a>
                     </div>
                 </div>
                 
@@ -128,9 +142,13 @@
                             <xsl:sort order="ascending" select="count(preceding-sibling::t:relation)+1"/>
                             <xsl:variable name="p" select="count(preceding-sibling::t:relation)+1"/>
                             <xsl:variable name="tot" select="count(//t:relation)"/>
-                            <xsl:apply-templates select="." mode="gendesc"/><xsl:choose>
-                                <xsl:when test="$p!=$tot"><xsl:text>, </xsl:text></xsl:when>
-                                <xsl:otherwise>.</xsl:otherwise></xsl:choose>
+                            <xsl:apply-templates select="." mode="gendesc"/>
+                                    <xsl:choose>
+                                <xsl:when test="$p!=$tot">
+                                            <xsl:text>, </xsl:text>
+                                        </xsl:when>
+                                <xsl:otherwise>.</xsl:otherwise>
+                                    </xsl:choose>
                         </xsl:for-each>
                         For a table of all relations from and to this record, please go to the <a class="w3-tag w3-gray" href="/manuscripts/{$mainID}/analytic">Relations</a> view. In the Relations boxes on the right of this page, you can also find all available relations grouped by name.
                     </p>
@@ -149,10 +167,10 @@
             <xsl:with-param name="dates" select="."/>
         </xsl:call-template>
     </body>
-    <script type="text/javascript" src="{$absolutePathApplication}resources/js/w3.js"></script>
-    <script type="text/javascript" src="{$absolutePathApplication}resources/js/titleslocal.js"></script>
-    <script type="text/javascript" src="{$absolutePathApplication}resources/js/NewBiblio.js"></script>
-    <script type="text/javascript" src="{$absolutePathApplication}resources/js/allattestations.js"></script>
+    <script type="text/javascript" src="{$absolutePathApplication}resources/js/w3.js"/>
+    <script type="text/javascript" src="{$absolutePathApplication}resources/js/titleslocal.js"/>
+    <script type="text/javascript" src="{$absolutePathApplication}resources/js/NewBiblio.js"/>
+    <script type="text/javascript" src="{$absolutePathApplication}resources/js/allattestations.js"/>
 </html>
     </xsl:template>
     

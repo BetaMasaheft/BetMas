@@ -197,6 +197,7 @@ switch($type)
             case "pers"  return titles:decidepersNameSource($resource, $resource/ancestor-or-self::t:TEI/@xml:id)
             case "work"  return titles:decideTUSource($resource, $resource/ancestor-or-self::t:TEI/@xml:id)
             case "nar"  return titles:decideTUSource($resource, $resource/ancestor-or-self::t:TEI/@xml:id)
+            case "studies"  return titles:decideTUSource($resource, $resource/ancestor-or-self::t:TEI/@xml:id)
 (:            this should do also auths:)
             default return $resource//t:titleStmt/t:title[1]/text()
 };

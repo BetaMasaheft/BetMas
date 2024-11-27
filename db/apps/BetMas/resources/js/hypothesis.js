@@ -3,11 +3,11 @@ $(document).on('ready', function () {
 
  var input = $("#hypothesisFeedResults").data('value')
 var url = "https://hypothes.is/api/search?tag=BetMas:" + input + "&limit=200"
-//console.log(url)
+console.log(url)
 
 $.ajaxSetup({ cache: true });
 $.getJSON( url, function( data ) {
-//console.log(data)
+console.log(data)
   var items = [];
        for (var i = 0; i < data.total; i++) {
        var ann = data.rows[i]

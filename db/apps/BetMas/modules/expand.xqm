@@ -18,7 +18,7 @@ declare variable $expand:listPrefixDef :=
     <prefixDef
         ident="bm"
         matchPattern="([a-zA-Z0-9]+)"
-        replacementPattern="https://www.zotero.org/groups/358366/ethiostudies/items/tag/bm:$1">
+       replacementPattern="https://www.zotero.org/groups/358366/ethiostudies/items/tag/bm:$1">
     </prefixDef>
     <prefixDef
         ident="betmas"

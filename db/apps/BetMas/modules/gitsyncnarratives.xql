@@ -15,7 +15,7 @@ xquery version "3.1";
  : @see https://github.com/joewiz/xqjson   
  : @see http://expath.org/spec/crypto 
  : @see http://expath.org/spec/http-client
- : 
+ :  
  
  : slightly modified to serve only narratives repo for BetaMasaheft
  

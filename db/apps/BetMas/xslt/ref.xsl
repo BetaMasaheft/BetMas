@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:ref">
         
@@ -22,7 +23,7 @@
                                 <xsl:variable name="id" select="substring-after(@cRef, 'betmas:')"/>
                                 <xsl:apply-templates/>
                                 <a class="reference" href="{$id}" target="_blank">
-                                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                                    <i class="fa fa-file-text-o" aria-hidden="true"/>
                                 </a>
                             </xsl:when>
                         </xsl:choose>

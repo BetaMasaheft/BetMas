@@ -8,10 +8,12 @@ module namespace restItem = "https://www.betamasaheft.uni-hamburg.de/BetMas/rest
 import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace log="http://www.betamasaheft.eu/log" at "log.xqm";
 import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2"  at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
+import module namespace tl="https://www.betamasaheft.uni-hamburg.de/BetMas/timeline"at "xmldb:exist:///db/apps/BetMas/modules/timeline.xqm";
 import module namespace item2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/item2" at "xmldb:exist:///db/apps/BetMas/modules/item.xqm";
 import module namespace nav = "https://www.betamasaheft.uni-hamburg.de/BetMas/nav" at "xmldb:exist:///db/apps/BetMas/modules/nav.xqm";
 import module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMas/error" at "xmldb:exist:///db/apps/BetMas/modules/error.xqm";
-import module namespace scriptlinks="https://www.betamasaheft.uni-hamburg.de/BetMas/scriptlinks" at "xmldb:exist:///db/apps/BetMas/modules/scriptlinks.xqm";
+import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "xmldb:exist:///db/apps/BetMas/modules/editors.xqm";
+import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "xmldb:exist:///db/apps/BetMas/modules/apprest.xqm";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace charts = "https://www.betamasaheft.uni-hamburg.de/BetMas/charts" at "xmldb:exist:///db/apps/BetMas/modules/charts.xqm";
 import module namespace LitFlow = "https://www.betamasaheft.uni-hamburg.de/BetMas/LitFlow" at "xmldb:exist:///db/apps/BetMas/modules/LitFlow.xqm";
@@ -30,7 +32,7 @@ declare namespace http = "http://expath.org/ns/http-client";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json = "http://www.json.org";
 
-declare variable $restItem:deleted := doc('/db/apps/lists/deleted.xml');
+declare variable $restItem:deleted := doc('/db/apps/BetMas/lists/deleted.xml');
 
 (:parameter hi is used to highlight searched word when coming query from Dillmann
 parameters start and perpage are for the text visualization with pagination as per standard usage:)
@@ -52,7 +54,7 @@ $ref as xs:string*,
 $edition as xs:string*,
 $per-page as xs:string*,
 $hi as xs:string*) {
-  let $item := item2:getTEIbyID($id)
+  let $item := $apprest:collection-root/id($id)[name() eq 'TEI']
   let $col := switch2:col($item/@type)
   let $log := log:add-log-message('/'||$id||'/main', sm:id()//sm:real/sm:username/string() , 'item')
   return
@@ -242,8 +244,27 @@ $per-page,
 $hi as xs:string*){
 let $collect := switch2:collectionVar($collection)
 let $coll := $config:data-root || '/' || $collection
-let $this := $collect/id($id)[name()='TEI']
-let $title := item2:printTitle($id)
+let $this := $collect/id($id)
+let $biblio :=
+<bibl>
+{
+for $author in config:distinct-values(($this//t:revisionDesc/t:change/@who| $this//t:editor/@key))
+                return
+<author>{editors:editorKey(string($author))}</author>
+}
+{let $time := max($this//t:revisionDesc/t:change/xs:date(@when))
+return
+<date type="lastModified">{format-date($time, '[D].[M].[Y]')}</date>
+}
+<idno type="url">
+{($config:appUrl ||'/'|| $collection||'/' ||$id)}
+</idno>
+
+<idno type="DOI">
+{('DOI:'||$config:DOI || '.' ||$id)}
+</idno>
+<coll>{$collection}</coll>
+</bibl>
 let $Cmap := map {'type': 'collection', 'name' : $collection, 'path' : $coll}
 let $Imap := map {'type': 'item', 'name' : $id, 'path' : $collection}
 return
@@ -256,7 +277,7 @@ if(xdb:collection-available($coll)) then (
  ) else
 (:check if the item has been deleted:)
 if( $restItem:deleted//t:item[. eq $id]) then
-(let $formerlyListed := item2:formerly($id)
+(let $formerlyListed := $apprest:collection-root//t:relation[@name eq 'betmas:formerlyAlsoListedAs'][@passive eq $id]
 return
 if(count($formerlyListed) = 1) then 
 (:redirect to record containing formerly listed as:)
@@ -289,7 +310,7 @@ else
         </html>
         )
 (:        check if there is more then one:)
-         else   if(count($this) gt 1) then 
+         else   if(count($apprest:collection-root/id($id)[name() eq 'TEI']) gt 1) then 
          (
 <rest:response>
             <http:response
@@ -301,17 +322,17 @@ else
         </rest:response>,
         <html xmlns="http://www.w3.org/1999/xhtml">
         <head>
-        <title>More than one {$id}</title></head>
+        <title>Not here any more...</title></head>
         <body><p>Something has gone wrong and there are more than one item with id {$id}.</p>
         <ul>
-        {for $i in $this
+        {for $i in $apprest:collection-root/id($id)[name() eq 'TEI']
         return <li>{base-uri($i)}</li>}
         </ul>
         </body>
         </html>
         )
-        (:        check that the item exists :)
-    else   if(count($this) = 1) then (
+        (:        check that the item exists:)
+    else   if(count($apprest:collection-root/id($id)[name() eq 'TEI']) = 1) then (
 <rest:response>
             <http:response
                 status="200">
@@ -325,14 +346,14 @@ else
        <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
      
-    {scriptlinks:app-title($title)}
+    {apprest:app-title($id)}
         <link rel="alternate" type="application/rdf+xml"
           title="RDF Representation"
           href="https://betamasaheft.eu/rdf/{$collection}/{$id}.rdf" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        {scriptlinks:app-meta($this)}
-        {scriptlinks:scriptStyle()}
-        {if($type='text') then () else scriptlinks:ItemScriptStyle()}
+        {apprest:app-meta($biblio)}
+        {apprest:scriptStyle()}
+        {if($type='text') then () else apprest:ItemScriptStyle()}
         {if($type='graph') then (
                          <script src="https://d3js.org/d3.v5.min.js"/>,
                          <script src="resources/js/d3sparql.js"/>) else ()}
@@ -353,6 +374,7 @@ else
     <body id="body">
         {nav:barNew()}
         {nav:modalsNew()}
+          {nav:searchhelpNew()}
          <div id="content" class="w3-container w3-padding-48">
          {item2:RestViewOptions($this, $collection)}
   { item2:RestItemHeader($this, $collection)}
@@ -370,7 +392,7 @@ else
   <div class="slider round" data-toggle="tooltip" title="Highlight diplomatic disourse interpretation"></div>
 </label>
    {
-   for $document in item2:rels($id)
+   for $document in $apprest:collection-rootMS//t:relation[contains(@passive, $id)]
 let $rootid := string($document/@active)
 let $itemid :=substring-after($rootid, '#')
 let $msid :=substring-before($rootid, '#')
@@ -386,7 +408,14 @@ return
     ({string:additionstitles($doc/t:locus)})
      
      </div>,
-<div class="w3-rest">{item2:documents($doc)}</div>
+<div class="w3-rest">{
+transform:transform(
+        $doc,
+
+        'xmldb:exist:///db/apps/BetMas/xslt/documents.xsl'
+        ,
+        ()
+    )}</div>
     )
 }
 </div>
@@ -413,14 +442,14 @@ return
                 <script type="text/javascript"src="resources/js/visgraphspec.js"/>
             </div>
             <div class="container w3-half w3-padding">
-                  {item2:EntityRelsTable($this, $collection)}
+                  {apprest:EntityRelsTable($this, $collection)}
             </div>
             </div>
             <div class="w3-container">
             <div class="w3-half w3-padding">
             <div id="timeLine" class="w3-container"/>
                 <script type="text/javascript">
-            {item2:timeline($this, $collection)}
+            {tl:RestEntityTimeLine($this, $collection)}
             </script>
             </div>
             <div class="w3-half w3-padding">
@@ -442,7 +471,7 @@ return
    for $contains in $this//t:relation[@name eq "saws:contains"]/@passive 
      let $ids:=  if(contains($contains, ' ')) then for $x in tokenize($contains, ' ') return $x else string($contains)
      for $contained in $ids
-    let $cfile := item2:getTEIbyID($contained) 
+    let $cfile := $apprest:collection-rootW//id($contained)[self::t:TEI]
    return 
    
    <div class="w3-container">
@@ -560,12 +589,12 @@ if ($id = $Subjects) then  (try{LitFlow:Sankey($id, 'works')} catch * {$err:desc
    <div  class="alpheios-enabled">{item2:RestItem($this, $collection)}</div>,
    
         
-(:   item2:namedentitiescorresps($this, $collection),:)
+(:   apprest:namedentitiescorresps($this, $collection),:)
 (:   the form with a list of potental relation keywords to find related items. value is used by Jquery to query rest again on api:SharedKeyword($keyword) :)
    switch($collection)
    case 'works' return  (
    item2:RestMiniatures($id))
-  case 'persons' return (item2:RestPersRole($this, $collection), item2:RestTabot($id), item2:RestAdditions($id), item2:RestMiniatures($id))
+  case 'persons' return (item2:RestTabot($id), item2:RestAdditions($id), item2:RestMiniatures($id))
     case 'authority-files' return
     if (starts-with($id, 'AT')) then 
   <div class="w3-container">
@@ -598,7 +627,7 @@ else ()
    <script  type="text/javascript" src="resources/js/permanentID.js"></script>
    
    </div>
-  { item2:authors($this, $collection)}
+  { apprest:authors($this, $collection)}
    </div>
 
 
@@ -606,14 +635,13 @@ else ()
 
         {nav:footerNew()}
 
-       {scriptlinks:ItemFooterScript()}
+       {apprest:ItemFooterScript()}
 
     </body>
 </html>
         )
          
         else
-(:        error message if item does not exist:)
        (<rest:response>
             <http:response
                 status="400">
@@ -622,12 +650,10 @@ else ()
                     value="text/html; charset=utf-8"/>
             </http:response>
         </rest:response>,
-        error:error($Imap)
-      )
+        error:error($Imap))
 
         )
         else
-(:        error message if the collection does not exist:)
         (
         <rest:response>
             <http:response

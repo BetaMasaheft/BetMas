@@ -17,7 +17,7 @@ xquery version "3.1";
  : @see http://expath.org/spec/http-client
  : 
  
- : slightly modified to serve only institutions repo for BetaMasaheft
+ : slightly modified to serve only institutions repo for BetaMasaheft 
  
  : @author Pietro Liuzzo added validation and specific report, changed to use 3.1 and to use parse-json instead of xqjson in some cases
  :)
@@ -45,7 +45,7 @@ return
         
         let $data-collection := $config:data-rootIn
         
-        let $login := xmldb:login($data-collection, 'Pietro', 'Hdt7.10')
+        let $login := xmldb:login($data-collection, 'BetaMasaheftAdmin', 'BMAdmin')
         
         return
             try {

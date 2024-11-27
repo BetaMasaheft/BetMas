@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:dts="https://w3id.org/dts/api#" xmlns:funct="my.funct" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t" version="2.0">
     
     <xsl:function name="funct:ID">
@@ -66,7 +67,9 @@
     
     <xsl:template match="t:div[parent::t:body][not(@type = 'apparatus')]">
         <div class="w3-row" id="{@type}">
-            <xsl:if test="@xml:id='Transkribus'"><xsl:attribute name="style">color:gray;</xsl:attribute></xsl:if>
+            <xsl:if test="@xml:id='Transkribus'">
+                <xsl:attribute name="style">color:gray;</xsl:attribute>
+            </xsl:if>
             <head>
                 <xsl:if test="@corresp">
                     <a href="{@corresp}">
@@ -383,8 +386,10 @@
             
         </sup>
         <xsl:apply-templates select="node() except t:ref"/>
-    <xsl:if test="ancestor::t:lg"><xsl:text>
-     </xsl:text></xsl:if>
+    <xsl:if test="ancestor::t:lg">
+            <xsl:text>
+     </xsl:text>
+        </xsl:if>
     </xsl:template>
     
     <xsl:template match="t:l[ancestor::t:div[@subtype='Psalmus']]">

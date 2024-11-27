@@ -1,10 +1,10 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-    xmlns:t="http://www.tei-c.org/ns/1.0" 
-    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-    exclude-result-prefixes="#all" version="2.0">
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <!--   https://github.com/BetaMasaheft/Documentation/issues/1449 -->
     <xsl:template match="@*|node()">
-        <xsl:copy><xsl:apply-templates select="@*|node()"/></xsl:copy>
+        <xsl:copy>
+            <xsl:apply-templates select="@*|node()"/>
+        </xsl:copy>
     </xsl:template>
     
     <xsl:template match="/">
@@ -42,7 +42,9 @@
         ###
     </xsl:template>
     <xsl:template match="t:add">
-        <xsl:text>{</xsl:text><xsl:value-of select="."/><xsl:text>}</xsl:text>
+        <xsl:text>{</xsl:text>
+        <xsl:value-of select="."/>
+        <xsl:text>}</xsl:text>
     </xsl:template>
     <xsl:template match="t:subst">
         <xsl:text>'</xsl:text>

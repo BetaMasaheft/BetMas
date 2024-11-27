@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.tei-c.org/ns/1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template name="DotPorterIfy">
         <xsl:param name="porterified" tunnel="yes"/>
@@ -57,11 +58,20 @@
                         </xsl:with-param>
                     </xsl:call-template>
                 <text>
-                    <br/>Quire ID:<xsl:value-of select="@xml:id"/><xsl:if test="@n">, number:<xsl:value-of select="@n"/></xsl:if><xsl:if test="t:num">, Ethiopic quire number: <xsl:apply-templates select="t:num"/></xsl:if>
-                    <xsl:if test="t:note"><br/>Notes: <xsl:for-each select="t:note"><xsl:sort/>
-                    <xsl:value-of select="position()"/><xsl:text>) </xsl:text>
+                    <br/>Quire ID:<xsl:value-of select="@xml:id"/>
+                        <xsl:if test="@n">, number:<xsl:value-of select="@n"/>
+                        </xsl:if>
+                        <xsl:if test="t:num">, Ethiopic quire number: <xsl:apply-templates select="t:num"/>
+                        </xsl:if>
+                    <xsl:if test="t:note">
+                            <br/>Notes: <xsl:for-each select="t:note">
+                                <xsl:sort/>
+                    <xsl:value-of select="position()"/>
+                                <xsl:text>) </xsl:text>
                 <xsl:apply-templates select="."/>
-                </xsl:for-each></xsl:if></text>
+                </xsl:for-each>
+                        </xsl:if>
+                    </text>
                     </quire>
             </xsl:for-each>
         </collation>
