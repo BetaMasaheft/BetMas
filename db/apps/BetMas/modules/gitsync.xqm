@@ -15,8 +15,7 @@ module namespace gitsync = "http://syriaca.org/ns/gitsync";
  : @see http://expath.org/spec/crypto 
  : @see http://expath.org/spec/http-client
  : 
- 
- : @author Pietro Liuzzo 
+  : @author Pietro Liuzzo 
  : @version 1.2
  :  slightly modified to serve only PERSONS repo for BetaMasaheft
  :  added validation and specific report, changed to use 3.1 and to use parse-json instead of xqjson
@@ -37,7 +36,7 @@ import module namespace expand = "https://www.betamasaheft.uni-hamburg.de/BetMas
 import module namespace updatefuseki = 'https://www.betamasaheft.uni-hamburg.de/BetMas/updatefuseki' at "xmldb:exist:///db/apps/BetMas/fuseki/updateFuseki.xqm";
 import module namespace gfb = "https://www.betamasaheft.uni-hamburg.de/BetMas/gfb" at "xmldb:exist:///db/apps/BetMas/modules/generateFormattedBibliography.xqm";
 import module namespace validation = "http://exist-db.org/xquery/validation";
-import module namespace console="http://exist-db.org/xquery/console";
+(:import module namespace console="http://exist-db.org/xquery/console";:)
 
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare option exist:serialize "method=xml media-type=text/xml indent=yes";
@@ -58,14 +57,14 @@ declare function gitsync:rdf($collection-uri, $file-name){
     let $rdf := transform:transform($stored-file, $gitsync:data2rdf, ())
     let $rdffilename := replace($file-name, '.xml', '.rdf')
     let $collectionName := substring-after($collection-uri, '/db/apps/BetMasData/')
-    let $shortCollName := if( matches($collectionName, 'manuscripts')) then 'manuscripts' 
-                        else if( matches($collectionName, 'works')) then 'works' 
-                        else if( matches($collectionName, 'studies')) then 'studies' 
-                        else if( matches($collectionName, 'narratives')) then 'narratives' 
-                        else if( matches($collectionName, 'persons')) then 'persons' 
-                        else if( matches($collectionName, 'places')) then 'places'  
-                        else if( matches($collectionName, 'institutions')) then 'institutions' 
-                        else if( matches($collectionName, 'persons')) then 'persons' 
+    let $shortCollName := if( contains($collectionName, 'manuscripts')) then 'manuscripts' 
+                        else if( contains($collectionName, 'works')) then 'works' 
+                        else if( contains($collectionName, 'studies')) then 'studies' 
+                        else if( contains($collectionName, 'narratives')) then 'narratives' 
+                        else if( contains($collectionName, 'persons')) then 'persons' 
+                        else if( contains($collectionName, 'places')) then 'places'  
+                        else if( contains($collectionName, 'institutions')) then 'institutions' 
+                        else if( contains($collectionName, 'persons')) then 'persons' 
                         else 'authority-files'
     let $storecoll := concat('/db/rdf/', $shortCollName)
     let $storeRDFXML := xmldb:store($storecoll, $rdffilename, $rdf)
@@ -147,7 +146,7 @@ declare function gitsync:updatetextpartsMOD($file-name){
     let $textslist := $gitsync:textparts//t:list
     let $longid := substring-after($file-name, '.eu/')
     let $id := substring-before($longid, '.xml')
-    let $file := collection($config:data-rootW)//id($id)  or collection($config:data-rootS)//id($id) 
+    let $file := collection($config:data-rootW)//id($id) or collection($config:data-rootS)//id($id)  
     let $newtitleSelector := titles:worknarrTitleSelector($file)
     let $update :=  update value  $textslist/t:item[@corresp eq $id] with $newtitleSelector
     return
@@ -176,7 +175,7 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
         
         for $modified in $commits?1?modified?*
         let $file-path := concat($contents-url, $modified)
-        let $t := console:log('got here')
+(:        let $t := console:log('got here'):)
         let $gitToken := environment-variable('GITTOKEN')
         (:environment-variable('GIT_TOKEN'):)
         let $req :=
@@ -197,17 +196,17 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
         let $collection := xs:anyURI($data-collection)
         let $resource-path := substring-before($modified, $file-name)
         let $collection-uri := concat($collection, '/', $resource-path)
-        let $t := console:log($collection-uri)
+(:        let $t := console:log($collection-uri):)
         return
            ( try {
 (:                first update the mirror collection of the git repositories in BetMasData :)
                   gitsync:updateMirrorCol($collection-uri, $file-name, $file-data, 'update') } 
                   catch * {
-                (<response
+                ((:<response
                     status="fail">
                     <message>Failed to update resource: {concat($err:code, ": ", $err:description)}</message>
                 </response>,
-                        gitsync:failedCommitMessage($committerEmail, $data-collection, concat('Failed to update resource ' ,$file-name, ': ',$err:code, ": ", $err:description))
+                        gitsync:failedCommitMessage($committerEmail, $data-collection, concat('Failed to update resource ' ,$file-name, ': ',$err:code, ": ", $err:description)) :)
                         )
             }
             ,
@@ -308,19 +307,19 @@ declare function gitsync:do-add($commits, $contents-url as xs:string?, $data-col
                      gitsync:wrongAnchor($committerEmail, $intersect, $filename)) else ()
                      )
                      else(
-                     gitsync:wrongID($committerEmail, $stored-fileID, $filename)
+                     (:gitsync:wrongID($committerEmail, $stored-fileID, $filename):)
                      )
                      ) else ()
 )
                 )
             } catch * {
-            (
+            ( (:
                 <response
                     status="fail">
                     <message>Failed to add resource: {concat($err:code, ": ", $err:description)}
                     </message>
                 </response>,
-                        gitsync:failedCommitMessage($committerEmail, $data-collection, concat('Failed to add resource ' ,$file-name, ': ',$err:code, ": ", $err:description))
+                        gitsync:failedCommitMessage($committerEmail, $data-collection, concat('Failed to add resource ' ,$file-name, ': ',$err:code, ": ", $err:description)) :)
                         )
             }
 };
@@ -357,7 +356,7 @@ return
                     gitsync:updateinstitutionsDEL($file-name)) 
                     else if(contains($data-collection, 'persons')) then (
                     gitsync:updatepersonsDEL($file-name)) 
-                   else if(contains($data-collection, 'works')) then (
+                    else if(contains($data-collection, 'works')) then (
                     gitsync:updatetextpartsDEL($file-name))
                     else if(contains($data-collection, 'studies')) then (
                     gitsync:updatetextpartsDEL($file-name))
@@ -392,7 +391,7 @@ return
 declare function gitsync:updateMirrorCol($collection-uri, $file-name, $file-data, $updateoradd){
 let $collection-uri := if(contains($collection-uri, 'expanded')) then replace($collection-uri, 'expanded', 'BetMasData') else $collection-uri
 let $xml := util:base64-decode($file-data)
-let $t := console:log($xml)
+(:let $t := console:log($xml):)
 return
    if (xmldb:collection-available($collection-uri)) 
                 then
@@ -400,8 +399,8 @@ return
                         status="okay">
                         <message>{
                         (xmldb:store($collection-uri, xmldb:encode-uri($file-name), $xml),
-                        console:log(concat($collection-uri, $file-name)),
-                        console:log(doc(concat($collection-uri, $file-name))/t:TEI),
+                     (:   console:log(concat($collection-uri, $file-name)),
+                        console:log(doc(concat($collection-uri, $file-name))/t:TEI),:)
                         if($updateoradd = 'add') then 
                                 (sm:chmod(xs:anyURI(concat($collection-uri, '/', $file-name)), 'rwxrwxr-x'),
                                 sm:chgrp(xs:anyURI(concat($collection-uri, '/', $file-name)), 'Cataloguers'))
@@ -425,8 +424,8 @@ return
 declare function gitsync:fileortax($collection-uri, $file-name, $committerEmail){
 let $stored-file := doc($collection-uri || '/' || $file-name)
                 return
-                    if($file-name='taxonomy.xml') then (
-                    gitsync:TaxonomyMessage()
+                    if($file-name='taxonomy.xml') then ( (:
+                    gitsync:TaxonomyMessage() :)
                     ) 
                     else gitsync:validateAndConfirm($stored-file, $committerEmail, 'updated')
                    };
@@ -436,7 +435,7 @@ declare function gitsync:updateLists($data-collection, $file-name){
                     gitsync:updateinstitutionsMOD($file-name) )
                     else if(contains($data-collection, 'persons')) then (
                     gitsync:updatepersonsMOD($file-name) )
-                   else if(contains($data-collection, 'works')) then (
+                    else if(contains($data-collection, 'works')) then (
                     gitsync:updatetextpartsMOD($file-name))
                     else if(contains($data-collection, 'studies')) then (
                     gitsync:updatetextpartsMOD($file-name))
@@ -462,7 +461,7 @@ declare function gitsync:checkAnchors($data-collection, $committerEmail, $collec
                      return
                      gitsync:wrongAnchor($committerEmail, $intersect, $filename)) else ()
                      ) else (
-                     gitsync:wrongID($committerEmail, $stored-fileID, $filename)
+                     (:gitsync:wrongID($committerEmail, $stored-fileID, $filename):)
                      )
                      ) else ()
 };
@@ -486,10 +485,10 @@ let $expanded-collection-uri := replace($collection-uri,'/BetMasData/', '/expand
 let $collection-uri := if(contains($collection-uri, 'expanded')) then replace($collection-uri, 'expanded', 'BetMasData') else $collection-uri
 let $storedfilepath := $collection-uri || '/' || $file-name
 let $storedTEI := doc($storedfilepath)
-let $t1 := console:log($storedTEI)
+(:let $t1 := console:log($storedTEI):)
 return if($storedTEI/t:TEI) then 
 let $expanded-file := expand:file($storedfilepath)
-let $t := console:log($expanded-file)
+(:let $t := console:log($expanded-file):)
 return
                     if (xmldb:collection-available($expanded-collection-uri)) 
                 then
@@ -555,7 +554,7 @@ declare function gitsync:validateAndConfirm($item, $mail, $type) {
             (:       if there are problems, fire notification email:)
         else
             (
-            (:build the message:)
+    (:        (:build the message:)
             let $report := validation:jing-report($item, $schema)
             let $contributorMessage := <mail>
                 <from>info@betamasaheft.eu</from>
@@ -594,7 +593,7 @@ declare function gitsync:validateAndConfirm($item, $mail, $type) {
             </mail>
             return
                 (:send the email:)
-                mail:send-email($contributorMessage, 'public.uni-hamburg.de', ())
+                mail:send-email($contributorMessage, 'public.uni-hamburg.de', ()):)
             
             )
 };
@@ -606,7 +605,7 @@ declare function gitsync:validateAndConfirm($item, $mail, $type) {
  : this function is called only on add and update
 :)
 declare function gitsync:wrongID($mail, $storedFileID, $filename) {
-let $address := if ($mail[1] = 'noreply@github.com') then 'info@betamasaheft.eu' else $mail[1]
+let $address := if ($mail[1] = 'noreply@github.com') then 'eugenia.sokolinski@uni-hamburg.de' else $mail[1]
      let $WrongIdMessage := <mail>
                 <from>info@betamasaheft.eu</from>
                 <to>{$address}</to>
@@ -678,7 +677,7 @@ declare function gitsync:wrongAnchor($mail, $intersect, $filename) {
 declare function gitsync:failedCommitMessage($mail, $data-collection, $message) {
      let $failureMessage := <mail>
                 <from>info@betamasaheft.eu</from>
-                <to>info@betamasaheft.eu</to>
+                <to>eugenia.sokolinski@uni-hamburg.de</to>
                 <cc>{$mail[1]}</cc>
                 <bcc></bcc>
                 <subject>The Syncing of GitHub with the Beta Masaheft App failed</subject>
@@ -715,7 +714,7 @@ declare function gitsync:failedCommitMessage($mail, $data-collection, $message) 
 declare function gitsync:mergeCommitMessage($mail, $data-collection, $message, $branch) {
      let $failureMessage := <mail>
                 <from>info@betamasaheft.eu</from>
-                <to>info@betamasaheft.eu</to>
+                <to>eugenia.sokolinski@uni-hamburg.de</to>
                 <bcc></bcc>
                 <subject>Commit to {$branch}, not synced</subject>
                 <message>
@@ -744,7 +743,7 @@ declare function gitsync:mergeCommitMessage($mail, $data-collection, $message, $
 declare function gitsync:TaxonomyMessage() {
      let $failureMessage := <mail>
                 <from>info@betamasaheft.eu</from>
-                <to>info@betamasaheft.eu</to>
+                <to>eugenia.sokolinski@uni-hamburg.de</to>
                 <subject>taxonomy.xml has been updated. the canonicaltaxonomy.xml is thus outdated.</subject>
                 <message>
                     <xhtml>
@@ -794,24 +793,23 @@ return
                         else
                             ())
                 else
-                    (<response
+                    ((:<response
                         status="fail"><message>This is a GitHub request, however there were no commits.</message></response>
                         ,
                         gitsync:failedCommitMessage('', $data-collection, 'This is a GitHub request, however there were no commits.')
-                        )
+                      :)  )
             else
-                (<response
+                ((:<response
                     status="fail"><message>Not from the master branch.</message></response>,
                         gitsync:mergeCommitMessage('', $data-collection, 'Not from the master branch.', $json-data?ref)
-                        )
+                     :)   )
                         
         } catch * {
-            (<response
+            ((:<response
                 status="fail">
                 <message>{concat($err:code, ": ", $err:description)}</message>
             </response>,
                         gitsync:failedCommitMessage('', $data-collection, concat($err:code, ": ", $err:description))
-                        )
+                    :)    )
         }
 };
-

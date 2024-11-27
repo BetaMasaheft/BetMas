@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:funct="my.funct" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:variable name="mainID" select="t:TEI/@xml:id"/>
     <xsl:function name="funct:date">
@@ -5,7 +6,8 @@
         <xsl:choose>
             <xsl:when test="matches($date, '\d{4}-\d{2}-\d{2}')">
                 <xsl:value-of select="format-date(xs:date($date), '[D]-[M]-[Y0001]', 'en', 'AD', ())"/>
-            </xsl:when><xsl:when test="matches($date, '\d{4}-\d{2}')">
+            </xsl:when>
+            <xsl:when test="matches($date, '\d{4}-\d{2}')">
                 <xsl:variable name="monthnumber" select="substring-after($date, '-')"/>
                 <xsl:variable name="monthname">
                     <xsl:choose>
@@ -25,7 +27,9 @@
                 </xsl:variable>
                 <xsl:value-of select="concat(replace(substring-after($date, '-'), $monthnumber, $monthname), ' ', substring-before($date, '-'))"/>
             </xsl:when>
-            <xsl:otherwise><xsl:value-of select="format-number($date, '####')"/></xsl:otherwise>
+            <xsl:otherwise>
+                <xsl:value-of select="format-number($date, '####')"/>
+            </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
     <xsl:function name="funct:datepicker">
@@ -34,9 +38,15 @@
             <xsl:when test="$element/@notBefore or $element/@notAfter">
                 <xsl:if test="not($element/@notBefore)">Before </xsl:if>
                 <xsl:if test="not($element/@notAfter)">After </xsl:if>
-                <xsl:if test="$element/@notBefore"><xsl:value-of select="funct:date($element/@notBefore)"/></xsl:if>
-                <xsl:if test="$element/@notBefore and $element/@notAfter"><xsl:text>-</xsl:text></xsl:if>
-                <xsl:if test="$element/@notAfter"><xsl:value-of select="funct:date($element/@notAfter)"/></xsl:if>
+                <xsl:if test="$element/@notBefore">
+                    <xsl:value-of select="funct:date($element/@notBefore)"/>
+                </xsl:if>
+                <xsl:if test="$element/@notBefore and $element/@notAfter">
+                    <xsl:text>-</xsl:text>
+                </xsl:if>
+                <xsl:if test="$element/@notAfter">
+                    <xsl:value-of select="funct:date($element/@notAfter)"/>
+                </xsl:if>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="funct:date($element/@when)"/>
@@ -47,7 +57,9 @@
         </xsl:if>
     </xsl:function>
     <xsl:template match="/">
-        <xsl:if test="//t:figure"><script type="text/javascript" src="resources/openseadragon/openseadragon.min.js"/></xsl:if>
+        <xsl:if test="//t:figure">
+            <script type="text/javascript" src="resources/openseadragon/openseadragon.min.js"/>
+        </xsl:if>
         <div id="MainData" class="{if(t:TEI/@type='ins') then 'institutionView' else 'w3-twothird'}">
             <div id="description">
             <h2>Names <xsl:if test="//t:place/@sameAs">
@@ -59,7 +71,11 @@
                         <span class="icon-large icon-globe"/>
                     </a>
                 </xsl:if>
-                <xsl:if test="$mainID='INS0880WHU'"><a href="https://betamasaheft.eu/tweed.html"><span class="w3-tag w3-red">Tweed Collection</span></a></xsl:if>
+                <xsl:if test="$mainID='INS0880WHU'">
+                        <a href="https://betamasaheft.eu/tweed.html">
+                            <span class="w3-tag w3-red">Tweed Collection</span>
+                        </a>
+                    </xsl:if>
             </h2>
             <div class="placeNames w3-container">
                 <xsl:for-each select="//t:place/t:placeName[@xml:id]">
@@ -152,9 +168,13 @@
                                 <xsl:sort order="ascending" select="count(preceding-sibling::t:relation)+1"/>
                                 <xsl:variable name="p" select="count(preceding-sibling::t:relation)+1"/>
                                 <xsl:variable name="tot" select="count(//t:relation)"/>
-                                <xsl:apply-templates select="." mode="gendesc"/><xsl:choose>
-                                    <xsl:when test="$p!=$tot"><xsl:text>, </xsl:text></xsl:when>
-                                    <xsl:otherwise>.</xsl:otherwise></xsl:choose>
+                                <xsl:apply-templates select="." mode="gendesc"/>
+                                <xsl:choose>
+                                    <xsl:when test="$p!=$tot">
+                                        <xsl:text>, </xsl:text>
+                                    </xsl:when>
+                                    <xsl:otherwise>.</xsl:otherwise>
+                                </xsl:choose>
                             </xsl:for-each>
                             For a table of all relations from and to this record, please go to the <a class="w3-tag w3-gray" href="/places/{$mainID}/analytic">Relations</a> view. In the Relations boxes on the right of this page, you can also find all available relations grouped by name.
                         </p>

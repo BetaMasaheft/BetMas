@@ -9,7 +9,7 @@ import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas
 import module namespace nav = "https://www.betamasaheft.uni-hamburg.de/BetMas/nav" at "xmldb:exist:///db/apps/BetMas/modules/nav.xqm";
 import module namespace item2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/item2" at "xmldb:exist:///db/apps/BetMas/modules/item.xqm";
 import module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMas/error" at "xmldb:exist:///db/apps/BetMas/modules/error.xqm";
-import module namespace scriptlinks = "https://www.betamasaheft.uni-hamburg.de/BetMas/scriptlinks" at "xmldb:exist:///db/apps/BetMas/modules/scriptlinks.xqm";
+import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "xmldb:exist:///db/apps/BetMas/modules/apprest.xqm";
 import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2"  at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
 import module namespace console="http://exist-db.org/xquery/console";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
@@ -126,7 +126,17 @@ function viewer:mirador($collection as xs:string, $id as xs:string, $FirstCanv a
 let $c := switch2:collectionVar($collection)
 let $coll := $config:data-root || '/' || $collection
 let $this := $c/id($id)
-let $title := item2:printTitle($id)
+let $biblio :=
+<bibl>
+{let $time := max($this//t:revisionDesc/t:change/xs:date(@when))
+return
+<date type="lastModified">{format-date($time, '[D].[M].[Y]')}</date>
+}
+<idno type="url">
+{($config:appUrl ||'/'|| $collection||'/' ||$id)}
+</idno>
+<coll>{$collection}</coll>
+</bibl>
 let $countsets:= count($this//t:idno[@facs])
 return
 if($countsets=1) then (
@@ -161,7 +171,7 @@ if(xdb:collection-available($coll)) then (
  )
         else
 (:        check that the item exists:)
-       if(item2:getTEIbyID($id)) then (
+       if($apprest:collection-root/id($id)[name() = 'TEI']) then (
        log:add-log-message('/'||$collection||'/'||$id||'/viewer', sm:id()//sm:real/sm:username/string() , 'viewer'),
 
 <rest:response>
@@ -176,17 +186,18 @@ if(xdb:collection-available($coll)) then (
     <head>
     <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
         <script type="text/javascript" src="resources/js/analytics.js"></script>
-    {scriptlinks:app-title($title)}
+    {apprest:app-title($id)}
         <link rel="shortcut icon" href="resources/images/favicon.ico"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  {scriptlinks:app-meta($this)}
-     {scriptlinks:scriptStyle()}
+  {apprest:app-meta($biblio)}
+     {apprest:scriptStyle()}
     <link rel="stylesheet" type="text/css" href="resources/mirador/css/mirador-combined.css"/>
     <script src="resources/mirador/mirador.js"></script>
     </head>
     <body id="body">
       {nav:barNew()}
         {nav:modalsNew()}
+        {nav:searchhelpNew()}
         <div id="content" class="w3-container w3-padding-48">
        {item2:RestViewOptions($this, $collection)}
   { item2:RestItemHeader($this, $collection)}
@@ -204,7 +215,7 @@ var canvasid = "' || (if($FirstCanv = '') then $firstcanvas else $FirstCanv) || 
  <div class="w3-panel w3-gray w3-card-2">
  <p><a href="{$manifest}" target="_blank"><img src="/resources/images/iiif.png" width="20px"/> {$manifest}</a></p>
  </div>
-        { item2:authors($this, $collection)}
+        { apprest:authors($this, $collection)}
         </div>
      {nav:footerNew()}
     </body>
@@ -280,7 +291,7 @@ if(xdb:collection-available($coll)) then (
  )
         else
 (:        check that the item exists:)
-       if(item2:getTEIbyID($id)) then (
+       if($apprest:collection-root/id($id)[name() = 'TEI']) then (
        log:add-log-message('/'||$collection||'/'||$id||'/viewer', sm:id()//sm:real/sm:username/string() , 'viewer'),
 
 <rest:response>
@@ -295,17 +306,18 @@ if(xdb:collection-available($coll)) then (
     <head>
     <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106148968-1"></script>
         <script type="text/javascript" src="resources/js/analytics.js"></script>
-    {scriptlinks:app-title($title)}
+    {apprest:app-title($id)}
         <link rel="shortcut icon" href="resources/images/favicon.ico"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  {scriptlinks:app-meta($this)}
-     {scriptlinks:scriptStyle()}
+  {apprest:app-meta($biblio)}
+     {apprest:scriptStyle()}
     <link rel="stylesheet" type="text/css" href="resources/mirador/css/mirador-combined.css"/>
     <script src="resources/mirador/mirador.js"></script>
     </head>
     <body id="body">
       {nav:barNew()}
         {nav:modalsNew()}
+        {nav:searchhelpNew()}
         <div id="content" class="w3-container w3-padding-48">
        {item2:RestViewOptions($this, $collection)}
   { item2:RestItemHeader($this, $collection)}
@@ -327,7 +339,7 @@ var windowobjs =  [' || string-join($manifests, ', ') || ']
                return
  <p><a href="{$manifest}" target="_blank"><img src="/resources/images/iiif.png" width="20px"/> {$manifest}</a></p>
  }</div>
-        { item2:authors($this, $collection)}
+        { apprest:authors($this, $collection)}
         </div>
      {nav:footerNew()}
     </body>

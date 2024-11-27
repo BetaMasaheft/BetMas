@@ -181,7 +181,7 @@ else <http:header
  let $thisid := $parsedURN//s:group[@nr eq 3]/text()
  let $edition := $parsedURN//s:group[@nr eq 4]
  let $currentfile := $persdts:collection-root/id($id)[self::t:TEI]
- let $collection := if($currentfile/@type eq 'mss') then 'Manuscripts'  else  if($currentfile/@type eq 'nar') then 'Narrative' else 'Works'
+ let $collection := if($currentfile/@type eq 'mss') then 'Manuscripts'  else  if($currentfile/@type eq 'narr') then 'Narrative' else 'Works'
 let $permapath := replace(persdts:capitalize-first(substring-after(base-uri($cfile), '/db/apps/BetMasData/')), $collection, '')
 let $file:= doc('https://raw.githubusercontent.com/BetaMasaheft/' || $collection || '/'||$sha||'/'|| $permapath)//t:TEI
 let $text := if($edition/node()) then dts:pickDivText($file, $edition)  else $file//t:div[@type eq 'edition']
@@ -501,7 +501,7 @@ let $parent :=if($doc/@type eq 'mss') then
              "description": "Collection of Ethiopic Manuscript trasncriptions",
              "@type" : "Collection"
         }
-        else if($doc/@type eq 'nar') then 
+        else if($doc/@type eq 'narr') then 
         map{
              "@id" : "https://betamasaheft.eu/narrativeunits",
              "title" : "Beta maṣāḥǝft Narrative Units",

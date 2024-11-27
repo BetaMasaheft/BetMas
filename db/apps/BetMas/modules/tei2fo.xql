@@ -1753,8 +1753,6 @@ declare function fo:codic($msPart) {
 declare function fo:main($id as xs:string) {
     let $title := titles:printTitleMainID($id)
     let $file := root($titles:collection-root/id($id))//tei:TEI
-    
-   
     let $ty := string($file/@type) 
     return
         <fo:root

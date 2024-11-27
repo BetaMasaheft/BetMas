@@ -121,7 +121,7 @@ declare
 %test:arg("value", "iv") %test:assertEquals("4")
 %test:arg("value", "xxx") %test:assertEquals("30")
 function locus:roman-arabic($value as xs:string*) {
-    r:roman-numeral-to-integer(upper-case($value))
+    r:roman-numeral-to-integer(upper-case(string-join($value)))
 };
 
 declare function locus:stringloc($node){

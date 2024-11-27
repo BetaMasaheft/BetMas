@@ -7,7 +7,8 @@
         <xsl:choose>
             <xsl:when test="matches($date, '\d{4}-\d{2}-\d{2}')">
                 <xsl:value-of select="format-date(xs:date($date), '[D]-[M]-[Y0001]', 'en', 'AD', ())"/>
-            </xsl:when><xsl:when test="matches($date, '\d{4}-\d{2}')">
+            </xsl:when>
+            <xsl:when test="matches($date, '\d{4}-\d{2}')">
                 <xsl:variable name="monthnumber" select="substring-after($date, '-')"/>
                 <xsl:variable name="monthname">
                     <xsl:choose>

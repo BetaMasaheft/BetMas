@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:listBibl[not(ancestor::t:note)]">
         <xsl:if test="not(parent::t:item) and not(ancestor::t:physDesc)">
@@ -34,8 +35,10 @@
                                         <xsl:value-of select="$ref/text()"/>
                                     </xsl:when>
                                     <xsl:when test="$ref/name() = 'listWit'">
-                                        <xsl:for-each select="$ref/t:witness">
-                                            <xsl:value-of select="t:title"/>
+                                        <xsl:for-each select="$ref/t:witness/@corresp">
+                                            <span class="MainTitle" data-value=".">
+                                                <xsl:value-of select="."/>
+                                            </span>
                                             <xsl:text> </xsl:text>
                                         </xsl:for-each>
                                     </xsl:when>
@@ -63,8 +66,10 @@
                                     <xsl:value-of select="$ref/text()"/>
                                 </xsl:when>
                                 <xsl:when test="$ref/name() = 'listWit'">
-                                    <xsl:for-each select="$ref/t:witness">
-                                        <xsl:value-of select="t:title"/>
+                                    <xsl:for-each select="$ref/t:witness/@corresp">
+                                        <span class="MainTitle" data-value=".">
+                                            <xsl:value-of select="."/>
+                                        </span>
                                         <xsl:text> </xsl:text>
                                     </xsl:for-each>
                                 </xsl:when>
@@ -87,17 +92,14 @@
             </h4>
         </xsl:if>
         <ul class="bibliographyList">
-            <xsl:for-each select="t:bibl">
-                <xsl:sort select="author"/>
-                <xsl:sort select="date"/>
-                <xsl:sort select="title"/>
-                <xsl:apply-templates select="."/>
-            </xsl:for-each>
+            <xsl:apply-templates/>
         </ul>
     </xsl:template>
     
     <xsl:template match="t:bibl[parent::t:surrogates]">
-        <p><xsl:apply-templates/></p>
+        <p>
+            <xsl:apply-templates/>
+        </p>
     </xsl:template>
     <xsl:template match="t:bibl[parent::t:listBibl][not(ancestor::t:note)]">
         <li class="bibliographyItem">
@@ -180,11 +182,147 @@
                         </xsl:choose>
                     </a>
                     In
-                      <xsl:apply-templates mode="bibl" select="."/>
-                    
+                        <span class="Zotero Zotero-full" data-value="{t:ptr/@target}">
+                        <xsl:if test="t:citedRange">
+                            <xsl:attribute name="data-unit">
+                                <xsl:value-of select="t:citedRange/@unit"/>
+                            </xsl:attribute>
+                            <xsl:attribute name="data-range">
+                                <xsl:value-of select="t:citedRange"/>
+                            </xsl:attribute>
+                        </xsl:if>
+                    </span>
                 </xsl:when>
                 <xsl:otherwise>
-              <xsl:apply-templates mode="bibl" select="."/>
+                    <span class="Zotero Zotero-full" data-value="{t:ptr/@target}">
+                        <xsl:if test="t:citedRange">
+                            <xsl:attribute name="data-unit">
+                                <xsl:value-of select="t:citedRange/@unit"/>
+                            </xsl:attribute>
+                            <xsl:attribute name="data-range">
+                                <xsl:value-of select="t:citedRange"/>
+                            </xsl:attribute>
+                        </xsl:if>
+                    </span>
+                    <xsl:if test="//t:ptr">
+                       <!-- <xsl:variable name="url">
+                            <xsl:choose><xsl:when test="document(concat('https://api.zotero.org/groups/358366/items?tag=',t:ptr/@target, '&format=tei'))">
+                            <xsl:variable name="zotero" select="document(concat('https://api.zotero.org/groups/358366/items?tag=',t:ptr/@target, '&format=tei'))"/>
+                        
+                            <xsl:choose>
+                                <xsl:when test="$zotero//t:note[@type = 'url']">
+                                    <xsl:value-of select="$zotero//t:note[@type = 'url']"/>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:value-of select="concat('https://www.zotero.org/groups/ethiostudies/items/tag/', t:ptr/@target)"/>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        
+                        </xsl:when>
+                                <xsl:otherwise>https://www.zotero.org/groups/358366/ethiostudies/items</xsl:otherwise></xsl:choose>
+                            
+                        </xsl:variable>-->
+
+                        <!--<xsl:value-of select="if ($zotero//t:author) then (if ($zotero//t:author/t:surname) then ($zotero//t:author/t:surname) else ($zotero//t:author)) else (if ($zotero//t:editor/t:surname) then ($zotero//t:editor/t:surname) else ($zotero//t:editor))"/>
+                            <xsl:text> </xsl:text>
+                            <xsl:value-of select="$zotero//t:date"/>-->
+                        <!--<xsl:variable name="zotbib">
+                            <xsl:copy-of
+                                select="document(concat('https://api.zotero.org/groups/358366/items?tag=',t:ptr/@target,'&format=bib&style=http://www1.uni-hamburg.de/ethiostudies/hiob-ludolf-centre-for-ethiopian-studies-web.csl&linkwrap=1'))/div/div/child::node()"
+                            />
+                        </xsl:variable>-->
+                        <!--<xsl:choose>
+                            <xsl:when test="t:citedRange">--><!--
+                                <xsl:copy-of select="$zotbib/node()[not(position() = last())]"/>
+                                <xsl:copy-of select="replace($zotbib/text()[last()], '.$', '')"/>-->
+                              <!--  <xsl:if test="t:citedRange"><xsl:for-each select="t:citedRange">
+                                    <xsl:sort select="position()"/>
+                                    <xsl:text>, </xsl:text>
+                                    <xsl:value-of select="@unit"/>
+                                    <xsl:text> </xsl:text>
+                                    <xsl:value-of select="."/>
+                                </xsl:for-each></xsl:if>-->
+                            <!--</xsl:when>
+                            <xsl:otherwise>
+                                <xsl:copy-of select="$zotbib"/>
+                            </xsl:otherwise>
+                        </xsl:choose>-->
+                      <!--  <a href="{$url}">
+                            <xsl:text>  </xsl:text>
+                            <span class="glyphicon glyphicon-share"/>
+                        </a>-->
+                        <xsl:if test="@corresp">
+                            <xsl:choose>
+                                <xsl:when test="contains(@corresp, ' ')">
+                                    <xsl:text> (about: </xsl:text>
+                                    <xsl:variable name="file" select="ancestor::t:TEI"/>
+                                    <xsl:for-each select="tokenize(@corresp, ' ')">
+                                        <xsl:variable name="id" select="                                                 if (contains(., '#')) then                                                     substring-after(., '#')                                                 else                                                     ."/>
+                                        <xsl:variable name="ref" select="$file//t:*[@xml:id = $id]"/>
+                                        <xsl:choose>
+                                            <xsl:when test="$ref/text()">
+                                                <xsl:value-of select="$ref/text()"/>
+                                            </xsl:when>
+                                            <xsl:when test="$ref/name() = 'listWit'">
+                                                <xsl:for-each select="$ref/t:witness/@corresp">
+                                                    <span class="MainTitle" data-value=".">
+                                                        <xsl:value-of select="."/>
+                                                    </span>
+                                                    <xsl:text> </xsl:text>
+                                                </xsl:for-each>
+                                            </xsl:when>
+                                            <xsl:otherwise>
+                                                <xsl:value-of select="concat($ref/name(), ' ')"/>
+                                                <span class="MainTitle" data-value="{$ref/@corresp}">
+                                                    <xsl:value-of select="$ref/@corresp"/>
+                                                </span>
+                                            </xsl:otherwise>
+                                        </xsl:choose>
+                                        <xsl:text> </xsl:text>
+                                        <xsl:if test="$ref/@xml:lang">
+                                            <xsl:value-of select="concat(' [', $file//t:language[@ident = $ref/@xml:lang], ']')"/>
+                                        </xsl:if>
+                                        <xsl:text> </xsl:text>
+                                    </xsl:for-each>
+                                    <xsl:text>)</xsl:text>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:variable name="id" select="                                             if (contains(@corresp, '#')) then                                                 substring-after(@corresp, '#')                                             else                                                 @corresp"/>
+                                    <xsl:variable name="ref" select="current()//ancestor::t:TEI//t:*[@xml:id = $id]"/>
+                                    <xsl:text> (about: </xsl:text>
+                                    <xsl:choose>
+                                        <xsl:when test="$ref/text()">
+                                            <xsl:value-of select="$ref/text()"/>
+                                        </xsl:when>
+                                        <xsl:when test="$ref/name() = 'listWit'">
+                                            <xsl:for-each select="$ref/t:witness/@corresp">
+                                                <span class="MainTitle" data-value=".">
+                                                    <xsl:value-of select="."/>
+                                                </span>
+                                                <xsl:text> </xsl:text>
+                                            </xsl:for-each>
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                            <xsl:value-of select="concat($ref/name(), ' ')"/>
+                                            <span class="MainTitle" data-value="{$ref/@corresp}">
+                                                <xsl:value-of select="$ref/@corresp"/>
+                                            </span>
+                                        </xsl:otherwise>
+                                    </xsl:choose>
+                                    <xsl:text> </xsl:text>
+                                    <xsl:if test="$ref/@xml:lang">
+                                        <xsl:value-of select="concat(' [', current()//ancestor::t:TEI//t:language[@ident = $ref/@xml:lang], ']')"/>
+                                    </xsl:if>
+                                    <xsl:text> </xsl:text>
+                                    <xsl:text>)</xsl:text>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </xsl:if>
+                    </xsl:if>
+                    <xsl:if test="t:note">
+                        <xsl:text> </xsl:text>
+                        <xsl:apply-templates select="t:note"/>
+                    </xsl:if>
                 </xsl:otherwise>
             </xsl:choose>
         </li>
@@ -211,7 +349,17 @@
                 </xsl:if>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:apply-templates select="." mode="intextbibl"/>
+                <a class="Zotero Zotero-citation" data-value="{t:ptr/@target}">
+                    <xsl:if test="t:citedRange">
+                        <xsl:attribute name="data-unit">
+                            <xsl:value-of select="t:citedRange/@unit"/>
+                        </xsl:attribute>
+                        <xsl:attribute name="data-range">
+                            <xsl:value-of select="t:citedRange"/>
+                        </xsl:attribute>
+                    </xsl:if>
+                    <xsl:text> </xsl:text>
+                </a>
              
             </xsl:otherwise>
         </xsl:choose>
@@ -235,100 +383,110 @@
                 </xsl:if>
             </xsl:when>
             <xsl:otherwise>
-                
-                <xsl:apply-templates select="." mode="intextbibl"/>
-
+                <a class="Zotero Zotero-citation" data-value="{t:ptr/@target}">
+                    <xsl:if test="t:citedRange">
+                        <xsl:attribute name="data-unit">
+                            <xsl:value-of select="t:citedRange/@unit"/>
+                        </xsl:attribute>
+                        <xsl:attribute name="data-range">
+                            <xsl:value-of select="t:citedRange"/>
+                        </xsl:attribute>
+                    </xsl:if>
+                </a>
+                <!--<xsl:if test="//t:ptr">
+                    <xsl:variable name="zotero"
+                        select="document(concat('https://api.zotero.org/groups/358366/items?tag=',t:ptr/@target, '&format=tei'))"/>
+                    <xsl:variable name="url">
+                        <xsl:choose>
+                            <xsl:when test="$zotero//t:note[@type = 'url']">
+                                <xsl:value-of select="$zotero//t:note[@type = 'url']"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of
+                                    select="concat('https://www.zotero.org/groups/ethiostudies/items/tag/', t:ptr/@target)"
+                                />
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:variable>
+                    <xsl:variable name="author">
+                        <xsl:if test="$zotero//t:author">
+                            <xsl:for-each select="$zotero//t:author">
+                                <author>
+                                    <xsl:value-of
+                                        select="
+                                            if (./t:surname) then
+                                                (./t:surname)
+                                            else
+                                                (.)"
+                                    />
+                                </author>
+                            </xsl:for-each>
+                        </xsl:if>
+                    </xsl:variable>
+                    <xsl:variable name="authors">
+                        <xsl:choose>
+                            <xsl:when test="count($author/author) >= 3">
+                                <xsl:value-of select="string-join($author/author, ', ')"/>
+                            </xsl:when>
+                            <xsl:when test="count($author/author) = 2">
+                                <xsl:value-of select="string-join($author/author, ' and ')"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="$author/author"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:variable>
+                    <xsl:variable name="editor">
+                        <xsl:if test="$zotero//t:editor">
+                            <xsl:for-each select="$zotero//t:editor">
+                                <editor>
+                                    <xsl:value-of
+                                        select="
+                                            if (./t:surname) then
+                                                (./t:surname)
+                                            else
+                                                (.)"
+                                    />
+                                </editor>
+                            </xsl:for-each>
+                        </xsl:if>
+                    </xsl:variable>
+                    <xsl:variable name="editors">
+                        <xsl:choose>
+                            <xsl:when test="count($editor/editor) >= 3">
+                                <xsl:value-of select="string-join($editor/editor, ', ')"/>
+                            </xsl:when>
+                            <xsl:when test="count($editor/editor) = 2">
+                                <xsl:value-of select="string-join($editor/editor, ' and ')"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="$editor/editor"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:variable>
+                    <a xmlns="http://www.w3.org/1999/xhtml" href="{$url}">
+                        <xsl:value-of
+                            select="
+                                if ($zotero//t:author) then
+                                    $authors
+                                else
+                                    $editors"/>
+                        <xsl:text> </xsl:text>
+                        <xsl:value-of select="$zotero//t:date"/>
+                        
+                    </a>
+                    
+                </xsl:if>-->
+                <!--<xsl:if test="t:citedRange">
+                            <xsl:for-each select="t:citedRange">
+                                <xsl:sort select="position()"/>
+                                <xsl:text>, </xsl:text>
+                                <xsl:value-of select="@unit"/>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of select="."/>
+                            </xsl:for-each>
+                        </xsl:if>-->
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-    
-    <xsl:template mode="intextbibl" match="t:bibl">
-        <span class="Zotero Zotero-citation" data-value="{t:ptr/@target}">
-            <xsl:if test="t:citedRange">
-                <xsl:attribute name="data-unit">
-                    <xsl:value-of select="t:citedRange/@unit"/>
-                </xsl:attribute>
-                <xsl:attribute name="data-range">
-                    <xsl:value-of select="t:citedRange"/>
-                </xsl:attribute>
-            </xsl:if>
-            <xsl:variable name="authors"><xsl:for-each select="t:author|t:editor"><xsl:apply-templates select="." mode='bibl'/></xsl:for-each></xsl:variable>
-            <xsl:value-of select="$authors" separator=", "/>
-            <xsl:apply-templates select="t:date" mode='bibl'/>
-            <xsl:text>, </xsl:text>
-            <xsl:apply-templates select="t:citedRange" mode='bibl'/>
-        </span>
-    </xsl:template>
-    <xsl:template mode="bibl" match="t:bibl">
-        <xsl:variable name="t" select="t:ptr/@target"/>
-        <div class="w3-row">
-            <div class="w3-col"  style="width:85%">
-                <span class="Zotero Zotero-full" data-value="{$t}" data-type="{t:seg/@type}">
-            <xsl:if test="t:citedRange">
-                <xsl:attribute name="data-unit">
-                    <xsl:value-of select="t:citedRange/@unit"/>
-                </xsl:attribute>
-                <xsl:attribute name="data-range">
-                    <xsl:value-of select="t:citedRange"/>
-                </xsl:attribute>
-            </xsl:if>
-        <xsl:if test="t:author|t:editor">
-            <xsl:for-each select="t:author|t:editor"><xsl:apply-templates select="." mode='bibl'/><xsl:text>, </xsl:text></xsl:for-each>
-            </xsl:if>
-            <xsl:apply-templates select="t:date" mode='bibl'/>
-            <xsl:text>, </xsl:text>
-                    <xsl:variable name="titles" select="count(./t:title)"/>
-                 <xsl:for-each select="t:title">
-                     <xsl:variable name="position" select="position()"/>
-                     <xsl:apply-templates select="." mode='bibl'/><xsl:if test="$titles!=$position"><xsl:text> </xsl:text></xsl:if>
-                    </xsl:for-each>
-            <xsl:text>, </xsl:text>
-                   <xsl:if test="t:pubPlace"> <xsl:value-of select="t:pubPlace"/>
-                    <xsl:text>: </xsl:text></xsl:if>
-                    <xsl:if test="t:publisher"><xsl:value-of select="t:publisher"/></xsl:if>
-                    <xsl:apply-templates select="t:citedRange" mode='bibl'/>
-                    <xsl:text> </xsl:text>
-        <xsl:apply-templates select="t:note[@type='about']"/>
-                    <xsl:text> </xsl:text>
-            <xsl:if test="t:ref"><a href="{t:ref/@target}">[link]</a></xsl:if>
-                    <xsl:text> </xsl:text>
-                    <xsl:if test="t:note[@type='accessed']">Accessed: <xsl:value-of select="t:note[@type='accessed']"/></xsl:if>
-                    <xsl:text> </xsl:text>
-                    <xsl:apply-templates select="t:note[not(@type)]"/>
-<!--                    ignoring biblScope-->
-                    <xsl:text>. </xsl:text>
-                </span></div><div class="w3-rest">
-        <span class="w3-bar-block w3-hide-small w3-hide-medium">
-            <a class="w3-bar-item w3-button w3-tiny" href="https://api.zotero.org/groups/358366/items?&amp;tag={$t}&amp;format=bib&amp;locale=en-GB&amp;style=hiob-ludolf-centre-for-ethiopian-studies">HLZ CSL style</a>
-            <a class="w3-bar-item w3-button w3-tiny" target="_blank" href="https://www.zotero.org/groups/358366/ethiostudies/tags/{$t}/library">Zotero</a>
-            <a class="w3-bar-item w3-button w3-tiny" href="/bibliography?pointer={$t}">Other citations</a>
-        </span>
-                
-                </div></div><hr></hr>
-    </xsl:template>
-    
-    <xsl:template match="t:author|t:editor" mode="bibl">
-        <xsl:variable name="nodes" select="count(./node())"/>
-            <xsl:for-each select="./node()">
-                <xsl:variable name="position" select="position()"/>
-                <xsl:value-of select="."/><xsl:if test="$nodes!=$position"><xsl:text> </xsl:text></xsl:if>
-            </xsl:for-each>
-    </xsl:template>
-    <xsl:template match="t:date" mode="bibl">
-        <xsl:value-of select="."/>
-    </xsl:template>
-    <xsl:template match="t:title" mode="bibl">
-        <xsl:choose>
-            <xsl:when test="@type='short'"> (<xsl:value-of select="."/>)</xsl:when>
-            <xsl:when test="@level='a'"> "<xsl:value-of select="."/>"</xsl:when>
-            <xsl:when test="@level='j'"> in <i><xsl:value-of select="."/></i></xsl:when>
-            <xsl:when test="@level='s'"> in series <i><xsl:value-of select="."/></i></xsl:when>
-            <xsl:when test="@level='m'"> <i><xsl:value-of select="."/></i></xsl:when>
-            <xsl:otherwise> <i><xsl:value-of select="."/></i></xsl:otherwise>
-        </xsl:choose>
-    </xsl:template>
-    <xsl:template match="t:citedRange" mode="bibl">
-        <xsl:value-of select="@unit"/><xsl:text> </xsl:text><xsl:value-of select="."/>
-    </xsl:template>
-    
 </xsl:stylesheet>

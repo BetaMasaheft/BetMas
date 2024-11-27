@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/newpage.html" data-template-at="content">
     <div class="w3-container w3-justify  w3-padding-64">
         <div class="w3-sidebar w3-bar-block w3-card w3-animate-left " id="sidebar" style="max-height:50vh;width:10%">
@@ -20,11 +21,6 @@
         </div>
         <div id="main" class="w3-main" style="margin-left:10%">
             <div class="w3-container">
-                <h1>Discussions</h1>
-                <div id="discussions">
-                    <p>Need help, want to ask and avoid reading all this? Try asking a question in the discussion section of our <a href="https://github.com/BetaMasaheft/Documentation/discussions">GitHub Documentation repository</a>.
-                    You may find additional examples and already asked and answered questions there to help you.</p>
-                </div>
                 <h1>Some hints on how you can navigate this website</h1>
 
                 <div id="introduction">
@@ -775,76 +771,14 @@
                 </div>
                 <div id="searchesintro">
                     <h2>Searches</h2>
-                    <div class="w3-container">
-                        <div>
-                            <h3>Indexes</h3>
-                            <p>This app is built with exist-db, and uses Lucene as the standard search engine. This comes with several options available. A full list is <a href="https://lucene.apache.org/core/2_9_4/queryparsersyntax.html#Fuzzy Searches" target="_blank">here</a></p>
-                            
-                        </div>
-                        <div>
-                            <h3>Input</h3>
-                            <p>If you want to transcribe some fidal into latin or update your transcription, you can <a target="_blank" href="https://betamasaheft.github.io/transliteration/">have a go with our transcription tools</a>.</p>
-                            <p>If you are using the keyboard provided, please note that there are four layers, the normal one and those activated by Shift, Alt, Alt+Shift.</p>
-                            <p>Normal and Shift contain mainly Fidal. Alt and Alt-Shift diacritics.</p>
-                            <p>To enter letters in Fidal and the diacritics with this keyboard, which is independent of your local input selection, you can use two methods.</p>
-                            <p>Orthographic variants of the Ethiopic language are searched as a standard if not otherwise
-                                specified. The following are the options considered by the search engine. </p>
-                            <ul>
-                                <li>'s','s', 'ḍ'</li>
-                                <li> 'e','ǝ','ə','ē'</li>
-                                <li>'w','ʷ'</li>
-                                <li>'ʾ', 'ʿ'</li>
-                                <li>'`', 'ʾ', 'ʿ' (note that you can use the tick if you are not sure about the two, but none will be inferred for you)</li>
-                                <li>'ሀ', 'ሐ', 'ኀ', 'ሃ', 'ሓ', 'ኃ'</li>
-                                <li>'ሀ', 'ሐ', 'ኀ'</li>
-                                <li>'ሁ', 'ሑ', 'ኁ'</li>
-                                <li> 'ሂ', 'ሒ', 'ኂ'</li>
-                                <li>'ሄ', 'ሔ', 'ኄ'</li>
-                                <li> 'ህ', 'ሕ', 'ኅ'</li>
-                                <li> 'ሆ', 'ሖ', 'ኆ'</li>
-                                <li> 'ሠ','ሰ'</li>
-                                <li> 'ሡ','ሱ'</li>
-                                <li>'ሢ','ሲ'</li>
-                                <li>'ሣ','ሳ'</li>
-                                <li> 'ሥ','ስ'</li>
-                                <li>'ሦ','ሶ'</li>
-                                <li>'ሤ','ሴ'</li>
-                                <li> 'ጸ', 'ፀ'</li>
-                                <li>'ጹ', 'ፁ'</li>
-                                <li>'ጺ', 'ፂ'</li>
-                                <li> 'ጻ', 'ፃ'</li>
-                                <li>'ጼ', 'ፄ'</li>
-                                <li> 'ጽ', 'ፅ'</li>
-                                <li>'ጾ', 'ፆ'</li>
-                                <li> 'አ', 'ዐ', 'ኣ', 'ዓ'</li>
-                                <li> 'ኡ', 'ዑ'</li>
-                                <li> 'ኢ', 'ዒ'</li>
-                                <li> 'ኤ', 'ዔ'</li>
-                                <li>'እ', 'ዕ'</li>
-                                <li> 'ኦ', 'ዖ'</li>
-                            </ul>
-                            <p>Some examples</p>
-                            <ul>
-                                <li>If you search Taammera, you will not find Taʾammǝra or Taʿammera but only Taammera. Try Ta`ammera
-                                    instead or use the keyboard provided to enter aleph and ayn. </li>
-                                <li>If you are searching for Yāʿǝqob, you will not have a lot of luck searching Yaqob, unless some kind cataloguer has actually added it into the data as simplified spelling form. Try instead entering Yaqob~0.5 which is a fuzzy search, this will return also Yāʿǝqob. Also Ya`eqob is fine for example. </li>
-                            </ul>
-                            <h4>Keys Combinations</h4>
-                            <p>With this method you use keys combinations to trigger specific characters.
-                                <a target="_blank" href="/combos.html">Click here for a list of the available combos.</a>
-                                This can be expanded<a target="_blank" href="https://github.com/BetaMasaheft/Documentation/issues/new/choose">, do not hesitate to ask (click here to post a new issue).</a></p>
-                            <h4>Hold and choose</h4>
-                            <p>If you hold a key optional values will appear in a list. You can click on the desiderd value or use arrows and enter to select it. The options are the same as those activated by combinations.</p>
-                            <p>With this method you do not have to remember or lookup combos, but it does take many more clicks...</p>
-                        </div>
-                    </div>
+
                     <div>
                         <h3>Basic search (home page)</h3>
                         <p>From the homepage you can run a simple search which will look in all data
                             but only in some elements. This is a most simple search that we can
                             offer: it searches your text only in a few most common elements, and
                             just as you type it.</p>
-                        <p>Few options, little trouble, very sintetic results, i.e. you really
+                        <p>Little options, little trouble, very sintetic results, i.e. you really
                             need to know already what you are looking for.</p>
                         <p>Examples:</p>
                         <ul>
@@ -854,9 +788,9 @@
                         </ul>
                     </div>
                     <div>
-                        <h3>New Search</h3>
+                        <h3>Faceted Search</h3>
                         <p>
-                            <a href="/newSearch.html">This new faceted search</a> allows you to search
+                            <a href="/facet.html">This new faceted search</a> allows you to search
                             for a term wherever it is, and then drill down the results, as in a
                             commercial website. Once your hits have been retrieved you can select
                             the features which help you restrict to a set of results. Beware,
@@ -873,9 +807,9 @@
                         <p>Examples:</p>
                         <ul>
                             <li>
-                                <a href="/newSearch.html?searchType=text&amp;mode=any&amp;query=Mary">Search the word 'Mary'</a>.</li>
+                                <a href="/facet.html?query=Mary">Search the word 'Mary'</a>.</li>
                             <li>
-                                <a href="/newSearch.html?query=Mary&amp;work-types=mss&amp;decorationType-facet=AT1031VirginAndChild">Search the word 'Mary' and filter down for manuscripts only
+                                <a href="/facet.html?query=Mary&amp;type=mss&amp;decorationType-facet=AT1031VirginAndChild">Search the word 'Mary' and filter down for manuscripts only
                                     with at least one decoration with art theme "Virgin and Child"
                                     (AT1031VirginAndChild)</a>.</li>
                         </ul>
@@ -940,7 +874,7 @@
                                 <a href="/xpath?xpath=%24config%3Acollection-rootPr%2F%2Ft%3Aperson%5Bt%3Abirth%5B%40*%5D%5D%5Bt%3Adeath%5B%40*%5D%5D%5Bt%3Aoccupation%5B%40type%3D%27ruler%27%5D%5D">person record which have at least some attribute for birth and death (can be when, notBefore, notAfter) elements and occupation type ruler'.</a>
                             </li>
                             <li>
-                                <a href="/xpath?xpath=%24config%3Acollection-rootMS%2F%2Ft%3Aadditions%2F%2Ft%3Aitem%5Bt%3Adesc%5B%40type%3D%27OwnershipNote%27%5D%5D%5Bfollowing-sibling%3A%3At%3Aitem%5Bt%3Adesc%5B%40type%3D%27Supplication%27%5D%5D%5D">Manuscripts with an addition element typed Ownership Note followed by another one with type Supplication.</a>
+                                <a href="/xpath?xpath=collection(%24config%3Adata-rootMS)%2F%2Ft%3Aadditions%2Ft%3Alist%2Ft%3Aitem%5Bt%3Adesc%5B%40type%3D%27OwnershipNote%27%5D%5D%5Bfollowing-sibling%3A%3At%3Aitem%5Bt%3Adesc%5B%40type%3D%27Supplication%27%5D%5D%5D">Manuscripts with an addition element typed Ownership Note followed by another one with type Supplication.</a>
                             </li>
                         </ul>
                     </div>

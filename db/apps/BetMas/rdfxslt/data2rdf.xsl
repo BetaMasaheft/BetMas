@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:pleiades="https://pleiades.stoa.org/" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:wd="https://www.wikidata.org/" xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:oa="http://www.w3.org/ns/oa#" xmlns:doap="http://usefulinc.com/ns/doap#" xmlns:rel="http://purl.org/vocab/relationship/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:pelagios="http://pelagios.github.io/vocab/terms#" xmlns:syriaca="http://syriaca.org/documentation/relations.html#" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:crm="http://www.cidoc-crm.org/cidoc-crm/" xmlns:saws="http://purl.org/saws/ontology#" xmlns:iha="http://islhornafr.tors.sc.ku.dk/" xmlns:funct="http://myfunction" xmlns:svcs="http://rdfs.org/sioc/services#" xmlns:gn="http://www.geonames.org/ontology#" xmlns:agrelon="http://d-nb.info/standards/elementset/agrelon.owl#" xmlns:betmas="https://betamasaheft.eu/ontology/" xmlns:lawd="http://lawd.info/ontology/" xmlns:sdc="https://w3id.org/sdc/ontology#" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:ecrm="http://erlangen-crm.org/current/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:snap="http://data.snapdrgn.net/ontology/snap#" xmlns:dc="http://purl.org/dc/elements/1.1/" exclude-result-prefixes="funct" version="2.0">
     <xsl:output method="xml" indent="yes" encoding="UTF-8"/>
     <xsl:function name="funct:parseLocusRef">
@@ -235,7 +236,9 @@
                             </betmas:hasTotalQuires>
                             <crm:E54_Dimension>
                                 <crm:P91_has_unit>quire</crm:P91_has_unit>
-                                <crm:P90_has_value><xsl:value-of select="count(//t:collation//t:item)"/></crm:P90_has_value>
+                                <crm:P90_has_value>
+                                    <xsl:value-of select="count(//t:collation//t:item)"/>
+                                </crm:P90_has_value>
                             </crm:E54_Dimension>
                         </xsl:when>
                         <!--                        if the manuscript has parts, count them and add a pointer to them, a further call below will call the template in mode="parturis" producing the uris to which this will refer
@@ -324,9 +327,9 @@
                     <xsl:if test="//t:person/@sex">
                         <foaf:gender>
                             <xsl:choose>
-                                <xsl:when test="matches(//t:person/@sex, '2')">female</xsl:when>
-                                <xsl:otherwise>male</xsl:otherwise>
-                            </xsl:choose>
+                            <xsl:when test="matches(//t:person/@sex, '2')">female</xsl:when>
+                            <xsl:otherwise>male</xsl:otherwise>
+                        </xsl:choose>
                         </foaf:gender>
                     </xsl:if>
                     <xsl:apply-templates select="@type | @subtype"/>
@@ -467,12 +470,14 @@
                         </xsl:with-param>
                     </xsl:apply-templates>
                     <xsl:for-each select="//t:titleStmt/t:title[@xml:id]">
-                   <xsl:if test="text() or @*"><rdf:Description rdf:about="{funct:id(concat($mainID, '#',@xml:id))}">
+                   <xsl:if test="text() or @*">
+                        <rdf:Description rdf:about="{funct:id(concat($mainID, '#',@xml:id))}">
                         <rdf:type rdf:resource="http://www.cidoc-crm.org/cidoc-crm/E35_Title"/>
                         <rdfs:label>
                             <xsl:value-of select="."/>
                         </rdfs:label>
-                   </rdf:Description></xsl:if> 
+                   </rdf:Description>
+                    </xsl:if> 
                     </xsl:for-each>
                 
             </xsl:if>
@@ -952,7 +957,8 @@
                             <betmas:locusLine>
                                 <xsl:value-of select="$parseT/*:line"/>
                             </betmas:locusLine>
-                        </xsl:if></xsl:if>
+                        </xsl:if>
+                                </xsl:if>
                 </xsl:otherwise>
             </xsl:choose>
 
@@ -1488,7 +1494,7 @@
                 <rdf:type rdf:resource="https://betamasaheft.eu/ontology/{concat(upper-case(substring(@role,1,1)),substring(@role,2))}"/>
             </xsl:if>
             <oa:hasTarget rdf:resource="https://betamasaheft.eu/{$mainID}"/>
-            <oa:hasBody rdf:resource="{if(starts-with(@ref, 'pleiades:')) then concat('https://pleiades.stoa.org/places/', substring-after(@ref, 'pleiades:')) else if (starts-with(@ref, 'wd:Q')) then concat('https://www.wikidata.org/entity/', replace(@ref, 'wd:', '')) else  string(@ref)}"/>
+            <oa:hasBody rdf:resource="{if(starts-with(@ref, 'pleiades:')) then concat('https://pleiades.stoa.org/places/', substring-after(@ref, 'pleiades:')) else if (starts-with(@ref, 'wd:Q')) then concat('https://www.wikidata.org/entity/', replace(@ref, 'wd:', '')) else string(@ref)}"/>
             <oa:annotatedAt rdf:datatype="http://www.w3.org/2001/XMLSchema#date">
                 <xsl:value-of select="current-date()"/>
             </oa:annotatedAt>
