@@ -1,4 +1,4 @@
-xquery version "3.0" encoding "UTF-8";
+xquery version "3.0" encoding "UTF-8"; 
 (:~
  : module used by items.xql for several parts of the view produced
  :
@@ -19,7 +19,6 @@ import module namespace locus = "https://www.betamasaheft.uni-hamburg.de/BetMasW
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace t="http://www.tei-c.org/ns/1.0";
-
 
 declare function item2:authorsSHA($id, $this, $collection, $sha){
 apprest:authorsSHA($id, $this, $collection, $sha)
@@ -530,7 +529,7 @@ return
 <div  class="mainrelations w3-display-container">
 
                                           { if ($this//t:settlement or $this//t:region or $this//t:country) then  
-                                          <div  class="relBox w3-display-right w3-panel w3-card-4 w3-gray">
+                                          <div  class="relBox w3-panel w3-card-4 w3-gray">
                                            {
                                            <b  class="openInDialog">Administrative position</b>,
                                            <table class="w3-table w3-hoverable adminpos">
@@ -813,7 +812,7 @@ else
 return
 
 <div class="mainrelations w3-container">
-<div  class="relBox  w3-panel w3-card-4 w3-gray">
+<div  class="relBox w3-panel w3-card-4 w3-gray">
                                            {
                                            <b>Administrative position</b>,
                                            <table class="w3-table w3-hoverable adminpos">
@@ -1095,15 +1094,14 @@ Scrolling in this box will also show you a summary of all the occurences.  <a ta
                                                         {  if ($item//t:facsimile/t:graphic/@url) then 
                                                         <a class="w3-bar-item" target="_blank" href="{$item//t:facsimile/t:graphic/@url}">Link to images</a> 
                                                         else if($item//t:msIdentifier/t:idno/@facs) then 
-                 <a class="w3-bar-item w3-circle" target="_blank" href="/manuscripts/{$groupkey}/viewer">{
+                                                     <a class="w3-bar-item w3-circle" target="_blank" href="/manuscripts/{$groupkey}/viewer">{
                 if($item//t:collection = 'Ethio-SPaRe') 
                then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
 (:laurenziana:)
 else  if($item//t:repository[@ref = 'INS0339BML']) 
                then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '005.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
           
-(:          
-EMIP:)
+(:EMIP:)
               else if(($item//t:msIdentifier/t:idno[contains(@facs, 'EMIP')]) and $item//t:msIdentifier/t:idno/@n) 
                then <img src="{$config:appUrl ||'/iiif/' || string(($item//t:msIdentifier)[1]/t:idno[@facs][@n]/@facs) || '001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
               
@@ -1165,8 +1163,8 @@ EMIP:)
                                                           <li class="w3-bar w3-card-2 list-group">
                                                           <a
                                                href="/manuscripts/{$groupkey}/main">{$tit} ({string($groupkey)}) </a> <br/>
-                                                   <!--       <span class="WordCount" data-msID="{$groupkey}" data-wID="{$string}"/>
-                                                         <br/> -->
+                                                   <!--       <span class="WordCount" data-msID="{$groupkey}" data-wID="{$string}"/> 
+                                                         <br/>-->
                                                          <ul class="w3-padding">{
                                                          for $h in $hit
                                                          let $item := $h/ancestor::t:item[1]
@@ -1381,7 +1379,7 @@ return <p><a target="_blank" href="/compare?workid={$stringsubids},{$c}">Click t
     return
         if (count($mss) ge 1) then
             <div
-                class="w3-panel w3-margin w3-red relBox scrollwrap" style="word-break:break-all;">
+                class="relBox w3-panel w3-card w3-red scrollwrap" style="word-break:break-all;">
                 There are {count($mss)}
                 <a
                     href="/newSearch.html?searchType=text&amp;mode=any&amp;reporef={$id}"> manuscripts at this repository</a>.

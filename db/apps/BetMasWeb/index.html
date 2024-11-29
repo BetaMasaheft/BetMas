@@ -1,7 +1,11 @@
-<div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/newindex2.html" data-template-at="content" class="w3-content w3-display-container" style="margin-top:50px">
-    <div class="w3-button w3-grey w3-hide-small" style="position: fixed;         top: 60;   right: 6;z-index:999;"><a onclick="w3_open()">
-            <i class="fa fa-bars"/></a></div>
-    <div data-template="app:logging"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<div xmlhins="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/newindex2.html" data-template-at="content" class="w3-content w3-display-container" style="margin-top:50px">
+    <div class="w3-button w3-grey w3-hide-small" style="position: fixed;         top: 60;   right: 6;z-index:999;">
+        <a onclick="w3_open()">
+            <i class="fa fa-bars"/>
+        </a>
+    </div>
+    
     
     <!--  cover  -->
     <div class="w3-row w3-center w3-display-container" id="cover">     
@@ -10,7 +14,9 @@
                     
                 <div class="w3-display-middle w3-container">
                     <div class="w3-center-align">
-                        <a href="https://www.betamasaheft.uni-hamburg.de/"><img src="resources/images/logo_color.png" alt="Beta maṣāḥǝft Project logo" id="logo" style="width:70%;"/></a>
+                        <a href="https://www.betamasaheft.uni-hamburg.de/">
+                            <img src="resources/images/logo_color.png" alt="Beta maṣāḥǝft Project logo" id="logo" style="width:70%;"/>
+                        </a>
                     </div>
                     <div class="w3-center-align">
                         <form action="/simpleSearch.html" role="search">
@@ -42,26 +48,33 @@
         <div class="w3-row w3-center-align">
             
             <button onclick="document.getElementById('highlight').style.display='block'" class="w3-button w3-red w3-row w3-center-align" style="vertical-align: top;width:300;">Highlight of the month</button>
-            <button onclick="document.getElementById('feed').style.display='block'" class="w3-button" style="vertical-align: top;"><i class="fas fa-rss-square" style="font-size:20px;color:rgb(188,56,38)"/></button>
+            <button onclick="document.getElementById('feed').style.display='block'" class="w3-button" style="vertical-align: top;">
+                <i class="fas fa-rss-square" style="font-size:20px;color:rgb(188,56,38)"/>
+            </button>
             
             <div id="highlight" class="w3-modal w3-card">
                 <div class="w3-modal-content">
                     
                     <header class="w3-container w3-red">
                         <span onclick="document.getElementById('highlight').style.display='none'" class="w3-button w3-display-topright">CLOSE</span>
-                        <h4>October 2023 highlight: Bm Workflow and Crowdsourcing for Research</h4>
+                        <h4>May 2024 highlight: Beta maṣāḥǝft Guidelines</h4>
                     </header>
-                    <div><a href="https://www.betamasaheft.uni-hamburg.de/documents/workflow.pdf"><img src="https://www.betamasaheft.uni-hamburg.de/5348493/data-11dc00e5d40548a6193d2fa9dfda0e5ce40146df.jpg" width="400"/></a></div>
+                    <div>
+                        <img src="https://lecture2go.uni-hamburg.de/images/00.000_video-60972_2022-03-30_14-52.jpg" width="400"/>
+                    </div>
                     <div class="w3-container">
-                        <p>In October 2023, the Bm project featured its workflow in a poster at the <a href="https://www.hcds.uni-hamburg.de/en/current/all-events/digital-total.html">Digital Total</a> event, organized and conducted by the House of Computing and Data Science (HCDS) of the Universität Hamburg, in collaboration with partners from the scientific platform PIER PLUS and the Academy of Sciences and Humanities in Hamburg.</p>
-                        <p>The poster focuses on the crowdsourcing for research, pioneered for Ethiopian and Eritrean manuscript studies by the Bm project.</p>
-
+                        <p>Beta maṣāḥǝft is a collaborative platform that welcomes everyone to use the data and to contribute the data. Elaborate guidance, from setting up the software to the workflow to specific examples of encoding are provided in the <a href="https://betamasaheft.eu/Guidelines/">Beta maṣāḥǝft Guidelines application</a>.
+                        </p>
+                        <p>Besides providing assistance in the encoding process, the application also features a <a href="https://betamasaheft.github.io/transliteration/">Transliteration Tool</a>, supporting conversion between Ethiopic and Latin script.
+                        </p>
+                        <p>Users can also find an archive of <a href="https://betamasaheft.eu/Guidelines/?id=trainingMaterials">project training materials</a>, with presentations and lectures (or <a href="https://www.aai.uni-hamburg.de/en/ethiostudies/news/20220405xml.html">links to lectures and presentations</a>) prepared for various occasions </p>
                         
                     </div>
                     
                     <footer class="w3-container" style="background-color: rgba(240,224,188,0.3)">
                         <span onclick="document.getElementById('highlight').style.display='none'" class="w3-button w3-display-bottomright">CLOSE</span>
-                        <p><a href="/highlights.html">Past highlights</a> </p>
+                        <p>
+                            <a href="/highlights.html">Past highlights</a> </p>
                         
                     </footer>
                     
@@ -96,54 +109,91 @@
         <div class="w3-row w3-bar w3-margin-bottom  w3-margin-right" style="margin-top: 40;width:99%;">
             <div class="w3-col w3-mobile w3-display-container" style="width:20%;">   
                 <img src="resources/images/homepage/3a.JPG" alt="mss" class="w3-image w3-hover-opacity " style="filter:grayscale(90%);object-fit: cover;width:100%;"/>
-                <div class="w3-block w3-display-top w3-margin-top w3-dropdown-hover w3-left-align w3-border-black" style="background-color: rgba(255,255,255,0.6);position: absolute;top: 1%;right: 0%;                             font-weight: bold;"><a href="#manuscripts" style="text-decoration:none;">
-                    <h4 class="w3-center w3-wide"><b>Manuscripts</b></h4></a>
+                <div class="w3-block w3-display-top w3-margin-top w3-dropdown-hover w3-left-align w3-border-black" style="background-color: rgba(255,255,255,0.6);position: absolute;top: 1%;right: 0%;                             font-weight: bold;">
+                    <a href="#manuscripts" style="text-decoration:none;">
+                    <h4 class="w3-center w3-wide">
+                            <b>Manuscripts</b>
+                        </h4>
+                    </a>
                     <div class="w3-left-align w3-hide-small w3-dropdown-content" style="background-color: rgba(255,255,255,0.6);overflow-y:auto;font-weight: 50;font-size:13;">Descriptions of 
                     (predominantly) Christian manuscripts from Ethiopia and Eritrea are the core of the 
                     project. We encode descriptions from printed catalogues, 
                     incorporate records produced by other 
                     projects, and describe previously 
                     uncatalogued manuscripts. We also serve manuscript images and transcriptions.
-                </div></div>
+                </div>
+                </div>
                 <div class="w3-tiny w3-hide-small w3-text-white" style="background-color: rgba(0,0,0,0.5);position: absolute;bottom: 0%; right:0%;height:30px;overflow-y:auto;width: 100%;">Manuscripts in Dabra Dāmmo, by Ethio-SPaRe</div>
             </div>
             <div class="w3-col w3-mobile w3-display-container" style="width:20%;">    
                 <img src="resources/images/homepage/3.JPG" alt="Works" class="w3-image w3-hover-opacity" style="filter:grayscale(90%);object-fit: cover;width:100%;"/>
-                <div class="w3-display-top w3-block w3-margin-top w3-dropdown-hover w3-left-align" style="background-color: rgba(255,255,255,0.6);position: absolute;top: 1%;right: 0%;                             font-weight: bold;"><a href="#texts" style="text-decoration:none;"><h4 class="w3-center w3-wide"><b>Texts</b></h4></a><div class="w3-left-align w3-hide-small w3-dropdown-content" style="background-color: rgba(255,255,255,0.6);overflow-y:auto;font-weight: 50;font-size:13;">Any text with an independent circulation 
+                <div class="w3-display-top w3-block w3-margin-top w3-dropdown-hover w3-left-align" style="background-color: rgba(255,255,255,0.6);position: absolute;top: 1%;right: 0%;                             font-weight: bold;">
+                    <a href="#texts" style="text-decoration:none;">
+                        <h4 class="w3-center w3-wide">
+                            <b>Texts</b>
+                        </h4>
+                    </a>
+                    <div class="w3-left-align w3-hide-small w3-dropdown-content" style="background-color: rgba(255,255,255,0.6);overflow-y:auto;font-weight: 50;font-size:13;">Any text with an independent circulation 
                     is a work, with its own identification number within the Clavis Aethiopica (CAe). 
                     Recurrent motifs as well as documentary additional texts 
                     (identified as Narrative Units) are not part of the CAe.
-                </div></div>
-                <div class="w3-tiny w3-hide-small w3-text-white" style="background-color: rgba(0,0,0,0.5);position: absolute;bottom: 0%; right:0%;height:30px;overflow-y:auto;width: 100%;"><a href="https://betamasaheft.eu/manuscripts/ESqs005/viewer?FirstCanv=https://betamasaheft.eu/api/iiif/ESqs005/canvas/p214">QS-005</a> by Ethio-SPaRe</div>
+                </div>
+                </div>
+                <div class="w3-tiny w3-hide-small w3-text-white" style="background-color: rgba(0,0,0,0.5);position: absolute;bottom: 0%; right:0%;height:30px;overflow-y:auto;width: 100%;">
+                    <a href="https://betamasaheft.eu/manuscripts/ESqs005/viewer?FirstCanv=https://betamasaheft.eu/api/iiif/ESqs005/canvas/p214">QS-005</a> by Ethio-SPaRe</div>
             </div>
             <div class="w3-col w3-mobile w3-display-container" style="width:20%;">   
                 <img src="resources/images/homepage/prs.JPG" alt="persons" class="w3-image w3-hover-opacity" style="filter:grayscale(90%);object-fit: cover;width:100%;"/>
-                    <div class="w3-display-top w3-block w3-margin-top w3-dropdown-hover w3-left-align" style="background-color: rgba(255,255,255,0.6);position: absolute;top: 1%;right: 0%;                             font-weight: bold;"><a href="#prosopography" style="text-decoration:none;"><h4 class="w3-center w3-wide"><b>Persons</b></h4></a>
+                    <div class="w3-display-top w3-block w3-margin-top w3-dropdown-hover w3-left-align" style="background-color: rgba(255,255,255,0.6);position: absolute;top: 1%;right: 0%;                             font-weight: bold;">
+                    <a href="#prosopography" style="text-decoration:none;">
+                        <h4 class="w3-center w3-wide">
+                            <b>Persons</b>
+                        </h4>
+                    </a>
                         <div class="w3-left-align w3-hide-small w3-dropdown-content" style="background-color: rgba(255,255,255,0.6);overflow-y:auto;font-weight: 50;font-size:13;">We create metadata for 
                     all persons (and groups of persons) associated with the manuscript production and circulation 
                     (rulers, religious authorities, scribes, donors, and commissioners) as well as those mentioned in 
                     the texts used by the project. The result will be a comprehensive 
                     Prosopography of the Ethiopian and Eritrean tradition. 
-                </div></div>
-                <div class="w3-tiny w3-hide-small w3-text-white" style="background-color: rgba(0,0,0,0.5);position: absolute;bottom: 0%; right:0%;height:30px;overflow-y:auto;width: 100%;"><a href="https://betamasaheft.eu/manuscripts/ESnsm004/viewer?FirstCanv=https://betamasaheft.eu/api/iiif/ESnsm004/canvas/p3">NSM-004</a> by Ethio-SPaRe</div>
+                </div>
+                </div>
+                <div class="w3-tiny w3-hide-small w3-text-white" style="background-color: rgba(0,0,0,0.5);position: absolute;bottom: 0%; right:0%;height:30px;overflow-y:auto;width: 100%;">
+                    <a href="https://betamasaheft.eu/manuscripts/ESnsm004/viewer?FirstCanv=https://betamasaheft.eu/api/iiif/ESnsm004/canvas/p3">NSM-004</a> by Ethio-SPaRe</div>
             </div>
             <div class="w3-col w3-mobile w3-display-container" style="width:20%;">   
                 <img src="resources/images/homepage/5.JPG" alt="places" class="w3-image w3-hover-opacity" style="filter:grayscale(90%);object-fit: cover;width:100%;"/>
-                    <div class="w3-display-top w3-block w3-margin-top w3-dropdown-hover w3-left-align" style="background-color: rgba(255,255,255,0.6);position: absolute;top: 1%;right: 0%;                             font-weight: bold;"><a href="#gazetteer" style="text-decoration:none;"><h4 class="w3-center w3-wide"><b>Places</b></h4></a><div class="w3-left-align w3-hide-small w3-dropdown-content" style="background-color: rgba(255,255,255,0.6);overflow-y:auto;font-weight: 50;font-size:13;">We create metadata
+                    <div class="w3-display-top w3-block w3-margin-top w3-dropdown-hover w3-left-align" style="background-color: rgba(255,255,255,0.6);position: absolute;top: 1%;right: 0%;                             font-weight: bold;">
+                    <a href="#gazetteer" style="text-decoration:none;">
+                        <h4 class="w3-center w3-wide">
+                            <b>Places</b>
+                        </h4>
+                    </a>
+                    <div class="w3-left-align w3-hide-small w3-dropdown-content" style="background-color: rgba(255,255,255,0.6);overflow-y:auto;font-weight: 50;font-size:13;">We create metadata
                     for all places associated with the manuscript production and circulation as well as 
                     those mentioned in the texts used by the project, which 
                     will thus result in a Gazetteer of the Ethiopian tradition. We clearly distinguish between places and names of places.
                     
                     Our named entities are aligned with Wikidata.
-                </div></div>
-                <div class="w3-tiny w3-hide-small w3-text-white" style="background-color: rgba(0,0,0,0.5);position: absolute;bottom: 0%; right:0%;height:30px;overflow-y:auto;width: 100%;"><a href="https://betamasaheft.eu/manuscripts/INS0147MCM/list">Māy Č̣aw Mikāʾel</a> by Ethio-SPaRe</div>
+                </div>
+                </div>
+                <div class="w3-tiny w3-hide-small w3-text-white" style="background-color: rgba(0,0,0,0.5);position: absolute;bottom: 0%; right:0%;height:30px;overflow-y:auto;width: 100%;">
+                    <a href="https://betamasaheft.eu/manuscripts/INS0147MCM/list">Māy Č̣aw Mikāʾel</a> by Ethio-SPaRe</div>
                 
             </div>
             <div class="w3-col w3-mobile w3-display-container" style="width:20%;">   
                 <img src="resources/images/homepage/txn.JPG" alt="txn" class="w3-image w3-hover-opacity" style="filter:grayscale(90%);object-fit: cover;width:100%;"/>
-                <div class="w3-display-top w3-block w3-margin-top w3-dropdown-hover w3-left-align" style="background-color: rgba(255,255,255,0.6);position: absolute;top: 1%;right: 0%;                             font-weight: bold;"><a href="#furtherSearchOptions" style="text-decoration:none;"><h4 class="w3-center w3-wide"><b>Taxonomy</b></h4></a><div class="w3-left-align w3-hide-small w3-dropdown-content" style="background-color: rgba(255,255,255,0.6);overflow-y:auto;font-weight: 50;font-size:13;">Concepts in our taxonomy help classify and easily group records. One can search by text genres, peoples' occupations, codicological aspects, etc. The project also aims at creating an exhaustive repertory of art themes and techniques present in Ethiopian and Eritrean Christian tradition with the help of an extensive taxonomy.
-                </div></div>
-                <div class="w3-tiny w3-hide-small w3-text-white" style="background-color: rgba(0,0,0,0.5);position: absolute;bottom: 0%; right:0%;height:30px;overflow-y:auto;width: 100%;"><a href="/bibliography?pointer=bm:RIE1">RIÉ</a> <a href="/RIE185and270">270</a> in Salt's <i>A voyage to Abyssinia</i>, <a href="https://archive.org/details/voyageAbyssinia00Salt/page/n495">from the Internet Archive</a></div>
+                <div class="w3-display-top w3-block w3-margin-top w3-dropdown-hover w3-left-align" style="background-color: rgba(255,255,255,0.6);position: absolute;top: 1%;right: 0%;                             font-weight: bold;">
+                    <a href="#furtherSearchOptions" style="text-decoration:none;">
+                        <h4 class="w3-center w3-wide">
+                            <b>Taxonomy</b>
+                        </h4>
+                    </a>
+                    <div class="w3-left-align w3-hide-small w3-dropdown-content" style="background-color: rgba(255,255,255,0.6);overflow-y:auto;font-weight: 50;font-size:13;">Concepts in our taxonomy help classify and easily group records. One can search by text genres, peoples' occupations, codicological aspects, etc. The project also aims at creating an exhaustive repertory of art themes and techniques present in Ethiopian and Eritrean Christian tradition with the help of an extensive taxonomy.
+                </div>
+                </div>
+                <div class="w3-tiny w3-hide-small w3-text-white" style="background-color: rgba(0,0,0,0.5);position: absolute;bottom: 0%; right:0%;height:30px;overflow-y:auto;width: 100%;">
+                    <a href="/bibliography?pointer=bm:RIE1">RIÉ</a> <a href="/RIE185and270">270</a> in Salt's <i>A voyage to Abyssinia</i>, <a href="https://archive.org/details/voyageAbyssinia00Salt/page/n495">from the Internet Archive</a>
+                </div>
                 
             </div>
         </div>        
@@ -442,7 +492,7 @@
                 <div class="w3-row-padding">
                     <div class="w3-third w3-margin-bottom">
                         <div class="w3-center">
-                            <a class="w3-button w3-dark-gray w3-block" href="/works/list">
+                            <a class="w3-button w3-dark-gray w3-block" href="clavis-list.html">
                                 <b>Clavis Aethiopica</b>
                             </a>
                         </div>
@@ -465,7 +515,8 @@
                             
                                 <img src="resources/images/homepage/txt2.jpg" alt="NAR" class=" w3-hover-opacity  w3-hide-small" style="filter:grayscale(100%);width:100%;"/>
                             
-                            <div class="w3-display-bottomright w3-tiny w3-hide-small w3-text-white" style="background-color: rgba(0,0,0,0.5);"><a href="https://betamasaheft.eu/manuscripts/ESdz006/viewer" class="w3-text-white">DZ-006</a> by Ethio-SPaRe
+                            <div class="w3-display-bottomright w3-tiny w3-hide-small w3-text-white" style="background-color: rgba(0,0,0,0.5);">
+                                <a href="https://betamasaheft.eu/manuscripts/ESdz006/viewer" class="w3-text-white">DZ-006</a> by Ethio-SPaRe
                             </div>
                         </div>
                         
@@ -481,7 +532,9 @@
                                 <img src="resources/images/homepage/txt3.jpg" alt="Ludolf" class="w3-hover-opacity  w3-hide-small" style="filter:grayscale(100%);width:100%"/>
                             
                             <div class="w3-display-bottomright w3-tiny w3-hide-small w3-text-white" style="background-color: rgba(0,0,0,0.5);">
-                                <a href="https://betamasaheft.eu/STU0001Commentarius" class="w3-text-white">Ludolf's <i>Commentarius</i></a></div>
+                                <a href="https://betamasaheft.eu/STU0001Commentarius" class="w3-text-white">Ludolf's <i>Commentarius</i>
+                                </a>
+                            </div>
                         </div>
                         
                     </div>
@@ -532,7 +585,8 @@
                     </div>
                 </div>
                 
-            </div></div>
+            </div>
+        </div>
             
             
         
@@ -606,7 +660,8 @@
                             <img src="resources/images/homepage/adwa.jpg" alt="adwa" class="w3-hover-opacity  w3-hide-small" style="filter:grayscale(100%);width:100%"/>
                             
                             <div class="w3-display-bottomright w3-tiny w3-hide-small w3-text-white" style="background-color: rgba(0,0,0,0.5);">
-                                <a href="https://commons.wikimedia.org/wiki/File:Detail,_%22Battle_of_Adwa%22_(2141842256).jpg" class="w3-text-white">Source: Wikimedia</a></div>
+                                <a href="https://commons.wikimedia.org/wiki/File:Detail,_%22Battle_of_Adwa%22_(2141842256).jpg" class="w3-text-white">Source: Wikimedia</a>
+                            </div>
                         </div>
                         
                     </div>
@@ -614,7 +669,8 @@
                 
                 
                 
-            </div></div>
+            </div>
+        </div>
         
         
         
@@ -658,7 +714,8 @@
                             <img src="resources/images/homepage/aau.jpg" alt="AAU" class="w3-hover-opacity  w3-hide-small" style="filter:grayscale(100%);width:100%"/>
                             
                             <div class="w3-display-bottomright w3-tiny w3-hide-small w3-text-white" style="background-color: rgba(0,0,0,0.5);">
-                                <a href="https://commons.wikimedia.org/wiki/File:Addis_Ababa_University_gate.jpg" class="w3-text-white">Source: Wikimedia</a></div>
+                                <a href="https://commons.wikimedia.org/wiki/File:Addis_Ababa_University_gate.jpg" class="w3-text-white">Source: Wikimedia</a>
+                            </div>
                         </div>
                         
                     </div>
@@ -696,7 +753,8 @@
                 
                 
                 
-            </div></div>
+            </div>
+        </div>
         
         
         
@@ -794,7 +852,7 @@
                     <a class="w3-button w3-dark-grey" target="_blank" href="https://github.com/BetaMasaheft/Documentation/issues/new?labels=app&amp;body=There%20is%20an%20issue%20with%20a%20list%20view">
                         <i class="fa fa-exclamation-circle"/>
                     </a>
-                    <a class="w3-button w3-dark-grey" target="_blank" href="mailto:info@betamasaheft.eu">
+                    <a class="w3-button w3-dark-grey" target="_blank" href="mailto:eugenia.sokolinski@uni-hamburg.de">
                         <i class="fa fa-envelope"/>
                     </a>
 

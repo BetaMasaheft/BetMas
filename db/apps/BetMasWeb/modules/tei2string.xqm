@@ -154,6 +154,12 @@ declare function string:tei2string($nodes as node()*) {
                     $node
 };
 
+(:declare function string:date($date){
+
+                        if(matches($date, '\d{4}')) then string($date) else
+                        try {format-date(xs:date($date), '[Y0]-[M0]-[D0]')} catch * {($err:description)}
+                        };:)
+
 declare function string:additionstitles($nodes as node()*){
 for $node in $nodes
     return

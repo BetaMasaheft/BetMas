@@ -1,4 +1,4 @@
 
 .DS_Store
 
-/db/apps/*/build
+/db/apps/*/build/*

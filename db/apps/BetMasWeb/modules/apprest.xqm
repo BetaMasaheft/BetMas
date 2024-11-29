@@ -9,6 +9,7 @@ xquery version "3.1" encoding "UTF-8";
 module namespace apprest="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/apprest";
 
 declare namespace t="http://www.tei-c.org/ns/1.0";
+declare namespace functx = "http://www.functx.com";
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace http = "http://expath.org/ns/http-client";

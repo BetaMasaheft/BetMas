@@ -233,7 +233,7 @@ else
                                                 url="{$exist:controller}/modules/view.xql"/>
                                         </error-handler>
                                     </dispatch>
-                           else
+                            else
                                 if ((::$exist:path = '/as.html' or ::)$exist:path = '/search.html' (::or $exist:path = '/facet.html'
                                 or $exist:path = '/sparql.html' or $exist:path = '/xpath.html'::)) then
                                     <dispatch
@@ -277,6 +277,14 @@ else
                                                         xmlns="http://exist.sourceforge.net/NS/exist">
                                                         <redirect
                                                             url="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=pers"
+                                                            absolute="yes"/>
+                                                    </dispatch>
+                                                    else
+                                                if ($exist:path = '/institutions/list') then
+                                                    <dispatch
+                                                        xmlns="http://exist.sourceforge.net/NS/exist">
+                                                        <redirect
+                                                            url="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=ins"
                                                             absolute="yes"/>
                                                     </dispatch>
                                                 else
@@ -938,7 +946,32 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                                                             url="{$exist:controller}/modules/view.xql"/>
                                                                                                                                                                     </error-handler>
                                                                                                                                                                 </dispatch>
-                                                                                                                                                            
+                                                                                                                                                                                                                                                                                                                    else
+                                                                                                                                                            if (starts-with($exist:path, "/paratexts")) then
+                                                                                                                                                                <dispatch
+                                                                                                                                                                    xmlns="http://exist.sourceforge.net/NS/exist">
+                                                                                                                                                                    <forward
+                                                                                                                                                                        url="{$exist:controller}/paratexts.html"
+                                                                                                                                                                        method="get">
+                                                                                                                                                                        <add-parameter
+                                                                                                                                                                            name="uri"
+                                                                                                                                                                            value="{('/db/apps/BetMasWeb/paratexts.html')}"/>
+                                                                                                                                                                    </forward>
+                                                                                                                                                                    <view>
+                                                                                                                                                                        <forward
+                                                                                                                                                                            url="{$exist:controller}/modules/view.xql">
+                                                                                                                                                                        </forward>
+                                                                                                                                                                    
+                                                                                                                                                                    </view>
+                                                                                                                                                                    
+                                                                                                                                                                    <error-handler>
+                                                                                                                                                                        <forward
+                                                                                                                                                                            url="{$exist:controller}/error/error-page.html"
+                                                                                                                                                                            method="get"/>
+                                                                                                                                                                        <forward
+                                                                                                                                                                            url="{$exist:controller}/modules/view.xql"/>
+                                                                                                                                                                    </error-handler>
+                                                                                                                                                                </dispatch>
                                                                                                                                                             else
                                                                                                                                                                 if (starts-with($exist:path, "/calendar")) then
                                                                                                                                                                     <dispatch

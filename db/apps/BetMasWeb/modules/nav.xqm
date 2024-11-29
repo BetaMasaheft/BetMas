@@ -21,7 +21,7 @@ declare function nav:modalsNew() {
                         class="fa fa-times"></i></span>
                 <p> You are looking at work in progress version of this website.
                     For questions <a
-                        href="mailto:info@betamasaheft.eu?Subject=Issue%20Report%20BetaMasaheft">contact the dev team</a>.</p>
+                        href="mailto:eugenia.sokolinski@uni-hamburg.de?Subject=Issue%20Report%20BetaMasaheft">contact the dev team</a>.</p>
                 
                 <p> Hover on words to see search options.</p>
                 <p>Double-click to see morphological parsing.</p>
@@ -290,7 +290,7 @@ declare function nav:barNew() {
   class="w3-button w3-text-red w3-large w3-display-topright" style="display:block; background:transparent;">&#x2716;</span>
   <span style="display:block;">We identify each unit of content in every manuscript. We consider any 
                         text with an independent circulation a work, with its own identification number within 
-                        the <a href="https://betamasaheft.eu/works/list">Clavis Aethiopica (CAe)</a>. Parts of texts (e.g. chapters) 
+                        the <a href="https://betamasaheft.eu/clavis-list.html">Clavis Aethiopica (CAe)</a>. Parts of texts (e.g. chapters) 
                         without independent circulation (univocally identifiable by IDs assigned within the records) or recurrent 
                         motifs as well as documentary additional texts 
                         (identified as <a href="https://betamasaheft.eu/narratives/list">Narrative Units</a>) 
@@ -729,7 +729,7 @@ declare function nav:newentryNew() {
 declare function nav:footerNew() {
     
     <footer
-        class="w3-container w3-padding-64 w3-center"
+        class="w3-container w3-padding-64 w3-center w3-small"
        
         id="footer">
         <div class="w3-third">
@@ -746,7 +746,7 @@ declare function nav:footerNew() {
                         style="border-width:0"
                         src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"/></a>. Project DOI: {$config:DOI}.
                </p>
-        <div id="wcb" class="carbonbadge w3-row"></div>
+  <!--      <div id="wcb" class="carbonbadge w3-row"></div>-->
         </div>
         </div>
         <div class="w3-third">

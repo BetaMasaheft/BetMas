@@ -6,12 +6,12 @@ import module namespace exptit = "https://www.betamasaheft.uni-hamburg.de/BetMas
 import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/switch2" at "xmldb:exist:///db/apps/BetMasWeb/modules/switch2.xqm";
 import module namespace item2 = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/item2" at "xmldb:exist:///db/apps/BetMasWeb/modules/item.xqm";
 import module namespace http = "http://expath.org/ns/http-client";
-
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace b = "betmas.biblio";
 declare namespace d = "betmas.domlib";
 declare namespace dts = "https://w3id.org/dts/api#";
+declare namespace functx = "http://www.functx.com";
 declare namespace number = "roman.numerals.funct";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare option output:method "html5";
@@ -799,6 +799,40 @@ declare %private function viewItem:worktitle($t) {
                 viewItem:sup($t),
                 if ($t/parent::t:titleStmt/t:title[@corresp]) then
                     (' (', viewItem:correspTit($t, $id), ')')
+                else
+                    ()
+            }
+        </li>
+};
+declare %private function viewItem:placename($name) {
+ let $id := string($name/@xml:id)
+ let $cors := $name/parent::t:place/t:placeName[substring-after(@corresp, '#') = $id]
+ let $count := count($cors)
+    return
+        <li>
+            {
+                attribute {'xml:id'} {$id},
+                if ($name/@type) then
+                    concat(string($name/@type), ': ')
+                else
+                    (),
+                if ($name/@ref) then
+                    <a
+                        href="/{viewItem:URI2ID($t/@ref)}"
+                        target="_blank">{$name/text()}</a>
+                else
+                    viewItem:TEI2HTML($name/node()),
+                viewItem:sup($name),
+                if ($name/parent::t:place/t:placeName[@corresp]) then
+                    (' (', 
+    for $corresp at $p in $cors
+    return
+        (viewItem:TEI2HTML($corresp), viewItem:sup($corresp),
+        if ($p = $count) then
+            ()
+        else
+            ', ')
+, ')')
                 else
                     ()
             }
@@ -3399,7 +3433,22 @@ declare %private function viewItem:handShift($node as element(t:handShift)) {
 };
 
 declare %private function viewItem:surplus($node as element(t:surplus)) {
-    ('{', viewItem:DTSpartID($node), '}')
+<span
+        class="w3-tooltip">
+   { ('{', viewItem:TEI2HTML($node/node()), '}')}
+    <span
+            class="w3-text w3-tag w3-small">{
+            if ($node/@resp) then
+            (
+            if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
+                                                concat('resp: ', exptit:printTitle($node/@resp))
+   else if (starts-with($node/@resp, 'bm:')) then
+                                                concat('resp: ', string($node/@resp))
+   else
+                                                 concat('resp: ', viewItem:editorName($node/@resp)))
+          else
+                                                 ()}</span>
+    </span>
 };
 
 declare %private function viewItem:space($node as element(t:space)) {
@@ -3419,6 +3468,8 @@ declare %private function viewItem:space($node as element(t:space)) {
             (
             if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
                                                 concat('resp: ', exptit:printTitle($node/@resp))
+   else if (starts-with($node/@resp, 'bm:')) then
+                                                concat('resp: ',  string($node/@resp))
    else
                                                  concat('resp: ', viewItem:editorName($node/@resp)))
           else
@@ -3457,6 +3508,8 @@ declare %private function viewItem:choice($node as element(t:choice)) {
             if ($node/@resp) then
                   (      if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
                         concat(viewItem:TEI2HTML($node/t:sic), '(!)', 'corrected by ', exptit:printTitle($node/@resp))
+   else  if (starts-with($node/@resp, 'bm:')) then
+                        concat(viewItem:TEI2HTML($node/t:sic), '(!)', 'corrected by ',  string($node/@resp))
    else
                        concat(viewItem:TEI2HTML($node/t:sic), '(!)', 'corrected by ', viewItem:editorName($node/@resp))
                                                  )
@@ -3464,6 +3517,8 @@ declare %private function viewItem:choice($node as element(t:choice)) {
                                                  if ($node/t:corr/@resp) then
                   (      if (starts-with($node/t:corr/@resp, 'PRS') or starts-with($node/t:corr/@resp, 'ETH')) then
                         concat(viewItem:TEI2HTML($node/t:sic), '(!)', 'corrected by ', exptit:printTitle($node/t:corr/@resp))
+   else if (starts-with($node/t:corr/@resp, 'bm:')) then
+                        concat(viewItem:TEI2HTML($node/t:sic), '(!)', 'corrected by ', string($node/t:corr/@resp))
    else
                        concat(viewItem:TEI2HTML($node/t:sic), '(!)', 'corrected by ', viewItem:editorName($node/t:corr/@resp))
                                                  )
@@ -3476,7 +3531,7 @@ declare %private function viewItem:choice($node as element(t:choice)) {
  
 declare %private function viewItem:unclear($node as element(t:unclear)) {
      <span 
-                        style="background-color:hsla(50, 20%, 50%, 0.2); opacity: 0.6; text-decoration-line: underline; text-decoration-style: wavy;">[{viewItem:TEI2HTML($node/node())}?]</span>
+                        style="background-color:hsla(50, 20%, 50%, 0.2); opacity: 0.6; text-decoration-line: underline; text-decoration-style: wavy; text-decoration-color: gray;">[{viewItem:TEI2HTML($node/node())}?]</span>
 };
 
 declare %private function viewItem:sic($node as element(t:sic)) {
@@ -3489,6 +3544,8 @@ declare %private function viewItem:sic($node as element(t:sic)) {
             (
             if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
                                                 concat('sic by ', exptit:printTitle($node/@resp))
+   else  if (starts-with($node/t:corr/@resp, 'bm:')) then
+                        concat('sic by ', string($node/@resp))
    else
                                                  concat('sic by ', viewItem:editorName($node/@resp)))
           else
@@ -3523,7 +3580,9 @@ declare %private function viewItem:del($node as element(t:del)) {
             (
             if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
                                                 concat('corrected by ', exptit:printTitle($node/@resp))
-   else
+     else if (starts-with($node/@resp, 'bm:')) then
+                                                concat('resp: ', string($node/@resp))
+             else
                                                  concat('corrected by ', viewItem:editorName($node/@resp)))
           else
                                                  ()}</span>
@@ -3557,6 +3616,8 @@ declare %private function viewItem:supplied($node as element(t:supplied)) {
             (
             if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
                                                 concat('supplied by ', exptit:printTitle($node/@resp))
+  else if (starts-with($node/@resp, 'bm:')) then
+                                                concat('supplied by ',   string($node/@resp))                                                
    else
                                                  concat('supplied by ', viewItem:editorName($node/@resp)))
           else
@@ -3682,6 +3743,8 @@ declare %private function viewItem:gap($node as element(t:gap)) {
        <span
             class="w3-text w3-tag w3-small OmissionResp">{if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
                                                 concat('ommission by ', exptit:printTitle($node/@resp))
+    else if (starts-with($node/@resp, 'bm:')) then
+                                                concat('ommission by ',  string($node/@resp))                                             
    else
                                                  concat('ommission by ', viewItem:editorName($node/@resp))}</span>
     </span>
@@ -4376,7 +4439,7 @@ declare function viewItem:TEI2HTML($nodes) {
                     viewItem:lg($node)
             case element(t:l)
                 return
-                    viewItem:l($node)                    
+                    viewItem:l($node)
             case element(t:locus)
                 return
                     viewItem:locus($node)
@@ -4550,8 +4613,9 @@ declare %private function viewItem:tokenize-text($node) {
 };
 
 declare %private function viewItem:standards($item) {
+  (::  viewItem:zotero($item),::)
     viewItem:keywords($item, switch2:col($item/@type)),
-     (::if ($item//t:editionStmt) then
+    (::if ($item//t:editionStmt) then
         <div
             class="w3-container w3-small"
             id="editionStmt">
@@ -4713,7 +4777,10 @@ declare %private function viewItem:work($item) {
                             Please check the <a
                                 href="#computedWitnesses">box on the right</a> for a live updated list of manuscripts pointing to this record.</p>,
                         if ($item//t:listWit/@rend = 'edition') then
-                            <b>Manuscripts used in this edition</b>
+                            <b>Manuscripts used in the edition</b>
+                        else
+                        if ($item//t:listWit) then
+                            ()
                         else
                             (),
                         <ul>
@@ -4834,7 +4901,7 @@ declare %private function viewItem:narrative($item) {
                 {
                     if ($item//t:witness) then
                         (<h2>Witnesses</h2>,
-                        <p>This edition is based on the following manuscripts</p>,
+                        <p>(check also the dynamic list in the box)</p>,
                         <ul>
                             {viewItem:TEI2HTML($item//t:listWit)}</ul>)
                     else
@@ -5763,7 +5830,8 @@ declare %private function viewItem:calendartables($item) {
                                         {
                                             if (starts-with($date/@resp, 'PRS') or starts-with($date/@resp, 'ETH')) then
                                                 exptit:printTitle($date/@resp)
-                                            else
+                                            else if (starts-with($date/@resp, 'bm:')) then string($date/@resp)     
+                                            else 
                                                 viewItem:editorName($date/@resp)
                                         }
                                     </td>
@@ -5935,6 +6003,7 @@ declare function viewItem:dates($date) {
         (' according to ',
         if (starts-with($date/@resp, 'PRS') or starts-with($date/@resp, 'ETH')) then
             exptit:printTitle($date/@resp)
+           else if (starts-with($date/@resp, 'bm:')) then string($date/@resp)     
         else
             viewItem:editorName($date/@resp))
     else
@@ -6772,6 +6841,17 @@ return
         <h3>Keywords</h3>
         {$options}
     </div> else ()
+};
+
+declare function viewItem:zotero($file) {
+    let $id := string($file/@xml:id)    
+    return
+   <div
+        class="w3-container"
+        id="zoterolink">
+        <h3>Check for additional bibliography</h3>
+        <div><a href="{concat('https://api.zotero.org/groups/358366/items?tag=',$id,'&amp;format=bib&amp;style=hiob-ludolf-centre-for-ethiopian-studies-with-url-doi&amp;linkwrap=1')}  target='_blank'">Click on this link to view bibliography mentioning this record</a></div>
+    </div> 
 };
 
 declare function viewItem:osm($item) {

@@ -187,7 +187,6 @@ else
             else ($item/name() || ' ' || $SUBid)
 };
 
-
 (:Given an id, decides if it is one of BM or from another source and gets the name accordingly:)
 declare function exptit:decidePlaceNameSource($pRef as xs:string){
 if ($exptit:placeNamesList//t:item[@corresp =  $pRef]) 
