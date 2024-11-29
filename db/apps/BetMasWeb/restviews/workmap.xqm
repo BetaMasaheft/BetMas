@@ -160,11 +160,12 @@ if(exists($w) or $worksid ='') then (
 (:get a placemark for each manuscript which contains a given work:)
 declare 
 %rest:GET
-%rest:path("/BetMasWeb/workmap/KML/{$work}")
+%rest:path("/BetMasWeb/workmap/KML/{$workid}")
 %rest:query-param("type", "{$type}", "repo")
 %output:method("xml")
-function workmap:kml($work as xs:string, $type as xs:string*) {
+function workmap:kml($workid as xs:string, $type as xs:string*) {
 $config:response200,
+let $work := 'https://betamasaheft.eu/' || $workid
 let $log := log:add-log-message('/workmap/'||$work||'/KML/', sm:id()//sm:real/sm:username/string(), 'workmap')
 let $thisworkmss := $workmap:collection-rootMS//t:title[@ref = $work]
 let $part := $workmap:collection-rootW//t:div[@type ='textpart'][@corresp = $work]

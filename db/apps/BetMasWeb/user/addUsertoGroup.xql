@@ -49,7 +49,7 @@ return
             
             let $adminMessage := <mail>
                 <from>info@betamasaheft.eu</from>
-                <to>info@betamasaheft.eu</to>
+                <to>eugenia.sokolinski@uni-hamburg.de</to>
                 <cc></cc>
                 <bcc></bcc>
                 <subject>User {$user} has been added to the group {$secondarygroup}.</subject>
@@ -117,7 +117,7 @@ return
             (
             let $adminMessage := <mail>
                 <from>info@betamasaheft.eu</from>
-                <to>info@betamasaheft.eu</to>
+                <to>eugenia.sokolinski@uni-hamburg.de</to>
                 <cc></cc>
                 <bcc></bcc>
                 <subject>a dba has tried to add {$user} to {$secondarygroup} on Beta Maṣāḥǝft and failed.</subject>

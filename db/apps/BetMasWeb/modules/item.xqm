@@ -1,4 +1,4 @@
-xquery version "3.0" encoding "UTF-8";
+xquery version "3.0" encoding "UTF-8"; 
 (:~
  : module used by items.xql for several parts of the view produced
  :
@@ -19,7 +19,6 @@ import module namespace locus = "https://www.betamasaheft.uni-hamburg.de/BetMasW
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace t="http://www.tei-c.org/ns/1.0";
-
 
 declare function item2:authorsSHA($id, $this, $collection, $sha){
 apprest:authorsSHA($id, $this, $collection, $sha)
@@ -134,10 +133,12 @@ let $document := $this
 let $id := string($this/@xml:id)
 return
 <div xmlns="http://www.w3.org/1999/xhtml" class="w3-bar w3-small w3-padding w3-margin-top" id="options">
+
 <!--
  <div class="w3-bar-item" >
  <a class="w3-button w3-padding-small w3-gray" href="javascript:void(0);" onclick="startIntroItem();">Explore this page</a>
- </div>
+ </div>-->
+ <!--
  <div class="w3-bar-item w3-tooltip" >
  <a class="w3-button w3-padding-small w3-gray" target="_blank" href="https://github.com/BetaMasaheft/Documentation/issues/new/choose">
                                 <i class="fa fa-envelope"/>
@@ -145,13 +146,13 @@ return
                             <span class="w3-text w3-tag itemoptiontooltip">Do you want to notify us of an error, please do so by writing an issue in our GitHub repository (click the envelope for a precomiled one).</span>
 
      </div>                       
-            
+           
  <div class="w3-bar-item  
  w3-hide-large w3-tooltip" >
  <span class="w3-text w3-tag itemoptiontooltip">On small screens, will show a navigation bar on the left</span>
  <a class="w3-button w3-padding-small w3-gray" onclick="w3_openItemSB()">Open 
  Item Navigation</a>
- </div>-->
+ </div> -->
  <div class="w3-bar-item w3-tooltip" >
            <a class="w3-button w3-padding-small w3-gray"  id="mainEntryLink" href="/{$collection}/{$id}/main">Main view</a>
 <span class="w3-text w3-tag itemoptiontooltip">Main view</span>
@@ -180,8 +181,7 @@ return
 <span class="w3-text w3-tag itemoptiontooltip">Produces a PDF on the fly from the source TEI-XML using XSL-FO and Apache FOP</span>
 </div>-->
 
-
- <!--
+<!--
 <div class="w3-bar-item w3-tooltip">
 <a class="w3-button w3-padding-small w3-gray"  id="TEILink" href="{( '' || $id ||  '.xml')}" target="_blank">TEI/XML</a>
 <span class="w3-text w3-tag itemoptiontooltip">Download an enriched TEI file with explicit URIs bibliography from Zotero API. </span>
@@ -198,11 +198,10 @@ else ()}
 {if(($document//t:persName )) then
     <div class="w3-bar-item"><a class="w3-button w3-padding-small w3-gray"  href="/IndexPersons?entity={string($document/@xml:id)}">Persons Index</a></div> else ()}
    
- {if(($collection = 'institutions' or $collection = 'places') and ($document//t:geo/text() or $document//t:place[@sameAs] )) then
+ {if($collection = 'institutions' and ($document//t:geo/text() or $document//t:place[@sameAs] )) then
     <div class="w3-bar-item"><a class="w3-button w3-padding-small w3-gray"  href="/{( $id ||
     '.json')}" target="_blank">geoJson</a></div> else ()}
-    
- <!--  
+  <!--  
 <div class="w3-bar-item w3-tooltip"  
 ><a class="w3-button w3-padding-small w3-gray"  href="/{$collection}/{$id}/analytic" target="_blank">Relations</a>
 <span class="w3-text w3-tag itemoptiontooltip">Further visualization of relational information</span></div>
@@ -225,10 +224,12 @@ else ()}
     </header>
 
     <div class="w3-container">
-     table {item2:EntityRelsTable($document, $collection)} 
-    </div>  
+     {item2:EntityRelsTable($document, $collection)} 
+    </div>
+
+  
     <div class="w3-container w3-hide-small">
-     roles {item2:RestPersRole($document, $collection)}
+     {if (item2:RestPersRole($document, $collection)) then item2:RestPersRole($document, $collection) else ()}
     </div>
     <div id="timeLine" class="w3-container w3-hide-small" />
     <script type="text/javascript">
@@ -258,11 +259,12 @@ else ()}
     target="_blank">Translation</a>
     <span class="w3-text w3-tag itemoptiontooltip">Translation</span>
     </div>) else ()}
-    {if ($collection = 'manuscripts' and ($this//t:msIdentifier/t:idno[@facs][@n] or $this//t:msIdentifier/t:idno[starts-with(@facs, 'http')])) then
+    
+        {if ($collection = 'manuscripts' and ($this//t:msIdentifier//t:idno[@facs][@n] or $this//t:msIdentifier//t:idno[starts-with(@facs, 'http')])) then
     <div class="w3-bar-item w3-tooltip" >
     <a class="w3-button w3-padding-small w3-gray"  href="{('/manuscripts/' || $id || '/viewer' )}" 
     target="_blank">Images</a>
-    <span class="w3-text w3-tag itemoptiontooltip">Manuscript images in the Mirador viewer via IIIF</span>
+    <span class="w3-text w3-tag itemoptiontooltip">Mirador viewer via IIIF</span>
     </div> else ()}
     {if ($collection = 'manuscripts' and ($this//t:msIdentifier/t:idno[not(@facs)] ) and $this//t:collection[. eq 'Ethio-SPaRe']) then
     <div class="w3-bar-item w3-tooltip" >
@@ -282,7 +284,7 @@ else ()}
     <span class="w3-text w3-tag itemoptiontooltip">Compare manuscripts with this content</span>
     </div>,
     <div class="w3-bar-item w3-tooltip" >
-    <a class="w3-button w3-padding-small w3-gray"  href="{('/workmap?worksid=' || $id  )}" target="_blank">Manuscripts Map</a>
+    <a class="w3-button w3-padding-small w3-gray"  href="{('/workmap?worksid=' || $id  )}" target="_blank">Map of witnesses</a>
     <span class="w3-text w3-tag itemoptiontooltip">Map of manuscripts with this content</span>
     </div>)
     else ()}
@@ -309,9 +311,9 @@ return
     <div xmlns="http://www.w3.org/1999/xhtml" class="ItemHeader w3-container">
 
     <div xmlns="http://www.w3.org/1999/xhtml" class="w3-twothird">
-            <h1 id="headtitle">
+            <h2 id="headtitle">
                 {exptit:printTitleID($id)}
-            </h1>
+            </h2>
             {let $formerly := $document//t:relation[@name eq 'betmas:formerlyAlsoListedAs'][@active eq $id]
              let $same := $document//t:relation[@name eq 'skos:exactMatch'][@active eq $id]
             return
@@ -573,7 +575,7 @@ return
 <div  class="mainrelations w3-display-container">
 
                                           { if ($this//t:settlement or $this//t:region or $this//t:country) then  
-                                          <div  class="relBox w3-display-right w3-panel w3-card-4 w3-gray">
+                                          <div  class="relBox w3-panel w3-card-4 w3-gray">
                                            {
                                            <b  class="openInDialog">Administrative position</b>,
                                            <table class="w3-table w3-hoverable adminpos">
@@ -856,7 +858,7 @@ else
 return
 
 <div class="mainrelations w3-container">
-<div  class="relBox  w3-panel w3-card-4 w3-gray">
+<div  class="relBox w3-panel w3-card-4 w3-gray">
                                            {
                                            <b>Administrative position</b>,
                                            <table class="w3-table w3-hoverable adminpos">
@@ -888,16 +890,14 @@ declare function item2:RestNav ($this, $collection, $type) {
 let $document := $this
 let $id := string($this/@xml:id)
 return
-<div class="w3-sidebar w3-bar-block w3-card w3-animate-left " id="sidebar" style="max-height:50vh;width:auto%;z-index:auto;">
+ if($type = 'work') then
+<div class="w3-sidebar w3-bar-block w3-card " id="sidebar" style="max-height:50vh;width:auto;z-index:auto;">
        <button type="button" class="w3-bar-item w3-button w3-hide-large" onclick="w3_closeItemSB()">
                     Close Item Navigation
                 </button>
-                {
-            if($type = 'text') then  item2:witnesses($id) 
-            else (:<div class="w3-container w3-col">            
-            {viewItem:nav($this)}</div>:) ()
-           }
+                {item2:witnesses($id)}
 </div>
+else ()
 };
 
 
@@ -1136,7 +1136,7 @@ Scrolling in this box will also show you a summary of all the occurences.  <a ta
                                                           <li class="w3-bar w3-card-2 list-group">
                                                         { if($item//t:msIdentifier/t:idno/@facs) then 
                                                      <a class="w3-bar-item w3-circle" target="_blank" href="/manuscripts/{$groupkey}/viewer"><i class="fa fa-picture-o" /></a> else if ($item//t:facsimile/t:graphic/@url) then 
-                                                        <a class="w3-bar-item" target="_blank" href="{$item//t:facsimile/t:graphic/@url}"><i class="fa fa-picture-o" /></a>  else ()}
+                                                        <a class="w3-bar-item" target="_blank" href="{$item//t:facsimile/t:graphic[1]/@url}"><i class="fa fa-picture-o" /></a>  else ()}
                                                           <a class="w3-bar-item"
                                                href="/manuscripts/{$groupkey}/main">{$tit} ({string($groupkey)}) </a>
                                                
@@ -1172,8 +1172,8 @@ Scrolling in this box will also show you a summary of all the occurences.  <a ta
                                                           <li class="w3-bar w3-card-2 list-group">
                                                           <a
                                                href="/manuscripts/{$groupkey}/main">{$tit} ({string($groupkey)}) </a> <br/>
-                                                   <!--       <span class="WordCount" data-msID="{$groupkey}" data-wID="{$string}"/>
-                                                         <br/> -->
+                                                   <!--       <span class="WordCount" data-msID="{$groupkey}" data-wID="{$string}"/> 
+                                                         <br/>-->
                                                          <ul class="w3-padding">{
                                                          for $h in $hit
                                                          let $item := $h/ancestor::t:item[1]
@@ -1388,7 +1388,7 @@ return <p><a target="_blank" href="/compare?workid={$stringsubids},{$c}">Click t
     return
         if (count($mss) ge 1) then
             <div
-                class="w3-panel w3-margin w3-red relBox scrollwrap" style="word-break:break-all;">
+                class="relBox w3-panel w3-card w3-red scrollwrap" style="word-break:break-all;">
                 There are {count($mss)}
                 <a
                     href="/newSearch.html?searchType=text&amp;mode=any&amp;reporef={$id}"> manuscripts at this repository</a>.

@@ -75,9 +75,11 @@ return
   
   <select class="w3-select w3-border" id="inputGroupSelect01" multiple="multiple" name="subj">
     <option selected='Selected'>Choose...</option>
-    {for $subject in doc( '/db/apps/list/canonicaltaxonomy.xml')//t:category[t:desc eq 'Subjects']//t:category/t:catDesc
+    {let $subject := doc( '/db/apps/lists/canonicaltaxonomy.xml')//t:category/t:category
+     for $k in $subject
+    order by $k/@xml:id
     return 
-    <option value="{$subject/text()}">{$subject/text()}</option>}
+    <option value="{data($k/@xml:id)}">{data($k/t:catDesc)}</option>}
   </select>
                     <div class="w3-bar">
                     <button type="submit" class="w3-bar-item w3-button w3-red">

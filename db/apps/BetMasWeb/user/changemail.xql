@@ -48,7 +48,7 @@ return
             
           let $adminMessage := <mail>
                 <from>info@betamasaheft.eu</from>
-                <to>info@betamasaheft.eu</to>
+                <to>eugenia.sokolinski@uni-hamburg.de</to>
                 <cc></cc>
                 <bcc></bcc>
                 <subject>A user has reset his/her email on Beta Maṣāḥǝft.</subject>
@@ -116,7 +116,7 @@ return
             (
             let $adminMessage := <mail>
                 <from>info@betamasaheft.eu</from>
-                <to>info@betamasaheft.eu</to>
+                <to>eugenia.sokolinski@uni-hamburg.de</to>
                 <cc></cc>
                 <bcc></bcc>
                 <subject>A user has tried to reset his/her email on Beta Maṣāḥǝft and failed.</subject>
