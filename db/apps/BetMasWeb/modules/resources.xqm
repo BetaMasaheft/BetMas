@@ -1205,7 +1205,7 @@ let $log := util:log('INFO',  count($group))
             <span>Art themes: </span> else (),
             for $at in $sd//t:ref[@type eq 'authFile']
             return
-            <a href="/{string($at/@corresp)}">{concat(string-join(exptit:printTitle($at/@corresp), ' '), ', ')}</a>}
+            <a href="{string($at/@corresp)}">{concat(string-join(exptit:printTitle($at/@corresp), ' '), ', ')}</a>}
             </div>
             </div>
 
@@ -1247,7 +1247,7 @@ let $log := util:log('INFO',  count($group))
             <span>Art themes: </span> else (),
             for $at in $sd//t:ref[@type eq 'authFile']
             return
-            <a href="/{string($at/@corresp)}">{concat(string-join(exptit:printTitle($at/@corresp), ' '), ', ')}</a>}
+            <a href="{string($at/@corresp)}">{concat(string-join(exptit:printTitle($at/@corresp), ' '), ', ')}</a>}
             </div>
             </div>
 
