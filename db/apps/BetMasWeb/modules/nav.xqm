@@ -290,7 +290,7 @@ declare function nav:barNew() {
   class="w3-button w3-text-red w3-large w3-display-topright" style="display:block; background:transparent;">&#x2716;</span>
   <span style="display:block;">We identify each unit of content in every manuscript. We consider any 
                         text with an independent circulation a work, with its own identification number within 
-                        the <a href="https://betamasaheft.eu/works/list">Clavis Aethiopica (CAe)</a>. Parts of texts (e.g. chapters) 
+                        the <a href="https://betamasaheft.eu/clavis-list.html">Clavis Aethiopica (CAe)</a>. Parts of texts (e.g. chapters) 
                         without independent circulation (univocally identifiable by IDs assigned within the records) or recurrent 
                         motifs as well as documentary additional texts 
                         (identified as <a href="https://betamasaheft.eu/narratives/list">Narrative Units</a>) 
@@ -303,7 +303,7 @@ declare function nav:barNew() {
                         <a
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                             data-value="clavis"
-                            href="/works/list">Clavis Aethiopica (Works)</a>
+                            href="https://betamasaheft.eu/clavis-list.html">Clavis Aethiopica (Works)</a>
                         <a
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                             data-value="narratives"
