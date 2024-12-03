@@ -44,10 +44,11 @@ exrest:register-module(xs:anyURI("/db/apps/BetMasApi/specifications/json.xqm")),
 exrest:register-module(xs:anyURI("/db/apps/BetMasApi/specifications/persistentdts.xqm")),
 exrest:register-module(xs:anyURI("/db/apps/BetMasApi/specifications/persistentiiif.xqm")),
 exrest:register-module(xs:anyURI("/db/apps/BetMasApi/specifications/shine.xqm")),
-exrest:register-module(xs:anyURI("/db/apps/BetMasApi/specifications/void.xqm")),
+exrest:register-module(xs:anyURI("/db/apps/BetMasApi/specifications/void.xqm"))
 
 
 (:other RestXQ modules:)
-
+(:
 exrest:register-module(xs:anyURI("/db/apps/gez-en/modules/rest.xqm")),
 exrest:register-module(xs:anyURI("/db/apps/parser/modules/morphoparser.xqm"))
+:)

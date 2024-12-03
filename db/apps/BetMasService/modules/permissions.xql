@@ -6,7 +6,7 @@ import module namespace xdb = "http://exist-db.org/xquery/xmldb";
 declare variable $local:ppw := environment-variable('ExistAdminPw');
 
 let $login := xmldb:login('/db/', $local:ADMIN, $local:ppw):)
-let $start := '/db/apps/BetMasData'
+let $start := '/db/apps/expanded'
 return
 (for $resource in xmldb:get-child-collections($start) 
 let $b := xs:anyURI(concat($start,'/',$resource))
