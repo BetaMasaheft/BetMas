@@ -808,7 +808,7 @@ declare function apprest:scriptStyle(){
       
 (:      d3 :)
       <link rel="stylesheet" type="text/css" href="resources/css/d3.css"  />,
-        <link rel="stylesheet" href="$shared/resources/css/w3.css"/>,
+        <link rel="stylesheet" href="resources/css/w3.css"/>,
 (:      w3 :)
         <link rel="stylesheet" href="resources/css/w3local.css"/>,
         <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"/>
@@ -823,7 +823,7 @@ declare function apprest:scriptStyle(){
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>,
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.5.1/css/bootstrap-slider.min.css"  />,
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alpheios-components@rc/dist/style/style-components.min.css"  />,
-        <link rel="stylesheet" href="$shared/resources/css/w3.css"/>,
+        <link rel="stylesheet" href="resources/css/w3.css"/>,
         <link rel="stylesheet" href="resources/css/w3local.css"/>,
         <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"/>,
         <script type="text/javascript" src="$shared/resources/scripts/bootstrap-3.0.3.min.js"  />,
