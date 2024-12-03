@@ -2,7 +2,7 @@ xquery version "1.0";
 
 declare option exist:serialize "method=xhtml media-type=text/html indent=yes";
 
-let $col := '/db/apps/BetMasData/'
+let $col := '/db/apps/BetMasWeb/'
 let $start-time := util:system-time()
 let $reindex := xmldb:reindex($col)
 let $runtime-ms := ((util:system-time() - $start-time)

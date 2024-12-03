@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <meta xmlns="http://exist-db.org/xquery/repo">
     <description>BetMasService</description>
     <author>Pietro Liuzzo</author>
@@ -9,5 +10,6 @@
     <target>BetMasService</target>
     <prepare>pre-install.xql</prepare>
     <finish>Pietro</finish>
-    <permissions user="Pietro" group="dba" mode="rwxrwxr-x"/>
-<deployed>2021-09-10T11:05:51.702+02:00</deployed></meta>
+    <permissions user="BetaMasaheftAdmin" group="dba" mode="rwxrwxr-x"/>
+<deployed>2022-01-05T13:54:18.876+01:00</deployed>
+</meta>
