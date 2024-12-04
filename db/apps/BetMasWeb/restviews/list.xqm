@@ -78,13 +78,20 @@ return
  <div class="w3-bar">
  <a class="w3-bar-item page-scroll" href="#group-A">top</a>{ 
  let $letter := for $repoi at $p in $list:instit//t:item return upper-case(substring(replace($repoi/text(), '\s', ''), 1, 1))
-   for $l in distinct-values($letter) 
+   for $l in distinct-values($letter)
    order by $l
-   return 
+   return
    <a class="w3-bar-item page-scroll" href="#group-{$l}">{$l}</a>
    }</div></div>
 ,
 <div style="left:300px">{
+	let $reposByRepoId := map:merge(
+		for $ref in $mss//t:repository[@ref]
+			group by $r := $ref/@ref
+			return map:entry($r, $ref)
+		)
+	return
+
     for $repoi at $p in $list:instit//t:item
     let $firstletter := upper-case(substring($repoi/text(), 1, 1))
     group by $First := $firstletter
@@ -96,9 +103,9 @@ return
     {
     for $rep in $repoi
     let $i := string($rep/@xml:id)
-     let $inthisrepo := $mss//t:repository[ends-with(@ref, $i)]
+
+    let $inthisrepo := $reposByRepoId('https://betamasaheft.eu/' || $i)
      let $count := count($inthisrepo)
-(:    let $log := util:log('info', ($i, ' = ',  $count)):)
      return
     if($count=0) then () else 
         <div class="w3-row">
