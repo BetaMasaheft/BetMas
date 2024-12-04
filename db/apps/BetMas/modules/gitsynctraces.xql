@@ -1,11 +1,11 @@
 xquery version "3.1";
 
 (:module namespace gitsync = "http://syriaca.org/ns/gitsync";:)
- 
+
 (:~ 
  : XQuery endpoint to respond to Github webhook requests. Query responds only to push requests. 
  : The EXPath Crypto library supplies the HMAC-SHA1 algorithm for matching Github secret. 
-
+ 
  : Secret can be stored as environmental variable.
  : Will need to be run with administrative privileges, suggest creating a git user with privileges only to relevant app.
  :
@@ -17,17 +17,15 @@ xquery version "3.1";
  : @see http://expath.org/spec/http-client
  : 
  
- : slightly modified to serve only manuscripts repo for BetaMasaheft
-
+ : slightly modified to serve only Studies repo for BetaMasaheft
+ 
  : @author Pietro Liuzzo added validation and specific report, changed to use 3.1 and to use parse-json instead of xqjson in some cases
  :)
-
 import module namespace gitsync = "http://syriaca.org/ns/gitsync" at "xmldb:exist:///db/apps/BetMas/modules/gitsync.xqm";
 import module namespace xdb = "http://exist-db.org/xquery/xmldb";
 import module namespace crypto = "http://expath.org/ns/crypto";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 declare option exist:serialize "method=xml media-type=text/xml indent=yes";
-
 
 (:~
  : Validate github post request.
@@ -39,13 +37,15 @@ declare option exist:serialize "method=xml media-type=text/xml indent=yes";
 
 
 let $post-data := request:get-data()
+
 return
     if (not(empty($post-data))) then
         let $payload := util:base64-decode($post-data)
         let $json-data := parse-json($payload)
-        let $data-collection := $config:data-rootTraces
         
-        let $login := xmldb:login($data-collection, 'Pietro', 'Hdt7.10')
+        let $data-collection := '/db/apps/BetMasData/studies'
+        
+        let $login := xmldb:login($data-collection, 'BetaMasaheftAdmin', 'BMAdmin')
         
         return
             try {
@@ -54,7 +54,8 @@ return
                     if (request:get-header('X-GitHub-Event') = 'push') then
                         let $signiture := request:get-header('X-Hub-Signature')
                         let $expected-result := <expected-result>{request:get-header('X-Hub-Signature')}</expected-result>
-                        let $private-key := environment-variable('GIT_SECRETtraces')
+                        let $private-key :=
+                        environment-variable('GIT_SECRETstudies')
                         let $actual-result :=
                         <actual-result>
                             {concat('sha1=', crypto:hmac($payload, $private-key, "HMAC-SHA-1", "hex"))}
@@ -83,3 +84,4 @@ return
             status="fail">
             <message>No post data recieved</message>
         </response>
+
