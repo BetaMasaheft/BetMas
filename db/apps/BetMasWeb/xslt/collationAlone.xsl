@@ -277,7 +277,9 @@
             </div>
         </xsl:if>
     </xsl:template>
-
+    <xsl:include href="ref.xsl"/>
+    <xsl:include href="locus.xsl"/>
+    <xsl:include href="bibl.xsl"/>
     <xsl:include href="collationstep1.xsl"/>
     <xsl:include href="collationstep2.xsl"/>
     <xsl:include href="collationstep3.xsl"/>
