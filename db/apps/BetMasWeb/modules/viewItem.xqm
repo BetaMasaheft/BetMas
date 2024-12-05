@@ -3135,8 +3135,8 @@ declare %private function viewItem:note($node as element(t:note)) {
         else
             if ($node[@xml:id][@n]) then
                 viewItem:footnote($node)
-            else
-                viewItem:TEI2HTML($node/node())
+           else
+              <span> ({viewItem:TEI2HTML($node/node()) }) </span>  
 };
 
 declare %private function viewItem:nationality($node as element(t:nationality)) {
@@ -4852,7 +4852,7 @@ declare %private function viewItem:narrative($item) {
                 {
                     if ($item//t:witness) then
                         (<h2>Witnesses</h2>,
-                        <p>This edition is based on the following manuscripts</p>,
+                        <p>(check also the dynamic list in the box)</p>,
                         <ul>
                             {viewItem:TEI2HTML($item//t:listWit)}</ul>)
                     else
