@@ -56,9 +56,12 @@ RUN  zip -0r /tmp/dependencies/BetMasService.xar .
 
 FROM ghcr.io/drrataplan/betamasaheft:6.2.0-manuscript-expanded
 
+# Undeploy and remove the older versions of the packages so we can replace them with new ones
 RUN ["java","org.exist.start.Main","client","--no-gui","-l","-u", "admin", "-P", "","-x", "('https://betamasaheft.eu/betmasweb/', 'https://www.betamasaheft.uni-hamburg.de/BetMas', 'https://betamasaheft.eu/BetMasService')!(repo:undeploy(.), repo:remove(.))"]
 
 COPY --from=build /tmp/dependencies/*.xar /exist/autodeploy
 
 RUN ["java","org.exist.start.Main","client","--no-gui","-l","-u", "admin", "-P", "","-x", "'Hello World!'"]
+
+# TODO: sync in environment variables for Tuttle and update the admin password
 
