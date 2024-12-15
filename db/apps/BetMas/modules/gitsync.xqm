@@ -211,8 +211,8 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
                         )
             }
             ,
-(:            update the bibliography    :)
-                gitsync:updateBibl($collection-uri, $file-name) ,
+(:            update the bibliography    
+                gitsync:updateBibl($collection-uri, $file-name) ,:)
 (:          then    update the  expanded collection    :)
                 gitsync:updateExpanded($collection-uri, $file-name) ,
 (:        if the update goes well, validation happens after storing, 
