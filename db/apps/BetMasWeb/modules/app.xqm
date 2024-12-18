@@ -108,7 +108,7 @@ let $stitle := $source
 return 
 <div class="w3-row reference">
                 <div class="w3-col"><span class="number">{$start + $p - 1}</span></div>
-                        <div class="w3-quarter"><a href="/{$rootID}">{exptit:printTitleID($rootID)}</a> ({$rootID}#{$itemid})</div>
+                        <div class="w3-quarter"><a href="{$config:appUrl}/{$rootID}">{exptit:printTitleID($rootID)}</a> ({$rootID}#{$itemid})</div>
                         <div class="w3-rest">{$text}</div>
                         
                     </div>
@@ -327,7 +327,7 @@ return
                 <div class="w3-bar">
                 <button type="submit" class="w3-button w3-red w3-bar-item"> Filter
                     </button>
-                <a href="/as.html" role="button" class="w3-button w3-gray w3-bar-item">Advanced Search Form</a>
+                <a href="{$config:appUrl}/as.html" role="button" class="w3-button w3-gray w3-bar-item">Advanced Search Form</a>
 </div></form>
 };
 
@@ -402,7 +402,7 @@ declare function app:team ($node as node(), $model as map(*)) {
 <ul class="w3-ul w3-hoverable w3-padding">{
     $exptit:col/$app:range-lookup('changewho', (),
         function($key, $count) {
-             <li id="{$key}">{editors:editorKey(replace($key, '#', '')) || ' ('||$key||')' || ' made ' || $count[1] ||' changes in ' || $count[2]||' documents. '}<a href="/xpath?xpath=%24config%3Acollection-root%2F%2Ft%3Achange%5B%40who%3D%27%23{substring-after($key, '#')}%27%5D">See the changes.</a></li>
+             <li id="{$key}">{editors:editorKey(replace($key, '#', '')) || ' ('||$key||')' || ' made ' || $count[1] ||' changes in ' || $count[2]||' documents. '}<a href="{$config:appUrl}/xpath?xpath=%24config%3Acollection-root%2F%2Ft%3Achange%5B%40who%3D%27%23{substring-after($key, '#')}%27%5D">See the changes.</a></li>
         }, 1000)
        }
        </ul>
@@ -425,7 +425,7 @@ declare function app:deleted ($node as node(), $model as map(*)) {
             (if($formerly) then <p>This record is now listed as {string-join($formerly/@active, ', ')}.</p> 
             else(),
             if($same) then 
-                    for $s in $same return <p>This record is the same as <a href="{string($s/@active)}" target="_blank">{exptit:printTitleID($s/@active)}</a>.</p> 
+                    for $s in $same return <p>This record is the same as <a href="{$config:appUrl}/{string($s/@active)}" target="_blank">{exptit:printTitleID($s/@active)}</a>.</p> 
             else ())}
     <a class="w3-btn w3-gray w3-display-right" id="LoadPermanentIDs{$deleted}">Permalinks</a>
     </li>}
@@ -440,7 +440,7 @@ let $formerly := $exptit:col//t:relation[@name eq 'betmas:formerlyAlsoListedAs']
     let $now := string-join($deleted/ancestor::t:relation[@passive eq $deleted]/@active, ', ')
     order by $deleted  
     return 
-    <li  class="w3-display-container">{substring-after($deleted, 'eu/')} is now listed as <a href="{$now}">{substring-after($now, 'eu/')}</a>. 
+    <li  class="w3-display-container">{substring-after($deleted, 'eu/')} is now listed as <a href="{$config:appUrl}/{$now}">{substring-after($now, 'eu/')}</a>. 
     </li>}
        </ul>
 };
@@ -1429,7 +1429,7 @@ declare function app:gotoadvanced($node as node()*, $model as map(*)){
 let $query := request:get-parameter('query', ())
 return 
 <div class="w3-bar">
-<a href="/as.html?query={$query}" class="w3-button w3-red w3-margin w3-bar-item">Repeat search in the Advanced search.</a>   
+<a href="{$config:appUrl}/as.html?query={$query}" class="w3-button w3-red w3-margin w3-bar-item">Repeat search in the Advanced search.</a>   
 </div>
 };
 
@@ -1674,13 +1674,13 @@ function app:facetSearchRes ( $node as node()*,  $model as map(*), $start as xs:
               <div class="w3-col"  style="width:70%">
               <span class="w3-tag w3-gray">{$collection}</span>
               <span class="w3-tag w3-gray" style="word-break: break-all; text-align: left;">{$id}</span>
-              <span class="w3-tag w3-red"><a href="{('/tei/' || $id || '.xml')}" target="_blank">TEI</a></span>
-             <!-- <span class="w3-tag w3-red"><a href="/{$id}.pdf" target="_blank" >PDF</a></span><br/>-->
-               <a target="_blank" href="/{$collection}/{$id}/main"><b>{if(starts-with($id, 'corpus')) then $root//t:titleStmt/t:title[1]/text() else try{exptit:printTitleID($id)} catch *{console:log(($text, $id, $err:description))}}</b></a><br/>
+              <span class="w3-tag w3-red"><a href="{$config:appUrl}/{('/tei/' || $id || '.xml')}" target="_blank">TEI</a></span>
+             <!-- <span class="w3-tag w3-red"><a href="{$config:appUrl}/{$id}.pdf" target="_blank" >PDF</a></span><br/>-->
+               <a target="_blank" href="{$config:appUrl}/{$collection}/{$id}/main"><b>{if(starts-with($id, 'corpus')) then $root//t:titleStmt/t:title[1]/text() else try{exptit:printTitleID($id)} catch *{console:log(($text, $id, $err:description))}}</b></a><br/>
                {if ($item//t:facsimile/t:graphic/@url) 
-               then <a target="_blank" href="{$item//t:facsimile/t:graphic/@url}">Link to images</a> 
+               then <a target="_blank" href="{$config:appUrl}/{$item//t:facsimile/t:graphic/@url}">Link to images</a> 
                else if($item//t:msIdentifier/t:idno[@facs][@n]) then 
-                 <a target="_blank" href="/manuscripts/{$id}/viewer">{
+                 <a target="_blank" href="{$config:appUrl}/manuscripts/{$id}/viewer">{
                 if($item//t:collection = 'Ethio-SPaRe') 
                then <img src="{$config:appUrl ||'/iiif/' || string(($item//t:msIdentifier)[1]/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
 (:laurenziana:)
@@ -1730,7 +1730,7 @@ else if (contains($item//t:msIdentifier/t:idno/@facs, 'bodleian')) then ('images
                    {  kwic:get-summary($match/parent::node(), $match,<config width="40"/>)}
                      </div>
                         <div class="w3-third w3-padding">
-                        <a href="/{$collection}/{$id}/{$view}{$matchancestorwithIDanchor}?hi={$queryText}{$ref}">
+                        <a href="{$config:appUrl}/{$collection}/{$id}/{$view}{$matchancestorwithIDanchor}?hi={$queryText}{$ref}">
                         {' in element ' ||$match/parent::t:*/name() || ' within a ' ||
                         $matchancestorwithID/name() 
                         || 
@@ -1746,22 +1746,22 @@ else if (contains($item//t:msIdentifier/t:idno/@facs, 'bodleian')) then ('images
                  <div class="w3-third">
                      {switch($t)
                         case 'mss' return (
-                             <a role="button" class="w3-button w3-small w3-gray" href="/IndexPlaces?entity={$id}">places</a>,
-                             <a role="button" class="w3-button w3-small w3-gray" href="/IndexPersons?entity={$id}">persons</a>)
+                             <a role="button" class="w3-button w3-small w3-gray" href="{$config:appUrl}/IndexPlaces?entity={$id}">places</a>,
+                             <a role="button" class="w3-button w3-small w3-gray" href="{$config:appUrl}/IndexPersons?entity={$id}">persons</a>)
                         case 'pers' return ()
-                        case 'ins' return (<a role="button" class="w3-button w3-small w3-gray" href="/manuscripts/{$id}/list">manuscripts</a>)
-                        case 'place' return (<a role="button" class="w3-button w3-small w3-gray" href="/manuscripts/place/list?place={$id}">manuscripts</a>)
-                        case 'nar' return (<a role="button" class="w3-button w3-small w3-gray" href="/collate">collate</a>)
+                        case 'ins' return (<a role="button" class="w3-button w3-small w3-gray" href="{$config:appUrl}/manuscripts/{$id}/list">manuscripts</a>)
+                        case 'place' return (<a role="button" class="w3-button w3-small w3-gray" href="{$config:appUrl}/manuscripts/place/list?place={$id}">manuscripts</a>)
+                        case 'nar' return (<a role="button" class="w3-button w3-small w3-gray" href="{$config:appUrl}/collate">collate</a>)
                         case 'work' return 
-                            (<a role="button" class="w3-button w3-small w3-gray" href="/compare?workid={$id}">compare</a>,
-                             <a role="button" class="w3-button w3-small w3-gray" href="/workmap?worksid={$id}">map of mss</a>,
-                             <a role="button" class="w3-button w3-small w3-gray" href="/collate">collate</a>,
-                             <a role="button" class="w3-button w3-small w3-gray" href="/IndexPlaces?entity={$id}">places</a>,
-                             <a role="button" class="w3-button w3-small w3-gray" href="/IndexPersons?entity={$id}">persons</a>)
+                            (<a role="button" class="w3-button w3-small w3-gray" href="{$config:appUrl}/compare?workid={$id}">compare</a>,
+                             <a role="button" class="w3-button w3-small w3-gray" href="{$config:appUrl}/workmap?worksid={$id}">map of mss</a>,
+                             <a role="button" class="w3-button w3-small w3-gray" href="{$config:appUrl}/collate">collate</a>,
+                             <a role="button" class="w3-button w3-small w3-gray" href="{$config:appUrl}/IndexPlaces?entity={$id}">places</a>,
+                             <a role="button" class="w3-button w3-small w3-gray" href="{$config:appUrl}/IndexPersons?entity={$id}">persons</a>)
                         default return
-                            <a role="button" class="w3-button w3-small w3-gray" href="/authority-files/list?keyword={$id}">with this keyword</a>
+                            <a role="button" class="w3-button w3-small w3-gray" href="{$config:appUrl}/authority-files/list?keyword={$id}">with this keyword</a>
                      }
-                     <a role="button" class="w3-button w3-small w3-gray" href="/{$collection}/{$id}/analytic">relations</a>
+                     <a role="button" class="w3-button w3-small w3-gray" href="{$config:appUrl}/{$collection}/{$id}/analytic">relations</a>
                  </div>
             </div>
             </div>
@@ -1826,8 +1826,8 @@ for $text at $p in $model('hits')
                 </div>
              <div class="w3-col w3-padding"  style="width:70%;word-break:break-all">
              {if(count($text) gt 50) then 
-             <a target="_blank" href="/{$collection}/{$id}/main?hi={$queryText}" >{exptit:printTitleID($id)}</a> else
-             <a target="_blank" href="/{$collection}/{$id}/main?hi={$queryText}" >{try{exptit:printTitleID($id)} catch * {console:log($err:description)}}</a>} ({$id})
+             <a target="_blank" href="{$config:appUrl}/{$collection}/{$id}/main?hi={$queryText}" >{exptit:printTitleID($id)}</a> else
+             <a target="_blank" href="{$config:appUrl}/{$collection}/{$id}/main?hi={$queryText}" >{try{exptit:printTitleID($id)} catch * {console:log($err:description)}}</a>} ({$id})
              </div>
              <div class="w3-col w3-padding"  style="width:15%;overflow:auto;">
                 <span class="w3-badge">{$count}</span>
@@ -1843,7 +1843,7 @@ for $text at $p in $model('hits')
                    {  kwic:get-summary($match/parent::node(), $match,<config width="40"/>)}
                      </div>
                         <div class="w3-third w3-padding">
-                        <a href="/{$collection}/{$id}/{$view}{$firstancestorwithIDanchor}?hi={$queryText}{$ref}">
+                        <a href="{$config:appUrl}/{$collection}/{$id}/{$view}{$firstancestorwithIDanchor}?hi={$queryText}{$ref}">
                         {' in element ' ||
                         $firstancestorwithID/name() 
                         || 
@@ -1882,7 +1882,7 @@ declare function app:searchResNotMatches($model, $start, $per-page){
          return
             <div class="w3-row reference">
                 <div class="w3-col" style="width:15%"><span class="number">{$start + $p - 1}</span></div>
-                        <div class="w3-half"><a target="_blank" href="/{$collection}/{$id}/main">{exptit:printTitleID($id)}</a> ({$id})</div>
+                        <div class="w3-half"><a target="_blank" href="{$config:appUrl}/{$collection}/{$id}/main">{exptit:printTitleID($id)}</a> ({$id})</div>
                         <div class="w3-rest">{data($root/t:TEI/@type)}</div>
                        
                     </div>
@@ -1932,7 +1932,7 @@ declare
          return
             <div class="w3-row  w3-margin-bottom">
                 <div class="w3-col w3-container" style="width:10%"><span class="number">{$start + $p - 1}</span></div>
-                <div  class="w3-col w3-container" style="width:50%"><a href="/{$id}">{exptit:printTitleID($id)}</a> ({$id})</div>
+                <div  class="w3-col w3-container" style="width:50%"><a href="{$config:appUrl}/{$id}">{exptit:printTitleID($id)}</a> ({$id})</div>
                 <div  class="w3-col w3-container " style="width:20%">{data($text/ancestor::t:*[@xml:id][1]/@xml:id)}</div>
                 <div  class="w3-col w3-container" style="width:20%"> <code>{$text/name()}</code></div>
            </div>

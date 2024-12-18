@@ -15,6 +15,7 @@ declare variable $exist:resource external;
 declare variable $exist:controller external;
 declare variable $exist:prefix external;
 declare variable $exist:root external;
+
 declare variable $domain := "org.exist.login";
 declare variable $taxonomy := doc('/db/apps/lists/canonicaltaxonomy.xml')//t:category/@xml:id;
 (:  get what Nginx sends:)
@@ -157,7 +158,7 @@ else
         <dispatch
             xmlns="http://exist.sourceforge.net/NS/exist">
             <forward
-                url="/shared-resources/{substring-after($exist:path, '/$shared/')}"/>
+                url="{$config:appUrl}/shared-resources/{substring-after($exist:path, '/$shared/')}"/>
         </dispatch>
     
     else
@@ -165,7 +166,7 @@ else
             <dispatch
                 xmlns="http://exist.sourceforge.net/NS/exist">
                 <forward
-                    url="/openapi/{$exist:path => substring-after("/openapi/") => replace("json", "xq")}"
+                    url="{$config:appUrl}/openapi/{$exist:path => substring-after("/openapi/") => replace("json", "xq")}"
                     method="get">
                     <add-parameter
                         name="target"
@@ -239,7 +240,7 @@ else
                                     <dispatch
                                         xmlns="http://exist.sourceforge.net/NS/exist">
                                         <redirect
-                                            url="/simpleSearch.html"
+                                            url="{$config:appUrl}/simpleSearch.html"
                                             absolute="yes"/>
                                     </dispatch>
                                     (:                                        another backward compatibility redirect:)
@@ -251,7 +252,7 @@ else
                                             <dispatch
                                                 xmlns="http://exist.sourceforge.net/NS/exist">
                                                 <redirect
-                                                    url="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=mss&amp;reporef={$insid}"
+                                                    url="{$config:appUrl}/newSearch.html?searchType=text&amp;mode=any&amp;work-types=mss&amp;reporef={$insid}"
                                                     absolute="yes"/>
                                             </dispatch>
                                     
@@ -260,7 +261,7 @@ else
                                             <dispatch
                                                 xmlns="http://exist.sourceforge.net/NS/exist">
                                                 <redirect
-                                                    url="/newSearch.html?searchType=placeSearch&amp;mode=any&amp;query={request:get-parameter('place', ())}"
+                                                    url="{$config:appUrl}/newSearch.html?searchType=placeSearch&amp;mode=any&amp;query={request:get-parameter('place', ())}"
                                                     absolute="yes"/>
                                             </dispatch>
                                         else
@@ -268,7 +269,7 @@ else
                                                 <dispatch
                                                     xmlns="http://exist.sourceforge.net/NS/exist">
                                                     <redirect
-                                                        url="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=mss"
+                                                        url="{$config:appUrl}/newSearch.html?searchType=text&amp;mode=any&amp;work-types=mss"
                                                         absolute="yes"/>
                                                 </dispatch>
                                             else
@@ -276,7 +277,7 @@ else
                                                     <dispatch
                                                         xmlns="http://exist.sourceforge.net/NS/exist">
                                                         <redirect
-                                                            url="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=pers"
+                                                            url="{$config:appUrl}/newSearch.html?searchType=text&amp;mode=any&amp;work-types=pers"
                                                             absolute="yes"/>
                                                     </dispatch>
                                                     else
@@ -284,7 +285,7 @@ else
                                                     <dispatch
                                                         xmlns="http://exist.sourceforge.net/NS/exist">
                                                         <redirect
-                                                            url="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=ins"
+                                                            url="{$config:appUrl}/newSearch.html?searchType=text&amp;mode=any&amp;work-types=ins"
                                                             absolute="yes"/>
                                                     </dispatch>
                                                 else
@@ -292,7 +293,7 @@ else
                                                         <dispatch
                                                             xmlns="http://exist.sourceforge.net/NS/exist">
                                                             <redirect
-                                                                url="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=eth"
+                                                                url="{$config:appUrl}/newSearch.html?searchType=text&amp;mode=any&amp;work-types=eth"
                                                                 absolute="yes"/>
                                                         </dispatch>
                                                     else
@@ -300,7 +301,7 @@ else
                                                             <dispatch
                                                                 xmlns="http://exist.sourceforge.net/NS/exist">
                                                                 <redirect
-                                                                    url="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=place&amp;work-types=ins"
+                                                                    url="{$config:appUrl}/newSearch.html?searchType=text&amp;mode=any&amp;work-types=place&amp;work-types=ins"
                                                                     absolute="yes"/>
                                                             </dispatch>
                                                         else
@@ -308,7 +309,7 @@ else
                                                                 <dispatch
                                                                     xmlns="http://exist.sourceforge.net/NS/exist">
                                                                     <redirect
-                                                                        url="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=ins"
+                                                                        url="{$config:appUrl}/newSearch.html?searchType=text&amp;mode=any&amp;work-types=ins"
                                                                         absolute="yes"/>
                                                                 </dispatch>
                                                             else
@@ -316,7 +317,7 @@ else
                                                                     <dispatch
                                                                         xmlns="http://exist.sourceforge.net/NS/exist">
                                                                         <redirect
-                                                                            url="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=nar"
+                                                                            url="{$config:appUrl}/newSearch.html?searchType=text&amp;mode=any&amp;work-types=nar"
                                                                             absolute="yes"/>
                                                                     </dispatch>
                                                                 else
@@ -324,7 +325,7 @@ else
                                                                         <dispatch
                                                                             xmlns="http://exist.sourceforge.net/NS/exist">
                                                                             <redirect
-                                                                                url="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=work"
+                                                                                url="{$config:appUrl}/newSearch.html?searchType=text&amp;mode=any&amp;work-types=work"
                                                                                 absolute="yes"/>
                                                                         </dispatch>
                                                                     else
@@ -332,7 +333,7 @@ else
                                                                             <dispatch
                                                                                 xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                 <redirect
-                                                                                    url="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=studies"
+                                                                                    url="{$config:appUrl}/newSearch.html?searchType=text&amp;mode=any&amp;work-types=studies"
                                                                                     absolute="yes"/>
                                                                             </dispatch>
                                                                             (:                            redirect /institutions/INSid/main to /newSearch?type=mss&amp;reporef=INSid ?? :)
@@ -343,7 +344,7 @@ else
                                         <dispatch
                                             xmlns="http://exist.sourceforge.net/NS/exist">
                                             <redirect
-                                                url="/newSearch?type=mss&amp;reporef={$insid}"
+                                                url="{$config:appUrl}/newSearch?type=mss&amp;reporef={$insid}"
                                                 absolute="yes"/>
                                         </dispatch>:)
                                                                             
@@ -370,7 +371,7 @@ else
                                                                                         <dispatch
                                                                                             xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                             <redirect
-                                                                                                url="/apidoc.html"/>
+                                                                                                url="{$config:appUrl}/apidoc.html"/>
                                                                                         </dispatch>
                                                                                     else
                                                                                         <dispatch
@@ -426,7 +427,7 @@ else
                                                                                                 <dispatch
                                                                                                     xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                                     <redirect
-                                                                                                        url="/apidoc.html"/>
+                                                                                                        url="{$config:appUrl}/apidoc.html"/>
                                                                                                 </dispatch>
                                                                                             else
                                                                                                 <dispatch
@@ -447,7 +448,7 @@ else
                                                                                                     <dispatch
                                                                                                         xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                                         <redirect
-                                                                                                            url="/apidoc.html"/>
+                                                                                                            url="{$config:appUrl}/apidoc.html"/>
                                                                                                     </dispatch>
                                                                                                 else
                                                                                                     <dispatch
@@ -468,7 +469,7 @@ else
                                                                                                     <dispatch
                                                                                                         xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                                         <forward
-                                                                                                            url="/restxq/api/geoJson/places/{substring-before($exist:resource, '.json')}"
+                                                                                                            url="{$config:appUrl}/restxq/api/geoJson/places/{substring-before($exist:resource, '.json')}"
                                                                                                             absolute="yes"
                                                                                                         >
                                                                                                         
@@ -489,7 +490,7 @@ else
                                                                                                                 <dispatch
                                                                                                                     xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                                                     <forward
-                                                                                                                        url="/{$id}.xml"
+                                                                                                                        url="{$config:appUrl}/{$id}.xml"
                                                                                                                         absolute="yes"/>
                                                                                                                 </dispatch>
                                                                                                             else
@@ -515,7 +516,7 @@ else
                                                                                                                     <dispatch
                                                                                                                         xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                                                         <forward
-                                                                                                                            url="/{substring-after($uri, 'db/apps/')}"/>
+                                                                                                                            url="{$config:appUrl}/{substring-after($uri, 'db/apps/')}"/>
                                                                                                                         <error-handler>
                                                                                                                             <forward
                                                                                                                                 url="{$exist:controller}/error/error-page.html"
@@ -549,7 +550,7 @@ else
                                                                                                                         <dispatch
                                                                                                                             xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                                                             <forward
-                                                                                                                                url="/rdf/{$exist:resource}"/>
+                                                                                                                                url="{$config:appUrl}/rdf/{$exist:resource}"/>
                                                                                                                             <error-handler>
                                                                                                                                 <forward
                                                                                                                                     url="{$exist:controller}/error/error-page.html"
@@ -656,7 +657,7 @@ function apisparql:constructURIsubid() is called to construct a graph of that re
                                                                                                                                         xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                                                                         
                                                                                                                                         <redirect
-                                                                                                                                            url="/{$switchCollection}/{$tokenizePath[2]}/main#{$tokenizePath[last()]}"/>
+                                                                                                                                            url="{$config:appUrl}/{$switchCollection}/{$tokenizePath[2]}/main#{$tokenizePath[last()]}"/>
                                                                                                                                     
                                                                                                                                     </dispatch>
                                                                                                                                     
@@ -692,7 +693,7 @@ construct the annotation graph if application/rdf+xml is specified
                                                                                                                                             xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                                                                             
                                                                                                                                             <redirect
-                                                                                                                                                url="/{$tokenizePath[2]}"/>
+                                                                                                                                                url="{$config:appUrl}/{$tokenizePath[2]}"/>
                                                                                                                                         
                                                                                                                                         </dispatch>
                                                                                                                                         
@@ -725,7 +726,7 @@ construct the annotation graph if application/rdf+xml is specified
                                                                                                                                                 xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                                                                                 
                                                                                                                                                 <redirect
-                                                                                                                                                    url="/{$tokenizeBond[2]}"/>
+                                                                                                                                                    url="{$config:appUrl}/{$tokenizeBond[2]}"/>
                                                                                                                                             
                                                                                                                                             </dispatch>
                                                                                                                                             
@@ -778,7 +779,7 @@ manuscript followed by a passage reference, then go to the text view of that
                                                                                                                                             <dispatch
                                                                                                                                                 xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                                                                                 <redirect
-                                                                                                                                                    url="/{$switchCollection}/{$id}/text{$parms}"/>
+                                                                                                                                                    url="{$config:appUrl}/{$switchCollection}/{$id}/text{$parms}"/>
                                                                                                                                             </dispatch>
                                                                                                                                             
                                                                                                                                             
@@ -823,7 +824,7 @@ https://betamasaheft.eu/manuscript/BNFet32/main
                                                                                                                                                         <dispatch
                                                                                                                                                             xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                                                                                             <redirect
-                                                                                                                                                                url="/{$switchCollection}/{$exist:resource}/main"/>
+                                                                                                                                                                url="{$config:appUrl}/{$switchCollection}/{$exist:resource}/main"/>
                                                                                                                                                         </dispatch>
                                                                                                                                         
                                                                                                                                         else
@@ -888,7 +889,7 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                                             <dispatch
                                                                                                                                                                 xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                                                                                                 <redirect
-                                                                                                                                                                    url="/authority-files/{$exist:resource}/main"/>
+                                                                                                                                                                    url="{$config:appUrl}/authority-files/{$exist:resource}/main"/>
                                                                                                                                                             </dispatch>
                                                                                                                                                     
                                                                                                                                                     else
@@ -1219,7 +1220,7 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                                                                                             <dispatch
                                                                                                                                                                                                                 xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                                                                                                                                                 <redirect
-                                                                                                                                                                                                                    url="/authority-files/{$exist:resource}/main"/>
+                                                                                                                                                                                                                    url="{$config:appUrl}/authority-files/{$exist:resource}/main"/>
                                                                                                                                                                                                             </dispatch>
                                                                                                                                                                                                         
                                                                                                                                                                                                         else

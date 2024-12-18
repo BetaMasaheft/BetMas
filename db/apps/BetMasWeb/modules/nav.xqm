@@ -7,6 +7,7 @@ module namespace nav = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/nav";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
 import module namespace locallogin = "https://www.betamasaheft.eu/login" at "xmldb:exist:///db/apps/BetMasWeb/modules/login.xqm";
 import module namespace console = "http://exist-db.org/xquery/console";
+
 declare function nav:modalsNew() {
     <div
         id="versionInfo"
@@ -93,11 +94,11 @@ declare function nav:barNew() {
                                 (
                                 <a
                                     class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"
-                                    href="/user/{sm:id()//sm:real/sm:username/string()}">Your personal page</a>
+                                    href="{$config:appUrl}/user/{sm:id()//sm:real/sm:username/string()}">Your personal page</a>
                                 ,
                                 <a
                                     class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red"
-                                    href="/clavismatching.html">Clavis Matching</a>
+                                    href="{$config:appUrl}/clavismatching.html">Clavis Matching</a>
                                 )
                             else
                                 ()
@@ -105,27 +106,27 @@ declare function nav:barNew() {
                         <a
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red  explain"
                             data-value="back"
-                            href="/">Home</a>
+                            href="{$config:appUrl}">Home</a>
                         <a
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red  explain"
                             data-value="ab"
-                            href="/about.html">About</a>
+                            href="{$config:appUrl}/about.html">About</a>
                         <a
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red  explain"
                             data-value="guides"
-                            href="/Guidelines/">Guidelines</a>
+                            href="{$config:appUrl}/Guidelines/">Guidelines</a>
                         <a
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red  explain"
                             data-value="loddata"
-                            href="/lod.html">Data</a>
+                            href="{$config:appUrl}/lod.html">Data</a>
                         <a
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red  explain"
                             data-value="apidata"
-                            href="/apidoc.html">API</a>
+                            href="{$config:appUrl}/apidoc.html">API</a>
                         <a
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red  explain"
                             data-value="permlink"
-                            href="/pid.html">Permalinks</a>
+                            href="{$config:appUrl}/pid.html">Permalinks</a>
                     
                     </div>
                      <div
@@ -138,15 +139,15 @@ declare function nav:barNew() {
                              <span
                                     id="ab"
                                     class="w3-hide w3-red w3-center w3-padding">
-                                    Here you can find out more about the <a href="/team">project team</a>, 
+                                    Here you can find out more about the <a href="{$config:appUrl}/team">project team</a>, 
                                     the <a href="https://www.betamasaheft.uni-hamburg.de/team/partners.html">cooperating projects</a>,
-                                    and the <a href="/contacts">contact information</a>. You can also visit 
+                                    and the <a href="{$config:appUrl}/contacts">contact information</a>. You can also visit 
                                      <a href="https://www.betamasaheft.uni-hamburg.de/">our institutional page</a>.
 </span>
                              <span
                                     id="guides"
                                     class="w3-hide w3-red w3-center w3-padding">
-                                    Find out more about our <a href="/Guidelines">Encoding Guidelines</a>.
+                                    Find out more about our <a href="{$config:appUrl}/Guidelines">Encoding Guidelines</a>.
 </span>
 <span
                                     id="loddata"
@@ -204,29 +205,29 @@ declare function nav:barNew() {
                                 <a
                                     class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                                     data-value="shelfmarks"
-                                    href="/manuscripts/browse">Shelf marks (full list)</a>
+                                    href="{$config:appUrl}/manuscripts/browse">Shelf marks (full list)</a>
                                 <a
                                     class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                                     data-value="manuscriptsearch"
-                                    href="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=mss">Manuscripts (search)</a>
+                                    href="{$config:appUrl}/newSearch.html?searchType=text&amp;mode=any&amp;work-types=mss">Manuscripts (search)</a>
                              <!--  
                              limitation of access to expensive requests (this was actually never requested over a year)
                              <a
                                     class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                                     data-value="imagesviewer"
-                                    href="/manuscripts/viewer">Images Viewer</a>-->
+                                    href="{$config:appUrl}/manuscripts/viewer">Images Viewer</a>-->
                                     <a
                                     class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                                     data-value="digitized"
-                                    href="/availableImages.html">List of Digitized Manuscripts</a>
+                                    href="{$config:appUrl}/availableImages.html">List of Digitized Manuscripts</a>
                                 <a
                                     class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                                     data-value="cataloguesencoded"
-                                    href="/catalogues/list">Catalogues Encoded</a>
+                                    href="{$config:appUrl}/catalogues/list">Catalogues Encoded</a>
                                 <a
                                     class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                                     data-value="inscriptions"
-                                    href="/newSearch.html?searchType=text&amp;mode=any&amp;form=Inscription">Inscriptions</a>
+                                    href="{$config:appUrl}/newSearch.html?searchType=text&amp;mode=any&amp;form=Inscription">Inscriptions</a>
                             </div>
                             <div
                                 id="navexplanationsmss"
@@ -297,7 +298,7 @@ declare function nav:barNew() {
                         without independent circulation (univocally identifiable by IDs assigned within the records) or recurrent 
                         motifs as well as documentary additional texts 
                         (identified as <a href="https://betamasaheft.eu/narratives/list">Narrative Units</a>) 
-                        are not part of the CAe. You can also check the list of different <a href="/titles">types of 
+                        are not part of the CAe. You can also check the list of different <a href="titles">types of 
                         text titles</a> or various <a href="https://betamasaheft.eu/indexeslist.html">Indexes</a> 
                         available from the top menu.</span>
                         </div>
@@ -306,21 +307,21 @@ declare function nav:barNew() {
                         <a
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                             data-value="clavis"
-                            href="https://betamasaheft.eu/clavis-list.html">Clavis Aethiopica (Works)</a>
+                            href="{$config:appUrl}/clavis-list.html">Clavis Aethiopica (Works)</a>
                         <a
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                             data-value="narratives"
-                            href="/narratives/list">Narrative Units</a>
+                            href="{$config:appUrl}/narratives/list">Narrative Units</a>
                       <!-- 
                       removing link to resource which is currently not maintained
                       <a
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                             data-value="documentary"
-                            href="/documentcorpora.html">Documentary corpora</a>-->
+                            href="{$config:appUrl}/documentcorpora.html">Documentary corpora</a>-->
                              <a
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                             data-value="studies"
-                            href="/studies/list">Studies</a>
+                            href="{$config:appUrl}/studies/list">Studies</a>
                             </div>
                             <div id="explanationsTexts" class="w3-row">
                             <span
@@ -389,15 +390,15 @@ the decorations filtered search and the general keyword search.</span>
                         <a
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                             data-value="decorations"
-                            href="/decorations">Index of decorations</a>
+                            href="{$config:appUrl}/decorations">Index of decorations</a>
                         <a
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                             data-value="artkeywords"
-                            href="/art-themes/list">Art Keywords</a>
+                            href="{$config:appUrl}/art-themes/list">Art Keywords</a>
                         <a
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                             data-value="illuminations"
-                            href="/decorations?type=miniature">Illuminations</a>
+                            href="{$config:appUrl}/decorations?type=miniature">Illuminations</a>
                             </div>
                             <div id="explanationsAT" class="w3-row">
                             <span
@@ -461,11 +462,11 @@ See also <a href="https://betamasaheft.eu/help.html">Help page</a> fore more gui
                         <a
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red  explain"
                             data-value="pl"
-                            href="/places/list">Places</a>
+                            href="{$config:appUrl}/places/list">Places</a>
                         <a
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red  explain"
                             data-value="repositories"
-                            href="/institutions/list">Repositories</a>
+                            href="{$config:appUrl}/institutions/list">Repositories</a>
                             </div>
                          <div id="explanationPl" class="w3-row">
                          <span
@@ -519,11 +520,11 @@ See also <a href="https://betamasaheft.eu/help.html">Help page</a> fore more gui
                         <a
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red  explain"
                             data-value="pers"
-                            href="/persons/list">Persons and groups</a>
+                            href="{$config:appUrl}/persons/list">Persons and groups</a>
                         <a
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red  explain"
                             data-value="ethnics"
-                            href="/ethnic/list">Ethnic units</a>
+                            href="{$config:appUrl}/ethnic/list">Ethnic units</a>
                             </div>
                          <div id="explanationPr" class="w3-row">
                               <span
@@ -567,43 +568,43 @@ See also <a href="https://betamasaheft.eu/help.html">Help page</a> fore more gui
                 id="resourcesintro">
                 <span onclick="this.parentElement.style.display='none'"
                     class="w3-button w3-text-red w3-large w3-display-topright" style="display:block; background:transparent;">&#x2716;</span>
-                <span style="display:block;">This section collects some additional resources offered by the project. Select <a href="/bibliography">Bibliography</a> to explore the references cited in the project records. The
-                    <a href="/indexeslist.html">
+                <span style="display:block;">This section collects some additional resources offered by the project. Select <a href="{$config:appUrl}/bibliography">Bibliography</a> to explore the references cited in the project records. The
+                    <a href="{$config:appUrl}/indexeslist.html">
                         Indexes</a> list different types of project records (persons, places, titles, keywords, etc). 
-                    Visit <a href="/projects.html">Projects</a> for information on partners that have input data 
+                    Visit <a href="{$config:appUrl}/projects.html">Projects</a> for information on partners that have input data 
                     directly in the Beta maṣāḥǝft database. Special ways of exploring the data are offered under 
-                    <a href="/visualizations.html">Visualizations</a>. 
+                    <a href="{$config:appUrl}/visualizations.html">Visualizations</a>. 
                     Two applications were developed in cooperation with the project 
                     <a href="https://www.traces.uni-hamburg.de/">TraCES</a>, 
-                    the <a href="/morpho">Gǝʿǝz Morphological Parser</a> and the 
-                    <a href="/Dillmann">Online <i>Lexicon Linguae Aethiopicae</i></a>.</span></div>
+                    the <a href="{$config:appUrl}/morpho">Gǝʿǝz Morphological Parser</a> and the 
+                    <a href="{$config:appUrl}/Dillmann">Online <i>Lexicon Linguae Aethiopicae</i></a>.</span></div>
             
             <div
                 class=" w3-bar w3-card-4 w3-white">
                 <a
                     class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                     data-value="bibl"
-                    href="/bibliography">Bibliography</a>
+                    href="{$config:appUrl}/bibliography">Bibliography</a>
                 <a
                     class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                     data-value="ind"
-                    href="/indexeslist.html">Indexes</a>
+                    href="{$config:appUrl}/indexeslist.html">Indexes</a>
                 <a
                     class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                     data-value="proj"
-                    href="/projects.html">Projects</a>
+                    href="{$config:appUrl}/projects.html">Projects</a>
                 <a
                     class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                     data-value="views"
-                    href="/visualizations.html">Visualizations</a>
+                    href="{$config:appUrl}/visualizations.html">Visualizations</a>
                 <a
                     class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                     data-value="parser"
-                    href="/morpho">Gǝʿǝz Morphological Parser</a>
+                    href="{$config:appUrl}/morpho">Gǝʿǝz Morphological Parser</a>
                 <a
                     class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                     data-value="lexicon"
-                    href="/Dillmann">Online <i>Lexicon Linguae Aethiopicae</i></a>
+                    href="{$config:appUrl}/Dillmann">Online <i>Lexicon Linguae Aethiopicae</i></a>
             </div>
             <div
                 id="navexplanationsRes"
@@ -648,7 +649,7 @@ See also <a href="https://betamasaheft.eu/help.html">Help page</a> fore more gui
 </div>
          
                 <a
-                    href="/help.html"
+                    href="{$config:appUrl}/help.html"
                     class="w3-bar-item w3-button  w3-hide-medium w3-hide-small"
                     data-toggle="tooltip"
                     data-placement="bottom"
@@ -659,7 +660,7 @@ See also <a href="https://betamasaheft.eu/help.html">Help page</a> fore more gui
                     if (contains($url, 'newSearch.html')) then ()
                     else
                         <a
-                            href="/simpleSearch.html"
+                            href="{$config:appUrl}/simpleSearch.html"
                             class="w3-padding w3-hover-red w3-hide-small w3-right"><i
                                 class="fa fa-search"></i></a>
                 }
@@ -670,19 +671,19 @@ See also <a href="https://betamasaheft.eu/help.html">Help page</a> fore more gui
             class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top"
             style="margin-top:46px">
             <a
-                href="/"
+                href="{$config:appUrl}"
                 class="w3-bar-item w3-button w3-padding-large"
                 onclick="myFunction()">Home</a>
             <a
-                href="/works/list"
+                href="{$config:appUrl}/works/list"
                 class="w3-bar-item w3-button w3-padding-large"
                 onclick="myFunction()">Texts</a>
             <a
-                href="/manuscripts/list"
+                href="{$config:appUrl}/manuscripts/list"
                 class="w3-bar-item w3-button w3-padding-large"
                 onclick="myFunction()">Manuscripts</a>
             <a
-                href="/simpleSearch.html"
+                href="{$config:appUrl}/simpleSearch.html"
                 class="w3-bar-item w3-button w3-padding-large"
                 onclick="myFunction()">Search</a>
         </div>
@@ -778,7 +779,7 @@ declare function nav:footerNew() {
             <p  style="text-align:left;">This website is maintained by the project team at the <a
                     href="https://www.aai.uni-hamburg.de/en/ethiostudies.html">Hiob Ludolf Center for Ethiopian and Eritrean Studies</a>.</p>
             <p style="text-align:left;"><a
-                    href="/impressum.html">Impressum.</a></p>
+                    href="{$config:appUrl}/impressum.html">Impressum.</a></p>
         </div>
         </div>
         </div>
