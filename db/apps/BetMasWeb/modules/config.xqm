@@ -38,9 +38,14 @@ declare variable $config:sparqlPrefixes := "PREFIX rdf: <http://www.w3.org/1999/
          PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
          PREFIX foaf: <http://xmlns.com/foaf/0.1/>
          PREFIX sdc: <https://w3id.org/sdc/ontology#>";
+(:
+ : In practice this is `https://betamasaheft.eu/' for production and something like `localhost:8080/exist/apps/BetMasWeb` for development
+:)
+(:declare variable $config:appUrl := 'https://betamasaheft.eu';:)
+declare variable $config:appUrl := 'http://localhost:8083/exist/apps/BetMasWeb';
 
-declare variable $config:appUrl := 'https://betamasaheft.eu';
-declare variable $config:baseURI := 'https://betamasaheft.eu/';
+declare variable $config:baseURI := $config:appUrl || "/";
+
 declare variable $config:DOI := '10.25592/BetaMasaheft';
 
 declare variable $config:response200 := <rest:response>

@@ -109,7 +109,7 @@ return
      return
     if($count=0) then () else 
         <div class="w3-row">
-        <div class="w3-col" style="width:30%"><h4><a href="/manuscripts/{$i}/list">{$rep/text()}</a></h4></div>
+        <div class="w3-col" style="width:30%"><h4><a href="{$config:appUrl}/manuscripts/{$i}/list">{$rep/text()}</a></h4></div>
         <div class="w3-col" style="width:5%"><span class="w3-badge">{$count}</span></div>
           <div  class="w3-col" style="width:35%">
           <a class="w3-button w3-red"  onclick="openAccordion('list{$i}')">show list</a>
@@ -137,7 +137,7 @@ return
                                     order by $mainID
                                     return
                                         <li><a
-                                                href="/{string($r/t:TEI/@xml:id)}">{string-join($r//t:msIdentifier//t:idno/text(), ', ')}</a></li>
+                                                href="{$config:appUrl}/{string($r/t:TEI/@xml:id)}">{string-join($r//t:msIdentifier//t:idno/text(), ', ')}</a></li>
                                 }
                             </ul>
                         </div>
@@ -268,7 +268,7 @@ $keyword as xs:string*){
                          let $subcatid := string($c/@xml:id)
                          let $text := $c/t:catDesc/text()
                          order by $text
-                         return <li><a href="/art-themes/list?keyword={$subcatid}">{$text}</a></li>
+                         return <li><a href="art-themes/list?keyword={$subcatid}">{$text}</a></li>
                         }</ul> 
                         </div> ) ) 
              else 
@@ -289,11 +289,11 @@ $keyword as xs:string*){
                                  let $stext := $subsubcat/t:catDesc/text()
                                  order by $stext
                                  return
-                                     <li><a href="/art-themes/list?keyword={$ssid}">{$stext}</a></li>
+                                     <li><a href="art-themes/list?keyword={$ssid}">{$stext}</a></li>
                              }</ul> 
                              </div>
                              </div>)
-                    else(<li><a href="/art-themes/list?keyword={$subcatid}">{$sstext}</a></li>)
+                    else(<li><a href="art-themes/list?keyword={$subcatid}">{$sstext}</a></li>)
  }
  </ul>
  </div>
@@ -329,14 +329,14 @@ $keyword as xs:string*){
 
    return
  <div class="w3-container">
- <h1><a href="/authority-files/{$keyword}/main">{exptit:printTitleID($keyword)}</a></h1>
+ <h1><a href="authority-files/{$keyword}/main">{exptit:printTitleID($keyword)}</a></h1>
  {let $file := $list:taxonomy/id($keyword)
  for $element in ($file//t:abstract, $file//t:listBibl)
  return <p>{string:tei2string($element)}</p>}
  
   <div class="w3-bar"> 
   <div id="hit-count" class="w3-bar-item">
-   {'There are ' || count($res("hits")) || ' resources that contain the exact keyword: '}  <span class="w3-tag w3-red"><a href="/{$keyword}">{$keyword}</a></span>
+   {'There are ' || count($res("hits")) || ' resources that contain the exact keyword: '}  <span class="w3-tag w3-red"><a href="{$keyword}">{$keyword}</a></span>
    </div>
    </div>
    <div class="w3-responsive">
@@ -569,7 +569,7 @@ if(xdb:collection-available($c)) then (
                          let $subcatid := string($c/@xml:id)
                          let $text := $c/t:catDesc/text()
                          order by $text
-                         return <li><a href="/{$collection}/list?keyword={$subcatid}">{$text}</a></li>
+                         return <li><a href="{$collection}/list?keyword={$subcatid}">{$text}</a></li>
                         }</ul> 
                         </div> ) ) 
              else 
@@ -590,18 +590,18 @@ if(xdb:collection-available($c)) then (
                                  let $stext := $subsubcat/t:catDesc/text()
                                  order by $stext
                                  return
-                                     <li><a href="/{$collection}/list?keyword={$ssid}">{$stext}</a></li>,
+                                     <li><a href="{$collection}/list?keyword={$ssid}">{$stext}</a></li>,
                                      <ul>                                     {for $sss in $subcat/t:category/t:category
                                  let $sssid := string($sss/@xml:id)
                                  let $ssstext := concat($sss/ancestor::t:category[1]/t:catDesc/text(), ': ', $sss/t:catDesc/text())
                                      return
                                      
-                                     <li><a href="/{$collection}/list?keyword={$sssid}">{$ssstext}</a></li>
+                                     <li><a href="{$collection}/list?keyword={$sssid}">{$ssstext}</a></li>
                                      }</ul>
                              }</ul> 
                              </div>
                              </div>)
-                    else(<li><a href="/{$collection}/list?keyword={$subcatid}">{$sstext}</a></li>)
+                    else(<li><a href="{$collection}/list?keyword={$subcatid}">{$sstext}</a></li>)
  }
  </ul>
  </div>
@@ -639,7 +639,7 @@ if(xdb:collection-available($c)) then (
 
    return
  <div class="w3-container">
- <h1><a href="/authority-files/{$keyword}/main">{exptit:printTitleID($keyword)}</a></h1>
+ <h1><a href="authority-files/{$keyword}/main">{exptit:printTitleID($keyword)}</a></h1>
  {let $file := $list:taxonomy/id($keyword)
  for $element in ($file//t:abstract, $file//t:listBibl)
  return <p>{string:tei2string($element)}</p>}
@@ -1169,7 +1169,7 @@ if($file) then (
    </div>
    <div   id="optionsList">
 <a target="_blank" class="w3-button w3-bar-item w3-red" 
-href="/manuscripts/{$repoID}/list/viewer">Images</a>
+href="manuscripts/{$repoID}/list/viewer">Images</a>
 <a  target="_blank"  role="button" class="w3-button w3-bar-item w3-red"  
 href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exreq:query()}">Charts</a>
 <a class="w3-button w3-bar-item w3-gray" href="javascript:void(0);" onclick="javascript:introJs().addHints();">hints</a>
@@ -1197,7 +1197,7 @@ href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exr
                 
     <div class="w3-quarter w3-white w3-hide-small w3-hide-medium" id="search filters">
     {apprest:searchFilter-rest($repoID, $hits)}
-    <div class="w3-container"><a class="w3-button w3-large w3-red w3-margin-left" href="/manuscripts/list">Back to full list</a></div>
+    <div class="w3-container"><a class="w3-button w3-large w3-red w3-margin-left" href="manuscripts/list">Back to full list</a></div>
     </div>
     
  </div>      
@@ -1393,7 +1393,7 @@ if($file) then (
    </div>
    <div   id="optionsList">
    <a  target="_blank"  class="w3-bar-item w3-button w3-red" href="{replace(substring-after(rest:uri(), 'BetMas'), 'listChart', 'list')}?{exreq:query()}">List</a></div>
-   <a target="_blank" class="w3-bar-item w3-button w3-red" href="/manuscripts/{$repoID}/list/viewer">Images</a>
+   <a target="_blank" class="w3-bar-item w3-button w3-red" href="manuscripts/{$repoID}/list/viewer">Images</a>
    </div>
    {if(count($parameters) gt 1) then list:paramsList($parameters) else ()}
    </div>
@@ -1663,7 +1663,7 @@ href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exr
                 
     <div class="w3-quarter w3-white w3-hide-small w3-hide-medium" id="search filters">
     {apprest:searchFilter-rest($place, $hits)}
-    <div class="w3-container"><a class="w3-button w3-large w3-red w3-margin-left" href="/manuscripts/list">Back to full list</a></div>
+    <div class="w3-container"><a class="w3-button w3-large w3-red w3-margin-left" href="manuscripts/list">Back to full list</a></div>
     </div>
     
  </div>      
@@ -1774,7 +1774,7 @@ if($file or starts-with($place, 'wd:')) then (
    </div>
    <div   id="optionsList">
    <a  target="_blank"  class="w3-bar-item w3-button w3-red" href="{replace(substring-after(rest:uri(), 'BetMas'), 'listChart', 'list')}?{exreq:query()}">List</a></div>
-   {if($file) then <a target="_blank" class="w3-bar-item w3-button w3-red" href="/places/{$place}/main">Place record</a> else ()}
+   {if($file) then <a target="_blank" class="w3-bar-item w3-button w3-red" href="places/{$place}/main">Place record</a> else ()}
    </div>
    </div>
    
@@ -1863,13 +1863,13 @@ let $data :=
 order by $catalogue
 return
     <tr>
-    <td><a href="/newSearch.html?searchType=text&amp;mode=any&amp;biblref={$catalogue}" class="lead">{$data}</a></td>
+    <td><a href="newSearch.html?searchType=text&amp;mode=any&amp;biblref={$catalogue}" class="lead">{$data}</a></td>
     <td><span class="w3-badge">{$count}</span></td>
     </tr>
     }
     </tbody></table>
     </div>
-    <div class="w3-panel w3-red w3-card-4">More catalogues will be processed. A list of the catalogues to be processed and of the work in progress can be seen <a href="/availableImages.html">here</a></div>
+    <div class="w3-panel w3-red w3-card-4">More catalogues will be processed. A list of the catalogues to be processed and of the work in progress can be seen <a href="availableImages.html">here</a></div>
 
 
         </div>}
@@ -2054,7 +2054,7 @@ href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exr
     <div class="w3-quarter w3-padding">
     {apprest:searchFilter-rest($catalogueID, $hits)}
      <div class="w3-quarter w3-margin w3-padding">
-    <a  class="w3-button w3-red w3-margin-left" href="/manuscripts/list">Back to full list</a>
+    <a  class="w3-button w3-red w3-margin-left" href="manuscripts/list">Back to full list</a>
     </div>
     </div>
     <div class="w3-threequarter w3-padding">
