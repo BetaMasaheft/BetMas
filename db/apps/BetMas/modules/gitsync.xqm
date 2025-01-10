@@ -215,12 +215,12 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
 (:          then    update the  expanded collection    :)
                 gitsync:updateExpanded($collection-uri, $file-name) ,
 (:        if the update goes well, validation happens after storing, 
-:  because the app needs to remain in sync with the GIT repo. Yes, invalid data has to be allowed in... :)
-                gitsync:fileortax($collection-uri, $file-name, $committerEmail) ,
+:  because the app needs to remain in sync with the GIT repo. Yes, invalid data has to be allowed in... 
+                gitsync:fileortax($collection-uri, $file-name, $committerEmail) ,:)
 (:   then update autority lists:)
                  gitsync:updateLists($data-collection, $file-name) ,
-(:                    then update the RDF repository:)
-                 gitsync:rdf($collection-uri, $file-name) ,
+(:                    then update the RDF repository
+                 gitsync:rdf($collection-uri, $file-name) ,:)
 (:                   and finally check the ids for wrong anchors:)
                  gitsync:checkAnchors($data-collection, $committerEmail, $collection-uri, $file-name)
 (:                    if any of these fails follow instructions in catch, 
@@ -327,7 +327,7 @@ declare function gitsync:do-add($commits, $contents-url as xs:string?, $data-col
 (:~
  : Removes files from the database uses xmldb:remove
  : Pulls data from github repository, parses file information and passes data to xmldb:store
- : @param $commits serilized json data
+ : @param $commits serialized json data
  : @param $contents-url string pointing to resource on github
 :)
 declare function gitsync:do-delete($commits, $contents-url as xs:string?, $data-collection) {
