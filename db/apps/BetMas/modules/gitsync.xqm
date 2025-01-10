@@ -37,7 +37,7 @@ import module namespace expand = "https://www.betamasaheft.uni-hamburg.de/BetMas
 import module namespace updatefuseki = 'https://www.betamasaheft.uni-hamburg.de/BetMas/updatefuseki' at "xmldb:exist:///db/apps/BetMas/fuseki/updateFuseki.xqm";
 import module namespace gfb = "https://www.betamasaheft.uni-hamburg.de/BetMas/gfb" at "xmldb:exist:///db/apps/BetMas/modules/generateFormattedBibliography.xqm";
 import module namespace validation = "http://exist-db.org/xquery/validation";
-import module namespace console="http://exist-db.org/xquery/console";
+(:import module namespace console="http://exist-db.org/xquery/console";:)
 
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare option exist:serialize "method=xml media-type=text/xml indent=yes";
@@ -176,7 +176,7 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
         
         for $modified in $commits?1?modified?*
         let $file-path := concat($contents-url, $modified)
-        let $t := console:log('got here')
+(:        let $t := console:log('got here'):)
         let $gitToken := environment-variable('GITTOKEN')
         (:environment-variable('GIT_TOKEN'):)
         let $req :=
@@ -197,7 +197,7 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
         let $collection := xs:anyURI($data-collection)
         let $resource-path := substring-before($modified, $file-name)
         let $collection-uri := concat($collection, '/', $resource-path)
-        let $t := console:log($collection-uri)
+(:        let $t := console:log($collection-uri):)
         return
            ( try {
 (:                first update the mirror collection of the git repositories in BetMasData :)
@@ -269,7 +269,7 @@ declare function gitsync:do-add($commits, $contents-url as xs:string?, $data-col
                 (
                 gitsync:updateMirrorCol($collection-uri, $file-name, $file-data, 'add'),
                 
-                gitsync:updateBibl($collection-uri, $file-name) ,
+ (:               gitsync:updateBibl($collection-uri, $file-name) ,:)
 (:          then    update the  expanded collection    :)
                 gitsync:updateExpanded($collection-uri, $file-name) ,
                 (:        if the update goes well, validation happens after storing, because the app needs to remain in sync with the GIT repo. Yes, invalid data has to be allowed in.:)
@@ -392,7 +392,7 @@ return
 declare function gitsync:updateMirrorCol($collection-uri, $file-name, $file-data, $updateoradd){
 let $collection-uri := if(contains($collection-uri, 'expanded')) then replace($collection-uri, 'expanded', 'BetMasData') else $collection-uri
 let $xml := util:base64-decode($file-data)
-let $t := console:log($xml)
+(:let $t := console:log($xml):)
 return
    if (xmldb:collection-available($collection-uri)) 
                 then
@@ -400,8 +400,8 @@ return
                         status="okay">
                         <message>{
                         (xmldb:store($collection-uri, xmldb:encode-uri($file-name), $xml),
-                        console:log(concat($collection-uri, $file-name)),
-                        console:log(doc(concat($collection-uri, $file-name))/t:TEI),
+                     (:   console:log(concat($collection-uri, $file-name)),
+                        console:log(doc(concat($collection-uri, $file-name))/t:TEI),:)
                         if($updateoradd = 'add') then 
                                 (sm:chmod(xs:anyURI(concat($collection-uri, '/', $file-name)), 'rwxrwxr-x'),
                                 sm:chgrp(xs:anyURI(concat($collection-uri, '/', $file-name)), 'Cataloguers'))
@@ -486,10 +486,10 @@ let $expanded-collection-uri := replace($collection-uri,'/BetMasData/', '/expand
 let $collection-uri := if(contains($collection-uri, 'expanded')) then replace($collection-uri, 'expanded', 'BetMasData') else $collection-uri
 let $storedfilepath := $collection-uri || '/' || $file-name
 let $storedTEI := doc($storedfilepath)
-let $t1 := console:log($storedTEI)
+(:let $t1 := console:log($storedTEI):)
 return if($storedTEI/t:TEI) then 
 let $expanded-file := expand:file($storedfilepath)
-let $t := console:log($expanded-file)
+(:let $t := console:log($expanded-file):)
 return
                     if (xmldb:collection-available($expanded-collection-uri)) 
                 then
@@ -593,8 +593,8 @@ declare function gitsync:validateAndConfirm($item, $mail, $type) {
                 </message>
             </mail>
             return
-                (:send the email:)
-                mail:send-email($contributorMessage, 'public.uni-hamburg.de', ())
+                (:send the email
+                mail:send-email($contributorMessage, 'public.uni-hamburg.de', ()):)()
             
             )
 };
@@ -631,8 +631,8 @@ let $address := if ($mail[1] = 'noreply@github.com') then 'info@betamasaheft.eu'
                 </message>
             </mail>
             return
-                (:send the email:)
-                mail:send-email($WrongIdMessage, 'public.uni-hamburg.de', ())
+                (:send the email
+                mail:send-email($WrongIdMessage, 'public.uni-hamburg.de', ()):)()
 };
 
 (:~
@@ -665,8 +665,8 @@ declare function gitsync:wrongAnchor($mail, $intersect, $filename) {
                 </message>
             </mail>
             return
-                (:send the email:)
-                mail:send-email($WrongIdMessage, 'public.uni-hamburg.de', ())
+                (:send the email
+                mail:send-email($WrongIdMessage, 'public.uni-hamburg.de', ()):)()
 };
 
 (:~
@@ -701,8 +701,8 @@ declare function gitsync:failedCommitMessage($mail, $data-collection, $message) 
                 </message>
             </mail>
             return
-                (:send the email:)
-               mail:send-email( $failureMessage, 'public.uni-hamburg.de', ())
+                (:send the email
+               mail:send-email( $failureMessage, 'public.uni-hamburg.de', ()):)()
 };
 
 
@@ -733,8 +733,8 @@ declare function gitsync:mergeCommitMessage($mail, $data-collection, $message, $
                 </message>
             </mail>
             return
-                (:send the email:)
-               mail:send-email( $failureMessage, 'public.uni-hamburg.de', ())
+                (:send the email
+               mail:send-email( $failureMessage, 'public.uni-hamburg.de', ()):)()
 };
 (:~
  : taxonomy and canonicaltaxonomy cannot be updated on the fly not to break the continuity of the
@@ -761,8 +761,8 @@ declare function gitsync:TaxonomyMessage() {
                 </message>
             </mail>
             return
-                (:send the email:)
-               mail:send-email( $failureMessage, 'public.uni-hamburg.de', ())
+                (:send the email
+               mail:send-email( $failureMessage, 'public.uni-hamburg.de', ()):) ()
 };
 
 (:~
@@ -814,4 +814,3 @@ return
                         )
         }
 };
-
