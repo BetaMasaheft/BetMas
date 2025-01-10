@@ -65,7 +65,6 @@ declare function gitsync:rdf($collection-uri, $file-name){
                         else if( matches($collectionName, 'persons')) then 'persons' 
                         else if( matches($collectionName, 'places')) then 'places'  
                         else if( matches($collectionName, 'institutions')) then 'institutions' 
-                        else if( matches($collectionName, 'persons')) then 'persons' 
                         else 'authority-files'
     let $storecoll := concat('/db/rdf/', $shortCollName)
     let $storeRDFXML := xmldb:store($storecoll, $rdffilename, $rdf)
@@ -167,7 +166,7 @@ declare function gitsync:updatetextpartsDEL($file-name){
 
 (:~
  : Updates files in eXistdb with github data
- : @param $commits serilized json data
+ : @param $commits serialized json data
  : @param $contents-url string pointing to resource on github
 :)
 declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-collection) {
@@ -234,7 +233,7 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
 (:~
  : Adds new files to eXistdb. Changes permissions for group write. 
  : Pulls data from github repository, parses file information and passes data to xmldb:store
- : @param $commits serilized json data
+ : @param $commits serialized json data
  : @param $contents-url string pointing to resource on github
  : NOTE permission changes could happen in a db trigger after files are created
 :)
