@@ -141,10 +141,12 @@ function exptit:printTitleID($id as xs:string)
 
 declare function exptit:updateTUList($name, $pRef){
 let $TUlist := $exptit:TUList//t:list
-return update insert <item 
+return update insert 
+<item 
 xmlns="http://www.tei-c.org/ns/1.0" 
 change="entryAddedAt{current-dateTime()}"
-corresp="{$pRef}">{$name}</item> into  $TUlist
+corresp="{substring-after($pRef, '.eu/')}">{$name}</item>
+into  $TUlist
 };
 
 (:looks for different possible locations of anchor and where to pick the correct label:)   
