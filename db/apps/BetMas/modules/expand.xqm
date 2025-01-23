@@ -921,17 +921,34 @@ else
 
 declare function expand:biblCorrTok($corresp, $node){
 let $c :=if(starts-with($corresp, '#')) then concat($node/ancestor-or-self::t:TEI/@xml:id, $corresp) else string($corresp) 
-let $anchor := if(starts-with($corresp, '#')) then substring-after($corresp, '#') else string($corresp)
+let $anchor := if(contains($corresp, '#')) then substring-after($corresp, '#') else string($corresp)
 let $anchornode := $node/id($anchor)
 let $listWit := if ($anchornode/name() = 'listWit') then for $witness in $anchornode return titles:printTitleID($witness/@corresp) else ()
-let $prefix := if($listWit ge 1) then $listWit else if(string-length($anchornode/name()) ge 1) then ($anchornode/name(), ', ') else ()
+let $prefix := if($listWit ge 1) then $listWit else if(string-length($anchornode/name()) ge 1) then (' ', $anchornode/name(), ' ') else ()
 let $lang := if (string-length($anchornode/@xml:lang) ge 1) then concat(' [', $node//t:language[@ident = $anchornode/@xml:lang], ']') else ()
+let $wit :=  if ($anchornode/name() = 'witness' and $anchornode[not(@type = 'external')] and not($anchornode/text()))
+        then
+            (
+            let $filename := if (contains($anchornode/@corresp, '#')) then
+                substring-before($anchornode/@corresp, '#')
+            else
+                $anchornode/@corresp
+            let $file := collection('/db/apps/BetMasData/')/id($filename)
+            return
+                ($file//t:msIdentifier/t:idno)
+            )
+        else
+            ()
+let $text := if ($anchornode//text()) then $anchornode//text() else if ($wit) then string($wit) else substring-after($corresp, '#')
 return 
 ($prefix,
-<ref xmlns="http://www.tei-c.org/ns/1.0" target="/{$c}">{titles:printTitleID($c)}</ref>)
+<ref xmlns="http://www.tei-c.org/ns/1.0" target="https://betamasaheft.eu/{$node/ancestor-or-self::t:TEI/@xml:id}#{$anchor}">{$text}</ref>)
 };
 declare function expand:biblCorresp($corresp, $node){
-<note xmlns="http://www.tei-c.org/ns/1.0" type='about'>(about: {
-if(contains($corresp, '\s')) then for $corr in tokenize($corresp, '\s') return expand:biblCorrTok($corr, $node) else expand:biblCorrTok($corresp, $node)
-})</note>
+let $string := normalize-space($corresp) return
+<note xmlns="http://www.tei-c.org/ns/1.0" type='about'>about {
+if(contains($string, ' ')) then for $corr in tokenize($string, ' ') return  
+expand:biblCorrTok($corr, $node)
+else expand:biblCorrTok($corresp, $node)
+}</note>
 };
