@@ -496,7 +496,7 @@ let $cS :=
                                 (),
                             expand:tei2fulltei($node/node(), $bibliography))
                         }
-            case element(t:locus)
+   (:         case element(t:locus)
                 return
                     element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
                         ($node/@*,
@@ -594,7 +594,7 @@ let $cS :=
                         else
                             (),
                         expand:tei2fulltei($node/node(), $bibliography))
-                    }
+                    }:)
             case element(t:idno)
                 return
                     element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
