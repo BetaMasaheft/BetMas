@@ -119,13 +119,13 @@ declare %private function viewItem:locus($this) {
                     'pp. '
                 else
                     'ff. '
-                let $targets := for $t in viewItem:makeSequence($this/@target)
+                let $targets := for $t at $p in viewItem:makeSequence($this/@target)
                 return
-                    <a
+                    (<a
                         href="{$t}">
                         {viewItem:choosefacsorlb($this, $ancID)}
                         {viewItem:parseRef(concat(substring-after($t, '#'), ' '))}
-                    </a>
+                    </a>,  if ($p = count(viewItem:makeSequence($this/@target))) then  ()  else  ', ')
                 return
                     ($prefix,
                     $targets)
@@ -844,10 +844,11 @@ declare %private function viewItem:correspN($name, $id) {
             ', ')
 };
 declare %private function viewItem:makeSequence($attribute) {
-    if (contains($attribute, ' ')) then
-        tokenize($attribute, ' ')
+let $string := normalize-space($attribute) return
+    if (contains($string, ' ')) then
+        tokenize($string, ' ')
     else
-        string($attribute)
+        string($string)
 };
 
 declare %private function viewItem:workAuthorList($parentname, $p, $a) {
