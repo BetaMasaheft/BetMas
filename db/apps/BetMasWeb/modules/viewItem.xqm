@@ -36,7 +36,7 @@ declare %private function viewItem:imagesID($locus, $callorid, $att, $ancID) {
 };
 
 declare %private function viewItem:parseRef($FromToTarget) {
-    let $regex := '(\d+)([r|v])?([a-z])?(\d+)?'
+    let $regex := '(\d+)([r|v])?([A-Za-z]+)?(\d+)?'
     let $analyse := analyze-string($FromToTarget, $regex)
     return
         (for $s in $analyse//s:non-match
@@ -53,7 +53,7 @@ declare %private function viewItem:parseRef($FromToTarget) {
 };
 
 declare %private function viewItem:breakdownRef($FromToTarget) {
-    let $regex := '(\d+)([r|v])?([a-z])?(\d+)?'
+    let $regex := '(\d+)([r|v])?([A-Za-z]+)?(\d+)?'
     let $analyse := analyze-string($FromToTarget, $regex)
     return
         (for $s in $analyse//s:non-match
@@ -6150,7 +6150,7 @@ declare function viewItem:worknav($item) {
 declare function viewItem:personnav($item) {
     (<a
         class="w3-bar-item page-scroll"
-        href="/IndexPersons?pointer={string($item/@xml:id)}">Persons Index</a>,
+        href="/IndexPersons?pointer=https://betamasaheft.eu/{string($item/@xml:id)}">Persons Index</a>,
     <a
         class="w3-bar-item page-scroll"
         href="#general">General</a>,
@@ -6179,7 +6179,7 @@ declare function viewItem:placenav($item) {
     (
     <a
         class="w3-bar-item page-scroll"
-        href="/IndexPlaces?pointer={string($item/@xml:id)}">Places Index</a>,
+        href="/IndexPlaces?pointer=https://betamasaheft.eu/{string($item/@xml:id)}">Places Index</a>,
     <a
         class="w3-bar-item page-scroll"
         href="#general">General</a>,
