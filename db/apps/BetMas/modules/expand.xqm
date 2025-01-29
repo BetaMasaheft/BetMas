@@ -948,7 +948,7 @@ declare function expand:biblCorresp($corresp, $node){
 let $string := normalize-space($corresp) return
 <note xmlns="http://www.tei-c.org/ns/1.0" type='about'>about {
 if(contains($string, ' ')) then for $corr at $p in tokenize($string, ' ') return  
-(expand:biblCorrTok($corr, $node), if ($p = count($corr)) then
+(expand:biblCorrTok($corr, $node), if ($p = count(tokenize($string, ' '))) then
             ()
         else
             ', ')
