@@ -148,7 +148,7 @@ declare %private function viewItem:locus($this) {
                     else
                         'ff. '
                     return
-                        (<a
+                        ($prefix, <a
                             href="#{$this/@from}">
                             {viewItem:choosefacsorlb($this, $ancID)}
                             {viewItem:parseRef($this/@from)}
