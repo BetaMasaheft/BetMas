@@ -2165,7 +2165,7 @@ declare %private function viewItem:palaeography($node) {
                     {viewItem:TEI2HTML($h/node()[empty(self::t:seg)][empty(self::t:list)])}
                     {if ($h/t:list[@type = 'abbreviations']) then
                         (<h4>Abbreviations</h4>,
-                        <li>{viewItem:TEI2HTML($h/t:list[@type = 'abbreviations']/node())}</li>)
+                        <ul>{viewItem:TEI2HTML($h/t:list[@type = 'abbreviations']/node())}</ul>)
                     else
                         ()}
                     </li>
