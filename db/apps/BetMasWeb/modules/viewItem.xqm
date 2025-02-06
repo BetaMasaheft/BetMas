@@ -2745,14 +2745,14 @@ declare %private function viewItem:bindingDesc($node) {
     (<h3>Binding {viewItem:headercontext($node)}</h3>,
     <p
         id='b1'>{viewItem:TEI2HTML($node/t:binding/t:decoNote[@xml:id = 'b1'])}</p>,
-    for $b in $node/t:binding/t:decoNote[@type][not(@type = 'Other')][not(@type = 'bindingMaterial')][not(@xml:id = 'b1')]
+    for $b in $node/t:binding/t:decoNote[not(@type = 'Other')][not(@type = 'bindingMaterial')][not(@xml:id = 'b1')]
     return
         (<h4
             id="{$b/@xml:id}">{
                 if ($b/@type = 'SewingStations') then
-                    'Sewing Stations'
+                    'Sewing stations'
                 else
-                    $b/@type
+                  if  ($b/@type) then string($b/@type) else ()
             }</h4>,
         viewItem:TEI2HTML($b/node())),
         if ($node/t:binding/t:decoNote[@type = 'Other']) then
