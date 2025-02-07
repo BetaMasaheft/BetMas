@@ -103,7 +103,8 @@ declare %private function viewItem:locus($this) {
     let $mainID := viewItem:mainID($this)
     let $anc := ($this/ancestor::t:*[@xml:id])[1]
     let $ancID := replace($anc/@xml:id, '\.', '_')
-    
+    let $prevTextNode := $this/preceding-sibling::text()
+    let $clean := replace(string-join($prevTextNode), '\s', '')
     return
   (::  if((count($this/ancestor::t:msItem) gt 2) or (count($this/ancestor::t:TEI//t:msItem) gt 100)) then
     $this/text()
@@ -118,7 +119,11 @@ declare %private function viewItem:locus($this) {
                 let $prefix := if ($this/ancestor::t:TEI//t:extent/t:measure[@unit = 'page']) then
                     'pp. '
                 else
-                    'ff. '
+                     if (matches($clean, '[^\.]$'))
+                                    then
+                                        'ff. '
+                                    else
+                                        'Ff. '
                 let $targets := for $t at $p in viewItem:makeSequence($this/@target)
                 return
                     (<a
@@ -134,7 +139,11 @@ declare %private function viewItem:locus($this) {
                     let $prefix := if ($this/ancestor::t:TEI//t:extent/t:measure[@unit = 'page']) then
                         'p. '
                     else
-                        'f. '
+                       if (matches($clean, '[^\.]$'))
+                                    then
+                                        'f. '
+                                    else
+                                        'F. '
                     return
                         ($prefix,
                         <a
@@ -146,7 +155,11 @@ declare %private function viewItem:locus($this) {
                     let $prefix := if ($this/ancestor::t:TEI//t:extent/t:measure[@unit = 'page']) then
                         'pp. '
                     else
-                        'ff. '
+                         if (matches($clean, '[^\.]$'))
+                                    then
+                                        'ff. '
+                                    else
+                                        'Ff. '
                     return
                         ($prefix, <a
                             href="#{$this/@from}">
