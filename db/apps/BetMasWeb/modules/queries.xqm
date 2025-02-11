@@ -952,6 +952,9 @@ names are those of the indexes where the filter is built directly from there, ot
                     case 'bmaterial'
                         return
                             q:ListQueryParam-rest($r, "t:decoNote[@type eq 'bindingMaterial']/t:material/@key", 'any', 'search')
+                    case 'bindingo'
+                        return
+                            q:ListQueryParam-rest($r, "t:binding/@contemporary", 'any', 'list')          
                     case 'script'
                         return
                             q:ListQueryParam-rest($r, "t:handNote/@script", 'any', 'list')
