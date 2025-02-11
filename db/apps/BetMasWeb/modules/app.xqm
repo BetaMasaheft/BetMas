@@ -56,37 +56,6 @@ declare variable $app:range-lookup :=
     )[1];
     
 
-(:~collects bibliographical information for zotero metadata:)
-declare variable $app:bibdata := 
-let $file := $exptit:col/id($app:name)
-let $auths := $file//t:revisionDesc/t:change/@who[. != 'PL']
-return
-
-(:~here I cannot use for the title the javascript titles.js because the content is not exposed:)
-<bibl>
-{
-for $author in config:distinct-values($auths)
-let $count := count($file//t:revisionDesc/t:change[@who eq $author])
-order by $count descending
-                return
-<author>{editors:editorKey(string($author))}</author>
-}
-<title level="a">{exptit:printTitle($file)}</title>
-<title level="j">{$exptit:col/id($app:name)//t:publisher/text()}</title>
-<date type="accessed"> [Accessed: {current-date()}] </date>
-{let $time := max($file//t:revisionDesc/t:change/xs:date(@when))
-return
-<date type="lastModified">(Last Modified: {format-date($time, '[D].[M].[Y]')}) </date>
-}
-<idno type="url">
-{($config:appUrl || $app:collection||'/' ||$app:name)}
-</idno>
-<idno type="DOI">
-{($config:DOI || '.' ||$app:name)}
-</idno>
-</bibl>
-;
-
 
 declare variable $app:search-title as xs:string := "Search: ";
 declare variable $app:searchphrase as xs:string := request:get-parameter('query',());
@@ -283,6 +252,7 @@ declare function app:selectors($nodeName, $path, $nodes, $type, $context){
                                         case 'language' return 'TEIlanguageIdent' 
                                         case 'material' return 'materialkey' 
                                         case 'bmaterial' return 'materialkey'
+                                        case 'bindingo' return 'bindingtype'
                                          case 'placetype' return 'placetype' 
                                          case 'country' return 'countryref' 
                                          case 'settlement' return 'settlref' 
@@ -444,14 +414,14 @@ declare function app:team ($node as node(), $model as map(*)) {
 declare function app:deleted ($node as node(), $model as map(*)) {
 <ul class="w3-ul w3-hoverable w3-padding">{
     for $deleted in $app:deleted//t:item
-    order by $deleted/@change descending
+    order by $deleted
     let $coll := switch2:col(switch2:switchPrefix( $deleted))
     return <li  class="w3-display-container" id="permanentIDs{$deleted}" 
     data-id="{$deleted}" 
     data-path="{functx:capitalize-first(string($deleted/@source))}/{$deleted}.xml"
     data-type="{functx:capitalize-first($coll)}" >{$deleted/text()}, deleted from {string($deleted/@source)} on {string($deleted/@change)}.
-    {let $formerly := $exptit:col//t:relation[@name eq 'betmas:formerlyAlsoListedAs'][@passive eq $deleted]
-             let $same := $exptit:col//t:relation[@name eq 'skos:exactMatch'][@passive eq $deleted]
+    {let $formerly := $exptit:col//t:relation[@name eq 'betmas:formerlyAlsoListedAs'][@passive eq $deleted/text()]
+             let $same := $exptit:col//t:relation[@name eq 'skos:exactMatch'][@passive eq $deleted/text()]
             return
             (if($formerly) then <p>This record is now listed as {string-join($formerly/@active, ', ')}.</p> 
             else(),
@@ -620,6 +590,16 @@ function app:bmaterial($node as node(), $model as map(*), $context as xs:string*
         templates:form-control($control, $model)
 };
 
+declare
+%templates:default("context", "$apprest:collection-rootMS")
+function app:bindingo($context as xs:string*) {
+    let $cont := util:eval($context)
+      let $binding := config:distinct-values($cont//t:binding/@contemporary)
+   let $control :=
+        app:formcontrol('bindingo', $binding, 'false', 'values', $context)
+    return
+        templates:form-control($control, $model)
+};
 
 (:~ called by form*.html files used by advances search form as.html and filters.js PLACES FILTERS for CONTEXT:)
 declare
@@ -1159,6 +1139,7 @@ $numberOfParts as xs:string*,
     let $support := app:ListQueryParam('support', 't:objectDesc/@form', 'any', 'search')
     let $material := app:ListQueryParam('material', 't:support/t:material/@key', 'any', 'search')
     let $bmaterial := app:ListQueryParam('bmaterial', "t:decoNote[@type eq 'bindingMaterial']/t:material/@key", 'any', 'search')
+    let $bindingo := app:ListQueryParam('bindingo', "t:binding/@contemporary", 'any', 'search')
     let $placeType := app:ListQueryParam('placeType', 't:place/@type', 'any', 'search') 
     let $personType := app:ListQueryParam('persType', 't:person//t:occupation/@type', 'any', 'search')
     let $relationType := app:ListQueryParam('relType', 't:relation/@name', 'any', 'search')
@@ -1281,7 +1262,7 @@ let $nOfP := if(empty($numberOfParts) or $numberOfParts = '') then () else '[cou
 
 
 let $allfilters := concat($IDpart, $wt, $repository, $mss, $texts, $script, $support, 
-             $material, $bmaterial, $placeType, $personType, $relationType, 
+             $material, $bmaterial, $bindingo, $placeType, $personType, $relationType, 
              $keyword, $languages, $scribes, $donors, $patrons, $owners, $parchmentMakers, 
              $binders, $contents, $authors, $tabots, $genders, $dateRange, $leaves, $wL,  $quires, $quiresComp,
              $references, $height, $width, $depth, $marginTop, $marginBot, $marginL, $marginR, $marginIntercolumn)
@@ -1460,7 +1441,7 @@ declare function app:gotoadvanced($node as node()*, $model as map(*)){
 let $query := request:get-parameter('query', ())
 return 
 <div class="w3-bar">
-<a href="/newSearch.html?query={$query}" class="w3-button w3-red w3-margin w3-bar-item">Repeat search in the New Search.</a>
+<a href="/as.html?query={$query}" class="w3-button w3-red w3-margin w3-bar-item">Repeat search in the Advanced search.</a>   
 </div>
 };
 
@@ -1634,7 +1615,6 @@ function app:paginateNew($node as node(), $model as map(*), $start as xs:int, $p
             ()
 };
 
-
 declare    
 %templates:wrap
 %templates:default('start', 1)
@@ -1798,6 +1778,7 @@ else if (contains($item//t:msIdentifier/t:idno/@facs, 'bodleian')) then ('images
             </div>
             </div>
     };
+
 
 (:~  copied from  dts: to format and select the references :)
 declare function app:refname($n){
