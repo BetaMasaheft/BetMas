@@ -144,6 +144,9 @@ $(document).ready(function () {
                 case "bmaterial":
                 callformpart("forms/formbmaterial.html", "bmaterialform");
                 break;
+                case "bindingo":
+                callformpart("forms/formbind.html", "bindingoform");
+                break;
                 case "target-works":
                 callformpart("forms/formworks.html", "targetworksform");
                 break;
