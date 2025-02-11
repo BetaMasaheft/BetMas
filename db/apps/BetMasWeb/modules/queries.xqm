@@ -1000,6 +1000,9 @@ names are those of the indexes where the filter is built directly from there, ot
                     case 'custEventsubtype'
                         return
                             q:ListQueryParam-rest($r, "t:custEvent/@subtype", 'any', 'list')
+                    case 'bindingtype'
+                        return
+                            q:ListQueryParam-rest($r, "t:binding/@contemporary", 'any', 'list')        
                     case 'countrytext'
                         return
                             q:ListQueryParam-rest($r, 't:country/@ref', 'any', 'range')
@@ -3907,7 +3910,7 @@ declare function q:generalRangeIndexesFilters($node as node(), $model as map(*))
 
 declare function q:MssRangeIndexesFilters($node as node(), $model as map(*)) {
     let $indexnames := $q:paramargs/rangeindex[@form = 'm']/@name/string()
-    (:    ('TEIrepo', 'TEIscript', 'TEIsupport', 'materialkey', 'TEIdecoMat', 'custEventsubtype'):)
+    (:    ('TEIrepo', 'TEIscript', 'TEIsupport', 'materialkey', 'TEIdecoMat', 'custEventsubtype', 'bindingtype'):)
     return
         q:datalist($indexnames)
 };
