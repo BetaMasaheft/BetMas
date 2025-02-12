@@ -116,7 +116,7 @@ declare %private function viewItem:locus($this) {
             (),
         if ($this[not(text())]) then
             if (contains($this/@target, ' ')) then
-                let $prefix := if ($this/ancestor::t:TEI//t:extent/t:measure[@unit = 'page']) then
+                let $prefix := if ($this/ancestor::t:TEI//t:extent/t:measure[@type != "blank"][@unit = 'page']) then
                     'pp. '
                 else
                      if (matches($clean, '[^\.]$'))
@@ -136,7 +136,7 @@ declare %private function viewItem:locus($this) {
                     $targets)
             else
                 if ($this/@target) then
-                    let $prefix := if ($this/ancestor::t:TEI//t:extent/t:measure[@unit = 'page']) then
+                    let $prefix := if ($this/ancestor::t:TEI//t:extent/t:measure[@type != "blank"][@unit = 'page']) then
                         'p. '
                     else
                        if (matches($clean, '[^\.]$'))
@@ -152,7 +152,7 @@ declare %private function viewItem:locus($this) {
                             {viewItem:parseRef(concat(substring-after($this/@target, '#'), ' '))}
                         </a>)
                 else
-                    let $prefix := if ($this/ancestor::t:TEI//t:extent/t:measure[@unit = 'page']) then
+                    let $prefix := if ($this/ancestor::t:TEI//t:extent/t:measure[@type != "blank"][@unit = 'page']) then
                         'pp. '
                     else
                          if (matches($clean, '[^\.]$'))
