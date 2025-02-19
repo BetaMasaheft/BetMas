@@ -97,7 +97,7 @@
                                             <xsl:with-param name="text" select="$text"/>
                                             <xsl:with-param name="ancID" select="$ancID"/>
                                         </xsl:call-template>
-                                        <xsl:value-of select="funct:parseRef(concat(substring-after(., '#'), ' '))"/>
+                                        <xsl:value-of select="funct:parseRef(concat(substring-after(., '#'), ''))"/><xsl:if test="position()!=last()">, </xsl:if>
                                     </a>
                                 </xsl:for-each>
                             </xsl:when>
