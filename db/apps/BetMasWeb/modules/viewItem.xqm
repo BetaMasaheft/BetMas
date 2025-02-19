@@ -2574,6 +2574,14 @@ declare %private function viewItem:dimensions($node as element(t:dimensions)) {
                                 )
                                 else ()
                         }
+                        {(:for EMML with dim:)
+                            if ($node[not(contains(@type, 'margin'))]/t:dim) then for $dim in $node/t:dim return
+                                <tr>
+                                    {string($dim)} 
+                                </tr>
+                            else
+                                ()
+                        }  
                          {
                             if ($node/t:height) then
                                 <tr>
