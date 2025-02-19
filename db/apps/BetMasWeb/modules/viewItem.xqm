@@ -2552,6 +2552,68 @@ declare %private function viewItem:condition($node as element(t:condition)) {
     )
 };
 
+declare %private function viewItem:dimensions($node as element(t:dimensions)) {
+                            
+<h5>Dimensions {if ($node/@type) then '(' || string($node/@type) || ')' else ()} {viewItem:headercontext($node)}</h5>,
+ <div
+                    class="w3-responsive">
+                    <table
+                        class="w3-table w3-hoverable">	
+                        {
+                         if ($node[@type = 'margin']/t:dim[@type]) then
+                                (<tr>
+                                    <td><b>Margins</b></td>
+                                    <td/>
+                                </tr>,
+                                for $margin in $node[@type = 'margin']/t:dim[@type]
+                                return
+                                    <tr>
+                                        <td>{string($margin/@type)}</td>
+                                        <td>{viewItem:layoutdimensionunit($margin)}</td>
+                                    </tr>
+                                )
+                                else ()
+                        }
+                         {
+                            if ($node/t:height) then
+                                <tr>
+                                    <td>Height</td>
+                            		<td>{viewItem:layoutdimensionunit($node/t:height)}</td>
+                                </tr>
+                            else
+                                ()
+                        }                 
+                        {
+                            if ($node/t:width) then
+                                <tr>
+                                    <td>Width</td>
+                            		<td>{viewItem:layoutdimensionunit($node/t:width)}</td>
+                                </tr>
+                            else
+                                ()
+                        }   
+                        {
+                            if ($node/t:depth) then
+                                <tr>
+                                    <td>Depth</td>
+                            		<td>{viewItem:layoutdimensionunit($node/t:depth)}</td>
+                                </tr>
+                            else
+                                ()
+                        }                 
+                         {
+                            if ($node[not(@type = 'margin')]/t:dim[@type = 'intercolumn']) then
+                                <tr>
+                                    <td>Intercolumn</td>
+                                    <td>{viewItem:layoutdimensionunit($node/t:dimensions[not(@xml:lang)][not(@type = 'margin')]/t:dim[@type = 'intercolumn'])}</td>
+                                </tr>
+                            else
+                                ()
+                        }
+                    </table>
+                </div>
+};
+
 declare %private function viewItem:extent($node as element(t:extent)) {
     <h4>Extent {viewItem:headercontext($node)}</h4>,
      <div
@@ -2559,60 +2621,7 @@ declare %private function viewItem:extent($node as element(t:extent)) {
         <span
             property="http://betamasaheft.eu/hasTotalLeaves"
             content="{$node/t:measure[1][@unit = 'leaf'][not(@type)]}"/>
-        {viewItem:TEI2HTML($node/node())}    
-     {
-            for $d in $node/t:dimensions[@type = 'outer']                
-            return
-                <div
-                    class="w3-responsive">
-                    <table
-                        class="w3-table w3-hoverable">
-			<tr>
-                                    <td><b>Outer dimensions {viewItem:headercontext($node)}</b></td>
-                                    <td/>
-                                </tr>
-                        <tr>
-                            <td>Height</td>
-                            <td>{viewItem:layoutdimensionunit($d/t:height)}</td>
-                        </tr>
-                        <tr>
-                            <td>Width</td>
-                            <td>{viewItem:layoutdimensionunit($d/t:width)}</td>
-                        </tr>
-                        {
-                            if ($d/t:depth) then
-                                <tr>
-                                    <td>Depth</td>
-                            		<td>{viewItem:layoutdimensionunit($node/t:dimensions[not(@xml:lang)][@type = 'outer']/t:depth)}</td>
-                                </tr>
-                            else
-                                ()
-                        }                        
-                    </table>
-                </div>
-        }
-       {
-            for $l in $node/t:dimensions[@type = 'leaf']
-            return
-               <div
-                    class="w3-responsive">
-                    <table
-                        class="w3-table w3-hoverable">
-			<tr>
-                                    <td><b>Leaf dimensions</b></td>
-                                    <td/>
-                                </tr>
-                        <tr>
-                            <td>Height</td>
-                            <td>{viewItem:layoutdimensionunit($l/t:height)}</td>
-                        </tr>
-                        <tr>
-                            <td>Width</td>
-                            <td>{viewItem:layoutdimensionunit($l/t:width)}</td>
-                        </tr>                  
-                    </table>
-                </div>
-   }
+        {viewItem:TEI2HTML($node/node())}         
         </div>
 };
 
@@ -3077,9 +3086,12 @@ declare %private function viewItem:measureelement($node as element(t:measure)) {
             if ($node/@xml:lang) then
                 (attribute lang {$node/@xml:lang}, <span>{$node/text()}</span>)
             else
-                if (contains($node, '+')) then
+    (:            if (contains($node, '+')) then
                     viewItem:measure($node/text())
-                else
+                else :)
+              if (($node/@quantity)) then
+                    string($node/@quantity)
+             else  
                     $node/text()
         }
         ({string($node/@unit)}{
@@ -3098,7 +3110,7 @@ declare %private function viewItem:measureelement($node as element(t:measure)) {
                     '.'
         }
         <span
-            class="w3-teg">Entered as {$node/text()}
+            class="w3-text w3-tag">Entered as {$node/text()}
         </span>
     </span>
 };
@@ -4325,6 +4337,9 @@ declare function viewItem:TEI2HTML($nodes) {
             case element(t:desc)
                 return
                     viewItem:desc($node)
+          case element(t:dimensions)
+                return
+                    viewItem:dimensions($node)                    
             case element(t:div)
                 return
                     viewItem:div($node)
