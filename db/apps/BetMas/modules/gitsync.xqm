@@ -146,9 +146,16 @@ declare function gitsync:updatetextpartsMOD($file-name){
     let $textslist := $gitsync:textparts//t:list
     let $longid := substring-after($file-name, '.eu/')
     let $id := substring-before($longid, '.xml')
-    let $file := collection($config:data-rootW)//id($id)  or collection($config:data-rootS)//id($id) 
+    let $file := collection($config:data-rootW)//id($id) 
     let $newtitleSelector := titles:worknarrTitleSelector($file)
-    let $update :=  update value  $textslist/t:item[@corresp eq $id] with $newtitleSelector
+    let $update := if ($textslist/t:item[@corresp eq $id]) then 
+update value  $textslist/t:item[@corresp eq $id] with $newtitleSelector
+else
+update insert <item 
+xmlns="http://www.tei-c.org/ns/1.0" 
+change="addedAt{current-dateTime()}"
+corresp="{$id}">{$newtitleSelector}</item>
+into  $textslist
     return
         'updated textpartstitles.xml static list '
 };
@@ -435,12 +442,12 @@ declare function gitsync:updateLists($data-collection, $file-name){
                     gitsync:updateinstitutionsMOD($file-name) )
                     else if(contains($data-collection, 'persons')) then (
                     gitsync:updatepersonsMOD($file-name) )
-                   else if(contains($data-collection, 'works')) then (
+                   (:else if(contains($data-collection, 'works')) then (
                     gitsync:updatetextpartsMOD($file-name))
                     else if(contains($data-collection, 'studies')) then (
                     gitsync:updatetextpartsMOD($file-name))
                     else if(contains($data-collection, 'narratives')) then (
-                    gitsync:updatetextpartsMOD($file-name))
+                    gitsync:updatetextpartsMOD($file-name)):)
                     else if(contains($data-collection, 'places')) then (
                     gitsync:updateplacesMOD($file-name) ) 
                     else ()};
