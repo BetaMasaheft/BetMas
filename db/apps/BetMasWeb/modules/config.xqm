@@ -6,6 +6,7 @@ xquery version "3.0";
 module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config";
 
 import module namespace http="http://expath.org/ns/http-client";
+import module namespace loc="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/loc" at "./location.xqm";
 
 declare namespace templates="http://exist-db.org/xquery/templates";
 
@@ -42,7 +43,7 @@ declare variable $config:sparqlPrefixes := "PREFIX rdf: <http://www.w3.org/1999/
  : In practice this is `https://betamasaheft.eu/' for production and something like `localhost:8080/exist/apps/BetMasWeb` for development
 :)
 (:declare variable $config:appUrl := 'https://betamasaheft.eu';:)
-declare variable $config:appUrl := 'http://localhost:8083/exist/apps/BetMasWeb';
+declare variable $config:appUrl := loc:appUrl();
 
 declare variable $config:baseURI := $config:appUrl || "/";
 
@@ -51,18 +52,18 @@ declare variable $config:DOI := '10.25592/BetaMasaheft';
 declare variable $config:response200 := <rest:response>
         <http:response
             status="200">
-                
+
             <http:header
                     name="Access-Control-Allow-Origin"
                     value="*"
                     />
         </http:response>
     </rest:response>;
-    
+
     declare variable $config:response404 := <rest:response>
         <http:response
             status="404">
-                
+
         </http:response>
     </rest:response>;
 
@@ -78,7 +79,7 @@ declare variable $config:response200Json := <rest:response>
                     />
             </http:response>
         </rest:response>;
-        
+
         declare variable $config:response200JsonLD := <rest:response>
             <http:response
                 status="200">
@@ -91,7 +92,7 @@ declare variable $config:response200Json := <rest:response>
                     />
             </http:response>
         </rest:response>;
-        
+
            declare variable $config:response404JsonLD := <rest:response>
             <http:response
                 status="404">
@@ -104,7 +105,7 @@ declare variable $config:response200Json := <rest:response>
                     />
             </http:response>
         </rest:response>;
-        
+
          declare variable $config:response400JsonLD := <rest:response>
             <http:response
                 status="400">
@@ -117,7 +118,7 @@ declare variable $config:response200Json := <rest:response>
                     />
             </http:response>
         </rest:response>;
-        
+
 declare variable $config:response200XML := <rest:response>
             <http:response
                 status="200">
@@ -130,7 +131,7 @@ declare variable $config:response200XML := <rest:response>
                     />
             </http:response>
         </rest:response>;
-        
+
         declare variable $config:response200TEIXML := <rest:response>
             <http:response
                 status="200">
@@ -143,7 +144,7 @@ declare variable $config:response200XML := <rest:response>
                     />
             </http:response>
         </rest:response>;
-        
+
         declare variable $config:response200RDFXML := <rest:response>
             <http:response
                 status="200">
@@ -156,7 +157,7 @@ declare variable $config:response200XML := <rest:response>
                     />
             </http:response>
         </rest:response>;
-        
+
         declare variable $config:response200RDFJSON := <rest:response>
             <http:response
                 status="200">
@@ -178,7 +179,7 @@ declare variable $config:response400 := <rest:response>
                     value="application/json; charset=utf-8"/>
             </http:response>
         </rest:response>;
-        
+
 declare variable $config:response400XML := <rest:response>
             <http:response
                 status="400">
@@ -192,7 +193,7 @@ declare variable $config:ADMIN := environment-variable('ExistAdmin');
 declare variable $config:ppw := environment-variable('ExistAdminPw');
 
 
-declare variable $config:app-root := 
+declare variable $config:app-root :=
     let $rawPath := system:get-module-load-path()
     let $modulePath :=
         (: strip the xmldb: part :)
@@ -302,8 +303,8 @@ declare function config:app-info($node as node(), $model as map(*)) {
                 <td>{ request:get-attribute("$exist:controller") }</td>
             </tr>
         </table>
-        
-        
+
+
 };
 
 

@@ -8,8 +8,6 @@
     <copyright>true</copyright>
     <type>application</type>
     <target>BetMasWeb</target>
-    <prepare>pre-install.xql</prepare>
-    <finish>Pietro</finish>
+    <finish>post-install.xq</finish>
     <permissions user="BetaMasaheftAdmin" group="dba" mode="rwxrwxr-x"/>
-<deployed>2022-01-05T13:49:37.207+01:00</deployed>
 </meta>
