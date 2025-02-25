@@ -6,7 +6,7 @@ xquery version "3.0";
 module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config";
 
 import module namespace http="http://expath.org/ns/http-client";
-import module namespace loc="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/loc" at "./location.xqm";
+import module namespace loc="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/loc" at "./loc.xqm";
 
 declare namespace templates="http://exist-db.org/xquery/templates";
 
@@ -43,7 +43,7 @@ declare variable $config:sparqlPrefixes := "PREFIX rdf: <http://www.w3.org/1999/
  : In practice this is `https://betamasaheft.eu/' for production and something like `localhost:8080/exist/apps/BetMasWeb` for development
 :)
 (:declare variable $config:appUrl := 'https://betamasaheft.eu';:)
-declare variable $config:appUrl := loc:appUrl();
+declare variable $config:appUrl := $loc:appUrl;
 
 declare variable $config:baseURI := $config:appUrl || "/";
 
