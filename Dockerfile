@@ -10,8 +10,10 @@ COPY db/apps/BetMasService /tmp/BetMasService
 COPY db/apps/BetMasWeb /tmp/BetMasWeb
 COPY db/apps/lists /tmp/lists
 COPY db/apps/parser /tmp/parser
+COPY db/apps/BetMasInitInstance /tmp/betmas-init
 
 RUN mkdir /tmp/dependencies
+RUN mkdir /tmp/init
 
 WORKDIR /tmp/BetMas
 RUN zip -0r /tmp/dependencies/BetMas.xar .
@@ -29,6 +31,12 @@ RUN  zip -0r /tmp/dependencies/BetMasWeb.xar .
 WORKDIR /tmp/BetMasService
 RUN  zip -0r /tmp/dependencies/BetMasService.xar .
 
+WORKDIR /tmp/BetMasService
+RUN  zip -0r /tmp/dependencies/BetMasService.xar .
+
+WORKDIR /tmp/betmas-init
+RUN  zip -0r /tmp/init/betmas-init.xar .
+
 FROM ghcr.io/drrataplan/betamasaheft:6.2.0-manuscript-expanded
 
 # Undeploy and remove the older versions of the packages so we can replace them with new ones
@@ -37,3 +45,7 @@ RUN ["java","org.exist.start.Main","client","--no-gui","-l","-u", "admin", "-P",
 COPY --from=build /tmp/dependencies/*.xar /exist/autodeploy
 
 RUN ["java","org.exist.start.Main","client","--no-gui","-l","-u", "admin", "-P", "","-x", "'Hello World!'"]
+
+# Prepare this betmas-init package to be installed when deploying. It reads an env variable that is only
+# available when the container is started
+COPY --from=build /tmp/init/*.xar /exist/autodeploy
