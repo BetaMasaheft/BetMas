@@ -5,8 +5,10 @@ declare namespace t="http://www.tei-c.org/ns/1.0";
 declare namespace http = "http://expath.org/ns/http-client";
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace sparql = "http://www.w3.org/2005/sparql-results#";
+declare namespace feed = "http://www.w3.org/2005/Atom";
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace console="http://exist-db.org/xquery/console";
+import module namespace hc = "http://expath.org/ns/http-client";
 (: these lists are separately indexed here in the app with the collection.xconf for BetMas :)
 declare variable $titles:placeNamesList := doc('/db/apps/lists/placeNamesLabels.xml');
 declare variable $titles:institutionsList := doc('/db/apps/lists/institutions.xml');
@@ -517,15 +519,18 @@ else 'no data from geonames'
 declare function titles:getPleiadesNames($string as xs:string) {
 
    let $plid := substring-after($string, 'pleiades:')
-   let $url := concat('http://pelagios.org/peripleo/places/http:%2F%2Fpleiades.stoa.org%2Fplaces%2F', $plid)
-  let $file := try{let $request := <http:request href="{xs:anyURI($url)}" method="GET"/>
-    return http:send-request($request)[2]} catch *{$err:description}
-  
-let $file-info := 
-    let $payload := util:base64-decode($file) 
-    let $parse-payload := parse-json($payload)
-    return $parse-payload 
-    return $file-info?title
+   let $url := concat('https://pleiades.stoa.org/places/', $plid, '/atom')
+  let $request := 
+    <hc:request href="{$url}" method="GET">
+        <hc:header name="Connection" value="close"/>    
+    </hc:request>
+let $title :=
+let $response := hc:send-request($request)
+let $response-head := $response[1]
+let $response-body := $response[2]
+return
+    $response-body//feed:title
+return string($title[1])
 
 };
 
