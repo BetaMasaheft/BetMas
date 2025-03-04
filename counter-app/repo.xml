@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<meta xmlns="http://exist-db.org/xquery/repo">
+  <description>Stateful Counter app for Betamasa Manuscripts</description>
+  <target>counter-app</target>
+  <finish>./finish.xq</finish>
+</meta>
