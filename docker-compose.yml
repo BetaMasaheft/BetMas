@@ -1,0 +1,14 @@
+services:
+  betmas:
+    build: .
+    image: ghcr.io/drrataplan/betamasaheft:6.2.0-manuscript-expanded
+    ports:
+      - 8083:8080
+  counter-app:
+    build: ./counter-app
+    image: ghcr.io/drrataplan/betamasaheft-counter-app:latest
+    volumes:
+      - counter-data:/exist/data
+
+volumes:
+  counter-data:

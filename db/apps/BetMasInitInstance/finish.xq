@@ -17,3 +17,5 @@ declare variable $loc:appUrl := "`{$app_url}`";
 let $_ := util:log('info', 'Storing ' || $app_url || ' as the root of the application.	')
 
 return xmldb:store('/db/apps/BetMasWeb/modules', 'loc.xqm', $loc_module)
+
+(: TODO: RUN  /db/apps/BetMasService/modules/registerRESTXQ.xql :)
