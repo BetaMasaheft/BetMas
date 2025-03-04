@@ -13,7 +13,7 @@
         replacementPattern="https://raw.githubusercontent.com/BetaMasaheft/BetMas/master/BetMas/calendars/ethiopian.xml#$1">
     </prefixDef>
     <prefixDef ident="pleiades"
-        matchPattern="(\d{5-8})"
+        matchPattern="([a-zA-Z0-9]+)"
         replacementPattern="https://pleiades.stoa.org/places/$1">
     </prefixDef>
     <prefixDef ident="sdc"
