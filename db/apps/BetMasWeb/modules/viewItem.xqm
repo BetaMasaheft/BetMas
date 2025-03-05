@@ -2065,11 +2065,11 @@ declare %private function viewItem:layoutDesc($node) {
                 ()
         }
         {
-            if ($node//t:ab[@type != 'pricking'][@type != 'ruling'][@type != 'punctuation'][@type != 'CruxAnsata'][@type != 'ChiRo'][@type != 'coronis']) then
+            if ($node//t:ab[@type != 'pricking'][@type != 'ruling'][@type != 'punctuation'][@type != 'CruxAnsata'][@type != 'ChiRho'][@type != 'coronis']) then
                 (<h5>Other {viewItem:headercontext($node)}</h5>,
                 <ul>
                     {
-                        for $ruling in $node//t:ab[@type != 'pricking'][@type != 'ruling'][@type != 'punctuation'][@type != 'CruxAnsata'][@type != 'ChiRo'][@type != 'coronis']
+                        for $ruling in $node//t:ab[@type != 'pricking'][@type != 'ruling'][@type != 'punctuation'][@type != 'CruxAnsata'][@type != 'ChiRho'][@type != 'coronis']
                         return
                             <li>
                                 {
