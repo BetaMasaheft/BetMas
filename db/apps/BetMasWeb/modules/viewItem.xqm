@@ -2065,7 +2065,7 @@ declare %private function viewItem:layoutDesc($node) {
                 ()
         }
         {
-            if ($node//t:ab[@type != 'pricking'][@type != 'ruling'][@type != 'punctuation']) then
+            if ($node//t:ab[@type != 'pricking'][@type != 'ruling'][@type != 'punctuation'][@type != 'CruxAnsata'][@type != 'ChiRo'][@type != 'coronis']) then
                 (<h5>Other {viewItem:headercontext($node)}</h5>,
                 <ul>
                     {
