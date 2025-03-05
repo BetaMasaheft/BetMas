@@ -231,7 +231,7 @@ declare %private function viewItem:locus($this) {
         else
             (),
         
-        if ($this/parent::t:ab) then
+        if ($this/parent::t:ab[not(@type = 'CruxAnsata' or @type = 'ChiRho' or @type = 'coronis' or @type = 'ruling'  or @type = 'pricking' )]) then
             (')', <br></br>)
         else
             (),
