@@ -2069,7 +2069,7 @@ declare %private function viewItem:layoutDesc($node) {
                 (<h5>Other {viewItem:headercontext($node)}</h5>,
                 <ul>
                     {
-                        for $ruling in $node//t:ab[@type != 'pricking'][@type != 'ruling'][@type != 'punctuation']
+                        for $ruling in $node//t:ab[@type != 'pricking'][@type != 'ruling'][@type != 'punctuation'][@type != 'CruxAnsata'][@type != 'ChiRo'][@type != 'coronis']
                         return
                             <li>
                                 {
