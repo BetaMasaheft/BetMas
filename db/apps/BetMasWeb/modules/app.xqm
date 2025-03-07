@@ -56,37 +56,6 @@ declare variable $app:range-lookup :=
     )[1];
     
 
-(:~collects bibliographical information for zotero metadata:)
-declare variable $app:bibdata := 
-let $file := $exptit:col/id($app:name)
-let $auths := $file//t:revisionDesc/t:change/@who[. != 'PL']
-return
-
-(:~here I cannot use for the title the javascript titles.js because the content is not exposed:)
-<bibl>
-{
-for $author in config:distinct-values($auths)
-let $count := count($file//t:revisionDesc/t:change[@who eq $author])
-order by $count descending
-                return
-<author>{editors:editorKey(string($author))}</author>
-}
-<title level="a">{exptit:printTitle($file)}</title>
-<title level="j">{$exptit:col/id($app:name)//t:publisher/text()}</title>
-<date type="accessed"> [Accessed: {current-date()}] </date>
-{let $time := max($file//t:revisionDesc/t:change/xs:date(@when))
-return
-<date type="lastModified">(Last Modified: {format-date($time, '[D].[M].[Y]')}) </date>
-}
-<idno type="url">
-{($config:appUrl || $app:collection||'/' ||$app:name)}
-</idno>
-<idno type="DOI">
-{($config:DOI || '.' ||$app:name)}
-</idno>
-</bibl>
-;
-
 
 declare variable $app:search-title as xs:string := "Search: ";
 declare variable $app:searchphrase as xs:string := request:get-parameter('query',());
@@ -444,14 +413,14 @@ declare function app:team ($node as node(), $model as map(*)) {
 declare function app:deleted ($node as node(), $model as map(*)) {
 <ul class="w3-ul w3-hoverable w3-padding">{
     for $deleted in $app:deleted//t:item
-    order by $deleted/@change descending
+    order by $deleted
     let $coll := switch2:col(switch2:switchPrefix( $deleted))
     return <li  class="w3-display-container" id="permanentIDs{$deleted}" 
     data-id="{$deleted}" 
     data-path="{functx:capitalize-first(string($deleted/@source))}/{$deleted}.xml"
     data-type="{functx:capitalize-first($coll)}" >{$deleted/text()}, deleted from {string($deleted/@source)} on {string($deleted/@change)}.
-    {let $formerly := $exptit:col//t:relation[@name eq 'betmas:formerlyAlsoListedAs'][@passive eq $deleted]
-             let $same := $exptit:col//t:relation[@name eq 'skos:exactMatch'][@passive eq $deleted]
+    {let $formerly := $exptit:col//t:relation[@name eq 'betmas:formerlyAlsoListedAs'][@passive eq $deleted/text()]
+             let $same := $exptit:col//t:relation[@name eq 'skos:exactMatch'][@passive eq $deleted/text()]
             return
             (if($formerly) then <p>This record is now listed as {string-join($formerly/@active, ', ')}.</p> 
             else(),
