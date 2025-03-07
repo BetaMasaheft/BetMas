@@ -1614,9 +1614,9 @@ declare function q:facetGroup($group, $groupname, $subsequence) {
 declare function q:facetDiv($f, $facets, $facetTitle) {
     let $facets := map:merge($facets)
     return
-        if (map:size($facets) = 0) then
-            ()
-        else
+    (:    if (map:size($facets) = 0) then
+            () 
+        else :)
             if (map:size($facets) gt 1000) then
                 (util:log("info", concat($facetTitle, " has ", map:size($facets), " facets")))
             else
