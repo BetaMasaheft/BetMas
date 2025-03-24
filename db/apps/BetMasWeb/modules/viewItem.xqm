@@ -5522,14 +5522,7 @@ declare %private function viewItem:manuscript($item) {
                         {$item//t:titleStmt/t:title[not(@type = 'full')]/text()}
                     </h4>
                 </div>
-                <div
-                    class="w3-third  w3-padding">
-                    <h4>Number of Text units: <span
-                            class="label label-default">
-                            {count($item//t:msItem[contains(@xml:id, 'i')])}
-                        </span>
-                    </h4>
-                </div>
+              
                 <span
                     property="http://www.cidoc-crm.org/cidoc-crm/P57_has_number_of_parts"
                     content="{count($item//t:msContents/t:msItem)}"/>
