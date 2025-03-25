@@ -11,6 +11,7 @@ COPY db/apps/BetMasWeb /tmp/BetMasWeb
 COPY db/apps/lists /tmp/lists
 COPY db/apps/parser /tmp/parser
 COPY db/apps/BetMasInitInstance /tmp/betmas-init
+COPY db/apps/expanded /tmp/expanded
 
 RUN mkdir /tmp/dependencies
 RUN mkdir /tmp/init
