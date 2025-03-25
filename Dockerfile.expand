@@ -66,6 +66,10 @@ ADD https://github.com/BetaMasaheft/corpora.git /tmp/corpora
 WORKDIR /tmp/corpora
 RUN  zip -0r /tmp/dependencies/corpora.xar .
 
+COPY expanded-data /tmp/expanded-data
+WORKDIR /tmp/expanded-data
+RUN zip -0r /tmp/dependencies/expanded.xar .
+
 # ADD https://github.com/BetaMasaheft/chojnacki.git /tmp/chojnacki
 # WORKDIR /tmp/chojnacki
 # RUN  zip -0r /tmp/dependencies/chojnacki.xar .
@@ -77,10 +81,11 @@ FROM duncdrum/existdb:6.2.0
 
 COPY --from=build /tmp/dependencies/*.xar /exist/autodeploy
 
-RUN [ "java", "org.exist.start.Main", "client", "--no-gui",  "-l", "-u", "admin", "-P", "", "-x", "'HelloWorld!'" ]
+RUN [ "java", "org.exist.start.Main", "client", "--no-gui",  "-l", "-u", "admin", "-P", "", "-x", "'HelloWorld!!'" ]
 
 # Finalize with expanding content
-RUN [ "java", "org.exist.start.Main", "client", "--no-gui",  "-l", "-u", "admin", "-P", "", "-x", "util:log('INFO', 'Expanding content'), util:eval(xs:anyURI('/db/apps/BetMasService/modules/makeExpand.xql'), false(), ('what-to-expand', '/db/apps/BetMasData'))" ]
+# RUN [ "java", "org.exist.start.Main", "client", "--no-gui",  "-l", "-u", "admin", "-P", "", "-x", "util:log('INFO', 'Expanding content'), util:eval(xs:anyURI('/db/apps/BetMasService/modules/makeExpand.xql'), false(), ('what-to-expand', '/db/apps/BetMasData'))" ]
+
 
 
 EXPOSE 8080
