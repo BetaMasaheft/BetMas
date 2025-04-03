@@ -5036,7 +5036,7 @@ declare %private function viewItem:person($item) {
                         else
                             ()
                     }
-                    {viewItem:relsinfoblock($rels, $item)}
+                    {viewItem:relsinfoblock($rels, $id)}
                     <button
                         class="w3-button w3-red w3-large"
                         id="showattestations"
