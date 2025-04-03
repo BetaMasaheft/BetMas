@@ -184,11 +184,13 @@ Not sure how to do this? Have a look at the <a href="/Guidelines">Beta maṣā�
 <a class="w3-button w3-padding-small w3-gray"  id="TEILink" href="{( '' || $id ||  '.xml')}" target="_blank">TEI/XML</a>
 <span class="w3-text w3-tag itemoptiontooltip">Download an enriched TEI file with explicit URIs bibliography from Zotero API. </span>
 </div>
+{if(($collection = 'manuscripts') and ($document//t:relation[contains(@name, 'sdc')])) then
 <div class="w3-bar-item w3-tooltip">
-<a class="w3-button w3-padding-small w3-gray"  id="GraphViewLink"  href="/{$collection}/{$id}/graph" target="_blank">{if($collection = 'manuscripts') then <i>Syntaxe</i> else 'Graph'}</a>
+<a class="w3-button w3-padding-small w3-gray"  id="GraphViewLink"  href="/{$collection}/{$id}/graph" target="_blank"><i>Syntaxe</i></a>
 <span class="w3-text w3-tag itemoptiontooltip">See graphs of the information available. If the manuscript contains relevant information, 
 then you will see visualizations based on La Syntaxe du Codex, by Andrist, Canart and Maniaci.</span>
 </div>
+else ()}
     {if(($collection = 'institutions' or $collection = 'places') and ($document//t:geo/text() or $document//t:place[@sameAs] )) then
     <div class="w3-bar-item"><a class="w3-button w3-padding-small w3-gray"  href="/{( $id ||
     '.json')}" target="_blank">geoJson</a></div> else ()}
