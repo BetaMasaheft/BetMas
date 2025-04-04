@@ -81,11 +81,11 @@ $locallogin:login("org.exist.login", (), false())
 declare function locallogin:loginNew(){  
  if(sm:id()//sm:username/text() = 'guest') then
  
- <div class="w3-dropdown-hover w3-hide-small w3-right" id="logging">
-      <button class="w3-button " title="resources">Login <i class="fa fa-caret-down"></i></button>     
-      <div class="w3-dropdown-content w3-bar-block w3-card-4">
+ <div class="w3-dropdown-hover w3-hide-small" id="logging">
+      <button class="w3-button" title="Login"><i class="fa fa-sign-in-alt"></i></button>     
+      <div class="w3-dropdown-content w3-bar-block w3-card-4" style="width:400px;">
       
-	<form method="post" class="w3-container" role="form" 
+	<form method="post" class="w3-bar-item" role="form" 
 	accept-charset="UTF-8" id="login-nav">
                     <label for="user">User:</label>
                             <input type="text" name="user" required="required" class="w3-input"/>
@@ -99,9 +99,9 @@ declare function locallogin:loginNew(){
                 </div>
                 </div>
                 else
-              <form method="post" action="" class="w3-bar-item w3-hide-smal" style="margin:0;padding:0" role="form" accept-charset="UTF-8" id="logout-nav">
+              <form method="post" action="" class="w3-bar-item w3-hide-small" style="margin:0;padding:0" role="form" accept-charset="UTF-8" id="logout-nav">
                 
-              <button  class=" w3-button w3-red" type="submit">Logout</button>
+              <button  class=" w3-button w3-red" type="submit"><i class="fa fa-sign-out-alt"></i></button>
               
               <input value="true" name="logout"  type="hidden"/>
                         
