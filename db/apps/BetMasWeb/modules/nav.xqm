@@ -21,7 +21,7 @@ declare function nav:modalsNew() {
                         class="fa fa-times"></i></span>
                 <p> You are looking at work in progress version of this website.
                     For questions <a
-                        href="mailto:info@betamasaheft.eu?Subject=Issue%20Report%20BetaMasaheft">contact the dev team</a>.</p>
+                        href="mailto:eugenia.sokolinski@uni-hamburg.de?Subject=Issue%20Report%20BetaMasaheft">contact the dev team</a>.</p>
                 
                 <p> Hover on words to see search options.</p>
                 <p>Double-click to see morphological parsing.</p>
@@ -56,7 +56,10 @@ declare function nav:barNew() {
                   (:  else
                         ():)
                 }
-                
+                        <a
+                            href="/index.html"
+                            class="w3-padding w3-hover-red w3-hide-small w3-left"><i
+                                class="fa fa-home"></i></a>
                 <div
                     class="w3-dropdown-hover w3-hide-small"
                     id="introductory">
@@ -67,7 +70,7 @@ declare function nav:barNew() {
                             if (string-length($url) gt 1) then
                                 ('Hi ' || sm:id()//sm:username/text() || '!')
                             else
-                                ('Home')
+                                ('About')
                         }
                         <i
                             class="fa fa-caret-down"></i></button>
@@ -651,8 +654,7 @@ See also <a href="https://betamasaheft.eu/help.html">Help page</a> fore more gui
                     data-placement="bottom"
                     title="How to navigate">Help</a>
                 
-                {nav:newentryNew()}
-                
+                {nav:newentryNew()}                
                 {
                     if (contains($url, 'newSearch.html')) then ()
                     else
@@ -729,7 +731,7 @@ declare function nav:newentryNew() {
 declare function nav:footerNew() {
     
     <footer
-        class="w3-container w3-padding-64 w3-center"
+        class="w3-container w3-padding-64 w3-center w3-small"
        
         id="footer">
         <div class="w3-third">
@@ -746,7 +748,7 @@ declare function nav:footerNew() {
                         style="border-width:0"
                         src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"/></a>. Project DOI: {$config:DOI}.
                </p>
-        <div id="wcb" class="carbonbadge w3-row"></div>
+  <!--      <div id="wcb" class="carbonbadge w3-row"></div>-->
         </div>
         </div>
         <div class="w3-third">
