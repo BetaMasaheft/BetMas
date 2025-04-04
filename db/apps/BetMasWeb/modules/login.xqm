@@ -81,7 +81,7 @@ $locallogin:login("org.exist.login", (), false())
 declare function locallogin:loginNew(){  
  if(sm:id()//sm:username/text() = 'guest') then
  
- <div class="w3-dropdown-hover w3-hide-small" id="logging">
+ <div class="w3-dropdown-hover w3-hide-small w3-right" id="logging">
       <button class="w3-button " title="resources">Login <i class="fa fa-caret-down"></i></button>     
       <div class="w3-dropdown-content w3-bar-block w3-card-4">
       
