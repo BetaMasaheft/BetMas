@@ -2,7 +2,7 @@ xquery version "3.1" encoding "UTF-8";
 (:~
  : module for the different list views, decides what kind of list it is, in which way to display it and calls the correct functions
  :
- : @author Pietro Liuzzo 
+ : @author Pietro Liuzzo
  :)
 module namespace list = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/list";
 import module namespace rest = "http://exquery.org/ns/restxq";
@@ -59,9 +59,9 @@ function list:browseMS(){
  <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
-        <link rel="shortcut icon" href="resources/images/minilogo.ico"></link>
+        <link rel="shortcut icon" href="{$config:appUrl}/resources/images/minilogo.ico"></link>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
-       
+
     {scriptlinks:scriptStyle()}
     </head>
     <body id="body">
@@ -76,7 +76,7 @@ return
 (
  <div class="w3-row w3-hide-small" style="right: 0px;width: 300px;width:30%;position: fixed;">
  <div class="w3-bar">
- <a class="w3-bar-item page-scroll" href="#group-A">top</a>{ 
+ <a class="w3-bar-item page-scroll" href="#group-A">top</a>{
  let $letter := for $repoi at $p in $list:instit//t:item return upper-case(substring(replace($repoi/text(), '\s', ''), 1, 1))
    for $l in distinct-values($letter)
    order by $l
@@ -107,7 +107,7 @@ return
     let $inthisrepo := $reposByRepoId('https://betamasaheft.eu/' || $i)
      let $count := count($inthisrepo)
      return
-    if($count=0) then () else 
+    if($count=0) then () else
         <div class="w3-row">
         <div class="w3-col" style="width:30%"><h4><a href="{$config:appUrl}/manuscripts/{$i}/list">{$rep/text()}</a></h4></div>
         <div class="w3-col" style="width:5%"><span class="w3-badge">{$count}</span></div>
@@ -121,7 +121,7 @@ return
                                 </p>
                                 </div>
             ) else
-                    
+
                     for $m in $inthisrepo
                     let $collection := root($m)//t:collection
                         group by $C := $collection[1]
@@ -141,7 +141,7 @@ return
                                 }
                             </ul>
                         </div>
-                        
+
                 }
             </div>
             </div>
@@ -161,11 +161,11 @@ return
         </body>
         </html>
        )
-        
+
         };
-        
-        
-        
+
+
+
 declare
 %rest:GET
 %rest:path("/BetMasWeb/Uni{$unitType}/browse")
@@ -186,8 +186,8 @@ function list:browseUnits($unitType){
         <meta property="dcterms:language schema:inLanguage" content="en"/>
         <meta property="dcterms:rights" content="Copyright © Akademie der Wissenschaften in Hamburg, Hiob-Ludolf-Zentrum für Äthiopistik.  Sharing and remixing permitted under terms of the Creative Commons Attribution Share alike Non Commercial 4.0 License (cc-by-nc-sa)."/>
         <meta property="dcterms:publisher schema:publisher" content="Akademie der Wissenschaften in Hamburg, Hiob-Ludolf-Zentrum für Äthiopistik"/>
-        
-        
+
+
 {scriptlinks:scriptStyle()}
     </head>
     <body id="body">
@@ -204,10 +204,10 @@ function list:browseUnits($unitType){
         </body>
         </html>
        )
-        
+
         };
-        
-        
+
+
         declare
         %rest:GET
 %rest:path("/BetMasWeb/art-themes/list")
@@ -222,11 +222,11 @@ $keyword as xs:string*){
                     name="Content-Type"
                     value="text/html; charset=utf-8"/>
             </http:response>
-        </rest:response>,        
+        </rest:response>,
  <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
-        <link rel="shortcut icon" href="resources/images/minilogo.ico"></link>
+        <link rel="shortcut icon" href="{$config:appUrl}/resources/images/minilogo.ico"></link>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
         {$list:app-meta}
        {scriptlinks:listScriptStyle()}
@@ -244,9 +244,9 @@ $keyword as xs:string*){
  let $MainCatval := $MainCat/t:desc/text()
  order by replace(lower-case($MainCatval), '\s', '')
  return
- <div class="w3-panel w3-padding">  
-     <button class="w3-bar-item w3-button w3-red" 
-        onclick="openAccordion('list{replace($MainCatval, '\s', '')}')">{$MainCatval} 
+ <div class="w3-panel w3-padding">
+     <button class="w3-bar-item w3-button w3-red"
+        onclick="openAccordion('list{replace($MainCatval, '\s', '')}')">{$MainCatval}
         <span class="w3-badge w3-margin-left">{count($MainCat/t:category)}</span>
     </button>
    <div id="list{replace($MainCatval, '\s', '')}" class="w3-hide">
@@ -255,11 +255,11 @@ $keyword as xs:string*){
         let $subcatid := string($subcat/@xml:id)
         order by replace(lower-case($subcat/t:*[1]/text()), '\s', '')
         return
-           if($subcat/t:desc) 
+           if($subcat/t:desc)
              then (let $subval := $subcat/t:desc
                   return (
-                          <button class="w3-button  w3-gray w3-margin-top" 
-                          onclick="openAccordion('list{$subval}')">{$subval} 
+                          <button class="w3-button  w3-gray w3-margin-top"
+                          onclick="openAccordion('list{$subval}')">{$subval}
                           <span class="w3-badge  w3-margin-left">{count($subcat/t:category)}</span></button>,
                           <br/>,
                           <div id="list{$subval}" class="w3-hide">
@@ -268,18 +268,18 @@ $keyword as xs:string*){
                          let $subcatid := string($c/@xml:id)
                          let $text := $c/t:catDesc/text()
                          order by $text
-                         return <li><a href="art-themes/list?keyword={$subcatid}">{$text}</a></li>
-                        }</ul> 
-                        </div> ) ) 
-             else 
+                         return <li><a href="{$config:appUrl}/art-themes/list?keyword={$subcatid}">{$text}</a></li>
+                        }</ul>
+                        </div> ) )
+             else
                  let $sstext := $subcat/t:catDesc/text()
                  order by $sstext
-                 return 
-                     if ($subcat/t:category) 
+                 return
+                     if ($subcat/t:category)
                       then (
                             <div class="w3-container w3-margin-top">
-                             <button class="w3-button w3-gray" 
-                             onclick="openAccordion('list{$sstext}')">{$sstext} 
+                             <button class="w3-button w3-gray"
+                             onclick="openAccordion('list{$sstext}')">{$sstext}
                              <span class="w3-badge  w3-margin-left">{count($subcat/t:category)}</span></button>
                              <br/>
                              <div id="list{$sstext}" class="w3-hide">
@@ -289,11 +289,11 @@ $keyword as xs:string*){
                                  let $stext := $subsubcat/t:catDesc/text()
                                  order by $stext
                                  return
-                                     <li><a href="art-themes/list?keyword={$ssid}">{$stext}</a></li>
-                             }</ul> 
+                                     <li><a href="{$config:appUrl}/art-themes/list?keyword={$ssid}">{$stext}</a></li>
+                             }</ul>
                              </div>
                              </div>)
-                    else(<li><a href="art-themes/list?keyword={$subcatid}">{$sstext}</a></li>)
+                    else(<li><a href="{$config:appUrl}/art-themes/list?keyword={$subcatid}">{$sstext}</a></li>)
  }
  </ul>
  </div>
@@ -329,23 +329,23 @@ $keyword as xs:string*){
 
    return
  <div class="w3-container">
- <h1><a href="authority-files/{$keyword}/main">{exptit:printTitleID($keyword)}</a></h1>
+ <h1><a href="{$config:appUrl}/authority-files/{$keyword}/main">{exptit:printTitleID($keyword)}</a></h1>
  {let $file := $list:taxonomy/id($keyword)
  for $element in ($file//t:abstract, $file//t:listBibl)
  return <p>{string:tei2string($element)}</p>}
- 
-  <div class="w3-bar"> 
+
+  <div class="w3-bar">
   <div id="hit-count" class="w3-bar-item">
-   {'There are ' || count($res("hits")) || ' resources that contain the exact keyword: '}  <span class="w3-tag w3-red"><a href="{$keyword}">{$keyword}</a></span>
+   {'There are ' || count($res("hits")) || ' resources that contain the exact keyword: '}  <span class="w3-tag w3-red"><a href="{$config:appUrl}/{$keyword}">{$keyword}</a></span>
    </div>
    </div>
    <div class="w3-responsive">
-    <table class="w3-table w3--hoverable"><thead><tr class="w3-tiny"><th>id</th><th>title</th><th>type</th></tr></thead><tbody>{for $h in $res("hits") return <tr><td>{string($h/@xml:id)}</td><td><a href="{string($h/@xml:id)}">{try{exptit:printTitleID($h/@xml:id)} catch * {util:log('info',string($h/@xml:id))}}</a></td><td>{string($h/@type)}</td></tr>}</tbody></table>
+    <table class="w3-table w3--hoverable"><thead><tr class="w3-tiny"><th>id</th><th>title</th><th>type</th></tr></thead><tbody>{for $h in $res("hits") return <tr><td>{string($h/@xml:id)}</td><td><a href="{$config:appUrl}/{string($h/@xml:id)}">{try{exptit:printTitleID($h/@xml:id)} catch * {util:log('info',string($h/@xml:id))}}</a></td><td>{string($h/@type)}</td></tr>}</tbody></table>
    </div>
                    </div>                 ) }
  </div>
  </div>
- 
+
 </div>
 
         {nav:footerNew()}
@@ -354,7 +354,7 @@ $keyword as xs:string*){
     </body>
 </html>
         };
-        
+
 declare
 %rest:GET
 %rest:path("/BetMasWeb/{$collection}/list")
@@ -524,9 +524,9 @@ if(xdb:collection-available($c)) then (
         </rest:response>,
        <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        
+
         <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
-        <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
+        <link rel="shortcut icon" href="{$config:appUrl}/resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         {$list:app-meta}
         {scriptlinks:listScriptStyle()}
@@ -536,8 +536,8 @@ if(xdb:collection-available($c)) then (
         {nav:modalsNew()}
 
  <div id="content" class="w3-container w3-padding-64 w3-margin">
- {if($collection = 'authority-files') 
- then 
+ {if($collection = 'authority-files')
+ then
  <div class="w3-container">
  <div class="w3-container w3-quarter w3-animate-left w3-padding "  data-hint="The values listed here all come from the taxonomy. Click on one of them to see which entities point to it.">
 {for $MainCat in $list:taxonomy//t:category[not(parent::t:category)]
@@ -545,9 +545,9 @@ if(xdb:collection-available($c)) then (
  let $MainCatval := $MainCat/t:desc/text()
  order by replace(lower-case($MainCatval), '\s', '')
  return
- <div class="w3-panel w3-padding">  
-     <button class="w3-bar-item w3-button w3-red" 
-        onclick="openAccordion('list{replace($MainCatval, '\s', '')}')">{$MainCatval} 
+ <div class="w3-panel w3-padding">
+     <button class="w3-bar-item w3-button w3-red"
+        onclick="openAccordion('list{replace($MainCatval, '\s', '')}')">{$MainCatval}
         <span class="w3-badge w3-margin-left">{count($MainCat/t:category)}</span>
     </button>
    <div id="list{replace($MainCatval, '\s', '')}" class="w3-hide">
@@ -556,11 +556,11 @@ if(xdb:collection-available($c)) then (
         let $subcatid := string($subcat/@xml:id)
         order by replace(lower-case($subcat/t:*[1]/text()), '\s', '')
         return
-           if($subcat/t:desc) 
+           if($subcat/t:desc)
              then (let $subval := $subcat/t:desc
                   return (
-                          <button class="w3-button  w3-gray w3-margin-top" 
-                          onclick="openAccordion('list{$subval}')">{$subval} 
+                          <button class="w3-button  w3-gray w3-margin-top"
+                          onclick="openAccordion('list{$subval}')">{$subval}
                           <span class="w3-badge  w3-margin-left">{count($subcat/t:category)}</span></button>,
                           <br/>,
                           <div id="list{$subval}" class="w3-hide">
@@ -569,18 +569,18 @@ if(xdb:collection-available($c)) then (
                          let $subcatid := string($c/@xml:id)
                          let $text := $c/t:catDesc/text()
                          order by $text
-                         return <li><a href="{$collection}/list?keyword={$subcatid}">{$text}</a></li>
-                        }</ul> 
-                        </div> ) ) 
-             else 
+                         return <li><a href="{$config:appUrl}/{$collection}/list?keyword={$subcatid}">{$text}</a></li>
+                        }</ul>
+                        </div> ) )
+             else
                  let $sstext := $subcat/t:catDesc/text()
                  order by $sstext
-                 return 
-                     if ($subcat/t:category) 
+                 return
+                     if ($subcat/t:category)
                       then (
                             <div class="w3-container w3-margin-top">
-                             <button class="w3-button w3-gray" 
-                             onclick="openAccordion('list{$sstext}')">{$sstext} 
+                             <button class="w3-button w3-gray"
+                             onclick="openAccordion('list{$sstext}')">{$sstext}
                              <span class="w3-badge  w3-margin-left">{count($subcat/t:category)}</span></button>
                              <br/>
                              <div id="list{$sstext}" class="w3-hide">
@@ -590,24 +590,24 @@ if(xdb:collection-available($c)) then (
                                  let $stext := $subsubcat/t:catDesc/text()
                                  order by $stext
                                  return
-                                     <li><a href="{$collection}/list?keyword={$ssid}">{$stext}</a></li>,
+                                     <li><a href="{$config:appUrl}/{$collection}/list?keyword={$ssid}">{$stext}</a></li>,
                                      <ul>                                     {for $sss in $subcat/t:category/t:category
                                  let $sssid := string($sss/@xml:id)
                                  let $ssstext := concat($sss/ancestor::t:category[1]/t:catDesc/text(), ': ', $sss/t:catDesc/text())
                                      return
-                                     
-                                     <li><a href="{$collection}/list?keyword={$sssid}">{$ssstext}</a></li>
+
+                                     <li><a href="{$config:appUrl}/{$collection}/list?keyword={$sssid}">{$ssstext}</a></li>
                                      }</ul>
-                             }</ul> 
+                             }</ul>
                              </div>
                              </div>)
-                    else(<li><a href="{$collection}/list?keyword={$subcatid}">{$sstext}</a></li>)
+                    else(<li><a href="{$config:appUrl}/{$collection}/list?keyword={$subcatid}">{$sstext}</a></li>)
  }
  </ul>
  </div>
  </div>}
- 
- 
+
+
    {apptable:nextID($collection)}
  </div>
  <div class="w3-threequarter w3-container w3-padding" id="main" >
@@ -639,61 +639,61 @@ if(xdb:collection-available($c)) then (
 
    return
  <div class="w3-container">
- <h1><a href="authority-files/{$keyword}/main">{exptit:printTitleID($keyword)}</a></h1>
+ <h1><a href="{$config:appUrl}/authority-files/{$keyword}/main">{exptit:printTitleID($keyword)}</a></h1>
  {let $file := $list:taxonomy/id($keyword)
  for $element in ($file//t:abstract, $file//t:listBibl)
  return <p>{string:tei2string($element)}</p>}
- 
-  <div class="w3-bar"> 
+
+  <div class="w3-bar">
   <div id="hit-count" class="w3-bar-item">
    {'There are ' || count($res("hits")) || ' resources that contain the exact keyword: '}  <span class="w3-tag w3-red">{$keyword}</span>
    </div>
    </div>
    <div class="w3-responsive">
-    <table class="w3-table w3--hoverable"><thead><tr class="w3-tiny"><th>id</th><th>title</th><th>type</th></tr></thead><tbody>{for $h in $res("hits") return <tr><td>{string($h/@xml:id)}</td><td><a href="{string($h/@xml:id)}">{try{exptit:printTitleID($h/@xml:id)} catch * {util:log('info',string($h/@xml:id))}}</a></td><td>{string($h/@type)}</td></tr>}</tbody></table>
+    <table class="w3-table w3--hoverable"><thead><tr class="w3-tiny"><th>id</th><th>title</th><th>type</th></tr></thead><tbody>{for $h in $res("hits") return <tr><td>{string($h/@xml:id)}</td><td><a href="{$config:appUrl}/{string($h/@xml:id)}">{try{exptit:printTitleID($h/@xml:id)} catch * {util:log('info',string($h/@xml:id))}}</a></td><td>{string($h/@type)}</td></tr>}</tbody></table>
    </div>
                    </div>                 ) }
  </div>
  </div>
- 
- else  
+
+ else
          let $parametersLenght := map:for-each($parameters, function($key, $value){if($value = '') then 0 else 1})
          return
-        if(sum($parametersLenght) ge 1 ) then 
+        if(sum($parametersLenght) ge 1 ) then
         let $hits := apprest:listrest('collection', $collection, $parameters, $prms)
                 return
 <div class="w3-container">
     <div class="w3-panel w3-margin-bottom w3-card-4" id="listTopInfo">
    <div class="w3-bar">
    <div id="hit-count" class="w3-bar-item">
-   {'There are '} 
+   {'There are '}
    <span class="w3-tag w3-gray">{count($hits("hits")) }</span>
    {  ' records in this selection of ' || $collection }
    </div>
    <div   id="optionsList">
    {
-   if($collection = 'manuscripts') then ( if(count($hits("hits")) lt 1050) then 
- (<a  target="_blank" class="w3-button w3-bar-item w3-red"  
+   if($collection = 'manuscripts') then ( if(count($hits("hits")) lt 1050) then
+ (<a  target="_blank" class="w3-button w3-bar-item w3-red"
 href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exreq:query()}">Charts</a>)
-else (<a  target="_blank"  disabled="disabled" class="w3-button w3-bar-item w3-red"  
+else (<a  target="_blank"  disabled="disabled" class="w3-button w3-bar-item w3-red"
 href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exreq:query()}">Charts</a>)
 ) else ()}
-{if ($collection = 'works') 
+{if ($collection = 'works')
    then
-   let $texts :=  $hits('hits')[descendant::t:div[@type eq 'edition']//t:ab//text()] 
+   let $texts :=  $hits('hits')[descendant::t:div[@type eq 'edition']//t:ab//text()]
    return
-   if(count($texts) lt 100) then 
+   if(count($texts) lt 100) then
   let $ids := for $hit in $texts return 'input=https://betamasaheft.eu/works/'||string($hit/@xml:id)||'.xml'
   let $urls := string-join($ids,'&amp;')
    return
    <a target="_blank" class="w3-button w3-bar-item w3-red" href="http://voyant-tools.org/?{$urls}">Voyant</a>
-  else if (count($texts) eq 0) then 
+  else if (count($texts) eq 0) then
   (<span class="w3-button w3-bar-item w3-red" disabled="disabled" data-hint="No text available for analysis with Voyant Tools for this selection.">Voyant</span>)
   else (<span class="w3-button w3-bar-item w3-red" data-hint="With less than 100 hits, you will find here a button to analyse the available texts in your selection with Voyant Tools.">Voyant</span>)
         else ()   }
- 
+
  <a class="w3-button w3-bar-item w3-gray" href="javascript:void(0);" onclick="javascript:introJs().addHints();">hints</a>
-        
+
 {apptable:nextID($collection)}
 </div>
 </div>
@@ -718,7 +718,7 @@ href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exr
   </div>
 </div>
 </div>
-        else  
+        else
         <div class="w3-container">
         <div class="w3-quarter" data-hint="The following filters can be applied by clicking on the filter icon below, to return to the full list, click the list, to go to advanced search the cog">
     {
@@ -732,7 +732,7 @@ href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exr
     <div class="w3-threequarter w3-panel w3-padding w3-red">Please, select a filter.</div>
     </div>
         }
-        
+
 </div>
 
         {nav:footerNew()}
@@ -766,7 +766,7 @@ href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exr
 
 
 
- 
+
 declare
 %rest:GET
 %rest:path("/BetMasWeb/manuscripts/listChart")
@@ -933,9 +933,9 @@ if(xdb:collection-available($c)) then (
         </rest:response>,
        <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        
+
         <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
-        <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
+        <link rel="shortcut icon" href="{$config:appUrl}/resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         {$list:app-meta}
 {scriptlinks:scriptStyle()}
@@ -944,30 +944,30 @@ if(xdb:collection-available($c)) then (
      <body id="body">
         {nav:barNew()}
         {nav:modalsNew()}
-       
+
        {let $hits := apprest:listrest('collection', 'manuscripts', $parameters, $prms)
     return
-    
+
    <div class="w3-container w3-margin w3-padding-64">
    <div class="w3-panel w3-margin-bottom w3-card-4" id="listTopInfo">
    <div class="w3-bar">
    <div id="hit-count" class="w3-bar-item">
-   {'There are '} 
+   {'There are '}
    <span class="w3-tag w3-gray">{count($hits("hits")) }</span>
    { ' manuscripts in this search ' }
    </div>
    <div   id="optionsList">
-   <a  target="_blank"  class="w3-bar-item w3-button w3-red" href="{replace(substring-after(rest:uri(), 'BetMas'), 'listChart', 'list')}?{exreq:query()}">List</a></div>
+   <a  target="_blank"  class="w3-bar-item w3-button w3-red" href="{$config:appUrl}/{replace(substring-after(rest:uri(), 'BetMas'), 'listChart', 'list')}?{exreq:query()}">List</a></div>
    </div>
    {if(count($parameters) gt 1) then list:paramsList($parameters) else ()}
    </div>
-   
+
    <div class="w3-container w3-margin w3-padding">
    {charts:chart($hits("hits"))}
    </div>
 </div>
         }
-      
+
         {nav:footerNew()}
 
     </body>
@@ -1115,37 +1115,37 @@ if($file) then (
 
        <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        
+
         <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
-        <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
+        <link rel="shortcut icon" href="{$config:appUrl}/resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         {$list:app-meta}
 
-        <link rel="stylesheet" type="text/css" href="resources/css/mapbox.css"/>
-        <link rel="stylesheet" type="text/css" href="resources/css/leaflet.css"/>
-        <link  rel="stylesheet" type="text/css" href="resources/css/leaflet.fullscreen.css"/>
-        <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="resources/css/leaflet-search.css"/>
-        {scriptlinks:listScriptStyle()} 
+        <link rel="stylesheet" type="text/css" href="{$config:appUrl}/resources/css/mapbox.css"/>
+        <link rel="stylesheet" type="text/css" href="{$config:appUrl}/resources/css/leaflet.css"/>
+        <link  rel="stylesheet" type="text/css" href="{$config:appUrl}/resources/css/leaflet.fullscreen.css"/>
+        <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="{$config:appUrl}/resources/css/leaflet-search.css"/>
+        {scriptlinks:listScriptStyle()}
        <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"/>
-        <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/js/mapbox.js"/>
-        <script  xmlns="http://www.w3.org/1999/xhtml"type="text/javascript" src="resources/js/Leaflet.fullscreen.min.js"/>
-        <script  xmlns="http://www.w3.org/1999/xhtml"type="text/javascript" src="resources/js/leaflet-search.js"/>
-         <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/js/leaflet-ajax-gh-pages/dist/leaflet.ajax.min.js"></script>
-       
+        <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="{$config:appUrl}/resources/js/mapbox.js"/>
+        <script  xmlns="http://www.w3.org/1999/xhtml"type="text/javascript" src="{$config:appUrl}/resources/js/Leaflet.fullscreen.min.js"/>
+        <script  xmlns="http://www.w3.org/1999/xhtml"type="text/javascript" src="{$config:appUrl}/resources/js/leaflet-search.js"/>
+         <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="{$config:appUrl}/resources/js/leaflet-ajax-gh-pages/dist/leaflet.ajax.min.js"></script>
+
     </head>
     <body id="body">
         {nav:barNew()}
         {nav:modalsNew()}
 <div class="w3-main w3-container w3-margin w3-padding-64">
-       
+
 <div class="w3-quarter w3-hide-small">
        {item2:RestItem($file, 'institutions')}
        <div class="w3-container w3-padding">
        <iframe
    style="border:none;"
                 allowfullscreen="true"
-                width="100%" 
-                height="400" 
+                width="100%"
+                height="400"
                 src="https://peripleo.pelagios.org/embed/{encode-for-uri(concat('http://betamasaheft.eu/places/',$repoID))}">
             </iframe>
        <div id="entitymap" style="width: 100%; height: 400px; margin-top:100px" />
@@ -1153,7 +1153,7 @@ if($file) then (
    <script  type="text/javascript" src="resources/geo/geojsonentitymap.js"></script></div>
 
         {apprest:EntityRelsTable($file, 'institutions')}
-        
+
        </div>
 
 
@@ -1163,14 +1163,14 @@ if($file) then (
    <div class="w3-panel w3-margin-bottom w3-card-4" id="listTopInfo">
    <div class="w3-bar">
    <div id="hit-count" class="w3-bar-item">
-   {'There are '} 
+   {'There are '}
    <span class="w3-tag w3-gray">{count($hits("hits")) }</span>
    { ' manuscripts at ' || exptit:printTitleID($repoID) }
    </div>
    <div   id="optionsList">
-<a target="_blank" class="w3-button w3-bar-item w3-red" 
-href="manuscripts/{$repoID}/list/viewer">Images</a>
-<a  target="_blank"  role="button" class="w3-button w3-bar-item w3-red"  
+<a target="_blank" class="w3-button w3-bar-item w3-red"
+href="{$config:appUrl}/manuscripts/{$repoID}/list/viewer">Images</a>
+<a  target="_blank"  role="button" class="w3-button w3-bar-item w3-red"
 href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exreq:query()}">Charts</a>
 <a class="w3-button w3-bar-item w3-gray" href="javascript:void(0);" onclick="javascript:introJs().addHints();">hints</a>
 {apptable:nextID('manuscripts')}
@@ -1180,7 +1180,7 @@ href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exr
 {if(count($parameters) gt 1) then list:paramsList($parameters) else ()}
 </div>
     <div class="w3-threequarter">
-   
+
    <div class="w3-row w3-left">
     {apprest:paginate-rest($hits, $parameters, $start, $per-page, 9, 21)}
      </div>
@@ -1190,17 +1190,17 @@ href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exr
       <div class="w3-row w3-left">
     {apprest:paginate-rest($hits, $parameters, $start, $per-page, 9, 21)}
                    </div>
- 
-                
+
+
 
         </div>
-                
+
     <div class="w3-quarter w3-white w3-hide-small w3-hide-medium" id="search filters">
     {apprest:searchFilter-rest($repoID, $hits)}
-    <div class="w3-container"><a class="w3-button w3-large w3-red w3-margin-left" href="manuscripts/list">Back to full list</a></div>
+    <div class="w3-container"><a class="w3-button w3-large w3-red w3-margin-left" href="{$config:appUrl}/manuscripts/list">Back to full list</a></div>
     </div>
-    
- </div>      
+
+ </div>
   }
 
 
@@ -1368,9 +1368,9 @@ if($file) then (
 
        <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        
+
         <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
-        <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
+        <link rel="shortcut icon" href="{$config:appUrl}/resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         {$list:app-meta}
 {scriptlinks:scriptStyle()}
@@ -1379,25 +1379,25 @@ if($file) then (
     <body id="body">
         {nav:barNew()}
         {nav:modalsNew()}
-       
+
  {let $hits := apprest:listrest('repo', $repoID, $parameters, $prms)
     return
-    
+
    <div class="w3-container w3-margin w3-padding-64">
    <div class="w3-panel w3-margin-bottom w3-card-4" id="listTopInfo">
    <div class="w3-bar">
    <div id="hit-count" class="w3-bar-item">
-   {'There are '} 
+   {'There are '}
    <span class="w3-tag w3-gray">{count($hits("hits")) }</span>
    { ' manuscripts at ' || exptit:printTitleID($repoID) }
    </div>
    <div   id="optionsList">
    <a  target="_blank"  class="w3-bar-item w3-button w3-red" href="{replace(substring-after(rest:uri(), 'BetMas'), 'listChart', 'list')}?{exreq:query()}">List</a></div>
-   <a target="_blank" class="w3-bar-item w3-button w3-red" href="manuscripts/{$repoID}/list/viewer">Images</a>
+   <a target="_blank" class="w3-bar-item w3-button w3-red" href="{$config:appUrl}/manuscripts/{$repoID}/list/viewer">Images</a>
    </div>
    {if(count($parameters) gt 1) then list:paramsList($parameters) else ()}
    </div>
-   
+
    <div class="w3-container w3-margin w3-padding">
    {charts:chart($hits("hits"))}
    </div>
@@ -1553,29 +1553,29 @@ if($file or starts-with($place, 'wd:')) then (
 
        <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        
+
         <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
-        <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
+        <link rel="shortcut icon" href="{$config:appUrl}/resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         {$list:app-meta}
 
-        <link rel="stylesheet" type="text/css" href="resources/css/mapbox.css"/>
-        <link rel="stylesheet" type="text/css" href="resources/css/leaflet.css"/>
-        <link  rel="stylesheet" type="text/css" href="resources/css/leaflet.fullscreen.css"/>
-        <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="resources/css/leaflet-search.css"/>
-        {scriptlinks:listScriptStyle()} 
+        <link rel="stylesheet" type="text/css" href="{$config:appUrl}/resources/css/mapbox.css"/>
+        <link rel="stylesheet" type="text/css" href="{$config:appUrl}/resources/css/leaflet.css"/>
+        <link  rel="stylesheet" type="text/css" href="{$config:appUrl}/resources/css/leaflet.fullscreen.css"/>
+        <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="{$config:appUrl}/resources/css/leaflet-search.css"/>
+        {scriptlinks:listScriptStyle()}
        <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"/>
         <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/js/mapbox.js"/>
         <script  xmlns="http://www.w3.org/1999/xhtml"type="text/javascript" src="resources/js/Leaflet.fullscreen.min.js"/>
         <script  xmlns="http://www.w3.org/1999/xhtml"type="text/javascript" src="resources/js/leaflet-search.js"/>
          <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/js/leaflet-ajax-gh-pages/dist/leaflet.ajax.min.js"></script>
-       
+
     </head>
     <body id="body">
         {nav:barNew()}
         {nav:modalsNew()}
 <div class="w3-main w3-container w3-margin w3-padding-64">
-       
+
 <div class="w3-quarter w3-hide-small">
        <h1>Manuscripts in {exptit:printTitleID($place)}</h1>
        <span class="w3-tag w3-gray">{$config:appUrl||'/'||$place}</span>
@@ -1583,8 +1583,8 @@ if($file or starts-with($place, 'wd:')) then (
        <iframe
    style="border:none;"
                 allowfullscreen="true"
-                width="100%" 
-                height="400" 
+                width="100%"
+                height="400"
                 src="https://peripleo.pelagios.org/embed/{encode-for-uri(concat('http://betamasaheft.eu/places/',$place))}">
             </iframe>
        <div id="entitymap" style="width: 100%; height: 400px; margin-top:100px" />
@@ -1592,7 +1592,7 @@ if($file or starts-with($place, 'wd:')) then (
    <script  type="text/javascript" src="resources/geo/geojsonentitymap.js"></script></div>
 
         {apprest:EntityRelsTable($file, 'places')}
-        
+
        </div>
 
 
@@ -1601,15 +1601,15 @@ if($file or starts-with($place, 'wd:')) then (
                                         $apprest:collection-rootIn//t:country[@ref eq $place],
                                         $apprest:collection-rootIn//t:settlement[@ref eq $sameAs],
                                         $apprest:collection-rootIn//t:region[@ref eq $sameAs],
-                                        $apprest:collection-rootIn//t:country[@ref eq $sameAs]) 
+                                        $apprest:collection-rootIn//t:country[@ref eq $sameAs])
                           return $repo/ancestor::t:TEI/@xml:id
  let $repositoriesIDS := config:distinct-values($allrepositories)
  let $selected := if(count($repositoriesIDS) ge 1) then $apprest:collection-rootMS//t:repository[@ref eq  $repositoriesIDS] else ()
  let $allmssinregion := if(count($selected) ge 1 ) then (for $s in $selected return $s/ancestor::t:TEI) else 0
  let $stringquery := '$apprest:collection-rootMS//t:repository[@ref eq ("' || string-join($repositoriesIDS, '","') || '")]/ancestor::t:TEI'
-let $hits :=  
+let $hits :=
             map {
-                      'hits' : $allmssinregion, 
+                      'hits' : $allmssinregion,
                       'collection' : 'manuscripts',
                       'query': $stringquery
                       }
@@ -1624,19 +1624,19 @@ let $hits :=
    </div>
    </div>
    </div>
-            ) 
-        else 
+            )
+        else
     <div id="content" class="w3-threequarter">
    <div class="w3-panel w3-margin-bottom w3-card-4" id="listTopInfo">
    <div class="w3-bar">
    <div id="hit-count" class="w3-bar-item">
-   {'There are '} 
+   {'There are '}
    <span class="w3-tag w3-gray">{count($hits("hits")) }</span>
    { ' manuscripts in ' || exptit:printTitleID($place) }
    </div>
-  
+
    <div   id="optionsList">
-<a  target="_blank"  role="button" class="w3-button w3-bar-item w3-red"  
+<a  target="_blank"  role="button" class="w3-button w3-bar-item w3-red"
 href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exreq:query()}">Charts</a>
 <a class="w3-button w3-bar-item w3-gray" href="javascript:void(0);" onclick="javascript:introJs().addHints();">hints</a>
 {apptable:nextID('manuscripts')}
@@ -1646,7 +1646,7 @@ href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exr
 </div>
 </div>
     <div class="w3-threequarter">
-   
+
    <div class="w3-row w3-left">
     {apprest:paginate-rest($hits, $parameters, $start, $per-page, 9, 21)}
      </div>
@@ -1656,17 +1656,17 @@ href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exr
       <div class="w3-row w3-left">
     {apprest:paginate-rest($hits, $parameters, $start, $per-page, 9, 21)}
                    </div>
- 
-                
+
+
 
         </div>
-                
+
     <div class="w3-quarter w3-white w3-hide-small w3-hide-medium" id="search filters">
     {apprest:searchFilter-rest($place, $hits)}
-    <div class="w3-container"><a class="w3-button w3-large w3-red w3-margin-left" href="manuscripts/list">Back to full list</a></div>
+    <div class="w3-container"><a class="w3-button w3-large w3-red w3-margin-left" href="{$config:appUrl}/manuscripts/list">Back to full list</a></div>
     </div>
-    
- </div>      
+
+ </div>
   }
 
 
@@ -1739,9 +1739,9 @@ if($file or starts-with($place, 'wd:')) then (
 
        <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        
+
         <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
-        <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
+        <link rel="shortcut icon" href="{$config:appUrl}/resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         {$list:app-meta}
 {scriptlinks:scriptStyle()}
@@ -1750,34 +1750,34 @@ if($file or starts-with($place, 'wd:')) then (
     <body id="body">
         {nav:barNew()}
         {nav:modalsNew()}
-       
+
  {
  let $allrepositories := for $repo in ($apprest:collection-rootIn//t:settlement[@ref eq $place],
  $apprest:collection-rootIn//t:region[@ref eq $place],
- $apprest:collection-rootIn//t:country[@ref eq $place]) 
+ $apprest:collection-rootIn//t:country[@ref eq $place])
  return $repo/ancestor::t:TEI/@xml:id
  let $repositoriesIDS := config:distinct-values($allrepositories)
  let $allmssinregion := $apprest:collection-rootMS//t:repository[@ref eq  $repositoriesIDS]/ancestor::t:TEI
- let $hits :=  
+ let $hits :=
             map {
                       'hits' : $allmssinregion
                       }
     return
-    
+
    <div class="w3-container w3-margin w3-padding-64">
    <div class="w3-panel w3-margin-bottom w3-card-4" id="listTopInfo">
    <div class="w3-bar">
    <div id="hit-count" class="w3-bar-item">
-   {'There are '} 
+   {'There are '}
    <span class="w3-tag w3-gray">{count($hits("hits")) }</span>
    { ' manuscripts in ' || exptit:printTitleID($place) }
    </div>
    <div   id="optionsList">
    <a  target="_blank"  class="w3-bar-item w3-button w3-red" href="{replace(substring-after(rest:uri(), 'BetMas'), 'listChart', 'list')}?{exreq:query()}">List</a></div>
-   {if($file) then <a target="_blank" class="w3-bar-item w3-button w3-red" href="places/{$place}/main">Place record</a> else ()}
+   {if($file) then <a target="_blank" class="w3-bar-item w3-button w3-red" href="{$config:appUrl}/places/{$place}/main">Place record</a> else ()}
    </div>
    </div>
-   
+
    <div class="w3-container w3-margin w3-padding">
    {charts:chart($hits("hits"))}
    </div>
@@ -1821,9 +1821,9 @@ function list:getcatalogues() {
 
        <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        
+
         <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
-        <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
+        <link rel="shortcut icon" href="{$config:appUrl}/resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         {$list:app-meta}
 {scriptlinks:scriptStyle()}
@@ -1838,10 +1838,10 @@ function list:getcatalogues() {
        return
        <div class="w3-container w3-margin w3-padding-64">
 
-      
+
       <div class="w3-container">
     <h2><span class="w3-tag w3-gray">{count($dist)}</span> available catalogues</h2>
-    
+
     <table class="w3-table w3-hoverable" max-width="100%">
     <tbody>
   {
@@ -1852,9 +1852,9 @@ function list:getcatalogues() {
    let $xml-url := concat('https://api.zotero.org/groups/358366/items?&amp;tag=', $catalogue, '&amp;format=bib&amp;locale=en-GB&amp;style=hiob-ludolf-centre-for-ethiopian-studies')
    let $val := string($catalogue)
    let $entry := $list:bibliography//b:entry[@id=$val]
-  
-let $data := 
- if(count($entry) ge 1) 
+
+let $data :=
+ if(count($entry) ge 1)
  then let $c := $entry
  return <span n="{count($c/preceding-sibling::t:item) +1}">{$c/*:reference/node() }</span>
  else  <span n="new">{let $request := <http:request href="{xs:anyURI($xml-url)}" method="GET"/>
@@ -1863,13 +1863,13 @@ let $data :=
 order by $catalogue
 return
     <tr>
-    <td><a href="newSearch.html?searchType=text&amp;mode=any&amp;biblref={$catalogue}" class="lead">{$data}</a></td>
+    <td><a href="{$config:appUrl}/newSearch.html?searchType=text&amp;mode=any&amp;biblref={$catalogue}" class="lead">{$data}</a></td>
     <td><span class="w3-badge">{$count}</span></td>
     </tr>
     }
     </tbody></table>
     </div>
-    <div class="w3-panel w3-red w3-card-4">More catalogues will be processed. A list of the catalogues to be processed and of the work in progress can be seen <a href="availableImages.html">here</a></div>
+    <div class="w3-panel w3-red w3-card-4">More catalogues will be processed. A list of the catalogues to be processed and of the work in progress can be seen <a href="{$config:appUrl}/availableImages.html">here</a></div>
 
 
         </div>}
@@ -2003,13 +2003,13 @@ if($prefixedcatID = $catalogues) then (
 
        <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        
+
         <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
-        <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
+        <link rel="shortcut icon" href="{$config:appUrl}/resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        
+
         {scriptlinks:listScriptStyle()}
-        
+
         </head>
     <body id="body">
         {nav:barNew()}
@@ -2019,7 +2019,7 @@ if($prefixedcatID = $catalogues) then (
       <h1>{
       let $itemID := replace($prefixedcatID, ':','_')
       let $xml-url := concat('https://api.zotero.org/groups/358366/items?&amp;tag=', $prefixedcatID, '&amp;format=bib&amp;locale=en-GB&amp;style=hiob-ludolf-centre-for-ethiopian-studies')
-let $data :=  if($list:catalogues//t:item[@xml:id = $itemID]) 
+let $data :=  if($list:catalogues//t:item[@xml:id = $itemID])
  then <span n="{count($list:catalogues//t:item[@xml:id = $itemID]/preceding-sibling::t:item) +1}">{$list:catalogues//t:item[@xml:id = $itemID]/node() }</span>
  else  <span n="new">{let $request := <http:request href="{xs:anyURI($xml-url)}" method="GET"/>
    return http:send-request($request)[2]}</span>
@@ -2027,19 +2027,19 @@ return $data
 }</h1>
 
 
-       
+
  {let $hits := apprest:listrest('catalogue',$catalogueID, $parameters, $prms)
     return
    <div class="w3-container">
    <div class="w3-panel w3-margin-bottom w3-card-4" id="listTopInfo">
    <div class="w3-bar">
    <div id="hit-count" class="w3-bar-item">
-   {'This catalogue has been quoted in '} 
+   {'This catalogue has been quoted in '}
    <span class="w3-tag w3-gray">{count($hits("hits")) }</span>
    { ' manuscript records.'}
    </div>
    <div   id="optionsList">
-<a  target="_blank"  role="button" class="w3-button w3-bar-item w3-red"  
+<a  target="_blank"  role="button" class="w3-button w3-bar-item w3-red"
 href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exreq:query()}">Charts</a>
 {apptable:nextID('manuscripts')}
 </div>
@@ -2048,13 +2048,13 @@ href="{replace(substring-after(rest:uri(), 'BetMas'), 'list', 'listChart')}?{exr
 {if(count($parameters) gt 1) then list:paramsList($parameters) else ()}
 </div>
 
-   
-   
-   
+
+
+
     <div class="w3-quarter w3-padding">
     {apprest:searchFilter-rest($catalogueID, $hits)}
      <div class="w3-quarter w3-margin w3-padding">
-    <a  class="w3-button w3-red w3-margin-left" href="manuscripts/list">Back to full list</a>
+    <a  class="w3-button w3-red w3-margin-left" href="{$config:appUrl}/manuscripts/list">Back to full list</a>
     </div>
     </div>
     <div class="w3-threequarter w3-padding">
@@ -2214,9 +2214,9 @@ if($prefixedcatID = $catalogues) then (
         </rest:response>,
         <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        
+
         <title property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
-        <link rel="shortcut icon" href="resources/images/minilogo.ico"/>
+        <link rel="shortcut icon" href="{$config:appUrl}/resources/images/minilogo.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         {$list:app-meta}
 {scriptlinks:scriptStyle()}
@@ -2232,7 +2232,7 @@ if($prefixedcatID = $catalogues) then (
       <h1>{
       let $itemID := replace($prefixedcatID, ':','_')
       let $xml-url := concat('https://api.zotero.org/groups/358366/items?&amp;tag=', $prefixedcatID, '&amp;format=bib&amp;locale=en-GB&amp;style=hiob-ludolf-centre-for-ethiopian-studies')
-let $data := if($list:catalogues//t:item[@xml:id = $itemID]) 
+let $data := if($list:catalogues//t:item[@xml:id = $itemID])
  then <span n="{count($list:catalogues//t:item[@xml:id = $itemID]/preceding-sibling::t:item) +1}">{$list:catalogues//t:item[@xml:id = $itemID]/node() }</span>
  else  <span n="new">{let $request := <http:request href="{xs:anyURI($xml-url)}" method="GET"/>
     return http:send-request($request)[2]}</span>
@@ -2241,12 +2241,12 @@ return $data
 
  {let $hits := apprest:listrest('catalogue',$catalogueID, $parameters, $prms)
     return
-    
+
     <div class="w3-container w3-margin w3-padding-64">
    <div class="w3-panel w3-margin-bottom w3-card-4" id="listTopInfo">
    <div class="w3-bar">
    <div id="hit-count" class="w3-bar-item">
-    {'This catalogue has been quoted in '} 
+    {'This catalogue has been quoted in '}
    <span class="w3-tag w3-gray">{count($hits("hits")) }</span>
    { ' manuscript records.'}
    </div>
@@ -2255,7 +2255,7 @@ return $data
    </div>
    {if(count($parameters) gt 1) then list:paramsList($parameters) else ()}
    </div>
-   
+
    <div class="w3-container w3-margin w3-padding">
    {charts:chart($hits("hits"))}
    </div>
