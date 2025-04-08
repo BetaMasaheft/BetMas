@@ -64,7 +64,7 @@ declare function nav:barNew() {
                 <div
                     class="w3-dropdown-hover w3-hide-small"
                     id="introductory">
-                    <button onclick="window.location.href='/about.html'"
+                    <button onclick="window.location.href='{$config:appUrl}/about.html'"
                         class=" w3-button"
                         title="About">
                         {
