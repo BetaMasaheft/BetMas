@@ -178,7 +178,7 @@ declare function nav:barNew() {
                     id="mss">
                     <button
                         class=" w3-button"
-                        title="Manuscripts" onclick="window.location.href='/index.html#manuscripts'">Manuscripts <i
+                        title="Manuscripts" onclick="window.location.href='{$config:appUrl}/index.html#manuscripts'">Manuscripts <i
                             class="fa fa-caret-down"></i></button>
                     <div
                         class="w3-dropdown-content" style="background:transparent;">
@@ -282,7 +282,7 @@ declare function nav:barNew() {
                     id="works">
                     <button
                         class=" w3-button"
-                        title="Works" onclick="window.location.href='/index.html#texts'">Texts <i
+                        title="Works" onclick="window.location.href='{$config:appUrl}/index.html#texts'">Texts <i
                             class="fa fa-caret-down"></i></button>
                     <div
                         class="w3-dropdown-content"  
@@ -368,7 +368,7 @@ See also <a href="https://betamasaheft.eu/additions">the list of documents conta
                     class="w3-dropdown-hover w3-hide-small">
                     <button
                         class=" w3-button"
-                        title="Art" onclick="window.location.href='/index.html#taxonomy'">Art Themes <i
+                        title="Art" onclick="window.location.href='{$config:appUrl}/index.html#taxonomy'">Art Themes <i
                             class="fa fa-caret-down"></i></button>
                     <div
                         class="w3-dropdown-content" style="background:transparent;">
@@ -437,7 +437,7 @@ the decorations filtered search and the general keyword search.</span>
                     id="places">
                     <button
                         class=" w3-button"
-                        title="Places" onclick="window.location.href='/index.html#gazetteer'">Places <i
+                        title="Places" onclick="window.location.href='{$config:appUrl}/index.html#gazetteer'">Places <i
                             class="fa fa-caret-down"></i></button>
                     <div
                         class="w3-dropdown-content"  style="background:transparent;">
@@ -498,7 +498,7 @@ See also <a href="https://betamasaheft.eu/help.html">Help page</a> fore more gui
                     id="persons">
                     <button
                         class="w3-button"
-                        title="Persons" onclick="window.location.href='/index.html#prosopography'">Persons <i
+                        title="Persons" onclick="window.location.href='{$config:appUrl}/index.html#prosopography'">Persons <i
                             class="fa fa-caret-down"></i></button>
                     <div
                         class="w3-dropdown-content"  style="background:transparent;">
