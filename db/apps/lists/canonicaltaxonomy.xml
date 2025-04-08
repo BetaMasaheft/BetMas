@@ -756,6 +756,9 @@
          <category xml:id="sunandmoon" corresp="https://betamasaheft.eu/authority-files/sunandmoon/main">
             <catDesc>Sun and Moon</catDesc>
          </category>
+         <category xml:id="star" corresp="https://betamasaheft.eu/authority-files/star/main">
+            <catDesc>Star</catDesc>
+         </category>
          <category xml:id="tetramorph" corresp="https://betamasaheft.eu/authority-files/tetramorph/main">
             <catDesc>Tetramorph</catDesc>
          </category>
