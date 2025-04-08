@@ -1,4 +1,12 @@
 <meta xmlns="http://exist-db.org/xquery/repo">
     <description>Beta Masaheft lists</description>
+    <author>Pietro Liuzzo</author>
+    <website/>
+    <status>alpha</status>
+    <license>GNU-LGPL</license>
+    <copyright>true</copyright>
+    <type>application</type>
     <target>lists</target>
+    <finish>Pietro</finish>
+    <permissions user="Pietro" group="dba" mode="rwxrwxr-x"/>
 </meta>

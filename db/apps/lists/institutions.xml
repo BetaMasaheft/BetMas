@@ -921,6 +921,9 @@
                 <item xml:id="INS1020EFSmissionsmuseum">Evangeliska Fosterlands-Stiftelsens etnografiska missionsmuseum</item>
                 <item xml:id="INS1021Matenadaran">Mesrop Mashtots Research Institute of Ancient Manuscripts</item>
                 <item xml:id="INS1022ESZA">Private collection of qasis ʾƎšat Zammana ʾAndābet</item>
+            <item xml:id="INS1023BadawoAragawi" change="entryAddedAt2025-04-17T14:00:52.361+02:00">
+                    <span xmlns="" class="w3-tag w3-red">No item: INS1023BadawoAragawi</span>
+                </item>
             </list>
         </body>
     </text>
