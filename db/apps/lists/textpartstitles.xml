@@ -238,7 +238,7 @@
     <item corresp="LIT1182Baenta">Baʾǝnta hāymānot</item>
     <item corresp="LIT1183Baenta">Baʾǝnta ḥǝmāmāt māḫyawit</item>
     <item corresp="LIT1184Baenta">Baʾǝnta lǝdatu</item>
-    <item corresp="LIT1185Baenta">በአንተ፡ ልደቱ፡</item>
+     <item corresp="LIT1185Baenta">Baʾǝnta lǝdatu</item>
     <item corresp="LIT1186Baenta">Baʾǝnta lǝdatu wa-ṭǝmqatu</item>
     <item corresp="LIT1187Baenta">Baʾǝnta Māryām maḥaranna Krǝstos</item>
     <item corresp="LIT1188Baenta">Baʾǝnta Māryām</item>
@@ -658,7 +658,7 @@
     <item corresp="LIT1630Homily">Homily on Simeon the Priest</item>
     <item corresp="LIT1631Homily">Dǝrsān qālu za-bǝṣuʿ Yāʿqob ʾeṗis qoṗos za-Śǝrug baʾǝnta malʾak wa-fayyātāwi</item>
     <item corresp="LIT1632Homily">Homily on the Angels, God and Faith</item>
-    <item corresp="LIT1633Homily">ድርሳን፡ ዘአባ፡ ያዕቆብ፡ በእንተ፡ ስብከት፡ ጌና፡ ወበእንተ፡ ማርያም፡ ወኤልሳቤጥ፡</item>
+     <item corresp="LIT1633Homily">Dǝrsān za-ʾabbā Yāʿqob baʾǝnta sǝbkāta genā wa-baʾǝnta Māryām wa-ʾElsābeṭ</item>
     <item corresp="LIT1634Homily">Homily on the Annunciation to Zacharias</item>
     <item corresp="LIT1635Homily">Homily on the Apostle Thomas</item>
     <item corresp="LIT1636Homily">Homily on the Archangel Michael</item>
@@ -810,7 +810,7 @@
     <item corresp="LIT1793Leviti">Leviticus</item>
     <item corresp="LIT1794Liberg">Liber gentium</item>
     <item corresp="LIT1795Lifeof">Life of Aesop</item>
-    <item corresp="LIT1797Lifeof">ገድል፡ ወስምዕ፡ ዘቅዱስ፡ ወብፁዕ፡ አትናቴዎስ፡ ዘብሔረ፡ ቍልዝም</item>
+     <item corresp="LIT1797Lifeof">Life and Martyrdom of Athanasios of Clysma</item>
     <item corresp="LIT1798Lifeof">Life of Constantine</item>
     <item corresp="LIT1799Lifeof">Acts of John the Baptist</item>
     <item corresp="LIT1800Lifeof">Life of Joseph</item>
@@ -886,7 +886,7 @@
     <item corresp="LIT1889Martyr">The Martyrdom of St Peter</item>
     <item corresp="LIT1890Martyr">Martyrdom of Pilate</item>
     <item corresp="LIT1891Martyr">Zenāhomu la-sabʾa Nāgrān wa-sǝmʿomu la-qǝddus Ḫirut wa-ʾǝlla mǝslehu</item>
-    <item corresp="LIT1892Martyr">ቃል፡ ዘዜነዎ፡ አባ፡ ቢፋንዮስ፡ በእንተ፡ ፩መኰንን፡ ንጹሕ፡ ወፈራሄ፡ እግዚአብሔር፡ ዘስሙ፡ አስከናፍር፡</item>
+     <item corresp="LIT1892Martyr">Martyrium of ʾAskanāfǝr the governor</item>
     <item corresp="LIT1893Martyr">Gadl wa-sǝmʿ za-qǝddus liqa ḥarā Fāsiladas</item>
     <item corresp="LIT1894Martyr">Martyrium of Elewtǝros and his mother Ǝntǝya</item>
     <item corresp="LIT1895Martyr">Martyrium of Eustathius, his wife and his two children</item>
@@ -1087,7 +1087,7 @@
     <item corresp="LIT2103OnSile">On Silence</item>
     <item corresp="LIT2104OnStTh">Dǝrsān za-qǝddus Yoḥannǝs ʾAfa Warq baʾǝnta Tomās ḥawāryā</item>
     <item corresp="LIT2105OnStre">On Strengthening the Faithful in their Belief in Jesus Christ</item>
-    <item corresp="LIT2107OntheA">ድርሳን፡ ዘዮሐንስ፡ አፈ፡ ወርቅ፡ ዘከመ፡ ዜነዋ፡ ገብርኤል፡ ለማርያም፡</item>
+     <item corresp="LIT2107OntheA">Homily by John Chrysostom on the Annonciation to Mary by Gabriel</item>
     <item corresp="LIT2108OntheA">On the Appearance of God in the Old Testament and Christ in the New</item>
     <item corresp="LIT2109OntheA">Dǝrsān za-kama ʿarga ʾǝgziʾǝna wǝsta samāyāt malǝʿǝlta kʷǝllu sǝm</item>
     <item corresp="LIT2111OntheB">Dǝrsān za-qǝddus Yoḥannǝs ʾAfa Warq baʾǝnta ṭǝmqatu la-ʾǝgziʾǝna ʾIyasus Krǝstos</item>
@@ -2051,7 +2051,7 @@
     <item corresp="LIT3144Hosea">Za-Hoseʿ nabiyy</item>
     <item corresp="LIT3145Amos">Za-ʾAmoṣ nabiyy</item>
     <item corresp="LIT3146Micah">Za-Mikyās nabiyy</item>
-    <item corresp="LIT3147Obadiah">ዘአብድዩ፡ ነቢይ።</item>
+     <item corresp="LIT3147Obadiah">Book of Obadiah</item>
     <item corresp="LIT3148Zephan">Za-Sofonyās nabiyy</item>
     <item corresp="LIT3149Haggai">Za-Ḥagge nabiyy</item>
     <item corresp="LIT3150Zechar">Za-Zakāryās nabiyy</item>
@@ -2555,7 +2555,7 @@
     <item corresp="LIT4089Introduction">Excerpt from Walda ʿAmid, Introduction to the "short chronicle"</item>
     <item corresp="LIT4090Haylu">Ḫāylu Compilation (general record)</item>
     <item corresp="LIT4091GadlaTakasta">Gadla Takaśta Bǝrhān</item>
-    <item corresp="LIT4092AlexanderAbus">ዜናሁ፡ ለአስክንድር፡</item>
+     <item corresp="LIT4092AlexanderAbus">Zenāhu la-ʾƎskǝndǝr</item>
     <item corresp="LIT4093QalatTebab">Wisdom maxims following the Secundus</item>
     <item corresp="LIT4094GadlaMazraeta">Gadla Mazrāʾǝta Krǝstos</item>
     <item corresp="LIT4095Hymnto">Hymn to Jesus Christ and Our Lady Mary</item>
@@ -2807,7 +2807,7 @@
     <item corresp="LIT4345Prayer">Prayer of Our Lady Mary in Egypt to heal Joseph's cough</item>
     <item corresp="LIT4346Prayer">Ṣalot baʾǝnta ʾǝlla nomu</item>
     <item corresp="LIT4347Hymn">Hymn to Mary</item>
-    <item corresp="LIT4348Hymn">ዘአፍቀረነ፡ አግዚእ፡</item>
+     <item corresp="LIT4348Hymn">Za-ʾAfqaranna ʾǝgziʾ</item>
     <item corresp="LIT4349Wazema">Wāzemā za-ṣom</item>
     <item corresp="LIT4350JohnTheBaptist">Wāzemā za-qǝddus Yoḥannǝs</item>
     <item corresp="LIT4351Fruits">Hymn to the fruits of the Earth</item>
@@ -3759,7 +3759,7 @@
     <item corresp="LIT5351MiracleParalytic">Miracle of Mary: A paralytic is cured at the church of Makāna ʾIyasus; he establishes a monastery at the tomb of ʾabbā ʾAnbasā and lives there</item>
     <item corresp="LIT5352MiracleMalkasedeq2">Miracle of Mary: St Mary informs Malka Ṣǝdǝq in a vision that he will receive favour from Emperor Zarʿa Yāʿqob</item>
     <item corresp="LIT5353MiracleStephanites2">Miracle of Mary: The Stephanites are revealed among the damned in a vision of the blessed and the damned</item>
-    <item corresp="LIT5354Mashaf">መጽሐፈ፡ አሀጕሎተ፡ ሐሰት፡</item>
+     <item corresp="LIT5354Mashaf">Maṣḥafa ʾahagʷǝlota ḥasat</item>
     <item corresp="LIT5355MiracleIcon">Miracle of Mary: The miraculous icon in a monastery: when the Body of Christ falls to the ground unnoticed during the distribution of Communion, St Mary orders St Michael to pick it up</item>
     <item corresp="LIT5356MiracleTakaMaryam">Miracle of Mary: A Christian of Tāʾka Māryām, Tansǝʾa Krǝstos, tries to convert a Muslim</item>
     <item corresp="LIT5357MiracleGenbot">Miracle of Mary: St Mary appears to a pious woman and asks her to go to a certain town and teach the people the observance of her five feast days, from the 21st to the 25th of Gǝnbot</item>
@@ -4416,7 +4416,7 @@
     <item corresp="LIT6042HassabaDemetros">Ḥassaba Dǝmeṭros</item>
     <item corresp="LIT6043Hassab">Computus from the beginning till the end of the World</item>
     <item corresp="LIT6044ThreeNatures">Tract in Amharic on the three Natures of the Godhead and their Union</item>
-    <item corresp="LIT6045SerataSegdat">ሥርዓተ፡ ስግደት፡ በተፍጻሜተ፡ በዓለ፡ ፶፡ ቅድስት፡</item>
+     <item corresp="LIT6045SerataSegdat">Order of services for the Rite of Adoration</item>
     <item corresp="LIT6046InvocationMary">Short Invocation to Our Lady Mary</item>
     <item corresp="LIT6047On12ApostlesRetuaH">On the twelve Apostles</item>
     <item corresp="LIT6048OnPalmSundayRetuaH">On Palm Sunday</item>
@@ -4544,7 +4544,8 @@
     <item corresp="LIT6177DossierSadeqanB">Hagiographic Dossier of the Righteous Ones of Bāraknāhā</item>
     <item corresp="LIT6178BasilPhilippi">Baʾǝnta ḥǝnḍā beta krǝstiyān la-ʾǝgzǝʾtǝna nǝṣǝḥt Māryām ba-ʿǝlata qǝddāse ʾama 20wa1 la-Sane ba-salāma ʾƎgziʾabǝḥer</item>
     <item corresp="LIT6179MalkaSanbat">Malkǝʾa sanbata krǝstiyān</item>
-    <item corresp="LIT6180HomilyChurches">ድርሳን፡ በእንተ፡ ሕንጻ፡ አብያተ፡ ክርስቲያን፡ ለእግዝእትነ፡ ቅድስት፡ ማርያም፡ በዕለተ፡ ቅዳሴሃ፡ አመ፡ ፳ወ፩ለሰኔ፡</item>
+     <item corresp="LIT6180HomilyChurches">Homily on the construction of churches dedicated to Mary for the day of her
+       feast on 21st of Sane</item>
     <item corresp="LIT6181BirthGeorge">Homily (by an anonymous author) on the Birth of St George</item>
     <item corresp="LIT6182MiraclesTh">Miracles of Theodore Stratelates</item>
     <item corresp="LIT6183EphremTr">Dǝrsān za-darasa ʾabuna qǝddus ʾabbā ʾEfrem baʾǝnta za-tawallaṭa ʾarʾayāhu la-ʾƎgziʾǝna ʾIyasus Krǝstos ba-Dabra Tābor</item>
@@ -4563,7 +4564,7 @@
     <item corresp="LIT6199WeddaseMalkeaSellase">Wǝddāse za-Malkǝʾa Śǝllāse</item>
     <item corresp="LIT6200Hymn">Hymn to the Miracles of ʾEwosṭātewos</item>
     <item corresp="LIT6201Hymn">Collection of Hymns for the Miracles of ʾEwosṭātewos</item>
-    <item corresp="LIT6203MalkeaSeqlat">መልክአ፡ ስቅለት፡</item>
+     <item corresp="LIT6203MalkeaSeqlat">Malkǝʾa sǝqlat</item>
     <item corresp="LIT6205Saalnaka">Saʾalnāka maḥari saʾalnāka faṭāri saʾalnāka kahali</item>
     <item corresp="LIT6207CyriacusVictor">Discourse on Victor, by Cyriacus, bishop of Behnesa</item>
     <item corresp="LIT6208CyriacusPilate">Dǝrsān baʾǝnta za-kona sǝmʿa Ṗilāṭos masfǝn ba-hagara Rome</item>
@@ -4593,7 +4594,7 @@
     <item corresp="LIT6234MGBebaPalm">Miracle of St George: A malicious appointee from Bǝbā, who hates St George, is killed and hung on a palm tree</item>
     <item corresp="LIT6235MGOldCairo">Miracle of St George: A pagan breaks a lamp in the church of St George in Old Cairo and is killed</item>
     <item corresp="LIT6236MGEucharist">Miracle of St George: A pagan woman takes the Eucharist and dies an agonizing death</item>
-    <item corresp="LIT6237GadlaLanginos">ገድል፡ ዘአቡ፡ ለንጊኖስ፡ ንቡረ፡ እድ፡ ዘደብረ፡ ማህው፡</item>
+     <item corresp="LIT6237GadlaLanginos">Gadl za-ʾabu Langinos nǝbura ʾǝd za-Dabra Māhǝw</item>
     <item corresp="LIT6238AksColl">Antiochene Collection</item>
     <item corresp="LIT6239EcclCanQ">Ecclesiastical canons</item>
     <item corresp="LIT6240EcclCanQ">Apostolic Tradition</item>
@@ -4735,7 +4736,7 @@
     <item corresp="LIT6379MartyrdomTheoctiste">Martyrdom of Theoctistus and Alexandra</item>
     <item corresp="LIT6380Martyrdom_Orni">Zenāhā la-nǝṣǝḥt wa-ḫǝrit wa-burǝkt ʾOrni</item>
     <item corresp="LIT6381MartyrdomAbraham">Gadlu la-samāʿt ṣǝnuʿ bǝḍuʿāwi ʾAbrǝhām Ḍarābi</item>
-    <item corresp="LIT6382Homily">ድርሳን፡ በእንተ፡ ሰማዕት፡ ዐቢይ፡ ማር፡ ቴዎድሮስ፡</item>
+     <item corresp="LIT6382Homily">Dǝrsān baʾǝnta samāʿt ʾabiy mār Tewodros</item>
     <item corresp="LIT6383EgzienaAmlakenaLeuldibekwellu">ʾO-ʾǝgziʾǝna wa-'amlakǝna ʾIyasus Krǝstos walda ʾǝgziʾabǝḥer ḥǝyāw lǝʿul diba kʷǝllu</item>
     <item corresp="LIT6384Sawwer">Sawwǝr ʾǝmlāʿlana kǝbada ḫaṭāwǝ'ina ʾo-ʾǝgziʾo</item>
     <item corresp="LIT6385WeddaseSan">Wǝddāse ba-sanbata krǝstiyān</item>
@@ -4793,7 +4794,7 @@
     <item corresp="LIT6438MartEntawos">Gadl wa-sǝmʿ za-qǝddus ʾƎnṭāwos</item>
     <item corresp="LIT6439MartEnderyanos">Gadl wa-sǝmʿ za-qǝddus ʾƎndǝryānos wa-za-20wa4 samāʿtāt wa-za-bǝḍǝʿt ʾƎnṭolyā</item>
     <item corresp="LIT6440Sunday4">Dǝrsān za-yǝtnabbab ba-4 ṣom sanbat ʾǝnta yǝʾǝti Dabra Zayt qǝddǝst</item>
-    <item corresp="LIT6441Kehda">ድርሳን፡ ዘርቱዐ፡ ሃይማኖት፡ በእንተ፡ ዘከመ፡ ክሕዶ፡ ጴጥሮስ፡</item>
+     <item corresp="LIT6441Kehda">Dǝrsān za-Rǝtuʿa Hāymānot baʾǝnta za-kama kǝḥdo Ṗeṭros</item>
     <item corresp="LIT6442Sunday5">Mǝnbāb ba5 sanbat ṣom za-baʾǝnta sǝmʿ wa-baʾǝnta mǝnkʷǝsǝnnā</item>
     <item corresp="LIT6443Sunday6">Dǝrsān za-yǝtnabbab ba-6 sanbat ṣom</item>
     <item corresp="LIT6444HomilyPilatos">Dǝrsān za-Rǝtuʿā Hāymānot za-yǝtnabbab ba-ʿarb sǝqlat gize 3 saʿāt za-kama ḥatato Ṗilāṭos la-ʾƎgziʾǝna gize 3 saʿāt</item>
@@ -4874,7 +4875,8 @@
     <item corresp="LIT6521DersanArba">Dǝrsān ba-baʿāla ʾarbǝʿā</item>
     <item corresp="LIT6522Petros">Dǝrsān za-Ṗeṭros wa-Mārqos wangelāwi nagara Sǝnidos za-ḥǝgg kama-zǝ</item>
     <item corresp="LIT6523Feleksinos">Dǝrsān za-qǝddus wa-bǝḍuʿ Fǝlǝksinos za-hagara Mǝnbǝg ṗāṗṗās baʾǝnta za-tawakfo Sǝmʿon ʾaragāwi la-ʾIyasus wǝsta ḥǝḍnu</item>
-    <item corresp="LIT6524Tewoflos">ድርሳን፡ ዘብፁዕ፡ አባ፡ ቴዎፍሎስ፡ ዘበእንተ፡ ሐዋርያት፡ ወበእንተ፡ ፈያታዊ፡ ዘየማን፡</item>
+     <item corresp="LIT6524Tewoflos">Dǝrsān za-bǝḍuʿ ʾAbbā Tewoflos za-baʾǝnta ḥawāryāt
+       wa-baʾǝnta fayātāwi za-yamān</item>
     <item corresp="LIT6525HomilyAbakluz">Homily on St. Abakluz (by Stephen, Bishop of Ahnās in Egypt)</item>
     <item corresp="LIT6526MiraclesAbakluz">Miracles of St. Abakluz (by Stephen, Bishop of Ahnās)</item>
     <item corresp="LIT6527HomilyZosimus">Homily on Zosimus</item>
@@ -4884,7 +4886,7 @@
     <item corresp="LIT6532MartyrsAkhmim">Homily on the martyrdom of the Martyrs of Aḫmim</item>
     <item corresp="LIT6533GadlaAmoni">Gadl za-qǝddus wa-bǝḍuʿǝ ʾabuna ʾabbā ʾAmoni za-Dabra Tonā</item>
     <item corresp="LIT6534Aron">Vita of ʾAron of Serugh</item>
-    <item corresp="LIT6535DersYaqLenten">ድርሳን፡ ዘአባ፡ ያዕቆብ፡ ዘይተነበብ፡ በሳድስ፡ ሰንበተ፡ ጾም።</item>
+     <item corresp="LIT6535DersYaqLenten">Homily for the sixth Sunday in Lent</item>
     <item corresp="LIT6536Arsenius">Vita Arsenii</item>
     <item corresp="LIT6537Besoy">Gadla Bǝsoy</item>
     <item corresp="LIT6538Eugenius">Martyrdom of Eugenius (ʾAwgānyos)</item>
@@ -4897,7 +4899,7 @@
     <item corresp="LIT6545Demetrius">Martyrdom of Demetrius of Thessaloniki</item>
     <item corresp="LIT6546Arwa">Combat of the Israelite Woman ʾArwā</item>
     <item corresp="LIT6547BarsomaNaked">Gadla ʾabbā Barsomā ʾǝruq</item>
-    <item corresp="LIT6548Elaryon">ገድለ፡ ኤላርዮን፡</item>
+     <item corresp="LIT6548Elaryon">Life of Hilarion</item>
     <item corresp="LIT6549AmhTheol">Amharic treatise on the nature and life of Christ</item>
     <item corresp="LIT6550RHLedat">Dǝrsān ba-baʿala gena qǝddǝst ʾǝnta yǝʾti lǝdatu la-madḫǝnina ʾIyasus Krǝstos</item>
     <item corresp="LIT6551MartAntonyNew">Martyrdom of ʾabbā ʾEsi and his sister Tekla of Busir in Egypt</item>
@@ -4938,9 +4940,9 @@
     <item corresp="LIT6593Poem">Poem to Kiros or Raphael</item>
     <item corresp="LIT6594EpiphEaster">Dǝrsān za-ʾEṗifānis ṗāṗās za-hagara Qoṗros baʾǝnta hāymānot za-nǝṣǝḥt rǝgǝb wa-qǝddǝst dǝngǝl za-yǝʾǝti beta krǝstiyān</item>
     <item corresp="LIT6596HolyCross26Mag">Dǝrsān za-yǝtnabbab ba-Masqal za-ṣom baʾǝnta qǝddus ʿǝḍa masqal za-Krǝstos</item>
-    <item corresp="LIT6598CyrilJohn">ድርሳን፡ ዘቄርሎስ፡ ሊቀ፡ ጳጳሳት፡ ዘእልስክንድርያ፡ በበዓለ፡ ዮሐንስ፡ ወንጌላዊ፡</item>
+     <item corresp="LIT6598CyrilJohn">Homily by Cyril bishop of Alexadria for the feast of John the Baptist</item>
     <item corresp="LIT6599DersanAbreham">Dǝrsān za-bǝḍuʿ wa-qǝddus ʾabuna ʾAbrǝhām wa-za-qǝddus wa-nǝṣuḥ Yǝsḥaq waldu</item>
-    <item corresp="LIT6600RHJohnBapt">ድርሳን፡ ዘርቱዐ፡ ሃይማኖት፡ ዘደረሰ፡ በእንተ፡ ቅዱስ፡ ዮሐንስ፡ መጥምቅ፡</item>
+     <item corresp="LIT6600RHJohnBapt">Dǝrsān za-Rǝtuʿa Hāymānot za-darasa baʾǝnta qǝddus Yoḥannǝs maṭmǝq</item>
     <item corresp="LIT6602YohaGeorge">Dǝrsān za-bǝḍuʿ wa-qǝddus ʾabbā Yoḥannǝs</item>
     <item corresp="LIT6603ChrysSunday5">Dǝrsān za-ziʾāhu la-Yoḥannǝs ʾAfa Warq za-yǝtnabbab ba-ḫāmǝs sanbata ṣom</item>
     <item corresp="LIT6604MaundyThur">Dǝrsān ba-ṣalota ḫamus</item>
@@ -4950,7 +4952,7 @@
     <item corresp="LIT6608Commentary">Commentary on the Pentateuch by Mǝhǝrka Dǝngǝl</item>
     <item corresp="LIT6609ProtectPrayer">Protective Prayer (general record)</item>
     <item corresp="LIT6611SalYohMat">Dǝrsān ba-ṣalota Yoḥannǝs maṭmǝq</item>
-    <item corresp="LIT6612Araya">አርአያ፡ መስቀል፡ ዘአስተርአዮ፡ ለቈስጠንጢኖስ፡ ወበዘ፡ ረከበት፡ እሌኒ፡ ዕፀ፡ መስቀል፡ በሳብዕ፡ ዓመተ፡ መንግስቱ፡ ለቈስጠንጢኖስ፡ ንጉሥ፡</item>
+     <item corresp="LIT6612Araya">The story of the appearance of the Holy Cross to emperor Constantine, for the feast of St. Helena</item>
     <item corresp="LIT6613DerBetYoh">Dǝrsān za-beta krǝstiyān za-Yoḥannǝs mafqarita gadām</item>
     <item corresp="LIT6614FourCreat">Dǝrsān za-yǝtnabbab ba-kāhǝnāt wa-ba4 ʾǝnsǝsā</item>
     <item corresp="LIT6615MashafaTebab">Maṣḥafa ṭǝbab za-maṣʾa ʾǝm-gǝbṣ</item>
@@ -5034,7 +5036,7 @@
     <item corresp="LIT6694MirMarmehnam">Miracles of Mārmǝhnām</item>
     <item corresp="LIT6695HagDosAbuqir">Hagiographic Dossier of ʾAbuqir</item>
     <item corresp="LIT6696MirAbuqir">Miracles of ʾAbuqir</item>
-    <item corresp="LIT6698FourthSunday">ድርሳን፡ ዘዮሐንስ፡ አፈ፡ ወርቅ፡ ዘይትነበብ፡ በራብዕ፡ ሰንበተ፡ ጾም፡</item>
+     <item corresp="LIT6698FourthSunday">Homily by John Chrysostom for the fourth Sunday in Lent</item>
     <item corresp="LIT6700ThirdSunday">Dǝrsān za-baʾǝnta ṣom</item>
     <item corresp="LIT6701FourElements">Properties of the four elements</item>
     <item corresp="LIT6702MashafaKobor">Maṣḥafa kobor</item>
@@ -5146,7 +5148,7 @@
     <item corresp="LIT6813Seqyael">Protective prayer with ʾasmāt Sǝqyāʾelʾel</item>
     <item corresp="LIT6814MagicPr">Protective prayer for pregnancy and for chasing the demons away</item>
     <item corresp="LIT6815MeltanZatansae">Service for Easter beginning with mǝlṭān za-tǝnśāʾe</item>
-    <item corresp="LIT6817CommentJoshua">ፍካሬ፡ መጽሐፈ፡ ኢያሱ፡ ወልደ፡ ነዌ፡</item>
+     <item corresp="LIT6817CommentJoshua">Explanation of the Book of Joshua, son of Nun</item>
     <item corresp="LIT6818ZenaLebna">A short history of the kings Lǝbna Dǝngǝl, Galāwdewos, Minās and Śarḍa Dǝngǝl.</item>
     <item corresp="LIT6819Teachi318HA">Teaching of the 318 Nicene Fathers</item>
     <item corresp="LIT6821HomEphrEpiphany">Dǝrsān za-qǝddus wa-bǝḍuʿ ʾEfrem baʾǝnta ṭǝmqatu la-ʾǝgziʾǝna</item>
@@ -5174,7 +5176,7 @@
     <item corresp="LIT6845PPSatolay">Protective prayer against šatolāy, with ʾasmāt</item>
     <item corresp="LIT6847ZemmareHosana">Zǝmmāre za-Hosāʿnā</item>
     <item corresp="LIT6848ZemmareDabraZa">Zǝmmāre za-Dabra Zayt</item>
-    <item corresp="LIT6849Menhar">መጽሐፈ ምንሀር</item>
+     <item corresp="LIT6849Menhar">Maṣḥafa mǝnhar</item>
     <item corresp="LIT6850Prayer">Short prayer in the shape of a supplication to Susǝnyos</item>
     <item corresp="LIT6851Prayer">Prayer against the sufferings provoked by the Budā, containing ʾasmāt</item>
     <item corresp="LIT6852Prayer">Prayer for binding the demons</item>
@@ -5396,7 +5398,7 @@
     matkaftəka Selo (Qǝne of the mawaddəs-type)</item>
   <item corresp="LIT7079QeneEgziabeher">ʾƎgziʾabǝḥer ṣawwǝʿa ʾǝmǝnna Galilā ʾanǝsta (Qǝne of the
     ʿəṭāna mogar-type)</item>
-  <item corresp="LIT7080NamesGod">London, British Library, BL Oriental 3663</item>
+  
   <item corresp="LIT7080Qene">Wa-mot manfaqa sǝgāna la-raḫāb wa-manfaqa śǝgāna la-maret (Qǝne of the
     śəllāse-type)</item>
   <item corresp="LIT7082QeneEmnahsa">ʾƎm-nāhsa ʾIsāyəyās za-waṣʾa ba-ʾamata fəddā hāmal lanṣ farasa
@@ -5607,7 +5609,7 @@
   <item corresp="LIT7227Blessing">Qāla barakat za-ʾabuna Yāred</item>
   <item corresp="LIT7228Order">Order of the psalmody for the consecration of the church and the
     altar</item>
-  <item corresp="LIT7229DossierWP">Berlin, Berlin State Library, SBP, Ms. orient. oct. 59</item>
+     <item corresp="LIT7229DossierWP">Hagiographic Dossier of St Walatta Ṗeṭros</item>
   <item corresp="LIT7230TammeraWP">Taʾammǝra Walatta Ṗeṭros</item>
   <item corresp="LIT7231AynatBarya">Prayer against ʿaynat, the evil eye of Bāryā, and for stopping
     vaginal haemorrhage</item>
