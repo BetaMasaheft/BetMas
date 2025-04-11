@@ -3730,7 +3730,7 @@ declare %private function viewItem:gap($node as element(t:gap)) {
        
        <span
             class="w3-text w3-tag w3-small OmissionResp">{if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
-                                                concat('ommission by ', exptit:printTitle($node/@resp))
+                                                concat('ommission by ', string-join(exptit:printTitle($node/@resp), ', '))
    else
                                                  concat('ommission by ', viewItem:editorName($node/@resp))}</span>
     </span>
