@@ -1094,44 +1094,9 @@ Scrolling in this box will also show you a summary of all the occurences.  <a ta
                                                     return
 
                                                           <li class="w3-bar w3-card-2 list-group">
-                                                        {  if ($item//t:facsimile/t:graphic/@url) then 
-                                                        <a class="w3-bar-item" target="_blank" href="{$item//t:facsimile/t:graphic/@url}">Link to images</a> 
-                                                        else if($item//t:msIdentifier/t:idno/@facs) then 
-                 <a class="w3-bar-item w3-circle" target="_blank" href="/manuscripts/{$groupkey}/viewer">{
-                if($item//t:collection = 'Ethio-SPaRe') 
-               then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
-(:laurenziana:)
-else  if($item//t:repository[@ref = 'INS0339BML']) 
-               then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '005.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
-          
-(:          
-EMIP:)
-              else if(($item//t:msIdentifier/t:idno[contains(@facs, 'EMIP')]) and $item//t:msIdentifier/t:idno/@n) 
-               then <img src="{$config:appUrl ||'/iiif/' || string(($item//t:msIdentifier)[1]/t:idno[@facs][@n]/@facs) || '001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
-              
-              (:BNF:)
-            else if ($item//t:repository/@ref = 'INS0303BNF') 
-            then <img src="{replace($item//t:msIdentifier/t:idno/@facs, 'ark:', 'iiif/ark:') || '/f1/full/140,/0/native.jpg'}" class="thumb w3-image"/>
-(:           vatican :)
-                else  if ($item//t:repository/@ref = 'INS0003BAV')
-                then <img src="{replace(substring-before($item//t:msIdentifier/t:idno/@facs, '/manifest.json'), 'iiif', 'pub/digit') || '/thumb/'
-                    ||
-                    substring-before(substring-after($item//t:msIdentifier/t:idno/@facs, 'MSS_'), '/manifest.json') || 
-                    '_0001.tif.jpg'
-                }" class="thumb w3-image"/>
-                (:Berlin:)
-                  else  if ($item//t:msIdentifier/t:idno[contains(@facs, 'staatsbibliothek-berlin')]) 
-                                                then
-                                                    (: https://content.staatsbibliothek-berlin.de/dc/1751174670/manifest
-                                            https:\/\/content.staatsbibliothek-berlin.de\/dc\/1751174670-0001\/full\/full\/0\/default.jpg:)
-                                                    <img
-                                                        src="{
-                                                                replace($item//t:msIdentifier/t:idno/@facs, '/manifest', '-0001/full/140,/0/default.jpg')
-                                                            }"
-                                                        class="thumb w3-image"/>
-                else 'Link to images' }</a>
-                                                          
-                else ()}
+                                                        { if($item//t:msIdentifier/t:idno/@facs) then 
+                                                     <a class="w3-bar-item w3-circle" target="_blank" href="/manuscripts/{$groupkey}/viewer"><i class="fa fa-picture-o" /></a> else if ($item//t:facsimile/t:graphic/@url) then 
+                                                        <a class="w3-bar-item" target="_blank" href="{$item//t:facsimile/t:graphic/@url}"><i class="fa fa-picture-o" /></a>  else ()}
                                                           <a class="w3-bar-item"
                                                href="/manuscripts/{$groupkey}/main">{$tit} ({string($groupkey)}) </a>
                                                
