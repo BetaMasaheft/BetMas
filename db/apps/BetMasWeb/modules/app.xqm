@@ -252,6 +252,7 @@ declare function app:selectors($nodeName, $path, $nodes, $type, $context){
                                         case 'language' return 'TEIlanguageIdent' 
                                         case 'material' return 'materialkey' 
                                         case 'bmaterial' return 'materialkey'
+                                        case 'bindingo' return 'bindingtype'
                                          case 'placetype' return 'placetype' 
                                          case 'country' return 'countryref' 
                                          case 'settlement' return 'settlref' 
@@ -589,6 +590,16 @@ function app:bmaterial($node as node(), $model as map(*), $context as xs:string*
         templates:form-control($control, $model)
 };
 
+declare
+%templates:default("context", "$apprest:collection-rootMS")
+function app:bindingo($context as xs:string*) {
+    let $cont := util:eval($context)
+      let $binding := config:distinct-values($cont//t:binding/@contemporary)
+   let $control :=
+        app:formcontrol('bindingo', $binding, 'false', 'values', $context)
+    return
+        templates:form-control($control, $model)
+};
 
 (:~ called by form*.html files used by advances search form as.html and filters.js PLACES FILTERS for CONTEXT:)
 declare
@@ -1128,6 +1139,7 @@ $numberOfParts as xs:string*,
     let $support := app:ListQueryParam('support', 't:objectDesc/@form', 'any', 'search')
     let $material := app:ListQueryParam('material', 't:support/t:material/@key', 'any', 'search')
     let $bmaterial := app:ListQueryParam('bmaterial', "t:decoNote[@type eq 'bindingMaterial']/t:material/@key", 'any', 'search')
+    let $bindingo := app:ListQueryParam('bindingo', "t:binding/@contemporary", 'any', 'search')
     let $placeType := app:ListQueryParam('placeType', 't:place/@type', 'any', 'search') 
     let $personType := app:ListQueryParam('persType', 't:person//t:occupation/@type', 'any', 'search')
     let $relationType := app:ListQueryParam('relType', 't:relation/@name', 'any', 'search')
@@ -1250,7 +1262,7 @@ let $nOfP := if(empty($numberOfParts) or $numberOfParts = '') then () else '[cou
 
 
 let $allfilters := concat($IDpart, $wt, $repository, $mss, $texts, $script, $support, 
-             $material, $bmaterial, $placeType, $personType, $relationType, 
+             $material, $bmaterial, $bindingo, $placeType, $personType, $relationType, 
              $keyword, $languages, $scribes, $donors, $patrons, $owners, $parchmentMakers, 
              $binders, $contents, $authors, $tabots, $genders, $dateRange, $leaves, $wL,  $quires, $quiresComp,
              $references, $height, $width, $depth, $marginTop, $marginBot, $marginL, $marginR, $marginIntercolumn)
@@ -1429,7 +1441,7 @@ declare function app:gotoadvanced($node as node()*, $model as map(*)){
 let $query := request:get-parameter('query', ())
 return 
 <div class="w3-bar">
-<a href="/newSearch.html?query={$query}" class="w3-button w3-red w3-margin w3-bar-item">Repeat search in the New Search.</a>
+<a href="/as.html?query={$query}" class="w3-button w3-red w3-margin w3-bar-item">Repeat search in the Advanced search.</a>   
 </div>
 };
 
@@ -1603,7 +1615,6 @@ function app:paginateNew($node as node(), $model as map(*), $start as xs:int, $p
             ()
 };
 
-
 declare    
 %templates:wrap
 %templates:default('start', 1)
@@ -1767,6 +1778,7 @@ else if (contains($item//t:msIdentifier/t:idno/@facs, 'bodleian')) then ('images
             </div>
             </div>
     };
+
 
 (:~  copied from  dts: to format and select the references :)
 declare function app:refname($n){
