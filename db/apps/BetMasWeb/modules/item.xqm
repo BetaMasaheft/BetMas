@@ -133,8 +133,8 @@ declare function item2:RestViewOptions($this, $collection) {
 let $document := $this
 let $id := string($this/@xml:id)
 return
-<div xmlns="http://www.w3.org/1999/xhtml" class="w3-bar w3-small" id="options">
-
+<div xmlns="http://www.w3.org/1999/xhtml" class="w3-bar w3-small w3-padding w3-margin-top" id="options">
+<!--
  <div class="w3-bar-item" >
  <a class="w3-button w3-padding-small w3-gray" href="javascript:void(0);" onclick="startIntroItem();">Explore this page</a>
  </div>
@@ -151,35 +151,36 @@ return
  <span class="w3-text w3-tag itemoptiontooltip">On small screens, will show a navigation bar on the left</span>
  <a class="w3-button w3-padding-small w3-gray" onclick="w3_openItemSB()">Open 
  Item Navigation</a>
+ </div>-->
+ <div class="w3-bar-item w3-tooltip" >
+           <a class="w3-button w3-padding-small w3-gray"  id="mainEntryLink" href="/{$collection}/{$id}/main">Main view</a>
+<span class="w3-text w3-tag itemoptiontooltip">Main view</span>
  </div>
 <div class="w3-bar-item  w3-tooltip">
 
 <a target="_blank" class="w3-button w3-padding-small w3-gray" 
     href="https://github.com/BetaMasaheft/{replace(replace(base-uri($this), '/db/apps/expanded/', ''), 
-    $collection, concat($collection, '/blob/master'))}">Edit</a>
+    $collection, concat($collection, '/blob/master'))}"><i class="fa fa-pencil-square-o"></i></a>
     <span class="w3-text w3-tag itemoptiontooltip">
-Not sure how to do this? Have a look at the <a href="/Guidelines">Beta maṣāḥǝft Guidelines</a>!
+ Edit on GitHub
 </span>
     </div>
 <div class="w3-bar-item w3-tooltip" >
 <a class="w3-button w3-padding-small w3-gray" id="toggleHands"><span class="showHideText">Hide</span> pointers</a>
 <span class="w3-text w3-tag itemoptiontooltip">Click here to hide or show again the little arrows and small left pointing hands in this page.</span>
 </div>
+<!--
 <div class="w3-bar-item w3-tooltip" >
 <a class="w3-button w3-padding-small w3-gray" id="toogleSeeAlso"><span class="showHideText">Hide</span> related</a>
 <span class="w3-text w3-tag itemoptiontooltip">Click here to hide or show again the right side of the content area, where related items and keywords are shown.</span>
-</div>
+</div>-->
             
 <!--<div class="w3-bar-item w3-tooltip">
 {apptable:pdf-link($id)}
 <span class="w3-text w3-tag itemoptiontooltip">Produces a PDF on the fly from the source TEI-XML using XSL-FO and Apache FOP</span>
 </div>-->
 
-<div class="w3-bar-item w3-tooltip" >
-           <a class="w3-button w3-padding-small w3-gray"  id="mainEntryLink" href="/{$collection}/{$id}/main" 
-           target="_blank" >Main view</a>
-<span class="w3-text w3-tag itemoptiontooltip">Main Entry</span>
- </div>
+
  <!--
 <div class="w3-bar-item w3-tooltip">
 <a class="w3-button w3-padding-small w3-gray"  id="TEILink" href="{( '' || $id ||  '.xml')}" target="_blank">TEI/XML</a>
@@ -237,7 +238,7 @@ else ()}
  </div>
 </div>
 
-{if (($collection = 'works' or $collection = 'narratives' or $collection = 'studes' or $collection = 'manuscripts') and ($document//t:body[t:div[@type = 'edition'][t:ab or t:div[@type = 'textpart']]]) ) then
+{if (($collection = 'works' or $collection = 'narratives' or $collection = 'studies' or $collection = 'manuscripts') and ($document//t:body[t:div[@type = 'edition'][t:ab or t:div[@type = 'textpart']]]) ) then
     (<div class="w3-bar-item w3-tooltip" 
   >
     <a class="w3-button w3-padding-small w3-red"  href="{('/'||$collection|| '/' || $id || '/text' )}" 
@@ -250,7 +251,7 @@ else ()}
     <span class="w3-text w3-tag itemoptiontooltip">See places marked up in the text using the Dariah-DE Geo-Browser</span>
     </div>) else ()}
     
-    {if (($collection = 'works' or $collection = 'narratives' or $collection = 'studes') and ($document//t:body[t:div[@type = 'translation'][t:ab or t:div[@type = 'textpart']]]) ) then
+    {if (($collection = 'works' or $collection = 'narratives' or $collection = 'studies') and ($document//t:body[t:div[@type = 'translation'][t:ab or t:div[@type = 'textpart']]]) ) then
     (<div class="w3-bar-item w3-tooltip" 
   >
     <a class="w3-button w3-padding-small w3-red"  href="{('/'||$collection|| '/' || $id || '/text' )}" 
@@ -275,7 +276,7 @@ else ()}
     target="_blank">Link to images</a>
     <span class="w3-text w3-tag itemoptiontooltip">Link to images available not on this site</span>
     </div> else ()}
-    {if ($collection = 'works' or $collection = 'narratives' or $collection = 'studes') then
+    {if ($collection = 'works' or $collection = 'narratives' or $collection = 'studies') then
     (<div class="w3-bar-item w3-tooltip" >
     <a class="w3-button w3-padding-small w3-gray"  href="{('/compare?workid=' || $id  )}" target="_blank">Compare</a>
     <span class="w3-text w3-tag itemoptiontooltip">Compare manuscripts with this content</span>
