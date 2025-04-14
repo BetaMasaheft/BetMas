@@ -201,10 +201,41 @@ else ()}
     <div class="w3-bar-item"><a class="w3-button w3-padding-small w3-gray"  href="/{( $id ||
     '.json')}" target="_blank">geoJson</a></div> else ()}
     
+ <!--  
 <div class="w3-bar-item w3-tooltip"  
 ><a class="w3-button w3-padding-small w3-gray"  href="/{$collection}/{$id}/analytic" target="_blank">Relations</a>
 <span class="w3-text w3-tag itemoptiontooltip">Further visualization of relational information</span></div>
-  
+  -->
+<div class="w3-bar-item w3-container">
+  <a
+  onclick="document.getElementById('relations').style.display='block'"
+  class="w3-button w3-padding-small w3-gray"
+  >Relations</a>
+ <div id="relations" class="w3-modal w3-card w3-display-container w3-margin-top" style="vertical-align: top;max-height:600px;width:80%;">
+  <div class="w3-modal-content w3-white">
+    <header>
+      <span
+        onclick="document.getElementById('relations').style.display='none'"
+        class="w3-button w3-display-topright"
+      >
+       <i class="fa fa-times"/>
+      </span>
+      <span class="w3-button w3-padding-small">Relations</span>
+    </header>
+
+    <div class="w3-container">
+     table {item2:EntityRelsTable($document, $collection)} 
+    </div>  
+    <div class="w3-container w3-hide-small">
+     roles {item2:RestPersRole($document, $collection)}
+    </div>
+    <div id="timeLine" class="w3-container w3-hide-small" />
+    <script type="text/javascript">
+      {if (item2:timeline($document, $collection)) then item2:timeline($document, $collection) else ()}
+    </script>
+  </div>
+ </div>
+</div>
 
 {if (($collection = 'works' or $collection = 'narratives' or $collection = 'studes' or $collection = 'manuscripts') and ($document//t:body[t:div[@type = 'edition'][t:ab or t:div[@type = 'textpart']]]) ) then
     (<div class="w3-bar-item w3-tooltip" 
