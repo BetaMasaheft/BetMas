@@ -177,13 +177,14 @@ Not sure how to do this? Have a look at the <a href="/Guidelines">Beta maṣā�
 
 <div class="w3-bar-item w3-tooltip" >
            <a class="w3-button w3-padding-small w3-gray"  id="mainEntryLink" href="/{$collection}/{$id}/main" 
-           target="_blank" >Entry</a>
+           target="_blank" >Main view</a>
 <span class="w3-text w3-tag itemoptiontooltip">Main Entry</span>
  </div>
+ <!--
 <div class="w3-bar-item w3-tooltip">
 <a class="w3-button w3-padding-small w3-gray"  id="TEILink" href="{( '' || $id ||  '.xml')}" target="_blank">TEI/XML</a>
 <span class="w3-text w3-tag itemoptiontooltip">Download an enriched TEI file with explicit URIs bibliography from Zotero API. </span>
-</div>
+</div>-->
 {if(($collection = 'manuscripts') and ($document//t:relation[contains(@name, 'sdc')])) then
 <div class="w3-bar-item w3-tooltip">
 <a class="w3-button w3-padding-small w3-gray"  id="GraphViewLink"  href="/{$collection}/{$id}/graph" target="_blank"><i>Syntaxe</i></a>
@@ -191,32 +192,40 @@ Not sure how to do this? Have a look at the <a href="/Guidelines">Beta maṣā�
 then you will see visualizations based on La Syntaxe du Codex, by Andrist, Canart and Maniaci.</span>
 </div>
 else ()}
-    {if(($collection = 'institutions' or $collection = 'places') and ($document//t:geo/text() or $document//t:place[@sameAs] )) then
+{if(($document//t:placeName )) then
+    <div class="w3-bar-item"><a class="w3-button w3-padding-small w3-gray"  href="/IndexPlaces?entity={string($document/@xml:id)}">Places Index</a></div> else ()}
+{if(($document//t:persName )) then
+    <div class="w3-bar-item"><a class="w3-button w3-padding-small w3-gray"  href="/IndexPersons?entity={string($document/@xml:id)}">Persons Index</a></div> else ()}
+   
+ {if(($collection = 'institutions' or $collection = 'places') and ($document//t:geo/text() or $document//t:place[@sameAs] )) then
     <div class="w3-bar-item"><a class="w3-button w3-padding-small w3-gray"  href="/{( $id ||
     '.json')}" target="_blank">geoJson</a></div> else ()}
+    
 <div class="w3-bar-item w3-tooltip"  
 ><a class="w3-button w3-padding-small w3-gray"  href="/{$collection}/{$id}/analytic" target="_blank">Relations</a>
 <span class="w3-text w3-tag itemoptiontooltip">Further visualization of relational information</span></div>
-    {if ($collection = 'works' or $collection = 'narratives' or $collection = 'studes') then
+  
+
+{if (($collection = 'works' or $collection = 'narratives' or $collection = 'studes' or $collection = 'manuscripts') and ($document//t:body[t:div[@type = 'edition'][t:ab or t:div[@type = 'textpart']]]) ) then
     (<div class="w3-bar-item w3-tooltip" 
   >
     <a class="w3-button w3-padding-small w3-red"  href="{('/'||$collection|| '/' || $id || '/text' )}" 
     target="_blank">Text</a>
-    <span class="w3-text w3-tag itemoptiontooltip">Text (as available). Do you have a text you want to contribute? 
-    Contact us or click on EDIT and submit your contribution.</span>
+    <span class="w3-text w3-tag itemoptiontooltip">Text</span>
     </div>,
     <div class="w3-bar-item w3-tooltip" >
     <a class="w3-button w3-padding-small w3-gray"  href="{('/'||$collection|| '/' || $id || '/geoBrowser' )}" 
-    target="_blank">Places</a>
+    target="_blank">Map of places</a>
     <span class="w3-text w3-tag itemoptiontooltip">See places marked up in the text using the Dariah-DE Geo-Browser</span>
     </div>) else ()}
-    {if ($collection = 'manuscripts') then
-    <div class="w3-bar-item w3-tooltip"  >
+    
+    {if (($collection = 'works' or $collection = 'narratives' or $collection = 'studes') and ($document//t:body[t:div[@type = 'translation'][t:ab or t:div[@type = 'textpart']]]) ) then
+    (<div class="w3-bar-item w3-tooltip" 
+  >
     <a class="w3-button w3-padding-small w3-red"  href="{('/'||$collection|| '/' || $id || '/text' )}" 
-    target="_blank">Transcription</a>
-    <span class="w3-text w3-tag itemoptiontooltip">Transcription (as available). Do you have a transcription you want to contribute? 
-    Contact us or click on EDIT and submit your contribution.</span>
-    </div> else ()}
+    target="_blank">Translation</a>
+    <span class="w3-text w3-tag itemoptiontooltip">Translation</span>
+    </div>) else ()}
     {if ($collection = 'manuscripts' and ($this//t:msIdentifier/t:idno[@facs][@n] or $this//t:msIdentifier/t:idno[starts-with(@facs, 'http')])) then
     <div class="w3-bar-item w3-tooltip" >
     <a class="w3-button w3-padding-small w3-gray"  href="{('/manuscripts/' || $id || '/viewer' )}" 
@@ -847,15 +856,14 @@ declare function item2:RestNav ($this, $collection, $type) {
 let $document := $this
 let $id := string($this/@xml:id)
 return
-<div class="w3-sidebar w3-bar-block w3-card w3-animate-left " id="sidebar" style="max-height:50vh;width:10%;z-index:auto;">
+<div class="w3-sidebar w3-bar-block w3-card w3-animate-left " id="sidebar" style="max-height:50vh;width:auto%;z-index:auto;">
        <button type="button" class="w3-bar-item w3-button w3-hide-large" onclick="w3_closeItemSB()">
                     Close Item Navigation
                 </button>
                 {
             if($type = 'text') then  item2:witnesses($id) 
-            else <div class="w3-container w3-col">
-            <img id="loading" src="resources/Loading.gif" style="display: none; align: centre;" width="100%"></img>
-            {viewItem:nav($this)}</div>
+            else (:<div class="w3-container w3-col">            
+            {viewItem:nav($this)}</div>:) ()
            }
 </div>
 };
