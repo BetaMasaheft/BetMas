@@ -9,5 +9,6 @@
     <type>application</type>
     <target>BetMasWeb</target>
     <finish>post-install.xq</finish>
+    <!-- <prepare>pre-install.xq</prepare> -->
     <permissions user="BetaMasaheftAdmin" group="dba" mode="rwxrwxr-x"/>
 </meta>

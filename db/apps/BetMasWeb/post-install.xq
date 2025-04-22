@@ -12,13 +12,20 @@ for $group in ('Editors', 'Cataloguers')
 	return sm:create-group($group),
 
 (: Create logging collection. TODO: remove the use of it :)
-if (not(xmldb:collection-available('/db/apps/log')) then
+if (not(xmldb:collection-available('/db/apps/log'))) then
 	xmldb:create-collection('/db/apps', 'log')
 else
-	()
+	(),
 
 (: Create placeholders  :)
 for $col in ('authority-files','manuscripts', 'institutions', 'narratives', 'persons', 'places', 'studies', 'works')
 let $col := '/db/apps/expanded/' || $col
 where not(xmldb:collection-available($col || '/new'))
 return xmldb:create-collection($col, 'new')
+
+
+
+(:
+ TODO: in a cronjob persist users to a volume
+ When running this finish, sync users to the database
+:)

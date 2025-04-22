@@ -223,7 +223,7 @@ declare %private function viewItem:locus($this) {
                 <a
                     class="locusReference"
                     target="_blank"
-                    href="/{$mainID}.{$r}">
+                    href="{$config:appUrl}/{$mainID}.{$r}">
                     <i
                         class="fa fa-file-text-o"
                         aria-hidden="true"/>
@@ -805,7 +805,7 @@ declare %private function viewItem:worktitle($t) {
                     (),
                 if ($t/@ref) then
                     <a
-                        href="/{viewItem:URI2ID($t/@ref)}"
+                        href="{$config:appUrl}/{viewItem:URI2ID($t/@ref)}"
                         target="_blank">{$t/text()}</a>
                 else
                     viewItem:TEI2HTML($t/node()),
@@ -831,7 +831,7 @@ declare %private function viewItem:placename($name) {
                     (),
                 if ($name/@ref) then
                     <a
-                        href="/{viewItem:URI2ID($t/@ref)}"
+                        href="{$config:appUrl}/{viewItem:URI2ID($t/@ref)}"
                         target="_blank">{$name/text()}</a>
                 else
                     viewItem:TEI2HTML($name/node()),
@@ -864,7 +864,7 @@ declare %private function viewItem:persname($name) {
                     (),
                 if ($name/@ref) then
                     <a
-                        href="/{viewItem:URI2ID($name/@ref)}"
+                        href="{$config:appUrl}/{viewItem:URI2ID($name/@ref)}"
                         target="_blank">{$name/text()}</a>
                 else
                     viewItem:TEI2HTML($name/node()),
@@ -903,7 +903,7 @@ declare %private function viewItem:workAuthorList($parentname, $p, $a) {
     return
     ($parentname,
     <a
-        href="/{$filename}"
+        href="{$config:appUrl}/{$filename}"
         class="persName">
         {exptit:printTitle($p)}
     </a>,
@@ -1043,7 +1043,7 @@ declare %private function viewItem:headercontext($node) {
             ()
         return
             <a
-                href="/{viewItem:URI2ID($c)}">{$text}
+                href="{$config:appUrl}/{viewItem:URI2ID($c)}">{$text}
                 {$lang}</a>
         return
             ('(about:', $items, ')')
@@ -1119,8 +1119,8 @@ declare %private function viewItem:bibl($node, $t) {
                     href="{$node/@corresp}">Zotero</a>
                 <a
                     class="w3-bar-item w3-button w3-tiny"
-                    href="/bibliography?pointer={$t}">Other citations</a>
-            
+                    href="{$config:appUrl}/bibliography?pointer={$t}">Other citations</a>
+
             </span>
         </div>
     </div>
@@ -1248,7 +1248,7 @@ declare %private function viewItem:ref($ref) {
             else
                 <a
                     class="reference"
-                    href="/{substring-after($ref/@cRef, 'betmas:')}"
+                    href="{$config:appUrl}/{substring-after($ref/@cRef, 'betmas:')}"
                     target="_blank">
                     {$ref/text()}
                     <i
@@ -1260,7 +1260,7 @@ declare %private function viewItem:ref($ref) {
                 for $c in viewItem:makeSequence($ref/@corresp)
                 return
                     (<a
-                        href="/{viewItem:URI2ID($c)}">{$ref/text()}</a>,
+                        href="{$config:appUrl}/{viewItem:URI2ID($c)}">{$ref/text()}</a>,
                     let $relsid := generate-id($ref)
                     return
                         <a
@@ -1279,16 +1279,16 @@ declare %private function viewItem:ref($ref) {
                             let $node := $ref/ancestor::t:TEI/id($anchor)
                             return
                                 <a
-                                    href="/{$id}#{$anchor}">
-                                   <span>{$ref/text()}</span></a>
+                                    href="{$config:appUrl}/{$id}#{$anchor}">
+                                    {$ref/text()}</a>
                         else
                             if (starts-with($t, 'http')) then
                                 <a
                                     href="{$t}">
-                                     {$ref/text()}</a>
+                                    {$ref/text()}</a>
                             else
                                 <a
-                                    href="/{$t}">{$ref/text()}</a>
+                                    href="{$config:appUrl}/{$t}">{$ref/text()}</a>
                 else
                     ()
         )
@@ -1315,7 +1315,7 @@ declare %private function viewItem:ref($ref) {
                 for $c in viewItem:makeSequence($ref/@corresp)
                 return
                     (<a
-                        href="/{viewItem:URI2ID($c)}">{exptit:printTitle($c)}</a>,
+                        href="{$config:appUrl}/{viewItem:URI2ID($c)}">{exptit:printTitle($c)}</a>,
                     let $relsid := generate-id($ref)
                     return
                         <a
@@ -1697,7 +1697,7 @@ declare %private function viewItem:namedEntityTitle($entity) {
     (
     <a target="_blank"
         xmlns="http://www.w3.org/1999/xhtml"
-        href="/{viewItem:URI2ID($entity/@ref)}">{viewItem:TEI2HTML($entity/node())}</a>,
+        href="{$config:appUrl}/{viewItem:URI2ID($entity/@ref)}">{viewItem:TEI2HTML($entity/node())}</a>,
     if (matches($entity/@ref, 'LIT')) then
         (' (' || viewItem:cae($entity) || ')')
     else
@@ -1886,7 +1886,7 @@ declare %private function viewItem:msItem($msItem) {
                                     <a
                                         role="button"
                                         class="w3-button w3-gray w3-small"
-                                        href="/manuscripts/{$mainID}/text?per-page=1&amp;start={$number}">Transcription</a>
+                                        href="{$config:appUrl}/manuscripts/{$mainID}/text?per-page=1&amp;start={$number}">Transcription</a>
                             else
                                 ()
                     }
@@ -2943,9 +2943,9 @@ declare %private function viewItem:additionItem($a) {
                 if ($a/t:desc/@type) then
                     (' (Type: ',
                     <a
-                        target="_blank" href="/authority-files/list?keyword={$a/t:desc/@type}">{string($a/t:desc/@type)}</a>,
+                        target="_blank" href="{$config:appUrl}/authority-files/list?keyword={$a/t:desc/@type}">{string($a/t:desc/@type)}</a>,
                     <a target="_blank"
-                        href="/additions?type={$a/t:desc/@type}">
+                        href="{$config:appUrl}/additions?type={$a/t:desc/@type}">
                         <i
                             class="fa fa-hand-o-left"/>
                     </a>, ') ')
@@ -4918,7 +4918,7 @@ declare %private function viewItem:relsinfoblock($rels, $id) {
         class="w3-tiny">For a table of all relations from and to this record,
         please go to the <a
             class="w3-tag w3-gray"
-            href="/{switch2:col(switch2:switchPrefix($id))}/{$id}/analytic">Relations</a> view.
+            href="{$config:appUrl}/{switch2:col(switch2:switchPrefix($id))}/{$id}/analytic">Relations</a> view.
         In the Relations boxes on the right of this page, you can also find all available relations grouped by name.
     </p>
 };
@@ -6205,25 +6205,25 @@ declare function viewItem:worknav($item) {
     if ($item//t:placeName) then
         <a
             class="w3-bar-item page-scroll"
-            href="/IndexPlaces?entity={string($item/@xml:id)}">Places Index</a>
+            href="{$config:appUrl}/IndexPlaces?entity={string($item/@xml:id)}">Places Index</a>
     else
         (),
     if ($item//t:persName) then
         <a
             class="w3-bar-item page-scroll"
-            href="/IndexPersons?entity={string($item/@xml:id)}">Persons Index</a>
+            href="{$config:appUrl}/IndexPersons?entity={string($item/@xml:id)}">Persons Index</a>
     else
         (),
     if ($item//t:body[t:div[@type = 'edition'][t:ab or t:div[@type = 'textpart']]]) then
         <a
             class="w3-bar-item page-scroll w3-red"
-            href="/works/{$item/@xml:id}/text">Text</a>
+            href="{$config:appUrl}/works/{$item/@xml:id}/text">Text</a>
     else
         (),
     if ($item//t:body[t:div[@type = 'translation'][t:ab or t:div[@type = 'textpart']]]) then
         <a
             class="w3-bar-item page-scroll w3-red"
-            href="/works/{$item/@xml:id}/text">Translation</a>
+            href="{$config:appUrl}/works/{$item/@xml:id}/text">Translation</a>
     else
         (),
     <a
@@ -6236,7 +6236,7 @@ declare function viewItem:worknav($item) {
 declare function viewItem:personnav($item) {
     (<a
         class="w3-bar-item page-scroll"
-        href="/IndexPersons?pointer=https://betamasaheft.eu/{string($item/@xml:id)}">Persons Index</a>,
+        href="{$config:appUrl}/IndexPersons?pointer={string($item/@xml:id)}">Persons Index</a>,
     <a
         class="w3-bar-item page-scroll"
         href="#general">General</a>,
@@ -6265,7 +6265,7 @@ declare function viewItem:placenav($item) {
     (
     <a
         class="w3-bar-item page-scroll"
-        href="/IndexPlaces?pointer=https://betamasaheft.eu/{string($item/@xml:id)}">Places Index</a>,
+        href="{$config:appUrl}/IndexPlaces?pointer={string($item/@xml:id)}">Places Index</a>,
     <a
         class="w3-bar-item page-scroll"
         href="#general">General</a>,
@@ -6296,13 +6296,13 @@ declare function viewItem:manuscriptnav($item) {
     if ($item//t:placeName) then
         <a
             class="w3-bar-item page-scroll"
-            href="/IndexPlaces?entity={string($item/@xml:id)}">Places Index</a>
+            href="{$config:appUrl}/IndexPlaces?entity={string($item/@xml:id)}">Places Index</a>
     else
         (),
     if ($item//t:persName) then
         <a
             class="w3-bar-item page-scroll"
-            href="/IndexPersons?entity={string($item/@xml:id)}">Persons Index</a>
+            href="{$config:appUrl}/IndexPersons?entity={string($item/@xml:id)}">Persons Index</a>
     else
         (),
     <a
@@ -6365,46 +6365,39 @@ declare function viewItem:manuscriptnav($item) {
                             if ($anchor = 'ms') then
                                 'General manuscript description'
                             else
-                                if (starts-with($anchor, 'p') and matches($anchor, '^\w\d+$')) then
-                                    'Codicological Unit ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
-                                else
-                                    if (starts-with($anchor, 'f') and matches($anchor, '^\w\d+$')) then
+	                              if (starts-with($anchor, 'coloph') and matches($anchor, 'coloph')) then
+                                   'Colophon ' || substring-after($anchor, 'coloph') || string-join(viewItem:headercontext($node))
+														else
+																if (not(matches($anchor, '^\w\d+$'))) then $node/name()
+														else
+																switch(substring($anchor, 1))
+		                                case 'p' return
+																		    'Codicological Unit ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+                                    case 'f' return
                                         'Fragment ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
-                                    else
-                                        if (starts-with($anchor, 't') and matches($anchor, '\w\d+')) then
-                                            'Title ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
-                                        else
-                                            if (starts-with($anchor, 'b') and matches($anchor, '\w\d+')) then
-                                                'Binding ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
-                                            else
-                                                if (starts-with($anchor, 'a') and matches($anchor, '\w\d+')) then
-                                                    viewItem:categoryname($node, $node/t:desc/@type) || ' (' || substring($anchor, 1) || ') ' || string-join(viewItem:headercontext($node))
-                                                else
-                                                    if (starts-with($anchor, 'e') and matches($anchor, '\w\d+')) then
-                                                        viewItem:categoryname($node, $node/t:desc/@type) || ' (' || substring($anchor, 1) || ') ' || string-join(viewItem:headercontext($node))
-                                                    else
-                                                        if (starts-with($anchor, 'd') and matches($anchor, '\w\d+')) then
-                                                            'Decoration ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
-                                                        else
-                                                            if (starts-with($anchor, 'coloph') and matches($anchor, 'coloph')) then
-                                                                'Colophon ' || substring-after($anchor, 'coloph') || string-join(viewItem:headercontext($node))
-                                                            else
-                                                                if (contains($anchor, '_i') and matches($anchor, '\w\d+')) then
-                                                                    'Content Item ' || substring-after($anchor, '_i') || string-join(viewItem:headercontext($node)) || string-join($node/t:title//text())
-                                                                else
-                                                                    if (starts-with($anchor, 'q') and matches($anchor, '\w\d+')) then
-                                                                        'Quire ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
-                                                                    else
-                                                                        if (starts-with($anchor, 'h') and matches($anchor, '\w\d+')) then
-                                                                            'Hand ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
-                                                                        else
-                                                                            $node/name()
+                                    case 't' return
+																			 'Title ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+																		case 'b' return
+																	     'Binding ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+																    case 'a' return
+															         viewItem:categoryname($node, $node/t:desc/@type) || ' (' || substring($anchor, 1) || ') ' || string-join(viewItem:headercontext($node))
+																		case 'e' return
+                                       viewItem:categoryname($node, $node/t:desc/@type) || ' (' || substring($anchor, 1) || ') ' || string-join(viewItem:headercontext($node))
+																		case 'd' return
+                                      'Decoration ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+																		default return
+                                      if (contains($anchor, '_i') and matches($anchor, '\w\d+')) then
+																					'Content Item ' || substring-after($anchor, '_i') || string-join(viewItem:headercontext($node)) || string-join($node/t:title//text())
+                                      else if (starts-with($anchor, 'q') and matches($anchor, '\w\d+')) then
+                                          'Quire ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+																			else if (starts-with($anchor, 'h') and matches($anchor, '\w\d+')) then
+                                          'Hand ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+                                      else $node/name()
                         }
                     </a>
                 </li>
         }
     </ul>
-    
     )
 };
 
@@ -6774,8 +6767,8 @@ declare %private function viewItem:fulllang($lang) {
 
 
 declare %private function viewItem:keywordtag($x){<span class="w3-tag w3-gray"><a
-                                        target="_blank" href="/newSearch.html?searchType=text&amp;mode=any&amp;termkey={$x}">{exptit:printTitleID($x)}</a></span>};
-                                        
+                                        target="_blank" href="{$config:appUrl}/newSearch.html?searchType=text&amp;mode=any&amp;termkey={$x}">{exptit:printTitleID($x)}</a></span>};
+
   declare %private function viewItem:keywordgroup($keys){
                                         if ($keys) then
                     <div
