@@ -14,7 +14,7 @@ import module namespace tl="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/ti
 import module namespace app="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/app" at "xmldb:exist:///db/apps/BetMasWeb/modules/app.xqm";
 
 
-declare namespace saxon="http://saxon.sf.net/"; 
+declare namespace saxon="http://saxon.sf.net/";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
 declare option output:method "xhtml";

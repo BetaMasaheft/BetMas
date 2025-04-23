@@ -1125,6 +1125,10 @@ declare function q:text($q, $params) {
     if (count($query) gt 300)
     then
         for $r in $query
+				(:~
+				 : TODO: This is likely the cause of the search endpoint taking about 27 seconds to complete
+				 : when there are 20k results. Refactor this? ~ MM
+				 :)
         let $matchcount := ft:score($r)
             order by $matchcount descending
             group by $TEI := $r
@@ -1615,7 +1619,7 @@ declare function q:facetDiv($f, $facets, $facetTitle) {
     let $facets := map:merge($facets)
     return
     (:    if (map:size($facets) = 0) then
-            () 
+            ()
         else :)
             if (map:size($facets) gt 1000) then
                 (util:log("info", concat($facetTitle, " has ", map:size($facets), " facets")))
@@ -1651,7 +1655,7 @@ declare function q:facetDiv($f, $facets, $facetTitle) {
                                                         replace(substring-after($label, $config:appUrl), '/', '')
                                                     else
                                                         $label
-                                                    let $taxname := ($q:tax//t:category[@xml:id eq $cleanlabel] | $q:tax//t:category[t:catDesc = $cleanlabel])[1]/t:catDesc/text()
+                                                    let $taxname := (id($cleanlabel, $q:tax)/self::t:category | $q:tax//t:category[t:catDesc eq $cleanlabel])[1]/t:catDesc/text()
                                                     return
                                                         $taxname
                                                 else
@@ -2407,7 +2411,7 @@ function q:charts($node as node()*, $model as map(*))
     if (count($model('hits')) = 0) then
         ()
     else
-        let $mss := $model('hits')[@type = 'mss']
+        let $mss := $model('hits')[@type eq 'mss']
         return
             if (count($mss) = 0) then
                 ()
@@ -2439,7 +2443,7 @@ function q:charts($node as node()*, $model as map(*))
 declare %templates:wrap
 function q:compare($node as node()*, $model as map(*)) {
 if($q:searchType='clavis') then () else
-    let $matchingmss := $model('hits')[@type = 'mss']
+    let $matchingmss := $model('hits')[@type eq 'mss']
     return
         if (count($matchingmss) = 0) then
             (<p>There are no manuscripts among the results of this query.</p>)
@@ -2623,7 +2627,7 @@ declare
 function q:geobrowser($node as node()*, $model as map(*))
 {if($q:searchType='clavis') then () else
 
-    let $worksid := $model('hits')[@type = 'work']
+    let $worksid := $model('hits')[@type eq 'work']
     return
         if (count($worksid) = 0) then
             <div
