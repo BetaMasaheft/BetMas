@@ -44,6 +44,11 @@ Take and deploy from GitHub:
 
 **Chojnacki does not seem to be used in the end!** VERIFY THO
 
+
+### Install additional things
+
+* At least https://iipimage.sourceforge.io/ is used in production now to host IIIF images
+
 ### Loading expanded content
 
 Expanded content is too large to download through the normal way. Instead, it needs to be downloaded through exide. This XQuery script can do that:
