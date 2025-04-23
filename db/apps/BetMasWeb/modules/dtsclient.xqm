@@ -2,7 +2,7 @@ xquery version "3.1" encoding "UTF-8";
 (:~
  : test implementation of the https://github.com/distributed-text-services
  : CLIENT
- : @author Pietro Liuzzo 
+ : @author Pietro Liuzzo
  :
  : can take any number of specified DTS endpoints to parse and display them,
  : so, insted of just calling the functions in the DTS module or directly query the db, it sends
@@ -86,7 +86,7 @@ declare function dtsc:text($id, $edition, $ref, $start, $end, $collection) {
         $DTSdoc//dts:fragment
     else
         $DTSdoc//t:div[@type = 'edition']
-    
+
 (:    let $test := util:log('info', $selectedFrag/name())     :)
         (:This checks for the presence of a corresp and print the edition of that if present:)
     let $docnode := if ($selectedFrag[self::dts:fragment][t:div/@corresp[starts-with(., 'LIT')] and not(t:div/t:ab | t:div/t:div[@type = 'textpart'])]) then
@@ -127,7 +127,7 @@ declare function dtsc:text($id, $edition, $ref, $start, $end, $collection) {
                             for $index in $DTSanno?member
                             return
                                 <button
-                                    class="w3-bar-item w3-gray w3-small 
+                                    class="w3-bar-item w3-gray w3-small
 DTSannoCollectionLink">{
                                         (attribute data-value {replace($index?('@id'), 'https://betamasaheft.eu', '')},
                                         substring-before($index?title, ' for'))
@@ -139,7 +139,7 @@ DTSannoCollectionLink">{
                     }
                     <!--<input type='text' placeholder="add the ID of another text (e.g. LIT1349EpistlEusebius)" id="addtextid"/><button id="addtext">Add</button>-->
                 </div>
-                
+
                 {
                     if ($DTScol?('@type') = 'Collection') then
                         (<div
@@ -272,8 +272,8 @@ DTSannoCollectionLink">{
             </div>
             <div
                 class="w3-rest">{
-                
-(:    let $test := util:log('info', $docnode/name())  
+
+(:    let $test := util:log('info', $docnode/name())
     return:)
                     try {
                         viewItem:textfragment($docnode)
@@ -289,16 +289,16 @@ declare function dtsc:DTStext($base, $id) {
     (:support entering what as DTS url? only collection for a given text already?
 
 if collection provided
-e.g. 
+e.g.
 https://dts.perseids.org/collection?id=urn:cts:greekLit:tlg0099.tlg001.perseus-grc2
-follow dts:references for 
+follow dts:references for
 https://dts.perseids.org/navigation?id=urn:cts:greekLit:tlg0099.tlg001.perseus-grc2
 https://dts.perseids.org/navigation?id=urn:cts:greekLit:tlg0099.tlg001.perseus-grc2&ref=12
 https://dts.perseids.org/navigation?id=urn:cts:greekLit:tlg0099.tlg001.perseus-grc2&start=12&end=15
 and follow dts:passage
 https://dts.perseids.org/document?id=urn:cts:greekLit:tlg0099.tlg001.perseus-grc2&ref=12
 
-if navigation provided 
+if navigation provided
 https://dts.perseids.org/navigation?id=urn:cts:greekLit:tlg0099.tlg001.perseus-grc2&start=12&end=15
 and follow dts:passage
 https://dts.perseids.org/document?id=urn:cts:greekLit:tlg0099.tlg001.perseus-grc2&ref=12
@@ -310,16 +310,16 @@ although this works in principle, it does not in practice, too many small diverg
 and encoded or non encoded parts in urns . also adding to a viewer would mean limiting space, i.e.
 much better to just open another window...
 
-tested with the following sandbox module 
+tested with the following sandbox module
 xquery version "3.1";
 declare namespace t="http://www.tei-c.org/ns/1.0";
-import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
-import module namespace dtsc="https://www.betamasaheft.uni-hamburg.de/BetMas/dtsc" at "xmldb:exist:///db/apps/BetMas/modules/dtsclient.xqm";
+import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
+import module namespace dtsc="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/dtsc" at "xmldb:exist:///db/apps/BetMasWeb/modules/dtsclient.xqm";
 
 let $DTSURL :=
 <pairs>
 <pair>
-<base>http://localhost:8080/exist/apps/BetMas/api/dts</base>
+<base>http://localhost:8080/exist/apps/BetMasWeb/api/dts</base>
 <id>https://betamasaheft.eu/LIT1349EpistlEusebius</id>
 </pair>
 <!--<pair>
@@ -336,10 +336,10 @@ let $DTSURL :=
 </pair>-->
 </pairs>
 
-for $d in $DTSURL//*:pair 
+for $d in $DTSURL//*:pair
 let $base := $d/*:base/text()
 let $id := $d/*:id/text()
-return 
+return
 dtsc:DTStext($base, $id)
 :)
     let $cleanbase := (if ($base = '') then

@@ -58,7 +58,7 @@ declare function nav:barNew() {
                         ():)
                 }
                         <a
-                            href="/index.html"
+                            href="{$config:appUrl}/index.html"
                             class="w3-padding w3-hover-red w3-hide-small w3-left"><i
                                 class="fa fa-home"></i></a>
                 <div
@@ -695,7 +695,7 @@ declare function nav:newentryNew() {
     if (contains(sm:get-user-groups(sm:id()//sm:real/sm:username/string()), 'Editors')) then
         
         <form
-            action="/newentry.html"
+            action="{$config:appUrl}/newentry.html"
             class="w3-bar-item w3-hide-medium w3-hide-small"
             style="margin:0;padding:0"
             role="tag">
