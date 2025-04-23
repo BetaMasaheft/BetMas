@@ -189,7 +189,7 @@ return
 {if(($collection = 'manuscripts') and ($document//t:relation[contains(@name, 'sdc')])) then
 <div class="w3-bar-item w3-tooltip">
 <a class="w3-button w3-padding-small w3-gray"  id="GraphViewLink"  href="{$config:appUrl}/{$collection}/{$id}/graph" target="_blank"><i>Syntaxe</i></a>
-<span class="w3-text w3-tag itemoptiontooltip">BBBBBBBBBBBBBBBBBBBBBBBBBSee graphs of the information available. If the manuscript contains relevant information,
+<span class="w3-text w3-tag itemoptiontooltip">See graphs of the information available. If the manuscript contains relevant information,
 then you will see visualizations based on La Syntaxe du Codex, by Andrist, Canart and Maniaci.</span>
 </div>
 else ()}
@@ -242,12 +242,12 @@ else ()}
 {if (($collection = 'works' or $collection = 'narratives' or $collection = 'studies' or $collection = 'manuscripts') and ($document//t:body[t:div[@type = 'edition'][t:ab or t:div[@type = 'textpart']]]) ) then
     (<div class="w3-bar-item w3-tooltip"
   >
-    <a class="w3-button w3-padding-small w3-red"  href="{('/'||$collection|| '/' || $id || '/text' )}"
+    <a class="w3-button w3-padding-small w3-red"  href="{$config:appUrl}{('/'||$collection|| '/' || $id || '/text' )}"
     target="_blank">Text</a>
     <span class="w3-text w3-tag itemoptiontooltip">Text</span>
     </div>,
     <div class="w3-bar-item w3-tooltip" >
-    <a class="w3-button w3-padding-small w3-gray"  href="{('/'||$collection|| '/' || $id || '/geoBrowser' )}"
+    <a class="w3-button w3-padding-small w3-gray"  href="{$config:appUrl}{('/'||$collection|| '/' || $id || '/geoBrowser' )}"
     target="_blank">Map of places</a>
     <span class="w3-text w3-tag itemoptiontooltip">See places marked up in the text using the Dariah-DE Geo-Browser</span>
     </div>) else ()}
@@ -255,14 +255,14 @@ else ()}
     {if (($collection = 'works' or $collection = 'narratives' or $collection = 'studies') and ($document//t:body[t:div[@type = 'translation'][t:ab or t:div[@type = 'textpart']]]) ) then
     (<div class="w3-bar-item w3-tooltip"
   >
-    <a class="w3-button w3-padding-small w3-red"  href="{('/'||$collection|| '/' || $id || '/text' )}"
+    <a class="w3-button w3-padding-small w3-red"  href="{$config:appUrl}{('/'||$collection|| '/' || $id || '/text' )}"
     target="_blank">Translation</a>
     <span class="w3-text w3-tag itemoptiontooltip">Translation</span>
     </div>) else ()}
 
         {if ($collection = 'manuscripts' and ($this//t:msIdentifier//t:idno[@facs][@n] or $this//t:msIdentifier//t:idno[starts-with(@facs, 'http')])) then
     <div class="w3-bar-item w3-tooltip" >
-    <a class="w3-button w3-padding-small w3-gray"  href="{('/manuscripts/' || $id || '/viewer' )}"
+    <a class="w3-button w3-padding-small w3-gray"  href="{$config:appUrl}{('/manuscripts/' || $id || '/viewer' )}"
     target="_blank">Images</a>
     <span class="w3-text w3-tag itemoptiontooltip">Mirador viewer via IIIF</span>
     </div> else ()}
@@ -280,11 +280,11 @@ else ()}
     </div> else ()}
     {if ($collection = 'works' or $collection = 'narratives' or $collection = 'studies') then
     (<div class="w3-bar-item w3-tooltip" >
-    <a class="w3-button w3-padding-small w3-gray"  href="{('/compare?workid=' || $id  )}" target="_blank">Compare</a>
+    <a class="w3-button w3-padding-small w3-gray"  href="{$config:appUrl}{('/compare?workid=' || $id  )}" target="_blank">Compare</a>
     <span class="w3-text w3-tag itemoptiontooltip">Compare manuscripts with this content</span>
     </div>,
     <div class="w3-bar-item w3-tooltip" >
-    <a class="w3-button w3-padding-small w3-gray"  href="{('/workmap?worksid=' || $id  )}" target="_blank">Map of witnesses</a>
+    <a class="w3-button w3-padding-small w3-gray"  href="{$config:appUrl}{('/workmap?worksid=' || $id  )}" target="_blank">Map of witnesses</a>
     <span class="w3-text w3-tag itemoptiontooltip">Map of manuscripts with this content</span>
     </div>)
     else ()}
