@@ -225,10 +225,10 @@ else ()}
     </header>
 
     <div class="w3-container">
-     table {item2:EntityRelsTable($document, $collection)} 
+     {item2:EntityRelsTable($document, $collection)} 
     </div>  
     <div class="w3-container w3-hide-small">
-     roles {item2:RestPersRole($document, $collection)}
+     {if (item2:RestPersRole($document, $collection)) then item2:RestPersRole($document, $collection) else ()}
     </div>
     <div id="timeLine" class="w3-container w3-hide-small" />
     <script type="text/javascript">
