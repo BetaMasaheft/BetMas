@@ -31,6 +31,8 @@ imnported by queries.xqm
     <rangeindex name="custeventtext" label="custEvent"/>
     <rangeindex name="custEventtype" label="custEvent @type" />
     <rangeindex name="custEventsubtype" label="Restorations" form="m"/>
+    <rangeindex name="bindingtext" label="binding"/>    
+    <rangeindex name="bindingtype" label="Original binding" form="m"/>
     <rangeindex name="lemtext" label="Lemmas"/>
     <rangeindex name="lemwit" label="Lemma Witnesses"/>
     <rangeindex name="rdgtext" label="Readings"/>
