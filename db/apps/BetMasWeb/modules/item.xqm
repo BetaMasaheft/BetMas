@@ -338,14 +338,15 @@ return
     <div  id="general" class="w3-container">
     <div class="w3-row">
    
-   {if (count($document//t:change[not(@who eq 'PL')]) eq 1) then
+     {if  ($document//t:change[not(@who eq 'PL')]) then
+   if (count($document//t:change[not(@who eq 'PL')]) eq 1) then
+   <span class="w3-tag w3-red">Draft</span>
+   else if ($document//t:change[contains(.,'stub')]) then
    <span class="w3-tag w3-red">Stub</span>
-   else if ($document//t:change[contains(.,'completed')]) then
-   <span class="w3-tag w3-gray" >Under Review</span>
-     else if ($document//t:change[contains(.,'reviewed')]) then
-   <span class="w3-tag w3-white" >Version of {max($document//t:change/xs:date(@when))}</span>
-   else
-<span class="w3-tag w3-red" >{"Work in Progress"}</span>
+   else 
+   <span class="w3-tag w3-gray w3-small">Last edit: {let $last :=max(for $date in $document//t:change/@when  return xs:date($date)) return format-date($last , "[MNn] [D], [Y]", "en", (), ())
+   }</span>
+else <span class="w3-tag w3-red">Stub</span>
     }
     </div>
     <div class="w3-row w3-hide-small"><span class="w3-tag w3-gray w3-small" style="word-break:break-all;">{$config:appUrl || '/' || $id}</span></div>

@@ -402,7 +402,7 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                 <revisionDesc>
                     <change
                         who="{$editor}"
-                        when="{format-date(current-date(), "[Y0001]-[M01]-[D01]")}">Created entity</change>
+                        when="{format-date(current-date(), "[Y0001]-[M01]-[D01]")}">Created stub</change>
                 </revisionDesc>
             </teiHeader>
             <text>
