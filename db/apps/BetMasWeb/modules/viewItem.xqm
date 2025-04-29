@@ -6,12 +6,12 @@ import module namespace exptit = "https://www.betamasaheft.uni-hamburg.de/BetMas
 import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/switch2" at "xmldb:exist:///db/apps/BetMasWeb/modules/switch2.xqm";
 import module namespace item2 = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/item2" at "xmldb:exist:///db/apps/BetMasWeb/modules/item.xqm";
 import module namespace http = "http://expath.org/ns/http-client";
+import module namespace functx = 'http://www.functx.com'; 
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace b = "betmas.biblio";
 declare namespace d = "betmas.domlib";
 declare namespace dts = "https://w3id.org/dts/api#";
-declare namespace functx = "http://www.functx.com";
 declare namespace number = "roman.numerals.funct";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare option output:method "html5";
@@ -2773,29 +2773,20 @@ declare %private function viewItem:colophon($node as element(t:colophon)) {
 
 declare %private function viewItem:bindingDesc($node) {
     (<h3>Binding {viewItem:headercontext($node)}</h3>,
+            if ($node/t:binding/@contemporary) then
+            (<h4>  {
+                    if ($node/t:binding/@contemporary = 'true') then
+                        'Original: yes'
+                    else if ($node/t:binding/@contemporary = 'false') then
+                        'Original: no'                        
+                        else
+                        concat('Origin: ', string($node/t:binding/@contemporary))
+                }</h4>)
+        else
+            (),   
     <p
         id='b1'>{viewItem:TEI2HTML($node/t:binding/t:decoNote[@xml:id = 'b1'])}</p>,
-    for $b in $node/t:binding/t:decoNote[not(@type = 'Other')][not(@type = 'bindingMaterial')][not(@xml:id = 'b1')]
-    return
-        (<h4
-            id="{$b/@xml:id}">{
-                if ($b/@type = 'SewingStations') then
-                    'Sewing stations'
-                else
-                  if  ($b/@type) then string($b/@type) else ()
-            }</h4>,
-        viewItem:TEI2HTML($b/node())),
-        if ($node/t:binding/t:decoNote[@type = 'Other']) then
-            (for $bo in $node/t:binding/t:decoNote[@type = 'Other']
-            return
-                (<h4
-                    id="{$bo/@xml:id}">Binding decoration</h4>,
-                <p>
-                    {viewItem:TEI2HTML($bo/node())}
-                </p>))
-        else
-            (),
-        if ($node//t:decoNote[@type = 'bindingMaterial']) then
+     if ($node//t:decoNote[@type = 'bindingMaterial']) then
             (for $bo in $node/t:binding/t:decoNote[@type = 'bindingMaterial']
             return
                 (<h4
@@ -2807,17 +2798,24 @@ declare %private function viewItem:bindingDesc($node) {
                     {viewItem:TEI2HTML($bo/node())}
                 </p>))
         else
-            (),
-        if ($node/t:binding/@contemporary) then
-            (<h4>Original binding</h4>,
-            <p>
-                {
-                    if ($node/t:binding/@contemporary = 'true') then
-                        'Yes'
-                    else
-                        'No'
-                }
-            </p>)
+            (),                 
+    for $b in $node/t:binding/t:decoNote[not(@type = 'Other')][not(@type = 'bindingMaterial')][not(@xml:id = 'b1')]
+    return
+        (<h4
+            id="{$b/@xml:id}">{
+                if ($b/@type = 'SewingStations') then
+                    'Sewing stations'
+                else
+                  if  ($b/@type) then functx:capitalize-first(string($b/@type)) else ()
+            }</h4>,
+        viewItem:TEI2HTML($b/node())),
+    if ($node/t:binding/t:decoNote[@type = 'Other']) then
+               (<h4>More details</h4>,                
+            for $bo in $node/t:binding/t:decoNote[@type = 'Other']
+            return
+                <p>
+                    {viewItem:TEI2HTML($bo/node())}
+                </p>)
         else
             ()
         )
