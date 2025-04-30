@@ -5471,11 +5471,11 @@ declare %private function viewItem:manuscript($item) {
                             else
                                 ()
                         }
-                        <a
-                            class="w3-bar-item  w3-hide-medium w3-hide-small w3-button w3-red"
+                        <button
+                    class="w3-bar-item w3-button w3-red"
                             id="showattestations"
                             data-value="mss"
-                            data-id="{$id}">Show attestations</a>
+                            data-id="{$id}">Show attestations</button>
                         <a
                             class="w3-bar-item  w3-hide-medium w3-hide-small w3-button w3-gray"
                             id="togglecodicologicalInformation"><span
