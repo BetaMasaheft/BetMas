@@ -1406,14 +1406,14 @@ return <p><a target="_blank" href="/compare?workid={$stringsubids},{$c}">Click t
    else()
    else ()}
      {if($collection = 'places' or $collection='institutions') then <div>
-     <div class="w3-panel w3-margin w3-gray w3-card-4" id="pelagiosrelateditems" data-id="{$id}">
+     <div class="w3-container" id="pelagiosrelateditems" data-id="{$id}">
      {if($file//t:place/@sameAs) then attribute data-sameAs {string($file//t:place/@sameAs)} else ()}
-     </div>
-     <div class="w3-panel w3-margin w3-gray w3-card-4" id="Chojnacki" data-id="{$id}"/>
+     <script type="text/javascript" src="resources/js/pelagios.js"/></div>
+     <div class="w3-container" id="Chojnacki" data-id="{$id}"/>
      <script type="text/javascript" src="resources/js/gnisci.js"/>
-     <script type="text/javascript" src="resources/js/pelagios.js"/></div> else ()}
+     </div> else ()}
      {if($collection='authority-files' and $file//t:relation[starts-with(@passive,'ic')]) 
-     then <div class="w3-panel w3-margin w3-gray w3-card-4" id="EuropeanaMatches">
+     then <div class="w3-container" id="EuropeanaMatches">
      {for $iconclass in $file//t:relation[starts-with(@passive,'ic')] 
      let $icID := substring-after($iconclass/@passive, 'ic:')
      let $europeanalink := ('http://sparql.europeana.eu/?default-graph-uri=http%3A%2F%2Fdata.europeana.eu%2F&amp;query=SELECT+%3FProvidedCHO%0D%0AWHERE+%7B%0D%0A++%3FProxy+%3Fproperty+%3Chttp%3A%2F%2Ficonclass.org%2F'|| 

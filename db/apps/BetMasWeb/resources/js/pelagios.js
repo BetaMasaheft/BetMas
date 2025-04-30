@@ -32,7 +32,7 @@ var element = $(this)
    var content = $('<div id="' + placeID + 'relations-content" class="popuptext w3-hide w3-tiny w3-padding" style="width: 260px;background-color: black;\
                 color: white;text-align: center;border-radius: 6px;padding: 8px 0;position: absolute;left: 100%;top: 100%;margin-left: -130px;z-index: 999;overflow-y:auto">\
                 </div>')
-   var listrelations =$('<ul class="w3-ul w3-hoverable"/>')
+   var listrelations =$('<ul class="w3-hoverable"/>')
    var listtitle = $('<p/>')
     if ($(this).children('div').hasClass('popuptext')) {
        //console.log('there is already a popoup here, load it');
