@@ -634,7 +634,8 @@ return
             <button onclick="document.getElementById('cite').style.display='block'" class="w3-button w3-grey" style="vertical-align: top;width:300;">Suggested citation</button>
             <button onclick="document.getElementById('revision').style.display='block'" class="w3-button w3-grey" style="vertical-align: top;width:300;">Revision history</button>
               <button onclick="document.getElementById('att').style.display='block'" class="w3-button w3-grey" style="vertical-align: top;width:300;">Attribution of the content</button>
-
+              <button onclick="document.getElementById('perm').style.display='block'" class="w3-button w3-grey" style="vertical-align: top;width:300;">Permalinks</button>
+              <button onclick="document.getElementById('rdf').style.display='block'" class="w3-button w3-grey" style="vertical-align: top;width:300;">RDF/VoID</button>
 <div id="cite" class="w3-modal w3-card">
  <div class="w3-modal-content">
                     
@@ -706,7 +707,33 @@ return
                 </div>
 </div>
 </div>
- 
+ <div id="perm" class="w3-modal w3-card w3-margin">
+ <div class="w3-modal-content">
+                    
+                    <header class="w3-container w3-red">
+                        <span onclick="document.getElementById('perm').style.display='none'" class="w3-button w3-display-topright">CLOSE</span>
+                        <h4>Permalinks</h4>
+                    </header>
+                      <div id="permanentIDs{$document//t:TEI/@xml:id}" style="max-height:250px;overflow:auto"
+   data-path="{viewItem:capitalize-first(substring-after(base-uri($document), '/db/apps/expanded/'))}" 
+   data-id="{$document//t:TEI/@xml:id}" data-type="{viewItem:capitalize-first($collection)}"><a class="w3-btn" id="LoadPermanentIDs{$document//t:TEI/@xml:id}">Load permalinks to see the revision history on GitHub</a></div>
+   
+   <script  type="text/javascript" src="resources/js/permanentID.js"></script>
+</div>
+</div>
+
+<div id="rdf" class="w3-modal w3-card w3-margin">
+ <div class="w3-modal-content">
+                    
+                    <header class="w3-container w3-red">
+                        <span onclick="document.getElementById('revision').style.display='none'" class="w3-button w3-display-topright">CLOSE</span>
+                        <h4>RDF and VoID</h4>
+                    </header>
+                    <div>This page contains RDFa. 
+   <a href="/rdf/{$collection}/{$document//t:TEI/@xml:id}.rdf">RDF+XML</a> graph of this resource. Alternate representations available via <a href="/api/void/{$document//t:TEI/@xml:id}">VoID</a></div>
+
+</div>
+</div>
         </div>
              {if($document//t:editionStmt/node()) then <div class="w3-panel w3-card-4 w3-padding w3-margin w3-red " >{string:tei2string($document//t:editionStmt/node())}</div> else ()}
      {if($document//t:availability/node()) then <div class="w3-panel w3-card-4 w3-padding w3-margin w3-white " >{string:tei2string($document//t:availability/node())}</div> else ()}
