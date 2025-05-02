@@ -2495,7 +2495,7 @@ declare %private function viewItem:handDesc($node) {
                     (), 'https://betamasaheft.eu/hand', 'https://w3id.org/sdc/ontology#UniMain'
             }
         }
-        <h6
+        <h6 style="scroll-margin-top: 64px;"
             id="{$node/@xml:id}">Hand {viewItem:headercontext($node)}
             {
                 if ($node/@corresp) then
@@ -2713,7 +2713,7 @@ declare %private function viewItem:decoDesc($node) {
 };
 
 declare %private function viewItem:decoNoteItem($node, $r) {
-    <li
+    <li style="scroll-margin-top: 64px;"
         id="{$r/@xml:id}"
         resource="http://betamasaheft.eu/{$node/ancestor::t:TEI/@xml:id}/decoration/{$node/@xml:id}">
         {
@@ -2888,7 +2888,7 @@ declare %private function viewItem:additions($node) {
 };
 
 declare %private function viewItem:additionItem($a) {
-    <li
+    <li style="scroll-margin-top: 64px;"
         id="{$a/@xml:id}"
         resource="https://betamasaheft.eu/{$a/ancestor::t:TEI/@xml:id}/addition/{$a/@xml:id}">
         {
