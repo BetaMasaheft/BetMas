@@ -4731,18 +4731,26 @@ declare %private function viewItem:work($item) {
                 {
                     if ($item//t:extent) then
                         <p>
-                            <b>Extent: </b>
                             {viewItem:TEI2HTML($item//t:extent)}
+                        </p>
+                    else
+                        ()
+                }
+                 {
+                    if ($item//t:div[@subtype='incipit']) then
+                        <p class="w3-small">
+                          Incipit: 
+                            {viewItem:TEI2HTML($item//t:div[@subtype='incipit'][1])}
                         </p>
                     else
                         ()
                 }
                 {
                     if ($item//t:creation) then
-                        (<h2>Creation</h2>,
+                        (
                         for $b in $item//t:creation[@when or @notBefore or @notAfter]
                         return
-                            <p>Date: {viewItem:datepicker($b)}</p>,
+                            <p>Creation date: {viewItem:datepicker($b)}</p>,
                         <p>
                             {viewItem:TEI2HTML($item//t:creation)}
                             {
