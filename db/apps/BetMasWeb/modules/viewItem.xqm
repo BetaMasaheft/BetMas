@@ -4737,10 +4737,10 @@ declare %private function viewItem:work($item) {
                         ()
                 }
                  {
-                    if ($item//t:div[@subtype='incipit']) then
+                    if ($item//t:div[contains(@subtype, 'incipit')]) then
                         <p class="w3-small">
                           Incipit: 
-                            {viewItem:TEI2HTML($item//t:div[@subtype='incipit'][1])}
+                            {viewItem:TEI2HTML($item//t:div[contains(@subtype, 'incipit')][1])}
                         </p>
                     else
                         ()
