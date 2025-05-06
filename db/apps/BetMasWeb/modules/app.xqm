@@ -402,7 +402,8 @@ declare function app:team ($node as node(), $model as map(*)) {
 <ul class="w3-ul w3-hoverable w3-padding">{
     $exptit:col/$app:range-lookup('changewho', (),
         function($key, $count) {
-             <li id="{$key}">{editors:editorKey(replace($key, '#', '')) || ' ('||$key||')' || ' made ' || $count[1] ||' changes in ' || $count[2]||' documents. '}<a href="/xpath?xpath=%24config%3Acollection-root%2F%2Ft%3Achange%5B%40who%3D%27%23{substring-after($key, '#')}%27%5D">See the changes.</a></li>
+        let $k := distinct-values(if (contains($key, '#')) then substring-after($key, '#') else $key) return
+             <li id="{$key}">{editors:editorKey(replace($key, '#', '')) || ' ('||$key||')' || ' made ' || $count[1] ||' changes in ' || $count[2]||' documents. '}<a href="/xpath?xpath=%24config%3Acollection-root%2F%2Ft%3Achange%5Bmatches%28%40who%2C+%27{$k}%27%29%5D">See the changes.</a></li>
         }, 1000)
        }
        </ul>
