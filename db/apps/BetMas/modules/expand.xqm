@@ -434,7 +434,7 @@ let $cS :=
                                 return
                                     $buildID
                             else
-                                titles:printTitleMainID($node/@corresp)
+                                titles:printTitleID($node/@corresp)
                         else
                             (),
                         expand:tei2fulltei($node/node(), $bibliography))
