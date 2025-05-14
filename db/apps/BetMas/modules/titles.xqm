@@ -147,7 +147,8 @@ declare function titles:printTitleMainID($id as xs:string, $c)
 (:           because wikidata identifiers are not speaking, the result of this operation is that the
 eventually added result is added to the place list names:)
        else (: always look at the root of the given node parameter of the function and then switch :)
-           let $resource := collection($c)//id($id)
+           let $mainID := if (contains($id, '#'))  then substring-before($id, '#') else $id
+           let $resource := collection($c)//id($mainID)
            let $resource := $resource[name() = 'TEI']
            return
                if (count($resource) = 0) then
@@ -172,7 +173,8 @@ function titles:printTitleMainID($id as xs:string)
     then
            (titles:decidePlaceNameSource($id))
     else (: always look at the root of the given node parameter of the function and then switch :)
-           let $catchID := $titles:collection-root/id($id)
+           let $mainID := if (contains($id, '#'))  then substring-before($id, '#') else $id
+           let $catchID := $titles:collection-root/id($mainID)
            let $resource := $catchID[name() = 'TEI']
            return
                if (count($resource) = 0) then
