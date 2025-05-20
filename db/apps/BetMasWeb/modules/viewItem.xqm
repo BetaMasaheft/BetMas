@@ -6147,6 +6147,44 @@ declare function viewItem:textfragmentbibl($this, $id) {
         </span>
 };
 
+declare function viewItem:table($t as element(t:table)) {
+<span>table here</span>,
+  <table class="w3-table w3-bordered">
+        <thead class="w3-light-gray">
+          {
+            for $header in $t/t:row[@role="label"]
+            return
+              <tr>
+                {
+                  for $cell in $header/t:cell
+                  return
+                    <th rowspan="{if ($cell/@rows) then string($cell/@rows) else '1'}">
+                      {normalize-space($cell/text())}
+                    </th>
+                }
+              </tr>
+          }
+        </thead>
+        <tbody>
+          {
+            for $row in $t/t:row[not(@role="label")]
+            return              
+                let $cells:=$row/t:cell
+                return
+                  <tr>
+                    {
+                      for $cell in $cells
+                      return                       
+                          <td rowspan="{if ($cell/@rows) then string($cell/@rows) else '1'}">
+                            {normalize-space($cell/text())}
+                          </td>
+                    }
+                  </tr>              
+          }
+        </tbody>
+      </table>
+    };
+
 declare function viewItem:worknav($item) {
     (
     <a
