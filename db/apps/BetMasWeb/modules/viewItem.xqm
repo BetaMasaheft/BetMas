@@ -6148,7 +6148,6 @@ declare function viewItem:textfragmentbibl($this, $id) {
 };
 
 declare function viewItem:table($t as element(t:table)) {
-<span>table here</span>,
   <table class="w3-table w3-bordered">
         <thead class="w3-light-gray">
           {
