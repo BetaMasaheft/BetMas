@@ -1760,12 +1760,13 @@ declare function apprest:newselectors($nodeName, $path, $nodes, $type, $context)
 let $items := $apprest:collection-rootMS//t:msItem
 let $Additems := $apprest:collection-rootMS//t:additions//t:item[descendant::t:title[@ref]]
 let $matchingAddmss := $Additems//t:title[contains(@ref , $target-work)]
-let $matchingConmss := $items/t:title[contains(@ref , $target-work)]
+let $matchingConmss := $items/t:title[matches(@ref , $target-work)]
 let $matchingmss := ($matchingConmss, $matchingAddmss)
+let $ids := for $manuscript in $matchingmss return string(root($manuscript)/t:TEI/@xml:id)
 return
 if(count($matchingmss) = 0) then (<p class="lead">Oh no! Currently, none of the catalogued manuscripts contains a link to this work. You can still see the record in case you find there useful information.</p>,<a class="w3-button w3-red" href="{$target-work}"> Go to {$MAINtit}</a>) else
 (
-<p class="w3-panel w3-card-2">They are currently <span class="w3-tag w3-gray">{count($matchingmss)}</span>.</p>,
+<p class="w3-panel w3-card-2">There are currently <span class="w3-tag w3-gray">{count($matchingmss)}</span> pointers to this work in <span class="w3-tag w3-gray">{count(distinct-values($ids))}</span> mss.</p>,
 <div class="w3-bar">
   <button class="w3-bar-item w3-button" onclick="document.getElementById('mscomps').scrollBy(-200,0)">
 <i class="fa fa-arrow-left"></i>
@@ -1788,7 +1789,7 @@ return
 <div class="w3-card-2 w3-margin w3-padding" style="width:250px;word-wrap: break-word;" >
 
 <header class="w3-red w3-padding">
-<a href="{('/'||$msid)}">{exptit:printTitleID($msid)}</a> 
+<a href="{('/'||$msid)}">{$msid}</a> 
 ({string($minnotBefore)}-{string($maxnotAfter)})</header>
 <div class="w3-container" style="max-height:60vh; overflow-y:auto">
 <ul class="nodot">
@@ -1826,7 +1827,7 @@ else try{exptit:printTitle($title)} catch * {$title}}</a>
  }
 </ul>
 <ul class="nodot">
-{for $additem at $p in root($manuscript)/t:TEI//t:additions//t:item
+{for $additem at $p in root($manuscript)/t:TEI//t:additions//t:item[descendant::t:title[matches(@ref , $target-work)]]
 (:  store in a variable the ref in the title or nothing:)
 let $title := if ($additem//t:title[@ref]) then for $t in $additem//t:title/@ref return $t else ''
 let $placement := locus:placement($additem) 
@@ -1891,7 +1892,7 @@ if($mss = '') then ()  else(
 
                 <div  class="w3-card-2 w3-margin">
                                     <header class="w3-red w3-padding">
-<a href="{('/'||$msid)}">{exptit:printTitleID($msid)}</a> 
+<a href="{('/'||$msid)}">{$msid}</a> 
                                         ({string($minnotBefore)}-{string($maxnotAfter)})
                                      </header>
                                     <div class="w3-container" style="max-height:60vh; overflow-y:auto">
