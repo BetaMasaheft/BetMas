@@ -3326,9 +3326,9 @@ declare %private function viewItem:surrogates($node as element(t:surrogates)) {
 
 declare %private function viewItem:textLang($node as element(t:textLang)) {
     <p>
-        <b>Language of text: </b>
-        <span
-            property="http://purl.org/dc/elements/1.1/language">{viewItem:fulllang($node/@xml:lang)}</span>
+        <b>Language of the text: </b>
+         <span
+            property="http://purl.org/dc/elements/1.1/language">{if ($node/@xml:lang) then viewItem:fulllang($node/@xml:lang) else viewItem:fulllang($node/@mainLang)}</span>
         {
             if ($node/@otherLangs) then
                 (' and ', viewItem:fulllang($node/@otherLangs))
