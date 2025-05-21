@@ -1879,10 +1879,6 @@ declare %private function viewItem:msItem($msItem) {
         </div>
 };
 
-declare function viewItem:embed-svg($url as xs:string) as node()* {
-  doc($url)
-};
-
 declare %private function viewItem:figure($figure as element(t:figure)) {
     let $link := $figure/t:graphic/@url
     let $height := $figure/t:graphic/@height
@@ -1894,8 +1890,8 @@ declare %private function viewItem:figure($figure as element(t:figure)) {
         
      (:  if the link ends with .svg :)
  if (matches($link, "\.svg$")) then     
-          <div id="{$id}">
-            {viewItem:embed-svg($link) }
+ <div id="{$id}" style="height:{if ($height) then $height else '100%'}">
+            {doc($link) }
             <div class="caption w3-margin-left w3-tiny">
               {viewItem:TEI2HTML($figure/t:graphic/t:desc)}
             </div>
