@@ -1879,6 +1879,10 @@ declare %private function viewItem:msItem($msItem) {
         </div>
 };
 
+declare function viewItem:embed-svg($url as xs:string) as node()* {
+  doc($url)
+};
+
 declare %private function viewItem:figure($figure as element(t:figure)) {
     let $link := $figure/t:graphic/@url
     let $height := $figure/t:graphic/@height
@@ -1888,7 +1892,16 @@ declare %private function viewItem:figure($figure as element(t:figure)) {
     let $id := concat($mainID, 'graphic')
     return
         
-    if (contains($link, 'http')) then            
+     (:  if the link ends with .svg :)
+ if (matches($link, "\.svg$")) then     
+          <div id="{$id}">
+            {viewItem:embed-svg($link) }
+            <div class="caption w3-margin-left w3-tiny">
+              {viewItem:TEI2HTML($figure/t:graphic/t:desc)}
+            </div>
+          </div>
+       
+  else if (contains($link, 'http')) then           
                 <div
                     id="{$id}">
                     <span><a href="{$link}"><img src="{$link}" style="height:{$height}"/></a></span>
@@ -1960,7 +1973,6 @@ declare %private function viewItem:figure($figure as element(t:figure)) {
                 </script>-->
             </div>
 };
-
 
 declare %private function viewItem:supportDesc($node) {
     (<h2>Physical Description {viewItem:headercontext($node)}</h2>,
