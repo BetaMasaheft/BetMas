@@ -810,7 +810,7 @@ declare %private function viewItem:worktitle($t) {
                 else
                     viewItem:TEI2HTML($t/node()),
                 viewItem:sup($t),
-                if ($t/parent::t:titleStmt/t:title[@corresp]) then
+                if ($t/parent::t:titleStmt/t:title[substring-after(@corresp, '#') = $id]) then
                     (' (', viewItem:correspTit($t, $id), ')')
                 else
                     ()
