@@ -2202,10 +2202,11 @@ declare %private function viewItem:layoutdimensionunit($dim) {
     string($dim/parent::t:*/@unit))
 };
 declare %private function viewItem:layout($node) {
+let $pos := index-of($node/parent::*/t:layout, $node)[1] return
     <div
-        id="layout{$node/position()}"
-        resource="http://betamasaheft.eu/{$node/ancestor::t:TEI/@xml:id}/layout/layout{$node/position()}">
-        <h4>Layout note {$node/position()}
+        id="layout{$pos}"
+        resource="http://betamasaheft.eu/{$node/ancestor::t:TEI/@xml:id}#layout{$pos}">
+        <h4>Layout note {$pos}
             {
                 if ($node/t:locus) then
                     (  '(' , viewItem:TEI2HTML($node/t:locus), ')' )
