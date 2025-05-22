@@ -3555,20 +3555,52 @@ declare %private function viewItem:del($node as element(t:del)) {
     <span
         class="w3-tooltip">
            {
-                if ($node/@rend = 'erasure') then
+                if ($node[contains(@rend , 'erasure')]) then
                     ('〚',
                     (if (empty($node)) then
                         (concat($node/@extent, ' ', $node/@unit))
                     else
                         viewItem:TEI2HTML($node/node())), '〛')
                 else
-                    if ($node/@rend = 'strikethrough') then
+                    if ($node[contains(@rend , 'strikethrough')]) then
                         <strike>{
                                 if (empty($node)) then
                                     (concat($node/@extent, ' ', $node/@unit))
                                 else
                                     viewItem:TEI2HTML($node/node())
                             }</strike>
+                          else
+                    if ($node[contains(@rend , 'expunctuated')]) then
+                        <span style="border-bottom: 1px dotted #000; padding: 1px;">{
+                                if (empty($node)) then
+                                    (concat($node/@extent, ' ', $node/@unit))
+                                else
+                                    viewItem:TEI2HTML($node/node())
+                            }</span>
+                             else
+                    if ($node[contains(@rend , 'encircled')]) then
+                        <span class="w3-border w3-round-xxlarge">{
+                                if (empty($node)) then
+                                    (concat($node/@extent, ' ', $node/@unit))
+                                else
+                                    viewItem:TEI2HTML($node/node())
+                            }</span>
+                            else
+                    if ($node[contains(@rend , 'overUnderlined')]) then
+                        <span style="border-bottom: 1px dotted #000; border-top: 1px dotted #000; padding: 1px;">{
+                                if (empty($node)) then
+                                    (concat($node/@extent, ' ', $node/@unit))
+                                else
+                                    viewItem:TEI2HTML($node/node())
+                            }</span>
+                            else
+                    if ($node[contains(@rend , 'effaced')]) then
+                        <span class="w3-gray">{
+                                if (empty($node)) then
+                                    (concat($node/@extent, ' ', $node/@unit))
+                                else
+                                    viewItem:TEI2HTML($node/node())
+                            }</span>
                     else
                         viewItem:TEI2HTML($node/node())
             }
