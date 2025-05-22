@@ -2008,150 +2008,7 @@ declare %private function viewItem:layoutDesc($node) {
                 order by $l/position()
             return
                 viewItem:layout($l)
-        }
-        {
-            if ($node//t:ab[@type = 'ruling']) then
-                (<h5>Ruling {viewItem:headercontext($node)}</h5>,
-                <ul>
-                    {
-                        for $ruling in $node//t:ab[@type = 'ruling']
-                        return
-                            <li>
-                                {
-                                    if ($ruling/@subtype) then
-                                        '(Subtype: ' || string($ruling/@subtype) || ')'
-                                    else
-                                        ()
-                                }
-                                {
-                                    if ($ruling/@subtype = 'pattern') then
-                                        
-                                        let $regex := '(([A-Z\d\-]+)/([A-Z\d\-]+)/([A-Z\d\-]+)/([A-Z\d\-]+))'
-                                        let $analyze := analyze-string($ruling, $regex)
-                                        for $m in $analyze/node()
-                                        return
-                                            if ($m/name() = 'match') then
-                                                let $muzerelle := 'http://palaeographia.org/muzerelle/regGraph2.php?F='
-                                                let $formula := $m/s:group[@nr = '1']//text()
-                                                return
-                                                    <a
-                                                        href="{concat($muzerelle, string-join($formula))}"
-                                                        target="_blank">{$formula}
-                                                    </a>
-                                            else
-                                                $m/text()
-                                    else
-                                        viewItem:TEI2HTML($ruling/node())
-                                }
-                            </li>
-                    }
-                </ul>
-                )
-            else
-                ()
-        }
-        {
-            if ($node//t:ab[@type = 'pricking']) then
-                (<h5>Pricking {viewItem:headercontext($node)}</h5>,
-                <ul>
-                    {
-                        for $ruling in $node//t:ab[@type = 'pricking']
-                        return
-                            <li>
-                                {
-                                    if ($ruling/@subtype) then
-                                        '(Subtype: ' || string($ruling/@subtype) || ')'
-                                    else
-                                        ()
-                                }
-                                {viewItem:TEI2HTML($ruling/node())}
-                            </li>
-                    }
-                </ul>
-                )
-            else
-                ()
-        }
-        {
-            if ($node//t:ab[@type != 'pricking'][@type != 'ruling'][@type != 'punctuation'][@type != 'CruxAnsata'][@type != 'ChiRho'][@type != 'coronis']) then
-                (<h5>Other {viewItem:headercontext($node)}</h5>,
-                <ul>
-                    {
-                        for $ruling in $node//t:ab[@type != 'pricking'][@type != 'ruling'][@type != 'punctuation'][@type != 'CruxAnsata'][@type != 'ChiRho'][@type != 'coronis']
-                        return
-                            <li>
-                                {
-                                    if ($ruling/@subtype) then
-                                        '(Subtype: ' || string($ruling/@subtype) || ')'
-                                    else
-                                        ()
-                                }
-                                {viewItem:TEI2HTML($ruling/node())}
-                            </li>
-                    }
-                </ul>
-                )
-            else
-                ()
-        }
-        {
-            if ($node//t:ab[not(@type)]) then
-                (<h5
-                    style="color:red;"><code>ab</code> element without <code>@type</code> in layout {viewItem:headercontext($node)}</h5>,
-                <ul>
-                    {
-                        for $ruling in $node//t:ab[not(@type)]
-                        return
-                            <li>
-                                <b
-                                    style="color:red;">This ab element does not have a required type.</b>
-                                {
-                                    if ($ruling/@subtype) then
-                                        '(Subtype: ' || string($ruling/@subtype) || ')'
-                                    else
-                                        ()
-                                }
-                                {viewItem:TEI2HTML($ruling/node())}
-                            </li>
-                    }
-                </ul>
-                )
-            else
-                ()
-        }
-        {
-            if ($node//t:ab[@subtype = 'Executed'] or $node//t:ab[@subtype = 'Usage'] or $node//t:ab[@subtype = 'Dividers']) then
-                (<h4>Punctuation {viewItem:headercontext($node)}</h4>,
-                
-                for $punctuation in ($node//t:ab[@subtype = 'Executed'] | $node//t:ab[@subtype = 'Usage'] | $node//t:ab[@subtype = 'Dividers'])
-                return
-                    <p>
-                        {string($punctuation/@subtype) || ': '}
-                        {viewItem:TEI2HTML($punctuation/node())}
-                    </p>
-                
-                )
-            else
-                ()
-        }
-        {
-            if ($node//t:ab[@type = 'punctuation'][not(@subtype)]) then
-                for $n in $node//t:ab[@type = 'punctuation'][not(@subtype)]
-                return
-                    viewItem:TEI2HTML($n)
-            else
-                ()
-        }
-        {
-            for $ab in ('CruxAnsata', 'coronis', 'ChiRho')
-            return
-                if ($node//t:ab[@type = $ab][not(@subtype)]) then
-                    (<h4>{$ab}</h4>,
-                    <p>Yes {viewItem:TEI2HTML($node//t:ab[@type = $ab][not(@subtype)])}
-                    </p>)
-                else
-                    ()
-        }
+        }       
     </div>
 };
 
@@ -2402,6 +2259,149 @@ let $pos := index-of($node/parent::*/t:layout, $node)[1] return
                 )
                 else
                 ()
+        }
+        {
+            if ($node//t:ab[@type = 'ruling']) then
+                (<h5>Ruling {viewItem:headercontext($node)}</h5>,
+                <ul>
+                    {
+                        for $ruling in $node//t:ab[@type = 'ruling']
+                        return
+                            <li>
+                                {
+                                    if ($ruling/@subtype) then
+                                        '(Subtype: ' || string($ruling/@subtype) || ')'
+                                    else
+                                        ()
+                                }
+                                {
+                                    if ($ruling/@subtype = 'pattern') then
+                                        
+                                        let $regex := '(([A-Z\d\-]+)/([A-Z\d\-]+)/([A-Z\d\-]+)/([A-Z\d\-]+))'
+                                        let $analyze := analyze-string($ruling, $regex)
+                                        for $m in $analyze/node()
+                                        return
+                                            if ($m/name() = 'match') then
+                                                let $muzerelle := 'http://palaeographia.org/muzerelle/regGraph2.php?F='
+                                                let $formula := $m/s:group[@nr = '1']//text()
+                                                return
+                                                    <a
+                                                        href="{concat($muzerelle, string-join($formula))}"
+                                                        target="_blank">{$formula}
+                                                    </a>
+                                            else
+                                                $m/text()
+                                    else
+                                        viewItem:TEI2HTML($ruling/node())
+                                }
+                            </li>
+                    }
+                </ul>
+                )
+            else
+                ()
+        }
+        {
+            if ($node//t:ab[@type = 'pricking']) then
+                (<h5>Pricking {viewItem:headercontext($node)}</h5>,
+                <ul>
+                    {
+                        for $ruling in $node//t:ab[@type = 'pricking']
+                        return
+                            <li>
+                                {
+                                    if ($ruling/@subtype) then
+                                        '(Subtype: ' || string($ruling/@subtype) || ')'
+                                    else
+                                        ()
+                                }
+                                {viewItem:TEI2HTML($ruling/node())}
+                            </li>
+                    }
+                </ul>
+                )
+            else
+                ()
+        }
+        {
+            if ($node//t:ab[@type != 'pricking'][@type != 'ruling'][@type != 'punctuation'][@type != 'CruxAnsata'][@type != 'ChiRho'][@type != 'coronis']) then
+                (<h5>Other {viewItem:headercontext($node)}</h5>,
+                <ul>
+                    {
+                        for $ruling in $node//t:ab[@type != 'pricking'][@type != 'ruling'][@type != 'punctuation'][@type != 'CruxAnsata'][@type != 'ChiRho'][@type != 'coronis']
+                        return
+                            <li>
+                                {
+                                    if ($ruling/@subtype) then
+                                        '(Subtype: ' || string($ruling/@subtype) || ')'
+                                    else
+                                        ()
+                                }
+                                {viewItem:TEI2HTML($ruling/node())}
+                            </li>
+                    }
+                </ul>
+                )
+            else
+                ()
+        }
+        {
+            if ($node//t:ab[not(@type)]) then
+                (<h5
+                    style="color:red;"><code>ab</code> element without <code>@type</code> in layout {viewItem:headercontext($node)}</h5>,
+                <ul>
+                    {
+                        for $ruling in $node//t:ab[not(@type)]
+                        return
+                            <li>
+                                <b
+                                    style="color:red;">This ab element does not have a required type.</b>
+                                {
+                                    if ($ruling/@subtype) then
+                                        '(Subtype: ' || string($ruling/@subtype) || ')'
+                                    else
+                                        ()
+                                }
+                                {viewItem:TEI2HTML($ruling/node())}
+                            </li>
+                    }
+                </ul>
+                )
+            else
+                ()
+        }
+        {
+            if ($node//t:ab[@subtype = 'Executed'] or $node//t:ab[@subtype = 'Usage'] or $node//t:ab[@subtype = 'Dividers']) then
+                (<h4>Punctuation {viewItem:headercontext($node)}</h4>,
+                
+                for $punctuation in ($node//t:ab[@subtype = 'Executed'] | $node//t:ab[@subtype = 'Usage'] | $node//t:ab[@subtype = 'Dividers'])
+                return
+                    <p>
+                        {string($punctuation/@subtype) || ': '}
+                        {viewItem:TEI2HTML($punctuation/node())}
+                    </p>
+                
+                )
+            else
+                ()
+        }
+        {
+            if ($node//t:ab[@type = 'punctuation'][not(@subtype)]) then
+                for $n in $node//t:ab[@type = 'punctuation'][not(@subtype)]
+                return
+                    viewItem:TEI2HTML($n)
+            else
+                ()
+        }
+        {
+            for $ab in ('CruxAnsata', 'coronis', 'ChiRho')
+            return
+                if ($node//t:ab[@type = $ab][not(@subtype)]) then
+                    (<h4>{$ab}</h4>,
+                    <p>Yes {viewItem:TEI2HTML($node//t:ab[@type = $ab][not(@subtype)])}
+                    </p>)
+                else
+                    ()
         }
     </div>
 };
