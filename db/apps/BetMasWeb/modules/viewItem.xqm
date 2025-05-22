@@ -2408,7 +2408,12 @@ declare %private function viewItem:layout($node) {
 declare %private function viewItem:ab($node as element(t:ab)) {
     if ($node/ancestor::t:div[@type = 'edition']) then
         <div
-            class="w3-container">{viewItem:TEI2HTML($node/node())}</div>
+            class="w3-container">
+            { if ($node/t:title/t:ref[1][@target]) then <h3><a
+                        target="_blank"
+                        href="{string($node/t:title[1]/@target)}">{string($node/t:title)}</a></h3> else ()}
+            {if ($node/t:title/t:ref[1][@target]) then  viewItem:TEI2HTML($node/node()[not(self::t:title)]) 
+            else viewItem:TEI2HTML($node/node())}</div>
     else
         if ($node/ancestor::t:div[@subtype = 'Psalmus']) then
             <div
