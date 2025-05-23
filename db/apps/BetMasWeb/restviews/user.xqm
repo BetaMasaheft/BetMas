@@ -85,7 +85,7 @@ return
                         <div
                         class="w3-margin w3-panel w3-card-4 ">
                         {let $userinitials := editors:editorNames($username)
-                                    let $changes := $exptit:col//t:change[@who eq  $userinitials]
+                                    let $changes := $exptit:col//t:change[(@who eq  $userinitials) or (@who eq  concat('#', $userinitials))]
                                     let $changed := for $c in $changes
                                     order by $c/@when descending
                                     return $c
