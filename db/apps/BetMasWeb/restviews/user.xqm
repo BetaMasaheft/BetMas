@@ -106,7 +106,7 @@ return
                                     (<tr style="border-top: 4px solid #5bc0de">
                                         <td>{format-date($changeToItem/@when, "[D01].[M01].[Y1]")}</td>
                                                 <td><a
-                                                href="/{string($id)}">{string($id)}</a></td>                                                                                     
+                                                 href="/{string($id[1])}">{string($id[1])}</a></td>                                                                                     
                                                 <td>{$changeToItem/text()}</td>
                                                 </tr>)
                                       
