@@ -270,7 +270,7 @@ else ()}
     target="_blank">Request Images from Ethio-SPaRe</a>
     <span class="w3-text w3-tag itemoptiontooltip">Send an email to Ethio-SPaRe Project leader to request to make the images of this manuscript available here.</span>
     </div> else ()}
-    {if ($collection = 'manuscripts' and $this//t:facsimile/t:graphic) then
+    {if ($collection = 'manuscripts' and contains($this//t:facsimile/t:graphic/@url, 'http')) then
     <div class="w3-bar-item w3-tooltip" >
     <a class="w3-button w3-padding-small w3-gray"  href="{$this//t:facsimile/t:graphic/@url}" 
     target="_blank">Link to images</a>
