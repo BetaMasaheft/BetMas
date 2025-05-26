@@ -1703,7 +1703,7 @@ declare %private function viewItem:namedEntityPersonNoLink($entity) {
         resource="{viewItem:reflink($entity/@ref)}">{viewItem:TEI2HTML($entity/node()[not(self::t:note)])}
     </span>,
     if ($entity/@role) then
-        string($entity/@role)
+        <sup>{concat('(', $entity/@role, ')')}</sup>
     else
         ()), ' ',
     viewItem:TEI2HTML($entity/t:note), ' ',
