@@ -2135,7 +2135,7 @@ let $pos := index-of($node/parent::*/t:layout, $node)[1] return
             if ($node/t:note) then
                 viewItem:TEI2HTML($node/t:note)
             else
-                (),
+                ()(:,
             let $topmargin := if ($node/t:dimensions[not(@xml:lang)][@type = 'margin'][1]/t:dim[@type = 'top'][1]/text()) then
                 ($node/t:dimensions[not(@xml:lang)][@type = 'margin'][1]/t:dim[@type = 'top'][1])
             else
@@ -2401,7 +2401,7 @@ let $pos := index-of($node/parent::*/t:layout, $node)[1] return
                     <p>Yes {viewItem:TEI2HTML($node//t:ab[@type = $ab][not(@subtype)])}
                     </p>)
                 else
-                    ()
+                    ():)
         }
     </div>
 };
