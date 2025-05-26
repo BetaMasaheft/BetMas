@@ -6053,7 +6053,7 @@ declare function viewItem:textfragment($frag) {
 return:)
     <div>
         <div
-            id="transcription">
+            id="transcription" style="word-break: keep-all;">
             {
                 if (count($frag/t:div) = 0) then
                     attribute class {'w3-container chapterText'}
