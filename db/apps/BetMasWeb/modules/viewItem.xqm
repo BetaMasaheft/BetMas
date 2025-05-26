@@ -6203,7 +6203,7 @@ declare function viewItem:table($t as element(t:table)) {
                   for $cell in $header/t:cell
                   return
                     <th rowspan="{if ($cell/@rows) then string($cell/@rows) else '1'}">
-                      {normalize-space($cell/text())}
+                      {viewItem:TEI2HTML($cell)}
                     </th>
                 }
               </tr>
@@ -6220,7 +6220,7 @@ declare function viewItem:table($t as element(t:table)) {
                       for $cell in $cells
                       return                       
                           <td rowspan="{if ($cell/@rows) then string($cell/@rows) else '1'}">
-                            {normalize-space($cell/text())}
+                            {viewItem:TEI2HTML($cell)}
                           </td>
                     }
                   </tr>              
