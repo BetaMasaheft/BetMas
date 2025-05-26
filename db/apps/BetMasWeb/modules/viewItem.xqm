@@ -3270,10 +3270,10 @@ declare %private function viewItem:roleName($node as element(t:roleName)) {
     if ($node[not(parent::t:persName)]) then
         <a
             xmlns="http://www.w3.org/1999/xhtml"
-            href="#"
+            href="/xpath.html?xpath=%24config%3Acollection-root%2F%2Ft%3AroleName%5Bcontains%28.%2C%27{$node/text()}%27%29%5D"
             class="AttestationsWithSameRole"
             data-value="{$node/text()}">
-            <sup>?</sup>
+             {concat($node/text(), ' ')}<sup>{string($node/@type)}</sup>
         </a>
     else
         <span
@@ -3281,7 +3281,7 @@ declare %private function viewItem:roleName($node as element(t:roleName)) {
             class="w3-tooltip">
             {concat($node/text(), ' ')}
             <span
-                class="w3-text">role: {string($node/@type)}</span>
+                class="w3-text"><sup>role: {string($node/@type)}</sup></span>
         </span>
 
 };
