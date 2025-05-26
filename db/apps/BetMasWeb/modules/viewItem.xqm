@@ -3541,10 +3541,9 @@ declare %private function viewItem:unclear($node as element(t:unclear)) {
 };
 
 declare %private function viewItem:sic($node as element(t:sic)) {
-    <span
+     <span
         class="w3-tooltip">
-            {$node/text()} (!)
-  <span
+            {$node/text()}(!)<span
             class="w3-text w3-tag w3-small CorrResp">{
             if ($node/@resp) then
             (
