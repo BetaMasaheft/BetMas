@@ -1389,19 +1389,20 @@ return <p><a target="_blank" href="/compare?workid={$stringsubids},{$c}">Click t
     return
         if (count($mss) ge 1) then
             <div
-                class="w3-panel w3-margin w3-red relBox scrollwrap" style="word-break:break-all;">
-                There are {count($mss)}
+                class="w3-panel w3-card w3-red" style="word-break:break-all;max-height:  350px;overflow-y: scroll;">
+                The dataset contains {count($mss)}
                 <a
-                    href="/newSearch.html?searchType=text&amp;mode=any&amp;reporef={$id}"> manuscripts at this repository</a>.
-                <ul
-                    class="w3-ul">
+                    href="/newSearch.html?searchType=text&amp;mode=any&amp;reporef={$id}"> records for manuscripts at this repository</a>.
+                 {if (count($mss) lt 50) then
+                <ul class="w3-ul">
                     {
                         for $m in $mss
                         return
                             <li><a
                                     target="blank"
-                                    href="/{string($m/ancestor::t:TEI/@xml:id)}">{exptit:printTitle($m)}</a></li>
-                    }</ul>
+                                    href="/{string($m/ancestor::t:TEI/@xml:id)}">{if (exptit:printTitle($m)) then exptit:printTitle($m) else string($m/ancestor::t:TEI/@xml:id)}</a></li>
+                    }</ul> else <span>These are too many to be shown here, please follow the <a
+                    href="/newSearch.html?searchType=text&amp;mode=any&amp;reporef={$id}"> link</a> to see the full list.</span>}
             </div>
    else()
    else ()}
