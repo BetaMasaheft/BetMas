@@ -1,0 +1,97 @@
+<tuttle>
+	<repos>
+		<collection name="BetMasData/manuscripts">
+			<default>true</default>
+			<type>github</type>
+			<baseurl>https://api.github.com/</baseurl>
+			<owner>BetaMasaheft</owner>
+			<repo>Manuscripts</repo>
+			<ref>master</ref>
+			<token>XXX</token>
+		</collection>
+
+		<collection name="BetMasData/authority-files">
+			<default>false</default>
+			<type>github</type>
+			<baseurl>https://api.github.com/</baseurl>
+			<owner>BetaMasaheft</owner>
+			<repo>Authority-Files</repo>
+			<ref>master</ref>
+			<token>XXX</token>
+		</collection>
+
+		<collection name="BetMasData/corpora">
+			<default>false</default>
+			<type>github</type>
+			<baseurl>https://api.github.com/</baseurl>
+			<owner>BetaMasaheft</owner>
+			<repo>corpora</repo>
+			<ref>main</ref>
+			<token>XXX</token>
+		</collection>
+		<collection name="BetMasData/narratives">
+			<default>false</default>
+			<type>github</type>
+			<baseurl>https://api.github.com/</baseurl>
+			<owner>BetaMasaheft</owner>
+			<repo>Narrative</repo>
+			<ref>master</ref>
+			<token>XXX</token>
+		</collection>
+		<collection name="BetMasData/persons">
+			<default>false</default>
+			<type>github</type>
+			<baseurl>https://api.github.com/</baseurl>
+			<owner>BetaMasaheft</owner>
+			<repo>persons</repo>
+			<ref>master</ref>
+			<token>XXX</token>
+		</collection>
+		<collection name="BetMasData/places">
+			<default>false</default>
+			<type>github</type>
+			<baseurl>https://api.github.com/</baseurl>
+			<owner>BetaMasaheft</owner>
+			<repo>places</repo>
+			<ref>master</ref>
+			<token>XXX</token>
+		</collection>
+		<collection name="BetMasData/studies">
+			<default>false</default>
+			<type>github</type>
+			<baseurl>https://api.github.com/</baseurl>
+			<owner>BetaMasaheft</owner>
+			<repo>studies</repo>
+			<ref>master</ref>
+			<token>XXX</token>
+		</collection>
+		<collection name="BetMasData/works">
+			<default>false</default>
+			<type>github</type>
+			<baseurl>https://api.github.com/</baseurl>
+			<owner>BetaMasaheft</owner>
+			<repo>Works</repo>
+			<ref>master</ref>
+			<token>XXX</token>
+		</collection>
+	</repos>
+	<!-- these files will not be extracted from archives and left untouched when cleaning up -->
+	<ignore>
+		<file>existdb.json</file>
+		<file>build.xml</file>
+		<file>README.md</file>
+		<file>.gitignore</file>
+		<file>expath-pkg.xml.tmpl</file>
+		<file>repo.xml.tmpl</file>
+		<file>build.properties.xml</file>
+	</ignore>
+
+	<!-- prefix, suffix, lock and apikeys can usually be left as-is -->
+	<config prefix="/db/apps/" suffix="-stage" lock="git-lock.xml" apikeys="/db/system/auth/tuttle-token.xml">
+		<!--
+				The permissions the deployed data gets assigned, if no expath-pkg.xml is found.
+				The initial setting is safe, but this can and should be adapted to your requirements.
+		-->
+		<sm user="admin" group="dba" mode="rw-r-----"/>
+	</config>
+</tuttle>

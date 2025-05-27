@@ -18,4 +18,7 @@ let $_ := util:log('info', 'Storing ' || $app_url || ' as the root of the applic
 
 return xmldb:store('/db/apps/BetMasWeb/modules', 'loc.xqm', $loc_module),
 
+(: Store tuttle configuration :)
+xmldb:store('/db/apps/tuttle/data/tuttle.xml', 'tuttle.xml', doc('./tuttle.xml')),
+
 util:eval(xs:anyURI('/db/apps/BetMasService/modules/registerRESTXQ.xql'))
