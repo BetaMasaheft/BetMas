@@ -8,6 +8,7 @@
 			<repo>Manuscripts</repo>
 			<ref>master</ref>
 			<token>XXX</token>
+			<callback name="expand-data" ns="https://www.betamasaheft.uni-hamburg.de/BetMas/do-tuttle-expand" location="/db/apps/BetMasService/modules/doTuttleExpand.xq"/>
 		</collection>
 
 		<collection name="BetMasData/authority-files">
@@ -18,6 +19,7 @@
 			<repo>Authority-Files</repo>
 			<ref>master</ref>
 			<token>XXX</token>
+			<callback name="expand-data" ns="https://www.betamasaheft.uni-hamburg.de/BetMas/do-tuttle-expand" location="/db/apps/BetMasService/modules/doTuttleExpand.xq"/>
 		</collection>
 
 		<collection name="BetMasData/corpora">
@@ -28,6 +30,7 @@
 			<repo>corpora</repo>
 			<ref>main</ref>
 			<token>XXX</token>
+			<callback name="expand-data" ns="https://www.betamasaheft.uni-hamburg.de/BetMas/do-tuttle-expand" location="/db/apps/BetMasService/modules/doTuttleExpand.xq"/>
 		</collection>
 		<collection name="BetMasData/narratives">
 			<default>false</default>
@@ -37,6 +40,7 @@
 			<repo>Narrative</repo>
 			<ref>master</ref>
 			<token>XXX</token>
+			<callback name="expand-data" ns="https://www.betamasaheft.uni-hamburg.de/BetMas/do-tuttle-expand" location="/db/apps/BetMasService/modules/doTuttleExpand.xq"/>
 		</collection>
 		<collection name="BetMasData/persons">
 			<default>false</default>
@@ -46,6 +50,7 @@
 			<repo>persons</repo>
 			<ref>master</ref>
 			<token>XXX</token>
+			<callback name="expand-data" ns="https://www.betamasaheft.uni-hamburg.de/BetMas/do-tuttle-expand" location="/db/apps/BetMasService/modules/doTuttleExpand.xq"/>
 		</collection>
 		<collection name="BetMasData/places">
 			<default>false</default>
@@ -55,6 +60,7 @@
 			<repo>places</repo>
 			<ref>master</ref>
 			<token>XXX</token>
+			<callback name="expand-data" ns="https://www.betamasaheft.uni-hamburg.de/BetMas/do-tuttle-expand" location="/db/apps/BetMasService/modules/doTuttleExpand.xq"/>
 		</collection>
 		<collection name="BetMasData/studies">
 			<default>false</default>
@@ -64,6 +70,7 @@
 			<repo>studies</repo>
 			<ref>master</ref>
 			<token>XXX</token>
+			<callback name="expand-data" ns="https://www.betamasaheft.uni-hamburg.de/BetMas/do-tuttle-expand" location="/db/apps/BetMasService/modules/doTuttleExpand.xq"/>
 		</collection>
 		<collection name="BetMasData/works">
 			<default>false</default>
@@ -73,6 +80,17 @@
 			<repo>Works</repo>
 			<ref>master</ref>
 			<token>XXX</token>
+			<callback name="expand-data" ns="https://www.betamasaheft.uni-hamburg.de/BetMas/do-tuttle-expand" location="/db/apps/BetMasService/modules/doTuttleExpand.xq"/>
+		</collection>
+		<collection name="BetMasData/institutions">
+			<default>false</default>
+			<type>github</type>
+			<baseurl>https://api.github.com/</baseurl>
+			<owner>BetaMasaheft</owner>
+			<repo>Institutions</repo>
+			<ref>master</ref>
+			<token>XXX</token>
+			<callback name="expand-data" ns="https://www.betamasaheft.uni-hamburg.de/BetMas/do-tuttle-expand" location="/db/apps/BetMasService/modules/doTuttleExpand.xq"/>
 		</collection>
 	</repos>
 	<!-- these files will not be extracted from archives and left untouched when cleaning up -->
