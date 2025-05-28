@@ -805,7 +805,7 @@ declare %private function viewItem:worktitle($t) {
                     (),
                 if ($t/@ref) then
                     <a
-                        href="{$config:appUrl}/{viewItem:URI2ID($t/@ref)}"
+                        href="{viewItem:URI2ID($t/@ref)}"
                         target="_blank">{$t/text()}</a>
                 else
                     viewItem:TEI2HTML($t/node()),
@@ -831,7 +831,7 @@ declare %private function viewItem:placename($name) {
                     (),
                 if ($name/@ref) then
                     <a
-                        href="{$config:appUrl}/{viewItem:URI2ID($t/@ref)}"
+                        href="{viewItem:URI2ID($t/@ref)}"
                         target="_blank">{$name/text()}</a>
                 else
                     viewItem:TEI2HTML($name/node()),
@@ -864,7 +864,7 @@ declare %private function viewItem:persname($name) {
                     (),
                 if ($name/@ref) then
                     <a
-                        href="{$config:appUrl}/{viewItem:URI2ID($name/@ref)}"
+                        href="{viewItem:URI2ID($name/@ref)}"
                         target="_blank">{$name/text()}</a>
                 else
                     viewItem:TEI2HTML($name/node()),
@@ -1697,7 +1697,7 @@ declare %private function viewItem:namedEntityTitle($entity) {
     (
     <a target="_blank"
         xmlns="http://www.w3.org/1999/xhtml"
-        href="{$config:appUrl}/{viewItem:URI2ID($entity/@ref)}">{viewItem:TEI2HTML($entity/node())}</a>,
+        href="{viewItem:URI2ID($entity/@ref)}">{viewItem:TEI2HTML($entity/node())}</a>,
     if (matches($entity/@ref, 'LIT')) then
         (' (' || viewItem:cae($entity) || ')')
     else
