@@ -16,12 +16,11 @@ declare namespace dts = "https://w3id.org/dts/api#";
 declare namespace t="http://www.tei-c.org/ns/1.0";
 import module namespace functx="http://www.functx.com";
 import module namespace localdts="https://www.betamasaheft.uni-hamburg.de/BetMas/localdts" at "xmldb:exist:///db/apps/BetMas/modules/localdts.xqm";
-import module namespace viewItem = "https://www.betamasaheft.uni-hamburg.de/BetMas/viewItem" at "xmldb:exist:///db/apps/BetMas/modules/viewItem.xqm";
 import module namespace console="http://exist-db.org/xquery/console";
 
 
 declare function dtsc:text($id, $edition, $ref, $start, $end, $collection){
-(:let $t := console:log(string-join(($edition, $ref, $start, $end), ' - ')):)
+let $t := console:log(string-join(($edition, $ref, $start, $end), ' - '))
 let $approot:= 
 'https://betamasaheft.eu'
 (:'http://localhost:8080/exist/apps/BetMas':)
@@ -69,8 +68,8 @@ return
 <div class="w3-container">
 <div class="w3-row">
 <div class="w3-bar">
-{for $d in $DTScol?('dts:dublincore')?('dc:title')?*?('@value') 
-return <div class="w3-bar-item w3-small">{$d}</div>}
+{try{for $d in $DTScol?('dts:dublincore')?('dc:title')?*?('@value') 
+return <div class="w3-bar-item w3-small">{$d}</div>} catch * {console:log($err:description)}}
 <button class="w3-bar-item w3-gray w3-small" id="toogleTextBibl">Hide/Show Bibliography</button>
 <button class="w3-bar-item w3-gray w3-small" id="toogleNavIndex">Hide/Show Text Navigation</button>
 {try {
@@ -222,18 +221,18 @@ let $cleanbase := (if($base= '') then 'https://betamasaheft.eu'
                                 else if(contains($base, '/api')) then substring-before($base, '/api') 
                                 else $base)
 let $dtsCollection := $cleanbase|| dtsc:request($base)?collections ||'?id=' || $id
-(:let $t := console:log($dtsCollection):)
+let $t := console:log($dtsCollection)
 let $DTScol := dtsc:request($dtsCollection)
 let $context := $DTScol?('@context')
 let $vocab := $context?('@vocab')
 let $dtsprefix := if($vocab='https://w3id.org/dts/api#') then () else 'dts:'
 let $dtsReferences := $cleanbase || $DTScol?($dtsprefix||'references')
-(:let $t1 := console:log(normalize-unicode($dtsReferences)):)
+let $t1 := console:log(normalize-unicode($dtsReferences))
 let $DTSnav := dtsc:request(normalize-unicode($dtsReferences))
 let $dtsPassage := $cleanbase || $DTSnav?($dtsprefix||'passage')
-(:let $t2 := console:log($dtsPassage):)
+let $t2 := console:log($dtsPassage)
 let $cleanDTSpass := replace($dtsPassage, '\{&amp;ref\}\{&amp;start\}\{&amp;end\}', '')
-(:let $t3 := console:log($cleanDTSpass):)
+let $t3 := console:log($cleanDTSpass)
 let $DTSdoc := dtsc:requestXML($cleanDTSpass)
 let $xslt :=   'xmldb:exist:///db/apps/BetMas/xslt/textfragment.xsl'  
 return
@@ -276,7 +275,7 @@ DTS uris</button>
 </ul>
 </div>
 <div class="w3-rest">{
-try{viewItem:textfragment($DTSdoc/node()[name()!='teiHeader'])} catch * {$err:description}
+try{transform:transform($DTSdoc/node()[name()!='teiHeader'],$xslt,())} catch * {$err:description}
 }</div>
 </div>
 };

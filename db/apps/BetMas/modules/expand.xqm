@@ -18,7 +18,7 @@ declare variable $expand:listPrefixDef :=
     <prefixDef
         ident="bm"
         matchPattern="([a-zA-Z0-9]+)"
-        replacementPattern="https://www.zotero.org/groups/358366/ethiostudies/items/tag/bm:$1">
+       replacementPattern="https://www.zotero.org/groups/358366/ethiostudies/items/tag/bm:$1">
     </prefixDef>
     <prefixDef
         ident="betmas"
@@ -604,8 +604,8 @@ let $cS :=
                             return
                                 attribute corresp {
                                     if (starts-with($mainFacs, 'http') or (starts-with($mainFacs, '#')) or contains($mainFacs, 'vatlib') or contains($mainFacs, 'gallica')) then
-                                        $mainFacs                                   
-                                    else 
+                                        $mainFacs
+                                    else
                                        concat($expand:BMurl, 'api/iiif/',  $node/ancestor-or-self::t:TEI/@xml:id, '/manifest',  (if ($node/parent::t:altIdentifier/@xml:id) then '?alt=' || string($node/parent::t:altIdentifier/@xml:id) else ()))
                                 }
                         else

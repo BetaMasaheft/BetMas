@@ -6,7 +6,7 @@ import module namespace exptit = "https://www.betamasaheft.uni-hamburg.de/BetMas
 import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/switch2" at "xmldb:exist:///db/apps/BetMasWeb/modules/switch2.xqm";
 import module namespace item2 = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/item2" at "xmldb:exist:///db/apps/BetMasWeb/modules/item.xqm";
 import module namespace http = "http://expath.org/ns/http-client";
-import module namespace functx = 'http://www.functx.com'; 
+import module namespace functx = 'http://www.functx.com';
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace b = "betmas.biblio";
@@ -81,7 +81,7 @@ declare %private function viewItem:breakdownRef($FromToTarget) {
                     else
                         ()
                 }
-                
+
                 {
                     if ($s/s:group[@nr = "4"]) then
                         <line>
@@ -110,7 +110,7 @@ declare %private function viewItem:locus($this) {
     $this/text()
     else ::)
         (
-        if ($this/parent::t:ab[not(@type = 'CruxAnsata' or @type = 'ChiRho' or @type = 'coronis')]) then
+        if ($this/parent::t:ab[not(@type = 'CruxAnsata' or @type = 'ChiRho' or @type = 'coronis' or @type = 'ruling'  or @type = 'pricking' )]) then
             '(Excerpt from '
         else
             (),
@@ -119,7 +119,7 @@ declare %private function viewItem:locus($this) {
                 let $prefix := if ($this/ancestor::t:TEI//t:extent/t:measure[@type != "blank"][@unit = 'page']) then
                     'pp. '
                 else
-                     if (matches($clean, '[^\.]$'))
+                     if (matches($clean, '[^\.]$') or matches($clean, ' ca.') or matches($clean, ' e.g.'))
                                     then
                                         'ff. '
                                     else
@@ -139,7 +139,7 @@ declare %private function viewItem:locus($this) {
                     let $prefix := if ($this/ancestor::t:TEI//t:extent/t:measure[@type != "blank"][@unit = 'page']) then
                         'p. '
                     else
-                       if (matches($clean, '[^\.]$'))
+                       if (matches($clean, '[^\.]$') or matches($clean, ' ca.') or matches($clean, ' e.g.') or matches($clean, ' cp.')  or matches($clean, ' esp.'))
                                     then
                                         'f. '
                                     else
@@ -155,7 +155,7 @@ declare %private function viewItem:locus($this) {
                     let $prefix := if ($this/ancestor::t:TEI//t:extent/t:measure[@type != "blank"][@unit = 'page']) then
                         'pp. '
                     else
-                         if (matches($clean, '[^\.]$'))
+                         if (matches($clean, '[^\.]$') or matches($clean, ' ca.') or matches($clean, ' e.g.') or matches($clean, ' cp.')  or matches($clean, '  esp.'))
                                     then
                                         'ff. '
                                     else
@@ -182,7 +182,7 @@ declare %private function viewItem:locus($this) {
                     {$this/text()}
                 </a>
             else
-                
+
                 <a
                     href="#{$this/@from}">
                     {viewItem:choosefacsorlb($this, $ancID)}
@@ -223,19 +223,19 @@ declare %private function viewItem:locus($this) {
                 <a
                     class="locusReference"
                     target="_blank"
-                    href="/{$mainID}.{$r}">
+                    href="{$config:appUrl}/{$mainID}.{$r}">
                     <i
                         class="fa fa-file-text-o"
                         aria-hidden="true"/>
                 </a>
         else
             (),
-        
+
         if ($this/parent::t:ab[not(@type = 'CruxAnsata' or @type = 'ChiRho' or @type = 'coronis' or @type = 'ruling'  or @type = 'pricking' )]) then
             (')', <br></br>)
         else
             (),
-            
+
             ' '
         )
 };
@@ -250,8 +250,8 @@ declare %private function viewItem:matchingFacs($locus) {
         <div
             class="w3-modal"
             id="{$modalid}">
-            
-            
+
+
             <!-- Modal content-->
             <div
                 class="w3-modal-content">
@@ -322,14 +322,14 @@ declare %private function viewItem:matchingFacs($locus) {
                                                 string-join($tiles, ', ')
                                         else
                                             ()
-                                            
+
                                             (:                         bm server , EthioSpare          :)
                         else
                             if (matches($idnoFacs, '\w{3}/\d{3}/\w{3,4}-\d{3}')) then
                                 let $iiif := $idnoFacs
                                 let $fullIIIF := concat('/iiif/', $idnoFacs)
-                                (:                        expected format: of //t:TEI//t:msIdentifier/t:idno/@facs is : BMQ/003/BMQM-003 where the 
-                                    first folder is the institution folder, then there is the number of the manuscript and the prefix of the photos which must have been converted to .tif 
+                                (:                        expected format: of //t:TEI//t:msIdentifier/t:idno/@facs is : BMQ/003/BMQM-003 where the
+                                    first folder is the institution folder, then there is the number of the manuscript and the prefix of the photos which must have been converted to .tif
                                     :)
                                 return
                                     if ($locus/@from and $locus/@to) then
@@ -355,7 +355,7 @@ declare %private function viewItem:matchingFacs($locus) {
                                                     string-join($targets, ', ')
                                             else
                                                 ()
-                                                
+
                                                 (:                         bm server EMIP     and Laurenziana                 :)
                             else
                                 if (matches($idnoFacs, 'EMIP/Codices/\d+/') or matches($idnoFacs, 'Laurenziana')) then
@@ -385,10 +385,10 @@ declare %private function viewItem:matchingFacs($locus) {
                                                         string-join($targets, ', ')
                                                 else
                                                     ()
-                                                    
-                                                    (:                         images infos are at 
+
+                                                    (:                         images infos are at
                                             http://digi.vatlib.it/iiifimage/MSS_Vat.et.1/Vat.et.1_0003.jp2/info.json
-                                        
+
                                         http://digi.vatlib.it/iiif/MSS_Vat.et.1/manifest.json
                                         http://digi.vatlib.it/mss/detail/Vat.et.1
                                         as for gallica many assumptions are made, which could be avoided using jquery to build the viewer instead of this xslt script.
@@ -421,7 +421,7 @@ declare %private function viewItem:matchingFacs($locus) {
                                                             string-join($targets, ', ')
                                                     else
                                                         ()
-                                    
+
                                     else
                                         ('I do not know where these images come from')
                         let $openseadragonjsid := 'openseadragon' || replace($locus/@facs, ' ', '_') || $locus/ancestor::t:*[@xml:id][1]/@xml:id
@@ -546,7 +546,7 @@ declare %private function viewItem:matchinglb($locus) {
                                     let $region := string-join(($regionX, $regionY, $regionW, $regionZ), ',')
                                     return
                                         concat($iiifbase, $locationclean, '/', $filename, '/', $region, '/full/0/default.jpg')
-                                
+
                                 else
                                     if ($c and $file//t:cb[@n = $c][starts-with(@facs, '#facs_')][preceding-sibling::t:pb[1][@n = $fs]]) then
                                         let $matchingColumnBreak := $file//t:cb[@n = $c][starts-with(@facs, '#facs_')][preceding-sibling::t:pb[1][@n = $fs]]
@@ -584,7 +584,7 @@ declare %private function viewItem:matchinglb($locus) {
                                                 concat($iiifbase, $locationclean, '/', $filename, '/full/full/0/default.jpg')
                                         else
                                             ()
-                                
+
                                 let $FromToTarget := string-join($range//text()[not(parent::*:pos)])
                                 let $firstcanvas := concat('https://betamasaheft.eu/manuscripts/', $mainID, '/viewer?FirstCanv=https://betamasaheft.eu/api/iiif/', $mainID, '/canvas/p', $f)
                                 return
@@ -793,7 +793,7 @@ declare %private function viewItem:correspTit($t, $id) {
 
 declare %private function viewItem:worktitle($t) {
     let $id := string($t/@xml:id)
-    
+
     return
         <li
             property="http://purl.org/dc/elements/1.1/title">
@@ -805,7 +805,7 @@ declare %private function viewItem:worktitle($t) {
                     (),
                 if ($t/@ref) then
                     <a
-                        href="/{viewItem:URI2ID($t/@ref)}"
+                        href="{viewItem:URI2ID($t/@ref)}"
                         target="_blank">{$t/text()}</a>
                 else
                     viewItem:TEI2HTML($t/node()),
@@ -817,9 +817,10 @@ declare %private function viewItem:worktitle($t) {
             }
         </li>
 };
-
-declare %private function viewItem:persname($name) {
-    let $id := string($name/@xml:id)    
+declare %private function viewItem:placename($name) {
+ let $id := string($name/@xml:id)
+ let $cors := $name/parent::t:place/t:placeName[substring-after(@corresp, '#') = $id]
+ let $count := count($cors)
     return
         <li>
             {
@@ -830,7 +831,40 @@ declare %private function viewItem:persname($name) {
                     (),
                 if ($name/@ref) then
                     <a
-                        href="/{viewItem:URI2ID($name/@ref)}"
+                        href="{viewItem:URI2ID($t/@ref)}"
+                        target="_blank">{$name/text()}</a>
+                else
+                    viewItem:TEI2HTML($name/node()),
+                viewItem:sup($name),
+                if ($name/parent::t:place/t:placeName[@corresp]) then
+                    (' (',
+    for $corresp at $p in $cors
+    return
+        (viewItem:TEI2HTML($corresp), viewItem:sup($corresp),
+        if ($p = $count) then
+            ()
+        else
+            ', ')
+, ')')
+                else
+                    ()
+            }
+        </li>
+};
+
+declare %private function viewItem:persname($name) {
+    let $id := string($name/@xml:id)
+    return
+        <li>
+            {
+                attribute {'xml:id'} {$id},
+                if ($name/@type) then
+                    concat(string($name/@type), ': ')
+                else
+                    (),
+                if ($name/@ref) then
+                    <a
+                        href="{viewItem:URI2ID($name/@ref)}"
                         target="_blank">{$name/text()}</a>
                 else
                     viewItem:TEI2HTML($name/node()),
@@ -861,7 +895,7 @@ let $string := normalize-space($attribute) return
     if (contains($string, ' ')) then
         tokenize($string, ' ')
     else
-        string($string)
+        string($attribute)
 };
 
 declare %private function viewItem:workAuthorList($parentname, $p, $a) {
@@ -869,7 +903,7 @@ declare %private function viewItem:workAuthorList($parentname, $p, $a) {
     return
     ($parentname,
     <a
-        href="/{$filename}"
+        href="{$config:appUrl}/{$filename}"
         class="persName">
         {exptit:printTitle($p)}
     </a>,
@@ -881,7 +915,7 @@ declare %private function viewItem:workAuthorList($parentname, $p, $a) {
         (),
         <a
             id="{generate-id($a)}Ent{$filename}relations">
-            
+
             <span
                 class="glyphicon glyphicon-hand-left"/>
         </a>,
@@ -946,7 +980,7 @@ declare %private function viewItem:persRelList($parentname, $p, $a) {
      </a>,
   <a
             id="{generate-id($a)}Ent{$filename}relations">
-            
+
             <span
                 class="glyphicon glyphicon-hand-left"/>
         </a>,
@@ -1009,7 +1043,7 @@ declare %private function viewItem:headercontext($node) {
             ()
         return
             <a
-                href="/{viewItem:URI2ID($c)}">{$text}
+                href="{$config:appUrl}/{viewItem:URI2ID($c)}">{$text}
                 {$lang}</a>
         return
             ('(about:', $items, ')')
@@ -1073,7 +1107,7 @@ declare %private function viewItem:bibl($node, $t) {
                 {viewItem:TEI2HTML($node/t:ref[@target])}
                 {viewItem:TEI2HTML($node/t:note[not(@type)])}
             </span>
-        
+
         </div>
         <div
             class="w3-rest">
@@ -1085,8 +1119,8 @@ declare %private function viewItem:bibl($node, $t) {
                     href="{$node/@corresp}">Zotero</a>
                 <a
                     class="w3-bar-item w3-button w3-tiny"
-                    href="/bibliography?pointer={$t}">Other citations</a>
-            
+                    href="{$config:appUrl}/bibliography?pointer={$t}">Other citations</a>
+
             </span>
         </div>
     </div>
@@ -1119,6 +1153,11 @@ declare %private function viewItem:bibliographyitem($node) {
                     if ($node/parent::t:surrogates)
                     then
                         <p>{viewItem:bibl($node, $t)}</p>
+                        else
+                        if ($node/parent::t:witness) then
+                            <span>
+                                {$viewItem:bibliography//b:entry[@id = $t]/b:citation/node()}
+                            </span>
                     else
                         if ($node/parent::t:listBibl[not(ancestor::t:note)]) then
                             <li
@@ -1209,7 +1248,7 @@ declare %private function viewItem:ref($ref) {
             else
                 <a
                     class="reference"
-                    href="/{substring-after($ref/@cRef, 'betmas:')}"
+                    href="{$config:appUrl}/{substring-after($ref/@cRef, 'betmas:')}"
                     target="_blank">
                     {$ref/text()}
                     <i
@@ -1221,7 +1260,7 @@ declare %private function viewItem:ref($ref) {
                 for $c in viewItem:makeSequence($ref/@corresp)
                 return
                     (<a
-                        href="/{viewItem:URI2ID($c)}">{$ref/text()}</a>,
+                        href="{$config:appUrl}/{viewItem:URI2ID($c)}">{$ref/text()}</a>,
                     let $relsid := generate-id($ref)
                     return
                         <a
@@ -1240,7 +1279,7 @@ declare %private function viewItem:ref($ref) {
                             let $node := $ref/ancestor::t:TEI/id($anchor)
                             return
                                 <a
-                                    href="/{$id}#{$anchor}">
+                                    href="{$config:appUrl}/{$id}#{$anchor}">
                                     {$ref/text()}</a>
                         else
                             if (starts-with($t, 'http')) then
@@ -1249,7 +1288,7 @@ declare %private function viewItem:ref($ref) {
                                     {$ref/text()}</a>
                             else
                                 <a
-                                    href="/{$t}">{$ref/text()}</a>
+                                    href="{$config:appUrl}/{$t}">{$ref/text()}</a>
                 else
                     ()
         )
@@ -1276,7 +1315,7 @@ declare %private function viewItem:ref($ref) {
                 for $c in viewItem:makeSequence($ref/@corresp)
                 return
                     (<a
-                        href="/{viewItem:URI2ID($c)}">{exptit:printTitle($c)}</a>,
+                        href="{$config:appUrl}/{viewItem:URI2ID($c)}">{exptit:printTitle($c)}</a>,
                     let $relsid := generate-id($ref)
                     return
                         <a
@@ -1647,7 +1686,7 @@ declare %private function viewItem:lefthand($entity) {
 
 declare %private function viewItem:namedEntityTitle($entity) {
   (:if(count($entity/ancestor::t:msItem) gt 2) then
-   
+
    (string-join($entity//text()),
     if (matches($entity/@ref, 'LIT')) then
         (' (' || viewItem:cae($entity) || ')')
@@ -1658,7 +1697,7 @@ declare %private function viewItem:namedEntityTitle($entity) {
     (
     <a target="_blank"
         xmlns="http://www.w3.org/1999/xhtml"
-        href="/{viewItem:URI2ID($entity/@ref)}">{viewItem:TEI2HTML($entity/node())}</a>,
+        href="{viewItem:URI2ID($entity/@ref)}">{viewItem:TEI2HTML($entity/node())}</a>,
     if (matches($entity/@ref, 'LIT')) then
         (' (' || viewItem:cae($entity) || ')')
     else
@@ -1847,15 +1886,15 @@ declare %private function viewItem:msItem($msItem) {
                                     <a
                                         role="button"
                                         class="w3-button w3-gray w3-small"
-                                        href="/manuscripts/{$mainID}/text?per-page=1&amp;start={$number}">Transcription</a>
+                                        href="{$config:appUrl}/manuscripts/{$mainID}/text?per-page=1&amp;start={$number}">Transcription</a>
                             else
                                 ()
                     }
                     {
          (::           if ((count($msItem/ancestor::t:msItem) gt 1) and ($msItemsCount gt 100))
-                    then <div><a 
-                    class="w3-button msitemloader" 
-                    data-mainID="{$mainID}" 
+                    then <div><a
+                    class="w3-button msitemloader"
+                    data-mainID="{$mainID}"
                     data-msItem="{replace($msItem/@xml:id, '\.', '-')}">Click here to load the {count($msItem/t:msItem)} items contained in the current one.</a><div id="msitemloadcontainer{replace($msItem/@xml:id, '\.', '-')}"/></div>
                     else  ::) if ($msItem/t:msItem) then
                         (
@@ -1867,7 +1906,7 @@ declare %private function viewItem:msItem($msItem) {
                             <div
                                 class="w3-container"
                                 id="contentItem{$trimid}"
-                                rel="http://purl.org/dc/terms/hasPart">{ 
+                                rel="http://purl.org/dc/terms/hasPart">{
                                $innerMsItem
                                 }</div>
                                 )
@@ -1887,17 +1926,17 @@ declare %private function viewItem:figure($figure as element(t:figure)) {
     let $mainID := $figure/ancestor::t:TEI/@xml:id
     let $id := concat($mainID, 'graphic')
     return
-        
+
      (:  if the link ends with .svg :)
- if (matches($link, "\.svg$")) then     
+ if (matches($link, "\.svg$")) then
  <div id="{$id}" style="height:{if ($height) then $height else '100%'}">
             {doc($link) }
             <div class="caption w3-margin-left w3-tiny">
               {viewItem:TEI2HTML($figure/t:graphic/t:desc)}
             </div>
           </div>
-       
-  else if (contains($link, 'http')) then           
+
+  else if (contains($link, 'http')) then
                 <div
                     id="{$id}">
                     <span><a href="{$link}"><img src="{$link}" style="height:{$height}"/></a></span>
@@ -1932,7 +1971,7 @@ declare %private function viewItem:figure($figure as element(t:figure)) {
                            visibilityRatio:    1,
                            minZoomLevel:       1,
                            defaultZoomLevel:   1,
-                        sequenceMode :true, 
+                        sequenceMode :true,
                         tileSources:   ['
                             || string-join($urls, ', ') ||
                             ']
@@ -1960,7 +1999,7 @@ declare %private function viewItem:figure($figure as element(t:figure)) {
                            visibilityRatio:    1,
                            minZoomLevel:       1,
                            defaultZoomLevel:   1,
-                        sequenceMode :true, 
+                        sequenceMode :true,
                         tileSources:   ['
                         || $url ||
                         ']
@@ -2008,14 +2047,14 @@ declare %private function viewItem:layoutDesc($node) {
                 order by $l/position()
             return
                 viewItem:layout($l)
-        }       
+        }
     </div>
 };
 
 declare %private function viewItem:palaeography($node) {
     <div
         rel="http://purl.org/dc/terms/hasPart">
-        <h3>Palaeography {viewItem:headercontext($node)}</h3>        
+        <h3>Palaeography {viewItem:headercontext($node)}</h3>
         {      for $h in $node/t:handNote
                 return
                     <li class="nodot"
@@ -2187,7 +2226,7 @@ let $pos := index-of($node/parent::*/t:layout, $node)[1] return
                         then
                             <span>has a sum of layout height of {$computedheight}mm which is greater than the
                                 object height of {$totalHeight}mm </span>
-                        
+
                         else
                             ()
                     }
@@ -2196,7 +2235,7 @@ let $pos := index-of($node/parent::*/t:layout, $node)[1] return
                         then
                             <span>has a sum of layout width of {$computedwidth}mm which is greater than the
                                 object height of {$totalwidth}mm </span>
-                        
+
                         else
                             ()
                     }
@@ -2276,7 +2315,7 @@ let $pos := index-of($node/parent::*/t:layout, $node)[1] return
                                 }
                                 {
                                     if ($ruling/@subtype = 'pattern') then
-                                        
+
                                         let $regex := '(([A-Z\d\-]+)/([A-Z\d\-]+)/([A-Z\d\-]+)/([A-Z\d\-]+))'
                                         let $analyze := analyze-string($ruling, $regex)
                                         for $m in $analyze/node()
@@ -2373,14 +2412,14 @@ let $pos := index-of($node/parent::*/t:layout, $node)[1] return
         {
             if ($node//t:ab[@subtype = 'Executed'] or $node//t:ab[@subtype = 'Usage'] or $node//t:ab[@subtype = 'Dividers']) then
                 (<h4>Punctuation {viewItem:headercontext($node)}</h4>,
-                
+
                 for $punctuation in ($node//t:ab[@subtype = 'Executed'] | $node//t:ab[@subtype = 'Usage'] | $node//t:ab[@subtype = 'Dividers'])
                 return
                     <p>
                         {string($punctuation/@subtype) || ': '}
                         {viewItem:TEI2HTML($punctuation/node())}
                     </p>
-                
+
                 )
             else
                 ()
@@ -2413,7 +2452,7 @@ declare %private function viewItem:ab($node as element(t:ab)) {
             { if ($node/t:title/t:ref[1][@target]) then <h3><a
                         target="_blank"
                         href="{string($node/t:title[1]/@target)}">{string($node/t:title)}</a></h3> else ()}
-            {if ($node/t:title/t:ref[1][@target]) then  viewItem:TEI2HTML($node/node()[not(self::t:title)]) 
+            {if ($node/t:title/t:ref[1][@target]) then  viewItem:TEI2HTML($node/node()[not(self::t:title)])
             else viewItem:TEI2HTML($node/node())}</div>
     else
         if ($node/ancestor::t:div[@subtype = 'Psalmus']) then
@@ -2540,7 +2579,7 @@ declare %private function viewItem:handDesc($node) {
                     <span
                         property="http://purl.org/dc/terms/relation"
                         resource="https://betamasaheft/{$node/ancestor::t:TEI/@xml:id}/{$type}/{substring-after($c, '#')}"/>),
-                
+
                 ')')
             else
                 ()
@@ -2567,12 +2606,12 @@ declare %private function viewItem:condition($node as element(t:condition)) {
 };
 
 declare %private function viewItem:dimensions($node as element(t:dimensions)) {
-                            
+
 <h5>Dimensions {if ($node/@type) then '(' || string($node/@type) || ')' else ()} {viewItem:headercontext($node)}</h5>,
  <div
                     class="w3-responsive">
                     <table
-                        class="w3-table w3-hoverable">	
+                        class="w3-table w3-hoverable">
                         {
                          if ($node[@type = 'margin']/t:dim[@type]) then
                                 (<tr>
@@ -2591,11 +2630,11 @@ declare %private function viewItem:dimensions($node as element(t:dimensions)) {
                         {(:for EMML with dim:)
                             if ($node[not(contains(@type, 'margin'))]/t:dim) then for $dim in $node/t:dim return
                                 <tr>
-                                    {string($dim)} 
+                                    {string($dim)}
                                 </tr>
                             else
                                 ()
-                        }  
+                        }
                          {
                             if ($node/t:height) then
                                 <tr>
@@ -2604,7 +2643,7 @@ declare %private function viewItem:dimensions($node as element(t:dimensions)) {
                                 </tr>
                             else
                                 ()
-                        }                 
+                        }
                         {
                             if ($node/t:width) then
                                 <tr>
@@ -2613,7 +2652,7 @@ declare %private function viewItem:dimensions($node as element(t:dimensions)) {
                                 </tr>
                             else
                                 ()
-                        }   
+                        }
                         {
                             if ($node/t:depth) then
                                 <tr>
@@ -2622,7 +2661,7 @@ declare %private function viewItem:dimensions($node as element(t:dimensions)) {
                                 </tr>
                             else
                                 ()
-                        }                 
+                        }
                          {
                             if ($node[not(@type = 'margin')]/t:dim[@type = 'intercolumn']) then
                                 <tr>
@@ -2643,7 +2682,7 @@ declare %private function viewItem:extent($node as element(t:extent)) {
         <span
             property="http://betamasaheft.eu/hasTotalLeaves"
             content="{$node/t:measure[1][@unit = 'leaf'][not(@type)]}"/>
-        {viewItem:TEI2HTML($node/node())}         
+        {viewItem:TEI2HTML($node/node())}
         </div>
 };
 
@@ -2792,12 +2831,12 @@ declare %private function viewItem:bindingDesc($node) {
                     if ($node/t:binding/@contemporary = 'true') then
                         'Original: yes'
                     else if ($node/t:binding/@contemporary = 'false') then
-                        'Original: no'                        
+                        'Original: no'
                         else
                         concat('Origin: ', string($node/t:binding/@contemporary))
                 }</h4>)
         else
-            (),   
+            (),
     <p
         id='b1'>{viewItem:TEI2HTML($node/t:binding/t:decoNote[@xml:id = 'b1'])}</p>,
      if ($node//t:decoNote[@type = 'bindingMaterial']) then
@@ -2812,7 +2851,7 @@ declare %private function viewItem:bindingDesc($node) {
                     {viewItem:TEI2HTML($bo/node())}
                 </p>))
         else
-            (),                 
+            (),
     for $b in $node/t:binding/t:decoNote[not(@type = 'Other')][not(@type = 'bindingMaterial')][not(@xml:id = 'b1')]
     return
         (<h4
@@ -2824,7 +2863,7 @@ declare %private function viewItem:bindingDesc($node) {
             }</h4>,
         viewItem:TEI2HTML($b/node())),
     if ($node/t:binding/t:decoNote[@type = 'Other']) then
-               (<h4>More details</h4>,                
+               (<h4>More details</h4>,
             for $bo in $node/t:binding/t:decoNote[@type = 'Other']
             return
                 <p>
@@ -2916,9 +2955,9 @@ declare %private function viewItem:additionItem($a) {
                 if ($a/t:desc/@type) then
                     (' (Type: ',
                     <a
-                        target="_blank" href="/authority-files/list?keyword={$a/t:desc/@type}">{string($a/t:desc/@type)}</a>,
+                        target="_blank" href="{$config:appUrl}/authority-files/list?keyword={$a/t:desc/@type}">{string($a/t:desc/@type)}</a>,
                     <a target="_blank"
-                        href="/additions?type={$a/t:desc/@type}">
+                        href="{$config:appUrl}/additions?type={$a/t:desc/@type}">
                         <i
                             class="fa fa-hand-o-left"/>
                     </a>, ') ')
@@ -3111,7 +3150,7 @@ declare %private function viewItem:measureelement($node as element(t:measure)) {
                 else :)
               if (($node/@quantity)) then
                     string($node/@quantity)
-             else  
+             else
                     $node/text()
         }
         ({string($node/@unit)}{
@@ -3181,8 +3220,8 @@ declare %private function viewItem:note($node as element(t:note)) {
         else
             if ($node[@xml:id][@n]) then
                 viewItem:footnote($node)
-           else
-              <span> ({viewItem:TEI2HTML($node/node()) }) </span>  
+            else
+              <span> ({viewItem:TEI2HTML($node/node()) }) </span>
 };
 
 declare %private function viewItem:nationality($node as element(t:nationality)) {
@@ -3455,7 +3494,7 @@ declare %private function viewItem:surplus($node as element(t:surplus)) {
             if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
                                                 concat('resp: ', exptit:printTitle($node/@resp))
    else if (starts-with($node/@resp, 'bm:')) then
-                                                concat('resp: ', viewItem:bibliographyitem($node/@resp))
+                                                concat('resp: ', string($node/@resp))
    else
                                                  concat('resp: ', viewItem:editorName($node/@resp)))
           else
@@ -3466,26 +3505,28 @@ declare %private function viewItem:surplus($node as element(t:surplus)) {
 declare %private function viewItem:space($node as element(t:space)) {
     <span
         class="w3-tooltip">
-       
+
            {
                if ($node/@reason = 'rubrication') then
                 concat('(', $node/@quantity, ' ', $node/@unit, ' left for rubrication and never filled)')
             else
                 concat('(', $node/@quantity, ' ', $node/@unit, ' unfilled space)')
             }
-        
+
 <span
             class="w3-text w3-tag w3-small">{
             if ($node/@resp) then
             (
             if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
                                                 concat('resp: ', exptit:printTitle($node/@resp))
+   else if (starts-with($node/@resp, 'bm:')) then
+                                                concat('resp: ',  string($node/@resp))
    else
                                                  concat('resp: ', viewItem:editorName($node/@resp)))
           else
                                                  ()}</span>
     </span>
-};  
+};
 
 declare %private function viewItem:choice($node as element(t:choice)) {
     let $id := generate-id($node)
@@ -3493,9 +3534,9 @@ declare %private function viewItem:choice($node as element(t:choice)) {
         <span
         class="w3-tooltip">{
         if ($node[t:sic and t:corr]) then
-            (<b>                
-                    {$node/t:corr}                
-            </b>       
+            (<b>
+                    {$node/t:corr}
+            </b>
             ,
             <script
                 type="text/javascript">
@@ -3512,12 +3553,14 @@ declare %private function viewItem:choice($node as element(t:choice)) {
             else
                 (viewItem:TEI2HTML($node/node()))
                 }
-                
+
                 <span
             class="w3-text w3-tag w3-small">{
             if ($node/@resp) then
                   (      if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
                         concat(viewItem:TEI2HTML($node/t:sic), '(!)', 'corrected by ', exptit:printTitle($node/@resp))
+   else  if (starts-with($node/@resp, 'bm:')) then
+                        concat(viewItem:TEI2HTML($node/t:sic), '(!)', 'corrected by ',  string($node/@resp))
    else
                        concat(viewItem:TEI2HTML($node/t:sic), '(!)', 'corrected by ', viewItem:editorName($node/@resp))
                                                  )
@@ -3525,19 +3568,21 @@ declare %private function viewItem:choice($node as element(t:choice)) {
                                                  if ($node/t:corr/@resp) then
                   (      if (starts-with($node/t:corr/@resp, 'PRS') or starts-with($node/t:corr/@resp, 'ETH')) then
                         concat(viewItem:TEI2HTML($node/t:sic), '(!)', 'corrected by ', exptit:printTitle($node/t:corr/@resp))
+   else if (starts-with($node/t:corr/@resp, 'bm:')) then
+                        concat(viewItem:TEI2HTML($node/t:sic), '(!)', 'corrected by ', string($node/t:corr/@resp))
    else
                        concat(viewItem:TEI2HTML($node/t:sic), '(!)', 'corrected by ', viewItem:editorName($node/t:corr/@resp))
                                                  )
                                                  else
-                                                 
+
                       concat(viewItem:TEI2HTML($node/t:sic), '(!)')}
-                </span>                
+                </span>
                 </span>
 };
- 
+
 declare %private function viewItem:unclear($node as element(t:unclear)) {
-     <span 
-                        style="background-color:hsla(50, 20%, 50%, 0.2); opacity: 0.6; text-decoration-line: underline; text-decoration-style: wavy;">[{viewItem:TEI2HTML($node/node())}?]</span>
+     <span
+                        style="background-color:hsla(50, 20%, 50%, 0.2); opacity: 0.6; text-decoration-line: underline; text-decoration-style: wavy; text-decoration-color: gray;">[{viewItem:TEI2HTML($node/node())}?]</span>
 };
 
 declare %private function viewItem:sic($node as element(t:sic)) {
@@ -3549,6 +3594,8 @@ declare %private function viewItem:sic($node as element(t:sic)) {
             (
             if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
                                                 concat('sic by ', exptit:printTitle($node/@resp))
+   else  if (starts-with($node/t:corr/@resp, 'bm:')) then
+                        concat('sic by ', string($node/@resp))
    else
                                                  concat('sic by ', viewItem:editorName($node/@resp)))
           else
@@ -3615,13 +3662,15 @@ declare %private function viewItem:del($node as element(t:del)) {
             (
             if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
                                                 concat('corrected by ', exptit:printTitle($node/@resp))
-   else
+     else if (starts-with($node/@resp, 'bm:')) then
+                                                concat('resp: ', string($node/@resp))
+             else
                                                  concat('corrected by ', viewItem:editorName($node/@resp)))
           else
                                                  ()}</span>
     </span>
-};    
- 
+};
+
 declare %private function viewItem:supplied($node as element(t:supplied)) {
     <span
         class="w3-tooltip">
@@ -3642,13 +3691,15 @@ declare %private function viewItem:supplied($node as element(t:supplied)) {
                      else
                         (string-join($node/@*, ' '))
             }
-         
+
         <span
             class="w3-text w3-tag w3-small SupResp">{
             if ($node/@resp) then
             (
             if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
                                                 concat('supplied by ', exptit:printTitle($node/@resp))
+  else if (starts-with($node/@resp, 'bm:')) then
+                                                concat('supplied by ',   string($node/@resp))
    else
                                                  concat('supplied by ', viewItem:editorName($node/@resp)))
           else
@@ -3742,7 +3793,7 @@ declare %private function viewItem:gap($node as element(t:gap)) {
                         else
                             for $q in 1 to $extent
                             return
-                                '▧') 
+                                '▧')
                         else
                             ('[...]')
                     )
@@ -3759,7 +3810,7 @@ declare %private function viewItem:gap($node as element(t:gap)) {
                     else
                         if ($node/@reason = 'lost') then
                         (
-                          if ($node/@quantity) then                       
+                          if ($node/@quantity) then
                             concat('[c. ', $node/@quantity, ' ', $node/@unit, ' lost]')
                             else
                             ('[…]')
@@ -3770,10 +3821,12 @@ declare %private function viewItem:gap($node as element(t:gap)) {
                             else
                                 ()
             }
-       
+
        <span
             class="w3-text w3-tag w3-small OmissionResp">{if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
                                                 concat('ommission by ', string-join(exptit:printTitle($node/@resp), ', '))
+    else if (starts-with($node/@resp, 'bm:')) then
+                                                concat('ommission by ',  string($node/@resp))
    else
                                                  concat('ommission by ', viewItem:editorName($node/@resp))}</span>
     </span>
@@ -3794,10 +3847,10 @@ declare %private function viewItem:pb($node as element(t:pb)) {
 };
 
 declare %private function viewItem:imagelink($node) {
-    
+
     if (starts-with($node/@facs, 'http') and $node/ancestor::t:TEI[@type = 'work']) then
         (
-        (:        in this case the edition of a work points to a witness which is external and whose coordinates are explicitly provided 
+        (:        in this case the edition of a work points to a witness which is external and whose coordinates are explicitly provided
 
 e.g. LIT2170Peripl :)
         let $corresp := substring-after($node/@corresp, '#')
@@ -3813,12 +3866,12 @@ e.g. LIT2170Peripl :)
     else
         (
         (: in this case there is a pb in the transcription, so it should be a manuscript.
-        The manifest should be the one available for the manuscript 
+        The manifest should be the one available for the manuscript
         Here there are several cases
         - the manifest is external
         - the @facs points at a facsimile/zone element from transkribus
         - there is no facs in the pb, but there is a manifest, so the page may be guessed.
-        
+
         THIS IS NOT DONE YET!
         :)
         <span
@@ -3829,7 +3882,7 @@ e.g. LIT2170Peripl :)
 declare %private function viewItem:lg($node as element(t:lg)) {
     <div
         class="w3-container"> {
-                  if ($node/@type) then 
+                  if ($node/@type) then
                    string($node/@type) || (if ($node/@n) then
                                             '  ' || string($node/@n)
                                         else
@@ -3960,7 +4013,7 @@ declare function viewItem:div($node as element(t:div)) {
                         ()
                     )
             }
-        
+
         </div>
     else
         if ($node[parent::t:body][not(@type = 'apparatus')])
@@ -4148,7 +4201,7 @@ declare %private function viewItem:titletemplate($div, $text) {
                                 <span
                                     class="glyphicon glyphicon-share"/>
                             </a>
-                            
+
                             )
                         )
                         ,
@@ -4158,7 +4211,7 @@ declare %private function viewItem:titletemplate($div, $text) {
                 }
                 {
                     if ($div/@corresp and $div/ancestor::t:TEI/@type = 'work')
-                    
+
                     then
                         <span
                             class="parallelversions  w3-tooltip">
@@ -4171,7 +4224,7 @@ declare %private function viewItem:titletemplate($div, $text) {
                             <span
                                 class="w3-tag w3-text">See parallel versions if any is available</span>
                         </span>
-                    
+
                     else
                         ()
                 }
@@ -4218,7 +4271,7 @@ declare %private function viewItem:titletemplate($div, $text) {
                         class="w3-text w3-tag">Check for marked up quotations of a passage in this section</span>
                 </div>
                 ,
-                
+
                 <a
                     href="#"
                     class="w3-button w3-padding-small w3-gray w3-right w3-bar-item"
@@ -4309,7 +4362,7 @@ declare function viewItem:TEI2HTML($nodes) {
                     viewItem:abbr($node)
              case element(t:accMat)
                 return
-                    viewItem:accMat($node)         
+                    viewItem:accMat($node)
             case element(t:acquisition)
                 return
                     viewItem:acquisition($node)
@@ -4388,9 +4441,9 @@ declare function viewItem:TEI2HTML($nodes) {
             case element(t:desc)
                 return
                     viewItem:desc($node)
-          case element(t:dimensions)
+             case element(t:dimensions)
                 return
-                    viewItem:dimensions($node)                    
+                    viewItem:dimensions($node)
             case element(t:div)
                 return
                     viewItem:div($node)
@@ -4402,7 +4455,7 @@ declare function viewItem:TEI2HTML($nodes) {
                     viewItem:explicit($node)
             case element(t:extent)
                 return
-                    viewItem:extent($node)           
+                    viewItem:extent($node)
             case element(t:facsimile)
                 return
                     ()
@@ -4447,7 +4500,7 @@ declare function viewItem:TEI2HTML($nodes) {
                     viewItem:incipit($node)
             case element(t:item)
                 return
-                    viewItem:item($node)         
+                    viewItem:item($node)
             case element(t:layoutDesc)
                 return
                     viewItem:layoutDesc($node)
@@ -4471,7 +4524,7 @@ declare function viewItem:TEI2HTML($nodes) {
                     viewItem:lg($node)
             case element(t:l)
                 return
-                    viewItem:l($node)                    
+                    viewItem:l($node)
             case element(t:locus)
                 return
                     viewItem:locus($node)
@@ -4487,7 +4540,7 @@ declare function viewItem:TEI2HTML($nodes) {
             case element(t:msDesc)
                 return
                     viewItem:manuscriptStructure($node)
-            
+
             case element(t:msFrag)
                 return
                     viewItem:codicologicalUnit($node)
@@ -4548,7 +4601,7 @@ declare function viewItem:TEI2HTML($nodes) {
             case element(t:ref)
                 return
                     viewItem:ref($node)
-            
+
             case element(t:repository)
                 return
                     viewItem:repository($node)
@@ -4587,7 +4640,7 @@ declare function viewItem:TEI2HTML($nodes) {
                     viewItem:summary($node)
              case element(t:supplied)
                 return
-                    viewItem:supplied($node)                    
+                    viewItem:supplied($node)
             case element(t:supportDesc)
                 return
                     viewItem:supportDesc($node)
@@ -4618,8 +4671,8 @@ declare function viewItem:TEI2HTML($nodes) {
             case element(t:watermark)
                 return
                     viewItem:watermark($node)
-                    
-                    
+
+
                     (:                        default passthrough for elments not specified:)
             case text()
                 return
@@ -4636,17 +4689,18 @@ declare %private function viewItem:tokenize-text($node) {
     if ($node[
     (ancestor::t:*[@xml:lang])[1][@xml:lang = 'gez']][
     parent::t:*[name() != 'label'][name() != 'note'][name() != 'persName'][name() != 'placeName']]) then
-       
+
         for $w in tokenize(normalize-space($node), '\s')
         return
             (<span class="word">{$w}</span>, ' ')
-            else 
+            else
             $node
 };
 
 declare %private function viewItem:standards($item) {
+  (::  viewItem:zotero($item),::)
     viewItem:keywords($item, switch2:col($item/@type)),
-     (::if ($item//t:editionStmt) then
+    (::if ($item//t:editionStmt) then
         <div
             class="w3-container w3-small"
             id="editionStmt">
@@ -4730,7 +4784,7 @@ declare %private function viewItem:work($item) {
                                     return
                                         <li>{$aut}</li>
                                 }
-                                
+
                             </ul>
                             )
                         else
@@ -4784,7 +4838,7 @@ declare %private function viewItem:work($item) {
                  {
                     if ($item//t:div[contains(@subtype, 'incipit')]) then
                         <p class="w3-small">
-                          Incipit: 
+                          Incipit:
                             {viewItem:TEI2HTML($item//t:div[contains(@subtype, 'incipit')][1])}
                         </p>
                     else
@@ -4858,7 +4912,7 @@ declare %private function viewItem:work($item) {
                                 {viewItem:TEI2HTML($b)}
                             </ul>
                         </div>
-                }                                             
+                }
                 {viewItem:standards($item)}
                 {
                     if ($item//t:div[@type = 'edition']//t:ab//text()) then
@@ -4915,7 +4969,7 @@ declare %private function viewItem:relsinfoblock($rels, $id) {
         class="w3-tiny">For a table of all relations from and to this record,
         please go to the <a
             class="w3-tag w3-gray"
-            href="/{switch2:col(switch2:switchPrefix($id))}/{$id}/analytic">Relations</a> view.
+            href="{$config:appUrl}/{switch2:col(switch2:switchPrefix($id))}/{$id}/analytic">Relations</a> view.
         In the Relations boxes on the right of this page, you can also find all available relations grouped by name.
     </p>
 };
@@ -4953,7 +5007,7 @@ declare %private function viewItem:narrative($item) {
                             id="bibliography">
                             <h3>{viewItem:bibliographyHeader($b)}</h3>
                             {viewItem:TEI2HTML($b)}
-                        
+
                         </div>
                 }
                 {viewItem:relsinfoblock($rels, $id)}
@@ -4996,7 +5050,7 @@ declare %private function viewItem:person($item) {
                                     for $m in ($membera)
                                     return
                                         viewItem:workAuthLi($m, 'p')
-                                }                                                                
+                                }
                             </ul>
                             )
                         else
@@ -5013,7 +5067,7 @@ declare %private function viewItem:person($item) {
                                     for $m in ($memberp)
                                     return
                                         viewItem:workAuthLi($m, 'a')
-                                }                                                                
+                                }
                             </ul>
                             )
                         else
@@ -5038,8 +5092,8 @@ declare %private function viewItem:person($item) {
                                     return
                                         viewItem:workAuthLi($aut, 'p')
                                 }
-         
-                                
+
+
                             </ul>
                             )
                         else
@@ -5063,13 +5117,13 @@ declare %private function viewItem:person($item) {
                                     for $a in ($translatora)
                                     return
                                         viewItem:workAuthLi($a, 'a')
-                                }                                
+                                }
                             </ul>
                             )
                         else
                             ()
                 }
- 
+
                     {
                         if ($item//t:person/t:note) then
                             for $n in $item//t:person/t:note
@@ -5187,7 +5241,7 @@ declare %private function viewItem:person($item) {
                     else
                         ()
                 }
-            
+
             {
                 if ($item//t:occupation) then
                     (<h3>Occupation</h3>,
@@ -5230,12 +5284,12 @@ declare %private function viewItem:person($item) {
                         if (count($predecessor) ge 1)
                         then
                             (<h6></h6>,
-                            <ul class="w3-small nodot">                                
+                            <ul class="w3-small nodot">
                                 {
                                     for $aut in ($predecessor)
                                     return
                                         <li>Successor: {viewItem:personAuthLi($aut, 'p')}</li>
-                                }      
+                                }
                             </ul>
                             )
                         else
@@ -5259,8 +5313,8 @@ declare %private function viewItem:person($item) {
                                     return
                                         viewItem:workAuthLi($aut, 'p')
                                 }
-         
-                                
+
+
                             </ul>
                             )
                         else
@@ -5271,7 +5325,7 @@ declare %private function viewItem:person($item) {
                 id="bibliography" class="w3-container">
                 <h3>{viewItem:bibliographyHeader($item//t:listBibl)}</h3>
                 {viewItem:TEI2HTML($item//t:listBibl)}
-            
+
             </div>
             {viewItem:standards($item)}
         </div>
@@ -5454,13 +5508,13 @@ declare %private function viewItem:auth($item) {
                 <h2>General description</h2>
                 <div>{viewItem:TEI2HTML($item//t:sourceDesc)}</div>
                 <div>{viewItem:TEI2HTML($item//t:abstract)}</div>
-                
+
                 {viewItem:relsinfoblock($rels, $id)}
                 <div
                     id="bibliography">
                     <h3>{viewItem:bibliographyHeader($item//t:listBibl)}</h3>
                     {viewItem:TEI2HTML($item//t:listBibl)}
-                
+
                 </div>
                  <button  class="w3-button w3-red"><a href="https://betamasaheft.eu/authority-files/list?keyword={$id}" target="_blank">List of entities using the keyword</a></button>
                 <button
@@ -5471,8 +5525,8 @@ declare %private function viewItem:auth($item) {
                 <div
                     id="allattestations"
                     class="w3-container"/>
-            
-            
+
+
             </div>
             {viewItem:standards($item)}
         </div>
@@ -5490,10 +5544,10 @@ declare %private function viewItem:manuscript($item) {
     let $relsA := $viewItem:coll//t:relation[contains(@active, $uri)]
     let $rels := ($relsA | $relsP)
     let $mainidno := $item//t:msIdentifier/t:idno
-    
+
     return
         <div
-            
+
             id="MainData">
             <span
                 property="http://www.cidoc-crm.org/cidoc-crm/P48_has_preferred_identifier"
@@ -5539,7 +5593,7 @@ declare %private function viewItem:manuscript($item) {
                                 class="showHideText">Hide</span> contents</a>
                     </div>
                 </div>
-                
+
                 <div
                     class="w3-third">
                     <h2>General description</h2>
@@ -5561,7 +5615,7 @@ declare %private function viewItem:manuscript($item) {
                             ()
                     }
                 </div>-->
-                
+
                 <div
                     id="allattestations"
                     class="w3-container"/>
@@ -5573,7 +5627,7 @@ declare %private function viewItem:manuscript($item) {
                         {$item//t:titleStmt/t:title[not(@type = 'full')]/text()}
                     </h4>
                 </div>
-              
+
                 <span
                     property="http://www.cidoc-crm.org/cidoc-crm/P57_has_number_of_parts"
                     content="{count($item//t:msContents/t:msItem)}"/>
@@ -5590,7 +5644,7 @@ declare %private function viewItem:manuscript($item) {
                         </span>
                     </h4>
                 </div>
-                
+
                 {viewItem:relsinfoblock($rels, $id)}
                 <div
                     class="w3-container"
@@ -5742,7 +5796,7 @@ declare %private function viewItem:manuscriptStructure($msDesc) {
             else
                 ()
         }
-    
+
     </div>,
     viewItem:divofmanuscriptpath($msDesc, '/t:msPart', 'parts'),
     viewItem:divofmanuscriptpath($msDesc, '/t:msFrag', 'fragments')
@@ -5758,7 +5812,7 @@ declare %private function viewItem:codicologicalUnit($mspart) {
             class="w3-container w3-margin-bottom">
             <h2>Codicological Unit {substring($mspart/@xml:id, 1)}
             </h2>
-        
+
         </div>
         <div
             class="w3-twothird"
@@ -5782,7 +5836,7 @@ declare %private function viewItem:calendartables($item) {
             <div
                 class="w3-responsive w3-hide popuptext"
                 id="dateInfo{$id}">
-                
+
                 <table
                     class="w3-table w3-hoverable">
                     <thead>
@@ -5862,6 +5916,7 @@ declare %private function viewItem:calendartables($item) {
                                         {
                                             if (starts-with($date/@resp, 'PRS') or starts-with($date/@resp, 'ETH')) then
                                                 exptit:printTitle($date/@resp)
+                                            else if (starts-with($date/@resp, 'bm:')) then string($date/@resp)
                                             else
                                                 viewItem:editorName($date/@resp)
                                         }
@@ -5870,7 +5925,7 @@ declare %private function viewItem:calendartables($item) {
                             else
                                 ()
                         }
-                    
+
                     </tbody>
                 </table>
             </div>
@@ -5952,7 +6007,7 @@ declare function viewItem:documents($doc) {
             {viewItem:TEI2HTML($doc//t:note[not(@n)][not(@xml:id)][not(@type = 'résumé')])}
             {viewItem:TEI2HTML($doc//t:listBibl)}
         </div>
-    
+
     </div>,
     <hr/>)
 };
@@ -5970,7 +6025,7 @@ declare function viewItem:q($q) {
             class="w3-container">
             {viewItem:TEI2HTML($n)}
         </div>
-    
+
 };
 
 declare function viewItem:dates-custom($date) {
@@ -6034,13 +6089,14 @@ declare function viewItem:dates($date) {
         (' according to ',
         if (starts-with($date/@resp, 'PRS') or starts-with($date/@resp, 'ETH')) then
             exptit:printTitle($date/@resp)
+           else if (starts-with($date/@resp, 'bm:')) then string($date/@resp)
         else
             viewItem:editorName($date/@resp))
     else
         ()
     let $formatortext := if (count($date/node()) gt 1) then
-        viewItem:TEI2HTML($date/node()) 
-    else if($date/text()) then $date/text() 
+        viewItem:TEI2HTML($date/node())
+    else if($date/text()) then $date/text()
         else
         $dates
     return
@@ -6060,10 +6116,10 @@ return:)
                 else
                     ()
             }
-            {if($frag[@subtype="transkribus"] and (count($frag/t:div[@subtype='folio']) gt 20)) 
-            then  <div>This manuscript transcription has {count($frag/t:div[@subtype='folio'])} folia, which is too much to show. 
+            {if($frag[@subtype="transkribus"] and (count($frag/t:div[@subtype='folio']) gt 20))
+            then  <div>This manuscript transcription has {count($frag/t:div[@subtype='folio'])} folia, which is too much to show.
             Please, use the navigation bar on the left to narrow down.</div>
-            else 
+            else
                 try {
                     viewItem:TEI2HTML($frag)
                 } catch * {
@@ -6098,7 +6154,7 @@ return:)
                             <li>Clicking on an index will call the list of relevant annotated entities and print a parallel navigation aid. This is not limited to the context but always refers to the entire text.
                                 Also these references can either be clicked if the text is present in the context or can be opened clicking on the arrow, to see them in another page.</li>
                         </ul>
-                        
+
                         <p>In the text:</p>
                         <ul
                             class="nodot">
@@ -6212,18 +6268,18 @@ declare function viewItem:table($t as element(t:table)) {
         <tbody>
           {
             for $row in $t/t:row[not(@role="label")]
-            return              
+            return
                 let $cells:=$row/t:cell
                 return
                   <tr>
                     {
                       for $cell in $cells
-                      return                       
+                      return
                           <td rowspan="{if ($cell/@rows) then string($cell/@rows) else '1'}">
                             {viewItem:TEI2HTML($cell)}
                           </td>
                     }
-                  </tr>              
+                  </tr>
           }
         </tbody>
       </table>
@@ -6237,25 +6293,25 @@ declare function viewItem:worknav($item) {
     if ($item//t:placeName) then
         <a
             class="w3-bar-item page-scroll"
-            href="/IndexPlaces?entity={string($item/@xml:id)}">Places Index</a>
+            href="{$config:appUrl}/IndexPlaces?entity={string($item/@xml:id)}">Places Index</a>
     else
         (),
     if ($item//t:persName) then
         <a
             class="w3-bar-item page-scroll"
-            href="/IndexPersons?entity={string($item/@xml:id)}">Persons Index</a>
+            href="{$config:appUrl}/IndexPersons?entity={string($item/@xml:id)}">Persons Index</a>
     else
         (),
     if ($item//t:body[t:div[@type = 'edition'][t:ab or t:div[@type = 'textpart']]]) then
         <a
             class="w3-bar-item page-scroll w3-red"
-            href="/works/{$item/@xml:id}/text">Text</a>
+            href="{$config:appUrl}/works/{$item/@xml:id}/text">Text</a>
     else
         (),
     if ($item//t:body[t:div[@type = 'translation'][t:ab or t:div[@type = 'textpart']]]) then
         <a
             class="w3-bar-item page-scroll w3-red"
-            href="/works/{$item/@xml:id}/text">Translation</a>
+            href="{$config:appUrl}/works/{$item/@xml:id}/text">Translation</a>
     else
         (),
     <a
@@ -6268,7 +6324,7 @@ declare function viewItem:worknav($item) {
 declare function viewItem:personnav($item) {
     (<a
         class="w3-bar-item page-scroll"
-        href="/IndexPersons?pointer=https://betamasaheft.eu/{string($item/@xml:id)}">Persons Index</a>,
+        href="{$config:appUrl}/IndexPersons?pointer={string($item/@xml:id)}">Persons Index</a>,
     <a
         class="w3-bar-item page-scroll"
         href="#general">General</a>,
@@ -6297,7 +6353,7 @@ declare function viewItem:placenav($item) {
     (
     <a
         class="w3-bar-item page-scroll"
-        href="/IndexPlaces?pointer=https://betamasaheft.eu/{string($item/@xml:id)}">Places Index</a>,
+        href="{$config:appUrl}/IndexPlaces?pointer={string($item/@xml:id)}">Places Index</a>,
     <a
         class="w3-bar-item page-scroll"
         href="#general">General</a>,
@@ -6328,13 +6384,13 @@ declare function viewItem:manuscriptnav($item) {
     if ($item//t:placeName) then
         <a
             class="w3-bar-item page-scroll"
-            href="/IndexPlaces?entity={string($item/@xml:id)}">Places Index</a>
+            href="{$config:appUrl}/IndexPlaces?entity={string($item/@xml:id)}">Places Index</a>
     else
         (),
     if ($item//t:persName) then
         <a
             class="w3-bar-item page-scroll"
-            href="/IndexPersons?entity={string($item/@xml:id)}">Persons Index</a>
+            href="{$config:appUrl}/IndexPersons?entity={string($item/@xml:id)}">Persons Index</a>
     else
         (),
     <a
@@ -6397,46 +6453,39 @@ declare function viewItem:manuscriptnav($item) {
                             if ($anchor = 'ms') then
                                 'General manuscript description'
                             else
-                                if (starts-with($anchor, 'p') and matches($anchor, '^\w\d+$')) then
-                                    'Codicological Unit ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
-                                else
-                                    if (starts-with($anchor, 'f') and matches($anchor, '^\w\d+$')) then
+	                              if (starts-with($anchor, 'coloph') and matches($anchor, 'coloph')) then
+                                   'Colophon ' || substring-after($anchor, 'coloph') || string-join(viewItem:headercontext($node))
+														else
+																if (not(matches($anchor, '^\w\d+$'))) then $node/name()
+														else
+																switch(substring($anchor, 1))
+		                                case 'p' return
+																		    'Codicological Unit ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+                                    case 'f' return
                                         'Fragment ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
-                                    else
-                                        if (starts-with($anchor, 't') and matches($anchor, '\w\d+')) then
-                                            'Title ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
-                                        else
-                                            if (starts-with($anchor, 'b') and matches($anchor, '\w\d+')) then
-                                                'Binding ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
-                                            else
-                                                if (starts-with($anchor, 'a') and matches($anchor, '\w\d+')) then
-                                                    viewItem:categoryname($node, $node/t:desc/@type) || ' (' || substring($anchor, 1) || ') ' || string-join(viewItem:headercontext($node))
-                                                else
-                                                    if (starts-with($anchor, 'e') and matches($anchor, '\w\d+')) then
-                                                        viewItem:categoryname($node, $node/t:desc/@type) || ' (' || substring($anchor, 1) || ') ' || string-join(viewItem:headercontext($node))
-                                                    else
-                                                        if (starts-with($anchor, 'd') and matches($anchor, '\w\d+')) then
-                                                            'Decoration ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
-                                                        else
-                                                            if (starts-with($anchor, 'coloph') and matches($anchor, 'coloph')) then
-                                                                'Colophon ' || substring-after($anchor, 'coloph') || string-join(viewItem:headercontext($node))
-                                                            else
-                                                                if (contains($anchor, '_i') and matches($anchor, '\w\d+')) then
-                                                                    'Content Item ' || substring-after($anchor, '_i') || string-join(viewItem:headercontext($node)) || string-join($node/t:title//text())
-                                                                else
-                                                                    if (starts-with($anchor, 'q') and matches($anchor, '\w\d+')) then
-                                                                        'Quire ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
-                                                                    else
-                                                                        if (starts-with($anchor, 'h') and matches($anchor, '\w\d+')) then
-                                                                            'Hand ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
-                                                                        else
-                                                                            $node/name()
+                                    case 't' return
+																			 'Title ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+																		case 'b' return
+																	     'Binding ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+																    case 'a' return
+															         viewItem:categoryname($node, $node/t:desc/@type) || ' (' || substring($anchor, 1) || ') ' || string-join(viewItem:headercontext($node))
+																		case 'e' return
+                                       viewItem:categoryname($node, $node/t:desc/@type) || ' (' || substring($anchor, 1) || ') ' || string-join(viewItem:headercontext($node))
+																		case 'd' return
+                                      'Decoration ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+																		default return
+                                      if (contains($anchor, '_i') and matches($anchor, '\w\d+')) then
+																					'Content Item ' || substring-after($anchor, '_i') || string-join(viewItem:headercontext($node)) || string-join($node/t:title//text())
+                                      else if (starts-with($anchor, 'q') and matches($anchor, '\w\d+')) then
+                                          'Quire ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+																			else if (starts-with($anchor, 'h') and matches($anchor, '\w\d+')) then
+                                          'Hand ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+                                      else $node/name()
                         }
                     </a>
                 </li>
         }
     </ul>
-    
     )
 };
 
@@ -6469,7 +6518,7 @@ declare function viewItem:switchsubids($anchor, $node) {
                                         ' Colophon ' || substring-after($anchor, 'coloph') || string-join(viewItem:headercontext($node))
                                     else
                                         if (contains($anchor, '_i') and matches($anchor, '\w\d+')) then
-                                           ( ' Content Item ' || substring-after($anchor, '_i') || string-join(viewItem:headercontext($node)) , 
+                                           ( ' Content Item ' || substring-after($anchor, '_i') || string-join(viewItem:headercontext($node)) ,
                                             if(count($node/t:title) ge 1) then viewItem:TEI2HTML($node/t:title[1]) else ())
                                         else
                                             if (starts-with($anchor, 'q') and matches($anchor, '\w\d+')) then
@@ -6584,9 +6633,9 @@ declare %private function viewItem:analyseMeasure($measure) {
     let $regex4 := '\s*([ivx|IVX]+)\s*\+\s*(\d{1,3})\s*'
     let $regex5 := '\s*(\d{1,3})\s*\+\s*([ivx|IVX]+)\s*'
     let $regex6 := '.*\((.*)\)'
-    
+
     return
-        
+
         if (matches($measure, $regex1)) then
             let $analyse := analyze-string($measure, $regex1)
             return
@@ -6782,7 +6831,7 @@ declare function viewItem:n2roman($num as xs:integer) as xs:string
         (:as long as we have a number, keep going:)
         if ($num) then
             (:reduce by the largest number that has a string value:)
-            
+
             for $val in $values[@num <= $num][fn:last()]
             return
                 (:using the highest value:)
@@ -6806,8 +6855,8 @@ declare %private function viewItem:fulllang($lang) {
 
 
 declare %private function viewItem:keywordtag($x){<span class="w3-tag w3-gray"><a
-                                        target="_blank" href="/newSearch.html?searchType=text&amp;mode=any&amp;termkey={$x}">{exptit:printTitleID($x)}</a></span>};
-                                        
+                                        target="_blank" href="{$config:appUrl}/newSearch.html?searchType=text&amp;mode=any&amp;termkey={$x}">{exptit:printTitleID($x)}</a></span>};
+
   declare %private function viewItem:keywordgroup($keys){
                                         if ($keys) then
                     <div
@@ -6819,7 +6868,7 @@ declare %private function viewItem:keywordtag($x){<span class="w3-tag w3-gray"><
                 else
                     ()
                                         };
-                                        
+
   declare %private function viewItem:keywordgroupauth($keys){
                                         if ($keys) then
                     <div
@@ -6832,7 +6881,7 @@ declare %private function viewItem:keywordtag($x){<span class="w3-tag w3-gray"><
                 else
                     ()
                                         };
-                                        
+
   declare %private function viewItem:keywordgroupmulti($keys){
                                         if ($keys) then
                     <div
@@ -6841,7 +6890,7 @@ declare %private function viewItem:keywordtag($x){<span class="w3-tag w3-gray"><
                             then
                                 for $x in tokenize($keys, ' ')
                                 return
-                                   
+
                                 viewItem:keywordtag($x)
                             else
                                 let $type := $keys
@@ -6911,14 +6960,14 @@ return
 };
 
 declare function viewItem:zotero($file) {
-    let $id := string($file/@xml:id)    
+    let $id := string($file/@xml:id)
     return
    <div
         class="w3-container"
         id="zoterolink">
         <h3>Check for additional bibliography</h3>
         <div><a href="{concat('https://api.zotero.org/groups/358366/items?tag=',$id,'&amp;format=bib&amp;style=hiob-ludolf-centre-for-ethiopian-studies-with-url-doi&amp;linkwrap=1')}  target='_blank'">Click on this link to view bibliography mentioning this record</a></div>
-    </div> 
+    </div>
 };
 
 declare function viewItem:osm($item) {
@@ -6928,9 +6977,9 @@ let $geo1 := substring-before($coor, ' ')
 let $geo2 := substring-after($coor, ' ')
 let $marker := concat('=',$geo1,'%2C',$geo2)
 return
-if  ($item//t:location/t:geo) then 
-<div 
-    class="w3-container w3-padding float" > 
+if  ($item//t:location/t:geo) then
+<div
+    class="w3-container w3-padding float" >
 <iframe width="425" height="350" src="https://www.openstreetmap.org/export/embed.html?bbox=33.68408203125001%2C11.646856393732364%2C42.857666015625%2C16.883403464236842&amp;layer=mapnik&amp;marker={$geo1}%2C{$geo2}" style="border: 1px solid black"></iframe><br/><small><a href="https://www.openstreetmap.org/?mlat={$geo1}&amp;mlon={$geo2}#map=8/{$geo1}/{$geo2}">Show a larger map</a></small>
 </div>
 else ()

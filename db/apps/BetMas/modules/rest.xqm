@@ -14,7 +14,6 @@ import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/
 import module namespace wiki="https://www.betamasaheft.uni-hamburg.de/BetMas/wiki" at "xmldb:exist:///db/apps/BetMas/modules/wikitable.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
-import module namespace viewItem = "https://www.betamasaheft.uni-hamburg.de/BetMas/viewItem" at "xmldb:exist:///db/apps/BetMas/modules/viewItem.xqm";
 import module namespace kwic = "http://exist-db.org/xquery/kwic"
     at "resource:org/exist/xquery/lib/kwic.xql"; 
 
@@ -60,7 +59,7 @@ declare
 %output:method("html")
 function api:listRepositoriesName()
 {
-for $i in doc('/db/apps/lists/institutions.xml')//t:item
+for $i in doc('/db/apps/BetMas/lists/institutions.xml')//t:item
 let $name := $i/text()
 order by $name
 return
@@ -74,7 +73,7 @@ declare
 %output:method("html")
 function api:getcataloguesZotero()
 {
-for $catalogue in doc('/db/apps/lists/catalogues.xml')//t:item
+for $catalogue in doc('/db/apps/BetMas/lists/catalogues.xml')//t:item
 let $sorting := $catalogue//text()[1]
 order by $sorting
 return
@@ -150,6 +149,8 @@ map { 'id' : $id,
 'who' : editors:editorKey($latest[1]/@who),
 'what' : $latest[1]/text()
 }
+
+
  )
 };
 
@@ -243,7 +244,7 @@ let $entity := $titles:collection-root/id($id)
 let $a := $entity//t:item[@xml:id = $addID]
 return
 <div xmlns="https://www.w3.org/1999/xhtml" >{
-viewItem:q($a)
+transform:transform($a,  'xmldb:exist:///db/apps/BetMas/xslt/q.xsl', ())
 }</div>
     
 };
@@ -457,10 +458,13 @@ declare
 %test:arg('id','LIT1367Exodus') %test:assertXPath("//*:text")
 function api:get-POSTPROCESSED-tei-by-ID($id as xs:string) {
     let $log := log:add-log-message('/api/post/' || $id || '/tei', sm:id()//sm:real/sm:username/string() , 'REST')
+    let $login := xmldb:login($config:data-root, $config:ADMIN, $config:ppw)
     let $doc :=api:get-tei-rec-by-ID($id)
+    let $xslt := 'xmldb:exist:///db/apps/BetMas/xslt/post.xsl'
     return
         ($api:response200XML,
-$doc        )
+        transform:transform($doc,$xslt,())
+        )
 };
 
 (:~ given the file id, returns the source TEI in a json serialization:)

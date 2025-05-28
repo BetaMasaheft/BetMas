@@ -59,7 +59,7 @@ declare function gfb:entry($cit, $ref){
 (: given a collection parses all the ptr/@target and makes a bibliography.xml file with all the results of consecutive iterative requests:)
 declare function gfb:updateBib($context) {
 let $bibliography := doc('/db/apps/lists/bibliography.xml')/b:bibliography
-let $ptrs := $collection//t:bibl/t:ptr[starts-with(@target, 'bm:')]
+let $ptrs := collection("/db/apps/BetMasData")//t:bibl/t:ptr[starts-with(@target, 'bm:')]
 let $citations := distinct-values($ptrs/@target)
 let $cleancitations := for $c in $citations return replace($c, '\s+', '')
  for $rawc in $cleancitations

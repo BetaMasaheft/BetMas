@@ -12,27 +12,14 @@ import module namespace app = "https://www.betamasaheft.uni-hamburg.de/BetMas/ap
 import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMas/editors" at "xmldb:exist:///db/apps/BetMas/modules/editors.xqm";
 import module namespace coord = "https://www.betamasaheft.uni-hamburg.de/BetMas/coord" at "xmldb:exist:///db/apps/BetMas/modules/coordinates.xqm";
 import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2"  at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
-
+import module namespace functx = "http://www.functx.com";
 
 declare namespace http = "http://expath.org/ns/http-client";
 declare namespace fo = "http://www.w3.org/1999/XSL/Format";
 declare namespace xslfo = "http://exist-db.org/xquery/xslfo";
 declare namespace tei = "http://www.tei-c.org/ns/1.0";
 declare namespace file = "http://exist-db.org/xquery/file";
-declare namespace functx = "http://www.functx.com";
 
-declare function functx:index-of-node( $nodes as node()* ,
-    $nodeToFind as node() )  as xs:integer* {
-
-  for $seq in (1 to count($nodes))
-  return $seq[$nodes[$seq] is $nodeToFind]
- } ;
- 
-declare function functx:capitalize-first($arg as xs:string?) as xs:string? {
-    
-    concat(upper-case(substring($arg, 1, 1)),
-    substring($arg, 2))
-};
 declare variable $local:fop-config :=
 let $fontsDir := config:get-fonts-dir()
 return
@@ -1766,8 +1753,6 @@ declare function fo:codic($msPart) {
 declare function fo:main($id as xs:string) {
     let $title := titles:printTitleMainID($id)
     let $file := root($titles:collection-root/id($id))//tei:TEI
-    
-   
     let $ty := string($file/@type) 
     return
         <fo:root

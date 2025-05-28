@@ -141,14 +141,14 @@ function exptit:printTitleID($id as xs:string)
 
 declare function exptit:updateTUList($name, $pRef){
 let $TUlist := $exptit:TUList//t:list
-let $ref := substring-after($pRef, '.eu/')
+let $ref := if (contains($pRef, '.eu/')) then substring-after($pRef, '.eu/') else string($pRef)
 let $update := if ($TUlist/t:item[@corresp eq $ref]) then 
 update value  $TUlist/t:item[@corresp eq $ref] with $name
 else
 update insert <item 
 xmlns="http://www.tei-c.org/ns/1.0" 
 change="addedAt{current-dateTime()}"
-corresp="{substring-after($pRef, '.eu/')}">{$name}</item>
+corresp="{$ref}">{$name}</item>
 into  $TUlist
     return
         'updated textpartstitles.xml static list '
@@ -193,7 +193,6 @@ else
                     (exptit:printTitleID(string($item/@subtype)) || ': ' || $SUBid)
             else ($item/name() || ' ' || $SUBid)
 };
-
 
 (:Given an id, decides if it is one of BM or from another source and gets the name accordingly:)
 declare function exptit:decidePlaceNameSource($pRef as xs:string){
@@ -252,7 +251,6 @@ let $response-body := $response[2]
 return
     $response-body//feed:title
 return string($title[1])
-
 };
 
 declare function exptit:getwikidataNames($pRef as xs:string){

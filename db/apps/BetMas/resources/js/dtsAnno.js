@@ -1,6 +1,6 @@
 function updateindex(indexUrl){   
 /*console.log(indexUrl)*/
-var api = 'http://localhost:8080/exist/apps/BetMas/' + indexUrl
+var api = 'https://betamasaheft.eu/' + indexUrl
 $.getJSON(api, function (d) {
 var last = d.view.last
 var ln = last.lastIndexOf('page=')
@@ -66,7 +66,7 @@ $('body').on('click', '.indexItem', function () {
 var indexItem = $(this)
 var indexUrl = indexItem.data('source')
 var dtsanno = indexItem.data('id')
-var api = 'http://localhost:8080/exist/apps/BetMas'+$.trim(indexUrl)+'?id='+$.trim(dtsanno)
+var api = 'https://betamasaheft.eu'+$.trim(indexUrl)+'?id='+$.trim(dtsanno)
 /*console.log(api)*/
 $.getJSON(api, function (d) {
    var members = d.member

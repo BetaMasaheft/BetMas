@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:funct="my.funct" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:variable name="mainID" select="t:TEI/@xml:id"/>
     <xsl:function name="funct:date">
@@ -5,7 +6,8 @@
         <xsl:choose>
             <xsl:when test="matches($date, '\d{4}-\d{2}-\d{2}')">
                 <xsl:value-of select="format-date(xs:date($date), '[D]-[M]-[Y0001]', 'en', 'AD', ())"/>
-            </xsl:when><xsl:when test="matches($date, '\d{4}-\d{2}')">
+            </xsl:when>
+            <xsl:when test="matches($date, '\d{4}-\d{2}')">
                 <xsl:variable name="monthnumber" select="substring-after($date, '-')"/>
                 <xsl:variable name="monthname">
                     <xsl:choose>
@@ -25,7 +27,9 @@
                 </xsl:variable>
                 <xsl:value-of select="concat(replace(substring-after($date, '-'), $monthnumber, $monthname), ' ', substring-before($date, '-'))"/>
             </xsl:when>
-            <xsl:otherwise><xsl:value-of select="format-number($date, '####')"/></xsl:otherwise>
+            <xsl:otherwise>
+                <xsl:value-of select="format-number($date, '####')"/>
+            </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
     <xsl:function name="funct:datepicker">
@@ -34,9 +38,15 @@
             <xsl:when test="$element/@notBefore or $element/@notAfter">
                 <xsl:if test="not($element/@notBefore)">Before </xsl:if>
                 <xsl:if test="not($element/@notAfter)">After </xsl:if>
-                <xsl:if test="$element/@notBefore"><xsl:value-of select="funct:date($element/@notBefore)"/></xsl:if>
-                <xsl:if test="$element/@notBefore and $element/@notAfter"><xsl:text>-</xsl:text></xsl:if>
-                <xsl:if test="$element/@notAfter"><xsl:value-of select="funct:date($element/@notAfter)"/></xsl:if>
+                <xsl:if test="$element/@notBefore">
+                    <xsl:value-of select="funct:date($element/@notBefore)"/>
+                </xsl:if>
+                <xsl:if test="$element/@notBefore and $element/@notAfter">
+                    <xsl:text>-</xsl:text>
+                </xsl:if>
+                <xsl:if test="$element/@notAfter">
+                    <xsl:value-of select="funct:date($element/@notAfter)"/>
+                </xsl:if>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="funct:date($element/@when)"/>
@@ -272,9 +282,13 @@
                         <xsl:sort order="ascending" select="count(preceding-sibling::t:relation)+1"/>
                         <xsl:variable name="p" select="count(preceding-sibling::t:relation)+1"/>
                         <xsl:variable name="tot" select="count(//t:relation)"/>
-                        <xsl:apply-templates select="." mode="gendesc"/><xsl:choose>
-                        <xsl:when test="$p!=$tot"><xsl:text>, </xsl:text></xsl:when>
-                        <xsl:otherwise>.</xsl:otherwise></xsl:choose>
+                        <xsl:apply-templates select="." mode="gendesc"/>
+                            <xsl:choose>
+                        <xsl:when test="$p!=$tot">
+                                    <xsl:text>, </xsl:text>
+                                </xsl:when>
+                        <xsl:otherwise>.</xsl:otherwise>
+                            </xsl:choose>
                     </xsl:for-each>
                      For a table of all relations from and to this record, please go to the <a class="w3-tag w3-gray" href="/works/{$mainID}/analytic">Relations</a> view. In the Relations boxes on the right of this page, you can also find all available relations grouped by name.
                 </p>
@@ -314,16 +328,19 @@
                 </div>
             </xsl:if>
             <xsl:if test="//t:publicationStmt">
-               <xsl:apply-templates select="//t:publicationStmt"/>
+                <div class="col-md-12" id="publicationStmt">
+                    <h2>Publication Statement</h2>
+                    <xsl:apply-templates select="//t:publicationStmt"/>
+                </div>
             </xsl:if>
             <xsl:if test="//t:encodingDesc">
-                <div class="w3-container" id="encodingDesc">
+                <div class="col-md-12" id="encodingDesc">
                     <h2>Encoding Description</h2>
-                    <xsl:apply-templates select="//t:encodingDesc/node()[not(self::t:classDecl)]"/>
+                    <xsl:apply-templates select="//t:encodingDesc"/>
                 </div>
             </xsl:if>
             <xsl:if test="//t:editionStmt">
-                <div class="w3-container" id="editionStmt">
+                <div class="col-md-12" id="editionStmt">
                     <h2>Edition Statement</h2>
                     <xsl:apply-templates select="//t:editionStmt"/>
                 </div>
@@ -332,7 +349,7 @@
                 <a class="w3-button w3-gray w3-large" target="_blank" href="{concat('http://voyant-tools.org/?input=https://betamasaheft.eu/works/',string(t:TEI/@xml:id),'.xml')}">Voyant</a>
             </xsl:if>
             <button class="w3-button w3-red w3-large" id="showattestations" data-value="work" data-id="{string(t:TEI/@xml:id)}">Show attestations</button>
-            <div id="allattestations" class="w3-container"/>
+            <div id="allattestations" class="col-md-12"/>
             <!--<xsl:if test="//t:body[t:div[@type='edition'][t:ab or t:div[@type='textpart']]]">
                 <div class="row-fluid well" id="textpartslist">
                     <h4>Text Parts</h4>

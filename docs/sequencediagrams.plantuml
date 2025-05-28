@@ -1,0 +1,117 @@
+@startuml
+group New item creation
+    Editor -> BetMas : Make new item (id proposal is ABCDEF001)
+    BetMas -> counterapp : is ID reserved?
+
+    alt ID is not taken
+        counterapp -> BetMas : ID is not reserved
+        else ID is taken
+        counterapp -> BetMas : ID is reserved, this is an available ID: ABCDEF003
+    end
+
+    BetMas -> Editor : Feedback
+
+    Editor -> BetMas : Create Document
+
+    BetMas -> counterapp : Reserve ID
+
+    counterapp -> counterapp : save to database in Docker Volume
+
+    BetMas -> BetMas : Add document to scratchpad collection ""/db/apps/expanded/{manuscripts|works|etc}/new""
+
+    BetMas -> Editor : Report with download link
+
+    Editor -> Editor : Work on document
+
+    Editor -> Github : Pull Request
+
+    Github -> Admin : Review + Integrate PR
+
+    Admin -> Tuttle : Sync to BetMasWeb
+
+    Tuttle -> BetMas : Save new document in correct location
+
+    Tuttle -> BetMas : Remove document from scratchpad collection
+
+    Tuttle -> BetMas : Expand document
+end
+/'
+group Redeploy
+    group Make container
+        Admin -> GithubActions : Rebuild BetMas container
+        GithubActions -> Dockerfile : Rebuild container
+        Dockerfile -> Github : Get new application data from github
+        Dockerfile -> Github : Get new users fom private repo
+        Dockerfile -> Dockerfile : Boot up container
+        Dockerfile -> Tuttle : Tuttle sync all repos
+        Tuttle -> Github : Get latest Manuscripts, Works, etcetera
+        Tuttle -> Tuttle : Run callbacks
+        Tuttle -> BetMas : Expand new documents
+        Dockerfile -> Dockerfile : save as new layer
+        GithubActions -> GHCR : Push new container
+    end
+
+    group Redeploy
+        Admin -> Portainer : Deploy container at new layer
+        Portainer -> GHCR : Get new layer
+        Portainer -> Portainer : Redeploy BetMas container
+    end
+end
+
+group Manage users
+
+    Admin -> Github : Make commit on private user repo
+    Admin -> Admin : Call Redeploy subroutine
+
+end
+@enduml
+
+/'
+
+Problem statement:
+
+Betamasaheft is on old exist (5.2)
+Indexes break all the time (expanded files break index) 
+    Unsure if workflow or data
+    https://github.com/BetaMasaheft/Documentation/issues/2752#issuecomment-2777215500
+
+Tons of errors when booting
+Backups are broken
+
+Authors make a new document (manuscript/work) _ON PRODUCTION_
+    Doc is places in /expanded/*/new/{ID}.xml
+    For Works, the id is auto-incrementing
+Authors download that document through eXide
+Authors work on it and PR to github
+After merge -> git sync kicks in and syncs doc
+Document is placed in /*/collection/{ID}.xml
+Document is re-expanded into /expanded/*/{collection}/{ID}.xml
+
+Option: Move doc creation away from prod
+ * Make template repo to make new documents
+ * Con: change workflow
+
+1. Communicate timecost of migration
+2. Communicate it does not fix everything
+2.1 Make clear what it does fix
+2.2 Make clear what it does not fix
+3. Address actual problems
+3.1 Timms portainer will fix the underlaying issues
+
+Meet on Tuesday MM/Lasse:
+
+ * kickoff documentation and work and communication
+ * Explain situation to Eugenia
+ ** Not all our fault
+ ** What did we do
+ 
+Action now: Go ahead with the VM
+Make our own VM -> set it up as a staging/test
+Get hold of timeframe: how long does migration take
+Also look at NGinx configs
+Run E2E tests for a day in a loop
+
+
+
+
+'/

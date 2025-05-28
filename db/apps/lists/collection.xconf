@@ -1,0 +1,24 @@
+<collection xmlns="http://exist-db.org/collection-config/1.0">
+    <index xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:b="betmas.biblio" xmlns:d="http://www.w3.org/2007/XMLSchema-versioning" xmlns:t="http://www.tei-c.org/ns/1.0">
+        <fulltext default="none" attributes="false"/>
+        <range>
+            <create qname="d:item">
+                <field name="domlibitem" match="domlib" type="xs:string"/>
+                <field name="domlibsignature" match="signature" type="xs:string"/>
+            </create>
+            <create qname="b:entry">
+                <field name="biblentriID" match="@id" type="xs:string"/>
+            </create>
+            <create qname="t:item">
+                <field name="itemtext" type="xs:string"/>
+                <field name="itemID" match="@xml:id" type="xs:string"/>
+                <field name="itemcorresp" match="@corresp" type="xs:string"/>
+                <field name="itemN" match="@n" type="xs:string"/>
+            </create>
+            <create qname="t:category">
+                <field name="categoryID" match="@xml:id" type="xs:string"/>
+                <field name="categoryDesc" match="t:catDesc" type="xs:string"/>
+            </create>
+        </range>
+    </index>
+</collection>
