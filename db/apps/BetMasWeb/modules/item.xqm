@@ -502,18 +502,18 @@ declare function item2:mainRels($this,$collection){
      switch($collection)
      case 'persons' return (
      let $isSubjectof :=
-            for $corr in $w//t:relation[@passive eq  $id][@name eq  'ecrm:P129_is_about']
+            for $corr in $w//t:relation[contains(@passive,  $id)][@name eq  'ecrm:P129_is_about']
 
             return
                 $corr
       let $isAuthorof :=
-            for $corr in ($w//t:relation[@passive eq  $id][@name eq  'saws:isAttributedToAuthor'],
-            $w//t:relation[@passive eq  $id][@name eq  'dcterms:creator'])
+            for $corr in ($w//t:relation[contains(@passive,  $id)][@name eq  'saws:isAttributedToAuthor'],
+            $w//t:relation[contains(@passive,  $id)][@name eq  'dcterms:creator'])
 
             return
                 $corr
                   let $predecessorSuccessor :=
-            for $corr in ($this//t:relation[@active eq  $id][@name eq  'betmas:isSuccessorOf'], $this//t:relation[@active eq  $id][@name eq  'betmas:isPredecessorOf'])
+            for $corr in ($this//t:relation[contains(@active,  $id)][@name eq  'betmas:isSuccessorOf'], $this//t:relation[contains(@active,  $id)][@name eq  'betmas:isPredecessorOf'])
 
             return
                 $corr
@@ -568,8 +568,11 @@ return
              </div>
       )
        case 'places' return (
-     let $isSubjectof :=  for $corr in $w//t:relation[@passive eq  $id][@name eq  'ecrm:P129_is_about'] return $corr
-     let $churchesAndMonasteries :=  for $corr in $plin//t:place[contains(@type, 'church') or contains(@type, 'monastery')][t:*[@ref eq  $id]] return $corr
+     let $isSubjectof :=  for $corr in $w//t:relation[contains(@passive,  $id)][@name eq  'ecrm:P129_is_about'] return $corr
+     let $churchesAndMonasteries :=  for $corr in $plin//t:place[contains(@type, 'church') or contains(@type, 'monastery')][t:*[contains(@ref ,  $id)]] return $corr
+     let $formerly := for $corr in $this//t:relation[@name eq 'betmas:formerlyAlsoListedAs'][contains(@active,  $id)] return $corr
+let $same := for $corr in collection($config:data-root)//t:relation[@name eq 'skos:exactMatch'][contains(@active,  $id)] return $corr 
+let $samep := for $corr in collection($config:data-root)//t:relation[@name eq 'skos:exactMatch'][contains(@passive,  $id)] return $corr 
 return
 <div  class="mainrelations w3-display-container">
 
@@ -586,8 +589,8 @@ return
                                           if($this//t:location/t:geo) then <tr><td>Coordinates</td><td>{$this//t:location/t:geo/text()}</td></tr> else (),
                                           if($this//t:location/t:height) then <tr><td>Altitude</td><td>{concat($this//t:location/t:height/text(), $this//t:location/t:height/@unit)}</td></tr>  else (),
                                          
-                                          if($this//t:location[@typ eq 'relative']) then
-                                          <tr><td>Relative location</td><td>{$this//t:location[@typ eq 'relative']/text()}</td></tr> else ()
+                                          if($this//t:location[@type eq 'relative']) then
+                                          <tr><td>Relative location</td><td>{$this//t:location[@type eq 'relative']/text()}</td></tr> else ()
 
                                            }
                                            </tbody>
@@ -612,6 +615,19 @@ return
                                            </div>
                                            else()
                                             }
+                                            {if($formerly) then (
+                <div  class="relBox  w3-panel w3-card-4 w3-gray"><b  class="openInDialog">Formerly listed as:</b>
+                        <ul  class="w3-ul w3-hoverable">{
+                        string-join($formerly/@passive, ', ')}</ul></div>
+                ) else ()
+                }
+                {if($same or $samep) then (
+                <div  class="relBox  w3-panel w3-card-4 w3-gray"><b  class="openInDialog">Same as:</b>
+                        <ul  class="w3-ul w3-hoverable">{
+                        for $p in $same return <li  class="nodot"><a href="{$p/@passive}">{string($p/@passive)}</a></li>} {
+                        for $p in $samep return <li  class="nodot"><a href="{$p/@passive}">{string($p/@active)}</a></li>}</ul></div>
+                ) else ()
+                }
                                             {
                      if ($isSubjectof) then
                      <div  class="relBox  w3-panel w3-card-4 w3-gray"><b  class="openInDialog">This place is subject of the following <span class="w3-tag">{count($isSubjectof)}</span> textual units</b>
@@ -640,8 +656,8 @@ return
              </div>
       )
      case 'works' return (
-     let $relations := ($w//t:relation[@active eq  $id],
-     $w//t:relation[@passive eq  $id])
+     let $relations := ($w//t:relation[contains(@active,  $id)],
+     $w//t:relation[contains(@passive,  $id)])
      let $relatedWorks :=
             for $corr in $relations[@name  != 'saws:isAttributedToAuthor'][@name != 'dcterms:creator']
 
@@ -705,8 +721,8 @@ else
       )
       
       case 'studies' return (
-     let $relations := ($w//t:relation[@active eq  $id],
-     $w//t:relation[@passive eq  $id])
+     let $relations := ($w//t:relation[contains(@active,  $id)],
+     $w//t:relation[contains(@passive,  $id)])
      let $relatedWorks :=
             for $corr in $relations[@name  != 'saws:isAttributedToAuthor'][@name != 'dcterms:creator']
 
@@ -811,7 +827,7 @@ else
       
        case 'authority-files' return (
    let $pass := concat('betmas:', $id)
-let $relations := collection($config:data-rootN)//t:relation[@name eq  'skos:broadMatch'][@passive eq $pass]
+let $relations := collection($config:data-rootN)//t:relation[@name eq  'skos:broadMatch'][contains(@passive, $pass)]
 return
 if(count($relations) eq 0) then ()
 else
@@ -854,6 +870,9 @@ else
              order by ft:score($corr) descending
             return
                $corr
+let $formerly := for $corr in $this//t:relation[@name eq 'betmas:formerlyAlsoListedAs'][contains(@active,  $id)] return $corr
+let $same := for $corr in collection($config:data-root)//t:relation[@name eq 'skos:exactMatch'][contains(@active,  $id)] return $corr 
+let $samep := for $corr in collection($config:data-root)//t:relation[@name eq 'skos:exactMatch'][contains(@passive,  $id)] return $corr             
 return
 
 <div class="mainrelations w3-container">
@@ -868,14 +887,27 @@ return
                                           item2:AdminLocTable($this//t:settlement),
                                            if($this//t:location/t:geo) then <tr><td>Coordinates</td><td>{$this//t:location/t:geo/text()}</td></tr> else (),
                                           if($this//t:location/t:height) then <tr><td>Altitude</td><td>{concat($this//t:location/t:height/text(), $this//t:location/t:height/@unit)}</td></tr>  else (),
-                                          if($this//t:location[@typ eq 'relative']) then
-                                          <tr><td>Relative location</td><td>{$this//t:location[@typ eq 'relative']/text()}</td></tr> else ()
+                                          if($this//t:location[@type eq 'relative']) then
+                                          <tr><td>Relative location</td><td>{$this//t:location[@type eq 'relative']/text()}</td></tr> else ()
 
                                            }
                                            </tbody>
-                                           </table>
+                                          </table>
                                            }
                                            </div>
+                                           {if($formerly) then (
+                <div  class="relBox  w3-panel w3-card-4 w3-gray"><b  class="openInDialog">Formerly listed as:</b>
+                        <ul  class="w3-ul w3-hoverable">{
+                        string-join($formerly/@passive, ', ')}</ul></div>
+                ) else ()
+                }
+                {if($same or $samep) then (
+                <div  class="relBox  w3-panel w3-card-4 w3-gray"><b  class="openInDialog">Same as:</b>
+                        <ul  class="w3-ul w3-hoverable">{
+                        for $p in $same return <li  class="nodot"><a href="{$p/@passive}">{string($p/@passive)}</a></li>} {
+                        for $p in $samep return <li  class="nodot"><a href="{$p/@passive}">{string($p/@active)}</a></li>}</ul></div>
+                ) else ()
+                }
              </div>
              )
 
