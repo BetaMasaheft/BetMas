@@ -391,7 +391,7 @@ declare function q:displayQtime($node as node()*, $model as map(*)) {
                             class="w3-label w3-gray">{$q:searchType}
                         </span>
                         <span
-                            class="w3-tooltip" style="word-break:break-all"> query for "{$model('query')}" with the parameters shown at the right.
+                            class="w3-tooltip" style="word-break:break-all"> query for "{$model('query')}" with the parameters shown on the right.
                             <span
                                 class="w3-text"> (searched: <em>{
                                 if ($q:searchType != 'sparql') then
@@ -2744,9 +2744,9 @@ declare function q:resultsTableHeader($model) {
                     class="w3-third">
                     title
                 </div>
-                <div
+             <!--   <div
                     class="w3-twothird">item-type specific options
-                </div>
+                </div>-->
             </div>
 
         else
@@ -2771,8 +2771,8 @@ declare function q:resultsTableHeader($model) {
                     class="w3-twothird">
                     <div
                         class="w3-twothird">first three keywords in context</div>
-                    <div
-                        class="w3-third">item-type specific options</div>
+                  <!--  <div
+                        class="w3-third">item-type specific options</div>-->
                 </div>
             </div>
 };
@@ -2926,9 +2926,9 @@ declare function q:resultswithmatch($text, $p) {
                     class="w3-row">{q:summary($text)}</div>
             </div>
             <div
-                class="w3-twothird">
+                class="w3-rest">
                 <div
-                    class="w3-twothird">
+                    class="w3-rest">
                     {
                         for $match in subsequence($expanded//exist:match, 1, 3)
                         let $matchancestorwithID := ($match/(ancestor::t:*[(@xml:id | @n)] | ancestor::t:text))[last()]
@@ -2979,7 +2979,7 @@ declare function q:resultswithmatch($text, $p) {
                                     </div>
                                 </div>
                     }</div>
-                {q:resultslinkstoviews($t, $id, $collection)}
+      <!--         {q:resultslinkstoviews($t, $id, $collection)} -->
             </div>
 
         </div>
@@ -3014,7 +3014,7 @@ declare function q:resultswithoutmatch($text, $p) {
             <div
                 class="w3-row"><
                 div
-                    class="w3-third">
+                    class="w3-rest">
                     <div
                         class="w3-col"
                         style="width:10%">
@@ -3048,8 +3048,8 @@ declare function q:resultswithoutmatch($text, $p) {
                             if ($q:searchType = 'clavis' and $text('type') = 'deleted') then
                                 <a
                                     href="{$config:appUrl}/deleted.html">to see when {$text('hit')/text()} was deleted and why, click here for the list of deleted files</a>
-                            else
-                                q:resultslinkstoviews($t, $id, $collection)
+                            else ()
+                         (:    q:resultslinkstoviews($t, $id, $collection) :)
                         }</div>
                 </div>
             </div>
@@ -3077,7 +3077,7 @@ declare function q:summary($item) {
     let $dates := ($item//t:date[not(parent::t:publicationStmt)][not(parent::t:bibl)], $item//t:origDate, $item//t:birth, $item//t:floruit, $item//t:death)
     return
         <div
-            class="w3-padding"
+            class="w3-container"
             style="max-height:200px;resize: both;overflow:auto">
 
             {
@@ -3312,7 +3312,7 @@ declare function q:summaryWork($item, $id) {
         if ($item//t:listWit/t:witness or $isVersion or $anotherlang) then
             <div
                 class="w3-container">
-                <h5>Witnesses</h5>
+                <h5>Manuscripts and versions</h5>
                 <ul
                     class="nodot">
                     {
@@ -3342,7 +3342,7 @@ declare function q:summaryWork($item, $id) {
             <div
                 class="w3-container">
                 <h5>Abstract</h5>
-                {string:tei2string($item//t:abstract/node()[not(self::t:bibl)])}
+                {viewItem:TEI2HTML($item//t:abstract/node()[not(self::t:bibl)])}
             </div>
         else
             ()
@@ -3464,11 +3464,11 @@ declare function q:resultitemlinks($collection, $item, $id, $root, $text) {
     <span
         class="w3-tag w3-gray"
         style="word-break: break-all; text-align: left;">{$id}</span>,
-    <span
+    (:<span
         class="w3-tag w3-red"><a
             href="{$config:appUrl}/{('' || $id || '.xml')}"
             target="_blank">TEI</a></span>,
-    (:<span
+    <span
         class="w3-tag w3-red"><a
             href="{$config:appUrl}/{$id}.pdf"
             target="_blank">PDF</a></span>,:)
@@ -3495,75 +3495,12 @@ declare function q:resultitemlinks($collection, $item, $id, $root, $text) {
         then
             <a
                 target="_blank"
-                href="{$config:appUrl}/{$text//t:facsimile/t:graphic/@url}">Link to images</a>
-
+                href="{$config:appUrl}/{$text//t:facsimile/t:graphic/@url}"><i class="fa fa-picture-o" /></a>
         else
             if ($text//t:msIdentifier/t:idno[@facs]) then
                 <a
                     target="_blank"
-                    href="{$config:appUrl}/manuscripts/{$id}/viewer">{
-                        if ($text//t:collection = 'Ethio-SPaRe')
-                        then
-                            <img
-                                src="{$config:appUrl || '/iiif/' || string(($text//t:msIdentifier)[1]/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}"
-                                class="thumb w3-image"/>
-                            (:laurenziana:)
-                        else
-                            if ($text//t:repository[ends-with(@ref, 'INS0339BML')])
-                            then
-                                <img
-                                    src="{$config:appUrl || '/iiif/' || string($text//t:msIdentifier/t:idno/@facs) || '005.tif/full/140,/0/default.jpg'}"
-                                    class="thumb w3-image"/>
-
-                                (:
-EMIP:)
-                            else
-                                if ((($text//t:collection = 'EMIP') or starts-with($text//t:msIdentifier/t:idno/@facs, 'EMIP')) and $text//t:msIdentifier/t:idno/@n)
-                                then
-                                    <img
-                                        src="{$config:appUrl || '/iiif/' || string(($text//t:msIdentifier)[1]/t:idno/@facs) || '001.tif/full/140,/0/default.jpg'}"
-                                        class="thumb w3-image"/>
-
-                                    (:BNF:)
-                                else
-                                    if ($text//t:repository[ends-with(@ref, 'INS0303BNF')])
-                                    then
-                                        <img
-                                            src="{replace($text//t:msIdentifier/t:idno/@facs, 'ark:', 'iiif/ark:') || '/f1/full/140,/0/native.jpg'}"
-                                            class="thumb w3-image"/>
-                                        (:           vatican :)
-                                    else
-                                        if ($text//t:msIdentifier/t:idno[contains(@facs, 'digi.vat')]) then
-                                            <img
-                                                src="{
-                                                        replace(substring-before($text//t:msIdentifier/t:idno/@facs, '/manifest.json'), 'iiif', 'pub/digit') || '/thumb/'
-                                                        ||
-                                                        substring-before(substring-after($text//t:msIdentifier/t:idno/@facs, 'MSS_'), '/manifest.json') ||
-                                                        '_0001.tif.jpg'
-                                                    }"
-                                                class="thumb w3-image"/>
-                                            (:                bodleian:)
-                                        else
-                                            if ($text//t:msIdentifier/t:idno[contains(@facs, 'bodleian')]) then
-                                                ('images')
-
-                                            else
-                                                if ($text//t:msIdentifier/t:idno[contains(@facs, 'staatsbibliothek-berlin')]) then
-                                                    (
-                                                    (: https://content.staatsbibliothek-berlin.de/dc/1751174670/manifest
-                                            https:\/\/content.staatsbibliothek-berlin.de\/dc\/1751174670-0001\/full\/full\/0\/default.jpg:)
-                                                    <img
-                                                        src="{
-                                                                replace($text//t:msIdentifier/t:idno/@facs, '/manifest', '-0001/full/140,/0/default.jpg')
-                                                            }"
-                                                        class="thumb w3-image"/>
-                                                    )
-                                                else
-                                                    (<img
-                                                        src="{$config:appUrl || '/iiif/' || string(($text//t:msIdentifier/t:idno)[1]/@facs) || '_001.tif/full/140,/0/default.jpg'}"
-                                                        class="thumb w3-image"/>)
-                    }</a>
-
+                    href="{$config:appUrl}/manuscripts/{$id}/viewer"><i class="fa fa-picture-o" /></a>
             else
                 ()
         )
@@ -3650,7 +3587,7 @@ declare function q:resultslinkstoviews($t, $id, $collection) {
         class="w3-button w3-small w3-gray"
         href="{$config:appUrl}/{$collection}/{$id}/analytic">relations</a>
     <div
-        class="w3-padding"
+        class="w3-container"
         style="max-height:200px;resize: both;overflow:auto">
 
         {

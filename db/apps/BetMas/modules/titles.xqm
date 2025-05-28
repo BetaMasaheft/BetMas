@@ -92,7 +92,7 @@ function titles:printTitleID($id as xs:string)
                 else $id || ' was permanently deleted' 
    else if (starts-with($id, 'sdc:')) then 'La Synthaxe du Codex ' || substring-after($id, 'sdc:' )
     (: another hack for things like ref="#" :) 
-    else if ($id = '#') then <span class="w3-tag w3-red">{ 'no item yet with id ' || $id }</span>
+    else if ($id = '#') then  'no item yet with id ' || $id 
     (: hack to avoid the bad usage of # at the end of an id like <title type="complete" ref="LIT2317Senodo#" xml:lang="gez"> :) 
     else if ($titles:TUList//t:item[@corresp eq  $id]) then ($titles:TUList//t:item[@corresp eq  $id][1]/node())
     else if ($titles:persNamesList//t:item[@corresp eq  $id]) then ($titles:persNamesList//t:item[@corresp eq  $id][1]/node())
@@ -131,9 +131,9 @@ function titles:printTitleID($id as xs:string)
     
     (: if no node could be found with the main id, that has a problem :)
      else 
-        (<span class="w3-tag w3-red">{ 'No item: ' || $mainID 
+        ( 'No item: ' || $mainID 
             || ', could not check for ' || $SUBid
-        }</span>)
+        )
     )    
        (: if not, procede to main title printing :)
     else
@@ -147,13 +147,14 @@ declare function titles:printTitleMainID($id as xs:string, $c)
 (:           because wikidata identifiers are not speaking, the result of this operation is that the
 eventually added result is added to the place list names:)
        else (: always look at the root of the given node parameter of the function and then switch :)
-           let $resource := collection($c)//id($id)
+           let $mainID := if (contains($id, '#'))  then substring-before($id, '#') else $id
+           let $resource := collection($c)//id($mainID)
            let $resource := $resource[name() = 'TEI']
            return
                if (count($resource) = 0) then
-           <span class="w3-tag w3-red">{ 'No item: ' || $id }</span>
+            'No item: ' || $id 
                else if (count($resource) > 1) then
-           <span class="w3-tag w3-red">{ 'More than 1 ' || $id }</span>
+            'More than 1 ' || $id 
                else
                    titles:switcher($resource/@type, $resource)
    };
@@ -172,13 +173,14 @@ function titles:printTitleMainID($id as xs:string)
     then
            (titles:decidePlaceNameSource($id))
     else (: always look at the root of the given node parameter of the function and then switch :)
-           let $catchID := $titles:collection-root/id($id)
+           let $mainID := if (contains($id, '#'))  then substring-before($id, '#') else $id
+           let $catchID := $titles:collection-root/id($mainID)
            let $resource := $catchID[name() = 'TEI']
            return
                if (count($resource) = 0) then
-           <span class="w3-tag w3-red">{ 'No item: ' || $id }</span>
+           'No item: ' || $id 
                else if (count($resource) > 1) then
-           <span class="w3-tag w3-red">{ 'More than 1 ' || $id }</span>
+            'More than 1 ' || $id
                else
                    let $type := string($resource/@type)
                    return

@@ -189,6 +189,7 @@ declare function workmap:kmlfile($mss, $worktitle as xs:string, $type as xs:stri
 let $place := if($type='repo') then root($ms)//t:repository[1] else ( if(root($ms)//t:origPlace[t:placeName]) then root($ms)//t:origPlace[1]/t:placeName[1] else  root($ms)//t:repository[1])
 let $id := string(root($ms)/t:TEI/@xml:id)
 let $date := root($ms)//t:origDate
+let $when := if (contains($date/@when, '-')) then substring-before($date/@when, '-') else $date/@when
 let $getcoor := coord:getCoords($place[1]/@ref)
 let $reponame := exptit:printTitle($place[1]/@ref)
        return 
@@ -200,7 +201,7 @@ let $reponame := exptit:printTitle($place[1]/@ref)
         <Point>
             <coordinates>{coord:invertCoord($getcoor)}</coordinates>
         </Point>
-         {let $all := ($date/@when, $date/@notBefore, $date/@notAfter)
+         {let $all := ($when, $date/@notBefore, $date/@notAfter)
          return 
          
             <TimeSpan>

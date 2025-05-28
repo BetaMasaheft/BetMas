@@ -3,9 +3,9 @@ xquery version "3.1" encoding "UTF-8";
  : module used by the restXQ modules functions
  : used by the main views for items
  :
- : @author Pietro Liuzzo 
+ : @author Pietro Liuzzo
  :)
- 
+
 module namespace apprest="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/apprest";
 
 declare namespace t="http://www.tei-c.org/ns/1.0";
@@ -23,7 +23,7 @@ import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMa
 import module namespace templates="http://exist-db.org/xquery/templates" ;
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
 import module namespace charts = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/charts" at "xmldb:exist:///db/apps/BetMasWeb/modules/charts.xqm";
-import module namespace console = "http://exist-db.org/xquery/console"; 
+import module namespace console = "http://exist-db.org/xquery/console";
 import module namespace exreq = "http://exquery.org/ns/request";
 import module namespace viewItem = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/viewItem" at "xmldb:exist:///db/apps/BetMasWeb/modules/viewItem.xqm";
 import module namespace locus = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/locus" at "xmldb:exist:///db/apps/BetMasWeb/modules/locus.xqm";
@@ -281,11 +281,11 @@ declare function apprest:deciderelation($list){
                 return
                   <li>{
                 if (starts-with($id/text(), 'sdc:')) then 'La Synthaxe du Codex ' || substring-after($id/text(), 'sdc:' )
-                
+
                else if (starts-with($id/text(), 'urn:')) then
                    <a target="_blank"  href="/{encode-for-uri($id/text())}">{$id/text()}</a>
      else if (contains($link, 'betamasaheft')) then
-                   <a target="_blank"  href="{apprest:decidelink($id)}">{exptit:printTitle($id/text())}</a>                   
+                   <a target="_blank"  href="{apprest:decidelink($id)}">{exptit:printTitle($id/text())}</a>
      else
                    <a target="_blank"  href="{apprest:decidelink($id)}">{$link}</a>
                    }</li>
@@ -307,7 +307,7 @@ let $allrels := ($rels, $oth)
 return
 (<div class="w3-panel w3-small w3-red"><span class="w3-tag w3-gray">{count($allrels)}</span> relations found</div>,
                         <div style="word-break:break-all;">
-                        <table class="w3-table-all w3-small"  
+                        <table class="w3-table-all w3-small"
                         xmlns="http://www.w3.org/1999/xhtml">
                             <thead>
                                 <tr>
@@ -376,7 +376,7 @@ apprest:deciderelation($list//id)
 
                                         </td>
                                         <td>
-{     if($relation/t:desc)   then                                    
+{     if($relation/t:desc)   then
 viewItem:relations($relation/t:desc)
 else ()
 }
@@ -555,7 +555,7 @@ let $allrefs := ($witnesses,
         $region,
         $country,
         $active,
-        $passive, 
+        $passive,
         $locus)
 return
 for $corr in $allrefs
@@ -575,7 +575,7 @@ return
 <bibl>
 {
 let $ids := ($file//t:revisionDesc/t:change/@who| $file//t:fileDesc/t:titleStmt/t:editor[not(contains(@role,  'generalEditor'))]/@key| $file//t:respStmt/@xml:id)
-let $cleanids := for $i in distinct-values($ids) return replace($i, '#', '') 
+let $cleanids := for $i in distinct-values($ids) return replace($i, '#', '')
 for $author in distinct-values($cleanids)
 let $score := count($file//t:revisionDesc/t:change[@who eq $author]) + count($file//t:fileDesc/t:titleStmt/t:editor[@key eq $author]) + (if($file//t:editor[@key eq $author][@role eq 'cataloguer' or @role eq 'editor']) then 100 else 0)
 order by $score descending
@@ -603,7 +603,7 @@ return
 <bibl>
 {
 let $ids := ($file//t:revisionDesc/t:change/@who| $file//t:fileDesc/t:titleStmt/t:editor/@key| $file//t:respStmt/@xml:id)
-let $cleanids := for $i in distinct-values($ids) return replace($i, '#', '') 
+let $cleanids := for $i in distinct-values($ids) return replace($i, '#', '')
 for $author in distinct-values($cleanids)
 let $count := count($file//t:revisionDesc/t:change[@who eq $author])
 order by $count descending
@@ -632,31 +632,32 @@ let $app:bibdata := apprest:bibdata($id, $collection)
 return
 <div class="w3-container">
 <div class="w3-row">
-            
+
             <button onclick="document.getElementById('cite').style.display='block'" class="w3-button w3-grey" style="vertical-align: top;width:300;">Suggested citation</button>
             <button onclick="document.getElementById('revision').style.display='block'" class="w3-button w3-grey" style="vertical-align: top;width:300;">Revision history</button>
               <button onclick="document.getElementById('att').style.display='block'" class="w3-button w3-grey" style="vertical-align: top;width:300;">Attribution of the content</button>
-
-<div id="cite" class="w3-modal w3-card w3-margin">
+              <button onclick="document.getElementById('perm').style.display='block'" class="w3-button w3-grey" style="vertical-align: top;width:300;">Permalinks</button>
+              <button onclick="document.getElementById('rdf').style.display='block'" class="w3-button w3-grey" style="vertical-align: top;width:300;">RDF/VoID</button>
+<div id="cite" class="w3-modal w3-card">
  <div class="w3-modal-content">
-                    
+
                     <header class="w3-container w3-red">
                         <span onclick="document.getElementById('cite').style.display='none'" class="w3-button w3-display-topright">CLOSE</span>
                         <h4>Suggested citation of this record</h4>
                     </header>
                     <div class="w3-container" id="citationString">
-<p>{for $a in $app:bibdata//author/text()  return ($a|| ', ')} ʻ{$app:bibdata//title[@level eq 'a']/text()} {if (contains($this//t:revisionDesc/t:change, 'PEMM')) then ' (originally prepared for The Princeton Ethiopian, Eritrean, and Egyptian Miracles of Mary (PEMM) project)' else ()} {if ($this//t:additional//t:source/t:listBibl[@type eq 'catalogue']/t:bibl/t:ptr[@target eq 'bm:BmWebsite']) then ' (based on a historical catalogue and considerably enriched by the Bm team)' else if ($this//t:additional//t:source/t:listBibl[@type eq 'catalogue']) then ' (encoded from the catalogue)' else ()}ʼ, in 
+<p>{for $a in $app:bibdata//author/text()  return ($a|| ', ')} ʻ{$app:bibdata//title[@level eq 'a']/text()} {if (contains($this//t:revisionDesc/t:change, 'PEMM')) then ' (originally prepared for The Princeton Ethiopian, Eritrean, and Egyptian Miracles of Mary (PEMM) project)' else ()} {if ($this//t:additional//t:source/t:listBibl[@type eq 'catalogue']/t:bibl/t:ptr[@target eq 'bm:BmWebsite']) then ' (based on a historical catalogue and considerably enriched by the Bm team)' else if ($this//t:additional//t:source/t:listBibl[@type eq 'catalogue']) then ' (encoded from the catalogue)' else ()}ʼ, in
 <i>{($app:bibdata//title[@level eq 'j']/text() || ' ')}</i> {$app:bibdata//date[@type eq 'lastModified']/text()}
 <a href="{$app:bibdata/idno/text()}">{$app:bibdata/idno[@type eq 'url']/text()}</a> {$app:bibdata//date[@type eq 'accessed']/text()}</p>
 <p>To cite a precise version, please, click on load permalinks and to the desired version (<a href="/pid.html">see documentation on permalinks</a>), then import the metadata or copy the below, with the correct link.</p>
-</div>                    
 </div>
 </div>
-            
-            
+</div>
+
+
 <div id="revision" class="w3-modal w3-card w3-margin">
  <div class="w3-modal-content">
-                    
+
                     <header class="w3-container w3-red">
                         <span onclick="document.getElementById('revision').style.display='none'" class="w3-button w3-display-topright">CLOSE</span>
                         <h4>Revision history</h4>
@@ -679,11 +680,11 @@ return
     </ul>
 </div>
 </div>
- 
- 
+
+
  <div id="att" class="w3-modal w3-card w3-margin">
  <div class="w3-modal-content">
-                    
+
                     <header class="w3-container w3-red">
                         <span onclick="document.getElementById('att').style.display='none'" class="w3-button w3-display-topright">CLOSE</span>
                         <h4>Attribution of the content</h4>
@@ -692,7 +693,7 @@ return
                 {for $respStmt in $document//t:titleStmt/t:respStmt
                 let $action := string-join($respStmt/t:resp, ' ')
               return
-              if($respStmt/t:persName) then 
+              if($respStmt/t:persName) then
             (   let $authors :=
                             for $p in $respStmt/t:persName
                                 return
@@ -705,17 +706,43 @@ return
                 {($action || ' by ' || string-join($authors, ', '))}
                 </p>)
                 else <p>{$respStmt/t:name/text() || ', ' || $respStmt/t:resp/text()}</p>
-                
+
                 }
                 </div>
 </div>
 </div>
- 
+ <div id="perm" class="w3-modal w3-card w3-margin">
+ <div class="w3-modal-content">
+
+                    <header class="w3-container w3-red">
+                        <span onclick="document.getElementById('perm').style.display='none'" class="w3-button w3-display-topright">CLOSE</span>
+                        <h4>Permalinks</h4>
+                    </header>
+                      <div id="permanentIDs{$document//t:TEI/@xml:id}" style="max-height:250px;overflow:auto"
+   data-path="{viewItem:capitalize-first(substring-after(base-uri($document), '/db/apps/expanded/'))}"
+   data-id="{$document//t:TEI/@xml:id}" data-type="{viewItem:capitalize-first($collection)}"><a class="w3-btn" id="LoadPermanentIDs{$document//t:TEI/@xml:id}">Load permalinks to see the revision history on GitHub</a></div>
+
+   <script  type="text/javascript" src="resources/js/permanentID.js"></script>
+</div>
+</div>
+
+<div id="rdf" class="w3-modal w3-card w3-margin">
+ <div class="w3-modal-content">
+
+                    <header class="w3-container w3-red">
+                        <span onclick="document.getElementById('revision').style.display='none'" class="w3-button w3-display-topright">CLOSE</span>
+                        <h4>RDF and VoID</h4>
+                    </header>
+                    <div>This page contains RDFa.
+   <a href="/rdf/{$collection}/{$document//t:TEI/@xml:id}.rdf">RDF+XML</a> graph of this resource. Alternate representations available via <a href="/api/void/{$document//t:TEI/@xml:id}">VoID</a></div>
+
+</div>
+</div>
         </div>
              {if($document//t:editionStmt/node()) then <div class="w3-panel w3-card-4 w3-padding w3-margin w3-red " >{string:tei2string($document//t:editionStmt/node())}</div> else ()}
      {if($document//t:availability/node()) then <div class="w3-panel w3-card-4 w3-padding w3-margin w3-white " >{string:tei2string($document//t:availability/node())}</div> else ()}
      </div>
-        
+
 };
 
 (:~prints the revision informations:)
@@ -731,7 +758,7 @@ return
 
 <h4>Suggested Citation of this record</h4>
 <div class="w3-container" id="citationString">
-<p>{for $a in $app:bibdata//author/text()  return ($a|| ', ')} ʻ{$app:bibdata//title[@level eq 'a']/text()} {if (contains($this//t:revisionDesc/t:change, 'PEMM')) then ' (originally prepared for The Princeton Ethiopian, Eritrean, and Egyptian Miracles of Mary (PEMM) project)' else ()} {if ($this//t:additional//t:source/t:listBibl[@type eq 'catalogue']/t:bibl/t:ptr[@target eq 'bm:BmWebsite']) then ' (based on a historical catalogue and considerably enriched by the Bm team)' else if ($this//t:additional//t:source/t:listBibl[@type eq 'catalogue']) then ' (encoded from the catalogue)' else ()}ʼ, in 
+<p>{for $a in $app:bibdata//author/text()  return ($a|| ', ')} ʻ{$app:bibdata//title[@level eq 'a']/text()} {if (contains($this//t:revisionDesc/t:change, 'PEMM')) then ' (originally prepared for The Princeton Ethiopian, Eritrean, and Egyptian Miracles of Mary (PEMM) project)' else ()} {if ($this//t:additional//t:source/t:listBibl[@type eq 'catalogue']/t:bibl/t:ptr[@target eq 'bm:BmWebsite']) then ' (based on a historical catalogue and considerably enriched by the Bm team)' else if ($this//t:additional//t:source/t:listBibl[@type eq 'catalogue']) then ' (encoded from the catalogue)' else ()}ʼ, in
 <i>{($app:bibdata//title[@level eq 'j']/text() || ' ')}</i> {$app:bibdata//date[@type eq 'lastModified']/text()}
 <a href="{$app:bibdata/idno/text()}">{$app:bibdata/idno[@type eq 'url']/text()}</a> {$app:bibdata//date[@type eq 'accessed']/text()}</p>
 <p>To cite a precise version, please, click on load permalinks and to the desired version (<a href="/pid.html">see documentation on permalinks</a>), then import the metadata or copy the below, with the correct link.</p>
@@ -768,7 +795,7 @@ return
                 {for $respStmt in $document//t:titleStmt/t:respStmt
                 let $action := string-join($respStmt/t:resp, ' ')
               return
-              if($respStmt/t:persName) then 
+              if($respStmt/t:persName) then
             (   let $authors :=
                             for $p in $respStmt/t:persName
                                 return
@@ -781,7 +808,7 @@ return
                 {($action || ' by ' || string-join($authors, ', '))}
                 </p>)
                 else <p>{$respStmt/t:name/text() || ', ' || $respStmt/t:resp/text()}</p>
-                
+
                 }
                 </div>
     </div>
@@ -805,7 +832,7 @@ return
 
 <h4>Suggested Citation of this record</h4>
 <div class="w3-container" id="citationString">
-<p>{for $a in $app:bibdata//author/text()  return ($a|| ', ')} ʻ{$app:bibdata//title[@level eq 'a']/text()} {if (contains($this//t:revisionDesc/t:change, 'PEMM')) then ' (originally prepared for The Princeton Ethiopian, Eritrean, and Egyptian Miracles of Mary (PEMM) project)' else ()} {if ($this//t:additional//t:source/t:listBibl[@type eq 'catalogue']/t:bibl/t:ptr[@target eq 'bm:BmWebsite']) then ' (based on a historical catalogue and considerably enriched by the Bm team)' else if ($this//t:additional//t:source/t:listBibl[@type eq 'catalogue']) then ' (encoded from the catalogue)' else ()}ʼ, in 
+<p>{for $a in $app:bibdata//author/text()  return ($a|| ', ')} ʻ{$app:bibdata//title[@level eq 'a']/text()} {if (contains($this//t:revisionDesc/t:change, 'PEMM')) then ' (originally prepared for The Princeton Ethiopian, Eritrean, and Egyptian Miracles of Mary (PEMM) project)' else ()} {if ($this//t:additional//t:source/t:listBibl[@type eq 'catalogue']/t:bibl/t:ptr[@target eq 'bm:BmWebsite']) then ' (based on a historical catalogue and considerably enriched by the Bm team)' else if ($this//t:additional//t:source/t:listBibl[@type eq 'catalogue']) then ' (encoded from the catalogue)' else ()}ʼ, in
 <i>{($app:bibdata//title[@level eq 'j']/text() || ' ')}</i> {$app:bibdata//date[@type eq 'lastModified']/text()}
 <a href="{$app:bibdata/idno/text()}">{$app:bibdata/idno[@type eq 'url']/text()}</a> {$app:bibdata//date[@type eq 'accessed']/text()}</p>
 <p>To cite a precise version, please, click on load permalinks and to the desired version (<a href="/pid.html">see documentation on permalinks</a>), then import the metadata or copy the below, with the correct link.</p>
@@ -860,8 +887,8 @@ return
                for $task in $respStmt
                 return
                 <li class="nodot">{$respStmt/t:name/text() || ', ' || $respStmt/t:resp/text()}</li>
-                }             
-              
+                }
+
                 </div>
           </div>
      {if($document//t:editionStmt/node()) then <div class="w3-panel w3-card-4 w3-padding w3-margin w3-red " >{string:tei2string($document//t:editionStmt/node())}</div> else ()}
@@ -935,7 +962,7 @@ let $allnames :=  if($names = '') then () else
                 case 'works' return apprest:ListQueryParam-rest($names, 't:title', 'any', 'search')
                 case 'narratives' return apprest:ListQueryParam-rest($names, 't:title', 'any', 'search')
            default return ()
-           
+
 let $key := if($keywords = '') then () else
             switch($collection)
                 case 'narratives' return ()
@@ -1051,13 +1078,13 @@ let $allMssFilters := concat($allnames, $support, $opl, $material, $bmaterial, $
             $height, $width, $depth, $marginTop, $marginBot, $marginL, $marginR, $marginIntercolumn, $restorationss)
 
 let $path := switch($type)
-                case 'catalogue' return 
+                case 'catalogue' return
                       let $catal := "bm:"||$collection
                       let $all := $apprest:collection-rootMS//t:listBibl[@type eq 'catalogue'][descendant::t:ptr[@target eq $catal]]/ancestor::t:TEI
                       let $string := ('$all'|| $key || $languages || $dR || $allMssFilters)
                       return
                 util:eval($string)
-                case 'repo' return 
+                case 'repo' return
                     let $all := $apprest:collection-rootMS//t:repository[@ref eq $collection ]/ancestor::t:TEI
                     let $string := ('$all'|| $key || $languages || $dR || $allMssFilters)
                     return   util:eval($string)
@@ -1065,14 +1092,14 @@ let $path := switch($type)
                         (
                         if ($collection = 'places')
                                     then ("$apprest:collection-rootPlIn//t:TEI"  || $countries|| $settlements||$allnames || $key || $languages|| $dR || $tabots||$placetypess )
-                                    
+
                        else if ($collection = 'works')
                                     then ("$apprest:collection-rootW//t:TEI"  ||$CaeIDs|| $allnames ||$ContentPr   || $key || $languages|| $ClavisIDs || $dR ||$Allauthors || $periods  )
-                      
+
                        else if ($collection = 'persons')
                                     then ("$apprest:collection-rootPr//t:TEI"   || $allnames||$ContentPr   || $key || $dR ||$occupations || $faiths || $genders  )
-                                    
-                      
+
+
                         else let $col := switch2:collection($collection)
                         return $col||"//t:TEI" || $countries|| $settlements|| $allnames ||$ContentPr  || $key || $languages|| $dR || $ClavisIDs || $nOfP  || $allMssFilters ||$Allauthors|| $tabots||$placetypess
                        )
@@ -1080,13 +1107,13 @@ let $path := switch($type)
 let $context := switch($type)
                 case 'catalogue' return ('$apprest:collection-rootMS//t:listBibl[@type eq "catalogue"][descendant::t:ptr[@target eq "bm:'||$collection||'"]]/ancestor::t:TEI' || $key || $languages || $dR || $allMssFilters)
                 case 'repo' return  ('$apprest:collection-rootMS//t:repository[@ref eq "'|| $collection||'" ]/ancestor::t:TEI' || $key || $languages || $dR || $allMssFilters)
-                default return $path 
-                       
+                default return $path
+
 let $results := switch($type)
                 case 'catalogue' return $path
                 case 'repo' return $path
-                default return util:eval($path)                       
-                       
+                default return util:eval($path)
+
 let $hits := for $item in $results
                              let $recordid := string($item/@xml:id)
                             let $recordtype := string($item/@type)
@@ -1231,7 +1258,7 @@ if($items-info = <start/>) then (
 {$evalContext/$app:range-lookup('termkey', '', function($key, $count) {<option value="{$key}">{exptit:printTitleID($key)} ({$count[1]})</option>},1000)}
 </select>
 </div>
-                            
+
 ) else
 (:form selectors relative to query:)
 apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titles', $context),
@@ -1257,7 +1284,7 @@ apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titl
              <img id="loadingform" src="resources/images/giphy.gif" style="display: none; width: 20%;"/>,
              <div id="AddFilters"/>
 )
-case 'places' return 
+case 'places' return
 if($items-info = <start/>) then (
 (:no selection done yet, provide index value:)
 <div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that keyword">
@@ -1310,7 +1337,7 @@ apprest:formcontrol('settlement','settlement', $items-info//t:settlement/@ref, '
              <div id="AddFilters"/>
 )
 
-case 'institutions' return 
+case 'institutions' return
 if($items-info = <start/>) then (
 (:no selection done yet, provide index value:)
 <div class="w3-container" data-hint="On a filtered search you will get for relevant values also the break down in numbers of items with that keyword">
@@ -1356,7 +1383,7 @@ apprest:formcontrol('settlement','settlement', $items-info//t:settlement/@ref, '
              <img id="loadingform" src="resources/images/giphy.gif" style="display: none; width: 20%;"/>,
              <div id="AddFilters"/>
 )
-case 'persons' return 
+case 'persons' return
 (
 if($items-info = <start/>) then (
 (:no selection done yet, provide index value:)
@@ -1468,14 +1495,14 @@ apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titl
             <script type="text/javascript">
                 {"$('#folia').bootstrapSlider({});"}
             </script>
-</div>, 
+</div>,
             <div class="w3-container w3-margin-left w3-margin-right">
 <label for="qn">Number of quires</label><br/>
                 <input id="quires" type="text" class="span2" name="qn" data-slider-min="1" data-slider-max="100" data-slider-step="1" data-slider-value="[1,100]"/>
             <script type="text/javascript">
                 {"$('#quires').bootstrapSlider({});"}
             </script>
-        
+
 </div>,
             <div class="w3-container w3-margin-left w3-margin-right">
  <label for="qcn">Quires Composition</label><br/>
@@ -1514,7 +1541,7 @@ apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titl
                             <input  class="w3-check" type="checkbox" value="objectType" data-context="{$context}"/> object type<br/>
                             <input  class="w3-check" type="checkbox" value="material" data-context="{$context}"/> material<br/>
                             <input  class="w3-check" type="checkbox" value="bmaterial" data-context="{$context}"/> binding material<br/>
-                            {if((count($items-info) lt 1050) and $items-info/node() ) then (<input type="checkbox"  class="w3-check" value="contents" data-context="{$context}"/>, 'contents',<br/>) 
+                            {if((count($items-info) lt 1050) and $items-info/node() ) then (<input type="checkbox"  class="w3-check" value="contents" data-context="{$context}"/>, 'contents',<br/>)
                             else (<div class="w3-panel w3-red w3-leftbar">You will be able to get a filter by contents for a selection of manuscripts with less than 1000 items.</div>)}
                             </div>,
             <script type="text/javascript" src="resources/js/filtersRest.js"></script>,
@@ -1548,7 +1575,7 @@ declare function apprest:paginate-rest($model as map(*), $parameters as map(*), 
                     <a class="w3-button" href="?per-page={$per-page}&amp;start=1&amp;{$params}"><i class="fa fa-fast-backward"></i></a>
                 ,
                     <a class="w3-button"  href="?per-page={$per-page}&amp;start={max( ($start - $per-page, 1 ) ) }&amp;{$params}"><i class="fa fa-backward"></i></a>
-               
+
             ),
             let $startPage := xs:integer(ceiling($start div $per-page))
             let $lowerBound := max(($startPage - ($max-pages idiv 2), 1))
@@ -1561,11 +1588,11 @@ declare function apprest:paginate-rest($model as map(*), $parameters as map(*), 
                 else
                     <a class="w3-button"  href="?per-page={$per-page}&amp;start={max( (($i - 1) * $per-page + 1, 1)) }&amp;{$params}">{$i}</a>,
             if ($start + $per-page < count($model("hits"))) then (
-                
+
                     <a class="w3-button"  href="?per-page={$per-page}&amp;start={$start + $per-page}&amp;{$params}"><i class="fa fa-forward"></i></a>
-                , 
+                ,
                 <a class="w3-button"  href="?per-page={$per-page}&amp;start={max( (($count - 1) * $per-page + 1, 1))}&amp;{$params}"><i class="fa fa-fast-forward"></i></a>
-              
+
             ) else (
                 <a class="w3-button w3-disabled"><i class="fa fa-forward"></i></a>,
                 <a class="w3-button w3-disabled"><i class="fa fa-fast-forward"></i></a>
@@ -1575,7 +1602,7 @@ declare function apprest:paginate-rest($model as map(*), $parameters as map(*), 
             }
    <input id="perpagechange" type="number" class="w3-input w3-bar-item" name="per-page" placeholder="how many per page?"></input>
   { if($model("type") = 'text') then<a href="?per-page={count($model("hits"))}" class="w3-button w3-red w3-bar-item" id="fullText">See full text</a> else ()}
-   
+
             </div>
 };
 
@@ -1608,11 +1635,11 @@ then (
 declare function apprest:newselectors($nodeName, $path, $nodes, $type, $context){
              <select multiple="multiple" name="{$nodeName}" id="{$nodeName}" class="w3-select w3-border">
             {
-            
+
             if ($type = 'keywords') then (
                     for $group in $nodes/t:category[t:desc]
                     let $label := $group/t:desc/text()
-                     let $rangeindexname := switch($label) 
+                     let $rangeindexname := switch($label)
                     case 'Occupation' return 'occtype'
                     case 'Art Themes' return 'refcorresp'
                     case 'Additiones' return 'desctype'
@@ -1622,31 +1649,31 @@ declare function apprest:newselectors($nodeName, $path, $nodes, $type, $context)
                     for $n in $group//t:catDesc
                     let $id := $n/text()
                     let $title :=exptit:printTitleID($id)
-                   
+
                     let $facet := try{
                         $path/$app:range-lookup($rangeindexname, $id, function($key, $count){$count[2]}, 100)} catch*{($err:code || $err:description)}
                     let $fac := if($facet[1] ge 1) then $facet[1] else '0'
                     return
                        <option value="{$id}">{($title[1] ||' (' || $fac  ||')')}</option>
                                 )
-                                              
+
             else if ($type = 'name')
                             then (for $n in $nodes[. != ''][. != ' ']
                             let $id := string($n/@xml:id)
                             let $title := exptit:printTitleID($id)
                                                order by $id
                                                return
-            
+
                                                 <option value="{$id}" >{$title}</option>
                                           )
             else if ($type = 'rels')
                      then (
-                    
+
                  for $n in $nodes[. != ''][. != ' ']
                           let $title :=  exptit:printTitleID($n)
-                            order by $title[1] 
+                            order by $title[1]
                              return
-            
+
                              <option value="{$n}">{normalize-space(string-join($title))}</option>
                         )
              else if ($type = 'hierels')
@@ -1654,42 +1681,42 @@ declare function apprest:newselectors($nodeName, $path, $nodes, $type, $context)
              for $n in $nodes[. != ''][. != ' '][not(starts-with(.,'#'))]
              group by $work := if (contains($n, '#')) then (substring-before($n, '#')) else $n
                             order by $work
-                                return 
+                                return
                                 let $label :=
                                     try{
-                                        if ($exptit:col/id($work)) 
-                                        then exptit:printTitle($exptit:col/id($work)) 
-                                        else $work} 
+                                        if ($exptit:col/id($work))
+                                        then exptit:printTitle($exptit:col/id($work))
+                                        else $work}
 (:                                        this has to stay because optgroup requires label and this cannot be computed from the javascript as in other places:)
                                     catch* {
-                                        ('while trying to create a list for the filter ' ||$nodeName || ' I got '|| $err:code ||': '||$err:description || ' about ' || $work), 
+                                        ('while trying to create a list for the filter ' ||$nodeName || ' I got '|| $err:code ||': '||$err:description || ' about ' || $work),
                                          $work}
                                 return
                                 if (count($n) = 1)
                                 then <option value="{$work}">{exptit:printTitle($work)}</option>
                                 else(
                                       <optgroup label="{$label}">
-                  
+
                     { for $subid in $n
                     return
                                         <option value="{$subid}">{
                                           if (contains($subid, '#')) then substring-after($subid, '#') else 'all'
                                          }</option>
                                          }
-                             
-                             
+
+
                                     </optgroup>)
-                                    
+
                                     )
             else if ($type = 'institutions')
                       then (
                              let $institutions := collection($config:data-rootIn)//t:TEI/@xml:id
                                  for $institutionId in $nodes[. eq $institutions]
                             return
-            
+
                             <option value="{$institutionId}" >{exptit:printTitle($institutionId)}</option>
                         )
-            
+
             else if ($type = 'sex')
                      then (for $n in $nodes[. != ''][. != ' ']
                         let $key := replace(apprest:trim($n), '_', ' ')
@@ -1701,30 +1728,30 @@ declare function apprest:newselectors($nodeName, $path, $nodes, $type, $context)
             (: type is values :)
             for $n in $nodes[. != ''][. != ' ']
                 let $thiskey := replace(apprest:trim($n), '_', ' ')
-                let $title := if($nodeName = 'keyword' or $nodeName = "placetype"or $nodeName = "country"or $nodeName = "settlement") then exptit:printTitleID($thiskey) 
+                let $title := if($nodeName = 'keyword' or $nodeName = "placetype"or $nodeName = "country"or $nodeName = "settlement") then exptit:printTitleID($thiskey)
                                         else if ($nodeName = 'language') then $app:languages//t:item[@xml:id eq $thiskey]/text()
                                         else $thiskey
-                let $rangeindexname := 
-                                        switch($nodeName) 
-                                        case 'relType' return 'relname' 
-                                        case 'language' return 'TEIlanguageIdent' 
-                                        case 'material' return 'materialkey' 
+                let $rangeindexname :=
+                                        switch($nodeName)
+                                        case 'relType' return 'relname'
+                                        case 'language' return 'TEIlanguageIdent'
+                                        case 'material' return 'materialkey'
                                         case 'bmaterial' return 'materialkey'
-                                         case 'placetype' return 'placetype' 
-                                         case 'country' return 'countryref' 
-                                         case 'settlement' return 'settlref' 
-                                         case 'occupation' return 'occtype' 
-                                         case 'faith' return 'faithtype' 
-                                         case 'objectType' return 'form' 
+                                         case 'placetype' return 'placetype'
+                                         case 'country' return 'countryref'
+                                         case 'settlement' return 'settlref'
+                                         case 'occupation' return 'occtype'
+                                         case 'faith' return 'faithtype'
+                                         case 'objectType' return 'form'
                                          default return 'termkey'
                  let $ctx := util:eval($context)
-                 let $facet := if($nodeName = 'script') 
-                                          then ($app:util-index-lookup($ctx//@script, lower-case($thiskey), function($key, $count) {$count[2]}, 100, 'lucene-index' )) 
+                 let $facet := if($nodeName = 'script')
+                                          then ($app:util-index-lookup($ctx//@script, lower-case($thiskey), function($key, $count) {$count[2]}, 100, 'lucene-index' ))
                                           else ( $ctx/$app:range-lookup($rangeindexname, $thiskey, function($key, $count) {$count[2]}, 100))
                 order by $n
                 return
-                
-            <option value="{$thiskey}">{if($thiskey = 'Printedbook') then 'Printed Book' 
+
+            <option value="{$thiskey}">{if($thiskey = 'Printedbook') then 'Printed Book'
              else $title} {(' ('||$facet[1]||')')}</option>
             )
             }
@@ -1743,12 +1770,13 @@ declare function apprest:newselectors($nodeName, $path, $nodes, $type, $context)
 let $items := $apprest:collection-rootMS//t:msItem
 let $Additems := $apprest:collection-rootMS//t:additions//t:item[descendant::t:title[@ref]]
 let $matchingAddmss := $Additems//t:title[contains(@ref , $target-work)]
-let $matchingConmss := $items/t:title[contains(@ref , $target-work)]
+let $matchingConmss := $items/t:title[matches(@ref , $target-work)]
 let $matchingmss := ($matchingConmss, $matchingAddmss)
+let $ids := for $manuscript in $matchingmss return string(root($manuscript)/t:TEI/@xml:id)
 return
 if(count($matchingmss) = 0) then (<p class="lead">Oh no! Currently, none of the catalogued manuscripts contains a link to this work. You can still see the record in case you find there useful information.</p>,<a class="w3-button w3-red" href="{$target-work}"> Go to {$MAINtit}</a>) else
 (
-<p class="w3-panel w3-card-2">They are currently <span class="w3-tag w3-gray">{count($matchingmss)}</span>.</p>,
+<p class="w3-panel w3-card-2">There are currently <span class="w3-tag w3-gray">{count($matchingmss)}</span> pointers to this work in <span class="w3-tag w3-gray">{count(distinct-values($ids))}</span> mss.</p>,
 <div class="w3-bar">
   <button class="w3-bar-item w3-button" onclick="document.getElementById('mscomps').scrollBy(-200,0)">
 <i class="fa fa-arrow-left"></i>
@@ -1771,7 +1799,7 @@ return
 <div class="w3-card-2 w3-margin w3-padding" style="width:250px;word-wrap: break-word;" >
 
 <header class="w3-red w3-padding">
-<a href="{('/'||$msid)}">{exptit:printTitleID($msid)}</a> 
+<a href="{('/'||$msid)}">{$msid}</a>
 ({string($minnotBefore)}-{string($maxnotAfter)})</header>
 <div class="w3-container" style="max-height:60vh; overflow-y:auto">
 <ul class="nodot">
@@ -1797,10 +1825,10 @@ then 'text-indent: 2%;' else ()}">
         else if ($msitem/t:title[not(@ref)]/text())
    then (normalize-space(string-join(string:tei2string($msitem/t:title/node()))), $placement)
     (:normally print the title of the referred item:)
-else (   
+else (
 <span>
 <a class="itemtitle" data-value="{$title}" href="{$title}">{
-if($title = '') then <span class="w3-tag w3-red">{'no ref in title'}</span> 
+if($title = '') then <span class="w3-tag w3-red">{'no ref in title'}</span>
 else try{exptit:printTitle($title)} catch * {$title}}</a>
 {$placement}</span>
 )
@@ -1809,10 +1837,10 @@ else try{exptit:printTitle($title)} catch * {$title}}</a>
  }
 </ul>
 <ul class="nodot">
-{for $additem at $p in root($manuscript)/t:TEI//t:additions//t:item
+{for $additem at $p in root($manuscript)/t:TEI//t:additions//t:item[descendant::t:title[matches(@ref , $target-work)]]
 (:  store in a variable the ref in the title or nothing:)
 let $title := if ($additem//t:title[@ref]) then for $t in $additem//t:title/@ref return $t else ''
-let $placement := locus:placement($additem) 
+let $placement := locus:placement($additem)
 order by $p
 return
 <li>
@@ -1820,7 +1848,7 @@ return
 {if($additem/t:desc/@type)
      then ( ' (' || string($additem/t:desc/@type) || ')')
      else ()},
-{for $t in $title 
+{for $t in $title
 return if($t = $target-work) (:highlight the position of the currently selected work:)
     then <mark>
         <a  class="itemtitle" data-value="{$t}" href="{$t}">{$MAINtit}</a> {$placement}
@@ -1850,9 +1878,9 @@ charts:chart($hits)
 (:~  given an id looks for all manuscripts containing it and returns a div with cards use by Slick for the Carousel view:)
  declare function apprest:compareMssFromlist($mss) {
 if($mss = '') then ()  else(
-    let $matchingmss := for $ms in tokenize($mss, ',')  
-                                    return 
-                                          if(starts-with($ms, 'LIT')) 
+    let $matchingmss := for $ms in tokenize($mss, ',')
+                                    return
+                                          if(starts-with($ms, 'LIT'))
                                           then (
                                          let $titselectMss:= $apprest:collection-rootMS//t:title[contains(@ref, $ms)]
                                          let $selectMss := $titselectMss[parent::t:msItem or ancestor::t:additions]
@@ -1860,7 +1888,7 @@ if($mss = '') then ()  else(
                                          let $ms := root($sm)
                                          group by $MS := $ms
                                          return $MS
-                                          ) 
+                                          )
                                           else $apprest:collection-rootMS//id($ms)[self::t:TEI]
     return
     (<div class="msscomparison w3-container">
@@ -1874,7 +1902,7 @@ if($mss = '') then ()  else(
 
                 <div  class="w3-card-2 w3-margin">
                                     <header class="w3-red w3-padding">
-<a href="{('/'||$msid)}">{exptit:printTitleID($msid)}</a> 
+<a href="{('/'||$msid)}">{$msid}</a>
                                         ({string($minnotBefore)}-{string($maxnotAfter)})
                                      </header>
                                     <div class="w3-container" style="max-height:60vh; overflow-y:auto">
@@ -1913,7 +1941,7 @@ if($mss = '') then ()  else(
 {for $additem at $p in root($manuscript)/t:TEI//t:additions//t:item
 (:  store in a variable the ref in the title or nothing:)
 let $title := if ($additem//t:title[@ref]) then for $t in $additem//t:title/@ref return $t else ''
-let $placement := locus:placement($additem) 
+let $placement := locus:placement($additem)
 order by $p
 return
 <li>
@@ -1921,8 +1949,8 @@ return
 {if($additem/t:desc/@type)
      then ( ' (' || string($additem/t:desc/@type) || ')')
      else ()},
-{for $t in $title 
-return 
+{for $t in $title
+return
 if ($additem/t:title[not(@ref)]/text())
    then (normalize-space(string-join(string:tei2string($additem/t:title/node()))), $placement)
     (:normally print the title of the referred item:)
@@ -1932,7 +1960,7 @@ else (   <a class="itemtitle" data-value="{$t}" href="{$t}">{if($t = '') then <s
  }
 </ul>
                                      </div>
-                     
+
               </div>
               }
 

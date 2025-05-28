@@ -67,7 +67,7 @@ $(document).on('ready', function () {
                     </script>'
                     
                     // append to the Chojnacki div the record with one name, one viewer and all the available photos
-                    $("#Chojnacki").append('<div  class="w3-card w3-margin-bottom">' + relatedItem + opensea + '</div>')
+                    $("#Chojnacki").append('<div  class="w3-container">' + relatedItem + opensea + '</div>')
                 });
             });
             

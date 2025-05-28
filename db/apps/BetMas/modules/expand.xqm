@@ -434,7 +434,7 @@ let $cS :=
                                 return
                                     $buildID
                             else
-                                titles:printTitleMainID($node/@corresp)
+                                titles:printTitleID($node/@corresp)
                         else
                             (),
                         expand:tei2fulltei($node/node(), $bibliography))
@@ -603,12 +603,10 @@ let $cS :=
                             let $mainFacs := $node/@facs
                             return
                                 attribute corresp {
-                                    if (starts-with($mainFacs, 'http') or contains($mainFacs, 'vatlib') or contains($mainFacs, 'gallica')) then
-                                        $mainFacs
-                                    else    if (starts-with($mainFacs, '#')) then
+                                    if (starts-with($mainFacs, 'http') or (starts-with($mainFacs, '#')) or contains($mainFacs, 'vatlib') or contains($mainFacs, 'gallica')) then
                                         $mainFacs
                                     else
-                                        concat($expand:BMurl, 'api/iiif/', $node/ancestor-or-self::t:TEI/@xml:id/data(), '/manifest')
+                                       concat($expand:BMurl, 'api/iiif/',  $node/ancestor-or-self::t:TEI/@xml:id, '/manifest',  (if ($node/parent::t:altIdentifier/@xml:id) then '?alt=' || string($node/parent::t:altIdentifier/@xml:id) else ()))
                                 }
                         else
                             (),

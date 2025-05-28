@@ -583,7 +583,7 @@ else ()
    default return ()
    )
    }
-   <div class="w3-container w3-margin-bottom">
+      <!-- <div class="w3-container w3-margin-bottom">
    <div class="w3-twothird">
    <div class="w3-container w3-margin w3-grey w3-small w3-card-4 ">This page contains RDFa. 
    <a href="/rdf/{$collection}/{$id}.rdf">RDF+XML</a> graph of this resource. Alternate representations available via <a href="/api/void/{$id}">VoID</a>.</div>
@@ -594,14 +594,14 @@ else ()
    
    <script  type="text/javascript" src="resources/js/permanentID.js"></script>
    </div>
-    <div class="w3-third">
+<div class="w3-third">
      <div class="w3-container w3-margin w3-gray w3-card-4"><b>Hypothes.is public annotations pointing here</b>
      <div id="hypothesisFeedResults" data-value="{$id}"></div>
      <p>Use the tag <span class="w3-tag w3-red">BetMas:{$id}</span> in your public <a href="https://web.hypothes.is/">hypothes.is</a> annotations which refer to this entity.</p>
      </div>
      </div>
      
-   </div>
+   </div>-->
   { item2:bottom($this, $collection)}
    </div>
 
