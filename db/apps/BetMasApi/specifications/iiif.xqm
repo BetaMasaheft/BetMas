@@ -298,8 +298,44 @@ declare function iiif:Structures($item, $iiifroot, $facsid){
     
 };
 
+(:for multiple manifests:)
+declare function iiif:multipleManifests($item as node()) {
+  let $mainID := $item//t:msIdentifier/t:idno[@facs]
+  let $altIDs := $item//t:altIdentifier/t:idno[@facs]
+  let $allIDNos := ($mainID, $altIDs)
+  
+  return 
+    for $idno in $allIDNos
+    let $parent := $idno/parent::node()
+    let $alt := if ($parent/name() = 'altIdentifier') then
+                  ('?alt=' || string($parent/@xml:id))
+                else ()
+    let $facs := iiif:facsSwitch($idno)
+    return 
+      if ($facs) then 
+        map {
+          '@id': replace($facs, 'ark:', 'iiif/ark:') || '/manifest.json',
+          'label': exptit:printTitleID($item/@xml:id) || $alt
+        }
+      else ()
+};
+
+(:switch single or multiple:)
+declare function iiif:manifest($this as node()) {
+  let $manifest :=
+    if (count($this//t:idno[@facs]) = 1) then
+      iiif:manifestsource($this)
+    else
+      iiif:multipleManifests($this/ancestor::t:TEI)
+  let $tit := try { exptit:printTitleID($this/@xml:id) } catch * { $err:description }
+  return map {
+    'label': $tit,
+    '@type': 'sc:Manifest',
+    '@id': $manifest
+  }
+};
+
 (:collection of all manifests available. this is called by rest viewer /manuscripts/viewer in the miradorcoll.js:)
-     
         declare 
 %rest:GET
 %rest:path("/api/iiif/collections")
@@ -315,33 +351,37 @@ let $vat := $allidno[preceding-sibling::t:repository[@ref eq 'INS0003BAV']]
 let $bnf := $allidno[preceding-sibling::t:repository[@ref eq 'INS0303BNF']]
 let $bml := $allidno[preceding-sibling::t:repository[@ref eq 'INS0339BML']]
 let $filtered := ($ES, $EMIP, $vat, $bnf, $bml)
-let $manifests := 
-     for $images in $filtered
-     let $this := $images/ancestor::t:TEI
-     let $manifest := iiif:manifestsource($this)
-     let $tit := try {exptit:printTitleID($this/@xml:id)} catch * {$err:description}
-         return
-             map {'label' : $tit ,
-      "@type": "sc:Manifest", 
-      '@id' : $manifest}
- 
- let $iiifroot := $config:appUrl ||"/api/iiif/"
-(:       this is where the manifest is:)
-       let $request := $iiifroot || "/collections"
-        return
-        map {
-  "@context": "http://iiif.io/api/presentation/2/context.json",
-  "@id": $request,
-  "@type": "sc:Collection",
-  "label": "Top Level Collection for " || $config:app-title,
-  "viewingHint": "top",
-  "description": "All images of Ethiopian Manuscripts available",
-  "attribution": "Provided by Bibliothèque nationale de France, The Vatican Library, EthioSPaRe, EMIP, Biblioteca Medicea Laurenziana and other IIIF providers",
-  "manifests":  $manifests
-   
-  
-}
-       ) };
+    let $manifests := 
+      for $item in $filtered
+      let $this := $item/ancestor::t:TEI
+      let $cnt := count($this//t:idno[@facs])
+      let $manifest := 
+        if ($cnt = 1) then
+          iiif:manifestsource($this)
+        else
+          iiif:multipleManifests($this)
+      let $tit := try { exptit:printTitleID($this/@xml:id) } catch * { $err:description }
+      return map {
+        "label": $tit,
+        "@type": "sc:Manifest",
+        "@id": $manifest
+      }
+
+    let $iiifroot := $config:appUrl || "/api/iiif/"
+    let $request := $iiifroot || "/collections"
+
+    return map {
+      "@context": "http://iiif.io/api/presentation/2/context.json",
+      "@id": $request,
+      "@type": "sc:Collection",
+      "label": "Top Level Collection for " || $config:app-title,
+      "viewingHint": "top",
+      "description": "All images of Ethiopian Manuscripts available",
+      "attribution": "Provided by Bibliothèque nationale de France, The Vatican Library, Ethio-SPaRe, EMIP, Biblioteca Medicea Laurenziana and other IIIF providers",
+      "manifests": $manifests
+    }
+  )
+};
 
 
 (:collection of all manifests available from one institution. this is called by rest viewer /manuscripts/{$repoid}/list/viewer in the miradorcoll.js:)
@@ -679,6 +719,3 @@ let $id := $iiifroot || '/canvas/p'  || $n
        return
        iiif:oneCanvas($id, $name, $image, $resid)
       ) };
-       
-       
-      
