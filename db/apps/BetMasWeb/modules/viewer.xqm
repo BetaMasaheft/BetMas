@@ -227,36 +227,24 @@ var canvasid = "' || (if($FirstCanv = '') then $firstcanvas else $FirstCanv) || 
         else (
 let $facs := $this//t:idno[@facs][@n]
 let $countsets := count($facs)
-let $facDetails := 
-    for $i in 1 to $countsets
-    let $m := $facs[$i]
-    let $manifest := viewer:manifest($this, $id, $m)
-    let $location := viewer:location($this)
-    let $containerID := concat('viewer', $i)
-    return map {
-      'manifest': $manifest,
-      'location': $location,
-      'containerID': $containerID
-    } (:locations to remove?:)
 let $locations := for $m in $facs
                             let $manifest := viewer:manifest($this, $id, $m)
 
                                   let $location := viewer:location($this)
                             return
-                             '{manifestUri: "' || $manifest || '", location: "' || $location[1] || '"}'
-let $manifests := for $m in $facs
+                             '{"manifestUri": "' || $manifest || '", "location": "' || $location[1] || '"}'
+let $manifests := for $i in 1 to $countsets
+                               let $m := ($facs)[$i]
                                let $manifest := viewer:manifest($this, $id, $m)
                                let $n := $m/@n
                                let $index :=count($m/preceding::t:idno[@facs][@n]) + 1
                                let $firstcanvas := viewer:canvas($m)            
                                           return 
-                                '{  loadedManifest: "' || $manifest || '",
-                                    canvasID: "'||(if($FirstCanv = '') then $firstcanvas else $FirstCanv)||'",
-                                    slotAddress: "row1.column'||string($index)||'",
-                                    viewType: "ImageView" }'
-let $dataJs := 'var data = [' || string-join(for $m in $facs
-        return '{"manifestUri": "' || viewer:manifest($this, $id, $m) || '", "location": "' || viewer:location($this) || '"}'
-        , ',') || '];'   
+                                '{  "loadedManifest": "' || $manifest || '",
+                                    "canvasID": "'||(if($FirstCanv = '') then $firstcanvas else $FirstCanv)||'",
+                                    "slotAddress": "row1.column'||string($index)||'",
+                                    "viewType": "ImageView" }'
+ 
 let $Cmap := map {'type': 'collection', 'name' : $collection, 'path' : $c}
 let $Imap := map {'type': 'item', 'name' : $id, 'path' : $collection}
 return 
@@ -467,7 +455,7 @@ else $idnofacs/@facs
 };
 
 declare function viewer:manifest($this, $id, $m){
-let $alt := if($m/parent::t:altIdentifier) then ('?alt='||string($m/parent::t:altIdentifier/@xml:id))  else ()
+let $alt := if($m/parent::t:altIdentifier) then ('?alt='||string($m/parent::t:altIdentifier/@xml:id)) else if($m/parent::t:altIdentifier) then ('?alt=alt') else ()
 return(:BNF 
                                                 https://gallica.bnf.fr/ark:/12148/btv1b10087587w
                                                 https://gallica.bnf.fr/iiif/ark:/12148/btv1b10087587w/manifest.json
@@ -559,4 +547,3 @@ return 'var data = [' ||$chmanif||']'}</script>
         )
         
 };
-
