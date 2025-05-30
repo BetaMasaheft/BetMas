@@ -105,6 +105,13 @@ declare function q:querytype($node as node(), $model as map(*)) {
                     else
                         ()
                 }Lookup Beta maṣāḥǝft ID</option>
+             <option
+                value="linkeddata">{
+                    if ($querytypeparam = 'linkeddata') then
+                        attribute selected {'selected'}
+                    else
+                        ()
+                }Lookup Wikidata, Geonames, Pleiades (with prefix)</option>
             <option
                 value="clavis">{
                     if ($querytypeparam = 'clavis') then
@@ -350,6 +357,9 @@ like the facet, simple and advanced searches :)
         case 'bmid'
             return
                 q:bmid($q)
+        case 'linkeddata'
+            return
+                q:linkeddata($q)
                 (:                default is a search for the empty string, returning all data...:)
         default return
             q:text($q, $params)
@@ -453,6 +463,15 @@ declare function q:placeSearch($place) {
 declare function q:bmid($q) {
     let $TEI := $q:col//t:TEI[contains(@xml:id, $q)]
     
+    return
+        map {
+            'tei': $TEI,
+            'qs': $q
+        }
+};
+
+declare function q:linkeddata($q) {
+    let $TEI := ($q:col//t:place[contains(@sameAs, $q)] | $q:col//t:person[contains(@sameAs, $q)])
     return
         map {
             'tei': $TEI,
@@ -1542,7 +1561,7 @@ declare function q:create-field-query($query-string, $mode) {
 
 
 declare function q:showFacets($node as node()*, $model as map(*)) {
-    if ($q:searchType = 'clavis' or $q:searchType = 'otherclavis' or $q:searchType = 'xpath' or $q:searchType = 'sparql') then
+    if ($q:searchType = 'clavis' or $q:searchType = 'otherclavis' or $q:searchType = 'xpath' or $q:searchType = 'sparql' or $q:searchType = 'linkeddata') then
         <div><p>No facets available for this type of search.</p></div>
     else
         let $subsequence := $model('hits')
@@ -2403,7 +2422,7 @@ declare function q:fieldInputPerson($node as node(), $model as map(*), $person-f
 declare
 %templates:wrap
 function q:charts($node as node()*, $model as map(*))
-{if($q:searchType='clavis') then () else
+{if($q:searchType='clavis' or $q:searchType='linkeddata') then () else
     if (count($model('hits')) = 0) then
         ()
     else
@@ -2438,7 +2457,7 @@ function q:charts($node as node()*, $model as map(*))
 
 declare %templates:wrap
 function q:compare($node as node()*, $model as map(*)) {
-if($q:searchType='clavis') then () else
+if($q:searchType='clavis' or $q:searchType='linkeddata') then () else
     let $matchingmss := $model('hits')[@type = 'mss']
     return
         if (count($matchingmss) = 0) then
@@ -2621,7 +2640,7 @@ if($q:searchType='clavis') then () else
 declare
 %templates:wrap
 function q:geobrowser($node as node()*, $model as map(*))
-{if($q:searchType='clavis') then () else
+{if($q:searchType='clavis' or $q:searchType='linkeddata') then () else
     
     let $worksid := $model('hits')[@type = 'work']
     return
@@ -2716,7 +2735,7 @@ first here is the header of the results table:)
                     q:sparqlRes($hit, $p)
                 else
                     if ($model('type') = 'xpath'
-                    or $model('type') = 'bmid'
+                    or $model('type') = 'bmid' or $model('type') = 'linkeddata'
                     or $model('type') = 'clavis'
                     or $model('type') = 'placeSearch'
                     or $model('type') = 'otherclavis') then
@@ -2729,7 +2748,7 @@ declare function q:resultsTableHeader($model) {
     if ($model('type') = 'sparql') then
         () (:the sparql results are passed to an XSLT which produces the header as well:)
     else
-        if ($model('type') = 'clavis'
+        if ($model('type') = 'clavis' or $model('type') = 'linkeddata'
         or $model('type') = 'xpath'
         or $model('type') = 'otherclavis')
         then
@@ -2990,8 +3009,8 @@ declare function q:resultswithoutmatch($text, $p) {
         $text
     let $item := if ($q:searchType = 'clavis') then
         $text('hit')
-    else
-        $root/ancestor-or-self::t:TEI
+    else if ($root) then
+        $root/ancestor-or-self::t:TEI else ()
     let $t := if ($q:searchType = 'clavis' and $text('type') = 'deleted') then
         'deleted'
     else
@@ -3483,7 +3502,7 @@ declare function q:resultitemlinks($collection, $item, $id, $root, $text) {
             }</b></a>,
     <br/>
     ,
-    if ($q:searchType = 'clavis') then
+    if ($q:searchType = 'clavis' or $q:searchType = 'linkeddata') then
         ()
     else
         (
