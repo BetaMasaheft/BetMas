@@ -307,8 +307,8 @@ declare function iiif:multipleManifests($item as node()) {
   return 
     for $idno in $allIDNos
     let $parent := $idno/parent::node()
-    let $alt := if ($parent/name() = 'altIdentifier') then
-                  ('?alt=' || string($parent/@xml:id))
+    let $alt := if ($parent/name() = 'altIdentifier') then if($parent/@xml:id) then
+                  ('?alt=' || string($parent/@xml:id)) else ('?alt=alt')
                 else ()
     let $facs := iiif:facsSwitch($idno)
     return 
