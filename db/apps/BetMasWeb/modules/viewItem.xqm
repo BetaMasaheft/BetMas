@@ -2021,6 +2021,11 @@ declare %private function viewItem:palaeography($node) {
                     <li class="nodot"
                         id="{$h/@xml:id}">
                     {    <h4>Hand {substring-after($h/@xml:id, 'h')}</h4>}
+                    {if ($h/@corresp) then
+                        <p>Hand of <a
+                            href="{string($h/@corresp)}">{substring-after($h/@corresp, '#')}</a></p>
+                    else
+                       ()}
                     {viewItem:headercontext($node)}
                     {if ($h/t:persName[@role = 'scribe']) then
                         <p>Scribe: {viewItem:TEI2HTML($h/t:persName[@role = 'scribe'])}</p>
