@@ -310,12 +310,13 @@ declare function iiif:multipleManifests($item as node()) {
     let $alt := if ($parent/name() = 'altIdentifier') then if($parent/@xml:id) then
                   ('?alt=' || string($parent/@xml:id)) else ('?alt=alt')
                 else ()
+   let $label := if ($parent/name() = 'altIdentifier') then concat(exptit:printTitleID($item/@xml:id), ': subset for ',  string($parent/t:idno)) else exptit:printTitleID($item/@xml:id)
     let $facs := iiif:facsSwitch($idno)
     return 
       if ($facs) then 
         map {
           '@id': replace($facs, 'ark:', 'iiif/ark:') || '/manifest.json',
-          'label': exptit:printTitleID($item/@xml:id) || $alt
+          'label': $label || $alt
         }
       else ()
 };
@@ -360,7 +361,7 @@ let $filtered := ($ES, $EMIP, $vat, $bnf, $bml)
           iiif:manifestsource($this)
         else
           iiif:multipleManifests($this)
-      let $tit := try { exptit:printTitleID($this/@xml:id) } catch * { $err:description }
+      let $tit := if ($parent/name() = 'altIdentifier') then concat(exptit:printTitleID($item/@xml:id), ': subset for ',  string($parent/t:idno)) else  try { exptit:printTitleID($this/@xml:id) } catch * { $err:description }
       return map {
         "label": $tit,
         "@type": "sc:Manifest",
@@ -518,19 +519,21 @@ let $imagesbaseurl := $config:appUrl ||'/iiif/' || $facs
        let $canvas := iiif:Canvases($item, $id, $iiifroot, $facsid)
        let $structures := iiif:Structures($item, $iiifroot, $facsid)
 (:       this is where the manifest is:)
-       let $request := $iiifroot || "/manifest"
+       let $request := $iiifroot || "/manifest" || (if ($facsid/parent::t:altIdentifier/@xml:id) then '?alt=' || string($facsid/parent::t:altIdentifier/@xml:id) else if ($facsid/parent::t:altIdentifier) then '?alt=alt' else ())
        (:       this is where the sequence is:)
        let $attribution := if($item//t:repository[1][@ref eq 'INS0339BML']) then ('The images of the manuscript taken by Antonella Brita, Karsten Helmholz and Susanne Hummel during a mission funded by the Sonderforschungsbereich 950 Manuskriptkulturen in Asien, Afrika und Europa, the ERC Advanced Grant TraCES, From Translation to Creation: Changes in Ethiopic Style and Lexicon from Late Antiquity to the Middle Ages (Grant Agreement no. 338756) and Beta maṣāḥǝft. The images are published in conjunction with this descriptive data about the manuscript with the permission of the https://www.bmlonline.it/la-biblioteca/cataloghi/, prot. 190/28.13.10.01/2.23 of the 24 January 2019 and are available for research purposes.') else "Provided by "||string-join($item//t:collection/text(), ', ')||" project. " || (if($item//t:editionStmt/t:p) then string-join($item//t:editionStmt/t:p/string()) else ' ')
        let $logo := if($item//t:repository[1][@ref eq 'INS0339BML']) then ('/rest/BetMasWeb/resources/images/logobml.png') else "/rest/BetMasWeb/resources/images/logo"||string-join($item//t:collection[1][not(matches(.,'\s'))]/text())||".png"
        let $sequence := $iiifroot || "/sequence/normal"
-     
+    let $parent := $facsid/parent::node()
+   let $label := if ($parent/name() = 'altIdentifier') then concat(exptit:printTitleID($item/@xml:id), ': subset for ',  string($parent/@xml:id)) else exptit:printTitleID($item/@xml:id)
+
      
 (:    $mainstructure:)
 return 
 map {"@context": "http://iiif.io/api/presentation/2/context.json",
   "@id": $request,
   "@type": "sc:Manifest",
-  "label": exptit:printTitleID($id),
+  "label": $label,
   "metadata": [
     map {"label": "Repository", 
                 "value": [
