@@ -97,7 +97,15 @@ function apprest:bmaterial($context as xs:string*) {
 
 };
 
+declare
+%templates:default("context", "$apprest:collection-rootMS")
+function apprest:bindingtype($context as xs:string*) {
+    let $cont := util:eval($context)
+      let $bindingtype := config:distinct-values($cont//t:binding/@contemporary)
+    return
+        apprest:formcontrol('Original binding','bindingtype', $bindingtype, 'false', 'values', $context)
 
+};
 (:~ called by restSearch:FormPart() in search.xql used by advances search form as.html and filters.js PLACES FILTERS for CONTEXT:)
 declare
 %templates:default("context", "$apprest:collection-rootPlIn")
@@ -952,6 +960,7 @@ let $Pfaith := $parameters('faith')
 let $Pgender := $parameters('gender')
 let $Pperiod := $parameters('period')
 let $Prestorations := $parameters('restorations')
+let $Pbindingtype := $parameters('bindingtype')
 let $Pcountry := $parameters('country')
 let $Psettlement := $parameters('settlement')
 
@@ -1036,6 +1045,7 @@ let $faiths := if(empty($Pfaith) or $Pfaith= '') then () else apprest:ListQueryP
 let $genders := if(empty($Pgender) or $Pgender= '') then () else apprest:ListQueryParam-rest($Pgender, "t:person/@sex", 'any', 'list')
 let $periods := if(empty($Pperiod) or $Pperiod= '') then () else apprest:ListQueryParam-rest($Pperiod, "t:term/@key", 'any', 'search')
 let $restorationss := if(empty($Prestorations) or $Prestorations= '') then () else apprest:ListQueryParam-rest($Prestorations, "t:custEvent/@subtype", 'any', 'list')
+let $bindingtype := if(empty($Pbindingtype) or $Pbindingtype= '') then () else apprest:ListQueryParam-rest($Pbindingtype, "t:binding/@contemporary", 'any', 'search')
 let $countries := if(empty($Pcountry) or $Pcountry = '') then () else apprest:ListQueryParam-rest($Pcountry, 't:country/@ref', 'any', 'range')
 let $settlements := if(empty($Psettlement) or $Psettlement = '') then () else apprest:ListQueryParam-rest($Psettlement, 't:settlement/@ref', 'any', 'range')
 
@@ -1077,7 +1087,7 @@ let $quiresComp :=  if(empty($Pqcn) or $Pqcn = '' or $Pqcn = '1,40')
 
 let $allMssFilters := concat($allnames, $support, $opl, $material, $bmaterial, $scripts, $scribes, $donors, $patrons, $owners, $parchmentMakers,
              $binders, $contents, $leaves, $wL,  $quires, $quiresComp,
-            $height, $width, $depth, $marginTop, $marginBot, $marginL, $marginR, $marginIntercolumn, $restorationss)
+            $height, $width, $depth, $marginTop, $marginBot, $marginL, $marginR, $marginIntercolumn, $restorationss, $bindingtype)
 
 let $path := switch($type)
                 case 'catalogue' return 
@@ -1543,6 +1553,8 @@ apprest:formcontrol('keyword','keyword', $items-info//t:term/@key, 'true', 'titl
                             <input  class="w3-check" type="checkbox" value="objectType" data-context="{$context}"/> object type<br/>
                             <input  class="w3-check" type="checkbox" value="material" data-context="{$context}"/> material<br/>
                             <input  class="w3-check" type="checkbox" value="bmaterial" data-context="{$context}"/> binding material<br/>
+                              <input  class="w3-check" type="checkbox" value="bindingtype" data-context="{$context}"/> original binding<br/>
+
                             {if((count($items-info) lt 1050) and $items-info/node() ) then (<input type="checkbox"  class="w3-check" value="contents" data-context="{$context}"/>, 'contents',<br/>) 
                             else (<div class="w3-panel w3-red w3-leftbar">You will be able to get a filter by contents for a selection of manuscripts with less than 1000 items.</div>)}
                             </div>,
@@ -1739,6 +1751,7 @@ declare function apprest:newselectors($nodeName, $path, $nodes, $type, $context)
                                         case 'language' return 'TEIlanguageIdent' 
                                         case 'material' return 'materialkey' 
                                         case 'bmaterial' return 'materialkey'
+                                        case 'bindingtype' return 'bindingtype'
                                          case 'placetype' return 'placetype' 
                                          case 'country' return 'countryref' 
                                          case 'settlement' return 'settlref' 

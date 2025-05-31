@@ -1019,6 +1019,9 @@ names are those of the indexes where the filter is built directly from there, ot
                     case 'custEventsubtype'
                         return
                             q:ListQueryParam-rest($r, "t:custEvent/@subtype", 'any', 'list')
+                    case 'bindingtype'
+                        return
+                            q:ListQueryParam-rest($r, "t:binding/@contemporary", 'any', 'list')                    
                     case 'countrytext'
                         return
                             q:ListQueryParam-rest($r, 't:country/@ref', 'any', 'range')
@@ -1633,9 +1636,9 @@ declare function q:facetGroup($group, $groupname, $subsequence) {
 declare function q:facetDiv($f, $facets, $facetTitle) {
     let $facets := map:merge($facets)
     return
-    (:    if (map:size($facets) = 0) then
-            () 
-        else :)
+(:if (map:size($facets) = 0) then
+             util:log("info", concat('Checking map size count in query function ', map:size($facets), ' facets'))
+         else:)
             if (map:size($facets) gt 1000) then
                 (util:log("info", concat($facetTitle, " has ", map:size($facets), " facets")))
             else
@@ -3864,7 +3867,7 @@ declare function q:generalRangeIndexesFilters($node as node(), $model as map(*))
 };
 
 declare function q:MssRangeIndexesFilters($node as node(), $model as map(*)) {
-    let $indexnames := $q:paramargs/rangeindex[@form = 'm']/@name/string()
+    let $indexnames := $q:paramargs/rangeindex[@form = 'm']/@name/string()[not(. = 'persrole')]
     (:    ('TEIrepo', 'TEIscript', 'TEIsupport', 'materialkey', 'TEIdecoMat', 'custEventsubtype'):)
     return
         q:datalist($indexnames)

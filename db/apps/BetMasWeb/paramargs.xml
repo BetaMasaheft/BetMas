@@ -28,6 +28,8 @@ imnported by queries.xqm
     <rangeindex name="segana" label="seg @ana"/>
     <rangeindex name="segtype" label="Segment types"/>
     <rangeindex name="segsubtype" label="Segment subtypes"/>
+    <rangeindex name="bindingtext" label="Binding"/>    
+    <rangeindex name="bindingtype" label="Original binding" form="m"/>
     <rangeindex name="custeventtext" label="custEvent"/>
     <rangeindex name="custEventtype" label="custEvent @type" />
     <rangeindex name="custEventsubtype" label="Restorations" form="m"/>
@@ -141,7 +143,7 @@ imnported by queries.xqm
     <rangeindex name="surname" label="surname"/>
     <rangeindex name="addname" label="addname"/>
     <rangeindex name="orgName" label="orgname"/>
-    <rangeindex name="persrole" label="persrole" form="m"/>
+    <rangeindex name="persrole" label="Person role" form="m"/>
     <rangeindex name="persref" label="persName @ref"/>
     <rangeindex name="persID" label="persName @xml:id"/>
     <rangeindex name="persType" label="persName @type"  keywords="yes"/>

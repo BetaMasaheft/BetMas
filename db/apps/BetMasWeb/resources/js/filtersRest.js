@@ -73,6 +73,9 @@ $(document).ready(function () {
                 case "bmaterial":
                 callformpart("bmaterial", "bmaterialform", context);
                 break;
+                case "bindingtype":
+                callformpart("bindingtype", "bindingtypeform", context);
+                break;
                 case "authors":
                 callformpart("authors", "authorsform", context);
                 break;
