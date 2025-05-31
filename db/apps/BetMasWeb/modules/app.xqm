@@ -1420,7 +1420,7 @@ declare function app:hit-params($node as node()*, $model as map(*)) {
                     else if (ends-with($param, '-operator-field')) then ()
                     else 
                         <span 
-                        class="w3-tag w3-gray w3-round ">
+                        class="w3-tag w3-gray w3-round " style="word-break:break-all">
                         {($param || ": ", 
                         <span class="w3-badge">{$value}</span>)}</span>
                 }</div>
@@ -1430,7 +1430,7 @@ declare function app:gotoadvanced($node as node()*, $model as map(*)){
 let $query := request:get-parameter('query', ())
 return 
 <div class="w3-bar">
-<a href="/newSearch.html?query={$query}" class="w3-button w3-red w3-margin w3-bar-item">Repeat search in the New Search.</a>
+<a href="/as.html?query={$query}" class="w3-button w3-red w3-margin w3-bar-item">Repeat search in the Advanced search.</a>   
 </div>
 };
 
@@ -1604,7 +1604,6 @@ function app:paginateNew($node as node(), $model as map(*), $start as xs:int, $p
             ()
 };
 
-
 declare    
 %templates:wrap
 %templates:default('start', 1)
@@ -1768,6 +1767,7 @@ else if (contains($item//t:msIdentifier/t:idno/@facs, 'bodleian')) then ('images
             </div>
             </div>
     };
+
 
 (:~  copied from  dts: to format and select the references :)
 declare function app:refname($n){
