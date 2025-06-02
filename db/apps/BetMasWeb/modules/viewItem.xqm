@@ -3458,7 +3458,7 @@ declare %private function viewItem:surplus($node as element(t:surplus)) {
             if ($node/@resp) then
             (
             if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
-                                                concat('resp: ', exptit:printTitle($node/@resp))
+                                                concat('resp: ', string-join(exptit:printTitle($node/@resp), ', '))
    else if (starts-with($node/@resp, 'bm:')) then
                                                 concat('resp: ', viewItem:bibliographyitem($node/@resp))
    else
@@ -3484,7 +3484,7 @@ declare %private function viewItem:space($node as element(t:space)) {
             if ($node/@resp) then
             (
             if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
-                                                concat('resp: ', exptit:printTitle($node/@resp))
+                                                concat('resp: ', string-join(exptit:printTitle($node/@resp), ', '))
    else
                                                  concat('resp: ', viewItem:editorName($node/@resp)))
           else
@@ -3522,14 +3522,14 @@ declare %private function viewItem:choice($node as element(t:choice)) {
             class="w3-text w3-tag w3-small">{
             if ($node/@resp) then
                   (      if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
-                        concat(viewItem:TEI2HTML($node/t:sic), '(!)', 'corrected by ', exptit:printTitle($node/@resp))
+                        concat(viewItem:TEI2HTML($node/t:sic), '(!)', 'corrected by ', string-join(exptit:printTitle($node/@resp), ', '))
    else
                        concat(viewItem:TEI2HTML($node/t:sic), '(!)', 'corrected by ', viewItem:editorName($node/@resp))
                                                  )
                                                  else
                                                  if ($node/t:corr/@resp) then
                   (      if (starts-with($node/t:corr/@resp, 'PRS') or starts-with($node/t:corr/@resp, 'ETH')) then
-                        concat(viewItem:TEI2HTML($node/t:sic), '(!)', 'corrected by ', exptit:printTitle($node/t:corr/@resp))
+                        concat(viewItem:TEI2HTML($node/t:sic), '(!)', 'corrected by ', string-join(exptit:printTitle($node/t:corr/@resp), ', '))
    else
                        concat(viewItem:TEI2HTML($node/t:sic), '(!)', 'corrected by ', viewItem:editorName($node/t:corr/@resp))
                                                  )
@@ -3553,7 +3553,7 @@ declare %private function viewItem:sic($node as element(t:sic)) {
             if ($node/@resp) then
             (
             if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
-                                                concat('sic by ', exptit:printTitle($node/@resp))
+                                                concat('sic by ', string-join(exptit:printTitle($node/@resp), ', '))
    else
                                                  concat('sic by ', viewItem:editorName($node/@resp)))
           else
@@ -3619,7 +3619,7 @@ declare %private function viewItem:del($node as element(t:del)) {
             if ($node/@resp) then
             (
             if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
-                                                concat('corrected by ', exptit:printTitle($node/@resp))
+                                                concat('corrected by ', string-join(exptit:printTitle($node/@resp), ', '))
    else
                                                  concat('corrected by ', viewItem:editorName($node/@resp)))
           else
@@ -3653,7 +3653,7 @@ declare %private function viewItem:supplied($node as element(t:supplied)) {
             if ($node/@resp) then
             (
             if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
-                                                concat('supplied by ', exptit:printTitle($node/@resp))
+                                                concat('supplied by ', string-join(exptit:printTitle($node/@resp), ', '))
    else
                                                  concat('supplied by ', viewItem:editorName($node/@resp)))
           else
