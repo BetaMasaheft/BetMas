@@ -117,7 +117,7 @@ function exptit:printTitleID($id as xs:string)
             else
 (:            format the title, add it to the list and pass again to this function, which will have something to match now:)
                 (let $subtitle := exptit:printSubtitle($node[1], $SUBid)
-                 let $name := (exptit:printTitleID($mainID)|| ', '||$subtitle)   
+                 let $name := (exptit:printTitleID($mainID)|| ': '||$subtitle)   
                  let $addit := if (contains($id, 'LIT')) then exptit:updateTUList($name, $id) else ()
                     return
                         $exptit:col/id($id)//t:title[@type = 'full']/text()
