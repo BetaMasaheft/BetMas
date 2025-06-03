@@ -241,10 +241,10 @@ declare %private function viewItem:locus($this) {
 };
 
 declare %private function viewItem:matchingFacs($locus) {
-    let $anc := ($locus/ancestor::t:*[@xml:id][1])
-    let $ancID := replace($anc/@xml:id, '\.', '_')
-    let $modalid := viewItem:imagesID($locus, 'id', $locus/@facs, $ancID)
+    let $anc := ($locus/ancestor::t:*[@xml:id or @id][1])
+    let $ancID := replace(if ($anc/@xml:id) then $anc/@xml:id else $anc/@id, '\.', '_')
     let $mainID := viewItem:mainID($locus)
+    let $modalid := viewItem:imagesID($locus, 'id', $locus/@facs, $mainID)
     let $idandanchor := $mainID || '#' || $ancID
     return
         <div
@@ -424,7 +424,7 @@ declare %private function viewItem:matchingFacs($locus) {
                                     
                                     else
                                         ('I do not know where these images come from')
-                        let $openseadragonjsid := 'openseadragon' || replace($locus/@facs, ' ', '_') || $locus/ancestor::t:*[@xml:id][1]/@xml:id
+                        let $openseadragonjsid := 'openseadragon' || replace($locus/@facs, ' ', '_') || $mainID
                         let $openseadragonjs := 'OpenSeadragon({
                            id: "openseadragon' || $openseadragonjsid || '",
                            prefixUrl: "../resources/openseadragon/images/",
@@ -469,7 +469,7 @@ declare %private function viewItem:matchingFacs($locus) {
 
 declare %private function viewItem:matchinglb($locus) {
     let $mainID := viewItem:mainID($locus)
-    let $modalid := viewItem:imagesID($locus, 'id', $locus/@*, '')
+    let $modalid := viewItem:imagesID($locus, 'id', $locus/@*, $mainID)
     let $iiifbase := $config:appUrl || 'iiif/'
     let $values := ($locus/string(@from), $locus/string(@to), tokenize($locus/@target, '#'))
     let $ranges := for $v in $values[string-length() ge 1]
@@ -605,13 +605,9 @@ declare %private function viewItem:matchinglb($locus) {
 
 
 declare %private function viewItem:locusrv($att) {
-    if (contains($att, 'r')) then
-        substring-before($att, 'r')
-    else
-        if (contains($att, 'v')) then
-            (substring-before($att, 'v'))
-        else
-            string($att)
+    let $digits := replace($att, '^.*?(\d+).*$','$1')
+    return
+        if ($digits castable as xs:integer) then $digits else ()
 };
 
 declare %private function viewItem:choosefacsorlb($locus, $ancID) {
@@ -620,10 +616,16 @@ declare %private function viewItem:choosefacsorlb($locus, $ancID) {
     else
         if ($locus/ancestor::t:TEI//t:div[@xml:id = 'Transkribus']) then
             attribute onclick {viewItem:imagesID($locus, 'call', $locus/@*, '')}
-        else
-            (attribute class {'w3-tooltip'},
-            <span style="position:absolute;left:0;bottom:16px"
-                class="w3-text w3-tag w3-dark-grey w3-tiny">check the viewer</span>)
+             else
+        iif ($locus/ancestor::t:TEI//t:idno/@facs) then
+         let $page := if ($locus/@from) then viewItem:locusrv($locus/@from) else if ($locus/@to) then viewItem:locusrv($locus/@to) else if ($locus/@target) then viewItem:locusrv($locus/@target) else '1'
+         let $viewer := concat( "https://betamasaheft.eu/manuscripts/",
+                $locus/ancestor::t:TEI/@xml:id, "/viewer?FirstCanv=https://betamasaheft.eu/api/iiif/",
+    $locus/ancestor::t:TEI/@xml:id,"/canvas/p", $page)
+         return 
+         (attribute title {"See viewer"}, attribute {'data-viewerurl'} {$viewer}, attribute target {'_blank'})
+    else
+        (attribute title {'No image available'}, attribute class {'w3-tooltip'})
 };
 
 

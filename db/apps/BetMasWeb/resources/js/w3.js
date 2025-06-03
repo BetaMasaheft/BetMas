@@ -170,3 +170,12 @@ var date = convertDate(
 
 
   });
+  
+  
+  // Automatically patch <a> elements with data-viewerurl to set their href at page load
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll('a[data-viewerurl]').forEach(function(a) {
+    a.setAttribute('href', a.getAttribute('data-viewerurl'));
+    a.setAttribute('target', '_blank'); // optional: opens viewer in new tab
+  });
+});
