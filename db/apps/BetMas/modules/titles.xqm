@@ -122,7 +122,7 @@ function titles:printTitleID($id as xs:string)
             else
 (:            format the title, add it to the list and pass again to this function, which will have something to match now:)
                 (let $subtitle := titles:printSubtitle($node, $SUBid)
-                 let $name := (titles:printTitleMainID($mainID)|| ', '||$subtitle)   
+                 let $name := (titles:printTitleMainID($mainID)|| ': '||$subtitle)   
                  let $addit := titles:updateTUList($name, $id)
                     return
                         titles:printTitleID($id)
