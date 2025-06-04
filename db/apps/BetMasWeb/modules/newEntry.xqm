@@ -233,7 +233,7 @@ else if($app:collection = 'manuscripts') then (
 <br/><select  class="w3-select"  id="institution" name="institution">
                 {
                 for $i in doc('/db/apps/lists/institutions.xml')//t:item
-                let $title := $i/text()
+                let $title := $i/string()
                 order by $title
                 return
                 <option value="{string($i/@xml:id)}">{$title}</option>
