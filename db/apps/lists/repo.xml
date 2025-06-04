@@ -7,6 +7,6 @@
     <copyright>true</copyright>
     <type>application</type>
     <target>lists</target>
-    <finish>Pietro</finish>
-    <permissions user="Pietro" group="dba" mode="rwxrwxr-x"/>
+	<!-- This needs to be world-writable. Some page loads change the contents of lists. Todo: obviously fix this!-->
+    <permissions user="admin" group="dba" mode="rwxrwxrwx"/>
 </meta>

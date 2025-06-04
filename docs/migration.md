@@ -82,3 +82,7 @@ deploy-expanded.sh
 ### Indexing
 
 Touch /db/apps/expanded/collection.xconf
+
+## Permissions
+
+Fix the permissons for everything in `/db/apps/lists`. They need to be world-writable.
