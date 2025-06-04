@@ -287,7 +287,7 @@ let $cS :=
                 return
                     <titleStmt
                         xmlns="http://www.tei-c.org/ns/1.0">
-                        <title type="full">{try{titles:printTitleMainID(string($node/ancestor-or-self::t:TEI/@xml:id))} catch * {util:log('INFO', concat('no full title added for ', string($node/ancestor-or-self::t:TEI/@xml:id)))}}</title>
+                        <title type="full">{try{expand:printTitleMainID(string($node/ancestor-or-self::t:TEI/@xml:id))} catch * {util:log('INFO', concat('no full title added for ', string($node/ancestor-or-self::t:TEI/@xml:id)))}}</title>
                         {expand:tei2fulltei($node/node(), $bibliography)}
                          {
                             let $gened := $node//t:editor[@role = 'generalEditor']/@key
@@ -953,3 +953,15 @@ if(contains($string, ' ')) then for $corr at $p in tokenize($string, ' ') return
 else expand:biblCorrTok($corresp, $node)
 }</note>
 };
+
+declare function expand:printTitleMainID($id)
+   {if (matches($id, 'wd:Q\d+') or starts-with($id, 'gn:') or starts-with($id, 'pleiades:')) then
+           (titles:decidePlaceNameSource($id))
+(:           because wikidata identifiers are not speaking, the result of this operation is that the
+eventually added result is added to the place list names:)
+       else (: always look at the root of the given node parameter of the function and then switch :)
+           let $mainID := if (contains($id, '#'))  then substring-before($id, '#') else $id
+           let $resource := collection('/db/apps/BetMasData')//t:TEI[@xml:id = $mainID]
+           return               
+                   titles:switcher($resource/@type, $resource)
+   };

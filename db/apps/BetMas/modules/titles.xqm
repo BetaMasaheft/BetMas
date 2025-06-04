@@ -148,8 +148,7 @@ declare function titles:printTitleMainID($id as xs:string, $c)
 eventually added result is added to the place list names:)
        else (: always look at the root of the given node parameter of the function and then switch :)
            let $mainID := if (contains($id, '#'))  then substring-before($id, '#') else $id
-           let $resource := collection($c)//id($mainID)
-           let $resource := $resource[name() = 'TEI']
+           let $resource := collection($c)//t:TEI[@xml:id = $mainID]
            return
                if (count($resource) = 0) then
             'No item: ' || $id 
