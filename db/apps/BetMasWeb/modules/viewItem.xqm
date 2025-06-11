@@ -4097,7 +4097,7 @@ declare %private function viewItem:titletemplate($div, $text) {
         <div
             class="w3-bar-item">
             <i>
-                {viewItem:TEI2HTML($div/t:label)}
+                <!-- {viewItem:TEI2HTML($div/t:label)} -->
                 {
                     if ($div/parent::t:div[@type = 'edition']/@resp)
                     then
@@ -4123,7 +4123,7 @@ declare %private function viewItem:titletemplate($div, $text) {
                 {
                     if ($div/@subtype) then
                         (
-                        string($div/@subtype),
+                        (' (section type:', string($div/@subtype), ') '),
                         if ($div/@n) then
                             (': ',
                             string($div/@n)
