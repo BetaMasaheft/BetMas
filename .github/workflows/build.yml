@@ -1,0 +1,68 @@
+name: Build xars
+
+on:
+  push:
+    branches:
+      - '*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the codebase
+        uses: actions/checkout@v4
+      -
+        name: Build BetMasWeb
+        working-directory: db/apps/BetMasWeb
+        run: ant
+      -
+        name: Build BetMasService
+        working-directory: db/apps/BetMasService
+        run: ant
+      -
+        name: Build BetMasApi
+        working-directory: db/apps/BetMasApi
+        run: ant
+      -
+        name: Build BetMasInitInstance
+        working-directory: db/apps/BetMasInitInstance
+        run: ant
+      -
+        name: Build BetMas
+        working-directory: db/apps/BetMas
+        run: ant
+      -
+        name: Build lists
+        working-directory: db/apps/lists
+        run: ant
+      -
+        name: Build parser
+        working-directory: db/apps/parser
+        run: ant
+
+      # Build the actual docker container
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: linux/amd64 linux/arm64
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      -
+        name: Login to GitHub Container Registry (GHCR)
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      -
+        name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./dockerfiles/Dockerfile.appcode
+          tags: ghcr.io/betamasaheft/betamasaheft:latest

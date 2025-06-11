@@ -1,0 +1,13 @@
+# Creates a docker container will all the application code installed on an exist-db
+
+# This will tag to betamasaheft/betamasaheft:latest
+
+FROM ghcr.io/betamasaheft/betamasaheft-base:latest
+
+
+COPY ./db/apps/BetMasWeb/build/*.xar /exist/autodeploy/BetMasWeb.xar
+COPY ./db/apps/BetMasInitInstance/build/*.xar /exist/autodeploy/BetMasInitInstance.xar
+COPY ./db/apps/BetMasService/build/*.xar /exist/autodeploy/BetMasService.xar
+COPY ./db/apps/BetMasApi/build/*.xar /exist/autodeploy/BetMasApi.xar
+COPY ./db/apps/parser/build/*.xar /exist/autodeploy/parser.xar
+COPY ./db/apps/lists/build/*.xar /exist/autodeploy/lists.xar

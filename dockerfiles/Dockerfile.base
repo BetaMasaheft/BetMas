@@ -1,0 +1,18 @@
+# base image for expansion, the prod image, etcetera
+
+# latest, 6.4.0, 6.3.0 etcetera
+ARG EXISTDB_VERSION="6.4.0"
+
+FROM duncdrum/existdb:${EXISTDB_VERSION}-slim AS base
+
+ARG CRYPTO_VERSION="6.0.1"
+ARG SHARED_RESOURCES_VERSION="0.9.1"
+ARG TUTTLE_VERSION="1.0.2" # TODO: Actually needs a PR version of tuttle: https://github.com/eeditiones/tuttle/pull/79
+ARG ROASTER_VERSION="1.9.1"
+
+ADD http://exist-db.org:8098/exist/apps/public-repo/public/expath-crypto-module-${CRYPTO_VERSION}.xar /exist/autodeploy/01-expath-crypto.xar
+ADD http://exist-db.org:8098/exist/apps/public-repo/public/shared-resources-${SHARED_RESOURCES_VERSION}.xar /exist/autodeploy/02-shared-resources.xar
+# roaster has no deps
+ADD http://exist-db.org:8098/exist/apps/public-repo/public/roaster-${ROASTER_VERSION}.xar /exist/autodeploy/03-roaster.xar
+# tuttle depends on roaster and crypto
+ADD http://exist-db.org:8098/exist/apps/public-repo/public/tuttle-${TUTTLE_VERSION}.xar /exist/autodeploy/04-tuttle.xar
