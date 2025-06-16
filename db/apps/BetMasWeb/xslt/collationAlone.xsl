@@ -201,7 +201,7 @@
                             </p>
                             <p>Formula: <xsl:for-each select=".//t:item">
                                     <xsl:sort select="position()"/>
-                                    <xsl:apply-templates select="t:locus"/>
+                                <xsl:apply-templates select="t:locus[@from or @to]"/>
                                     <xsl:value-of select="text()"/>
                                     <xsl:text>; </xsl:text>
                                 </xsl:for-each>
