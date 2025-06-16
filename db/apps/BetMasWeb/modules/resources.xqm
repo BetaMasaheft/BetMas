@@ -1299,11 +1299,11 @@ declare function lists:corpora ($node as node(), $model as map(*)){
 <th>Primary editor</th>
 <th>Description</th>
 <th>Contents</th>
-<th>Statement of responsabilty</th>
+<th>Statement of responsibilty</th>
 </tr>
 </thead>
 <tbody>{
-for $corpus in collection($config:data-root || '/corpora')//*:teiCorpus
+for $corpus in collection($config:bmdata-root || '/corpora')//*:TEI
 let $id := string($corpus//t:TEI/@xml:id)
 let $title := $corpus//t:titleStmt/t:title[@type eq 'corpus']/text()
 order by $title
