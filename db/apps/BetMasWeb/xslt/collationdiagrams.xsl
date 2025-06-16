@@ -372,9 +372,11 @@
                                             <xsl:if test="$count = 6">M54</xsl:if>
                                             <xsl:if test="$count = 7">M60</xsl:if>
                                             <xsl:if test="$count = 8">M66</xsl:if>
+                                            <xsl:if test="$count = 9">M72</xsl:if>
+                                            <xsl:if test="$count = 10">M78</xsl:if>
                                         </xsl:variable>
                                         <xsl:variable name="M-path2">
-                                            <xsl:if test="$count = 1 or $count = 2 or $count = 3 or $count = 5 or $count = 6 or $count = 7 or $count = 8">M70</xsl:if>
+                                            <xsl:if test="$count = 1 or $count = 2 or $count = 3 or $count = 5 or $count = 6 or $count = 7 or $count = 8 or $count = 9 or $count = 10">M70</xsl:if>
                                             <xsl:if test="$count = 4 or $count = 7">M26</xsl:if>
                                         </xsl:variable>
                                         <xsl:variable name="L">
@@ -386,6 +388,8 @@
                                             <xsl:if test="$count = 6">L54</xsl:if>
                                             <xsl:if test="$count = 7">L60</xsl:if>
                                             <xsl:if test="$count = 8">L66</xsl:if>
+                                            <xsl:if test="$count = 9">L72</xsl:if>
+                                            <xsl:if test="$count = 10">L78</xsl:if>
                                         </xsl:variable>
                                         <g>
                                             <g>
