@@ -1313,7 +1313,7 @@ return <tr>
 <td>{$corpus//t:projectDesc}</td>
 <td><ul class="nodot">{for $document in $lists:collection-rootMS//t:relation[contains(@passive, $id)]
 let $rootid := substring-after(string($document/@active), '.eu/')
-let $mainid := substring-before($rootid, '#')
+let $mainid := if (contains($rootid, '#')) then substring-before($rootid, '#') else $rootid
 group by $ID := $mainid
 return  for $textid in $rootid return <li class="nodot"><a href="/{$textid}">{substring-after($textid, '#')} in {$ID}</a></li>}</ul></td>
 <td><ul class="nodot">{for $r in $corpus//t:respStmt return <li class="nodot">{lists:corporaeditors($r/node())}</li>}</ul></td>
