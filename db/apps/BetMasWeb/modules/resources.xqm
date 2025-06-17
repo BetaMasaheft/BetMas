@@ -1304,18 +1304,18 @@ declare function lists:corpora ($node as node(), $model as map(*)){
 </thead>
 <tbody>{
 for $corpus in collection($config:bmdata-root || '/corpora')//*:TEI
-let $id := string($corpus//t:TEI/@xml:id)
+let $id := string($corpus/@xml:id)
 let $title := $corpus//t:titleStmt/t:title[@type eq 'corpus']/text()
 order by $title
 return <tr>
-<td><a href="/{$id}/corpus"><h4>{$title}</h4></a></td>
+<td><!--<a href="/{$id}/corpus">--><h4>{$title}</h4><!--</a>--></td>
 <td>{lists:corporaeditors($corpus//t:principal)}</td>
 <td>{$corpus//t:projectDesc}</td>
 <td><ul class="nodot">{for $document in $lists:collection-rootMS//t:relation[contains(@passive, $id)]
-let $rootid := string($document/@active)
+let $rootid := substring-after(string($document/@active), '.eu/')
 let $mainid := substring-before($rootid, '#')
 group by $ID := $mainid
-return <li class="nodot"><a href="/{$ID}">{exptit:printTitleID($ID)}</a></li>}</ul></td>
+return  for $textid in $rootid return <li class="nodot"><a href="/{$textid}">{substring-after($textid, '#')} in {$ID}</a></li>}</ul></td>
 <td><ul class="nodot">{for $r in $corpus//t:respStmt return <li class="nodot">{lists:corporaeditors($r/node())}</li>}</ul></td>
 </tr>
 
