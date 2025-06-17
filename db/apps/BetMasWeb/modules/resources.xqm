@@ -1305,7 +1305,7 @@ declare function lists:corpora ($node as node(), $model as map(*)){
 <tbody>{
 for $corpus in collection($config:bmdata-root || '/corpora')//*:TEI
 let $id := string($corpus/@xml:id)
-let $title := $corpus//t:titleStmt/t:title[@type eq 'corpus']/text()
+let $title := $corpus//t:titleStmt/t:title[1]/text()
 order by $title
 return <tr>
 <td><!--<a href="/{$id}/corpus">--><h4>{$title}</h4><!--</a>--></td>
