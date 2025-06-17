@@ -1308,7 +1308,7 @@ let $id := string($corpus/@xml:id)
 let $title := $corpus//t:titleStmt/t:title[1]/text()
 order by $title
 return <tr>
-<td><!--<a href="/{$id}/corpus">--><h4>{$title}</h4><!--</a>--></td>
+<td><a href="/{$id}/corpus"><h4>{$title}</h4></a></td>
 <td>{lists:corporaeditors($corpus//t:principal)}</td>
 <td>{$corpus//t:projectDesc}</td>
 <td><ul class="nodot">{for $document in $lists:collection-rootMS//t:relation[contains(@passive, $id)]
