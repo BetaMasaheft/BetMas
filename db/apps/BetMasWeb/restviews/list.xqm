@@ -405,6 +405,7 @@ declare
 %rest:query-param("gender","{$gender}", "")
 %rest:query-param("period","{$period}", "")
 %rest:query-param("restorations","{$restorations}", "")
+%rest:query-param("bindingtype","{$bindingtype}", "")
 %rest:query-param("country","{$country}", "")
 %rest:query-param("settlement","{$settlement}", "")
 %output:method("html5")
@@ -456,6 +457,7 @@ $faith as xs:string* ,
 $gender as xs:string* ,
 $period as xs:string* ,
 $restorations as xs:string* ,
+$bindingtype as xs:string* ,
 $country as xs:string* ,
 $settlement as xs:string* ,
 $prms as xs:string*) {
@@ -505,6 +507,7 @@ map{'key': $keyword,
 'gender': $gender,
 'period': $period,
 'restorations': $restorations,
+'bindingtype': $bindingtype,
 'country': $country,
 'settlement': $settlement
 }
@@ -816,6 +819,7 @@ declare
 %rest:query-param("gender","{$gender}", "")
 %rest:query-param("period","{$period}", "")
 %rest:query-param("restorations","{$restorations}", "")
+%rest:query-param("bindingtype","{$bindingtype}", "")
 %rest:query-param("country","{$country}", "")
 %rest:query-param("settlement","{$settlement}", "")
 %output:method("html5")
@@ -865,6 +869,7 @@ $faith as xs:string* ,
 $gender as xs:string* ,
 $period as xs:string* ,
 $restorations as xs:string* ,
+$bindingtype as xs:string* ,
 $country as xs:string* ,
 $settlement as xs:string* ,
 $prms as xs:string*) {
@@ -913,6 +918,7 @@ map{'key': $keyword,
 'gender': $gender,
 'period': $period,
 'restorations': $restorations,
+'bindingtype': $bindingtype,
 'country': $country,
 'settlement': $settlement
 }

@@ -252,6 +252,7 @@ declare function app:selectors($nodeName, $path, $nodes, $type, $context){
                                         case 'language' return 'TEIlanguageIdent'
                                         case 'material' return 'materialkey'
                                         case 'bmaterial' return 'materialkey'
+                                        case 'bindingtype' return 'bindingtype'
                                          case 'placetype' return 'placetype'
                                          case 'country' return 'countryref'
                                          case 'settlement' return 'settlref'
@@ -590,7 +591,17 @@ function app:bmaterial($node as node(), $model as map(*), $context as xs:string*
         templates:form-control($control, $model)
 };
 
+declare
+%templates:default("context", "collection($config:data-rootMS)")
+function app:bindingtype($node as node(), $model as map(*), $context as xs:string*) {
+    let $cont := util:eval($context)
+      let $bindings := config:distinct-values($cont//t:binding/@contemporary)
 
+   let $control :=
+        app:formcontrol('bindingtype', $bindings, 'false', 'values', $context)
+    return
+        templates:form-control($control, $model)
+};
 (:~ called by form*.html files used by advances search form as.html and filters.js PLACES FILTERS for CONTEXT:)
 declare
 %templates:default("context", "collection($config:data-rootPl,$config:data-rootIn)")
@@ -1129,6 +1140,7 @@ $numberOfParts as xs:string*,
     let $support := app:ListQueryParam('support', 't:objectDesc/@form', 'any', 'search')
     let $material := app:ListQueryParam('material', 't:support/t:material/@key', 'any', 'search')
     let $bmaterial := app:ListQueryParam('bmaterial', "t:decoNote[@type eq 'bindingMaterial']/t:material/@key", 'any', 'search')
+	let $bindingtype := app:ListQueryParam('bindingtype', "t:binding/@contemporary", 'any', 'search')
     let $placeType := app:ListQueryParam('placeType', 't:place/@type', 'any', 'search')
     let $personType := app:ListQueryParam('persType', 't:person//t:occupation/@type', 'any', 'search')
     let $relationType := app:ListQueryParam('relType', 't:relation/@name', 'any', 'search')
@@ -1251,7 +1263,7 @@ let $nOfP := if(empty($numberOfParts) or $numberOfParts = '') then () else '[cou
 
 
 let $allfilters := concat($IDpart, $wt, $repository, $mss, $texts, $script, $support,
-             $material, $bmaterial, $placeType, $personType, $relationType,
+             $material, $bmaterial, $bindingtype, $placeType, $personType, $relationType,
              $keyword, $languages, $scribes, $donors, $patrons, $owners, $parchmentMakers,
              $binders, $contents, $authors, $tabots, $genders, $dateRange, $leaves, $wL,  $quires, $quiresComp,
              $references, $height, $width, $depth, $marginTop, $marginBot, $marginL, $marginR, $marginIntercolumn)
@@ -1420,7 +1432,7 @@ declare function app:hit-params($node as node()*, $model as map(*)) {
                     else if (ends-with($param, '-operator-field')) then ()
                     else
                         <span
-                        class="w3-tag w3-gray w3-round ">
+                        class="w3-tag w3-gray w3-round " style="word-break:break-all">
                         {($param || ": ",
                         <span class="w3-badge">{$value}</span>)}</span>
                 }</div>

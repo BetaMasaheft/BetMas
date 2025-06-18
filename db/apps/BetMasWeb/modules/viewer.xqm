@@ -19,7 +19,6 @@ declare namespace http = "http://expath.org/ns/http-client";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
 
-
 declare 
 %rest:GET
 %rest:path("/BetMasWeb/manuscripts/viewer")
@@ -226,23 +225,26 @@ var canvasid = "' || (if($FirstCanv = '') then $firstcanvas else $FirstCanv) || 
         
 (:        if there are more  facs, then print a multiple view mirador:)
         else (
-        
-let $locations := for $m in $this//t:idno[@facs][@n]
+let $facs := $this//t:idno[@facs][@n]
+let $countsets := count($facs)
+let $locations := for $m in $facs
                             let $manifest := viewer:manifest($this, $id, $m)
 
                                   let $location := viewer:location($this)
                             return
-                             '{manifestUri: "' || $manifest || '", location: "' || $location[1] || '"}'
-let $manifests := for $m in $this//t:idno[@facs][@n]
+                             '{"manifestUri": "' || $manifest || '", "location": "' || $location[1] || '"}'
+let $manifests := for $i in 1 to $countsets
+                               let $m := ($facs)[$i]
                                let $manifest := viewer:manifest($this, $id, $m)
-                               let $firstcanvas := viewer:canvas($m)
+                               let $n := $m/@n
+                               let $index :=count($m/preceding::t:idno[@facs][@n]) + 1
+                               let $firstcanvas := viewer:canvas($m)            
                                           return 
-                                '{  loadedManifest: "' || $manifest || '",
-                                    canvasID: "'||(if($FirstCanv = '') then $firstcanvas else $FirstCanv)||'",
-                                    slotAddress: "row1.column'||string(count($m/preceding::t:idno) + 1)||'",
-                                    viewType: "ImageView" }'
-            
-            
+                                '{  "loadedManifest": "' || $manifest || '",
+                                    "canvasID": "'||(if($FirstCanv = '') then $firstcanvas else $FirstCanv)||'",
+                                    "slotAddress": "row1.column'||string($index)||'",
+                                    "viewType": "ImageView" }'
+ 
 let $Cmap := map {'type': 'collection', 'name' : $collection, 'path' : $c}
 let $Imap := map {'type': 'item', 'name' : $id, 'path' : $collection}
 return 
@@ -294,7 +296,6 @@ var data = ['||string-join($locations, ', ')||']
 var windowobjs =  [' || string-join($manifests, ', ') || ']
 '}</script>
    <script type="text/javascript" src="resources/js/miradormultiple.js"></script>
-   
  </div>
  <div class="w3-panel w3-gray w3-card-2">{
  for $m in $this/t:idno[@facs][@n]
@@ -444,7 +445,7 @@ let $id := string($m/ancestor::t:TEI/@xml:id) return
 (:           ES, EMIP, Laurenziana, all the others :)
                 else 
                                            $config:appUrl|| '/api/iiif/' || $id || '/canvas/p1' };
-                                           
+
 (:for cases in which there is a facsimile with a @facs linked from the idno/@facs:)
 declare function viewer:facsSwitch($idnofacs){
 if (starts-with($idnofacs/@facs, '#')) 
@@ -454,7 +455,7 @@ else $idnofacs/@facs
 };
 
 declare function viewer:manifest($this, $id, $m){
-let $alt := if($m/parent::t:altIdentifier) then ('?alt='||string($m/parent::t:altIdentifier/@xml:id))  else ()
+let $alt := if($m/parent::t:altIdentifier) then ('?alt='||string($m/parent::t:altIdentifier/@xml:id)) else if($m/parent::t:altIdentifier) then ('?alt=alt') else ()
 return(:BNF 
                                                 https://gallica.bnf.fr/ark:/12148/btv1b10087587w
                                                 https://gallica.bnf.fr/iiif/ark:/12148/btv1b10087587w/manifest.json
@@ -546,4 +547,3 @@ return 'var data = [' ||$chmanif||']'}</script>
         )
         
 };
-

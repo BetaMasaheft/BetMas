@@ -89,6 +89,7 @@ let $hi :=  for $hit in $hits
                                 case 'place' return 'places' 
                                 case 'work' return 'works' 
                                 case 'nar' return 'narratives' 
+                                case 'studies' return 'studies' 
                                 case 'ins' return 'institutions' 
                                 case 'pers' return 'persons' 
                                 default return 'authority-files'
@@ -197,6 +198,9 @@ let $log := log:add-log-message('/api/search?q=' || $q, sm:id()//sm:real/sm:user
         case 'narratives'
             return
                 $config:data-rootN
+         case 'studies'
+             return
+                 $config:data-rootS
         case 'authority-files'
             return
                 $config:data-rootA

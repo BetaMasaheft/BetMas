@@ -122,7 +122,7 @@ function titles:printTitleID($id as xs:string)
             else
 (:            format the title, add it to the list and pass again to this function, which will have something to match now:)
                 (let $subtitle := titles:printSubtitle($node, $SUBid)
-                 let $name := (titles:printTitleMainID($mainID)|| ', '||$subtitle)   
+                 let $name := (titles:printTitleMainID($mainID)|| ': '||$subtitle)   
                  let $addit := titles:updateTUList($name, $id)
                     return
                         titles:printTitleID($id)
@@ -148,8 +148,7 @@ declare function titles:printTitleMainID($id as xs:string, $c)
 eventually added result is added to the place list names:)
        else (: always look at the root of the given node parameter of the function and then switch :)
            let $mainID := if (contains($id, '#'))  then substring-before($id, '#') else $id
-           let $resource := collection($c)//id($mainID)
-           let $resource := $resource[name() = 'TEI']
+           let $resource := collection($c)//t:TEI[@xml:id = $mainID]
            return
                if (count($resource) = 0) then
             'No item: ' || $id 

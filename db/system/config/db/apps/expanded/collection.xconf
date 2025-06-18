@@ -190,6 +190,10 @@
                 <field name="custEventsubtype" match="@subtype" type="xs:string"/>
             </create>
             
+            <create qname="t:binding">
+                <field name="bindingtype" match="@contemporary" type="xs:string"/>
+            </create>
+            
             <create qname="t:lem">
                 <field name="lemtext" type="xs:string"/>
                 <field name="lemwit" match="@wit" type="xs:string"/>

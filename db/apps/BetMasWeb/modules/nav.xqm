@@ -312,13 +312,11 @@ declare function nav:barNew() {
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                             data-value="narratives"
                             href="{$config:appUrl}/narratives/list">Narrative Units</a>
-                      <!--
-                      removing link to resource which is currently not maintained
+
                       <a
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                             data-value="documentary"
-                            href="{$config:appUrl}/documentcorpora.html">Documentary corpora</a>-->
-                             <a
+                            href="{$config:appUrl}/documentcorpora.html">Documentary corpora<                             <a
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                             data-value="studies"
                             href="{$config:appUrl}/studies/list">Studies</a>

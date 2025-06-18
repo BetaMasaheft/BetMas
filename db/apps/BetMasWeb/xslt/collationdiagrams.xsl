@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns="http://www.schoenberginstitute.org/schema/collation" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" xmlns:t="http://www.tei-c.org/ns/1.0" exclude-result-prefixes="#all" version="2.0">
+<xsl:stylesheet xmlns="http://www.schoenberginstitute.org/schema/collation" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" exclude-result-prefixes="#all" version="2.0">
     <xd:doc scope="stylesheet">
         <xd:desc>
             <xd:p>
@@ -34,7 +34,7 @@
                 <xsl:variable name="rendition" select="@rend"/>
                 <xsl:variable name="corresp" select="@corresp"/>
                 <xsl:variable name="quireNo" select="@n"/>
-                <xsl:variable name="positions" select="@positions"/>
+                <xsl:variable name="positions" select="xs:integer(@positions)"/>
                 <xsl:variable name="conto" select="@contoreale"/>
                 <xsl:variable name="quireid" select="@quireid"/>
                 <br/>
@@ -260,8 +260,18 @@
                         <xsl:attribute name="id">divset<xsl:value-of select="$quireNo"/>
                             <xsl:value-of select="$randomnumber"/>
                         </xsl:attribute>
+                        <xsl:variable name="Ox" select="20"/>
+                        <xsl:variable name="Oy" select="$Ox"/>
+                        <xsl:variable name="delta" select="6" as="xs:integer"/>
+                        <xsl:variable name="leafLength" select="150"/>                        
+                        <xsl:variable name="margin" select="10"/>
+                        <xsl:variable name="svgWidth" select="100"/>
+                        <xsl:variable name="view" select="($leafLength div 8) + $delta * $positions + $Ox * 2"/>
+                        <xsl:variable name="scale" select="$svgWidth div $view"></xsl:variable>
+                        <xsl:variable name="leafLengthScaled" select="$leafLength * $scale"/>
+                        <xsl:variable name="box" select="($leafLengthScaled div 8) + $delta * $positions + $Ox * 2"></xsl:variable>
                                 <!--<div class="bif">-->
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0" y="0" width="100mm" height="100mm" preserveAspectRatio="xMidYMid meet" viewBox="0 0 100 100">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0" y="0" width="400px" height="{concat(($leafLength div 8) + $delta * $positions, 'mm')}" preserveAspectRatio="xMidYMid meet" viewBox="0 0 {$box} {$view}">
                             <xsl:attribute name="style">background: #415a6c;</xsl:attribute>
                             <defs>
                                 <filter id="colf1" filterUnits="userSpaceOnUse">
@@ -273,7 +283,7 @@
     <!--<text x="20" y="5" class="bititle">Quire <xsl:value-of select="$quireNo"/>, Unit <xsl:value-of
         select="$leftFol"/>, <xsl:value-of select="$rightFol"/></text>-->
                             <xsl:for-each select="ancestor::t:quire">
-                                <xsl:variable name="positions" select="@positions"/>
+                                <xsl:variable name="positions" select="xs:integer(@positions)"/>
                                 <xsl:for-each select="1 to $positions">
           <!--  <text>
                 <xsl:attribute name="x">75</xsl:attribute>
@@ -287,7 +297,7 @@
                 
             </text>-->
                                     <xsl:if test=". = $bi1">
-                                        <text class="labels" x="75">
+                                        <text class="labels" x="{$svgWidth - 10}">
                                             <xsl:attribute name="y">
                                                 <xsl:value-of select="4 + 6*."/>
                                             </xsl:attribute>
@@ -302,7 +312,7 @@
                                         </text>
                                     </xsl:if>
                                     <xsl:if test=". = $bi2">
-                                        <text class="labels" x="75">
+                                        <text class="labels" x="{$svgWidth - 10}">
                                             <xsl:attribute name="y">
                                                 <xsl:value-of select="17 + 6*(.-1)"/>
                                             </xsl:attribute>
@@ -319,6 +329,12 @@
                                 </xsl:for-each>
                             </xsl:for-each>
                             <svg x="0" y="0">
+                                <g>
+                                    <xsl:attribute name="transform">
+                                        <xsl:text>translate(</xsl:text>
+                                        <xsl:value-of select="$margin"/>
+                                        <xsl:text>,0)</xsl:text>
+                                    </xsl:attribute>
                                 <xsl:for-each select="parent::t:units">
                                     <xsl:variable name="positions" select="parent::t:quire/@positions"/>
                                     <xsl:for-each select="t:unit">
@@ -356,9 +372,11 @@
                                             <xsl:if test="$count = 6">M54</xsl:if>
                                             <xsl:if test="$count = 7">M60</xsl:if>
                                             <xsl:if test="$count = 8">M66</xsl:if>
+                                            <xsl:if test="$count = 9">M72</xsl:if>
+                                            <xsl:if test="$count = 10">M78</xsl:if>
                                         </xsl:variable>
                                         <xsl:variable name="M-path2">
-                                            <xsl:if test="$count = 1 or $count = 2 or $count = 3 or $count = 5 or $count = 6 or $count = 7 or $count = 8">M70</xsl:if>
+                                            <xsl:if test="$count = 1 or $count = 2 or $count = 3 or $count = 5 or $count = 6 or $count = 7 or $count = 8 or $count = 9 or $count = 10">M70</xsl:if>
                                             <xsl:if test="$count = 4 or $count = 7">M26</xsl:if>
                                         </xsl:variable>
                                         <xsl:variable name="L">
@@ -370,6 +388,8 @@
                                             <xsl:if test="$count = 6">L54</xsl:if>
                                             <xsl:if test="$count = 7">L60</xsl:if>
                                             <xsl:if test="$count = 8">L66</xsl:if>
+                                            <xsl:if test="$count = 9">L72</xsl:if>
+                                            <xsl:if test="$count = 10">L78</xsl:if>
                                         </xsl:variable>
                                         <g>
                                             <g>
@@ -378,7 +398,7 @@
                                                     <xsl:if test="t:inside/t:left[@mode='added']"> added</xsl:if>
                                                     <xsl:if test="t:inside/t:left[@mode='replaced']"> replaced</xsl:if>
                                                 </xsl:attribute>
-                                                <path stroke-linecap="round">
+                                                <path>
                                                     <xsl:attribute name="d">
                                                         <xsl:value-of select="$M-path1"/>,<xsl:value-of select="$path1-left"/> A<xsl:value-of select="$path2"/>,<xsl:value-of select="$path2"/> 0 0,0 <xsl:value-of select="$path3"/>,<xsl:value-of select="$path4"/>
                                                     </xsl:attribute>
@@ -397,7 +417,7 @@
                                                     <xsl:if test="t:inside/t:right[@mode='added']"> added</xsl:if>
                                                     <xsl:if test="t:inside/t:right[@mode='replaced']"> replaced</xsl:if>
                                                 </xsl:attribute>
-                                                <path stroke-linecap="round">
+                                                <path>
                                                     <xsl:attribute name="d">
                                                         <xsl:value-of select="$M-path1"/>,<xsl:value-of select="$path1-right"/> A<xsl:value-of select="$path2"/>,<xsl:value-of select="$path2"/> 0 0,1 <xsl:value-of select="$path3"/>,<xsl:value-of select="$path4"/>
                                                     </xsl:attribute>
@@ -413,6 +433,7 @@
                                         </g>
                                     </xsl:for-each>
                                 </xsl:for-each>
+                                </g>
                             </svg>
                         </svg>
                     </div>
