@@ -16,7 +16,7 @@
                 </xsl:variable> of codicological unit <xsl:value-of select="$currentMsPart"/>
             </xsl:if>
         </h3>
-        <xsl:if test=".//t:signatures">
+        <xsl:if test=".//t:signatures/text()">
             <p>
                 <b>Signatures: </b>
                 <xsl:apply-templates select=".//t:signatures"/>
