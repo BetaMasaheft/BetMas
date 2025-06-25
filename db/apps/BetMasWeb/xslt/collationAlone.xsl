@@ -99,6 +99,7 @@
                                 <b>It is unfortunately not possible with the information provided to
                                     print the collation diagrams and formula. </b>
                             </p>                            
+                            <p>The text information provided in the record is: <br/><xsl:value-of select="string-join(.//t:list/node())"/></p>
                         </div>
                     </xsl:when>
                     <xsl:when test="$dimensionandstubs//item[child::dimensions[not(@xml:lang)][. mod 2 = 0]][child::stubs[. mod 2 != 0]]">
@@ -114,6 +115,7 @@
                                     </li>
                                 </xsl:for-each>
                             </ul>
+                            <p>The text information provided in the record is: <br/><xsl:value-of select="string-join(.//t:list/node())"/></p>
                         </div>
                     </xsl:when>
                     <xsl:when test="not(.//t:list/t:item[not(matches(text()[last()], '\d+'))][./t:dim[@unit = 'leaf'][. mod 2 != 0]])">
@@ -278,6 +280,7 @@
                                     </li>
                                 </xsl:for-each>
                             </ul>
+                            <p>The text information provided in the record is: <br/><xsl:value-of select="string-join(.//t:list/node())"/></p>
                         </div>
                     </xsl:otherwise>
                 </xsl:choose>
