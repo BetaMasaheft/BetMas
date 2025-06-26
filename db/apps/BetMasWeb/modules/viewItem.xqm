@@ -4845,12 +4845,19 @@ declare %private function viewItem:work($item) {
                         ()
                 }
                  {
-                    if ($item//t:div[contains(@subtype, 'incipit')]) then
-                        <p class="w3-small">
-                          Incipit: 
-                            {viewItem:TEI2HTML($item//t:div[contains(@subtype, 'incipit')][1])}
+                 let $edition := ($item//t:div[@type = 'edition'])
+                 let $incipit := ($edition//t:div[@subtype = 'incipit'])
+                 let $text := normalize-space(string-join($edition/*//text()[not(ancestor::t:label or ancestor::t:note)])) return
+                    if (contains($text, '፡')) then
+                       if ($incipit) then
+                        <p class="w3-small"><b>Incipit: </b>
+                            {normalize-space(string-join($incipit[1]/*//text()[not(ancestor::t:label or ancestor::t:note)]))}
                         </p>
-                    else
+                    else                         
+                        <p class="w3-small"><b>Snippet: </b> 
+                            {string-join(subsequence(tokenize($text, '፡'), 1, 8), '፡')} ...
+                        </p>
+                        else
                         ()
                 }
                 {
