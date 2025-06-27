@@ -3399,17 +3399,11 @@ declare %private function viewItem:textLang($node as element(t:textLang)) {
 };
 
 declare %private function viewItem:term($node as element(t:term)) {
-    if ($node[parent::t:desc | parent::t:summary]) then
-        <a
-            target="_blank">
-            {attribute href {concat('/newSearch.html?searchType=text&amp;mode=any&amp;termkey=', string($node/@key))}}
-            {$node/text()||' '}
-        </a>
-    else
-        if ($node/text()) then
-            <b>{viewItem:TEI2HTML($node/node())}</b>
-        else
-            viewItem:TEI2HTML($node/node())
+         let $term :=   if ($node/text()) then viewItem:TEI2HTML($node/node()) else string($node/@key)
+         return       
+            <b>{$term}  <a
+            target="_blank" href="{string($node/@key)}"> <sup><i class="fa fa-info-circle" aria-hidden="true"></i></sup>
+        </a></b>      
 };
 
 declare %private function viewItem:watermark($node as element(t:watermark)) {
