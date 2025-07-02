@@ -246,11 +246,15 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
                         taking advantage of the <ref target="https://betamasaheft.eu">exist-db database instance</ref> where 
                         the data is stored and of the many external resources to which this data points to.</p>,
                         $expand:listPrefixDef,
+let $mainid := $node/ancestor::t:TEI/@xml:id
+                        let $taxid := $expand:canontax//t:category[@xml:id]
+                        return
+                        if (not($mainid = $taxid/@xml:id)) then
                         <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="xmldb:exist:///db/apps/lists/canonicaltaxonomy.xml">
             <xi:fallback>
                <p>Definitions of prefixes used.</p>
             </xi:fallback>
-         </xi:include>,
+         </xi:include> else (),
 <refsDecl xmlns="http://www.tei-c.org/ns/1.0">
 {
 let $text :=  $node/ancestor::t:TEI//t:div[@type = 'edition']
