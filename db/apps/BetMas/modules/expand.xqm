@@ -18,7 +18,7 @@ declare variable $expand:listPrefixDef :=
     <prefixDef
         ident="bm"
         matchPattern="([a-zA-Z0-9]+)"
-        replacementPattern="https://www.zotero.org/groups/358366/ethiostudies/items/tag/bm:$1">
+       replacementPattern="https://www.zotero.org/groups/358366/ethiostudies/items/tag/bm:$1">
     </prefixDef>
     <prefixDef
         ident="betmas"
@@ -294,7 +294,7 @@ let $cS :=
                             for $resp in distinct-values($gened)
                             return
                                 <respStmt
-                                    xml:id="ed-{$resp}"
+                                    xml:id="ged-{$resp}"
                                     corresp="https://betamasaheft.eu/team.html#{$resp}">
                                     <resp>general editor</resp>
                                     <name>{$expand:editorslist//t:item[@xml:id = string($resp)]/text()}</name>
@@ -303,11 +303,13 @@ let $cS :=
                          {
                             let $ekeys := $node//t:editor[not(@role = 'generalEditor')]/@key
                             for $resp in distinct-values($ekeys)
+                            let $editor:= $node//t:editor[@key = $resp][not(@role='generalEditor')][1] 
+                            let $role := $editor/@role
                             return
                                 <respStmt
-                                    xml:id="ed-{$resp}"
+                                    xml:id="{if ($role) then concat(substring($role,1,3),'-',$resp) else concat('ed-',$resp)}"
                                     corresp="https://betamasaheft.eu/team.html#{$resp}">
-                                    <resp>editor</resp>
+                                    <resp>{if ($role) then string($role) else 'editor'}</resp>
                                     <name>{$expand:editorslist//t:item[@xml:id = string($resp)]/text()}</name>
                                 </respStmt>
                         }
@@ -443,13 +445,15 @@ let $cS :=
             case element(t:editor)
                 return
                     let $k := $node/@key
-                    
+                    let $role := $node/@role
                     return
                         element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
                             (
                             $node/@*,
                             attribute corresp {concat('https://betamasaheft.eu/team.html#', $k)},
-                            attribute {'xml:id'} {$k},
+                            attribute {'xml:id'} {
+                    if ($role) then concat(substring($role,1,2),'-', $k) else $k
+                },
                             $expand:editorslist//t:item[@xml:id = string($k)]/text(),
                             expand:tei2fulltei($node/node(), $bibliography)
                             )
