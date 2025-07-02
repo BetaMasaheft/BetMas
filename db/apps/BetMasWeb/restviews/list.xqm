@@ -77,7 +77,7 @@ return
  <div class="w3-row w3-hide-small" style="right: 0px;width: 300px;width:30%;position: fixed;">
  <div class="w3-bar">
  <a class="w3-bar-item page-scroll" href="#group-A">top</a>{
- let $letter := for $repoi at $p in $list:instit//t:item return upper-case(substring(replace($repoi/text(), '\s', ''), 1, 1))
+ let $letter := for $repoi at $p in $list:instit//t:item return upper-case(substring(replace($repoi/string(), '\s', ''), 1, 1))
    for $l in distinct-values($letter)
    order by $l
    return
@@ -93,7 +93,7 @@ return
 	return
 
     for $repoi at $p in $list:instit//t:item
-    let $firstletter := upper-case(substring($repoi/text(), 1, 1))
+    let $firstletter := upper-case(substring($repoi/string(), 1, 1))
     group by $First := $firstletter
     order by $First
     return
