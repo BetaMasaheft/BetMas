@@ -4839,16 +4839,15 @@ declare %private function viewItem:work($item) {
                         ()
                 }
                  {
-                 let $edition := ($item//t:div[@type = 'edition'])
-                 let $incipit := ($edition//t:div[@subtype = 'incipit'])
-                 let $text := if ($edition) then normalize-space(string-join($edition/*//text()[not(ancestor::t:label or ancestor::t:note)])) else ()
+                 let $edition := ($item//t:div[@type = 'edition'][1])
+                 let $incipit := ($edition//t:div[@subtype = 'incipit'][1])
+                 let $text := if (normalize-space(string-join($edition/*//text()))) then normalize-space(string-join($edition/*//text()[not(ancestor::t:label) and not(ancestor::t:note)])) else ()
                  return
-                    if ($text and contains($text, '፡')) then
-                       if ($incipit) then
+                   if ($incipit) then
                         <p class="w3-small"><b>Incipit: </b>
-                            {normalize-space(string-join($incipit[1]/*//text()[not(ancestor::t:label or ancestor::t:note)]))}
+                            {normalize-space(string-join($incipit[1]/*//text()[not(ancestor::t:label) and not(ancestor::t:note)]))}
                         </p>
-                    else                         
+                    else if ($text and contains($text, '፡')) then                       
                         <p class="w3-small"><b>Snippet: </b> 
                             {string-join(subsequence(tokenize($text, '፡'), 1, 8), '፡')} ...
                         </p>
