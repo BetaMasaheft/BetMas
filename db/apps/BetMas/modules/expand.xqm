@@ -906,7 +906,7 @@ declare function expand:file($filepath) {
     (:                            let $test := console:log($zotero):)
     return
         document {
-            expand:strip-ns(expand:tei2fulltei($expanded, $zotero))
+            expand:tei2fulltei($expanded, $zotero)
         }
 };
 
