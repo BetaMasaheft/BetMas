@@ -1,94 +1,49 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <listPrefixDef xmlns="http://www.tei-c.org/ns/1.0">
-     <prefixDef ident="bm"
-        matchPattern="([a-zA-Z0-9]+)"
-        replacementPattern="https://www.zotero.org/groups/358366/ethiostudies/items/tag/bm:$1">
+     <prefixDef ident="bm" matchPattern="([a-zA-Z0-9]+)" replacementPattern="https://www.zotero.org/groups/358366/ethiostudies/items/tag/bm:$1">
     </prefixDef>
-     <prefixDef ident="betmas"
-        matchPattern="([a-zA-Z0-9]+)"
-        replacementPattern="https://betamasaheft.eu/$1">
+     <prefixDef ident="betmas" matchPattern="([a-zA-Z0-9]+)" replacementPattern="https://betamasaheft.eu/$1">
     </prefixDef>
-     <prefixDef ident="ethiocal"
-        matchPattern="([a-zA-Z0-9]+)"
-        replacementPattern="https://raw.githubusercontent.com/BetaMasaheft/BetMas/master/BetMas/calendars/ethiopian.xml#$1">
+     <prefixDef ident="ethiocal" matchPattern="([a-zA-Z0-9]+)" replacementPattern="https://raw.githubusercontent.com/BetaMasaheft/BetMas/master/BetMas/calendars/ethiopian.xml#$1">
     </prefixDef>
-    <prefixDef ident="pleiades"
-        matchPattern="([a-zA-Z0-9]+)"
-        replacementPattern="https://pleiades.stoa.org/places/$1">
+    <prefixDef ident="pleiades" matchPattern="([a-zA-Z0-9]+)" replacementPattern="https://pleiades.stoa.org/places/$1">
     </prefixDef>
-    <prefixDef ident="sdc"
-        matchPattern="([a-zA-Z0-9]+)"
-        replacementPattern="https://w3id.org/sdc/ontology#$1">
+    <prefixDef ident="sdc" matchPattern="([a-zA-Z0-9]+)" replacementPattern="https://w3id.org/sdc/ontology#$1">
     </prefixDef>
-    <prefixDef ident="wd"
-        matchPattern="([a-zA-Z0-9]+)"
-        replacementPattern="https://www.wikidata.org/entity/$1">
+    <prefixDef ident="wd" matchPattern="([a-zA-Z0-9]+)" replacementPattern="https://www.wikidata.org/entity/$1">
     </prefixDef>
-    <prefixDef ident="snap"
-        matchPattern="([a-zA-Z]+)"
-        replacementPattern="http://data.snapdrgn.net/ontology/snap#$1">
+    <prefixDef ident="snap" matchPattern="([a-zA-Z]+)" replacementPattern="http://data.snapdrgn.net/ontology/snap#$1">
     </prefixDef>
-    <prefixDef ident="saws"
-        matchPattern="([a-zA-Z]+)"
-        replacementPattern="http://purl.org/saws/ontology#$1">
+    <prefixDef ident="saws" matchPattern="([a-zA-Z]+)" replacementPattern="http://purl.org/saws/ontology#$1">
     </prefixDef>
-    <prefixDef ident="skos"
-        matchPattern="([a-za-zA-Z]+)"
-        replacementPattern="http://www.w3.org/2004/02/skos/core#$1">
+    <prefixDef ident="skos" matchPattern="([a-za-zA-Z]+)" replacementPattern="http://www.w3.org/2004/02/skos/core#$1">
     </prefixDef>
-    <prefixDef ident="gn"
-        matchPattern="([a-zA-Z0-9]+)"
-        replacementPattern="http://www.geonames.org/ontology#$1">
+    <prefixDef ident="gn" matchPattern="([a-zA-Z0-9]+)" replacementPattern="http://www.geonames.org/ontology#$1">
     </prefixDef>
-    <prefixDef ident="dcterms"
-        matchPattern="([a-zA-Z]+)"
-        replacementPattern="http://purl.org/dc/terms/$1">
+    <prefixDef ident="dcterms" matchPattern="([a-zA-Z]+)" replacementPattern="http://purl.org/dc/terms/$1">
     </prefixDef>
-    <prefixDef ident="dc"
-        matchPattern="([a-zA-Z]+)"
-        replacementPattern="http://purl.org/dc/terms/$1">
+    <prefixDef ident="dc" matchPattern="([a-zA-Z]+)" replacementPattern="http://purl.org/dc/terms/$1">
     </prefixDef>
-    <prefixDef ident="lawd"
-        matchPattern="([a-zA-Z]+)"
-        replacementPattern="http://lawd.info/ontology/$1">
+    <prefixDef ident="lawd" matchPattern="([a-zA-Z]+)" replacementPattern="http://lawd.info/ontology/$1">
     </prefixDef>
-    <prefixDef ident="syriaca"
-        matchPattern="([a-zA-Z\-]+)"
-        replacementPattern="http://syriaca.org/documentation/relations.html#$1">
+    <prefixDef ident="syriaca" matchPattern="([a-zA-Z\-]+)" replacementPattern="http://syriaca.org/documentation/relations.html#$1">
     </prefixDef>
     
-    <prefixDef ident="agrelon"
-        matchPattern="([a-zA-Z]+)"
-        replacementPattern="http://d-nb.info/standards/elementset/agrelon.owl#$1">
+    <prefixDef ident="agrelon" matchPattern="([a-zA-Z]+)" replacementPattern="http://d-nb.info/standards/elementset/agrelon.owl#$1">
     </prefixDef>
-    <prefixDef ident="rel"
-        matchPattern="([a-zA-Z]+)"
-        replacementPattern="http://purl.org/vocab/relationship/$1">
+    <prefixDef ident="rel" matchPattern="([a-zA-Z]+)" replacementPattern="http://purl.org/vocab/relationship/$1">
     </prefixDef>
-    <prefixDef ident="em"
-        matchPattern="(\d+)"
-        replacementPattern="https://www.eagle-network.eu/voc/material/lod/$1">
+    <prefixDef ident="em" matchPattern="(\d+)" replacementPattern="https://www.eagle-network.eu/voc/material/lod/$1">
     </prefixDef>
     
-    <prefixDef ident="eo"
-        matchPattern="(\d+)"
-        replacementPattern="https://www.eagle-network.eu/voc/objtyp/lod/$1">
+    <prefixDef ident="eo" matchPattern="(\d+)" replacementPattern="https://www.eagle-network.eu/voc/objtyp/lod/$1">
     </prefixDef>
     
-    <prefixDef ident="ew"
-        matchPattern="(\d+)"
-        replacementPattern="https://www.eagle-network.eu/voc/writing/lod/$1">
+    <prefixDef ident="ew" matchPattern="(\d+)" replacementPattern="https://www.eagle-network.eu/voc/writing/lod/$1">
     </prefixDef>
-     <prefixDef ident="ic" 
-                matchPattern="([a-zA-Z0-9]+)"
-                replacementPattern="http://iconclass.org/$1">
+     <prefixDef ident="ic" matchPattern="([a-zA-Z0-9]+)" replacementPattern="http://iconclass.org/$1">
      </prefixDef>
-     <prefixDef ident="ecrm"
-                matchPattern="([a-zA-Z0-9]+)"
-                replacementPattern="http://erlangen-crm.org/current/$1" >
+     <prefixDef ident="ecrm" matchPattern="([a-zA-Z0-9]+)" replacementPattern="http://erlangen-crm.org/current/$1">
      </prefixDef>
-     <prefixDef ident="foaf"
-                matchPattern="([a-zA-Z0-9]+)"
-                replacementPattern="http://xmlns.com/foaf/0.1/$1" >
+     <prefixDef ident="foaf" matchPattern="([a-zA-Z0-9]+)" replacementPattern="http://xmlns.com/foaf/0.1/$1">
      </prefixDef>
 </listPrefixDef>

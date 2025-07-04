@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/newpage.html" data-template-at="content">
 
     <div data-template="app:logging"/>
@@ -897,15 +898,81 @@
     </div>
 
     <div class="w3-container">
-        <h2 id="gettextcontent">GET text (DTS APIs)</h2>
+        <h2 id="gettextcontent">GET text</h2>
         <p>Check the correct id exists <a href="/works/">here.</a>
         </p>
         <a class="w3-button w3-red page-scroll" role="button" href="#apidoctoc">Return to table of
             contents</a>
-        <p>We support all the <a href="https://distributed-text-services.github.io/specifications/">Distributed Text Services specifications</a>, 
-            from the starting endpoint https://betamasaheft.eu/api/dts .</p>
-        <p>This API is used for the text views in the application.</p>
-        <p>The DTS implementation is experimental and implements additional non canonical parts.</p>
+        <div id="APIpatternsJSONtext" class="APIexamplestable">
+            <div class="w3-row lead">
+                <div class="w3-quarter">Pattern</div>
+                <div class="w3-quarter">Drill down</div>
+                <div class="w3-quarter">Example</div>
+                <div class="w3-quarter">Result:</div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-quarter">
+                    <pre>/api/dts/text/{id}/{level1}/{level2}/{startline-endline}</pre>
+                    <p>In the response you will get navigation aids to go to the next and previous
+                        section, to the parent and the children of your current selection</p>
+                </div>
+                <div class="w3-quarter">
+                    <div id="APIJSONtextParameters">
+                        <div class="w3-row">
+                            <div class="w3-quarter">
+                                <pre>api/dts/text/LIT1367Exodus/2/4</pre>
+                            </div>
+                            <div class="col-md-8">will return line 4 of chapter 2</div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-quarter">
+                                <pre>api/dts/text/LIT1367Exodus/2/4-7</pre>
+                            </div>
+                            <div class="col-md-8">will return lines 4 to 7 of chapter 2</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-quarter urlexample">
+                    <pre>
+                        <a id="jsontext" href="/api/dts/text/LIT1367Exodus">https://betamasaheft.eu/api/dts/text/LIT1367Exodus</a>
+                    </pre>
+                </div>
+                <div class="w3-quarter">
+                    <pre class="APIexampleJSON" data-value="jsontext"/>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-quarter">
+                    <pre>/api/xml/{id}/{level1}/{level2}/{startline-endline}</pre>
+                    <p>In the response you will get navigation aids to go to the next and previous
+                        section, to the parent and the children of your current selection</p>
+                </div>
+                <div class="w3-quarter">
+                    <div id="APIxmltextParameters">
+                        <div class="w3-row">
+                            <div class="w3-quarter">
+                                <pre>api/xml/LIT1367Exodus/2/4</pre>
+                            </div>
+                            <div class="col-md-8">will return line 4 of chapter 2</div>
+                        </div>
+                        <div class="w3-row">
+                            <div class="w3-quarter">
+                                <pre>api/xml/LIT1367Exodus/2/4-7</pre>
+                            </div>
+                            <div class="col-md-8">will return lines 4 to 7 of chapter 2</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w3-quarter urlexample">
+                    <pre>
+                        <a id="xmltext" href="/api/xml/LIT1367Exodus">https://betamasaheft.eu/api/xml/LIT1367Exodus</a>
+                    </pre>
+                </div>
+                <div class="w3-quarter">
+                    <p>Click on link.</p>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="w3-container">
         <h2 id="getadditionstext">GET XML text of additions or specific catalogue record parts</h2>
@@ -1285,14 +1352,6 @@
         <div class="w3-container">
             <h2 id="shine">GET SHINE API</h2>
             <p>How to navigate the SHINE API <a href="https://rise.mpiwg-berlin.mpg.de/pages/doc_for_resource_providers#tabs">(SHINE documentation)</a>.</p>
-            <a class="w3-button w3-red page-scroll" role="button" href="#apidoctoc">Return to table of
-                contents</a>
-            <div data-template="apidoc:shine"/>
-        </div>
-        
-        <div class="w3-container">
-            <h2 id="jsonapi">GET JSON-API</h2>
-            <p>How to navigate the JSON API.</p>
             <a class="w3-button w3-red page-scroll" role="button" href="#apidoctoc">Return to table of
                 contents</a>
             <div data-template="apidoc:shine"/>

@@ -6,8 +6,7 @@ xquery version "3.1" encoding "UTF-8";
  :)
 module namespace apptable="https://www.betamasaheft.uni-hamburg.de/BetMas/apptable";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
-import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm"; 
-import module namespace viewItem = "https://www.betamasaheft.uni-hamburg.de/BetMas/viewItem" at "xmldb:exist:///db/apps/BetMas/modules/viewItem.xqm";
+import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 
 declare namespace t="http://www.tei-c.org/ns/1.0";
 
@@ -128,7 +127,7 @@ declare function apptable:tr($doc as node(), $list as xs:string) {
 
 (:~function to print the values of parallel clavis ids:)
 declare function apptable:clavisIds($doc as node()){
-    <span class="w3-tooltip"><span class="w3-tag">CAe {substring(string($doc/ancestor-or-self::t:TEI/@xml:id), 4, 4)}</span>
+    <span class="w3-tooltip"><span class="w3-tag">CAe {substring(string($doc/t:TEI/@xml:id), 4, 4)}</span>
     <span class="w3-text"><a href="https://www.traces.uni-hamburg.de/en/texts/clavis.html"><em>Clavis Aethiopica</em></a>, an ongoing repertory of all known Ethiopic <a href="https://betamasaheft.eu/Guidelines/?id=definitionWorks">Textual Units</a>. Use this to refer univocally to a specific text in your publications. Please note that this shares only the 
     numeric part with the <a href="https://betamasaheft.eu/Guidelines/?id=entities-id-structure">Textual Unit Record Identifier</a>.</span>
     </span> ,
@@ -161,7 +160,6 @@ if($doc//t:listBibl[@type eq 'clavis'])
           </td>
             <td>
             <a href='{$bibl/@corresp}'>{$bibl/t:citedRange/text()}{if($bibl/ancestor::t:div[(@type eq 'textpart') or (@type eq 'edition')]) then (' ( part ' || (let $subtitle := $bibl/ancestor::t:div[@type][1] return titles:printSubtitle($subtitle, string($subtitle/@xml:id))) || ')') else ()}</a>
-            <a class="w3-tiny" target="blank" href="https://clavis.brepols.net/clacla/OA/link.aspx?clavis={$st}&amp;number={$bibl/t:citedRange/text()}">[Clavis Clavium]</a>
             </td>
             </tr>
             }
@@ -301,7 +299,7 @@ EMIP:)
                 }" class="thumb w3-image"/>
 (:                bodleian:)
 else if (contains($item//t:msIdentifier/t:idno/@facs, 'bodleian')) then ('images')
-                else (<img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>)
+                else (<img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno[not(starts-with(@facs, 'https'))][1]/@facs) ||  (if(starts-with($item//t:collection, 'Ethio')) then '_' else())||'001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>)
                  }</a>
                 
                 else ()}</td>,
@@ -446,7 +444,7 @@ else
             then 'after ' || string($date/@notBefore)
             else if($date[@notAfter and not(@notbefore)]) 
             then 'before ' || string($date/@notAfter) 
-            else viewItem:dates($date)  }</p>
+            else transform:transform($date, 'xmldb:exist:///db/apps/BetMas/xslt/dates.xsl',())  }</p>
            
          )
            else

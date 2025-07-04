@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<patterns xmlns="http://fidal.parser">
+    <pos name="noun">
+        <!--        from the file nominal forms-->
+        <formula>1ǝ2a3</formula>
+        <formula>1ǝ23</formula>
+        <formula>1ǝ2ā3</formula>
+        <formula>1a23</formula>
+        <formula>1a2a3</formula>
+        <formula>1a2ā3</formula>
+        <formula>1a2i3</formula>
+        <formula>1ā2e3</formula>
+        <formula>1a2u3</formula>
+        <formula>1ā2ǝ3</formula>
+        <formula>1ā2ā3</formula>
+        <formula>1u2ā3</formula>
+        <formula>1u2u3</formula>
+        <formula>1ǝ2u3</formula>
+        <formula>1ǝ22u3</formula>
+        <formula>1a22ǝ3</formula>
+        <formula>1a22ā3</formula>
+        <formula>1a22i3</formula>
+        <formula>1a2ā3i</formula>
+        <formula>1a22ā3i</formula>
+        <formula>1ā2ā3i</formula>
+        <formula>1u2ā3e</formula>
+        <formula>1ǝ22ā3e</formula>
+        <formula>1a22a3e</formula>
+        <formula>1ǝ23ā</formula>
+        <formula>1a23ā</formula>
+        <formula>1a2a3ā</formula>
+        <formula>1a22a3ā</formula>
+        <formula>1ǝ22ǝ3ā</formula>
+        <formula>1ā2i3ā</formula>
+        <formula>1ǝ2ǝ3ǝnnā</formula>
+        <formula>1ǝ22ǝ3ǝnnā</formula>
+        <formula>ma12a3</formula>
+        <formula>ma12ǝ3</formula>
+        <formula>mǝ12ā3</formula>
+        <formula>ma12a3t</formula>
+        <formula>ma12ǝ3t</formula>
+        <formula>mǝ1ǝ22ā3</formula>
+        <formula>ma1a22ǝ3</formula>
+        <formula>ma1ā2ǝ3</formula>
+        <formula>ʾa12a3</formula>
+        <formula>ʾa12ā3</formula>
+        <formula>ʾa12u3</formula>
+        <formula>ʾa12ǝ3</formula>
+        <formula>ʾǝ12i3</formula>
+        <formula>ʾǝ12ā3</formula>
+        <formula>ʾǝ12ǝ3</formula>
+        <formula>ʾǝ12e3</formula>
+        <formula>ʾǝ12o3</formula>
+        <formula>tǝ12ǝ3t</formula>
+        <formula>ta12ǝ3</formula>
+        <formula>ta12ā3</formula>
+        <formula>ta1a2a3</formula>
+        <formula>ta1a22a3</formula>
+        <formula>masta12ǝ3</formula>
+        <formula>masta1a2ǝ3</formula>
+        <formula>masta1ā2ǝ3</formula>
+        <formula>masta1a22ǝ3</formula>
+        <formula>ma12a3i</formula>
+        <formula>ma12ā3i</formula>
+        <formula>ʾa12a3ā</formula>
+        <formula>ʾa12ā3i</formula>
+        <formula>ʾa1ā2ā3i</formula>
+        <formula>ʾa1a22ā3i</formula>
+        <formula>ta12ā3e</formula>
+        <formula>ta12ā3et</formula>
+        <formula>ta1ā2ā3i</formula>
+        <formula>ta1a22ā3i</formula>
+        <formula>ta12ǝ3ot</formula>
+        <formula>ʾasta1ā2ā3i</formula>
+        <formula type="l1">Lǝ2a3</formula>
+        <formula type="l1">Lǝ23</formula>
+        <formula type="l1">Lǝ2ā3</formula>
+        <formula type="l1">La23</formula>
+        <formula type="l1">La2a3</formula>
+        <formula type="l1">La2ā3</formula>
+        <formula type="l1">La2i3</formula>
+        <formula type="l1">Lā2e3</formula>
+        <formula type="l1">La2u3</formula>
+        <formula type="l1">Lā2ǝ3</formula>
+        <formula type="l1">Lā2ā3</formula>
+        <formula type="l1">Lu2ā3</formula>
+        <formula type="l1">Lu2u3</formula>
+        <formula type="l1">Lǝ22u3</formula>
+        <formula type="l1">La22ǝ3</formula>
+        <formula type="l1">La22ā3</formula>
+        <formula type="l1">La22i3</formula>
+        <formula type="l1">La2ā3i</formula>
+        <formula type="l1">La22ā3i</formula>
+        <formula type="l1">Lā2ā3i</formula>
+        <formula type="l1">Lu2ā3e</formula>
+        <formula type="l1">Lǝ22ā3e</formula>
+        <formula type="l1">La22a3e</formula>
+        <formula type="l1">Lǝ23ā</formula>
+        <formula type="l1">La23ā</formula>
+        <formula type="l1">La2a3ā</formula>
+        <formula type="l1">La22a3ā</formula>
+        <formula type="l1">Lǝ22ǝ3ā</formula>
+        <formula type="l1">Lā2i3ā</formula>
+        <formula type="l1">Lǝ2ǝ3ǝnnā</formula>
+        <formula type="l1">Lǝ22ǝ3ǝnnā</formula>
+        <formula type="l1">māL2a3 </formula>
+        <formula type="l1">māL2ǝ3 </formula>
+        <formula type="l1">mǝL2ā3</formula>
+        <formula type="l1">māL2a3t</formula>
+        <formula type="l1">māL2ǝ3t</formula>
+        <formula type="l1">mǝLǝ22ā3</formula>
+        <formula type="l1">maLa22ǝ3</formula>
+        <formula type="l1">maLā2ǝ3</formula>
+        <formula type="l1">ʾāL2a3</formula>
+        <formula type="l1">ʾāL2ā3</formula>
+        <formula type="l1">ʾāL2u3</formula>
+        <formula type="l1">ʾāL2ǝ3</formula>
+        <formula type="l1">ʾǝL2i3</formula>
+        <formula type="l1">ʾǝL2ā3</formula>
+        <formula type="l1">ʾǝL2ǝ3</formula>
+        <formula type="l1">ʾǝL2e3</formula>
+        <formula type="l1">ʾǝL2o3</formula>
+        <formula type="l1">tǝL2ǝ3t</formula>
+        <formula type="l1">tāL2ǝ3</formula>
+        <formula type="l1">tāL2ā3</formula>
+        <formula type="l1">taLa2a3</formula>
+        <formula type="l1">taLa22a3</formula>
+        <formula type="l1">mastāL2ǝ3</formula>
+        <formula type="l1">mastaLa2ǝ3</formula>
+        <formula type="l1">mastaLā2ǝ3</formula>
+        <formula type="l1">mastaLa22ǝ3</formula>
+        <formula type="l1">maL2a3i</formula>
+        <formula type="l1">māL2a3i</formula>
+        <formula type="l1">maL2ā3i</formula>
+        <formula type="l1">māL2ā3i</formula>
+        <formula type="l1">ʾāL2a3ā</formula>
+        <formula type="l1">ʾāL2ā3i</formula>
+        <formula type="l1">ʾaLā2ā3i</formula>
+        <formula type="l1">ʾaLa2ā3i</formula>
+        <formula type="l1">tāL2ā3e</formula>
+        <formula type="l1">tāL2ā3et</formula>
+        <formula type="l1">taLa2ā3i</formula>
+        <formula type="l1">taLa22ā3i</formula>
+        <formula type="l1">tāL2ǝ3ot</formula>
+        <formula type="l1">ʾastaLā2ā3i</formula>
+        <formula type="l2">1aLa3</formula>
+        <formula type="l2">1ǝL3</formula>
+        <formula type="l2">lāL3</formula>
+        <formula type="l2">1ǝLā3</formula>
+        <formula type="l2">1aLā3</formula>
+        <formula type="l2">1ǝLi3</formula>
+        <formula type="l2">1āLe3</formula>
+        <formula type="l2">1ǝLu3</formula>
+        <formula type="l2">1āLǝ3</formula>
+        <formula type="l2">1āLā3</formula>
+        <formula type="l2">1uLā3</formula>
+        <formula type="l2">1uLu3</formula>
+        <formula type="l2">1ǝLLu3</formula>
+        <formula type="l2">1aLLǝ3</formula>
+        <formula type="l2">1aLLā3</formula>
+        <formula type="l2">1aLLi3</formula>
+        <formula type="l2">1aLā3i</formula>
+        <formula type="l2">1aLLā3i </formula>
+        <formula type="l2">1āLā3i</formula>
+        <formula type="l2">1uLā3e</formula>
+        <formula type="l2">1ǝLLā3e</formula>
+        <formula type="l2">1aLLa3e</formula>
+        <formula type="l2">1ǝL3ā</formula>
+        <formula type="l2">1āL3ā</formula>
+        <formula type="l2">1aLa3ā</formula>
+        <formula type="l2">1aLLa3ā</formula>
+        <formula type="l2">1ǝLLǝ3ā </formula>
+        <formula type="l2">1āLi3ā</formula>
+        <formula type="l2">1ǝLǝ3ǝnnā</formula>
+        <formula type="l2">ma1La3</formula>
+        <formula type="l2">ma1aLa3</formula>
+        <formula type="l2">ma1Lǝ3</formula>
+        <formula type="l2">mǝ1Lā3</formula>
+        <formula type="l2">ma1La3t</formula>
+        <formula type="l2">ma1aLa3t</formula>
+        <formula type="l2">ma1Lǝ3t</formula>
+        <formula type="l2">mǝ1ǝLLā3</formula>
+        <formula type="l2">ma1ǝLLǝ3</formula>
+        <formula type="l2">ma1āLǝ3</formula>
+        <formula type="l2">ʾa1aLa3</formula>
+        <formula type="l2">ʾa1Lā3</formula>
+        <formula type="l2">ʾa1Lu3</formula>
+        <formula type="l2">ʾa1Lǝ3</formula>
+        <formula type="l2">ʾǝ1Li3</formula>
+        <formula type="l2">ʾǝ1Lā3</formula>
+        <formula type="l2">ʾǝ1Lǝ3</formula>
+        <formula type="l2">ʾǝ1Le3</formula>
+        <formula type="l2">ʾǝ1Lo3</formula>
+        <formula type="l2">tǝ1Lǝ3t </formula>
+        <formula type="l2">ta1Lǝ3</formula>
+        <formula type="l2">ta1Lā3</formula>
+        <formula type="l2">ta1aLa3</formula>
+        <formula type="l2">ta1aLLa3</formula>
+        <formula type="l2">masta1Lǝ3</formula>
+        <formula type="l2">masta1aLǝ3</formula>
+        <formula type="l2">masta1āLǝ3</formula>
+        <formula type="l2">masta1aLLǝ3 </formula>
+        <formula type="l2">ma1aLa3i</formula>
+        <formula type="l2">ma1Lā3i</formula>
+        <formula type="l2">ʾa1La3ā</formula>
+        <formula type="l2">ʾa1aLa3ā</formula>
+        <formula type="l2">ʾa1Lā3i</formula>
+        <formula type="l2">ʾa1āLā3i</formula>
+        <formula type="l2">ʾa1aLLā3i</formula>
+        <formula type="l2">ta1Lā3e</formula>
+        <formula type="l2">ta1Lā3et</formula>
+        <formula type="l2">ta1āLā3i</formula>
+        <formula type="l2">ta1aLLā3i</formula>
+        <formula type="l2">ta1Lǝ3ot</formula>
+        <formula type="l2">ʾasta1āLā3i</formula>
+        <formula type="l3">1ǝ2āL</formula>
+        <formula type="l3">1ǝ2L</formula>
+        <formula type="l3">1a2L</formula>
+        <formula type="l3">1a2aL</formula>
+        <formula type="l3">1a2āL</formula>
+        <formula type="l3">1a2iL</formula>
+        <formula type="l3">1ā2eL</formula>
+        <formula type="l3">1a2uL</formula>
+        <formula type="l3">1ā2ǝL</formula>
+        <formula type="l3">1ā2āL</formula>
+        <formula type="l3">1u2āL</formula>
+        <formula type="l3">1u2uL</formula>
+        <formula type="l3">1ǝ22uL</formula>
+        <formula type="l3">1a22ǝL</formula>
+        <formula type="l3">1a22āL</formula>
+        <formula type="l3">1a22iL</formula>
+        <formula type="l3">1a2āLi</formula>
+        <formula type="l3">1a22āLi</formula>
+        <formula type="l3">1ā2āLi</formula>
+        <formula type="l3">1u2āLe</formula>
+        <formula type="l3">1ǝ22āLe</formula>
+        <formula type="l3">1a22aLe</formula>
+        <formula type="l3">1ǝ2Lā</formula>
+        <formula type="l3">1a2Lā</formula>
+        <formula type="l3">1a2aLā</formula>
+        <formula type="l3">1a22aLā</formula>
+        <formula type="l3">1ǝ22ǝLā</formula>
+        <formula type="l3">1ā2iLā</formula>
+        <formula type="l3">1ǝ2ǝLǝnnā </formula>
+        <formula type="l3">1ǝ22ǝLǝnnā</formula>
+        <formula type="l3">ma12āL</formula>
+        <formula type="l3">ma12ǝL</formula>
+        <formula type="l3">mǝ12āL</formula>
+        <formula type="l3">ma12āLt</formula>
+        <formula type="l3">ma12ǝLt</formula>
+        <formula type="l3">mǝ1ǝ22āL</formula>
+        <formula type="l3">ma1a22ǝL</formula>
+        <formula type="l3">ma1ā2ǝL</formula>
+        <formula type="l3">ʾa12āL</formula>
+        <formula type="l3">ʾa12uL</formula>
+        <formula type="l3">ʾa12ǝL</formula>
+        <formula type="l3">ʾǝ12iL</formula>
+        <formula type="l3">ʾǝ12āL</formula>
+        <formula type="l3">ʾǝ12ǝL</formula>
+        <formula type="l3">ʾǝ12eL</formula>
+        <formula type="l3">ʾǝ12oL</formula>
+        <formula type="l3">tǝ12ǝLt</formula>
+        <formula type="l3">ta12ǝL</formula>
+        <formula type="l3">ta12āL</formula>
+        <formula type="l3">ta1a2āL</formula>
+        <formula type="l3">ta1a22āL</formula>
+        <formula type="l3">masta12ǝL</formula>
+        <formula type="l3">masta1a2ǝL</formula>
+        <formula type="l3">masta1ā2ǝL</formula>
+        <formula type="l3">masta1a22ǝL</formula>
+        <formula type="l3">ma12ǝLi</formula>
+        <formula type="l3">ma12āLi</formula>
+        <formula type="l3">ʾa12aLā</formula>
+        <formula type="l3">ʾa12āLi</formula>
+        <formula type="l3">ʾa1ā2āLi</formula>
+        <formula type="l3">ʾa1a22āLi</formula>
+        <formula type="l3">ta12āLe</formula>
+        <formula type="l3">ta12āLet</formula>
+        <formula type="l3">ta1ā2āLi</formula>
+        <formula type="l3">ta1a22āLi</formula>
+        <formula type="l3">ta12ǝLot</formula>
+        <formula type="l3">ʾasta1ā2āLi</formula>
+
+
+    </pos>
+</patterns>

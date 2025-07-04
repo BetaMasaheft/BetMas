@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:collation">
         <xsl:variable name="mspartID">
@@ -5,7 +6,9 @@
                 <xsl:value-of select="./ancestor::t:msPart[1]/@xml:id"/>
             </xsl:if>
         </xsl:variable>
-        <h3><span class="w3-tooltip">Quire Structure <span class="w3-text w3-tag w3-gray">Collation</span></span> <xsl:if test="./ancestor::t:msPart">
+        <h3>
+            <span class="w3-tooltip">Quire Structure <span class="w3-text w3-tag w3-gray">Collation</span>
+            </span> <xsl:if test="./ancestor::t:msPart">
                 <xsl:variable name="currentMsPart">
                     <a href="{./ancestor::t:msPart[1]/@xml:id}">
                         <xsl:value-of select="substring-after(./ancestor::t:msPart[1]/@xml:id, 'p')"/>
@@ -185,7 +188,10 @@
                             <xsl:variable name="text" select="string-join(text(), ' ')"/>
                             <xsl:variable name="stubs">
                                 <xsl:analyze-string select="$text" regex="((\d+)(,?)(\s?)(no\s)?((stub|added|replaced|missing)(\s+)?)(after|before)?(\s?)(\d+)?)">
-                                    <xsl:matching-substring><single>s.l. <xsl:value-of select="regex-group(1)"/></single></xsl:matching-substring>
+                                    <xsl:matching-substring>
+                                                    <single>s.l. <xsl:value-of select="regex-group(1)"/>
+                                                    </single>
+                                                </xsl:matching-substring>
                                 </xsl:analyze-string>
                             </xsl:variable>
                             <xsl:value-of select="string-join($stubs//text(), '; ')"/>

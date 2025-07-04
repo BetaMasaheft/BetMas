@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<numbers xmlns="http://fidal.parser">
+    <num val="1">፩</num>	
+    <num val="2">፪</num>	
+    <num val="3">፫</num>	
+    <num val="4">፬</num>	
+    <num val="5">፭</num>	
+    <num val="6">፮</num>	
+    <num val="7">፯</num>	
+    <num val="8">፰</num>	
+    <num val="9">፱</num>
+    <num val="10">፲</num>	
+    <num val="20">፳</num>	
+    <num val="30">፴</num>	
+    <num val="40">፵</num>	
+    <num val="50">፶</num>	
+    <num val="60">፷</num>	
+    <num val="70">፸</num>	
+    <num val="80">፹</num>	
+    <num val="90">፺</num>
+    <num val="100">፻</num> 
+    <num val="1000">፼</num>
+</numbers>

@@ -4,4 +4,4 @@
                     document.getElementById('vidimg').style.display='none';
                     clearInterval(monitor);
                     }
-                    }, 100);
+                    }, 300);

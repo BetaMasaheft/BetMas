@@ -1,0 +1,2260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<conjugations xmlns="http://fidal.parser">
+    <!--    ALL IN TRANSCRIPTION (BM type)!-->
+    <type name="Perfect">
+        <num type="Singular">
+            <person type="Third" n="3">
+                <gender type="Masculine">
+                    <affixes>
+                        <affix>a</affix>
+                    </affixes>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>o</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>ā</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>akka</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>akki</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>anni</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                        <num type="Plural">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>omu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>on</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>akkǝmu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>akkǝn</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>anna</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                    </pronouns>
+                </gender>
+                <gender type="Feminine">
+                    <affixes>
+                        <affix>at</affix>
+                    </affixes>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>atto</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>attā</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>attakka</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>attakki</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>attanni</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                        <num type="Plural">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>attomu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>atton</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>attakkǝmu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>attakkǝn</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>attanna</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                    </pronouns>
+                </gender>
+            </person>
+            <person type="Second" n="2">
+                <gender type="Masculine">
+                    <affixes>
+                        <affix>ka</affix>
+                    </affixes>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>ko</affix>
+                                        <affix>kāhu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>kā</affix>
+                                        <affix>kāhā</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>kanni</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                        <num type="Plural">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>komu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>kon</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>kanna</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                    </pronouns>
+
+                </gender>
+                <gender type="Feminine">
+                    <affixes>
+                        <affix>ki</affix>
+                    </affixes>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>kǝyo</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>kǝyā</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>kǝnni</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                        <num type="Plural">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>kǝyomu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>kǝyon</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>kǝnna</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                    </pronouns>
+                </gender>
+            </person>
+            <person type="First" n="1">
+                <gender type="Common">
+                    <affixes>
+                        <affix>ku</affix>
+                    </affixes>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>kǝwo</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>kǝwā</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>kuka</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>kuki</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+
+                        </num>
+                        <num type="Plural">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>kǝwomu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>kǝwon</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>kukkǝmu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>kukkǝn</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                    </pronouns>
+
+                </gender>
+            </person>
+        </num>
+        <num type="Plural">
+            <person type="Third" n="3">
+                <gender type="Masculine">
+                    <affixes>
+                        <affix>u</affix>
+                    </affixes>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>ǝwo</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>ǝwā</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>uka</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>uki</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>uni</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                        <num type="Plural">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>ǝwomu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>ǝwon</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>ukkǝmu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>ukkǝn</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>una</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                    </pronouns>
+
+                </gender>
+                <gender type="Feminine">
+                    <affixes>
+                        <affix>ā</affix>
+                    </affixes>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>āhu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>āhā</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>āka</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>āki</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>āni</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                        <num type="Plural">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>āhomu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>āhon</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>ākkǝmu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>ākkǝn</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>āna</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                    </pronouns>
+                </gender>
+            </person>
+            <person type="Second" n="2">
+                <gender type="Masculine">
+                    <affixes>
+                        <affix>kǝmu</affix>
+                    </affixes>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>kǝmǝwo</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>kǝmǝwā</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>kǝmuni</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                        <num type="Plural">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>kǝmǝwomu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>kǝmǝwon</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>kǝmuna</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                    </pronouns>
+                </gender>
+                <gender type="Feminine">
+                    <affixes>
+                        <affix>kǝn</affix>
+                    </affixes>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>kǝnāhu</affix>
+                                        <affix>āhu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>kǝnāhā</affix>
+                                        <affix>āhā</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>kǝnāni</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                        <num type="Plural">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>kǝnāhomu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>kǝnāhon</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>kǝnāna</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                    </pronouns>
+                </gender>
+            </person>
+            <person type="First" n="1">
+                <gender type="Common">
+                    <affixes>
+                        <affix>na</affix>
+                    </affixes>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>nāhu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>nāhā</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>nāka</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>nāki</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+
+                        </num>
+                        <num type="Plural">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>nāhomu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>nāhon</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>nākkǝmu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>nākkǝn</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                    </pronouns>
+                </gender>
+            </person>
+        </num>
+    </type>
+    <type name="Imperfect">
+        <num type="Singular">
+            <person type="Third" n="3">
+                <gender type="Masculine">
+                    <affixes>
+                        <affix type="pre">yǝ</affix>
+                    </affixes>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>o</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>ā</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>akka</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>akki</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>anni</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                        <num type="Plural">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>omu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>on</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>akkǝmu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>akkǝn</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>anna</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                    </pronouns>
+
+                </gender>
+                <gender type="Feminine">
+                    <affixes>
+                        <affix type="pre">tǝ</affix>
+                    </affixes>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>o</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>ā</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>akka</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>akki</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>anni</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                        <num type="Plural">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>omu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>on</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>akkǝmu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>akkǝn</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>anna</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                    </pronouns>
+                </gender>
+            </person>
+            <person type="Second" n="2">
+                <gender type="Masculine">
+                    <affixes>
+                        <affix type="pre">tǝ</affix>
+                    </affixes>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>o</affix>
+                                        <affix>āhu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>ā</affix>
+                                        <affix>āhā</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>anni</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                        <num type="Plural">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>omu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>on</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>anna</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                    </pronouns>
+                </gender>
+                <gender type="Feminine">
+                    <affixes>
+                        <affix type="pre">tǝ</affix>
+                        <affix>i</affix>
+                    </affixes>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>ǝyo</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>ǝyā</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>ǝnni</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                        <num type="Plural">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>ǝyomu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>ǝyon</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>ǝanna</affix>
+                                    </affixes>
+                                    <!--problem in table?-->
+                                </gender>
+                            </person>
+                        </num>
+                    </pronouns>
+                </gender>
+            </person>
+            <person type="First" n="1">
+                <gender type="Common">
+                    <affixes>
+                        <affix type="pre">ʾǝ</affix>
+                    </affixes>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>o</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>ā</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>akka</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>akki</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                        <num type="Plural">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>omu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>on</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>akkǝmu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>akkǝn</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                    </pronouns>
+
+                </gender>
+            </person>
+        </num>
+        <num type="Plural">
+            <person type="Third" n="3">
+                <gender type="Masculine">
+                    <affixes>
+                        <affix type="pre">yǝ</affix>
+                        <affix>u</affix>
+                    </affixes>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>ǝwo</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>ǝwā</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>uka</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>uki</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>uni</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                        <num type="Plural">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>ǝwomu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>ǝwon</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>ukǝmu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>ukǝn</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>una</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                    </pronouns>
+
+                </gender>
+                <gender type="Feminine">
+                    <affixes>
+                        <affix type="pre">tǝ</affix>
+                        <affix>ā</affix>
+                    </affixes>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>āhu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>āhā</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>āka</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>āki</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>āni</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                        <num type="Plural">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>āhomu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>āhon</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>ākkǝmu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>ākkǝn</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>āna</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                    </pronouns>
+                </gender>
+            </person>
+            <person type="Second" n="2">
+                <gender type="Masculine">
+                    <affixes>
+                        <affix type="pre">tǝ</affix>
+                        <affix>u</affix>
+                    </affixes>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>ǝwo</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>ǝwā</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>uni</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                        <num type="Plural">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>ǝwomu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>ǝwon</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>una</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                    </pronouns>
+                </gender>
+                <gender type="Feminine">
+                    <affixes>
+                        <affix type="pre">tǝ</affix>
+                        <affix>ā</affix>
+                    </affixes>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>āhu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>āhā</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>āni</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                        <num type="Plural">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>āhomu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>āhwon</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>āna</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                    </pronouns>
+                </gender>
+            </person>
+            <person type="First" n="1">
+                <gender type="Common">
+                    <affixes>
+                        <affix type="pre">nǝ</affix>
+                    </affixes>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>o</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>ā</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>akka</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>akki</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                        <num type="Plural">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>omu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>on</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>akkǝmu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>akkǝn</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                    </pronouns>
+
+                </gender>
+            </person>
+        </num>
+    </type>
+    <type name="Subjunctive">
+        <num type="Singular">
+            <person type="Third" n="3">
+                <gender type="Masculine">
+                    <affixes>
+                        <affix type="pre">yǝ</affix>
+                    </affixes>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix type="gemination">o</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix type="gemination">ā</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>ka</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>ki</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>anni</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                        <num type="Plural">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix type="gemination">omu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix type="gemination">on</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>kǝmu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>kǝn</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>anna</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                    </pronouns>
+
+                </gender>
+                <gender type="Feminine">
+                    <affixes>
+                        <affix type="pre">tǝ</affix>
+                    </affixes>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix type="gemination">o</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix type="gemination">ā</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>ka</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>ki</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>anni</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                        <num type="Plural">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix type="gemination">omu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix type="gemination">on</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>kǝmu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>kǝn</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>anna</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                    </pronouns>
+                </gender>
+            </person>
+            <person type="Second" n="2">
+                <gender type="Masculine">
+                    <affixes>
+                        <affix type="pre">tǝ</affix>
+                    </affixes>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix type="gemination">o</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix type="gemination">ā</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>anni</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                        <num type="Plural">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix type="gemination">omu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix type="gemination">on</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>anna</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                    </pronouns>
+                </gender>
+                <gender type="Feminine">
+                    <affixes>
+                        <affix type="pre">tǝ</affix>
+                        <affix>i</affix>
+                    </affixes>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>ǝyo</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>ǝyā</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>ǝnni</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                        <num type="Plural">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>ǝyomu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>ǝyon</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>ǝnna</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                    </pronouns>
+                </gender>
+            </person>
+            <person type="First" n="1">
+                <gender type="Common">
+                    <affixes>
+                        <affix type="pre">ʾǝ</affix>
+                    </affixes>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix type="gemination">o</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix type="gemination">ā</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>ka</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>ki</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                        <num type="Plural">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix type="gemination">omu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix type="gemination">on</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>kǝmu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>kǝn</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                    </pronouns>
+                </gender>
+            </person>
+        </num>
+        <num type="Plural">
+            <person type="Third" n="3">
+                <gender type="Masculine">
+                    <affixes>
+                        <affix type="pre">yǝ</affix>
+                        <affix>u</affix>
+                    </affixes>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>ǝwo</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>ǝwā</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>uka</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>uki</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>uni</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                        <num type="Plural">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>ǝwomu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>ǝwon</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>ukkǝmu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>ukkǝn</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>una</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                    </pronouns>
+                </gender>
+                <gender type="Feminine">
+                    <affixes>
+                        <affix type="pre">tǝ</affix>
+                        <affix>ā</affix>
+                    </affixes>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>āho</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>āhā</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>āni</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                        <num type="Plural">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>āhomu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>āhon</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>ākǝmu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>ākǝn</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>āna</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                    </pronouns>
+                </gender>
+            </person>
+            <person type="Second" n="2">
+                <gender type="Masculine">
+                    <affixes>
+                        <affix type="pre">tǝ</affix>
+                        <affix>u</affix>
+                    </affixes>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>ǝwo</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>ǝwā</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>uni</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                        <num type="Plural">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>ǝwomu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>ǝwon</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>una</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                    </pronouns>
+                </gender>
+                <gender type="Feminine">
+                    <affixes>
+                        <affix type="pre">tǝ</affix>
+                        <affix>ā</affix>
+                    </affixes>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>āhu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>āhā</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>āni</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                        <num type="Plural">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>āhomu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>āhon</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>āna</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                    </pronouns>
+                </gender>
+            </person>
+            <person type="First" n="1">
+                <gender type="Common">
+                    <affixes>
+                        <affix type="pre">nǝ</affix>
+                    </affixes>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix type="gemination">o</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix type="gemination">ā</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+
+                        </num>
+                        <num type="Plural">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix type="gemination">omu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix type="gemination">on</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+
+                            <person type="Second" n="2">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>kǝmu</affix>
+                                    </affixes>
+                                </gender>
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>kǝn</affix>
+                                    </affixes>
+                                </gender>
+                            </person>
+                        </num>
+                    </pronouns>
+                </gender>
+            </person>
+        </num>
+    </type>
+    <type name="Imperative">
+        <num type="Singular">
+
+            <person type="Second" n="2">
+                <gender type="Masculine">
+                    <affixes/>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                <affixes>
+                                    <affix type="gemination">o</affix>
+                                </affixes>
+                            </gender>
+
+                            <gender type="Feminine">
+                                <affixes>
+                                    <affix type="gemination">ā</affix>
+                                </affixes>
+
+                            </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix type="gemination">anni</affix>
+                                    </affixes>
+                                </gender>                            
+                            </person>
+                        </num>
+                        <num type="Plural">
+                            <person type="Third">
+                                <gender type="Masculine">
+                                <affixes>
+                                    <affix type="gemination">omu</affix>
+                                </affixes>
+                            </gender>
+
+                            <gender type="Feminine">
+                                <affixes>
+                                    <affix type="gemination">on</affix>
+                                </affixes>
+
+                            </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix type="gemination">anna</affix>
+                                    </affixes>
+                                </gender>                            
+                            </person>
+                        </num>
+                    </pronouns>
+                </gender>
+                <gender type="Feminine">
+                    <affixes>
+                        <affix>i</affix>
+                    </affixes>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>ǝyo</affix>
+                                    </affixes>
+                                </gender>
+                                
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>ǝyā</affix>
+                                    </affixes>
+                                    
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix type="gemination">ǝnni</affix>
+                                    </affixes>
+                                </gender>                            
+                            </person>
+                        </num>
+                        <num type="Plural">
+                            <person type="Third">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix type="gemination">ǝyomu</affix>
+                                    </affixes>
+                                </gender>
+                                
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix type="gemination">ǝyon</affix>
+                                    </affixes>
+                                    
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix type="gemination">ǝnna</affix>
+                                    </affixes>
+                                </gender>                            
+                            </person>
+                        </num>
+                    </pronouns>
+                </gender>
+            </person>
+
+        </num>
+        <num type="Plural">
+
+            <person type="Second" n="2">
+                <gender type="Masculine">
+                    <affixes>
+                        <affix>u</affix>
+                    </affixes>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>ǝwo</affix>
+                                    </affixes>
+                                </gender>
+                                
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>ǝwā</affix>
+                                    </affixes>
+                                    
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>uni</affix>
+                                    </affixes>
+                                </gender>                            
+                            </person>
+                        </num>
+                        <num type="Plural">
+                            <person type="Third">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>ǝwomu</affix>
+                                    </affixes>
+                                </gender>
+                                
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>ǝwon</affix>
+                                    </affixes>
+                                    
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix type="gemination">una</affix>
+                                    </affixes>
+                                </gender>                            
+                            </person>
+                        </num>
+                    </pronouns>
+                </gender>
+                <gender type="Feminine">
+                    <affixes>
+                        <affix>ā</affix>
+                    </affixes>
+                    <pronouns>
+                        <num type="Singular">
+                            <person type="Third" n="3">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>āhu</affix>
+                                    </affixes>
+                                </gender>
+                                
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>āhā</affix>
+                                    </affixes>
+                                    
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix>āni</affix>
+                                    </affixes>
+                                </gender>                            
+                            </person>
+                        </num>
+                        <num type="Plural">
+                            <person type="Third">
+                                <gender type="Masculine">
+                                    <affixes>
+                                        <affix>āhomu</affix>
+                                    </affixes>
+                                </gender>
+                                
+                                <gender type="Feminine">
+                                    <affixes>
+                                        <affix>āhon</affix>
+                                    </affixes>
+                                    
+                                </gender>
+                            </person>
+                            <person type="First" n="1">
+                                <gender type="Common">
+                                    <affixes>
+                                        <affix type="gemination">āna</affix>
+                                    </affixes>
+                                </gender>                            
+                            </person>
+                        </num>
+                    </pronouns>
+                </gender>
+            </person>
+
+        </num>
+    </type>
+    <type name="Gerundive">
+        <num type="Singular">
+            <person type="Third" n="3">
+                <gender type="Masculine">
+                    <affixes>
+                        <affix type="pre">o</affix>
+                    </affixes>
+                </gender>
+                <gender type="Feminine">
+                    <affixes>
+                        <affix type="pre">ā</affix>
+                    </affixes>
+                </gender>
+            </person>
+            <person type="Second" n="2">
+                <gender type="Masculine">
+                    <affixes>
+                        <affix>aka</affix>
+                    </affixes>
+                </gender>
+                <gender type="Feminine">
+                    <affixes>
+                        <affix>aki</affix>
+                    </affixes>
+                </gender>
+            </person>
+            <person type="First" n="1">
+                <gender type="Common">
+                    <affixes>
+                        <affix>ǝya</affix>
+                    </affixes>
+                </gender>
+            </person>
+        </num>
+        <num type="Plural">
+            <person type="Third" n="3">
+                <gender type="Masculine">
+                    <affixes>
+                        <affix>omu</affix>
+                    </affixes>
+                </gender>
+                <gender type="Feminine">
+                    <affixes>
+                        <affix>on</affix>
+                    </affixes>
+                </gender>
+            </person>
+            <person type="Second" n="2">
+                <gender type="Masculine">
+                    <affixes>
+                        <affix>akǝn</affix>
+                    </affixes>
+                </gender>
+                <gender type="Feminine">
+                    <affixes>
+                        <affix>akǝmu</affix>
+                    </affixes>
+                </gender>
+            </person>
+            <person type="First" n="1">
+                <gender type="Common">
+                    <affixes>
+                        <affix>ana</affix>
+                    </affixes>
+                </gender>
+            </person>
+        </num>
+    </type>
+    <type name="Infinitive">
+        <num type="Singular">
+            <person type="Third" n="3">
+                <gender type="Masculine">
+                    <affixes>
+                        <affix type="pre">yǝ</affix>
+                    </affixes>
+                </gender>
+                <gender type="Feminine">
+                    <affixes>
+                        <affix type="pre">tǝ</affix>
+                    </affixes>
+                </gender>
+            </person>
+            <person type="Second" n="2">
+                <gender type="Masculine">
+                    <affixes>
+                        <affix type="pre">tǝ</affix>
+                    </affixes>
+                </gender>
+                <gender type="Feminine">
+                    <affixes>
+                        <affix type="pre">tǝ</affix>
+                        <affix>i</affix>
+                    </affixes>
+                </gender>
+            </person>
+            <person type="First" n="1">
+                <gender type="Common">
+                    <affixes>
+                        <affix type="pre">ʾǝ</affix>
+                    </affixes>
+                </gender>
+            </person>
+        </num>
+        <num type="Plural">
+            <person type="Third" n="3">
+                <gender type="Masculine">
+                    <affixes>
+                        <affix type="pre">yǝ</affix>
+                        <affix>u</affix>
+                    </affixes>
+                </gender>
+                <gender type="Feminine">
+                    <affixes>
+                        <affix type="pre">tǝ</affix>
+                        <affix>ā</affix>
+                    </affixes>
+                </gender>
+            </person>
+            <person type="Second" n="2">
+                <gender type="Masculine">
+                    <affixes>
+                        <affix type="pre">tǝ</affix>
+                        <affix>u</affix>
+                    </affixes>
+                </gender>
+                <gender type="Feminine">
+                    <affixes>
+                        <affix type="pre">tǝ</affix>
+                        <affix>ā</affix>
+                    </affixes>
+                </gender>
+            </person>
+            <person type="First" n="1">
+                <gender type="Common">
+                    <affixes>
+                        <affix type="pre">nǝ</affix>
+                    </affixes>
+                </gender>
+            </person>
+        </num>
+    </type>
+</conjugations>

@@ -5,10 +5,10 @@ var getUrlParameter = function getUrlParameter(sParam) {
      sURLVariables = sPageParsed.split('&'),
     sParameterName,
     i;
-    //console.log(sURLVariables)
+    console.log(sURLVariables)
     for (i = 0; i < sURLVariables.length; i++) {
         sParameterName = sURLVariables[i].split('=');
-   // console.log(sParameterName)
+    console.log(sParameterName)
         if (sParameterName[0] === sParam) {
             return sParameterName[1] === undefined ? true: sParameterName[1];
         }
@@ -84,7 +84,7 @@ $('.word').each(function (wn) {
 
 $('.popup').on('mouseover mouseout',function () {
     var id = $(this).data('value') 
-    //console.log(id)
+    console.log(id)
     popup(id)
 })
 
@@ -123,7 +123,7 @@ $('.diplomaticHighlight').on('change', function () {
 
 $(document).ready(function () {
     var fullq = getUrlParameter('hi');
-    //console.log(fullq)
+    console.log(fullq)
    if(fullq === undefined){} else {
    if (/[\*\?\~\(]/g.test(fullq)) {
         var q = fullq.replace(/[\*\?\~\(]/g, '')

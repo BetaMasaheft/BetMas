@@ -71,7 +71,7 @@ declare function scriptlinks:scriptStyle(){
       
 (:      d3 :)
       <link rel="stylesheet" type="text/css" href="resources/css/d3.css"  />,
-        <link rel="stylesheet" href="$shared/resources/css/w3.css"/>,
+        <link rel="stylesheet" href="resources/css/w3.css"/>,
 (:      w3 :)
         <link rel="stylesheet" href="resources/css/w3local.css"/>,
         <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"/>
@@ -86,7 +86,7 @@ declare function scriptlinks:scriptStyle(){
         <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>,
         <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.5.1/css/bootstrap-slider.min.css"  />,
         <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alpheios-components@rc/dist/style/style-components.min.css"  />,
-        <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" href="$shared/resources/css/w3.css"/>,
+        <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" href="resources/css/w3.css"/>,
         <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" href="resources/css/w3local.css"/>,
         <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"></script>,
         <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="$shared/resources/scripts/bootstrap-3.0.3.min.js"></script>,
