@@ -479,15 +479,6 @@ declare function q:linkeddata($q) {
         }
 };
 
-declare function q:linkeddata($q) {
-    let $TEI := ($q:col//t:place[contains(@sameAs, $q)] | $q:col//t:person[contains(@sameAs, $q)])
-    return
-        map {
-            'tei': $TEI,
-            'qs': $q
-        }
-};
-
 declare function q:otherclavis($q) {
     let $clavisType := request:get-parameter('clavistype', ())
     let $selector := if (($q = '') and (matches($clavisType, '\w+')))
