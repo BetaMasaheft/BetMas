@@ -9,18 +9,14 @@
                             <h3>General Search Options
                             </h3>
                         </div>
-
-
                     </div>
                     <div class="w3-row">
                         <div class="w3-half w3-padding ">
                             <label>Text</label>
-
                             <span data-template="app:queryinput"/>
                             <!--                                <input id="textarea" name="query" class="form-control diacritics" placeholder="type here the text you want to search"/>-->
                             <input class="w3-check" type="checkbox" name="homophones" value="true" checked="checked">ignore homophones</input>
                             <script type="application/javascript" src="resources/js/homophonescheck.js"/>
-
                             <div class="w3-bar">
                                 <a class="w3-bar-item w3-button w3-gray kb">
                                     <i class="fa fa-keyboard" aria-hidden="true"/>
@@ -29,7 +25,6 @@
                                     <i class="fa fa-book" aria-hidden="true"/>
                                 </a>
                             </div>
-
                         </div>
                         <div class="w3-half w3-padding ">
                             <p>All filters are multiselect. Please, hold CTRL or CMD to select more than one option.</p>
@@ -38,7 +33,6 @@
                             <div/>
                         </div>
                     </div>
-
                     <div class="w3-row list place mss work nar ins pers" data-toggle="tooltip" data-placement="left" title="Where do you want to search?">
                         <div class="w3-half w3-padding">
                             <label>Indexes</label>
@@ -85,19 +79,12 @@
                             <label class="control-label col-sm-3">Look up by ID</label>
                             <div class="col-sm-9">
                                 <input placeholder="type the ID of the entity or part of it" class="w3-input w3-border" name="xmlid"/>
-
-
                             </div>
-
                         </div>
-
                         <div class="w3-half w3-padding">
                             <p>Type an ID or part of an ID which should occur in the record you are looking for. </p>
                         </div>
-
                     </div>
-
-
                     <div class="w3-row">
                         <div class="w3-half w3-padding">
                             <label>Search only a type of entity</label>
@@ -108,11 +95,9 @@
                                         <input class="w3-check" type="checkbox" name="work-types" value="pers"/>Persons<br/>
                                             <input class="w3-check" type="checkbox" name="work-types" value="place"/>Places<br/>
                                                 <input class="w3-check" type="checkbox" name="work-types" value="ins"/>Repositories<br/>
-
                         </div>
                         <div class="w3-half w3-padding">Select one or more collections. By selecting <b>Places</b> you will always also search into Repositories because there are places about which we only have information in a repository and vice versa.</div>
                     </div>
-
                     <div class="w3-row">
                         <div class="w3-half w3-padding">
                             <label>General filters</label>
@@ -121,11 +106,9 @@
                                 <input class="w3-check" type="checkbox" value="keywords"/> keywords<br/>
                                     <input class="w3-check" type="checkbox" value="relations"/> relation types<br/>
                                         <input class="w3-check" type="checkbox" value="date"/> date range<br/>
-
                         </div>
                         <div class="w3-half w3-padding">Select more general filters</div>
                     </div>
-
                     <div class="w3-row">
                         <div class="w3-half w3-padding">
                             <label>Specific filters</label>
@@ -137,11 +120,9 @@
                                 <option value="pers">Persons</option>
                                 <option value="places">Places and Repositories</option>
                             </select>
-
                         </div>
                         <div class="w3-half w3-padding">Select to see a list of available specific filters</div>
                     </div>
-
                     <div class="w3-row" id="manuscriptsFilters" style="display:none;">
                         <div class="w3-half w3-padding">
                             <label>Manuscripts Filters</label>
@@ -203,8 +184,6 @@
                     </div>
                     <img id="loadingform" src="resources/images/giphy.gif" style="display: none; width: 20%;"/>
                         <div id="AddFilters"/>
-
-
                 </div>
                 <div class="w3-container w3-center">
                     <button type="submit" id="submit-data" class="w3-button w3-center w3-red w3-xxlarge w3-margin"> SEARCH
@@ -215,13 +194,11 @@
         </div>
         <div class="w3-containter w3-half">
             <button class="w3-button w3-red" id="tooglesearchfield">Hide/show search filters</button>
-
             <img id="loading" src="resources/Loading.gif" style="display: none;"/>
                 <div id="persWithRoleResults"/>
                 <div data-template="app:query">
                     <div id="content">
                         <a href="." class="nav-link" data-template="app:copy-params"/>
-
                         <span id="hit-count" data-template="app:hit-count"/>
 
                         <div class="w3-containter">
@@ -244,7 +221,6 @@
                 </div>
         </div>
     </div>
-
     <script type="application/javascript" src="resources/js/preventformsubmission.js"/>
     <script type="text/javascript" src="resources/js/lookup.js"/>
     <script type="text/javascript" src="resources/js/titles.js"/>

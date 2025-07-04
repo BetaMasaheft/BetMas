@@ -833,39 +833,6 @@ declare %private function viewItem:placename($name) {
                     (),
                 if ($name/@ref) then
                     <a
-                        href="{viewItem:URI2ID($t/@ref)}"
-                        target="_blank">{$name/text()}</a>
-                else
-                    viewItem:TEI2HTML($name/node()),
-                viewItem:sup($name),
-                if ($name/parent::t:place/t:placeName[@corresp]) then
-                    (' (',
-    for $corresp at $p in $cors
-    return
-        (viewItem:TEI2HTML($corresp), viewItem:sup($corresp),
-        if ($p = $count) then
-            ()
-        else
-            ', ')
-, ')')
-                else
-                    ()
-            }
-        </li>
-};
-
-declare %private function viewItem:persname($name) {
-    let $id := string($name/@xml:id)
-    return
-        <li>
-            {
-                attribute {'xml:id'} {$id},
-                if ($name/@type) then
-                    concat(string($name/@type), ': ')
-                else
-                    (),
-                if ($name/@ref) then
-                    <a
                         href="{viewItem:URI2ID($name/@ref)}"
                         target="_blank">{$name/text()}</a>
                 else
@@ -3432,17 +3399,11 @@ declare %private function viewItem:textLang($node as element(t:textLang)) {
 };
 
 declare %private function viewItem:term($node as element(t:term)) {
-    if ($node[parent::t:desc | parent::t:summary]) then
-        <a
-            target="_blank">
-            {attribute href {concat('/newSearch.html?searchType=text&amp;mode=any&amp;termkey=', string($node/@key))}}
-            {$node/text()||' '}
-        </a>
-    else
-        if ($node/text()) then
-            <b>{viewItem:TEI2HTML($node/node())}</b>
-        else
-            viewItem:TEI2HTML($node/node())
+         let $term :=   if ($node/text()) then viewItem:TEI2HTML($node/node()) else string($node/@key)
+         return
+            <b>{$term}  <a
+            target="_blank" href="{string($node/@key)}"> <sup><i class="fa fa-info-circle" aria-hidden="true"></i></sup>
+        </a></b>
 };
 
 declare %private function viewItem:watermark($node as element(t:watermark)) {
@@ -3736,7 +3697,7 @@ declare %private function viewItem:supplied($node as element(t:supplied)) {
             if ($node/@resp) then
             (
             if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
-                                                concat('supplied by ', exptit:printTitle($node/@resp))
+                                                concat('supplied by ', string-join(exptit:printTitle($node/@resp), ', '))
   else if (starts-with($node/@resp, 'bm:')) then
                                                 concat('supplied by ',   string($node/@resp))
    else
@@ -4878,12 +4839,19 @@ declare %private function viewItem:work($item) {
                         ()
                 }
                  {
-                    if ($item//t:div[contains(@subtype, 'incipit')]) then
-                        <p class="w3-small">
-                          Incipit:
-                            {viewItem:TEI2HTML($item//t:div[contains(@subtype, 'incipit')][1])}
+                 let $edition := ($item//t:div[@type = 'edition'][1])
+                 let $incipit := ($edition//t:div[@subtype = 'incipit'][1])
+                 let $text := if (normalize-space(string-join($edition/*//text()))) then normalize-space(string-join($edition/*//text()[not(ancestor::t:label) and not(ancestor::t:note)])) else ()
+                 return
+                   if ($incipit) then
+                        <p class="w3-small"><b>Incipit: </b>
+                            {normalize-space(string-join($incipit[1]/*//text()[not(ancestor::t:label) and not(ancestor::t:note)]))}
                         </p>
-                    else
+                    else if ($text and contains($text, '፡')) then
+                        <p class="w3-small"><b>Snippet: </b>
+                            {string-join(subsequence(tokenize($text, '፡'), 1, 8), '፡')} ...
+                        </p>
+                        else
                         ()
                 }
                 {
@@ -5096,7 +5064,6 @@ declare %private function viewItem:person($item) {
         else
         ()
         }
-
                 <div
                     class="w3-threequarter w3-padding"
                     id="history">
@@ -5437,8 +5404,6 @@ declare %private function viewItem:place($item) {
                         else
                             ()
                     }
-
-
                 </h2>
 {<ul>
             {
@@ -5630,7 +5595,6 @@ declare %private function viewItem:manuscript($item) {
                         {$item//t:titleStmt/t:title[not(@type = 'full')]/text()}
                     </h4>
                 </div>
-
                 <span
                     property="http://www.cidoc-crm.org/cidoc-crm/P57_has_number_of_parts"
                     content="{count($item//t:msContents/t:msItem)}"/>

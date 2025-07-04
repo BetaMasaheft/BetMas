@@ -596,7 +596,6 @@ declare
 function app:bindingtype($node as node(), $model as map(*), $context as xs:string*) {
     let $cont := util:eval($context)
       let $bindings := config:distinct-values($cont//t:binding/@contemporary)
-
    let $control :=
         app:formcontrol('bindingtype', $bindings, 'false', 'values', $context)
     return
@@ -1140,7 +1139,7 @@ $numberOfParts as xs:string*,
     let $support := app:ListQueryParam('support', 't:objectDesc/@form', 'any', 'search')
     let $material := app:ListQueryParam('material', 't:support/t:material/@key', 'any', 'search')
     let $bmaterial := app:ListQueryParam('bmaterial', "t:decoNote[@type eq 'bindingMaterial']/t:material/@key", 'any', 'search')
-	let $bindingtype := app:ListQueryParam('bindingtype', "t:binding/@contemporary", 'any', 'search')
+   let $bindingtype := app:ListQueryParam('bindingtype', "t:binding/@contemporary", 'any', 'search')
     let $placeType := app:ListQueryParam('placeType', 't:place/@type', 'any', 'search')
     let $personType := app:ListQueryParam('persType', 't:person//t:occupation/@type', 'any', 'search')
     let $relationType := app:ListQueryParam('relType', 't:relation/@name', 'any', 'search')

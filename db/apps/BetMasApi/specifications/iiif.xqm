@@ -226,7 +226,7 @@ let $imagesbaseurl := $config:appUrl ||'/iiif/' || $facs
 declare function iiif:msItemRange($msItem, $iiifroot){
    <range>
     <r>{$iiifroot ||"/range/" || string($msItem/@xml:id)}</r>
-    <t>{if ($msItem/t:title[1]/@ref) then exptit:printTitleID($msItem/t:title[1]/@ref) else 'item ' || string($msItem/@xml:id)}</t>
+    <t>{if ($msItem/t:title[1]/text()) then string($msItem/t:title[1]) else if ($msItem/t:title[1]/@ref) then exptit:printTitleID(substring-after($msItem/t:title[1]/@ref, 'eu/')) else 'item ' || string($msItem/@xml:id)}</t>
     {$msItem}
     </range>};
 

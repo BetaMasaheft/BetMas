@@ -316,7 +316,8 @@ declare function nav:barNew() {
                       <a
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                             data-value="documentary"
-                            href="{$config:appUrl}/documentcorpora.html">Documentary corpora<                             <a
+                            href="{$config:appUrl}/documentcorpora.html">Documentary corpora</a>
+                             <a
                             class="w3-bar-item w3-button w3-margin w3-padding w3-round w3-border w3-border-red explain"
                             data-value="studies"
                             href="{$config:appUrl}/studies/list">Studies</a>

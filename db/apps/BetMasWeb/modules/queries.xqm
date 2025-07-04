@@ -479,6 +479,15 @@ declare function q:linkeddata($q) {
         }
 };
 
+declare function q:linkeddata($q) {
+    let $TEI := ($q:col//t:place[contains(@sameAs, $q)] | $q:col//t:person[contains(@sameAs, $q)])
+    return
+        map {
+            'tei': $TEI,
+            'qs': $q
+        }
+};
+
 declare function q:otherclavis($q) {
     let $clavisType := request:get-parameter('clavistype', ())
     let $selector := if (($q = '') and (matches($clavisType, '\w+')))
@@ -2648,7 +2657,6 @@ declare
 %templates:wrap
 function q:geobrowser($node as node()*, $model as map(*))
 {if($q:searchType='clavis' or $q:searchType='linkeddata') then () else
-
     let $worksid := $model('hits')[@type = 'work']
     return
         if (count($worksid) = 0) then

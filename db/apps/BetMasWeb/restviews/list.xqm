@@ -137,7 +137,7 @@ return
                                     order by $mainID
                                     return
                                         <li><a
-                                                href="{$config:appUrl}/{string($r/t:TEI/@xml:id)}">{string-join($r//t:msIdentifier//t:idno/text(), ', ')}</a></li>
+                                                href="{$config:appUrl}/{string-join($r/t:TEI/@xml:id)}">{string-join($r//t:msIdentifier//t:idno/text(), ', ')}</a></li>
                                 }
                             </ul>
                         </div>
