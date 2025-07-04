@@ -197,3 +197,8 @@ div.msItem, div.subtextpart {
 }
 
 .float{float: right;}
+
+html {
+  scroll-padding-top: 64px;
+  scroll-behavior: smooth;
+}

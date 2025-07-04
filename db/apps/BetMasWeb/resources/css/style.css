@@ -34,7 +34,7 @@ list-style-type : none;
 }
 .breakwords{word-break: break-all;}
 .table-hover {
-    word-break: break-all;
+    word-break: keep-all;
 }
 .slider.slider-horizontal {
     width: 120px;
@@ -54,7 +54,7 @@ list-style-type : none;
 }
 
 div.content {
-    padding: 1em;
+    padding: 1em;  word-break: keep-all;
 }
 div.content body {
     text-align: left;
@@ -1187,7 +1187,7 @@ div > div[id *= transcription].row {
 div.chapterText {
     margin-bottom: 30px;
     font-size: x-large;
-    word-break: break-all ;
+    word-break: keep-all ;
     text-align: justify ;
 }
 .word, .alpheios-word { word-break: inherit ;}
@@ -1206,7 +1206,7 @@ div.msPart div.msFrag {
     padding-left: 50px;
 }
 div#transcription {
-    line-height: 1.7;
+    line-height: 1.7;  word-break: keep-all;
 }
 
 div#apparatus {
@@ -1737,6 +1737,10 @@ a:hover {
 /* selected link */
 a:active {
     color: blue;
+}
+
+span {
+  word-break: keep-all;
 }
 
 span.rubric a {

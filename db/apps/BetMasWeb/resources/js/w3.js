@@ -171,7 +171,6 @@ var date = convertDate(
 
   });
   
-  
   // Automatically patch <a> elements with data-viewerurl to set their href at page load
 document.addEventListener("DOMContentLoaded", function() {
   document.querySelectorAll('a[data-viewerurl]').forEach(function(a) {
