@@ -240,6 +240,76 @@ declare %private function viewItem:locus($this) {
         )
 };
 
+declare %private function viewItem:gallery($item) {
+    let $descs := $item//t:place//t:desc[@facs]
+    let $mid := viewItem:mainID($descs)[1]
+    return for $desc in $descs
+    let $facs := $desc/@facs
+    let $n := $desc/@n
+    let $modalid := viewItem:imagesID($desc, 'id', $facs, $mid)
+    return
+    <div>                    <button onclick="document.getElementById('{$modalid}').style.display='block'" aria-label="View images for {exptit:printTitle($mid)}" class="w3-button w3-red" style="vertical-align: top;width:160px;height:32;">Images</button>
+        <div
+            class="w3-modal"
+            id="{$modalid}">
+            <!-- Modal content-->
+            <div
+                class="w3-modal-content">
+                <header
+                    class="w3-container">
+                    <h4>Images for {exptit:printTitle($mid)}</h4>
+                    <button
+                        class="w3-button w3-gray w3-display-topright"
+                        onclick="document.getElementById('{$modalid}').style.display='none'">Close</button>
+                </header>
+                <div
+                    class="w3-container">
+                    {
+                        let $manifest := if (starts-with($facs, 'http')) then
+                            $facs
+                        else
+                            concat('https://betamasaheft.eu/api/iiif/', $mid, '/manifest')
+                        let $openseadragonjsid := 'openseadragon' || replace($facs, ' ', '_') || $mid
+                        let $tileSources :=  string-join(for $i in 1 to xs:integer($n)
+    let $img:=concat('https://betamasaheft.eu/iiif/', $facs, format-number($i,'000'),'.tif/info.json') return  '"'||$img || '"',
+    ','
+  )
+                        let $openseadragonjs := 
+  'OpenSeadragon({' ||
+     'id: "' || $openseadragonjsid || '",' ||
+     'prefixUrl: "../resources/openseadragon/images/",' ||
+     'preserveViewport: true,' ||
+     'visibilityRatio: 1,' ||
+     'minZoomLevel: 1,' ||
+     'defaultZoomLevel: 1,' ||
+      'sequenceMode: true,' ||
+     'tileSources: [' || $tileSources || ']' ||
+  '});'
+                        return
+                            (<p
+                                class="w3-panel w3-red">
+                                <a
+                                    href="{$manifest}"
+                                    target="_blank">
+                                    <img
+                                        src="/resources/images/iiif.png"
+                                        width="20px"/>
+                                </a>                                
+                            </p>,
+                            <div
+                                id="{$openseadragonjsid}"/>,
+                            <script
+                                type="text/javascript">
+                                {$openseadragonjs}
+                            </script>
+                            )
+                    }
+                </div>
+            </div>
+        </div>
+</div>
+};
+
 declare %private function viewItem:matchingFacs($locus) {
     let $anc := ($locus/ancestor::t:*[@xml:id or @id][1])
     let $ancID := replace(if ($anc/@xml:id) then $anc/@xml:id else $anc/@id, '\.', '_')
@@ -5424,7 +5494,12 @@ declare %private function viewItem:place($item) {
             }
         </ul>}
                  {viewItem:osm($item)}
-
+                 {if ($item//t:place//t:desc/@facs) then
+            try {
+                viewItem:gallery($item)
+            } catch * {
+                util:log('info', $err:description)
+            } else ()}
                 {viewItem:divofplacepath($item, "//t:ab[@type = 'description']", 'General information', 3)}
                 {viewItem:divofplacepath($item, "//t:location[@type='relative']", 'Location', 3)}
                 {viewItem:divofplacepath($item, "//t:ab[@type = 'appellations'][child::*]", 'Appellations', 3)}
