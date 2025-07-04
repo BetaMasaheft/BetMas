@@ -392,7 +392,7 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                         else
                             ()
                     }
-                    <langUsage>
+                    <langUsage xmlns="http://www.tei-c.org/ns/1.0">
                         <language
                             ident="en">English</language>
                         <language
@@ -410,7 +410,7 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                     {
                         if ($collection = 'places' or $collection = 'institutions')
                         then
-                            <listPlace>{
+                            <listPlace xmlns="http://www.tei-c.org/ns/1.0">{
                                     element place {
                                             if($wikidata = '') then () else attribute sameAs {'wd:'||$wikidata},
                                        if(exists($keyword)) then attribute type {
@@ -447,7 +447,7 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                         else
                             if ($collection = 'persons')
                             then
-                                <listPerson>
+                                <listPerson xmlns="http://www.tei-c.org/ns/1.0">
                                     {
                                         element {if($group='group') then 'personGrp' else 'person'}  {
                                         
@@ -639,9 +639,8 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                     <p>But <span
                             class="label label-warning confirmationwarning">WAIT!</span> you are <span
                             class="label label-warning confirmationwarning">not yet done</span>...</p>
-                    <p>Download the file in your BetMas project's <span
-                            class="lead">{$collection}</span> folder under <span
-                            class="lead">new</span>.<br/>
+                    <p>Download the file in your BetMas project folder <span
+                            class="lead">{$collection}/new</span>.<br/>
                         <a
                             id="downloaded"
                             href="/{$file}"
@@ -652,7 +651,7 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                                 open it up and check it is valid and complete. <br/>
                                 <span
                             class="label label-warning confirmationwarning">DO THIS!</span><br/>
-                        <b>commit it and sync to GIT</b>.</p>
+                        <b>synchronize to GitHub through commit/pull request/merge</b>.</p>
                     <a
                         href="/newentry.html?collection={$collection}">create another entry</a>
                 </div>
@@ -712,11 +711,15 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                 <div id="confirmation" class="container">
                     <div class="jumbotron">
                     <p
-                        class="lead">Thank you very much {sm:id()//sm:real/sm:username/string()} for trying to store a new file!</p>
+                        class="lead">Thank you very much <span class="red">{sm:id()//sm:real/sm:username/string()}</span> for trying to store a new file!</p>
                     <p> Unfortunately
                         <span
-                            class="lead">{$Newid}</span> could not be saved</p>
-                    <p>This is the first error which occurred {$err:description}, feel free to copy it and send it to info@betamasaheft.eu.</p>
+                            class="red">"{$suffix}"</span> could not be saved</p>
+                            <p>Error: {$err:description}</p>
+                            <p>If the error reported concerns Write permission and the system addresses you as <span class="red">guest</span> please try to log out and back in and repeat the attempt.</p>
+                    <p>For other errors , feel free to copy the error report and  <a target="_blank" href="mailto:eugenia.sokolinski@uni-hamburg.de">
+            send it to us;
+    </a>.</p>
                     <a
                         href="/newentry.html?collection={$collection}">create another entry</a>
                 </div>
