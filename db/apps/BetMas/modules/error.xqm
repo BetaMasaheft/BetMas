@@ -10,7 +10,7 @@ declare namespace http = "http://expath.org/ns/http-client";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
-import module namespace scriptlinks = "https://www.betamasaheft.uni-hamburg.de/BetMas/scriptlinks" at "xmldb:exist:///db/apps/BetMas/modules/scriptlinks.xqm";
+import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "xmldb:exist:///db/apps/BetMas/modules/apprest.xqm";
 import module namespace nav = "https://www.betamasaheft.uni-hamburg.de/BetMas/nav" at "xmldb:exist:///db/apps/BetMas/modules/nav.xqm";
 
 
@@ -39,11 +39,12 @@ default return
         <link rel="shortcut icon" href="resources/images/favicon.ico"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         
-        {scriptlinks:scriptStyle()}
+        {apprest:scriptStyle()}
    </head>
    <body>
     {nav:barNew()}
         {nav:modalsNew()}
+        {nav:searchhelpNew()}
 <div xmlns="http://www.w3.org/1999/xhtml" class="w3-container w3-card-4 w3-red w3-margin w3-padding-64">
     {switch($name('type')) case 'collection' return (<h1>{$name('name')} is not a collection name.</h1>,
     <p class="lead">Available collections are:</p>,

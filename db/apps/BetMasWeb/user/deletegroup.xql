@@ -18,7 +18,7 @@ return
         let $rmgroup:=sm:remove-group($oldgroup)
         let $notification := let $adminMessage := <mail>
                 <from>info@betamasaheft.eu</from>
-                <to>info@betamasaheft.eu</to>
+                <to>eugenia.sokolinski@uni-hamburg.de</to>
                 <cc></cc>
                 <bcc></bcc>
                 <subject>A group has been deleted in Beta Maṣāḥǝft.</subject>
@@ -84,7 +84,7 @@ return
         catch * {
            let $notification:= let $adminMessage := <mail>
                 <from>info@betamasaheft.eu</from>
-                <to>info@betamasaheft.eu</to>
+                <to>eugenia.sokolinski@uni-hamburg.de</to>
                 <cc></cc>
                 <bcc></bcc>
                 <subject>User {$user} has tried to delete the account {$oldgroup} from Beta Maṣāḥǝft.</subject>

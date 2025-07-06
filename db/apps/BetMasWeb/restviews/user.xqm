@@ -1,8 +1,8 @@
 xquery version "3.1" encoding "UTF-8";
 (:~
  : module for the user personal page view
- : 
- : @author Pietro Liuzzo 
+ :
+ : @author Pietro Liuzzo
  :)
 module namespace user = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/user";
 import module namespace rest = "http://exquery.org/ns/restxq";
@@ -36,7 +36,7 @@ let $un := sm:id()//sm:username/text()
 
 let $Imap := map {'type': 'user', 'name' : ($un||'/'||$username)}
 
-return 
+return
 
     if (sm:is-dba($un) or (($username = $un) and sm:is-account-enabled($un)  and sm:is-authenticated()) or doc('/db/apps/lists/editors.xml')//t:item[@n eq $username])
     then
@@ -68,11 +68,11 @@ return
             id="body">
             {nav:barNew()}
             {nav:modalsNew()}
-            
+
             <div
                 id="content"
                 class="w3-container w3-margin w3-padding-64">
-                <div class="w3-red w3-panel w3-card-4"><h2 >Dear {$username}, thank you very much for all 
+                <div class="w3-red w3-panel w3-card-4"><h2 >Dear {$username}, thank you very much for all
                 your nice work for the project! It could have not become this good without you!</h2>
                 </div><div
                     class="w3-container">
@@ -94,22 +94,22 @@ return
                                         <h3>Your latest 50 changes in files out of {count($changes)} you recorded in a change element</h3>,
                         <div  class="userpanel w3-responsive" ><table
                                 class="w3-table w3-hoverable"><thead><tr><th>date and time</th><th>item</th><th>change content</th></tr></thead><tbody>{
-                                    
+
                                     for $itemchanged in subsequence($changed, 1, 50)
                                     let $root := root($itemchanged)
                                     let $id := $root//t:TEI/@xml:id
                                     group by $ID := $id
                                     let $title := exptit:printTitleID($ID)
-                                    for $changeToItem in $itemchanged 
+                                    for $changeToItem in $itemchanged
                                                 order by $changeToItem/@when descending
-                                                return                                     
+                                                return
                                     (<tr style="border-top: 4px solid #5bc0de">
                                         <td>{format-date($changeToItem/@when, "[D01].[M01].[Y1]")}</td>
                                                 <td><a
-                                                 href="/{string($id[1])}">{string($id[1])}</a></td>                                                                                     
+                                                 href="/{string($id[1])}">{string($id[1])}</a></td>
                                                 <td>{$changeToItem/text()}</td>
                                                 </tr>)
-                                      
+
                                 }</tbody></table></div>
                                 )
                                 }
@@ -130,7 +130,7 @@ return
                                             <tr><td>{$loggedentity/l:type/text()}</td><td>{
                                             format-dateTime($loggedentity/@timestamp,
                  "[D01].[M01].[Y1] [H01]:[m01]:[s01]")
-                                            }</td><td><a 
+                                            }</td><td><a
                                             href="{switch($loggedentity/l:type)
                                             case 'compare' return $config:appUrl || '/compare' || $loggedentity/l:url/text()
                                             default return $loggedentity/l:url/text()}">{$loggedentity/l:url/text()}</a></td></tr>
@@ -150,7 +150,7 @@ return
                                        let $selection := for $c in $user:logs//l:logentry[l:user[. eq $username]][l:type eq 'query']
                                                                  order by $c/@timestamp descending
                                                                   return $c
-                                       for $loggedentity in subsequence($selection, 1, 50) 
+                                       for $loggedentity in subsequence($selection, 1, 50)
                                         let $link := '/search.html' || $loggedentity/l:url/text()
                                         return
                                             <tr><td>{format-dateTime($loggedentity/@timestamp,
@@ -169,7 +169,7 @@ return
                                        let $selection := for $c in $user:logs//l:logentry[l:user[. eq $username]][contains(l:type, 'XPath')]
                                                                  order by $c/@timestamp descending
                                                                   return $c
-                                       for $loggedentity in subsequence($selection, 1, 50) 
+                                       for $loggedentity in subsequence($selection, 1, 50)
                                        let $link := '/xpath?xpath=' || $loggedentity/l:url/text()
                                         return
                                             <tr><td>{format-dateTime($loggedentity/@timestamp,
@@ -187,12 +187,12 @@ return
                         <h4>change email</h4>
                         <form
                             action="/user/changemail.xql" method="POST">
-                            
+
     <label for="exampleInputEmail1">Email address</label>
     <input type="email" class="w3-input w3-border" id="email"name="email" aria-describedby="emailHelp" placeholder="Enter email"></input>
     <small id="emailHelp">This is needed for the website notifications.</small><br/>
 
-  
+
   <button type="submit" class="w3-button w3-red">Submit</button>
                             </form>
                             </div>
@@ -201,33 +201,33 @@ return
                             <h4>Change password</h4>
                             <form
                             action="/user/changepw.xql" method="POST">
-                            
+
     <label for="exampleInputEmail1">Email address</label>
     <input type="email" class="w3-input w3-border" id="email"name="email" aria-describedby="emailHelp" placeholder="Enter email"></input>
     <small id="emailHelp" class="form-text text-muted">This is needed for the website notifications.</small>
-  
+
     <label for="exampleInputPassword1">Old Password</label>
     <input type="password" class="w3-input w3-border" id="oldpassword" name="oldpassword"  placeholder="Old Password"></input>
-   
+
    <label for="exampleInputPassword1">New Password</label>
     <input type="password" class="w3-input w3-border" id="newpassword" name="newpassword"  placeholder="New Password"></input>
- 
+
   <button type="submit" class="w3-button w3-red">Submit</button>
                             </form>
                             </div>
                             </div>
                   else ()
                   }
-                  {if(sm:is-dba(sm:id()//sm:real/sm:username/string() )) then 
+                  {if(sm:is-dba(sm:id()//sm:real/sm:username/string() )) then
                              (<div
                         class="w3-panel w3-card-4 w3-padding">
                         <h3>Create new account</h3>
                         <form
                             action="/user/createaccount.xql" method="POST">
-                           
+
     <label for="fn">Full name</label>
     <input class="form-control" id="fn" name="fullName" aria-describedby="emailHelp" placeholder="Enter your full name" required="required"></input>
-    
+
     <label for="un">user name</label>
     <input  class="w3-input w3-border" id="un" name="userName" aria-describedby="emailHelp" placeholder="select a user name" required="required"></input>
     <small id="emailHelp" class="form-text text-muted">Check that this is not already used!</small>
@@ -254,31 +254,31 @@ return
   <button type="submit" class="w3-button w3-red">Submit</button>
                             </form>
                             </div>,
-                            
+
                             <div class="w3-panel w3-card-4 w3-padding">
                             <h3>Add user to group</h3>
                             <form action="/user/addUsertoGroup.xql" method="POST">
-                             
+
     <label for="group2">user</label>
     <select  class="w3-select w3-border" id="user" name="user">
     <option selected="selected" disabled="disabled">none</option>
       {for $g in sm:list-users() return <option value="{$g}">{$g}</option>}
     </select>
-  
+
     <label for="group2">Secondary Group</label>
     <select class="w3-select w3-border" id="group3" name="group3">
     <option selected="selected" disabled="disabled">none</option>
       {for $g in sm:list-groups() return
      <option value="{$g}">{$g}</option>}
     </select>
-    
-    
+
+
   <button type="submit" class="w3-button w3-red">Submit</button>
     </form>
                             </div>,
                             <div class="w3-container">
                             <div  class="w3-half w3-responsive" >There are currently the following users in this eXist-db instance
-                
+
                 <table  class="w3-table w3-hoverable">
                 <thead><tr><th>user</th><th>metadata</th></tr></thead><tbody>{
                         for $u in sm:list-users()
@@ -286,7 +286,7 @@ return
                             (<tr>
                             <td><span class="w3-large w3-tag w3-red">{$u}</span></td>
                             <td>{if(sm:is-dba($u)) then 'dba' else 'user'}</td>
-                            </tr>, 
+                            </tr>,
                             <tr>
                             <td></td>
                             <td>{for $x in sm:get-account-metadata-keys($u) return <p><b>{$x}</b>:{sm:get-account-metadata($u,$x)}</p>}</td>
@@ -294,7 +294,7 @@ return
                     }</tbody></table>
             </div>
             <div  class="w3-half w3-responsive">There are currently the following groups in this eXist-db instance
-                
+
                 <table class="w3-table w3-hoverable"><thead><tr><th>group</th><th>members</th></tr></thead><tbody>{
                         for $u in sm:list-groups()
                         order by count(sm:get-group-members($u)) descending
@@ -316,12 +316,12 @@ return
                         <h3>Delete account</h3>
                         <form
                             action="/user/deleteaccount.xql" method="POST">
-                           
+
     <label for="un">user name</label>
     <input class="w3-input w3-border" id="un" name="olduser" aria-describedby="emailHelp" placeholder="select a user name"></input>
     <small id="Help" class="form-text text-muted">Be very sure!</small><br/>
-  
-                        
+
+
   <button type="submit" class="w3-button w3-gray">Submit</button>
                             </form>
                             </div>,
@@ -330,15 +330,15 @@ return
                         <h3>Delete group</h3>
                         <form
                             action="/user/deletegroup.xql" method="POST">
-                           
+
 <label for="grouptobedeleted">Select group to be deleted</label>
     <select class="w3-select w3-border" id="grouptobedeleted" name="oldgroup">
       {for $g in  sm:list-groups()
       return <option value="{$g}">{$g}</option>}
     </select>
     <small id="delgroupHelp" class="form-text text-muted">Be very sure!</small><br/>
-  
-                        
+
+
   <button type="submit" class="w3-button w3-gray">Submit</button>
                             </form>
                             </div>

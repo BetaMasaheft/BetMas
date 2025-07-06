@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<meta xmlns="http://exist-db.org/xquery/repo">
+    <description>BetMasApi</description>
+    <author>Pietro Liuzzo</author>
+    <website/>
+    <status>alpha</status>
+    <license>GNU-LGPL</license>
+    <copyright>true</copyright>
+    <type>library</type>
+    <target>BetMasApi</target>
+    <permissions user="BetaMasaheftAdmin" group="dba" mode="rwxrwxr-x"/>
+<deployed>2022-01-05T13:54:18.876+01:00</deployed>
+</meta>

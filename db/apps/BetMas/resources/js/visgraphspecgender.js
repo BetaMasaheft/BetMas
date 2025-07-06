@@ -2,7 +2,7 @@
  //console.log(apicall)
     
     $.getJSON(apicall, function (data) {
-   //     console.log(data)
+    console.log(data)
  var nodes = new vis.DataSet(data.nodes);
 var edges = new vis.DataSet(data.edges);
         
@@ -21,7 +21,7 @@ var data = {
     nodes: nodes,
     edges: edges
 };
-
+  console.log(data)
 var options = {
     layout: {
         improvedLayout: false,
@@ -99,7 +99,7 @@ var options = {
 
 var network = new vis.Network(container, data, options);
 
-
+  console.log(network)
 network.on( 'click', function(properties) {
     window.open('/' + properties.nodes, '_blank');
 });

@@ -9,7 +9,7 @@ module namespace collatex = "https://www.betamasaheft.uni-hamburg.de/BetMas/coll
 import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMas/modules/log.xqm";
 import module namespace nav = "https://www.betamasaheft.uni-hamburg.de/BetMas/nav" at "xmldb:exist:///db/apps/BetMas/modules/nav.xqm";
-import module namespace scriptlinks = "https://www.betamasaheft.uni-hamburg.de/BetMas/scriptlinks" at "xmldb:exist:///db/apps/BetMas/modules/scriptlinks.xqm";
+import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "xmldb:exist:///db/apps/BetMas/modules/apprest.xqm";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace dts="https://www.betamasaheft.uni-hamburg.de/BetMas/dts" at "xmldb:exist:///db/apps/BetMas/modules/dts.xqm";
 import module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMas/error" at "xmldb:exist:///db/apps/BetMas/modules/error.xqm";
@@ -21,7 +21,7 @@ declare namespace http = "http://expath.org/ns/http-client";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json = "http://www.json.org";
 declare namespace test="http://exist-db.org/xquery/xqsuite";
-
+declare variable $collatex:expanded := collection('/db/apps/expanded/');
 declare variable $collatex:meta := <meta  xmlns="http://www.w3.org/1999/xhtml" name="description" content="Collation Interface using Collatex https://collatex.net/"/>;
 
 
@@ -216,18 +216,21 @@ let $matchingmss := for $ms in $urns
             
 (:~ Calls for each witness of a specified narrative builds the array which can be passed as body of the POST request to collatex:)
 declare function collatex:getnarrUnitWittnesses($nU){ 
-let $matchingmss := for $ms in collection($config:data-rootMS)//t:*[@corresp = $nU]
+let $matchingmss := for $ms in ($collatex:expanded//t:*[ends-with(@corresp, $nU)], $apprest:collection-rootMS//t:*[@corresp = $nU])
                                            let $id := string($ms/ancestor::t:TEI/@xml:id)
-(:                                          let $consol := console:log($ms):)
+                                           group by $ID := $id
+                                       return 
+                                       if($ID='') then () else
+(:                                       let $cons1 := console:log($id) :)
                                           let $xslt :=   'xmldb:exist:///db/apps/BetMas/xslt/stringtext.xsl'  
-                                           let $stringtext := try{transform:transform($ms,$xslt,())} catch * {$err:description}
+                                           let $stringtext := try{transform:transform($ms[1],$xslt,())} catch * {$err:description}
 (:                                         let $console := console:log($stringtext):)
                                          let $text := string-join($stringtext//text())
 (:                                          let $console1 := console:log($text):)
                                             let $cleantext := collatex:cleanforcollatex($text)
 (:                                          let $console2 := console:log($cleantext):)
                                              return
-                                         '{"id" : "' ||$id ||'", "content" : "'||$cleantext||'"}' 
+                                         '{"id" : "' ||$ID ||'", "content" : "'||$cleantext||'"}' 
                           return
             '{"witnesses" : [' ||string-join($matchingmss, ',') ||']}'
             };

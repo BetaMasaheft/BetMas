@@ -11,11 +11,13 @@
     <prepare>pre-install.xql</prepare>
     <finish/>
     <permissions user="Pietro" group="dba" mode="rw-rw-r--"/>
+    <permissions user="BetaMasaheftAdmin" group="dba" mode="rw-rw-r--"/>
 
 
 
 
 
 
-<deployed>2019-03-26T12:53:55.449+01:00</deployed>
+
+<deployed>2020-11-24T13:30:16.272+01:00</deployed>
 </meta>

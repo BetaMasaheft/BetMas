@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:sr="http://www.w3.org/2005/sparql-results#" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="sr:sparql">
         <div class="w3-responsive">
@@ -52,7 +53,9 @@
                  </xsl:when>
                  <xsl:when test="starts-with(.,'https://betamasaheft.eu/')">
                      <xsl:attribute name="class">MainTitle</xsl:attribute>
-                     <xsl:attribute name="data-value"><xsl:value-of select="substring-after(.,'https://betamasaheft.eu/')"/></xsl:attribute>
+                     <xsl:attribute name="data-value">
+                        <xsl:value-of select="substring-after(.,'https://betamasaheft.eu/')"/>
+                    </xsl:attribute>
                      <xsl:value-of select="."/>
                  </xsl:when>
                  <xsl:when test="starts-with(., 'http://n2t.net/ark:/99152/')">
@@ -70,7 +73,9 @@
                  <xsl:when test="starts-with(.,'http://data.snapdrgn.net/ontology/snap#')">
                      <xsl:value-of select="substring-after(.,'http://data.snapdrgn.net/ontology/snap#')"/>
                  </xsl:when>
-                 <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+                 <xsl:otherwise>
+                    <xsl:value-of select="."/>
+                </xsl:otherwise>
              </xsl:choose>
            
         </a>

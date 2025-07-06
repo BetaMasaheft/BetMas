@@ -58,14 +58,15 @@ declare function gitsync:rdf($collection-uri, $file-name){
     let $rdf := transform:transform($stored-file, $gitsync:data2rdf, ())
     let $rdffilename := replace($file-name, '.xml', '.rdf')
     let $collectionName := substring-after($collection-uri, '/db/apps/BetMasData/')
-    let $shortCollName := if( matches($collectionName, 'manuscripts')) then 'manuscripts' 
-                        else if( matches($collectionName, 'works')) then 'works' 
-                        else if( matches($collectionName, 'studies')) then 'studies' 
-                        else if( matches($collectionName, 'narratives')) then 'narratives' 
-                        else if( matches($collectionName, 'persons')) then 'persons' 
-                        else if( matches($collectionName, 'places')) then 'places'  
-                        else if( matches($collectionName, 'institutions')) then 'institutions' 
-                        else 'authority-files'
+    let $shortCollName :=  if( contains($collectionName, 'works') or contains($rdffilename, 'LIT')) then 'works' 
+                        else if( contains($collectionName, 'studies') or contains($rdffilename, 'STU')) then 'studies' 
+                        else if( contains($collectionName, 'narratives') or contains($rdffilename, 'NAR')) then 'narratives' 
+                        else if( contains($collectionName, 'persons') or contains($rdffilename, 'PRS'))then 'persons' 
+                        else if( contains($collectionName, 'places') or contains($rdffilename, 'LOC')) then 'places'  
+                        else if( contains($collectionName, 'institutions') or contains($rdffilename, 'INS')) then 'institutions' 
+                        else if( contains($collectionName, 'manuscripts') or contains(doc($file-name)//t:TEI/@type, 'mss')) then 'manuscripts'
+                        else if( contains($collectionName, 'authority') or contains(doc($file-name)//t:TEI/@type, 'auth')) then 'authority-files'
+                        else ()
     let $storecoll := concat('/db/rdf/', $shortCollName)
     let $storeRDFXML := xmldb:store($storecoll, $rdffilename, $rdf)
 (:retrieve the RDF/XML as stored, and send it to update Apache Jena Fuseki and the triplestore:)
@@ -226,8 +227,8 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
                 gitsync:fileortax($collection-uri, $file-name, $committerEmail) ,:)
 (:   then update autority lists:)
                  gitsync:updateLists($data-collection, $file-name) ,
-(:                    then update the RDF repository
-                 gitsync:rdf($collection-uri, $file-name) ,:)
+(:                    then update the RDF repository :)
+                 gitsync:rdf($collection-uri, $file-name) ,
 (:                   and finally check the ids for wrong anchors:)
                  gitsync:checkAnchors($data-collection, $committerEmail, $collection-uri, $file-name)
 (:                    if any of these fails follow instructions in catch, 
@@ -447,9 +448,9 @@ declare function gitsync:updateLists($data-collection, $file-name){
                     else if(contains($data-collection, 'studies')) then (
                     gitsync:updatetextpartsMOD($file-name))
                     else if(contains($data-collection, 'narratives')) then (
-                    gitsync:updatetextpartsMOD($file-name)):)
+                    gitsync:updatetextpartsMOD($file-name))
                     else if(contains($data-collection, 'places')) then (
-                    gitsync:updateplacesMOD($file-name) ) 
+                    gitsync:updateplacesMOD($file-name) ) :)
                     else ()};
 
 declare function gitsync:checkAnchors($data-collection, $committerEmail, $collection-uri, $file-name){

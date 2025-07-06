@@ -9,7 +9,6 @@ module namespace app="https://www.betamasaheft.uni-hamburg.de/BetMas/app";
 
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace t="http://www.tei-c.org/ns/1.0";
-declare namespace functx = "http://www.functx.com";
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
 declare namespace skos = "http://www.w3.org/2004/02/skos/core#";
 declare namespace rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
@@ -33,16 +32,17 @@ import module namespace validation = "http://exist-db.org/xquery/validation";
 import module namespace fusekisparql = 'https://www.betamasaheft.uni-hamburg.de/BetMas/sparqlfuseki' at "xmldb:exist:///db/apps/BetMas/fuseki/fuseki.xqm";
 import module namespace console="http://exist-db.org/xquery/console";
 import module namespace apptable="https://www.betamasaheft.uni-hamburg.de/BetMas/apptable" at "xmldb:exist:///db/apps/BetMas/modules/apptable.xqm";
+import module namespace functx = "http://www.functx.com";
 
 (:~declare variable $app:item-uri as xs:string := raequest:get-parameter('uri',());:)
-declare variable $app:deleted := doc('/db/apps/lists/deleted.xml');
+declare variable $app:deleted := doc('/db/apps/BetMas/lists/deleted.xml');
 declare variable $app:collection as xs:string := request:get-parameter('collection',());
 declare variable $app:name as xs:string := request:get-parameter('name',());
 declare variable $app:params := request:get-parameter-names() ;
 declare variable $app:facets := doc("/db/system/config/db/apps/BetMasData/collection.xconf")//xconf:facet/@dimension ;
 declare variable $app:rest  as xs:string := '/rest/';
-declare variable $app:languages := doc('/db/apps/lists/languages.xml');
-declare variable $app:tax := doc('/db/apps/lists/canonicaltaxonomy.xml');
+declare variable $app:languages := doc('/db/apps/BetMas/lists/languages.xml');
+declare variable $app:tax := doc('/db/apps/BetMas/lists/canonicaltaxonomy.xml');
 declare variable $app:range-lookup := 
     (
         function-lookup(xs:QName("range:index-keys-for-field"), 4),
@@ -101,11 +101,6 @@ declare variable $app:APP_ROOT :=
             request:get-context-path() || "/apps/BetMas"
             ;
 
-declare function functx:capitalize-first( $arg as xs:string? )  as xs:string? {
-   concat(upper-case(substring($arg,1,1)),
-             substring($arg,2))
- } ;
- 
 declare function app:interpretationSegments($node as node(), $model as map(*)){
  for $d in config:distinct-values(collection($config:data-rootMS)//t:seg/@ana)
                     return
@@ -167,6 +162,7 @@ declare function app:queryinput ($node as node(), $model as map(*), $query as xs
 
 (: ~ calls the templates for static parts of the page so that different templates can use them. To make those usable also from restxq, they have to be called by templates like this, so nav.xql needs not the template module :)
 declare function app:NbarNew($node as node()*, $model as map(*)){nav:barNew()};
+declare function app:searchhelpNew($node as node()*, $model as map(*)){nav:searchhelpNew()};
 declare function app:modalsNew($node as node()*, $model as map(*)){nav:modalsNew()};
 declare function app:footerNew($node as node()*, $model as map(*)){nav:footerNew()};
 
@@ -464,29 +460,13 @@ declare function app:deleted ($node as node(), $model as map(*)) {
        <script type="text/javascript" src="resources/js/permanentID.js"></script>
 };
 
-declare function functx:value-intersect  ( $arg1 as xs:anyAtomicType* ,    $arg2 as xs:anyAtomicType* )  as xs:anyAtomicType* {
-
-  config:distinct-values($arg1[. eq $arg2])
- } ;
-
-declare function functx:trim( $arg as xs:string? )  as xs:string {
-
-   replace(replace($arg,'\s+$',''),'^\s+','')
- } ;
-
-declare function functx:contains-any-of( $arg as xs:string? ,$searchStrings as xs:string* )  as xs:boolean {
-
-   some $searchString in $searchStrings
-   satisfies contains($arg,$searchString)
- } ;
-
 (:modified by applying functx:escape-for-regex() :)
-declare function functx:number-of-matches ( $arg as xs:string? ,$pattern as xs:string )  as xs:integer {
+declare function app:number-of-matches ( $arg as xs:string? ,$pattern as xs:string )  as xs:integer {
        
-   count(tokenize(functx:escape-for-regex(functx:escape-for-regex($arg)),functx:escape-for-regex($pattern))) - 1
+   count(tokenize(app:escape-for-regex(app:escape-for-regex($arg)),app:escape-for-regex($pattern))) - 1
  } ;
 
-declare function functx:escape-for-regex( $arg as xs:string? )  as xs:string {
+declare function app:escape-for-regex( $arg as xs:string? )  as xs:string {
 
    replace($arg,
            '(\.|\[|\]|\\|\||\-|\^|\$|\?|\*|\+|\{|\}|\(|\))','\\$1')
@@ -792,10 +772,6 @@ let $SearchOptions := "map {
   'filter-rewrite': 'yes'
 }"
     return
-    if ($element='TEI') then 
-    
-concat("ft:query(., '" , $query, "', ", $SearchOptions ,")")
-    else 
 concat("descendant::t:", $element, "[ft:query(., '" , $query, "', ", $SearchOptions ,")]")
 };
 
@@ -1123,7 +1099,7 @@ declare
     %templates:default("target-work", "all")
     %templates:default("homophones", "true")
 %templates:default("numberOfParts", "")
-    %templates:default("element",  "TEI")
+    %templates:default("element",  "placeName", "title", "persName", "ab", "floruit", "p", "note", "idno", "incipit", "explicit")
 function app:query(
 $node as node()*, 
 $model as map(*), 
@@ -1309,7 +1285,6 @@ let $queryExpr := $query-string
                    
                    let $allels := string-join($elements, ' or ')
                    let $path:=    concat("$titles:collection-root","//t:TEI[",$allels, "]", $allfilters)
-                   let $log := util:log('info', $path)
                    let $logpath := log:add-log-message($path, sm:id()//sm:real/sm:username/string() , 'XPath')  
                    let $hits := util:eval($path)
                    for $hit in $hits
@@ -1325,7 +1300,7 @@ let $queryExpr := $query-string
        
             return
                 (: Process nested templates :)
-              map {
+                map {
                     "hits" : $hits,
                     "q" : $query,
                     "type" : 'matches',
@@ -1429,10 +1404,8 @@ declare function app:hit-params($node as node()*, $model as map(*)) {
                     for $param in $app:params
                     for $value in request:get-parameter($param, ())
                     return
-                    if ($value = '') then ()
-                    else if ($param = 'start') then ()
+                    if ($param = 'start') then ()
                     else if ($param = 'query') then ()
-                    else if (ends-with($param, '-operator-field')) then ()
                     else if ($param = 'dateRange') 
                      then (<span class="w3-tag w3-gray w3-round w3-margin">{'between ' || substring-before(request:get-parameter('dateRange', ()), ',') || ' and ' || substring-after(request:get-parameter('dateRange', ()), ',')}</span>)
                     else
@@ -1443,11 +1416,7 @@ declare function app:hit-params($node as node()*, $model as map(*)) {
 declare function app:gotoadvanced($node as node()*, $model as map(*)){
 let $query := request:get-parameter('query', ())
 return 
-<div class="w3-bar">
-<a href="/newSearch.html?query={$query}" class="w3-button w3-red w3-margin w3-bar-item">Repeat search in the Full Search.</a>
-<a href="/facet.html?query={$query}" class="w3-button w3-red w3-margin w3-bar-item">Repeat search in the Facet Search.</a>
-<a href="/as.html?query={$query}" class="w3-button w3-red w3-margin w3-bar-item">Repeat search in the Advanced Search.</a>
-</div>
+<a href="/as.html?query={$query}" class="w3-button w3-red w3-margin">Repeat search in the Advanced Search.</a>
 };
 
 declare function app:list-count($node as node()*, $model as map(*)) {
@@ -1647,9 +1616,8 @@ function app:facetSearchRes ( $node as node()*,  $model as map(*), $start as xs:
         let $queryText := request:get-parameter('query', ())
         
             let $expanded := kwic:expand($text)
-            let $firstancestorwithID:=($expanded//exist:match/(ancestor::t:*[(@xml:id|@n)] | ancestor::t:text))[last()]
-      let $test := console:log($firstancestorwithID)
-      let $firstancestorwithIDid := $firstancestorwithID/string(@xml:id)
+            let $firstancestorwithID:=($expanded//exist:match/(ancestor::t:text|ancestor::t:*[(@xml:id|@n)][self::t:TEI]))[1]
+        let $firstancestorwithIDid := $firstancestorwithID/string(@xml:id)
         let $view := if($firstancestorwithID[ancestor-or-self::t:text]) then 'text' else 'main'
          let $firstancestorwithIDanchor := if($view = 'main') then '#' || $firstancestorwithIDid else ()
         
@@ -1660,22 +1628,12 @@ function app:facetSearchRes ( $node as node()*,  $model as map(*), $start as xs:
             let $id := data($root/t:TEI/@xml:id)
             let $collection := switch2:col($t)
         let $score as xs:float := ft:score($text)
-        let $tokvalues := for $tokenInQuery in tokenize($queryText, '\s') 
-                            return if ($text[contains(., $tokenInQuery)]) then 5 else 0
-      let $values := sum($tokvalues)
-        let $enrichedScore := 
-                            $score + 
-                            $values +
-                            (count($text//node()) div 100) + 
-                            ( if($text//t:ab[node()]) then 4 
-                            else if($text//t:occupation) then 2 
-                                else if ($text/ancestor::t:TEI//t:change[contains(.,'complete')]) then 1 else ())
-        order by $enrichedScore descending
+        order by $score descending
              return
             <div class="w3-row w3-border-bottom w3-margin-bottom">
               <div class="w3-third">
               <div class="w3-col" style="width:15%">
-                <span class="w3-tag w3-red">{$enrichedScore}</span>
+                <span class="w3-tag w3-red">{format-number($score, '0,00')}</span>
                 <span class="w3-tag w3-red">{
                 if ($item//t:change[contains(., 'complete')]) then
                         (attribute style {'background-color:rgb(172, 169, 166, 0.4)'},
@@ -1711,7 +1669,7 @@ EMIP:)
                then <img src="{$config:appUrl ||'/iiif/' || string(($item//t:msIdentifier)[1]/t:idno/@facs) || '001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
               
              (:BNF:)
-            else if (($item//t:repository/@ref)[1]  eq 'INS0303BNF') 
+            else if (($item//t:repository/@ref)[1] = 'INS0303BNF') 
             then <img src="{replace($item//t:msIdentifier/t:idno/@facs, 'ark:', 'iiif/ark:') || '/f1/full/140,/0/native.jpg'}" class="thumb w3-image"/>
 (:           vatican :)
                 else if (contains($item//t:msIdentifier/t:idno/@facs, 'digi.vat')) then <img src="{replace(substring-before($item//t:msIdentifier/t:idno/@facs, '/manifest.json'), 'iiif', 'pub/digit') || '/thumb/'
@@ -1721,8 +1679,8 @@ EMIP:)
                 }" class="thumb w3-image"/>
 (:                bodleian:)
 else if (contains($item//t:msIdentifier/t:idno/@facs, 'bodleian')) then ('images')
-          else (<img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno[not(starts-with(@facs, 'https'))][1]/@facs) ||  (if(starts-with($item//t:collection, 'Ethio')) then '_' else())||'001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>)
-                       }</a>
+                else (<img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno[not(starts-with(@facs, 'https'))][1]/@facs) ||  (if(starts-with($item//t:collection, 'Ethio')) then '_' else())||'001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>)
+                 }</a>
                 
                 else ()}
                 {if($collection = 'works') then apptable:clavisIds($root) else ()}
@@ -1734,13 +1692,7 @@ else if (contains($item//t:msIdentifier/t:idno/@facs, 'bodleian')) then ('images
             </div>
             <div class="w3-twothird">
                  <div class="w3-twothird">{
-                     for $match in subsequence($expanded//exist:match, 1, 3) 
-                      let $matchancestorwithID:=($match/(ancestor::t:*[(@xml:id|@n)] | ancestor::t:text))[last()]
-      let $matchancestorwithIDid := $matchancestorwithID/string(@xml:id)
-        let $view := if($matchancestorwithID[ancestor-or-self::t:text]) then 'text' else 'main'
-         let $matchancestorwithIDanchor := if($view = 'main') then '#' || $matchancestorwithIDid else ()
-        
-                     return  
+                     for $match in subsequence($expanded//exist:match, 1, 3) return  
                       let $matchref := replace(app:refname($match), '.$', '')
                 let $ref := if($view = 'text' and $matchref !='') then '&amp;ref=' || $matchref else ()
                 return 
@@ -1748,14 +1700,14 @@ else if (contains($item//t:msIdentifier/t:idno/@facs, 'bodleian')) then ('images
                    {  kwic:get-summary($match/parent::node(), $match,<config width="40"/>)}
                      </div>
                         <div class="w3-third w3-padding">
-                        <a href="/{$collection}/{$id}/{$view}{$matchancestorwithIDanchor}?hi={$queryText}{$ref}">
-                        {' in element ' ||$match/parent::t:*/name() || ' within a ' ||
-                        $matchancestorwithID/name() 
+                        <a href="/{$collection}/{$id}/{$view}{$firstancestorwithIDanchor}?hi={$queryText}{$ref}">
+                        {' in element ' ||
+                        $firstancestorwithID/name() 
                         || 
                        (if($view = 'text'  and $matchref !='') 
                                 then ', at ' || $matchref 
                        else if($view = 'main') 
-                                then ', with id ' || $matchancestorwithIDid 
+                                then ', with id ' || $firstancestorwithIDid 
                         else ())
                         }</a>
                         </div>
@@ -1769,7 +1721,7 @@ else if (contains($item//t:msIdentifier/t:idno/@facs, 'bodleian')) then ('images
                         case 'pers' return ()
                         case 'ins' return (<a role="button" class="w3-button w3-small w3-gray" href="/manuscripts/{$id}/list">manuscripts</a>)
                         case 'place' return (<a role="button" class="w3-button w3-small w3-gray" href="/manuscripts/place/list?place={$id}">manuscripts</a>)
-                        case 'nar' return (<a role="button" class="w3-button w3-small w3-gray" href="/collate">collate</a>)
+                        case 'narr' return (<a role="button" class="w3-button w3-small w3-gray" href="/collate">collate</a>)
                         case 'work' return 
                             (<a role="button" class="w3-button w3-small w3-gray" href="/compare?workid={$id}">compare</a>,
                              <a role="button" class="w3-button w3-small w3-gray" href="/workmap?worksid={$id}">map of mss</a>,
@@ -1993,23 +1945,23 @@ declare %private function app:sanitize-lucene-query($query-string as xs:string) 
     (:Remove colons – Lucene fields are not supported.:)
     let $query-string := translate($query-string, ":", " ")
     let $query-string := 
-	   if (functx:number-of-matches($query-string, '"') mod 2) 
+	   if (app:number-of-matches($query-string, '"') mod 2) 
 	   then $query-string
 	   else replace($query-string, '"', ' ') (:if there is an uneven number of quotation marks, delete all quotation marks.:)
     let $query-string := 
-	   if ((functx:number-of-matches($query-string, '\(') + functx:number-of-matches($query-string, '\)')) mod 2 eq 0) 
+	   if ((app:number-of-matches($query-string, '\(') + app:number-of-matches($query-string, '\)')) mod 2 eq 0) 
 	   then $query-string
 	   else translate($query-string, '()', ' ') (:if there is an uneven number of parentheses, delete all parentheses.:)
     let $query-string := 
-	   if ((functx:number-of-matches($query-string, '\[') + functx:number-of-matches($query-string, '\]')) mod 2 eq 0) 
+	   if ((app:number-of-matches($query-string, '\[') + app:number-of-matches($query-string, '\]')) mod 2 eq 0) 
 	   then $query-string
 	   else translate($query-string, '[]', ' ') (:if there is an uneven number of brackets, delete all brackets.:)
     let $query-string := 
-	   if ((functx:number-of-matches($query-string, '{') + functx:number-of-matches($query-string, '}')) mod 2 eq 0) 
+	   if ((app:number-of-matches($query-string, '{') + app:number-of-matches($query-string, '}')) mod 2 eq 0) 
 	   then $query-string
 	   else translate($query-string, '{}', ' ') (:if there is an uneven number of braces, delete all braces.:)
     let $query-string := 
-	   if ((functx:number-of-matches($query-string, '<') + functx:number-of-matches($query-string, '>')) mod 2 eq 0) 
+	   if ((app:number-of-matches($query-string, '<') + app:number-of-matches($query-string, '>')) mod 2 eq 0) 
 	   then $query-string
 	   else translate($query-string, '<>', ' ') (:if there is an uneven number of angle brackets, delete all angle brackets.:)
     return $query-string

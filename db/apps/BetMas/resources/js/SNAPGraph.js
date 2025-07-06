@@ -60,7 +60,7 @@ BIND(bm:husbandOf as ?relName) \
     apicall = "/api/SPARQL/json?query=" + encodeURIComponent(SNAPquery)
     $.getJSON(apicall, function (data) {
         
-      // console.log(data)
+       console.log(data)
         var SPARQLnodes =[]
         var SPARQLedges =[]
         var ids =[]
@@ -94,12 +94,12 @@ BIND(bm:husbandOf as ?relName) \
         });
         
         function makenode(unit) {
-            this.label = unit 
+            this.label = unit.replace('https://betamasaheft.eu/', '')
             this.id = unit.replace(' ', '_')
         }
         
         function makeedge(idfrom, relname, idto) {
-            this. from = idfrom
+            this.from = idfrom
             this.label = relname.replace('http://data.snapdrgn.net/ontology/snap#', 'snap:')
             this.to = idto
         }

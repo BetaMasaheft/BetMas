@@ -49,7 +49,6 @@ var fields = document.getElementById('fields')
 });
 
 
-
 function callformpart(file, id) {
     
     // check first that the element is not there already

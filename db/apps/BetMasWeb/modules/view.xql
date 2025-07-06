@@ -3,7 +3,6 @@ xquery version "3.0" encoding "UTF-8";
 import module namespace templates="http://exist-db.org/xquery/templates" ;
 import module namespace site="http://exist-db.org/apps/site-utils";
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
-import module namespace app="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/app" at "xmldb:exist:///db/apps/BetMasWeb/modules/app.xqm";
 import module namespace q="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/queries" at "xmldb:exist:///db/apps/BetMasWeb/modules/queries.xqm";
 import module namespace apidoc="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/apidoc" at "xmldb:exist:///db/apps/BetMasWeb/modules/apidocumentation.xqm";
 import module namespace nav = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/nav" at "xmldb:exist:///db/apps/BetMasWeb/modules/nav.xqm";
@@ -12,9 +11,10 @@ import module namespace rels="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/
 import module namespace lists="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/lists"at "xmldb:exist:///db/apps/BetMasWeb/modules/resources.xqm";
 import module namespace indexesNE="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/indexesNE" at "xmldb:exist:///db/apps/BetMasWeb/modules/indexesNE.xqm";
 import module namespace tl="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/timeline"at "xmldb:exist:///db/apps/BetMasWeb/modules/timeline.xqm";
+import module namespace app="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/app" at "xmldb:exist:///db/apps/BetMasWeb/modules/app.xqm";
 
 
-declare namespace saxon="http://saxon.sf.net/"; 
+declare namespace saxon="http://saxon.sf.net/";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
 declare option output:method "xhtml";

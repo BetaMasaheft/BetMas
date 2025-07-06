@@ -198,6 +198,7 @@ switch($type)
             case "pers"  return titles:decidepersNameSource($resource, $resource/ancestor-or-self::t:TEI/@xml:id)
             case "work"  return titles:decideTUSource($resource, $resource/ancestor-or-self::t:TEI/@xml:id)
             case "nar"  return titles:decideTUSource($resource, $resource/ancestor-or-self::t:TEI/@xml:id)
+            case "studies"  return titles:decideTUSource($resource, $resource/ancestor-or-self::t:TEI/@xml:id)
 (:            this should do also auths:)
             default return $resource//t:titleStmt/t:title[1]/text()
 };
@@ -479,6 +480,7 @@ else
 };
 
 declare function titles:updatePlaceList($name, $pRef){
+let $_ := util:log('INFO', 'Updating placeNamesList with ' || $name || ': ' || $pRef)
 let $placeslist := $titles:placeNamesList//t:list
 return 
 update insert <item 
@@ -488,6 +490,7 @@ corresp="{$pRef}">{$name}</item> into  $placeslist
 };
 
 declare function titles:updatePersList($name, $pRef){
+let $_ := util:log('INFO', 'Updating persNamesList with ' || $name || ': ' || $pRef)
 let $perslist := $titles:persNamesList//t:list
 return 
 update insert <item 
@@ -497,20 +500,43 @@ corresp="{$pRef}">{$name}</item> into  $perslist
 };
 
 declare function titles:updateTUList($name, $pRef){
-let $TUlist := $titles:TUList//t:list
+let $_ := util:log('INFO', 'Updating TUList with ' || $name || ': ' || $pRef)
+let $TUList := $titles:TUList//t:list
 return 
 update insert <item 
 xmlns="http://www.tei-c.org/ns/1.0" 
 change="entryAddedAt{current-dateTime()}"
-corresp="{$pRef}">{$name}</item> into  $TUlist
+corresp="{$pRef}">{$name}</item> into  $TUList
 };
 
+declare function titles:request($request as element(http:request)) {
+	  let $_ := util:log("info", $request/@href)
+    let $response := http:send-request($request)
+    let $status-code := xs:integer($response[1]/@status)
+
+    return
+				if ($status-code = 429)
+				then
+						let $retry-after := ($response[1]/http:header[@name="Retry-After"], 1000)[1]
+						let $_ := util:log('INFO', '429 from ' || $request/@href || ', waiting ' || $retry-after || ' ms until retrying.')
+						let $_ := util:wait(xs:integer($retry-after))
+						return titles:request($request)
+			else if ($status-code >= 400)
+        then
+						let $_ := util:log(
+								'INFO',
+								"server connection failed: " || $response[1]/@message || " (" || $status-code || ")" || $response[1])
+						return error(
+								xs:QName("titles:connection-error"),
+								"server connection failed: " || $response[1]/@message || " (" || $status-code || ")" || $response[1])
+        else $response
+};
 
 declare function titles:getGeoNames ($string as xs:string){
 let $gnid:= substring-after($string, 'gn:')
 let $xml-url := concat('http://api.geonames.org/get?geonameId=',$gnid,'&amp;username=betamasaheft')
 let $data := try{let $request := <http:request href="{xs:anyURI($xml-url)}" method="GET"/>
-    return http:send-request($request)[2]} catch *{$err:description}
+    return titles:request($request)[2]} catch *{$err:description}
 return
 if ($data//toponymName) then
 $data//toponymName/text()
@@ -532,7 +558,6 @@ let $response-body := $response[2]
 return
     $response-body//feed:title
 return string($title[1])
-
 };
 
 declare function titles:getwikidataNames($pRef as xs:string){
@@ -546,7 +571,7 @@ let $sparql := 'SELECT * WHERE {
 let $query := 'https://query.wikidata.org/sparql?query='|| xmldb:encode-uri($sparql)
 
 let $req := try{let $request := <http:request href="{xs:anyURI($query)}" method="GET"/>
-    return http:send-request($request)[2]} catch * {$err:description}
+    return titles:request($request)[2]} catch * {$err:description}
 return
 $req//sparql:result/sparql:binding[@name eq "label"]/sparql:literal[@xml:lang='en']/text()
 };

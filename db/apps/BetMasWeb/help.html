@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/newpage.html" data-template-at="content">
     <div class="w3-container w3-justify  w3-padding-64">
         <div class="w3-sidebar w3-bar-block w3-card w3-animate-left " id="sidebar" style="max-height:50vh;width:10%">
@@ -13,8 +14,6 @@
             <a class="w3-bar-item page-scroll" href="#datareuse">Data</a>
             <a class="w3-bar-item page-scroll" href="#links">Links</a>
             <a class="w3-bar-item page-scroll" href="#citation">Citation</a>
-            <a class="w3-bar-item page-scroll" href="#faq">Frenquently asked questions</a>
-            <a class="w3-bar-item page-scroll" href="#presentations">Presentations</a>
             <a class="w3-bar-item page-scroll" href="#Bibliography">Bibliography</a>
             <a class="w3-bar-item page-scroll" href="#more">Other information</a>
         </div>
@@ -24,7 +23,7 @@
                 <div id="discussions" class="w3-border w3-pale-green w3-panel w3-right w3-padding-32 w3-margin-left" style="width:25%;">
                     <h2>Questions?</h2>
                     <p>Need help, want to ask and avoid reading all this? You can ask by opening an <a href="https://github.com/BetaMasaheft/Documentation/issues">issue on GitHub</a>. You can also search through past <a href="https://github.com/BetaMasaheft/Documentation/issues">issues (open or closed)</a> and <a href="https://github.com/BetaMasaheft/Documentation/discussions">discussions</a>.
-                        You may find additional examples and already asked and answered questions there to help you.</p>
+                    You may find additional examples and already asked and answered questions there to help you.</p>
                 </div>
                 <h1>Some hints on how you can navigate this website</h1>
 
@@ -260,6 +259,11 @@
                             monasteries of which we know about and which are related explicitly with
                             this place. Also a list of resources linked to this place in Pelagios is
                             added.</p>
+                        <p>Disclaimer: Place records should ideally contain the attested names of the place in local languages and translation, including possible variants, as well as any information available on the foundation of the place, its existence and development. Coordinates can be added or will be retrieved if a reference to the place’s Wikidata ID is given.
+                            This is a work in progress, and many records were inherited from the 
+                            <a href="https://www.aai.uni-hamburg.de/en/ethiostudies/research/encyclopaedia/eae.html">Encyclopaedia Aethiopica</a>, 
+                            there are still many inconsistencies 
+                            that we are trying to gradually fix.</p>
                     </div>
                     <div>
                         <h3>Persons main view</h3>
@@ -267,6 +271,13 @@
                             box with the core informations available: names, relevant dates, etc. </p>
                         <p>The item navigation bar will also directly link to the persons index
                             filtered for this entity.</p>
+                        <p>Disclaimer: ideally, records should contain the person’s original and transliterated names and 
+                            basic information on their life and occupations as well as a reference to their 
+                            Wikidata ID, if existing.
+                            As this is a work in progress, and many records were inherited from the 
+                            <a href="https://www.aai.uni-hamburg.de/en/ethiostudies/research/encyclopaedia/eae.html">Encyclopaedia Aethiopica</a>, 
+                            there are still many inconsistencies 
+                            that we are trying to gradually fix.</p>
                     </div>
                     <div>
                         <h3>Authority files main view</h3>
@@ -472,7 +483,8 @@
                     <div class="w3-container">
                         <div>
                             <h3>Indexes</h3>
-                            <p>This app is built with exist-db, and uses Lucene as the standard search engine. This comes with several options available. A full list is <a href="https://lucene.apache.org/core/2_9_4/queryparsersyntax.html#Fuzzy Searches" target="_blank">here</a></p>
+                            <p>This app is built with exist-db, and uses Lucene as the standard search engine. This comes with several options available. A full list is <a href="https://lucene.apache.org/core/2_9_4/queryparsersyntax.html#Fuzzy Searches" target="_blank">here</a>
+                            </p>
                             
                         </div>
                         <div>
@@ -526,7 +538,8 @@
                             <h4>Keys Combinations</h4>
                             <p>With this method you use keys combinations to trigger specific characters.
                                 <a target="_blank" href="/combos.html">Click here for a list of the available combos.</a>
-                                This can be expanded<a target="_blank" href="https://github.com/BetaMasaheft/Documentation/issues/new/choose">, do not hesitate to ask (click here to post a new issue).</a></p>
+                                This can be expanded<a target="_blank" href="https://github.com/BetaMasaheft/Documentation/issues/new/choose">, do not hesitate to ask (click here to post a new issue).</a>
+                            </p>
                             <h4>Hold and choose</h4>
                             <p>If you hold a key optional values will appear in a list. You can click on the desiderd value or use arrows and enter to select it. The options are the same as those activated by combinations.</p>
                             <p>With this method you do not have to remember or lookup combos, but it does take many more clicks...</p>
@@ -560,6 +573,46 @@
                                 <a href="/newSearch.html?mode=none&amp;searchType=text&amp;query=Mary&amp;type-facet=manuscript&amp;artThemes-facet=Virgin+and+Child">Search the word 'Mary' and filter down for manuscripts only
                                     with at least one decoration with art theme "Virgin and Child"
                                     (AT1031VirginAndChild)</a>.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>XPath search</h3>
+                        <p>All searches are XPath searches in an XML database like the one behind
+                            this website, but what you can ask in a XPath query is much more than
+                            any of the provided search interfaces can offer. So, if you know how to
+                            write your XPath, and know the source TEI (available for each file, by
+                            appending .xml to the identifier of the record) you will then be able to
+                            see your results listed.</p>
+                        <p>Here you can avail yourself also of the structure of the file, the relative position of elements, and the 
+                            nested elements, querying across the axes.</p>
+                        <p>Examples:</p>
+                        <ul>
+                            <li>
+                                <a href="/xpath?xpath=%24config%3Acollection-rootPr%2F%2Ft%3Aperson%5Bt%3Abirth%5B%40*%5D%5D%5Bt%3Adeath%5B%40*%5D%5D%5Bt%3Aoccupation%5B%40type%3D%27ruler%27%5D%5D">person record which have at least some attribute for birth and death (can be when, notBefore, notAfter) elements and occupation type ruler'.</a>
+                            </li>
+                            <li>
+                                <a href="/xpath?xpath=collection(%24config%3Adata-rootMS)%2F%2Ft%3Aadditions%2Ft%3Alist%2Ft%3Aitem%5Bt%3Adesc%5B%40type%3D%27OwnershipNote%27%5D%5D%5Bfollowing-sibling%3A%3At%3Aitem%5Bt%3Adesc%5B%40type%3D%27Supplication%27%5D%5D%5D">Manuscripts with an addition element typed Ownership Note followed by another one with type Supplication.</a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3>SPARQL Endpoint</h3>
+                        <p>Parallel to the XML, also an RDF triple store is maintained by the
+                            project. Here you get an interface to the SPARQL endpoint. You can add
+                            your SPARQL query and see the results available.
+                            The endpoint can be queried from other visualization tools like Palladio.</p>
+                        <p>Examples:</p>
+                        <ul>
+                            <li>
+                                <a href="/sparql?query=SELECT+%3Fms+%3Fperson%0D%0AWHERE+%7B%0D%0A++%3Fannotation+a+bm%3Adonor+%3B%0D%0A++++++++++++++oa%3AhasBody+%3Fperson+%3B%0D%0A++%09%09%09++oa%3AhasTarget+%3Fms+.%0D%0A++%3Fms+a+bm%3Amss+.%0D%0A++%3Fperson+foaf%3Agender+%27female%27+.%0D%0A%7D+">Search for female donors.</a>
+                            </li>
+                            <li>
+                                <a href="/sparql?query=%20SELECT%20DISTINCT%20%3Fmanuscript%20%3Fpatron%20%3Frelation%20%3Fruler%20%20%20%20%20WHERE%7B%20%20%20%20%20%20%20%3Fannotation%20a%20bm%3Apatron%20%3B%20oa%3AhasTarget%20%3Fmanuscript%20%3B%20oa%3AhasBody%20%3Fpatron%20.%20%3Fmanuscript%20a%20bm%3Amss%20.%20%3Fpatron%20snap%3AhasBond%20%3FbondName%20.%20%3FbondName%20rdf%3Atype%20%3Frelation%20%3B%20snap%3Abond-with%20%3Fruler%20.%20%3Fruler%20snap%3Aoccupation%20%27Emperor%27%20.%20%7D">Manuscripts with a patron of the imperial family</a>
+                            </li>
+                            <li>
+                                <a href="/sparql?query=SELECT+DISTINCT+%3Fmountain+%3Fmanuscript%0D%0AWHERE+%7B+%3Fatt+oa%3AhasBody+%3Fmountain+%3B%0D%0A++++++++++++++++++++++++oa%3AhasTarget+%3Fmanuscript+.%0D%0A%3Fmanuscript+a+bm%3Amss+%3B%0D%0A+++++++++++++++++++a+bm%3ALiturgy+.%0D%0A%3Fmountain+a+bm%3Aplace+%3B%0D%0A+++++pleiades%3AhasFeatureType+%3Chttps%3A%2F%2Fbetamasaheft.eu%2Fauthority-files%2Fmountain%3E+.%0D%0A+%7D+LIMIT+50">mountains mentioned in Liturgy manuscripts</a>
+                            </li>
                         </ul>
                     </div>
                
@@ -707,7 +760,13 @@
                         examples.</p>
                     <ul>
                         <li>
+                            <span class="Zotero Zotero-full" data-value="bm:Bausi2019BM"/>
+                        </li>
+                        <li>
                             <span class="Zotero Zotero-full" data-value="bm:Reule2018BM"/>
+                        </li>
+                        <li>
+                            <span class="Zotero Zotero-full" data-value="bm:Reule2020BM"/>
                         </li>
                         <li>
                             <span class="Zotero Zotero-full" data-value="bm:Solomon2018places"/>
@@ -716,7 +775,13 @@
                             <span class="Zotero Zotero-full" data-value="bm:2020datapaper"/>
                         </li>
                         <li>
+                            <span class="Zotero Zotero-full" data-value="bm:Elagina2021Opisanie"/>
+                        </li>
+                        <li>
                             <span class="Zotero Zotero-full" data-value="bm:Liuzzo2019Digital"/>
+                        </li>
+                        <li>
+                            <span class="Zotero Zotero-full" data-value="bm:Liuzzo2021LOD"/>
                         </li>
                         <li>
                             <span class="Zotero Zotero-full" data-value="bm:IHABook25"/>

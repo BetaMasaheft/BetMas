@@ -1,8 +1,8 @@
 xquery version "3.1";
 
 module namespace expand = "https://www.betamasaheft.uni-hamburg.de/BetMas/expand";
-import module namespace titles = "https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
-import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2"  at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
+import module namespace titles = "https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMasWeb/modules/titles.xqm";
+import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2"  at "xmldb:exist:///db/apps/BetMasWeb/modules/switch2.xqm";
 import module namespace console = "http://exist-db.org/xquery/console";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace xi = "http://www.w3.org/2001/XInclude";
@@ -85,7 +85,7 @@ declare variable $expand:listPrefixDef :=
         matchPattern="([a-zA-Z\-]+)"
         replacementPattern="http://syriaca.org/documentation/relations.html#$1">
     </prefixDef>
-    
+
     <prefixDef
         ident="agrelon"
         matchPattern="([a-zA-Z]+)"
@@ -101,13 +101,13 @@ declare variable $expand:listPrefixDef :=
         matchPattern="(\d+)"
         replacementPattern="https://www.eagle-network.eu/voc/material/lod/$1">
     </prefixDef>
-    
+
     <prefixDef
         ident="eo"
         matchPattern="(\d+)"
         replacementPattern="https://www.eagle-network.eu/voc/objtyp/lod/$1">
     </prefixDef>
-    
+
     <prefixDef
         ident="ew"
         matchPattern="(\d+)"
@@ -132,11 +132,11 @@ declare variable $expand:listPrefixDef :=
 
 
 (:~
- : Recursively creates new collections if necessary. 
- : improved from former gitsync:create-collections 
+ : Recursively creates new collections if necessary.
+ : improved from former gitsync:create-collections
  : to avoid issues with parts of a uri which are the same
  : and directly change ownership and access
- : @param $uri url to resource being added to db 
+ : @param $uri url to resource being added to db
  :)
 declare function expand:create-collections($uri as xs:string) {
     let $collection-uri := substring($uri, 1)
@@ -227,7 +227,7 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
             case element(t:publicationStmt)
                 return
                     element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
-                        ($node/@*, 
+                        ($node/@*,
                         expand:tei2fulltei($node/node(), $bibliography),
                         expand:dateidno($node)
                         )
@@ -237,13 +237,13 @@ declare function expand:tei2fulltei($nodes as node()*, $bibliography) {
                     element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
                         ($node/@*,
                         expand:tei2fulltei($node/node(), $bibliography)),
-                        <p xmlns="http://www.tei-c.org/ns/1.0">Encoded according 
-                        to the <ref target="https://betamasaheft.eu/Guidelines/">Beta maṣāḥǝft Guidelines</ref>. 
-                        These Guidelines detail the TEI format ruled by 
-                        the <ref target="https://betamasaheft.eu/Guidelines/?id=schemaView">Beta maṣāḥǝft Schema</ref>. 
-                        The present TEI file is enriched with an 
-                        <ref target="https://github.com/BetaMasaheft/BetMas/blob/master/db/apps/BetMas/modules/expand.xqm">Xquery transformation</ref> 
-                        taking advantage of the <ref target="https://betamasaheft.eu">exist-db database instance</ref> where 
+                        <p xmlns="http://www.tei-c.org/ns/1.0">Encoded according
+                        to the <ref target="https://betamasaheft.eu/Guidelines/">Beta maṣāḥǝft Guidelines</ref>.
+                        These Guidelines detail the TEI format ruled by
+                        the <ref target="https://betamasaheft.eu/Guidelines/?id=schemaView">Beta maṣāḥǝft Schema</ref>.
+                        The present TEI file is enriched with an
+                        <ref target="https://github.com/BetaMasaheft/BetMas/blob/master/db/apps/BetMasWeb/modules/expand.xqm">Xquery transformation</ref>
+                        taking advantage of the <ref target="https://betamasaheft.eu">exist-db database instance</ref> where
                         the data is stored and of the many external resources to which this data points to.</p>,
                         $expand:listPrefixDef,
                         <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="xmldb:exist:///db/apps/lists/canonicaltaxonomy.xml">
@@ -257,7 +257,7 @@ let $text :=  $node/ancestor::t:TEI//t:div[@type = 'edition']
 let $cS :=
      expand:citeStructBypass($text/(t:div | t:lg | t:l))
   (: a further step to reduce the list to similar instances should be performed grouping the citeStructures obtained:)
-  
+
    return
    <citeStructure
         unit="edition"
@@ -303,7 +303,7 @@ let $cS :=
                         }
                     </titleStmt>
             case element(t:revisionDesc)
-            return 
+            return
             element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
                         expand:tei2fulltei($node/node(), $bibliography)
                     }
@@ -400,7 +400,7 @@ let $cS :=
                         else
                             (),
                         if ( $node[not(text())] and $node/@corresp and $node/@type[not(. ='authFile')]) then
-                        let $corrnode := $node/ancestor-or-self::t:TEI/id($node/@corresp) 
+                        let $corrnode := $node/ancestor-or-self::t:TEI/id($node/@corresp)
                         return
                             if ($corrnode) then
                                 let $buildID := titles:printTitleMainID($node/ancestor-or-self::t:TEI/@xml:id) || ' element '|| $corrnode/name()|| ' with id ' || string($node/@corresp)
@@ -416,11 +416,11 @@ let $cS :=
                             (),
                         expand:tei2fulltei($node/node(), $bibliography))
                     }
-            
+
             case element(t:editor)
                 return
                     let $k := $node/@key
-                    
+
                     return
                         element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
                             (
@@ -439,8 +439,8 @@ let $cS :=
                         element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
                             ($node/@*[not(name()='corresp')],
                             $matchingbibl/@*[not(name()='type')],
-                            if($node/@corresp or $matchingbibl/@type) then <seg xmlns="http://www.tei-c.org/ns/1.0" > 
-                            {if($node/@corresp) then attribute corresp {$node/@corresp} else (), 
+                            if($node/@corresp or $matchingbibl/@type) then <seg xmlns="http://www.tei-c.org/ns/1.0" >
+                            {if($node/@corresp) then attribute corresp {$node/@corresp} else (),
                             if($matchingbibl/@type) then attribute type {$matchingbibl/@type} else ()}
                             <!-- attributes from original bibl-->
                             </seg> else (),
@@ -500,11 +500,11 @@ let $cS :=
                                     ($fF || 'ols')
                                 else
                                     ($fF || 'ol')
-                            
+
                             let $value :=
                             (if ($node/@from and $node/@to)
                             then
-                                
+
                                 (
                                 if ($fFornot = 'x') then
                                     ()
@@ -564,7 +564,7 @@ let $cS :=
                             else
                                 ()
                             )
-                            
+
                             return
                                 replace(string-join($valandcomma), ' , ', ', ')
                             )
@@ -623,27 +623,27 @@ let $cS :=
                     }
             case element(t:origDate)
                 return
-                   expand:datelike($node, $bibliography)    
+                   expand:datelike($node, $bibliography)
                     case element(t:date)
                 return
-                    expand:datelike($node, $bibliography)     
+                    expand:datelike($node, $bibliography)
                       case element(t:birth)
                 return
-                    expand:datelike($node, $bibliography)     
+                    expand:datelike($node, $bibliography)
                         case element(t:death)
                 return
-                    expand:datelike($node, $bibliography)     
+                    expand:datelike($node, $bibliography)
                        case element(t:floruit)
                 return
-                    expand:datelike($node, $bibliography)     
-                    
+                    expand:datelike($node, $bibliography)
+
                     (:                    any other not named element goes through:)
             case element()
                 return
                     try{element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
                         ($node/@*,
                 (:         if($node[t:subst|t:choice]) then expand:optionsexpand($node, $bibliography)
-                                 else :) 
+                                 else :)
                                  expand:tei2fulltei($node/node(), $bibliography)
                         )
                     }} catch * {util:log('INFO', $err:description), util:log('INFO', $node)}
@@ -724,7 +724,7 @@ for $sublevel in $nodes
 };
 
 declare function expand:groupCS($cS){
- for $c in $cS 
+ for $c in $cS
         group by $Unit := $c/@unit
         return
         <citeStructure
@@ -740,7 +740,7 @@ declare function expand:groupCS($cS){
 declare function expand:dateidno($node){
 let $id := string($node/ancestor-or-self::t:TEI/@xml:id)
 (:let $log := util:log('INFO', $id):)
-return 
+return
 (<date xmlns="http://www.tei-c.org/ns/1.0" type="expanded">{format-dateTime(current-dateTime(), "[D1].[M1].[Y1] at [H01]:[m01]:[s01]")}</date>,
 let $time := max($node/ancestor-or-self::t:TEI//t:revisionDesc/t:change/xs:date(@when))
 return
@@ -749,7 +749,7 @@ return
 let $col := switch2:col($node/ancestor-or-self::t:TEI/@type) return
 (<idno xmlns="http://www.tei-c.org/ns/1.0" type="collection">{$col}</idno>,
 <idno xmlns="http://www.tei-c.org/ns/1.0" type="url">https://betamasaheft.eu/{$col}/{$id}</idno>),
-<idno xmlns="http://www.tei-c.org/ns/1.0" type="URI">https://betamasaheft.eu/{$id}</idno>, 
+<idno xmlns="http://www.tei-c.org/ns/1.0" type="URI">https://betamasaheft.eu/{$id}</idno>,
 <idno xmlns="http://www.tei-c.org/ns/1.0" type="filename">{$id}.xml</idno>,
 <idno xmlns="http://www.tei-c.org/ns/1.0" type="ID">{$id}</idno>))
 };
@@ -759,10 +759,10 @@ element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
                         ($node/@*,
                         if (empty($node)) then
                             let $atts := for $att in $node/@* return  (
-                            (switch($att/name()) 
+                            (switch($att/name())
                             case 'notBefore' return 'not before'
-                            case 'notAfter' return 'not after' 
-                            case 'cert' return 'certainty:' 
+                            case 'notAfter' return 'not after'
+                            case 'cert' return 'certainty:'
                             case 'resp' return titles:printTitleMainID($att)
                             default return $att/name()) || ' ' || $att/data())
                         return
@@ -770,7 +770,7 @@ element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
                         else
                             (),
                           (:         if($node[t:subst|t:choice]) then expand:optionsexpand($node, $bibliography)
-                                 else :) 
+                                 else :)
                                  expand:tei2fulltei($node/node(), $bibliography)
                         )
                     }
@@ -852,11 +852,11 @@ declare function expand:file($filepath) {
     (:util:expand needs to go to a node, therefore the processing instructions need to be added back:)
     let $expanded := util:expand($doc/t:TEI)
     let $zotero :=
-      for $ptr in distinct-values($expanded//t:ptr/@target[starts-with(., 'bm:')]) 
+      for $ptr in distinct-values($expanded//t:ptr/@target[starts-with(., 'bm:')])
                         let $z := if($expand:zotero//t:biblStruct[t:note[@type='tags']/t:note[@type='tag'] = $ptr])
                                     then $expand:zotero//t:biblStruct[t:note[@type='tags']/t:note[@type='tag'] = $ptr][1]
                                     else try{doc(concat('https://api.zotero.org/groups/358366/items?tag=',$ptr, '&amp;format=tei'))//t:biblStruct} catch * {console:log($err:description)}
-                            return 
+                            return
                             <bibl xmlns="http://www.tei-c.org/ns/1.0">
                                      {if($z/@corresp) then attribute corresp {$z/@corresp} else ()}
                                      {if($z/@type) then attribute type {$z/@type} else ()}
@@ -890,17 +890,17 @@ else if ($model/t:choice[t:reg][t:orig]) then
 else
 <subst xmlns="http://www.tei-c.org/ns/1.0"><del>{$model//t:del/@*}{for $n in $model/node() return if ($n/self::t:subst) then expand:tei2fulltei($n/t:del/node(), $bibliography) else expand:tei2fulltei($n, $bibliography)}</del>
 <add>{$model//t:add/@*}{for $n in $model/node() return if ($n/self::t:subst) then expand:tei2fulltei($n/t:add/node(), $bibliography) else expand:tei2fulltei($n, $bibliography)}</add></subst>
-}; 
+};
 :)
 
 declare function expand:biblCorrTok($corresp, $node){
-let $c :=if(starts-with($corresp, '#')) then concat($node/ancestor-or-self::t:TEI/@xml:id, $corresp) else string($corresp) 
+let $c :=if(starts-with($corresp, '#')) then concat($node/ancestor-or-self::t:TEI/@xml:id, $corresp) else string($corresp)
 let $anchor := if(starts-with($corresp, '#')) then substring-after($corresp, '#') else string($corresp)
 let $anchornode := $node/id($anchor)
 let $listWit := if ($anchornode/name() = 'listWit') then for $witness in $anchornode return titles:printTitleID($witness/@corresp) else ()
 let $prefix := if($listWit ge 1) then $listWit else if(string-length($anchornode/name()) ge 1) then ($anchornode/name(), ', ') else ()
 let $lang := if (string-length($anchornode/@xml:lang) ge 1) then concat(' [', $node//t:language[@ident = $anchornode/@xml:lang], ']') else ()
-return 
+return
 ($prefix,
 <ref xmlns="http://www.tei-c.org/ns/1.0" target="/{$c}">{titles:printTitleID($c)}</ref>)
 };
