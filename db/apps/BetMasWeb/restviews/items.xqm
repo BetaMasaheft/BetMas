@@ -398,8 +398,10 @@ return
    )
    case 'analytic' return (
    <div class="w3-container" >
-             <img id="loading" src="resources/Loading.gif" style="display: none;"></img>
-            <div class="w3-container"><div id="BetMasRel" class="w3-half w3-padding"  style="display: none;">
+             
+            <div class="w3-container">
+            <!--
+            <div id="BetMasRel" class="w3-half w3-padding"  style="display: none;">
 
 
                 <div class="input-group container">
@@ -408,7 +410,7 @@ return
                 </div>
                 <div id="BetMasRelView" class="w3-container" data-value="{$id}"/>
                 <script type="text/javascript"src="resources/js/visgraphspec.js"/>
-            </div>
+            </div> -->
             <div class="container w3-half w3-padding">
                   {item2:EntityRelsTable($this, $collection)}
             </div>
@@ -583,7 +585,7 @@ else ()
    default return ()
    )
    }
-      <!-- <div class="w3-container w3-margin-bottom">
+   <!-- <div class="w3-container w3-margin-bottom">
    <div class="w3-twothird">
    <div class="w3-container w3-margin w3-grey w3-small w3-card-4 ">This page contains RDFa. 
    <a href="/rdf/{$collection}/{$id}.rdf">RDF+XML</a> graph of this resource. Alternate representations available via <a href="/api/void/{$id}">VoID</a>.</div>
@@ -594,7 +596,7 @@ else ()
    
    <script  type="text/javascript" src="resources/js/permanentID.js"></script>
    </div>
-<div class="w3-third">
+   <div class="w3-third">
      <div class="w3-container w3-margin w3-gray w3-card-4"><b>Hypothes.is public annotations pointing here</b>
      <div id="hypothesisFeedResults" data-value="{$id}"></div>
      <p>Use the tag <span class="w3-tag w3-red">BetMas:{$id}</span> in your public <a href="https://web.hypothes.is/">hypothes.is</a> annotations which refer to this entity.</p>

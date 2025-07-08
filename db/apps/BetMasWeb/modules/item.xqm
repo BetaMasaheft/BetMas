@@ -1,4 +1,4 @@
-	xquery version "3.0" encoding "UTF-8";
+xquery version "3.0" encoding "UTF-8"; 
 (:~
  : module used by items.xql for several parts of the view produced
  :
@@ -159,8 +159,8 @@ return
  </div>
 <div class="w3-bar-item  w3-tooltip">
 
-<a target="_blank" class="w3-button w3-padding-small w3-gray"
-    href="https://github.com/BetaMasaheft/{replace(replace(base-uri($this), '/db/apps/expanded/', ''),
+<a target="_blank" class="w3-button w3-padding-small w3-gray" 
+    href="https://github.com/BetaMasaheft/{replace(replace(base-uri($this), '/db/apps/expanded/', ''), 
     $collection, concat($collection, '/blob/master'))}"><i class="fa fa-pencil-square-o"></i></a>
     <span class="w3-text w3-tag itemoptiontooltip">
  Edit on GitHub
@@ -175,7 +175,7 @@ return
 <a class="w3-button w3-padding-small w3-gray" id="toogleSeeAlso"><span class="showHideText">Hide</span> related</a>
 <span class="w3-text w3-tag itemoptiontooltip">Click here to hide or show again the right side of the content area, where related items and keywords are shown.</span>
 </div>-->
-
+            
 <!--<div class="w3-bar-item w3-tooltip">
 {apptable:pdf-link($id)}
 <span class="w3-text w3-tag itemoptiontooltip">Produces a PDF on the fly from the source TEI-XML using XSL-FO and Apache FOP</span>
@@ -224,10 +224,10 @@ else ()}
     </header>
 
     <div class="w3-container">
-     {item2:EntityRelsTable($document, $collection)}
+     {item2:EntityRelsTable($document, $collection)} 
     </div>
 
-
+  
     <div class="w3-container w3-hide-small">
      {if (item2:RestPersRole($document, $collection)) then item2:RestPersRole($document, $collection) else ()}
     </div>
@@ -238,9 +238,34 @@ else ()}
   </div>
  </div>
 </div>
+<!--show attestations new button
+<div class="w3-bar-item w3-container">
+  <a
+  onclick="document.getElementById('attest').style.display='block'"
+  class="w3-button w3-padding-small w3-red"   id="showattestations" data-value="{if ($collection = 'works' or $collection = 'narratives' or $collection = 'studies') then 'work' else if ($collection = 'persons') then 'person' else if ($collection = 'places' or $collection = 'institutions' ) then 'place' else if ($collection = 'authority-files') then 'term' else if ($collection = 'manuscripts') then 'mss' else ()}"
+                        data-id="{$id}"
+  >Attestations</a>
+ <div id="attest" class="w3-modal w3-card w3-display-container w3-margin-top" style="vertical-align: top;max-height:600px;width:80%;">
+  <div class="w3-modal-content w3-white">
+    <header class="w3-container w3-red">
+      <span
+        onclick="document.getElementById('attest').style.display='none'"
+        class="w3-button w3-display-topright"
+      >
+       <i class="fa fa-times"/>
+      </span>
+      <h4>Attestations</h4>
+    </header>
+                    <div
+                        id="allattestations"
+                        class="w3-container"/>
+                </div>   
+
+</div>
+</div>-->
 
 {if (($collection = 'works' or $collection = 'narratives' or $collection = 'studies' or $collection = 'manuscripts') and ($document//t:body[t:div[@type = 'edition'][t:ab or t:div[@type = 'textpart']]]) ) then
-    (<div class="w3-bar-item w3-tooltip"
+    (<div class="w3-bar-item w3-tooltip" 
   >
     <a class="w3-button w3-padding-small w3-red"  href="{$config:appUrl}{('/'||$collection|| '/' || $id || '/text' )}"
     target="_blank">Text</a>
@@ -251,15 +276,15 @@ else ()}
     target="_blank">Map of places</a>
     <span class="w3-text w3-tag itemoptiontooltip">See places marked up in the text using the Dariah-DE Geo-Browser</span>
     </div>) else ()}
-
+    
     {if (($collection = 'works' or $collection = 'narratives' or $collection = 'studies') and ($document//t:body[t:div[@type = 'translation'][t:ab or t:div[@type = 'textpart']]]) ) then
-    (<div class="w3-bar-item w3-tooltip"
+    (<div class="w3-bar-item w3-tooltip" 
   >
     <a class="w3-button w3-padding-small w3-red"  href="{$config:appUrl}{('/'||$collection|| '/' || $id || '/text' )}"
     target="_blank">Translation</a>
     <span class="w3-text w3-tag itemoptiontooltip">Translation</span>
     </div>) else ()}
-
+    
         {if ($collection = 'manuscripts' and ($this//t:msIdentifier//t:idno[@facs][@n] or $this//t:msIdentifier//t:idno[starts-with(@facs, 'http')])) then
     <div class="w3-bar-item w3-tooltip" >
     <a class="w3-button w3-padding-small w3-gray"  href="{$config:appUrl}{('/manuscripts/' || $id || '/viewer' )}"
@@ -268,13 +293,13 @@ else ()}
     </div> else ()}
     {if ($collection = 'manuscripts' and ($this//t:msIdentifier/t:idno[not(@facs)] ) and $this//t:collection[. eq 'Ethio-SPaRe']) then
     <div class="w3-bar-item w3-tooltip" >
-    <a class="w3-button w3-padding-small w3-gray"  href="{('mailto:denis.nosnitsin@uni-hamburg.de?Subject=Request%20for%20images%20of%20Ethio-SPaRe%20Manuscript%20' || $id )}"
+    <a class="w3-button w3-padding-small w3-gray"  href="{('mailto:denis.nosnitsin@uni-hamburg.de?Subject=Request%20for%20images%20of%20Ethio-SPaRe%20Manuscript%20' || $id )}" 
     target="_blank">Request Images from Ethio-SPaRe</a>
     <span class="w3-text w3-tag itemoptiontooltip">Send an email to Ethio-SPaRe Project leader to request to make the images of this manuscript available here.</span>
     </div> else ()}
-    {if ($collection = 'manuscripts' and contains($this//t:facsimile/t:graphic/@url, 'http')) then
+    {if ($collection = 'manuscripts' and $this//t:facsimile/t:graphic) then
     <div class="w3-bar-item w3-tooltip" >
-    <a class="w3-button w3-padding-small w3-gray"  href="{$this//t:facsimile/t:graphic/@url}"
+    <a class="w3-button w3-padding-small w3-gray"  href="{$this//t:facsimile/t:graphic/@url}" 
     target="_blank">Link to images</a>
     <span class="w3-text w3-tag itemoptiontooltip">Link to images available not on this site</span>
     </div> else ()}
@@ -288,7 +313,7 @@ else ()}
     <span class="w3-text w3-tag itemoptiontooltip">Map of manuscripts with this content</span>
     </div>)
     else ()}
-
+    
     </div>
 };
 
@@ -297,13 +322,13 @@ else ()}
 declare function item2:RestItemHeader($this, $collection) {
 let $document := $this
 let $id := string($this/@xml:id)
-let $repoids := if ($document//t:msIdentifier/t:repository/text() = 'Lost' or $document//t:msIdentifier/t:repository/text() = 'In situ' )
-                               then ($document//t:msIdentifier/t:repository/text())
-                             else if ($document//t:msIdentifier/t:repository/@ref)
-                                then config:distinct-values($document//t:msIdentifier/t:repository/@ref)
+let $repoids := if ($document//t:msIdentifier/t:repository/text() = 'Lost' or $document//t:msIdentifier/t:repository/text() = 'In situ' ) 
+                               then ($document//t:msIdentifier/t:repository/text()) 
+                             else if ($document//t:msIdentifier/t:repository/@ref) 
+                                then config:distinct-values($document//t:msIdentifier/t:repository/@ref) 
                              else 'No Repository Specified'
-let $key := for $ed in $document//t:titleStmt/t:editor[not(@role eq  'generalEditor')]
-                                  return
+let $key := for $ed in $document//t:titleStmt/t:editor[not(@role eq  'generalEditor')]  
+                                  return 
                                   editors:editorKey(string($ed/@key)) || (if($ed/@role) then ' (' ||string($ed/@role)|| ')' else ())
 let $altID := config:distinct-values($document//t:msIdentifier/t:altIdentifier/t:idno/text())
 return
@@ -311,20 +336,20 @@ return
     <div xmlns="http://www.w3.org/1999/xhtml" class="ItemHeader w3-container">
 
     <div xmlns="http://www.w3.org/1999/xhtml" class="w3-twothird">
-            <h2 id="headtitle">
+            <h3 id="headtitle">
                 {exptit:printTitleID($id)}
-            </h2>
+            </h3>
             {let $formerly := $document//t:relation[@name eq 'betmas:formerlyAlsoListedAs'][@active eq $id]
              let $same := $document//t:relation[@name eq 'skos:exactMatch'][@active eq $id]
             return
-            (if($formerly) then <p>This record was formerly also listed as {string-join($formerly/@passive, ', ')}.</p>
+            (if($formerly) then <p>This record was formerly also listed as {string-join($formerly/@passive, ', ')}.</p> 
             else(),
-            if($same) then
-                    for $s in $same return <p>This record is the same as <a href="{string($s/@passive)}" target="_blank">{exptit:printTitleID($s/@passive)}</a>.</p>
+            if($same) then 
+                    for $s in $same return <p>This record is the same as <a href="{string($s/@passive)}" target="_blank">{exptit:printTitleID($s/@passive)}</a>.</p> 
             else ())}
           <p id="mainEditor"><i>{string-join($key, ', ')}</i></p>
-          {if($collection = 'manuscripts') then <p>{if($this//t:additional//t:source/t:listBibl[@type eq 'catalogue']) then
-          ('This manuscript description is based on ' , <a href="#additionals">the catalogues listed in the Catalogue Bibliography</a>, if($this//t:additional//t:source/t:listBibl[@type eq 'catalogue']/t:bibl/t:ptr[@target eq 'bm:BmWebsite']) then
+          {if($collection = 'manuscripts') then <p>{if($this//t:additional//t:source/t:listBibl[@type eq 'catalogue']) then 
+          ('This manuscript description is based on ' , <a href="#additionals">the catalogues listed in the Catalogue Bibliography</a>, if($this//t:additional//t:source/t:listBibl[@type eq 'catalogue']/t:bibl/t:ptr[@target eq 'bm:BmWebsite']) then 
           (' and has been corrected or enriched by the Bm project team; please check our ', <a href="#footer">Revision history for more information</a> )
           else () )
           else if($this//t:collection = 'EMIP') then string-join($this//t:collection//text(), ', ')
@@ -339,13 +364,13 @@ return
 
     <div  id="general" class="w3-container">
     <div class="w3-row">
-
-     {if  ($document//t:change[not(@who eq 'PL')]) then
+   
+   {if  ($document//t:change[not(@who eq 'PL')]) then
    if (count($document//t:change[not(@who eq 'PL')]) eq 1) then
    <span class="w3-tag w3-red">Draft</span>
    else if ($document//t:change[contains(.,'stub')]) then
    <span class="w3-tag w3-red">Stub</span>
-   else
+   else 
    <span class="w3-tag w3-gray w3-small">Last edit: {let $last :=max(for $date in $document//t:change/@when  return xs:date($date)) return format-date($last , "[MNn] [D], [Y]", "en", (), ())
    }</span>
 else <span class="w3-tag w3-red">Stub</span>
@@ -363,12 +388,12 @@ case 'manuscripts' return
             <p>Other identifiers: {
                    for $altId at $p in $document//t:msIdentifier/t:altIdentifier/t:idno[text()]
                    return
-                   if ( $altId/@type eq 'TM')
-                   then
-                   <a href="https://www.trismegistos.org/text/{$altId/text()}" property="http://www.cidoc-crm.org/cidoc-crm/P1_is_identified_by"
+                   if ( $altId/@type eq 'TM') 
+                   then 
+                   <a href="https://www.trismegistos.org/text/{$altId/text()}" property="http://www.cidoc-crm.org/cidoc-crm/P1_is_identified_by" 
                     content="{$altId}">TM{$altId/text()}{if($altId[$p = count($document//t:msIdentifier/t:altIdentifier/t:idno/text())]) then ' ' else ', '}</a>
-                   else
-                     <span property="http://www.cidoc-crm.org/cidoc-crm/P1_is_identified_by"
+                   else 
+                     <span property="http://www.cidoc-crm.org/cidoc-crm/P1_is_identified_by" 
                     content="{$altId/text()}">{$altId/text()}{if($altId[$p = count($document//t:msIdentifier/t:altIdentifier/t:idno/text())]) then ' ' else ', '}</span>
             }
             </p>
@@ -400,12 +425,12 @@ return
             <p>Other identifiers: {
                    for $altId at $p in $document//t:msIdentifier/t:altIdentifier/t:idno
                    return
-                   if ( $altId/@type eq 'TM')
-                   then
-                   <a href="https://www.trismegistos.org/text/{$altId/text()}" property="http://www.cidoc-crm.org/cidoc-crm/P1_is_identified_by"
+                   if ( $altId/@type eq 'TM') 
+                   then 
+                   <a href="https://www.trismegistos.org/text/{$altId/text()}" property="http://www.cidoc-crm.org/cidoc-crm/P1_is_identified_by" 
                     content="{$altId}">TM{$altId/text()}{if($altId[$p = count($document//t:msIdentifier/t:altIdentifier/t:idno/text())]) then ' ' else ', '}</a>
-                   else
-                     <span property="http://www.cidoc-crm.org/cidoc-crm/P1_is_identified_by"
+                   else 
+                     <span property="http://www.cidoc-crm.org/cidoc-crm/P1_is_identified_by" 
                     content="{$altId/text()}">{concat(string($altId/ancestor::t:altIdentifier[1]/t:repository), ' ', $altId/text())}{if($altId[$p = count($document//t:msIdentifier/t:altIdentifier/t:idno/text())]) then ' ' else ', '}</span>
             }
             </p>
@@ -417,7 +442,7 @@ return
 
             case 'works' return
             apptable:clavisIds(root($document))
-
+            
  case 'institutions' return
 
                             <div class="w3-row">
@@ -448,7 +473,7 @@ return
     <a target="_blank"
             href="{$config:appUrl}/manuscripts/place/list?place={$id}"
             role="button"
-            class="w3-tag w3-gray w3-large
+            class="w3-tag w3-gray w3-large 
             w3-margin-top">
                   Manuscripts in {exptit:printTitleID($id) }</a>
 )
@@ -489,8 +514,8 @@ declare function item2:AdminLocTable($adminLoc as element()*){
                                            </tr>
 
                                            };
-
-
+                                           
+                                           
 (:~called by item2:restNav, makes the boxes where the main relations are dispalied:)
 declare function item2:mainRels($this,$collection){
       let $document := $this
@@ -525,9 +550,9 @@ return
 
                                             {
 
-                   if ($isSubjectof) then
+                   if ($isSubjectof) then  
                    <div  class="relBox  w3-panel w3-card-4 w3-gray">
-
+                   
                    <b class="openInDialog">This person is subject of the following <span class="w3-tag">{count($isSubjectof)}</span> textual units</b>
                         <ul  class="w3-ul w3-hoverable">{
                         for $p in $isSubjectof
@@ -572,25 +597,25 @@ return
        case 'places' return (
      let $isSubjectof :=  for $corr in $w//t:relation[contains(@passive,  $id)][@name eq  'ecrm:P129_is_about'] return $corr
      let $churchesAndMonasteries :=  for $corr in $plin//t:place[contains(@type, 'church') or contains(@type, 'monastery')][t:*[contains(@ref ,  $id)]] return $corr
-     let $formerly := for $corr in $this//t:relation[@name eq 'betmas:formerlyAlsoListedAs'][contains(@active,  $id)] return $corr
-let $same := for $corr in collection($config:data-root)//t:relation[@name eq 'skos:exactMatch'][contains(@active,  $id)] return $corr
-let $samep := for $corr in collection($config:data-root)//t:relation[@name eq 'skos:exactMatch'][contains(@passive,  $id)] return $corr
+    let $formerly := for $corr in $this//t:relation[@name eq 'betmas:formerlyAlsoListedAs'][contains(@active,  $id)] return $corr
+let $same := for $corr in collection($config:data-root)//t:relation[@name eq 'skos:exactMatch'][contains(@active,  $id)] return $corr 
+let $samep := for $corr in collection($config:data-root)//t:relation[@name eq 'skos:exactMatch'][contains(@passive,  $id)] return $corr 
 return
 <div  class="mainrelations w3-display-container">
 
-                                          { if ($this//t:settlement or $this//t:region or $this//t:country) then
+                                          { if ($this//t:settlement or $this//t:region or $this//t:country) then  
                                           <div  class="relBox w3-panel w3-card-4 w3-gray">
                                            {
                                            <b  class="openInDialog">Administrative position</b>,
                                            <table class="w3-table w3-hoverable adminpos">
                                            <tbody>
                                            {
-                                          item2:AdminLocTable($this//t:country),
+                                          item2:AdminLocTable($this//t:country), 
                                           item2:AdminLocTable($this//t:region),
                                           item2:AdminLocTable($this//t:settlement),
                                           if($this//t:location/t:geo) then <tr><td>Coordinates</td><td>{$this//t:location/t:geo/text()}</td></tr> else (),
                                           if($this//t:location/t:height) then <tr><td>Altitude</td><td>{concat($this//t:location/t:height/text(), $this//t:location/t:height/@unit)}</td></tr>  else (),
-
+                                         
                                           if($this//t:location[@type eq 'relative']) then
                                           <tr><td>Relative location</td><td>{$this//t:location[@type eq 'relative']/text()}</td></tr> else ()
 
@@ -721,7 +746,7 @@ else
 
              </div>
       )
-
+      
       case 'studies' return (
      let $relations := ($w//t:relation[contains(@active,  $id)],
      $w//t:relation[contains(@passive,  $id)])
@@ -786,10 +811,10 @@ else
 
              </div>
       )
-
-
+      
+      
       case 'narratives' return (
-
+   
 let $relations := $document//t:relation[@name eq  'skos:broadMatch']
 return
 if(not($document//t:relation)) then ()
@@ -815,7 +840,7 @@ else
                         for $value in tokenize ($normp, ' ') return
                         <li class="nodot"><a href="{$value}">{exptit:printTitle($value)}</a></li>
                         else
-                         if(starts-with($p,'http')) then
+                         if(starts-with($p,'http')) then 
                         <li class="nodot"><a href="{$p}">{if (contains($p, 'betamasaheft')) then exptit:printTitle($p) else string($p)}</a></li>
                         else
                         <li class="nodot"><a href="{$config:appUrl}/{substring-after($p, 'betmas:')}">{exptit:printTitle(substring-after($p, 'betmas:'))} ({substring-after($p, 'betmas:')})</a></li>
@@ -826,7 +851,7 @@ else
 
              </div>
       )
-
+      
        case 'authority-files' return (
    let $pass := concat('betmas:', $id)
 let $relations := collection($config:data-rootN)//t:relation[@name eq  'skos:broadMatch'][contains(@passive, $pass)]
@@ -873,8 +898,8 @@ else
             return
                $corr
 let $formerly := for $corr in $this//t:relation[@name eq 'betmas:formerlyAlsoListedAs'][contains(@active,  $id)] return $corr
-let $same := for $corr in collection($config:data-root)//t:relation[@name eq 'skos:exactMatch'][contains(@active,  $id)] return $corr
-let $samep := for $corr in collection($config:data-root)//t:relation[@name eq 'skos:exactMatch'][contains(@passive,  $id)] return $corr
+let $same := for $corr in collection($config:data-root)//t:relation[@name eq 'skos:exactMatch'][contains(@active,  $id)] return $corr 
+let $samep := for $corr in collection($config:data-root)//t:relation[@name eq 'skos:exactMatch'][contains(@passive,  $id)] return $corr  
 return
 
 <div class="mainrelations w3-container">
@@ -894,7 +919,7 @@ return
 
                                            }
                                            </tbody>
-                                          </table>
+                                           </table>
                                            }
                                            </div>
                                            {if($formerly) then (
@@ -954,21 +979,21 @@ for $role in $persrole
                    return
                    <li>
                    <a href="{$thisid}">{exptit:printTitle($thisid)}</a>
-                   {if((count($root//t:origDate[@evidence="internal-date"]) ge 1)) then
+                   {if((count($root//t:origDate[@evidence="internal-date"]) ge 1)) then 
                        let $dates:=  for $date in $root//t:origDate[@evidence="internal-date"]
-                         return string:tei2string($date)
+                         return string:tei2string($date) 
                          return
                          ' which contains the following internal dates: ' || string-join($dates, ', ') || '.'
-                         else ()
-
+                         else () 
+                         
                    }
-                   {if((count($root//t:msDesc//t:date) ge 1)) then
+                   {if((count($root//t:msDesc//t:date) ge 1)) then 
                        let $dates:=  for $date in $root//t:msDesc//t:date
                          return (string:tei2string($date) || ' in a ' || $date/parent::t:*/name() || " element")
                          return
                          ' The description of the manuscript also contains the following dates ' || string-join($dates, ', ') || '.'
-                         else ()
-
+                         else () 
+                         
                    }
                    </li>}
                    </ul>
@@ -1002,14 +1027,14 @@ else if ($collection = 'manuscripts' or $collection = 'works' or $collection = '
 
         <ul>and is also <span class="w3-red w3-tag role" onclick="document.getElementById('{$r}list').style.display='block'">{string($r)}</span><div>
                     <div id="{$r}list"  class="w3-modal " >
-
+                    
   <div class="w3-modal-content">
                         <button type="button" class="w3-button w3-red" onclick="document.getElementById('{$r}list').style.display='none'">Close</button>
-
+                     
                         <header>
                                             <h4 class="w3-margin" id="{$r}listcount">There are other</h4>
                                             </header>
-
+                                            
                                     <div class="w3-container">
                                             <ul id="{$r}listitems" class="w3-ul w3-hoverable"></ul>
                                     </div>
@@ -1139,7 +1164,7 @@ let $sameKey :=
             for $corr in               $apprest:collection-rootMS//t:additions//t:item//t:title[contains(@ref , $id)]
             return
                 $corr
-   let $count := count($sameKey) + count($sameKeyAdd)
+   let $count := count($sameKey) + count($sameKeyAdd)      
    let $distinctMssIds := for $s in ($sameKey, $sameKeyAdd) return string($s/ancestor::t:TEI/@xml:id)
    let $countDistMss := count(config:distinct-values($distinctMssIds))
 return
@@ -1175,16 +1200,17 @@ Scrolling in this box will also show you a summary of all the occurences.  <a ta
 
                                                       <div class="w3-bar-item"><!--  <span class="WordCount w3-tag" data-msID="{$groupkey}" data-wID="{$string}"/> -->
 
+                                                         
                                                          <ul class="w3-padding">{
                                                          for $h in $hit
                                                          let $msitem := $h/parent::t:msItem
                                                          return
 
-<li>content item with id <b>{string($msitem/@xml:id)}</b> {if($h/text()) then (', ', <i>{$h/text()}</i> ) else () }
+<li>content item with id <b>{string($msitem/@xml:id)}</b> {if($h/text()) then (', ', <i>{$h/text()}</i> ) else () } 
 </li>
                                                          }
                                                          </ul>
-</div>
+</div> 
                                                             </li>
                                              }
                                              </ul>) else ()}
@@ -1221,8 +1247,8 @@ Scrolling in this box will also show you a summary of all the occurences.  <a ta
                                                             </li>
                                              }
                                              </ul>
-
-
+                                           
+                                             
                                              ) else ()}
                                              {  if(starts-with($id, 'NAR')) then (
                                              let $file := collection($config:data-rootN)//id($id)
@@ -1300,16 +1326,16 @@ return
 (: subparts :)
 let $work := $apprest:collection-rootW/id($id)
 let $parts := $work//t:div[@type eq 'textpart'][@corresp]/@corresp
-let $rels := $exptit:col//t:relation[@name eq 'saws:contains'][starts-with(@active,$id)]/@passive
+let $rels := $exptit:col//t:relation[@name eq 'saws:contains'][starts-with(@active,$id)]/@passive  
 let $relformspart := $exptit:col//t:relation[(@name eq 'saws:formsPartOf') or (@name eq 'ecrm:CLP46i_may_form_part_of')][starts-with(@passive,$id)]/@active
 let $all := ($parts,$rels,$relformspart)
 let $ids := distinct-values($all)
 return
 if (count($ids) ge 1) then
  (
-
- <p>This textual unit has also {count($ids)} parts which are also independent Textual Units.
- Below is a list of witnesses for each of them.</p>,
+ 
+ <p>This textual unit has also {count($ids)} parts which are also independent Textual Units. 
+ Below is a list of witnesses for each of them.</p>, 
 for $c in $ids
 let $witnesses := $apprest:collection-rootMS//t:title[contains(@ref, $c)][parent::t:msItem or ancestor::t:additions]
 let $countwitnesses := for $wit in $witnesses
@@ -1361,7 +1387,7 @@ return <p><a target="_blank" href="{$config:appUrl}/compare?workid={$stringsubid
                    (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in config:distinct-values($file//t:term/@key) return <option value="{$x}">{exptit:printTitleID($x)}</option>}</optgroup> else (),
                    if ($file//t:relation[@name eq 'dcterms:creator']) then <optgroup label="author">{for $x in ($file//t:relation[@name eq 'dcterms:creator']) let $auth := string($x/@passive) return <option value="{$auth}">{exptit:printTitleID($auth)}</option>}</optgroup> else (),
                    if ($file//t:relation[@name eq 'saws:isAttributedToAuthor']) then <optgroup label="relation">{for $x in ($file//t:relation[@name eq 'saws:isAttributedToAuthor']) let $auth := string($x/@passive) return <option value="{$auth}">{exptit:printTitleID($auth)}</option>}</optgroup> else ()
-                   )
+                   )                   
                    case 'studies' return
                    (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in config:distinct-values($file//t:term/@key) return <option value="{$x}">{exptit:printTitleID($x)}</option>}</optgroup> else (),
                    if ($file//t:relation[@name eq 'dcterms:creator']) then <optgroup label="author">{for $x in ($file//t:relation[@name eq 'dcterms:creator']) let $auth := string($x/@passive) return <option value="{$auth}">{exptit:printTitleID($auth)}</option>}</optgroup> else (),
@@ -1395,26 +1421,25 @@ return <p><a target="_blank" href="{$config:appUrl}/compare?workid={$stringsubid
                   default return (if ($file//t:term/@key) then <optgroup label="keywords">{for $x in config:distinct-values($file//t:term/@key) return <option value="{$x}">{exptit:printTitleID($x)}</option>}</optgroup> else ()
                    )
  return
-       <div class="{if(starts-with($id, 'INS')) then 'w3-container w3-padding' else 'w3-third w3-padding'}" id="seeAlsoForm" >
+       <div class="w3-third w3-padding" id="seeAlsoForm" >
 
 {if(count($options) ge 1) then(
-       <p class="w3-large">Select one of the keywords listed from the record to see related data</p>,
+       <p>Select one of the keywords listed from the record to see related data</p>,
        <span typeof="{string-join($classes, ' ')}"/>,
         <form action="" class="w3-container">
-                <div class="w3-container w3-margin-bottom">
+                <div class="w3-container">
                     <select class="w3-select w3-border" name="seealso" id="seealsoSelector">
                     <option>select...</option>
                    {$options}
                    </select>
                     </div>
-
+            
         </form>,
-     <img id="loading" src="resources/Loading.gif" style="display: none;"></img>,
-     <div id="SeeAlsoResults" class="w3-panel w3-margin w3-card-4 w3-gray">No keyword selected.</div>) else
-     <div class="w3-panel w3-margin w3-card-4 w3-gray">No keywords associated with this item yet.</div>}
-     {if($collection='works' or $collection='narratives' or $collection='studies') then item2:RestMss($id) else ()}
+       <div id="SeeAlsoResults" class="w3-container w3-margin w3-gray">No keyword selected.</div>) else
+     <div class="w3-container w3-margin w3-gray">No keywords associated with this item yet.</div>}
      {item2:mainRels($this, $collection)}
-   {if($collection="institutions") then
+     {if($collection='works' or $collection='narratives' or $collection='studies') then item2:RestMss($id) else ()}
+   {if($collection="institutions") then 
     let $t := util:log('info', concat('item see also for ', $id, ' in ', $collection))
     let $fullid := ('https://betamasaheft.eu/' || $id)
     let $mss := $exptit:col//t:repository[@ref = $fullid]
@@ -1445,11 +1470,11 @@ return <p><a target="_blank" href="{$config:appUrl}/compare?workid={$stringsubid
      <div class="w3-container" id="Chojnacki" data-id="{$id}"/>
      <script type="text/javascript" src="resources/js/gnisci.js"/>
      </div> else ()}
-     {if($collection='authority-files' and $file//t:relation[starts-with(@passive,'ic')])
+     {if($collection='authority-files' and $file//t:relation[starts-with(@passive,'ic')]) 
      then <div class="w3-container" id="EuropeanaMatches">
-     {for $iconclass in $file//t:relation[starts-with(@passive,'ic')]
+     {for $iconclass in $file//t:relation[starts-with(@passive,'ic')] 
      let $icID := substring-after($iconclass/@passive, 'ic:')
-     let $europeanalink := ('http://sparql.europeana.eu/?default-graph-uri=http%3A%2F%2Fdata.europeana.eu%2F&amp;query=SELECT+%3FProvidedCHO%0D%0AWHERE+%7B%0D%0A++%3FProxy+%3Fproperty+%3Chttp%3A%2F%2Ficonclass.org%2F'||
+     let $europeanalink := ('http://sparql.europeana.eu/?default-graph-uri=http%3A%2F%2Fdata.europeana.eu%2F&amp;query=SELECT+%3FProvidedCHO%0D%0AWHERE+%7B%0D%0A++%3FProxy+%3Fproperty+%3Chttp%3A%2F%2Ficonclass.org%2F'|| 
                                            $icID   ||'%3E+%3B%0D%0A+++++++++ore%3AproxyIn+%3FAggregation+.+%0D%0A++%3FAggregation+edm%3AaggregatedCHO+%3FProvidedCHO%0D%0A%7D&amp;format=text%2Fhtml&amp;timeout=0&amp;debug=on')
      return
      <div data-value="{string($iconclass/@passive)}">
@@ -1457,11 +1482,11 @@ return <p><a target="_blank" href="{$config:appUrl}/compare?workid={$stringsubid
    <ul><li><a href="{$europeanalink}">Click to see items in Europeana</a></li>
    <li><a href="https://corpusvitrearum.de/id/{$icID}/about.html">Click to see items in Corpus Vitrearum Medii Aevi </a></li>
    </ul>
-
+     
      <script type="application/javascript" src="resources/js/europeanaSparql.js"/>
      </div>
      }
-
+     
      </div> else ()}
    </div>
 
@@ -1472,7 +1497,7 @@ return <p><a target="_blank" href="{$config:appUrl}/compare?workid={$stringsubid
 (:~ depending on the type of item sends to the correct XSLT producing the main content of the page :)
 declare function item2:RestItem($this, $collection) {
 let $document := $this
-let $id := string($document/t:TEI/@xml:id)
+let $id := string($document/t:TEI/@xml:id) 
 (:because nav takes 2 colums:)
   return
        <div class="w3-container " resource="http://betamasaheft.eu/{$id}" >
@@ -1489,9 +1514,9 @@ declare function item2:timeline($this, $collection){
 tl:RestEntityTimeLine($this, $collection)
 };
 
-(:~ sends to the correct XSLT producing the main content of
+(:~ sends to the correct XSLT producing the main content of 
 the page for text view
-REPLACED BY dtsc:client() in dtsclient.xqm item2:RestText()
+REPLACED BY dtsc:client() in dtsclient.xqm item2:RestText() 
 :)
 
 declare function item2:title($id){
