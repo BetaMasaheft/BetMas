@@ -1105,19 +1105,20 @@ declare
     
 };
 
-declare function lists:typedistvalues($hits){
+declare function lists:typedistvalues($hits){distinct-values(
 for $title in $hits[self::t:seg[ancestor::t:text][not(ancestor::t:bibl)] or self::t:incipit or self::t:explicit or self::t:colophon or self::t:div  or self::t:title]
     let $t := if($title/@subtype) then string($title/@subtype) else string($title/@type)
-    return distinct-values(tokenize(normalize-space(string-join($t,' ')), ' '))};
+    return tokenize(normalize-space(string-join($t,' ')), ' '))};
 
 declare function lists:typegroups($hits, $i){
- let $segs:= $hits//self::t:seg[ancestor::t:text][not(ancestor::t:bibl)][contains(@type,$i)] | $hits//self::t:seg[ancestor::t:text][not(ancestor::t:bibl)][contains(@subtype,$i)]
- let $incipits:= $hits//self::t:incipit[contains(@type,$i)] | $hits//self::t:incipit[contains(@subtype,$i)]
- let $explicits:= $hits//self::t:explicit[contains(@type,$i)] | $hits//self::t:explicit[contains(@subtype,$i)]
- let $colophons:= $hits//self::t:colophon[contains(@type,$i)] | $hits//self::t:colophon[contains(@subtype,$i)]
- let $titles:= $hits//self::t:title[contains(@type,$i)] | $hits//self::t:title[contains(@subtype,$i)]
- let $divs:= $hits//self::t:div[contains(@type,$i)] | $hits//self::t:div[contains(@subtype,$i)]
-return ($segs | $incipits | $colophons | $explicits | $titles | $divs)
+ let $segs:= $hits//self::t:seg[ancestor::t:text][not(ancestor::t:bibl)][some $k in tokenize(@type, '\s+') satisfies $k=$i] | $hits//self::t:seg[ancestor::t:text][not(ancestor::t:bibl)][some $k in tokenize(@subtype, '\s+') satisfies $k=$i]
+ let $incipits:= $hits//self::t:incipit[some $k in tokenize(@type, '\s+') satisfies $k=$i] | $hits//self::t:incipit[some $k in tokenize(@subtype, '\s+') satisfies $k=$i]
+ let $explicits:= $hits//self::t:explicit[some $k in tokenize(@type, '\s+') satisfies $k=$i] | $hits//self::t:explicit[some $k in tokenize(@subtype, '\s+') satisfies $k=$i]
+ let $colophons:= $hits//self::t:colophon[some $k in tokenize(@type, '\s+') satisfies $k=$i] | $hits//self::t:colophon[some $k in tokenize(@subtype, '\s+') satisfies $k=$i]
+ let $titles:= $hits//self::t:title[some $k in tokenize(@type, '\s+') satisfies $k=$i] | $hits//self::t:title[some $k in tokenize(@subtype, '\s+') satisfies $k=$i]
+ let $divs:= $hits//self::t:div[some $k in tokenize(@type, '\s+') satisfies $k=$i] | $hits//self::t:div[some $k in tokenize(@subtype, '\s+') satisfies $k=$i]
+ let $all := $segs | $incipits | $colophons | $explicits | $titles | $divs
+return if (empty($all)) then () else $all
 };
 
 declare
@@ -1150,22 +1151,25 @@ let $log := util:log('INFO',  count($group))
                 (:group by containing ms:)
                 group by $ms := $msid
                 let $itemtype :=  distinct-values($tei/@type)[1]
+                let $htmlid := concat(data($ms), '-', $i)
                 order by $ms
                 return
 
-(<button onclick="openAccordion('{data($ms)}')" class="w3-button w3-block w3-red  w3-margin-bottom">
+(<button onclick="openAccordion('{$htmlid}')" class="w3-button w3-block w3-red  w3-margin-bottom">
 <span class="w3-left">{if($itemtype eq  'mss') then $lists:collection-rootMS//id($ms)//t:msIdentifier/t:idno else try{exptit:printTitleID($ms)} catch * {util:log('WARNING', $ms)}}</span>
 <span class="w3-badge w3-right">{count($d)}</span>
 </button>,
-             <div  class="w3-container w3-hide" id="{data($ms)}">
+             <div  class="w3-container w3-hide" id="{$htmlid}">
 
                  <ul class="w3-ul w3-hoverable" >
                  {if($itemtype eq  'mss') then 
                      for $sd in $d
                      let $images := root($sd)//t:msIdentifier/t:idno
                      let $locus := string($sd/t:locus/@facs)
-                     order by $sd/@xml:id
-                     return
+                     let $uid := if ($sd/@xml:id) then $sd/@xml:id else generate-id($sd)
+                     order by $uid
+                     return if (exists($sd/node())) then
+                     try {
             <li class="w3-container">
 
             {if($images/@facs and $locus) then (<a target="_blank"  href="/manuscripts/{$ms}/viewer"><img class="thumb" src="{
@@ -1184,23 +1188,23 @@ let $log := util:log('INFO',  count($group))
 
            )
             else<div class="w3-third">No image found</div>}
-            <div class="w3-third" >{string:tei2string($sd/node())}</div>
+            <div class="w3-third" >{if (exists($sd/node())) then string:tei2string($sd/node()) else 'div'}</div>
                  <div class="w3-third">
                  <div class="w3-third"><a href="/{$ms}"><b>{$sd/name()}</b>{" | "}{if($sd/@subtype) then string($sd/@subtype) else string($sd/@type)}</a></div>
                  <div class="w3-third">Refers to {if($sd/name() = 'div' and $itemtype eq  'work') 
                                                    then <span>{exptit:printTitle($ms)}</span> 
                                                  else if($sd/name() = 'div' and $itemtype eq  'mss') then 
                                                                     (let $corr := $sd/@corresp 
-                                                                    let $msitem := $sd/ancestor::t:TEI//t:msItem[@xml:id=$corr]
-                                                                    let $work := $msitem/t:title/@ref
-                                                                    return <span>{exptit:printTitle(string($work[1]))}</span> )
+                                                                    let $msitem := if (exists($corr)) then $sd/ancestor::t:TEI//t:msItem[@xml:id=$corr] else ()
+                                                                    let $work :=  if (exists($msitem)) then $msitem/t:title/@ref else ()
+                                                                    return if (exists($work)) then  <span>{exptit:printTitle(string($work[1]))}</span> else <span class="w3-text-grey">[no work reference]</span>)
                                                   else if($sd/name() = 'colophon' or $sd/name() = 'incipit' or $d/name() = 'explicit' or $sd/name() = 'title') 
                                                                    then (  let $msitem := $sd/ancestor::t:msItem 
                                                                    let $work := $msitem/t:title/@ref
                                                                    return <span>{exptit:printTitle(string($work[1]))}</span>)
-                                                  else 'unable to retrive reference'}</div>
+                                                  else 'unable to retrieve reference'}</div>
                  <div class="w3-third">
-            <a href="{data($ms)}#{data($sd/@xml:id)}">{data($sd/@xml:id)}</a><br/>
+            <a href="{data($ms)}#{$uid}"> {data($uid)}</a><br/>
             {if(count($sd//t:ref[@type eq 'authFile']) ge 1) then 
             <span>Art themes: </span> else (),
             for $at in $sd//t:ref[@type eq 'authFile']
@@ -1210,6 +1214,10 @@ let $log := util:log('INFO',  count($group))
             </div>
 
             </li>
+            }catch * {
+        util:log('ERROR', concat(
+            'Problematic node: ', $sd/name(), '(', $uid, ') in TEI ', string($sd/ancestor::t:TEI/@xml:id), ' for type ', $i, ' || Error: ', $err:code, ' ', $err:description
+        ))} else ()
                  else 
                   for $sd in $d
                   return
@@ -1240,9 +1248,9 @@ let $log := util:log('INFO',  count($group))
                                                                     <a  class="w3-bar-item w3-button" href="/compare?workid={string($work[1])}">compare mss</a>
                                                                     <a  class="w3-bar-item w3-button" href="/workmap?worksid={string($work[1])}">map mss</a>
                                                                     <a  class="w3-bar-item w3-button" href="/litcomp?worksid={string($work[1])}">literature view</a></div>) )
-                                                  else 'unable to retrive reference'}</div>
+                                                  else 'unable to retrieve reference'}</div>
                  <div class="w3-third">
-            <a href="{data($ms)}#{data($sd/@xml:id)}">{data($sd/@xml:id)}</a><br/>
+            <a href="{data($ms)}#{if ($sd/@xml:id) then concat('#', $sd/@xml:id) else ()}"> {if ($sd/@xml:id) then data($sd/@xml:id) else '[item]'}</a><br/>
             {if(count($sd//t:ref[@type eq 'authFile']) ge 1) then 
             <span>Art themes: </span> else (),
             for $at in $sd//t:ref[@type eq 'authFile']
