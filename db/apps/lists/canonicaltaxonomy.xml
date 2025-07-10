@@ -55,8 +55,8 @@
          </category>
          <category>
             <desc>Inlays</desc>
-            <category xml:id="inlay" corresp="https://betamasaheft.eu/authority-files/inlay/main">
-               <catDesc>inlay</catDesc>
+            <category xml:id="Inlay" corresp="https://betamasaheft.eu/authority-files/Inlay/main">
+               <catDesc>Inlay</catDesc>
             </category>
             <category xml:id="paperInlay" corresp="https://betamasaheft.eu/authority-files/paperInlay/main">
                <catDesc>paper inlay</catDesc>
@@ -1240,6 +1240,9 @@
          </category>
          <category xml:id="AT1148MaryMitmaq" corresp="https://betamasaheft.eu/authority-files/AT1148MaryMitmaq/main">
             <catDesc>Annual apparition of St Mary at Dabra Mǝṭmāq</catDesc>
+         </category>
+         <category xml:id="AT1149CaliphAtrib" corresp="https://betamasaheft.eu/authority-files/AT1149CaliphAtrib/main">
+            <catDesc>A Caliph from ʾAtrib tries to destroy a Church</catDesc>
          </category>
       </category>
       <category>
