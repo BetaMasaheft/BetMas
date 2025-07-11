@@ -37,6 +37,9 @@
             <category xml:id="overlappingCornerHTO" corresp="https://betamasaheft.eu/authority-files/overlappingCornerHTO/main">
                <catDesc>overlapping corner head/tail over</catDesc>
             </category>
+            <category xml:id="quarterCover" corresp="https://betamasaheft.eu/authority-files/quarterCover/main">
+               <catDesc>quarter cover</catDesc>
+            </category>
             <category xml:id="tonguedCorner" corresp="https://betamasaheft.eu/authority-files/tonguedCorner/main">
                <catDesc>tongued corner</catDesc>
             </category>
@@ -52,8 +55,8 @@
          </category>
          <category>
             <desc>Inlays</desc>
-            <category xml:id="inlay" corresp="https://betamasaheft.eu/authority-files/inlay/main">
-               <catDesc>inlay</catDesc>
+            <category xml:id="Inlay" corresp="https://betamasaheft.eu/authority-files/Inlay/main">
+               <catDesc>Inlay</catDesc>
             </category>
             <category xml:id="paperInlay" corresp="https://betamasaheft.eu/authority-files/paperInlay/main">
                <catDesc>paper inlay</catDesc>
@@ -192,7 +195,10 @@
             </category>
          </category>
          <category>
-            <desc>Decoration Motives</desc>
+            <desc>Decoration</desc>
+            <category xml:id="tooling" corresp="https://betamasaheft.eu/authority-files/tooling/main">
+               <catDesc>Blind tooling</catDesc>
+            </category>
             <category xml:id="tripleStraightLine" corresp="https://betamasaheft.eu/authority-files/tripleStraightLine/main">
                <catDesc>Triple straight line</catDesc>
             </category>
@@ -247,7 +253,31 @@
             <category xml:id="curveStrapwork" corresp="https://betamasaheft.eu/authority-files/curveStrapwork/main">
                <catDesc>Curve strapwork element</catDesc>
             </category>
+            <category xml:id="Headband" corresp="https://betamasaheft.eu/authority-files/Headband/main">
+               <catDesc>Headband</catDesc>
+            </category>
+            <category xml:id="Tailband" corresp="https://betamasaheft.eu/authority-files/Tailband/main">
+               <catDesc>Tailband</catDesc>
+            </category>
          </category>
+         <category>
+            <desc>Interpretation</desc> <!-- category for EMA by AW -->
+            <category xml:id="clauses" corresp="https://betamasaheft.eu/authority-files/clauses/main">
+               <catDesc>clauses</catDesc>
+            </category>
+            <category xml:id="conclusion" corresp="https://betamasaheft.eu/authority-files/conclusion/main">
+               <catDesc>conclusion</catDesc>
+            </category>
+            <category xml:id="listOfPersons" corresp="https://betamasaheft.eu/authority-files/listOfPersons/main">
+               <catDesc>listOfPersons</catDesc>
+            </category>
+            <category xml:id="motif" corresp="https://betamasaheft.eu/authority-files/motif/main">
+               <catDesc>motif</catDesc>
+            </category>
+            <category xml:id="provision" corresp="https://betamasaheft.eu/authority-files/provision/main">
+               <catDesc>provision</catDesc>
+            </category> <!-- omitting suscription omitting invocation -->
+         </category>         
          <category>
             <desc>Thread Material</desc>
             <category xml:id="animalThread" corresp="https://betamasaheft.eu/authority-files/animalThread/main">
@@ -352,7 +382,7 @@
          </category>
       </category>
        <category>
-          <desc>Qəne Types</desc>
+          <desc>Qǝne Types</desc>
           <category xml:id="EtanaMogar" corresp="https://betamasaheft.eu/authority-files/EtanaMogar/main">
              <catDesc>ʿƎṭāna mogar</catDesc>
           </category>
@@ -391,34 +421,50 @@
           <desc>Magic and spells</desc>
           <category>
              <desc>Subtypes</desc>
-             <category xml:id="MagicDrawing" corresp="https://betamasaheft.eu/authority-files/MagicDrawing/main">
+             <category xml:id="MagicDrawing"
+                corresp="https://betamasaheft.eu/authority-files/MagicDrawing/main">
                 <catDesc>Magic drawing </catDesc>
              </category>
-             <category xml:id="MagicSymbols" corresp="https://betamasaheft.eu/authority-files/MagicSymbols/main">
+             <category xml:id="MagicSymbols"
+                corresp="https://betamasaheft.eu/authority-files/MagicSymbols/main">
                 <catDesc>Magic symbols or letters</catDesc>
              </category>
           </category>
           <category>
+             <desc>Subgenres</desc>
+             <category xml:id="Divination"
+                corresp="https://betamasaheft.eu/authority-files/Divination/main">
+                <catDesc>Divination</catDesc>
+             </category>             
+          </category>
+          <category>
              <desc>Diseases and demons</desc>
-             <category xml:id="Disease" corresp="https://betamasaheft.eu/authority-files/Disease/main">
+             <category xml:id="Disease"
+                corresp="https://betamasaheft.eu/authority-files/Disease/main">
                 <catDesc>Disease (generic)</catDesc>
              </category>                
-             <category xml:id="DiseaseFever" corresp="https://betamasaheft.eu/authority-files/DiseaseFever/main">
+             <category xml:id="DiseaseFever"
+                corresp="https://betamasaheft.eu/authority-files/DiseaseFever/main">
                 <catDesc>Disease with fever</catDesc>
              </category>
-             <category xml:id="DiseaseMental" corresp="https://betamasaheft.eu/authority-files/DiseaseMental/main">
+             <category xml:id="DiseaseMental"
+                corresp="https://betamasaheft.eu/authority-files/DiseaseMental/main">
                 <catDesc>Disease with mental symptoms</catDesc>
              </category>
-             <category xml:id="DiseasePain" corresp="https://betamasaheft.eu/authority-files/DiseasePain/main">
+             <category xml:id="DiseasePain"
+                corresp="https://betamasaheft.eu/authority-files/DiseasePain/main">
                 <catDesc>Disease with pain/colic</catDesc>
              </category>
-             <category xml:id="DiseaseWomen" corresp="https://betamasaheft.eu/authority-files/DiseaseWomen/main">
+             <category xml:id="DiseaseWomen"
+                corresp="https://betamasaheft.eu/authority-files/DiseaseWomen/main">
                 <catDesc>Disease in women</catDesc>
              </category>                   
-             <category xml:id="EvilEye" corresp="https://betamasaheft.eu/authority-files/EvilEye/main">
+             <category xml:id="EvilEye"
+                corresp="https://betamasaheft.eu/authority-files/EvilEye/main">
                 <catDesc>Evil Eye</catDesc>
              </category>
-             <category xml:id="EvilSpirit" corresp="https://betamasaheft.eu/authority-files/EvilSpirit/main">
+             <category xml:id="EvilSpirit"
+                corresp="https://betamasaheft.eu/authority-files/EvilSpirit/main">
                 <catDesc>Evil Spirit</catDesc>
              </category>
           </category>
@@ -447,12 +493,6 @@
          <category xml:id="Foundation" corresp="https://betamasaheft.eu/authority-files/Foundation/main">
             <catDesc>Foundation</catDesc>
          </category>
-         <category xml:id="Headband" corresp="https://betamasaheft.eu/authority-files/Headband/main">
-            <catDesc>Headband</catDesc>
-         </category>
-         <category xml:id="Tailband" corresp="https://betamasaheft.eu/authority-files/Tailband/main">
-            <catDesc>Tailband</catDesc>
-         </category>
          <category xml:id="DonationNote" corresp="https://betamasaheft.eu/authority-files/DonationNote/main">
             <catDesc>Donation Note</catDesc>
          </category>
@@ -479,13 +519,13 @@
                   <catDesc>Land Grant</catDesc>
                </category>
                <category xml:id="GweltDeed" corresp="https://betamasaheft.eu/authority-files/GweltDeed/main">
-                  <catDesc>Gwəlt Deed</catDesc>
+                  <catDesc>Gwǝlt Deed</catDesc>
                </category>
                <category xml:id="RestDeed" corresp="https://betamasaheft.eu/authority-files/RestDeed/main">
-                  <catDesc>Rəst Deed</catDesc>
+                  <catDesc>Rǝst Deed</catDesc>
                </category>
                <category xml:id="RestaGweltDeed" corresp="https://betamasaheft.eu/authority-files/RestaGweltDeed/main">
-                  <catDesc>Rəsta gwəlt Deed</catDesc>
+                  <catDesc>Rǝsta gwǝlt Deed</catDesc>
                </category>
             </category>
             <category xml:id="Rim" corresp="https://betamasaheft.eu/authority-files/Rim/main">
@@ -1198,6 +1238,12 @@
          <category xml:id="AT1147BeheadingJohn" corresp="https://betamasaheft.eu/authority-files/AT1147BeheadingJohn/main">
             <catDesc>Beheading of John the Baptist</catDesc>
          </category>
+         <category xml:id="AT1148MaryMitmaq" corresp="https://betamasaheft.eu/authority-files/AT1148MaryMitmaq/main">
+            <catDesc>Annual apparition of St Mary at Dabra Mǝṭmāq</catDesc>
+         </category>
+         <category xml:id="AT1149CaliphAtrib" corresp="https://betamasaheft.eu/authority-files/AT1149CaliphAtrib/main">
+            <catDesc>A Caliph from ʾAtrib tries to destroy a Church</catDesc>
+         </category>
       </category>
       <category>
          <desc>Place types</desc>
@@ -1549,6 +1595,9 @@
          </category>
          <category xml:id="Chronicles" corresp="https://betamasaheft.eu/authority-files/Chronicles/main">
             <catDesc>Chronicles</catDesc>
+         </category>
+         <category xml:id="generalRecord" corresp="https://betamasaheft.eu/authority-files/generalRecord/main">
+            <catDesc>General Record</catDesc>
          </category>
          <category xml:id="Homily" corresp="https://betamasaheft.eu/authority-files/Homily/main">
             <catDesc>Homily</catDesc>
