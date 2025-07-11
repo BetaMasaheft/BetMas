@@ -230,10 +230,22 @@ declare variable $config:repo-descriptor := doc(concat($config:app-root, "/repo.
 
 declare variable $config:expath-descriptor := doc(concat($config:app-root, "/expath-pkg.xml"))/expath:package;
 
-declare %templates:wrap function config:prefix-href ($node as node(), $model as map(*), $href as xs:string) as attribute(*) {
-    attribute href {$config:appUrl || $href}
-};
 
+(:~
+ : Call like <a data-template="config:prefix-href"  data-template-href="/bladiblah"/>
+ : Results in <a href="whatevertheprefixis/bladiblah"/>
+ :)
+declare %templates:wrap function config:prefix-href (
+  $node as node(),
+  $model as map(*),
+  $href as xs:string
+) as element(*) {
+  element {name($node)} {
+    attribute href { $config:appUrl || $href },
+    $node/@*,
+    templates:process($node/node(), $model)
+  }
+};
 (:~
  : Resolve the given path using the current application context.
  : If the app resides in the file system,
