@@ -100,7 +100,7 @@
                 <item xml:id="INS0052Texas">University of Texas at Austin, Harry Ransom Center</item>
                 <item xml:id="INS0053SM">Sabayā Māryām</item>
                 <item xml:id="INS0054SMM">Samāz Māryām</item>
-                <item xml:id="INS0055TGS">Täsfa Gäbrä Śəllase Printing Press</item>
+                <item xml:id="INS0055TGS">Täsfa Gäbrä Śǝllase Printing Press</item>
                 <item xml:id="INS0056DQ">Dabra Qwayaṣā</item>
                 <item xml:id="INS0057Pop">Nicholas Poplawski Collection</item>
                 <item xml:id="INS0058ZurAmba">Zurāmba</item>
@@ -875,7 +875,7 @@
                 <item xml:id="INS0976Windsor">Royal Library Windsor Castle</item>
                 <item xml:id="INS0977Karan">Missione Cattolica di Cheren</item>
                 <item xml:id="INS0977Brescia">Fondazione Biblioteca Morcelli - Pinacoteca Repossi di Chiari</item>
-                <item xml:id="INS0978Meskaya">ምስካየ፡ ኅዙናን፡ መድኃኔ፡ ዓለም፡</item>
+                <item xml:id="INS0978Meskaya">Mǝskāya ḫǝzunān Madḫāne ʿĀlam</item>
                 <item xml:id="INS0979DabraNagwad">Dabra Nagʷadgʷād qǝddus Yoḥānnǝs</item>
                 <item xml:id="INS0980Manbara">Manbara Ṣabāʾot qǝddǝst Śǝllāse</item>
                 <item xml:id="INS0981Leicester">University of Leicester</item>
@@ -902,11 +902,11 @@
                 <item xml:id="INS1000WaldaIyasus">Private Collection of Walda Iyasus</item>
                 <item xml:id="INS1001MusKulBasel">Museum der Kulturen Basel</item>
                 <item xml:id="INS1002CCRG">Č̣āč̣ara Giyorgis</item>
-                <item xml:id="INS1003MEAG">Private Collection of Məntasnot ʾAbbuhay</item>
+                <item xml:id="INS1003MEAG">Private Collection of Mǝntasnot ʾAbbuhay</item>
                 <item xml:id="INS1004TanaQirqos">Ṭānā Qirqos</item>
                 <item xml:id="INS1005Maaqud">Maʿāquddi Yoḥannǝs Walda Nagʷadgʷād</item>
                 <item xml:id="INS1006FCCOS">Franciscan Center of Christian Oriental Studies</item>
-                <item xml:id="INS1007TaqotMaryam">Ṭāq̲ot Dabra Ṣəyon Māryām</item>
+                <item xml:id="INS1007TaqotMaryam">Ṭāq̲ot Dabra Ṣǝyon Māryām</item>
                 <item xml:id="INS1008EndaYohannes">ʾƎndā Yoḥannǝs Ḥādduš ʿAddi</item>
                 <item xml:id="INS1009Zammad">Žammadu Māryām</item>
                 <item xml:id="INS1010SAC">Société d’Archéologie Copte</item>
@@ -916,12 +916,12 @@
                 <item xml:id="INS1014MD">Private collection of Marigetā Damḍa ʾƎndālaw</item>
                 <item xml:id="INS1016CelaMaryam">Č̣ǝlā Māryām</item>
                 <item xml:id="INS1017EndaMaryamDengelat">ʾƎndā Māryām Dangalāt</item>
-                <item xml:id="INS1018DabraE">Dabra ʾElgəne</item>
+                <item xml:id="INS1018DabraE">Dabra ʾElgǝne</item>
                 <item xml:id="INS1019DabraHalleloEndaSamuel">Dabra Hāllelo ʾƎndā ʾAbuna Sāmuʾel</item>
                 <item xml:id="INS1020EFSmissionsmuseum">Evangeliska Fosterlands-Stiftelsens etnografiska missionsmuseum</item>
                 <item xml:id="INS1021Matenadaran">Mesrop Mashtots Research Institute of Ancient Manuscripts</item>
                 <item xml:id="INS1022ESZA">Private collection of qasis ʾƎšat Zammana ʾAndābet</item>
-            </list>
+            <item xml:id="INS1023BadawoAragawi" change="entryAddedAt2025-04-17T14:00:52.361+02:00"><span xmlns="" class="w3-tag w3-red">No item: INS1023BadawoAragawi</span></item><item xml:id="INS1024SGI" change="entryAddedAt2025-04-28T19:10:16.591+02:00"><span xmlns="" class="w3-tag w3-red">No item: INS1024SGI</span></item><item xml:id="INS1025BBA" change="entryAddedAt2025-05-26T13:21:20.488+02:00">Private collection of Marigetā Malāʾka Gannat Bare Bǝzuʿālam ʾAndābet</item><item xml:id="INS0016DabraGannat" change="entryAddedAt2025-07-08T13:02:40.848+02:00">INS0016DabraGannat</item><item xml:id="INS0059DabraDahayM" change="entryAddedAt2025-07-09T15:45:13.238+02:00">INS0059DabraDahayM</item></list>
         </body>
     </text>
 </TEI>
