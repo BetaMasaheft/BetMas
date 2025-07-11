@@ -3537,7 +3537,7 @@ declare function apprest:compareMssFromForm ($target-work as xs:string?) {
                       >
                         <ul class="nodot">
                           {
-                            for $msitem in
+                            for $msitem at $p in
                               root($manuscript)/t:TEI//t:msItem
                               (: store in a variable the ref in the title or nothing :)
                             let $title := if ($msitem/t:title[@ref]) then
@@ -3621,7 +3621,7 @@ declare function apprest:compareMssFromForm ($target-work as xs:string?) {
                         </ul>
                         <ul class="nodot">
                           {
-                            for $additem in
+                            for $additem at $p in
                               root(
                                 $manuscript
                               )/t:TEI//t:additions//t:item[descendant::t:title[matches(
@@ -3755,7 +3755,7 @@ declare function apprest:compareMssFromlist ($mss) {
                 >
                   <ul class="nodot">
                     {
-                      for $msitem in
+                      for $msitem at $p in
                         $manuscript//t:msItem
                         (: store in a variable the ref in the title or nothing :)
                       let $title := if ($msitem/t:title[@ref]) then
@@ -3815,7 +3815,7 @@ declare function apprest:compareMssFromlist ($mss) {
                   </ul>
                   <ul class="nodot">
                     {
-                      for $additem in
+                      for $additem at $p in
                         root($manuscript)/t:TEI//t:additions//t:item
                         (: store in a variable the ref in the title or nothing :)
                       let $title := if ($additem//t:title[@ref]) then
