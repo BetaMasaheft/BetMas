@@ -1125,19 +1125,19 @@ declare function apprest:bottom ($this, $collection) {
               <h4>Permalinks</h4>
             </header>
             <div
-              data-id="{ $document//t:TEI/@xml:id }"
+              data-id="{$id}"
               data-path="{
                 viewItem:capitalize-first(
                   substring-after(base-uri($document), "/db/apps/expanded/")
                 )
               }"
               data-type="{ viewItem:capitalize-first($collection) }"
-              id="permanentIDs{ $document//t:TEI/@xml:id }"
+              id="permanentIDs{$id}"
               style="max-height:250px;overflow:auto"
             >
               <a
                 class="w3-btn"
-                id="LoadPermanentIDs{ $document//t:TEI/@xml:id }"
+                id="LoadPermanentIDs{$id}"
               >Load permalinks to see the revision history on GitHub</a>
             </div>
             <script src="resources/js/permanentID.js" type="text/javascript" />
@@ -1148,15 +1148,15 @@ declare function apprest:bottom ($this, $collection) {
             <header class="w3-container w3-red">
               <span
                 class="w3-button w3-display-topright"
-                onclick="document.getElementById('revision').style.display='none'"
+                onclick="document.getElementById('rdf').style.display='none'"
               >CLOSE</span>
               <h4>RDF and VoID</h4>
             </header>
             <div>This page contains RDFa.
    <a
-                href="/rdf/{ $collection }/{ $document//t:TEI/@xml:id }.rdf"
-              >RDF+XML</a> graph of this resource. Alternate representations available via <a
-                href="/api/void/{ $document//t:TEI/@xml:id }"
+                href="/rdf/{ $collection }/{$id}.rdf"
+              >RDF+XML</a> graph of this resource. Alternate representations are available via <a
+                href="/api/void/{$id}"
               >VoID</a>
             </div>
           </div>
