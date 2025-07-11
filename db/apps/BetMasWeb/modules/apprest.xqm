@@ -727,9 +727,9 @@ return
                         <span onclick="document.getElementById('perm').style.display='none'" class="w3-button w3-display-topright">CLOSE</span>
                         <h4>Permalinks</h4>
                     </header>
-                      <div id="permanentIDs{$document//t:TEI/@xml:id}" style="max-height:250px;overflow:auto"
+                      <div id="permanentIDs{$id}" style="max-height:250px;overflow:auto"
    data-path="{viewItem:capitalize-first(substring-after(base-uri($document), '/db/apps/expanded/'))}" 
-   data-id="{$document//t:TEI/@xml:id}" data-type="{viewItem:capitalize-first($collection)}"><a class="w3-btn" id="LoadPermanentIDs{$document//t:TEI/@xml:id}">Load permalinks to see the revision history on GitHub</a></div>
+   data-id="{$id}" data-type="{viewItem:capitalize-first($collection)}"><a class="w3-btn" id="LoadPermanentIDs{$id}">Load permalinks to see the revision history on GitHub</a></div>
    
    <script  type="text/javascript" src="resources/js/permanentID.js"></script>
 </div>
@@ -739,11 +739,11 @@ return
  <div class="w3-modal-content">
                     
                     <header class="w3-container w3-red">
-                        <span onclick="document.getElementById('revision').style.display='none'" class="w3-button w3-display-topright">CLOSE</span>
+                        <span onclick="document.getElementById('rdf').style.display='none'" class="w3-button w3-display-topright">CLOSE</span>
                         <h4>RDF and VoID</h4>
                     </header>
                     <div>This page contains RDFa. 
-   <a href="/rdf/{$collection}/{$document//t:TEI/@xml:id}.rdf">RDF+XML</a> graph of this resource. Alternate representations available via <a href="/api/void/{$document//t:TEI/@xml:id}">VoID</a></div>
+   <a href="/rdf/{$collection}/{$id}.rdf">RDF+XML</a> graph of this resource. Alternate representations are available via <a href="/api/void/{$id}">VoID</a></div>
 
 </div>
 </div>
