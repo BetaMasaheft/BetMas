@@ -121,7 +121,7 @@ function exptit:printTitleID($id as xs:string)
 (:            format the title, add it to the list and pass again to this function, which will have something to match now:)
                 (let $subtitle := exptit:printSubtitle($node[1], $SUBid)
                  let $name := (exptit:printTitleID($mainID)|| ': '||$subtitle)   
-                 let $addit := if (contains($id, 'LIT')) then exptit:updateTUList($name, $id) else ()
+ (:                let $addit := if (contains($id, 'LIT')) then exptit:updateTUList($name, $id) else () :)
                     return
                         $exptit:col/id($id)//t:title[@type = 'full']/text()
                 )
@@ -147,10 +147,10 @@ let $TUlist := $exptit:TUList//t:list
 let $ref := if (contains($pRef, '.eu/')) then substring-after($pRef, '.eu/') else string($pRef)
 let $update := if ($TUlist/t:item[@corresp eq $ref]) then 
 update value  $TUlist/t:item[@corresp eq $ref] with $name
-else
+else if (contains($pRef, '#')) then () else
 update insert <item 
 xmlns="http://www.tei-c.org/ns/1.0" 
-change="addedAt{current-dateTime()}"
+change="added{current-dateTime()}"
 corresp="{$ref}">{$name}</item>
 into  $TUlist
     return
