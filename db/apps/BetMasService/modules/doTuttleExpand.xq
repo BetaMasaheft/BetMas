@@ -87,7 +87,7 @@ declare function tuttle-expand:expand-data (
         xmldb:remove($descriptor-in-expanded?directory, $descriptor-in-expanded?basename),
     (: Add new expanded files :)
     for $inserted-file in $changes?new?*
-    where $inserted-file?success
+    where $inserted-file?success and not($inserted-file?path => ends-with('taxonomy.xml'))
     let $filepath := $unexpanded-root || "/" || $inserted-file?path
     let $filepath-in-expanded := $expanded-root || "/" || $inserted-file?path
     let $descriptor-in-expanded := local:split-path($filepath-in-expanded)
