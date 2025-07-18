@@ -1150,14 +1150,15 @@ let $log := util:log('INFO',  count($group))
                 (:group by containing ms:)
                 group by $ms := $msid
                 let $itemtype :=  distinct-values($tei/@type)[1]
+                let $htmlid := concat(data($ms), '-', $i)
                 order by $ms
                 return
 
-(<button onclick="openAccordion('{data($ms)}')" class="w3-button w3-block w3-red  w3-margin-bottom">
+(<button onclick="openAccordion('{$htmlid}')" class="w3-button w3-block w3-red  w3-margin-bottom">
 <span class="w3-left">{if($itemtype eq  'mss') then $lists:collection-rootMS//id($ms)//t:msIdentifier/t:idno else try{exptit:printTitleID($ms)} catch * {util:log('WARNING', $ms)}}</span>
 <span class="w3-badge w3-right">{count($d)}</span>
 </button>,
-             <div  class="w3-container w3-hide" id="{data($ms)}">
+             <div  class="w3-container w3-hide" id="{$htmlid}">
 
                  <ul class="w3-ul w3-hoverable" >
                  {if($itemtype eq  'mss') then 
