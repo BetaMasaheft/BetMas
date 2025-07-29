@@ -8,7 +8,7 @@ module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/confi
 import module namespace http="http://expath.org/ns/http-client";
 import module namespace loc="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/loc" at "./loc.xqm";
 
-declare namespace templates="http://exist-db.org/xquery/templates";
+import module namespace templates="http://exist-db.org/xquery/templates";
 
 declare namespace repo="http://exist-db.org/xquery/repo";
 declare namespace expath="http://expath.org/ns/pkg";
@@ -235,17 +235,34 @@ declare variable $config:expath-descriptor := doc(concat($config:app-root, "/exp
  : Call like <a data-template="config:prefix-href"  data-template-href="/bladiblah"/>
  : Results in <a href="whatevertheprefixis/bladiblah"/>
  :)
-declare %templates:wrap function config:prefix-href (
+declare function config:prefix-href (
   $node as node(),
   $model as map(*),
   $href as xs:string
 ) as element(*) {
   element {name($node)} {
     attribute href { $config:appUrl || $href },
-    $node/@*,
-    templates:process($node/node(), $model)
+		$node/@* except ($node/@data-template, $node/@data-template-href),
+	  $node/node()!templates:process(., $model)
   }
 };
+
+(:~
+ : Call like <script data-template="config:prefix-src"  data-template-src="/bladiblah"/>
+ : Results in <script src="whatevertheprefixis/bladiblah"/>
+ :)
+declare function config:prefix-src (
+  $node as node(),
+  $model as map(*),
+  $src as xs:string
+) as element(*) {
+  element {name($node)} {
+    attribute src { $config:appUrl || $src },
+		$node/@* except ($node/@data-template, $node/@data-template-src),
+	  $node/node()!templates:process(., $model)
+  }
+};
+
 (:~
  : Resolve the given path using the current application context.
  : If the app resides in the file system,
