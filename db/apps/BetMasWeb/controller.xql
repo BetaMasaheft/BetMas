@@ -513,8 +513,8 @@ else
                                                                                                                     (:  the xml stored in the db   :)
                                                                                                     else
                                                                                                         if (ends-with($exist:path, ".xml")) then
-
-                                                                                                            let $id := substring-before($exist:resource, '.xml')
+																																																						(: Extract the ID part from the URL :)
+                                                                                                            let $id := $exist:resource => substring-before('.xml')
                                                                                                             let $item := collection($config:data-root)/id($id)[name() = 'TEI']
                                                                                                             let $collection := local:switchCol($item/@type)
                                                                                                             let $uri := base-uri($item)
@@ -523,7 +523,7 @@ else
                                                                                                                     <dispatch
                                                                                                                         xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                                                         <forward
-                                                                                                                            url="{$config:appUrl}/{substring-after($uri, 'db/apps/')}"/>
+                                                                                                                            url="/{substring-after($uri, 'db/apps/')}"/>
                                                                                                                         <error-handler>
                                                                                                                             <forward
                                                                                                                                 url="{$exist:controller}/error/error-page.html"
