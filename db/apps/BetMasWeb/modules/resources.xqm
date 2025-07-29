@@ -1248,9 +1248,9 @@ let $log := util:log('INFO',  count($group))
                                                                     <a  class="w3-bar-item w3-button" href="/compare?workid={string($work[1])}">compare mss</a>
                                                                     <a  class="w3-bar-item w3-button" href="/workmap?worksid={string($work[1])}">map mss</a>
                                                                     <a  class="w3-bar-item w3-button" href="/litcomp?worksid={string($work[1])}">literature view</a></div>) )
-                                                  else 'unable to retrive reference'}</div>
+                                                  else 'unable to retrieve reference'}</div>
                  <div class="w3-third">
-            <a href="{data($ms)}#{data($sd/@xml:id)}">{data($sd/@xml:id)}</a><br/>
+            <a href="{data($ms)}#{if ($sd/@xml:id) then concat('#', $sd/@xml:id) else ()}"> {if ($sd/@xml:id) then data($sd/@xml:id) else '[item]'}</a><br/>
             {if(count($sd//t:ref[@type eq 'authFile']) ge 1) then 
             <span>Art themes: </span> else (),
             for $at in $sd//t:ref[@type eq 'authFile']

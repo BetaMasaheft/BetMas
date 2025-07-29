@@ -474,7 +474,7 @@ declare function apprest:deciderelation ($list) {
               "La Synthaxe du Codex " || substring-after($id/text(), "sdc:")
 
             else if (starts-with($id/text(), "urn:")) then
-              <a href="/{ encode-for-uri($id/text()) }" target="_blank">
+              <a href="{ $config:appUrl }/{ encode-for-uri($id/text()) }" target="_blank">
                 { $id/text() }
               </a>
             else if (contains($link, "betamasaheft")) then
@@ -827,8 +827,8 @@ declare function apprest:WhatPointsHere ($id as xs:string, $c) {
  :)
 declare function apprest:bibdata ($id, $collection) as node()* {
   let $file := $exptit:col//t:TEI/id($id)
-  return (: here I cannot use for the title the javascript titles.js because the content is not exposed :)
-    <bibl>
+  return (: here I cannot use for the title the javascript titles.js because the content is not exposed :) <bibl
+    >
       {
         let $ids := (
           $file//t:revisionDesc/t:change/@who |
@@ -876,8 +876,8 @@ declare function apprest:bibdata ($id, $collection) as node()* {
 
 declare function apprest:bibdata ($id, $this, $collection, $sha) as node()* {
   let $file := $this
-  return (: here I cannot use for the title the javascript titles.js because the content is not exposed :)
-    <bibl>
+  return (: here I cannot use for the title the javascript titles.js because the content is not exposed :) <bibl
+    >
       {
         let $ids := (
           $file//t:revisionDesc/t:change/@who |
@@ -1125,22 +1125,22 @@ declare function apprest:bottom ($this, $collection) {
               <h4>Permalinks</h4>
             </header>
             <div
-              data-id="{$id}"
+              data-id="{ $id }"
               data-path="{
                 viewItem:capitalize-first(
                   substring-after(base-uri($document), "/db/apps/expanded/")
                 )
               }"
               data-type="{ viewItem:capitalize-first($collection) }"
-              id="permanentIDs{$id}"
+              id="permanentIDs{ $id }"
               style="max-height:250px;overflow:auto"
             >
               <a
                 class="w3-btn"
-                id="LoadPermanentIDs{$id}"
+                id="LoadPermanentIDs{ $id }"
               >Load permalinks to see the revision history on GitHub</a>
             </div>
-            <script src="resources/js/permanentID.js" type="text/javascript" />
+            <script src="{ $config:appUrl }/resources/js/permanentID.js" type="text/javascript" />
           </div>
         </div>
         <div class="w3-modal w3-card w3-margin" id="rdf">
@@ -1154,9 +1154,9 @@ declare function apprest:bottom ($this, $collection) {
             </header>
             <div>This page contains RDFa.
    <a
-                href="/rdf/{ $collection }/{$id}.rdf"
+                href="{ $config:appUrl }/rdf/{ $collection }/{ $id }.rdf"
               >RDF+XML</a> graph of this resource. Alternate representations are available via <a
-                href="/api/void/{$id}"
+                href="{ $config:appUrl }/api/void/{ $id }"
               >VoID</a>
             </div>
           </div>
@@ -1232,7 +1232,7 @@ declare function apprest:authors ($this, $collection) {
             </p>
             <p
             >To cite a precise version, please, click on load permalinks and to the desired version (<a
-                href="/pid.html"
+                href="{ $config:appUrl }/pid.html"
               >see documentation on permalinks</a>), then import the metadata or copy the below, with the correct link.</p>
           </div>
         </div>
@@ -1391,7 +1391,7 @@ declare function apprest:authorsSHA ($id, $this, $collection, $sha) {
             </p>
             <p
             >To cite a precise version, please, click on load permalinks and to the desired version (<a
-                href="/pid.html"
+                href="{ $config:appUrl }/pid.html"
               >see documentation on permalinks</a>), then import the metadata or copy the below, with the correct link.</p>
           </div>
         </div>
@@ -1968,8 +1968,7 @@ function apprest:listrest ($type, $collection, $parameters as map(*), $params) {
             $dR ||
             $tabots ||
             $placetypess
-        )
-        else if ($collection = "works") then (
+        ) else if ($collection = "works") then (
           "$apprest:collection-rootW//t:TEI" ||
             $CaeIDs ||
             $allnames ||
@@ -1980,8 +1979,7 @@ function apprest:listrest ($type, $collection, $parameters as map(*), $params) {
             $dR ||
             $Allauthors ||
             $periods
-        )
-        else if ($collection = "persons") then (
+        ) else if ($collection = "persons") then (
           "$apprest:collection-rootPr//t:TEI" ||
             $allnames ||
             $ContentPr ||
@@ -1990,8 +1988,7 @@ function apprest:listrest ($type, $collection, $parameters as map(*), $params) {
             $occupations ||
             $faiths ||
             $genders
-        )
-        else
+        ) else
           let $col := switch2:collection($collection)
           return $col ||
               "//t:TEI" ||
@@ -2414,8 +2411,7 @@ declare function apprest:searchFilter-rest ($collection, $model as map(*)) {
                 src="resources/images/giphy.gif"
                 style="display: none; width: 20%;" />,
               <div id="AddFilters" />
-            ) else (: form selectors relative to query :)
-            (
+            ) else (: form selectors relative to query :) (
               <div class="w3-container">
                 <label for="keyword">keywords </label>
                 <select
@@ -2712,8 +2708,7 @@ declare function apprest:searchFilter-rest ($collection, $model as map(*)) {
                     }
                   </select>
                 </div>
-              ) else (: form selectors relative to query :)
-              (
+              ) else (: form selectors relative to query :) (
                 apprest:formcontrol(
                   "keyword",
                   "keyword",
@@ -3105,10 +3100,10 @@ declare function apprest:searchFilter-rest ($collection, $model as map(*)) {
           <button class="w3-bar-item w3-button w3-red" type="submit">
             <i aria-hidden="true" class="fa fa-search" />
           </button>
-          <a class="w3-bar-item w3-button w3-gray" href="/{ $collection }/list">
+          <a class="w3-bar-item w3-button w3-gray" href="{ $config:appUrl }/{ $collection }/list">
             <i aria-hidden="true" class="fa fa-th-list" />
           </a>
-          <a class="w3-bar-item w3-button w3-red" href="/as.html" role="button">
+          <a class="w3-bar-item w3-button w3-red" href="{ $config:appUrl }/as.html" role="button">
             <i aria-hidden="true" class="fa fa-cog" />
           </a>
         </div>
@@ -3310,8 +3305,7 @@ declare function apprest:newselectors (
           return <option value="{ $id }">
               { ($title[1] || " (" || $fac || ")") }
             </option>
-      )
-      else if ($type = "name") then (
+      ) else if ($type = "name") then (
         for $n in $nodes[. != ""][. != " "]
         let $id := string($n/@xml:id)
         let $title := exptit:printTitleID($id)
@@ -3338,8 +3332,7 @@ declare function apprest:newselectors (
               exptit:printTitle($exptit:col/id($work))
             else
               $work
-          } (: this has to stay because optgroup requires label and this cannot be computed from the javascript as in other places :)
-          catch * {
+          } (: this has to stay because optgroup requires label and this cannot be computed from the javascript as in other places :) catch * {
             (
               "while trying to create a list for the filter " ||
                 $nodeName ||
@@ -3375,8 +3368,7 @@ declare function apprest:newselectors (
         return <option value="{ $institutionId }">
             { exptit:printTitle($institutionId) }
           </option>
-      )
-      else if ($type = "sex") then (
+      ) else if ($type = "sex") then (
         for $n in $nodes[. != ""][. != " "]
         let $key := replace(apprest:trim($n), "_", " ")
         order by $n
@@ -3527,7 +3519,7 @@ declare function apprest:compareMssFromForm ($target-work as xs:string?) {
                       style="width:250px;word-wrap: break-word;"
                     >
                       <header class="w3-red w3-padding">
-                        <a href="{ ("/" || $msid) }">{ $msid }</a>
+                        <a href="{ $config:appUrl }/{ $msid }">{ $msid }</a>
 ({
                           string($minnotBefore)
                         }-{ string($maxnotAfter) })</header>
@@ -3593,8 +3585,7 @@ declare function apprest:compareMssFromForm ($target-work as xs:string?) {
                                       )
                                     ),
                                     $placement
-                                  ) (: normally print the title of the referred item :)
-                                  else (
+                                  ) (: normally print the title of the referred item :) else (
                                     <span>
                                       <a
                                         class="itemtitle"
@@ -3669,8 +3660,7 @@ declare function apprest:compareMssFromForm ($target-work as xs:string?) {
                                         )
                                       ),
                                       $placement
-                                    ) (: normally print the title of the referred item :)
-                                    else (
+                                    ) (: normally print the title of the referred item :) else (
                                       <span>
                                         <a
                                           class="itemtitle"
@@ -3740,7 +3730,7 @@ declare function apprest:compareMssFromlist ($mss) {
             order by $minnotBefore
             return <div class="w3-card-2 w3-margin">
                 <header class="w3-red w3-padding">
-                  <a href="{ ("/" || $msid) }">
+                  <a href="{ $config:appUrl }/{ $msid }">
                     { exptit:printTitleID($msid) }
                   </a>
                                         ({
@@ -3844,8 +3834,7 @@ declare function apprest:compareMssFromlist ($mss) {
                                   )
                                 ),
                                 $placement
-                              ) (: normally print the title of the referred item :)
-                              else (
+                              ) (: normally print the title of the referred item :) else (
                                 <a
                                   class="itemtitle"
                                   data-value="{ $t }"

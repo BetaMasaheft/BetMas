@@ -274,7 +274,7 @@ declare %private function viewItem:gallery($item) {
     let $img:=concat('https://betamasaheft.eu/iiif/', $facs, format-number($i,'000'),'.tif/info.json') return  '"'||$img || '"',
     ','
   )
-                        let $openseadragonjs := 
+                        let $openseadragonjs :=
   'OpenSeadragon({' ||
      'id: "' || $openseadragonjsid || '",' ||
      'prefixUrl: "../resources/openseadragon/images/",' ||
@@ -294,7 +294,7 @@ declare %private function viewItem:gallery($item) {
                                     <img
                                         src="/resources/images/iiif.png"
                                         width="20px"/>
-                                </a>                                
+                                </a>
                             </p>,
                             <div
                                 id="{$openseadragonjsid}"/>,
@@ -909,7 +909,7 @@ declare %private function viewItem:placename($name) {
                     viewItem:TEI2HTML($name/node()),
                 viewItem:sup($name),
                 if ($name/parent::t:place/t:placeName[@corresp]) then
-                    (' (', 
+                    (' (',
     for $corresp at $p in $cors
     return
         (viewItem:TEI2HTML($corresp), viewItem:sup($corresp),
@@ -1962,9 +1962,9 @@ declare %private function viewItem:msItem($msItem) {
                     }
                     {
          (::           if ((count($msItem/ancestor::t:msItem) gt 1) and ($msItemsCount gt 100))
-                    then <div><a 
-                    class="w3-button msitemloader" 
-                    data-mainID="{$mainID}" 
+                    then <div><a
+                    class="w3-button msitemloader"
+                    data-mainID="{$mainID}"
                     data-msItem="{replace($msItem/@xml:id, '\.', '-')}">Click here to load the {count($msItem/t:msItem)} items contained in the current one.</a><div id="msitemloadcontainer{replace($msItem/@xml:id, '\.', '-')}"/></div>
                     else  ::) if ($msItem/t:msItem) then
                         (
@@ -5497,7 +5497,6 @@ declare %private function viewItem:place($item) {
             } catch * {
                 util:log('info', $err:description)
             } else ()}
-
                 {viewItem:divofplacepath($item, "//t:ab[@type = 'description']", 'General information', 3)}
                 {viewItem:divofplacepath($item, "//t:location[@type='relative']", 'Location', 3)}
                 {viewItem:divofplacepath($item, "//t:ab[@type = 'appellations'][child::*]", 'Appellations', 3)}

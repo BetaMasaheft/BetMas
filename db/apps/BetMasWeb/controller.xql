@@ -149,7 +149,14 @@ if ($exist:path eq '') then
         <redirect
             url="{local:get-uri()}/"/>
     </dispatch>
-
+     else
+   if (starts-with($exist:path, "/CAe")) then
+                                                        <dispatch
+                                                            xmlns="http://exist.sourceforge.net/NS/exist">
+                                                            <redirect
+                                                                url="/newSearch.html?searchType=clavis&amp;clavistype=&amp;query={substring-after($exist:path, '/CAe')}"
+                                                                absolute="yes"/>
+                                                        </dispatch>
     (:ALL REQUESTS CHECK THAT USER IS IN ADMIN GROUP:)
 
     (: Resource paths starting with $shared are loaded from the shared-resources app :)

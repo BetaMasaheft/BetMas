@@ -38,7 +38,7 @@ produces jsonLD for the ES manuscripts whose images are exposed by our iipimage 
 http://iiif.io/api/presentation/2.0/
 
 :)
-
+declare variable $iiif:collection-rootIn  := collection($config:data-rootIn); 
 declare variable $iiif:collection-rootMS  := collection($config:data-rootMS); 
 declare variable $iiif:collection-rootW  := collection($config:data-rootW); 
 
@@ -336,6 +336,20 @@ declare function iiif:manifest($this as node()) {
   }
 };
 
+declare function iiif:placemanifest (){
+ let $placesfacs :=$iiif:collection-rootIn//t:desc[@facs]
+ return 
+ for $facs in $placesfacs
+let $id :=$facs/ancestor::t:TEI/@xml:id
+let $label :=exptit:printTitleID($id)
+let $manifestId:=$config:appUrl || '/api/iiif/' || $id || '/manifest'
+return map{
+  'label': $label,
+  '@type': 'sc:Manifest',
+  '@id': $manifestId
+}
+ };
+
 (:collection of all manifests available. this is called by rest viewer /manuscripts/viewer in the miradorcoll.js:)
         declare 
 %rest:GET
@@ -344,7 +358,6 @@ declare function iiif:manifest($this as node()) {
 function iiif:allManifests() {
 ($iiif:response200,
 log:add-log-message('/api/iiif/collections', sm:id()//sm:real/sm:username/string() , 'iiif'),
-       
       let $allidno := $iiif:collection-rootMS//t:idno[@facs]
 let $EMIP := $allidno[preceding-sibling::t:collection eq 'EMIP'][@n]
 let $ES := $allidno[preceding-sibling::t:collection eq 'Ethio-SPaRe'][@n]
@@ -367,7 +380,7 @@ let $filtered := ($ES, $EMIP, $vat, $bnf, $bml)
         "@type": "sc:Manifest",
         "@id": $manifest
       }
-
+    let $placeManifests := iiif:placemanifest()
     let $iiifroot := $config:appUrl || "/api/iiif/"
     let $request := $iiifroot || "/collections"
 
@@ -379,7 +392,7 @@ let $filtered := ($ES, $EMIP, $vat, $bnf, $bml)
       "viewingHint": "top",
       "description": "All images of Ethiopian Manuscripts available",
       "attribution": "Provided by Bibliothèque nationale de France, The Vatican Library, Ethio-SPaRe, EMIP, Biblioteca Medicea Laurenziana and other IIIF providers",
-      "manifests": $manifests
+      "manifests": ($manifests, $placeManifests)
     }
   )
 };
@@ -497,7 +510,7 @@ let $item := if (starts-with($id, 'ES')) then collection($config:data-rootMS || 
                     else if (starts-with($id, 'BML')) then collection($config:data-rootMS || '/FlorenceBML')/id($id) 
                     else if (starts-with($id, 'EMIP')) then  collection($config:data-rootMS || '/EMIP')/id($id)
                     else $exptit:col/id($id)
-let $facsid := if($alt = '') then $item//t:msIdentifier/t:idno else $item//t:altIdentifier[@xml:id eq $alt]/t:idno 
+let $facsid := if($alt = '') then ($item//t:msIdentifier/t:idno[@facs], $item//t:place//t:desc[@facs])[1] else ($item//t:altIdentifier[@xml:id eq $alt]/t:idno[@facs], $item//t:place//t:desc[@facs])[1] 
 let $facs :=iiif:facsSwitch($facsid) (:returns an attribute @facs:)
 return
        if($facs) then
@@ -505,12 +518,12 @@ return
 
 log:add-log-message('/api/iiif/'||$id||'/manifest', sm:id()//sm:real/sm:username/string() , 'iiif'),
 
-       let $institutionID := string(($item//t:repository)[1]/@ref)
+       let $institutionID := if ($item//t:repository) then string(($item//t:repository)[1]/@ref) else $id
 
        let $institution := exptit:printTitleID($institutionID)
 let $imagesbaseurl := $config:appUrl ||'/iiif/' || $facs
        let $tot := $facsid/@n
-       let $url :=  $config:appUrl ||"/manuscripts/" || $id
+       let $url :=  $config:appUrl ||(if($item/ancestor::t:TEI/@type="ins") then "/institutions/"  else"/manuscripts/") || $id
       (:       this is where the images actually are, in the images server:)
        let $thumbid := $imagesbaseurl ||(if($item//t:collection='Ethio-SPaRe') then '_'  else ()) || '001.tif/full/80,100/0/default.jpg'
        let $objectType := string($item//@form[1])
@@ -521,7 +534,7 @@ let $imagesbaseurl := $config:appUrl ||'/iiif/' || $facs
 (:       this is where the manifest is:)
        let $request := $iiifroot || "/manifest" || (if ($facsid/parent::t:altIdentifier/@xml:id) then '?alt=' || string($facsid/parent::t:altIdentifier/@xml:id) else if ($facsid/parent::t:altIdentifier) then '?alt=alt' else ())
        (:       this is where the sequence is:)
-       let $attribution := if($item//t:repository[1][@ref eq 'INS0339BML']) then ('The images of the manuscript taken by Antonella Brita, Karsten Helmholz and Susanne Hummel during a mission funded by the Sonderforschungsbereich 950 Manuskriptkulturen in Asien, Afrika und Europa, the ERC Advanced Grant TraCES, From Translation to Creation: Changes in Ethiopic Style and Lexicon from Late Antiquity to the Middle Ages (Grant Agreement no. 338756) and Beta maṣāḥǝft. The images are published in conjunction with this descriptive data about the manuscript with the permission of the https://www.bmlonline.it/la-biblioteca/cataloghi/, prot. 190/28.13.10.01/2.23 of the 24 January 2019 and are available for research purposes.') else "Provided by "||string-join($item//t:collection/text(), ', ')||" project. " || (if($item//t:editionStmt/t:p) then string-join($item//t:editionStmt/t:p/string()) else ' ')
+       let $attribution := if($item//t:repository[1][@ref eq 'INS0339BML']) then ('The images of the manuscript taken by Antonella Brita, Karsten Helmholz and Susanne Hummel during a mission funded by the Sonderforschungsbereich 950 Manuskriptkulturen in Asien, Afrika und Europa, the ERC Advanced Grant TraCES, From Translation to Creation: Changes in Ethiopic Style and Lexicon from Late Antiquity to the Middle Ages (Grant Agreement no. 338756) and Beta maṣāḥǝft. The images are published in conjunction with this descriptive data about the manuscript with the permission of the https://www.bmlonline.it/la-biblioteca/cataloghi/, prot. 190/28.13.10.01/2.23 of the 24 January 2019 and are available for research purposes.') else "Provided by "||(if ($item//t:collection/text()) then string-join($item//t:collection/text(), ', ') else "Bm") ||" project. " || (if($item//t:editionStmt/t:p) then string-join($item//t:editionStmt/t:p/string()) else ' ')
        let $logo := if($item//t:repository[1][@ref eq 'INS0339BML']) then ('/rest/BetMasWeb/resources/images/logobml.png') else "/rest/BetMasWeb/resources/images/logo"||string-join($item//t:collection[1][not(matches(.,'\s'))]/text())||".png"
        let $sequence := $iiifroot || "/sequence/normal"
     let $parent := $facsid/parent::node()
@@ -600,7 +613,7 @@ let $item := if (starts-with($id, 'ES')) then collection($config:data-rootMS || 
                     else if (starts-with($id, 'BML')) then collection($config:data-rootMS || '/FlorenceBML')/id($id) 
                     else if (starts-with($id, 'EMIP')) then  collection($config:data-rootMS || '/EMIP')/id($id)
                     else $exptit:col/id($id)
-let $facsid := if($alt = '') then $item//t:msIdentifier/t:idno else $item//t:altIdentifier[@xml:id eq $alt]/t:idno 
+let $facsid := if($alt = '') then ($item//t:msIdentifier/t:idno[@facs], $item//t:place//t:desc[@facs])[1] else ($item//t:altIdentifier[@xml:id eq $alt]/t:idno[@facs], $item//t:place//t:desc[@facs])[1] 
 let $facs :=iiif:facsSwitch($facsid) (:returns an attribute @facs:)
 return
        if($facs) then
@@ -608,12 +621,12 @@ return
 
 log:add-log-message('/api/iiif/'||$id||'/range/'||$rangeId, sm:id()//sm:real/sm:username/string() , 'iiif'),
 
-       let $institutionID := string($item//t:repository[1]/@ref)
+       let $institutionID := if ($item//t:repository) then string(($item//t:repository)[1]/@ref) else $id
 
        let $institution := exptit:printTitleID($institutionID)
 let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($facs)
        let $tot := $facsid/@n
-       let $url :=  $config:appUrl ||"/manuscripts/" || $id
+       let $url :=  $config:appUrl ||(if($item/ancestor::t:TEI/@type="ins") then "/institutions/"  else"/manuscripts/") || $id
       (:       this is where the images actually are, in the images server:)
        let $thumbid := $imagesbaseurl ||(if($item//t:collection='Ethio-SPaRe') then '_'  else ()) || '001.tif/full/80,100/0/default.jpg'
        let $objectType := string($item//@form[1])
@@ -677,7 +690,7 @@ function iiif:sequence($id as xs:string*, $alt as xs:string*) {
 
 log:add-log-message('/api/iiif/'||$id||'/sequence/normal', sm:id()//sm:real/sm:username/string() , 'iiif'),
         let $item := collection($config:data-rootMS || '/ES')/id($id)
-let $facsid := if($alt = '') then $item//t:msIdentifier/t:idno else $item//t:altIdentifier[@xml:id eq $alt]/t:idno 
+let $facsid := if($alt = '') then ($item//t:msIdentifier/t:idno[@facs], $item//t:place//t:desc[@facs])[1] else ($item//t:altIdentifier[@xml:id eq $alt]/t:idno[@facs], $item//t:place//t:desc[@facs])[1] 
 let $iiifroot := $config:appUrl ||"/api/iiif/" || $id
 let $sequence := $iiifroot || "/sequence/normal"
 let $startCanvas := $iiifroot || '/canvas/p1'
@@ -710,7 +723,7 @@ function iiif:canvas($id as xs:string*, $n as xs:string*, $alt as xs:string*) {
 
 log:add-log-message('/api/iiif/'||$id||'/canvas/p' || $n, sm:id()//sm:real/sm:username/string() , 'iiif'),
 let $item := $iiif:collection-rootMS/id($id)
-let $facsid := if(string-length($alt) = 0) then $item//t:msIdentifier/t:idno else $item//t:altIdentifier[@xml:id eq $alt]/t:idno 
+let $facsid := if($alt = '') then ($item//t:msIdentifier/t:idno[@facs], $item//t:place//t:desc[@facs])[1] else ($item//t:altIdentifier[@xml:id eq $alt]/t:idno[@facs], $item//t:place//t:desc[@facs])[1] 
 let $facs :=iiif:facsSwitch($facsid) (:returns an attribute @facs:)
 let $iiifroot := $config:appUrl ||"/api/iiif/" || $id 
 let $imagesbaseurl := $config:appUrl ||'/iiif/' || $facs

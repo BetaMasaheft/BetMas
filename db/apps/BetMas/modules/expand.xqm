@@ -268,7 +268,7 @@ let $cS :=
         match="//div[@type='edition']"
         use="@xml:id" delim=".">
         {
-       expand:groupCS($cS)
+       expand:strip-ns(expand:groupCS($cS))
    }
     </citeStructure>
 }
@@ -908,6 +908,18 @@ declare function expand:file($filepath) {
         document {
             expand:tei2fulltei($expanded, $zotero)
         }
+};
+
+declare function expand:strip-ns($nodes) {
+  for $n in $nodes
+  return
+    typeswitch($n)
+      case element()
+        return element {local-name($n)} {
+          $n/@*,
+          expand:strip-ns($n/node())
+        }
+      default return $n
 };
 
 (:

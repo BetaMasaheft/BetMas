@@ -392,7 +392,7 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                         else
                             ()
                     }
-                    <langUsage>
+                    <langUsage xmlns="http://www.tei-c.org/ns/1.0">
                         <language
                             ident="en">English</language>
                         <language
@@ -410,7 +410,7 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                     {
                         if ($collection = 'places' or $collection = 'institutions')
                         then
-                            <listPlace>{
+                            <listPlace xmlns="http://www.tei-c.org/ns/1.0">{
                                     element place {
                                             if($wikidata = '') then () else attribute sameAs {'wd:'||$wikidata},
                                        if(exists($keyword)) then attribute type {
@@ -447,7 +447,7 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                         else
                             if ($collection = 'persons')
                             then
-                                <listPerson>
+                                <listPerson xmlns="http://www.tei-c.org/ns/1.0">
                                     {
                                         element {if($group='group') then 'personGrp' else 'person'}  {
 
