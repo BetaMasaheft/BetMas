@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:funct="my.funct" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:placeName | t:region | t:country | t:settlement">
         <xsl:if test="@type and not(ancestor::t:div[@type='edition'])">
@@ -25,8 +26,7 @@
                                     <xsl:value-of select="."/>
                                 </xsl:when>
                                 <xsl:otherwise>
-                            <span xmlns="http://www.w3.org/1999/xhtml" 
-                                class="MainTitle" data-value="{@ref}"/>
+                                    <span xmlns="http://www.w3.org/1999/xhtml" class="MainTitle" data-value="{@ref}"/>
                                 </xsl:otherwise>
                             </xsl:choose>
                             </a>

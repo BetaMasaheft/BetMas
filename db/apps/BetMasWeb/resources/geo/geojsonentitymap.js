@@ -76,5 +76,4 @@ var overlays = {
 /*https://stackoverflow.com/questions/29735989/leaflet-ajax-map-fitbounds*/
 geojsonLayer.on('data:loaded', function() {
   map.fitBounds(geojsonLayer.getBounds());
-}.bind(this));
-                
+}.bind(this));             

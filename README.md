@@ -105,4 +105,10 @@ is used to view images in the catalogue entry view
 ### Awdl
 this does the small popups on links to perseus, geonames, wikipedia
 
- 
+## Docker deployments
+
+Docker is used to bake an image of BetMas in two stages. First, an `expansion` routine is used to
+transform data: references are resolved into absolute references, etcetera. In a second layer the
+application is installed to the latest version in this repo.
+
+**TODO: More Documentation of how to use docker: which containers, etcetera**

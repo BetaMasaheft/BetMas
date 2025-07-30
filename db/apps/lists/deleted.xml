@@ -2,7 +2,7 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>List of institutions</title>
+                <title>Deleted</title>
             </titleStmt>
             <publicationStmt>
                 <p/>
@@ -15,11 +15,11 @@
     <text>
         <body>
             <list>
-                <item>LIT0000test</item>
+
                 <!--
                 <item>AT1108MMDaqseyos</item>
                 <item>AT1109MMWorker</item>-->
-                <item>ESamm005006</item>
+
                 <!--<item>LIT5604MMGigar</item>
                 <item>LIT5605MMDematyanos</item>
                 <item>LIT5606MMItenin</item>
@@ -95,7 +95,7 @@
                 <item>LIT5768test</item>
                 <item>LIT4147GadlaAntonii</item>
                 <item>LIT1018DossierAntony</item>
-                <item>EMML1692</item>
+
                 <item>PRS9271TasfaGa</item>
                 <item>PRS6295LibanZe</item>
                 <item>PRS6622MammaMe</item>
@@ -162,23 +162,166 @@
                 <item>LIT4918MalkeaMaryam</item>
                 <item>LIT5087Sunday</item>
                 <item>LIT4046Miracle</item>
+                <item>LIT2623Zenana</item>
                 <item>PRS12136GabraM</item>
                 <item>PRS12702MikailHabashi</item>
-            <item source="/db/apps/BetMasData/works/3001-4000/" change="2020-06-15T13:09:03.91+02:00">LIT3999Ofetun</item>
-                <item source="/db/apps/BetMasData/persons/new/" change="2020-06-16T12:42:02.815+02:00">PRS13036Isayeyyas</item>
-                <item source="/db/apps/BetMasData/works/5001-6000/" change="2020-07-06T17:29:39.202+02:00">LIT5067Hymn</item>
-                <item source="/db/apps/BetMasData/works/new/" change="2020-07-08T08:37:28.76+02:00">LIT60494TaammeraUrael</item>
-                <item source="/db/apps/BetMasData/works/new/" change="2020-07-08T08:37:28.76+02:00">LIT60495TammeraZamikael</item>
-                <item source="/db/apps/BetMasData/works/new/" change="2020-07-08T08:37:28.76+02:00">LIT60499HymnMarySalotki</item>
-                <item source="/db/apps/BetMasData/works/5001-6000/" change="2020-07-08T13:03:49.378+02:00">LIT5939CommCreed</item>
-                <item source="/db/apps/BetMasData/persons/PRS12001-13000/" change="2020-07-27T13:41:44.484+02:00">PRS12656Zadawit</item>
-                <item source="/db/apps/BetMasData/persons/PRS12001-13000/" change="2020-07-27T13:41:44.484+02:00">PRS12657ZasarsaKesos</item>
-                <item source="/db/apps/BetMasData/persons/PRS12001-13000/" change="2020-07-27T13:41:44.484+02:00">PRS12660ZayamanaKrestos</item>
-                <item source="/db/apps/BetMasData/persons/PRS12001-13000/" change="2020-07-27T13:41:44.484+02:00">PRS12662ZamalkeaKsos</item>
-                <item source="/db/apps/BetMasData/persons/PRS12001-13000/" change="2020-07-27T13:41:44.484+02:00">PRS12663Zaagnateyos</item>
-                <item source="/db/apps/BetMasData/persons/PRS12001-13000/" change="2020-07-27T13:41:44.484+02:00">PRS12664ZaamdaMikael</item>
-                <item source="/db/apps/BetMasData/works/new/" change="2020-08-19T11:25:51.007+02:00">LIT6157MamherTasiliye</item>
-            <item source="/db/apps/BetMasData/works/1001-2000/" change="2020-12-18T12:22:25.886+01:00">LIT1279dersan</item><item source="/db/apps/BetMasData/works/1001-2000/" change="2021-01-07T12:23:28.141+01:00">LIT1775Letter</item><item source="/db/apps/BetMasData/works/2001-3000/" change="2021-01-07T12:23:28.141+01:00">LIT2357Letter</item><item source="/db/apps/BetMasData/works/2001-3000/" change="2021-01-20T09:47:14.886+01:00">LIT2263salota</item><item source="/db/apps/BetMasData/works/3001-4000/" change="2021-01-27T21:20:59.295+01:00">LIT3998Dersan</item><item source="/db/apps/BetMasData/institutions/new/" change="2021-02-18T12:25:31.057+01:00">INS0915Neukirchen</item><item source="/db/apps/BetMasData/institutions/new/" change="2021-02-18T17:29:18.518+01:00">INS0915CHNJ</item><item source="/db/apps/BetMasData/institutions/new/" change="2021-06-21T12:12:40.396+02:00">INS0963RDW</item><item source="/db/apps/BetMasData/works/new/" change="2021-06-23T23:02:33.97+02:00">LIT6463Letter</item><item source="/db/apps/BetMasData/persons/new/" change="2021-06-28T09:50:33.755+02:00">PRS13437WalattaBM</item><item source="/db/apps/BetMasData/works/new/" change="2021-08-24T15:20:06.997+02:00">LIT6480MalkeaMamas</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/Neukirchen/" change="2021-08-25T11:11:01.444+02:00">Neukirchen001</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/Neukirchen/" change="2021-08-25T11:11:01.444+02:00">Neukirchen002</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/Neukirchen/" change="2021-08-25T11:11:01.444+02:00">Neukirchen003</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/Neukirchen/" change="2021-08-25T11:11:01.444+02:00">Neukirchen004</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/Neukirchen/" change="2021-08-25T11:11:01.444+02:00">Neukirchen005</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/Neukirchen/" change="2021-08-25T11:11:01.444+02:00">Neukirchen006</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/Balk/" change="2021-08-25T18:07:12.064+02:00">Balk001</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/Balk/" change="2021-08-25T18:07:12.064+02:00">Balk002</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/Balk/" change="2021-08-25T18:07:12.064+02:00">Balk003</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/" change="2021-08-25T18:07:12.064+02:00">CHJN001</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/" change="2021-08-25T18:07:12.064+02:00">CHJN002</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/" change="2021-08-25T18:07:12.064+02:00">CHJN003</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/" change="2021-08-25T18:07:12.064+02:00">CHJN004</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/" change="2021-08-25T18:07:12.064+02:00">CHJN005</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/" change="2021-08-25T18:07:12.064+02:00">CHJN006</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/" change="2021-08-25T18:07:12.064+02:00">CHJN007</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/" change="2021-08-25T18:07:12.064+02:00">CHJN008</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/" change="2021-08-25T18:07:12.064+02:00">Mueth001</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/TreeskeFricke/" change="2021-08-25T18:07:12.064+02:00">TF001</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/TreeskeFricke/" change="2021-08-25T18:07:12.064+02:00">TF002</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/TreeskeFricke/" change="2021-08-25T18:07:12.064+02:00">TF003</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/TreeskeFricke/" change="2021-08-25T18:07:12.064+02:00">TF004</item><item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/TreeskeFricke/" change="2021-08-25T18:07:12.064+02:00">TF005</item></list>
+            <item source="/db/apps/BetMasData/works/3001-4000/">LIT3999Ofetun</item>
+                <item source="/db/apps/BetMasData/persons/new/">PRS13036Isayeyyas</item>
+                <item source="/db/apps/BetMasData/works/5001-6000/">LIT5067Hymn</item>
+                <item source="/db/apps/BetMasData/works/new/">LIT60494TaammeraUrael</item>
+                <item source="/db/apps/BetMasData/works/new/">LIT60495TammeraZamikael</item>
+                <item source="/db/apps/BetMasData/works/new/">LIT60499HymnMarySalotki</item>
+                <item source="/db/apps/BetMasData/works/5001-6000/">LIT5939CommCreed</item>
+                <item source="/db/apps/BetMasData/persons/PRS12001-13000/">PRS12656Zadawit</item>
+                <item source="/db/apps/BetMasData/persons/PRS12001-13000/">PRS12657ZasarsaKesos</item>
+                <item source="/db/apps/BetMasData/persons/PRS12001-13000/">PRS12660ZayamanaKrestos</item>
+                <item source="/db/apps/BetMasData/persons/PRS12001-13000/">PRS12662ZamalkeaKsos</item>
+                <item source="/db/apps/BetMasData/persons/PRS12001-13000/">PRS12663Zaagnateyos</item>
+                <item source="/db/apps/BetMasData/persons/PRS12001-13000/">PRS12664ZaamdaMikael</item>
+                <item source="/db/apps/BetMasData/works/new/">LIT6157MamherTasiliye</item>
+            <item source="/db/apps/BetMasData/works/1001-2000/">LIT1279dersan</item>
+                <item source="/db/apps/BetMasData/works/1001-2000/">LIT1775Letter</item>
+                <item source="/db/apps/BetMasData/works/2001-3000/">LIT2357Letter</item>
+                <item source="/db/apps/BetMasData/works/2001-3000/">LIT2263salota</item>
+                <item source="/db/apps/BetMasData/works/3001-4000/">LIT3998Dersan</item>
+                <item source="/db/apps/BetMasData/institutions/new/">INS0915Neukirchen</item>
+                <item source="/db/apps/BetMasData/institutions/new/">INS0915CHNJ</item>
+                <item source="/db/apps/BetMasData/institutions/new/">INS0963RDW</item>
+                <item source="/db/apps/BetMasData/works/new/">LIT6463Letter</item>
+                <item source="/db/apps/BetMasData/persons/new/">PRS13437WalattaBM</item>
+                <item source="/db/apps/BetMasData/works/new/">LIT6480MalkeaMamas</item>
+                <item>Balk001</item>
+                <item>Balk002</item>
+                <item>Balk003</item>
+                <item>CHJN001</item>
+                <item>CHJN002</item>
+                <item>CHJN003</item>
+                <item>CHJN004</item>
+                <item>CHJN005</item>
+                <item>CHJN006</item>
+                <item>CHJN007</item>
+                <item>CHJN008</item>
+                <item>LIT1076alMagm</item>
+                <item>LIT1123Apocal</item>
+                <item>LIT1126Apocal</item>
+                <item>LIT1128Apocal</item>
+                <item>LIT1130Apocal</item>
+                <item>LIT1293Dersan</item>
+                <item>LIT1609Homili</item>
+                <item>LIT1632Homily</item>
+                <item>LIT1656Homily</item>
+                <item>LIT1707Kebrah</item>
+                <item>LIT1729Kitaba</item>
+                <item>LIT1764Legend</item>
+                <item>LIT1770Lessan</item>
+                <item>LIT1796Lifeof</item>
+                <item>LIT1854Malkea</item>
+                <item>LIT1855Malkea</item>
+                <item>LIT1860Malkea</item>
+                <item>LIT1894Martyr</item>
+                <item>LIT1901Martyr</item>
+                <item>LIT1934Mashaf</item>
+                <item>LIT1963Mashaf</item>
+                <item>LIT2045Nagara</item>
+                <item>LIT2263salota</item>
+                <item>LIT2442Temher</item>
+                <item>LIT2481Treati</item>
+                <item>LIT2695Hom</item>
+                <item>LIT2696Hom</item>
+                <item>LIT2718RepCh2</item>
+                <item>LIT2742RepCh26</item>
+                <item>LIT2748RepCh32</item>
+                <item>LIT2845RepCh128</item>
+                <item>LIT2859RepCh140b</item>
+                <item>LIT2860RepCh141</item>
+                <item>LIT2882RepCh163</item>
+                <item>LIT2935RepCh216</item>
+                <item>LIT2946RepCh227</item>
+                <item>LIT2986RepCh267</item>
+                <item>LIT2987RepCh268</item>
+                <item>LIT3047RepCh327</item>
+                <item>LIT3080RepCh360</item>
+                <item>LIT3084RepCh364</item>
+                <item>LIT3091RepCh371</item>
+                <item>LIT3092RepCh372</item>
+                <item>LIT3940Prayer</item>
+                <item>LIT3984basamay</item>
+                <item>LIT3998Dersan</item>
+                <item>LIT3998Dersan</item>
+                <item>LIT3999Ofetun</item>
+                <item>LIT4066GadlaM</item>
+                <item>LIT4120Targwama</item>
+                <item>LIT4150Salota</item>
+                <item>LIT4512Hymn</item>
+                <item>LIT4516AseKaleb</item>
+                <item>LIT4560Salot</item>
+                <item>LIT4642MagicPr</item>
+                <item>LIT4696MagicPr</item>
+                <item>LIT4775GadlaMa</item>
+                <item>LIT4962Basema</item>
+                <item>LIT5067Hymn</item>
+                <item>LIT5777MalkKiros</item>
+                <item>LIT5939CommCreed</item>
+                <item>LIT5994DersanaSanbat</item>
+                <item>LIT60496MMIntrPrayer</item>
+                <item>LIT6204DersanZaMaryam</item>
+                <item>LIT6434Hymn</item>
+                <item>LIT6463Letter</item>
+                <item>LIT6564Treatise</item>
+                <item>LIT6565Treatise</item>
+                <item>LIT6566Treatise</item>
+                <item>LIT6595YohLedata</item>
+                <item>Mueth001</item>
+                <item>PRS12669Sirak</item>
+                <item>PRS13205Yohannes</item>
+                <item>PRS1342AbulFa</item>
+                <item>PRS1345AbulFa</item>
+                <item>PRS13683Elaryon</item>
+                <item>PRS2061Arsanofi</item>
+                <item>PRS4285GabraKr</item>
+                <item>PRS5465Hippolyt</item>
+                <item>PRS6391Luleyano</item>
+                <item>PRS6626Mammas</item>
+                <item>PRS7679Ortelius</item>
+                <item>PRS7736Pasicrat</item>
+                <item>PRS7954Proclus</item>
+                <item>PRS8423Salomon</item>
+                <item>TF001</item>
+                <item>TF002</item>
+                <item>TF003</item>
+                <item>TF004</item>
+                <item>TF005</item>
+                                <item source="/db/apps/BetMasData/manuscripts/EMIP/">EMIP03164</item>
+                <item source="/db/apps/BetMasData/manuscripts/EMIP/">EMIP03165</item>
+                <item source="/db/apps/BetMasData/manuscripts/EMIP/">EMIP03166</item>
+                <item source="/db/apps/BetMasData/manuscripts/EMIP/">EMIP03167</item>
+                <item source="/db/apps/BetMasData/manuscripts/EMIP/">EMIP03168</item>
+                <item source="/db/apps/BetMasData/manuscripts/EMIP/">EMIP03169</item>
+                <item source="/db/apps/BetMasData/manuscripts/EMIP/">EMIP03170</item>
+                                <item source="/db/apps/BetMasData/manuscripts/EMIP/">EMIP03171</item>
+                <item source="/db/apps/BetMasData/manuscripts/EMIP/">EMIP03172</item>
+                <item source="/db/apps/BetMasData/manuscripts/EMIP/">EMIP03173</item>
+                <item source="/db/apps/BetMasData/manuscripts/EMIP/">EMIP03174</item>
+                <item source="/db/apps/BetMasData/manuscripts/EMIP/">EMIP03175</item>
+                <item source="/db/apps/BetMasData/manuscripts/EMIP/">EMIP03176</item>
+                <item source="/db/apps/BetMasData/manuscripts/EMIP/">EMIP03177</item>
+                                <item source="/db/apps/BetMasData/manuscripts/EMIP/">EMIP03178</item>
+                <item source="/db/apps/BetMasData/manuscripts/EMIP/">EMIP03179</item>
+                <item source="/db/apps/BetMasData/manuscripts/EMIP/">EMIP03180</item>
+                <item source="/db/apps/BetMasData/manuscripts/EMIP/">EMIP03181</item>
+                <item source="/db/apps/BetMasData/manuscripts/EMIP/">EMIP03182</item>
+                <item source="/db/apps/BetMasData/manuscripts/EMIP/">EMIP03183</item>
+                <item source="/db/apps/BetMasData/manuscripts/EMIP/">EMIP03184</item>
+                <item source="/db/apps/BetMasData/manuscripts/EMIP/">EMIP03185</item>
+                <item source="/db/apps/BetMasData/manuscripts/EMIP/">EMIP03186</item>
+                <item source="/db/apps/BetMasData/manuscripts/EMIP/">EMIP03187</item>
+                <item source="/db/apps/BetMasData/manuscripts/EMIP/">EMIP03188</item>
+                <item source="/db/apps/BetMasData/manuscripts/EMIP/">EMIP03189</item>
+                <item source="/db/apps/BetMasData/manuscripts/EMIP/">EMIP03190</item>
+                <item source="/db/apps/BetMasData/manuscripts/EMIP/">EMIP03191</item>
+                <item source="/db/apps/BetMasData/manuscripts/LondonBritishLibrary/add/">BLadd19960</item>
+
+            </list>
         </body>
     </text>
 </TEI>

@@ -1,0 +1,5 @@
+<package xmlns="http://expath.org/ns/pkg"
+    name="betmas-init"
+    abbrev="betmas-init" version="1.0.0" spec="1.0">
+    <title>BetMas init helper xar</title>
+</package>

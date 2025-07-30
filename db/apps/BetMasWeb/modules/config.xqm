@@ -6,8 +6,9 @@ xquery version "3.0";
 module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config";
 
 import module namespace http="http://expath.org/ns/http-client";
+import module namespace loc="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/loc" at "./loc.xqm";
 
-declare namespace templates="http://exist-db.org/xquery/templates";
+import module namespace templates="http://exist-db.org/xquery/templates";
 
 declare namespace repo="http://exist-db.org/xquery/repo";
 declare namespace expath="http://expath.org/ns/pkg";
@@ -38,26 +39,31 @@ declare variable $config:sparqlPrefixes := "PREFIX rdf: <http://www.w3.org/1999/
          PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
          PREFIX foaf: <http://xmlns.com/foaf/0.1/>
          PREFIX sdc: <https://w3id.org/sdc/ontology#>";
+(:
+ : In practice this is `https://betamasaheft.eu/' for production and something like `localhost:8080/exist/apps/BetMasWeb` for development
+:)
+(:declare variable $config:appUrl := 'https://betamasaheft.eu';:)
+declare variable $config:appUrl := $loc:appUrl;
 
-declare variable $config:appUrl := 'https://betamasaheft.eu';
-declare variable $config:baseURI := 'https://betamasaheft.eu/';
+declare variable $config:baseURI := $config:appUrl || "/";
+
 declare variable $config:DOI := '10.25592/BetaMasaheft';
 
 declare variable $config:response200 := <rest:response>
         <http:response
             status="200">
-                
+
             <http:header
                     name="Access-Control-Allow-Origin"
                     value="*"
                     />
         </http:response>
     </rest:response>;
-    
+
     declare variable $config:response404 := <rest:response>
         <http:response
             status="404">
-                
+
         </http:response>
     </rest:response>;
 
@@ -73,7 +79,7 @@ declare variable $config:response200Json := <rest:response>
                     />
             </http:response>
         </rest:response>;
-        
+
         declare variable $config:response200JsonLD := <rest:response>
             <http:response
                 status="200">
@@ -86,7 +92,7 @@ declare variable $config:response200Json := <rest:response>
                     />
             </http:response>
         </rest:response>;
-        
+
            declare variable $config:response404JsonLD := <rest:response>
             <http:response
                 status="404">
@@ -99,7 +105,7 @@ declare variable $config:response200Json := <rest:response>
                     />
             </http:response>
         </rest:response>;
-        
+
          declare variable $config:response400JsonLD := <rest:response>
             <http:response
                 status="400">
@@ -112,7 +118,7 @@ declare variable $config:response200Json := <rest:response>
                     />
             </http:response>
         </rest:response>;
-        
+
 declare variable $config:response200XML := <rest:response>
             <http:response
                 status="200">
@@ -125,7 +131,7 @@ declare variable $config:response200XML := <rest:response>
                     />
             </http:response>
         </rest:response>;
-        
+
         declare variable $config:response200TEIXML := <rest:response>
             <http:response
                 status="200">
@@ -138,7 +144,7 @@ declare variable $config:response200XML := <rest:response>
                     />
             </http:response>
         </rest:response>;
-        
+
         declare variable $config:response200RDFXML := <rest:response>
             <http:response
                 status="200">
@@ -151,7 +157,7 @@ declare variable $config:response200XML := <rest:response>
                     />
             </http:response>
         </rest:response>;
-        
+
         declare variable $config:response200RDFJSON := <rest:response>
             <http:response
                 status="200">
@@ -173,7 +179,7 @@ declare variable $config:response400 := <rest:response>
                     value="application/json; charset=utf-8"/>
             </http:response>
         </rest:response>;
-        
+
 declare variable $config:response400XML := <rest:response>
             <http:response
                 status="400">
@@ -187,7 +193,7 @@ declare variable $config:ADMIN := environment-variable('ExistAdmin');
 declare variable $config:ppw := environment-variable('ExistAdminPw');
 
 
-declare variable $config:app-root := 
+declare variable $config:app-root :=
     let $rawPath := system:get-module-load-path()
     let $modulePath :=
         (: strip the xmldb: part :)
@@ -223,6 +229,39 @@ declare variable $config:data-rootTraces := $config:app-root || "/traces";
 declare variable $config:repo-descriptor := doc(concat($config:app-root, "/repo.xml"))/repo:meta;
 
 declare variable $config:expath-descriptor := doc(concat($config:app-root, "/expath-pkg.xml"))/expath:package;
+
+
+(:~
+ : Call like <a data-template="config:prefix-href"  data-template-href="/bladiblah"/>
+ : Results in <a href="whatevertheprefixis/bladiblah"/>
+ :)
+declare function config:prefix-href (
+  $node as node(),
+  $model as map(*),
+  $href as xs:string
+) as element(*) {
+  element {name($node)} {
+    attribute href { $config:appUrl || $href },
+		$node/@* except ($node/@data-template, $node/@data-template-href),
+	  $node/node()!templates:process(., $model)
+  }
+};
+
+(:~
+ : Call like <script data-template="config:prefix-src"  data-template-src="/bladiblah"/>
+ : Results in <script src="whatevertheprefixis/bladiblah"/>
+ :)
+declare function config:prefix-src (
+  $node as node(),
+  $model as map(*),
+  $src as xs:string
+) as element(*) {
+  element {name($node)} {
+    attribute src { $config:appUrl || $src },
+		$node/@* except ($node/@data-template, $node/@data-template-src),
+	  $node/node()!templates:process(., $model)
+  }
+};
 
 (:~
  : Resolve the given path using the current application context.
@@ -297,8 +336,8 @@ declare function config:app-info($node as node(), $model as map(*)) {
                 <td>{ request:get-attribute("$exist:controller") }</td>
             </tr>
         </table>
-        
-        
+
+
 };
 
 

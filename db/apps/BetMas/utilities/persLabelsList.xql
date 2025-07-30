@@ -7,7 +7,7 @@ import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/t
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 
 
-    for $i in distinct-values($config:collection-root//t:persName/@ref)
+    for $i in distinct-values($titles:collection-root//t:persName/@ref)
     let $tit := try{titles:printTitleMainID($i)} catch *{$err:description}
     let $title := if (starts-with($tit, 'ʾ') or starts-with($tit, 'ʿ')) then substring($tit, 2) else $tit
    order by $title

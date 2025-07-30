@@ -84,7 +84,7 @@ declare function all:subs($query, $homophones, $mode) {
  : :)
 declare
 
- %test:arg("query", "ሠለሠ") %test:assertEquals("ሠለሠ ሰለሠ ሰለሰ ሠለሰ")
+ %test:arg("query", "ሠለሠ") %test:assertEquals("(ሠለሠ) OR (ሠለሰ) OR (ሰለሰ) OR (ሰለሠ)")
 
 function all:substitutionsInQuery($query as xs:string*) {
     let $query-string := normalize-space($query)

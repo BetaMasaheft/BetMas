@@ -82,7 +82,7 @@ declare function locallogin:loginNew(){
  if(sm:id()//sm:username/text() = 'guest') then
  
  <div class="w3-dropdown-hover w3-hide-small" id="logging">
-      <button class="w3-button" title="Login"><i class="fa fa-sign-in-alt"></i></button>     
+      <button class="w3-button" title="Login">Login <i class="fa fa-caret-down"></i></button>     
       <div class="w3-dropdown-content w3-bar-block w3-card-4" style="width:400px;">
       
 	<form method="post" class="w3-bar-item" role="form" 

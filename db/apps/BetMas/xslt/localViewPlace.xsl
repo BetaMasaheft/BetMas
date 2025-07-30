@@ -1,15 +1,14 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:funct="my.funct"
-    xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    exclude-result-prefixes="#all" version="2.0">
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:funct="my.funct" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:param name="absolutePathApplication"/>
     <xsl:variable name="mainID" select="t:TEI/@xml:id"/>
     <xsl:function name="funct:date">
         <xsl:param name="date"/>
         <xsl:choose>
             <xsl:when test="matches($date, '\d{4}-\d{2}-\d{2}')">
-                <xsl:value-of
-                    select="format-date(xs:date($date), '[D]-[M]-[Y0001]', 'en', 'AD', ())"/>
-            </xsl:when><xsl:when test="matches($date, '\d{4}-\d{2}')">
+                <xsl:value-of select="format-date(xs:date($date), '[D]-[M]-[Y0001]', 'en', 'AD', ())"/>
+            </xsl:when>
+            <xsl:when test="matches($date, '\d{4}-\d{2}')">
                 <xsl:variable name="monthnumber" select="substring-after($date, '-')"/>
                 <xsl:variable name="monthname">
                     <xsl:choose>
@@ -61,12 +60,11 @@
     <xsl:template match="/">
         <html version="XHTML+RDFa 1.1">
             <head>
-                <title>PREVIEW of <xsl:value-of select="//t:title[parent::t:titleStmt][1]"/></title>
+                <title>PREVIEW of <xsl:value-of select="//t:title[parent::t:titleStmt][1]"/>
+                </title>
                 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
-                <link rel="stylesheet"
-                    href="/Users/liuzzo/Documents/BetMas/application/BetMas/resources/css/style.css"/>
-                <link rel="stylesheet"
-                    href="/Users/liuzzo/Documents/BetMas/application/BetMas/resources/css/w3local.css"/>
+                <link rel="stylesheet" href="/Users/liuzzo/Documents/BetMas/application/BetMas/resources/css/style.css"/>
+                <link rel="stylesheet" href="/Users/liuzzo/Documents/BetMas/application/BetMas/resources/css/w3local.css"/>
                 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"/>
             </head>
             <body>
@@ -183,9 +181,13 @@
                                         <xsl:sort order="ascending" select="count(preceding-sibling::t:relation)+1"/>
                                         <xsl:variable name="p" select="count(preceding-sibling::t:relation)+1"/>
                                         <xsl:variable name="tot" select="count(//t:relation)"/>
-                                        <xsl:apply-templates select="." mode="gendesc"/><xsl:choose>
-                                            <xsl:when test="$p!=$tot"><xsl:text>, </xsl:text></xsl:when>
-                                            <xsl:otherwise>.</xsl:otherwise></xsl:choose>
+                                        <xsl:apply-templates select="." mode="gendesc"/>
+                                        <xsl:choose>
+                                            <xsl:when test="$p!=$tot">
+                                                <xsl:text>, </xsl:text>
+                                            </xsl:when>
+                                            <xsl:otherwise>.</xsl:otherwise>
+                                        </xsl:choose>
                                     </xsl:for-each>
                                     For a table of all relations from and to this record, please go to the <a class="w3-tag w3-gray" href="/places/{$mainID}/analytic">Relations</a> view. In the Relations boxes on the right of this page, you can also find all available relations grouped by name.
                                 </p>
@@ -256,7 +258,7 @@
                 </div>
                 
             </body>
-            <script type="text/javascript" src="{$absolutePathApplication}resources/openseadragon/openseadragon.min.js"></script>
+            <script type="text/javascript" src="{$absolutePathApplication}resources/openseadragon/openseadragon.min.js"/>
             <script type="text/javascript" src="{$absolutePathApplication}resources/js/w3.js"/>
             <script type="text/javascript" src="{$absolutePathApplication}resources/js/titleslocal.js"/>
             <script type="text/javascript" src="{$absolutePathApplication}resources/js/NewBiblio.js"/>

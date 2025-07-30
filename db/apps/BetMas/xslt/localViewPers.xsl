@@ -1,15 +1,14 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:funct="my.funct"
-    xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    exclude-result-prefixes="#all" version="2.0">
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:funct="my.funct" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:param name="absolutePathApplication"/>
     <xsl:variable name="mainID" select="t:TEI/@xml:id"/>
     <xsl:function name="funct:date">
         <xsl:param name="date"/>
         <xsl:choose>
             <xsl:when test="matches($date, '\d{4}-\d{2}-\d{2}')">
-                <xsl:value-of
-                    select="format-date(xs:date($date), '[D]-[M]-[Y0001]', 'en', 'AD', ())"/>
-            </xsl:when><xsl:when test="matches($date, '\d{4}-\d{2}')">
+                <xsl:value-of select="format-date(xs:date($date), '[D]-[M]-[Y0001]', 'en', 'AD', ())"/>
+            </xsl:when>
+            <xsl:when test="matches($date, '\d{4}-\d{2}')">
                 <xsl:variable name="monthnumber" select="substring-after($date, '-')"/>
                 <xsl:variable name="monthname">
                     <xsl:choose>
@@ -61,12 +60,11 @@
     <xsl:template match="/">
         <html version="XHTML+RDFa 1.1">
             <head>
-                <title>PREVIEW of <xsl:value-of select="//t:title[parent::t:titleStmt][1]"/></title>
+                <title>PREVIEW of <xsl:value-of select="//t:title[parent::t:titleStmt][1]"/>
+                </title>
                 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
-                <link rel="stylesheet"
-                    href="/Users/liuzzo/Documents/BetMas/application/BetMas/resources/css/style.css"/>
-                <link rel="stylesheet"
-                    href="/Users/liuzzo/Documents/BetMas/application/BetMas/resources/css/w3local.css"/>
+                <link rel="stylesheet" href="/Users/liuzzo/Documents/BetMas/application/BetMas/resources/css/style.css"/>
+                <link rel="stylesheet" href="/Users/liuzzo/Documents/BetMas/application/BetMas/resources/css/w3local.css"/>
                 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"/>
             </head>
             <body>
@@ -126,29 +124,27 @@
                                             <xsl:text>See </xsl:text>
                                         </xsl:if>
                                         <xsl:for-each select="//t:relation">
-                                            <xsl:sort order="ascending"
-                                                select="count(preceding-sibling::t:relation) + 1"/>
-                                            <xsl:variable name="p"
-                                                select="count(preceding-sibling::t:relation) + 1"/>
+                                            <xsl:sort order="ascending" select="count(preceding-sibling::t:relation) + 1"/>
+                                            <xsl:variable name="p" select="count(preceding-sibling::t:relation) + 1"/>
                                             <xsl:variable name="tot" select="count(//t:relation)"/>
-                                            <xsl:apply-templates select="." mode="gendesc"/><xsl:choose>
-                                                <xsl:when test="$p != $tot"
-                                                  ><xsl:text>, </xsl:text></xsl:when>
-                                                <xsl:otherwise>.</xsl:otherwise></xsl:choose>
+                                            <xsl:apply-templates select="." mode="gendesc"/>
+                                            <xsl:choose>
+                                                <xsl:when test="$p != $tot">
+                                                    <xsl:text>, </xsl:text>
+                                                </xsl:when>
+                                                <xsl:otherwise>.</xsl:otherwise>
+                                            </xsl:choose>
                                         </xsl:for-each> For a table of all relations from and to
-                                        this record, please go to the <a class="w3-tag w3-gray"
-                                            href="/persons/{$mainID}/analytic">Relations</a> view.
+                                        this record, please go to the <a class="w3-tag w3-gray" href="/persons/{$mainID}/analytic">Relations</a> view.
                                         In the Relations boxes on the right of this page, you can
                                         also find all available relations grouped by name. </p>
                                 </div>
                             </xsl:if>
-                            <button class="w3-button w3-red w3-large" id="showattestations"
-                                data-value="person" data-id="{string(t:TEI/@xml:id)}">Show
+                            <button class="w3-button w3-red w3-large" id="showattestations" data-value="person" data-id="{string(t:TEI/@xml:id)}">Show
                                 attestations</button>
                             <div id="allattestations" class="col-md-12"/>
                         </div>
-                        <div class="w3-quarter w3-panel w3-red w3-card-4 w3-padding "
-                            id="description" rel="http://xmlns.com/foaf/0.1/name">
+                        <div class="w3-quarter w3-panel w3-red w3-card-4 w3-padding " id="description" rel="http://xmlns.com/foaf/0.1/name">
                             <h3>Names <xsl:if test="//t:person/@sex">
                                     <xsl:choose>
                                         <xsl:when test="//t:person/@sex = 1">
@@ -170,12 +166,7 @@
                                 <xsl:choose>
                                     <xsl:when test="//t:personGrp">
                                         <xsl:for-each select="//t:personGrp/t:persName[@xml:id]">
-                                            <xsl:sort
-                                                select="
-                                                    if (@xml:id) then
-                                                        @xml:id
-                                                    else
-                                                        text()"/>
+                                            <xsl:sort select="                                                     if (@xml:id) then                                                         @xml:id                                                     else                                                         text()"/>
                                             <xsl:variable name="id" select="@xml:id"/>
                                             <li>
                                                 <xsl:if test="@xml:id">
@@ -206,8 +197,7 @@
                                                 </xsl:if>
                                                 <xsl:if test="//t:personGrp/t:persName[@corresp]">
                                                   <xsl:text> (</xsl:text>
-                                                  <xsl:for-each
-                                                  select="//t:personGrp/t:persName[substring-after(@corresp, '#') = $id]">
+                                                  <xsl:for-each select="//t:personGrp/t:persName[substring-after(@corresp, '#') = $id]">
                                                   <xsl:sort/>
                                                   <xsl:value-of select="."/>
                                                   <xsl:if test="@xml:lang">
@@ -223,10 +213,8 @@
                                                 </xsl:if>
                                             </li>
                                         </xsl:for-each>
-                                        <xsl:if
-                                            test="//t:personGrp/t:persName[not(@xml:id or @corresp)]">
-                                            <xsl:for-each
-                                                select="//t:personGrp/t:persName[not(@xml:id or @corresp)]">
+                                        <xsl:if test="//t:personGrp/t:persName[not(@xml:id or @corresp)]">
+                                            <xsl:for-each select="//t:personGrp/t:persName[not(@xml:id or @corresp)]">
                                                 <xsl:sort/>
                                                 <li>
                                                   <xsl:if test="@type">
@@ -256,12 +244,7 @@
                                     </xsl:when>
                                     <xsl:otherwise>
                                         <xsl:for-each select="//t:person/t:persName[@xml:id]">
-                                            <xsl:sort
-                                                select="
-                                                    if (@xml:id) then
-                                                        @xml:id
-                                                    else
-                                                        text()"/>
+                                            <xsl:sort select="                                                     if (@xml:id) then                                                         @xml:id                                                     else                                                         text()"/>
                                             <xsl:variable name="id" select="@xml:id"/>
                                             <li>
                                                 <xsl:if test="@xml:id">
@@ -287,11 +270,9 @@
                                                   <xsl:value-of select="@xml:lang"/>
                                                   </sup>
                                                 </xsl:if>
-                                                <xsl:if
-                                                  test="//t:person/t:persName[contains(@corresp, $id)]">
+                                                <xsl:if test="//t:person/t:persName[contains(@corresp, $id)]">
                                                   <xsl:text> (</xsl:text>
-                                                  <xsl:for-each
-                                                  select="//t:person/t:persName[substring-after(@corresp, '#') = $id]">
+                                                  <xsl:for-each select="//t:person/t:persName[substring-after(@corresp, '#') = $id]">
                                                   <xsl:sort/>
                                                   <xsl:value-of select="."/>
                                                   <xsl:if test="@xml:lang">
@@ -307,10 +288,8 @@
                                                 </xsl:if>
                                             </li>
                                         </xsl:for-each>
-                                        <xsl:if
-                                            test="//t:person/t:persName[not(@xml:id or @corresp)]">
-                                            <xsl:for-each
-                                                select="//t:person/t:persName[not(@xml:id or @corresp)]">
+                                        <xsl:if test="//t:person/t:persName[not(@xml:id or @corresp)]">
+                                            <xsl:for-each select="//t:person/t:persName[not(@xml:id or @corresp)]">
                                                 <xsl:sort/>
                                                 <li>
                                                   <xsl:if test="@type">
@@ -339,20 +318,18 @@
                             </ul>
                             <xsl:if test="//t:floruit/@* or //t:birth/@* or //t:death/@*">
                                 <h3>Dates </h3>
-                                <xsl:if
-                                    test="//t:birth[@when or @notBefore or @notAfter] or //t:death[@when or @notBefore or @notAfter] or //t:floruit[@when or @notBefore or @notAfter]">
-                                    <xsl:for-each
-                                        select="//t:birth[@when or @notBefore or @notAfter]">
-                                        <p>Birth: <xsl:value-of select="funct:datepicker(.)"/></p>
+                                <xsl:if test="//t:birth[@when or @notBefore or @notAfter] or //t:death[@when or @notBefore or @notAfter] or //t:floruit[@when or @notBefore or @notAfter]">
+                                    <xsl:for-each select="//t:birth[@when or @notBefore or @notAfter]">
+                                        <p>Birth: <xsl:value-of select="funct:datepicker(.)"/>
+                                        </p>
                                     </xsl:for-each>
-                                    <xsl:for-each
-                                        select="//t:floruit[@when or @notBefore or @notAfter]">
-                                        <p>Period of activity: <xsl:value-of
-                                                select="funct:datepicker(.)"/></p>
+                                    <xsl:for-each select="//t:floruit[@when or @notBefore or @notAfter]">
+                                        <p>Period of activity: <xsl:value-of select="funct:datepicker(.)"/>
+                                        </p>
                                     </xsl:for-each>
-                                    <xsl:for-each
-                                        select="//t:death[@when or @notBefore or @notAfter]">
-                                        <p>Death: <xsl:value-of select="funct:datepicker(.)"/></p>
+                                    <xsl:for-each select="//t:death[@when or @notBefore or @notAfter]">
+                                        <p>Death: <xsl:value-of select="funct:datepicker(.)"/>
+                                        </p>
                                     </xsl:for-each>
                                 </xsl:if>
                             </xsl:if>
@@ -361,8 +338,7 @@
                                 <h3>Occupation</h3>
 
                                 <xsl:for-each select="//t:occupation">
-                                    <p class="lead"
-                                        property="http://data.snapdrgn.net/ontology/snap#occupation">
+                                    <p class="lead" property="http://data.snapdrgn.net/ontology/snap#occupation">
                                         <xsl:if test="@from or @to">
                                             <xsl:value-of select="funct:date(@from)"/>
                                             <xsl:text>-</xsl:text>

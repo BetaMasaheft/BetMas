@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
     <xsl:template match="t:layoutDesc">
         <div rel="http://purl.org/dc/terms/hasPart">
@@ -307,7 +308,8 @@
                   <xsl:value-of select="substring-after(./ancestor::t:msPart[1]/@xml:id, 'p')"/>
               </a>
           </xsl:variable> of codicological unit <xsl:value-of select="$currentMsPart"/>
-      </xsl:if></h4>
+      </xsl:if>
+                </h4>
             <xsl:if test="//t:ab[@subtype = 'Executed']">
                 <p>Executed: <xsl:value-of select="//t:ab[@subtype = 'Executed']"/>
                 </p>

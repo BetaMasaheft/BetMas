@@ -9,7 +9,7 @@ module namespace editors = "https://www.betamasaheft.uni-hamburg.de/BetMas/edito
 declare namespace test="http://exist-db.org/xquery/xqsuite";
  declare namespace t="http://www.tei-c.org/ns/1.0";
  
- declare variable $editors:list :=doc('/db/apps/lists/editors.xml')//t:list ;
+ declare variable $editors:list :=doc('/db/apps/BetMas/lists/editors.xml')//t:list ;
  
 (:~gets the name of the editor given the initials:)
 declare

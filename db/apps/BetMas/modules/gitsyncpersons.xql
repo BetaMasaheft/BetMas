@@ -4,7 +4,7 @@ xquery version "3.1";
 
 (:~ 
  : XQuery endpoint to respond to Github webhook requests. Query responds only to push requests. 
- : The EXPath Crypto library supplies the HMAC-SHA1 algorithm for matching Github secret. 
+ : The EXPath Crypto library supplies the HMAC-SHA1 algorithm for matching Github secret.  
 
  : Secret can be stored as environmental variable.
  : Will need to be run with administrative privileges, suggest creating a git user with privileges only to relevant app.

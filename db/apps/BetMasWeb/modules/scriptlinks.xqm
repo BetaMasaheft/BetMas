@@ -3,9 +3,9 @@ xquery version "3.1" encoding "UTF-8";
  : module used by the restXQ modules functions
  : used by the main views for items
  :
- : @author Pietro Liuzzo 
+ : @author Pietro Liuzzo
  :)
- 
+
 module namespace scriptlinks="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/scriptlinks";
 
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
@@ -59,50 +59,50 @@ declare function scriptlinks:footerjsSelector() as element()* {
 (:~html page script and styles to be included :)
 declare function scriptlinks:scriptStyle(){
 (
-        <link rel="shortcut icon" href="resources/images/minilogo.ico"/>,
-        <link rel="stylesheet" type="text/css" href="resources/font-awesome-4.7.0/css/font-awesome.min.css"  />   ,
+        <link rel="shortcut icon" href="{$config:appUrl}/resources/images/minilogo.ico"/>,
+        <link rel="stylesheet" type="text/css" href="{$config:appUrl}/resources/font-awesome-4.7.0/css/font-awesome.min.css"  />   ,
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/virtual-keyboard/1.26.22/css/keyboard-basic.min.css"  />,
 
 (:        introjs:)
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/introjs.css"  />,
-        <link rel="stylesheet" type="text/css" href="resources/css/style.css"  />,
+        <link rel="stylesheet" type="text/css" href="{$config:appUrl}/resources/css/style.css"  />,
 (:        Alpheios :)
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alpheios-components@latest/dist/style/style-components.min.css"/>,
-      
+
 (:      d3 :)
-      <link rel="stylesheet" type="text/css" href="resources/css/d3.css"  />,
-        <link rel="stylesheet" href="$shared/resources/css/w3.css"/>,
+      <link rel="stylesheet" type="text/css" href="{$config:appUrl}/resources/css/d3.css"  />,
+        <link rel="stylesheet" href="{$config:appUrl}/resources/css/w3.css"/>,
 (:      w3 :)
-        <link rel="stylesheet" href="resources/css/w3local.css"/>,
+        <link rel="stylesheet" href="{$config:appUrl}/resources/css/w3local.css"/>,
         <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"/>
         )};
-        
+
         declare function scriptlinks:listScriptStyle(){
         (
-        <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="resources/font-awesome-4.7.0/css/font-awesome.min.css"  /> ,  
+        <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="{$config:appUrl}/resources/font-awesome-4.7.0/css/font-awesome.min.css"  /> ,
         <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/virtual-keyboard/1.26.22/css/keyboard-basic.min.css"  />,
         <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/introjs.css"  />,
           <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="$shared/resources/css/bootstrap-3.0.3.min.css"  />,
         <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>,
         <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.5.1/css/bootstrap-slider.min.css"  />,
         <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alpheios-components@rc/dist/style/style-components.min.css"  />,
-        <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" href="$shared/resources/css/w3.css"/>,
-        <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" href="resources/css/w3local.css"/>,
+        <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" href="{$config:appUrl}/resources/css/w3.css"/>,
+        <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" href="{$config:appUrl}/resources/css/w3local.css"/>,
         <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"></script>,
         <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="$shared/resources/scripts/bootstrap-3.0.3.min.js"></script>,
         <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>,
         <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.5.1/bootstrap-slider.min.js"></script>
-        
-        
+
+
        )
         };
 
 (:~html page script and styles to be included specific for item :)
 declare function scriptlinks:ItemScriptStyle(){
-<link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="resources/css/mapbox.css"  />,
-        <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="resources/css/leaflet.css"  />,
-        <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="resources/css/leaflet.fullscreen.css"  />,
-        <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="resources/css/leaflet-search.css"  />,
+<link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="{$config:appUrl}/resources/css/mapbox.css"  />,
+        <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="{$config:appUrl}/resources/css/leaflet.css"  />,
+        <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="{$config:appUrl}/resources/css/leaflet.fullscreen.css"  />,
+        <link xmlns="http://www.w3.org/1999/xhtml" rel="stylesheet" type="text/css" href="{$config:appUrl}/resources/css/leaflet-search.css"  />,
        <link xmlns="http://www.w3.org/1999/xhtml" href="https://unpkg.com/vis-timeline/styles/vis-timeline-graph2d.min.css" rel="stylesheet" type="text/css" />,
        <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"  />,
         <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="resources/js/mapbox.js"  />,
@@ -125,7 +125,6 @@ declare function scriptlinks:ItemFooterScript(){
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/virtual-keyboard/1.26.22/js/jquery.mousewheel.min.js"  />,
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/virtual-keyboard/1.26.22/js/jquery.keyboard.extension-typing.min.js"  />,
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/virtual-keyboard/1.26.22/js/jquery.keyboard.extension-altkeyspopup.min.js"  ></script>,
-        <script type="text/javascript" src="$shared/resources/scripts/loadsource.js"  />,
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.5.1/bootstrap-slider.min.js"  />,
         <script type="text/javascript" src="resources/js/diacriticskeyboard.js"  />,
         <script type="text/javascript" src="resources/js/analytics.js"  ></script>,

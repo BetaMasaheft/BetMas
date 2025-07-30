@@ -59,7 +59,7 @@ return
             
             let $adminMessage := <mail>
                 <from>info@betamasaheft.eu</from>
-                <to>info@betamasaheft.eu</to>
+                <to>eugenia.sokolinski@uni-hamburg.de</to>
                 <cc></cc>
                 <bcc></bcc>
                 <subject>A user account has been created.</subject>
@@ -128,7 +128,7 @@ return
             (
             let $adminMessage := <mail>
                 <from>info@betamasaheft.eu</from>
-                <to>info@betamasaheft.eu</to>
+                <to>eugenia.sokolinski@uni-hamburg.de</to>
                 <cc></cc>
                 <bcc></bcc>
                 <subject>A user has tried to set up an account on Beta Maṣāḥǝft and failed.</subject>

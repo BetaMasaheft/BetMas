@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.torg/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:number="roman.numerals.funct" xmlns:funct="my.funct" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#all" version="2.0">
 <!--    from https://stackoverflow.com/questions/43732638/roman-numeral-to-integer-value-using-xslt-->
     <xsl:function name="number:RomanToInteger">
@@ -403,7 +404,9 @@
         <p class="w3-large">
           This manuscript has <xsl:choose>
               <xsl:when test="@subtype='none'">no</xsl:when>
-              <xsl:otherwise><xsl:value-of select="@subtype"/></xsl:otherwise>
+              <xsl:otherwise>
+                    <xsl:value-of select="@subtype"/>
+                </xsl:otherwise>
           </xsl:choose>  restorations
         </p>
     </xsl:template>

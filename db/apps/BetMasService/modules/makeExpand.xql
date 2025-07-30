@@ -4,7 +4,10 @@ declare namespace xi = "http://www.w3.org/2001/XInclude";
 
 import module namespace expand = "https://www.betamasaheft.uni-hamburg.de/BetMas/expand" at "xmldb:exist:///db/apps/BetMas/modules/expand.xqm";
 
-let $context := collection('/db/apps/BetMasData/manuscripts/FlorenceBML')//t:TEI
+let $context :=
+
+(collection('/db/apps/BetMasData/works/1-1000')//t:TEI
+)
 let $t := util:system-time()
 let $files :=
 for $file in $context

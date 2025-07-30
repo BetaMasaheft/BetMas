@@ -37,6 +37,7 @@ import module namespace editors = "https://www.betamasaheft.uni-hamburg.de/BetMa
 import module namespace console="http://exist-db.org/xquery/console";
 declare option output:method "json";
 declare option output:indent "yes";
+
 declare variable $dts:context := map{
         "@vocab": "https://www.w3.org/ns/hydra/core#",
         "dc": "http://purl.org/dc/terms/",
@@ -1290,6 +1291,8 @@ declare function dts:CollMember($id, $edition, $bmID, $page, $nav, $version){
 let $doc := $titles:collection-root//id($bmID) 
 let $eds := if($edition/node()) then
                                 dts:pickDivText($doc, $edition)
+                  else if(not(starts-with($bmID, 'LIT')) and not($doc//t:div[@type eq 'edition'])) then
+                                $doc//t:text
                     else ($doc//t:div[@type eq 'edition'], $doc//t:div[@type eq 'translation'])
 return
 if(count($doc) eq 1) then (
@@ -1307,13 +1310,15 @@ let $parent :=if($doc/@type eq 'mss') then
              "totalItems" : count(collection($config:data-rootMS)//t:div[@type eq 'edition'][descendant::t:ab[text()]])
         }
        else if($doc/@type eq 'nar') then 
+       let $narrunits := count(collection($config:data-rootN)//t:div[@type eq 'edition'][descendant::t:ab[text()]])
+return       if ($narrunits ge 1) then
         map{
              "@id" : "https://betamasaheft.eu/narrativeunits",
              "title" : "Beta maṣāḥǝft Manuscripts",
              "description": "Collection of narrative units of the Ethiopic tradition",
              "@type" : "Collection",
-             "totalItems" : count(collection($config:data-rootN)//t:div[@type eq 'edition'][descendant::t:ab[text()]])
-        }
+             "totalItems" : $narrunits
+        } else ()
         else map {
              "@id" : "https://betamasaheft.eu/textualunits",
              "title" : "Beta maṣāḥǝft Textual Units",
@@ -1358,7 +1363,8 @@ let $n := $dts:collection-rootN
  case 'https://betamasaheft.eu/textualunits' return
 dts:mainColl($id, $countW, $w, $page, $nav)
  case 'https://betamasaheft.eu/narrativeunits' return
-dts:mainColl($id, $countN, $n, $page, $nav)
+ ()
+(:dts:mainColl($id, $countN, $n, $page, $nav):)
 case 'https://betamasaheft.eu/transcriptions' return
 dts:mainColl($id, $countMS, $ms, $page, $nav)
 default return
@@ -1366,7 +1372,7 @@ map {
     "@context": $dts:context,
     "@id": $id,
     "@type": "Collection",
-    "totalItems": 3,
+    "totalItems": 2, (:    should be changed to 3 when narrative units reactivated:)
     "title": "Beta maṣāḥǝft",
     "description" : "The project Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea (Schriftkultur des christlichen Äthiopiens: eine multimediale Forschungsumgebung) is a long-term project funded within the framework of the Academies' Programme (coordinated by the Union of the German Academies of Sciences and Humanities) under survey of the Akademie der Wissenschaften in Hamburg. The funding will be provided for 25 years, from 2016–2040. The project is hosted by the Hiob Ludolf Centre for Ethiopian Studies at the University of Hamburg. It aims at creating a virtual research environment that shall manage complex data related to predominantly Christian manuscript tradition of the Ethiopian and Eritrean Highlands.",
     "dts:dublincore": $dts:publisher,
@@ -1378,13 +1384,13 @@ map {
              "@type" : "Collection",
              "totalItems" : $countW
         },
-         map {
+         (:map {
              "@id" : "https://betamasaheft.eu/narrativeunits",
              "title" : "Beta maṣāḥǝft Narrative Units",
              "description": "Collection of narrative units of the Ethiopic tradition",
              "@type" : "Collection",
              "totalItems" : $countN
-        },
+        },:)
         map{
              "@id" : "https://betamasaheft.eu/transcriptions",
              "title" : "Beta maṣāḥǝft Manuscripts",
@@ -1426,7 +1432,7 @@ let $start := ($end - $perpage) +1
 let $members :=  for $document in subsequence($items , $start, $end) 
                                  let $edition := ''
                                         return
-                                      dts:member($collURN, $edition, $document, 'no')
+                                    try{  dts:member($collURN, $edition, $document, 'no')} catch *{console:log($err:description)}
     return
     map {
     "@context": $dts:context,
@@ -1586,7 +1592,7 @@ let $DcWithVersions :=  if($vers = 'yes') then map:put($DcSelector, "dc:hasVersi
 let $ext := dts:extension($id)
 let $haspart := dts:haspart($id)
 let $manifest :=dts:manifest($doc, $id)
-let $addmanifest := if (count($manifest) ge 1) then map:put($ext, "foaf:depiction", $manifest) else $ext
+let $addmanifest := try{if (count($manifest) ge 1) then for $m in $manifest return map:put($ext, "foaf:depiction", $m) else $ext} catch * {console:log($err:description)}
 let $parts := if(count($haspart) ge 1) then map:put($addmanifest, 'dc:hasPart', $haspart) else $addmanifest
 let $dtsPass := "/api/dts/document?id=" || $resourceURN
 let $dtsNav := "/api/dts/navigation?id=" || $resourceURN
@@ -2732,7 +2738,7 @@ declare function dts:ItemAnnotationsEntries($name){
 switch($name) 
                             case 'mss' return count($dts:collection-rootMS//t:TEI[descendant::t:persName[@ref[. !='PRS00000' and . !='PRS0000']] or descendant::t:placeName[@ref] or descendant::t:title[@ref] or descendant::t:term[@key][not(parent::t:keywords)] or descendant::t:ref[@cRef]])
                             case 'works' return count($dts:collection-rootW//t:TEI[descendant::t:persName[@ref] or descendant::t:placeName[@ref] or descendant::t:title[@ref] or descendant::t:term[@key][not(parent::t:keywords)] or descendant::t:ref[@cRef]])
-                            case 'nar' return count($dts:collection-rootN//t:TEI[descendant::t:persName[@ref] or descendant::t:placeName[@ref] or descendant::t:title[@ref] or descendant::t:term[@key][not(parent::t:keywords)] or descendant::t:ref[@cRef]])
+                            case 'narr' return count($dts:collection-rootN//t:TEI[descendant::t:persName[@ref] or descendant::t:placeName[@ref] or descendant::t:title[@ref] or descendant::t:term[@key][not(parent::t:keywords)] or descendant::t:ref[@cRef]])
                             default return count(($dts:collection-rootMS,$dts:collection-rootW,$dts:collection-rootN)//t:TEI[descendant::t:persName[@ref] or descendant::t:placeName[@ref] or descendant::t:title[@ref] or descendant::t:term[@key][not(parent::t:keywords)] or descendant::t:ref[@cRef]])
 };
 
@@ -2766,7 +2772,7 @@ declare function dts:switchContext($context){
 switch ($context)
 case 'mss' return $dts:collection-rootMS
 case 'works' return $dts:collection-rootW
-case 'nar' return $dts:collection-rootN
+case 'narr' return $dts:collection-rootN
 (:default is value 'all':)
 default return ($dts:collection-rootMS, $dts:collection-rootW, $dts:collection-rootN)
 };

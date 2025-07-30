@@ -1,0 +1,646 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/newindex2.html" data-template-at="content" class="w3-content" style="margin-top:46px">
+
+    <div data-template="app:logging"/>
+
+    <!--  cover  -->
+    <div class="w3-display-container w3-center" id="cover">
+        <img class="w3-image" src="/iiif/AMM/005/AMM-005_007.tif/pct:21,25,65,50/1000,/0/default.jpg" style="width:100%;opacity:0.8"/>
+
+        <div class="w3-display-middle w3-container">
+
+            <img src="resources/images/logo-color.png" alt="Beta maṣāḥǝft Project logo" id="logo" style="width:100%"/>
+        </div>
+
+        <div class="w3-display-right  w3-display-hover w3-bar-block">
+            <a class="w3-bar-item w3-button w3-xxlarge w3-dark-grey" href="#cover" onclick="w3_open()">
+                <i class="fa fa-bars"/>
+            </a>
+            <a class=" w3-bar-item  w3-button w3-xxlarge w3-dark-grey" href="#intro">
+                <i class="fa fa-arrow-down"/>
+            </a>
+        </div>
+
+        <div class="w3-display-bottommiddle w3-center w3-bar w3-hide-small">
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#cover" onclick="w3_open()">
+                <i class="fa fa-bars"/>
+            </a>
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#intro">
+                <i class="fa fa-arrow-down"/>
+            </a>
+        </div>
+    </div>
+
+
+    <!--    intro-->
+
+
+    <div class="w3-display-container w3-center  w3-white" id="intro">
+        <div class="w3-row w3-padding-32">
+            <div class="w3-half w3-container w3-margin-bottom w3-padding " id="info">
+                <div class="w3-bar w3-gray">
+                    <button class="w3-bar-item w3-button" onclick="openIntro('introEN')">EN</button>
+                    <button class="w3-bar-item w3-button" onclick="openIntro('introAR')">AR</button>
+                    <button class="w3-bar-item w3-button" onclick="openIntro('introAM')">AM</button>
+                    <button class="w3-bar-item w3-button" onclick="openIntro('introTY')">TY</button>
+                </div>
+                <div class="w3-container w3-center introText" id="introAM" style="display:none">
+
+                    <h3>ስለ፡ ፕሮጀክቱ፡ ምንነት፤</h3>
+                    <p class="w3-justify"> ቤተ፡ መጻሕፍት፤ የኢትዮጵያና፡ ኤርትራ፡ የብራና፡ ጽሑፎች፡ የረጅም፡ ጊዜ፡ ፕሮጀክት፡
+                        ሲሆን፡ የገንዘብ፡ ድጋፍ፡ የሚደረግለትም፡ በጀርመን፡ ሀገር፡ በትምህርት፡ ጥናትና፡ ምርምር፡ መርሃ፡ ግብር፡ ማዕቀፍ፡
+                        ሥር፡ ሆኖ፡ በጀርመን፡ የሳይንስና፡ የሥነ፟፡ ሰብ፡ ትምህርት፡ ኅብረት፡ አስተባባሪነት፡ እና፡ በሀምቡርግ፡ ከተማ፡
+                        የሳይንስ፡ እና፡ የሥነ፟፡ ሰብ፡ ትምህርት፡ ኅብረት፡ ክትትል፡ የሚመራ፡ ነው። ይህን፡ ፕሮጀክት፡ ለማስፈጸም፡ ለሃያ፡
+                        አምስት፡ አመታት፡ በጀት፡ የተመደበለት፡ ሲሆን፡ ቆይታውም፡ እ.ኤ.አ፡ ከ2016 ዓመተ፡ ምሕረት፡ እስከ፡ 2040 ዓመተ፡
+                        ምሕረት፡ የሚቀጥል፡ ይሆናል። ፕሮጀክቱም፡ ሥራውን፡ የሚያከናውነው፡ በሀምቡርግ፡ ዩኒቨርሲቲ፡ ሥር፡ በሂዮብ፡ ሉዶልፍ፡
+                        የኢትዮጵያ፡ ጥናት፡ ማዕከል፡ ውስጥ፡ ነው። የፕሮጀክቱ፡ አላማም፡ የኢትዮጵያንና፡ የኤርትራን፡ የብራና፡ መጻሕፍትን፡
+                        የሚመለከቱ፡ ጥልቅና፡ ዝርዝር፡ መረጃዎችን፡ በዘመናዊ፡ የኢንፎርሜሽን፡ ቴክኖሎጂ፡ ጥበብ፡ በመታገዝ፡ መተንተንና፡
+                        ለጥናት፡ ምርምር፡ አመቺ፡ በበይነ፡ መረብ፡ ውስጥ፡ ያለ፡ የጥናት፡ ከባቢ፡ መፍጠር፡ ነው። ከፕሮጀክቱ፡ የሚጠበቁ፡
+                        ውጤቶች፡ መካከል፡ አብዛኛዎቹን፡ ለጥናትና፡ ምርምር፡ ተደራሽ፡ የሆኑ፡ የግዕዝ፡ የብራና፡ መጻሕፍትን፡ ዝርዝር፡
+                        ገለፃዎች፡ ማዘጋጀት፤ በግዕዝ፡ ሥነ፡ ጽሑፍ፡ ባሕል፡ በተለያዩ፡ ርእሰ፡ ጉዳዮች፡ ላይ፡ ተጽፈው፡ የሚታወቁትን፡
+                        አጠቃላይ፡ የግዕዝ፡ ድርሳናት፡ ስብስብ፡ (Clavis Aethiopica) ማዘጋጀት፤ ታሪካዊ፡ የቦታ፡ ስሞችን፡ ዝርዝር፡
+                        ገለፃ፡ ማውጫ፤ እንዲሁም፡ ከኢትዮጵያ፡ የብራና፡ መጻሕፍት፡ ጋር፡ ታሪካዊ፡ ትስስር፡ ያላቸውን፡ ሁሉንም፡ ተዋቂ፡
+                        የሠዎች፡ ሥም፡ ዝርዝር፡ ከገለፃ፡ ጋር፡ ማሰናዳት፤ በድረ፡ ገጽ፡ ላይ፡ ጽሑፎችን፡ ማስፈር፡ በተጨማሪም፡ በTraCES፡
+                        ፕሮጀክት፡ ተብራርተው፡ የተሰናዱ፡ የኤሌክትሮኒክስ፡ ጽሑፎች፡ ስብስብን፡ እና፡ የተቀናጀ፡ መዝገበ፡ ቃላት፡ ማቅረብ፡
+                        ናቸው። የፕሮጀክቱ፡ ተቋማዊ፡ ድረ፡ ገጽ፡ ይህ፡ ነው።
+                        (<a href="https://www.betamasaheft.uni-hamburg.de/">https://www.betamasaheft.uni-hamburg.de/</a>) . </p>
+                    <h3>ይህን፡ ድረ፡ ገጽ፡ እንዴት፡ እንደሚጠቀሙበት፤</h3>
+                    <p class="w3-justify"> ይህን፡ ድረ፡ ገጽ፡ በተለያዩ፡ መንገዶች፡ ሊጠቀሙበት፡ ይችላሉ። መጀመሪያ፡ ወደ፡ መነሻ፡
+                        ገጹ፡ እንዲሄዱ፡ እና፡ “ድረ፡ ገጹን፡ ይጎብኙˮ፡ የሚለውን፡ አዝራር፡ ጠቅ፡ እንዲያደርጉ፡ እንመክራለን። በምናሌው፡
+                        ውስጥ፡ የተለያዩ፡ ንጥሎችን፡ ጠቅ፡ በማድረግ፡ እና፡ በማሰስ፤ ውጤቱንም፡ በማጣራት፡ ድረ፡ ገጹን፡ ማዳረስ፡ ይችላሉ።
+                        እንዲሁም፡ ወደ፡ “ላቀ፡ ፍለጋˮ፡ (Advanced search) በመሄድና፡ የሚፈልጉትን፡ ጉዳይ፡ የሚመለከቱ፡ የፍለጋ፡
+                        መጠይቆችን፡ በመጻፍ፡ መፈለግ፡ ይችላሉ። ይህ፡ ድረ፡ ገጽ፡ ፕሮጀክቱ፡ አሁን፡ ያለበትን፡ የዲጂታል፡ ጥናት፡ ምርምር፡
+                        ከባቢን፡ ሁኔታ፡ የሚያሳይ፡ ነው። በመሆኑም፡ በሂደት፡ የሚጎለብት፡ እንጂ፡ የተሟላ፡ ወይም፡ ፍጹም፡ እና፡ ምሉእ፡
+                        ማለት፡ አይደለም። </p>
+                    <h3>እንዴት፡ መሳተፍ፡ እንደሚቻል፤</h3>
+                    <p class="w3-justify">እርስዎ፡ ባዩት፡ ላይ፡ አስተያየት፡ ለመስጠት፡ ወይም፡ ለማረም፡ ከፈለጉ፡ በደስታ፡
+                        እንቀበልዎታለን። እባክዎን፡ የሚጠይቁትን፡ ርዕሰ፡ ጉዳይ፡ እዚህ፡ ላይ፡ ያስፍሩ፡
+                        (<a href="https://github.com/BetaMasaheft/Documentation/issues">https://github.com/BetaMasaheft/Documentation/issues</a>) ወይም፡ ለፕሮጀክቱ፡ አባል፡
+                        ኢሜይል፡ ይጻፉ፡ (<a href="https://www.betamasaheft.uni-hamburg.de/team/projectteam.html">https://www.betamasaheft.uni-hamburg.de/team/projectteam.html</a>).
+                        ሁሉንም፡ አስተያየቶች፡ እና፡ የመፍትሄ፡ ሀሳቦች፡ በደስታ፡ እንቀበላለን። እርስዎም፡ ለዲጂታል፡ የምርምር፡ ከባቢ፡
+                        የራስዎን፡ መረጃ፡ እና፡ ጥናት፡ በማስደገፍ፡ አስተዋፅኦ፡ ማበርከት፡ ከፈለጉ፡ በGithub ጥሪ፡ ሀሳብ፡ ጥያቄዎን፡
+                        ማጋራት፡ ይችላሉ፡ ወይም፡ ከእርስዎ፡ ገንቢ፡ ሐሳቦች፡ ጋር፡ በኢሜይል፡ መልእክት፡ ይላኩልን። </p>
+                    <h3>መረጃ፡ ማጋራት፡ እና፡ መጠቀም፤</h3>
+                    <p class="w3-justify">ሁሉም፡ መረጃዎቻችን፡ “ዓለም፡ አቀፍ፡ ለንግድ፡ በማይውሉ፡ የወል፡ የፈጠራ፡ ባለቤትነት፡
+                        ማጋራት፡ ድርጅትˮ፡ (<a href="https://creativecommons.org/licenses/by-nc-sa/4.0">https://creativecommons.org/licenses/by-nc-sa/4.0</a>) ሥር፡
+                        የተፈቀዱ፡ ናቸው። እባክዎን፡ እርስዎም፡ መረጃውን፡ ሊያጋሩዋቸው፡ እና፡ ሊያስተካክሏቸው፡ በሚችሉ፡ ሁኔታዎች፡ ተጨማሪ፡
+                        ዝርዝር፡ መረጃ፡ ለማግኘት፡ ድረ፡ ገጻቸውን፡ ይጎብኙ። </p>
+
+
+
+                </div>
+                <div class="w3-container w3-center introText" id="introTY" style="display:none">
+                    <h3>ዛዕባ እቲ ፕሮጀክት</h3>
+                    <p class="w3-justify">እዚ “ቤተ መፃሕፍቲ፣ ጥንታዊ መዛግብቲ ኢትዮጵያን ኤርትራን （ባህሊ ፅሕፈት ክርስቲያን
+                        ኢትዮጵያ፣ መልቲሚድያዊ ዓውዲ [ብቋንቋ ጀርመን ዝቐረበ ርእሲ] ” እተሰምየ ፕሮጀክት ኣብ ትሕቲ ፅላል ጀርመን ኣካዳሚ
+                        ሳይንስን ስነሰብን ዘሎ ኣካዳሚ ሳይንስ ሃምቡርግ ዝምወል （ፋይናንስ ዝግበር）ናይ ነዊሕ እዋን ፕሮጀክት እዩ። እቲ
+                        ፋይናንሳዊ ሓገዝ ካብ 2016-20140 ማለት ’ውን ንዕስራን ሓሙሽተን ዓመታት ዝዘልቕ እዩ። እቲ ፕሮጀክት ኣብ
+                        ዩኒቨርስቲ ሃምቡርግ ኣብ ትሕቲ ማእከል መፅናዕታት ኢትዮጵያ ህዮብ ሉዶልፍ ዝውገን ፕሮጀክት እዩ። ቀንዲ ዕላምኡ ድማ
+                        ምሕደራን ምድላውን ንመፅናዕትን ምርምርን ዝውዕል ኣብ በረኽቲ ቦታታት ኢትዮጵያን ኤርትራን ዝርከብ ብቀንዲ ክርስቲያናዊ
+                        ሕልኽላኽ ሕሉን （ቪርችዋል）ሰነዳት እዩ። ኣብ መወዳእታ እዚ መፅናዕቲ ንካልኦት መፅናዕታት ክጠቅም ዝኽእል ገለፃ ብዙሓት
+                        ብራናታት ኢትዮጵያ፣ ማዕኸን ፍሉጣት ባእታታት ስነ ፅሑፍ ኢትዮጵያ (the Clavis Aethiopica)፣ መዘርዝር
+                        መርኣያ መልክዕ ምድሪ (the gazetteer)ን ዝርዝር ኣብ መፅናዕታት ብራናታት ኢትዮጵያ ፍሉጣት ዝኾኑ ሰባትን (the
+                        prosopography) ክስራሕ ትፅቢት ይግበር። ትካላዊ ኣድራሻ እቲ ፕሮጀክት
+                        (<a href="https://www.betamasaheft.uni-hamburg.de/">https://www.betamasaheft.uni-hamburg.de/</a>) እዩ።</p>
+
+                    <h3>ኣጠቓቕማ እቲ በይነ መርበብ （ዌብሳይት）</h3>
+                    <p class="w3-justify"> ነቲ በይነ መርበብ ብእተፈላለየ መልክዑ ምጥቃም ይከኣል። ፋልማይ ኣብቲ በይነ መርበብ ኣብ
+                        ዝርከብ “ኣብ በይነ መርነብና ዑደት ግበር” ኣብ ዝብል ቁልፊ ክትጥውቑ ንምዕድ። ኣብ ሰደቓ ዝርዝር （menu）ብምጥዋቕን፣
+                        ዝርዝር ኣለሻታትኩም ብምፅራይን ኣብቲ በይነ መረብ ዑደት ክትገብሩ ትኽእሉ ኢኹም። ናብ እትደልዩዎ ውሱን ርእሲ ኣለሻ
+                        ክትከዱ እንትትደልዩ ድማ ምዕቡል ኣለሻ （advanced search）ናብ ዝብል ቁልፊ ብምኻድ ኣለሻኹም ክተፅብቡ ትኽእሉ
+                        ኢኹም። እቲ በይነ መርበብ እቲ ዲጂታል ዓውዲ ሐዚ ዘለሉ ብርኪ እዩ ዘንፀባርቕ። ኣብ ከይዲ ዘሎ ስለዝኾነ ሙሉእን ናይ
+                        መወዳእታን ኣይኮነን። </p>
+                    <h3> ከመይ ክትሳተፉ ትኽእሉ?</h3>
+                    <p class="w3-justify"> ኣብ ዝረኣኹምዎ ነገር ርኢቶ ወይ ድማ መአረምታ ክትህቡና ብልቢ ንዕድመኩም። ሓበሬታ ንምሃብ
+                        ነዚ ፈለግ (<a href="https://github.com/BetaMasaheft/Documentation/issues">https://github.com/BetaMasaheft/Documentation/issues</a>) ወይ ድማ ናብ ሓላፊ
+                        እቲ ፕሮጀክት መልእኽቲ ንምስዳድ ነዚ ፈለግ
+                        (<a href="https://www.betamasaheft.uni-hamburg.de/team/projectteam.html">https://www.betamasaheft.uni-hamburg.de/team/projectteam.html</a>) ተጠቐሙ። </p>
+                    <h3>ኣጠቓቕማን ምምቓልን </h3>
+                    <p class="w3-justify">ኩሎም ሰነዳትና ኣካል ወግዓዊ ዘይንግዳዊ ኣጠቓቕማን ምምቓልን Creative Commons
+                        Attribution-NonCommercial-ShareAlike 4.0 ብዓለም ለኻዊ ቁፅሪ ፍቓድ
+                        (<a href="https://creativecommons.org/licenses/by-nc-sa/4.0">https://creativecommons.org/licenses/by-nc-sa/4.0</a>) እተመዝገቡ እዮም። ስለዚ ሰነድ
+                        ኣብ ምምቓልን ኣብ ምጥቃምን ንዘለኩም ሕቶታት ወግዓዊ በይነ መርበብ Creative Commons ክትውከሱ ንላቦ። </p>
+                </div>
+                <div class="w3-container introText" id="introEN">
+
+                    <p class="w3-justify">The project <a target="_blank" href="https://www.betamasaheft.uni-hamburg.de/">Beta maṣāḥǝft:
+                            Manuscripts of Ethiopia and Eritrea (Schriftkultur des christlichen
+                            Äthiopiens und Eritreas: eine multimediale Forschungsumgebung)</a> is a
+                        long-term project funded within the framework of the Academies' Programme
+                        (coordinated by the Union of the German Academies of Sciences and
+                        Humanities) under survey of the Akademie der Wissenschaften in Hamburg. The
+                        funding will be provided for 25 years, from 2016–2040. The project is hosted
+                        by the Hiob Ludolf Centre for Ethiopian Studies at the Universität Hamburg.
+                        It aims at creating a virtual research environment that shall manage complex
+                        data related to the predominantly Christian manuscript tradition of the
+                        Ethiopian and Eritrean Highlands. </p>
+                    <p class="w3-justify">You are very welcome to join us and contribute to the
+                        digitization and digital description of the manuscript tradition of the
+                        Ethiopian and Eritrean Highlands. <a href="#contribute">See the section on
+                            contributing and reusing data below.</a>
+                    </p>
+
+                    <!--<a class="w3-button w3-black w3-margin-bottom" 
+                       href="javascript:void(0);" onclick="startIntroHome();">Take a tour of this page</a>-->
+                    <a class="w3-button w3-black w3-margin-bottom" href="https://www.betamasaheft.uni-hamburg.de/">Institutional homepage</a>
+                    <div class="w3-container"> </div>
+                </div>
+                <div class="w3-container w3-right-align introText" dir="rtl" lang="ar" id="introAR" style="display:none">
+                    <h3> ما هو هذا المشروع </h3>
+                    <p> مشروع بيتا مصاحِفت، مخطوطات من أثيوبيّا وإريتريّا <span dir="ltr">(Schriftkultur des christlichen Äthiopiens und Eritreas: eine
+                            multimediale Forschungsumgebung)</span>، هو مشروع طويل المدى يجري تمويله
+                        في إطار برنامج الأكاديميّات (برعاية اتّحاد الأكاديميّات الألمانيّة للعلوم
+                        والدراسات الإنسانيّة) الخاضع لفحص أكاديميّة العلوم <span dir="ltr">(Akademie
+                            der Wissenschaften)</span> في هامبورغ. يستمرّ توفير التمويل لمدّة 25
+                        سنة، من 2016 إلى 2040. يستضيف المشروعَ مركزُ هِيوب لُودُلف Hiob Ludolf
+                        للدراسات الأثيوبيّة في جامعة هامبورغ. ويهدف إلى خلق بيئة بحثية افتراضيّة من
+                        شأنها إدارة بيانات معقَّدة متعلّقة بتقليد كتابة المخطوطات الذي يغلب عليه
+                        الطابع المسيحيّ في المرتفعات الأثيوبيّة والإريتريّة. من بين النتائج
+                        المتوقَّعة للمشروع وصف لقدر كبير من المخطوطات الأثيوبيّة المتاحة للبحث،
+                        وسجلّ بجميع الوحدات النصيّة للتقليد الأدبي الأثيوبيّ (Clavis Aethiopica)
+                        التي يمكن معرفة مصدرها، ودليل (معجم) جغرافيّ، وسجلّ بجميع الأشخاص المعروفين
+                        الذين تربطهم صلة بتقليد كتابة المخطوطات الأثيوبيّة <span dir="ltr">(prosopography)</span>. يمكن العثور على الموقع المؤسسيّ للمشروع هنا
+                        <span dir="ltr">(<a href="https://www.betamasaheft.uni-hamburg.de/">https://www.betamasaheft.uni-hamburg.de/</a>)</span>. </p>
+
+                    <h3>كيفية استخدام هذا الموقع </h3>
+                    <p> تستطيع استخدام هذا الموقع بعدّة طرق مختلفة. نحن ننصح بالذهاب أوّلاً إلى
+                        الصفحة الرئيسيّة والنقر فوق الزر "قم بجولة في الموقع" <span dir="ltr">(Take
+                            a tour of the website)</span>. ومن ثَمَّ تستطيع التنقُّل عبر الموقع
+                        بالنقر على العناصر المختلفة في القائمة وتصفُّح النتائج وفلترتها. يمكنك أيضًا
+                        الانتقال إلى البحث المتقدّم وإجراء طلبات بحث ذات صلة بمجال اهتمامك. يعكس هذا
+                        الموقع الوضع الحاليّ لبيئة البحث الرقميّ. وهو في تطوُّر مستمرّ ولا يدّعي
+                        لنفسه الكمال ولا السلطة النهائيّة. </p>
+                    <h3> كيفيّة المشاركة </h3>
+                    <p> إذا كنت ترغب في التعليق أو تصحيح ما تراه، فنحن نرحّب بهذا المساهمة أشدّ
+                        الترحيب! برجاء إنشاء مسألة هنا
+                        (<a href="https://github.com/BetaMasaheft/Documentation/issues">https://github.com/BetaMasaheft/Documentation/issues</a>) أو كتابة رسالة بريد
+                        إلكترونيّة إلى أحد أعضاء المشروع
+                        <span dir="ltr">(https://www.betamasaheft.uni-hamburg.de/team/projectteam.html)</span>. عِلمًا
+                        بأنّنا نرحّب بجميع التعليقات والاقتراحات. أمَّا إذا كنت ترغب في المساهمة
+                        ببياناتك وأبحاثك الخاصّة في بيئة البحث الرقميّ، فيمكنك تقديم طلب سحب في
+                        مستودع GitHub أو إبلاغنا بأفكار المساهمة التي لديك بالبريد الإلكترونيّ.
+                        مشاركة هذه البيانات واستخدامها تم ترخيص جميع البيانات الخاصّة بنا بموجب
+                        ترخيص <span dir="ltr">Creative Commons Attribution-NonCommercial-ShareAlike
+                            4.0 (<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ar">https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ar</a>)</span>.
+                        يُرجَى زيارة موقعهم للحصول على معلومات أكثر تفصيلاً عن شروط مشاركتك للبيانات
+                        وتعديلها. </p>
+                </div>
+
+            </div>
+
+            <div class="w3-half w3-padding w3-container w3-margin-bottom w3-hide-small" id="video" dir="ltr">
+
+                <div class="w3-container">
+                    <div style="position: relative; width:100%;height:80%">
+                    <img id="vidimg" src="resources/images/videocover.png" style="width:100%;min-height:70%; position: absolute; top: 0; left: 0; cursor: pointer; pointer-events: none; z-index: 2;"/>
+                    <iframe id="unlocked-video" style="width:100%;min-height:70%; position: absolute; top: 0; left: 0; z-index: 1;" src="https://www.youtube.com/embed/bI950izCu2E"/>
+                </div>
+                </div>
+                <script type="application/javascript" src="resources/js/videohomepage.js"/>
+
+            </div>
+        </div>
+        <div class="w3-display-bottommiddle w3-bar w3-center w3-hide-small">
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#cover" onclick="w3_open()">
+                <i class="fa fa-bars"/>
+            </a>
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#cover">
+                <i class="fa fa-arrow-up"/>
+            </a>
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#cover">
+                <i class="fa fa-home"/>
+            </a>
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#manuscripts">
+                <i class="fa fa-arrow-down"/>
+            </a>
+        </div>
+    </div>
+
+    <!--    manuscripts-->
+    <div class="w3-display-container w3-center " id="manuscripts" style="min-height:80vh">
+        <img class="w3-image " src="/iiif/Laurenziana/BML_009/BML_009-008.tif/pct:15,25,70,60/1000,/0/default.jpg" style="width:100%;opacity:0.8"/>
+        <div class="w3-display-left w3-padding w3-col l6 m8 s12 w3-red" style="max-height:100%;overflow-y:auto">
+            <h2 class="w3-wide">Manuscripts</h2>
+            <p class="w3-hide-small">You can access the manuscripts in several ways.</p>
+
+            <div class="w3-row-padding">
+                <div class="w3-third">
+                    <img src="/iiif/KAE/011/KAE-011__005.tif/pct:20,15,30,29/400,/0/gray.jpg" alt="Shelf-Marks" class="w3-image w3-hover-opacity  w3-hide-small"/>
+                    <div class="w3-center">
+                        <a class="w3-button w3-black  w3-wide" href="/manuscripts/browse">
+                            <b>By
+                                shelf marks</b>
+                        </a>
+                    </div>
+                </div>
+                <div class="w3-third">
+                    <img src="https://iiif.archivelab.org/iiif/manuscritsorient00bibl$5/pct:5,20,75,36/400,/0/gray.jpg" alt="Catalogues" class="w3-image w3-hover-opacity  w3-hide-small"/>
+                    <div class="w3-center">
+                        <a class="w3-button w3-black  w3-wide" href="/catalogues/list">
+                            <b>By
+                                catalogue</b>
+                        </a>
+                    </div>
+                </div>
+                <div class="w3-third ">
+                    <img src="/iiif/Laurenziana/BML_001/BML_001-087.tif/pct:22,15,30,30/400,/0/gray.jpg" alt="Map" class="w3-image w3-hover-opacity  w3-hide-small"/>
+                    <div class="w3-center">
+                        <a class="w3-button w3-black w3-wide" href="/institutions/list">
+                            <b>By
+                                repository</b>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w3-row-padding">
+                <div class="w3-third ">
+                    <img src="/iiif/AMM/004/AMM-004_010.tif/pct:14,25,35,40/1000,/0/gray.jpg" alt="List" class="w3-image w3-hover-opacity  w3-hide-small"/>
+                    <div class="w3-center">
+                        <a class="w3-button w3-black w3-wide" href="/manuscripts/list">
+                            <b>List with
+                                filters</b>
+                        </a>
+                    </div>
+                </div>
+                <div class="w3-third">
+                    <img src="/iiif/Laurenziana/BML_001/BML_001-087.tif/pct:50,15,30,30/400,/0/gray.jpg" alt="Map" class="w3-image w3-hover-opacity  w3-hide-small"/>
+                    <div class="w3-center" id="origPlaces">
+                        <a class="w3-button w3-black w3-wide" href="/placeoforigin.html">
+                            <b>Place of
+                                origin map</b>
+                        </a>
+                    </div>
+                </div>
+                <div class="w3-third">
+                    <img src="/iiif/KAE/011/KAE-011__005.tif/pct:50,15,30,30/400,/0/gray.jpg" alt="All images" class="w3-image w3-hover-opacity  w3-hide-small"/>
+                    <div class="w3-center">
+                        <a class="w3-button w3-black w3-wide" href="/manuscripts/viewer">
+                            <b>Images</b>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <p class="w3-center">
+                <a target="_blank" href="/availableImages.html">List of available
+                    images of manuscripts from Eritrea and Ethiopia</a>
+            </p>
+        </div>
+
+        <div class="w3-display-right  w3-display-hover w3-bar-block">
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#cover" onclick="w3_open()">
+                <i class="fa fa-bars"/>
+            </a>
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#intro">
+                <i class="fa fa-arrow-up"/>
+            </a>
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#cover">
+                <i class="fa fa-home"/>
+            </a>
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#entities">
+                <i class="fa fa-arrow-down"/>
+            </a>
+        </div>
+
+        <div class="w3-display-bottommiddle w3-bar w3-center w3-hide-small">
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#cover" onclick="w3_open()">
+                <i class="fa fa-bars"/>
+            </a>
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#intro">
+                <i class="fa fa-arrow-up"/>
+            </a>
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#cover">
+                <i class="fa fa-home"/>
+            </a>
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#entities">
+                <i class="fa fa-arrow-down"/>
+            </a>
+        </div>
+
+    </div>
+
+    <!--    other entities-->
+    <div class="w3-display-container w3-center w3-margin w3-white" id="entities">
+
+        <div class="w3-row">
+
+            <div class="w3-quarter">
+                <img src="/iiif/Laurenziana/BML_009/BML_009-008.tif/pct:53,30,17,25/400,/0/gray.jpg" alt="Works" class="w3-image w3-circle w3-hover-opacity"/>
+                <p/>
+                <a class="w3-button w3-black w3-margin-bottom" href="/works/list">
+                    <b>Textual Units
+                        (Clavis)</b>
+                </a>
+                <a class="w3-button w3-black w3-margin-bottom" href="/narratives/list">
+                    <b>Narrative
+                        Units</b>
+                </a>
+            </div>
+
+            <div class="w3-quarter">
+                <img src="/iiif/Laurenziana/BML_001/BML_001-005.tif/pct:53,20,30,45/400,/0/gray.jpg" alt="Persons" class="w3-image w3-circle w3-hover-opacity"/>
+                <p/>
+                <a class="w3-button w3-black w3-margin-bottom" href="/persons/list">
+                    <b>Persons and
+                        Groups</b>
+                </a>
+            </div>
+
+            <div class="w3-quarter">
+                <img src="https://iiif.archivelab.org/iiif/voyageAbyssinia00Salt$174/pct:30,0,70,80/400,/0/gray.jpg" alt="Boss" class="w3-image w3-circle w3-hover-opacity"/>
+                <p/>
+                <a class="w3-button w3-black w3-margin-bottom" href="/places/list">
+                    <b>Places and
+                        Repositories</b>
+                </a>
+            </div>
+
+            <div class="w3-quarter">
+                <img src="https://iiif.archivelab.org/iiif/voyageAbyssinia00Salt$496/pct:20,10,45,35/400,/0/gray.jpg" alt="Persons" class="w3-image w3-circle w3-hover-opacity"/>
+                <p/>
+                <a class="w3-button w3-black w3-margin-bottom" href="/authority-files/list">
+                    <b>Taxonomy</b>
+                </a>
+            </div>
+
+        </div>
+        <div class="w3-display-bottommiddle w3-bar w3-center w3-hide-small">
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#cover" onclick="w3_open()">
+                <i class="fa fa-bars"/>
+            </a>
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#manuscripts">
+                <i class="fa fa-arrow-up"/>
+            </a>
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#cover">
+                <i class="fa fa-home"/>
+            </a>
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#furtherSearchOptions">
+                <i class="fa fa-arrow-down"/>
+            </a>
+        </div>
+    </div>
+
+    <!--    Search options-->
+    <div class="w3-display-container w3-center " id="furtherSearchOptions" style="min-height:80vh">
+        <img class="w3-image" src="/iiif/AKM/017/AKM-017_003.tif/pct:25,35,60,40/1000,/0/default.jpg" style="width:100%;opacity:0.8"/>
+
+        <div class="w3-display-right w3-padding w3-col l6 m8 s12 w3-red" style="max-height:100%;overflow-y:auto">
+            <h2 class="w3-wide w3-left-align">Search</h2>
+            <p class="w3-left-align w3-hide-small">We also offer a number of alternative ways to
+                search.</p>
+            <div class="w3-row">
+                <a class="w3-button w3-margin-bottom w3-black w3-xlarge" href="/as.html">Advanced
+                    search</a>
+            </div>
+
+            <div class="w3-half w3-margin-bottom">
+
+                <div class="w3-container w3-white" style="height:300px">
+                    <p>
+                        <b>Simple search</b>
+                    </p>
+                    <form action="/search.html" role="search">
+                        <div class="w3-row-padding">
+                            <input type="text" class="w3-input w3-border diacritics" placeholder="search" name="query" id="q"/>
+
+
+                            <a class="kb w3-button w3-dark-grey">
+                                <i class="fa fa-keyboard" aria-hidden="true"/>
+                            </a>
+
+                            <a href="/as.html" title="advanced search" class="w3-button w3-dark-grey">
+                                <i class="fa fa-plus" aria-hidden="true"/>
+                            </a>
+
+                            <a href="#" class="w3-button w3-dark-grey" onclick="document.getElementById('searchHelp').style.display='block'">
+                                <i class="fa fa-info-circle" aria-hidden="true"/>
+                            </a>
+
+                            <button id="f-btn-search" type="submit" class="w3-button w3-black">
+                                <i class="fa fa-search" aria-hidden="true"/>
+                            </button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="w3-half w3-margin-bottom w3-hide-small">
+                <div class="w3-container w3-white" style="height:300px">
+                    <p>
+                        <b>ID lookup</b>
+                    </p>
+                    <div class="w3-row-padding" id="JumpToRecord">
+
+                        <input type="radio" class="w3-radio w3-margin-bottom" name="AttestedInType" id="AttestedInTypeID" value="1" checked="checked"/>
+                        <label> ID</label>
+
+                        <input type="radio" class="w3-radio w3-margin-bottom" name="AttestedInType" id="AttestedInTypeTITLE" value="2"/>
+                        <label> Title</label>
+
+
+                        <input placeholder="Start typing content of a title or part of an id here..." class="w3-input w3-border w3-margin-bottom" id="GoTo" autocomplete="on"/>
+                        <select class="w3-select w3-margin-bottom" id="gotohits"> </select>
+
+
+
+                        <button id="clickandgoto" class="w3-button w3-black"> Go </button>
+                        <script src="resources/js/lookup.js" type="application/javascript"/>
+
+
+                        <small>Selecting or typing an item ID here and clicking on go will take you
+                            to that item directly.</small>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="w3-bar">
+                <a class="w3-bar-item w3-button w3-black" href="/decorations">Decorations</a>
+                <a class="w3-bar-item w3-button w3-black" href="/bindings">Bindings</a>
+                <a class="w3-bar-item w3-button w3-black " href="/additions">Additions</a>
+                <a class="w3-bar-item w3-button w3-black" href="/bibliography">Bibliography</a>
+                <a class="w3-bar-item w3-button w3-black " href="/IndexPlaces">Index Places</a>
+                <a class="w3-bar-item w3-button w3-black " href="/IndexPersons">Index Persons</a>
+            </div>
+
+        </div>
+        <div class="w3-display-left  w3-display-hover w3-bar-block">
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#cover" onclick="w3_open()">
+                <i class="fa fa-bars"/>
+            </a>
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#entities">
+                <i class="fa fa-arrow-up"/>
+            </a>
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#cover">
+                <i class="fa fa-home"/>
+            </a>
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#DillParser">
+                <i class="fa fa-arrow-down"/>
+            </a>
+        </div>
+        <div class="w3-display-bottommiddle w3-bar w3-center w3-hide-small">
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#cover" onclick="w3_open()">
+                <i class="fa fa-bars"/>
+            </a>
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#entities">
+                <i class="fa fa-arrow-up"/>
+            </a>
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#cover">
+                <i class="fa fa-home"/>
+            </a>
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#DillParser">
+                <i class="fa fa-arrow-down"/>
+            </a>
+        </div>
+    </div>
+
+    <!--    Dillmann and Parser-->
+    <div class="w3-display-container w3-padding-64 w3-center" id="DillParser">
+
+        <div class="w3-row">
+
+            <div class="w3-half">
+                <a href="/Dillmann">
+                    <img src="https://iiif.archivelab.org/iiif/lexiconlinguaeae00dilluoft$7/pct:5,10,80,40/400,/0/gray.jpg" alt="Works" style="width:45%" class="w3-image w3-circle w3-hover-opacity w3-button"/>
+                </a>
+                <h3>Online Lexicon Linguae Aethiopicae</h3>
+                <a href="https://www.traces.uni-hamburg.de/">
+                    <img src="resources/images/traceslogo.png" width="120"/>
+                </a>
+            </div>
+
+            <div class="w3-half">
+                <a href="/morpho">
+                    <img src="https://iiif.archivelab.org/iiif/EthiopicethiopianLanguageGrammarByAugustDillmann$3/pct:0,0,100,50/400,/0/gray.jpg" alt="Persons" style="width:45%" class="w3-image w3-circle w3-hover-opacity w3-button"/>
+                </a>
+                <h3>Gǝʿǝz Morphological Parser</h3>
+                <a href="https://www.traces.uni-hamburg.de/">
+                    <img src="resources/images/traceslogo.png" width="120"/>
+                </a>
+            </div>
+
+
+        </div>
+
+        <div class="w3-display-bottommiddle w3-bar w3-center w3-hide-small">
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#cover" onclick="w3_open()">
+                <i class="fa fa-bars"/>
+            </a>
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#furtherSearchOptions">
+                <i class="fa fa-arrow-up"/>
+            </a>
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#cover">
+                <i class="fa fa-home"/>
+            </a>
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#maps">
+                <i class="fa fa-arrow-down"/>
+            </a>
+        </div>
+    </div>
+
+    <!--    contribute-->
+    <div class="w3-display-container w3-center  w3-padding-64 w3-red" id="contribute">
+        <div class="w3-row">
+            <div class="w3-half w3-margin-bottom">
+                <h2>Join us and contribute</h2>
+
+                <div class="w3-container">
+                    <p class="w3-justify"> Yes, you can edit the data, not only notify us about
+                        errors, but directly fix them or suggest a change. Beta maṣāḥǝft data is
+                        yours! You can enter the data you are interested in, share it with the world
+                        and benefit from all what others have shared in the same way. Each entity
+                        has an edit button, which you are more than welcome to hit. You will be
+                        brought to the GitHub page where you can edit and make a Pull Request. All
+                        data is encoded in TEI, and additionally we maintain a set of <a href="/Guidelines">project guidelines.</a>
+                    </p>
+                    <a class="w3-button w3-dark-grey" target="_blank" href="https://github.com/BetaMasaheft/Documentation/issues/new?labels=app&amp;assignee=PietroLiuzzo&amp;body=There%20is%20an%20issue%20with%20a%20list%20view">
+                        <i class="fa fa-exclamation-circle"/>
+                    </a>
+                    <a class="w3-button w3-dark-grey" target="_blank" href="mailto:pietro.liuzzo@uni-hamburg.de">
+                        <i class="fa fa-envelope"/>
+                    </a>
+
+                </div>
+                <div class="w3-container w3-margin-bottom w3-padding-64">
+                    <a class="w3-button w3-black" href="/Guidelines">Beta maṣāḥǝft Guidelines.</a>
+                </div>
+
+
+            </div>
+
+            <div class="w3-half w3-margin-bottom">
+                <h2>Reuse the data</h2>
+                <div class="w3-container">
+                    <p class="w3-justify"> The data is available to you for reuse via this website,
+                        or via our <a href="https://github.com/BetaMasaheft">GitHub</a> organization
+                        in the formats you can download from the website and also in several other
+                        formats. </p>
+
+                    <div class="w3-bar">
+                        <a class="w3-bar-item w3-button w3-black w3-margin-bottom" href="/apidoc.html">Data API</a>
+                        <a class="w3-bar-item w3-button w3-black w3-margin-bottom" href="/sparql">SPARQL Endpoint</a>
+                        <a class="w3-bar-item w3-button w3-black w3-margin-bottom" href="/xpath">XPath search</a>
+                        <a class="w3-bar-item w3-button w3-black w3-margin-bottom" href="/lod.html">LOD documentation</a>
+
+                    </div>
+
+                </div>
+
+                <div class="w3-container w3-margin-bottom w3-padding-64">
+                    <a onclick="document.getElementById('countModal').style.display='block'" class="w3-button w3-black">Beta maṣāḥǝft in Numbers</a>
+                    <div id="countModal" class="w3-modal">
+                        <div class="w3-modal-content">
+                            <header class="w3-container w3-red">
+                                <span onclick="document.getElementById('countModal').style.display='none'" class="w3-button w3-display-topright">
+                                    <i class="fa fa-times"/>
+                                </span>
+                                <h2>Beta maṣāḥǝft in Numbers</h2>
+                            </header>
+
+                            <div class="w3-container w3-white" id="count"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-display-bottommiddle w3-bar w3-center w3-hide-small">
+
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#cover" onclick="w3_open()">
+                <i class="fa fa-bars"/>
+            </a>
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#DillParser">
+                <i class="fa fa-arrow-up"/>
+            </a>
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#cover">
+                <i class="fa fa-home"/>
+            </a>
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#maps">
+                <i class="fa fa-arrow-down"/>
+            </a>
+        </div>
+
+    </div>
+
+    <!--    maps -->
+    <div class="w3-display-container w3-center" id="maps" style="min-height:400px;">
+        <div id="map" class="w3-container w3-display-middle l8 s12" style="width: 80%;  height:400px;"/>
+        <div class="w3-display-bottommiddle w3-bar w3-center w3-hide-small">
+            <a class="w3-bar-item w3-button w3-dark-grey" onclick="w3_open()">
+                <i class="fa fa-bars"/>
+            </a>
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#contribute">
+                <i class="fa fa-arrow-up"/>
+            </a>
+            <a class="w3-bar-item w3-button w3-dark-grey" href="#cover">
+                <i class="fa fa-home"/>
+            </a>
+        </div>
+    </div>
+
+
+    <!-- End Page Content -->
+    
+    <script type="application/javascript" src="resources/js/preventformsubmission.js"/>
+
+</div>

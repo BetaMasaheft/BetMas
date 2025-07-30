@@ -29,7 +29,7 @@ ul.bibliographyList {
 }
 .bibliographyItem {
 list-style-type : none;
-/*    text-indent: -40px;*/
+    text-indent: -40px;
     margin-left: 40px
 }
 .breakwords{word-break: break-all;}

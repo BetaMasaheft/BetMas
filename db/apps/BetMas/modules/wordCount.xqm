@@ -30,10 +30,10 @@ return
 if(count($tit) = 0) then ('no textual unit ' || $workID || ' in the manuscript ' || $manuscriptID) else
 let $msitemID := $tit/parent::t:msItem/@xml:id
 
+let $div := $ms//t:div[@corresp = $msitemID]
 return
 
-if($ms//t:div[@corresp = $msitemID]) then
-let $div := $ms//t:div[@corresp = $msitemID]
+if($div) then
 let $count := count(tokenize(string-join($div//text(), ' '), '\W+'))
 return
 'word count: ' || $count

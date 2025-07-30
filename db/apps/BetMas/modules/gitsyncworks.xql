@@ -1,7 +1,7 @@
 xquery version "3.1";
 
 (:module namespace gitsync = "http://syriaca.org/ns/gitsync";:)
-
+ 
 (:~ 
  : XQuery endpoint to respond to Github webhook requests. Query responds only to push requests. 
  : The EXPath Crypto library supplies the HMAC-SHA1 algorithm for matching Github secret. 

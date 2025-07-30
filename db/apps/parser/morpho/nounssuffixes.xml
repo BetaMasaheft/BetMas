@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<declension xmlns="http://fidal.parser">
+    
+    <group name="consonant">
+    <type name="nominative">
+        <num type="Singular">
+            <person type="First" n="1">
+                <gender type="Common">
+                    <affixes>
+                        <affix>ya</affix>
+                    </affixes>
+                </gender>
+            </person>
+            <person type="Second" n="2">
+                <gender type="Masculine">
+                    <affixes>
+                        <affix>ka</affix>
+                    </affixes>
+                </gender>
+                <gender type="Feminine">
+                    <affixes>
+                        <affix>ki</affix>
+                    </affixes>
+                </gender>
+            </person>
+            <person type="Third" n="3">
+                <gender type="Masculine">
+                    <affixes>
+                        <affix>u</affix>
+                    </affixes>
+                </gender>
+                <gender type="Feminine">
+                    <affixes>
+                        <affix>ā</affix>
+                    </affixes>
+                </gender>
+            </person>
+        </num>
+        <num type="Plural">
+            <person type="First" n="1">
+                <gender type="Common">
+                    <affixes>
+                        <affix>na</affix>
+                    </affixes>
+                </gender>
+            </person>
+            <person type="Second" n="2">
+            <gender type="Masculine">
+                <affixes>
+                    <affix>kǝmu</affix>
+                </affixes>
+            </gender>
+            <gender type="Feminine">
+                <affixes>
+                    <affix>kǝn</affix>
+                </affixes>
+            </gender>
+        </person>
+            <person type="Third" n="3">
+                <gender type="Masculine">
+                    <affixes>
+                        <affix>omu</affix>
+                    </affixes>
+                </gender>
+                <gender type="Feminine">
+                    <affixes>
+                        <affix>on</affix>
+                    </affixes>
+                </gender>
+            </person>
+        </num>
+    </type>
+    <type name="accusative">
+        <num type="Singular">
+            <person type="First" n="1">
+                <gender type="Common">
+                    <affixes>
+                        <affix>ya</affix>
+                    </affixes>
+                </gender>
+            </person>
+            <person type="Second" n="2">
+                <gender type="Masculine">
+                    <affixes>
+                        <affix>ka</affix>
+                    </affixes>
+                </gender>
+                <gender type="Feminine">
+                    <affixes>
+                        <affix>ki</affix>
+                    </affixes>
+                </gender>
+            </person>
+            <person type="Third" n="3">
+                <gender type="Masculine">
+                    <affixes>
+                        <affix>o</affix>
+                    </affixes>
+                </gender>
+                <gender type="Feminine">
+                    <affixes>
+                        <affix>ā</affix>
+                    </affixes>
+                </gender>
+            </person>
+        </num>
+        <num type="Plural">
+            <person type="First" n="1">
+                <gender type="Common">
+                    <affixes>
+                        <affix>na</affix>
+                    </affixes>
+                </gender>
+            </person>
+            <person type="Second" n="2">
+                <gender type="Masculine">
+                    <affixes>
+                        <affix>kǝmu</affix>
+                    </affixes>
+                </gender>
+                <gender type="Feminine">
+                    <affixes>
+                        <affix>kǝn</affix>
+                    </affixes>
+                </gender>
+            </person>
+            <person type="Third" n="3">
+                <gender type="Masculine">
+                    <affixes>
+                        <affix>omu</affix>
+                    </affixes>
+                </gender>
+                <gender type="Feminine">
+                    <affixes>
+                        <affix>on</affix>
+                    </affixes>
+                </gender>
+            </person>
+        </num>
+        
+    </type>
+    </group>
+    <group name="i">
+        <type name="nominative">
+            <num type="Singular">
+                <person type="First" n="1">
+                    <gender type="Common">
+                        <affixes>
+                            <affix>ya</affix>
+                        </affixes>
+                    </gender>
+                </person>
+                <person type="Second" n="2">
+                    <gender type="Masculine">
+                        <affixes>
+                            <affix>ka</affix>
+                        </affixes>
+                    </gender>
+                    <gender type="Feminine">
+                        <affixes>
+                            <affix>ki</affix>
+                        </affixes>
+                    </gender>
+                </person>
+                <person type="Third" n="3">
+                    <gender type="Masculine">
+                        <affixes>
+                            <affix>hu</affix>
+                        </affixes>
+                    </gender>
+                    <gender type="Feminine">
+                        <affixes>
+                            <affix>hā</affix>
+                        </affixes>
+                    </gender>
+                </person>
+            </num>
+            <num type="Plural">
+                <person type="First" n="1">
+                    <gender type="Common">
+                        <affixes>
+                            <affix>na</affix>
+                        </affixes>
+                    </gender>
+                </person>
+                <person type="Second" n="2">
+                    <gender type="Masculine">
+                        <affixes>
+                            <affix>kǝmu</affix>
+                        </affixes>
+                    </gender>
+                    <gender type="Feminine">
+                        <affixes>
+                            <affix>kǝn</affix>
+                        </affixes>
+                    </gender>
+                </person>
+                <person type="Third" n="3">
+                    <gender type="Masculine">
+                        <affixes>
+                            <affix>homu</affix>
+                        </affixes>
+                    </gender>
+                    <gender type="Feminine">
+                        <affixes>
+                            <affix>hon</affix>
+                        </affixes>
+                    </gender>
+                </person>
+            </num>
+        </type>
+        <type name="accusative">
+            <num type="Singular">
+                <person type="First" n="1">
+                    <gender type="Common">
+                        <affixes>
+                            <affix>ya</affix>
+                        </affixes>
+                    </gender>
+                </person>
+                <person type="Second" n="2">
+                    <gender type="Masculine">
+                        <affixes>
+                            <affix>ka</affix>
+                        </affixes>
+                    </gender>
+                    <gender type="Feminine">
+                        <affixes>
+                            <affix>ki</affix>
+                        </affixes>
+                    </gender>
+                </person>
+                <person type="Third" n="3">
+                    <gender type="Masculine">
+                        <affixes>
+                            <affix>o</affix>
+                        </affixes>
+                    </gender>
+                    <gender type="Feminine">
+                        <affixes>
+                            <affix>ā</affix>
+                        </affixes>
+                    </gender>
+                </person>
+            </num>
+            <num type="Plural">
+                <person type="First" n="1">
+                    <gender type="Common">
+                        <affixes>
+                            <affix>na</affix>
+                        </affixes>
+                    </gender>
+                </person>
+                <person type="Second" n="2">
+                    <gender type="Masculine">
+                        <affixes>
+                            <affix>kǝmu</affix>
+                        </affixes>
+                    </gender>
+                    <gender type="Feminine">
+                        <affixes>
+                            <affix>kǝn</affix>
+                        </affixes>
+                    </gender>
+                </person>
+                <person type="Third" n="3">
+                    <gender type="Masculine">
+                        <affixes>
+                            <affix>omu</affix>
+                        </affixes>
+                    </gender>
+                    <gender type="Feminine">
+                        <affixes>
+                            <affix>on</affix>
+                        </affixes>
+                    </gender>
+                </person>
+            </num>
+            
+        </type>
+    </group>
+    <group name="e">
+        <type name="nominative">
+            <num type="Singular">
+                <person type="First" n="1">
+                    <gender type="Common">
+                        <affixes>
+                            <affix>ya</affix>
+                        </affixes>
+                    </gender>
+                </person>
+                <person type="Second" n="2">
+                    <gender type="Masculine">
+                        <affixes>
+                            <affix>ka</affix>
+                        </affixes>
+                    </gender>
+                    <gender type="Feminine">
+                        <affixes>
+                            <affix>ki</affix>
+                        </affixes>
+                    </gender>
+                </person>
+                <person type="Third" n="3">
+                    <gender type="Masculine">
+                        <affixes>
+                            <affix>u</affix>
+                        </affixes>
+                    </gender>
+                    <gender type="Feminine">
+                        <affixes>
+                            <affix>ā</affix>
+                        </affixes>
+                    </gender>
+                </person>
+            </num>
+            <num type="Plural">
+                <person type="First" n="1">
+                    <gender type="Common">
+                        <affixes>
+                            <affix>na</affix>
+                        </affixes>
+                    </gender>
+                </person>
+                <person type="Second" n="2">
+                    <gender type="Masculine">
+                        <affixes>
+                            <affix>kǝmu</affix>
+                        </affixes>
+                    </gender>
+                    <gender type="Feminine">
+                        <affixes>
+                            <affix>kǝn</affix>
+                        </affixes>
+                    </gender>
+                </person>
+                <person type="Third" n="3">
+                    <gender type="Masculine">
+                        <affixes>
+                            <affix>omu</affix>
+                        </affixes>
+                    </gender>
+                    <gender type="Feminine">
+                        <affixes>
+                            <affix>on</affix>
+                        </affixes>
+                    </gender>
+                </person>
+            </num>
+        </type>
+        <type name="accusative">
+            <num type="Singular">
+                <person type="First" n="1">
+                    <gender type="Common">
+                        <affixes>
+                            <affix>ya</affix>
+                        </affixes>
+                    </gender>
+                </person>
+                <person type="Second" n="2">
+                    <gender type="Masculine">
+                        <affixes>
+                            <affix>ka</affix>
+                        </affixes>
+                    </gender>
+                    <gender type="Feminine">
+                        <affixes>
+                            <affix>ki</affix>
+                        </affixes>
+                    </gender>
+                </person>
+                <person type="Third" n="3">
+                    <gender type="Masculine">
+                        <affixes>
+                            <affix>hu</affix>
+                        </affixes>
+                    </gender>
+                    <gender type="Feminine">
+                        <affixes>
+                            <affix>hā</affix>
+                        </affixes>
+                    </gender>
+                </person>
+            </num>
+            <num type="Plural">
+                <person type="First" n="1">
+                    <gender type="Common">
+                        <affixes>
+                            <affix>na</affix>
+                        </affixes>
+                    </gender>
+                </person>
+                <person type="Second" n="2">
+                    <gender type="Masculine">
+                        <affixes>
+                            <affix>kǝmu</affix>
+                        </affixes>
+                    </gender>
+                    <gender type="Feminine">
+                        <affixes>
+                            <affix>kǝn</affix>
+                        </affixes>
+                    </gender>
+                </person>
+                <person type="Third" n="3">
+                    <gender type="Masculine">
+                        <affixes>
+                            <affix>homu</affix>
+                        </affixes>
+                    </gender>
+                    <gender type="Feminine">
+                        <affixes>
+                            <affix>hon</affix>
+                        </affixes>
+                    </gender>
+                </person>
+            </num>
+            
+        </type>
+    </group>
+</declension>

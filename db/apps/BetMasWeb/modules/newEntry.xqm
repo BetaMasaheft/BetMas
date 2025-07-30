@@ -1,7 +1,7 @@
 xquery version "3.0" encoding "UTF-8";
 (:~
- : new entry form 
- : @author Pietro Liuzzo 
+ : new entry form
+ : @author Pietro Liuzzo
  :)
 module namespace new="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/new";
 
@@ -17,14 +17,14 @@ declare namespace t="http://www.tei-c.org/ns/1.0";
 (:this is a small form that points to the xquery generating the new file and prompting the editor to save it in the correct location:)
 declare function new:newentry($node as node()*, $model as map(*)) {
 
-let $taxonomy := doc('/db/apps/lists/canonicaltaxonomy.xml')//t:taxonomy 
-let $schema := doc('/db/apps/BetMas/schema/tei-betamesaheft.xml') 
-     let $option := switch($app:collection) 
+let $taxonomy := doc('/db/apps/lists/canonicaltaxonomy.xml')//t:taxonomy
+let $schema := doc('/db/apps/BetMas/schema/tei-betamesaheft.xml')
+     let $option := switch($app:collection)
      case 'manuscripts' return ''
      default return 'last part of the'
      return
-         
-    
+
+
 <form id="createnew" action="edit/save-new-entity.xql">
 <p>Great {sm:id()//sm:username/text()}! So you are creating a new record in <span class="w3-tag w3-red w3-large">{$app:collection}</span>, that is great news!</p>
 <fieldset class="w3-container">
@@ -50,15 +50,15 @@ let $schema := doc('/db/apps/BetMas/schema/tei-betamesaheft.xml')
       </div>
       ) else ()
       }
-{if($app:collection = 'authority-files') then () 
-else( 
+{if($app:collection = 'authority-files') then ()
+else(
 if($app:collection = 'persons') then (
 
 (<div class="w3-container w3-margin-bottom">
 <label >Faith</label><br/>
 <select  class="w3-select"  id="faithkeywords" name="keywords" multiple="multiple">
                 {
-                
+
                 let $categories :=  $taxonomy//t:category[t:desc eq 'Confessions']//t:catDesc/text()
                  for $k in $categories
                 order by $k
@@ -74,7 +74,7 @@ if($app:collection = 'persons') then (
 <select  class="w3-select"  id="occupation" name="occupation">
 <option value="" selected="selected">choose</option>
                 {
-                
+
                 let $categories :=  $schema//t:elementSpec[@ident eq 'occupation']//t:valItem
                  for $k in $categories
                 order by $k/@ident
@@ -90,7 +90,7 @@ if($app:collection = 'persons') then (
 <select  class="w3-select"  id="nationality" name="nationality">
 <option value="" selected="selected">choose</option>
                 {
-                
+
                 let $categories :=  $schema//t:elementSpec[@ident eq 'nationality']//t:valItem
                  for $k in $categories
                 order by $k/@ident
@@ -107,7 +107,7 @@ if($app:collection = 'persons') then (
 <label>Keywords</label><br/>
 <div class="w3-container" id="formKeywords">
                 {
-                let $categories := 
+                let $categories :=
                 switch($app:collection)
                 case 'narratives' return  $taxonomy/t:category[t:desc='Subjects']/t:category
                 case 'works' return  $taxonomy/t:category[t:desc='Subjects']/t:category
@@ -120,7 +120,7 @@ if($app:collection = 'persons') then (
                 order by $k/@xml:id
                 return
                 <span class="w3-tag w3-gray w3-margin">
-                
+
                 <input type="checkbox" class="w3-check" value="{data($k/@xml:id)}" name="keywords"/>
                 <label>{data($k/t:catDesc)}</label>
                 </span>
@@ -179,7 +179,7 @@ if($app:collection = 'persons') then (
         Group
       </label>
       </div>,
-  
+
     <div class="w3-container w3-margin-bottom">
   <label>Birth</label><br/>
     <input class="w3-input" type="text" id="birth" name="birth"/>
@@ -224,7 +224,7 @@ if($app:collection = 'persons') then (
         Female
       </label>
     </div>
-    
+
   </div>
 )
 else if($app:collection = 'manuscripts') then (
@@ -233,7 +233,7 @@ else if($app:collection = 'manuscripts') then (
 <br/><select  class="w3-select"  id="institution" name="institution">
                 {
                 for $i in doc('/db/apps/lists/institutions.xml')//t:item
-                let $title := $i/text()
+                let $title := $i/string()
                 order by $title
                 return
                 <option value="{string($i/@xml:id)}">{$title}</option>
@@ -275,7 +275,7 @@ else if (($app:collection eq 'places' ) or ($app:collection eq 'institutions')) 
 else ()}
 
 </fieldset>
-    
+
     <button id="confirmcreatenew" type="submit" class="w3-button w3-red w3-xlarge"  disabled="disabled">create new entry</button>
     </form>
 };

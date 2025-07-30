@@ -4,11 +4,12 @@ module namespace viewItem = "https://www.betamasaheft.uni-hamburg.de/BetMas/view
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
 import module namespace exptit = "https://www.betamasaheft.uni-hamburg.de/BetMas/exptit" at "xmldb:exist:///db/apps/BetMas/modules/exptit.xqm";
 import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2" at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
+import module namespace functx = "http://www.functx.com";
+
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace b = "betmas.biblio";
 declare namespace d = "betmas.domlib";
-declare namespace functx = "http://www.functx.com";
 declare namespace number = "roman.numerals.funct";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare option output:method "html5";
@@ -4989,11 +4990,6 @@ declare function viewItem:nav($item) {
                 ()
 };
 
-
-declare function functx:capitalize-first($arg as xs:string?) as xs:string? {
-    concat(upper-case(substring($arg, 1, 1)),
-    substring($arg, 2))
-};
 
 declare %private function number:RomanToInteger($romannumber, $followingvalue) {
     if (ends-with($romannumber, 'CM')) then

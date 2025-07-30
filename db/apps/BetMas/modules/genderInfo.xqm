@@ -7,7 +7,7 @@ xquery version "3.1" encoding "UTF-8";
 module namespace genderInfo = "https://www.betamasaheft.uni-hamburg.de/BetMas/genderInfo";
 import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace nav = "https://www.betamasaheft.uni-hamburg.de/BetMas/nav" at "xmldb:exist:///db/apps/BetMas/modules/nav.xqm";
-import module namespace scriptlinks = "https://www.betamasaheft.uni-hamburg.de/BetMas/scriptlinks" at "xmldb:exist:///db/apps/BetMas/modules/scriptlinks.xqm";
+import module namespace apprest = "https://www.betamasaheft.uni-hamburg.de/BetMas/apprest" at "xmldb:exist:///db/apps/BetMas/modules/apprest.xqm";
 import module namespace titles="https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
 import module namespace fusekisparql = 'https://www.betamasaheft.uni-hamburg.de/BetMas/sparqlfuseki' at "xmldb:exist:///db/apps/BetMas/fuseki/fuseki.xqm";
 import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2"  at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
@@ -245,7 +245,7 @@ return
                     xmlns="http://www.w3.org/1999/xhtml"
                     property="dcterms:publisher schema:publisher"
                     content="Akademie der Wissenschaften in Hamburg, Hiob-Ludolf-Zentrum für Äthiopistik"></meta>
-                {scriptlinks:scriptStyle()}
+                {apprest:scriptStyle()}
                 <script
                     type="text/javascript"
                     src="https://www.gstatic.com/charts/loader.js"/>
@@ -346,7 +346,7 @@ function genderInfo:table() {
                     xmlns="http://www.w3.org/1999/xhtml"
                     property="dcterms:publisher schema:publisher"
                     content="Akademie der Wissenschaften in Hamburg, Hiob-Ludolf-Zentrum für Äthiopistik"></meta>
-                {scriptlinks:scriptStyle()}
+                {apprest:scriptStyle()}
                 <script
                     type="text/javascript"
                     src="https://www.gstatic.com/charts/loader.js"/>
@@ -422,7 +422,7 @@ function genderInfo:tableF() {
                     xmlns="http://www.w3.org/1999/xhtml"
                     property="dcterms:publisher schema:publisher"
                     content="Akademie der Wissenschaften in Hamburg, Hiob-Ludolf-Zentrum für Äthiopistik"></meta>
-                {scriptlinks:scriptStyle()}
+                {apprest:scriptStyle()}
                 <script
                     type="text/javascript"
                     src="https://www.gstatic.com/charts/loader.js"/>
@@ -499,7 +499,7 @@ function genderInfo:tableM() {
                     xmlns="http://www.w3.org/1999/xhtml"
                     property="dcterms:publisher schema:publisher"
                     content="Akademie der Wissenschaften in Hamburg, Hiob-Ludolf-Zentrum für Äthiopistik"></meta>
-                {scriptlinks:scriptStyle()}
+                {apprest:scriptStyle()}
                 <script
                     type="text/javascript"
                     src="https://www.gstatic.com/charts/loader.js"/>
@@ -576,7 +576,7 @@ function genderInfo:page() {
                     xmlns="http://www.w3.org/1999/xhtml"
                     property="dcterms:publisher schema:publisher"
                     content="Akademie der Wissenschaften in Hamburg, Hiob-Ludolf-Zentrum für Äthiopistik"></meta>
-                {scriptlinks:scriptStyle()}
+                {apprest:scriptStyle()}
 
                 <script
                     type="text/javascript"
@@ -735,9 +735,7 @@ function genderInfo:graph() {
             <head>
                 <title
                     property="dcterms:title og:title schema:name">Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea</title>
-                <link
-                    rel="shortcut icon"
-                    href="resources/images/favicon.ico"/>
+                
                 <meta
                     name="viewport"
                     content="width=device-width, initial-scale=1.0"/>
@@ -757,7 +755,7 @@ function genderInfo:graph() {
                     xmlns="http://www.w3.org/1999/xhtml"
                     property="dcterms:publisher schema:publisher"
                     content="Akademie der Wissenschaften in Hamburg, Hiob-Ludolf-Zentrum für Äthiopistik"></meta>
-                {scriptlinks:scriptStyle()}
+                {apprest:scriptStyle()}
                 <script xmlns="http://www.w3.org/1999/xhtml" type="text/javascript" src="https://unpkg.com/vis-network@7.10.2/standalone/umd/vis-network.min.js"  />
             </head>
             

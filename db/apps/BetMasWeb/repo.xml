@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <meta xmlns="http://exist-db.org/xquery/repo">
     <description>Beta Masaheft Web Application</description>
     <author>Pietro Liuzzo</author>
@@ -7,7 +8,7 @@
     <copyright>true</copyright>
     <type>application</type>
     <target>BetMasWeb</target>
-    <prepare>pre-install.xql</prepare>
-    <finish>Pietro</finish>
-    <permissions user="Pietro" group="dba" mode="rwxrwxr-x"/>
-<deployed>2021-09-21T10:53:32.723+02:00</deployed></meta>
+    <finish>post-install.xq</finish>
+    <!-- <prepare>pre-install.xq</prepare> -->
+    <permissions user="BetaMasaheftAdmin" group="dba" mode="rwxrwxr-x"/>
+</meta>

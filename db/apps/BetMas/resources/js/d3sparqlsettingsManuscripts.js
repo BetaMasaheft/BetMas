@@ -20,7 +20,7 @@ $(document).on('ready', function () {
     apicall = "/api/SPARQL/json?query=" + encodeURIComponent(SdCquery)
     $.getJSON(apicall, function (data) {
 
-        //console.log(data)
+        console.log(data)
         var SPARQLnodes =[]
         var SPARQLedges =[]
         var ids =[]

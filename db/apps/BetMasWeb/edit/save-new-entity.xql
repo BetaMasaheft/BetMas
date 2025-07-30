@@ -3,7 +3,7 @@ xquery version "3.0" encoding "UTF-8";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
 import module namespace console = "http://exist-db.org/xquery/console";
 import module namespace editors="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/editors" at "xmldb:exist:///db/apps/BetMasWeb/modules/editors.xqm";
-import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/switch2" at "xmldb:exist:///db/apps/BetMasWeb/modules/switch2.xqm";   
+import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/switch2" at "xmldb:exist:///db/apps/BetMasWeb/modules/switch2.xqm";
 
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
@@ -35,7 +35,7 @@ let $prefix := switch ($collection)
             <ref><pre>LIT</pre><type>work</type></ref>
     case 'studies'
         return
-            <ref><pre>STU</pre><type>studies</type></ref>            
+            <ref><pre>STU</pre><type>studies</type></ref>
     case 'narratives'
         return
             <ref><pre>NAR</pre><type>nar</type></ref>
@@ -76,28 +76,28 @@ return
     if (collection(concat($config:data-root, '/', $collection))//id($Newid)) then
         (
         <html>
-            
+
             <head>
                 <link
                     rel="shortcut icon"
-                    href="resources/images/favicon.ico"/>
+                    href="{$config:appUrl}/resources/images/favicon.ico"/>
                 <meta
                     name="viewport"
                     content="width=device-width, initial-scale=1.0"/>
                 <link
                     rel="shortcut icon"
-                    href="resources/images/minilogo.ico"/>
+                    href="{$config:appUrl}/resources/images/minilogo.ico"/>
                 <link
                     rel="stylesheet"
                     type="text/css"
-                    href="$shared/resources/css/bootstrap-3.0.3.min.css"/>
+                    href="{$config:appUrl}/$shared/resources/css/bootstrap-3.0.3.min.css"/>
                 <link
                     rel="stylesheet"
-                    href="resources/font-awesome-4.7.0/css/font-awesome.min.css"/>
+                    href="{$config:appUrl}/resources/font-awesome-4.7.0/css/font-awesome.min.css"/>
                 <link
                     rel="stylesheet"
                     type="text/css"
-                    href="resources/css/style.css"/>
+                    href="{$config:appUrl}/resources/css/style.css"/>
                 <script
                     xmlns=""
                     type="text/javascript"
@@ -116,7 +116,7 @@ return
                 <script
                     type="text/javascript"
                     src="$shared/resources/scripts/bootstrap-3.0.3.min.js"></script>
-                
+
                 <title>This id already exists!</title>
             </head>
             <body>
@@ -125,13 +125,13 @@ return
                     <p>Dear {sm:id()//sm:real/sm:username/string()}, unfortunately <span
                             class="lead">{$Newid}</span> already exists!
                         Please, hit the button below and try a different id.</p>
-                   <div class="btn-group"> 
-                   <a href="/newentry.html?collection={$collection}"
+                   <div class="btn-group">
+                   <a href="{$config:appUrl}/newentry.html?collection={$collection}"
                         class="btn btn-success">Back to create item</a>
-                    <a href="/{$collection}/list"
+                    <a href="{$config:appUrl}/{$collection}/list"
                         class="btn btn-info">or back to list</a></div>
                 </div>
-            
+
             </body>
         </html>
         )
@@ -141,11 +141,11 @@ return
     let $item :=
     document {
         processing-instruction xml-model {
-            'href="https://raw.githubusercontent.com/BetaMasaheft/schema/master/tei-betamesaheft.rng" 
+            'href="https://raw.githubusercontent.com/BetaMasaheft/schema/master/tei-betamesaheft.rng"
 schematypens="http://relaxng.org/ns/structure/1.0"'
         },
         processing-instruction xml-model {
-            'href="https://raw.githubusercontent.com/BetaMasaheft/schema/master/tei-betamesaheft.rng" 
+            'href="https://raw.githubusercontent.com/BetaMasaheft/schema/master/tei-betamesaheft.rng"
 type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
         },
         <TEI
@@ -156,7 +156,7 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
             <teiHeader>
                 <fileDesc>
                     <titleStmt>
-                   { element 
+                   { element
                         title{ if($type = 'work') then attribute xml:lang {'gez'} else (),
                         if($type = 'work') then attribute xml:id {'t1'} else (),
                            $title}}
@@ -189,14 +189,14 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                                             ref="{$ins}"/>
                                         <idno>{$idno}</idno>
                                     </msIdentifier>
-                                  {if ( $msParts != '') then (if (xs:integer($msParts)=1) 
+                                  {if ( $msParts != '') then (if (xs:integer($msParts)=1)
                                   then ( <msContents>
                                         <summary>
                                         </summary>
                                         <msItem xml:id="ms_i1">
                                         <locus from=""/>
                                        <title type="" ref=""/>
-                                       <textLang mainLang="gez"/> 
+                                       <textLang mainLang="gez"/>
                                        </msItem>
                                     </msContents>,
                                     <physDesc>
@@ -213,7 +213,7 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                                         <depth/>
                                     </dimensions>
                                 </extent>
-                                
+
                             </supportDesc>
                             <layoutDesc>
                                 <layout >
@@ -233,7 +233,7 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                         <decoDesc>
                             <decoNote xml:id="d1">
                                 <locus target=""/>
-                               
+
                             </decoNote>
                         </decoDesc>
                         <bindingDesc>
@@ -244,7 +244,7 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                                 </decoNote>
                             </binding>
                         </bindingDesc>
-                        </physDesc>,  
+                        </physDesc>,
                         <history>
                      <origin>
                         <origPlace><placeName corresp=""/></origPlace>
@@ -263,7 +263,7 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                         </recordHist>
                      </adminInfo>
                    </additional>
-                                    
+
                                     )
                                     else (
                                     for $mP in 1 to xs:integer($msParts)
@@ -279,17 +279,17 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                                                 class="content">
                                                 <locus from=""/>
                                        <title type="" ref=""/>
-                                       <textLang mainLang="gez"/> 
+                                       <textLang mainLang="gez"/>
                                             </msItem>
                                             <msItem
                                                 xml:id="p{$mP}_i2"
                                                 class="content">
                                                 <locus from=""/>
                                        <title type="" ref=""/>
-                                       <textLang mainLang="gez"/> 
+                                       <textLang mainLang="gez"/>
                                             </msItem>
-                                            
-                                            
+
+
                                         </msContents>
                                         <physDesc>
                         <objectDesc form="Codex">
@@ -305,7 +305,7 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                                         <depth/>
                                     </dimensions>
                                 </extent>
-                                
+
                             </supportDesc>
                             <layoutDesc>
                                 <layout >
@@ -325,7 +325,7 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                         <decoDesc>
                             <decoNote xml:id="d1">
                                 <locus target=""/>
-                               
+
                             </decoNote>
                         </decoDesc>
                         <bindingDesc>
@@ -354,18 +354,18 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                            </source>
                         </recordHist>
                      </adminInfo>
-                   
+
                   </additional>
-                                    
+
                                     </msPart>)
-                                    
+
                                 ) else()      }
                               </msDesc>
                             else
                                 <p/>
                         }
                     </sourceDesc>
-                
+
                 </fileDesc>
                 <encodingDesc>
                     <p>A digital born TEI file</p>
@@ -374,7 +374,7 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                     <creation></creation>
                     <abstract>
                         <p>
-                        
+
                         </p>
                     </abstract>
                     {
@@ -450,7 +450,7 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                                 <listPerson xmlns="http://www.tei-c.org/ns/1.0">
                                     {
                                         element {if($group='group') then 'personGrp' else 'person'}  {
-                                        
+
                                             if($wikidata = '') then () else attribute sameAs {$wikidata},
                                             if(exists($sex)) then attribute sex {$sex} else (),
                                             element persName {
@@ -487,7 +487,7 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                                             element birth {$birth},
                                             element death {$death},
                                             element floruit {$floruit}
-                                            
+
                                         },
                                         if(exists($relations) or  $attested != '') then (
                                         element listRelation {
@@ -514,10 +514,10 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                                                 }
                                             ))
                                         }) else ()
-                                        
+
                                     }
                                 </listPerson>
-                            
+
                             else
                                 <div
                                     type="bibliography">
@@ -545,7 +545,7 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                                                 }
                                             ))
                                         }
-                                    </listRelation> 
+                                    </listRelation>
                                     else if(exists($relations)) then (
                                     <listRelation>
                                         {if ($relations = '') then
@@ -565,19 +565,19 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                                 </div>
                     }
                     {comment {$note}}
-               
+
                </body>
             </text>
         </TEI>
     }
-    
+
     (: store the filename :)
     let $file := concat($Newid, '.xml')
 
     (:confirmation page with instructions for editors:)
     return
     try {
-        
+
     (: create the new file with a still-empty id element :)
     let $store := xmldb:store($data-collection, $file, $item)
 (:    permissions:)
@@ -585,28 +585,28 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
    let $setpermissions := sm:chmod(xs:anyURI($data-collection||'/'||$file), 'rwxrwxr-x')
     return
         <html>
-            
+
             <head>
                 <link
                     rel="shortcut icon"
-                    href="resources/images/favicon.ico"/>
+                    href="{$config:appUrl}/resources/images/favicon.ico"/>
                 <meta
                     name="viewport"
                     content="width=device-width, initial-scale=1.0"/>
                 <link
                     rel="shortcut icon"
-                    href="resources/images/minilogo.ico"/>
+                    href="{$config:appUrl}/resources/images/minilogo.ico"/>
                 <link
                     rel="stylesheet"
                     type="text/css"
-                    href="$shared/resources/css/bootstrap-3.0.3.min.css"/>
+                    href="{$config:appUrl}/$shared/resources/css/bootstrap-3.0.3.min.css"/>
                 <link
                     rel="stylesheet"
-                    href="resources/font-awesome-4.7.0/css/font-awesome.min.css"/>
+                    href="{$config:appUrl}/resources/font-awesome-4.7.0/css/font-awesome.min.css"/>
                 <link
                     rel="stylesheet"
                     type="text/css"
-                    href="resources/css/style.css"/>
+                    href="{$config:appUrl}/resources/css/style.css"/>
                 <script
                     xmlns=""
                     type="text/javascript"
@@ -625,7 +625,7 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                 <script
                     type="text/javascript"
                     src="$shared/resources/scripts/bootstrap-3.0.3.min.js"></script>
-                
+
                 <title>Save Confirmation</title>
             </head>
             <body>
@@ -643,7 +643,7 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                             class="lead">{$collection}/new</span>.<br/>
                         <a
                             id="downloaded"
-                            href="/{$file}"
+                            href="{$config:appUrl}/{$file}"
                             download="{$file}"
                             class="btn btn-primary"><i
                                 class="fa fa-download"
@@ -653,10 +653,10 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                             class="label label-warning confirmationwarning">DO THIS!</span><br/>
                         <b>synchronize to GitHub through commit/pull request/merge</b>.</p>
                     <a
-                        href="/newentry.html?collection={$collection}">create another entry</a>
+                        href="{$config:appUrl}/newentry.html?collection={$collection}">create another entry</a>
                 </div>
                 </div>
-                
+
                 <script
                     type="text/javascript"
                     src="resources/js/confirmonleave.js"/>
@@ -664,17 +664,17 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
         </html>}
         catch * {
         <html>
-            
+
             <head>
                 <link
                     rel="shortcut icon"
-                    href="resources/images/favicon.ico"/>
+                    href="{$config:appUrl}/resources/images/favicon.ico"/>
                 <meta
                     name="viewport"
                     content="width=device-width, initial-scale=1.0"/>
                 <link
                     rel="shortcut icon"
-                    href="resources/images/minilogo.ico"/>
+                    href="{$config:appUrl}/resources/images/minilogo.ico"/>
                 <link
                     rel="stylesheet"
                     type="text/css"
@@ -685,7 +685,7 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                 <link
                     rel="stylesheet"
                     type="text/css"
-                    href="resources/css/style.css"/>
+                    href="{$config:appUrl}/resources/css/style.css"/>
                 <script
                     xmlns=""
                     type="text/javascript"
@@ -704,7 +704,7 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
                 <script
                     type="text/javascript"
                     src="$shared/resources/scripts/bootstrap-3.0.3.min.js"></script>
-                
+
                 <title>Save Confirmation</title>
             </head>
             <body>
@@ -721,7 +721,7 @@ type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"'
             send it to us;
     </a>.</p>
                     <a
-                        href="/newentry.html?collection={$collection}">create another entry</a>
+                        href="{$config:appUrl}/newentry.html?collection={$collection}">create another entry</a>
                 </div>
                 </div>
             </body>

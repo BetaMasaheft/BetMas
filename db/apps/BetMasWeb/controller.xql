@@ -15,6 +15,7 @@ declare variable $exist:resource external;
 declare variable $exist:controller external;
 declare variable $exist:prefix external;
 declare variable $exist:root external;
+
 declare variable $domain := "org.exist.login";
 declare variable $taxonomy := doc('/db/apps/lists/canonicaltaxonomy.xml')//t:category/@xml:id;
 (:  get what Nginx sends:)
@@ -27,7 +28,7 @@ declare function local:get-uri() {
 declare variable $login :=
     let $tryImport :=
         try {
-            util:import-module(xs:anyURI("http://exist-db.org/xquery/login"), 
+            util:import-module(xs:anyURI("http://exist-db.org/xquery/login"),
             "login", xs:anyURI("resource:org/exist/xquery/modules/persistentlogin/login.xql")),
             true()
         } catch * {
@@ -36,7 +37,7 @@ declare variable $login :=
     return
         if ($tryImport) then
             function-lookup(xs:QName("login:set-user"), 3)
-           
+
         else
             local:fallback-login#3
 ;:)
@@ -83,7 +84,7 @@ declare function local:user-allowed() {
 };
 
 declare function local:switchCol($type) {
-    
+
     switch ($type)
         case 'work'
             return
@@ -148,32 +149,31 @@ if ($exist:path eq '') then
         <redirect
             url="{local:get-uri()}/"/>
     </dispatch>
-     else   
+     else
    if (starts-with($exist:path, "/CAe")) then
                                                         <dispatch
                                                             xmlns="http://exist.sourceforge.net/NS/exist">
                                                             <redirect
                                                                 url="/newSearch.html?searchType=clavis&amp;clavistype=&amp;query={substring-after($exist:path, '/CAe')}"
                                                                 absolute="yes"/>
-                                                        </dispatch>   
-                                                        
+                                                        </dispatch>
     (:ALL REQUESTS CHECK THAT USER IS IN ADMIN GROUP:)
-    
+
     (: Resource paths starting with $shared are loaded from the shared-resources app :)
 else
     if (contains($exist:path, "/$shared/")) then
         <dispatch
             xmlns="http://exist.sourceforge.net/NS/exist">
             <forward
-                url="/shared-resources/{substring-after($exist:path, '/$shared/')}"/>
+                url="{$config:appUrl}/shared-resources/{substring-after($exist:path, '/$shared/')}"/>
         </dispatch>
-    
+
     else
         if (starts-with($exist:path, "/openapi/")) then
             <dispatch
                 xmlns="http://exist.sourceforge.net/NS/exist">
                 <forward
-                    url="/openapi/{$exist:path => substring-after("/openapi/") => replace("json", "xq")}"
+                    url="{$config:appUrl}/openapi/{$exist:path => substring-after("/openapi/") => replace("json", "xq")}"
                     method="get">
                     <add-parameter
                         name="target"
@@ -183,7 +183,7 @@ else
                         value="false"/>
                 </forward>
             </dispatch>
-            
+
             (: Requests for javascript libraries are resolved to the file system :)
         else
             if (contains($exist:path, "resources/") and not(contains($exist:path, "api/"))) then
@@ -200,7 +200,7 @@ else
                         <forward
                             url="{$exist:controller}/vocabularies/{substring-after($exist:path, 'vocabularies/')}"/>
                     </dispatch>
-                    
+
                     (: Requests for javascript libraries are resolved to the file system :)
                 else
                     if (contains($exist:path, "build/mirador")) then
@@ -214,9 +214,9 @@ else
                         if (ends-with($exist:resource, ".xql")) then
                             <dispatch
                                 xmlns="http://exist.sourceforge.net/NS/exist">
-                            
+
                             </dispatch>
-                            
+
                             (:              special redirect for institutions to redirect to list and bypass standard main view:)
                         else
                             if (ends-with($exist:resource, ".pdf")) then
@@ -247,7 +247,7 @@ else
                                     <dispatch
                                         xmlns="http://exist.sourceforge.net/NS/exist">
                                         <redirect
-                                            url="/simpleSearch.html"
+                                            url="{$config:appUrl}/simpleSearch.html"
                                             absolute="yes"/>
                                     </dispatch>
                                     (:                                        another backward compatibility redirect:)
@@ -259,16 +259,16 @@ else
                                             <dispatch
                                                 xmlns="http://exist.sourceforge.net/NS/exist">
                                                 <redirect
-                                                    url="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=mss&amp;reporef={$insid}"
+                                                    url="{$config:appUrl}/newSearch.html?searchType=text&amp;mode=any&amp;work-types=mss&amp;reporef={$insid}"
                                                     absolute="yes"/>
                                             </dispatch>
-                                    
+
                                     else
                                         if ($exist:path = '/manuscripts/place/list') then
                                             <dispatch
                                                 xmlns="http://exist.sourceforge.net/NS/exist">
                                                 <redirect
-                                                    url="/newSearch.html?searchType=placeSearch&amp;mode=any&amp;query={request:get-parameter('place', ())}"
+                                                    url="{$config:appUrl}/newSearch.html?searchType=placeSearch&amp;mode=any&amp;query={request:get-parameter('place', ())}"
                                                     absolute="yes"/>
                                             </dispatch>
                                         else
@@ -276,7 +276,7 @@ else
                                                 <dispatch
                                                     xmlns="http://exist.sourceforge.net/NS/exist">
                                                     <redirect
-                                                        url="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=mss"
+                                                        url="{$config:appUrl}/newSearch.html?searchType=text&amp;mode=any&amp;work-types=mss"
                                                         absolute="yes"/>
                                                 </dispatch>
                                             else
@@ -284,7 +284,7 @@ else
                                                     <dispatch
                                                         xmlns="http://exist.sourceforge.net/NS/exist">
                                                         <redirect
-                                                            url="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=pers"
+                                                            url="{$config:appUrl}/newSearch.html?searchType=text&amp;mode=any&amp;work-types=pers"
                                                             absolute="yes"/>
                                                     </dispatch>
                                                     else
@@ -292,7 +292,7 @@ else
                                                     <dispatch
                                                         xmlns="http://exist.sourceforge.net/NS/exist">
                                                         <redirect
-                                                            url="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=ins"
+                                                            url="{$config:appUrl}/newSearch.html?searchType=text&amp;mode=any&amp;work-types=ins"
                                                             absolute="yes"/>
                                                     </dispatch>
                                                 else
@@ -300,7 +300,7 @@ else
                                                         <dispatch
                                                             xmlns="http://exist.sourceforge.net/NS/exist">
                                                             <redirect
-                                                                url="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=eth"
+                                                                url="{$config:appUrl}/newSearch.html?searchType=text&amp;mode=any&amp;work-types=eth"
                                                                 absolute="yes"/>
                                                         </dispatch>
                                                     else
@@ -308,7 +308,7 @@ else
                                                             <dispatch
                                                                 xmlns="http://exist.sourceforge.net/NS/exist">
                                                                 <redirect
-                                                                    url="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=place&amp;work-types=ins"
+                                                                    url="{$config:appUrl}/newSearch.html?searchType=text&amp;mode=any&amp;work-types=place&amp;work-types=ins"
                                                                     absolute="yes"/>
                                                             </dispatch>
                                                         else
@@ -316,7 +316,7 @@ else
                                                                 <dispatch
                                                                     xmlns="http://exist.sourceforge.net/NS/exist">
                                                                     <redirect
-                                                                        url="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=ins"
+                                                                        url="{$config:appUrl}/newSearch.html?searchType=text&amp;mode=any&amp;work-types=ins"
                                                                         absolute="yes"/>
                                                                 </dispatch>
                                                             else
@@ -324,7 +324,7 @@ else
                                                                     <dispatch
                                                                         xmlns="http://exist.sourceforge.net/NS/exist">
                                                                         <redirect
-                                                                            url="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=nar"
+                                                                            url="{$config:appUrl}/newSearch.html?searchType=text&amp;mode=any&amp;work-types=nar"
                                                                             absolute="yes"/>
                                                                     </dispatch>
                                                                 else
@@ -332,7 +332,7 @@ else
                                                                         <dispatch
                                                                             xmlns="http://exist.sourceforge.net/NS/exist">
                                                                             <redirect
-                                                                                url="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=work"
+                                                                                url="{$config:appUrl}/newSearch.html?searchType=text&amp;mode=any&amp;work-types=work"
                                                                                 absolute="yes"/>
                                                                         </dispatch>
                                                                     else
@@ -340,7 +340,7 @@ else
                                                                             <dispatch
                                                                                 xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                 <redirect
-                                                                                    url="/newSearch.html?searchType=text&amp;mode=any&amp;work-types=studies"
+                                                                                    url="{$config:appUrl}/newSearch.html?searchType=text&amp;mode=any&amp;work-types=studies"
                                                                                     absolute="yes"/>
                                                                             </dispatch>
                                                                             (:                            redirect /institutions/INSid/main to /newSearch?type=mss&amp;reporef=INSid ?? :)
@@ -351,10 +351,10 @@ else
                                         <dispatch
                                             xmlns="http://exist.sourceforge.net/NS/exist">
                                             <redirect
-                                                url="/newSearch?type=mss&amp;reporef={$insid}"
+                                                url="{$config:appUrl}/newSearch?type=mss&amp;reporef={$insid}"
                                                 absolute="yes"/>
                                         </dispatch>:)
-                                                                            
+
                                                                             (:            redirect to api all calls starting with /api/ ending with one of the specific rest modules:)
                                                                         else
                                                                             if (contains($exist:path, 'morpho')) then
@@ -373,12 +373,12 @@ else
                                                                                     </dispatch>
                                                                             else
                                                                                 if (contains($exist:path, '/permanent/')) then
-                                                                                    
+
                                                                                     if (ends-with($exist:path, "/")) then
                                                                                         <dispatch
                                                                                             xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                             <redirect
-                                                                                                url="/apidoc.html"/>
+                                                                                                url="{$config:appUrl}/apidoc.html"/>
                                                                                         </dispatch>
                                                                                     else
                                                                                         <dispatch
@@ -429,12 +429,12 @@ else
                                                                                         starts-with($exist:path, '/workmap') or
                                                                                         starts-with($exist:path, '/litcomp') or
                                                                                         starts-with($exist:path, '/gender')) then
-                                                                                            
+
                                                                                             if (ends-with($exist:path, "/")) then
                                                                                                 <dispatch
                                                                                                     xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                                     <redirect
-                                                                                                        url="/apidoc.html"/>
+                                                                                                        url="{$config:appUrl}/apidoc.html"/>
                                                                                                 </dispatch>
                                                                                             else
                                                                                                 <dispatch
@@ -450,12 +450,12 @@ else
                                                                                                 </dispatch>
                                                                                         else
                                                                                             if (contains($exist:path, '/api/')) then
-                                                                                                
+
                                                                                                 if (ends-with($exist:path, "/")) then
                                                                                                     <dispatch
                                                                                                         xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                                         <redirect
-                                                                                                            url="/apidoc.html"/>
+                                                                                                            url="{$config:appUrl}/apidoc.html"/>
                                                                                                     </dispatch>
                                                                                                 else
                                                                                                     <dispatch
@@ -469,39 +469,39 @@ else
                                                                                                                 value="no-cache"/>
                                                                                                         </forward>
                                                                                                     </dispatch>
-                                                                                                    
+
                                                                                                     (:    redirects to api for geoJson:)
                                                                                             else
                                                                                                 if (ends-with($exist:path, ".json")) then
                                                                                                     <dispatch
                                                                                                         xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                                         <forward
-                                                                                                            url="/restxq/api/geoJson/places/{substring-before($exist:resource, '.json')}"
+                                                                                                            url="{$config:appUrl}/restxq/api/geoJson/places/{substring-before($exist:resource, '.json')}"
                                                                                                             absolute="yes"
                                                                                                         >
-                                                                                                        
+
                                                                                                         </forward>
-                                                                                                    
+
                                                                                                     </dispatch>
-                                                                                                    
+
                                                                                                     (:        tei tranformed        :)
                                                                                                 else
                                                                                                     if (starts-with($exist:path, '/tei/') and ends-with($exist:path, ".xml")) then
-                                                                                                        
+
                                                                                                         let $id := substring-before($exist:resource, '.xml')
                                                                                                         let $item := collection($config:data-root)/id($id)[name() = 'TEI']
                                                                                                         let $collection := local:switchCol($item/@type)
-                                                                                                        
+
                                                                                                         return
                                                                                                             if ($item) then
                                                                                                                 <dispatch
                                                                                                                     xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                                                     <forward
-                                                                                                                        url="/{$id}.xml"
+                                                                                                                        url="{$config:appUrl}/{$id}.xml"
                                                                                                                         absolute="yes"/>
                                                                                                                 </dispatch>
                                                                                                             else
-                                                                                                                
+
                                                                                                                 let $Imap := map {
                                                                                                                     'type': 'xmlitem',
                                                                                                                     'name': $id,
@@ -509,12 +509,12 @@ else
                                                                                                                 }
                                                                                                                 return
                                                                                                                     error:error($Imap)
-                                                                                                                    
+
                                                                                                                     (:  the xml stored in the db   :)
                                                                                                     else
                                                                                                         if (ends-with($exist:path, ".xml")) then
-                                                                                                            
-                                                                                                            let $id := substring-before($exist:resource, '.xml')
+																																																						(: Extract the ID part from the URL :)
+                                                                                                            let $id := $exist:resource => substring-before('.xml')
                                                                                                             let $item := collection($config:data-root)/id($id)[name() = 'TEI']
                                                                                                             let $collection := local:switchCol($item/@type)
                                                                                                             let $uri := base-uri($item)
@@ -530,13 +530,13 @@ else
                                                                                                                                 method="get"/>
                                                                                                                             <forward
                                                                                                                                 url="{$exist:controller}/modules/view.xql"/>
-                                                                                                                        
+
                                                                                                                         </error-handler>
                                                                                                                     </dispatch>
-                                                                                                                
-                                                                                                                
+
+
                                                                                                                 else
-                                                                                                                    
+
                                                                                                                     let $Imap := map {
                                                                                                                         'type': 'xmlitem',
                                                                                                                         'name': $id,
@@ -544,7 +544,7 @@ else
                                                                                                                     }
                                                                                                                     return
                                                                                                                         error:error($Imap)
-                                                                                                                        
+
                                                                                                                         (:RDF data as transformed on upload:)
                                                                                                         else
                                                                                                             if (ends-with($exist:path, ".rdf")) then
@@ -557,20 +557,20 @@ else
                                                                                                                         <dispatch
                                                                                                                             xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                                                             <forward
-                                                                                                                                url="/rdf/{$exist:resource}"/>
+                                                                                                                                url="{$config:appUrl}/rdf/{$exist:resource}"/>
                                                                                                                             <error-handler>
                                                                                                                                 <forward
                                                                                                                                     url="{$exist:controller}/error/error-page.html"
                                                                                                                                     method="get"/>
                                                                                                                                 <forward
                                                                                                                                     url="{$exist:controller}/modules/view.xql"/>
-                                                                                                                            
+
                                                                                                                             </error-handler>
                                                                                                                         </dispatch>
-                                                                                                                    
-                                                                                                                    
+
+
                                                                                                                     else
-                                                                                                                        
+
                                                                                                                         let $Imap := map {
                                                                                                                             'type': 'xmlitem',
                                                                                                                             'name': $id,
@@ -578,12 +578,12 @@ else
                                                                                                                         }
                                                                                                                         return
                                                                                                                             error:error($Imap)
-                                                                                                                            
-                                                                                                                            
+
+
                                                                                                                             (:                    ALSO INTERNAL CALLS of XSLT ARE THUS PROCESSED!:)
                                                                                                             else
                                                                                                                 if (starts-with($exist:path, "/")) then
-                                                                                                                    
+
                                                                                                                     if ($exist:path eq "/") then
                                                                                                                         <dispatch
                                                                                                                             xmlns="http://exist.sourceforge.net/NS/exist">
@@ -608,10 +608,10 @@ else
                                                                                                                                     method="get"/>
                                                                                                                                 <forward
                                                                                                                                     url="{$exist:controller}/modules/view.xql"/>
-                                                                                                                            
+
                                                                                                                             </error-handler>
                                                                                                                         </dispatch>
-                                                                                                                        
+
                                                                                                                         (:                                        redirects uris of subpart URI like
 https://betamasaheft.eu/BDLaethe8/addition/a1
 to the actual homepage with a # to their id
@@ -656,18 +656,18 @@ function apisparql:constructURIsubid() is called to construct a graph of that re
                                                                                                                                                 name="Cache-Control"
                                                                                                                                                 value="no-cache"/>
                                                                                                                                         </forward>
-                                                                                                                                    
-                                                                                                                                    
+
+
                                                                                                                                     </dispatch>
                                                                                                                                 else
                                                                                                                                     <dispatch
                                                                                                                                         xmlns="http://exist.sourceforge.net/NS/exist">
-                                                                                                                                        
+
                                                                                                                                         <redirect
-                                                                                                                                            url="/{$switchCollection}/{$tokenizePath[2]}/main#{$tokenizePath[last()]}"/>
-                                                                                                                                    
+                                                                                                                                            url="{$config:appUrl}/{$switchCollection}/{$tokenizePath[2]}/main#{$tokenizePath[last()]}"/>
+
                                                                                                                                     </dispatch>
-                                                                                                                                    
+
                                                                                                                                     (:                  annotations                                  :)
                                                                                                                                     (:https://betamasaheft.eu/BNFet32/person/annotation/95
 https://betamasaheft.eu/BNFet32/place/annotation/1
@@ -692,22 +692,22 @@ construct the annotation graph if application/rdf+xml is specified
                                                                                                                                                     name="Cache-Control"
                                                                                                                                                     value="no-cache"/>
                                                                                                                                             </forward>
-                                                                                                                                        
-                                                                                                                                        
+
+
                                                                                                                                         </dispatch>
                                                                                                                                     else
                                                                                                                                         <dispatch
                                                                                                                                             xmlns="http://exist.sourceforge.net/NS/exist">
-                                                                                                                                            
+
                                                                                                                                             <redirect
-                                                                                                                                                url="/{$tokenizePath[2]}"/>
-                                                                                                                                        
+                                                                                                                                                url="{$config:appUrl}/{$tokenizePath[2]}"/>
+
                                                                                                                                         </dispatch>
-                                                                                                                                        
-                                                                                                                                        
-                                                                                                                                        
+
+
+
                                                                                                                                         (:https://betamasaheft.eu/bond/snap:GrandfatherOf-PRS1854Amdase:)
-                                                                                                                            
+
                                                                                                                             else
                                                                                                                                 if (starts-with($exist:path, "/bond/")) then
                                                                                                                                     let $tokenizePath := tokenize($exist:path, '/')
@@ -725,25 +725,25 @@ construct the annotation graph if application/rdf+xml is specified
                                                                                                                                                         name="Cache-Control"
                                                                                                                                                         value="no-cache"/>
                                                                                                                                                 </forward>
-                                                                                                                                            
-                                                                                                                                            
+
+
                                                                                                                                             </dispatch>
                                                                                                                                         else
                                                                                                                                             <dispatch
                                                                                                                                                 xmlns="http://exist.sourceforge.net/NS/exist">
-                                                                                                                                                
+
                                                                                                                                                 <redirect
-                                                                                                                                                    url="/{$tokenizeBond[2]}"/>
-                                                                                                                                            
+                                                                                                                                                    url="{$config:appUrl}/{$tokenizeBond[2]}"/>
+
                                                                                                                                             </dispatch>
-                                                                                                                                            
-                                                                                                                                            (: 
+
+                                                                                                                                            (:
 allow understandable simple syntax for resolving
 LIT1234name#anchor => LIT1234name&ref=anchor
 LIT1234name.n1.n2.n3 => LIT1234name&ref=n1.n2.n3
 LIT1234name.n1-n4 =>LIT1234name&start=n1&end=n4
 
-if the resource match an id of a work or a 
+if the resource match an id of a work or a
 manuscript followed by a passage reference, then go to the text view of that
  : http://betamasaheft.eu/LIT1340EnochE.1.3
  : LIT1340EnochE.1.3-2.5
@@ -781,17 +781,17 @@ manuscript followed by a passage reference, then go to the text view of that
                                                                                                                                             '?ref=' || $passage
                                                                                                                                         let $edition := '&amp;edition=' || $ed
                                                                                                                                         let $parms := ($reforrange || $edition)
-                                                                                                                                        
+
                                                                                                                                         return
                                                                                                                                             <dispatch
                                                                                                                                                 xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                                                                                 <redirect
-                                                                                                                                                    url="/{$switchCollection}/{$id}/text{$parms}"/>
+                                                                                                                                                    url="{$config:appUrl}/{$switchCollection}/{$id}/text{$parms}"/>
                                                                                                                                             </dispatch>
-                                                                                                                                            
-                                                                                                                                            
+
+
                                                                                                                                             (: if the resource does match the id, then redirect to main view of that item:)
-                                                                                                                                    
+
                                                                                                                                     else
                                                                                                                                         if (matches($exist:resource, "^\w+\d+(\w+)?$")) then
                                                                                                                                             let $prefix := substring($exist:resource, 1, 2)
@@ -831,12 +831,12 @@ https://betamasaheft.eu/manuscript/BNFet32/main
                                                                                                                                                         <dispatch
                                                                                                                                                             xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                                                                                             <redirect
-                                                                                                                                                                url="/{$switchCollection}/{$exist:resource}/main"/>
+                                                                                                                                                                url="{$config:appUrl}/{$switchCollection}/{$exist:resource}/main"/>
                                                                                                                                                         </dispatch>
-                                                                                                                                        
+
                                                                                                                                         else
                                                                                                                                             if (ends-with($exist:resource, ".html")) then
-                                                                                                                                                
+
                                                                                                                                                 <dispatch
                                                                                                                                                     xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                                                                                     <forward
@@ -848,7 +848,7 @@ https://betamasaheft.eu/manuscript/BNFet32/main
                                                                                                                                                         <set-header
                                                                                                                                                             name="Cache-Control"
                                                                                                                                                             value="no-cache"/>
-                                                                                                                                                    
+
                                                                                                                                                     </view>
                                                                                                                                                     <error-handler>
                                                                                                                                                         <forward
@@ -858,8 +858,8 @@ https://betamasaheft.eu/manuscript/BNFet32/main
                                                                                                                                                             url="{$exist:controller}/modules/view.xql"/>
                                                                                                                                                     </error-handler>
                                                                                                                                                 </dispatch>
-                                                                                                                                                
-                                                                                                                                                
+
+
                                                                                                                                                 (:                             if the url resource does not contain numbers, and thus is not the id of any resource, beside authority files:)
                                                                                                                                                 (:                                            content negotiation,
 requiring the ID
@@ -880,7 +880,7 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                                         then
                                                                                                                                                             <dispatch
                                                                                                                                                                 xmlns="http://exist.sourceforge.net/NS/exist">
-                                                                                                                                                                
+
                                                                                                                                                                 <forward
                                                                                                                                                                     url="{concat('/restxq/BetMasWeb/', $exist:resource, '/rdf')}"
                                                                                                                                                                     absolute="yes">
@@ -889,20 +889,20 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                                                         name="Cache-Control"
                                                                                                                                                                         value="no-cache"/>
                                                                                                                                                                 </forward>
-                                                                                                                                                            
-                                                                                                                                                            
+
+
                                                                                                                                                             </dispatch>
                                                                                                                                                         else
                                                                                                                                                             <dispatch
                                                                                                                                                                 xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                                                                                                 <redirect
-                                                                                                                                                                    url="/authority-files/{$exist:resource}/main"/>
+                                                                                                                                                                    url="{$config:appUrl}/authority-files/{$exist:resource}/main"/>
                                                                                                                                                             </dispatch>
-                                                                                                                                                    
+
                                                                                                                                                     else
-                                                                                                                                                        
+
                                                                                                                                                         (:                                            if it is a special page then go there :)
-                                                                                                                                                        
+
                                                                                                                                                         if (starts-with($exist:path, "/decorations")) then
                                                                                                                                                             <dispatch
                                                                                                                                                                 xmlns="http://exist.sourceforge.net/NS/exist">
@@ -917,9 +917,9 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                                                     <forward
                                                                                                                                                                         url="{$exist:controller}/modules/view.xql">
                                                                                                                                                                     </forward>
-                                                                                                                                                                
+
                                                                                                                                                                 </view>
-                                                                                                                                                                
+
                                                                                                                                                                 <error-handler>
                                                                                                                                                                     <forward
                                                                                                                                                                         url="{$exist:controller}/error/error-page.html"
@@ -943,9 +943,9 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                                                         <forward
                                                                                                                                                                             url="{$exist:controller}/modules/view.xql">
                                                                                                                                                                         </forward>
-                                                                                                                                                                    
+
                                                                                                                                                                     </view>
-                                                                                                                                                                    
+
                                                                                                                                                                     <error-handler>
                                                                                                                                                                         <forward
                                                                                                                                                                             url="{$exist:controller}/error/error-page.html"
@@ -969,9 +969,9 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                                                         <forward
                                                                                                                                                                             url="{$exist:controller}/modules/view.xql">
                                                                                                                                                                         </forward>
-                                                                                                                                                                    
+
                                                                                                                                                                     </view>
-                                                                                                                                                                    
+
                                                                                                                                                                     <error-handler>
                                                                                                                                                                         <forward
                                                                                                                                                                             url="{$exist:controller}/error/error-page.html"
@@ -995,9 +995,9 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                                                             <forward
                                                                                                                                                                                 url="{$exist:controller}/modules/view.xql">
                                                                                                                                                                             </forward>
-                                                                                                                                                                        
+
                                                                                                                                                                         </view>
-                                                                                                                                                                        
+
                                                                                                                                                                         <error-handler>
                                                                                                                                                                             <forward
                                                                                                                                                                                 url="{$exist:controller}/error/error-page.html"
@@ -1006,8 +1006,8 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                                                                 url="{$exist:controller}/modules/view.xql"/>
                                                                                                                                                                         </error-handler>
                                                                                                                                                                     </dispatch>
-                                                                                                                                                                
-                                                                                                                                                                
+
+
                                                                                                                                                                 else
                                                                                                                                                                     if (starts-with($exist:path, "/bindings")) then
                                                                                                                                                                         <dispatch
@@ -1023,9 +1023,9 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                                                                 <forward
                                                                                                                                                                                     url="{$exist:controller}/modules/view.xql">
                                                                                                                                                                                 </forward>
-                                                                                                                                                                            
+
                                                                                                                                                                             </view>
-                                                                                                                                                                            
+
                                                                                                                                                                             <error-handler>
                                                                                                                                                                                 <forward
                                                                                                                                                                                     url="{$exist:controller}/error/error-page.html"
@@ -1034,7 +1034,7 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                                                                     url="{$exist:controller}/modules/view.xql"/>
                                                                                                                                                                             </error-handler>
                                                                                                                                                                         </dispatch>
-                                                                                                                                                                    
+
                                                                                                                                                                     else
                                                                                                                                                                         if (starts-with($exist:path, "/xpath")) then
                                                                                                                                                                             <dispatch
@@ -1050,9 +1050,9 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                                                                     <forward
                                                                                                                                                                                         url="{$exist:controller}/modules/view.xql">
                                                                                                                                                                                     </forward>
-                                                                                                                                                                                
+
                                                                                                                                                                                 </view>
-                                                                                                                                                                                
+
                                                                                                                                                                                 <error-handler>
                                                                                                                                                                                     <forward
                                                                                                                                                                                         url="{$exist:controller}/error/error-page.html"
@@ -1061,7 +1061,7 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                                                                         url="{$exist:controller}/modules/view.xql"/>
                                                                                                                                                                                 </error-handler>
                                                                                                                                                                             </dispatch>
-                                                                                                                                                                        
+
                                                                                                                                                                         else
                                                                                                                                                                             if (starts-with($exist:path, "/sparql")) then
                                                                                                                                                                                 <dispatch
@@ -1077,9 +1077,9 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                                                                         <forward
                                                                                                                                                                                             url="{$exist:controller}/modules/view.xql">
                                                                                                                                                                                         </forward>
-                                                                                                                                                                                    
+
                                                                                                                                                                                     </view>
-                                                                                                                                                                                    
+
                                                                                                                                                                                     <error-handler>
                                                                                                                                                                                         <forward
                                                                                                                                                                                             url="{$exist:controller}/error/error-page.html"
@@ -1088,7 +1088,7 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                                                                             url="{$exist:controller}/modules/view.xql"/>
                                                                                                                                                                                     </error-handler>
                                                                                                                                                                                 </dispatch>
-                                                                                                                                                                            
+
                                                                                                                                                                             else
                                                                                                                                                                                 if (starts-with($exist:path, "/bibliography")) then
                                                                                                                                                                                     <dispatch
@@ -1101,9 +1101,9 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                                                                             <forward
                                                                                                                                                                                                 url="{$exist:controller}/modules/view.xql">
                                                                                                                                                                                             </forward>
-                                                                                                                                                                                        
+
                                                                                                                                                                                         </view>
-                                                                                                                                                                                        
+
                                                                                                                                                                                         <error-handler>
                                                                                                                                                                                             <forward
                                                                                                                                                                                                 url="{$exist:controller}/error/error-page.html"
@@ -1112,8 +1112,8 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                                                                                 url="{$exist:controller}/modules/view.xql"/>
                                                                                                                                                                                         </error-handler>
                                                                                                                                                                                     </dispatch>
-                                                                                                                                                                                
-                                                                                                                                                                                
+
+
                                                                                                                                                                                 else
                                                                                                                                                                                     if (starts-with($exist:path, "/additions")) then
                                                                                                                                                                                         <dispatch
@@ -1126,9 +1126,9 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                                                                                 <forward
                                                                                                                                                                                                     url="{$exist:controller}/modules/view.xql">
                                                                                                                                                                                                 </forward>
-                                                                                                                                                                                            
+
                                                                                                                                                                                             </view>
-                                                                                                                                                                                            
+
                                                                                                                                                                                             <error-handler>
                                                                                                                                                                                                 <forward
                                                                                                                                                                                                     url="{$exist:controller}/error/error-page.html"
@@ -1137,7 +1137,7 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                                                                                     url="{$exist:controller}/modules/view.xql"/>
                                                                                                                                                                                             </error-handler>
                                                                                                                                                                                         </dispatch>
-                                                                                                                                                                                    
+
                                                                                                                                                                                     else
                                                                                                                                                                                         if (starts-with($exist:path, "/IndexPlaces")) then
                                                                                                                                                                                             <dispatch
@@ -1150,9 +1150,9 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                                                                                     <forward
                                                                                                                                                                                                         url="{$exist:controller}/modules/view.xql">
                                                                                                                                                                                                     </forward>
-                                                                                                                                                                                                
+
                                                                                                                                                                                                 </view>
-                                                                                                                                                                                                
+
                                                                                                                                                                                                 <error-handler>
                                                                                                                                                                                                     <forward
                                                                                                                                                                                                         url="{$exist:controller}/error/error-page.html"
@@ -1161,7 +1161,7 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                                                                                         url="{$exist:controller}/modules/view.xql"/>
                                                                                                                                                                                                 </error-handler>
                                                                                                                                                                                             </dispatch>
-                                                                                                                                                                                        
+
                                                                                                                                                                                         else
                                                                                                                                                                                             if (starts-with($exist:path, "/IndexPersons")) then
                                                                                                                                                                                                 <dispatch
@@ -1174,9 +1174,9 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                                                                                         <forward
                                                                                                                                                                                                             url="{$exist:controller}/modules/view.xql">
                                                                                                                                                                                                         </forward>
-                                                                                                                                                                                                    
+
                                                                                                                                                                                                     </view>
-                                                                                                                                                                                                    
+
                                                                                                                                                                                                     <error-handler>
                                                                                                                                                                                                         <forward
                                                                                                                                                                                                             url="{$exist:controller}/error/error-page.html"
@@ -1185,7 +1185,7 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                                                                                             url="{$exist:controller}/modules/view.xql"/>
                                                                                                                                                                                                     </error-handler>
                                                                                                                                                                                                 </dispatch>
-                                                                                                                                                                                            
+
                                                                                                                                                                                             else
                                                                                                                                                                                                 if ($exist:path eq '/manuscripts/' or
                                                                                                                                                                                                 $exist:path eq '/works/' or
@@ -1195,7 +1195,7 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                                                                                 $exist:path eq '/persons/' or
                                                                                                                                                                                                 $exist:path eq '/institutions/'
                                                                                                                                                                                                 ) then
-                                                                                                                                                                                                    
+
                                                                                                                                                                                                     <dispatch
                                                                                                                                                                                                         xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                                                                                                                                         <redirect
@@ -1211,14 +1211,14 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                                                                                     $exist:path eq '/persons' or
                                                                                                                                                                                                     $exist:path eq '/institutions'
                                                                                                                                                                                                     ) then
-                                                                                                                                                                                                        
+
                                                                                                                                                                                                         <dispatch
                                                                                                                                                                                                             xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                                                                                                                                             <redirect
                                                                                                                                                                                                                 url="{$exist:path}/list"/>
-                                                                                                                                                                                                        
+
                                                                                                                                                                                                         </dispatch>
-                                                                                                                                                                                                    
+
                                                                                                                                                                                                     else
                                                                                                                                                                                                   (:  let $c := console:log($exist:resource)
                                                                                                                                                                                                    let $c2 := console:log($taxonomy)
@@ -1227,11 +1227,11 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                                                                                             <dispatch
                                                                                                                                                                                                                 xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                                                                                                                                                 <redirect
-                                                                                                                                                                                                                    url="/authority-files/{$exist:resource}/main"/>
+                                                                                                                                                                                                                    url="{$config:appUrl}/authority-files/{$exist:resource}/main"/>
                                                                                                                                                                                                             </dispatch>
-                                                                                                                                                                                                        
+
                                                                                                                                                                                                         else
-                                                                                                                                                                                                            
+
                                                                                                                                                                                                             <dispatch
                                                                                                                                                                                                                 xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                                                                                                                                                 <forward
@@ -1242,7 +1242,7 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                                                                                                 </view>
                                                                                                                                                                                                             </dispatch>
                                                                                                                                                 else
-                                                                                                                                                    
+
                                                                                                                                                     <dispatch
                                                                                                                                                         xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                                                                                         <error-handler>
@@ -1253,13 +1253,12 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                                                 url="{$exist:controller}/modules/view.xql"/>
                                                                                                                                                         </error-handler>
                                                                                                                                                     </dispatch>
-                                                                                                                
+
                                                                                                                 else
                                                                                                                     (: everything else is passed through :)
                                                                                                                     <dispatch
                                                                                                                         xmlns="http://exist.sourceforge.net/NS/exist">
-                                                                                                                        
+
                                                                                                                         <cache-control
                                                                                                                             cache="yes"/>
                                                                                                                     </dispatch>
-

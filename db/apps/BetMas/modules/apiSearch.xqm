@@ -94,7 +94,7 @@ let $hi :=  for $hit in $hits
                                 case 'mss' return 'manuscripts'
                                 case 'place' return 'places' 
                                 case 'work' return 'works' 
-                                case 'nar' return 'narratives' 
+                                case 'narr' return 'narratives' 
                                 case 'ins' return 'institutions' 
                                 case 'pers' return 'persons' 
                                 default return 'authority-files'
@@ -202,7 +202,7 @@ let $log := log:add-log-message('/api/search?q=' || $q, sm:id()//sm:real/sm:user
                 "[ancestor::t:TEI/@type eq 'ins']"
         case 'narratives'
             return
-                "[ancestor::t:TEI/@type eq 'nar']"
+                "[ancestor::t:TEI/@type eq 'narr']"
         case 'authority-files'
             return
                 "[ancestor::t:TEI/@type eq 'auth']"
