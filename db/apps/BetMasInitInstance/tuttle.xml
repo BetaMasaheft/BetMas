@@ -92,6 +92,39 @@
 			<token>XXX</token>
 			<callback name="expand-data" ns="https://www.betamasaheft.uni-hamburg.de/BetMas/do-tuttle-expand" location="/db/apps/BetMasService/modules/doTuttleExpand.xq"/>
 		</collection>
+
+		<collection name="guidelines">
+		  <!-- The guidelines app is the root of the guidelines. It holds the data, which is in a separate repo-->
+			<default>false</default>
+			<type>github</type>
+			<baseurl>https://api.github.com/</baseurl>
+			<owner>BetaMasaheft</owner>
+			<repo>guidelinesApp</repo>
+			<ref>feat-expath</ref>
+			<token>XXX</token>
+		</collection>
+
+	  	<collection name="guidelines/data">
+		  <!-- the guidelines data is from a different repo than the guidelines app -->
+			<default>false</default>
+			<type>github</type>
+			<baseurl>https://api.github.com/</baseurl>
+			<owner>BetaMasaheft</owner>
+			<repo>guidelines</repo>
+			<ref>master</ref>
+			<token>XXX</token>
+		</collection>
+
+  	  	<collection name="guidelines/schema">
+		  <!-- Finally, the schema is from a different repo -->
+			<default>false</default>
+			<type>github</type>
+			<baseurl>https://api.github.com/</baseurl>
+			<owner>BetaMasaheft</owner>
+			<repo>schema</repo>
+			<ref>master</ref>
+			<token>XXX</token>
+		</collection>
 	</repos>
 	<!-- these files will not be extracted from archives and left untouched when cleaning up -->
 	<ignore>
