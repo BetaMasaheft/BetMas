@@ -1,4 +1,42 @@
 
 .DS_Store
 
+# Build artifacts
 /db/apps/*/build/*
+
+# Ignore anything that's on the server but not in the mono repo
+
+# This is in the dillmann repo on github
+/db/apps/gez-en
+
+# This is in the dillmanndata repo on github
+/db/apps/DillmannData
+
+# This is in the rdfdata repo on github
+/db/rdf
+
+# This is in the Guidelines
+/db/apps/Guidelines
+
+# This is in the expanded data repo
+/db/apps/expanded
+
+# These are in the data repos
+/db/apps/BetMasData
+
+# These are dependencies
+/db/apps/dashboard
+/db/apps/doc
+/db/apps/eXide
+/db/apps/existdb-backup
+/db/apps/fundocs
+/db/apps/log
+/db/apps/monex
+/db/apps/packageservice
+/db/apps/shared-resources
+/db/apps/tracesData
+/db/apps/tuttle
+/db/apps/usermanager
+
+# Do not ever commit things in system. Not needed
+/db/system

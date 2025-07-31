@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<meta xmlns="http://exist-db.org/xquery/repo">
-    <description>Beta maṣāḥǝft: Add environment variables and secrets to the betmas instance</description>
-    <finish>finish.xq</finish>
-    <permissions user="BetaMasaheftAdmin" group="dba" mode="rw-rw-r--"/>
-	<target>BetMasWeb/init</target>
-</meta>
