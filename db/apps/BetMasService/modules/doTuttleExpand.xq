@@ -95,7 +95,7 @@ declare function tuttle-expand:expand-data ($collection-config as map(*), $chang
 					} catch e {
 						util:log(
 							"error",
-							"Saving the result of expansion " || $descriptor-in-expanded?basename || " || failed" || e
+							"Saving the result of expansion " || $descriptor-in-expanded?basename || " || failed"
 						),
 						e
 					}
