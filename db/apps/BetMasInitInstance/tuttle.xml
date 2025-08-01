@@ -93,17 +93,6 @@
 			<callback name="expand-data" ns="https://www.betamasaheft.uni-hamburg.de/BetMas/do-tuttle-expand" location="/db/apps/BetMasService/modules/doTuttleExpand.xq"/>
 		</collection>
 
-		<collection name="guidelines">
-		  <!-- The guidelines app is the root of the guidelines. It holds the data, which is in a separate repo-->
-			<default>false</default>
-			<type>github</type>
-			<baseurl>https://api.github.com/</baseurl>
-			<owner>BetaMasaheft</owner>
-			<repo>guidelinesApp</repo>
-			<ref>feat-expath</ref>
-			<token>XXX</token>
-		</collection>
-
 	  	<collection name="guidelines/data">
 		  <!-- the guidelines data is from a different repo than the guidelines app -->
 			<default>false</default>
@@ -113,6 +102,7 @@
 			<repo>guidelines</repo>
 			<ref>master</ref>
 			<token>XXX</token>
+			<!-- <callback name="reindex" ns="" location="xmldb:reindex('/db/apps/guidelines')"/> -->
 		</collection>
 
   	  	<collection name="guidelines/schema">
@@ -124,6 +114,19 @@
 			<repo>schema</repo>
 			<ref>master</ref>
 			<token>XXX</token>
+			<!-- <callback name="reindex" ns="" location="xmldb:reindex('/db/apps/guidelines')"/> -->
+		</collection>
+
+		<collection name="guidelines">
+		  <!-- The guidelines app is the root of the guidelines. It holds the data, which is in a separate repo-->
+			<default>false</default>
+			<type>github</type>
+			<baseurl>https://api.github.com/</baseurl>
+			<owner>BetaMasaheft</owner>
+			<repo>guidelinesApp</repo>
+			<ref>feat-expath</ref>
+			<token>XXX</token>
+			<!-- <callback name="reindex" ns="" location="/db/apps/guidelines/admin/reindex.xq"/> -->
 		</collection>
 	</repos>
 	<!-- these files will not be extracted from archives and left untouched when cleaning up -->
@@ -135,6 +138,14 @@
 		<file>expath-pkg.xml.tmpl</file>
 		<file>repo.xml.tmpl</file>
 		<file>build.properties.xml</file>
+		<file>Dockerfile</file>
+		<file>build.yml</file>
+		<file>validate_pr.yml</file>
+		<file>validate_push.yml</file>
+		<file>dependabot.yml</file>
+		<file>docker-compose.yml</file>
+		<file>.dockerignore.yml</file>
+		<file>local.nignx.conf</file>
 	</ignore>
 
 	<!-- prefix, suffix, lock and apikeys can usually be left as-is -->
