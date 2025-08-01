@@ -1,7 +1,7 @@
 # Migrate BetaMasaHeft to new server
 
 ## Loading data
-
+<!-- This is no longer true -->
 Most data is on GitHub, except expanded data, lists and Dillmann
 
 ### Loading application
@@ -28,12 +28,13 @@ Most data is on GitHub, except expanded data, lists and Dillmann
 	 * BetMasService
 	 * BetMasWeb
 	 * BetMasInit
-	 * DillmannData
 	 * EthioStudies
 	 * alpheiosannotations
-	 * gez-en
+	 * DillmannData
 	 * Dillmann
-	 * guidelines
+	 * Schema
+	 * guidelines (data)
+	 * guidelinesApp
 	 * lists
 	 * parser
 
