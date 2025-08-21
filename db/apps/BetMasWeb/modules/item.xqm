@@ -558,9 +558,9 @@ return
                         for $p in $isSubjectof
                     return
                         if (contains($p/@active, ' ')) then for $value in tokenize ($p/@active, ' ') return
-                        <li class="nodot"><a href="{$value}">{exptit:printTitleID(string($value))}</a></li>
+                        <li class="nodot"><a href="{$value}">{exptit:printTitle(string($value))}</a></li>
                         else
-                        <li  class="nodot"><a href="{$p/@active}">{exptit:printTitleID(string($p/@active))}</a></li>
+                        <li  class="nodot"><a href="{$p/@active}">{exptit:printTitle(string($p/@active))}</a></li>
                         }</ul></div> else ()
 
                 }
@@ -571,9 +571,9 @@ return
                         for $p in $isAuthorof
                     return
                         if (contains($p/@active, ' ')) then for $value in tokenize ($p/@active, ' ') return
-                        <li  class="nodot"><a href="{$value}">{exptit:printTitleID(string($value))}</a></li>
+                        <li  class="nodot"><a href="{$value}">{exptit:printTitle(string($value))}</a></li>
                         else
-                        <li  class="nodot"><a href="{$p/@active}">{exptit:printTitleID(string($p/@active))}</a></li>
+                        <li  class="nodot"><a href="{$p/@active}">{exptit:printTitle(string($p/@active))}</a></li>
                         }</ul></div> else ()
 
                 }
@@ -586,9 +586,9 @@ return
                         let $rel := if($p/@name eq  'bm:isSuccessorOf') then 'Predecessor: ' else 'Successor: '
                     return
                         if (contains($p/@passive, ' ')) then for $value in tokenize ($p/@passive, ' ') return
-                        <li  class="nodot">{$rel}<a href="{$value}">{exptit:printTitleID(string($value))}</a></li>
+                        <li  class="nodot">{$rel}<a href="{$value}">{exptit:printTitle(string($value))}</a></li>
                         else
-                        <li  class="nodot">{$rel}<a href="{$p/@passive}">{exptit:printTitleID(string($p/@passive))}</a></li>
+                        <li  class="nodot">{$rel}<a href="{$p/@passive}">{exptit:printTitle(string($p/@passive))}</a></li>
                         }</ul></div> else ()
 
                 }
@@ -662,9 +662,9 @@ return
                         for $p in $isSubjectof
                     return
                         if (contains($p/@active, ' ')) then for $value in tokenize ($p/@active, ' ') return
-                        <li  class="nodot"><a href="{$value}" >{exptit:printTitleID(string($value))}</a></li>
+                        <li  class="nodot"><a href="{$value}" >{exptit:printTitle(string($value))}</a></li>
                         else
-                        <li  class="nodot"><a href="{$p/@active}">{exptit:printTitleID(string($p/@active))}</a></li>
+                        <li  class="nodot"><a href="{$p/@active}">{exptit:printTitle(string($p/@active))}</a></li>
                         }</ul></div> else ()
 
                 }
@@ -674,7 +674,7 @@ return
                         for $p in $churchesAndMonasteries
                         let $root := string(root($p)/t:TEI/@xml:id)
                     return
-                        <li  class="nodot"><a href="{$root}">{exptit:printTitleID($root)}</a></li>
+                        <li  class="nodot"><a href="{$root}">{exptit:printTitle($root)}</a></li>
                         }</ul></div>
                 ) else ()
                 }
