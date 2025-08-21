@@ -269,7 +269,7 @@ declare function titles:persNameSelector($resource as node()){
     let $p := $resource//t:person
     let $pg := $resource//t:personGrp
 let $Maintitle := $p/t:persName[@type eq  'main']
-let $twonames:= $p/t:persName[t:forename or t:surname]
+let $twonames:= $p/t:persName[@xml:id eq  'n1'][t:forename or t:surname]
 let $namegez := $p/t:persName[@corresp eq  '#n1'][@xml:lang = 'gez']
 let $nameennorm := $p/t:persName[@corresp eq  '#n1'][@xml:lang = 'en'][@type eq  'normalized']
 let $nameen := $p/t:persName[@corresp eq  '#n1'][@xml:lang = 'en']
