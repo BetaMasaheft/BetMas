@@ -1,59 +1,61 @@
 xquery version "3.1" encoding "UTF-8";
 (:~
- : module used by text search query functions to provide alternative 
- : strings to the search, based on known homophones.
- : 
- : @author Pietro Liuzzo 
+ : this function makes a call to wikidata API 
  :)
 module namespace wiki = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/wiki";
 declare namespace test="http://exist-db.org/xquery/xqsuite";
-declare namespace sr = "http://www.w3.org/2005/sparql-results#";
 declare namespace http = "http://expath.org/ns/http-client";
 
-(:~this function makes a call to wikidata API :)
-declare 
-%test:arg("Qitem", "Q38") %test:assertExists
-function wiki:wikitable($Qitem) {
-let $sparql := 'SELECT ?viafid ?viafidLabel WHERE {
-   wd:' || $Qitem || ' wdt:P214 ?viafid .
-   SERVICE wikibase:label {
-    bd:serviceParam wikibase:language "en" .
-   }
- }'
+declare function wiki:wikitable($Qitem as xs:string) {
+  let $api-url := concat("https://www.wikidata.org/wiki/Special:EntityData/", $Qitem, ".json")
+let $response :=
+try {
+let $request := <http:request method="GET" href="{$api-url}">
+<http:header name="User-Agent" value="betamasaheft.eu (info@betamasaheft.eu)"/>
+</http:request>
+return http:send-request($request)
+} catch * { () }
 
-let $query := 'https://query.wikidata.org/sparql?query='|| xmldb:encode-uri($sparql)
-
-let $req := try{let $request := <http:request href="{xs:anyURI($query)}" method="GET"/>
-    return http:send-request($request)[2]} catch *{$err:description}
-let $WDurl := 'https://www.wikidata.org/wiki/'||$Qitem
-let $viafId := $req//sr:result/sr:binding[@name="viafidLabel"]
-return 
-if (count($viafId) ge 1) then 
+let $json :=
+(util:base64-decode(string-join($response)))
 
 
-(:returns the result in another small table with links:)
-<div class="w3-responsive">
-<table class="w3-table w3-hoverable">
-<tbody>
-<tr>
-<td>WikiData Item</td>
-<td><a target="_blank" href="{$WDurl}">{$Qitem}</a></td>
-</tr>
-<tr>
-<td>VIAF ID</td>
-<td>{for $v in $viafId return (<a target="_blank" href="https://viaf.org/viaf/{$v}">{$v}</a>,<br/>)}</td>
-</tr>
-</tbody>
-</table></div>
-else (
-<div class="w3-responsive">
-<table class="w3-table w3-hoverable">
-<tbody>
-<tr>
-<td>WikiData Item</td>
-<td><a target="_blank" href="{$WDurl}">{$Qitem}</a></td>
-</tr>
-</tbody>
-</table></div>
-)
+let $json-doc :=
+if ($json) then parse-json($json) else ()
+let $claims :=  $json-doc?entities?($Qitem)?claims?P214 
+let $viaf-id := 
+if (exists($claims)) then
+let $firstClaim := $claims?1
+return $firstClaim?mainsnak?datavalue?value
+else ()
+let $WDurl := concat("https://www.wikidata.org/wiki/", $Qitem)
+  return
+    if (exists($viaf-id) and string-length($viaf-id) > 0) then
+      <div class="w3-responsive">
+        <table class="w3-table w3-hoverable">
+          <tbody>
+            <tr>
+              <td>WikiData Item</td>
+              <td><a target="_blank" href="{$WDurl}">{$Qitem}</a></td>
+            </tr>
+            <tr>
+              <td>VIAF ID</td>
+              <td>
+                <a target="_blank" href="https://viaf.org/viaf/{$viaf-id}">{$viaf-id}</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    else
+      <div class="w3-responsive">
+        <table class="w3-table w3-hoverable">
+          <tbody>
+            <tr>
+              <td>WikiData Item</td>
+              <td><a target="_blank" href="{$WDurl}">{$Qitem}</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 };
