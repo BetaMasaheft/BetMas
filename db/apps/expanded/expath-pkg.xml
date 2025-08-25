@@ -1,5 +1,0 @@
-<package xmlns="http://expath.org/ns/pkg"
-    name="expanded"
-    abbrev="expanded" version="1.0.0" spec="1.0">
-    <title>BetMas expanded data</title>
-</package>
