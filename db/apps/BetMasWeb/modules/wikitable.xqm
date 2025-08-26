@@ -1,6 +1,6 @@
 xquery version "3.1" encoding "UTF-8";
 (:~
- : this function makes a call to wikidata API 
+ : this function makes a call to wikidata API
  :)
 module namespace wiki = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/wiki";
 declare namespace test="http://exist-db.org/xquery/xqsuite";
@@ -21,8 +21,8 @@ let $json := if ($response[1]/@status = '200') then
 
 let $json-doc :=
 if ($json) then parse-json($json) else ()
-let $claims :=  $json-doc?entities?($Qitem)?claims?P214 
-let $viaf-id := 
+let $claims :=  $json-doc?entities?($Qitem)?claims?P214
+let $viaf-id :=
 if (exists($claims)) then
 let $firstClaim := $claims?1
 return $firstClaim?mainsnak?datavalue?value
