@@ -13,7 +13,7 @@ declare namespace sr = "http://www.w3.org/2005/sparql-results#";
 
 (:Assumes that Fuseki is running in Tomcat, and that Tomcat server.xml has been edited to run on port 8081, instead of 8080. :)
 (: Note: the version in BetMas had port 8081, in BetMasWeb 3030 :)
-declare variable $fusekisparql:port := 'http://localhost:8081/fuseki/';
+declare variable $fusekisparql:port := 'http://localhost:3030/fuseki/';
 
 
 (:~ given a SPARQL query this will pass it to the selected dataset  and return SPARQL Results in XML:)
