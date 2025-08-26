@@ -244,8 +244,12 @@ declare function titles:placeNameSelector($resource as node()){
       let $pl := $resource//t:place
 let $pnorm := $pl/t:placeName[@corresp eq  '#n1'][@type eq  'normalized']
 let $pEN := $pl/t:placeName[@corresp eq  '#n1'][@xml:lang='en']
+let $Maintitle := $pl/t:placeName[@type eq  'main']
 return
- if ($pnorm)
+ if ($Maintitle)
+                        then
+                            string-join($Maintitle/text())
+ else if ($pnorm)
                         then
                             normalize-space(string-join($pnorm/text(), ' '))
  else if ($pEN)
