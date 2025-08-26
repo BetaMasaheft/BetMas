@@ -16,9 +16,8 @@ let $request := <http:request method="GET" href="{$api-url}">
 return http:send-request($request)
 } catch * { () }
 
-let $json :=
-(util:base64-decode(string-join($response)))
-
+let $json := if ($response[1]/@status = '200') then
+(util:base64-decode(string-join($response))) else ()
 
 let $json-doc :=
 if ($json) then parse-json($json) else ()
