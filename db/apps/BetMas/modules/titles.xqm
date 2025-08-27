@@ -574,7 +574,7 @@ let $sparql := 'SELECT * WHERE {
 
 let $query := 'https://query.wikidata.org/sparql?query='|| xmldb:encode-uri($sparql)
 
-let $req := try{let $request := <http:request href="{xs:anyURI($query)}" method="GET"/>
+let $req := try{let $request := <http:request href="{xs:anyURI($query)}" method="GET"><http:header name="User-Agent" value="betamasaheft.eu (info@betamasaheft.eu)"/></http:request>
     return titles:request($request)[2]} catch * {$err:description}
 return
 $req//sparql:result/sparql:binding[@name eq "label"]/sparql:literal[@xml:lang='en']/text()
