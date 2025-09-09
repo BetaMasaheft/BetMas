@@ -17,7 +17,6 @@ declare variable $exist:prefix external;
 declare variable $exist:root external;
 
 declare variable $domain := "org.exist.login";
-declare variable $taxonomy := doc('/db/apps/lists/canonicaltaxonomy.xml')//t:category/@xml:id;
 (:  get what Nginx sends:)
 
 declare function local:get-uri() {
@@ -1223,7 +1222,9 @@ https://betamasaheft.eu/authority-files/angel/main
                                                                                                                                                                                                   (:  let $c := console:log($exist:resource)
                                                                                                                                                                                                    let $c2 := console:log($taxonomy)
                                                                                                                                                                                                     return
-                                        :)                                                                                                                                                                if ($taxonomy = $exist:resource) then
+                                        :)
+																				(: Inline the canonical loading, it takes a lot of time :)
+                                        if (doc('/db/apps/lists/canonicaltaxonomy.xml')//t:category/@xml:id = $exist:resource) then
                                                                                                                                                                                                             <dispatch
                                                                                                                                                                                                                 xmlns="http://exist.sourceforge.net/NS/exist">
                                                                                                                                                                                                                 <redirect
