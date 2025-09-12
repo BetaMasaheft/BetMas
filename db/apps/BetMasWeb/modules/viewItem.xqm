@@ -5807,33 +5807,16 @@ declare %private function viewItem:manuscriptStructure($msDesc) {
         {viewItem:divofmanuscriptpath($msDesc, '/t:physDesc//t:sealDesc', 'seals')}
         {viewItem:divofmanuscriptpath($msDesc, '/t:physDesc//t:objectDesc/t:layoutDesc', 'layout') (:dimensions again! :)}
         {viewItem:divofmanuscriptpath($msDesc, '/t:physDesc/t:handDesc', 'hands')}
-        {
-            if ($msDesc/ancestor::t:TEI//t:persName[@role])
+        { let $isPart := $msDesc/self::t:msPart
+           let $TEI := $msDesc/ancestor::t:TEI
+        return
+        if ($TEI//t:persName[@role])
+            then        
+            if ($isPart)
             then
-                <div
-                    id="perswithrolemainview"
-                    class="w3-panel w3-red w3-card-4 w3-margin-bottom">
-                    {
-                        for $person in $msDesc/ancestor::t:TEI//t:persName[@role]
-                            group by $ref := $person/@ref
-                        return
-                            (<a
-                                xmlns="http://www.w3.org/1999/xhtml"
-                                href="{$ref}"
-                                class="persName">
-                                {
-                                    for $r in $ref
-                                    return
-                                        (viewItem:TEI2HTML($r/t:choice), viewItem:TEI2HTML($r/t:roleName), viewItem:TEI2HTML($r/t:hi))
-                                }{exptit:printTitle($ref)}
-                            </a>,
-                            let $roles := for $role in $ref/@role
-                            return
-                                $role
-                            return
-                                string-join($roles, ', '), <br/>)
-                    }
-                </div>
+             viewItem:persWithRole($isPart)
+            else
+            viewItem:persWithRole($TEI)
             else
                 ()
         }
@@ -5844,6 +5827,33 @@ declare %private function viewItem:manuscriptStructure($msDesc) {
     )
 };
 
+declare function viewItem:persWithRole($ms)
+{<div
+                    id="perswithrole_{$ms/@xml:id}"
+                    class="w3-panel w3-red w3-card-4 w3-margin-bottom">
+                    {
+                        for $ref in distinct-values($ms//t:persName[@role]/@ref)
+                        let $allpersons := $ms//t:persName[@role][@ref = $ref]
+                        let $roles := distinct-values($allpersons/@role)
+                        let $person := $allpersons[1]
+                        return
+                            (
+        <a
+          xmlns="http://www.w3.org/1999/xhtml"
+          href="{$ref}"
+          class="persName">
+          {
+            viewItem:TEI2HTML($person/t:choice),
+            viewItem:TEI2HTML($person/t:roleName),
+            viewItem:TEI2HTML($person/t:hi),
+            exptit:printTitle($ref)
+          }
+        </a>,
+        concat(" (", string-join($roles, ', '), ")"),
+        <br/>
+      )
+  }
+  </div>};
 
 declare %private function viewItem:codicologicalUnit($mspart) {
     <div
