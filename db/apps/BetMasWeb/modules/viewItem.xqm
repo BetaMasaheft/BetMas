@@ -3565,7 +3565,7 @@ declare %private function viewItem:surplus($node as element(t:surplus)) {
             if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
                                                 concat('resp: ', string-join(exptit:printTitle($node/@resp), ', '))
    else if (starts-with($node/@resp, 'bm:')) then
-                                                concat('resp: ', string($node/@resp))
+                                                concat('resp: ', normalize-space($viewItem:bibliography//b:entry[@id = string($node/@resp)]/b:citation))
    else
                                                  concat('resp: ', viewItem:editorName($node/@resp)))
           else
@@ -3576,14 +3576,14 @@ declare %private function viewItem:surplus($node as element(t:surplus)) {
 declare %private function viewItem:space($node as element(t:space)) {
     <span
         class="w3-tooltip">
-
+       
            {
                if ($node/@reason = 'rubrication') then
                 concat('(', $node/@quantity, ' ', $node/@unit, ' left for rubrication and never filled)')
             else
                 concat('(', $node/@quantity, ' ', $node/@unit, ' unfilled space)')
             }
-
+        
 <span
             class="w3-text w3-tag w3-small">{
             if ($node/@resp) then
@@ -3591,13 +3591,13 @@ declare %private function viewItem:space($node as element(t:space)) {
             if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
                                                 concat('resp: ', string-join(exptit:printTitle($node/@resp), ', '))
    else if (starts-with($node/@resp, 'bm:')) then
-                                                concat('resp: ',  string($node/@resp))
+                                                concat('resp: ',  normalize-space($viewItem:bibliography//b:entry[@id = string($node/@resp)]/b:citation))
    else
                                                  concat('resp: ', viewItem:editorName($node/@resp)))
           else
                                                  ()}</span>
     </span>
-};
+};  
 
 declare %private function viewItem:choice($node as element(t:choice)) {
     let $id := generate-id($node)
@@ -3605,9 +3605,9 @@ declare %private function viewItem:choice($node as element(t:choice)) {
         <span
         class="w3-tooltip">{
         if ($node[t:sic and t:corr]) then
-            (<b>
-                    {$node/t:corr}
-            </b>
+            (<b>                
+                    {$node/t:corr}                
+            </b>       
             ,
             <script
                 type="text/javascript">
@@ -3624,35 +3624,35 @@ declare %private function viewItem:choice($node as element(t:choice)) {
             else
                 (viewItem:TEI2HTML($node/node()))
                 }
-
+                
                 <span
             class="w3-text w3-tag w3-small">{
             if ($node/@resp) then
                   (      if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
-                        concat(viewItem:TEI2HTML($node/t:sic), '(!)', 'corrected by ', string-join(exptit:printTitle($node/@resp), ', '))
+                        concat(viewItem:TEI2HTML($node/t:sic), ' corrected by ', string-join(exptit:printTitle($node/@resp), ', '))
    else  if (starts-with($node/@resp, 'bm:')) then
-                        concat(viewItem:TEI2HTML($node/t:sic), '(!)', 'corrected by ',  string($node/@resp))
+                        concat(viewItem:TEI2HTML($node/t:sic),  ' corrected in ',  normalize-space($viewItem:bibliography//b:entry[@id = string($node/@resp)]/b:citation))
    else
-                       concat(viewItem:TEI2HTML($node/t:sic), '(!)', 'corrected by ', viewItem:editorName($node/@resp))
+                       concat(viewItem:TEI2HTML($node/t:sic), ' corrected by ', viewItem:editorName($node/@resp))
                                                  )
                                                  else
                                                  if ($node/t:corr/@resp) then
                   (      if (starts-with($node/t:corr/@resp, 'PRS') or starts-with($node/t:corr/@resp, 'ETH')) then
-                        concat(viewItem:TEI2HTML($node/t:sic), '(!)', 'corrected by ', string-join(exptit:printTitle($node/t:corr/@resp), ', '))
+                        concat(viewItem:TEI2HTML($node/t:sic), ' corrected by ', string-join(exptit:printTitle($node/t:corr/@resp), ', '))
    else if (starts-with($node/t:corr/@resp, 'bm:')) then
-                        concat(viewItem:TEI2HTML($node/t:sic), '(!)', 'corrected by ', string($node/t:corr/@resp))
+                        concat(viewItem:TEI2HTML($node/t:sic),  ' corrected in ',  normalize-space($viewItem:bibliography//b:entry[@id = string($node/t:corr/@resp)]/b:citation))
    else
-                       concat(viewItem:TEI2HTML($node/t:sic), '(!)', 'corrected by ', viewItem:editorName($node/t:corr/@resp))
+                       concat(viewItem:TEI2HTML($node/t:sic),  ' corrected by ', viewItem:editorName($node/t:corr/@resp))
                                                  )
                                                  else
-
+                                                 
                       concat(viewItem:TEI2HTML($node/t:sic), '(!)')}
-                </span>
+                </span>                
                 </span>
 };
-
+ 
 declare %private function viewItem:unclear($node as element(t:unclear)) {
-     <span
+     <span 
                         style="background-color:hsla(50, 20%, 50%, 0.2); opacity: 0.6; text-decoration-line: underline; text-decoration-style: wavy; text-decoration-color: gray;">[{viewItem:TEI2HTML($node/node())}?]</span>
 };
 
@@ -3666,7 +3666,7 @@ declare %private function viewItem:sic($node as element(t:sic)) {
             if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
                                                 concat('sic by ', string-join(exptit:printTitle($node/@resp), ', '))
    else  if (starts-with($node/t:corr/@resp, 'bm:')) then
-                        concat('sic by ', string($node/@resp))
+                        concat('sic by ', normalize-space($viewItem:bibliography//b:entry[@id = string($node/t:corr/@resp)]/b:citation))
    else
                                                  concat('sic by ', viewItem:editorName($node/@resp)))
           else
@@ -3733,14 +3733,14 @@ declare %private function viewItem:del($node as element(t:del)) {
             if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
                                                 concat('corrected by ', string-join(exptit:printTitle($node/@resp), ', '))
      else if (starts-with($node/@resp, 'bm:')) then
-                                                concat('resp: ', string($node/@resp))
+                                                concat('resp: ', normalize-space($viewItem:bibliography//b:entry[@id = string($node/@resp)]/b:citation))
              else
                                                  concat('corrected by ', viewItem:editorName($node/@resp)))
           else
                                                  ()}</span>
     </span>
-};
-
+};    
+ 
 declare %private function viewItem:supplied($node as element(t:supplied)) {
     <span
         class="w3-tooltip">
@@ -3761,7 +3761,7 @@ declare %private function viewItem:supplied($node as element(t:supplied)) {
                      else
                         (string-join($node/@*, ' '))
             }
-
+         
         <span
             class="w3-text w3-tag w3-small SupResp">{
             if ($node/@resp) then
@@ -3769,7 +3769,7 @@ declare %private function viewItem:supplied($node as element(t:supplied)) {
             if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
                                                 concat('supplied by ', string-join(exptit:printTitle($node/@resp), ', '))
   else if (starts-with($node/@resp, 'bm:')) then
-                                                concat('supplied by ',   string($node/@resp))
+                                                concat('supplied by ',   normalize-space($viewItem:bibliography//b:entry[@id = string($node/@resp)]/b:citation))                                                
    else
                                                  concat('supplied by ', viewItem:editorName($node/@resp)))
           else
@@ -3863,7 +3863,7 @@ declare %private function viewItem:gap($node as element(t:gap)) {
                         else
                             for $q in 1 to $extent
                             return
-                                '▧')
+                                '▧') 
                         else
                             ('[...]')
                     )
@@ -3880,7 +3880,7 @@ declare %private function viewItem:gap($node as element(t:gap)) {
                     else
                         if ($node/@reason = 'lost') then
                         (
-                          if ($node/@quantity) then
+                          if ($node/@quantity) then                       
                             concat('[c. ', $node/@quantity, ' ', $node/@unit, ' lost]')
                             else
                             ('[…]')
@@ -3891,12 +3891,12 @@ declare %private function viewItem:gap($node as element(t:gap)) {
                             else
                                 ()
             }
-
+       
        <span
             class="w3-text w3-tag w3-small OmissionResp">{if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
                                                 concat('ommission by ', string-join(exptit:printTitle($node/@resp), ', '))
     else if (starts-with($node/@resp, 'bm:')) then
-                                                concat('ommission by ',  string($node/@resp))
+                                                concat('ommission by ',  normalize-space($viewItem:bibliography//b:entry[@id = string($node/@resp)]/b:citation))                                             
    else
                                                  concat('ommission by ', viewItem:editorName($node/@resp))}</span>
     </span>
