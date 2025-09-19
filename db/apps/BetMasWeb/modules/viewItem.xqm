@@ -5832,7 +5832,7 @@ declare function viewItem:persWithRole($ms)
                     id="perswithrole_{$ms/@xml:id}"
                     class="w3-panel w3-red w3-card-4 w3-margin-bottom">
                     {
-                        for $ref in distinct-values($ms//t:persName[@role]/@ref)
+                        for $ref in distinct-values($ms//t:persName[@role][@ref != 'PRS00000'][@ref != 'PRS0000'][@ref != 'PRS000']/@ref)
                         let $allpersons := $ms//t:persName[@role][@ref = $ref]
                         let $roles := distinct-values($allpersons/@role)
                         let $person := $allpersons[1]
