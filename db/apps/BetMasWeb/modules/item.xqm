@@ -1004,7 +1004,7 @@ for $role in $persrole
            )
 
 else if ($collection = 'manuscripts' or $collection = 'works' or $collection = 'narratives') then(
-    let $notnull := $file//t:persName[@ref != 'PRS00000']
+    let $notnull := $file//t:persName[@ref != 'PRS000000' and @ref != 'PRS00000' and @ref != 'PRS0000' and @ref != 'PRS000']
     let $pers := $notnull[@role]
     return
         for $p in $pers
