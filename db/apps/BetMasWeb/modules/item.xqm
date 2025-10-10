@@ -298,11 +298,19 @@ else ()}
     <span class="w3-text w3-tag itemoptiontooltip">Send an email to Ethio-SPaRe Project leader to request to make the images of this manuscript available here.</span>
     </div> else ()}
     {if ($collection = 'manuscripts' and $this//t:facsimile/t:graphic) then
-    <div class="w3-bar-item w3-tooltip" >
-    <a class="w3-button w3-padding-small w3-gray"  href="{$this//t:facsimile/t:graphic/@url}" 
-    target="_blank">Link to images</a>
-    <span class="w3-text w3-tag itemoptiontooltip">Link to images available not on this site</span>
-    </div> else ()}
+   for $g in $this//t:facsimile/t:graphic
+  return
+    <div class="w3-bar-item w3-tooltip">
+      <a class="w3-button w3-padding-small w3-gray" 
+         href="{$g/@url}" 
+         target="_blank">
+        Link to images
+      </a>
+      <span class="w3-text w3-tag itemoptiontooltip">
+        Link to images available not on this site
+      </span>
+    </div>
+else ()}
     {if ($collection = 'works' or $collection = 'narratives' or $collection = 'studies') then
     (<div class="w3-bar-item w3-tooltip" >
     <a class="w3-button w3-padding-small w3-gray"  href="{$config:appUrl}{('/compare?workid=' || $id  )}" target="_blank">Compare</a>
