@@ -285,7 +285,7 @@ if ($list = 'works') then (
 (:      images  msitemsm msparts, hands, script:)
             (<td>{let $idnos := for $shelfmark in $item//t:msIdentifier//t:idno return $shelfmark/text() return string-join($idnos, ', ')}
             </td>,
-            <td>{if ($item//t:facsimile/t:graphic/@url) then <a target="_blank" href="{$item//t:facsimile/t:graphic/@url}">Link to images</a> else if($item//t:msIdentifier/t:idno/@facs) then 
+            <td>{if ($item//t:facsimile/t:graphic/@url) then <a target="_blank" href="{$item//t:facsimile/t:graphic[1]/@url}">Link to images</a> else if($item//t:msIdentifier/t:idno/@facs) then 
                  <a target="_blank" href="/manuscripts/{$itemid}/viewer">{
                 if($item//t:collection = 'Ethio-SPaRe') 
                then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
