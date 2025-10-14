@@ -1219,6 +1219,9 @@ declare %private function viewItem:bibliographyitem($node) {
                 viewItem:EthioSpareFormatter($node)
             else
                 let $t := $node/t:ptr/@target
+                let $crs := for $cr in $node/t:citedRange
+                    return
+                        (string($cr/@unit) || ' ' || $cr/text())
                 return
                     if ($node/parent::t:surrogates)
                     then
@@ -1226,7 +1229,7 @@ declare %private function viewItem:bibliographyitem($node) {
                         else
                         if ($node/parent::t:witness) then
                             <span>
-                                {$viewItem:bibliography//b:entry[@id = $t]/b:citation/node()}
+                                {$viewItem:bibliography//b:entry[@id = $t]/b:citation/node() || '  ' || string-join($crs, ', ')}                                 
                             </span>
                     else
                         if ($node/parent::t:listBibl[not(ancestor::t:note)]) then
@@ -1236,7 +1239,7 @@ declare %private function viewItem:bibliographyitem($node) {
                                 <hr/>
                             </li>
                         else
-                            $viewItem:bibliography//b:entry[@id = $t]/b:citation/node()
+                            $viewItem:bibliography//b:entry[@id = $t]/b:citation/node() || '  ' || string-join($crs, ', ')
 
 };
 
