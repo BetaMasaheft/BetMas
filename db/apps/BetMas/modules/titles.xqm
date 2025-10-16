@@ -59,6 +59,7 @@ else
                    (normalize-space(string-join(titles:tei2string($item/t:label), '')) || $sameAs)
             else if ($item[not(t:label)]/@corresp) then
                    normalize-space(string-join(titles:printTitleID($item/@corresp), ''))
+            else if (matches($SUBid, '^a\d+$'))  then '  additio ' || $SUBid     
             else if ($item/t:desc) then
                     (titles:printTitleID(string($item/t:desc/@type)) || ' ' || $SUBid)
             else if (($item/@subtype eq  'Monday' or $item/@subtype eq  'Tuesday' or $item/@subtype eq  'Wednesday' or $item/@subtype eq  'Thursday' or $item/@subtype eq  'Friday' or $item/@subtype eq  'Saturday' or $item/@subtype eq  'Sunday'    )and not($item/node())) then
