@@ -101,7 +101,6 @@ function titles:printTitleID($id as xs:string)
                                 return titles:printTitleID($newid) )
     else if (matches($id, 'wd:Q\d+') or starts-with($id, 'gn:') or starts-with($id, 'pleiades:')) 
             then titles:decidePlaceNameSource($id)
-    else if ($id = '') then <span class="w3-tag w3-red">{ 'no id' }</span>
     (: if the id has a subid, than split it :) 
     else if (contains($id, '#')) then
     (   let $mainID := substring-before($id, '#')
@@ -128,7 +127,7 @@ function titles:printTitleID($id as xs:string)
                         $name
                 )
     )
-    
+    else if ($id = '') then  '?'
     (: if no node could be found with the main id, that has a problem :)
      else 
         ( 'No item: ' || $mainID 
