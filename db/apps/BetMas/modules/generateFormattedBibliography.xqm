@@ -12,6 +12,17 @@ declare variable $gfb:ethiostudies := 'https://api.zotero.org/groups/358366/item
 
 replace &lt;i&gt; and &lt;/i&gt; with proper tags:)
 
+declare function gfb:unescape($cit as xs:string) as xs:string {
+    let $step1 := replace($cit, "&lt;", "<")
+    let $step2 := replace($step1, "&gt;", ">")
+    let $step3 := replace($step2, "&amp;#60;", "<")
+    let $step4 := replace($step3, "&amp;#62;", ">")
+    let $step5 := replace($step4, "&#60;", "<")
+    let $step6 := replace($step5, "&#62;", ">")
+    let $step7 := replace($step6, "<[^>]+>", "")
+    return normalize-space($step7)
+};
+
 declare function gfb:zot($c) {
     let $xml-url-formattedBiblio := concat($gfb:ethiostudies,'?tag=', $c, '&amp;format=bib&amp;locale=en-GB&amp;style=hiob-ludolf-centre-for-ethiopian-studies-with-url-doi&amp;linkwrap=1')
 (:    let $log := util:log('INFO', $xml-url-formattedBiblio):)
@@ -50,7 +61,7 @@ declare function gfb:updateentry($ref){
 
 declare function gfb:entry($cit, $ref){
 <entry xmlns="betmas.biblio" id="{$ref}">
-     <citation>{$cit}</citation>
+     <citation>{gfb:unescape($cit)}</citation>
       <reference>{try{gfb:zot($ref)} catch * {util:log('INFO', ($ref, $err:description))} }</reference>
  </entry>
 };
