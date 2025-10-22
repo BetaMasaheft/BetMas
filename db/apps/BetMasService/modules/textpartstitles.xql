@@ -1,12 +1,21 @@
 xquery version "3.1";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
+declare variable $ThisFileContent:=
+let $col := '/db/apps/BetMasData/works/1-1000'
+let $col1 := '/db/apps/BetMasData/works/1001-2000'
+let $col2 := '/db/apps/BetMasData/works/2001-3000'
+let $col3 := '/db/apps/BetMasData/works/3001-4000'
+let $col4 := '/db/apps/BetMasData/works/4001-5000'
+let $col5 := '/db/apps/BetMasData/works/5001-6000'
+let $col6 := '/db/apps/BetMasData/works/6001-7000'
+let $col7 := '/db/apps/BetMasData/works/7001-8000'
+let $col8 := '/db/apps/BetMasData/works/new'
 
-let $col := '/db/apps/BetMasData/works/new'
 
 return
     <list>
         {
-            for $book in collection($col)//t:TEI
+            for $book in  (collection($col)//t:TEI, collection($col1)//t:TEI, collection($col2)//t:TEI, collection($col3)//t:TEI, collection($col4)//t:TEI, collection($col5)//t:TEI, collection($col6)//t:TEI, collection($col7)//t:TEI, collection($col8)//t:TEI)
             let $mainID := $book/@xml:id
             let $id := concat('LIT', substring-before(substring-after(base-uri($book), 'LIT'), '.xml'))
             let $cae := substring($id, 4, 4)
@@ -59,4 +68,7 @@ return
                 )
                 )
         }
-    </list>
+    </list>;
+let $filename := "textlist.xml"
+let $doc-db-uri := xmldb:store("/db/apps/lists", $filename, $ThisFileContent, "xml")
+return $doc-db-uri
