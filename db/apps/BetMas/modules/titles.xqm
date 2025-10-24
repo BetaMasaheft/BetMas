@@ -173,8 +173,9 @@ function titles:printTitleMainID($id as xs:string)
            (titles:decidePlaceNameSource($id))
     else (: always look at the root of the given node parameter of the function and then switch :)
            let $mainID := if (contains($id, '#'))  then substring-before($id, '#') else $id
-           let $catchID := $titles:collection-root/id($mainID)
-           let $resource := $catchID[name() = 'TEI']
+           let $mainID := if (contains($id, '#'))  then substring-before($id, '#') else $id
+    (:       let $catchID := collection($config:bmdata-root)/id($mainID):)
+           let $resource := collection($config:bmdata-root)//t:TEI[@xml:id = $mainID]
            return
                if (count($resource) = 0) then
            'No item: ' || $id 
