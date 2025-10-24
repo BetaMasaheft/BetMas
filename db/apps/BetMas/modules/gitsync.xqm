@@ -37,7 +37,7 @@ import module namespace expand = "https://www.betamasaheft.uni-hamburg.de/BetMas
 import module namespace updatefuseki = 'https://www.betamasaheft.uni-hamburg.de/BetMas/updatefuseki' at "xmldb:exist:///db/apps/BetMas/fuseki/updateFuseki.xqm";
 import module namespace gfb = "https://www.betamasaheft.uni-hamburg.de/BetMas/gfb" at "xmldb:exist:///db/apps/BetMas/modules/generateFormattedBibliography.xqm";
 import module namespace validation = "http://exist-db.org/xquery/validation";
-(:import module namespace console="http://exist-db.org/xquery/console";:)
+import module namespace console="http://exist-db.org/xquery/console";
 
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare option exist:serialize "method=xml media-type=text/xml indent=yes";
@@ -108,7 +108,8 @@ declare function gitsync:updateinstitutionsADD($file-name){
 
 declare function gitsync:updatepersonsMOD($file-name){
     let $perslist := $gitsync:persons//t:list
-    let $id := substring-before($file-name, '.xml')
+    let $fn := tokenize($file-name, '/')[last()]
+    let $id := substring-before($fn, '.xml')
     let $file := collection($config:data-rootPr)//id($id)
     let $t := titles:persNameSelector($file)
     let $update :=  update value  $perslist/t:item[@corresp eq $id] with $t
@@ -118,7 +119,8 @@ declare function gitsync:updatepersonsMOD($file-name){
 
 declare function gitsync:updatepersonsDEL($file-name){
     let $perslist := $gitsync:persons//t:list
-    let $id := substring-before($file-name, '.xml')
+    let $fn := tokenize($file-name, '/')[last()]
+    let $id := substring-before($fn, '.xml')
     let $update :=  update delete  $perslist/t:item[@corresp eq $id]
     return
         'removed value from list in persNamesLabels.xml '
@@ -127,7 +129,8 @@ declare function gitsync:updatepersonsDEL($file-name){
 
 declare function gitsync:updateplacesMOD($file-name){
     let $placelist := $gitsync:places//t:list
-    let $id := substring-before($file-name, '.xml')
+    let $fn := tokenize($file-name, '/')[last()]
+    let $id := substring-before($fn, '.xml')
     let $file := $titles:collection-rootPl//id($id) 
     let $newtitleSelector := titles:placeNameSelector($file)
     let $update :=  update value  $placelist/t:item[@corresp eq $id] with $newtitleSelector
@@ -137,7 +140,8 @@ declare function gitsync:updateplacesMOD($file-name){
 
 declare function gitsync:updateplacesDEL($file-name){
     let $placelist := $gitsync:places//t:list
-    let $id := substring-before($file-name, '.xml')
+    let $fn := tokenize($file-name, '/')[last()]
+    let $id := substring-before($fn, '.xml')
     let $update :=  update delete  $placelist/t:item[@corresp eq $id]
     return
         'removed value from list in placeNamesLabels.xml '
@@ -145,7 +149,7 @@ declare function gitsync:updateplacesDEL($file-name){
 
 declare function gitsync:updatetextpartsMOD($file-name){
     let $textslist := $gitsync:textparts//t:list
-    let $longid := substring-after($file-name, '.eu/')
+    let $longid := tokenize($file-name, '/')[last()]
     let $id := substring-before($longid, '.xml')
     let $file := collection($config:data-rootW)//id($id) 
     let $newtitleSelector := titles:worknarrTitleSelector($file)
@@ -162,12 +166,13 @@ into  $textslist
 };
 
 declare function gitsync:updatetextpartsDEL($file-name){
-    let $textslist := $gitsync:textparts//t:list
-    let $longid := substring-after($file-name, '.eu/')
-    let $id := substring-before($longid, '.xml')
-    let $update :=  update delete  $textslist/t:item[@corresp eq $id]
-    return
-        'removed value from list in textpartstitles.xml '
+    let $textslist := doc('/db/apps/lists/textpartstitles.xml')//t:list
+    let $fn := tokenize($file-name, '/')[last()]
+    let $id := substring-before($fn, '.xml')
+    let $matches := $textslist/t:item[@corresp eq $id]
+    let $log := util:log("INFO", concat('textpartstitles: Items to delete for ', $id, ': ', count($matches)))
+    let $update := update delete $matches
+    return 'removed value from list in textpartstitles.xml'
 };
 
 
@@ -183,7 +188,7 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
         
         for $modified in $commits?1?modified?*
         let $file-path := concat($contents-url, $modified)
-(:        let $t := console:log('got here'):)
+        let $t := console:log('got here')
         let $gitToken := environment-variable('GITTOKEN')
         (:environment-variable('GIT_TOKEN'):)
         let $req :=
@@ -275,7 +280,7 @@ declare function gitsync:do-add($commits, $contents-url as xs:string?, $data-col
             try {
                 (
                 gitsync:updateMirrorCol($collection-uri, $file-name, $file-data, 'add'),
-                
+                console:log('got here'),
  (:               gitsync:updateBibl($collection-uri, $file-name) ,:)
 (:          then    update the  expanded collection    :)
                 gitsync:updateExpanded($collection-uri, $file-name) ,
@@ -339,8 +344,6 @@ declare function gitsync:do-add($commits, $contents-url as xs:string?, $data-col
  : @param $contents-url string pointing to resource on github
 :)
 declare function gitsync:do-delete($commits, $contents-url as xs:string?, $data-collection) {
-let $committerEmail := $commits?1?pusher?email
-return
     for $modified in $commits?1?removed?*
     let $file-path := concat($contents-url, $modified)
     let $collection := xs:anyURI($data-collection)
@@ -349,57 +352,60 @@ return
     let $resource-path := substring-before($modified, $file-name)
     let $collection-uri := replace(concat($collection, '/', $resource-path), '/$', '')
     let $expanded-collection-uri := replace($collection-uri, 'BetMasData', 'expanded')
-    let $rdfcoll := '/db/rdf/' || substring-after($data-collection, 'Data/')
+    let $rdfcoll :=
+            concat('/db/rdf/', substring-after($collection-uri, '/db/apps/BetMasData/'))
+   let $rdffilename := replace($file-name, '.xml', '.rdf')
+        (: Remove from all three locations :)
+    let $removeBetMas := for $doc in collection('/db/apps/BetMasData') where matches(util:document-name($doc), $file-name)
+    let $coll := util:collection-name($doc)
+  return
+    try { 
+      util:log('INFO', '[Remove BetMasData] ' || $coll || '/' || $file-name),
+      xmldb:remove($coll, $file-name)
+    } catch * { 
+      util:log('ERROR', '[Remove BetMasData] failed: ' || $coll || '/' || $file-name || ' : ' || $err:description)
+    }
+    let $removeExpanded := for $doc in collection('/db/apps/expanded') where matches(util:document-name($doc), $file-name)
+    let $coll := util:collection-name($doc)
+  return
+    try { 
+      util:log('INFO', '[Remove expanded] ' || $coll || '/' || $file-name),
+      xmldb:remove($coll, $file-name)
+    } catch * { 
+      util:log('ERROR', '[Remove expanded] failed: ' || $coll || '/' || $file-name || ' : ' || $err:description)
+    }
+    let $removeRDF := for $doc in collection('/db/apps/rdf') where matches(util:document-name($doc), $file-name)
+    let $coll := util:collection-name($doc)
+  return
+    try { 
+      util:log('INFO', '[Remove expanded] ' || $coll || '/' || $file-name),
+      xmldb:remove($coll, $file-name)
+    } catch * { 
+      util:log('ERROR', '[Remove expanded] failed: ' || $coll || '/' || $file-name || ' : ' || $err:description)
+    }
     let $rdfxml:= doc($rdfcoll||$rdffilename)
     let $updateFuseki := updatefuseki:update($rdfxml, 'DELETE')
-    return
-        try {
-            <response
-                status="okay">
-                <message>removed {$collection-uri}/{$file-name}{xmldb:remove($collection-uri, $file-name)},
-                  {$expanded-collection-uri}/{$file-name}{xmldb:remove($expanded-collection-uri, $file-name)} from expanded data collection,
-                and {$rdfcoll}/{$rdffilename}{xmldb:remove($rdfcoll, $rdffilename)} also from fuseki
-                {(
-                    if(contains($data-collection, 'institutions')) then (
-                    gitsync:updateinstitutionsDEL($file-name)) 
-                    else if(contains($data-collection, 'persons')) then (
-                    gitsync:updatepersonsDEL($file-name)) 
-                   else if(contains($data-collection, 'works')) then (
-                    gitsync:updatetextpartsDEL($file-name))
-                    else if(contains($data-collection, 'studies')) then (
-                    gitsync:updatetextpartsDEL($file-name))
-                    else if(contains($data-collection, 'narratives')) then (
-                    gitsync:updatetextpartsDEL($file-name))
-                    else if(contains($data-collection, 'places')) then (
-                    gitsync:updateplacesDEL($file-name)) 
-                    else (),
-                    let $deletedlist := $gitsync:deleted//t:list
-                    let $id := substring-before($file-name, '.xml')
-(:                    This will inevitably cause the order in that list to be broken :)
-                    let $update :=  update insert <item xmlns="http://www.tei-c.org/ns/1.0" 
-                    source="{concat($collection, '/', $resource-path)}"
-                    change="{current-dateTime()}">{$id}</item> into  $deletedlist
-                    return
-                    'added value at the end of the list in deleted.xml'
-                    )
-                    }</message>
-            </response>
-        } catch * {
-(            <response
-                status="fail">
-                <message>Failed to remove resource {$file-name} : {concat($err:code, ": ", $err:description)}</message>
-            </response>,
-                        gitsync:failedCommitMessage($committerEmail, $data-collection, concat('Failed to remove resource ' ,$file-name, ': ',$err:code, ": ", $err:description))
-                        )
-        }
-
+    (: update authority/support lists and register deletion :)
+ let $removeTextParts := try { gitsync:updatetextpartsDEL($file-name) } catch * { () }
+let $removeInstitutions := try { gitsync:updateinstitutionsDEL($file-name) } catch * { () }
+let $removePersons := try { gitsync:updatepersonsDEL($file-name) } catch * { () }
+let $removePlaces := try { gitsync:updateplacesDEL($file-name) } catch * { () }
+            let $deletedlist := $gitsync:deleted//t:list
+        let $id := substring-before($file-name, '.xml')
+        let $updateDeleted :=
+            update insert <item xmlns="http://www.tei-c.org/ns/1.0"
+                    source="{concat($collection-uri, '/', $file-name)}"
+                    change="{current-dateTime()}">{$id}</item> into $deletedlist
+        return
+            ()
 };
+
 
 (:This function updates the collection BetMasData, which is the mirror of the repositories in Github it is called when adding and updating resources:)
 declare function gitsync:updateMirrorCol($collection-uri, $file-name, $file-data, $updateoradd){
 let $collection-uri := if(contains($collection-uri, 'expanded')) then replace($collection-uri, 'expanded', 'BetMasData') else $collection-uri
 let $xml := util:base64-decode($file-data)
-(:let $t := console:log($xml):)
+let $t := console:log($xml)
 return
    if (xmldb:collection-available($collection-uri)) 
                 then
@@ -493,10 +499,10 @@ let $expanded-collection-uri := replace($collection-uri,'/BetMasData/', '/expand
 let $collection-uri := if(contains($collection-uri, 'expanded')) then replace($collection-uri, 'expanded', 'BetMasData') else $collection-uri
 let $storedfilepath := $collection-uri || '/' || $file-name
 let $storedTEI := doc($storedfilepath)
-(:let $t1 := console:log($storedTEI):)
+let $t1 := console:log($storedTEI)
 return if($storedTEI/t:TEI) then 
 let $expanded-file := expand:file($storedfilepath)
-(:let $t := console:log($expanded-file):)
+let $t := console:log($expanded-file)
 return
                     if (xmldb:collection-available($expanded-collection-uri)) 
                 then
