@@ -2,10 +2,12 @@ xquery version "3.1";
 
 module namespace expand = "https://www.betamasaheft.uni-hamburg.de/BetMas/expand";
 import module namespace titles = "https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
+import module namespace gfb = "https://www.betamasaheft.uni-hamburg.de/BetMas/gfb" at "xmldb:exist:///db/apps/BetMas/modules/generateFormattedBibliography.xqm";
 import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMas/switch2"  at "xmldb:exist:///db/apps/BetMas/modules/switch2.xqm";
 import module namespace console = "http://exist-db.org/xquery/console";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace xi = "http://www.w3.org/2001/XInclude";
+declare namespace b = "betmas.biblio";
 declare variable $expand:zotero := collection('/db/apps/EthioStudies') ;
 declare variable $expand:BMurl := 'https://betamasaheft.eu/';
 declare variable $expand:editorslist := doc('/db/apps/lists/editors.xml') ;
@@ -421,22 +423,22 @@ let $cS :=
                         else
                             (),
                         if ($node/@ref and not($node/text())) then
-                            titles:printTitleMainID($node/@ref)
+                            expand:printTitleMainID($node/@ref)
                         else
                             (),
                         if ($node/@type = 'authFile' and (string-length($node/text()) = 0)) then
-                            titles:printTitleMainID($node/@corresp)
+                            expand:printTitleMainID($node/@corresp)
                         else
                             (),
                         if ( $node[not(text())] and $node/@corresp and $node/@type[not(. ='authFile')]) then
                         let $corrnode := $node/ancestor-or-self::t:TEI/id($node/@corresp)
                         return
                             if ($corrnode) then
-                                let $buildID := titles:printTitleMainID($node/ancestor-or-self::t:TEI/@xml:id) || ' element '|| $corrnode/name()|| ' with id ' || string($node/@corresp)
+                                let $buildID := expand:printTitleMainID($node/ancestor-or-self::t:TEI/@xml:id) || ' element '|| $corrnode/name()|| ' with id ' || string($node/@corresp)
                                 return
                                     $buildID
                            else if (starts-with($node/@corresp, '#')) then
-                                let $buildID := titles:printTitleMainID($node/ancestor-or-self::t:TEI/@xml:id) || ' id ' || string($node/@corresp)
+                                let $buildID := expand:printTitleMainID($node/ancestor-or-self::t:TEI/@xml:id) || ' id ' || string($node/@corresp)
                                 return
                                     $buildID
                             else
@@ -792,7 +794,7 @@ element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
                             case 'notBefore' return 'not before'
                             case 'notAfter' return 'not after'
                             case 'cert' return 'certainty:'
-                            case 'resp' return titles:printTitleMainID($att)
+                            case 'resp' return expand:printTitleMainID($att)
                             default return $att/name()) || ' ' || $att/data())
                         return
                             string-join($atts, ' ')
@@ -879,10 +881,26 @@ declare function expand:wholike($attribute) {
     attribute {name($attribute)} {expand:id($attribute/data())}
 };
 
+declare function expand:syncBibliography($expanded as element()) {
+    let $bm-cites := distinct-values($expanded//t:ptr/@target[starts-with(., 'bm:')])
+    let $bibliography := doc('/db/apps/lists/bibliography.xml')/b:bibliography
+    for $cite in $bm-cites
+    let $exists := $bibliography//b:entry[@id = $cite]
+    return
+        if (empty($exists)) then
+            let $entry := gfb:updateentry($cite)
+            let $updated := update insert $entry into $bibliography/b:entries
+            let $updatetotal := update value $bibliography/b:total with count(distinct-values(($bibliography//b:entry/@id, $bm-cites)))
+            return util:log('INFO', concat('Added new bibliography entry for: ', $cite))
+        else ()
+};
+
 declare function expand:file($filepath) {
     let $doc := doc($filepath)
     (:util:expand needs to go to a node, therefore the processing instructions need to be added back:)
     let $expanded := util:expand($doc/t:TEI)
+    let $syncBib:=expand:syncBibliography($expanded)
+
     let $zotero :=
       for $ptr in distinct-values($expanded//t:ptr/@target[starts-with(., 'bm:')])
                         let $z := if($expand:zotero//t:biblStruct[t:note[@type='tags']/t:note[@type='tag'] = $ptr])
