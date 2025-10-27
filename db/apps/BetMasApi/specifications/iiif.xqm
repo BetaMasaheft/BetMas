@@ -285,7 +285,7 @@ declare function iiif:Structures($item, $iiifroot, $facsid){
       "@type":"sc:Range",
       "label":"Table of Contents",
       "viewingHint":"top",
-      "ranges" : $superRanges
+      "ranges" : if(count($superRanges) = 1) then [$superRanges] else $superRanges
     }) else ()
     
    let $msItemStructures :=  iiif:rangeexistence($items,$iiifroot, 'msItems', 'Contents') 
