@@ -1140,9 +1140,10 @@ declare function q:text($q, $params) {
     let $parmstoquery := q:parameters2arguments($params)
     let $querytext := concat($querycontext, $parmstoquery, $ftquery)
     (:    let $test2 := util:log('info', $querytext):)
-    let $query := util:eval($querytext)
-    (:    <TEI></TEI> :)
-
+    let $query := 
+          for $r in util:eval($querytext)
+          let $expanded := kwic:expand($r) where exists($expanded//exist:match[not(ancestor::t:bibl)])
+          return $r
     let $allTEI :=
     if (count($query) gt 300)
     then
@@ -2912,7 +2913,7 @@ declare function q:resultswithmatch($text, $p) {
     else
         ()
 
-    let $count := count($expanded//exist:match)
+    let $count := count($expanded//exist:match[not(ancestor::t:bibl)])
     let $root := root($text)
     let $item := $root/ancestor-or-self::t:TEI
     let $t := string($text/@type)
@@ -2937,7 +2938,7 @@ declare function q:resultswithmatch($text, $p) {
                         <span
                             class="w3-badge">{$count}</span>
                         in {
-                            for $match in distinct-values($expanded//exist:match/parent::t:*/name())
+                            for $match in distinct-values($expanded//exist:match[not(ancestor::t:bibl)]/parent::t:*/name())
                             return
                                 (<code>{string($match)}</code>, <br/>)
                         }
@@ -2951,7 +2952,7 @@ declare function q:resultswithmatch($text, $p) {
                 <div
                     class="w3-rest">
                     {
-                        for $match in subsequence($expanded//exist:match, 1, 3)
+                        for $match in subsequence($expanded//exist:match[not(ancestor::t:bibl)], 1, 3)
                         let $matchancestorwithID := ($match/(ancestor::t:*[(@xml:id | @n)] | ancestor::t:text))[last()]
                         let $matchancestorwithIDid := $matchancestorwithID/string(@xml:id)
                         let $view := if ($matchancestorwithID[ancestor-or-self::t:text]) then
