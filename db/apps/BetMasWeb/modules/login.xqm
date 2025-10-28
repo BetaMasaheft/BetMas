@@ -86,7 +86,7 @@ declare function locallogin:loginNew(){
       <div class="w3-dropdown-content w3-bar-block w3-card-4" style="width:400px;">
       
 	<form method="post" class="w3-bar-item" role="form" 
-	accept-charset="UTF-8" id="login-nav">
+	accept-charset="UTF-8" id="login-nav" action="/index.html">
                     <label for="user">User:</label>
                             <input type="text" name="user" required="required" class="w3-input"/>
                         
