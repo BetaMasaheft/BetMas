@@ -609,7 +609,7 @@ declare function q:ListQueryParam-rest($parameter, $context, $mode, $function) {
             return
                 "descendant::" || $context || " eq '" || $k || "'"
             return
-                "[" || string-join($all, ' or ') || "]"
+                "[" || string-join($all, ' and ') || "]"
 
         else
             if ($function = 'id')
@@ -709,17 +709,19 @@ declare %private function q:par-allnames($names, $collection) {
 
 declare function q:par-keywords($keywords) {
     (:keywords are used in a number of locations, so alternatives need to be built:)
-    let $strings := (q:ListQueryParam-rest($keywords, 't:ab/t:persName/@type', 'any', 'list'),
-    q:ListQueryParam-rest($keywords, 't:place/@type', 'any', 'list'),
-    q:ListQueryParam-rest($keywords, 't:occupation/@type', 'any', 'list'),
-    q:ListQueryParam-rest($keywords, 't:desc/@type', 'any', 'list'),
-    q:ListQueryParam-rest($keywords, 't:term/@key', 'any', 'list')
+     let $fields := (
+        'descendant::t:ab/t:persName/@type',
+        'descendant::t:place/@type',
+        'descendant::t:occupation/@type',
+        'descendant::t:desc/@type',
+        'descendant::t:term/@key'
     )
-    let $stripouterbrackets := for $arg in $strings
+    let $clauses :=
+        for $kw in $keywords
+        return
+            '(' || string-join(for $f in $fields return $f || " eq '" || $kw || "'", ' or ') || ')'
     return
-        translate($arg, '[]', '()')
-    return
-        '[' || string-join($stripouterbrackets, ' or ') || ']'
+        '[' || string-join($clauses, ' and ') || ']'
 };
 
 declare %private function q:par-contentPr($contentProvider) {
@@ -872,9 +874,13 @@ declare function q:parameters2arguments($params) {
     let $r := q:parrequest($p)
     (:      let $t2 := util:log('info', $r):)
     return
-        if (ends-with($p, '-field') or ends-with($p, '-facet')) then
+        if (ends-with($p, '-field')) then () else if (ends-with($p, '-facet')) then
+             let $facetkey:= substring-before($p, '-facet')
+    return
+        if ($facetkey= 'keywords') then
+            q:par-keywords($r)
+        else
             ()
-            (:    these should be taken into consideration already at the top :)
         else
             if ((count($r) = 0) or ($r = '') or (empty($r)) or (string-length(string-join($r)) = 0)) then
                 ((:util:log('info', concat(' not passing ', string-join($r))):) )
