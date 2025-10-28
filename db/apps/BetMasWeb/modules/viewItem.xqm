@@ -6507,34 +6507,40 @@ declare function viewItem:manuscriptnav($item) {
                             if ($anchor = 'ms') then
                                 'General manuscript description'
                             else
-	                              if (starts-with($anchor, 'coloph') and matches($anchor, 'coloph')) then
-                                   'Colophon ' || substring-after($anchor, 'coloph') || string-join(viewItem:headercontext($node))
-														else
-																if (not(matches($anchor, '^\w\d+$'))) then $node/name()
-														else
-																switch(substring($anchor, 1))
-		                                case 'p' return
-																		    'Codicological Unit ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
-                                    case 'f' return
+                                if (starts-with($anchor, 'p') and matches($anchor, '^\w\d+$')) then
+                                    'Codicological Unit ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+                                else
+                                    if (starts-with($anchor, 'f') and matches($anchor, '^\w\d+$')) then
                                         'Fragment ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
-                                    case 't' return
-																			 'Title ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
-																		case 'b' return
-																	     'Binding ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
-																    case 'a' return
-															         viewItem:categoryname($node, $node/t:desc/@type) || ' (' || substring($anchor, 1) || ') ' || string-join(viewItem:headercontext($node))
-																		case 'e' return
-                                       viewItem:categoryname($node, $node/t:desc/@type) || ' (' || substring($anchor, 1) || ') ' || string-join(viewItem:headercontext($node))
-																		case 'd' return
-                                      'Decoration ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
-																		default return
-                                      if (contains($anchor, '_i') and matches($anchor, '\w\d+')) then
-																					'Content Item ' || substring-after($anchor, '_i') || string-join(viewItem:headercontext($node)) || string-join($node/t:title//text())
-                                      else if (starts-with($anchor, 'q') and matches($anchor, '\w\d+')) then
-                                          'Quire ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
-																			else if (starts-with($anchor, 'h') and matches($anchor, '\w\d+')) then
-                                          'Hand ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
-                                      else $node/name()
+                                    else
+                                        if (starts-with($anchor, 't') and matches($anchor, '\w\d+')) then
+                                            'Title ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+                                        else
+                                            if (matches($anchor, '^b\d+$')) then
+                                                'Binding ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+                                            else
+                                                 if (matches($anchor, '^a\d+$')) then
+                                                    'Additio ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+                                                else
+                                                    if (matches($anchor, '^e\d+$')) then
+                                                      'Extra ' || substring($anchor, 1) ||  string-join(viewItem:headercontext($node))
+                                                    else
+                                                        if (matches($anchor, '^d\d+$')) then
+                                                            'Decoration ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+                                                        else
+                                                            if (starts-with($anchor, 'coloph') and matches($anchor, 'coloph')) then
+                                                                'Colophon ' || substring-after($anchor, 'coloph') || string-join(viewItem:headercontext($node))
+                                                            else
+                                                                if (contains($anchor, '_i') and matches($anchor, '\w\d+')) then
+                                                                    'Item ' || substring-after($anchor, '_i') (:|| string-join(viewItem:headercontext($node)) || string-join($node/t:title//text()):)
+                                                                else
+                                                                    if (starts-with($anchor, 'q') and matches($anchor, '\w\d+')) then
+                                                                        'Quire ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+                                                                    else
+                                                                        if (starts-with($anchor, 'h') and matches($anchor, '\w\d+')) then
+                                                                            'Hand ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
+                                                                        else
+                                                                            $node/name()
                         }
                     </a>
                 </li>
@@ -6556,29 +6562,29 @@ declare function viewItem:switchsubids($anchor, $node) {
                 if (starts-with($anchor, 't') and matches($anchor, '\w\d+')) then
                     ' Title ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
                 else
-                    if (starts-with($anchor, 'b') and matches($anchor, '\w\d+')) then
+                    if (matches($anchor, '^b\d+$')) then
                         ' Binding ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
                     else
-                        if (starts-with($anchor, 'a') and matches($anchor, '\w\d+')) then
-                            viewItem:categoryname($node, $node/t:desc/@type) || ' (' || substring($anchor, 1) || ') ' || string-join(viewItem:headercontext($node))
+                        if (matches($anchor, '^a\d+$')) then
+                            ' Additio ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
                         else
-                            if (starts-with($anchor, 'e') and matches($anchor, '\w\d+')) then
-                                viewItem:categoryname($node, $node/t:desc/@type) || ' (' || substring($anchor, 1) || ') ' || string-join(viewItem:headercontext($node))
+                            if (matches($anchor, '^e\d+$')) then
+                                ' Extra ' || substring($anchor, 1) ||  string-join(viewItem:headercontext($node))
                             else
-                                if (starts-with($anchor, 'd') and matches($anchor, '\w\d+')) then
+                                if (matches($anchor, '^d\d+$')) then
                                     ' Decoration ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
                                 else
                                     if (starts-with($anchor, 'coloph') and matches($anchor, 'coloph')) then
                                         ' Colophon ' || substring-after($anchor, 'coloph') || string-join(viewItem:headercontext($node))
                                     else
                                         if (contains($anchor, '_i') and matches($anchor, '\w\d+')) then
-                                           ( ' Content Item ' || substring-after($anchor, '_i') || string-join(viewItem:headercontext($node)) ,
-                                            if(count($node/t:title) ge 1) then viewItem:TEI2HTML($node/t:title[1]) else ())
+                                           ( ' Item ' || substring-after($anchor, '_i') (:|| string-join(viewItem:headercontext($node)) , 
+                                            if(count($node/t:title) ge 1) then viewItem:TEI2HTML($node/t:title[1]) else ():) )
                                         else
                                             if (starts-with($anchor, 'q') and matches($anchor, '\w\d+')) then
                                                 ' Quire ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
                                             else
-                                                if (starts-with($anchor, 'h') and matches($anchor, '\w\d+')) then
+                                                if (matches($anchor, '^h\d+$')) then
                                                     ' Hand ' || substring($anchor, 1) || string-join(viewItem:headercontext($node))
                                                 else
                                                     $node/name()
