@@ -247,7 +247,6 @@ DTSannoCollectionLink">{
                                         {($member?('dts:citeType') || ' ' || $r)}
                                     </a><a
                                         href="/{$id}{$edition}.{$r}"
-                                        target="_blank"
                                         class="w3-right">↗</a>
                                     <span
                                         class="w3-text w3-tag"
