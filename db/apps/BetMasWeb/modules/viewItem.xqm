@@ -4093,7 +4093,7 @@ declare function viewItem:div($node as element(t:div)) {
         then
             (<div
                 class="w3-row"
-                id="{$node/@type}">
+                id="{if ($node/@xml:id) then $node/@xml:id else $node/@type}">
                 {
                     if ($node/@xml:id = 'Transkribus') then
                         attribute style {'color:gray;'}
@@ -4141,7 +4141,7 @@ declare function viewItem:div($node as element(t:div)) {
                         return
                             if ($node/child::t:div[@type = 'textpart']) then
                                  (viewItem:titletemplate($node, $text),
-(:                                if the div has its own contant, print that, not that of nested divs:)
+(:                                if the div has its own content, print that, not that of nested divs:)
                                 if($node/child::t:ab) then viewItem:TEI2HTML($node/node()[not(self::t:div)])
 (:                                otherways look at first order of nested divs which do not have further nested divs to came back here :)
                                 else viewItem:TEI2HTML($node/node()[not(self::t:div[t:div])])
@@ -4154,7 +4154,7 @@ declare function viewItem:div($node as element(t:div)) {
                                             else
                                                 ()
                                         } w3-row"
-                                    id="{viewItem:DTSpartID($node)}"
+                                    id="div-{viewItem:DTSpartID($node)}"
                                 >
                                     {
                                         if ($node/ancestor-or-self::t:div[@xml:lang][1]) then
@@ -4166,7 +4166,7 @@ declare function viewItem:div($node as element(t:div)) {
                                         viewItem:titletemplate($node, $text)
                                     }</div>,
                                 <div
-                                    id="{$node/@xml:id}">
+                                    id="text-{$node/@xml:id}">
                                     {
                                         if ($node/t:ab//t:app) then
                                             attribute class {'w3-twothird w3-padding chapterText'}
@@ -4207,7 +4207,12 @@ declare function viewItem:div($node as element(t:div)) {
                 </div>
             else
                 <div
-                    class="w3-container">{$node}</div>
+                    class="w3-container">  {
+            for $child in $node/node()
+            return
+               if ($child/self::t:div) then viewItem:div($child)
+               else viewItem:TEI2HTML($child)
+        }</div>
 };
 
 declare %private function viewItem:titletemplate($div, $text) {
@@ -6182,7 +6187,7 @@ return:)
             }
             <div
                 class="w3-modal"
-                id="textHelp">
+                id="textHelp{$frag/descendant-or-self::*[@xml:id][1]/@xml:id}">
                 <div
                     class="w3-modal-content">
                     <header
@@ -6190,7 +6195,7 @@ return:)
                         <h2>Text visualization help</h2>
                         <span
                             class="w3-button w3-display-topright"
-                            onclick="document.getElementById('textHelp').style.display='none'">
+                            onclick="document.getElementById('textHelp{$frag/descendant-or-self::*[@xml:id][1]/@xml:id}').style.display='none'">
                             <i
                                 class="fa fa-times"/>
                         </span>
@@ -6204,7 +6209,7 @@ return:)
                             class="nodot">
                             <li>References are relative to the current level of the view. If you want to see further navigation levels, please click the arrow to open in another page.</li>
                             <li>Each reference available for the current view can be clicked to scroll to that point. alternatively you can view the section clicking on the arrow.</li>
-                            <li>Using an hyphen between references, like LIT3122Galaw.1-2 you can get a view of these two sections only</li>
+                            <li>Using a hyphen between references, like LIT3122Galaw.1-2 you can get a view of these two sections only</li>
                             <li>Clicking on an index will call the list of relevant annotated entities and print a parallel navigation aid. This is not limited to the context but always refers to the entire text.
                                 Also these references can either be clicked if the text is present in the context or can be opened clicking on the arrow, to see them in another page.</li>
                         </ul>
@@ -6251,7 +6256,7 @@ return:)
                 ()
         }
         <div
-            id="roleAttestations"
+            id="roleAttestations{$frag/descendant-or-self::*[@xml:id][1]/@xml:id}"
             class="w3-container"/>
         <div
             class="w3-hide">
