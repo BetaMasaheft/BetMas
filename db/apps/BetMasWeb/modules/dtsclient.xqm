@@ -103,9 +103,9 @@ declare function dtsc:text($id, $edition, $ref, $start, $end, $collection) {
                 }</div>
     else
         $selectedFrag
-    let $edition:=if($docnode/self::dts:fragment) then $docnode/*[self::t:div][1]
+    let $docedition:=if($docnode/self::dts:fragment) then $docnode/*[self::t:div][1]
         else $docnode    
-   let $children:= $edition/*[self::t:div or self::t:ab or self::t:lg or self::t:p or self::t:l or self::t:note]
+   let $children:= $docedition/*[self::t:div or self::t:ab or self::t:lg or self::t:p or self::t:l or self::t:note]
     return
         <div
             class="w3-container">
