@@ -103,6 +103,9 @@ declare function dtsc:text($id, $edition, $ref, $start, $end, $collection) {
                 }</div>
     else
         $selectedFrag
+    let $edition:=if($docnode/self::dts:fragment) then $docnode/*[self::t:div][1]
+        else $docnode    
+   let $children:= $edition/*[self::t:div or self::t:ab or self::t:lg or self::t:p or self::t:l or self::t:note]
     return
         <div
             class="w3-container">
@@ -438,15 +441,18 @@ dtsc:DTStext($base, $id)
                     <li><b>Document API</b>: {$dtsPassage}</li>
                 </ul>
             </div>
-            <div
-                class="w3-rest">{
-                    try {
-                        viewItem:textfragment($DTSdoc/node()[name() != 'teiHeader'])
-                    } catch * {
-                        $err:description
-                    }
-                }</div>
+            <div class="w3-rest">
+    {if (count($children) gt 35) then
+        <div>
+            Only the first 35 sections displayed. Please use navigation (left navigation bar or references) to view other sections.
         </div>
+    else ()}
+        {
+            for $child in subsequence($children, 1, 35)
+            return viewItem:textfragment($child)
+        }
+    </div>)
+    </div>
 };
 
 
