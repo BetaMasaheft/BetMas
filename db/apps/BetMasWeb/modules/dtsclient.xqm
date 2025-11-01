@@ -61,6 +61,7 @@ declare function dtsc:text($id, $edition, $ref, $start, $end, $collection) {
     let $urinav := ($approot || $APIroot || $NavAPI || $fullidpar || $parm)
     let $uridoc := ($approot || $APIroot || $DocAPI || $fullidpar || $parm)
     let $urianno := ($approot || $APIroot || $AnnoAPI || '/' || $collection || '/items/' || $id)
+    let $fullxml := $approot || '/' || $id || '.xml'
     let $DTScol := if (starts-with($fullid, $approot)) then
         localdts:Collection($fullid, 1, 'children')
     else
@@ -247,7 +248,7 @@ DTSannoCollectionLink">{
                                     <a
                                         class="page-scroll"
                                         href="#{$r}">
-                                        {($member?('dts:citeType') || ' ' || $r)}
+                                        {$r}
                                     </a><a
                                         href="/{$id}{$edition}.{$r}"
                                         class="w3-right">↗</a>
@@ -271,18 +272,32 @@ DTSannoCollectionLink">{
                     <li><b>Navigation API</b>: {$urinav}</li>
                     <li><b>Document API</b>: {$uridoc}</li>
                 </ul>
-            </div>
-            <div
-                class="w3-rest">{
-
-(:    let $test := util:log('info', $docnode/name())
-    return:)
-                    try {
-                        viewItem:textfragment($docnode)
-                    } catch * {
-                        $err:description
-                    }
-                }</div>
+            </div>             
+    <div class="w3-rest">
+    {if (count($children) gt 35) then
+        <div>
+            Only the first 35 sections displayed. Please use navigation (left navigation bar or references) to view other sections.
+        </div>
+    else ()}
+        {
+            for $child in subsequence($children, 1, 35)
+let $cid:=$child/ancestor-or-self::*[@xml:id][1]/@xml:id
+  let $orig := if (exists($cid))
+      then dtsc:requestXML($fullxml)//*[@xml:id = $cid][1]
+      else dtsc:requestXML($fullxml)//*[name() = name($child)][1]
+let $origlang := $orig/ancestor-or-self::t:*[@xml:lang][1]
+let $lang := $origlang/@xml:lang
+    let $childlang :=
+    element { node-name($child) } {
+        $child/@* except $child/@xml:lang,
+        attribute xml:lang { $lang },
+        $child/node()
+    }
+            return  if (not(name($child) = ('label', 'note', 'persName', 'placeName', 'ref'))) then viewItem:textfragment($childlang) else viewItem:textfragment($child)
+        }
+            return viewItem:textfragment($childlang)
+        }
+    </div>)
         </div>
 };
 
@@ -291,16 +306,16 @@ declare function dtsc:DTStext($base, $id) {
     (:support entering what as DTS url? only collection for a given text already?
 
 if collection provided
-e.g.
+e.g. 
 https://dts.perseids.org/collection?id=urn:cts:greekLit:tlg0099.tlg001.perseus-grc2
-follow dts:references for
+follow dts:references for 
 https://dts.perseids.org/navigation?id=urn:cts:greekLit:tlg0099.tlg001.perseus-grc2
 https://dts.perseids.org/navigation?id=urn:cts:greekLit:tlg0099.tlg001.perseus-grc2&ref=12
 https://dts.perseids.org/navigation?id=urn:cts:greekLit:tlg0099.tlg001.perseus-grc2&start=12&end=15
 and follow dts:passage
 https://dts.perseids.org/document?id=urn:cts:greekLit:tlg0099.tlg001.perseus-grc2&ref=12
 
-if navigation provided
+if navigation provided 
 https://dts.perseids.org/navigation?id=urn:cts:greekLit:tlg0099.tlg001.perseus-grc2&start=12&end=15
 and follow dts:passage
 https://dts.perseids.org/document?id=urn:cts:greekLit:tlg0099.tlg001.perseus-grc2&ref=12
@@ -312,16 +327,16 @@ although this works in principle, it does not in practice, too many small diverg
 and encoded or non encoded parts in urns . also adding to a viewer would mean limiting space, i.e.
 much better to just open another window...
 
-tested with the following sandbox module
+tested with the following sandbox module 
 xquery version "3.1";
 declare namespace t="http://www.tei-c.org/ns/1.0";
-import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
-import module namespace dtsc="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/dtsc" at "xmldb:exist:///db/apps/BetMasWeb/modules/dtsclient.xqm";
+import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
+import module namespace dtsc="https://www.betamasaheft.uni-hamburg.de/BetMas/dtsc" at "xmldb:exist:///db/apps/BetMas/modules/dtsclient.xqm";
 
 let $DTSURL :=
 <pairs>
 <pair>
-<base>http://localhost:8080/exist/apps/BetMasWeb/api/dts</base>
+<base>http://localhost:8080/exist/apps/BetMas/api/dts</base>
 <id>https://betamasaheft.eu/LIT1349EpistlEusebius</id>
 </pair>
 <!--<pair>
@@ -338,10 +353,10 @@ let $DTSURL :=
 </pair>-->
 </pairs>
 
-for $d in $DTSURL//*:pair
+for $d in $DTSURL//*:pair 
 let $base := $d/*:base/text()
 let $id := $d/*:id/text()
-return
+return 
 dtsc:DTStext($base, $id)
 :)
     let $cleanbase := (if ($base = '') then
@@ -352,7 +367,7 @@ dtsc:DTStext($base, $id)
         else
             $base)
     let $dtsCollection := $cleanbase || dtsc:request($base)?collections || '?id=' || $id
-    (:let $t := console:log($dtsCollection):)
+    let $t := console:log($dtsCollection)
     let $DTScol := dtsc:request($dtsCollection)
     let $context := $DTScol?('@context')
     let $vocab := $context?('@vocab')
@@ -441,21 +456,16 @@ dtsc:DTStext($base, $id)
                     <li><b>Document API</b>: {$dtsPassage}</li>
                 </ul>
             </div>
-            <div class="w3-rest">
-    {if (count($children) gt 35) then
-        <div>
-            Only the first 35 sections displayed. Please use navigation (left navigation bar or references) to view other sections.
+            <div
+                class="w3-rest">{
+                    try {
+                        viewItem:textfragment($DTSdoc/node()[name() != 'teiHeader'])
+                    } catch * {
+                        $err:description
+                    }
+                }</div>
         </div>
-    else ()}
-        {
-            for $child in subsequence($children, 1, 35)
-            return viewItem:textfragment($child)
-        }
-    </div>)
-    </div>
 };
-
-
 
 declare function dtsc:request($dtspaths) {
     for $dtspath in $dtspaths
