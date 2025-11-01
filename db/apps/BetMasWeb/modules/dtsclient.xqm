@@ -326,13 +326,13 @@ much better to just open another window...
 tested with the following sandbox module
 xquery version "3.1";
 declare namespace t="http://www.tei-c.org/ns/1.0";
-import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
-import module namespace dtsc="https://www.betamasaheft.uni-hamburg.de/BetMas/dtsc" at "xmldb:exist:///db/apps/BetMas/modules/dtsclient.xqm";
+import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
+import module namespace dtsc="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/dtsc" at "xmldb:exist:///db/apps/BetMasWeb/modules/dtsclient.xqm";
 
 let $DTSURL :=
 <pairs>
 <pair>
-<base>http://localhost:8080/exist/apps/BetMas/api/dts</base>
+<base>http://localhost:8080/exist/apps/BetMasWeb/api/dts</base>
 <id>https://betamasaheft.eu/LIT1349EpistlEusebius</id>
 </pair>
 <!--<pair>
@@ -363,7 +363,7 @@ dtsc:DTStext($base, $id)
         else
             $base)
     let $dtsCollection := $cleanbase || dtsc:request($base)?collections || '?id=' || $id
-    let $t := console:log($dtsCollection)
+    (:let $t := console:log($dtsCollection):)
     let $DTScol := dtsc:request($dtsCollection)
     let $context := $DTScol?('@context')
     let $vocab := $context?('@vocab')
