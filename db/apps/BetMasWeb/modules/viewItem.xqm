@@ -6175,26 +6175,15 @@ return:)
                 else
                     ()
             }
-            {if($frag[@subtype="transkribus"] and (count($frag/t:div[@subtype='folio']) gt 120))
-            then  <div>This manuscript transcription has {count($frag/t:div[@subtype='folio'])} folia, which is too much to show.
+          {(:if($frag[@subtype="transkribus"] and (count($frag/t:div[@subtype='folio']) gt 120)) 
+            then  <div>This manuscript transcription has {count($frag/t:div[@subtype='folio'])} folia, which is too much to show. 
             Please, use the navigation bar on the left to narrow down.</div>
-            else (
-            let $textgez := normalize-space(string-join($frag/*//text()))
-            let $gezwords := if ($textgez) then count(tokenize($textgez, '፡')) else 0
-            return
-            if((count($frag/t:div[@type='textpart']) gt 35) and $gezwords gt 2000) 
-            then  <div><span>This text is too long to show. Only the first 35 of {count($frag/t:div[@type='textpart'])} sections are shown.
-            Please, use the navigation bar on the left to narrow down.</span>
-            {for $item in subsequence($frag/t:div[@type='textpart'], 1, 35)
-            return
-                    viewItem:TEI2HTML($item)
-                }</div>
-            else 
+            else :)
                 try {
                     viewItem:TEI2HTML($frag)
                 } catch * {
                     util:log('info', $err:description)
-                })
+                }
             }
             <div
                 class="w3-modal"

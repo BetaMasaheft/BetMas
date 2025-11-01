@@ -274,18 +274,24 @@ DTSannoCollectionLink">{
                 </ul>
             </div>             
     <div class="w3-rest">
-        {for $child in $children
-               let $cid:=$child/ancestor-or-self::*[@xml:id][1]/@xml:id
-               let $orig := if (exists($cid))
-                    then dtsc:requestXML($fullxml)//*[@xml:id = $cid][1]
-                    else dtsc:requestXML($fullxml)//*[name() = name($child)][1]
-               let $lang := if ($child/ancestor-or-self::*[@subtype='transkribus'][1]) then 'gez' else ($origdoc/ancestor-or-self::*[@xml:lang][1]/@xml:lang, 'en')[1]    
-               let $childlang :=
-                  element { node-name($child) } {
-                  $child/@* except $child/@xml:lang,
-                  attribute xml:lang { $lang },
-                  $child/node()
-                  }
+        {  let $textgez := normalize-space(string-join($children/*//text()))
+            let $gezwords := if ($textgez) then count(tokenize($textgez, '፡')) else 0 return
+          if (count($children) gt 50 and $gezwords gt 100) then
+        <div class="w3-red">The text is too long to display. Only the first 50 sections of {count($children)} are displayed. Please use navigation (left navigation bar or references) to view other sections.</div>
+    else ()}
+        {for $child in subsequence($children, 1, 50)
+          let $cid:=$child/ancestor-or-self::*[@xml:id][1]/@xml:id
+          let $orig := if (exists($cid))
+               then dtsc:requestXML($fullxml)//*[@xml:id = $cid][1]
+               else dtsc:requestXML($fullxml)//*[name() = name($child)][1]
+          let $origlang := $orig/ancestor-or-self::t:*[@xml:lang][1]
+          let $lang := $origlang/@xml:lang
+          let $childlang :=
+           element { node-name($child) } {
+           $child/@* except $child/@xml:lang,
+           attribute xml:lang { $lang },
+           $child/node()
+    }
              return  if (name($child) = ('label', 'note', 'persName', 'placeName', 'ref'))
              then viewItem:textfragment($child) else viewItem:textfragment($childlang)
         }</div>)
