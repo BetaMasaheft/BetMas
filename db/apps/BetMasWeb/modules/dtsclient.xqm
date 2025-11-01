@@ -106,7 +106,17 @@ declare function dtsc:text($id, $edition, $ref, $start, $end, $collection) {
         $selectedFrag
     let $docedition:=if($docnode/self::dts:fragment) then $docnode/*[self::t:div][1]
         else $docnode    
-   let $children:= $docedition/*[self::t:div or self::t:ab or self::t:lg or self::t:p or self::t:l or self::t:note]
+    let $did:=$docedition/ancestor-or-self::*[@xml:id][1]/@xml:id
+    let $origdoc := if (exists($did))
+      then dtsc:requestXML($fullxml)//*[@xml:id = $did][1]
+      else dtsc:requestXML($fullxml)//*[name() = name($docedition)][1]
+    let $checklang := ($origdoc/ancestor-or-self::*[@xml:lang][1]/@xml:lang, 'en')[1]    
+    let $doclang :=
+    element { node-name($docedition) } {
+        $docedition/@* except $docedition/@xml:lang,
+        attribute xml:lang { $checklang },
+        $docedition/node()
+    }
     return
         <div
             class="w3-container">
@@ -273,31 +283,13 @@ DTSannoCollectionLink">{
                     <li><b>Document API</b>: {$uridoc}</li>
                 </ul>
             </div>             
-    <div class="w3-rest">
-    {if (count($children) gt 35) then
-        <div>
-            Only the first 35 sections displayed. Please use navigation (left navigation bar or references) to view other sections.
-        </div>
-    else ()}
-        {
-            for $child in subsequence($children, 1, 35)
-let $cid:=$child/ancestor-or-self::*[@xml:id][1]/@xml:id
-  let $orig := if (exists($cid))
-      then dtsc:requestXML($fullxml)//*[@xml:id = $cid][1]
-      else dtsc:requestXML($fullxml)//*[name() = name($child)][1]
-let $origlang := $orig/ancestor-or-self::t:*[@xml:lang][1]
-let $lang := $origlang/@xml:lang
-    let $childlang :=
-    element { node-name($child) } {
-        $child/@* except $child/@xml:lang,
-        attribute xml:lang { $lang },
-        $child/node()
-    }
-            return  if (not(name($child) = ('label', 'note', 'persName', 'placeName', 'ref'))) then viewItem:textfragment($childlang) else viewItem:textfragment($child)
-        }
-            return viewItem:textfragment($childlang)
-        }
-    </div>)
+    <div class="w3-rest">{
+                    try {
+                        viewItem:textfragment($doclang)
+                    } catch * {
+                        $err:description
+                    }
+                }</div>)
         </div>
 };
 
