@@ -201,7 +201,7 @@ declare %private function viewItem:locus($this) {
                 util:log('info', $err:description)
             }
         else
-            if ($this/ancestor::t:TEI//t:div[@xml:id = 'Transkribus']) then
+            if ($this/ancestor::t:TEI//t:div[contains(@xml:id , 'ranskribus')]) then
                 (:      'matches lb':)
                 viewItem:matchinglb($this)
             else
@@ -684,7 +684,7 @@ declare %private function viewItem:choosefacsorlb($locus, $ancID) {
     if ($locus/@facs) then
         attribute onclick {viewItem:imagesID($locus, 'call', $locus/@facs, $ancID)}
     else
-        if ($locus/ancestor::t:TEI//t:div[@xml:id = 'Transkribus']) then
+        if ($locus/ancestor::t:TEI//t:div[contains(@xml:id , 'ranskribus')]) then
             attribute onclick {viewItem:imagesID($locus, 'call', $locus/@*, '')}
              else
         if ($locus/ancestor::t:TEI//t:idno/@facs) then
@@ -4095,7 +4095,7 @@ declare function viewItem:div($node as element(t:div)) {
                 class="w3-row"
                 id="{if ($node/@xml:id) then $node/@xml:id else $node/@type}">
                 {
-                    if ($node/@xml:id = 'Transkribus') then
+                    if (contains($node/@xml:id, 'ranskribus')) then
                         attribute style {'color:gray;'}
                     else
                         ()
@@ -6277,7 +6277,7 @@ declare %private function viewItem:editorName($ref) {
         (
         try {
             if ($viewItem:editors//t:item[@xml:id = $ref]) then
-                $viewItem:editors//t:item[@xml:id = $ref]/text()
+                string-join($viewItem:editors//t:item[@xml:id = $ref]/text())
             else
                 string($ref)
         } catch * {
