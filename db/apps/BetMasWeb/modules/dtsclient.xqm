@@ -217,7 +217,7 @@ DTSannoCollectionLink">{
                         ()
                 }
                 <div
-                    class="w3-bar-block">
+                    class="w3-bar-block w3-border-0">
                     <div
                         class="w3-bar-item w3-black w3-small">
                         <a
@@ -242,16 +242,15 @@ DTSannoCollectionLink">{
                         let $r := $member?('dts:ref')
                         return
                             <div
-                                class="w3-bar-item w3-gray w3-small">
+                                class="w3-bar-item w3-gray w3-tiny w3-border-0 w3-left">
                                 <span
-                                    class="w3-tooltip">
+                                    class="w3-tooltip w3-border-0">
                                     <a
-                                        class="page-scroll"
-                                        href="#{$r}">
-                                        {$r}
-                                    </a><a
                                         href="/{$id}{$edition}.{$r}"
-                                        class="w3-right">↗</a>
+                                        >{$r}</a>
+                                     <a
+                                        class="page-scroll w3-right"
+                                        href="#{$r}">↓</a>
                                     <span
                                         class="w3-text w3-tag"
                                         style="word-break:break-all;">{$approot}/{$id}{$edition}.{$r}</span>
