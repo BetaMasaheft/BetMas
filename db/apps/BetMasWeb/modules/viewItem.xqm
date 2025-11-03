@@ -1229,8 +1229,7 @@ declare %private function viewItem:bibliographyitem($node) {
                         else
                         if ($node/parent::t:witness) then
                             <span>
-                                {string-join($viewItem:bibliography//b:entry[@id = $t]/b:citation/node()) || (if ($crs) then  '  ' ||string-join($crs, ', ') else '')}                                 
-                            </span>
+                                {string-join($viewItem:bibliography//b:entry[@id = $t]/b:citation/node()) || (if (exists($crs)) then '  ' ||string-join($crs, ', ') else '')}                                              </span>
                     else
                         if ($node/parent::t:listBibl[not(ancestor::t:note)]) then
                             <li
@@ -1239,7 +1238,7 @@ declare %private function viewItem:bibliographyitem($node) {
                                 <hr/>
                             </li>
                         else
-                           string-join($viewItem:bibliography//b:entry[@id = $t]/b:citation/node()) || (if ($crs) then  '  ' ||string-join($crs, ', ') else '')
+                            string-join($viewItem:bibliography//b:entry[@id = $t]/b:citation/node()) || (if (exists($crs)) then  '  ' ||string-join($crs, ', ') else '')
 
 };
 
@@ -3391,14 +3390,14 @@ declare %private function viewItem:roleName($node as element(t:roleName)) {
             xmlns="http://www.w3.org/1999/xhtml"
             href="/xpath.html?xpath=%24config%3Acollection-root%2F%2Ft%3AroleName%5Bcontains%28.%2C%27{$node/text()}%27%29%5D"
             class="AttestationsWithSameRole"
-            data-value="{$node/text()}">
-             {concat($node/text(), ' ')}<sup>{string($node/@type)}</sup>
+            data-value="{string($node)}">
+             {concat(string($node), ' ')}<sup>{string($node/@type)}</sup>
         </a>
     else
         <span
             xmlns="http://www.w3.org/1999/xhtml"
             class="w3-tooltip">
-            {concat($node/text(), ' ')}
+            {concat(string($node), ' ')}
             <span
                 class="w3-text"><sup>role: {string($node/@type)}</sup></span>
         </span>
@@ -4401,17 +4400,17 @@ declare %private function viewItem:DTSpartID($node) {
     then
         string($node/preceding::t:pb[@n][1]/@n) || string($node/@n)
     else
-        if ($node/@corresp)
+        if ($node/@xml:id)
         then
-            string($node/@corresp)
+            string($node/@xml:id)
         else
             if ($node/@n)
             then
                 string($node/@n)
             else
-                if ($node/@xml:id)
+                if ($node/@corresp)
                 then
-                    string($node/@xml:id)
+                    string($node/@corresp)
                 else
                     if ($node/@subtype)
                     then
@@ -5975,7 +5974,7 @@ declare %private function viewItem:calendartables($item) {
                                         {
                                             if (starts-with($date/@resp, 'PRS') or starts-with($date/@resp, 'ETH')) then
                                                 exptit:printTitle($date/@resp)
-                                            else if (starts-with($date/@resp, 'bm:')) then string($date/@resp)
+                                            else if (starts-with($date/@resp, 'bm:')) then string-join($viewItem:bibliography//b:entry[@id = string($date/@resp)]/b:citation) 
                                             else
                                                 viewItem:editorName($date/@resp)
                                         }
@@ -6148,7 +6147,7 @@ declare function viewItem:dates($date) {
         (' according to ',
         if (starts-with($date/@resp, 'PRS') or starts-with($date/@resp, 'ETH')) then
             exptit:printTitle($date/@resp)
-           else if (starts-with($date/@resp, 'bm:')) then string($date/@resp)
+           else if (starts-with($date/@resp, 'bm:')) then string(normalize-space($viewItem:bibliography//b:entry[@id = string($date/@resp)]/b:citation))
         else
             viewItem:editorName($date/@resp))
     else
@@ -6277,7 +6276,7 @@ declare %private function viewItem:editorName($ref) {
         (
         try {
             if ($viewItem:editors//t:item[@xml:id = $ref]) then
-                string-join($viewItem:editors//t:item[@xml:id = $ref]/text())
+                string-join( $viewItem:editors//t:item[@xml:id = $ref])
             else
                 string($ref)
         } catch * {
