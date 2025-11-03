@@ -178,6 +178,13 @@ declare function expand:id($id) {
             'https://betamasaheft.eu/' || $id
 };
 
+declare function expand:ids($node as node()) as xs:string {
+  if ($node/@xml:id) then
+    ($node/@xml:id)
+  else
+    $node/name()  || $node/ancestor-or-self::*/@xml:id [1] || $node/position()
+};
+
 declare function expand:token($val) {
     (:   refactoring from post.xslt post:token :)
     if (contains($val, ' '))
@@ -824,6 +831,11 @@ element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
 declare function expand:attributes($node, $bibliography) {
     element {fn:QName("http://www.tei-c.org/ns/1.0", name($node))} {
         ($node/@*[not(name() = 'corresp')][not(name() = 'resp')][not(name() = 'who')][not(name() = 'ref')][not(name() = 'sameAs')][not(name() = 'calendar')],
+         (
+        if (not($node/@xml:id) and $node/ancestor-or-self::t:div[@type='edition']) then
+          attribute xml:id { $node/name()  || $node/ancestor-or-self::*/@xml:id [1] || $node/position()}
+        else
+          ()),
         if ($node/@corresp and $node[not(@type = 'external')] ) then
             attribute corresp {$expand:BMurl || (if(starts-with($node/@corresp, '#')) then string($node/ancestor-or-self::t:TEI/@xml:id) || string($node/@corresp) else string($node/@corresp))}
         else
