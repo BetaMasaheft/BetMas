@@ -833,7 +833,7 @@ declare function expand:attributes($node, $bibliography) {
         ($node/@*[not(name() = 'corresp')][not(name() = 'resp')][not(name() = 'who')][not(name() = 'ref')][not(name() = 'sameAs')][not(name() = 'calendar')],
          (
         if (not($node/@xml:id) and $node/ancestor-or-self::t:div[@type='edition']) then
-          attribute xml:id { $node/name()  || $node/ancestor-or-self::*/@xml:id [1] || $node/position()}
+          attribute xml:id { local-name($node)  || $node/ancestor-or-self::*/@xml:id [1] || $node/position()}
         else
           ()),
         if ($node/@corresp and $node[not(@type = 'external')] ) then
