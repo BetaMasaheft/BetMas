@@ -1963,12 +1963,12 @@ declare %private function viewItem:msItem($msItem) {
                                 ()
                     }
                     {
-         (::           if ((count($msItem/ancestor::t:msItem) gt 1) and ($msItemsCount gt 100))
-                    then <div><a
-                    class="w3-button msitemloader"
-                    data-mainID="{$mainID}"
+                 if ((count($msItem/ancestor::t:msItem) gt 1) and ($msItemsCount gt 100))
+                    then <div><a 
+                    class="w3-button msitemloader" 
+                    data-mainID="{$mainID}" 
                     data-msItem="{replace($msItem/@xml:id, '\.', '-')}">Click here to load the {count($msItem/t:msItem)} items contained in the current one.</a><div id="msitemloadcontainer{replace($msItem/@xml:id, '\.', '-')}"/></div>
-                    else  ::) if ($msItem/t:msItem) then
+                    else   if ($msItem/t:msItem) then
                         (
                         viewItem:TEI2HTML($msItem/node()[not(name()='msItem')])
                         ,
