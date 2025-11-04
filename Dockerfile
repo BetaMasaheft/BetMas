@@ -12,6 +12,7 @@ COPY db/apps/parser /tmp/parser
 RUN mkdir /tmp/dependencies
 ADD  http://exist-db.org:8098/exist/apps/public-repo/public/expath-crypto-module-6.0.1.xar /tmp/dependencies/expath-crypto.xar
 ADD  http://exist-db.org:8098/exist/apps/public-repo/public/shared-resources-0.9.1.xar /tmp/dependencies/shared-resources.xar
+ADD  https://exist-db.org/exist/apps/public-repo/public/monex-4.2.4.xar /tmp/dependencies/00monex.xar
 
 WORKDIR /tmp/BetMas
 RUN zip -0r /tmp/dependencies/XXX_BetMas.xar .
@@ -77,7 +78,7 @@ RUN zip -0r /tmp/dependencies/expanded.xar .
 # RUN  zip -0r /tmp/dependencies/chojnacki.xar .
 
 
-FROM duncdrum/existdb:6.2.0
+FROM duncdrum/existdb:6.4.0
 
 # RUN [ "java", "org.exist.start.Main", "client", "--no-gui",  "-l", "-u", "admin", "-P", "", "-x", "xmldb:create-collection('/db/apps', 'log')" ]
 
