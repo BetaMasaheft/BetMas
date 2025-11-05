@@ -684,7 +684,7 @@ let $cS :=
                                  else :)
                                  expand:tei2fulltei($node/node(), $bibliography)
                         )
-                    }} catch * {util:log('INFO', $err:description), util:log('INFO', $node)}
+                    }} catch * {util:log('INFO', $err:description), util:log('INFO', (concat('error in the node ',name($node))))}
                     (:                    anything which is not a node of those named above, including text() and attributes:)
             default
                 return
@@ -833,7 +833,7 @@ declare function expand:attributes($node, $bibliography) {
         ($node/@*[not(name() = 'corresp')][not(name() = 'resp')][not(name() = 'who')][not(name() = 'ref')][not(name() = 'sameAs')][not(name() = 'calendar')],
          (
         if (not($node/@xml:id) and $node/ancestor-or-self::t:div[@type='edition']) then
-          attribute xml:id { local-name($node)  || $node/ancestor-or-self::*/@xml:id [1] || $node/position()}
+          attribute xml:id { local-name($node)  || (if ($node/ancestor-or-self::*/@xml:id [1]) then string-join($node/ancestor-or-self::*/@xml:id [1]) || $node/position() else (generate-id())) }
         else
           ()),
         if ($node/@corresp and $node[not(@type = 'external')] ) then
