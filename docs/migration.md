@@ -1,7 +1,7 @@
 # Migrate BetaMasaHeft to new server
 
 ## Loading data
-
+<!-- This is no longer true -->
 Most data is on GitHub, except expanded data, lists and Dillmann
 
 ### Loading application
@@ -21,7 +21,23 @@ Most data is on GitHub, except expanded data, lists and Dillmann
 	 * /db/apps/parser
    * Extract and place into [BetMas](https://github.com/BetaMasaheft/BetMas)
    * Rebase fixing commits over it: [BetMas#exist-6.x](https://github.com/BetaMasaheft/BetMas/tree/exist-6.x)
- * Deploy them
+ * Deploy the apps
+     * Tuttle
+ 	 * BetMas
+	 * BetMasApi
+	 * BetMasService
+	 * BetMasWeb
+	 * BetMasInit
+	 * EthioStudies
+	 * alpheiosannotations
+	 * DillmannData
+	 * Dillmann
+	 * Schema
+	 * guidelines (data)
+	 * guidelinesApp
+	 * lists
+	 * parser
+
  * Update app url
    * edit /db/apps/BetMasWeb/modules/loc.xqm to read the correct app url
  * Register RestXQ stuff:
@@ -64,7 +80,7 @@ let $target :=
     (: Put the files into a corresponding directory in the file system :)
     concat($file-system-target-base-directory, replace(base-uri($doc), '/', '\\'))
 return
-    file:serialize($doc, $target, ("omit-xml-declaration=yes", "indent=yes"))
+    file:serialize($doc, $target, ("omit-xml-declaration=yes", "indent=yes", "expand-xinclude=false"))
 ```
 
 After that, rsync it to local:

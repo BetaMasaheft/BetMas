@@ -26,12 +26,12 @@ declare function titles:printTitle($node as element()) {
    return
    titles:switcher($resource//t:TEI/@type, $resource)
    };
-   
-   
-(:looks for different possible locations of anchor and where to pick the correct label:)   
+
+
+(:looks for different possible locations of anchor and where to pick the correct label:)
 declare function titles:printSubtitle($node as node(), $SUBid as xs:string) as xs:string {
     if( starts-with($SUBid, 'tr')) then 'transformation ' ||  $SUBid
-else if( starts-with($SUBid, 'Uni')) then $SUBid 
+else if( starts-with($SUBid, 'Uni')) then $SUBid
 else
     let $item := $node//id($SUBid)
     return
@@ -39,10 +39,10 @@ else
              (string($item/@xml:lang) || (if($item/text()) then $item/text() else ' ... empty, sorry!'))
         else
         if ($item/name() = 'persName') then
-            
+
             (let $r := root($item)
             return
-            if($r//t:persName[@type eq  'normalized'][contains(@corresp,$SUBid)]) 
+            if($r//t:persName[@type eq  'normalized'][contains(@corresp,$SUBid)])
             then string-join($r//t:persName[@type eq  'normalized'][contains(@corresp,$SUBid)]//text(), '')
             else normalize-space(string-join($item, ''))
             )
@@ -59,7 +59,7 @@ else
                    (normalize-space(string-join(titles:tei2string($item/t:label), '')) || $sameAs)
             else if ($item[not(t:label)]/@corresp) then
                    normalize-space(string-join(titles:printTitleID($item/@corresp), ''))
-            else if (matches($SUBid, '^a\d+$'))  then '  additio ' || $SUBid     
+            else if (matches($SUBid, '^a\d+$'))  then '  additio ' || $SUBid
             else if ($item/t:desc) then
                     (titles:printTitleID(string($item/t:desc/@type)) || ' ' || $SUBid)
             else if (($item/@subtype eq  'Monday' or $item/@subtype eq  'Tuesday' or $item/@subtype eq  'Wednesday' or $item/@subtype eq  'Thursday' or $item/@subtype eq  'Friday' or $item/@subtype eq  'Saturday' or $item/@subtype eq  'Sunday'    )and not($item/node())) then
@@ -70,7 +70,7 @@ else
 };
 
 (:this is now a switch function, deciding if to go ahead with simple print title or subtitles:)
-declare 
+declare
 %test:arg('id', 'sdc:UniCont1') %test:assertEquals('La Synthaxe du Codex UniCont1')
 %test:arg('id', 'LIT2317Senodo#') %test:assertEquals('Senodos')
 %test:arg('id', '#') %test:assertEquals('&lt;span class="w3-tag w3-red"&gt;no item yet with id #&lt;/span&gt;')
@@ -90,19 +90,19 @@ function titles:printTitleID($id as xs:string)
               return
               if($formerly) then
                 titles:printTitleID($formerly/@active) || ' [now '||string($formerly/@active)||', formerly also listed as '||$id||', which was requested here but has been deleted on '||string($del/@change)||']'
-                else $id || ' was permanently deleted' 
+                else $id || ' was permanently deleted'
    else if (starts-with($id, 'sdc:')) then 'La Synthaxe du Codex ' || substring-after($id, 'sdc:' )
-    (: another hack for things like ref="#" :) 
-    else if ($id = '#') then  'no item yet with id ' || $id 
-    (: hack to avoid the bad usage of # at the end of an id like <title type="complete" ref="LIT2317Senodo#" xml:lang="gez"> :) 
+    (: another hack for things like ref="#" :)
+    else if ($id = '#') then  'no item yet with id ' || $id
+    (: hack to avoid the bad usage of # at the end of an id like <title type="complete" ref="LIT2317Senodo#" xml:lang="gez"> :)
     else if ($titles:TUList//t:item[@corresp eq  $id]) then ($titles:TUList//t:item[@corresp eq  $id][1]/node())
     else if ($titles:persNamesList//t:item[@corresp eq  $id]) then ($titles:persNamesList//t:item[@corresp eq  $id][1]/node())
     else if (ends-with($id, '#')) then (
-                                let $newid := replace($id, '#', '') 
+                                let $newid := replace($id, '#', '')
                                 return titles:printTitleID($newid) )
-    else if (matches($id, 'wd:Q\d+') or starts-with($id, 'gn:') or starts-with($id, 'pleiades:')) 
+    else if (matches($id, 'wd:Q\d+') or starts-with($id, 'gn:') or starts-with($id, 'pleiades:'))
             then titles:decidePlaceNameSource($id)
-    (: if the id has a subid, than split it :) 
+    (: if the id has a subid, than split it :)
     else if (contains($id, '#')) then
     (   let $mainID := substring-before($id, '#')
         let $SUBid := substring-after($id, '#')
@@ -118,11 +118,11 @@ function titles:printTitleID($id as xs:string)
                              if ($subtitlemain) then $subtitlemain
                             else if ($subtitlenorm) then $subtitlenorm
                             else $tit/text()
-                 ) 
+                 )
             else
 (:            format the title, add it to the list and pass again to this function, which will have something to match now:)
                 (let $subtitle := titles:printSubtitle($node, $SUBid)
-                 let $name := (titles:printTitleMainID($mainID)|| ': '||$subtitle)   
+                 let $name := (titles:printTitleMainID($mainID)|| ': '||$subtitle)
                  let $addit := titles:updateTUList($name, $id)
                     return
                         titles:printTitleID($id)
@@ -130,11 +130,11 @@ function titles:printTitleID($id as xs:string)
     )
     else if ($id = '') then  '?'
     (: if no node could be found with the main id, that has a problem :)
-     else 
-        ( 'No item: ' || $mainID 
+     else
+        ( 'No item: ' || $mainID
             || ', could not check for ' || $SUBid
         )
-    )    
+    )
        (: if not, procede to main title printing :)
     else
         titles:printTitleMainID($id)
@@ -151,34 +151,33 @@ eventually added result is added to the place list names:)
            let $resource := collection($c)//t:TEI[@xml:id = $mainID]
            return
                if (count($resource) = 0) then
-            'No item: ' || $id 
+            'No item: ' || $id
                else if (count($resource) > 1) then
-            'More than 1 ' || $id 
+            'More than 1 ' || $id
                else
                    titles:switcher($resource/@type, $resource)
    };
-   
-   
-   
-declare 
+
+
+
+declare
 %test:arg('id', 'BNFet32') %test:assertEquals('Paris, Bibliothèque nationale de France, BnF Éthiopien 32')
 %test:arg('id', 'LIT2317Senodo') %test:assertEquals('Senodos')
 %test:arg('id', 'LIT1367Exodus') %test:assertEquals('Exodus')
 %test:arg('id', 'PRS11160HabtaS') %test:assertEquals(' Habta Śǝllāse')
 %test:arg('id', 'LOC1001Aallee') %test:assertEquals('Aallee')
 function titles:printTitleMainID($id as xs:string)
-   {   
-       if (matches($id, 'wd:Q\d+') or starts-with($id, 'gn:') or starts-with($id, 'pleiades:')) 
+   {
+       if (matches($id, 'wd:Q\d+') or starts-with($id, 'gn:') or starts-with($id, 'pleiades:'))
     then
            (titles:decidePlaceNameSource($id))
     else (: always look at the root of the given node parameter of the function and then switch :)
-           let $mainID := if (contains($id, '#'))  then substring-before($id, '#') else $id
            let $mainID := if (contains($id, '#'))  then substring-before($id, '#') else $id
     (:       let $catchID := collection($config:bmdata-root)/id($mainID):)
            let $resource := collection($config:bmdata-root)//t:TEI[@xml:id = $mainID]
            return
                if (count($resource) = 0) then
-           'No item: ' || $id 
+           'No item: ' || $id
                else if (count($resource) > 1) then
             'More than 1 ' || $id
                else
@@ -186,7 +185,7 @@ function titles:printTitleMainID($id as xs:string)
                    return
                 titles:switcher($type, $resource)
    };
-   
+
    declare function titles:switcher($type, $resource){
   (: let $test := console:log(string-join($resource/ancestor-or-self::t:TEI/@xml:id, ' '))
    return:)
@@ -204,11 +203,11 @@ switch($type)
             default return $resource//t:titleStmt/t:title[1]/text()
 };
 
-   
+
 declare function titles:manuscriptLabelFormatter($resource) as xs:string {
-   if ($resource//objectDesc[@form eq  'Inscription']) 
+   if ($resource//objectDesc[@form eq  'Inscription'])
        then ($resource//t:msIdentifier/t:idno/text())
-    else (if ($resource//t:repository/text() = 'Lost') 
+    else (if ($resource//t:repository/text() = 'Lost')
           then ('Lost. ' || $resource//t:msIdentifier/t:idno/text())
           else if ($resource//t:repository/@ref and $resource//t:msDesc/t:msIdentifier/t:idno/text())
                 then
@@ -233,7 +232,7 @@ declare function titles:manuscriptLabelFormatter($resource) as xs:string {
                                            )
                     let $candidate := string-join($repoPlace, ' ') || ', ' || (
                                      if ($repo = 'No Institution record') then $repo else ($reponame)
-                                     ) || ', ' || 
+                                     ) || ', ' ||
                                            $resource//t:msDesc/t:msIdentifier/t:idno[1]/text()
                     return normalize-space($candidate)
         else 'no repository data for ' || string($resource/@xml:id)
@@ -291,8 +290,8 @@ return
                             then
                                 ($namegez/t:forename/text()
                                 || ' ' || $namegez/t:surname/text())
-                            
-                           
+
+
                             else
                                 if ($nameennorm)
                                 then
@@ -303,7 +302,7 @@ return
                                 then
                                     ($nameOthers[1]/t:forename/text()
                                     || ' ' || $nameOthers[1]/t:surname/text())
-                                
+
                                 else
                                     if ($resource//t:person/t:persName[@xml:id])
                                     then
@@ -312,11 +311,11 @@ return
                                         ($name/t:forename/text()
                                         || ' '
                                         || $name/t:surname/text())
-                                    
+
                                     else
                                         ($p/t:persName[position() = 1]/t:forename[1]/text() || ' '
                                         || $p/t:persName[position() = 1]/t:surname[1]/text()))
-                            
+
                             (:       then check if it is a personGrp:)
                         else
                             if ($group) then
@@ -324,29 +323,29 @@ return
                                 if ($groupgez)
                                 then
                                     $groupgez/text()
-                                
-                                
+
+
                                 else
                                     if ($pg/t:persName[t:orgName])
                                     then
                                         let $gname:=$pg/t:persName[@xml:id = 'n1']
                                         return $gname/t:orgName/text()
-                                    
-                                    
+
+
                                     else
                                         if ($groupennorm)
                                         then
                                             $groupennorm
-                                        
+
                                         else
                                             if ($pg/t:persName[@xml:id])
                                             then
                                                 let $gname:=$pg/t:persName[@xml:id = 'n1']
                                                 return string-join($gname/text())
-                                            
+
                                             else
                                                 ($pg/t:persName[position() = 1]//text()))
-                                
+
                                 (:       otherways is just a normal person:)
                                  else
                             if ($Maintitle)
@@ -357,12 +356,12 @@ return
                                 if ($namegez)
                                 then
                                     string-join($namegez//text())
-                                
+
                                 else
                                     if ($nameennorm)
                                     then
                                         string-join($nameennorm//text())
-                                    
+
                                     else
                                         if ($nameen)
                                         then
@@ -371,14 +370,14 @@ return
                                       if ($nameOthers)
                                         then
                                     string-join($nameOthers[1]/text())
-                                   
-                                        
+
+
                                         else
                                             if ($p/t:persName[@xml:id])
                                             then
                                                 let $name := $p/t:persName[@xml:id = 'n1']
                                                 return string-join($name//text())
-                                            
+
                                             else
                                                 string-join($p/t:persName[position() = 1][text()]//text())
                                 )
@@ -423,7 +422,7 @@ normalize-space(string-join($tostring))
 
 declare function titles:decidePlName($plaID){
     if (starts-with($plaID, 'wd:'))
-        then titles:getwikidataNames($plaID) 
+        then titles:getwikidataNames($plaID)
     else if (starts-with($plaID, 'gn:'))
         then titles:getGeoNames($plaID)
     else
@@ -434,24 +433,24 @@ declare function titles:decidePlName($plaID){
 
 (:Given an id, decides if it is one of BM or from another source and gets the name accordingly:)
 declare function titles:decidePlaceNameSource($pRef as xs:string){
-if ($titles:placeNamesList//t:item[@corresp =  $pRef]) 
+if ($titles:placeNamesList//t:item[@corresp =  $pRef])
     then $titles:placeNamesList//t:item[@corresp = $pRef][1]/text()
 else if (starts-with($pRef, 'gn:')) then (
-        let $name := titles:getGeoNames($pRef) 
-        let $addit := titles:updatePlaceList($name, $pRef) 
+        let $name := titles:getGeoNames($pRef)
+        let $addit := titles:updatePlaceList($name, $pRef)
         return
-        titles:decidePlaceNameSource($pRef)) 
+        titles:decidePlaceNameSource($pRef))
 else if (starts-with($pRef, 'pleiades:')) then (
-        let $name := titles:getPleiadesNames($pRef) 
-        let $addit := titles:updatePlaceList($name, $pRef) 
+        let $name := titles:getPleiadesNames($pRef)
+        let $addit := titles:updatePlaceList($name, $pRef)
         return
-            titles:decidePlaceNameSource($pRef)) 
+            titles:decidePlaceNameSource($pRef))
 else if (matches($pRef, 'wd:Q\d+')) then (
-        let $name := titles:getwikidataNames($pRef) 
+        let $name := titles:getwikidataNames($pRef)
 (:    let $test := console:log($name):)
-        let $addit := titles:updatePlaceList($name, $pRef) 
+        let $addit := titles:updatePlaceList($name, $pRef)
         return
-            titles:decidePlaceNameSource($pRef)) 
+            titles:decidePlaceNameSource($pRef))
 else (
     let $resource := $titles:collection-rootPl/id($pRef)
     return titles:placeNameSelector($resource)
@@ -460,15 +459,15 @@ else (
 
 (:Given an id, decides if it is one of BM or from another source and gets the name accordingly:)
 declare function titles:decidepersNameSource($resource, $pRef as xs:string){
-if ($titles:persNamesList//t:item[@corresp eq  $pRef]) 
+if ($titles:persNamesList//t:item[@corresp eq  $pRef])
     then $titles:persNamesList//t:item[@corresp eq  $pRef][1]/text()
 else if (matches($pRef, 'wd:Q\d+')) then (
-    let $name := titles:getwikidataNames($pRef) 
+    let $name := titles:getwikidataNames($pRef)
 (:    let $test := console:log($name):)
-    let $addit := titles:updatePersList($name, $pRef) 
+    let $addit := titles:updatePersList($name, $pRef)
     return titles:decidepersNameSource($resource, $pRef)
-    ) 
-else 
+    )
+else
   let $name := titles:persNameSelector($resource)
   let $addit := titles:updatePersList($name, $pRef)
   return titles:decidepersNameSource($resource, $pRef)
@@ -476,9 +475,9 @@ else
 
 (:Given an id, decides if it is one of BM or from another source and gets the name accordingly:)
 declare function titles:decideTUSource($resource, $pRef as xs:string){
-if ($titles:TUList//t:item[@corresp eq  $pRef]) 
+if ($titles:TUList//t:item[@corresp eq  $pRef])
     then $titles:TUList//t:item[@corresp eq  $pRef][1]/text()
-else 
+else
   let $name := titles:worknarrTitleSelector($resource)
   let $addit := titles:updateTUList($name, $pRef)
   return titles:decideTUSource($resource, $pRef)
@@ -487,9 +486,9 @@ else
 declare function titles:updatePlaceList($name, $pRef){
 let $_ := util:log('INFO', 'Updating placeNamesList with ' || $name || ': ' || $pRef)
 let $placeslist := $titles:placeNamesList//t:list
-return 
-update insert <item 
-xmlns="http://www.tei-c.org/ns/1.0" 
+return
+update insert <item
+xmlns="http://www.tei-c.org/ns/1.0"
 change="entryAddedAt{current-dateTime()}"
 corresp="{$pRef}">{$name}</item> into  $placeslist
 };
@@ -497,9 +496,9 @@ corresp="{$pRef}">{$name}</item> into  $placeslist
 declare function titles:updatePersList($name, $pRef){
 let $_ := util:log('INFO', 'Updating persNamesList with ' || $name || ': ' || $pRef)
 let $perslist := $titles:persNamesList//t:list
-return 
-update insert <item 
-xmlns="http://www.tei-c.org/ns/1.0" 
+return
+update insert <item
+xmlns="http://www.tei-c.org/ns/1.0"
 change="entryAddedAt{current-dateTime()}"
 corresp="{$pRef}">{$name}</item> into  $perslist
 };
@@ -507,9 +506,9 @@ corresp="{$pRef}">{$name}</item> into  $perslist
 declare function titles:updateTUList($name, $pRef){
 let $_ := util:log('INFO', 'Updating TUList with ' || $name || ': ' || $pRef)
 let $TUList := $titles:TUList//t:list
-return 
-update insert <item 
-xmlns="http://www.tei-c.org/ns/1.0" 
+return
+update insert <item
+xmlns="http://www.tei-c.org/ns/1.0"
 change="entryAddedAt{current-dateTime()}"
 corresp="{$pRef}">{$name}</item> into  $TUList
 };
@@ -552,9 +551,9 @@ declare function titles:getPleiadesNames($string as xs:string) {
 
    let $plid := substring-after($string, 'pleiades:')
    let $url := concat('https://pleiades.stoa.org/places/', $plid, '/atom')
-  let $request := 
+  let $request :=
     <hc:request href="{$url}" method="GET">
-        <hc:header name="Connection" value="close"/>    
+        <hc:header name="Connection" value="close"/>
     </hc:request>
 let $title :=
 let $response := hc:send-request($request)
@@ -568,8 +567,8 @@ return string($title[1])
 declare function titles:getwikidataNames($pRef as xs:string){
 let $pRef := substring-after($pRef, 'wd:')
 let $sparql := 'SELECT * WHERE {
-  wd:' || $pRef || ' rdfs:label ?label . 
-  FILTER (langMatches( lang(?label), "EN" ) )  
+  wd:' || $pRef || ' rdfs:label ?label .
+  FILTER (langMatches( lang(?label), "EN" ) )
 }'
 
 
@@ -584,7 +583,7 @@ $req//sparql:result/sparql:binding[@name eq "label"]/sparql:literal[@xml:lang='e
 
 (:takes a node as argument and loops through each element it contains. if it matches one of the definitions it does that, otherways checkes inside it. This actually reproduces the logic of the apply-templates function in  xslt:)
 declare function titles:tei2string($nodes as node()*) {
-    
+
     for $node in $nodes
     return
         typeswitch ($node)
@@ -596,7 +595,7 @@ declare function titles:tei2string($nodes as node()*) {
                     titles:printTitleMainID($node/@ref)
          case element(t:placeName)
                 return
-                    titles:printTitleMainID($node/@ref)                     
+                    titles:printTitleMainID($node/@ref)
             case element()
                 return
                     titles:tei2string($node/node())
