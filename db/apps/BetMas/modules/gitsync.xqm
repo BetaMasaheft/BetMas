@@ -213,29 +213,33 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
         return
            ( try {
 (:                first update the mirror collection of the git repositories in BetMasData :)
-                  gitsync:updateMirrorCol($collection-uri, $file-name, $file-data, 'update') } 
+                  gitsync:updateMirrorCol($collection-uri, $file-name, $file-data, 'update'),      util:log("INFO", concat('updated BetMasData ', $file-name))
+ } 
                   catch * {
                 (<response
                     status="fail">
                     <message>Failed to update resource: {concat($err:code, ": ", $err:description)}</message>
                 </response>,
-                        gitsync:failedCommitMessage($committerEmail, $data-collection, concat('Failed to update resource ' ,$file-name, ': ',$err:code, ": ", $err:description))
+                        util:log("INFO", concat('Failed to update resource ' ,$file-name, ': ',$err:code, ": ", $err:description))
                         )
             }
             ,
 (:            update the bibliography    
                 gitsync:updateBibl($collection-uri, $file-name) ,:)
 (:          then    update the  expanded collection    :)
-                gitsync:updateExpanded($collection-uri, $file-name) ,
+             try {  gitsync:updateExpanded($collection-uri, $file-name) , util:log("INFO", concat('updated expanded ', $file-name))} catch * {(util:log("INFO", concat('Failed to update expanded resource ' ,$file-name, ': ',$err:code, ": ", $err:description)))}
+             ,
 (:        if the update goes well, validation happens after storing, 
 :  because the app needs to remain in sync with the GIT repo. Yes, invalid data has to be allowed in... 
                 gitsync:fileortax($collection-uri, $file-name, $committerEmail) ,:)
 (:   then update autority lists:)
-                 gitsync:updateLists($data-collection, $file-name) ,
+              try {   gitsync:updateLists($data-collection, $file-name) , util:log("INFO", concat('updated lists ', $file-name))} catch * {(util:log("INFO", concat('Failed to update lists ' ,$file-name, ': ',$err:code, ": ", $err:description)))}
+              ,
 (:                    then update the RDF repository :)
-                 gitsync:rdf($collection-uri, $file-name) ,
+              try {   gitsync:rdf($collection-uri, $file-name) , util:log("INFO", concat('updated rdf ', $file-name))} catch * {(util:log("INFO", concat('Failed to update rdf ' ,$file-name, ': ',$err:code, ": ", $err:description)))}
+              ,
 (:                   and finally check the ids for wrong anchors:)
-                 gitsync:checkAnchors($data-collection, $committerEmail, $collection-uri, $file-name)
+               try {  gitsync:checkAnchors($data-collection, $committerEmail, $collection-uri, $file-name), util:log("INFO", concat('check anchors ', $file-name))} catch * {(util:log("INFO", concat('Failed to check anchors ' ,$file-name, ': ',$err:code, ": ", $err:description)))}
 (:                    if any of these fails follow instructions in catch, 
 - send a fail response to git webhook and an email to the committer
 :)                )
@@ -280,18 +284,18 @@ declare function gitsync:do-add($commits, $contents-url as xs:string?, $data-col
             try {
                 (
                 gitsync:updateMirrorCol($collection-uri, $file-name, $file-data, 'add'),
-                console:log('got here'),
+                util:log("INFO", concat('added to BetMasData ', $file-name)),
  (:               gitsync:updateBibl($collection-uri, $file-name) ,:)
 (:          then    update the  expanded collection    :)
-                gitsync:updateExpanded($collection-uri, $file-name) ,
+              try {  gitsync:updateExpanded($collection-uri, $file-name)} catch * {(util:log("INFO", concat('Failed to update expanded resource ' ,$file-name, ': ',$err:code, ": ", $err:description)))} ,
                 (:        if the update goes well, validation happens after storing, because the app needs to remain in sync with the GIT repo. Yes, invalid data has to be allowed in.:)
                 let $stored-file := doc($collection-uri || '/' || $file-name)
                 return
                    ( 
-                   gitsync:validateAndConfirm($stored-file, $committerEmail, 'updated')
+                  try { gitsync:validateAndConfirm($stored-file, $committerEmail, 'updated')} catch * {(util:log("INFO", concat('validateAndConfirm ' ,$stored-file, ': ',$err:code, ": ", $err:description)))}
                     ,
                     if(contains($data-collection, 'institutions')) then (
-                        gitsync:updateinstitutionsADD($file-name)
+                      try { gitsync:updateinstitutionsADD($file-name)} catch * {(util:log("INFO", concat('could not add to the list ' ,$stored-file)))}
                     ) else (),
                       let $deletedlist := $gitsync:deleted//t:list
                       let $alldeleted := $gitsync:deleted//t:list/t:item/text()
@@ -305,7 +309,7 @@ declare function gitsync:do-add($commits, $contents-url as xs:string?, $data-col
                     return
                     'removed value from the list in deleted.xml'
                     ,
-                    gitsync:rdf($collection-uri, $file-name)
+                  try { gitsync:rdf($collection-uri, $file-name)} catch * {(util:log("INFO", concat('failed rdf ' ,$file-name, ': ',$err:code, ": ", $err:description)))}
                      ,
                 if (ends-with($file-name, '.xml')) then (
                      let $stored-fileID := $stored-file/t:TEI/@xml:id/string()
@@ -332,7 +336,7 @@ declare function gitsync:do-add($commits, $contents-url as xs:string?, $data-col
                     <message>Failed to add resource: {concat($err:code, ": ", $err:description)}
                     </message>
                 </response>,
-                        gitsync:failedCommitMessage($committerEmail, $data-collection, concat('Failed to add resource ' ,$file-name, ': ',$err:code, ": ", $err:description))
+                        util:log("INFO", concat('Failed to add resource ' ,$file-name, ': ',$err:code, ": ", $err:description))
                         )
             }
 };
@@ -395,7 +399,7 @@ let $removePlaces := try { gitsync:updateplacesDEL($file-name) } catch * { () }
         let $updateDeleted :=
             update insert <item xmlns="http://www.tei-c.org/ns/1.0"
                     source="{concat($collection-uri, '/', $file-name)}"
-                    change="{current-dateTime()}">{$id}</item> into $deletedlist
+                    change="{current-date()}">{$id}</item> into $deletedlist
         return
             ()
 };
@@ -606,8 +610,7 @@ declare function gitsync:validateAndConfirm($item, $mail, $type) {
                 </message>
             </mail>
             return
-                (:send the email
-                mail:send-email($contributorMessage, 'public.uni-hamburg.de', ()):)()
+                util:log('INFO', concat('invalid file ', $id))
             
             )
 };
@@ -644,8 +647,7 @@ let $address := if ($mail[1] = 'noreply@github.com') then 'info@betamasaheft.eu'
                 </message>
             </mail>
             return
-                (:send the email
-                mail:send-email($WrongIdMessage, 'public.uni-hamburg.de', ()):)()
+                util:log('INFO', concat('The file ', $filename, '.xml has id ', $storedFileID, 'instead of ', $filename))
 };
 
 (:~
@@ -678,8 +680,7 @@ declare function gitsync:wrongAnchor($mail, $intersect, $filename) {
                 </message>
             </mail>
             return
-                (:send the email
-                mail:send-email($WrongIdMessage, 'public.uni-hamburg.de', ()):)()
+                util:log('INFO', concat('The file ', $filename, '.xml has id ', string-join($intersect, ', '), 'which is reserved for taxonomy.'))
 };
 
 (:~
@@ -714,8 +715,7 @@ declare function gitsync:failedCommitMessage($mail, $data-collection, $message) 
                 </message>
             </mail>
             return
-                (:send the email
-               mail:send-email( $failureMessage, 'public.uni-hamburg.de', ()):)()
+                util:log('INFO', concat('Failed syncing ', $data-collection))
 };
 
 
@@ -746,8 +746,7 @@ declare function gitsync:mergeCommitMessage($mail, $data-collection, $message, $
                 </message>
             </mail>
             return
-                (:send the email
-               mail:send-email( $failureMessage, 'public.uni-hamburg.de', ()):)()
+                util:log('INFO', concat('Failed syncing ', $data-collection))
 };
 (:~
  : taxonomy and canonicaltaxonomy cannot be updated on the fly not to break the continuity of the
@@ -774,8 +773,7 @@ declare function gitsync:TaxonomyMessage() {
                 </message>
             </mail>
             return
-                (:send the email
-               mail:send-email( $failureMessage, 'public.uni-hamburg.de', ()):) ()
+                util:log('INFO', 'taxonomy.xml has been updated. the canonicaltaxonomy.xml is thus outdated')
 };
 
 (:~
@@ -783,10 +781,11 @@ declare function gitsync:TaxonomyMessage() {
  : @param $json-data github response serializing as xml xqjson:parse-json()  
  :)
 declare function gitsync:parse-request($json-data, $data-collection) {
-let $login := xmldb:login($data-collection, 'Pietro', 'Hdt7.10')
+let $login := xmldb:login($data-collection, 'BetaMasaheftAdmin', 'BMAdmin')
 let $repository := $json-data?repository
 let $cturl := $repository?contents_url
 let $contents-url := substring-before($cturl, '{')
+let $test1 := util:log("INFO", 'got here')
 return
         try {
             if ($json-data?ref = "refs/heads/master") then
@@ -794,15 +793,15 @@ return
                     let $commits := $json-data?commits
                     return
                         (
-                        if (array:size($commits?*?modified) ge 1) then
+                        if (array:size($commits?1?modified) ge 1) then
                                gitsync:do-update($commits, $contents-url, $data-collection)
                         else
                             (),
-                        if (array:size($commits?*?removed) ge 1) then
+                        if (array:size($commits?1?removed) ge 1) then
                             gitsync:do-delete($commits, $contents-url, $data-collection)
                         else
                             (),
-                        if (array:size($commits?*?added) ge 1) then
+                        if (array:size($commits?1?added) ge 1) then
                             gitsync:do-add($commits, $contents-url, $data-collection)
                         else
                             ())
@@ -810,12 +809,12 @@ return
                     (<response
                         status="fail"><message>This is a GitHub request, however there were no commits.</message></response>
                         ,
-                        gitsync:failedCommitMessage('', $data-collection, 'This is a GitHub request, however there were no commits.')
+                        util:log("INFO", concat($data-collection, ' This is a GitHub request, however there were no commits.'))
                         )
             else
                 (<response
                     status="fail"><message>Not from the master branch.</message></response>,
-                        gitsync:mergeCommitMessage('', $data-collection, 'Not from the master branch.', $json-data?ref)
+                        util:log("INFO", concat($data-collection, ' Not from the master branch.', $json-data?ref))
                         )
                         
         } catch * {
@@ -823,7 +822,7 @@ return
                 status="fail">
                 <message>{concat($err:code, ": ", $err:description)}</message>
             </response>,
-                        gitsync:failedCommitMessage('', $data-collection, concat($err:code, ": ", $err:description))
+                        util:log("INFO", concat($data-collection, ": ", $err:code, ": ", $err:description))
                         )
         }
 };
