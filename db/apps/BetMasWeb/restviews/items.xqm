@@ -253,7 +253,7 @@ return
 if(xdb:collection-available($coll)) then (
 (:check if the item has been deleted:)
 if( $restItem:deleted//t:item[. eq $id]) then
-(let $formerlyListed := item2:formerly($id)
+(let $formerlyListed := collection($config:data-root)//t:relation[@name='betmas:formerlyAlsoListedAs' and contains(@passive , $id)][1]
 return
 if(count($formerlyListed) = 1) then 
 (:redirect to record containing formerly listed as:)
