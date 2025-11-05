@@ -5,11 +5,14 @@ RUN apt update && apt install -y zip
 
 COPY db/apps/BetMas /tmp/BetMas
 COPY db/apps/BetMasService /tmp/BetMasService
+COPY db/apps/BetMasInitInstance /tmp/BetMasInitInstance
 COPY db/apps/BetMasWeb /tmp/BetMasWeb
 COPY db/apps/lists /tmp/lists
 COPY db/apps/parser /tmp/parser
 
 RUN mkdir /tmp/dependencies
+RUN mkdir /tmp/stage-2
+
 ADD  http://exist-db.org:8098/exist/apps/public-repo/public/expath-crypto-module-6.0.1.xar /tmp/dependencies/expath-crypto.xar
 ADD  http://exist-db.org:8098/exist/apps/public-repo/public/shared-resources-0.9.1.xar /tmp/dependencies/shared-resources.xar
 ADD  https://exist-db.org/exist/apps/public-repo/public/monex-4.2.4.xar /tmp/dependencies/00monex.xar
@@ -26,6 +29,9 @@ WORKDIR /tmp/BetMasWeb
 RUN  zip -0r /tmp/dependencies/BetMasWeb.xar .
 WORKDIR /tmp/BetMasService
 RUN  zip -0r /tmp/dependencies/BetMasService.xar .
+
+WORKDIR /tmp/BetMasInitInstance
+RUN  zip -0r /tmp/stage-2/BetMasInitInstance.xar .
 
 # Now install the rest of the items
 ADD https://github.com/BetaMasaheft/Works.git /tmp/Works
@@ -89,6 +95,7 @@ RUN [ "java", "org.exist.start.Main", "client", "--no-gui",  "-l", "-u", "admin"
 # Finalize with expanding content
 # RUN [ "java", "org.exist.start.Main", "client", "--no-gui",  "-l", "-u", "admin", "-P", "", "-x", "util:log('INFO', 'Expanding content'), util:eval(xs:anyURI('/db/apps/BetMasService/modules/makeExpand.xql'), false(), ('what-to-expand', '/db/apps/BetMasData'))" ]
 
-
+# Copy betmas init to bootstrap the app with teh correct URL. Just set it as an environment arg: -e APP_URL=http://localhost:8080/exist/apps/BetMasWeb
+COPY --from=build /tmp/stage2/*.xar /exist/autodeploy
 
 EXPOSE 8080
