@@ -186,7 +186,7 @@ declare function gitsync:do-update($commits, $contents-url as xs:string?, $data-
     let $committerEmail := $commits?1?pusher?email
     return
         
-        for $modified in $commits?1?modified?*
+        for $modified in $commits?*?modified?*
         let $file-path := concat($contents-url, $modified)
         let $t := console:log('got here')
         let $gitToken := environment-variable('GITTOKEN')
@@ -254,7 +254,7 @@ declare function gitsync:do-add($commits, $contents-url as xs:string?, $data-col
     let $committerEmail := $commits?1?pusher?email
     return
         
-        for $modified in $commits?1?added?*
+        for $modified in $commits?*?added?*
         let $file-path := concat($contents-url, $modified)
         let $gitToken := environment-variable('GITTOKEN')
         (:environment-variable('GIT_TOKEN'):)
@@ -344,7 +344,7 @@ declare function gitsync:do-add($commits, $contents-url as xs:string?, $data-col
  : @param $contents-url string pointing to resource on github
 :)
 declare function gitsync:do-delete($commits, $contents-url as xs:string?, $data-collection) {
-    for $modified in $commits?1?removed?*
+    for $modified in $commits?*?removed?*
     let $file-path := concat($contents-url, $modified)
     let $collection := xs:anyURI($data-collection)
     let $file-name := tokenize($modified, '/')[last()]
@@ -794,15 +794,15 @@ return
                     let $commits := $json-data?commits
                     return
                         (
-                        if (array:size($commits?1?modified) ge 1) then
+                        if (array:size($commits?*?modified) ge 1) then
                                gitsync:do-update($commits, $contents-url, $data-collection)
                         else
                             (),
-                        if (array:size($commits?1?removed) ge 1) then
+                        if (array:size($commits?*?removed) ge 1) then
                             gitsync:do-delete($commits, $contents-url, $data-collection)
                         else
                             (),
-                        if (array:size($commits?1?added) ge 1) then
+                        if (array:size($commits?*?added) ge 1) then
                             gitsync:do-add($commits, $contents-url, $data-collection)
                         else
                             ())
