@@ -16,6 +16,7 @@ RUN mkdir /tmp/stage-2
 ADD  http://exist-db.org:8098/exist/apps/public-repo/public/expath-crypto-module-6.0.1.xar /tmp/dependencies/expath-crypto.xar
 ADD  http://exist-db.org:8098/exist/apps/public-repo/public/shared-resources-0.9.1.xar /tmp/dependencies/shared-resources.xar
 ADD  https://exist-db.org/exist/apps/public-repo/public/monex-4.2.4.xar /tmp/dependencies/00monex.xar
+ADD  https://github.com/eeditiones/tuttle/releases/download/v2.1.0/tuttle-2.1.0.xar /tmp/dependencies/00tuttle.xar
 
 WORKDIR /tmp/BetMas
 RUN zip -0r /tmp/dependencies/XXX_BetMas.xar .
