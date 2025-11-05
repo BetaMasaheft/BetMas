@@ -6173,8 +6173,8 @@ return:)
                     attribute class {'w3-container chapterText'}
                 else
                     ()
-            }
-          {(:if($frag[@subtype="transkribus"] and (count($frag/t:div[@subtype='folio']) gt 120))
+
+         (: if($frag[@subtype="transkribus"] and (count($frag/t:div[@subtype='folio']) gt 120))
             then  <div>This manuscript transcription has {count($frag/t:div[@subtype='folio'])} folia, which is too much to show.
             Please, use the navigation bar on the left to narrow down.</div>
             else (
@@ -6193,7 +6193,7 @@ return:)
                     viewItem:TEI2HTML($frag)
                 } catch * {
                     util:log('info', $err:description)
-                })
+                }) :)
             }
             <div
                 class="w3-modal"
