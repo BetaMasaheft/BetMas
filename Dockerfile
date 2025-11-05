@@ -95,7 +95,7 @@ RUN [ "java", "org.exist.start.Main", "client", "--no-gui",  "-l", "-u", "admin"
 # Finalize with expanding content
 # RUN [ "java", "org.exist.start.Main", "client", "--no-gui",  "-l", "-u", "admin", "-P", "", "-x", "util:log('INFO', 'Expanding content'), util:eval(xs:anyURI('/db/apps/BetMasService/modules/makeExpand.xql'), false(), ('what-to-expand', '/db/apps/BetMasData'))" ]
 
-# Copy betmas init to bootstrap the app with teh correct URL. Just set it as an environment arg: -e APP_URL=http://localhost:8080/exist/apps/BetMasWeb
-COPY --from=build /tmp/stage2/*.xar /exist/autodeploy
+# Copy betmas init to bootstrap the app with the correct URL. Just set it as an environment arg: -e APP_URL=http://localhost:8080/exist/apps/BetMasWeb
+COPY --from=build /tmp/stage-2/*.xar /exist/autodeploy
 
 EXPOSE 8080
