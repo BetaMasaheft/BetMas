@@ -127,7 +127,6 @@ function loadMsItems(mainid, msitemid, start) {
     $(msContainer).find('.msitemloader').remove();
 
     var apiCall = '/api/loadmsItems/' + mainid + '/' + msitemid + '?start=' + start + '&limit=' + limit;
-        alert('apiCall: ' + apiCall);
 
     $.getJSON(apiCall, function (data) {
         if (data.msitems.length === 0) {

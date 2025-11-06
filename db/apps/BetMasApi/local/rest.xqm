@@ -127,7 +127,7 @@ declare %private function api:msItem($mainID, $msItem) {
                     {  let $allChildren := $msItem/t:msItem
                     let $countChildren := count($allChildren)
                     return
-                    if (($msItemsCount gt 100) and ($countChildren gt 5)) then
+                    if (($msItemsCount gt 100) and ($countChildren gt 10)) then
                            (
                                <div>
                                    <a class="w3-button msitemloader w3-yellow"
