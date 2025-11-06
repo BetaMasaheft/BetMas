@@ -106,9 +106,9 @@ declare %private function viewItem:locus($this) {
     let $prevTextNode := $this/preceding-sibling::text()
     let $clean := replace(string-join($prevTextNode), '\s', '')
     return
-  (::  if((count($this/ancestor::t:msItem) gt 2) or (count($this/ancestor::t:TEI//t:msItem) gt 100)) then
-    $this/text()
-    else ::)
+    if((count($this/ancestor::t:msItem) gt 2) and (count($this/ancestor::t:TEI//t:msItem) gt 100)) then
+    'f.' ||  string($this/@from) || (if ($this/@to) then concat('-', string($this/@to)) else ()) || substring-after($this/@target, '#')
+    else 
         (
         if ($this/parent::t:ab[not(@type = 'CruxAnsata' or @type = 'ChiRho' or @type = 'coronis' or @type = 'ruling'  or @type = 'pricking' )]) then
             '(Excerpt from '
@@ -1756,16 +1756,14 @@ declare %private function viewItem:lefthand($entity) {
         </span>
 };
 
-declare %private function viewItem:namedEntityTitle($entity) {
-  (:if(count($entity/ancestor::t:msItem) gt 2) then
-
+  if((count($entity/ancestor::t:msItem) gt 2) and (count($entity/ancestor::t:TEI//t:msItem) gt 100)) then
+   
    (string-join($entity//text()),
-    if (matches($entity/@ref, 'LIT')) then
-        (' (' || viewItem:cae($entity) || ')')
+    if (matches($entity/@ref, 'LIT')) then <a  xmlns="http://www.w3.org/1999/xhtml" href="/{viewItem:URI2ID($entity/@ref)}">({viewItem:cae($entity)})</a>
     else
         ()
     )
-    else:)
+    else
     (
     <a target="_blank"
         xmlns="http://www.w3.org/1999/xhtml"
@@ -1943,8 +1941,7 @@ declare %private function viewItem:msItem($msItem) {
                 <div
                     class="w3-container">
                     <hr
-                        class="msItems"
-                        align="left"/>
+                        class="msItems w3-left-align"/>
                     {
                         let $anchor := concat('#', $id)
                         return
@@ -1958,32 +1955,39 @@ declare %private function viewItem:msItem($msItem) {
                                     <a
                                         role="button"
                                         class="w3-button w3-gray w3-small"
-                                        href="{$config:appUrl}/manuscripts/{$mainID}/text?per-page=1&amp;start={$number}">Transcription</a>
+                                        href="/manuscripts/{$mainID}/text?per-page=1&amp;start={$number}">Transcription</a>
                             else
                                 ()
                     }
                     {
-                 if ((count($msItem/ancestor::t:msItem) gt 1) and ($msItemsCount gt 100))
-                    then <div><a
-                    class="w3-button msitemloader"
-                    data-mainID="{$mainID}"
-                    data-msItem="{replace($msItem/@xml:id, '\.', '-')}">Click here to load the {count($msItem/t:msItem)} items contained in the current one.</a><div id="msitemloadcontainer{replace($msItem/@xml:id, '\.', '-')}"/></div>
-                    else   if ($msItem/t:msItem) then
-                        (
+                  let $countChildren := count($msItem/t:msItem)
+                  return
+                    if (($msItemsCount gt 100) and (count($msItem//t:*) gt 10)) then
+                      (
+                        <div>
+                          <a class="w3-button msitemloader w3-yellow"
+                             data-mainid="{$mainID}" data-start="1"
+                             data-msitem="{replace($msItem/@xml:id, '\.', '-')}">
+                             Click here to load the first 10 of {$countChildren} items.
+                          </a>
+                          <div id="msitemloadcontainer{replace($msItem/@xml:id, '\.', '-')}"/>
+                        </div>
+                      )
+                    else if ($countChildren gt 0) then
+                      (
                         viewItem:TEI2HTML($msItem/node()[not(name()='msItem')])
                         ,
                         for $m in $msItem/t:msItem
-                        let $innerMsItem :=  viewItem:msItem($m)
-                         return
-                            <div
-                                class="w3-container"
-                                id="contentItem{$trimid}"
-                                rel="http://purl.org/dc/terms/hasPart">{
-                               $innerMsItem
-                                }</div>
-                                )
-                        else
-                            viewItem:TEI2HTML($msItem/node())
+                        let $innerMsItem := viewItem:msItem($m)
+                        return
+                          <div class="w3-container"
+                               id="contentItem{replace($m/@xml:id, '\.', '-')}"
+                               rel="http://purl.org/dc/terms/hasPart">
+                              {$innerMsItem}
+                          </div>
+                      )
+                    else
+                      viewItem:TEI2HTML($msItem/node())
                     }
                 </div>
             </div>

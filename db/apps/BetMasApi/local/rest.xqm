@@ -80,7 +80,7 @@ declare %private function api:msItem($mainID, $msItem) {
             class="w3-container msItem"
             resource="https://betamasaheft.eu/{$mainID}/msitem/{$id}"
             typeof="https://betamasaheft.eu/msitem https://w3id.org/sdc/ontology#UniCont"
-            id="{$id}">
+            id="mi{$id}">
             <button
                 style="max-width:100%"
                 onclick="openAccordion('item{$trimid}')"
@@ -124,22 +124,35 @@ declare %private function api:msItem($mainID, $msItem) {
                             else
                                 ()
                     }
-                    { if ($msItem/t:msItem) then
-                        (
-                        viewItem:TEI2HTML($msItem/node()[not(name()='msItem')])
-                        ,
-                        for $m in $msItem/t:msItem
-                        let $innerMsItem :=  api:msItem($mainID, $m)
-                         return
-                            <div
-                                class="w3-container"
-                                id="contentItem{$trimid}"
-                                rel="http://purl.org/dc/terms/hasPart">{ 
-                               $innerMsItem
-                                }</div>
-                                )
-                        else
-                            viewItem:TEI2HTML($msItem/node())
+                    {  let $allChildren := $msItem/t:msItem
+                    let $countChildren := count($allChildren)
+                    return
+                    if (($msItemsCount gt 100) and ($countChildren gt 5)) then
+                           (
+                               <div>
+                                   <a class="w3-button msitemloader w3-yellow"
+                                      data-mainid="{$mainID}" data-start="1"
+                                      data-msitem="{replace($msItem/@xml:id, '\.', '-')}">
+                                       Click here to load the first 10 of {$countChildren} items.
+                                   </a>
+                                   <div id="msitemloadcontainer{replace($msItem/@xml:id, '\.', '-')}"/>
+                               </div>
+                           )
+                       else if ($countChildren gt 0) then
+                           (
+                               viewItem:TEI2HTML($msItem/node()[not(name()='msItem')])
+                               ,
+                               for $m in $msItem/t:msItem
+                               let $innerMsItem := api:msItem($mainID, $m)
+                               return
+                                   <div class="w3-container"
+                                        id="contentItem{$trimid}"
+                                        rel="http://purl.org/dc/terms/hasPart">
+                                        {$innerMsItem}
+                                   </div>
+                           )
+                       else
+                           viewItem:TEI2HTML($msItem/node())
                     }
                 </div>
             </div>
@@ -150,14 +163,33 @@ declare %private function api:msItem($mainID, $msItem) {
 declare 
 %rest:GET
 %rest:path("/api/loadmsItems/{$mainid}/{$msItem}")
+%rest:query-param("start", "{$start}", 1)
+%rest:query-param("limit", "{$limit}", 10)
 %output:method("json")
-function api:loadmsItems($mainid as xs:string, $msItem as xs:string*)
+function api:loadmsItems($mainid as xs:string*, $msItem as xs:string*, $start as xs:integer*, $limit as xs:integer*)
 {let $item:= collection($config:data-rootMS)/id($mainid)
 let $msItemID := replace($msItem, '-', '.')
 let $msItem := $item/id($msItemID)
-let $items := for $ms in $msItem/t:msItem return api:msItem($mainid, $ms)
-return map{'msitems':$items}
-
+let $allChildren:=$msItem/t:msItem
+let $countChildren := count($allChildren)
+let $subset := subsequence($allChildren, $start, $limit)
+let $next :=$start +$limit
+let $items :=
+for $ms in $subset return  api:msItem($mainid, $ms)
+let $loader := 
+      if($next le $countChildren) then
+    <a class="w3-button msitemloader w3-yellow"
+         data-mainid="{$mainid}"
+         data-msitem="{replace($msItem/@xml:id, '\.', '-')}"
+         data-start="{$next}">
+         Load more items...
+    </a>
+  else ()
+return map {
+    'msitems': $items,
+    'hasMore': $next le $countChildren,
+    'next': if  ($next le $countChildren) then $next else ()
+    }
 };
    
 

@@ -120,14 +120,43 @@ function lines(name) {
 };
 
 /*<div><a class="w3-button msitemloader" data-mainid="ESqdq004" data-msitem="ms_i1-1-2">Click here to load the 3 contained in the current one.</a><div id="msitemloadcontainerms_i1-1-2"></div></div>*/
-$('.msitemloader').on('click', function () {
-    var mainid = $(this).data('mainid')
-    var msitemid = $(this).data('msitem')
-    var apicall = '/api/loadmsItems/' + mainid + '/' + msitemid
-    var mscontainer = '#msitemloadcontainer'+msitemid
-    console.log(mscontainer)
-    console.log($(mscontainer))
-    $.getJSON(apicall, function (data) {
-    $(mscontainer).append(data.msitems)
-    })
-    })
+
+function loadMsItems(mainid, msitemid, start) {
+    var limit = 10;
+    var msContainer = '#msitemloadcontainer' + msitemid;
+    $(msContainer).find('.msitemloader').remove();
+
+    var apiCall = '/api/loadmsItems/' + mainid + '/' + msitemid + '?start=' + start + '&limit=' + limit;
+        alert('apiCall: ' + apiCall);
+
+    $.getJSON(apiCall, function (data) {
+        if (data.msitems.length === 0) {
+            if (start > 1 && $(msContainer).find('.no-more-items-msg').length === 0) {
+                $(msContainer).append('<div class="w3-text-grey no-more-items-msg" style="margin:0.5em 0;">No more items.</div>');
+            }
+            return;
+        }
+        $(msContainer).append(data.msitems.join(''));
+        if(data.hasMore) {
+            var loadMoreBtn =
+                '<a class="w3-button msitemloader w3-yellow" ' +
+                'data-mainid="' + mainid + '" data-msitem="' + msitemid + '" data-start="'+ (start+limit) +'">' +
+                'Load more items...</a>';
+            $(msContainer).append(loadMoreBtn);
+        }
+
+    });
+}
+
+$(document)
+.off('click', '.msitemloader')
+.on('click', '.msitemloader', function (e) {
+  e.preventDefault();
+    var $btn = $(this);
+    var mainid  = $btn.data('mainid');
+    var msitemid = $btn.data('msitem');
+    var start   = $btn.data('start') || 1;
+    loadMsItems(mainid, msitemid, start);
+  });
+  
+ 
