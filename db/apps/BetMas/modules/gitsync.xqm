@@ -793,15 +793,15 @@ return
                     let $commits := $json-data?commits
                     return
                         (
-                        if (array:size($commits?1?modified) ge 1) then
+                        if (some $m in $commits?*?modified satisfies array:size($m) ge 1) then
                                gitsync:do-update($commits, $contents-url, $data-collection)
                         else
                             (),
-                        if (array:size($commits?1?removed) ge 1) then
+                        if (some $r in $commits?*?removed satisfies array:size($r) ge 1) then
                             gitsync:do-delete($commits, $contents-url, $data-collection)
                         else
                             (),
-                        if (array:size($commits?1?added) ge 1) then
+                        if (some $a in $commits?*?added satisfies array:size($a) ge 1) then
                             gitsync:do-add($commits, $contents-url, $data-collection)
                         else
                             ())
