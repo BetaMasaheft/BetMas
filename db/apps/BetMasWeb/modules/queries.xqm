@@ -1142,7 +1142,7 @@ declare function q:text($q, $params) {
     else
         $qscheck
     let $querycontext := '$q:col//t:TEI'
-    let $ftquery := '[ft:query(., $qs, $q:allopts)]'
+    let $ftquery := if (exists($qs)) then '[ft:query(., $qs, $q:allopts)]' else ()
     let $parmstoquery := q:parameters2arguments($params)
     let $querytext := concat($querycontext, $parmstoquery, $ftquery)
     (:    let $test2 := util:log('info', $querytext):)
