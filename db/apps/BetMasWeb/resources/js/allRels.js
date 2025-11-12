@@ -2,14 +2,36 @@ var network;
 
   var allNodes;
   var highlightActive = false;
+  var nodesDataset;
+  var edgesDataset;
   
-  var nodesDataset = new vis.DataSet(nodes); 
-  var edgesDataset = new vis.DataSet(edges); 
+  // Check if vis library is available before using it
+  if (typeof vis === 'undefined') {
+    console.warn('vis library is not loaded. Skipping relation visualization.');
+    // Create dummy datasets to prevent errors
+    nodesDataset = { get: function() { return {}; }, update: function() {} };
+    edgesDataset = { get: function() { return {}; }, update: function() {} };
+  } else if (typeof nodes !== 'undefined' && typeof edges !== 'undefined') {
+    nodesDataset = new vis.DataSet(nodes); 
+    edgesDataset = new vis.DataSet(edges);
+  } else {
+    // nodes and edges not yet defined, create empty datasets
+    nodesDataset = { get: function() { return {}; }, update: function() {} };
+    edgesDataset = { get: function() { return {}; }, update: function() {} };
+  } 
 
 
   function redrawAll() {
-    var container = document.getElementById('BetMasRelView');
+    // Check if vis library is available
+    if (typeof vis === 'undefined') {
+      console.warn('vis library is not loaded. Cannot draw relation visualization.');
+      return;
+    }
     
+    var container = document.getElementById('BetMasRelView');
+    if (!container) {
+      return;
+    }
 
     var options = {
     edges: {
@@ -170,7 +192,12 @@ function neighbourhoodHighlight(params) {
         updateArray.push(allNodes[nodeId]);
       }
     }
-    nodesDataset.update(updateArray);
+    if (typeof vis !== 'undefined' && nodesDataset && nodesDataset.update) {
+      nodesDataset.update(updateArray);
+    }
     }
     
-  redrawAll()
+  // Only call redrawAll if vis is available
+  if (typeof vis !== 'undefined') {
+    redrawAll();
+  }

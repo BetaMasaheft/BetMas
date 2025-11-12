@@ -13,6 +13,12 @@ var entity = $("#BetMasRelView").data('value');
    console.log(apicall)
     
     $.getJSON(apicall, function (data) {
+ // Check if vis library is available before using it
+ if (typeof vis === 'undefined') {
+   console.warn('vis library is not loaded. Skipping relation visualization.');
+   return;
+ }
+ 
  var nodes = new vis.DataSet(data.nodes);
 var edges = new vis.DataSet(data.edges);
 /*        if(nodes instanceof DataSet){console.log('nodes is a Dataset')}*/
@@ -29,6 +35,9 @@ var clusterIndex = 0;
 
 
 var container = document.getElementById('BetMasRelView');
+if (!container) {
+  return;
+}
 
 var data = {
     nodes: nodes,
