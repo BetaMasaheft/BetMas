@@ -438,25 +438,8 @@ return
    <div class="w3-third w3-gray w3-padding">{item2:textBibl($this, $id)}</div>
    </div>
     ,
-   for $contains in $this//t:relation[@name eq "saws:contains"]/@passive 
-     let $ids:=  if(contains($contains, ' ')) then for $x in tokenize($contains, ' ') return $x else string($contains)
-     for $contained in $ids
-(:     let $t2 := util:log('info', $contained):)
-    let $cfile := item2:getTEIbyID(substring-after($contained, concat($config:appUrl, '/'))) 
-    
-(:     let $t3 := util:log('info', count($cfile)):)
-   return 
-   
-   <div class="w3-container">
-   {<div class="w3-twothird" id="dtstext">Contains  {item2:title($contained)}
-   {if ($cfile//t:div[@type eq 'edition']) 
-   then  try{dtsc:text($contained, '', '', '', '', 'works')} 
-   catch * {util:log('info', concat('I did not manage to dtsc:text() ', $contained))} 
-   
-   else ()
-   }</div>,
-  <div class="w3-third w3-gray w3-padding">{item2:textBibl($this, $id)}</div>
-   }</div>
+   (: Process contained works - prevent recursion by tracking visited IDs :)
+   restItem:processContains($this, $id, ($id))
  
    )
    case 'graph' return (
@@ -645,6 +628,34 @@ else ()
         </rest:response>,
         error:error($Cmap)
         )
+};
+
+(: Helper function to process contained works with visited tracking to prevent infinite recursion :)
+declare %private function restItem:processContains($this as element(), $currentId as xs:string, $visited as xs:string*) as element()* {
+    for $contains in $this//t:relation[@name eq "saws:contains"]/@passive 
+      let $ids:=  if(contains($contains, ' ')) then for $x in tokenize($contains, ' ') return $x else string($contains)
+      for $contained in $ids
+      (: Extract the work ID from the full URL :)
+      let $containedId := substring-after($contained, concat($config:appUrl, '/'))
+      (: Skip if we've already visited this work (prevents circular references and infinite recursion) :)
+      where not($containedId = $visited) and $containedId != '' and $containedId != $currentId
+      let $cfile := item2:getTEIbyID($containedId) 
+    return 
+      <div class="w3-container">
+      {<div class="w3-twothird" id="dtstext">Contains  {item2:title($contained)}
+      {if ($cfile//t:div[@type eq 'edition']) 
+      then  try{
+          (: Call dtsc:text for the contained work :)
+          dtsc:text($containedId, '', '', '', '', 'works')
+      } 
+      catch * {
+          util:log('info', concat('I did not manage to dtsc:text() ', $contained, ' - ', $err:description))
+      } 
+      
+      else ()
+      }</div>,
+     <div class="w3-third w3-gray w3-padding">{item2:textBibl($this, $currentId)}</div>
+      }</div>
 };
 
 declare function restItem:capitalize-first

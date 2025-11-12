@@ -273,20 +273,49 @@ DTSannoCollectionLink">{
                 </ul>
             </div>
     <div class="w3-rest">
-        {for $child in $children
-               let $cid:=$child/ancestor-or-self::*[@xml:id][1]/@xml:id
-               let $orig := if (exists($cid))
-                    then dtsc:requestXML($fullxml)//*[@xml:id = $cid][1]
-                    else dtsc:requestXML($fullxml)//*[name() = name($child)][1]
-               let $lang := if ($child/ancestor-or-self::*[@subtype='transkribus'][1]) then 'gez' else ($orig/ancestor-or-self::*[@xml:lang][1]/@xml:lang, 'en')[1]
-               let $childlang :=
-                  element { node-name($child) } {
-                  $child/@* except $child/@xml:lang,
-                  attribute xml:lang { $lang },
-                  $child/node()
-                  }
-             return  if (name($child) = ('label', 'note', 'persName', 'placeName', 'ref'))
-             then viewItem:textfragment($child) else viewItem:textfragment($childlang)
+        {(: Cache the XML request outside the loop to avoid making the same HTTP request multiple times :)
+         let $fullxmlDoc := if (starts-with($fullid, $approot)) then
+             (: For local requests, use the DTSdoc we already have or fetch from collection :)
+             if ($DTSdoc instance of element()) then
+                 $DTSdoc
+             else
+                 (: Fallback: try to get from collection if available :)
+                 try {
+                     collection('/db/apps/expanded')//t:TEI[@xml:id = $id]
+                 } catch * {
+                     ()
+                 }
+         else
+             (: For external requests, cache the HTTP response :)
+             dtsc:requestXML($fullxml)[2]
+         return
+         if (exists($fullxmlDoc)) then
+             for $child in $children
+                   let $cid:=$child/ancestor-or-self::*[@xml:id][1]/@xml:id
+                   let $orig := if (exists($cid))
+                        then $fullxmlDoc//*[@xml:id = $cid][1]
+                        else $fullxmlDoc//*[name() = name($child)][1]
+                   let $lang := if ($child/ancestor-or-self::*[@subtype='transkribus'][1]) then 'gez' else (if (exists($orig)) then $orig/ancestor-or-self::*[@xml:lang][1]/@xml:lang else (), 'en')[1]
+                   let $childlang :=
+                      element { node-name($child) } {
+                      $child/@* except $child/@xml:lang,
+                      attribute xml:lang { $lang },
+                      $child/node()
+                      }
+                 return  if (name($child) = ('label', 'note', 'persName', 'placeName', 'ref'))
+                 then viewItem:textfragment($child) else viewItem:textfragment($childlang)
+         else
+             (: Fallback if XML doc not available: process without $orig lookup :)
+             for $child in $children
+                   let $lang := if ($child/ancestor-or-self::*[@subtype='transkribus'][1]) then 'gez' else ($child/ancestor-or-self::*[@xml:lang][1]/@xml:lang, 'en')[1]
+                   let $childlang :=
+                      element { node-name($child) } {
+                      $child/@* except $child/@xml:lang,
+                      attribute xml:lang { $lang },
+                      $child/node()
+                      }
+                 return  if (name($child) = ('label', 'note', 'persName', 'placeName', 'ref'))
+                 then viewItem:textfragment($child) else viewItem:textfragment($childlang)
         }</div>)
         </div>
 };
