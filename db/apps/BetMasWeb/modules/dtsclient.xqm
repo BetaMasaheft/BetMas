@@ -278,7 +278,7 @@ DTSannoCollectionLink">{
                let $orig := if (exists($cid))
                     then dtsc:requestXML($fullxml)//*[@xml:id = $cid][1]
                     else dtsc:requestXML($fullxml)//*[name() = name($child)][1]
-               let $lang := if ($child/ancestor-or-self::*[@subtype='transkribus'][1]) then 'gez' else ($origdoc/ancestor-or-self::*[@xml:lang][1]/@xml:lang, 'en')[1]
+               let $lang := if ($child/ancestor-or-self::*[@subtype='transkribus'][1]) then 'gez' else ($orig/ancestor-or-self::*[@xml:lang][1]/@xml:lang, 'en')[1]
                let $childlang :=
                   element { node-name($child) } {
                   $child/@* except $child/@xml:lang,
