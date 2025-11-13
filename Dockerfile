@@ -1,4 +1,5 @@
 # syntax=docker/dockerfile:1
+ARG EXISTDB_VERSION=6.4.0
 FROM ubuntu:latest AS build
 
 # zip and git are needed to make xars and clone repos
@@ -90,7 +91,6 @@ RUN zip -0r /tmp/dependencies/expanded.xar .
 # RUN  zip -0r /tmp/dependencies/chojnacki.xar .
 
 
-ARG EXISTDB_VERSION=6.4.0
 FROM duncdrum/existdb:${EXISTDB_VERSION}
 
 # RUN [ "java", "org.exist.start.Main", "client", "--no-gui",  "-l", "-u", "admin", "-P", "", "-x", "xmldb:create-collection('/db/apps', 'log')" ]
