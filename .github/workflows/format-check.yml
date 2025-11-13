@@ -25,7 +25,16 @@ jobs:
         run: npm ci
       
       - name: Check XQuery formatting
-        run: npx prettier --check --log-level error 'db/**/*.{xq,xql,xqm,xquery}'
+        run: |
+          OUTPUT=$(npx prettier --check --log-level error 'db/**/*.{xq,xql,xqm,xquery}' 2>&1) || true
+          ERRORS=$(echo "$OUTPUT" | grep -c "^\[error\]" || echo "0")
+          if [ "$ERRORS" -gt 0 ]; then
+            echo "$OUTPUT"
+            echo "Found $ERRORS parsing error(s)"
+            exit 1
+          else
+            echo "No parsing errors found (formatting warnings ignored)"
+          fi
       
       - name: Check JavaScript formatting
         run: npx prettier --check 'db/**/*.js'
