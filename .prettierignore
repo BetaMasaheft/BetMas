@@ -5,3 +5,12 @@ xars/
 db/apps/*/resources/**/*.js
 db/apps/*/resources/**/*.min.js
 
+# Files with exist specific update syntax
+db/apps/BetMas/modules/expand.xqm
+db/apps/BetMas/modules/generateFormattedBibliography.xqm
+db/apps/BetMas/modules/gitsync.xqm
+db/apps/BetMas/modules/titles.xqm
+db/apps/**/clavisUpdate.xql
+db/apps/BetMasWeb/modules/exptit.xqm
+db/apps/BetMasWeb/modules/titles.xqm
+
