@@ -25,7 +25,7 @@ jobs:
         run: npm ci
       
       - name: Check XQuery formatting
-        run: npx prettier --check --log-level error 'db/**/*.xq*'
+        run: npx prettier --check --log-level error 'db/**/*.{xq,xql,xqm,xquery}'
       
       - name: Check JavaScript formatting
         run: npx prettier --check 'db/**/*.js'

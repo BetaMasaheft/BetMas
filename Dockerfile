@@ -1,7 +1,8 @@
+# syntax=docker/dockerfile:1
 FROM ubuntu:latest AS build
 
-# zip is needed to make xars
-RUN apt update && apt install -y zip
+# zip and git are needed to make xars and clone repos
+RUN apt update && apt install -y zip git
 
 COPY db/apps/BetMas /tmp/BetMas
 COPY db/apps/BetMasService /tmp/BetMasService
@@ -77,7 +78,10 @@ WORKDIR /tmp/corpora
 RUN  zip -0r /tmp/dependencies/corpora.xar .
 
 
-ADD https://@github.com/BetaMasaheft/expanded.git /tmp/expanded-data
+# BuildKit secret for private repo access
+RUN --mount=type=secret,id=github_token \
+    TOKEN=$(cat /run/secrets/github_token) && \
+    git clone https://x-access-token:${TOKEN}@github.com/BetaMasaheft/expanded.git /tmp/expanded-data
 WORKDIR /tmp/expanded-data
 RUN zip -0r /tmp/dependencies/expanded.xar .
 
@@ -86,7 +90,8 @@ RUN zip -0r /tmp/dependencies/expanded.xar .
 # RUN  zip -0r /tmp/dependencies/chojnacki.xar .
 
 
-FROM duncdrum/existdb:6.4.0
+ARG EXISTDB_VERSION=6.4.0
+FROM duncdrum/existdb:${EXISTDB_VERSION}
 
 # RUN [ "java", "org.exist.start.Main", "client", "--no-gui",  "-l", "-u", "admin", "-P", "", "-x", "xmldb:create-collection('/db/apps', 'log')" ]
 
