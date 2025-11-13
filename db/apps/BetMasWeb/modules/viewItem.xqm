@@ -1756,6 +1756,7 @@ declare %private function viewItem:lefthand($entity) {
         </span>
 };
 
+declare %private function viewItem:namedEntityTitle($entity) {
   if((count($entity/ancestor::t:msItem) gt 2) and (count($entity/ancestor::t:TEI//t:msItem) gt 100)) then
    
    (string-join($entity//text()),
