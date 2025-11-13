@@ -30,11 +30,10 @@ declare namespace json = "http://www.json.org";
 
 declare variable $workmap:collection-rootW := collection($config:data-rootW);
 declare variable $workmap:collection-rootMS := collection($config:data-rootMS);
-declare variable $workmap:meta := <meta  xmlns="http://www.w3.org/1999/xhtml" name="description" content="{$config:repo-descriptor/repo:description/text()}"/>,
+declare variable $workmap:meta := (<meta  xmlns="http://www.w3.org/1999/xhtml" name="description" content="{$config:repo-descriptor/repo:description/text()}"/>,
     for $genauthor in $config:repo-descriptor/repo:author
     return
-        <meta xmlns="http://www.w3.org/1999/xhtml" name="creator" content="{$genauthor/text()}"></meta>
-        ;
+        <meta xmlns="http://www.w3.org/1999/xhtml" name="creator" content="{$genauthor/text()}"></meta>);
 
 
 

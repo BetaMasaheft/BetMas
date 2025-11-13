@@ -783,7 +783,7 @@ function genderInfo:graph() {
                     <button id="clusterByHubsize" class="w3-button w3-gray">Cluster by hubsize</button>
                 </div>
                <div id="BetMasRelView" class="w3-container"/>
-                <script type="text/javascript"src="resources/js/visgraphspecgender.js"/>
+                <script type="text/javascript" src="resources/js/visgraphspecgender.js"/>
                 </div>
                         </div>
                         

@@ -1279,7 +1279,7 @@ let $xslt :=  switch($collection)
         case "authority-files"  return       'xmldb:exist:///db/apps/BetMas/xslt/auth.xsl'
         default return 'xmldb:exist:///db/apps/BetMas/xslt/Work.xsl'
 
-let $parameters : = if ($collection = 'manuscripts') then <parameters>
+let $parameters := if ($collection = 'manuscripts') then <parameters>
     <param name="porterified" value="."/>
     <param name="folio" value="1"/>
     <param name="currentpos" value="1"/>

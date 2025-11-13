@@ -7,14 +7,15 @@ xquery version "3.1" encoding "UTF-8";
 
 module namespace localdts = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/localdts";
 
+import module namespace dtslib = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/dtslib" at "xmldb:exist:///db/apps/BetMasWeb/modules/dtslib.xqm";
+import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
+import module namespace console="http://exist-db.org/xquery/console";
+
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace s = "http://www.w3.org/2005/xpath-functions";
 declare namespace t="http://www.tei-c.org/ns/1.0";
 declare option output:method "json";
 
-import module namespace dtslib = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/dtslib" at "xmldb:exist:///db/apps/BetMasWeb/modules/dtslib.xqm";
-import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
-import module namespace console="http://exist-db.org/xquery/console";
 
 declare function localdts:Collection($id as xs:string*, $page as xs:integer*, $nav as xs:string*) as map(*) {
     if (matches($id, '(https://betamasaheft.eu/)?(textualunits/|narrativeunits/|transcriptions/|studies/)?([a-zA-Z\d]+)?(:)?(((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?(\-)?((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?)')) then

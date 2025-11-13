@@ -440,7 +440,7 @@ declare function apprest:institutions(){
 <form action="" class="form form-horizontal">
 <div class="w3-container">
 <label for="GoToRepo">go to repository list</label>
-<a role="button"class="w3-button w3-button-secondary" id="loadrepositories">load</a>
+<a role="button" class="w3-button w3-button-secondary" id="loadrepositories">load</a>
 <div class="input-group">
 <select id="GoToRepo" class="w3-select w3-border">
 </select>
@@ -454,7 +454,7 @@ declare function apprest:catalogues(){
 <form action="" class="form form-horizontal">
 <div class="w3-container">
 <label for="GoToCatalogue">go to catalogue list</label>
-<a role="button"class="w3-button w3-button-secondary" id="loadcatalogues">load</a>
+<a role="button" class="w3-button w3-button-secondary" id="loadcatalogues">load</a>
 <div class="input-group">
 <select id="GoToCatalogue" class="w3-select w3-border">
 </select>

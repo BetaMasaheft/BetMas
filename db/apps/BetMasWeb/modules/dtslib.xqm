@@ -1088,7 +1088,7 @@ for $node in ($edition/t:div[@type eq 'textpart'], $edition/t:ab/t:l, $edition/t
 let $citType :=  map {
                  "dts:citeType": $T
                  }
-let $citStr : =if($node/child::t:div) then let $subType := dtslib:nestedDivs($node/child::t:div) return map:put($citType, 'dtslib:citeStructure', $subType)
+let $citStr := if($node/child::t:div) then let $subType := dtslib:nestedDivs($node/child::t:div) return map:put($citType, 'dtslib:citeStructure', $subType)
 else if($node/t:ab/t:l) then let $subType := dtslib:nestedDivs($node) return map:put($citType, 'dtslib:citeStructure', $subType)
 else if($node/t:ab/t:lb) then let $subType := dtslib:nestedDivs($node) return map:put($citType, 'dtslib:citeStructure', $subType)
 else $citType
@@ -1662,7 +1662,7 @@ declare %private function dtslib:callfuseki($querytext){try{fusekisparql:query('
 (:~ utility function which takes a map and a list of properties together with a series of indexes to produce a map by recursively 
 : being called on successive entries of the list which is carried on until its end. the value in the list is sent to the dtslib:sparql function which runs a sparql querz using the current value
 : in the list as property :)
-declare %private function dtslib:mapconstructor($id, $currentmap as map()?, $candidateproperty, $index as xs:integer, $listofcandidateproperties){
+declare %private function dtslib:mapconstructor($id, $currentmap as map(*)?, $candidateproperty, $index as xs:integer, $listofcandidateproperties){
  if($index = count($listofcandidateproperties)) then $currentmap else
 let $next := $listofcandidateproperties[$index]
 let $candidatevalue := dtslib:sparqls($id, $candidateproperty)

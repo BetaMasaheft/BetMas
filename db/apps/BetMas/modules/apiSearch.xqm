@@ -76,9 +76,9 @@ if ($q = '' or $q = ' ' or $element = '') then (<json:value>
 let $log := log:add-log-message('/api/kwicsearch?q=' || $q, sm:id()//sm:real/sm:username/string() , 'REST')
     let $login := xmldb:login($config:data-root, $config:ADMIN, $config:ppw)
     
-  let $elements : =
+  let $elements :=
      for $e in $element
-     let $elQ :=    apiS:BuildSearchQuery2($e, all:substitutionsInQuery($q))
+     let $elQ := apiS:BuildSearchQuery2($e, all:substitutionsInQuery($q))
     let $string := concat("collection($config:data-root)//",$elQ)
    return
     util:eval($string)

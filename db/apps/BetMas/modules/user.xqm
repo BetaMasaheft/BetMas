@@ -192,7 +192,7 @@ return
                             action="/user/changemail.xql" method="POST">
                             
     <label for="exampleInputEmail1">Email address</label>
-    <input type="email" class="w3-input w3-border" id="email"name="email" aria-describedby="emailHelp" placeholder="Enter email"></input>
+    <input type="email" class="w3-input w3-border" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email"></input>
     <small id="emailHelp">This is needed for the website notifications.</small><br/>
 
   
@@ -206,7 +206,7 @@ return
                             action="/user/changepw.xql" method="POST">
                             
     <label for="exampleInputEmail1">Email address</label>
-    <input type="email" class="w3-input w3-border" id="email"name="email" aria-describedby="emailHelp" placeholder="Enter email"></input>
+    <input type="email" class="w3-input w3-border" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email"></input>
     <small id="emailHelp" class="form-text text-muted">This is needed for the website notifications.</small>
   
     <label for="exampleInputPassword1">Old Password</label>

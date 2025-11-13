@@ -321,7 +321,7 @@ return
                     <button id="clusterByHubsize" class="w3-button w3-gray">Cluster by hubsize</button>
                 </div>
                 <div id="BetMasRelView" class="w3-container" data-value="{$id}"/>
-                <script type="text/javascript"src="resources/js/visgraphspec.js"/>
+                <script type="text/javascript" src="resources/js/visgraphspec.js"/>
             </div>
             <div class="container w3-half w3-padding">
                   {item2:EntityRelsTable($this, $collection)}

@@ -385,7 +385,7 @@ let $id := string($m/ancestor::t:TEI/@xml:id) return
                else if(contains(viewer:facsSwitch($m), 'bl.digirati')) 
                then 
                let $n1 := number(substring-before(substring-after(viewer:facsSwitch($m), 'vdc_'), '.0x')) 
-               let $facs : =  replace(viewer:facsSwitch($m), $n1, $n1 +2)
+               let $facs :=  replace(viewer:facsSwitch($m), $n1, $n1 +2)
                let $newfacs := substring-before($facs, '000001')
                return
                replace($newfacs, 'iiif', 'images') || '000001' || '/canvas/c/1'

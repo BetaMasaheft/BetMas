@@ -3037,15 +3037,10 @@ declare function q:resultswithoutmatch($text, $p) {
     else
         switch2:col($t)
     return
-        <div
-            class="w3-row w3-border-bottom w3-margin-bottom">
-            <div
-                class="w3-row"><
-                div
-                    class="w3-rest">
-                    <div
-                        class="w3-col"
-                        style="width:10%">
+        <div class="w3-row w3-border-bottom w3-margin-bottom">
+            <div class="w3-row">
+                <div class="w3-rest">
+                    <div class="w3-col" style="width:10%">
                         {
                             if ($q:searchType = 'clavis' and $text('type') = 'deleted') then
                                 <span
@@ -3054,9 +3049,7 @@ declare function q:resultswithoutmatch($text, $p) {
                                 ()
                         }
                     </div>
-                    <div
-                        class="w3-col links"
-                        style="width:85%">
+                    <div class="w3-col links" style="width:85%">
                         {
                             if ($q:searchType = 'clavis' and $text('type') = 'deleted') then
                                 ()
@@ -3064,14 +3057,10 @@ declare function q:resultswithoutmatch($text, $p) {
                                 q:resultitemlinks($collection, $item, $id, $root, $text)
                         }
                     </div>
-                    <div
-                        class="w3-row">{q:summary($item)}</div>
-
+                    <div class="w3-row">{q:summary($item)}</div>
                 </div>
-                <div
-                    class="w3-twothird">
-                    <div
-                        class="w3-container">
+                <div class="w3-twothird">
+                    <div class="w3-container">
                         {
                             if ($q:searchType = 'clavis' and $text('type') = 'deleted') then
                                 <a

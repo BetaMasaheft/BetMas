@@ -1295,7 +1295,7 @@ let $queryExpr := $query-string
 
           let $hits :=
 
-                 let $elements : =
+                 let $elements :=
                    for $e in $element
                    return
                    app:BuildSearchQuery($e, $query-string)
