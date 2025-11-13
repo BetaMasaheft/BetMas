@@ -1,0 +1,32 @@
+name: Format Check
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+jobs:
+  format-check:
+    name: Check code formatting
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Check XQuery formatting
+        run: npx prettier --check 'db/**/*.{xq,xql,xqm,xquery}'
+      
+      - name: Check JavaScript formatting
+        run: npx prettier --check 'db/**/*.js'
+

@@ -1,0 +1,16 @@
+{
+  "name": "betmas",
+  "version": "1.0.0",
+  "description": "BetMas - Exist-db application",
+  "private": true,
+  "devDependencies": {
+    "prettier": "^3.0.0",
+    "prettier-plugin-xquery": "^1.2.6"
+  },
+  "scripts": {
+    "format:check": "prettier --check 'db/**/*.{xq,xql,xqm,xquery,js}'",
+    "format:check:errors": "prettier --check --log-level error 'db/**/*.{xq,xql,xqm,xquery,js}'",
+    "format:write": "prettier --write 'db/**/*.{xq,xql,xqm,xquery,js}'"
+  }
+}
+

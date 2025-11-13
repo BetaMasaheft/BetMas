@@ -1,0 +1,7 @@
+node_modules/
+package-lock.json
+*.xar
+xars/
+db/apps/*/resources/**/*.js
+db/apps/*/resources/**/*.min.js
+

@@ -40,3 +40,7 @@
 
 # Do not ever commit things in system. Not needed
 /db/system
+
+# local dev stuff
+node_modules/
+.env
