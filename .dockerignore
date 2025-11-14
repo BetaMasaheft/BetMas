@@ -1,0 +1,13 @@
+.git
+.gitignore
+.github
+node_modules
+package-lock.json
+package.json
+README.md
+.dockerignore
+.DS_Store
+*.md
+.prettierrc.js
+.prettierignore
+
