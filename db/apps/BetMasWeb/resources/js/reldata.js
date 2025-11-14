@@ -1,4 +1,10 @@
 $("#BetMasRelView").each(function () {
+    // Check if vis library is available before using it
+    if (typeof vis === 'undefined') {
+        console.warn('vis library is not loaded. Skipping relation visualization.');
+        return;
+    }
+    
     var entity = $("#BetMasRelView").data('value');
     console.log(entity)
     
