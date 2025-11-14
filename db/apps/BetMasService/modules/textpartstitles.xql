@@ -1,5 +1,6 @@
 xquery version "3.1";
 declare namespace t = "http://www.tei-c.org/ns/1.0";
+import module namespace titles = "https://www.betamasaheft.uni-hamburg.de/BetMas/titles" at "xmldb:exist:///db/apps/BetMas/modules/titles.xqm";
 declare variable $ThisFileContent:=
 let $col := '/db/apps/BetMasData/works/1-1000'
 let $col1 := '/db/apps/BetMasData/works/1001-2000'
@@ -57,7 +58,7 @@ return
                 (
                 for $div in $book//t:div[@type = 'edition']//t:div[@xml:id]
                 let $subid := string($div/@xml:id)
-                let $label := normalize-space(string-join($div/t:label/text()))
+                let $label := normalize-space(string-join(titles:tei2string($div/t:label), ''))
                 let $subtitle := if ($label) then
                     $label
                 else
