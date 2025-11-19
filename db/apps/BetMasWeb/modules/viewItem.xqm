@@ -3763,10 +3763,15 @@ declare %private function viewItem:supplied($node as element(t:supplied)) {
                 concat('&lt;', viewItem:TEI2HTML($node/node()), '&gt;')
                 else
                     if ($node/@reason = 'explanation') then
-                concat('&#34;', viewItem:TEI2HTML($node/node()), '&#34;')
-
+                concat(' &lt;&lt;', viewItem:TEI2HTML($node/node()), '&gt;&gt;')
+                      else
+                    if ($node/@reason = 'subaudible') then
+                concat('(', viewItem:TEI2HTML($node/node()), ')')
+                 else
+                    if ($node/@reason ) then
+                concat('(', string-join($node/@*, ' '), ': ', viewItem:TEI2HTML($node/node()), ')')
                      else
-                        (string-join($node/@*, ' '))
+                       concat('[', viewItem:TEI2HTML($node/node()), ']')
             }
 
         <span
