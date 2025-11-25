@@ -47,9 +47,10 @@ declare function gfb:shortCit($c){
             let $zoteroApiResponse := http:send-request($req)[2]
             let $decodedzoteroApiResponse := util:base64-decode($zoteroApiResponse)
             let $parseedZoteroApiResponse := parse-json($decodedzoteroApiResponse)
-            let $replaced := replace($parseedZoteroApiResponse?*?citation, '&lt;span&gt;', '') => replace('&lt;/span&gt;', '')
-            return
-                $replaced
+ let $replaced := replace($parseedZoteroApiResponse?*?citation, '&lt;', '<') 
+                     => replace('&gt;', '>')                     
+  return
+    $replaced
                 };
 
 declare function gfb:updateentry($ref){
