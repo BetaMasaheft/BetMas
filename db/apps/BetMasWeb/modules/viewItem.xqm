@@ -1684,7 +1684,7 @@ declare %private function viewItem:summaryitems($item) {
             {string($item/@xml:id)}
         </a>
         ({viewItem:TEI2HTML($item/t:locus)}),
-        {$item/t:title/text()}
+        {string-join($item/t:title//text(), " ")}
         {if ((count($item/ancestor::t:TEI//t:msItem) gt 100) and (count($item/ancestor::t:msItem) gt 1))
                     then <p>There are {count($item/ancestor::t:TEI//t:msItem)} items in this description, to show this page we have to stop here.</p>
                     else
