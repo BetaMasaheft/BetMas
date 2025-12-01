@@ -4,7 +4,7 @@
   "description": "BetMas - Exist-db application",
   "private": true,
   "devDependencies": {
-    "prettier": "^3.0.0",
+    "prettier": "^3.7.3",
     "prettier-plugin-xquery": "^1.2.6"
   },
   "scripts": {
