@@ -273,7 +273,14 @@ DTSannoCollectionLink">{
                 </ul>
             </div>
     <div class="w3-rest">
-        {(: Cache the XML request outside the loop to avoid making the same HTTP request multiple times :)
+    { (:restore old logic for 1rv etc:) if (matches($ref, '^[0-9]+[rv]')) then
+                    try {
+                        viewItem:textfragment($docnode)
+                    } catch * {
+                        $err:description
+                    }
+               else
+           (: Cache the XML request outside the loop to avoid making the same HTTP request multiple times :)
          let $fullxmlDoc := if (starts-with($fullid, $approot)) then
              (: For local requests, use the DTSdoc we already have or fetch from collection :)
              if ($DTSdoc instance of element()) then
