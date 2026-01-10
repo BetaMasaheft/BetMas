@@ -273,14 +273,7 @@ DTSannoCollectionLink">{
                 </ul>
             </div>
     <div class="w3-rest">
-    { (:restore old logic for 1rv etc:) if (matches($ref, '^[0-9]+[rv]')) then
-                    try {
-                        viewItem:textfragment($docnode)
-                    } catch * {
-                        $err:description
-                    }
-               else
-           (: Cache the XML request outside the loop to avoid making the same HTTP request multiple times :)
+    { (: Cache the XML request outside the loop to avoid making the same HTTP request multiple times :)
          let $fullxmlDoc := if (starts-with($fullid, $approot)) then
              (: For local requests, use the DTSdoc we already have or fetch from collection :)
              if ($DTSdoc instance of element()) then
@@ -296,6 +289,45 @@ DTSannoCollectionLink">{
              (: For external requests, cache the HTTP response :)
              dtsc:requestXML($fullxml)[2]
          return
+         (:ranges:)
+         if ($start != '' and $end != '')   then 
+            ( let $fullxmlDocClean:=$fullxmlDoc/node()[name()!='http:response']            
+            let $ab:=$fullxmlDocClean//t:ab[1]
+            (:calculate start:)
+            let $folio :=replace($start, '^([0-9]+).*$' , '$1')
+            let $side :=replace($start, '^[0-9]+([rv]).*$', '$1')
+            let $side := if($side = $start) then () else $side
+            let $cols :=replace($start, '^[0-9]+[rv]([ab]).*', '$1')
+            let $col := if($cols castable as xs:integer) then $cols else ()
+            let $lines :=replace($start,  '^[0-9]+[rv][ab]([0-9]+)', '$1')
+            let $line := if($lines castable as xs:integer) then $lines else ()
+            let $pb:=$ab/t:pb[@n = concat($folio, $side)][1]
+            let $cb:=if($col) then ($pb/following::t:cb[@n=$col])[1] else $pb
+            let $start-node := if($line) then ($cb/following::t:lb[@n=$line])[1]else if ($col) then $cb else $pb 
+                (:calculate end:)
+            let $folio1 :=replace($end, '^([0-9]+).*$' , '$1')
+            let $side1 :=replace($end, '^[0-9]+([rv]).*$', '$1')
+            let $side1 := if($side1 = $end) then () else $side1
+            let $cols1 :=replace($end, '^[0-9]+[rv]([ab]).*', '$1')
+            let $col1 := if($cols1 castable as xs:integer) then $cols1 else ()
+            let $lines1 :=replace($end,  '^[0-9]+[rv][ab]([0-9]+)', '$1')
+            let $line1 := if($lines1 castable as xs:integer) then $lines1 else ()
+            let $pb1:=$ab/t:pb[@n = concat($folio1, $side1)][1]
+            let $cb1:=if($col1) then ($pb1/following::t:cb[@n=$col1])[1] else $pb1
+            let $end-node := if($line1) then ($cb1/following::t:lb[@n=$line1])[last()] else if ($col1) then $cb1 else $pb1 
+            return
+                if ($start-node and $end-node) then
+                  let $slice:=($start-node, $ab//node()[ . >> $start-node ][ . << $end-node ]
+, $end-node)
+        return viewItem:textfragment(<ab xmlns="http://www.tei-c.org/ns/1.0">{$slice}</ab>)
+                else <div>No text found for range {$start}-{$end}</div>)
+         else if  (matches($ref, '^[0-9]+[rv]')) then
+                    try {
+                        viewItem:textfragment($docnode)
+                    } catch * {
+                        $err:description
+                    }
+          else
          if (exists($fullxmlDoc)) then
              for $child in $children
                    let $cid:=$child/ancestor-or-self::*[@xml:id][1]/@xml:id
