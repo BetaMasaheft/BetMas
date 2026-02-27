@@ -4776,15 +4776,14 @@ declare function viewItem:TEI2HTML($nodes) {
 };
 
 declare %private function viewItem:tokenize-text($node) {
-    if ($node[
-    (ancestor::t:*[@xml:lang])[1][@xml:lang = 'gez']][
-    parent::t:*[name() != 'label'][name() != 'note'][name() != 'persName'][name() != 'placeName']]) then
-
-        for $w in tokenize(normalize-space($node), '\s')
-        return
-            (<span class="word">{$w}</span>, ' ')
-            else
-            $node
+     let $lang := string(($node/ancestor-or-self::t:*[@xml:lang][1])/@xml:lang)
+     return
+     if (contains($node, '፡') and not($lang = 'am' ) and not($lang = 'ti' ))
+   then
+    for $w in tokenize(normalize-space($node), '\s')
+    return (<span class="word">{$w}</span>)
+  else
+    $node
 };
 
 declare %private function viewItem:standards($item) {

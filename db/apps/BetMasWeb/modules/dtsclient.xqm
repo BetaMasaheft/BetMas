@@ -104,9 +104,6 @@ declare function dtsc:text($id, $edition, $ref, $start, $end, $collection) {
                 }</div>
     else
         $selectedFrag
-    let $docedition:=if($docnode/self::dts:fragment) then $docnode/*[self::t:div][1]
-        else $docnode
-   let $children:= $docedition/*[self::t:div or self::t:ab or self::t:lg or self::t:p or self::t:l or self::t:note]
     return
         <div
             class="w3-container">
@@ -321,40 +318,12 @@ DTSannoCollectionLink">{
 , $end-node)
         return viewItem:textfragment(<ab xmlns="http://www.tei-c.org/ns/1.0">{$slice}</ab>)
                 else <div>No text found for range {$start}-{$end}</div>)
-         else if  (matches($ref, '^[0-9]+[rv]')) then
-                    try {
+         else 
+         try {
                         viewItem:textfragment($docnode)
                     } catch * {
-                        $err:description
+                        util:log('info', $err:description)
                     }
-          else
-         if (exists($fullxmlDoc)) then
-             for $child in $children
-                   let $cid:=$child/ancestor-or-self::*[@xml:id][1]/@xml:id
-                   let $orig := if (exists($cid))
-                        then $fullxmlDoc//*[@xml:id = $cid][1]
-                        else $fullxmlDoc//*[name() = name($child)][1]
-                   let $lang := if ($child/ancestor-or-self::*[@subtype='transkribus'][1]) then 'gez' else (if (exists($orig)) then $orig/ancestor-or-self::*[@xml:lang][1]/@xml:lang else (), 'en')[1]
-                   let $childlang :=
-                      element { node-name($child) } {
-                      $child/@* except $child/@xml:lang,
-                      attribute xml:lang { $lang },
-                      $child/node()
-                      }
-                 return  if (name($child) = ('label', 'note', 'persName', 'placeName', 'ref'))
-                 then viewItem:textfragment($child) else viewItem:textfragment($childlang)
-         else
-             (: Fallback if XML doc not available: process without $orig lookup :)
-             for $child in $children
-                   let $lang := if ($child/ancestor-or-self::*[@subtype='transkribus'][1]) then 'gez' else ($child/ancestor-or-self::*[@xml:lang][1]/@xml:lang, 'en')[1]
-                   let $childlang :=
-                      element { node-name($child) } {
-                      $child/@* except $child/@xml:lang,
-                      attribute xml:lang { $lang },
-                      $child/node()
-                      }
-                 return  if (name($child) = ('label', 'note', 'persName', 'placeName', 'ref'))
-                 then viewItem:textfragment($child) else viewItem:textfragment($childlang)
         }</div>)
         </div>
 };
@@ -414,7 +383,7 @@ let $DTSURL :=
 for $d in $DTSURL//*:pair
 let $base := $d/*:base/text()
 let $id := $d/*:id/text()
-return
+return 
 dtsc:DTStext($base, $id)
 :)
     let $cleanbase := (if ($base = '') then
@@ -437,9 +406,11 @@ dtsc:DTStext($base, $id)
     (:let $t1 := console:log(normalize-unicode($dtsReferences)):)
     let $DTSnav := dtsc:request(normalize-unicode($dtsReferences))
     let $dtsPassage := $cleanbase || $DTSnav?($dtsprefix || 'passage')
-    (:let $t2 := console:log($dtsPassage):)
+    (:let $t2 := util:log('info', 'dtspass ' ||$dtsPassage):)
     let $cleanDTSpass := replace($dtsPassage, '\{&amp;ref\}\{&amp;start\}\{&amp;end\}', '')
-    (:let $t3 := console:log($cleanDTSpass):)
+    let $memberprefix := $member?($dtsprefix || 'ref')
+    let $citetype := $member?($dtsprefix || 'citeType')
+    (:let $t3 := util:log('info', 'all ' ||$dtsReferences||'&amp;ref=' ||$memberprefix||$citetype ):)
     let $DTSdoc := dtsc:requestXML($cleanDTSpass)
     let $voyantPassage := substring-after($dtsPassage, '?id=')
     return
@@ -457,7 +428,7 @@ dtsc:DTStext($base, $id)
                                     class="w3-bar-item w3-small">{$d}</div>
                         }
                         catch * {
-                            console:log($err:description)
+                            util:log('info', $err:description)
                         }
                     }
                 </div>
@@ -491,14 +462,16 @@ dtsc:DTStext($base, $id)
                     </div>
                     {
                         for $member in $DTSnav?member?*
-                        return
+                        return  try {
                             <div
                                 class="w3-bar-item w3-gray w3-small">
                                 <a
                                     href="{$dtsReferences}&amp;ref={$member?($dtsprefix || 'ref')}">
                                     {($member?($dtsprefix || 'citeType') || ' ' || $member?($dtsprefix || 'ref'))}
                                 </a>
-                            </div>
+                            </div>} catch * {
+                        util:log('info', $err:description)
+                    }
                     }
                     <button
                         onclick="openAccordion('dtsuris')"
@@ -514,19 +487,18 @@ dtsc:DTStext($base, $id)
                     <li><b>Document API</b>: {$dtsPassage}</li>
                 </ul>
             </div>
-            <div class="w3-rest">
-    {if (count($children) gt 35) then
-        <div>
-            Only the first 35 sections displayed. Please use navigation (left navigation bar or references) to view other sections.
+            <div
+                class="w3-rest">{
+                    try {
+                        viewItem:textfragment($DTSdoc/node()[name() != 'teiHeader'])
+                    } catch * {
+                        util:log('info', $err:description)
+                    }
+                }</div>
         </div>
-    else ()}
-        {
-            for $child in subsequence($children, 1, 35)
-            return viewItem:textfragment($child)
-        }
-    </div>)
-    </div>
 };
+
+
 
 declare function dtsc:request($dtspaths) {
     for $dtspath in $dtspaths
