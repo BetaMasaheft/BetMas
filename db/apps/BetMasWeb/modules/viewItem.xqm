@@ -105,41 +105,50 @@ declare %private function viewItem:locus($this) {
     let $ancID := replace($anc/@xml:id, '\.', '_')
     let $prevTextNode := $this/preceding-sibling::text()
     let $clean := replace(string-join($prevTextNode), '\s', '')
+    let $lowerPrefix :=
+    matches($clean,'[^\.]$')
+    or matches($clean,' ca.')
+    or matches($clean,' e.g.')
+    or matches($clean,' cp.')
+    or matches($clean,' esp.')
+    let $unit := string(($this/ancestor::t:TEI//t:extent/t:measure[@type != "blank"]/@unit)[1])
+    let $excerpt := $parent[self::t:ab][not(@type = ('CruxAnsata','ChiRho','coronis','ruling','pricking'))]
+    let $targetSeq := viewItem:makeSequence($this/@target)
     return
     if((count($this/ancestor::t:msItem) gt 2) and (count($this/ancestor::t:TEI//t:msItem) gt 100)) then
     'f.' ||  string($this/@from) || (if ($this/@to) then concat('-', string($this/@to)) else ()) || substring-after($this/@target, '#')
     else 
         (
-        if ($this/parent::t:ab[not(@type = 'CruxAnsata' or @type = 'ChiRho' or @type = 'coronis' or @type = 'ruling'  or @type = 'pricking' )]) then
+        if ($excerpt) then
             '(Excerpt from '
         else
             (),
         if ($this[not(text())]) then
             if (contains($this/@target, ' ')) then
-                let $prefix := if ($this/ancestor::t:TEI//t:extent/t:measure[@type != "blank"][@unit = 'page']) then
+                let $prefix := if ($unit = 'page') then
                     'pp. '
                 else
-                     if (matches($clean, '[^\.]$') or matches($clean, ' ca.') or matches($clean, ' e.g.'))
+                     if ($lowerPrefix)
                                     then
                                         'ff. '
                                     else
                                         'Ff. '
-                let $targets := for $t at $p in viewItem:makeSequence($this/@target)
+                let $targets := for $t at $p in $targetSeq
                 return
                     (<a
                         href="{$t}">
                         {viewItem:choosefacsorlb($this, $ancID)}
                         {viewItem:parseRef(concat(substring-after($t, '#'), ' '))}
-                    </a>,  if ($p = count(viewItem:makeSequence($this/@target))) then  ()  else  ', ')
+                    </a>,  if ($p = count($targetSeq)) then  ()  else  ', ')
                 return
                     ($prefix,
                     $targets)
             else
                 if ($this/@target) then
-                    let $prefix := if ($this/ancestor::t:TEI//t:extent/t:measure[@type != "blank"][@unit = 'page']) then
+                    let $prefix := if ($unit = 'page') then
                         'p. '
                     else
-                       if (matches($clean, '[^\.]$') or matches($clean, ' ca.') or matches($clean, ' e.g.') or matches($clean, ' cp.')  or matches($clean, ' esp.'))
+                       if ($lowerPrefix)
                                     then
                                         'f. '
                                     else
@@ -152,10 +161,10 @@ declare %private function viewItem:locus($this) {
                             {viewItem:parseRef(concat(substring-after($this/@target, '#'), ' '))}
                         </a>)
                 else
-                    let $prefix := if ($this/ancestor::t:TEI//t:extent/t:measure[@type != "blank"][@unit = 'page']) then
+                    let $prefix := if ($unit = 'page') then
                         'pp. '
                     else
-                         if (matches($clean, '[^\.]$') or matches($clean, ' ca.') or matches($clean, ' e.g.') or matches($clean, ' cp.')  or matches($clean, '  esp.'))
+                         if ($lowerPrefix)
                                     then
                                         'ff. '
                                     else
@@ -214,7 +223,7 @@ declare %private function viewItem:locus($this) {
                 ()
             let $refs :=
             (concat(string($this/@from), $to),
-            for $t in viewItem:makeSequence($this/@target)
+            for $t in $targetSeq
             return
                 substring-after($t, '#')
             )
@@ -231,8 +240,8 @@ declare %private function viewItem:locus($this) {
         else
             (),
 
-        if ($this/parent::t:ab[not(@type = 'CruxAnsata' or @type = 'ChiRho' or @type = 'coronis' or @type = 'ruling'  or @type = 'pricking' )]) then
-            (')', <br></br>)
+        if ($excerpt) then
+            (')', <br/>)
         else
             (),
 
