@@ -31,9 +31,7 @@ import module namespace locus = "https://www.betamasaheft.uni-hamburg.de/BetMasW
 
 declare variable $apprest:languages := doc("/db/apps/lists/languages.xml");
 
-declare variable $apprest:prefixes := doc(
-  "https://raw.githubusercontent.com/BetaMasaheft/Documentation/master/prefixDef.xml"
-);
+declare variable $apprest:prefixes := doc('/db/apps/lists/listPrefixDef.xml');
 
 declare variable $apprest:collection-rootMS := collection($config:data-rootMS);
 
