@@ -268,10 +268,10 @@ declare %private function viewItem:gallery($item) {
                         let $manifest := if (starts-with($facs, 'http')) then
                             $facs
                         else
-                            concat('https://betamasaheft.eu/api/iiif/', $mid, '/manifest')
+                            concat($config:appUrl, '/api/iiif/', $mid, '/manifest')
                         let $openseadragonjsid := 'openseadragon' || replace($facs, ' ', '_') || $mid
                         let $tileSources :=  string-join(for $i in 1 to xs:integer($n)
-    let $img:=concat('https://betamasaheft.eu/iiif/', $facs, format-number($i,'000'),'.tif/info.json') return  '"'||$img || '"',
+    let $img:=concat($config:appUrl, '/iiif/', $facs, format-number($i,'000'),'.tif/info.json') return  '"'||$img || '"',
     ','
   )
                         let $openseadragonjs :=
@@ -1000,8 +1000,8 @@ declare %private function viewItem:workAuthorList($parentname, $p, $a) {
 declare %private function viewItem:URI2ID($string) {
     let $string := normalize-space(string-join($string)) => replace('\s', '')
     return
-        if (starts-with($string, 'https://betamasaheft.eu')) then
-            substring-after($string, ('https://betamasaheft.eu' || '/'))
+        if (starts-with($string, $config:appUrl)) then
+            substring-after($string, ($config:appUrl || '/'))
         else
             $string
 };
@@ -1915,21 +1915,21 @@ declare %private function viewItem:msItem($msItem) {
     return
         <div
             class="w3-container msItem" style="scroll-margin-top: 64px;"
-            resource="https://betamasaheft.eu/{$mainID}/msitem/{$id}"
-            typeof="https://betamasaheft.eu/msitem https://w3id.org/sdc/ontology#UniCont"
+            resource="{$config:appUrl}/{$mainID}/msitem/{$id}"
+            typeof="{$config:appUrl}/msitem https://w3id.org/sdc/ontology#UniCont"
             id="{$id}">
             <button
                 style="max-width:100%"
                 onclick="openAccordion('item{$trimid}')"
                 class="w3-button w3-gray contentItem "
-                resource="https://betamasaheft.eu/{$mainID}/msitem/{$id}">
+                resource="{$config:appUrl}/{$mainID}/msitem/{$id}">
                 {viewItem:namedEntityTitleNoLink($msItem/t:title)} Item {$id}
                 {
                     if ($msItem/t:msItem) then
                         <span
                             class="w3-badge w3-margin-left"
                             property="http://www.cidoc-crm.org/cidoc-crm/P57_has_number_of_parts"
-                            about="https://betamasaheft.eu/{$mainID}/msitem/{$id}">
+                            about="{$config:appUrl}/{$mainID}/msitem/{$id}">
                             {count($msItem/t:msItem)}
                         </span>
                     else
@@ -2099,14 +2099,14 @@ declare %private function viewItem:supportDesc($node) {
                         <span
                             class="w3-tag w3-gray"
                             property="http://www.cidoc-crm.org/cidoc-crm/P46_is_composed_of"
-                            resource="https://betamasaheft.eu/material/{$mk}">
+                            resource="{$config:appUrl}/material/{$mk}">
                             {concat(upper-case(substring($mk, 1, 1)), substring($mk, 2), ' ')}
                         </span>
                 else
                     ()
             }<span
                 class="w3-tag w3-red"
-                typeof="https://betamasaheft.eu/{$node/parent::t:objectDesc/@form}">
+                typeof="{$config:appUrl}/{$node/parent::t:objectDesc/@form}">
                 {string($node/parent::t:objectDesc/@form)}
             </span></p>)
     else
@@ -2184,7 +2184,7 @@ declare %private function viewItem:layout($node) {
 let $pos := index-of($node/parent::*/t:layout, $node)[1] return
     <div
         id="layout{$pos}"
-        resource="http://betamasaheft.eu/{$node/ancestor::t:TEI/@xml:id}#layout{$pos}">
+        resource="{$config:appUrl}/{$node/ancestor::t:TEI/@xml:id}#layout{$pos}">
         <h4>Layout note {$pos}
             {
                 if ($node/t:locus) then
@@ -2623,13 +2623,13 @@ declare %private function viewItem:collectionelement($node) {
 
 declare %private function viewItem:handDesc($node) {
     <div
-        resource="https://betamasaheft.eu/{$node/ancestor::t:TEI/@xml:id}/hand/{$node/@xml:id}">
+        resource="{$config:appUrl}/{$node/ancestor::t:TEI/@xml:id}/hand/{$node/@xml:id}">
         {
             attribute typeof {
                 if ($node/@script) then
-                    ('https://betamasaheft.eu/scripts/' || string($node/@script))
+                    ($config:appUrl || '/scripts/' || string($node/@script))
                 else
-                    (), 'https://betamasaheft.eu/hand', 'https://w3id.org/sdc/ontology#UniMain'
+                    (), $config:appUrl || '/hand', 'https://w3id.org/sdc/ontology#UniMain'
             }
         }
         <h6 style="scroll-margin-top: 64px;"
@@ -2764,7 +2764,7 @@ declare %private function viewItem:extent($node as element(t:extent)) {
      <div
         rel="http://purl.org/dc/terms/hasPart">
         <span
-            property="http://betamasaheft.eu/hasTotalLeaves"
+            property="{$config:appUrl}/hasTotalLeaves"
             content="{$node/t:measure[1][@unit = 'leaf'][not(@type)]}"/>
         {viewItem:TEI2HTML($node/node())}
         </div>
@@ -2852,7 +2852,7 @@ declare %private function viewItem:decoDesc($node) {
 declare %private function viewItem:decoNoteItem($node, $r) {
     <li style="scroll-margin-top: 64px;"
         id="{$r/@xml:id}"
-        resource="http://betamasaheft.eu/{$node/ancestor::t:TEI/@xml:id}/decoration/{$node/@xml:id}">
+        resource="{$config:appUrl}/{$node/ancestor::t:TEI/@xml:id}/decoration/{$node/@xml:id}">
         {
             attribute typeof {
                 for $type in $r//t:term/@key
@@ -3027,7 +3027,7 @@ declare %private function viewItem:additions($node) {
 declare %private function viewItem:additionItem($a) {
     <li style="scroll-margin-top: 64px;"
         id="{$a/@xml:id}"
-        resource="https://betamasaheft.eu/{$a/ancestor::t:TEI/@xml:id}/addition/{$a/@xml:id}">
+        resource="{$config:appUrl}/{$a/ancestor::t:TEI/@xml:id}/addition/{$a/@xml:id}">
         {
             if ($a/t:desc/@type) then
                 attribute typeof {'https://betamasaheft.eu/ontology/' || string($a/t:desc/@type)}
@@ -4908,7 +4908,7 @@ declare %private function viewItem:work($item) {
                         <a
                             class="w3-button w3-gray"
                             target="_blank"
-                            href="http://voyant-tools.org/?input=https://betamasaheft.eu/works/{$id}.xml">Voyant</a>
+                            href="http://voyant-tools.org/?input={$config:appUrl}/works/{$id}.xml">Voyant</a>
                     else
                         ()
                 }
@@ -5378,7 +5378,7 @@ declare %private function viewItem:place($item) {
                     }{
                         if ($id = 'INS0880WHU') then
                             <a
-                                href="https://betamasaheft.eu/tweed.html"><span
+                                href="{$config:appUrl}/tweed.html"><span
                                     class="w3-tag w3-red">Tweed Collection</span></a>
                         else
                             ()
@@ -5468,7 +5468,7 @@ declare %private function viewItem:auth($item) {
                     {viewItem:TEI2HTML($item//t:listBibl)}
 
                 </div>
-                 <button  class="w3-button w3-red"><a href="https://betamasaheft.eu/authority-files/list?keyword={$id}" target="_blank">List of entities using the keyword</a></button>
+                 <button  class="w3-button w3-red"><a href="{$config:appUrl}/authority-files/list?keyword={$id}" target="_blank">List of entities using the keyword</a></button>
                 <button
                     class="w3-button w3-red"
                     id="showattestations"
@@ -5507,7 +5507,7 @@ declare %private function viewItem:manuscript($item) {
             <div
                 class="w3-container"
                 id="description"
-                typeof="http://lawd.info/ontology/AssembledWork https://betamasaheft.eu/mss">
+                typeof="http://lawd.info/ontology/AssembledWork {$config:appUrl}/mss">
                 {
                     if ($item//t:date[@evidence = 'internal-date'] or $item//t:origDate[@evidence = 'internal-date']) then
                         <h1>
@@ -5526,7 +5526,7 @@ declare %private function viewItem:manuscript($item) {
                             if ($item//t:collection[. = 'Tweed Collection']) then
                                 <a
                                     class="w3-bar-item  w3-hide-medium w3-hide-small w3-button w3-red"
-                                    href="https://betamasaheft.eu/tweed.html">Tweed Collection</a>
+                                    href="{$config:appUrl}/tweed.html">Tweed Collection</a>
                             else
                                 ()
                         }
@@ -6864,7 +6864,7 @@ declare function viewItem:keywords($file, $collection) {
     let $id := string($file/@xml:id)
     let $classes := for $class in $file//t:term/@key
     return
-        'http://betamasaheft.eu/' || $class
+        $config:appUrl ||'/' || $class
     let $options := switch ($collection)
         (:                   decides on the basis of the collection what is relevant to match related records :)
         case 'manuscripts'
