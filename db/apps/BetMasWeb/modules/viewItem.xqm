@@ -3562,231 +3562,150 @@ declare %private function viewItem:handShift($node as element(t:handShift)) {
 };
 
 declare %private function viewItem:surplus($node as element(t:surplus)) {
-<span
-        class="w3-tooltip">
-   { ('{', viewItem:TEI2HTML($node/node()), '}')}
-    <span
-            class="w3-text w3-tag w3-small">{
-            if ($node/@resp) then
-            (
-            if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
-                                                concat('resp: ', string-join(exptit:printTitle($node/@resp), ', '))
-   else if (starts-with($node/@resp, 'bm:')) then
-                                                concat('resp: ', string-join($viewItem:bibliography//b:entry[@id = string($node/@resp)]/b:citation))
-   else
-                                                 concat('resp: ', viewItem:editorName($node/@resp)))
-          else
-                                                 ()}</span>
-    </span>
+let $content := viewItem:TEI2HTML($node/node())
+let $resp := viewItem:tipResp($node/@resp, 'resp:')
+return
+<span class="w3-tooltip">
+  { '{', $content, '}' }
+  { if ($resp) then <span class="w3-text w3-tag w3-small">{$resp}</span> else ()}
+</span>
 };
 
 declare %private function viewItem:space($node as element(t:space)) {
+let $resp := viewItem:tipResp($node/@resp, 'resp:')
+return
     <span
         class="w3-tooltip">
-
+       
            {
                if ($node/@reason = 'rubrication') then
                 concat('(', $node/@quantity, ' ', $node/@unit, ' left for rubrication and never filled)')
             else
                 concat('(', $node/@quantity, ' ', $node/@unit, ' unfilled space)')
-            }
-
-<span
-            class="w3-text w3-tag w3-small">{
-            if ($node/@resp) then
-            (
-            if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
-                                                concat('resp: ', string-join(exptit:printTitle($node/@resp), ', '))
-   else if (starts-with($node/@resp, 'bm:')) then
-                                                concat('resp: ',  string-join($viewItem:bibliography//b:entry[@id = string($node/@resp)]/b:citation))
-   else
-                                                 concat('resp: ', viewItem:editorName($node/@resp)))
-          else
-                                                 ()}</span>
+            }        
+{ if ($resp) then <span class="w3-text w3-tag w3-small">{$resp}</span> else ()}
     </span>
-};
+};  
 
 declare %private function viewItem:choice($node as element(t:choice)) {
     let $id := generate-id($node)
+    let $sic := $node/t:sic
+    let $corr := $node/t:corr
+    let $orig := $node/t:orig
+    let $sicHTML := viewItem:TEI2HTML($sic)
+    let $corrHTML := viewItem:TEI2HTML($corr)
+    let $resp := ($node/@resp, $corr/@resp)[1]
     return
         <span
         class="w3-tooltip">{
-        if ($node[t:sic and t:corr]) then
-            (<b>
-                    {$node/t:corr}
-            </b>
+        if ($sic and $corr) then
+            (<b>                
+                    {$corrHTML}                
+            </b>       
             ,
             <script
                 type="text/javascript">
                 {
                     "$('#" || $id || "').bind('click', function() {
-            $(this).html($(this).html() == '" || $node/t:corr || "' ? '" || concat(viewItem:TEI2HTML($node/t:sic), '(!)') || "' : '" || $node/t:corr || "');
+            $(this).html($(this).html() == '" || string($corrHTML) || "' ? '" || concat($sicHTML, '(!)') || "' : '" || string($corrHTML) || "');
             });"
                 }
             </script>
             )
         else
-            if ($node[t:sic and t:orig]) then
-                concat('{', $node/t:orig, '}')
+            if ($sic and $orig) then
+                ('{', $orig/string(), '}')
             else
                 (viewItem:TEI2HTML($node/node()))
-                }
-
+                }                
                 <span
             class="w3-text w3-tag w3-small">{
-            if ($node/@resp) then
-                  (      if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
-                        concat(viewItem:TEI2HTML($node/t:sic), ' corrected by ', string-join(exptit:printTitle($node/@resp), ', '))
-   else  if (starts-with($node/@resp, 'bm:')) then
-                        concat(viewItem:TEI2HTML($node/t:sic),  ' corrected in ',  string-join($viewItem:bibliography//b:entry[@id = string($node/@resp)]/b:citation))
-   else
-                       concat(viewItem:TEI2HTML($node/t:sic), ' corrected by ', viewItem:editorName($node/@resp))
-                                                 )
-                                                 else
-                                                 if ($node/t:corr/@resp) then
-                  (      if (starts-with($node/t:corr/@resp, 'PRS') or starts-with($node/t:corr/@resp, 'ETH')) then
-                        concat(viewItem:TEI2HTML($node/t:sic), ' corrected by ', string-join(exptit:printTitle($node/t:corr/@resp), ', '))
-   else if (starts-with($node/t:corr/@resp, 'bm:')) then
-                        concat(viewItem:TEI2HTML($node/t:sic),  ' corrected in ',  string-join($viewItem:bibliography//b:entry[@id = string($node/t:corr/@resp)]/b:citation))
-   else
-                       concat(viewItem:TEI2HTML($node/t:sic),  ' corrected by ', viewItem:editorName($node/t:corr/@resp))
-                                                 )
-                                                 else
-
-                      concat(viewItem:TEI2HTML($node/t:sic), '(!)')}
-                </span>
+        if ($resp) then ($sicHTML, ' ', viewItem:tipResp($resp,'corrected by')) else ($sicHTML, '(!)')}
+                </span>                
                 </span>
 };
-
+ 
 declare %private function viewItem:unclear($node as element(t:unclear)) {
-     <span
+     <span 
                         style="background-color:hsla(50, 20%, 50%, 0.2); opacity: 0.6; text-decoration-line: underline; text-decoration-style: wavy; text-decoration-color: gray;">[{viewItem:TEI2HTML($node/node())}?]</span>
 };
 
 declare %private function viewItem:sic($node as element(t:sic)) {
     <span
         class="w3-tooltip">
-            {$node/text()}(!)<span
-            class="w3-text w3-tag w3-small CorrResp">{
-            if ($node/@resp) then
-            (
-            if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
-                                                concat('sic by ', string-join(exptit:printTitle($node/@resp), ', '))
-   else  if (starts-with($node/t:corr/@resp, 'bm:')) then
-                        concat('sic by ', string-join($viewItem:bibliography//b:entry[@id = string($node/t:corr/@resp)]/b:citation))
-   else
-                                                 concat('sic by ', viewItem:editorName($node/@resp)))
-          else
-                                                 ()}</span></span>
+            {$node/text()}(!)
+            <span class="w3-text w3-tag w3-small CorrResp">{
+           if ($node/@resp) then viewItem:tipResp($node/@resp, 'sic by') else ()}</span></span>
 };
 
 declare %private function viewItem:del($node as element(t:del)) {
-    <span
-        class="w3-tooltip">
-           {
-                if ($node[contains(@rend , 'erasure')]) then
-                    ('〚',
-                    (if (empty($node)) then
-                        (concat($node/@extent, ' ', $node/@unit))
-                    else
-                        viewItem:TEI2HTML($node/node())), '〛')
-                else
-                    if ($node[contains(@rend , 'strikethrough')]) then
-                        <strike>{
-                                if (empty($node)) then
-                                    (concat($node/@extent, ' ', $node/@unit))
-                                else
-                                    viewItem:TEI2HTML($node/node())
-                            }</strike>
-                          else
-                    if ($node[contains(@rend , 'expunctuated')]) then
-                        <span style="border-bottom: 1px dotted #000; padding: 1px;">{
-                                if (empty($node)) then
-                                    (concat($node/@extent, ' ', $node/@unit))
-                                else
-                                    viewItem:TEI2HTML($node/node())
-                            }</span>
-                             else
-                    if ($node[contains(@rend , 'encircled')]) then
-                        <span class="w3-border w3-round-xxlarge">{
-                                if (empty($node)) then
-                                    (concat($node/@extent, ' ', $node/@unit))
-                                else
-                                    viewItem:TEI2HTML($node/node())
-                            }</span>
-                            else
-                    if ($node[contains(@rend , 'overUnderlined')]) then
-                        <span style="border-bottom: 1px dotted #000; border-top: 1px dotted #000; padding: 1px;">{
-                                if (empty($node)) then
-                                    (concat($node/@extent, ' ', $node/@unit))
-                                else
-                                    viewItem:TEI2HTML($node/node())
-                            }</span>
-                            else
-                    if ($node[contains(@rend , 'effaced')]) then
-                        <span class="w3-gray">{
-                                if (empty($node)) then
-                                    (concat($node/@extent, ' ', $node/@unit))
-                                else
-                                    viewItem:TEI2HTML($node/node())
-                            }</span>
-                    else
-                        viewItem:TEI2HTML($node/node())
-            }
-        <span
-            class="w3-text w3-tag w3-small CorrResp">{
-            if ($node/@resp) then
-            (
-            if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
-                                                concat('corrected by ', string-join(exptit:printTitle($node/@resp), ', '))
-     else if (starts-with($node/@resp, 'bm:')) then
-                                                concat('resp: ', string-join($viewItem:bibliography//b:entry[@id = string($node/@resp)]/b:citation))
-             else
-                                                 concat('corrected by ', viewItem:editorName($node/@resp)))
-          else
-                                                 ()}</span>
+  let $content := if (empty($node)) then concat($node/@extent, ' ', $node/@unit) else viewItem:TEI2HTML($node/node())
+  let $renderers := map{
+    "erasure": function($c){ ('〚', $c, '〛') },
+    "strikethrough": function($c){ <strike>{$c}</strike> },
+    "expunctuated": function($c){ <span style="border-bottom:1px dotted #000; padding:1px;">{$c}</span> },
+    "encircled": function($c){ <span class="w3-border w3-round-xxlarge">{$c}</span> },
+    "overUnderlined": function($c){ <span style="border-top:1px dotted #000; border-bottom:1px dotted #000; padding:1px;">{$c}</span> },
+    "effaced": function($c){ <span class="w3-gray">{$c}</span> }
+  }
+  let $rendKey := head(for $k in map:keys($renderers) return if (contains($node/@rend, $k)) then $k else ())
+  let $renderer := if ($rendKey) then $renderers($rendKey) else function($c){$c}
+  return
+    <span class="w3-tooltip">
+      {$renderer($content)}
+      <span class="w3-text w3-tag w3-small CorrResp">
+        {if ($node/@resp) then viewItem:tipResp($node/@resp,'corrected by') else ()}
+      </span>
     </span>
 };
-
+ 
 declare %private function viewItem:supplied($node as element(t:supplied)) {
-    <span
-        class="w3-tooltip">
+let $reason  := string($node/@reason)
+let $content := viewItem:TEI2HTML($node/node())
+let $renderers := map{
+  "undefined":  function($c){ ("[", $c, "(?)]") },
+  "lost":       function($c){ ("[", $c, "]") },
+  "omitted":    function($c){ ("<", $c, ">") },
+  "explanation": function($c){ (" <<", $c, ">>") },
+  "subaudible": function($c){ ("(", $c, ")") }
+}
+let $renderer :=
+  if (map:contains($renderers,$reason))
+  then $renderers($reason)
+  else if ($reason)
+       then function($c){ ("(", $reason, ": ", $c, ")") }
+       else function($c){ ("[", $c, "]") }
+return
+<span class="w3-tooltip">
+  { $renderer($content) }
+  <span class="w3-text w3-tag w3-small SupResp">
+    {viewItem:tipResp($node/@resp, 'supplied by')}
+  </span>
+</span>
+};
 
-            {
- if ($node/@reason = 'undefined') then
-    concat('[', viewItem:TEI2HTML($node/node()), '(?)]')
-    else
-        if ($node/@reason = 'lost') then
-            concat('[', viewItem:TEI2HTML($node/node()), ']')
-        else
-            if ($node/@reason = 'omitted') then
-                concat('&lt;', viewItem:TEI2HTML($node/node()), '&gt;')
-                else
-                    if ($node/@reason = 'explanation') then
-                concat(' &lt;&lt;', viewItem:TEI2HTML($node/node()), '&gt;&gt;')
-                      else
-                    if ($node/@reason = 'subaudible') then
-                concat('(', viewItem:TEI2HTML($node/node()), ')')
-                 else
-                    if ($node/@reason ) then
-                concat('(', string-join($node/@*, ' '), ': ', viewItem:TEI2HTML($node/node()), ')')
-                     else
-                       concat('[', viewItem:TEI2HTML($node/node()), ']')
-            }
-
-        <span
-            class="w3-text w3-tag w3-small SupResp">{
-            if ($node/@resp) then
-            (
-            if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
-                                                concat('supplied by ', string-join(exptit:printTitle($node/@resp), ', '))
-  else if (starts-with($node/@resp, 'bm:')) then
-                                                concat('supplied by ',   string-join($viewItem:bibliography//b:entry[@id = string($node/@resp)]/b:citation))
-   else
-                                                 concat('supplied by ', viewItem:editorName($node/@resp)))
-          else
-                                                 ()}</span>
-    </span>
+declare function viewItem:tipResp($resp as attribute()?,  $label as xs:string) as xs:string? {
+let $ids := tokenize(string($resp), '\s+')
+return
+if (empty($ids)) then ()
+else
+concat(
+    $label, ' ',
+    string-join(
+        for $r in $ids
+        return
+            if (starts-with($r,'PRS') or starts-with($r,'ETH')) then
+                string-join(exptit:printTitle($r), ', ')
+            else if (starts-with($r,'bm:')) then
+                string-join(
+                    $viewItem:bibliography//b:entry[@id = $r]/b:citation,
+                    ', '
+                )
+            else
+                viewItem:editorName($r),
+        ', '
+    )
+)
 };
 
 declare %private function viewItem:orig($node as element(t:orig)) {
@@ -3856,61 +3775,35 @@ declare %private function viewItem:add($node as element(t:add)) {
 };
 
 declare %private function viewItem:gap($node as element(t:gap)) {
-    let $quantity := $node/@quantity
-    let $extent := $node/@extent
-    return
-<span
-        class="w3-tooltip">
-             {
-                if ($node/@reason = 'illegible') then
-                    (
-                    if ($node/@quantity) then
-                        (for $q in 1 to $quantity
-                        return
-                            '+')
-                   else
-                        if ($node/@extent) then
-                        (
-                        if ($node/@extent="unknown") then ('[...]')
-                        else
-                            for $q in 1 to $extent
-                            return
-                                '▧')
-                        else
-                            ('[...]')
-                    )
-                else
-                    if ($node/@reason = 'omitted') then
-                        (
-                    if ($node/@quantity) then
-                        (for $q in 1 to $quantity
-                        return
-                            '.')
-                    else
-                        ('. . . . .')
-                        )
-                    else
-                        if ($node/@reason = 'lost') then
-                        (
-                          if ($node/@quantity) then
-                            concat('[c. ', $node/@quantity, ' ', $node/@unit, ' lost]')
-                            else
-                            ('[…]')
-                            )
-                        else
-                            if ($node/@reason = 'ellipsis') then
-                                ('(…)')
-                            else
-                                ()
-            }
-
-       <span
-            class="w3-text w3-tag w3-small OmissionResp">{if (starts-with($node/@resp, 'PRS') or starts-with($node/@resp, 'ETH')) then
-                                                concat('ommission by ', string-join(exptit:printTitle($node/@resp), ', '))
-    else if (starts-with($node/@resp, 'bm:')) then
-                                                concat('ommission by ',  string-join($viewItem:bibliography//b:entry[@id = string($node/@resp)]/b:citation))
-   else
-                                                 concat('ommission by ', viewItem:editorName($node/@resp))}</span>
+  let $reason   := string($node/@reason)
+  let $quantity := if ($node/@quantity) then xs:integer($node/@quantity) else ()
+  let $extent   := if ($node/@extent) then xs:integer($node/@extent) else ()
+  let $unit     := string($node/@unit)
+  let $renderers := map{
+    "illegible": function($n){
+        if ($quantity) then
+            string-join(for $i in 1 to $quantity return '+', '')
+        else if ($extent) then
+            if ($node/@extent = "unknown") then '[...]'
+            else string-join(for $i in 1 to $extent return '▧', '')
+        else '[...]'
+    },
+    "omitted": function($n){
+        if ($quantity) then string-join(for $i in 1 to $quantity return '.', '')
+        else '. . . . .'
+    },
+    "lost": function($n){
+        if ($quantity) then concat('[c. ', $quantity, ' ', $unit, ' lost]')
+        else '[…]'
+    },
+    "ellipsis": function($n){ '(…)' }
+  }
+  let $renderer := if (map:contains($renderers,$reason)) then $renderers($reason) else function($n){ () }
+  let $resp := viewItem:tipResp($node/@resp, 'omission by')
+  return
+    <span class="w3-tooltip">
+      { $renderer($node) }
+      { if ($resp) then <span class="w3-text w3-tag w3-small OmissionResp">{$resp}</span> else () }
     </span>
 };
 
@@ -5979,15 +5872,7 @@ declare %private function viewItem:calendartables($item) {
                             if ($date/@resp) then
                                 <tr>
                                     <td>Attribution</td>
-                                    <td>
-                                        {
-                                            if (starts-with($date/@resp, 'PRS') or starts-with($date/@resp, 'ETH')) then
-                                                exptit:printTitle($date/@resp)
-                                            else if (starts-with($date/@resp, 'bm:')) then string-join($viewItem:bibliography//b:entry[@id = string($date/@resp)]/b:citation)
-                                            else
-                                                viewItem:editorName($date/@resp)
-                                        }
-                                    </td>
+                                    <td>{ viewItem:tipResp($date/@resp, 'attributed by') }</td>
                                 </tr>
                             else
                                 ()
@@ -6152,15 +6037,7 @@ declare function viewItem:dates($date) {
         '?'
     else
         ()
-    let $resp := if ($date/@resp) then
-        (' according to ',
-        if (starts-with($date/@resp, 'PRS') or starts-with($date/@resp, 'ETH')) then
-            exptit:printTitle($date/@resp)
-           else if (starts-with($date/@resp, 'bm:')) then string(normalize-space($viewItem:bibliography//b:entry[@id = string($date/@resp)]/b:citation))
-        else
-            viewItem:editorName($date/@resp))
-    else
-        ()
+    let $resp := viewItem:tipResp($date/@resp, 'according to')
     let $formatortext := if (count($date/node()) gt 1) then
         viewItem:TEI2HTML($date/node())
     else if($date/text()) then $date/text()
