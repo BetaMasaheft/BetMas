@@ -112,6 +112,15 @@ declare %private function viewItem:locus($this) {
     or matches($clean,' cp.')
     or matches($clean,' esp.')
     let $unit := string(($this/ancestor::t:TEI//t:extent/t:measure[@type != "blank"]/@unit)[1])
+    let $plural := contains(string($this/@target),' ') or $this/@to 
+    let $base :=
+    if ($unit = 'page')
+    then (if ($plural) then 'pp.' else 'p.')
+    else (if ($plural) then 'ff.' else 'f.')
+let $prefix :=
+    if ($lowerPrefix)
+    then concat($base,' ')
+    else concat(upper-case(substring($base,1,1)), substring($base,2), ' ')
     let $excerpt := $parent[self::t:ab][not(@type = ('CruxAnsata','ChiRho','coronis','ruling','pricking'))]
     let $targetSeq := viewItem:makeSequence($this/@target)
     return
@@ -124,15 +133,7 @@ declare %private function viewItem:locus($this) {
         else
             (),
         if ($this[not(text())]) then
-            if (contains($this/@target, ' ')) then
-                let $prefix := if ($unit = 'page') then
-                    'pp. '
-                else
-                     if ($lowerPrefix)
-                                    then
-                                        'ff. '
-                                    else
-                                        'Ff. '
+            if (contains(string($this/@target), ' ')) then                
                 let $targets := for $t at $p in $targetSeq
                 return
                     (<a
@@ -144,32 +145,14 @@ declare %private function viewItem:locus($this) {
                     ($prefix,
                     $targets)
             else
-                if ($this/@target) then
-                    let $prefix := if ($unit = 'page') then
-                        'p. '
-                    else
-                       if ($lowerPrefix)
-                                    then
-                                        'f. '
-                                    else
-                                        'F. '
-                    return
+                if ($this/@target) then    
                         ($prefix,
                         <a
                             href="{$this/@target}">
                             {viewItem:choosefacsorlb($this, $ancID)}
                             {viewItem:parseRef(concat(substring-after($this/@target, '#'), ' '))}
                         </a>)
-                else
-                    let $prefix := if ($unit = 'page') then
-                        'pp. '
-                    else
-                         if ($lowerPrefix)
-                                    then
-                                        'ff. '
-                                    else
-                                        'Ff. '
-                    return
+                else                    
                         ($prefix, <a
                             href="#{$this/@from}">
                             {viewItem:choosefacsorlb($this, $ancID)}
