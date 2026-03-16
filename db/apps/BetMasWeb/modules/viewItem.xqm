@@ -1299,116 +1299,62 @@ declare %private function viewItem:publicationStmt($node) {
 };
 
 declare %private function viewItem:ref($ref) {
-    if ($ref/text()) then
-        (
-        if ($ref/@cRef) then
-            if (starts-with($ref/@cRef, 'urn:cts')) then
-                <a
-                    href="http://data.perseus.org/citations/{$ref/@cRef}">
-                    <i
-                        class="fa fa-angle-double-right"/>{$ref/text()}<i
-                        class="fa fa-angle-double-right"/>
-                </a>
-            else
-                <a
-                    class="reference"
-                    href="{$config:appUrl}/{substring-after($ref/@cRef, 'betmas:')}"
-                    target="_blank">
-                    {$ref/text()}
-                    <i
-                        class="fa fa-file-text-o"
-                        aria-hidden="true"/>
-                </a>
-        else
-            if ($ref/@corresp) then
-                for $c in viewItem:makeSequence($ref/@corresp)
-                return
-                    (<a
-                        href="{$config:appUrl}/{viewItem:URI2ID($c)}">{$ref/text()}</a>,
-                    let $relsid := generate-id($ref)
-                    return
-                        <a
-                            id="{$relsid}Ent{viewItem:URI2ID($c)}relations">
-                            <span
-                                class="glyphicon glyphicon-hand-left"/>
-                        </a>
-                    )
-            else
-                if ($ref/@target) then
-                    for $t in viewItem:makeSequence($ref/@target)
-                    return
-                        if (starts-with($t, '#')) then
-                            let $id := $ref/ancestor::t:TEI/@xml:id
-                            let $anchor := substring-after($t, '#')
-                            let $node := $ref/ancestor::t:TEI/id($anchor)
-                            return
-                                <a
-                                    href="{$config:appUrl}/{$id}#{$anchor}">
-                                   <span>{$ref/text()}</span></a>
-                        else
-                            if (starts-with($t, 'http')) then
-                                <a
-                                    href="{$t}">
-                                     {$ref/text()}</a>
-                            else
-                                <a
-                                    href="{$config:appUrl}/{$t}">{$ref/text()}</a>
-                else
-                    ()
-        )
+let $text := normalize-space(string($ref))
+return
+if ($ref/@cRef) then
+    if (starts-with($ref/@cRef,'urn:cts')) then
+        <a href="http://data.perseus.org/citations/{$ref/@cRef}">
+            <i class="fa fa-angle-double-right"/>
+            { if ($text) then $text else 'ref' }
+            <i class="fa fa-angle-double-right"/>
+        </a>
     else
-        if ($ref/@cRef) then
-            if (starts-with($ref/@cRef, 'urn:cts')) then
-                <a
-                    href="http://data.perseus.org/citations/{$ref/@cRef}">
-                    <i
-                        class="fa fa-angle-double-right"/>ref<i
-                        class="fa fa-angle-double-right"/>
-                </a>
-            else
-                <a
-                    class="reference"
-                    href="{substring-after($ref/@cRef, 'betmas:')}"
-                    target="_blank">
-                    <i
-                        class="fa fa-file-text-o"
-                        aria-hidden="true"/>
-                </a>
-        else
-            if ($ref/@corresp) then
-                for $c in viewItem:makeSequence($ref/@corresp)
-                return
-                    (<a
-                        href="{$config:appUrl}/{viewItem:URI2ID($c)}">{exptit:printTitle($c)}</a>,
-                    let $relsid := generate-id($ref)
-                    return
-                        <a
-                            id="{$relsid}Ent{viewItem:URI2ID($c)}relations">
-                            <span
-                                class="glyphicon glyphicon-hand-left"/>
-                        </a>
-                    )
-            else
-                if ($ref/@target) then
-                    for $t in viewItem:makeSequence($ref/@target)
-                    return
-                        if (starts-with($t, '#')) then
-                            let $anchor := substring-after($t, '#')
-                            let $node := $ref/ancestor::t:TEI/id($anchor)
-                            return
-                            if(count($node) = 1) then    <a
-                                    href="{$t}">
-                                    {viewItem:switchsubids($anchor, $node)}</a> else $anchor || ' not found in this file'
-                        else
-                            if (starts-with($t, 'http')) then
-                                <a
-                                    href="{$t}">
-                                    {if ($ref/text()) then $ref/text() else $t}</a>
-                            else
-                                <a
-                                    href="{$t}"> [link]</a>
+        <a class="reference"
+           href="{$config:appUrl}/{substring-after($ref/@cRef,'betmas:')}"
+           target="_blank">
+            { if ($text) then $text else '[link]' }
+            <i class="fa fa-file-text-o" aria-hidden="true"/>
+        </a>
+else if ($ref/@corresp) then
+    for $c in viewItem:makeSequence($ref/@corresp)
+    let $id := viewItem:URI2ID($c)
+    let $relsid := generate-id($ref)
+    return
+        (
+        <a href="{$config:appUrl}/{$id}">
+            { if ($text) then $text else exptit:printTitle($c) }
+        </a>,
+        <a id="{$relsid}Ent{$id}relations">
+            <span class="glyphicon glyphicon-hand-left"/>
+        </a>
+        )
+else if ($ref/@target) then
+    for $t in viewItem:makeSequence($ref/@target)
+    return
+        if (starts-with($t,'#')) then
+            let $anchor := substring-after($t,'#')
+            let $node := $ref/ancestor::t:TEI/id($anchor)
+            let $tei := $ref/ancestor::t:TEI/@xml:id
+            return
+                if ($text) then
+                    <a href="{$config:appUrl}/{$tei}#{$anchor}">
+                        {$text}
+                    </a>
+                else if (count($node)=1) then
+                    <a href="{$t}">
+                        {viewItem:switchsubids($anchor,$node)}
+                    </a>
                 else
-                    ()
+                    $anchor || ' not found in this file'
+        else if (starts-with($t,'http')) then
+            <a href="{$t}">
+                { if ($text) then $text else $t }
+            </a>
+        else
+            <a href="{$config:appUrl}/{$t}">
+                { if ($text) then $text else '[link]' }
+            </a>
+else ()
 };
 
 declare %private function viewItem:certainty($certainty) {
