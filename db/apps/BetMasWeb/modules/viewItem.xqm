@@ -3715,7 +3715,7 @@ declare %private function viewItem:gap($node as element(t:gap)) {
         if ($quantity) then
             string-join(for $i in 1 to $quantity return '+', '')
         else if ($extent) then
-            if ($node/@extent = "unknown") then '[...]'
+            if ($extent = "unknown") then '[...]'
             else string-join(for $i in 1 to $extent return '▧', '')
         else '[...]'
     },
