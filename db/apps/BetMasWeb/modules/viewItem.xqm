@@ -1665,21 +1665,14 @@ else
 };
 
 declare %private function viewItem:cae($entity) {
- if (contains($entity/@ref, 'NAR')) then
-        ()
-    else
-     if (contains($entity/@ref, 'STU')) then
-        ()
-     else
-     if (contains($entity/@ref, 'IHA')) then
-        ()
-    else
-    let $id := viewItem:URI2ID($entity/@ref)
-    return
-        'CAe ' || substring($id, 4, 4) || (if (contains($id, '#')) then
-            (' ' || substring-after($id, '#'))
+    let $mainid := $entity/@ref
+    let $id :=  if (not(contains($mainid, 'NAR') or contains($mainid, 'STU') or contains($mainid, 'IHA'))) 
+               then viewItem:URI2ID($mainid) else ()
+     return
+ if ($id) then
+        'CAe ' || substring($id, 4, 4) || (if (contains($id, '#')) then  ' ' || substring-after($id, '#') else ())
         else
-            ())
+            ()
 };
 
 declare %private function viewItem:lefthand($entity) {
@@ -1814,10 +1807,10 @@ declare function viewItem:namedEntityPlace($entity) {
                     ()
     else
         (), ' ',
-    if ($entity/@type = 'qušat') then
+    if ($entity/@type = 'qushat') then
         ' qušat '
     else
-        if ($entity/@type = 'waradā') then
+        if ($entity/@type = 'warada') then
             ' waradā '
         else
             ()
