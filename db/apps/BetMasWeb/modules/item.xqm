@@ -510,10 +510,10 @@ declare function item2:AdminLocTable($adminLoc as element()*){
                                            for $s in $adminLoc
                                            return
                                            <tr>
-                                           <td>{if($s/@type) then exptit:printTitleID($s/@type/data()) else $s/name()}</td>
+                                           <td>{if($s/@type) then exptit:printTitleID($s/@type/data()) else $s/local-name()}</td>
                                            <td>{
                                            if($s/@ref) then
-                                           (<a target="_blank" href="{$config:appUrl}/{if(starts-with($s/@ref, $config:appUrl)) then substring-after($s/@ref, concat($config:appUrl, '/')) else $s/@ref}">{exptit:printTitle($s/@ref)}</a>,
+                                           (<a target="_blank" href="{$config:appUrl}/{if(starts-with($s/@ref, $config:appUrl)) then substring-after($s/@ref, concat($config:appUrl, '/')) else $s/@ref}">{if ($s/text()) then $s/text() else viewItem:namedEntityPlace($s)}</a>,
                                            <a xmlns="http://www.w3.org/1999/xhtml"
                                            id="{generate-id($s)}Ent{$s/@ref}relations"> <i class="fa fa-hand-o-left"/>
                                            </a>)
