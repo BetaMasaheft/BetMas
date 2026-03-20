@@ -21,6 +21,7 @@
                 <item xml:id="AY" n="Addisie">Addisie Yalew</item>
                 <item xml:id="AkAm" n="Aklilu">Aklilu Amanuel Tecleab</item>
                 <item xml:id="AB" n="Alessandro">Alessandro Bausi</item>
+                <item xml:id="AC" n="Amelie">Amélie Chekroun</item>
                 <item xml:id="AG" n="AlessandroG">Alessandro Gori</item>
                 <item xml:id="AmAb" n="Amanuel">Amanuel Abraham</item>
                 <item xml:id="AWi" n="Anaïs">Anaïs Wion</item>
@@ -62,6 +63,7 @@
                 <item xml:id="IF" n="Iosif">Iosif Fridman</item>
                 <item xml:id="IR" n="Irene">Irene Roticiani</item>
                 <item xml:id="IP" n="Irmeli">Irmeli Perho</item>
+                <item xml:id="JF" n="Janet">Janet Fredekind</item>
                 <item xml:id="JG" n="Jacopo">Jacopo Gnisci</item>
                 <item xml:id="JRB" n="Jeremy">Jeremy Brown</item>
                 <item xml:id="JML" n="John">John Møller Larsen</item>
@@ -79,6 +81,7 @@
                 <item xml:id="MV" n="Massimo">Massimo Villa</item>
                 <item xml:id="MBä" n="Matteo">Matteo Bächtold</item>
                 <item xml:id="MA" n="Mersha">Mersha Alehegne</item>
+                <item xml:id="MGO" n="Meseret">Meseret G. Oldjira</item>
                 <item xml:id="MP" n="Michele">Michele Petrone</item>
                 <item xml:id="NV" n="Nafisa">Nafisa Valieva</item>
                 <item xml:id="PL" n="Pietro">Pietro Maria Liuzzo</item>
