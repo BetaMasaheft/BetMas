@@ -27,7 +27,7 @@ declare variable $q:deleted := doc('/db/apps/lists/deleted.xml');
 declare variable $q:collection as xs:string := request:get-parameter('collection', ());
 declare variable $q:name as xs:string := request:get-parameter('name', ());
 declare variable $q:searchType as xs:string := request:get-parameter('searchType', ());
-declare variable $q:mode as xs:string := request:get-parameter('mode', ());
+declare variable $q:mode as xs:string := request:get-parameter('mode', 'none');
 declare variable $q:defop := request:get-parameter('defaultoperator', ());
 declare variable $q:sort as xs:string := if (request:get-parameter('sort', ())) then
     request:get-parameter('sort', ())
