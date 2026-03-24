@@ -3708,7 +3708,7 @@ declare %private function viewItem:add($node as element(t:add)) {
 declare %private function viewItem:gap($node as element(t:gap)) {
   let $reason   := string($node/@reason)
   let $quantity := if ($node/@quantity) then xs:integer($node/@quantity) else ()
-  let $extent   := if ($node/@extent) then xs:integer($node/@extent) else ()
+  let $extent   := $node/@extent 
   let $unit     := string($node/@unit)
   let $renderers := map{
     "illegible": function($n){
@@ -3716,7 +3716,7 @@ declare %private function viewItem:gap($node as element(t:gap)) {
             string-join(for $i in 1 to $quantity return '+', '')
         else if ($extent) then
             if ($extent = "unknown") then '[...]'
-            else string-join(for $i in 1 to $extent return '▧', '')
+            else string-join(for $i in 1 to xs:integer($extent) return '▧', '')
         else '[...]'
     },
     "omitted": function($n){
