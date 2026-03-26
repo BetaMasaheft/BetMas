@@ -189,7 +189,7 @@ let $place := if($type='repo') then root($ms)//t:repository[1] else ( if(root($m
 let $id := string(root($ms)/t:TEI/@xml:id)
 let $date := root($ms)//t:origDate
 let $when := if (contains($date/@when, '-')) then substring-before($date/@when, '-') else $date/@when
-let $getcoor := coord:getCoords($place[1]/@ref)
+let $getcoor := if (exists($place[1]/@ref)) then try { if (string-length(coord:invertCoord(coord:getCoords($place[1]/@ref))) lt 3) then   '0.000,0.000' else coord:getCoords($place[1]/@ref) } catch * {util:log('info', $err:description)} else  '0.000,0.000'
 let $reponame := exptit:printTitle($place[1]/@ref)
        return 
 (:       if($pRec//t:coord) then:)
