@@ -3564,7 +3564,7 @@ declare %private function viewItem:unclear($node as element(t:unclear)) {
 declare %private function viewItem:sic($node as element(t:sic)) {
     <span
         class="w3-tooltip">
-            {$node/text()}(!)
+            {viewItem:TEI2HTML($node/node())}(!)
             <span class="w3-text w3-tag w3-small CorrResp">{
            if ($node/@resp) then viewItem:tipResp($node/@resp, 'sic by') else ()}</span></span>
 };
