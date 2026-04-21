@@ -118,7 +118,7 @@
                             <p>The text information provided in the record is: <br/><xsl:value-of select="string-join(.//t:list/node())"/></p>
                         </div>
                     </xsl:when>
-                    <xsl:when test="not(.//t:list/t:item[not(matches(text()[last()], '\d+'))][./t:dim[@unit = 'leaf'][. mod 2 != 0]])">
+                    <xsl:when test="not(.//t:list/t:item[not(matches(string(.), '\d+'))][./t:dim[@unit='leaf'][. mod 2 != 0]])">
 
                         <!--        visualization  -->
                         <xsl:variable name="visColl">
@@ -270,8 +270,7 @@
                     <xsl:otherwise>
                         <div class="w3-panel w3-black">
                             <p>
-                                <b>It is unfortunately not possible with the information provided to
-                                    print the collation diagrams and formula. </b>
+                                <b>Sorry the current tool version cannot print diagrams and formulas, check the Quire Table. </b>
                             </p>
                             <ul>
                                 <xsl:for-each select="//t:list/t:item[not(matches(text()[last()], '\d+'))][./t:dim[@unit = 'leaf'][. mod 2 != 0]]">
