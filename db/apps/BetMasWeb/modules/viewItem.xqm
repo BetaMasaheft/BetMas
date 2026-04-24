@@ -3974,10 +3974,10 @@ declare function viewItem:div($node as element(t:div)) {
                         return
                             if ($node/child::t:div[@type = 'textpart']) then
                                  (viewItem:titletemplate($node, $text),
-(:                                if the div has its own content, print that, not that of nested divs:)
-                                if($node/child::t:ab) then viewItem:TEI2HTML($node/node()[not(self::t:div)])
-(:                                otherways look at first order of nested divs which do not have further nested divs to came back here :)
-                                else viewItem:TEI2HTML($node/node()[not(self::t:div[t:div])])
+                          for $child in $node/node()
+                          return 
+                                 if ($child/self::t:div) then viewItem:div($child) 
+                                else viewItem:TEI2HTML($child)
                              )
                             else
                                 (<div
