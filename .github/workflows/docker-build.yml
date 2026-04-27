@@ -38,7 +38,7 @@ jobs:
       - name: Restart docker
         run: sudo service docker restart
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.event.workflow_run.head_sha || github.ref }}
 
@@ -64,7 +64,7 @@ jobs:
           password: ${{ secrets.BOT_CONTAINER_PAT }}
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           platforms: linux/amd64,linux/arm64
