@@ -1,0 +1,16 @@
+.github/workflows/format-check.yml
+  h_058c4ed50bd6c9 16,21
+.github/workflows/docker-build.yml
+  h_058c4ed50bd6c9 41,67
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "04a4a3d2d64aa875b869e7e04508ef412d1ae175",
+  "prompts": {},
+  "humans": {
+    "h_058c4ed50bd6c9": {
+      "author": "duncdrum"
+    }
+  }
+}
