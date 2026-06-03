@@ -139,7 +139,7 @@ let $prefix :=
                 return
                     (<a
                         href="{$t}">
-                        {viewItem:choosefacsorlb($this, $ancID)}
+                        {viewItem:choosefacsorlb(($this, $t), $ancID)}
                         {viewItem:parseRef(concat(substring-after($t, '#'), ' '))}
                     </a>,  if ($p = count($targetSeq)) then  ()  else  ', ')
                 return
@@ -162,7 +162,7 @@ let $prefix :=
                         '–',
                         <a
                             href="#{$this/@to}">
-                            {viewItem:choosefacsorlb($this, $ancID)}
+                            {viewItem:choosefacsorlb(($this, string($this/@to)), $ancID)}
                             {viewItem:parseRef($this/@to)}
                         </a>
                         )
@@ -511,20 +511,33 @@ declare %private function viewItem:locusrv($att) {
 };
 
 declare %private function viewItem:choosefacsorlb($locus, $ancID) {
-    if ($locus/@facs) then
-        attribute onclick {viewItem:imagesID($locus, 'call', $locus/@facs, $ancID)}
+    let $actualElement := $locus[1]
+    let $TEI := $actualElement/ancestor::t:TEI    
+    let $explicitPageToken := if (count($locus) gt 1) then string($locus[2]) else ()    
+    return
+    if ($actualElement/@facs and empty($explicitPageToken)) then
+        attribute onclick {viewItem:imagesID($actualElement, 'call', $actualElement/@facs, $ancID)}
     else
-        if ($locus/ancestor::t:TEI//t:div[contains(@xml:id , 'ranskribus')]) then
-            attribute onclick {viewItem:imagesID($locus, 'call', $locus/@*, '')}
-             else
-        if ($locus/ancestor::t:TEI//t:idno/@facs) then
-         let $page := if ($locus/@from) then viewItem:locusrv($locus/@from) else if ($locus/@to) then viewItem:locusrv($locus/@to) else if ($locus/@target) then viewItem:locusrv($locus/@target) else '1'
-         let $MainFacs := string($locus/ancestor::t:TEI//t:msIdentifier/t:idno/@facs)
-         let $id := $locus/ancestor::t:TEI/@xml:id
-         let $canvas := if (starts-with($MainFacs, 'http')) then iiifut:calculate-canvas($MainFacs, $page, $id, 'https://betamasaheft.eu') else 'https://betamasaheft.eu/api/iiif/' || $id || '/canvas/p' || $page         
-         let $viewer := concat( "https://betamasaheft.eu/manuscripts/", $id, "/viewer?FirstCanv=", $canvas) 
-         return  
-         (attribute title {"See viewer"}, attribute {'data-viewerurl'} {$viewer}, attribute target {'_blank'})  
+        if ($TEI//t:div[contains(@xml:id , 'ranskribus')]) then
+            attribute onclick {viewItem:imagesID($actualElement, 'call', $actualElement/@*, '')}
+        else
+        if ($TEI//t:idno/@facs) then
+            let $page := 
+                if (string-length($explicitPageToken) gt 0) then 
+                    viewItem:locusrv($explicitPageToken)
+                else if ($actualElement/@from) then 
+                    viewItem:locusrv($actualElement/@from) 
+                else if ($actualElement/@to) then 
+                    viewItem:locusrv($actualElement/@to) 
+                else if ($actualElement/@target) then 
+                    viewItem:locusrv($actualElement/@target) 
+                else '1'         
+            let $MainFacs := string($TEI//t:msIdentifier/t:idno/@facs)
+            let $id := $TEI/@xml:id
+            let $canvas := if (starts-with($MainFacs, 'http')) then iiifut:calculate-canvas($MainFacs, $page, $id, 'https://betamasaheft.eu') else 'https://betamasaheft.eu/api/iiif/' || $id || '/canvas/p' || $page         
+            let $viewer := concat( "https://betamasaheft.eu/manuscripts/", $id, "/viewer?FirstCanv=", $canvas) 
+            return  
+                (attribute title {"See viewer"}, attribute {'data-viewerurl'} {$viewer}, attribute target {'_blank'})  
     else
         (attribute title {'No image available'}, attribute class {'w3-tooltip'})
 };

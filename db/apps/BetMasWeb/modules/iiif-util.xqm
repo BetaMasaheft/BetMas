@@ -53,40 +53,36 @@ declare function iiifut:calculate-canvas(
     else if (starts-with($idnoFacs, 'http')) then
         let $cleanUrl := if (contains($idnoFacs, 'cudl')) then replace($idnoFacs, '//iiif', '/iiif') else $idnoFacs
         let $dynamicCanvas := iiifut:get-first-canvas($cleanUrl)
+        let $cleanPage := replace($page, '[a-z\s#]', '')        
         return
-            if (string-length($dynamicCanvas) gt 0) then 
+            if (string-length($dynamicCanvas) gt 0 and ($cleanPage eq '1' or $cleanPage eq '')) then 
                 $dynamicCanvas
             else
                 (: --- STATIC SAFETY NET FALLBACKS --- :)
                 if (contains($idnoFacs, 'digi.vat') or contains($idnoFacs, 'vatlib')) then
-                    replace(substring-before($idnoFacs, '/manifest.json') || '/canvas/p0001', 'http:', 'https:')
-                
+                    replace(substring-before($idnoFacs, '/manifest.json') || '/canvas/p0001', 'http:', 'https:')                
                 else if (contains($idnoFacs, 'loc.gov')) then
-                    'https://tile.loc.gov/image-services/iiif/service:amed:amedmonastery:' || substring-before(substring-after($idnoFacs, 'item/'), '/manifest.json') || ':0001'
-                
+                    'https://tile.loc.gov/image-services/iiif/service:amed:amedmonastery:' || substring-before(substring-after($idnoFacs, 'item/'), '/manifest.json') || ':0001'                
                 else if (contains($idnoFacs, 'https://rct.resourcespace.com/iiif/1005081')) then $idnoFacs || 'canvas/P000'  
                 else if (contains($idnoFacs, 'https://rct.resourcespace.com/iiif/1005079')) then $idnoFacs || 'canvas/ 003'  
                 else if (contains($idnoFacs, 'https://rct.resourcespace.com/iiif/1005084')) then $idnoFacs || 'canvas/ _P002-hpr.jpg'  
                 else if (contains($idnoFacs, 'https://rct.resourcespace.com/iiif/1005085')) then $idnoFacs || 'canvas/1005085.a (1)-hpr.jpg' 
-                else if (contains($idnoFacs, 'rct.')) then $idnoFacs || 'canvas/001'  
-                
+                else if (contains($idnoFacs, 'rct.')) then $idnoFacs || 'canvas/001'                  
                 else if (contains($idnoFacs, 'eap.')) then
-                    replace($idnoFacs, 'manifest', 'canvas') || '/1'
-                
+                    replace($idnoFacs, 'manifest', 'canvas') || '/' || $cleanPage
                 else if (contains($idnoFacs, 'bl.digirati')) then 
                     let $n1 := number(substring-before(substring-after($idnoFacs, 'vdc_'), '.0x')) 
                     let $facs := replace($idnoFacs, string($n1), string($n1 + 2))
                     let $newfacs := substring-before($facs, '000001')
-                    return replace($newfacs, 'iiif', 'images') || '000001/canvas/c/1'
-                
-                else if (contains($idnoFacs, 'staatsbib')) then substring-before($idnoFacs, '/manifest') || '-0001/canvas'
+                    return replace($newfacs, 'iiif', 'images') || '000001/canvas/c/' || $cleanPage                
+                else if (contains($idnoFacs, 'staatsbib')) then substring-before($idnoFacs, '/manifest') || '-' || format-number(xs:integer($cleanPage), '0000') || '/canvas'
                 else if (contains($idnoFacs, 'le.ac.uk')) then 'https://cdm16445.contentdm.oclc.org/iiif/' || substring-before(substring-after($idnoFacs, 'iiif/'), 'coll6') || 'coll6:19840/canvas/c0'
-                else if (contains($idnoFacs, 'tuebingen')) then replace($idnoFacs, '/manifest', '/') || 'canvas/1'
-                else if (contains($idnoFacs, 'cbl.ie')) then substring-before($idnoFacs, '/manifest') || '/pages/1/canvas/'
-                else if (contains($idnoFacs, 'uni-hamburg')) then substring-before($idnoFacs, '/manifest') || '/canvas/PHYS_0001'
-                else if (contains($idnoFacs, 'cudl')) then replace($idnoFacs, '//iiif', '/iiif') || '/canvas/1'
-                else if (contains($idnoFacs, 'gallica')) then replace($idnoFacs, 'ark:', 'iiif/ark:') || '/canvas/f1'
-                else if (contains($idnoFacs, 'manchester')) then $idnoFacs || '/canvas/1'
+                else if (contains($idnoFacs, 'tuebingen')) then replace($idnoFacs, '/manifest', '/') || 'canvas/' || $cleanPage
+                else if (contains($idnoFacs, 'cbl.ie')) then substring-before($idnoFacs, '/manifest') || '/pages/' || $cleanPage || '/canvas/'
+                else if (contains($idnoFacs, 'uni-hamburg')) then substring-before($idnoFacs, '/manifest') || '/canvas/PHYS_' || format-number(xs:integer($cleanPage), '0000')
+                else if (contains($idnoFacs, 'cudl')) then replace($idnoFacs, '//iiif', '/iiif') || '/canvas/' || $cleanPage
+                else if (contains($idnoFacs, 'gallica')) then replace($idnoFacs, 'ark:', 'iiif/ark:') || '/canvas/f' || $cleanPage
+                else if (contains($idnoFacs, 'manchester')) then $idnoFacs || '/canvas/' || $cleanPage
                 
                 else $appUrl || '/api/iiif/' || $id || '/canvas/p1'
     else 
