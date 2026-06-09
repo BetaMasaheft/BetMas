@@ -522,7 +522,7 @@ declare %private function viewItem:choosefacsorlb($locus, $ancID) {
             attribute onclick {viewItem:imagesID($actualElement, 'call', $actualElement/@*, '')}
         else
         if ($TEI//t:idno/@facs) then
-            let $page := 
+            let $pageMS := 
                 if (string-length($explicitPageToken) gt 0) then 
                     viewItem:locusrv($explicitPageToken)
                 else if ($actualElement/@from) then 
@@ -532,9 +532,11 @@ declare %private function viewItem:choosefacsorlb($locus, $ancID) {
                 else if ($actualElement/@target) then 
                     viewItem:locusrv($actualElement/@target) 
                 else '1'         
+            let $page := if (empty($pageMS) or normalize-space(string($pageMS)) eq '') then '1' else string($pageMS)
             let $MainFacs := string($TEI//t:msIdentifier/t:idno/@facs)
             let $id := $TEI/@xml:id
-            let $canvas := if (starts-with($MainFacs, 'http')) then iiifut:calculate-canvas($MainFacs, $page, $id, 'https://betamasaheft.eu') else 'https://betamasaheft.eu/api/iiif/' || $id || '/canvas/p' || $page         
+            let $canvas := try { if (starts-with($MainFacs, 'http')) then iiifut:calculate-canvas($MainFacs, $page, $id, 'https://betamasaheft.eu') else 'https://betamasaheft.eu/api/iiif/' || $id || '/canvas/p' || $page}     catch * {
+        <error>{$err:description}</error>}     
             let $viewer := concat( "https://betamasaheft.eu/manuscripts/", $id, "/viewer?FirstCanv=", $canvas) 
             return  
                 (attribute title {"See viewer"}, attribute {'data-viewerurl'} {$viewer}, attribute target {'_blank'})  
