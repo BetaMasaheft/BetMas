@@ -1555,7 +1555,7 @@ function app:paginateNew($node as node(), $model as map(*), $start as xs:int, $p
         then(count($model("hits")))
         else
         for $x in $model("hits")
-                                  group by $t := root($x)/t:TEI/@type
+                                  group by $t := string((root($x)/t:TEI/@type)[1])
                                 return
                                 count($x)
         let $count := xs:integer(ceiling(max($types)) div $per-page) + 1
