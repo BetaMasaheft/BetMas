@@ -325,14 +325,14 @@ declare function viewItem:matchingFacs($locus) {
                 <div class="w3-container">
                     {
                         let $MainFacs := string($locus/ancestor::t:TEI//t:msIdentifier/t:idno/@facs)
-                        let $mid := if ($locus/parent::t:witness) then string($locus/parent::t:witness/@corresp) else $mainID
+                        let $mid := string(if ($locus/parent::t:witness) then $locus/parent::t:witness/@corresp else $mainID)
                         let $manifest := if (starts-with($MainFacs, 'http')) then $MainFacs else 'https://betamasaheft.eu/api/iiif/' || $mid || '/manifest'
                         
                         let $fc := if (contains($locus/@facs, ' ')) then substring-before($locus/@facs, ' ') else $locus/@facs
-                        let $fcc := replace($fc, '[a-z\s]', '')
-                        
-                        (: FIXED: Route both options to the utility and handle safely :)
-                        let $calculatedCanvas := iiifut:calculate-canvas($MainFacs, $fcc, $mid, 'https://betamasaheft.eu')
+                        let $rawPage := replace($fc, '[a-z\s]', '')
+                        let $fcc :=  if (empty($rawPage) or normalize-space($rawPage) eq '') then  '1'  else if (string-length(translate($rawPage, '0123456789', '')) eq 0) then format-number(xs:integer($rawPage), '###') else string($rawPage)
+                        let $calculatedCanvas := try {iiifut:calculate-canvas($MainFacs, $fcc, $mid, 'https://betamasaheft.eu')} catch * {
+        <error>{$err:description}</error>}     
                         let $firstCanv := if (string-length($calculatedCanvas) gt 0) then
                                               '?FirstCanv=' || encode-for-uri($calculatedCanvas)
                                           else ()
