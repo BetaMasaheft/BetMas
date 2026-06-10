@@ -1878,7 +1878,7 @@ declare function app:searchResNotMatches($model, $start, $per-page){
 
                  for $text in $model('hits')
         let $root := root($text)
-        let $t := $root/t:TEI/@type
+        let $t := string($root/t:TEI/@type[1])
         group by $type := $t
         let $collection := switch2:col($type)
 
