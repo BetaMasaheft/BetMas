@@ -777,18 +777,27 @@ declare %private function q:par-clavisType($clavisID, $clavisType) {
 };
 
 declare %private function q:par-date-range($element, $dateRange) {
-    let $from := substring-before($dateRange, ',')
-    let $to := substring-after($dateRange, ',')
+    let $combinedString := string-join($dateRange, ',')
+    let $parts          := tokenize($combinedString, ',')
+    
+    let $cleanFrom := substring(string(head($parts)), 1, 4)
+    let $cleanTo   := substring(string(if (count($parts) gt 1) then $parts[2] else $parts[1]), 1, 4)
+    
+    let $fromYear := substring(concat('0000', $cleanFrom), string-length($cleanFrom) + 1)
+    let $toYear   := substring(concat('0000', $cleanTo), string-length($cleanTo) + 1)
+    
     return
-        if ($dateRange = '0,2000')
+        if (($fromYear = '0001' and $toYear = '2000') or empty($dateRange) or $dateRange = '')
         then
             ()
         else
-            "[descendant::t:" || $element || "
-                [xs:integer((if (contains(@notBefore, '-')) then (substring-before(@notBefore, '-')) else @notBefore)[. !='']) ge " || $from || " or
-                xs:integer((if (contains(@notAfter, '-')) then    (substring-before(@notAfter, '-')) else    @notAfter)[. != '']) ge " || $from || "]
-                [xs:integer((if (contains(@notBefore, '-')) then (substring-before(@notBefore, '-')) else @notBefore)[. !='']) le " || $to || " or
-                xs:integer((if (contains(@notAfter, '-')) then (substring-before(@notAfter, '-')) else @notAfter)[. != '']) le " || $to || "]]"
+            "[
+                descendant::t:origDate[
+                    (@notBefore >= '" || $fromYear || "' and @notBefore <= '" || $toYear || "-12-31')
+                    or
+                    (@notAfter >= '" || $fromYear || "' and @notAfter <= '" || $toYear || "-12-31')
+                ]
+            ]"
 };
 
 declare %private function q:par-folia($Pfolia) {
