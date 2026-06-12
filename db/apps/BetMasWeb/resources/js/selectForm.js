@@ -33,13 +33,37 @@ $('#SType').change(function () {
     }
 });
 
+function initCollectionFilter() {
+    $('#collectionfilter').change(function() {
+        var val = $(this).val();
+        $('#manuscriptsFilters, #worksFilters, #persFilters, #placesFilters').hide();
+        
+        if (val === 'mss') { $('#manuscriptsFilters').show(); }
+        else if (val === 'works') { $('#worksFilters').show(); }
+        else if (val === 'pers') { $('#persFilters').show(); }
+        else if (val === 'places') { $('#placesFilters').show(); }
+    });
+}
+
 $("#showfilters").one("click", function () {
-/*$("#filters").className += " w3-show"*/
-    callformpart('filters.html', 'advanced');
+    $.ajax('filters.html.txt', {
+        dataType: 'html', 
+        success: function (data) {
+            $("#filters").empty().append(data);            
+            $('#advanced').hide().slideDown("slow");             
+            initCollectionFilter();
+        },
+        error: function (xhr, status, error) {
+            console.error("Failed to load filters fragment asset:", error);
+        }
+    });
 });
 
 $("#showfilters").click(function () {
     $('.filter').toggle("slow");
+    if (document.getElementById('advanced')) {
+        $('#advanced').toggle("slow");
+    }
 });
 
 $("#showfields").click(function () {
@@ -48,6 +72,26 @@ var fields = document.getElementById('fields')
     fields.className += " w3-show"
 });
 
+$(document).ready(function() {
+    var isAdvancedSearchClick = false;
+    $('form button[type="submit"], form input[type="submit"], #searchButton').click(function() {
+        isAdvancedSearchClick = true;
+    });
+
+    $('form').submit(function() {        
+        if (!isAdvancedSearchClick) {
+            return true; 
+        }        
+        $(this).find('#filters input, #filters select, #fields input, #fields select').each(function() {
+            var $el = $(this);
+            if ($el.val() === "" || $el.is(':hidden') || $el.closest(':hidden').length > 0) {
+                $el.removeAttr('name');
+            }
+        });        
+        isAdvancedSearchClick = false;
+        return true; 
+    });
+});
 
 function callformpart(file, id) {
     
