@@ -5,6 +5,7 @@ import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas
 import module namespace exptit = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/exptit" at "xmldb:exist:///db/apps/BetMasWeb/modules/exptit.xqm";
 import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/switch2" at "xmldb:exist:///db/apps/BetMasWeb/modules/switch2.xqm";
 import module namespace item2 = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/item2" at "xmldb:exist:///db/apps/BetMasWeb/modules/item.xqm";
+import module namespace iiifut = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/iiif-util" at "xmldb:exist:///db/apps/BetMasWeb/modules/iiif-util.xqm";
 import module namespace http = "http://expath.org/ns/http-client";
 import module namespace functx = 'http://www.functx.com';
 declare namespace t = "http://www.tei-c.org/ns/1.0";
@@ -138,7 +139,7 @@ let $prefix :=
                 return
                     (<a
                         href="{$t}">
-                        {viewItem:choosefacsorlb($this, $ancID)}
+                        {viewItem:choosefacsorlb(($this, $t), $ancID)}
                         {viewItem:parseRef(concat(substring-after($t, '#'), ' '))}
                     </a>,  if ($p = count($targetSeq)) then  ()  else  ', ')
                 return
@@ -161,7 +162,7 @@ let $prefix :=
                         '–',
                         <a
                             href="#{$this/@to}">
-                            {viewItem:choosefacsorlb($this, $ancID)}
+                            {viewItem:choosefacsorlb(($this, string($this/@to)), $ancID)}
                             {viewItem:parseRef($this/@to)}
                         </a>
                         )
@@ -302,190 +303,45 @@ declare %private function viewItem:gallery($item) {
 </div>
 };
 
-declare %private function viewItem:matchingFacs($locus) {
+declare function viewItem:matchingFacs($locus) {
     let $anc := ($locus/ancestor::t:*[@xml:id or @id][1])
     let $ancID := replace(if ($anc/@xml:id) then $anc/@xml:id else $anc/@id, '\.', '_')
     let $mainID := viewItem:mainID($locus)
     let $modalid := viewItem:imagesID($locus, 'id', $locus/@facs, $mainID)
     let $idandanchor := $mainID || '#' || $ancID
     return
-        <div
-            class="w3-modal"
-            id="{$modalid}">
-
-
-            <!-- Modal content-->
-            <div
-                class="w3-modal-content">
-                <header
-                    class="w3-container">
+        <div class="w3-modal" id="{$modalid}">
+            <div class="w3-modal-content">
+                <header class="w3-container">
                     <h4>Images relevant for {exptit:printTitle($idandanchor)}, from {string($locus/ancestor::t:TEI//t:msIdentifier/t:idno/@facs)}</h4>
                     <div>{
-                            if ($locus/@target) then
-                                ('You are viewing a sequence of images including ', $locus/text())
-                            else
-                                ('You are viewing a sequence of images from f.', string($locus/@from), 'to f. ', string($locus/@to))
-                        }</div>
-                    <button
-                        class="w3-button w3-gray w3-display-topright"
-                        onclick="document.getElementById('{$modalid}').style.display='none'">Close</button>
+                        if ($locus/@target) then
+                            ('You are viewing a sequence of images including ', $locus/text())
+                        else
+                            ('You are viewing a sequence of images from f.', string($locus/@from), 'to f. ', string($locus/@to))
+                    }</div>
+                    <button class="w3-button w3-gray w3-display-topright" onclick="document.getElementById('{$modalid}').style.display='none'">Close</button>
                 </header>
-                <div
-                    class="w3-container">
+                <div class="w3-container">
                     {
-                        let $MainFacs := $locus/ancestor::t:TEI//t:msIdentifier/t:idno/@facs
-                        let $mid := if ($locus/parent::t:witness) then
-                            string($locus/parent::t:witness/@corresp)
-                        else
-                            $mainID
-                        let $manifest := if (starts-with($MainFacs, 'http')) then
-                            $MainFacs
-                        else
-                            concat('https://betamasaheft.eu/api/iiif/', $mid, '/manifest')
-                        let $firstCanv :=
-                        let $fc := if (contains($locus/@facs, ' ')) then
-                            substring-before($locus/@facs, ' ')
-                        else
-                            $locus/@facs
-                        let $fcc := replace($fc, '[a-z\s]', '')
-                        return
-                            if (not(starts-with($MainFacs, 'http'))) then
-                                concat('?FirstCanv=', 'https://betamasaheft.eu/api/iiif/', $mid, '/canvas/p', format-number(xs:integer($fcc), '###'))
-                            else
-                                ()
-                        let $mirador := concat('https://betamasaheft.eu/manuscripts/', $mid, '/viewer', $firstCanv)
-                        let $f := $locus/@facs
-                        let $idnoFacs := $locus/ancestor::t:TEI//t:msIdentifier/t:idno/@facs
-                        let $tilesources :=
-                        (:                        gallica :)
-                        if (contains($idnoFacs, 'gallica')) then
-                            let $iiif := replace($idnoFacs, '/ark:', '/iiif/ark:')
-                            return
-                                if ($locus/@from and $locus/@to) then
-                                    let $from := viewItem:locusrv($locus/@from)
-                                    let $to := viewItem:locusrv($locus/@to)
-                                    let $count := (number($to) - number($from)) * 2
-                                    let $tiles := for $tile in 0 to (xs:integer($count) + 1)
-                                    return
-                                        '"' || concat($iiif, '/f', (xs:integer(substring-after($f, 'f')) + $tile), '/info.json') || '"'
-                                    return
-                                        string-join($tiles, ', ')
-                                else
-                                    if ($locus/@from and not($locus/@to))
-                                    then
-                                        concat('"', $iiif, '/', $locus/@facs, '/info.json', '"')
-                                    else
-                                        if ($locus/@target) then
-                                            let $targets := viewItem:makeSequence($locus/@target)
-                                            let $tiles := for $t in $targets
-                                            return
-                                                '"' || concat($iiif, '/', $t, '/info.json') || '"'
-                                            return
-                                                string-join($tiles, ', ')
-                                        else
-                                            ()
-
-                                            (:                         bm server , EthioSpare          :)
-                        else
-                            if (matches($idnoFacs, '\w{3}/\d{3}/\w{3,4}-\d{3}')) then
-                                let $iiif := $idnoFacs
-                                let $fullIIIF := concat('/iiif/', $idnoFacs)
-                                (:                        expected format: of //t:TEI//t:msIdentifier/t:idno/@facs is : BMQ/003/BMQM-003 where the
-                                    first folder is the institution folder, then there is the number of the manuscript and the prefix of the photos which must have been converted to .tif
-                                    :)
-                                return
-                                    if ($locus/@from and $locus/@to) then
-                                        let $from := viewItem:locusrv($locus/@from)
-                                        let $to := viewItem:locusrv($locus/@to)
-                                        let $count := (number($to) - number($from)) * 2
-                                        let $tiles := for $tile in 0 to (xs:integer($count) + 1)
-                                        return
-                                            '"' || concat($fullIIIF, '_', format-number((xs:integer($f) + $tile), '000'), '.tif/info.json') || '"'
-                                        return
-                                            string-join($tiles, ', ')
-                                    else
-                                        if ($locus/@from and not($locus/@to))
-                                        then
-                                            '"' || concat($fullIIIF, '_', $locus/@facs, '.tif/info.json') || '"'
-                                        else
-                                            if ($locus/@target)
-                                            then
-                                                let $targets := for $t in viewItem:makeSequence($locus/@facs)
-                                                return
-                                                    '"' || concat($fullIIIF, '_', $t, '.tif/info.json') || '"'
-                                                return
-                                                    string-join($targets, ', ')
-                                            else
-                                                ()
-
-                                                (:                         bm server EMIP     and Laurenziana                 :)
-                            else
-                                if (matches($idnoFacs, 'EMIP/Codices/\d+/') or matches($idnoFacs, 'Laurenziana')) then
-                                    let $iiif := $idnoFacs
-                                    let $fullIIIF := concat('/iiif/', $idnoFacs)
-                                    return
-                                        if ($locus/@from and $locus/@to) then
-                                            let $from := viewItem:locusrv($locus/@from)
-                                            let $to := viewItem:locusrv($locus/@to)
-                                            let $count := (number($to) - number($from)) * 2
-                                            let $tiles := for $tile in 0 to (xs:integer($count) + 1)
-                                            return
-                                                '"' || concat($fullIIIF, format-number((xs:integer($f) + $tile), '000'), '.tif/info.json') || '"'
-                                            return
-                                                string-join($tiles, ', ')
-                                        else
-                                            if ($locus/@from and not($locus/@to))
-                                            then
-                                                '"' || concat($fullIIIF, string($locus/@facs), '.tif/info.json') || '"'
-                                            else
-                                                if ($locus/@target)
-                                                then
-                                                    let $targets := for $t in viewItem:makeSequence($locus/@facs)
-                                                    return
-                                                        '"' || concat($fullIIIF, ., '.tif/info.json') || '"'
-                                                    return
-                                                        string-join($targets, ', ')
-                                                else
-                                                    ()
-
-                                                    (:                         images infos are at
-                                            http://digi.vatlib.it/iiifimage/MSS_Vat.et.1/Vat.et.1_0003.jp2/info.json
-
-                                        http://digi.vatlib.it/iiif/MSS_Vat.et.1/manifest.json
-                                        http://digi.vatlib.it/mss/detail/Vat.et.1
-                                        as for gallica many assumptions are made, which could be avoided using jquery to build the viewer instead of this xslt script.
-                                                       :)
-                                else
-                                    if (contains($idnoFacs, 'vatlib')) then
-                                        let $msname := substring-after(substring-before($idnoFacs, 'manifest.json'), 'MSS_')
-                                        let $iiif := concat('https://digi.vatlib.it/iiifimage/MSS_', $msname, substring-before($msname, '/'), '_')
-                                        return
-                                            if (($locus/@from and $locus/@to) and (matches($locus/@from, '\d') and matches($locus/@to, '\d'))) then
-                                                let $from := viewItem:locusrv($locus/@from)
-                                                let $to := viewItem:locusrv($locus/@to)
-                                                let $count := (number($to) - number($from)) * 2
-                                                let $tiles := for $x in 0 to (xs:integer($count))
-                                                return
-                                                    concat('&#34;', $iiif, format-number((xs:integer($f) + $x), '0000'), '.jp2/info.json', '&#34;')
-                                                return
-                                                    string-join($tiles, ', ')
-                                            else
-                                                if ($locus/@from and not($locus/@to) and matches($locus/@from, '\d'))
-                                                then
-                                                    '"' || concat($iiif, $locus/@facs, '.jp2/info.json') || '"'
-                                                else
-                                                    if ($locus/@target and matches($locus/@target, '\d'))
-                                                    then
-                                                        let $targets := for $t in viewItem:makeSequence($locus/@target)
-                                                        return
-                                                            '"' || concat($iiif, ., '.jp2/info.json') || '"'
-                                                        return
-                                                            string-join($targets, ', ')
-                                                    else
-                                                        ()
-
-                                    else
-                                        ('I do not know where these images come from')
+                        let $MainFacs := string($locus/ancestor::t:TEI//t:msIdentifier/t:idno/@facs)
+                        let $mid := string(if ($locus/parent::t:witness) then $locus/parent::t:witness/@corresp else $mainID)
+                        let $manifest := if (starts-with($MainFacs, 'http')) then $MainFacs else 'https://betamasaheft.eu/api/iiif/' || $mid || '/manifest'
+                        
+                        let $fc := if (contains($locus/@facs, ' ')) then substring-before($locus/@facs, ' ') else $locus/@facs
+                        let $rawPage := replace($fc, '[a-z\s]', '')
+                        let $fcc :=  if (empty($rawPage) or normalize-space($rawPage) eq '') then  '1'  else if (string-length(translate($rawPage, '0123456789', '')) eq 0) then format-number(xs:integer($rawPage), '###') else string($rawPage)
+                        let $calculatedCanvas := try {iiifut:calculate-canvas($MainFacs, $fcc, $mid, 'https://betamasaheft.eu')} catch * {
+        <error>{$err:description}</error>}     
+                        let $firstCanv := if (string-length($calculatedCanvas) gt 0) then
+                                              '?FirstCanv=' || encode-for-uri($calculatedCanvas)
+                                          else ()
+                                          
+                        let $mirador := 'https://betamasaheft.eu/manuscripts/' || $mid || '/viewer' || $firstCanv
+                        
+                        (: Passing downstream functions as higher-order arguments to maintain scope parameters :)
+                        let $tilesources := iiifut:tile-sources($MainFacs, $locus, viewItem:locusrv#1, viewItem:makeSequence#1)
+                        
                         let $openseadragonjsid := 'openseadragon' || replace($locus/@facs, ' ', '_') || $mainID
                         let $openseadragonjs := 'OpenSeadragon({
                            id: "openseadragon' || $openseadragonjsid || '",
@@ -493,40 +349,22 @@ declare %private function viewItem:matchingFacs($locus) {
                            preserveViewport: true,
                            visibilityRatio:    1,
                            minZoomLevel:       1,
-                           defaultZoomLevel:   1,"' || (if (($locus/@from and $locus/@to) or $locus/@target[contains(., ' ')]) then
-                            '    sequenceMode:      true, '
-                        else
-                            ()) || 'tileSources:   [' ||
-                        $tilesources
-                        ||
-                        ' ]
-                           });'
+                           defaultZoomLevel:   1,' || (if (($locus/@from and $locus/@to) or $locus/@target[contains(., ' ')]) then ' sequenceMode: true, ' else ()) || 
+                           'tileSources:   [' || $tilesources || ' ]
+                        });'
                         return
-                            (<p
-                                class="w3-panel w3-red">
-                                <a
-                                    href="{$manifest}"
-                                    target="_blank">
-                                    <img
-                                        src="/resources/images/iiif.png"
-                                        width="20px"/>
-                                </a>
-                                <a
-                                    href="{$mirador}"
-                                    target="_blank">Open with Mirador Viewer</a>
-                            </p>,
-                            <div
-                                id="{$openseadragonjsid}"/>,
-                            <script
-                                type="text/javascript">
-                                {$openseadragonjs}
-                            </script>
-                            )
+                             (
+                             <p class="w3-panel w3-red">
+                                 <a href="{$manifest}" target="_blank"><img src="/resources/images/iiif.png" width="20px"/></a>
+                                 <a href="{$mirador}" target="_blank">Open with Mirador Viewer</a>
+                             </p>,
+                             <div id="{$openseadragonjsid}"/>,
+                             <script type="text/javascript">{$openseadragonjs}</script>
+                             )
                     }
                 </div>
             </div>
         </div>
-
 };
 
 declare %private function viewItem:matchinglb($locus) {
@@ -673,23 +511,38 @@ declare %private function viewItem:locusrv($att) {
 };
 
 declare %private function viewItem:choosefacsorlb($locus, $ancID) {
-    if ($locus/@facs) then
-        attribute onclick {viewItem:imagesID($locus, 'call', $locus/@facs, $ancID)}
+    let $actualElement := $locus[1]
+    let $TEI := $actualElement/ancestor::t:TEI    
+    let $explicitPageToken := if (count($locus) gt 1) then string($locus[2]) else ()    
+    return
+    if ($actualElement/@facs and empty($explicitPageToken)) then
+        attribute onclick {viewItem:imagesID($actualElement, 'call', $actualElement/@facs, $ancID)}
     else
-        if ($locus/ancestor::t:TEI//t:div[contains(@xml:id , 'ranskribus')]) then
-            attribute onclick {viewItem:imagesID($locus, 'call', $locus/@*, '')}
-             else
-        if ($locus/ancestor::t:TEI//t:idno/@facs) then
-         let $page := if ($locus/@from) then viewItem:locusrv($locus/@from) else if ($locus/@to) then viewItem:locusrv($locus/@to) else if ($locus/@target) then viewItem:locusrv($locus/@target) else '1'
-         let $viewer := concat( "https://betamasaheft.eu/manuscripts/",
-                $locus/ancestor::t:TEI/@xml:id, "/viewer?FirstCanv=https://betamasaheft.eu/api/iiif/",
-    $locus/ancestor::t:TEI/@xml:id,"/canvas/p", $page)
-         return
-         (attribute title {"See viewer"}, attribute {'data-viewerurl'} {$viewer}, attribute target {'_blank'})
+        if ($TEI//t:div[contains(@xml:id , 'ranskribus')]) then
+            attribute onclick {viewItem:imagesID($actualElement, 'call', $actualElement/@*, '')}
+        else
+        if ($TEI//t:idno/@facs) then
+            let $pageMS := 
+                if (string-length($explicitPageToken) gt 0) then 
+                    viewItem:locusrv($explicitPageToken)
+                else if ($actualElement/@from) then 
+                    viewItem:locusrv($actualElement/@from) 
+                else if ($actualElement/@to) then 
+                    viewItem:locusrv($actualElement/@to) 
+                else if ($actualElement/@target) then 
+                    viewItem:locusrv($actualElement/@target) 
+                else '1'         
+            let $page := if (empty($pageMS) or normalize-space(string($pageMS)) eq '') then '1' else string($pageMS)
+            let $MainFacs := string($TEI//t:msIdentifier/t:idno/@facs)
+            let $id := $TEI/@xml:id
+            let $canvas := try { if (starts-with($MainFacs, 'http')) then iiifut:calculate-canvas($MainFacs, $page, $id, 'https://betamasaheft.eu') else 'https://betamasaheft.eu/api/iiif/' || $id || '/canvas/p' || $page}     catch * {
+        <error>{$err:description}</error>}     
+            let $viewer := concat( "https://betamasaheft.eu/manuscripts/", $id, "/viewer?FirstCanv=", $canvas) 
+            return  
+                (attribute title {"See viewer"}, attribute {'data-viewerurl'} {$viewer}, attribute target {'_blank'})  
     else
         (attribute title {'No image available'}, attribute class {'w3-tooltip'})
 };
-
 
 declare %private function viewItem:VisColl($collation) {
     let $xslt := 'xmldb:exist:///db/apps/BetMasWeb/xslt/collationAlone.xsl'
