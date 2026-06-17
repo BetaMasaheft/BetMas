@@ -1646,7 +1646,20 @@ declare function q:facetGroup($group, $groupname, $subsequence) {
         {
             for $f in $group
             let $facetTitle := q:facetName($f)
-            let $facets := ft:facets($subsequence, string($f), ())
+            let $facets :=  
+            if ($f = 'authors') then
+                let $values := $subsequence//t:relation[@name=('dcterms:creator','saws:isAttributedToAuthor')]/@passive
+                for $v in distinct-values($values)
+                return map { $v : count($subsequence//t:relation[@passive = $v]) }
+        else if ($f = 'witness') then
+               let $values := $subsequence//t:witness/@corresp
+               for $v in distinct-values($values)
+               return map { $v : count($subsequence//t:witness[@corresp = $v]) }
+         else if ($f = 'sawsVersionOf') then
+            let $values := $subsequence//t:relation[@name='saws:isVersionOf']/@passive
+            for $v in distinct-values($values)
+            return map { $v : count($subsequence//t:relation[@passive = $v]) }
+        else ft:facets($subsequence, string($f), ())
                 order by $facetTitle
             return
                 q:facetDiv($f, $facets, $facetTitle)
