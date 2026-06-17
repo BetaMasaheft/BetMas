@@ -1,0 +1,7694 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Beta Masaheft API",
+    "description": "API for the Beta Masaheft digital humanities platform, providing access to Ethiopian and Eritrean manuscript, work, person, place, institution, and narrative records.",
+    "contact": {
+      "name": "Beta Masaheft",
+      "url": "https://betamasaheft.eu"
+    },
+    "license": {
+      "name": "Creative Commons Attribution 4.0 International",
+      "url": "https://creativecommons.org/licenses/by/4.0/"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://betamasaheft.eu",
+      "description": "Production server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "content-negotiation",
+      "description": "Resource URI resolution with content negotiation"
+    },
+    {
+      "name": "redirects",
+      "description": "Controller-level redirects — these paths return 302 and are handled entirely by controller.xql before reaching any RESTXQ module"
+    },
+    {
+      "name": "data",
+      "description": "Data retrieval endpoints (JSON, XML, TEI)"
+    },
+    {
+      "name": "lists",
+      "description": "Collection browsing and listing"
+    },
+    {
+      "name": "geo",
+      "description": "Geospatial data (GeoJSON, KML, Gazetteer)"
+    },
+    {
+      "name": "text",
+      "description": "Text and passage access"
+    },
+    {
+      "name": "clavis",
+      "description": "Clavis / catalogue reference lookup"
+    },
+    {
+      "name": "sparql",
+      "description": "SPARQL and RDF endpoints"
+    },
+    {
+      "name": "dts",
+      "description": "Distributed Text Services (DTS) API"
+    },
+    {
+      "name": "views",
+      "description": "HTML view endpoints"
+    },
+    {
+      "name": "search",
+      "description": "Search endpoints"
+    },
+    {
+      "name": "permanent",
+      "description": "Permanent / versioned URIs"
+    },
+    {
+      "name": "iiif",
+      "description": "IIIF Presentation API endpoints"
+    }
+  ],
+  "paths": {
+    "/{id}": {
+      "get": {
+        "tags": [
+          "content-negotiation"
+        ],
+        "summary": "Resolve a resource by ID",
+        "description": "Content-negotiated endpoint. Returns HTML by default, RDF/XML when Accept contains 'rdf', or redirects to TEI XML when Accept contains 'tei+xml'. For IDs with a passage suffix (e.g. LIT1340EnochE.1.3) redirects to the text view.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Beta Masaheft identifier (e.g. BNFet32, LIT1340EnochE, PRS1854Amdase)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "HTML record page",
+            "content": {
+              "text/html": {}
+            }
+          },
+          "302": {
+            "description": "Redirect to collection/id/main or to /tei/{id}.xml"
+          },
+          "200 (RDF)": {
+            "description": "RDF/XML graph (when Accept header contains 'rdf')",
+            "content": {
+              "application/rdf+xml": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/sparqlRest.xqm"
+      }
+    },
+    "/{id}.xml": {
+      "get": {
+        "tags": [
+          "content-negotiation"
+        ],
+        "summary": "Retrieve TEI XML for a resource",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "TEI XML document",
+            "content": {
+              "application/xml": {}
+            }
+          }
+        }
+      }
+    },
+    "/tei/{id}.xml": {
+      "get": {
+        "tags": [
+          "content-negotiation"
+        ],
+        "summary": "Retrieve TEI XML via /tei/ prefix",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "TEI XML document",
+            "content": {
+              "application/xml": {}
+            }
+          }
+        }
+      }
+    },
+    "/{id}.rdf": {
+      "get": {
+        "tags": [
+          "content-negotiation"
+        ],
+        "summary": "Retrieve RDF for a resource",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "RDF/XML",
+            "content": {
+              "application/rdf+xml": {}
+            }
+          }
+        }
+      }
+    },
+    "/{id}.json": {
+      "get": {
+        "tags": [
+          "geo"
+        ],
+        "summary": "GeoJSON for a place resource",
+        "description": "Forwards to /api/geoJson/places/{id}",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "GeoJSON feature",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/CAe{suffix}": {
+      "get": {
+        "tags": [
+          "redirects"
+        ],
+        "summary": "Clavis Aethiopicus search shortcut",
+        "description": "Redirects to /newSearch.html?searchType=clavis&query={suffix}",
+        "parameters": [
+          {
+            "name": "suffix",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Redirect to search page"
+          }
+        }
+      }
+    },
+    "/{id}/{class}/{subid}": {
+      "get": {
+        "tags": [
+          "redirects",
+          "content-negotiation"
+        ],
+        "summary": "Resolve a sub-part URI",
+        "description": "For URIs like /BNFet32/addition/a1 — redirects to /{collection}/{id}/main#{subid}, or returns RDF if Accept header contains 'rdf'. The controller matches only the fixed set of class values listed below; anything else falls through to other rules.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "class",
+            "in": "path",
+            "required": true,
+            "description": "Must be one of: layout, quire, addition, decoration, binding, msItem, msitem, mspart, msPart, title, hand, transformation, UniProd, UniCirc, UniMain, UniMat, UniCah",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "layout",
+                "quire",
+                "addition",
+                "decoration",
+                "binding",
+                "msItem",
+                "msitem",
+                "mspart",
+                "msPart",
+                "title",
+                "hand",
+                "transformation",
+                "UniProd",
+                "UniCirc",
+                "UniMain",
+                "UniMat",
+                "UniCah"
+              ]
+            }
+          },
+          {
+            "name": "subid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Redirect to /{collection}/{id}/main#{subid} (HTML clients)"
+          },
+          "200": {
+            "description": "RDF/XML (when Accept header contains 'rdf')",
+            "content": {
+              "application/rdf+xml": {}
+            }
+          }
+        }
+      }
+    },
+    "/{id}/{entityType}/annotation/{n}": {
+      "get": {
+        "tags": [
+          "redirects",
+          "content-negotiation"
+        ],
+        "summary": "Resolve an annotation URI",
+        "description": "Matches any path containing /annotation/ — e.g. /BNFet32/person/annotation/95 or /BNFet32/place/annotation/1. Redirects to /{id} (HTML), or forwards to RESTXQ for RDF/XML.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Record ID (manuscript, work, etc.)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "entityType",
+            "in": "path",
+            "required": true,
+            "description": "Entity type within the record (e.g. person, place)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "n",
+            "in": "path",
+            "required": true,
+            "description": "Annotation number",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Redirect to /{id}"
+          },
+          "200": {
+            "description": "RDF/XML (when Accept contains 'rdf')",
+            "content": {
+              "application/rdf+xml": {}
+            }
+          }
+        }
+      }
+    },
+    "/bond/{bond}": {
+      "get": {
+        "tags": [
+          "redirects",
+          "content-negotiation"
+        ],
+        "summary": "Resolve a bond (relation) URI",
+        "description": "For URIs like /bond/snap:GrandfatherOf-PRS1854Amdase",
+        "parameters": [
+          {
+            "name": "bond",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Redirect to the target person/work page"
+          },
+          "200": {
+            "description": "RDF/XML (when Accept contains 'rdf')",
+            "content": {
+              "application/rdf+xml": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/{id}/tei": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Get TEI XML for a record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "TEI XML",
+            "content": {
+              "application/xml": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/rest.xqm"
+      }
+    },
+    "/api/{id}/json": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Get JSON representation of a record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSON record",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/rest.xqm"
+      }
+    },
+    "/api/xml/{id}": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Get full XML for a record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "XML",
+            "content": {
+              "application/xml": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/rest.xqm"
+      }
+    },
+    "/api/xml/{id}/{level1}": {
+      "get": {
+        "tags": [
+          "text"
+        ],
+        "summary": "Get XML for a specific section of a record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "level1",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "XML fragment",
+            "content": {
+              "application/xml": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/apiText.xqm"
+      }
+    },
+    "/api/xml/{id}/{level1}/{line}": {
+      "get": {
+        "tags": [
+          "text"
+        ],
+        "summary": "Get XML for a specific line within a section",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "level1",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "line",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "XML fragment",
+            "content": {
+              "application/xml": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/apiText.xqm"
+      }
+    },
+    "/api/xml/{id}/{level1}/{level2}/{line}": {
+      "get": {
+        "tags": [
+          "text"
+        ],
+        "summary": "Get XML for a nested passage",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "level1",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "level2",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "line",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "XML fragment",
+            "content": {
+              "application/xml": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/apiText.xqm"
+      }
+    },
+    "/api/xmlpart/{id}": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Get a specific XML element from a record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "element",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "XML element",
+            "content": {
+              "application/xml": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/rest.xqm"
+      }
+    },
+    "/api/string/{id}": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Get string serialization of an element from a record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "element",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Plain text",
+            "content": {
+              "text/plain": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/rest.xqm"
+      }
+    },
+    "/api/{id}/title": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Get the title of a record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Title text",
+            "content": {
+              "text/plain": {},
+              "application/xml": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/apiTitles.xqm"
+      }
+    },
+    "/api/{id}/title/json": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Get the title of a record as JSON",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSON title",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/apiTitles.xqm"
+      }
+    },
+    "/api/{id}/{subid}/title": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Get the title of a sub-record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "subid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Title text",
+            "content": {
+              "text/plain": {},
+              "application/xml": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/apiTitles.xqm"
+      }
+    },
+    "/api/{id}/author": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Get the author(s) of a record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Author information",
+            "content": {
+              "application/json": {},
+              "application/xml": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/rest.xqm"
+      }
+    },
+    "/api/{id}/{type}/{subid}": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Get a specific typed sub-element of a record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "subid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "XML or JSON sub-record",
+            "content": {
+              "application/xml": {},
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/rest.xqm"
+      }
+    },
+    "/api/additions/{id}/addition/{addID}": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Get a specific addition from a manuscript",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "addID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Addition XML",
+            "content": {
+              "application/xml": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/rest.xqm"
+      }
+    },
+    "/api/otherMssText/{id}/{subid}": {
+      "get": {
+        "tags": [
+          "text"
+        ],
+        "summary": "Get text from another manuscript for a given work passage",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "subid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "element",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "XML text fragment",
+            "content": {
+              "application/xml": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/rest.xqm"
+      }
+    },
+    "/api/loadmsItems/{mainid}/{msItem}": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Load manuscript items for a given manuscript and item ID",
+        "parameters": [
+          {
+            "name": "mainid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "msItem",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Manuscript items",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/rest.xqm"
+      }
+    },
+    "/api/witnessesOfContainer/{id}": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Get witnesses of a container (work/narrative)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of witnesses",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/rest.xqm"
+      }
+    },
+    "/api/quotations/{text}/{passage}": {
+      "get": {
+        "tags": [
+          "text"
+        ],
+        "summary": "Get quotations of a specific passage",
+        "parameters": [
+          {
+            "name": "text",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "passage",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Quotation data",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/quotations.xqm"
+      }
+    },
+    "/api/relations/{localId}": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Get relations for a record",
+        "parameters": [
+          {
+            "name": "localId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Relations JSON",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/nodesAndEdges.xqm"
+      }
+    },
+    "/api/attestations/{type}/{id}": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Get attestations of a type for a given record",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Attestation data",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/attestations.xqm"
+      }
+    },
+    "/api/sharedKeyword/{keyword}": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Get records sharing a keyword",
+        "parameters": [
+          {
+            "name": "keyword",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "element",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "persName"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Records sharing keyword",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/sharedKeywords.xqm"
+      }
+    },
+    "/api/enrichMe/{id}/{anchor}": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Enrich a record with data at a specific anchor",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "anchor",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Enrichment data",
+            "content": {
+              "application/json": {},
+              "application/xml": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/enrichSdCtable.xqm"
+      }
+    },
+    "/api/post/{id}/tei": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Get post-processed TEI for a record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "TEI XML",
+            "content": {
+              "application/xml": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/rest.xqm"
+      }
+    },
+    "/api/count": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Get count of records per collection",
+        "responses": {
+          "200": {
+            "description": "Record counts",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/rest.xqm"
+      }
+    },
+    "/api/latest": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Get latest modified records",
+        "responses": {
+          "200": {
+            "description": "Latest records",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/rest.xqm"
+      }
+    },
+    "/api/listRepositoriesName": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "Get list of repositories",
+        "responses": {
+          "200": {
+            "description": "Repository names",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/rest.xqm"
+      }
+    },
+    "/api/cataloguesZotero": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "Get list of catalogues from Zotero",
+        "responses": {
+          "200": {
+            "description": "Catalogue list",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/rest.xqm"
+      }
+    },
+    "/api/WordCount/{manuscriptID}/{workID}": {
+      "get": {
+        "tags": [
+          "text"
+        ],
+        "summary": "Get word count for a work in a manuscript",
+        "parameters": [
+          {
+            "name": "manuscriptID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Word count",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/wordCount.xqm"
+      }
+    },
+    "/api/Chojnacki/{id}": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Get Chojnacki catalogue data for an item",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Chojnacki data",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/chojnacki.xqm"
+      }
+    },
+    "/api/{collection}/list": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "List records in a collection (XML response)",
+        "parameters": [
+          {
+            "name": "collection",
+            "in": "path",
+            "required": true,
+            "description": "manuscripts, works, persons, places, institutions, narratives, studies",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "perpage",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 25
+            }
+          },
+          {
+            "name": "term",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "repo",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of records",
+            "content": {
+              "application/xml": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/apilists.xqm"
+      }
+    },
+    "/api/{collection}/list/json": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "List records in a collection (JSON response)",
+        "parameters": [
+          {
+            "name": "collection",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "perpage",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 25
+            }
+          },
+          {
+            "name": "term",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "repo",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSON list of records",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/apilists.xqm"
+      }
+    },
+    "/api/{collection}/list/xml": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "List records in a collection (explicit XML response)",
+        "parameters": [
+          {
+            "name": "collection",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "perpage",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 25
+            }
+          },
+          {
+            "name": "term",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "XML list of records",
+            "content": {
+              "application/xml": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/apilistsXML.xqm"
+      }
+    },
+    "/api/manuscripts/{repo}/list/ids/json": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "Get IDs of manuscripts in a repository (JSON)",
+        "parameters": [
+          {
+            "name": "repo",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSON array of manuscript IDs",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/apilists.xqm"
+      }
+    },
+    "/api/clavis": {
+      "get": {
+        "tags": [
+          "clavis"
+        ],
+        "summary": "Search clavis entries",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Clavis search results",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/clavis.xqm"
+      }
+    },
+    "/api/clavis/{id}": {
+      "get": {
+        "tags": [
+          "clavis"
+        ],
+        "summary": "Get clavis data for a specific work",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Clavis data",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/clavis.xqm"
+      }
+    },
+    "/api/clavis/all": {
+      "get": {
+        "tags": [
+          "clavis"
+        ],
+        "summary": "Get all clavis entries",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            },
+            "description": "Filter by clavis type (e.g. BM, CPG, CAVT)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All clavis data",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/clavis.xqm"
+      }
+    },
+    "/api/search": {
+      "get": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Full-text search",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "element",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "title"
+            }
+          },
+          {
+            "name": "collection",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "script",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "material",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "homophones",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          },
+          {
+            "name": "descendants",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Search results",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/apiSearch.xqm"
+      }
+    },
+    "/api/kwicsearch": {
+      "get": {
+        "tags": [
+          "search"
+        ],
+        "summary": "KWIC (keyword in context) search",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "KWIC search results",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/apiSearch.xqm"
+      }
+    },
+    "/api/titleTest": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Test title lookup by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Title data",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/apiSearch.xqm"
+      }
+    },
+    "/api/geoJson/places/{id}": {
+      "get": {
+        "tags": [
+          "geo"
+        ],
+        "summary": "Get GeoJSON for a specific place",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "GeoJSON Feature",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/places.xqm"
+      }
+    },
+    "/api/geoJson/places": {
+      "get": {
+        "tags": [
+          "geo"
+        ],
+        "summary": "Get GeoJSON FeatureCollection for all places",
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "GeoJSON FeatureCollection",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/places.xqm"
+      }
+    },
+    "/api/geoJson/institutions": {
+      "get": {
+        "tags": [
+          "geo"
+        ],
+        "summary": "Get GeoJSON FeatureCollection for all institutions",
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "GeoJSON FeatureCollection",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/places.xqm"
+      }
+    },
+    "/api/KML/places/{id}": {
+      "get": {
+        "tags": [
+          "geo"
+        ],
+        "summary": "Get KML for manuscripts at a specific place",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "KML document",
+            "content": {
+              "application/vnd.google-earth.kml+xml": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/places.xqm"
+      }
+    },
+    "/api/KML/date/{d}": {
+      "get": {
+        "tags": [
+          "geo"
+        ],
+        "summary": "Get KML for manuscripts dated to a specific date",
+        "parameters": [
+          {
+            "name": "d",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "KML document",
+            "content": {
+              "application/vnd.google-earth.kml+xml": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/places.xqm"
+      }
+    },
+    "/api/KML/place/{placeid}": {
+      "get": {
+        "tags": [
+          "geo"
+        ],
+        "summary": "Get KML for a specific place",
+        "parameters": [
+          {
+            "name": "placeid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "KML document",
+            "content": {
+              "application/vnd.google-earth.kml+xml": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/places.xqm"
+      }
+    },
+    "/api/KML/{collection}/places": {
+      "get": {
+        "tags": [
+          "geo"
+        ],
+        "summary": "Get KML of places referenced in a collection",
+        "parameters": [
+          {
+            "name": "collection",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "KML document",
+            "content": {
+              "application/vnd.google-earth.kml+xml": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/places.xqm"
+      }
+    },
+    "/api/KML/{collection}/origPlaces": {
+      "get": {
+        "tags": [
+          "geo"
+        ],
+        "summary": "Get KML of origin places for a collection",
+        "parameters": [
+          {
+            "name": "collection",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "KML document",
+            "content": {
+              "application/vnd.google-earth.kml+xml": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/places.xqm"
+      }
+    },
+    "/api/KML/datePlace/{id}": {
+      "get": {
+        "tags": [
+          "geo"
+        ],
+        "summary": "Get KML combining date and place data for a record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "KML document",
+            "content": {
+              "application/vnd.google-earth.kml+xml": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/places.xqm"
+      }
+    },
+    "/api/KML/{collection}/datePlace": {
+      "get": {
+        "tags": [
+          "geo"
+        ],
+        "summary": "Get KML of date+place data for a collection",
+        "parameters": [
+          {
+            "name": "collection",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "KML document",
+            "content": {
+              "application/vnd.google-earth.kml+xml": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/places.xqm"
+      }
+    },
+    "/api/gazetteer": {
+      "get": {
+        "tags": [
+          "geo"
+        ],
+        "summary": "Get gazetteer data (paginated)",
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Gazetteer JSON",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/places.xqm"
+      }
+    },
+    "/api/gazetteer/all": {
+      "get": {
+        "tags": [
+          "geo"
+        ],
+        "summary": "Get all gazetteer data",
+        "responses": {
+          "200": {
+            "description": "Full gazetteer JSON",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/places.xqm"
+      }
+    },
+    "/api/gazetteer/place/{id}": {
+      "get": {
+        "tags": [
+          "geo"
+        ],
+        "summary": "Get gazetteer entry for a specific place",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Gazetteer entry",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/places.xqm"
+      }
+    },
+    "/api/placeNames/works/all": {
+      "get": {
+        "tags": [
+          "geo"
+        ],
+        "summary": "Get all place name occurrences in works",
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Place name data",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/places.xqm"
+      }
+    },
+    "/api/placeNames/manuscripts/all": {
+      "get": {
+        "tags": [
+          "geo"
+        ],
+        "summary": "Get all place name occurrences in manuscripts",
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Place name data",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/places.xqm"
+      }
+    },
+    "/api/placeNames/works/{id}": {
+      "get": {
+        "tags": [
+          "geo"
+        ],
+        "summary": "Get place names in a specific work",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Place names",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/places.xqm"
+      }
+    },
+    "/api/placeNames/manuscripts/{id}": {
+      "get": {
+        "tags": [
+          "geo"
+        ],
+        "summary": "Get place names in a specific manuscript",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Place names",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/places.xqm"
+      }
+    },
+    "/api/placeNames/void": {
+      "get": {
+        "tags": [
+          "geo"
+        ],
+        "summary": "Get VoID dataset description for place names",
+        "responses": {
+          "200": {
+            "description": "VoID RDF",
+            "content": {
+              "application/rdf+xml": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/places.xqm"
+      }
+    },
+    "/api/void/{id}": {
+      "get": {
+        "tags": [
+          "sparql"
+        ],
+        "summary": "Get VoID description for a resource",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "VoID RDF/XML",
+            "content": {
+              "application/rdf+xml": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/specifications/void.xqm"
+      }
+    },
+    "/api/SPARQL": {
+      "get": {
+        "tags": [
+          "sparql"
+        ],
+        "summary": "Execute a SPARQL query",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SPARQL results (XML)",
+            "content": {
+              "application/sparql-results+xml": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/sparqlRest.xqm"
+      }
+    },
+    "/api/SPARQL/json": {
+      "get": {
+        "tags": [
+          "sparql"
+        ],
+        "summary": "Execute a SPARQL query and return JSON",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SPARQL results (JSON)",
+            "content": {
+              "application/sparql-results+json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/sparqlRest.xqm"
+      }
+    },
+    "/api/SPARQL/relations/{id}": {
+      "get": {
+        "tags": [
+          "sparql"
+        ],
+        "summary": "Get SPARQL-derived relations for a record",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Relations",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/sparqlRest.xqm"
+      }
+    },
+    "/api/SPARQL/SdCunits/{type}": {
+      "get": {
+        "tags": [
+          "sparql"
+        ],
+        "summary": "Get Syntaxe du Codex units by type",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SdC units",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/sparqlRest.xqm"
+      }
+    },
+    "/api/SPARQL/versions/{id}/{chapterID}": {
+      "get": {
+        "tags": [
+          "sparql"
+        ],
+        "summary": "Get versions of a work chapter via SPARQL",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "chapterID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Version data",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/sparqlRest.xqm"
+      }
+    },
+    "/api/RDFXML/{collection}/{id}": {
+      "get": {
+        "tags": [
+          "sparql"
+        ],
+        "summary": "Get RDF/XML for a record by collection and ID",
+        "parameters": [
+          {
+            "name": "collection",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "RDF/XML",
+            "content": {
+              "application/rdf+xml": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/sparqlRest.xqm"
+      }
+    },
+    "/api/RDFJSON/{collection}/{id}": {
+      "get": {
+        "tags": [
+          "sparql"
+        ],
+        "summary": "Get RDF/JSON for a record by collection and ID",
+        "parameters": [
+          {
+            "name": "collection",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "RDF as JSON",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/sparqlRest.xqm"
+      }
+    },
+    "/BetMas/api/dts/{api}/template": {
+      "get": {
+        "tags": [
+          "dts"
+        ],
+        "summary": "Get DTS API endpoint template",
+        "parameters": [
+          {
+            "name": "api",
+            "in": "path",
+            "required": true,
+            "description": "DTS endpoint name (collection, navigation, document)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "DTS template",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/modules/dts.xqm"
+      }
+    },
+    "/BetMas/api/dts/indexes": {
+      "get": {
+        "tags": [
+          "dts"
+        ],
+        "summary": "DTS indexes endpoint",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "indexName",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "ref",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "level",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "begin",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "1"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "1"
+            }
+          },
+          {
+            "name": "groupBy",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "max",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "version",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "DTS index data",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/modules/dts.xqm"
+      }
+    },
+    "/BetMas/api/dts/annotations": {
+      "get": {
+        "tags": [
+          "dts"
+        ],
+        "summary": "List DTS annotation collections",
+        "parameters": [
+          {
+            "name": "version",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "DTS annotation collections",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/modules/dts.xqm"
+      }
+    },
+    "/BetMas/api/dts/annotations/{coll}": {
+      "get": {
+        "tags": [
+          "dts"
+        ],
+        "summary": "Get a DTS annotation collection",
+        "parameters": [
+          {
+            "name": "coll",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "version",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "DTS annotation collection",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/modules/dts.xqm"
+      }
+    },
+    "/BetMas/api/dts/annotations/{coll}/{indexName}": {
+      "get": {
+        "tags": [
+          "dts"
+        ],
+        "summary": "Get a named index within a DTS annotation collection",
+        "parameters": [
+          {
+            "name": "coll",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "indexName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "begin",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "1"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "1"
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "version",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "DTS annotations",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/modules/dts.xqm"
+      }
+    },
+    "/BetMas/api/dts/annotations/{coll}/items/{BMid}": {
+      "get": {
+        "tags": [
+          "dts"
+        ],
+        "summary": "Get DTS annotations for a specific item",
+        "parameters": [
+          {
+            "name": "coll",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "BMid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "begin",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "1"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "1"
+            }
+          },
+          {
+            "name": "version",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Item annotations",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/modules/dts.xqm"
+      }
+    },
+    "/BetMas/api/dts/annotations/{coll}/items/{BMid}/{indexName}": {
+      "get": {
+        "tags": [
+          "dts"
+        ],
+        "summary": "Get a specific annotation index for an item",
+        "parameters": [
+          {
+            "name": "coll",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "BMid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "indexName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "begin",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "1"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "1"
+            }
+          },
+          {
+            "name": "version",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Annotation index for item",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/modules/dts.xqm"
+      }
+    },
+    "/{collection}/{id}/main": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "HTML main view of a record",
+        "parameters": [
+          {
+            "name": "collection",
+            "in": "path",
+            "required": true,
+            "description": "manuscripts, works, persons, places, institutions, narratives, authority-files, studies",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "ref",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "edition",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "hi",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "HTML record page",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/items.xqm"
+      }
+    },
+    "/{collection}/{id}/text": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Text view of a record (transcription/edition)",
+        "parameters": [
+          {
+            "name": "collection",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ref",
+            "in": "query",
+            "description": "Single passage reference",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Start of passage range",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "description": "End of passage range",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "edition",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "hi",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Text view HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/items.xqm"
+      }
+    },
+    "/{collection}/{id}/analytic": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Analytical view of a record",
+        "parameters": [
+          {
+            "name": "collection",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "hi",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Analytical view HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/items.xqm"
+      }
+    },
+    "/{collection}/{id}/graph": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Relation graph view of a record",
+        "parameters": [
+          {
+            "name": "collection",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Graph view HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/items.xqm"
+      }
+    },
+    "/{collection}/{id}/geoBrowser": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Geographic browser view of a record",
+        "parameters": [
+          {
+            "name": "collection",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Geo browser HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/items.xqm"
+      }
+    },
+    "/{collection}/{id}/viewer": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "IIIF viewer for a record",
+        "parameters": [
+          {
+            "name": "collection",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "FirstCanv",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Viewer HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/viewer.xqm"
+      }
+    },
+    "/{collection}/{id}/rdf": {
+      "get": {
+        "tags": [
+          "sparql"
+        ],
+        "summary": "Get RDF for a record",
+        "parameters": [
+          {
+            "name": "collection",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "RDF/XML",
+            "content": {
+              "application/rdf+xml": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/sparqlRest.xqm"
+      }
+    },
+    "/{collection}/{id}/list": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "List view for a collection (HTML)",
+        "parameters": [
+          {
+            "name": "collection",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "per-page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/list.xqm"
+      }
+    },
+    "/manuscripts/viewer": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "IIIF viewer for manuscripts",
+        "responses": {
+          "200": {
+            "description": "Viewer HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/viewer.xqm"
+      }
+    },
+    "/manuscripts/{repoID}/list": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "List manuscripts in a repository",
+        "parameters": [
+          {
+            "name": "repoID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "per-page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "mainname",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "date-range",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Manuscript list HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/list.xqm"
+      }
+    },
+    "/manuscripts/browse": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "Browse manuscripts",
+        "responses": {
+          "200": {
+            "description": "Browse HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/list.xqm"
+      }
+    },
+    "/catalogues/{catalogueID}/list": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "List manuscripts from a specific catalogue",
+        "parameters": [
+          {
+            "name": "catalogueID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "per-page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Catalogue manuscripts HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/list.xqm"
+      }
+    },
+    "/listIds": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "Get all record IDs",
+        "responses": {
+          "200": {
+            "description": "ID list",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/ids.xqm"
+      }
+    },
+    "/user/{username}": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "View contributions by a user",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User contributions HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/user.xqm"
+      }
+    },
+    "/gender": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Gender statistics overview",
+        "responses": {
+          "200": {
+            "description": "Gender stats HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/genderInfo.xqm"
+      }
+    },
+    "/gender/data": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Gender statistics raw data",
+        "responses": {
+          "200": {
+            "description": "Gender data JSON",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/genderInfo.xqm"
+      }
+    },
+    "/gender/rels": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Gender relations data",
+        "responses": {
+          "200": {
+            "description": "Gender relations JSON",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/genderInfo.xqm"
+      }
+    },
+    "/gender/table": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Gender statistics table view",
+        "responses": {
+          "200": {
+            "description": "Gender table HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/genderInfo.xqm"
+      }
+    },
+    "/gender/table/female": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Gender statistics table — female subset",
+        "responses": {
+          "200": {
+            "description": "Female gender table HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/genderInfo.xqm"
+      }
+    },
+    "/gender/table/male": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Gender statistics table — male subset",
+        "responses": {
+          "200": {
+            "description": "Male gender table HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/genderInfo.xqm"
+      }
+    },
+    "/gender/page": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Gender statistics page view",
+        "responses": {
+          "200": {
+            "description": "Gender page HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/genderInfo.xqm"
+      }
+    },
+    "/gender/graph": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Gender graph view",
+        "responses": {
+          "200": {
+            "description": "Graph HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/genderInfo.xqm"
+      }
+    },
+    "/workmap": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Work distribution map",
+        "parameters": [
+          {
+            "name": "worksid",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "repo"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Map HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/workmap.xqm"
+      }
+    },
+    "/workmap/KML/{workid}": {
+      "get": {
+        "tags": [
+          "geo"
+        ],
+        "summary": "KML of manuscript locations for a work",
+        "parameters": [
+          {
+            "name": "workid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "repo"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "KML document",
+            "content": {
+              "application/vnd.google-earth.kml+xml": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/workmap.xqm"
+      }
+    },
+    "/litcomp": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Literary composition network view",
+        "parameters": [
+          {
+            "name": "worksid",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "formsPart"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Literary composition HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/litcompare.xqm"
+      }
+    },
+    "/LitFlow": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Literary flow visualization",
+        "parameters": [
+          {
+            "name": "subj",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "LitFlow HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/LitFlowRest.xqm"
+      }
+    },
+    "/compare": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Compare witnesses of a work",
+        "parameters": [
+          {
+            "name": "workid",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comparison HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/compare.xqm"
+      }
+    },
+    "/compareSelected": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Compare selected manuscripts",
+        "parameters": [
+          {
+            "name": "mss",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comparison HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/compare.xqm"
+      }
+    },
+    "/collate": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Collation view (via CollateX)",
+        "parameters": [
+          {
+            "name": "dtsURNs",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Collation HTML or TEI XML",
+            "content": {
+              "text/html": {},
+              "application/xml": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/collatex.xqm"
+      }
+    },
+    "/permanent/{sha}/{id}/main": {
+      "get": {
+        "tags": [
+          "permanent"
+        ],
+        "summary": "Permanent link to a specific version of a record (without collection prefix)",
+        "parameters": [
+          {
+            "name": "sha",
+            "in": "path",
+            "required": true,
+            "description": "Git SHA of the version",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "per-page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Versioned record HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/permanentItems.xqm"
+      }
+    },
+    "/permanent/{sha}/{id}/corpus": {
+      "get": {
+        "tags": [
+          "permanent"
+        ],
+        "summary": "Permanent link to corpus view of a specific version (without collection prefix)",
+        "parameters": [
+          {
+            "name": "sha",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "per-page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Versioned corpus HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/permanentItems.xqm"
+      }
+    },
+    "/permanent/{sha}/{collection}/{id}/main": {
+      "get": {
+        "tags": [
+          "permanent"
+        ],
+        "summary": "Permanent link to a specific version of a record",
+        "parameters": [
+          {
+            "name": "sha",
+            "in": "path",
+            "required": true,
+            "description": "Git SHA of the version",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "collection",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "per-page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Versioned record HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/permanentItems.xqm"
+      }
+    },
+    "/permanent/{sha}/{collection}/{id}/text": {
+      "get": {
+        "tags": [
+          "permanent"
+        ],
+        "summary": "Permanent link to text view of a specific version",
+        "parameters": [
+          {
+            "name": "sha",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "collection",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Versioned text HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/permanentItems.xqm"
+      }
+    },
+    "/permanent/{sha}/{collection}/{id}/analytic": {
+      "get": {
+        "tags": [
+          "permanent"
+        ],
+        "summary": "Permanent link to analytical view of a specific version",
+        "parameters": [
+          {
+            "name": "sha",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "collection",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Versioned analytic HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/permanentItems.xqm"
+      }
+    },
+    "/permanent/{sha}/{collection}/{id}/graph": {
+      "get": {
+        "tags": [
+          "permanent"
+        ],
+        "summary": "Permanent link to graph view of a specific version",
+        "parameters": [
+          {
+            "name": "sha",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "collection",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Versioned graph HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/permanentItems.xqm"
+      }
+    },
+    "/permanent/{sha}/{collection}/{id}/geoBrowser": {
+      "get": {
+        "tags": [
+          "permanent"
+        ],
+        "summary": "Permanent link to geoBrowser view of a specific version",
+        "parameters": [
+          {
+            "name": "sha",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "collection",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Versioned geoBrowser HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/permanentItems.xqm"
+      }
+    },
+    "/api/idlookup": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Look up a record by ID (used by autocomplete/typeahead)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ID lookup result",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/idlookup.xqm"
+      }
+    },
+    "/search.html": {
+      "get": {
+        "tags": [
+          "redirects"
+        ],
+        "summary": "Legacy search page redirect",
+        "description": "Redirects to /newSearch.html (simpleSearch). Also applies to /as.html.",
+        "responses": {
+          "302": {
+            "description": "Redirect to /newSearch.html"
+          }
+        }
+      }
+    },
+    "/manuscripts/list": {
+      "get": {
+        "tags": [
+          "redirects"
+        ],
+        "summary": "Legacy manuscript list redirect",
+        "description": "Redirects to /newSearch.html?searchType=text&mode=any&work-types=mss",
+        "responses": {
+          "302": {
+            "description": "Redirect to newSearch with work-types=mss"
+          }
+        }
+      }
+    },
+    "/persons/list": {
+      "get": {
+        "tags": [
+          "redirects"
+        ],
+        "summary": "Legacy persons list redirect",
+        "description": "Redirects to /newSearch.html?searchType=text&mode=any&work-types=pers",
+        "responses": {
+          "302": {
+            "description": "Redirect to newSearch with work-types=pers"
+          }
+        }
+      }
+    },
+    "/institutions/list": {
+      "get": {
+        "tags": [
+          "redirects"
+        ],
+        "summary": "Legacy institutions list redirect",
+        "description": "Redirects to /newSearch.html?searchType=text&mode=any&work-types=ins",
+        "responses": {
+          "302": {
+            "description": "Redirect to newSearch with work-types=ins"
+          }
+        }
+      }
+    },
+    "/ethnic/list": {
+      "get": {
+        "tags": [
+          "redirects"
+        ],
+        "summary": "Legacy ethnic groups list redirect",
+        "description": "Redirects to /newSearch.html?searchType=text&mode=any&work-types=eth",
+        "responses": {
+          "302": {
+            "description": "Redirect to newSearch with work-types=eth"
+          }
+        }
+      }
+    },
+    "/places/list": {
+      "get": {
+        "tags": [
+          "redirects"
+        ],
+        "summary": "Legacy places list redirect",
+        "description": "Redirects to /newSearch.html?searchType=text&mode=any&work-types=place&work-types=ins (includes institutions)",
+        "responses": {
+          "302": {
+            "description": "Redirect to newSearch with work-types=place&work-types=ins"
+          }
+        }
+      }
+    },
+    "/narratives/list": {
+      "get": {
+        "tags": [
+          "redirects"
+        ],
+        "summary": "Legacy narratives list redirect",
+        "description": "Redirects to /newSearch.html?searchType=text&mode=any&work-types=nar",
+        "responses": {
+          "302": {
+            "description": "Redirect to newSearch with work-types=nar"
+          }
+        }
+      }
+    },
+    "/works/list": {
+      "get": {
+        "tags": [
+          "redirects"
+        ],
+        "summary": "Legacy works list redirect",
+        "description": "Redirects to /newSearch.html?searchType=text&mode=any&work-types=work",
+        "responses": {
+          "302": {
+            "description": "Redirect to newSearch with work-types=work"
+          }
+        }
+      }
+    },
+    "/studies/list": {
+      "get": {
+        "tags": [
+          "redirects"
+        ],
+        "summary": "Legacy studies list redirect",
+        "description": "Redirects to /newSearch.html?searchType=text&mode=any&work-types=studies",
+        "responses": {
+          "302": {
+            "description": "Redirect to newSearch with work-types=studies"
+          }
+        }
+      }
+    },
+    "/manuscripts/place/list": {
+      "get": {
+        "tags": [
+          "redirects"
+        ],
+        "summary": "Manuscript place-based list redirect",
+        "description": "Redirects to /newSearch.html?searchType=placeSearch&mode=any&query={place query parameter}",
+        "parameters": [
+          {
+            "name": "place",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Redirect to newSearch with searchType=placeSearch"
+          }
+        }
+      }
+    },
+    "/manuscripts/{insid}/list": {
+      "get": {
+        "tags": [
+          "redirects"
+        ],
+        "summary": "Institution-scoped manuscript list redirect",
+        "description": "Matches /manuscripts/INS{digits}{word}/list — redirects to /newSearch.html?searchType=text&mode=any&work-types=mss&reporef={insid}",
+        "parameters": [
+          {
+            "name": "insid",
+            "in": "path",
+            "required": true,
+            "description": "Institution identifier matching INS\\d+[\\w_-]+ (e.g. INS0001Debr)",
+            "schema": {
+              "type": "string",
+              "pattern": "^INS\\d+[\\w_-]+$"
+            }
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Redirect to newSearch with reporef={insid}"
+          }
+        }
+      }
+    },
+    "/manuscripts": {
+      "get": {
+        "tags": [
+          "redirects"
+        ],
+        "summary": "Redirect /manuscripts to /manuscripts/list",
+        "responses": {
+          "302": {
+            "description": "Redirect to /manuscripts/list"
+          }
+        }
+      }
+    },
+    "/works": {
+      "get": {
+        "tags": [
+          "redirects"
+        ],
+        "summary": "Redirect /works to /works/list",
+        "responses": {
+          "302": {
+            "description": "Redirect to /works/list"
+          }
+        }
+      }
+    },
+    "/narratives": {
+      "get": {
+        "tags": [
+          "redirects"
+        ],
+        "summary": "Redirect /narratives to /narratives/list",
+        "responses": {
+          "302": {
+            "description": "Redirect to /narratives/list"
+          }
+        }
+      }
+    },
+    "/places": {
+      "get": {
+        "tags": [
+          "redirects"
+        ],
+        "summary": "Redirect /places to /places/list",
+        "responses": {
+          "302": {
+            "description": "Redirect to /places/list"
+          }
+        }
+      }
+    },
+    "/persons": {
+      "get": {
+        "tags": [
+          "redirects"
+        ],
+        "summary": "Redirect /persons to /persons/list",
+        "responses": {
+          "302": {
+            "description": "Redirect to /persons/list"
+          }
+        }
+      }
+    },
+    "/institutions": {
+      "get": {
+        "tags": [
+          "redirects"
+        ],
+        "summary": "Redirect /institutions to /institutions/list",
+        "responses": {
+          "302": {
+            "description": "Redirect to /institutions/list"
+          }
+        }
+      }
+    },
+    "/studies": {
+      "get": {
+        "tags": [
+          "redirects"
+        ],
+        "summary": "Redirect /studies to /studies/list",
+        "responses": {
+          "302": {
+            "description": "Redirect to /studies/list"
+          }
+        }
+      }
+    },
+    "/decorations": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Decorations thematic index page",
+        "description": "Forwarded to decorations.html, rendered via modules/view.xql",
+        "responses": {
+          "200": {
+            "description": "Decorations page HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        }
+      }
+    },
+    "/titles": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Titles thematic index page",
+        "description": "Forwarded to titles.html, rendered via modules/view.xql",
+        "responses": {
+          "200": {
+            "description": "Titles page HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        }
+      }
+    },
+    "/paratexts": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Paratexts thematic index page",
+        "description": "Forwarded to paratexts.html, rendered via modules/view.xql",
+        "responses": {
+          "200": {
+            "description": "Paratexts page HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        }
+      }
+    },
+    "/calendar": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Calendar page",
+        "description": "Forwarded to calendar.html, rendered via modules/view.xql",
+        "responses": {
+          "200": {
+            "description": "Calendar page HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        }
+      }
+    },
+    "/bindings": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Bindings thematic index page",
+        "description": "Forwarded to bindings.html, rendered via modules/view.xql",
+        "responses": {
+          "200": {
+            "description": "Bindings page HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        }
+      }
+    },
+    "/xpath": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "XPath query page",
+        "description": "Forwarded to xpath.html, rendered via modules/view.xql",
+        "responses": {
+          "200": {
+            "description": "XPath page HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        }
+      }
+    },
+    "/sparql": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "SPARQL query page",
+        "description": "Forwarded to sparql.html, rendered via modules/view.xql",
+        "responses": {
+          "200": {
+            "description": "SPARQL page HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        }
+      }
+    },
+    "/bibliography": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Bibliography page",
+        "description": "Forwarded to bibl.html, rendered via modules/view.xql",
+        "responses": {
+          "200": {
+            "description": "Bibliography page HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        }
+      }
+    },
+    "/additions": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Additions thematic index page",
+        "description": "Forwarded to additions.html, rendered via modules/view.xql",
+        "responses": {
+          "200": {
+            "description": "Additions page HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        }
+      }
+    },
+    "/IndexPlaces": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Places index page",
+        "description": "Forwarded to places.html, rendered via modules/view.xql",
+        "responses": {
+          "200": {
+            "description": "Places index HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        }
+      }
+    },
+    "/IndexPersons": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Persons index page",
+        "description": "Forwarded to persons.html, rendered via modules/view.xql",
+        "responses": {
+          "200": {
+            "description": "Persons index HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        }
+      }
+    },
+    "/{idWithPassage}": {
+      "get": {
+        "tags": [
+          "redirects"
+        ],
+        "summary": "Passage reference shorthand redirect",
+        "description": "Matches identifiers with an embedded passage reference, e.g. LIT1340EnochE.1.3 → /{collection}/{id}/text?ref=1.3, LIT1340EnochE.1.3-2.5 → ?start=1.3&end=2.5, BAVet1.1ra-4vb → ?start=1ra&end=4vb. Edition/translation variants (LIT1234name_ED_X or _TR_X) are also handled. The collection is inferred from the two-letter ID prefix (LI→works, NA→narratives, MS/BDL/etc→manuscripts, etc.).",
+        "parameters": [
+          {
+            "name": "idWithPassage",
+            "in": "path",
+            "required": true,
+            "description": "ID with optional passage suffix separated by a dot, e.g. LIT1340EnochE.1.3 or BAVet1.1ra-4vb",
+            "schema": {
+              "type": "string",
+              "pattern": "^\\w+\\d+(\\w+)?(((_(ED|TR)_([a-zA-Z0-9]+)?)(\\.)?)|\\.).*$"
+            }
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Redirect to /{collection}/{id}/text?ref={passage} or ?start={start}&end={end}"
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Home page",
+        "description": "Forwards to index.html, rendered via modules/view.xql.",
+        "responses": {
+          "200": {
+            "description": "Home page HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        }
+      }
+    },
+    "/manuscripts/": {
+      "get": {
+        "tags": [
+          "redirects"
+        ],
+        "summary": "Redirect /manuscripts/ (trailing slash) to /manuscripts/list",
+        "responses": {
+          "302": {
+            "description": "Redirect to /manuscripts/list"
+          }
+        }
+      }
+    },
+    "/works/": {
+      "get": {
+        "tags": [
+          "redirects"
+        ],
+        "summary": "Redirect /works/ (trailing slash) to /works/list",
+        "responses": {
+          "302": {
+            "description": "Redirect to /works/list"
+          }
+        }
+      }
+    },
+    "/narratives/": {
+      "get": {
+        "tags": [
+          "redirects"
+        ],
+        "summary": "Redirect /narratives/ (trailing slash) to /narratives/list",
+        "responses": {
+          "302": {
+            "description": "Redirect to /narratives/list"
+          }
+        }
+      }
+    },
+    "/places/": {
+      "get": {
+        "tags": [
+          "redirects"
+        ],
+        "summary": "Redirect /places/ (trailing slash) to /places/list",
+        "responses": {
+          "302": {
+            "description": "Redirect to /places/list"
+          }
+        }
+      }
+    },
+    "/persons/": {
+      "get": {
+        "tags": [
+          "redirects"
+        ],
+        "summary": "Redirect /persons/ (trailing slash) to /persons/list",
+        "responses": {
+          "302": {
+            "description": "Redirect to /persons/list"
+          }
+        }
+      }
+    },
+    "/institutions/": {
+      "get": {
+        "tags": [
+          "redirects"
+        ],
+        "summary": "Redirect /institutions/ (trailing slash) to /institutions/list",
+        "responses": {
+          "302": {
+            "description": "Redirect to /institutions/list"
+          }
+        }
+      }
+    },
+    "/studies/": {
+      "get": {
+        "tags": [
+          "redirects"
+        ],
+        "summary": "Redirect /studies/ (trailing slash) to /studies/list",
+        "responses": {
+          "302": {
+            "description": "Redirect to /studies/list"
+          }
+        }
+      }
+    },
+    "/authority-files/{id}": {
+      "get": {
+        "tags": [
+          "redirects",
+          "content-negotiation"
+        ],
+        "summary": "Authority file resource without /main suffix",
+        "description": "When the resource contains only letters and no digits (matches ^[^.\\d]+$) and the path contains /authority-files/: redirects to /authority-files/{id}/main, or returns RDF/XML if Accept header contains 'rdf'. Taxonomy category IDs not in /authority-files/ are also redirected here if they match a canonical taxonomy entry.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Authority file identifier (letters only, e.g. 'angel', 'Gabriel')",
+            "schema": {
+              "type": "string",
+              "pattern": "^[^.\\d]+$"
+            }
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Redirect to /authority-files/{id}/main"
+          },
+          "200": {
+            "description": "RDF/XML (when Accept header contains 'rdf')",
+            "content": {
+              "application/rdf+xml": {}
+            }
+          }
+        }
+      }
+    },
+    "/{collection}/{id}/listChart": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Chart variant of the collection list view",
+        "description": "Same filtering parameters as /{collection}/{id}/list but rendered as a chart. Forwarded to /restxq/BetMasWeb/{collection}/{id}/listChart.",
+        "parameters": [
+          {
+            "name": "collection",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "per-page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Chart HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/list.xqm"
+      }
+    },
+    "/{collection}/{id}/browse": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Browse view for a record or collection",
+        "description": "Forwarded to /restxq/BetMasWeb/{collection}/{id}/browse.",
+        "parameters": [
+          {
+            "name": "collection",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Browse HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/list.xqm"
+      }
+    },
+    "/{collection}/{id}/time": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Timeline view for a record",
+        "description": "Forwarded to /restxq/BetMasWeb/{collection}/{id}/time.",
+        "parameters": [
+          {
+            "name": "collection",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Timeline HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        }
+      }
+    },
+    "/{collection}/{id}/LitFlow": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Literary flow view for a specific record",
+        "description": "Forwarded to /restxq/BetMasWeb/{collection}/{id}/LitFlow.",
+        "parameters": [
+          {
+            "name": "collection",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "LitFlow HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/LitFlowRest.xqm"
+      }
+    },
+    "/{collection}/{id}/collate": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Collation view for a specific record",
+        "description": "Forwarded to /restxq/BetMasWeb/{collection}/{id}/collate.",
+        "parameters": [
+          {
+            "name": "collection",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dtsURNs",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Collation HTML or TEI XML",
+            "content": {
+              "text/html": {},
+              "application/xml": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/collatex.xqm"
+      }
+    },
+    "/{collection}/{id}/compare": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Witness comparison view for a specific work",
+        "description": "Forwarded to /restxq/BetMasWeb/{collection}/{id}/compare.",
+        "parameters": [
+          {
+            "name": "collection",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workid",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comparison HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/compare.xqm"
+      }
+    },
+    "/{collection}/{id}/compareSelected": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Selected-manuscript comparison view for a record",
+        "description": "Forwarded to /restxq/BetMasWeb/{collection}/{id}/compareSelected.",
+        "parameters": [
+          {
+            "name": "collection",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "mss",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comparison HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/compare.xqm"
+      }
+    },
+    "/corpus/{path}": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Corpus view",
+        "description": "Any path starting with /corpus is forwarded to /restxq/BetMasWeb/corpus/{path}.",
+        "parameters": [
+          {
+            "name": "path",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Corpus view HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/items.xqm"
+      }
+    },
+    "/morpho/{subpath}": {
+      "get": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Morphological parser (Ge'ez)",
+        "description": "Any path containing 'morpho' is forwarded by the controller directly to /restxq/morpho/{subpath}, which is served by the separate morphological parser application. Documented sub-paths: xml/{query}, geta/{query}, alpheios/{query}, paradigm, conj, decl, patterns, affixes, letters, corpus. The root /morpho also accepts a query parameter.",
+        "parameters": [
+          {
+            "name": "subpath",
+            "in": "path",
+            "required": true,
+            "description": "One of: xml/{query}, geta/{query}, alpheios/{query}, paradigm, conj, decl, patterns, affixes, letters, corpus",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "query",
+            "in": "query",
+            "description": "Ge'ez word to analyse (transcription)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "transcriptionType",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "BM"
+            }
+          },
+          {
+            "name": "fidal",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "true"
+            }
+          },
+          {
+            "name": "fuzzy",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "false"
+            }
+          },
+          {
+            "name": "NoDil",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "false"
+            }
+          },
+          {
+            "name": "mismatch",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "false"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Morphological analysis result",
+            "content": {
+              "application/xml": {},
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/Dillmann/{path}": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Dillmann Lexicon pass-through",
+        "description": "Any path containing 'Dillmann' (and not 'PRS') is forwarded by the controller directly to /restxq/Dillmann/{path}, served by the separate Dillmann Lexicon application. Paths containing 'PRS' are excluded and fall through to normal ID resolution.",
+        "parameters": [
+          {
+            "name": "path",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dillmann Lexicon response",
+            "content": {
+              "text/html": {},
+              "application/json": {},
+              "application/xml": {}
+            }
+          }
+        }
+      }
+    },
+    "/{id}.pdf": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Render a record as PDF",
+        "description": "The controller matches any resource ending in .pdf, strips the extension to obtain the ID, and forwards to modules/tei2fo.xql which converts the TEI source to XSL-FO and returns a PDF.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Record identifier without extension",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "PDF document",
+            "content": {
+              "application/pdf": {}
+            }
+          }
+        }
+      }
+    },
+    "/{id}/main": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Main view of a record (without collection prefix)",
+        "description": "Caught by ends-with(/main) in the controller; forwarded to /restxq/BetMasWeb/{id}/main. The collection is resolved internally from the record's type attribute.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "ref",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "edition",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "hi",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "HTML record page",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/items.xqm"
+      }
+    },
+    "/{id}/rdf": {
+      "get": {
+        "tags": [
+          "sparql"
+        ],
+        "summary": "RDF for a record (without collection prefix)",
+        "description": "Caught by ends-with(/rdf); forwarded to /restxq/BetMasWeb/{id}/rdf.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "RDF/XML",
+            "content": {
+              "application/rdf+xml": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/sparqlRest.xqm"
+      }
+    },
+    "/{id}/text": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Text view of a record (without collection prefix)",
+        "description": "Caught by ends-with(/text); forwarded to /restxq/BetMasWeb/{id}/text.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ref",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "edition",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "hi",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Text view HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/items.xqm"
+      }
+    },
+    "/{id}/analytic": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Analytical view of a record (without collection prefix)",
+        "description": "Caught by ends-with(/analytic); forwarded to /restxq/BetMasWeb/{id}/analytic.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hi",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Analytical view HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/items.xqm"
+      }
+    },
+    "/{id}/graph": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Relation graph for a record (without collection prefix)",
+        "description": "Caught by ends-with(/graph); forwarded to /restxq/BetMasWeb/{id}/graph.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Graph HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/items.xqm"
+      }
+    },
+    "/{id}/geoBrowser": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Geographic browser for a record (without collection prefix)",
+        "description": "Caught by ends-with(/geoBrowser); forwarded to /restxq/BetMasWeb/{id}/geoBrowser.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Geo browser HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/items.xqm"
+      }
+    },
+    "/{id}/viewer": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "IIIF viewer for a record (without collection prefix)",
+        "description": "Caught by ends-with(/viewer); forwarded to /restxq/BetMasWeb/{id}/viewer.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "FirstCanv",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Viewer HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/viewer.xqm"
+      }
+    },
+    "/{id}/time": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Timeline view for a record (without collection prefix)",
+        "description": "Caught by ends-with(/time); forwarded to /restxq/BetMasWeb/{id}/time.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Timeline HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        }
+      }
+    },
+    "/{id}/LitFlow": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Literary flow view for a record (without collection prefix)",
+        "description": "Caught by ends-with(/LitFlow); forwarded to /restxq/BetMasWeb/{id}/LitFlow.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "LitFlow HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/LitFlowRest.xqm"
+      }
+    },
+    "/{id}/collate": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Collation view for a record (without collection prefix)",
+        "description": "Caught by ends-with(/collate); forwarded to /restxq/BetMasWeb/{id}/collate.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dtsURNs",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Collation HTML or TEI XML",
+            "content": {
+              "text/html": {},
+              "application/xml": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/collatex.xqm"
+      }
+    },
+    "/{id}/compare": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Witness comparison for a record (without collection prefix)",
+        "description": "Caught by ends-with(/compare); forwarded to /restxq/BetMasWeb/{id}/compare.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workid",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comparison HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/compare.xqm"
+      }
+    },
+    "/{id}/compareSelected": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Selected-manuscript comparison for a record (without collection prefix)",
+        "description": "Caught by ends-with(/compareSelected); forwarded to /restxq/BetMasWeb/{id}/compareSelected.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "mss",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comparison HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/compare.xqm"
+      }
+    },
+    "/{id}/list": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "List view for a record (without collection prefix)",
+        "description": "Caught by ends-with(/list); forwarded to /restxq/BetMasWeb/{id}/list.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "per-page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/list.xqm"
+      }
+    },
+    "/{id}/listChart": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Chart list view for a record (without collection prefix)",
+        "description": "Caught by ends-with(/listChart); forwarded to /restxq/BetMasWeb/{id}/listChart.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "per-page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Chart HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/list.xqm"
+      }
+    },
+    "/{id}/browse": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Browse view for a record (without collection prefix)",
+        "description": "Caught by ends-with(/browse); forwarded to /restxq/BetMasWeb/{id}/browse.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Browse HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/list.xqm"
+      }
+    },
+    "/{path}.html": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Generic HTML page",
+        "description": "Any .html resource not matched by a more specific rule is forwarded to modules/view.xql which renders the named HTML template from the app's templates directory.",
+        "parameters": [
+          {
+            "name": "path",
+            "in": "path",
+            "required": true,
+            "description": "Name of the HTML page (e.g. index, newSearch, apidoc)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "HTML page rendered by view.xql",
+            "content": {
+              "text/html": {}
+            }
+          }
+        }
+      }
+    },
+    "/openapi/{file}.json": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "OpenAPI specification endpoint",
+        "description": "The controller rewrites /{file}.json to /{file}.xq and executes it as XQuery to generate an OpenAPI JSON document. Used to serve the machine-readable API specification.",
+        "parameters": [
+          {
+            "name": "file",
+            "in": "path",
+            "required": true,
+            "description": "Name of the XQuery file that produces the spec (e.g. api)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OpenAPI JSON document",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/RoleAttestations": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "List all role attestations",
+        "parameters": [
+          {
+            "name": "role",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by role name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Role attestations",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/roles.xqm"
+      }
+    },
+    "/api/hasrole/{role}": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Filter entities by role",
+        "parameters": [
+          {
+            "name": "role",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Role name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Entities with this role",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/roles.xqm"
+      }
+    },
+    "/api/hasrole/{role}/{ID}": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Get role attestation for a specific entity",
+        "parameters": [
+          {
+            "name": "role",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Role name"
+          },
+          {
+            "name": "ID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Entity ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Role attestation for entity",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/roles.xqm"
+      }
+    },
+    "/api/SearchFormParts/{paraname}": {
+      "get": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Search form partial content",
+        "parameters": [
+          {
+            "name": "paraname",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Parameter name for the form part"
+          },
+          {
+            "name": "cont",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "$apprest:collection-rootMS"
+            },
+            "description": "Collection root"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "HTML form part",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/search.xqm"
+      }
+    },
+    "/api/collatex": {
+      "get": {
+        "tags": [
+          "text"
+        ],
+        "summary": "Collate texts using CollateX (GET)",
+        "parameters": [
+          {
+            "name": "dts",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "DTS URN"
+          },
+          {
+            "name": "nU",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Normalise unicode"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "tei+xml"
+            },
+            "description": "Output format"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Collation result",
+            "content": {
+              "application/xml": {},
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/collatex.xqm"
+      },
+      "post": {
+        "tags": [
+          "text"
+        ],
+        "summary": "Collate texts using CollateX (POST)",
+        "parameters": [
+          {
+            "name": "dts",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "DTS URN"
+          },
+          {
+            "name": "nU",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Normalise unicode"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "tei+xml"
+            },
+            "description": "Output format"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Collation result",
+            "content": {
+              "application/xml": {},
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/collatex.xqm"
+      }
+    },
+    "/art-themes/list": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "Art themes list",
+        "parameters": [
+          {
+            "name": "keyword",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by keyword"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Art themes HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/list.xqm"
+      }
+    },
+    "/manuscripts/listChart": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "Manuscript list chart view",
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "mainname",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "prms",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "per-page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          },
+          {
+            "name": "date-range",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "numberOfParts",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "min-hits",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            }
+          },
+          {
+            "name": "max-pages",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          },
+          {
+            "name": "height",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "width",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "clavisID",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "clavistype",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "cp",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Manuscript chart HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/list.xqm"
+      }
+    },
+    "/manuscripts/{repoID}/listChart": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "Repository manuscript list chart view",
+        "parameters": [
+          {
+            "name": "repoID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Repository institution ID"
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "mainname",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "prms",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "per-page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          },
+          {
+            "name": "date-range",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "numberOfParts",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "min-hits",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            }
+          },
+          {
+            "name": "max-pages",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          },
+          {
+            "name": "height",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "width",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Repository manuscript chart HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/list.xqm"
+      }
+    },
+    "/manuscripts/place/listChart": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "Place-filtered manuscript list chart",
+        "parameters": [
+          {
+            "name": "place",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Place ID or name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Manuscripts by place chart HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/list.xqm"
+      }
+    },
+    "/catalogues/list": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "Catalogue list",
+        "responses": {
+          "200": {
+            "description": "Catalogue list HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/list.xqm"
+      }
+    },
+    "/catalogues/{catalogueID}/listChart": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "Catalogue manuscript list chart",
+        "parameters": [
+          {
+            "name": "catalogueID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Catalogue ID"
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "mainname",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "prms",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "per-page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          },
+          {
+            "name": "date-range",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "numberOfParts",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "min-hits",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            }
+          },
+          {
+            "name": "max-pages",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          },
+          {
+            "name": "height",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "width",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Catalogue chart HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/list.xqm"
+      }
+    },
+    "/{unitType}/browse": {
+      "get": {
+        "tags": [
+          "lists"
+        ],
+        "summary": "Browse codicological units by type",
+        "description": "unitType must be one of: UniProd, UniCirc, UniMain, UniMat, UniCah",
+        "parameters": [
+          {
+            "name": "unitType",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Codicological unit type (UniProd, UniCirc, UniMain, UniMat, UniCah)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Unit browse HTML",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/list.xqm"
+      }
+    },
+    "/manuscripts/{repoid}/list/viewer": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Manuscript list viewer for a repository",
+        "parameters": [
+          {
+            "name": "repoid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Repository institution ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/viewer.xqm"
+      }
+    },
+    "/chojnacki/viewer": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Chojnacki collection viewer",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/restviews/viewer.xqm"
+      }
+    },
+    "/BetMas/api/academics": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "Academics / staff listing",
+        "responses": {
+          "200": {
+            "description": "Academics JSON",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/modules/academics.xqm"
+      }
+    },
+    "/morpho": {
+      "get": {
+        "tags": [
+          "views"
+        ],
+        "summary": "Morphological parser root endpoint",
+        "description": "Accepts a query string and returns HTML with morphological analysis and search form.",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Word or form to analyse"
+          },
+          {
+            "name": "transcriptionType",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "BM"
+            },
+            "description": "Transcription system"
+          },
+          {
+            "name": "fidal",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "true"
+            },
+            "description": "Use Ethiopic script"
+          },
+          {
+            "name": "fuzzy",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "false"
+            },
+            "description": "Fuzzy matching"
+          },
+          {
+            "name": "NoDil",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "false"
+            },
+            "description": "Exclude Dillmann"
+          },
+          {
+            "name": "mismatch",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "false"
+            },
+            "description": "Allow mismatches"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasWeb/parser/modules/morphoparser.xqm"
+      }
+    },
+    "/api/void": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "VoID dataset description (root)",
+        "responses": {
+          "200": {
+            "description": "VoID RDF",
+            "content": {
+              "application/rdf+xml": {},
+              "text/turtle": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/specifications/void.xqm"
+      }
+    },
+    "/api/dcat": {
+      "get": {
+        "tags": [
+          "data"
+        ],
+        "summary": "DCAT dataset description",
+        "responses": {
+          "200": {
+            "description": "DCAT RDF/JSON-LD",
+            "content": {
+              "application/rdf+xml": {},
+              "application/ld+json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/specifications/void.xqm"
+      }
+    },
+    "/api/dts": {
+      "get": {
+        "tags": [
+          "dts"
+        ],
+        "summary": "DTS API entry point",
+        "responses": {
+          "200": {
+            "description": "DTS JSON-LD response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/specifications/dts.xqm"
+      }
+    },
+    "/api/dts/collections": {
+      "get": {
+        "tags": [
+          "dts"
+        ],
+        "summary": "DTS collections endpoint",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "nav",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "children"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "DTS JSON-LD response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/specifications/dts.xqm"
+      }
+    },
+    "/api/dts/document": {
+      "get": {
+        "tags": [
+          "dts"
+        ],
+        "summary": "DTS document retrieval",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ref",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Document content (XML/HTML/JSON depending on Accept)",
+            "content": {
+              "application/tei+xml": {},
+              "text/html": {},
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/specifications/dts.xqm"
+      }
+    },
+    "/api/dts/navigation": {
+      "get": {
+        "tags": [
+          "dts"
+        ],
+        "summary": "DTS navigation endpoint",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ref",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "level",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "groupBy",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "max",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "DTS JSON-LD response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/specifications/dts.xqm"
+      }
+    },
+    "/api/dts/{api}/template": {
+      "get": {
+        "tags": [
+          "dts"
+        ],
+        "summary": "DTS template endpoint",
+        "parameters": [
+          {
+            "name": "api",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "DTS API name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "DTS JSON-LD response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/specifications/dts.xqm"
+      }
+    },
+    "/api/dts/indexes": {
+      "get": {
+        "tags": [
+          "dts"
+        ],
+        "summary": "DTS indexes",
+        "responses": {
+          "200": {
+            "description": "DTS JSON-LD response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/specifications/dts.xqm"
+      }
+    },
+    "/api/dts/annotations": {
+      "get": {
+        "tags": [
+          "dts"
+        ],
+        "summary": "DTS annotation collections list",
+        "responses": {
+          "200": {
+            "description": "DTS JSON-LD response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/specifications/dts.xqm"
+      }
+    },
+    "/api/dts/annotations/{coll}": {
+      "get": {
+        "tags": [
+          "dts"
+        ],
+        "summary": "DTS annotation collection",
+        "parameters": [
+          {
+            "name": "coll",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Collection name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "DTS JSON-LD response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/specifications/dts.xqm"
+      }
+    },
+    "/api/dts/annotations/{coll}/{indexName}": {
+      "get": {
+        "tags": [
+          "dts"
+        ],
+        "summary": "Named index within a DTS annotation collection",
+        "parameters": [
+          {
+            "name": "coll",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Collection name"
+          },
+          {
+            "name": "indexName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Index name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "DTS JSON-LD response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/specifications/dts.xqm"
+      }
+    },
+    "/api/dts/annotations/{coll}/items/{BMid}": {
+      "get": {
+        "tags": [
+          "dts"
+        ],
+        "summary": "DTS annotations for a specific item",
+        "parameters": [
+          {
+            "name": "coll",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Collection name"
+          },
+          {
+            "name": "BMid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Beta Masaheft record ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "DTS JSON-LD response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/specifications/dts.xqm"
+      }
+    },
+    "/api/dts/annotations/{coll}/items/{BMid}/{indexName}": {
+      "get": {
+        "tags": [
+          "dts"
+        ],
+        "summary": "Specific annotation index for an item",
+        "parameters": [
+          {
+            "name": "coll",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "BMid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "indexName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "DTS JSON-LD response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/specifications/dts.xqm"
+      }
+    },
+    "/api/iiif/collections": {
+      "get": {
+        "tags": [
+          "iiif"
+        ],
+        "summary": "IIIF top-level collection",
+        "responses": {
+          "200": {
+            "description": "IIIF JSON-LD",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/specifications/iiif.xqm"
+      }
+    },
+    "/api/iiif/collection/{institutionid}": {
+      "get": {
+        "tags": [
+          "iiif"
+        ],
+        "summary": "IIIF collection for an institution",
+        "parameters": [
+          {
+            "name": "institutionid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Institution ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "IIIF JSON-LD",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/specifications/iiif.xqm"
+      }
+    },
+    "/api/iiif/witnesses/{workID}": {
+      "get": {
+        "tags": [
+          "iiif"
+        ],
+        "summary": "IIIF collection of witnesses for a work",
+        "parameters": [
+          {
+            "name": "workID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Work ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "IIIF JSON-LD",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/specifications/iiif.xqm"
+      }
+    },
+    "/api/iiif/{id}/manifest": {
+      "get": {
+        "tags": [
+          "iiif"
+        ],
+        "summary": "IIIF manifest for a manuscript",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Manuscript ID"
+          },
+          {
+            "name": "alt",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Alternate identifier"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "IIIF JSON-LD",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/specifications/iiif.xqm"
+      }
+    },
+    "/api/iiif/{id}/range/{rangeId}": {
+      "get": {
+        "tags": [
+          "iiif"
+        ],
+        "summary": "IIIF range within a manifest",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "rangeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Range ID"
+          },
+          {
+            "name": "alt",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "IIIF JSON-LD",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/specifications/iiif.xqm"
+      }
+    },
+    "/api/iiif/{id}/sequence/normal": {
+      "get": {
+        "tags": [
+          "iiif"
+        ],
+        "summary": "IIIF default sequence for a manuscript",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "alt",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "IIIF JSON-LD",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/specifications/iiif.xqm"
+      }
+    },
+    "/api/iiif/{id}/canvas/p{n}": {
+      "get": {
+        "tags": [
+          "iiif"
+        ],
+        "summary": "IIIF canvas for a specific page",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "n",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "alt",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "IIIF JSON-LD",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/specifications/iiif.xqm"
+      }
+    },
+    "/permanent/{sha}/api/iiif/{id}/manifest": {
+      "get": {
+        "tags": [
+          "permanent",
+          "iiif"
+        ],
+        "summary": "Permanent IIIF manifest",
+        "parameters": [
+          {
+            "name": "sha",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Git SHA of the version"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "IIIF JSON-LD",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/specifications/persistentiiif.xqm"
+      }
+    },
+    "/permanent/{sha}/api/iiif/{id}/sequence/normal": {
+      "get": {
+        "tags": [
+          "permanent",
+          "iiif"
+        ],
+        "summary": "Permanent IIIF sequence",
+        "parameters": [
+          {
+            "name": "sha",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Git SHA of the version"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "IIIF JSON-LD",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/specifications/persistentiiif.xqm"
+      }
+    },
+    "/permanent/{sha}/api/iiif/{id}/canvas/p{n}": {
+      "get": {
+        "tags": [
+          "permanent",
+          "iiif"
+        ],
+        "summary": "Permanent IIIF canvas",
+        "parameters": [
+          {
+            "name": "sha",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Git SHA of the version"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "n",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Page number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "IIIF JSON-LD",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/specifications/persistentiiif.xqm"
+      }
+    },
+    "/permanent/{sha}/api/dts": {
+      "get": {
+        "tags": [
+          "permanent",
+          "dts"
+        ],
+        "summary": "Permanent DTS API entry point",
+        "parameters": [
+          {
+            "name": "sha",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Git SHA of the version"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "DTS JSON-LD response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/specifications/persistentdts.xqm"
+      }
+    },
+    "/permanent/{sha}/api/dts/collections": {
+      "get": {
+        "tags": [
+          "permanent",
+          "dts"
+        ],
+        "summary": "Permanent DTS collections",
+        "parameters": [
+          {
+            "name": "sha",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Git SHA of the version"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "nav",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "children"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "DTS JSON-LD response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/specifications/persistentdts.xqm"
+      }
+    },
+    "/permanent/{sha}/api/dts/document": {
+      "get": {
+        "tags": [
+          "permanent",
+          "dts"
+        ],
+        "summary": "Permanent DTS document retrieval",
+        "parameters": [
+          {
+            "name": "sha",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Git SHA of the version"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ref",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Versioned document content",
+            "content": {
+              "application/tei+xml": {},
+              "text/html": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/specifications/persistentdts.xqm"
+      }
+    },
+    "/permanent/{sha}/api/dts/navigation": {
+      "get": {
+        "tags": [
+          "permanent",
+          "dts"
+        ],
+        "summary": "Permanent DTS navigation",
+        "parameters": [
+          {
+            "name": "sha",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Git SHA of the version"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ref",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "level",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "groupBy",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "max",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "DTS JSON-LD response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "x-implementation": "db/apps/BetMasApi/specifications/persistentdts.xqm"
+      }
+    }
+  }
+}
