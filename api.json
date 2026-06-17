@@ -305,7 +305,8 @@
               "application/rdf+xml": {}
             }
           }
-        }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/sparqlRest.xqm"
       }
     },
     "/{id}/{entityType}/annotation/{n}": {
@@ -355,7 +356,8 @@
               "application/rdf+xml": {}
             }
           }
-        }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/sparqlRest.xqm"
       }
     },
     "/bond/{bond}": {
@@ -386,7 +388,8 @@
               "application/rdf+xml": {}
             }
           }
-        }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/sparqlRest.xqm"
       }
     },
     "/api/{id}/tei": {
@@ -4771,7 +4774,8 @@
               "application/rdf+xml": {}
             }
           }
-        }
+        },
+        "x-implementation": "db/apps/BetMasApi/local/sparqlRest.xqm"
       }
     },
     "/{collection}/{id}/listChart": {
