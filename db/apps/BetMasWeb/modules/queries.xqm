@@ -1145,17 +1145,19 @@ return
 
 declare function q:text($q, $params) {
     (:    let $test := util:log('info', $q:allopts):)
-    let $qscheck := if(matches($q, '([A-Z]{1,3}-\d{3})')) then q:querystring($q, 'phrase') else q:querystring($q, $q:mode)
+    let $phrase := starts-with($q, '"') and ends-with($q, '"')
+    let $mode := if(matches($q, '([A-Z]{1,3}-\d{3})') or $phrase) then 'phrase' else $q:mode
+    let $qscheck := q:querystring($q, $mode)
     let $qs := if (normalize-space($qscheck) = '') then
         ()
     else
         $qscheck
     let $querycontext := '$q:col//t:TEI'
-    let $ftquery := if (exists($qs)) then if ($q:mode eq 'phrase') then '[ft:query(., ''"' || $q || '"'', <options><default-operator>and</default-operator></options>)]'
+    let $ftquery := if (exists($qs)) then if ($mode eq 'phrase') then '[ft:query(., ''"' || translate($q, '"', '') || '"'', <options><default-operator>and</default-operator></options>)]'
             else '[ft:query(., $qs, $q:allopts)]' else ()
     let $parmstoquery := q:parameters2arguments($params)
     let $querytext := concat($querycontext, $parmstoquery, $ftquery)
-          let $test2 := util:log('info', ('query:', $q || ' mode:', $q:mode))
+          let $test2 := util:log('info', ('query:', $q || ' mode:', $mode))
     let $query := util:eval($querytext)
 (: let $query := 
           for $r in util:eval($querytext)
