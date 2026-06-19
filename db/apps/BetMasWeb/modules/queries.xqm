@@ -1146,19 +1146,21 @@ return
 declare function q:text($q, $params) {
     (:    let $test := util:log('info', $q:allopts):)
     let $qscheck := if(matches($q, '([A-Z]{1,3}-\d{3})')) then q:querystring($q, 'phrase') else q:querystring($q, $q:mode)
-    let $qs := if ($qscheck = '' or $qscheck = ' ') then
+    let $qs := if (normalize-space($qscheck) = '') then
         ()
     else
         $qscheck
     let $querycontext := '$q:col//t:TEI'
-    let $ftquery := if (exists($qs)) then '[ft:query(., $qs, $q:allopts)]' else ()
+    let $ftquery := if (exists($qs)) then if ($q:mode eq 'phrase') then '[ft:query(., ''"' || $q || '"'', <options><default-operator>and</default-operator></options>)]'
+            else '[ft:query(., $qs, $q:allopts)]' else ()
     let $parmstoquery := q:parameters2arguments($params)
     let $querytext := concat($querycontext, $parmstoquery, $ftquery)
-    (:    let $test2 := util:log('info', $querytext):)
-    let $query := 
+          let $test2 := util:log('info', ('query:', $q || ' mode:', $q:mode))
+    let $query := util:eval($querytext)
+(: let $query := 
           for $r in util:eval($querytext)
           let $expanded := kwic:expand($r) where exists($expanded//exist:match[not(ancestor::t:bibl)])
-          return $r
+          return $r ~~ excluding bibl suppressed not to slow down:)
     let $allTEI :=
     if (count($query) gt 300)
     then
