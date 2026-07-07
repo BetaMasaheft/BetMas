@@ -1,12 +1,12 @@
 xquery version "3.1" encoding "UTF-8";
 (:~
  : module used by the app for tables of results
- : 
- : @author Pietro Liuzzo 
+ :
+ : @author Pietro Liuzzo
  :)
 module namespace apptable="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/apptable";
 import module namespace exptit="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/exptit" at "xmldb:exist:///db/apps/BetMasWeb/modules/exptit.xqm";
-import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm"; 
+import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
 import module namespace viewItem = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/viewItem" at "xmldb:exist:///db/apps/BetMasWeb/modules/viewItem.xqm";
 
 declare namespace t="http://www.tei-c.org/ns/1.0";
@@ -20,12 +20,12 @@ if(contains(sm:get-user-groups(sm:id()//sm:real/sm:username/string() ), 'Editors
 (: ~
  : the PDF link html snippet, called by other function based on if statements :)
 declare function apptable:pdf-link($id) {
-    
+
         <a  xmlns="http://www.w3.org/1999/xhtml" id="mainPDF" href="/{$id}.pdf" class="w3-button w3-padding-small w3-gray"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
 };
 
-(:~  returns a responsive table with a list of the collection selected by parameter. 
- : The parameter is decided by the url call, which is handled by the controller. 
+(:~  returns a responsive table with a list of the collection selected by parameter.
+ : The parameter is decided by the url call, which is handled by the controller.
  : might be better as a proper view. :)
 declare function apptable:table($model as map(*), $start as xs:integer, $per-page as xs:integer) {
      let $items-info := $model('hits')
@@ -89,8 +89,8 @@ else
                                    let $doc := doc(base-uri($hit))
             return
                                                    apptable:tr($doc, $collection)
-                               
-                             
+
+
                                     }
                                     </tbody>
                 </table>
@@ -114,25 +114,25 @@ declare function apptable:tr($doc as node(), $list as xs:string) {
                         else
                             'background-color:rgb(213, 75, 10, 0.4)'
             }">
-            
+
             {
-            
-            
+
+
            apptable:tds($doc, $list)
-            
+
             }
-       
+
     </tr>
-    
+
 };
 
 (:~function to print the values of parallel clavis ids:)
 declare function apptable:clavisIds($doc as node()){
     <span class="w3-tooltip"><span class="w3-tag">CAe {substring(string($doc/node()/ancestor-or-self::t:TEI/@xml:id), 4, 4)}</span>
-    <span class="w3-text"><a href="https://www.traces.uni-hamburg.de/en/texts/clavis.html"><em>Clavis Aethiopica</em></a>, an ongoing repertory of all known Ethiopic <a href="https://betamasaheft.eu/Guidelines/?id=definitionWorks">Textual Units</a>. Use this to refer univocally to a specific text in your publications. Please note that this shares only the 
+    <span class="w3-text"><a href="https://www.traces.uni-hamburg.de/en/texts/clavis.html"><em>Clavis Aethiopica</em></a>, an ongoing repertory of all known Ethiopic <a href="https://betamasaheft.eu/Guidelines/?id=definitionWorks">Textual Units</a>. Use this to refer univocally to a specific text in your publications. Please note that this shares only the
     numeric part with the <a href="https://betamasaheft.eu/Guidelines/?id=entities-id-structure">Textual Unit Record Identifier</a>.</span>
     </span> ,
-if($doc//t:listBibl[@type eq 'clavis']) 
+if($doc//t:listBibl[@type eq 'clavis'])
             then (
             <div class="w3-responsive"><table class="w3-table w3-hoverable">
             <thead>
@@ -141,22 +141,22 @@ if($doc//t:listBibl[@type eq 'clavis'])
 <span class="w3-text">(list of identifiable texts)</span></span></th><th>ID</th></tr>
             </thead>
             <tbody>
-            {for $bibl in $doc//t:listBibl[@type eq 'clavis']/t:bibl 
+            {for $bibl in $doc//t:listBibl[@type eq 'clavis']/t:bibl
              let $st := string($bibl/@type)
-            return 
+            return
             <tr>
             <td>
             <span class="w3-tooltip">{$st}<span class="w3-text w3-tiny">{
-            switch($st) 
+            switch($st)
             case "CC" return (<a href="http://www.cmcl.it/">Clavis Coptica</a>, <a href="http://paths.uniroma1.it/">PAThs</a>)
-              case "BHO" return <a href="https://en.wikipedia.org/wiki/Bibliotheca_Hagiographica_Orientalis">Bibliotheca Hagiographica Orientalis</a> 
+              case "BHO" return <a href="https://en.wikipedia.org/wiki/Bibliotheca_Hagiographica_Orientalis">Bibliotheca Hagiographica Orientalis</a>
               case "BHG" return <a href="https://en.wikipedia.org/wiki/Bibliotheca_Hagiographica_Graeca">Bibliotheca Hagiographica Graeca</a>
                 case "CANT" return <a href="http://www.brepols.net/pages/ShowProduct.aspx?prod_id=IS-9782503502519-1">Clavis Apocryphorum Novi Testamenti</a>
                   case "CAVT" return <a href="http://www.brepols.net/pages/ShowProduct.aspx?prod_id=IS-9782503507033-1">Clavis Apocryphorum Veteris Testamenti</a>
                     case "BHL" return <a href="https://it.wikipedia.org/wiki/Bibliotheca_hagiographica_latina">Bibliotheca Hagiographica Latina</a>
                     case "syriaca" return <a href="http://syriaca.org">Syriaca.org</a>
                     case "PEMM" return <a href="https://pemm.princeton.edu">The Princeton Ethiopian, Eritrean, and Egyptian Miracles of Mary (PEMM) project</a>
-                      case "KRZ" return 'Kinefe-Rigb Zelleke 1975. ‘Bibliography of the Ethiopic Hagiographical Traditions’, Journal of Ethiopian Studies, 13/2 (1975), 57–102.' 
+                      case "KRZ" return 'Kinefe-Rigb Zelleke 1975. ‘Bibliography of the Ethiopic Hagiographical Traditions’, Journal of Ethiopian Studies, 13/2 (1975), 57–102.'
                       case "H" return 'Hammerschmidt, E. 1987. Studies in the Ethiopic Anaphoras, Äthiopistische Forschungen, 25 (Stuttgart: Franz Steiner Verlag Wiesbaden GmbH,1987)'
             case "CPG" return <a href="https://en.wikipedia.org/wiki/Clavis_Patrum_Graecorum">Clavis Patrum Graecorum</a>
             default return <a href="">Clavis</a>}</span></span>
@@ -166,7 +166,7 @@ if($doc//t:listBibl[@type eq 'clavis'])
              </td>
             <td>
             {
-            switch($st) 
+            switch($st)
             case "PEMM" return (<a href="https://pemm.princeton.edu/stories/{$bibl/t:citedRange/text()}">[external link]</a>)
             default return
             <a class="w3-tiny" target="blank" href="https://clavis.brepols.net/clacla/OA/link.aspx?clavis={$st}&amp;number={$bibl/t:citedRange/text()}">[check the Clavis Clavium]</a>}
@@ -184,7 +184,7 @@ declare function apptable:tds($item as node(), $list as xs:string) {
 
 let $itemid := string($item/t:TEI/@xml:id)
 let $itemtitle := exptit:printTitleID($itemid)
-   
+
 return
 
 (
@@ -197,23 +197,23 @@ if ($list = 'works') then (
 (: link to main view from catalogues :)
 <td><a
             href="/manuscripts/{$itemid}/main">{$itemtitle}</a>
-            </td>) 
+            </td>)
             else if ( starts-with($list, 'INS'))then (
 (: link to list view for institutions :)
 <td><a
             href="/manuscripts/{$itemid}/main">{$itemtitle}</a>
-            </td>) 
+            </td>)
             else if ($list = 'institutions') then (
 (: link to list view for institutions :)
 <td><a
             href="/manuscripts/{$itemid}/list">{$itemtitle}</a>
-            </td>) 
+            </td>)
     else
     (:  name ALL:)
         (<td><a
             href="/{$itemid}" >{$itemtitle}</a></td>),
-            
-            
+
+
     if ($list = 'works') then
         (
    (:work titles:)
@@ -235,7 +235,7 @@ if ($list = 'works') then (
                 {
                 let $attributions := for $r in $item//t:relation[@name eq "saws:isAttributedToAuthor"]
                 let $rpass := $r/@passive
-                return 
+                return
                 if (contains($rpass, ' ')) then tokenize($rpass, ' ') else $rpass
                     for $author in config:distinct-values($attributions)
                     return
@@ -276,42 +276,42 @@ if ($list = 'works') then (
             <a role="button" class="w3-button w3-small w3-gray" href="/workmap?worksid={$itemid}">map of mss</a>
         </td>,
 (:        work parts:)
-        
+
 <td><input type="checkbox" class="w3-check mapSelected" data-value="{$itemid}"/></td>
 )
     else
         if ($list = 'manuscripts' or starts-with($list, 'INS')  or matches($list, '\w+\d+\w+')) then
-        
+
 (:      images  msitemsm msparts, hands, script:)
             (<td>{let $idnos := for $shelfmark in $item//t:msIdentifier//t:idno return $shelfmark/text() return string-join($idnos, ', ')}
             </td>,
-            <td>{if ($item//t:facsimile/t:graphic/@url) then <a target="_blank" href="{$item//t:facsimile/t:graphic[1]/@url}">Link to images</a> else if($item//t:msIdentifier/t:idno/@facs) then 
+            <td>{if ($item//t:facsimile/t:graphic/@url) then <a target="_blank" href="{$item//t:facsimile/t:graphic/@url[1]}">Link to images</a> else if($item//t:msIdentifier/t:idno/@facs) then
                  <a target="_blank" href="/manuscripts/{$itemid}/viewer">{
-                if($item//t:collection = 'Ethio-SPaRe') 
+                if($item//t:collection = 'Ethio-SPaRe')
                then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
 (:laurenziana:)
-else  if($item//t:repository[@ref eq 'INS0339BML']) 
+else  if($item//t:repository[@ref eq 'INS0339BML'])
                then <img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '005.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
-          
-(:          
+
+(:
 EMIP:)
-              else if(($item//t:collection = 'EMIP') and ($item//t:msIdentifier/t:idno)[1]/@n) 
+              else if(($item//t:collection = 'EMIP') and ($item//t:msIdentifier/t:idno)[1]/@n)
                then <img src="{$config:appUrl ||'/iiif/' || string(($item//t:msIdentifier/t:idno)[1]/@facs) || '001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>
-              
+
              (:BNF:)
-            else if ($item//t:repository/@ref eq 'INS0303BNF') 
+            else if ($item//t:repository/@ref eq 'INS0303BNF')
             then <img src="{replace($item//t:msIdentifier/t:idno/@facs, 'ark:', 'iiif/ark:') || '/f1/full/140,/0/native.jpg'}" class="thumb w3-image"/>
 (:           vatican :)
                 else if (contains($item//t:msIdentifier/t:idno/@facs, 'digi.vat')) then <img src="{replace(substring-before($item//t:msIdentifier/t:idno/@facs, '/manifest.json'), 'iiif', 'pub/digit') || '/thumb/'
                     ||
-                    substring-before(substring-after($item//t:msIdentifier/t:idno/@facs, 'MSS_'), '/manifest.json') || 
+                    substring-before(substring-after($item//t:msIdentifier/t:idno/@facs, 'MSS_'), '/manifest.json') ||
                     '_0001.tif.jpg'
                 }" class="thumb w3-image"/>
 (:                bodleian:)
 else if (contains($item//t:msIdentifier/t:idno/@facs, 'bodleian')) then ('images')
                 else (<img src="{$config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs) || '_001.tif/full/140,/0/default.jpg'}" class="thumb w3-image"/>)
                  }</a>
-                
+
                 else ()}</td>,
             <td>{count($item//t:msItem[not(t:msItem)])}</td>,
             <td>{
@@ -351,7 +351,7 @@ else if (contains($item//t:msIdentifier/t:idno/@facs, 'bodleian')) then ('images
                 }</td>,
                 <td>{
                    let $occupation := $item//t:person/t:occupation
-                           return 
+                           return
                            $occupation/text()
                 }</td>
             )
@@ -367,7 +367,7 @@ else if (contains($item//t:msIdentifier/t:idno/@facs, 'bodleian')) then ('images
                     }</td>
                 )
             else
-                (),  
+                (),
 if ($list = 'places' or $list = 'institutions') then
 (:geojson:)
     (<td>{
@@ -391,11 +391,11 @@ if ($list = 'places' or $list = 'institutions') then
         }</td>)
 else
     if ($list = 'works' or $list = 'manuscripts' or starts-with($list, 'INS') or matches($list, '\w+\d+\w+') or $list = 'narratives') then
-  
+
 (:    text:)
         <td>
       {
-  if ($item//t:div/t:ab) 
+  if ($item//t:div/t:ab)
   then
          <a href="{('/' || $itemid || '/text')}"
                         target="_blank">text</a>
@@ -405,18 +405,18 @@ else
         </td>
 else
     (),
-    
+
 (:    date, xml, analytics, seeAlso:)
 <td>{
-        if ($list = 'works' or $list = 'manuscripts' or $list = 'narratives' or $list = 'places' or $list = 'institutions') 
-        
+        if ($list = 'works' or $list = 'manuscripts' or $list = 'narratives' or $list = 'places' or $list = 'institutions')
+
         then (
       let $dates :=
            for $date in ($item//t:date[@evidence eq 'internal-date'],
-        $item//t:origDate, 
-        $item//t:date[@type eq 'foundation'], 
+        $item//t:origDate,
+        $item//t:date[@type eq 'foundation'],
         $item//t:creation)
-             
+
            return
           ('['||data($date/ancestor::t:*[@xml:id][1]/@xml:id)|| '] '||
                 (if ($date/@when) then
@@ -429,41 +429,41 @@ else
                         (data($date/@from) || '-' || data($date/@to))
                     else
                         $date))
-                        
+
         return
         string-join($dates, ', ')
-            ) 
+            )
          else if ($list = 'persons') then (
-         if ($item//t:birth[@when or @notBefore or @notAfter or text()[. !='']] or 
-        $item//t:death[@when or @notBefore or @notAfter  or text()[. !='']] or 
+         if ($item//t:birth[@when or @notBefore or @notAfter or text()[. !='']] or
+        $item//t:death[@when or @notBefore or @notAfter  or text()[. !='']] or
        $item//t:floruit[@when or @notBefore or @notAfter  or text()[. !='']])
         then(
-         for $date in ($item//t:birth[@when or @notBefore or @notAfter or text()], 
-         $item//t:death[@when or @notBefore or @notAfter or text()], 
+         for $date in ($item//t:birth[@when or @notBefore or @notAfter or text()],
+         $item//t:death[@when or @notBefore or @notAfter or text()],
          $item//t:floruit[@when or @notBefore or @notAfter or text()])
         return
         <p>{switch ($date/name())
         case 'birth' return 'b. '
         case 'death' return 'd. '
         default return 'f. ',
-            if($date[@when]) 
+            if($date[@when])
             then string($date/@when)
-            else if($date[@notBefore and @notAfter]) 
+            else if($date[@notBefore and @notAfter])
             then string($date/@notBefore) || '-'|| string($date/@notAfter)
-            else if($date[@notBefore and not(@notAfter)]) 
+            else if($date[@notBefore and not(@notAfter)])
             then 'after ' || string($date/@notBefore)
-            else if($date[@notAfter and not(@notbefore)]) 
-            then 'before ' || string($date/@notAfter) 
+            else if($date[@notAfter and not(@notbefore)])
+            then 'before ' || string($date/@notAfter)
             else viewItem:dates($date)  }</p>
-           
+
          )
            else
             'N/A'
         )
-        
-       
-         
-            
+
+
+
+
             else 'N/A'
     }</td>,
 <td><a
