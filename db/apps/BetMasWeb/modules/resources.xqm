@@ -2,14 +2,14 @@ xquery version "3.1" encoding "UTF-8";
 
 (:~
  : This module contains functions printing indexes and lists extracted from the data which are not list of resources
- : @author Pietro Liuzzo 
+ : @author Pietro Liuzzo
  :)
 
 module namespace lists="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/lists";
 import module namespace config="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
 import module namespace exptit="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/exptit" at "xmldb:exist:///db/apps/BetMasWeb/modules/exptit.xqm";
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/string" at "xmldb:exist:///db/apps/BetMasWeb/modules/tei2string.xqm";
-import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/switch2"  at "xmldb:exist:///db/apps/BetMasWeb/modules/switch2.xqm"; 
+import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/switch2"  at "xmldb:exist:///db/apps/BetMasWeb/modules/switch2.xqm";
 import module namespace console="http://exist-db.org/xquery/console";
 declare namespace t="http://www.tei-c.org/ns/1.0";
 declare namespace templates="http://exist-db.org/xquery/templates" ;
@@ -28,9 +28,9 @@ declare
 function lists:bibl ($node as node(), $model as map(*),
     $type as xs:string+, $collection as xs:string, $pointer as xs:string*) {
    let $coll := switch2:collectionVarValTit($collection)
-   let $Pointer := if($pointer = '') then "[starts-with(@target,'bm:')]" else "[@target eq '"||$pointer||"']"
+   let $Pointer := if($pointer = '') then "[starts-with(@target,'bm:')]" else "[starts-with(@target,'bm:') and @target eq '" || $pointer || "']"
     let $Type := if($type = 'all') then () else let $pars := for $ty in $type return "@type eq '" || $ty || "'" return '//t:listBibl[' || string-join($pars, ' or ') || ']'
-   let $path := $coll||$Type||'//t:ptr'||$Pointer 
+   let $path := $coll||$Type||'//t:ptr'||$Pointer
    let $query := util:eval($path)//@target
 let $bms :=
 for $bibl in config:distinct-values($query)
@@ -168,7 +168,7 @@ $query as xs:string*,
    let $target-keyword := if($target-keyword = 'all') then () else let $pars := for $ty in $target-keyword return "@key eq  '" || $ty || "'" return '[descendant::t:term[' || string-join($pars, ' or ') || ']]'
    let $legendText :=  if($legendText) then ("[descendant::t:q[@xml:lang][ft:query(.,'" || $legendText || "')]]") else ()
    let $otherText :=if($otherText) then ("[descendant::t:foreign[@xml:lang='gez'][ft:query(.,'" || $otherText || "')]]") else ()
-   let $path := "$lists:collection-rootMS//t:decoNote[starts-with(@xml:id, 'd')]" || $type || $repo || $content || $target-work || $target-artTheme || $target-pers || $target-place || $target-keyword || $legendText ||$otherText 
+   let $path := "$lists:collection-rootMS//t:decoNote[starts-with(@xml:id, 'd')]" || $type || $repo || $content || $target-work || $target-artTheme || $target-pers || $target-place || $target-keyword || $legendText ||$otherText
   let $decos := for $dec in util:eval($path) return $dec
    return
    map {
@@ -176,8 +176,8 @@ $query as xs:string*,
 
                 }
    };
-   
-   
+
+
 declare
     %templates:default("scope", "narrow")
     %templates:default("target-pers", "all")
@@ -213,7 +213,7 @@ $model as map(*),
 
                 }
    };
-   
+
    declare
     %templates:default("scope", "narrow")
     %templates:default("typeval", "marked")
@@ -241,10 +241,10 @@ $query as xs:string*,
     $elements as xs:string+
    ) {
    let $values := ('subscriptio', 'supplication', 'embedded', 'inscriptio', 'translation', 'expanded', 'title', 'desinit')
-   let $type := if($typeval = 'all') then '' 
+   let $type := if($typeval = 'all') then ''
                         else if($typeval = 'marked') then '[contains(@type, $values)]'  else let $pars := for $ty in $typeval return "contains(@type, '" || $ty || "')" return '[' || string-join($pars, ' or ') || ']'
    let $subtype := if($typeval = 'all') then ''  else if($typeval = 'marked') then '[contains(@subtype, $values)]' else let $pars := for $ty in $typeval return "contains(@subtype, '" || $ty || "')" return '[' || string-join($pars, ' or ') || ']'
-   
+
    let $textquery:=if($query) then ("[ft:query(.,'" || $query || "')]") else ()
    let $works := if($limit-work = '') then () else $lists:collection-rootW//id($limit-work)
    let $mss :=  if($limit-mss = '') then () else $lists:collection-rootMS//id($limit-mss)
@@ -258,13 +258,13 @@ $query as xs:string*,
    let $mssadditions := $mssWork/following::t:item[@corresp eq $msSitemsIDS]
    let $workdivs := $works//t:div[@type eq 'edition']
 
-   let $context := 
+   let $context :=
 (:   if the search is limited to a set of manuscripts or a set of works, the context changes.
 first if the no limit is set, we will search all the collection :)
-                                 if($limit-work = '' and $limit-mss = '') then '$exptit:col' 
+                                 if($limit-work = '' and $limit-mss = '') then '$exptit:col'
 (:                                 if the search is limited by work, then we want to search
-                                    - the file of that work, 
-                                    - the relevant parts of manuscripts which contain that work 
+                                    - the file of that work,
+                                    - the relevant parts of manuscripts which contain that work
                                     this assumes that if also parts or related works are wanted, the parameter should list those already:)
                                  else if($limit-work !='' and $limit-mss = '') then
                                          '('||'$workdivs' ||','||'$mssWork' || ','||'$mssadditions' ||','||'$mssdivs'||")"
@@ -273,11 +273,11 @@ first if the no limit is set, we will search all the collection :)
                                 else if($limit-work = '' and $limit-mss !='') then
                                           '$mss'
 (:                                 if the search is limited by manuscript and work
-                                    - the relevant parts of those manuscripts which contain that work 
+                                    - the relevant parts of those manuscripts which contain that work
                                     this assumes that if also parts or related works are wanted, the parameter should list those already:)
-                                 else 
+                                 else
                                            '('||'$msitems' ||','||'$additions' ||','||'$divs'||")"
-                                           
+
   let $target-work := if($target-work = 'all') then () else let $pars := for $ty in $target-work return "@ref eq  '" || $ty || "'" return '[descendant::t:title[' || string-join($pars, ' or ') || ']]'
     let $target-artTheme := if($target-artTheme= 'all') then () else let $pars := for $ty in $target-artTheme return "@corresp eq  '" || $ty || "'" return '[descendant::t:ref[@type eq "authFile"][' || string-join($pars, ' or ') || ']]'
    let $target-pers := if($target-pers = 'all') then () else let $pars := for $ty in $target-pers return "@ref eq  '" || $ty || "'" return '[descendant::t:persName[' || string-join($pars, ' or ') || ']]'
@@ -288,16 +288,16 @@ first if the no limit is set, we will search all the collection :)
    if($elements = 'all' or $elements = 'title') then
 let $query := $context || '//t:title'||'[not(parent::t:titleStmt)]' || $subtype ||  $filters
 return util:eval($query) else ()
-  let $divs := 
-  if($elements = 'all' or $elements = 'div') then 
+  let $divs :=
+  if($elements = 'all' or $elements = 'div') then
 let $query := $context || "//t:div"|| $subtype ||  $filters
 return util:eval($query) else ()
-  let $segs := 
+  let $segs :=
    if($elements = 'all' or $elements = 'seg') then
 let $query := $context || "//t:seg"|| '[not(ancestor::t:handDesc)]'|| $type ||  $filters
 return util:eval($query) else ()
-  let $colincex := for $cie in ('colophon', 'incipit', 'explicit') return 
-  if($elements = 'all' or $elements = $cie) then 
+  let $colincex := for $cie in ('colophon', 'incipit', 'explicit') return
+  if($elements = 'all' or $elements = $cie) then
 let $query := $context || "//t:"||$cie|| $type ||  $filters
 return util:eval($query) else ()
   let $allTitles := ($titles | $divs | $segs | $colincex)
@@ -394,7 +394,7 @@ return util:eval($query) else ()
                                  <small class="form-text text-muted">Select the language of the additions you want to see</small><br/>
 
                                     <select xmlns="http://www.w3.org/1999/xhtml" multiple="multiple" id="target-language" name="target-language" class="w3-select w3-border">
-            {for $d in config:distinct-values($model('hits')//t:q/@xml:lang) 
+            {for $d in config:distinct-values($model('hits')//t:q/@xml:lang)
             order by $d
             return
             <option value="{$d}">{data($d)}</option>}
@@ -473,7 +473,7 @@ return util:eval($query) else ()
                                 <div  class="w3-container  w3-margin">
                                <small class="form-text text-muted">Limit to Manuscripts, adding a list of space separated identifiers</small><br/>
                                <input  class="w3-input w3-border" name="limit-mss"></input>
-                               
+
                                 </div>
                                 <div  class="w3-container  w3-margin">
                                <small class="form-text text-muted">Limit by type</small><br/>
@@ -487,8 +487,8 @@ return util:eval($query) else ()
             <option value="all">all</option>
                                 </select>
                                 </div>
-                                
-                                
+
+
                                 <div  class="w3-container  w3-margin">
                                <small class="form-text text-muted">Limit to a specific context element</small><br/>
                                 <select class="w3-select w3-border" name="elements" multiple="multiple">
@@ -497,7 +497,7 @@ return util:eval($query) else ()
             <option value="{$d}">{$d} ({count($model('hits')[name() = $d])})</option>}
                                 </select>
                                 </div>
-                               {if($model('hits')//t:ref[@type eq 'authFile']) then  
+                               {if($model('hits')//t:ref[@type eq 'authFile']) then
                                <div class="w3-container w3-margin">
                                  <small class="form-text text-muted">Select one or more Art Themes associated with the title/colophon/supplication</small><br/>
 
@@ -548,7 +548,7 @@ return util:eval($query) else ()
                                  <a href="/titles" role="button" class="w3-bar-item w3-button w3-gray"><i class="fa fa-th-list" aria-hidden="true"></i></a></div>
                         </div></form>
    };
-   
+
    declare function lists:decorationsform($node as node(), $model as map(*)){
    let $auth := $lists:collection-rootA
    return
@@ -568,7 +568,7 @@ return util:eval($query) else ()
                                <small class="form-text text-muted">Select in text on the decorations which is not the legend</small><br/>
                                 <input  class="w3-input w3-border" name="otherText"></input>
                                 </div>
-                                  
+
                                <div class="w3-container w3-margin">
                                  <small class="form-text text-muted">Select manuscript repository</small><br/>
 
@@ -579,9 +579,9 @@ return util:eval($query) else ()
             <option value="{$d}">{exptit:printTitle($d)}</option>}
             </select>
                                  </div>
-                                
-                                
-                               {if($model('hits')//t:ref[@type eq 'authFile']) then  
+
+
+                               {if($model('hits')//t:ref[@type eq 'authFile']) then
                                <div class="w3-container w3-margin">
                                  <small class="form-text text-muted">Select one or more Art Themes associated with the decoration description</small><br/>
 
@@ -629,7 +629,7 @@ return util:eval($query) else ()
             <option value="{$d}">{exptit:printTitle($d)}</option>}
             </select>
                                  </div> else ()}
-                                 
+
                                  {if($model('hits')//t:term) then
                                  <div class="w3-container w3-margin">
                                  <small class="form-text text-muted">Select one or more artistic elements referred to in the decoration description</small><br/>
@@ -653,7 +653,7 @@ declare function lists:calendarform($node as node(), $model as map(*)){
    let $auth := $lists:collection-rootA
    return
    <form action="" class="w3-container">
-                               
+
                                <div class="w3-container w3-margin">
                                  <small class="form-text text-muted">Select a month</small><br/>
 
@@ -664,7 +664,7 @@ declare function lists:calendarform($node as node(), $model as map(*)){
             <option value="{string($d)}" >{string($d)}</option>}
             </select>
                                  </div>
-                                 
+
                                    <div class="w3-container w3-margin">
                                  <small class="form-text text-muted">Select a day</small><br/>
 
@@ -675,8 +675,8 @@ declare function lists:calendarform($node as node(), $model as map(*)){
             <option value="{string($d/@xml:id)}">{$d/text()}</option>}
             </select>
                                  </div>
-                                 
-                               {if($model('hits')//t:ref[@type eq 'authFile']) then  
+
+                               {if($model('hits')//t:ref[@type eq 'authFile']) then
                                <div class="w3-container w3-margin">
                                  <small class="form-text text-muted">Select one or more Art Themes associated with the date</small><br/>
 
@@ -828,18 +828,18 @@ return
 <div class="w3-half w3-padding">
 <div class="w3-threequarter">
 <ul class="w3-ul w3-hoverable">
-    {    
+    {
    for $citingentity in $ptrs/@target
    let $stringR := string(root($citingentity)/t:TEI/@xml:id)
   let $cr := $citingentity/parent::t:ptr/following-sibling::t:citedRange/text()
-   let $n := number($cr[1] => replace('-', '') => replace('[a-zA-Z]', ''))group by $root :=    $stringR 
+   let $n := number($cr[1] => replace('-', '') => replace('[a-zA-Z]', ''))group by $root :=    $stringR
     order by $n[1] ascending
    return
      <li class="w3-padding"><a href="{$root}">{exptit:printTitle($root)}</a>
      {let $ranges := for $c in $citingentity
      let $cr := $c/parent::t:ptr/following-sibling::t:citedRange
      order by $cr[1]
-     return 
+     return
      if($cr) then (string($cr[1]/@unit) || ', ' || $cr[1]/text()) else ()
      return if(count($ranges) ge 1) then (' ('||string-join($ranges, '; ')||')') else ()
      }
@@ -864,21 +864,21 @@ for $addition at $p in $data
     order by $type
     let $tit := exptit:printTitleID($type)
     return
-        
+
         (<button onclick="openAccordion('{data($type)}')" class="w3-button w3-block w3-gray w3-margin-bottom">
 <span class="w3-badge w3-right">{if ($type = 'undefined') then count($data[not(descendant::t:desc/@type)]) else count($data/t:desc[@type eq  $type])}</span>
 <span class="w3-left additionType" data-value="{$type}">{
        if ($type = 'undefined') then $type else $tit
     }</span></button>,
-    
+
     <div class="w3-container w3-hide" id="{data($type)}">
     <div>{if (count($addition) gt 100) then
-            
+
                 <span> (showing up to 100 results; use filters to narrow down your search)</span>
             else ()}</div>
-        
+
     <ul class="w3-ul w3-padding w3-hoverable">
-    {            
+    {
             let $start := xs:integer(request:get-parameter("start", "1"))
             let $num := xs:integer(request:get-parameter("num", "100"))
                 for $a in subsequence($addition, $start, $num)
@@ -919,7 +919,7 @@ for $binding at $p in $model("hits")
     group by $type := $t
     order by $type
     return
-        (<button onclick="openAccordion('{data($type)}')" 
+        (<button onclick="openAccordion('{data($type)}')"
         class="w3-button w3-block w3-gray w3-padding w3-margin-bottom">
 <span class="w3-badge w3-right">{count($binding)}</span>
 <span class="w3-left " data-value="{$type}">{string($type)}</span>
@@ -935,7 +935,7 @@ for $binding at $p in $model("hits")
                 order by $ms
                 return
 
-(<button onclick="openAccordion('{data($ms)}{data($type)}')" 
+(<button onclick="openAccordion('{data($ms)}{data($type)}')"
         class="w3-button w3-block w3-red w3-padding w3-margin-bottom">
 <span class="w3-badge w3-right">{count($b)}</span>
 <span class="w3-left " data-value="{$type}">{$lists:collection-rootMS//id($ms)//t:msIdentifier/t:idno}</span>
@@ -971,7 +971,7 @@ for $date at $p in $model("hits")
     group by $type := $t
     order by $type
     return
-        (<button onclick="openAccordion('{data($type)}')" 
+        (<button onclick="openAccordion('{data($type)}')"
         class="w3-button w3-block w3-gray w3-padding w3-margin-bottom">
 <span class="w3-badge w3-right">{count($date)}</span>
 <span class="w3-left " data-value="{$type}">{string($type)}</span>
@@ -987,7 +987,7 @@ for $date at $p in $model("hits")
                 order by $ms
                 return
 
-(<button onclick="openAccordion('{data($ms)}{data($type)}')" 
+(<button onclick="openAccordion('{data($ms)}{data($type)}')"
         class="w3-button w3-block w3-red w3-padding w3-margin-bottom">
 <span class="w3-badge w3-right">{count($d)}</span>
 <span class="w3-left " data-value="{$type}">{exptit:printTitleID($ms)}</span>
@@ -1004,9 +1004,9 @@ for $date at $p in $model("hits")
 
             <a href="{data($ms)}{if($parentID != $ms) then '#'|| data($parentID) else ()}">
             {if($parentID != $ms) then 'In a ' ||$parentName || ' element with xml:id ' ||data($parentID) else ( 'within the file: ')}
-            </a>: 
+            </a>:
             {try{string:tei2string($sd/node())} catch * {(($err:code || ": "|| $err:description), string-join($sd//text(), ' '))}}
-            
+
             </li>
                  }
             </ul>
@@ -1025,20 +1025,20 @@ declare
     group by $type := $t
     order by $type
     return
-    
+
     (<button onclick="openAccordion('{data($type)}')" class="w3-button w3-block w3-gray w3-padding w3-margin-bottom">
 <span class="w3-badge w3-right">{count($decoration)}</span>
 <span class="w3-left additionType" data-value="{$type}">{string($type)}</span>
 </button>,
-    
+
     <div class="w3-container w3-hide" id="{data($type)}">
-    
+
 <div  class="w3-container" id="{data($type)}">
             {
-            if (count($decoration) gt 400) then            
+            if (count($decoration) gt 400) then
                 <div>Showing up to 400 results; use filters to narrow down the search results</div>
             else (),
-            
+
             let $start := xs:integer(request:get-parameter("start", "1"))
             let $num := xs:integer(request:get-parameter("num", "400"))
                 for $d in subsequence($decoration, $start, $num)
@@ -1047,7 +1047,7 @@ declare
                 group by $ms := $msid
                 order by $ms
                 return
-                
+
 
 (<button onclick="openAccordion('{data($ms)}{data($type)}')" class="w3-button w3-block w3-red  w3-margin-bottom">
 <span class="w3-left">{$lists:collection-rootMS//id($ms)//t:msIdentifier/t:idno}</span>
@@ -1086,7 +1086,7 @@ declare
             else ()}
             <p class="w3-rest">
             <a href="{data($ms)}#{data($sd/@xml:id)}">{data($sd/@xml:id)}</a><br/>
-           {if(count($sd//t:ref[@type eq 'authFile']) ge 1) then 
+           {if(count($sd//t:ref[@type eq 'authFile']) ge 1) then
             <span>Art themes: </span> else (),
             for $at in $sd//t:ref[@type eq 'authFile']
             return
@@ -1102,7 +1102,7 @@ declare
         </div>
     </div>
     )
-    
+
 };
 
 declare function lists:typedistvalues($hits){distinct-values(
@@ -1126,22 +1126,22 @@ declare
     function lists:titlesRes($node as node(), $model as map(*)){
    let $hits :=$model("hits")
  let $individualvalues := lists:typedistvalues($hits)
-    
+
    (: group by tokenized type :)
 for $i in distinct-values($individualvalues)
 (:let $log := util:log('INFO', $i):)
-order by $i 
+order by $i
 let $group := lists:typegroups($hits, $i)
 let $log := util:log('INFO',  count($group))
     return
-    
+
     (<button onclick="openAccordion('{$i}')" class="w3-button w3-block w3-gray w3-padding w3-margin-bottom">
 <span class="w3-badge w3-right">{count($group)}</span>
 <span class="w3-left additionType" data-value="{$i}">{$i}</span>
 </button>,
-    
+
     <div class="w3-container w3-hide" id="{$i}">
-    
+
 <div  class="w3-container" id="{$i}">
             {
             for $d at $p in $group
@@ -1162,7 +1162,7 @@ let $log := util:log('INFO',  count($group))
              <div  class="w3-container w3-hide" id="{$htmlid}">
 
                  <ul class="w3-ul w3-hoverable" >
-                 {if($itemtype eq  'mss') then 
+                 {if($itemtype eq  'mss') then
                      for $sd in $d
                      let $images := root($sd)//t:msIdentifier/t:idno
                      let $locus := string($sd/t:locus/@facs)
@@ -1191,21 +1191,21 @@ let $log := util:log('INFO',  count($group))
             <div class="w3-third" >{if (exists($sd/node())) then string:tei2string($sd/node()) else 'div'}</div>
                  <div class="w3-third">
                  <div class="w3-third"><a href="/{$ms}"><b>{$sd/name()}</b>{" | "}{if($sd/@subtype) then string($sd/@subtype) else string($sd/@type)}</a></div>
-                 <div class="w3-third">Refers to {if($sd/name() = 'div' and $itemtype eq  'work') 
-                                                   then <span>{exptit:printTitle($ms)}</span> 
-                                                 else if($sd/name() = 'div' and $itemtype eq  'mss') then 
-                                                                    (let $corr := $sd/@corresp 
+                 <div class="w3-third">Refers to {if($sd/name() = 'div' and $itemtype eq  'work')
+                                                   then <span>{exptit:printTitle($ms)}</span>
+                                                 else if($sd/name() = 'div' and $itemtype eq  'mss') then
+                                                                    (let $corr := $sd/@corresp
                                                                     let $msitem := if (exists($corr)) then $sd/ancestor::t:TEI//t:msItem[@xml:id=$corr] else ()
                                                                     let $work :=  if (exists($msitem)) then $msitem/t:title/@ref else ()
                                                                     return if (exists($work)) then  <span>{exptit:printTitle(string($work[1]))}</span> else <span class="w3-text-grey">[no work reference]</span>)
-                                                  else if($sd/name() = 'colophon' or $sd/name() = 'incipit' or $d/name() = 'explicit' or $sd/name() = 'title') 
-                                                                   then (  let $msitem := $sd/ancestor::t:msItem 
+                                                  else if($sd/name() = 'colophon' or $sd/name() = 'incipit' or $d/name() = 'explicit' or $sd/name() = 'title')
+                                                                   then (  let $msitem := $sd/ancestor::t:msItem
                                                                    let $work := $msitem/t:title/@ref
                                                                    return <span>{exptit:printTitle(string($work[1]))}</span>)
                                                   else 'unable to retrieve reference'}</div>
                  <div class="w3-third">
             <a href="{data($ms)}#{$uid}"> {data($uid)}</a><br/>
-            {if(count($sd//t:ref[@type eq 'authFile']) ge 1) then 
+            {if(count($sd//t:ref[@type eq 'authFile']) ge 1) then
             <span>Art themes: </span> else (),
             for $at in $sd//t:ref[@type eq 'authFile']
             return
@@ -1218,21 +1218,21 @@ let $log := util:log('INFO',  count($group))
         util:log('ERROR', concat(
             'Problematic node: ', $sd/name(), '(', $uid, ') in TEI ', string($sd/ancestor::t:TEI/@xml:id), ' for type ', $i, ' || Error: ', $err:code, ' ', $err:description
         ))} else ()
-                 else 
+                 else
                   for $sd in $d
                   return
                  <li class="w3-container">
                  <div class="w3-half" >{string:tei2string($sd/node())}</div>
                  <div class="w3-half">
                  <div class="w3-third"><a href="/{$ms}"><b>{$sd/name()}</b>{" | "}{if($sd/@subtype) then string($sd/@subtype) else string($sd/@type)}</a></div>
-                 <div class="w3-third">Refers to {if($sd/name() = 'div' and $itemtype eq  'work') 
+                 <div class="w3-third">Refers to {if($sd/name() = 'div' and $itemtype eq  'work')
                                                    then (<a href="/{$ms}"><span >{$ms}</span></a>, <br/>,
                                                                     <div class="w3-bar w3-gray w3-small"><a class="w3-bar-item w3-button" href="/titles?limit-work={$ms}">limit results to this work</a>
                                                                     <a  class="w3-bar-item w3-button" href="/compare?workid={$ms}">compare mss</a>
                                                                     <a  class="w3-bar-item w3-button" href="/workmap?worksid={$ms}">map mss</a>
-                                                                    <a  class="w3-bar-item w3-button" href="/litcomp?worksid={$ms}">literature view</a></div>) 
-                                                 else if($sd/name() = 'div' and $itemtype eq  'mss') then 
-                                                                    (let $corr := $sd/@corresp 
+                                                                    <a  class="w3-bar-item w3-button" href="/litcomp?worksid={$ms}">literature view</a></div>)
+                                                 else if($sd/name() = 'div' and $itemtype eq  'mss') then
+                                                                    (let $corr := $sd/@corresp
                                                                     let $msitem := $sd/ancestor::t:TEI//t:msItem[@xml:id=$corr]
                                                                     let $work := $msitem/t:title/@ref
                                                                     return (<a href="{string($work[1])}"><span>{exptit:printTitle(string($work[1]))}</span></a>, <br/>,
@@ -1240,8 +1240,8 @@ let $log := util:log('INFO',  count($group))
                                                                     <a  class="w3-bar-item w3-button" href="/compare?workid={string($work[1])}">compare mss</a>
                                                                     <a  class="w3-bar-item w3-button" href="/workmap?worksid={string($work[1])}">map mss</a>
                                                                     <a  class="w3-bar-item w3-button" href="/litcomp?worksid={string($work[1])}">literature view</a></div>) )
-                                                  else if($sd/name() = 'colophon' or $sd/name() = 'incipit' or $d/name() = 'explicit' or $sd/name() = 'title') 
-                                                                   then (  let $msitem := $sd/ancestor::t:msItem 
+                                                  else if($sd/name() = 'colophon' or $sd/name() = 'incipit' or $d/name() = 'explicit' or $sd/name() = 'title')
+                                                                   then (  let $msitem := $sd/ancestor::t:msItem
                                                                    let $work := $msitem/t:title/@ref
                                                                    return (<a href="{string($work[1])}"><span>{exptit:printTitle(string($work[1]))}</span></a>, <br/>,
                                                                     <div class="w3-bar w3-gray w3-small"><a class="w3-bar-item w3-button" href="/titles?limit-work={string($work[1])}">limit results to this work</a>
@@ -1251,7 +1251,7 @@ let $log := util:log('INFO',  count($group))
                                                   else 'unable to retrieve reference'}</div>
                  <div class="w3-third">
             <a href="{data($ms)}#{if ($sd/@xml:id) then concat('#', $sd/@xml:id) else ()}"> {if ($sd/@xml:id) then data($sd/@xml:id) else '[item]'}</a><br/>
-            {if(count($sd//t:ref[@type eq 'authFile']) ge 1) then 
+            {if(count($sd//t:ref[@type eq 'authFile']) ge 1) then
             <span>Art themes: </span> else (),
             for $at in $sd//t:ref[@type eq 'authFile']
             return
@@ -1263,14 +1263,14 @@ let $log := util:log('INFO',  count($group))
                  }
             </ul>
             </div>
-            
+
             )}
 
         </div>
-        
+
     </div>
     )
-    
+
 };
 
 
