@@ -2,7 +2,7 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title>Deleted</title>
+                <title>Deleted items</title>
             </titleStmt>
             <publicationStmt>
                 <p/>
@@ -168,74 +168,44 @@
                 <item>PRS12702MikailHabashi</item>
                 <item corresp="LIT3100RepCh380">LIT3999Ofetun</item>
 
-                <item source="/db/apps/BetMasData/persons/new/"
-                    change="2020-06-16T12-42-02.815+02-00">PRS13036Isayeyyas</item>
+                <item source="/db/apps/BetMasData/persons/new/" change="2020-06-16T12-42-02.815+02-00">PRS13036Isayeyyas</item>
                 <item corresp="LIT2082Otawar">LIT5067Hymn</item>
 
-                <item source="/db/apps/BetMasData/works/new/" change="2020-07-08T08-37-28.76+02-00"
-                    >LIT60494TaammeraUrael</item>
-                <item source="/db/apps/BetMasData/works/new/" change="2020-07-08T08-37-28.76+02-00"
-                    >LIT60495TammeraZamikael</item>
-                <item source="/db/apps/BetMasData/works/new/" change="2020-07-08T08-37-28.76+02-00"
-                    >LIT60499HymnMarySalotki</item>
+                <item source="/db/apps/BetMasData/works/new/" change="2020-07-08T08-37-28.76+02-00">LIT60494TaammeraUrael</item>
+                <item source="/db/apps/BetMasData/works/new/" change="2020-07-08T08-37-28.76+02-00">LIT60495TammeraZamikael</item>
+                <item source="/db/apps/BetMasData/works/new/" change="2020-07-08T08-37-28.76+02-00">LIT60499HymnMarySalotki</item>
                 <item corresp="LIT5629AndemtaCreed">LIT5939CommCreed</item>
 
-                <item source="/db/apps/BetMasData/persons/PRS12001-13000/"
-                    change="2020-07-27T13-41-44.484+02-00">PRS12656Zadawit</item>
-                <item source="/db/apps/BetMasData/persons/PRS12001-13000/"
-                    change="2020-07-27T13-41-44.484+02-00">PRS12657ZasarsaKesos</item>
-                <item source="/db/apps/BetMasData/persons/PRS12001-13000/"
-                    change="2020-07-27T13-41-44.484+02-00">PRS12660ZayamanaKrestos</item>
-                <item source="/db/apps/BetMasData/persons/PRS12001-13000/"
-                    change="2020-07-27T13-41-44.484+02-00">PRS12662ZamalkeaKsos</item>
-                <item source="/db/apps/BetMasData/persons/PRS12001-13000/"
-                    change="2020-07-27T13-41-44.484+02-00">PRS12663Zaagnateyos</item>
-                <item source="/db/apps/BetMasData/persons/PRS12001-13000/"
-                    change="2020-07-27T13-41-44.484+02-00">PRS12664ZaamdaMikael</item>
+                <item source="/db/apps/BetMasData/persons/PRS12001-13000/" change="2020-07-27T13-41-44.484+02-00">PRS12656Zadawit</item>
+                <item source="/db/apps/BetMasData/persons/PRS12001-13000/" change="2020-07-27T13-41-44.484+02-00">PRS12657ZasarsaKesos</item>
+                <item source="/db/apps/BetMasData/persons/PRS12001-13000/" change="2020-07-27T13-41-44.484+02-00">PRS12660ZayamanaKrestos</item>
+                <item source="/db/apps/BetMasData/persons/PRS12001-13000/" change="2020-07-27T13-41-44.484+02-00">PRS12662ZamalkeaKsos</item>
+                <item source="/db/apps/BetMasData/persons/PRS12001-13000/" change="2020-07-27T13-41-44.484+02-00">PRS12663Zaagnateyos</item>
+                <item source="/db/apps/BetMasData/persons/PRS12001-13000/" change="2020-07-27T13-41-44.484+02-00">PRS12664ZaamdaMikael</item>
                 <item corresp="LIT4117Interpretation">LIT6157MamherTasiliye</item>
 
-                <item source="/db/apps/BetMasData/works/1001-2000/"
-                    change="2020-12-18T12-22-25.886+01-00">LIT1279dersan</item>
-                <item source="/db/apps/BetMasData/works/1001-2000/"
-                    change="2021-01-07T12-23-28.141+01-00">LIT1775Letter</item>
-                <item source="/db/apps/BetMasData/works/2001-3000/"
-                    change="2021-01-07T12-23-28.141+01-00">LIT2357Letter</item>
+                <item source="/db/apps/BetMasData/works/1001-2000/" change="2020-12-18T12-22-25.886+01-00">LIT1279dersan</item>
+                <item source="/db/apps/BetMasData/works/1001-2000/" change="2021-01-07T12-23-28.141+01-00">LIT1775Letter</item>
+                <item source="/db/apps/BetMasData/works/2001-3000/" change="2021-01-07T12-23-28.141+01-00">LIT2357Letter</item>
                 <item corresp="LIT2042Nagarb">LIT2263salota</item>
 
                 <item corresp="LIT1750LahaMa">LIT3998Dersan</item>
 
-                <item source="/db/apps/BetMasData/institutions/new/"
-                    change="2021-02-18T12-25-31.057+01-00">INS0915Neukirchen</item>
-                <item source="/db/apps/BetMasData/institutions/new/"
-                    change="2021-02-18T17-29-18.518+01-00">INS0915CHNJ</item>
-                <item source="/db/apps/BetMasData/institutions/new/"
-                    change="2021-06-21T12-12-40.396+02-00">INS0963RDW</item>
+                <item source="/db/apps/BetMasData/institutions/new/" change="2021-02-18T12-25-31.057+01-00">INS0915Neukirchen</item>
+                <item source="/db/apps/BetMasData/institutions/new/" change="2021-02-18T17-29-18.518+01-00">INS0915CHNJ</item>
+                <item source="/db/apps/BetMasData/institutions/new/" change="2021-06-21T12-12-40.396+02-00">INS0963RDW</item>
                 <item corresp="LIT4867Theodore">LIT6463Letter</item>
 
-                <item source="/db/apps/BetMasData/persons/new/"
-                    change="2021-06-28T09-50-33.755+02-00">PRS13437WalattaBM</item>
+                <item source="/db/apps/BetMasData/persons/new/" change="2021-06-28T09-50-33.755+02-00">PRS13437WalattaBM</item>
                 <item corresp="LIT6472MalkeaMamas">LIT6480MalkeaMamas</item>
 
-                <item
-                    source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/Neukirchen/"
-                    change="2021-08-25T11-11-01.444+02-00">Neukirchen001</item>
-                <item
-                    source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/Neukirchen/"
-                    change="2021-08-25T11-11-01.444+02-00">Neukirchen002</item>
-                <item
-                    source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/Neukirchen/"
-                    change="2021-08-25T11-11-01.444+02-00">Neukirchen003</item>
-                <item
-                    source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/Neukirchen/"
-                    change="2021-08-25T11-11-01.444+02-00">Neukirchen004</item>
-                <item
-                    source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/Neukirchen/"
-                    change="2021-08-25T11-11-01.444+02-00">Neukirchen005</item>
-                <item
-                    source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/Neukirchen/"
-                    change="2021-08-25T11-11-01.444+02-00">Neukirchen006</item>
-                <item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/Balk/"
-                    change="2021-08-25T18-07-12.064+02-00">Balk001</item>
+                <item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/Neukirchen/" change="2021-08-25T11-11-01.444+02-00">Neukirchen001</item>
+                <item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/Neukirchen/" change="2021-08-25T11-11-01.444+02-00">Neukirchen002</item>
+                <item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/Neukirchen/" change="2021-08-25T11-11-01.444+02-00">Neukirchen003</item>
+                <item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/Neukirchen/" change="2021-08-25T11-11-01.444+02-00">Neukirchen004</item>
+                <item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/Neukirchen/" change="2021-08-25T11-11-01.444+02-00">Neukirchen005</item>
+                <item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/Neukirchen/" change="2021-08-25T11-11-01.444+02-00">Neukirchen006</item>
+                <item source="/db/apps/BetMasData/manuscripts/PrivateCollections/Germany/Balk/" change="2021-08-25T18-07-12.064+02-00">Balk001</item>
                 <item corresp="LBK001">Balk001</item>
                 <item corresp="LBK002">Balk002</item>
                 <item corresp="LBK003">Balk003</item>
@@ -253,20 +223,13 @@
                 <item corresp="TFR003">TF003</item>
                 <item corresp="TFR004">TF004</item>
                 <item corresp="TFR005">TF005</item>
-                <item source="/db/apps/expanded/works/1001-2000/LIT1176Ayneff.xml"
-                    change="2025-10-24T13-07-06.654+02-00">LIT1176Ayneff</item>
-                <item source="/db/apps/expanded/works/1001-2000/LIT1175Ayneff.xml"
-                    change="2025-10-24T13-16-55.305+02-00">LIT1175Ayneff</item>
-                <item source="/db/apps/expanded/works/1001-2000/LIT1174Aydall.xml"
-                    change="2025-10-24T13-21-00.561+02-00">LIT1174Aydall</item>
-                <item source="/db/apps/expanded/works/1001-2000/LIT1173Ayaand.xml"
-                    change="2025-10-24T13-28-14.137+02-00">LIT1173Ayaand</item>
-                <item source="/db/apps/expanded/works/new/LIT7729HomilyLabourer.xml"
-                    change="2025-10-29T11-18-17.705+01-00">LIT7729HomilyLabourer</item>
-                <item source="/db/apps/expanded/works/new/LIT7738MGAwer.xml"
-                    change="2025-10-29T11-18-17.705+01-00">LIT7738MGAwer</item>
-                <item source="/db/apps/expanded/works/new/LIT7741HomilyGab.xml"
-                    change="2025-10-29T11-18-17.705+01-00">LIT7741HomilyGab</item>
+                <item source="/db/apps/expanded/works/1001-2000/LIT1176Ayneff.xml" change="2025-10-24T13-07-06.654+02-00">LIT1176Ayneff</item>
+                <item source="/db/apps/expanded/works/1001-2000/LIT1175Ayneff.xml" change="2025-10-24T13-16-55.305+02-00">LIT1175Ayneff</item>
+                <item source="/db/apps/expanded/works/1001-2000/LIT1174Aydall.xml" change="2025-10-24T13-21-00.561+02-00">LIT1174Aydall</item>
+                <item source="/db/apps/expanded/works/1001-2000/LIT1173Ayaand.xml" change="2025-10-24T13-28-14.137+02-00">LIT1173Ayaand</item>
+                <item source="/db/apps/expanded/works/new/LIT7729HomilyLabourer.xml" change="2025-10-29T11-18-17.705+01-00">LIT7729HomilyLabourer</item>
+                <item source="/db/apps/expanded/works/new/LIT7738MGAwer.xml" change="2025-10-29T11-18-17.705+01-00">LIT7738MGAwer</item>
+                <item source="/db/apps/expanded/works/new/LIT7741HomilyGab.xml" change="2025-10-29T11-18-17.705+01-00">LIT7741HomilyGab</item>
                 <item corresp="AT1149CaliphAtrib">AT1147CaliphAtrib</item>
                 <item corresp="BNFet616">BNFgriaule308</item>
                 <item corresp="BNFet342">BNFgriaule343</item>
@@ -882,6 +845,74 @@
                 <item corresp="UppEt11">UppEt30</item>
                 <item corresp="UppEt12">UppEt31</item>
                 <item corresp="UppEt15">UppEt32</item>
+            <item source="/db/apps/expanded/works/4001-5000/LIT4574MagicPr.xml" change="2025-11-06+01:00">LIT4574MagicPr</item>
+                <item source="/db/apps/expanded/works/6001-7000/LIT6475PPNadara.xml" change="2025-11-06+01:00">LIT6475PPNadara</item>
+                <item source="/db/apps/expanded/works/4001-5000/LIT4574MagicPr.xml" change="2025-11-06+01:00">LIT4574MagicPr</item>
+                <item source="/db/apps/expanded/works/6001-7000/LIT6475PPNadara.xml" change="2025-11-06+01:00">LIT6475PPNadara</item>
+                <item source="/db/apps/expanded/persons/PRS5001-6000/PRS5683JeromeG.xml" change="2025-11-06+01:00">PRS5683JeromeG</item>
+                <item source="/db/apps/expanded/persons/PRS5001-6000/PRS5683JeromeG.xml" change="2025-11-06+01:00">PRS5683JeromeG</item>
+                <item source="/db/apps/expanded/places/1001-2000/LOC1879BetaDa.xml" change="2025-11-14+01:00">LOC1879BetaDa</item>
+                <item source="/db/apps/expanded/places/2001-3000/LOC2373DabraS.xml" change="2025-11-14+01:00">LOC2373DabraS</item>
+                <item source="/db/apps/expanded/places/2001-3000/LOC2377DabraS.xml" change="2025-11-14+01:00">LOC2377DabraS</item>
+                <item source="/db/apps/expanded/places/1001-2000/LOC1879BetaDa.xml" change="2025-11-14+01:00">LOC1879BetaDa</item>
+                <item source="/db/apps/expanded/places/2001-3000/LOC2373DabraS.xml" change="2025-11-14+01:00">LOC2373DabraS</item>
+                <item source="/db/apps/expanded/places/2001-3000/LOC2377DabraS.xml" change="2025-11-14+01:00">LOC2377DabraS</item>
+                <item source="/db/apps/expanded/works/new/LIT7748TaammerZB.xml" change="2025-11-19+01:00">LIT7748TaammerZB</item>
+                <item source="/db/apps/expanded/works/1001-2000/LIT1173Ayaand.xml" change="2025-11-21+01:00">LIT1173Ayaand</item>
+                <item source="/db/apps/expanded/works/1001-2000/LIT1174Aydall.xml" change="2025-11-21+01:00">LIT1174Aydall</item>
+                <item source="/db/apps/expanded/works/1001-2000/LIT1175Ayneff.xml" change="2025-11-21+01:00">LIT1175Ayneff</item>
+                <item source="/db/apps/expanded/works/1001-2000/LIT1176Ayneff.xml" change="2025-11-21+01:00">LIT1176Ayneff</item>
+                <item source="/db/apps/expanded/works/4001-5000/LIT4574MagicPr.xml" change="2025-11-21+01:00">LIT4574MagicPr</item>
+                <item source="/db/apps/expanded/works/6001-7000/LIT6475PPNadara.xml" change="2025-11-21+01:00">LIT6475PPNadara</item>
+                <item source="/db/apps/expanded/persons/new/PRS15124WalattaGiyorgis.xml" change="2025-12-02+01:00">PRS15124WalattaGiyorgis</item>
+                <item source="/db/apps/expanded/persons/new/PRS15124WalattaGiyorgis.xml" change="2025-12-02+01:00">PRS15124WalattaGiyorgis</item>
+                <item source="/db/apps/expanded/works/5001-6000/LIT5699PrayeroftheblessedMary.xml" change="2025-12-09+01:00">LIT5699PrayeroftheblessedMary</item>
+                <item source="/db/apps/expanded/works/5001-6000/LIT5699PrayeroftheblessedMary.xml" change="2025-12-09+01:00">LIT5699PrayeroftheblessedMary</item>
+                <item source="/db/apps/expanded/works/6001-7000/LIT6614FourCreat.xml" change="2025-12-18+01:00">LIT6614FourCreat</item>
+                <item source="/db/apps/expanded/works/6001-7000/LIT6614FourCreat.xml" change="2025-12-18+01:00">LIT6614FourCreat</item>
+                <item source="/db/apps/expanded/persons/new/PRS15181WaldaAbiyEgzi.xml" change="2026-01-05+01:00">PRS15181WaldaAbiyEgzi</item>
+                <item source="/db/apps/expanded/persons/new/PRS15182GabraIyesus.xml" change="2026-01-05+01:00">PRS15182GabraIyesus</item>
+                <item source="/db/apps/expanded/persons/new/PRS15184KidanaQal.xml" change="2026-01-05+01:00">PRS15184KidanaQal</item>
+                <item source="/db/apps/expanded/persons/new/PRS15185SabhatLaAb.xml" change="2026-01-05+01:00">PRS15185SabhatLaAb</item>
+                <item source="/db/apps/expanded/persons/new/PRS15186NassaraAb.xml" change="2026-01-05+01:00">PRS15186NassaraAb</item>
+                <item source="/db/apps/expanded/persons/new/PRS15187WaldaHayat.xml" change="2026-01-05+01:00">PRS15187WaldaHayat</item>
+                <item source="/db/apps/expanded/manuscripts/RomeALincei/ANLmisc125.xml" change="2026-01-05+01:00">ANLmisc125</item>
+                <item source="/db/apps/expanded/persons/new/PRS15183WaldaAbiyGabaz.xml" change="2026-01-06+01:00">PRS15183WaldaAbiyGabaz</item>
+                <item source="/db/apps/expanded/works/6001-7000/LIT6494SynConstr.xml" change="2026-02-03+01:00">LIT6494SynConstr</item>
+                <item source="/db/apps/expanded/places/.DS_Store" change="2026-02-04+01:00"/>
+                <item source="/db/apps/expanded/places/.DS_Store" change="2026-02-04+01:00"/>
+                <item source="/db/apps/expanded/persons/PRS6001-7000/PRS6011Yared.xml" change="2026-02-10+01:00">PRS6011Yared</item>
+                <item source="/db/apps/expanded/persons/PRS14001-15000/PRS14168Delmangasa.xml" change="2026-02-11+01:00">PRS14168Delmangasa</item>
+                <item source="/db/apps/expanded/persons/PRS3001-4000/PRS3491DelmaNe.xml" change="2026-02-11+01:00">PRS3491DelmaNe</item>
+                <item source="/db/apps/expanded/persons/PRS14001-15000/PRS14168Delmangasa.xml" change="2026-02-11+01:00">PRS14168Delmangasa</item>
+                <item source="/db/apps/expanded/persons/PRS3001-4000/PRS3491DelmaNe.xml" change="2026-02-11+01:00">PRS3491DelmaNe</item>
+                <item source="/db/apps/expanded/persons/new/PRS15213QasalaGiyorgis.xml" change="2026-02-19+01:00">PRS15213QasalaGiyorgis</item>
+                <item source="/db/apps/expanded/persons/new/PRS14518QasalaGiyorgis.xml" change="2026-02-19+01:00">PRS14518QasalaGiyorgis</item>
+                <item source="/db/apps/expanded/persons/new/PRS15252HaylaMalak.xml" change="2026-02-19+01:00">PRS15252HaylaMalak</item>
+                <item source="/db/apps/expanded/authority-files/Binding/textile.xml" change="2026-02-23+01:00">textile</item>
+                <item source="/db/apps/expanded/authority-files/Binding/textile.xml" change="2026-02-23+01:00">textile</item>
+                <item source="/db/apps/expanded/persons/PRS11001-12000/PRS11150Marqos.xml" change="2026-03-04+01:00">PRS11150Marqos</item>
+                <item source="/db/apps/expanded/persons/PRS11001-12000/PRS11150Marqos.xml" change="2026-03-06+01:00">PRS11150Marqos</item>
+                <item source="/db/apps/expanded/places/new/LOC7467Leca.xml" change="2026-03-21+01:00">LOC7467Leca</item>
+                <item source="/db/apps/expanded/works/new/LIT7809MaggMir.xml" change="2026-04-20+02:00">LIT7809MaggMir</item>
+                <item source="/db/apps/expanded/works/new/LIT7809MaggMir.xml" change="2026-04-20+02:00">LIT7809MaggMir</item>
+                <item source="/db/apps/expanded/persons/PRS7001-8000/PRS7621NurAhma.xml" change="2026-04-20+02:00">PRS7621NurAhma</item>
+                <item source="/db/apps/expanded/persons/PRS7001-8000/PRS7621NurAhma.xml" change="2026-04-20+02:00">PRS7621NurAhma</item>
+                <item source="/db/apps/expanded/works/new/LIT7810MiyazMir.xml" change="2026-05-04+02:00">LIT7810MiyazMir</item>
+                <item source="/db/apps/expanded/works/new/LIT7810MiyazMir.xml" change="2026-05-04+02:00">LIT7810MiyazMir</item>
+                <item source="/db/apps/expanded/works/new/LIT7811GenbMir.xml" change="2026-05-05+02:00">LIT7811GenbMir</item>
+                <item source="/db/apps/expanded/works/new/LIT7811GenbMir.xml" change="2026-05-05+02:00">LIT7811GenbMir</item>
+                <item source="/db/apps/expanded/works/6001-7000/LIT6632SalGabBetka.xml" change="2026-05-05+02:00">LIT6632SalGabBetka</item>
+                <item source="/db/apps/expanded/works/6001-7000/LIT6632SalGabBetka.xml" change="2026-05-05+02:00">LIT6632SalGabBetka</item>
+                <item source="/db/apps/expanded/works/6001-7000/LIT6632SalGabBetka.xml" change="2026-05-11+02:00">LIT6632SalGabBetka</item>
+                <item source="/db/apps/expanded/works/6001-7000/LIT6632SalGabBetka.xml" change="2026-05-12+02:00">LIT6632SalGabBetka</item>
+                <item source="/db/apps/expanded/persons/new/PRS15362GabraIy.xml" change="2026-05-13+02:00">PRS15362GabraIy</item>
+                <item source="/db/apps/expanded/works/6001-7000/LIT6598CyrilJohn.xml" change="2026-05-27+02:00">LIT6598CyrilJohn</item>
+                <item source="/db/apps/expanded/works/6001-7000/LIT6598CyrilJohn.xml" change="2026-05-27+02:00">LIT6598CyrilJohn</item>
+                <item source="/db/apps/expanded/persons/new/PRS15474GabraGi.xml" change="2026-06-26+02:00">PRS15474GabraGi</item>
+                <item source="/db/apps/expanded/persons/new/PRS15468ArayaSellase.xml" change="2026-07-06+02:00">PRS15468ArayaSellase</item>
+                <item source="/db/apps/expanded/persons/PRS5001-6000/PRS5742Johnthe.xml" change="2026-07-07+02:00">PRS5742Johnthe</item>
+                <item source="/db/apps/expanded/persons/PRS5001-6000/PRS5742Johnthe.xml" change="2026-07-07+02:00">PRS5742Johnthe</item>
             </list>
         </body>
     </text>

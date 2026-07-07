@@ -175,7 +175,7 @@
     <item corresp="PRS7842Phileas">Phileas</item>
     <item corresp="PRS7954Proclus">Proclus</item>
     <item corresp="PRS7973PseudoD">
-                  
+
                   Pseudo-Dionysius the Areopagite
                </item>
     <item corresp="PRS8030Qerellos">Qerǝllos</item>
@@ -3737,7 +3737,7 @@
     <item corresp="PRS9104TafariW">Täfäri Wäsän</item>
     <item corresp="PRS9112Tagazzan">Tägäzzañ Ḫarägo</item>
     <item corresp="PRS9132Takkolac">Täkkoläčč Gäbrä Kidan</item>
-    <item corresp="PRS9143TaklaGi">Takla Giyorgis II</item>
+    <item corresp="PRS9143TaklaGi">Täklä Giyorgis II</item>
     <item corresp="PRS9171TaklaIy">Täklä Iyäsus</item>
     <item corresp="PRS9183TaklaMa">Täklä Maryam Kaḥśay</item>
     <item corresp="PRS9235Tananna">Tänaññä Wärq Śahlä Śǝllase</item>
@@ -7170,60 +7170,287 @@
             <item corresp="PRS14516WaldaAb">Walda ʾAb</item>
     <item corresp="PRS14517WaldaGiyorgis">Walda Giyorgis</item>
             <item corresp="PRS14541PeterBrru"> </item>
-<item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2190Wargeh">Warǧǝh</item><item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH1486Gabal">Gäbäl</item><item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH1173Ayhudr">Ayhud, rel.</item><item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2262halen">Ḥalen</item><item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2065seyamo">ጽያሞ </item><item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2263bega">Bǝgā </item><item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH1768Kasu-K">ካሱ</item><item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH1089Agweza">አጔዛት </item><item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2264Metin">Mǝṭin</item><item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2265Daken">Dāken</item><item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2266Laken">Laken</item><item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2268Falh">Falḥa</item><item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2269Sera">Ṣǝraʾa</item><item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH1085Aggabe">Aggabe</item><item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2303Tangaitai">Ταγγαιτῶν</item><item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH1134Arab">Arab</item><item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH1678Hebrew">Hebrew</item><item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH1064Adal">Adal</item><item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH1348Daga">Daga</item><item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2271Sarane">ጸረኔ  </item><item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2272Sane">ሰዕኔ</item><item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2273Sawante">ጸወንቴ </item><item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2274Gema">ጌማ</item><item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2275Zahtan">ዘሕተን</item><item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2276Mangurto">መንጉርቶ</item><item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH1660Hasa">
+<item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2190Wargeh">Warǧǝh</item>
+                <item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH1486Gabal">Gäbäl</item>
+                <item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH1173Ayhudr">Ayhud, rel.</item>
+                <item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2262halen">Ḥalen</item>
+                <item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2065seyamo">ጽያሞ </item>
+                <item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2263bega">Bǝgā </item>
+                <item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH1768Kasu-K">ካሱ</item>
+                <item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH1089Agweza">አጔዛት </item>
+                <item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2264Metin">Mǝṭin</item>
+                <item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2265Daken">Dāken</item>
+                <item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2266Laken">Laken</item>
+                <item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2268Falh">Falḥa</item>
+                <item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2269Sera">Ṣǝraʾa</item>
+                <item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH1085Aggabe">Aggabe</item>
+                <item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2303Tangaitai">Ταγγαιτῶν</item>
+                <item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH1134Arab">Arab</item>
+                <item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH1678Hebrew">Hebrew</item>
+                <item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH1064Adal">Adal</item>
+                <item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH1348Daga">Daga</item>
+                <item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2271Sarane">ጸረኔ  </item>
+                <item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2272Sane">ሰዕኔ</item>
+                <item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2273Sawante">ጸወንቴ </item>
+                <item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2274Gema">ጌማ</item>
+                <item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2275Zahtan">ዘሕተን</item>
+                <item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2276Mangurto">መንጉርቶ</item>
+                <item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH1660Hasa">
                   Ḫasā
-               </item><item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2270Damawa">Damawa</item><item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2267Sabarat">Sabarāt</item><item change="entryAddedAt2025-04-16T23:49:23.123+02:00" corresp="PRS14337Wald">ወልደ፡ ማርያም፡ ዘደብረ፡ ዘመዶ፡</item><item change="entryAddedAt2025-04-16T23:49:45.308+02:00" corresp="PRS14497WaldaG">Walda Gabrǝʾel</item><item change="entryAddedAt2025-04-16T23:49:45.308+02:00" corresp="PRS14487ZenaGabreel">Zenā Gabrǝʾel</item><item change="entryAddedAt2025-04-16T23:49:58.255+02:00" corresp="PRS14550Cresswell">H. Cresswell</item><item change="entryAddedAt2025-04-16T23:49:58.255+02:00" corresp="PRS14549WalattaSamat">Walatta Samāʿt</item><item change="entryAddedAt2025-04-16T23:49:58.255+02:00" corresp="PRS14548WaldaAragawi">Walda ʾAragāwi</item><item change="entryAddedAt2025-04-16T23:49:58.255+02:00" corresp="PRS14531Sege">ጽጌ፡ ድንግል፡ ዘደብረ፡ ጽጌ፡</item><item change="entryAddedAt2025-04-16T23:49:58.255+02:00" corresp="PRS14530Apostles">ዐሠርቱ፡ ወክልኤቱ፡ ሐዋርያት፡</item><item change="entryAddedAt2025-04-16T23:49:58.255+02:00" corresp="PRS14511Fiqtor">ፊቅጦር፡ ዘደብረ፡ ብስራት፡</item><item change="entryAddedAt2025-04-16T23:49:58.255+02:00" corresp="PRS14598Zawald">ዘወልደ፡ ማርያም፡ ዘደብረ፡ ዘመዶ፡</item><item change="entryAddedAt2025-04-16T23:49:58.255+02:00" corresp="PRS14577WinterJones">John Winter Jones</item><item change="entryAddedAt2025-04-16T23:49:58.255+02:00" corresp="PRS14563EssetaSellase">ʾƎsseta Śǝllāse</item><item change="entryAddedAt2025-04-16T23:49:58.255+02:00" corresp="PRS14562Ammeha">አምኃ፡ ጊዮርጊስ፡ ዘደብረ፡ ጽጌ፡</item><item change="entryAddedAt2025-04-16T23:50:21.901+02:00" corresp="PRS14660Zamaryam">Zamāryām</item><item change="entryAddedAt2025-04-16T23:50:21.901+02:00" corresp="PRS14672GabraKrestos">Gabra Krǝstos</item><item change="entryAddedAt2025-04-16T23:50:21.901+02:00" corresp="PRS14659WaldaM">Walda Mikāʾel</item><item change="entryAddedAt2025-04-16T23:50:21.901+02:00" corresp="PRS14653HirutaW">Ḫiruta Wald</item><item change="entryAddedAt2025-04-16T23:50:21.901+02:00" corresp="PRS14652GabraY">Gabra Yoḥannǝs</item><item change="entryAddedAt2025-04-16T23:50:21.901+02:00" corresp="PRS14651LeulaQ">Lǝʿula Qāl</item><item change="entryAddedAt2025-04-16T23:50:21.901+02:00" corresp="PRS14644Yonakendis">Yonākǝndis</item><item change="entryAddedAt2025-04-16T23:50:21.901+02:00" corresp="PRS14636WaddEzum"> Wadd ʾƎzum</item><item change="entryAddedAt2025-04-16T23:50:21.901+02:00" corresp="PRS14632Yohannes">ዮሐንስ፡ ዘደብረ፡ ዘመዶ፡</item><item change="entryAddedAt2025-04-16T23:50:21.901+02:00" corresp="PRS14631KidanaM">Kidāna Māryām</item><item change="entryAddedAt2025-04-16T23:50:21.901+02:00" corresp="PRS14630Daryos">Darius II</item><item change="entryAddedAt2025-04-16T23:50:21.901+02:00" corresp="PRS14629Daryos">Darius the Mede</item><item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14767Hadgu">Ḥadgu</item><item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14734GabraMikael">Gabra Mikāʾel</item><item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14730Gabra">Gabra </item><item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14794HirutaAb">Ḫiruta ʾAb</item><item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14791Sefani">Sǝfāni</item><item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14785EhetaMaryam">ʾƎḫǝta Māryām</item><item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14743CaleAbabaw">Čāle ʾAbabāw</item><item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14729KidanaMaryam">Kidāna Māryām</item><item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14799HaylaIyasus">Ḫayla ʾIyasus</item><item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14793Mahsantu">Māḫḍantu</item><item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14796Wasan">Wasan</item><item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14742Habtaw">Habtaw</item><item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14797Ramha">Ramḥa</item><item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14728Mesraq">Mesraq</item><item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14798Zaiyasus">Zaʾiyasus</item><item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14790Qerellos">Qerǝllos</item><item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14744GetenatYetayaw">Getǝnat Yǝtāyaw </item><item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14735GabraGiyorgis">Gabra Giyorgis</item><item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14731braSeyon">ብረ፡ ጽዮን፡</item><item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14795Meherka">Walda Lǝʿul Mǝḥǝrkā</item><item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14792WaldaLeul">Walda Lǝʿul Ḫiruta ʾAb</item><item change="entryAddedAt2025-04-17T09:56:58.778+02:00" corresp="PRS14319Sakuel">ሳቁኤል፡</item><item change="entryAddedAt2025-04-17T09:56:58.778+02:00" corresp="PRS14315Tasfa">ተስፋ፡ ሐዋርያት፡ ዘዋልድባ፡</item><item change="entryAddedAt2025-04-17T12:20:35.926+02:00" corresp="PRS14780NabiyaLeul">Nabiya Lǝʿul</item><item change="entryAddedAt2025-04-22T16:35:13.221+02:00" corresp="PRS4333GabraMa">Gabra Masqal</item><item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS1380Ackad">
+               </item>
+                <item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2270Damawa">Damawa</item>
+                <item change="entryAddedAt2025-04-09T00:18:35.505+02:00" corresp="ETH2267Sabarat">Sabarāt</item>
+                <item change="entryAddedAt2025-04-16T23:49:23.123+02:00" corresp="PRS14337Wald">ወልደ፡ ማርያም፡ ዘደብረ፡ ዘመዶ፡</item>
+                <item change="entryAddedAt2025-04-16T23:49:45.308+02:00" corresp="PRS14497WaldaG">Walda Gabrǝʾel</item>
+                <item change="entryAddedAt2025-04-16T23:49:45.308+02:00" corresp="PRS14487ZenaGabreel">Zenā Gabrǝʾel</item>
+                <item change="entryAddedAt2025-04-16T23:49:58.255+02:00" corresp="PRS14550Cresswell">H. Cresswell</item>
+                <item change="entryAddedAt2025-04-16T23:49:58.255+02:00" corresp="PRS14549WalattaSamat">Walatta Samāʿt</item>
+                <item change="entryAddedAt2025-04-16T23:49:58.255+02:00" corresp="PRS14548WaldaAragawi">Walda ʾAragāwi</item>
+                <item change="entryAddedAt2025-04-16T23:49:58.255+02:00" corresp="PRS14531Sege">ጽጌ፡ ድንግል፡ ዘደብረ፡ ጽጌ፡</item>
+                <item change="entryAddedAt2025-04-16T23:49:58.255+02:00" corresp="PRS14530Apostles">ዐሠርቱ፡ ወክልኤቱ፡ ሐዋርያት፡</item>
+                <item change="entryAddedAt2025-04-16T23:49:58.255+02:00" corresp="PRS14511Fiqtor">ፊቅጦር፡ ዘደብረ፡ ብስራት፡</item>
+                <item change="entryAddedAt2025-04-16T23:49:58.255+02:00" corresp="PRS14598Zawald">ዘወልደ፡ ማርያም፡ ዘደብረ፡ ዘመዶ፡</item>
+                <item change="entryAddedAt2025-04-16T23:49:58.255+02:00" corresp="PRS14577WinterJones">John Winter Jones</item>
+                <item change="entryAddedAt2025-04-16T23:49:58.255+02:00" corresp="PRS14563EssetaSellase">ʾƎsseta Śǝllāse</item>
+                <item change="entryAddedAt2025-04-16T23:49:58.255+02:00" corresp="PRS14562Ammeha">አምኃ፡ ጊዮርጊስ፡ ዘደብረ፡ ጽጌ፡</item>
+                <item change="entryAddedAt2025-04-16T23:50:21.901+02:00" corresp="PRS14660Zamaryam">Zamāryām</item>
+                <item change="entryAddedAt2025-04-16T23:50:21.901+02:00" corresp="PRS14672GabraKrestos">Gabra Krǝstos</item>
+                <item change="entryAddedAt2025-04-16T23:50:21.901+02:00" corresp="PRS14659WaldaM">Walda Mikāʾel</item>
+                <item change="entryAddedAt2025-04-16T23:50:21.901+02:00" corresp="PRS14653HirutaW">Ḫiruta Wald</item>
+                <item change="entryAddedAt2025-04-16T23:50:21.901+02:00" corresp="PRS14652GabraY">Gabra Yoḥannǝs</item>
+                <item change="entryAddedAt2025-04-16T23:50:21.901+02:00" corresp="PRS14651LeulaQ">Lǝʿula Qāl</item>
+                <item change="entryAddedAt2025-04-16T23:50:21.901+02:00" corresp="PRS14644Yonakendis">Yonākǝndis</item>
+                <item change="entryAddedAt2025-04-16T23:50:21.901+02:00" corresp="PRS14636WaddEzum"> Wadd ʾƎzum</item>
+                <item change="entryAddedAt2025-04-16T23:50:21.901+02:00" corresp="PRS14632Yohannes">ዮሐንስ፡ ዘደብረ፡ ዘመዶ፡</item>
+                <item change="entryAddedAt2025-04-16T23:50:21.901+02:00" corresp="PRS14631KidanaM">Kidāna Māryām</item>
+                <item change="entryAddedAt2025-04-16T23:50:21.901+02:00" corresp="PRS14630Daryos">Darius II</item>
+                <item change="entryAddedAt2025-04-16T23:50:21.901+02:00" corresp="PRS14629Daryos">Darius the Mede</item>
+                <item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14767Hadgu">Ḥadgu</item>
+                <item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14734GabraMikael">Gabra Mikāʾel</item>
+                <item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14730Gabra">Gabra </item>
+                <item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14794HirutaAb">Ḫiruta ʾAb</item>
+                <item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14791Sefani">Sǝfāni</item>
+                <item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14785EhetaMaryam">ʾƎḫǝta Māryām</item>
+                <item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14743CaleAbabaw">Čāle ʾAbabāw</item>
+                <item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14729KidanaMaryam">Kidāna Māryām</item>
+                <item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14799HaylaIyasus">Ḫayla ʾIyasus</item>
+                <item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14793Mahsantu">Māḫḍantu</item>
+                <item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14796Wasan">Wasan</item>
+                <item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14742Habtaw">Habtaw</item>
+                <item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14797Ramha">Ramḥa</item>
+                <item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14728Mesraq">Mesraq</item>
+                <item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14798Zaiyasus">Zaʾiyasus</item>
+                <item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14790Qerellos">Qerǝllos</item>
+                <item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14744GetenatYetayaw">Getǝnat Yǝtāyaw </item>
+                <item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14735GabraGiyorgis">Gabra Giyorgis</item>
+                <item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14731braSeyon">ብረ፡ ጽዮን፡</item>
+                <item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14795Meherka">Walda Lǝʿul Mǝḥǝrkā</item>
+                <item change="entryAddedAt2025-04-16T23:51:15.05+02:00" corresp="PRS14792WaldaLeul">Walda Lǝʿul Ḫiruta ʾAb</item>
+                <item change="entryAddedAt2025-04-17T09:56:58.778+02:00" corresp="PRS14319Sakuel">ሳቁኤል፡</item>
+                <item change="entryAddedAt2025-04-17T09:56:58.778+02:00" corresp="PRS14315Tasfa">ተስፋ፡ ሐዋርያት፡ ዘዋልድባ፡</item>
+                <item change="entryAddedAt2025-04-17T12:20:35.926+02:00" corresp="PRS14780NabiyaLeul">Nabiya Lǝʿul</item>
+                <item change="entryAddedAt2025-04-22T16:35:13.221+02:00" corresp="PRS4333GabraMa">Gabra Masqal</item>
+                <item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS1380Ackad">
                    Michael
                   Ackad
-               </item><item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS1381Acton">
+               </item>
+                <item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS1381Acton">
                    Roger
                   Acton
-               </item><item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS1382Adaal">
-                  
+               </item>
+                <item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS1382Adaal">
+
                   ʿAdâʿal
-               </item><item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS1383AdalMa">
-                  
+               </item>
+                <item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS1383AdalMa">
+
                   ʿAdal Mäbräq
-               </item><item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS1387Adam">
-                  
+               </item>
+                <item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS1387Adam">
+
                   Adam
-               </item><item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS1388Adam">
+               </item>
+                <item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS1388Adam">
                    Guillaume
                   Adam
-               </item><item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13846WaldaM">Walda Madḫǝn</item><item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13848KidanaQ">Kidāna Qāl Warqu</item><item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13849Iyaluta">ʾIyaluṭā ʾƎmmanaš</item><item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13850WalattaS">Walatta Sanbat Tǝbarrǝh</item><item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13851TaklaM">ተክለ፡ ማርያም፡</item><item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13856Elyas">ʾElyās</item><item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13857Baselyos">Bāsǝlyos</item><item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13858MaryamS">Māryām Sǝnā</item><item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13859Nesebbeyo">Nǝṣǝbbǝyo</item><item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13860HawituA">Ḥawitu ʾAli</item><item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13861WalattaH">Walatta Ḥǝywat</item><item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13862GabraY">Gabra Yonās</item><item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13863WalattaE">Walatta ʾƎgziʾ</item><item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13882Kasahun">Kāsāhun</item><item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13883PhillippsT">Thomas Phillipps</item><item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13884Bisawwer">Bisawwǝr</item><item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13885GabraHe">Gabra Ḥǝywat</item><item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13886GabraIy">Gabra ʾIyasus</item><item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13887WaldaGa">Walda Gabrǝʾel</item><item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13888WalattaGa">Walatta Gabrǝʾel</item><item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13897YohannesDaylami">John of Dailam</item><item change="entryAddedAt2025-05-06T21:54:06.337+02:00" corresp="PRS1480AgdawWa">
-                  
+               </item>
+                <item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13846WaldaM">Walda Madḫǝn</item>
+                <item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13848KidanaQ">Kidāna Qāl Warqu</item>
+                <item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13849Iyaluta">ʾIyaluṭā ʾƎmmanaš</item>
+                <item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13850WalattaS">Walatta Sanbat Tǝbarrǝh</item>
+                <item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13851TaklaM">ተክለ፡ ማርያም፡</item>
+                <item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13856Elyas">ʾElyās</item>
+                <item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13857Baselyos">Bāsǝlyos</item>
+                <item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13858MaryamS">Māryām Sǝnā</item>
+                <item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13859Nesebbeyo">Nǝṣǝbbǝyo</item>
+                <item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13860HawituA">Ḥawitu ʾAli</item>
+                <item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13861WalattaH">Walatta Ḥǝywat</item>
+                <item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13862GabraY">Gabra Yonās</item>
+                <item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13863WalattaE">Walatta ʾƎgziʾ</item>
+                <item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13882Kasahun">Kāsāhun</item>
+                <item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13883PhillippsT">Thomas Phillipps</item>
+                <item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13884Bisawwer">Bisawwǝr</item>
+                <item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13885GabraHe">Gabra Ḥǝywat</item>
+                <item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13886GabraIy">Gabra ʾIyasus</item>
+                <item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13887WaldaGa">Walda Gabrǝʾel</item>
+                <item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13888WalattaGa">Walatta Gabrǝʾel</item>
+                <item change="entryAddedAt2025-05-06T21:53:43.268+02:00" corresp="PRS13897YohannesDaylami">John of Dailam</item>
+                <item change="entryAddedAt2025-05-06T21:54:06.337+02:00" corresp="PRS1480AgdawWa">
+
                   Agdaw Wäldä Giyorgis
-               </item><item change="entryAddedAt2025-05-06T21:54:06.337+02:00" corresp="PRS1481Agder">
-                  
+               </item>
+                <item change="entryAddedAt2025-05-06T21:54:06.337+02:00" corresp="PRS1481Agder">
+
                   Agdǝr
-               </item><item change="entryAddedAt2025-05-06T21:54:06.337+02:00" corresp="PRS1482Ageyat">
-                  
+               </item>
+                <item change="entryAddedAt2025-05-06T21:54:06.337+02:00" corresp="PRS1482Ageyat">
+
                   Aǧǝyat Geswät
-               </item><item change="entryAddedAt2025-05-06T21:54:06.337+02:00" corresp="PRS1483Aggaba">
-                  
+               </item>
+                <item change="entryAddedAt2025-05-06T21:54:06.337+02:00" corresp="PRS1483Aggaba">
+
                   ʿAggäba Ṣǝyon
-               </item><item change="entryAddedAt2025-05-06T21:54:06.337+02:00" corresp="PRS1484Agge">
+               </item>
+                <item change="entryAddedAt2025-05-06T21:54:06.337+02:00" corresp="PRS1484Agge">
                    Gunnar
                   Agge
-               </item><item change="entryAddedAt2025-05-06T21:54:06.337+02:00" corresp="PRS1485Aggedaw">
-                  
+               </item>
+                <item change="entryAddedAt2025-05-06T21:54:06.337+02:00" corresp="PRS1485Aggedaw">
+
                   Aggǝdäw Wäldä Maryam
-               </item><item change="entryAddedAt2025-05-06T21:54:06.337+02:00" corresp="PRS1486Agib">
-                  
+               </item>
+                <item change="entryAddedAt2025-05-06T21:54:06.337+02:00" corresp="PRS1486Agib">
+
                   ʿAǧīb
-               </item><item change="entryAddedAt2025-05-06T21:54:06.337+02:00" corresp="PRS1487Agize">
-                  
+               </item>
+                <item change="entryAddedAt2025-05-06T21:54:06.337+02:00" corresp="PRS1487Agize">
+
                   Agize
-               </item><item change="entryAddedAt2025-05-06T21:54:06.337+02:00" corresp="PRS1488Agnateyo">
-                  
+               </item>
+                <item change="entryAddedAt2025-05-06T21:54:06.337+02:00" corresp="PRS1488Agnateyo">
+
                   Agnaṭǝyos
-               </item><item change="entryAddedAt2025-05-06T21:54:06.337+02:00" corresp="PRS14802AmataMaryam">ʾAmata Māryām</item><item change="entryAddedAt2025-05-06T21:54:06.337+02:00" corresp="PRS14803WalattaRufael">Walatta Rufāʾel</item><item change="entryAddedAt2025-05-06T21:54:06.337+02:00" corresp="PRS14804WalattaMuse">Walatta Muse</item><item change="entryAddedAt2025-05-06T21:54:06.337+02:00" corresp="PRS14801Isidore">Isidore of Antioch</item><item change="entryAddedAt2025-05-07T11:03:07.397+02:00" corresp="PRS14781GabraMikael">Gabra Mikāʾel</item><item change="entryAddedAt2025-05-07T11:03:07.397+02:00" corresp="PRS14782TawaldaMadhen">Tawalda Madḫǝn</item><item change="entryAddedAt2025-05-13T15:47:24.569+02:00" corresp="PRS14800KidanaM">Kidāna Māryām</item><item change="entryAddedAt2025-05-13T17:53:09.866+02:00" corresp="PRS14812GabraMad">Gabra Madḫǝn</item><item change="entryAddedAt2025-05-13T17:53:09.866+02:00" corresp="PRS14813Zayohannes">Zayoḥannǝs</item><item change="entryAddedAt2025-05-13T17:53:09.866+02:00" corresp="PRS14814GabraMar">Gabra Māryām</item><item change="entryAddedAt2025-05-15T10:20:55.466+02:00" corresp="PRS14811WaldaGab">Walda Gabrǝʾel</item><item change="entryAddedAt2025-05-15T18:49:24.035+02:00" corresp="PRS14827MazgabaS">Mazgaba Śǝllāse</item><item change="entryAddedAt2025-05-19T08:32:18.921+02:00" corresp="PRS14824YalfenM">Yalfǝññ Muširrā</item><item change="entryAddedAt2025-05-20T16:25:11.275+02:00" corresp="PRS8169Rodd">James Rennell Rodd</item><item change="entryAddedAt2025-05-22T12:46:05.707+02:00" corresp="PRS14871MahaHago">Māḫāmad Ḥagos</item><item change="entryAddedAt2025-05-22T13:04:14.524+02:00" corresp="PRS14872Kiyaru">Kiyāru</item><item change="entryAddedAt2025-05-22T13:40:15.654+02:00" corresp="PRS3029Carrara">
+               </item>
+                <item change="entryAddedAt2025-05-06T21:54:06.337+02:00" corresp="PRS14802AmataMaryam">ʾAmata Māryām</item>
+                <item change="entryAddedAt2025-05-06T21:54:06.337+02:00" corresp="PRS14803WalattaRufael">Walatta Rufāʾel</item>
+                <item change="entryAddedAt2025-05-06T21:54:06.337+02:00" corresp="PRS14804WalattaMuse">Walatta Muse</item>
+                <item change="entryAddedAt2025-05-06T21:54:06.337+02:00" corresp="PRS14801Isidore">Isidore of Antioch</item>
+                <item change="entryAddedAt2025-05-07T11:03:07.397+02:00" corresp="PRS14781GabraMikael">Gabra Mikāʾel</item>
+                <item change="entryAddedAt2025-05-07T11:03:07.397+02:00" corresp="PRS14782TawaldaMadhen">Tawalda Madḫǝn</item>
+                <item change="entryAddedAt2025-05-13T15:47:24.569+02:00" corresp="PRS14800KidanaM">Kidāna Māryām</item>
+                <item change="entryAddedAt2025-05-13T17:53:09.866+02:00" corresp="PRS14812GabraMad">Gabra Madḫǝn</item>
+                <item change="entryAddedAt2025-05-13T17:53:09.866+02:00" corresp="PRS14813Zayohannes">Zayoḥannǝs</item>
+                <item change="entryAddedAt2025-05-13T17:53:09.866+02:00" corresp="PRS14814GabraMar">Gabra Māryām</item>
+                <item change="entryAddedAt2025-05-15T10:20:55.466+02:00" corresp="PRS14811WaldaGab">Walda Gabrǝʾel</item>
+                <item change="entryAddedAt2025-05-15T18:49:24.035+02:00" corresp="PRS14827MazgabaS">Mazgaba Śǝllāse</item>
+                <item change="entryAddedAt2025-05-19T08:32:18.921+02:00" corresp="PRS14824YalfenM">Yalfǝññ Muširrā</item>
+                <item change="entryAddedAt2025-05-20T16:25:11.275+02:00" corresp="PRS8169Rodd">James Rennell Rodd</item>
+                <item change="entryAddedAt2025-05-22T12:46:05.707+02:00" corresp="PRS14871MahaHago">Māḫāmad Ḥagos</item>
+                <item change="entryAddedAt2025-05-22T13:04:14.524+02:00" corresp="PRS14872Kiyaru">Kiyāru</item>
+                <item change="entryAddedAt2025-05-22T13:40:15.654+02:00" corresp="PRS3029Carrara">
                    Camillo
                   Carrara
-               </item><item change="entryAddedAt2025-05-23T13:28:14.473+02:00" corresp="PRS14838YohannesA">Yoḥannǝs ʾAksumāwi</item><item change="entryAddedAt2025-05-27T15:37:25.909+02:00" corresp="PRS14874Osio">Arturo Osio</item><item change="entryAddedAt2025-05-27T15:41:00.195+02:00" corresp="PRS14831WaldaY">Walda Yoḥannǝs</item><item change="entryAddedAt2025-05-27T15:41:00.195+02:00" corresp="PRS14879SeltanaK">Sǝlṭāna Krǝstos</item><item change="entryAddedAt2025-06-02T12:54:23.375+02:00" corresp="PRS14882Elleni">ʾƎlleni</item><item change="entryAddedAt2025-06-02T14:16:33.76+02:00" corresp="PRS14883Abeselom">ʾAbeselom</item><item change="entryAddedAt2025-06-02T14:16:33.76+02:00" corresp="PRS14884NewayaMary">Nǝwāya Māryām</item><item change="entryAddedAt2025-06-02T14:16:33.76+02:00" corresp="PRS14886Berru">Bǝrru</item><item change="entryAddedAt2025-06-02T14:16:33.76+02:00" corresp="PRS14887KidMary">Kidāna Māryām</item><item change="entryAddedAt2025-06-02T15:26:22.87+02:00" corresp="PRS14885WalAbiEgz">Walda ʾAbiya ʾƎgziʾ</item><item change="entryAddedAt2025-06-05T10:00:00.095+02:00" corresp="PRS14889FessehaS">Fǝśśǝḥa Ṣǝyon</item><item change="entryAddedAt2025-06-06T18:07:13.713+02:00" corresp="PRS11385Isayeyya">ʾIsayǝyyās</item><item change="entryAddedAt2025-06-13T17:42:28.605+02:00" corresp="PRS14894NagasM">Nagāš Mangašā</item><item change="entryAddedAt2025-06-16T11:09:39.329+02:00" corresp="PRS8490Samuel">Sāmuʾel of Saqurt</item><item change="entryAddedAt2025-06-16T15:59:21.658+02:00" corresp="PRS14895AmmehaG">ʾAmmǝḫā Giyorgis</item><item change="entryAddedAt2025-06-23T10:31:24.631+02:00" corresp="PRS14092EraqMasera">ʾƎrāq Māsarā</item><item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS6401Luqas">Luqās za-Gubor Ḥābalā</item><item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS8268sabalaM">Ṣabala Māryām</item><item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS8269sabalaM">Ṣabala Māryām</item><item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS9962WaldaRu">Walda Rufāʾel</item><item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS14040AnthonyPadua">Anthony of Padua</item><item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS14041Barnard">Bernard of Clairvaux</item><item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS14070Benedict">Benedict of Nursia</item><item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS14120Henok">Henok za-ʿĀddi Kʷālā</item><item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS14150Misael">Misāʾel za-ʿĀddi Qʷǝsmo</item><item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS14502Clare">Clare of Assisi</item><item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS14505Rubatto">Anna Maria Rubatto</item><item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS14748Vincent">Vincent de Paul</item><item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS14749Rita">Rita of Cascia</item><item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS14750Pio">Padre Pio</item><item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS14873HaylaMaryam">Ḫayla Māryām Gabra ʾAmlāk</item><item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS14907Samat">Samāʿtāt Daqiqa ʾƎndrǝyās</item><item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS14908Demiana">Demiana</item><item change="entryAddedAt2025-06-23T14:48:44.615+02:00" corresp="PRS14909Zakaryas">Zakāryās za-Dabra Kǝsāhe</item><item change="entryAddedAt2025-06-23T14:48:44.615+02:00" corresp="PRS14910Tawald">Tawalda Madḫǝn za-Gadāma ʿĀylā</item><item change="entryAddedAt2025-06-23T14:48:44.615+02:00" corresp="PRS14911Romanos">Romānos za-Mǝskāba Qǝddusān</item><item change="entryAddedAt2025-06-23T14:48:44.615+02:00" corresp="PRS14912Semon">Sǝmʿon za-Dabra Salām</item><item change="entryAddedAt2025-06-23T14:48:44.615+02:00" corresp="PRS14913Danel">Dānǝʾel za-Gadāma Dabone</item><item change="entryAddedAt2025-06-23T14:48:44.615+02:00" corresp="PRS14914Manase">Mǝnnāse za-Gadāma Tǝkul</item><item change="entryAddedAt2025-06-24T09:12:37.6+02:00" corresp="PRS14915Tomas">Tomās za-Zanāqude</item><item change="entryAddedAt2025-06-24T09:12:37.6+02:00" corresp="PRS14916Zamikael">Zamikāʾel</item><item change="entryAddedAt2025-06-24T09:12:37.6+02:00" corresp="PRS14917Matyas">Mātyās za-Mǝrārā</item><item change="entryAddedAt2025-06-24T09:12:37.6+02:00" corresp="PRS14918Semon">Sǝmʿon</item><item change="entryAddedAt2025-06-24T09:12:37.6+02:00" corresp="PRS14919Set">Set za-ʿĀddi Qitā</item><item change="entryAddedAt2025-06-24T10:16:24.667+02:00" corresp="PRS9542Tomas">Tomās of Dimā Giyorgis</item><item change="entryAddedAt2025-06-24T10:16:24.667+02:00" corresp="PRS14920Endreyas">ʾƎndrǝyās za-Dabra Sǝḫin</item><item change="entryAddedAt2025-06-24T10:16:24.667+02:00" corresp="PRS14921Degw">ጻድቃን፡ ዘዴጐ፡</item><item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS10395Yohanne">Yoḥannǝs za-Dabra Dāgā</item><item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS1295Abreham">ʾAbrǝhām za-Dabra Ṣǝyon</item><item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS4117Fiqtor">Fiqṭor</item><item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS4118Fiqtor">Fiqṭor</item><item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS4119Fiqtor">Fiqṭor</item><item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS4120Fiqtor">Fiqṭor</item><item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS6888Matewos">Matewos za-Dabra Barbare</item><item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS8596SayfaMi">Sayfa Mikāʾel za-Ṣāʿǝdā ʾƎmbā</item><item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS14922AfqDegw">ʾAfqaranna ʾƎgziʾ za-Degʷa</item><item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS14923Dew">Ḍewā Laṣǝdq</item><item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS14924Abal">ʾAbāla Krǝstos</item><item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS14925Qaw">Qawǝsṭos za-Dabra Dāgā</item><item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS14926Tansea">Tanśǝʾa Madḫǝn za-Dabra ʿĀśā</item><item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS14927GabMar">Gabra Māryām za-Dabra Ḥantā</item><item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS14928Abel">ʾAbel za-Ḥǝṣi</item><item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS14929HabS">Habta Śǝllāse za-Dabra Ṣǝge</item><item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS14930Sadqan">Ṣādqāna za-Ḫānbār Godabo</item><item change="entryAddedAt2025-06-24T12:29:36.164+02:00" corresp="PRS14933Yeb">Yǝbārkanna Krǝstos</item><item change="entryAddedAt2025-06-24T13:25:29.062+02:00" corresp="PRS14934Tereyados">Tǝreyādos</item><item change="entryAddedAt2025-06-24T15:42:30.767+02:00" corresp="PRS13990Semon">Sǝmʿon</item><item change="entryAddedAt2025-06-24T15:52:53.14+02:00" corresp="PRS14042AbetohabtaMaryam">Habta Māryām</item><item change="entryAddedAt2025-07-01T13:15:13.566+02:00" corresp="PRS13985HayKr">ሀየለ፡ ክርስቶስ፡</item><item change="entryAddedAt2025-07-01T13:15:13.566+02:00" corresp="PRS14012Marq">መርቆሬዎስ፡ ዘጻእዳ፡ እምባ፡</item><item change="entryAddedAt2025-07-01T13:15:13.566+02:00" corresp="PRS14881BareBzualam">Bare Bǝzuʿālam</item><item change="entryAddedAt2025-07-03T07:57:00.658+02:00" corresp="PRS13714KidanaM">Kidāna Māryām</item><item change="entryAddedAt2025-07-03T07:57:00.658+02:00" corresp="PRS14936Seckendorff">Gustav von Seckendorff</item><item change="entryAddedAt2025-07-03T07:57:00.658+02:00" corresp="PRS14937Wilhelm">Wilhelm I. Friedrich Ludwig von Hohenzollern</item><item change="entryAddedAt2025-07-04T00:03:33.186+02:00" corresp="PRS1455Afawarq">ʾAfawarq Walda Māryām</item><item change="entryAddedAt2025-07-07T10:21:37.441+02:00" corresp="PRS14922ZawaldaMar">Zawalda Māryām</item><item change="entryAddedAt2025-07-07T10:21:37.441+02:00" corresp="PRS14923BaedaMar">Baʾǝda Māryām</item><item change="entryAddedAt2025-07-07T10:21:37.441+02:00" corresp="PRS14924Zamaryam">Zamāryām</item><item change="entryAddedAt2025-07-07T10:21:37.441+02:00" corresp="PRS14925TensaeKre">Tǝnsāʾe Krǝstos</item><item change="entryAddedAt2025-07-07T10:21:37.441+02:00" corresp="PRS14926Gabreel">Gabrǝʾel</item><item change="entryAddedAt2025-07-07T10:21:37.441+02:00" corresp="PRS14931Zasellase">Zaśǝllāse</item><item change="entryAddedAt2025-07-07T10:21:37.441+02:00" corresp="PRS14932BeseEgzi">Bǝʾse ʾƎgziʾabǝḥer</item><item change="entryAddedAt2025-07-07T14:35:50.615+02:00" corresp="PRS14906EhetaM">ʾƎḫǝta Muse</item><item change="entryAddedAt2025-07-07T14:35:50.615+02:00" corresp="PRS14939Cakkol">Čakkol</item><item change="entryAddedAt2025-07-07T14:35:50.615+02:00" corresp="PRS14940GabraG">Gabra Giyorgis</item><item change="entryAddedAt2025-07-07T14:35:50.615+02:00" corresp="PRS14941Fesseha">Fǝssǝḫā</item><item change="entryAddedAt2025-07-07T14:35:50.615+02:00" corresp="PRS14942Haddes">Ḫāddes</item><item change="entryAddedAt2025-07-07T14:35:50.615+02:00" corresp="PRS14943GabraS">Gabra Sǝllāse</item><item change="entryAddedAt2025-07-07T14:35:50.615+02:00" corresp="PRS14944Naato">Naʾato ʾAyya</item><item change="entryAddedAt2025-07-08T08:55:41.245+02:00" corresp="PRS14896GabraMQ">Gabra Manfas Qǝddus</item><item change="entryAddedAt2025-07-08T08:55:41.245+02:00" corresp="PRS14897GabraKre">Gabra Krǝstos</item><item change="entryAddedAt2025-07-08T08:55:41.245+02:00" corresp="PRS14898AsrataMar">ʾAśrāta Māryām</item><item change="entryAddedAt2025-07-08T08:55:41.245+02:00" corresp="PRS14899Samuel">Sāmuʾel</item><item change="entryAddedAt2025-07-08T08:55:41.245+02:00" corresp="PRS14900GabraKrest">Gabra Krǝstos</item><item change="entryAddedAt2025-07-08T08:55:41.245+02:00" corresp="PRS14901HabtaIyas">Habta ʾIyasus</item><item change="entryAddedAt2025-07-08T08:55:41.245+02:00" corresp="PRS14902Pawlos">Ṗāwlos</item><item change="entryAddedAt2025-07-08T08:55:41.245+02:00" corresp="PRS14903TatamqaMad">Taṭamqa Madḫǝn</item><item change="entryAddedAt2025-07-08T08:55:41.245+02:00" corresp="PRS14904BeeseEgzi">Bǝʾse ʾƎgziʾabǝḥer</item><item change="entryAddedAt2025-07-08T08:55:41.245+02:00" corresp="PRS14905Tarbinos">Tarbinos</item><item change="entryAddedAt2025-07-08T11:52:13.32+02:00" corresp="PRS14935TasfaMik">Tasfā Mikāʾel</item><item change="entryAddedAt2025-07-08T14:48:19.732+02:00" corresp="PRS1580AkalaKr">ʾAkāla Krǝstos</item><item change="entryAddedAt2025-07-08T14:48:19.732+02:00" corresp="PRS14945Cerrina">Giovanni Cerrina Feroni</item><item change="entryAddedAt2025-07-08T14:48:19.732+02:00" corresp="PRS14946ZaraKr">Zarʿa Krǝstos</item><item change="entryAddedAt2025-07-08T14:49:03.825+02:00" corresp="PRS4160Francesc">
-                  
-                  Francesco da Bassano
-               </item><item change="entryAddedAt2025-07-09T09:43:23.061+02:00" corresp="PRS14947WalattaM">Walatta Mikāʾel</item><item change="entryAddedAt2025-07-09T09:43:23.061+02:00" corresp="PRS14948WalattaS">Walatta Sǝllāse</item><item change="entryAddedAt2025-07-09T09:43:23.061+02:00" corresp="PRS14949WaldaS">Walda Ṣādǝq</item><item change="entryAddedAt2025-07-10T10:20:34.937+02:00" corresp="PRS14891GabraSell">Gabra Śǝllāse</item><item change="entryAddedAt2025-07-10T10:20:34.937+02:00" corresp="PRS14892GabraAml">Gabra ʾAmlāk</item><item change="entryAddedAt2025-07-10T10:20:34.937+02:00" corresp="PRS14893GabraMar">Gabra Māryām</item><item change="entryAddedAt2025-07-11T11:56:54.131+02:00" corresp="PRS14957Meinardus">Otto Friedrich August Meinardus</item></list>
+               </item>
+                <item change="entryAddedAt2025-05-23T13:28:14.473+02:00" corresp="PRS14838YohannesA">Yoḥannǝs ʾAksumāwi</item>
+                <item change="entryAddedAt2025-05-27T15:37:25.909+02:00" corresp="PRS14874Osio">Arturo Osio</item>
+                <item change="entryAddedAt2025-05-27T15:41:00.195+02:00" corresp="PRS14831WaldaY">Walda Yoḥannǝs</item>
+                <item change="entryAddedAt2025-05-27T15:41:00.195+02:00" corresp="PRS14879SeltanaK">Sǝlṭāna Krǝstos</item>
+                <item change="entryAddedAt2025-06-02T12:54:23.375+02:00" corresp="PRS14882Elleni">ʾƎlleni</item>
+                <item change="entryAddedAt2025-06-02T14:16:33.76+02:00" corresp="PRS14883Abeselom">ʾAbeselom</item>
+                <item change="entryAddedAt2025-06-02T14:16:33.76+02:00" corresp="PRS14884NewayaMary">Nǝwāya Māryām</item>
+                <item change="entryAddedAt2025-06-02T14:16:33.76+02:00" corresp="PRS14886Berru">Bǝrru</item>
+                <item change="entryAddedAt2025-06-02T14:16:33.76+02:00" corresp="PRS14887KidMary">Kidāna Māryām</item>
+                <item change="entryAddedAt2025-06-02T15:26:22.87+02:00" corresp="PRS14885WalAbiEgz">Walda ʾAbiya ʾƎgziʾ</item>
+                <item change="entryAddedAt2025-06-05T10:00:00.095+02:00" corresp="PRS14889FessehaS">Fǝśśǝḥa Ṣǝyon</item>
+                <item change="entryAddedAt2025-06-06T18:07:13.713+02:00" corresp="PRS11385Isayeyya">ʾIsayǝyyās</item>
+                <item change="entryAddedAt2025-06-13T17:42:28.605+02:00" corresp="PRS14894NagasM">Nagāš Mangašā</item>
+                <item change="entryAddedAt2025-06-16T11:09:39.329+02:00" corresp="PRS8490Samuel">Sāmuʾel of Saqurt</item>
+                <item change="entryAddedAt2025-06-16T15:59:21.658+02:00" corresp="PRS14895AmmehaG">ʾAmmǝḫā Giyorgis</item>
+                <item change="entryAddedAt2025-06-23T10:31:24.631+02:00" corresp="PRS14092EraqMasera">ʾƎrāq Māsarā</item>
+                <item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS6401Luqas">Luqās za-Gubor Ḥābalā</item>
+                <item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS8268sabalaM">Ṣabala Māryām</item>
+                <item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS8269sabalaM">Ṣabala Māryām</item>
+                <item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS9962WaldaRu">Walda Rufāʾel</item>
+                <item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS14040AnthonyPadua">Anthony of Padua</item>
+                <item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS14041Barnard">Bernard of Clairvaux</item>
+                <item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS14070Benedict">Benedict of Nursia</item>
+                <item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS14120Henok">Henok za-ʿĀddi Kʷālā</item>
+                <item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS14150Misael">Misāʾel za-ʿĀddi Qʷǝsmo</item>
+                <item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS14502Clare">Clare of Assisi</item>
+                <item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS14505Rubatto">Anna Maria Rubatto</item>
+                <item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS14748Vincent">Vincent de Paul</item>
+                <item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS14749Rita">Rita of Cascia</item>
+                <item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS14750Pio">Padre Pio</item>
+                <item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS14873HaylaMaryam">Ḫayla Māryām Gabra ʾAmlāk</item>
+                <item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS14907Samat">Samāʿtāt Daqiqa ʾƎndrǝyās</item>
+                <item change="entryAddedAt2025-06-23T14:22:22.864+02:00" corresp="PRS14908Demiana">Demiana</item>
+                <item change="entryAddedAt2025-06-23T14:48:44.615+02:00" corresp="PRS14909Zakaryas">Zakāryās za-Dabra Kǝsāhe</item>
+                <item change="entryAddedAt2025-06-23T14:48:44.615+02:00" corresp="PRS14910Tawald">Tawalda Madḫǝn za-Gadāma ʿĀylā</item>
+                <item change="entryAddedAt2025-06-23T14:48:44.615+02:00" corresp="PRS14911Romanos">Romānos za-Mǝskāba Qǝddusān</item>
+                <item change="entryAddedAt2025-06-23T14:48:44.615+02:00" corresp="PRS14912Semon">Sǝmʿon za-Dabra Salām</item>
+                <item change="entryAddedAt2025-06-23T14:48:44.615+02:00" corresp="PRS14913Danel">Dānǝʾel za-Gadāma Dabone</item>
+                <item change="entryAddedAt2025-06-23T14:48:44.615+02:00" corresp="PRS14914Manase">Mǝnnāse za-Gadāma Tǝkul</item>
+                <item change="entryAddedAt2025-06-24T09:12:37.6+02:00" corresp="PRS14915Tomas">Tomās za-Zanāqude</item>
+                <item change="entryAddedAt2025-06-24T09:12:37.6+02:00" corresp="PRS14916Zamikael">Zamikāʾel</item>
+                <item change="entryAddedAt2025-06-24T09:12:37.6+02:00" corresp="PRS14917Matyas">Mātyās za-Mǝrārā</item>
+                <item change="entryAddedAt2025-06-24T09:12:37.6+02:00" corresp="PRS14918Semon">Sǝmʿon</item>
+                <item change="entryAddedAt2025-06-24T09:12:37.6+02:00" corresp="PRS14919Set">Set za-ʿĀddi Qitā</item>
+                <item change="entryAddedAt2025-06-24T10:16:24.667+02:00" corresp="PRS9542Tomas">Tomās of Dimā Giyorgis</item>
+                <item change="entryAddedAt2025-06-24T10:16:24.667+02:00" corresp="PRS14920Endreyas">ʾƎndrǝyās za-Dabra Sǝḫin</item>
+                <item change="entryAddedAt2025-06-24T10:16:24.667+02:00" corresp="PRS14921Degw">ጻድቃን፡ ዘዴጐ፡</item>
+                <item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS10395Yohanne">Yoḥannǝs za-Dabra Dāgā</item>
+                <item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS1295Abreham">ʾAbrǝhām za-Dabra Ṣǝyon</item>
+                <item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS4117Fiqtor">Fiqṭor</item>
+                <item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS4118Fiqtor">Fiqṭor</item>
+                <item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS4119Fiqtor">Fiqṭor</item>
+                <item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS4120Fiqtor">Fiqṭor</item>
+                <item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS6888Matewos">Matewos za-Dabra Barbare</item>
+                <item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS8596SayfaMi">Sayfa Mikāʾel za-Ṣāʿǝdā ʾƎmbā</item>
+                <item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS14922AfqDegw">ʾAfqaranna ʾƎgziʾ za-Degʷa</item>
+                <item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS14923Dew">Ḍewā Laṣǝdq</item>
+                <item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS14924Abal">ʾAbāla Krǝstos</item>
+                <item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS14925Qaw">Qawǝsṭos za-Dabra Dāgā</item>
+                <item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS14926Tansea">Tanśǝʾa Madḫǝn za-Dabra ʿĀśā</item>
+                <item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS14927GabMar">Gabra Māryām za-Dabra Ḥantā</item>
+                <item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS14928Abel">ʾAbel za-Ḥǝṣi</item>
+                <item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS14929HabS">Habta Śǝllāse za-Dabra Ṣǝge</item>
+                <item change="entryAddedAt2025-06-24T11:40:45.514+02:00" corresp="PRS14930Sadqan">Ṣādqāna za-Ḫānbār Godabo</item>
+                <item change="entryAddedAt2025-06-24T12:29:36.164+02:00" corresp="PRS14933Yeb">Yǝbārkanna Krǝstos</item>
+                <item change="entryAddedAt2025-06-24T13:25:29.062+02:00" corresp="PRS14934Tereyados">Tǝreyādos</item>
+                <item change="entryAddedAt2025-06-24T15:42:30.767+02:00" corresp="PRS13990Semon">Sǝmʿon</item>
+                <item change="entryAddedAt2025-06-24T15:52:53.14+02:00" corresp="PRS14042AbetohabtaMaryam">Habta Māryām</item>
+                <item change="entryAddedAt2025-07-01T13:15:13.566+02:00" corresp="PRS13985HayKr">ሀየለ፡ ክርስቶስ፡</item>
+                <item change="entryAddedAt2025-07-01T13:15:13.566+02:00" corresp="PRS14012Marq">መርቆሬዎስ፡ ዘጻእዳ፡ እምባ፡</item>
+                <item change="entryAddedAt2025-07-01T13:15:13.566+02:00" corresp="PRS14881BareBzualam">Bare Bǝzuʿālam</item>
+                <item change="entryAddedAt2025-07-03T07:57:00.658+02:00" corresp="PRS13714KidanaM">Kidāna Māryām</item>
+                <item change="entryAddedAt2025-07-03T07:57:00.658+02:00" corresp="PRS14936Seckendorff">Gustav von Seckendorff</item>
+                <item change="entryAddedAt2025-07-03T07:57:00.658+02:00" corresp="PRS14937Wilhelm">Wilhelm I. Friedrich Ludwig von Hohenzollern</item>
+                <item change="entryAddedAt2025-07-04T00:03:33.186+02:00" corresp="PRS1455Afawarq">ʾAfawarq Walda Māryām</item>
+                <item change="entryAddedAt2025-07-07T10:21:37.441+02:00" corresp="PRS14922ZawaldaMar">Zawalda Māryām</item>
+                <item change="entryAddedAt2025-07-07T10:21:37.441+02:00" corresp="PRS14923BaedaMar">Baʾǝda Māryām</item>
+                <item change="entryAddedAt2025-07-07T10:21:37.441+02:00" corresp="PRS14924Zamaryam">Zamāryām</item>
+                <item change="entryAddedAt2025-07-07T10:21:37.441+02:00" corresp="PRS14925TensaeKre">Tǝnsāʾe Krǝstos</item>
+                <item change="entryAddedAt2025-07-07T10:21:37.441+02:00" corresp="PRS14926Gabreel">Gabrǝʾel</item>
+                <item change="entryAddedAt2025-07-07T10:21:37.441+02:00" corresp="PRS14931Zasellase">Zaśǝllāse</item>
+                <item change="entryAddedAt2025-07-07T10:21:37.441+02:00" corresp="PRS14932BeseEgzi">Bǝʾse ʾƎgziʾabǝḥer</item>
+                <item change="entryAddedAt2025-07-07T14:35:50.615+02:00" corresp="PRS14906EhetaM">ʾƎḫǝta Muse</item>
+                <item change="entryAddedAt2025-07-07T14:35:50.615+02:00" corresp="PRS14939Cakkol">Čakkol</item>
+                <item change="entryAddedAt2025-07-07T14:35:50.615+02:00" corresp="PRS14940GabraG">Gabra Giyorgis</item>
+                <item change="entryAddedAt2025-07-07T14:35:50.615+02:00" corresp="PRS14941Fesseha">Fǝssǝḫā</item>
+                <item change="entryAddedAt2025-07-07T14:35:50.615+02:00" corresp="PRS14942Haddes">Ḫāddes</item>
+                <item change="entryAddedAt2025-07-07T14:35:50.615+02:00" corresp="PRS14943GabraS">Gabra Sǝllāse</item>
+                <item change="entryAddedAt2025-07-07T14:35:50.615+02:00" corresp="PRS14944Naato">Naʾato ʾAyya</item>
+                <item change="entryAddedAt2025-07-08T08:55:41.245+02:00" corresp="PRS14896GabraMQ">Gabra Manfas Qǝddus</item>
+                <item change="entryAddedAt2025-07-08T08:55:41.245+02:00" corresp="PRS14897GabraKre">Gabra Krǝstos</item>
+                <item change="entryAddedAt2025-07-08T08:55:41.245+02:00" corresp="PRS14898AsrataMar">ʾAśrāta Māryām</item>
+                <item change="entryAddedAt2025-07-08T08:55:41.245+02:00" corresp="PRS14899Samuel">Sāmuʾel</item>
+                <item change="entryAddedAt2025-07-08T08:55:41.245+02:00" corresp="PRS14900GabraKrest">Gabra Krǝstos</item>
+                <item change="entryAddedAt2025-07-08T08:55:41.245+02:00" corresp="PRS14901HabtaIyas">Habta ʾIyasus</item>
+                <item change="entryAddedAt2025-07-08T08:55:41.245+02:00" corresp="PRS14902Pawlos">Ṗāwlos</item>
+                <item change="entryAddedAt2025-07-08T08:55:41.245+02:00" corresp="PRS14903TatamqaMad">Taṭamqa Madḫǝn</item>
+                <item change="entryAddedAt2025-07-08T08:55:41.245+02:00" corresp="PRS14904BeeseEgzi">Bǝʾse ʾƎgziʾabǝḥer</item>
+                <item change="entryAddedAt2025-07-08T08:55:41.245+02:00" corresp="PRS14905Tarbinos">Tarbinos</item>
+            </list>
       </body>
    </text>
 </TEI>

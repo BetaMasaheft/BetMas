@@ -15,7 +15,7 @@
   <text>
     <body>
       <list>
-        <item corresp="LIT0001MMDZYohannes">Miracle of Mary: Dabra Zamaddo's Abbot ʾAbuna Yohannǝs and
+  <item corresp="LIT0001MMDZYohannes">Miracle of Mary: Dabra Zamaddo's Abbot ʾAbuna Yohannǝs and
         how he opposed the oppressive ruler of Danagaz</item>
     <item corresp="LIT0002MMDZYohannes">Miracle of Mary: Dabra Zamaddo's Abbot ʾAbuna Yohannǝs
         persuades a husband to give up his second wife and be reconciled to his first</item>
@@ -126,9 +126,48 @@
         Mary's church.</item>
     <item corresp="LIT0057MMDZ">A dog that licked the stonemill of a church in Wandege, near Lake
         Tana, is frozen like a rock by the Virgin Mary</item>
+    <item corresp="LIT0058MMDZ">A spring is brought forth by the Virgin Mary to provide water for
+        the construction of a church</item>
+    <item corresp="LIT0059MMDZ">A man's house burns down but not the Marian incense box in it and a
+        deacon's candle sets the church curtains on fire but the church does not burn down</item>
+    <item corresp="LIT0060MMDZ">A man who travels to a new land becomes sick and is healed with
+        water that he prayed over</item>
+    <item corresp="LIT0061MMDZ">A thief named Jacob stole and ate the one sheep a widow had</item>
+    <item corresp="LIT0062MMDZ">Gabra Maryam receives a golden throne from the Virgin Mary</item>
+    <item corresp="LIT0063MMDZ">An adulterer is snatched up to heaven and is condemned but he is
+        saved from judgement by Mary</item>
+    <item corresp="LIT0064MMDZ">A bitter servant commits suicide but is brought back to life by
+        Mary</item>
+    <item corresp="LIT0065MMDZ">In Cairo, a poor and feeble but pious man named Bahor, and his son
+        La'eka Maryam, encounter a thief named Damas</item>
+    <item corresp="LIT0066MMDZ">Saint Gabra Maryam helped a young man, who came to be his helper as
+        a monk, through a vision.</item>
+    <item corresp="LIT0067MMDZ">Aksum Seyon: Mary brings Saint Gabra Maryam to Aksum, where she
+        frees bound-up prisoners, as was her custom</item>
+    <item corresp="LIT0068MMDZ">Mary heals an Egyptian man with two faces and he praises her</item>
+    <item corresp="LIT0069MMDZ">Mary heals a man named Wafleqalone who was born blind and
+        paralyzed</item>
+    <item corresp="LIT0070MMDZ">A sinner from Rome prays for forgiveness and Mary forgives all his
+        sins</item>
+    <item corresp="LIT0071MMDZ">A weary pilgrim woman who was served communion by the angels when
+        she couldn't journey to the church of the Virgin Mary</item>
+    <item corresp="LIT0072MMDZ">A pious man traveling with two youths who was troubled by kidnappers
+        on the road and was saved by the Virgin Mary in the form of a white dove</item>
+    <item corresp="LIT0073MMDZ">A man who wants to write of Mary's wondrousness is visited by a
+        radiant man and given a shining white cloth to write upon</item>
+    <item corresp="LIT0074MMDZ">A woman is traveling to the king and is robbed of all her
+        possessions and jewelry, but an official returns her stolen possessions from the
+        thieves</item>
+    <item corresp="LIT0075MMDZ">A young woman keeps twenty dinar of gold and silver in a tanned
+        leather pouch, but a dog eats it and then vomits it back up</item>
+    <item corresp="LIT0076MMDZ">A sick little boy is healed by the Virgin Mary and when he is grown
+        she reveals the woman who is to be his wife</item>
+    <item corresp="LIT0077MMDZ">Gabra Maryam is presented with a golden throne shining with twelve
+        luminaries and twelve stars and then the Virgin Mary reveals a radiant city to him</item>
     <item corresp="LIT0183EtanaMogar">Taḫababa tasfāna Fiqṭor (Qǝne of the ʿǝṭāna mogar-type)</item>
     <item corresp="LIT0184EtanaMogar">Yolyos ṭis ʾǝnta tādawwǝyo la-ʿāyn (Qǝne of the ʿǝṭāna
         mogar-type)</item>
+    <item corresp="LIT0185Tarbu">Gadla ʾabunā Tarbu</item>
     <item corresp="LIT0201Malke">Malkǝʾa Yoḥannǝs za-Dabra Zamaddo</item>
     <item corresp="LIT0201Malke#malke">Malkǝʾa Yoḥannǝs za-Dabra Zamaddo: malke</item>
     <item corresp="LIT0201Malke#tarafa-malke">Malkǝʾa Yoḥannǝs za-Dabra Zamaddo: tarafa-malke</item>
@@ -949,7 +988,7 @@
     <item corresp="LIT0576Malke">Malkǝʾa Qʷǝrbān</item>
     <item corresp="LIT0576Malke#malke">Malkǝʾa Qʷǝrbān: malke</item>
     <item corresp="LIT0576Malke#tarafa-malke">Malkǝʾa Qʷǝrbān: tarafa-malke</item>
-    <item corresp="LIT1001Homili">Tǝrgʷāme maṣḥafa Salomon za-wǝʾǝtu maḥālǝya maḥālǝy</item>
+     <item corresp="LIT1001Homili">Tǝrgʷāme maṣḥafa Salomon za-wǝʾǝtu maḥālǝya maḥālǝy</item>
     <item corresp="LIT1002AbbaEl">ʾAbbā ʾElyās</item>
     <item corresp="LIT1003Abbaga">ʾAbbā Ǧāle</item>
     <item corresp="LIT1004AbbaNa">ʾAbbā Nafso</item>
@@ -1688,121 +1727,118 @@
     <item corresp="LIT1282Dersan">Dǝrsana ʾAfnin</item>
     <item corresp="LIT1283Dersan">Dǝrsāna fayātāy</item>
     <item corresp="LIT1284Dersan">Dǝrsāna Gabrǝʾel</item>
-    <item corresp="LIT1284Dersan#Tahsas">Dǝrsāna Gabrǝʾel: Reading for 19 Tāḫśāś</item>
+    <item corresp="LIT1284Dersan#Tahsas">Dǝrsāna Gabrǝʾel: Reading for the 19th of Tāḫśāś</item>
     <item corresp="LIT1284Dersan#TahsasDana">Dǝrsāna Gabrǝʾel: Introduction concerning the building
-        of the church of St Gabriel in Dana by Archelaus.</item>
+        of the church of St Gabriel in Dana by Archelaus</item>
+    <item corresp="LIT1284Dersan#MiracleSnake">Dǝrsāna Gabrǝʾel: Miracle of the man who was bitten
+        by a snake</item>
     <item corresp="LIT1284Dersan#MiracleLabourer">Dǝrsāna Gabrǝʾel: Miracle of the labourer whose
         foot was injured by a stone</item>
     <item corresp="LIT1284Dersan#CommemorativeTahsas">Dǝrsāna Gabrǝʾel: Commemorative note about the
         three youths in the furnace.</item>
     <item corresp="LIT1284Dersan#SalamTahsas">Dǝrsāna Gabrǝʾel: Salām-hymn to you, keeper</item>
     <item corresp="LIT1284Dersan#ConsecrationDana">Dǝrsāna Gabrǝʾel: On the consecration of the
-        church of St Gabriel in Dana.</item>
+        church of St Gabriel in Dana</item>
     <item corresp="LIT1284Dersan#Annunciation">Dǝrsāna Gabrǝʾel: On the institution of the feast of
-        the Annunciation.</item>
-    <item corresp="LIT1284Dersan#Terr">Dǝrsāna Gabrǝʾel: Reading for 19 Ṭǝrr</item>
-    <item corresp="LIT1284Dersan#HomilyZechariah">Dǝrsāna Gabrǝʾel: Homily on the annuciation of the
-        Archangel Gabriel to Zechariah, father of John the Baptist.</item>
+        the Annunciation</item>
+    <item corresp="LIT1284Dersan#Terr">Dǝrsāna Gabrǝʾel: Reading for the 19th of Ṭǝrr</item>
+    <item corresp="LIT1284Dersan#HomilyZechariah">Dǝrsāna Gabrǝʾel: Homily on the annunciation of
+        the Archangel Gabriel to Zechariah, father of John the Baptist.</item>
     <item corresp="LIT1284Dersan#MiracleBuilding">Dǝrsāna Gabrǝʾel: Miracle of the building of the
-        columns of the altar dedicated to St Gabriel.</item>
+        columns of the altar dedicated to St Gabriel</item>
     <item corresp="LIT1284Dersan#AppearanceEvagrius">Dǝrsāna Gabrǝʾel: Commemorative note on St
-        Gabriel's appearance to Evagrius.</item>
-    <item corresp="LIT1284Dersan#SalamTerr">Dǝrsāna Gabrǝʾel: Salām-hymn for the month of
-        Ṭǝrr.</item>
-    <item corresp="LIT1284Dersan#Yakkatit">Dǝrsāna Gabrǝʾel: Reading for 19 Yakkātit</item>
-    <item corresp="LIT1284Dersan#HomilyIncarnation">Dǝrsāna Gabrǝʾel: Homily on the Incarnation, to
-        be read on 19 Yakkātit.</item>
+        Gabriel’s appearance to Evagrius</item>
+    <item corresp="LIT1284Dersan#SalamTerr">Dǝrsāna Gabrǝʾel: Salām-hymn</item>
+    <item corresp="LIT1284Dersan#Yakkatit">Dǝrsāna Gabrǝʾel: Reading for the 19th of Yakkātit</item>
+    <item corresp="LIT1284Dersan#HomilyIncarnation">Dǝrsāna Gabrǝʾel: Homily on the
+        Incarnation</item>
     <item corresp="LIT1284Dersan#MiraclePreeminence">Dǝrsāna Gabrǝʾel: Miracle on the preeminence of
-        St Gabriel.</item>
-    <item corresp="LIT1284Dersan#DeathPaphnutius">Dǝrsāna Gabrǝʾel: On the death of St Paphnutius
-        and the appearance of the Archangel Gabriel.</item>
-    <item corresp="LIT1284Dersan#SalamYakkatit">Dǝrsāna Gabrǝʾel: Salām-hymn in honour of Paphnutius
-        for the month of Yakkātit.</item>
-    <item corresp="LIT1284Dersan#Maggabit">Dǝrsāna Gabrǝʾel: Reading for 19 Maggābit</item>
+        St Gabriel</item>
+    <item corresp="LIT1284Dersan#DeathPaphnutius">Dǝrsāna Gabrǝʾel: Commemorative note on the death
+        of St Paphnutius and the appearance of the Archangel Gabriel.</item>
+    <item corresp="LIT1284Dersan#SalamYakkatit">Dǝrsāna Gabrǝʾel: Salām-hymn in honour of
+        Paphnutius</item>
+    <item corresp="LIT1284Dersan#Maggabit">Dǝrsāna Gabrǝʾel: Reading for the 19th of Maggābit</item>
     <item corresp="LIT1284Dersan#HomilyAthanasius">Dǝrsāna Gabrǝʾel: Homily by Athanasius of
-        Alexandria on St Gabriel at the time of Jesus Christ's death.</item>
-    <item corresp="LIT1284Dersan#MiracleSnake">Dǝrsāna Gabrǝʾel: Miracle of the man who was bitten
-        by a snake.</item>
+        Alexandria on St Gabriel at the time of Jesus Christ’s death</item>
     <item corresp="LIT1284Dersan#AppearanceVirginMary">Dǝrsāna Gabrǝʾel: Commemorative note on St
-        Gabriel's appearance to the Virgin Mary.</item>
-    <item corresp="LIT1284Dersan#SalamMaggabit">Dǝrsāna Gabrǝʾel: Salām-hymn for the month of
-        Maggābit.</item>
-    <item corresp="LIT1284Dersan#Miyazya">Dǝrsāna Gabrǝʾel: Reading for 19 Miyāzyā</item>
+        Gabriel's appearance to the Virgin Mary</item>
+    <item corresp="LIT1284Dersan#SalamMaggabit">Dǝrsāna Gabrǝʾel: Salām-hymn</item>
+    <item corresp="LIT1284Dersan#Miyazya">Dǝrsāna Gabrǝʾel: Reading for the 19th of Miyāzyā</item>
     <item corresp="LIT1284Dersan#HomilyAbrasit">Dǝrsāna Gabrǝʾel: Homily by Epiphanius, bishop of
-        Cyprus, on King ʾAbrāsit and his son ʾAwǝr.</item>
+        Cyprus, on King ʾAbrāsit and his son ʾAwǝr</item>
     <item corresp="LIT1284Dersan#MiracleKing">Dǝrsāna Gabrǝʾel: On the apparition of St Gabriel to a
         king who did not want to build the church</item>
     <item corresp="LIT1284Dersan#AppearancePetrosBsoy">Dǝrsāna Gabrǝʾel: Commemorative note on St
-        Gabriel's appearance to ʾAbbā Ṗeṭros and ʾAbbā Bǝsoy.</item>
+        Gabriel’s appearance to ʾAbbā Ṗeṭros and ʾAbbā Bǝsoy</item>
     <item corresp="LIT1284Dersan#SalamPetrosBsoy">Dǝrsāna Gabrǝʾel: Salām-hymn to ʾAbbā Ṗeṭros and
-        ʾAbbā Bǝsoy for the month of Miyāzyā.</item>
-    <item corresp="LIT1284Dersan#Genbot">Dǝrsāna Gabrǝʾel: Reading for 19 Gǝnbot</item>
+        ʾAbbā Bǝsoy</item>
+    <item corresp="LIT1284Dersan#Genbot">Dǝrsāna Gabrǝʾel: Reading for the 19th of Gǝnbot</item>
     <item corresp="LIT1284Dersan#HomilyMaryEve">Dǝrsāna Gabrǝʾel: Homily by John Chrysostom on Mary
-        and Eve and the building of the church.</item>
-    <item corresp="LIT1284Dersan#MiracleSatan">Dǝrsāna Gabrǝʾel: How Satan tried to interfere with
-        the building of the church.</item>
+        and Eve and the building of the church</item>
+    <item corresp="LIT1284Dersan#MiracleSatan">Dǝrsāna Gabrǝʾel: Miracle concerning how Satan tried
+        to interfere with the building of the church</item>
     <item corresp="LIT1284Dersan#AppearanceBsoy">Dǝrsāna Gabrǝʾel: Commemorative note on St
-        Gabriel's appearance to ʾAbbā Bǝsoy.</item>
-    <item corresp="LIT1284Dersan#SalamBsoy">Dǝrsāna Gabrǝʾel: Salām-hymn to ʾAbbā Bǝsoy for the
-        month of Gǝnbot.</item>
-    <item corresp="LIT1284Dersan#Sane">Dǝrsāna Gabrǝʾel: Reading for 19 Sane</item>
+        Gabriel’s appearance to ʾAbbā Bǝsoy</item>
+    <item corresp="LIT1284Dersan#SalamBsoy">Dǝrsāna Gabrǝʾel: Salām-hymn to ʾAbbā Bǝsoy</item>
+    <item corresp="LIT1284Dersan#Sane">Dǝrsāna Gabrǝʾel: Reading for the 19th of Sane</item>
     <item corresp="LIT1284Dersan#HomilyLabourerSatan">Dǝrsāna Gabrǝʾel: Homily on the labourer whom
-        Satan stoned.</item>
+        Satan stoned</item>
     <item corresp="LIT1284Dersan#MiracleTwoHornedSnake">Dǝrsāna Gabrǝʾel: Miracle of the two-horned
-        serpent that bit a man.</item>
+        serpent that bit a man</item>
     <item corresp="LIT1284Dersan#AppearanceTewodros">Dǝrsāna Gabrǝʾel: Commemorative note on St
-        Gabriel's appearance to St Tewodros, who received a white horse by him.</item>
-    <item corresp="LIT1284Dersan#SalamSane">Dǝrsāna Gabrǝʾel: Salām-hymn to Gabriel and Michael for
-        the month of Sane.</item>
-    <item corresp="LIT1284Dersan#Hamle">Dǝrsāna Gabrǝʾel: Reading for 19 Ḥamle</item>
+        Gabriel’s appearance to St Tewodros, who received a white horse from him</item>
+    <item corresp="LIT1284Dersan#SalamSane">Dǝrsāna Gabrǝʾel: Salām-hymn to Gabriel and
+        Michael</item>
+    <item corresp="LIT1284Dersan#Hamle">Dǝrsāna Gabrǝʾel: Reading for the 19th of Ḥamle</item>
     <item corresp="LIT1284Dersan#HomilyBlessing">Dǝrsāna Gabrǝʾel: Homily on the labourer blessed
-        for the construction of a church.</item>
+        for the construction of a church</item>
     <item corresp="LIT1284Dersan#MiracleParalytic">Dǝrsāna Gabrǝʾel: Miracle of the healing of a
-        paralytic and leprous man.</item>
+        paralytic and leprous man</item>
     <item corresp="LIT1284Dersan#AppearanceDaniel">Dǝrsāna Gabrǝʾel: Commemorative note on St
-        Gabriel's appearance to the prophet Daniel</item>
-    <item corresp="LIT1284Dersan#SalamHamle">Dǝrsāna Gabrǝʾel: Salām-hymn for the month of
-        Ḥamle.</item>
-    <item corresp="LIT1284Dersan#Nahase">Dǝrsāna Gabrǝʾel: Reading for 19 Naḥase</item>
+        Gabriel’s appearance to the prophet Daniel</item>
+    <item corresp="LIT1284Dersan#SalamHamle">Dǝrsāna Gabrǝʾel: Salām-hymn</item>
+    <item corresp="LIT1284Dersan#Nahase">Dǝrsāna Gabrǝʾel: Reading for the 19th of Naḥase</item>
     <item corresp="LIT1284Dersan#HomilyBaradyos">Dǝrsāna Gabrǝʾel: Homily on Barādyos, who asked a
-        rich man for money.</item>
+        rich man for money</item>
     <item corresp="LIT1284Dersan#MiracleBaradyos">Dǝrsāna Gabrǝʾel: Miracle on Barādyos i.e.,
-        continuation of the homily on Barādyos.</item>
+        continuation of the homily on Barādyos</item>
     <item corresp="LIT1284Dersan#DeathBsoy">Dǝrsāna Gabrǝʾel: On the death of ʾAbbā Bǝsoy in the
-        monastery of St Macarius.</item>
+        monastery of St Macarius</item>
     <item corresp="LIT1284Dersan#SalamConsecration">Dǝrsāna Gabrǝʾel: Salām-hymn in honour of the
-        consecration of the church of the Archangel Gabriel for the month of Naḥase.</item>
-    <item corresp="LIT1284Dersan#Maskaram">Dǝrsāna Gabrǝʾel: Reading for 19 Maskaram</item>
-    <item corresp="LIT1284Dersan#HomilyFalasforos">Dǝrsāna Gabrǝʾel: Homily on the merchant
-        Falāsforos.</item>
+        consecration of the church of the Archangel Gabriel</item>
+    <item corresp="LIT1284Dersan#Maskaram">Dǝrsāna Gabrǝʾel: Reading for the 19th of Maskaram</item>
+    <item corresp="LIT1284Dersan#HomilyFalasforos">Dǝrsāna Gabrǝʾel: Homily (Miracle) concerning the
+        merchant Falāsforos</item>
     <item corresp="LIT1284Dersan#MiracleFalasforos">Dǝrsāna Gabrǝʾel: Miracle on Falāsforos i.e.,
-        continuation of the homily on Falāsforos.</item>
+        continuation of the homily on Falāsforos</item>
     <item corresp="LIT1284Dersan#AppearanceZechariah">Dǝrsāna Gabrǝʾel: Commemorative note on St
-        Gabriel's appearance to Zechariah.</item>
+        Gabriel’s appearance to Zechariah</item>
     <item corresp="LIT1284Dersan#SalamJohnBaptist">Dǝrsāna Gabrǝʾel: Salām-hymn in honour of John
-        the Baptist for the month of Maskaram.</item>
-    <item corresp="LIT1284Dersan#Teqemt">Dǝrsāna Gabrǝʾel: Reading for 19 Ṭǝqǝmt</item>
+        the Baptist</item>
+    <item corresp="LIT1284Dersan#Teqemt">Dǝrsāna Gabrǝʾel: Reading for the 19th of Ṭǝqǝmt</item>
     <item corresp="LIT1284Dersan#HomilyAwtrabyos">Dǝrsāna Gabrǝʾel: Homily on ʾAwṭrābiyos and his
-        wife Qisārya.</item>
+        wife Qisārya</item>
     <item corresp="LIT1284Dersan#HealingBlind">Dǝrsāna Gabrǝʾel: Healing of the blind who was born
-        before the image of St Gabriel.</item>
+        before the image of St Gabriel</item>
     <item corresp="LIT1284Dersan#AppearanceSarapamon1">Dǝrsāna Gabrǝʾel: Commemorative note on St
-        Gabriel's appearance to St Sarabāmon.</item>
+        Gabriel’s appearance to St Sarabāmon</item>
     <item corresp="LIT1284Dersan#SalamSarapamon1">Dǝrsāna Gabrǝʾel: Salām-hymn in honour of St
-        Sarabāmon for the month of Ṭǝqǝmt.</item>
-    <item corresp="LIT1284Dersan#Hedar">Dǝrsāna Gabrǝʾel: Reading for 19 Ḫǝdār</item>
+        Sarabāmon</item>
+    <item corresp="LIT1284Dersan#Hedar">Dǝrsāna Gabrǝʾel: Reading for the 19th of Ḫǝdār</item>
     <item corresp="LIT1284Dersan#HomilyVirginMary">Dǝrsāna Gabrǝʾel: Homily on the dialogue between
-        Gabriel and the Virgin Mary on the Incarnation.</item>
+        Gabriel and the Virgin Mary on the Incarnation</item>
     <item corresp="LIT1284Dersan#MiracleAwer">Dǝrsāna Gabrǝʾel: Miracle of the bishop ʾAbbā
-        ʾAwǝr.</item>
+        ʾAwǝr</item>
     <item corresp="LIT1284Dersan#AppearanceSarapamon2">Dǝrsāna Gabrǝʾel: Commemorative note on St
-        Gabriel's appearance to the father of St Sarabāmon.</item>
+        Gabriel’s appearance to the father of St Sarabāmon</item>
     <item corresp="LIT1284Dersan#SalamSarapamon2">Dǝrsāna Gabrǝʾel: Salām-hymn in honour of St
-        Sarabāmon for the month of Ḫǝdār.</item>
+        Sarabāmon</item>
     <item corresp="LIT1284Dersan#Monday">Dǝrsāna Gabrǝʾel: Monday</item>
     <item corresp="LIT1284Dersan#Tuesday">Dǝrsāna Gabrǝʾel: Homily by ʾAbāwre Bishop of Fayyūm on
         the glorious angel Gabriel.</item>
-    <item corresp="LIT1284Dersan#Wednesday">Dǝrsāna Gabrǝʾel: Wednesday</item>
+    <item corresp="LIT1284Dersan#Wednesday">Dǝrsāna Gabrǝʾel: Anonymous homily to be read on
+        Wednesday.</item>
     <item corresp="LIT1284Dersan#Thursday">Dǝrsāna Gabrǝʾel: Homily concerning the building of the
         church of St Gabriel in Dana by Archelaus.</item>
     <item corresp="LIT1284Dersan#Friday">Dǝrsāna Gabrǝʾel: Friday</item>
@@ -2936,67 +2972,69 @@
     <item corresp="LIT1526GadlaZ#Prologue">Gadla Zamikāʾel ʾAragāwi: Prologue</item>
     <item corresp="LIT1526GadlaZ#MainPart">Gadla Zamikāʾel ʾAragāwi: Main part</item>
     <item corresp="LIT1527GadlaZ">Gadla Zarʾa ʾAbrǝhām</item>
-    <item corresp="LIT1528GadlaZ">Hagiographic Dossier of ʾAbuna Zarʾa Buruk</item>
-    <item corresp="LIT1528GadlaZ#ImageZaraBuruk">Hagiographic Dossier of ʾAbuna Zarʾa Buruk:
-        ImageZaraBuruk</item>
-    <item corresp="LIT1528GadlaZ#GadlaZaraBuruk">Hagiographic Dossier of ʾAbuna Zarʾa Buruk:
-        GadlaZaraBuruk</item>
-    <item corresp="LIT1528GadlaZ#Miracles">Hagiographic Dossier of ʾAbuna Zarʾa Buruk: Miracles of
-        ʾAbuna Zarǝʾa Buruk</item>
-    <item corresp="LIT1528GadlaZ#Miracle1">Hagiographic Dossier of ʾAbuna Zarʾa Buruk:
-        Miracle1</item>
-    <item corresp="LIT1528GadlaZ#Miracle2">Hagiographic Dossier of ʾAbuna Zarʾa Buruk:
-        Miracle2</item>
-    <item corresp="LIT1528GadlaZ#Miracle3">Hagiographic Dossier of ʾAbuna Zarʾa Buruk:
-        Miracle3</item>
-    <item corresp="LIT1528GadlaZ#Miracle4">Hagiographic Dossier of ʾAbuna Zarʾa Buruk:
-        Miracle4</item>
-    <item corresp="LIT1528GadlaZ#Miracle5">Hagiographic Dossier of ʾAbuna Zarʾa Buruk:
-        Miracle5</item>
-    <item corresp="LIT1528GadlaZ#Miracle6">Hagiographic Dossier of ʾAbuna Zarʾa Buruk:
-        Miracle6</item>
-    <item corresp="LIT1528GadlaZ#Miracle7">Hagiographic Dossier of ʾAbuna Zarʾa Buruk:
-        Miracle7</item>
-    <item corresp="LIT1528GadlaZ#Miracle8">Hagiographic Dossier of ʾAbuna Zarʾa Buruk:
-        Miracle8</item>
-    <item corresp="LIT1528GadlaZ#Miracle9">Hagiographic Dossier of ʾAbuna Zarʾa Buruk:
-        Miracle9</item>
-    <item corresp="LIT1528GadlaZ#Miracle10">Hagiographic Dossier of ʾAbuna Zarʾa Buruk:
-        Miracle10</item>
-    <item corresp="LIT1528GadlaZ#Miracle11">Hagiographic Dossier of ʾAbuna Zarʾa Buruk:
-        Miracle11</item>
-    <item corresp="LIT1528GadlaZ#Miracle12">Hagiographic Dossier of ʾAbuna Zarʾa Buruk:
-        Miracle12</item>
-    <item corresp="LIT1528GadlaZ#Miracle13">Hagiographic Dossier of ʾAbuna Zarʾa Buruk:
-        Miracle13</item>
-    <item corresp="LIT1528GadlaZ#Miracle14">Hagiographic Dossier of ʾAbuna Zarʾa Buruk:
-        Miracle14</item>
-    <item corresp="LIT1528GadlaZ#Miracle15">Hagiographic Dossier of ʾAbuna Zarʾa Buruk:
-        Miracle15</item>
-    <item corresp="LIT1528GadlaZ#Miracle16">Hagiographic Dossier of ʾAbuna Zarʾa Buruk:
-        Miracle16</item>
-    <item corresp="LIT1528GadlaZ#Miracle17">Hagiographic Dossier of ʾAbuna Zarʾa Buruk:
-        Miracle17</item>
-    <item corresp="LIT1528GadlaZ#Miracle18">Hagiographic Dossier of ʾAbuna Zarʾa Buruk:
-        Miracle18</item>
-    <item corresp="LIT1528GadlaZ#Miracle19">Hagiographic Dossier of ʾAbuna Zarʾa Buruk:
-        Miracle19</item>
-    <item corresp="LIT1528GadlaZ#Miracle20">Hagiographic Dossier of ʾAbuna Zarʾa Buruk:
-        Miracle20</item>
-    <item corresp="LIT1528GadlaZ#Miracle21">Hagiographic Dossier of ʾAbuna Zarʾa Buruk:
-        Miracle21</item>
-    <item corresp="LIT1528GadlaZ#Miracle22">Hagiographic Dossier of ʾAbuna Zarʾa Buruk:
-        Miracle22</item>
-    <item corresp="LIT1528GadlaZ#Miracle23">Hagiographic Dossier of ʾAbuna Zarʾa Buruk:
-        Miracle23</item>
-    <item corresp="LIT1528GadlaZ#Miracle24">Hagiographic Dossier of ʾAbuna Zarʾa Buruk:
-        Miracle24</item>
-    <item corresp="LIT1528GadlaZ#Miracle25">Hagiographic Dossier of ʾAbuna Zarʾa Buruk:
-        Miracle25</item>
-    <item corresp="LIT1528GadlaZ#Miracle26">Hagiographic Dossier of ʾAbuna Zarʾa Buruk:
-        Miracle26</item>
-    <item corresp="LIT1528GadlaZ#Miracle27">Hagiographic Dossier of ʾAbuna Zarʾa Buruk:
-        Miracle27</item>
+    <item corresp="LIT1528GadlaZ">Gadla ʾabuna Zarʾa Buruk</item>
+    <item corresp="LIT1528GadlaZ#Miracle1">Gadla ʾabuna Zarʾa Buruk: Miracle 1: The miraculous
+        infancy of Zarʾa Buruk</item>
+    <item corresp="LIT1528GadlaZ#Miracle2">Gadla ʾabuna Zarʾa Buruk: Miracle 2: The miracle of the
+        Queen’s visit and the persecution by the new King</item>
+    <item corresp="LIT1528GadlaZ#Miracle3">Gadla ʾabuna Zarʾa Buruk: Miracle 3: The miracle of Zarʾa
+        Buruk’s imprisonment</item>
+    <item corresp="LIT1528GadlaZ#Miracle4">Gadla ʾabuna Zarʾa Buruk: Miracle 4: How Zarʾa Buruk
+        gained entry to the Kingdom of Heaven while still alive</item>
+    <item corresp="LIT1528GadlaZ#Miracle5">Gadla ʾabuna Zarʾa Buruk: Miracle 5: How Zarʾa Buruk was
+        welcomed into Heavenly Jerusalem</item>
+    <item corresp="LIT1528GadlaZ#Miracle6">Gadla ʾabuna Zarʾa Buruk: Miracle 6: How Zarʾa Buruk, the
+        second Peter, obtains the keys to the Heavenly Kingdom</item>
+    <item corresp="LIT1528GadlaZ#Miracle7">Gadla ʾabuna Zarʾa Buruk: Miracle 7: How Zarʾa Buruk
+        liberates damned souls from hell</item>
+    <item corresp="LIT1528GadlaZ#Miracle8">Gadla ʾabuna Zarʾa Buruk: Miracle 8: How Zarʾa Buruk
+        frees ʾAbsādi, disciple of Ewosṭātewos, from hell</item>
+    <item corresp="LIT1528GadlaZ#Miracle9">Gadla ʾabuna Zarʾa Buruk: Miracle 9: How the greatness of
+        Zarʾa Buruk is recognised by the most eminent Ethiopian saints</item>
+    <item corresp="LIT1528GadlaZ#Miracle10">Gadla ʾabuna Zarʾa Buruk: Miracle 10: After Zarʾa
+        Buruk’s leg broke while he was standing and praying, God gave him a spiritual leg.</item>
+    <item corresp="LIT1528GadlaZ#Miracle11">Gadla ʾabuna Zarʾa Buruk: Miracle 11: How John,
+        Patriarch of Alexandria, recognised Zarʾa Buruk</item>
+    <item corresp="LIT1528GadlaZ#Miracle12">Gadla ʾabuna Zarʾa Buruk: Miracle 12: How Zarʾa Buruk
+        promised redemption to those who worship him</item>
+    <item corresp="LIT1528GadlaZ#Miracle13">Gadla ʾabuna Zarʾa Buruk: Miracle 13: The duties of
+        those who worship Zarʾa Buruk, and the rewards awaiting them</item>
+    <item corresp="LIT1528GadlaZ#Miracle14">Gadla ʾabuna Zarʾa Buruk: Miracle 14: The resurrection
+        of a dead woman</item>
+    <item corresp="LIT1528GadlaZ#Miracle15">Gadla ʾabuna Zarʾa Buruk: Miracle 15: Healing of an ill
+        woman at the tomb of Zarʾa Buruk</item>
+    <item corresp="LIT1528GadlaZ#Miracle16">Gadla ʾabuna Zarʾa Buruk: Miracle 16: The punishment of
+        the man who denounced to the governor the inhabitants of a town who worshipped Zarʾa
+        Buruk</item>
+    <item corresp="LIT1528GadlaZ#Miracle17">Gadla ʾabuna Zarʾa Buruk: Miracle 17: The miraculous
+        cross of Zarʾa Buruk</item>
+    <item corresp="LIT1528GadlaZ#Miracle18">Gadla ʾabuna Zarʾa Buruk: Miracle 18: The mystery of
+        baptism: Benediction by the saint of the waters on Epiphany Day and miracles performed
+        thanks to the water blessed by him</item>
+    <item corresp="LIT1528GadlaZ#Miracle19">Gadla ʾabuna Zarʾa Buruk: Miracle 19: Zarʾa Buruk
+        receives instructions form God to banish tobacco</item>
+    <item corresp="LIT1528GadlaZ#Miracle20">Gadla ʾabuna Zarʾa Buruk: Miracle 20: Zarʾa Buruk
+        receives the pact giving him power next to that of God</item>
+    <item corresp="LIT1528GadlaZ#Miracle21">Gadla ʾabuna Zarʾa Buruk: Miracle 21: Zarʾa Buruk
+        receives the pact as the saviour of the world</item>
+    <item corresp="LIT1528GadlaZ#Miracle22">Gadla ʾabuna Zarʾa Buruk: Miracle 22: The mystery of the
+        three pearls</item>
+    <item corresp="LIT1528GadlaZ#Miracle23">Gadla ʾabuna Zarʾa Buruk: Miracle 23: New distinction of
+        Zarʾa Buruk and promises made to those who venerate him</item>
+    <item corresp="LIT1528GadlaZ#Miracle24">Gadla ʾabuna Zarʾa Buruk: Miracle 24: How Zarʾa Buruk
+        helped his son ʾAmonyos</item>
+    <item corresp="LIT1528GadlaZ#Miracle25">Gadla ʾabuna Zarʾa Buruk: Miracle 25: Miracles after the
+        death of Zarʾa Buruk</item>
+    <item corresp="LIT1528GadlaZ#Miracle26">Gadla ʾabuna Zarʾa Buruk: Miracle 26: How Zarʾa Buruk
+        helped the people of ʾƎnfrāz</item>
+    <item corresp="LIT1528GadlaZ#MiracleDog">Gadla ʾabuna Zarʾa Buruk: The healing of children
+        bitten by a rabid dog</item>
+    <item corresp="LIT1528GadlaZ#MiracleDabraSan">Gadla ʾabuna Zarʾa Buruk: Miracle accomplished at
+        Dabra Sān thanks to the intercession of Zarʾa Buruk</item>
+    <item corresp="LIT1528GadlaZ#MiracleSyphilis">Gadla ʾabuna Zarʾa Buruk: The healing of a woman
+        with syphilis</item>
+    <item corresp="LIT1528GadlaZ#MiracleDeath">Gadla ʾabuna Zarʾa Buruk: Miracles performed on the
+        day of Zarʾa Buruk’s death</item>
     <item corresp="LIT1529GadlaZ">Gadla Zayoḥannǝs za-Kǝbrān</item>
     <item corresp="LIT1530GadlaZ">Gadla Zenā Mārqos</item>
     <item corresp="LIT1531GadlaZ">Gadla Zenā Māryām</item>
@@ -3263,19 +3301,21 @@
     <item corresp="LIT1555Gondar">Gondarew Gabra Māryām</item>
     <item corresp="LIT1556Gorgor">Questions of Gregory of Nyssa to his brother Basil</item>
     <item corresp="LIT1557Apocal">Rāʾǝya Gorgoryos</item>
-    <item corresp="LIT1558Matthew">Gospel of Matthew</item>
-    <item corresp="LIT1558Matthew#SecondIntroduction">Gospel of Matthew: Relialibity of the
-        Gospel</item>
-    <item corresp="LIT1558Matthew#BiographyMatthew">Gospel of Matthew: Biography of Matthew</item>
-    <item corresp="LIT1558Matthew#EusebianSectionsMatthew">Gospel of Matthew: Statement about the
-        Eusebian Sections in the Gospel of Matthew</item>
-    <item corresp="LIT1558Matthew#TituliMatthew">Gospel of Matthew: Tituli of the Gospel of
+    <item corresp="LIT1558Matthew">Gospel of Matthew (Collection)</item>
+    <item corresp="LIT1558Matthew#SecondIntroduction">Gospel of Matthew (Collection): Relialibity of
+        the Gospel</item>
+    <item corresp="LIT1558Matthew#BiographyMatthew">Gospel of Matthew (Collection): Biography of
         Matthew</item>
-    <item corresp="LIT1558Matthew#MatthewGospelHeadline">Gospel of Matthew: Headline of the Gospel
-        of Matthew</item>
-    <item corresp="LIT1558Matthew#MatthewGospel">Gospel of Matthew: Gospel of Matthew</item>
-    <item corresp="LIT1558Matthew#PostscriptMatthew">Gospel of Matthew: Colophon of the Gospel of
+    <item corresp="LIT1558Matthew#EusebianSectionsMatthew">Gospel of Matthew (Collection): Statement
+        about the Eusebian Sections in the Gospel of Matthew</item>
+    <item corresp="LIT1558Matthew#TituliMatthew">Gospel of Matthew (Collection): Tituli of the
+        Gospel of Matthew</item>
+    <item corresp="LIT1558Matthew#MatthewGospelHeadline">Gospel of Matthew (Collection): Headline of
+        the Gospel of Matthew</item>
+    <item corresp="LIT1558Matthew#MatthewGospel">Gospel of Matthew (Collection): Gospel of
         Matthew</item>
+    <item corresp="LIT1558Matthew#PostscriptMatthew">Gospel of Matthew (Collection): Colophon of the
+        Gospel of Matthew</item>
     <item corresp="LIT1559Gospel">Gospel of Pseudo-Matthew</item>
     <item corresp="LIT1560Gospel">Four Gospels</item>
     <item corresp="LIT1560Gospel#IntroductionGospels">Four Gospels: Introduction to the Four
@@ -4140,18 +4180,23 @@
     <item corresp="LIT1690ActsofJohn">Acts of St John son of Zebedee</item>
     <item corresp="LIT1691ApocryJohn">Apocryphal Gospel ofJohn</item>
     <item corresp="LIT1692EpistlJohn">Epistles of John</item>
-    <item corresp="LIT1693John">Gospel of John</item>
-    <item corresp="LIT1693John#IntroJohn">Gospel of John: Preface to the Gospel of John</item>
-    <item corresp="LIT1693John#TitlePrefaceJohn">Gospel of John: TitlePrefaceJohn</item>
-    <item corresp="LIT1693John#BiographyJohn">Gospel of John: Biography of John</item>
-    <item corresp="LIT1693John#EusebianSectionsJohn">Gospel of John: Statement about the Eusebian
-        Sections in the Gospel of John</item>
-    <item corresp="LIT1693John#TituliJohn">Gospel of John: Tituli of the Gospel of John</item>
-    <item corresp="LIT1693John#JohnGospelHeadline">Gospel of John: Headline of the Gospel of
+    <item corresp="LIT1693John">Gospel of John (Collection)</item>
+    <item corresp="LIT1693John#IntroJohn">Gospel of John (Collection): Preface to the Gospel of
         John</item>
-    <item corresp="LIT1693John#JohnGospel">Gospel of John: Gospel of John</item>
-    <item corresp="LIT1693John#Postscript">Gospel of John: Colophon of the Gospel of John</item>
-    <item corresp="LIT1693John#Stichometry">Gospel of John: Stichometry to the Gospel of John</item>
+    <item corresp="LIT1693John#TitlePrefaceJohn">Gospel of John (Collection):
+        TitlePrefaceJohn</item>
+    <item corresp="LIT1693John#BiographyJohn">Gospel of John (Collection): Biography of John</item>
+    <item corresp="LIT1693John#EusebianSectionsJohn">Gospel of John (Collection): Statement about
+        the Eusebian Sections in the Gospel of John</item>
+    <item corresp="LIT1693John#TituliJohn">Gospel of John (Collection): Tituli of the Gospel of
+        John</item>
+    <item corresp="LIT1693John#JohnGospelHeadline">Gospel of John (Collection): Headline of the
+        Gospel of John</item>
+    <item corresp="LIT1693John#JohnGospel">Gospel of John (Collection): Gospel of John</item>
+    <item corresp="LIT1693John#Postscript">Gospel of John (Collection): Colophon of the Gospel of
+        John</item>
+    <item corresp="LIT1693John#Stichometry">Gospel of John (Collection): Stichometry to the Gospel
+        of John</item>
     <item corresp="LIT1694Jonah">Book of Jonah</item>
     <item corresp="LIT1694Jonah#chapter1">Book of Jonah: Chapter 1</item>
     <item corresp="LIT1694Jonah#chapter2">Book of Jonah: Chapter 2</item>
@@ -4555,7 +4600,7 @@
     <item corresp="LIT1760Legend">Legend of Abgar</item>
     <item corresp="LIT1761Legend">Legend of Habakkuk</item>
     <item corresp="LIT1762Legend">Legend of Jeremiah</item>
-    <item corresp="LIT1763Legend">Ṣalot za-qǝddus Susǝnyos baʾǝnta ʾasassǝlo dawe</item>
+    <item corresp="LIT1763Legend">Legend of St Susǝnyos and Wǝrzǝlyā (general record)</item>
     <item corresp="LIT1765Legend">Legend of the Wood of the Cross</item>
     <item corresp="LIT1766Legend">Legenda aurea</item>
     <item corresp="LIT1767Legenn">Lǝǧǝnnat</item>
@@ -4710,7 +4755,7 @@
     <item corresp="LIT1812GospelLuke#ch21">Wangel za-Luqās: Chapter 21</item>
     <item corresp="LIT1812GospelLuke#PostscriptLuke">Wangel za-Luqās: Colophon of the Gospel of
         Luke</item>
-    <item corresp="LIT1813Martyr">Martyrdom ofLuke</item>
+    <item corresp="LIT1813Martyr">Martyrdom of Luke</item>
     <item corresp="LIT1814Maalim">Maʿālim al-Hiǧratayn ilā arḍ al-Ḥabaša</item>
     <item corresp="LIT1815MaanaF">Maana-Faay</item>
     <item corresp="LIT1817Maazaq">Maʿaza qǝddāse wǝkuf...</item>
@@ -4987,16 +5032,18 @@
     <item corresp="LIT1879Marhae">Marḥa ʿǝwwur</item>
     <item corresp="LIT1880Marhal">Marḥa lǝbbunā</item>
     <item corresp="LIT1881Marhas">Marḥa ṣǝdq</item>
-    <item corresp="LIT1882MarkGo">Wangel za-Mārqos</item>
-    <item corresp="LIT1882MarkGo#BiographyMark">Wangel za-Mārqos: Biography of Mark</item>
-    <item corresp="LIT1882MarkGo#EusebianSectionsMark">Wangel za-Mārqos: Statement about the
-        Eusebian Sections in the Gospel of Mark</item>
-    <item corresp="LIT1882MarkGo#TituliMark">Wangel za-Mārqos: Tituli of the Gospel of Mark</item>
-    <item corresp="LIT1882MarkGo#MarkGospelHeadline">Wangel za-Mārqos: Headline of the Gospel of
+    <item corresp="LIT1882MarkGo">Gospel of Mark (Collection)</item>
+    <item corresp="LIT1882MarkGo#BiographyMark">Gospel of Mark (Collection): Biography of
         Mark</item>
-    <item corresp="LIT1882MarkGo#MarkGospel">Wangel za-Mārqos: Gospel of Mark</item>
-    <item corresp="LIT1882MarkGo#MarkPostscript">Wangel za-Mārqos: Colophon of the Gospel of
+    <item corresp="LIT1882MarkGo#EusebianSectionsMark">Gospel of Mark (Collection): Statement about
+        the Eusebian Sections in the Gospel of Mark</item>
+    <item corresp="LIT1882MarkGo#TituliMark">Gospel of Mark (Collection): Tituli of the Gospel of
         Mark</item>
+    <item corresp="LIT1882MarkGo#MarkGospelHeadline">Gospel of Mark (Collection): Headline of the
+        Gospel of Mark</item>
+    <item corresp="LIT1882MarkGo#MarkGospel">Gospel of Mark (Collection): Gospel of Mark</item>
+    <item corresp="LIT1882MarkGo#MarkPostscript">Gospel of Mark (Collection): Postscript of the
+        Gospel of Mark</item>
     <item corresp="LIT1883Martyr">The Martyrdom of St Mark the Evangelist</item>
     <item corresp="LIT1884Marqos">Mārqosāy wayni mǝs ḫǝmbāšāy</item>
     <item corresp="LIT1885Marsam">Mars ʾamin</item>
@@ -6187,160 +6234,160 @@
     <item corresp="LIT1997Mazgab">Mazgaba tārik</item>
     <item corresp="LIT1998Mazgab">Mazgaba dǝggʷā</item>
     <item corresp="LIT1999Mazmur">Mazmur tagādālāy</item>
-    <item corresp="LIT2000Mazmur">Mazmura Dāwit</item>
-    <item corresp="LIT2000Mazmur#Ps1">Mazmura Dāwit: Psalmus 1</item>
-    <item corresp="LIT2000Mazmur#Ps2">Mazmura Dāwit: Psalmus 2</item>
-    <item corresp="LIT2000Mazmur#Ps3">Mazmura Dāwit: Psalmus 3</item>
-    <item corresp="LIT2000Mazmur#Ps4">Mazmura Dāwit: Psalmus 4</item>
-    <item corresp="LIT2000Mazmur#Ps5">Mazmura Dāwit: Psalmus 5</item>
-    <item corresp="LIT2000Mazmur#Ps6">Mazmura Dāwit: Psalmus 6</item>
-    <item corresp="LIT2000Mazmur#Ps7">Mazmura Dāwit: Psalmus 7</item>
-    <item corresp="LIT2000Mazmur#Ps8">Mazmura Dāwit: Psalmus 8</item>
-    <item corresp="LIT2000Mazmur#Ps9">Mazmura Dāwit: Psalmus 9</item>
-    <item corresp="LIT2000Mazmur#Ps10">Mazmura Dāwit: Psalmus 10</item>
-    <item corresp="LIT2000Mazmur#Ps11">Mazmura Dāwit: Psalmus 11</item>
-    <item corresp="LIT2000Mazmur#Ps12">Mazmura Dāwit: Psalmus 12</item>
-    <item corresp="LIT2000Mazmur#Ps13">Mazmura Dāwit: Psalmus 13</item>
-    <item corresp="LIT2000Mazmur#Ps14">Mazmura Dāwit: Psalmus 14</item>
-    <item corresp="LIT2000Mazmur#Ps15">Mazmura Dāwit: Psalmus 15</item>
-    <item corresp="LIT2000Mazmur#Ps16">Mazmura Dāwit: Psalmus 16</item>
-    <item corresp="LIT2000Mazmur#Ps17">Mazmura Dāwit: Psalmus 17</item>
-    <item corresp="LIT2000Mazmur#Ps18">Mazmura Dāwit: Psalmus 18</item>
-    <item corresp="LIT2000Mazmur#Ps19">Mazmura Dāwit: Psalmus 19</item>
-    <item corresp="LIT2000Mazmur#Ps20">Mazmura Dāwit: Psalmus 20</item>
-    <item corresp="LIT2000Mazmur#Ps21">Mazmura Dāwit: Psalmus 21</item>
-    <item corresp="LIT2000Mazmur#Ps22">Mazmura Dāwit: Psalmus 22</item>
-    <item corresp="LIT2000Mazmur#Ps23">Mazmura Dāwit: Psalmus 23</item>
-    <item corresp="LIT2000Mazmur#Ps24">Mazmura Dāwit: Psalmus 24</item>
-    <item corresp="LIT2000Mazmur#Ps25">Mazmura Dāwit: Psalmus 25</item>
-    <item corresp="LIT2000Mazmur#Ps26">Mazmura Dāwit: Psalmus 26</item>
-    <item corresp="LIT2000Mazmur#Ps27">Mazmura Dāwit: Psalmus 27</item>
-    <item corresp="LIT2000Mazmur#Ps28">Mazmura Dāwit: Psalmus 28</item>
-    <item corresp="LIT2000Mazmur#Ps29">Mazmura Dāwit: Psalmus 29</item>
-    <item corresp="LIT2000Mazmur#Ps30">Mazmura Dāwit: Psalmus 30</item>
-    <item corresp="LIT2000Mazmur#Ps31">Mazmura Dāwit: Psalmus 31</item>
-    <item corresp="LIT2000Mazmur#Ps32">Mazmura Dāwit: Psalmus 32</item>
-    <item corresp="LIT2000Mazmur#Ps33">Mazmura Dāwit: Psalmus 33</item>
-    <item corresp="LIT2000Mazmur#Ps34">Mazmura Dāwit: Psalmus 34</item>
-    <item corresp="LIT2000Mazmur#Ps35">Mazmura Dāwit: Psalmus 35</item>
-    <item corresp="LIT2000Mazmur#Ps36">Mazmura Dāwit: Psalmus 36</item>
-    <item corresp="LIT2000Mazmur#Ps37">Mazmura Dāwit: Psalmus 37</item>
-    <item corresp="LIT2000Mazmur#Ps38">Mazmura Dāwit: Psalmus 38</item>
-    <item corresp="LIT2000Mazmur#Ps39">Mazmura Dāwit: Psalmus 39</item>
-    <item corresp="LIT2000Mazmur#Ps40">Mazmura Dāwit: Psalmus 40</item>
-    <item corresp="LIT2000Mazmur#Ps41">Mazmura Dāwit: Psalmus 41</item>
-    <item corresp="LIT2000Mazmur#Ps42">Mazmura Dāwit: Psalmus 42</item>
-    <item corresp="LIT2000Mazmur#Ps43">Mazmura Dāwit: Psalmus 43</item>
-    <item corresp="LIT2000Mazmur#Ps44">Mazmura Dāwit: Psalmus 44</item>
-    <item corresp="LIT2000Mazmur#Ps45">Mazmura Dāwit: Psalmus 45</item>
-    <item corresp="LIT2000Mazmur#Ps46">Mazmura Dāwit: Psalmus 46</item>
-    <item corresp="LIT2000Mazmur#Ps47">Mazmura Dāwit: Psalmus 47</item>
-    <item corresp="LIT2000Mazmur#Ps48">Mazmura Dāwit: Psalmus 48</item>
-    <item corresp="LIT2000Mazmur#Ps49">Mazmura Dāwit: Psalmus 49</item>
-    <item corresp="LIT2000Mazmur#Ps50">Mazmura Dāwit: Psalmus 50</item>
-    <item corresp="LIT2000Mazmur#Ps51">Mazmura Dāwit: Psalmus 51</item>
-    <item corresp="LIT2000Mazmur#Ps52">Mazmura Dāwit: Psalmus 52</item>
-    <item corresp="LIT2000Mazmur#Ps53">Mazmura Dāwit: Psalmus 53</item>
-    <item corresp="LIT2000Mazmur#Ps54">Mazmura Dāwit: Psalmus 54</item>
-    <item corresp="LIT2000Mazmur#Ps55">Mazmura Dāwit: Psalmus 55</item>
-    <item corresp="LIT2000Mazmur#Ps56">Mazmura Dāwit: Psalmus 56</item>
-    <item corresp="LIT2000Mazmur#Ps57">Mazmura Dāwit: Psalmus 57</item>
-    <item corresp="LIT2000Mazmur#Ps58">Mazmura Dāwit: Psalmus 58</item>
-    <item corresp="LIT2000Mazmur#Ps59">Mazmura Dāwit: Psalmus 59</item>
-    <item corresp="LIT2000Mazmur#Ps60">Mazmura Dāwit: Psalmus 60</item>
-    <item corresp="LIT2000Mazmur#Ps61">Mazmura Dāwit: Psalmus 61</item>
-    <item corresp="LIT2000Mazmur#Ps62">Mazmura Dāwit: Psalmus 62</item>
-    <item corresp="LIT2000Mazmur#Ps63">Mazmura Dāwit: Psalmus 63</item>
-    <item corresp="LIT2000Mazmur#Ps64">Mazmura Dāwit: Psalmus 64</item>
-    <item corresp="LIT2000Mazmur#Ps65">Mazmura Dāwit: Psalmus 65</item>
-    <item corresp="LIT2000Mazmur#Ps66">Mazmura Dāwit: Psalmus 66</item>
-    <item corresp="LIT2000Mazmur#Ps67">Mazmura Dāwit: Psalmus 67</item>
-    <item corresp="LIT2000Mazmur#Ps68">Mazmura Dāwit: Psalmus 68</item>
-    <item corresp="LIT2000Mazmur#Ps69">Mazmura Dāwit: Psalmus 69</item>
-    <item corresp="LIT2000Mazmur#Ps70">Mazmura Dāwit: Psalmus 70</item>
-    <item corresp="LIT2000Mazmur#Ps71">Mazmura Dāwit: Psalmus 71</item>
-    <item corresp="LIT2000Mazmur#Ps72">Mazmura Dāwit: Psalmus 72</item>
-    <item corresp="LIT2000Mazmur#Ps73">Mazmura Dāwit: Psalmus 73</item>
-    <item corresp="LIT2000Mazmur#Ps74">Mazmura Dāwit: Psalmus 74</item>
-    <item corresp="LIT2000Mazmur#Ps75">Mazmura Dāwit: Psalmus 75</item>
-    <item corresp="LIT2000Mazmur#Ps76">Mazmura Dāwit: Psalmus 76</item>
-    <item corresp="LIT2000Mazmur#Ps77">Mazmura Dāwit: Psalmus 77</item>
-    <item corresp="LIT2000Mazmur#Ps78">Mazmura Dāwit: Psalmus 78</item>
-    <item corresp="LIT2000Mazmur#Ps79">Mazmura Dāwit: Psalmus 79</item>
-    <item corresp="LIT2000Mazmur#Ps80">Mazmura Dāwit: Psalmus 80</item>
-    <item corresp="LIT2000Mazmur#Ps81">Mazmura Dāwit: Psalmus 81</item>
-    <item corresp="LIT2000Mazmur#Ps82">Mazmura Dāwit: Psalmus 82</item>
-    <item corresp="LIT2000Mazmur#Ps83">Mazmura Dāwit: Psalmus 83</item>
-    <item corresp="LIT2000Mazmur#Ps84">Mazmura Dāwit: Psalmus 84</item>
-    <item corresp="LIT2000Mazmur#Ps85">Mazmura Dāwit: Psalmus 85</item>
-    <item corresp="LIT2000Mazmur#Ps86">Mazmura Dāwit: Psalmus 86</item>
-    <item corresp="LIT2000Mazmur#Ps87">Mazmura Dāwit: Psalmus 87</item>
-    <item corresp="LIT2000Mazmur#Ps88">Mazmura Dāwit: Psalmus 88</item>
-    <item corresp="LIT2000Mazmur#Ps89">Mazmura Dāwit: Psalmus 89</item>
-    <item corresp="LIT2000Mazmur#Ps90">Mazmura Dāwit: Psalmus 90</item>
-    <item corresp="LIT2000Mazmur#Ps91">Mazmura Dāwit: Psalmus 91</item>
-    <item corresp="LIT2000Mazmur#Ps92">Mazmura Dāwit: Psalmus 92</item>
-    <item corresp="LIT2000Mazmur#Ps93">Mazmura Dāwit: Psalmus 93</item>
-    <item corresp="LIT2000Mazmur#Ps94">Mazmura Dāwit: Psalmus 94</item>
-    <item corresp="LIT2000Mazmur#Ps95">Mazmura Dāwit: Psalmus 95</item>
-    <item corresp="LIT2000Mazmur#Ps96">Mazmura Dāwit: Psalmus 96</item>
-    <item corresp="LIT2000Mazmur#Ps97">Mazmura Dāwit: Psalmus 97</item>
-    <item corresp="LIT2000Mazmur#Ps98">Mazmura Dāwit: Psalmus 98</item>
-    <item corresp="LIT2000Mazmur#Ps99">Mazmura Dāwit: Psalmus 99</item>
-    <item corresp="LIT2000Mazmur#Ps100">Mazmura Dāwit: Psalmus 100</item>
-    <item corresp="LIT2000Mazmur#Ps101">Mazmura Dāwit: Psalmus 101</item>
-    <item corresp="LIT2000Mazmur#Ps102">Mazmura Dāwit: Psalmus 102</item>
-    <item corresp="LIT2000Mazmur#Ps103">Mazmura Dāwit: Psalmus 103</item>
-    <item corresp="LIT2000Mazmur#Ps104">Mazmura Dāwit: Psalmus 104</item>
-    <item corresp="LIT2000Mazmur#Ps105">Mazmura Dāwit: Psalmus 105</item>
-    <item corresp="LIT2000Mazmur#Ps106">Mazmura Dāwit: Psalmus 106</item>
-    <item corresp="LIT2000Mazmur#Ps107">Mazmura Dāwit: Psalmus 107</item>
-    <item corresp="LIT2000Mazmur#Ps108">Mazmura Dāwit: Psalmus 108</item>
-    <item corresp="LIT2000Mazmur#Ps109">Mazmura Dāwit: Psalmus 109</item>
-    <item corresp="LIT2000Mazmur#Ps110">Mazmura Dāwit: Psalmus 110</item>
-    <item corresp="LIT2000Mazmur#Ps111">Mazmura Dāwit: Psalmus 111</item>
-    <item corresp="LIT2000Mazmur#Ps112">Mazmura Dāwit: Psalmus 112</item>
-    <item corresp="LIT2000Mazmur#Ps113">Mazmura Dāwit: Psalmus 113</item>
-    <item corresp="LIT2000Mazmur#Ps114">Mazmura Dāwit: Psalmus 114</item>
-    <item corresp="LIT2000Mazmur#Ps115">Mazmura Dāwit: Psalmus 115</item>
-    <item corresp="LIT2000Mazmur#Ps116">Mazmura Dāwit: Psalmus 116</item>
-    <item corresp="LIT2000Mazmur#Ps117">Mazmura Dāwit: Psalmus 117</item>
-    <item corresp="LIT2000Mazmur#Ps118">Mazmura Dāwit: Psalmus 118</item>
-    <item corresp="LIT2000Mazmur#Ps118Spiritual">Mazmura Dāwit: Psalm 118 including the Spritual
+    <item corresp="LIT2000Mazmur">Psalms of David</item>
+    <item corresp="LIT2000Mazmur#Ps1">Psalms of David: Psalmus 1</item>
+    <item corresp="LIT2000Mazmur#Ps2">Psalms of David: Psalmus 2</item>
+    <item corresp="LIT2000Mazmur#Ps3">Psalms of David: Psalmus 3</item>
+    <item corresp="LIT2000Mazmur#Ps4">Psalms of David: Psalmus 4</item>
+    <item corresp="LIT2000Mazmur#Ps5">Psalms of David: Psalmus 5</item>
+    <item corresp="LIT2000Mazmur#Ps6">Psalms of David: Psalmus 6</item>
+    <item corresp="LIT2000Mazmur#Ps7">Psalms of David: Psalmus 7</item>
+    <item corresp="LIT2000Mazmur#Ps8">Psalms of David: Psalmus 8</item>
+    <item corresp="LIT2000Mazmur#Ps9">Psalms of David: Psalmus 9</item>
+    <item corresp="LIT2000Mazmur#Ps10">Psalms of David: Psalmus 10</item>
+    <item corresp="LIT2000Mazmur#Ps11">Psalms of David: Psalmus 11</item>
+    <item corresp="LIT2000Mazmur#Ps12">Psalms of David: Psalmus 12</item>
+    <item corresp="LIT2000Mazmur#Ps13">Psalms of David: Psalmus 13</item>
+    <item corresp="LIT2000Mazmur#Ps14">Psalms of David: Psalmus 14</item>
+    <item corresp="LIT2000Mazmur#Ps15">Psalms of David: Psalmus 15</item>
+    <item corresp="LIT2000Mazmur#Ps16">Psalms of David: Psalmus 16</item>
+    <item corresp="LIT2000Mazmur#Ps17">Psalms of David: Psalmus 17</item>
+    <item corresp="LIT2000Mazmur#Ps18">Psalms of David: Psalmus 18</item>
+    <item corresp="LIT2000Mazmur#Ps19">Psalms of David: Psalmus 19</item>
+    <item corresp="LIT2000Mazmur#Ps20">Psalms of David: Psalmus 20</item>
+    <item corresp="LIT2000Mazmur#Ps21">Psalms of David: Psalmus 21</item>
+    <item corresp="LIT2000Mazmur#Ps22">Psalms of David: Psalmus 22</item>
+    <item corresp="LIT2000Mazmur#Ps23">Psalms of David: Psalmus 23</item>
+    <item corresp="LIT2000Mazmur#Ps24">Psalms of David: Psalmus 24</item>
+    <item corresp="LIT2000Mazmur#Ps25">Psalms of David: Psalmus 25</item>
+    <item corresp="LIT2000Mazmur#Ps26">Psalms of David: Psalmus 26</item>
+    <item corresp="LIT2000Mazmur#Ps27">Psalms of David: Psalmus 27</item>
+    <item corresp="LIT2000Mazmur#Ps28">Psalms of David: Psalmus 28</item>
+    <item corresp="LIT2000Mazmur#Ps29">Psalms of David: Psalmus 29</item>
+    <item corresp="LIT2000Mazmur#Ps30">Psalms of David: Psalmus 30</item>
+    <item corresp="LIT2000Mazmur#Ps31">Psalms of David: Psalmus 31</item>
+    <item corresp="LIT2000Mazmur#Ps32">Psalms of David: Psalmus 32</item>
+    <item corresp="LIT2000Mazmur#Ps33">Psalms of David: Psalmus 33</item>
+    <item corresp="LIT2000Mazmur#Ps34">Psalms of David: Psalmus 34</item>
+    <item corresp="LIT2000Mazmur#Ps35">Psalms of David: Psalmus 35</item>
+    <item corresp="LIT2000Mazmur#Ps36">Psalms of David: Psalmus 36</item>
+    <item corresp="LIT2000Mazmur#Ps37">Psalms of David: Psalmus 37</item>
+    <item corresp="LIT2000Mazmur#Ps38">Psalms of David: Psalmus 38</item>
+    <item corresp="LIT2000Mazmur#Ps39">Psalms of David: Psalmus 39</item>
+    <item corresp="LIT2000Mazmur#Ps40">Psalms of David: Psalmus 40</item>
+    <item corresp="LIT2000Mazmur#Ps41">Psalms of David: Psalmus 41</item>
+    <item corresp="LIT2000Mazmur#Ps42">Psalms of David: Psalmus 42</item>
+    <item corresp="LIT2000Mazmur#Ps43">Psalms of David: Psalmus 43</item>
+    <item corresp="LIT2000Mazmur#Ps44">Psalms of David: Psalmus 44</item>
+    <item corresp="LIT2000Mazmur#Ps45">Psalms of David: Psalmus 45</item>
+    <item corresp="LIT2000Mazmur#Ps46">Psalms of David: Psalmus 46</item>
+    <item corresp="LIT2000Mazmur#Ps47">Psalms of David: Psalmus 47</item>
+    <item corresp="LIT2000Mazmur#Ps48">Psalms of David: Psalmus 48</item>
+    <item corresp="LIT2000Mazmur#Ps49">Psalms of David: Psalmus 49</item>
+    <item corresp="LIT2000Mazmur#Ps50">Psalms of David: Psalmus 50</item>
+    <item corresp="LIT2000Mazmur#Ps51">Psalms of David: Psalmus 51</item>
+    <item corresp="LIT2000Mazmur#Ps52">Psalms of David: Psalmus 52</item>
+    <item corresp="LIT2000Mazmur#Ps53">Psalms of David: Psalmus 53</item>
+    <item corresp="LIT2000Mazmur#Ps54">Psalms of David: Psalmus 54</item>
+    <item corresp="LIT2000Mazmur#Ps55">Psalms of David: Psalmus 55</item>
+    <item corresp="LIT2000Mazmur#Ps56">Psalms of David: Psalmus 56</item>
+    <item corresp="LIT2000Mazmur#Ps57">Psalms of David: Psalmus 57</item>
+    <item corresp="LIT2000Mazmur#Ps58">Psalms of David: Psalmus 58</item>
+    <item corresp="LIT2000Mazmur#Ps59">Psalms of David: Psalmus 59</item>
+    <item corresp="LIT2000Mazmur#Ps60">Psalms of David: Psalmus 60</item>
+    <item corresp="LIT2000Mazmur#Ps61">Psalms of David: Psalmus 61</item>
+    <item corresp="LIT2000Mazmur#Ps62">Psalms of David: Psalmus 62</item>
+    <item corresp="LIT2000Mazmur#Ps63">Psalms of David: Psalmus 63</item>
+    <item corresp="LIT2000Mazmur#Ps64">Psalms of David: Psalmus 64</item>
+    <item corresp="LIT2000Mazmur#Ps65">Psalms of David: Psalmus 65</item>
+    <item corresp="LIT2000Mazmur#Ps66">Psalms of David: Psalmus 66</item>
+    <item corresp="LIT2000Mazmur#Ps67">Psalms of David: Psalmus 67</item>
+    <item corresp="LIT2000Mazmur#Ps68">Psalms of David: Psalmus 68</item>
+    <item corresp="LIT2000Mazmur#Ps69">Psalms of David: Psalmus 69</item>
+    <item corresp="LIT2000Mazmur#Ps70">Psalms of David: Psalmus 70</item>
+    <item corresp="LIT2000Mazmur#Ps71">Psalms of David: Psalmus 71</item>
+    <item corresp="LIT2000Mazmur#Ps72">Psalms of David: Psalmus 72</item>
+    <item corresp="LIT2000Mazmur#Ps73">Psalms of David: Psalmus 73</item>
+    <item corresp="LIT2000Mazmur#Ps74">Psalms of David: Psalmus 74</item>
+    <item corresp="LIT2000Mazmur#Ps75">Psalms of David: Psalmus 75</item>
+    <item corresp="LIT2000Mazmur#Ps76">Psalms of David: Psalmus 76</item>
+    <item corresp="LIT2000Mazmur#Ps77">Psalms of David: Psalmus 77</item>
+    <item corresp="LIT2000Mazmur#Ps78">Psalms of David: Psalmus 78</item>
+    <item corresp="LIT2000Mazmur#Ps79">Psalms of David: Psalmus 79</item>
+    <item corresp="LIT2000Mazmur#Ps80">Psalms of David: Psalmus 80</item>
+    <item corresp="LIT2000Mazmur#Ps81">Psalms of David: Psalmus 81</item>
+    <item corresp="LIT2000Mazmur#Ps82">Psalms of David: Psalmus 82</item>
+    <item corresp="LIT2000Mazmur#Ps83">Psalms of David: Psalmus 83</item>
+    <item corresp="LIT2000Mazmur#Ps84">Psalms of David: Psalmus 84</item>
+    <item corresp="LIT2000Mazmur#Ps85">Psalms of David: Psalmus 85</item>
+    <item corresp="LIT2000Mazmur#Ps86">Psalms of David: Psalmus 86</item>
+    <item corresp="LIT2000Mazmur#Ps87">Psalms of David: Psalmus 87</item>
+    <item corresp="LIT2000Mazmur#Ps88">Psalms of David: Psalmus 88</item>
+    <item corresp="LIT2000Mazmur#Ps89">Psalms of David: Psalmus 89</item>
+    <item corresp="LIT2000Mazmur#Ps90">Psalms of David: Psalmus 90</item>
+    <item corresp="LIT2000Mazmur#Ps91">Psalms of David: Psalmus 91</item>
+    <item corresp="LIT2000Mazmur#Ps92">Psalms of David: Psalmus 92</item>
+    <item corresp="LIT2000Mazmur#Ps93">Psalms of David: Psalmus 93</item>
+    <item corresp="LIT2000Mazmur#Ps94">Psalms of David: Psalmus 94</item>
+    <item corresp="LIT2000Mazmur#Ps95">Psalms of David: Psalmus 95</item>
+    <item corresp="LIT2000Mazmur#Ps96">Psalms of David: Psalmus 96</item>
+    <item corresp="LIT2000Mazmur#Ps97">Psalms of David: Psalmus 97</item>
+    <item corresp="LIT2000Mazmur#Ps98">Psalms of David: Psalmus 98</item>
+    <item corresp="LIT2000Mazmur#Ps99">Psalms of David: Psalmus 99</item>
+    <item corresp="LIT2000Mazmur#Ps100">Psalms of David: Psalmus 100</item>
+    <item corresp="LIT2000Mazmur#Ps101">Psalms of David: Psalmus 101</item>
+    <item corresp="LIT2000Mazmur#Ps102">Psalms of David: Psalmus 102</item>
+    <item corresp="LIT2000Mazmur#Ps103">Psalms of David: Psalmus 103</item>
+    <item corresp="LIT2000Mazmur#Ps104">Psalms of David: Psalmus 104</item>
+    <item corresp="LIT2000Mazmur#Ps105">Psalms of David: Psalmus 105</item>
+    <item corresp="LIT2000Mazmur#Ps106">Psalms of David: Psalmus 106</item>
+    <item corresp="LIT2000Mazmur#Ps107">Psalms of David: Psalmus 107</item>
+    <item corresp="LIT2000Mazmur#Ps108">Psalms of David: Psalmus 108</item>
+    <item corresp="LIT2000Mazmur#Ps109">Psalms of David: Psalmus 109</item>
+    <item corresp="LIT2000Mazmur#Ps110">Psalms of David: Psalmus 110</item>
+    <item corresp="LIT2000Mazmur#Ps111">Psalms of David: Psalmus 111</item>
+    <item corresp="LIT2000Mazmur#Ps112">Psalms of David: Psalmus 112</item>
+    <item corresp="LIT2000Mazmur#Ps113">Psalms of David: Psalmus 113</item>
+    <item corresp="LIT2000Mazmur#Ps114">Psalms of David: Psalmus 114</item>
+    <item corresp="LIT2000Mazmur#Ps115">Psalms of David: Psalmus 115</item>
+    <item corresp="LIT2000Mazmur#Ps116">Psalms of David: Psalmus 116</item>
+    <item corresp="LIT2000Mazmur#Ps117">Psalms of David: Psalmus 117</item>
+    <item corresp="LIT2000Mazmur#Ps118">Psalms of David: Psalmus 118</item>
+    <item corresp="LIT2000Mazmur#Ps118Spiritual">Psalms of David: Psalm 118 including the Spritual
         Meaning of the Hebrew Letters</item>
-    <item corresp="LIT2000Mazmur#Ps119">Mazmura Dāwit: Psalmus 119</item>
-    <item corresp="LIT2000Mazmur#Ps120">Mazmura Dāwit: Psalmus 120</item>
-    <item corresp="LIT2000Mazmur#Ps121">Mazmura Dāwit: Psalmus 121</item>
-    <item corresp="LIT2000Mazmur#Ps122">Mazmura Dāwit: Psalmus 122</item>
-    <item corresp="LIT2000Mazmur#Ps123">Mazmura Dāwit: Psalmus 123</item>
-    <item corresp="LIT2000Mazmur#Ps124">Mazmura Dāwit: Psalmus 124</item>
-    <item corresp="LIT2000Mazmur#Ps125">Mazmura Dāwit: Psalmus 125</item>
-    <item corresp="LIT2000Mazmur#Ps126">Mazmura Dāwit: Psalmus 126</item>
-    <item corresp="LIT2000Mazmur#Ps127">Mazmura Dāwit: Psalmus 127</item>
-    <item corresp="LIT2000Mazmur#Ps128">Mazmura Dāwit: Psalmus 128</item>
-    <item corresp="LIT2000Mazmur#Ps129">Mazmura Dāwit: Psalmus 129</item>
-    <item corresp="LIT2000Mazmur#Ps130">Mazmura Dāwit: Psalmus 130</item>
-    <item corresp="LIT2000Mazmur#Ps131">Mazmura Dāwit: Psalmus 131</item>
-    <item corresp="LIT2000Mazmur#Ps132">Mazmura Dāwit: Psalmus 132</item>
-    <item corresp="LIT2000Mazmur#Ps133">Mazmura Dāwit: Psalmus 133</item>
-    <item corresp="LIT2000Mazmur#Ps134">Mazmura Dāwit: Psalmus 134</item>
-    <item corresp="LIT2000Mazmur#Ps135">Mazmura Dāwit: Psalmus 135</item>
-    <item corresp="LIT2000Mazmur#Ps136">Mazmura Dāwit: Psalmus 136</item>
-    <item corresp="LIT2000Mazmur#Ps137">Mazmura Dāwit: Psalmus 137</item>
-    <item corresp="LIT2000Mazmur#Ps138">Mazmura Dāwit: Psalmus 138</item>
-    <item corresp="LIT2000Mazmur#Ps139">Mazmura Dāwit: Psalmus 139</item>
-    <item corresp="LIT2000Mazmur#Ps140">Mazmura Dāwit: Psalmus 140</item>
-    <item corresp="LIT2000Mazmur#Ps141">Mazmura Dāwit: Psalmus 141</item>
-    <item corresp="LIT2000Mazmur#Ps142">Mazmura Dāwit: Psalmus 142</item>
-    <item corresp="LIT2000Mazmur#Ps143">Mazmura Dāwit: Psalmus 143</item>
-    <item corresp="LIT2000Mazmur#Ps144">Mazmura Dāwit: Psalmus 144</item>
-    <item corresp="LIT2000Mazmur#Ps145">Mazmura Dāwit: Psalmus 145</item>
-    <item corresp="LIT2000Mazmur#Ps146">Mazmura Dāwit: Psalmus 146</item>
-    <item corresp="LIT2000Mazmur#Ps147">Mazmura Dāwit: Psalmus 147</item>
-    <item corresp="LIT2000Mazmur#Ps148">Mazmura Dāwit: Psalmus 148</item>
-    <item corresp="LIT2000Mazmur#Ps149">Mazmura Dāwit: Psalmus 149</item>
-    <item corresp="LIT2000Mazmur#Ps150">Mazmura Dāwit: Psalmus 150</item>
-    <item corresp="LIT2000Mazmur#Ps151">Mazmura Dāwit: Psalmus 151</item>
+    <item corresp="LIT2000Mazmur#Ps119">Psalms of David: Psalmus 119</item>
+    <item corresp="LIT2000Mazmur#Ps120">Psalms of David: Psalmus 120</item>
+    <item corresp="LIT2000Mazmur#Ps121">Psalms of David: Psalmus 121</item>
+    <item corresp="LIT2000Mazmur#Ps122">Psalms of David: Psalmus 122</item>
+    <item corresp="LIT2000Mazmur#Ps123">Psalms of David: Psalmus 123</item>
+    <item corresp="LIT2000Mazmur#Ps124">Psalms of David: Psalmus 124</item>
+    <item corresp="LIT2000Mazmur#Ps125">Psalms of David: Psalmus 125</item>
+    <item corresp="LIT2000Mazmur#Ps126">Psalms of David: Psalmus 126</item>
+    <item corresp="LIT2000Mazmur#Ps127">Psalms of David: Psalmus 127</item>
+    <item corresp="LIT2000Mazmur#Ps128">Psalms of David: Psalmus 128</item>
+    <item corresp="LIT2000Mazmur#Ps129">Psalms of David: Psalmus 129</item>
+    <item corresp="LIT2000Mazmur#Ps130">Psalms of David: Psalmus 130</item>
+    <item corresp="LIT2000Mazmur#Ps131">Psalms of David: Psalmus 131</item>
+    <item corresp="LIT2000Mazmur#Ps132">Psalms of David: Psalmus 132</item>
+    <item corresp="LIT2000Mazmur#Ps133">Psalms of David: Psalmus 133</item>
+    <item corresp="LIT2000Mazmur#Ps134">Psalms of David: Psalmus 134</item>
+    <item corresp="LIT2000Mazmur#Ps135">Psalms of David: Psalmus 135</item>
+    <item corresp="LIT2000Mazmur#Ps136">Psalms of David: Psalmus 136</item>
+    <item corresp="LIT2000Mazmur#Ps137">Psalms of David: Psalmus 137</item>
+    <item corresp="LIT2000Mazmur#Ps138">Psalms of David: Psalmus 138</item>
+    <item corresp="LIT2000Mazmur#Ps139">Psalms of David: Psalmus 139</item>
+    <item corresp="LIT2000Mazmur#Ps140">Psalms of David: Psalmus 140</item>
+    <item corresp="LIT2000Mazmur#Ps141">Psalms of David: Psalmus 141</item>
+    <item corresp="LIT2000Mazmur#Ps142">Psalms of David: Psalmus 142</item>
+    <item corresp="LIT2000Mazmur#Ps143">Psalms of David: Psalmus 143</item>
+    <item corresp="LIT2000Mazmur#Ps144">Psalms of David: Psalmus 144</item>
+    <item corresp="LIT2000Mazmur#Ps145">Psalms of David: Psalmus 145</item>
+    <item corresp="LIT2000Mazmur#Ps146">Psalms of David: Psalmus 146</item>
+    <item corresp="LIT2000Mazmur#Ps147">Psalms of David: Psalmus 147</item>
+    <item corresp="LIT2000Mazmur#Ps148">Psalms of David: Psalmus 148</item>
+    <item corresp="LIT2000Mazmur#Ps149">Psalms of David: Psalmus 149</item>
+    <item corresp="LIT2000Mazmur#Ps150">Psalms of David: Psalmus 150</item>
+    <item corresp="LIT2000Mazmur#Ps151">Psalms of David: Psalmus 151</item>
         <item corresp="LIT2001Mazmur">Mazmura fǝśśuḥān wa-ṣalota tǝkkuzān</item>
     <item corresp="LIT2002Mazmur">Mazmura Krǝstos</item>
     <item corresp="LIT2002Mazmur#Introduction">Mazmura Krǝstos: Introduction</item>
@@ -6526,7 +6573,7 @@
     <item corresp="LIT2118OntheD">Dǝrsān za-Rǝtuʿa Hāymānot za-darasa baʾǝnta motu la-ʾǝgziʾǝna ʾIyasus Krǝstos gize 9 saʿat ba-ʿǝḍa masqal</item>
     <item corresp="LIT2119OntheD">On the Dormition of John the Baptist</item>
     <item corresp="LIT2120OntheE">Dǝrsān za-qǝddus Yoḥannǝs ʾAfa Warq baʾǝnta qǝddǝst Fāsikā</item>
-    <item corresp="LIT2121OntheE">Nagarāt baʾǝnta 8ḫǝllināt za-ʾab Wagris</item>
+    <item corresp="LIT2121OntheE">Nagarāt baʾǝnta 8-ḫǝllināt za-ʾAbbā Wagris</item>
     <item corresp="LIT2122OntheF">On the Fig Tree</item>
     <item corresp="LIT2123OntheF">On the Flight of the Holy Family</item>
     <item corresp="LIT2124OntheF">Dǝrsān za-4 ʾǝnsǝsā kǝburān</item>
@@ -24240,7 +24287,7 @@
     <item corresp="LIT5697MagicPrayer">Ṣalot baʾǝnta ḥǝmāma ʾaqʷyāṣ wa-ḥaqʷe wa-kʷǝllu ʾabāla
         śǝgā</item>
     <item corresp="LIT5698GannatChapters">Chapters by John Colobus</item>
-    <item corresp="LIT5699PrayeroftheblessedMary">Prayer of the blessed Virgin Mary</item>
+
     <item corresp="LIT5700MiracleCyriacus">Miracle of St Cyricus (Qirqos): St. Cyricus and the man
         possessed by a demon</item>
     <item corresp="LIT5701MiracleCyriacus">Miracle of St Cyricus (Qirqos): St. Julitta and St.
@@ -25811,7 +25858,7 @@
         śǝrāy</item>
     <item corresp="LIT6474PPAynaTela">Ṣalot baʾǝnta ḥǝmāma ʾayna ṭǝlā wa-ʾayna warq wa-ʾayna
         ʾagānǝnt wa-lǝsāna budā wa-qumaññā wa-mǝrtaññā wa-ʾayna ʾagānǝnt wa-ḥǝmāma fǝṭrat</item>
-    
+
     <item corresp="LIT6476PPAllahMallah">ʾAllāh mallāh mallāh ʾallāh</item>
     <item corresp="LIT6477PPAynaTela">Ṣalot baʾǝnta ʾayna ṭǝlā wa-gǝrmā mogas wa-madfǝna ḍar</item>
     <item corresp="LIT6478PPMasaraAganent">Ṣalot baʾǝnta māʿśara ʾagānǝnt za-qurṭǝmāta wa-wǝgāta
@@ -25847,8 +25894,7 @@
     <item corresp="LIT6492PPFanuel#Stanza">Protective prayer with stanza of the Malkǝʾa Fānuʾel:
         Stanza</item>
     <item corresp="LIT6493Dersan">Dǝrsān za-qǝddǝst Māryām dǝngǝl ʾǝmmu la-ʾǝgziʾǝna</item>
-    <item corresp="LIT6494SynConstr">Synaxarion commemoration of the construction of the church of
-        Mary</item>
+
     <item corresp="LIT6495Zenawa">Za-kama zenawā Gabrǝʾel la-Māryām wa-yǝbe ḫaylu la-ʾab za-warada
         yǝḫdǝr ba-māḫḍanā la-dǝngǝl za-ba-fǝqru maṣʾa</item>
     <item corresp="LIT6496PPReflux">Ṣalot baʾǝnta ḥǝmāma nǝzāž</item>
@@ -25888,7 +25934,7 @@
         mǝslehu</item>
     <item corresp="LIT6502Relics">Za-kama tarakba ʾaʿǝḍǝmtihu la-qǝddus ʾƎsṭifānos</item>
     <item corresp="LIT6503GadlaMarqos">Martyrdom of ‘Mārqos of Dabra Tarmaq</item>
-    <item corresp="LIT6504Mashafa">Martyrdom of Eusebius of Cesarea</item>
+    <item corresp="LIT6504Mashafa">Martyrdom of Eusebius of Syria</item>
     <item corresp="LIT6505Gadl">Gadl wa-sǝmʿ za-qǝddus Marmǝhnām walda Sanāḥereb nǝguśa ʾAtor
         wa-za-ʾǝḫǝtu Sārā</item>
     <item corresp="LIT6505Gadl#MarmehnamGadl">Gadl wa-sǝmʿ za-qǝddus Marmǝhnām walda Sanāḥereb
@@ -26084,8 +26130,7 @@
         za-nǝṣǝḥt rǝgǝb wa-qǝddǝst dǝngǝl za-yǝʾǝti beta krǝstiyān</item>
     <item corresp="LIT6596HolyCross26Mag">Dǝrsān za-yǝtnabbab ba-Masqal za-ṣom baʾǝnta qǝddus ʿǝḍa
         masqal za-Krǝstos</item>
-    <item corresp="LIT6598CyrilJohn">Homily by Cyril bishop of Alexadria for the feast of John the
-        Baptist</item>
+
     <item corresp="LIT6599DersanAbreham">Dǝrsān za-bǝḍuʿ wa-qǝddus ʾabuna ʾAbrǝhām wa-za-qǝddus
         wa-nǝṣuḥ Yǝsḥaq waldu</item>
     <item corresp="LIT6600RHJohnBapt">Dǝrsān za-Rǝtuʿa Hāymānot za-darasa baʾǝnta qǝddus Yoḥannǝs
@@ -26114,7 +26159,7 @@
     <item corresp="LIT6612Araya">The story of the appearance of the Holy Cross to emperor
         Constantine, for the feast of St. Helena</item>
     <item corresp="LIT6613DerBetYoh">Dǝrsān za-beta krǝstiyān za-Yoḥannǝs mafqarita gadām</item>
-    <item corresp="LIT6614FourCreat">Dǝrsān za-yǝtnabbab ba-kāhǝnāt wa-ba4 ʾǝnsǝsā</item>
+
     <item corresp="LIT6615MashafaTebab">Maṣḥafa ṭǝbab za-maṣʾa ʾǝm-gǝbṣ</item>
     <item corresp="LIT6616HomilyPassionIntro">Introduction to the Homiliary on the Passions of
         Christ</item>
@@ -26149,7 +26194,7 @@
     <item corresp="LIT6630AkkwetakaEgzio">ʾAʾǝkkʷǝtaka ʾƎgziʾo za-waḫabkanni zanta ʿābiya
         ṣaggā...</item>
     <item corresp="LIT6631SalMikMahari">Salām-hymn to St Michael</item>
-    <item corresp="LIT6632SalGabBetka">Salām-hymn to St Gabriel</item>
+
     <item corresp="LIT6633SalRufMastafessehe">Salām-hymn to the archangel Raphael</item>
     <item corresp="LIT6634SalAfnTeqeddes">Salām-hymn to St ʾAfnin</item>
     <item corresp="LIT6635SalAngZakonkemu">Salām-hymn to all angels</item>
@@ -34433,7 +34478,281 @@
         <item corresp="LIT4683IHA">درة اليتيمة في الصلاة على خير الخليفة محمد</item>
         <item corresp="LIT4684IHA">مخمس حادى العسق أدر كءس ألهنا</item>
         <item corresp="LIT4685IHA">تطلحوا زبير تعامرا عبد الرحمن</item>
-     <item change="entryAddedAt2025-10-17T22:18:58.734+02:00" corresp="STU0001Commentarius">Ad suam Historiam Aethiopicam antehac editam Commentarius</item><item change="entryAddedAt2025-10-20T14:16:55.529+02:00" corresp="STU0010Topographia">Topographia christiana</item><item change="entryAddedAt2025-10-24T11:48:42.911+02:00" corresp="LIT0185Tarbu">Gadla ʾabunā Tarbu</item><item change="entryAddedAt2025-10-28T14:15:17.282+01:00" corresp="LIT7743PsalterAmh">Psalter (Amharic)</item><item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7717Consecra">On the consecration of the church of St Gabriel in Dana</item><item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7718HomilyGab">Dǝrsān za-qǝddus wa-bǝḍuʿ wa-kǝbur Gabrǝʾel liqa malāʾǝkt fǝśśuḥa gaṣṣ</item><item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7719SalamGa">Salām-hymn in honour of the Archangel Gabriel</item><item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7720HomilyGab">Dǝrsān za-qǝddus Gabrǝʾel liqa malāʾǝkt za-yǝtnabbab ʾama 10wa9 la-yakkātit</item><item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7721MGPreeminence">Miracle on the preeminence of St Gabriel</item><item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7722SalamPaph">Salām la-Bafnotyos ʾǝnta dallawo tasammǝyo</item><item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7723HomilyAthGab">Dǝrsān wa-nagar za-qǝddus Gabrǝʾel liqa malāʾǝkt za-yǝtnabbab ʾama 10wa9 la-maggābit za-darasa ʾab qǝddus ʾAtnatewos</item><item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7724SalamGab">Salām la-Gabrǝʾel za-tafannawa ʾǝm-lǝʿul</item><item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7725HomilyEpiph">Dǝrsān za-qǝddus Gabrǝʾel liqa malāʾǝkt za-yǝtnabbab ʾama 10wa9 la-miyāzyā za-darasa qǝddus ʾEṗifānyos ʾeṗis qoṗos za-hagara Qoṗros</item><item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7726SalamPetrosBsoy">Salām la-za-hallawu la-beta moqǝḥ ba-wǝstetu</item><item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7727HomilyJCMaryEve">Dǝrsān za-qǝddus Gabrǝʾel liqa malāʾǝkt za-yǝtnabbab ʾama 10wa9 la-gǝnbot za-darasa qǝddus Yoḥannǝs ʾAfa Warq liqa ṗāṗāsat za-hagara Qwasṭǝnṭǝnyā</item><item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7728SalamBsoy">Salām la-ʾAbbā Bǝsoy</item><item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7730MGTwohorned">Miracle of St Gabriel on the two-horned serpent that bit a man</item><item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7731SalamGaMi">Salām lakǝmu Gabrǝʾel wa-Mikāʾel za-tǝsebbǝḥu ʾamlāk ba-ʾarmǝmo qāl</item><item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7732SalamGa">Salām ʾǝbǝl la-Gabrǝʾel</item><item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7733MGBaradyos">Miracle of St Gabriel on Barādyos i.e., continuation of the homily on Barādyos</item><item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7734SalamConsec">Salām la-qǝddāse betǝka kirub</item><item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7735SalamJohn">Salām la-ḍǝnsat ba-saledā karśā za-tagalfa la-ʾElsābeṭ</item><item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7736SalamSarab">Salām ʾǝbǝl la-Sarabāmon buruk</item><item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7737HomilyInc">Dǝrsān za-qǝddus Gabrǝʾel liqa malāʾǝkt za-kama zenawā wa-nagarā la-Māryām za-yǝtnabbab ʾama 10wa9 la-Ḫǝdār</item><item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7739SalamSarab">Salām la-Sarabāmon</item><item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7740HomilyGab">Anonymous homily on the Archangel Gabriel</item><item change="entryAddedAt2025-10-30T10:51:51.381+01:00" corresp="LIT7744SebhataMasqal">Sǝbḥata masqal</item><item change="entryAddedAt2025-10-30T10:51:51.381+01:00" corresp="LIT7745TasfaQebusan">Hymn to Mary</item><item change="entryAddedAt2025-11-01T22:10:55.859+01:00" corresp="NAR0015ListForSingleFeasts">List of readings for each single feast</item><item change="entryAddedAt2025-11-01T22:10:55.859+01:00" corresp="NAR0006monast">Monastic rules</item><item change="entryAddedAt2025-11-06T11:11:05.853+01:00" corresp="NAR0004comput">Computation of the cycles of years according to several calendars</item><item change="entryAddedAt2025-11-07T22:31:07.814+01:00" corresp="LIT7742QalementosHours">Ḫʷǝlqʷa saʿātata maṣḥafa Qalemǝnṭos</item></list>
+     <item change="entryAddedAt2025-10-17T22:18:58.734+02:00" corresp="STU0001Commentarius">Ad suam Historiam Aethiopicam antehac editam Commentarius</item>
+                <item change="entryAddedAt2025-10-20T14:16:55.529+02:00" corresp="STU0010Topographia">Topographia christiana</item>
+                <item change="entryAddedAt2025-10-24T11:48:42.911+02:00" corresp="LIT0185Tarbu">Gadla ʾabunā Tarbu</item>
+                <item change="entryAddedAt2025-10-28T14:15:17.282+01:00" corresp="LIT7743PsalterAmh">Psalter (Amharic)</item>
+                <item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7717Consecra">On the consecration of the church of St Gabriel in Dana</item>
+                <item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7718HomilyGab">Dǝrsān za-qǝddus wa-bǝḍuʿ wa-kǝbur Gabrǝʾel liqa malāʾǝkt fǝśśuḥa gaṣṣ</item>
+                <item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7719SalamGa">Salām-hymn in honour of the Archangel Gabriel</item>
+                <item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7720HomilyGab">Dǝrsān za-qǝddus Gabrǝʾel liqa malāʾǝkt za-yǝtnabbab ʾama 10wa9 la-yakkātit</item>
+                <item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7721MGPreeminence">Miracle on the preeminence of St Gabriel</item>
+                <item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7722SalamPaph">Salām la-Bafnotyos ʾǝnta dallawo tasammǝyo</item>
+                <item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7723HomilyAthGab">Dǝrsān wa-nagar za-qǝddus Gabrǝʾel liqa malāʾǝkt za-yǝtnabbab ʾama 10wa9 la-maggābit za-darasa ʾab qǝddus ʾAtnatewos</item>
+                <item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7724SalamGab">Salām la-Gabrǝʾel za-tafannawa ʾǝm-lǝʿul</item>
+                <item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7725HomilyEpiph">Dǝrsān za-qǝddus Gabrǝʾel liqa malāʾǝkt za-yǝtnabbab ʾama 10wa9 la-miyāzyā za-darasa qǝddus ʾEṗifānyos ʾeṗis qoṗos za-hagara Qoṗros</item>
+                <item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7726SalamPetrosBsoy">Salām la-za-hallawu la-beta moqǝḥ ba-wǝstetu</item>
+                <item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7727HomilyJCMaryEve">Dǝrsān za-qǝddus Gabrǝʾel liqa malāʾǝkt za-yǝtnabbab ʾama 10wa9 la-gǝnbot za-darasa qǝddus Yoḥannǝs ʾAfa Warq liqa ṗāṗāsat za-hagara Qwasṭǝnṭǝnyā</item>
+                <item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7728SalamBsoy">Salām la-ʾAbbā Bǝsoy</item>
+                <item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7730MGTwohorned">Miracle of St Gabriel on the two-horned serpent that bit a man</item>
+                <item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7731SalamGaMi">Salām lakǝmu Gabrǝʾel wa-Mikāʾel za-tǝsebbǝḥu ʾamlāk ba-ʾarmǝmo qāl</item>
+                <item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7732SalamGa">Salām ʾǝbǝl la-Gabrǝʾel</item>
+                <item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7733MGBaradyos">Miracle of St Gabriel on Barādyos i.e., continuation of the homily on Barādyos</item>
+                <item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7734SalamConsec">Salām la-qǝddāse betǝka kirub</item>
+                <item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7735SalamJohn">Salām la-ḍǝnsat ba-saledā karśā za-tagalfa la-ʾElsābeṭ</item>
+                <item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7736SalamSarab">Salām ʾǝbǝl la-Sarabāmon buruk</item>
+                <item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7737HomilyInc">Dǝrsān za-qǝddus Gabrǝʾel liqa malāʾǝkt za-kama zenawā wa-nagarā la-Māryām za-yǝtnabbab ʾama 10wa9 la-Ḫǝdār</item>
+                <item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7739SalamSarab">Salām la-Sarabāmon</item>
+                <item change="entryAddedAt2025-10-29T10:43:09.71+01:00" corresp="LIT7740HomilyGab">Anonymous homily on the Archangel Gabriel</item>
+                <item change="entryAddedAt2025-10-30T10:51:51.381+01:00" corresp="LIT7744SebhataMasqal">Sǝbḥata masqal</item>
+                <item change="entryAddedAt2025-10-30T10:51:51.381+01:00" corresp="LIT7745TasfaQebusan">Hymn to Mary</item>
+                <item change="entryAddedAt2025-11-01T22:10:55.859+01:00" corresp="NAR0015ListForSingleFeasts">List of readings for each single feast</item>
+                <item change="entryAddedAt2025-11-01T22:10:55.859+01:00" corresp="NAR0006monast">Monastic rules</item>
+                <item change="entryAddedAt2025-11-06T11:11:05.853+01:00" corresp="NAR0004comput">Computation of the cycles of years according to several calendars</item>
+                <item change="entryAddedAt2025-11-07T22:31:07.814+01:00" corresp="LIT7742QalementosHours">Ḫʷǝlqʷa saʿātata maṣḥafa Qalemǝnṭos</item>
+                <item change="entryAddedAt2025-11-19T11:28:01.124+01:00" corresp="LIT7748DossierZB">Hagiographic Dossier of ʾabuna Zarʾa Buruk</item>
+                <item change="entryAddedAt2025-11-21T09:54:57.593+01:00" corresp="LIT7713FeastsApostles">Śaraqa Maskaram ʾama 1 Bartalomewos</item>
+                <item change="entryAddedAt2025-11-21T11:19:39.052+01:00" corresp="LIT7716PrayerJes">Sǝʾlat wa-ʾastabqʷǝʾot ḫaba ʾƎgziʾǝna wa-ʾAmlākǝna ʾIyasus Krǝstos la-śǝgā wa-nafs</item>
+                <item change="entryAddedAt2025-11-21T12:28:36.414+01:00" corresp="LIT7749Yamangad">Ya-mangada samāy nagar</item>
+                <item change="entryAddedAt2025-11-21T12:28:36.414+01:00" corresp="LIT7750MagicPr">ʾAhyā šarāhyā ʾalšādāy ḍabāʿot ʾadonāy</item>
+                <item change="entryAddedAt2025-11-26T09:43:13.411+01:00" corresp="NAR0005calend">Calendar of saint commemorations</item>
+                <item change="entryAddedAt2025-11-26T14:45:04.192+01:00" corresp="LIT7752PPGrace">Magic prayer to receive grace</item>
+                <item change="entryAddedAt2025-11-26T18:49:26.098+01:00" corresp="LIT7751Manabert">Manābǝrt wa-śǝlṭānāt kwǝllomu sarāwita malāʾǝkt manfasāwǝyān</item>
+                <item change="entryAddedAt2025-12-11T18:16:01.48+01:00" corresp="LIT7755CommEnoch">Commentary on Chapter 76 of the Book of Enoch</item>
+                <item change="entryAddedAt2025-12-12T11:03:02.52+01:00" corresp="LIT7753Disputation">Tawāqǝso ba-hāymānot</item>
+                <item change="entryAddedAt2025-12-12T11:03:02.52+01:00" corresp="LIT7754Disputation">Maṣḥafa takāhǝdo ba-hāymānot</item>
+                <item change="entryAddedAt2025-12-15T11:03:39.314+01:00" corresp="LIT7756PPrayer">Ṣalot baʾǝnta ḍarr wa-ṣalāʿi</item>
+                <item change="entryAddedAt2025-12-15T12:06:14.043+01:00" corresp="LIT7757PPSalomon">Magic prayer by the names of Salomon</item>
+                <item change="entryAddedAt2025-12-16T11:49:26.632+01:00" corresp="LIT7758PPLofham">Prayer against Bāryā and Legewon, colic, migraine, Maggaññā, etc.</item>
+                <item change="entryAddedAt2025-12-16T11:53:55.578+01:00" corresp="LIT7759CommEnoch">Commentary on Chapter 76 of the Book of Enoch</item>
+                <item change="entryAddedAt2025-12-17T15:20:05.386+01:00" corresp="LIT7760PPSalome">Ṣalota Šotalāy</item>
+                <item change="entryAddedAt2026-01-05T09:38:05.214+01:00" corresp="LIT7761PPrayer">Protective prayer containing ʾasmāt</item>
+                <item change="entryAddedAt2026-01-05T09:38:05.214+01:00" corresp="LIT7762PPrayer">Protective prayer containing ʾasmāt</item>
+                <item change="entryAddedAt2026-01-05T09:38:05.214+01:00" corresp="LIT7763PPrayer">Protective prayer containing ʾasmāt</item>
+                <item change="entryAddedAt2026-01-05T09:38:05.214+01:00" corresp="LIT7764PPrayerLove">Ṣalot baʾǝnta fǝqr</item>
+                <item change="entryAddedAt2026-01-08T10:12:05.362+01:00" corresp="LIT7765MalkeaEntonyos">Malkǝʾ-hymn to ʾƎnṭonyos of Sarāye</item>
+                <item change="entryAddedAt2026-01-13T18:44:16.227+01:00" corresp="LIT7766JesusChristWhoseName">ʾIyasus Krǝstos ṭǝʿuma sǝm la-za-yǝṣewwǝʿo</item>
+                <item change="entryAddedAt2026-01-14T12:09:12.54+01:00" corresp="LIT7771PPTrinity">Protective prayer in honour of the Trinity</item>
+                <item change="entryAddedAt2026-01-15T12:33:08.337+01:00" corresp="LIT7772PPSealSalo">... ba-za-bottu ʾasaromu Salomon la-ʾagānǝnt ba-māʾkala ḫǝlqat</item>
+                <item change="entryAddedAt2026-01-26T12:25:13.726+01:00" corresp="LIT7773HomilyJohn">Dǝrsān za-tanāgara Yoḥannǝs Wangelāwi Walda Nagʷadgʷād</item>
+                <item change="entryAddedAt2026-01-27T08:36:09.471+01:00" corresp="LIT7774MiracTerr2">Taʾammǝrihu la-Qǝddus Gabrǝʾel liqa malāʾǝkt za-kama saṭaqa bāḥra za-wǝstetā śǝgāhu la-Giyorgis</item>
+                <item change="entryAddedAt2026-01-27T11:20:23.487+01:00" corresp="LIT7776YakkMir2">Taʾammǝrihu la-Qǝddus Gabrǝʾel za-kama wahabo sayfa la-Qǝddus Marqorewos</item>
+                <item change="entryAddedAt2026-01-27T11:25:08.908+01:00" corresp="LIT7777MaggHom">Taʾammǝrihu la-Qǝddus Gabrǝʾel ba-sādǝs warḫ ʾǝm-fǝṭrata ʿālam za-wǝʾǝtu 50-100 wa-5-100 ʿāmat bakama ʾasaffawo ʾƎgziʾabǝher la-ʾAddām</item>
+                <item change="entryAddedAt2026-01-28T12:14:07.857+01:00" corresp="LIT7780MiyazMir2">Taʾammǝrihu la-Qǝddus Gabrǝʾel za-kama radʾo la-Bǝsoy samāʿt wa-Ṗeṭros ʾǝḫuhu</item>
+                <item change="entryAddedAt2026-01-28T12:23:56.358+01:00" corresp="LIT7779MaggMir2">Taʾammǝrihu la-Qǝddus Gabrǝʾel za-kama śaṭaṭo la-manṭolāʿta mǝkʷrāb</item>
+                <item change="entryAddedAt2026-01-28T13:28:11.73+01:00" corresp="LIT7781GenbHom">Homily of St Gabriel : During the eighteenth year of King Nebuchadnezzar’s reign, he made a gold statue eight cubits high and six cubits wide ...</item>
+                <item change="entryAddedAt2026-01-28T13:32:35.556+01:00" corresp="LIT7767PPAlef">Ṣalot baʾǝnta ʾargāʿe dam</item>
+                <item change="entryAddedAt2026-01-28T13:32:35.556+01:00" corresp="LIT7768PPLisAflis">Lis ʾaflis mali wa-malalis</item>
+                <item change="entryAddedAt2026-01-28T13:32:35.556+01:00" corresp="LIT7769PPNegus">ʾƎgziʾabǝḥer nǝguś wa-ʾǝguś</item>
+                <item change="entryAddedAt2026-01-28T13:32:35.556+01:00" corresp="LIT7770PrAammen">Ba-śalās ʾakālāt wa-ba-ʾaḥatti malakot ʾanta gānen kama ʾi-tǝqrab ḫaba ḥǝḍānā</item>
+                <item change="entryAddedAt2026-01-29T08:23:08.025+01:00" corresp="LIT7778MiyazHom">Dǝrsān za-qǝddus Gabrǝʾel wa-ʾǝmdǝḫra sallaṭa ʾƎgziʾǝna ʾIyasus Krǝstos ḥǝmāmāta śǝgāhu</item>
+                <item change="entryAddedAt2026-01-30T11:54:15.618+01:00" corresp="LIT7787SaneMir2">Miracle of Archangel St Gabriel: How he gave a sword to Claudius</item>
+                <item change="entryAddedAt2026-01-30T12:21:21.296+01:00" corresp="LIT7785GenbMir2">Miracle of St Gabriel : How he made escape ʾAwqronyos, Dimusryā and Minās from the lion’s den</item>
+                <item change="entryAddedAt2026-02-02T10:23:51.331+01:00" corresp="LIT7793TeqHom">Homily of St Gabriel : And then, the age of Our Lady Mary was fifteen years, (of which she spent) three in her mother’s house and twelve in the Temple...</item>
+                <item change="entryAddedAt2026-02-02T10:26:30.147+01:00" corresp="LIT7792MaskMir3">Miracle of Archangel St Gabriel : How he helped Timothy and St Theodore of Rome</item>
+                <item change="entryAddedAt2026-02-02T11:19:39.072+01:00" corresp="LIT7788HamleHom">Homily of St Gabriel : Once upon a time Duke Alexander gave order to his army by saying ...</item>
+                <item change="entryAddedAt2026-02-02T11:19:39.072+01:00" corresp="LIT7789NahaseHom">Homily of St Gabriel : Once upon a time, there was a man named Joachim from the tribe of Judah ...</item>
+                <item change="entryAddedAt2026-02-02T11:19:39.072+01:00" corresp="LIT7790MaskHom">Homily of St Gabriel : Once upon a time, there was a priest named Zechariah from the servants of the house of Abijah ...</item>
+                <item change="entryAddedAt2026-02-02T11:19:39.072+01:00" corresp="LIT7791NahaseMir2">Miracle of St Gabriel : When Timotheus the Martyr opposed Duke Diocletian (by refusing) to worship the impure idol ...</item>
+                <item change="entryAddedAt2026-02-02T12:50:56.481+01:00" corresp="LIT7794TeqMir2">Miracle of Archangel St Gabriel : One day, he appeared to Isaac, the king of Rome, who was called Garimā ...</item>
+                <item change="entryAddedAt2026-02-02T14:28:32.963+01:00" corresp="LIT7796HedarHom">Homily of St Gabriel : And when Our Lady Mary was in the Temple, the people of Israel plotted to stone her...</item>
+                <item change="entryAddedAt2026-02-03T10:52:22.203+01:00" corresp="LIT0058MMDZ">A spring is brought forth by the Virgin Mary to provide water for the construction of a church</item>
+                <item change="entryAddedAt2026-02-03T10:52:22.203+01:00" corresp="LIT0059MMDZ">A man's house burns down but not the Marian incense box in it and a deacon's candle sets the church curtains on fire but the church does not burn down</item>
+                <item change="entryAddedAt2026-02-03T10:52:22.203+01:00" corresp="LIT0060MMDZ">A man who travels to a new land becomes sick and is healed with water that he prayed over</item>
+                <item change="entryAddedAt2026-02-03T10:52:22.203+01:00" corresp="LIT0061MMDZ">A thief named Jacob stole and ate the one sheep a widow had</item>
+                <item change="entryAddedAt2026-02-03T10:52:22.203+01:00" corresp="LIT0062MMDZ">Gabra Maryam receives a golden throne from the Virgin Mary</item>
+                <item change="entryAddedAt2026-02-03T10:52:22.203+01:00" corresp="LIT0063MMDZ">An adulterer is snatched up to heaven and is condemned but he is saved from judgement by Mary</item>
+                <item change="entryAddedAt2026-02-03T10:52:22.203+01:00" corresp="LIT0064MMDZ">A bitter servant commits suicide but is brought back to life by Mary</item>
+                <item change="entryAddedAt2026-02-03T10:52:22.203+01:00" corresp="LIT0065MMDZ">In Cairo, a poor and feeble but pious man named Bahor, and his son La'eka Maryam, encounter a thief named Damas</item>
+                <item change="entryAddedAt2026-02-03T10:52:22.203+01:00" corresp="LIT0066MMDZ">Saint Gabra Maryam helped a young man, who came to be his helper as a monk, through a vision.</item>
+                <item change="entryAddedAt2026-02-03T10:52:22.203+01:00" corresp="LIT0067MMDZ">Aksum Seyon: Mary brings Saint Gabra Maryam to Aksum, where she frees bound-up prisoners, as was her custom</item>
+                <item change="entryAddedAt2026-02-03T10:52:22.203+01:00" corresp="LIT0068MMDZ">Mary heals an Egyptian man with two faces and he praises her</item>
+                <item change="entryAddedAt2026-02-03T10:52:22.203+01:00" corresp="LIT0069MMDZ">Mary heals a man named Wafleqalone who was born blind and paralyzed</item>
+                <item change="entryAddedAt2026-02-03T10:52:22.203+01:00" corresp="LIT0070MMDZ">A sinner from Rome prays for forgiveness and Mary forgives all his sins</item>
+                <item change="entryAddedAt2026-02-03T10:52:22.203+01:00" corresp="LIT0071MMDZ">A weary pilgrim woman who was served communion by the angels when she couldn't journey to the church of the Virgin Mary</item>
+                <item change="entryAddedAt2026-02-03T10:52:22.203+01:00" corresp="LIT0072MMDZ">A pious man traveling with two youths who was troubled by kidnappers on the road and was saved by the Virgin Mary in the form of a white dove</item>
+                <item change="entryAddedAt2026-02-03T10:52:22.203+01:00" corresp="LIT0073MMDZ">A man who wants to write of Mary's wondrousness is visited by a radiant man and given a shining white cloth to write upon</item>
+                <item change="entryAddedAt2026-02-03T10:52:22.203+01:00" corresp="LIT0074MMDZ">A woman is traveling to the king and is robbed of all her possessions and jewelry, but an official returns her stolen possessions from the thieves</item>
+                <item change="entryAddedAt2026-02-03T10:52:22.203+01:00" corresp="LIT0075MMDZ">A young woman keeps twenty dinar of gold and silver in a tanned leather pouch, but a dog eats it and then vomits it back up</item>
+                <item change="entryAddedAt2026-02-03T10:52:22.203+01:00" corresp="LIT0076MMDZ">A sick little boy is healed by the Virgin Mary and when he is grown she reveals the woman who is to be his wife</item>
+                <item change="entryAddedAt2026-02-03T10:52:22.203+01:00" corresp="LIT0077MMDZ">Gabra Maryam is presented with a golden throne shining with twelve luminaries and twelve stars and then the Virgin Mary reveals a radiant city to him</item>
+                <item change="entryAddedAt2026-02-03T11:09:35.284+01:00" corresp="LIT7797HedarMir">Miracle of Archangel St Gabriel : How he has raised St Gabra Manfas Qǝddus on his wings to Heaven</item>
+                <item change="entryAddedAt2026-02-03T11:44:09.95+01:00" corresp="LIT7746MalkeaSebhat">Malkǝʾa Daǧǧāzmāč Sǝbḥat</item>
+                <item change="entryAddedAt2026-02-03T11:44:09.95+01:00" corresp="LIT7747SalamtaSebhat">Salāmtā for Daǧǧāzmāč Sǝbḥat</item>
+                <item change="entryAddedAt2026-02-03T11:46:48.254+01:00" corresp="LIT7782ArbaetAntif">Melodic models for ʾarbāʿt antiphons</item>
+                <item change="entryAddedAt2026-02-03T11:46:48.254+01:00" corresp="LIT7783SalastAntif">Melodic models for śalast antiphons</item>
+                <item change="entryAddedAt2026-02-03T11:46:48.254+01:00" corresp="LIT7467Salast">Single-type collection of śalast antiphons</item>
+                <item change="entryAddedAt2026-02-03T11:46:48.254+01:00" corresp="LIT7784AryamAntif">Melodic models for ʾaryām antiphons</item>
+                <item change="entryAddedAt2026-02-03T11:46:48.254+01:00" corresp="LIT7795TarafaSal">Additional melodic models for śalast antiphons</item>
+                <item change="entryAddedAt2026-02-03T19:40:50.362+01:00" corresp="LIT7798PPrayer">Prayer for undoing charms</item>
+                <item change="entryAddedAt2026-02-03T19:40:50.362+01:00" corresp="LIT7799PrayerDeath">Prayer for the hour of death</item>
+                <item change="entryAddedAt2026-02-03T19:40:50.362+01:00" corresp="LIT7800PrayerCharms">Prayer against charms</item>
+                <item change="entryAddedAt2026-02-03T19:40:50.362+01:00" corresp="LIT7801PrayerCharms">Ṣalot baʾǝnta maftǝḥe śǝrāy</item>
+                <item change="entryAddedAt2026-02-03T19:40:50.362+01:00" corresp="LIT7802PPrayer">Ṣalot baʾǝnta maftǝḥe śǝrāy</item>
+                <item change="entryAddedAt2026-02-03T19:40:50.362+01:00" corresp="LIT7803PrayerCharms">Ṣalot baʾǝnta maftǝḥe śǝrāy</item>
+                <item change="entryAddedAt2026-02-03T19:40:50.362+01:00" corresp="LIT7804PrayerCharms">Ṣalot baʾǝnta maftǝḥe śǝrāy</item>
+                <item change="entryAddedAt2026-02-03T19:40:50.362+01:00" corresp="LIT7805PrayerCharms">Ṣalot baʾǝnta maftǝḥe śǝrāy</item>
+                <item change="entryAddedAt2026-02-03T19:40:50.362+01:00" corresp="LIT7806PrayerCharms">Ṣalot baʾǝnta ʿāyna ṭǝllā</item>
+                <item change="entryAddedAt2026-02-05T11:56:32.814+01:00" corresp="LIT7807TahsasMir">Taʾammǝrihu la-Qǝddus Gabrǝʾel wa-śamra ʾIyasus Krǝstos ʾƎgziʾǝya kama ʾǝḥur wǝsta ʾabyāta krǝstiyānāt ʾǝlla ḥanaṣat ʾƎleni nǝgǝśt ḫaba qǝddǝst hagar ʾIyarusālem</item>
+                <item change="entryAddedAt2026-02-05T11:57:39.95+01:00" corresp="LIT7786SaneHomily">Dǝrsān za-qǝddus Gabrǝʾel wa-hallawat ʾaḥatti beta krǝstiyān za-taḥanṣat ba-dabra Neqlon</item>
+                <item change="entryAddedAt2026-02-05T15:40:24.386+01:00" corresp="LIT7808TerrMir">Taʾammǝrihu la-Qǝddus Gabrǝʾel wa-ʾǝnza yaḥannǝṣu beta krǝstiyān wa-yǝḍawwǝru ʿǝbna wadqa ʿābiy ʿǝbn dibehu laza-yaḥannǝṣ wa-kāʿba warada lāʿla 1-du ʾasāb wa-mataro ʾǝgro</item>
+                <item change="entryAddedAt2026-02-09T11:24:35.675+01:00" corresp="LIT7812HamleMir">Taʾammǝrihu la-Qǝddus Gabrǝʾel wa-ʾǝmdǝḫra zǝntu ʾaqamu ʾaʿmādā wa-śemwomu wǝsta wǝsāṭehā la-beta krǝstiyān</item>
+                <item change="entryAddedAt2026-02-09T11:55:59.81+01:00" corresp="LIT7813MaskMir">Taʾammǝrihu la-Qǝddus Gabrǝʾel wa-tanśǝʾat Māryām ba-wǝʾǝtu mawāʿǝl wa-ḥorat Gālilā hagara Yǝhudā wa-boʾat beta Zakkārǝrǝyās wa-rǝʾyatā ʾElsābeṭ ṣǝnsatā</item>
+                <item change="entryAddedAt2026-02-09T13:38:46.397+01:00" corresp="LIT7814HedarMir">Taʾammǝrihu la-Qǝddus Gabrǝʾel liqa malāʾǝkt zakama radʾomu la-Yosef wala-Niqodimos</item>
+                <item change="entryAddedAt2026-02-10T15:32:52.578+01:00" corresp="LIT7815DersanaGa">Dǝrsāna Gabrǝʾel (edition 1976)</item>
+                <item change="entryAddedAt2026-02-12T11:19:31.933+01:00" corresp="LIT7817Etan">Zǝ ʿǝṭān yǝʿrǝg baʾǝnta sǝma ʾAb</item>
+                <item change="entryAddedAt2026-02-12T11:19:31.933+01:00" corresp="LIT7818Zatawakkafka">Zatawakkafka maśwāʿta ʾAbrǝhām ʾabuna</item>
+                <item change="entryAddedAt2026-02-12T11:47:47.344+01:00" corresp="LIT7816Burake">Ba-zǝyya yǝzkǝr ḥaddisāna mutāna</item>
+                <item change="entryAddedAt2026-02-17T09:26:29.896+01:00" corresp="LIT7820MashafaAfnin">Maṣḥafa dǝrsānu la-ʾAfnin</item>
+                <item change="entryAddedAt2026-02-17T09:46:14.696+01:00" corresp="LIT7819YohannesZaAb">ድርሳን፡ ዘዮሐንስ፡ ዘአብ፡</item>
+                <item change="entryAddedAt2026-02-23T10:13:53.185+01:00" corresp="LIT7822Asmat">Prayer containing ʾasmāt</item>
+                <item change="entryAddedAt2026-02-25T13:50:48.331+01:00" corresp="LIT7821MalkeMaryam">Malkǝʾa Māryām</item>
+                <item change="entryAddedAt2026-03-03T18:23:24.678+01:00" corresp="LIT7823Invocation">Invocation to various saints</item>
+                <item change="entryAddedAt2026-03-03T18:39:56.292+01:00" corresp="LIT7824Praise">Praise to Our Lady Mary</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0101Malke">Malkəʾa Minās</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0102Malke">Malkəʾa Fiqṭor</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0103Malke">Malkəʾa ʿƎnqʷa Śǝllāse za-Dabra Śǝllāse</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0104Malke">Malkǝʾa Nǝwāya Dǝngǝl wa-Śarṣa Māryām</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0105Malke">Malkǝʾa Sǝddǝstu Qǝddusān</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0106Malke">Malkəʾa Zamadḫǝn za-Dabra Dəmāḥ</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0107Malke">Malkəʾa Mātyās za-Dabra Dəmāḥ</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0108Malke">Malkəʾa Ṗeṭros Tafṣāmeta Samāʿt</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0109Malke">Malkəʾa Ṗarāqliṭos</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0110Malke">Malkəʾa Diyosqoros</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0111Malke">Malkəʾa Kǝfla Śǝllāse za-Zāwǝl</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0112Malke">Malkəʾa Yǝrǝdʾanna Krǝstos za-Logoč̣č̣ǝwā</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0113Malke">Malkəʾa Ḥawārǝyā Krǝstos za-Dabra Bankol</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0114Malke">Malkəʾa Mātewos za-Daqo Ṣǝnʿā</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0115Malke">Malkəʾa Walda Tǝnśāʾe</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0116Malke">Malkǝʾa Fāsiladas</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0117Malke">Malkǝʾa Galāwdewos</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0118Malke">Malkəʾa Yoḥanni za-Dabra ʿĀśā</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0119Malke">Malkəʾa Zaʾiyyasus za-Dabra Hālle Luya</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0120Malke">Malkəʾa Sāmuʾel za-Dabra Hālle Luya</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0121Malke">Salāmtā za-Nǝguśǝna ʾƎskǝndǝr</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0122Malke">Salāmtā za-ʾƎskǝndǝr</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0123Malke">Malkəʾa ʾIyyasus Krəstos</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0124Malke">Salāmtā za-Śǝllāse za-Sabʿattu Gizeyāt</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0125Malke">Malkəʾa Walatta ʾƎsrāʾel</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0126Malke">Malkəʾa ʾAbib</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0127Malke">Malkǝʾa Sǝmʿon ʾAragāwi</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0128Malke">Malkəʾa ʿƎnqʷa Bǝrhān za-ʾAngab</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0129Malke">Malkəʾa Dānəʾel za-Waqen</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0130Malke">Malkəʾa Gabra Krəstos</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0131Malke">Malkǝʾ-Hymn for an Unknown Saint</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0132Malke">Malkəʾa Yāsāy za-Mandābbā</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0133Malke">Malkəʾa Ṣagā Zaʾab wa-ʾƎgziʾ Ḫarayā</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0134Malke">Malkəʾa ʾƎgziʾ Ḫarayā</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0135Malke">Malkəʾa Tādewos za-Dabra Ṣǝlālǝš</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0136Malke">Malkəʾa Tādewos za-Dabra Ṣǝlālǝš</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0137Malke">Malkəʾa ʾIyosyās za-Dabra Sǝbḥat</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0138Malke">Malkəʾa ʾAlāniqos za-May Barāzyo</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0139Malke">Malkəʾa ʾƎsṭifānos</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0140Malke">Malkəʾa Barbārā</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0141Malke">Malkəʾa Baṣalota Mikāʾel</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0142Malke">Malkəʾa Takla Ḥawārǝyāt za-Dabra Ṣəmmonā</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0143Malke">Malkəʾa ʾAmmǝḫā Giyorgis za-Dabra Magʷinā</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0144Malke">Malkəʾa ʾAbib</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0145Malke">Malkəʾa ʾAbrəhām Yəsḥaq wa-Yāʿqob</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0146Malke">Malkəʾa ʾAbsādi za-Dabra Magʷinā</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0147Malke">Malkəʾa ʾAbsādi za-Dabra Māryām</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0148Malke">Malkəʾa ʾAwsābyos za-Soryā</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0149Malke">Malkǝʾa ʾƎndrəyās za-Dabra Ṣəge Saffǝʿa Kālǝʾ</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0150Malke">Malkəʾa ʾƎda Krǝstos za-Dabra Magʷinā</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0151Malke">Malkəʾa ʿAśrāta Wald za-Zurzur</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0152Malke">Malkəʾa Zayoḥannəs za-Kəbrān</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0153Malke">Malkəʾa Yoḥannǝs ʾAfa Warq</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0154Malke">Malkəʾa Yoḥannǝs za-Wǝrrā</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0155Malke">Malkəʾa Gabra Manfas Qəddus</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0156Malke">Malkǝʾa Gabra Māryām Ḥarbe</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0157Malke">Malkəʾa Gigār</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0158Malke">Malkǝʾa Ṗeṭros Samāʿta Ṣǝdq za-ʾItyoṗyā</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0159Malke">Malkəʾa Ṣādqān za-Māḫbara Bakʷr</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0160Malke">Malkəʾa Filəṗṗos za-Dabra Libānos</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0161Malke">Malkəʾa Filəṗṗos za-Dabra Bizan</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0162Malke">Malkəʾa Fǝre Kāhǝn za-Ḥaydā</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0163Malke">Malkəʾa Ḥawārǝyā Krǝstos za-Dabra Bankol</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0164Malke">Malkəʾa Mikāʾel za-Gore</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0165Malke">Malkəʾa Minās za-Wāldǝbbā</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0166Malke">Malkəʾa Mārqos</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0167Malke">Malkǝʾa Māryām ʾƎnta ʿƎfrat</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0168Malke">Malkəʾa Śalastu Məʾt ʿAśśartu wa-Samāntu Rətuʿāna Hāymānot</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0169Malke">Malkəʾa Śallastu Daqiq</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0170Malke">Malkəʾa Samāʿtāt za-Dabra Mawiʿ</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0171Malke">Malkǝʾa Malakot</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0172Malke">Malkǝʾa Wangel</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0173Malke">Malkǝʾa Masqal Ḫāmǝs</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0174Malke">Malkəʾa ʾArbāʿəttu ʾƎnsəsā</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0175Malke">Malkəʾa Mikāʾel</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0176Malke">Malkəʾa Takla ʾIyyasus za-Dabra Dəmāḥ</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0177Malke">Malkəʾa Tewodros za-ʿĀddi Qitā</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0178Malke">Malkəʾa Tewodros za-ʿĀddi Qitā</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0179Malke">Malkəʾa Mātewos za-Dabra Ḥawārǝyāt</item>
+                <item change="entryAddedAt2026-03-10T15:01:08.34+01:00" corresp="LIT0180Malke">Malkəʾa Marqorewos za-Dabra Dəmāḥ</item>
+                <item change="entryAddedAt2026-03-12T11:54:58.517+01:00" corresp="STU0011CCRChurch">Ba-ʾityoṗyāwyānǝnā ba-maskobočč māḵal yāla ya-hāmānot malayāyǝt</item>
+                <item change="entryAddedAt2026-03-19T12:31:26.865+01:00" corresp="LIT7825SalotaSery">Ṣalota sǝryat</item>
+                <item change="entryAddedAt2026-03-19T12:42:31.639+01:00" corresp="LIT7830Algum">Ṣalot baʾǝnta maftǝhe śǝrāy wa-ʾAlgum wa-ʾƎǧa Sabʾ</item>
+                <item change="entryAddedAt2026-03-26T11:09:23.137+01:00" corresp="LIT7832PPrayer">Ṣalot baʾǝnta ḥǝmāma ʿĀyna Ṣǝllā wa-ʿĀyna Warq</item>
+                <item change="entryAddedAt2026-03-26T11:09:23.137+01:00" corresp="LIT7833PPrayer">ʾAnuzabaʿǝhi rǝḫman raḫim ʾiyāqelā ʾaʾaziʿun raḫmān</item>
+                <item change="entryAddedAt2026-03-26T11:09:23.137+01:00" corresp="LIT7834PPrayer">ʾAsmāta ḫāyl ʾakāʿ kǝsbǝʾel ʾaqmāhel ʾazāhel lǝmāʾel</item>
+                <item change="entryAddedAt2026-03-26T11:09:23.137+01:00" corresp="LIT7835PPrayer">Ṣalot baʾǝnta ḥǝmāma ʿĀyna Ṣǝllā wa-ʿĀyna Warq</item>
+                <item change="entryAddedAt2026-03-26T11:09:23.137+01:00" corresp="LIT7836PPrayer">Ṣalot baʾǝnta ḥǝmāma ʿĀyna Ṣǝllā wa-qwǝrḍat</item>
+                <item change="entryAddedAt2026-03-26T11:09:23.137+01:00" corresp="LIT7837PPrayer">Ṣalot baʾǝnta ḥǝmāma ʿĀyna Ṣǝllā wa-ʿĀyna Warq</item>
+                <item change="entryAddedAt2026-03-26T11:09:23.137+01:00" corresp="LIT7838PPrayer">Ṣalot baʾǝnta wǝgʿat</item>
+                <item change="entryAddedAt2026-03-30T13:48:58.378+02:00" corresp="LIT7840HymnGod">Hymn to God</item>
+                <item change="entryAddedAt2026-03-30T13:48:58.378+02:00" corresp="LIT7839MashafaBerhan">Maṣḥafa bǝrhān</item>
+                <item change="entryAddedAt2026-03-30T13:48:58.378+02:00" corresp="LIT7831TemhertaHayAmh">Tǝmhǝrta hāymānot (Amharic)</item>
+                <item change="entryAddedAt2026-04-13T07:39:33.13+02:00" corresp="NAR0208MichaelSennacherib">St Michael's intervention against King Sennacherib</item>
+                <item change="entryAddedAt2026-04-13T07:39:33.13+02:00" corresp="NAR0209MichaelSamuel">St Michael's appearance to Samuel</item>
+                <item change="entryAddedAt2026-04-16T13:13:57.231+02:00" corresp="LIT7849Eyes">Medical prescription for eyes in Amharic</item>
+                <item change="entryAddedAt2026-04-17T12:01:07.757+02:00" corresp="LIT7841YaBorana">Ya-Boranā tǝwlǝdd</item>
+                <item change="entryAddedAt2026-04-17T12:06:58.84+02:00" corresp="LIT7826GabiruSela">Gabiru Ṣǝlā Wagi biwagāw</item>
+                <item change="entryAddedAt2026-04-17T12:06:58.84+02:00" corresp="LIT7827GabiruSW">Gabiru Ṣǝlā Wagi biwagāw</item>
+                <item change="entryAddedAt2026-04-17T12:52:22.063+02:00" corresp="LIT7843Prayer">Ṣalot baʾǝnta ḥǝmāma ʿĀyna Ṭǝllā</item>
+                <item change="entryAddedAt2026-04-17T12:52:22.063+02:00" corresp="LIT7844Prayer">Prayer against the charms</item>
+                <item change="entryAddedAt2026-04-17T12:52:22.063+02:00" corresp="LIT7845Prayer">Prayer against stomach ache</item>
+                <item change="entryAddedAt2026-04-17T12:52:22.063+02:00" corresp="LIT7846Prayer">Ṣalot baʾǝnta maftǝḥe śǝrāy</item>
+                <item change="entryAddedAt2026-04-17T12:52:22.063+02:00" corresp="LIT7847Prayer">Ṣalot baʾǝnta dama nǝsr wa-nǝzāz</item>
+                <item change="entryAddedAt2026-04-17T12:52:22.063+02:00" corresp="LIT7848Prayer">Ṣalot baʾǝnta ḥǝmāma nǝzāz</item>
+                <item change="entryAddedAt2026-04-27T13:43:58.412+02:00" corresp="LIT7842Miracle">Miracle of Takla Hāymānot: The miracle of the mule who refused to eat Takla Hāymānot’s grain</item>
+                <item change="entryAddedAt2026-04-28T19:23:15.797+02:00" corresp="LIT7850MiracleBirds">Miracle of Jesus: Creating birds out of mud</item>
+                <item change="entryAddedAt2026-04-28T19:23:15.797+02:00" corresp="LIT7851MiracleRay">Miracle of Jesus: Riding a ray of sunshine</item>
+                <item change="entryAddedAt2026-04-28T19:23:15.797+02:00" corresp="LIT7852MiracleInk">Miracle of Jesus: Mixing and separating the colors of his master’s ink</item>
+                <item change="entryAddedAt2026-05-04T14:53:11.408+02:00" corresp="LIT7853Alfael">Magic prayer mentioning ʾAlfāʾel and Murādʾel</item>
+                <item change="entryAddedAt2026-05-04T14:53:11.408+02:00" corresp="LIT7854Sequtqut">Magic prayer for loosening the tongue with Asmat mentioning Šǝquṭquṭ</item>
+                <item change="entryAddedAt2026-05-04T17:55:21.261+02:00" corresp="LIT7855HassabaSaat">Ḥassāba saʿātāt</item>
+                <item change="entryAddedAt2026-05-04T17:55:21.261+02:00" corresp="NAR0003tables">Tables for determining Easter and other moveable feasts</item>
+                <item change="entryAddedAt2026-05-07T09:24:13.868+02:00" corresp="LIT7857HassabeML">Ḥassāba za-maʿālt wa-lelit</item>
+                <item change="entryAddedAt2026-05-11T12:54:47.483+02:00" corresp="LIT7828Nafseya">Ṣalot baʾǝnta maftǝḥe śǝrāy</item>
+                <item change="entryAddedAt2026-05-11T12:54:47.483+02:00" corresp="LIT7829Radani">Rǝdʾani wa-ʾǝqabanni wa-ʾǝm-kʷǝllu Ṣǝla Wagi wa-ʾAlgum</item>
+                <item change="entryAddedAt2026-05-14T08:21:31.398+02:00" corresp="LIT7856SalamDaqs">Salām ʾǝbl la-Daqsǝyos bāḥrǝyā</item>
+                <item change="entryAddedAt2026-05-31T17:25:03.051+02:00" corresp="LIT7859FSDuhadm">Ṣalota fǝtḥata śǝrāy wa-ʾagānǝnt wa-duḥadǝm</item>
+                <item change="entryAddedAt2026-05-31T17:25:03.051+02:00" corresp="LIT7858SeqayatihuG">Śǝqāyātihu la-Qǝddus Mār Giyorgis</item>
+                <item change="entryAddedAt2026-06-03T22:52:26.076+02:00" corresp="LIT7860HassSaatAmh">Notes on the length of shadows in Amharic (general record)</item>
+                <item change="entryAddedAt2026-06-05T19:38:25.244+02:00" corresp="LIT7861PPSmallpox">Ṣalot baʾǝnta ḥǝmāma fanṣāṣā</item>
+                <item change="entryAddedAt2026-06-10T21:26:51.579+02:00" corresp="LIT7862PrSatan">Ba-ṣalotā la-ʾƎgzǝʾǝtǝna Māryām walādita ʾAmlāk waba-ṣalotu la-qǝddus Mikāʾel liqa malāʾǝkt</item>
+                <item change="entryAddedAt2026-06-10T21:33:24.787+02:00" corresp="LIT7863SalamMikael">Salām laka Mikāʾel malʾak mǝkru la-lǝʿul</item>
+                <item change="entryAddedAt2026-06-10T21:33:24.787+02:00" corresp="LIT7864HymnGabriel">ʾAstamhǝr lana Gabrǝʾel</item>
+                <item change="entryAddedAt2026-06-12T20:34:48.179+02:00" corresp="LIT7866GodSalomon">Wa-ʾǝmdǝḫra ʾaḫazǝwo la-Salomon wa-ʾanbarǝwo la-Salomon</item>
+                <item change="entryAddedAt2026-06-15T08:18:16.006+02:00" corresp="LIT7865PrSalomon">ʾAsmāta Salomon ṣǝdǝryān ʾayās</item>
+                <item change="entryAddedAt2026-06-15T14:19:22.489+02:00" corresp="LIT7867MastemaYan">Ṣalot baʾǝnta masṭǝma ʾagānǝnt yānāʾelān behāqe</item>
+                <item change="entryAddedAt2026-06-15T14:19:22.489+02:00" corresp="LIT7868MastemaYas">Ṣalot baʾǝnta masṭǝma ʾagānǝnt yāšamkǝt</item>
+                <item change="entryAddedAt2026-06-15T14:19:22.489+02:00" corresp="LIT7869MasteLayal">Ṣalot baʾǝnta masṭǝma ʾagānǝnt layālafahem</item>
+                <item change="entryAddedAt2026-06-15T14:19:22.489+02:00" corresp="LIT7870MastemaMik">Ṣalot baʾǝnta masṭǝma ʾagānǝnt</item>
+                <item change="entryAddedAt2026-06-16T17:52:33.879+02:00" corresp="LIT7871WegatMetat">Ṣalot baʾǝnta ḥǝmāma wǝgʿāt wa-mǝtʾat</item>
+                <item change="entryAddedAt2026-06-18T17:20:45.102+02:00" corresp="LIT7873Spirits">Ba-zǝntu ʾasmātika yǝtḥarad</item>
+                <item change="entryAddedAt2026-06-19T12:00:38.456+02:00" corresp="LIT7872Tegretya">Prayer against Tǝgrǝtyā</item>
+                <item change="entryAddedAt2026-06-22T11:02:42.947+02:00" corresp="LIT7877EggaSab">Ṣalot baʾǝnta maftǝḥe śǝrāy wa-ʾƎǧǧa Sabʾ</item>
+                <item change="entryAddedAt2026-06-24T17:09:48.971+02:00" corresp="LIT7878Qursat">Ṣalot baʾǝnta ḥǝmāma qurḍat</item>
+                <item change="entryAddedAt2026-06-25T16:13:57.132+02:00" corresp="LIT7880DamSatam">Ṣalot baʾenta dam</item>
+                <item change="entryAddedAt2026-06-26T11:54:41.405+02:00" corresp="LIT7879GenGanen">Ba-ḥaṣura masqal ḥǝṣrā wa-ʾadḫǝnā ʾǝm-ḥǝmāma Ǧǝn wa-Gānen wa-ʿAyna Ṭǝlā</item>
+                <item change="entryAddedAt2026-06-27T08:01:20.198+02:00" corresp="LIT7881DamAflis">Ṣalot baʾenta dam</item>
+                <item change="entryAddedAt2026-06-29T10:53:02.629+02:00" corresp="LIT7882BudaBarya">Ba-ḫayla zǝntu ʾasmātika ʾadḫǝnā ʾǝm-ḥǝmāma Budā wa-Bāryā</item>
+                <item change="entryAddedAt2026-06-29T13:26:03.756+02:00" corresp="LIT7883AyyaraAganent">ʾƎm-śǝrāya Bāryā wa-Legewon wa-ʾayyara ʾagānǝnt ʾadḫǝnā</item>
+                <item change="entryAddedAt2026-06-29T16:07:30.472+02:00" corresp="LIT7884BarLegATel">Ṣalot baʾǝnta Bāryā wa-Legewon wa-ʿĀyna Ṭǝlā</item>
+                <item change="entryAddedAt2026-06-30T15:52:39.778+02:00" corresp="LIT7885BreathDem">Bazǝ-qāl ʿārabi ʾǝm-ʿayna Bāryā wa-Legewon wa-ʾayyara ʾagānǝnt ʾadḫǝnā</item>
+                <item change="entryAddedAt2026-07-04T21:04:57.124+02:00" corresp="LIT7887PrayerMary">Ṣalot za-ʾƎgzǝʾǝtǝna Māryām Dǝngǝl</item>
+            </list>
     </body>
   </text>
 </TEI>

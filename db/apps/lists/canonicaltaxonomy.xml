@@ -15,6 +15,24 @@
             <catDesc>Miniature Collection</catDesc>
          </category>
       </category>
+       <category>
+          <desc>Church Schools</desc>
+          <category xml:id="NebabBet" corresp="https://betamasaheft.eu/authority-files/NebabBet/main">
+             <catDesc>Nǝbāb bet</catDesc>
+          </category>
+          <category xml:id="QeddaseBet" corresp="https://betamasaheft.eu/authority-files/QeddaseBet/main">
+             <catDesc>Qǝddāse bet</catDesc>
+          </category>
+          <category xml:id="ZemaBet" corresp="https://betamasaheft.eu/authority-files/ZemaBet/main">
+             <catDesc>Zemā bet</catDesc>
+          </category>
+          <category xml:id="QeneBet" corresp="https://betamasaheft.eu/authority-files/QeneBet/main">
+             <catDesc>Qǝne bet</catDesc>
+          </category>
+          <category xml:id="MashafBet" corresp="https://betamasaheft.eu/authority-files/MashafBet/main">
+             <catDesc>Maṣḥāf bet</catDesc>
+          </category>
+       </category>
       <category>
          <desc>Objects of Veneration</desc>
          <category xml:id="TrueCross" corresp="https://betamasaheft.eu/authority-files/TrueCross/main">
@@ -277,7 +295,7 @@
             <category xml:id="provision" corresp="https://betamasaheft.eu/authority-files/provision/main">
                <catDesc>provision</catDesc>
             </category> <!-- omitting suscription omitting invocation -->
-         </category>         
+         </category>
          <category>
             <desc>Thread Material</desc>
             <category xml:id="animalThread" corresp="https://betamasaheft.eu/authority-files/animalThread/main">
@@ -388,7 +406,7 @@
           </category>
           <category xml:id="Mawaddes" corresp="https://betamasaheft.eu/authority-files/Mawaddes/main">
              <catDesc>Mawaddǝs</catDesc>
-          </category>         
+          </category>
           <category xml:id="KebrYeeti" corresp="https://betamasaheft.eu/authority-files/KebrYeeti/main">
              <catDesc>Kǝbr yǝʾǝti</catDesc>
           </category>
@@ -406,7 +424,7 @@
           </category>
           <category xml:id="GubaeQana" corresp="https://betamasaheft.eu/authority-files/GubaeQana/main">
              <catDesc>Gubāʿe Qānā</catDesc>
-          </category>       
+          </category>
           <category xml:id="Mibazhu" corresp="https://betamasaheft.eu/authority-files/Mibazhu/main">
              <catDesc>Mi-bazḫu</catDesc>
           </category>
@@ -416,60 +434,50 @@
           <category xml:id="Sahleka" corresp="https://betamasaheft.eu/authority-files/Sahleka/main">
              <catDesc>Śāhlǝka</catDesc>
           </category>
-       </category>       
+       </category>
        <category>
           <desc>Magic and spells</desc>
           <category>
              <desc>Subtypes</desc>
-             <category xml:id="MagicDrawing"
-                corresp="https://betamasaheft.eu/authority-files/MagicDrawing/main">
+             <category xml:id="MagicDrawing" corresp="https://betamasaheft.eu/authority-files/MagicDrawing/main">
                 <catDesc>Magic drawing </catDesc>
              </category>
-             <category xml:id="MagicSymbols"
-                corresp="https://betamasaheft.eu/authority-files/MagicSymbols/main">
+             <category xml:id="MagicSymbols" corresp="https://betamasaheft.eu/authority-files/MagicSymbols/main">
                 <catDesc>Magic symbols or letters</catDesc>
              </category>
           </category>
           <category>
              <desc>Subgenres</desc>
-             <category xml:id="Divination"
-                corresp="https://betamasaheft.eu/authority-files/Divination/main">
+             <category xml:id="Divination" corresp="https://betamasaheft.eu/authority-files/Divination/main">
                 <catDesc>Divination</catDesc>
-             </category>             
+             </category>
           </category>
           <category>
              <desc>Diseases and demons</desc>
-             <category xml:id="Disease"
-                corresp="https://betamasaheft.eu/authority-files/Disease/main">
+             <category xml:id="Disease" corresp="https://betamasaheft.eu/authority-files/Disease/main">
                 <catDesc>Disease (generic)</catDesc>
-             </category>                
-             <category xml:id="DiseaseFever"
-                corresp="https://betamasaheft.eu/authority-files/DiseaseFever/main">
+             </category>
+             <category xml:id="DiseaseFever" corresp="https://betamasaheft.eu/authority-files/DiseaseFever/main">
                 <catDesc>Disease with fever</catDesc>
              </category>
-             <category xml:id="DiseaseMental"
-                corresp="https://betamasaheft.eu/authority-files/DiseaseMental/main">
+             <category xml:id="DiseaseMental" corresp="https://betamasaheft.eu/authority-files/DiseaseMental/main">
                 <catDesc>Disease with mental symptoms</catDesc>
              </category>
-             <category xml:id="DiseasePain"
-                corresp="https://betamasaheft.eu/authority-files/DiseasePain/main">
+             <category xml:id="DiseasePain" corresp="https://betamasaheft.eu/authority-files/DiseasePain/main">
                 <catDesc>Disease with pain/colic</catDesc>
              </category>
-             <category xml:id="DiseaseWomen"
-                corresp="https://betamasaheft.eu/authority-files/DiseaseWomen/main">
+             <category xml:id="DiseaseWomen" corresp="https://betamasaheft.eu/authority-files/DiseaseWomen/main">
                 <catDesc>Disease in women</catDesc>
-             </category>                   
-             <category xml:id="EvilEye"
-                corresp="https://betamasaheft.eu/authority-files/EvilEye/main">
+             </category>
+             <category xml:id="EvilEye" corresp="https://betamasaheft.eu/authority-files/EvilEye/main">
                 <catDesc>Evil Eye</catDesc>
              </category>
-             <category xml:id="EvilSpirit"
-                corresp="https://betamasaheft.eu/authority-files/EvilSpirit/main">
+             <category xml:id="EvilSpirit" corresp="https://betamasaheft.eu/authority-files/EvilSpirit/main">
                 <catDesc>Evil Spirit</catDesc>
              </category>
           </category>
        </category>
-       
+
       <category>
          <desc>Additiones</desc>
          <category xml:id="GuestText" corresp="https://betamasaheft.eu/authority-files/GuestText/main">
@@ -846,7 +854,7 @@
          </category>
          <category xml:id="curtain" corresp="https://betamasaheft.eu/authority-files/curtain/main">
             <catDesc>curtain</catDesc>
-         </category>         
+         </category>
          <category xml:id="eucharist" corresp="https://betamasaheft.eu/authority-files/eucharist/main">
             <catDesc>eucharist</catDesc>
          </category>
@@ -1033,7 +1041,7 @@
          <category xml:id="AT1063AngelFeedsMary" corresp="https://betamasaheft.eu/authority-files/AT1063AngelFeedsMary/main">
             <catDesc>Mary fed by an Angel</catDesc>
          </category>
-         
+
          <category xml:id="AT1020Massacre" corresp="https://betamasaheft.eu/authority-files/AT1020Massacre/main">
             <catDesc>Massacre of the Innocents</catDesc>
          </category>
@@ -1213,7 +1221,7 @@
          </category>
          <category xml:id="AT1139MMDog" corresp="https://betamasaheft.eu/authority-files/AT1139MMDog/main">
             <catDesc>Miracle of Mary: Mary gives a thirsty dog water to drink from her shoe</catDesc>
-         </category>         
+         </category>
          <category xml:id="AT1140AngelGoodThief" corresp="https://betamasaheft.eu/authority-files/AT1140AngelGoodThief/main">
             <catDesc>The Angel and the Good Thief</catDesc>
          </category>
