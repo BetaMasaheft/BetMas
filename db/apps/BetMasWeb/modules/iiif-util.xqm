@@ -10,7 +10,7 @@ declare function iiifut:facs-switch($idnofacs as element()) as xs:string {
     if (starts-with($idnofacs/@facs, '#')) then
         let $facsimileID := substring-after($idnofacs/@facs, '#')
         return string($idnofacs/ancestor::t:TEI//t:facsimile[@xml:id=$facsimileID]/@facs)
-    else 
+    else
         string($idnofacs/@facs)
 };
 
@@ -22,10 +22,10 @@ declare function iiifut:get-first-canvas($manifestUrl as xs:string) as xs:string
             (: Check for IIIF v3 structure ('items') :)
             if (map:contains($json, 'items')) then
                 let $firstCanvas := $json?items(1)?items(1)?items(1)
-                return 
-                    if (map:contains($firstCanvas, 'id')) then 
+                return
+                    if (map:contains($firstCanvas, 'id')) then
                         $firstCanvas?id
-                    else 
+                    else
                         $json?items(1)?id
             (: Fallback to IIIF v2 structure ('sequences/canvases') :)
             else if (map:contains($json, 'sequences')) then
@@ -36,45 +36,46 @@ declare function iiifut:get-first-canvas($manifestUrl as xs:string) as xs:string
     }
 };
 
-(: Central Canvas Calculator :)
+(:~ Central Canvas Calculator :)
 declare function iiifut:calculate-canvas(
-    $idnoFacs as xs:string, 
-    $page as xs:string, 
-    $id as xs:string, 
+    $idnoFacs as xs:string,
+    $page as xs:string,
+    $id as xs:string,
     $appUrl as xs:string
 ) as xs:string {
 
-    if (contains($idnoFacs, 'bodleian') or contains($idnoFacs, 'princeton')) then 
+    if (contains($idnoFacs, 'bodleian') or contains($idnoFacs, 'princeton')) then
         ''
     else if (not(starts-with($idnoFacs, 'http'))) then
         $appUrl || '/api/iiif/' || $id || '/canvas/p' || $page
-        
+
     (: UNIVERSAL LIVE LOOKUP FOR EXTERNAL MANIFESTS :)
     else if (starts-with($idnoFacs, 'http')) then
         let $cleanUrl := if (contains($idnoFacs, 'cudl')) then replace($idnoFacs, '//iiif', '/iiif') else $idnoFacs
         let $dynamicCanvas := iiifut:get-first-canvas($cleanUrl)
-        let $cleanPage := replace($page, '[a-z\s#]', '')        
+        let $safePage := if (empty($page) or normalize-space($page) eq '') then '1' else $page
+        let $cleanPage := replace($safePage, '[a-z\s#]', '')
         return
-            if (string-length($dynamicCanvas) gt 0 and ($cleanPage eq '1' or $cleanPage eq '')) then 
+            if (string-length($dynamicCanvas) gt 0 and ($cleanPage eq '1' or $cleanPage eq '')) then
                 $dynamicCanvas
             else
                 (: --- STATIC SAFETY NET FALLBACKS --- :)
                 if (contains($idnoFacs, 'digi.vat') or contains($idnoFacs, 'vatlib')) then
-                    replace(substring-before($idnoFacs, '/manifest.json') || '/canvas/p0001', 'http:', 'https:')                
+                    replace(substring-before($idnoFacs, '/manifest.json') || '/canvas/p0001', 'http:', 'https:')
                 else if (contains($idnoFacs, 'loc.gov')) then
-                    'https://tile.loc.gov/image-services/iiif/service:amed:amedmonastery:' || substring-before(substring-after($idnoFacs, 'item/'), '/manifest.json') || ':0001'                
-                else if (contains($idnoFacs, 'https://rct.resourcespace.com/iiif/1005081')) then $idnoFacs || 'canvas/P000'  
-                else if (contains($idnoFacs, 'https://rct.resourcespace.com/iiif/1005079')) then $idnoFacs || 'canvas/ 003'  
-                else if (contains($idnoFacs, 'https://rct.resourcespace.com/iiif/1005084')) then $idnoFacs || 'canvas/ _P002-hpr.jpg'  
-                else if (contains($idnoFacs, 'https://rct.resourcespace.com/iiif/1005085')) then $idnoFacs || 'canvas/1005085.a (1)-hpr.jpg' 
-                else if (contains($idnoFacs, 'rct.')) then $idnoFacs || 'canvas/001'                  
+                    'https://tile.loc.gov/image-services/iiif/service:amed:amedmonastery:' || substring-before(substring-after($idnoFacs, 'item/'), '/manifest.json') || ':0001'
+                else if (contains($idnoFacs, 'https://rct.resourcespace.com/iiif/1005081')) then $idnoFacs || 'canvas/P000'
+                else if (contains($idnoFacs, 'https://rct.resourcespace.com/iiif/1005079')) then $idnoFacs || 'canvas/ 003'
+                else if (contains($idnoFacs, 'https://rct.resourcespace.com/iiif/1005084')) then $idnoFacs || 'canvas/ _P002-hpr.jpg'
+                else if (contains($idnoFacs, 'https://rct.resourcespace.com/iiif/1005085')) then $idnoFacs || 'canvas/1005085.a (1)-hpr.jpg'
+                else if (contains($idnoFacs, 'rct.')) then $idnoFacs || 'canvas/001'
                 else if (contains($idnoFacs, 'eap.')) then
                     replace($idnoFacs, 'manifest', 'canvas') || '/' || $cleanPage
-                else if (contains($idnoFacs, 'bl.digirati')) then 
-                    let $n1 := number(substring-before(substring-after($idnoFacs, 'vdc_'), '.0x')) 
+                else if (contains($idnoFacs, 'bl.digirati')) then
+                    let $n1 := number(substring-before(substring-after($idnoFacs, 'vdc_'), '.0x'))
                     let $facs := replace($idnoFacs, string($n1), string($n1 + 2))
                     let $newfacs := substring-before($facs, '000001')
-                    return replace($newfacs, 'iiif', 'images') || '000001/canvas/c/' || $cleanPage                
+                    return replace($newfacs, 'iiif', 'images') || '000001/canvas/c/' || $cleanPage
                 else if (contains($idnoFacs, 'staatsbib')) then substring-before($idnoFacs, '/manifest') || '-' || format-number(xs:integer($cleanPage), '0000') || '/canvas'
                 else if (contains($idnoFacs, 'le.ac.uk')) then 'https://cdm16445.contentdm.oclc.org/iiif/' || substring-before(substring-after($idnoFacs, 'iiif/'), 'coll6') || 'coll6:19840/canvas/c0'
                 else if (contains($idnoFacs, 'tuebingen')) then replace($idnoFacs, '/manifest', '/') || 'canvas/' || $cleanPage
@@ -83,13 +84,13 @@ declare function iiifut:calculate-canvas(
                 else if (contains($idnoFacs, 'cudl')) then replace($idnoFacs, '//iiif', '/iiif') || '/canvas/' || $cleanPage
                 else if (contains($idnoFacs, 'gallica')) then replace($idnoFacs, 'ark:', 'iiif/ark:') || '/canvas/f' || $cleanPage
                 else if (contains($idnoFacs, 'manchester')) then $idnoFacs || '/canvas/' || $cleanPage
-                
+
                 else $appUrl || '/api/iiif/' || $id || '/canvas/p1'
-    else 
+    else
         $appUrl || '/api/iiif/' || $id || '/canvas/p1'
 };
 
-(:OpenSeadragon Tile Sources Generator :)
+(: OpenSeadragon Tile Sources Generator :)
 declare function iiifut:tile-sources($idnoFacs as xs:string, $locus as element(), $locusrvFunc as function(element()) as xs:string, $makeSequenceFunc as function(element()) as item()*) as xs:string {
     let $f := string($locus/@facs)
     return
@@ -158,6 +159,6 @@ declare function iiifut:tile-sources($idnoFacs as xs:string, $locus as element()
                     let $tiles := for $t in $makeSequenceFunc($locus/@target) return '"' || $iiif || $t || '.jp2/info.json"'
                     return string-join($tiles, ', ')
                 else ''
-        else 
+        else
             '"I do not know where these images come from"'
 };
