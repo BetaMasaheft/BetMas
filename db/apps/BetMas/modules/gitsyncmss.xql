@@ -1,21 +1,21 @@
 xquery version "3.1";
 
 (:module namespace gitsync = "http://syriaca.org/ns/gitsync";:)
-(:~ 
- : XQuery endpoint to respond to Github webhook requests. Query responds only to push requests. 
- : The EXPath Crypto library supplies the HMAC-SHA1 algorithm for matching Github secret. 
+(:~
+ : XQuery endpoint to respond to Github webhook requests. Query responds only to push requests.
+ : The EXPath Crypto library supplies the HMAC-SHA1 algorithm for matching Github secret.
 
  : Secret can be stored as environmental variable.
  : Will need to be run with administrative privileges, suggest creating a git user with privileges only to relevant app.
  :
  : @author Winona Salesky
- : @version 1.1 
+ : @version 1.1
  :
- : @see https://github.com/joewiz/xqjson   
- : @see http://expath.org/spec/crypto 
+ : @see https://github.com/joewiz/xqjson
+ : @see http://expath.org/spec/crypto
  : @see http://expath.org/spec/http-client
- : 
- 
+ :
+
  : slightly modified to serve only manuscripts repo for BetaMasaheft
 
  : @author Pietro Liuzzo added validation and specific report, changed to use 3.1 and to use parse-json instead of xqjson in some cases
@@ -43,10 +43,10 @@ return
         let $payload := util:base64-decode($post-data)
         let $json-data := parse-json($payload)
         let $data-collection := $config:data-rootMS
-        
+
         return
             try {
-                
+
                 if (matches(request:get-header('User-Agent'), '^GitHub-Hookshot/')) then
                     if (request:get-header('X-GitHub-Event') = 'push') then
                         let $signiture := request:get-header('X-Hub-Signature')
@@ -78,5 +78,5 @@ return
     else
         <response
             status="fail">
-            <message>No post data recieved</message>
+            <message>No post data received</message>
         </response>
