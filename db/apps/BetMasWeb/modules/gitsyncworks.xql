@@ -1,31 +1,32 @@
 xquery version "3.1";
 
-(:module namespace gitsync = "http://syriaca.org/ns/gitsync";:)
-
-(:~ 
- : XQuery endpoint to respond to Github webhook requests. Query responds only to push requests. 
- : The EXPath Crypto library supplies the HMAC-SHA1 algorithm for matching Github secret. 
+(:~
+ : XQuery endpoint to respond to Github webhook requests. Query responds only to push requests.
+ : The EXPath Crypto library supplies the HMAC-SHA1 algorithm for matching Github secret.
 
  : Secret can be stored as environmental variable.
  : Will need to be run with administrative privileges, suggest creating a git user with privileges only to relevant app.
  :
  : @author Winona Salesky
- : @version 1.1 
+ : @version 1.1
  :
- : @see https://github.com/joewiz/xqjson   
- : @see http://expath.org/spec/crypto 
+ : @see https://github.com/joewiz/xqjson
+ : @see http://expath.org/spec/crypto
  : @see http://expath.org/spec/http-client
- : 
- 
+ :
+
  : slightly modified to serve only WORKS repo for BetaMasaheft
- 
+
  : @author Pietro Liuzzo added validation and specific report, changed to use 3.1 and to use parse-json instead of xqjson in some cases
  :)
 import module namespace gitsync = "http://syriaca.org/ns/gitsync" at "xmldb:exist:///db/apps/BetMas/modules/gitsync.xqm";
 import module namespace xdb = "http://exist-db.org/xquery/xmldb";
 import module namespace crypto = "http://expath.org/ns/crypto";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas/config" at "xmldb:exist:///db/apps/BetMas/modules/config.xqm";
+import module namespace util="http://exist-db.org/xquery/util" at "http://exist-db.org/xquery/util.xql";
+
 declare option exist:serialize "method=xml media-type=text/xml indent=yes";
+declare option exist:serialize "method=xml status=400";
 
 (:~
  : Validate github post request.
@@ -42,14 +43,14 @@ return
     if (not(empty($post-data))) then
         let $payload := util:base64-decode($post-data)
         let $json-data := parse-json($payload)
-        
+
         let $data-collection := $config:data-rootW
-        
+
         let $login := xmldb:login($data-collection, 'BetaMasaheftAdmin', 'BMAdmin')
-        
+
         return
             try {
-                
+
                 if (matches(request:get-header('User-Agent'), '^GitHub-Hookshot/')) then
                     if (request:get-header('X-GitHub-Event') = 'push') then
                         let $signiture := request:get-header('X-Hub-Signature')
@@ -82,6 +83,5 @@ return
     else
         <response
             status="fail">
-            <message>No post data recieved</message>
+            <message>No post data received</message>
         </response>
-
