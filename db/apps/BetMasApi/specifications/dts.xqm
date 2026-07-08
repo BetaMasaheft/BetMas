@@ -81,6 +81,19 @@ declare variable $dts:context := map{
             }
         ]
     };
+    
+    declare variable $dts:regexCol := "(https://betamasaheft.eu/)(textualunits|narrativeunits|transcriptions)?";
+  declare variable $dts:regexID := "([a-zA-Z\d]+)?(_(ED|TR)_([a-zA-Z0-9]+)?)?(\.)?(((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?(\-)?((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?)";
+
+  declare variable $dts:collection-rootMS  := collection($config:data-rootMS);
+  declare variable $dts:collection-rootW  := collection($config:data-rootW);
+  declare variable $dts:collection-rootN  := collection($config:data-rootN);
+  declare variable $dts:collection-root  := collection($config:data-root);
+
+   declare function dts:capitalize-first ( $arg as xs:string? )  as xs:string? {
+   concat(upper-case(substring($arg,1,1)),
+             substring($arg,2))
+ } ;
 (:~ dts/collection https://github.com/distributed-text-services/specifications/blob/master/Collection-Endpoint.md :)
 declare
 %rest:GET
