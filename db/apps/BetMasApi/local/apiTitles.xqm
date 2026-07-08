@@ -1,10 +1,10 @@
 xquery version "3.1" encoding "UTF-8";
 (:~
  : titles from API
- : 
- : @author Pietro Liuzzo 
+ :
+ : @author Pietro Liuzzo
  :)
- 
+
 module namespace apiTit = "https://www.betamasaheft.uni-hamburg.de/BetMas/apiTitles";
 import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace api = "https://www.betamasaheft.uni-hamburg.de/BetMas/api"  at "xmldb:exist:///db/apps/BetMas/modules/rest.xqm";
@@ -30,8 +30,8 @@ declare
 %output:method("text")
 function apiTit:get-FormattedTitle($id as xs:string) {
     ($config:response200,
-    let $id := replace($id, '_', ':') 
-    
+    let $id := replace($id, '_', ':')
+
     return
     if (not(contains($id, ':'))) then
    normalize-space(string-join(exptit:printTitleMainID($id)))
@@ -50,14 +50,14 @@ declare
 %output:method("json")
 function apiTit:get-FormattedTitleJson($id as xs:string) {
     ($config:response200Json,
-    let $id := replace($id, '_', ':') 
+    let $id := replace($id, '_', ':')
    let $titletext :=  if (not(contains($id, ':'))) then
-normalize-space(string-join(exptit:printTitleMainID($id))) 
+normalize-space(string-join(exptit:printTitleMainID($id)))
    else if (starts-with($id, 'wd:') or starts-with($id, 'pleaides:') or starts-with($id, 'sdc:') or starts-with($id, 'gn:')   )
    then
    normalize-space(exptit:printTitleMainID($id))
     else $id
-    
+
     return map {'title':$titletext}
     )
 };
@@ -68,11 +68,11 @@ declare
 %rest:path("/api/{$id}/{$SUBid}/title")
 %output:method("text")
 function apiTit:get-FormattedTitleandID($id as xs:string, $SUBid as xs:string) {
-    ($config:response200, 
+    ($config:response200,
     let $fullid := ($id||'#'||$SUBid)
     return
     if ($apiTit:TUList//t:item[@corresp eq $fullid]) then ($apiTit:TUList//t:item[@corresp eq $fullid]/node()) else (
-    exptit:printTitleID($fullid)    
+    exptit:printTitleID($fullid)
     )
     )
 };

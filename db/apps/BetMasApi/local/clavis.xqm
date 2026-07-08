@@ -1,8 +1,8 @@
 xquery version "3.1" encoding "UTF-8";
 (:~
  : clavis matching related funtions.
- : 
- : @author Pietro Liuzzo 
+ :
+ : @author Pietro Liuzzo
  :)
 module namespace clavis = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/clavis";
 import module namespace rest = "http://exquery.org/ns/restxq";
@@ -58,15 +58,15 @@ se interrogato da titolo da gli id, altrimenti per id da gli altri id e il titol
                     "BHL":  $BHL,
                     "syriaca":  $syriaca
                     }
-                    
+
                     return
                         ( $config:response200Json,
                         map {
                             "CAe" : $id,
                             "title" : $title,
-                            "clavis" : $clavisIDS                
+                            "clavis" : $clavisIDS
                         })
-                        
+
 };
 
 
@@ -85,7 +85,7 @@ se interrogato da titolo da gli id, altrimenti per id da gli altri id e il titol
 :)
 (:
     let $log := log:add-log-message('/api/clavis/' || $id , sm:id()//sm:real/sm:username/string() , 'REST')
-               :)  
+               :)
                let $bibl := if ($type != '') then "[t:bibl[@type = '" ||$type||"']]" else ()
                let $path := util:eval("$exptit:col//t:listBibl[@type eq 'clavis']" || $bibl)
               let $results := for $work in $path
@@ -108,21 +108,21 @@ se interrogato da titolo da gli id, altrimenti per id da gli altri id e il titol
                     "BHL":  $BHL,
                     "syriaca":  $syriaca
                     }
-                    
+
                     return
                         map {
                             "CAe" : $id,
                             "CAeN" : substring($id, 4,4),
                             "CAeURL" : 'https://betamasaheft.eu/works/' || $id || '/main',
                             "title" : $title,
-                            "clavis" : $clavisIDS                
+                            "clavis" : $clavisIDS
                         }
-                        
+
                         return
                          ( $config:response200Json,
                           map {'results' : $results, 'total' : count($results)}
                          )
-                       
+
 };
 
 
@@ -130,7 +130,7 @@ se interrogato da titolo da gli id, altrimenti per id da gli altri id e il titol
 results from BM interroga bibl con id clavis e titolo.
 se interrogato da titolo da gli id, altrimenti per id da gli altri id e il titolo
 
-:) 
+:)
 declare
 %rest:GET
 %rest:path("/api/clavis")
@@ -166,13 +166,13 @@ let $hi :=   for $hit in $hits
                     "BHL":  $BHL,
                     "syriaca":  $syriaca
                     }
-                    
+
                     return
                         map {
                             "CAe" : $id,
                             "title" : $title,
                             "clavis" : $clavisIDS,
-                            "hits" : $hitCount                    
+                            "hits" : $hitCount
                         }
 let $c := count($hits)
 return
@@ -181,7 +181,7 @@ return
        map {
             "items" : $hi,
             "totalhits": $c
-        
+
         })
     else
          ( $config:response200Json,
@@ -192,4 +192,3 @@ return
             </json:value>
         </json:value>)
 };
-

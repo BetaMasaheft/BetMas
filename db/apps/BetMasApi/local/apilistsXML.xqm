@@ -1,10 +1,10 @@
 xquery version "3.1" encoding "UTF-8";
 (:~
  : lists from API
- : 
- : @author Pietro Liuzzo 
+ :
+ : @author Pietro Liuzzo
  :)
-module namespace apiLx = "https://www.betamasaheft.uni-hamburg.de/BetMas/apiLists";
+module namespace apiLx = "https://www.betamasaheft.uni-hamburg.de/BetMasApi/apiListsX";
 import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace all="https://www.betamasaheft.uni-hamburg.de/BetMasWeb/all" at "xmldb:exist:///db/apps/BetMasWeb/modules/all.xqm";
 import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMasWeb/modules/log.xqm";
@@ -30,13 +30,13 @@ declare
 %rest:query-param("perpage", "{$perpage}", 25)
 %rest:query-param("term", "{$term}", "")
 function apiLx:collection($collection as xs:string*, $start as xs:integer*, $perpage as xs:integer*, $term as xs:string*) {
-    (:if ($perpage gt 100) 
-            then ($config:response200XML, <info>Try a lower value for the parameter perpage. Maximum is 100.</info>) 
+    (:if ($perpage gt 100)
+            then ($config:response200XML, <info>Try a lower value for the parameter perpage. Maximum is 100.</info>)
     else:)
-     
+
     let $test := console:log('got here')
     let $log := log:add-log-message('/api/' || $collection || '/list', sm:id()//sm:real/sm:username/string() , 'REST')
-    (: logs into the collection 
+    (: logs into the collection
     let $login := xmldb:login($config:data-root, $config:ADMIN, $config:ppw):)
      let $term := if ($term != '') then
              ("[descendant::t:term/@key eq '" || $term || "' ]")
@@ -55,7 +55,7 @@ function apiLx:collection($collection as xs:string*, $start as xs:integer*, $per
             let $title := exptit:printTitleID(string($resource/@xml:id))
             order by $title[1] descending
             return
-           
+
                 element item {
                     attribute uri {base-uri($resource)},
                     attribute name {util:unescape-uri(replace(base-uri($resource), ".+/(.+)$", "$1"), "UTF-8")},
@@ -200,4 +200,3 @@ function apiLx:collection($collection as xs:string*, $start as xs:integer*, $per
 </items>
 )
 };
-

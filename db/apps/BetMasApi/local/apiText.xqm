@@ -1,8 +1,8 @@
 xquery version "3.1" encoding "UTF-8";
 (:~
  : texts from API
- : 
- : @author Pietro Liuzzo 
+ :
+ : @author Pietro Liuzzo
  :)
 module namespace apiT = "https://www.betamasaheft.uni-hamburg.de/BetMas/apiTexts";
 import module namespace rest = "http://exquery.org/ns/restxq";
@@ -21,7 +21,7 @@ declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
 (: ~ returns the full first level subdivision
 
-e.g. Ex. 1 
+e.g. Ex. 1
 
 :)
 declare
@@ -31,22 +31,22 @@ declare
 %test:args('LIT1367Exodus', '1') %test:assertXPath('//partofwork')
 function apiT:get-level1XML($id as xs:string, $level1 as xs:string*) {
     ($api:response200XML,
-    
+
     let $log := log:add-log-message('/api/xml/' || $id || '/' || $level1, sm:id()//sm:real/sm:username/string() , 'REST')
     let $collection := 'works'
     let $item := api:get-tei-rec-by-ID($id)
     let $recordid := $item/@xml:id
-    
+
     return
         if ($item//t:div[@type = 'edition']/t:div[@n eq $level1][t:ab])
         then
             <work>
-                
+
                 <id>{data($recordid)}</id>
                 <citation>{(api:citation($item) || ' ' || $level1)}</citation>
                 <title>{$item//t:titleStmt/t:title[@xml:id eq 't1']/text()}</title>
                 <text>{$item//t:div[@type = 'edition']/t:div[@n eq $level1]//text()}</text>
-                
+
                 {
                     if (number($level1) > 1)
                     then
@@ -54,7 +54,7 @@ function apiT:get-level1XML($id as xs:string, $level1 as xs:string*) {
                     else
                         ()
                 }
-                
+
                 {
                     if (number($level1) = count($item//t:div[@type eq 'edition']/t:div))
                     then
@@ -66,13 +66,13 @@ function apiT:get-level1XML($id as xs:string, $level1 as xs:string*) {
                         else
                             ()
                 }
-                
+
                 <partofwork>{$config:appUrl}/api/xml/{$id}</partofwork>
                 <contains>
                     {
                         for $subtype in $item//t:div[@type eq 'edition']/t:div[@subtype]
                         return
-                            
+
                             element {string($subtype/@subtype)} {($config:appUrl || '/api/xml/' || $id || '/' || $subtype/@n)}
                     }
                 </contains>
@@ -99,11 +99,11 @@ declare
 %test:args('LIT1367Exodus', '1','1-2') %test:assertXPath('//partOf')
 function apiT:get-level1LineXML($id as xs:string, $level1 as xs:string*, $line as xs:string*) {
     ($api:response200XML,
-    
+
     let $log := log:add-log-message('/api/xml/' || $id || '/' || $level1 || '/' || $line, sm:id()//sm:real/sm:username/string() , 'REST')
     let $collection := 'works'
     let $item := api:get-tei-rec-by-ID($id)
-    
+
     let $recordid := $item/@xml:id
     let $L1 := $item//t:div[@type eq 'edition']/t:div[@n eq $level1]
     return
@@ -139,15 +139,15 @@ function apiT:get-level1LineXML($id as xs:string, $level1 as xs:string*, $line a
                             ()
                 }<partOf>
                     {element {string($L1/@subtype)} {$config:appUrl || '/api/xml/' || $id || '/' || $level1}}
-                    
+
                     {element {'work'} {$config:appUrl || '/api/xml/' || $id}}
-                
+
                 </partOf>
                 <contains>
                     {
                         for $subtype in $L1/t:div[@subtype]
                         return
-                            
+
                             element {string($subtype/@subtype)} {($config:appUrl || '/api/xml/' || $id || '/' || $subtype/@n)}
                     }
                 </contains>
@@ -156,11 +156,11 @@ function apiT:get-level1LineXML($id as xs:string, $level1 as xs:string*, $line a
             if ($L1//t:l[@n eq $line])
             then
                 <work>
-                    
+
                     <id>{data($recordid)}</id>
                     <citation>{(api:citation($item) || ' ' || $level1 || ', ' || $line)}</citation>
                     <title>{$item//t:titleStmt/t:title[@xml:id eq 't1']/text()}</title>
-                    
+
                     <text>{
                     let $textnodes := $L1//t:l[@n eq $line]//text()
                         let $onlytext := string-join($textnodes, '')
@@ -185,15 +185,15 @@ function apiT:get-level1LineXML($id as xs:string, $level1 as xs:string*, $line a
                                 ()
                     }<partOf>
                         {element {string($L1/@subtype)} {$config:appUrl || '/api/xml/' || $id || '/' || $level1}}
-                        
+
                         {element {'work'} {$config:appUrl || '/api/xml/' || $id}}
-                    
+
                     </partOf>
                     <contains>
                         {
                             for $subtype in $L1/t:div[@subtype]
                             return
-                                
+
                                 element {string($subtype/@subtype)} {($config:appUrl || '/api/xml/' || $id || '/' || $subtype/@n)}
                         }
                     </contains>
@@ -224,13 +224,13 @@ declare
 function apiT:get-level2lineXML($id as xs:string, $level1 as xs:string*, $level2 as xs:string*, $line as xs:string*) {
     ($api:response200XML,
       let $log := log:add-log-message('/api/xml/' || $id || '/' || $level1|| '/' || $level2 || '/' || $line, sm:id()//sm:real/sm:username/string() , 'REST')
-  
+
     let $collection := 'works'
     let $item := api:get-tei-rec-by-ID($id)
     let $recordid := $item/@xml:id
     let $L1 := $item//t:div[@type eq 'edition']/t:div[@n eq $level1]
     let $L2 := $L1/t:div[@n eq $level2]
-    
+
     return
         if (contains($line, '-'))
         then
@@ -263,32 +263,32 @@ function apiT:get-level2lineXML($id as xs:string, $level1 as xs:string*, $level2
                         else
                             ()
                 }<partOf>
-                    
+
                     {element {string($L2/@subtype)} {$config:appUrl || '/api/xml/' || $id || '/' || $level1 || '/' || $level2}}
                     {element {string($L1/@subtype)} {$config:appUrl || '/api/xml/' || $id || '/' || $level1}}
-                    
+
                     {element {'work'} {$config:appUrl || '/api/xml/' || $id}}
-                
+
                 </partOf>
                 <contains>
                     {
                         for $subtype in $L2/t:div[@subtype]
                         return
-                            
+
                             element {string($subtype/@subtype)} {($config:appUrl || '/api/xml/' || $id || '/' || $subtype/@n)}
                     }
                 </contains>
-            
+
             </work>
         else
             if ($item//t:div[@type eq 'edition']/t:div[@n eq $level1]/t:div[@n eq $level2]//t:*[@n eq $line])
             then
                 <work>
-                    
+
                     <id>{data($recordid)}</id>
                     <citation>{(api:citation($item) || ' ' || $level1 || ' ' || $level2 || ', ' || $line)}</citation>
                     <title>{$item//t:titleStmt/t:title[@xml:id eq 't1']/text()}</title>
-                    
+
                     <text>{ let $textnodes := $L2//t:l[@n eq $line]//text()
                         let $onlytext := string-join($textnodes, '')
                         return
@@ -311,22 +311,22 @@ function apiT:get-level2lineXML($id as xs:string, $level1 as xs:string*, $level2
                             else
                                 ()
                     }<partOf>
-                        
+
                         {element {string($L2/@subtype)} {$config:appUrl || '/api/xml/' || $id || '/' || $level1 || '/' || $level2}}
                         {element {string($L1/@subtype)} {$config:appUrl || '/api/xml/' || $id || '/' || $level1}}
-                        
+
                         {element {'work'} {$config:appUrl || '/api/xml/' || $id}}
-                    
+
                     </partOf>
                     <contains>
                         {
                             for $subtype in $L2/t:div[@subtype]
                             return
-                                
+
                                 element {string($subtype/@subtype)} {($config:appUrl || '/api/xml/' || $id || '/' || $subtype/@n)}
                         }
                     </contains>
-                
+
                 </work>
             else
                 let $call := $config:appUrl || '/api/xml/' || $id || '/' || $level1 || '/' || $level2 || '/' || $line
@@ -334,4 +334,3 @@ function apiT:get-level2lineXML($id as xs:string, $level1 as xs:string*, $level2
                     api:noresults($call)
     )
 };
-

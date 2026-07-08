@@ -1,11 +1,10 @@
 xquery version "3.1" encoding "UTF-8";
 (:~
  : module with all the main functions which can be called by the API.
- : 
- : @author Pietro Liuzzo 
+ :
+ : @author Pietro Liuzzo
  :)
 module namespace what = "https://www.betamasaheft.uni-hamburg.de/BetMasApi/what";
-
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 
 (:~gets the a list elements with a reference to the given id in the specified collection (c) :)
@@ -22,21 +21,20 @@ let $region := $c//t:region[starts-with(@ref, $id)]
 let $country := $c//t:country[starts-with(@ref, $id)]
 let $active := $c//t:relation[starts-with(@active, $id)]
 let $passive := $c//t:relation[starts-with(@passive, $id)]
-let $allrefs := ($witnesses, 
+let $allrefs := ($witnesses,
 $div,
-        $placeNames,  
-        $persNames, 
+        $placeNames,
+        $persNames,
         $ref,
         $titles,
         $settlement,
         $region,
         $country,
-        $active, 
+        $active,
         $passive)
 return
 for $corr in $allrefs
-        return 
+        return
             $corr
-            
-            };
 
+            };

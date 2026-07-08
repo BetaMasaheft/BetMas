@@ -2,8 +2,8 @@
 xquery version "3.1" encoding "UTF-8";
 (:~
  : module with all the main functions which can be called by the API.
- : 
- : @author Pietro Liuzzo 
+ :
+ : @author Pietro Liuzzo
  :)
 module namespace roles = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/roles";
 import module namespace rest = "http://exquery.org/ns/restxq";
@@ -21,7 +21,7 @@ declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
 
-(:~ given a role, search other attestations of it and print the persName around them and related infos :) 
+(:~ given a role, search other attestations of it and print the persName around them and related infos :)
 declare
 %rest:GET
 %rest:path("/api/RoleAttestations")
@@ -31,41 +31,41 @@ function roles:RoleAttestations($role  as xs:string*){
 ($config:response200,
 let $r :=$role
 let $q := <query><fuzzy min-similarity="0.8">{$r}</fuzzy></query>
-let $roleAttestations := for $att in (collection($config:data-rootMS), collection($config:data-rootW))//t:TEI[ft:query(., $q)]  
-                                            let $expanded := kwic:expand($att) 
-                                         return $expanded//exist:match[parent::t:roleName]/parent::t:* 
+let $roleAttestations := for $att in (collection($config:data-rootMS), collection($config:data-rootW))//t:TEI[ft:query(., $q)]
+                                            let $expanded := kwic:expand($att)
+                                         return $expanded//exist:match[parent::t:roleName]/parent::t:*
 let $roleAttestationsIdentified := $roleAttestations[parent::t:persName]
 
 let $results := for $atttestation in $roleAttestations/parent::t:persName
                                 let $id := $atttestation/@ref
                                 group by $ID := $id
-     let $roles := 
-           for $rol in $atttestation 
-           let $type := $rol/t:roleName/@type 
-           group by $RT :=$type  
-           let $atts := for $ratt in $rol 
+     let $roles :=
+           for $rol in $atttestation
+           let $type := $rol/t:roleName/@type
+           group by $RT :=$type
+           let $atts := for $ratt in $rol
                                    let $text := string-join($ratt/t:roleName/text())
                                    group by $T := $text
-                                   let $sources := for $rat in $ratt 
-                                                                let $root := string(root($rat)/t:TEI/@xml:id) 
+                                   let $sources := for $rat in $ratt
+                                                                let $root := string(root($rat)/t:TEI/@xml:id)
                                                                 group by $ROOT := $root
                                                                 let $occurrences := for $occurr in $rat
                                                                 let $f := string($occurr/@notBefore)
                                                                  let $t := string($occurr/@notAfter)
                                                                  let $anchor := if($occurr/ancestor::t:body) then let $parent := $occurr/ancestor::t:*[@n][1] return ($parent/name() ||'_' || string($parent/@n)) else string($occurr/ancestor::t:*[@xml:id][1]/@xml:id)
-                                                                                                         return 
+                                                                                                         return
                                                                                                          <div class="w3-threequarter w3-padding">
                                                                                                          <div class="w3-third">from: {$f}</div>
                                                                                                          <div class="w3-third">to: {$t}</div>
                                                                                                          <div class="w3-third">in: {$anchor}</div>
                                                                                                          </div>
-                                                                                                            
+
                                                                 return
                                                                 <div class="w3-threequarter">
                                                                 <div class="w3-quarter"><a href="/{$ROOT}" class="MainTitle" data-value="{$ROOT}">{$ROOT} <span class="w3-tag w3-gray">{count($occurrences)}</span></a></div>
                      {for $occ in $occurrences return $occ}
                      </div>
-                                  return 
+                                  return
                                    <div  class="w3-col" style="width:85%">
                                    <div class="w3-quarter">{$T} <span class="w3-tag w3-gray">{count($sources)}</span></div>
                      {for $sour in $sources return $sour}
@@ -80,7 +80,7 @@ let $results := for $atttestation in $roleAttestations/parent::t:persName
                      <div class="w3-col" style="width:15%"><a href="/{string($ID)}" class="MainTitle" data-value="{string($ID)}">{string($ID)} <span class="w3-tag w3-gray">{count($roles)}</span></a></div>
                      {for $role in $roles return $role}
                      </div>
-                     
+
 return
 <div class="w3-container">
 <p>There are in total {count($roleAttestationsIdentified)} attestations of the role name <span class="w3-tag w3-gray">{$r}</span> related to {count(config:distinct-values($roleAttestations/parent::t:persName/@ref))} persons.</p>
@@ -106,9 +106,9 @@ let $path :=  $exptit:col//t:persName[@role eq  $role][@ref[not(starts-with(. ,'
 let $total := count($path)
 let $hits := for $pwl in $path
                     let $id := string($pwl/@ref)
-                   
+
                     group by $ID := $id
-            
+
         return
             map {
                 'pwl' : $ID,
@@ -116,7 +116,7 @@ let $hits := for $pwl in $path
                 'hits' : count($pwl)
                     }
 
-return 
+return
      ( $config:response200Json,
 map {
 'role' : $role,
@@ -147,7 +147,7 @@ let $hits := for $x in $path
                             'sourceTitle' : exptit:printTitleID($r),
                             'count' : count($x)
                             }
-                    
+
 let $hs := if (count($hits) gt 1) then $hits else [$hits]
  return
              ( $config:response200Json,
@@ -155,7 +155,7 @@ let $hs := if (count($hits) gt 1) then $hits else [$hits]
                 'pwl' : $ID,
                 'title' : exptit:printTitleID($ID),
                 'hits' : count($path),
-                'hasthisrole' : $hs    
+                'hasthisrole' : $hs
                     }
 )
 };

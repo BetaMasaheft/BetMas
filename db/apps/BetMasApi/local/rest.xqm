@@ -1,8 +1,8 @@
 xquery version "3.1" encoding "UTF-8";
 (:~
  : module with all the main functions which can be called by the API.
- : 
- : @author Pietro Liuzzo 
+ :
+ : @author Pietro Liuzzo
  :)
 module namespace api = "https://www.betamasaheft.uni-hamburg.de/BetMasApi/api";
 import module namespace rest = "http://exquery.org/ns/restxq";
@@ -16,7 +16,7 @@ import module namespace exptit="https://www.betamasaheft.uni-hamburg.de/BetMasWe
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
 import module namespace viewItem = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/viewItem" at "xmldb:exist:///db/apps/BetMasWeb/modules/viewItem.xqm";
 import module namespace kwic = "http://exist-db.org/xquery/kwic"
-    at "resource:org/exist/xquery/lib/kwic.xql"; 
+    at "resource:org/exist/xquery/lib/kwic.xql";
 
 
 import module namespace fusekisparql = 'https://www.betamasaheft.uni-hamburg.de/BetMasWeb/sparqlfuseki' at "xmldb:exist:///db/apps/BetMasWeb/fuseki/fuseki.xqm";
@@ -43,11 +43,11 @@ declare variable $api:response200 := $config:response200;
 declare variable $api:response404 := $config:response404;
 
 declare variable $api:response200Json := $config:response200Json;
-        
+
 declare variable $api:response200XML := $config:response200XML;
 
 declare variable $api:response400 := $config:response400;
-        
+
 declare variable $api:response400XML := $config:response400XML;
 
 declare %private function api:namedEntityTitleNoLink($entity) {
@@ -157,10 +157,10 @@ declare %private function api:msItem($mainID, $msItem) {
                 </div>
             </div>
         </div>
-};       
-   
+};
 
-declare 
+
+declare
 %rest:GET
 %rest:path("/api/loadmsItems/{$mainid}/{$msItem}")
 %rest:query-param("start", "{$start}", 1)
@@ -176,7 +176,7 @@ let $subset := subsequence($allChildren, $start, $limit)
 let $next :=$start +$limit
 let $items :=
 for $ms in $subset return  api:msItem($mainid, $ms)
-let $loader := 
+let $loader :=
       if($next le $countChildren) then
     <a class="w3-button msitemloader w3-yellow"
          data-mainid="{$mainid}"
@@ -191,9 +191,9 @@ return map {
     'next': if  ($next le $countChildren) then $next else ()
     }
 };
-   
 
-declare 
+
+declare
 %rest:GET
 %rest:path("/api/listRepositoriesName")
 %output:method("html")
@@ -207,7 +207,7 @@ return
 };
 
 
-declare 
+declare
 %rest:GET
 %rest:path("/api/cataloguesZotero")
 %output:method("html")
@@ -230,12 +230,12 @@ declare
 function api:witnessesOfContainerWork($id as xs:string*){
 let $id := if(starts-with($id, $config:baseURI)) then string($id) else $config:baseURI || string($id)
 let $corresps := $dts:collection-rootW//t:div[@type eq 'textpart'][@corresp eq  $id]
-for $c in $corresps 
+for $c in $corresps
 let $workid := string(root($c)/t:TEI/@xml:id )
 let $witnesses := $dts:collection-rootMS//t:title[contains(@ref, $workid)]
 let $witnessesID := for $w in $witnesses let $wid :=  string(root($w)/t:TEI/@xml:id ) return  exptit:printTitle($wid)
 let $tit := exptit:printTitle($workid)
-return 
+return
 map {'containerWork' : $tit,
 'witnesses' : config:distinct-values($witnessesID)
 }
@@ -254,13 +254,13 @@ let $totalMS := count($exptit:col/t:TEI[@type='mss'])
 let $totalInstitutions := count($exptit:col/t:TEI[@type='ins'])
 let $totalWorks := (count($exptit:col/t:TEI[@type='work']) + count($exptit:col/t:TEI[@type='nar']) +count($exptit:col/t:TEI[@type='studies']))
 let $totalPersons := count($exptit:col/t:TEI[@type='pers'])
-return 
+return
 
 map {
-'total' :$total, 
+'total' :$total,
 'totalMS' : $totalMS,
-'totalInstitutions' : $totalInstitutions,  
-'totalWorks' : $totalWorks, 
+'totalInstitutions' : $totalInstitutions,
+'totalWorks' : $totalWorks,
 'totalPersons' : $totalPersons
  }
  )
@@ -295,7 +295,7 @@ map { 'id' : $id,
 
 
 
-  
+
 (:~transforms into string text a single part of a tei file, e.g. a single node which contains many references to persons, places etc.:)
 declare
 %rest:GET
@@ -321,7 +321,7 @@ declare
 %rest:path("/api/xmlpart/{$id}")
 %rest:query-param("element", "{$element}", "")
 %output:method("xml")
-%test:args("BNFet102", "additions") 
+%test:args("BNFet102", "additions")
 %test:assertXPath('//*:item')
 function api:teipart($id as xs:string, $element as xs:string*){
 
@@ -341,7 +341,7 @@ declare
 %rest:GET
 %rest:path("/api/{$id}/{$type}/{$subid}")
 %output:method("xml")
-%test:args("BNFet102", "addition", "e1") 
+%test:args("BNFet102", "addition", "e1")
 %test:assertXPath('//*:item')
 function api:teipartbyURI($id as xs:string, $type as xs:string, $subid as xs:string){
  let $element := switch($type)
@@ -355,11 +355,11 @@ function api:teipartbyURI($id as xs:string, $type as xs:string, $subid as xs:str
     case 'binding' return 'decoNote'
     case 'decoration' return 'decoNote'
         default return 'nomatch'
- return     
-     if ($element = 'nomatch') then 
+ return
+     if ($element = 'nomatch') then
          ($api:response404) else
     ($api:response200,
-   
+
     let $file := api:get-tei-by-ID($id)
     for $e in $file//id($subid)[name() = $element]
     return
@@ -385,14 +385,14 @@ return
 <div xmlns="https://www.w3.org/1999/xhtml" >{
 viewItem:q($a)
 }</div>
-    
+
 };
 
 
 
 (:~ returns the relation element with the author attribution :)
 
-declare 
+declare
 %rest:GET
 %rest:path("/api/{$id}/author")
 %output:method("xml")
@@ -400,7 +400,7 @@ declare
 %test:arg("id","BAVet1") %test:assertEquals('<rest:response xmlns:rest="http://exquery.org/ns/restxq"><http:response xmlns:http="http://expath.org/ns/http-client" status="400"><http:header name="Content-Type" value="application/xml; charset=utf-8"/></http:response></rest:response>','<sorry>no info</sorry>')
 function api:getauthorfromrelation($id as xs:string*) {
 let $item :=$dts:collection-rootW/id($id)
-return 
+return
 
 if($item//t:relation[@name eq  'saws:isAttributedToAuthor']) then (
 
@@ -408,7 +408,7 @@ log:add-log-message('/api/' || $id || '/author', sm:id()//sm:real/sm:username/st
 $api:response200XML,
         $item//t:relation[@name eq  'saws:isAttributedToAuthor']
         )
-        else 
+        else
         (
         $api:response400XML,
         <sorry>no info</sorry>
@@ -428,10 +428,10 @@ declare
 %test:args('IVefiopsk1', 'a1', 'item') %test:assertXPath('//element')
 function api:get-othertext($id as xs:string, $SUBid as xs:string, $element as xs:string*) {
 
-let $log := log:add-log-message('/api/otherMssText/' || $id || '/' || $SUBid, sm:id()//sm:real/sm:username/string() , 'REST')  
+let $log := log:add-log-message('/api/otherMssText/' || $id || '/' || $SUBid, sm:id()//sm:real/sm:username/string() , 'REST')
   let $login := xmldb:login($config:data-root, $config:ADMIN, $config:ppw)
     return
-        
+
          ( $api:response200XML,
         let $collection := 'manuscripts'
         let $item := api:get-tei-rec-by-ID($id)
@@ -450,9 +450,9 @@ let $log := log:add-log-message('/api/otherMssText/' || $id || '/' || $SUBid, sm
                                 <text
                                     lang="{$q/@xml:lang}">{$q/text()}</text>
                         }
-                        
+
                         {
-                            
+
                             for $type in $item//t:*[@xml:id = $SUBid]/t:*[@type]
                             return
                                 <type>{string($type/@type)}</type>
@@ -475,7 +475,7 @@ let $log := log:add-log-message('/api/otherMssText/' || $id || '/' || $SUBid, sm
                                             return
                                                 element {$e/name()} {$e/text()}
                                         }</contains>)
-                                
+
                                 else
                                     ()
                         }
@@ -502,7 +502,7 @@ function api:get-workXML($id as xs:string) {
     let $log := log:add-log-message('/api/xml/' || $id, sm:id()//sm:real/sm:username/string() , 'REST')
     let $login := xmldb:login($config:data-root, $config:ADMIN, $config:ppw)
     return
-        
+
         ($api:response200XML,
         let $collection := 'works'
         let $item := api:get-tei-rec-by-ID($id)
@@ -517,14 +517,14 @@ function api:get-workXML($id as xs:string) {
                         {
                             for $subtype in $item//t:div[@type eq  'edition']/t:div[@subtype]
                             return
-                                
+
                                 element {string($subtype/@subtype)} {($config:appUrl || '/api/xml/' || $id || '/' || $subtype/@n)}
                         }
                     </contains>
-                
-                
+
+
                 </work>
-            
+
             else
                 let $call := $config:appUrl || '/api/xml/' || $id
                 return
@@ -574,7 +574,7 @@ declare
 %rest:path("/api/{$id}/json")
 %output:method("json")
 function api:get-tei2json-by-ID($id as xs:string) {
-    
+
     let $log := log:add-log-message('/api/' || $id || '/json', sm:id()//sm:real/sm:username/string() , 'REST')
     let $login := xmldb:login($config:data-root, $config:ADMIN, $config:ppw)
     return
@@ -626,4 +626,3 @@ declare function api:noresults($call) {
         </body>
     </html>
 };
-

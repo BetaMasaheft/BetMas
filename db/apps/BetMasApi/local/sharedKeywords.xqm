@@ -1,8 +1,8 @@
 xquery version "3.1" encoding "UTF-8";
 (:~
  : returns entities which share a same keyword
- : 
- : @author Pietro Liuzzo 
+ :
+ : @author Pietro Liuzzo
  :)
 module namespace SK = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/SK";
 import module namespace rest = "http://exquery.org/ns/restxq";
@@ -32,8 +32,8 @@ function SK:SharedKeyword(
 $keyword as xs:string*, $element as xs:string*) {
 let $log := log:add-log-message('/api/sharedKeyword/'||$keyword, sm:id()//sm:real/sm:username/string() , 'REST')
 
-let $attr := switch($element) 
-                            case 'persName' return 'ref' 
+let $attr := switch($element)
+                            case 'persName' return 'ref'
                             case 'keywords' return 'key'
                             case 'material' return 'key'
                             case 'script' return 'script'
@@ -48,8 +48,8 @@ let $attr := switch($element)
                             case 'faith' return 'type'
                             case 'occupation' return 'type'
                             default return 'ref'
-let $elementName := switch($element) 
-                             case 'persName' return 'persName' 
+let $elementName := switch($element)
+                             case 'persName' return 'persName'
                             case 'keywords' return 'term'
                             case 'material' return 'supportDesc/t:material'
                             case 'script' return 'handNote'
@@ -70,14 +70,14 @@ let $total := count($query)
 let $hits := for $hit in $query
                 let $id := string($hit/@xml:id)
                 let $title := try{exptit:printTitleID($id)} catch * {('no title for ' || $id)}
-               
+
           return
             map {
                 'id' : $id,
                 'title' : $title
                     }
 
-return 
+return
 ($config:response200Json,
 map {
 'hits' : $hits,

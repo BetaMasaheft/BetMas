@@ -1,8 +1,8 @@
 xquery version "3.1" encoding "UTF-8";
 (:~
  : module returning word count for a single piece of text in a manuscript.
- : 
- : @author Pietro Liuzzo 
+ :
+ : @author Pietro Liuzzo
  :)
 module namespace WC = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/WC";
 import module namespace rest = "http://exquery.org/ns/restxq";
@@ -14,9 +14,8 @@ declare namespace json = "http://www.json.org";
 
 declare namespace test="http://exist-db.org/xquery/xqsuite";
 
-(:~ given the id of a manuscript returns the word count for eventual transcriptions of that work in the given witness :) 
+(:~ given the id of a manuscript returns the word count for eventual transcriptions of that work in the given witness :)
 declare
-
 %rest:GET
 %rest:path("/api/WordCount/{$manuscriptID}/{$workID}")
 %test:args("FSUor13", "LIT1933Mashaf#Introduction") %test:assertEquals("word count: 85")
@@ -30,7 +29,7 @@ let $tit := $ms//t:title[ends-with(@ref, $workID)]
 return
 if(count($tit) = 0) then ('no textual unit ' || $workID || ' in the manuscript ' || $manuscriptID) else
 let $msitem :=$tit/parent::t:msItem
-let $msitemID := string($msitem[1]/@xml:id)
+let $msitemID := string($msitem/@xml:id)
 
 return
 

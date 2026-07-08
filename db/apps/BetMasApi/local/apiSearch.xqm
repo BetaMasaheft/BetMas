@@ -2,8 +2,8 @@
 xquery version "3.1" encoding "UTF-8";
 (:~
  : kwic and simple search from API
- : 
- : @author Pietro Liuzzo 
+ :
+ : @author Pietro Liuzzo
  :)
 module namespace apiS = "https://www.betamasaheft.uni-hamburg.de/BetMasApi/apiSearch";
 import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/config" at "xmldb:exist:///db/apps/BetMasWeb/modules/config.xqm";
@@ -74,7 +74,7 @@ if ($q = '' or $q = ' ' ) then (<json:value>
         </json:value>) else
 let $log := log:add-log-message('/api/kwicsearch?q=' || $q, sm:id()//sm:real/sm:username/string() , 'REST')
     let $login := xmldb:login($config:data-root, $config:ADMIN, $config:ppw)
-    
+
 
 
 let $hits := collection($config:data-root)/t:TEI[ft:query(.,$q)]
@@ -84,29 +84,29 @@ let $hi :=  for $hit in $hits
             group by $R := $root
             let $id := string($R/@xml:id)
             let $title := exptit:printTitleID($id)
-            let $collection := switch($R/@type) 
+            let $collection := switch($R/@type)
                                 case 'mss' return 'manuscripts'
-                                case 'place' return 'places' 
-                                case 'work' return 'works' 
-                                case 'nar' return 'narratives' 
-                                case 'studies' return 'studies' 
-                                case 'ins' return 'institutions' 
-                                case 'pers' return 'persons' 
+                                case 'place' return 'places'
+                                case 'work' return 'works'
+                                case 'nar' return 'narratives'
+                                case 'studies' return 'studies'
+                                case 'ins' return 'institutions'
+                                case 'pers' return 'persons'
                                 default return 'authority-files'
             let $count := count($expanded//exist:match)
             let $results := for $ex in $expanded
-                            for $match in subsequence($ex//exist:match, 1, 3) 
+                            for $match in subsequence($ex//exist:match, 1, 3)
                             return  kwic:get-summary($ex, $match,<config width="40"/>)
 (:            let $test := console:log($results):)
             let $pname := $expanded//exist:match[ancestor::t:div[@type eq 'edition']]
             let $text := if($pname) then 'text' else 'main'
-            let $textpart := if($text = 'text') then 
+            let $textpart := if($text = 'text') then
             let $tpart := $expanded//exist:match[ancestor::t:div[@type eq 'edition']][1]/ancestor::t:div[@type eq 'textpart'][1]/@n
             return
-                if($tpart[1]) then  string($tpart[1]) 
+                if($tpart[1]) then  string($tpart[1])
                 else if ($tpart ='') then '1' else '1'
                 else ('1')
-                          
+
         return map {
                     "id" : $id,
                     "text" : $text,
@@ -114,7 +114,7 @@ let $hi :=  for $hit in $hits
                     "collection" : $collection,
                     "title" : $title,
                     "hitsCount" : $count,
-                    "results" : $results                        
+                    "results" : $results
                         }
 let $c := count($hits)
 return
@@ -181,7 +181,7 @@ let $log := log:add-log-message('/api/search?q=' || $q, sm:id()//sm:real/sm:user
         ("[descendant::t:TEI//t:term/@key eq '" || $term || "' ]")
     else
         ''
-    
+
     let $collection := switch ($collection)
         case 'manuscripts'
             return
@@ -198,7 +198,7 @@ let $log := log:add-log-message('/api/search?q=' || $q, sm:id()//sm:real/sm:user
         case 'narratives'
             return
                 $config:data-rootN
-         case 'studies'
+        case 'studies'
              return
                  $config:data-rootS
         case 'authority-files'
@@ -209,23 +209,23 @@ let $log := log:add-log-message('/api/search?q=' || $q, sm:id()//sm:real/sm:user
                 $config:data-rootPr
         default return
             $config:data-root
-            
-let $query-string := if($homophones = 'true') then   
-                                                                    if(contains($q, 'AND')) then 
-                                                                                (let $parts:= for $qpart in tokenize($q, 'AND') 
-                                                                                return all:substitutionsInQuery($qpart) return 
+
+let $query-string := if($homophones = 'true') then
+                                                                    if(contains($q, 'AND')) then
+                                                                                (let $parts:= for $qpart in tokenize($q, 'AND')
+                                                                                return all:substitutionsInQuery($qpart) return
                                                                                 '(' || string-join($parts, ') AND (')) || ')'
-                                                                                else if(contains($q, 'OR')) then 
-                                                                                (let $parts:= for $qpart in tokenize($q, 'OR') 
-                                                                                return all:substitutionsInQuery($qpart) return 
+                                                                                else if(contains($q, 'OR')) then
+                                                                                (let $parts:= for $qpart in tokenize($q, 'OR')
+                                                                                return all:substitutionsInQuery($qpart) return
                                                                                 '(' || string-join($parts, ') OR (')) || ')'
-                                                                                else all:substitutionsInQuery($q)  
+                                                                                else all:substitutionsInQuery($q)
                                                                                 else ($q)
-         
+
 let $queryhits := 'collection($collection)/t:TEI[ft:query(.,$query-string, $SearchOptions)]'||$material||$script||$term
 let $hits := util:eval($queryhits)
 
-let $results := 
+let $results :=
                     for $hit in $hits
                     let $expanded := kwic:expand($hit)
                     let $id := string($hit/ancestor-or-self::t:TEI/@xml:id)
@@ -237,7 +237,7 @@ let $results :=
             'title' : $t,
             'result' : $r
             }
-              
+
 let $c := count($hits)
 return
     if (count($hits) gt 0) then
@@ -254,4 +254,3 @@ return
             </json:value>
         </json:value>
 };
-

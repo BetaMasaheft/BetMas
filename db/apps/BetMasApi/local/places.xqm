@@ -3,9 +3,8 @@ xquery version "3.1" encoding "UTF-8";
  : rest XQ module producing geoJSON and KML versions of the placelike items
  : the controller will redirect to the correct path for this module all requests ending in .json
  : the KML is used by the dariah de Geo Browser
- : @author Pietro Liuzzo 
+ : @author Pietro Liuzzo
  :)
-
 module namespace places = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/places";
 import module namespace rest = "http://exquery.org/ns/restxq";
 import module namespace log="http://www.betamasaheft.eu/log" at "xmldb:exist:///db/apps/BetMasWeb/modules/log.xqm";
@@ -18,8 +17,8 @@ import module namespace config = "https://www.betamasaheft.uni-hamburg.de/BetMas
 import module namespace kwic = "http://exist-db.org/xquery/kwic"
     at "resource:org/exist/xquery/lib/kwic.xql";
 import module namespace string = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/string" at "xmldb:exist:///db/apps/BetMasWeb/modules/tei2string.xqm";
-import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/switch2" at "xmldb:exist:///db/apps/BetMasWeb/modules/switch2.xqm";   
-import module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/error" at "xmldb:exist:///db/apps/BetMasWeb/modules/error.xqm";  
+import module namespace switch2 = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/switch2" at "xmldb:exist:///db/apps/BetMasWeb/modules/switch2.xqm";
+import module namespace error = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/error" at "xmldb:exist:///db/apps/BetMasWeb/modules/error.xqm";
 (: namespaces of data used :)
 declare namespace t = "http://www.tei-c.org/ns/1.0";
 declare namespace dcterms = "http://purl.org/dc/terms";
@@ -38,7 +37,7 @@ declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json = "http://www.json.org";
 
 declare variable $places:prefixes as xs:string := '
-        @prefix cnt: &lt;http://www.w3.org/2011/content#&gt; . 
+        @prefix cnt: &lt;http://www.w3.org/2011/content#&gt; .
         @prefix dcterms: &lt;http://purl.org/dc/terms/&gt; .
         @prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
         @prefix gn: &lt;http://www.geonames.org/&gt; .
@@ -53,7 +52,7 @@ declare variable $places:prefixes as xs:string := '
         @prefix xsd: &lt;http://www.w3.org/2001/XMLSchema&gt; .' ;
 
 declare variable $places:placeprefixes as xs:string := '
-@prefix cnt: &lt;http://www.w3.org/2011/content#&gt; . 
+@prefix cnt: &lt;http://www.w3.org/2011/content#&gt; .
 @prefix dcterms: &lt;http://purl.org/dc/terms/&gt; .
 @prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
 @prefix geo: &lt;http://www.w3.org/2003/01/geo/wgs84_pos#&gt; .
@@ -71,7 +70,7 @@ declare variable $places:placeprefixes as xs:string := '
 
 
 declare variable $places:response200 := $config:response200;
-        
+
 declare variable $places:response200turtle := <rest:response>
             <http:response
                 status="200">
@@ -86,7 +85,7 @@ declare variable $places:response200turtle := <rest:response>
         </rest:response>;
 
 declare variable $places:response200xml := $config:response200XML;
-        
+
 declare variable $places:response200json := $config:response200Json;
 
 declare variable $places:bmurl := $config:appUrl;
@@ -104,9 +103,9 @@ let $regions := if($item//t:region[@ref])   then  for $region in $item//t:region
         let $creators := for $c in config:distinct-values($item//t:revisionDesc/t:change[contains(., 'created')]/@who) return map {"name" : editors:editorKey($c)}
         let $contributors := for $c in config:distinct-values($item//t:revisionDesc/t:change/@who) return map {"name" : editors:editorKey($c)}
         let $periods := if($item//t:state) then for $c in $item//t:state[@type eq 'existence']/@ref return exptit:printTitleID($c) else ()
-        let $names := for $name in $item//t:place/t:placeName 
+        let $names := for $name in $item//t:place/t:placeName
         let $nID := $name/@xml:id
-        return 
+        return
             map {"association_certainty": "certain",
                 "attested": normalize-space($name/text()[1]),
                 "romanized": for $corr in $item//t:placeName[contains(@corresp,$nID)] return normalize-space($corr/text()[1]),
@@ -121,14 +120,14 @@ let $regions := if($item//t:region[@ref])   then  for $region in $item//t:region
                 }
                 let $title := exptit:printTitleID($id)
                 let $uri := ($places:bmurl ||'/' || $id)
-                let $coords := 
-                if($item//t:geo[@rend eq 'polygon']) then 
+                let $coords :=
+                if($item//t:geo[@rend eq 'polygon']) then
                 (
-                                for $latlng in tokenize($item//t:geo[@rend eq 'polygon'], '\n') 
-                                return replace(normalize-space($latlng), ' ', ',') 
+                                for $latlng in tokenize($item//t:geo[@rend eq 'polygon'], '\n')
+                                return replace(normalize-space($latlng), ' ', ',')
                                 ) else for $c in tokenize(coord:invertCoord(coord:getCoords($id)), ',') return number($c)
-return 
-    
+return
+
       map {"@context": map {
             "geojson": "http://ld.geojson.org/vocab#",
             "Feature": "geojson:Feature",
@@ -172,8 +171,8 @@ return
             "contributors":  $contributors,
             "description" : if ($item//t:desc[@type eq 'foundation']) then normalize-space(string-join(string:tei2string($item//t:desc[@type eq 'foundation']), '')) else (),
             "details" : if ($item//t:ab[@type eq 'history']) then normalize-space(string-join(string:tei2string($item//t:ab[@type eq 'history']), '')) else (),
-           
-            "geometry": map {    
+
+            "geometry": map {
                 "coordinates": if ($item//t:geo[@rend eq 'polygon']) then array{ array { for $latlng in $coords return let $array := array {for $c in tokenize($latlng, ',') return number($c)} return $array}} else $coords,
                 "type": if ($item//t:geo[@rend eq 'polygon']) then 'Polygon' else 'Point'
                 },
@@ -197,17 +196,17 @@ return
              "provenance": "Encyclopedia Aethiopica",
              "references": $bibls,
              "reprPoint": if ($item//t:geo[@rend eq 'polygon']) then () else $coords,
-              "title": $title, 
+              "title": $title,
               "uri": $uri
             }
 };
 
-declare 
+declare
 %rest:GET
 %rest:path("/api/geoJson/places/{$id}")
 %output:method("json")
 function places:json($id as xs:string*) {
-if(starts-with($id, 'LOC') or starts-with($id, 'INS') or starts-with($id, 'ETH')) 
+if(starts-with($id, 'LOC') or starts-with($id, 'INS') or starts-with($id, 'ETH'))
 then(
 $places:response200json,
 
@@ -219,7 +218,7 @@ let $log := log:add-log-message('/api/geoJson/places/'||$id, sm:id()//sm:real/sm
 };
 
 
-declare 
+declare
 %rest:GET
 %rest:path("/api/geoJson/institutions")
 %rest:query-param("start", "{$start}", 1)
@@ -230,7 +229,7 @@ $places:response200json,
 let $log := log:add-log-message('/api/geoJson/institutions/', sm:id()//sm:real/sm:username/string() , 'places')
 let $ps := $places:collection-rootIn//t:TEI[descendant::t:place[descendant::t:geo/text() or @sameAs]]
 
-let $places := 
+let $places :=
 
 for $item in $ps
 let $id := string($item/@xml:id)
@@ -240,7 +239,7 @@ let $id := string($item/@xml:id)
                                                     "features":$places}
 };
 
-declare 
+declare
 %rest:GET
 %rest:path("/api/geoJson/places")
 %rest:query-param("start", "{$start}", 1)
@@ -252,7 +251,7 @@ let $log := log:add-log-message('/api/geoJson/places/', sm:id()//sm:real/sm:user
 let $ps := $places:collection-rootPl//t:TEI[descendant::t:place[descendant::t:geo/text() or @sameAs]]
 let $places := for $item in $ps
                          let $id := string($item/@xml:id)
-                       return 
+                       return
                        try {places:JSONfile($item, $id)} catch * {($id ||' !error! '||$err:code|| ': ' || $err:description)}
   return
             map {"type": "FeatureCollection",
@@ -261,7 +260,7 @@ let $places := for $item in $ps
 
 
 (:get places mentioned in one item:)
-declare 
+declare
 %rest:GET
 %rest:path("/api/KML/places/{$id}")
 %output:method("xml")
@@ -270,14 +269,14 @@ $places:response200xml,
 
 let $log := log:add-log-message('/api/KML/places/' || $id, sm:id()//sm:real/sm:username/string() , 'places')
        let $items := $places:collection-root/id($id)
-return 
+return
        places:kmlplacesm($items)
 };
 
 
 (:get for one date all places attestated with a link to it:)
 (:does not work TODO need to implement error code for problem with parameter conversion!: exerr:ERROR :)
-(:declare 
+(:declare
 %rest:GET
 %rest:path("/api/KML/date/{$d}")
 %output:method("xml")
@@ -285,8 +284,8 @@ function places:kmlDateswithPlacesatts($d as xs:date) {
 
 let $log := log:add-log-message('/api/KML/date/' || $id, sm:id()//sm:real/sm:username/string() , 'places')
   let $items := ($places:collection-root//t:date[(@when | @notBefore | @notAfter)[contains(., $d)]][@corresp[contains(., '#P')]], $places:collection-root//t:creation[(@when | @notBefore | @notAfter)[contains(., $d)]][@corresp[contains(., '#P')]])
-return 
-     
+return
+
 if($items >= 1)
 then(
 $places:response200xml,
@@ -301,7 +300,7 @@ $places:response200xml,
 };:)
 
 (:get for one place all its attestations with date:)
-declare 
+declare
 %rest:GET
 %rest:path("/api/KML/place/{$placeid}")
 %output:method("xml")
@@ -312,7 +311,7 @@ $places:response200xml,
 
 let $log := log:add-log-message('/api/KML/places/' || $placeid, sm:id()//sm:real/sm:username/string() , 'places')
        let $items := $places:collection-root//t:placeName[@ref eq  $placeid]
-return 
+return
        <kml>
        {for $place in $items
        return
@@ -324,7 +323,7 @@ return
 };
 
 (:get all places mentioned in a collection:)
-declare 
+declare
 %rest:GET
 %rest:path("/api/KML/{$collection}/places")
 %output:method("xml")
@@ -334,12 +333,12 @@ $places:response200xml,
 
 let $log := log:add-log-message('/api/KML/'||$collection||'/places', sm:id()//sm:real/sm:username/string() , 'places')
        let $items := switch2:collectionVar($collection)
-return 
+return
       places:kmlplacesm($items)
 };
 
 (:get all places mentioned in a collection:)
-(:declare 
+(:declare
 %rest:GET
 %rest:path("/api/KML/{$collection}/origPlaces")
 %output:method("xml")
@@ -350,7 +349,7 @@ $places:response200xml,
 let $log := log:add-log-message('/api/KML/'||$collection||'/origPlaces', sm:id()//sm:real/sm:username/string() , 'places')
 let $col := switch2:collectionVar($collection)
        let $items := $col//t:origPlace[descendant::t:placeName/@ref]
-return 
+return
       places:kmlOrigplacesm($items)
 };
 :)
@@ -373,7 +372,7 @@ declare function places:kmlplacesm($items){
 };
 :)
 (:get dates related to places about one item (metadata):)
-(:declare 
+(:declare
 %rest:GET
 %rest:path("/api/KML/datePlace/{$id}")
 %output:method("xml")
@@ -383,14 +382,14 @@ $places:response200xml,
 
 let $log := log:add-log-message('/api/KML/datePlace/'||$id, sm:id()//sm:real/sm:username/string() , 'places')
        let $items := $places:collection-root/id($id)
-return 
+return
        places:kmldataplaces($items)
 };
 :)
 
 
 (:get all dates related to places mentioned in a collection:)
-(:declare 
+(:declare
 %rest:GET
 %rest:path("/api/KML/{$collection}/datePlace")
 %output:method("xml")
@@ -401,7 +400,7 @@ $places:response200xml,
 let $log := log:add-log-message('/api/KML/'||$collection||'/datePlace', sm:id()//sm:real/sm:username/string() , 'places')
     let $items :=   switch2:collectionVar($collection)
 
-return 
+return
        places:kmldataplaces($items)
 };
 :)
@@ -429,20 +428,20 @@ declare function places:SimplifiedPlaceMark($place as xs:string){
             <coordinates>{if(matches($coordinates, '\d+\.?\d*,\d+\.?\d*')) then $coordinates else ()}</coordinates>
             }
         </Point>
-    </Placemark>      
-    
+    </Placemark>
+
 };
 
 
 declare function places:decidePlaceNameSource($pRef as xs:string){
-if ($exptit:placeNamesList//t:item[@corresp =  $pRef]) 
+if ($exptit:placeNamesList//t:item[@corresp =  $pRef])
     then $exptit:placeNamesList//t:item[@corresp = $pRef][1]/text()
-else if (starts-with($pRef, 'https://pleiades.stoa.org/places/')) then 
-         coord:getPleiadesNames($pRef) 
-           
-else if (matches($pRef, 'https://www.wikidata.org/entity/Q\d+')) then 
-            coord:getwikidataNames($pRef) 
-else  
+else if (starts-with($pRef, 'https://pleiades.stoa.org/places/')) then
+         coord:getPleiadesNames($pRef)
+
+else if (matches($pRef, 'https://www.wikidata.org/entity/Q\d+')) then
+            coord:getwikidataNames($pRef)
+else
 
  let $onlyId := substring-after($pRef, 'https://betamasaheft.eu/')
  return
@@ -453,7 +452,7 @@ declare function places:placeMark($place as node()){
  let $pId := string($place/@ref)
  let $onlyId := substring-after($place/@ref, 'https://betamasaheft.eu/')
   let $root := root($place)
-       return 
+       return
 (:       if($pRec//t:coord) then:)
        <Placemark>
         <address>{ places:decidePlaceNameSource($pId)}</address>
@@ -463,15 +462,15 @@ declare function places:placeMark($place as node()){
             <coordinates>{coord:invertCoord(coord:getCoords($pId))}</coordinates>
         </Point>
         <TimeStamp>
-  
+
             <when>{let $dates := ($place/@when, $place/@notBefore, $place/@notAfter)
             return max($dates)}
              </when>
         </TimeStamp>
-    </Placemark>      
+    </Placemark>
 (:handling of when is at the moment nonsensical, as it just takes a maximum. needs to check quality and format the date correctly
 see geobrowser data specification:)
-    
+
 };
 
 declare function places:datePlaceMark($datePlace as node()){
@@ -481,8 +480,8 @@ declare function places:datePlaceMark($datePlace as node()){
  let $place := $root/id($pId)
  let $pRef := string($place/@ref)
        let $pRec := $places:collection-rootPlIn//id($pRef)
-      
-       return 
+
+       return
 (:       if($pRec//t:coord) then:)
        <Placemark>
         <address>{exptit:decidePlaceNameSource($pRef)}</address>
@@ -491,25 +490,25 @@ declare function places:datePlaceMark($datePlace as node()){
         <Point>
             <coordinates>{coord:getCoords($pRef)}</coordinates>
         </Point>
-        
+
         {if($datePlace/@when) then (
             <TimeStamp>
-  
+
             <when>{$datePlace/@when}
              </when>
         </TimeStamp>
             ) else <TimeSpan><being>{$datePlace/@notBefore}</being><end>{$datePlace/@notAfter}</end></TimeSpan>}
-        
-    </Placemark>      
+
+    </Placemark>
 (:handling of when is at the moment nonsensical, as it just takes a maximum. needs to check quality and format the date correctly
 see geobrowser data specification:)
-    
+
 };
 
 
 (:a test export of pelagios annotations. not suitable for the complete data set, but parametrizable to filter a more reasonable dataset.:)
 
-declare 
+declare
 %rest:GET
 %rest:path("/api/gazetteer")
 %rest:query-param("start", "{$start}", 1)
@@ -519,24 +518,24 @@ function places:placesGazetteer($start as xs:integer*) {
 let $log := log:add-log-message('/api/gazetteer', sm:id()//sm:real/sm:username/string() , 'places')
 let $data := subsequence($places:collection-rootPlIn//t:place, $start,100)
  let $annotations :=
- for $d in $data 
+ for $d in $data
  let $r := root($d)//t:TEI/@xml:id
 let $tit := try{exptit:printTitleID(string($r))} catch *{root($d)//t:titleStmt/t:title/text()}
  order by $tit
  return
- 
+
  ann:annotatedThing($d, $tit, $r)
- 
+
 
 return
 ($places:response200turtle,
-       
+
                $places:prefixes
         || string-join($annotations//text(), ' ')
 )
 };
 
-declare 
+declare
 %rest:GET
 %rest:path("/api/gazetteer/all")
 %output:method("text")
@@ -545,24 +544,24 @@ function places:placesGazetteer() {
 let $log := log:add-log-message('/api/gazetteer/all', sm:id()//sm:real/sm:username/string() , 'places')
 let $data := $places:collection-rootPlIn//t:place
  let $annotations :=
- for $d in $data 
+ for $d in $data
  let $r := root($d)//t:TEI/@xml:id
 let $tit := try{exptit:printTitleID(string($r))} catch *{root($d)//t:titleStmt/t:title/text()}
  order by $tit
  return
- 
+
  ann:annotatedThing($d, $tit, $r)
- 
+
 
 return
 ($places:response200turtle,
-       
+
                $places:prefixes
         || string-join($annotations//text(), ' ')
 )
 };
 
-declare 
+declare
 %rest:GET
 %rest:path("/api/gazetteer/place/{$id}")
 %output:method("text")
@@ -591,7 +590,7 @@ declare function places:annotation($this, $r, $x, $mode){
  <annotation>{
  '
  &lt;'||$config:appUrl || '/'||
-  string($r) || 
+  string($r) ||
   '/place/annotation/'||
   string($x)||
   '&gt;
@@ -600,7 +599,7 @@ declare function places:annotation($this, $r, $x, $mode){
                 string($r)|| '&gt; ;
                 oa:hasBody &lt;' || ann:getannotationbody(string($this/@ref)) || '&gt; ;
                 oa:annotatedAt "' ||current-dateTime()||  '"^^xsd:date ;
-                
+
                 .
                 '
  }
@@ -609,36 +608,36 @@ declare function places:annotation($this, $r, $x, $mode){
 
 declare function places:ThisAnnotatedThing($r, $tit, $mode as xs:string){
 
- 
+
              '
-             
+
              &lt;'||$config:appUrl||'/'||
  string($r)||'&gt;
  a pelagios:AnnotatedThing ;
  void:inDataset <https://betamasaheft.eu/api/placeNames/void> ;
- dcterms:description "' || 
+ dcterms:description "' ||
  (
- if($mode = 'works') then ('A literary work in the Ethiopian tradition (CAe ' || substring($r, 4, 4) || ').') 
- else if($mode = 'manuscripts') then ('A manuscript part of the Ethiopian literary tradition (' || string($r)|| ').') 
- else () 
- 
+ if($mode = 'works') then ('A literary work in the Ethiopian tradition (CAe ' || substring($r, 4, 4) || ').')
+ else if($mode = 'manuscripts') then ('A manuscript part of the Ethiopian literary tradition (' || string($r)|| ').')
+ else ()
+
  ) || '";
- dcterms:source &lt;'||$config:appUrl || '/tei/' || 
+ dcterms:source &lt;'||$config:appUrl || '/tei/' ||
                 string($r) || '.xml&gt;' || ';
-  dcterms:title "' || 
+  dcterms:title "' ||
  normalize-space($tit)  || '";
  foaf:homepage ' ||
-                '&lt;'||$config:appUrl || '/'||$mode||'/' || 
+                '&lt;'||$config:appUrl || '/'||$mode||'/' ||
                 string($r) || '/main&gt; ;
                 dcterms:language "' ||
                 $r/parent::t:TEI/@xml:lang||'";
                 .
-                
+
                 '
-   
+
 };
 
-declare 
+declare
 %rest:GET
 %rest:path("/api/placeNames/works/all")
 %rest:query-param("start", "{$start}", 1)
@@ -648,16 +647,16 @@ function places:placesInWorksTTL($start as xs:integer*) {
 let $log := log:add-log-message('/api/placeNames/works/all', sm:id()//sm:real/sm:username/string() , 'places')
 let $data := $places:collection-rootW//t:placeName[starts-with(@ref, 'http')]
  let $annotations :=
- for $d in $data 
+ for $d in $data
  group by $r := root($d)//t:TEI/@xml:id
 let $tit := exptit:printTitleID(string($r))
  order by $r
  return
- 
+
  <annotatedThing id="{$r}">
- 
+
              {places:ThisAnnotatedThing($r, $tit, 'works')}
-   
+
    <annotations>
  {for $thisd at $x in $d
  return
@@ -675,7 +674,7 @@ return
 
 
 
-declare 
+declare
 %rest:GET
 %rest:path("/api/placeNames/manuscripts/all")
 %rest:query-param("start", "{$start}", 1)
@@ -691,12 +690,12 @@ let $annotations :=
 let $tit := exptit:printTitleID(string($r))
  order by $r
  return
- 
+
  <annotatedThing id="{$r}">
- 
-            
+
+
              {places:ThisAnnotatedThing($r, $tit, 'manuscripts')}
-   
+
    <annotations>
  {for $thisd at $x in $d
  return
@@ -714,7 +713,7 @@ return
 
 
 
-declare 
+declare
 %rest:GET
 %rest:path("/api/placeNames/works/{$id}")
 %output:method("text")
@@ -732,11 +731,11 @@ let $baseUrl :=  $config:appUrl || $id
  let $annotations :=
 let $tit := exptit:printTitleID($sid)
  return
- 
+
  <annotatedThing id="{$id}">
- 
+
              {places:ThisAnnotatedThing($r, $tit, 'works')}
-   
+
    <annotations>
  {for $thisd at $x in $data
  return
@@ -754,7 +753,7 @@ return
 else ('Sorry, the id you provided is not a valid work record id.')
 };
 
-declare 
+declare
 %rest:GET
 %rest:path("/api/placeNames/manuscripts/{$id}")
 %output:method("text")
@@ -772,11 +771,11 @@ let $data := $file//t:placeName[@ref]
 
 let $tit := exptit:printTitleID($sid)
  return
- 
+
  <annotatedThing id="{$id}">
- 
+
             {places:ThisAnnotatedThing($r, $tit, 'manuscripts')}
-   
+
    <annotations>
  {for $thisd at $x in $data
  return
@@ -787,7 +786,7 @@ let $tit := exptit:printTitleID($sid)
 
 return
 ($places:response200turtle,
-       
+
                $places:prefixes
         || string-join($annotations//text(), ' ')
 )
@@ -795,44 +794,44 @@ return
 else ('Sorry, the id you provided is not a valid manuscript record id.')
 };
 
-declare 
+declare
 %rest:GET
 %rest:path("/api/placeNames/void")
 %output:method("text")
 function places:placesInWorksTTLVoid() {
 
-$places:response200turtle, 
+$places:response200turtle,
 let $dataMS := $places:collection-rootMS//t:placeName[starts-with(@ref, 'http')]
 let $dataW := $places:collection-rootW//t:placeName[starts-with(@ref, 'http')]
 let $annotationsMS :=  for $d in $dataMS
  group by $r := root($d)//t:TEI/@xml:id
- return 
+ return
  ' void:dataDump <https://betamasaheft.eu/api/placeNames/manuscripts/'||string($r)||'>'
 let $annotationsW :=  for $d in $dataW
  group by $r := root($d)//t:TEI/@xml:id
- return 
+ return
  ' void:dataDump <https://betamasaheft.eu/api/placeNames/works/'||string($r)||'>'
 
-return 
+return
 
         '
 @prefix : <'||$config:appUrl||'> .
         @prefix void: <http://rdfs.org/ns/void#> .
         @prefix dcterms: <http://purl.org/dc/terms/> .
         @prefix foaf: <http://xmlns.com/foaf/0.1/> .
-        
+
         : a void:Dataset;
         dcterms:title "Beta maṣāḥǝft";
         dcterms:publisher "Akademie der Wissenschaften in Hamburg";
         dcterms:publisher "Hiob-Ludolf-Zentrum für Äthiopistik";
         foaf:homepage <'||$config:appUrl||'>;
-        dcterms:description "The project Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea (Schriftkultur des christlichen 
-        Äthiopiens: eine multimediale Forschungsumgebung) is a long-term project funded 
-        within the framework of the Academies Programme (coordinated by the Union of the German 
-        Academies of Sciences and Humanities) under survey of the Akademie der Wissenschaften in Hamburg. 
-        The funding will be provided for 25 years, from 2016–2040. The project is hosted by the Hiob Ludolf 
-        Centre for Ethiopian Studies at the University of Hamburg. It aims at creating a virtual research 
-        environment that shall manage complex data related to predominantly Christian manuscript 
+        dcterms:description "The project Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea (Schriftkultur des christlichen
+        Äthiopiens: eine multimediale Forschungsumgebung) is a long-term project funded
+        within the framework of the Academies Programme (coordinated by the Union of the German
+        Academies of Sciences and Humanities) under survey of the Akademie der Wissenschaften in Hamburg.
+        The funding will be provided for 25 years, from 2016–2040. The project is hosted by the Hiob Ludolf
+        Centre for Ethiopian Studies at the University of Hamburg. It aims at creating a virtual research
+        environment that shall manage complex data related to predominantly Christian manuscript
         tradition of the Ethiopian and Eritrean Highlands.";
         dcterms:license <http://opendatacommons.org/licenses/odbl/1.0/>;
         ' || string-join($annotationsMS, ';
@@ -851,7 +850,7 @@ return
 
 
 (: ~
- : produces a pelagios dump of the gazetteer of places in the Pelagios Interconnection format and stores it in given directory 
+ : produces a pelagios dump of the gazetteer of places in the Pelagios Interconnection format and stores it in given directory
  output should be produced in exide and then validated with http://peripleo.pelagios.org/validator
  :)
 declare function places:pelagiosDump(){
@@ -863,8 +862,8 @@ declare function places:pelagiosDump(){
    let $txtarchive := '/db/apps/ttl/'
    (: store the filename :)
    let $filename := concat('allplaces', format-dateTime(current-dateTime(), "[Y,4][M,2][D,2][H01][m01][s01]"), '.ttl')
-   
-   let $filecontent := 
+
+   let $filecontent :=
        let $annotations := for $d in $data
               let $r := root($d)//t:TEI/@xml:id
               let $i := string($r)
@@ -872,9 +871,9 @@ declare function places:pelagiosDump(){
               let $annotatedthing := if($tit) then try{ann:annotatedThing($d, $tit[1], $i)} catch * {($i|| $err:description)}  else ()
                 order by $tit[1]
                  return
-               $annotatedthing 
+               $annotatedthing
      return  $places:placeprefixes || string-join($annotations, ' ')
-    
+
     (: create the new file with a still-empty id element :)
     let $store := xmldb:store($txtarchive, $filename, $filecontent)
     return
