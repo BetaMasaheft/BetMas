@@ -369,6 +369,7 @@ let $filtered := ($ES, $EMIP, $vat, $bnf, $bml)
       for $item in $filtered
       let $this := $item/ancestor::t:TEI
       let $cnt := count($this//t:idno[@facs])
+      let $parent := $idno/parent::node()
       let $manifest :=
         if ($cnt = 1) then
           iiif:manifestsource($this)
