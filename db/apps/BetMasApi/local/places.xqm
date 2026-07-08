@@ -93,6 +93,7 @@ declare variable $places:bmurl := $config:appUrl;
 declare variable $places:collection-rootMS := collection($config:data-rootMS);
 declare variable $places:collection-rootW := collection($config:data-rootW);
 declare variable $places:collection-rootIn := collection($config:data-rootIn);
+declare variable $places:collection-rootPl := collection($config:data-rootPl);
 declare variable $places:collection-rootPlIn := collection($config:data-rootPl,$config:data-rootIn);
 declare variable $places:collection-root := $exptit:col;
 
