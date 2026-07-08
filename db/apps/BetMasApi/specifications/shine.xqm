@@ -44,7 +44,7 @@ function shine:main() {
     "resourceCount": count($shine:MS)
   })
   )
-         
+
 };
 
 declare
@@ -52,7 +52,7 @@ declare
 %rest:path("/shine/api/collections/{$uuid}/resources")
 %output:method("json")
 function shine:collection($uuid as xs:string+) {
-if(contains($uuid, 'betmas')) then 
+if(contains($uuid, 'betmas')) then
   ( $config:response200Json,
   let $collection :=  if($uuid = 'betmasMS') then $shine:MS else $shine:TU
   for $resource in $collection
@@ -75,7 +75,7 @@ declare
 function shine:resMeta($uuid as xs:string+) {
 let $TEI := $shine:all[ancestor::t:TEI[@xml:id=$uuid]]
 return
-if(count($TEI) = 1) then 
+if(count($TEI) = 1) then
   ( $config:response200Json,
   dtslib:dublinCore($uuid)
   )
@@ -90,11 +90,11 @@ declare
 function shine:resSection($uuid as xs:string+) {
 let $TEI := $shine:all[ancestor::t:TEI[@xml:id=$uuid]]
 return
-if((count($TEI) = 1) and $TEI/t:div) then 
+if((count($TEI) = 1) and $TEI/t:div) then
   ( $config:response200Json,
-     if(count($TEI/t:div) = 1) 
-     then [shine:sections($TEI, $uuid)] 
-     else shine:sections($TEI, $uuid) 
+     if(count($TEI/t:div) = 1)
+     then [shine:sections($TEI, $uuid)]
+     else shine:sections($TEI, $uuid)
   )
          else $config:response404
 };
@@ -108,7 +108,7 @@ function shine:CU($uuid as xs:string+) {
 let $mainID := substring-before($uuid, '_')
 let $nodeID := substring-after($uuid, '_')
 let $TEI := $shine:all[ancestor::t:TEI[@xml:id=$mainID]]
-let $node := for $candidate in $TEI/descendant-or-self::t:div 
+let $node := for $candidate in $TEI/descendant-or-self::t:div
                             let $candidateID := generate-id($candidate)
                             return
                             if($nodeID eq $candidateID) then $candidate else ()
@@ -116,12 +116,12 @@ let $node := for $candidate in $TEI/descendant-or-self::t:div
 return
 if(count($node) = 1)
 then ( $config:response200Json,
-           let $seq :=  for $t at $p in $text 
+           let $seq :=  for $t at $p in $text
             return map {
                         "uuid": ($uuid || '_string'||$p),
                         "content": normalize-space($t)
                         }
-                        return 
+                        return
                         if (count($seq) = 1) then [$seq] else $seq
                         )
 else $config:response404
@@ -130,22 +130,22 @@ else $config:response404
 
 declare function shine:sectionName($d, $p, $uuid){
 let $t := if($d/t:label) then () else if($d/@subtype) then string($d/@subtype) else string($d/@type)
-let $n :=      if($d/@corresp) 
+let $n :=      if($d/@corresp)
                                 then let $c := string($d/@corresp)
-                                return exptit:printTitleID($c) 
-          else if($d/t:label) 
-                                then string:tei2string($d/t:label) 
-          else if($d/@xml:id) 
+                                return exptit:printTitleID($c)
+          else if($d/t:label)
+                                then string:tei2string($d/t:label)
+          else if($d/@xml:id)
                                 then  if(contains($d/@xml:id, $t)) then replace(string($d/@xml:id), $t, '') else string($d/@xml:id)
               else $p
-let $all :=  string-join($t, ' ')   || (if($t) then ' ' else ()) || string-join($n, ' ') 
+let $all :=  string-join($t, ' ')   || (if($t) then ' ' else ()) || string-join($n, ' ')
               return
           normalize-space($all)
 
               };
 
 declare function shine:sections($div, $uuid){
-for $d at $p in $div/t:div 
+for $d at $p in $div/t:div
 let $nid := generate-id($d)
 let $parentnode := $d/parent::t:div
 let $name := shine:sectionName($d, $p, $uuid)
@@ -156,12 +156,9 @@ let $all := (map {
     "contentUnitCount": count($d/t:div[t:ab])},
   shine:sections($d, $uuid)
   )
-  
+
 let $parentUuid := if($d/parent::t:div[@type = 'edition']) then $all else map:put($all, "parentUuid", ($uuid||'_' || generate-id($parentnode)))
 
-return 
+return
 $parentUuid
 };
-
-
-

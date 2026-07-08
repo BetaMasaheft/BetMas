@@ -2,18 +2,17 @@ xquery version "3.1" encoding "UTF-8";
 (:~
  : test implementation of the https://github.com/distributed-text-services
  : SERVER
- : @author Pietro Liuzzo 
+ : @author Pietro Liuzzo
  :
- : to do 
- : if I want to retrive 1ra@ወወልድ[1]-3vb, should the  @ወወልድ[1] piece also be in the passage/start/end parameter 
-: 
+ : to do
+ : if I want to retrive 1ra@ወወልድ[1]-3vb, should the  @ወወልድ[1] piece also be in the passage/start/end parameter
+:
 : add possibility of having a collection grouping by institution or catalogue for the manuscripts
-: 
+:
 : urn:dts:betmasMS:INS0012bla:BLorient12314
 :
 : urn:dts:betmasMS:Zotemberg1234:BLorient12314
  :)
-
 module namespace dts="https://www.betamasaheft.uni-hamburg.de/BetMas/dts";
 
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
@@ -54,7 +53,7 @@ function dts:dtsmain() {
   "indexes" : "/api/dts/indexes",
   "annotations" : "/api/dts/annotations"
 })
-         
+
 };
 
 (:~ dts/collection https://github.com/distributed-text-services/specifications/blob/master/Collection-Endpoint.md :)
@@ -85,12 +84,12 @@ then (dtslib:Coll($id, $page, $nav, $version))
 else
 if (matches($parsedURN//s:group[@nr=3], '[a-zA-Z\d]+'))
 then (
-                let $specificID := $parsedURN//s:group[@nr=3]/text() 
+                let $specificID := $parsedURN//s:group[@nr=3]/text()
                 let $edition := $parsedURN//s:group[@nr=4]
                 return dtslib:CollMember($id, $edition, $specificID, $page, $nav, $version))
 else
 dtslib:Coll($id, $page, $nav, $version)
-else 
+else
 (
 $config:response400 ,
 let $error := $id|| "is not a valid URN pattern"
@@ -105,7 +104,7 @@ map {
 };
 
 
-(:(\:~ 
+(:(\:~
 dts/document https://github.com/distributed-text-services/specifications/blob/master/Document-Endpoint.md
 :\)
 declare
@@ -222,39 +221,39 @@ function dts:anyDocumentNotAccepted($id as xs:string*, $ref as xs:string*, $star
 
 (:citation tree and level
 level 1 is div[@type eq 'edition']
-level 2 is a div[@type eq 'edition']/(t:div|t:lb|t:l|t:pb|t:cb) 
+level 2 is a div[@type eq 'edition']/(t:div|t:lb|t:l|t:pb|t:cb)
 level 3 is a div[@type eq 'edition']/(t:div|t:lb|t:l|t:pb|t:cb)/(t:div|t:lb|t:l|t:pb|t:cb)
 
-requesting a level will return the options for that level 
+requesting a level will return the options for that level
 
-e.g. 
+e.g.
 
 request for EMIP01859 or EMIP01859&level=1
 returns the months, which are the first divs children of edition
   EMIP01859.1, EMIP01859.2
   because it looks for div[@type eq 'edition']/(t:div|t:lb|t:l|t:pb|t:cb)
-  
-request for EMIP01859&level=2 
+
+request for EMIP01859&level=2
 returns the days in each month
    EMIP01859.1.1, EMIP01859.1.2, EMIP01859.1.3, etc.
    because it looks for div[@type eq 'edition']/(t:div|t:lb|t:l|t:pb|t:cb)/(t:div|t:lb|t:l|t:pb|t:cb)
-   
-request for EMIP01859&level=3 
+
+request for EMIP01859&level=3
 returns the commemorations in each day
    EMIP01859.1.1.1, EMIP01859.1.1.2, EMIP01859.1.1.3, etc.
-   because it looks for div[@type eq 'edition']/(t:div|t:lb|t:l|t:pb|t:cb)/(t:div|t:lb|t:l|t:pb|t:cb)/(t:div|t:lb|t:l|t:pb|t:cb)   
-      
-request for EMIP01859&level=4 
+   because it looks for div[@type eq 'edition']/(t:div|t:lb|t:l|t:pb|t:cb)/(t:div|t:lb|t:l|t:pb|t:cb)/(t:div|t:lb|t:l|t:pb|t:cb)
+
+request for EMIP01859&level=4
 returns the subdivisions of a commemoration
    EMIP01859.1.1.1.1, EMIP01859.1.1.1.2, EMIP01859.1.1.1.3, etc.
- because it looks for div[@type eq 'edition']/(t:div|t:lb|t:l|t:pb|t:cb)/(t:div|t:lb|t:l|t:pb|t:cb)/(t:div|t:lb|t:l|t:pb|t:cb)/(t:div|t:lb|t:l|t:pb|t:cb)   
-  
+ because it looks for div[@type eq 'edition']/(t:div|t:lb|t:l|t:pb|t:cb)/(t:div|t:lb|t:l|t:pb|t:cb)/(t:div|t:lb|t:l|t:pb|t:cb)/(t:div|t:lb|t:l|t:pb|t:cb)
+
 $ref will limit to a specific reference, and although @n is preferred, also other reference formats will be matched
 
 request for EMIP01859&ref=1 or EMIP01859&level=1&ref=1 or EMIP01859&level&ref=month1
-returns as a resource the months, 
+returns as a resource the months,
 which are the first divs children of edition and match that $ref
-"list of passage identifiers that are part of the textual Resource identified", i.e. EMIP01859.1, 
+"list of passage identifiers that are part of the textual Resource identified", i.e. EMIP01859.1,
   because it looks for div[@type eq 'edition']/(t:div|t:lb|t:l|t:pb|t:cb)[@n=1]/(t:div|t:lb|t:l|t:pb|t:cb)
 
 
@@ -291,15 +290,15 @@ let $BMid := $parsedURN//s:group[@nr=3]/text()
 let $mydoc := $exptit:col/id($BMid)
 let $edition := $parsedURN//s:group[@nr=4]
 let $text := if($edition/node()) then dtslib:pickDivText($mydoc, $edition)  else $mydoc//t:div[@type eq 'edition']
-                (: there may be more edition and translations how are these fetched?  
-                LIT1709Kebran, LIT1758Lefafa multiple editions 
+                (: there may be more edition and translations how are these fetched?
+                LIT1709Kebran, LIT1758Lefafa multiple editions
                 LIT2170Peripl multiple pb and divs + images
-                
-                there needs to be evidence of multiple editions and a possibility to 
+
+                there needs to be evidence of multiple editions and a possibility to
                 switch based on @xml:id
                 with fallback on div[@type eq 'edition']
-                multiple values for navigation api provided in Collection 
-                
+                multiple values for navigation api provided in Collection
+
                 LIT4915PhysA_ED_ed1.1.1.1
                 LIT4915PhysA_ED_ed2.1.1
                 LIT2170Peripl_ED_
@@ -307,17 +306,17 @@ let $text := if($edition/node()) then dtslib:pickDivText($mydoc, $edition)  else
                 :)
 let $textType := $mydoc//t:objectDesc/@form
 let $manifest := $mydoc//t:idno/@facs
-let $allwits := dtslib:wits($mydoc, $BMid) 
+let $allwits := dtslib:wits($mydoc, $BMid)
 let $witnesses := for $witness in distinct-values($allwits)
 (:filters out the witnesses which do not have images available:)
                             return if(starts-with($witness, 'http')) then $witness else let $mss := $dtslib:collection-rootMS/id($witness) return if ($mss//t:idno/@facs) then $witness else ()
 let $cdepth := dtslib:citeDepth($text)
-let $passage := 
+let $passage :=
 if ($mydoc/@type eq 'mss' and not($textType='Inscription')) then (
    (:manuscripts:)
 
-(:  THERE IS A REF:)   
-    if($ref != '') then 
+(:  THERE IS A REF:)
+    if($ref != '') then
              let $l := if ($level='') then 1 else $level
            return
           dtslib:pasRef($l, $text, $ref, 'unit', 'mss', $manifest, $BMid)
@@ -327,15 +326,15 @@ if ($mydoc/@type eq 'mss' and not($textType='Inscription')) then (
      else if($start != '') then
              dtslib:startend($level, $text, $start, $end, 'part', 'mss', $manifest, $BMid)
    (: no ref specified, list all main divs, assuming by the guidelines they are folios:)
-         else if($ref='' and $level = '' and $start ='' and $end = ''and $groupBy = '' and $max = '') 
+         else if($ref='' and $level = '' and $start ='' and $end = ''and $groupBy = '' and $max = '')
                 then dtslib:pasS($text/t:div[@n], 'folio', 'mss', $manifest, $BMid)
   (: if the level is not empty, than it has been specified to be either the second or third level, pages and columns                  :)
          else if (($level != '') and ($cdepth gt 3))  then
   (:  the citation depth is higer than 3:)
 (:  let $t := console:log($level) return:)
                   dtslib:pasLev($level, $text, 'unit', 'mss', $manifest, $BMid )
-        else if(($level != '') and ($cdepth = 3)) then 
-                  (if ($level = '2') 
+        else if(($level != '') and ($cdepth = 3)) then
+                  (if ($level = '2')
   (: the pages of folios have been requested:)
                     then dtslib:pasS($text//t:pb[@n], 'page', 'mss', $manifest, $BMid)
                     else if ($level = '3')
@@ -345,49 +344,49 @@ if ($mydoc/@type eq 'mss' and not($textType='Inscription')) then (
   (: the columns of a pages have been requested:)
                      then dtslib:pasS($text//(t:lb[@n]), 'line', 'mss', $manifest, $BMid)
   (:  in theory there is no such case which will not be matched by cdepth gt 3...   :)
-                     else()  )         
+                     else()  )
 (:    no other option taken into consideration:)
     else ()
-                        ) else 
-(:works and inscriptions. 
-                        textual units have different structures 
+                        ) else
+(:works and inscriptions.
+                        textual units have different structures
                         some are encoded with a basic nested divs structure, some instaed, especially bible texts use l, while inscriptions have lb :)
-                                if($ref='' and $level = '' and $start ='' and $end = ''and $groupBy = '' and $max = '') 
+                                if($ref='' and $level = '' and $start ='' and $end = ''and $groupBy = '' and $max = '')
 (:   if no  parameter is specified, go through the child elements of div type edition, whatever they are:)
                                 then  dtslib:pasS($text/(t:ab|.)/t:*, 'unit', 'work', $witnesses, $BMid)
 (:   if a ref is specified show that navigation point:)
-else if($ref != '' and $start = '')  
+else if($ref != '' and $start = '')
 (:e.g. LIT1546Genesi&ref=2.3 :)
         then dtslib:pasRef(1, $text, $ref, 'unit', 'work', $witnesses, $BMid)
 (:   if a level is specified that use that information, and check for ref
 e.g. LIT1546Genesi&level=2
-:) 
- else if($level != '' and $start = '') 
-                                then 
+:)
+ else if($level != '' and $start = '')
+                                then
 (:  e.g. LIT1546Genesi&level=2&ref=4:)
                                 if($ref != '') then dtslib:pasRef($level, $text, $ref, 'unit', 'work', $witnesses, $BMid)
-(:  e.g. LIT1546Genesi&level=2 (max level is value of citeDepth!):)                               
+(:  e.g. LIT1546Genesi&level=2 (max level is value of citeDepth!):)
                                else dtslib:pasLev($level, $text, 'unit', 'work', $witnesses, $BMid )
- else if($start != '' and $end != '') 
-(: needs to make a sequence of possible 
+ else if($start != '' and $end != '')
+(: needs to make a sequence of possible
 refs at the given level and limit it by the positions in $start and $end
 LIT1546Genesi&start=3&end=4 :)
-               then 
+               then
               dtslib:startend($level, $text, $start, $end, 'texpart', 'work', $witnesses, $BMid)
 else ()
-                             
+
 (:                             the following step should take the list of results and format it using the chunksize and max parameters:)
 let $CS := number($groupBy)
 let $M := number($max)
 let $ctype := dtslib:ctype($mydoc,$text, $level, $cdepth)
-let $chunkedpassage := if(string($groupBy) !='') 
-                                                then       
+let $chunkedpassage := if(string($groupBy) !='')
+                                                then
                                                (
-                                                        for $p in $passage/text() 
+                                                        for $p in $passage/text()
                                                         let $l1 := substring-before($p,'.')
                                                         let $l2 := number(substring-after($p, '.')) -1
                                                         let $L := $l2 - ($l2 mod $CS)
-                                                        group by $g:= $L 
+                                                        group by $g:= $L
                                                         order by $g
                                                         let $rangeStart := if($g= 0) then 1 else $g +1
                                                         let $ceiling:= $g+$CS
@@ -395,26 +394,26 @@ let $chunkedpassage := if(string($groupBy) !='')
                                                         let $end := max($sequenceN)
                                                         let $rangeEnd := if($ceiling gt $end) then $end else $ceiling
                                                         let $chunck  := map {'dts:start' :  $passage[$rangeStart]/text()[1], 'dts:end' : $passage[$rangeEnd]/text()[1]}
-                                                       return 
+                                                       return
                                                                     $chunck)
-                                                else for $p in $passage 
+                                                else for $p in $passage
                                                             let $refonly := map {"dts:ref" : $p/text()[1]}
                                                          let $refandtype := if((count($p/*:type) eq 1) and ($p/*:type/text() !=$ctype)) then map:put($refonly, 'dts:citeType', $p/*:type/text()) else $refonly
-                                                         let $refTypeTitle := if(count($p/*:title) eq 1 or count($p/*:iiifRange) ge 1) 
-                                                                                        then 
+                                                         let $refTypeTitle := if(count($p/*:title) eq 1 or count($p/*:iiifRange) ge 1)
+                                                                                        then
                                                                                                     let $dublincore := map{}
                                                                                                     let $parttitle := if($p/*:title) then map:put($dublincore, 'dc:title', $p/*:title/text()) else $dublincore
-                                                                                                    let $iiifreference := for $i in $p/*:iiifRange 
-                                                                                                                                    return map {"@id": $i/text(),  
-                                                                                                                                                       "@type": (if(contains($i/text(), 'canvas'))  
-                                                                                                                                                                                                 then "sc:Canvas" 
-                                                                                                                                                                                                 else  "sc:Range")}                                                                                     
+                                                                                                    let $iiifreference := for $i in $p/*:iiifRange
+                                                                                                                                    return map {"@id": $i/text(),
+                                                                                                                                                       "@type": (if(contains($i/text(), 'canvas'))
+                                                                                                                                                                                                 then "sc:Canvas"
+                                                                                                                                                                                                 else  "sc:Range")}
                                                                                                     let $parttitlewithmanifest := if(count($iiifreference) ge 1) then map:put($parttitle, 'dc:source', $iiifreference) else $parttitle
-                                                                                                    return map:put($refandtype, 'dts:dublincore', $parttitlewithmanifest) 
+                                                                                                    return map:put($refandtype, 'dts:dublincore', $parttitlewithmanifest)
                                                                                          else   $refandtype
-                                                         return 
+                                                         return
                                                          $refTypeTitle
-                                                 
+
 
 (: regardless of passages sequence type (ranges as maps or items as strings) the following steps limits the number of results                                                :)
 let $maximized :=if(string($max) !='') then for $p in subsequence($chunkedpassage, 1, $M) return $p else $chunkedpassage
@@ -423,15 +422,15 @@ let $array := array{$maximized}
 let $versions := if($version='yes') then  dtslib:fileingitCommits($id, $BMid, 'navigation') else ('version set to '||$version||', no version links retrieved from GitHub.')
 
 return
-if(count($text//text()) lt 1) then 
-($config:response404JsonLD, 
+if(count($text//text()) lt 1) then
+($config:response404JsonLD,
 map {
   "@context": "http://www.w3.org/ns/hydra/context.jsonld",
   "@type": "Status",
   "statusCode": 404,
   "title": "Not Found",
   "description": "Sorry, there is no text here to navigate."
-}) 
+})
 else
  ($config:response200JsonLD,
  log:add-log-message('/api/dts/cit/' || $id, sm:id()//sm:real/sm:username/string() , 'dts'),
@@ -450,7 +449,7 @@ else
     "dts:passage" : ('/api/dts/document?id=' || $id),
     "member": $array
 })
-         
+
 };
 
 
@@ -469,7 +468,7 @@ map {
         "dc": "http://purl.org/dc/terms/",
         "dts": "https://w3id.org/dts/api#",
         "tei": "http://www.tei-c.org/ns/1.0"
-  },  
+  },
   "@type": "IriTemplate",
   "template": "/api/dts/navigation/?id={collection_id}&amp;passage={passage}&amp;level={level}&amp;start={start}&amp;end={end}&amp;page={page}",
   "variableRepresentation": "BasicRepresentation",
@@ -506,7 +505,7 @@ map {
     }
   ]
 })
-case 'document' return 
+case 'document' return
 ($config:response200JsonLD,
 
 map {
@@ -577,17 +576,17 @@ map{'info': ('You can have collection, document or navigation UIR templates, ' |
 
 
 (:
-test implementation of 
+test implementation of
 https://github.com/distributed-text-services/specifications/issues/167
 
 indexes
-this looks not only in div[@type eq 'edition'] but also in tei:teiHeader, 
+this looks not only in div[@type eq 'edition'] but also in tei:teiHeader,
 using xml:id and xpath to point to parts of the description
 
 (index of named persons) persName[@ref]
 (index of named places) placeName[@ref]
 (index of keywords) term[@key]
-(index of named textual units) title[@ref] 
+(index of named textual units) title[@ref]
 (index locorum) refs[@cRef]
 
 :)
@@ -607,14 +606,14 @@ declare
 %rest:query-param("max", "{$max}", "")
 %rest:query-param("version", "{$version}", "")
 %output:method("json")
-function dts:Indexes($id as xs:string*, 
-$indexName as xs:string*, $ref as xs:string*, 
-$level as xs:string*, $begin as xs:string*, 
-$start as xs:string*, $end as xs:string*, $groupBy as xs:string*, 
+function dts:Indexes($id as xs:string*,
+$indexName as xs:string*, $ref as xs:string*,
+$level as xs:string*, $begin as xs:string*,
+$start as xs:string*, $end as xs:string*, $groupBy as xs:string*,
 $page as xs:string*, $max as xs:string*, $version as xs:string*){
 let $id := if($id='') then 'http://betamasaheft.eu' else $id
 let $parsedURN := dtslib:parseDTS($id)
-let $specificID := $parsedURN//s:group[@nr=3]/text() 
+let $specificID := $parsedURN//s:group[@nr=3]/text()
 let $edition := $parsedURN//s:group[@nr=4]
 let $indexes :=
 if (matches($parsedURN//s:group[@nr=2], '(textualunits|narrativeunits|transcriptions)'))
@@ -630,7 +629,7 @@ let $response := if($indexName='') then map {
     "@id":$id,
     "member": $indexes,
 "dts:collection": "/api/dts/collections?id=" || $id
-} else 
+} else
 (:an index is named:)
 let $indexEntries := dtslib:indexentries($specificID, $indexName)
 return
@@ -651,7 +650,7 @@ return
 $resultNav)
 };
 
-(:~annotations main collection, returns a list of collections of annotations, one for each 
+(:~annotations main collection, returns a list of collections of annotations, one for each
 resource type and one for all items in the db with indexable terms :)
 declare
 %rest:GET
@@ -659,7 +658,7 @@ declare
 %rest:query-param("version", "{$version}", "")
 %output:method("json")
 function dts:WebAnnotationsMain($version as xs:string*){
-let $topmembers := for $topcol in ('works', 'mss', 'narr', 'all') return 
+let $topmembers := for $topcol in ('works', 'mss', 'narr', 'all') return
 dtslib:annotationCollection($topcol, 7, 1)
 return
 ($config:response200JsonLD,
@@ -677,11 +676,11 @@ map {
 };
 
 
-(:~annotations collection for a type of items (manuscripts, works or narrative units), 
+(:~annotations collection for a type of items (manuscripts, works or narrative units),
 returns a list of collections of annotations, one for which available index types
 'persons', 'places','keywords', 'loci', 'works' if there are all indexable terms for that index,
 from items in that resources collection.
-An additiona Annotation Collaction for 
+An additiona Annotation Collaction for
 each item is added whcih is instead an annotation collection of annotation collections.
 :)
 declare
@@ -700,13 +699,13 @@ map {
     "@context": $dts:context,
     "member": $all,
     "dts:dublincore": $dts:publisher
-} 
+}
 return
 ($config:response200JsonLD,
 map:merge(($topinfo,$contents)))
 };
 
-(:~ annotations collection for a type of items (manuscripts, works or narrative units), and a 
+(:~ annotations collection for a type of items (manuscripts, works or narrative units), and a
 specific index type among
 'persons', 'places','keywords', 'loci', 'works' and 'items'.
 Indexed passages are grouped by their reference and one annotation collection with that id
@@ -720,36 +719,36 @@ declare
 %rest:query-param("id", "{$id}", "")
 %rest:query-param("version", "{$version}", "")
 %output:method("json")
-function dts:WebAnnotationsIndex($coll as xs:string*, $id as xs:string*, 
-$indexName as xs:string*, 
+function dts:WebAnnotationsIndex($coll as xs:string*, $id as xs:string*,
+$indexName as xs:string*,
 $begin as xs:string*, $page as xs:string*, $version as xs:string*){
 let $parsedURN := dtslib:parseDTS($id)
 let $BMid := if(matches($id,'https://betamasaheft.eu')) then $parsedURN//s:group[@nr=3]//text() else $id
 (:if $indexName is items then list each item in the collection as annotation collection
 else print all paginated values for that index in the collection:)
-let $indexEntries := if($indexName='items') 
+let $indexEntries := if($indexName='items')
                                    then dtslib:AnnoItems($coll)
-                                   else dtslib:indexentriesColl($BMid, $coll, $indexName) 
+                                   else dtslib:indexentriesColl($BMid, $coll, $indexName)
 let $c := count($indexEntries)
-let $indexes :=  if($indexName='items') 
+let $indexes :=  if($indexName='items')
                            then dtslib:AnnoItemInfo($coll, $indexEntries, $page)
-                           else if($id='') 
+                           else if($id='')
                             then dtslib:AnnoEntriesAttestations($indexName, $indexEntries, $page)
                            else dtslib:WebAnn($id, $indexEntries, $page)
 let $path := "/api/dts/annotations/"||$coll||'/'||$indexName
 let $v := dtslib:AnnoEntriesView($path, $id, $indexName, $indexEntries, $page)
-let $topinfo := if($indexName='items') 
+let $topinfo := if($indexName='items')
                             then  dtslib:ItemsAnnotationsCollections($coll, $c)
-                            else if($id!='') 
+                            else if($id!='')
                             then dtslib:refannocol($BMid, $c, $indexName)
-                            else  dtslib:CollAnno($coll,$indexName) 
-let $response := 
+                            else  dtslib:CollAnno($coll,$indexName)
+let $response :=
 map {
     "@context": $dts:context,
     "view": $v,
     "member": $indexes,
     "dts:dublincore": $dts:publisher
-    } 
+    }
 return
 ($config:response200JsonLD,
 map:merge(($topinfo,$response)))
@@ -758,7 +757,7 @@ map:merge(($topinfo,$response)))
 
 
 (:~
-annotations collection for a type of items (manuscripts, works or narrative units), and a 
+annotations collection for a type of items (manuscripts, works or narrative units), and a
 specific item in that collection of resources. Returns a collection of annotation collections
 if available annotations are  present in the item for each type
 'persons', 'places','keywords', 'loci', 'works'.
@@ -770,15 +769,15 @@ declare
 %rest:query-param("page", "{$page}", "1")
 %rest:query-param("version", "{$version}", "")
 %output:method("json")
-function dts:WebAnnotationsIndex($coll as xs:string*, $BMid as xs:string*, 
+function dts:WebAnnotationsIndex($coll as xs:string*, $BMid as xs:string*,
 $begin as xs:string*, $page as xs:string*, $version as xs:string*){
 let $indexes := ('persons', 'places','keywords', 'loci', 'works')
 let $file := dtslib:switchContext($coll)/id($BMid)
 let $title := exptit:printTitleID($BMid)
-let $availableIndexesForItem :=   
-                                    for $index in $indexes 
+let $availableIndexesForItem :=
+                                    for $index in $indexes
                                     let $count := dtslib:ItemAnnotationsEntries($file, $index)
-                                    return if($count=0) then () 
+                                    return if($count=0) then ()
                                     else dtslib:ItemAnnotationCollections($coll,$BMid, $title, $index, $count, 3)
 let $c := count($availableIndexesForItem)
 let $topinfo := map {
@@ -795,16 +794,16 @@ map {
     "@context": $dts:context,
     "member": $availableIndexesForItem,
     "dts:dublincore": $dts:publisher
-} 
+}
 return
 ($config:response200JsonLD,
 map:merge(($topinfo,$contents)))
 };
 
 (:~
-annotations collection for a type of items (manuscripts, works or narrative units), and a 
+annotations collection for a type of items (manuscripts, works or narrative units), and a
 specific item in that collection of resources and a specific index type among
-'persons', 'places','keywords', 'loci', 'works'. 
+'persons', 'places','keywords', 'loci', 'works'.
 The annotations in the single reference  annotation collation are retrieved by
 adding an $id parameter with the full reference
 . :)
@@ -816,8 +815,8 @@ declare
 %rest:query-param("page", "{$page}", "1")
 %rest:query-param("version", "{$version}", "")
 %output:method("json")
-function dts:WebAnnotationsIndex($coll as xs:string*, 
-$BMid as xs:string*, $indexName as xs:string*, $id as xs:string*, 
+function dts:WebAnnotationsIndex($coll as xs:string*,
+$BMid as xs:string*, $indexName as xs:string*, $id as xs:string*,
 $begin as xs:string*, $page as xs:string*, $version as xs:string*){
 let $file := dtslib:switchContext($coll)/id($BMid)
 let $title := exptit:printTitleID($BMid)
@@ -835,9 +834,8 @@ let $response := map{
     "view": $v,
     "member": $indexes,
     "dts:dublincore": $dts:publisher
-    } 
+    }
 return
 ($config:response200JsonLD,
 map:merge(($topinfo,$response)))
 };
-

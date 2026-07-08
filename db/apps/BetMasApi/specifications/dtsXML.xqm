@@ -2,7 +2,7 @@ xquery version "3.1" encoding "UTF-8";
 (:~
  : early test implementation of the https://github.com/distributed-text-services
  : SERVER
- : @author Pietro Liuzzo 
+ : @author Pietro Liuzzo
 :)
 module namespace dtsXML="https://www.betamasaheft.uni-hamburg.de/BetMas/dtsXML";
 
@@ -30,9 +30,9 @@ declare
 function dtsXML:CollectionsID($id as xs:string*) {
     let $login := xmldb:login($config:data-root, $config:ADMIN, $config:ppw)
     return
-  
+
         ($config:response200Json,
-        
+
  log:add-log-message('/api/dts/collections/' || $id, sm:id()//sm:real/sm:username/string() , 'dts'),
     <json:value>
         <context>
@@ -58,7 +58,7 @@ function dtsXML:CollectionsID($id as xs:string*) {
                             {
                                 for $lang in $record//t:language
                                 return
-                                  <lang>     
+                                  <lang>
                                      {  string($lang/@ident) }
                                  </lang>
                             }
@@ -71,25 +71,25 @@ function dtsXML:CollectionsID($id as xs:string*) {
                     <hasRoles>false</hasRoles>
                 </capabilities>,
                 <metadata>
-                {if ($record//t:relation[@name='dcterms:creator']) then (element dcterms:creator{exptit:printTitleID($record//t:relation[@name='dcterms:creator']/string(@passive))}) 
+                {if ($record//t:relation[@name='dcterms:creator']) then (element dcterms:creator{exptit:printTitleID($record//t:relation[@name='dcterms:creator']/string(@passive))})
                 else if ($record//t:relation[@name='saws:isAttributedToAuthor']) then (element saws:isAttributedToAuthor{exptit:printTitleID($record//t:relation[@name='saws:isAttributedToAuthor']/string(@passive))})
-                else if ($record//t:author) then <t:author>{$record//t:author/text()}</t:author> 
+                else if ($record//t:author) then <t:author>{$record//t:author/text()}</t:author>
                 else ()}
                 </metadata>,
-                
+
                 <members>
                 <id>{$config:appUrl}/{$id}</id>
                 <id>{$config:appUrl}/api/{$id}/tei</id>
                 <id>{$config:appUrl}/api/{$id}/json</id>
-                   
+
                                 <contents>
-                        {  let $members := for $mem in ($record//t:relation/@passive) 
+                        {  let $members := for $mem in ($record//t:relation/@passive)
                                                      let $name := string($mem/parent::t:*/@name)
-                                                     return 
-                                                   
-                                                     if (contains($mem, ' ')) then 
+                                                     return
+
+                                                     if (contains($mem, ' ')) then
                                                       for $m in tokenize(normalize-space($mem), ' ')
-                                                       return 
+                                                       return
                                                        <rels><id>{$m}</id><n>{$name}</n></rels>
                                                      else
                                                        <rels><id>{data($mem)}</id><n>{$name}</n></rels>
@@ -105,59 +105,59 @@ function dtsXML:CollectionsID($id as xs:string*) {
                                   }
                                   </contents>
                 </members>,
-                
+
                 <version>{
                             max($record//t:change/xs:date(@when))
                     }</version>,
-                
+
                 <parents><json:value
                             json:array="true"> {
-                       let $parents := for $par in ($record//t:relation[@name = 'saws:formsPartOf']/@passive) 
+                       let $parents := for $par in ($record//t:relation[@name = 'saws:formsPartOf']/@passive)
                                                     return $par
                             for $parent in config:distinct-values($parents)
                             let $papa := $exptit:col/id($parent)[self::t:TEI]
                             return
-                                
+
                                     (<id>urn:dts:betmas:{string($papa/@xml:id)}</id>,
                                     <type>{string($papa/@type)}</type>,
                                     <labels>
-                    
+
                             {
                                 for $lang in $papa//t:language
                                 return
-                                    
+
                                  <lang>     {  string($lang/@ident) }</lang>
                             }
-                        
+
                         <value>{exptit:printTitleID($parent)}</value>
-                    
+
                 </labels>
                                     )
-                                  
-                               
+
+
                         } </json:value>
-                        
+
                 </parents>
                 )
                 }</graph>
-        
+
     </json:value>)
 };
 
 
 (:~ returns the short title for citations or the main one:)
 declare function dtsXML:citation($item as node()){
-if($item//t:titleStmt/t:title[@type='short']) 
-then $item//t:titleStmt/t:title[@type='short']/text() 
+if($item//t:titleStmt/t:title[@type='short'])
+then $item//t:titleStmt/t:title[@type='short']/text()
 else $item//t:titleStmt/t:title[@xml:id = 't1']/text()
 };
 
 
 (:~The following function retrive the text of the selected work and returns
-: it with basic informations for next and following into a small JSON tree 
-returns the lines of the second level of subdivision (subchapters) e.g. 
-XXX. 1 
-XXX. 1 
+: it with basic informations for next and following into a small JSON tree
+returns the lines of the second level of subdivision (subchapters) e.g.
+XXX. 1
+XXX. 1
 
 :)
 declare
@@ -183,15 +183,15 @@ function dtsXML:get-workJSON($id as xs:string) {
                         {
                             for $subtype in $item//t:div[@type = 'edition']/t:div[@subtype]
                             return
-                                
+
                                 element {string($subtype/@subtype)} {($config:appUrl||'/api/dts/' || $id || '/' || $subtype/@n)}
                         }
                     </json:value>
                 </contains>
-            
-            
+
+
             </json:value>
-        
+
         else
             <json:value>
                 <json:value
@@ -249,14 +249,14 @@ function dtsXML:get-toplevelJSON($id as xs:string, $level1 as xs:string*) {
                         {
                             for $subtype in $L1/t:div[@subtype]
                             return
-                                
+
                                 element {string($subtype/@subtype)} {($config:appUrl||'/api/dts/' || $id || '/' || $level1 || '/' || $subtype/@n)}
                         }
                     </json:value>
                 </contains>
                 <partofwork>{$config:appUrl}/api/dts/{$id}</partofwork>
             </json:value>
-        
+
         else
             <json:value>
                 <json:value
@@ -274,13 +274,13 @@ declare
 %output:method("json")
 function dtsXML:get-level1JSON($id as xs:string, $level1 as xs:string*, $line as xs:string*) {
     ($config:response200Json,
-    
+
  log:add-log-message('/api/dts/text/'||$id||'/'||$level1||'/'||$line, sm:id()//sm:real/sm:username/string() , 'dts'),
     let $collection := 'works'
     let $item := $exptit:col/id($id)[name() ='TEI']
     let $recordid := $item/@xml:id
     let $L1 := $item//t:div[@type = 'edition']/t:div[@n = $level1]
-    
+
     return
         if (contains($line, '-'))
         then
@@ -293,7 +293,7 @@ function dtsXML:get-level1JSON($id as xs:string, $level1 as xs:string*, $line as
                         for $l in (xs:integer(substring-before($line, '-')) to xs:integer(substring-after($line, '-')))
                         let $thisline := $L1//t:l[@n = string($l)]
                         let $t := string-join($thisline//text(), ' ')
-                            
+
                         return
                             normalize-space($t)
                     }</text>
@@ -320,29 +320,29 @@ function dtsXML:get-level1JSON($id as xs:string, $level1 as xs:string*, $line as
                         {
                             for $subtype in $L1//t:*[@n]
                             return
-                                
+
                                 element {$subtype/name()} {($config:appUrl||'/api/dts/' || $id || '/' || $level1 || '/' || $subtype/@n)}
                         }
                     </json:value>
                 </contains>
                 <partofchapter>{$config:appUrl}/api/dts/{$id}/{$level1}</partofchapter>
-            
+
             </json:value>
-        else 
+        else
         let $ltext := $L1//t:l[@n = $line]
         return
             if ($ltext)
             then
-           
+
             let $onlytext := string-join($ltext//text(), '')
             return
                 <json:value
                     json:array="true">
-                    
+
                     <id>{data($recordid)}</id>
                     <citation>{(dtsXML:citation($item) || ' ' || $level1 || ', ' || $line)}</citation>
                     <title>{let $t := $item//t:titleStmt return $t/t:title[@xml:id = 't1']/text()}</title>
-                    
+
                     <text>{normalize-space($onlytext)}</text>
                     {
                         if (number($line) > 1)
@@ -367,17 +367,17 @@ function dtsXML:get-level1JSON($id as xs:string, $level1 as xs:string*, $line as
                             {
                                 for $subtype in $L1//t:*[@n]
                                 return
-                                    
+
                                     element {$subtype/name()} {($config:appUrl||'/api/dts/' || $id || '/' || $level1 || '/' || $subtype/@n)}
                             }
                         </json:value>
                     </contains>
                     <partofchapter>{$config:appUrl}/api/dts/{$id}/{$level1}</partofchapter>
                     <partofwork>{$config:appUrl}/api/dts/{$id}</partofwork>
-                
+
                 </json:value>
-            
-            
+
+
             else
                 <json:value>
                     <json:value
@@ -396,7 +396,7 @@ declare
 %output:method("json")
 function dtsXML:get-level2JSON($id as xs:string, $level1 as xs:string*, $level2 as xs:string*, $line as xs:string*) {
     ($config:response200Json,
-    
+
  log:add-log-message('/api/dts/text/'||$id||'/'||$level1||'/'||$level2||'/'||$line, sm:id()//sm:real/sm:username/string() , 'dts'),
     let $collection := 'works'
     let $item := $exptit:col/id($id)[name() ='TEI']
@@ -406,7 +406,7 @@ function dtsXML:get-level2JSON($id as xs:string, $level1 as xs:string*, $level2 
     return
         if (contains($line, '-'))
         then
-            
+
             <json:value
                 json:array="true">
                 <id>{data($recordid)}</id>
@@ -437,19 +437,19 @@ function dtsXML:get-level2JSON($id as xs:string, $level1 as xs:string*, $level2 
                 }
                 <partofchapter>{$config:appUrl}/api/dts/{$id}/{$level1}/{$level2}</partofchapter>
                 <partofbook>{$config:appUrl}/api/dts/{$id}/{$level1}</partofbook>
-                
+
                 <partofwork>{$config:appUrl}/api/dts/{$id}</partofwork>
-            
+
             </json:value>
-        
+
         else
             if ($L2//t:l[@n = $line])
             then
                 <json:value>
                     {
-                        
+
                         let $recordid := $item/t:TEI/@xml:id
-                        
+
                         return
                             <json:value
                                 json:array="true">
@@ -475,9 +475,9 @@ function dtsXML:get-level2JSON($id as xs:string, $level1 as xs:string*, $level2 
                                 }
                                 <partofchapter>{$config:appUrl}/api/dts/{$id}/{$level1}/{$level2}</partofchapter>
                                 <partofbook>{$config:appUrl}/api/dts/{$id}/{$level1}</partofbook>
-                                
+
                                 <partofwork>{$config:appUrl}/api/dts/{$id}</partofwork>
-                            
+
                             </json:value>
                     }
                 </json:value>
@@ -490,4 +490,3 @@ function dtsXML:get-level2JSON($id as xs:string, $level1 as xs:string*, $level2 
                 </json:value>
     )
 };
-

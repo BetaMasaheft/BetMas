@@ -1,10 +1,10 @@
 
 xquery version "3.1" encoding "UTF-8";
 (:~
- : implementation of the http://iiif.io/api/presentation/2.1/ 
+ : implementation of the http://iiif.io/api/presentation/2.1/
  : for images of manuscripts stored in betamasaheft server. extracts manifest, sequence, canvas from the tei data
- : 
- : @author Pietro Liuzzo 
+ :
+ : @author Pietro Liuzzo
  :)
  module namespace persiiif = "https://www.betamasaheft.uni-hamburg.de/BetMasWeb/persiiif";
 import module namespace iiif = "https://www.betamasaheft.uni-hamburg.de/BetMas/iiif"at "xmldb:exist:///db/apps/BetMasApi/specifications/iiif.xqm";
@@ -36,17 +36,17 @@ declare namespace json = "http://www.json.org";
 declare function persiiif:fileingit($bmID, $sha){
 
 let $permapath := replace(persiiif:capitalize-first(substring-after(base-uri($exptit:col/id($bmID)[name() eq 'TEI']), '/db/apps/BetMasData/')), 'Manuscripts', '')
-return 
+return
 doc('https://raw.githubusercontent.com/BetaMasaheft/Manuscripts/'||$sha||'/'|| $permapath)//t:TEI
 };
 
 
 (:manifest for one manuscript, including all ranges and canvases:)
 (:IIIF: The manifest response contains sufficient information for the client to initialize itself and begin to display something quickly to the user. The manifest resource represents a single object and any intellectual work or works embodied within that object. In particular it includes the descriptive, rights and linking information for the object. It then embeds the sequence(s) of canvases that should be rendered to the user.:)
-declare 
+declare
 %rest:GET
 %rest:path("/permanent/{$sha}/api/iiif/{$id}/manifest")
-%output:method("json") 
+%output:method("json")
 function persiiif:manifest($id as xs:string*,$sha as xs:string*) {
 let $item := persiiif:fileingit($id, $sha)
        return
@@ -74,32 +74,32 @@ let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($item//t:msIdentifier/
        let $attribution := if($item//t:repository/@ref  eq 'INS0339BML') then ('The images of the manuscript taken by Antonella Brita, Karsten Helmholz and Susanne Hummel during a mission funded by the Sonderforschungsbereich 950 Manuskriptkulturen in Asien, Afrika und Europa, the ERC Advanced Grant TraCES, From Translation to Creation: Changes in Ethiopic Style and Lexicon from Late Antiquity to the Middle Ages (Grant Agreement no. 338756) and Beta maṣāḥǝft. The images are published in conjunction with this descriptive data about the manuscript with the permission of the https://www.bmlonline.it/la-biblioteca/cataloghi/, prot. 190/28.13.10.01/2.23 of the 24 January 2019 and are available for research purposes.') else "Provided by "||$item//t:collection/text()||" project."
        let $logo := if($item//t:repository/@ref eq 'INS0339BML') then ('/rest/BetMasWeb/resources/images/logobml.png') else "/rest/BetMasWeb/resources/images/logo"||$item//t:collection/text()||".png"
        let $sequence := $iiifroot || "/sequence/normal"
-     
-     
+
+
 (:    $mainstructure:)
-return 
+return
 map {"@context": "http://iiif.io/api/presentation/2/context.json",
   "@id": $request,
   "@type": "sc:Manifest",
   "label": exptit:printTitleID($id),
   "metadata": [
-    map {"label": "Repository", 
+    map {"label": "Repository",
                 "value": [
                   map   {"@value": '<a href="'||$config:appUrl||'/manuscripts/'||$institutionID||'/list">'||$institution ||'</a>' , "@language": "en"}
                             ]
-      }, 
-      map {"label": "object type", 
+      },
+      map {"label": "object type",
                 "value": [
                   map   {"@value": $objectType, "@language": "en"}
                             ]
-      }, 
-      map {"label": "main view", 
+      },
+      map {"label": "main view",
                 "value": $config:appUrl ||'/'|| $id
       }
       ],
       "description" : "An Ethiopian Manuscript.",
-     
-      
+
+
     "viewingDirection": "right-to-left",
   "viewingHint": "paged",
   "license": "http://creativecommons.org/licenses/by-nc-nd/4.0/",
@@ -114,7 +114,7 @@ map {"@context": "http://iiif.io/api/presentation/2/context.json",
   },
   "within": $config:appUrl ||"/manuscripts/list",
 
-  "sequences": [ 
+  "sequences": [
    map   {"@context": "http://iiif.io/api/presentation/2/context.json",
         "@id": $sequence,
         "@type": "sc:Sequence",
@@ -127,9 +127,9 @@ map {"@context": "http://iiif.io/api/presentation/2/context.json",
   "structures": $structures
     }
     )
-    else 
+    else
       ($iiif:response400,
-       
+
        map{'info': ('no manifest available for ' || $id )}
    )
 };
@@ -137,7 +137,7 @@ map {"@context": "http://iiif.io/api/presentation/2/context.json",
 
 
 (:dereferencable sequence The sequence conveys the ordering of the views of the object.:)
-declare 
+declare
 %rest:GET
 %rest:path("/permanent/{$sha}/api/iiif/{$id}/sequence/normal")
 %output:method("json")
@@ -154,7 +154,7 @@ let $startCanvas := $iiifroot || '/canvas/p1'
 let $canvas := iiif:Canvases($item, $id, $iiifroot, $item//t:msIdentifier/t:idno[@facs])
 
        return
-       
+
        map{"@context": "http://iiif.io/api/presentation/2/context.json",
   "@id": $sequence,
   "@type": "sc:Sequence",
@@ -164,12 +164,12 @@ let $canvas := iiif:Canvases($item, $id, $iiifroot, $item//t:msIdentifier/t:idno
   "startCanvas": $startCanvas,
   "canvases": $canvas}
        )};
-       
-       
+
+
 (:   dereference    canvas:)
 
 (:IIIF: The canvas represents an individual page or view and acts as a central point for laying out the different content resources that make up the display. :)
-       declare 
+       declare
 %rest:GET
 %rest:path("/permanent/{$sha}/api/iiif/{$id}/canvas/p{$n}")
 %output:method("json")
@@ -178,7 +178,7 @@ function persiiif:canvas($id as xs:string*, $n as xs:string*,$sha as xs:string*)
 
 log:add-log-message('/api/iiif/'||$id||'/canvas/p' || $n, sm:id()//sm:real/sm:username/string() , 'iiif'),
 let $item := persiiif:fileingit($id, $sha)
-let $iiifroot := $config:appUrl ||"/api/iiif/" || $id 
+let $iiifroot := $config:appUrl ||"/api/iiif/" || $id
 let $imagesbaseurl := $config:appUrl ||'/iiif/' || string($item//t:msIdentifier/t:idno/@facs)
  let $imagefile := format-number($n, '000') || '.tif'
 let $resid := ($imagesbaseurl || (if($item//t:collection='EMIP') then () else if($item//t:repository[@ref eq 'INS0339BML']) then () else '_') || $imagefile )
@@ -188,6 +188,3 @@ let $id := $iiifroot || '/canvas/p'  || $n
        return
        iiif:oneCanvas($id, $name, $image, $resid)
       ) };
-       
-       
-      

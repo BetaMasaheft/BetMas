@@ -1,8 +1,8 @@
 xquery version "3.1" encoding "UTF-8";
-(: 
-implementation of 
-https://jsonapi.org/format/ 
-for 
+(:
+implementation of
+https://jsonapi.org/format/
+for
 https://github.com/BetaMasaheft/Documentation/issues/1109
 :)
 module namespace jsonapi="https://www.betamasaheft.uni-hamburg.de/BetMas/jsonapi";
@@ -39,7 +39,7 @@ declare variable $jsonapi:response200Json := <rest:response>
                     />
             </http:response>
         </rest:response>;
-        
+
 declare
 %rest:GET
 %rest:path("/json/api/{$id}")
@@ -59,7 +59,7 @@ let $ptrs := ($file//t:*/@ref, $file//t:*/@passive)
 let $pointers := for $p in distinct-values($ptrs) let $t := switch2:switchPrefix($p) return map { "type": $t, "id": string($p) }
 let $pointhere := let $attestations:= what:PointsHere($id, $exptit:col)
                                 for $att in $attestations
-                                let $rootID := string(root($att)/t:TEI/@xml:id) 
+                                let $rootID := string(root($att)/t:TEI/@xml:id)
                                 group by $MAINID := $rootID
                                 return
                                     if($MAINID = $id) then () else map { "type": switch2:switchPrefix($MAINID), "id": $MAINID }
@@ -68,7 +68,7 @@ return
 (
  $jsonapi:response200Json,
   map {
-  "jsonapi" : map{"version": "1.0", 
+  "jsonapi" : map{"version": "1.0",
                             "description": 'test implementation of spec https://jsonapi.org/format/ '},
 "meta": map {
     "copyright": $availability,
@@ -99,6 +99,6 @@ return
       }
     }
   }]
-}    
+}
 )
 };
