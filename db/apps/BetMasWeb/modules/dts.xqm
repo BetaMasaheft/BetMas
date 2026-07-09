@@ -1624,7 +1624,7 @@ switch($name)
                             case 'keywords' return $file//t:term[@key][not(parent::t:keywords)]
                             default return ()
 else
-let $cleanid := replace($id, 'https://betamasaheft.eu/', '')
+let $cleanid := replace($id, $config:BMurl, '')
 return
 switch($name)
                             case 'places' return $file//t:placeName[@ref =$cleanid]
@@ -1763,7 +1763,7 @@ function dts:WebAnnotationsIndex($coll as xs:string*, $id as xs:string*,
 $indexName as xs:string*,
 $begin as xs:string*, $page as xs:string*, $version as xs:string*){
 let $parsedURN := dts:parseDTS($id)
-let $BMid := if(matches($id,'https://betamasaheft.eu')) then $parsedURN//s:group[@nr=3]//text() else $id
+let $BMid := if(contains($id, $config:BMurl)) then $parsedURN//s:group[@nr=3]//text() else $id
 (:if $indexName is items then list each item in the collection as annotation collection
 else print all paginated values for that index in the collection:)
 let $indexEntries := if($indexName='items')

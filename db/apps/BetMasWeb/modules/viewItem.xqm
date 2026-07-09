@@ -852,10 +852,10 @@ declare %private function viewItem:URI2ID($string) {
 };
 
 declare %private function viewItem:ID2URI($string) {
-    if (starts-with($string, 'https://betamasaheft.eu')) then
+    if (starts-with($string, $config:BMurl)) then
         $string
     else
-        'https://betamasaheft.eu' || '/' || $string
+        $config:BMurl || $string
 };
 
 declare %private function viewItem:workAuthLi($a, $aorp) {

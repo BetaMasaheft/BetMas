@@ -1809,7 +1809,7 @@ switch($name)
                             case 'keywords' return $file//t:term[@key][not(parent::t:keywords)]
                             default return ()
 else 
-let $cleanid := replace($id, 'https://betamasaheft.eu/', '')
+let $cleanid := replace($id, $config:BMurl, '')
 return
 switch($name) 
                             case 'places' return $file//t:placeName[@ref =$cleanid]

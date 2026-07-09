@@ -3335,7 +3335,7 @@ declare function q:summaryWork($item, $id) {
                             else
                                 $rpass
                         for $author in distinct-values($attributions)
-                        let $id := replace($author, 'https://betamasaheft.eu/', '')
+                        let $id := replace($author, $config:BMurl, '')
                         return
                             <li><a
                                     href="{$config:appUrl}/{$author}">{
@@ -3361,7 +3361,7 @@ declare function q:summaryWork($item, $id) {
                     {
                         for $witness in $item//t:listWit/t:witness
                         let $corr := $witness/@corresp
-                        let $id := replace($corr, 'https://betamasaheft.eu/', '')
+                        let $id := replace($corr, $config:BMurl, '')
                         return
                             <li><a
                                     href="{$config:appUrl}/{$corr}">{exptit:printTitleID($id)}</a></li>
@@ -3372,7 +3372,7 @@ declare function q:summaryWork($item, $id) {
                     {
                         for $parallel in ($isVersion, $anotherlang)
                         let $p := $parallel/@active
-                        let $id := replace($parallel, 'https://betamasaheft.eu/', '')
+                        let $id := replace($parallel, $config:BMurl, '')
                         return
                             <li><a
                                     href="{$config:appUrl}/{$p}">{$id}</a></li>
@@ -3792,10 +3792,10 @@ let $t2 := util:log('info', $count):)
     (:let $t3 := util:log('info', $formatoptions):)
     let $options := for $option in $formatoptions
     return
-        if (starts-with($key, 'https://betamasaheft.eu/') and contains($key, '#'))
+        if (starts-with($key, $config:BMurl) and contains($key, '#'))
         then
             try {
-                let $id := replace($key, 'https://betamasaheft.eu/', '')
+                let $id := replace($key, $config:BMurl, '')
                 let $subid := substring-after($key, '#')
                 let $mainid := substring-before($key, '#')
                     group by $MAIN := $mainid
@@ -3834,9 +3834,9 @@ declare function q:formatOption($rangeindexname, $key, $count) {
                     value="{$key}">{editors:editorKey(substring-after($key, '#'))} ({$count[2]})</option>
 
             else
-                if (starts-with($key, 'https://betamasaheft.eu/'))
+                if (starts-with($key, $config:BMurl))
                 then
-                    let $id := replace($key, 'https://betamasaheft.eu/', '')
+                    let $id := replace($key, $config:BMurl, '')
                     let $title := ($q:lists//t:item[@xml:id = $id] | $q:lists//t:item[@corresp = $id])/text()
                     let $titlesel := if ($title) then
                         $title

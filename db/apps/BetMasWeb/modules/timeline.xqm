@@ -34,7 +34,7 @@ tl:date($date, 'obj')
 let $datePersons :=
 let $datesOfThisPerson := $this//t:person[t:birth[@evidence eq  "internal"][@when or @notBefore or @notAfter] or t:death[@evidence eq  "internal"][@when or @notBefore or @notAfter] or t:floruit[@evidence eq  "internal"][@when or @notBefore or @notAfter]]
 let $datesofRelatedPersons := for $ref in config:distinct-values($this//@ref[contains(.,'PRS')])
-return doc(($config:data-rootPr || '/' ||substring-after($ref, 'https://betamasaheft.eu/')|| '.xml'))//t:person[t:birth[@evidence eq  "internal"][@when or @notBefore or @notAfter] or t:death[@evidence eq  "internal"][@when or @notBefore or @notAfter] or t:floruit[@evidence eq  "internal"][@when or @notBefore or @notAfter]]
+return doc(($config:data-rootPr || '/' ||substring-after($ref, $config:BMurl)|| '.xml'))//t:person[t:birth[@evidence eq  "internal"][@when or @notBefore or @notAfter] or t:death[@evidence eq  "internal"][@when or @notBefore or @notAfter] or t:floruit[@evidence eq  "internal"][@when or @notBefore or @notAfter]]
 let $datesIncitingPrs := for $citingpr in config:distinct-values($whatpointshere[ancestor::t:TEI[@type eq 'pers']]/ancestor::t:TEI/@xml:id) return doc(($config:data-rootPr || '/' ||string($citingpr)|| '.xml'))//t:person[t:birth[@evidence eq  "internal"][@when or @notBefore or @notAfter] or t:death[@evidence eq  "internal"][@when or @notBefore or @notAfter] or t:floruit[@evidence eq  "internal"][@when or @notBefore or @notAfter]]
 
 for $datep in ($datesOfThisPerson, $datesofRelatedPersons)

@@ -46,8 +46,8 @@ let $seq := for $point in tokenize($coord, ' ') return $point
  : first looks at what the id is, then if it is one of ours, looks for coordinates
  : 1. take ours if we have them, if not look for a sameAs and check there for coordinates:)
 declare function coord:getCoords($placenameref as xs:string) {
-    if (starts-with($placenameref, 'https://betamasaheft.eu/LOC') or starts-with($placenameref, 'https://betamasaheft.eu/INS')) then
-        let $onlyid := substring-after($placenameref, 'https://betamasaheft.eu/')
+    if (starts-with($placenameref, $config:BMurl || 'LOC') or starts-with($placenameref, $config:BMurl || 'INS')) then
+        let $onlyid := substring-after($placenameref, $config:BMurl)
         let $pRec := collection($config:data-rootPl,$config:data-rootIn)/id($onlyid)
          return
          if ($pRec//t:geo[@rend eq 'polygon']/text()) then

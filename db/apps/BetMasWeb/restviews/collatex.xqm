@@ -175,7 +175,7 @@ return
 
 (:~ Produces as string a json object which contains the id of the manuscript witnesses selected and the text passege as of the urn  which can be used to build the body of a post request to collatex:)
 declare function collatex:getCollatexWitnessText($dtsURN){
-let $parsedURN := dtslib:parseDTSid(replace($dtsURN, 'https://betamasaheft.eu/', ''))
+let $parsedURN := dtslib:parseDTSid(replace($dtsURN, $config:BMurl, ''))
 (:let $test := console:log($parsedURN):)
 let $id := $parsedURN//s:group[@nr = 1]/text()
 let $edition := $parsedURN//s:group[@nr = 2]

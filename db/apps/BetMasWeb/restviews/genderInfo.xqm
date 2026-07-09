@@ -110,7 +110,7 @@ declare function genderInfo:timeline($sparql){
 for $res in $sparql//sr:result[sr:binding[@name eq 'birth']]
 let $person := $res//sr:binding[@name eq 'person']/sr:uri/text() 
             group by $p := $person
-            let $id := substring-after($p,'https://betamasaheft.eu/')
+            let $id := substring-after($p, $config:BMurl)
             let $name := exptit:printTitleID($id)
             let $birth := $res[1]/sr:binding[@name eq 'birth']/sr:literal/text()
             let $death := $res[1]/sr:binding[@name eq 'birth']/sr:literal/text()
@@ -147,7 +147,7 @@ declare function genderInfo:GenBarChartData($sparql){
             let $countF := genderInfo:filter($res, 'female')
              let $countM := genderInfo:filter($res, 'male')
             return 
-            "['"||substring-after(replace($r, '\s', ''), 'https://betamasaheft.eu/')||"',"|| count($countF)||','|| count($countM)||']'
+            "['"||substring-after(replace($r, '\s', ''), $config:BMurl)||"',"|| count($countF)||','|| count($countM)||']'
     
 };
  
@@ -157,8 +157,8 @@ declare
 %output:method("json")
 function genderInfo:relNodes(){
 let $nodes :=
-for $n in $genderInfo:sparqlquery[2]//sr:uri[starts-with(.,'https://betamasaheft.eu/')]
-let $id := substring-after($n,'https://betamasaheft.eu/')
+for $n in $genderInfo:sparqlquery[2]//sr:uri[starts-with(., $config:BMurl)]
+let $id := substring-after($n, $config:BMurl)
 group by $i := $id
 let $title := exptit:printTitleID($i)
 let $type := switch2:switchPrefix($i)
