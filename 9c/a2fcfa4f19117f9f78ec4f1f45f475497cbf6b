@@ -1,0 +1,29 @@
+db/apps/BetMasService/modules/makeExpand.xql
+  s_01b300408a1123::t_3c245fe56b97cd 5
+.prettierignore
+  s_01b300408a1123::t_33284fc98f241e 16-18
+db/apps/BetMasWeb/modules/generateFormattedBibliography.xqm
+  s_01b300408a1123::t_21f1a7a65cbc22 1-143
+db/apps/BetMasWeb/modules/titlesData.xqm
+  s_01b300408a1123::t_d45fbbbea01eec 16
+  s_01b300408a1123::t_21f1a7a65cbc22 1-2,10-15,17-612
+  s_01b300408a1123::t_659433d67ad2ba 3-9
+db/apps/BetMasWeb/modules/expand.xqm
+  s_01b300408a1123::t_8e03f527590ffe 4-6,10,23,181-187,258-261,266,280,303,305-328,341,350,433,437,444,448,452,461,467-469,516,614,623,626,687,789,804,834-839,842-844,896-909,914-915,943-954,972,975,977-990,993,996-1017
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "9ca2fcfa4f19117f9f78ec4f1f45f475497cbf6b",
+  "prompts": {},
+  "sessions": {
+    "s_01b300408a1123": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e564e4bd-212c-4b09-88e1-41f486bbe2e0",
+        "model": "claude-fable-5"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
