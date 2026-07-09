@@ -3463,7 +3463,7 @@ declare function apprest:compareMssFromForm ($target-work as xs:string?) {
       let $Additems :=
       $apprest:collection-rootMS//t:additions//t:item[descendant::t:title[@ref]]
       let $matchingAddmss := $Additems//t:title[contains(@ref, $target-work)]
-      let $matchingConmss := $items/t:title[matches(@ref, $target-work)]
+      let $matchingConmss := $items/t:title[contains(@ref, $target-work)]
       let $matchingmss := ($matchingConmss, $matchingAddmss)
       let $ids :=
         for $manuscript in $matchingmss
