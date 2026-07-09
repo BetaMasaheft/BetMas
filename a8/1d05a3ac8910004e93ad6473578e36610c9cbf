@@ -1,0 +1,22 @@
+db/apps/BetMasWeb/modules/apprest.xqm
+  s_01b300408a1123::t_1fecd4db343d08 3466
+db/apps/BetMasWeb/modules/item.xqm
+  s_01b300408a1123::t_066186f65e1272 418
+  s_01b300408a1123::t_6231203ac70cae 425
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "a81d05a3ac8910004e93ad6473578e36610c9cbf",
+  "prompts": {},
+  "sessions": {
+    "s_01b300408a1123": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e564e4bd-212c-4b09-88e1-41f486bbe2e0",
+        "model": "claude-fable-5"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
