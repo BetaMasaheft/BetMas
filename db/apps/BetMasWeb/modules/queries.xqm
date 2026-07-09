@@ -1706,15 +1706,15 @@ declare function q:facetDiv($f, $facets, $facetTitle) {
                                                 $q:languages//t:item[@xml:id eq $label]/text()
                                             else
                                                 if ($f = 'keywords') then
-                                                    let $cleanlabel := if (starts-with($label, $config:appUrl)) then
-                                                        replace(substring-after($label, $config:appUrl), '/', '')
+                                                    let $cleanlabel := if (starts-with($label, $config:BMurl)) then
+                                                        substring-after($label, $config:BMurl)
                                                     else
                                                         $label
                                                     let $taxname := (id($cleanlabel, $q:tax)/self::t:category | $q:tax//t:category[t:catDesc eq $cleanlabel])[1]/t:catDesc/text()
                                                     return
                                                         $taxname
                                                 else
-                                                    if (starts-with($label, $config:appUrl)) then
+                                                    if (starts-with($label, $config:BMurl)) then
                                                         exptit:printTitle($label)
                                                     else
                                                         $label
@@ -1726,8 +1726,8 @@ declare function q:facetDiv($f, $facets, $facetTitle) {
                                 if ($f = 'keywords') then
                                     (for $input in $inputs
                                     let $val := $input/*:input/@value
-                                    let $cleanval := if (starts-with($val, $config:appUrl)) then
-                                        replace(substring-after($val, $config:appUrl), '/', '')
+                                    let $cleanval := if (starts-with($val, $config:BMurl)) then
+                                        substring-after($val, $config:BMurl)
                                     else
                                         $val
                                     let $kk := ($q:tax//t:category[t:catDesc eq $val] | $q:tax//t:category[@xml:id eq $val])

@@ -47,6 +47,18 @@ declare variable $config:appUrl := $loc:appUrl;
 
 declare variable $config:baseURI := $config:appUrl || "/";
 
+(:~
+ : Canonical Beta maṣāḥǝft URI prefix as baked into the expanded data by
+ : expand.xqm (must match $expand:BMurl there). Use this to recognise and
+ : strip the prefix from identifiers stored in the data (@ref, @corresp,
+ : facet values, ...).
+ :
+ : This is deliberately NOT $config:appUrl: appUrl describes where this
+ : instance is currently served (and is empty in the container), whereas
+ : the data always carries this canonical prefix regardless of host.
+ :)
+declare variable $config:BMurl := 'https://betamasaheft.eu/';
+
 declare variable $config:DOI := '10.25592/BetaMasaheft';
 
 declare variable $config:response200 := <rest:response>
