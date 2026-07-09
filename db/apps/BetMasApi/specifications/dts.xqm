@@ -56,6 +56,44 @@ function dts:dtsmain() {
 
 };
 
+declare variable $dts:context := map{
+        "@vocab": "https://www.w3.org/ns/hydra/core#",
+        "dc": "http://purl.org/dc/terms/",
+        "dts": "https://w3id.org/dts/api#",
+        "tei": "http://www.tei-c.org/ns/1.0",
+        "saws": "http://purl.org/saws/ontology#",
+        "crm": "http://www.cidoc-crm.org/cidoc-crm/",
+        "ecrm": "http://erlangen-crm.org/current/",
+        "fabio": "http://purl.org/spar/fabio",
+        "lawd": "http://lawd.info/ontology/",
+        "edm": "http://www.europeana.eu/schemas/edm/",
+        "svcs": "http://rdfs.org/sioc/services#",
+        "doap": "http://usefulinc.com/ns/doap#",
+        "foaf": "http://xmlns.com/foaf/0.1/",
+        "sc": "http://iiif.io/api/presentation/2#"
+  };
+  declare variable $dts:publisher := map {
+        "dc:publisher": ["Akademie der Wissenschaften in Hamburg", "Hiob-Ludolf-Zentrum für Äthiopistik"],
+        "dc:description": [
+            map {
+                "@lang": "en",
+                "@value": "The project Beta maṣāḥǝft: Manuscripts of Ethiopia and Eritrea (Schriftkultur des christlichen Äthiopiens: eine multimediale Forschungsumgebung) is a long-term project funded within the framework of the Academies' Programme (coordinated by the Union of the German Academies of Sciences and Humanities) under survey of the Akademie der Wissenschaften in Hamburg. The funding will be provided for 25 years, from 2016–2040. The project is hosted by the Hiob Ludolf Centre for Ethiopian Studies at the University of Hamburg. It aims at creating a virtual research environment that shall manage complex data related to predominantly Christian manuscript tradition of the Ethiopian and Eritrean Highlands."
+            }
+        ]
+    };
+    
+    declare variable $dts:regexCol := "(https://betamasaheft.eu/)(textualunits|narrativeunits|transcriptions)?";
+  declare variable $dts:regexID := "([a-zA-Z\d]+)?(_(ED|TR)_([a-zA-Z0-9]+)?)?(\.)?(((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?(\-)?((\d+)(\w)?(\w)?((@)([\p{L}]+)(\[(\d+|last)\])?)?)?)";
+
+  declare variable $dts:collection-rootMS  := collection($config:data-rootMS);
+  declare variable $dts:collection-rootW  := collection($config:data-rootW);
+  declare variable $dts:collection-rootN  := collection($config:data-rootN);
+  declare variable $dts:collection-root  := collection($config:data-root);
+
+   declare function dts:capitalize-first ( $arg as xs:string? )  as xs:string? {
+   concat(upper-case(substring($arg,1,1)),
+             substring($arg,2))
+ } ;
 (:~ dts/collection https://github.com/distributed-text-services/specifications/blob/master/Collection-Endpoint.md :)
 declare
 %rest:GET

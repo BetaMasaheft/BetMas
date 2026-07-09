@@ -369,12 +369,13 @@ let $filtered := ($ES, $EMIP, $vat, $bnf, $bml)
       for $item in $filtered
       let $this := $item/ancestor::t:TEI
       let $cnt := count($this//t:idno[@facs])
-      let $manifest :=
+      let $parent := $this//t:idno[@facs]/parent::node()
+      let $manifest := 
         if ($cnt = 1) then
           iiif:manifestsource($this)
         else
           iiif:multipleManifests($this)
-      let $tit := if ($parent/name() = 'altIdentifier') then concat(exptit:printTitleID($item/@xml:id), ': subset for ',  string($parent/t:idno)) else  try { exptit:printTitleID($this/@xml:id) } catch * { $err:description }
+      let $tit := if ($parent/name() = 'altIdentifier') then concat('subset for ',  string-join($parent/t:idno)) else  try { exptit:printTitleID($this/@xml:id) } catch * { $err:description }
       return map {
         "label": $tit,
         "@type": "sc:Manifest",
