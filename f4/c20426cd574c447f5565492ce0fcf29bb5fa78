@@ -1,0 +1,43 @@
+db/apps/BetMasWeb/modules/coordinates.xqm
+  s_01b300408a1123::t_1b0b08b87a92f4 49-50
+db/apps/BetMasWeb/modules/charts.xqm
+  s_01b300408a1123::t_1af45d844e5ae0 54-55
+db/apps/BetMasWeb/modules/timeline.xqm
+  s_01b300408a1123::t_925e1467b351cb 37
+db/apps/BetMasWeb/modules/viewItem.xqm
+  s_01b300408a1123::t_295260a98593c6 855,858
+db/apps/BetMasWeb/restviews/collatex.xqm
+  s_01b300408a1123::t_be1feca3d83644 178
+db/apps/BetMasWeb/restviews/genderInfo.xqm
+  s_01b300408a1123::t_555d417617cbaa 160-161
+  s_01b300408a1123::t_4fb9e15f6fb674 113
+  s_01b300408a1123::t_cb087c650d0b9b 150
+db/apps/BetMasWeb/modules/dts.xqm
+  s_01b300408a1123::t_65986f820e34e5 1766
+  s_01b300408a1123::t_43d54327278474 1627
+db/apps/BetMasWeb/modules/queries.xqm
+  s_01b300408a1123::t_03f5d412925c27 3375
+  s_01b300408a1123::t_3abc2c18e8f231 3338
+  s_01b300408a1123::t_7802cae0f48696 3837
+  s_01b300408a1123::t_f2e5dfdc84f828 3364
+  s_01b300408a1123::t_d9413ac5951f86 3795
+  s_01b300408a1123::t_b80add29c25402 3798,3839
+db/apps/BetMasWeb/modules/dtslib.xqm
+  s_01b300408a1123::t_ec7cf04c3f27ae 1812
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "f4c20426cd574c447f5565492ce0fcf29bb5fa78",
+  "prompts": {},
+  "sessions": {
+    "s_01b300408a1123": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e564e4bd-212c-4b09-88e1-41f486bbe2e0",
+        "model": "claude-fable-5"
+      },
+      "human_author": "duncdrum <d.paterson@me.com>"
+    }
+  }
+}
